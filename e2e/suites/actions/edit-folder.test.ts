@@ -39,7 +39,8 @@ describe('Edit folder', () => {
   const folderNameToEdit = `folder-${Utils.random()}`;
   const duplicateFolderName = `folder-${Utils.random()}`;
 
-  const folderNameEdited = `folder-${Utils.random()}`;
+  const folderNameEdited = `folder-renamed-${Utils.random()}`;
+  const folderNameEdited2 = `folder-search-renamed-${Utils.random()}`;
   const folderDescriptionEdited = 'description edited';
 
   const sitePrivate = `site-private-${Utils.random()}`;
@@ -54,6 +55,10 @@ describe('Edit folder', () => {
   const folderFavoriteToEdit = `folder-fav-${Utils.random()}`; let folderFavoriteToEditId;
   const folderFavoriteDuplicate = `folder-fav-${Utils.random()}`; let folderFavoriteDuplicateId;
 
+  const folderSearch = `folder-search-${Utils.random()}`;
+  const folderSearchToEdit = `folder-search-${Utils.random()}`; let folderSearchToEditId;
+  const folderSearchDuplicate = `folder-search-${Utils.random()}`;
+
   const apis = {
     admin: new RepoClient(),
     user: new RepoClient(username, username)
@@ -63,6 +68,7 @@ describe('Edit folder', () => {
   const page = new BrowsingPage();
   const editDialog = new CreateOrEditFolderDialog();
   const { dataTable, toolbar } = page;
+  const { searchInput } = page.header;
 
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
@@ -86,6 +92,10 @@ describe('Edit folder', () => {
     folderFavoriteToEditId = (await apis.user.nodes.createFolder(folderFavoriteToEdit)).entry.id;
     folderFavoriteDuplicateId = (await apis.user.nodes.createFolder(folderFavoriteDuplicate)).entry.id;
 
+    await apis.user.nodes.createFolder(folderSearch);
+    folderSearchToEditId = (await apis.user.nodes.createFolder(folderSearchToEdit)).entry.id;
+    await apis.user.nodes.createFolder(folderSearchDuplicate);
+
     await apis.user.favorites.addFavoriteById('folder', folderFavoriteId);
     await apis.user.favorites.addFavoriteById('folder', folderFavoriteToEditId);
     await apis.user.favorites.addFavoriteById('folder', folderFavoriteDuplicateId);
@@ -98,7 +108,7 @@ describe('Edit folder', () => {
     await Promise.all([
       apis.admin.sites.deleteSite(sitePrivate),
       apis.user.sites.deleteSite(siteName),
-      apis.user.nodes.deleteNodesById([ parentId, folderFavoriteToEditId, folderFavoriteDuplicateId ])
+      apis.user.nodes.deleteNodesById([ parentId, folderFavoriteToEditId, folderFavoriteDuplicateId, folderSearchToEditId ])
     ]);
     done();
   });
@@ -282,6 +292,53 @@ describe('Edit folder', () => {
       await toolbar.menu.clickEditFolder();
       await editDialog.waitForDialogToOpen();
       await editDialog.enterName(duplicateFolderSite);
+      await editDialog.clickUpdate();
+
+      expect(await page.getSnackBarMessage()).toEqual(`There's already a folder with this name. Try a different name.`);
+      expect(await editDialog.isDialogOpen()).toBe(true, 'dialog is not present');
+    });
+  });
+
+  describe('on Search Results', () => {
+    beforeAll(async (done) => {
+      await apis.user.search.waitForNodes('folder-search', { expect: 3 });
+      done();
+    });
+
+    it('properties are modified when pressing OK - [C306947]', async () => {
+      await page.clickPersonalFiles();
+      await searchInput.clickSearchButton();
+      await searchInput.checkOnlyFolders();
+      await searchInput.searchFor(folderSearchToEdit);
+      await dataTable.waitForBody();
+
+      await dataTable.selectItem(folderSearchToEdit);
+      await toolbar.openMoreMenu();
+      await toolbar.menu.clickEditFolder();
+      await editDialog.waitForDialogToOpen();
+      await editDialog.enterDescription(folderDescriptionEdited);
+      await editDialog.enterName(folderNameEdited2);
+      await editDialog.clickUpdate();
+      await editDialog.waitForDialogToClose();
+
+      await page.refresh();
+      expect(await dataTable.isItemPresent(folderNameEdited2)).toBe(true, 'Folder not displayed');
+      const desc = await apis.user.nodes.getNodeProperty(folderSearchToEditId, 'cm:description');
+      expect(desc).toEqual(folderDescriptionEdited);
+    });
+
+    it('with duplicate folder name - [C306948]', async () => {
+      await page.clickPersonalFiles();
+      await searchInput.clickSearchButton();
+      await searchInput.checkOnlyFolders();
+      await searchInput.searchFor(folderSearch);
+      await dataTable.waitForBody();
+
+      await dataTable.selectItem(folderSearch);
+      await toolbar.openMoreMenu();
+      await toolbar.menu.clickEditFolder();
+      await editDialog.waitForDialogToOpen();
+      await editDialog.enterName(folderSearchDuplicate);
       await editDialog.clickUpdate();
 
       expect(await page.getSnackBarMessage()).toEqual(`There's already a folder with this name. Try a different name.`);

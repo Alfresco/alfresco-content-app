@@ -109,7 +109,7 @@ export class ConfirmDialog extends Component {
   }
 
   async clickCancel() {
-    return await this.clickButton('Cancel');
+    return await this.cancelButton.click();
   }
 
   async clickKeep() {

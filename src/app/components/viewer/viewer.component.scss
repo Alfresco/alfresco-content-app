@@ -1,0 +1,23 @@
+.app-viewer {
+  width: 100%;
+  height: 100%;
+
+  .adf-viewer-toolbar .adf-toolbar-divider {
+    display: none;
+  }
+
+  .adf-viewer-toolbar-actions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .adf-toolbar-divider {
+      display: inline;
+    }
+  }
+
+  // todo: remove this when viewer supports extensions
+  .adf-viewer-toolbar .mat-toolbar > button:last-child {
+    display: none;
+  }
+}

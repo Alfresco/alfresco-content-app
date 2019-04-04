@@ -49,6 +49,7 @@ describe('Share a file', () => {
   const shareDialog = new ShareDialog();
   const viewer = new Viewer();
   const contextMenu = dataTable.menu;
+  const { searchInput } = page.header;
 
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
@@ -154,10 +155,6 @@ describe('Share a file', () => {
       const sharedId = await apis.user.nodes.getSharedId(file3Id);
       expect(await apis.user.nodes.isFileShared(file3Id)).toBe(true, `${file3} is not shared`);
       expect(url).toContain(sharedId);
-
-      // TODO: disable check cause api is slow to update
-      // await page.clickSharedFiles();
-      // expect(await dataTable.isItemPresent(file3)).toBe(true, `${file3} is not in the Shared files list`);
     });
 
     it('Copy shared file URL - [C286330]', async () => {
@@ -244,6 +241,7 @@ describe('Share a file', () => {
 
     it('Share a file from the context menu - [C286345]', async () => {
       await dataTable.rightClickOnItem(file9);
+      await contextMenu.waitForMenuToOpen();
       await contextMenu.clickShare();
       await shareDialog.waitForDialogToOpen();
 
@@ -252,10 +250,6 @@ describe('Share a file', () => {
       const sharedId = await apis.user.nodes.getSharedId(file9Id);
       expect(await apis.user.nodes.isFileShared(file9Id)).toBe(true, `${file9} is not shared`);
       expect(url).toContain(sharedId);
-
-      // TODO: disable check cause api is slow to update
-      // await page.clickSharedFiles();
-      // expect(await dataTable.isItemPresent(file9)).toBe(true, `${file9} is not in the Shared files list`);
     });
   });
 
@@ -305,6 +299,7 @@ describe('Share a file', () => {
 
     afterEach(async (done) => {
       await Utils.pressEscape();
+      await page.clickPersonalFilesAndWait();
       done();
     });
 
@@ -350,10 +345,6 @@ describe('Share a file', () => {
       const sharedId = await apis.user.nodes.getSharedId(file3Id);
       expect(await apis.user.nodes.isFileShared(file3Id)).toBe(true, `${file3} is not shared`);
       expect(url).toContain(sharedId);
-
-      // TODO: disable check cause api is slow to update
-      // await page.clickSharedFiles();
-      // expect(await dataTable.isItemPresent(file3)).toBe(true, `${file3} is not in the Shared files list`);
     });
 
     it('Copy shared file URL - [C286642]', async () => {
@@ -440,6 +431,7 @@ describe('Share a file', () => {
 
     it('Share a file from the context menu - [C286647]', async () => {
       await dataTable.rightClickOnItem(file9);
+      await contextMenu.waitForMenuToOpen();
       await contextMenu.clickShare();
       await shareDialog.waitForDialogToOpen();
 
@@ -448,10 +440,6 @@ describe('Share a file', () => {
       const sharedId = await apis.user.nodes.getSharedId(file9Id);
       expect(await apis.user.nodes.isFileShared(file9Id)).toBe(true, `${file9} is not shared`);
       expect(url).toContain(sharedId);
-
-      // TODO: disable check cause api is slow to update
-      // await page.clickSharedFiles();
-      // expect(await dataTable.isItemPresent(file9)).toBe(true, `${file9} is not in the Shared files list`);
     });
   });
 
@@ -484,13 +472,13 @@ describe('Share a file', () => {
     });
 
     beforeEach(async (done) => {
-      await page.refresh();
       await page.clickRecentFilesAndWait();
       done();
     });
 
     afterEach(async (done) => {
       await Utils.pressEscape();
+      await page.clickPersonalFilesAndWait();
       done();
     });
 
@@ -544,10 +532,6 @@ describe('Share a file', () => {
       const sharedId = await apis.user.nodes.getSharedId(file3Id);
       expect(await apis.user.nodes.isFileShared(file3Id)).toBe(true, `${file3} is not shared`);
       expect(url).toContain(sharedId);
-
-      // TODO: disable check cause api is slow to update
-      // await page.clickSharedFiles();
-      // expect(await dataTable.isItemPresent(file3)).toBe(true, `${file3} is not in the Shared files list`);
     });
 
     it('Copy shared file URL - [C286660]', async () => {
@@ -634,6 +618,7 @@ describe('Share a file', () => {
 
     it('Share a file from the context menu - [C286665]', async () => {
       await dataTable.rightClickOnItem(file9);
+      await contextMenu.waitForMenuToOpen();
       await contextMenu.clickShare();
       await shareDialog.waitForDialogToOpen();
 
@@ -642,10 +627,6 @@ describe('Share a file', () => {
       const sharedId = await apis.user.nodes.getSharedId(file9Id);
       expect(await apis.user.nodes.isFileShared(file9Id)).toBe(true, `${file9} is not shared`);
       expect(url).toContain(sharedId);
-
-      // TODO: disable check cause api is slow to update
-      // await page.clickSharedFiles();
-      // expect(await dataTable.isItemPresent(file9)).toBe(true, `${file9} is not in the Shared files list`);
     });
   });
 
@@ -680,13 +661,13 @@ describe('Share a file', () => {
     });
 
     beforeEach(async (done) => {
-      await page.refresh();
       await page.clickSharedFilesAndWait();
       done();
     });
 
     afterEach(async (done) => {
       await Utils.pressEscape();
+      await page.clickPersonalFilesAndWait();
       done();
     });
 
@@ -791,6 +772,7 @@ describe('Share a file', () => {
 
     it('Open Share dialog from context menu - [C286656]', async () => {
       await dataTable.rightClickOnItem(file7);
+      await contextMenu.waitForMenuToOpen();
       await contextMenu.clickSharedLinkSettings();
       await shareDialog.waitForDialogToOpen();
 
@@ -853,6 +835,7 @@ describe('Share a file', () => {
 
     afterEach(async (done) => {
       await Utils.pressEscape();
+      await page.clickPersonalFilesAndWait();
       done();
     });
 
@@ -906,10 +889,6 @@ describe('Share a file', () => {
       const sharedId = await apis.user.nodes.getSharedId(file3Id);
       expect(await apis.user.nodes.isFileShared(file3Id)).toBe(true, `${file3} is not shared`);
       expect(url).toContain(sharedId);
-
-      // TODO: disable check cause api is slow to update
-      // await page.clickSharedFiles();
-      // expect(await dataTable.isItemPresent(file3)).toBe(true, `${file3} is not in the Shared files list`);
     });
 
     it('Copy shared file URL - [C286669]', async () => {
@@ -996,6 +975,7 @@ describe('Share a file', () => {
 
     it('Share a file from the context menu - [C286674]', async () => {
       await dataTable.rightClickOnItem(file9);
+      await contextMenu.waitForMenuToOpen();
       await contextMenu.clickShare();
       await shareDialog.waitForDialogToOpen();
 
@@ -1004,10 +984,124 @@ describe('Share a file', () => {
       const sharedId = await apis.user.nodes.getSharedId(file9Id);
       expect(await apis.user.nodes.isFileShared(file9Id)).toBe(true, `${file9} is not shared`);
       expect(url).toContain(sharedId);
+    });
+  });
 
-      // TODO: disable check cause api is slow to update
-      // await page.clickSharedFiles();
-      // expect(await dataTable.isItemPresent(file9)).toBe(true, `${file9} is not in the Shared files list`);
+  describe('from Search Results', () => {
+    const file3 = `search-file3-${Utils.random()}.txt`; let file3Id;
+    const file5 = `search-file5-${Utils.random()}.txt`; let file5Id;
+    const file6 = `search-file6-${Utils.random()}.txt`; let file6Id;
+    const file7 = `search-file7-${Utils.random()}.txt`; let file7Id;
+    const file9 = `search-file9-${Utils.random()}.txt`; let file9Id;
+
+    beforeAll(async (done) => {
+      file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
+      file5Id = (await apis.user.nodes.createFile(file5, parentId)).entry.id;
+      file6Id = (await apis.user.nodes.createFile(file6, parentId)).entry.id;
+      file7Id = (await apis.user.nodes.createFile(file7, parentId)).entry.id;
+      file9Id = (await apis.user.nodes.createFile(file9, parentId)).entry.id;
+      await apis.user.shared.shareFileById(file6Id, expiryDate);
+      await apis.user.shared.shareFileById(file7Id, expiryDate);
+      await apis.user.shared.waitForApi({ expect: 2 });
+      await apis.user.search.waitForNodes('search-f', { expect: 5 });
+      done();
+    });
+
+    beforeEach(async done => {
+      await searchInput.clickSearchButton();
+      await searchInput.checkFilesAndFolders();
+      await searchInput.searchFor('search-f');
+      await dataTable.waitForBody();
+      done();
+    });
+
+    afterEach(async (done) => {
+      await Utils.pressEscape();
+      await page.clickPersonalFilesAndWait();
+      done();
+    });
+
+    afterAll(async (done) => {
+      await apis.user.nodes.deleteNodeById(file3Id);
+      await apis.user.nodes.deleteNodeById(file5Id);
+      await apis.user.nodes.deleteNodeById(file6Id);
+      await apis.user.nodes.deleteNodeById(file7Id);
+      await apis.user.nodes.deleteNodeById(file9Id);
+      await apis.user.shared.waitForApi({ expect: 0 });
+      done();
+    });
+
+    it('Share a file - [C306975]', async () => {
+      await dataTable.selectItem(file3);
+      await toolbar.clickShare();
+      await shareDialog.waitForDialogToOpen();
+
+      const url = await shareDialog.getLinkUrl();
+      await Utils.pressEscape();
+      const sharedId = await apis.user.nodes.getSharedId(file3Id);
+      expect(await apis.user.nodes.isFileShared(file3Id)).toBe(true, `${file3} is not shared`);
+      expect(url).toContain(sharedId);
+    });
+
+    it('Share a file with expiration date - [C306977]', async () => {
+      await dataTable.selectItem(file5);
+      await toolbar.clickShare();
+      await shareDialog.waitForDialogToOpen();
+
+      await shareDialog.clickExpirationToggle();
+      expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expire toggle not checked');
+      expect(await shareDialog.dateTimePicker.isCalendarOpen()).toBe(true, 'Calendar not opened');
+      const date = await shareDialog.dateTimePicker.setDefaultDay();
+      await shareDialog.dateTimePicker.waitForDateTimePickerToClose();
+
+      const setDate = (`${date}`).replace(',', '');
+      const inputDate = await shareDialog.getExpireDate();
+
+      expect(new Date(inputDate)).toEqual(new Date(setDate));
+
+      const expireDateProperty = await apis.user.nodes.getSharedExpiryDate(file5Id);
+
+      expect(Utils.formatDate(expireDateProperty)).toEqual(Utils.formatDate(inputDate));
+    });
+
+    it('Expire date is displayed correctly - [C306978]', async () => {
+      await dataTable.selectItem(file6);
+      await toolbar.clickSharedLinkSettings();
+      await shareDialog.waitForDialogToOpen();
+
+      const expireProperty = await apis.user.nodes.getSharedExpiryDate(file6Id);
+      expect(expireProperty).toEqual(expiryDate);
+      expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expiration is not checked');
+      expect(Utils.formatDate(await shareDialog.getExpireDate())).toEqual(Utils.formatDate(expiryDate));
+    });
+
+    it('Disable the share link expiration - [C306979]', async () => {
+      await dataTable.selectItem(file7);
+      await toolbar.clickSharedLinkSettings();
+      await shareDialog.waitForDialogToOpen();
+
+      expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expiration is not checked');
+      expect(await shareDialog.getExpireDate()).not.toBe('', 'Expire date input is empty');
+
+      await shareDialog.clickExpirationToggle();
+      expect(await shareDialog.isExpireToggleEnabled()).toBe(false, 'Expiration is checked');
+      expect(await shareDialog.getExpireDate()).toBe('', 'Expire date input is not empty');
+
+      await shareDialog.clickClose();
+      expect(await apis.user.nodes.getSharedExpiryDate(file7Id)).toBe(undefined, `${file7} link still has expiration`);
+    });
+
+    it('Share a file from the context menu - [C306981]', async () => {
+      await dataTable.rightClickOnItem(file9);
+      await contextMenu.waitForMenuToOpen();
+      await contextMenu.clickShare();
+      await shareDialog.waitForDialogToOpen();
+
+      const url = await shareDialog.getLinkUrl();
+      await Utils.pressEscape();
+      const sharedId = await apis.user.nodes.getSharedId(file9Id);
+      expect(await apis.user.nodes.isFileShared(file9Id)).toBe(true, `${file9} is not shared`);
+      expect(url).toContain(sharedId);
     });
   });
 

@@ -209,7 +209,7 @@ describe('Sidebar', () => {
   it('sidebar is collapsed automatically when Search Results opens - [C277223]', async () => {
     await searchInput.clickSearchButton();
     /* cspell:disable-next-line */
-    await searchInput.searchForTextAndCloseSearchOptions('qwertyuiop');
+    await searchInput.searchFor('qwertyuiop');
     await searchResultsPage.waitForResults();
 
     expect(await header.isExpandedSidenav()).toBe(false, 'Sidebar not collapsed');
@@ -218,7 +218,7 @@ describe('Sidebar', () => {
   it('sidenav returns to the default state when navigating away from the Search Results page - [C277224]', async () => {
     await searchInput.clickSearchButton();
     /* cspell:disable-next-line */
-    await searchInput.searchForTextAndCloseSearchOptions('qwertyuiop');
+    await searchInput.searchFor('qwertyuiop');
     await searchResultsPage.waitForResults();
     await page.clickFavorites();
 
@@ -228,7 +228,7 @@ describe('Sidebar', () => {
   it('sidenav can be expanded when search results page is displayed - [C277230]', async () => {
     await searchInput.clickSearchButton();
     /* cspell:disable-next-line */
-    await searchInput.searchForTextAndCloseSearchOptions('qwertyuiop');
+    await searchInput.searchFor('qwertyuiop');
     await searchResultsPage.waitForResults();
     await header.expandSideNav();
 

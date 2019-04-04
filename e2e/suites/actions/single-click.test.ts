@@ -49,6 +49,7 @@ describe('Single click on item name', () => {
   const page = new BrowsingPage();
   const { dataTable, breadcrumb } = page;
   const viewer = new Viewer();
+  const { searchInput } = page.header;
 
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
@@ -193,6 +194,45 @@ describe('Single click on item name', () => {
 
     it('Navigate inside the folder when clicking the hyperlink - [C284911]', async () => {
       await dataTable.clickNameLink(folder1);
+
+      expect(await breadcrumb.getCurrentItemName()).toBe(folder1);
+    });
+  });
+
+  describe('on Search Results', () => {
+    beforeEach(async done => {
+      await searchInput.clickSearchButton();
+      await searchInput.checkFilesAndFolders();
+      done();
+    });
+
+    afterEach(async (done) => {
+      await Utils.pressEscape();
+      await page.clickPersonalFilesAndWait();
+      done();
+    });
+
+    it('Hyperlink appears when mouse over a file - [C306988]', async () => {
+      await searchInput.searchFor(file1);
+      await dataTable.waitForBody();
+
+      expect(await dataTable.hasLinkOnSearchResultName(file1)).toBe(true, 'Link on name is missing');
+    });
+
+    it('File preview opens when clicking the hyperlink - [C306989]', async () => {
+      await searchInput.searchFor(file1);
+      await dataTable.waitForBody();
+      await dataTable.clickSearchResultNameLink(file1);
+
+      expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
+
+      await Utils.pressEscape();
+    });
+
+    it('Navigate inside the folder when clicking the hyperlink - [C306990]', async () => {
+      await searchInput.searchFor(folder1);
+      await dataTable.waitForBody();
+      await dataTable.clickSearchResultNameLink(folder1);
 
       expect(await breadcrumb.getCurrentItemName()).toBe(folder1);
     });

@@ -23,10 +23,36 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { PreviewExtensionComponent } from './preview-extension.component';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule, Routes } from '@angular/router';
+import { CoreModule } from '@alfresco/adf-core';
+import { ContentDirectiveModule } from '@alfresco/adf-content-services';
+import { DirectivesModule } from '../../directives/directives.module';
+import { AppInfoDrawerModule } from '../info-drawer/info.drawer.module';
+import { CoreExtensionsModule } from '../../extensions/core.extensions.module';
+import { AppToolbarModule } from '../toolbar/toolbar.module';
+import { AppViewerComponent } from './viewer.component';
 
-describe('PreviewExtensionComponent', () => {
-  it('should be defined', () => {
-    expect(PreviewExtensionComponent).toBeDefined();
-  });
-});
+const routes: Routes = [
+  {
+    path: '',
+    component: AppViewerComponent
+  }
+];
+
+@NgModule({
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    CoreModule.forChild(),
+    ContentDirectiveModule,
+    DirectivesModule,
+    AppInfoDrawerModule,
+    CoreExtensionsModule.forChild(),
+    AppToolbarModule
+  ],
+  declarations: [AppViewerComponent],
+  exports: [AppViewerComponent]
+})
+export class AppViewerModule {}
