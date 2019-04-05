@@ -30,6 +30,13 @@ import { AppExtensionService } from '../../../extensions/extension.service';
 @Component({
   selector: 'app-toolbar-menu-item',
   templateUrl: 'toolbar-menu-item.component.html',
+  styles: [
+    `
+      .app-toolbar-menu-item:last-child > .mat-divider-horizontal {
+        display: none;
+      }
+    `
+  ],
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-toolbar-menu-item' }
 })

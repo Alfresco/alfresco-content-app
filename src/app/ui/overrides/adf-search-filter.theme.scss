@@ -11,17 +11,5 @@
     .mat-radio-label {
       color: mat-color($foreground, text, 0.54);
     }
-
-    .facet-buttons {
-      text-align: right;
-
-      .mat-button {
-        text-transform: uppercase;
-      }
-
-      &--topSpace {
-        padding-top: 15px;
-      }
-    }
   }
 }
