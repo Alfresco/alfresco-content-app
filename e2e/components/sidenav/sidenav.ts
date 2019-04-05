@@ -32,13 +32,14 @@ import { Utils } from '../../utilities/utils';
 export class Sidenav extends Component {
   private static selectors = {
     root: 'app-sidenav',
-    link: '.menu__item',
-    label: '.item--label',
+    link: '.item',
+    label: '.action-button__label',
     expansion_panel: ".mat-expansion-panel-header",
     expansion_panel_content: ".mat-expansion-panel-body",
     active: 'mat-accent',
-    activeClass: '.item--active',
-    activeChild: 'item--active',
+    activeClass: '.action-button--active',
+    activeClassName: 'action-button--active',
+    activeChild: 'action-button--active',
 
     newButton: '[data-automation-id="create-button"]',
 
@@ -106,7 +107,7 @@ export class Sidenav extends Component {
   }
 
   async isActive(name: string) {
-    return await this.getLinkLabel(name).isElementPresent(by.css(Sidenav.selectors.activeClass));
+    return (await this.getLinkLabel(name).getAttribute('class')).includes(Sidenav.selectors.activeClassName);
   }
 
   async childIsActive(name: string) {

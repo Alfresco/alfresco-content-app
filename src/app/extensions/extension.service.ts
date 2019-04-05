@@ -244,15 +244,22 @@ export class AppExtensionService implements RuleContext {
                 .filter(child => this.filterVisible(child))
                 .sort(sortByOrder)
                 .map(child => {
-                  const childRouteRef = this.extensions.getRouteById(
-                    child.route
-                  );
-                  const childUrl = `/${
-                    childRouteRef ? childRouteRef.path : child.route
-                  }`;
+                  if (!child.click) {
+                    const childRouteRef = this.extensions.getRouteById(
+                      child.route
+                    );
+                    const childUrl = `/${
+                      childRouteRef ? childRouteRef.path : child.route
+                    }`;
+                    return {
+                      ...child,
+                      url: childUrl
+                    };
+                  }
+
                   return {
                     ...child,
-                    url: childUrl
+                    action: child.click
                   };
                 });
 
@@ -261,11 +268,18 @@ export class AppExtensionService implements RuleContext {
               };
             }
 
-            const routeRef = this.extensions.getRouteById(item.route);
-            const url = `/${routeRef ? routeRef.path : item.route}`;
+            if (!item.click) {
+              const routeRef = this.extensions.getRouteById(item.route);
+              const url = `/${routeRef ? routeRef.path : item.route}`;
+              return {
+                ...item,
+                url
+              };
+            }
+
             return {
               ...item,
-              url
+              action: item.click
             };
           })
           .reduce(reduceEmptyMenus, [])

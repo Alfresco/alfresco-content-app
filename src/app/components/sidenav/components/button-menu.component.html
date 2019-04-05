@@ -1,0 +1,50 @@
+<ng-container *ngIf="!item.children">
+  <button
+    class="action-button"
+    mat-icon-button
+    acaActiveLink="action-button--active"
+    [action]="item"
+    [id]="item.id"
+    [attr.aria-label]="item.title | translate"
+    [attr.title]="item.description | translate"
+    [attr.data-automation-id]="item.id"
+  >
+    <adf-icon [value]="item.icon"></adf-icon>
+  </button>
+</ng-container>
+
+<ng-container *ngIf="item.children && item.children.length">
+  <button
+    [matMenuTriggerFor]="menu"
+    [acaMenuPanel]="item"
+    #acaMenuPanel="acaMenuPanel"
+    mat-icon-button
+    [id]="item.id"
+    [attr.data-automation-id]="item.id"
+    [attr.title]="item.description | translate"
+    [attr.aria-label]="item.title | translate"
+    class="action-button"
+    [ngClass]="{
+      'action-button--active': acaMenuPanel.hasActiveLinks()
+    }"
+  >
+    <adf-icon [value]="item.icon"></adf-icon>
+  </button>
+
+  <mat-menu #menu="matMenu" [overlapTrigger]="false">
+    <button
+      *ngFor="let child of item.children; trackBy: trackById"
+      acaActiveLink="action-button--active"
+      [action]="child"
+      [attr.aria-label]="child.title | translate"
+      [id]="child.id"
+      [attr.title]="child.description | translate"
+      [attr.data-automation-id]="child.id"
+      mat-menu-item
+      class="action-button"
+    >
+      <adf-icon *ngIf="child.icon" [value]="child.icon"></adf-icon>
+      <span class="action-button__label">{{ child.title | translate }}</span>
+    </button>
+  </mat-menu>
+</ng-container>
