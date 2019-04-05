@@ -178,9 +178,9 @@ describe('Copy content', () => {
 
     it('Undo copy of folders - [C217172]', async () => undoCopyOfFolders(destinationPF));
 
-    it('Undo copy of a file when a file with same name already exists on the destination - [C217173]', async () => undoCopyOfAFile(destinationPF));
+    it('Undo copy of a file when a file with same name already exists on the destination - [C217173]', async () => undoCopyOfAFile());
 
-    it('Undo copy of a folder when a folder with same name already exists on the destination - [C217174]', async () => undoCopyOfAFolder(destinationPF));
+    it('Undo copy of a folder when a folder with same name already exists on the destination - [C217174]', async () => undoCopyOfAFolder());
 
   });
 
@@ -268,9 +268,9 @@ describe('Copy content', () => {
 
     it('Undo copy of folders - [C280227]', async () => undoCopyOfFolders(destinationFav));
 
-    it('Undo copy of a file when a file with same name already exists on the destination - [C280228]', async () => undoCopyOfAFile(destinationFav));
+    it('Undo copy of a file when a file with same name already exists on the destination - [C280228]', async () => undoCopyOfAFile());
 
-    it('Undo copy of a folder when a folder with same name already exists on the destination - [C280229]', async () => undoCopyOfAFolder(destinationFav));
+    it('Undo copy of a folder when a folder with same name already exists on the destination - [C280229]', async () => undoCopyOfAFolder());
 
   });
 
@@ -361,14 +361,14 @@ describe('Copy content', () => {
       await searchInput.searchFor('file');
       await dataTable.waitForBody();
 
-      undoCopyOfAFile(destinationSearch);
+      undoCopyOfAFile();
     });
 
     it('Undo copy of a folder when a folder with same name already exists on the destination - [C306941]', async () => {
       await searchInput.searchFor(folder1);
       await dataTable.waitForBody();
 
-      undoCopyOfAFolder(destinationSearch);
+      undoCopyOfAFolder();
     });
 
   });
