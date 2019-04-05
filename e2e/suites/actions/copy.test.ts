@@ -581,7 +581,7 @@ describe('Copy content', () => {
     expect(await dataTable.isEmptyList()).toBe(true, 'Trash is not empty');
   }
 
-  async function undoCopyOfAFile(destination) {
+  async function undoCopyOfAFile() {
     const folder2 = `folder2-${Utils.random()}`; let folder2Id;
     folder2Id = (await apis.user.nodes.createFolder(folder2, sourceId)).entry.id;
     const fileInFolder2 = fileInFolder;
@@ -590,7 +590,7 @@ describe('Copy content', () => {
     await dataTable.doubleClickOnRowByName(folder1);
     await dataTable.selectItem(fileInFolder);
     await toolbar.clickMoreActionsCopy();
-    await copyDialog.selectLocation(destination);
+    await copyDialog.selectLocation('Personal Files');
     await copyDialog.doubleClickOnRow(source);
     await copyDialog.selectDestination(folder2);
     await copyDialog.clickCopy();
@@ -611,7 +611,7 @@ describe('Copy content', () => {
     expect(await dataTable.isEmptyList()).toBe(true, 'Trash is not empty');
   }
 
-  async function undoCopyOfAFolder(destination) {
+  async function undoCopyOfAFolder() {
     // create folder1/my-folder-x/file1-y.txt
     const folderInFolder1 = `my-folder-${Utils.random()}`; let folderInFolder1Id;
     folderInFolder1Id = (await apis.user.nodes.createFolder(folderInFolder1, folder1Id)).entry.id;
@@ -629,7 +629,7 @@ describe('Copy content', () => {
     await dataTable.doubleClickOnRowByName(folder1);
     await dataTable.selectItem(folderInFolder1);
     await toolbar.clickMoreActionsCopy();
-    await copyDialog.selectLocation(destination);
+    await copyDialog.selectLocation('Personal Files');
     await copyDialog.doubleClickOnRow(source);
     await copyDialog.selectDestination(folder2);
     await copyDialog.clickCopy();
