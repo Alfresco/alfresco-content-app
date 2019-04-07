@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { browser, protractor, promise, ElementFinder, ExpectedConditions as EC, by } from 'protractor';
+import { browser, protractor, ElementFinder, ExpectedConditions as EC, by } from 'protractor';
 import { BROWSER_WAIT_TIMEOUT, E2E_ROOT_PATH, EXTENSIBILITY_CONFIGS } from '../configs';
 
 const path = require('path');
@@ -46,30 +46,30 @@ export class Utils {
   }
 
   // local storage
-  static clearLocalStorage(): promise.Promise<any> {
-    return browser.executeScript('window.localStorage.clear();');
+  static async clearLocalStorage() {
+    return await browser.executeScript('window.localStorage.clear();');
   }
 
   // session storage
-  static clearSessionStorage(): promise.Promise<any> {
-    return browser.executeScript('window.sessionStorage.clear();');
+  static async clearSessionStorage() {
+    return await browser.executeScript('window.sessionStorage.clear();');
   }
 
-  static getSessionStorage() {
-    return browser.executeScript('return window.sessionStorage.getItem("app.extension.config");');
+  static async getSessionStorage() {
+    return await browser.executeScript('return window.sessionStorage.getItem("app.extension.config");');
   }
 
-  static setSessionStorageFromConfig(configFileName: string) {
+  static async setSessionStorageFromConfig(configFileName: string) {
     const configFile = `${E2E_ROOT_PATH}/resources/extensibility-configs/${configFileName}`;
     const fileContent = JSON.stringify(fs.readFileSync(configFile, { encoding: 'utf8' }));
 
-    return browser.executeScript(`window.sessionStorage.setItem('app.extension.config', ${fileContent});`);
+    return await browser.executeScript(`window.sessionStorage.setItem('app.extension.config', ${fileContent});`);
   }
 
-  static resetExtensionConfig() {
+  static async resetExtensionConfig() {
     const defConfig = `${E2E_ROOT_PATH}/resources/extensibility-configs/${EXTENSIBILITY_CONFIGS.DEFAULT_EXTENSIONS_CONFIG}`;
 
-    return this.setSessionStorageFromConfig(defConfig);
+    return await this.setSessionStorageFromConfig(defConfig);
   }
 
   static retryCall(fn: () => Promise<any>, retry: number = 30, delay: number = 1000): Promise<any> {

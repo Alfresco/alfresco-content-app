@@ -25,7 +25,6 @@
 import { browser, ExpectedConditions as EC } from 'protractor';
 import { LoginComponent } from '../components/components';
 import { Page } from './page';
-
 import { ADMIN_USERNAME, ADMIN_PASSWORD, BROWSER_WAIT_TIMEOUT, APP_ROUTES } from '../configs';
 
 export class LoginPage extends Page {
@@ -41,7 +40,7 @@ export class LoginPage extends Page {
     await super.load();
     const { submitButton } = this.login;
     const hasSubmitButton = EC.presenceOf(submitButton);
-    return browser.wait(hasSubmitButton, BROWSER_WAIT_TIMEOUT);
+    return await browser.wait(hasSubmitButton, BROWSER_WAIT_TIMEOUT);
   }
 
   async loginWith(username: string, password?: string) {
@@ -49,12 +48,11 @@ export class LoginPage extends Page {
     await this.load();
     await this.login.enterCredentials(username, pass)
     await this.login.submit();
-    return super.waitForApp();
+    return await super.waitForApp();
   }
 
   async loginWithAdmin() {
-    await this.load();
-    return this.loginWith(ADMIN_USERNAME, ADMIN_PASSWORD);
+    return await this.loginWith(ADMIN_USERNAME, ADMIN_PASSWORD);
   }
 
   async tryLoginWith(username: string, password?: string) {
@@ -62,6 +60,6 @@ export class LoginPage extends Page {
     await this.load();
     await this.login.enterCredentials(username, pass);
     await this.login.submit();
-    return browser.wait(EC.presenceOf(this.login.errorMessage), BROWSER_WAIT_TIMEOUT);
+    return await browser.wait(EC.presenceOf(this.login.errorMessage), BROWSER_WAIT_TIMEOUT);
   }
 }

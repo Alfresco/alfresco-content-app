@@ -35,5 +35,5 @@ export async function navigate(relativePath: string) {
     relativePath
   ].join('');
 
-  return browser.get(path);
+  return await browser.get(path);
 }

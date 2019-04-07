@@ -4,7 +4,7 @@
 const path = require('path');
 const { SpecReporter } = require('jasmine-spec-reporter');
 const jasmineReporters = require('jasmine-reporters');
-const CDP = require('chrome-remote-interface');
+// const CDP = require('chrome-remote-interface');
 
 const projectRoot = path.resolve(__dirname);
 const downloadFolder = `${projectRoot}/e2e-downloads`;
@@ -37,16 +37,24 @@ exports.config = {
   },
 
   specs: [
-    './e2e/suites/authentication/*.test.ts',
-    './e2e/suites/list-views/*.test.ts',
-    './e2e/suites/application/*.test.ts',
-    './e2e/suites/navigation/*.test.ts',
-    './e2e/suites/pagination/*.test.ts',
-    './e2e/suites/search/*.test.ts',
-    './e2e/suites/actions/*.test.ts',
-    './e2e/suites/viewer/*.test.ts',
-    './e2e/suites/info-drawer/*.test.ts',
-    './e2e/suites/extensions/*.test.ts'
+    // './e2e/suites/authentication/*.test.ts',
+    // './e2e/suites/list-views/*.test.ts',
+    // './e2e/suites/application/*.test.ts',
+    // './e2e/suites/navigation/*.test.ts',
+    // './e2e/suites/pagination/*.test.ts',
+    // './e2e/suites/search/*.test.ts',
+    // './e2e/suites/actions/*.test.ts',
+    // './e2e/suites/viewer/*.test.ts',
+    // './e2e/suites/info-drawer/*.test.ts',
+    // './e2e/suites/extensions/*.test.ts'
+
+    // './e2e/suites/trial/file1.test.ts',
+    // './e2e/suites/trial/file2.test.ts'
+
+    './e2e/suites/pagination/pag-favorites.test.ts',
+    './e2e/suites/pagination/pag-file-libraries.test.ts',
+    './e2e/suites/pagination/pag-personal-files.test.ts',
+    './e2e/suites/pagination/pag-recent-files.test.ts'
   ],
 
   SELENIUM_PROMISE_MANAGER: true,
@@ -59,16 +67,19 @@ exports.config = {
         download: {
           prompt_for_download: false,
           default_directory: downloadFolder
-        }
+        },
+        'profile:managed_default_content_settings.notifications': 1
       },
       args: [
         '--incognito',
         '--headless',
-        '--remote-debugging-port=9222',
+        // '--remote-debugging-port=9222',
         '--disable-gpu',
         '--no-sandbox'
       ]
     }
+    // shardTestFiles: true,
+    // maxInstances: 2
   },
 
   directConnect: true,
@@ -130,15 +141,15 @@ exports.config = {
 
     rmDir(downloadFolder);
 
-    CDP()
-      .then(client => {
-        client.send('Page.setDownloadBehavior', {
-          behavior: 'allow',
-          downloadPath: downloadFolder
-        });
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    // CDP()
+    //   .then(client => {
+    //     client.send('Page.setDownloadBehavior', {
+    //       behavior: 'allow',
+    //       downloadPath: downloadFolder
+    //     });
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
   }
 };
