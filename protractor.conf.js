@@ -67,8 +67,7 @@ exports.config = {
         download: {
           prompt_for_download: false,
           default_directory: downloadFolder
-        },
-        'profile:managed_default_content_settings.notifications': 1
+        }
       },
       args: [
         '--incognito',
@@ -94,20 +93,18 @@ exports.config = {
     print: function() {}
   },
 
-  plugins: [
-    {
-      package: 'protractor-screenshoter-plugin',
-      screenshotPath: `${projectRoot}/e2e-output/report`,
-      screenshotOnExpect: 'failure',
-      screenshotOnSpec: 'none',
-      withLogs: true,
-      writeReportFreq: 'end',
-      imageToAscii: 'none',
-      htmlOnExpect: 'none',
-      htmlOnSpec: 'none',
-      clearFoldersBeforeTest: true
-    }
-  ],
+  // plugins: [{
+  //   package: 'protractor-screenshoter-plugin',
+  //   screenshotPath: `${projectRoot}/e2e-output/report`,
+  //   screenshotOnExpect: 'failure',
+  //   screenshotOnSpec: 'none',
+  //   withLogs: true,
+  //   writeReportFreq: 'end',
+  //   imageToAscii: 'none',
+  //   htmlOnExpect: 'none',
+  //   htmlOnSpec: 'none',
+  //   clearFoldersBeforeTest: true
+  // }],
 
   onPrepare() {
     require('ts-node').register({
