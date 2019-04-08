@@ -81,9 +81,9 @@ exports.config = {
         '--disable-gpu',
         '--no-sandbox'
       ]
-    },
-    shardTestFiles: true,
-    maxInstances: 2
+    }
+    // shardTestFiles: true,
+    // maxInstances: 2
   },
 
   directConnect: true,
