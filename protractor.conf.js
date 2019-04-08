@@ -51,15 +51,14 @@ exports.config = {
     // './e2e/suites/trial/file1.test.ts',
     // './e2e/suites/trial/file2.test.ts'
 
-    // './e2e/suites/pagination/pag-favorites.test.ts',
-    // './e2e/suites/pagination/pag-file-libraries.test.ts',
-    // './e2e/suites/pagination/pag-personal-files.test.ts',
-    // './e2e/suites/pagination/pag-recent-files.test.ts'
-
     './e2e/suites/actions/context-menu-multiple-selection.test.ts',
     './e2e/suites/actions/context-menu-single-selection.test.ts',
     './e2e/suites/actions/toolbar-multiple-selection.test.ts',
-    './e2e/suites/actions/toolbar-single-selection.test.ts'
+    './e2e/suites/actions/toolbar-single-selection.test.ts',
+    './e2e/suites/actions/copy.test.ts',
+    './e2e/suites/actions/create-folder.test.ts',
+    './e2e/suites/actions/create-library.test.ts',
+    './e2e/suites/actions/delete-undo-delete.test.ts'
   ],
 
   SELENIUM_PROMISE_MANAGER: true,
@@ -81,9 +80,9 @@ exports.config = {
         '--disable-gpu',
         '--no-sandbox'
       ]
-    }
-    // shardTestFiles: true,
-    // maxInstances: 2
+    },
+    shardTestFiles: true,
+    maxInstances: 2
   },
 
   directConnect: true,
