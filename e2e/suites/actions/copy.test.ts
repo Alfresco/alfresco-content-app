@@ -49,7 +49,7 @@ describe('Copy content', () => {
   const file3 = `file3-${Utils.random()}.txt`; let file3Id;
   const file4 = `file4-${Utils.random()}.txt`; let file4Id;
 
-  const existingFile = `existing-${Utils.random()}`; let existingFileId;
+  const existingFile = `existing-${Utils.random()}.txt`; let existingFileId;
 
   const existingFolder = `existing-${Utils.random()}`;
   let existingId1, existingId2, existingId2RF, existingId2SF, existingId2Fav, existingId2Search;
@@ -84,14 +84,14 @@ describe('Copy content', () => {
     destinationIdFav = (await apis.user.nodes.createFolder(destinationFav)).entry.id;
     destinationIdSearch = (await apis.user.nodes.createFolder(destinationSearch)).entry.id;
 
-    existingFileId = (await apis.user.nodes.createFile(`${existingFile}.txt`, sourceId)).entry.id;
+    existingFileId = (await apis.user.nodes.createFile(existingFile, sourceId)).entry.id;
     await apis.user.shared.shareFileById(existingFileId);
     await apis.user.favorites.addFavoriteById('file', existingFileId);
-    await apis.user.nodes.createFile(`${existingFile}.txt`, destinationIdPF);
-    await apis.user.nodes.createFile(`${existingFile}.txt`, destinationIdRF);
-    await apis.user.nodes.createFile(`${existingFile}.txt`, destinationIdSF);
-    await apis.user.nodes.createFile(`${existingFile}.txt`, destinationIdFav);
-    await apis.user.nodes.createFile(`${existingFile}.txt`, destinationIdSearch);
+    await apis.user.nodes.createFile(existingFile, destinationIdPF);
+    await apis.user.nodes.createFile(existingFile, destinationIdRF);
+    await apis.user.nodes.createFile(existingFile, destinationIdSF);
+    await apis.user.nodes.createFile(existingFile, destinationIdFav);
+    await apis.user.nodes.createFile(existingFile, destinationIdSearch);
 
     existingId1 = (await apis.user.nodes.createFolder(existingFolder, sourceId)).entry.id;
     existingId2 = (await apis.user.nodes.createFolder(existingFolder, destinationIdPF)).entry.id;
@@ -205,6 +205,7 @@ describe('Copy content', () => {
 
     it('Copy multiple items - [C280201]', async () => copyMultipleItems(destinationRF, source));
 
+    // Can fail locally if the repository wasn't empty before. We are hitting the 25 items per view here.
     it('Copy a file with a name that already exists on the destination - [C280196]', async () => copyAFileWithANameThatAlreadyExists(destinationRF, source));
 
     it('Copy items into a library - [C291899]', async () => copyItemsIntoALibrary([file1], folderSiteRF, source));
@@ -368,8 +369,7 @@ describe('Copy content', () => {
       await copyDialog.waitForDialogToClose();
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(destinationSearch);
-      expect(await dataTable.isItemPresent(`${existingFile}.txt`)).toBe(true, `${existingFile}.txt not present in destination folder`);
-      expect(await dataTable.isItemPresent(`${existingFile}-1.txt`)).toBe(true, `${existingFile}-1.txt not present in destination folder`);
+      expect(await dataTable.isItemPresent(existingFile)).toBe(true, `${existingFile} not present in destination folder`);
     });
 
     it('Undo copy of a folder when a folder with same name already exists on the destination - [C306941]', async () => undoCopyOfAFolder(source, async () => {
@@ -460,11 +460,10 @@ describe('Copy content', () => {
     expect(msg).toContain('Undo');
 
     await copyDialog.waitForDialogToClose();
-    expect(await dataTable.isItemPresent(`${existingFile}.txt`)).toBe(true, `${existingFile}.txt not present in source folder`);
+    expect(await dataTable.isItemPresent(existingFile)).toBe(true, `${existingFile}.txt not present in source folder`);
     await page.clickPersonalFilesAndWait();
     await dataTable.doubleClickOnRowByName(destination);
-    expect(await dataTable.isItemPresent(`${existingFile}.txt`)).toBe(true, `${existingFile}.txt not present in destination folder`);
-    expect(await dataTable.isItemPresent(`${existingFile}-1.txt`)).toBe(true, `${existingFile}-1.txt not present in destination folder`);
+    expect(await dataTable.isItemPresent(existingFile)).toBe(true, `${existingFile}.txt not present in destination folder`);
   }
 
   async function copyAFolderWithANameThatAlreadyExists(destination, location = '', doBefore = null) {
