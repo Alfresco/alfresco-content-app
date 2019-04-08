@@ -58,7 +58,9 @@ exports.config = {
     './e2e/suites/actions/copy.test.ts',
     './e2e/suites/actions/create-folder.test.ts',
     './e2e/suites/actions/create-library.test.ts',
-    './e2e/suites/actions/delete-undo-delete.test.ts'
+    './e2e/suites/actions/delete-undo-delete.test.ts',
+    './e2e/suites/actions/edit-folder.test.ts',
+    './e2e/suites/actions/edit-offline.test.ts'
   ],
 
   SELENIUM_PROMISE_MANAGER: true,
