@@ -28,7 +28,7 @@ import { CopyMoveDialog } from './../../components/dialog/copy-move-dialog';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 
-fdescribe('Copy content', () => {
+describe('Copy content', () => {
   const username = `user-${Utils.random()}`;
 
   const source = `source-${Utils.random()}`; let sourceId;
@@ -166,7 +166,6 @@ fdescribe('Copy content', () => {
 
     it('Copy multiple items - [C280201]', async () => copyMultipleItems(destinationRF, source));
 
-    // Can fail locally if the repository wasn't empty before. We are hitting the 25 items per view here.
     it('Copy a file with a name that already exists on the destination - [C280196]', async () => copyAFileWithANameThatAlreadyExists(destinationRF, source));
 
     it('Copy items into a library - [C291899]', async () => copyItemsIntoALibrary([file1], folderSiteRF, source));
