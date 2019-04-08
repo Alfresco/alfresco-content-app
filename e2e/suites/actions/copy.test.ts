@@ -205,7 +205,7 @@ describe('Copy content', () => {
 
     it('Copy multiple items - [C280201]', async () => copyMultipleItems(destinationRF, source));
 
-    it('Copy a file with a name that already exists on the destination - [C280196]', async () => copyAFileWithANameThatAlreadyExists(destinationRF));
+    it('Copy a file with a name that already exists on the destination - [C280196]', async () => copyAFileWithANameThatAlreadyExists(destinationRF, source));
 
     it('Copy items into a library - [C291899]', async () => copyItemsIntoALibrary([file1], folderSiteRF, source));
 
@@ -275,7 +275,7 @@ describe('Copy content', () => {
 
     it('Undo copy of a file when a file with same name already exists on the destination - [C280228]', async () => undoCopyOfAFile(source));
 
-    it('Undo copy of a folder when a folder with same name already exists on the destination - [C280229]', async () => undoCopyOfAFolder());
+    it('Undo copy of a folder when a folder with same name already exists on the destination - [C280229]', async () => undoCopyOfAFolder(source));
 
   });
 
@@ -372,12 +372,11 @@ describe('Copy content', () => {
       expect(await dataTable.isItemPresent(`${existingFile}-1.txt`)).toBe(true, `${existingFile}-1.txt not present in destination folder`);
     });
 
-    it('Undo copy of a folder when a folder with same name already exists on the destination - [C306941]', async () => {
-      await searchInput.searchFor(folder1);
-      await dataTable.waitForBody();
-
-      undoCopyOfAFolder();
-    });
+    it('Undo copy of a folder when a folder with same name already exists on the destination - [C306941]', async () => undoCopyOfAFolder(source, async () => {
+        await searchInput.searchFor(folder1);
+        await dataTable.waitForBody();
+      })
+    );
 
   });
 
@@ -619,8 +618,8 @@ describe('Copy content', () => {
     if (doBefore) {
       await doBefore();
     }
-    await dataTable.doubleClickOnRowByName(folder1);
-    await dataTable.selectItem(fileInFolder, location);
+    await dataTable.doubleClickOnRowByName(folder1, location);
+    await dataTable.selectItem(fileInFolder);
     await toolbar.clickMoreActionsCopy();
     await copyDialog.selectLocation('Personal Files');
     await copyDialog.doubleClickOnRow(source);
@@ -661,8 +660,8 @@ describe('Copy content', () => {
     const fileInFolderInFolder2 = `f2-${Utils.random()}.txt`;
     await apis.user.nodes.createFile(fileInFolderInFolder2, folderInFolder2Id);
 
-    await dataTable.doubleClickOnRowByName(folder1);
-    await dataTable.selectItem(folderInFolder1, location);
+    await dataTable.doubleClickOnRowByName(folder1, location);
+    await dataTable.selectItem(folderInFolder1);
     await toolbar.clickMoreActionsCopy();
     await copyDialog.selectLocation('Personal Files');
     await copyDialog.doubleClickOnRow(source);
