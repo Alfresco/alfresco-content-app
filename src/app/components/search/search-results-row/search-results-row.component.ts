@@ -28,13 +28,16 @@ import {
   Input,
   OnInit,
   ViewEncapsulation,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  OnDestroy
 } from '@angular/core';
 import { MinimalNodeEntity } from '@alfresco/js-api';
 import { ViewFileAction } from '../../../store/actions';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../../../store/states/app.state';
 import { NavigateToFolder } from '../../../store/actions';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { AlfrescoApiService } from '@alfresco/adf-core';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'aca-search-results-row',
@@ -44,60 +47,73 @@ import { NavigateToFolder } from '../../../store/actions';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'aca-search-results-row' }
 })
-export class SearchResultsRowComponent implements OnInit {
+export class SearchResultsRowComponent implements OnInit, OnDestroy {
   private node: MinimalNodeEntity;
+  private onDestroy$ = new Subject<boolean>();
 
   @Input()
   context: any;
 
-  constructor(private store: Store<AppStore>) {}
+  name$ = new BehaviorSubject<string>('');
+  title$ = new BehaviorSubject<string>('');
+
+  constructor(
+    private store: Store<any>,
+    private alfrescoApiService: AlfrescoApiService
+  ) {}
 
   ngOnInit() {
+    this.updateValues();
+
+    this.alfrescoApiService.nodeUpdated
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((node: any) => {
+        const row = this.context.row;
+        if (row) {
+          const { entry } = row.node;
+
+          if (entry.id === node.id) {
+            entry.name = node.name;
+            entry.properties = Object.assign({}, node.properties);
+
+            this.updateValues();
+          }
+        }
+      });
+  }
+
+  private updateValues() {
     this.node = this.context.row.node;
+
+    this.name$.next(this.node.entry.name);
+
+    const title = this.node.entry.properties['cm:title'];
+    this.title$.next(title ? `( ${title} )` : '');
   }
 
-  get name() {
-    return this.getValue('name');
+  ngOnDestroy() {
+    this.onDestroy$.next(true);
+    this.onDestroy$.complete();
   }
 
-  get title() {
-    return this.getValue('properties["cm:title"]');
+  get description(): string {
+    return this.node.entry.properties['cm:description'];
   }
 
-  get description() {
-    return this.getValue('properties["cm:description"]');
+  get modifiedAt(): Date {
+    return this.node.entry.modifiedAt;
   }
 
-  get modifiedAt() {
-    return this.getValue('modifiedAt');
+  get size(): number {
+    return this.node.entry.content.sizeInBytes;
   }
 
-  get size() {
-    return this.getValue('content.sizeInBytes');
+  get user(): string {
+    return this.node.entry.modifiedByUser.displayName;
   }
 
-  get user() {
-    return this.getValue('modifiedByUser.displayName');
-  }
-
-  get hasDescription() {
-    return this.description;
-  }
-
-  get hasTitle() {
-    return this.title;
-  }
-
-  get showTitle() {
-    return this.name !== this.title;
-  }
-
-  get hasSize() {
-    return this.size;
-  }
-
-  get isFile() {
-    return this.getValue('isFile');
+  get isFile(): boolean {
+    return this.node.entry.isFile;
   }
 
   showPreview() {
@@ -106,15 +122,5 @@ export class SearchResultsRowComponent implements OnInit {
 
   navigate() {
     this.store.dispatch(new NavigateToFolder(this.node));
-  }
-
-  private getValue(path: string) {
-    return path
-      .replace('["', '.')
-      .replace('"]', '')
-      .replace('[', '.')
-      .replace(']', '')
-      .split('.')
-      .reduce((acc, part) => (acc ? acc[part] : null), this.node.entry);
   }
 }
