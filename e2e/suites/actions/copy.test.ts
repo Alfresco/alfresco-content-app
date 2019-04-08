@@ -28,7 +28,7 @@ import { CopyMoveDialog } from './../../components/dialog/copy-move-dialog';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 
-describe('Copy content', () => {
+fdescribe('Copy content', () => {
   const username = `user-${Utils.random()}`;
 
   const source = `source-${Utils.random()}`; let sourceId;
@@ -150,6 +150,33 @@ describe('Copy content', () => {
     done();
   });
 
+  describe('from Recent Files', () => {
+    beforeEach(async (done) => {
+      await Utils.pressEscape();
+      await page.clickRecentFilesAndWait();
+      done();
+    });
+
+    afterAll(async done => {
+      await apis.user.nodes.deleteNodeById(destinationIdRF);
+      done();
+    });
+
+    it('Copy a file - [C280194]', async () => copyAFile(destinationRF, source));
+
+    it('Copy multiple items - [C280201]', async () => copyMultipleItems(destinationRF, source));
+
+    // Can fail locally if the repository wasn't empty before. We are hitting the 25 items per view here.
+    it('Copy a file with a name that already exists on the destination - [C280196]', async () => copyAFileWithANameThatAlreadyExists(destinationRF, source));
+
+    it('Copy items into a library - [C291899]', async () => copyItemsIntoALibrary([file1], folderSiteRF, source));
+
+    it('Copy locked file - [C280198]', async () => copyLockedFile(destinationRF, source));
+
+    it('Undo copy of files - [C280202]', async () => undoCopyOfFiles(destinationRF));
+
+  });
+
   describe('from Personal Files', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
@@ -186,33 +213,6 @@ describe('Copy content', () => {
     it('Undo copy of a file when a file with same name already exists on the destination - [C217173]', async () => undoCopyOfAFile());
 
     it('Undo copy of a folder when a folder with same name already exists on the destination - [C217174]', async () => undoCopyOfAFolder());
-
-  });
-
-  describe('from Recent Files', () => {
-    beforeEach(async (done) => {
-      await Utils.pressEscape();
-      await page.clickRecentFilesAndWait();
-      done();
-    });
-
-    afterAll(async done => {
-      await apis.user.nodes.deleteNodeById(destinationIdRF);
-      done();
-    });
-
-    it('Copy a file - [C280194]', async () => copyAFile(destinationRF, source));
-
-    it('Copy multiple items - [C280201]', async () => copyMultipleItems(destinationRF, source));
-
-    // Can fail locally if the repository wasn't empty before. We are hitting the 25 items per view here.
-    it('Copy a file with a name that already exists on the destination - [C280196]', async () => copyAFileWithANameThatAlreadyExists(destinationRF, source));
-
-    it('Copy items into a library - [C291899]', async () => copyItemsIntoALibrary([file1], folderSiteRF, source));
-
-    it('Copy locked file - [C280198]', async () => copyLockedFile(destinationRF, source));
-
-    it('Undo copy of files - [C280202]', async () => undoCopyOfFiles(destinationRF));
 
   });
 
