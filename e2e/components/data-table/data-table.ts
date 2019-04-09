@@ -230,9 +230,9 @@ export class DataTable extends Component {
   }
 
   // Navigation/selection methods
-  async doubleClickOnRowByName(name: string) {
+  async doubleClickOnRowByName(name: string, location: string = '') {
     try {
-      const item = this.getRowFirstCell(name);
+      const item = this.getRowFirstCell(name, location);
       await Utils.waitUntilElementClickable(item);
       await browser.actions().mouseMove(item).perform();
       await browser.actions().click().click().perform();
