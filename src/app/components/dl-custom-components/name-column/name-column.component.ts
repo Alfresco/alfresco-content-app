@@ -65,6 +65,7 @@ export class CustomNameColumnComponent extends NameColumnComponent
 
           if (currentId === updatedId) {
             entry.name = node.name;
+            row.node = { entry };
             this.updateValue();
           }
         }
