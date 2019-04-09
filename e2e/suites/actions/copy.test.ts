@@ -138,7 +138,7 @@ describe('Copy content', () => {
     await apis.user.nodes.createFolder(folderSiteSearch, docLibId);
 
     await apis.user.shared.waitForApi({ expect: 5 });
-    await apis.user.favorites.waitForApi({ expect: 9 });
+    await apis.user.favorites.waitForApi({ expect: 10 });
 
     await loginPage.loginWith(username);
     done();
