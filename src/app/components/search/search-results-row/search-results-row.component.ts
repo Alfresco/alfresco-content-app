@@ -106,7 +106,7 @@ export class SearchResultsRowComponent implements OnInit, OnDestroy {
 
   get size(): number {
     const { content } = this.node.entry;
-    return content ? this.node.entry.content.sizeInBytes : null;
+    return content ? content.sizeInBytes : null;
   }
 
   get user(): string {
