@@ -87,7 +87,9 @@ export class SearchResultsRowComponent implements OnInit, OnDestroy {
 
     this.name$.next(this.node.entry.name);
 
-    const title = this.node.entry.properties['cm:title'];
+    const { properties } = this.node.entry;
+    const title = properties ? properties['cm:title'] : '';
+
     this.title$.next(title ? `( ${title} )` : '');
   }
 
@@ -97,7 +99,8 @@ export class SearchResultsRowComponent implements OnInit, OnDestroy {
   }
 
   get description(): string {
-    return this.node.entry.properties['cm:description'];
+    const { properties } = this.node.entry;
+    return properties ? properties['cm:description'] : '';
   }
 
   get modifiedAt(): Date {
