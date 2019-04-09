@@ -2,18 +2,35 @@
 
 @mixin adf-document-list-theme($theme) {
   $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
   $primary: map-get($theme, primary);
   $document-list-thumbnailColor: mat-color($primary) !default;
   $document-list-background: mat-color($background, background) !default;
 
   .adf-datatable-list {
     border: none;
+
+    .adf-datatable-link.adf-name-column {
+      color: mat-color($foreground, text);
+      position: static;
+      height: 100%;
+      width: 100%;
+
+      &:hover {
+        text-decoration: underline !important;
+        color: $document-list-thumbnailColor;
+      }
+
+      .adf-datatable-cell-value {
+        position: static;
+        width: 100%;
+      }
+    }
   }
 
   .mat-icon.adf-datatable-selected > svg {
     fill: $document-list-thumbnailColor;
   }
-
   adf-document-list {
     @include flex-column;
     background-color: $document-list-background;
@@ -25,9 +42,17 @@
 
     .adf-datatable-cell-header,
     .adf-datatable-cell {
+      padding: 0 2px;
+      box-sizing: border-box;
+      position: static;
+
       &:focus {
-        outline: none !important;
+        //outline: none !important;
       }
+    }
+
+    .adf-datatable-cell {
+      color: mat-color($foreground, text, 0.54);
     }
 
     .adf-datatable-body .adf-datatable-row {
