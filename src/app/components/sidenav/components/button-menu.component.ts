@@ -23,43 +23,36 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, ViewEncapsulation } from '@angular/core';
-import { ContentActionRef } from '@alfresco/adf-extensions';
-import { AppExtensionService } from '../../../extensions/extension.service';
+import {
+  Component,
+  Input,
+  ViewEncapsulation,
+  OnInit,
+  ChangeDetectorRef
+} from '@angular/core';
+import { OverlayContainer } from '@angular/cdk/overlay';
 
 @Component({
-  selector: 'app-toolbar-menu-item',
-  templateUrl: 'toolbar-menu-item.component.html',
-  styles: [
-    `
-      .app-toolbar-menu-item:last-child > .mat-divider-horizontal {
-        display: none;
-      }
-    `
-  ],
-  encapsulation: ViewEncapsulation.None,
-  host: { class: 'app-toolbar-menu-item' }
+  selector: 'app-button-menu',
+  templateUrl: './button-menu.component.html',
+  host: { class: 'app-button-menu' },
+  encapsulation: ViewEncapsulation.None
 })
-export class ToolbarMenuItemComponent {
-  @Input()
-  actionRef: ContentActionRef;
+export class ButtonMenuComponent implements OnInit {
+  @Input() item;
 
-  constructor(private extensions: AppExtensionService) {}
-
-  runAction() {
-    if (this.hasClickAction(this.actionRef)) {
-      this.extensions.runActionById(this.actionRef.actions.click);
-    }
+  constructor(
+    private cd: ChangeDetectorRef,
+    private overlayContainer: OverlayContainer
+  ) {
+    this.overlayContainer.getContainerElement().classList.add('aca-menu-panel');
   }
 
-  private hasClickAction(actionRef: ContentActionRef): boolean {
-    if (actionRef && actionRef.actions && actionRef.actions.click) {
-      return true;
-    }
-    return false;
+  ngOnInit() {
+    this.cd.detectChanges();
   }
 
-  trackById(_: number, obj: { id: string }) {
+  trackById(index: number, obj: { id: string }) {
     return obj.id;
   }
 }

@@ -25,48 +25,68 @@
 
 import {
   Directive,
-  OnInit,
   Input,
   HostListener,
+  OnInit,
   OnDestroy
 } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, PRIMARY_OUTLET } from '@angular/router';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { MatExpansionPanel } from '@angular/material/expansion';
+import { Store } from '@ngrx/store';
+import { AppStore } from '../../../store/states/app.state';
 
 @Directive({
   selector: '[acaExpansionPanel]',
   exportAs: 'acaExpansionPanel'
 })
-export class AcaExpansionPanelDirective implements OnInit, OnDestroy {
+export class ExpansionPanelDirective implements OnInit, OnDestroy {
   @Input() acaExpansionPanel;
-  selected = false;
+  public hasActiveChildren = false;
 
   private onDestroy$: Subject<boolean> = new Subject<boolean>();
 
   @HostListener('click')
   onClick() {
-    if (this.expansionPanel.expanded && !this.selected) {
-      this.router.navigate([this.acaExpansionPanel.children[0].url]);
+    if (this.expansionPanel.expanded && !this.hasActiveLinks()) {
+      const firstChild = this.acaExpansionPanel.children[0];
+      if (firstChild.url) {
+        this.router.navigate(this.getNavigationCommands(firstChild.url));
+      } else {
+        this.store.dispatch({
+          type: firstChild.action.action,
+          payload: this.getNavigationCommands(firstChild.action.payload)
+        });
+      }
     }
   }
 
   constructor(
+    private store: Store<AppStore>,
     private router: Router,
     private expansionPanel: MatExpansionPanel
   ) {}
 
+  hasActiveLinks() {
+    if (this.acaExpansionPanel && this.acaExpansionPanel.children) {
+      return this.acaExpansionPanel.children.some(child => {
+        return this.router.url.startsWith(child.url || child.action.payload);
+      });
+    }
+    return false;
+  }
+
   ngOnInit() {
-    this.setSelected(this.router.url);
+    this.hasActiveChildren = this.hasActiveLinks();
 
     this.router.events
       .pipe(
         filter(event => event instanceof NavigationEnd),
         takeUntil(this.onDestroy$)
       )
-      .subscribe((event: NavigationEnd) => {
-        this.setSelected(event.urlAfterRedirects);
+      .subscribe(() => {
+        this.hasActiveChildren = this.hasActiveLinks();
       });
   }
 
@@ -75,9 +95,19 @@ export class AcaExpansionPanelDirective implements OnInit, OnDestroy {
     this.onDestroy$.complete();
   }
 
-  private setSelected(url: string) {
-    this.selected = this.acaExpansionPanel.children.some(child =>
-      url.startsWith(child.url)
-    );
+  private getNavigationCommands(url: string): any[] {
+    const urlTree = this.router.parseUrl(url);
+    const urlSegmentGroup = urlTree.root.children[PRIMARY_OUTLET];
+
+    if (!urlSegmentGroup) {
+      return [url];
+    }
+
+    const urlSegments = urlSegmentGroup.segments;
+
+    return urlSegments.reduce(function(acc, item) {
+      acc.push(item.path, item.parameters);
+      return acc;
+    }, []);
   }
 }

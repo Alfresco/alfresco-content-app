@@ -23,43 +23,35 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, ViewEncapsulation } from '@angular/core';
-import { ContentActionRef } from '@alfresco/adf-extensions';
-import { AppExtensionService } from '../../../extensions/extension.service';
+import { ActionDirective } from './action.directive';
 
-@Component({
-  selector: 'app-toolbar-menu-item',
-  templateUrl: 'toolbar-menu-item.component.html',
-  styles: [
-    `
-      .app-toolbar-menu-item:last-child > .mat-divider-horizontal {
-        display: none;
+describe('ActionDirective', () => {
+  let directive: ActionDirective;
+  const routeMock = <any>{
+    navigate: jasmine.createSpy('navigate'),
+    parseUrl: () => ({
+      root: {
+        children: []
       }
-    `
-  ],
-  encapsulation: ViewEncapsulation.None,
-  host: { class: 'app-toolbar-menu-item' }
-})
-export class ToolbarMenuItemComponent {
-  @Input()
-  actionRef: ContentActionRef;
+    })
+  };
+  const storeMock = <any>{
+    dispatch: jasmine.createSpy('dispatch')
+  };
 
-  constructor(private extensions: AppExtensionService) {}
+  beforeEach(() => {
+    directive = new ActionDirective(routeMock, storeMock);
+  });
 
-  runAction() {
-    if (this.hasClickAction(this.actionRef)) {
-      this.extensions.runActionById(this.actionRef.actions.click);
-    }
-  }
+  it('should navigate if action is route', () => {
+    directive.action = { route: 'dummy' };
+    directive.onClick();
+    expect(routeMock.navigate).toHaveBeenCalled();
+  });
 
-  private hasClickAction(actionRef: ContentActionRef): boolean {
-    if (actionRef && actionRef.actions && actionRef.actions.click) {
-      return true;
-    }
-    return false;
-  }
-
-  trackById(_: number, obj: { id: string }) {
-    return obj.id;
-  }
-}
+  it('should dispatch store action', () => {
+    directive.action = { click: {} };
+    directive.onClick();
+    expect(storeMock.dispatch).toHaveBeenCalled();
+  });
+});

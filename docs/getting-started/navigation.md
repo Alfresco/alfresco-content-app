@@ -138,6 +138,30 @@ In the `app.config.json` define a link entry which will point to the custom page
 
 ```
 
+This can also be declared using ngrx store action:
+
+```json
+{
+  ...,
+  "navigation": [
+      "main": [ ... ],
+      "secondary": [ ... ],
+      "custom": [
+        {
+          "icon": "work",
+          "label": "Link",
+          "title": "My custom link",
+          "click": {
+              "action": "NAVIGATE_ROUTE",
+              "payload": "custom-route"
+          }
+        }
+      ]
+  ]
+}
+
+```
+
 Map the `/custom-route` in `app.routes.ts` as a child of `LayoutComponent` definition.
 
 ```js

@@ -2,7 +2,7 @@
   <app-page-layout-header>
     <adf-breadcrumb root="APP.BROWSE.TRASHCAN.TITLE"> </adf-breadcrumb>
 
-    <adf-toolbar class="inline">
+    <adf-toolbar class="adf-toolbar--inline">
       <ng-container *ngFor="let entry of actions; trackBy: trackByActionId">
         <aca-toolbar-action [actionRef]="entry"></aca-toolbar-action>
       </ng-container>
@@ -76,7 +76,7 @@
 
           <data-column
             *ngIf="!isSmallScreen && (user$ | async)?.isAdmin"
-            class="adf-ellipsis-cell adf-expand-cell-5"
+            class="adf-ellipsis-cell"
             key="archivedByUser.displayName"
             title="APP.DOCUMENT_LIST.COLUMNS.DELETED_BY"
           >
