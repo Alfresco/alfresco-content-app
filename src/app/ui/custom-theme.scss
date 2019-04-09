@@ -92,3 +92,7 @@ $custom-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent);
   @include app-create-menu-theme($theme);
   @include aca-share-dialog-theme($theme);
 }
+
+//Custom variables - ACA specific styling:
+$document-list-thumbnailColor: mat-color($alfresco-ecm-blue, 500);
+$document-list-background: white;

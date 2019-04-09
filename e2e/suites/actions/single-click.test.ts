@@ -128,8 +128,7 @@ describe('Single click on item name', () => {
       expect(await dataTable.hasLinkOnName(siteName)).toBe(true, 'Link on site name is missing');
     });
 
-    // TODO: enable this when ACA-2330 is done
-    xit('Navigate inside the library when clicking the hyperlink - [C284902]', async () => {
+    it('Navigate inside the library when clicking the hyperlink - [C284902]', async () => {
       await dataTable.clickNameLink(siteName);
 
       expect(await breadcrumb.getCurrentItemName()).toBe(siteName);
@@ -147,8 +146,7 @@ describe('Single click on item name', () => {
       expect(await dataTable.hasLinkOnName(file1)).toBe(true, 'Link on name is missing');
     });
 
-    // TODO: enable this when ACA-2330 is done
-    xit('File preview opens when clicking the hyperlink - [C284906]', async () => {
+    it('File preview opens when clicking the hyperlink - [C284906]', async () => {
       await dataTable.clickNameLink(file1);
 
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
@@ -167,8 +165,7 @@ describe('Single click on item name', () => {
       expect(await dataTable.hasLinkOnName(file1)).toBe(true, 'Link on name is missing');
     });
 
-    // TODO: enable this when ACA-2330 is done
-    xit('File preview opens when clicking the hyperlink - [C284908]', async () => {
+    it('File preview opens when clicking the hyperlink - [C284908]', async () => {
       await dataTable.clickNameLink(file1);
 
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
@@ -187,8 +184,7 @@ describe('Single click on item name', () => {
       expect(await dataTable.hasLinkOnName(file1)).toBe(true, 'Link on name is missing');
     });
 
-    // TODO: enable this when ACA-2330 is done
-    xit('File preview opens when clicking the hyperlink - [C284910]', async () => {
+    it('File preview opens when clicking the hyperlink - [C284910]', async () => {
       await dataTable.clickNameLink(file1);
 
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
@@ -196,8 +192,7 @@ describe('Single click on item name', () => {
       await Utils.pressEscape();
     });
 
-    // TODO: enable this when ACA-2330 is done
-    xit('Navigate inside the folder when clicking the hyperlink - [C284911]', async () => {
+    it('Navigate inside the folder when clicking the hyperlink - [C284911]', async () => {
       await dataTable.clickNameLink(folder1);
 
       expect(await breadcrumb.getCurrentItemName()).toBe(folder1);

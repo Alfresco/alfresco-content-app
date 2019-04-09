@@ -1,21 +1,22 @@
 @import 'mixins';
 
 @mixin adf-document-list-theme($theme) {
+  $background: map-get($theme, background);
+  $primary: map-get($theme, primary);
+  $document-list-thumbnailColor: mat-color($primary) !default;
+  $document-list-background: mat-color($background, background) !default;
+
   .adf-datatable-list {
     border: none;
-
-    .adf-datatable-cell-value {
-      max-width: calc(100% - 2em) !important;
-      width: auto !important;
-    }
   }
 
   .mat-icon.adf-datatable-selected > svg {
-    fill: #2196f3;
+    fill: $document-list-thumbnailColor;
   }
 
   adf-document-list {
     @include flex-column;
+    background-color: $document-list-background;
   }
 
   .adf-datatable {
