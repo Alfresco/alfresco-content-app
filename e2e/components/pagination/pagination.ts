@@ -23,10 +23,11 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by } from 'protractor';
+import { ElementFinder, by, browser, ExpectedConditions as EC } from 'protractor';
+import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
-import { browser } from 'protractor';
+
 export class Pagination extends Component {
   private static selectors = {
     root: 'adf-pagination',
@@ -59,27 +60,45 @@ export class Pagination extends Component {
   async openMaxItemsMenu() {
     const { menu, maxItemsButton } = this;
 
-    await maxItemsButton.click();
-    await menu.waitForMenuToOpen();
+    try {
+      await browser.wait(EC.elementToBeClickable(maxItemsButton), BROWSER_WAIT_TIMEOUT, 'timeout waiting for maxItemsButton to be clickable');
+      await maxItemsButton.click();
+      await menu.waitForMenuToOpen();
+    } catch (error) {
+      console.log('____ open max items catch ___', error);
+    }
   }
 
   async openCurrentPageMenu() {
     const { menu, pagesButton } = this;
 
-    await pagesButton.click();
-    await menu.waitForMenuToOpen();
+    try {
+      await browser.wait(EC.elementToBeClickable(pagesButton), BROWSER_WAIT_TIMEOUT, 'timeout waiting for pagesButton to be clickable');
+      await pagesButton.click();
+      await menu.waitForMenuToOpen();
+    } catch (error) {
+      console.log('____ open current page menu ___', error);
+    }
   }
 
   async resetToDefaultPageSize() {
-    await this.openMaxItemsMenu();
-    await this.menu.clickMenuItem('25');
-    await this.menu.waitForMenuToClose();
+    try {
+      await this.openMaxItemsMenu();
+      await this.menu.clickNthItem(1);
+      await this.menu.waitForMenuToClose();
+    } catch (error) {
+      console.log('___ reset to default page size catch ___', error);
+    }
   }
 
   async resetToDefaultPageNumber() {
-    await this.openCurrentPageMenu();
-    await this.menu.clickMenuItem('1');
-    await this.menu.waitForMenuToClose();
+    try {
+      await this.openCurrentPageMenu();
+      await this.menu.clickNthItem(1);
+      await this.menu.waitForMenuToClose();
+    } catch (error) {
+      console.log('____ reset to default page number catch ___', error);
+    }
   }
 
   async clickNext() {
