@@ -128,8 +128,8 @@ describe('Pagination on multiple pages on Trash', () => {
   it('navigate to next and previous pages - [C280128]', async () => {
     await pagination.clickNext();
     await dataTable.waitForHeader();
-    expect(pagination.getRange()).toContain('26-50 of 101');
-    expect(dataTable.isItemPresent('file-70')).toBe(true, 'File not found on page');
+    expect(await pagination.getRange()).toContain('26-50 of 101');
+    expect(await dataTable.isItemPresent('file-70')).toBe(true, 'File not found on page');
     await pagination.resetToDefaultPageNumber();
 
     await pagination.openCurrentPageMenu();

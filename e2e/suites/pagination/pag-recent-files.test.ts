@@ -138,8 +138,8 @@ describe('Pagination on multiple pages on Recent Files', () => {
     await dataTable.waitForHeader();
     await pagination.clickPrevious();
     await dataTable.waitForHeader();
-    expect(pagination.getRange()).toContain('1-25 of 101');
-    expect(dataTable.isItemPresent('file-88')).toBe(true, 'File not found on page');
+    expect(await pagination.getRange()).toContain('1-25 of 101');
+    expect(await dataTable.isItemPresent('file-88')).toBe(true, 'File not found on page');
 
     await pagination.resetToDefaultPageNumber();
   });

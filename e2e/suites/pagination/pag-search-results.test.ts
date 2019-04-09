@@ -138,7 +138,7 @@ describe('Pagination on multiple pages on Search Results', () => {
     await dataTable.waitForBody();
     await pagination.clickPrevious();
     await dataTable.waitForBody();
-    expect(pagination.getRange()).toContain('1-25 of 101');
+    expect(await pagination.getRange()).toContain('1-25 of 101');
 
     await pagination.resetToDefaultPageNumber();
   });

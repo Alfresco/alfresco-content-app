@@ -92,7 +92,7 @@ describe('Pagination on multiple pages on Personal Files', () => {
     expect(await pagination.getMaxItems()).toContain('25');
     expect(await pagination.getTotalPages()).toContain('of 5');
     await pagination.openCurrentPageMenu();
-    expect(pagination.menu.getItemsCount()).toBe(5);
+    expect(await pagination.menu.getItemsCount()).toBe(5);
     await pagination.menu.closeMenu();
 
     await pagination.openMaxItemsMenu();
@@ -100,7 +100,7 @@ describe('Pagination on multiple pages on Personal Files', () => {
     expect(await pagination.getMaxItems()).toContain('50');
     expect(await pagination.getTotalPages()).toContain('of 3');
     await pagination.openCurrentPageMenu();
-    expect(pagination.menu.getItemsCount()).toBe(3);
+    expect(await pagination.menu.getItemsCount()).toBe(3);
     await pagination.menu.closeMenu();
 
     await pagination.openMaxItemsMenu();
