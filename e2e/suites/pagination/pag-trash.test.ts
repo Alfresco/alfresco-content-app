@@ -78,11 +78,9 @@ describe('Pagination on multiple pages on Trash', () => {
 
   it('Items per page values - [C280123]', async () => {
     await pagination.openMaxItemsMenu();
-    const [ first, second, third ] = [1, 2, 3]
-        .map(async nth => await pagination.menu.getNthItem(nth).getText());
-    expect(first).toBe('25');
-    expect(second).toBe('50');
-    expect(third).toBe('100');
+    expect(await pagination.menu.getNthItem(1).getText()).toBe('25');
+    expect(await pagination.menu.getNthItem(2).getText()).toBe('50');
+    expect(await pagination.menu.getNthItem(3).getText()).toBe('100');
     await pagination.menu.closeMenu();
   });
 
