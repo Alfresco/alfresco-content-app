@@ -85,12 +85,14 @@ export class SearchResultsRowComponent implements OnInit, OnDestroy {
   private updateValues() {
     this.node = this.context.row.node;
 
-    this.name$.next(this.node.entry.name);
-
-    const { properties } = this.node.entry;
+    const { name, properties } = this.node.entry;
     const title = properties ? properties['cm:title'] : '';
 
-    this.title$.next(title ? `( ${title} )` : '');
+    this.name$.next(name);
+
+    if (title !== name) {
+      this.title$.next(title ? `( ${title} )` : '');
+    }
   }
 
   ngOnDestroy() {
