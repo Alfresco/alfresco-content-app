@@ -4,8 +4,12 @@
   $background: map-get($theme, background);
   $foreground: map-get($theme, foreground);
   $primary: map-get($theme, primary);
-  $document-list-thumbnailColor: mat-color($primary) !default;
+
+  $document-list-selection-color: mat-color($primary) !default;
+  $document-list-selection-background: #e0f7fa !default;
   $document-list-background: mat-color($background, background) !default;
+  $document-list-text-color: mat-color($foreground, text, 0.54) !default;
+  $document-list-name-text-color: mat-color($foreground, text) !default;
 
   .adf-datatable-list {
     border: none;
@@ -13,10 +17,10 @@
     .adf-datatable-link {
       &.adf-name-column,
       &.adf-library-name-column {
-        color: mat-color($foreground, text);
+        color: $document-list-name-text-color;
 
         &:hover {
-          color: $document-list-thumbnailColor;
+          color: $document-list-selection-color;
         }
 
         .adf-datatable-cell-value {
@@ -28,8 +32,9 @@
   }
 
   .mat-icon.adf-datatable-selected > svg {
-    fill: $document-list-thumbnailColor;
+    fill: $document-list-selection-color;
   }
+
   adf-document-list {
     @include flex-column;
     background-color: $document-list-background;
@@ -54,18 +59,18 @@
     }
 
     .adf-datatable-cell {
-      color: mat-color($foreground, text, 0.54);
+      color: $document-list-text-color;
     }
 
     .adf-datatable-body .adf-datatable-row {
       &:hover,
       &:focus {
-        background-color: #e0f7fa;
+        background-color: $document-list-selection-background;
       }
 
       &.adf-is-selected,
       &.adf-is-selected:hover {
-        background-color: #e0f7fa;
+        background-color: $document-list-selection-background;
       }
     }
 
