@@ -78,11 +78,9 @@ describe('Pagination on multiple pages', () => {
 
     it('Items per page values - [C280087]', async () => {
       await pagination.openMaxItemsMenu();
-      const [ first, second, third ] = [1, 2, 3]
-          .map(async nth => await pagination.menu.getNthItem(nth).getText());
-      expect(first).toBe('25');
-      expect(second).toBe('50');
-      expect(third).toBe('100');
+      expect(await pagination.menu.getNthItem(1).getText()).toBe('25');
+      expect(await pagination.menu.getNthItem(2).getText()).toBe('50');
+      expect(await pagination.menu.getNthItem(3).getText()).toBe('100');
       await pagination.menu.closeMenu();
     });
 
@@ -181,11 +179,9 @@ describe('Pagination on multiple pages', () => {
 
     it('Items per page values - [C291876]', async () => {
       await pagination.openMaxItemsMenu();
-      const [ first, second, third ] = [1, 2, 3]
-          .map(async nth => await pagination.menu.getNthItem(nth).getText());
-      expect(first).toBe('25');
-      expect(second).toBe('50');
-      expect(third).toBe('100');
+      expect(await pagination.menu.getNthItem(1).getText()).toBe('25');
+      expect(await pagination.menu.getNthItem(2).getText()).toBe('50');
+      expect(await pagination.menu.getNthItem(3).getText()).toBe('100');
       await pagination.menu.closeMenu();
     });
 

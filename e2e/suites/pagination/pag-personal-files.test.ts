@@ -55,6 +55,7 @@ describe('Pagination on multiple pages on Personal Files', () => {
   beforeEach(async (done) => {
     await page.clickPersonalFilesAndWait();
     await dataTable.doubleClickOnRowByName(parent);
+    await dataTable.waitForHeader();
     done();
   });
 
@@ -79,11 +80,9 @@ describe('Pagination on multiple pages on Personal Files', () => {
 
   it('Items per page values - [C280078]', async () => {
     await pagination.openMaxItemsMenu();
-    const [ first, second, third ] = [1, 2, 3]
-        .map(async nth => await pagination.menu.getNthItem(nth).getText());
-    expect(first).toBe('25');
-    expect(second).toBe('50');
-    expect(third).toBe('100');
+    expect(await pagination.menu.getNthItem(1).getText()).toBe('25');
+    expect(await pagination.menu.getNthItem(2).getText()).toBe('50');
+    expect(await pagination.menu.getNthItem(3).getText()).toBe('100');
     await pagination.menu.closeMenu();
   });
 
@@ -93,7 +92,7 @@ describe('Pagination on multiple pages on Personal Files', () => {
     expect(await pagination.getMaxItems()).toContain('25');
     expect(await pagination.getTotalPages()).toContain('of 5');
     await pagination.openCurrentPageMenu();
-    expect(pagination.menu.getItemsCount()).toBe(5);
+    expect(await pagination.menu.getItemsCount()).toBe(5);
     await pagination.menu.closeMenu();
 
     await pagination.openMaxItemsMenu();
@@ -101,7 +100,7 @@ describe('Pagination on multiple pages on Personal Files', () => {
     expect(await pagination.getMaxItems()).toContain('50');
     expect(await pagination.getTotalPages()).toContain('of 3');
     await pagination.openCurrentPageMenu();
-    expect(pagination.menu.getItemsCount()).toBe(3);
+    expect(await pagination.menu.getItemsCount()).toBe(3);
     await pagination.menu.closeMenu();
 
     await pagination.openMaxItemsMenu();

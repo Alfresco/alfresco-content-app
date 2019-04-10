@@ -49,7 +49,7 @@ exports.config = {
     './e2e/suites/extensions/*.test.ts'
   ],
 
-  SELENIUM_PROMISE_MANAGER: true,
+  SELENIUM_PROMISE_MANAGER: false,
 
   capabilities: {
     browserName: 'chrome',
