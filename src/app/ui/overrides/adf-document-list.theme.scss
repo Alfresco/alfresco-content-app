@@ -12,18 +12,14 @@
 
     .adf-datatable-link.adf-name-column {
       color: mat-color($foreground, text);
-      position: static;
-      height: 100%;
-      width: 100%;
 
       &:hover {
-        text-decoration: underline !important;
         color: $document-list-thumbnailColor;
       }
 
       .adf-datatable-cell-value {
         position: static;
-        width: 100%;
+        max-width: 35vw;
       }
     }
   }
@@ -44,10 +40,13 @@
     .adf-datatable-cell {
       padding: 0 2px;
       box-sizing: border-box;
-      position: static;
 
       &:focus {
-        //outline: none !important;
+        outline: none !important;
+      }
+
+      .adf-datatable-cell-value {
+        width: 100% !important;
       }
     }
 
