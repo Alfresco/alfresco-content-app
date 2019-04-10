@@ -94,5 +94,5 @@ $custom-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent);
 }
 
 //Custom variables - ACA specific styling:
-$document-list-thumbnailColor: mat-color($alfresco-ecm-blue, 500);
-$document-list-selection-color: white;
+$document-list-selection-color: mat-color($alfresco-ecm-blue, 500);
+$document-list-background: white;
