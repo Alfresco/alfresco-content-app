@@ -10,6 +10,7 @@
   $document-list-background: mat-color($background, background) !default;
   $document-list-text-color: mat-color($foreground, text, 0.54) !default;
   $document-list-name-text-color: mat-color($foreground, text) !default;
+  $document-list-thumbnail-width: 50px !default;
 
   .adf-datatable-list {
     border: none;
@@ -28,6 +29,10 @@
           max-width: 35vw;
         }
       }
+    }
+
+    .adf-datatable-cell--image {
+      max-width: $document-list-thumbnail-width;
     }
   }
 
