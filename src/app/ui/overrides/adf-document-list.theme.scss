@@ -10,16 +10,19 @@
   .adf-datatable-list {
     border: none;
 
-    .adf-datatable-link.adf-name-column {
-      color: mat-color($foreground, text);
+    .adf-datatable-link {
+      &.adf-name-column,
+      &.adf-library-name-column {
+        color: mat-color($foreground, text);
 
-      &:hover {
-        color: $document-list-thumbnailColor;
-      }
+        &:hover {
+          color: $document-list-thumbnailColor;
+        }
 
-      .adf-datatable-cell-value {
-        position: static;
-        max-width: 35vw;
+        .adf-datatable-cell-value {
+          position: static;
+          max-width: 35vw;
+        }
       }
     }
   }
