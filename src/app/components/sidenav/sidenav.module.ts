@@ -28,6 +28,8 @@ import { AppCreateMenuModule } from '../create-menu/create-menu.module';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
 import { RouterModule } from '@angular/router';
+import { ExtensionsModule } from '@alfresco/adf-extensions';
+import { CoreExtensionsModule } from '../../extensions/core.extensions.module';
 import { ExpansionPanelDirective } from './directives/expansion-panel.directive';
 import { MenuPanelDirective } from './directives/menu-panel.directive';
 import { CollapsedTemplateDirective } from './directives/collapsed-template.directive';
@@ -41,6 +43,8 @@ import { ActionDirective } from './directives/action.directive';
   imports: [
     CommonModule,
     CoreModule.forChild(),
+    CoreExtensionsModule.forRoot(),
+    ExtensionsModule.forRoot(),
     RouterModule,
     AppCreateMenuModule
   ],
