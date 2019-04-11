@@ -8,8 +8,9 @@ language: node_js
 node_js:
   - '10'
 env:
-  - SUITES_1=authentication,listViews,application,navigation,pagination
-  - SUITES_2=search,actions,viewer,infoDrawer,extensions
+  global:
+    - SUITES_1=authentication,listViews,application,navigation,pagination
+    - SUITES_2=search,actions,viewer,infoDrawer,extensions
 before_script:
   - sudo /etc/init.d/postgresql stop
 before_install:
