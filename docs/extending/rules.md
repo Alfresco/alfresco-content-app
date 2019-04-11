@@ -158,6 +158,7 @@ The button will be visible only when the linked rule evaluates to `true`.
 | 1.8.0 | canToggleJoinLibrary                | Checks if user can perform "Join" or "Cancel Join Request" on a library. |
 | 1.8.0 | canEditFolder                       | Checks if user can edit the selected folder.                             |
 | 1.8.0 | isTrashcanItemSelected              | Checks if user has trashcan item selected.                               |
+| 1.8.0 | canViewFile                         | Checks if user can view the file.                                        |
 
 ## Navigation Evaluators
 

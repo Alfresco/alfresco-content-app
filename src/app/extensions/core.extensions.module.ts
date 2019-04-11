@@ -113,6 +113,7 @@ export class CoreExtensionsModule {
       canToggleJoinLibrary: app.canToggleJoinLibrary,
       canEditFolder: app.canEditFolder,
       isTrashcanItemSelected: app.isTrashcanItemSelected,
+      canViewFile: app.canViewFile,
       'app.selection.canDelete': app.canDeleteSelection,
       'app.selection.file.canUnlock': app.canUnlockFile,
       'app.selection.file.canLock': app.canLockFile,

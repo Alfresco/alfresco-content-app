@@ -421,3 +421,14 @@ export function canUploadVersion(context: RuleContext): boolean {
 export function isTrashcanItemSelected(context: RuleContext): boolean {
   return [navigation.isTrashcan(context), hasSelection(context)].every(Boolean);
 }
+
+/**
+ * Checks if user can view the file.
+ * JSON ref: `canViewFile`
+ * @param context Rule execution context
+ */
+export function canViewFile(context: RuleContext): boolean {
+  return [hasFileSelected(context), navigation.isNotTrashcan(context)].every(
+    Boolean
+  );
+}

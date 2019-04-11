@@ -132,23 +132,6 @@
       ]
     },
     {
-      "id": "app.toolbar.canViewFile",
-      "type": "core.every",
-      "parameters": [
-        {
-          "type": "rule",
-          "value": "app.selection.file"
-        },
-        {
-          "type": "rule",
-          "value": "core.not",
-          "parameters": [
-            { "type": "rule", "value": "app.navigation.isTrashcan" }
-          ]
-        }
-      ]
-    },
-    {
       "id": "app.toolbar.canToggleLock",
       "type": "core.every",
       "parameters": [
@@ -376,7 +359,7 @@
           "click": "VIEW_FILE"
         },
         "rules": {
-          "visible": "app.toolbar.canViewFile"
+          "visible": "canViewFile"
         }
       },
       {
@@ -689,7 +672,7 @@
           "click": "VIEW_FILE"
         },
         "rules": {
-          "visible": "app.toolbar.canViewFile"
+          "visible": "canViewFile"
         }
       },
       {
@@ -886,7 +869,7 @@
             "click": "FULLSCREEN_VIEWER"
           },
           "rules": {
-            "visible": "app.toolbar.canViewFile"
+            "visible": "canViewFile"
           }
         },
         {
@@ -939,7 +922,7 @@
             "click": "PRINT_FILE"
           },
           "rules": {
-            "visible": "app.toolbar.canViewFile"
+            "visible": "canViewFile"
           }
         },
         {
