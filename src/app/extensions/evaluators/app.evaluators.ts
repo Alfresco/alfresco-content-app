@@ -432,3 +432,12 @@ export function canViewFile(context: RuleContext): boolean {
     Boolean
   );
 }
+
+/**
+ * Checks if user can **Leave** selected library.
+ * JSON ref: `canLeaveLibrary`
+ * @param context Rule execution context
+ */
+export function canLeaveLibrary(context: RuleContext): boolean {
+  return [hasLibrarySelected(context), hasLibraryRole(context)].every(Boolean);
+}

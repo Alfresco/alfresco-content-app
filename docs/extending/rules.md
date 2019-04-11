@@ -159,6 +159,7 @@ The button will be visible only when the linked rule evaluates to `true`.
 | 1.8.0 | canEditFolder                       | Checks if user can edit the selected folder.                             |
 | 1.8.0 | isTrashcanItemSelected              | Checks if user has trashcan item selected.                               |
 | 1.8.0 | canViewFile                         | Checks if user can view the file.                                        |
+| 1.8.0 | canLeaveLibrary                     | Checks if user can **Leave** selected library.                           |
 
 ## Navigation Evaluators
 

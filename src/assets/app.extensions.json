@@ -107,14 +107,6 @@
       ]
     },
     {
-      "id": "app.libraries.toolbar.canLeaveLibrary",
-      "type": "core.every",
-      "parameters": [
-        { "type": "rule", "value": "app.selection.library" },
-        { "type": "rule", "value": "app.selection.hasLibraryRole" }
-      ]
-    },
-    {
       "id": "app.toolbar.permissions",
       "type": "core.every",
       "parameters": [
@@ -416,7 +408,7 @@
           "click": "LEAVE_LIBRARY"
         },
         "rules": {
-          "visible": "app.libraries.toolbar.canLeaveLibrary"
+          "visible": "canLeaveLibrary"
         }
       },
       {
@@ -818,7 +810,7 @@
           "click": "LEAVE_LIBRARY"
         },
         "rules": {
-          "visible": "app.libraries.toolbar.canLeaveLibrary"
+          "visible": "canLeaveLibrary"
         }
       },
       {

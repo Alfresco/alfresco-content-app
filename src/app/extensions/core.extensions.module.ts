@@ -114,6 +114,7 @@ export class CoreExtensionsModule {
       canEditFolder: app.canEditFolder,
       isTrashcanItemSelected: app.isTrashcanItemSelected,
       canViewFile: app.canViewFile,
+      canLeaveLibrary: app.canLeaveLibrary,
       'app.selection.canDelete': app.canDeleteSelection,
       'app.selection.file.canUnlock': app.canUnlockFile,
       'app.selection.file.canLock': app.canLockFile,
