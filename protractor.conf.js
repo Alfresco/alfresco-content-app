@@ -51,7 +51,7 @@ exports.config = {
 
   suites: {
     authentication: './e2e/suites/authentication/*.test.ts',
-    listViews: './e2e/suites/listViews/*.test.ts',
+    listViews: './e2e/suites/list-views/*.test.ts',
     application: './e2e/suites/application/*.test.ts',
     navigation: './e2e/suites/navigation/*.test.ts',
     pagination: './e2e/suites/pagination/*.test.ts',
