@@ -37,6 +37,9 @@ script: |
     npm run build.tomcat.e2e && SUITE="--suite $SUITES" npm run docker.tomcat.e2e
   fi
 
+stages:
+  - name: Quality and Unit tests
+
 jobs:
   include:
     - stage: Quality and Unit tests
