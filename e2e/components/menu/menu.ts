@@ -82,16 +82,17 @@ export class Menu extends Component {
   }
 
   async waitForMenuToOpen() {
-    await browser.wait(EC.presenceOf(browser.element(by.css('.mat-menu-panel'))), BROWSER_WAIT_TIMEOUT);
+    await browser.wait(EC.presenceOf(browser.element(by.css('.cdk-overlay-container .mat-menu-panel'))), BROWSER_WAIT_TIMEOUT);
     await browser.wait(EC.visibilityOf(this.items.get(0)), BROWSER_WAIT_TIMEOUT);
   }
 
   async waitForMenuToClose() {
-    await browser.wait(EC.not(EC.presenceOf(browser.element(by.css('.mat-menu-panel')))), BROWSER_WAIT_TIMEOUT);
+    await browser.wait(EC.not(EC.presenceOf(browser.element(by.css('.cdk-overlay-container .mat-menu-panel')))), BROWSER_WAIT_TIMEOUT);
   }
 
   async closeMenu() {
-    return Utils.pressEscape();
+    await Utils.pressEscape();
+    await this.waitForMenuToClose();
   }
 
   getNthItem(nth: number) {
@@ -127,16 +128,21 @@ export class Menu extends Component {
   }
 
   async clickNthItem(nth: number) {
-    const elem = this.getNthItem(nth);
-    await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT);
-    await browser.actions().mouseMove(elem).click().perform();
-    await this.waitForMenuToClose();
+    try {
+      const elem = this.getNthItem(nth);
+      await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT, 'timeout waiting for menu item to be clickable');
+      await browser.actions().mouseMove(elem).perform();
+      await browser.actions().click().perform();
+      await this.waitForMenuToClose();
+    } catch (e) {
+      console.log('____ click nth menu item catch ___', e);
+    }
   }
 
   async clickMenuItem(menuItem: string) {
     try {
       const elem = this.getItemByLabel(menuItem);
-      await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT);
+      await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT, 'timeout waiting for menu item to be clickable');
       await elem.click();
     } catch (e) {
       console.log('___click menu item catch___', e);

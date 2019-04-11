@@ -1,21 +1,48 @@
 @import 'mixins';
 
 @mixin adf-document-list-theme($theme) {
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+  $primary: map-get($theme, primary);
+
+  $document-list-selection-color: mat-color($primary) !default;
+  $document-list-selection-background: #e0f7fa !default;
+  $document-list-background: mat-color($background, background) !default;
+  $document-list-text-color: mat-color($foreground, text, 0.54) !default;
+  $document-list-name-text-color: mat-color($foreground, text) !default;
+  $document-list-thumbnail-width: 50px !default;
+
   .adf-datatable-list {
     border: none;
 
-    .adf-datatable-cell-value {
-      max-width: calc(100% - 2em) !important;
-      width: auto !important;
+    .adf-datatable-link {
+      &.adf-name-column,
+      &.adf-library-name-column {
+        color: $document-list-name-text-color;
+
+        &:hover {
+          color: $document-list-selection-color;
+        }
+
+        .adf-datatable-cell-value {
+          position: static;
+          max-width: 35vw;
+        }
+      }
+    }
+
+    .adf-datatable-cell--image {
+      max-width: $document-list-thumbnail-width;
     }
   }
 
   .mat-icon.adf-datatable-selected > svg {
-    fill: #2196f3;
+    fill: $document-list-selection-color;
   }
 
   adf-document-list {
     @include flex-column;
+    background-color: $document-list-background;
   }
 
   .adf-datatable {
@@ -24,20 +51,31 @@
 
     .adf-datatable-cell-header,
     .adf-datatable-cell {
+      padding: 0 2px;
+      box-sizing: border-box;
+
       &:focus {
         outline: none !important;
       }
+
+      .adf-datatable-cell-value {
+        width: 100% !important;
+      }
+    }
+
+    .adf-datatable-cell {
+      color: $document-list-text-color;
     }
 
     .adf-datatable-body .adf-datatable-row {
       &:hover,
       &:focus {
-        background-color: #e0f7fa;
+        background-color: $document-list-selection-background;
       }
 
       &.adf-is-selected,
       &.adf-is-selected:hover {
-        background-color: #e0f7fa;
+        background-color: $document-list-selection-background;
       }
     }
 
