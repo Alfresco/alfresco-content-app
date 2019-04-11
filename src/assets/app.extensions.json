@@ -149,14 +149,6 @@
       ]
     },
     {
-      "id": "app.toolbar.canDownload",
-      "type": "core.every",
-      "parameters": [
-        { "type": "rule", "value": "app.selection.canDownload" },
-        { "type": "rule", "value": "app.navigation.isNotTrashcan" }
-      ]
-    },
-    {
       "id": "app.toolbar.canToggleLock",
       "type": "core.every",
       "parameters": [
@@ -396,7 +388,7 @@
           "click": "DOWNLOAD_NODES"
         },
         "rules": {
-          "visible": "app.toolbar.canDownload"
+          "visible": "app.selection.canDownload"
         }
       },
       {
@@ -685,7 +677,7 @@
           "click": "DOWNLOAD_NODES"
         },
         "rules": {
-          "visible": "app.toolbar.canDownload"
+          "visible": "app.selection.canDownload"
         }
       },
       {
@@ -935,7 +927,7 @@
             "click": "DOWNLOAD_NODES"
           },
           "rules": {
-            "visible": "app.toolbar.canDownload"
+            "visible": "app.selection.canDownload"
           }
         },
         {

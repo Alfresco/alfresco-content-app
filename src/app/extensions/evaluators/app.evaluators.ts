@@ -218,7 +218,7 @@ export function canUpload(context: RuleContext): boolean {
  * JSON ref: `app.selection.canDownload`
  */
 export function canDownloadSelection(context: RuleContext): boolean {
-  if (!context.selection.isEmpty) {
+  if (!context.selection.isEmpty && navigation.isNotTrashcan(context)) {
     return context.selection.nodes.every((node: any) => {
       return (
         node.entry &&
