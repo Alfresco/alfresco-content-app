@@ -109,6 +109,7 @@ export class CoreExtensionsModule {
     });
 
     extensions.setEvaluators({
+      'app.canCopyNode': app.canCopyNode,
       'app.selection.canDelete': app.canDeleteSelection,
       'app.selection.file.canUnlock': app.canUnlockFile,
       'app.selection.file.canLock': app.canLockFile,

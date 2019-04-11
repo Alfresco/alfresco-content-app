@@ -27,6 +27,19 @@ import { RuleContext } from '@alfresco/adf-extensions';
 import * as navigation from './navigation.evaluators';
 
 /**
+ * Checks if user can copy selected node.
+ * JSON ref: `app.canCopyNode`
+ * @param context Rule execution context
+ */
+export function canCopyNode(context: RuleContext): boolean {
+  return [
+    hasSelection(context),
+    navigation.isNotTrashcan(context),
+    navigation.isNotLibraries(context)
+  ].every(Boolean);
+}
+
+/**
  * Checks if user can mark selected nodes as **Favorite**.
  * JSON ref: `app.selection.canAddFavorite`
  */

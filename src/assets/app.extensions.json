@@ -144,15 +144,6 @@
       ]
     },
     {
-      "id": "app.toolbar.canCopyNode",
-      "type": "core.every",
-      "parameters": [
-        { "type": "rule", "value": "app.selection.notEmpty" },
-        { "type": "rule", "value": "app.navigation.isNotTrashcan" },
-        { "type": "rule", "value": "app.navigation.isNotLibraries" }
-      ]
-    },
-    {
       "id": "app.toolbar.permissions",
       "type": "core.every",
       "parameters": [
@@ -647,7 +638,7 @@
               "click": "COPY_NODES"
             },
             "rules": {
-              "visible": "app.toolbar.canCopyNode"
+              "visible": "app.canCopyNode"
             }
           },
           {
@@ -847,7 +838,7 @@
           "click": "COPY_NODES"
         },
         "rules": {
-          "visible": "app.toolbar.canCopyNode"
+          "visible": "app.canCopyNode"
         }
       },
       {
@@ -1123,7 +1114,7 @@
                 "click": "COPY_NODES"
               },
               "rules": {
-                "visible": "app.toolbar.canCopyNode"
+                "visible": "app.canCopyNode"
               }
             },
             {
