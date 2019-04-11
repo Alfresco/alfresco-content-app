@@ -80,38 +80,6 @@
         },
         { "type": "rule", "value": "app.navigation.isNotFavorites" }
       ]
-    },
-    {
-      "id": "app.toolbar.canToggleLock",
-      "type": "core.every",
-      "parameters": [
-        { "type": "rule", "value": "app.selection.file" },
-        { "type": "rule", "value": "app.navigation.isNotTrashcan" },
-        {
-          "type": "rule",
-          "value": "core.some",
-          "parameters": [
-            { "type": "rule", "value": "app.navigation.isNotFavorites" },
-            { "type": "rule", "value": "app.navigation.isFavoritesPreview" }
-          ]
-        },
-        {
-          "type": "rule",
-          "value": "core.some",
-          "parameters": [
-            { "type": "rule", "value": "app.navigation.isNotSharedFiles" },
-            { "type": "rule", "value": "app.navigation.isSharedPreview" }
-          ]
-        },
-        {
-          "type": "rule",
-          "value": "core.some",
-          "parameters": [
-            { "type": "rule", "value": "app.selection.file.canUnlock" },
-            { "type": "rule", "value": "app.selection.file.canLock" }
-          ]
-        }
-      ]
     }
   ],
 
@@ -405,7 +373,7 @@
             "type": "custom",
             "component": "app.toolbar.toggleEditOffline",
             "rules": {
-              "visible": "app.toolbar.canToggleLock"
+              "visible": "canToggleEditOffline"
             }
           },
           {
@@ -572,7 +540,7 @@
         "type": "custom",
         "component": "app.toolbar.toggleEditOffline",
         "rules": {
-          "visible": "app.toolbar.canToggleLock"
+          "visible": "canToggleEditOffline"
         }
       },
       {
@@ -902,7 +870,7 @@
               "type": "custom",
               "component": "app.toolbar.toggleEditOffline",
               "rules": {
-                "visible": "app.toolbar.canToggleLock"
+                "visible": "canToggleEditOffline"
               }
             },
             {

@@ -119,6 +119,7 @@ export class CoreExtensionsModule {
       canShowInfoDrawer: app.canShowInfoDrawer,
       canManageFileVersions: app.canManageFileVersions,
       canManagePermissions: app.canManagePermissions,
+      canToggleEditOffline: app.canToggleEditOffline,
 
       'app.selection.canDelete': app.canDeleteSelection,
       'app.selection.file.canUnlock': app.canUnlockFile,

@@ -479,11 +479,27 @@ export function canManageFileVersions(context: RuleContext): boolean {
 
 /**
  * Checks if user can manage permissions for the selected node.
+ * JSON ref: `canManagePermissions`
  * @param context Rule execution context
  */
 export function canManagePermissions(context: RuleContext): boolean {
   return [
     canUpdateSelectedNode(context),
     navigation.isNotTrashcan(context)
+  ].every(Boolean);
+}
+
+/**
+ * Checks if user can toggle **Edit Offline** mode for selected node.
+ * @param context Rule execution context
+ */
+export function canToggleEditOffline(context: RuleContext): boolean {
+  return [
+    hasFileSelected(context),
+    navigation.isNotTrashcan(context),
+    navigation.isNotFavorites(context) ||
+      navigation.isFavoritesPreview(context),
+    navigation.isNotSharedFiles(context) || navigation.isSharedPreview(context),
+    canLockFile(context) || canUnlockFile(context)
   ].every(Boolean);
 }
