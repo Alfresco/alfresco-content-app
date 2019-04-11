@@ -55,25 +55,10 @@
     },
     {
       "id": "app.context.canShare",
-      "type": "core.every",
+      "type": "core.some",
       "parameters": [
         { "type": "rule", "value": "app.selection.file.canShare" },
-        { "type": "rule", "value": "repository.isQuickShareEnabled" }
-      ]
-    },
-    {
-      "id": "app.toolbar.canShare",
-      "type": "core.every",
-      "parameters": [
-        { "type": "rule", "value": "app.selection.file.canShare" },
-        { "type": "rule", "value": "repository.isQuickShareEnabled" },
-        {
-          "type": "rule",
-          "value": "core.not",
-          "parameters": [
-            { "type": "rule", "value": "app.selection.file.isShared" }
-          ]
-        }
+        { "type": "rule", "value": "app.selection.file.isShared" }
       ]
     },
     {
@@ -429,7 +414,7 @@
           "click": "SHARE_NODE"
         },
         "rules": {
-          "visible": "app.toolbar.canShare"
+          "visible": "app.selection.file.canShare"
         }
       },
       {
@@ -980,7 +965,7 @@
             "click": "SHARE_NODE"
           },
           "rules": {
-            "visible": "app.toolbar.canShare"
+            "visible": "app.selection.file.canShare"
           }
         },
         {

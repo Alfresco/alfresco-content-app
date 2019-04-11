@@ -25,6 +25,7 @@
 
 import { RuleContext } from '@alfresco/adf-extensions';
 import * as navigation from './navigation.evaluators';
+import * as repository from './repository.evaluators';
 
 /**
  * Checks if user can copy selected node.
@@ -76,10 +77,12 @@ export function canRemoveFavorite(context: RuleContext): boolean {
  * JSON ref: `app.selection.file.canShare`
  */
 export function canShareFile(context: RuleContext): boolean {
-  if (navigation.isNotTrashcan(context) && context.selection.file) {
-    return true;
-  }
-  return false;
+  return [
+    context.selection.file,
+    navigation.isNotTrashcan(context),
+    repository.hasQuickShareEnabled(context),
+    !isShared(context)
+  ].every(Boolean);
 }
 
 /**
