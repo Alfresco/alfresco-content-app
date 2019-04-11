@@ -20,16 +20,6 @@ env:
     - DEPLOYMENT=Nginx SUITES=viewer
     - DEPLOYMENT=Nginx SUITES=infoDrawer
     - DEPLOYMENT=Nginx SUITES=extensions
-    - DEPLOYMENT=Tomcat SUITES=authentication
-    - DEPLOYMENT=Tomcat SUITES=listViews
-    - DEPLOYMENT=Tomcat SUITES=application
-    - DEPLOYMENT=Tomcat SUITES=navigation
-    - DEPLOYMENT=Tomcat SUITES=pagination
-    - DEPLOYMENT=Tomcat SUITES=search
-    - DEPLOYMENT=Tomcat SUITES=actions
-    - DEPLOYMENT=Tomcat SUITES=viewer
-    - DEPLOYMENT=Tomcat SUITES=infoDrawer
-    - DEPLOYMENT=Tomcat SUITES=extensions
 
 before_script:
   - sudo /etc/init.d/postgresql stop
@@ -49,7 +39,7 @@ script: |
 
 stages:
   - name: Quality and Unit tests
-  - name: test
+  - name: e2e
 
 jobs:
   include:
