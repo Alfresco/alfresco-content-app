@@ -38,9 +38,9 @@ import { AppExtensionService } from '../../extensions/extension.service';
 import { NavBarGroupRef } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states';
-import { ruleContext } from '../../store/selectors/app.selectors';
+import { sidenav } from '../../store/selectors/app.selectors';
 import { Subject } from 'rxjs';
-import { takeUntil, distinctUntilChanged, map } from 'rxjs/operators';
+import { takeUntil, distinctUntilChanged, debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sidenav',
@@ -68,9 +68,9 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.store
-      .select(ruleContext)
+      .select(sidenav)
       .pipe(
-        map(rules => rules.repository),
+        debounceTime(300),
         distinctUntilChanged(),
         takeUntil(this.onDestroy$)
       )
