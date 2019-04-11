@@ -165,7 +165,6 @@ The button will be visible only when the linked rule evaluates to `true`.
 | 1.8.0 | canManageFileVersions               | Checks if user can manage file versions for the selected node.           |
 | 1.8.0 | canManagePermissions                | Checks if user can manage permissions for the selected node.             |
 | 1.8.0 | canToggleEditOffline                | Checks if user can toggle **Edit Offline** mode for selected node.       |
-| 1.8.0 | canToggleFavorite                   | (deprecated) Checks if user can toggle **Favorite** state for a node.    |
 
 ## Navigation Evaluators
 
