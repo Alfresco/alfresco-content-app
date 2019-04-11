@@ -82,15 +82,6 @@
       ]
     },
     {
-      "id": "app.toolbar.info",
-      "type": "core.every",
-      "parameters": [
-        { "type": "rule", "value": "app.selection.notEmpty" },
-        { "type": "rule", "value": "app.navigation.isNotLibraries" },
-        { "type": "rule", "value": "app.navigation.isNotTrashcan" }
-      ]
-    },
-    {
       "id": "app.toolbar.permissions",
       "type": "core.every",
       "parameters": [
@@ -406,7 +397,7 @@
         "order": 700,
         "component": "app.toolbar.toggleInfoDrawer",
         "rules": {
-          "visible": "app.toolbar.info"
+          "visible": "canShowInfoDrawer"
         }
       },
       {
@@ -912,7 +903,7 @@
           "order": 500,
           "component": "app.toolbar.toggleInfoDrawer",
           "rules": {
-            "visible": "app.toolbar.info"
+            "visible": "canShowInfoDrawer"
           }
         },
         {

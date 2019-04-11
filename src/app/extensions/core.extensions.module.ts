@@ -116,6 +116,7 @@ export class CoreExtensionsModule {
       canViewFile: app.canViewFile,
       canLeaveLibrary: app.canLeaveLibrary,
       canToggleSharedLink: app.canToggleSharedLink,
+      canShowInfoDrawer: app.canShowInfoDrawer,
 
       'app.selection.canDelete': app.canDeleteSelection,
       'app.selection.file.canUnlock': app.canUnlockFile,

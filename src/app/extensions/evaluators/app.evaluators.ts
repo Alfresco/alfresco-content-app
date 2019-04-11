@@ -450,3 +450,16 @@ export function canLeaveLibrary(context: RuleContext): boolean {
 export function canToggleSharedLink(context: RuleContext): boolean {
   return [canShareFile(context), isShared(context)].some(Boolean);
 }
+
+/**
+ * Checks if user can show **Info Drawer** for the selected node.
+ * JSON ref: `canShowInfoDrawer`
+ * @param context Rule execution context
+ */
+export function canShowInfoDrawer(context: RuleContext): boolean {
+  return [
+    hasSelection(context),
+    navigation.isNotLibraries(context),
+    navigation.isNotTrashcan(context)
+  ].every(Boolean);
+}
