@@ -39,7 +39,6 @@ script: |
 
 stages:
   - name: Quality and Unit tests
-  - name: e2e
 
 jobs:
   include:
