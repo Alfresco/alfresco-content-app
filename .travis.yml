@@ -25,15 +25,15 @@ jobs:
         - npm run test:ci
         - bash <(curl -s https://codecov.io/bash) -X gcov
     - stage: e2e
-      name: 'Nginx testsuites $SUITES_1'
+      name: 'Nginx testsuites $SUITES'
       env: SUITES=authentication,listViews,application,navigation,pagination
       script: npm run build.e2e && SUITE="--suite $SUITES" npm run e2e:docker
-    - name: 'Nginx testsuites $SUITES_2'
+    - name: 'Nginx testsuites $SUITES'
       env: SUITES=search,actions,viewer,infoDrawer,extensions
-      script: npm run build.e2e && SUITE="--suite $SUITES_2" npm run e2e:docker
-    - name: 'Tomcat testsuites $SUITES_1'
+      script: npm run build.e2e && SUITE="--suite $SUITES" npm run e2e:docker
+    - name: 'Tomcat testsuites $SUITES'
       env: SUITES=authentication,listViews,application,navigation,pagination
       script: npm run build.tomcat.e2e && SUITE="--suite $SUITES" npm run docker.tomcat.e2e
-    - name: 'Tomcat testsuites $SUITES_2'
+    - name: 'Tomcat testsuites $SUITES'
       env: SUITES=search,actions,viewer,infoDrawer,extensions
-      script: npm run build.tomcat.e2e && SUITE="--suite $SUITES_2" npm run docker.tomcat.e2e
+      script: npm run build.tomcat.e2e && SUITE="--suite $SUITES" npm run docker.tomcat.e2e
