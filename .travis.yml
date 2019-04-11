@@ -30,12 +30,11 @@ before_install:
   - sh -e /etc/init.d/xvfb start
   - sleep 3
 
-script: |
-  if [ "$DEPLOYMENT" == "Nginx" ]; then
-    npm run build.e2e && SUITE="--suite $SUITES" npm run e2e:docker
-  else
-    npm run build.tomcat.e2e && SUITE="--suite $SUITES" npm run docker.tomcat.e2e
-  fi
+script:
+  - if [ "$DEPLOYMENT" == "Nginx" ];
+    then npm run build.e2e && SUITE="--suite $SUITES" npm run e2e:docker
+    else npm run build.tomcat.e2e && SUITE="--suite $SUITES" npm run docker.tomcat.e2e
+    fi
 
 stages:
   - name: Quality and Unit tests
