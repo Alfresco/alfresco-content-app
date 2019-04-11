@@ -146,15 +146,6 @@
       ]
     },
     {
-      "id": "app.toolbar.canEditFolder",
-      "type": "core.every",
-      "parameters": [
-        { "type": "rule", "value": "app.selection.folder" },
-        { "type": "rule", "value": "app.selection.folder.canUpdate" },
-        { "type": "rule", "value": "app.navigation.isNotTrashcan" }
-      ]
-    },
-    {
       "id": "app.toolbar.canViewFile",
       "type": "core.every",
       "parameters": [
@@ -592,7 +583,7 @@
               "click": "EDIT_FOLDER"
             },
             "rules": {
-              "visible": "app.toolbar.canEditFolder"
+              "visible": "canEditFolder"
             }
           },
           {
@@ -792,7 +783,7 @@
           "click": "EDIT_FOLDER"
         },
         "rules": {
-          "visible": "app.toolbar.canEditFolder"
+          "visible": "canEditFolder"
         }
       },
       {

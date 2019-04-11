@@ -111,6 +111,7 @@ export class CoreExtensionsModule {
     extensions.setEvaluators({
       canCopyNode: app.canCopyNode,
       canToggleJoinLibrary: app.canToggleJoinLibrary,
+      canEditFolder: app.canEditFolder,
       'app.selection.canDelete': app.canDeleteSelection,
       'app.selection.file.canUnlock': app.canUnlockFile,
       'app.selection.file.canLock': app.canLockFile,

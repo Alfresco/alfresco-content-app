@@ -156,6 +156,7 @@ The button will be visible only when the linked rule evaluates to `true`.
 | 1.7.0   | repository.isQuickShareEnabled      | Whether the quick share repository option is enabled or not.             |
 | 1.8.0   | canCopyNode                         | Checks if user can copy selected node.                                   |
 | 1.8.0   | canToggleJoinLibrary                | Checks if user can perform "Join" or "Cancel Join Request" on a library. |
+| 1.8.0   | canEditFolder                       | Checks if user can edit the selected folder.                             |
 
 ## Navigation Evaluators
 

@@ -98,6 +98,18 @@ export function canToggleJoinLibrary(context: RuleContext): boolean {
 }
 
 /**
+ * Checks if user can edit the selected folder.
+ * JSON ref: `canEditFolder`
+ * @param context Rule execution context
+ */
+export function canEditFolder(context: RuleContext): boolean {
+  return [
+    canUpdateSelectedFolder(context),
+    navigation.isNotTrashcan(context)
+  ].every(Boolean);
+}
+
+/**
  * Checks if the selected file is already shared.
  * JSON ref: `app.selection.file.isShared`
  */
