@@ -404,7 +404,11 @@ export function canUploadVersion(context: RuleContext): boolean {
     return true;
   }
 
-  return isWriteLocked(context)
-    ? isUserWriteLockOwner(context)
-    : canUpdateSelectedNode(context);
+  return [
+    hasFileSelected(context),
+    navigation.isNotTrashcan(context),
+    isWriteLocked(context)
+      ? isUserWriteLockOwner(context)
+      : canUpdateSelectedNode(context)
+  ].every(Boolean);
 }
