@@ -107,20 +107,6 @@
       ]
     },
     {
-      "id": "app.libraries.toolbar.canToggleJoin",
-      "type": "core.every",
-      "parameters": [
-        { "type": "rule", "value": "app.selection.library" },
-        { "type": "rule",
-          "value": "core.not",
-          "parameters": [
-            { "type": "rule", "value": "app.selection.isPrivateLibrary" }
-          ]
-        },
-        { "type": "rule", "value": "app.selection.hasNoLibraryRole" }
-      ]
-    },
-    {
       "id": "app.libraries.toolbar.canLeaveLibrary",
       "type": "core.every",
       "parameters": [
@@ -483,7 +469,7 @@
         "order": 600,
         "component": "app.toolbar.toggleJoinLibrary",
         "rules": {
-          "visible": "app.libraries.toolbar.canToggleJoin"
+          "visible": "canToggleJoinLibrary"
         }
       },
       {
@@ -885,7 +871,7 @@
         "order": 100,
         "component": "app.menu.toggleJoinLibrary",
         "rules": {
-          "visible": "app.libraries.toolbar.canToggleJoin"
+          "visible": "canToggleJoinLibrary"
         }
       },
       {

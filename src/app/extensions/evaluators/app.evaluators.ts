@@ -86,6 +86,18 @@ export function canShareFile(context: RuleContext): boolean {
 }
 
 /**
+ * Checks if user can perform "Join" or "Cancel Join Request" on a library.
+ * JSON ref: `canToggleJoinLibrary`
+ */
+export function canToggleJoinLibrary(context: RuleContext): boolean {
+  return [
+    hasLibrarySelected(context),
+    !isPrivateLibrary(context),
+    hasNoLibraryRole(context)
+  ].every(Boolean);
+}
+
+/**
  * Checks if the selected file is already shared.
  * JSON ref: `app.selection.file.isShared`
  */
