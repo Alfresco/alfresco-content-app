@@ -476,3 +476,14 @@ export function canManageFileVersions(context: RuleContext): boolean {
     !hasLockedFiles(context)
   ].every(Boolean);
 }
+
+/**
+ * Checks if user can manage permissions for the selected node.
+ * @param context Rule execution context
+ */
+export function canManagePermissions(context: RuleContext): boolean {
+  return [
+    canUpdateSelectedNode(context),
+    navigation.isNotTrashcan(context)
+  ].every(Boolean);
+}

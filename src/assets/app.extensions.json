@@ -82,14 +82,6 @@
       ]
     },
     {
-      "id": "app.toolbar.permissions",
-      "type": "core.every",
-      "parameters": [
-        { "type": "rule", "value": "app.selection.first.canUpdate" },
-        { "type": "rule", "value": "app.navigation.isNotTrashcan" }
-      ]
-    },
-    {
       "id": "app.toolbar.canToggleLock",
       "type": "core.every",
       "parameters": [
@@ -555,7 +547,7 @@
               "click": "MANAGE_PERMISSIONS"
             },
             "rules": {
-              "visible": "app.toolbar.permissions"
+              "visible": "canManagePermissions"
             }
           },
           {
@@ -755,7 +747,7 @@
           "click": "MANAGE_PERMISSIONS"
         },
         "rules": {
-          "visible": "app.toolbar.permissions"
+          "visible": "canManagePermissions"
         }
       },
       {
@@ -1032,7 +1024,7 @@
                 "click": "MANAGE_PERMISSIONS"
               },
               "rules": {
-                "visible": "app.toolbar.permissions"
+                "visible": "canManagePermissions"
               }
             }
           ]
