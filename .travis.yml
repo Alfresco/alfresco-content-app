@@ -7,6 +7,9 @@ addons:
 language: node_js
 node_js:
   - '10'
+env:
+  - SUITES_1=authentication,listViews,application,navigation,pagination
+  - SUITES_2=search,actions,viewer,infoDrawer,extensions
 before_script:
   - sudo /etc/init.d/postgresql stop
 before_install:
@@ -20,14 +23,16 @@ jobs:
       name: 'Code quality checks'
       script:
         - npm run lint
-    - stage: test
-      name: 'Unit tests'
+    - name: 'Unit tests'
       script:
         - npm run test:ci
         - bash <(curl -s https://codecov.io/bash) -X gcov
     - stage: e2e
-      name: 'Nginx'
-      script: npm run build.e2e && npm run e2e:docker
-    - stage: e2e
-      name: 'Tomcat'
-      script: npm run build.tomcat.e2e && npm run docker.tomcat.e2e
+      name: 'Nginx testsuites $SUITES_1'
+      script: npm run build.e2e && SUITE="--suite $SUITES_1" npm run e2e:docker
+    - name: 'Nginx testsuites $SUITES_2'
+      script: npm run build.e2e && SUITE="--suite $SUITES_2" npm run e2e:docker
+    - name: 'Tomcat testsuites $SUITES_1'
+      script: npm run build.tomcat.e2e && SUITE="--suite $SUITES_1" npm run docker.tomcat.e2e
+    - name: 'Tomcat testsuites $SUITES_2'
+      script: npm run build.tomcat.e2e && SUITE="--suite $SUITES_2" npm run docker.tomcat.e2e

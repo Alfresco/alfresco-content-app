@@ -49,6 +49,19 @@ exports.config = {
     './e2e/suites/extensions/*.test.ts'
   ],
 
+  suites: {
+    authentication: './e2e/suites/authentication/*.test.ts',
+    listViews: './e2e/suites/listViews/*.test.ts',
+    application: './e2e/suites/application/*.test.ts',
+    navigation: './e2e/suites/navigation/*.test.ts',
+    pagination: './e2e/suites/pagination/*.test.ts',
+    search: './e2e/suites/search/*.test.ts',
+    actions: './e2e/suites/actions/*.test.ts',
+    viewer: './e2e/suites/viewer/*.test.ts',
+    infoDrawer: './e2e/suites/info-drawer/*.test.ts',
+    extensions: './e2e/suites/extensions/*.test.ts'
+  },
+
   SELENIUM_PROMISE_MANAGER: true,
 
   capabilities: {
