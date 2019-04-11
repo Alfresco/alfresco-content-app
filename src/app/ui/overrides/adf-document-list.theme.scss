@@ -27,12 +27,18 @@
         .adf-datatable-cell-value {
           position: static;
           max-width: 35vw;
+
+          @include layout-bp(lt-sm) {
+            position: absolute;
+            max-width: 85vw;
+          }
         }
       }
     }
 
     .adf-datatable-cell--image {
       max-width: $document-list-thumbnail-width;
+      width: $document-list-thumbnail-width;
     }
   }
 
@@ -60,6 +66,7 @@
 
       .adf-datatable-cell-value {
         width: 100% !important;
+        white-space: nowrap;
       }
     }
 
