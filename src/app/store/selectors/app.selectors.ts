@@ -103,6 +103,17 @@ export const isAdmin = createSelector(
   state => state.user.isAdmin
 );
 
+export const sidenav = createSelector(
+  appSelection,
+  appNavigation,
+  (selection, navigation) => {
+    return {
+      selection,
+      navigation
+    };
+  }
+);
+
 export const ruleContext = createSelector(
   appSelection,
   appNavigation,
