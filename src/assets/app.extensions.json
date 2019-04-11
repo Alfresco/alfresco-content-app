@@ -128,21 +128,7 @@
       "parameters": [
         { "type": "rule", "value": "app.selection.file" },
         { "type": "rule", "value": "app.navigation.isNotTrashcan" },
-        {
-          "type": "rule",
-          "value": "core.not",
-          "parameters": [
-            { "type": "rule", "value": "app.selection.file.isLocked" }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "app.trashcan.hasSelection",
-      "type": "core.every",
-      "parameters": [
-        { "type": "rule", "value": "app.selection.notEmpty" },
-        { "type": "rule", "value": "app.navigation.isTrashcan" }
+        { "type": "rule", "value": "!app.selection.file.isLocked" }
       ]
     },
     {
@@ -430,7 +416,7 @@
           "click": "PURGE_DELETED_NODES"
         },
         "rules": {
-          "visible": "app.trashcan.hasSelection"
+          "visible": "isTrashcanItemSelected"
         }
       },
       {
@@ -442,7 +428,7 @@
           "click": "RESTORE_DELETED_NODES"
         },
         "rules": {
-          "visible": "app.trashcan.hasSelection"
+          "visible": "isTrashcanItemSelected"
         }
       },
       {
@@ -889,7 +875,7 @@
           "click": "PURGE_DELETED_NODES"
         },
         "rules": {
-          "visible": "app.trashcan.hasSelection"
+          "visible": "isTrashcanItemSelected"
         }
       },
       {
@@ -901,7 +887,7 @@
           "click": "RESTORE_DELETED_NODES"
         },
         "rules": {
-          "visible": "app.trashcan.hasSelection"
+          "visible": "isTrashcanItemSelected"
         }
       }
     ],

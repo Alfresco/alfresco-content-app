@@ -412,3 +412,12 @@ export function canUploadVersion(context: RuleContext): boolean {
       : canUpdateSelectedNode(context)
   ].every(Boolean);
 }
+
+/**
+ * Checks if user has trashcan item selected.
+ * JSON ref: `isTrashcanItemSelected`
+ * @param context Rule execution context
+ */
+export function isTrashcanItemSelected(context: RuleContext): boolean {
+  return [navigation.isTrashcan(context), hasSelection(context)].every(Boolean);
+}
