@@ -491,6 +491,7 @@ export function canManagePermissions(context: RuleContext): boolean {
 
 /**
  * Checks if user can toggle **Edit Offline** mode for selected node.
+ * JSON ref: `canToggleEditOffline`
  * @param context Rule execution context
  */
 export function canToggleEditOffline(context: RuleContext): boolean {
@@ -501,5 +502,22 @@ export function canToggleEditOffline(context: RuleContext): boolean {
       navigation.isFavoritesPreview(context),
     navigation.isNotSharedFiles(context) || navigation.isSharedPreview(context),
     canLockFile(context) || canUnlockFile(context)
+  ].every(Boolean);
+}
+
+/**
+ * @deprecated Uses workarounds for for recent files and search api issues.
+ * Checks if user can toggle **Favorite** state for a node.
+ * @param context Rule execution context
+ */
+export function canToggleFavorite(context: RuleContext): boolean {
+  return [
+    [canAddFavorite(context), canRemoveFavorite(context)].some(Boolean),
+    [
+      navigation.isRecentFiles(context),
+      navigation.isSharedFiles(context),
+      navigation.isSearchResults(context),
+      navigation.isFavorites(context)
+    ].some(Boolean)
   ].every(Boolean);
 }

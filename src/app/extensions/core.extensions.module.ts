@@ -120,6 +120,7 @@ export class CoreExtensionsModule {
       canManageFileVersions: app.canManageFileVersions,
       canManagePermissions: app.canManagePermissions,
       canToggleEditOffline: app.canToggleEditOffline,
+      canToggleFavorite: app.canToggleFavorite,
 
       'app.selection.canDelete': app.canDeleteSelection,
       'app.selection.file.canUnlock': app.canUnlockFile,
