@@ -24,16 +24,7 @@
  */
 
 import { RuleContext } from '@alfresco/adf-extensions';
-import {
-  isNotTrashcan,
-  isNotLibraries,
-  isFavorites,
-  isLibraries,
-  isTrashcan,
-  isSharedFiles,
-  isNotSearchResults,
-  isPreview
-} from './navigation.evaluators';
+import * as navigation from './navigation.evaluators';
 
 /**
  * Checks if user can mark selected nodes as **Favorite**.
@@ -41,7 +32,11 @@ import {
  */
 export function canAddFavorite(context: RuleContext): boolean {
   if (!context.selection.isEmpty) {
-    if (isFavorites(context) || isLibraries(context) || isTrashcan(context)) {
+    if (
+      navigation.isFavorites(context) ||
+      navigation.isLibraries(context) ||
+      navigation.isTrashcan(context)
+    ) {
       return false;
     }
     return context.selection.nodes.some(node => !node.entry.isFavorite);
@@ -54,8 +49,8 @@ export function canAddFavorite(context: RuleContext): boolean {
  * JSON ref: `app.selection.canRemoveFavorite`
  */
 export function canRemoveFavorite(context: RuleContext): boolean {
-  if (!context.selection.isEmpty && !isTrashcan(context)) {
-    if (isFavorites(context)) {
+  if (!context.selection.isEmpty && !navigation.isTrashcan(context)) {
+    if (navigation.isFavorites(context)) {
       return true;
     }
     return context.selection.nodes.every(node => node.entry.isFavorite);
@@ -68,7 +63,7 @@ export function canRemoveFavorite(context: RuleContext): boolean {
  * JSON ref: `app.selection.file.canShare`
  */
 export function canShareFile(context: RuleContext): boolean {
-  if (isNotTrashcan(context) && context.selection.file) {
+  if (navigation.isNotTrashcan(context) && context.selection.file) {
     return true;
   }
   return false;
@@ -79,12 +74,12 @@ export function canShareFile(context: RuleContext): boolean {
  * JSON ref: `app.selection.file.isShared`
  */
 export function isShared(context: RuleContext): boolean {
-  if (isSharedFiles(context) && !context.selection.isEmpty) {
+  if (navigation.isSharedFiles(context) && !context.selection.isEmpty) {
     return true;
   }
 
   if (
-    (isNotTrashcan(context),
+    (navigation.isNotTrashcan(context),
     !context.selection.isEmpty && context.selection.file)
   ) {
     return !!(
@@ -103,9 +98,9 @@ export function isShared(context: RuleContext): boolean {
  */
 export function canDeleteSelection(context: RuleContext): boolean {
   if (
-    isNotTrashcan(context) &&
-    isNotLibraries(context) &&
-    isNotSearchResults(context) &&
+    navigation.isNotTrashcan(context) &&
+    navigation.isNotLibraries(context) &&
+    navigation.isNotSearchResults(context) &&
     !context.selection.isEmpty
   ) {
     if (hasLockedFiles(context)) {
@@ -113,16 +108,16 @@ export function canDeleteSelection(context: RuleContext): boolean {
     }
 
     // temp workaround for Search api
-    if (isFavorites(context)) {
+    if (navigation.isFavorites(context)) {
       return true;
     }
 
-    if (isPreview(context)) {
+    if (navigation.isPreview(context)) {
       return context.permissions.check(context.selection.nodes, ['delete']);
     }
 
     // workaround for Shared Files
-    if (isSharedFiles(context)) {
+    if (navigation.isSharedFiles(context)) {
       return context.permissions.check(context.selection.nodes, ['delete'], {
         target: 'allowableOperationsOnTarget'
       });
@@ -279,7 +274,7 @@ export function canUpdateSelectedFolder(context: RuleContext): boolean {
   if (folder) {
     return (
       // workaround for Favorites Api
-      isFavorites(context) ||
+      navigation.isFavorites(context) ||
       context.permissions.check(folder.entry, ['update'])
     );
   }
@@ -365,7 +360,7 @@ export function canUnlockFile(context: RuleContext): boolean {
  * JSON ref: `app.selection.file.canUploadVersion`
  */
 export function canUploadVersion(context: RuleContext): boolean {
-  if (isFavorites(context) || isSharedFiles(context)) {
+  if (navigation.isFavorites(context) || navigation.isSharedFiles(context)) {
     return true;
   }
 
