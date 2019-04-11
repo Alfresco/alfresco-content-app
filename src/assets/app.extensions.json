@@ -157,14 +157,6 @@
       ]
     },
     {
-      "id": "app.toolbar.canDelete",
-      "type": "core.every",
-      "parameters": [
-        { "type": "rule", "value": "app.selection.canDelete" },
-        { "type": "rule", "value": "app.navigation.isNotTrashcan" }
-      ]
-    },
-    {
       "id": "app.toolbar.canToggleLock",
       "type": "core.every",
       "parameters": [
@@ -589,7 +581,7 @@
               "click": "MOVE_NODES"
             },
             "rules": {
-              "visible": "app.toolbar.canDelete"
+              "visible": "app.selection.canDelete"
             }
           },
           {
@@ -601,7 +593,7 @@
               "click": "DELETE_NODES"
             },
             "rules": {
-              "visible": "app.toolbar.canDelete"
+              "visible": "app.selection.canDelete"
             }
           },
           {
@@ -789,7 +781,7 @@
           "click": "MOVE_NODES"
         },
         "rules": {
-          "visible": "app.toolbar.canDelete"
+          "visible": "app.selection.canDelete"
         }
       },
       {
@@ -801,7 +793,7 @@
           "click": "DELETE_NODES"
         },
         "rules": {
-          "visible": "app.toolbar.canDelete"
+          "visible": "app.selection.canDelete"
         }
       },
       {
@@ -1065,7 +1057,7 @@
                 "click": "MOVE_NODES"
               },
               "rules": {
-                "visible": "app.toolbar.canDelete"
+                "visible": "app.selection.canDelete"
               }
             },
             {
@@ -1077,7 +1069,7 @@
                 "click": "DELETE_NODES"
               },
               "rules": {
-                "visible": "app.toolbar.canDelete"
+                "visible": "app.selection.canDelete"
               }
             },
             {
