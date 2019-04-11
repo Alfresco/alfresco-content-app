@@ -54,14 +54,6 @@
       ]
     },
     {
-      "id": "app.context.canShare",
-      "type": "core.some",
-      "parameters": [
-        { "type": "rule", "value": "app.selection.file.canShare" },
-        { "type": "rule", "value": "app.selection.file.isShared" }
-      ]
-    },
-    {
       "id": "app.toolbar.favorite.canAdd",
       "type": "core.every",
       "parameters": [
@@ -632,7 +624,7 @@
         "order": 400,
         "component": "app.shared-link.toggleSharedLink",
         "rules": {
-          "visible": "app.context.canShare"
+          "visible": "canToggleSharedLink"
         }
       },
       {

@@ -441,3 +441,12 @@ export function canViewFile(context: RuleContext): boolean {
 export function canLeaveLibrary(context: RuleContext): boolean {
   return [hasLibrarySelected(context), hasLibraryRole(context)].every(Boolean);
 }
+
+/**
+ * Checks if user can toggle shared link mode.
+ * JSON ref: `canToggleSharedLink`
+ * @param context Rule execution context
+ */
+export function canToggleSharedLink(context: RuleContext): boolean {
+  return [canShareFile(context), isShared(context)].some(Boolean);
+}
