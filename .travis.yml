@@ -7,6 +7,9 @@ addons:
 language: node_js
 node_js:
   - '10'
+env:
+  - SUITES=authentication,listViews,application,navigation,pagination
+  - SUITES=search,actions,viewer,infoDrawer,extensions
 before_script:
   - sudo /etc/init.d/postgresql stop
 before_install:
@@ -26,14 +29,14 @@ jobs:
         - bash <(curl -s https://codecov.io/bash) -X gcov
     - stage: e2e
       name: 'Nginx'
-      env: SUITES=authentication,listViews,application,navigation,pagination
+      # env: SUITES=authentication,listViews,application,navigation,pagination
       script: npm run build.e2e && SUITE="--suite $SUITES" npm run e2e:docker
-    - name: 'Nginx'
-      env: SUITES=search,actions,viewer,infoDrawer,extensions
-      script: npm run build.e2e && SUITE="--suite $SUITES" npm run e2e:docker
+    # - name: 'Nginx'
+    #   env: SUITES=search,actions,viewer,infoDrawer,extensions
+    #   script: npm run build.e2e && SUITE="--suite $SUITES" npm run e2e:docker
     - name: 'Tomcat'
-      env: SUITES=authentication,listViews,application,navigation,pagination
+      # env: SUITES=authentication,listViews,application,navigation,pagination
       script: npm run build.tomcat.e2e && SUITE="--suite $SUITES" npm run docker.tomcat.e2e
-    - name: 'Tomcat'
-      env: SUITES=search,actions,viewer,infoDrawer,extensions
-      script: npm run build.tomcat.e2e && SUITE="--suite $SUITES" npm run docker.tomcat.e2e
+    # - name: 'Tomcat'
+    #   env: SUITES=search,actions,viewer,infoDrawer,extensions
+    #   script: npm run build.tomcat.e2e && SUITE="--suite $SUITES" npm run docker.tomcat.e2e
