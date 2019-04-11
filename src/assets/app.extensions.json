@@ -90,15 +90,6 @@
       ]
     },
     {
-      "id": "app.toolbar.versions",
-      "type": "core.every",
-      "parameters": [
-        { "type": "rule", "value": "app.selection.file" },
-        { "type": "rule", "value": "app.navigation.isNotTrashcan" },
-        { "type": "rule", "value": "!app.selection.file.isLocked" }
-      ]
-    },
-    {
       "id": "app.toolbar.canToggleLock",
       "type": "core.every",
       "parameters": [
@@ -552,7 +543,7 @@
               "click": "MANAGE_VERSIONS"
              },
              "rules": {
-              "visible": "app.toolbar.versions"
+                "visible": "canManageFileVersions"
               }
           },
           {
@@ -752,7 +743,7 @@
           "click": "MANAGE_VERSIONS"
         },
         "rules": {
-          "visible": "app.toolbar.versions"
+          "visible": "canManageFileVersions"
         }
       },
       {
@@ -1029,7 +1020,7 @@
                 "click": "MANAGE_VERSIONS"
               },
               "rules": {
-                "visible": "app.toolbar.versions"
+                "visible": "canManageFileVersions"
               }
             },
             {

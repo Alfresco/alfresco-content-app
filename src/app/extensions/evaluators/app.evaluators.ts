@@ -463,3 +463,16 @@ export function canShowInfoDrawer(context: RuleContext): boolean {
     navigation.isNotTrashcan(context)
   ].every(Boolean);
 }
+
+/**
+ * Checks if user can manage file versions for the selected node.
+ * JSON ref: `canManageFileVersions`
+ * @param context Rule execution context
+ */
+export function canManageFileVersions(context: RuleContext): boolean {
+  return [
+    hasFileSelected(context),
+    navigation.isNotTrashcan(context),
+    !hasLockedFiles(context)
+  ].every(Boolean);
+}
