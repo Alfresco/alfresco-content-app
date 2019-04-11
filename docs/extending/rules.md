@@ -154,7 +154,7 @@ The button will be visible only when the linked rule evaluates to `true`.
 | 1.7.0   | app.selection.file.canLock          | User has permissions to lock file.                           |
 | 1.7.0   | app.selection.file.canUnlock        | User has permissions to unlock file.                         |
 | 1.7.0   | repository.isQuickShareEnabled      | Whether the quick share repository option is enabled or not. |
-| 1.8.0   | app.canCopyNode                     | Checks if user can copy selected node.                       |
+| 1.8.0   | canCopyNode                         | Checks if user can copy selected node.                       |
 
 ## Navigation Evaluators
 

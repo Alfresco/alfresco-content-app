@@ -638,7 +638,7 @@
               "click": "COPY_NODES"
             },
             "rules": {
-              "visible": "app.canCopyNode"
+              "visible": "canCopyNode"
             }
           },
           {
@@ -838,7 +838,7 @@
           "click": "COPY_NODES"
         },
         "rules": {
-          "visible": "app.canCopyNode"
+          "visible": "canCopyNode"
         }
       },
       {
@@ -1114,7 +1114,7 @@
                 "click": "COPY_NODES"
               },
               "rules": {
-                "visible": "app.canCopyNode"
+                "visible": "canCopyNode"
               }
             },
             {
