@@ -21,7 +21,7 @@ env:
     - DEPLOYMENT=Nginx SUITES=navigation
     - DEPLOYMENT=Nginx SUITES=pagination
     - DEPLOYMENT=Nginx SUITES=search
-    - DEPLOYMENT=Nginx SUITES=actions
+    # - DEPLOYMENT=Nginx SUITES=actions
     - DEPLOYMENT=Nginx SUITES=viewer
     - DEPLOYMENT=Nginx SUITES=infoDrawer
     - DEPLOYMENT=Nginx SUITES=extensions
@@ -39,9 +39,9 @@ before_install:
 
 script: |
   if [ "$DEPLOYMENT" == "Nginx" ]; then
-    npm run build.e2e && SUITE="--suite $SUITES" npm run e2e:docker
+    SUITE="--suite $SUITES" npm run e2e:docker
   else
-    npm run build.tomcat.e2e && SUITE="--suite $SUITES" npm run docker.tomcat.e2e
+    SUITE="--suite $SUITES" npm run docker.tomcat.e2e
   fi
 
 stages:
@@ -61,9 +61,9 @@ jobs:
       script:
         - |
           if [ "$DEPLOYMENT" == "Nginx" ]; then
-            ;
+            npm run build.e2e
           else
-            cd docker/tomcat
+            npm run build.tomcat.e2e && cd docker/tomcat
           fi
           docker-compose up -d --build && npm run wait:app
         - |
