@@ -40,15 +40,15 @@ script: |
   # Set test suites
   SUITE="--suite $SUITES"
   if [ "$DEPLOYMENT" == "Nginx" ]; then
-    cp -a $HOME/distnginx/ dist;
-    ls $HOME/distnginx;
-    ls dist;
-    npm run e2e:docker;
+    cp -a $HOME/distnginx/. dist/
+    ls $HOME/distnginx
+    ls dist
+    npm run e2e:docker
   else
-    cp -a $HOME/disttomcat/ dist;
-    ls $HOME/disttomcat;
-    ls dist;
-    npm run docker.tomcat.e2e;
+    cp -a $HOME/disttomcat/. dist/
+    ls $HOME/disttomcat
+    ls dist
+    npm run docker.tomcat.e2e
   fi
 
 stages:
@@ -68,13 +68,13 @@ jobs:
       script: true
       install:
         - npm run build.e2e
-        - cp -a dist/ $HOME/distnginx
+        - cp -a dist/. $HOME/distnginx/
         - ls $HOME/distnginx;
         - ls dist;
     - name: Prepare tomcat dist cache
       script: true
       install:
         - npm run build.tomcat.e2e
-        - cp -a dist/ $HOME/disttomcat
+        - cp -a dist/. $HOME/disttomcat/
         - ls $HOME/disttomcat;
         - ls dist;
