@@ -29,8 +29,6 @@ env:
 
 before_script:
   - sudo /etc/init.d/postgresql stop
-  # Load cached docker images
-  - if [[ -d $HOME/docker ]]; then ls $HOME/docker/*.tar.gz | xargs -I {file} sh -c "zcat {file} | docker load"; fi
 
 before_install:
   - npm install -g npm@latest
@@ -40,7 +38,7 @@ before_install:
 
 matrix:
   include:
-    - name: e2e
+    - name: 'e2e'
       script: |
         # Set test suites
         SUITE="--suite $SUITES"
@@ -56,12 +54,12 @@ matrix:
           npm run docker.tomcat.e2e
         fi
 
-script: |
-  # Prepare cache
-  npm run build.e2e
-  cp -a dist $HOME/distnginx
-  npm run build.tomcat.e2e
-  cp -a dist $HOME/disttomcat
+# script: |
+#   # Prepare cache
+#   npm run build.e2e
+#   cp -a dist $HOME/distnginx
+#   npm run build.tomcat.e2e
+#   cp -a dist $HOME/disttomcat
 
 stages:
   - name: Quality and Unit tests
@@ -76,3 +74,10 @@ jobs:
       script:
         - npm run test:ci
         - bash <(curl -s https://codecov.io/bash) -X gcov
+    - name: Prepare cache
+      script: true
+      install:
+        - npm run build.e2e
+        - cp -a dist $HOME/distnginx
+        - npm run build.tomcat.e2e
+        - cp -a dist $HOME/disttomcat
