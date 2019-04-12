@@ -36,7 +36,7 @@ before_install:
   - sh -e /etc/init.d/xvfb start
   - sleep 3
 
-after_script: |
+after_success: |
   # Set test suites
   SUITE="--suite $SUITES"
   if [ "$DEPLOYMENT" == "Nginx" ]; then
@@ -58,21 +58,21 @@ jobs:
   include:
     - stage: Quality and Unit tests
       name: Code quality checks
-      script: false
+      after_success: false
       install:
         - npm run lint
     - name: Unit tests
-      script: false
+      after_success: false
       install:
         - npm run test:ci
         - bash <(curl -s https://codecov.io/bash) -X gcov
     - name: Prepare nginx dist cache
-      script: true
+      after_success: false
       install:
         - npm run build.e2e
         - cp -a dist $HOME/distnginx
     - name: Prepare tomcat dist cache
-      script: true
+      after_success: false
       install:
         - npm run build.tomcat.e2e
         - cp -a dist $HOME/disttomcat
