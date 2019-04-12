@@ -302,6 +302,7 @@ describe('app.evaluators', () => {
           check: () => (checked = true)
         },
         selection: {
+          file: {},
           isEmpty: false,
           nodes: [
             {
