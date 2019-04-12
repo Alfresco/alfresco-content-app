@@ -38,7 +38,7 @@ import { AppExtensionService } from '../../extensions/extension.service';
 import { NavBarGroupRef } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states';
-import { sidenav } from '../../store/selectors/app.selectors';
+import { sidenavState } from '../../store/selectors/app.selectors';
 import { Subject } from 'rxjs';
 import { takeUntil, distinctUntilChanged, debounceTime } from 'rxjs/operators';
 
@@ -68,7 +68,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.store
-      .select(sidenav)
+      .select(sidenavState)
       .pipe(
         debounceTime(300),
         distinctUntilChanged(),

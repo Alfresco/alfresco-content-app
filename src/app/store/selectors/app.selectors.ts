@@ -103,7 +103,7 @@ export const isAdmin = createSelector(
   state => state.user.isAdmin
 );
 
-export const sidenav = createSelector(
+export const sidenavState = createSelector(
   appSelection,
   appNavigation,
   (selection, navigation) => {
