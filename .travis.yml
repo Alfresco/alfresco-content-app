@@ -11,6 +11,8 @@ node_js:
 cache:
   bundler: true
   directories:
+    - node_modules
+    - dist
     - $HOME/docker
     - $HOME/dist
 
@@ -40,7 +42,7 @@ before_install:
 
 script: |
   # Copy cached dist
-  cp -a $HOME/dist dist
+  # cp -a $HOME/dist dist
   # Set test suites
   SUITE="--suite $SUITES"
   if [ "$DEPLOYMENT" == "Nginx" ]; then
@@ -70,7 +72,7 @@ jobs:
           else
             npm run build.tomcat.e2e
           fi
-          cp -a dist $HOME/dist
+          # cp -a dist $HOME/dist
     # - name: Cache docker images
     #   script:
     #     - |
