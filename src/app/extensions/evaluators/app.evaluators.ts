@@ -284,8 +284,10 @@ export function hasNoLibraryRole(context: RuleContext): boolean {
  * JSON ref: `app.selection.file`
  */
 export function hasFileSelected(context: RuleContext): boolean {
-  const file = context.selection.file;
-  return file ? true : false;
+  if (context && context.selection && context.selection.file) {
+    return true;
+  }
+  return false;
 }
 
 /**
