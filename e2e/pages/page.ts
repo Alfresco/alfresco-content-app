@@ -56,22 +56,22 @@ export abstract class Page {
 
   constructor(public url: string = '') {}
 
-  getTitle() {
-    return browser.getTitle();
+  async getTitle() {
+    return await browser.getTitle();
   }
 
-  load(relativeUrl: string = '') {
+  async load(relativeUrl: string = '') {
     const hash = USE_HASH_STRATEGY ? '/#' : '';
     const path = `${browser.baseUrl}${hash}${this.url}${relativeUrl}`;
-    return browser.get(path);
+    return await browser.get(path);
   }
 
-  waitForApp() {
-    return browser.wait(EC.presenceOf(this.layout), BROWSER_WAIT_TIMEOUT);
+  async waitForApp() {
+    return await browser.wait(EC.presenceOf(this.layout), BROWSER_WAIT_TIMEOUT);
   }
 
-  waitForSnackBarToAppear() {
-    return browser.wait(until.elementLocated(by.css('.mat-snack-bar-container')), BROWSER_WAIT_TIMEOUT, '------- timeout waiting for snackbar to appear');
+  async waitForSnackBarToAppear() {
+    return await browser.wait(until.elementLocated(by.css('.mat-snack-bar-container')), BROWSER_WAIT_TIMEOUT, '------- timeout waiting for snackbar to appear');
   }
 
   async waitForSnackBarToClose() {
