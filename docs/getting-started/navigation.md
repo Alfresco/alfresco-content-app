@@ -186,4 +186,28 @@ Map the `/custom-route` in `app.routes.ts` as a child of `LayoutComponent` defin
 
 ![](../images/navigation-03.png)
 
+### Rendering custom components
+
+Navigation definition also supports custom components to be dynamically render. The schema for this is as follows:
+
+```json
+"navbar": [
+  {
+      "id": "app.navbar.primary",
+      "items": [
+            ...
+
+          {
+              "id": "custom-component",
+              "component": "custom-menu-item"
+          }
+
+          ...
+      ]
+  }
+]
+```
+
+Note that components must be declared as entryComponents under the app module.
+
 For more information about the content of a custom page see [Document List Layout](/features/document-list-layout) section.

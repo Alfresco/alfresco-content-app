@@ -14,13 +14,23 @@
           <ng-container *ngIf="expandedTemplate">
             <ng-template
               [ngTemplateOutlet]="expandedTemplate"
-              [ngTemplateOutletContext]="{ $implicit: item }"
+              [ngTemplateOutletContext]="{
+                $implicit: item,
+                state: 'expanded'
+              }"
             >
             </ng-template>
           </ng-container>
 
-          <ng-container *ngIf="!expandedTemplate">
+          <ng-container *ngIf="!item.component">
             <app-expand-menu [item]="item"></app-expand-menu>
+          </ng-container>
+
+          <ng-container *ngIf="item.component">
+            <adf-dynamic-component
+              [data]="{ item: item, state: 'expanded' }"
+              [id]="item.component"
+            ></adf-dynamic-component>
           </ng-container>
         </mat-list-item>
       </ng-container>
@@ -33,13 +43,24 @@
           <ng-container *ngIf="collapsedTemplate">
             <ng-template
               [ngTemplateOutlet]="collapsedTemplate"
-              [ngTemplateOutletContext]="{ $implicit: item }"
+              [ngTemplateOutletContext]="{
+                $implicit: item,
+                state: 'collapsed'
+              }"
             >
             </ng-template>
           </ng-container>
 
-          <ng-container *ngIf="!collapsedTemplate">
+          <ng-container *ngIf="!item.component">
             <app-button-menu [item]="item"></app-button-menu>
+          </ng-container>
+
+          <ng-container *ngIf="item.component">
+            <adf-dynamic-component
+              [data]="{ item: item, state: 'collapsed' }"
+              [id]="item.component"
+            >
+            </adf-dynamic-component>
           </ng-container>
         </div>
       </ng-container>

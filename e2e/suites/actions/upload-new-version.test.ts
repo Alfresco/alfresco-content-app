@@ -730,7 +730,7 @@ describe('Upload new version', () => {
     it('file is updated after uploading a new version - major - [C307004]', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
-      await searchInput.searchFor('search-f');
+      await searchInput.searchFor(fileSearch1);
       await dataTable.waitForBody();
       await dataTable.selectItem(fileSearch1, parentSearch);
       await toolbar.clickMoreActionsUploadNewVersion();
@@ -751,7 +751,7 @@ describe('Upload new version', () => {
     it('file is updated after uploading a new version - minor - [C307005]', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
-      await searchInput.searchFor('search-f');
+      await searchInput.searchFor(fileSearch2);
       await dataTable.waitForBody();
       await dataTable.selectItem(fileSearch2, parentSearch);
       await toolbar.clickMoreActionsUploadNewVersion();
@@ -772,7 +772,7 @@ describe('Upload new version', () => {
     it('file is not updated when clicking Cancel - [C307006]', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
-      await searchInput.searchFor('search-f');
+      await searchInput.searchFor(fileSearch3);
       await dataTable.waitForBody();
       await dataTable.selectItem(fileSearch3, parentSearch);
       await toolbar.clickMoreActionsUploadNewVersion();
@@ -792,7 +792,7 @@ describe('Upload new version', () => {
     it('upload new version fails when new file name already exists - [C307007]', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
-      await searchInput.searchFor('search-f');
+      await searchInput.searchFor(fileSearch4);
       await dataTable.waitForBody();
       await dataTable.selectItem(fileSearch4, parentSearch);
       await toolbar.clickMoreActionsUploadNewVersion();
@@ -814,7 +814,7 @@ describe('Upload new version', () => {
     it('file is unlocked after uploading a new version - [C307008]', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
-      await searchInput.searchFor('search-f');
+      await searchInput.searchFor(fileLockedSearch1);
       await dataTable.waitForBody();
       await dataTable.selectItem(fileLockedSearch1, parentSearch);
       await toolbar.clickMoreActionsUploadNewVersion();
@@ -836,7 +836,7 @@ describe('Upload new version', () => {
     it('file remains locked after canceling of uploading a new version - [C307009]', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
-      await searchInput.searchFor('search-f');
+      await searchInput.searchFor(fileLockedSearch2);
       await dataTable.waitForBody();
       await dataTable.selectItem(fileLockedSearch2, parentSearch);
       await toolbar.clickMoreActionsUploadNewVersion();
