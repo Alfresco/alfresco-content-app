@@ -36,9 +36,9 @@
   },
   "private": true,
   "dependencies": {
-    "@alfresco/adf-content-services": "3.2.0-a87d1ef002cf53e1592ed984a5bce0038eda6fad",
-    "@alfresco/adf-core": "3.2.0-a87d1ef002cf53e1592ed984a5bce0038eda6fad",
-    "@alfresco/adf-extensions": "3.2.0-a87d1ef002cf53e1592ed984a5bce0038eda6fad",
+    "@alfresco/adf-content-services": "3.2.0-6ad63055b35b43eb305359b6f47851facd672476",
+    "@alfresco/adf-core": "3.2.0-dac3bed09f5e8235868555c24102f91dcae9c6e1",
+    "@alfresco/adf-extensions": "3.2.0-6ad63055b35b43eb305359b6f47851facd672476",
     "@alfresco/js-api": "3.1.0-2c7e78d49c51ba0966d4e6c4dedf2b64da83d630",
     "@angular/animations": "7.2.12",
     "@angular/cdk": "^7.3.7",
