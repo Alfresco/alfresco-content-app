@@ -15,6 +15,7 @@ cache:
     - dist
     - $HOME/docker
     - $HOME/dist
+    - $HOME/disttomcat
 
 env:
   matrix:
@@ -46,8 +47,10 @@ script: |
   # Set test suites
   SUITE="--suite $SUITES"
   if [ "$DEPLOYMENT" == "Nginx" ]; then
+    cp -a $HOME/dist dist
     npm run e2e:docker
   else
+    cp -a $HOME/disttomcat dist
     npm run docker.tomcat.e2e
   fi
 
@@ -64,15 +67,14 @@ jobs:
       script:
         - npm run test:ci
         - bash <(curl -s https://codecov.io/bash) -X gcov
-    - name: Cache dist
+    - name: Cache Nginx dist
       script:
-        - |
-          if [ "$DEPLOYMENT" == "Nginx" ]; then
-            npm run build.e2e
-          else
-            npm run build.tomcat.e2e
-          fi
-          # cp -a dist $HOME/dist
+        - npm run build.e2e
+        - cp -a dist $HOME/dist
+    - name: Cache Tomcat dist
+      script:
+        - npm run build.tomcat.e2e
+        - cp -a dist $HOME/disttomcat
     # - name: Cache docker images
     #   script:
     #     - |
