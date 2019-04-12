@@ -7,27 +7,46 @@ addons:
 language: node_js
 node_js:
   - '10'
+
+env:
+  matrix:
+    - DEPLOYMENT=Nginx SUITES=authentication
+    - DEPLOYMENT=Nginx SUITES=listViews
+    - DEPLOYMENT=Nginx SUITES=application
+    - DEPLOYMENT=Nginx SUITES=navigation
+    - DEPLOYMENT=Nginx SUITES=pagination
+    - DEPLOYMENT=Nginx SUITES=search
+    - DEPLOYMENT=Nginx SUITES=actions
+    - DEPLOYMENT=Nginx SUITES=viewer
+    - DEPLOYMENT=Nginx SUITES=infoDrawer
+    - DEPLOYMENT=Nginx SUITES=extensions
+
 before_script:
   - sudo /etc/init.d/postgresql stop
+
 before_install:
   - npm install -g npm@latest
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
   - sleep 3
+
+script: |
+  if [ "$DEPLOYMENT" == "Nginx" ]; then
+    npm run build.e2e && SUITE="--suite $SUITES" npm run e2e:docker
+  else
+    npm run build.tomcat.e2e && SUITE="--suite $SUITES" npm run docker.tomcat.e2e
+  fi
+
+stages:
+  - name: Quality and Unit tests
+
 jobs:
   include:
-    - stage: test
+    - stage: Quality and Unit tests
       name: 'Code quality checks'
       script:
         - npm run lint
-    - stage: test
-      name: 'Unit tests'
+    - name: 'Unit tests'
       script:
         - npm run test:ci
         - bash <(curl -s https://codecov.io/bash) -X gcov
-    - stage: e2e
-      name: 'Nginx'
-      script: npm run build.e2e && npm run e2e:docker
-    - stage: e2e
-      name: 'Tomcat'
-      script: npm run build.tomcat.e2e && npm run docker.tomcat.e2e
