@@ -12,6 +12,7 @@ cache:
   bundler: true
   directories:
     - $HOME/docker
+    - $HOME/dist
 
 env:
   matrix:
@@ -38,10 +39,14 @@ before_install:
   - sleep 3
 
 script: |
+  # Copy cached dist
+  cp -a $HOME/dist dist
+  # Set test suites
+  SUITE="--suite $SUITES"
   if [ "$DEPLOYMENT" == "Nginx" ]; then
-    SUITE="--suite $SUITES" npm run e2e:docker
+    npm run e2e:docker
   else
-    SUITE="--suite $SUITES" npm run docker.tomcat.e2e
+    npm run docker.tomcat.e2e
   fi
 
 stages:
@@ -50,22 +55,31 @@ stages:
 jobs:
   include:
     - stage: Quality and Unit tests
-      name: 'Code quality checks'
+      name: Code quality checks
       script:
         - npm run lint
-    - name: 'Unit tests'
+    - name: Unit tests
       script:
         - npm run test:ci
         - bash <(curl -s https://codecov.io/bash) -X gcov
-    - name: 'Cache docker images'
+    - name: Cache dist
       script:
         - |
           if [ "$DEPLOYMENT" == "Nginx" ]; then
             npm run build.e2e
           else
-            npm run build.tomcat.e2e && cd docker/tomcat
+            npm run build.tomcat.e2e
           fi
-          docker-compose up -d --build && npm run wait:app
-        - |
-          mkdir -p $HOME/docker && docker images -a --filter='caching=true' --format '{{.Repository}}:{{.Tag}} {{.ID}}' |
-          xargs -n 2 -t sh -c 'test -e $HOME/docker/$1.tar.gz || docker save $0 | gzip -2 > $HOME/docker/$1.tar.gz'
+          cp -a dist $HOME/dist
+    # - name: Cache docker images
+    #   script:
+    #     - |
+    #       if [ "$DEPLOYMENT" == "Nginx" ]; then
+    #         npm run build.e2e
+    #       else
+    #         npm run build.tomcat.e2e && cd docker/tomcat
+    #       fi
+    #       docker-compose up -d --build && npm run wait:app
+    #     - |
+    #       mkdir -p $HOME/docker && docker images -a --filter='caching=true' --format '{{.Repository}}:{{.Tag}} {{.ID}}' |
+    #       xargs -n 2 -t sh -c 'test -e $HOME/docker/$1.tar.gz || docker save $0 | gzip -2 > $HOME/docker/$1.tar.gz'
