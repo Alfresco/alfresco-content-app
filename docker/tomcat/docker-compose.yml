@@ -22,6 +22,8 @@ services:
         '
     networks:
       - internal
+    labels:
+      - caching=true
     ports:
       - 8080:8080 #Browser port
 
@@ -34,6 +36,8 @@ services:
       - REPO_PORT=8080
     networks:
       - internal
+    labels:
+      - caching=true
     ports:
       - 8083:8080
 
@@ -46,6 +50,8 @@ services:
     command: postgres -c max_connections=300 -c log_min_messages=LOG
     networks:
       - internal
+    labels:
+      - caching=true
     ports:
       - 5432:5432
 
@@ -64,6 +70,8 @@ services:
       - SOLR_CREATE_ALFRESCO_DEFAULTS=alfresco,archive
     networks:
       - internal
+    labels:
+      - caching=true
     ports:
       - 8983:8983 #Browser port
 
@@ -76,6 +84,8 @@ services:
       - alfresco
     networks:
       - internal
+    labels:
+      - caching=true
     ports:
       - 4001:8080
     # volumes:
@@ -90,8 +100,10 @@ services:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
     networks:
       - internal
+    labels:
+      - caching=true
     ports:
       - 4000:80
 
 networks:
-  ? internal
+  internal:
