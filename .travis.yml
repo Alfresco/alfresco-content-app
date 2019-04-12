@@ -51,13 +51,6 @@ after_script: |
     npm run docker.tomcat.e2e;
   fi
 
-# script: |
-#   # Prepare cache
-#   npm run build.e2e
-#   cp -a dist $HOME/distnginx
-#   npm run build.tomcat.e2e
-#   cp -a dist $HOME/disttomcat
-
 stages:
   - name: Quality and Unit tests
 
@@ -65,10 +58,12 @@ jobs:
   include:
     - stage: Quality and Unit tests
       name: Code quality checks
-      script:
+      script: false
+      install:
         - npm run lint
     - name: Unit tests
-      script:
+      script: false
+      install:
         - npm run test:ci
         - bash <(curl -s https://codecov.io/bash) -X gcov
     - name: Prepare nginx dist cache
