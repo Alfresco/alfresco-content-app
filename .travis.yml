@@ -68,9 +68,9 @@ jobs:
       script: true
       install:
         - npm run build.e2e
-        - cp -a dist $HOME/distnginx
+        - cp -a dist/ $HOME/distnginx
     - name: Prepare tomcat dist cache
       script: true
       install:
         - npm run build.tomcat.e2e
-        - cp -a dist $HOME/disttomcat
+        - cp -a dist/ $HOME/disttomcat
