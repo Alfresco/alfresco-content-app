@@ -48,9 +48,13 @@ script: |
   SUITE="--suite $SUITES"
   if [ "$DEPLOYMENT" == "Nginx" ]; then
     cp -a $HOME/dist dist
+    ls $HOME/dist
+    ls dist
     npm run e2e:docker
   else
     cp -a $HOME/disttomcat dist
+    ls $HOME/disttomcat
+    ls dist
     npm run docker.tomcat.e2e
   fi
 
