@@ -39,8 +39,7 @@ import {
 } from '@alfresco/adf-core';
 import {
   LibraryDialogComponent,
-  ContentModule,
-  CustomResourcesService
+  ContentModule
 } from '@alfresco/adf-content-services';
 
 import { AppComponent } from './app.component';
@@ -76,7 +75,6 @@ import { AppLoginModule } from './components/login/login.module';
 import { AppHeaderModule } from './components/header/header.module';
 import { AppNodeVersionModule } from './components/node-version/node-version.module';
 import { environment } from '../environments/environment';
-import { AppDataService } from './services/data.service';
 
 @NgModule({
   imports: [
@@ -124,7 +122,6 @@ import { AppDataService } from './services/data.service';
   providers: [
     { provide: RouteReuseStrategy, useClass: AppRouteReuseStrategy },
     { provide: AppConfigService, useClass: DebugAppConfigService },
-    { provide: CustomResourcesService, useClass: AppDataService },
     {
       provide: TRANSLATION_PROVIDER,
       multi: true,
