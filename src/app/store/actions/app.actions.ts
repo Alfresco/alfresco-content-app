@@ -24,7 +24,7 @@
  */
 
 import { Action } from '@ngrx/store';
-import { Node, Person } from '@alfresco/js-api';
+import { Node, Person, Group } from '@alfresco/js-api';
 import { AppState } from '../states';
 
 export const SET_INITIAL_STATE = 'SET_INITIAL_STATE';
@@ -59,7 +59,7 @@ export class SetCurrentUrlAction implements Action {
 
 export class SetUserProfileAction implements Action {
   readonly type = SET_USER_PROFILE;
-  constructor(public payload: Person) {}
+  constructor(public payload: { person: Person; groups: Group[] }) {}
 }
 
 export class ToggleInfoDrawerAction implements Action {

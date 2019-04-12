@@ -50,7 +50,7 @@ import {
 } from './store/states/app.state';
 import { filter, takeUntil } from 'rxjs/operators';
 import { ContentApiService } from './services/content-api.service';
-import { DiscoveryEntry } from '@alfresco/js-api';
+import { DiscoveryEntry, GroupsApi, Group } from '@alfresco/js-api';
 import { AppService } from './services/app.service';
 import { Subject } from 'rxjs';
 
@@ -129,7 +129,6 @@ export class AppComponent implements OnInit, OnDestroy {
         if (isReady) {
           this.loadRepositoryStatus();
           this.loadUserProfile();
-          // todo: load external auth-enabled plugins here
         }
       });
   }
@@ -149,9 +148,19 @@ export class AppComponent implements OnInit, OnDestroy {
       });
   }
 
-  private loadUserProfile() {
+  private async loadUserProfile() {
+    const groupsApi = new GroupsApi(this.alfrescoApiService.getInstance());
+    const paging = await groupsApi.listGroupMembershipsForPerson('-me-');
+    const groups: Group[] = [];
+
+    if (paging && paging.list && paging.list.entries) {
+      groups.push(...paging.list.entries.map(obj => obj.entry));
+    }
+
     this.contentApi.getPerson('-me-').subscribe(person => {
-      this.store.dispatch(new SetUserProfileAction(person.entry));
+      this.store.dispatch(
+        new SetUserProfileAction({ person: person.entry, groups })
+      );
     });
   }
 
