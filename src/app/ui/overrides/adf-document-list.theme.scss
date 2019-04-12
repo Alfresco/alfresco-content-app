@@ -15,20 +15,38 @@
   .adf-datatable-list {
     border: none;
 
-    .adf-datatable-link {
-      &.adf-name-column,
-      &.adf-library-name-column {
-        color: $document-list-name-text-color;
+    .adf-datatable-cell-container {
+      .aca-column-content,
+      .adf-name-column,
+      .adf-library-name-column,
+      .adf-trashcan-name-column {
+        position: absolute;
+        max-width: calc(100% - 0px);
 
-        &:hover {
-          color: $document-list-selection-color;
-        }
-
-        .adf-datatable-cell-value {
-          position: static;
-          max-width: 35vw;
+        // should remove this class from all nested items of another adf-datatable-cell - context menu depends on it
+        // remove also this corresponding style once top condition is completed:
+        &.adf-datatable-cell {
+          .adf-datatable-cell-value {
+            position: static;
+            width: auto;
+          }
         }
       }
+
+      .adf-library-name-column {
+        // same as on top comment
+        &.adf-datatable-cell {
+          color: $document-list-name-text-color;
+
+          &:hover {
+            color: $document-list-selection-color;
+          }
+        }
+      }
+    }
+
+    .adf-datatable-cell-value {
+      display: block;
     }
 
     .adf-datatable-cell--image {
@@ -55,7 +73,10 @@
     .adf-datatable-cell {
       padding: 0 2px;
       box-sizing: border-box;
-      min-width: 100px;
+
+      &.adf-no-grow-cell {
+        min-width: 120px;
+      }
 
       &:first-child {
         min-width: $document-list-thumbnail-width;
@@ -63,10 +84,6 @@
 
       &:focus {
         outline: none !important;
-      }
-
-      .adf-datatable-cell-value {
-        width: 100% !important;
       }
     }
 

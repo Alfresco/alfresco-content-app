@@ -43,13 +43,18 @@ import { TranslationService } from '@alfresco/adf-core';
 @Component({
   selector: 'aca-location-link',
   template: `
-    <a href="" [title]="nodeLocation$ | async" (click)="goToLocation()">
+    <a
+      href=""
+      [title]="nodeLocation$ | async"
+      (click)="goToLocation()"
+      class="adf-datatable-cell-value"
+    >
       {{ displayText | async | translate }}
     </a>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  host: { class: 'aca-location-link adf-location-cell' }
+  host: { class: 'aca-location-link adf-location-cell aca-column-content' }
 })
 export class LocationLinkComponent implements OnInit {
   private _path: PathInfo;
