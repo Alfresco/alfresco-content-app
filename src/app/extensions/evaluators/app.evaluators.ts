@@ -450,7 +450,10 @@ export function canLeaveLibrary(context: RuleContext): boolean {
  * @param context Rule execution context
  */
 export function canToggleSharedLink(context: RuleContext): boolean {
-  return [canShareFile(context), isShared(context)].some(Boolean);
+  return [
+    hasFileSelected(context),
+    [canShareFile(context), isShared(context)].some(Boolean)
+  ].every(Boolean);
 }
 
 /**
