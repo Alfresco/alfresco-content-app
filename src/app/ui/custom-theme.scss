@@ -18,7 +18,6 @@
 @import './overrides/adf-search-filter.theme';
 @import './overrides/adf-info-drawer.theme';
 @import './overrides/adf-upload-dialog.theme';
-@import './overrides/adf-pagination.theme';
 @import './overrides/adf-sidenav-layout.theme';
 @import './overrides/adf-document-list.theme';
 @import './overrides/adf-upload-drag-area.theme';
@@ -66,12 +65,12 @@ $custom-theme-primary: mat-palette($grey-scale, A400);
 $custom-theme-accent: mat-palette($alfresco-accent-orange);
 $custom-theme-warn: mat-palette($alfresco-warn);
 $custom-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent);
+$foreground: map-get($custom-theme, foreground);
 
 @mixin custom-theme($theme) {
   @include adf-toolbar-theme($theme);
   @include adf-search-filter-theme($theme);
   @include adf-info-drawer-theme($theme);
-  @include adf-pagination-theme($theme);
   @include adf-sidenav-layout-theme($theme);
   @include adf-document-list-theme($theme);
   @include adf-upload-drag-area-theme($theme);
@@ -97,3 +96,6 @@ $custom-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent);
 $document-list-selection-color: mat-color($alfresco-ecm-blue, 500);
 $document-list-background: white;
 $document-list-thumbnail-width: 35px;
+
+$adf-pagination--border: 1px solid mat-color($foreground, text, 0.07);
+$adf-pagination__empty--height: 0;
