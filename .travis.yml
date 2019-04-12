@@ -43,15 +43,15 @@ matrix:
         # Set test suites
         SUITE="--suite $SUITES"
         if [ "$DEPLOYMENT" == "Nginx" ]; then
-          cp -a $HOME/dist dist
-          ls $HOME/distnginx
-          ls dist
-          npm run e2e:docker
+          cp -a $HOME/dist dist;
+          ls $HOME/distnginx;
+          ls dist;
+          npm run e2e:docker;
         else
-          cp -a $HOME/disttomcat dist
-          ls $HOME/disttomcat
-          ls dist
-          npm run docker.tomcat.e2e
+          cp -a $HOME/disttomcat dist;
+          ls $HOME/disttomcat;
+          ls dist;
+          npm run docker.tomcat.e2e;
         fi
 
 # script: |
@@ -74,10 +74,13 @@ jobs:
       script:
         - npm run test:ci
         - bash <(curl -s https://codecov.io/bash) -X gcov
-    - name: Prepare cache
+    - name: Prepare nginx dist cache
       script: true
       install:
         - npm run build.e2e
         - cp -a dist $HOME/distnginx
+    - name: Prepare tomcat dist cache
+      script: true
+      install:
         - npm run build.tomcat.e2e
         - cp -a dist $HOME/disttomcat
