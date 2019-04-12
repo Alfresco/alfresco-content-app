@@ -43,7 +43,7 @@ import { ActionDirective } from './directives/action.directive';
   imports: [
     CommonModule,
     CoreModule.forChild(),
-    CoreExtensionsModule.forRoot(),
+    CoreExtensionsModule.forChild(),
     ExtensionsModule.forChild(),
     RouterModule,
     AppCreateMenuModule
