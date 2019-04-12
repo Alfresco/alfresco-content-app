@@ -36,20 +36,20 @@ before_install:
   - sh -e /etc/init.d/xvfb start
   - sleep 3
 
-after_success: |
-  # Set test suites
-  SUITE="--suite $SUITES"
-  if [ "$DEPLOYMENT" == "Nginx" ]; then
-    cp -a $HOME/dist dist;
-    ls $HOME/distnginx;
-    ls dist;
-    npm run e2e:docker;
-  else
-    cp -a $HOME/disttomcat dist;
-    ls $HOME/disttomcat;
-    ls dist;
-    npm run docker.tomcat.e2e;
-  fi
+# after_success: |
+#   # Set test suites
+#   SUITE="--suite $SUITES"
+#   if [ "$DEPLOYMENT" == "Nginx" ]; then
+#     cp -a $HOME/dist dist;
+#     ls $HOME/distnginx;
+#     ls dist;
+#     npm run e2e:docker;
+#   else
+#     cp -a $HOME/disttomcat dist;
+#     ls $HOME/disttomcat;
+#     ls dist;
+#     npm run docker.tomcat.e2e;
+#   fi
 
 stages:
   - name: Quality and Unit tests
