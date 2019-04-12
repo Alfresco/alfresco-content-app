@@ -32,6 +32,8 @@
     }
 
     .adf-datatable-cell--image {
+      min-width: $document-list-thumbnail-width;
+      width: $document-list-thumbnail-width;
       max-width: $document-list-thumbnail-width;
     }
   }
@@ -53,6 +55,11 @@
     .adf-datatable-cell {
       padding: 0 2px;
       box-sizing: border-box;
+      min-width: 100px;
+
+      &:first-child {
+        min-width: $document-list-thumbnail-width;
+      }
 
       &:focus {
         outline: none !important;

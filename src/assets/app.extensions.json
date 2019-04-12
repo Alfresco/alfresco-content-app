@@ -1314,6 +1314,7 @@
           "key": "content.sizeInBytes",
           "title": "APP.DOCUMENT_LIST.COLUMNS.SIZE",
           "type": "fileSize",
+          "class": "adf-no-grow-cell",
           "sortable": true,
           "desktopOnly": true
         },
@@ -1323,6 +1324,7 @@
           "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON",
           "type": "date",
           "format": "timeAgo",
+          "class": "adf-ellipsis-cell adf-no-grow-cell",
           "sortable": true,
           "desktopOnly": true
         },
@@ -1331,7 +1333,7 @@
           "key": "modifiedByUser.displayName",
           "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_BY",
           "type": "text",
-          "class": "adf-ellipsis-cell",
+          "class": "adf-ellipsis-cell adf-no-grow-cell",
           "sortable": true,
           "desktopOnly": true
         }
@@ -1359,6 +1361,7 @@
           "key": "role",
           "title": "APP.DOCUMENT_LIST.COLUMNS.ROLE",
           "type": "text",
+          "class": "adf-no-grow-cell",
           "sortable": true,
           "template": "app.columns.libraryRole",
           "desktopOnly": false
@@ -1368,6 +1371,7 @@
           "key": "visibility",
           "title": "APP.DOCUMENT_LIST.COLUMNS.VISIBILITY",
           "type": "text",
+          "class": "adf-no-grow-cell",
           "sortable": true,
           "template": "app.columns.libraryStatus",
           "desktopOnly": true
@@ -1396,6 +1400,7 @@
           "key": "role",
           "title": "APP.DOCUMENT_LIST.COLUMNS.ROLE",
           "type": "text",
+          "class": "adf-no-grow-cell",
           "sortable": true,
           "template": "app.columns.libraryRole",
           "desktopOnly": false
@@ -1405,6 +1410,7 @@
           "key": "visibility",
           "title": "APP.DOCUMENT_LIST.COLUMNS.VISIBILITY",
           "type": "text",
+          "class": "adf-no-grow-cell",
           "sortable": true,
           "template": "app.columns.libraryStatus",
           "desktopOnly": true
@@ -1433,6 +1439,7 @@
           "key": "path.name",
           "title": "APP.DOCUMENT_LIST.COLUMNS.LOCATION",
           "type": "text",
+          "class": "adf-ellipsis-cell adf-no-grow-cell",
           "sortable": true,
           "template": "app.columns.location",
           "desktopOnly": true
@@ -1442,6 +1449,7 @@
           "key": "content.sizeInBytes",
           "title": "APP.DOCUMENT_LIST.COLUMNS.SIZE",
           "type": "fileSize",
+          "class": "adf-no-grow-cell",
           "sortable": true,
           "desktopOnly": true
         },
@@ -1450,6 +1458,7 @@
           "key": "modifiedAt",
           "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON",
           "type": "date",
+          "class": "adf-ellipsis-cell adf-no-grow-cell",
           "format": "timeAgo",
           "sortable": true,
           "desktopOnly": true
@@ -1459,7 +1468,7 @@
           "key": "modifiedByUser.displayName",
           "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_BY",
           "type": "text",
-          "class": "adf-ellipsis-cell",
+          "class": "adf-ellipsis-cell adf-no-grow-cell",
           "sortable": true,
           "desktopOnly": true
         },
@@ -1468,7 +1477,7 @@
           "key": "sharedByUser.displayName",
           "title": "APP.DOCUMENT_LIST.COLUMNS.SHARED_BY",
           "type": "text",
-          "class": "adf-ellipsis-cell",
+          "class": "adf-ellipsis-cell adf-no-grow-cell",
           "sortable": true,
           "desktopOnly": true
         }
@@ -1496,6 +1505,7 @@
           "key": "path.name",
           "title": "APP.DOCUMENT_LIST.COLUMNS.LOCATION",
           "type": "text",
+          "class": "adf-ellipsis-cell adf-no-grow-cell",
           "sortable": true,
           "template": "app.columns.location",
           "desktopOnly": true
@@ -1505,6 +1515,7 @@
           "key": "content.sizeInBytes",
           "title": "APP.DOCUMENT_LIST.COLUMNS.SIZE",
           "type": "fileSize",
+          "class": "adf-no-grow-cell",
           "sortable": true,
           "desktopOnly": true
         },
@@ -1514,6 +1525,7 @@
           "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON",
           "type": "date",
           "format": "timeAgo",
+          "class": "adf-ellipsis-cell adf-no-grow-cell",
           "sortable": true,
           "desktopOnly": true
         }
@@ -1541,6 +1553,7 @@
           "key": "path.name",
           "title": "APP.DOCUMENT_LIST.COLUMNS.LOCATION",
           "type": "text",
+          "class": "adf-ellipsis-cell adf-no-grow-cell",
           "sortable": true,
           "template": "app.columns.location",
           "desktopOnly": true
@@ -1550,6 +1563,7 @@
           "key": "sizeInBytes",
           "title": "APP.DOCUMENT_LIST.COLUMNS.SIZE",
           "type": "fileSize",
+          "class": "adf-no-grow-cell",
           "sortable": true,
           "desktopOnly": true
         },
@@ -1559,6 +1573,7 @@
           "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON",
           "type": "date",
           "format": "timeAgo",
+          "class": "adf-ellipsis-cell adf-no-grow-cell",
           "sortable": true,
           "desktopOnly": true
         },
@@ -1567,7 +1582,7 @@
           "key": "modifiedByUser.displayName",
           "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_BY",
           "type": "text",
-          "class": "adf-ellipsis-cell",
+          "class": "adf-ellipsis-cell adf-no-grow-cell",
           "sortable": true,
           "desktopOnly": true
         }
@@ -1595,6 +1610,7 @@
           "key": "path.name",
           "title": "APP.DOCUMENT_LIST.COLUMNS.LOCATION",
           "type": "text",
+          "class": "adf-ellipsis-cell adf-no-grow-cell",
           "sortable": true,
           "template": "app.columns.location",
           "desktopOnly": true
@@ -1604,6 +1620,7 @@
           "key": "content.sizeInBytes",
           "title": "APP.DOCUMENT_LIST.COLUMNS.SIZE",
           "type": "fileSize",
+          "class": "adf-no-grow-cell",
           "sortable": true,
           "desktopOnly": true
         },
@@ -1613,6 +1630,7 @@
           "title": "APP.DOCUMENT_LIST.COLUMNS.DELETED_ON",
           "type": "date",
           "format": "timeAgo",
+          "class": "adf-ellipsis-cell adf-no-grow-cell",
           "sortable": true,
           "desktopOnly": true
         }
@@ -1640,6 +1658,7 @@
           "key": "role",
           "title": "APP.DOCUMENT_LIST.COLUMNS.ROLE",
           "type": "text",
+          "class": "adf-no-grow-cell",
           "sortable": true,
           "template": "app.columns.libraryRole",
           "desktopOnly": false
@@ -1649,6 +1668,7 @@
           "key": "visibility",
           "title": "APP.DOCUMENT_LIST.COLUMNS.VISIBILITY",
           "type": "text",
+          "class": "adf-no-grow-cell",
           "sortable": true,
           "template": "app.columns.libraryStatus",
           "desktopOnly": true
