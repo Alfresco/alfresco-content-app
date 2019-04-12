@@ -40,7 +40,7 @@ script: |
   # Set test suites
   SUITE="--suite $SUITES"
   if [ "$DEPLOYMENT" == "Nginx" ]; then
-    cp -a $HOME/dist dist;
+    cp -a $HOME/distnginx dist;
     ls $HOME/distnginx;
     ls dist;
     npm run e2e:docker;
