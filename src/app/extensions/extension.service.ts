@@ -244,6 +244,12 @@ export class AppExtensionService implements RuleContext {
                 .filter(child => this.filterVisible(child))
                 .sort(sortByOrder)
                 .map(child => {
+                  if (child.component) {
+                    return {
+                      ...child
+                    };
+                  }
+
                   if (!child.click) {
                     const childRouteRef = this.extensions.getRouteById(
                       child.route
@@ -266,6 +272,10 @@ export class AppExtensionService implements RuleContext {
               return {
                 ...item
               };
+            }
+
+            if (item.component) {
+              return { ...item };
             }
 
             if (!item.click) {
