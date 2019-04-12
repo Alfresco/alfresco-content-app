@@ -401,7 +401,7 @@ export function canUnlockFile(context: RuleContext): boolean {
  */
 export function canUploadVersion(context: RuleContext): boolean {
   if (navigation.isFavorites(context) || navigation.isSharedFiles(context)) {
-    return true;
+    return hasFileSelected(context);
   }
 
   return [
