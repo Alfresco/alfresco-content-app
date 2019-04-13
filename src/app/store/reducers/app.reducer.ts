@@ -131,7 +131,8 @@ function updateLanguagePicker(
 
 function updateUser(state: AppState, action: SetUserProfileAction): AppState {
   const newState = Object.assign({}, state);
-  const user = action.payload;
+  const user = action.payload.person;
+  const groups = [...(action.payload.groups || [])];
 
   const id = user.id;
   const firstName = user.firstName || '';
@@ -142,13 +143,15 @@ function updateUser(state: AppState, action: SetUserProfileAction): AppState {
   const capabilities = (<any>user).capabilities;
   const isAdmin = capabilities ? capabilities.isAdmin : true;
 
-  newState.user = {
+  // todo: remove <any>
+  newState.user = <any>{
     firstName,
     lastName,
     userName,
     initials,
     isAdmin,
-    id
+    id,
+    groups
   };
 
   return newState;
