@@ -14,6 +14,9 @@ cache:
     # currently only nginx dist is cached!
     - dist
 
+env:
+  global:
+    - SUITES=authentication
 # env:
 #   matrix:
 #     - DEPLOYMENT=Nginx SUITES=authentication
@@ -35,15 +38,11 @@ before_install:
 
 e2etest: &e2etest
   stage: e2e
-  before_install:
-    - export DEPLOYMENT="Nginx"
-    - export SUITES="authentication"
   script: true
   install: |
     npm install
     sudo /etc/init.d/postgresql stop
-    # DEPLOYMENT="Nginx"
-    # SUITES="authentication"
+    DEPLOYMENT="Nginx"
     SUITE="--suite $SUITES"
     if [ "$DEPLOYMENT" == "Nginx" ]; then
       npm run e2e:docker
@@ -72,9 +71,9 @@ jobs:
         - npm run build.e2e
     - <<: *e2etest
       name: Test Suite authentication
-      # env:
-      #   - DEPLOYMENT=Nginx SUITES=authentication
-    # - <<: *e2etest
-    #   name: Test Suite listViews
-    #   env:
-    #     - DEPLOYMENT=Nginx SUITES=listViews
+      before_install:
+        - export SUITES="authentication"
+    - <<: *e2etest
+      name: Test Suite listViews
+      before_install:
+        - export SUITES="listViews"
