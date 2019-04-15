@@ -27,17 +27,18 @@ cache:
 #     - DEPLOYMENT=Nginx SUITES=extensions
 
 before_install:
+  - sudo /etc/init.d/postgresql stop
   - npm install -g npm@latest
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
   - sleep 3
 
-e2etest: &e2etest
-  stage: e2e
-  script: true
-  before_install:
-    - npm install
-    - sudo /etc/init.d/postgresql stop
+# e2etest: &e2etest
+#   stage: e2e
+#   script: true
+#   before_install:
+#     - npm install
+#     - sudo /etc/init.d/postgresql stop
 
 stages:
   - name: Quality and Unit tests
@@ -53,13 +54,12 @@ jobs:
       script:
         - npm run test:ci
         - bash <(curl -s https://codecov.io/bash) -X gcov
-    - name: 'Prepare nginx dist cache'
+    - name: 'Prepare dist cache'
       script: true
       install:
         - npm run build.e2e
-    - <<: *e2etest
+    - stage: e2e
       name: Test Suite authentication
       install: SUITE="--suite authentication" npm run e2e:docker
-    - <<: *e2etest
-      name: Test Suite listViews
+    - name: Test Suite listViews
       install: SUITE="--suite listViews" npm run e2e:docker
