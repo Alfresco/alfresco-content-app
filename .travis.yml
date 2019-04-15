@@ -20,13 +20,6 @@ before_install:
   - sh -e /etc/init.d/xvfb start
   - sleep 3
 
-# e2etest: &e2etest
-#   stage: e2e
-#   script: true
-#   before_install:
-#     - npm install
-#     - sudo /etc/init.d/postgresql stop
-
 stages:
   - name: Quality and Unit tests
   - name: e2e
@@ -35,8 +28,7 @@ jobs:
   include:
     - stage: Quality and Unit tests
       name: 'Code quality checks'
-      script:
-        - npm run lint
+      script: npm run lint
     - name: 'Unit tests'
       script:
         - npm run test:ci
@@ -56,8 +48,8 @@ jobs:
       script: SUITE="--suite pagination" npm run e2e:docker
     - name: Test Suite search
       script: SUITE="--suite search" npm run e2e:docker
-    # - name: Test Suite actions
-    #   install: SUITE="--suite actions" npm run e2e:docker
+    - name: Test Suite actions
+      install: SUITE="--suite actions" npm run e2e:docker
     - name: Test Suite viewer
       script: SUITE="--suite viewer" npm run e2e:docker
     - name: Test Suite infoDrawer
