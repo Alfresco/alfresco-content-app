@@ -8,21 +8,24 @@ language: node_js
 node_js:
   - '10'
 
-env:
-  matrix:
-    - DEPLOYMENT=Nginx SUITES=authentication
-    - DEPLOYMENT=Nginx SUITES=listViews
-    - DEPLOYMENT=Nginx SUITES=application
-    - DEPLOYMENT=Nginx SUITES=navigation
-    - DEPLOYMENT=Nginx SUITES=pagination
-    - DEPLOYMENT=Nginx SUITES=search
-    - DEPLOYMENT=Nginx SUITES=actions
-    - DEPLOYMENT=Nginx SUITES=viewer
-    - DEPLOYMENT=Nginx SUITES=infoDrawer
-    - DEPLOYMENT=Nginx SUITES=extensions
+cache:
+  directories:
+    - node_modules
+    # currently only nginx dist is cached!
+    - dist
 
-before_script:
-  - sudo /etc/init.d/postgresql stop
+# env:
+#   matrix:
+#     - DEPLOYMENT=Nginx SUITES=authentication
+#     - DEPLOYMENT=Nginx SUITES=listViews
+#     - DEPLOYMENT=Nginx SUITES=application
+#     - DEPLOYMENT=Nginx SUITES=navigation
+#     - DEPLOYMENT=Nginx SUITES=pagination
+#     - DEPLOYMENT=Nginx SUITES=search
+#     - DEPLOYMENT=Nginx SUITES=actions
+#     - DEPLOYMENT=Nginx SUITES=viewer
+#     - DEPLOYMENT=Nginx SUITES=infoDrawer
+#     - DEPLOYMENT=Nginx SUITES=extensions
 
 before_install:
   - npm install -g npm@latest
@@ -44,14 +47,21 @@ jobs:
       script:
         - npm run test:ci
         - bash <(curl -s https://codecov.io/bash) -X gcov
+    - name: 'Prepare nginx dist cache'
+      script:
+        - npm run build.e2e
     - stage: e2e
       name: Test Suite authentication
       env:
         - DEPLOYMENT: Nginx
         - SUITES: authentication
+      before_script:
+        - sudo /etc/init.d/postgresql stop
       script: |
+        SUITE="--suite $SUITES"
         if [ "$DEPLOYMENT" == "Nginx" ]; then
-          npm run build.e2e && SUITE="--suite $SUITES" npm run e2e:docker
+          npm run e2e:docker
         else
-          npm run build.tomcat.e2e && SUITE="--suite $SUITES" npm run docker.tomcat.e2e
+          rm -r dist
+          npm run build.tomcat.e2e && npm run docker.tomcat.e2e
         fi
