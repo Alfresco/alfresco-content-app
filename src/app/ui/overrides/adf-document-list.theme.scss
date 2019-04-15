@@ -23,8 +23,7 @@
         position: absolute;
         max-width: calc(100% - 0px);
 
-        // should remove this class from all nested items of another adf-datatable-cell - context menu depends on it
-        // remove also this corresponding style once top condition is completed:
+        // remove this style once the [ADF-4401] issue is fixed:
         &.adf-datatable-cell {
           .adf-datatable-cell-value {
             position: static;

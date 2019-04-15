@@ -100,6 +100,7 @@ export class ContextActionsDirective implements OnInit, OnDestroy {
   }
 
   private getTarget(event: MouseEvent): Element {
+    // change back to 'adf-datatable-cell' once the [ADF-4401] issue is fixed
     return this.findAncestor(<Element>event.target, 'adf-datatable-cell--');
   }
 
