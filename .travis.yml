@@ -33,6 +33,19 @@ before_install:
   - sh -e /etc/init.d/xvfb start
   - sleep 3
 
+e2etest: &e2etest
+  stage: e2e
+  before_script:
+    - sudo /etc/init.d/postgresql stop
+  install: |
+    SUITE="--suite $SUITES"
+    if [ "$DEPLOYMENT" == "Nginx" ]; then
+      npm run e2e:docker
+    else
+      rm -r dist
+      npm run build.tomcat.e2e && npm run docker.tomcat.e2e
+    fi
+
 stages:
   - name: Quality and Unit tests
   - name: e2e
@@ -50,18 +63,11 @@ jobs:
     - name: 'Prepare nginx dist cache'
       script:
         - npm run build.e2e
-    - stage: e2e
+    - <<: *e2etest
       name: Test Suite authentication
       env:
-        - DEPLOYMENT: Nginx
-        - SUITES: authentication
-      before_script:
-        - sudo /etc/init.d/postgresql stop
-      script: |
-        SUITE="--suite $SUITES"
-        if [ "$DEPLOYMENT" == "Nginx" ]; then
-          npm run e2e:docker
-        else
-          rm -r dist
-          npm run build.tomcat.e2e && npm run docker.tomcat.e2e
-        fi
+        - DEPLOYMEN=Nginx SUITES=authentication
+    - <<: *e2etest
+      name: Test Suite listViews
+      env:
+        - DEPLOYMEN=Nginx SUITES=listViews
