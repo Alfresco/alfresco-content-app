@@ -69,8 +69,8 @@ jobs:
     - <<: *e2etest
       name: Test Suite authentication
       env:
-        - DEPLOYMEN=Nginx SUITES=authentication
+        - DEPLOYMENT=Nginx SUITES=authentication
     - <<: *e2etest
       name: Test Suite listViews
       env:
-        - DEPLOYMEN=Nginx SUITES=listViews
+        - DEPLOYMENT=Nginx SUITES=listViews
