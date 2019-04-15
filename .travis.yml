@@ -11,12 +11,8 @@ node_js:
 cache:
   directories:
     - node_modules
-    # currently only nginx dist is cached!
     - dist
 
-env:
-  global:
-    - SUITES=authentication
 # env:
 #   matrix:
 #     - DEPLOYMENT=Nginx SUITES=authentication
@@ -39,17 +35,9 @@ before_install:
 e2etest: &e2etest
   stage: e2e
   script: true
-  install: |
-    npm install
-    sudo /etc/init.d/postgresql stop
-    DEPLOYMENT="Nginx"
-    SUITE="--suite $SUITES"
-    if [ "$DEPLOYMENT" == "Nginx" ]; then
-      npm run e2e:docker
-    else
-      rm -r dist
-      npm run build.tomcat.e2e && npm run docker.tomcat.e2e
-    fi
+  before_install:
+    - npm install
+    - sudo /etc/init.d/postgresql stop
 
 stages:
   - name: Quality and Unit tests
@@ -71,9 +59,7 @@ jobs:
         - npm run build.e2e
     - <<: *e2etest
       name: Test Suite authentication
-      before_install:
-        - export SUITES="authentication"
+      install: SUITE="--suite authentication" npm run e2e:docker
     - <<: *e2etest
       name: Test Suite listViews
-      before_install:
-        - export SUITES="listViews"
+      install: SUITE="--suite listViews" npm run e2e:docker
