@@ -63,3 +63,19 @@ jobs:
       install: SUITE="--suite authentication" npm run e2e:docker
     - name: Test Suite listViews
       install: SUITE="--suite listViews" npm run e2e:docker
+    - name: Test Suite application
+      install: SUITE="--suite application" npm run e2e:docker
+    - name: Test Suite navigation
+      install: SUITE="--suite navigation" npm run e2e:docker
+    - name: Test Suite pagination
+      install: SUITE="--suite pagination" npm run e2e:docker
+    - name: Test Suite search
+      install: SUITE="--suite search" npm run e2e:docker
+    # - name: Test Suite actions
+    #   install: SUITE="--suite actions" npm run e2e:docker
+    - name: Test Suite viewer
+      install: SUITE="--suite viewer" npm run e2e:docker
+    - name: Test Suite infoDrawer
+      install: SUITE="--suite infoDrawer" npm run e2e:docker
+    - name: Test Suite extensions
+      install: SUITE="--suite extensions" npm run e2e:docker
