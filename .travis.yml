@@ -39,6 +39,7 @@ e2etest: &e2etest
     - sudo /etc/init.d/postgresql stop
   script: true
   install: |
+    npm install
     SUITE="--suite $SUITES"
     if [ "$DEPLOYMENT" == "Nginx" ]; then
       npm run e2e:docker
