@@ -30,15 +30,9 @@ before_install:
   - sh -e /etc/init.d/xvfb start
   - sleep 3
 
-script: |
-  if [ "$DEPLOYMENT" == "Nginx" ]; then
-    npm run build.e2e && SUITE="--suite $SUITES" npm run e2e:docker
-  else
-    npm run build.tomcat.e2e && SUITE="--suite $SUITES" npm run docker.tomcat.e2e
-  fi
-
 stages:
   - name: Quality and Unit tests
+  - name: e2e
 
 jobs:
   include:
@@ -50,3 +44,14 @@ jobs:
       script:
         - npm run test:ci
         - bash <(curl -s https://codecov.io/bash) -X gcov
+    - stage: e2e
+      name: Test Suite authentication
+      env:
+        - DEPLOYMENT: Nginx
+        - SUITES: authentication
+      script: |
+        if [ "$DEPLOYMENT" == "Nginx" ]; then
+          npm run build.e2e && SUITE="--suite $SUITES" npm run e2e:docker
+        else
+          npm run build.tomcat.e2e && SUITE="--suite $SUITES" npm run docker.tomcat.e2e
+        fi
