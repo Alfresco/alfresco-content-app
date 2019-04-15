@@ -113,7 +113,11 @@ export const FILES = {
   xlsxFile: 'file-xlsx.xlsx',
   xlsxFile2: 'file2-xlsx.xlsx',
   pdfFile: 'file-pdf.pdf',
-  unsupportedFile: 'file_unsupported.3DS'
+  unsupportedFile: 'file_unsupported.3DS',
+  protectedFile: {
+    name: 'protected.pdf',
+    password: '0000'
+  }
 };
 
 export const EXTENSIBILITY_CONFIGS = {

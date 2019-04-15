@@ -302,6 +302,7 @@ describe('app.evaluators', () => {
           check: () => (checked = true)
         },
         selection: {
+          file: {},
           isEmpty: false,
           nodes: [
             {
@@ -324,6 +325,9 @@ describe('app.evaluators', () => {
 
     it('should return [true] if route is `/favorites`', () => {
       const context: any = {
+        selection: {
+          file: {}
+        },
         navigation: {
           url: '/favorites'
         }
@@ -334,6 +338,9 @@ describe('app.evaluators', () => {
 
     it('should return [true] if route is `/favorites`', () => {
       const context: any = {
+        selection: {
+          file: {}
+        },
         navigation: {
           url: '/favorites'
         }
@@ -344,6 +351,9 @@ describe('app.evaluators', () => {
 
     it('should return [true] if route is `/shared`', () => {
       const context: any = {
+        selection: {
+          file: {}
+        },
         navigation: {
           url: '/shared'
         }
