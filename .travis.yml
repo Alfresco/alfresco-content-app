@@ -13,19 +13,6 @@ cache:
     - node_modules
     - dist
 
-# env:
-#   matrix:
-#     - DEPLOYMENT=Nginx SUITES=authentication
-#     - DEPLOYMENT=Nginx SUITES=listViews
-#     - DEPLOYMENT=Nginx SUITES=application
-#     - DEPLOYMENT=Nginx SUITES=navigation
-#     - DEPLOYMENT=Nginx SUITES=pagination
-#     - DEPLOYMENT=Nginx SUITES=search
-#     - DEPLOYMENT=Nginx SUITES=actions
-#     - DEPLOYMENT=Nginx SUITES=viewer
-#     - DEPLOYMENT=Nginx SUITES=infoDrawer
-#     - DEPLOYMENT=Nginx SUITES=extensions
-
 before_install:
   - sudo /etc/init.d/postgresql stop
   - npm install -g npm@latest
@@ -55,27 +42,25 @@ jobs:
         - npm run test:ci
         - bash <(curl -s https://codecov.io/bash) -X gcov
     - name: 'Prepare dist cache'
-      script: true
-      install:
-        - npm run build.e2e
+      script: npm run build.e2e
     - stage: e2e
       name: Test Suite authentication
-      install: SUITE="--suite authentication" npm run e2e:docker
+      script: SUITE="--suite authentication" npm run e2e:docker
     - name: Test Suite listViews
-      install: SUITE="--suite listViews" npm run e2e:docker
+      script: SUITE="--suite listViews" npm run e2e:docker
     - name: Test Suite application
-      install: SUITE="--suite application" npm run e2e:docker
+      script: SUITE="--suite application" npm run e2e:docker
     - name: Test Suite navigation
-      install: SUITE="--suite navigation" npm run e2e:docker
+      script: SUITE="--suite navigation" npm run e2e:docker
     - name: Test Suite pagination
-      install: SUITE="--suite pagination" npm run e2e:docker
+      script: SUITE="--suite pagination" npm run e2e:docker
     - name: Test Suite search
-      install: SUITE="--suite search" npm run e2e:docker
+      script: SUITE="--suite search" npm run e2e:docker
     # - name: Test Suite actions
     #   install: SUITE="--suite actions" npm run e2e:docker
     - name: Test Suite viewer
-      install: SUITE="--suite viewer" npm run e2e:docker
+      script: SUITE="--suite viewer" npm run e2e:docker
     - name: Test Suite infoDrawer
-      install: SUITE="--suite infoDrawer" npm run e2e:docker
+      script: SUITE="--suite infoDrawer" npm run e2e:docker
     - name: Test Suite extensions
-      install: SUITE="--suite extensions" npm run e2e:docker
+      script: SUITE="--suite extensions" npm run e2e:docker
