@@ -113,7 +113,7 @@ describe('Search results - files and folders', () => {
     expect(await dataTable.getSearchResultNameAndTitle(file)).toBe(`${file} ( ${fileTitle} )`);
     expect(await dataTable.getSearchResultDescription(file)).toBe(fileDescription);
     expect(await dataTable.getSearchResultModified(file)).toBe(`Modified: ${modifiedDate} by ${modifiedBy} | Size: ${size} Bytes`);
-    expect(await dataTable.getSearchResultLocation(file)).toBe('Location: Personal Files');
+    expect(await dataTable.getSearchResultLocation(file)).toBe('Location:\nPersonal Files');
   });
 
   it('Folder information - [C306867]', async () => {
@@ -134,7 +134,7 @@ describe('Search results - files and folders', () => {
     expect(await dataTable.getSearchResultNameAndTitle(folder)).toBe(`${folder} ( ${folderTitle} )`);
     expect(await dataTable.getSearchResultDescription(folder)).toBe(folderDescription);
     expect(await dataTable.getSearchResultModified(folder)).toBe(`Modified: ${modifiedDate} by ${modifiedBy}`);
-    expect(await dataTable.getSearchResultLocation(folder)).toBe('Location: Personal Files');
+    expect(await dataTable.getSearchResultLocation(folder)).toBe('Location:\nPersonal Files');
   });
 
   it('Search file with special characters - [C290029]', async () => {
