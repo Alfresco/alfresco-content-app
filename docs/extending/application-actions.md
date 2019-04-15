@@ -113,7 +113,6 @@ Below is the list of public actions types you can use in the plugin definitions 
 | 1.7.0   | UPLOAD_FOLDER          | n/a                 | Invoke "Upload Folder" dialog and upload selected folder to the currently opened one.           |
 | 1.7.0   | UPLOAD_FILE_VERSION    | n/a                 | Invoke "New File Version" dialog.                                                               |
 | 1.7.0   | VIEW_FILE              | MinimalNodeEntity   | Preview the file (or selection) in the Viewer.                                                  |
-| 1.8.0   | VIEW_NODE              | string              | Lightweight preview of a node by id. Can be invoked from extensions.                            |
 | 1.7.0   | UNLOCK_WRITE           | NodeEntry           | Unlock file from read only mode                                                                 |
 | 1.7.0   | PRINT_FILE             | MinimalNodeEntity   | Print the file opened in the Viewer (or selected).                                              |
 | 1.7.0   | FULLSCREEN_VIEWER      | n/a                 | Enters fullscreen mode to view the file opened in the Viewer.                                   |
@@ -122,3 +121,4 @@ Below is the list of public actions types you can use in the plugin definitions 
 | 1.7.0   | TOGGLE_SEARCH_FILTER   | n/a                 | Toggle Filter component visibility in Search Results.                                           |
 | 1.7.0   | SHOW_SEARCH_FILTER     | n/a                 | Show Filter component in Search Results.                                                        |
 | 1.7.0   | HIDE_SEARCH_FILTER     | n/a                 | Hide Filter component in Search Results                                                         |
+| 1.8.0   | VIEW_NODE              | string              | Lightweight preview of a node by id. Can be invoked from extensions.                            |

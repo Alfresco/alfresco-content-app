@@ -109,6 +109,19 @@ export class CoreExtensionsModule {
     });
 
     extensions.setEvaluators({
+      canCopyNode: app.canCopyNode,
+      canToggleJoinLibrary: app.canToggleJoinLibrary,
+      canEditFolder: app.canEditFolder,
+      isTrashcanItemSelected: app.isTrashcanItemSelected,
+      canViewFile: app.canViewFile,
+      canLeaveLibrary: app.canLeaveLibrary,
+      canToggleSharedLink: app.canToggleSharedLink,
+      canShowInfoDrawer: app.canShowInfoDrawer,
+      canManageFileVersions: app.canManageFileVersions,
+      canManagePermissions: app.canManagePermissions,
+      canToggleEditOffline: app.canToggleEditOffline,
+      canToggleFavorite: app.canToggleFavorite,
+
       'app.selection.canDelete': app.canDeleteSelection,
       'app.selection.file.canUnlock': app.canUnlockFile,
       'app.selection.file.canLock': app.canLockFile,
