@@ -49,7 +49,7 @@ jobs:
     - name: Test Suite search
       script: SUITE="--suite search" npm run e2e:docker
     - name: Test Suite actions
-      install: SUITE="--suite actions" npm run e2e:docker
+      script: SUITE="--suite actions" npm run e2e:docker
     - name: Test Suite viewer
       script: SUITE="--suite viewer" npm run e2e:docker
     - name: Test Suite infoDrawer
