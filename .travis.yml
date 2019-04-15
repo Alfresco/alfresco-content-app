@@ -37,6 +37,7 @@ e2etest: &e2etest
   stage: e2e
   before_script:
     - sudo /etc/init.d/postgresql stop
+  script: true
   install: |
     SUITE="--suite $SUITES"
     if [ "$DEPLOYMENT" == "Nginx" ]; then
@@ -61,7 +62,8 @@ jobs:
         - npm run test:ci
         - bash <(curl -s https://codecov.io/bash) -X gcov
     - name: 'Prepare nginx dist cache'
-      script:
+      script: true
+      install:
         - npm run build.e2e
     - <<: *e2etest
       name: Test Suite authentication
