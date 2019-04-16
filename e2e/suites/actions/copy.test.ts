@@ -41,18 +41,31 @@ describe('Copy content', () => {
   const file1 = `file1-${Utils.random()}.txt`; let file1Id;
 
   const folder1 = `folder1-${Utils.random()}`; let folder1Id;
-  const folder2 = `folder2-${Utils.random()}`; let folder2Id;
   const fileInFolder = `fileInFolder-${Utils.random()}.txt`; let fileInFolderId;
+
+  const folder2 = `folder2-${Utils.random()}`; let folder2Id;
   const fileInFolder2 = fileInFolder;
+
+  const folderExisting = `folder-existing-${Utils.random()}`; let folderExistingId;
+  const file1InFolderExisting = `file1InFolderExisting-${Utils.random()}.txt`;
+  const file2InFolderExisting = `file2InFolderExisting-${Utils.random()}.txt`;
 
   const file2 = `file2-${Utils.random()}.txt`; let file2Id;
   const file3 = `file3-${Utils.random()}.txt`; let file3Id;
   const file4 = `file4-${Utils.random()}.txt`; let file4Id;
 
-  const existingFile = `existing-${Utils.random()}.txt`; let existingFileId;
+  const fileLocked1 = `file-locked1-${Utils.random()}.txt`; let fileLocked1Id;
 
-  const existingFolder = `existing-${Utils.random()}`;
-  let existingId1, existingId2, existingId2RF, existingId2SF, existingId2Fav, existingId2Search;
+  const folderWithLockedFiles = `folder-locked1-${Utils.random()}`; let folderWithLockedFilesId;
+  const fileLockedInFolder = `file-locked-${Utils.random()}`; let fileLockedInFolderId;
+
+  const existingFile = `existing-${Utils.random()}.txt`; let existingFileToCopyId;
+
+  const existingFolder = `existing-${Utils.random()}`; let existingFolderToCopyId;
+
+  let existingIdPF, existingIdFav, existingIdSearch;
+  let folderExistingPFId, folderExistingFavId, folderExistingSearchId;
+
   const file2InFolder = `file2InFolder-${Utils.random()}.txt`;
   const file3InFolder = `file3InFolder-${Utils.random()}.txt`;
 
@@ -62,6 +75,8 @@ describe('Copy content', () => {
   const folderSiteSF = `folderSiteShared-${Utils.random()}`;
   const folderSiteFav = `folderSiteFav-${Utils.random()}`;
   const folderSiteSearch = `folderSiteSearch-${Utils.random()}`;
+
+  let locationId, destinationId;
 
   const apis = {
     admin: new RepoClient(),
@@ -84,50 +99,79 @@ describe('Copy content', () => {
     destinationIdFav = (await apis.user.nodes.createFolder(destinationFav)).entry.id;
     destinationIdSearch = (await apis.user.nodes.createFolder(destinationSearch)).entry.id;
 
-    existingFileId = (await apis.user.nodes.createFile(existingFile, sourceId)).entry.id;
-    await apis.user.shared.shareFileById(existingFileId);
-    await apis.user.favorites.addFavoriteById('file', existingFileId);
+    existingFileToCopyId = (await apis.user.nodes.createFile(existingFile, sourceId)).entry.id;
+    await apis.user.shared.shareFileById(existingFileToCopyId);
+    await apis.user.favorites.addFavoriteById('file', existingFileToCopyId);
+
     await apis.user.nodes.createFile(existingFile, destinationIdPF);
     await apis.user.nodes.createFile(existingFile, destinationIdRF);
     await apis.user.nodes.createFile(existingFile, destinationIdSF);
     await apis.user.nodes.createFile(existingFile, destinationIdFav);
     await apis.user.nodes.createFile(existingFile, destinationIdSearch);
 
-    existingId1 = (await apis.user.nodes.createFolder(existingFolder, sourceId)).entry.id;
-    existingId2 = (await apis.user.nodes.createFolder(existingFolder, destinationIdPF)).entry.id;
-    existingId2RF = (await apis.user.nodes.createFolder(existingFolder, destinationIdRF)).entry.id;
-    existingId2SF = (await apis.user.nodes.createFolder(existingFolder, destinationIdSF)).entry.id;
-    existingId2Fav = (await apis.user.nodes.createFolder(existingFolder, destinationIdFav)).entry.id;
-    existingId2Search = (await apis.user.nodes.createFolder(existingFolder, destinationIdSearch)).entry.id;
-    await apis.user.nodes.createFile(file2InFolder, existingId1);
-    await apis.user.nodes.createFile(file3InFolder, existingId2);
-    await apis.user.nodes.createFile(file3InFolder, existingId2RF);
-    await apis.user.nodes.createFile(file3InFolder, existingId2SF);
-    await apis.user.nodes.createFile(file3InFolder, existingId2Fav);
-    await apis.user.nodes.createFile(file3InFolder, existingId2Search);
-    await apis.user.favorites.addFavoriteById('folder', existingId1);
+    existingFolderToCopyId = (await apis.user.nodes.createFolder(existingFolder, sourceId)).entry.id;
+
+    existingIdPF = (await apis.user.nodes.createFolder(existingFolder, destinationIdPF)).entry.id;
+    await apis.user.nodes.createFolder(existingFolder, destinationIdRF);
+    await apis.user.nodes.createFolder(existingFolder, destinationIdSF);
+    existingIdFav = (await apis.user.nodes.createFolder(existingFolder, destinationIdFav)).entry.id;
+    existingIdSearch = (await apis.user.nodes.createFolder(existingFolder, destinationIdSearch)).entry.id;
+    await apis.user.nodes.createFile(file2InFolder, existingFolderToCopyId);
+
+    await apis.user.nodes.createFile(file3InFolder, existingIdPF);
+    await apis.user.nodes.createFile(file3InFolder, existingIdFav);
+    await apis.user.nodes.createFile(file3InFolder, existingIdSearch);
+
+    await apis.user.favorites.addFavoriteById('folder', existingFolderToCopyId);
 
     folder1Id = (await apis.user.nodes.createFolder(folder1, sourceId)).entry.id;
-    folder2Id = (await apis.user.nodes.createFolder(folder2, sourceId)).entry.id;
     fileInFolderId = (await apis.user.nodes.createFile(fileInFolder, folder1Id)).entry.id;
-    await apis.user.favorites.addFavoriteById('file', fileInFolderId);
     await apis.user.favorites.addFavoriteById('folder', folder1Id);
+    await apis.user.favorites.addFavoriteById('file', fileInFolderId);
+    await apis.user.shared.shareFileById(fileInFolderId);
+
+    folderExistingId = (await apis.user.nodes.createFolder(folderExisting, sourceId)).entry.id;
+    await apis.user.favorites.addFavoriteById('folder', folderExistingId);
+    await apis.user.nodes.createFile(file1InFolderExisting, folderExistingId);
+
+    folderExistingPFId = (await apis.user.nodes.createFolder(folderExisting, destinationIdPF)).entry.id;
+    await apis.user.nodes.createFile(file2InFolderExisting, folderExistingPFId);
+
+    folderExistingFavId = (await apis.user.nodes.createFolder(folderExisting, destinationIdFav)).entry.id;
+    await apis.user.nodes.createFile(file2InFolderExisting, folderExistingFavId);
+
+    folderExistingSearchId = (await apis.user.nodes.createFolder(folderExisting, destinationIdSearch)).entry.id;
+    await apis.user.nodes.createFile(file2InFolderExisting, folderExistingSearchId);
+
+    folder2Id = (await apis.user.nodes.createFolder(folder2, sourceId)).entry.id;
+    await apis.user.nodes.createFile(fileInFolder2, folder2Id);
     await apis.user.favorites.addFavoriteById('folder', folder2Id);
 
-    await apis.user.nodes.createFile(fileInFolder2, folder2Id);
+    fileLocked1Id = (await apis.user.nodes.createFile(fileLocked1, sourceId)).entry.id;
+    await apis.user.nodes.lockFile(fileLocked1Id);
+
+    folderWithLockedFilesId = (await apis.user.nodes.createFolder(folderWithLockedFiles, sourceId)).entry.id;
+    fileLockedInFolderId = (await apis.user.nodes.createFile(fileLockedInFolder, folderWithLockedFilesId)).entry.id;
+    await apis.user.nodes.lockFile(fileLockedInFolderId);
+    await apis.user.favorites.addFavoriteById('folder', folderWithLockedFilesId);
 
     file1Id = (await apis.user.nodes.createFile(file1, sourceId)).entry.id;
     file2Id = (await apis.user.nodes.createFile(file2, sourceId)).entry.id;
     file3Id = (await apis.user.nodes.createFile(file3, sourceId)).entry.id;
     file4Id = (await apis.user.nodes.createFile(file4, sourceId)).entry.id;
+
     await apis.user.shared.shareFileById(file1Id);
     await apis.user.shared.shareFileById(file2Id);
     await apis.user.shared.shareFileById(file3Id);
     await apis.user.shared.shareFileById(file4Id);
+    await apis.user.shared.shareFileById(fileLocked1Id);
+
     await apis.user.favorites.addFavoriteById('file', file1Id);
     await apis.user.favorites.addFavoriteById('file', file2Id);
     await apis.user.favorites.addFavoriteById('file', file3Id);
     await apis.user.favorites.addFavoriteById('file', file4Id);
+
+    await apis.user.favorites.addFavoriteById('file', fileLocked1Id);
 
     await apis.user.sites.createSite(siteName);
     const docLibId = await apis.user.sites.getDocLibId(siteName);
@@ -137,8 +181,8 @@ describe('Copy content', () => {
     await apis.user.nodes.createFolder(folderSiteFav, docLibId);
     await apis.user.nodes.createFolder(folderSiteSearch, docLibId);
 
-    await apis.user.shared.waitForApi({ expect: 5 });
-    await apis.user.favorites.waitForApi({ expect: 10 });
+    await apis.user.shared.waitForApi({ expect: 7 });
+    await apis.user.favorites.waitForApi({ expect: 13 });
 
     await loginPage.loginWith(username);
     done();
@@ -157,22 +201,25 @@ describe('Copy content', () => {
       done();
     });
 
-    afterAll(async done => {
+    afterAll(async (done) => {
       await apis.user.nodes.deleteNodeById(destinationIdRF);
       done();
     });
 
-    it('Copy a file - [C280194]', async () => copyAFile(destinationRF, source));
+    it('Copy a file - [C280194]', async () => copyFile(file1, source, destinationRF));
 
-    it('Copy multiple items - [C280201]', async () => copyMultipleItems(destinationRF, source));
+    it('Copy multiple items - [C280201]', async () => copyMultipleItems([file2, file3], source, destinationRF));
 
-    it('Copy a file with a name that already exists on the destination - [C280196]', async () => copyAFileWithANameThatAlreadyExists(destinationRF, source));
+    it('Copy a file with a name that already exists on the destination - [C280196]', async () => copyFileWithNameThatAlreadyExists(existingFile, source, destinationRF));
 
-    it('Copy items into a library - [C291899]', async () => copyItemsIntoALibrary([file1], folderSiteRF, source));
+    it('Copy items into a library - [C291899]', async () => copyItemsIntoLibrary([file1, file2], source, folderSiteRF));
 
-    it('Copy locked file - [C280198]', async () => copyLockedFile(destinationRF, source));
+    it('Copy locked file - [C280198]', async () => copyLockedFile(fileLocked1, source, destinationRF, () => {
+      locationId = sourceId;
+      destinationId = destinationIdRF;
+    }));
 
-    it('Undo copy of files - [C280202]', async () => undoCopyOfFiles(destinationRF));
+    it('Undo copy of files - [C280202]', async () => undoCopyFile(file4, source, destinationRF));
 
   });
 
@@ -184,34 +231,43 @@ describe('Copy content', () => {
       done();
     });
 
-    afterAll(async done => {
+    afterAll(async (done) => {
       await apis.user.nodes.deleteNodeById(destinationIdPF);
       done();
     });
 
-    it('Copy a file - [C217135]', async () => copyAFile(destinationPF));
+    it('Copy a file - [C217135]', async () => copyFile(file1, '', destinationPF));
 
-    it('Copy a folder with content - [C291888]', async () => copyAFolderWithContent(destinationPF));
+    it('Copy a folder with content - [C291888]', async () => copyFolderWithContent(folder1, '', destinationPF));
 
-    it('Copy multiple items - [C291889]', async () => copyMultipleItems(destinationPF));
+    it('Copy multiple items - [C291889]', async () => copyMultipleItems([file2, file3], '', destinationPF));
 
-    it('Copy a file with a name that already exists on the destination - [C217137]', async () => copyAFileWithANameThatAlreadyExists(destinationPF));
+    it('Copy a file with a name that already exists on the destination - [C217137]', async () => copyFileWithNameThatAlreadyExists(existingFile, '', destinationPF));
 
-    it('Copy a folder with a name that already exists on the destination - [C217138]', async () => copyAFileWithANameThatAlreadyExists(destinationPF));
+    it('Copy a folder with a name that already exists on the destination - [C217138]', async () => copyFolderWithNameThatAlreadyExists(existingFolder, '', destinationPF));
 
-    it('Copy items into a library - [C280282]', async () => copyItemsIntoALibrary([file1, folder1], folderSitePF));
+    it('Copy items into a library - [C280282]', async () => copyItemsIntoLibrary([file1, folder1], '', folderSitePF));
 
-    it('Copy locked file - [C217139]', async () => copyLockedFile(destinationPF));
+    it('Copy locked file - [C217139]', async () => copyLockedFile(fileLocked1, '', destinationPF, () => {
+      locationId = sourceId;
+      destinationId = destinationIdPF;
+    }));
 
-    it('Copy folder that contains locked file - [C217140]', async () => copyFolderThatContainsLockedFile(destinationPF));
+    it('Copy folder that contains locked file - [C217140]', async () => copyFolderThatContainsLockedFile(folderWithLockedFiles, '', destinationPF, () => {
+      locationId = folderWithLockedFilesId;
+      destinationId = destinationIdPF;
+    }));
 
-    it('Undo copy of files - [C217171]', async () => undoCopyOfFiles(destinationPF));
+    it('Undo copy of files - [C217171]', async () => undoCopyFile(file4, '', destinationPF));
 
-    it('Undo copy of folders - [C217172]', async () => undoCopyOfFolders(destinationPF));
+    it('Undo copy of folders - [C217172]', async () => undoCopyFolder(folder2, '', destinationPF));
 
-    it('Undo copy of a file when a file with same name already exists on the destination - [C217173]', async () => undoCopyOfAFile());
+    it('Undo copy of a file when a file with same name already exists on the destination - [C217173]', async () => undoCopyFileWithExistingName(fileInFolder, '', folder2, async () => {
+      await dataTable.doubleClickOnRowByName(folder1);
+      await dataTable.waitForHeader();
+    }));
 
-    it('Undo copy of a folder when a folder with same name already exists on the destination - [C217174]', async () => undoCopyOfAFolder());
+    it('Undo copy of a folder when a folder with same name already exists on the destination - [C217174]', async () => undoCopyFolderWithExistingName(folderExisting, '', destinationPF));
 
   });
 
@@ -222,22 +278,25 @@ describe('Copy content', () => {
       done();
     });
 
-    afterAll(async done => {
+    afterAll(async (done) => {
       await apis.user.nodes.deleteNodeById(destinationIdSF);
       done();
     });
 
-    it('Copy a file - [C280206]', async () => copyAFile(destinationSF));
+    it('Copy a file - [C280206]', async () => copyFile(file1, source, destinationSF));
 
-    it('Copy multiple items - [C280213]', async () => copyMultipleItems(destinationSF, source));
+    it('Copy multiple items - [C280213]', async () => copyMultipleItems([file2, file3], source, destinationSF));
 
-    it('Copy a file with a name that already exists on the destination - [C280208]', async () => copyAFileWithANameThatAlreadyExists(destinationSF));
+    it('Copy a file with a name that already exists on the destination - [C280208]', async () => copyFileWithNameThatAlreadyExists(existingFile, source, destinationSF));
 
-    it('Copy items into a library - [C291900]', async () => copyItemsIntoALibrary([file1], folderSiteSF, source));
+    it('Copy items into a library - [C291900]', async () => copyItemsIntoLibrary([file1, file2], source, folderSiteSF));
 
-    it('Copy locked file - [C280210]', async () => copyLockedFile(destinationSF));
+    it('Copy locked file - [C280210]', async () => copyLockedFile(fileLocked1, source, destinationSF, () => {
+      locationId = sourceId;
+      destinationId = destinationIdSF;
+    }));
 
-    it('Undo copy of files - [C280214]', async () => undoCopyOfFiles(destinationSF));
+    it('Undo copy of files - [C280214]', async () => undoCopyFile(file4, source, destinationSF));
 
   });
 
@@ -248,34 +307,40 @@ describe('Copy content', () => {
       done();
     });
 
-    afterAll(async done => {
+    afterAll(async (done) => {
       await apis.user.nodes.deleteNodeById(destinationIdFav);
       done();
     });
 
-    it('Copy a file - [C280218]', async () => copyAFile(destinationFav));
+    it('Copy a file - [C280218]', async () => copyFile(file1, source, destinationFav));
 
-    it('Copy a folder with content - [C280219]', async () => copyAFolderWithContent(destinationFav, source));
+    it('Copy a folder with content - [C280219]', async () => copyFolderWithContent(folder1, source, destinationFav));
 
-    it('Copy multiple items - [C280225]', async () => copyMultipleItems(destinationFav));
+    it('Copy multiple items - [C280225]', async () => copyMultipleItems([file2, file3], source, destinationFav));
 
-    it('Copy a file with a name that already exists on the destination - [C280220]', async () => copyAFileWithANameThatAlreadyExists(destinationFav));
+    it('Copy a file with a name that already exists on the destination - [C280220]', async () => copyFileWithNameThatAlreadyExists(existingFile, source, destinationFav));
 
-    it('Copy a folder with a name that already exists on the destination - [C280221]', async () => copyAFolderWithANameThatAlreadyExists(destinationFav));
+    it('Copy a folder with a name that already exists on the destination - [C280221]', async () => copyFolderWithNameThatAlreadyExists(existingFolder, source, destinationFav));
 
-    it('Copy items into a library - [C291901]', async () => copyItemsIntoALibrary([file1, folder1], folderSiteFav, source));
+    it('Copy items into a library - [C291901]', async () => copyItemsIntoLibrary([file1, folder1], source, folderSiteFav));
 
-    it('Copy locked file - [C280222]', async () => copyLockedFile(destinationFav));
+    it('Copy locked file - [C280222]', async () => copyLockedFile(fileLocked1, source, destinationFav, () => {
+      locationId = sourceId;
+      destinationId = destinationIdFav;
+    }));
 
-    it('Copy folder that contains locked file - [C280223]', async () => copyFolderThatContainsLockedFile(destinationFav, source));
+    it('Copy folder that contains locked file - [C280223]', async () => copyFolderThatContainsLockedFile(folderWithLockedFiles, source, destinationFav, () => {
+      locationId = folderWithLockedFilesId;
+      destinationId = destinationIdFav;
+    }));
 
-    it('Undo copy of files - [C280226]', async () => undoCopyOfFiles(destinationFav));
+    it('Undo copy of files - [C280226]', async () => undoCopyFile(file4, source, destinationFav));
 
-    it('Undo copy of folders - [C280227]', async () => undoCopyOfFolders(destinationFav));
+    it('Undo copy of folders - [C280227]', async () => undoCopyFolder(folder2, source, destinationFav));
 
-    it('Undo copy of a file when a file with same name already exists on the destination - [C280228]', async () => undoCopyOfAFile(source));
+    it('Undo copy of a file when a file with same name already exists on the destination - [C280228]', async () => undoCopyFileWithExistingName(fileInFolder, folder1, folder2));
 
-    it('Undo copy of a folder when a folder with same name already exists on the destination - [C280229]', async () => undoCopyOfAFolder(source));
+    it('Undo copy of a folder when a folder with same name already exists on the destination - [C280229]', async () => undoCopyFolderWithExistingName(folderExisting, source, destinationFav));
 
   });
 
@@ -287,103 +352,81 @@ describe('Copy content', () => {
       done();
     });
 
-    afterAll(async done => {
+    afterAll(async (done) => {
       await apis.user.nodes.deleteNodeById(destinationIdSearch);
       done();
     });
 
-    it('Copy a file - [C306932]', async () => copyAFile(destinationSearch, source, async () => {
-        await searchInput.searchFor(file1);
-        await dataTable.waitForBody();
-      })
-    );
+    it('Copy a file - [C306932]', async () => copyFile(file1, source, destinationSearch, async () => {
+      await searchInput.searchFor(file1);
+      await dataTable.waitForBody();
+    }));
 
-    it('Copy a folder with content - [C306943]', async () => copyAFolderWithContent(destinationSearch, source, async () => {
-        await searchInput.searchFor(folder1);
-        await dataTable.waitForBody();
-      })
-    );
+    it('Copy a folder with content - [C306943]', async () => copyFolderWithContent(folder1, source, destinationSearch, async () => {
+      await searchInput.searchFor(folder1);
+      await dataTable.waitForBody();
+    }));
 
-    it('Copy multiple items - [C306944]', async () => copyMultipleItems(destinationSearch, source, async () => {
-        await searchInput.searchFor('file');
-        await dataTable.waitForBody();
-      })
-    );
+    it('Copy multiple items - [C306944]', async () => copyMultipleItems([file2, file3], source, destinationSearch, async () => {
+      await searchInput.searchFor('file');
+      await dataTable.waitForBody();
+    }));
 
-    it('Copy a file with a name that already exists on the destination - [C306933]', async () => copyAFileWithANameThatAlreadyExists(destinationSearch, source, async () => {
-        await searchInput.searchFor(existingFile);
-        await dataTable.waitForBody();
-      })
-    );
-
-    it('Copy a folder with a name that already exists on the destination - [C306934]', async () => copyAFolderWithANameThatAlreadyExists(destinationSearch, source, async () => {
-        await searchInput.searchFor(existingFolder);
-        await dataTable.waitForBody();
-      })
-    );
-
-    it('Copy items into a library - [C306942]', async () => copyItemsIntoALibrary([file1, file2], folderSiteSearch, source, async () => {
-        await searchInput.searchFor('file');
-        await dataTable.waitForBody();
-      })
-    );
-
-    it('Copy locked file - [C306935]', async () => copyLockedFile(destinationSearch, source, async () => {
-        await searchInput.searchFor(file1);
-        await dataTable.waitForBody();
-      })
-    );
-
-    it('Copy folder that contains locked file - [C306936]', async () => copyFolderThatContainsLockedFile(destinationSearch, source, async () => {
-        await searchInput.searchFor(folder1);
-        await dataTable.waitForBody();
-      })
-    );
-
-    it('Undo copy of files - [C306938]', async () => undoCopyOfFiles(destinationSearch, '', async () => {
-        await searchInput.searchFor('file');
-        await dataTable.waitForBody();
-      })
-    );
-
-    it('Undo copy of folders - [C306939]', async () => undoCopyOfFolders(destinationSearch, source, async () => {
-        await searchInput.searchFor('folder');
-        await dataTable.waitForBody();
-      })
-    );
-
-    it('Undo copy of a file when a file with same name already exists on the destination - [C306940]', async () => {
+    it('Copy a file with a name that already exists on the destination - [C306933]', async () => copyFileWithNameThatAlreadyExists(existingFile, source, destinationSearch, async () => {
       await searchInput.searchFor(existingFile);
       await dataTable.waitForBody();
+    }));
 
-      await dataTable.selectItem(existingFile, source);
-      await toolbar.clickMoreActionsCopy();
-      await copyDialog.selectLocation('Personal Files');
-      await copyDialog.selectDestination(destinationSearch);
-      await copyDialog.clickCopy();
-      const msg = await page.getSnackBarMessage();
-      expect(msg).toContain('Copied 1 item');
-      expect(msg).toContain('Undo');
+    it('Copy a folder with a name that already exists on the destination - [C306934]', async () => copyFolderWithNameThatAlreadyExists(existingFolder, source, destinationSearch, async () => {
+      await searchInput.searchFor(existingFolder);
+      await dataTable.waitForBody();
+    }));
 
-      await copyDialog.waitForDialogToClose();
-      await page.clickPersonalFilesAndWait();
-      await dataTable.doubleClickOnRowByName(destinationSearch);
-      expect(await dataTable.isItemPresent(existingFile)).toBe(true, `${existingFile} not present in destination folder`);
-    });
+    it('Copy items into a library - [C306942]', async () => copyItemsIntoLibrary([file1, file2], source, folderSiteSearch, async () => {
+      await searchInput.searchFor('file');
+      await dataTable.waitForBody();
+    }));
 
-    it('Undo copy of a folder when a folder with same name already exists on the destination - [C306941]', async () => undoCopyOfAFolder(source, async () => {
-        await searchInput.searchFor(folder1);
-        await dataTable.waitForBody();
-      })
-    );
+    it('Copy locked file - [C306935]', async () => copyLockedFile(fileLocked1, source, destinationSearch, async () => {
+      locationId = sourceId;
+      destinationId = destinationIdSearch;
+      await searchInput.searchFor(fileLocked1);
+      await dataTable.waitForBody();
+    }));
 
+    it('Copy folder that contains locked file - [C306936]', async () => copyFolderThatContainsLockedFile(folderWithLockedFiles, source, destinationSearch, async () => {
+      locationId = folderWithLockedFilesId;
+      destinationId = destinationIdSearch;
+      await searchInput.searchFor(folderWithLockedFiles);
+      await dataTable.waitForBody();
+    }));
+
+    it('Undo copy of files - [C306938]', async () => undoCopyFile(file4, source, destinationSearch, async () => {
+      await searchInput.searchFor(file4);
+      await dataTable.waitForBody();
+    }));
+
+    it('Undo copy of folders - [C306939]', async () => undoCopyFolder(folder2, source, destinationSearch, async () => {
+      await searchInput.searchFor(folder2);
+      await dataTable.waitForBody();
+    }));
+
+    it('Undo copy of a file when a file with same name already exists on the destination - [C306940]', async () => undoCopyFileWithExistingName(fileInFolder, folder1, folder2, async () => {
+      await searchInput.searchFor(fileInFolder);
+      await dataTable.waitForBody();
+    }));
+
+    it('Undo copy of a folder when a folder with same name already exists on the destination - [C306941]', async () => undoCopyFolderWithExistingName(folderExisting, source, destinationSearch, async () => {
+      await searchInput.searchFor(folderExisting);
+      await dataTable.waitForBody();
+    }));
   });
 
-  async function copyAFile(destination, location = '', doBefore = null) {
+  async function copyFile(fileName: string, location: string = '', destination: string, doBefore = null) {
     if (doBefore) {
       await doBefore();
     }
-    await dataTable.selectItem(file1, location);
+    await dataTable.selectItem(fileName, location);
     await toolbar.clickMoreActionsCopy();
     await copyDialog.selectLocation('Personal Files');
     await copyDialog.selectDestination(destination);
@@ -393,17 +436,17 @@ describe('Copy content', () => {
     expect(msg).toContain('Undo');
 
     await copyDialog.waitForDialogToClose();
-    expect(await dataTable.isItemPresent(file1)).toBe(true, `${file1} not present in source folder`);
+    expect(await dataTable.isItemPresent(fileName)).toBe(true, `${fileName} not present in source folder`);
     await page.clickPersonalFilesAndWait();
     await dataTable.doubleClickOnRowByName(destination);
-    expect(await dataTable.isItemPresent(file1)).toBe(true, `${file1} not present in destination folder`);
+    expect(await dataTable.isItemPresent(fileName)).toBe(true, `${fileName} not present in ${destination} folder`);
   }
 
-  async function copyAFolderWithContent(destination, location = '', doBefore = null) {
+  async function copyFolderWithContent(folderName: string, location: string = '', destination: string, doBefore = null) {
     if (doBefore) {
       await doBefore();
     }
-    await dataTable.selectItem(folder1, location);
+    await dataTable.selectItem(folderName, location);
     await toolbar.clickMoreActionsCopy();
     await copyDialog.selectLocation('Personal Files');
     await copyDialog.selectDestination(destination);
@@ -413,21 +456,21 @@ describe('Copy content', () => {
     expect(msg).toContain('Undo');
 
     await copyDialog.waitForDialogToClose();
-    expect(await dataTable.isItemPresent(folder1)).toBe(true, `${folder1} not present in source folder`);
+    expect(await dataTable.isItemPresent(folderName)).toBe(true, `${folderName} not present in source folder`);
     await page.clickPersonalFilesAndWait();
     await dataTable.doubleClickOnRowByName(destination);
-    expect(await dataTable.isItemPresent(folder1)).toBe(true, `${folder1} not present in destination folder`);
-    expect(await dataTable.isItemPresent(fileInFolder)).toBe(false, `${fileInFolder} is present in destination`);
+    expect(await dataTable.isItemPresent(folderName)).toBe(true, `${folderName} not present in ${destination} folder`);
+    expect(await dataTable.isItemPresent(fileInFolder)).toBe(false, `${fileInFolder} is present in ${destination}`);
 
-    await dataTable.doubleClickOnRowByName(folder1);
-    expect(await dataTable.isItemPresent(fileInFolder)).toBe(true, `${fileInFolder} is not present in parent folder`);
+    await dataTable.doubleClickOnRowByName(folderName);
+    expect(await dataTable.isItemPresent(fileInFolder)).toBe(true, `${fileInFolder} is not present in ${folderName} folder in ${destination}`);
   }
 
-  async function copyMultipleItems(destination, location = '', doBefore = null) {
+  async function copyMultipleItems(items: string[], location: string = '', destination: string, doBefore = null) {
     if (doBefore) {
       await doBefore();
     }
-    await dataTable.selectMultipleItems([file2, file3], location);
+    await dataTable.selectMultipleItems(items, location);
     await toolbar.clickMoreActionsCopy();
     await copyDialog.selectLocation('Personal Files');
     await copyDialog.selectDestination(destination);
@@ -437,19 +480,19 @@ describe('Copy content', () => {
     expect(msg).toContain('Undo');
 
     await copyDialog.waitForDialogToClose();
-    expect(await dataTable.isItemPresent(file2)).toBe(true, `${file2} not present in source folder`);
-    expect(await dataTable.isItemPresent(file3)).toBe(true, `${file3} not present in source folder`);
+    expect(await dataTable.isItemPresent(items[0])).toBe(true, `${items[0]} not present in source folder`);
+    expect(await dataTable.isItemPresent(items[1])).toBe(true, `${items[1]} not present in source folder`);
     await page.clickPersonalFilesAndWait();
     await dataTable.doubleClickOnRowByName(destination);
-    expect(await dataTable.isItemPresent(file2)).toBe(true, `${file2} not present in destination folder`);
-    expect(await dataTable.isItemPresent(file3)).toBe(true, `${file3} not present in destination folder`);
+    expect(await dataTable.isItemPresent(items[0])).toBe(true, `${items[0]} not present in ${destination} folder`);
+    expect(await dataTable.isItemPresent(items[1])).toBe(true, `${items[1]} not present in ${destination} folder`);
   }
 
-  async function copyAFileWithANameThatAlreadyExists(destination, location = '', doBefore = null) {
+  async function copyFileWithNameThatAlreadyExists(fileName: string, location: string = '', destination: string, doBefore = null) {
     if (doBefore) {
       await doBefore();
     }
-    await dataTable.selectItem(existingFile, location);
+    await dataTable.selectItem(fileName, location);
     await toolbar.clickMoreActionsCopy();
     await copyDialog.selectLocation('Personal Files');
     await copyDialog.selectDestination(destination);
@@ -459,17 +502,17 @@ describe('Copy content', () => {
     expect(msg).toContain('Undo');
 
     await copyDialog.waitForDialogToClose();
-    expect(await dataTable.isItemPresent(existingFile)).toBe(true, `${existingFile}.txt not present in source folder`);
+    expect(await dataTable.isItemPresent(fileName)).toBe(true, `${fileName}.txt not present in source folder`);
     await page.clickPersonalFilesAndWait();
     await dataTable.doubleClickOnRowByName(destination);
-    expect(await dataTable.isItemPresent(existingFile)).toBe(true, `${existingFile}.txt not present in destination folder`);
+    expect(await dataTable.isItemPresent(fileName)).toBe(true, `${fileName}.txt not present in ${destination} folder`);
   }
 
-  async function copyAFolderWithANameThatAlreadyExists(destination, location = '', doBefore = null) {
+  async function copyFolderWithNameThatAlreadyExists(folderName: string, location: string = '', destination: string, doBefore = null) {
     if (doBefore) {
       await doBefore();
     }
-    await dataTable.selectItem(existingFolder, location);
+    await dataTable.selectItem(folderName, location);
     await toolbar.clickMoreActionsCopy();
     await copyDialog.selectLocation('Personal Files');
     await copyDialog.selectDestination(destination);
@@ -479,19 +522,20 @@ describe('Copy content', () => {
     expect(msg).toContain('Undo');
 
     await copyDialog.waitForDialogToClose();
-    expect(await dataTable.isItemPresent(existingFolder)).toBe(true, `${existingFolder} not present in source folder`);
+    expect(await dataTable.isItemPresent(folderName)).toBe(true, `${folderName} not present in source folder`);
     await page.clickPersonalFilesAndWait();
     await dataTable.doubleClickOnRowByName(destination);
-    expect(await dataTable.isItemPresent(existingFolder)).toBe(true, `${existingFolder} not present in destination folder`);
-    await dataTable.doubleClickOnRowByName(existingFolder);
-    expect(await dataTable.isItemPresent(file2InFolder)).toBe(true, `${file2InFolder} not present in destination folder`);
-    expect(await dataTable.isItemPresent(file3InFolder)).toBe(true, `${file3InFolder} not present in destination folder`);
+    expect(await dataTable.isItemPresent(folderName)).toBe(true, `${folderName} not present in ${destination} folder`);
+    await dataTable.doubleClickOnRowByName(folderName);
+    expect(await dataTable.isItemPresent(file2InFolder)).toBe(true, `${file2InFolder} not present in ${destination} folder in ${folderName}`);
+    expect(await dataTable.isItemPresent(file3InFolder)).toBe(true, `${file3InFolder} not present in ${destination} folder in ${folderName}`);
   }
 
-  async function copyItemsIntoALibrary(items, destination, location = '', doBefore = null) {
+  async function copyItemsIntoLibrary(items: string[], location: string = '', destination: string, doBefore = null) {
     if (doBefore) {
       await doBefore();
     }
+    const noOfItems = items.length;
     await dataTable.selectMultipleItems(items, location);
     await toolbar.clickMoreActionsCopy();
     await copyDialog.selectLocation('File Libraries');
@@ -500,11 +544,11 @@ describe('Copy content', () => {
     await copyDialog.selectDestination(destination);
     await copyDialog.clickCopy();
     const msg = await page.getSnackBarMessage();
-    expect(msg).toContain('Copied ' + items.length + ' item');
+    expect(msg).toContain(`Copied ${noOfItems} ${ noOfItems === 1 ? 'item' : 'items'}`);
     expect(msg).toContain('Undo');
 
     await copyDialog.waitForDialogToClose();
-    for (const item of Object.keys(items)) {
+    for (const item of items) {
       expect(await dataTable.isItemPresent(item)).toBe(true, `${item} not present in source folder`);
     }
 
@@ -512,18 +556,17 @@ describe('Copy content', () => {
     await dataTable.doubleClickOnRowByName(siteName);
     await dataTable.doubleClickOnRowByName(destination);
 
-    for (const item of Object.keys(items)) {
-      expect(await dataTable.isItemPresent(item)).toBe(true, `${item} not present in destination folder`);
+    for (const item of items) {
+      expect(await dataTable.isItemPresent(item)).toBe(true, `${item} not present in ${destination} folder`);
     }
   }
 
-  async function copyLockedFile(destination, location = '', doBefore = null) {
+  async function copyLockedFile(fileName: string, location: string = '', destination: string, doBefore = null) {
     if (doBefore) {
       await doBefore();
     }
-    await apis.user.nodes.lockFile(file1Id);
 
-    await dataTable.selectItem(file1, location);
+    await dataTable.selectItem(fileName, location);
     await toolbar.clickMoreActionsCopy();
     await copyDialog.selectLocation('Personal Files');
     await copyDialog.selectDestination(destination);
@@ -533,19 +576,20 @@ describe('Copy content', () => {
     expect(msg).toContain('Undo');
 
     await copyDialog.waitForDialogToClose();
-    expect(await dataTable.isItemPresent(file1)).toBe(true, `${file1} not present in source folder`);
+    expect(await dataTable.isItemPresent(fileName)).toBe(true, `${fileName} not present in source folder`);
+    expect(await apis.user.nodes.isFileLockedByName(fileName, locationId)).toBe(true, `${fileName} not locked in ${location}`);
     await page.clickPersonalFilesAndWait();
     await dataTable.doubleClickOnRowByName(destination);
-    expect(await dataTable.isItemPresent(file1)).toBe(true, `${file1} not present in destination folder`);
+    expect(await dataTable.isItemPresent(fileName)).toBe(true, `${fileName} not present in ${destination} folder`);
+    expect(await apis.user.nodes.isFileLockedByName(fileName, destinationId)).toBe(false, `${fileName} is locked in ${destination}`);
   }
 
-  async function copyFolderThatContainsLockedFile(destination, location = '', doBefore = null) {
+  async function copyFolderThatContainsLockedFile(folderName: string, location: string = '', destination: string, doBefore = null) {
     if (doBefore) {
       await doBefore();
     }
-    await apis.user.nodes.lockFile(fileInFolderId);
 
-    await dataTable.selectItem(folder1, location);
+    await dataTable.selectItem(folderName, location);
     await toolbar.clickMoreActionsCopy();
     await copyDialog.selectLocation('Personal Files');
     await copyDialog.selectDestination(destination);
@@ -555,45 +599,23 @@ describe('Copy content', () => {
     expect(msg).toContain('Undo');
 
     await copyDialog.waitForDialogToClose();
-    expect(await dataTable.isItemPresent(folder1)).toBe(true, `${folder1} not present in source folder`);
+    expect(await dataTable.isItemPresent(folderName)).toBe(true, `${folderName} not present in source folder`);
     await page.clickPersonalFilesAndWait();
     await dataTable.doubleClickOnRowByName(destination);
-    expect(await dataTable.isItemPresent(folder1)).toBe(true, `${folder1} not present in destination folder`);
-    expect(await dataTable.isItemPresent(fileInFolder)).toBe(false, `${fileInFolder} is present in destination`);
+    expect(await dataTable.isItemPresent(folderName)).toBe(true, `${folderName} not present in ${destination} folder`);
+    expect(await dataTable.isItemPresent(fileLockedInFolder)).toBe(false, `${fileLockedInFolder} is present in ${destination}`);
+    expect(await apis.user.nodes.isFileLockedByName(fileLockedInFolder, locationId)).toBe(true, `${fileLockedInFolder} not locked in ${location}`);
 
-    await dataTable.doubleClickOnRowByName(folder1);
-    expect(await dataTable.isItemPresent(fileInFolder)).toBe(true, `${fileInFolder} is not present in parent folder`);
+    await dataTable.doubleClickOnRowByName(folderName);
+    expect(await dataTable.isItemPresent(fileLockedInFolder)).toBe(true, `${fileLockedInFolder} is not present in ${folderName} folder from ${destination}`);
+    expect(await apis.user.nodes.isFileLockedByName(fileLockedInFolder, (await apis.user.nodes.getNodeIdFromParent(folderWithLockedFiles, destinationId)))).toBe(false, `${fileLockedInFolder} is locked in ${destination}`);
   }
 
-  async function undoCopyOfFiles(destination, location = '', doBefore = null) {
+  async function undoCopyFile(fileName: string, location: string = '', destination: string, doBefore = null) {
     if (doBefore) {
       await doBefore();
     }
-    await dataTable.selectItem(file4, location);
-    await toolbar.clickMoreActionsCopy();
-    await copyDialog.selectLocation('Personal Files');
-    await copyDialog.selectDestination(destination);
-    await copyDialog.clickCopy();
-    const msg = await page.getSnackBarMessage();
-    expect(msg).toContain('Copied 1 item');
-    expect(msg).toContain('Undo');
-
-    await page.clickSnackBarAction();
-
-    expect(await dataTable.isItemPresent(file4)).toBe(true, `${file4} not present in source folder`);
-    await page.clickPersonalFilesAndWait();
-    await dataTable.doubleClickOnRowByName(destination);
-    expect(await dataTable.isItemPresent(file4)).toBe(false, `${file4} present in destination folder`);
-
-    await page.clickTrash();
-    expect(await dataTable.isEmptyList()).toBe(true, 'Trash is not empty');
-  }
-
-  async function undoCopyOfFolders(destination, location = '', doBefore = null) {
-    if (doBefore) {
-      await doBefore();
-    }
-    await dataTable.selectItem(folder2, location);
+    await dataTable.selectItem(fileName, location);
     await toolbar.clickMoreActionsCopy();
     await copyDialog.selectLocation('Personal Files');
     await copyDialog.selectDestination(destination);
@@ -606,22 +628,45 @@ describe('Copy content', () => {
 
     await page.clickPersonalFilesAndWait();
     await dataTable.doubleClickOnRowByName(destination);
-    expect(await dataTable.isItemPresent(folder2)).toBe(false, `${folder2} present in destination folder`);
+    expect(await dataTable.isItemPresent(fileName)).toBe(false, `${fileName} present in ${destination} folder`);
 
     await page.clickTrash();
     expect(await dataTable.isEmptyList()).toBe(true, 'Trash is not empty');
   }
 
-  async function undoCopyOfAFile(location = '', doBefore = null) {
+  async function undoCopyFolder(folderName: string, location: string = '', destination: string, doBefore = null) {
     if (doBefore) {
       await doBefore();
     }
-    await dataTable.doubleClickOnRowByName(folder1, location);
-    await dataTable.selectItem(fileInFolder);
+    await dataTable.selectItem(folderName, location);
+    await toolbar.clickMoreActionsCopy();
+    await copyDialog.selectLocation('Personal Files');
+    await copyDialog.selectDestination(destination);
+    await copyDialog.clickCopy();
+    const msg = await page.getSnackBarMessage();
+    expect(msg).toContain('Copied 1 item');
+    expect(msg).toContain('Undo');
+
+    await page.clickSnackBarAction();
+
+    await page.clickPersonalFilesAndWait();
+    await dataTable.doubleClickOnRowByName(destination);
+    expect(await dataTable.isItemPresent(folderName)).toBe(false, `${folderName} present in ${destination} folder`);
+
+    await page.clickTrash();
+    expect(await dataTable.isEmptyList()).toBe(true, 'Trash is not empty');
+  }
+
+  async function undoCopyFileWithExistingName(fileName: string, location: string = '', destination: string, doBefore = null) {
+    if (doBefore) {
+      await doBefore();
+    }
+
+    await dataTable.selectItem(fileName, location);
     await toolbar.clickMoreActionsCopy();
     await copyDialog.selectLocation('Personal Files');
     await copyDialog.doubleClickOnRow(source);
-    await copyDialog.selectDestination(folder2);
+    await copyDialog.selectDestination(destination);
     await copyDialog.clickCopy();
     const msg = await page.getSnackBarMessage();
     expect(msg).toContain('Copied 1 item');
@@ -629,41 +674,25 @@ describe('Copy content', () => {
 
     await page.clickSnackBarAction();
 
-    expect(await dataTable.isItemPresent(fileInFolder)).toBe(true, `${fileInFolder} not present in source folder`);
     await page.clickPersonalFilesAndWait();
     await dataTable.doubleClickOnRowByName(source);
     await dataTable.doubleClickOnRowByName(folder2);
-    expect(await dataTable.isItemPresent(fileInFolder2)).toBe(true, `${fileInFolder2} not present in destination folder`);
-    expect(await dataTable.isItemPresent(fileInFolder2 + '-1')).toBe(false, `${fileInFolder2}-1 present in destination folder`);
+    expect(await dataTable.isItemPresent(fileInFolder2)).toBe(true, `${fileInFolder2} not present in ${destination} folder`);
+    expect(await dataTable.isItemPresent(`${fileInFolder2}-1`)).toBe(false, `${fileInFolder2}-1 is present in ${destination} folder`);
 
     await page.clickTrash();
     expect(await dataTable.isEmptyList()).toBe(true, 'Trash is not empty');
   }
 
-  async function undoCopyOfAFolder(location = '', doBefore = null) {
+  async function undoCopyFolderWithExistingName(folderName: string, location: string = '', destination: string, doBefore = null) {
     if (doBefore) {
       await doBefore();
     }
-    // create folder1/my-folder-x/file1-y.txt
-    const folderInFolder1 = `my-folder-${Utils.random()}`; let folderInFolder1Id;
-    folderInFolder1Id = (await apis.user.nodes.createFolder(folderInFolder1, folder1Id)).entry.id;
-    const fileInFolderInFolder1 = `f1-${Utils.random()}.txt`;
-    await apis.user.nodes.createFile(fileInFolderInFolder1, folderInFolder1Id);
 
-    // create folder2/my-folder-x/file2-y.txt
-    const f2 = `f2-${Utils.random()}`; let f2Id;
-    f2Id = (await apis.user.nodes.createFolder(f2, sourceId)).entry.id;
-    const folderInFolder2 = folderInFolder1; let folderInFolder2Id;
-    folderInFolder2Id = (await apis.user.nodes.createFolder(folderInFolder2, f2Id)).entry.id;
-    const fileInFolderInFolder2 = `f2-${Utils.random()}.txt`;
-    await apis.user.nodes.createFile(fileInFolderInFolder2, folderInFolder2Id);
-
-    await dataTable.doubleClickOnRowByName(folder1, location);
-    await dataTable.selectItem(folderInFolder1);
+    await dataTable.selectItem(folderName, location);
     await toolbar.clickMoreActionsCopy();
     await copyDialog.selectLocation('Personal Files');
-    await copyDialog.doubleClickOnRow(source);
-    await copyDialog.selectDestination(f2);
+    await copyDialog.doubleClickOnRow(destination);
     await copyDialog.clickCopy();
     const msg = await page.getSnackBarMessage();
     expect(msg).toContain('Copied 1 item');
@@ -671,14 +700,12 @@ describe('Copy content', () => {
 
     await page.clickSnackBarAction();
 
-    expect(await dataTable.isItemPresent(fileInFolder)).toBe(true, `${fileInFolder} not present in source folder`);
     await page.clickPersonalFilesAndWait();
-    await dataTable.doubleClickOnRowByName(source);
-    await dataTable.doubleClickOnRowByName(f2);
-    expect(await dataTable.isItemPresent(folderInFolder2)).toBe(true, `${folderInFolder2} not present in destination folder`);
-    await dataTable.doubleClickOnRowByName(folderInFolder2);
-    expect(await dataTable.isItemPresent(fileInFolderInFolder2)).toBe(true, `${fileInFolderInFolder2} not present in destination folder`);
-    expect(await dataTable.isItemPresent(fileInFolderInFolder1)).toBe(false, `${fileInFolderInFolder1} present in destination folder`);
+    await dataTable.doubleClickOnRowByName(destination);
+    expect(await dataTable.isItemPresent(folderName)).toBe(true, `${folderName} not present in ${destination} folder`);
+    await dataTable.doubleClickOnRowByName(folderName);
+    expect(await dataTable.isItemPresent(file2InFolderExisting)).toBe(true, `${file2InFolderExisting} not present in ${folderName} in ${destination} folder`);
+    expect(await dataTable.isItemPresent(file1InFolderExisting)).toBe(false, `${file1InFolderExisting} present in ${folderName} in ${destination} folder`);
 
     await page.clickTrash();
     expect(await dataTable.isEmptyList()).toBe(true, 'Trash is not empty');

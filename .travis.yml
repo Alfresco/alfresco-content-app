@@ -16,6 +16,7 @@ env:
     - DEPLOYMENT=Nginx SUITES=navigation
     - DEPLOYMENT=Nginx SUITES=pagination
     - DEPLOYMENT=Nginx SUITES=search
+    - DEPLOYMENT=Nginx SUITES=actionsAvailable
     - DEPLOYMENT=Nginx SUITES=actions
     - DEPLOYMENT=Nginx SUITES=viewer
     - DEPLOYMENT=Nginx SUITES=infoDrawer
