@@ -45,6 +45,11 @@ export class NodesApi extends RepoApi {
         return await this.nodesApi.getNode(id);
     }
 
+    async getNodeIdFromParent(name: string, parentId: string) {
+      const children = (await this.getNodeChildren(parentId)).list.entries;
+      return children.find(elem => elem.entry.name === name).entry.id;
+    }
+
     async getNodeDescription(name: string, parentId: string) {
       const children = (await this.getNodeChildren(parentId)).list.entries;
       return children.find(elem => elem.entry.name === name).entry.properties['cm:description'];
@@ -245,7 +250,11 @@ export class NodesApi extends RepoApi {
     }
 
     async isFileLockedWrite(nodeId: string) {
-        await this.apiAuth();
         return (await this.getLockType(nodeId)) === 'WRITE_LOCK';
+    }
+
+    async isFileLockedByName(fileName: string, parentId: string) {
+      const id = await this.getNodeIdFromParent(fileName, parentId);
+      return await this.isFileLockedWrite(id);
     }
 }
