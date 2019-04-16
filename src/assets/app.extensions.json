@@ -452,10 +452,10 @@
             "icon": "history",
             "actions": {
               "click": "MANAGE_VERSIONS"
-             },
-             "rules": {
-                "visible": "canManageFileVersions"
-              }
+            },
+            "rules": {
+              "visible": "canManageFileVersions"
+            }
           },
           {
             "id": "app.toolbar.permissions",
