@@ -1090,7 +1090,7 @@
           "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON",
           "type": "date",
           "format": "timeAgo",
-          "class": "adf-ellipsis-cell adf-no-grow-cell",
+          "class": "adf-ellipsis-cell",
           "sortable": true,
           "desktopOnly": true
         },
@@ -1224,7 +1224,7 @@
           "key": "modifiedAt",
           "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON",
           "type": "date",
-          "class": "adf-ellipsis-cell adf-no-grow-cell",
+          "class": "adf-ellipsis-cell",
           "format": "timeAgo",
           "sortable": true,
           "desktopOnly": true
@@ -1291,7 +1291,7 @@
           "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON",
           "type": "date",
           "format": "timeAgo",
-          "class": "adf-ellipsis-cell adf-no-grow-cell",
+          "class": "adf-ellipsis-cell",
           "sortable": true,
           "desktopOnly": true
         }
@@ -1339,7 +1339,7 @@
           "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON",
           "type": "date",
           "format": "timeAgo",
-          "class": "adf-ellipsis-cell adf-no-grow-cell",
+          "class": "adf-ellipsis-cell",
           "sortable": true,
           "desktopOnly": true
         },
@@ -1396,7 +1396,7 @@
           "title": "APP.DOCUMENT_LIST.COLUMNS.DELETED_ON",
           "type": "date",
           "format": "timeAgo",
-          "class": "adf-ellipsis-cell adf-no-grow-cell",
+          "class": "adf-ellipsis-cell",
           "sortable": true,
           "desktopOnly": true
         }
