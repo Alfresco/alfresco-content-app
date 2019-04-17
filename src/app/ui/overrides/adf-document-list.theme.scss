@@ -10,18 +10,24 @@
   $document-list-background: mat-color($background, background) !default;
   $document-list-text-color: mat-color($foreground, text, 0.54) !default;
   $document-list-name-text-color: mat-color($foreground, text) !default;
-  $document-list-thumbnail-width: 50px !default;
+  $data-table-thumbnail-width: 50px !default;
 
   .adf-datatable-list {
     border: none;
 
     .adf-datatable-cell-container {
-      .aca-column-content,
+      .adf-datatable-content-cell,
       .adf-name-column,
       .adf-library-name-column,
-      .adf-trashcan-name-column {
+      .adf-trashcan-name-column,
+      .adf-name-location-cell {
         position: absolute;
         max-width: calc(100% - 0px);
+
+        .adf-datatable-cell-value {
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
 
         // remove this style once the [ADF-4401] issue is fixed:
         &.adf-datatable-cell {
@@ -49,9 +55,9 @@
     }
 
     .adf-datatable-cell--image {
-      min-width: $document-list-thumbnail-width;
-      width: $document-list-thumbnail-width;
-      max-width: $document-list-thumbnail-width;
+      min-width: $data-table-thumbnail-width;
+      width: $data-table-thumbnail-width;
+      max-width: $data-table-thumbnail-width;
     }
   }
 
@@ -72,14 +78,14 @@
     .adf-datatable-cell {
       padding: 0 2px;
       box-sizing: border-box;
-      min-width: 100px;
+      min-width: 120px;
 
-      &.adf-no-grow-cell {
-        min-width: 120px;
+      &.adf-datatable-cell--fileSize {
+        min-width: 80px;
       }
 
       &:first-child {
-        min-width: $document-list-thumbnail-width;
+        min-width: $data-table-thumbnail-width;
       }
 
       &:focus {
