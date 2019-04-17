@@ -1,5 +1,7 @@
 <p align="left"> <img title="Alfresco" src="alfresco.png" alt="Alfresco - make business flow"></p>
 
+Hillo World!
+
 # Alfresco Content Application
 
 Testing Supported By<br/>
@@ -33,7 +35,7 @@ Please include a clear description, steps to reproduce and screenshots where app
 #### Features added in the latest release
 
 - Edit Offline - lock and download files whilst editing
-- Edit Online - edit files directly in Microsoft Office 
+- Edit Online - edit files directly in Microsoft Office
 - [Alfresco Full Text Search (FTS) syntax](https://alfresco-content-app.netlify.com/#/features/search-results?id=alfresco-full-text-search) - enhanced search input to support the Alfresco Search Query Language
 - [Single Sign-On](https://alfresco-content-app.netlify.com/#/getting-started/sso) (SSO) support with Alfresco Identity Service and ADF 3.0.0, basic Kerberos support
 
@@ -95,8 +97,8 @@ Read up on our guidelines for [contributing] and then check out one of our issue
 | 1.6     | Library management         | Join and favorite libraries. New search input to find Libraries, files and/or folders.                                                                                                         |
 | 1.7     | Edit Offline               | Lock and unlock for editing, download current version, upload new version.                                                                                                                     |
 | 1.7     | Edit with Microsoft Office | Extension to edit online with Alfresco Office Services (AOS)                                                                                                                                   |
-| 1.7     | Single Sign-On (SSO)       | Support for Alfresco Identity Service, with ADF 3.0.0    |        
-| 1.7     | Search Query Language     | Enhanced search input using the Alfresco Search Query Language    |        
+| 1.7     | Single Sign-On (SSO)       | Support for Alfresco Identity Service, with ADF 3.0.0                                                                                                                                          |
+| 1.7     | Search Query Language      | Enhanced search input using the Alfresco Search Query Language                                                                                                                                 |
 
 [contributing]: https://github.com/Alfresco/alfresco-content-app/blob/master/CONTRIBUTING.md
 [github]: https://github.com/Alfresco/alfresco-content-app/issues
