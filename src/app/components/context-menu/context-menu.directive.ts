@@ -100,7 +100,8 @@ export class ContextActionsDirective implements OnInit, OnDestroy {
   }
 
   private getTarget(event: MouseEvent): Element {
-    return this.findAncestor(<Element>event.target, 'adf-datatable-cell');
+    // change back to 'adf-datatable-cell' once the [ADF-4401] issue is fixed
+    return this.findAncestor(<Element>event.target, 'adf-datatable-cell--');
   }
 
   private isSelected(target: Element): boolean {
@@ -113,12 +114,15 @@ export class ContextActionsDirective implements OnInit, OnDestroy {
     );
   }
 
-  private findAncestor(el: Element, className: string): Element {
-    if (el.classList.contains(className)) {
+  private findAncestor(el: Element, classNameString: string): Element {
+    if (el.classList.value.includes(classNameString)) {
       return el;
     }
     // tslint:disable-next-line:curly
-    while ((el = el.parentElement) && !el.classList.contains(className));
+    while (
+      (el = el.parentElement) &&
+      !el.classList.value.includes(classNameString)
+    );
     return el;
   }
 }

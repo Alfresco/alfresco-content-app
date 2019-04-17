@@ -36,7 +36,7 @@ import { isLocked } from '../../../utils/node.utils';
   templateUrl: './name-column.component.html',
   styleUrls: ['name-column.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  host: { class: 'adf-datatable-cell adf-datatable-link adf-name-column' }
+  host: { class: ' aca-column-content adf-datatable-link adf-name-column' }
 })
 export class CustomNameColumnComponent extends NameColumnComponent
   implements OnInit, OnDestroy {

@@ -31,14 +31,17 @@ import * as moment from 'moment';
 describe('Search results - files and folders', () => {
   const username = `user-${Utils.random()}`;
 
-  const file = `test-file-${Utils.random()}.txt`; let fileId;
+  const file = `test-file-${Utils.random()}.txt`;
+  let fileId;
   const fileTitle = 'file title';
   const fileDescription = 'file description';
 
   /* cspell:disable-next-line */
-  const fileRussian = `любимый-сайт-${Utils.random()}`; let fileRussianId;
+  const fileRussian = `любимый-сайт-${Utils.random()}`;
+  let fileRussianId;
 
-  const folder = `test-folder-${Utils.random()}`; let folderId;
+  const folder = `test-folder-${Utils.random()}`;
+  let folderId;
   const folderTitle = 'folder title';
   const folderDescription = 'folder description';
 
@@ -54,12 +57,22 @@ describe('Search results - files and folders', () => {
   const { searchInput } = page.header;
   const { dataTable, breadcrumb } = page;
 
-  beforeAll(async (done) => {
+  beforeAll(async done => {
     await apis.admin.people.createUser({ username });
 
-    fileId = (await apis.user.nodes.createFile(file, '-my-', fileTitle, fileDescription)).entry.id;
+    fileId = (await apis.user.nodes.createFile(
+      file,
+      '-my-',
+      fileTitle,
+      fileDescription
+    )).entry.id;
     await apis.user.nodes.editNodeContent(fileId, 'edited by user');
-    folderId = (await apis.user.nodes.createFolder(folder, '-my-', folderTitle, folderDescription)).entry.id;
+    folderId = (await apis.user.nodes.createFolder(
+      folder,
+      '-my-',
+      folderTitle,
+      folderDescription
+    )).entry.id;
     fileRussianId = (await apis.user.nodes.createFile(fileRussian)).entry.id;
     await apis.user.sites.createSite(site);
 
@@ -70,7 +83,7 @@ describe('Search results - files and folders', () => {
     done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async done => {
     await Promise.all([
       apis.user.nodes.deleteNodeById(fileId),
       apis.user.nodes.deleteNodeById(fileRussianId),
@@ -80,7 +93,7 @@ describe('Search results - files and folders', () => {
     done();
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async done => {
     await page.refresh();
     done();
   });
@@ -91,7 +104,9 @@ describe('Search results - files and folders', () => {
     await searchInput.searchFor('test-');
     await dataTable.waitForBody();
 
-    expect(await page.breadcrumb.getCurrentItemName()).toEqual('Search Results');
+    expect(await page.breadcrumb.getCurrentItemName()).toEqual(
+      'Search Results'
+    );
   });
 
   it('File information - [C279183]', async () => {
@@ -101,19 +116,38 @@ describe('Search results - files and folders', () => {
     await dataTable.waitForBody();
 
     const fileEntry = await apis.user.nodes.getNodeById(fileId);
-    const modifiedDate = moment(fileEntry.entry.modifiedAt).format("MMM D, YYYY, h:mm:ss A");
+    const modifiedDate = moment(fileEntry.entry.modifiedAt).format(
+      'MMM D, YYYY, h:mm:ss A'
+    );
     const modifiedBy = fileEntry.entry.modifiedByUser.displayName;
     const size = fileEntry.entry.content.sizeInBytes;
 
-    expect(await dataTable.isItemPresent(file)).toBe(true, `${file} is not displayed`);
+    expect(await dataTable.isItemPresent(file)).toBe(
+      true,
+      `${file} is not displayed`
+    );
 
-    expect(await dataTable.getRowCellsCount(file)).toEqual(2, 'incorrect number of columns');
+    expect(await dataTable.getRowCellsCount(file)).toEqual(
+      2,
+      'incorrect number of columns'
+    );
 
-    expect(await dataTable.getSearchResultLinesCount(file)).toEqual(4, 'incorrect number of lines for search result');
-    expect(await dataTable.getSearchResultNameAndTitle(file)).toBe(`${file} ( ${fileTitle} )`);
-    expect(await dataTable.getSearchResultDescription(file)).toBe(fileDescription);
-    expect(await dataTable.getSearchResultModified(file)).toBe(`Modified: ${modifiedDate} by ${modifiedBy} | Size: ${size} Bytes`);
-    expect(await dataTable.getSearchResultLocation(file)).toBe('Location: Personal Files');
+    expect(await dataTable.getSearchResultLinesCount(file)).toEqual(
+      4,
+      'incorrect number of lines for search result'
+    );
+    expect(await dataTable.getSearchResultNameAndTitle(file)).toBe(
+      `${file} ( ${fileTitle} )`
+    );
+    expect(await dataTable.getSearchResultDescription(file)).toBe(
+      fileDescription
+    );
+    expect(await dataTable.getSearchResultModified(file)).toBe(
+      `Modified: ${modifiedDate} by ${modifiedBy} | Size: ${size} Bytes`
+    );
+    expect(await dataTable.getSearchResultLocation(file)).toMatch(
+      /Location:\s+Personal Files/
+    );
   });
 
   it('Folder information - [C306867]', async () => {
@@ -123,18 +157,37 @@ describe('Search results - files and folders', () => {
     await dataTable.waitForBody();
 
     const folderEntry = await apis.user.nodes.getNodeById(folderId);
-    const modifiedDate = moment(folderEntry.entry.modifiedAt).format("MMM D, YYYY, h:mm:ss A");
+    const modifiedDate = moment(folderEntry.entry.modifiedAt).format(
+      'MMM D, YYYY, h:mm:ss A'
+    );
     const modifiedBy = folderEntry.entry.modifiedByUser.displayName;
 
-    expect(await dataTable.isItemPresent(folder)).toBe(true, `${folder} is not displayed`);
+    expect(await dataTable.isItemPresent(folder)).toBe(
+      true,
+      `${folder} is not displayed`
+    );
 
-    expect(await dataTable.getRowCellsCount(folder)).toEqual(2, 'incorrect number of columns');
+    expect(await dataTable.getRowCellsCount(folder)).toEqual(
+      2,
+      'incorrect number of columns'
+    );
 
-    expect(await dataTable.getSearchResultLinesCount(folder)).toEqual(4, 'incorrect number of lines for search result');
-    expect(await dataTable.getSearchResultNameAndTitle(folder)).toBe(`${folder} ( ${folderTitle} )`);
-    expect(await dataTable.getSearchResultDescription(folder)).toBe(folderDescription);
-    expect(await dataTable.getSearchResultModified(folder)).toBe(`Modified: ${modifiedDate} by ${modifiedBy}`);
-    expect(await dataTable.getSearchResultLocation(folder)).toBe('Location: Personal Files');
+    expect(await dataTable.getSearchResultLinesCount(folder)).toEqual(
+      4,
+      'incorrect number of lines for search result'
+    );
+    expect(await dataTable.getSearchResultNameAndTitle(folder)).toBe(
+      `${folder} ( ${folderTitle} )`
+    );
+    expect(await dataTable.getSearchResultDescription(folder)).toBe(
+      folderDescription
+    );
+    expect(await dataTable.getSearchResultModified(folder)).toBe(
+      `Modified: ${modifiedDate} by ${modifiedBy}`
+    );
+    expect(await dataTable.getSearchResultLocation(folder)).toMatch(
+      /Location:\s+Personal Files/
+    );
   });
 
   it('Search file with special characters - [C290029]', async () => {
@@ -143,7 +196,10 @@ describe('Search results - files and folders', () => {
     await searchInput.searchFor(fileRussian);
     await dataTable.waitForBody();
 
-    expect(await dataTable.isItemPresent(fileRussian)).toBe(true, `${fileRussian} is not displayed`);
+    expect(await dataTable.isItemPresent(fileRussian)).toBe(
+      true,
+      `${fileRussian} is not displayed`
+    );
   });
 
   it('Location column redirect - file in user Home - [C279177]', async () => {
@@ -153,6 +209,6 @@ describe('Search results - files and folders', () => {
     await dataTable.waitForBody();
 
     await dataTable.clickItemLocation(file);
-    expect(await breadcrumb.getAllItems()).toEqual([ 'Personal Files' ]);
+    expect(await breadcrumb.getAllItems()).toEqual(['Personal Files']);
   });
 });

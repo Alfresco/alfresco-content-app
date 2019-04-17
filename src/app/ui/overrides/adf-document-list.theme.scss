@@ -15,23 +15,42 @@
   .adf-datatable-list {
     border: none;
 
-    .adf-datatable-link {
-      &.adf-name-column,
-      &.adf-library-name-column {
-        color: $document-list-name-text-color;
+    .adf-datatable-cell-container {
+      .aca-column-content,
+      .adf-name-column,
+      .adf-library-name-column,
+      .adf-trashcan-name-column {
+        position: absolute;
+        max-width: calc(100% - 0px);
 
-        &:hover {
-          color: $document-list-selection-color;
+        // remove this style once the [ADF-4401] issue is fixed:
+        &.adf-datatable-cell {
+          .adf-datatable-cell-value {
+            position: static;
+            width: auto;
+          }
         }
+      }
 
-        .adf-datatable-cell-value {
-          position: static;
-          max-width: 35vw;
+      .adf-library-name-column {
+        // same as on top comment
+        &.adf-datatable-cell {
+          color: $document-list-name-text-color;
+
+          &:hover {
+            color: $document-list-selection-color;
+          }
         }
       }
     }
 
+    .adf-datatable-cell-value {
+      display: block;
+    }
+
     .adf-datatable-cell--image {
+      min-width: $document-list-thumbnail-width;
+      width: $document-list-thumbnail-width;
       max-width: $document-list-thumbnail-width;
     }
   }
@@ -53,13 +72,18 @@
     .adf-datatable-cell {
       padding: 0 2px;
       box-sizing: border-box;
+      min-width: 100px;
+
+      &.adf-no-grow-cell {
+        min-width: 120px;
+      }
+
+      &:first-child {
+        min-width: $document-list-thumbnail-width;
+      }
 
       &:focus {
         outline: none !important;
-      }
-
-      .adf-datatable-cell-value {
-        width: 100% !important;
       }
     }
 
@@ -87,5 +111,10 @@
         }
       }
     }
+  }
+
+  .adf-search-results .adf-datatable .adf-datatable-cell {
+    padding-top: 12px;
+    padding-bottom: 12px;
   }
 }
