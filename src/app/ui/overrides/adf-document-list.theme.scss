@@ -19,9 +19,15 @@
       .adf-datatable-content-cell,
       .adf-name-column,
       .adf-library-name-column,
-      .adf-trashcan-name-column {
+      .adf-trashcan-name-column,
+      .adf-name-location-cell {
         position: absolute;
         max-width: calc(100% - 0px);
+
+        .adf-datatable-cell-value {
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
 
         // remove this style once the [ADF-4401] issue is fixed:
         &.adf-datatable-cell {
@@ -72,11 +78,7 @@
     .adf-datatable-cell {
       padding: 0 2px;
       box-sizing: border-box;
-      min-width: 100px;
-
-      &.adf-no-grow-cell {
-        min-width: 120px;
-      }
+      min-width: 120px;
 
       &.adf-datatable-cell--fileSize {
         min-width: 80px;
