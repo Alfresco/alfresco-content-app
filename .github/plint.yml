@@ -1,2 +1,7 @@
 modules:
   - pr.prettier
+  - pr.spellcheck
+
+spellcheck:
+  words:
+    - plint
