@@ -24,9 +24,67 @@
  */
 
 import { MetadataTabComponent } from './metadata-tab.component';
+import { NodePermissionService } from '../../../services/node-permission.service';
+import { Node } from '@alfresco/js-api';
 
 describe('MetadataTabComponent', () => {
-  it('should be defined', () => {
-    expect(MetadataTabComponent).toBeDefined();
+  let nodePermissionService: NodePermissionService;
+  let component: MetadataTabComponent;
+
+  beforeEach(() => {
+    nodePermissionService = new NodePermissionService();
+    const appConfig = <any>{ config: { 'content-metadata': {} } };
+    const extension = <any>{ contentMetadata: {} };
+
+    component = new MetadataTabComponent(
+      nodePermissionService,
+      extension,
+      appConfig
+    );
+  });
+
+  describe('canUpdateNode()', () => {
+    it('should return true if node is not locked and has update permission', () => {
+      const node = <Node>{
+        isLocked: false,
+        allowableOperations: ['update']
+      };
+
+      component.node = node;
+      expect(component.canUpdateNode).toBe(true);
+    });
+
+    it('should return false if node is locked', () => {
+      const node = <Node>{
+        isLocked: true,
+        allowableOperations: ['update']
+      };
+
+      component.node = node;
+      expect(component.canUpdateNode).toBe(false);
+    });
+
+    it('should return false if node has no update permission', () => {
+      const node = <Node>{
+        isLocked: false,
+        allowableOperations: ['other']
+      };
+
+      component.node = node;
+      expect(component.canUpdateNode).toBe(false);
+    });
+
+    it('should return false if node has read only property', () => {
+      const node = <Node>{
+        isLocked: false,
+        allowableOperations: ['update'],
+        properties: {
+          'cm:lockType': 'WRITE_LOCK'
+        }
+      };
+
+      component.node = node;
+      expect(component.canUpdateNode).toBe(false);
+    });
   });
 });

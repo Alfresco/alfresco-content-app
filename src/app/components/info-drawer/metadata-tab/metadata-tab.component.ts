@@ -65,7 +65,7 @@ export class MetadataTabComponent {
   }
 
   get canUpdateNode(): boolean {
-    if (this.node && this.node.isFile && !isLocked({ entry: this.node })) {
+    if (this.node && !isLocked({ entry: this.node })) {
       return this.permission.check(this.node, ['update']);
     }
 
