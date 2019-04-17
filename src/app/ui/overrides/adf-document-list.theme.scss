@@ -10,13 +10,13 @@
   $document-list-background: mat-color($background, background) !default;
   $document-list-text-color: mat-color($foreground, text, 0.54) !default;
   $document-list-name-text-color: mat-color($foreground, text) !default;
-  $document-list-thumbnail-width: 50px !default;
+  $data-table-thumbnail-width: 50px !default;
 
   .adf-datatable-list {
     border: none;
 
     .adf-datatable-cell-container {
-      .aca-column-content,
+      .adf-datatable-content-cell,
       .adf-name-column,
       .adf-library-name-column,
       .adf-trashcan-name-column {
@@ -49,9 +49,9 @@
     }
 
     .adf-datatable-cell--image {
-      min-width: $document-list-thumbnail-width;
-      width: $document-list-thumbnail-width;
-      max-width: $document-list-thumbnail-width;
+      min-width: $data-table-thumbnail-width;
+      width: $data-table-thumbnail-width;
+      max-width: $data-table-thumbnail-width;
     }
   }
 
@@ -83,7 +83,7 @@
       }
 
       &:first-child {
-        min-width: $document-list-thumbnail-width;
+        min-width: $data-table-thumbnail-width;
       }
 
       &:focus {

@@ -54,7 +54,9 @@ import { TranslationService } from '@alfresco/adf-core';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  host: { class: 'aca-location-link adf-location-cell aca-column-content' }
+  host: {
+    class: 'aca-location-link adf-location-cell adf-datatable-content-cell'
+  }
 })
 export class LocationLinkComponent implements OnInit {
   private _path: PathInfo;

@@ -95,7 +95,7 @@ $foreground: map-get($custom-theme, foreground);
 //Custom variables - ACA specific styling:
 $document-list-selection-color: mat-color($alfresco-ecm-blue, 500);
 $document-list-background: white;
-$document-list-thumbnail-width: 35px;
+$data-table-thumbnail-width: 35px;
 
 $adf-pagination--border: 1px solid mat-color($foreground, text, 0.07);
 $adf-pagination__empty--height: 0;
