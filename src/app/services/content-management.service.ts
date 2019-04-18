@@ -37,7 +37,9 @@ import {
   SnackbarInfoAction,
   SnackbarUserAction,
   SnackbarWarningAction,
-  UndoDeleteNodesAction
+  UndoDeleteNodesAction,
+  getAppSelection,
+  getSharedUrl
 } from '@alfresco/aca-shared/store';
 import {
   ConfirmDialogComponent,
@@ -65,7 +67,6 @@ import { NodePermissionsDialogComponent } from '../components/permissions/permis
 import { ShareDialogComponent } from '../components/shared/content-node-share/content-node-share.dialog';
 import { NodeVersionUploadDialogComponent } from '../dialogs/node-version-upload/node-version-upload.dialog';
 import { NodeVersionsDialogComponent } from '../dialogs/node-versions/node-versions.dialog';
-import { appSelection, sharedUrl } from '../store/selectors/app.selectors';
 import { ContentApiService } from './content-api.service';
 import { NodeActionsService } from './node-actions.service';
 import { NodePermissionService } from './node-permission.service';
@@ -200,7 +201,7 @@ export class ContentManagementService {
 
   openShareLinkDialog(node) {
     this.store
-      .select(sharedUrl)
+      .select(getSharedUrl)
       .pipe(take(1))
       .subscribe(baseShareUrl => {
         this.dialogRef
@@ -1202,7 +1203,7 @@ export class ContentManagementService {
   }
 
   getNodeInfo() {
-    return this.store.select(appSelection).pipe(
+    return this.store.select(getAppSelection).pipe(
       take(1),
       flatMap(({ file }) => {
         const id = (<any>file).entry.nodeId || (<any>file).entry.guid;

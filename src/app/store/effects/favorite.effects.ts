@@ -30,10 +30,10 @@ import {
   AppStore,
   NodeActionTypes,
   AddFavoriteAction,
-  RemoveFavoriteAction
+  RemoveFavoriteAction,
+  getAppSelection
 } from '@alfresco/aca-shared/store';
 import { Store } from '@ngrx/store';
-import { appSelection } from '../selectors/app.selectors';
 import { ContentManagementService } from '../../services/content-management.service';
 
 @Injectable()
@@ -52,7 +52,7 @@ export class FavoriteEffects {
         this.content.addFavorite(action.payload);
       } else {
         this.store
-          .select(appSelection)
+          .select(getAppSelection)
           .pipe(take(1))
           .subscribe(selection => {
             if (selection && !selection.isEmpty) {
@@ -71,7 +71,7 @@ export class FavoriteEffects {
         this.content.removeFavorite(action.payload);
       } else {
         this.store
-          .select(appSelection)
+          .select(getAppSelection)
           .pipe(take(1))
           .subscribe(selection => {
             if (selection && !selection.isEmpty) {

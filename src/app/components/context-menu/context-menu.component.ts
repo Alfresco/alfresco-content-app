@@ -35,8 +35,7 @@ import {
 import { MatMenuTrigger } from '@angular/material/menu';
 
 import { AppExtensionService } from '../../extensions/extension.service';
-import { AppStore } from '@alfresco/aca-shared/store';
-import { appSelection } from '../../store/selectors/app.selectors';
+import { AppStore, getAppSelection } from '@alfresco/aca-shared/store';
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -91,7 +90,7 @@ export class ContextMenuComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit() {
     this.store
-      .select(appSelection)
+      .select(getAppSelection)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(selection => {
         if (selection.count) {

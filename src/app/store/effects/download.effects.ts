@@ -27,7 +27,8 @@ import {
   AppStore,
   DownloadNodesAction,
   NodeActionTypes,
-  NodeInfo
+  NodeInfo,
+  getAppSelection
 } from '@alfresco/aca-shared/store';
 import { DownloadZipDialogComponent } from '@alfresco/adf-core';
 import { MinimalNodeEntity } from '@alfresco/js-api';
@@ -37,7 +38,6 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { map, take } from 'rxjs/operators';
 import { ContentApiService } from '../../services/content-api.service';
-import { appSelection } from '../selectors/app.selectors';
 
 @Injectable()
 export class DownloadEffects {
@@ -56,7 +56,7 @@ export class DownloadEffects {
         this.downloadNodes(action.payload);
       } else {
         this.store
-          .select(appSelection)
+          .select(getAppSelection)
           .pipe(take(1))
           .subscribe(selection => {
             if (selection && !selection.isEmpty) {

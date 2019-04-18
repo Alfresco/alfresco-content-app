@@ -45,10 +45,11 @@ import {
   MoveNodesAction,
   ManagePermissionsAction,
   PrintFileAction,
-  FullscreenViewerAction
+  FullscreenViewerAction,
+  getCurrentFolder,
+  getAppSelection
 } from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../services/content-management.service';
-import { currentFolder, appSelection } from '../selectors/app.selectors';
 
 @Injectable()
 export class NodeEffects {
@@ -66,7 +67,7 @@ export class NodeEffects {
         this.contentService.shareNode(action.payload);
       } else {
         this.store
-          .select(appSelection)
+          .select(getAppSelection)
           .pipe(take(1))
           .subscribe(selection => {
             if (selection && selection.file) {
@@ -85,7 +86,7 @@ export class NodeEffects {
         this.contentService.unshareNodes(action.payload);
       } else {
         this.store
-          .select(appSelection)
+          .select(getAppSelection)
           .pipe(take(1))
           .subscribe(selection => {
             if (selection && !selection.isEmpty) {
@@ -104,7 +105,7 @@ export class NodeEffects {
         this.contentService.purgeDeletedNodes(action.payload);
       } else {
         this.store
-          .select(appSelection)
+          .select(getAppSelection)
           .pipe(take(1))
           .subscribe(selection => {
             if (selection && selection.count > 0) {
@@ -123,7 +124,7 @@ export class NodeEffects {
         this.contentService.restoreDeletedNodes(action.payload);
       } else {
         this.store
-          .select(appSelection)
+          .select(getAppSelection)
           .pipe(take(1))
           .subscribe(selection => {
             if (selection && selection.count > 0) {
@@ -142,7 +143,7 @@ export class NodeEffects {
         this.contentService.deleteNodes(action.payload);
       } else {
         this.store
-          .select(appSelection)
+          .select(getAppSelection)
           .pipe(take(1))
           .subscribe(selection => {
             if (selection && selection.count > 0) {
@@ -171,7 +172,7 @@ export class NodeEffects {
         this.contentService.createFolder(action.payload);
       } else {
         this.store
-          .select(currentFolder)
+          .select(getCurrentFolder)
           .pipe(take(1))
           .subscribe(node => {
             if (node && node.id) {
@@ -190,7 +191,7 @@ export class NodeEffects {
         this.contentService.editFolder(action.payload);
       } else {
         this.store
-          .select(appSelection)
+          .select(getAppSelection)
           .pipe(take(1))
           .subscribe(selection => {
             if (selection && selection.folder) {
@@ -209,7 +210,7 @@ export class NodeEffects {
         this.contentService.copyNodes(action.payload);
       } else {
         this.store
-          .select(appSelection)
+          .select(getAppSelection)
           .pipe(take(1))
           .subscribe(selection => {
             if (selection && !selection.isEmpty) {
@@ -228,7 +229,7 @@ export class NodeEffects {
         this.contentService.moveNodes(action.payload);
       } else {
         this.store
-          .select(appSelection)
+          .select(getAppSelection)
           .pipe(take(1))
           .subscribe(selection => {
             if (selection && !selection.isEmpty) {
@@ -247,7 +248,7 @@ export class NodeEffects {
         this.contentService.managePermissions(action.payload);
       } else {
         this.store
-          .select(appSelection)
+          .select(getAppSelection)
           .pipe(take(1))
           .subscribe(selection => {
             if (selection && !selection.isEmpty) {
@@ -266,7 +267,7 @@ export class NodeEffects {
         this.contentService.manageVersions(action.payload);
       } else {
         this.store
-          .select(appSelection)
+          .select(getAppSelection)
           .pipe(take(1))
           .subscribe(selection => {
             if (selection && selection.file) {
@@ -285,7 +286,7 @@ export class NodeEffects {
         this.contentService.printFile(action.payload);
       } else {
         this.store
-          .select(appSelection)
+          .select(getAppSelection)
           .pipe(take(1))
           .subscribe(selection => {
             if (selection && selection.file) {
@@ -312,7 +313,7 @@ export class NodeEffects {
         this.contentService.unlockNode(action.payload);
       } else {
         this.store
-          .select(appSelection)
+          .select(getAppSelection)
           .pipe(take(1))
           .subscribe(selection => {
             if (selection && selection.file) {

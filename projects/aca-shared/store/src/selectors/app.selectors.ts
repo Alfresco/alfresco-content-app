@@ -23,57 +23,57 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { AppStore } from '../states/app.state';
 import { createSelector } from '@ngrx/store';
-import { AppStore } from '@alfresco/aca-shared/store';
 
 export const selectApp = (state: AppStore) => state.app;
 
-export const selectHeaderColor = createSelector(
+export const getHeaderColor = createSelector(
   selectApp,
   state => state.headerColor
 );
 
-export const selectAppName = createSelector(
+export const getAppName = createSelector(
   selectApp,
   state => state.appName
 );
 
-export const selectLogoPath = createSelector(
+export const getLogoPath = createSelector(
   selectApp,
   state => state.logoPath
 );
 
-export const appSelection = createSelector(
-  selectApp,
-  state => state.selection
-);
-
-export const appLanguagePicker = createSelector(
+export const getLanguagePickerState = createSelector(
   selectApp,
   state => state.languagePicker
 );
 
-export const selectUser = createSelector(
+export const getUserProfile = createSelector(
   selectApp,
   state => state.user
 );
 
-export const sharedUrl = createSelector(
-  selectApp,
-  state => state.sharedUrl
-);
-
-export const appNavigation = createSelector(
-  selectApp,
-  state => state.navigation
-);
-
-export const currentFolder = createSelector(
+export const getCurrentFolder = createSelector(
   selectApp,
   state => state.navigation.currentFolder
 );
 
-export const infoDrawerOpened = createSelector(
+export const getAppSelection = createSelector(
+  selectApp,
+  state => state.selection
+);
+
+export const getSharedUrl = createSelector(
+  selectApp,
+  state => state.sharedUrl
+);
+
+export const getNavigationState = createSelector(
+  selectApp,
+  state => state.navigation
+);
+
+export const isInfoDrawerOpened = createSelector(
   selectApp,
   state => state.infoDrawerOpened
 );
@@ -83,18 +83,18 @@ export const showFacetFilter = createSelector(
   state => state.showFacetFilter
 );
 
-export const documentDisplayMode = createSelector(
+export const getDocumentDisplayMode = createSelector(
   selectApp,
   state => state.documentDisplayMode
 );
 
-export const repositoryStatus = createSelector(
+export const getRepositoryStatus = createSelector(
   selectApp,
   state => state.repository
 );
 
 export const isQuickShareEnabled = createSelector(
-  repositoryStatus,
+  getRepositoryStatus,
   info => info.status.isQuickShareEnabled
 );
 
@@ -103,9 +103,9 @@ export const isAdmin = createSelector(
   state => state.user.isAdmin
 );
 
-export const sidenavState = createSelector(
-  appSelection,
-  appNavigation,
+export const getSideNavState = createSelector(
+  getAppSelection,
+  getNavigationState,
   (selection, navigation) => {
     return {
       selection,
@@ -114,11 +114,11 @@ export const sidenavState = createSelector(
   }
 );
 
-export const ruleContext = createSelector(
-  appSelection,
-  appNavigation,
-  selectUser,
-  repositoryStatus,
+export const getRuleContext = createSelector(
+  getAppSelection,
+  getNavigationState,
+  getUserProfile,
+  getRepositoryStatus,
   (selection, navigation, profile, repository) => {
     return {
       selection,

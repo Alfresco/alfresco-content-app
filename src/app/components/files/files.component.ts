@@ -39,10 +39,9 @@ import { AppStore } from '@alfresco/aca-shared/store';
 import { PageComponent } from '../page.component';
 import { ContentApiService } from '../../services/content-api.service';
 import { AppExtensionService } from '../../extensions/extension.service';
-import { SetCurrentFolderAction } from '@alfresco/aca-shared/store';
+import { SetCurrentFolderAction, isAdmin } from '@alfresco/aca-shared/store';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { debounceTime, takeUntil } from 'rxjs/operators';
-import { isAdmin } from '../../store/selectors/app.selectors';
 import { ShareDataRow } from '@alfresco/adf-content-services';
 
 @Component({

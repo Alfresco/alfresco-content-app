@@ -27,16 +27,17 @@ import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ContentActionRef, SelectionState } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
-import {
-  appSelection,
-  infoDrawerOpened
-} from '../../store/selectors/app.selectors';
 import { takeUntil } from 'rxjs/operators';
 import { Subject, Observable, from } from 'rxjs';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 import { ContentApiService } from '../../services/content-api.service';
-import { AppStore, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
+import {
+  AppStore,
+  SetSelectedNodesAction,
+  getAppSelection,
+  isInfoDrawerOpened
+} from '@alfresco/aca-shared/store';
 
 @Component({
   selector: 'app-viewer',
@@ -65,7 +66,7 @@ export class AppViewerComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.infoDrawerOpened$ = this.store.select(infoDrawerOpened);
+    this.infoDrawerOpened$ = this.store.select(isInfoDrawerOpened);
 
     from(this.infoDrawerOpened$)
       .pipe(takeUntil(this.onDestroy$))
@@ -74,7 +75,7 @@ export class AppViewerComponent implements OnInit, OnDestroy {
       });
 
     this.store
-      .select(appSelection)
+      .select(getAppSelection)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(selection => {
         this.selection = selection;

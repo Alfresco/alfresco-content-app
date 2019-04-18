@@ -25,8 +25,7 @@
 
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppStore } from '@alfresco/aca-shared/store';
-import { appSelection } from '../../../store/selectors/app.selectors';
+import { AppStore, getAppSelection } from '@alfresco/aca-shared/store';
 import { Observable } from 'rxjs';
 import { SelectionState } from '@alfresco/adf-extensions';
 import { ContentManagementService } from '../../../services/content-management.service';
@@ -73,7 +72,7 @@ export class ToggleFavoriteLibraryComponent implements OnInit {
       '/favorite/libraries'
     );
 
-    this.selection$ = this.store.select(appSelection).pipe(
+    this.selection$ = this.store.select(getAppSelection).pipe(
       distinctUntilChanged(),
       map(selection => {
         // favorite libraries list should already be marked as favorite

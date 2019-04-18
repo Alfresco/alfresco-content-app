@@ -26,12 +26,13 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import {
-  selectUser,
-  appLanguagePicker
-} from '../../store/selectors/app.selectors';
 import { ProfileState } from '@alfresco/adf-extensions';
-import { AppStore, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
+import {
+  AppStore,
+  SetSelectedNodesAction,
+  getUserProfile,
+  getLanguagePickerState
+} from '@alfresco/aca-shared/store';
 import { AppService } from '../../services/app.service';
 
 @Component({
@@ -49,8 +50,8 @@ export class CurrentUserComponent {
   }
 
   constructor(private store: Store<AppStore>, private appService: AppService) {
-    this.profile$ = this.store.select(selectUser);
-    this.languagePicker$ = store.select(appLanguagePicker);
+    this.profile$ = this.store.select(getUserProfile);
+    this.languagePicker$ = store.select(getLanguagePickerState);
   }
 
   onLogoutEvent() {

@@ -23,7 +23,11 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AppStore, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
+import {
+  AppStore,
+  SetSelectedNodesAction,
+  getAppSelection
+} from '@alfresco/aca-shared/store';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { SharedLinkEntry } from '@alfresco/js-api';
@@ -33,7 +37,6 @@ import { Store } from '@ngrx/store';
 import { forkJoin, from, of } from 'rxjs';
 import { catchError, flatMap } from 'rxjs/operators';
 import { AppExtensionService } from '../../extensions/extension.service';
-import { appSelection } from '../../store/selectors/app.selectors';
 
 @Component({
   selector: 'app-shared-link-view',
@@ -72,7 +75,7 @@ export class SharedLinkViewComponent implements OnInit {
         this.sharedLinkId = sharedId;
       });
 
-    this.store.select(appSelection).subscribe(selection => {
+    this.store.select(getAppSelection).subscribe(selection => {
       if (!selection.isEmpty)
         this.viewerToolbarActions = this.extensions.getSharedLinkViewerToolbarActions();
     });

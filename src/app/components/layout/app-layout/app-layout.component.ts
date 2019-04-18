@@ -40,9 +40,12 @@ import { Store } from '@ngrx/store';
 import { Subject, Observable } from 'rxjs';
 import { filter, takeUntil, map, withLatestFrom } from 'rxjs/operators';
 import { NodePermissionService } from '../../../services/node-permission.service';
-import { currentFolder } from '../../../store/selectors/app.selectors';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { AppStore, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
+import {
+  AppStore,
+  SetSelectedNodesAction,
+  getCurrentFolder
+} from '@alfresco/aca-shared/store';
 
 @Component({
   selector: 'app-layout',
@@ -96,7 +99,7 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
     }
 
     this.store
-      .select(currentFolder)
+      .select(getCurrentFolder)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(node => {
         this.currentFolderId = node ? node.id : null;

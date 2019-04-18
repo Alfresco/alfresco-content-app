@@ -30,15 +30,16 @@ import {
   AppStore,
   ViewerActionTypes,
   ViewFileAction,
-  ViewNodeAction
+  ViewNodeAction,
+  getCurrentFolder,
+  getAppSelection
 } from '@alfresco/aca-shared/store';
 import { Router } from '@angular/router';
 import { Store, createSelector } from '@ngrx/store';
-import { appSelection, currentFolder } from '../selectors/app.selectors';
 
 export const fileToPreview = createSelector(
-  appSelection,
-  currentFolder,
+  getAppSelection,
+  getCurrentFolder,
   (selection, folder) => {
     return {
       selection,

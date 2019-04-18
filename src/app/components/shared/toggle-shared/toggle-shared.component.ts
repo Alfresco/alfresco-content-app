@@ -26,9 +26,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { appSelection } from '../../../store/selectors/app.selectors';
 import { SelectionState } from '@alfresco/adf-extensions';
-import { AppStore, ShareNodeAction } from '@alfresco/aca-shared/store';
+import {
+  AppStore,
+  ShareNodeAction,
+  getAppSelection
+} from '@alfresco/aca-shared/store';
 
 @Component({
   selector: 'app-toggle-shared',
@@ -40,7 +43,7 @@ export class ToggleSharedComponent implements OnInit {
   constructor(private store: Store<AppStore>) {}
 
   ngOnInit() {
-    this.selection$ = this.store.select(appSelection);
+    this.selection$ = this.store.select(getAppSelection);
   }
 
   isShared(selection: SelectionState) {

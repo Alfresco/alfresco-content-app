@@ -26,8 +26,10 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { infoDrawerOpened } from '../../../store/selectors/app.selectors';
-import { ToggleInfoDrawerAction } from '@alfresco/aca-shared/store';
+import {
+  ToggleInfoDrawerAction,
+  isInfoDrawerOpened
+} from '@alfresco/aca-shared/store';
 
 @Component({
   selector: 'app-toggle-info-drawer',
@@ -48,7 +50,7 @@ export class ToggleInfoDrawerComponent {
   infoDrawerOpened$: Observable<boolean>;
 
   constructor(private store: Store<any>) {
-    this.infoDrawerOpened$ = this.store.select(infoDrawerOpened);
+    this.infoDrawerOpened$ = this.store.select(isInfoDrawerOpened);
   }
 
   onClick() {

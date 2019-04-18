@@ -37,4 +37,6 @@ export * from './models/deleted-node-info.model';
 export * from './models/node-info.model';
 export * from './models/search-option.model';
 
+export * from './selectors/app.selectors';
+
 export * from './states/app.state';

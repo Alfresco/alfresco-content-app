@@ -35,15 +35,16 @@ import { Observable, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AppExtensionService } from '../extensions/extension.service';
 import { ContentManagementService } from '../services/content-management.service';
-import { ReloadDocumentListAction } from '@alfresco/aca-shared/store';
-import { AppStore, ViewFileAction } from '@alfresco/aca-shared/store';
 import {
-  appSelection,
-  currentFolder,
-  documentDisplayMode,
-  infoDrawerOpened,
-  sharedUrl
-} from '../store/selectors/app.selectors';
+  AppStore,
+  ViewFileAction,
+  ReloadDocumentListAction,
+  getCurrentFolder,
+  getAppSelection,
+  getDocumentDisplayMode,
+  isInfoDrawerOpened,
+  getSharedUrl
+} from '@alfresco/aca-shared/store';
 import { isLocked, isLibrary } from '../utils/node.utils';
 
 export abstract class PageComponent implements OnInit, OnDestroy {
@@ -72,12 +73,12 @@ export abstract class PageComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.sharedPreviewUrl$ = this.store.select(sharedUrl);
-    this.infoDrawerOpened$ = this.store.select(infoDrawerOpened);
-    this.documentDisplayMode$ = this.store.select(documentDisplayMode);
+    this.sharedPreviewUrl$ = this.store.select(getSharedUrl);
+    this.infoDrawerOpened$ = this.store.select(isInfoDrawerOpened);
+    this.documentDisplayMode$ = this.store.select(getDocumentDisplayMode);
 
     this.store
-      .select(appSelection)
+      .select(getAppSelection)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(selection => {
         this.selection = selection;
@@ -89,7 +90,7 @@ export abstract class PageComponent implements OnInit, OnDestroy {
       });
 
     this.store
-      .select(currentFolder)
+      .select(getCurrentFolder)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(node => {
         this.canUpload = node && this.content.canUploadContent(node);

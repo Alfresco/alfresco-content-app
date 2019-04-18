@@ -32,7 +32,8 @@ import {
   NavigateLibraryAction,
   NavigateRouteAction,
   SnackbarErrorAction,
-  UpdateLibraryAction
+  UpdateLibraryAction,
+  getAppSelection
 } from '@alfresco/aca-shared/store';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
@@ -40,7 +41,6 @@ import { Store } from '@ngrx/store';
 import { map, mergeMap, take } from 'rxjs/operators';
 import { ContentApiService } from '../../services/content-api.service';
 import { ContentManagementService } from '../../services/content-management.service';
-import { appSelection } from '../selectors/app.selectors';
 
 @Injectable()
 export class LibraryEffects {
@@ -59,7 +59,7 @@ export class LibraryEffects {
         this.content.deleteLibrary(action.payload);
       } else {
         this.store
-          .select(appSelection)
+          .select(getAppSelection)
           .pipe(take(1))
           .subscribe(selection => {
             if (selection && selection.library) {
@@ -78,7 +78,7 @@ export class LibraryEffects {
         this.content.leaveLibrary(action.payload);
       } else {
         this.store
-          .select(appSelection)
+          .select(getAppSelection)
           .pipe(take(1))
           .subscribe(selection => {
             if (selection && selection.library) {
@@ -124,7 +124,7 @@ export class LibraryEffects {
     ofType<UpdateLibraryAction>(LibraryActionTypes.Update),
     map(action => {
       this.store
-        .select(appSelection)
+        .select(getAppSelection)
         .pipe(take(1))
         .subscribe(selection => {
           if (selection && selection.library) {

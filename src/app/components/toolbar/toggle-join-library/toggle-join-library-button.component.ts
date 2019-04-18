@@ -27,7 +27,8 @@ import {
   AppStore,
   SetSelectedNodesAction,
   SnackbarErrorAction,
-  SnackbarInfoAction
+  SnackbarInfoAction,
+  getAppSelection
 } from '@alfresco/aca-shared/store';
 import { SelectionState } from '@alfresco/adf-extensions';
 import { Component, ViewEncapsulation } from '@angular/core';
@@ -38,7 +39,6 @@ import {
   LibraryMembershipToggleEvent
 } from '../../../directives/library-membership.directive';
 import { ContentManagementService } from '../../../services/content-management.service';
-import { appSelection } from '../../../store/selectors/app.selectors';
 
 @Component({
   selector: 'app-toggle-join-library-button',
@@ -73,7 +73,7 @@ export class ToggleJoinLibraryButtonComponent {
     private store: Store<AppStore>,
     private content: ContentManagementService
   ) {
-    this.selection$ = this.store.select(appSelection);
+    this.selection$ = this.store.select(getAppSelection);
   }
 
   onToggleEvent(event: LibraryMembershipToggleEvent) {

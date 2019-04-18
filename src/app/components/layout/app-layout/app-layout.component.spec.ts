@@ -32,7 +32,7 @@ import { Store } from '@ngrx/store';
 import { AppStore } from '../../../store/states';
 import { SetSelectedNodesAction } from '../../../store/actions';
 import { Router, NavigationStart } from '@angular/router';
-import { appSelection } from '../../../store/selectors/app.selectors';
+import { getAppSelection } from '../../../store/selectors/app.selectors';
 import { Subject } from 'rxjs';
 
 class MockRouter {
@@ -145,7 +145,7 @@ describe('AppLayoutComponent', () => {
 
     router.navigateByUrl('somewhere/over/the/rainbow');
     fixture.detectChanges();
-    store.select(appSelection).subscribe(state => {
+    store.select(getAppSelection).subscribe(state => {
       expect(state.isEmpty).toBe(true);
       done();
     });
@@ -158,7 +158,7 @@ describe('AppLayoutComponent', () => {
 
     router.navigateByUrl('/search;q=');
     fixture.detectChanges();
-    store.select(appSelection).subscribe(state => {
+    store.select(getAppSelection).subscribe(state => {
       expect(state.isEmpty).toBe(false);
       done();
     });

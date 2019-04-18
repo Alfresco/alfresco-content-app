@@ -35,13 +35,13 @@ import { Store } from '@ngrx/store';
 import {
   AppStore,
   NavigateToFolder,
-  SnackbarErrorAction
+  SnackbarErrorAction,
+  showFacetFilter
 } from '@alfresco/aca-shared/store';
 import { AppExtensionService } from '../../../extensions/extension.service';
 import { ContentManagementService } from '../../../services/content-management.service';
 import { AppConfigService, TranslationService } from '@alfresco/adf-core';
 import { Observable } from 'rxjs';
-import { showFacetFilter } from '../../../store/selectors/app.selectors';
 
 @Component({
   selector: 'aca-search-results',

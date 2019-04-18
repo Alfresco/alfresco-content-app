@@ -30,7 +30,8 @@ import {
   UploadActionTypes,
   UploadFilesAction,
   UploadFileVersionAction,
-  UploadFolderAction
+  UploadFolderAction,
+  getCurrentFolder
 } from '@alfresco/aca-shared/store';
 import { FileModel, FileUtils, UploadService } from '@alfresco/adf-core';
 import { Injectable, NgZone, RendererFactory2 } from '@angular/core';
@@ -48,7 +49,6 @@ import {
   tap
 } from 'rxjs/operators';
 import { ContentManagementService } from '../../services/content-management.service';
-import { currentFolder } from '../selectors/app.selectors';
 
 @Injectable()
 export class UploadEffects {
@@ -153,7 +153,7 @@ export class UploadEffects {
 
   private upload(event: any): void {
     this.store
-      .select(currentFolder)
+      .select(getCurrentFolder)
       .pipe(take(1))
       .subscribe(node => {
         if (node && node.id) {
