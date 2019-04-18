@@ -28,16 +28,16 @@ import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { MinimalNodeEntryEntity, PathInfoEntity } from '@alfresco/js-api';
 import { map } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { AppStore } from '../states/app.state';
 import {
-  AppStore,
+  NavigateUrlAction,
   RouterActionTypes,
   NavigateRouteAction,
-  NavigateToParentFolder,
   NavigateToFolder,
-  NavigateUrlAction,
-  SnackbarErrorAction
-} from '@alfresco/aca-shared/store';
-import { Store } from '@ngrx/store';
+  NavigateToParentFolder
+} from '../actions/router.actions';
+import { SnackbarErrorAction } from '../actions/snackbar.actions';
 
 @Injectable()
 export class RouterEffects {

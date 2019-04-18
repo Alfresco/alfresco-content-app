@@ -32,6 +32,9 @@ export * from './actions/snackbar.actions';
 export * from './actions/upload.actions';
 export * from './actions/viewer.actions';
 
+export * from './effects/dialog.effects';
+export * from './effects/snackbar.effects';
+
 export * from './models/delete-status.model';
 export * from './models/deleted-node-info.model';
 export * from './models/node-info.model';
@@ -40,3 +43,5 @@ export * from './models/search-option.model';
 export * from './selectors/app.selectors';
 
 export * from './states/app.state';
+
+export * from './store.module';

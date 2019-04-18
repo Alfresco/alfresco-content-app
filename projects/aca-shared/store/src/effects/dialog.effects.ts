@@ -26,14 +26,14 @@
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
 import {
   CloseModalDialogsAction,
   AppActionTypes
-} from '@alfresco/aca-shared/store';
-import { MatDialog } from '@angular/material/dialog';
+} from '../actions/app.actions';
 
 @Injectable()
-export class ModalsEffects {
+export class DialogEffects {
   constructor(private actions$: Actions, private matDialog: MatDialog) {}
 
   @Effect({ dispatch: false })

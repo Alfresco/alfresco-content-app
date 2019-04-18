@@ -29,14 +29,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
+import { AppStore } from '../states/app.state';
 import {
-  AppStore,
-  SnackbarActionTypes,
-  SnackbarAction,
-  SnackbarErrorAction,
   SnackbarInfoAction,
-  SnackbarWarningAction
-} from '@alfresco/aca-shared/store';
+  SnackbarActionTypes,
+  SnackbarWarningAction,
+  SnackbarErrorAction,
+  SnackbarAction
+} from '../actions/snackbar.actions';
 
 @Injectable()
 export class SnackbarEffects {

@@ -30,18 +30,16 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { EffectsModule } from '@ngrx/effects';
 import { environment } from '../../environments/environment';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { SharedStoreModule } from '@alfresco/aca-shared/store';
 import {
   AppEffects,
-  SnackbarEffects,
   NodeEffects,
-  RouterEffects,
   DownloadEffects,
   ViewerEffects,
   SearchEffects,
   LibraryEffects,
   UploadEffects,
-  FavoriteEffects,
-  ModalsEffects
+  FavoriteEffects
 } from './effects';
 import { INITIAL_STATE } from './initial-state';
 
@@ -49,18 +47,16 @@ import { INITIAL_STATE } from './initial-state';
   imports: [
     StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE }),
     StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
+    SharedStoreModule,
     EffectsModule.forRoot([
       AppEffects,
-      SnackbarEffects,
       NodeEffects,
-      RouterEffects,
       DownloadEffects,
       ViewerEffects,
       SearchEffects,
       LibraryEffects,
       UploadEffects,
-      FavoriteEffects,
-      ModalsEffects
+      FavoriteEffects
     ]),
     !environment.production
       ? StoreDevtoolsModule.instrument({ maxAge: 25 })
