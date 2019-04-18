@@ -23,12 +23,11 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { SnackbarErrorAction } from '@alfresco/aca-shared/store';
+import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../../store/states/app.state';
-import { SnackbarErrorAction } from '../../store/actions';
 
 @Component({
   templateUrl: './node-versions.dialog.html',
@@ -38,10 +37,7 @@ import { SnackbarErrorAction } from '../../store/actions';
 export class NodeVersionsDialogComponent {
   node: MinimalNodeEntryEntity;
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) data: any,
-    private store: Store<AppStore>
-  ) {
+  constructor(@Inject(MAT_DIALOG_DATA) data: any, private store: Store<any>) {
     this.node = data.node;
   }
 

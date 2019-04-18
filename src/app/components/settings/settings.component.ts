@@ -32,7 +32,6 @@ import {
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../../store/states';
 import {
   appLanguagePicker,
   selectHeaderColor,
@@ -40,7 +39,7 @@ import {
   selectUser
 } from '../../store/selectors/app.selectors';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { SetLanguagePickerAction } from '../../store/actions';
+import { AppStore, SetLanguagePickerAction } from '@alfresco/aca-shared/store';
 import { ProfileState } from '@alfresco/adf-extensions';
 
 interface RepositoryConfig {

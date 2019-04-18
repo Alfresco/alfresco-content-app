@@ -35,7 +35,8 @@ import { Observable, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AppExtensionService } from '../extensions/extension.service';
 import { ContentManagementService } from '../services/content-management.service';
-import { ViewFileAction, ReloadDocumentListAction } from '../store/actions';
+import { ReloadDocumentListAction } from '@alfresco/aca-shared/store';
+import { AppStore, ViewFileAction } from '@alfresco/aca-shared/store';
 import {
   appSelection,
   currentFolder,
@@ -43,7 +44,6 @@ import {
   infoDrawerOpened,
   sharedUrl
 } from '../store/selectors/app.selectors';
-import { AppStore } from '../store/states/app.state';
 import { isLocked, isLibrary } from '../utils/node.utils';
 
 export abstract class PageComponent implements OnInit, OnDestroy {

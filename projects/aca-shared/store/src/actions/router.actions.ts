@@ -24,21 +24,35 @@
  */
 
 import { Action } from '@ngrx/store';
+import { MinimalNodeEntity } from '@alfresco/js-api';
 
-export const UPLOAD_FILES = 'UPLOAD_FILES';
-export const UPLOAD_FOLDER = 'UPLOAD_FOLDER';
-export const UPLOAD_FILE_VERSION = 'UPLOAD_FILE_VERSION';
-
-export class UploadFilesAction implements Action {
-  readonly type = UPLOAD_FILES;
-  constructor(public payload: any) {}
+export enum RouterActionTypes {
+  NavigateUrl = 'NAVIGATE_URL',
+  NavigateRoute = 'NAVIGATE_ROUTE',
+  NavigateFolder = 'NAVIGATE_FOLDER',
+  NavigateParentFolder = 'NAVIGATE_PARENT_FOLDER'
 }
 
-export class UploadFolderAction implements Action {
-  readonly type = UPLOAD_FOLDER;
-  constructor(public payload: any) {}
+export class NavigateUrlAction implements Action {
+  readonly type = RouterActionTypes.NavigateUrl;
+
+  constructor(public payload: string) {}
 }
 
-export class UploadFileVersionAction implements Action {
-  readonly type = UPLOAD_FILE_VERSION;
+export class NavigateRouteAction implements Action {
+  readonly type = RouterActionTypes.NavigateRoute;
+
+  constructor(public payload: any[]) {}
+}
+
+export class NavigateToFolder implements Action {
+  readonly type = RouterActionTypes.NavigateFolder;
+
+  constructor(public payload: MinimalNodeEntity) {}
+}
+
+export class NavigateToParentFolder implements Action {
+  readonly type = RouterActionTypes.NavigateParentFolder;
+
+  constructor(public payload: MinimalNodeEntity) {}
 }

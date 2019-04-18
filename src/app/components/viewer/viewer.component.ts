@@ -27,7 +27,6 @@ import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ContentActionRef, SelectionState } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../../store/states';
 import {
   appSelection,
   infoDrawerOpened
@@ -37,7 +36,7 @@ import { Subject, Observable, from } from 'rxjs';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 import { ContentApiService } from '../../services/content-api.service';
-import { SetSelectedNodesAction } from '../../store/actions';
+import { AppStore, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 
 @Component({
   selector: 'app-viewer',

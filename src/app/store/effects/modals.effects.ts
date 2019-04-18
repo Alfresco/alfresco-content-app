@@ -26,7 +26,10 @@
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { CloseModalDialogsAction, CLOSE_MODAL_DIALOGS } from '../actions';
+import {
+  CloseModalDialogsAction,
+  AppActionTypes
+} from '@alfresco/aca-shared/store';
 import { MatDialog } from '@angular/material/dialog';
 
 @Injectable()
@@ -35,7 +38,7 @@ export class ModalsEffects {
 
   @Effect({ dispatch: false })
   closeAll$ = this.actions$.pipe(
-    ofType<CloseModalDialogsAction>(CLOSE_MODAL_DIALOGS),
+    ofType<CloseModalDialogsAction>(AppActionTypes.CloseModalDialogs),
     map(() => this.matDialog.closeAll())
   );
 }

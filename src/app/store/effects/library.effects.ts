@@ -23,28 +23,24 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Effect, Actions, ofType } from '@ngrx/effects';
-import { Injectable } from '@angular/core';
-import { map, take, mergeMap } from 'rxjs/operators';
 import {
-  DeleteLibraryAction,
-  DELETE_LIBRARY,
+  AppStore,
   CreateLibraryAction,
-  CREATE_LIBRARY,
-  NavigateLibraryAction,
-  NAVIGATE_LIBRARY,
-  UpdateLibraryAction,
-  UPDATE_LIBRARY,
+  DeleteLibraryAction,
   LeaveLibraryAction,
-  LEAVE_LIBRARY,
-  NavigateRouteAction
-} from '../actions';
-import { ContentManagementService } from '../../services/content-management.service';
+  LibraryActionTypes,
+  NavigateLibraryAction,
+  NavigateRouteAction,
+  SnackbarErrorAction,
+  UpdateLibraryAction
+} from '@alfresco/aca-shared/store';
+import { Injectable } from '@angular/core';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../states';
-import { appSelection } from '../selectors/app.selectors';
+import { map, mergeMap, take } from 'rxjs/operators';
 import { ContentApiService } from '../../services/content-api.service';
-import { SnackbarErrorAction } from '../actions/snackbar.actions';
+import { ContentManagementService } from '../../services/content-management.service';
+import { appSelection } from '../selectors/app.selectors';
 
 @Injectable()
 export class LibraryEffects {
@@ -57,7 +53,7 @@ export class LibraryEffects {
 
   @Effect({ dispatch: false })
   deleteLibrary$ = this.actions$.pipe(
-    ofType<DeleteLibraryAction>(DELETE_LIBRARY),
+    ofType<DeleteLibraryAction>(LibraryActionTypes.Delete),
     map(action => {
       if (action.payload) {
         this.content.deleteLibrary(action.payload);
@@ -76,7 +72,7 @@ export class LibraryEffects {
 
   @Effect({ dispatch: false })
   leaveLibrary$ = this.actions$.pipe(
-    ofType<LeaveLibraryAction>(LEAVE_LIBRARY),
+    ofType<LeaveLibraryAction>(LibraryActionTypes.Leave),
     map(action => {
       if (action.payload) {
         this.content.leaveLibrary(action.payload);
@@ -95,14 +91,14 @@ export class LibraryEffects {
 
   @Effect()
   createLibrary$ = this.actions$.pipe(
-    ofType<CreateLibraryAction>(CREATE_LIBRARY),
+    ofType<CreateLibraryAction>(LibraryActionTypes.Create),
     mergeMap(() => this.content.createLibrary()),
     map(libraryId => new NavigateLibraryAction(libraryId))
   );
 
   @Effect({ dispatch: false })
   navigateLibrary$ = this.actions$.pipe(
-    ofType<NavigateLibraryAction>(NAVIGATE_LIBRARY),
+    ofType<NavigateLibraryAction>(LibraryActionTypes.Navigate),
     map(action => {
       const libraryId = action.payload;
       if (libraryId) {
@@ -125,7 +121,7 @@ export class LibraryEffects {
 
   @Effect({ dispatch: false })
   updateLibrary$ = this.actions$.pipe(
-    ofType<UpdateLibraryAction>(UPDATE_LIBRARY),
+    ofType<UpdateLibraryAction>(LibraryActionTypes.Update),
     map(action => {
       this.store
         .select(appSelection)

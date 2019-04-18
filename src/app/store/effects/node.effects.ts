@@ -27,43 +27,28 @@ import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { map, take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../states/app.state';
 import {
+  AppStore,
+  NodeActionTypes,
+  ViewerActionTypes,
   PurgeDeletedNodesAction,
-  PURGE_DELETED_NODES,
   DeleteNodesAction,
-  DELETE_NODES,
   UndoDeleteNodesAction,
-  UNDO_DELETE_NODES,
   CreateFolderAction,
-  CREATE_FOLDER,
   EditFolderAction,
-  EDIT_FOLDER,
   RestoreDeletedNodesAction,
-  RESTORE_DELETED_NODES,
   ShareNodeAction,
-  SHARE_NODE,
   ManageVersionsAction,
-  MANAGE_VERSIONS,
   UnlockWriteAction,
-  UNLOCK_WRITE
-} from '../actions';
+  UnshareNodesAction,
+  CopyNodesAction,
+  MoveNodesAction,
+  ManagePermissionsAction,
+  PrintFileAction,
+  FullscreenViewerAction
+} from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../services/content-management.service';
 import { currentFolder, appSelection } from '../selectors/app.selectors';
-import {
-  UnshareNodesAction,
-  UNSHARE_NODES,
-  CopyNodesAction,
-  COPY_NODES,
-  MoveNodesAction,
-  MOVE_NODES,
-  ManagePermissionsAction,
-  MANAGE_PERMISSIONS,
-  PRINT_FILE,
-  PrintFileAction,
-  FULLSCREEN_VIEWER,
-  FullscreenViewerAction
-} from '../actions/node.actions';
 
 @Injectable()
 export class NodeEffects {
@@ -75,7 +60,7 @@ export class NodeEffects {
 
   @Effect({ dispatch: false })
   shareNode$ = this.actions$.pipe(
-    ofType<ShareNodeAction>(SHARE_NODE),
+    ofType<ShareNodeAction>(NodeActionTypes.Share),
     map(action => {
       if (action.payload) {
         this.contentService.shareNode(action.payload);
@@ -94,7 +79,7 @@ export class NodeEffects {
 
   @Effect({ dispatch: false })
   unshareNodes$ = this.actions$.pipe(
-    ofType<UnshareNodesAction>(UNSHARE_NODES),
+    ofType<UnshareNodesAction>(NodeActionTypes.Unshare),
     map(action => {
       if (action && action.payload && action.payload.length > 0) {
         this.contentService.unshareNodes(action.payload);
@@ -113,7 +98,7 @@ export class NodeEffects {
 
   @Effect({ dispatch: false })
   purgeDeletedNodes$ = this.actions$.pipe(
-    ofType<PurgeDeletedNodesAction>(PURGE_DELETED_NODES),
+    ofType<PurgeDeletedNodesAction>(NodeActionTypes.PurgeDeleted),
     map(action => {
       if (action && action.payload && action.payload.length > 0) {
         this.contentService.purgeDeletedNodes(action.payload);
@@ -132,7 +117,7 @@ export class NodeEffects {
 
   @Effect({ dispatch: false })
   restoreDeletedNodes$ = this.actions$.pipe(
-    ofType<RestoreDeletedNodesAction>(RESTORE_DELETED_NODES),
+    ofType<RestoreDeletedNodesAction>(NodeActionTypes.RestoreDeleted),
     map(action => {
       if (action && action.payload && action.payload.length > 0) {
         this.contentService.restoreDeletedNodes(action.payload);
@@ -151,7 +136,7 @@ export class NodeEffects {
 
   @Effect({ dispatch: false })
   deleteNodes$ = this.actions$.pipe(
-    ofType<DeleteNodesAction>(DELETE_NODES),
+    ofType<DeleteNodesAction>(NodeActionTypes.Delete),
     map(action => {
       if (action && action.payload && action.payload.length > 0) {
         this.contentService.deleteNodes(action.payload);
@@ -170,7 +155,7 @@ export class NodeEffects {
 
   @Effect({ dispatch: false })
   undoDeleteNodes$ = this.actions$.pipe(
-    ofType<UndoDeleteNodesAction>(UNDO_DELETE_NODES),
+    ofType<UndoDeleteNodesAction>(NodeActionTypes.UndoDelete),
     map(action => {
       if (action.payload.length > 0) {
         this.contentService.undoDeleteNodes(action.payload);
@@ -180,7 +165,7 @@ export class NodeEffects {
 
   @Effect({ dispatch: false })
   createFolder$ = this.actions$.pipe(
-    ofType<CreateFolderAction>(CREATE_FOLDER),
+    ofType<CreateFolderAction>(NodeActionTypes.CreateFolder),
     map(action => {
       if (action.payload) {
         this.contentService.createFolder(action.payload);
@@ -199,7 +184,7 @@ export class NodeEffects {
 
   @Effect({ dispatch: false })
   editFolder$ = this.actions$.pipe(
-    ofType<EditFolderAction>(EDIT_FOLDER),
+    ofType<EditFolderAction>(NodeActionTypes.EditFolder),
     map(action => {
       if (action.payload) {
         this.contentService.editFolder(action.payload);
@@ -218,7 +203,7 @@ export class NodeEffects {
 
   @Effect({ dispatch: false })
   copyNodes$ = this.actions$.pipe(
-    ofType<CopyNodesAction>(COPY_NODES),
+    ofType<CopyNodesAction>(NodeActionTypes.Copy),
     map(action => {
       if (action.payload && action.payload.length > 0) {
         this.contentService.copyNodes(action.payload);
@@ -237,7 +222,7 @@ export class NodeEffects {
 
   @Effect({ dispatch: false })
   moveNodes$ = this.actions$.pipe(
-    ofType<MoveNodesAction>(MOVE_NODES),
+    ofType<MoveNodesAction>(NodeActionTypes.Move),
     map(action => {
       if (action.payload && action.payload.length > 0) {
         this.contentService.moveNodes(action.payload);
@@ -256,7 +241,7 @@ export class NodeEffects {
 
   @Effect({ dispatch: false })
   managePermissions$ = this.actions$.pipe(
-    ofType<ManagePermissionsAction>(MANAGE_PERMISSIONS),
+    ofType<ManagePermissionsAction>(NodeActionTypes.ManagePermissions),
     map(action => {
       if (action && action.payload) {
         this.contentService.managePermissions(action.payload);
@@ -275,7 +260,7 @@ export class NodeEffects {
 
   @Effect({ dispatch: false })
   manageVersions$ = this.actions$.pipe(
-    ofType<ManageVersionsAction>(MANAGE_VERSIONS),
+    ofType<ManageVersionsAction>(NodeActionTypes.ManageVersions),
     map(action => {
       if (action && action.payload) {
         this.contentService.manageVersions(action.payload);
@@ -294,7 +279,7 @@ export class NodeEffects {
 
   @Effect({ dispatch: false })
   printFile$ = this.actions$.pipe(
-    ofType<PrintFileAction>(PRINT_FILE),
+    ofType<PrintFileAction>(NodeActionTypes.PrintFile),
     map(action => {
       if (action && action.payload) {
         this.contentService.printFile(action.payload);
@@ -313,7 +298,7 @@ export class NodeEffects {
 
   @Effect({ dispatch: false })
   fullscreenViewer$ = this.actions$.pipe(
-    ofType<FullscreenViewerAction>(FULLSCREEN_VIEWER),
+    ofType<FullscreenViewerAction>(ViewerActionTypes.FullScreen),
     map(() => {
       this.contentService.fullscreenViewer();
     })
@@ -321,7 +306,7 @@ export class NodeEffects {
 
   @Effect({ dispatch: false })
   unlockWrite$ = this.actions$.pipe(
-    ofType<UnlockWriteAction>(UNLOCK_WRITE),
+    ofType<UnlockWriteAction>(NodeActionTypes.UnlockForWriting),
     map(action => {
       if (action && action.payload) {
         this.contentService.unlockNode(action.payload);

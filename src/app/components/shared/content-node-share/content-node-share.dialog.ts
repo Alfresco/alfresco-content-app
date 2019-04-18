@@ -30,8 +30,7 @@ import {
 } from '@angular/material/dialog';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Subscription, Observable, throwError } from 'rxjs';
-import { SnackbarErrorAction } from '../../../store/actions';
-import { AppStore } from '../../../store/states/app.state';
+import { AppStore, SnackbarErrorAction } from '@alfresco/aca-shared/store';
 import { Store } from '@ngrx/store';
 import {
   skip,

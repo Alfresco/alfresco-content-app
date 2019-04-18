@@ -28,7 +28,7 @@ import { CanActivate } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ActivatedRouteSnapshot } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../store/states/app.state';
+import { AppStore } from '@alfresco/aca-shared/store';
 import { isQuickShareEnabled } from '../store/selectors/app.selectors';
 
 @Injectable({

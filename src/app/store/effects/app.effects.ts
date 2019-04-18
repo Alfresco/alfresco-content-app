@@ -27,11 +27,10 @@ import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import {
+  AppActionTypes,
   LogoutAction,
-  LOGOUT,
-  ReloadDocumentListAction,
-  RELOAD_DOCUMENT_LIST
-} from '../actions/app.actions';
+  ReloadDocumentListAction
+} from '@alfresco/aca-shared/store';
 import { AuthenticationService } from '@alfresco/adf-core';
 import { Router } from '@angular/router';
 import { ContentManagementService } from '../../services/content-management.service';
@@ -47,7 +46,7 @@ export class AppEffects {
 
   @Effect({ dispatch: false })
   reload = this.actions$.pipe(
-    ofType<ReloadDocumentListAction>(RELOAD_DOCUMENT_LIST),
+    ofType<ReloadDocumentListAction>(AppActionTypes.ReloadDocumentList),
     map(action => {
       this.content.reload.next(action);
     })
@@ -55,7 +54,7 @@ export class AppEffects {
 
   @Effect({ dispatch: false })
   logout$ = this.actions$.pipe(
-    ofType<LogoutAction>(LOGOUT),
+    ofType<LogoutAction>(AppActionTypes.Logout),
     map(() => {
       this.auth
         .logout()

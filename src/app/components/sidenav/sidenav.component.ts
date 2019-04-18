@@ -37,7 +37,7 @@ import { ExpandedTemplateDirective } from './directives/expanded-template.direct
 import { AppExtensionService } from '../../extensions/extension.service';
 import { NavBarGroupRef } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../../store/states';
+import { AppStore } from '@alfresco/aca-shared/store';
 import { sidenavState } from '../../store/selectors/app.selectors';
 import { Subject } from 'rxjs';
 import { takeUntil, distinctUntilChanged, debounceTime } from 'rxjs/operators';

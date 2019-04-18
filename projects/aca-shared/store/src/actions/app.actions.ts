@@ -24,57 +24,84 @@
  */
 
 import { Action } from '@ngrx/store';
-import { Node, Person, Group } from '@alfresco/js-api';
-import { AppState } from '../states';
+import { Node, Person, Group, RepositoryInfo } from '@alfresco/js-api';
+import { AppState } from '../states/app.state';
 
-export const SET_INITIAL_STATE = 'SET_INITIAL_STATE';
-export const SET_LANGUAGE_PICKER = 'SET_LANGUAGE_PICKER';
-export const SET_CURRENT_FOLDER = 'SET_CURRENT_FOLDER';
-export const SET_CURRENT_URL = 'SET_CURRENT_URL';
-export const SET_USER_PROFILE = 'SET_USER_PROFILE';
-export const TOGGLE_INFO_DRAWER = 'TOGGLE_INFO_DRAWER';
-export const TOGGLE_DOCUMENT_DISPLAY_MODE = 'TOGGLE_DOCUMENT_DISPLAY_MODE';
-export const LOGOUT = 'LOGOUT';
-export const RELOAD_DOCUMENT_LIST = 'RELOAD_DOCUMENT_LIST';
+export enum AppActionTypes {
+  SetInitialState = 'SET_INITIAL_STATE',
+  SetLanguagePicker = 'SET_LANGUAGE_PICKER',
+  SetCurrentFolder = 'SET_CURRENT_FOLDER',
+  SetCurrentUrl = 'SET_CURRENT_URL',
+  SetUserProfile = 'SET_USER_PROFILE',
+  SetRepositoryInfo = 'SET_REPOSITORY_INFO',
+  ToggleInfoDrawer = 'TOGGLE_INFO_DRAWER',
+  ToggleDocumentDisplayMode = 'TOGGLE_DOCUMENT_DISPLAY_MODE',
+  Logout = 'LOGOUT',
+  ReloadDocumentList = 'RELOAD_DOCUMENT_LIST',
+  SetInfoDrawerState = 'SET_INFO_DRAWER_STATE',
+  CloseModalDialogs = 'CLOSE_MODAL_DIALOGS'
+}
 
 export class SetInitialStateAction implements Action {
-  readonly type = SET_INITIAL_STATE;
+  readonly type = AppActionTypes.SetInitialState;
+
   constructor(public payload: AppState) {}
 }
 
 export class SetLanguagePickerAction implements Action {
-  readonly type = SET_LANGUAGE_PICKER;
+  readonly type = AppActionTypes.SetLanguagePicker;
+
   constructor(public payload: boolean) {}
 }
 
 export class SetCurrentFolderAction implements Action {
-  readonly type = SET_CURRENT_FOLDER;
+  readonly type = AppActionTypes.SetCurrentFolder;
+
   constructor(public payload: Node) {}
 }
 
 export class SetCurrentUrlAction implements Action {
-  readonly type = SET_CURRENT_URL;
+  readonly type = AppActionTypes.SetCurrentUrl;
+
   constructor(public payload: string) {}
 }
 
 export class SetUserProfileAction implements Action {
-  readonly type = SET_USER_PROFILE;
+  readonly type = AppActionTypes.SetUserProfile;
+
   constructor(public payload: { person: Person; groups: Group[] }) {}
 }
 
 export class ToggleInfoDrawerAction implements Action {
-  readonly type = TOGGLE_INFO_DRAWER;
+  readonly type = AppActionTypes.ToggleInfoDrawer;
 }
 
 export class ToggleDocumentDisplayMode implements Action {
-  readonly type = TOGGLE_DOCUMENT_DISPLAY_MODE;
+  readonly type = AppActionTypes.ToggleDocumentDisplayMode;
 }
 
 export class LogoutAction implements Action {
-  readonly type = LOGOUT;
+  readonly type = AppActionTypes.Logout;
 }
 
 export class ReloadDocumentListAction implements Action {
-  readonly type = RELOAD_DOCUMENT_LIST;
+  readonly type = AppActionTypes.ReloadDocumentList;
+
   constructor(public payload?: any) {}
+}
+
+export class SetInfoDrawerStateAction implements Action {
+  readonly type = AppActionTypes.SetInfoDrawerState;
+
+  constructor(public payload: boolean) {}
+}
+
+export class CloseModalDialogsAction implements Action {
+  readonly type = AppActionTypes.CloseModalDialogs;
+}
+
+export class SetRepositoryInfoAction implements Action {
+  readonly type = AppActionTypes.SetRepositoryInfo;
+
+  constructor(public payload: RepositoryInfo) {}
 }

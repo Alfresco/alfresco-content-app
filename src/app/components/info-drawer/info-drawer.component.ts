@@ -33,7 +33,7 @@ import { ContentApiService } from '../../services/content-api.service';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { SidebarTabRef } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
-import { SetInfoDrawerStateAction } from '../../store/actions';
+import { SetInfoDrawerStateAction } from '@alfresco/aca-shared/store';
 
 @Component({
   selector: 'aca-info-drawer',

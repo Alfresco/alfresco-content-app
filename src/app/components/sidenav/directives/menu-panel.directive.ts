@@ -34,7 +34,6 @@ import { Router, NavigationEnd, PRIMARY_OUTLET } from '@angular/router';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../../../store/states/app.state';
 
 @Directive({
   selector: '[acaMenuPanel]',
@@ -61,7 +60,7 @@ export class MenuPanelDirective implements OnInit, OnDestroy {
     }
   }
 
-  constructor(private store: Store<AppStore>, private router: Router) {}
+  constructor(private store: Store<any>, private router: Router) {}
 
   hasActiveLinks() {
     if (this.acaMenuPanel && this.acaMenuPanel.children) {

@@ -26,12 +26,15 @@
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { map, take } from 'rxjs/operators';
-import { VIEW_FILE, ViewFileAction } from '../actions';
+import {
+  AppStore,
+  ViewerActionTypes,
+  ViewFileAction,
+  ViewNodeAction
+} from '@alfresco/aca-shared/store';
 import { Router } from '@angular/router';
 import { Store, createSelector } from '@ngrx/store';
-import { AppStore } from '../states';
 import { appSelection, currentFolder } from '../selectors/app.selectors';
-import { ViewNodeAction, VIEW_NODE } from '../actions/viewer.actions';
 
 export const fileToPreview = createSelector(
   appSelection,
@@ -54,7 +57,7 @@ export class ViewerEffects {
 
   @Effect({ dispatch: false })
   viewNode$ = this.actions$.pipe(
-    ofType<ViewNodeAction>(VIEW_NODE),
+    ofType<ViewNodeAction>(ViewerActionTypes.ViewNode),
     map(action => {
       if (action.location) {
         this.router.navigate(
@@ -76,7 +79,7 @@ export class ViewerEffects {
 
   @Effect({ dispatch: false })
   viewFile$ = this.actions$.pipe(
-    ofType<ViewFileAction>(VIEW_FILE),
+    ofType<ViewFileAction>(ViewerActionTypes.ViewFile),
     map(action => {
       if (action.payload && action.payload.entry) {
         const { id, nodeId, isFile } = <any>action.payload.entry;

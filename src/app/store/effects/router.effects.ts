@@ -29,17 +29,14 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { MinimalNodeEntryEntity, PathInfoEntity } from '@alfresco/js-api';
 import { map } from 'rxjs/operators';
 import {
+  AppStore,
+  RouterActionTypes,
   NavigateRouteAction,
   NavigateToParentFolder,
-  NAVIGATE_PARENT_FOLDER,
-  NAVIGATE_ROUTE,
   NavigateToFolder,
-  NAVIGATE_FOLDER,
   NavigateUrlAction,
-  NAVIGATE_URL,
   SnackbarErrorAction
-} from '../actions';
-import { AppStore } from '../states/app.state';
+} from '@alfresco/aca-shared/store';
 import { Store } from '@ngrx/store';
 
 @Injectable()
@@ -52,7 +49,7 @@ export class RouterEffects {
 
   @Effect({ dispatch: false })
   navigateUrl$ = this.actions$.pipe(
-    ofType<NavigateUrlAction>(NAVIGATE_URL),
+    ofType<NavigateUrlAction>(RouterActionTypes.NavigateUrl),
     map(action => {
       if (action.payload) {
         this.router.navigateByUrl(action.payload);
@@ -62,7 +59,7 @@ export class RouterEffects {
 
   @Effect({ dispatch: false })
   navigateRoute$ = this.actions$.pipe(
-    ofType<NavigateRouteAction>(NAVIGATE_ROUTE),
+    ofType<NavigateRouteAction>(RouterActionTypes.NavigateRoute),
     map(action => {
       this.router.navigate(action.payload);
     })
@@ -70,7 +67,7 @@ export class RouterEffects {
 
   @Effect({ dispatch: false })
   navigateToFolder$ = this.actions$.pipe(
-    ofType<NavigateToFolder>(NAVIGATE_FOLDER),
+    ofType<NavigateToFolder>(RouterActionTypes.NavigateFolder),
     map(action => {
       if (action.payload && action.payload.entry) {
         this.navigateToFolder(action.payload.entry);
@@ -80,7 +77,7 @@ export class RouterEffects {
 
   @Effect({ dispatch: false })
   navigateToParentFolder$ = this.actions$.pipe(
-    ofType<NavigateToParentFolder>(NAVIGATE_PARENT_FOLDER),
+    ofType<NavigateToParentFolder>(RouterActionTypes.NavigateParentFolder),
     map(action => {
       if (action.payload && action.payload.entry) {
         this.navigateToParentFolder(action.payload.entry);

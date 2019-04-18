@@ -25,9 +25,11 @@
 
 import { Action } from '@ngrx/store';
 
-export const SNACKBAR_INFO = 'SNACKBAR_INFO';
-export const SNACKBAR_WARNING = 'SNACKBAR_WARNING';
-export const SNACKBAR_ERROR = 'SNACKBAR_ERROR';
+export enum SnackbarActionTypes {
+  Info = 'SNACKBAR_INFO',
+  Warning = 'SNACKBAR_WARNING',
+  Error = 'SNACKBAR_ERROR'
+}
 
 export interface SnackbarAction extends Action {
   payload: string;
@@ -41,7 +43,7 @@ export class SnackbarUserAction {
 }
 
 export class SnackbarInfoAction implements SnackbarAction {
-  readonly type = SNACKBAR_INFO;
+  readonly type = SnackbarActionTypes.Info;
 
   userAction?: SnackbarUserAction;
   duration = 4000;
@@ -50,7 +52,7 @@ export class SnackbarInfoAction implements SnackbarAction {
 }
 
 export class SnackbarWarningAction implements SnackbarAction {
-  readonly type = SNACKBAR_WARNING;
+  readonly type = SnackbarActionTypes.Warning;
 
   userAction?: SnackbarUserAction;
   duration = 4000;
@@ -59,7 +61,7 @@ export class SnackbarWarningAction implements SnackbarAction {
 }
 
 export class SnackbarErrorAction implements SnackbarAction {
-  readonly type = SNACKBAR_ERROR;
+  readonly type = SnackbarActionTypes.Error;
 
   userAction?: SnackbarUserAction;
   duration = 4000;

@@ -31,7 +31,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
-import { AppStore } from '../../store/states';
+import { AppStore } from '@alfresco/aca-shared/store';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { Store } from '@ngrx/store';
 import { currentFolder } from '../../store/selectors/app.selectors';

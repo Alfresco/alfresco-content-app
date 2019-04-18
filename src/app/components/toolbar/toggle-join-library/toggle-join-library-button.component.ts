@@ -23,22 +23,22 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewEncapsulation } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { AppStore } from '../../../store/states';
-import { appSelection } from '../../../store/selectors/app.selectors';
-import { Observable } from 'rxjs';
-import { SelectionState } from '@alfresco/adf-extensions';
-import { ContentManagementService } from '../../../services/content-management.service';
 import {
+  AppStore,
+  SetSelectedNodesAction,
   SnackbarErrorAction,
   SnackbarInfoAction
-} from '../../../store/actions/snackbar.actions';
-import { SetSelectedNodesAction } from '../../../store/actions/node.actions';
+} from '@alfresco/aca-shared/store';
+import { SelectionState } from '@alfresco/adf-extensions';
+import { Component, ViewEncapsulation } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import {
-  LibraryMembershipToggleEvent,
-  LibraryMembershipErrorEvent
+  LibraryMembershipErrorEvent,
+  LibraryMembershipToggleEvent
 } from '../../../directives/library-membership.directive';
+import { ContentManagementService } from '../../../services/content-management.service';
+import { appSelection } from '../../../store/selectors/app.selectors';
 
 @Component({
   selector: 'app-toggle-join-library-button',

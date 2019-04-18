@@ -30,8 +30,7 @@ import { SiteEntry, FavoritePaging, Pagination } from '@alfresco/js-api';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { ContentManagementService } from '../../services/content-management.service';
 import { ContentApiService } from '../../services/content-api.service';
-import { NavigateLibraryAction } from '../../store/actions';
-import { AppStore } from '../../store/states/app.state';
+import { NavigateLibraryAction } from '@alfresco/aca-shared/store';
 import { PageComponent } from '../page.component';
 import { UserPreferencesService } from '@alfresco/adf-core';
 @Component({
@@ -47,7 +46,7 @@ export class FavoriteLibrariesComponent extends PageComponent
 
   constructor(
     content: ContentManagementService,
-    store: Store<AppStore>,
+    store: Store<any>,
     extensions: AppExtensionService,
     private contentApiService: ContentApiService,
     private breakpointObserver: BreakpointObserver,

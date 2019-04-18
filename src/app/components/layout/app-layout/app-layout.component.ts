@@ -41,9 +41,8 @@ import { Subject, Observable } from 'rxjs';
 import { filter, takeUntil, map, withLatestFrom } from 'rxjs/operators';
 import { NodePermissionService } from '../../../services/node-permission.service';
 import { currentFolder } from '../../../store/selectors/app.selectors';
-import { AppStore } from '../../../store/states';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { SetSelectedNodesAction } from '../../../store/actions';
+import { AppStore, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 
 @Component({
   selector: 'app-layout',

@@ -26,7 +26,6 @@
 import { NgModule } from '@angular/core';
 import { StoreModule } from '@ngrx/store';
 import { appReducer } from './reducers/app.reducer';
-import { INITIAL_STATE } from './states';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { EffectsModule } from '@ngrx/effects';
 import { environment } from '../../environments/environment';
@@ -44,6 +43,7 @@ import {
   FavoriteEffects,
   ModalsEffects
 } from './effects';
+import { INITIAL_STATE } from './initial-state';
 
 @NgModule({
   imports: [

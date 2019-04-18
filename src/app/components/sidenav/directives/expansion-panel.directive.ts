@@ -35,7 +35,6 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../../../store/states/app.state';
 
 @Directive({
   selector: '[acaExpansionPanel]',
@@ -63,7 +62,7 @@ export class ExpansionPanelDirective implements OnInit, OnDestroy {
   }
 
   constructor(
-    private store: Store<AppStore>,
+    private store: Store<any>,
     private router: Router,
     private expansionPanel: MatExpansionPanel
   ) {}

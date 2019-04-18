@@ -30,15 +30,13 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
 import {
+  AppStore,
+  SnackbarActionTypes,
   SnackbarAction,
   SnackbarErrorAction,
   SnackbarInfoAction,
-  SnackbarWarningAction,
-  SNACKBAR_ERROR,
-  SNACKBAR_INFO,
-  SNACKBAR_WARNING
-} from '../actions';
-import { AppStore } from '../states/app.state';
+  SnackbarWarningAction
+} from '@alfresco/aca-shared/store';
 
 @Injectable()
 export class SnackbarEffects {
@@ -51,7 +49,7 @@ export class SnackbarEffects {
 
   @Effect({ dispatch: false })
   infoEffect = this.actions$.pipe(
-    ofType<SnackbarInfoAction>(SNACKBAR_INFO),
+    ofType<SnackbarInfoAction>(SnackbarActionTypes.Info),
     map((action: SnackbarInfoAction) => {
       this.showSnackBar(action, 'info-snackbar');
     })
@@ -59,7 +57,7 @@ export class SnackbarEffects {
 
   @Effect({ dispatch: false })
   warningEffect = this.actions$.pipe(
-    ofType<SnackbarWarningAction>(SNACKBAR_WARNING),
+    ofType<SnackbarWarningAction>(SnackbarActionTypes.Warning),
     map((action: SnackbarWarningAction) => {
       this.showSnackBar(action, 'warning-snackbar');
     })
@@ -67,7 +65,7 @@ export class SnackbarEffects {
 
   @Effect({ dispatch: false })
   errorEffect = this.actions$.pipe(
-    ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
+    ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
     map((action: SnackbarErrorAction) => {
       this.showSnackBar(action, 'error-snackbar');
     })

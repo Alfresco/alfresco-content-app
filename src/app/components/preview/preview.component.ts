@@ -46,8 +46,8 @@ import {
   AlfrescoApiService
 } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../../store/states/app.state';
-import { SetSelectedNodesAction } from '../../store/actions';
+import { AppStore } from '@alfresco/aca-shared/store';
+import { SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { PageComponent } from '../page.component';
 import { ContentApiService } from '../../services/content-api.service';
 import { AppExtensionService } from '../../extensions/extension.service';

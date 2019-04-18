@@ -23,16 +23,16 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit } from '@angular/core';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { ContentManagementService } from '../../services/content-management.service';
-import { PageComponent } from '../page.component';
-import { Store } from '@ngrx/store';
-import { selectUser } from '../../store/selectors/app.selectors';
-import { AppStore } from '../../store/states/app.state';
-import { AppExtensionService } from '../../extensions/extension.service';
-import { Observable } from 'rxjs';
+import { AppStore } from '@alfresco/aca-shared/store';
 import { ProfileState } from '@alfresco/adf-extensions';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { AppExtensionService } from '../../extensions/extension.service';
+import { ContentManagementService } from '../../services/content-management.service';
+import { selectUser } from '../../store/selectors/app.selectors';
+import { PageComponent } from '../page.component';
 
 @Component({
   templateUrl: './trashcan.component.html'

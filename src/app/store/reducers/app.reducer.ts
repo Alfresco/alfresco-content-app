@@ -24,30 +24,21 @@
  */
 
 import { Action } from '@ngrx/store';
-import { AppState, INITIAL_APP_STATE } from '../states/app.state';
 import {
-  SET_SELECTED_NODES,
-  SetSelectedNodesAction,
-  SET_USER_PROFILE,
+  AppState,
+  AppActionTypes,
+  NodeActionTypes,
+  SearchActionTypes,
   SetUserProfileAction,
-  SET_REPOSITORY_INFO,
-  SetRepositoryInfoAction,
-  SET_LANGUAGE_PICKER,
   SetLanguagePickerAction,
-  SET_CURRENT_FOLDER,
   SetCurrentFolderAction,
-  SET_CURRENT_URL,
   SetCurrentUrlAction,
-  SET_INFO_DRAWER_STATE,
-  SetInfoDrawerStateAction,
-  TOGGLE_INFO_DRAWER,
-  TOGGLE_DOCUMENT_DISPLAY_MODE,
-  SET_INITIAL_STATE,
   SetInitialStateAction,
-  TOGGLE_SEARCH_FILTER,
-  SHOW_SEARCH_FILTER,
-  HIDE_SEARCH_FILTER
-} from '../actions';
+  SetSelectedNodesAction,
+  SetRepositoryInfoAction,
+  SetInfoDrawerStateAction
+} from '@alfresco/aca-shared/store';
+import { INITIAL_APP_STATE } from '../initial-state';
 
 export function appReducer(
   state: AppState = INITIAL_APP_STATE,
@@ -56,43 +47,43 @@ export function appReducer(
   let newState: AppState;
 
   switch (action.type) {
-    case SET_INITIAL_STATE:
+    case AppActionTypes.SetInitialState:
       newState = Object.assign({}, (<SetInitialStateAction>action).payload);
       break;
-    case SET_SELECTED_NODES:
+    case NodeActionTypes.SetSelection:
       newState = updateSelectedNodes(state, <SetSelectedNodesAction>action);
       break;
-    case SET_USER_PROFILE:
+    case AppActionTypes.SetUserProfile:
       newState = updateUser(state, <SetUserProfileAction>action);
       break;
-    case SET_LANGUAGE_PICKER:
+    case AppActionTypes.SetLanguagePicker:
       newState = updateLanguagePicker(state, <SetLanguagePickerAction>action);
       break;
-    case SET_CURRENT_FOLDER:
+    case AppActionTypes.SetCurrentFolder:
       newState = updateCurrentFolder(state, <SetCurrentFolderAction>action);
       break;
-    case SET_CURRENT_URL:
+    case AppActionTypes.SetCurrentUrl:
       newState = updateCurrentUrl(state, <SetCurrentUrlAction>action);
       break;
-    case TOGGLE_INFO_DRAWER:
+    case AppActionTypes.ToggleInfoDrawer:
       newState = toggleInfoDrawer(state);
       break;
-    case SET_INFO_DRAWER_STATE:
+    case AppActionTypes.SetInfoDrawerState:
       newState = setInfoDrawer(state, <SetInfoDrawerStateAction>action);
       break;
-    case TOGGLE_DOCUMENT_DISPLAY_MODE:
+    case AppActionTypes.ToggleDocumentDisplayMode:
       newState = toggleDocumentDisplayMode(state);
       break;
-    case SET_REPOSITORY_INFO:
+    case AppActionTypes.SetRepositoryInfo:
       newState = updateRepositoryStatus(state, <SetRepositoryInfoAction>action);
       break;
-    case TOGGLE_SEARCH_FILTER:
+    case SearchActionTypes.ToggleFilter:
       newState = toggleSearchFilter(state);
       break;
-    case SHOW_SEARCH_FILTER:
+    case SearchActionTypes.ShowFilter:
       newState = showSearchFilter(state);
       break;
-    case HIDE_SEARCH_FILTER:
+    case SearchActionTypes.HideFilter:
       newState = hideSearchFilter(state);
       break;
     default:

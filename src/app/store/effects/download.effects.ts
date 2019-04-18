@@ -23,17 +23,20 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import {
+  AppStore,
+  DownloadNodesAction,
+  NodeActionTypes,
+  NodeInfo
+} from '@alfresco/aca-shared/store';
 import { DownloadZipDialogComponent } from '@alfresco/adf-core';
+import { MinimalNodeEntity } from '@alfresco/js-api';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { map, take } from 'rxjs/operators';
-import { DownloadNodesAction, DOWNLOAD_NODES } from '../actions';
-import { NodeInfo } from '../models';
-import { ContentApiService } from '../../services/content-api.service';
-import { MinimalNodeEntity } from '@alfresco/js-api';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../states';
+import { map, take } from 'rxjs/operators';
+import { ContentApiService } from '../../services/content-api.service';
 import { appSelection } from '../selectors/app.selectors';
 
 @Injectable()
@@ -47,7 +50,7 @@ export class DownloadEffects {
 
   @Effect({ dispatch: false })
   downloadNode$ = this.actions$.pipe(
-    ofType<DownloadNodesAction>(DOWNLOAD_NODES),
+    ofType<DownloadNodesAction>(NodeActionTypes.Download),
     map(action => {
       if (action.payload && action.payload.length > 0) {
         this.downloadNodes(action.payload);

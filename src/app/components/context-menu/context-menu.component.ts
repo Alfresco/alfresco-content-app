@@ -35,7 +35,7 @@ import {
 import { MatMenuTrigger } from '@angular/material/menu';
 
 import { AppExtensionService } from '../../extensions/extension.service';
-import { AppStore } from '../../store/states';
+import { AppStore } from '@alfresco/aca-shared/store';
 import { appSelection } from '../../store/selectors/app.selectors';
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';

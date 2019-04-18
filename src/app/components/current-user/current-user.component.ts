@@ -30,9 +30,8 @@ import {
   selectUser,
   appLanguagePicker
 } from '../../store/selectors/app.selectors';
-import { AppStore } from '../../store/states';
 import { ProfileState } from '@alfresco/adf-extensions';
-import { SetSelectedNodesAction } from '../../store/actions';
+import { AppStore, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { AppService } from '../../services/app.service';
 
 @Component({

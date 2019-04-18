@@ -23,34 +23,32 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Injectable, RendererFactory2, NgZone } from '@angular/core';
+import {
+  AppStore,
+  SnackbarErrorAction,
+  UnlockWriteAction,
+  UploadActionTypes,
+  UploadFilesAction,
+  UploadFileVersionAction,
+  UploadFolderAction
+} from '@alfresco/aca-shared/store';
+import { FileModel, FileUtils, UploadService } from '@alfresco/adf-core';
+import { Injectable, NgZone, RendererFactory2 } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../states';
+import { forkJoin, fromEvent, of } from 'rxjs';
 import {
-  UploadFilesAction,
-  UPLOAD_FILES,
-  UploadFolderAction,
-  UPLOAD_FOLDER,
-  UPLOAD_FILE_VERSION,
-  UploadFileVersionAction,
-  SnackbarErrorAction,
-  UnlockWriteAction
-} from '../actions';
-import {
-  map,
-  take,
-  flatMap,
-  distinctUntilChanged,
   catchError,
+  distinctUntilChanged,
+  filter,
+  flatMap,
+  map,
   switchMap,
-  tap,
-  filter
+  take,
+  tap
 } from 'rxjs/operators';
-import { FileUtils, FileModel, UploadService } from '@alfresco/adf-core';
-import { currentFolder } from '../selectors/app.selectors';
-import { fromEvent, of, forkJoin } from 'rxjs';
 import { ContentManagementService } from '../../services/content-management.service';
+import { currentFolder } from '../selectors/app.selectors';
 
 @Injectable()
 export class UploadEffects {
@@ -95,7 +93,7 @@ export class UploadEffects {
 
   @Effect({ dispatch: false })
   uploadFiles$ = this.actions$.pipe(
-    ofType<UploadFilesAction>(UPLOAD_FILES),
+    ofType<UploadFilesAction>(UploadActionTypes.UploadFiles),
     map(() => {
       this.fileInput.click();
     })
@@ -103,7 +101,7 @@ export class UploadEffects {
 
   @Effect({ dispatch: false })
   uploadFolder$ = this.actions$.pipe(
-    ofType<UploadFolderAction>(UPLOAD_FOLDER),
+    ofType<UploadFolderAction>(UploadActionTypes.UploadFolder),
     map(() => {
       this.folderInput.click();
     })
@@ -111,7 +109,7 @@ export class UploadEffects {
 
   @Effect({ dispatch: false })
   uploadVersion$ = this.actions$.pipe(
-    ofType<UploadFileVersionAction>(UPLOAD_FILE_VERSION),
+    ofType<UploadFileVersionAction>(UploadActionTypes.UploadFileVersion),
     switchMap(() => {
       this.fileVersionInput.click();
       return fromEvent(this.fileVersionInput, 'change').pipe(

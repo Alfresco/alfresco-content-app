@@ -27,13 +27,12 @@ import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { map, take } from 'rxjs/operators';
 import {
-  ADD_FAVORITE,
+  AppStore,
+  NodeActionTypes,
   AddFavoriteAction,
-  RemoveFavoriteAction,
-  REMOVE_FAVORITE
-} from '../actions/favorite.actions';
+  RemoveFavoriteAction
+} from '@alfresco/aca-shared/store';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../states';
 import { appSelection } from '../selectors/app.selectors';
 import { ContentManagementService } from '../../services/content-management.service';
 
@@ -47,7 +46,7 @@ export class FavoriteEffects {
 
   @Effect({ dispatch: false })
   addFavorite$ = this.actions$.pipe(
-    ofType<AddFavoriteAction>(ADD_FAVORITE),
+    ofType<AddFavoriteAction>(NodeActionTypes.AddFavorite),
     map(action => {
       if (action.payload && action.payload.length > 0) {
         this.content.addFavorite(action.payload);
@@ -66,7 +65,7 @@ export class FavoriteEffects {
 
   @Effect({ dispatch: false })
   removeFavorite$ = this.actions$.pipe(
-    ofType<RemoveFavoriteAction>(REMOVE_FAVORITE),
+    ofType<RemoveFavoriteAction>(NodeActionTypes.RemoveFavorite),
     map(action => {
       if (action.payload && action.payload.length > 0) {
         this.content.removeFavorite(action.payload);

@@ -26,111 +26,138 @@
 import { Action } from '@ngrx/store';
 import { MinimalNodeEntity } from '@alfresco/js-api';
 
-export const SET_SELECTED_NODES = 'SET_SELECTED_NODES';
-export const DELETE_NODES = 'DELETE_NODES';
-export const UNDO_DELETE_NODES = 'UNDO_DELETE_NODES';
-export const RESTORE_DELETED_NODES = 'RESTORE_DELETED_NODES';
-export const PURGE_DELETED_NODES = 'PURGE_DELETED_NODES';
-export const DOWNLOAD_NODES = 'DOWNLOAD_NODES';
-export const CREATE_FOLDER = 'CREATE_FOLDER';
-export const EDIT_FOLDER = 'EDIT_FOLDER';
-export const SHARE_NODE = 'SHARE_NODE';
-export const UNSHARE_NODES = 'UNSHARE_NODES';
-export const COPY_NODES = 'COPY_NODES';
-export const MOVE_NODES = 'MOVE_NODES';
-export const MANAGE_PERMISSIONS = 'MANAGE_PERMISSIONS';
-export const PRINT_FILE = 'PRINT_FILE';
-export const FULLSCREEN_VIEWER = 'FULLSCREEN_VIEWER';
-export const MANAGE_VERSIONS = 'MANAGE_VERSIONS';
-export const EDIT_OFFLINE = 'EDIT_OFFLINE';
-export const UNLOCK_WRITE = 'UNLOCK_WRITE_LOCK';
+export enum NodeActionTypes {
+  SetSelection = 'SET_SELECTED_NODES',
+  Delete = 'DELETE_NODES',
+  UndoDelete = 'UNDO_DELETE_NODES',
+  RestoreDeleted = 'RESTORE_DELETED_NODES',
+  PurgeDeleted = 'PURGE_DELETED_NODES',
+  Download = 'DOWNLOAD_NODES',
+  CreateFolder = 'CREATE_FOLDER',
+  EditFolder = 'EDIT_FOLDER',
+  Share = 'SHARE_NODE',
+  Unshare = 'UNSHARE_NODES',
+  Copy = 'COPY_NODES',
+  Move = 'MOVE_NODES',
+  ManagePermissions = 'MANAGE_PERMISSIONS',
+  PrintFile = 'PRINT_FILE',
+  ManageVersions = 'MANAGE_VERSIONS',
+  EditOffline = 'EDIT_OFFLINE',
+  UnlockForWriting = 'UNLOCK_WRITE_LOCK',
+  AddFavorite = 'ADD_FAVORITE',
+  RemoveFavorite = 'REMOVE_FAVORITE'
+}
 
 export class SetSelectedNodesAction implements Action {
-  readonly type = SET_SELECTED_NODES;
+  readonly type = NodeActionTypes.SetSelection;
+
   constructor(public payload: MinimalNodeEntity[] = []) {}
 }
 
 export class DeleteNodesAction implements Action {
-  readonly type = DELETE_NODES;
+  readonly type = NodeActionTypes.Delete;
+
   constructor(public payload: MinimalNodeEntity[] = []) {}
 }
 
 export class UndoDeleteNodesAction implements Action {
-  readonly type = UNDO_DELETE_NODES;
+  readonly type = NodeActionTypes.UndoDelete;
+
   constructor(public payload: any[] = []) {}
 }
 
 export class RestoreDeletedNodesAction implements Action {
-  readonly type = RESTORE_DELETED_NODES;
+  readonly type = NodeActionTypes.RestoreDeleted;
+
   constructor(public payload: Array<MinimalNodeEntity>) {}
 }
 
 export class PurgeDeletedNodesAction implements Action {
-  readonly type = PURGE_DELETED_NODES;
+  readonly type = NodeActionTypes.PurgeDeleted;
+
   constructor(public payload: Array<MinimalNodeEntity>) {}
 }
 
 export class DownloadNodesAction implements Action {
-  readonly type = DOWNLOAD_NODES;
+  readonly type = NodeActionTypes.Download;
+
   constructor(public payload: MinimalNodeEntity[] = []) {}
 }
 
 export class CreateFolderAction implements Action {
-  readonly type = CREATE_FOLDER;
+  readonly type = NodeActionTypes.CreateFolder;
+
   constructor(public payload: string) {}
 }
 
 export class EditFolderAction implements Action {
-  readonly type = EDIT_FOLDER;
+  readonly type = NodeActionTypes.EditFolder;
+
   constructor(public payload: MinimalNodeEntity) {}
 }
 
 export class ShareNodeAction implements Action {
-  readonly type = SHARE_NODE;
+  readonly type = NodeActionTypes.Share;
+
   constructor(public payload: MinimalNodeEntity) {}
 }
 
 export class UnshareNodesAction implements Action {
-  readonly type = UNSHARE_NODES;
+  readonly type = NodeActionTypes.Unshare;
+
   constructor(public payload: Array<MinimalNodeEntity>) {}
 }
 
 export class CopyNodesAction implements Action {
-  readonly type = COPY_NODES;
+  readonly type = NodeActionTypes.Copy;
+
   constructor(public payload: Array<MinimalNodeEntity>) {}
 }
 
 export class MoveNodesAction implements Action {
-  readonly type = MOVE_NODES;
+  readonly type = NodeActionTypes.Move;
+
   constructor(public payload: Array<MinimalNodeEntity>) {}
 }
 
 export class ManagePermissionsAction implements Action {
-  readonly type = MANAGE_PERMISSIONS;
+  readonly type = NodeActionTypes.ManagePermissions;
+
   constructor(public payload: MinimalNodeEntity) {}
 }
 
 export class PrintFileAction implements Action {
-  readonly type = PRINT_FILE;
-  constructor(public payload: MinimalNodeEntity) {}
-}
+  readonly type = NodeActionTypes.PrintFile;
 
-export class FullscreenViewerAction implements Action {
-  readonly type = FULLSCREEN_VIEWER;
   constructor(public payload: MinimalNodeEntity) {}
 }
 
 export class ManageVersionsAction implements Action {
-  readonly type = MANAGE_VERSIONS;
+  readonly type = NodeActionTypes.ManageVersions;
+
   constructor(public payload: MinimalNodeEntity) {}
 }
 
 export class EditOfflineAction implements Action {
-  readonly type = EDIT_OFFLINE;
+  readonly type = NodeActionTypes.EditOffline;
+
   constructor(public payload: any) {}
 }
 
 export class UnlockWriteAction implements Action {
-  readonly type = UNLOCK_WRITE;
+  readonly type = NodeActionTypes.UnlockForWriting;
+
   constructor(public payload: any) {}
+}
+
+export class AddFavoriteAction implements Action {
+  readonly type = NodeActionTypes.AddFavorite;
+
+  constructor(public payload: Array<MinimalNodeEntity>) {}
+}
+
+export class RemoveFavoriteAction implements Action {
+  readonly type = NodeActionTypes.RemoveFavorite;
+
+  constructor(public payload: Array<MinimalNodeEntity>) {}
 }

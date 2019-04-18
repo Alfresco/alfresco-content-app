@@ -23,11 +23,39 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Action } from '@ngrx/store';
+import { AppState, AppStore } from '@alfresco/aca-shared/store';
 
-export const SET_INFO_DRAWER_STATE = 'SET_INFO_DRAWER_STATE';
+export const INITIAL_APP_STATE: AppState = {
+  appName: 'Alfresco Content Application',
+  headerColor: '#2196F3',
+  logoPath: 'assets/images/alfresco-logo-white.svg',
+  languagePicker: false,
+  sharedUrl: '',
+  user: {
+    isAdmin: null,
+    id: null,
+    firstName: '',
+    lastName: ''
+  },
+  selection: {
+    nodes: [],
+    libraries: [],
+    isEmpty: true,
+    count: 0
+  },
+  navigation: {
+    currentFolder: null
+  },
+  infoDrawerOpened: false,
+  showFacetFilter: true,
+  documentDisplayMode: 'list',
+  repository: <any>{
+    status: <any>{
+      isQuickShareEnabled: true
+    }
+  }
+};
 
-export class SetInfoDrawerStateAction implements Action {
-  readonly type = SET_INFO_DRAWER_STATE;
-  constructor(public payload: boolean) {}
-}
+export const INITIAL_STATE: AppStore = {
+  app: INITIAL_APP_STATE
+};

@@ -23,6 +23,28 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './models/delete-status.model';
-export * from './models/deleted-node-info.model';
-export * from './models/node-info.model';
+import {
+  SelectionState,
+  ProfileState,
+  NavigationState
+} from '@alfresco/adf-extensions';
+import { RepositoryInfo } from '@alfresco/js-api';
+
+export interface AppState {
+  appName: string;
+  headerColor: string;
+  logoPath: string;
+  languagePicker: boolean;
+  sharedUrl: string;
+  selection: SelectionState;
+  user: ProfileState;
+  navigation: NavigationState;
+  infoDrawerOpened: boolean;
+  showFacetFilter: boolean;
+  documentDisplayMode: string;
+  repository: RepositoryInfo;
+}
+
+export interface AppStore {
+  app: AppState;
+}

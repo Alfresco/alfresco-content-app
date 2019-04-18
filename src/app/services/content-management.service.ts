@@ -23,50 +23,52 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Subject, Observable, forkJoin, of, zip } from 'rxjs';
-import { Injectable } from '@angular/core';
 import {
-  FolderDialogComponent,
-  ConfirmDialogComponent,
-  LibraryDialogComponent
-} from '@alfresco/adf-content-services';
-import {
-  SnackbarErrorAction,
-  SnackbarInfoAction,
-  SnackbarAction,
-  SnackbarWarningAction,
+  AppStore,
+  DeletedNodeInfo,
+  DeleteStatus,
   NavigateRouteAction,
   NavigateToParentFolder,
-  SnackbarUserAction,
-  UndoDeleteNodesAction,
+  NodeInfo,
+  ReloadDocumentListAction,
   SetSelectedNodesAction,
-  ReloadDocumentListAction
-} from '../store/actions';
-import { Store } from '@ngrx/store';
-import { AppStore } from '../store/states';
+  SnackbarAction,
+  SnackbarErrorAction,
+  SnackbarInfoAction,
+  SnackbarUserAction,
+  SnackbarWarningAction,
+  UndoDeleteNodesAction
+} from '@alfresco/aca-shared/store';
 import {
+  ConfirmDialogComponent,
+  FolderDialogComponent,
+  LibraryDialogComponent
+} from '@alfresco/adf-content-services';
+import { TranslationService, ViewUtilService } from '@alfresco/adf-core';
+import {
+  DeletedNodesPaging,
   MinimalNodeEntity,
   MinimalNodeEntryEntity,
   Node,
-  SiteEntry,
-  DeletedNodesPaging,
+  NodeEntry,
   PathInfoEntity,
   SiteBody,
-  NodeEntry
+  SiteEntry
 } from '@alfresco/js-api';
-import { NodePermissionService } from './node-permission.service';
-import { NodeInfo, DeletedNodeInfo, DeleteStatus } from '../store/models';
-import { ContentApiService } from './content-api.service';
-import { sharedUrl, appSelection } from '../store/selectors/app.selectors';
-import { NodeActionsService } from './node-actions.service';
-import { TranslationService, ViewUtilService } from '@alfresco/adf-core';
-import { NodeVersionUploadDialogComponent } from '../dialogs/node-version-upload/node-version-upload.dialog';
-import { NodeVersionsDialogComponent } from '../dialogs/node-versions/node-versions.dialog';
-import { ShareDialogComponent } from '../components/shared/content-node-share/content-node-share.dialog';
-import { take, map, tap, mergeMap, catchError, flatMap } from 'rxjs/operators';
-import { NodePermissionsDialogComponent } from '../components/permissions/permission-dialog/node-permissions.dialog';
+import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Store } from '@ngrx/store';
+import { forkJoin, Observable, of, Subject, zip } from 'rxjs';
+import { catchError, flatMap, map, mergeMap, take, tap } from 'rxjs/operators';
+import { NodePermissionsDialogComponent } from '../components/permissions/permission-dialog/node-permissions.dialog';
+import { ShareDialogComponent } from '../components/shared/content-node-share/content-node-share.dialog';
+import { NodeVersionUploadDialogComponent } from '../dialogs/node-version-upload/node-version-upload.dialog';
+import { NodeVersionsDialogComponent } from '../dialogs/node-versions/node-versions.dialog';
+import { appSelection, sharedUrl } from '../store/selectors/app.selectors';
+import { ContentApiService } from './content-api.service';
+import { NodeActionsService } from './node-actions.service';
+import { NodePermissionService } from './node-permission.service';
 
 interface RestoredNode {
   status: number;

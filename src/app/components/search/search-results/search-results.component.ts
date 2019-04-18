@@ -32,14 +32,16 @@ import {
 } from '@alfresco/adf-content-services';
 import { PageComponent } from '../../page.component';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../../../store/states/app.state';
-import { NavigateToFolder } from '../../../store/actions';
+import {
+  AppStore,
+  NavigateToFolder,
+  SnackbarErrorAction
+} from '@alfresco/aca-shared/store';
 import { AppExtensionService } from '../../../extensions/extension.service';
 import { ContentManagementService } from '../../../services/content-management.service';
 import { AppConfigService, TranslationService } from '@alfresco/adf-core';
 import { Observable } from 'rxjs';
 import { showFacetFilter } from '../../../store/selectors/app.selectors';
-import { SnackbarErrorAction } from '../../../store/actions';
 
 @Component({
   selector: 'aca-search-results',

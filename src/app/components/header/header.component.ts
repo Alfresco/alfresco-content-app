@@ -39,7 +39,7 @@ import {
 } from '../../store/selectors/app.selectors';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { AppExtensionService } from '../../extensions/extension.service';
-import { AppStore } from '../../store/states';
+import { AppStore } from '@alfresco/aca-shared/store';
 
 @Component({
   selector: 'app-header',

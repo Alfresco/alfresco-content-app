@@ -23,16 +23,16 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewEncapsulation, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { AppStore } from '../../../store/states';
-import { appSelection } from '../../../store/selectors/app.selectors';
 import {
+  AppStore,
   DownloadNodesAction,
   EditOfflineAction,
   SnackbarErrorAction
-} from '../../../store/actions';
+} from '@alfresco/aca-shared/store';
 import { MinimalNodeEntity } from '@alfresco/js-api';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { appSelection } from '../../../store/selectors/app.selectors';
 
 @Component({
   selector: 'app-toggle-edit-offline',

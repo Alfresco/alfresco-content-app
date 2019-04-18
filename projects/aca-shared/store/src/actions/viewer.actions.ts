@@ -26,15 +26,26 @@
 import { Action } from '@ngrx/store';
 import { MinimalNodeEntity } from '@alfresco/js-api';
 
-export const ADD_FAVORITE = 'ADD_FAVORITE';
-export const REMOVE_FAVORITE = 'REMOVE_FAVORITE';
-
-export class AddFavoriteAction implements Action {
-  readonly type = ADD_FAVORITE;
-  constructor(public payload: Array<MinimalNodeEntity>) {}
+export enum ViewerActionTypes {
+  ViewFile = 'VIEW_FILE',
+  ViewNode = 'VIEW_NODE',
+  FullScreen = 'FULLSCREEN_VIEWER'
 }
 
-export class RemoveFavoriteAction implements Action {
-  readonly type = REMOVE_FAVORITE;
-  constructor(public payload: Array<MinimalNodeEntity>) {}
+export class ViewFileAction implements Action {
+  readonly type = ViewerActionTypes.ViewFile;
+
+  constructor(public payload: MinimalNodeEntity, public parentId?: string) {}
+}
+
+export class ViewNodeAction implements Action {
+  readonly type = ViewerActionTypes.ViewNode;
+
+  constructor(public nodeId: string, public location?: string) {}
+}
+
+export class FullscreenViewerAction implements Action {
+  readonly type = ViewerActionTypes.FullScreen;
+
+  constructor(public payload: MinimalNodeEntity) {}
 }

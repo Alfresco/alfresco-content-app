@@ -25,7 +25,7 @@
 
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../../../store/states';
+import { AppStore } from '@alfresco/aca-shared/store';
 import { appSelection } from '../../../store/selectors/app.selectors';
 import { Observable } from 'rxjs';
 import { SelectionState } from '@alfresco/adf-extensions';

@@ -24,29 +24,40 @@
  */
 
 import { Action } from '@ngrx/store';
-import { MinimalNodeEntity } from '@alfresco/js-api';
+import { SiteBody } from '@alfresco/js-api';
 
-export const NAVIGATE_URL = 'NAVIGATE_URL';
-export const NAVIGATE_ROUTE = 'NAVIGATE_ROUTE';
-export const NAVIGATE_FOLDER = 'NAVIGATE_FOLDER';
-export const NAVIGATE_PARENT_FOLDER = 'NAVIGATE_PARENT_FOLDER';
-
-export class NavigateUrlAction implements Action {
-  readonly type = NAVIGATE_URL;
-  constructor(public payload: string) {}
+export enum LibraryActionTypes {
+  Delete = 'DELETE_LIBRARY',
+  Create = 'CREATE_LIBRARY',
+  Navigate = 'NAVIGATE_LIBRARY',
+  Update = 'UPDATE_LIBRARY',
+  Leave = 'LEAVE_LIBRARY'
 }
 
-export class NavigateRouteAction implements Action {
-  readonly type = NAVIGATE_ROUTE;
-  constructor(public payload: any[]) {}
+export class DeleteLibraryAction implements Action {
+  readonly type = LibraryActionTypes.Delete;
+
+  constructor(public payload?: string) {}
 }
 
-export class NavigateToFolder implements Action {
-  readonly type = NAVIGATE_FOLDER;
-  constructor(public payload: MinimalNodeEntity) {}
+export class CreateLibraryAction implements Action {
+  readonly type = LibraryActionTypes.Create;
 }
 
-export class NavigateToParentFolder implements Action {
-  readonly type = NAVIGATE_PARENT_FOLDER;
-  constructor(public payload: MinimalNodeEntity) {}
+export class NavigateLibraryAction implements Action {
+  readonly type = LibraryActionTypes.Navigate;
+
+  constructor(public payload?: string) {}
+}
+
+export class UpdateLibraryAction implements Action {
+  readonly type = LibraryActionTypes.Update;
+
+  constructor(public payload?: SiteBody) {}
+}
+
+export class LeaveLibraryAction implements Action {
+  readonly type = LibraryActionTypes.Leave;
+
+  constructor(public payload?: string) {}
 }

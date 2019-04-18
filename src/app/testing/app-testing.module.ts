@@ -48,7 +48,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { TranslateServiceMock } from './translation.service';
 import { StoreModule } from '@ngrx/store';
 import { appReducer } from '../store/reducers/app.reducer';
-import { INITIAL_STATE } from '../store/states/app.state';
 import { RouterTestingModule } from '@angular/router/testing';
 import { EffectsModule } from '@ngrx/effects';
 import {
@@ -56,6 +55,7 @@ import {
   DocumentListService
 } from '@alfresco/adf-content-services';
 import { MaterialModule } from '../material.module';
+import { INITIAL_STATE } from '../store/initial-state';
 
 @NgModule({
   imports: [

@@ -28,7 +28,7 @@ import { Store } from '@ngrx/store';
 import { Route } from '@angular/router';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
-import { AppStore } from '../store/states';
+import { AppStore } from '@alfresco/aca-shared/store';
 import { ruleContext } from '../store/selectors/app.selectors';
 import { NodePermissionService } from '../services/node-permission.service';
 import {

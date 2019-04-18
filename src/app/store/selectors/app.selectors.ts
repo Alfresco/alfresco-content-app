@@ -24,7 +24,7 @@
  */
 
 import { createSelector } from '@ngrx/store';
-import { AppStore } from '../states/app.state';
+import { AppStore } from '@alfresco/aca-shared/store';
 
 export const selectApp = (state: AppStore) => state.app;
 
