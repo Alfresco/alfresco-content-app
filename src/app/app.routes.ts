@@ -32,7 +32,7 @@ import { GenericErrorComponent } from './components/common/generic-error/generic
 import { SearchResultsComponent } from './components/search/search-results/search-results.component';
 import { SearchLibrariesResultsComponent } from './components/search/search-libraries-results/search-libraries-results.component';
 import { LoginComponent } from './components/login/login.component';
-import { AppSharedRuleGuard } from './guards/shared.guard';
+import { AppSharedRuleGuard } from '@alfresco/aca-shared';
 import { AuthGuardEcm } from '@alfresco/adf-core';
 
 export const APP_ROUTES: Routes = [

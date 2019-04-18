@@ -12,7 +12,10 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "types": [],
-    "lib": ["dom", "es2018"]
+    "lib": ["dom", "es2018"],
+    "paths": {
+      "@alfresco/aca-shared/*": ["./*"]
+    }
   },
   "angularCompilerOptions": {
     "annotateForClosureCompiler": true,

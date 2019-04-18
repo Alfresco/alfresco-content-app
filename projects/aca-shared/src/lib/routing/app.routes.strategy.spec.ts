@@ -25,14 +25,12 @@
 
 import { AppRouteReuseStrategy } from './app.routes.strategy';
 import { TestBed } from '@angular/core/testing';
-import { AppTestingModule } from './testing/app-testing.module';
 
 describe('AppRouteReuseStrategy', () => {
   let appRouteReuse: AppRouteReuseStrategy;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule],
       providers: [AppRouteReuseStrategy]
     });
 
