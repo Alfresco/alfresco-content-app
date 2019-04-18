@@ -27,35 +27,35 @@ import { TestBed, fakeAsync, tick, flush } from '@angular/core/testing';
 import { of, throwError } from 'rxjs';
 import { Actions, ofType, EffectsModule } from '@ngrx/effects';
 import {
-  SNACKBAR_INFO,
+  AppStore,
   SnackbarWarningAction,
   SnackbarInfoAction,
   SnackbarErrorAction,
-  SNACKBAR_ERROR,
-  SNACKBAR_WARNING,
   PurgeDeletedNodesAction,
   RestoreDeletedNodesAction,
   NavigateToParentFolder,
   NavigateRouteAction,
-  NAVIGATE_ROUTE,
   DeleteNodesAction,
   MoveNodesAction,
   CopyNodesAction,
   ShareNodeAction,
   SetSelectedNodesAction,
   UnlockWriteAction
-} from '../store/actions';
+} from '@alfresco/aca-shared/store';
 import { map } from 'rxjs/operators';
 import { NodeEffects } from '../store/effects/node.effects';
 import { AppTestingModule } from '../testing/app-testing.module';
 import { ContentApiService } from '../services/content-api.service';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../store/states';
 import { ContentManagementService } from './content-management.service';
 import { NodeActionsService } from './node-actions.service';
 import { TranslationService } from '@alfresco/adf-core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import {
+  SnackbarActionTypes,
+  RouterActionTypes
+} from '../../../projects/aca-shared/store/src/public_api';
 
 describe('ContentManagementService', () => {
   let dialog: MatDialog;
@@ -774,7 +774,7 @@ describe('ContentManagementService', () => {
       spyOn(contentApi, 'restoreNode').and.returnValue(throwError(null));
 
       actions$.pipe(
-        ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
+        ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
         map(action => done())
       );
 
@@ -816,7 +816,7 @@ describe('ContentManagementService', () => {
       );
 
       actions$.pipe(
-        ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
+        ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
         map(action => done())
       );
 
@@ -849,7 +849,7 @@ describe('ContentManagementService', () => {
       );
 
       actions$.pipe(
-        ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
+        ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
         map(action => done())
       );
 
@@ -883,7 +883,7 @@ describe('ContentManagementService', () => {
       spyOn(contentApi, 'deleteNode').and.returnValue(of(null));
 
       actions$.pipe(
-        ofType<SnackbarInfoAction>(SNACKBAR_INFO),
+        ofType<SnackbarInfoAction>(SnackbarActionTypes.Info),
         map(action => {
           done();
         })
@@ -898,7 +898,7 @@ describe('ContentManagementService', () => {
       spyOn(contentApi, 'deleteNode').and.returnValue(throwError(null));
 
       actions$.pipe(
-        ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
+        ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
         map(action => {
           done();
         })
@@ -913,7 +913,7 @@ describe('ContentManagementService', () => {
       spyOn(contentApi, 'deleteNode').and.returnValue(of(null));
 
       actions$.pipe(
-        ofType<SnackbarInfoAction>(SNACKBAR_INFO),
+        ofType<SnackbarInfoAction>(SnackbarActionTypes.Info),
         map(action => {
           done();
         })
@@ -931,7 +931,7 @@ describe('ContentManagementService', () => {
       spyOn(contentApi, 'deleteNode').and.returnValue(throwError(null));
 
       actions$.pipe(
-        ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
+        ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
         map(action => {
           done();
         })
@@ -955,7 +955,7 @@ describe('ContentManagementService', () => {
       });
 
       actions$.pipe(
-        ofType<SnackbarWarningAction>(SNACKBAR_WARNING),
+        ofType<SnackbarWarningAction>(SnackbarActionTypes.Warning),
         map(action => {
           done();
         })
@@ -985,7 +985,7 @@ describe('ContentManagementService', () => {
       });
 
       actions$.pipe(
-        ofType<SnackbarWarningAction>(SNACKBAR_WARNING),
+        ofType<SnackbarWarningAction>(SnackbarActionTypes.Warning),
         map(action => {
           done();
         })
@@ -1029,7 +1029,7 @@ describe('ContentManagementService', () => {
     describe('notification', () => {
       it('raises warning on multiple fail and one success', fakeAsync(done => {
         actions$.pipe(
-          ofType<SnackbarWarningAction>(SNACKBAR_WARNING),
+          ofType<SnackbarWarningAction>(SnackbarActionTypes.Warning),
           map((action: SnackbarWarningAction) => {
             done();
           })
@@ -1060,7 +1060,7 @@ describe('ContentManagementService', () => {
 
       it('raises warning on multiple success and multiple fail', fakeAsync(done => {
         actions$.pipe(
-          ofType<SnackbarWarningAction>(SNACKBAR_WARNING),
+          ofType<SnackbarWarningAction>(SnackbarActionTypes.Warning),
           map((action: SnackbarWarningAction) => {
             done();
           })
@@ -1096,7 +1096,7 @@ describe('ContentManagementService', () => {
 
       it('raises info on one selected node success', fakeAsync(done => {
         actions$.pipe(
-          ofType<SnackbarInfoAction>(SNACKBAR_INFO),
+          ofType<SnackbarInfoAction>(SnackbarActionTypes.Info),
           map((action: SnackbarInfoAction) => {
             done();
           })
@@ -1111,7 +1111,7 @@ describe('ContentManagementService', () => {
 
       it('raises error on one selected node fail', fakeAsync(done => {
         actions$.pipe(
-          ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
+          ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
           map((action: SnackbarErrorAction) => {
             done();
           })
@@ -1126,7 +1126,7 @@ describe('ContentManagementService', () => {
 
       it('raises info on all nodes success', fakeAsync(done => {
         actions$.pipe(
-          ofType<SnackbarInfoAction>(SNACKBAR_INFO),
+          ofType<SnackbarInfoAction>(SnackbarActionTypes.Info),
           map((action: SnackbarInfoAction) => {
             done();
           })
@@ -1151,7 +1151,7 @@ describe('ContentManagementService', () => {
 
       it('raises error on all nodes fail', fakeAsync(done => {
         actions$.pipe(
-          ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
+          ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
           map((action: SnackbarErrorAction) => {
             done();
           })
@@ -1279,7 +1279,7 @@ describe('ContentManagementService', () => {
         const error = { message: '{ "error": {} }' };
 
         actions$.pipe(
-          ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
+          ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
           map(action => done())
         );
 
@@ -1320,7 +1320,7 @@ describe('ContentManagementService', () => {
         spyOn(contentApi, 'restoreNode').and.returnValue(throwError(error));
 
         actions$.pipe(
-          ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
+          ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
           map(action => done())
         );
 
@@ -1344,7 +1344,7 @@ describe('ContentManagementService', () => {
         spyOn(contentApi, 'restoreNode').and.returnValue(throwError(error));
 
         actions$.pipe(
-          ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
+          ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
           map(action => done())
         );
 
@@ -1368,7 +1368,7 @@ describe('ContentManagementService', () => {
         spyOn(contentApi, 'restoreNode').and.returnValue(throwError(error));
 
         actions$.pipe(
-          ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
+          ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
           map(action => done())
         );
 
@@ -1398,7 +1398,7 @@ describe('ContentManagementService', () => {
         });
 
         actions$.pipe(
-          ofType<SnackbarInfoAction>(SNACKBAR_INFO),
+          ofType<SnackbarInfoAction>(SnackbarActionTypes.Info),
           map(action => done())
         );
 
@@ -1423,7 +1423,7 @@ describe('ContentManagementService', () => {
         spyOn(contentApi, 'restoreNode').and.returnValue(of({}));
 
         actions$.pipe(
-          ofType<SnackbarInfoAction>(SNACKBAR_INFO),
+          ofType<SnackbarInfoAction>(SnackbarActionTypes.Info),
           map(action => done())
         );
 
@@ -1445,7 +1445,7 @@ describe('ContentManagementService', () => {
         spyOn(contentApi, 'restoreNode').and.returnValue(of({}));
 
         actions$.pipe(
-          ofType<NavigateRouteAction>(NAVIGATE_ROUTE),
+          ofType<NavigateRouteAction>(RouterActionTypes.NavigateRoute),
           map(action => done())
         );
 

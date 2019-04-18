@@ -33,6 +33,7 @@ export * from './actions/upload.actions';
 export * from './actions/viewer.actions';
 
 export * from './effects/dialog.effects';
+export * from './effects/router.effects';
 export * from './effects/snackbar.effects';
 
 export * from './models/delete-status.model';

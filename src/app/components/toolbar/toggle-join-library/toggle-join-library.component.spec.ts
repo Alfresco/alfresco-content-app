@@ -32,7 +32,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import {
   SnackbarErrorAction,
   SnackbarInfoAction
-} from '../../../store/actions/snackbar.actions';
+} from '@alfresco/aca-shared/store';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { ContentManagementService } from '../../../services/content-management.service';
 import { ToggleJoinLibraryButtonComponent } from './toggle-join-library-button.component';

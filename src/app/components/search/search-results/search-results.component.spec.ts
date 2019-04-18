@@ -16,7 +16,10 @@ import {
   TranslationService
 } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
-import { NavigateToFolder, SnackbarErrorAction } from '../../../store/actions';
+import {
+  NavigateToFolder,
+  SnackbarErrorAction
+} from '@alfresco/aca-shared/store';
 import { Pagination } from '@alfresco/js-api';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { ActivatedRoute } from '@angular/router';

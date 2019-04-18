@@ -30,6 +30,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { ContentManagementService } from '../../services/content-management.service';
 import {
+  SharedStoreModule,
   ShareNodeAction,
   SetSelectedNodesAction,
   UnshareNodesAction,
@@ -58,9 +59,13 @@ describe('NodeEffects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, EffectsModule.forRoot([NodeEffects])],
+      imports: [
+        AppTestingModule,
+        SharedStoreModule,
+        EffectsModule.forRoot([NodeEffects, ViewerEffects])
+      ],
       declarations: [],
-      providers: []
+      providers: [ViewUtilService]
     });
 
     // actions$ = TestBed.get(Actions);
@@ -409,16 +414,27 @@ describe('NodeEffects', () => {
   describe('printFile$', () => {
     it('it should print node content from payload', () => {
       spyOn(viewUtilService, 'printFileGeneric').and.stub();
-      const node: any = { entry: { id: 'node-id' } };
+      const node: any = {
+        entry: { id: 'node-id', content: { mimeType: 'text/json' } }
+      };
 
       store.dispatch(new PrintFileAction(node));
 
-      expect(viewUtilService.printFileGeneric).toHaveBeenCalledWith(node);
+      expect(viewUtilService.printFileGeneric).toHaveBeenCalledWith(
+        'node-id',
+        'text/json'
+      );
     });
 
     it('it should print node content from store', fakeAsync(() => {
       spyOn(viewUtilService, 'printFileGeneric').and.stub();
-      const node: any = { entry: { isFile: true, id: 'node-id' } };
+      const node: any = {
+        entry: {
+          isFile: true,
+          id: 'node-id',
+          content: { mimeType: 'text/json' }
+        }
+      };
 
       store.dispatch(new SetSelectedNodesAction([node]));
 
@@ -426,7 +442,10 @@ describe('NodeEffects', () => {
 
       store.dispatch(new PrintFileAction(null));
 
-      expect(viewUtilService.printFileGeneric).toHaveBeenCalledWith(node);
+      expect(viewUtilService.printFileGeneric).toHaveBeenCalledWith(
+        'node-id',
+        'text/json'
+      );
     }));
   });
 

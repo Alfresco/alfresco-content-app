@@ -26,7 +26,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { InfoDrawerComponent } from './info-drawer.component';
 import { TestBed, ComponentFixture, async } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
-import { SetInfoDrawerStateAction } from '../../store/actions';
+import { SetInfoDrawerStateAction } from '@alfresco/aca-shared/store';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { ContentApiService } from '../../services/content-api.service';

@@ -29,10 +29,12 @@ import { AppConfigService, UserPreferencesService } from '@alfresco/adf-core';
 import { AppLayoutComponent } from './app-layout.component';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../../../store/states';
-import { SetSelectedNodesAction } from '../../../store/actions';
+import {
+  AppStore,
+  SetSelectedNodesAction,
+  getAppSelection
+} from '@alfresco/aca-shared/store';
 import { Router, NavigationStart } from '@angular/router';
-import { getAppSelection } from '../../../store/selectors/app.selectors';
 import { Subject } from 'rxjs';
 
 class MockRouter {

@@ -28,9 +28,11 @@ import { AppTestingModule } from '../../testing/app-testing.module';
 import { SearchEffects } from './search.effects';
 import { EffectsModule } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { SearchByTermAction } from '../actions/search.actions';
 import { Router } from '@angular/router';
-import { SearchOptionIds } from '../models/searchOption.model';
+import {
+  SearchOptionIds,
+  SearchByTermAction
+} from '@alfresco/aca-shared/store';
 
 describe('SearchEffects', () => {
   let store: Store<any>;
