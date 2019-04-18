@@ -39,7 +39,7 @@ import {
   selectAppName,
   selectUser
 } from '../../store/selectors/app.selectors';
-import { MatCheckboxChange } from '@angular/material';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { SetLanguagePickerAction } from '../../store/actions';
 import { ProfileState } from '@alfresco/adf-extensions';
 

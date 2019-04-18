@@ -26,7 +26,7 @@
 import { Injectable, Type } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Route } from '@angular/router';
-import { MatIconRegistry } from '@angular/material';
+import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AppStore } from '../store/states';
 import { ruleContext } from '../store/selectors/app.selectors';

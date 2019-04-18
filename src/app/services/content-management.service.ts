@@ -25,7 +25,6 @@
 
 import { Subject, Observable, forkJoin, of, zip } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { MatDialog, MatSnackBar } from '@angular/material';
 import {
   FolderDialogComponent,
   ConfirmDialogComponent,
@@ -66,6 +65,8 @@ import { NodeVersionsDialogComponent } from '../dialogs/node-versions/node-versi
 import { ShareDialogComponent } from '../components/shared/content-node-share/content-node-share.dialog';
 import { take, map, tap, mergeMap, catchError, flatMap } from 'rxjs/operators';
 import { NodePermissionsDialogComponent } from '../components/permissions/permission-dialog/node-permissions.dialog';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 interface RestoredNode {
   status: number;

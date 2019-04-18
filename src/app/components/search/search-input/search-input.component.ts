@@ -48,7 +48,7 @@ import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../../services/content-management.service';
 import { Subject } from 'rxjs';
 import { SearchLibrariesQueryBuilderService } from '../search-libraries-results/search-libraries-query-builder.service';
-import { MatMenuTrigger } from '@angular/material';
+import { MatMenuTrigger } from '@angular/material/menu';
 import { AppConfigService } from '@alfresco/adf-core';
 import {
   SearchOptionModel,

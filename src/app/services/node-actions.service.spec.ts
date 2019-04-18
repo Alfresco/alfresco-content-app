@@ -24,7 +24,7 @@
  */
 
 import { TestBed, async } from '@angular/core/testing';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { of, throwError } from 'rxjs';
 import { AlfrescoApiService, TranslationService } from '@alfresco/adf-core';
 import { DocumentListService } from '@alfresco/adf-content-services';

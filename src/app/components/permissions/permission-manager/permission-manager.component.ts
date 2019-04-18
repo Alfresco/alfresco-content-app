@@ -28,7 +28,7 @@ import {
   PermissionListComponent
 } from '@alfresco/adf-content-services';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 import { ContentApiService } from '../../../services/content-api.service';

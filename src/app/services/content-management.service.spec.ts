@@ -25,7 +25,6 @@
 
 import { TestBed, fakeAsync, tick, flush } from '@angular/core/testing';
 import { of, throwError } from 'rxjs';
-import { MatDialog, MatSnackBar } from '@angular/material';
 import { Actions, ofType, EffectsModule } from '@ngrx/effects';
 import {
   SNACKBAR_INFO,
@@ -55,6 +54,8 @@ import { AppStore } from '../store/states';
 import { ContentManagementService } from './content-management.service';
 import { NodeActionsService } from './node-actions.service';
 import { TranslationService } from '@alfresco/adf-core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 describe('ContentManagementService', () => {
   let dialog: MatDialog;

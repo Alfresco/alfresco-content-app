@@ -32,7 +32,7 @@ import {
   ViewChild,
   AfterViewInit
 } from '@angular/core';
-import { MatMenuTrigger } from '@angular/material';
+import { MatMenuTrigger } from '@angular/material/menu';
 
 import { AppExtensionService } from '../../extensions/extension.service';
 import { AppStore } from '../../store/states';

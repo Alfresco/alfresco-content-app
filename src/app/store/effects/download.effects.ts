@@ -25,7 +25,7 @@
 
 import { DownloadZipDialogComponent } from '@alfresco/adf-core';
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { map, take } from 'rxjs/operators';
 import { DownloadNodesAction, DOWNLOAD_NODES } from '../actions';

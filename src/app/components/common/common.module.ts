@@ -23,13 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { GenericErrorComponent } from './generic-error/generic-error.component';
 import { CoreModule } from '@alfresco/adf-core';
-import { LocationLinkComponent } from './location-link/location-link.component';
-import { MatIconModule } from '@angular/material';
 import { ExtensionsModule } from '@alfresco/adf-extensions';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { GenericErrorComponent } from './generic-error/generic-error.component';
+import { LocationLinkComponent } from './location-link/location-link.component';
 
 @NgModule({
   imports: [

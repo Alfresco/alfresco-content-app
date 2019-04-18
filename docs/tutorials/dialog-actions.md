@@ -36,7 +36,7 @@ Update `my-extension-dialog.component.ts`:
 
 ```ts
 import { Component } from '@angular/core';
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'aca-my-extension-dialog',
@@ -104,7 +104,7 @@ See also:
 Update to raise a dialog
 
 ```ts
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { MyExtensionDialogComponent } from '../../dialogs/my-extension-dialog/my-extension-dialog.component';
 
 @Injectable()
