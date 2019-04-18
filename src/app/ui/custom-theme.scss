@@ -19,7 +19,6 @@
 @import './overrides/adf-sidenav-layout.theme';
 @import './overrides/adf-document-list.theme';
 @import './overrides/adf-upload-drag-area.theme';
-@import './overrides/adf-search-sorting-picker.theme';
 
 @import 'snackbar';
 
@@ -69,7 +68,6 @@ $foreground: map-get($custom-theme, foreground);
   @include adf-sidenav-layout-theme($theme);
   @include adf-document-list-theme($theme);
   @include adf-upload-drag-area-theme($theme);
-  @include adf-search-sorting-picker-theme($theme);
 
   @include layout-theme($theme);
   @include aca-search-input-theme($theme);
