@@ -64,7 +64,6 @@ $foreground: map-get($custom-theme, foreground);
 
 @mixin custom-theme($theme) {
   @include custom-adf-toolbar-theme($theme);
-  @include adf-sidenav-layout-theme($theme);
   @include adf-document-list-theme($theme);
   @include adf-upload-drag-area-theme($theme);
 
