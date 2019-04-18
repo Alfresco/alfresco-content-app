@@ -32,7 +32,7 @@ import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { ContentApiService } from '../../../services/content-api.service';
+import { ContentApiService } from '@alfresco/aca-shared';
 import { NodePermissionsDialogComponent } from '../permission-dialog/node-permissions.dialog';
 
 @Component({

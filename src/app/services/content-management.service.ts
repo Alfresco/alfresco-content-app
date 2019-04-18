@@ -23,10 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { ContentApiService } from '@alfresco/aca-shared';
 import {
   AppStore,
   DeletedNodeInfo,
   DeleteStatus,
+  getAppSelection,
+  getSharedUrl,
   NavigateRouteAction,
   NavigateToParentFolder,
   NodeInfo,
@@ -37,9 +40,7 @@ import {
   SnackbarInfoAction,
   SnackbarUserAction,
   SnackbarWarningAction,
-  UndoDeleteNodesAction,
-  getAppSelection,
-  getSharedUrl
+  UndoDeleteNodesAction
 } from '@alfresco/aca-shared/store';
 import {
   ConfirmDialogComponent,
@@ -67,7 +68,6 @@ import { NodePermissionsDialogComponent } from '../components/permissions/permis
 import { ShareDialogComponent } from '../components/shared/content-node-share/content-node-share.dialog';
 import { NodeVersionUploadDialogComponent } from '../dialogs/node-version-upload/node-version-upload.dialog';
 import { NodeVersionsDialogComponent } from '../dialogs/node-versions/node-versions.dialog';
-import { ContentApiService } from './content-api.service';
 import { NodeActionsService } from './node-actions.service';
 import { NodePermissionService } from './node-permission.service';
 

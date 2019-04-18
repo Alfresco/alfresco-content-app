@@ -49,7 +49,7 @@ import { Store } from '@ngrx/store';
 import { AppStore } from '@alfresco/aca-shared/store';
 import { SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { PageComponent } from '../page.component';
-import { ContentApiService } from '../../services/content-api.service';
+import { ContentApiService } from '@alfresco/aca-shared';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { ContentManagementService } from '../../services/content-management.service';
 import { ContentActionRef, ViewerExtensionRef } from '@alfresco/adf-extensions';

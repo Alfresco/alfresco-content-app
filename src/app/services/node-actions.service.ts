@@ -48,7 +48,7 @@ import {
   Site,
   NodeChildAssociationPaging
 } from '@alfresco/js-api';
-import { ContentApiService } from '../services/content-api.service';
+import { ContentApiService } from '@alfresco/aca-shared';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
 export enum BatchOperationType {

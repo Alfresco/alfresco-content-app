@@ -37,7 +37,7 @@ import { ContentManagementService } from '../../services/content-management.serv
 import { NodeActionsService } from '../../services/node-actions.service';
 import { AppStore } from '@alfresco/aca-shared/store';
 import { PageComponent } from '../page.component';
-import { ContentApiService } from '../../services/content-api.service';
+import { ContentApiService } from '@alfresco/aca-shared';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { SetCurrentFolderAction, isAdmin } from '@alfresco/aca-shared/store';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';

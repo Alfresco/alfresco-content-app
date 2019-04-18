@@ -37,7 +37,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { map, take } from 'rxjs/operators';
-import { ContentApiService } from '../../services/content-api.service';
+import { ContentApiService } from '@alfresco/aca-shared';
 
 @Injectable()
 export class DownloadEffects {

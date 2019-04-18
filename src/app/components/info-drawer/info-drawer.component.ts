@@ -29,7 +29,7 @@ import {
   MinimalNodeEntryEntity,
   SiteEntry
 } from '@alfresco/js-api';
-import { ContentApiService } from '../../services/content-api.service';
+import { ContentApiService } from '@alfresco/aca-shared';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { SidebarTabRef } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';

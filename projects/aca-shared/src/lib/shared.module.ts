@@ -23,9 +23,15 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './lib/routing/app.routes.strategy';
-export * from './lib/routing/shared.guard';
+import { NgModule, ModuleWithProviders } from '@angular/core';
+import { ContentApiService } from './services/content-api.service';
 
-export * from './lib/services/content-api.service';
-
-export * from './lib/shared.module';
+@NgModule({})
+export class SharedModule {
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: SharedModule,
+      providers: [ContentApiService]
+    };
+  }
+}

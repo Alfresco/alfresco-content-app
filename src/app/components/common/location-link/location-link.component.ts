@@ -36,7 +36,7 @@ import { Observable, BehaviorSubject, of } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 import { AppStore, NavigateToParentFolder } from '@alfresco/aca-shared/store';
-import { ContentApiService } from '../../../services/content-api.service';
+import { ContentApiService } from '@alfresco/aca-shared';
 import { TranslationService } from '@alfresco/adf-core';
 
 @Component({

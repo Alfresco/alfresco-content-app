@@ -23,21 +23,21 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { ContentActionRef, SelectionState } from '@alfresco/adf-extensions';
-import { Store } from '@ngrx/store';
-import { takeUntil } from 'rxjs/operators';
-import { Subject, Observable, from } from 'rxjs';
-import { AppExtensionService } from '../../extensions/extension.service';
-import { MinimalNodeEntryEntity } from '@alfresco/js-api';
-import { ContentApiService } from '../../services/content-api.service';
+import { ContentApiService } from '@alfresco/aca-shared';
 import {
   AppStore,
-  SetSelectedNodesAction,
   getAppSelection,
-  isInfoDrawerOpened
+  isInfoDrawerOpened,
+  SetSelectedNodesAction
 } from '@alfresco/aca-shared/store';
+import { ContentActionRef, SelectionState } from '@alfresco/adf-extensions';
+import { MinimalNodeEntryEntity } from '@alfresco/js-api';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { from, Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { AppExtensionService } from '../../extensions/extension.service';
 
 @Component({
   selector: 'app-viewer',

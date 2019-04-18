@@ -29,7 +29,7 @@ import { Store } from '@ngrx/store';
 import { SiteEntry, FavoritePaging, Pagination } from '@alfresco/js-api';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { ContentManagementService } from '../../services/content-management.service';
-import { ContentApiService } from '../../services/content-api.service';
+import { ContentApiService } from '@alfresco/aca-shared';
 import { NavigateLibraryAction } from '@alfresco/aca-shared/store';
 import { PageComponent } from '../page.component';
 import { UserPreferencesService } from '@alfresco/adf-core';

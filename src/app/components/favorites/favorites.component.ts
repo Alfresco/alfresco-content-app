@@ -23,23 +23,23 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { ContentApiService } from '@alfresco/aca-shared';
+import { AppStore } from '@alfresco/aca-shared/store';
+import { UploadService } from '@alfresco/adf-core';
 import {
   MinimalNodeEntity,
   MinimalNodeEntryEntity,
   PathElementEntity,
   PathInfo
 } from '@alfresco/js-api';
-import { ContentManagementService } from '../../services/content-management.service';
-import { AppStore } from '@alfresco/aca-shared/store';
-import { PageComponent } from '../page.component';
-import { ContentApiService } from '../../services/content-api.service';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { debounceTime, map } from 'rxjs/operators';
 import { AppExtensionService } from '../../extensions/extension.service';
-import { map, debounceTime } from 'rxjs/operators';
-import { UploadService } from '@alfresco/adf-core';
+import { ContentManagementService } from '../../services/content-management.service';
+import { PageComponent } from '../page.component';
 
 @Component({
   templateUrl: './favorites.component.html'

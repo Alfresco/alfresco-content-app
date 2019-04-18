@@ -41,7 +41,7 @@ import {
   LibraryDialogComponent,
   ContentModule
 } from '@alfresco/adf-content-services';
-import { AppRouteReuseStrategy } from '@alfresco/aca-shared';
+import { AppRouteReuseStrategy, SharedModule } from '@alfresco/aca-shared';
 
 import { AppComponent } from './app.component';
 import { APP_ROUTES } from './app.routes';
@@ -89,6 +89,7 @@ import { environment } from '../environments/environment';
     MaterialModule,
     CoreModule.forRoot(),
     ContentModule.forRoot(),
+    SharedModule.forRoot(),
     AppStoreModule,
     CoreExtensionsModule.forRoot(),
     ExtensionsModule,
