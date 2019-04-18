@@ -7,6 +7,7 @@
     "@ngrx/effects": "^7.4.0",
     "@ngrx/store": "^7.4.0",
     "@alfresco/adf-extensions": "^3.1.0",
-    "@alfresco/js-api": "^3.1.0"
+    "@alfresco/js-api": "^3.1.0",
+    "rxjs": "^6.4.0"
   }
 }
