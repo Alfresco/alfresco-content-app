@@ -17,7 +17,6 @@
 @import './overrides/adf-toolbar.theme';
 @import './overrides/adf-sidenav-layout.theme';
 @import './overrides/adf-document-list.theme';
-@import './overrides/adf-upload-drag-area.theme';
 
 @import 'snackbar';
 
@@ -65,7 +64,6 @@ $foreground: map-get($custom-theme, foreground);
 @mixin custom-theme($theme) {
   @include custom-adf-toolbar-theme($theme);
   @include adf-document-list-theme($theme);
-  @include adf-upload-drag-area-theme($theme);
 
   @include layout-theme($theme);
   @include aca-search-input-theme($theme);
@@ -92,3 +90,9 @@ $adf-pagination__empty--height: 0;
 
 $adf-toolbar-single-row-height: 48px;
 $adf-toolbar-padding: 14px;
+
+$adf-upload-dragging-color: unset;
+$adf-upload-dragging-border: 1px solid #00bcd4;
+$adf-upload-dragging-background: #e0f7fa;
+$adf-upload-dragging-level1-color: unset;
+$adf-upload-dragging-level1-border: none;
