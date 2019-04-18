@@ -26,6 +26,8 @@
 export * from './lib/routing/app.routes.strategy';
 export * from './lib/routing/shared.guard';
 
+export * from './lib/services/app.service';
 export * from './lib/services/content-api.service';
+export * from './lib/services/node-permission.service';
 
 export * from './lib/shared.module';

@@ -25,13 +25,15 @@
 
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { ContentApiService } from './services/content-api.service';
+import { NodePermissionService } from './services/node-permission.service';
+import { AppService } from './services/app.service';
 
 @NgModule({})
 export class SharedModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: SharedModule,
-      providers: [ContentApiService]
+      providers: [ContentApiService, NodePermissionService, AppService]
     };
   }
 }

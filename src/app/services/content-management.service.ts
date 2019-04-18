@@ -69,7 +69,7 @@ import { ShareDialogComponent } from '../components/shared/content-node-share/co
 import { NodeVersionUploadDialogComponent } from '../dialogs/node-version-upload/node-version-upload.dialog';
 import { NodeVersionsDialogComponent } from '../dialogs/node-versions/node-versions.dialog';
 import { NodeActionsService } from './node-actions.service';
-import { NodePermissionService } from './node-permission.service';
+import { NodePermissionService } from '@alfresco/aca-shared';
 
 interface RestoredNode {
   status: number;

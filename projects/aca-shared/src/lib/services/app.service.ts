@@ -26,8 +26,8 @@
 import { Injectable, Inject } from '@angular/core';
 import { AuthenticationService, AppConfigService } from '@alfresco/adf-core';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { AppRouteReuseStrategy } from '@alfresco/aca-shared';
 import { RouteReuseStrategy } from '@angular/router';
+import { AppRouteReuseStrategy } from '../routing/app.routes.strategy';
 
 @Injectable({
   providedIn: 'root'

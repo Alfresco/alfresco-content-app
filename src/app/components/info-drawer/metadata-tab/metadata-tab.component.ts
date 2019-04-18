@@ -25,7 +25,7 @@
 
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { MinimalNodeEntryEntity } from '@alfresco/js-api';
-import { NodePermissionService } from '../../../services/node-permission.service';
+import { NodePermissionService } from '@alfresco/aca-shared';
 import { AppExtensionService } from '../../../extensions/extension.service';
 import { AppConfigService } from '@alfresco/adf-core';
 import { isLocked } from '../../../utils/node.utils';

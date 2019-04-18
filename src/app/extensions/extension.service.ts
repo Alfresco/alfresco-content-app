@@ -29,7 +29,7 @@ import { Route } from '@angular/router';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AppStore, getRuleContext } from '@alfresco/aca-shared/store';
-import { NodePermissionService } from '../services/node-permission.service';
+import { NodePermissionService } from '@alfresco/aca-shared';
 import {
   SelectionState,
   NavigationState,
