@@ -25,10 +25,10 @@
 
 import { AppService } from './app.service';
 import { TestBed } from '@angular/core/testing';
-import { AppTestingModule } from '../testing/app-testing.module';
 import { AuthenticationService, AppConfigService } from '@alfresco/adf-core';
 import { AppRouteReuseStrategy } from '@alfresco/aca-shared';
 import { Subject } from 'rxjs';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('AppService', () => {
   let service: AppService;
@@ -38,7 +38,7 @@ describe('AppService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule],
+      imports: [HttpClientModule],
       providers: [
         AppRouteReuseStrategy,
         {
