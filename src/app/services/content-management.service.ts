@@ -46,7 +46,7 @@ import {
   FolderDialogComponent,
   LibraryDialogComponent
 } from '@alfresco/adf-content-services';
-import { TranslationService, ViewUtilService } from '@alfresco/adf-core';
+import { TranslationService } from '@alfresco/adf-core';
 import {
   DeletedNodesPaging,
   MinimalNodeEntity,
@@ -100,8 +100,7 @@ export class ContentManagementService {
     private dialogRef: MatDialog,
     private nodeActionsService: NodeActionsService,
     private translation: TranslationService,
-    private snackBar: MatSnackBar,
-    private viewUtils: ViewUtilService
+    private snackBar: MatSnackBar
   ) {}
 
   addFavorite(nodes: Array<MinimalNodeEntity>) {
@@ -1166,40 +1165,6 @@ export class ContentManagementService {
     }
 
     return i18nMessageString;
-  }
-
-  printFile(node: any) {
-    if (node && node.entry) {
-      // shared and favorite
-      const id = node.entry.nodeId || node.entry.guid || node.entry.id;
-      const mimeType = node.entry.content.mimeType;
-
-      if (id) {
-        this.viewUtils.printFileGeneric(id, mimeType);
-      }
-    }
-  }
-
-  /**
-   * Triggers full screen mode with a main content area displayed.
-   */
-  fullscreenViewer() {
-    const container = <any>(
-      document.documentElement.querySelector(
-        '.adf-viewer__fullscreen-container'
-      )
-    );
-    if (container) {
-      if (container.requestFullscreen) {
-        container.requestFullscreen();
-      } else if (container.webkitRequestFullscreen) {
-        container.webkitRequestFullscreen();
-      } else if (container.mozRequestFullScreen) {
-        container.mozRequestFullScreen();
-      } else if (container.msRequestFullscreen) {
-        container.msRequestFullscreen();
-      }
-    }
   }
 
   getNodeInfo() {

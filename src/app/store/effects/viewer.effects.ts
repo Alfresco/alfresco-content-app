@@ -32,7 +32,8 @@ import {
   ViewFileAction,
   ViewNodeAction,
   getCurrentFolder,
-  getAppSelection
+  getAppSelection,
+  FullscreenViewerAction
 } from '@alfresco/aca-shared/store';
 import { Router } from '@angular/router';
 import { Store, createSelector } from '@ngrx/store';
@@ -55,6 +56,14 @@ export class ViewerEffects {
     private actions$: Actions,
     private router: Router
   ) {}
+
+  @Effect({ dispatch: false })
+  fullscreenViewer$ = this.actions$.pipe(
+    ofType<FullscreenViewerAction>(ViewerActionTypes.FullScreen),
+    map(() => {
+      this.enterFullScreen();
+    })
+  );
 
   @Effect({ dispatch: false })
   viewNode$ = this.actions$.pipe(
@@ -126,5 +135,24 @@ export class ViewerEffects {
     }
     path.push('preview', nodeId);
     this.router.navigateByUrl(path.join('/'));
+  }
+
+  enterFullScreen() {
+    const container = <any>(
+      document.documentElement.querySelector(
+        '.adf-viewer__fullscreen-container'
+      )
+    );
+    if (container) {
+      if (container.requestFullscreen) {
+        container.requestFullscreen();
+      } else if (container.webkitRequestFullscreen) {
+        container.webkitRequestFullscreen();
+      } else if (container.mozRequestFullScreen) {
+        container.mozRequestFullScreen();
+      } else if (container.msRequestFullscreen) {
+        container.msRequestFullscreen();
+      }
+    }
   }
 }

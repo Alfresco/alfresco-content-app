@@ -44,14 +44,17 @@ import {
   ManagePermissionsAction,
   UnlockWriteAction,
   FullscreenViewerAction,
-  PrintFileAction
-} from '../actions/node.actions';
-import { SetCurrentFolderAction } from '../actions/app.actions';
+  PrintFileAction,
+  SetCurrentFolderAction
+} from '@alfresco/aca-shared/store';
+import { ViewUtilService } from '@alfresco/adf-core';
+import { ViewerEffects } from './viewer.effects';
 
 describe('NodeEffects', () => {
   let store: Store<any>;
-  // let actions$: Actions;
   let contentService: ContentManagementService;
+  let viewUtilService: ViewUtilService;
+  let viewerEffects: ViewerEffects;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -63,6 +66,8 @@ describe('NodeEffects', () => {
     // actions$ = TestBed.get(Actions);
     store = TestBed.get(Store);
     contentService = TestBed.get(ContentManagementService);
+    viewUtilService = TestBed.get(ViewUtilService);
+    viewerEffects = TestBed.get(ViewerEffects);
   });
 
   describe('shareNode$', () => {
@@ -403,16 +408,16 @@ describe('NodeEffects', () => {
 
   describe('printFile$', () => {
     it('it should print node content from payload', () => {
-      spyOn(contentService, 'printFile').and.stub();
+      spyOn(viewUtilService, 'printFileGeneric').and.stub();
       const node: any = { entry: { id: 'node-id' } };
 
       store.dispatch(new PrintFileAction(node));
 
-      expect(contentService.printFile).toHaveBeenCalledWith(node);
+      expect(viewUtilService.printFileGeneric).toHaveBeenCalledWith(node);
     });
 
     it('it should print node content from store', fakeAsync(() => {
-      spyOn(contentService, 'printFile').and.stub();
+      spyOn(viewUtilService, 'printFileGeneric').and.stub();
       const node: any = { entry: { isFile: true, id: 'node-id' } };
 
       store.dispatch(new SetSelectedNodesAction([node]));
@@ -421,17 +426,17 @@ describe('NodeEffects', () => {
 
       store.dispatch(new PrintFileAction(null));
 
-      expect(contentService.printFile).toHaveBeenCalledWith(node);
+      expect(viewUtilService.printFileGeneric).toHaveBeenCalledWith(node);
     }));
   });
 
   describe('fullscreenViewer$', () => {
     it('should call fullscreen viewer', () => {
-      spyOn(contentService, 'fullscreenViewer').and.stub();
+      spyOn(viewerEffects, 'enterFullScreen').and.stub();
 
       store.dispatch(new FullscreenViewerAction(null));
 
-      expect(contentService.fullscreenViewer).toHaveBeenCalled();
+      expect(viewerEffects.enterFullScreen).toHaveBeenCalled();
     });
   });
 

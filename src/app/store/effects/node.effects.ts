@@ -30,7 +30,6 @@ import { Store } from '@ngrx/store';
 import {
   AppStore,
   NodeActionTypes,
-  ViewerActionTypes,
   PurgeDeletedNodesAction,
   DeleteNodesAction,
   UndoDeleteNodesAction,
@@ -45,18 +44,19 @@ import {
   MoveNodesAction,
   ManagePermissionsAction,
   PrintFileAction,
-  FullscreenViewerAction,
   getCurrentFolder,
   getAppSelection
 } from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../services/content-management.service';
+import { ViewUtilService } from '@alfresco/adf-core';
 
 @Injectable()
 export class NodeEffects {
   constructor(
     private store: Store<AppStore>,
     private actions$: Actions,
-    private contentService: ContentManagementService
+    private contentService: ContentManagementService,
+    private viewUtils: ViewUtilService
   ) {}
 
   @Effect({ dispatch: false })
@@ -283,25 +283,17 @@ export class NodeEffects {
     ofType<PrintFileAction>(NodeActionTypes.PrintFile),
     map(action => {
       if (action && action.payload) {
-        this.contentService.printFile(action.payload);
+        this.printFile(action.payload);
       } else {
         this.store
           .select(getAppSelection)
           .pipe(take(1))
           .subscribe(selection => {
             if (selection && selection.file) {
-              this.contentService.printFile(selection.file);
+              this.printFile(selection.file);
             }
           });
       }
-    })
-  );
-
-  @Effect({ dispatch: false })
-  fullscreenViewer$ = this.actions$.pipe(
-    ofType<FullscreenViewerAction>(ViewerActionTypes.FullScreen),
-    map(() => {
-      this.contentService.fullscreenViewer();
     })
   );
 
@@ -323,4 +315,16 @@ export class NodeEffects {
       }
     })
   );
+
+  printFile(node: any) {
+    if (node && node.entry) {
+      // shared and favorite
+      const id = node.entry.nodeId || node.entry.guid || node.entry.id;
+      const mimeType = node.entry.content.mimeType;
+
+      if (id) {
+        this.viewUtils.printFileGeneric(id, mimeType);
+      }
+    }
+  }
 }
