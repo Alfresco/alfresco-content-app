@@ -1,31 +1,5 @@
-$adf-toolbar-single-row-height: 48px;
-$adf-toolbar-padding: 14px;
-
-@mixin adf-toolbar-theme($theme) {
-  $foreground: map-get($theme, foreground);
-
-  .adf-viewer {
-    .adf-toolbar {
-      .mat-toolbar {
-        color: mat-color($foreground, text, 0.54);
-      }
-    }
-  }
-
+@mixin custom-adf-toolbar-theme($theme) {
   .adf-toolbar {
     @include angular-material-theme($theme);
-
-    .mat-toolbar-single-row {
-      padding: 0 $adf-toolbar-padding;
-      height: $adf-toolbar-single-row-height;
-    }
-
-    &.adf-toolbar--inline {
-      .mat-toolbar {
-        background-color: inherit;
-        border: none !important;
-        padding: 0;
-      }
-    }
   }
 }

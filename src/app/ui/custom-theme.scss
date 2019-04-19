@@ -15,14 +15,8 @@
 @import '../components/shared/content-node-share/content-node-share.dialog.scss';
 
 @import './overrides/adf-toolbar.theme';
-@import './overrides/adf-search-filter.theme';
-@import './overrides/adf-info-drawer.theme';
-@import './overrides/adf-upload-dialog.theme';
-@import './overrides/adf-sidenav-layout.theme';
+@import 'overrides/adf-layout-container.theme';
 @import './overrides/adf-document-list.theme';
-@import './overrides/adf-upload-drag-area.theme';
-@import './overrides/adf-search-sorting-picker.theme';
-@import './overrides/adf-version-manager.theme';
 
 @import 'snackbar';
 
@@ -68,14 +62,8 @@ $custom-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent);
 $foreground: map-get($custom-theme, foreground);
 
 @mixin custom-theme($theme) {
-  @include adf-toolbar-theme($theme);
-  @include adf-search-filter-theme($theme);
-  @include adf-info-drawer-theme($theme);
-  @include adf-sidenav-layout-theme($theme);
+  @include custom-adf-toolbar-theme($theme);
   @include adf-document-list-theme($theme);
-  @include adf-upload-drag-area-theme($theme);
-  @include adf-search-sorting-picker-theme($theme);
-  @include adf-version-manager-theme($theme);
 
   @include layout-theme($theme);
   @include aca-search-input-theme($theme);
@@ -99,3 +87,12 @@ $data-table-thumbnail-width: 35px;
 
 $adf-pagination--border: 1px solid mat-color($foreground, text, 0.07);
 $adf-pagination__empty--height: 0;
+
+$adf-toolbar-single-row-height: 48px;
+$adf-toolbar-padding: 14px;
+
+$adf-upload-dragging-color: unset;
+$adf-upload-dragging-border: 1px solid #00bcd4;
+$adf-upload-dragging-background: #e0f7fa;
+$adf-upload-dragging-level1-color: unset;
+$adf-upload-dragging-level1-border: none;

@@ -1,0 +1,10 @@
+@mixin adf-layout-container-theme($theme) {
+  $adf-layout-container-height: 100% !default;
+
+  adf-layout-container {
+    .mat-drawer-content > div,
+    .mat-drawer-content > div > div {
+      height: $adf-layout-container-height;
+    }
+  }
+}
