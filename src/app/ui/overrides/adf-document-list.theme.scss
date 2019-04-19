@@ -15,41 +15,6 @@
   .adf-datatable-list {
     border: none;
 
-    .adf-datatable-cell-container {
-      .adf-datatable-content-cell,
-      .adf-name-column,
-      .adf-library-name-column,
-      .adf-trashcan-name-column,
-      .adf-name-location-cell {
-        position: absolute;
-        max-width: calc(100% - 0px);
-
-        .adf-datatable-cell-value {
-          text-overflow: ellipsis;
-          overflow: hidden;
-        }
-
-        // remove this style once the [ADF-4401] issue is fixed:
-        &.adf-datatable-cell {
-          .adf-datatable-cell-value {
-            position: static;
-            width: auto;
-          }
-        }
-      }
-
-      .adf-library-name-column {
-        // same as on top comment
-        &.adf-datatable-cell {
-          color: $document-list-name-text-color;
-
-          &:hover {
-            color: $document-list-selection-color;
-          }
-        }
-      }
-    }
-
     .adf-datatable-cell-value {
       display: block;
     }
