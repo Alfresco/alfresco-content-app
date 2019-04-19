@@ -14,6 +14,10 @@
 
   .adf-datatable-list {
     border: none;
+
+    .adf-ellipsis-cell {
+      overflow: hidden;
+    }
   }
 
   .mat-icon.adf-datatable-selected > svg {
