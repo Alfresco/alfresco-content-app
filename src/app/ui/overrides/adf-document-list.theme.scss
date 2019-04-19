@@ -18,6 +18,14 @@
     .adf-ellipsis-cell {
       overflow: hidden;
     }
+
+    .adf-dynamic-column .adf-datatable-link:hover {
+      text-decoration: none;
+
+      .adf-datatable-cell-value {
+        text-decoration: underline;
+      }
+    }
   }
 
   .mat-icon.adf-datatable-selected > svg {
@@ -80,6 +88,9 @@
     padding-top: 9px;
     padding-bottom: 9px;
     min-height: auto;
-    background: lightyellow;
+
+    .adf-datatable-cell-value {
+      display: inline-block;
+    }
   }
 }

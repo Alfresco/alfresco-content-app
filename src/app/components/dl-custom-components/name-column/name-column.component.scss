@@ -1,15 +1,18 @@
 .aca-name-column-container {
   aca-locked-by {
-    position: absolute;
-    top: 17px;
-    left: 7px;
     display: flex;
     align-items: center;
     color: rgba(0, 0, 0, 0.54);
+    max-width: 100%;
+
+    .locked_by--name {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 }
 
 .aca-custom-name-column {
-  display: flex;
+  display: block;
   align-items: center;
 }
