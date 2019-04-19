@@ -233,13 +233,17 @@ export class NodeActionsService {
           {
             entry: <Site>{
               guid: '-my-',
-              title: 'APP.BROWSE.PERSONAL.SIDENAV_LINK.LABEL'
+              title: this.translation.instant(
+                'APP.BROWSE.PERSONAL.SIDENAV_LINK.LABEL'
+              )
             }
           },
           {
             entry: <Site>{
               guid: '-mysites-',
-              title: 'APP.BROWSE.LIBRARIES.SIDENAV_LINK.LABEL'
+              title: this.translation.instant(
+                'APP.BROWSE.LIBRARIES.SIDENAV_LINK.LABEL'
+              )
             }
           }
         ]
