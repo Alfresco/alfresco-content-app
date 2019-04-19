@@ -26,6 +26,13 @@
         text-decoration: underline;
       }
     }
+
+    .adf-datatable-cell,
+    .adf-datatable-cell-header {
+      .adf-datatable-link .adf-datatable-cell-value {
+        padding: 0 10px;
+      }
+    }
   }
 
   .mat-icon.adf-datatable-selected > svg {
@@ -91,6 +98,7 @@
 
     .adf-datatable-cell-value {
       display: inline-block;
+      padding-left: 0;
     }
   }
 }
