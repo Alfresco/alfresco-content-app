@@ -15,49 +15,23 @@
   .adf-datatable-list {
     border: none;
 
-    .adf-datatable-cell-container {
-      .adf-datatable-content-cell,
-      .adf-name-column,
-      .adf-library-name-column,
-      .adf-trashcan-name-column,
-      .adf-name-location-cell {
-        position: absolute;
-        max-width: calc(100% - 0px);
+    .adf-ellipsis-cell {
+      overflow: hidden;
+    }
 
-        .adf-datatable-cell-value {
-          text-overflow: ellipsis;
-          overflow: hidden;
-        }
+    .adf-dynamic-column .adf-datatable-link:hover {
+      text-decoration: none;
 
-        // remove this style once the [ADF-4401] issue is fixed:
-        &.adf-datatable-cell {
-          .adf-datatable-cell-value {
-            position: static;
-            width: auto;
-          }
-        }
-      }
-
-      .adf-library-name-column {
-        // same as on top comment
-        &.adf-datatable-cell {
-          color: $document-list-name-text-color;
-
-          &:hover {
-            color: $document-list-selection-color;
-          }
-        }
+      .adf-datatable-cell-value {
+        text-decoration: underline;
       }
     }
 
-    .adf-datatable-cell-value {
-      display: block;
-    }
-
-    .adf-datatable-cell--image {
-      min-width: $data-table-thumbnail-width;
-      width: $data-table-thumbnail-width;
-      max-width: $data-table-thumbnail-width;
+    .adf-datatable-cell,
+    .adf-datatable-cell-header {
+      .adf-datatable-link .adf-datatable-cell-value {
+        padding: 0 10px;
+      }
     }
   }
 
@@ -76,9 +50,11 @@
 
     .adf-datatable-cell-header,
     .adf-datatable-cell {
-      padding: 0 2px;
-      box-sizing: border-box;
       min-width: 120px;
+
+      &.adf-no-grow-cell {
+        min-width: 120px;
+      }
 
       &.adf-datatable-cell--fileSize {
         min-width: 80px;
@@ -123,5 +99,25 @@
     padding-top: 9px;
     padding-bottom: 9px;
     min-height: auto;
+
+    .adf-datatable-cell-value {
+      display: inline-block;
+      padding-left: 0;
+    }
+  }
+
+  .adf-content-node-selector-content-list .adf-datatable-list {
+    .adf-datatable-cell {
+      flex: 0 1 auto;
+      min-width: 1px;
+
+      &:nth-child(2) {
+        flex: 1 0 200px;
+      }
+
+      &.adf-content-selector-visibility-cell {
+        display: initial;
+      }
+    }
   }
 }
