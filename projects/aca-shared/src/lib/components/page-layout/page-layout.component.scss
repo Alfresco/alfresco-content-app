@@ -9,8 +9,7 @@
     flex: 0 0 65px;
     flex-basis: 48px;
     background: #fafafa;
-    // border-bottom: 1px solid mat-color($foreground, text, 0.07);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+    border-bottom: 1px solid var(--theme-foreground, rgba(0, 0, 0, 0.07));
     padding: 0 24px;
   }
 
@@ -24,8 +23,7 @@
 
   .main-content {
     @include flex-column;
-    // border-right: 1px solid mat-color($foreground, text, 0.07);
-    border-right: 1px solid rgba(0, 0, 0, 0.07);
+    border-right: 1px solid var(--theme-foreground, rgba(0, 0, 0, 0.07));
   }
 
   .scrollable {
