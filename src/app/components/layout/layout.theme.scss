@@ -1,7 +1,5 @@
 @import './app-layout/app-layout.theme.scss';
-@import './page-layout/page-layout.theme.scss';
 
 @mixin layout-theme($theme) {
   @include app-layout-theme($theme);
-  @include app-page-layout-theme($theme);
 }

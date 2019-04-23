@@ -1,0 +1,46 @@
+@import '../../styles/mixins.scss';
+
+.aca-page-layout {
+  @include flex-column;
+
+  .aca-page-layout-header {
+    display: flex;
+    align-items: center;
+    flex: 0 0 65px;
+    flex-basis: 48px;
+    background: #fafafa;
+    // border-bottom: 1px solid mat-color($foreground, text, 0.07);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+    padding: 0 24px;
+  }
+
+  .aca-page-layout-content {
+    @include flex-row;
+  }
+
+  .aca-page-layout-error {
+    @include flex-row;
+  }
+
+  .main-content {
+    @include flex-column;
+    // border-right: 1px solid mat-color($foreground, text, 0.07);
+    border-right: 1px solid rgba(0, 0, 0, 0.07);
+  }
+
+  .scrollable {
+    overflow: auto !important;
+
+    .main-content {
+      overflow: auto !important;
+    }
+  }
+
+  .sidebar {
+    display: block;
+    height: 100%;
+    overflow-y: scroll;
+    max-width: 350px;
+    width: 350px;
+  }
+}

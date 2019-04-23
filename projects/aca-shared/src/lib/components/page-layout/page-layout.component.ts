@@ -26,16 +26,19 @@
 import {
   Component,
   ViewEncapsulation,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  Input
 } from '@angular/core';
 
 @Component({
-  selector: 'app-page-layout-error',
-  template: `
-    <ng-content></ng-content>
-  `,
+  selector: 'aca-page-layout',
+  templateUrl: 'page-layout.component.html',
+  styleUrls: ['./page-layout.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'app-page-layout-error' }
+  host: { class: 'aca-page-layout' },
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PageLayoutErrorComponent {}
+export class PageLayoutComponent {
+  @Input()
+  hasError = false;
+}

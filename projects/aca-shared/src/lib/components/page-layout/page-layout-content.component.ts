@@ -26,14 +26,22 @@
 import {
   Component,
   ViewEncapsulation,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  Input,
+  HostBinding
 } from '@angular/core';
 
 @Component({
-  selector: 'app-page-layout-header',
-  template: '<ng-content></ng-content>',
+  selector: 'aca-page-layout-content',
+  template: `
+    <ng-content></ng-content>
+  `,
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'app-page-layout-header' }
+  host: { class: 'aca-page-layout-content' }
 })
-export class PageLayoutHeaderComponent {}
+export class PageLayoutContentComponent {
+  @Input()
+  @HostBinding('class.scrollable')
+  scrollable = false;
+}

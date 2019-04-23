@@ -24,32 +24,25 @@
  */
 
 import { NgModule } from '@angular/core';
+import { PageLayoutContentComponent } from './page-layout-content.component';
+import { PageLayoutErrorComponent } from './page-layout-error.component';
+import { PageLayoutHeaderComponent } from './page-layout-header.component';
+import { PageLayoutComponent } from './page-layout.component';
 import { CommonModule } from '@angular/common';
-import { CoreModule } from '@alfresco/adf-core';
-import { AppLayoutComponent } from './app-layout/app-layout.component';
-import { ContentModule } from '@alfresco/adf-content-services';
-import { RouterModule } from '@angular/router';
-import { AppSidenavModule } from '../sidenav/sidenav.module';
-import { AppUploadingDialogModule } from '../upload-dialog/upload.module';
-import { AppCommonModule } from '../common/common.module';
-import { AppHeaderModule } from '../header/header.module';
-import { HttpClientModule } from '@angular/common/http';
-import { PageLayoutModule } from '@alfresco/aca-shared';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    CoreModule.forChild(),
-    ContentModule.forChild(),
-    AppCommonModule,
-    AppSidenavModule,
-    AppHeaderModule,
-    HttpClientModule,
-    AppUploadingDialogModule,
-    PageLayoutModule
+  imports: [CommonModule],
+  declarations: [
+    PageLayoutContentComponent,
+    PageLayoutErrorComponent,
+    PageLayoutHeaderComponent,
+    PageLayoutComponent
   ],
-  declarations: [AppLayoutComponent],
-  exports: [AppLayoutComponent, PageLayoutModule]
+  exports: [
+    PageLayoutContentComponent,
+    PageLayoutErrorComponent,
+    PageLayoutHeaderComponent,
+    PageLayoutComponent
+  ]
 })
-export class AppLayoutModule {}
+export class PageLayoutModule {}

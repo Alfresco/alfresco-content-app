@@ -23,6 +23,11 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+export * from './lib/components/page-layout/page-layout-content.component';
+export * from './lib/components/page-layout/page-layout-error.component';
+export * from './lib/components/page-layout/page-layout-header.component';
+export * from './lib/components/page-layout/page-layout.component';
+
 export * from './lib/routing/app.routes.strategy';
 export * from './lib/routing/shared.guard';
 
@@ -30,4 +35,5 @@ export * from './lib/services/app.service';
 export * from './lib/services/content-api.service';
 export * from './lib/services/node-permission.service';
 
+export * from './lib/components/page-layout/page-layout.module';
 export * from './lib/shared.module';
