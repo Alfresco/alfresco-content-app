@@ -23,17 +23,15 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  Component,
-  ViewEncapsulation,
-  ChangeDetectionStrategy
-} from '@angular/core';
+import { NgModule } from '@angular/core';
+import { GenericErrorComponent } from './generic-error.component';
+import { MatIconModule } from '@angular/material/icon';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
-@Component({
-  selector: 'aca-generic-error',
-  templateUrl: './generic-error.component.html',
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'aca-generic-error' }
+@NgModule({
+  imports: [CommonModule, MatIconModule, TranslateModule.forChild()],
+  declarations: [GenericErrorComponent],
+  exports: [GenericErrorComponent]
 })
-export class GenericErrorComponent {}
+export class GenericErrorModule {}

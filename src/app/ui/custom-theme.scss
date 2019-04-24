@@ -3,7 +3,6 @@
 
 @import '../components/sidenav/sidenav.component.theme';
 @import '../components/about/about.component.theme';
-@import '../components/common/generic-error/generic-error.component.theme';
 @import '../components/search/search-input/search-input.component.theme';
 @import '../components/settings/settings.component.theme';
 @import '../components/current-user/current-user.component.theme';
@@ -60,6 +59,7 @@ $custom-theme-accent: mat-palette($alfresco-accent-orange);
 $custom-theme-warn: mat-palette($alfresco-warn);
 $custom-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent);
 $foreground: map-get($custom-theme, foreground);
+$warn: map-get($custom-theme, warn);
 
 @mixin custom-theme($theme) {
   @include custom-adf-toolbar-theme($theme);
@@ -67,7 +67,6 @@ $foreground: map-get($custom-theme, foreground);
 
   @include layout-theme($theme);
   @include aca-search-input-theme($theme);
-  @include aca-generic-error-theme($theme);
   @include app-permission-manager-theme($theme);
   @include aca-node-versions-dialog-theme($theme);
   @include aca-settings-theme($theme);
@@ -98,7 +97,11 @@ $adf-upload-dragging-level1-color: unset;
 $adf-upload-dragging-level1-border: none;
 
 $defaults: (
-  --aca-page-layout-border-color: mat-color($foreground, text, 0.07)
+  --theme-warn-color: mat-color($warn),
+  --theme-text-color: mat-color($foreground, text, 0.54),
+  --theme-title-color: mat-color($foreground, text, 0.87),
+  --theme-text-disabled-color: mat-color($foreground, text, 0.38),
+  --theme-border-color: mat-color($foreground, text, 0.07)
 );
 
 // defaults

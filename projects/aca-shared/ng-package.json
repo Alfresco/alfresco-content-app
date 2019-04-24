@@ -10,7 +10,8 @@
       "@alfresco/adf-extensions": "@alfresco/adf-extensions",
       "@ngrx/store": "@ngrx/store",
       "@ngrx/effects": "@ngrx/effects",
-      "@angular/material": "@angular/material"
+      "@angular/material": "@angular/material",
+      "@ngx-translate/core": "@ngx-translate/core"
     }
   }
 }
