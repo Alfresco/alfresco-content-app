@@ -1,5 +1,4 @@
 import {
-  async,
   ComponentFixture,
   TestBed,
   fakeAsync,
@@ -31,7 +30,7 @@ describe('SearchComponent', () => {
   let alfrescoApi: AlfrescoApiService;
   let translate: TranslationService;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [CoreModule.forRoot(), AppTestingModule, AppSearchResultsModule],
       providers: [
@@ -70,7 +69,7 @@ describe('SearchComponent', () => {
     spyOn(queryBuilder, 'update').and.stub();
 
     fixture.detectChanges();
-  }));
+  });
 
   it('should raise an error if search fails', fakeAsync(() => {
     spyOn(alfrescoApi.searchApi, 'search').and.returnValue(
