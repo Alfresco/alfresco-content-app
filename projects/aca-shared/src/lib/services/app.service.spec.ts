@@ -26,9 +26,9 @@
 import { AppService } from './app.service';
 import { TestBed } from '@angular/core/testing';
 import { AuthenticationService, AppConfigService } from '@alfresco/adf-core';
-import { AppRouteReuseStrategy } from '@alfresco/aca-shared';
 import { Subject } from 'rxjs';
 import { HttpClientModule } from '@angular/common/http';
+import { AppRouteReuseStrategy } from '../routing/app.routes.strategy';
 
 describe('AppService', () => {
   let service: AppService;
