@@ -39,6 +39,7 @@ export enum AppActionTypes {
   Logout = 'LOGOUT',
   ReloadDocumentList = 'RELOAD_DOCUMENT_LIST',
   SetInfoDrawerState = 'SET_INFO_DRAWER_STATE',
+  SetInfoDrawerMetadataAspect = 'SET_INFO_DRAWER_METADATA_ASPECT',
   CloseModalDialogs = 'CLOSE_MODAL_DIALOGS'
 }
 

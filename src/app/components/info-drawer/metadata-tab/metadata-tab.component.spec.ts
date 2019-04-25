@@ -26,6 +26,7 @@
 import { MetadataTabComponent } from './metadata-tab.component';
 import { NodePermissionService } from '@alfresco/aca-shared';
 import { Node } from '@alfresco/js-api';
+import { Store } from '@ngrx/store';
 
 describe('MetadataTabComponent', () => {
   let nodePermissionService: NodePermissionService;
@@ -39,7 +40,8 @@ describe('MetadataTabComponent', () => {
     component = new MetadataTabComponent(
       nodePermissionService,
       extension,
-      appConfig
+      appConfig,
+      new Store(null, null, null)
     );
   });
 

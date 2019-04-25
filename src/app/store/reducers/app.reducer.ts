@@ -36,7 +36,8 @@ import {
   SetInitialStateAction,
   SetSelectedNodesAction,
   SetRepositoryInfoAction,
-  SetInfoDrawerStateAction
+  SetInfoDrawerStateAction,
+  SetInfoDrawerMetadataAspectAction
 } from '@alfresco/aca-shared/store';
 import { INITIAL_APP_STATE } from '../initial-state';
 
@@ -70,6 +71,11 @@ export function appReducer(
       break;
     case AppActionTypes.SetInfoDrawerState:
       newState = setInfoDrawer(state, <SetInfoDrawerStateAction>action);
+      break;
+    case AppActionTypes.SetInfoDrawerMetadataAspect:
+      newState = setInfoDrawerAspect(state, <SetInfoDrawerMetadataAspectAction>(
+        action
+      ));
       break;
     case AppActionTypes.ToggleDocumentDisplayMode:
       newState = toggleDocumentDisplayMode(state);
@@ -242,6 +248,15 @@ function updateSelectedNodes(
 function setInfoDrawer(state: AppState, action: SetInfoDrawerStateAction) {
   const newState = Object.assign({}, state);
   newState.infoDrawerOpened = action.payload;
+  return newState;
+}
+
+function setInfoDrawerAspect(
+  state: AppState,
+  action: SetInfoDrawerMetadataAspectAction
+) {
+  const newState = Object.assign({}, state);
+  newState.infoDrawerMetadataAspect = action.payload;
   return newState;
 }
 
