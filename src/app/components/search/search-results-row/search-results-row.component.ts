@@ -32,9 +32,8 @@ import {
   OnDestroy
 } from '@angular/core';
 import { MinimalNodeEntity } from '@alfresco/js-api';
-import { ViewFileAction } from '../../../store/actions';
+import { ViewFileAction, NavigateToFolder } from '@alfresco/aca-shared/store';
 import { Store } from '@ngrx/store';
-import { NavigateToFolder } from '../../../store/actions';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { takeUntil } from 'rxjs/operators';

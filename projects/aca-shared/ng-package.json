@@ -1,0 +1,17 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../dist/@alfresco/aca-shared",
+  "lib": {
+    "entryFile": "src/public-api.ts",
+    "umdModuleIds": {
+      "rxjs": "rxjs",
+      "@alfresco/js-api": "@alfresco/js-api",
+      "@alfresco/adf-core": "@alfresco/adf-core",
+      "@alfresco/adf-extensions": "@alfresco/adf-extensions",
+      "@ngrx/store": "@ngrx/store",
+      "@ngrx/effects": "@ngrx/effects",
+      "@angular/material": "@angular/material",
+      "@ngx-translate/core": "@ngx-translate/core"
+    }
+  }
+}

@@ -26,7 +26,6 @@
 import { Directive, Input, HostListener } from '@angular/core';
 import { PRIMARY_OUTLET, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../../../store/states/app.state';
 
 @Directive({
   /* tslint:disable-next-line */
@@ -41,18 +40,14 @@ export class ActionDirective {
     if (this.action.route) {
       this.router.navigate(this.getNavigationCommands(this.action.route));
     } else if (this.action.click) {
-      this.dispatchAction(this.action.click);
+      this.store.dispatch({
+        type: this.action.click.action,
+        payload: this.getNavigationCommands(this.action.click.payload)
+      });
     }
   }
 
-  constructor(private router: Router, private store: Store<AppStore>) {}
-
-  private dispatchAction(action) {
-    this.store.dispatch({
-      type: action.action,
-      payload: this.getNavigationCommands(action.payload)
-    });
-  }
+  constructor(private router: Router, private store: Store<any>) {}
 
   private getNavigationCommands(url: string): any[] {
     const urlTree = this.router.parseUrl(url);

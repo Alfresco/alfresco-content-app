@@ -36,7 +36,7 @@ import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { of } from 'rxjs';
 import { FavoritesComponent } from './favorites.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { ContentApiService } from '../../services/content-api.service';
+import { ContentApiService } from '@alfresco/aca-shared';
 
 describe('FavoritesComponent', () => {
   let fixture: ComponentFixture<FavoritesComponent>;

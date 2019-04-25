@@ -29,7 +29,7 @@ import { MinimalNodeEntity } from '@alfresco/js-api';
 import { ContentManagementService } from '../../services/content-management.service';
 import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../../store/states/app.state';
+import { AppStore } from '@alfresco/aca-shared/store';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { UploadService } from '@alfresco/adf-core';
 import { debounceTime } from 'rxjs/operators';

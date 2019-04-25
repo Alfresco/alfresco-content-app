@@ -36,23 +36,20 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppExtensionService } from './extensions/extension.service';
 import {
-  SnackbarErrorAction,
-  SetCurrentUrlAction,
-  SetInitialStateAction,
-  CloseModalDialogsAction,
-  SetRepositoryInfoAction,
-  SetUserProfileAction
-} from './store/actions';
-import {
   AppStore,
   AppState,
-  INITIAL_APP_STATE
-} from './store/states/app.state';
+  SetCurrentUrlAction,
+  SetInitialStateAction,
+  SetUserProfileAction,
+  SnackbarErrorAction,
+  CloseModalDialogsAction,
+  SetRepositoryInfoAction
+} from '@alfresco/aca-shared/store';
 import { filter, takeUntil } from 'rxjs/operators';
-import { ContentApiService } from './services/content-api.service';
+import { AppService, ContentApiService } from '@alfresco/aca-shared';
 import { DiscoveryEntry, GroupsApi, Group } from '@alfresco/js-api';
-import { AppService } from './services/app.service';
 import { Subject } from 'rxjs';
+import { INITIAL_APP_STATE } from './store/initial-state';
 
 @Component({
   selector: 'app-root',

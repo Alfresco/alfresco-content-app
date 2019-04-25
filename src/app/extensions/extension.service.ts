@@ -26,11 +26,10 @@
 import { Injectable, Type } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Route } from '@angular/router';
-import { MatIconRegistry } from '@angular/material';
+import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
-import { AppStore } from '../store/states';
-import { ruleContext } from '../store/selectors/app.selectors';
-import { NodePermissionService } from '../services/node-permission.service';
+import { AppStore, getRuleContext } from '@alfresco/aca-shared/store';
+import { NodePermissionService } from '@alfresco/aca-shared';
 import {
   SelectionState,
   NavigationState,
@@ -117,7 +116,7 @@ export class AppExtensionService implements RuleContext {
   ) {
     this.references$ = this._references.asObservable();
 
-    this.store.select(ruleContext).subscribe(result => {
+    this.store.select(getRuleContext).subscribe(result => {
       this.selection = result.selection;
       this.navigation = result.navigation;
       this.profile = result.profile;

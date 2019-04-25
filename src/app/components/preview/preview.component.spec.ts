@@ -44,7 +44,7 @@ import { of, throwError } from 'rxjs';
 import { EffectsModule } from '@ngrx/effects';
 import { NodeEffects } from '../../store/effects/node.effects';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { ContentApiService } from '../../services/content-api.service';
+import { ContentApiService } from '@alfresco/aca-shared';
 import { ContentManagementService } from '../../services/content-management.service';
 
 describe('PreviewComponent', () => {

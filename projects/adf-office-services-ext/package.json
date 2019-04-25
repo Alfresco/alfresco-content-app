@@ -2,17 +2,6 @@
   "name": "@alfresco/adf-office-services-ext",
   "version": "0.0.6",
   "license": "Apache-2.0",
-  "author": {
-    "name": "Keensoft",
-    "url": "http://www.keensoft.es/en/"
-  },
-  "contributors": [
-    {
-      "name": "Denys Vuika",
-      "email": "denys.vuka@gmail.com",
-      "url": "https://medium.com/@denysvuika"
-    }
-  ],
   "homepage": "https://github.com/Alfresco/alfresco-content-app",
   "keywords": ["Alfresco", "ADF", "ACA", "Content Application"],
   "peerDependencies": {

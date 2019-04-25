@@ -28,11 +28,13 @@ import { AppLayoutComponent } from './components/layout/app-layout/app-layout.co
 import { FilesComponent } from './components/files/files.component';
 import { LibrariesComponent } from './components/libraries/libraries.component';
 import { FavoriteLibrariesComponent } from './components/favorite-libraries/favorite-libraries.component';
-import { GenericErrorComponent } from './components/common/generic-error/generic-error.component';
 import { SearchResultsComponent } from './components/search/search-results/search-results.component';
 import { SearchLibrariesResultsComponent } from './components/search/search-libraries-results/search-libraries-results.component';
 import { LoginComponent } from './components/login/login.component';
-import { AppSharedRuleGuard } from './guards/shared.guard';
+import {
+  AppSharedRuleGuard,
+  GenericErrorComponent
+} from '@alfresco/aca-shared';
 import { AuthGuardEcm } from '@alfresco/adf-core';
 
 export const APP_ROUTES: Routes = [

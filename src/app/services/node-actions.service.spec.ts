@@ -24,14 +24,14 @@
  */
 
 import { TestBed, async } from '@angular/core/testing';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { of, throwError } from 'rxjs';
 import { AlfrescoApiService, TranslationService } from '@alfresco/adf-core';
 import { DocumentListService } from '@alfresco/adf-content-services';
 import { NodeActionsService } from './node-actions.service';
 import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 import { AppTestingModule } from '../testing/app-testing.module';
-import { ContentApiService } from '../services/content-api.service';
+import { ContentApiService } from '@alfresco/aca-shared';
 
 class TestNode {
   entry?: MinimalNodeEntryEntity;

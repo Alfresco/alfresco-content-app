@@ -1,5 +1,5 @@
-<app-page-layout>
-  <app-page-layout-header>
+<aca-page-layout>
+  <aca-page-layout-header>
     <adf-breadcrumb root="APP.BROWSE.FAVORITES.TITLE"> </adf-breadcrumb>
 
     <adf-toolbar class="adf-toolbar--inline">
@@ -7,9 +7,9 @@
         <aca-toolbar-action [actionRef]="entry"></aca-toolbar-action>
       </ng-container>
     </adf-toolbar>
-  </app-page-layout-header>
+  </aca-page-layout-header>
 
-  <app-page-layout-content>
+  <aca-page-layout-content>
     <div class="main-content">
       <adf-document-list
         #documentList
@@ -78,5 +78,5 @@
     <div class="sidebar" *ngIf="(infoDrawerOpened$ | async)">
       <aca-info-drawer [node]="selection.last"></aca-info-drawer>
     </div>
-  </app-page-layout-content>
-</app-page-layout>
+  </aca-page-layout-content>
+</aca-page-layout>

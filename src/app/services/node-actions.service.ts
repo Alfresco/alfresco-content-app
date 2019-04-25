@@ -24,7 +24,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { Observable, Subject, of, zip, from } from 'rxjs';
 
 import {
@@ -48,7 +48,7 @@ import {
   Site,
   NodeChildAssociationPaging
 } from '@alfresco/js-api';
-import { ContentApiService } from '../services/content-api.service';
+import { ContentApiService } from '@alfresco/aca-shared';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
 export enum BatchOperationType {

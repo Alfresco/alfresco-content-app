@@ -34,7 +34,7 @@ import {
   FileUploadCompleteEvent,
   FileModel
 } from '@alfresco/adf-core';
-import { UnlockWriteAction } from '../actions';
+import { UnlockWriteAction } from '@alfresco/aca-shared/store';
 
 describe('UploadEffects', () => {
   let store: Store<any>;

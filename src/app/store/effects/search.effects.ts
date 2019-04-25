@@ -26,9 +26,12 @@
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { SEARCH_BY_TERM, SearchByTermAction } from '../actions/search.actions';
+import {
+  SearchActionTypes,
+  SearchByTermAction,
+  SearchOptionIds
+} from '@alfresco/aca-shared/store';
 import { Router } from '@angular/router';
-import { SearchOptionIds } from '../models/searchOption.model';
 
 @Injectable()
 export class SearchEffects {
@@ -36,7 +39,7 @@ export class SearchEffects {
 
   @Effect({ dispatch: false })
   searchByTerm$ = this.actions$.pipe(
-    ofType<SearchByTermAction>(SEARCH_BY_TERM),
+    ofType<SearchByTermAction>(SearchActionTypes.SearchByTerm),
     map(action => {
       const query = action.payload
         .replace(/[(]/g, '%28')

@@ -23,49 +23,53 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Subject, Observable, forkJoin, of, zip } from 'rxjs';
-import { Injectable } from '@angular/core';
-import { MatDialog, MatSnackBar } from '@angular/material';
+import { ContentApiService } from '@alfresco/aca-shared';
 import {
-  FolderDialogComponent,
-  ConfirmDialogComponent,
-  LibraryDialogComponent
-} from '@alfresco/adf-content-services';
-import {
-  SnackbarErrorAction,
-  SnackbarInfoAction,
-  SnackbarAction,
-  SnackbarWarningAction,
+  AppStore,
+  DeletedNodeInfo,
+  DeleteStatus,
+  getAppSelection,
+  getSharedUrl,
   NavigateRouteAction,
   NavigateToParentFolder,
-  SnackbarUserAction,
-  UndoDeleteNodesAction,
+  NodeInfo,
+  ReloadDocumentListAction,
   SetSelectedNodesAction,
-  ReloadDocumentListAction
-} from '../store/actions';
-import { Store } from '@ngrx/store';
-import { AppStore } from '../store/states';
+  SnackbarAction,
+  SnackbarErrorAction,
+  SnackbarInfoAction,
+  SnackbarUserAction,
+  SnackbarWarningAction,
+  UndoDeleteNodesAction
+} from '@alfresco/aca-shared/store';
 import {
+  ConfirmDialogComponent,
+  FolderDialogComponent,
+  LibraryDialogComponent
+} from '@alfresco/adf-content-services';
+import { TranslationService } from '@alfresco/adf-core';
+import {
+  DeletedNodesPaging,
   MinimalNodeEntity,
   MinimalNodeEntryEntity,
   Node,
-  SiteEntry,
-  DeletedNodesPaging,
+  NodeEntry,
   PathInfoEntity,
   SiteBody,
-  NodeEntry
+  SiteEntry
 } from '@alfresco/js-api';
-import { NodePermissionService } from './node-permission.service';
-import { NodeInfo, DeletedNodeInfo, DeleteStatus } from '../store/models';
-import { ContentApiService } from './content-api.service';
-import { sharedUrl, appSelection } from '../store/selectors/app.selectors';
-import { NodeActionsService } from './node-actions.service';
-import { TranslationService, ViewUtilService } from '@alfresco/adf-core';
+import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Store } from '@ngrx/store';
+import { forkJoin, Observable, of, Subject, zip } from 'rxjs';
+import { catchError, flatMap, map, mergeMap, take, tap } from 'rxjs/operators';
+import { NodePermissionsDialogComponent } from '../components/permissions/permission-dialog/node-permissions.dialog';
+import { ShareDialogComponent } from '../components/shared/content-node-share/content-node-share.dialog';
 import { NodeVersionUploadDialogComponent } from '../dialogs/node-version-upload/node-version-upload.dialog';
 import { NodeVersionsDialogComponent } from '../dialogs/node-versions/node-versions.dialog';
-import { ShareDialogComponent } from '../components/shared/content-node-share/content-node-share.dialog';
-import { take, map, tap, mergeMap, catchError, flatMap } from 'rxjs/operators';
-import { NodePermissionsDialogComponent } from '../components/permissions/permission-dialog/node-permissions.dialog';
+import { NodeActionsService } from './node-actions.service';
+import { NodePermissionService } from '@alfresco/aca-shared';
 
 interface RestoredNode {
   status: number;
@@ -96,8 +100,7 @@ export class ContentManagementService {
     private dialogRef: MatDialog,
     private nodeActionsService: NodeActionsService,
     private translation: TranslationService,
-    private snackBar: MatSnackBar,
-    private viewUtils: ViewUtilService
+    private snackBar: MatSnackBar
   ) {}
 
   addFavorite(nodes: Array<MinimalNodeEntity>) {
@@ -197,7 +200,7 @@ export class ContentManagementService {
 
   openShareLinkDialog(node) {
     this.store
-      .select(sharedUrl)
+      .select(getSharedUrl)
       .pipe(take(1))
       .subscribe(baseShareUrl => {
         this.dialogRef
@@ -1164,42 +1167,8 @@ export class ContentManagementService {
     return i18nMessageString;
   }
 
-  printFile(node: any) {
-    if (node && node.entry) {
-      // shared and favorite
-      const id = node.entry.nodeId || node.entry.guid || node.entry.id;
-      const mimeType = node.entry.content.mimeType;
-
-      if (id) {
-        this.viewUtils.printFileGeneric(id, mimeType);
-      }
-    }
-  }
-
-  /**
-   * Triggers full screen mode with a main content area displayed.
-   */
-  fullscreenViewer() {
-    const container = <any>(
-      document.documentElement.querySelector(
-        '.adf-viewer__fullscreen-container'
-      )
-    );
-    if (container) {
-      if (container.requestFullscreen) {
-        container.requestFullscreen();
-      } else if (container.webkitRequestFullscreen) {
-        container.webkitRequestFullscreen();
-      } else if (container.mozRequestFullScreen) {
-        container.mozRequestFullScreen();
-      } else if (container.msRequestFullscreen) {
-        container.msRequestFullscreen();
-      }
-    }
-  }
-
   getNodeInfo() {
-    return this.store.select(appSelection).pipe(
+    return this.store.select(getAppSelection).pipe(
       take(1),
       flatMap(({ file }) => {
         const id = (<any>file).entry.nodeId || (<any>file).entry.guid;

@@ -5,3 +5,6 @@ modules:
 spellcheck:
   words:
     - plint
+    - ngrx
+    - qshare
+    - snackbar

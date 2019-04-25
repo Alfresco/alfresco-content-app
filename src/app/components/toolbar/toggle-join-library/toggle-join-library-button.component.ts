@@ -23,22 +23,22 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import {
+  AppStore,
+  SetSelectedNodesAction,
+  SnackbarErrorAction,
+  SnackbarInfoAction,
+  getAppSelection
+} from '@alfresco/aca-shared/store';
+import { SelectionState } from '@alfresco/adf-extensions';
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../../../store/states';
-import { appSelection } from '../../../store/selectors/app.selectors';
 import { Observable } from 'rxjs';
-import { SelectionState } from '@alfresco/adf-extensions';
-import { ContentManagementService } from '../../../services/content-management.service';
 import {
-  SnackbarErrorAction,
-  SnackbarInfoAction
-} from '../../../store/actions/snackbar.actions';
-import { SetSelectedNodesAction } from '../../../store/actions/node.actions';
-import {
-  LibraryMembershipToggleEvent,
-  LibraryMembershipErrorEvent
+  LibraryMembershipErrorEvent,
+  LibraryMembershipToggleEvent
 } from '../../../directives/library-membership.directive';
+import { ContentManagementService } from '../../../services/content-management.service';
 
 @Component({
   selector: 'app-toggle-join-library-button',
@@ -73,7 +73,7 @@ export class ToggleJoinLibraryButtonComponent {
     private store: Store<AppStore>,
     private content: ContentManagementService
   ) {
-    this.selection$ = this.store.select(appSelection);
+    this.selection$ = this.store.select(getAppSelection);
   }
 
   onToggleEvent(event: LibraryMembershipToggleEvent) {

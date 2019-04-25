@@ -28,7 +28,7 @@ import {
 import { Actions, ofType } from '@ngrx/effects';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { EDIT_OFFLINE } from '../../../store/actions';
+import { NodeActionTypes } from '@alfresco/aca-shared/store';
 import { isLocked } from '../../../utils/node.utils';
 
 @Component({
@@ -75,7 +75,7 @@ export class CustomNameColumnComponent extends NameColumnComponent
 
     this.actions$
       .pipe(
-        ofType<any>(EDIT_OFFLINE),
+        ofType<any>(NodeActionTypes.EditOffline),
         filter(val => {
           return this.node.entry.id === val.payload.entry.id;
         }),
