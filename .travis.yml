@@ -37,7 +37,7 @@ jobs:
     - name: 'Prepare dist cache'
       script: npm run build.e2e
     - name: 'Cache docker images'
-      script: docker-compose up --scale content-app=0 --scale proxy=0
+      script: docker-compose -f docker-compose.images.yml up --build
     - stage: e2e
       name: Test Suite authentication
       script: SUITE="--suite authentication" npm run e2e:docker
