@@ -12,6 +12,7 @@ cache:
   directories:
     - node_modules
     - dist
+    - ~/.cache
 
 before_install:
   - sudo /etc/init.d/postgresql stop
@@ -35,6 +36,8 @@ jobs:
         - bash <(curl -s https://codecov.io/bash) -X gcov
     - name: 'Prepare dist cache'
       script: npm run build.e2e
+    - name: 'Cache docker images'
+      script: docker-compose up alfresco share postgres solr6 proxy
     - stage: e2e
       name: Test Suite authentication
       script: SUITE="--suite authentication" npm run e2e:docker
