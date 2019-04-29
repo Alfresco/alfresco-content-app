@@ -26,7 +26,7 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 import { NodePermissionService } from '@alfresco/aca-shared';
-import { infoDrawerMetadataAspect } from '@alfresco/aca-shared/store';
+import { AppStore, infoDrawerMetadataAspect } from '@alfresco/aca-shared/store';
 import { AppExtensionService } from '../../../extensions/extension.service';
 import { AppConfigService } from '@alfresco/adf-core';
 import { isLocked } from '../../../utils/node.utils';
@@ -57,7 +57,7 @@ export class MetadataTabComponent {
     private permission: NodePermissionService,
     protected extensions: AppExtensionService,
     private appConfig: AppConfigService,
-    private store: Store<{}>
+    private store: Store<AppStore>
   ) {
     try {
       this.appConfig.config[
