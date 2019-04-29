@@ -47,7 +47,7 @@ export const INITIAL_APP_STATE: AppState = {
     currentFolder: null
   },
   infoDrawerOpened: false,
-  infoDrawerMetadataAspect: 'EXIF',
+  infoDrawerMetadataAspect: '',
   showFacetFilter: true,
   documentDisplayMode: 'list',
   repository: <any>{
