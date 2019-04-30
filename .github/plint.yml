@@ -8,3 +8,5 @@ spellcheck:
     - ngrx
     - qshare
     - snackbar
+  exclude:
+    - src/assets/app.extensions.json
