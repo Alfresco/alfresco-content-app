@@ -26,9 +26,12 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 import { NodePermissionService } from '@alfresco/aca-shared';
+import { AppStore, infoDrawerMetadataAspect } from '@alfresco/aca-shared/store';
 import { AppExtensionService } from '../../../extensions/extension.service';
 import { AppConfigService } from '@alfresco/adf-core';
 import { isLocked } from '../../../utils/node.utils';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-metadata-tab',
@@ -37,6 +40,7 @@ import { isLocked } from '../../../utils/node.utils';
       [readOnly]="!canUpdateNode"
       [preset]="'custom'"
       [node]="node"
+      [displayAspect]="displayAspect$ | async"
     >
     </adf-content-metadata-card>
   `,
@@ -47,10 +51,13 @@ export class MetadataTabComponent {
   @Input()
   node: MinimalNodeEntryEntity;
 
+  displayAspect$: Observable<string>;
+
   constructor(
     private permission: NodePermissionService,
     protected extensions: AppExtensionService,
-    private appConfig: AppConfigService
+    private appConfig: AppConfigService,
+    private store: Store<AppStore>
   ) {
     try {
       this.appConfig.config[
@@ -62,6 +69,7 @@ export class MetadataTabComponent {
         '- could not change content-metadata from app.config'
       );
     }
+    this.displayAspect$ = this.store.select(infoDrawerMetadataAspect);
   }
 
   get canUpdateNode(): boolean {

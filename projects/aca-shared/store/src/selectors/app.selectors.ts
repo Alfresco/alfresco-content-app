@@ -128,3 +128,8 @@ export const getRuleContext = createSelector(
     };
   }
 );
+
+export const infoDrawerMetadataAspect = createSelector(
+  selectApp,
+  state => state.infoDrawerMetadataAspect
+);

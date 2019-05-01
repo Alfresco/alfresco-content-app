@@ -24,23 +24,36 @@
  */
 
 import { MetadataTabComponent } from './metadata-tab.component';
-import { NodePermissionService } from '@alfresco/aca-shared';
 import { Node } from '@alfresco/js-api';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { AppTestingModule } from '../../../testing/app-testing.module';
+import { setupTestBed } from '@alfresco/adf-core';
+import { ContentMetadataModule } from '@alfresco/adf-content-services';
+import { Store } from '@ngrx/store';
+import {
+  SetInfoDrawerMetadataAspectAction,
+  AppState
+} from '@alfresco/aca-shared/store';
+import { By } from '@angular/platform-browser';
 
 describe('MetadataTabComponent', () => {
-  let nodePermissionService: NodePermissionService;
+  let fixture: ComponentFixture<MetadataTabComponent>;
   let component: MetadataTabComponent;
+  let store: Store<AppState>;
+
+  setupTestBed({
+    imports: [AppTestingModule, ContentMetadataModule],
+    declarations: [MetadataTabComponent]
+  });
 
   beforeEach(() => {
-    nodePermissionService = new NodePermissionService();
-    const appConfig = <any>{ config: { 'content-metadata': {} } };
-    const extension = <any>{ contentMetadata: {} };
+    fixture = TestBed.createComponent(MetadataTabComponent);
+    store = TestBed.get(Store);
+    component = fixture.componentInstance;
+  });
 
-    component = new MetadataTabComponent(
-      nodePermissionService,
-      extension,
-      appConfig
-    );
+  afterEach(() => {
+    fixture.destroy();
   });
 
   describe('canUpdateNode()', () => {
@@ -85,6 +98,27 @@ describe('MetadataTabComponent', () => {
 
       component.node = node;
       expect(component.canUpdateNode).toBe(false);
+    });
+  });
+
+  describe('displayAspect', () => {
+    it('show pass empty when store is in initial state', () => {
+      const initialState = fixture.debugElement.query(
+        By.css('adf-content-metadata-card')
+      );
+      expect(initialState.componentInstance.displayAspect).toBeFalsy();
+    });
+
+    it('should update the exif if store got updated', () => {
+      store.dispatch(new SetInfoDrawerMetadataAspectAction('EXIF'));
+      component.displayAspect$.subscribe(aspect => {
+        expect(aspect).toBe('EXIF');
+      });
+      fixture.detectChanges();
+      const initialState = fixture.debugElement.query(
+        By.css('adf-content-metadata-card')
+      );
+      expect(initialState.componentInstance.displayAspect).toBe('EXIF');
     });
   });
 });
