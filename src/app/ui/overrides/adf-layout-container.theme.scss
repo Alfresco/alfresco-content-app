@@ -6,11 +6,5 @@
     .mat-drawer-content > div > div {
       height: $adf-layout-container-height;
     }
-
-    // todo: workaround for ADF 3.2 issue with the width
-    // see ACA-2369 for more details
-    .adf-container-full-width {
-      width: inherit;
-    }
   }
 }
