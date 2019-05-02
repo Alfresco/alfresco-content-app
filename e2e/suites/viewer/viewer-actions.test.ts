@@ -246,7 +246,7 @@ describe('Viewer actions', () => {
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
     });
 
-    it('Cancel Editing action - [C297585]', async () => {
+    xit('Cancel Editing action - [C297585]', async () => {
       await dataTable.doubleClickOnRowByName(fileForCancelEditing);
       await viewer.waitForViewerToOpen();
       await toolbar.clickMoreActionsCancelEditing();
@@ -966,7 +966,7 @@ describe('Viewer actions', () => {
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
     });
 
-    it('Cancel Editing action - [C297602]', async () => {
+    xit('Cancel Editing action - [C297602]', async () => {
       await dataTable.doubleClickOnRowByName(fileForCancelEditing);
       await viewer.waitForViewerToOpen();
       await toolbar.clickMoreActionsCancelEditing();
