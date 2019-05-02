@@ -11,6 +11,8 @@
     <adf-sidenav-layout-header>
       <ng-template>
         <app-header
+          role="heading"
+          aria-level="1"
           *ngIf="!hideSidenav"
           (toggleClicked)="layout.toggleMenu($event)"
         >
