@@ -30,7 +30,6 @@ import { AppLayoutComponent } from './app-layout/app-layout.component';
 import { ContentModule } from '@alfresco/adf-content-services';
 import { RouterModule } from '@angular/router';
 import { AppSidenavModule } from '../sidenav/sidenav.module';
-import { AppUploadingDialogModule } from '../upload-dialog/upload.module';
 import { AppCommonModule } from '../common/common.module';
 import { AppHeaderModule } from '../header/header.module';
 import { HttpClientModule } from '@angular/common/http';
@@ -46,7 +45,6 @@ import { PageLayoutModule } from '@alfresco/aca-shared';
     AppSidenavModule,
     AppHeaderModule,
     HttpClientModule,
-    AppUploadingDialogModule,
     PageLayoutModule
   ],
   declarations: [AppLayoutComponent],
