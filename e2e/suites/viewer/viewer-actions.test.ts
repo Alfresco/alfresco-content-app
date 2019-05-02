@@ -1200,7 +1200,7 @@ describe('Viewer actions', () => {
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
     });
 
-    it('Cancel Editing action - [C297605]', async () => {
+    xit('Cancel Editing action - [C297605]', async () => {
       await dataTable.doubleClickOnRowByName(fileForCancelEditing);
       await viewer.waitForViewerToOpen();
       await toolbar.clickMoreActionsCancelEditing();
