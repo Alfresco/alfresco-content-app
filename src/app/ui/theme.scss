@@ -5,16 +5,47 @@
 
 @import 'custom-theme';
 
+$grey-scale: (
+  50: #e0e0e0,
+  100: #b3b3b3,
+  200: #808080,
+  300: #4d4d4d,
+  400: #262626,
+  500: #000000,
+  600: #000000,
+  700: #000000,
+  800: #000000,
+  900: #000000,
+  A100: #a6a6a6,
+  A200: #8c8c8c,
+  A400: #737373,
+  A700: #666666,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #ffffff,
+    A700: #ffffff
+  )
+);
+
 @include mat-core($alfresco-typography);
 
-$primary: mat-palette($alfresco-accent-orange);
-$accent: mat-palette($alfresco-ecm-blue);
+$primary: mat-palette($grey-scale, A400);
+$accent: mat-palette($alfresco-accent-orange);
 $warn: mat-palette($alfresco-warn);
 $theme: mat-light-theme($primary, $accent, $warn);
 
 @include angular-material-theme($theme);
-
 @include adf-content-services-theme($theme);
 @include adf-core-theme($theme);
-
-@include custom-theme($custom-theme);
+@include custom-theme($theme);

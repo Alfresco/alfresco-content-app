@@ -5,7 +5,7 @@
   $foreground: map-get($theme, foreground);
   $primary: map-get($theme, primary);
 
-  $document-list-selection-color: mat-color($primary) !default;
+  $document-list-selection-color: mat-color($alfresco-ecm-blue, 500) !default;
   $document-list-selection-background: #e0f7fa !default;
   $document-list-background: mat-color($background, background) !default;
   $document-list-text-color: mat-color($foreground, text, 0.54) !default;

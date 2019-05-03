@@ -10,7 +10,7 @@
       <h1 class="adf-share-link__label">{{ 'SHARE.TITLE' | translate }}</h1>
 
       <mat-slide-toggle
-        color="primary"
+        color="accent"
         data-automation-id="adf-share-toggle"
         [checked]="isFileShared"
         [disabled]="isDisabled"
@@ -46,7 +46,7 @@
         <mat-slide-toggle
           [disabled]="!canUpdate"
           #slideToggleExpirationDate
-          color="primary"
+          color="accent"
           data-automation-id="adf-expire-toggle"
           [checked]="form.controls['time'].value"
           (change)="onToggleExpirationDate($event)"

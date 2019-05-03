@@ -13,56 +13,12 @@
 @import '../components/layout/layout.theme.scss';
 @import '../components/shared/content-node-share/content-node-share.dialog.scss';
 
-@import './overrides/adf-toolbar.theme';
 @import 'overrides/adf-layout-container.theme';
 @import './overrides/adf-document-list.theme';
 
 @import 'snackbar';
 
-$grey-scale: (
-  50: #e0e0e0,
-  100: #b3b3b3,
-  200: #808080,
-  300: #4d4d4d,
-  400: #262626,
-  500: #000000,
-  600: #000000,
-  700: #000000,
-  800: #000000,
-  900: #000000,
-  A100: #a6a6a6,
-  A200: #8c8c8c,
-  A400: #737373,
-  A700: #666666,
-  contrast: (
-    50: #000000,
-    100: #000000,
-    200: #000000,
-    300: #ffffff,
-    400: #ffffff,
-    500: #ffffff,
-    600: #ffffff,
-    700: #ffffff,
-    800: #ffffff,
-    900: #ffffff,
-    A100: #000000,
-    A200: #000000,
-    A400: #ffffff,
-    A700: #ffffff
-  )
-);
-
-@include mat-core();
-
-$custom-theme-primary: mat-palette($grey-scale, A400);
-$custom-theme-accent: mat-palette($alfresco-accent-orange);
-$custom-theme-warn: mat-palette($alfresco-warn);
-$custom-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent);
-$foreground: map-get($custom-theme, foreground);
-$warn: map-get($custom-theme, warn);
-
 @mixin custom-theme($theme) {
-  @include custom-adf-toolbar-theme($theme);
   @include adf-document-list-theme($theme);
 
   @include layout-theme($theme);
@@ -76,37 +32,39 @@ $warn: map-get($custom-theme, warn);
   @include aca-current-user-theme($theme);
   @include aca-context-menu-theme($theme);
   @include app-create-menu-theme($theme);
-  @include aca-share-dialog-theme($theme);
-}
 
-//Custom variables - ACA specific styling:
-$document-list-selection-color: mat-color($alfresco-ecm-blue, 500);
-$document-list-background: white;
-$data-table-thumbnail-width: 35px;
+  $foreground: map-get($theme, foreground);
+  $warn: map-get($theme, warn);
 
-$adf-pagination--border: 1px solid mat-color($foreground, text, 0.07);
-$adf-pagination__empty--height: 0;
+  //Custom variables - ACA specific styling:
+  $document-list-selection-color: mat-color($alfresco-ecm-blue, 500);
+  $document-list-background: white;
+  $data-table-thumbnail-width: 35px;
 
-$adf-toolbar-single-row-height: 48px;
-$adf-toolbar-padding: 14px;
+  $adf-pagination--border: 1px solid mat-color($foreground, text, 0.07);
+  $adf-pagination__empty--height: 0;
 
-$adf-upload-dragging-color: unset;
-$adf-upload-dragging-border: 1px solid #00bcd4;
-$adf-upload-dragging-background: #e0f7fa;
-$adf-upload-dragging-level1-color: unset;
-$adf-upload-dragging-level1-border: none;
+  $adf-toolbar-single-row-height: 48px;
+  $adf-toolbar-padding: 14px;
 
-$defaults: (
-  --theme-warn-color: mat-color($warn),
-  --theme-text-color: mat-color($foreground, text, 0.54),
-  --theme-title-color: mat-color($foreground, text, 0.87),
-  --theme-text-disabled-color: mat-color($foreground, text, 0.38),
-  --theme-border-color: mat-color($foreground, text, 0.07)
-);
+  $adf-upload-dragging-color: unset;
+  $adf-upload-dragging-border: 1px solid #00bcd4;
+  $adf-upload-dragging-background: #e0f7fa;
+  $adf-upload-dragging-level1-color: unset;
+  $adf-upload-dragging-level1-border: none;
 
-// defaults
-:root {
-  @each $name, $value in $defaults {
-    #{$name}: #{$value};
+  $defaults: (
+    --theme-warn-color: mat-color($warn),
+    --theme-text-color: mat-color($foreground, text, 0.54),
+    --theme-title-color: mat-color($foreground, text, 0.87),
+    --theme-text-disabled-color: mat-color($foreground, text, 0.38),
+    --theme-border-color: mat-color($foreground, text, 0.07)
+  );
+
+  // setup CSS variables for extensions and components
+  :root {
+    @each $name, $value in $defaults {
+      #{$name}: #{$value};
+    }
   }
 }
