@@ -234,22 +234,18 @@
       "fields": [
         {
           "field": "content.mimetype",
-          "mincount": 0,
           "label": "SEARCH.FACET_FIELDS.FILE_TYPE"
         },
         {
           "field": "creator",
-          "mincount": 0,
           "label": "SEARCH.FACET_FIELDS.CREATOR"
         },
         {
           "field": "modifier",
-          "mincount": 0,
           "label": "SEARCH.FACET_FIELDS.MODIFIER"
         },
         {
           "field": "SITE",
-          "mincount": 0,
           "label": "SEARCH.FACET_FIELDS.LOCATION"
         }
       ]
@@ -257,7 +253,6 @@
     "facetQueries": {
       "label": "SEARCH.CATEGORIES.MODIFIED_DATE",
       "expanded": true,
-      "mincount": 0,
       "queries": [
         { "label": "SEARCH.FACET_QUERIES.TODAY", "query": "cm:modified:[TODAY to TODAY]" },
         {
