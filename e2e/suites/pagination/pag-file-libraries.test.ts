@@ -56,7 +56,7 @@ describe('Pagination on multiple pages', () => {
     done();
   })
 
-  xdescribe('on My Libraries', () => {
+  describe('on My Libraries', () => {
     beforeEach(async (done) => {
       await page.goToMyLibrariesAndWait();
       done();
@@ -157,7 +157,7 @@ describe('Pagination on multiple pages', () => {
     });
   });
 
-  xdescribe('on Favorite Libraries', () => {
+  describe('on Favorite Libraries', () => {
     beforeEach(async (done) => {
       await page.goToFavoriteLibrariesAndWait();
       done();
