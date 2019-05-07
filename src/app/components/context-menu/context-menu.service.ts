@@ -54,51 +54,27 @@ export class ContextMenuService {
   }
 
   private getOverlayConfig(config: ContextmenuOverlayConfig): OverlayConfig {
-    const fakeElement: any = {
-      getBoundingClientRect: (): ClientRect => ({
-        bottom: config.source.clientY,
-        height: 0,
-        left: config.source.clientX,
-        right: config.source.clientX,
-        top: config.source.clientY,
-        width: 0
-      })
-    };
+    const { x, y } = config.source;
 
     const positionStrategy = this.overlay
       .position()
-      .connectedTo(
-        new ElementRef(fakeElement),
-        { originX: 'start', originY: 'bottom' },
-        { overlayX: 'start', overlayY: 'top' }
-      )
-      .withFallbackPosition(
-        { originX: 'start', originY: 'top' },
-        { overlayX: 'start', overlayY: 'bottom' }
-      )
-      .withFallbackPosition(
-        { originX: 'end', originY: 'top' },
-        { overlayX: 'start', overlayY: 'top' }
-      )
-      .withFallbackPosition(
-        { originX: 'start', originY: 'top' },
-        { overlayX: 'end', overlayY: 'top' }
-      )
-      .withFallbackPosition(
-        { originX: 'end', originY: 'center' },
-        { overlayX: 'start', overlayY: 'center' }
-      )
-      .withFallbackPosition(
-        { originX: 'start', originY: 'center' },
-        { overlayX: 'end', overlayY: 'center' }
-      );
+      .flexibleConnectedTo({ x, y })
+      .withPositions([
+        {
+          originX: 'end',
+          originY: 'bottom',
+          overlayX: 'end',
+          overlayY: 'top'
+        }
+      ]);
 
     const overlayConfig = new OverlayConfig({
       hasBackdrop: config.hasBackdrop,
       backdropClass: config.backdropClass,
       panelClass: config.panelClass,
       scrollStrategy: this.overlay.scrollStrategies.close(),
-      positionStrategy
+      positionStrategy,
+      direction: this.direction
     });
 
     return overlayConfig;
