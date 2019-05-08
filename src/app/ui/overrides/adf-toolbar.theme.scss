@@ -1,5 +1,5 @@
 @mixin custom-adf-toolbar-theme($theme) {
   .adf-toolbar {
-    @include angular-material-theme($theme);
+    @include mat-button-theme($theme);
   }
 }
