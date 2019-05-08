@@ -1,3 +1,17 @@
+@mixin aca-share-dialog-theme($theme) {
+  $accent: map-get($theme, accent);
+
+  // fixes [ACA-2069]
+  .mat-slide-toggle.mat-primary.mat-checked:not(.mat-disabled) {
+    .mat-slide-toggle-thumb {
+      background-color: mat-color($accent);
+    }
+    .mat-slide-toggle-bar {
+      background-color: mat-color($accent, 0.54);
+    }
+  }
+}
+
 @mixin adf-share-link-typography {
   letter-spacing: -0.4px;
   line-height: 2;
