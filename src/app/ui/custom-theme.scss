@@ -13,7 +13,6 @@
 @import '../components/layout/layout.theme.scss';
 @import '../components/shared/content-node-share/content-node-share.dialog.scss';
 
-@import './overrides/adf-toolbar.theme';
 @import 'overrides/adf-layout-container.theme';
 @import './overrides/adf-document-list.theme';
 
@@ -62,7 +61,10 @@ $foreground: map-get($custom-theme, foreground);
 $warn: map-get($custom-theme, warn);
 
 @mixin custom-theme($theme) {
-  @include custom-adf-toolbar-theme($theme);
+  .adf-toolbar {
+    @include mat-button-theme($theme);
+  }
+
   @include adf-document-list-theme($theme);
 
   @include layout-theme($theme);
