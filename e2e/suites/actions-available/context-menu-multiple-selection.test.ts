@@ -360,7 +360,7 @@ describe('Context menu actions - multiple selection : ', () => {
     });
   });
 
-  describe('Recent Files', () => {
+  describe('on Recent Files', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
       await page.clickRecentFilesAndWait();
@@ -408,7 +408,7 @@ describe('Context menu actions - multiple selection : ', () => {
     });
   });
 
-  describe('Favorites', () => {
+  describe('on Favorites', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
       await page.clickFavoritesAndWait();
@@ -490,7 +490,7 @@ describe('Context menu actions - multiple selection : ', () => {
     });
   });
 
-  describe('Trash', () => {
+  describe('on Trash', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
       await page.clickTrashAndWait();

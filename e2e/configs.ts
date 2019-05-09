@@ -117,7 +117,8 @@ export const FILES = {
   protectedFile: {
     name: 'protected.pdf',
     password: '0000'
-  }
+  },
+  jpgFile: 'file-jpg.jpg'
 };
 
 export const EXTENSIBILITY_CONFIGS = {
