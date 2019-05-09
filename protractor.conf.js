@@ -80,7 +80,7 @@ exports.config = {
         '--incognito',
         '--headless',
         '--remote-debugging-port=9222',
-        '--disable-gpu',
+        `--window-size=${width},${height}`,
         '--no-sandbox'
       ]
     }
@@ -94,7 +94,7 @@ exports.config = {
   framework: 'jasmine',
   jasmineNodeOpts: {
     showColors: true,
-    defaultTimeoutInterval: 60000,
+    defaultTimeoutInterval: 100000,
     print: function() {}
   },
 
@@ -117,11 +117,6 @@ exports.config = {
     require('ts-node').register({
       project: 'e2e/tsconfig.e2e.json'
     });
-
-    browser
-      .manage()
-      .window()
-      .setSize(width, height);
 
     jasmine.getEnv().addReporter(
       new SpecReporter({

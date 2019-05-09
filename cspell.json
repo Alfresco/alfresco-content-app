@@ -62,7 +62,8 @@
     "keycodes",
     "denysvuika",
     "submenu",
-    "submenus"
+    "submenus",
+    "dateitem"
   ],
   "dictionaries": ["html", "en-gb", "en_US"]
 }
