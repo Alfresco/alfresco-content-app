@@ -3,10 +3,16 @@ modules:
   - pr.spellcheck
 
 spellcheck:
+  dictionaries:
+    - html
+    - en-gb
+    - en_US
   words:
     - plint
     - ngrx
     - qshare
     - snackbar
+    - exif
+    - docx
   exclude:
     - src/assets/app.extensions.json
