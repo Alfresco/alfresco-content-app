@@ -77,7 +77,7 @@ export class AppExtensionService implements RuleContext {
   navbar: Array<NavBarGroupRef> = [];
   sidebar: Array<SidebarTabRef> = [];
   contentMetadata: any;
-  viewerRules: ViewerRules;
+  viewerRules: ViewerRules = {};
 
   documentListPresets: {
     files: Array<DocumentListPresetRef>;
@@ -186,7 +186,9 @@ export class AppExtensionService implements RuleContext {
       searchLibraries: this.getDocumentListPreset(config, 'search-libraries')
     };
 
-    this.viewerRules = <ViewerRules>(config.features.viewer['rules'] || {});
+    if (config.features && config.features.viewer) {
+      this.viewerRules = <ViewerRules>(config.features.viewer['rules'] || {});
+    }
 
     this.registerIcons(config);
 
