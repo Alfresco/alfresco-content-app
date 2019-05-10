@@ -2,6 +2,10 @@ modules:
   - pr.prettier
   - pr.spellcheck
 
+prettier:
+  exclude:
+    - *.json
+
 spellcheck:
   dictionaries:
     - html
