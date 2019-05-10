@@ -37,6 +37,7 @@ import {
 } from '@alfresco/aca-shared/store';
 import { Router } from '@angular/router';
 import { Store, createSelector } from '@ngrx/store';
+import { AppExtensionService } from '../../extensions/extension.service';
 
 export const fileToPreview = createSelector(
   getAppSelection,
@@ -54,7 +55,8 @@ export class ViewerEffects {
   constructor(
     private store: Store<AppStore>,
     private actions$: Actions,
-    private router: Router
+    private router: Router,
+    private extensions: AppExtensionService
   ) {}
 
   @Effect({ dispatch: false })
@@ -94,7 +96,10 @@ export class ViewerEffects {
       if (action.payload && action.payload.entry) {
         const { id, nodeId, isFile } = <any>action.payload.entry;
 
-        if (isFile || nodeId) {
+        if (
+          this.extensions.canPreviewNode(action.payload) &&
+          (isFile || nodeId)
+        ) {
           this.displayPreview(nodeId || id, action.parentId);
         }
       } else {
@@ -105,7 +110,10 @@ export class ViewerEffects {
             if (result.selection && result.selection.file) {
               const { id, nodeId, isFile } = <any>result.selection.file.entry;
 
-              if (isFile || nodeId) {
+              if (
+                this.extensions.canPreviewNode(action.payload) &&
+                (isFile || nodeId)
+              ) {
                 const parentId = result.folder ? result.folder.id : null;
                 this.displayPreview(nodeId || id, parentId);
               }

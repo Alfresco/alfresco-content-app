@@ -53,7 +53,8 @@ import {
 } from '@alfresco/adf-extensions';
 import { AppConfigService, AuthenticationService } from '@alfresco/adf-core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { RepositoryInfo } from '@alfresco/js-api';
+import { RepositoryInfo, NodeEntry } from '@alfresco/js-api';
+import { ViewerRules } from './viewer.rules';
 
 @Injectable({
   providedIn: 'root'
@@ -76,6 +77,7 @@ export class AppExtensionService implements RuleContext {
   navbar: Array<NavBarGroupRef> = [];
   sidebar: Array<SidebarTabRef> = [];
   contentMetadata: any;
+  viewerRules: ViewerRules = {};
 
   documentListPresets: {
     files: Array<DocumentListPresetRef>;
@@ -183,6 +185,10 @@ export class AppExtensionService implements RuleContext {
       trashcan: this.getDocumentListPreset(config, 'trashcan'),
       searchLibraries: this.getDocumentListPreset(config, 'search-libraries')
     };
+
+    if (config.features && config.features.viewer) {
+      this.viewerRules = <ViewerRules>(config.features.viewer['rules'] || {});
+    }
 
     this.registerIcons(config);
 
@@ -504,7 +510,37 @@ export class AppExtensionService implements RuleContext {
     }
   }
 
+  // todo: move to ADF/RuleService
+  isRuleDefined(ruleId: string): boolean {
+    return ruleId && this.getEvaluator(ruleId) ? true : false;
+  }
+
+  // todo: move to ADF/RuleService
+  evaluateRule(ruleId: string, ...args: any[]): boolean {
+    const evaluator = this.getEvaluator(ruleId);
+
+    if (evaluator) {
+      return evaluator(this, ...args);
+    }
+
+    return false;
+  }
+
   getEvaluator(key: string): RuleEvaluator {
     return this.extensions.getEvaluator(key);
+  }
+
+  canPreviewNode(node: NodeEntry) {
+    const rules = this.viewerRules;
+
+    if (this.isRuleDefined(rules.canPreview)) {
+      const canPreview = this.evaluateRule(rules.canPreview, node);
+
+      if (!canPreview) {
+        return false;
+      }
+    }
+
+    return true;
   }
 }
