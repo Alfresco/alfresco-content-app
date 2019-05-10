@@ -526,6 +526,7 @@ export class AppExtensionService implements RuleContext {
     return false;
   }
 
+  // dummy chunge for pull requast teast
   getEvaluator(key: string): RuleEvaluator {
     return this.extensions.getEvaluator(key);
   }
