@@ -301,6 +301,10 @@ export class AppExtensionService implements RuleContext {
       config,
       'features.content-metadata-presets'
     );
+    if (!elements.length) {
+      return null;
+    }
+
     let presets = {};
     presets = this.filterDisabled(mergeObjects(presets, ...elements));
 
