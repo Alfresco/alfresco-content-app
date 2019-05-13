@@ -193,7 +193,7 @@ describe('Share a file', () => {
       expect(await viewer.getFileTitle()).toEqual(file4);
     });
 
-    fit('A non-logged user can download the shared file from the viewer - [C286326]', async () => {
+    it('A non-logged user can download the shared file from the viewer - [C286326]', async () => {
       await dataTable.selectItem(file4);
       await toolbar.clickShare();
       await shareDialog.waitForDialogToOpen();
