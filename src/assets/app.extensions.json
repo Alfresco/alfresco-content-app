@@ -1025,7 +1025,16 @@
         }
       }
     ],
-    "content-metadata-presets": [],
+    "content-metadata-presets": [
+      {
+        "id": "app.content.metadata.custom",
+        "custom": {
+          "id": "app.content.metadata.customSetting",
+          "includeAll": true,
+          "exclude": ["rn:renditioned", "cm:versionable", "cm:auditable", "cm:thumbnailModification", "cm:content", "qshare:shared"]
+        }
+      }
+    ],
     "documentList": {
       "files": [
         {

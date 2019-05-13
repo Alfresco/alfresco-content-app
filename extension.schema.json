@@ -371,6 +371,10 @@
         "id": {
           "type": "string",
           "description": "Unique identifier"
+        },
+        "includeAll": {
+          "type": "boolean",
+          "description": "Enable to automatically show all properties"
         }
       },
       "patternProperties": {
