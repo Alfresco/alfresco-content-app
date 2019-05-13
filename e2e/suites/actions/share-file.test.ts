@@ -174,6 +174,47 @@ describe('Share a file', () => {
       await page.load();
     });
 
+    it('A non-logged user should see the shared file in the viewer - [C286325]', async () => {
+      await dataTable.selectItem(file4);
+      await toolbar.clickShare();
+      await shareDialog.waitForDialogToOpen();
+      const url = await shareDialog.getLinkUrl();
+      expect(url).toContain('/preview/s/');
+
+      await shareDialog.copyUrl();
+      expect(await page.getSnackBarMessage()).toBe('Link copied to the clipboard');
+
+      await Utils.pressEscape();
+      await page.signOut();
+      expect(await browser.getTitle()).toContain('Sign in');
+
+      await browser.get(url);
+      expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
+      expect(await viewer.getFileTitle()).toEqual(file4);
+    });
+
+    fit('A non-logged user can download the shared file from the viewer - [C286326]', async () => {
+      await dataTable.selectItem(file4);
+      await toolbar.clickShare();
+      await shareDialog.waitForDialogToOpen();
+      const url = await shareDialog.getLinkUrl();
+      expect(url).toContain('/preview/s/');
+
+      await shareDialog.copyUrl();
+      expect(await page.getSnackBarMessage()).toBe('Link copied to the clipboard');
+
+      await Utils.pressEscape();
+      await page.signOut();
+      expect(await browser.getTitle()).toContain('Sign in');
+
+      await browser.get(url);
+      expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
+      expect(await viewer.getFileTitle()).toEqual(file4);
+
+      await toolbar.clickDownload();
+      expect(await Utils.fileExistsOnOS(file4)).toBe(true, 'File not found in download location');
+    });
+
     it('Share a file with expiration date - [C286332]', async () => {
       await dataTable.selectItem(file5);
       await toolbar.clickShare();
