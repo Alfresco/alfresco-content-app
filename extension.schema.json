@@ -692,6 +692,16 @@
           "description": "Viewer component extensions",
           "type": "object",
           "properties": {
+            "rules": {
+              "description": "Viewer rules",
+              "type": "object",
+              "properties": {
+                "canPreview": {
+                  "description": "Controls whether preview is enabled for particular node",
+                  "type": "string"
+                }
+              }
+            },
             "openWith": {
               "description": "The [Open With] menu extensions",
               "type": "array",

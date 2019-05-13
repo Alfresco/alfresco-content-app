@@ -363,6 +363,7 @@ Viewer component in ACA supports the following extension points:
 - Toolbar actions
 - `More` toolbar actions
 - `Open With` actions
+- Rules
 
 ```json
 {
@@ -546,6 +547,35 @@ and invoke it from the custom `Open With` menu entry called `Snackbar`.
 ```
 
 As with other content actions, custom plugins can disable, update or extend `Open With` actions.
+
+### Rules
+
+You can provide global rules for the Viewer by utilizing the `features.viewer.rules` object:
+
+```ts
+export interface ViewerRules {
+  /**
+   * Checks if user can preview the node.
+   */
+  canPreview?: string;
+}
+```
+
+For example:
+
+```json
+{
+  "features": {
+    "viewer": {
+      "rules": {
+        "canPreview": "customRule"
+      }
+    }
+  }
+}
+```
+
+The rule should return `true` if node preview is allowed, otherwise `false`.
 
 ## Content metadata presets
 
