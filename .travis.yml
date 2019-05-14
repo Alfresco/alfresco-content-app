@@ -35,27 +35,27 @@ jobs:
         - bash <(curl -s https://codecov.io/bash) -X gcov
     - name: 'Prepare dist cache'
       script: npm run build.e2e
-    # - stage: e2e
-    #   name: Test Suite authentication
-    #   script: SUITE="--suite authentication" npm run e2e:docker
-    # - name: Test Suite listViews
-    #   script: SUITE="--suite listViews" npm run e2e:docker
-    # - name: Test Suite application
-    #   script: SUITE="--suite application" npm run e2e:docker
-    # - name: Test Suite navigation
-    #   script: SUITE="--suite navigation" npm run e2e:docker
-    # - name: Test Suite pagination
-    #   script: SUITE="--suite pagination" npm run e2e:docker
-    # - name: Test Suite search
-    #   script: SUITE="--suite search" npm run e2e:docker
-    # - name: Test Suite actionsAvailable
-    #   script: SUITE="--suite actionsAvailable" npm run e2e:docker
+    - stage: e2e
+      name: Test Suite authentication
+      script: SUITE="--suite authentication" npm run e2e:docker
+    - name: Test Suite listViews
+      script: SUITE="--suite listViews" npm run e2e:docker
+    - name: Test Suite application
+      script: SUITE="--suite application" npm run e2e:docker
+    - name: Test Suite navigation
+      script: SUITE="--suite navigation" npm run e2e:docker
+    - name: Test Suite pagination
+      script: SUITE="--suite pagination" npm run e2e:docker
+    - name: Test Suite search
+      script: SUITE="--suite search" npm run e2e:docker
+    - name: Test Suite actionsAvailable
+      script: SUITE="--suite actionsAvailable" npm run e2e:docker
     - stage: e2e
       name: Test Suite actions
       script: SUITE="--suite actions" npm run e2e:docker
-    # - name: Test Suite viewer
-    #   script: SUITE="--suite viewer" npm run e2e:docker
-    # - name: Test Suite infoDrawer
-    #   script: SUITE="--suite infoDrawer" npm run e2e:docker
-    # - name: Test Suite extensions
-    #   script: SUITE="--suite extensions" npm run e2e:docker
+    - name: Test Suite viewer
+      script: SUITE="--suite viewer" npm run e2e:docker
+    - name: Test Suite infoDrawer
+      script: SUITE="--suite infoDrawer" npm run e2e:docker
+    - name: Test Suite extensions
+      script: SUITE="--suite extensions" npm run e2e:docker

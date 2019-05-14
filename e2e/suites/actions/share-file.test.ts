@@ -31,19 +31,19 @@ import { ShareDialog } from '../../components/dialog/share-dialog';
 import { Viewer } from '../../components/viewer/viewer';
 import { Utils } from '../../utilities/utils';
 
-describe('Share a file', () => {
+fdescribe('Share a file', () => {
   const username = `user-${Utils.random()}`;
   const parent = `parent-${Utils.random()}`; let parentId;
 
   const file1 = `file1-${Utils.random()}.txt`; let file1Id;
   const file2 = `file2-${Utils.random()}.txt`; let file2Id;
-  const file3 = `file3-${Utils.random()}.txt`; let file3Id;
+  let file3 = `file3-${Utils.random()}.txt`; let file3Id;
   const file4 = `file4-${Utils.random()}.txt`; let file4Id;
-  const file5 = `file5-${Utils.random()}.txt`; let file5Id;
-  const file6 = `file6-${Utils.random()}.txt`; let file6Id;
-  const file7 = `file7-${Utils.random()}.txt`; let file7Id;
+  let file5 = `file5-${Utils.random()}.txt`; let file5Id;
+  let file6 = `file6-${Utils.random()}.txt`; let file6Id;
+  let file7 = `file7-${Utils.random()}.txt`; let file7Id;
   const file8 = `file8-${Utils.random()}.txt`; let file8Id;
-  const file9 = `file9-${Utils.random()}.txt`; let file9Id;
+  let file9 = `file9-${Utils.random()}.txt`; let file9Id;
 
   const viewer = new Viewer();
   const page = new BrowsingPage();
@@ -981,6 +981,12 @@ describe('Share a file', () => {
     });
 
     describe('from Search Results', () => {
+
+      file3 = `search-file3-${Utils.random()}.txt`;
+      file5 = `search-file5-${Utils.random()}.txt`;
+      file6 = `search-file6-${Utils.random()}.txt`;
+      file7 = `search-file7-${Utils.random()}.txt`;
+      file9 = `search-file9-${Utils.random()}.txt`;
 
       beforeAll(async (done) => {
         file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
