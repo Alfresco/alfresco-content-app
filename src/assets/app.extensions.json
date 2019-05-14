@@ -7,7 +7,7 @@
   "$license": "LGPL-3.0",
   "$runtime": "1.7.0",
   "$description": "Core application extensions and features",
-  "$references": ["aos.plugin.json", "app.header.json", "app.metadata.json"],
+  "$references": ["aos.plugin.json", "app.header.json"],
 
   "rules": [
     {
@@ -1031,7 +1031,14 @@
         "custom": {
           "id": "app.content.metadata.customSetting",
           "includeAll": true,
-          "exclude": ["rn:renditioned", "cm:versionable", "cm:auditable", "cm:thumbnailModification", "cm:content", "qshare:shared"]
+          "exclude": [
+            "rn:renditioned",
+            "cm:versionable",
+            "cm:auditable",
+            "cm:thumbnailModification",
+            "cm:content",
+            "qshare:shared"
+          ]
         }
       }
     ],
