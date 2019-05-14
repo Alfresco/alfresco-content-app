@@ -265,29 +265,26 @@ export class NodesApi extends RepoApi {
         return (await this.getLockType(nodeId)) === 'WRITE_LOCK';
     }
 
-    async isFileLockedWriteWithRetry(nodeId: string, expect?: boolean) {
-      if (expect) {
-        const data = {
-          expect: expect,
-          retry: 5
-        };
-        let isLocked;
-        try {
-          const locked = async () => {
-            isLocked = (await this.getLockType(nodeId)) === 'WRITE_LOCK';
-            if ( isLocked !== data.expect ) {
-              return Promise.reject(isLocked);
-            } else {
-              return Promise.resolve(isLocked);
-            }
-          }
-          return await Utils.retryCall(locked, data.retry);
-        } catch (error) {
-          console.log('-----> catch isLockedWriteWithRetry: ', error);
-        }
-        return isLocked;
+    async isFileLockedWriteWithRetry(nodeId: string, expect: boolean) {
+      const data = {
+        expect: expect,
+        retry: 5
       };
-      return (await this.getLockType(nodeId)) === 'WRITE_LOCK';
+      let isLocked;
+      try {
+        const locked = async () => {
+          isLocked = (await this.getLockType(nodeId)) === 'WRITE_LOCK';
+          if ( isLocked !== data.expect ) {
+            return Promise.reject(isLocked);
+          } else {
+            return Promise.resolve(isLocked);
+          }
+        }
+        return await Utils.retryCall(locked, data.retry);
+      } catch (error) {
+        console.log('-----> catch isLockedWriteWithRetry: ', error);
+      }
+      return isLocked;
     }
 
     async isFileLockedByName(fileName: string, parentId: string) {
