@@ -31,7 +31,7 @@ import { ShareDialog } from '../../components/dialog/share-dialog';
 import { Viewer } from '../../components/viewer/viewer';
 import { Utils } from '../../utilities/utils';
 
-fdescribe('Share a file', () => {
+describe('Share a file', () => {
   const username = `user-${Utils.random()}`;
   const parent = `parent-${Utils.random()}`; let parentId;
 
