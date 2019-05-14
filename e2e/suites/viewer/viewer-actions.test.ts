@@ -251,7 +251,7 @@ describe('Viewer actions', () => {
       await viewer.waitForViewerToOpen();
       await toolbar.clickMoreActionsCancelEditing();
 
-      expect(await apis.user.nodes.isFileLockedWrite(fileForCancelEditingId)).toBe(false, `${fileForCancelEditing} is still locked`);
+      expect(await apis.user.nodes.isFileLockedWriteWithRetry(fileForCancelEditingId, false)).toBe(false, `${fileForCancelEditing} is still locked`);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
     });
 
