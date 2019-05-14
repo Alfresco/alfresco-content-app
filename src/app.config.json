@@ -117,7 +117,9 @@
             "cm:auditable",
             "cm:thumbnailModification",
             "cm:content",
-            "qshare:shared"
+            "qshare:shared",
+
+            "exif:exif"
           ]
         },
         {
