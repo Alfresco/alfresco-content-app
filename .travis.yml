@@ -44,7 +44,7 @@ jobs:
       script: SUITE="--suite addRemoveContent" npm run e2e:docker
     - name: Test Suite manageContent
       script: SUITE="--suite manageContent" npm run e2e:docker
-    - name: Test Suite sharingContent
+    - name: Test Suite sharingContent&markFavorite
       script: SUITE="--suite sharingContent" npm run e2e:docker
     - name: Test Suite viewContent&metadata&extensions
       script: SUITE="--suite viewer,infoDrawer,extensions" npm run e2e:docker

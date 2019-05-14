@@ -63,21 +63,21 @@ exports.config = {
       './e2e/suites/actions/create-folder.test.ts',
       './e2e/suites/actions/create-library.test.ts',
       './e2e/suites/actions/upload-file.test.ts',
+      './e2e/suites/actions/upload-new-version.test.ts',
       './e2e/suites/actions/delete-undo-delete.test.ts',
       './e2e/suites/actions/permanently-delete.test.ts',
       './e2e/suites/actions/restore.test.ts',
       './e2e/suites/actions/download.test.ts'
     ],
     manageContent: [
-      './e2e/suites/actions/mark-favorite.test.ts',
       './e2e/suites/actions/copy.test.ts',
       './e2e/suites/actions/move.test.ts',
       './e2e/suites/actions/library-actions.test.ts',
       './e2e/suites/actions/edit-folder.test.ts',
-      './e2e/suites/actions/edit-offline.test.ts',
-      './e2e/suites/actions/upload-new-version.test.ts'
+      './e2e/suites/actions/edit-offline.test.ts'
     ],
     sharingContent: [
+      './e2e/suites/actions/mark-favorite.test.ts',
       './e2e/suites/actions/share-file.test.ts',
       './e2e/suites/actions/unshare-file-search-results.test.ts',
       './e2e/suites/actions/unshare-file.test.ts'
