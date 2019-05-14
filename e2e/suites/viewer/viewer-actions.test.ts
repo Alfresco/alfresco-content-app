@@ -258,7 +258,7 @@ describe('Viewer actions', () => {
     it('Upload new version action - [C297586]', async () => {
       await dataTable.doubleClickOnRowByName(filePersonalFiles);
       await viewer.waitForViewerToOpen();
-      // await toolbar.clickMoreActionsUploadNewVersion();
+      await toolbar.clickMoreActionsUploadNewVersion();
 
       await Utils.uploadFileNewVersion(docxFile2);
       await page.waitForDialog();
@@ -513,7 +513,7 @@ describe('Viewer actions', () => {
     it('Upload new version action - [C297591]', async () => {
       await dataTable.doubleClickOnRowByName(fileLibraries);
       await viewer.waitForViewerToOpen();
-      // await toolbar.clickMoreActionsUploadNewVersion();
+      await toolbar.clickMoreActionsUploadNewVersion();
 
       await Utils.uploadFileNewVersion(docxFile2);
       await page.waitForDialog();
@@ -746,7 +746,7 @@ describe('Viewer actions', () => {
     it('Upload new version action - [C297596]', async () => {
       await dataTable.doubleClickOnRowByName(fileRecent);
       await viewer.waitForViewerToOpen();
-      // await toolbar.clickMoreActionsUploadNewVersion();
+      await toolbar.clickMoreActionsUploadNewVersion();
 
       await Utils.uploadFileNewVersion(docxFile2);
       await page.waitForDialog();
@@ -978,7 +978,7 @@ describe('Viewer actions', () => {
     it('Upload new version action - [C297603]', async () => {
       await dataTable.doubleClickOnRowByName(fileShared);
       await viewer.waitForViewerToOpen();
-      // await toolbar.clickMoreActionsUploadNewVersion();
+      await toolbar.clickMoreActionsUploadNewVersion();
 
       await Utils.uploadFileNewVersion(docxFile2);
       await page.waitForDialog();
@@ -1212,7 +1212,7 @@ describe('Viewer actions', () => {
     it('Upload new version action - [C297606]', async () => {
       await dataTable.doubleClickOnRowByName(fileFav);
       await viewer.waitForViewerToOpen();
-      // await toolbar.clickMoreActionsUploadNewVersion();
+      await toolbar.clickMoreActionsUploadNewVersion();
 
       await Utils.uploadFileNewVersion(docxFile2);
       await page.waitForDialog();
