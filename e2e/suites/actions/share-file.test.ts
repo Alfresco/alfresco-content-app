@@ -118,6 +118,7 @@ describe('Share a file', () => {
         file7Id = (await apis.user.nodes.createFile(file7, parentId)).entry.id;
         file8Id = (await apis.user.nodes.createFile(file8, parentId)).entry.id;
         file9Id = (await apis.user.nodes.createFile(file9, parentId)).entry.id;
+        await apis.user.shared.shareFileById(file6Id, expiryDate);
         await apis.user.shared.shareFileById(file7Id, expiryDate);
         await apis.user.shared.waitForApi({ expect: 2 });
         done();
