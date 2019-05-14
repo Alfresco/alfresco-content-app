@@ -66,7 +66,7 @@ describe('Upload new version', () => {
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
-  const { dataTable } = page;
+  const { dataTable, toolbar } = page;
   const uploadNewVersionDialog = new UploadNewVersionDialog();
   const { searchInput } = page.header;
 
@@ -123,7 +123,7 @@ describe('Upload new version', () => {
 
     it('dialog UI defaults - [C297544]', async () => {
       await dataTable.selectItem(file);
-      // await toolbar.clickMoreActionsUploadNewVersion();
+      await toolbar.clickMoreActionsUploadNewVersion();
 
       await Utils.uploadFileNewVersion(fileToUpload1);
       await page.waitForDialog();
@@ -139,7 +139,7 @@ describe('Upload new version', () => {
 
     it('file is updated after uploading a new version - major - [C297545]', async () => {
       await dataTable.selectItem(file1);
-      // await toolbar.clickMoreActionsUploadNewVersion();
+      await toolbar.clickMoreActionsUploadNewVersion();
 
       await Utils.uploadFileNewVersion(fileToUpload1);
       await page.waitForDialog();
@@ -155,7 +155,7 @@ describe('Upload new version', () => {
 
     it('file is updated after uploading a new version - minor - [C297546]', async () => {
       await dataTable.selectItem(file2);
-      // await toolbar.clickMoreActionsUploadNewVersion();
+      await toolbar.clickMoreActionsUploadNewVersion();
 
       await Utils.uploadFileNewVersion(fileToUpload2);
       await page.waitForDialog();
@@ -171,7 +171,7 @@ describe('Upload new version', () => {
 
     it('file is not updated when clicking Cancel - [C297547]', async () => {
       await dataTable.selectItem(file3);
-      // await toolbar.clickMoreActionsUploadNewVersion();
+      await toolbar.clickMoreActionsUploadNewVersion();
 
       await Utils.uploadFileNewVersion(fileToUpload3);
       await page.waitForDialog();
@@ -187,7 +187,7 @@ describe('Upload new version', () => {
 
     it('upload new version fails when new file name already exists - [C297548]', async () => {
       await dataTable.selectItem(file4);
-      // await toolbar.clickMoreActionsUploadNewVersion();
+      await toolbar.clickMoreActionsUploadNewVersion();
 
       await Utils.uploadFileNewVersion(file);
       await page.waitForDialog();
@@ -205,7 +205,7 @@ describe('Upload new version', () => {
 
     it('file is unlocked after uploading a new version - [C297549]', async () => {
       await dataTable.selectItem(fileLocked1);
-      // await toolbar.clickMoreActionsUploadNewVersion();
+      await toolbar.clickMoreActionsUploadNewVersion();
 
       await Utils.uploadFileNewVersion(fileToUpload4);
       await page.waitForDialog();
@@ -222,7 +222,7 @@ describe('Upload new version', () => {
 
     it('file remains locked after canceling of uploading a new version - [C297550]', async () => {
       await dataTable.selectItem(fileLocked2);
-      // await toolbar.clickMoreActionsUploadNewVersion();
+      await toolbar.clickMoreActionsUploadNewVersion();
 
       await Utils.uploadFileNewVersion(fileToUpload5);
       await page.waitForDialog();
@@ -264,14 +264,13 @@ describe('Upload new version', () => {
     });
 
     afterEach(async (done) => {
-      // await Utils.pressEscape();
       await page.refresh();
       done();
     });
 
     it('dialog UI defaults - [C297551]', async () => {
       await dataTable.selectItem(file);
-      // await toolbar.clickMoreActionsUploadNewVersion();
+      await toolbar.clickMoreActionsUploadNewVersion();
 
       await Utils.uploadFileNewVersion(fileToUpload1);
       await page.waitForDialog();
@@ -287,7 +286,7 @@ describe('Upload new version', () => {
 
     it('file is updated after uploading a new version - major - [C297552]', async () => {
       await dataTable.selectItem(file1);
-      // await toolbar.clickMoreActionsUploadNewVersion();
+      await toolbar.clickMoreActionsUploadNewVersion();
 
       await Utils.uploadFileNewVersion(fileToUpload1);
       await page.waitForDialog();
@@ -303,7 +302,7 @@ describe('Upload new version', () => {
 
     it('file is updated after uploading a new version - minor - [C297553]', async () => {
       await dataTable.selectItem(file2);
-      // await toolbar.clickMoreActionsUploadNewVersion();
+      await toolbar.clickMoreActionsUploadNewVersion();
 
       await Utils.uploadFileNewVersion(fileToUpload2);
       await page.waitForDialog();
@@ -319,7 +318,7 @@ describe('Upload new version', () => {
 
     it('file is not updated when clicking Cancel - [C297554]', async () => {
       await dataTable.selectItem(file3);
-      // await toolbar.clickMoreActionsUploadNewVersion();
+      await toolbar.clickMoreActionsUploadNewVersion();
 
       await Utils.uploadFileNewVersion(fileToUpload3);
       await page.waitForDialog();
@@ -335,7 +334,7 @@ describe('Upload new version', () => {
 
     it('upload new version fails when new file name already exists - [C297555]', async () => {
       await dataTable.selectItem(file4);
-      // await toolbar.clickMoreActionsUploadNewVersion();
+      await toolbar.clickMoreActionsUploadNewVersion();
 
       await Utils.uploadFileNewVersion(file);
       await page.waitForDialog();
@@ -353,7 +352,7 @@ describe('Upload new version', () => {
 
     it('file is unlocked after uploading a new version - [C297556]', async () => {
       await dataTable.selectItem(fileLocked1);
-      // await toolbar.clickMoreActionsUploadNewVersion();
+      await toolbar.clickMoreActionsUploadNewVersion();
 
       await Utils.uploadFileNewVersion(fileToUpload4);
       await page.waitForDialog();
@@ -370,7 +369,7 @@ describe('Upload new version', () => {
 
     it('file remains locked after canceling of uploading a new version - [C297557]', async () => {
       await dataTable.selectItem(fileLocked2);
-      // await toolbar.clickMoreActionsUploadNewVersion();
+      await toolbar.clickMoreActionsUploadNewVersion();
 
       await Utils.uploadFileNewVersion(fileToUpload5);
       await page.waitForDialog();
@@ -411,14 +410,13 @@ describe('Upload new version', () => {
     });
 
     afterEach(async (done) => {
-      // await Utils.pressEscape();
       await page.refresh();
       done();
     });
 
     it('dialog UI defaults - [C297558]', async () => {
       await dataTable.selectItem(file, parentRF);
-      // await toolbar.clickMoreActionsUploadNewVersion();
+      await toolbar.clickMoreActionsUploadNewVersion();
 
       await Utils.uploadFileNewVersion(fileToUpload1);
       await page.waitForDialog();
@@ -434,7 +432,7 @@ describe('Upload new version', () => {
 
     it('file is updated after uploading a new version - major - [C297559]', async () => {
       await dataTable.selectItem(file1, parentRF);
-      // await toolbar.clickMoreActionsUploadNewVersion();
+      await toolbar.clickMoreActionsUploadNewVersion();
 
       await Utils.uploadFileNewVersion(fileToUpload1);
       await page.waitForDialog();
@@ -450,7 +448,7 @@ describe('Upload new version', () => {
 
     it('file is updated after uploading a new version - minor - [C297560]', async () => {
       await dataTable.selectItem(file2, parentRF);
-      // await toolbar.clickMoreActionsUploadNewVersion();
+      await toolbar.clickMoreActionsUploadNewVersion();
 
       await Utils.uploadFileNewVersion(fileToUpload2);
       await page.waitForDialog();
@@ -466,7 +464,7 @@ describe('Upload new version', () => {
 
     it('file is not updated when clicking Cancel - [C297561]', async () => {
       await dataTable.selectItem(file3, parentRF);
-      // await toolbar.clickMoreActionsUploadNewVersion();
+      await toolbar.clickMoreActionsUploadNewVersion();
 
       await Utils.uploadFileNewVersion(fileToUpload3);
       await page.waitForDialog();
@@ -482,7 +480,7 @@ describe('Upload new version', () => {
 
     it('upload new version fails when new file name already exists - [C297562]', async () => {
       await dataTable.selectItem(file4, parentRF);
-      // await toolbar.clickMoreActionsUploadNewVersion();
+      await toolbar.clickMoreActionsUploadNewVersion();
 
       await Utils.uploadFileNewVersion(file);
       await page.waitForDialog();
@@ -500,7 +498,7 @@ describe('Upload new version', () => {
 
     it('file is unlocked after uploading a new version - [C297563]', async () => {
       await dataTable.selectItem(fileLocked1, parentRF);
-      // await toolbar.clickMoreActionsUploadNewVersion();
+      await toolbar.clickMoreActionsUploadNewVersion();
 
       await Utils.uploadFileNewVersion(fileToUpload4);
       await page.waitForDialog();
@@ -517,7 +515,7 @@ describe('Upload new version', () => {
 
     it('file remains locked after canceling of uploading a new version - [C297564]', async () => {
       await dataTable.selectItem(fileLocked2, parentRF);
-      // await toolbar.clickMoreActionsUploadNewVersion();
+      await toolbar.clickMoreActionsUploadNewVersion();
 
       await Utils.uploadFileNewVersion(fileToUpload5);
       await page.waitForDialog();
@@ -559,14 +557,13 @@ describe('Upload new version', () => {
     });
 
     afterEach(async (done) => {
-      // await Utils.pressEscape();
       await page.refresh();
       done();
     });
 
     it('dialog UI defaults - [C297565]', async () => {
       await dataTable.selectItem(file);
-      // await toolbar.clickMoreActionsUploadNewVersion();
+      await toolbar.clickMoreActionsUploadNewVersion();
 
       await Utils.uploadFileNewVersion(fileToUpload1);
       await page.waitForDialog();
@@ -582,7 +579,7 @@ describe('Upload new version', () => {
 
     it('file is updated after uploading a new version - major - [C297566]', async () => {
       await dataTable.selectItem(file1);
-      // await toolbar.clickMoreActionsUploadNewVersion();
+      await toolbar.clickMoreActionsUploadNewVersion();
 
       await Utils.uploadFileNewVersion(fileToUpload1);
       await page.waitForDialog();
@@ -598,7 +595,7 @@ describe('Upload new version', () => {
 
     it('file is updated after uploading a new version - minor - [C297567]', async () => {
       await dataTable.selectItem(file2);
-      // await toolbar.clickMoreActionsUploadNewVersion();
+      await toolbar.clickMoreActionsUploadNewVersion();
 
       await Utils.uploadFileNewVersion(fileToUpload2);
       await page.waitForDialog();
@@ -614,7 +611,7 @@ describe('Upload new version', () => {
 
     it('file is not updated when clicking Cancel - [C297568]', async () => {
       await dataTable.selectItem(file3);
-      // await toolbar.clickMoreActionsUploadNewVersion();
+      await toolbar.clickMoreActionsUploadNewVersion();
 
       await Utils.uploadFileNewVersion(fileToUpload3);
       await page.waitForDialog();
@@ -630,7 +627,7 @@ describe('Upload new version', () => {
 
     it('upload new version fails when new file name already exists - [C297569]', async () => {
       await dataTable.selectItem(file4);
-      // await toolbar.clickMoreActionsUploadNewVersion();
+      await toolbar.clickMoreActionsUploadNewVersion();
 
       await Utils.uploadFileNewVersion(file);
       await page.waitForDialog();
@@ -648,7 +645,7 @@ describe('Upload new version', () => {
 
     it('file is unlocked after uploading a new version - [C297570]', async () => {
       await dataTable.selectItem(fileLocked1);
-      // await toolbar.clickMoreActionsUploadNewVersion();
+      await toolbar.clickMoreActionsUploadNewVersion();
 
       await Utils.uploadFileNewVersion(fileToUpload4);
       await page.waitForDialog();
@@ -665,7 +662,7 @@ describe('Upload new version', () => {
 
     it('file remains locked after canceling of uploading a new version - [C297571]', async () => {
       await dataTable.selectItem(fileLocked2);
-      // await toolbar.clickMoreActionsUploadNewVersion();
+      await toolbar.clickMoreActionsUploadNewVersion();
 
       await Utils.uploadFileNewVersion(fileToUpload5);
       await page.waitForDialog();
@@ -713,7 +710,7 @@ describe('Upload new version', () => {
       await searchInput.searchFor(file);
       await dataTable.waitForBody();
       await dataTable.selectItem(file, parentSearch);
-      // await toolbar.clickMoreActionsUploadNewVersion();
+      await toolbar.clickMoreActionsUploadNewVersion();
 
       await Utils.uploadFileNewVersion(fileToUpload1);
       await page.waitForDialog();
@@ -733,7 +730,7 @@ describe('Upload new version', () => {
       await searchInput.searchFor(fileSearch1);
       await dataTable.waitForBody();
       await dataTable.selectItem(fileSearch1, parentSearch);
-      // await toolbar.clickMoreActionsUploadNewVersion();
+      await toolbar.clickMoreActionsUploadNewVersion();
 
       await Utils.uploadFileNewVersion(fileToUpload1);
       await page.waitForDialog();
@@ -754,7 +751,7 @@ describe('Upload new version', () => {
       await searchInput.searchFor(fileSearch2);
       await dataTable.waitForBody();
       await dataTable.selectItem(fileSearch2, parentSearch);
-      // await toolbar.clickMoreActionsUploadNewVersion();
+      await toolbar.clickMoreActionsUploadNewVersion();
 
       await Utils.uploadFileNewVersion(fileToUpload2);
       await page.waitForDialog();
@@ -775,7 +772,7 @@ describe('Upload new version', () => {
       await searchInput.searchFor(fileSearch3);
       await dataTable.waitForBody();
       await dataTable.selectItem(fileSearch3, parentSearch);
-      // await toolbar.clickMoreActionsUploadNewVersion();
+      await toolbar.clickMoreActionsUploadNewVersion();
 
       await Utils.uploadFileNewVersion(fileToUpload3);
       await page.waitForDialog();
@@ -795,7 +792,7 @@ describe('Upload new version', () => {
       await searchInput.searchFor(fileSearch4);
       await dataTable.waitForBody();
       await dataTable.selectItem(fileSearch4, parentSearch);
-      // await toolbar.clickMoreActionsUploadNewVersion();
+      await toolbar.clickMoreActionsUploadNewVersion();
 
       await Utils.uploadFileNewVersion(file);
       await page.waitForDialog();
@@ -817,7 +814,7 @@ describe('Upload new version', () => {
       await searchInput.searchFor(fileLockedSearch1);
       await dataTable.waitForBody();
       await dataTable.selectItem(fileLockedSearch1, parentSearch);
-      // await toolbar.clickMoreActionsUploadNewVersion();
+      await toolbar.clickMoreActionsUploadNewVersion();
 
       await Utils.uploadFileNewVersion(fileToUpload4);
       await page.waitForDialog();
@@ -839,7 +836,7 @@ describe('Upload new version', () => {
       await searchInput.searchFor(fileLockedSearch2);
       await dataTable.waitForBody();
       await dataTable.selectItem(fileLockedSearch2, parentSearch);
-      // await toolbar.clickMoreActionsUploadNewVersion();
+      await toolbar.clickMoreActionsUploadNewVersion();
 
       await Utils.uploadFileNewVersion(fileToUpload5);
       await page.waitForDialog();
