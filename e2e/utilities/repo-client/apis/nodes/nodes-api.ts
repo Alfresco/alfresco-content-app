@@ -269,7 +269,7 @@ export class NodesApi extends RepoApi {
       if (expect) {
         const data = {
           expect: expect,
-          retry: 3
+          retry: 5
         };
         let isLocked;
         try {

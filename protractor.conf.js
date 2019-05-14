@@ -103,7 +103,8 @@ exports.config = {
         '--incognito',
         '--headless',
         '--remote-debugging-port=9222',
-        `--window-size=${width},${height}`,
+        // `--window-size=${width},${height}`,
+        '--disable-gpu',
         '--no-sandbox'
       ]
     }
@@ -140,6 +141,11 @@ exports.config = {
     require('ts-node').register({
       project: 'e2e/tsconfig.e2e.json'
     });
+
+    browser
+      .manage()
+      .window()
+      .setSize(width, height);
 
     jasmine.getEnv().addReporter(
       new SpecReporter({
