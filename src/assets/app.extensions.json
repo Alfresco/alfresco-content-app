@@ -1028,18 +1028,33 @@
     "content-metadata-presets": [
       {
         "id": "app.content.metadata.custom",
-        "custom": {
-          "id": "app.content.metadata.customSetting",
-          "includeAll": true,
-          "exclude": [
-            "rn:renditioned",
-            "cm:versionable",
-            "cm:auditable",
-            "cm:thumbnailModification",
-            "cm:content",
-            "qshare:shared"
-          ]
-        }
+        "custom": [
+          {
+            "id": "app.content.metadata.customSetting",
+            "includeAll": true,
+            "exclude": [
+              "rn:renditioned",
+              "cm:versionable",
+              "cm:auditable",
+              "cm:thumbnailModification",
+              "cm:content",
+              "qshare:shared",
+
+              "exif:exif"
+            ]
+          },
+          {
+            "id": "app.content.metadata.customGroup",
+            "title": "APP.CONTENT_METADATA.EXIF_GROUP_TITLE",
+            "items": [
+              {
+                "id": "app.content.metadata.exifAspect",
+                "aspect": "exif:exif",
+                "properties": "*"
+              }
+            ]
+          }
+        ]
       }
     ],
     "documentList": {

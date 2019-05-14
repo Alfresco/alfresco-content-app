@@ -12,10 +12,6 @@
     "content-metadata-presets": [
       {
         "id": "app.content.metadata.custom",
-        "disabled": true
-      },
-      {
-        "id": "app.content.metadata.custom2",
         "custom": [
           {
             "id": "app.content.metadata.customGroup",
