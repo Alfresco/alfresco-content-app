@@ -103,7 +103,6 @@ exports.config = {
         '--incognito',
         '--headless',
         '--remote-debugging-port=9222',
-        // `--window-size=${width},${height}`,
         '--disable-gpu',
         '--no-sandbox'
       ]
