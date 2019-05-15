@@ -46,6 +46,7 @@ import {
   SetSelectedNodesAction,
   getCurrentFolder
 } from '@alfresco/aca-shared/store';
+import { Directionality } from '@angular/cdk/bidi';
 
 @Component({
   selector: 'app-layout',
@@ -66,6 +67,7 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
 
   minimizeSidenav = false;
   hideSidenav = false;
+  direction: Directionality;
 
   private minimizeConditions: string[] = ['search'];
   private hideConditions: string[] = ['preview'];
@@ -147,6 +149,12 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
         takeUntil(this.onDestroy$)
       )
       .subscribe(() => this.store.dispatch(new SetSelectedNodesAction([])));
+
+    this.userPreferenceService
+      .select('textOrientation')
+      .subscribe((textOrientation: Directionality) => {
+        this.direction = textOrientation;
+      });
   }
 
   ngOnDestroy() {
