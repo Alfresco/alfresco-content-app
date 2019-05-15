@@ -104,6 +104,11 @@
     {
       "key": "sv",
       "label": "Svenska"
+    },
+    {
+      "key": "ar",
+      "label": "Arabic",
+      "direction": "rtl"
     }
   ],
   "content-metadata": {
