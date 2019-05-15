@@ -45,7 +45,6 @@
         <mat-slide-toggle
           [disabled]="!canUpdate"
           #slideToggleExpirationDate
-          color="primary"
           data-automation-id="adf-expire-toggle"
           [checked]="form.controls['time'].value"
           (change)="onToggleExpirationDate($event)"
