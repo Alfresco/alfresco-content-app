@@ -79,13 +79,16 @@ describe('AppLayoutComponent', () => {
     userPreference = TestBed.get(UserPreferencesService);
   });
 
+  beforeEach(() => {
+    appConfig.config.languages = [];
+    appConfig.config.locale = 'en';
+  });
+
   describe('sidenav state', () => {
     it('should get state from configuration', () => {
-      appConfig.config = {
-        sideNav: {
-          expandedSidenav: false,
-          preserveState: false
-        }
+      appConfig.config.sideNav = {
+        expandedSidenav: false,
+        preserveState: false
       };
 
       fixture.detectChanges();
@@ -94,7 +97,7 @@ describe('AppLayoutComponent', () => {
     });
 
     it('should resolve state to true is no configuration', () => {
-      appConfig.config = {};
+      appConfig.config.sidenav = {};
 
       fixture.detectChanges();
 
@@ -102,11 +105,9 @@ describe('AppLayoutComponent', () => {
     });
 
     it('should get state from user settings as true', () => {
-      appConfig.config = {
-        sideNav: {
-          expandedSidenav: false,
-          preserveState: true
-        }
+      appConfig.config.sideNav = {
+        expandedSidenav: false,
+        preserveState: true
       };
 
       spyOn(userPreference, 'get').and.callFake(key => {
@@ -121,11 +122,9 @@ describe('AppLayoutComponent', () => {
     });
 
     it('should get state from user settings as false', () => {
-      appConfig.config = {
-        sideNav: {
-          expandedSidenav: false,
-          preserveState: true
-        }
+      appConfig.config.sidenav = {
+        expandedSidenav: false,
+        preserveState: true
       };
 
       spyOn(userPreference, 'get').and.callFake(key => {
@@ -195,5 +194,44 @@ describe('AppLayoutComponent', () => {
     component.hideMenu(<any>{ preventDefault: () => {} });
 
     expect(component.layout.container.toggleMenu).toHaveBeenCalled();
+  });
+
+  it('should set direction `ltr` if no direction declared', () => {
+    appConfig.config.languages = [
+      {
+        key: 'en'
+      }
+    ];
+
+    spyOn(userPreference, 'get').and.callFake(key => {
+      if (key === 'locale') {
+        return 'en';
+      }
+    });
+
+    const spy = spyOn(userPreference, 'set');
+    fixture.detectChanges();
+
+    expect(spy.calls.mostRecent().args).toEqual(['textOrientation', 'ltr']);
+  });
+
+  it('should set direction `rtl` based on locale language direction', () => {
+    appConfig.config.languages = [
+      {
+        key: 'en',
+        direction: 'rtl'
+      }
+    ];
+
+    spyOn(userPreference, 'get').and.callFake(key => {
+      if (key === 'locale') {
+        return 'en';
+      }
+    });
+
+    const spy = spyOn(userPreference, 'set');
+    fixture.detectChanges();
+
+    expect(spy.calls.mostRecent().args).toEqual(['textOrientation', 'rtl']);
   });
 });
