@@ -264,7 +264,6 @@ describe('Upload new version', () => {
     });
 
     afterEach(async (done) => {
-      // await Utils.pressEscape();
       await page.refresh();
       done();
     });
@@ -411,7 +410,6 @@ describe('Upload new version', () => {
     });
 
     afterEach(async (done) => {
-      // await Utils.pressEscape();
       await page.refresh();
       done();
     });
@@ -559,7 +557,6 @@ describe('Upload new version', () => {
     });
 
     afterEach(async (done) => {
-      // await Utils.pressEscape();
       await page.refresh();
       done();
     });

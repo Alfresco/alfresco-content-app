@@ -27,6 +27,7 @@ import { RepoApi } from '../repo-api';
 import { NodeBodyCreate } from './node-body-create';
 import { NodeContentTree, flattenNodeContentTree } from './node-content-tree';
 import { NodesApi as AdfNodeApi, NodeBodyLock} from '@alfresco/js-api';
+import { Utils } from '../../../../utilities/utils';
 
 export class NodesApi extends RepoApi {
     nodesApi = new AdfNodeApi(this.alfrescoJsApi);
@@ -262,6 +263,28 @@ export class NodesApi extends RepoApi {
 
     async isFileLockedWrite(nodeId: string) {
         return (await this.getLockType(nodeId)) === 'WRITE_LOCK';
+    }
+
+    async isFileLockedWriteWithRetry(nodeId: string, expect: boolean) {
+      const data = {
+        expect: expect,
+        retry: 5
+      };
+      let isLocked;
+      try {
+        const locked = async () => {
+          isLocked = (await this.getLockType(nodeId)) === 'WRITE_LOCK';
+          if ( isLocked !== data.expect ) {
+            return Promise.reject(isLocked);
+          } else {
+            return Promise.resolve(isLocked);
+          }
+        }
+        return await Utils.retryCall(locked, data.retry);
+      } catch (error) {
+        console.log('-----> catch isLockedWriteWithRetry: ', error);
+      }
+      return isLocked;
     }
 
     async isFileLockedByName(fileName: string, parentId: string) {
