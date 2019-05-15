@@ -26,7 +26,9 @@
 import {
   AppConfigService,
   SidenavLayoutComponent,
-  UserPreferencesService
+  UserPreferencesService,
+  LanguageItem,
+  AppConfigValues
 } from '@alfresco/adf-core';
 import {
   Component,
@@ -155,6 +157,12 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
       .subscribe((textOrientation: Directionality) => {
         this.direction = textOrientation;
       });
+
+    this.userPreferenceService.set(
+      'textOrientation',
+      this.getCurrentLanguage(this.userPreferenceService.get('locale'))
+        .direction || 'ltr'
+    );
   }
 
   ngOnDestroy() {
@@ -212,5 +220,13 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
     }
 
     return expand;
+  }
+
+  private getCurrentLanguage(key: string): LanguageItem {
+    return (
+      this.appConfigService
+        .get<Array<LanguageItem>>(AppConfigValues.APP_CONFIG_LANGUAGES_KEY)
+        .find(language => language.key === key) || <LanguageItem>{}
+    );
   }
 }
