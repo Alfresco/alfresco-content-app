@@ -24,7 +24,6 @@
     <adf-sidenav-layout-navigation>
       <ng-template let-isMenuMinimized="isMenuMinimized">
         <app-sidenav
-          [direction]="direction"
           [mode]="isMenuMinimized() ? 'collapsed' : 'expanded'"
           [attr.data-automation-id]="
             isMenuMinimized() ? 'collapsed' : 'expanded'

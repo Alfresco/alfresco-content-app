@@ -30,8 +30,7 @@ import {
   TemplateRef,
   OnInit,
   ViewEncapsulation,
-  OnDestroy,
-  HostBinding
+  OnDestroy
 } from '@angular/core';
 import { CollapsedTemplateDirective } from './directives/collapsed-template.directive';
 import { ExpandedTemplateDirective } from './directives/expanded-template.directive';
@@ -51,7 +50,6 @@ import { takeUntil, distinctUntilChanged, debounceTime } from 'rxjs/operators';
 })
 export class SidenavComponent implements OnInit, OnDestroy {
   @Input() mode: 'collapsed' | 'expanded' = 'expanded';
-  @Input() direction: 'ltr' | 'rtl' = 'ltr';
 
   @ContentChild(ExpandedTemplateDirective, { read: TemplateRef })
   expandedTemplate;
@@ -61,10 +59,6 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
   groups: Array<NavBarGroupRef> = [];
   private onDestroy$: Subject<boolean> = new Subject<boolean>();
-
-  @HostBinding('class.app-sidenav-rtl') get isRtlDirection(): boolean {
-    return this.direction === 'rtl';
-  }
 
   constructor(
     private store: Store<AppStore>,
