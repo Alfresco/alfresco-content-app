@@ -11,7 +11,6 @@
 @import '../dialogs/node-versions/node-versions.dialog.theme';
 @import '../components/create-menu/create-menu.component.scss';
 @import '../components/layout/layout.theme.scss';
-@import '../components/shared/content-node-share/content-node-share.dialog.scss';
 
 @import './overrides/adf-toolbar.theme';
 @import 'overrides/adf-layout-container.theme';
@@ -76,7 +75,6 @@ $warn: map-get($custom-theme, warn);
   @include aca-current-user-theme($theme);
   @include aca-context-menu-theme($theme);
   @include app-create-menu-theme($theme);
-  @include aca-share-dialog-theme($theme);
 }
 
 //Custom variables - ACA specific styling:
