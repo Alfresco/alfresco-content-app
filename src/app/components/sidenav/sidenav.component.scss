@@ -103,12 +103,10 @@
   }
 }
 
-.app-sidenav-rtl {
-  .action-button .action-button__label {
-    margin-right: 8px !important;
-  }
+[dir='rtl'] .action-button .action-button__label {
+  margin-right: 8px !important;
+}
 
-  .mat-expansion-panel-header {
-    padding: 0 0 0 8px !important;
-  }
+[dir='rtl'] .mat-expansion-panel-header {
+  padding: 0 0 0 8px !important;
 }

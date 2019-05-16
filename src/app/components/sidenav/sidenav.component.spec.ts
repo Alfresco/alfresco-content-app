@@ -74,22 +74,4 @@ describe('SidenavComponent', () => {
       }
     ]);
   }));
-
-  it('should add RTL class when direction is set to `rtl`', () => {
-    component.direction = 'rtl';
-    fixture.detectChanges();
-
-    expect(
-      fixture.debugElement.nativeElement.classList.contains('app-sidenav-rtl')
-    ).toBe(true);
-  });
-
-  it('should not add RTL class when direction is set to `ltr`', () => {
-    component.direction = 'ltr';
-    fixture.detectChanges();
-
-    expect(
-      fixture.debugElement.nativeElement.classList.contains('app-sidenav-rtl')
-    ).toBe(false);
-  });
 });
