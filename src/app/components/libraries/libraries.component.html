@@ -77,7 +77,7 @@
       <adf-pagination acaPagination [target]="documentList"> </adf-pagination>
     </div>
 
-    <div class="sidebar" *ngIf="(infoDrawerOpened$ | async)">
+    <div class="sidebar" *ngIf="infoDrawerOpened$ | async">
       <aca-info-drawer [node]="selection.library"></aca-info-drawer>
     </div>
   </aca-page-layout-content>

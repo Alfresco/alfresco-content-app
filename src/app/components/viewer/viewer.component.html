@@ -8,7 +8,7 @@
     [allowRightSidebar]="showRightSide"
     [showRightSidebar]="showRightSide"
   >
-    <adf-viewer-sidebar *ngIf="(infoDrawerOpened$ | async)">
+    <adf-viewer-sidebar *ngIf="infoDrawerOpened$ | async">
       <aca-info-drawer [node]="selection.file"></aca-info-drawer>
     </adf-viewer-sidebar>
 
