@@ -371,6 +371,14 @@
         "id": {
           "type": "string",
           "description": "Unique identifier"
+        },
+        "includeAll": {
+          "type": "boolean",
+          "description": "Enable to automatically show all properties"
+        },
+        "disabled": {
+          "description": "Toggles disabled state",
+          "type": "boolean"
         }
       },
       "patternProperties": {
@@ -748,6 +756,10 @@
               "id": {
                 "type": "string",
                 "description": "Unique identifier"
+              },
+              "disabled": {
+                "type": "boolean",
+                "description": "Toggle disabled state"
               }
             },
             "patternProperties": {
