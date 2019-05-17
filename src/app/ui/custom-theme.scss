@@ -2,7 +2,6 @@
 @import '~@alfresco/adf-content-services/theming';
 
 @import '../components/sidenav/sidenav.component.theme';
-@import '../components/about/about.component.theme';
 @import '../components/search/search-input/search-input.component.theme';
 @import '../components/settings/settings.component.theme';
 @import '../components/current-user/current-user.component.theme';
@@ -71,7 +70,6 @@ $warn: map-get($custom-theme, warn);
   @include aca-settings-theme($theme);
   @include snackbar-theme($theme);
   @include sidenav-component-theme($theme);
-  @include aca-about-component-theme($theme);
   @include aca-current-user-theme($theme);
   @include aca-context-menu-theme($theme);
   @include app-create-menu-theme($theme);
