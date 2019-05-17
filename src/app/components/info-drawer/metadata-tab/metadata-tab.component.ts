@@ -60,16 +60,9 @@ export class MetadataTabComponent {
     private store: Store<AppStore>
   ) {
     if (this.extensions.contentMetadata) {
-      try {
-        this.appConfig.config[
-          'content-metadata'
-        ] = this.extensions.contentMetadata;
-      } catch (error) {
-        console.error(
-          error,
-          '- could not change content-metadata from app.config'
-        );
-      }
+      this.appConfig.config[
+        'content-metadata'
+      ] = this.extensions.contentMetadata;
     }
     this.displayAspect$ = this.store.select(infoDrawerMetadataAspect);
   }

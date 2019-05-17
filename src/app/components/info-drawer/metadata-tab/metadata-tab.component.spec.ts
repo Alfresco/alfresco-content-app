@@ -27,7 +27,7 @@ import { MetadataTabComponent } from './metadata-tab.component';
 import { Node } from '@alfresco/js-api';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../../../testing/app-testing.module';
-import { setupTestBed } from '@alfresco/adf-core';
+import { AppConfigService, setupTestBed } from '@alfresco/adf-core';
 import { ContentMetadataModule } from '@alfresco/adf-content-services';
 import { Store } from '@ngrx/store';
 import {
@@ -35,28 +35,60 @@ import {
   AppState
 } from '@alfresco/aca-shared/store';
 import { By } from '@angular/platform-browser';
+import { AppExtensionService } from '../../../extensions/extension.service';
 
 describe('MetadataTabComponent', () => {
   let fixture: ComponentFixture<MetadataTabComponent>;
   let component: MetadataTabComponent;
   let store: Store<AppState>;
+  let appConfig: AppConfigService;
+  let extensions: AppExtensionService;
 
   setupTestBed({
     imports: [AppTestingModule, ContentMetadataModule],
     declarations: [MetadataTabComponent]
   });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(MetadataTabComponent);
-    store = TestBed.get(Store);
-    component = fixture.componentInstance;
-  });
-
   afterEach(() => {
     fixture.destroy();
   });
 
+  describe('content-metadata configuration', () => {
+    beforeEach(() => {
+      appConfig = TestBed.get(AppConfigService);
+      extensions = TestBed.get(AppExtensionService);
+    });
+
+    it('should remain unchanged when metadata extension is missing', () => {
+      appConfig.config['content-metadata'] = 'initial config';
+      extensions.contentMetadata = null;
+
+      fixture = TestBed.createComponent(MetadataTabComponent);
+
+      expect(appConfig.config['content-metadata']).toEqual('initial config');
+    });
+
+    it('should be overwritten by the one from extension', () => {
+      appConfig.config['content-metadata'] = 'initial config';
+      extensions.contentMetadata = [{ 'new config': true }];
+
+      fixture = TestBed.createComponent(MetadataTabComponent);
+
+      expect(appConfig.config['content-metadata']).not.toEqual(
+        'initial config'
+      );
+      expect(appConfig.config['content-metadata']).toEqual(
+        extensions.contentMetadata
+      );
+    });
+  });
+
   describe('canUpdateNode()', () => {
+    beforeEach(() => {
+      fixture = TestBed.createComponent(MetadataTabComponent);
+      component = fixture.componentInstance;
+    });
+
     it('should return true if node is not locked and has update permission', () => {
       const node = <Node>{
         isLocked: false,
@@ -102,6 +134,12 @@ describe('MetadataTabComponent', () => {
   });
 
   describe('displayAspect', () => {
+    beforeEach(() => {
+      fixture = TestBed.createComponent(MetadataTabComponent);
+      store = TestBed.get(Store);
+      component = fixture.componentInstance;
+    });
+
     it('show pass empty when store is in initial state', () => {
       const initialState = fixture.debugElement.query(
         By.css('adf-content-metadata-card')
