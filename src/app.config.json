@@ -21,7 +21,7 @@
     "copyright": "APP.COPYRIGHT"
   },
   "headerColor": "#2196F3",
-  "languagePicker": false,
+  "languagePicker": true,
   "pagination": {
     "size": 25,
     "supportedPageSizes": [25, 50, 100]
