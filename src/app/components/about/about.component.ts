@@ -34,6 +34,7 @@ import { version, dependencies } from '../../../../package.json';
 @Component({
   selector: 'app-about',
   templateUrl: './about.component.html',
+  styleUrls: ['about.component.scss'],
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-about' }
 })
