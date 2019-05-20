@@ -10,6 +10,7 @@ prettier:
 
 spellcheck:
   dictionaries:
+    - softwareTerms
     - html
     - en-gb
     - en_US
