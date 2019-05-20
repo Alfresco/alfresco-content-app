@@ -6,7 +6,7 @@
         <p>{{ 'APP.ABOUT.VERSION' | translate }} {{ releaseVersion }}</p>
       </article>
 
-      <ng-container *ngIf="(extensions$ | async) as extensions">
+      <ng-container *ngIf="extensions$ | async as extensions">
         <article *ngIf="extensions.length > 0">
           <header>{{ 'APP.ABOUT.PLUGINS.TITLE' | translate }}</header>
           <app-extension-list [data]="extensions"></app-extension-list>

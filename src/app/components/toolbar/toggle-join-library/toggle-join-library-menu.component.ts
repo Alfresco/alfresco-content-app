@@ -44,7 +44,7 @@ import { ToggleJoinLibraryButtonComponent } from './toggle-join-library-button.c
           : ('APP.ACTIONS.JOIN' | translate)
       "
     >
-      <mat-icon *ngIf="(membership.isJoinRequested | async)">cancel</mat-icon>
+      <mat-icon *ngIf="membership.isJoinRequested | async">cancel</mat-icon>
       <mat-icon
         *ngIf="!(membership.isJoinRequested | async)"
         svgIcon="adf:join_library"
