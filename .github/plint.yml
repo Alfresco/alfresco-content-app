@@ -3,6 +3,8 @@ modules:
   - pr.spellcheck
 
 prettier:
+  options:
+    singleQuote: true
   exclude:
     - '*.json'
 
