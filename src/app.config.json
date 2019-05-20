@@ -132,7 +132,20 @@
           "items": [
             {
               "aspect": "exif:exif",
-              "properties": "*"
+              "properties": [
+                "exif:pixelXDimension",
+                "exif:pixelYDimension",
+                "exif:dateTimeOriginal",
+                "exif:exposureTime",
+                "exif:fNumber",
+                "exif:flash",
+                "exif:focalLength",
+                "exif:isoSpeedRatings",
+                "exif:orientation",
+                "exif:manufacturer",
+                "exif:model",
+                "exif:software"
+              ]
             }
           ]
         }
