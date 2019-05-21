@@ -32,8 +32,6 @@ jobs:
       script:
         - npm run test:ci
         - bash <(curl -s https://codecov.io/bash) -X gcov
-    - name: 'Prepare dist cache'
-      script: npm run build.e2e
     - stage: e2e
       name: Test Suite appNavigation
       script: npm run build.e2e && SUITE="--suite authentication,listViews,navigation,application,pagination" npm run e2e:docker
