@@ -71,6 +71,10 @@ $warn: map-get($custom-theme, warn);
   @include aca-current-user-theme($theme);
   @include aca-context-menu-theme($theme);
   @include app-create-menu-theme($theme);
+
+  .mat-toolbar {
+    color: var(--theme-text-color, rgba(0, 0, 0, 0.54));
+  }
 }
 
 //Custom variables - ACA specific styling:
