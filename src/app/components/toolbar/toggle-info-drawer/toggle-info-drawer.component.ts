@@ -36,7 +36,7 @@ import {
   template: `
     <button
       mat-icon-button
-      [color]="(infoDrawerOpened$ | async) ? 'accent' : 'primary'"
+      [color]="(infoDrawerOpened$ | async) ? 'primary' : ''"
       [attr.title]="'APP.ACTIONS.DETAILS' | translate"
       (click)="onClick()"
     >

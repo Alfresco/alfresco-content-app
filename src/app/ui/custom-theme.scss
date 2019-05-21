@@ -11,7 +11,6 @@
 @import '../components/create-menu/create-menu.component.scss';
 @import '../components/layout/layout.theme.scss';
 
-@import './overrides/adf-toolbar.theme';
 @import 'overrides/adf-layout-container.theme';
 @import './overrides/adf-document-list.theme';
 
@@ -60,7 +59,6 @@ $foreground: map-get($custom-theme, foreground);
 $warn: map-get($custom-theme, warn);
 
 @mixin custom-theme($theme) {
-  @include custom-adf-toolbar-theme($theme);
   @include adf-document-list-theme($theme);
 
   @include layout-theme($theme);
@@ -73,6 +71,10 @@ $warn: map-get($custom-theme, warn);
   @include aca-current-user-theme($theme);
   @include aca-context-menu-theme($theme);
   @include app-create-menu-theme($theme);
+
+  .mat-toolbar {
+    color: var(--theme-text-color, rgba(0, 0, 0, 0.54));
+  }
 }
 
 //Custom variables - ACA specific styling:
