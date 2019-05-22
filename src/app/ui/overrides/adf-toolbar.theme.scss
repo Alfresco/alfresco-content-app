@@ -1,5 +1,0 @@
-@mixin custom-adf-toolbar-theme($theme) {
-  .adf-toolbar {
-    @include mat-button-theme($theme);
-  }
-}

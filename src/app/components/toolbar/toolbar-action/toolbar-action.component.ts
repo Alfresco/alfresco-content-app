@@ -45,7 +45,7 @@ export class ToolbarActionComponent implements DoCheck {
   type = 'icon-button';
 
   @Input()
-  color = 'primary';
+  color = '';
 
   @Input()
   actionRef: ContentActionRef;
