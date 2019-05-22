@@ -3,11 +3,14 @@ modules:
   - pr.spellcheck
 
 prettier:
+  options:
+    singleQuote: true
   exclude:
     - '*.json'
 
 spellcheck:
   dictionaries:
+    - softwareTerms
     - html
     - en-gb
     - en_US

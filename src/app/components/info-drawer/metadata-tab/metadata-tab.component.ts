@@ -23,15 +23,23 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  Input,
+  ViewEncapsulation,
+  OnInit,
+  OnDestroy
+} from '@angular/core';
 import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 import { NodePermissionService } from '@alfresco/aca-shared';
 import { AppStore, infoDrawerMetadataAspect } from '@alfresco/aca-shared/store';
 import { AppExtensionService } from '../../../extensions/extension.service';
-import { AppConfigService } from '@alfresco/adf-core';
+import { AppConfigService, NotificationService } from '@alfresco/adf-core';
 import { isLocked } from '../../../utils/node.utils';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
+import { ContentMetadataService } from '@alfresco/adf-content-services';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-metadata-tab',
@@ -47,7 +55,9 @@ import { Store } from '@ngrx/store';
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-metadata-tab' }
 })
-export class MetadataTabComponent {
+export class MetadataTabComponent implements OnInit, OnDestroy {
+  protected onDestroy$ = new Subject<boolean>();
+
   @Input()
   node: MinimalNodeEntryEntity;
 
@@ -57,7 +67,9 @@ export class MetadataTabComponent {
     private permission: NodePermissionService,
     protected extensions: AppExtensionService,
     private appConfig: AppConfigService,
-    private store: Store<AppStore>
+    private store: Store<AppStore>,
+    private notificationService: NotificationService,
+    private contentMetadataService: ContentMetadataService
   ) {
     if (this.extensions.contentMetadata) {
       this.appConfig.config[
@@ -73,5 +85,18 @@ export class MetadataTabComponent {
     }
 
     return false;
+  }
+
+  ngOnInit() {
+    this.contentMetadataService.error
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((err: { message: string }) => {
+        this.notificationService.showError(err.message);
+      });
+  }
+
+  ngOnDestroy() {
+    this.onDestroy$.next(true);
+    this.onDestroy$.complete();
   }
 }
