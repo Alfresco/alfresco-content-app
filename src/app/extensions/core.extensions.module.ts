@@ -163,7 +163,8 @@ export class CoreExtensionsModule {
       'app.navigation.isFavoritesPreview': rules.isFavoritesPreview,
       'app.navigation.isSharedFileViewer': rules.isSharedFileViewer,
 
-      'repository.isQuickShareEnabled': rules.hasQuickShareEnabled
+      'repository.isQuickShareEnabled': rules.hasQuickShareEnabled,
+      'user.isAdmin': rules.isAdmin
     });
   }
 }
