@@ -23,7 +23,28 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './app.rules';
-export * from './navigation.rules';
-export * from './repository.rules';
-export * from './user.rules';
+import * as user from './user.rules';
+
+describe('evaluators', () => {
+  describe('isAdmin', () => {
+    it('should return [true] if user is admin', () => {
+      const context: any = {
+        profile: {
+          isAdmin: true
+        }
+      };
+
+      expect(user.isAdmin(context)).toBe(true);
+    });
+
+    it('should return [false] if user is not an admin', () => {
+      const context: any = {
+        profile: {
+          isAdmin: false
+        }
+      };
+
+      expect(user.isAdmin(context)).toBe(false);
+    });
+  });
+});
