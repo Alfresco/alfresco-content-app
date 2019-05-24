@@ -23,7 +23,12 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './app.rules';
-export * from './navigation.rules';
-export * from './repository.rules';
-export * from './user.rules';
+import { RuleContext } from '@alfresco/adf-extensions';
+
+/**
+ * Checks if user is admin.
+ * JSON ref: `user.isAdmin`
+ */
+export function isAdmin(context: RuleContext): boolean {
+  return context.profile.isAdmin;
+}
