@@ -25,7 +25,7 @@
 
 import * as user from './user.rules';
 
-fdescribe('evaluators', () => {
+describe('evaluators', () => {
   describe('isAdmin', () => {
     it('should return [true] if user is admin', () => {
       const context: any = {
