@@ -35,6 +35,7 @@ export class PeopleApi extends RepoApi {
     }
 
     async createUser(user: PersonModel) {
+        console.log('\n=== creating user: \n', user);
         const person = new Person(user);
         await this.apiAuth();
         return await this.peopleApi.createPerson(person);
