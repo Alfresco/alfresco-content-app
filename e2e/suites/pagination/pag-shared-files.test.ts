@@ -26,9 +26,11 @@
 import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
+import { browser } from 'protractor';
 
 describe('Pagination on multiple pages on Shared Files', () => {
-  const username = `user-${Utils.random()}`;
+  // const username = `user-${Utils.random()}`;
+  const username = browser.params.user1;
 
   const parent = `parent-${Utils.random()}`; let parentId;
   const files = Array(101)
@@ -46,7 +48,7 @@ describe('Pagination on multiple pages on Shared Files', () => {
   const { dataTable, pagination } = page;
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    // await apis.admin.people.createUser({ username });
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
     filesIds = (await apis.user.nodes.createFiles(files, parent)).list.entries.map(entries => entries.entry.id);
 

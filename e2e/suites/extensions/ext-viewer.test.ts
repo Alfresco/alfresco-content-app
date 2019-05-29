@@ -28,9 +28,11 @@ import { Viewer } from './../../components/components';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { EXTENSIBILITY_CONFIGS, FILES } from '../../configs';
 import { Utils } from '../../utilities/utils';
+import { browser } from 'protractor';
 
 describe('Extensions - Viewer', () => {
-    const username = `user-${Utils.random()}`;
+    // const username = `user-${Utils.random()}`;
+    const username = browser.params.user1;
 
     const pdfFile = {
         file_name: FILES.pdfFile,
@@ -78,7 +80,7 @@ describe('Extensions - Viewer', () => {
     const { toolbar } = viewer;
 
     beforeAll(async (done) => {
-        await apis.admin.people.createUser({ username });
+        // await apis.admin.people.createUser({ username });
         pdfFileId = (await apis.user.upload.uploadFile(pdfFile.file_name)).entry.id;
         docxFileId = (await apis.user.upload.uploadFile(docxFile.file_name)).entry.id;
 

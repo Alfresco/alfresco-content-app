@@ -27,9 +27,11 @@ import { LoginPage, SearchResultsPage } from '../../pages/pages';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 import * as moment from 'moment';
+import { browser } from 'protractor';
 
 describe('Search results - files and folders', () => {
-  const username = `user-${Utils.random()}`;
+  // const username = `user-${Utils.random()}`;
+  const username = browser.params.user1;
 
   const file = `test-file-${Utils.random()}.txt`;
   let fileId;
@@ -58,7 +60,7 @@ describe('Search results - files and folders', () => {
   const { dataTable, breadcrumb } = page;
 
   beforeAll(async done => {
-    await apis.admin.people.createUser({ username });
+    // await apis.admin.people.createUser({ username });
 
     fileId = (await apis.user.nodes.createFile(
       file,

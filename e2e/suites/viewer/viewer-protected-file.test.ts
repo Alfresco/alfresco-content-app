@@ -29,9 +29,11 @@ import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 import { Viewer } from '../../components/viewer/viewer';
 import { PasswordDialog } from './../../components/dialog/password-dialog';
+import { browser } from 'protractor';
 
 describe('Viewer - password protected file', () => {
-  const username = `user-${Utils.random()}`;
+  // const username = `user-${Utils.random()}`;
+  const username = browser.params.user1;
 
   const parent = `parent-${Utils.random()}`; let parentId;
 
@@ -49,7 +51,7 @@ describe('Viewer - password protected file', () => {
   const passwordDialog = new PasswordDialog();
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    // await apis.admin.people.createUser({ username });
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
     await apis.user.upload.uploadFile(protectedFile.name, parentId);
 

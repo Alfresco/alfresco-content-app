@@ -31,7 +31,8 @@ import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 
 describe('Breadcrumb', () => {
-  const username = `user-${Utils.random()}`;
+  // const username = `user-${Utils.random()}`;
+  const username = browser.params.user1;
 
   const parent = `parent-${Utils.random()}`; let parentId;
   const subFolder1 = `subFolder1-${Utils.random()}`; let subFolder1Id;
@@ -54,7 +55,7 @@ describe('Breadcrumb', () => {
   };
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    // await apis.admin.people.createUser({ username });
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
     subFolder1Id = (await apis.user.nodes.createFolder(subFolder1, parentId)).entry.id;
     subFolder2Id = (await apis.user.nodes.createFolder(subFolder2, subFolder1Id)).entry.id;
@@ -186,12 +187,13 @@ describe('Breadcrumb', () => {
   });
 
   describe('as admin', () => {
-    const user2 = `user2-${Utils.random()}`;
+    // const user2 = `user2-${Utils.random()}`;
+    const user2 = browser.params.user2;
     const userFolder = `userFolder-${Utils.random()}`; let userFolderId;
     const user2Api = new RepoClient(user2, user2);
 
     beforeAll(async (done) => {
-      await apis.admin.people.createUser({ username: user2 });
+      // await apis.admin.people.createUser({ username: user2 });
       userFolderId = (await user2Api.nodes.createFolder(userFolder)).entry.id;
       await loginPage.loginWithAdmin();
       done();

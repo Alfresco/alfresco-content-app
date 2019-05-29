@@ -28,9 +28,11 @@ import { FILES } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 import { UploadNewVersionDialog } from '../../components/dialog/upload-new-version-dialog';
+import { browser } from 'protractor';
 
 describe('Upload new version', () => {
-  const username = `user-${Utils.random()}`;
+  // const username = `user-${Utils.random()}`;
+  const username = browser.params.user1;
 
   const file1 = `file1-${Utils.random()}.docx`; let file1Id;
   const file2 = `file2-${Utils.random()}.docx`; let file2Id;
@@ -71,7 +73,7 @@ describe('Upload new version', () => {
   const { searchInput } = page.header;
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    // await apis.admin.people.createUser({ username });
 
     parentPFId = (await apis.user.nodes.createFolder(parentPF)).entry.id;
     parentSFId = (await apis.user.nodes.createFolder(parentSF)).entry.id;

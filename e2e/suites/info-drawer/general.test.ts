@@ -27,9 +27,11 @@ import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { InfoDrawer } from './../../components/info-drawer/info-drawer';
 import { Utils } from '../../utilities/utils';
+import { browser } from 'protractor';
 
 describe('General', () => {
-  const username = `user1-${Utils.random()}`;
+  // const username = `user1-${Utils.random()}`;
+  const username = browser.params.user1;
 
   const parent = `parent-${Utils.random()}`; let parentId;
 
@@ -48,7 +50,7 @@ describe('General', () => {
   const { dataTable } = page;
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    // await apis.admin.people.createUser({ username });
 
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
     await apis.user.nodes.createFile(file1, parentId);

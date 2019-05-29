@@ -27,9 +27,11 @@ import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { SITE_VISIBILITY } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
+import { browser } from 'protractor';
 
 describe('Mark items as favorites', () => {
-  const username = `user-${Utils.random()}`;
+  // const username = `user-${Utils.random()}`;
+  const username = browser.params.user1;
 
   const parent = `parent-${Utils.random()}`;
 
@@ -71,7 +73,7 @@ describe('Mark items as favorites', () => {
   const { searchInput } = page.header;
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    // await apis.admin.people.createUser({ username });
 
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
 

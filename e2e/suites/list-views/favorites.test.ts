@@ -27,9 +27,11 @@ import { SITE_VISIBILITY, SITE_ROLES } from '../../configs';
 import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
+import { browser } from 'protractor';
 
 describe('Favorites', () => {
-  const username = `user-${Utils.random()}`;
+  // const username = `user-${Utils.random()}`;
+  const username = browser.params.user1;
 
   const siteName = `site-${Utils.random()}`;
   const favFolderName = `favFolder-${Utils.random()}`;
@@ -49,7 +51,7 @@ describe('Favorites', () => {
   const { dataTable, breadcrumb } = page;
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    // await apis.admin.people.createUser({ username });
 
     await apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
     const docLibId = await apis.admin.sites.getDocLibId(siteName);

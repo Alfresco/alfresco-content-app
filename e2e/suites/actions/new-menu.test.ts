@@ -22,14 +22,17 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
+// require('../../setup');
 
 import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { SITE_ROLES } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
+import { browser } from 'protractor';
 
 describe('New menu', () => {
-  const username = `user-${Utils.random()}`;
+  // const username = `user-${Utils.random()}`;
+  const username = browser.params.user1;
 
   const siteUser = `site-user-${Utils.random()}`;
   const siteAdmin = `site-admin-${Utils.random()}`;
@@ -45,7 +48,7 @@ describe('New menu', () => {
 
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    // await apis.admin.people.createUser({ username });
     await apis.admin.sites.createSite(siteAdmin);
     await apis.admin.sites.addSiteMember(siteAdmin, username, SITE_ROLES.SITE_CONSUMER.ROLE);
 

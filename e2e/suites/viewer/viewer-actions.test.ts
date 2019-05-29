@@ -32,9 +32,11 @@ import { CopyMoveDialog } from './../../components/dialog/copy-move-dialog';
 import { ShareDialog } from './../../components/dialog/share-dialog';
 import { ManageVersionsDialog } from './../../components/dialog/manage-versions-dialog';
 import { UploadNewVersionDialog } from './../../components/dialog/upload-new-version-dialog';
+import { browser } from 'protractor';
 
 describe('Viewer actions', () => {
-  const username = `user-${Utils.random()}`;
+  // const username = `user-${Utils.random()}`;
+  const username = browser.params.user1;
 
   const docxFile = FILES.docxFile;
   const docxFile2 = FILES.docxFile2;
@@ -56,10 +58,10 @@ describe('Viewer actions', () => {
   const manageVersionsDialog = new ManageVersionsDialog();
   const uploadNewVersionDialog = new UploadNewVersionDialog();
 
-  beforeAll(async done => {
-    await apis.admin.people.createUser({ username });
-    done();
-  });
+  // beforeAll(async done => {
+    // await apis.admin.people.createUser({ username });
+  //   done();
+  // });
 
   describe('from Personal Files', () => {
     const parent = `parentPF-${Utils.random()}`; let parentId;

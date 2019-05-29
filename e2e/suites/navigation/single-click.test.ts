@@ -27,9 +27,11 @@ import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { Viewer } from '../../components/viewer/viewer';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
+import { browser } from 'protractor';
 
 describe('Single click on item name', () => {
-  const username = `user-${Utils.random()}`;
+  // const username = `user-${Utils.random()}`;
+  const username = browser.params.user1;
 
   const file1 = `file1-${Utils.random()}.txt`; let file1Id;
   const folder1 = `folder1-${Utils.random()}`; let folder1Id;
@@ -52,7 +54,7 @@ describe('Single click on item name', () => {
   const { searchInput } = page.header;
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    // await apis.admin.people.createUser({ username });
     file1Id = (await apis.user.nodes.createFile(file1)).entry.id;
     folder1Id = (await apis.user.nodes.createFolder(folder1)).entry.id;
 

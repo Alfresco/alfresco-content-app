@@ -27,9 +27,11 @@ import { LoginPage, BrowsingPage, SearchResultsPage } from '../../pages/pages';
 import { SITE_VISIBILITY } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
+import { browser } from 'protractor';
 
 describe('Context menu actions - single selection : ', () => {
-  const username = `user-${Utils.random()}`;
+  // const username = `user-${Utils.random()}`;
+  const username = browser.params.user1;
 
   const fileUser = `fileUser-${Utils.random()}.txt`; let fileUserId;
   const folderUser = `folderUser-${Utils.random()}`; let folderUserId;
@@ -58,7 +60,7 @@ describe('Context menu actions - single selection : ', () => {
   const { searchInput } = searchResultsPage.header;
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    // await apis.admin.people.createUser({ username });
 
     fileUserId = (await apis.user.nodes.createFile(fileUser)).entry.id;
     folderUserId = (await apis.user.nodes.createFolder(folderUser)).entry.id;

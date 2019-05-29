@@ -24,17 +24,19 @@
  */
 
 import { LoginPage, BrowsingPage } from '../../pages/pages';
-import { Utils } from '../../utilities/utils';
-import { RepoClient } from '../../utilities/repo-client/repo-client';
+// import { Utils } from '../../utilities/utils';
+import { browser } from 'protractor';
+// import { RepoClient } from '../../utilities/repo-client/repo-client';
 
 describe('Empty list views', () => {
-  const username = `user-${Utils.random()}`;
-  const password = username;
+  // const username = `user-${Utils.random()}`;
+  const username = browser.params.user1;
+  // const password = username;
 
-  const apis = {
-    admin: new RepoClient(),
-    user: new RepoClient(username, password)
-  };
+  // const apis = {
+  //   admin: new RepoClient(),
+  //   user: new RepoClient(username, password)
+  // };
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -42,7 +44,7 @@ describe('Empty list views', () => {
   const { searchInput } = page.header;
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    // await apis.admin.people.createUser({ username });
     await loginPage.loginWith(username);
     done();
   });

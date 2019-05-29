@@ -32,7 +32,9 @@ import { Viewer } from '../../components/viewer/viewer';
 import { Utils } from '../../utilities/utils';
 
 describe('Share a file', () => {
-  const username = `user-${Utils.random()}`;
+  // const username = `user-${Utils.random()}`;
+  const username = browser.params.user1;
+
   const parent = `parent-${Utils.random()}`; let parentId;
 
   const file1 = `file1-${Utils.random()}.txt`; let file1Id;
@@ -56,7 +58,7 @@ describe('Share a file', () => {
   };
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    // await apis.admin.people.createUser({ username });
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
     done();
   });

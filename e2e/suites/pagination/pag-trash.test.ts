@@ -26,9 +26,12 @@
 import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
+import { browser } from 'protractor';
 
 describe('Pagination on multiple pages on Trash', () => {
-  const username = `user-${Utils.random()}`;
+  // const username = `user-${Utils.random()}`;
+  const username = browser.params.user1;
+
   const filesForDelete = Array(101)
     .fill('file')
     .map((name, index): string => `${name}-${index + 1}.txt`);
@@ -44,7 +47,7 @@ describe('Pagination on multiple pages on Trash', () => {
   const { dataTable, pagination } = page;
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    // await apis.admin.people.createUser({ username });
     filesDeletedIds = (await apis.user.nodes.createFiles(filesForDelete)).list.entries.map(entries => entries.entry.id);
     await apis.user.nodes.deleteNodesById(filesDeletedIds, false);
     await apis.user.trashcan.waitForApi({expect: 101});

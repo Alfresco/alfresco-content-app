@@ -26,9 +26,11 @@
 import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
+import { browser } from 'protractor';
 
 describe('Delete and undo delete', () => {
-  const username = `user-${Utils.random()}`;
+  // const username = `user-${Utils.random()}`;
+  const username = browser.params.user1;
 
   const apis = {
     admin: new RepoClient(),
@@ -39,10 +41,10 @@ describe('Delete and undo delete', () => {
   const page = new BrowsingPage();
   const { dataTable, toolbar } = page;
 
-  beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
-    done();
-  });
+  // beforeAll(async (done) => {
+    // await apis.admin.people.createUser({ username });
+  //   done();
+  // });
 
   afterAll(async (done) => {
     await apis.user.trashcan.emptyTrash();

@@ -27,9 +27,11 @@ import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { CopyMoveDialog } from './../../components/dialog/copy-move-dialog';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
+import { browser } from 'protractor';
 
 describe('Copy content', () => {
-  const username = `user-${Utils.random()}`;
+  // const username = `user-${Utils.random()}`;
+  const username = browser.params.user1;
 
   const source = `source-${Utils.random()}`; let sourceId;
   const destinationPF = `destinationPersonal-${Utils.random()}`; let destinationIdPF;
@@ -90,7 +92,7 @@ describe('Copy content', () => {
   const { searchInput } = page.header;
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    // await apis.admin.people.createUser({ username });
 
     sourceId = (await apis.user.nodes.createFolder(source)).entry.id;
     destinationIdPF = (await apis.user.nodes.createFolder(destinationPF)).entry.id;

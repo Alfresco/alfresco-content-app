@@ -27,9 +27,11 @@ import { SITE_VISIBILITY } from '../../configs';
 import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
+import { browser } from 'protractor';
 
 describe('Recent Files', () => {
-  const username = `user-${Utils.random()}`;
+  // const username = `user-${Utils.random()}`;
+  const username = browser.params.user1;
 
   const folderName = `folder-${Utils.random()}`; let folderId;
   const fileName1 = `file-${Utils.random()}.txt`;
@@ -50,7 +52,7 @@ describe('Recent Files', () => {
   const { dataTable, breadcrumb } = page;
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    // await apis.admin.people.createUser({ username });
     folderId = (await apis.user.nodes.createFolders([ folderName ])).entry.id;
     await apis.user.nodes.createFiles([ fileName1 ], folderName);
     file2Id = (await apis.user.nodes.createFiles([ fileName2 ])).entry.id;

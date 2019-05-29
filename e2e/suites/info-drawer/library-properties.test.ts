@@ -28,9 +28,12 @@ import { SITE_VISIBILITY, SITE_ROLES } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { InfoDrawer } from './../../components/info-drawer/info-drawer';
 import { Utils } from '../../utilities/utils';
+import { browser } from 'protractor';
 
 describe('Library properties', () => {
-  const username = `user1-${Utils.random()}`;
+  // const username = `user1-${Utils.random()}`;
+  const username = browser.params.user1;
+
   const user2 = `user2-${Utils.random()}`;
   const user3 = `user3-${Utils.random()}`;
 
@@ -69,7 +72,7 @@ describe('Library properties', () => {
   const { dataTable } = page;
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    // await apis.admin.people.createUser({ username });
     await apis.admin.people.createUser({ username: user2 });
     await apis.admin.people.createUser({ username: user3 });
     await apis.user.sites.createSite(site.name, site.visibility, site.description, site.id);

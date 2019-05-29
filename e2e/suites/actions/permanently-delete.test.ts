@@ -27,9 +27,11 @@ import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { ConfirmDialog } from './../../components/components';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
+import { browser } from 'protractor';
 
 describe('Permanently delete from Trash', () => {
-    const username = `user-${Utils.random()}`;
+    // const username = `user-${Utils.random()}`;
+    const username = browser.params.user1;
 
     const file1 = `file1-${Utils.random()}.txt`;
     const file2 = `file2-${Utils.random()}.txt`;
@@ -54,7 +56,7 @@ describe('Permanently delete from Trash', () => {
     const confirmDialog = new ConfirmDialog();
 
     beforeAll(async (done) => {
-        await apis.admin.people.createUser({ username });
+        // await apis.admin.people.createUser({ username });
         filesIds = (await apis.user.nodes.createFiles([ file1, file2, file3 ])).list.entries.map(entries => entries.entry.id);
         foldersIds = (await apis.user.nodes.createFolders([ folder1, folder2 ])).list.entries.map(entries => entries.entry.id);
         await apis.user.sites.createSite(site);

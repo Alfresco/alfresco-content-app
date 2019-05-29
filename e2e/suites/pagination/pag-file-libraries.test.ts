@@ -27,9 +27,11 @@ import { SITE_VISIBILITY } from '../../configs';
 import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
+import { browser } from 'protractor';
 
 describe('Pagination on multiple pages', () => {
-  const username = `user-${Utils.random()}`;
+  // const username = `user-${Utils.random()}`;
+  const username = browser.params.user1;
 
   const apis = {
       admin: new RepoClient(),
@@ -44,7 +46,7 @@ describe('Pagination on multiple pages', () => {
     .map((name, index): string => `${name}-${index + 1}-${Utils.random()}`);
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    // await apis.admin.people.createUser({ username });
     await apis.user.sites.createSites(sites, SITE_VISIBILITY.PRIVATE);
     await apis.user.sites.waitForApi({ expect: 101 });
     await loginPage.loginWith(username);

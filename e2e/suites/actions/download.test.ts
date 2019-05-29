@@ -26,9 +26,11 @@
 import { LoginPage, BrowsingPage, SearchResultsPage } from '../../pages/pages';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
+import { browser } from 'protractor';
 
 describe('Download', () => {
-  const username = `user-${Utils.random()}`;
+  // const username = `user-${Utils.random()}`;
+  const username = browser.params.user1;
 
   const parent = `parent-${Utils.random()}`; let parentId;
 
@@ -70,7 +72,7 @@ describe('Download', () => {
   const { searchInput } = searchResultsPage.header;
 
   beforeAll(async done => {
-    await apis.admin.people.createUser({ username });
+    // await apis.admin.people.createUser({ username });
 
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
 

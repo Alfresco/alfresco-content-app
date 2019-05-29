@@ -33,7 +33,8 @@ import { Viewer } from '../../components/viewer/viewer';
 import { Utils } from '../../utilities/utils';
 
 describe('Unshare a file from Search Results', () => {
-  const username = `user-${Utils.random()}`;
+  // const username = `user-${Utils.random()}`;
+  const username = browser.params.user1;
 
   const parent = `parent-${Utils.random()}`; let parentId;
 
@@ -62,7 +63,7 @@ describe('Unshare a file from Search Results', () => {
   const { searchInput } = page.header;
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    // await apis.admin.people.createUser({ username });
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
 
     file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;

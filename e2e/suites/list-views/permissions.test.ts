@@ -27,9 +27,11 @@ import { SITE_VISIBILITY, SITE_ROLES } from '../../configs';
 import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
+import { browser } from 'protractor';
 
 describe('Special permissions', () => {
-  const username = `user-${Utils.random()}`;
+  // const username = `user-${Utils.random()}`;
+  const username = browser.params.user1;
   const password = username;
 
   const apis = {
@@ -42,10 +44,10 @@ describe('Special permissions', () => {
   const { dataTable } = page;
   const { searchInput } = page.header;
 
-  beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
-    done();
-  });
+  // beforeAll(async (done) => {
+  //   await apis.admin.people.createUser({ username });
+  //   done();
+  // });
 
   describe('file not displayed if user no longer has permissions on it', () => {
     const sitePrivate = `private-${Utils.random()}`;

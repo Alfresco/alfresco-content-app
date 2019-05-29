@@ -29,11 +29,20 @@ function rmDir(dirPath) {
   fs.rmdirSync(dirPath);
 }
 
+function random() {
+  return Math.random()
+    .toString(36)
+    .substring(5, 10)
+    .toLowerCase();
+}
+
 exports.config = {
   allScriptsTimeout: 50000,
 
   params: {
-    downloadFolder: downloadFolder
+    downloadFolder: downloadFolder,
+    user1: `user-${random()}`,
+    user2: `user-${random()}`
   },
 
   specs: [
@@ -178,5 +187,7 @@ exports.config = {
       .catch(err => {
         console.log(err);
       });
+
+    require('./e2e/setup');
   }
 };

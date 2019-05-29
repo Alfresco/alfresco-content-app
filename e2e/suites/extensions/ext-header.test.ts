@@ -24,14 +24,16 @@
  */
 
 import { LoginPage } from '../../pages/pages';
-import { RepoClient } from '../../utilities/repo-client/repo-client';
+// import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { EXTENSIBILITY_CONFIGS } from '../../configs';
 import { Utils } from '../../utilities/utils';
 import { Header } from '../../components/components';
 import { Menu } from './../../components/menu/menu';
+import { browser } from 'protractor';
 
 describe('Extensions - Info Drawer', () => {
-    const username = `user-${Utils.random()}`;
+    // const username = `user-${Utils.random()}`;
+    const username = browser.params.user1;
 
     const disabledMenu = {
       id: 'settings',
@@ -47,10 +49,10 @@ describe('Extensions - Info Drawer', () => {
       icon: 'alarm_on'
     };
 
-    const apis = {
-        admin: new RepoClient(),
-        user: new RepoClient(username, username)
-    };
+    // const apis = {
+    //     admin: new RepoClient(),
+    //     user: new RepoClient(username, username)
+    // };
 
     const header = new Header();
     const toolbarMenu = new Menu();
@@ -58,7 +60,7 @@ describe('Extensions - Info Drawer', () => {
     const loginPage = new LoginPage();
 
     beforeAll(async (done) => {
-      await apis.admin.people.createUser({ username });
+      // await apis.admin.people.createUser({ username });
       await loginPage.load();
       await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.HEADER);
       await loginPage.loginWith(username);

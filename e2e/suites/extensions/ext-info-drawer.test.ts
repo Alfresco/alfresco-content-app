@@ -28,9 +28,11 @@ import { InfoDrawer } from './../../components/info-drawer/info-drawer';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { EXTENSIBILITY_CONFIGS } from '../../configs';
 import { Utils } from '../../utilities/utils';
+import { browser } from 'protractor';
 
 describe('Extensions - Info Drawer', () => {
-    const username = `user-${Utils.random()}`;
+    // const username = `user-${Utils.random()}`;
+    const username = browser.params.user1;
 
     const file = `file-${Utils.random()}.txt`;
     let fileId;
@@ -68,7 +70,7 @@ describe('Extensions - Info Drawer', () => {
     const page = new BrowsingPage();
 
     beforeAll(async (done) => {
-        await apis.admin.people.createUser({ username });
+        // await apis.admin.people.createUser({ username });
         fileId = (await apis.user.nodes.createFile(file)).entry.id;
         done();
     });

@@ -28,9 +28,11 @@ import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { CreateOrEditFolderDialog } from '../../components/dialog/create-edit-folder-dialog';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
+import { browser } from 'protractor';
 
 describe('Create folder', () => {
-  const username = `user-${Utils.random()}`;
+  // const username = `user-${Utils.random()}`;
+  const username = browser.params.user1;
 
   const parent = `parent-${Utils.random()}`; let parentId;
   const folderName1 = `folder-${Utils.random()}`;
@@ -57,7 +59,7 @@ describe('Create folder', () => {
   const { dataTable } = page;
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    // await apis.admin.people.createUser({ username });
 
     await apis.admin.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
     const docLibId = await apis.admin.sites.getDocLibId(sitePrivate);

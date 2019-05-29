@@ -30,7 +30,8 @@ import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 
 describe('Restore from Trash', () => {
-  const username = `user-${Utils.random()}`;
+  // const username = `user-${Utils.random()}`;
+  const username = browser.params.user1;
 
   const apis = {
     admin: new RepoClient(),
@@ -42,7 +43,7 @@ describe('Restore from Trash', () => {
   const { dataTable, toolbar } = page;
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    // await apis.admin.people.createUser({ username });
     await loginPage.loginWith(username);
     done();
   });

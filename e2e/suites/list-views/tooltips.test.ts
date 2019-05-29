@@ -26,9 +26,11 @@
 import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
+import { browser } from 'protractor';
 
 describe('File / folder tooltips', () => {
-  const username = `user-${Utils.random()}`;
+  // const username = `user-${Utils.random()}`;
+  const username = browser.params.user1;
 
   const apis = {
     admin: new RepoClient(),
@@ -55,7 +57,7 @@ describe('File / folder tooltips', () => {
   const { dataTable } = page;
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    // await apis.admin.people.createUser({ username });
     parentId = (await apis.user.nodes.createFolder( parent )).entry.id;
 
     file1Id = (await apis.user.nodes.createFile(file, parentId)).entry.id;

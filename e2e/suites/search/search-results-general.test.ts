@@ -29,7 +29,8 @@ import { Utils } from '../../utilities/utils';
 import { browser } from 'protractor';
 
 describe('Search results general', () => {
-  const username = `user-${Utils.random()}`;
+  // const username = `user-${Utils.random()}`;
+  const username = browser.params.user1;
 
   const file = `test-file-${Utils.random()}.txt`; let fileId;
   const folder = `test-folder-${Utils.random()}`; let folderId;
@@ -46,7 +47,7 @@ describe('Search results general', () => {
   const dataTable = page.dataTable;
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    // await apis.admin.people.createUser({ username });
 
     fileId = (await apis.user.nodes.createFile(file)).entry.id;
     folderId = (await apis.user.nodes.createFolder(folder)).entry.id;

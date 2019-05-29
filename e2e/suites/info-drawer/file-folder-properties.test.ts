@@ -29,9 +29,11 @@ import { InfoDrawer } from './../../components/info-drawer/info-drawer';
 import { Utils } from '../../utilities/utils';
 import { FILES } from '../../configs';
 import * as moment from 'moment';
+import { browser } from 'protractor';
 
 describe('File / Folder properties', () => {
-  const username = `user1-${Utils.random()}`;
+  // const username = `user1-${Utils.random()}`;
+  const username = browser.params.user1;
 
   const parent = `parent-${Utils.random()}`; let parentId;
 
@@ -72,7 +74,7 @@ describe('File / Folder properties', () => {
   const { dataTable } = page;
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    // await apis.admin.people.createUser({ username });
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
     file1Id = (await apis.user.nodes.createFile(file1.name, parentId, file1.title, file1.description, file1.author)).entry.id;
     folder1Id = (await apis.user.nodes.createFolder(folder1.name, parentId, folder1.title, folder1.description, folder1.author)).entry.id;

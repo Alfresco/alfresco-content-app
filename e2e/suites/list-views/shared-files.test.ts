@@ -27,9 +27,11 @@ import { SITE_VISIBILITY, SITE_ROLES } from '../../configs';
 import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
+import { browser } from 'protractor';
 
 describe('Shared Files', () => {
-  const username = `user-${Utils.random()}`;
+  // const username = `user-${Utils.random()}`;
+  const username = browser.params.user1;
   const password = username;
 
   const siteName = `site-${Utils.random()}`;
@@ -51,7 +53,7 @@ describe('Shared Files', () => {
   const { dataTable, breadcrumb } = page;
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    // await apis.admin.people.createUser({ username });
     await apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
     await apis.admin.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_CONSUMER.ROLE);
     const docLibId = await apis.admin.sites.getDocLibId(siteName);

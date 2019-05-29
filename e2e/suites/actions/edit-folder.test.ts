@@ -28,9 +28,11 @@ import { SITE_VISIBILITY, SITE_ROLES } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { CreateOrEditFolderDialog } from '../../components/dialog/create-edit-folder-dialog';
 import { Utils } from '../../utilities/utils';
+import { browser } from 'protractor';
 
 describe('Edit folder', () => {
-  const username = `user-${Utils.random()}`;
+  // const username = `user-${Utils.random()}`;
+  const username = browser.params.user1;
 
   const parent = `parent-${Utils.random()}`; let parentId;
   const folderName = `folder-${Utils.random()}`;
@@ -71,7 +73,7 @@ describe('Edit folder', () => {
   const { searchInput } = page.header;
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    // await apis.admin.people.createUser({ username });
     await apis.admin.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
     const docLibId = await apis.admin.sites.getDocLibId(sitePrivate);
     await apis.admin.nodes.createFolder(folderName, docLibId);

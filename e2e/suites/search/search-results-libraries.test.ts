@@ -27,9 +27,11 @@ import { LoginPage, SearchResultsPage } from '../../pages/pages';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 import { SITE_VISIBILITY, SITE_ROLES } from './../../configs';
+import { browser } from 'protractor';
 
 describe('Search results - libraries', () => {
-  const username = `user-${Utils.random()}`;
+  // const username = `user-${Utils.random()}`;
+  const username = browser.params.user1;
 
   const site1 = {
     name: `lib-1-${Utils.random()}`,
@@ -77,7 +79,7 @@ describe('Search results - libraries', () => {
   const dataTable = page.dataTable;
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    // await apis.admin.people.createUser({ username });
 
     await apis.user.sites.createSite(site1.name, SITE_VISIBILITY.PUBLIC, '', site1.id);
     await apis.user.sites.createSite(site2.name, SITE_VISIBILITY.PUBLIC, '', site2.id);

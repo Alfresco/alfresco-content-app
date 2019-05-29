@@ -28,9 +28,11 @@ import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { ConfirmDialog } from './../../components/components';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
+import { browser } from 'protractor';
 
 describe('Library actions', () => {
-  const username = `user-${Utils.random()}`;
+  // const username = `user-${Utils.random()}`;
+  const username = browser.params.user1;
 
   const sitePublic1Admin = `admin-public1-${Utils.random()}`;
   const sitePublic2Admin = `admin-public2-${Utils.random()}`;
@@ -70,7 +72,7 @@ describe('Library actions', () => {
   const confirmDialog = new ConfirmDialog();
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    // await apis.admin.people.createUser({ username });
 
     await apis.admin.sites.createSite(siteSearchPublic1Admin);
     await apis.admin.sites.createSite(siteSearchPublic2Admin);

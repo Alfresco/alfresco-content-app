@@ -28,9 +28,11 @@ import { FILES, SITE_VISIBILITY } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 import { Viewer } from '../../components/viewer/viewer';
+import { browser } from 'protractor';
 
 describe('Viewer general', () => {
-    const username = `user-${Utils.random()}`;
+    // const username = `user-${Utils.random()}`;
+    const username = browser.params.user1;
 
     const parent = `parent-${Utils.random()}`; let parentId;
 
@@ -54,7 +56,7 @@ describe('Viewer general', () => {
     const { searchInput } = page.header;
 
     beforeAll(async (done) => {
-        await apis.admin.people.createUser({ username });
+        // await apis.admin.people.createUser({ username });
         parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
         xlsxFileId = (await apis.user.upload.uploadFile(xlsxFile, parentId)).entry.id;
 

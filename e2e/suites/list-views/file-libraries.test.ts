@@ -27,9 +27,11 @@ import { SITE_VISIBILITY, SITE_ROLES } from '../../configs';
 import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
+import { browser } from 'protractor';
 
 describe('File Libraries', () => {
-  const username = `user-${Utils.random()}`;
+  // const username = `user-${Utils.random()}`;
+  const username = browser.params.user1;
   const password = username;
 
   const userSitePrivate = `user-private-${Utils.random()}`;
@@ -60,7 +62,7 @@ describe('File Libraries', () => {
   const { dataTable } = page;
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    // await apis.admin.people.createUser({ username });
 
     await apis.user.sites.createSite(userSitePublic, SITE_VISIBILITY.PUBLIC);
     await apis.user.sites.createSite(userSiteModerated, SITE_VISIBILITY.MODERATED, siteDescription);

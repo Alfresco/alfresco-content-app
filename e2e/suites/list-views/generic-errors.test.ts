@@ -29,7 +29,8 @@ import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 
 describe('Generic errors', () => {
-  const username = `user-${Utils.random()}`;
+  // const username = `user-${Utils.random()}`;
+  const username = browser.params.user1;
 
   const username2 = `user2-${Utils.random()}`;
 
@@ -47,7 +48,7 @@ describe('Generic errors', () => {
   const { dataTable } = page;
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    // await apis.admin.people.createUser({ username });
     await apis.admin.people.createUser({ username: username2 });
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
     file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;

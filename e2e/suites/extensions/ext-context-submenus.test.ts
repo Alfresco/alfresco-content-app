@@ -27,9 +27,12 @@ import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { EXTENSIBILITY_CONFIGS } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
+import { browser } from 'protractor';
 
 describe('Extensions - Context submenu', () => {
-  const username = `user-${Utils.random()}`;
+  // const username = `user-${Utils.random()}`;
+  const username = browser.params.user1;
+
   const file = `file-${Utils.random()}.txt`;
   let fileId;
   const folder = `folder-${Utils.random()}`;
@@ -57,7 +60,7 @@ describe('Extensions - Context submenu', () => {
   const contextMenu = dataTable.menu;
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({username});
+    // await apis.admin.people.createUser({username});
     fileId = (await apis.user.nodes.createFile(file)).entry.id;
     folderId = (await apis.user.nodes.createFolder(folder)).entry.id;
 

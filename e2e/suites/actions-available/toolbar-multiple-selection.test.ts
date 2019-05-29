@@ -30,7 +30,8 @@ import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 
 describe('Toolbar actions - multiple selection : ', () => {
-  const username = `user-${Utils.random()}`;
+  // const username = `user-${Utils.random()}`;
+  const username = browser.params.user1;
 
   const parent = `parent-${Utils.random()}`; let parentId;
 
@@ -68,7 +69,7 @@ describe('Toolbar actions - multiple selection : ', () => {
   const { searchInput } = searchResultsPage.header;
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    // await apis.admin.people.createUser({ username });
 
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
 

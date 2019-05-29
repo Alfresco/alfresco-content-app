@@ -27,9 +27,11 @@ import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { FILES } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
+import { browser } from 'protractor';
 
 describe('Edit offline', () => {
-  const username = `user-${Utils.random()}`;
+  // const username = `user-${Utils.random()}`;
+  const username = browser.params.user1;
 
   const file1 = `file1-${Utils.random()}.docx`; let file1Id;
   const fileLocked = `file-locked-${Utils.random()}.docx`; let fileLockedId;
@@ -56,7 +58,7 @@ describe('Edit offline', () => {
   const { searchInput } = page.header;
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    // await apis.admin.people.createUser({ username });
 
     parentPFId = (await apis.user.nodes.createFolder(parentPF)).entry.id;
     parentSFId = (await apis.user.nodes.createFolder(parentSF)).entry.id;

@@ -29,9 +29,11 @@ import { EXTENSIBILITY_CONFIGS } from '../../configs';
 import { Utils } from '../../utilities/utils';
 import { InfoDrawer } from '../../components/info-drawer/info-drawer';
 import { MetadataCard } from '../../components/metadata-card/metadata-card';
+import { browser } from 'protractor';
 
 describe('Extensions - Metadata presets', () => {
-  const username = `user-${Utils.random()}`;
+  // const username = `user-${Utils.random()}`;
+  const username = browser.params.user1;
 
   const file = `file-${Utils.random()}.png`;
 
@@ -69,7 +71,7 @@ describe('Extensions - Metadata presets', () => {
   const page = new BrowsingPage();
 
   beforeAll(async done => {
-    await apis.admin.people.createUser({ username });
+    // await apis.admin.people.createUser({ username });
     fileId = (await apis.user.nodes.createImage(file)).entry.id;
 
     await loginPage.load();

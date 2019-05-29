@@ -28,9 +28,11 @@ import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { CreateLibraryDialog } from '../../components/dialog/create-library-dialog';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
+import { browser } from 'protractor';
 
 describe('Create library', () => {
-  const username = `user-${Utils.random()}`;
+  // const username = `user-${Utils.random()}`;
+  const username = browser.params.user1;
 
   const site1Name = `site1-${Utils.random()}`;
   const site2Name = `site2-${Utils.random()}`;
@@ -63,7 +65,7 @@ describe('Create library', () => {
   const { dataTable } = page;
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    // await apis.admin.people.createUser({ username });
     await apis.user.sites.createSite(duplicateSite.name, SITE_VISIBILITY.PRIVATE, '', duplicateSite.id);
     await apis.user.sites.createSite(siteInTrash.name, SITE_VISIBILITY.PUBLIC, '', siteInTrash.id);
     await apis.user.sites.deleteSite(siteInTrash.id, false);

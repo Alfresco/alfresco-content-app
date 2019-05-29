@@ -27,9 +27,11 @@ import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { CopyMoveDialog } from './../../components/dialog/copy-move-dialog';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
+import { browser } from 'protractor';
 
 describe('Move content', () => {
-  const username = `user-${Utils.random()}`;
+  // const username = `user-${Utils.random()}`;
+  const username = browser.params.user1;
 
   const sourcePF = `sourcePersonal-${Utils.random()}`; let sourceIdPF;
   const destinationPF = `destinationPersonal-${Utils.random()}`; let destinationIdPF;
@@ -60,7 +62,7 @@ describe('Move content', () => {
   const moveDialog = new CopyMoveDialog();
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    // await apis.admin.people.createUser({ username });
 
     await apis.user.sites.createSite(siteName);
     const docLibId = await apis.user.sites.getDocLibId(siteName);

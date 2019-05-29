@@ -26,9 +26,11 @@
 import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
+import { browser } from 'protractor';
 
 describe('Upload files', () => {
-  const username = `user-${Utils.random()}`;
+  // const username = `user-${Utils.random()}`;
+  const username = browser.params.user1;
 
   const folder1 = `folder1-${Utils.random()}`; let folder1Id;
 
@@ -42,7 +44,7 @@ describe('Upload files', () => {
   const { dataTable } = page;
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    // await apis.admin.people.createUser({ username });
     folder1Id = (await apis.user.nodes.createFolder(folder1)).entry.id;
 
     await loginPage.loginWith(username);

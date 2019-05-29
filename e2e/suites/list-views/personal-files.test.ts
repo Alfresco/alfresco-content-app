@@ -31,7 +31,8 @@ import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 
 describe('Personal Files', () => {
-  const username = `user-${Utils.random()}`;
+  // const username = `user-${Utils.random()}`;
+  const username = browser.params.user1;
 
   const apis = {
     admin: new RepoClient(),
@@ -49,7 +50,7 @@ describe('Personal Files', () => {
 
   beforeAll(async (done) => {
     await Promise.all([
-      apis.admin.people.createUser({ username }),
+      // apis.admin.people.createUser({ username }),
       apis.admin.nodes.createFolders([ adminFolder ])
     ]);
     await apis.user.nodes.createFolders([ userFolder ]);
