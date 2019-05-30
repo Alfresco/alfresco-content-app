@@ -68,7 +68,7 @@ describe('Shared Files', () => {
     await apis.user.shared.shareFilesByIds([file1Id, file2Id, file3Id, file4Id]);
 
     await apis.admin.shared.waitForApi({ expect: 5 });
-    await apis.user.nodes.deleteNodeById(file2Id);
+    await apis.user.nodes.deleteNodeById(file2Id, false);
     await apis.user.shared.unshareFile(file3User);
     await apis.admin.shared.waitForApi({ expect: 3 });
 
@@ -84,7 +84,9 @@ describe('Shared Files', () => {
   afterAll(async (done) => {
     await apis.admin.sites.deleteSite(siteName);
     await apis.user.nodes.deleteNodeById(folderId);
+    await apis.user.nodes.deleteNodeById(file3Id);
     await apis.user.nodes.deleteNodeById(file4Id);
+    await apis.user.trashcan.emptyTrash();
     done();
   });
 

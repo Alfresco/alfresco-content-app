@@ -81,7 +81,7 @@ describe('File / folder tooltips', () => {
 
   afterAll(async (done) => {
     await Promise.all([
-      apis.user.nodes.deleteNodes([ parent ]),
+      apis.user.nodes.deleteNodeById(parentId),
       apis.user.trashcan.emptyTrash()
     ]);
     done();
