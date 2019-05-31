@@ -195,43 +195,4 @@ describe('AppLayoutComponent', () => {
 
     expect(component.layout.container.toggleMenu).toHaveBeenCalled();
   });
-
-  it('should set direction `ltr` if no direction declared', () => {
-    appConfig.config.languages = [
-      {
-        key: 'en'
-      }
-    ];
-
-    spyOn(userPreference, 'get').and.callFake(key => {
-      if (key === 'locale') {
-        return 'en';
-      }
-    });
-
-    const spy = spyOn(userPreference, 'set');
-    fixture.detectChanges();
-
-    expect(spy.calls.mostRecent().args).toEqual(['textOrientation', 'ltr']);
-  });
-
-  it('should set direction `rtl` based on locale language direction', () => {
-    appConfig.config.languages = [
-      {
-        key: 'en',
-        direction: 'rtl'
-      }
-    ];
-
-    spyOn(userPreference, 'get').and.callFake(key => {
-      if (key === 'locale') {
-        return 'en';
-      }
-    });
-
-    const spy = spyOn(userPreference, 'set');
-    fixture.detectChanges();
-
-    expect(spy.calls.mostRecent().args).toEqual(['textOrientation', 'rtl']);
-  });
 });
