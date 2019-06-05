@@ -16,6 +16,10 @@ body {
   }
 }
 
+[dir='rtl'] .mat-icon {
+  transform: scale(-1, 1);
+}
+
 // todo: move this to corresponding component theme files
 app-root,
 app-about,
