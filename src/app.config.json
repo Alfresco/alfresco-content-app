@@ -123,6 +123,8 @@
             "cm:auditable",
             "cm:thumbnailModification",
             "cm:content",
+            "cm:author",
+            "cm:titled",
             "qshare:shared",
 
             "exif:exif"
