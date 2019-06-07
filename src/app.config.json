@@ -15,12 +15,12 @@
     "redirectUri": "/",
     "redirectUriLogout": "/logout"
   },
-  "locale": "en",
   "application": {
     "name": "Alfresco Content Application",
     "logo": "assets/images/alfresco-logo-flower.svg",
     "copyright": "APP.COPYRIGHT"
   },
+  "sharedLinkDateTimePickerType": "date",
   "headerColor": "#2196F3",
   "languagePicker": true,
   "pagination": {
