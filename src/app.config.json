@@ -15,7 +15,6 @@
     "redirectUri": "/",
     "redirectUriLogout": "/logout"
   },
-  "locale": "en",
   "application": {
     "name": "Alfresco Content Application",
     "logo": "assets/images/alfresco-logo-flower.svg",
