@@ -157,11 +157,9 @@
           ]
         },
         {
-          "id": "app.content.metadata.effectivityGroup",
           "title": "APP.CONTENT_METADATA.EFFECTIVITY_GROUP_TITLE",
           "items": [
             {
-              "id": "app.content.metadata.effectivityAspect",
               "aspect": "cm:effectivity",
               "properties": [
                 "cm:from",
