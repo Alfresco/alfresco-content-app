@@ -45,7 +45,8 @@ import {
 import {
   ConfirmDialogComponent,
   FolderDialogComponent,
-  LibraryDialogComponent
+  LibraryDialogComponent,
+  ShareDialogComponent
 } from '@alfresco/adf-content-services';
 import { TranslationService } from '@alfresco/adf-core';
 import {
@@ -65,7 +66,6 @@ import { Store } from '@ngrx/store';
 import { forkJoin, Observable, of, Subject, zip } from 'rxjs';
 import { catchError, flatMap, map, mergeMap, take, tap } from 'rxjs/operators';
 import { NodePermissionsDialogComponent } from '../components/permissions/permission-dialog/node-permissions.dialog';
-import { ShareDialogComponent } from '../components/shared/content-node-share/content-node-share.dialog';
 import { NodeVersionUploadDialogComponent } from '../dialogs/node-version-upload/node-version-upload.dialog';
 import { NodeVersionsDialogComponent } from '../dialogs/node-versions/node-versions.dialog';
 import { NodeActionsService } from './node-actions.service';
@@ -208,7 +208,6 @@ export class ContentManagementService {
             width: '600px',
             panelClass: 'adf-share-link-dialog',
             data: {
-              permission: this.permission.check(node, ['update']),
               node,
               baseShareUrl
             }
