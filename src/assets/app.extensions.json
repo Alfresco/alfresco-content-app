@@ -1040,9 +1040,14 @@
               "cm:content",
               "cm:author",
               "cm:titled",
+              "cm:generalclassifiable",
+              "cm:taggable",
+              "dp:restrictable",
+              "fm:commentsRollup",
               "qshare:shared",
 
-              "exif:exif"
+              "exif:exif",
+              "cm:effectivity"
             ]
           },
           {
@@ -1065,6 +1070,20 @@
                   "exif:manufacturer",
                   "exif:model",
                   "exif:software"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "app.content.metadata.effectivityGroup",
+            "title": "APP.CONTENT_METADATA.EFFECTIVITY_GROUP_TITLE",
+            "items": [
+              {
+                "id": "app.content.metadata.effectivityAspect",
+                "aspect": "cm:effectivity",
+                "properties": [
+                  "cm:from",
+                  "cm:to"
                 ]
               }
             ]
