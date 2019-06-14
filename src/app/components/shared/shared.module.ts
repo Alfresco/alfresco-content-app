@@ -28,17 +28,13 @@ import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
 import { ExtensionsModule } from '@alfresco/adf-extensions';
 import { ToggleSharedModule } from './toggle-shared/toggle-shared.module';
-import { ContentNodeShareModule } from './content-node-share/content-node-share.module';
-import { ShareDialogComponent } from './content-node-share/content-node-share.dialog';
 
 @NgModule({
   imports: [
     CommonModule,
     CoreModule.forChild(),
     ExtensionsModule,
-    ContentNodeShareModule,
     ToggleSharedModule
-  ],
-  entryComponents: [ShareDialogComponent]
+  ]
 })
 export class AppSharedModule {}
