@@ -20,7 +20,8 @@ $theme: mat-light-theme($primary, $accent, $warn);
 // fixes [ACA-2069]
 $primary: map-get($theme, primary);
 .mat-slide-toggle.mat-primary.mat-checked:not(.mat-disabled) {
-  .mat-slide-toggle-thumb {
+  .mat-slide-toggle-thumb,
+  .mat-slide-toggle-ripple .mat-ripple-element {
     background-color: mat-color($primary);
   }
   .mat-slide-toggle-bar {
