@@ -1047,7 +1047,10 @@
               "qshare:shared",
 
               "exif:exif",
-              "cm:effectivity"
+              "cm:effectivity",
+
+              "cm:emailed",
+              "cm:likesRatingSchemeRollups"
             ]
           },
           {
