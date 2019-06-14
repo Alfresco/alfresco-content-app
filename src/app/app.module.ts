@@ -61,7 +61,6 @@ import { DirectivesModule } from './directives/directives.module';
 import { ContextMenuModule } from './components/context-menu/context-menu.module';
 import { ExtensionsModule } from '@alfresco/adf-extensions';
 import { AppToolbarModule } from './components/toolbar/toolbar.module';
-import { AppSharedModule } from './components/shared/shared.module';
 import { AppCreateMenuModule } from './components/create-menu/create-menu.module';
 import { AppSidenavModule } from './components/sidenav/sidenav.module';
 import { AppPermissionsModule } from './components/permissions/permissions.module';
@@ -102,7 +101,6 @@ import { environment } from '../environments/environment';
     ContextMenuModule,
     AppInfoDrawerModule,
     AppToolbarModule,
-    AppSharedModule,
     AppSidenavModule,
     AppCreateMenuModule,
     DocumentListCustomComponentsModule,

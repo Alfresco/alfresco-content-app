@@ -29,7 +29,8 @@ import {
   AuthenticationService,
   FileUploadErrorEvent,
   PageTitleService,
-  UploadService
+  UploadService,
+  SharedLinksApiService
 } from '@alfresco/adf-core';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
@@ -70,7 +71,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private uploadService: UploadService,
     private extensions: AppExtensionService,
     private contentApi: ContentApiService,
-    private appService: AppService
+    private appService: AppService,
+    private sharedLinksApiService: SharedLinksApiService
   ) {}
 
   ngOnInit() {
@@ -119,6 +121,12 @@ export class AppComponent implements OnInit, OnDestroy {
     this.uploadService.fileUploadError.subscribe(error =>
       this.onFileUploadedError(error)
     );
+
+    this.sharedLinksApiService.error
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((err: { message: string }) => {
+        this.store.dispatch(new SnackbarErrorAction(err.message));
+      });
 
     this.appService.ready$
       .pipe(takeUntil(this.onDestroy$))
