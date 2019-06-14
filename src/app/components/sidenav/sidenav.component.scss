@@ -55,7 +55,7 @@
   }
 
   .action-button .action-button__label {
-    margin-left: 8px !important;
+    margin: 0 8px !important;
   }
 
   .app-item,
@@ -103,10 +103,8 @@
   }
 }
 
-[dir='rtl'] .action-button .action-button__label {
-  margin-right: 8px !important;
-}
-
-[dir='rtl'] .mat-expansion-panel-header {
-  padding: 0 0 0 8px !important;
+[dir='rtl'] .sidenav {
+  .mat-expansion-panel-header {
+    padding: 0 0 0 8px !important;
+  }
 }
