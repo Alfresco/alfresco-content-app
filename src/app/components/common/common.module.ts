@@ -29,6 +29,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { GenericErrorModule } from '@alfresco/aca-shared';
 import { LocationLinkComponent } from './location-link/location-link.component';
+import { ToggleSharedComponent } from './toggle-shared/toggle-shared.component';
 
 @NgModule({
   imports: [
@@ -37,8 +38,13 @@ import { LocationLinkComponent } from './location-link/location-link.component';
     ExtensionsModule,
     GenericErrorModule
   ],
-  declarations: [LocationLinkComponent],
-  exports: [ExtensionsModule, LocationLinkComponent, GenericErrorModule],
-  entryComponents: [LocationLinkComponent]
+  declarations: [LocationLinkComponent, ToggleSharedComponent],
+  exports: [
+    ExtensionsModule,
+    LocationLinkComponent,
+    GenericErrorModule,
+    ToggleSharedComponent
+  ],
+  entryComponents: [LocationLinkComponent, ToggleSharedComponent]
 })
 export class AppCommonModule {}
