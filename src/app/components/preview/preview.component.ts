@@ -38,7 +38,7 @@ import {
   UrlSegment,
   PRIMARY_OUTLET
 } from '@angular/router';
-import { debounceTime, takeUntil } from 'rxjs/operators';
+import { debounceTime, map, takeUntil } from 'rxjs/operators';
 import {
   UserPreferencesService,
   ObjectUtils,
@@ -46,7 +46,11 @@ import {
   AlfrescoApiService
 } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
-import { AppStore } from '@alfresco/aca-shared/store';
+import {
+  AppStore,
+  ClosePreviewAction,
+  ViewerActionTypes
+} from '@alfresco/aca-shared/store';
 import { SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { PageComponent } from '../page.component';
 import { ContentApiService } from '@alfresco/aca-shared';
@@ -55,6 +59,7 @@ import { ContentManagementService } from '../../services/content-management.serv
 import { ContentActionRef, ViewerExtensionRef } from '@alfresco/adf-extensions';
 import { SearchRequest } from '@alfresco/js-api';
 import { from } from 'rxjs';
+import { Actions, ofType } from '@ngrx/effects';
 
 @Component({
   selector: 'app-preview',
@@ -115,6 +120,7 @@ export class PreviewComponent extends PageComponent
     private router: Router,
     private apiService: AlfrescoApiService,
     private uploadService: UploadService,
+    private actions$: Actions,
     store: Store<AppStore>,
     extensions: AppExtensionService,
     content: ContentManagementService
@@ -167,7 +173,14 @@ export class PreviewComponent extends PageComponent
 
       this.uploadService.fileUploadComplete
         .pipe(debounceTime(300))
-        .subscribe(file => this.apiService.nodeUpdated.next(file.data.entry))
+        .subscribe(file => this.apiService.nodeUpdated.next(file.data.entry)),
+
+      this.actions$
+        .pipe(
+          ofType<ClosePreviewAction>(ViewerActionTypes.ClosePreview),
+          map(() => this.navigateToFileLocation(true))
+        )
+        .subscribe(() => {})
     ]);
 
     this.openWith = this.extensions.openWithActions;
