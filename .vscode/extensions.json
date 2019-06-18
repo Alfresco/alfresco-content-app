@@ -1,6 +1,6 @@
 {
   "recommendations": [
-    "eg2.tslint",
+    "ms-vscode.vscode-typescript-tslint-plugin",
     "angular.ng-template",
     "streetsidesoftware.code-spell-checker",
     "peterjausovec.vscode-docker",
