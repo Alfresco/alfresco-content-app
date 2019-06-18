@@ -27,7 +27,7 @@ import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { InfoDrawer } from './../../components/info-drawer/info-drawer';
 import { Utils } from '../../utilities/utils';
-import { FILES } from '../../configs';
+import { FILES, DATE_TIME_FORMAT, DATE_FORMAT } from '../../configs';
 import * as moment from 'moment';
 
 describe('File / Folder properties', () => {
@@ -124,10 +124,10 @@ describe('File / Folder properties', () => {
         file1.name,
         file1.title,
         apiProps.entry.createdByUser.displayName,
-        moment(apiProps.entry.createdAt).format('MMM DD YYYY'),
+        moment(apiProps.entry.createdAt).format(DATE_FORMAT),
         `${apiProps.entry.content.sizeInBytes} Bytes`,
         apiProps.entry.modifiedByUser.displayName,
-        moment(apiProps.entry.modifiedAt).format('MMM DD YYYY'),
+        moment(apiProps.entry.modifiedAt).format(DATE_FORMAT),
         apiProps.entry.content.mimeTypeName,
         file1.author,
         file1.description
@@ -160,9 +160,9 @@ describe('File / Folder properties', () => {
         folder1.name,
         folder1.title,
         apiProps.entry.createdByUser.displayName,
-        moment(apiProps.entry.createdAt).format('MMM DD YYYY'),
+        moment(apiProps.entry.createdAt).format(DATE_FORMAT),
         apiProps.entry.modifiedByUser.displayName,
-        moment(apiProps.entry.modifiedAt).format('MMM DD YYYY'),
+        moment(apiProps.entry.modifiedAt).format(DATE_FORMAT),
         folder1.author,
         folder1.description
       ];
@@ -218,7 +218,7 @@ describe('File / Folder properties', () => {
       const expectedPropValues = [
         apiProps.entry.properties['exif:pixelXDimension'].toString(),
         apiProps.entry.properties['exif:pixelYDimension'].toString(),
-        moment(apiProps.entry.properties['exif:dateTimeOriginal']).format('MMM DD YYYY H:mm'),
+        moment(apiProps.entry.properties['exif:dateTimeOriginal']).format(DATE_TIME_FORMAT),
         apiProps.entry.properties['exif:exposureTime'].toString(),
         apiProps.entry.properties['exif:fNumber'].toString(),
         apiProps.entry.properties['exif:flash'],
