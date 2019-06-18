@@ -124,10 +124,10 @@ describe('File / Folder properties', () => {
         file1.name,
         file1.title,
         apiProps.entry.createdByUser.displayName,
-        moment(apiProps.entry.createdAt).format('MMM DD YYYY'),
+        moment(apiProps.entry.createdAt).format('MMM DD, YYYY'),
         `${apiProps.entry.content.sizeInBytes} Bytes`,
         apiProps.entry.modifiedByUser.displayName,
-        moment(apiProps.entry.modifiedAt).format('MMM DD YYYY'),
+        moment(apiProps.entry.modifiedAt).format('MMM DD, YYYY'),
         apiProps.entry.content.mimeTypeName,
         file1.author,
         file1.description
@@ -160,9 +160,9 @@ describe('File / Folder properties', () => {
         folder1.name,
         folder1.title,
         apiProps.entry.createdByUser.displayName,
-        moment(apiProps.entry.createdAt).format('MMM DD YYYY'),
+        moment(apiProps.entry.createdAt).format('MMM DD, YYYY'),
         apiProps.entry.modifiedByUser.displayName,
-        moment(apiProps.entry.modifiedAt).format('MMM DD YYYY'),
+        moment(apiProps.entry.modifiedAt).format('MMM DD, YYYY'),
         folder1.author,
         folder1.description
       ];
@@ -218,7 +218,7 @@ describe('File / Folder properties', () => {
       const expectedPropValues = [
         apiProps.entry.properties['exif:pixelXDimension'].toString(),
         apiProps.entry.properties['exif:pixelYDimension'].toString(),
-        moment(apiProps.entry.properties['exif:dateTimeOriginal']).format('MMM DD YYYY H:mm'),
+        moment(apiProps.entry.properties['exif:dateTimeOriginal']).format('MMM D, YYYY, h:mm'),
         apiProps.entry.properties['exif:exposureTime'].toString(),
         apiProps.entry.properties['exif:fNumber'].toString(),
         apiProps.entry.properties['exif:flash'],
