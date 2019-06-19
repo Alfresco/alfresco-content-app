@@ -140,7 +140,9 @@
             "cm:effectivity",
 
             "cm:emailed",
-            "cm:likesRatingSchemeRollups"
+            "cm:likesRatingSchemeRollups",
+            "cm:lockable",
+            "cm:ownable"
           ]
         },
         {
