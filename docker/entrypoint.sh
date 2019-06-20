@@ -67,7 +67,9 @@ if [[ $ACSURL ]]; then
 fi
 
 if [[ $BASEPATH ]]; then
-  sed -i s%href=\"/\"%href=\""$BASEPATH"\"%g /tmp/index.html && \
+  replace="\/"
+  encoded=${BASEPATH//\//$replace}
+  sed -i s%href=\"/\"%href=\""$encoded"\"%g /tmp/index.html && \
   cat /tmp/index.html > ./index.html
 fi
 
