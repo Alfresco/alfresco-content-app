@@ -30,7 +30,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { ContentApiService } from '@alfresco/aca-shared';
-import { version, dependencies } from '../../../../package.json';
+import { dependencies } from '../../../../package.json';
 @Component({
   selector: 'app-about',
   templateUrl: './about.component.html',
@@ -40,7 +40,6 @@ import { version, dependencies } from '../../../../package.json';
 })
 export class AboutComponent implements OnInit {
   repository: RepositoryInfo;
-  releaseVersion = version;
   extensions$: Observable<ExtensionRef[]>;
   dependencyEntries: Array<{ name: string; version: string }>;
   statusEntries: Array<{ property: string; value: string }>;

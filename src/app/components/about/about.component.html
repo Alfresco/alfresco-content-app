@@ -3,7 +3,10 @@
     <div class="main-content">
       <article>
         <header>{{ 'application.name' | adfAppConfig }}</header>
-        <p>{{ 'APP.ABOUT.VERSION' | translate }} {{ releaseVersion }}</p>
+        <p>
+          {{ 'APP.ABOUT.VERSION' | translate }}
+          {{ 'application.version' | adfAppConfig }}
+        </p>
       </article>
 
       <ng-container *ngIf="extensions$ | async as extensions">
