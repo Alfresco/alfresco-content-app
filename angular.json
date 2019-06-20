@@ -22,6 +22,11 @@
               ]
             },
             "assets": [
+              {
+                "glob": "LICENSE",
+                "input": ".",
+                "output": "/"
+              },
               "src/assets",
               "src/favicon-96x96.png",
               "src/app.config.json",
