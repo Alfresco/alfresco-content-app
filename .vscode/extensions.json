@@ -3,7 +3,7 @@
     "ms-vscode.vscode-typescript-tslint-plugin",
     "angular.ng-template",
     "streetsidesoftware.code-spell-checker",
-    "peterjausovec.vscode-docker",
+    "ms-azuretools.vscode-docker",
     "editorconfig.editorconfig",
     "davidanson.vscode-markdownlint",
     "esbenp.prettier-vscode",
