@@ -23,44 +23,40 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, browser, ExpectedConditions as EC, ElementArrayFinder } from 'protractor';
+import { ElementFinder, browser } from 'protractor';
 import { Component } from '../component';
-import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Toolbar } from '../toolbar/toolbar';
 
 export class Viewer extends Component {
-  private static selectors = {
+  selectors = {
     root: 'adf-viewer',
-
     layout: '.adf-viewer-layout-content',
     contentContainer: '.adf-viewer-content-container',
     closeBtn: '.adf-viewer-close-button',
     fileTitle: '.adf-viewer__file-title',
-
     viewerExtensionContent: 'adf-preview-extension',
-
     pdfViewerContentPage: '.adf-pdf-viewer__content .page'
   };
 
-  root: ElementFinder = browser.$(Viewer.selectors.root);
-  viewerLayout: ElementFinder = this.component.element(by.css(Viewer.selectors.layout));
-  viewerContainer: ElementFinder = this.component.element(by.css(Viewer.selectors.contentContainer));
-  closeButton: ElementFinder = this.component.element(by.css(Viewer.selectors.closeBtn));
-  fileTitle: ElementFinder = this.component.element(by.css(Viewer.selectors.fileTitle));
-  viewerExtensionContent: ElementFinder = this.component.element(by.css(Viewer.selectors.viewerExtensionContent));
-  pdfViewerContentPages: ElementArrayFinder = this.component.all(by.css(Viewer.selectors.pdfViewerContentPage));
+  root: ElementFinder = browser.$(this.selectors.root);
+  viewerLayout = this.getByCss(this.selectors.layout);
+  viewerContainer = this.getByCss(this.selectors.contentContainer);
+  closeButton = this.getByCss(this.selectors.closeBtn);
+  fileTitle = this.getByCss(this.selectors.fileTitle);
+  viewerExtensionContent = this.getByCss(this.selectors.viewerExtensionContent);
+  pdfViewerContentPages = this.getAllByCss(this.selectors.pdfViewerContentPage);
 
   toolbar = new Toolbar(this.component);
 
   constructor(ancestor?: ElementFinder) {
-    super(Viewer.selectors.root, ancestor);
+    super('adf-viewer', ancestor);
   }
 
   async waitForViewerToOpen() {
     try {
-      await browser.wait(EC.presenceOf(this.viewerContainer), BROWSER_WAIT_TIMEOUT);
+      await this.wait(this.viewerContainer);
     } catch (error) {
-      console.log('\n-----> catch waitForViewerToOpen <-----\n', error)
+      console.log('\n-----> catch waitForViewerToOpen <-----\n', error);
     }
   }
 
@@ -102,7 +98,9 @@ export class Viewer extends Component {
 
   async getComponentIdOfView() {
     if (await this.isCustomContentPresent()) {
-      return await this.viewerExtensionContent.getAttribute('data-automation-id');
+      return await this.viewerExtensionContent.getAttribute(
+        'data-automation-id'
+      );
     }
   }
 

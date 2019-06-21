@@ -23,12 +23,17 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, ElementArrayFinder, by, browser, ExpectedConditions as EC } from 'protractor';
+import {
+  ElementFinder,
+  by,
+  browser,
+  ExpectedConditions as EC
+} from 'protractor';
 import { Component } from '../component';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 
 export class ContentMetadata extends Component {
-  private static selectors = {
+  selectors = {
     root: 'adf-content-metadata-card',
 
     expandedPanel: '.mat-expansion-panel.mat-expanded',
@@ -42,19 +47,29 @@ export class ContentMetadata extends Component {
     moreLessInformation: `[data-automation-id='meta-data-card-toggle-expand']`
   };
 
-  expandedPanel: ElementFinder = this.component.element(by.css(ContentMetadata.selectors.expandedPanel));
-  propertyList: ElementFinder = this.component.element(by.css(ContentMetadata.selectors.propertyList));
-  propertyListElements: ElementArrayFinder = this.component.all(by.css(ContentMetadata.selectors.property));
-  propertyValue: ElementFinder = this.component.element(by.css(ContentMetadata.selectors.propertyValue));
-  editPropertiesButton: ElementFinder = this.component.element(by.css(ContentMetadata.selectors.editProperties));
-  lessInfoButton: ElementFinder = this.component.element(by.cssContainingText(ContentMetadata.selectors.moreLessInformation, 'Less information'));
-  moreInfoButton: ElementFinder = this.component.element(by.cssContainingText(ContentMetadata.selectors.moreLessInformation, 'More information'));
+  expandedPanel = this.getByCss(this.selectors.expandedPanel);
+  propertyList = this.getByCss(this.selectors.propertyList);
+  propertyListElements = this.getAllByCss(this.selectors.property);
+  propertyValue = this.getByCss(this.selectors.propertyValue);
+  editPropertiesButton = this.getByCss(this.selectors.editProperties);
+  lessInfoButton = this.getByText(
+    this.selectors.moreLessInformation,
+    'Less information'
+  );
+  moreInfoButton = this.getByText(
+    this.selectors.moreLessInformation,
+    'More information'
+  );
 
-  imagePropertiesPanel: ElementFinder = this.component.element(by.css(`[data-automation-id='adf-metadata-group-APP.CONTENT_METADATA.EXIF_GROUP_TITLE']`));
-  expandedImagePropertiesPanel: ElementFinder = this.component.element(by.css(`[data-automation-id='adf-metadata-group-APP.CONTENT_METADATA.EXIF_GROUP_TITLE'].mat-expanded`));
+  imagePropertiesPanel = this.getByCss(
+    `[data-automation-id='adf-metadata-group-APP.CONTENT_METADATA.EXIF_GROUP_TITLE']`
+  );
+  expandedImagePropertiesPanel = this.getByCss(
+    `[data-automation-id='adf-metadata-group-APP.CONTENT_METADATA.EXIF_GROUP_TITLE'].mat-expanded`
+  );
 
   constructor(ancestor?: ElementFinder) {
-    super(ContentMetadata.selectors.root, ancestor);
+    super('adf-content-metadata-card', ancestor);
   }
 
   async isPropertiesListExpanded() {
@@ -62,39 +77,53 @@ export class ContentMetadata extends Component {
   }
 
   async waitForImagePropertiesPanelToExpand() {
-    return await browser.wait(EC.visibilityOf(this.expandedImagePropertiesPanel), BROWSER_WAIT_TIMEOUT);
+    return await browser.wait(
+      EC.visibilityOf(this.expandedImagePropertiesPanel),
+      BROWSER_WAIT_TIMEOUT
+    );
   }
 
   async getVisiblePropertiesLabels() {
-    return await this.component.all(by.css(ContentMetadata.selectors.propertyLabel))
-      .filter(async (elem) => await elem.isDisplayed())
-      .map(async (elem) => await elem.getText());
+    return await this.component
+      .all(by.css(this.selectors.propertyLabel))
+      .filter(async elem => await elem.isDisplayed())
+      .map(async elem => await elem.getText());
   }
 
   async getVisiblePropertiesValues() {
-    return await this.component.all(by.css(ContentMetadata.selectors.propertyValue))
-      .filter(async (elem) => await elem.isDisplayed())
-      .map(async (elem) => {
+    return await this.component
+      .all(by.css(this.selectors.propertyValue))
+      .filter(async elem => await elem.isDisplayed())
+      .map(async elem => {
         if (await elem.isElementPresent(by.css('.mat-checkbox'))) {
           if (await elem.isElementPresent(by.css('.mat-checkbox-checked'))) {
             return true;
           }
-          return false
+          return false;
         }
         return await elem.getText();
       });
   }
 
   async isEditPropertiesButtonEnabled() {
-    return (await browser.isElementPresent(this.editPropertiesButton)) && (await this.editPropertiesButton.isEnabled());
+    return (
+      (await browser.isElementPresent(this.editPropertiesButton)) &&
+      (await this.editPropertiesButton.isEnabled())
+    );
   }
 
   async isLessInfoButtonEnabled() {
-    return (await browser.isElementPresent(this.lessInfoButton)) && (await this.lessInfoButton.isEnabled());
+    return (
+      (await browser.isElementPresent(this.lessInfoButton)) &&
+      (await this.lessInfoButton.isEnabled())
+    );
   }
 
   async isMoreInfoButtonEnabled() {
-    return (await browser.isElementPresent(this.moreInfoButton)) && (await this.moreInfoButton.isEnabled());
+    return (
+      (await browser.isElementPresent(this.moreInfoButton)) &&
+      (await this.moreInfoButton.isEnabled())
+    );
   }
 
   async isLessInfoButtonDisplayed() {
@@ -114,12 +143,13 @@ export class ContentMetadata extends Component {
   }
 
   async isImagePropertiesPanelDisplayed() {
-    return (await browser.isElementPresent(this.imagePropertiesPanel)) && (await this.imagePropertiesPanel.isDisplayed());
+    return (
+      (await browser.isElementPresent(this.imagePropertiesPanel)) &&
+      (await this.imagePropertiesPanel.isDisplayed())
+    );
   }
 
   async clickImagePropertiesPanel() {
     return await this.imagePropertiesPanel.click();
   }
-
 }
-

@@ -23,24 +23,24 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, browser, ExpectedConditions as EC, ElementArrayFinder } from 'protractor';
+import { ElementFinder } from 'protractor';
 import { Component } from '../component';
-import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 
 export class MetadataCard extends Component {
-  private static selectors = {
+  selectors = {
     root: 'adf-content-metadata-card',
     footer: '.adf-content-metadata-card-footer',
     expandButton: '[data-automation-id="meta-data-card-toggle-expand"]',
-    expansionPanel: '.adf-metadata-grouped-properties-container mat-expansion-panel'
+    expansionPanel:
+      '.adf-metadata-grouped-properties-container mat-expansion-panel'
   };
 
-  footer: ElementFinder = this.component.element(by.css(MetadataCard.selectors.footer));
-  expandButton: ElementFinder = this.component.element(by.css(MetadataCard.selectors.expandButton));
-  expansionPanels: ElementArrayFinder = this.component.all(by.css(MetadataCard.selectors.expansionPanel));
+  footer = this.getByCss(this.selectors.footer);
+  expandButton = this.getByCss(this.selectors.expandButton);
+  expansionPanels = this.getAllByCss(this.selectors.expansionPanel);
 
   constructor(ancestor?: ElementFinder) {
-    super(MetadataCard.selectors.root, ancestor);
+    super('adf-content-metadata-card', ancestor);
   }
 
   async isExpandPresent() {
@@ -52,15 +52,16 @@ export class MetadataCard extends Component {
   }
 
   async waitForFirstExpansionPanel() {
-    return await browser.wait(EC.presenceOf(this.expansionPanels.get(0)), BROWSER_WAIT_TIMEOUT);
+    return await this.wait(this.expansionPanels.get(0));
   }
 
-  async isExpansionPanelPresent(index) {
+  async isExpansionPanelPresent(index: number) {
     return await this.expansionPanels.get(index).isPresent();
   }
 
-  async getComponentIdOfPanel(index) {
-    return await this.expansionPanels.get(index).getAttribute('data-automation-id');
+  async getComponentIdOfPanel(index: number) {
+    return await this.expansionPanels
+      .get(index)
+      .getAttribute('data-automation-id');
   }
 }
-

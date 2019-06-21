@@ -32,9 +32,9 @@ import { SearchInput } from '../search/search-input';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 
 export class Header extends Component {
-  private static selectors = {
+  selectors = {
     root: 'app-header',
-    logoLink: by.css('.app-menu__title'),
+    logoLink: '.app-menu__title',
     userInfo: by.css('aca-current-user'),
     moreActions: by.id('app.header.more'),
 
@@ -43,9 +43,9 @@ export class Header extends Component {
     collapsedSidenav: by.css(`[data-automation-id='collapsed']`)
   };
 
-  logoLink: ElementFinder = this.component.element(Header.selectors.logoLink);
-  moreActions: ElementFinder = browser.element(Header.selectors.moreActions);
-  sidenavToggle: ElementFinder = this.component.element(by.css(Header.selectors.sidenavToggle));
+  logoLink = this.getByCss(this.selectors.logoLink);
+  moreActions = browser.element(this.selectors.moreActions);
+  sidenavToggle = this.getByCss(this.selectors.sidenavToggle);
 
   userInfo: UserInfo = new UserInfo(this.component);
   menu: Menu = new Menu();
@@ -70,24 +70,30 @@ export class Header extends Component {
   }
 
   async isExpandedSidenav() {
-    return await browser.isElementPresent(Header.selectors.expandedSidenav);
+    return await browser.isElementPresent(this.selectors.expandedSidenav);
   }
 
   async expandSideNav() {
     const expanded = await this.isExpandedSidenav();
-    if ( !expanded ) {
+    if (!expanded) {
       await this.clickSidenavToggle();
-      await browser.wait(until.elementLocated(Header.selectors.expandedSidenav), BROWSER_WAIT_TIMEOUT, '--- timeout waiting for expanded sidenav' );
+      await browser.wait(
+        until.elementLocated(this.selectors.expandedSidenav),
+        BROWSER_WAIT_TIMEOUT,
+        '--- timeout waiting for expanded sidenav'
+      );
     }
   }
 
   async collapseSideNav() {
     const expanded = await this.isExpandedSidenav();
-    if ( expanded ) {
+    if (expanded) {
       await this.clickSidenavToggle();
-      await browser.wait(until.elementLocated(Header.selectors.collapsedSidenav), BROWSER_WAIT_TIMEOUT, '--- timeout waiting for collapsed sidenav')
+      await browser.wait(
+        until.elementLocated(this.selectors.collapsedSidenav),
+        BROWSER_WAIT_TIMEOUT,
+        '--- timeout waiting for collapsed sidenav'
+      );
     }
   }
-
 }
-

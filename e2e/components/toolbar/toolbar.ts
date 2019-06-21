@@ -23,22 +23,21 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, ElementArrayFinder, by, browser } from 'protractor';
+import { ElementFinder, by, browser } from 'protractor';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
 import { Utils } from '../../utilities/utils';
 
 export class Toolbar extends Component {
-  private static selectors = {
+  selectors = {
     root: '.adf-toolbar',
     button: 'button',
-
     share: `.mat-icon-button[title='Share']`,
     shareEdit: `.mat-icon-button[title='Shared link settings']`,
     view: `.mat-icon-button[title='View']`,
     searchFilterToggle: `.mat-icon-button[title='Toggle search filter']`,
     download: `.mat-icon-button[title='Download']`,
-    editFolder: 'app.toolbar.editFolder',
+    editFolderId: 'app.toolbar.editFolder',
     viewDetails: `.mat-icon-button[title='View details']`,
     print: `.mat-icon-button[title='Print']`,
     fullScreen: `.mat-icon-button[title='Activate full-screen mode']`,
@@ -49,23 +48,23 @@ export class Toolbar extends Component {
   };
 
   menu: Menu = new Menu();
-  buttons: ElementArrayFinder = this.component.all(by.css(Toolbar.selectors.button));
-  shareButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.share));
-  shareEditButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.shareEdit));
-  viewButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.view));
-  searchFiltersToggleButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.searchFilterToggle));
-  downloadButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.download));
-  editFolderButton: ElementFinder = this.component.element(by.id(Toolbar.selectors.editFolder));
-  viewDetailsButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.viewDetails));
-  printButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.print));
-  fullScreenButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.fullScreen));
-  joinButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.joinLibrary));
-  leaveButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.leaveLibrary));
-  permanentlyDeleteButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.permanentlyDelete));
-  restoreButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.restore));
+  buttons = this.getAllByCss(this.selectors.button);
+  shareButton = this.getByCss(this.selectors.share);
+  shareEditButton = this.getByCss(this.selectors.shareEdit);
+  viewButton = this.getByCss(this.selectors.view);
+  searchFiltersToggleButton = this.getByCss(this.selectors.searchFilterToggle);
+  downloadButton = this.getByCss(this.selectors.download);
+  editFolderButton = this.getById(this.selectors.editFolderId);
+  viewDetailsButton = this.getByCss(this.selectors.viewDetails);
+  printButton = this.getByCss(this.selectors.print);
+  fullScreenButton = this.getByCss(this.selectors.fullScreen);
+  joinButton = this.getByCss(this.selectors.joinLibrary);
+  leaveButton = this.getByCss(this.selectors.leaveLibrary);
+  permanentlyDeleteButton = this.getByCss(this.selectors.permanentlyDelete);
+  restoreButton = this.getByCss(this.selectors.restore);
 
   constructor(ancestor?: ElementFinder) {
-    super(Toolbar.selectors.root, ancestor);
+    super('.adf-toolbar', ancestor);
   }
 
   async isEmpty() {
@@ -78,16 +77,16 @@ export class Toolbar extends Component {
   }
 
   async isButtonPresent(title: string) {
-    const elem = this.component.element(by.css(`${Toolbar.selectors.button}[title="${title}"]`));
+    const elem = this.getByCss(`${this.selectors.button}[title="${title}"]`);
     return await elem.isPresent();
   }
 
   getButtonByLabel(label: string) {
-    return this.component.element(by.cssContainingText(Toolbar.selectors.button, label));
+    return this.getByText(this.selectors.button, label);
   }
 
   getButtonByTitleAttribute(title: string) {
-    return this.component.element(by.css(`${Toolbar.selectors.button}[title="${title}"]`));
+    return this.getByCss(`${this.selectors.button}[title="${title}"]`);
   }
 
   getButtonById(id: string) {
@@ -113,7 +112,6 @@ export class Toolbar extends Component {
     const btn = this.getButtonByTitleAttribute(title);
     await btn.click();
   }
-
 
   async isSharedLinkSettingsPresent() {
     return await browser.isElementPresent(this.shareEditButton);
@@ -159,7 +157,6 @@ export class Toolbar extends Component {
     return await browser.isElementPresent(this.fullScreenButton);
   }
 
-
   async clickShare() {
     const btn = this.shareButton;
     await btn.click();
@@ -200,7 +197,6 @@ export class Toolbar extends Component {
   async clickRestore() {
     return await this.restoreButton.click();
   }
-
 
   async clickMoreActionsFavorite() {
     await this.openMoreMenu();
@@ -250,5 +246,4 @@ export class Toolbar extends Component {
   async clickFullScreen() {
     return await this.fullScreenButton.click();
   }
-
 }

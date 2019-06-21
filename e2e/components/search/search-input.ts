@@ -23,43 +23,63 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, browser, by, until, protractor, ExpectedConditions as EC } from 'protractor';
+import {
+  ElementFinder,
+  browser,
+  by,
+  until,
+  protractor,
+  ExpectedConditions as EC
+} from 'protractor';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
 import { Utils } from '../../utilities/utils';
 
 export class SearchInput extends Component {
-  private static selectors = {
+  selectors = {
     root: 'aca-search-input',
     searchContainer: '.app-search-container',
     searchButton: '.app-search-button',
     searchControl: '.app-search-control',
-    searchInput: 'app-control-input',
-    searchOptionsArea: 'search-options',
+    searchInputId: 'app-control-input',
+    searchOptionsAreaId: 'search-options',
     optionCheckbox: '.mat-checkbox',
     clearButton: '.app-clear-icon'
   };
 
-  searchButton: ElementFinder = this.component.element(by.css(SearchInput.selectors.searchButton));
-  searchContainer: ElementFinder = browser.element(by.css(SearchInput.selectors.searchContainer));
-  searchControl: ElementFinder = browser.element(by.css(SearchInput.selectors.searchControl));
-  searchBar: ElementFinder = browser.element(by.id(SearchInput.selectors.searchInput));
-  searchOptionsArea: ElementFinder = browser.element(by.id(SearchInput.selectors.searchOptionsArea));
-  searchFilesOption: ElementFinder = this.searchOptionsArea.element(by.cssContainingText(SearchInput.selectors.optionCheckbox, 'Files'));
-  searchFoldersOption: ElementFinder = this.searchOptionsArea.element(by.cssContainingText(SearchInput.selectors.optionCheckbox, 'Folders'));
-  searchLibrariesOption: ElementFinder = this.searchOptionsArea.element(by.cssContainingText(SearchInput.selectors.optionCheckbox, 'Libraries'));
-  clearSearchButton: ElementFinder = this.searchContainer.$(SearchInput.selectors.clearButton);
+  searchButton = this.getByCss(this.selectors.searchButton);
+  searchContainer = this.getByCss(this.selectors.searchContainer);
+  searchControl = this.getByCss(this.selectors.searchControl);
+  searchBar = this.getById(this.selectors.searchInputId);
+  searchOptionsArea = this.getById(this.selectors.searchOptionsAreaId);
+  searchFilesOption = this.searchOptionsArea.element(
+    by.cssContainingText(this.selectors.optionCheckbox, 'Files')
+  );
+  searchFoldersOption = this.searchOptionsArea.element(
+    by.cssContainingText(this.selectors.optionCheckbox, 'Folders')
+  );
+  searchLibrariesOption = this.searchOptionsArea.element(
+    by.cssContainingText(this.selectors.optionCheckbox, 'Libraries')
+  );
+  clearSearchButton = this.searchContainer.$(this.selectors.clearButton);
 
   constructor(ancestor?: ElementFinder) {
-    super(SearchInput.selectors.root, ancestor);
+    super('aca-search-input', ancestor);
   }
 
   async waitForSearchControl() {
-    return await browser.wait(EC.presenceOf(this.searchControl), BROWSER_WAIT_TIMEOUT, '--- timeout waitForSearchControl ---');
+    return await browser.wait(
+      EC.presenceOf(this.searchControl),
+      BROWSER_WAIT_TIMEOUT,
+      '--- timeout waitForSearchControl ---'
+    );
   }
 
   async isSearchContainerDisplayed() {
-    return (await this.searchContainer.isDisplayed()) && (await this.searchButton.isDisplayed());
+    return (
+      (await this.searchContainer.isDisplayed()) &&
+      (await this.searchButton.isDisplayed())
+    );
   }
 
   async clickSearchButton() {
@@ -69,22 +89,37 @@ export class SearchInput extends Component {
   }
 
   async isOptionsAreaDisplayed() {
-    await browser.wait(until.elementLocated(by.css(SearchInput.selectors.searchControl)), BROWSER_WAIT_TIMEOUT);
+    await browser.wait(
+      until.elementLocated(by.css(this.selectors.searchControl)),
+      BROWSER_WAIT_TIMEOUT
+    );
     return await browser.isElementPresent(this.searchOptionsArea);
   }
 
   async clickFilesOption() {
-    await browser.wait(EC.elementToBeClickable(this.searchFilesOption), BROWSER_WAIT_TIMEOUT, '--- timeout waiting for Files to be clickable');
+    await browser.wait(
+      EC.elementToBeClickable(this.searchFilesOption),
+      BROWSER_WAIT_TIMEOUT,
+      '--- timeout waiting for Files to be clickable'
+    );
     return await this.searchFilesOption.click();
   }
 
   async clickFoldersOption() {
-    await browser.wait(EC.elementToBeClickable(this.searchFoldersOption), BROWSER_WAIT_TIMEOUT, '--- timeout waiting for Folders to be clickable');
+    await browser.wait(
+      EC.elementToBeClickable(this.searchFoldersOption),
+      BROWSER_WAIT_TIMEOUT,
+      '--- timeout waiting for Folders to be clickable'
+    );
     return await this.searchFoldersOption.click();
   }
 
   async clickLibrariesOption() {
-    await browser.wait(EC.elementToBeClickable(this.searchLibrariesOption), BROWSER_WAIT_TIMEOUT, '--- timeout waiting for Libraries to be clickable');
+    await browser.wait(
+      EC.elementToBeClickable(this.searchLibrariesOption),
+      BROWSER_WAIT_TIMEOUT,
+      '--- timeout waiting for Libraries to be clickable'
+    );
     return await this.searchLibrariesOption.click();
   }
 
@@ -162,7 +197,11 @@ export class SearchInput extends Component {
   }
 
   async searchFor(text: string) {
-    await browser.wait(EC.elementToBeClickable(this.searchBar), BROWSER_WAIT_TIMEOUT, '---- timeout waiting for searchBar to be clickable');
+    await browser.wait(
+      EC.elementToBeClickable(this.searchBar),
+      BROWSER_WAIT_TIMEOUT,
+      '---- timeout waiting for searchBar to be clickable'
+    );
     await this.searchBar.clear();
     await this.searchBar.sendKeys(text);
     await this.searchBar.sendKeys(protractor.Key.ENTER);

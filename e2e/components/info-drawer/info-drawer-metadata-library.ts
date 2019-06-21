@@ -23,52 +23,57 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, browser, ExpectedConditions as EC } from 'protractor';
+import { ElementFinder, by, browser } from 'protractor';
 import { Component } from '../component';
-import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 
 export class LibraryMetadata extends Component {
-  private static selectors = {
+  selectors = {
     root: 'app-library-metadata-form',
-
-    metadataTabContent: '.mat-card-content',
+    // metadataTabContent: '.mat-card-content',
     metadataTabAction: '.mat-card-actions .mat-button',
     field: '.mat-form-field',
     fieldLabelWrapper: '.mat-form-field-label-wrapper',
     fieldInput: '.mat-input-element',
     dropDown: '.mat-select',
-
     visibilityOption: '.mat-option .mat-option-text',
-
     hint: '.mat-hint',
     error: '.mat-error'
   };
 
-  metadataTabContent: ElementFinder = this.component.element(by.css(LibraryMetadata.selectors.metadataTabContent));
-  metadataTabAction: ElementFinder = this.component.element(by.css(LibraryMetadata.selectors.metadataTabAction));
-  fieldLabelWrapper: ElementFinder = this.component.element(by.css(LibraryMetadata.selectors.fieldLabelWrapper));
-  fieldInput: ElementFinder = this.component.element(by.css(LibraryMetadata.selectors.fieldInput));
+  // metadataTabContent = this.getByCss(this.selectors.metadataTabContent);
+  metadataTabAction = this.getByCss(this.selectors.metadataTabAction);
+  fieldLabelWrapper = this.getByCss(this.selectors.fieldLabelWrapper);
+  fieldInput = this.getByCss(this.selectors.fieldInput);
 
-  visibilityDropDown: ElementFinder = this.component.element(by.css(LibraryMetadata.selectors.dropDown));
-  visibilityPublic: ElementFinder = browser.element(by.cssContainingText(LibraryMetadata.selectors.visibilityOption, 'Public'));
-  visibilityPrivate: ElementFinder = browser.element(by.cssContainingText(LibraryMetadata.selectors.visibilityOption, 'Private'));
-  visibilityModerated: ElementFinder = browser.element(by.cssContainingText(LibraryMetadata.selectors.visibilityOption, 'Moderated'));
+  visibilityDropDown = this.getByCss(this.selectors.dropDown);
+  visibilityPublic = this.getByText(this.selectors.visibilityOption, 'Public');
+  visibilityPrivate = this.getByText(
+    this.selectors.visibilityOption,
+    'Private'
+  );
+  visibilityModerated = this.getByText(
+    this.selectors.visibilityOption,
+    'Moderated'
+  );
 
-  hint: ElementFinder = this.component.element(by.css(LibraryMetadata.selectors.hint));
-  error: ElementFinder = this.component.element(by.css(LibraryMetadata.selectors.error));
-
+  hint = this.getByCss(this.selectors.hint);
+  error = this.getByCss(this.selectors.error);
 
   constructor(ancestor?: ElementFinder) {
-    super(LibraryMetadata.selectors.root, ancestor);
+    super('app-library-metadata-form', ancestor);
   }
 
   getLabelWrapper(label: string) {
-    return this.component.element(by.cssContainingText(LibraryMetadata.selectors.fieldLabelWrapper, label));
+    return this.component.element(
+      by.cssContainingText(this.selectors.fieldLabelWrapper, label)
+    );
   }
 
   getFieldByName(fieldName: string) {
     const wrapper = this.getLabelWrapper(fieldName);
-    return wrapper.element(by.xpath('..')).element(by.css(LibraryMetadata.selectors.fieldInput));
+    return wrapper
+      .element(by.xpath('..'))
+      .element(by.css(this.selectors.fieldInput));
   }
 
   async isFieldDisplayed(fieldName: string) {
@@ -89,9 +94,10 @@ export class LibraryMetadata extends Component {
     return await input.sendKeys(text);
   }
 
-
   getButton(button: string) {
-    return this.component.element(by.cssContainingText(LibraryMetadata.selectors.metadataTabAction, button));
+    return this.component.element(
+      by.cssContainingText(this.selectors.metadataTabAction, button)
+    );
   }
 
   async isButtonDisplayed(button: string) {
@@ -107,11 +113,11 @@ export class LibraryMetadata extends Component {
   }
 
   async waitForVisibilityDropDownToOpen() {
-    await browser.wait(EC.presenceOf(this.visibilityDropDown), BROWSER_WAIT_TIMEOUT);
+    await this.wait(this.visibilityDropDown);
   }
 
   async waitForVisibilityDropDownToClose() {
-    await browser.wait(EC.stalenessOf(browser.$('.mat-option .mat-option-text')), BROWSER_WAIT_TIMEOUT);
+    await this.waitStale(browser.$('.mat-option .mat-option-text'));
   }
 
   async isMessageDisplayed() {
@@ -130,7 +136,6 @@ export class LibraryMetadata extends Component {
     return await this.error.getText();
   }
 
-
   async isNameDisplayed() {
     return await this.isFieldDisplayed('Name');
   }
@@ -146,7 +151,6 @@ export class LibraryMetadata extends Component {
   async enterName(name: string) {
     return await this.enterTextInInput('Name', name);
   }
-
 
   async isDescriptionDisplayed() {
     return await this.isFieldDisplayed('Description');
@@ -164,10 +168,11 @@ export class LibraryMetadata extends Component {
     return await this.enterTextInInput('Description', desc);
   }
 
-
   async isVisibilityEnabled() {
     const wrapper = this.getLabelWrapper('Visibility');
-    const field = wrapper.element(by.xpath('..')).element(by.css(LibraryMetadata.selectors.dropDown));
+    const field = wrapper
+      .element(by.xpath('..'))
+      .element(by.css(this.selectors.dropDown));
     return await field.isEnabled();
   }
 
@@ -198,7 +203,6 @@ export class LibraryMetadata extends Component {
     await this.waitForVisibilityDropDownToClose();
   }
 
-
   async isLibraryIdDisplayed() {
     return await this.isFieldDisplayed('Library ID');
   }
@@ -210,7 +214,6 @@ export class LibraryMetadata extends Component {
   async getLibraryId() {
     return await this.getValueOfField('Library ID');
   }
-
 
   async isEditLibraryPropertiesEnabled() {
     return await this.isButtonEnabled('Edit');
@@ -224,7 +227,6 @@ export class LibraryMetadata extends Component {
     return await this.clickButton('Edit');
   }
 
-
   async isUpdateEnabled() {
     return await this.isButtonEnabled('Update');
   }
@@ -237,7 +239,6 @@ export class LibraryMetadata extends Component {
     return await this.clickButton('Update');
   }
 
-
   async isCancelEnabled() {
     return await this.isButtonEnabled('Cancel');
   }
@@ -249,6 +250,4 @@ export class LibraryMetadata extends Component {
   async clickCancel() {
     return await this.clickButton('Cancel');
   }
-
 }
-

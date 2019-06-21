@@ -23,20 +23,23 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, ElementArrayFinder, by, browser, ExpectedConditions as EC } from 'protractor';
+import {
+  ElementFinder,
+  by,
+  browser,
+  ExpectedConditions as EC
+} from 'protractor';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
-import { Utils } from '../../utilities/utils'
+import { Utils } from '../../utilities/utils';
 
 export class Menu extends Component {
-  private static selectors = {
+  selectors = {
     root: '.mat-menu-panel',
     item: '.mat-menu-item',
     icon: '.mat-icon',
     uploadFiles: 'app-upload-files',
-
     submenu: 'app-context-menu-item .mat-menu-item',
-
     editFolder: `.mat-menu-item[id$='editFolder']`,
     favoriteAction: `.mat-menu-item[id$='favorite.add']`,
     removeFavoriteAction: `.mat-menu-item[id$='favorite.remove']`,
@@ -44,50 +47,66 @@ export class Menu extends Component {
     cancelEditing: `.mat-menu-item[title='Cancel editing']`
   };
 
-  items: ElementArrayFinder = this.component.all(by.css(Menu.selectors.item));
-  backdrop: ElementFinder = browser.element(by.css('.cdk-overlay-backdrop'));
-  uploadFiles: ElementFinder = browser.element(by.id(Menu.selectors.uploadFiles));
-  submenus: ElementArrayFinder = browser.element.all(by.css(Menu.selectors.submenu));
+  items = this.getAllByCss(this.selectors.item);
+  backdrop = browser.element(by.css('.cdk-overlay-backdrop'));
+  uploadFiles = browser.element(by.id(this.selectors.uploadFiles));
+  submenus = browser.element.all(by.css(this.selectors.submenu));
 
-  cancelEditingAction: ElementFinder = this.component.element(by.css(Menu.selectors.cancelEditing));
-  cancelJoinAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Cancel join'));
-  copyAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Copy'));
-  createFolderAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Create folder'));
-  createLibraryAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Create Library'));
-  deleteAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Delete'));
-  downloadAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Download'));
-  editFolderAction: ElementFinder = this.component.element(by.css(Menu.selectors.editFolder));
-  editOfflineAction: ElementFinder = this.component.element(by.css(Menu.selectors.editOffline));
-  favoriteAction: ElementFinder = this.component.element(by.css(Menu.selectors.favoriteAction));
-  removeFavoriteAction: ElementFinder = this.component.element(by.css(Menu.selectors.removeFavoriteAction));
-  toggleFavoriteAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Favorite'));
-  toggleRemoveFavoriteAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Remove favorite'));
-  joinAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Join'));
-  leaveAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Leave'));
-  managePermissionsAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Permissions'));
-  manageVersionsAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Manage Versions'));
-  uploadNewVersionAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Upload new version'));
-  moveAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Move'));
-  permanentDeleteAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Permanently delete'));
-  restoreAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Restore'));
-  shareAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Share'));
-  shareEditAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Shared link settings'));
-  uploadFileAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Upload file'));
-  uploadFolderAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Upload folder'));
-  viewAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'View'));
-  viewDetailsAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'View details'));
+  cancelEditingAction = this.getByCss(this.selectors.cancelEditing);
+  cancelJoinAction = this.getByText(this.selectors.item, 'Cancel join');
+  copyAction = this.getByText(this.selectors.item, 'Copy');
+  createFolderAction = this.getByText(this.selectors.item, 'Create folder');
+  createLibraryAction = this.getByText(this.selectors.item, 'Create Library');
+  deleteAction = this.getByText(this.selectors.item, 'Delete');
+  downloadAction = this.getByText(this.selectors.item, 'Download');
+  editFolderAction = this.getByCss(this.selectors.editFolder);
+  editOfflineAction = this.getByCss(this.selectors.editOffline);
+  favoriteAction = this.getByCss(this.selectors.favoriteAction);
+  removeFavoriteAction = this.getByCss(this.selectors.removeFavoriteAction);
+  toggleFavoriteAction = this.getByText(this.selectors.item, 'Favorite');
+  toggleRemoveFavoriteAction = this.getByText(
+    this.selectors.item,
+    'Remove favorite'
+  );
+  joinAction = this.getByText(this.selectors.item, 'Join');
+  leaveAction = this.getByText(this.selectors.item, 'Leave');
+  managePermissionsAction = this.getByText(this.selectors.item, 'Permissions');
+  manageVersionsAction = this.getByText(this.selectors.item, 'Manage Versions');
+  uploadNewVersionAction = this.getByText(
+    this.selectors.item,
+    'Upload new version'
+  );
+  moveAction = this.getByText(this.selectors.item, 'Move');
+  permanentDeleteAction = this.getByText(
+    this.selectors.item,
+    'Permanently delete'
+  );
+  restoreAction = this.getByText(this.selectors.item, 'Restore');
+  shareAction = this.getByText(this.selectors.item, 'Share');
+  shareEditAction = this.getByText(this.selectors.item, 'Shared link settings');
+  uploadFileAction = this.getByText(this.selectors.item, 'Upload file');
+  uploadFolderAction = this.getByText(this.selectors.item, 'Upload folder');
+  viewAction = this.getByText(this.selectors.item, 'View');
+  viewDetailsAction = this.getByText(this.selectors.item, 'View details');
 
   constructor(ancestor?: ElementFinder) {
-    super(Menu.selectors.root, ancestor);
+    super('.mat-menu-panel', ancestor);
   }
 
   async waitForMenuToOpen() {
-    await browser.wait(EC.presenceOf(browser.element(by.css('.cdk-overlay-container .mat-menu-panel'))), BROWSER_WAIT_TIMEOUT);
-    await browser.wait(EC.visibilityOf(this.items.get(0)), BROWSER_WAIT_TIMEOUT);
+    await this.wait(
+      browser.element(by.css('.cdk-overlay-container .mat-menu-panel'))
+    );
+    await browser.wait(
+      EC.visibilityOf(this.items.get(0)),
+      BROWSER_WAIT_TIMEOUT
+    );
   }
 
   async waitForMenuToClose() {
-    await browser.wait(EC.not(EC.presenceOf(browser.element(by.css('.cdk-overlay-container .mat-menu-panel')))), BROWSER_WAIT_TIMEOUT);
+    await this.waitStale(
+      browser.element(by.css('.cdk-overlay-container .mat-menu-panel'))
+    );
   }
 
   async closeMenu() {
@@ -100,11 +119,11 @@ export class Menu extends Component {
   }
 
   getItemByLabel(menuItem: string) {
-    return this.component.element(by.cssContainingText(Menu.selectors.item, menuItem));
+    return this.getByText(this.selectors.item, menuItem);
   }
 
   getSubItemByLabel(subMenuItem: string) {
-    return this.component.element(by.cssContainingText(Menu.selectors.submenu, subMenuItem));
+    return this.getByText(this.selectors.submenu, subMenuItem);
   }
 
   getItemById(id: string) {
@@ -116,7 +135,9 @@ export class Menu extends Component {
   }
 
   async getItemIconText(menuItem: string) {
-    return await this.getItemByLabel(menuItem).element(by.css(Menu.selectors.icon)).getText();
+    return await this.getItemByLabel(menuItem)
+      .element(by.css(this.selectors.icon))
+      .getText();
   }
 
   async getItemIdAttribute(menuItem: string) {
@@ -130,9 +151,19 @@ export class Menu extends Component {
   async clickNthItem(nth: number) {
     try {
       const elem = this.getNthItem(nth);
-      await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT, 'timeout waiting for menu item to be clickable');
-      await browser.actions().mouseMove(elem).perform();
-      await browser.actions().click().perform();
+      await browser.wait(
+        EC.elementToBeClickable(elem),
+        BROWSER_WAIT_TIMEOUT,
+        'timeout waiting for menu item to be clickable'
+      );
+      await browser
+        .actions()
+        .mouseMove(elem)
+        .perform();
+      await browser
+        .actions()
+        .click()
+        .perform();
       await this.waitForMenuToClose();
     } catch (e) {
       console.log('____ click nth menu item catch ___', e);
@@ -142,7 +173,11 @@ export class Menu extends Component {
   async clickMenuItem(menuItem: string) {
     try {
       const elem = this.getItemByLabel(menuItem);
-      await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT, 'timeout waiting for menu item to be clickable');
+      await browser.wait(
+        EC.elementToBeClickable(elem),
+        BROWSER_WAIT_TIMEOUT,
+        'timeout waiting for menu item to be clickable'
+      );
       await elem.click();
     } catch (e) {
       console.log('___click menu item catch___', e);
@@ -153,7 +188,10 @@ export class Menu extends Component {
     try {
       const elem = this.getItemByLabel(menuItem);
       await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT);
-      await browser.actions().mouseMove(elem).perform();
+      await browser
+        .actions()
+        .mouseMove(elem)
+        .perform();
       await browser.sleep(500);
     } catch (error) {
       console.log('----- mouse over error: ', error);
@@ -182,11 +220,11 @@ export class Menu extends Component {
   }
 
   async isMenuItemPresent(title: string) {
-    return await browser.element(by.cssContainingText(Menu.selectors.item, title)).isPresent();
+    return await this.getByText(this.selectors.item, title).isPresent();
   }
 
   async isSubMenuItemPresent(title: string) {
-    return await browser.element(by.cssContainingText(Menu.selectors.submenu, title)).isPresent();
+    return await this.getByText(this.selectors.submenu, title).isPresent();
   }
 
   async getSubmenuItemsCount() {
@@ -220,7 +258,6 @@ export class Menu extends Component {
     const action = this.shareEditAction;
     await action.click();
   }
-
 
   async isViewPresent() {
     return await this.viewAction.isPresent();
@@ -342,8 +379,6 @@ export class Menu extends Component {
     return await this.uploadFolderAction.isEnabled();
   }
 
-
-
   async clickCreateFolder() {
     const action = this.createFolderAction;
     await action.click();
@@ -363,5 +398,4 @@ export class Menu extends Component {
     const action = this.uploadFolderAction;
     await action.click();
   }
-
 }

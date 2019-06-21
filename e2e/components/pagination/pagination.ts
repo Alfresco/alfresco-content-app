@@ -23,45 +23,53 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, browser, ExpectedConditions as EC } from 'protractor';
+import {
+  ElementFinder,
+  by,
+  browser,
+  ExpectedConditions as EC
+} from 'protractor';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
 
 export class Pagination extends Component {
-  private static selectors = {
+  selectors = {
     root: 'adf-pagination',
     range: '.adf-pagination__range',
     maxItems: '.adf-pagination__max-items',
     currentPage: '.adf-pagination__current-page',
     totalPages: '.adf-pagination__total-pages',
-
     previousButton: '.adf-pagination__previous-button',
     nextButton: '.adf-pagination__next-button',
     maxItemsButton: '.adf-pagination__max-items + button[mat-icon-button]',
     pagesButton: '.adf-pagination__current-page + button[mat-icon-button]'
   };
 
-  range: ElementFinder = this.component.element(by.css(Pagination.selectors.range));
-  maxItems: ElementFinder = this.component.element(by.css(Pagination.selectors.maxItems));
-  currentPage: ElementFinder = this.component.element(by.css(Pagination.selectors.currentPage));
-  totalPages: ElementFinder = this.component.element(by.css(Pagination.selectors.totalPages));
-  previousButton: ElementFinder = this.component.element(by.css(Pagination.selectors.previousButton));
-  nextButton: ElementFinder = this.component.element(by.css(Pagination.selectors.nextButton));
-  maxItemsButton: ElementFinder = this.component.element(by.css(Pagination.selectors.maxItemsButton));
-  pagesButton: ElementFinder = this.component.element(by.css(Pagination.selectors.pagesButton));
+  range = this.getByCss(this.selectors.range);
+  maxItems = this.getByCss(this.selectors.maxItems);
+  currentPage = this.getByCss(this.selectors.currentPage);
+  totalPages = this.getByCss(this.selectors.totalPages);
+  previousButton = this.getByCss(this.selectors.previousButton);
+  nextButton = this.getByCss(this.selectors.nextButton);
+  maxItemsButton = this.getByCss(this.selectors.maxItemsButton);
+  pagesButton = this.getByCss(this.selectors.pagesButton);
 
   menu: Menu = new Menu();
 
   constructor(ancestor?: ElementFinder) {
-    super(Pagination.selectors.root, ancestor);
+    super('adf-pagination', ancestor);
   }
 
   async openMaxItemsMenu() {
     const { menu, maxItemsButton } = this;
 
     try {
-      await browser.wait(EC.elementToBeClickable(maxItemsButton), BROWSER_WAIT_TIMEOUT, 'timeout waiting for maxItemsButton to be clickable');
+      await browser.wait(
+        EC.elementToBeClickable(maxItemsButton),
+        BROWSER_WAIT_TIMEOUT,
+        'timeout waiting for maxItemsButton to be clickable'
+      );
       await maxItemsButton.click();
       await menu.waitForMenuToOpen();
     } catch (error) {
@@ -73,7 +81,11 @@ export class Pagination extends Component {
     const { menu, pagesButton } = this;
 
     try {
-      await browser.wait(EC.elementToBeClickable(pagesButton), BROWSER_WAIT_TIMEOUT, 'timeout waiting for pagesButton to be clickable');
+      await browser.wait(
+        EC.elementToBeClickable(pagesButton),
+        BROWSER_WAIT_TIMEOUT,
+        'timeout waiting for pagesButton to be clickable'
+      );
       await pagesButton.click();
       await menu.waitForMenuToOpen();
     } catch (error) {

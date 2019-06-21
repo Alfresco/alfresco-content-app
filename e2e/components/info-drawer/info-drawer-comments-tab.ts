@@ -23,12 +23,12 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, ElementArrayFinder, by, browser, ExpectedConditions as EC, until } from 'protractor';
+import { ElementFinder, by, browser, until } from 'protractor';
 import { Component } from '../component';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 
 export class CommentsTab extends Component {
-  private static selectors = {
+  selectors = {
     root: 'adf-comments',
 
     commentsContainer: '.adf-comments-container',
@@ -44,26 +44,25 @@ export class CommentsTab extends Component {
     commentTime: 'comment-time'
   };
 
-  commentsContainer: ElementFinder = this.component.element(by.css(CommentsTab.selectors.commentsContainer));
-  commentsHeader: ElementFinder = this.component.element(by.css(CommentsTab.selectors.commentsHeader));
-  commentTextarea: ElementFinder = this.component.element(by.css(CommentsTab.selectors.commentsTextArea));
-  addCommentButton: ElementFinder = this.component.element(by.css(CommentsTab.selectors.addCommentButton));
-  commentsList: ElementArrayFinder = this.component.all(by.css(CommentsTab.selectors.commentsListItem));
+  commentsContainer = this.getByCss(this.selectors.commentsContainer);
+  commentsHeader = this.getByCss(this.selectors.commentsHeader);
+  commentTextarea = this.getByCss(this.selectors.commentsTextArea);
+  addCommentButton = this.getByCss(this.selectors.addCommentButton);
+  commentsList = this.getAllByCss(this.selectors.commentsListItem);
 
-  commentListItem = by.css(CommentsTab.selectors.commentsListItem);
+  commentListItem = by.css(this.selectors.commentsListItem);
 
-  commentUserAvatar = by.id(CommentsTab.selectors.commentUserAvatar);
-  commentUser = by.id(CommentsTab.selectors.commentUserName)
-  commentText = by.id(CommentsTab.selectors.commentMessage);
-  commentTime = by.id(CommentsTab.selectors.commentTime);
-
+  commentUserAvatar = by.id(this.selectors.commentUserAvatar);
+  commentUser = by.id(this.selectors.commentUserName);
+  commentText = by.id(this.selectors.commentMessage);
+  commentTime = by.id(this.selectors.commentTime);
 
   constructor(ancestor?: ElementFinder) {
-    super(CommentsTab.selectors.root, ancestor);
+    super('adf-comments', ancestor);
   }
 
   async waitForCommentsContainer() {
-    await browser.wait(EC.visibilityOf(this.commentsContainer), BROWSER_WAIT_TIMEOUT);
+    await this.wait(this.commentsContainer);
   }
 
   async getCommentsTabHeaderText() {
@@ -83,12 +82,20 @@ export class CommentsTab extends Component {
   }
 
   async getCommentListItem() {
-    return await browser.wait(until.elementLocated(this.commentListItem), BROWSER_WAIT_TIMEOUT / 2);
+    return await browser.wait(
+      until.elementLocated(this.commentListItem),
+      BROWSER_WAIT_TIMEOUT / 2
+    );
   }
 
   async getCommentById(commentId?: string) {
     if (commentId) {
-      return await browser.wait(until.elementLocated(by.id(`${CommentsTab.selectors.commentById}${commentId}`)), BROWSER_WAIT_TIMEOUT / 2);
+      return await browser.wait(
+        until.elementLocated(
+          by.id(`${this.selectors.commentById}${commentId}`)
+        ),
+        BROWSER_WAIT_TIMEOUT / 2
+      );
     }
     return await this.getCommentListItem();
   }
@@ -99,7 +106,9 @@ export class CommentsTab extends Component {
 
   async isCommentUserAvatarDisplayed(commentId?: string) {
     const commentElement = await this.getCommentById(commentId);
-    return await browser.isElementPresent(commentElement.findElement(this.commentUserAvatar));
+    return await browser.isElementPresent(
+      commentElement.findElement(this.commentUserAvatar)
+    );
   }
 
   async getCommentText(commentId?: string) {
@@ -135,6 +144,4 @@ export class CommentsTab extends Component {
   async getCommentTextFromTextArea() {
     return await this.commentTextarea.getAttribute('value');
   }
-
 }
-

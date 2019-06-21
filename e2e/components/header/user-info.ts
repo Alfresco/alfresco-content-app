@@ -23,19 +23,18 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by } from 'protractor';
+import { ElementFinder } from 'protractor';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
 
 export class UserInfo extends Component {
-  private static selectors = {
-    avatar: by.css('.current-user__avatar'),
-    fullName: by.css('.current-user__full-name'),
-    menuItems: by.css('[mat-menu-item]')
+  selectors = {
+    avatar: '.current-user__avatar',
+    fullName: '.current-user__full-name'
   };
 
-  fullName: ElementFinder = this.component.element(UserInfo.selectors.fullName);
-  avatar: ElementFinder = this.component.element(UserInfo.selectors.avatar);
+  fullName = this.getByCss(this.selectors.fullName);
+  avatar = this.getByCss(this.selectors.avatar);
 
   menu: Menu = new Menu();
 

@@ -23,7 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, ElementArrayFinder, by, browser, ExpectedConditions as EC, $ } from 'protractor';
+import {
+  ElementFinder,
+  by,
+  browser,
+  ExpectedConditions as EC,
+  $
+} from 'protractor';
 import { Component } from '../component';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { CommentsTab } from './info-drawer-comments-tab';
@@ -31,45 +37,40 @@ import { LibraryMetadata } from './info-drawer-metadata-library';
 import { ContentMetadata } from './info-drawer-metadata-content';
 
 export class InfoDrawer extends Component {
-  private static selectors = {
+  selectors = {
     root: 'adf-info-drawer',
-
     header: '.adf-info-drawer-layout-header',
     content: '.adf-info-drawer-layout-content',
-
     tabs: '.adf-info-drawer-tabs',
     tabLabel: '.mat-tab-label-content',
     tabActiveLabel: '.mat-tab-label-active',
-
-    activeTabContent: '.mat-tab-body-active .mat-tab-body-content adf-dynamic-tab',
+    activeTabContent:
+      '.mat-tab-body-active .mat-tab-body-content adf-dynamic-tab',
     next: '.mat-tab-header-pagination-after .mat-tab-header-pagination-chevron',
-    previous: '.mat-tab-header-pagination-before .mat-tab-header-pagination-chevron',
-
+    previous:
+      '.mat-tab-header-pagination-before .mat-tab-header-pagination-chevron',
     headerTitle: '.adf-info-drawer-layout-header-title'
   };
 
-  commentsTab = new CommentsTab($(InfoDrawer.selectors.root));
-  aboutTab = new LibraryMetadata($(InfoDrawer.selectors.root));
-  propertiesTab = new ContentMetadata($(InfoDrawer.selectors.root));
+  commentsTab = new CommentsTab($(this.selectors.root));
+  aboutTab = new LibraryMetadata($(this.selectors.root));
+  propertiesTab = new ContentMetadata($(this.selectors.root));
 
-  header: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.header));
-  headerTitle: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.headerTitle));
-  tabLabel: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.tabLabel));
-  tabLabelsList: ElementArrayFinder = this.component.all(by.css(InfoDrawer.selectors.tabLabel));
-  tabActiveLabel: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.tabActiveLabel));
-
-  tabActiveContent: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.activeTabContent));
-
-  nextButton: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.next));
-  previousButton: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.previous));
-
+  header = this.getByCss(this.selectors.header);
+  headerTitle = this.getByCss(this.selectors.headerTitle);
+  tabLabel = this.getByCss(this.selectors.tabLabel);
+  tabLabelsList = this.getAllByCss(this.selectors.tabLabel);
+  tabActiveLabel = this.getByCss(this.selectors.tabActiveLabel);
+  tabActiveContent = this.getByCss(this.selectors.activeTabContent);
+  nextButton = this.getByCss(this.selectors.next);
+  previousButton = this.getByCss(this.selectors.previous);
 
   constructor(ancestor?: ElementFinder) {
-    super(InfoDrawer.selectors.root, ancestor);
+    super('adf-info-drawer', ancestor);
   }
 
   async waitForInfoDrawerToOpen() {
-    return await browser.wait(EC.presenceOf(this.header), BROWSER_WAIT_TIMEOUT);
+    return await this.wait(this.header);
   }
 
   async isOpen() {
@@ -77,15 +78,15 @@ export class InfoDrawer extends Component {
   }
 
   async isEmpty() {
-    return !(await browser.isElementPresent(by.css(InfoDrawer.selectors.tabs)));
+    return !(await browser.isElementPresent(by.css(this.selectors.tabs)));
   }
 
   getTabByTitle(title: string) {
-    return this.component.element(by.cssContainingText(InfoDrawer.selectors.tabLabel, title));
+    return this.getByText(this.selectors.tabLabel, title);
   }
 
   async getTabsCount() {
-    return await this.component.all(by.css(InfoDrawer.selectors.tabLabel)).count();
+    return await this.getAllByCss(this.selectors.tabLabel).count();
   }
 
   async isTabPresent(title: string) {
@@ -138,15 +139,20 @@ export class InfoDrawer extends Component {
     try {
       await this.getTabByTitle('Comments').click();
       await this.commentsTab.waitForCommentsContainer();
+
       await Promise.all([
-        browser.wait(EC.visibilityOf(this.commentsTab.component), BROWSER_WAIT_TIMEOUT),
-        browser.wait(EC.invisibilityOf(this.propertiesTab.component), BROWSER_WAIT_TIMEOUT)
+        browser.wait(
+          EC.visibilityOf(this.commentsTab.component),
+          BROWSER_WAIT_TIMEOUT
+        ),
+        browser.wait(
+          EC.invisibilityOf(this.propertiesTab.component),
+          BROWSER_WAIT_TIMEOUT
+        )
       ]);
     } catch (error) {
       console.error('--- catch error on clickCommentsTab ---');
       throw error;
     }
   }
-
 }
-
