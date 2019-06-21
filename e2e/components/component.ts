@@ -43,8 +43,30 @@ export abstract class Component {
       : browser.$$(locator).first();
   }
 
-  async wait() {
-    await browser.wait(EC.presenceOf(this.component), BROWSER_WAIT_TIMEOUT);
+  /**
+   * Wait for element presence
+   * @param element Element finder
+   * @param message Message
+   */
+  async wait(element?: ElementFinder, message?: string) {
+    await browser.wait(
+      EC.presenceOf(element || this.component),
+      BROWSER_WAIT_TIMEOUT,
+      message
+    );
+  }
+
+  /**
+   * Wait for element absence
+   * @param element Element finder
+   * @param message Message
+   */
+  async waitStale(element?: ElementFinder, message?: string) {
+    await browser.wait(
+      EC.stalenessOf(element || this.component),
+      BROWSER_WAIT_TIMEOUT,
+      message
+    );
   }
 
   /**

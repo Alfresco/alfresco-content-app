@@ -27,17 +27,17 @@ import { ElementFinder } from 'protractor';
 import { Component } from '../component';
 
 export class Breadcrumb extends Component {
-  private static selectors = {
+  selectors = {
     root: 'adf-breadcrumb',
     item: '.adf-breadcrumb-item',
     currentItem: '.adf-breadcrumb-item-current'
   };
 
-  items = this.getAllByCss(Breadcrumb.selectors.item);
-  currentItem = this.getByCss(Breadcrumb.selectors.currentItem);
+  items = this.getAllByCss(this.selectors.item);
+  currentItem = this.getByCss(this.selectors.currentItem);
 
   constructor(ancestor?: ElementFinder) {
-    super(Breadcrumb.selectors.root, ancestor);
+    super('adf-breadcrumb', ancestor);
   }
 
   getNthItem(nth: number): ElementFinder {
@@ -72,7 +72,7 @@ export class Breadcrumb extends Component {
   }
 
   async clickItem(name: string) {
-    const elem = this.getByCss(`${Breadcrumb.selectors.item}[title=${name}]`);
+    const elem = this.getByCss(`${this.selectors.item}[title=${name}]`);
     await elem.click();
   }
 
