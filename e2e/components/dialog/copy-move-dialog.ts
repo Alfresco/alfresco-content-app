@@ -71,19 +71,19 @@ export class CopyMoveDialog extends Component {
   }
 
   async waitForDialogToClose() {
-    await this.waitStale(this.title);
+    return await this.waitStale(this.title);
   }
 
   async waitForDropDownToOpen() {
-    await this.wait(this.locationPersonalFiles);
+    return await this.wait(this.locationPersonalFiles);
   }
 
   async waitForDropDownToClose() {
-    await this.waitStale(browser.$(this.selectors.locationOption));
+    return await this.waitStale(browser.$(this.selectors.locationOption));
   }
 
   async waitForRowToBeSelected() {
-    await this.wait(this.getByCss(this.selectors.selectedRow));
+    return await this.wait(this.getByCss(this.selectors.selectedRow));
   }
 
   async isDialogOpen() {

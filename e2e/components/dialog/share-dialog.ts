@@ -61,11 +61,11 @@ export class ShareDialog extends Component {
   }
 
   async waitForDialogToClose() {
-    await this.waitStale(this.title, 'share dialog did not close');
+    return await this.waitStale(this.title, 'share dialog did not close');
   }
 
   async waitForDialogToOpen() {
-    this.wait(this.title);
+    return this.wait(this.title);
   }
 
   async isDialogOpen() {

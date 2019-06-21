@@ -50,11 +50,11 @@ export class PasswordDialog extends Component {
   }
 
   async waitForDialogToClose() {
-    await this.waitStale(this.title);
+    return await this.waitStale(this.title);
   }
 
   async waitForDialogToOpen() {
-    await this.wait(this.title);
+    return await this.wait(this.title);
   }
 
   async isDialogOpen() {

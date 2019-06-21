@@ -53,11 +53,11 @@ export class DateTimePicker extends Component {
   }
 
   async waitForDateTimePickerToOpen() {
-    await this.wait(this.calendar);
+    return await this.wait(this.calendar);
   }
 
   async waitForDateTimePickerToClose() {
-    await this.waitStale(this.calendar);
+    return await this.waitStale(this.calendar);
   }
 
   async isCalendarOpen() {

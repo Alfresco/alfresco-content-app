@@ -113,7 +113,7 @@ export class LibraryMetadata extends Component {
   }
 
   async waitForVisibilityDropDownToOpen() {
-    await this.wait(this.visibilityDropDown);
+    return await this.wait(this.visibilityDropDown);
   }
 
   async waitForVisibilityDropDownToClose() {

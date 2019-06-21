@@ -62,7 +62,7 @@ export class CommentsTab extends Component {
   }
 
   async waitForCommentsContainer() {
-    await this.wait(this.commentsContainer);
+    return await this.wait(this.commentsContainer);
   }
 
   async getCommentsTabHeaderText() {
