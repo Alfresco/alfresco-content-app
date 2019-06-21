@@ -3,7 +3,7 @@
     <ng-container *ngSwitchCase="'menu'">
       <button mat-menu-item [id]="actionRef.id" [matMenuTriggerFor]="childMenu">
         <adf-icon [value]="actionRef.icon"></adf-icon>
-        <span>{{ actionRef.title | translate }}</span>
+        <span>{{ actionRef.title | translate | titlecase }}</span>
       </button>
 
       <mat-menu #childMenu="matMenu">
@@ -31,7 +31,7 @@
         (click)="runAction()"
       >
         <adf-icon [value]="actionRef.icon"></adf-icon>
-        <span>{{ actionRef.title | translate }}</span>
+        <span>{{ actionRef.title | translate | titlecase }}</span>
       </button>
     </ng-container>
   </ng-container>

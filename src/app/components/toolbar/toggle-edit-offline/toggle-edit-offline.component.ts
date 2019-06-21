@@ -52,12 +52,14 @@ import { Store } from '@ngrx/store';
     >
       <ng-container *ngIf="lock.isNodeLocked()">
         <mat-icon>cancel</mat-icon>
-        <span>{{ 'APP.ACTIONS.EDIT_OFFLINE_CANCEL' | translate }}</span>
+        <span>{{
+          'APP.ACTIONS.EDIT_OFFLINE_CANCEL' | translate | titlecase
+        }}</span>
       </ng-container>
 
       <ng-container *ngIf="!lock.isNodeLocked()">
         <mat-icon>edit</mat-icon>
-        <span>{{ 'APP.ACTIONS.EDIT_OFFLINE' | translate }}</span>
+        <span>{{ 'APP.ACTIONS.EDIT_OFFLINE' | translate | titlecase }}</span>
       </ng-container>
     </button>
   `,

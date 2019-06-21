@@ -6,11 +6,11 @@
   >
     <mat-icon>link</mat-icon>
     <ng-container *ngIf="isShared(selection); else not_shared">
-      <span>{{ 'APP.ACTIONS.SHARE_EDIT' | translate }}</span>
+      <span>{{ 'APP.ACTIONS.SHARE_EDIT' | translate | titlecase }}</span>
     </ng-container>
   </button>
 </ng-container>
 
 <ng-template #not_shared>
-  <span>{{ 'APP.ACTIONS.SHARE' | translate }}</span>
+  <span>{{ 'APP.ACTIONS.SHARE' | translate | titlecase }}</span>
 </ng-template>

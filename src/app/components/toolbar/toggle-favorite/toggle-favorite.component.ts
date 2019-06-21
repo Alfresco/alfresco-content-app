@@ -47,7 +47,9 @@ import {
       <span>{{
         (favorites.hasFavorites()
           ? 'APP.ACTIONS.REMOVE_FAVORITE'
-          : 'APP.ACTIONS.FAVORITE') | translate
+          : 'APP.ACTIONS.FAVORITE')
+          | translate
+          | titlecase
       }}</span>
     </button>
   `,
