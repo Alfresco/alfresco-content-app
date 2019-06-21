@@ -25,7 +25,7 @@
     "e2e:docker": "npm run start:docker && npm run e2e && npm run stop:docker",
     "spellcheck": "cspell 'src/**/*.ts' 'e2e/**/*.ts' 'projects/**/*.ts'",
     "inspect.bundle": "ng build app --prod --stats-json && npx webpack-bundle-analyzer dist/app/stats.json",
-    "format:check": "prettier --check \"src/{app,environments}/**/*.{ts,js,css,scss,html}\"",
+    "format:check": "prettier --check \"{e2e,src/app,src/environments}/**/*.{ts,js,css,scss,html}\"",
     "format:fix": "prettier --write \"src/{app,environments}/**/*.{ts,js,css,scss,html}\"",
     "build.tomcat": "npm run build.shared && npm run build.extensions && npm run build.app -- --prod --base-href ./ && jar -cvf docker/tomcat/artifacts/content-app.war -C dist/app/ .",
     "build.tomcat.e2e": "./build-tomcat-e2e.sh",

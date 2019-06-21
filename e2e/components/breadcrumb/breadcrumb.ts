@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, ElementArrayFinder, by } from 'protractor';
+import { ElementFinder } from 'protractor';
 import { Component } from '../component';
 
 export class Breadcrumb extends Component {
@@ -33,8 +33,8 @@ export class Breadcrumb extends Component {
     currentItem: '.adf-breadcrumb-item-current'
   };
 
-  items: ElementArrayFinder = this.component.all(by.css(Breadcrumb.selectors.item));
-  currentItem: ElementFinder = this.component.element(by.css(Breadcrumb.selectors.currentItem));
+  items = this.getAllByCss(Breadcrumb.selectors.item);
+  currentItem = this.getByCss(Breadcrumb.selectors.currentItem);
 
   constructor(ancestor?: ElementFinder) {
     super(Breadcrumb.selectors.root, ancestor);
@@ -45,7 +45,7 @@ export class Breadcrumb extends Component {
   }
 
   async getNthItemName(nth: number) {
-      return await this.getNthItem(nth).getText();
+    return await this.getNthItem(nth).getText();
   }
 
   async getItemsCount() {
@@ -72,7 +72,7 @@ export class Breadcrumb extends Component {
   }
 
   async clickItem(name: string) {
-    const elem = this.component.element(by.css(`${Breadcrumb.selectors.item}[title=${name}]`));
+    const elem = this.getByCss(`${Breadcrumb.selectors.item}[title=${name}]`);
     await elem.click();
   }
 

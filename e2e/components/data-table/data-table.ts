@@ -23,7 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, ElementArrayFinder, by, browser, ExpectedConditions as EC, protractor } from 'protractor';
+import {
+  ElementFinder,
+  by,
+  browser,
+  ExpectedConditions as EC,
+  protractor
+} from 'protractor';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
 import { Menu } from '../menu/menu';
@@ -66,16 +72,18 @@ export class DataTable extends Component {
     searchResultsNameLink: '.link'
   };
 
-  head: ElementFinder = this.component.element(by.css(DataTable.selectors.head));
-  body: ElementFinder = this.component.element(by.css(DataTable.selectors.body));
+  head = this.getByCss(DataTable.selectors.head);
+  body = this.getByCss(DataTable.selectors.body);
 
-  emptyList: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyListContainer));
-  emptyFolderDragAndDrop: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyFolderDragAndDrop));
-  emptyListTitle: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyListTitle));
-  emptyListSubtitle: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyListSubtitle));
-  emptyListText: ElementArrayFinder = this.component.all(by.css(DataTable.selectors.emptyListText));
+  emptyList = this.getByCss(DataTable.selectors.emptyListContainer);
+  emptyFolderDragAndDrop = this.getByCss(
+    DataTable.selectors.emptyFolderDragAndDrop
+  );
+  emptyListTitle = this.getByCss(DataTable.selectors.emptyListTitle);
+  emptyListSubtitle = this.getByCss(DataTable.selectors.emptyListSubtitle);
+  emptyListText = this.getAllByCss(DataTable.selectors.emptyListText);
 
-  emptySearchText: ElementFinder = this.component.element(by.css(DataTable.selectors.emptySearchText));
+  emptySearchText = this.getByCss(DataTable.selectors.emptySearchText);
 
   menu: Menu = new Menu();
 
@@ -85,11 +93,19 @@ export class DataTable extends Component {
 
   // Wait methods (waits for elements)
   async waitForHeader() {
-    return await browser.wait(EC.presenceOf(this.head), BROWSER_WAIT_TIMEOUT, '--- timeout waitForHeader ---');
+    return await browser.wait(
+      EC.presenceOf(this.head),
+      BROWSER_WAIT_TIMEOUT,
+      '--- timeout waitForHeader ---'
+    );
   }
 
   async waitForBody() {
-    return await browser.wait(EC.presenceOf(this.body), BROWSER_WAIT_TIMEOUT, '--- timeout waitForBody ---');
+    return await browser.wait(
+      EC.presenceOf(this.body),
+      BROWSER_WAIT_TIMEOUT,
+      '--- timeout waitForBody ---'
+    );
   }
 
   async waitForEmptyState() {
@@ -112,7 +128,10 @@ export class DataTable extends Component {
   }
 
   getColumnHeaderByLabel(label: string) {
-    const locator = by.cssContainingText(DataTable.selectors.columnHeader, label);
+    const locator = by.cssContainingText(
+      DataTable.selectors.columnHeader,
+      label
+    );
     return this.head.element(locator);
   }
 
@@ -129,8 +148,7 @@ export class DataTable extends Component {
     const str = await this.getSortedColumnHeader().getAttribute('class');
     if (str.includes('asc')) {
       return 'asc';
-    }
-    else {
+    } else {
       if (str.includes('desc')) {
         return 'desc';
       }
@@ -139,7 +157,10 @@ export class DataTable extends Component {
 
   async sortByColumn(columnName: string) {
     const column = this.getColumnHeaderByLabel(columnName);
-    const click = browser.actions().mouseMove(column).click();
+    const click = browser
+      .actions()
+      .mouseMove(column)
+      .click();
 
     await click.perform();
   }
@@ -167,15 +188,27 @@ export class DataTable extends Component {
 
   getRowByName(name: string, location: string = '') {
     if (location) {
-      return this.body.all(by.cssContainingText(DataTable.selectors.row, name))
-        .filter(async (elem) => await browser.isElementPresent(elem.element(by.cssContainingText(DataTable.selectors.cell, location))))
+      return this.body
+        .all(by.cssContainingText(DataTable.selectors.row, name))
+        .filter(
+          async elem =>
+            await browser.isElementPresent(
+              elem.element(
+                by.cssContainingText(DataTable.selectors.cell, location)
+              )
+            )
+        )
         .first();
     }
-    return this.body.element(by.cssContainingText(DataTable.selectors.row, name));
+    return this.body.element(
+      by.cssContainingText(DataTable.selectors.row, name)
+    );
   }
 
   getRowCells(name: string, location: string = '') {
-    return this.getRowByName(name, location).all(by.css(DataTable.selectors.cell));
+    return this.getRowByName(name, location).all(
+      by.css(DataTable.selectors.cell)
+    );
   }
 
   async getRowCellsCount(itemName: string) {
@@ -200,7 +233,9 @@ export class DataTable extends Component {
 
   async hasCheckMarkIcon(itemName: string, location: string = '') {
     const row = this.getRowByName(itemName, location);
-    return await row.element(by.css(DataTable.selectors.selectedIcon)).isPresent();
+    return await row
+      .element(by.css(DataTable.selectors.selectedIcon))
+      .isPresent();
   }
 
   async hasLockIcon(itemName: string, location: string = '') {
@@ -216,7 +251,10 @@ export class DataTable extends Component {
   async getLockOwner(itemName: string, location: string = '') {
     if (await this.hasLockOwnerInfo(itemName, location)) {
       const row = this.getRowByName(itemName, location);
-      return await row.$(DataTable.selectors.lockOwner).$('.locked_by--name').getText();
+      return await row
+        .$(DataTable.selectors.lockOwner)
+        .$('.locked_by--name')
+        .getText();
     }
     return '';
   }
@@ -234,18 +272,24 @@ export class DataTable extends Component {
     try {
       const item = this.getRowFirstCell(name, location);
       await Utils.waitUntilElementClickable(item);
-      await browser.actions().mouseMove(item).perform();
-      await browser.actions().click().click().perform();
+      await browser
+        .actions()
+        .mouseMove(item)
+        .perform();
+      await browser
+        .actions()
+        .click()
+        .click()
+        .perform();
     } catch (error) {
       console.log('--- catch: doubleClickOnRowByName', error);
     }
   }
 
   async selectItem(name: string, location: string = '') {
-    try{
+    try {
       const item = this.getRowFirstCell(name, location);
       await item.click();
-
     } catch (e) {
       console.log('--- select item catch : ', e);
     }
@@ -257,11 +301,20 @@ export class DataTable extends Component {
 
   async selectMultipleItems(names: string[], location: string = '') {
     await this.clearSelection();
-    await browser.actions().sendKeys(protractor.Key.COMMAND).perform();
+
+    await browser
+      .actions()
+      .sendKeys(protractor.Key.COMMAND)
+      .perform();
+
     for (const name of names) {
       await this.selectItem(name, location);
     }
-    await browser.actions().sendKeys(protractor.Key.NULL).perform();
+
+    await browser
+      .actions()
+      .sendKeys(protractor.Key.NULL)
+      .perform();
   }
 
   async clearSelection() {
@@ -278,18 +331,36 @@ export class DataTable extends Component {
 
   async rightClickOnItem(itemName: string) {
     const item = this.getRowFirstCell(itemName);
-    await browser.actions().mouseMove(item).perform();
-    await browser.actions().click(protractor.Button.RIGHT).perform();
+
+    await browser
+      .actions()
+      .mouseMove(item)
+      .perform();
+
+    await browser
+      .actions()
+      .click(protractor.Button.RIGHT)
+      .perform();
   }
 
   async rightClickOnMultipleSelection() {
     const itemFromSelection = this.getSelectedRows().get(0);
-    await browser.actions().mouseMove(itemFromSelection).perform();
-    await browser.actions().click(protractor.Button.RIGHT).perform();
+
+    await browser
+      .actions()
+      .mouseMove(itemFromSelection)
+      .perform();
+
+    await browser
+      .actions()
+      .click(protractor.Button.RIGHT)
+      .perform();
   }
 
   getItemLocationEl(name: string) {
-    return this.getRowByName(name).element(by.css(DataTable.selectors.locationLink));
+    return this.getRowByName(name).element(
+      by.css(DataTable.selectors.locationLink)
+    );
   }
 
   async getItemLocation(name: string) {
@@ -298,9 +369,13 @@ export class DataTable extends Component {
 
   async getItemLocationTooltip(name: string) {
     const location = this.getItemLocationEl(name).$('a');
-    const condition = () => location.getAttribute('title').then(value => value && value.length > 0);
+    const condition = () =>
+      location.getAttribute('title').then(value => value && value.length > 0);
 
-    await browser.actions().mouseMove(location).perform();
+    await browser
+      .actions()
+      .mouseMove(location)
+      .perform();
 
     await browser.wait(condition, BROWSER_WAIT_TIMEOUT);
     return await location.getAttribute('title');
@@ -352,7 +427,9 @@ export class DataTable extends Component {
   }
 
   async getCellsContainingName(name: string) {
-    const rows = this.getRows().all(by.cssContainingText(DataTable.selectors.cell, name));
+    const rows = this.getRows().all(
+      by.cssContainingText(DataTable.selectors.cell, name)
+    );
     return rows.map(async cell => await cell.getText());
   }
 
@@ -362,16 +439,20 @@ export class DataTable extends Component {
   }
 
   async getLibraryRole(name: string) {
-    return await this.getRowByName(name).element(by.css(DataTable.selectors.libraryRole)).getText();
+    return await this.getRowByName(name)
+      .element(by.css(DataTable.selectors.libraryRole))
+      .getText();
   }
 
-  async isItemPresent(name: string, location? : string) {
+  async isItemPresent(name: string, location?: string) {
     return await this.getRowByName(name, location).isPresent();
   }
 
   async getEntireDataTableText() {
-    return this.getRows().map((row) => {
-      return row.all(by.css(DataTable.selectors.cell)).map(async cell => await cell.getText());
+    return this.getRows().map(row => {
+      return row
+        .all(by.css(DataTable.selectors.cell))
+        .map(async cell => await cell.getText());
     });
   }
 
@@ -393,15 +474,30 @@ export class DataTable extends Component {
 
   getSearchResultsRowByName(name: string, location: string = '') {
     if (location) {
-      return this.body.all(by.cssContainingText(DataTable.selectors.searchResultsRow, name))
-        .filter(async (elem) => await browser.isElementPresent(elem.element(by.cssContainingText(DataTable.selectors.searchResultsRowLine, location))))
+      return this.body
+        .all(by.cssContainingText(DataTable.selectors.searchResultsRow, name))
+        .filter(
+          async elem =>
+            await browser.isElementPresent(
+              elem.element(
+                by.cssContainingText(
+                  DataTable.selectors.searchResultsRowLine,
+                  location
+                )
+              )
+            )
+        )
         .first();
     }
-    return this.body.element(by.cssContainingText(DataTable.selectors.searchResultsRow, name));
+    return this.body.element(
+      by.cssContainingText(DataTable.selectors.searchResultsRow, name)
+    );
   }
 
   getSearchResultRowLines(name: string, location: string = '') {
-    return this.getSearchResultsRowByName(name, location).all(by.css(DataTable.selectors.searchResultsRowLine));
+    return this.getSearchResultsRowByName(name, location).all(
+      by.css(DataTable.selectors.searchResultsRowLine)
+    );
   }
 
   async getSearchResultLinesCount(name: string, location: string = '') {
@@ -429,7 +525,9 @@ export class DataTable extends Component {
   }
 
   getSearchResultNameLink(itemName: string, location: string = '') {
-    return this.getSearchResultsRowByName(itemName, location).$(DataTable.selectors.searchResultsNameLink);
+    return this.getSearchResultsRowByName(itemName, location).$(
+      DataTable.selectors.searchResultsNameLink
+    );
   }
 
   async hasLinkOnSearchResultName(itemName: string, location: string = '') {
@@ -439,5 +537,4 @@ export class DataTable extends Component {
   async clickSearchResultNameLink(itemName: string, location: string = '') {
     await this.getSearchResultNameLink(itemName, location).click();
   }
-
 }

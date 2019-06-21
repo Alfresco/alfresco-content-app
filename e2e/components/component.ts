@@ -23,7 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, ExpectedConditions as EC, browser } from 'protractor';
+import {
+  ElementFinder,
+  ExpectedConditions as EC,
+  browser,
+  by,
+  ElementArrayFinder
+} from 'protractor';
 import { BROWSER_WAIT_TIMEOUT } from '../configs';
 
 export abstract class Component {
@@ -39,5 +45,21 @@ export abstract class Component {
 
   async wait() {
     await browser.wait(EC.presenceOf(this.component), BROWSER_WAIT_TIMEOUT);
+  }
+
+  /**
+   * Get an element finder based on a CSS selector
+   * @param selector CSS selector value
+   */
+  protected getByCss(selector: string): ElementFinder {
+    return this.component.element(by.css(selector));
+  }
+
+  /**
+   * Get an array of element finders based on a CSS selector
+   * @param selector CSS selector value
+   */
+  protected getAllByCss(selector: string): ElementArrayFinder {
+    return this.component.all(by.css(selector));
   }
 }
