@@ -1,4 +1,3 @@
-import { Utils } from './../../utilities/utils';
 /*!
  * @license
  * Alfresco Example Content Application
@@ -24,17 +23,17 @@ import { Utils } from './../../utilities/utils';
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, browser, ExpectedConditions as EC } from 'protractor';
-import { BROWSER_WAIT_TIMEOUT } from '../../configs';
+import { ElementFinder, by, browser } from 'protractor';
 import { Component } from '../component';
+import { Utils } from './../../utilities/utils';
 
 export class CopyMoveDialog extends Component {
-  private static selectors = {
+  selectors = {
     root: '.adf-content-node-selector-dialog',
 
     title: '.mat-dialog-title',
     content: '.mat-dialog-content',
-    locationDropDown: 'site-dropdown-container',
+    locationDropDownId: 'site-dropdown-container',
     locationOption: '.mat-option .mat-option-text',
 
     dataTable: '.adf-datatable-body',
@@ -44,41 +43,51 @@ export class CopyMoveDialog extends Component {
     button: '.mat-dialog-actions button'
   };
 
-  title: ElementFinder = this.component.element(by.css(CopyMoveDialog.selectors.title));
-  content: ElementFinder = this.component.element(by.css(CopyMoveDialog.selectors.content));
-  dataTable: ElementFinder = this.component.element(by.css(CopyMoveDialog.selectors.dataTable));
-  locationDropDown: ElementFinder = this.component.element(by.id(CopyMoveDialog.selectors.locationDropDown));
-  locationPersonalFiles: ElementFinder = browser.element(by.cssContainingText(CopyMoveDialog.selectors.locationOption, 'Personal Files'));
-  locationFileLibraries: ElementFinder = browser.element(by.cssContainingText(CopyMoveDialog.selectors.locationOption, 'File Libraries'));
+  title = this.getByCss(this.selectors.title);
+  content = this.getByCss(this.selectors.content);
+  dataTable = this.getByCss(this.selectors.dataTable);
+  locationDropDown = this.getById(this.selectors.locationDropDownId);
+  locationPersonalFiles = browser.element(
+    by.cssContainingText(this.selectors.locationOption, 'Personal Files')
+  );
+  locationFileLibraries = browser.element(
+    by.cssContainingText(this.selectors.locationOption, 'File Libraries')
+  );
 
-  row: ElementFinder = this.component.element(by.css(CopyMoveDialog.selectors.row));
+  row = this.getByCss(this.selectors.row);
 
-  cancelButton: ElementFinder = this.component.element(by.cssContainingText(CopyMoveDialog.selectors.button, 'Cancel'));
-  copyButton: ElementFinder = this.component.element(by.cssContainingText(CopyMoveDialog.selectors.button, 'Copy'));
-  moveButton: ElementFinder = this.component.element(by.cssContainingText(CopyMoveDialog.selectors.button, 'Move'));
+  cancelButton = this.component.element(
+    by.cssContainingText(this.selectors.button, 'Cancel')
+  );
+  copyButton = this.component.element(
+    by.cssContainingText(this.selectors.button, 'Copy')
+  );
+  moveButton = this.component.element(
+    by.cssContainingText(this.selectors.button, 'Move')
+  );
 
   constructor(ancestor?: ElementFinder) {
-    super(CopyMoveDialog.selectors.root, ancestor);
+    super('.adf-content-node-selector-dialog', ancestor);
   }
 
   async waitForDialogToClose() {
-    await browser.wait(EC.stalenessOf(this.title), BROWSER_WAIT_TIMEOUT);
+    await this.waitStale(this.title);
   }
 
   async waitForDropDownToOpen() {
-    await browser.wait(EC.presenceOf(this.locationPersonalFiles), BROWSER_WAIT_TIMEOUT);
+    await this.wait(this.locationPersonalFiles);
   }
 
   async waitForDropDownToClose() {
-    await browser.wait(EC.stalenessOf(browser.$(CopyMoveDialog.selectors.locationOption)), BROWSER_WAIT_TIMEOUT);
+    await this.waitStale(browser.$(this.selectors.locationOption));
   }
 
   async waitForRowToBeSelected() {
-    await browser.wait(EC.presenceOf(this.component.element(by.css(CopyMoveDialog.selectors.selectedRow))), BROWSER_WAIT_TIMEOUT);
+    await this.wait(this.getByCss(this.selectors.selectedRow));
   }
 
   async isDialogOpen() {
-    return await browser.$(CopyMoveDialog.selectors.root).isDisplayed();
+    return await browser.$(this.selectors.root).isDisplayed();
   }
 
   async getTitle() {
@@ -99,14 +108,26 @@ export class CopyMoveDialog extends Component {
   }
 
   getRow(folderName: string) {
-    return this.dataTable.element(by.cssContainingText('.adf-name-location-cell', folderName));
+    return this.dataTable.element(
+      by.cssContainingText('.adf-name-location-cell', folderName)
+    );
   }
 
   async doubleClickOnRow(name: string) {
     const item = this.getRow(name);
+
     await Utils.waitUntilElementClickable(item);
-    await browser.actions().mouseMove(item).perform();
-    await browser.actions().click().click().perform();
+
+    await browser
+      .actions()
+      .mouseMove(item)
+      .perform();
+
+    await browser
+      .actions()
+      .click()
+      .click()
+      .perform();
   }
 
   async selectLocation(location: 'Personal Files' | 'File Libraries') {
@@ -124,6 +145,7 @@ export class CopyMoveDialog extends Component {
 
   async selectDestination(folderName: string) {
     const row = this.getRow(folderName);
+
     await Utils.waitUntilElementClickable(row);
     await row.click();
     await this.waitForRowToBeSelected();

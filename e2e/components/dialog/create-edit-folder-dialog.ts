@@ -23,13 +23,12 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, browser, protractor, ExpectedConditions as EC } from 'protractor';
-import { BROWSER_WAIT_TIMEOUT } from '../../configs';
+import { ElementFinder, by, browser, protractor } from 'protractor';
 import { Component } from '../component';
 import { Utils } from '../../utilities/utils';
 
 export class CreateOrEditFolderDialog extends Component {
-  private static selectors = {
+  selectors = {
     root: 'adf-folder-dialog',
 
     title: '.mat-dialog-title',
@@ -39,29 +38,38 @@ export class CreateOrEditFolderDialog extends Component {
     validationMessage: '.mat-hint span'
   };
 
-  title: ElementFinder = this.component.element(by.css(CreateOrEditFolderDialog.selectors.title));
-  nameInput: ElementFinder = this.component.element(by.css(CreateOrEditFolderDialog.selectors.nameInput));
-  descriptionTextArea: ElementFinder = this.component.element(by.css(CreateOrEditFolderDialog.selectors.descriptionTextArea));
-  createButton: ElementFinder = this.component.element(by.cssContainingText(CreateOrEditFolderDialog.selectors.button, 'Create'));
-  cancelButton: ElementFinder = this.component.element(by.cssContainingText(CreateOrEditFolderDialog.selectors.button, 'Cancel'));
-  updateButton: ElementFinder = this.component.element(by.cssContainingText(CreateOrEditFolderDialog.selectors.button, 'Update'));
-  validationMessage: ElementFinder = this.component.element(by.css(CreateOrEditFolderDialog.selectors.validationMessage));
+  title = this.getByCss(this.selectors.title);
+  nameInput = this.getByCss(this.selectors.nameInput);
+  descriptionTextArea = this.getByCss(this.selectors.descriptionTextArea);
+  createButton = this.component.element(
+    by.cssContainingText(this.selectors.button, 'Create')
+  );
+  cancelButton = this.component.element(
+    by.cssContainingText(this.selectors.button, 'Cancel')
+  );
+  updateButton = this.component.element(
+    by.cssContainingText(this.selectors.button, 'Update')
+  );
+  validationMessage = this.getByCss(this.selectors.validationMessage);
 
   constructor(ancestor?: ElementFinder) {
-    super(CreateOrEditFolderDialog.selectors.root, ancestor);
+    super('adf-folder-dialog', ancestor);
   }
 
   async waitForDialogToOpen() {
-    await browser.wait(EC.presenceOf(this.title), BROWSER_WAIT_TIMEOUT);
-    await browser.wait(EC.presenceOf(browser.element(by.css('.cdk-overlay-backdrop'))), BROWSER_WAIT_TIMEOUT);
+    await this.wait(this.title);
+    await this.wait(browser.element(by.css('.cdk-overlay-backdrop')));
   }
 
   async waitForDialogToClose() {
-    await browser.wait(EC.stalenessOf(this.title), BROWSER_WAIT_TIMEOUT, '---- timeout waiting for dialog to close ----');
+    await this.waitStale(
+      this.title,
+      '---- timeout waiting for dialog to close ----'
+    );
   }
 
   async isDialogOpen() {
-    return await browser.isElementPresent(by.css(CreateOrEditFolderDialog.selectors.root));
+    return await browser.isElementPresent(by.css(this.selectors.root));
   }
 
   async getTitle() {
@@ -117,7 +125,13 @@ export class CreateOrEditFolderDialog extends Component {
 
   async deleteNameWithBackspace() {
     await this.nameInput.clear();
-    await this.nameInput.sendKeys(' ', protractor.Key.CONTROL, 'a', protractor.Key.NULL, protractor.Key.BACK_SPACE);
+    await this.nameInput.sendKeys(
+      ' ',
+      protractor.Key.CONTROL,
+      'a',
+      protractor.Key.NULL,
+      protractor.Key.BACK_SPACE
+    );
   }
 
   async clickCreate() {
@@ -132,5 +146,4 @@ export class CreateOrEditFolderDialog extends Component {
   async clickUpdate() {
     await this.updateButton.click();
   }
-
 }
