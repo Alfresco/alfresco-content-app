@@ -49,7 +49,7 @@ export abstract class Component {
    * @param message Message
    */
   async wait(element?: ElementFinder, message?: string) {
-    await browser.wait(
+    return await browser.wait(
       EC.presenceOf(element || this.component),
       BROWSER_WAIT_TIMEOUT,
       message
@@ -62,7 +62,7 @@ export abstract class Component {
    * @param message Message
    */
   async waitStale(element?: ElementFinder, message?: string) {
-    await browser.wait(
+    return await browser.wait(
       EC.stalenessOf(element || this.component),
       BROWSER_WAIT_TIMEOUT,
       message

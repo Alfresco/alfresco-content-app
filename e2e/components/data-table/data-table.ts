@@ -85,15 +85,15 @@ export class DataTable extends Component {
 
   // Wait methods (waits for elements)
   async waitForHeader() {
-    await this.wait(this.head, '--- timeout waitForHeader ---');
+    return await this.wait(this.head, '--- timeout waitForHeader ---');
   }
 
   async waitForBody() {
-    await this.wait(this.body, '--- timeout waitForBody ---');
+    return await this.wait(this.body, '--- timeout waitForBody ---');
   }
 
   async waitForEmptyState() {
-    await this.wait(this.emptyList);
+    return await this.wait(this.emptyList);
   }
 
   // Header/Column methods
