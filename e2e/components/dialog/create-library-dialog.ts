@@ -23,13 +23,12 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, browser, protractor, ExpectedConditions as EC } from 'protractor';
-import { BROWSER_WAIT_TIMEOUT } from '../../configs';
+import { ElementFinder, by, browser, protractor } from 'protractor';
 import { Component } from '../component';
 import { Utils } from '../../utilities/utils';
 
 export class CreateLibraryDialog extends Component {
-  private static selectors = {
+  selectors = {
     root: 'adf-library-dialog',
 
     title: '.mat-dialog-title',
@@ -42,32 +41,32 @@ export class CreateLibraryDialog extends Component {
     errorMessage: '.mat-error'
   };
 
-  title: ElementFinder = this.component.element(by.css(CreateLibraryDialog.selectors.title));
-  nameInput: ElementFinder = this.component.element(by.css(CreateLibraryDialog.selectors.nameInput));
-  libraryIdInput: ElementFinder = this.component.element(by.css(CreateLibraryDialog.selectors.libraryIdInput));
-  descriptionTextArea: ElementFinder = this.component.element(by.css(CreateLibraryDialog.selectors.descriptionTextArea));
-  visibilityPublic: ElementFinder = this.component.element(by.cssContainingText(CreateLibraryDialog.selectors.radioButton, 'Public'));
-  visibilityModerated: ElementFinder = this.component.element(by.cssContainingText(CreateLibraryDialog.selectors.radioButton, 'Moderated'));
-  visibilityPrivate: ElementFinder = this.component.element(by.cssContainingText(CreateLibraryDialog.selectors.radioButton, 'Private'));
-  createButton: ElementFinder = this.component.element(by.cssContainingText(CreateLibraryDialog.selectors.button, 'Create'));
-  cancelButton: ElementFinder = this.component.element(by.cssContainingText(CreateLibraryDialog.selectors.button, 'Cancel'));
-  errorMessage: ElementFinder = this.component.element(by.css(CreateLibraryDialog.selectors.errorMessage));
+  title = this.getByCss(this.selectors.title);
+  nameInput = this.getByCss(this.selectors.nameInput);
+  libraryIdInput = this.getByCss(this.selectors.libraryIdInput);
+  descriptionTextArea = this.getByCss(this.selectors.descriptionTextArea);
+  visibilityPublic = this.getByText(this.selectors.radioButton, 'Public');
+  visibilityModerated = this.getByText(this.selectors.radioButton, 'Moderated');
+  visibilityPrivate = this.getByText(this.selectors.radioButton, 'Private');
+  createButton = this.getByText(this.selectors.button, 'Create');
+  cancelButton = this.getByText(this.selectors.button, 'Cancel');
+  errorMessage = this.getByCss(this.selectors.errorMessage);
 
   constructor(ancestor?: ElementFinder) {
-    super(CreateLibraryDialog.selectors.root, ancestor);
+    super('adf-library-dialog', ancestor);
   }
 
   async waitForDialogToOpen() {
-    await browser.wait(EC.presenceOf(this.title), BROWSER_WAIT_TIMEOUT);
-    await browser.wait(EC.presenceOf(browser.element(by.css('.cdk-overlay-backdrop'))), BROWSER_WAIT_TIMEOUT);
+    await this.wait(this.title);
+    await this.wait(browser.element(by.css('.cdk-overlay-backdrop')));
   }
 
   async waitForDialogToClose() {
-    await browser.wait(EC.stalenessOf(this.title), BROWSER_WAIT_TIMEOUT);
+    await this.waitStale(this.title);
   }
 
   async isDialogOpen() {
-    return await browser.isElementPresent(by.css(CreateLibraryDialog.selectors.root));
+    return await browser.isElementPresent(by.css(this.selectors.root));
   }
 
   async getTitle() {
@@ -124,7 +123,13 @@ export class CreateLibraryDialog extends Component {
 
   async deleteNameWithBackspace() {
     await this.nameInput.clear();
-    await this.nameInput.sendKeys(' ', protractor.Key.CONTROL, 'a', protractor.Key.NULL, protractor.Key.BACK_SPACE);
+    await this.nameInput.sendKeys(
+      ' ',
+      protractor.Key.CONTROL,
+      'a',
+      protractor.Key.NULL,
+      protractor.Key.BACK_SPACE
+    );
   }
 
   async isCreateEnabled() {
@@ -145,18 +150,24 @@ export class CreateLibraryDialog extends Component {
   }
 
   async isPublicChecked() {
-    const elemClass = await this.visibilityPublic.element(by.xpath('..')).getAttribute('class');
-    return await elemClass.includes(CreateLibraryDialog.selectors.radioChecked);
+    const elemClass = await this.visibilityPublic
+      .element(by.xpath('..'))
+      .getAttribute('class');
+    return await elemClass.includes(this.selectors.radioChecked);
   }
 
   async isModeratedChecked() {
-    const elemClass = await this.visibilityModerated.element(by.xpath('..')).getAttribute('class');
-    return await elemClass.includes(CreateLibraryDialog.selectors.radioChecked);
+    const elemClass = await this.visibilityModerated
+      .element(by.xpath('..'))
+      .getAttribute('class');
+    return await elemClass.includes(this.selectors.radioChecked);
   }
 
   async isPrivateChecked() {
-    const elemClass = await this.visibilityPrivate.element(by.xpath('..')).getAttribute('class');
-    return await elemClass.includes(CreateLibraryDialog.selectors.radioChecked);
+    const elemClass = await this.visibilityPrivate
+      .element(by.xpath('..'))
+      .getAttribute('class');
+    return await elemClass.includes(this.selectors.radioChecked);
   }
 
   async selectPublic() {

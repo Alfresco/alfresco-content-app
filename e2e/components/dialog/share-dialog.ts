@@ -23,13 +23,12 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, ElementArrayFinder, by, browser, ExpectedConditions as EC } from 'protractor';
-import { BROWSER_WAIT_TIMEOUT } from '../../configs';
+import { ElementFinder, by, browser } from 'protractor';
 import { DateTimePicker } from '../../components/datetime-picker/datetime-picker';
 import { Component } from '../component';
 
 export class ShareDialog extends Component {
-  private static selectors = {
+  selectors = {
     root: '.adf-share-dialog',
 
     title: `[data-automation-id='adf-share-dialog-title']`,
@@ -46,32 +45,31 @@ export class ShareDialog extends Component {
 
   dateTimePicker = new DateTimePicker();
 
-  title: ElementFinder = this.component.element(by.css(ShareDialog.selectors.title));
-  infoText: ElementFinder = this.component.element(by.css(ShareDialog.selectors.info));
-  labels: ElementArrayFinder = this.component.all(by.css(ShareDialog.selectors.label));
-  shareToggle: ElementFinder = this.component.element(by.css(ShareDialog.selectors.shareToggle));
-  url: ElementFinder = this.component.element(by.css(ShareDialog.selectors.linkUrl));
-  urlAction: ElementFinder = this.component.element(by.css(ShareDialog.selectors.inputAction));
-  expireToggle: ElementFinder = this.component.element(by.css(ShareDialog.selectors.expireToggle));
-  expireInput: ElementFinder = this.component.element(by.css(ShareDialog.selectors.expirationInput));
-  datetimePickerButton: ElementFinder = this.component.element(by.css(ShareDialog.selectors.datetimePickerButton));
-  closeButton: ElementFinder = this.component.element(by.css(ShareDialog.selectors.button));
-
+  title = this.getByCss(this.selectors.title);
+  infoText = this.getByCss(this.selectors.info);
+  labels = this.getAllByCss(this.selectors.label);
+  shareToggle = this.getByCss(this.selectors.shareToggle);
+  url = this.getByCss(this.selectors.linkUrl);
+  urlAction = this.getByCss(this.selectors.inputAction);
+  expireToggle = this.getByCss(this.selectors.expireToggle);
+  expireInput = this.getByCss(this.selectors.expirationInput);
+  datetimePickerButton = this.getByCss(this.selectors.datetimePickerButton);
+  closeButton = this.getByCss(this.selectors.button);
 
   constructor(ancestor?: ElementFinder) {
-    super(ShareDialog.selectors.root, ancestor);
+    super('.adf-share-dialog', ancestor);
   }
 
   async waitForDialogToClose() {
-    await browser.wait(EC.stalenessOf(this.title), BROWSER_WAIT_TIMEOUT, 'share dialog did not close');
+    await this.waitStale(this.title, 'share dialog did not close');
   }
 
   async waitForDialogToOpen() {
-    await browser.wait(EC.presenceOf(this.title), BROWSER_WAIT_TIMEOUT);
+    this.wait(this.title);
   }
 
   async isDialogOpen() {
-    return await browser.isElementPresent(by.css(ShareDialog.selectors.root));
+    return await browser.isElementPresent(by.css(this.selectors.root));
   }
 
   async getTitle() {

@@ -23,12 +23,11 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, browser, ExpectedConditions as EC } from 'protractor';
-import { BROWSER_WAIT_TIMEOUT } from '../../configs';
+import { ElementFinder, browser } from 'protractor';
 import { Component } from '../component';
 
 export class ManageVersionsDialog extends Component {
-  private static selectors = {
+  selectors = {
     root: '.aca-node-versions-dialog',
 
     title: '.mat-dialog-title',
@@ -36,20 +35,20 @@ export class ManageVersionsDialog extends Component {
     button: '.mat-button'
   };
 
-  title: ElementFinder = this.component.element(by.css(ManageVersionsDialog.selectors.title));
-  content: ElementFinder = this.component.element(by.css(ManageVersionsDialog.selectors.content));
-  closeButton: ElementFinder = this.component.element(by.cssContainingText(ManageVersionsDialog.selectors.button, 'Close'));
+  title = this.getByCss(this.selectors.title);
+  content = this.getByCss(this.selectors.content);
+  closeButton = this.getByText(this.selectors.button, 'Close');
 
   constructor(ancestor?: ElementFinder) {
-    super(ManageVersionsDialog.selectors.root, ancestor);
+    super('.aca-node-versions-dialog', ancestor);
   }
 
   async waitForDialogToClose() {
-    return await browser.wait(EC.stalenessOf(this.title), BROWSER_WAIT_TIMEOUT);
+    await this.waitStale(this.title);
   }
 
   async isDialogOpen() {
-    return await browser.$(ManageVersionsDialog.selectors.root).isDisplayed();
+    return await browser.$(this.selectors.root).isDisplayed();
   }
 
   async getTitle() {

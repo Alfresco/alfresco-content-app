@@ -23,12 +23,12 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, browser, ExpectedConditions as EC, until } from 'protractor';
+import { ElementFinder, by, browser, until } from 'protractor';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
 
 export class PasswordDialog extends Component {
-  private static selectors = {
+  selectors = {
     root: 'adf-pdf-viewer-password-dialog',
 
     title: '.mat-dialog-title',
@@ -38,27 +38,27 @@ export class PasswordDialog extends Component {
     errorMessage: '.mat-error'
   };
 
-  title: ElementFinder = this.component.element(by.css(PasswordDialog.selectors.title));
-  content: ElementFinder = this.component.element(by.css(PasswordDialog.selectors.content));
-  passwordInput: ElementFinder = this.component.element(by.css(PasswordDialog.selectors.passwordInput));
-  errorMessage: ElementFinder = this.component.element(by.css(PasswordDialog.selectors.errorMessage));
-  closeButton: ElementFinder = this.component.element(by.buttonText('Close'));
-  submitButton: ElementFinder = this.component.element(by.buttonText('Submit'));
+  title = this.getByCss(this.selectors.title);
+  content = this.getByCss(this.selectors.content);
+  passwordInput = this.getByCss(this.selectors.passwordInput);
+  errorMessage = this.getByCss(this.selectors.errorMessage);
+  closeButton = this.component.element(by.buttonText('Close'));
+  submitButton = this.component.element(by.buttonText('Submit'));
 
   constructor(ancestor?: ElementFinder) {
-    super(PasswordDialog.selectors.root, ancestor);
+    super('adf-pdf-viewer-password-dialog', ancestor);
   }
 
   async waitForDialogToClose() {
-    await browser.wait(EC.stalenessOf(this.title), BROWSER_WAIT_TIMEOUT);
+    await this.waitStale(this.title);
   }
 
   async waitForDialogToOpen() {
-    await browser.wait(EC.presenceOf(this.title), BROWSER_WAIT_TIMEOUT);
+    await this.wait(this.title);
   }
 
   async isDialogOpen() {
-    return await browser.isElementPresent(by.css(PasswordDialog.selectors.root));
+    return await browser.isElementPresent(by.css(this.selectors.root));
   }
 
   async getTitle() {
@@ -91,7 +91,11 @@ export class PasswordDialog extends Component {
   }
 
   async isErrorDisplayed() {
-    const elem = await browser.wait(until.elementLocated(by.css(PasswordDialog.selectors.errorMessage)), BROWSER_WAIT_TIMEOUT, '------- timeout waiting for error message to appear')
+    const elem = await browser.wait(
+      until.elementLocated(by.css(this.selectors.errorMessage)),
+      BROWSER_WAIT_TIMEOUT,
+      '------- timeout waiting for error message to appear'
+    );
     return await browser.isElementPresent(elem);
   }
 

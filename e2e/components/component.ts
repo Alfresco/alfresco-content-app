@@ -92,4 +92,13 @@ export abstract class Component {
   protected getById(id: string): ElementFinder {
     return this.component.element(by.id(id));
   }
+
+  /**
+   * Get an element by the containing text
+   * @param selector Selector
+   * @param text Text
+   */
+  protected getByText(selector: string, text: string): ElementFinder {
+    return this.component.element(by.cssContainingText(selector, text));
+  }
 }
