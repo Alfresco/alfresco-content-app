@@ -23,12 +23,11 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, browser, ExpectedConditions as EC } from 'protractor';
-import { BROWSER_WAIT_TIMEOUT } from '../../configs';
+import { ElementFinder, by, browser } from 'protractor';
 import { Component } from '../component';
 
 export class ConfirmDialog extends Component {
-  private static selectors = {
+  selectors = {
     root: 'adf-confirm-dialog',
 
     title: '.mat-dialog-title',
@@ -38,26 +37,26 @@ export class ConfirmDialog extends Component {
     actionButton: 'adf-confirm'
   };
 
-  title: ElementFinder = this.component.element(by.css(ConfirmDialog.selectors.title));
-  content: ElementFinder = this.component.element(by.css(ConfirmDialog.selectors.content));
-  acceptButton: ElementFinder = this.component.element(by.id(ConfirmDialog.selectors.accept));
-  cancelButton: ElementFinder = this.component.element(by.id(ConfirmDialog.selectors.cancel));
-  actionButton: ElementFinder = this.component.element(by.id(ConfirmDialog.selectors.actionButton));
+  title = this.getByCss(this.selectors.title);
+  content = this.getByCss(this.selectors.content);
+  acceptButton = this.getById(this.selectors.accept);
+  cancelButton = this.getById(this.selectors.cancel);
+  actionButton = this.getById(this.selectors.actionButton);
 
   constructor(ancestor?: ElementFinder) {
-    super(ConfirmDialog.selectors.root, ancestor);
+    super('adf-confirm-dialog', ancestor);
   }
 
   async waitForDialogToClose() {
-    await browser.wait(EC.stalenessOf(this.title), BROWSER_WAIT_TIMEOUT);
+    await this.waitStale(this.title);
   }
 
   async waitForDialogToOpen() {
-    await browser.wait(EC.presenceOf(this.title), BROWSER_WAIT_TIMEOUT);
+    await this.wait(this.title);
   }
 
   async isDialogOpen() {
-    return await browser.isElementPresent(by.css(ConfirmDialog.selectors.root));
+    return await browser.isElementPresent(by.css(this.selectors.root));
   }
 
   async getTitle() {
@@ -82,7 +81,6 @@ export class ConfirmDialog extends Component {
     return await button.isEnabled();
   }
 
-
   async isOkEnabled() {
     return await this.isButtonEnabled('OK');
   }
@@ -103,7 +101,6 @@ export class ConfirmDialog extends Component {
     return await this.isButtonEnabled('Remove');
   }
 
-
   async clickOk() {
     return await this.clickButton('OK');
   }
@@ -123,5 +120,4 @@ export class ConfirmDialog extends Component {
   async clickRemove() {
     return await this.clickButton('Remove');
   }
-
 }

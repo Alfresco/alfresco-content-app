@@ -84,4 +84,12 @@ export abstract class Component {
   protected getAllByCss(selector: string): ElementArrayFinder {
     return this.component.all(by.css(selector));
   }
+
+  /**
+   * Get an element by ID
+   * @param id ID value
+   */
+  protected getById(id: string): ElementFinder {
+    return this.component.element(by.id(id));
+  }
 }
