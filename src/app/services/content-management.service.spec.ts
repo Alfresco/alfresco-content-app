@@ -24,7 +24,7 @@
  */
 
 import { TestBed, fakeAsync, tick, flush } from '@angular/core/testing';
-import { of, throwError } from 'rxjs';
+import { of, throwError, Subject } from 'rxjs';
 import { Actions, ofType, EffectsModule } from '@ngrx/effects';
 import {
   AppStore,
@@ -49,7 +49,7 @@ import { ContentApiService } from '@alfresco/aca-shared';
 import { Store } from '@ngrx/store';
 import { ContentManagementService } from './content-management.service';
 import { NodeActionsService } from './node-actions.service';
-import { TranslationService } from '@alfresco/adf-core';
+import { TranslationService, AlfrescoApiService } from '@alfresco/adf-core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {
@@ -66,6 +66,7 @@ describe('ContentManagementService', () => {
   let snackBar: MatSnackBar;
   let nodeActions: NodeActionsService;
   let translationService: TranslationService;
+  let alfrescoApiService: AlfrescoApiService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -79,6 +80,7 @@ describe('ContentManagementService', () => {
     snackBar = TestBed.get(MatSnackBar);
     nodeActions = TestBed.get(NodeActionsService);
     translationService = TestBed.get(TranslationService);
+    alfrescoApiService = TestBed.get(AlfrescoApiService);
 
     dialog = TestBed.get(MatDialog);
   });
@@ -675,8 +677,6 @@ describe('ContentManagementService', () => {
       spyOn(snackBar, 'open').and.returnValue({
         onAction: () => of({})
       });
-
-      // spyOn(snackBar, 'open').and.callThrough();
     });
 
     it('should move node back to initial parent, after succeeded move', () => {
@@ -1587,5 +1587,56 @@ describe('ContentManagementService', () => {
 
       expect(dialogRef).toBe(mockDialogInstance);
     });
+  });
+
+  describe('editFolder', () => {
+    it('should open dialog with FolderDialogComponent instance', () => {
+      const mockDialogInstance = <any>{
+        componentInstance: { error: of() },
+        afterClosed: () => of()
+      };
+      const node = <any>{ entry: { id: '1', name: 'name1', isFolder: true } };
+      spyOn(dialog, 'open').and.returnValue(mockDialogInstance);
+
+      contentManagementService.editFolder(node);
+
+      expect(dialog.open['calls'].argsFor(0)[0].name).toBe(
+        'FolderDialogComponent'
+      );
+    });
+
+    it('should raise error when edit operation fails', fakeAsync(() => {
+      const mockDialogInstance = <any>{
+        componentInstance: { error: new Subject<any>() },
+        afterClosed: () => of()
+      };
+      const node = <any>{ entry: { id: '1', name: 'name1', isFolder: true } };
+      spyOn(dialog, 'open').and.returnValue(mockDialogInstance);
+      spyOn(store, 'dispatch').and.callThrough();
+
+      contentManagementService.editFolder(node);
+
+      mockDialogInstance.componentInstance.error.next('edit folder error');
+
+      expect(store.dispatch['calls'].argsFor(0)[0]).toEqual(
+        new SnackbarErrorAction('edit folder error')
+      );
+    }));
+
+    it('should call nodeUpdated event with edited node data', fakeAsync(() => {
+      const node = <any>{ entry: { id: '1', name: 'name1' } };
+      const newNode = <any>{ entry: { id: '1', name: 'name-edited' } };
+      const mockDialogInstance = <any>{
+        componentInstance: { error: new Subject<any>() },
+        afterClosed: () => of(newNode)
+      };
+
+      spyOn(alfrescoApiService.nodeUpdated, 'next');
+      spyOn(dialog, 'open').and.returnValue(mockDialogInstance);
+
+      contentManagementService.editFolder(node);
+
+      expect(alfrescoApiService.nodeUpdated.next).toHaveBeenCalledWith(newNode);
+    }));
   });
 });

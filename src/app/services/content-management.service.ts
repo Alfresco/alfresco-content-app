@@ -48,7 +48,7 @@ import {
   LibraryDialogComponent,
   ShareDialogComponent
 } from '@alfresco/adf-content-services';
-import { TranslationService } from '@alfresco/adf-core';
+import { TranslationService, AlfrescoApiService } from '@alfresco/adf-core';
 import {
   DeletedNodesPaging,
   MinimalNodeEntity,
@@ -94,6 +94,7 @@ export class ContentManagementService {
   favoriteLibraryToggle = new Subject<any>();
 
   constructor(
+    private alfrescoApiService: AlfrescoApiService,
     private store: Store<AppStore>,
     private contentApi: ContentApiService,
     private permission: NodePermissionService,
@@ -263,7 +264,7 @@ export class ContentManagementService {
 
     dialog.afterClosed().subscribe(node => {
       if (node) {
-        this.store.dispatch(new ReloadDocumentListAction());
+        this.alfrescoApiService.nodeUpdated.next(node);
       }
     });
   }
