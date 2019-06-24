@@ -51,8 +51,8 @@ import { ToggleJoinLibraryButtonComponent } from './toggle-join-library-button.c
       ></mat-icon>
       <span>{{
         (membership.isJoinRequested | async)
-          ? ('APP.ACTIONS.CANCEL_JOIN' | translate | titlecase)
-          : ('APP.ACTIONS.JOIN' | translate | titlecase)
+          ? ('APP.ACTIONS.CANCEL_JOIN' | translate)
+          : ('APP.ACTIONS.JOIN' | translate)
       }}</span>
     </button>
   `,

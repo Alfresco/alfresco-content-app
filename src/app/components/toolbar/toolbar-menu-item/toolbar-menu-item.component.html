@@ -6,7 +6,7 @@
       [matMenuTriggerFor]="childMenu"
     >
       <adf-icon [value]="actionRef.icon"></adf-icon>
-      <span>{{ actionRef.title | translate | titlecase }}</span>
+      <span>{{ actionRef.title | translate }}</span>
     </button>
 
     <mat-menu #childMenu="matMenu" class="app-create-menu__sub-menu">
@@ -40,7 +40,7 @@
       (click)="runAction()"
     >
       <adf-icon [value]="actionRef.icon"></adf-icon>
-      <span>{{ actionRef.title | translate | titlecase }}</span>
+      <span>{{ actionRef.title | translate }}</span>
     </button>
   </ng-container>
 </ng-container>

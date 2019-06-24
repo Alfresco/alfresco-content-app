@@ -51,9 +51,7 @@ import { Router } from '@angular/router';
       <span>{{
         (favoriteLibrary.isFavorite()
           ? 'APP.ACTIONS.REMOVE_FAVORITE'
-          : 'APP.ACTIONS.FAVORITE')
-          | translate
-          | titlecase
+          : 'APP.ACTIONS.FAVORITE') | translate
       }}</span>
     </button>
   `,
