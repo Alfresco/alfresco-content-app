@@ -98,7 +98,7 @@ export class Sidenav extends Component {
 
   async openCreateFolderDialog() {
     await this.openNewMenu();
-    await this.menu.clickMenuItem('Create folder');
+    await this.menu.clickMenuItem('Create Folder');
   }
 
   async openCreateLibraryDialog() {

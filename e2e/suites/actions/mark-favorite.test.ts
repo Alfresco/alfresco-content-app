@@ -153,7 +153,7 @@ describe('Mark items as favorites', () => {
       await dataTable.selectItem(fileFavUI);
       await toolbar.openMoreMenu();
 
-      expect(await toolbar.menu.getItemIconText('Remove favorite')).toEqual('star');
+      expect(await toolbar.menu.getItemIconText('Remove Favorite')).toEqual('star');
     });
 
     it('favorite a file - [C217189]', async () => {
@@ -345,7 +345,7 @@ describe('Mark items as favorites', () => {
       await dataTable.selectItem(fileFav2);
       await toolbar.openMoreMenu();
 
-      expect(await toolbar.menu.getItemIconText('Remove favorite')).toEqual('star');
+      expect(await toolbar.menu.getItemIconText('Remove Favorite')).toEqual('star');
     });
   });
 

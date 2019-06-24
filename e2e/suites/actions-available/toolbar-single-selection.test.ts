@@ -352,7 +352,7 @@ describe('Toolbar actions - single selection : ', () => {
 
       expect(await toolbar.isEmpty()).toBe(false, 'toolbar not displayed');
       expect(await toolbar.isViewDetailsPresent()).toBe(true, `View details is not displayed for ${adminModerated}`);
-      expect(await toolbar.isButtonPresent('Cancel join request')).toBe(true, `Cancel join is not displayed for ${adminModerated}`);
+      expect(await toolbar.isButtonPresent('Cancel Join Request')).toBe(true, `Cancel join is not displayed for ${adminModerated}`);
 
       await toolbar.openMoreMenu();
 
@@ -406,7 +406,7 @@ describe('Toolbar actions - single selection : ', () => {
 
       expect(await toolbar.isEmpty()).toBe(false, 'toolbar not displayed');
       expect(await toolbar.isViewDetailsPresent()).toBe(true, `View details is not displayed for ${adminModerated}`);
-      expect(await toolbar.isButtonPresent('Cancel join request')).toBe(true, `Cancel join is not displayed for ${adminModerated}`);
+      expect(await toolbar.isButtonPresent('Cancel Join Request')).toBe(true, `Cancel join is not displayed for ${adminModerated}`);
 
       await toolbar.openMoreMenu();
 
