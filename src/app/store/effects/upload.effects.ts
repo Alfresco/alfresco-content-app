@@ -37,8 +37,8 @@ import { FileModel, FileUtils, UploadService } from '@alfresco/adf-core';
 import { Injectable, NgZone, RendererFactory2 } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { forkJoin, of, noop } from 'rxjs';
-import { catchError, filter, flatMap, map, take, tap } from 'rxjs/operators';
+import { forkJoin, of } from 'rxjs';
+import { tap, filter, catchError, flatMap, map, take } from 'rxjs/operators';
 import { ContentManagementService } from '../../services/content-management.service';
 
 @Injectable()
@@ -119,8 +119,22 @@ export class UploadEffects {
           }
         }),
         filter(form => !!form),
-        flatMap(form => forkJoin(of(form), this.contentService.getNodeInfo())),
-        map(([form, node]) => {
+        flatMap(form =>
+          forkJoin(
+            of(form),
+            this.contentService.getNodeInfo().pipe(
+              catchError(_ => {
+                this.store.dispatch(
+                  new SnackbarErrorAction('VERSION.ERROR.GENERIC')
+                );
+                return of(null);
+              })
+            )
+          )
+        )
+      )
+      .subscribe(([form, node]) => {
+        if (form && node) {
           const file = this.fileVersionInput.files[0];
           const fileModel = new FileModel(
             file,
@@ -137,16 +151,11 @@ export class UploadEffects {
             },
             node.id
           );
-
-          this.fileVersionInput.value = '';
           this.uploadAndUnlock(fileModel);
-        }),
-        catchError(_ => {
-          this.fileVersionInput.value = '';
-          return of(new SnackbarErrorAction('VERSION.ERROR.GENERIC'));
-        })
-      )
-      .subscribe(noop);
+        }
+
+        this.fileVersionInput.value = '';
+      });
   }
 
   private upload(event: any): void {
