@@ -37,7 +37,7 @@ import { FileModel, FileUtils, UploadService } from '@alfresco/adf-core';
 import { Injectable, NgZone, RendererFactory2 } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { forkJoin, of } from 'rxjs';
+import { forkJoin, of, noop } from 'rxjs';
 import { catchError, filter, flatMap, map, take, tap } from 'rxjs/operators';
 import { ContentManagementService } from '../../services/content-management.service';
 
@@ -146,7 +146,7 @@ export class UploadEffects {
           return of(new SnackbarErrorAction('VERSION.ERROR.GENERIC'));
         })
       )
-      .subscribe();
+      .subscribe(noop);
   }
 
   private upload(event: any): void {
