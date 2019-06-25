@@ -50,7 +50,7 @@ export class Menu extends Component {
   submenus: ElementArrayFinder = browser.element.all(by.css(Menu.selectors.submenu));
 
   cancelEditingAction: ElementFinder = this.component.element(by.css(Menu.selectors.cancelEditing));
-  cancelJoinAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Cancel join'));
+  cancelJoinAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Cancel Join'));
   copyAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Copy'));
   createFolderAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Create Folder'));
   createLibraryAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Create Library'));
