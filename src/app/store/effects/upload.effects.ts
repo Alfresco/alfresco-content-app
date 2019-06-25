@@ -37,17 +37,8 @@ import { FileModel, FileUtils, UploadService } from '@alfresco/adf-core';
 import { Injectable, NgZone, RendererFactory2 } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { forkJoin, fromEvent, of } from 'rxjs';
-import {
-  catchError,
-  distinctUntilChanged,
-  filter,
-  flatMap,
-  map,
-  switchMap,
-  take,
-  tap
-} from 'rxjs/operators';
+import { forkJoin, of } from 'rxjs';
+import { catchError, filter, flatMap, map, take, tap } from 'rxjs/operators';
 import { ContentManagementService } from '../../services/content-management.service';
 
 @Injectable()
@@ -78,7 +69,9 @@ export class UploadEffects {
     this.fileVersionInput.id = 'app-upload-file-version';
     this.fileVersionInput.type = 'file';
     this.fileVersionInput.style.display = 'none';
-    this.fileVersionInput.addEventListener('change', event => event);
+    this.fileVersionInput.addEventListener('change', () =>
+      this.uploadVersion()
+    );
     renderer.appendChild(document.body, this.fileVersionInput);
 
     this.folderInput = renderer.createElement('input') as HTMLInputElement;
@@ -110,11 +103,16 @@ export class UploadEffects {
   @Effect({ dispatch: false })
   uploadVersion$ = this.actions$.pipe(
     ofType<UploadFileVersionAction>(UploadActionTypes.UploadFileVersion),
-    switchMap(() => {
+    map(() => {
       this.fileVersionInput.click();
-      return fromEvent(this.fileVersionInput, 'change').pipe(
-        distinctUntilChanged(),
-        flatMap(() => this.contentService.versionUploadDialog().afterClosed()),
+    })
+  );
+
+  private uploadVersion() {
+    this.contentService
+      .versionUploadDialog()
+      .afterClosed()
+      .pipe(
         tap(form => {
           if (!form) {
             this.fileVersionInput.value = '';
@@ -147,9 +145,9 @@ export class UploadEffects {
           this.fileVersionInput.value = '';
           return of(new SnackbarErrorAction('VERSION.ERROR.GENERIC'));
         })
-      );
-    })
-  );
+      )
+      .subscribe();
+  }
 
   private upload(event: any): void {
     this.store
