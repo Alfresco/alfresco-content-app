@@ -37,17 +37,8 @@ import { FileModel, FileUtils, UploadService } from '@alfresco/adf-core';
 import { Injectable, NgZone, RendererFactory2 } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { forkJoin, fromEvent, of } from 'rxjs';
-import {
-  catchError,
-  distinctUntilChanged,
-  filter,
-  flatMap,
-  map,
-  switchMap,
-  take,
-  tap
-} from 'rxjs/operators';
+import { forkJoin, of } from 'rxjs';
+import { tap, filter, catchError, flatMap, map, take } from 'rxjs/operators';
 import { ContentManagementService } from '../../services/content-management.service';
 
 @Injectable()
@@ -78,7 +69,9 @@ export class UploadEffects {
     this.fileVersionInput.id = 'app-upload-file-version';
     this.fileVersionInput.type = 'file';
     this.fileVersionInput.style.display = 'none';
-    this.fileVersionInput.addEventListener('change', event => event);
+    this.fileVersionInput.addEventListener('change', () =>
+      this.uploadVersion()
+    );
     renderer.appendChild(document.body, this.fileVersionInput);
 
     this.folderInput = renderer.createElement('input') as HTMLInputElement;
@@ -110,19 +103,38 @@ export class UploadEffects {
   @Effect({ dispatch: false })
   uploadVersion$ = this.actions$.pipe(
     ofType<UploadFileVersionAction>(UploadActionTypes.UploadFileVersion),
-    switchMap(() => {
+    map(() => {
       this.fileVersionInput.click();
-      return fromEvent(this.fileVersionInput, 'change').pipe(
-        distinctUntilChanged(),
-        flatMap(() => this.contentService.versionUploadDialog().afterClosed()),
+    })
+  );
+
+  private uploadVersion() {
+    this.contentService
+      .versionUploadDialog()
+      .afterClosed()
+      .pipe(
         tap(form => {
           if (!form) {
             this.fileVersionInput.value = '';
           }
         }),
         filter(form => !!form),
-        flatMap(form => forkJoin(of(form), this.contentService.getNodeInfo())),
-        map(([form, node]) => {
+        flatMap(form =>
+          forkJoin(
+            of(form),
+            this.contentService.getNodeInfo().pipe(
+              catchError(_ => {
+                this.store.dispatch(
+                  new SnackbarErrorAction('VERSION.ERROR.GENERIC')
+                );
+                return of(null);
+              })
+            )
+          )
+        )
+      )
+      .subscribe(([form, node]) => {
+        if (form && node) {
           const file = this.fileVersionInput.files[0];
           const fileModel = new FileModel(
             file,
@@ -139,17 +151,12 @@ export class UploadEffects {
             },
             node.id
           );
-
-          this.fileVersionInput.value = '';
           this.uploadAndUnlock(fileModel);
-        }),
-        catchError(_ => {
-          this.fileVersionInput.value = '';
-          return of(new SnackbarErrorAction('VERSION.ERROR.GENERIC'));
-        })
-      );
-    })
-  );
+        }
+
+        this.fileVersionInput.value = '';
+      });
+  }
 
   private upload(event: any): void {
     this.store
