@@ -40,8 +40,8 @@ export class Menu extends Component {
     editFolder: `.mat-menu-item[id$='editFolder']`,
     favoriteAction: `.mat-menu-item[id$='favorite.add']`,
     removeFavoriteAction: `.mat-menu-item[id$='favorite.remove']`,
-    editOffline: `.mat-menu-item[title='Edit offline']`,
-    cancelEditing: `.mat-menu-item[title='Cancel editing']`
+    editOffline: `.mat-menu-item[title='Edit Offline']`,
+    cancelEditing: `.mat-menu-item[title='Cancel Editing']`
   };
 
   items: ElementArrayFinder = this.component.all(by.css(Menu.selectors.item));
@@ -50,9 +50,9 @@ export class Menu extends Component {
   submenus: ElementArrayFinder = browser.element.all(by.css(Menu.selectors.submenu));
 
   cancelEditingAction: ElementFinder = this.component.element(by.css(Menu.selectors.cancelEditing));
-  cancelJoinAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Cancel join'));
+  cancelJoinAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Cancel Join'));
   copyAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Copy'));
-  createFolderAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Create folder'));
+  createFolderAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Create Folder'));
   createLibraryAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Create Library'));
   deleteAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Delete'));
   downloadAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Download'));
@@ -61,21 +61,21 @@ export class Menu extends Component {
   favoriteAction: ElementFinder = this.component.element(by.css(Menu.selectors.favoriteAction));
   removeFavoriteAction: ElementFinder = this.component.element(by.css(Menu.selectors.removeFavoriteAction));
   toggleFavoriteAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Favorite'));
-  toggleRemoveFavoriteAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Remove favorite'));
+  toggleRemoveFavoriteAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Remove Favorite'));
   joinAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Join'));
   leaveAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Leave'));
   managePermissionsAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Permissions'));
   manageVersionsAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Manage Versions'));
-  uploadNewVersionAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Upload new version'));
+  uploadNewVersionAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Upload New Version'));
   moveAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Move'));
-  permanentDeleteAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Permanently delete'));
+  permanentDeleteAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Permanently Delete'));
   restoreAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Restore'));
   shareAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Share'));
-  shareEditAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Shared link settings'));
-  uploadFileAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Upload file'));
-  uploadFolderAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Upload folder'));
+  shareEditAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Shared Link Settings'));
+  uploadFileAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Upload File'));
+  uploadFolderAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Upload Folder'));
   viewAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'View'));
-  viewDetailsAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'View details'));
+  viewDetailsAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'View Details'));
 
   constructor(ancestor?: ElementFinder) {
     super(Menu.selectors.root, ancestor);

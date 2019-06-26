@@ -573,21 +573,21 @@ describe('Toolbar actions - multiple selection : ', () => {
     it('correct actions appear when multiple files are selected - [C280472]', async () => {
       await dataTable.selectMultipleItems([fileForDelete1, fileForDelete2]);
 
-      expect(await toolbar.isButtonPresent('Permanently delete')).toBe(true, 'Permanently delete is displayed');
+      expect(await toolbar.isButtonPresent('Permanently Delete')).toBe(true, 'Permanently delete is displayed');
       expect(await toolbar.isButtonPresent('Restore')).toBe(true, 'Restore is not displayed');
     });
 
     it('correct actions appear when multiple folders are selected - [C280473]', async () => {
       await dataTable.selectMultipleItems([folderForDelete1, folderForDelete2]);
 
-      expect(await toolbar.isButtonPresent('Permanently delete')).toBe(true, 'Permanently delete is displayed');
+      expect(await toolbar.isButtonPresent('Permanently Delete')).toBe(true, 'Permanently delete is displayed');
       expect(await toolbar.isButtonPresent('Restore')).toBe(true, 'Restore is not displayed');
     });
 
     it('correct actions appear when both files and folders are selected - [C280474]', async () => {
       await dataTable.selectMultipleItems([fileForDelete1, fileForDelete2, folderForDelete1, folderForDelete2]);
 
-      expect(await toolbar.isButtonPresent('Permanently delete')).toBe(true, 'Permanently delete is displayed');
+      expect(await toolbar.isButtonPresent('Permanently Delete')).toBe(true, 'Permanently delete is displayed');
       expect(await toolbar.isButtonPresent('Restore')).toBe(true, 'Restore is not displayed');
     });
   });

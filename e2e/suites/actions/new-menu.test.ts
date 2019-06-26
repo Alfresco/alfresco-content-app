@@ -149,7 +149,7 @@ describe('New menu', () => {
     await page.clickPersonalFiles();
     await sidenav.openNewMenu();
 
-    const tooltip = await sidenav.menu.getItemTooltip('Create folder');
+    const tooltip = await sidenav.menu.getItemTooltip('Create Folder');
     expect(tooltip).toContain('Create new folder');
   });
 
@@ -158,7 +158,7 @@ describe('New menu', () => {
     await dataTable.doubleClickOnRowByName(siteAdmin);
     await sidenav.openNewMenu();
 
-    const tooltip = await sidenav.menu.getItemTooltip('Create folder');
+    const tooltip = await sidenav.menu.getItemTooltip('Create Folder');
     expect(tooltip).toContain(`Folders cannot be created whilst viewing the current items`);
   });
 

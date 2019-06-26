@@ -286,7 +286,7 @@ describe('Library actions', () => {
     it('from Favorite Libraries - [C290108]', async () => {
       await page.goToFavoriteLibrariesAndWait();
       await dataTable.selectItem(siteModerated2Admin);
-      await toolbar.clickButton('Cancel join request');
+      await toolbar.clickButton('Cancel Join Request');
 
       expect(await page.getSnackBarMessage()).toEqual(`Canceled the request to join the library`);
 
@@ -301,7 +301,7 @@ describe('Library actions', () => {
       await dataTable.waitForBody();
 
       await dataTable.selectItem(siteSearchModerated2Admin);
-      await toolbar.clickButton('Cancel join request');
+      await toolbar.clickButton('Cancel Join Request');
 
       expect(await page.getSnackBarMessage()).toEqual(`Canceled the request to join the library`);
 
