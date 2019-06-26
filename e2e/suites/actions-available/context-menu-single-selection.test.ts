@@ -587,7 +587,7 @@ describe('Context menu actions - single selection : ', () => {
       expect(await contextMenu.isFavoritePresent()).toBe(false, `Favorite is displayed for ${fileInTrash}`);
       expect(await contextMenu.isCopyPresent()).toBe(false, `Copy is displayed for ${fileInTrash}`);
       expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed for ${fileInTrash}`);
-      expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed for ${fileInTrash}`);
+      // expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed for ${fileInTrash}`);
       expect(await contextMenu.isSharePresent()).toBe(false, `Share is displayed for ${fileInTrash}`);
       expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage Versions is displayed for ${fileInTrash}`);
       expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed for ${fileInTrash}`);
@@ -607,7 +607,7 @@ describe('Context menu actions - single selection : ', () => {
       expect(await contextMenu.isFavoritePresent()).toBe(false, `Favorite is displayed for ${folderInTrash}`);
       expect(await contextMenu.isCopyPresent()).toBe(false, `Copy is displayed for ${folderInTrash}`);
       expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed for ${folderInTrash}`);
-      expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed for ${folderInTrash}`);
+      // expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed for ${folderInTrash}`);
       expect(await contextMenu.isSharePresent()).toBe(false, `Share is displayed for ${folderInTrash}`);
       expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage Versions is displayed for ${folderInTrash}`);
       expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed for ${folderInTrash}`);

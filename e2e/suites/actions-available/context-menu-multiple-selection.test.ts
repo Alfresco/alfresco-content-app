@@ -513,7 +513,7 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isDownloadPresent()).toBe(false, 'Download is displayed');
       expect(await contextMenu.isEditFolderPresent()).toBe(false, 'Edit folder is displayed');
       expect(await contextMenu.isCopyPresent()).toBe(false, `Copy is displayed`);
-      expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed`);
+      // expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed`);
       expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed`);
       expect(await contextMenu.isFavoritePresent()).toBe(false, `Favorite is displayed`);
       expect(await contextMenu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
@@ -532,7 +532,7 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isDownloadPresent()).toBe(false, 'Download is displayed');
       expect(await contextMenu.isEditFolderPresent()).toBe(false, 'Edit folder is displayed');
       expect(await contextMenu.isCopyPresent()).toBe(false, `Copy is displayed`);
-      expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed`);
+      // expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed`);
       expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed`);
       expect(await contextMenu.isFavoritePresent()).toBe(false, `Favorite is displayed`);
       expect(await contextMenu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
@@ -551,7 +551,7 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isDownloadPresent()).toBe(false, 'Download is displayed');
       expect(await contextMenu.isEditFolderPresent()).toBe(false, 'Edit folder is displayed');
       expect(await contextMenu.isCopyPresent()).toBe(false, `Copy is displayed`);
-      expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed`);
+      // expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed`);
       expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed`);
       expect(await contextMenu.isFavoritePresent()).toBe(false, `Favorite is displayed`);
       expect(await contextMenu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
