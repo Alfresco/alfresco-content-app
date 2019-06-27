@@ -340,10 +340,22 @@
             }
           },
           {
+            "id": "app.toolbar.editFolder",
+            "order": 300,
+            "title": "APP.ACTIONS.EDIT",
+            "icon": "create",
+            "actions": {
+              "click": "EDIT_FOLDER"
+            },
+            "rules": {
+              "visible": "canEditFolder"
+            }
+          },
+          {
             "id": "app.toolbar.favorite",
             "comment": "workaround for Recent Files and Search API issue",
             "type": "custom",
-            "order": 300,
+            "order": 400,
             "component": "app.toolbar.toggleFavorite",
             "rules": {
               "visible": "canToggleFavorite"
@@ -352,7 +364,7 @@
           {
             "id": "app.libraries.toolbar.toggleFavorite",
             "type": "custom",
-            "order": 301,
+            "order": 401,
             "component": "app.toolbar.toggleFavoriteLibrary",
             "rules": {
               "visible": "app.selection.library"
@@ -360,7 +372,7 @@
           },
           {
             "id": "app.toolbar.favorite.add",
-            "order": 302,
+            "order": 402,
             "title": "APP.ACTIONS.FAVORITE",
             "icon": "star_border",
             "actions": {
@@ -372,7 +384,7 @@
           },
           {
             "id": "app.toolbar.favorite.remove",
-            "order": 303,
+            "order": 403,
             "title": "APP.ACTIONS.REMOVE_FAVORITE",
             "icon": "star",
             "actions": {
@@ -384,23 +396,6 @@
           },
           {
             "id": "app.create.separator.1",
-            "type": "separator",
-            "order": 400
-          },
-          {
-            "id": "app.toolbar.editFolder",
-            "order": 450,
-            "title": "APP.ACTIONS.EDIT",
-            "icon": "create",
-            "actions": {
-              "click": "EDIT_FOLDER"
-            },
-            "rules": {
-              "visible": "canEditFolder"
-            }
-          },
-          {
-            "id": "app.create.separator.2",
             "type": "separator",
             "order": 500
           },
