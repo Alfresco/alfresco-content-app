@@ -114,7 +114,7 @@ export function canEditFolder(context: RuleContext): boolean {
  * JSON ref: `app.selection.file.isShared`
  */
 export function isShared(context: RuleContext): boolean {
-  if (navigation.isSharedFiles(context) && !context.selection.isEmpty) {
+  if (navigation.isSharedFiles(context) && context.selection.file) {
     return true;
   }
 

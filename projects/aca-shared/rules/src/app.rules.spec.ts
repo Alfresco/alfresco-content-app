@@ -362,4 +362,81 @@ describe('app.evaluators', () => {
       expect(app.canUploadVersion(context)).toBe(true);
     });
   });
+
+  describe('isShared', () => {
+    it('should return true if route is shared files and single selection', () => {
+      const context: any = {
+        selection: {
+          file: {}
+        },
+        navigation: {
+          url: '/shared'
+        }
+      };
+
+      expect(app.isShared(context)).toBe(true);
+    });
+
+    it('should return false if route is shared files and multiple selection', () => {
+      const context: any = {
+        selection: {
+          file: null
+        },
+        navigation: {
+          url: '/shared'
+        }
+      };
+
+      expect(app.isShared(context)).toBe(false);
+    });
+
+    it('should return false if route is trashcan route', () => {
+      const context: any = {
+        selection: {
+          file: {}
+        },
+        navigation: {
+          url: '/trashcan'
+        }
+      };
+
+      expect(app.isShared(context)).toBe(false);
+    });
+
+    it('should return false if selection is not shared', () => {
+      const context: any = {
+        selection: {
+          file: {
+            entry: {
+              properties: {}
+            }
+          }
+        },
+        navigation: {
+          url: '/other'
+        }
+      };
+
+      expect(app.isShared(context)).toBe(false);
+    });
+
+    it('should return true if selection is shared', () => {
+      const context: any = {
+        selection: {
+          file: {
+            entry: {
+              properties: {
+                'qshare:sharedId': 'some-id'
+              }
+            }
+          }
+        },
+        navigation: {
+          url: '/other'
+        }
+      };
+
+      expect(app.isShared(context)).toBe(true);
+    });
+  });
 });
