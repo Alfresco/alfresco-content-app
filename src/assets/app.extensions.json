@@ -832,13 +832,8 @@
               }
             },
             {
-              "id": "app.viewer.more.separator.1",
-              "type": "separator",
-              "order": 300
-            },
-            {
               "id": "app.viewer.favorite.add",
-              "order": 400,
+              "order": 300,
               "title": "APP.ACTIONS.FAVORITE",
               "icon": "star_border",
               "actions": {
@@ -850,7 +845,7 @@
             },
             {
               "id": "app.viewer.favorite.remove",
-              "order": 401,
+              "order": 301,
               "title": "APP.ACTIONS.REMOVE_FAVORITE",
               "icon": "star",
               "actions": {
@@ -864,16 +859,28 @@
               "id": "app.viewer.favorite",
               "comment": "workaround for Recent Files and Search API issue",
               "type": "custom",
-              "order": 402,
+              "order": 302,
               "component": "app.toolbar.toggleFavorite",
               "rules": {
                 "visible": "canToggleFavorite"
               }
             },
             {
-              "id": "app.viewer.more.separator.2",
+              "id": "app.viewer.more.separator.1",
               "type": "separator",
-              "order": 500
+              "order": 400
+            },
+            {
+              "id": "app.viewer.move",
+              "order": 500,
+              "title": "APP.ACTIONS.MOVE",
+              "icon": "adf:move_file",
+              "actions": {
+                "click": "MOVE_NODES"
+              },
+              "rules": {
+                "visible": "app.selection.canDelete"
+              }
             },
             {
               "id": "app.viewer.copy",
@@ -888,20 +895,8 @@
               }
             },
             {
-              "id": "app.viewer.move",
-              "order": 700,
-              "title": "APP.ACTIONS.MOVE",
-              "icon": "adf:move_file",
-              "actions": {
-                "click": "MOVE_NODES"
-              },
-              "rules": {
-                "visible": "app.selection.canDelete"
-              }
-            },
-            {
               "id": "app.viewer.delete",
-              "order": 800,
+              "order": 700,
               "title": "APP.ACTIONS.DELETE",
               "icon": "delete",
               "actions": {
@@ -914,12 +909,12 @@
             {
               "id": "app.viewer.more.separator.3",
               "type": "separator",
-              "order": 900
+              "order": 800
             },
 
             {
               "id": "app.viewer.versions",
-              "order": 1000,
+              "order": 900,
               "title": "APP.ACTIONS.VERSIONS",
               "icon": "history",
               "actions": {
@@ -931,7 +926,7 @@
             },
             {
               "id": "app.viewer.permissions",
-              "order": 1100,
+              "order": 1000,
               "title": "APP.ACTIONS.PERMISSIONS",
               "icon": "settings_input_component",
               "actions": {
