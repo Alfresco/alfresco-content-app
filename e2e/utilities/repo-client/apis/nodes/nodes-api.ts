@@ -167,7 +167,11 @@ export class NodesApi extends RepoApi {
     }
 
     async createFile(name: string, parentId: string = '-my-', title: string = '', description: string = '', author: string = '', majorVersion: boolean = true) {
+      try {
         return await this.createNode('cm:content', name, parentId, title, description, null, author, majorVersion);
+      } catch (error) {
+        console.log('==== catch createFile: ', error);
+      }
     }
 
     async createImage(name: string, parentId: string = '-my-', title: string = '', description: string = '') {

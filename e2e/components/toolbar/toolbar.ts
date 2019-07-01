@@ -43,7 +43,7 @@ export class Toolbar extends Component {
     print: `.mat-icon-button[title='Print']`,
     fullScreen: `.mat-icon-button[title='Activate full-screen mode']`,
     joinLibrary: `.mat-icon-button[title='Join']`,
-    leaveLibrary: `.mat-icon-button[title='Leave library']`,
+    leaveLibrary: `.mat-icon-button[title='Leave Library']`,
     permanentlyDelete: `.mat-icon-button[title='Permanently Delete']`,
     restore: `.mat-icon-button[title='Restore']`
   };
@@ -75,6 +75,12 @@ export class Toolbar extends Component {
 
   async numberOfAvailableActions() {
     return await this.buttons.count();
+  }
+
+  async getButtons(): Promise<string[]> {
+    return this.buttons.map(async elem => {
+      return await elem.getAttribute('title');
+    });
   }
 
   async isButtonPresent(title: string) {

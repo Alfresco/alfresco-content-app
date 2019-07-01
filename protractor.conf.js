@@ -43,7 +43,7 @@ exports.config = {
     './e2e/suites/navigation/*.test.ts',
     './e2e/suites/pagination/*.test.ts',
     './e2e/suites/search/*.test.ts',
-    './e2e/suites/actions-available/*.test.ts',
+    './e2e/suites/actions-available/**/*.test.ts',
     './e2e/suites/actions/*.test.ts',
     './e2e/suites/viewer/*.test.ts',
     './e2e/suites/info-drawer/*.test.ts',
@@ -57,7 +57,7 @@ exports.config = {
     navigation: './e2e/suites/navigation/*.test.ts',
     pagination: './e2e/suites/pagination/*.test.ts',
     search: './e2e/suites/search/*.test.ts',
-    actionsAvailable: './e2e/suites/actions-available/*.test.ts',
+    actionsAvailable: './e2e/suites/actions-available/**/*.test.ts',
     addRemoveContent: [
       './e2e/suites/actions/new-menu.test.ts',
       './e2e/suites/actions/create-folder.test.ts',

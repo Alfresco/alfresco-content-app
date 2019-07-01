@@ -235,20 +235,29 @@ export class DataTable extends Component {
       const item = this.getRowFirstCell(name, location);
       await Utils.waitUntilElementClickable(item);
       await browser.actions().mouseMove(item).perform();
-      await browser.actions().click().click().perform();
+      await browser.actions().doubleClick().perform();
     } catch (error) {
       console.log('--- catch: doubleClickOnRowByName', error);
     }
   }
 
   async selectItem(name: string, location: string = '') {
-    try{
-      const item = this.getRowFirstCell(name, location);
-      await item.click();
+    const isSelected = await this.hasCheckMarkIcon(name, location);
+    if (!isSelected) {
+      try {
+        const item = this.getRowFirstCell(name, location);
+        await item.click();
 
-    } catch (e) {
-      console.log('--- select item catch : ', e);
+      } catch (e) {
+        console.log('--- select item catch : ', e);
+      }
     }
+
+  }
+
+  async clickItem(name: string, location: string = '') {
+    const item = this.getRowFirstCell(name, location);
+    await item.click();
   }
 
   async clickNameLink(itemName: string) {

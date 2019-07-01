@@ -74,8 +74,12 @@ export class SitesApi extends RepoApi {
             id: siteId || title
         };
 
-        await this.apiAuth();
+        try {
+          await this.apiAuth();
         return await this.sitesApi.createSite(site);
+        } catch (error) {
+          console.log('=== create site catch: ', error);
+        }
     }
 
    async createSites(titles: string[], visibility?: string) {
