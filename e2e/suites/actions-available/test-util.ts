@@ -70,7 +70,7 @@ export async function checkViewerToolbarPrimaryActions(item: string, expectedToo
 
   let actualPrimaryActions = await toolbar.getButtons();
 
-  actualPrimaryActions = removeClosePreviousNext(actualPrimaryActions);
+  actualPrimaryActions = removeClosePreviousNextOldInfo(actualPrimaryActions);
 
   expect(actualPrimaryActions.length).toBe(expectedToolbarPrimary.length, 'Incorrect number of viewer toolbar primary items');
   expect(JSON.stringify(actualPrimaryActions)).toEqual(JSON.stringify(expectedToolbarPrimary), 'Incorrect viewer toolbar primary actions');
@@ -93,9 +93,9 @@ export async function checkViewerToolbarMoreActions(item: string, expectedToolba
 }
 
 
-function removeClosePreviousNext(actions: string[]) {
+function removeClosePreviousNextOldInfo(actions: string[]) {
   return actions.filter(elem => {
-    if ( (elem !== 'Close') && (elem !== 'Previous File') && (elem !== 'Next File')) {
+    if ( (elem !== 'Close') && (elem !== 'Previous File') && (elem !== 'Next File') && (elem !== 'View details')) {
       return elem;
     }
   });
