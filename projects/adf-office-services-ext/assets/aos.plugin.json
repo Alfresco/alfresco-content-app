@@ -39,7 +39,7 @@
     "contextMenu": [
       {
         "id": "aos.context.openWith.office",
-        "order": 90,
+        "order": 450,
         "icon": "edit",
         "title": "AOS.ACTION_TITLE",
         "actions": {
