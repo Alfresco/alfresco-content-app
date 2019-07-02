@@ -1,10 +1,13 @@
 <ng-container *ngIf="nodeId">
   <adf-viewer
+    [ngClass]="{
+      'right_side--hide': !showRightSide
+    }"
     [nodeId]="nodeId"
     [allowNavigate]="navigateMultiple"
-    [allowRightSidebar]="showRightSide"
+    [allowRightSidebar]="true"
     [allowPrint]="false"
-    [showRightSidebar]="showRightSide"
+    [showRightSidebar]="true"
     [allowDownload]="false"
     [allowFullScreen]="false"
     [canNavigateBefore]="previousNodeId"
