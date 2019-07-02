@@ -43,7 +43,7 @@ export const ADMIN_FULL_NAME = 'Administrator';
 export const E2E_ROOT_PATH = __dirname;
 
 // Dates
-export const DATE_FORMAT = 'MMM DD, YYYY';
+export const DATE_FORMAT = 'MMM D, YYYY';
 export const DATE_TIME_FORMAT = 'MMM D, YYYY, H:mm';
 
 // Application Routes
