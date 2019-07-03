@@ -209,7 +209,7 @@
             "FULLSCREEN": "Activate full-screen mode",
             "JOIN": "Join",
             "CANCEL_JOIN": "Cancel Join Request",
-            "LEAVE": "Leave library",
+            "LEAVE": "Leave Library",
             "EDIT_OFFLINE": "Edit Offline",
             "EDIT_OFFLINE_CANCEL": "Cancel Editing"
         },

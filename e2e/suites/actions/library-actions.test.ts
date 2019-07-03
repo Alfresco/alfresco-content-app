@@ -250,7 +250,7 @@ describe('Library actions', () => {
       expect(await confirmDialog.isCancelEnabled()).toBe(true, 'Cancel button is not enabled');
     });
 
-    it('Cancel Leave library - [C290111]', async () => {
+    it('Cancel Leave Library - [C290111]', async () => {
       await page.goToMyLibrariesAndWait();
       await dataTable.selectItem(sitePublic5Admin);
       await toolbar.clickLeave();

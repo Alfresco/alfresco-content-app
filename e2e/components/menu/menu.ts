@@ -127,6 +127,13 @@ export class Menu extends Component {
     return await this.items.count();
   }
 
+  async getMenuItems(): Promise<string[]> {
+    return this.items.map(async (elem) => {
+      const text = await elem.element(by.css('span')).getText();
+      return text;
+    });
+  }
+
   async clickNthItem(nth: number) {
     try {
       const elem = this.getNthItem(nth);
