@@ -1110,7 +1110,7 @@
           "key": "content.sizeInBytes",
           "title": "APP.DOCUMENT_LIST.COLUMNS.SIZE",
           "type": "fileSize",
-          "class": "adf-no-grow-cell",
+          "class": "adf-no-grow-cell adf-ellipsis-cell",
           "sortable": true,
           "desktopOnly": true
         },
@@ -1245,7 +1245,7 @@
           "key": "content.sizeInBytes",
           "title": "APP.DOCUMENT_LIST.COLUMNS.SIZE",
           "type": "fileSize",
-          "class": "adf-no-grow-cell",
+          "class": "adf-no-grow-cell adf-ellipsis-cell",
           "sortable": true,
           "desktopOnly": true
         },
@@ -1311,7 +1311,7 @@
           "key": "content.sizeInBytes",
           "title": "APP.DOCUMENT_LIST.COLUMNS.SIZE",
           "type": "fileSize",
-          "class": "adf-no-grow-cell",
+          "class": "adf-no-grow-cell adf-ellipsis-cell",
           "sortable": true,
           "desktopOnly": true
         },
@@ -1359,7 +1359,7 @@
           "key": "sizeInBytes",
           "title": "APP.DOCUMENT_LIST.COLUMNS.SIZE",
           "type": "fileSize",
-          "class": "adf-no-grow-cell",
+          "class": "adf-no-grow-cell adf-ellipsis-cell",
           "sortable": true,
           "desktopOnly": true
         },
@@ -1416,7 +1416,7 @@
           "key": "content.sizeInBytes",
           "title": "APP.DOCUMENT_LIST.COLUMNS.SIZE",
           "type": "fileSize",
-          "class": "adf-no-grow-cell",
+          "class": "adf-no-grow-cell adf-ellipsis-cell",
           "sortable": true,
           "desktopOnly": true
         },
