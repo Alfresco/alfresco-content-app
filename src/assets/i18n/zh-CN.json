@@ -1,5 +1,6 @@
 {
   "APP": {
+    "COPYRIGHT": "© 2017 - 2019 Alfresco Software, Inc。保留所有权利。",
     "ABOUT": {
       "VERSION": "版本：",
       "PLUGINS": {
@@ -164,8 +165,9 @@
         "FOUND_ONE_RESULT": "找到 {{ number }} 个结果",
         "CUSTOM_ROW": {
           "MODIFIED": "已修改",
+          "BY_USER": "由 {{ user }}",
           "LOCATION": "位置",
-          "SIZE": "字号(&S)"
+          "SIZE": "大小"
         },
         "UNKNOWN_LOCATION": "未知",
         "NO_RESULTS": "您的搜索返回了 0 个结果",
@@ -229,7 +231,7 @@
       "COLUMNS": {
         "ID": "ID",
         "NAME": "名称",
-        "SIZE": "字号(&S)",
+        "SIZE": "大小",
         "MODIFIED_ON": "已修改",
         "MODIFIED_BY": "修改人",
         "VISIBILITY": "可见性",
@@ -310,11 +312,11 @@
         },
         "NODE_COPY": {
           "SINGULAR": "已复制 {{ success }} 项目",
-          "PLURAL": "已复制 {{ success }} 个项目",
+          "PLURAL": "已复制 {{ success }} 项目",
           "PARTIAL_SINGULAR": "已复制 {{ success }} 项目，{{ failed }} 无法复制。",
-          "PARTIAL_PLURAL": "已复制 {{ success }} 个项目，{{ failed }} 无法复制。",
+          "PARTIAL_PLURAL": "已复制 {{ success }} 项目，{{ failed }} 无法复制。",
           "FAIL_SINGULAR": "{{ failed }} 项目无法复制。",
-          "FAIL_PLURAL": "{{ failed }} 个项目无法复制。"
+          "FAIL_PLURAL": "{{ failed }} 项目无法复制。"
         },
         "NODE_MOVE": {
           "SINGULAR": "已移动 {{ success }} 项目。",
@@ -333,7 +335,8 @@
       }
     },
     "CONTENT_METADATA": {
-      "EXIF_GROUP_TITLE": "图像EXIF"
+      "EXIF_GROUP_TITLE": "图像EXIF",
+      "EFFECTIVITY_GROUP_TITLE": "有效性"
     },
     "INFO_DRAWER": {
       "TITLE": "详细信息",
@@ -347,9 +350,9 @@
   },
   "NODE_SELECTOR": {
     "COPY_ITEM": "将 '{{ name }}' 复制到...",
-    "COPY_ITEMS": "将 {{ number }} 项复制到...",
+    "COPY_ITEMS": "将 {{ number }} 个项目复制到...",
     "MOVE_ITEM": "将 '{{ name }}' 移动到...",
-    "MOVE_ITEMS": "将 {{ number }} 项移动到...",
+    "MOVE_ITEMS": "将 {{ number }} 个项目移动到...",
     "SEARCH": "搜索"
   },
   "PERMISSIONS": {
@@ -442,7 +445,7 @@
       "FILENAME": "文件名",
       "TITLE": "标题",
       "MODIFIED_DATE": "修改日期",
-      "SIZE": "字号(&S)",
+      "SIZE": "大小",
       "TYPE": "类型",
       "MODIFIER": "修改者",
       "CREATE_DATE": "创建日期"
@@ -455,15 +458,28 @@
     },
     "CATEGORIES": {
       "MODIFIED_DATE": "修改日期",
-      "SIZE": "字号(&S)",
+      "SIZE": "大小",
+      "SIZE_OPTIONS": {
+        "SMALL": "小",
+        "MEDIUM": "中",
+        "LARGE": "大",
+        "HUGE": "特大"
+      },
       "CREATED_DATE": "创建日期"
+    },
+    "FACET_QUERIES": {
+      "TODAY": "今天",
+      "THIS_WEEK": "本周",
+      "THIS_MONTH": "本月",
+      "LAST_6_MONTHS": "最近 6 个月",
+      "THIS_YEAR": "今年"
     }
   },
   "CORE": {
     "METADATA": {
       "ACTIONS": {
         "SAVE": "保存更改",
-        "CANCEL": "丢弃更改"
+        "CANCEL": "放弃更改"
       }
     }
   },

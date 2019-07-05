@@ -1,5 +1,6 @@
 {
   "APP": {
+    "COPYRIGHT": "حقوق الطبع والنشر © 2017 - 2019 Alfresco Software, Inc. جميع الحقوق محفوظة.",
     "ABOUT": {
       "VERSION": "الإصدار:",
       "PLUGINS": {
@@ -164,6 +165,7 @@
         "FOUND_ONE_RESULT": "تم العثور على {{ number }} نتيجة",
         "CUSTOM_ROW": {
           "MODIFIED": "تم التعديل",
+          "BY_USER": "بواسطة {{ user }}",
           "LOCATION": "مكان",
           "SIZE": "الحجم"
         },
@@ -333,7 +335,8 @@
       }
     },
     "CONTENT_METADATA": {
-      "EXIF_GROUP_TITLE": "صورة EXIF"
+      "EXIF_GROUP_TITLE": "صورة EXIF",
+      "EFFECTIVITY_GROUP_TITLE": "الفاعلية"
     },
     "INFO_DRAWER": {
       "TITLE": "التفاصيل",
@@ -456,7 +459,20 @@
     "CATEGORIES": {
       "MODIFIED_DATE": "تاريخ التعديل",
       "SIZE": "الحجم",
+      "SIZE_OPTIONS": {
+        "SMALL": "صغير",
+        "MEDIUM": "متوسط",
+        "LARGE": "كبير",
+        "HUGE": "ضخم"
+      },
       "CREATED_DATE": "تاريخ الإنشاء"
+    },
+    "FACET_QUERIES": {
+      "TODAY": "اليوم",
+      "THIS_WEEK": "هذا الأسبوع",
+      "THIS_MONTH": "هذا الشهر",
+      "LAST_6_MONTHS": "في آخر 6 أشهر",
+      "THIS_YEAR": "هذا العام"
     }
   },
   "CORE": {
