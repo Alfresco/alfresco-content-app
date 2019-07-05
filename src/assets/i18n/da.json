@@ -1,5 +1,6 @@
 {
   "APP": {
+    "COPYRIGHT": "© 2017 - 2019 Alfresco Software, Inc. Alle rettigheder forbeholdes.",
     "ABOUT": {
       "VERSION": "Version:",
       "PLUGINS": {
@@ -164,6 +165,7 @@
         "FOUND_ONE_RESULT": "{{ number }} resultat fundet",
         "CUSTOM_ROW": {
           "MODIFIED": "Ændret",
+          "BY_USER": "af {{ user }}",
           "LOCATION": "Placering",
           "SIZE": "Størrelse"
         },
@@ -333,7 +335,8 @@
       }
     },
     "CONTENT_METADATA": {
-      "EXIF_GROUP_TITLE": "Billed-EXIF"
+      "EXIF_GROUP_TITLE": "Billed-EXIF",
+      "EFFECTIVITY_GROUP_TITLE": "Gældende periode"
     },
     "INFO_DRAWER": {
       "TITLE": "Detaljer",
@@ -456,7 +459,20 @@
     "CATEGORIES": {
       "MODIFIED_DATE": "Ændringsdato",
       "SIZE": "Størrelse",
+      "SIZE_OPTIONS": {
+        "SMALL": "Lille",
+        "MEDIUM": "Medium",
+        "LARGE": "Stor",
+        "HUGE": "Meget stor"
+      },
       "CREATED_DATE": "Oprettelsesdato"
+    },
+    "FACET_QUERIES": {
+      "TODAY": "I dag",
+      "THIS_WEEK": "I denne uge",
+      "THIS_MONTH": "I denne måned",
+      "LAST_6_MONTHS": "I de sidste 6 måneder",
+      "THIS_YEAR": "I år"
     }
   },
   "CORE": {

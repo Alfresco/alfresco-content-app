@@ -1,5 +1,6 @@
 {
   "APP": {
+    "COPYRIGHT": "© 2017 - 2019 Alfresco Software, Inc. Todos os direitos reservados.",
     "ABOUT": {
       "VERSION": "Versão:",
       "PLUGINS": {
@@ -164,6 +165,7 @@
         "FOUND_ONE_RESULT": "{{ number }} resultados encontrados",
         "CUSTOM_ROW": {
           "MODIFIED": "Modificado",
+          "BY_USER": "por {{ user }}",
           "LOCATION": "Localização",
           "SIZE": "Tamanho"
         },
@@ -333,7 +335,8 @@
       }
     },
     "CONTENT_METADATA": {
-      "EXIF_GROUP_TITLE": "Imagem EXIF"
+      "EXIF_GROUP_TITLE": "Imagem EXIF",
+      "EFFECTIVITY_GROUP_TITLE": "Efetividade"
     },
     "INFO_DRAWER": {
       "TITLE": "Detalhes",
@@ -456,7 +459,20 @@
     "CATEGORIES": {
       "MODIFIED_DATE": "Data de modificação",
       "SIZE": "Tamanho",
+      "SIZE_OPTIONS": {
+        "SMALL": "Pequeno",
+        "MEDIUM": "Médio",
+        "LARGE": "Grande",
+        "HUGE": "Enorme"
+      },
       "CREATED_DATE": "Data de criação"
+    },
+    "FACET_QUERIES": {
+      "TODAY": "Hoje",
+      "THIS_WEEK": "Esta semana",
+      "THIS_MONTH": "Este mês",
+      "LAST_6_MONTHS": "Nos últimos seis meses",
+      "THIS_YEAR": "Este ano"
     }
   },
   "CORE": {
