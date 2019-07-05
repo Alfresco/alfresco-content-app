@@ -58,6 +58,16 @@
 
       &.adf-datatable-cell--fileSize {
         min-width: 80px;
+
+        span {
+          padding: 0;
+        }
+
+        &.adf-datatable__header--sorted-asc::before,
+        &.adf-datatable__header--sorted-desc::before {
+          left: -3px;
+          right: -3px;
+        }
       }
 
       &:first-child {
