@@ -58,7 +58,7 @@ import { Router } from '@angular/router';
 export class ToggleFavoriteComponent implements OnInit {
   @Input() data: any;
   selection$: Observable<SelectionState>;
-  private reloadOnRoutes: string[];
+  private reloadOnRoutes: string[] = [];
 
   constructor(
     private store: Store<AppStore>,
@@ -69,9 +69,11 @@ export class ToggleFavoriteComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.reloadOnRoutes = this.extensionService.runExpression(
-      `$( ${this.data} )`
-    );
+    if (this.data) {
+      this.reloadOnRoutes = this.extensionService.runExpression(
+        `$( ${this.data} )`
+      );
+    }
   }
 
   onToggleEvent() {
