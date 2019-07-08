@@ -356,6 +356,7 @@
             "comment": "workaround for Recent Files and Search API issue",
             "type": "custom",
             "order": 400,
+            "data": "['/favorites', '/favorite/libraries']",
             "component": "app.toolbar.toggleFavorite",
             "rules": {
               "visible": "canToggleFavorite"
