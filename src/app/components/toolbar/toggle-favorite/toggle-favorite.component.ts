@@ -23,15 +23,16 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { SelectionState } from '@alfresco/adf-extensions';
+import { SelectionState, ExtensionService } from '@alfresco/adf-extensions';
 import {
   AppStore,
   ReloadDocumentListAction,
   getAppSelection
 } from '@alfresco/aca-shared/store';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-toggle-favorite',
@@ -54,14 +55,28 @@ import {
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-toggle-favorite' }
 })
-export class ToggleFavoriteComponent {
+export class ToggleFavoriteComponent implements OnInit {
+  @Input() data: any;
   selection$: Observable<SelectionState>;
+  private reloadOnRoutes: string[];
 
-  constructor(private store: Store<AppStore>) {
+  constructor(
+    private store: Store<AppStore>,
+    private extensionService: ExtensionService,
+    private router: Router
+  ) {
     this.selection$ = this.store.select(getAppSelection);
   }
 
+  ngOnInit() {
+    this.reloadOnRoutes = this.extensionService.runExpression(
+      `$( ${this.data} )`
+    );
+  }
+
   onToggleEvent() {
-    this.store.dispatch(new ReloadDocumentListAction());
+    if (this.reloadOnRoutes.includes(this.router.url)) {
+      this.store.dispatch(new ReloadDocumentListAction());
+    }
   }
 }
