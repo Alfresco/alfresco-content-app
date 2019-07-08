@@ -43,8 +43,8 @@ import { NodePermissionService } from '@alfresco/aca-shared';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import {
   AppStore,
-  SetSelectedNodesAction,
-  getCurrentFolder
+  getCurrentFolder,
+  ReloadDocumentListAction
 } from '@alfresco/aca-shared/store';
 import { Directionality } from '@angular/cdk/bidi';
 
@@ -140,15 +140,11 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
     this.router.events
       .pipe(
         filter(event => {
-          return (
-            event instanceof NavigationStart &&
-            // search employs reuse route strategy
-            !event.url.startsWith('/search;')
-          );
+          return event instanceof NavigationStart;
         }),
         takeUntil(this.onDestroy$)
       )
-      .subscribe(() => this.store.dispatch(new SetSelectedNodesAction([])));
+      .subscribe(() => this.store.dispatch(new ReloadDocumentListAction()));
   }
 
   ngOnDestroy() {
