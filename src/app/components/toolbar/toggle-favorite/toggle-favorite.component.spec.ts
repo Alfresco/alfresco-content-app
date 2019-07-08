@@ -23,10 +23,70 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { TestBed } from '@angular/core/testing';
 import { ToggleFavoriteComponent } from './toggle-favorite.component';
+import { Store } from '@ngrx/store';
+import { ExtensionService } from '@alfresco/adf-extensions';
+import { CoreModule } from '@alfresco/adf-core';
+import { Router } from '@angular/router';
+import { of } from 'rxjs';
 
 describe('ToggleFavoriteComponent', () => {
-  it('should be defined', () => {
-    expect(ToggleFavoriteComponent).toBeDefined();
+  let component: ToggleFavoriteComponent;
+  let fixture;
+  let router;
+  const mockRouter = {
+    url: 'some-url'
+  };
+  const mockStore = <any>{
+    dispatch: jasmine.createSpy('dispatch'),
+    select: jasmine.createSpy('select').and.returnValue(
+      of({
+        nodes: []
+      })
+    )
+  };
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [CoreModule.forRoot()],
+      declarations: [ToggleFavoriteComponent],
+      providers: [
+        ExtensionService,
+        { provide: Store, useValue: mockStore },
+        { provide: Router, useValue: mockRouter }
+      ]
+    });
+
+    fixture = TestBed.createComponent(ToggleFavoriteComponent);
+    component = fixture.componentInstance;
+    router = TestBed.get(Router);
+  });
+
+  afterEach(() => {
+    mockStore.dispatch.calls.reset();
+  });
+
+  it('should get selection data on initialization', () => {
+    expect(mockStore.select).toHaveBeenCalled();
+  });
+
+  it('should not dispatch reload if route is not specified', () => {
+    component.data = "['/reload_on_this_route']";
+
+    fixture.detectChanges();
+    component.onToggleEvent();
+
+    expect(mockStore.dispatch).not.toHaveBeenCalled();
+  });
+
+  it('should dispatch reload if route is specified', () => {
+    component.data = "['/reload_on_this_route']";
+    router.url = '/reload_on_this_route';
+
+    fixture.detectChanges();
+    component.onToggleEvent();
+
+    expect(mockStore.dispatch).toHaveBeenCalled();
   });
 });
