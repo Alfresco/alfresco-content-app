@@ -44,7 +44,8 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import {
   AppStore,
   getCurrentFolder,
-  ReloadDocumentListAction
+  ReloadDocumentListAction,
+  SetSelectedNodesAction
 } from '@alfresco/aca-shared/store';
 import { Directionality } from '@angular/cdk/bidi';
 
@@ -144,7 +145,10 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
         }),
         takeUntil(this.onDestroy$)
       )
-      .subscribe(() => this.store.dispatch(new ReloadDocumentListAction()));
+      .subscribe(() => {
+        this.store.dispatch(new SetSelectedNodesAction());
+        this.store.dispatch(new ReloadDocumentListAction());
+      });
   }
 
   ngOnDestroy() {
