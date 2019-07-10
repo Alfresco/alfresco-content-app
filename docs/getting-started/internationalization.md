@@ -17,6 +17,12 @@ The Content Application provides support for the following languages:
 - Brazilian Portuguese (`pt-BR`)
 - Russian (`ru`)
 - Simplified Chinese (`zh-CN`)
+- Arabic (`ar`)
+- Czech (`cs`)
+- Danish (`da`)
+- Finnish (`fi`)
+- Polish (`pl`)
+- Swedish (`sv`)
 
 The default language is English, however the current browser language is taken as the default one automatically when the application starts.
 
