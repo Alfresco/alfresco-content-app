@@ -33,7 +33,7 @@ Please include a clear description, steps to reproduce and screenshots where app
 #### Features added in the latest release
 
 - New language translations (Arabic, Czech, Danish, Finnish, Polish and Swedish)
-- Automatic display of meatadata aspects and properties
+- Automatic display of metadata aspects and properties
 - Search result facet improvements
 - Various extensibility improvements and enhancements
 
