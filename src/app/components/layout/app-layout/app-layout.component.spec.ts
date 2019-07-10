@@ -152,6 +152,19 @@ describe('AppLayoutComponent', () => {
     });
   });
 
+  it('should not reset selection if route is `/search`', done => {
+    fixture.detectChanges();
+    const selection = [<any>{ entry: { id: 'nodeId', name: 'name' } }];
+    store.dispatch(new SetSelectedNodesAction(selection));
+
+    router.navigateByUrl('/search;q=');
+    fixture.detectChanges();
+    store.select(getAppSelection).subscribe(state => {
+      expect(state.isEmpty).toBe(false);
+      done();
+    });
+  });
+
   it('should close menu on mobile screen size', () => {
     component.minimizeSidenav = false;
     component.layout.container = {
