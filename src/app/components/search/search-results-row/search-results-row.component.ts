@@ -121,12 +121,12 @@ export class SearchResultsRowComponent implements OnInit, OnDestroy {
     return this.node.entry.isFile;
   }
 
-  showPreview(event) {
+  showPreview(event: MouseEvent) {
     event.stopPropagation();
     this.store.dispatch(new ViewFileAction(this.node));
   }
 
-  navigate(event) {
+  navigate(event: MouseEvent) {
     event.stopPropagation();
     this.store.dispatch(new NavigateToFolder(this.node));
   }
