@@ -21,6 +21,9 @@ body {
 }
 
 // todo: move this to corresponding component theme files
+.adf-container-full-width {
+  overflow: hidden;
+}
 app-root,
 app-about,
 adf-layout-container,
