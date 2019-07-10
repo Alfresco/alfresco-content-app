@@ -61,7 +61,7 @@ Read up on our guidelines for [contributing] and then check out one of our issue
 
 | ACA Version | Built with | Tested on |
 | ----------- | ---------- | --------- |
-| ACA 1.7     | ADF 3.3.0  | ACS 6.1   |
+| ACA 1.8     | ADF 3.3.0  | ACS 6.1   |
 | ACA 1.7     | ADF 3.0.0  | ACS 6.1   |
 | ACA 1.6     | ADF 2.6.1  | ACS 6.1   |
 | ACA 1.5     | ADF 2.6.0  | ACS 6.0   |
