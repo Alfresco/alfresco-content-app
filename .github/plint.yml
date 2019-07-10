@@ -1,2 +1,25 @@
 modules:
   - pr.prettier
+  - pr.spellcheck
+
+prettier:
+  options:
+    singleQuote: true
+  exclude:
+    - '*.json'
+
+spellcheck:
+  dictionaries:
+    - softwareTerms
+    - html
+    - en-gb
+    - en_US
+  words:
+    - plint
+    - ngrx
+    - qshare
+    - snackbar
+    - exif
+    - docx
+  exclude:
+    - src/assets/app.extensions.json

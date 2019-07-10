@@ -25,6 +25,7 @@
 
 import { browser, by, ElementFinder, ExpectedConditions as EC, until } from 'protractor';
 import { BROWSER_WAIT_TIMEOUT, USE_HASH_STRATEGY } from './../configs';
+import { Utils } from '../utilities/utils';
 
 export abstract class Page {
   protected static locators = {
@@ -55,22 +56,22 @@ export abstract class Page {
 
   constructor(public url: string = '') {}
 
-  getTitle() {
-    return browser.getTitle();
+  async getTitle() {
+    return await browser.getTitle();
   }
 
-  load(relativeUrl: string = '') {
+  async load(relativeUrl: string = '') {
     const hash = USE_HASH_STRATEGY ? '/#' : '';
     const path = `${browser.baseUrl}${hash}${this.url}${relativeUrl}`;
-    return browser.get(path);
+    return await browser.get(path);
   }
 
-  waitForApp() {
-    return browser.wait(EC.presenceOf(this.layout), BROWSER_WAIT_TIMEOUT);
+  async waitForApp() {
+    return await browser.wait(EC.presenceOf(this.layout), BROWSER_WAIT_TIMEOUT);
   }
 
-  waitForSnackBarToAppear() {
-    return browser.wait(until.elementLocated(by.css('.mat-snack-bar-container')), BROWSER_WAIT_TIMEOUT, '------- timeout waiting for snackbar to appear');
+  async waitForSnackBarToAppear() {
+    return await browser.wait(until.elementLocated(by.css('.mat-snack-bar-container')), BROWSER_WAIT_TIMEOUT, '------- timeout waiting for snackbar to appear');
   }
 
   async waitForSnackBarToClose() {
@@ -79,6 +80,16 @@ export abstract class Page {
 
   async waitForDialog() {
     await browser.wait(EC.visibilityOf(this.dialogContainer), BROWSER_WAIT_TIMEOUT);
+  }
+
+  async isDialogOpen() {
+    return await browser.isElementPresent(this.dialogContainer);
+  }
+
+  async closeOpenDialogs() {
+    while (await this.isDialogOpen()) {
+      await Utils.pressEscape();
+    }
   }
 
   async refresh() {

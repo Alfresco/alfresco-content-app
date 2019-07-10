@@ -1,0 +1,25 @@
+.app-about {
+  .main-content {
+    padding: 10px;
+
+    article {
+      color: var(--theme-text-color);
+      padding: 25px 0 25px 0;
+
+      & > header {
+        line-height: 24px;
+        font-size: 14px;
+        font-weight: 800;
+        letter-spacing: -0.2px;
+      }
+    }
+
+    article:first-of-type {
+      padding-bottom: 0;
+    }
+
+    article:last-of-type {
+      margin-bottom: 50px;
+    }
+  }
+}

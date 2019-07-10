@@ -23,23 +23,23 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { ContentApiService } from '@alfresco/aca-shared';
+import { AppStore } from '@alfresco/aca-shared/store';
+import { UploadService } from '@alfresco/adf-core';
 import {
   MinimalNodeEntity,
   MinimalNodeEntryEntity,
   PathElementEntity,
   PathInfo
 } from '@alfresco/js-api';
-import { ContentManagementService } from '../../services/content-management.service';
-import { AppStore } from '../../store/states/app.state';
-import { PageComponent } from '../page.component';
-import { ContentApiService } from '../../services/content-api.service';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { debounceTime, map } from 'rxjs/operators';
 import { AppExtensionService } from '../../extensions/extension.service';
-import { map, debounceTime } from 'rxjs/operators';
-import { FileUploadEvent, UploadService } from '@alfresco/adf-core';
+import { ContentManagementService } from '../../services/content-management.service';
+import { PageComponent } from '../page.component';
 
 @Component({
   templateUrl: './favorites.component.html'
@@ -67,10 +67,10 @@ export class FavoritesComponent extends PageComponent implements OnInit {
     this.subscriptions = this.subscriptions.concat([
       this.uploadService.fileUploadComplete
         .pipe(debounceTime(300))
-        .subscribe(file => this.onFileUploadedEvent(file)),
+        .subscribe(_ => this.reload()),
       this.uploadService.fileUploadDeleted
         .pipe(debounceTime(300))
-        .subscribe(file => this.onFileUploadedEvent(file)),
+        .subscribe(_ => this.reload()),
 
       this.breakpointObserver
         .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
@@ -115,9 +115,5 @@ export class FavoritesComponent extends PageComponent implements OnInit {
         this.showPreview(node);
       }
     }
-  }
-
-  private onFileUploadedEvent(event: FileUploadEvent) {
-    this.reload();
   }
 }

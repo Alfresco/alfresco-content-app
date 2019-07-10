@@ -1,22 +1,61 @@
-import { Injectable, Injector, ComponentRef, ElementRef } from '@angular/core';
+/*!
+ * @license
+ * Alfresco Example Content Application
+ *
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ *
+ * This file is part of the Alfresco Example Content Application.
+ * If the software was purchased under a paid Alfresco license, the terms of
+ * the paid license agreement will prevail.  Otherwise, the software is
+ * provided under the following open source license terms:
+ *
+ * The Alfresco Example Content Application is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * The Alfresco Example Content Application is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+import { Injectable, Injector, ComponentRef } from '@angular/core';
 import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal, PortalInjector } from '@angular/cdk/portal';
 import { ContextMenuOverlayRef } from './context-menu-overlay';
 import { ContextMenuComponent } from './context-menu.component';
 import { ContextmenuOverlayConfig } from './interfaces';
+import { UserPreferencesService } from '@alfresco/adf-core';
+import { Directionality } from '@angular/cdk/bidi';
+import { CONTEXT_MENU_DIRECTION } from './direction.token';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ContextMenuService {
-  constructor(private injector: Injector, private overlay: Overlay) {}
+  private direction: Directionality;
+
+  constructor(
+    private injector: Injector,
+    private overlay: Overlay,
+    private userPreferenceService: UserPreferencesService
+  ) {
+    this.userPreferenceService
+      .select('textOrientation')
+      .subscribe(textOrientation => {
+        this.direction = textOrientation;
+      });
+  }
 
   open(config: ContextmenuOverlayConfig) {
     const overlay = this.createOverlay(config);
-
     const overlayRef = new ContextMenuOverlayRef(overlay);
 
-    this.attachDialogContainer(overlay, config, overlayRef);
+    this.attachDialogContainer(overlay, overlayRef);
 
     return overlayRef;
   }
@@ -28,10 +67,9 @@ export class ContextMenuService {
 
   private attachDialogContainer(
     overlay: OverlayRef,
-    config: ContextmenuOverlayConfig,
     contextmenuOverlayRef: ContextMenuOverlayRef
   ) {
-    const injector = this.createInjector(config, contextmenuOverlayRef);
+    const injector = this.createInjector(contextmenuOverlayRef);
 
     const containerPortal = new ComponentPortal(
       ContextMenuComponent,
@@ -46,62 +84,38 @@ export class ContextMenuService {
   }
 
   private createInjector(
-    config: ContextmenuOverlayConfig,
     contextmenuOverlayRef: ContextMenuOverlayRef
   ): PortalInjector {
     const injectionTokens = new WeakMap();
 
     injectionTokens.set(ContextMenuOverlayRef, contextmenuOverlayRef);
+    injectionTokens.set(CONTEXT_MENU_DIRECTION, this.direction);
 
     return new PortalInjector(this.injector, injectionTokens);
   }
 
   private getOverlayConfig(config: ContextmenuOverlayConfig): OverlayConfig {
-    const fakeElement: any = {
-      getBoundingClientRect: (): ClientRect => ({
-        bottom: config.source.clientY,
-        height: 0,
-        left: config.source.clientX,
-        right: config.source.clientX,
-        top: config.source.clientY,
-        width: 0
-      })
-    };
+    const { x, y } = config.source;
 
     const positionStrategy = this.overlay
       .position()
-      .connectedTo(
-        new ElementRef(fakeElement),
-        { originX: 'start', originY: 'bottom' },
-        { overlayX: 'start', overlayY: 'top' }
-      )
-      .withFallbackPosition(
-        { originX: 'start', originY: 'top' },
-        { overlayX: 'start', overlayY: 'bottom' }
-      )
-      .withFallbackPosition(
-        { originX: 'end', originY: 'top' },
-        { overlayX: 'start', overlayY: 'top' }
-      )
-      .withFallbackPosition(
-        { originX: 'start', originY: 'top' },
-        { overlayX: 'end', overlayY: 'top' }
-      )
-      .withFallbackPosition(
-        { originX: 'end', originY: 'center' },
-        { overlayX: 'start', overlayY: 'center' }
-      )
-      .withFallbackPosition(
-        { originX: 'start', originY: 'center' },
-        { overlayX: 'end', overlayY: 'center' }
-      );
+      .flexibleConnectedTo({ x, y })
+      .withPositions([
+        {
+          originX: 'end',
+          originY: 'bottom',
+          overlayX: 'end',
+          overlayY: 'top'
+        }
+      ]);
 
     const overlayConfig = new OverlayConfig({
       hasBackdrop: config.hasBackdrop,
       backdropClass: config.backdropClass,
       panelClass: config.panelClass,
       scrollStrategy: this.overlay.scrollStrategies.close(),
-      positionStrategy
+      positionStrategy,
+      direction: this.direction
     });
 
     return overlayConfig;

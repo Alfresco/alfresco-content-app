@@ -29,9 +29,15 @@ import { CustomNameColumnComponent } from './name-column/name-column.component';
 import { LockByComponent } from './locked-by/locked-by.component';
 import { ContentModule } from '@alfresco/adf-content-services';
 import { MaterialModule } from '../../material.module';
+import { CoreModule } from '@alfresco/adf-core';
 
 @NgModule({
-  imports: [BrowserModule, ContentModule, MaterialModule],
+  imports: [
+    BrowserModule,
+    CoreModule.forChild(),
+    ContentModule.forChild(),
+    MaterialModule
+  ],
   declarations: [CustomNameColumnComponent, LockByComponent],
   exports: [CustomNameColumnComponent, LockByComponent],
   entryComponents: [CustomNameColumnComponent, LockByComponent]

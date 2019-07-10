@@ -67,7 +67,7 @@ export class FavoritesApi extends RepoApi {
         try {
           return await this.favoritesApi.createFavorite('-me-', data);
         } catch (error) {
-          // console.log('--- add favorite by id catch ');
+          console.log('--- add favorite by id catch ');
         }
     }
 
@@ -116,7 +116,7 @@ export class FavoritesApi extends RepoApi {
         try {
           return await this.favoritesApi.deleteFavorite('-me-', nodeId);
         } catch (error) {
-          // console.log('--- remove favorite by id catch ');
+          console.log('--- remove favorite by id catch ', error);
         }
     }
 

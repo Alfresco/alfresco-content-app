@@ -1,3 +1,10 @@
+.app-sidenav {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  height: 100%;
+}
+
 .sidenav {
   display: flex;
   flex: 1;
@@ -8,10 +15,6 @@
     border-bottom: 0;
   }
 
-  .section {
-    padding: 8px 14px;
-  }
-
   .action-menu {
     display: flex;
     height: 40px;
@@ -19,14 +22,50 @@
     align-items: center;
   }
 
-  .menu {
-    display: flex;
-    flex-direction: column;
-    padding: 0;
-    margin: 0;
+  .section.action-menu {
+    padding: 8px 14px;
   }
 
-  .menu__item {
+  .section {
+    padding: 8px 6px;
+  }
+
+  .section--collapsed {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .list-item {
+    padding: 12px 0;
+    display: flex;
+    align-items: center;
+    height: 24px;
+  }
+
+  .menu {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+  }
+
+  .full-width {
+    display: flex;
+    width: 100%;
+  }
+
+  .action-button .action-button__label {
+    margin: 0 8px !important;
+  }
+
+  .app-item,
+  .app-item .item {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+  }
+
+  .item {
     padding: 12px 0;
     flex-direction: row;
     display: flex;
@@ -34,46 +73,38 @@
     text-decoration: none;
     text-decoration: none;
     height: 24px;
+    width: 100%;
     user-select: none;
   }
 
-  .item--parent {
-    font-weight: 600;
-  }
-
-  .item--label {
-    cursor: pointer;
-    width: 240px;
-    padding-left: 10px;
-  }
-
-  .item--child {
-    padding-left: 25px;
-  }
-
-  .item--label:focus {
-    outline: none;
-  }
-
-  .item--label__trigger {
-    padding-left: 0;
-  }
-
   .mat-expansion-panel-header {
-    padding: 0 8px !important;
+    padding: 0 8px 0 0 !important;
+    display: flex;
+    align-items: center;
   }
 
-  .mat-expansion-panel-header-title span {
-    margin-left: 8px;
+  .mat-expansion-panel {
+    width: 100%;
+  }
+
+  .mat-expansion-indicator {
+    display: flex;
+    align-content: center;
   }
 
   .mat-expansion-panel-body {
-    padding: 0 24px 0px;
+    padding-bottom: 0;
   }
 
   .mat-expansion-panel-header-title {
     display: flex;
     flex-direction: row;
     align-items: center;
+  }
+}
+
+[dir='rtl'] .sidenav {
+  .mat-expansion-panel-header {
+    padding: 0 0 0 8px !important;
   }
 }

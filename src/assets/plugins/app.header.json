@@ -47,15 +47,6 @@
             "actions": {
               "click": "app.actions.about"
             }
-          },
-          {
-            "id": "app.header.logout",
-            "title": "APP.SIGN_OUT",
-            "description": "APP.SIGN_OUT",
-            "icon": "exit_to_app",
-            "actions": {
-              "click": "LOGOUT"
-            }
           }
         ]
       }

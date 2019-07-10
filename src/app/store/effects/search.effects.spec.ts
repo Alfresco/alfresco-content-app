@@ -28,8 +28,11 @@ import { AppTestingModule } from '../../testing/app-testing.module';
 import { SearchEffects } from './search.effects';
 import { EffectsModule } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { SearchByTermAction } from '../actions/search.actions';
 import { Router } from '@angular/router';
+import {
+  SearchOptionIds,
+  SearchByTermAction
+} from '@alfresco/aca-shared/store';
 
 describe('SearchEffects', () => {
   let store: Store<any>;
@@ -55,7 +58,14 @@ describe('SearchEffects', () => {
 
     it('should navigate to `search-libraries` when search options has library true', fakeAsync(() => {
       store.dispatch(
-        new SearchByTermAction('test', [{ id: 'libraries', value: true }])
+        new SearchByTermAction('test', [
+          {
+            id: SearchOptionIds.Libraries,
+            value: true,
+            key: '',
+            shouldDisable: null
+          }
+        ])
       );
 
       tick();

@@ -16,7 +16,14 @@ body {
   }
 }
 
+[dir='rtl'] .mat-icon {
+  transform: scale(-1, 1);
+}
+
 // todo: move this to corresponding component theme files
+.adf-container-full-width {
+  overflow: hidden;
+}
 app-root,
 app-about,
 adf-layout-container,

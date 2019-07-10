@@ -61,22 +61,22 @@ describe('Sidebar', () => {
   it('My Libraries is automatically selected on expanding File Libraries - [C289900]', async () => {
     await sidenav.expandFileLibraries();
     expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.MY_LIBRARIES);
-    expect(await sidenav.isActive(SIDEBAR_LABELS.FILE_LIBRARIES)).toBe(false, 'File Libraries link is active');
-    expect(await sidenav.childIsActive(SIDEBAR_LABELS.MY_LIBRARIES)).toBe(true, 'My Libraries link not active');
+    expect(await sidenav.isActive(SIDEBAR_LABELS.FILE_LIBRARIES)).toBe(true, 'File Libraries is not active');
+    expect(await sidenav.isActive(SIDEBAR_LABELS.MY_LIBRARIES)).toBe(true, 'My Libraries link not active');
   });
 
   it('navigate to Favorite Libraries - [C289902]', async () => {
     await page.goToFavoriteLibraries();
     expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.FAVORITE_LIBRARIES);
-    expect(await sidenav.isActive(SIDEBAR_LABELS.FILE_LIBRARIES)).toBe(false, 'File Libraries link is active');
-    expect(await sidenav.childIsActive(SIDEBAR_LABELS.FAVORITE_LIBRARIES)).toBe(true, 'Favorite Libraries link not active');
+    expect(await sidenav.isActive(SIDEBAR_LABELS.FILE_LIBRARIES)).toBe(true, 'File Libraries link is not active');
+    expect(await sidenav.isActive(SIDEBAR_LABELS.FAVORITE_LIBRARIES)).toBe(true, 'Favorite Libraries link not active');
   });
 
   it('navigate to My Libraries - [C289901]', async () => {
     await page.goToMyLibraries();
     expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.MY_LIBRARIES);
-    expect(await sidenav.isActive(SIDEBAR_LABELS.FILE_LIBRARIES)).toBe(false, 'File Libraries link is active');
-    expect(await sidenav.childIsActive(SIDEBAR_LABELS.MY_LIBRARIES)).toBe(true, 'My Libraries link not active');
+    expect(await sidenav.isActive(SIDEBAR_LABELS.FILE_LIBRARIES)).toBe(true, 'File Libraries link is not active');
+    expect(await sidenav.isActive(SIDEBAR_LABELS.MY_LIBRARIES)).toBe(true, 'My Libraries link not active');
   });
 
   it('navigates to "Shared Files" - [C213110]', async () => {
@@ -209,7 +209,7 @@ describe('Sidebar', () => {
   it('sidebar is collapsed automatically when Search Results opens - [C277223]', async () => {
     await searchInput.clickSearchButton();
     /* cspell:disable-next-line */
-    await searchInput.searchForTextAndCloseSearchOptions('qwertyuiop');
+    await searchInput.searchFor('qwertyuiop');
     await searchResultsPage.waitForResults();
 
     expect(await header.isExpandedSidenav()).toBe(false, 'Sidebar not collapsed');
@@ -218,7 +218,7 @@ describe('Sidebar', () => {
   it('sidenav returns to the default state when navigating away from the Search Results page - [C277224]', async () => {
     await searchInput.clickSearchButton();
     /* cspell:disable-next-line */
-    await searchInput.searchForTextAndCloseSearchOptions('qwertyuiop');
+    await searchInput.searchFor('qwertyuiop');
     await searchResultsPage.waitForResults();
     await page.clickFavorites();
 
@@ -228,7 +228,7 @@ describe('Sidebar', () => {
   it('sidenav can be expanded when search results page is displayed - [C277230]', async () => {
     await searchInput.clickSearchButton();
     /* cspell:disable-next-line */
-    await searchInput.searchForTextAndCloseSearchOptions('qwertyuiop');
+    await searchInput.searchFor('qwertyuiop');
     await searchResultsPage.waitForResults();
     await header.expandSideNav();
 

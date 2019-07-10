@@ -39,10 +39,18 @@ describe('Upload new version', () => {
   const fileLocked1 = `file-locked1-${Utils.random()}.docx`; let fileLocked1Id;
   const fileLocked2 = `file-locked2-${Utils.random()}.docx`; let fileLocked2Id;
 
+  const fileSearch1 = `search-file1-${Utils.random()}.docx`; let fileSearch1Id;
+  const fileSearch2 = `search-file2-${Utils.random()}.docx`; let fileSearch2Id;
+  const fileSearch3 = `search-file3-${Utils.random()}.docx`; let fileSearch3Id;
+  const fileSearch4 = `search-file4-${Utils.random()}.docx`; let fileSearch4Id;
+  const fileLockedSearch1 = `search-file-locked1-${Utils.random()}.docx`; let fileLockedSearch1Id;
+  const fileLockedSearch2 = `search-file-locked2-${Utils.random()}.docx`; let fileLockedSearch2Id;
+
   const parentPF = `parentPersonal-${Utils.random()}`; let parentPFId;
   const parentSF = `parentShared-${Utils.random()}`; let parentSFId;
   const parentRF = `parentRecent-${Utils.random()}`; let parentRFId;
   const parentFav = `parentFav-${Utils.random()}`; let parentFavId;
+  const parentSearch = `parentSearch-${Utils.random()}`; let parentSearchId;
 
   const file = FILES.pdfFile; let fileId;
   const fileToUpload1 = FILES.docxFile;
@@ -60,6 +68,7 @@ describe('Upload new version', () => {
   const page = new BrowsingPage();
   const { dataTable, toolbar } = page;
   const uploadNewVersionDialog = new UploadNewVersionDialog();
+  const { searchInput } = page.header;
 
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
@@ -68,6 +77,7 @@ describe('Upload new version', () => {
     parentSFId = (await apis.user.nodes.createFolder(parentSF)).entry.id;
     parentRFId = (await apis.user.nodes.createFolder(parentRF)).entry.id;
     parentFavId = (await apis.user.nodes.createFolder(parentFav)).entry.id;
+    parentSearchId = (await apis.user.nodes.createFolder(parentSearch)).entry.id;
 
     done();
   });
@@ -77,6 +87,7 @@ describe('Upload new version', () => {
     await apis.user.nodes.deleteNodeById(parentSFId);
     await apis.user.nodes.deleteNodeById(parentRFId);
     await apis.user.nodes.deleteNodeById(parentFavId);
+    await apis.user.nodes.deleteNodeById(parentSearchId);
     done();
   });
 
@@ -253,7 +264,6 @@ describe('Upload new version', () => {
     });
 
     afterEach(async (done) => {
-      // await Utils.pressEscape();
       await page.refresh();
       done();
     });
@@ -400,7 +410,6 @@ describe('Upload new version', () => {
     });
 
     afterEach(async (done) => {
-      // await Utils.pressEscape();
       await page.refresh();
       done();
     });
@@ -548,7 +557,6 @@ describe('Upload new version', () => {
     });
 
     afterEach(async (done) => {
-      // await Utils.pressEscape();
       await page.refresh();
       done();
     });
@@ -666,6 +674,180 @@ describe('Upload new version', () => {
       expect(await dataTable.isItemPresent(fileToUpload5)).toBe(false, 'File was updated');
       expect(await dataTable.isItemPresent(fileLocked2)).toBe(true, 'File not displayed');
       expect(await apis.user.nodes.isFileLockedWrite(fileLocked2Id)).toBe(true, `${fileLocked2} was unlocked`);
+    });
+  });
+
+  describe('on Search Results', () => {
+    beforeAll(async (done) => {
+      fileId = (await apis.user.upload.uploadFile(file, parentSearchId)).entry.id;
+      fileSearch1Id = (await apis.user.nodes.createFile(fileSearch1, parentSearchId)).entry.id;
+      fileSearch2Id = (await apis.user.nodes.createFile(fileSearch2, parentSearchId)).entry.id;
+      fileSearch3Id = (await apis.user.nodes.createFile(fileSearch3, parentSearchId)).entry.id;
+      fileSearch4Id = (await apis.user.nodes.createFile(fileSearch4, parentSearchId)).entry.id;
+
+      fileLockedSearch1Id = (await apis.user.nodes.createFile(fileLockedSearch1, parentSearchId)).entry.id;
+      fileLockedSearch2Id = (await apis.user.nodes.createFile(fileLockedSearch2, parentSearchId)).entry.id;
+
+      await apis.user.nodes.lockFile(fileLockedSearch1Id);
+      await apis.user.nodes.lockFile(fileLockedSearch2Id);
+
+      await apis.user.search.waitForNodes('search-f', { expect: 6 })
+
+      await loginPage.loginWith(username);
+      done();
+    });
+
+    afterEach(async (done) => {
+      await Utils.pressEscape();
+      await page.header.expandSideNav();
+      await page.clickPersonalFilesAndWait();
+      done();
+    });
+
+    it('dialog UI defaults - [C307003]', async () => {
+      await searchInput.clickSearchButton();
+      await searchInput.checkFilesAndFolders();
+      await searchInput.searchFor(file);
+      await dataTable.waitForBody();
+      await dataTable.selectItem(file, parentSearch);
+      await toolbar.clickMoreActionsUploadNewVersion();
+
+      await Utils.uploadFileNewVersion(fileToUpload1);
+      await page.waitForDialog();
+
+      expect(await uploadNewVersionDialog.getTitle()).toEqual('Upload New Version');
+      expect(await uploadNewVersionDialog.getText()).toContain('What level of changes were made to this version?');
+      expect(await uploadNewVersionDialog.isDescriptionDisplayed()).toBe(true, 'Description not displayed');
+      expect(await uploadNewVersionDialog.isMinorOptionDisplayed()).toBe(true, 'Minor option not displayed');
+      expect(await uploadNewVersionDialog.isMajorOptionDisplayed()).toBe(true, 'Major option not displayed');
+      expect(await uploadNewVersionDialog.isCancelButtonEnabled()).toBe(true, 'Cancel button not enabled');
+      expect(await uploadNewVersionDialog.isUploadButtonEnabled()).toBe(true, 'Update button not enabled');
+    });
+
+    it('file is updated after uploading a new version - major - [C307004]', async () => {
+      await searchInput.clickSearchButton();
+      await searchInput.checkFilesAndFolders();
+      await searchInput.searchFor(fileSearch1);
+      await dataTable.waitForBody();
+      await dataTable.selectItem(fileSearch1, parentSearch);
+      await toolbar.clickMoreActionsUploadNewVersion();
+
+      await Utils.uploadFileNewVersion(fileToUpload1);
+      await page.waitForDialog();
+
+      await uploadNewVersionDialog.clickMajor();
+      await uploadNewVersionDialog.enterDescription('new major version description');
+      await uploadNewVersionDialog.clickUpload();
+
+      // TODO: enable when ACA-2329 is fixed
+      // expect(await dataTable.isItemPresent(fileToUpload1, parentSearch)).toBe(true, 'File not updated');
+      expect(await apis.user.nodes.getFileVersionType(fileSearch1Id)).toEqual('MAJOR', 'File has incorrect version type');
+      expect(await apis.user.nodes.getFileVersionLabel(fileSearch1Id)).toEqual('1.0', 'File has incorrect version label');
+    });
+
+    it('file is updated after uploading a new version - minor - [C307005]', async () => {
+      await searchInput.clickSearchButton();
+      await searchInput.checkFilesAndFolders();
+      await searchInput.searchFor(fileSearch2);
+      await dataTable.waitForBody();
+      await dataTable.selectItem(fileSearch2, parentSearch);
+      await toolbar.clickMoreActionsUploadNewVersion();
+
+      await Utils.uploadFileNewVersion(fileToUpload2);
+      await page.waitForDialog();
+
+      await uploadNewVersionDialog.clickMinor();
+      await uploadNewVersionDialog.enterDescription('new minor version description');
+      await uploadNewVersionDialog.clickUpload();
+
+      // TODO: enable when ACA-2329 is fixed
+      // expect(await dataTable.isItemPresent(fileToUpload2, parentSearch)).toBe(true, 'File not updated');
+      expect(await apis.user.nodes.getFileVersionType(fileSearch2Id)).toEqual('MINOR', 'File has incorrect version type');
+      expect(await apis.user.nodes.getFileVersionLabel(fileSearch2Id)).toEqual('0.1', 'File has incorrect version label');
+    });
+
+    it('file is not updated when clicking Cancel - [C307006]', async () => {
+      await searchInput.clickSearchButton();
+      await searchInput.checkFilesAndFolders();
+      await searchInput.searchFor(fileSearch3);
+      await dataTable.waitForBody();
+      await dataTable.selectItem(fileSearch3, parentSearch);
+      await toolbar.clickMoreActionsUploadNewVersion();
+
+      await Utils.uploadFileNewVersion(fileToUpload3);
+      await page.waitForDialog();
+
+      await uploadNewVersionDialog.clickMinor();
+      await uploadNewVersionDialog.enterDescription('new version description');
+      await uploadNewVersionDialog.clickCancel();
+
+      expect(await dataTable.isItemPresent(fileSearch3, parentSearch)).toBe(true, 'File was updated');
+      expect(await apis.user.nodes.getFileVersionType(fileSearch3Id)).toEqual('', 'File has incorrect version type');
+      expect(await apis.user.nodes.getFileVersionLabel(fileSearch3Id)).toEqual('', 'File has incorrect version label');
+    });
+
+    it('upload new version fails when new file name already exists - [C307007]', async () => {
+      await searchInput.clickSearchButton();
+      await searchInput.checkFilesAndFolders();
+      await searchInput.searchFor(fileSearch4);
+      await dataTable.waitForBody();
+      await dataTable.selectItem(fileSearch4, parentSearch);
+      await toolbar.clickMoreActionsUploadNewVersion();
+
+      await Utils.uploadFileNewVersion(file);
+      await page.waitForDialog();
+
+      await uploadNewVersionDialog.clickMinor();
+      await uploadNewVersionDialog.enterDescription('new version description');
+      await uploadNewVersionDialog.clickUpload();
+
+      await page.refresh();
+
+      expect(await dataTable.isItemPresent(fileSearch4, parentSearch)).toBe(true, 'File was updated');
+      expect(await apis.user.nodes.getFileVersionType(fileSearch4Id)).toEqual('', 'File has incorrect version type');
+      expect(await apis.user.nodes.getFileVersionLabel(fileSearch4Id)).toEqual('', 'File has incorrect version label');
+    });
+
+    it('file is unlocked after uploading a new version - [C307008]', async () => {
+      await searchInput.clickSearchButton();
+      await searchInput.checkFilesAndFolders();
+      await searchInput.searchFor(fileLockedSearch1);
+      await dataTable.waitForBody();
+      await dataTable.selectItem(fileLockedSearch1, parentSearch);
+      await toolbar.clickMoreActionsUploadNewVersion();
+
+      await Utils.uploadFileNewVersion(fileToUpload4);
+      await page.waitForDialog();
+
+      await uploadNewVersionDialog.clickMinor();
+      await uploadNewVersionDialog.enterDescription('new version description');
+      await uploadNewVersionDialog.clickUpload();
+
+      // TODO: enable when ACA-2329 is fixed
+      // expect(await dataTable.isItemPresent(fileToUpload4, parentSearch)).toBe(true, 'File name was not changed');
+      expect(await apis.user.nodes.isFileLockedWrite(fileLockedSearch1Id)).toBe(false, `${fileLockedSearch1} is still locked`);
+      expect(await apis.user.nodes.getFileVersionType(fileLockedSearch1Id)).toEqual('MINOR', 'File has incorrect version type');
+      expect(await apis.user.nodes.getFileVersionLabel(fileLockedSearch1Id)).toEqual('0.1', 'File has incorrect version label');
+    });
+
+    it('file remains locked after canceling of uploading a new version - [C307009]', async () => {
+      await searchInput.clickSearchButton();
+      await searchInput.checkFilesAndFolders();
+      await searchInput.searchFor(fileLockedSearch2);
+      await dataTable.waitForBody();
+      await dataTable.selectItem(fileLockedSearch2, parentSearch);
+      await toolbar.clickMoreActionsUploadNewVersion();
+
+      await Utils.uploadFileNewVersion(fileToUpload5);
+      await page.waitForDialog();
+
+      await uploadNewVersionDialog.clickMinor();
+      await uploadNewVersionDialog.enterDescription('new version description');
+      await uploadNewVersionDialog.clickCancel();
+
+      expect(await dataTable.isItemPresent(fileToUpload5, parentSearch)).toBe(false, 'File was updated');
+      expect(await dataTable.isItemPresent(fileLockedSearch2, parentSearch)).toBe(true, 'File not displayed');
+      expect(await apis.user.nodes.isFileLockedWrite(fileLockedSearch2Id)).toBe(true, `${fileLockedSearch2} was unlocked`);
     });
   });
 

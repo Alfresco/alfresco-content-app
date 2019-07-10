@@ -180,4 +180,26 @@ describe('Empty list views', () => {
     expect(await pagination.isPreviousButtonPresent()).toBe(false, 'Previous button is present');
     expect(await pagination.isNextButtonPresent()).toBe(false, 'Next button is present');
   });
+
+  it('Empty Search results - Libraries - [C290020]', async () => {
+    await searchInput.clickSearchButton();
+    await searchInput.checkLibraries();
+    /* cspell:disable-next-line */
+    await searchInput.searchFor('qwertyuiop');
+    await dataTable.waitForBody();
+
+    expect(await dataTable.isEmptyList()).toBe(true, 'list is not empty');
+    expect(await dataTable.getEmptySearchResultsText()).toContain('Your search returned 0 results');
+  });
+
+  it('Empty Search results - Files / Folders - [C290031]', async () => {
+    await searchInput.clickSearchButton();
+    await searchInput.checkFilesAndFolders();
+    /* cspell:disable-next-line */
+    await searchInput.searchFor('qwertyuiop');
+    await dataTable.waitForBody();
+
+    expect(await dataTable.isEmptyList()).toBe(true, 'list is not empty');
+    expect(await dataTable.getEmptySearchResultsText()).toContain('Your search returned 0 results');
+  });
 });

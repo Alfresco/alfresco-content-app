@@ -30,18 +30,19 @@ import {
   OnDestroy,
   HostListener,
   ViewChild,
-  AfterViewInit
+  AfterViewInit,
+  Inject
 } from '@angular/core';
-import { MatMenuTrigger } from '@angular/material';
-
+import { MatMenuTrigger } from '@angular/material/menu';
 import { AppExtensionService } from '../../extensions/extension.service';
-import { AppStore } from '../../store/states';
-import { appSelection } from '../../store/selectors/app.selectors';
+import { AppStore, getAppSelection } from '@alfresco/aca-shared/store';
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { ContextMenuOverlayRef } from './context-menu-overlay';
+import { CONTEXT_MENU_DIRECTION } from './direction.token';
+import { Directionality } from '@angular/cdk/bidi';
 
 @Component({
   selector: 'aca-context-menu',
@@ -71,7 +72,8 @@ export class ContextMenuComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     private contextMenuOverlayRef: ContextMenuOverlayRef,
     private extensions: AppExtensionService,
-    private store: Store<AppStore>
+    private store: Store<AppStore>,
+    @Inject(CONTEXT_MENU_DIRECTION) public direction: Directionality
   ) {}
 
   onClickOutsideEvent() {
@@ -91,7 +93,7 @@ export class ContextMenuComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit() {
     this.store
-      .select(appSelection)
+      .select(getAppSelection)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(selection => {
         if (selection.count) {
@@ -104,7 +106,7 @@ export class ContextMenuComponent implements OnInit, OnDestroy, AfterViewInit {
     setTimeout(() => this.trigger.openMenu(), 0);
   }
 
-  trackById(index: number, obj: { id: string }) {
+  trackById(_: number, obj: { id: string }) {
     return obj.id;
   }
 }

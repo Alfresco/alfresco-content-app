@@ -54,8 +54,15 @@ export class UploadApi extends RepoApi {
           nodeType: 'cm:content'
       };
 
-      await this.apiAuth();
-      return await this.upload.uploadFile(file, '', parentFolderId, null, opts);
+      try {
+        await this.apiAuth();
+        return await this.upload.uploadFile(file, '', parentFolderId, null, opts);
+      } catch (error) {
+        console.log('=== catch upload file with rename: ', error);
+      }
+
+
+
   }
 
 }

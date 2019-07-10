@@ -60,17 +60,23 @@ if [ -n "${APP_CONFIG_OAUTH2_REDIRECT_LOGOUT}" ];then
 fi
 
 if [[ $ACSURL ]]; then
-  sed -i s%{protocol}//{hostname}{:port}%"$ACSURL"%g /tmp/app.config.json && \
+  replace="\/"
+  encoded=${ACSURL//\//$replace}
+  sed -i s%{protocol}//{hostname}{:port}%"$encoded"%g /tmp/app.config.json && \
   cat /tmp/app.config.json > ./app.config.json
 fi
 
 if [[ $BASEPATH ]]; then
-  sed -i s%href=\"/\"%href=\""$BASEPATH"\"%g /tmp/index.html && \
+  replace="\/"
+  encoded=${BASEPATH//\//$replace}
+  sed -i s%href=\"/\"%href=\""$encoded"\"%g /tmp/index.html && \
   cat /tmp/index.html > ./index.html
 fi
 
 if [ -n "${APP_BASE_SHARE_URL}" ];then
-  sed -e "s/\"baseShareUrl\": \".*\"/\"baseShareUrl\": \"${APP_BASE_SHARE_URL}\"/g" \
+  replace="\/"
+  encoded=${APP_BASE_SHARE_URL//\//$replace}
+  sed -e "s/\"baseShareUrl\": \".*\"/\"baseShareUrl\": \"${encoded}\"/g" \
     -i /tmp/app.config.json && \
   cat /tmp/app.config.json > ./app.config.json
 fi

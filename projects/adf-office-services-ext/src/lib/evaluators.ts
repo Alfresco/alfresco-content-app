@@ -1,5 +1,4 @@
 import { RuleContext, RuleParameter } from '@alfresco/adf-extensions';
-import { AuthenticationService } from '@alfresco/adf-core';
 import { getFileExtension, supportedExtensions } from './utils';
 
 export function canOpenWithOffice(
@@ -11,12 +10,6 @@ export function canOpenWithOffice(
     context.navigation.url &&
     context.navigation.url.startsWith('/trashcan')
   ) {
-    return false;
-  }
-
-  // todo: needs to have typed access via SDK (1.8)
-  const auth: AuthenticationService = (<any>context).auth;
-  if (auth && auth.isOauth()) {
     return false;
   }
 

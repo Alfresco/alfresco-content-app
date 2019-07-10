@@ -41,7 +41,7 @@ import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { NodeActionsService } from '../../services/node-actions.service';
 import { FilesComponent } from './files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { ContentApiService } from '../../services/content-api.service';
+import { ContentApiService } from '@alfresco/aca-shared';
 import { of, throwError } from 'rxjs';
 
 describe('FilesComponent', () => {

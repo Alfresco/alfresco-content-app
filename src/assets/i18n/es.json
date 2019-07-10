@@ -1,5 +1,6 @@
 {
   "APP": {
+    "COPYRIGHT": "© 2017 - 2019 Alfresco Software, Inc. Todos los derechos reservados.",
     "ABOUT": {
       "VERSION": "Versión:",
       "PLUGINS": {
@@ -54,7 +55,7 @@
       "TOOLTIP": "Añadir nuevos ficheros o carpetas, o crear una nueva biblioteca de ficheros",
       "MENU_ITEMS": {
         "CREATE_FOLDER": "Crear carpeta",
-        "UPLOAD_FILE": "Cargar fichero",
+        "UPLOAD_FILE": "Añadir fichero",
         "UPLOAD_FOLDER": "Cargar carpeta",
         "CREATE_LIBRARY": "Crear biblioteca"
       },
@@ -77,7 +78,7 @@
         }
       },
       "LIBRARIES": {
-        "TITLE": "Mis bibliotecas",
+        "TITLE": "Bibliotecas de ficheros",
         "DESCRIPTION": "Acceder a bibliotecas de ficheros",
         "SIDENAV_LINK": {
           "LABEL": "Bibliotecas de ficheros",
@@ -164,6 +165,7 @@
         "FOUND_ONE_RESULT": "{{ number }} resultado encontrado",
         "CUSTOM_ROW": {
           "MODIFIED": "Modificado",
+          "BY_USER": "por {{ user }}",
           "LOCATION": "Ubicación",
           "SIZE": "Tamaño"
         },
@@ -333,7 +335,8 @@
       }
     },
     "CONTENT_METADATA": {
-      "EXIF_GROUP_TITLE": "Imagen EXIF"
+      "EXIF_GROUP_TITLE": "Imagen EXIF",
+      "EFFECTIVITY_GROUP_TITLE": "Efectividad"
     },
     "INFO_DRAWER": {
       "TITLE": "Detalles",
@@ -456,7 +459,20 @@
     "CATEGORIES": {
       "MODIFIED_DATE": "Fecha de modificación",
       "SIZE": "Tamaño",
+      "SIZE_OPTIONS": {
+        "SMALL": "Pequeño",
+        "MEDIUM": "Mediano",
+        "LARGE": "Grande",
+        "HUGE": "Enorme"
+      },
       "CREATED_DATE": "Fecha de creación"
+    },
+    "FACET_QUERIES": {
+      "TODAY": "Hoy",
+      "THIS_WEEK": "Esta semana",
+      "THIS_MONTH": "Este mes",
+      "LAST_6_MONTHS": "En los últimos 6 meses",
+      "THIS_YEAR": "Este año"
     }
   },
   "CORE": {

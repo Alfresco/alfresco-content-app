@@ -76,15 +76,15 @@ describe('General', () => {
     done();
   });
 
-  it('Info drawer for a file - default tabs - [C299162]', async () => {
+  it('Info drawer closes on page refresh - [C268999]', async () => {
     await dataTable.selectItem(file1);
     await page.toolbar.clickViewDetails();
-    await infoDrawer.waitForInfoDrawerToOpen();
+    expect(await infoDrawer.isOpen()).toBe(true, 'Info drawer not open');
 
-    expect(await infoDrawer.getHeaderTitle()).toEqual('Details');
-    expect(await infoDrawer.isPropertiesTabDisplayed()).toBe(true, 'Properties tab is not displayed');
-    expect(await infoDrawer.isCommentsTabDisplayed()).toBe(true, 'Comments tab is not displayed');
-    expect(await infoDrawer.getTabsCount()).toBe(2, 'Incorrect number of tabs');
+    await page.refresh();
+    await dataTable.waitForBody();
+
+    expect(await infoDrawer.isOpen()).toBe(false, 'Info drawer open');
   });
 
 });

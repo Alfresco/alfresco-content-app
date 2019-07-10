@@ -199,6 +199,10 @@
           "description": "Element order",
           "type": "number"
         },
+        "disabled": {
+          "description": "Toggles disabled state",
+          "type": "boolean"
+        },
         "children": {
           "description": "Navigation children items",
           "type": "array",
@@ -223,6 +227,10 @@
                   "route": {
                     "description": "Route reference identifier",
                     "type": "string"
+                  },
+                  "disabled": {
+                    "description": "Toggles disabled state",
+                    "type": "boolean"
                   }
                 },
                 "not": {
@@ -363,6 +371,14 @@
         "id": {
           "type": "string",
           "description": "Unique identifier"
+        },
+        "includeAll": {
+          "type": "boolean",
+          "description": "Enable to automatically show all properties"
+        },
+        "disabled": {
+          "description": "Toggles disabled state",
+          "type": "boolean"
         }
       },
       "patternProperties": {
@@ -676,6 +692,16 @@
           "description": "Viewer component extensions",
           "type": "object",
           "properties": {
+            "rules": {
+              "description": "Viewer rules",
+              "type": "object",
+              "properties": {
+                "canPreview": {
+                  "description": "Controls whether preview is enabled for particular node",
+                  "type": "string"
+                }
+              }
+            },
             "openWith": {
               "description": "The [Open With] menu extensions",
               "type": "array",
@@ -730,6 +756,10 @@
               "id": {
                 "type": "string",
                 "description": "Unique identifier"
+              },
+              "disabled": {
+                "type": "boolean",
+                "description": "Toggle disabled state"
               }
             },
             "patternProperties": {

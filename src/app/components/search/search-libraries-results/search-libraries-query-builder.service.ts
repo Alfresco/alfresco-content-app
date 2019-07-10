@@ -28,6 +28,14 @@ import { Injectable } from '@angular/core';
 import { SitePaging } from '@alfresco/js-api';
 import { Subject } from 'rxjs';
 
+export interface LibrarySearchQuery {
+  term: string;
+  opts: {
+    skipCount: number;
+    maxItems: number;
+  };
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -65,7 +73,7 @@ export class SearchLibrariesQueryBuilderService {
     }
   }
 
-  buildQuery(): any {
+  buildQuery(): LibrarySearchQuery {
     const query = this.userQuery;
     if (query && query.length > 1) {
       const resultQuery = {
@@ -80,7 +88,7 @@ export class SearchLibrariesQueryBuilderService {
     return null;
   }
 
-  private findLibraries(libraryQuery): Promise<SitePaging> {
+  private findLibraries(libraryQuery: LibrarySearchQuery): Promise<SitePaging> {
     return this.alfrescoApiService
       .getInstance()
       .core.queriesApi.findSites(libraryQuery.term, libraryQuery.opts)

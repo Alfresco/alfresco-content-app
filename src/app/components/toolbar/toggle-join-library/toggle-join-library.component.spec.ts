@@ -32,7 +32,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import {
   SnackbarErrorAction,
   SnackbarInfoAction
-} from '../../../store/actions/snackbar.actions';
+} from '@alfresco/aca-shared/store';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { ContentManagementService } from '../../../services/content-management.service';
 import { ToggleJoinLibraryButtonComponent } from './toggle-join-library-button.component';
@@ -91,7 +91,7 @@ describe('ToggleJoinLibraryComponent', () => {
   });
 
   it('should dispatch `SnackbarErrorAction` action on error', () => {
-    const event = { event: {}, i18nKey: 'ERROR_i18nKey' };
+    const event = { error: {}, i18nKey: 'ERROR_i18nKey' };
     component.onErrorEvent(event);
 
     expect(storeMock.dispatch).toHaveBeenCalledWith(
@@ -115,7 +115,7 @@ describe('ToggleJoinLibraryComponent', () => {
       expect(contentManagementService.libraryJoined.next).toHaveBeenCalled();
       done();
     });
-    const event = { shouldReload: true };
+    const event = { shouldReload: true, i18nKey: null };
     component.onToggleEvent(event);
   });
 
@@ -128,7 +128,7 @@ describe('ToggleJoinLibraryComponent', () => {
       ).toHaveBeenCalled();
       done();
     });
-    const event = { shouldReload: false };
+    const event = { shouldReload: false, i18nKey: null };
     component.onToggleEvent(event);
   });
 });

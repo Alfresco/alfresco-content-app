@@ -29,11 +29,23 @@ import {
   HostListener,
   Input,
   OnChanges,
-  Output
+  Output,
+  SimpleChanges
 } from '@angular/core';
 import { SiteEntry, SiteMembershipRequestBody } from '@alfresco/js-api';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { BehaviorSubject, from } from 'rxjs';
+
+export interface LibraryMembershipToggleEvent {
+  updatedEntry?: any;
+  shouldReload: boolean;
+  i18nKey: string;
+}
+
+export interface LibraryMembershipErrorEvent {
+  error: any;
+  i18nKey: string;
+}
 
 @Directive({
   selector: '[acaLibraryMembership]',
@@ -50,8 +62,12 @@ export class LibraryMembershipDirective implements OnChanges {
   @Input('acaLibraryMembership')
   selection: SiteEntry = null;
 
-  @Output() toggle: EventEmitter<any> = new EventEmitter();
-  @Output() error: EventEmitter<any> = new EventEmitter();
+  @Output() toggle: EventEmitter<
+    LibraryMembershipToggleEvent
+  > = new EventEmitter();
+  @Output() error: EventEmitter<
+    LibraryMembershipErrorEvent
+  > = new EventEmitter();
 
   @HostListener('click')
   onClick() {
@@ -60,7 +76,7 @@ export class LibraryMembershipDirective implements OnChanges {
 
   constructor(private alfrescoApiService: AlfrescoApiService) {}
 
-  ngOnChanges(changes) {
+  ngOnChanges(changes: SimpleChanges) {
     if (
       !changes.selection.currentValue ||
       !changes.selection.currentValue.entry

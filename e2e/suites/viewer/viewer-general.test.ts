@@ -49,8 +49,9 @@ describe('Viewer general', () => {
 
     const loginPage = new LoginPage();
     const page = new BrowsingPage();
-    const dataTable = page.dataTable;
+    const { dataTable } = page;
     const viewer = new Viewer();
+    const { searchInput } = page.header;
 
     beforeAll(async (done) => {
         await apis.admin.people.createUser({ username });
@@ -75,6 +76,7 @@ describe('Viewer general', () => {
     });
 
     beforeEach(async (done) => {
+        await page.header.expandSideNav();
         await page.clickPersonalFilesAndWait();
         await dataTable.doubleClickOnRowByName(parent);
         await dataTable.waitForHeader();
@@ -83,6 +85,7 @@ describe('Viewer general', () => {
 
     afterEach(async (done) => {
         await Utils.pressEscape();
+        await page.header.expandSideNav();
         done();
     });
 
@@ -168,6 +171,19 @@ describe('Viewer general', () => {
 
     it('Viewer opens for a file from Favorites - [C284634]', async () => {
         await page.clickFavoritesAndWait();
+        await dataTable.doubleClickOnRowByName(xlsxFile);
+        expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
+        expect(await viewer.isViewerToolbarDisplayed()).toBe(true, 'Toolbar not displayed');
+        expect(await viewer.isCloseButtonDisplayed()).toBe(true, 'Close button is not displayed');
+        expect(await viewer.isFileTitleDisplayed()).toBe(true, 'File title is not displayed');
+    });
+
+    it('Viewer opens for a file from Search Results - [C279175]', async () => {
+        await searchInput.clickSearchButton();
+        await searchInput.checkFilesAndFolders();
+        await searchInput.searchFor(xlsxFile);
+        await dataTable.waitForBody();
+
         await dataTable.doubleClickOnRowByName(xlsxFile);
         expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
         expect(await viewer.isViewerToolbarDisplayed()).toBe(true, 'Toolbar not displayed');

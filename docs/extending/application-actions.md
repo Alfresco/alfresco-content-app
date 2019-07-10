@@ -76,48 +76,50 @@ and perform document list reload if needed.
 
 Below is the list of public actions types you can use in the plugin definitions as a reference to the action:
 
-| Name                   | Payload             | Description                                                                                     |
-| ---------------------- | ------------------- | ----------------------------------------------------------------------------------------------- |
-| SET_CURRENT_FOLDER     | Node                | Notify components about currently opened folder.                                                |
-| SET_CURRENT_URL        | string              | Notify components about current browser URL.                                                    |
-| SET_USER_PROFILE       | Person              | Assign current user profile.                                                                    |
-| TOGGLE_INFO_DRAWER     | n/a                 | Toggle info drawer for the selected node.                                                       |
-| ADD_FAVORITE           | MinimalNodeEntity[] | Add nodes (or selection) to favorites.                                                          |
-| REMOVE_FAVORITE        | MinimalNodeEntity[] | Removes nodes (or selection) from favorites.                                                    |
-| DELETE_LIBRARY         | string              | Delete a Library by id. Takes selected node if payload not provided.                            |
-| CREATE_LIBRARY         | n/a                 | Invoke a "Create Library" dialog.                                                               |
-| SET_SELECTED_NODES     | MinimalNodeEntity[] | Notify components about selected nodes.                                                         |
-| DELETE_NODES           | MinimalNodeEntity[] | Delete the nodes (or selection). Supports undo actions.                                         |
-| UNDO_DELETE_NODES      | any[]               | Reverts deletion of nodes (or selection).                                                       |
-| RESTORE_DELETED_NODES  | MinimalNodeEntity[] | Restores deleted nodes (or selection). Typically used with Trashcan.                            |
-| PURGE_DELETED_NODES    | MinimalNodeEntity[] | Permanently delete nodes (or selection). Typically used with Trashcan.                          |
-| DOWNLOAD_NODES         | MinimalNodeEntity[] | Download nodes (or selections). Creates a ZIP archive for folders or multiple items.            |
-| CREATE_FOLDER          | string              | Invoke a "Create Folder" dialog for the opened folder (or the parent folder id in the payload). |
-| EDIT_FOLDER            | MinimalNodeEntity   | Invoke an "Edit Folder" dialog for the node (or selection).                                     |
-| SHARE_NODE             | MinimalNodeEntity   | Invoke a "Share" dialog for the node (or selection).                                            |
-| UNSHARE_NODES          | MinimalNodeEntity[] | Remove nodes (or selection) from the shared nodes (does not remove content).                    |
-| COPY_NODES             | MinimalNodeEntity[] | Invoke a "Copy" dialog for the nodes (or selection). Supports undo actions.                     |
-| MOVE_NODES             | MinimalNodeEntity[] | Invoke a "Move" dialog for the nodes (or selection). Supports undo actions.                     |
-| MANAGE_PERMISSIONS     | MinimalNodeEntity   | Invoke a "Manage Permissions" dialog for the node (or selection).                               |
-| MANAGE_VERSIONS        | MinimalNodeEntity   | Invoke a "Manage Versions" dialog for the node (or selection).                                  |
-| NAVIGATE_URL           | string              | Navigate to a given route URL within the application.                                           |
-| NAVIGATE_ROUTE         | any[]               | Navigate to a particular Route (supports parameters).                                           |
-| NAVIGATE_FOLDER        | MinimalNodeEntity   | Navigate to a folder based on the Node properties.                                              |
-| NAVIGATE_PARENT_FOLDER | MinimalNodeEntity   | Navigate to a containing folder based on the Node properties.                                   |
-| NAVIGATE_LIBRARY       | string              | Navigate to library.                                                                            |
-| SEARCH_BY_TERM         | string              | Perform a simple search by the term and navigate to Search results.                             |
-| SNACKBAR_INFO          | string              | Show information snackbar with the message provided.                                            |
-| SNACKBAR_WARNING       | string              | Show warning snackbar with the message provided.                                                |
-| SNACKBAR_ERROR         | string              | Show error snackbar with the message provided.                                                  |
-| UPLOAD_FILES           | n/a                 | Invoke "Upload Files" dialog and upload files to the currently opened folder.                   |
-| UPLOAD_FOLDER          | n/a                 | Invoke "Upload Folder" dialog and upload selected folder to the currently opened one.           |
-| UPLOAD_FILE_VERSION    | n/a                 | Invoke "New File Version" dialog.                                                               |
-| VIEW_FILE              | MinimalNodeEntity   | Preview the file (or selection) in the Viewer.                                                  |
-| UNLOCK_WRITE           | NodeEntry           | Unlock file from read only mode                                                                 |
-| PRINT_FILE             | MinimalNodeEntity   | Print the file opened in the Viewer (or selected).                                              |
-| FULLSCREEN_VIEWER      | n/a                 | Enters fullscreen mode to view the file opened in the Viewer.                                   |
-| LOGOUT                 | n/a                 | Log out and redirect to Login screen.                                                           |
-| RELOAD_DOCUMENT_LIST   | n/a                 | Reload active document list                                                                     |
-| TOGGLE_SEARCH_FILTER   | n/a                 | Toggle Filter component visibility in Search Results.                                           |
-| SHOW_SEARCH_FILTER     | n/a                 | Show Filter component in Search Results.                                                        |
-| HIDE_SEARCH_FILTER     | n/a                 | Hide Filter component in Search Results                                                         |
+| Version | Name                   | Payload             | Description                                                                                     |
+| ------- | ---------------------- | ------------------- | ----------------------------------------------------------------------------------------------- |
+| 1.7.0   | SET_CURRENT_FOLDER     | Node                | Notify components about currently opened folder.                                                |
+| 1.7.0   | SET_CURRENT_URL        | string              | Notify components about current browser URL.                                                    |
+| 1.7.0   | SET_USER_PROFILE       | Person              | Assign current user profile.                                                                    |
+| 1.7.0   | TOGGLE_INFO_DRAWER     | n/a                 | Toggle info drawer for the selected node.                                                       |
+| 1.7.0   | ADD_FAVORITE           | MinimalNodeEntity[] | Add nodes (or selection) to favorites.                                                          |
+| 1.7.0   | REMOVE_FAVORITE        | MinimalNodeEntity[] | Removes nodes (or selection) from favorites.                                                    |
+| 1.7.0   | DELETE_LIBRARY         | string              | Delete a Library by id. Takes selected node if payload not provided.                            |
+| 1.7.0   | CREATE_LIBRARY         | n/a                 | Invoke a "Create Library" dialog.                                                               |
+| 1.7.0   | SET_SELECTED_NODES     | MinimalNodeEntity[] | Notify components about selected nodes.                                                         |
+| 1.7.0   | DELETE_NODES           | MinimalNodeEntity[] | Delete the nodes (or selection). Supports undo actions.                                         |
+| 1.7.0   | UNDO_DELETE_NODES      | any[]               | Reverts deletion of nodes (or selection).                                                       |
+| 1.7.0   | RESTORE_DELETED_NODES  | MinimalNodeEntity[] | Restores deleted nodes (or selection). Typically used with Trashcan.                            |
+| 1.7.0   | PURGE_DELETED_NODES    | MinimalNodeEntity[] | Permanently delete nodes (or selection). Typically used with Trashcan.                          |
+| 1.7.0   | DOWNLOAD_NODES         | MinimalNodeEntity[] | Download nodes (or selections). Creates a ZIP archive for folders or multiple items.            |
+| 1.7.0   | CREATE_FOLDER          | string              | Invoke a "Create Folder" dialog for the opened folder (or the parent folder id in the payload). |
+| 1.7.0   | EDIT_FOLDER            | MinimalNodeEntity   | Invoke an "Edit Folder" dialog for the node (or selection).                                     |
+| 1.7.0   | SHARE_NODE             | MinimalNodeEntity   | Invoke a "Share" dialog for the node (or selection).                                            |
+| 1.7.0   | UNSHARE_NODES          | MinimalNodeEntity[] | Remove nodes (or selection) from the shared nodes (does not remove content).                    |
+| 1.7.0   | COPY_NODES             | MinimalNodeEntity[] | Invoke a "Copy" dialog for the nodes (or selection). Supports undo actions.                     |
+| 1.7.0   | MOVE_NODES             | MinimalNodeEntity[] | Invoke a "Move" dialog for the nodes (or selection). Supports undo actions.                     |
+| 1.7.0   | MANAGE_PERMISSIONS     | MinimalNodeEntity   | Invoke a "Manage Permissions" dialog for the node (or selection).                               |
+| 1.7.0   | MANAGE_VERSIONS        | MinimalNodeEntity   | Invoke a "Manage Versions" dialog for the node (or selection).                                  |
+| 1.7.0   | NAVIGATE_URL           | string              | Navigate to a given route URL within the application.                                           |
+| 1.7.0   | NAVIGATE_ROUTE         | any[]               | Navigate to a particular Route (supports parameters).                                           |
+| 1.7.0   | NAVIGATE_FOLDER        | MinimalNodeEntity   | Navigate to a folder based on the Node properties.                                              |
+| 1.7.0   | NAVIGATE_PARENT_FOLDER | MinimalNodeEntity   | Navigate to a containing folder based on the Node properties.                                   |
+| 1.7.0   | NAVIGATE_LIBRARY       | string              | Navigate to library.                                                                            |
+| 1.7.0   | SEARCH_BY_TERM         | string              | Perform a simple search by the term and navigate to Search results.                             |
+| 1.7.0   | SNACKBAR_INFO          | string              | Show information snackbar with the message provided.                                            |
+| 1.7.0   | SNACKBAR_WARNING       | string              | Show warning snackbar with the message provided.                                                |
+| 1.7.0   | SNACKBAR_ERROR         | string              | Show error snackbar with the message provided.                                                  |
+| 1.7.0   | UPLOAD_FILES           | n/a                 | Invoke "Upload Files" dialog and upload files to the currently opened folder.                   |
+| 1.7.0   | UPLOAD_FOLDER          | n/a                 | Invoke "Upload Folder" dialog and upload selected folder to the currently opened one.           |
+| 1.7.0   | UPLOAD_FILE_VERSION    | n/a                 | Invoke "New File Version" dialog.                                                               |
+| 1.7.0   | VIEW_FILE              | MinimalNodeEntity   | Preview the file (or selection) in the Viewer.                                                  |
+| 1.7.0   | UNLOCK_WRITE           | NodeEntry           | Unlock file from read only mode                                                                 |
+| 1.7.0   | PRINT_FILE             | MinimalNodeEntity   | Print the file opened in the Viewer (or selected).                                              |
+| 1.7.0   | FULLSCREEN_VIEWER      | n/a                 | Enters fullscreen mode to view the file opened in the Viewer.                                   |
+| 1.7.0   | LOGOUT                 | n/a                 | Log out and redirect to Login screen.                                                           |
+| 1.7.0   | RELOAD_DOCUMENT_LIST   | n/a                 | Reload active document list                                                                     |
+| 1.7.0   | TOGGLE_SEARCH_FILTER   | n/a                 | Toggle Filter component visibility in Search Results.                                           |
+| 1.7.0   | SHOW_SEARCH_FILTER     | n/a                 | Show Filter component in Search Results.                                                        |
+| 1.7.0   | HIDE_SEARCH_FILTER     | n/a                 | Hide Filter component in Search Results                                                         |
+| 1.8.0   | VIEW_NODE              | string              | Lightweight preview of a node by id. Can be invoked from extensions.                            |
+| 1.8.0   | CLOSE_PREVIEW          | n/a              | Closes the viewer ( preview of the item ) |

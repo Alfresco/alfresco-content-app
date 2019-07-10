@@ -1,5 +1,6 @@
 {
   "APP": {
+    "COPYRIGHT": "© 2017 - 2019 Alfresco Software, Inc. Med enerett.",
     "ABOUT": {
       "VERSION": "Versjon:",
       "PLUGINS": {
@@ -77,7 +78,7 @@
         }
       },
       "LIBRARIES": {
-        "TITLE": "Mine biblioteker",
+        "TITLE": "Filbiblioteker",
         "DESCRIPTION": "Gå til filbiblioteker",
         "SIDENAV_LINK": {
           "LABEL": "Filbiblioteker",
@@ -164,6 +165,7 @@
         "FOUND_ONE_RESULT": "{{ number }} resultat funnet",
         "CUSTOM_ROW": {
           "MODIFIED": "Endret",
+          "BY_USER": "av {{ user }}",
           "LOCATION": "Sted",
           "SIZE": "Størrelse"
         },
@@ -333,7 +335,8 @@
       }
     },
     "CONTENT_METADATA": {
-      "EXIF_GROUP_TITLE": "Bilde-EXIF"
+      "EXIF_GROUP_TITLE": "Bilde-EXIF",
+      "EFFECTIVITY_GROUP_TITLE": "Effektivitet"
     },
     "INFO_DRAWER": {
       "TITLE": "Detaljer",
@@ -456,7 +459,20 @@
     "CATEGORIES": {
       "MODIFIED_DATE": "Endringsdato",
       "SIZE": "Størrelse",
+      "SIZE_OPTIONS": {
+        "SMALL": "Liten",
+        "MEDIUM": "Middels",
+        "LARGE": "Stor",
+        "HUGE": "Enorm"
+      },
       "CREATED_DATE": "Opprettelsesdato"
+    },
+    "FACET_QUERIES": {
+      "TODAY": "I dag",
+      "THIS_WEEK": "Denne uken",
+      "THIS_MONTH": "Denne måned",
+      "LAST_6_MONTHS": "i de siste 6 månedene",
+      "THIS_YEAR": "Dette året"
     }
   },
   "CORE": {

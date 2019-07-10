@@ -29,6 +29,7 @@ export * from './header/user-info';
 export * from './data-table/data-table';
 export * from './dialog/confirm-dialog';
 export * from './dialog/create-edit-folder-dialog';
+export * from './dialog/password-dialog';
 export * from './pagination/pagination';
 export * from './sidenav/sidenav';
 export * from './toolbar/toolbar';

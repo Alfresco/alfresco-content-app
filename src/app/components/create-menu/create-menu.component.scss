@@ -52,11 +52,15 @@
       color: mat-color($foreground, text, 0.54);
       cursor: pointer;
       &:hover {
-        color: mat-color($primary);
+        color: mat-color($accent);
       }
       margin: 0;
       border: none;
       background: none;
+    }
+
+    .app-create-menu--icon {
+      color: mat-color($accent);
     }
 
     &__sub-menu {

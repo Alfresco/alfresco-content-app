@@ -26,17 +26,15 @@
 import { Injectable, Type } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Route } from '@angular/router';
-import { MatIconRegistry } from '@angular/material';
+import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
-import { AppStore } from '../store/states';
-import { ruleContext } from '../store/selectors/app.selectors';
-import { NodePermissionService } from '../services/node-permission.service';
+import { AppStore, getRuleContext } from '@alfresco/aca-shared/store';
+import { NodePermissionService } from '@alfresco/aca-shared';
 import {
   SelectionState,
   NavigationState,
   ExtensionConfig,
   RuleEvaluator,
-  ViewerExtensionRef,
   ContentActionRef,
   ContentActionType,
   ExtensionLoaderService,
@@ -48,19 +46,20 @@ import {
   ExtensionService,
   ProfileState,
   mergeObjects,
-  ExtensionRef
+  ExtensionRef,
+  RuleContext,
+  DocumentListPresetRef,
+  IconRef
 } from '@alfresco/adf-extensions';
 import { AppConfigService, AuthenticationService } from '@alfresco/adf-core';
-import { DocumentListPresetRef } from './document-list.extensions';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { IconRef } from './icon.extensions';
-import { AppRuleContext } from './app.interface';
-import { RepositoryInfo } from '@alfresco/js-api';
+import { RepositoryInfo, NodeEntry } from '@alfresco/js-api';
+import { ViewerRules } from './viewer.rules';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AppExtensionService implements AppRuleContext {
+export class AppExtensionService implements RuleContext {
   private _references = new BehaviorSubject<ExtensionRef[]>([]);
 
   defaults = {
@@ -72,13 +71,13 @@ export class AppExtensionService implements AppRuleContext {
   toolbarActions: Array<ContentActionRef> = [];
   viewerToolbarActions: Array<ContentActionRef> = [];
   sharedLinkViewerToolbarActions: Array<ContentActionRef> = [];
-  viewerContentExtensions: Array<ViewerExtensionRef> = [];
   contextMenuActions: Array<ContentActionRef> = [];
   openWithActions: Array<ContentActionRef> = [];
   createActions: Array<ContentActionRef> = [];
   navbar: Array<NavBarGroupRef> = [];
   sidebar: Array<SidebarTabRef> = [];
   contentMetadata: any;
+  viewerRules: ViewerRules = {};
 
   documentListPresets: {
     files: Array<DocumentListPresetRef>;
@@ -119,7 +118,7 @@ export class AppExtensionService implements AppRuleContext {
   ) {
     this.references$ = this._references.asObservable();
 
-    this.store.select(ruleContext).subscribe(result => {
+    this.store.select(getRuleContext).subscribe(result => {
       this.selection = result.selection;
       this.navigation = result.navigation;
       this.profile = result.profile;
@@ -154,10 +153,6 @@ export class AppExtensionService implements AppRuleContext {
       'features.viewer.shared.toolbarActions'
     );
 
-    this.viewerContentExtensions = this.loader
-      .getElements<ViewerExtensionRef>(config, 'features.viewer.content')
-      .filter(ref => !this.isViewerExtensionDisabled(ref));
-
     this.contextMenuActions = this.loader.getContentActions(
       config,
       'features.contextMenu'
@@ -190,6 +185,10 @@ export class AppExtensionService implements AppRuleContext {
       trashcan: this.getDocumentListPreset(config, 'trashcan'),
       searchLibraries: this.getDocumentListPreset(config, 'search-libraries')
     };
+
+    if (config.features && config.features.viewer) {
+      this.viewerRules = <ViewerRules>(config.features.viewer['rules'] || {});
+    }
 
     this.registerIcons(config);
 
@@ -250,15 +249,28 @@ export class AppExtensionService implements AppRuleContext {
                 .filter(child => this.filterVisible(child))
                 .sort(sortByOrder)
                 .map(child => {
-                  const childRouteRef = this.extensions.getRouteById(
-                    child.route
-                  );
-                  const childUrl = `/${
-                    childRouteRef ? childRouteRef.path : child.route
-                  }`;
+                  if (child.component) {
+                    return {
+                      ...child
+                    };
+                  }
+
+                  if (!child.click) {
+                    const childRouteRef = this.extensions.getRouteById(
+                      child.route
+                    );
+                    const childUrl = `/${
+                      childRouteRef ? childRouteRef.path : child.route
+                    }`;
+                    return {
+                      ...child,
+                      url: childUrl
+                    };
+                  }
+
                   return {
                     ...child,
-                    url: childUrl
+                    action: child.click
                   };
                 });
 
@@ -267,11 +279,22 @@ export class AppExtensionService implements AppRuleContext {
               };
             }
 
-            const routeRef = this.extensions.getRouteById(item.route);
-            const url = `/${routeRef ? routeRef.path : item.route}`;
+            if (item.component) {
+              return { ...item };
+            }
+
+            if (!item.click) {
+              const routeRef = this.extensions.getRouteById(item.route);
+              const url = `/${routeRef ? routeRef.path : item.route}`;
+              return {
+                ...item,
+                url
+              };
+            }
+
             return {
               ...item,
-              url
+              action: item.click
             };
           })
           .reduce(reduceEmptyMenus, [])
@@ -284,6 +307,10 @@ export class AppExtensionService implements AppRuleContext {
       config,
       'features.content-metadata-presets'
     );
+    if (!elements.length) {
+      return null;
+    }
+
     let presets = {};
     presets = this.filterDisabled(mergeObjects(presets, ...elements));
 
@@ -487,7 +514,37 @@ export class AppExtensionService implements AppRuleContext {
     }
   }
 
+  // todo: move to ADF/RuleService
+  isRuleDefined(ruleId: string): boolean {
+    return ruleId && this.getEvaluator(ruleId) ? true : false;
+  }
+
+  // todo: move to ADF/RuleService
+  evaluateRule(ruleId: string, ...args: any[]): boolean {
+    const evaluator = this.getEvaluator(ruleId);
+
+    if (evaluator) {
+      return evaluator(this, ...args);
+    }
+
+    return false;
+  }
+
   getEvaluator(key: string): RuleEvaluator {
     return this.extensions.getEvaluator(key);
+  }
+
+  canPreviewNode(node: NodeEntry) {
+    const rules = this.viewerRules;
+
+    if (this.isRuleDefined(rules.canPreview)) {
+      const canPreview = this.evaluateRule(rules.canPreview, node);
+
+      if (!canPreview) {
+        return false;
+      }
+    }
+
+    return true;
   }
 }

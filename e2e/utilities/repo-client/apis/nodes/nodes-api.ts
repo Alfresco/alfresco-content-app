@@ -27,6 +27,7 @@ import { RepoApi } from '../repo-api';
 import { NodeBodyCreate } from './node-body-create';
 import { NodeContentTree, flattenNodeContentTree } from './node-content-tree';
 import { NodesApi as AdfNodeApi, NodeBodyLock} from '@alfresco/js-api';
+import { Utils } from '../../../../utilities/utils';
 
 export class NodesApi extends RepoApi {
     nodesApi = new AdfNodeApi(this.alfrescoJsApi);
@@ -43,6 +44,11 @@ export class NodesApi extends RepoApi {
     async getNodeById(id: string) {
         await this.apiAuth();
         return await this.nodesApi.getNode(id);
+    }
+
+    async getNodeIdFromParent(name: string, parentId: string) {
+      const children = (await this.getNodeChildren(parentId)).list.entries;
+      return children.find(elem => elem.entry.name === name).entry.id;
     }
 
     async getNodeDescription(name: string, parentId: string) {
@@ -136,13 +142,14 @@ export class NodesApi extends RepoApi {
       return await this.createNode('cm:content', name, parentId, title, description, imageProps);
     }
 
-    async createNode(nodeType: string, name: string, parentId: string = '-my-', title: string = '', description: string = '', imageProps: any = null, majorVersion: boolean = true) {
+    async createNode(nodeType: string, name: string, parentId: string = '-my-', title: string = '', description: string = '', imageProps: any = null, author: string = '', majorVersion: boolean = true) {
         const nodeBody = {
             name,
             nodeType,
             properties: {
                 'cm:title': title,
-                'cm:description': description
+                'cm:description': description,
+                'cm:author': author
             }
         };
         if (imageProps) {
@@ -150,22 +157,36 @@ export class NodesApi extends RepoApi {
         }
 
         await this.apiAuth();
-        return await this.nodesApi.createNode(parentId, nodeBody, { majorVersion: true });
+
+        try {
+          return await this.nodesApi.createNode(parentId, nodeBody, { majorVersion });
+        } catch (error) {
+          console.log('===========> API create node catch ===========');
+        }
+
     }
 
-    async createFile(name: string, parentId: string = '-my-', title: string = '', description: string = '', majorVersion: boolean = true) {
-        return await this.createNode('cm:content', name, parentId, title, description, majorVersion);
+    async createFile(name: string, parentId: string = '-my-', title: string = '', description: string = '', author: string = '', majorVersion: boolean = true) {
+      try {
+        return await this.createNode('cm:content', name, parentId, title, description, null, author, majorVersion);
+      } catch (error) {
+        console.log('==== catch createFile: ', error);
+      }
     }
 
     async createImage(name: string, parentId: string = '-my-', title: string = '', description: string = '') {
         return await this.createImageNode('cm:content', name, parentId, title, description);
     }
 
-    async createFolder(name: string, parentId: string = '-my-', title: string = '', description: string = '') {
-        return await this.createNode('cm:folder', name, parentId, title, description);
+    async createFolder(name: string, parentId: string = '-my-', title: string = '', description: string = '', author: string = '') {
+      try {
+        return await this.createNode('cm:folder', name, parentId, title, description, null, author);
+      } catch (error) {
+        console.log('======> API create folder catch ==========');
+      }
     }
 
-    async createChildren(data: NodeBodyCreate[]): Promise<any> {
+    async createChildren(data: NodeBodyCreate[]) {
         await this.apiAuth();
         return await this.nodesApi.createNode('-my-', <any>data);
     }
@@ -245,7 +266,33 @@ export class NodesApi extends RepoApi {
     }
 
     async isFileLockedWrite(nodeId: string) {
-        await this.apiAuth();
         return (await this.getLockType(nodeId)) === 'WRITE_LOCK';
+    }
+
+    async isFileLockedWriteWithRetry(nodeId: string, expect: boolean) {
+      const data = {
+        expect: expect,
+        retry: 5
+      };
+      let isLocked;
+      try {
+        const locked = async () => {
+          isLocked = (await this.getLockType(nodeId)) === 'WRITE_LOCK';
+          if ( isLocked !== data.expect ) {
+            return Promise.reject(isLocked);
+          } else {
+            return Promise.resolve(isLocked);
+          }
+        }
+        return await Utils.retryCall(locked, data.retry);
+      } catch (error) {
+        console.log('-----> catch isLockedWriteWithRetry: ', error);
+      }
+      return isLocked;
+    }
+
+    async isFileLockedByName(fileName: string, parentId: string) {
+      const id = await this.getNodeIdFromParent(fileName, parentId);
+      return await this.isFileLockedWrite(id);
     }
 }

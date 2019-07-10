@@ -36,11 +36,12 @@ import {
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { FavoriteLibrariesComponent } from './favorite-libraries.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { ContentApiService } from '../../services/content-api.service';
+import { ContentApiService } from '@alfresco/aca-shared';
 import { ContentManagementService } from '../../services/content-management.service';
 import { EffectsModule } from '@ngrx/effects';
-import { LibraryEffects, RouterEffects } from '../../store/effects';
+import { RouterEffects } from '@alfresco/aca-shared/store';
 import { of, throwError } from 'rxjs';
+import { LibraryEffects } from '../../store/effects';
 
 describe('FavoriteLibrariesComponent', () => {
   let fixture: ComponentFixture<FavoriteLibrariesComponent>;

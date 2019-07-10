@@ -23,23 +23,28 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { GenericErrorComponent } from './generic-error/generic-error.component';
 import { CoreModule } from '@alfresco/adf-core';
-import { LocationLinkComponent } from './location-link/location-link.component';
-import { MatIconModule } from '@angular/material';
 import { ExtensionsModule } from '@alfresco/adf-extensions';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { GenericErrorModule } from '@alfresco/aca-shared';
+import { LocationLinkComponent } from './location-link/location-link.component';
+import { ToggleSharedComponent } from './toggle-shared/toggle-shared.component';
 
 @NgModule({
   imports: [
     CommonModule,
     CoreModule.forChild(),
-    MatIconModule,
-    ExtensionsModule
+    ExtensionsModule,
+    GenericErrorModule
   ],
-  declarations: [GenericErrorComponent, LocationLinkComponent],
-  exports: [ExtensionsModule, GenericErrorComponent, LocationLinkComponent],
-  entryComponents: [LocationLinkComponent]
+  declarations: [LocationLinkComponent, ToggleSharedComponent],
+  exports: [
+    ExtensionsModule,
+    LocationLinkComponent,
+    GenericErrorModule,
+    ToggleSharedComponent
+  ],
+  entryComponents: [LocationLinkComponent, ToggleSharedComponent]
 })
 export class AppCommonModule {}

@@ -2,11 +2,11 @@
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div>
 <ng-container *ngIf="!isLoading && !!displayNode">
-  <adf-info-drawer [title]="'APP.INFO_DRAWER.TITLE' | translate">
+  <adf-info-drawer [title]="'APP.INFO_DRAWER.TITLE'">
     <adf-info-drawer-tab
       *ngFor="let tab of tabs"
       [icon]="tab.icon"
-      [label]="tab.title | translate"
+      [label]="tab.title"
     >
       <adf-dynamic-tab
         [node]="displayNode"

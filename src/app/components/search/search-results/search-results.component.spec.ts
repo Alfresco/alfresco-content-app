@@ -1,5 +1,4 @@
 import {
-  async,
   ComponentFixture,
   TestBed,
   fakeAsync,
@@ -17,7 +16,10 @@ import {
   TranslationService
 } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
-import { NavigateToFolder, SnackbarErrorAction } from '../../../store/actions';
+import {
+  NavigateToFolder,
+  SnackbarErrorAction
+} from '@alfresco/aca-shared/store';
 import { Pagination } from '@alfresco/js-api';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { ActivatedRoute } from '@angular/router';
@@ -31,7 +33,7 @@ describe('SearchComponent', () => {
   let alfrescoApi: AlfrescoApiService;
   let translate: TranslationService;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [CoreModule.forRoot(), AppTestingModule, AppSearchResultsModule],
       providers: [
@@ -70,7 +72,7 @@ describe('SearchComponent', () => {
     spyOn(queryBuilder, 'update').and.stub();
 
     fixture.detectChanges();
-  }));
+  });
 
   it('should raise an error if search fails', fakeAsync(() => {
     spyOn(alfrescoApi.searchApi, 'search').and.returnValue(

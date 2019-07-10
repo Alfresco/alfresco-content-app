@@ -880,7 +880,7 @@
           "key": "name",
           "title": "APP.DOCUMENT_LIST.COLUMNS.NAME",
           "type": "text",
-          "class": "adf-data-table-cell--ellipsis__name",
+          "class": "adf-ellipsis-cell adf-expand-cell-5",
           "sortable": true,
           "template": "app.columns.name",
           "desktopOnly": false
@@ -907,7 +907,7 @@
           "key": "modifiedByUser.displayName",
           "title": "Test header",
           "type": "text",
-          "class": "adf-data-table-cell--ellipsis",
+          "class": "adf-ellipsis-cell",
           "sortable": true,
           "desktopOnly": true
         },
@@ -916,7 +916,7 @@
           "key": "createdByUser.displayName",
           "title": "New column",
           "type": "text",
-          "class": "adf-data-table-cell--ellipsis",
+          "class": "adf-ellipsis-cell",
           "sortable": true,
           "desktopOnly": true
         }
@@ -926,7 +926,6 @@
           "id": "app.libraries.thumbnail",
           "key": "$thumbnail",
           "type": "image",
-          "class": "adf-image-table-cell",
           "sortable": false,
           "desktopOnly": false
         },
@@ -935,7 +934,7 @@
           "key": "title",
           "title": "APP.DOCUMENT_LIST.COLUMNS.TITLE",
           "type": "text",
-          "class": "adf-data-table-cell--ellipsis__name",
+          "class": "adf-ellipsis-cell adf-expand-cell-5",
           "sortable": true,
           "template": "app.columns.libraryName",
           "desktopOnly": false
@@ -955,7 +954,6 @@
           "id": "app.shared.thumbnail",
           "key": "$thumbnail",
           "type": "image",
-          "class": "adf-image-table-cell",
           "sortable": false,
           "desktopOnly": false
         },
@@ -964,7 +962,7 @@
           "key": "name",
           "title": "APP.DOCUMENT_LIST.COLUMNS.NAME",
           "type": "text",
-          "class": "adf-data-table-cell--ellipsis__name",
+          "class": "adf-ellipsis-cell adf-expand-cell-5",
           "sortable": true,
           "template": "app.columns.name",
           "desktopOnly": false
@@ -1000,7 +998,7 @@
           "key": "modifiedByUser.displayName",
           "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_BY",
           "type": "text",
-          "class": "adf-data-table-cell--ellipsis",
+          "class": "adf-ellipsis-cell",
           "sortable": true,
           "desktopOnly": true
         },
@@ -1009,7 +1007,7 @@
           "key": "sharedByUser.displayName",
           "title": "APP.DOCUMENT_LIST.COLUMNS.SHARED_BY",
           "type": "text",
-          "class": "adf-data-table-cell--ellipsis",
+          "class": "adf-ellipsis-cell",
           "sortable": true,
           "desktopOnly": true
         }
@@ -1019,7 +1017,6 @@
           "id": "app.recent.thumbnail",
           "key": "$thumbnail",
           "type": "image",
-          "class": "adf-image-table-cell",
           "sortable": false,
           "desktopOnly": false
         },
@@ -1028,7 +1025,7 @@
           "key": "name",
           "title": "APP.DOCUMENT_LIST.COLUMNS.NAME",
           "type": "text",
-          "class": "adf-data-table-cell--ellipsis__name",
+          "class": "adf-ellipsis-cell adf-expand-cell-5",
           "sortable": true,
           "template": "app.columns.name",
           "desktopOnly": false
@@ -1065,7 +1062,6 @@
           "id": "app.favorites.thumbnail",
           "key": "$thumbnail",
           "type": "image",
-          "class": "adf-image-table-cell",
           "sortable": false,
           "desktopOnly": false
         },
@@ -1074,7 +1070,7 @@
           "key": "name",
           "title": "APP.DOCUMENT_LIST.COLUMNS.NAME",
           "type": "text",
-          "class": "adf-data-table-cell--ellipsis__name",
+          "class": "adf-ellipsis-cell adf-expand-cell-5",
           "sortable": true,
           "template": "app.columns.name",
           "desktopOnly": false
@@ -1110,7 +1106,7 @@
           "key": "modifiedByUser.displayName",
           "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_BY",
           "type": "text",
-          "class": "adf-data-table-cell--ellipsis",
+          "class": "adf-ellipsis-cell",
           "sortable": true,
           "desktopOnly": true
         }
@@ -1120,7 +1116,6 @@
           "id": "app.trashcan.thumbnail",
           "key": "$thumbnail",
           "type": "image",
-          "class": "adf-image-table-cell",
           "sortable": false,
           "desktopOnly": false
         },
@@ -1129,7 +1124,7 @@
           "key": "name",
           "title": "APP.DOCUMENT_LIST.COLUMNS.NAME",
           "type": "text",
-          "class": "adf-data-table-cell--ellipsis__name",
+          "class": "adf-ellipsis-cell adf-expand-cell-5",
           "sortable": true,
           "template": "app.columns.trashcanName",
           "desktopOnly": false

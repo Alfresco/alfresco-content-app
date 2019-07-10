@@ -27,8 +27,7 @@ import { Component, Input, OnInit, OnChanges, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { SiteEntry, SitePaging } from '@alfresco/js-api';
 import { Store } from '@ngrx/store';
-import { UpdateLibraryAction } from '../../../store/actions';
-import { AppStore } from '../../../store/states/app.state';
+import { AppStore, UpdateLibraryAction } from '@alfresco/aca-shared/store';
 import { debounceTime, mergeMap, takeUntil } from 'rxjs/operators';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { Observable, from, Subject } from 'rxjs';
@@ -74,7 +73,7 @@ export class LibraryMetadataFormComponent
     );
   }
 
-  getVisibilityLabel(value) {
+  getVisibilityLabel(value: string) {
     return this.libraryType.find(type => type.value === value).label;
   }
 

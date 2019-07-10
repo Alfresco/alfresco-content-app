@@ -29,17 +29,17 @@ import { RepositoryInfo } from '@alfresco/js-api';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AppExtensionService } from '../../extensions/extension.service';
-import { ContentApiService } from '../../services/content-api.service';
-import { version, dependencies } from '../../../../package.json';
+import { ContentApiService } from '@alfresco/aca-shared';
+import { dependencies } from '../../../../package.json';
 @Component({
   selector: 'app-about',
   templateUrl: './about.component.html',
+  styleUrls: ['about.component.scss'],
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-about' }
 })
 export class AboutComponent implements OnInit {
   repository: RepositoryInfo;
-  releaseVersion = version;
   extensions$: Observable<ExtensionRef[]>;
   dependencyEntries: Array<{ name: string; version: string }>;
   statusEntries: Array<{ property: string; value: string }>;

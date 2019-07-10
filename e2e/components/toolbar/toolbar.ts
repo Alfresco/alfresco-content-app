@@ -34,17 +34,17 @@ export class Toolbar extends Component {
     button: 'button',
 
     share: `.mat-icon-button[title='Share']`,
-    shareEdit: `.mat-icon-button[title='Shared link settings']`,
+    shareEdit: `.mat-icon-button[title='Shared Link Settings']`,
     view: `.mat-icon-button[title='View']`,
     searchFilterToggle: `.mat-icon-button[title='Toggle search filter']`,
     download: `.mat-icon-button[title='Download']`,
     editFolder: 'app.toolbar.editFolder',
-    viewDetails: `.mat-icon-button[title='View details']`,
+    viewDetails: `.mat-icon-button[title='View Details']`,
     print: `.mat-icon-button[title='Print']`,
     fullScreen: `.mat-icon-button[title='Activate full-screen mode']`,
     joinLibrary: `.mat-icon-button[title='Join']`,
-    leaveLibrary: `.mat-icon-button[title='Leave library']`,
-    permanentlyDelete: `.mat-icon-button[title='Permanently delete']`,
+    leaveLibrary: `.mat-icon-button[title='Leave Library']`,
+    permanentlyDelete: `.mat-icon-button[title='Permanently Delete']`,
     restore: `.mat-icon-button[title='Restore']`
   };
 
@@ -77,6 +77,12 @@ export class Toolbar extends Component {
     return await this.buttons.count();
   }
 
+  async getButtons(): Promise<string[]> {
+    return this.buttons.map(async elem => {
+      return await elem.getAttribute('title');
+    });
+  }
+
   async isButtonPresent(title: string) {
     const elem = this.component.element(by.css(`${Toolbar.selectors.button}[title="${title}"]`));
     return await elem.isPresent();
@@ -95,8 +101,8 @@ export class Toolbar extends Component {
   }
 
   async openMoreMenu() {
-    await this.isButtonPresent('More actions');
-    const moreMenu = this.getButtonByTitleAttribute('More actions');
+    await this.isButtonPresent('More Actions');
+    const moreMenu = this.getButtonByTitleAttribute('More Actions');
     await moreMenu.click();
     await this.menu.waitForMenuToOpen();
   }
@@ -209,7 +215,7 @@ export class Toolbar extends Component {
 
   async clickMoreActionsRemoveFavorite() {
     await this.openMoreMenu();
-    return await this.menu.clickMenuItem('Remove favorite');
+    return await this.menu.clickMenuItem('Remove Favorite');
   }
 
   async clickMoreActionsDelete() {
@@ -234,17 +240,17 @@ export class Toolbar extends Component {
 
   async clickMoreActionsEditOffline() {
     await this.openMoreMenu();
-    return await this.menu.clickMenuItem('Edit offline');
+    return await this.menu.clickMenuItem('Edit Offline');
   }
 
   async clickMoreActionsCancelEditing() {
     await this.openMoreMenu();
-    return await this.menu.clickMenuItem('Cancel editing');
+    return await this.menu.clickMenuItem('Cancel Editing');
   }
 
   async clickMoreActionsUploadNewVersion() {
     await this.openMoreMenu();
-    return await this.menu.clickMenuItem('Upload new version');
+    return await this.menu.clickMenuItem('Upload New Version');
   }
 
   async clickFullScreen() {

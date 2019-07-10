@@ -79,11 +79,9 @@ describe('Pagination on multiple pages on Recent Files', () => {
 
   it('Items per page values - [C280105]', async () => {
     await pagination.openMaxItemsMenu();
-    const [ first, second, third ] = [1, 2, 3]
-      .map(async nth => await pagination.menu.getNthItem(nth).getText());
-    expect(first).toBe('25');
-    expect(second).toBe('50');
-    expect(third).toBe('100');
+    expect(await pagination.menu.getNthItem(1).getText()).toBe('25');
+    expect(await pagination.menu.getNthItem(2).getText()).toBe('50');
+    expect(await pagination.menu.getNthItem(3).getText()).toBe('100');
     await pagination.menu.closeMenu();
   });
 
@@ -140,8 +138,8 @@ describe('Pagination on multiple pages on Recent Files', () => {
     await dataTable.waitForHeader();
     await pagination.clickPrevious();
     await dataTable.waitForHeader();
-    expect(pagination.getRange()).toContain('1-25 of 101');
-    expect(dataTable.isItemPresent('file-88')).toBe(true, 'File not found on page');
+    expect(await pagination.getRange()).toContain('1-25 of 101');
+    expect(await dataTable.isItemPresent('file-88')).toBe(true, 'File not found on page');
 
     await pagination.resetToDefaultPageNumber();
   });

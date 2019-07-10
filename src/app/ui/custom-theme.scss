@@ -2,8 +2,6 @@
 @import '~@alfresco/adf-content-services/theming';
 
 @import '../components/sidenav/sidenav.component.theme';
-@import '../components/about/about.component.theme';
-@import '../components/common/generic-error/generic-error.component.theme';
 @import '../components/search/search-input/search-input.component.theme';
 @import '../components/settings/settings.component.theme';
 @import '../components/current-user/current-user.component.theme';
@@ -12,20 +10,8 @@
 @import '../dialogs/node-versions/node-versions.dialog.theme';
 @import '../components/create-menu/create-menu.component.scss';
 @import '../components/layout/layout.theme.scss';
-@import '../components/shared/content-node-share/content-node-share.dialog.scss';
 
-@import './overrides/adf-toolbar.theme';
-@import './overrides/adf-search-filter.theme';
-@import './overrides/adf-info-drawer.theme';
-@import './overrides/adf-upload-button.theme';
-@import './overrides/adf-upload-dialog.theme';
-@import './overrides/adf-pagination.theme';
-@import './overrides/adf-sidenav-layout.theme';
 @import './overrides/adf-document-list.theme';
-@import './overrides/adf-upload-drag-area.theme';
-@import './overrides/adf-search-sorting-picker.theme';
-@import './overrides/adf-content-node-selector.theme';
-@import './overrides/adf-version-manager.theme';
 
 @import 'snackbar';
 
@@ -68,31 +54,56 @@ $custom-theme-primary: mat-palette($grey-scale, A400);
 $custom-theme-accent: mat-palette($alfresco-accent-orange);
 $custom-theme-warn: mat-palette($alfresco-warn);
 $custom-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent);
+$foreground: map-get($custom-theme, foreground);
+$warn: map-get($custom-theme, warn);
 
 @mixin custom-theme($theme) {
-  @include adf-toolbar-theme($theme);
-  @include adf-search-filter-theme($theme);
-  @include adf-info-drawer-theme($theme);
-  @include adf-upload-button-theme($theme);
-  @include adf-pagination-theme($theme);
-  @include adf-sidenav-layout-theme($theme);
   @include adf-document-list-theme($theme);
-  @include adf-upload-drag-area-theme($theme);
-  @include adf-search-sorting-picker-theme($theme);
-  @include adf-content-node-selector-theme($theme);
-  @include adf-version-manager-theme($theme);
 
   @include layout-theme($theme);
   @include aca-search-input-theme($theme);
-  @include aca-generic-error-theme($theme);
   @include app-permission-manager-theme($theme);
   @include aca-node-versions-dialog-theme($theme);
   @include aca-settings-theme($theme);
   @include snackbar-theme($theme);
   @include sidenav-component-theme($theme);
-  @include aca-about-component-theme($theme);
   @include aca-current-user-theme($theme);
   @include aca-context-menu-theme($theme);
   @include app-create-menu-theme($theme);
-  @include aca-share-dialog-theme($theme);
+
+  .mat-toolbar {
+    color: var(--theme-text-color, rgba(0, 0, 0, 0.54));
+  }
+}
+
+//Custom variables - ACA specific styling:
+$document-list-selection-color: mat-color($alfresco-ecm-blue, 500);
+$document-list-background: white;
+$data-table-thumbnail-width: 35px;
+
+$adf-pagination--border: 1px solid mat-color($foreground, text, 0.07);
+$adf-pagination__empty--height: 0;
+
+$adf-toolbar-single-row-height: 48px;
+$adf-toolbar-padding: 14px;
+
+$adf-upload-dragging-color: unset;
+$adf-upload-dragging-border: 1px solid #00bcd4;
+$adf-upload-dragging-background: #e0f7fa;
+$adf-upload-dragging-level1-color: unset;
+$adf-upload-dragging-level1-border: none;
+
+$defaults: (
+  --theme-warn-color: mat-color($warn),
+  --theme-text-color: mat-color($foreground, text, 0.54),
+  --theme-title-color: mat-color($foreground, text, 0.87),
+  --theme-text-disabled-color: mat-color($foreground, text, 0.38),
+  --theme-border-color: mat-color($foreground, text, 0.07)
+);
+
+// defaults
+:root {
+  @each $name, $value in $defaults {
+    #{$name}: #{$value};
+  }
 }

@@ -29,30 +29,28 @@ import {
   AuthenticationService,
   FileUploadErrorEvent,
   PageTitleService,
-  UploadService
+  UploadService,
+  SharedLinksApiService
 } from '@alfresco/adf-core';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppExtensionService } from './extensions/extension.service';
 import {
-  SnackbarErrorAction,
-  SetCurrentUrlAction,
-  SetInitialStateAction,
-  CloseModalDialogsAction,
-  SetRepositoryInfoAction,
-  SetUserProfileAction
-} from './store/actions';
-import {
   AppStore,
   AppState,
-  INITIAL_APP_STATE
-} from './store/states/app.state';
+  SetCurrentUrlAction,
+  SetInitialStateAction,
+  SetUserProfileAction,
+  SnackbarErrorAction,
+  CloseModalDialogsAction,
+  SetRepositoryInfoAction
+} from '@alfresco/aca-shared/store';
 import { filter, takeUntil } from 'rxjs/operators';
-import { ContentApiService } from './services/content-api.service';
-import { DiscoveryEntry } from '@alfresco/js-api';
-import { AppService } from './services/app.service';
+import { AppService, ContentApiService } from '@alfresco/aca-shared';
+import { DiscoveryEntry, GroupsApi, Group } from '@alfresco/js-api';
 import { Subject } from 'rxjs';
+import { INITIAL_APP_STATE } from './store/initial-state';
 
 @Component({
   selector: 'app-root',
@@ -73,26 +71,29 @@ export class AppComponent implements OnInit, OnDestroy {
     private uploadService: UploadService,
     private extensions: AppExtensionService,
     private contentApi: ContentApiService,
-    private appService: AppService
+    private appService: AppService,
+    private sharedLinksApiService: SharedLinksApiService
   ) {}
 
   ngOnInit() {
-    this.alfrescoApiService.getInstance().on('error', error => {
-      if (error.status === 401) {
-        if (!this.authenticationService.isLoggedIn()) {
-          this.store.dispatch(new CloseModalDialogsAction());
+    this.alfrescoApiService
+      .getInstance()
+      .on('error', (error: { status: number }) => {
+        if (error.status === 401) {
+          if (!this.authenticationService.isLoggedIn()) {
+            this.store.dispatch(new CloseModalDialogsAction());
 
-          let redirectUrl = this.route.snapshot.queryParams['redirectUrl'];
-          if (!redirectUrl) {
-            redirectUrl = this.router.url;
+            let redirectUrl = this.route.snapshot.queryParams['redirectUrl'];
+            if (!redirectUrl) {
+              redirectUrl = this.router.url;
+            }
+
+            this.router.navigate(['/login'], {
+              queryParams: { redirectUrl: redirectUrl }
+            });
           }
-
-          this.router.navigate(['/login'], {
-            queryParams: { redirectUrl: redirectUrl }
-          });
         }
-      }
-    });
+      });
 
     this.loadAppSettings();
 
@@ -121,13 +122,18 @@ export class AppComponent implements OnInit, OnDestroy {
       this.onFileUploadedError(error)
     );
 
+    this.sharedLinksApiService.error
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((err: { message: string }) => {
+        this.store.dispatch(new SnackbarErrorAction(err.message));
+      });
+
     this.appService.ready$
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(isReady => {
         if (isReady) {
           this.loadRepositoryStatus();
           this.loadUserProfile();
-          // todo: load external auth-enabled plugins here
         }
       });
   }
@@ -147,9 +153,19 @@ export class AppComponent implements OnInit, OnDestroy {
       });
   }
 
-  private loadUserProfile() {
+  private async loadUserProfile() {
+    const groupsApi = new GroupsApi(this.alfrescoApiService.getInstance());
+    const paging = await groupsApi.listGroupMembershipsForPerson('-me-');
+    const groups: Group[] = [];
+
+    if (paging && paging.list && paging.list.entries) {
+      groups.push(...paging.list.entries.map(obj => obj.entry));
+    }
+
     this.contentApi.getPerson('-me-').subscribe(person => {
-      this.store.dispatch(new SetUserProfileAction(person.entry));
+      this.store.dispatch(
+        new SetUserProfileAction({ person: person.entry, groups })
+      );
     });
   }
 

@@ -17,11 +17,13 @@
   },
   "application": {
     "name": "Alfresco Content Application",
+    "version": "1.8.0",
     "logo": "assets/images/alfresco-logo-flower.svg",
-    "copyright": "© 2017 - 2019 Alfresco Software, Inc. All rights reserved."
+    "copyright": "APP.COPYRIGHT"
   },
+  "sharedLinkDateTimePickerType": "date",
   "headerColor": "#2196F3",
-  "languagePicker": false,
+  "languagePicker": true,
   "pagination": {
     "size": 25,
     "supportedPageSizes": [25, 50, 100]
@@ -31,6 +33,11 @@
     "match-options": {
       "nocase": true
     }
+  },
+  "dateValues": {
+    "defaultDateFormat": "mediumDate",
+    "defaultDateTimeFormat": "MMM d, y, h:mm",
+    "defaultLocale": "en-US"
   },
   "adf-version-manager": {
     "allowComments": true,
@@ -84,11 +91,61 @@
     {
       "key": "zh-CN",
       "label": "中文简体"
+    },
+    {
+      "key": "cs",
+      "label": "Čeština"
+    },
+    {
+      "key": "da",
+      "label": "Dansk"
+    },
+    {
+      "key": "fi",
+      "label": "Suomi"
+    },
+    {
+      "key": "pl",
+      "label": "Polski"
+    },
+    {
+      "key": "sv",
+      "label": "Svenska"
+    },
+    {
+      "key": "ar",
+      "label": "العربية",
+      "direction": "rtl"
     }
   ],
   "content-metadata": {
     "presets": {
       "custom": [
+        {
+          "includeAll": true,
+          "exclude": [
+            "rn:renditioned",
+            "cm:versionable",
+            "cm:auditable",
+            "cm:thumbnailModification",
+            "cm:content",
+            "cm:author",
+            "cm:titled",
+            "cm:generalclassifiable",
+            "cm:taggable",
+            "dp:restrictable",
+            "fm:commentsRollup",
+            "qshare:shared",
+
+            "exif:exif",
+            "cm:effectivity",
+
+            "cm:emailed",
+            "cm:likesRatingSchemeRollups",
+            "cm:lockable",
+            "cm:ownable"
+          ]
+        },
         {
           "title": "APP.CONTENT_METADATA.EXIF_GROUP_TITLE",
           "items": [
@@ -110,18 +167,25 @@
               ]
             }
           ]
+        },
+        {
+          "title": "APP.CONTENT_METADATA.EFFECTIVITY_GROUP_TITLE",
+          "items": [
+            {
+              "aspect": "cm:effectivity",
+              "properties": [
+                "cm:from",
+                "cm:to"
+              ]
+            }
+          ]
         }
       ]
     }
   },
   "search": {
-    "aca:fields": [
-      "cm:name",
-      "cm:title",
-      "cm:description",
-      "TEXT",
-      "TAG"
-    ],
+    "filterWithContains": true,
+    "aca:fields": ["cm:name", "cm:title", "cm:description", "TEXT", "TAG"],
     "include": ["path", "allowableOperations", "properties"],
     "sorting": {
       "options": [
@@ -192,6 +256,7 @@
       ]
     },
     "aca:triggeredOnChange": false,
+    "resetButton": true,
     "filterQueries": [
       { "query": "+TYPE:'cm:folder' OR +TYPE:'cm:content'" },
       {
@@ -213,22 +278,18 @@
       "fields": [
         {
           "field": "content.mimetype",
-          "mincount": 0,
           "label": "SEARCH.FACET_FIELDS.FILE_TYPE"
         },
         {
           "field": "creator",
-          "mincount": 0,
           "label": "SEARCH.FACET_FIELDS.CREATOR"
         },
         {
           "field": "modifier",
-          "mincount": 0,
           "label": "SEARCH.FACET_FIELDS.MODIFIER"
         },
         {
           "field": "SITE",
-          "mincount": 0,
           "label": "SEARCH.FACET_FIELDS.LOCATION"
         }
       ]
@@ -236,23 +297,25 @@
     "facetQueries": {
       "label": "SEARCH.CATEGORIES.MODIFIED_DATE",
       "expanded": true,
-      "mincount": 0,
       "queries": [
-        { "label": "Today", "query": "cm:modified:[TODAY to TODAY]" },
         {
-          "label": "This week",
+          "label": "SEARCH.FACET_QUERIES.TODAY",
+          "query": "cm:modified:[TODAY to TODAY]"
+        },
+        {
+          "label": "SEARCH.FACET_QUERIES.THIS_WEEK",
           "query": "cm:modified:[NOW/DAY-7DAYS TO NOW/DAY+1DAY]"
         },
         {
-          "label": "This month",
+          "label": "SEARCH.FACET_QUERIES.THIS_MONTH",
           "query": "cm:modified:[NOW/DAY-1MONTH TO NOW/DAY+1DAY]"
         },
         {
-          "label": "In the last 6 months",
+          "label": "SEARCH.FACET_QUERIES.LAST_6_MONTHS",
           "query": "cm:modified:[NOW/DAY-6MONTHS TO NOW/DAY+1DAY]"
         },
         {
-          "label": "This year",
+          "label": "SEARCH.FACET_QUERIES.THIS_YEAR",
           "query": "cm:modified:[NOW/DAY-1YEAR TO NOW/DAY+1DAY]"
         }
       ]
@@ -266,16 +329,22 @@
           "selector": "check-list",
           "settings": {
             "options": [
-              { "name": "Small", "value": "content.size:[0 TO 1048576>" },
               {
-                "name": "Medium",
+                "name": "SEARCH.CATEGORIES.SIZE_OPTIONS.SMALL",
+                "value": "content.size:[0 TO 1048576>"
+              },
+              {
+                "name": "SEARCH.CATEGORIES.SIZE_OPTIONS.MEDIUM",
                 "value": "content.size:[1048576 TO 52428800]"
               },
               {
-                "name": "Large",
+                "name": "SEARCH.CATEGORIES.SIZE_OPTIONS.LARGE",
                 "value": "content.size:<52428800 TO 524288000]"
               },
-              { "name": "Huge", "value": "content.size:<524288000 TO MAX]" }
+              {
+                "name": "SEARCH.CATEGORIES.SIZE_OPTIONS.HUGE",
+                "value": "content.size:<524288000 TO MAX]"
+              }
             ]
           }
         }

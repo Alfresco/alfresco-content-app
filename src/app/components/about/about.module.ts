@@ -29,7 +29,7 @@ import { AboutComponent } from './about.component';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
 import { AppLayoutModule } from '../layout/layout.module';
-import { MatTableModule } from '@angular/material';
+import { MatTableModule } from '@angular/material/table';
 import { PackageListComponent } from './package-list/package-list.component';
 import { ExtensionListComponent } from './extension-list/extension-list.component';
 import { StatusListComponent } from './status-list/status-list.component';

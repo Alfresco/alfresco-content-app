@@ -24,7 +24,7 @@
  */
 
 import { AppComponent } from './app.component';
-import { SetInitialStateAction } from './store/actions';
+import { SetInitialStateAction } from '@alfresco/aca-shared/store';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -49,6 +49,7 @@ describe('AppComponent', () => {
       null,
       storeMock,
       configMock,
+      null,
       null,
       null,
       null,

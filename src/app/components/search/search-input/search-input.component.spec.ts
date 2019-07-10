@@ -35,7 +35,10 @@ import {
 import { SearchInputComponent } from './search-input.component';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { Actions, ofType } from '@ngrx/effects';
-import { SEARCH_BY_TERM, SearchByTermAction } from '../../../store/actions';
+import {
+  SearchByTermAction,
+  SearchActionTypes
+} from '@alfresco/aca-shared/store';
 import { map } from 'rxjs/operators';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { SearchLibrariesQueryBuilderService } from '../search-libraries-results/search-libraries-query-builder.service';
@@ -90,7 +93,7 @@ describe('SearchInputComponent', () => {
       const searchedTerm = 's';
       const currentSearchOptions = [{ key: 'test' }];
       actions$.pipe(
-        ofType<SearchByTermAction>(SEARCH_BY_TERM),
+        ofType<SearchByTermAction>(SearchActionTypes.SearchByTerm),
         map(action => {
           expect(action.searchOptions[0].key).toBe(currentSearchOptions[0].key);
           done();
@@ -103,7 +106,7 @@ describe('SearchInputComponent', () => {
     it('should call search action with correct searched term', fakeAsync(done => {
       const searchedTerm = 's';
       actions$.pipe(
-        ofType<SearchByTermAction>(SEARCH_BY_TERM),
+        ofType<SearchByTermAction>(SearchActionTypes.SearchByTerm),
         map(action => {
           expect(action.payload).toBe(searchedTerm);
           done();
@@ -119,7 +122,7 @@ describe('SearchInputComponent', () => {
       const searchedTerm = 's';
       const currentSearchOptions = [{ key: 'test' }];
       actions$.pipe(
-        ofType<SearchByTermAction>(SEARCH_BY_TERM),
+        ofType<SearchByTermAction>(SearchActionTypes.SearchByTerm),
         map(action => {
           expect(action.searchOptions[0].key).toBe(currentSearchOptions[0].key);
           done();
@@ -132,7 +135,7 @@ describe('SearchInputComponent', () => {
     it('should call search action with correct searched term', fakeAsync(done => {
       const searchedTerm = 's';
       actions$.pipe(
-        ofType<SearchByTermAction>(SEARCH_BY_TERM),
+        ofType<SearchByTermAction>(SearchActionTypes.SearchByTerm),
         map(action => {
           expect(action.payload).toBe(searchedTerm);
           done();

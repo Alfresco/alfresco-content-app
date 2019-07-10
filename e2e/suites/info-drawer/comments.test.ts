@@ -35,6 +35,8 @@ describe('Comments', () => {
   const parent = `parent-${Utils.random()}`; let parentId;
 
   const file1 = `file1-${Utils.random()}.txt`;
+  const folder1 = `folder1-${Utils.random()}`;
+  const folder2 = `folder2-${Utils.random()}`; let folder2Id;
 
   const fileWith1Comment = `file1Comment-${Utils.random()}.txt`; let fileWith1CommentId;
   const fileWith2Comments = `file2Comments-${Utils.random()}.txt`; let fileWith2CommentsId;
@@ -53,6 +55,7 @@ describe('Comments', () => {
   };
 
   const infoDrawer = new InfoDrawer();
+  const { commentsTab } = infoDrawer;
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -80,6 +83,10 @@ describe('Comments', () => {
     await apis.user.shared.shareFilesByIds([file2SharedId, fileWith1CommentId, fileWith2CommentsId]);
     await apis.user.favorites.addFavoritesByIds('file', [file2FavoritesId, fileWith1CommentId, fileWith2CommentsId]);
 
+    await apis.user.nodes.createFolder(folder1, parentId);
+    folder2Id = (await apis.user.nodes.createFolder(folder2, parentId)).entry.id;
+    await apis.user.favorites.addFavoriteById('folder', folder2Id);
+
     await loginPage.loginWith(username);
     done();
   });
@@ -96,11 +103,6 @@ describe('Comments', () => {
       done();
     });
 
-    afterEach(async (done) => {
-      await dataTable.clearSelection();
-      done();
-    });
-
     it('Comments tab default fields - [C299173]', async () => {
       await dataTable.selectItem(file1);
       await page.toolbar.clickViewDetails();
@@ -108,9 +110,9 @@ describe('Comments', () => {
       await infoDrawer.clickCommentsTab();
 
       expect(await infoDrawer.getActiveTabTitle()).toBe('COMMENTS');
-      expect(await infoDrawer.getCommentsTabHeaderText()).toBe('Comments (0)');
-      expect(await infoDrawer.isCommentTextAreaDisplayed()).toBe(true, 'Comment field not present');
-      expect(await infoDrawer.isAddCommentButtonEnabled()).toBe(false, 'Add comment button not disabled');
+      expect(await commentsTab.getCommentsTabHeaderText()).toBe('Comments (0)');
+      expect(await commentsTab.isCommentTextAreaDisplayed()).toBe(true, 'Comment field not present');
+      expect(await commentsTab.isAddCommentButtonEnabled()).toBe(false, 'Add comment button not disabled');
     });
 
     it('Comment info display - [C280582]', async () => {
@@ -119,15 +121,15 @@ describe('Comments', () => {
       await infoDrawer.waitForInfoDrawerToOpen();
       await infoDrawer.clickCommentsTab();
 
-      expect(await infoDrawer.getCommentsTabHeaderText()).toBe('Comments (1)');
-      expect(await infoDrawer.isCommentTextAreaDisplayed()).toBe(true, 'Comment field not present');
-      expect(await infoDrawer.isAddCommentButtonEnabled()).toBe(false, 'Add comment button not disabled');
+      expect(await commentsTab.getCommentsTabHeaderText()).toBe('Comments (1)');
+      expect(await commentsTab.isCommentTextAreaDisplayed()).toBe(true, 'Comment field not present');
+      expect(await commentsTab.isAddCommentButtonEnabled()).toBe(false, 'Add comment button not disabled');
 
-      expect(await infoDrawer.isCommentDisplayed(commentFile1Entry.id)).toBe(true, `Comment with id: ${commentFile1Entry.id} not displayed`);
-      expect(await infoDrawer.getCommentText(commentFile1Entry.id)).toBe(commentFile1Entry.content, 'Incorrect comment text');
-      expect(await infoDrawer.getCommentUserName(commentFile1Entry.id)).toBe(`${username} ${username}`, 'Incorrect comment user');
-      expect(await infoDrawer.getCommentTime(commentFile1Entry.id)).toBe(moment(commentFile1Entry.createdAt).fromNow(), 'Incorrect comment created time');
-      expect(await infoDrawer.isCommentUserAvatarDisplayed(commentFile1Entry.id)).toBe(true, 'User avatar not displayed');
+      expect(await commentsTab.isCommentDisplayed(commentFile1Entry.id)).toBe(true, `Comment with id: ${commentFile1Entry.id} not displayed`);
+      expect(await commentsTab.getCommentText(commentFile1Entry.id)).toBe(commentFile1Entry.content, 'Incorrect comment text');
+      expect(await commentsTab.getCommentUserName(commentFile1Entry.id)).toBe(`${username} ${username}`, 'Incorrect comment user');
+      expect(await commentsTab.getCommentTime(commentFile1Entry.id)).toBe(moment(commentFile1Entry.createdAt).fromNow(), 'Incorrect comment created time');
+      expect(await commentsTab.isCommentUserAvatarDisplayed(commentFile1Entry.id)).toBe(true, 'User avatar not displayed');
     });
 
     it('Comments are displayed ordered by created date in descending order - [C280583]', async () => {
@@ -136,8 +138,8 @@ describe('Comments', () => {
       await infoDrawer.waitForInfoDrawerToOpen();
       await infoDrawer.clickCommentsTab();
 
-      expect(await infoDrawer.getNthCommentId(1)).toContain(comment2File2Entry.id);
-      expect(await infoDrawer.getNthCommentId(2)).toContain(comment1File2Entry.id);
+      expect(await commentsTab.getNthCommentId(1)).toContain(comment2File2Entry.id);
+      expect(await commentsTab.getNthCommentId(2)).toContain(comment1File2Entry.id);
     });
 
     it('Total number of comments is displayed - [C280585]', async () => {
@@ -146,7 +148,7 @@ describe('Comments', () => {
       await infoDrawer.waitForInfoDrawerToOpen();
       await infoDrawer.clickCommentsTab();
 
-      expect(await infoDrawer.getCommentsTabHeaderText()).toBe('Comments (2)');
+      expect(await commentsTab.getCommentsTabHeaderText()).toBe('Comments (2)');
     });
 
     it('Add button is enabled when typing in the comment field - [C280589]', async () => {
@@ -155,25 +157,40 @@ describe('Comments', () => {
       await infoDrawer.waitForInfoDrawerToOpen();
       await infoDrawer.clickCommentsTab();
 
-      expect(await infoDrawer.isAddCommentButtonEnabled()).toBe(false, 'Add comment button not disabled');
+      expect(await commentsTab.isAddCommentButtonEnabled()).toBe(false, 'Add comment button not disabled');
 
-      await infoDrawer.typeComment('my comment');
-      expect(await infoDrawer.isAddCommentButtonEnabled()).toBe(true, 'Add comment button not enabled');
+      await commentsTab.typeComment('my comment');
+      expect(await commentsTab.isAddCommentButtonEnabled()).toBe(true, 'Add comment button not enabled');
     });
 
-    it('Add a comment - [C280590]', async () => {
+    it('Add a comment on a file - [C280590]', async () => {
       const myComment = 'my comment';
 
       await dataTable.selectItem(file2Personal);
       await page.toolbar.clickViewDetails();
       await infoDrawer.waitForInfoDrawerToOpen();
       await infoDrawer.clickCommentsTab();
-      await infoDrawer.typeComment(myComment);
-      await infoDrawer.clickAddButton();
+      await commentsTab.typeComment(myComment);
+      await commentsTab.clickAddButton();
 
-      expect(await infoDrawer.getCommentsTabHeaderText()).toBe('Comments (1)');
-      expect(await infoDrawer.isCommentDisplayed()).toBe(true, `Comment not displayed`);
-      expect(await infoDrawer.getCommentText()).toBe(myComment, 'Incorrect comment text');
+      expect(await commentsTab.getCommentsTabHeaderText()).toBe('Comments (1)');
+      expect(await commentsTab.isCommentDisplayed()).toBe(true, `Comment not displayed`);
+      expect(await commentsTab.getCommentText()).toBe(myComment, 'Incorrect comment text');
+    });
+
+    it('Add a comment on a folder - [C299208]', async () => {
+      const myComment = 'my comment';
+
+      await dataTable.selectItem(folder1);
+      await page.toolbar.clickViewDetails();
+      await infoDrawer.waitForInfoDrawerToOpen();
+      await infoDrawer.clickCommentsTab();
+      await commentsTab.typeComment(myComment);
+      await commentsTab.clickAddButton();
+
+      expect(await commentsTab.getCommentsTabHeaderText()).toBe('Comments (1)');
+      expect(await commentsTab.isCommentDisplayed()).toBe(true, `Comment not displayed`);
+      expect(await commentsTab.getCommentText()).toBe(myComment, 'Incorrect comment text');
     });
 
     it('Escape key clears the text when focus is on the textarea - [C280591]', async () => {
@@ -181,19 +198,19 @@ describe('Comments', () => {
       await page.toolbar.clickViewDetails();
       await infoDrawer.waitForInfoDrawerToOpen();
       await infoDrawer.clickCommentsTab();
-      await infoDrawer.typeComment('myComment');
+      await commentsTab.typeComment('myComment');
 
-      expect(await infoDrawer.getCommentTextFromTextArea()).toBe('myComment');
+      expect(await commentsTab.getCommentTextFromTextArea()).toBe('myComment');
 
       await Utils.pressEscape();
 
-      expect(await infoDrawer.getCommentTextFromTextArea()).toBe('');
+      expect(await commentsTab.getCommentTextFromTextArea()).toBe('');
     });
   });
 
   describe('from Favorites', () => {
     beforeAll(async (done) => {
-      await apis.user.favorites.waitForApi({ expect: 3 });
+      await apis.user.favorites.waitForApi({ expect: 4 });
       done();
     });
 
@@ -203,7 +220,7 @@ describe('Comments', () => {
     });
 
     afterEach(async (done) => {
-      await dataTable.clearSelection();
+      await page.clickPersonalFiles();
       done();
     });
 
@@ -213,15 +230,16 @@ describe('Comments', () => {
       await infoDrawer.waitForInfoDrawerToOpen();
       await infoDrawer.clickCommentsTab();
 
-      expect(await infoDrawer.getCommentsTabHeaderText()).toBe('Comments (1)');
-      expect(await infoDrawer.isCommentTextAreaDisplayed()).toBe(true, 'Comment field not present');
-      expect(await infoDrawer.isAddCommentButtonEnabled()).toBe(false, 'Add comment button not disabled');
+      expect(await commentsTab.getCommentsTabHeaderText()).toBe('Comments (1)');
+      expect(await commentsTab.isCommentTextAreaDisplayed()).toBe(true, 'Comment field not present');
+      expect(await commentsTab.isAddCommentButtonEnabled()).toBe(false, 'Add comment button not disabled');
 
-      expect(await infoDrawer.isCommentDisplayed(commentFile1Entry.id)).toBe(true, `Comment with id: ${commentFile1Entry.id} not displayed`);
-      expect(await infoDrawer.getCommentText(commentFile1Entry.id)).toBe(commentFile1Entry.content, 'Incorrect comment text');
-      expect(await infoDrawer.getCommentUserName(commentFile1Entry.id)).toBe(`${username} ${username}`, 'Incorrect comment user');
-      expect(await infoDrawer.getCommentTime(commentFile1Entry.id)).toBe(moment(commentFile1Entry.createdAt).fromNow(), 'Incorrect comment created time');
-      expect(await infoDrawer.isCommentUserAvatarDisplayed(commentFile1Entry.id)).toBe(true, 'User avatar not displayed');
+      expect(await commentsTab.isCommentDisplayed(commentFile1Entry.id)).toBe(true, `Comment with id: ${commentFile1Entry.id} not displayed`);
+      expect(await commentsTab.getCommentText(commentFile1Entry.id)).toBe(commentFile1Entry.content, 'Incorrect comment text');
+      expect(await commentsTab.getCommentUserName(commentFile1Entry.id)).toBe(`${username} ${username}`, 'Incorrect comment user');
+      // ACA-2348 expect broken because of parallel test suites
+      // expect(await commentsTab.getCommentTime(commentFile1Entry.id)).toBe(moment(commentFile1Entry.createdAt).fromNow(), 'Incorrect comment created time');
+      expect(await commentsTab.isCommentUserAvatarDisplayed(commentFile1Entry.id)).toBe(true, 'User avatar not displayed');
     });
 
     it('Comments are displayed ordered by created date in descending order - [C299197]', async () => {
@@ -230,8 +248,8 @@ describe('Comments', () => {
       await infoDrawer.waitForInfoDrawerToOpen();
       await infoDrawer.clickCommentsTab();
 
-      expect(await infoDrawer.getNthCommentId(1)).toContain(comment2File2Entry.id);
-      expect(await infoDrawer.getNthCommentId(2)).toContain(comment1File2Entry.id);
+      expect(await commentsTab.getNthCommentId(1)).toContain(comment2File2Entry.id);
+      expect(await commentsTab.getNthCommentId(2)).toContain(comment1File2Entry.id);
     });
 
     it('Total number of comments is displayed - [C299198]', async () => {
@@ -240,22 +258,37 @@ describe('Comments', () => {
       await infoDrawer.waitForInfoDrawerToOpen();
       await infoDrawer.clickCommentsTab();
 
-      expect(await infoDrawer.getCommentsTabHeaderText()).toBe('Comments (2)');
+      expect(await commentsTab.getCommentsTabHeaderText()).toBe('Comments (2)');
     });
 
-    it('Add a comment - [C299199]', async () => {
+    it('Add a comment on a file - [C299199]', async () => {
       const myComment = 'my comment';
 
       await dataTable.selectItem(file2Favorites);
       await page.toolbar.clickViewDetails();
       await infoDrawer.waitForInfoDrawerToOpen();
       await infoDrawer.clickCommentsTab();
-      await infoDrawer.typeComment(myComment);
-      await infoDrawer.clickAddButton();
+      await commentsTab.typeComment(myComment);
+      await commentsTab.clickAddButton();
 
-      expect(await infoDrawer.getCommentsTabHeaderText()).toBe('Comments (1)');
-      expect(await infoDrawer.isCommentDisplayed()).toBe(true, `Comment not displayed`);
-      expect(await infoDrawer.getCommentText()).toBe(myComment, 'Incorrect comment text');
+      expect(await commentsTab.getCommentsTabHeaderText()).toBe('Comments (1)');
+      expect(await commentsTab.isCommentDisplayed()).toBe(true, `Comment not displayed`);
+      expect(await commentsTab.getCommentText()).toBe(myComment, 'Incorrect comment text');
+    });
+
+    it('Add a comment on a folder - [C299209]', async () => {
+      const myComment = 'my comment';
+
+      await dataTable.selectItem(folder2);
+      await page.toolbar.clickViewDetails();
+      await infoDrawer.waitForInfoDrawerToOpen();
+      await infoDrawer.clickCommentsTab();
+      await commentsTab.typeComment(myComment);
+      await commentsTab.clickAddButton();
+
+      expect(await commentsTab.getCommentsTabHeaderText()).toBe('Comments (1)');
+      expect(await commentsTab.isCommentDisplayed()).toBe(true, `Comment not displayed`);
+      expect(await commentsTab.getCommentText()).toBe(myComment, 'Incorrect comment text');
     });
   });
 
@@ -271,7 +304,7 @@ describe('Comments', () => {
     });
 
     afterEach(async (done) => {
-      await dataTable.clearSelection();
+      await page.clickPersonalFiles();
       done();
     });
 
@@ -281,15 +314,15 @@ describe('Comments', () => {
       await infoDrawer.waitForInfoDrawerToOpen();
       await infoDrawer.clickCommentsTab();
 
-      expect(await infoDrawer.getCommentsTabHeaderText()).toBe('Comments (1)');
-      expect(await infoDrawer.isCommentTextAreaDisplayed()).toBe(true, 'Comment field not present');
-      expect(await infoDrawer.isAddCommentButtonEnabled()).toBe(false, 'Add comment button not disabled');
+      expect(await commentsTab.getCommentsTabHeaderText()).toBe('Comments (1)');
+      expect(await commentsTab.isCommentTextAreaDisplayed()).toBe(true, 'Comment field not present');
+      expect(await commentsTab.isAddCommentButtonEnabled()).toBe(false, 'Add comment button not disabled');
 
-      expect(await infoDrawer.isCommentDisplayed(commentFile1Entry.id)).toBe(true, `Comment with id: ${commentFile1Entry.id} not displayed`);
-      expect(await infoDrawer.getCommentText(commentFile1Entry.id)).toBe(commentFile1Entry.content, 'Incorrect comment text');
-      expect(await infoDrawer.getCommentUserName(commentFile1Entry.id)).toBe(`${username} ${username}`, 'Incorrect comment user');
-      expect(await infoDrawer.getCommentTime(commentFile1Entry.id)).toBe(moment(commentFile1Entry.createdAt).fromNow(), 'Incorrect comment created time');
-      expect(await infoDrawer.isCommentUserAvatarDisplayed(commentFile1Entry.id)).toBe(true, 'User avatar not displayed');
+      expect(await commentsTab.isCommentDisplayed(commentFile1Entry.id)).toBe(true, `Comment with id: ${commentFile1Entry.id} not displayed`);
+      expect(await commentsTab.getCommentText(commentFile1Entry.id)).toBe(commentFile1Entry.content, 'Incorrect comment text');
+      expect(await commentsTab.getCommentUserName(commentFile1Entry.id)).toBe(`${username} ${username}`, 'Incorrect comment user');
+      expect(await commentsTab.getCommentTime(commentFile1Entry.id)).toBe(moment(commentFile1Entry.createdAt).fromNow(), 'Incorrect comment created time');
+      expect(await commentsTab.isCommentUserAvatarDisplayed(commentFile1Entry.id)).toBe(true, 'User avatar not displayed');
     });
 
     it('Comments are displayed ordered by created date in descending order - [C299189]', async () => {
@@ -298,8 +331,8 @@ describe('Comments', () => {
       await infoDrawer.waitForInfoDrawerToOpen();
       await infoDrawer.clickCommentsTab();
 
-      expect(await infoDrawer.getNthCommentId(1)).toContain(comment2File2Entry.id);
-      expect(await infoDrawer.getNthCommentId(2)).toContain(comment1File2Entry.id);
+      expect(await commentsTab.getNthCommentId(1)).toContain(comment2File2Entry.id);
+      expect(await commentsTab.getNthCommentId(2)).toContain(comment1File2Entry.id);
     });
 
     it('Total number of comments is displayed - [C299190]', async () => {
@@ -308,22 +341,22 @@ describe('Comments', () => {
       await infoDrawer.waitForInfoDrawerToOpen();
       await infoDrawer.clickCommentsTab();
 
-      expect(await infoDrawer.getCommentsTabHeaderText()).toBe('Comments (2)');
+      expect(await commentsTab.getCommentsTabHeaderText()).toBe('Comments (2)');
     });
 
-    it('Add a comment - [C299191]', async () => {
+    it('Add a comment on a file - [C299191]', async () => {
       const myComment = 'my comment';
 
       await dataTable.selectItem(file2Shared);
       await page.toolbar.clickViewDetails();
       await infoDrawer.waitForInfoDrawerToOpen();
       await infoDrawer.clickCommentsTab();
-      await infoDrawer.typeComment(myComment);
-      await infoDrawer.clickAddButton();
+      await commentsTab.typeComment(myComment);
+      await commentsTab.clickAddButton();
 
-      expect(await infoDrawer.getCommentsTabHeaderText()).toBe('Comments (1)');
-      expect(await infoDrawer.isCommentDisplayed()).toBe(true, `Comment not displayed`);
-      expect(await infoDrawer.getCommentText()).toBe(myComment, 'Incorrect comment text');
+      expect(await commentsTab.getCommentsTabHeaderText()).toBe('Comments (1)');
+      expect(await commentsTab.isCommentDisplayed()).toBe(true, `Comment not displayed`);
+      expect(await commentsTab.getCommentText()).toBe(myComment, 'Incorrect comment text');
     });
   });
 
@@ -339,7 +372,7 @@ describe('Comments', () => {
     });
 
     afterEach(async (done) => {
-      await dataTable.clearSelection();
+      await page.clickPersonalFiles();
       done();
     });
 
@@ -349,15 +382,15 @@ describe('Comments', () => {
       await infoDrawer.waitForInfoDrawerToOpen();
       await infoDrawer.clickCommentsTab();
 
-      expect(await infoDrawer.getCommentsTabHeaderText()).toBe('Comments (1)');
-      expect(await infoDrawer.isCommentTextAreaDisplayed()).toBe(true, 'Comment field not present');
-      expect(await infoDrawer.isAddCommentButtonEnabled()).toBe(false, 'Add comment button not disabled');
+      expect(await commentsTab.getCommentsTabHeaderText()).toBe('Comments (1)');
+      expect(await commentsTab.isCommentTextAreaDisplayed()).toBe(true, 'Comment field not present');
+      expect(await commentsTab.isAddCommentButtonEnabled()).toBe(false, 'Add comment button not disabled');
 
-      expect(await infoDrawer.isCommentDisplayed(commentFile1Entry.id)).toBe(true, `Comment with id: ${commentFile1Entry.id} not displayed`);
-      expect(await infoDrawer.getCommentText(commentFile1Entry.id)).toBe(commentFile1Entry.content, 'Incorrect comment text');
-      expect(await infoDrawer.getCommentUserName(commentFile1Entry.id)).toBe(`${username} ${username}`, 'Incorrect comment user');
-      expect(await infoDrawer.getCommentTime(commentFile1Entry.id)).toBe(moment(commentFile1Entry.createdAt).fromNow(), 'Incorrect comment created time');
-      expect(await infoDrawer.isCommentUserAvatarDisplayed(commentFile1Entry.id)).toBe(true, 'User avatar not displayed');
+      expect(await commentsTab.isCommentDisplayed(commentFile1Entry.id)).toBe(true, `Comment with id: ${commentFile1Entry.id} not displayed`);
+      expect(await commentsTab.getCommentText(commentFile1Entry.id)).toBe(commentFile1Entry.content, 'Incorrect comment text');
+      expect(await commentsTab.getCommentUserName(commentFile1Entry.id)).toBe(`${username} ${username}`, 'Incorrect comment user');
+      expect(await commentsTab.getCommentTime(commentFile1Entry.id)).toBe(moment(commentFile1Entry.createdAt).fromNow(), 'Incorrect comment created time');
+      expect(await commentsTab.isCommentUserAvatarDisplayed(commentFile1Entry.id)).toBe(true, 'User avatar not displayed');
     });
 
     it('Comments are displayed ordered by created date in descending order - [C299193]', async () => {
@@ -366,8 +399,8 @@ describe('Comments', () => {
       await infoDrawer.waitForInfoDrawerToOpen();
       await infoDrawer.clickCommentsTab();
 
-      expect(await infoDrawer.getNthCommentId(1)).toContain(comment2File2Entry.id);
-      expect(await infoDrawer.getNthCommentId(2)).toContain(comment1File2Entry.id);
+      expect(await commentsTab.getNthCommentId(1)).toContain(comment2File2Entry.id);
+      expect(await commentsTab.getNthCommentId(2)).toContain(comment1File2Entry.id);
     });
 
     it('Total number of comments is displayed - [C299194]', async () => {
@@ -376,22 +409,22 @@ describe('Comments', () => {
       await infoDrawer.waitForInfoDrawerToOpen();
       await infoDrawer.clickCommentsTab();
 
-      expect(await infoDrawer.getCommentsTabHeaderText()).toBe('Comments (2)');
+      expect(await commentsTab.getCommentsTabHeaderText()).toBe('Comments (2)');
     });
 
-    it('Add a comment - [C299195]', async () => {
+    it('Add a comment on a file - [C299195]', async () => {
       const myComment = 'my comment';
 
       await dataTable.selectItem(file2Recent);
       await page.toolbar.clickViewDetails();
       await infoDrawer.waitForInfoDrawerToOpen();
       await infoDrawer.clickCommentsTab();
-      await infoDrawer.typeComment(myComment);
-      await infoDrawer.clickAddButton();
+      await commentsTab.typeComment(myComment);
+      await commentsTab.clickAddButton();
 
-      expect(await infoDrawer.getCommentsTabHeaderText()).toBe('Comments (1)');
-      expect(await infoDrawer.isCommentDisplayed()).toBe(true, `Comment not displayed`);
-      expect(await infoDrawer.getCommentText()).toBe(myComment, 'Incorrect comment text');
+      expect(await commentsTab.getCommentsTabHeaderText()).toBe('Comments (1)');
+      expect(await commentsTab.isCommentDisplayed()).toBe(true, `Comment not displayed`);
+      expect(await commentsTab.getCommentText()).toBe(myComment, 'Incorrect comment text');
     });
   });
 

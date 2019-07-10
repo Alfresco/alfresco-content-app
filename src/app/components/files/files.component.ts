@@ -35,14 +35,14 @@ import {
 } from '@alfresco/js-api';
 import { ContentManagementService } from '../../services/content-management.service';
 import { NodeActionsService } from '../../services/node-actions.service';
-import { AppStore } from '../../store/states/app.state';
+import { AppStore } from '@alfresco/aca-shared/store';
 import { PageComponent } from '../page.component';
-import { ContentApiService } from '../../services/content-api.service';
+import { ContentApiService } from '@alfresco/aca-shared';
 import { AppExtensionService } from '../../extensions/extension.service';
-import { SetCurrentFolderAction } from '../../store/actions';
+import { SetCurrentFolderAction, isAdmin } from '@alfresco/aca-shared/store';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { debounceTime, takeUntil } from 'rxjs/operators';
-import { isAdmin } from '../../store/selectors/app.selectors';
+import { ShareDataRow } from '@alfresco/adf-content-services';
 
 @Component({
   templateUrl: './files.component.html'
@@ -199,9 +199,10 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     }
   }
 
-  displayFolderParent(filePath = '', index) {
+  displayFolderParent(filePath = '', index: number) {
     const parentName = filePath.split('/')[index];
-    const currentFoldersDisplayed: any = this.documentList.data.getRows() || [];
+    const currentFoldersDisplayed =
+      <ShareDataRow[]>this.documentList.data.getRows() || [];
 
     const alreadyDisplayedParentFolder = currentFoldersDisplayed.find(
       row => row.node.entry.isFolder && row.node.entry.name === parentName

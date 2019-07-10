@@ -30,6 +30,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { ContentManagementService } from '../../services/content-management.service';
 import {
+  SharedStoreModule,
   ShareNodeAction,
   SetSelectedNodesAction,
   UnshareNodesAction,
@@ -44,25 +45,34 @@ import {
   ManagePermissionsAction,
   UnlockWriteAction,
   FullscreenViewerAction,
-  PrintFileAction
-} from '../actions/node.actions';
-import { SetCurrentFolderAction } from '../actions/app.actions';
+  PrintFileAction,
+  SetCurrentFolderAction
+} from '@alfresco/aca-shared/store';
+import { ViewUtilService } from '@alfresco/adf-core';
+import { ViewerEffects } from './viewer.effects';
 
 describe('NodeEffects', () => {
   let store: Store<any>;
-  // let actions$: Actions;
   let contentService: ContentManagementService;
+  let viewUtilService: ViewUtilService;
+  let viewerEffects: ViewerEffects;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, EffectsModule.forRoot([NodeEffects])],
+      imports: [
+        AppTestingModule,
+        SharedStoreModule,
+        EffectsModule.forRoot([NodeEffects, ViewerEffects])
+      ],
       declarations: [],
-      providers: []
+      providers: [ViewUtilService]
     });
 
     // actions$ = TestBed.get(Actions);
     store = TestBed.get(Store);
     contentService = TestBed.get(ContentManagementService);
+    viewUtilService = TestBed.get(ViewUtilService);
+    viewerEffects = TestBed.get(ViewerEffects);
   });
 
   describe('shareNode$', () => {
@@ -403,17 +413,28 @@ describe('NodeEffects', () => {
 
   describe('printFile$', () => {
     it('it should print node content from payload', () => {
-      spyOn(contentService, 'printFile').and.stub();
-      const node: any = { entry: { id: 'node-id' } };
+      spyOn(viewUtilService, 'printFileGeneric').and.stub();
+      const node: any = {
+        entry: { id: 'node-id', content: { mimeType: 'text/json' } }
+      };
 
       store.dispatch(new PrintFileAction(node));
 
-      expect(contentService.printFile).toHaveBeenCalledWith(node);
+      expect(viewUtilService.printFileGeneric).toHaveBeenCalledWith(
+        'node-id',
+        'text/json'
+      );
     });
 
     it('it should print node content from store', fakeAsync(() => {
-      spyOn(contentService, 'printFile').and.stub();
-      const node: any = { entry: { isFile: true, id: 'node-id' } };
+      spyOn(viewUtilService, 'printFileGeneric').and.stub();
+      const node: any = {
+        entry: {
+          isFile: true,
+          id: 'node-id',
+          content: { mimeType: 'text/json' }
+        }
+      };
 
       store.dispatch(new SetSelectedNodesAction([node]));
 
@@ -421,17 +442,20 @@ describe('NodeEffects', () => {
 
       store.dispatch(new PrintFileAction(null));
 
-      expect(contentService.printFile).toHaveBeenCalledWith(node);
+      expect(viewUtilService.printFileGeneric).toHaveBeenCalledWith(
+        'node-id',
+        'text/json'
+      );
     }));
   });
 
   describe('fullscreenViewer$', () => {
     it('should call fullscreen viewer', () => {
-      spyOn(contentService, 'fullscreenViewer').and.stub();
+      spyOn(viewerEffects, 'enterFullScreen').and.stub();
 
       store.dispatch(new FullscreenViewerAction(null));
 
-      expect(contentService.fullscreenViewer).toHaveBeenCalled();
+      expect(viewerEffects.enterFullScreen).toHaveBeenCalled();
     });
   });
 

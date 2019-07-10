@@ -37,7 +37,7 @@ export class ToolbarMenuComponent {
   actionRef: ContentActionRef;
 
   @Input()
-  color = 'primary';
+  color = '';
 
   get hasChildren(): boolean {
     return (
@@ -47,7 +47,7 @@ export class ToolbarMenuComponent {
     );
   }
 
-  trackById(index: number, obj: { id: string }) {
+  trackById(_: number, obj: { id: string }) {
     return obj.id;
   }
 }

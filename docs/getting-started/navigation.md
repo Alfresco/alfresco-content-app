@@ -138,6 +138,30 @@ In the `app.config.json` define a link entry which will point to the custom page
 
 ```
 
+This can also be declared using ngrx store action:
+
+```json
+{
+  ...,
+  "navigation": [
+      "main": [ ... ],
+      "secondary": [ ... ],
+      "custom": [
+        {
+          "icon": "work",
+          "label": "Link",
+          "title": "My custom link",
+          "click": {
+              "action": "NAVIGATE_ROUTE",
+              "payload": "custom-route"
+          }
+        }
+      ]
+  ]
+}
+
+```
+
 Map the `/custom-route` in `app.routes.ts` as a child of `LayoutComponent` definition.
 
 ```js
@@ -161,5 +185,29 @@ Map the `/custom-route` in `app.routes.ts` as a child of `LayoutComponent` defin
 ```
 
 ![](../images/navigation-03.png)
+
+### Rendering custom components
+
+Navigation definition also supports custom components to be dynamically render. The schema for this is as follows:
+
+```json
+"navbar": [
+  {
+      "id": "app.navbar.primary",
+      "items": [
+            ...
+
+          {
+              "id": "custom-component",
+              "component": "custom-menu-item"
+          }
+
+          ...
+      ]
+  }
+]
+```
+
+Note that components must be declared as entryComponents under the app module.
 
 For more information about the content of a custom page see [Document List Layout](/features/document-list-layout) section.

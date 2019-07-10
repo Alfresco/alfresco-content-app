@@ -25,18 +25,21 @@
 
 import {
   Component,
+  ContentChild,
   Input,
+  TemplateRef,
   OnInit,
   ViewEncapsulation,
   OnDestroy
 } from '@angular/core';
+import { CollapsedTemplateDirective } from './directives/collapsed-template.directive';
+import { ExpandedTemplateDirective } from './directives/expanded-template.directive';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { NavBarGroupRef } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../../store/states';
-import { ruleContext } from '../../store/selectors/app.selectors';
+import { AppStore, getSideNavState } from '@alfresco/aca-shared/store';
 import { Subject } from 'rxjs';
-import { takeUntil, distinctUntilChanged, map } from 'rxjs/operators';
+import { takeUntil, distinctUntilChanged, debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sidenav',
@@ -46,12 +49,16 @@ import { takeUntil, distinctUntilChanged, map } from 'rxjs/operators';
   host: { class: 'app-sidenav' }
 })
 export class SidenavComponent implements OnInit, OnDestroy {
-  private onDestroy$: Subject<boolean> = new Subject<boolean>();
+  @Input() mode: 'collapsed' | 'expanded' = 'expanded';
 
-  @Input()
-  showLabel: boolean;
+  @ContentChild(ExpandedTemplateDirective, { read: TemplateRef })
+  expandedTemplate;
+
+  @ContentChild(CollapsedTemplateDirective, { read: TemplateRef })
+  collapsedTemplate;
 
   groups: Array<NavBarGroupRef> = [];
+  private onDestroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private store: Store<AppStore>,
@@ -60,9 +67,9 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.store
-      .select(ruleContext)
+      .select(getSideNavState)
       .pipe(
-        map(rules => rules.repository),
+        debounceTime(300),
         distinctUntilChanged(),
         takeUntil(this.onDestroy$)
       )
@@ -73,7 +80,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
       });
   }
 
-  trackById(index: number, obj: { id: string }) {
+  trackById(_: number, obj: { id: string }) {
     return obj.id;
   }
 

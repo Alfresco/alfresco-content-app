@@ -22,6 +22,11 @@
               ]
             },
             "assets": [
+              {
+                "glob": "LICENSE",
+                "input": ".",
+                "output": "/"
+              },
               "src/assets",
               "src/favicon-96x96.png",
               "src/app.config.json",
@@ -266,6 +271,41 @@
             "tsConfig": [
               "projects/adf-office-services-ext/tsconfig.lib.json",
               "projects/adf-office-services-ext/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "aca-shared": {
+      "root": "projects/aca-shared",
+      "sourceRoot": "projects/aca-shared/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/aca-shared/tsconfig.lib.json",
+            "project": "projects/aca-shared/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/aca-shared/test.ts",
+            "tsConfig": "projects/aca-shared/tsconfig.spec.json",
+            "karmaConfig": "projects/aca-shared/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/aca-shared/tsconfig.lib.json",
+              "projects/aca-shared/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"

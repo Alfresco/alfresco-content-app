@@ -23,16 +23,15 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit } from '@angular/core';
+import { AppStore, getUserProfile } from '@alfresco/aca-shared/store';
+import { ProfileState } from '@alfresco/adf-extensions';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { AppExtensionService } from '../../extensions/extension.service';
 import { ContentManagementService } from '../../services/content-management.service';
 import { PageComponent } from '../page.component';
-import { Store } from '@ngrx/store';
-import { selectUser } from '../../store/selectors/app.selectors';
-import { AppStore } from '../../store/states/app.state';
-import { AppExtensionService } from '../../extensions/extension.service';
-import { Observable } from 'rxjs';
-import { ProfileState } from '@alfresco/adf-extensions';
 
 @Component({
   templateUrl: './trashcan.component.html'
@@ -50,7 +49,7 @@ export class TrashcanComponent extends PageComponent implements OnInit {
     private breakpointObserver: BreakpointObserver
   ) {
     super(store, extensions, content);
-    this.user$ = this.store.select(selectUser);
+    this.user$ = this.store.select(getUserProfile);
   }
 
   ngOnInit() {

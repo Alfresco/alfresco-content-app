@@ -62,6 +62,7 @@ describe('Library properties', () => {
   };
 
   const infoDrawer = new InfoDrawer();
+  const { aboutTab } = infoDrawer;
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -108,17 +109,17 @@ describe('Library properties', () => {
 
     expect(await infoDrawer.getHeaderTitle()).toEqual('Details');
     expect(await infoDrawer.isAboutTabDisplayed()).toBe(true, 'About tab is not displayed');
-    expect(await infoDrawer.isNameDisplayed()).toBe(true, 'Name field not displayed');
-    expect(await infoDrawer.isLibraryIdDisplayed()).toBe(true, 'Library ID field not displayed');
-    expect(await infoDrawer.isVisibilityDisplayed()).toBe(true, 'Visibility field not displayed');
-    expect(await infoDrawer.isDescriptionDisplayed()).toBe(true, 'Description field not displayed');
+    expect(await aboutTab.isNameDisplayed()).toBe(true, 'Name field not displayed');
+    expect(await aboutTab.isLibraryIdDisplayed()).toBe(true, 'Library ID field not displayed');
+    expect(await aboutTab.isVisibilityDisplayed()).toBe(true, 'Visibility field not displayed');
+    expect(await aboutTab.isDescriptionDisplayed()).toBe(true, 'Description field not displayed');
 
-    expect(await infoDrawer.getName()).toEqual(site.name);
-    expect(await infoDrawer.getLibraryId()).toEqual(site.id);
-    expect((await infoDrawer.getVisibility()).toLowerCase()).toEqual((site.visibility).toLowerCase());
-    expect(await infoDrawer.getDescription()).toEqual(site.description);
+    expect(await aboutTab.getName()).toEqual(site.name);
+    expect(await aboutTab.getLibraryId()).toEqual(site.id);
+    expect((await aboutTab.getVisibility()).toLowerCase()).toEqual((site.visibility).toLowerCase());
+    expect(await aboutTab.getDescription()).toEqual(site.description);
 
-    expect(await infoDrawer.isEditDisplayed()).toBe(true, 'Edit action is not displayed');
+    expect(await aboutTab.isEditLibraryPropertiesDisplayed()).toBe(true, 'Edit action is not displayed');
   });
 
   it('Editable properties - [C289338]', async () => {
@@ -126,18 +127,18 @@ describe('Library properties', () => {
     await page.toolbar.clickViewDetails();
     await infoDrawer.waitForInfoDrawerToOpen();
 
-    expect(await infoDrawer.isEditEnabled()).toBe(true, 'Edit action is not enabled');
-    await infoDrawer.clickEdit();
+    expect(await aboutTab.isEditLibraryPropertiesEnabled()).toBe(true, 'Edit action is not enabled');
+    await aboutTab.clickEditLibraryProperties();
 
-    expect(await infoDrawer.isNameEnabled()).toBe(true, 'Name field not enabled');
-    expect(await infoDrawer.isLibraryIdEnabled()).toBe(false, 'Library ID field not disabled');
-    expect(await infoDrawer.isVisibilityEnabled()).toBe(true, 'Visibility field not enabled');
-    expect(await infoDrawer.isDescriptionEnabled()).toBe(true, 'Description field not enabled');
+    expect(await aboutTab.isNameEnabled()).toBe(true, 'Name field not enabled');
+    expect(await aboutTab.isLibraryIdEnabled()).toBe(false, 'Library ID field not disabled');
+    expect(await aboutTab.isVisibilityEnabled()).toBe(true, 'Visibility field not enabled');
+    expect(await aboutTab.isDescriptionEnabled()).toBe(true, 'Description field not enabled');
 
-    expect(await infoDrawer.isCancelDisplayed()).toBe(true, 'Cancel button not displayed');
-    expect(await infoDrawer.isUpdateDisplayed()).toBe(true, 'Update button not displayed');
-    expect(await infoDrawer.isCancelEnabled()).toBe(true, 'Cancel button not enabled');
-    expect(await infoDrawer.isUpdateEnabled()).toBe(false, 'Update button not disabled');
+    expect(await aboutTab.isCancelDisplayed()).toBe(true, 'Cancel button not displayed');
+    expect(await aboutTab.isUpdateDisplayed()).toBe(true, 'Update button not displayed');
+    expect(await aboutTab.isCancelEnabled()).toBe(true, 'Cancel button not enabled');
+    expect(await aboutTab.isUpdateEnabled()).toBe(false, 'Update button not disabled');
   });
 
   it('Edit site details - [C289339]', async () => {
@@ -145,15 +146,15 @@ describe('Library properties', () => {
     await page.toolbar.clickViewDetails();
     await infoDrawer.waitForInfoDrawerToOpen();
 
-    expect(await infoDrawer.isEditEnabled()).toBe(true, 'Edit action is not enabled');
-    await infoDrawer.clickEdit();
+    expect(await aboutTab.isEditLibraryPropertiesEnabled()).toBe(true, 'Edit action is not enabled');
+    await aboutTab.clickEditLibraryProperties();
 
-    await infoDrawer.enterName(siteUpdated.name);
-    await infoDrawer.enterDescription(siteUpdated.description);
-    await infoDrawer.setVisibility(siteUpdated.visibility);
-    expect(await infoDrawer.isUpdateEnabled()).toBe(true, 'Update button not enabled');
+    await aboutTab.enterName(siteUpdated.name);
+    await aboutTab.enterDescription(siteUpdated.description);
+    await aboutTab.setVisibility(siteUpdated.visibility);
+    expect(await aboutTab.isUpdateEnabled()).toBe(true, 'Update button not enabled');
 
-    await infoDrawer.clickUpdate();
+    await aboutTab.clickUpdate();
 
     expect(await page.getSnackBarMessage()).toEqual('Library properties updated');
     expect(await dataTable.isItemPresent(siteUpdated.name)).toBe(true, 'New site name not displayed in the list');
@@ -172,14 +173,14 @@ describe('Library properties', () => {
     await page.toolbar.clickViewDetails();
     await infoDrawer.waitForInfoDrawerToOpen();
 
-    expect(await infoDrawer.isEditEnabled()).toBe(true, 'Edit action is not enabled');
-    await infoDrawer.clickEdit();
+    expect(await aboutTab.isEditLibraryPropertiesEnabled()).toBe(true, 'Edit action is not enabled');
+    await aboutTab.clickEditLibraryProperties();
 
-    await infoDrawer.enterName(newName);
-    await infoDrawer.enterDescription(newDesc);
-    await infoDrawer.setVisibility(SITE_VISIBILITY.MODERATED);
+    await aboutTab.enterName(newName);
+    await aboutTab.enterDescription(newDesc);
+    await aboutTab.setVisibility(SITE_VISIBILITY.MODERATED);
 
-    await infoDrawer.clickCancel();
+    await aboutTab.clickCancel();
 
     expect(await dataTable.isItemPresent(newName)).toBe(false, 'New site name is displayed in the list');
     expect(await dataTable.isItemPresent(site.name)).toBe(true, 'Original site name not displayed in the list');
@@ -192,37 +193,37 @@ describe('Library properties', () => {
     await dataTable.selectItem(siteDup);
     await page.toolbar.clickViewDetails();
     await infoDrawer.waitForInfoDrawerToOpen();
-    await infoDrawer.clickEdit();
+    await aboutTab.clickEditLibraryProperties();
 
-    await infoDrawer.enterName(site.name);
-    expect(await infoDrawer.isMessageDisplayed()).toBe(true, 'Message not displayed');
-    expect(await infoDrawer.getMessage()).toEqual('Library name already in use');
+    await aboutTab.enterName(site.name);
+    expect(await aboutTab.isMessageDisplayed()).toBe(true, 'Message not displayed');
+    expect(await aboutTab.getMessage()).toEqual('Library name already in use');
   });
 
   it('Site name too long - [C289342]', async () => {
     await dataTable.selectItem(site.name);
     await page.toolbar.clickViewDetails();
     await infoDrawer.waitForInfoDrawerToOpen();
-    await infoDrawer.clickEdit();
+    await aboutTab.clickEditLibraryProperties();
 
-    await infoDrawer.enterName(Utils.string257);
+    await aboutTab.enterName(Utils.string257);
     await Utils.pressTab();
-    expect(await infoDrawer.isErrorDisplayed()).toBe(true, 'Message not displayed');
-    expect(await infoDrawer.getError()).toEqual('Use 256 characters or less for title');
-    expect(await infoDrawer.isUpdateEnabled()).toBe(false, 'Update button not disabled');
+    expect(await aboutTab.isErrorDisplayed()).toBe(true, 'Message not displayed');
+    expect(await aboutTab.getError()).toEqual('Use 256 characters or less for title');
+    expect(await aboutTab.isUpdateEnabled()).toBe(false, 'Update button not disabled');
   });
 
   it('Site description too long - [C289343]', async () => {
     await dataTable.selectItem(site.name);
     await page.toolbar.clickViewDetails();
     await infoDrawer.waitForInfoDrawerToOpen();
-    await infoDrawer.clickEdit();
+    await aboutTab.clickEditLibraryProperties();
 
-    await infoDrawer.enterDescription(Utils.string513);
+    await aboutTab.enterDescription(Utils.string513);
     await Utils.pressTab();
-    expect(await infoDrawer.isErrorDisplayed()).toBe(true, 'Message not displayed');
-    expect(await infoDrawer.getError()).toEqual('Use 512 characters or less for description');
-    expect(await infoDrawer.isUpdateEnabled()).toBe(false, 'Update button not disabled');
+    expect(await aboutTab.isErrorDisplayed()).toBe(true, 'Message not displayed');
+    expect(await aboutTab.getError()).toEqual('Use 512 characters or less for description');
+    expect(await aboutTab.isUpdateEnabled()).toBe(false, 'Update button not disabled');
   });
 
   describe('Non manager', () => {
@@ -238,7 +239,7 @@ describe('Library properties', () => {
       await dataTable.selectItem(site.name);
       await page.toolbar.clickViewDetails();
       await infoDrawer.waitForInfoDrawerToOpen();
-      expect(await infoDrawer.isEditDisplayed()).toBe(false, 'Edit action is displayed');
+      expect(await aboutTab.isEditLibraryPropertiesDisplayed()).toBe(false, 'Edit action is displayed');
     });
 
     it('Error notification - [C289344]', async () => {
@@ -248,12 +249,12 @@ describe('Library properties', () => {
       await dataTable.selectItem(site.name);
       await page.toolbar.clickViewDetails();
       await infoDrawer.waitForInfoDrawerToOpen();
-      await infoDrawer.clickEdit();
+      await aboutTab.clickEditLibraryProperties();
 
       await apis.user.sites.updateSiteMember(site.id, user3, SITE_ROLES.SITE_CONSUMER.ROLE);
 
-      await infoDrawer.enterDescription('new description');
-      await infoDrawer.clickUpdate();
+      await aboutTab.enterDescription('new description');
+      await aboutTab.clickUpdate();
 
       expect(await page.getSnackBarMessage()).toEqual('There was an error updating library properties');
     });

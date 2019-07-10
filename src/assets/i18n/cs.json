@@ -1,5 +1,6 @@
 {
   "APP": {
+    "COPYRIGHT": "© 2017 - 2019 Alfresco Software, Inc. Všechna práva vyhrazena.",
     "ABOUT": {
       "VERSION": "Verze:",
       "PLUGINS": {
@@ -77,7 +78,7 @@
         }
       },
       "LIBRARIES": {
-        "TITLE": "Moje knihovny",
+        "TITLE": "Knihovny souborů",
         "DESCRIPTION": "Přejít na knihovny souborů",
         "SIDENAV_LINK": {
           "LABEL": "Knihovny souborů",
@@ -164,6 +165,7 @@
         "FOUND_ONE_RESULT": "Nalezené výsledky: {{ number }}",
         "CUSTOM_ROW": {
           "MODIFIED": "Změněno",
+          "BY_USER": "od {{ user }}",
           "LOCATION": "Umístění",
           "SIZE": "Velikost"
         },
@@ -333,7 +335,8 @@
       }
     },
     "CONTENT_METADATA": {
-      "EXIF_GROUP_TITLE": "Obraz EXIF"
+      "EXIF_GROUP_TITLE": "Obraz EXIF",
+      "EFFECTIVITY_GROUP_TITLE": "Účinnost"
     },
     "INFO_DRAWER": {
       "TITLE": "Podrobnosti",
@@ -456,7 +459,20 @@
     "CATEGORIES": {
       "MODIFIED_DATE": "Datum úpravy",
       "SIZE": "Velikost",
+      "SIZE_OPTIONS": {
+        "SMALL": "Malá",
+        "MEDIUM": "Střední",
+        "LARGE": "Velká",
+        "HUGE": "Obrovská"
+      },
       "CREATED_DATE": "Datum vytvoření"
+    },
+    "FACET_QUERIES": {
+      "TODAY": "Dnes",
+      "THIS_WEEK": "Tento týden",
+      "THIS_MONTH": "Tento měsíc",
+      "LAST_6_MONTHS": "Za posledních 6 měsíců",
+      "THIS_YEAR": "Letos"
     }
   },
   "CORE": {

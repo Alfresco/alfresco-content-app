@@ -42,6 +42,10 @@ export const ADMIN_FULL_NAME = 'Administrator';
 
 export const E2E_ROOT_PATH = __dirname;
 
+// Dates
+export const DATE_FORMAT = 'MMM D, YYYY';
+export const DATE_TIME_FORMAT = 'MMM D, YYYY, H:mm';
+
 // Application Routes
 export const APP_ROUTES = {
   FAVORITES: '/favorites',
@@ -113,7 +117,12 @@ export const FILES = {
   xlsxFile: 'file-xlsx.xlsx',
   xlsxFile2: 'file2-xlsx.xlsx',
   pdfFile: 'file-pdf.pdf',
-  unsupportedFile: 'file_unsupported.3DS'
+  unsupportedFile: 'file_unsupported.3DS',
+  protectedFile: {
+    name: 'protected.pdf',
+    password: '0000'
+  },
+  jpgFile: 'file-jpg.jpg'
 };
 
 export const EXTENSIBILITY_CONFIGS = {

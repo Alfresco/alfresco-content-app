@@ -39,13 +39,15 @@ import {
   UploadService,
   AlfrescoApiService
 } from '@alfresco/adf-core';
+import { ClosePreviewAction } from '@alfresco/aca-shared/store';
 import { PreviewComponent } from './preview.component';
 import { of, throwError } from 'rxjs';
 import { EffectsModule } from '@ngrx/effects';
 import { NodeEffects } from '../../store/effects/node.effects';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { ContentApiService } from '../../services/content-api.service';
+import { ContentApiService } from '@alfresco/aca-shared';
 import { ContentManagementService } from '../../services/content-management.service';
+import { Store } from '@ngrx/store';
 
 describe('PreviewComponent', () => {
   let fixture: ComponentFixture<PreviewComponent>;
@@ -57,6 +59,7 @@ describe('PreviewComponent', () => {
   let uploadService: UploadService;
   let alfrescoApiService: AlfrescoApiService;
   let contentManagementService: ContentManagementService;
+  let store: Store<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -76,6 +79,7 @@ describe('PreviewComponent', () => {
     uploadService = TestBed.get(UploadService);
     alfrescoApiService = TestBed.get(AlfrescoApiService);
     contentManagementService = TestBed.get(ContentManagementService);
+    store = TestBed.get(Store);
   });
 
   it('should extract the property path root', () => {
@@ -731,5 +735,12 @@ describe('PreviewComponent', () => {
     tick(300);
 
     expect(alfrescoApiService.nodeUpdated.next).toHaveBeenCalled();
+  }));
+
+  it('should return to parent folder when event emitted from extension', async(() => {
+    spyOn(component, 'navigateToFileLocation');
+    fixture.detectChanges();
+    store.dispatch(new ClosePreviewAction());
+    expect(component.navigateToFileLocation).toHaveBeenCalled();
   }));
 });

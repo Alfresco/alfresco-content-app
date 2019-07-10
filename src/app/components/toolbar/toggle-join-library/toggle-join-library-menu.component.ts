@@ -25,7 +25,7 @@
 
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../../../store/states';
+import { AppStore } from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../../services/content-management.service';
 import { ToggleJoinLibraryButtonComponent } from './toggle-join-library-button.component';
 
@@ -44,7 +44,7 @@ import { ToggleJoinLibraryButtonComponent } from './toggle-join-library-button.c
           : ('APP.ACTIONS.JOIN' | translate)
       "
     >
-      <mat-icon *ngIf="(membership.isJoinRequested | async)">cancel</mat-icon>
+      <mat-icon *ngIf="membership.isJoinRequested | async">cancel</mat-icon>
       <mat-icon
         *ngIf="!(membership.isJoinRequested | async)"
         svgIcon="adf:join_library"

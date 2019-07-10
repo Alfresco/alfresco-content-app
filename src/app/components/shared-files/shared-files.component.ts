@@ -28,7 +28,6 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { ContentManagementService } from '../../services/content-management.service';
 import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../../store/states/app.state';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { debounceTime } from 'rxjs/operators';
 import { UploadService } from '@alfresco/adf-core';
@@ -42,7 +41,7 @@ export class SharedFilesComponent extends PageComponent implements OnInit {
   columns: any[] = [];
 
   constructor(
-    store: Store<AppStore>,
+    store: Store<any>,
     extensions: AppExtensionService,
     content: ContentManagementService,
     private uploadService: UploadService,
@@ -61,10 +60,10 @@ export class SharedFilesComponent extends PageComponent implements OnInit {
 
       this.uploadService.fileUploadComplete
         .pipe(debounceTime(300))
-        .subscribe(file => this.reload()),
+        .subscribe(_ => this.reload()),
       this.uploadService.fileUploadDeleted
         .pipe(debounceTime(300))
-        .subscribe(file => this.reload()),
+        .subscribe(_ => this.reload()),
 
       this.breakpointObserver
         .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])

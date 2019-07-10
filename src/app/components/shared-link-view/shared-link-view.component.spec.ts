@@ -36,7 +36,7 @@ import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { AlfrescoApiService } from '@alfresco/adf-core';
-import { SetSelectedNodesAction } from '../../store/actions';
+import { SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { AppExtensionService } from '../../extensions/extension.service';
 
 describe('SharedLinkViewComponent', () => {

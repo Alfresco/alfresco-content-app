@@ -1,10 +1,13 @@
 <ng-container *ngIf="nodeId">
   <adf-viewer
+    [ngClass]="{
+      'right_side--hide': !showRightSide
+    }"
     [nodeId]="nodeId"
     [allowNavigate]="navigateMultiple"
-    [allowRightSidebar]="showRightSide"
+    [allowRightSidebar]="true"
     [allowPrint]="false"
-    [showRightSidebar]="showRightSide"
+    [showRightSidebar]="true"
     [allowDownload]="false"
     [allowFullScreen]="false"
     [canNavigateBefore]="previousNodeId"
@@ -13,9 +16,8 @@
     (showViewerChange)="onVisibilityChanged($event)"
     (navigateBefore)="onNavigateBefore()"
     (navigateNext)="onNavigateNext()"
-    [ngClass]="showRightSide ? 'hide-last-divider' : ''"
   >
-    <adf-viewer-sidebar *ngIf="(infoDrawerOpened$ | async)">
+    <adf-viewer-sidebar *ngIf="infoDrawerOpened$ | async">
       <aca-info-drawer [node]="selection.file"></aca-info-drawer>
     </adf-viewer-sidebar>
 
@@ -32,20 +34,5 @@
         <aca-toolbar-action [actionRef]="action"></aca-toolbar-action>
       </ng-container>
     </adf-viewer-toolbar-actions>
-
-    <ng-container *ngFor="let ext of contentExtensions">
-      <adf-viewer-extension [supportedExtensions]="[ext.fileExtension]">
-        <ng-template let-url="urlFileContent" let-extension="extension">
-          <app-preview-extension
-            [id]="ext.component"
-            [node]="selection.file?.entry"
-            [url]="url"
-            [extension]="extension"
-            [attr.data-automation-id]="ext.component"
-          >
-          </app-preview-extension>
-        </ng-template>
-      </adf-viewer-extension>
-    </ng-container>
   </adf-viewer>
 </ng-container>

@@ -39,9 +39,9 @@ import {
 } from '@alfresco/adf-core';
 import {
   LibraryDialogComponent,
-  ContentModule,
-  CustomResourcesService
+  ContentModule
 } from '@alfresco/adf-content-services';
+import { AppRouteReuseStrategy, SharedModule } from '@alfresco/aca-shared';
 
 import { AppComponent } from './app.component';
 import { APP_ROUTES } from './app.routes';
@@ -56,13 +56,11 @@ import { AppStoreModule } from './store/app-store.module';
 import { MaterialModule } from './material.module';
 import { AppExtensionsModule } from './extensions.module';
 import { CoreExtensionsModule } from './extensions/core.extensions.module';
-import { AppRouteReuseStrategy } from './app.routes.strategy';
 import { AppInfoDrawerModule } from './components/info-drawer/info.drawer.module';
 import { DirectivesModule } from './directives/directives.module';
 import { ContextMenuModule } from './components/context-menu/context-menu.module';
 import { ExtensionsModule } from '@alfresco/adf-extensions';
 import { AppToolbarModule } from './components/toolbar/toolbar.module';
-import { AppSharedModule } from './components/shared/shared.module';
 import { AppCreateMenuModule } from './components/create-menu/create-menu.module';
 import { AppSidenavModule } from './components/sidenav/sidenav.module';
 import { AppPermissionsModule } from './components/permissions/permissions.module';
@@ -76,7 +74,41 @@ import { AppLoginModule } from './components/login/login.module';
 import { AppHeaderModule } from './components/header/header.module';
 import { AppNodeVersionModule } from './components/node-version/node-version.module';
 import { environment } from '../environments/environment';
-import { AppDataService } from './services/data.service';
+
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+import localeDe from '@angular/common/locales/de';
+import localeIt from '@angular/common/locales/it';
+import localeEs from '@angular/common/locales/es';
+import localeJa from '@angular/common/locales/ja';
+import localeNl from '@angular/common/locales/nl';
+import localePt from '@angular/common/locales/pt';
+import localeNb from '@angular/common/locales/nb';
+import localeRu from '@angular/common/locales/ru';
+import localeCh from '@angular/common/locales/zh';
+import localeAr from '@angular/common/locales/ar';
+import localeCs from '@angular/common/locales/cs';
+import localePl from '@angular/common/locales/pl';
+import localeFi from '@angular/common/locales/fi';
+import localeDa from '@angular/common/locales/da';
+import localeSv from '@angular/common/locales/sv';
+
+registerLocaleData(localeFr);
+registerLocaleData(localeDe);
+registerLocaleData(localeIt);
+registerLocaleData(localeEs);
+registerLocaleData(localeJa);
+registerLocaleData(localeNl);
+registerLocaleData(localePt);
+registerLocaleData(localeNb);
+registerLocaleData(localeRu);
+registerLocaleData(localeCh);
+registerLocaleData(localeAr);
+registerLocaleData(localeCs);
+registerLocaleData(localePl);
+registerLocaleData(localeFi);
+registerLocaleData(localeDa);
+registerLocaleData(localeSv);
 
 @NgModule({
   imports: [
@@ -91,6 +123,7 @@ import { AppDataService } from './services/data.service';
     MaterialModule,
     CoreModule.forRoot(),
     ContentModule.forRoot(),
+    SharedModule.forRoot(),
     AppStoreModule,
     CoreExtensionsModule.forRoot(),
     ExtensionsModule,
@@ -103,7 +136,6 @@ import { AppDataService } from './services/data.service';
     ContextMenuModule,
     AppInfoDrawerModule,
     AppToolbarModule,
-    AppSharedModule,
     AppSidenavModule,
     AppCreateMenuModule,
     DocumentListCustomComponentsModule,
@@ -124,7 +156,6 @@ import { AppDataService } from './services/data.service';
   providers: [
     { provide: RouteReuseStrategy, useClass: AppRouteReuseStrategy },
     { provide: AppConfigService, useClass: DebugAppConfigService },
-    { provide: CustomResourcesService, useClass: AppDataService },
     {
       provide: TRANSLATION_PROVIDER,
       multi: true,

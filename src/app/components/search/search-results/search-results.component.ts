@@ -28,23 +28,20 @@ import { NodePaging, Pagination, MinimalNodeEntity } from '@alfresco/js-api';
 import { ActivatedRoute, Params } from '@angular/router';
 import {
   SearchQueryBuilderService,
-  SearchComponent as AdfSearchComponent,
   SearchFilterComponent
 } from '@alfresco/adf-content-services';
 import { PageComponent } from '../../page.component';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../../../store/states/app.state';
-import { NavigateToFolder } from '../../../store/actions';
+import {
+  AppStore,
+  NavigateToFolder,
+  SnackbarErrorAction,
+  showFacetFilter
+} from '@alfresco/aca-shared/store';
 import { AppExtensionService } from '../../../extensions/extension.service';
 import { ContentManagementService } from '../../../services/content-management.service';
-import {
-  AppConfigService,
-  AlfrescoApiService,
-  TranslationService
-} from '@alfresco/adf-core';
-import { Observable, Subject } from 'rxjs';
-import { showFacetFilter } from '../../../store/selectors/app.selectors';
-import { SnackbarErrorAction } from '../../../store/actions';
+import { AppConfigService, TranslationService } from '@alfresco/adf-core';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'aca-search-results',
@@ -52,9 +49,6 @@ import { SnackbarErrorAction } from '../../../store/actions';
   styleUrls: ['./search-results.component.scss']
 })
 export class SearchResultsComponent extends PageComponent implements OnInit {
-  @ViewChild('search')
-  search: AdfSearchComponent;
-
   @ViewChild('searchFilter')
   searchFilter: SearchFilterComponent;
 
@@ -67,10 +61,8 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   hasSelectedFilters = false;
   sorting = ['name', 'asc'];
   isLoading = false;
-  searchQueryError: Subject<any> = new Subject();
 
   constructor(
-    private alfrescoApiService: AlfrescoApiService,
     private queryBuilder: SearchQueryBuilderService,
     private route: ActivatedRoute,
     private config: AppConfigService,
@@ -92,25 +84,6 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   ngOnInit() {
     super.ngOnInit();
 
-    // todo: remove once ADF-4193 is resolved
-    this.queryBuilder.execute = async () => {
-      const query = this.queryBuilder.buildQuery();
-      if (query) {
-        try {
-          const response = await this.alfrescoApiService.searchApi.search(
-            query
-          );
-          this.queryBuilder.executed.next(response);
-        } catch (error) {
-          this.searchQueryError.next(error);
-
-          this.queryBuilder.executed.next({
-            list: { pagination: { totalItems: 0 }, entries: [] }
-          });
-        }
-      }
-    };
-
     this.sorting = this.getSorting();
 
     this.subscriptions.push(
@@ -128,8 +101,8 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
         this.isLoading = false;
       }),
 
-      this.searchQueryError.subscribe(error => {
-        this.onSearchError(error);
+      this.queryBuilder.error.subscribe((err: any) => {
+        this.onSearchError(err);
       })
     );
 

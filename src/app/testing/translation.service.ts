@@ -34,15 +34,15 @@ export class TranslateServiceMock extends TranslateService {
   }
 
   get(
-    key: string | Array<string>,
-    interpolateParams?: Object
+    key: string | Array<string> /*,
+    interpolateParams?: Object*/
   ): Observable<string | any> {
     return of(key);
   }
 
   instant(
-    key: string | Array<string>,
-    interpolateParams?: Object
+    key: string | Array<string> /*,
+    interpolateParams?: Object*/
   ): string | any {
     return key;
   }

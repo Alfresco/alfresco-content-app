@@ -38,7 +38,7 @@ import {
   UrlSegment,
   PRIMARY_OUTLET
 } from '@angular/router';
-import { debounceTime, takeUntil } from 'rxjs/operators';
+import { debounceTime, map, takeUntil } from 'rxjs/operators';
 import {
   UserPreferencesService,
   ObjectUtils,
@@ -46,16 +46,20 @@ import {
   AlfrescoApiService
 } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../../store/states/app.state';
-import { SetSelectedNodesAction } from '../../store/actions';
+import {
+  AppStore,
+  ClosePreviewAction,
+  ViewerActionTypes
+} from '@alfresco/aca-shared/store';
+import { SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { PageComponent } from '../page.component';
-import { ContentApiService } from '../../services/content-api.service';
+import { ContentApiService } from '@alfresco/aca-shared';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { ContentManagementService } from '../../services/content-management.service';
 import { ContentActionRef, ViewerExtensionRef } from '@alfresco/adf-extensions';
 import { SearchRequest } from '@alfresco/js-api';
-import { AppDataService } from '../../services/data.service';
 import { from } from 'rxjs';
+import { Actions, ofType } from '@ngrx/effects';
 
 @Component({
   selector: 'app-preview',
@@ -85,14 +89,38 @@ export class PreviewComponent extends PageComponent
   contentExtensions: Array<ViewerExtensionRef> = [];
   showRightSide = false;
 
+  recentFileFilters = [
+    'TYPE:"content"',
+    '-PNAME:"0/wiki"',
+    '-TYPE:"app:filelink"',
+    '-TYPE:"fm:post"',
+    '-TYPE:"cm:thumbnail"',
+    '-TYPE:"cm:failedThumbnail"',
+    '-TYPE:"cm:rating"',
+    '-TYPE:"dl:dataList"',
+    '-TYPE:"dl:todoList"',
+    '-TYPE:"dl:issue"',
+    '-TYPE:"dl:contact"',
+    '-TYPE:"dl:eventAgenda"',
+    '-TYPE:"dl:event"',
+    '-TYPE:"dl:task"',
+    '-TYPE:"dl:simpletask"',
+    '-TYPE:"dl:meetingAgenda"',
+    '-TYPE:"dl:location"',
+    '-TYPE:"fm:topic"',
+    '-TYPE:"fm:post"',
+    '-TYPE:"ia:calendarEvent"',
+    '-TYPE:"lnk:link"'
+  ];
+
   constructor(
     private contentApi: ContentApiService,
     private preferences: UserPreferencesService,
-    private appDataService: AppDataService,
     private route: ActivatedRoute,
     private router: Router,
     private apiService: AlfrescoApiService,
     private uploadService: UploadService,
+    private actions$: Actions,
     store: Store<AppStore>,
     extensions: AppExtensionService,
     content: ContentManagementService
@@ -145,11 +173,17 @@ export class PreviewComponent extends PageComponent
 
       this.uploadService.fileUploadComplete
         .pipe(debounceTime(300))
-        .subscribe(file => this.apiService.nodeUpdated.next(file.data.entry))
+        .subscribe(file => this.apiService.nodeUpdated.next(file.data.entry)),
+
+      this.actions$
+        .pipe(
+          ofType<ClosePreviewAction>(ViewerActionTypes.ClosePreview),
+          map(() => this.navigateToFileLocation(true))
+        )
+        .subscribe(() => {})
     ]);
 
     this.openWith = this.extensions.openWithActions;
-    this.contentExtensions = this.extensions.viewerContentExtensions;
   }
 
   ngOnDestroy() {
@@ -371,7 +405,7 @@ export class PreviewComponent extends PageComponent
           { query: `cm:modified:[NOW/DAY-30DAYS TO NOW/DAY+1DAY]` },
           { query: `cm:modifier:${username} OR cm:creator:${username}` },
           {
-            query: this.appDataService.recentFileFilters.join(' AND ')
+            query: this.recentFileFilters.join(' AND ')
           }
         ],
         fields: ['id', this.getRootField(sortingKey)],

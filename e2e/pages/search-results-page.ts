@@ -23,35 +23,37 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { browser, ElementFinder } from 'protractor';
+import { browser, by } from 'protractor';
 import { BrowsingPage } from './browsing-page';
 
 export class SearchResultsPage extends BrowsingPage {
 
   private static selectors = {
-      root: 'aca-search-results',
-      filter: 'adf-search-filter',
-      expansionPanel: 'mat-expansion-panel',
-      size: '#expansion-panel-SEARCH.CATEGORIES.SIZE',
-      createdDate: '#expansion-panel-SEARCH.CATEGORIES.CREATED_DATE',
-      modifiedDate: '#expansion-panel-SEARCH.CATEGORIES.MODIFIED_DATE',
-      fileType: '#expansion-panel-SEARCH.FACET_FIELDS.FILE_TYPE',
-      creator: '#expansion-panel-SEARCH.CATEGORIES.CREATOR',
-      modifier: '#expansion-panel-SEARCH.CATEGORIES.MODIFIER',
-      location: '#expansion-panel-SEARCH.CATEGORIES.LOCATION',
+    root: 'aca-search-results',
 
-      resultsContent: 'adf-search-results__content',
-      resultsContentHeader: 'adf-search-results__content-header',
-      resultsInfoText: 'adf-search-results--info-text',
-      resultsFacets: 'adf-search-results__facets',
+    filter: 'adf-search-filter',
+    expansionPanel: 'mat-expansion-panel',
+    size: '#expansion-panel-SEARCH.CATEGORIES.SIZE',
+    createdDate: '#expansion-panel-SEARCH.CATEGORIES.CREATED_DATE',
+    modifiedDate: '#expansion-panel-SEARCH.CATEGORIES.MODIFIED_DATE',
+    fileType: '#expansion-panel-SEARCH.FACET_FIELDS.FILE_TYPE',
+    creator: '#expansion-panel-SEARCH.CATEGORIES.CREATOR',
+    modifier: '#expansion-panel-SEARCH.CATEGORIES.MODIFIER',
+    location: '#expansion-panel-SEARCH.CATEGORIES.LOCATION',
 
-      sortingPicker: 'adf-sorting-picker'
+    resultsContent: 'adf-search-results__content',
+    resultsContentHeader: '.adf-search-results__content-header',
+    resultsInfoText: 'adf-search-results--info-text',
+    resultsFacets: 'adf-search-results__facets',
+
+    sortingPicker: 'adf-sorting-picker'
   };
 
-  root: ElementFinder = browser.$(SearchResultsPage.selectors.root);
-
-  waitForResults() {
-    return this.dataTable.waitForBody();
+  async waitForResults() {
+    return await this.dataTable.waitForBody();
   }
 
+  async getResultsHeader() {
+    return await browser.element(by.css(SearchResultsPage.selectors.resultsContentHeader)).getText();
+  }
 }

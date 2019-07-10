@@ -24,36 +24,22 @@
  */
 
 import { Action } from '@ngrx/store';
-import { AppState, INITIAL_APP_STATE } from '../states/app.state';
 import {
-  SET_SELECTED_NODES,
-  SetSelectedNodesAction,
-  SET_USER_PROFILE,
+  AppState,
+  AppActionTypes,
+  NodeActionTypes,
+  SearchActionTypes,
   SetUserProfileAction,
-  SET_REPOSITORY_INFO,
-  SetRepositoryInfoAction,
-  SET_LANGUAGE_PICKER,
   SetLanguagePickerAction,
-  SET_CURRENT_FOLDER,
   SetCurrentFolderAction,
-  SET_CURRENT_URL,
   SetCurrentUrlAction,
-  SET_INFO_DRAWER_STATE,
-  SetInfoDrawerStateAction
-} from '../actions';
-import {
-  TOGGLE_INFO_DRAWER,
-  ToggleInfoDrawerAction,
-  TOGGLE_DOCUMENT_DISPLAY_MODE,
-  ToggleDocumentDisplayMode,
-  SET_INITIAL_STATE,
-  SetInitialStateAction
-} from '../actions/app.actions';
-import {
-  TOGGLE_SEARCH_FILTER,
-  SHOW_SEARCH_FILTER,
-  HIDE_SEARCH_FILTER
-} from '../actions/search.actions';
+  SetInitialStateAction,
+  SetSelectedNodesAction,
+  SetRepositoryInfoAction,
+  SetInfoDrawerStateAction,
+  SetInfoDrawerMetadataAspectAction
+} from '@alfresco/aca-shared/store';
+import { INITIAL_APP_STATE } from '../initial-state';
 
 export function appReducer(
   state: AppState = INITIAL_APP_STATE,
@@ -62,45 +48,48 @@ export function appReducer(
   let newState: AppState;
 
   switch (action.type) {
-    case SET_INITIAL_STATE:
+    case AppActionTypes.SetInitialState:
       newState = Object.assign({}, (<SetInitialStateAction>action).payload);
       break;
-    case SET_SELECTED_NODES:
+    case NodeActionTypes.SetSelection:
       newState = updateSelectedNodes(state, <SetSelectedNodesAction>action);
       break;
-    case SET_USER_PROFILE:
+    case AppActionTypes.SetUserProfile:
       newState = updateUser(state, <SetUserProfileAction>action);
       break;
-    case SET_LANGUAGE_PICKER:
+    case AppActionTypes.SetLanguagePicker:
       newState = updateLanguagePicker(state, <SetLanguagePickerAction>action);
       break;
-    case SET_CURRENT_FOLDER:
+    case AppActionTypes.SetCurrentFolder:
       newState = updateCurrentFolder(state, <SetCurrentFolderAction>action);
       break;
-    case SET_CURRENT_URL:
+    case AppActionTypes.SetCurrentUrl:
       newState = updateCurrentUrl(state, <SetCurrentUrlAction>action);
       break;
-    case TOGGLE_INFO_DRAWER:
-      newState = updateInfoDrawer(state, <ToggleInfoDrawerAction>action);
+    case AppActionTypes.ToggleInfoDrawer:
+      newState = toggleInfoDrawer(state);
       break;
-    case SET_INFO_DRAWER_STATE:
+    case AppActionTypes.SetInfoDrawerState:
       newState = setInfoDrawer(state, <SetInfoDrawerStateAction>action);
       break;
-    case TOGGLE_DOCUMENT_DISPLAY_MODE:
-      newState = updateDocumentDisplayMode(state, <ToggleDocumentDisplayMode>(
+    case AppActionTypes.SetInfoDrawerMetadataAspect:
+      newState = setInfoDrawerAspect(state, <SetInfoDrawerMetadataAspectAction>(
         action
       ));
       break;
-    case SET_REPOSITORY_INFO:
+    case AppActionTypes.ToggleDocumentDisplayMode:
+      newState = toggleDocumentDisplayMode(state);
+      break;
+    case AppActionTypes.SetRepositoryInfo:
       newState = updateRepositoryStatus(state, <SetRepositoryInfoAction>action);
       break;
-    case TOGGLE_SEARCH_FILTER:
+    case SearchActionTypes.ToggleFilter:
       newState = toggleSearchFilter(state);
       break;
-    case SHOW_SEARCH_FILTER:
+    case SearchActionTypes.ShowFilter:
       newState = showSearchFilter(state);
       break;
-    case HIDE_SEARCH_FILTER:
+    case SearchActionTypes.HideFilter:
       newState = hideSearchFilter(state);
       break;
     default:
@@ -139,7 +128,8 @@ function updateLanguagePicker(
 
 function updateUser(state: AppState, action: SetUserProfileAction): AppState {
   const newState = Object.assign({}, state);
-  const user = action.payload;
+  const user = action.payload.person;
+  const groups = [...(action.payload.groups || [])];
 
   const id = user.id;
   const firstName = user.firstName || '';
@@ -150,13 +140,15 @@ function updateUser(state: AppState, action: SetUserProfileAction): AppState {
   const capabilities = (<any>user).capabilities;
   const isAdmin = capabilities ? capabilities.isAdmin : true;
 
-  newState.user = {
+  // todo: remove <any>
+  newState.user = <any>{
     firstName,
     lastName,
     userName,
     initials,
     isAdmin,
-    id
+    id,
+    groups
   };
 
   return newState;
@@ -174,7 +166,7 @@ function updateCurrentUrl(state: AppState, action: SetCurrentUrlAction) {
   return newState;
 }
 
-function updateInfoDrawer(state: AppState, action: ToggleInfoDrawerAction) {
+function toggleInfoDrawer(state: AppState) {
   const newState = Object.assign({}, state);
 
   let value = state.infoDrawerOpened;
@@ -189,10 +181,7 @@ function updateInfoDrawer(state: AppState, action: ToggleInfoDrawerAction) {
   return newState;
 }
 
-function updateDocumentDisplayMode(
-  state: AppState,
-  action: ToggleDocumentDisplayMode
-) {
+function toggleDocumentDisplayMode(state: AppState) {
   const newState = Object.assign({}, state);
   newState.documentDisplayMode =
     newState.documentDisplayMode === 'list' ? 'gallery' : 'list';
@@ -259,6 +248,15 @@ function updateSelectedNodes(
 function setInfoDrawer(state: AppState, action: SetInfoDrawerStateAction) {
   const newState = Object.assign({}, state);
   newState.infoDrawerOpened = action.payload;
+  return newState;
+}
+
+function setInfoDrawerAspect(
+  state: AppState,
+  action: SetInfoDrawerMetadataAspectAction
+) {
+  const newState = Object.assign({}, state);
+  newState.infoDrawerMetadataAspect = action.payload;
   return newState;
 }
 

@@ -1,0 +1,27 @@
+<ng-container *ngIf="nodeId">
+  <adf-viewer
+    [nodeId]="nodeId"
+    [allowNavigate]="false"
+    [allowPrint]="false"
+    [allowDownload]="false"
+    [allowFullScreen]="false"
+    [allowRightSidebar]="showRightSide"
+    [showRightSidebar]="showRightSide"
+  >
+    <adf-viewer-sidebar *ngIf="infoDrawerOpened$ | async">
+      <aca-info-drawer [node]="selection.file"></aca-info-drawer>
+    </adf-viewer-sidebar>
+
+    <adf-viewer-open-with *ngIf="openWith.length">
+      <ng-container *ngFor="let action of openWith; trackBy: trackById">
+        <app-toolbar-menu-item [actionRef]="action"></app-toolbar-menu-item>
+      </ng-container>
+    </adf-viewer-open-with>
+
+    <adf-viewer-toolbar-actions>
+      <ng-container *ngFor="let action of toolbarActions; trackBy: trackById">
+        <aca-toolbar-action [actionRef]="action"></aca-toolbar-action>
+      </ng-container>
+    </adf-viewer-toolbar-actions>
+  </adf-viewer>
+</ng-container>

@@ -66,7 +66,7 @@ describe('Viewer actions', () => {
     const destination = `destPF-${Utils.random()}`; let destinationId;
 
     const docxPersonalFiles = `docxPF-${Utils.random()}.docx`; let docxFileId;
-    const docxLockedPersonalFiles = `docxLockedPF-${Utils.random()}.docx`; let docxLockedId;
+
     const xlsxPersonalFiles = `xlsxPF-${Utils.random()}.xlsx`;
     const pdfPersonalFiles = `pdfPF-${Utils.random()}.pdf`;
     const filePersonalFiles = docxFile2; let filePersonalFilesId;
@@ -80,7 +80,7 @@ describe('Viewer actions', () => {
       destinationId = (await apis.user.nodes.createFolder(destination)).entry.id;
 
       docxFileId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, docxPersonalFiles)).entry.id;
-      docxLockedId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, docxLockedPersonalFiles)).entry.id;
+
       filePersonalFilesId = (await apis.user.upload.uploadFile(docxFile2, parentId)).entry.id;
       await apis.user.upload.uploadFileWithRename(xlsxFileForMove, parentId, xlsxPersonalFiles);
       await apis.user.upload.uploadFileWithRename(pdfFileForDelete, parentId, pdfPersonalFiles);
@@ -91,7 +91,7 @@ describe('Viewer actions', () => {
 
       await apis.user.nodes.lockFile(fileForCancelEditingId);
       await apis.user.nodes.lockFile(fileForUploadNewVersionId);
-      await apis.user.nodes.lockFile(docxLockedId);
+
 
       await loginPage.loginWith(username);
       done();
@@ -114,58 +114,6 @@ describe('Viewer actions', () => {
       await apis.user.nodes.deleteNodeById(destinationId);
       await apis.user.trashcan.emptyTrash();
       done();
-    });
-
-    it('Correct actions appear in the viewer toolbar - [C282025]', async () => {
-      await dataTable.doubleClickOnRowByName(docxPersonalFiles);
-      await viewer.waitForViewerToOpen();
-
-      expect(await toolbar.isEmpty()).toBe(false, `viewer toolbar is empty`);
-      expect(await toolbar.isViewPresent()).toBe(false, `View is displayed`);
-      expect(await toolbar.isDownloadPresent()).toBe(true, `Download is not displayed`);
-      expect(await toolbar.isPrintPresent()).toBe(true, `Print is not displayed`);
-      expect(await toolbar.isFullScreenPresent()).toBe(true, `Full screen is not displayed`);
-      expect(await toolbar.isSharePresent()).toBe(true, `Share is not displayed`);
-      expect(await toolbar.isViewDetailsPresent()).toBe(true, `view details is not displayed`);
-
-      await toolbar.openMoreMenu();
-
-      expect(await toolbar.menu.isEditOfflinePresent()).toBe(true, `Edit offline is not displayed`);
-      expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
-      expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed`);
-      expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed`);
-      expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed`);
-      expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed`);
-      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is not displayed`);
-
-      await toolbar.closeMoreMenu();
-    });
-
-    it('Correct actions appear in the viewer toolbar for a locked file - [C297583]', async () => {
-      await dataTable.doubleClickOnRowByName(docxLockedPersonalFiles);
-      await viewer.waitForViewerToOpen();
-
-      expect(await toolbar.isEmpty()).toBe(false, `viewer toolbar is empty`);
-      expect(await toolbar.isViewPresent()).toBe(false, `View is displayed`);
-      expect(await toolbar.isDownloadPresent()).toBe(true, `Download is not displayed`);
-      expect(await toolbar.isPrintPresent()).toBe(true, `Print is not displayed`);
-      expect(await toolbar.isFullScreenPresent()).toBe(true, `Full screen is not displayed`);
-      expect(await toolbar.isSharePresent()).toBe(true, `Share is not displayed`);
-      expect(await toolbar.isViewDetailsPresent()).toBe(true, `view details is not displayed`);
-
-      await toolbar.openMoreMenu();
-
-      expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
-      expect(await toolbar.menu.isCancelEditingPresent()).toBe(true, `Cancel editing is not displayed`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
-      expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed`);
-      expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed`);
-      expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed`);
-      expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed`);
-      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is not displayed`);
-
-      await toolbar.closeMoreMenu();
     });
 
     it('Download action - [C268129]', async () => {
@@ -251,7 +199,7 @@ describe('Viewer actions', () => {
       await viewer.waitForViewerToOpen();
       await toolbar.clickMoreActionsCancelEditing();
 
-      expect(await apis.user.nodes.isFileLockedWrite(fileForCancelEditingId)).toBe(false, `${fileForCancelEditing} is still locked`);
+      expect(await apis.user.nodes.isFileLockedWriteWithRetry(fileForCancelEditingId, false)).toBe(false, `${fileForCancelEditing} is still locked`);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
     });
 
@@ -321,7 +269,7 @@ describe('Viewer actions', () => {
     const destination = `destFL-${Utils.random()}`; let destinationId;
 
     const docxLibraries = `docxFL-${Utils.random()}.docx`; let docxFileId;
-    const docxLockedLibraries = `docxLockedFL-${Utils.random()}.docx`; let docxLockedId;
+
     const xlsxLibraries = `xlsxFL-${Utils.random()}.xlsx`;
     const pdfLibraries = `pdfFL-${Utils.random()}.pdf`;
     const fileLibraries = docxFile2; let fileLibrariesId;
@@ -335,9 +283,9 @@ describe('Viewer actions', () => {
       const docLibId = await apis.user.sites.getDocLibId(siteName);
       destinationId = (await apis.user.nodes.createFolder(destination)).entry.id;
       docxFileId = (await apis.user.upload.uploadFileWithRename(docxFile, docLibId, docxLibraries)).entry.id;
-      docxLockedId = (await apis.user.upload.uploadFileWithRename(docxFile, docLibId, docxLockedLibraries)).entry.id;
+
       fileLibrariesId = (await apis.user.upload.uploadFile(docxFile2, docLibId)).entry.id;
-      await apis.user.nodes.lockFile(docxLockedId);
+
       await apis.user.upload.uploadFileWithRename(xlsxFileForMove, docLibId, xlsxLibraries);
       await apis.user.upload.uploadFileWithRename(pdfFileForDelete, docLibId, pdfLibraries);
 
@@ -369,58 +317,6 @@ describe('Viewer actions', () => {
       await apis.user.nodes.deleteNodeById(destinationId);
       await apis.user.trashcan.emptyTrash();
       done();
-    });
-
-    it('Correct actions appear in the viewer toolbar - [C297587]', async () => {
-      await dataTable.doubleClickOnRowByName(docxLibraries);
-      await viewer.waitForViewerToOpen();
-
-      expect(await toolbar.isEmpty()).toBe(false, `viewer toolbar is empty`);
-      expect(await toolbar.isViewPresent()).toBe(false, `View is displayed`);
-      expect(await toolbar.isDownloadPresent()).toBe(true, `Download is not displayed`);
-      expect(await toolbar.isPrintPresent()).toBe(true, `Print is not displayed`);
-      expect(await toolbar.isFullScreenPresent()).toBe(true, `Full screen is not displayed`);
-      expect(await toolbar.isSharePresent()).toBe(true, `Share is not displayed`);
-      expect(await toolbar.isViewDetailsPresent()).toBe(true, `view details is not displayed`);
-
-      await toolbar.openMoreMenu();
-
-      expect(await toolbar.menu.isEditOfflinePresent()).toBe(true, `Edit offline is not displayed`);
-      expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
-      expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed`);
-      expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed`);
-      expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed`);
-      expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed`);
-      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is not displayed`);
-
-      await toolbar.closeMoreMenu();
-    });
-
-    it('Correct actions appear in the viewer toolbar for a locked file - [C297588]', async () => {
-      await dataTable.doubleClickOnRowByName(docxLockedLibraries);
-      await viewer.waitForViewerToOpen();
-
-      expect(await toolbar.isEmpty()).toBe(false, `viewer toolbar is empty`);
-      expect(await toolbar.isViewPresent()).toBe(false, `View is displayed`);
-      expect(await toolbar.isDownloadPresent()).toBe(true, `Download is not displayed`);
-      expect(await toolbar.isPrintPresent()).toBe(true, `Print is not displayed`);
-      expect(await toolbar.isFullScreenPresent()).toBe(true, `Full screen is not displayed`);
-      expect(await toolbar.isSharePresent()).toBe(true, `Share is not displayed`);
-      expect(await toolbar.isViewDetailsPresent()).toBe(true, `view details is not displayed`);
-
-      await toolbar.openMoreMenu();
-
-      expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
-      expect(await toolbar.menu.isCancelEditingPresent()).toBe(true, `Cancel editing is not displayed`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
-      expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed`);
-      expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed`);
-      expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed`);
-      expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed`);
-      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is not displayed`);
-
-      await toolbar.closeMoreMenu();
     });
 
     it('Download action - [C286369]', async () => {
@@ -506,7 +402,7 @@ describe('Viewer actions', () => {
       await viewer.waitForViewerToOpen();
       await toolbar.clickMoreActionsCancelEditing();
 
-      expect(await apis.user.nodes.isFileLockedWrite(fileForCancelEditingId)).toBe(false, `${fileForCancelEditing} is still locked`);
+      expect(await apis.user.nodes.isFileLockedWriteWithRetry(fileForCancelEditingId, false)).toBe(false, `${fileForCancelEditing} is still locked`);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
     });
 
@@ -552,7 +448,7 @@ describe('Viewer actions', () => {
     const destination = `destRF-${Utils.random()}`; let destinationId;
 
     const docxRecentFiles = `docxRF-${Utils.random()}.docx`; let docxFileId;
-    const docxLockedRecentFiles = `docxLockedRF-${Utils.random()}.docx`; let docxLockedId;
+
     const xlsxRecentFiles = `xlsxRF-${Utils.random()}.xlsx`;
     const pdfRecentFiles = `pdfRF-${Utils.random()}.pdf`;
     const fileRecent = docxFile2; let fileRecentId;
@@ -566,7 +462,7 @@ describe('Viewer actions', () => {
       parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
       destinationId = (await apis.user.nodes.createFolder(destination)).entry.id;
       docxFileId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, docxRecentFiles)).entry.id;
-      docxLockedId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, docxLockedRecentFiles)).entry.id;
+
       fileRecentId = (await apis.user.upload.uploadFile(docxFile2, parentId)).entry.id;
 
       fileForEditOfflineId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForEditOffline)).entry.id;
@@ -576,7 +472,7 @@ describe('Viewer actions', () => {
       await apis.user.nodes.lockFile(fileForCancelEditingId);
       await apis.user.nodes.lockFile(fileForUploadNewVersionId);
 
-      await apis.user.nodes.lockFile(docxLockedId);
+
       await apis.user.upload.uploadFileWithRename(xlsxFileForMove, parentId, xlsxRecentFiles);
       await apis.user.upload.uploadFileWithRename(pdfFileForDelete, parentId, pdfRecentFiles);
 
@@ -601,58 +497,6 @@ describe('Viewer actions', () => {
       await apis.user.nodes.deleteNodeById(destinationId);
       await apis.user.trashcan.emptyTrash();
       done();
-    });
-
-    it('Correct actions appear in the viewer toolbar - [C297592]', async () => {
-      await dataTable.doubleClickOnRowByName(docxRecentFiles);
-      await viewer.waitForViewerToOpen();
-
-      expect(await toolbar.isEmpty()).toBe(false, `viewer toolbar is empty`);
-      expect(await toolbar.isViewPresent()).toBe(false, `View is displayed`);
-      expect(await toolbar.isDownloadPresent()).toBe(true, `Download is not displayed`);
-      expect(await toolbar.isPrintPresent()).toBe(true, `Print is not displayed`);
-      expect(await toolbar.isFullScreenPresent()).toBe(true, `Full screen is not displayed`);
-      expect(await toolbar.isSharePresent()).toBe(true, `Share is not displayed`);
-      expect(await toolbar.isViewDetailsPresent()).toBe(true, `view details is not displayed`);
-
-      await toolbar.openMoreMenu();
-
-      expect(await toolbar.menu.isEditOfflinePresent()).toBe(true, `Edit offline is not displayed`);
-      expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
-      expect(await toolbar.menu.isToggleFavoritePresent()).toBe(true, `Favorite is not displayed`);
-      expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed`);
-      expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed`);
-      expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed`);
-      expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed`);
-      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is not displayed`);
-
-      await toolbar.closeMoreMenu();
-    });
-
-    it('Correct actions appear in the viewer toolbar for a locked file - [C297593]', async () => {
-      await dataTable.doubleClickOnRowByName(docxLockedRecentFiles);
-      await viewer.waitForViewerToOpen();
-
-      expect(await toolbar.isEmpty()).toBe(false, `viewer toolbar is empty`);
-      expect(await toolbar.isViewPresent()).toBe(false, `View is displayed`);
-      expect(await toolbar.isDownloadPresent()).toBe(true, `Download is not displayed`);
-      expect(await toolbar.isPrintPresent()).toBe(true, `Print is not displayed`);
-      expect(await toolbar.isFullScreenPresent()).toBe(true, `Full screen is not displayed`);
-      expect(await toolbar.isSharePresent()).toBe(true, `Share is not displayed`);
-      expect(await toolbar.isViewDetailsPresent()).toBe(true, `view details is not displayed`);
-
-      await toolbar.openMoreMenu();
-
-      expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
-      expect(await toolbar.menu.isCancelEditingPresent()).toBe(true, `Cancel editing is not displayed`);
-      expect(await toolbar.menu.isToggleFavoritePresent()).toBe(true, `Favorite is not displayed`);
-      expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed`);
-      expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed`);
-      expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed`);
-      expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed`);
-      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is not displayed`);
-
-      await toolbar.closeMoreMenu();
     });
 
     it('Download action - [C286383]', async () => {
@@ -739,7 +583,7 @@ describe('Viewer actions', () => {
       await viewer.waitForViewerToOpen();
       await toolbar.clickMoreActionsCancelEditing();
 
-      expect(await apis.user.nodes.isFileLockedWrite(fileForCancelEditingId)).toBe(false, `${fileForCancelEditing} is still locked`);
+      expect(await apis.user.nodes.isFileLockedWriteWithRetry(fileForCancelEditingId, false)).toBe(false, `${fileForCancelEditing} is still locked`);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
     });
 
@@ -785,7 +629,7 @@ describe('Viewer actions', () => {
     const destination = `destSF-${Utils.random()}`; let destinationId;
 
     const docxSharedFiles = `docxSF-${Utils.random()}.docx`; let docxFileId;
-    const docxLockedSharedFiles = `docxLockedSF-${Utils.random()}.docx`; let docxLockedId;
+
     const xlsxSharedFiles = `xlsxSF-${Utils.random()}.xlsx`; let xlsxFileId;
     const pdfSharedFiles = `pdfSF-${Utils.random()}.pdf`; let pdfFileId;
     const fileShared = docxFile2; let fileSharedId;
@@ -798,7 +642,7 @@ describe('Viewer actions', () => {
       parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
       destinationId = (await apis.user.nodes.createFolder(destination)).entry.id;
       docxFileId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, docxSharedFiles)).entry.id;
-      docxLockedId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, docxLockedSharedFiles)).entry.id;
+
       xlsxFileId = (await apis.user.upload.uploadFileWithRename(xlsxFileForMove, parentId, xlsxSharedFiles)).entry.id;
       pdfFileId = (await apis.user.upload.uploadFileWithRename(pdfFileForDelete, parentId, pdfSharedFiles)).entry.id;
       fileSharedId = (await apis.user.upload.uploadFile(docxFile2, parentId)).entry.id;
@@ -809,9 +653,9 @@ describe('Viewer actions', () => {
 
       await apis.user.nodes.lockFile(fileForCancelEditingId);
       await apis.user.nodes.lockFile(fileForUploadNewVersionId);
-      await apis.user.nodes.lockFile(docxLockedId);
 
-      await apis.user.shared.shareFilesByIds([docxFileId, docxLockedId, xlsxFileId, pdfFileId, fileForCancelEditingId, fileForEditOfflineId, fileForUploadNewVersionId, fileSharedId])
+
+      await apis.user.shared.shareFilesByIds([docxFileId, xlsxFileId, pdfFileId, fileForCancelEditingId, fileForEditOfflineId, fileForUploadNewVersionId, fileSharedId])
       await apis.user.shared.waitForApi({expect: 8});
 
       await loginPage.loginWith(username);
@@ -833,58 +677,6 @@ describe('Viewer actions', () => {
       await apis.user.nodes.deleteNodeById(destinationId);
       await apis.user.trashcan.emptyTrash();
       done();
-    });
-
-    it('Correct actions appear in the viewer toolbar - [C297597]', async () => {
-      await dataTable.doubleClickOnRowByName(docxSharedFiles);
-      await viewer.waitForViewerToOpen();
-
-      expect(await toolbar.isEmpty()).toBe(false, `viewer toolbar is empty`);
-      expect(await toolbar.isViewPresent()).toBe(false, `View is displayed`);
-      expect(await toolbar.isDownloadPresent()).toBe(true, `Download is not displayed`);
-      expect(await toolbar.isPrintPresent()).toBe(true, `Print is not displayed`);
-      expect(await toolbar.isFullScreenPresent()).toBe(true, `Full screen is not displayed`);
-      expect(await toolbar.isSharedLinkSettingsPresent()).toBe(true, `Shared link settings is not displayed`);
-      expect(await toolbar.isViewDetailsPresent()).toBe(true, `view details is not displayed`);
-
-      await toolbar.openMoreMenu();
-
-      expect(await toolbar.menu.isEditOfflinePresent()).toBe(true, `Edit offline is not displayed`);
-      expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
-      expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed`);
-      expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed`);
-      expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed`);
-      expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed`);
-      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is not displayed`);
-
-      await toolbar.closeMoreMenu();
-    });
-
-    it('Correct actions appear in the viewer toolbar for a locked file - [C297598]', async () => {
-      await dataTable.doubleClickOnRowByName(docxLockedSharedFiles);
-      await viewer.waitForViewerToOpen();
-
-      expect(await toolbar.isEmpty()).toBe(false, `viewer toolbar is empty`);
-      expect(await toolbar.isViewPresent()).toBe(false, `View is displayed`);
-      expect(await toolbar.isDownloadPresent()).toBe(true, `Download is not displayed`);
-      expect(await toolbar.isPrintPresent()).toBe(true, `Print is not displayed`);
-      expect(await toolbar.isFullScreenPresent()).toBe(true, `Full screen is not displayed`);
-      expect(await toolbar.isSharedLinkSettingsPresent()).toBe(true, `Shared link settings is not displayed`);
-      expect(await toolbar.isViewDetailsPresent()).toBe(true, `view details is not displayed`);
-
-      await toolbar.openMoreMenu();
-
-      expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
-      expect(await toolbar.menu.isCancelEditingPresent()).toBe(true, `Cancel editing is not displayed`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
-      expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed`);
-      expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed`);
-      expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed`);
-      expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed`);
-      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is not displayed`);
-
-      await toolbar.closeMoreMenu();
     });
 
     it('Download action - [C286376]', async () => {
@@ -971,7 +763,7 @@ describe('Viewer actions', () => {
       await viewer.waitForViewerToOpen();
       await toolbar.clickMoreActionsCancelEditing();
 
-      expect(await apis.user.nodes.isFileLockedWrite(fileForCancelEditingId)).toBe(false, `${fileForCancelEditing} is still locked`);
+      expect(await apis.user.nodes.isFileLockedWriteWithRetry(fileForCancelEditingId, false)).toBe(false, `${fileForCancelEditing} is still locked`);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
     });
 
@@ -1019,7 +811,7 @@ describe('Viewer actions', () => {
     let destinationId;
 
     const docxFavorites = `docxFav-${Utils.random()}.docx`; let docxFileId;
-    const docxLockedFavorites = `docxLockedFav-${Utils.random()}.docx`; let docxLockedId;
+
     const xlsxFavorites = `xlsxFav-${Utils.random()}.xlsx`; let xlsxFileId;
     const pdfFavorites = `pdfFav-${Utils.random()}.pdf`; let pdfFileId;
     const fileFav = docxFile2; let fileFavId;
@@ -1032,7 +824,7 @@ describe('Viewer actions', () => {
       parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
       destinationId = (await apis.user.nodes.createFolder(destination)).entry.id;
       docxFileId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, docxFavorites)).entry.id;
-      docxLockedId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, docxLockedFavorites)).entry.id;
+
       xlsxFileId = (await apis.user.upload.uploadFileWithRename(xlsxFileForMove, parentId, xlsxFavorites)).entry.id;
       pdfFileId = (await apis.user.upload.uploadFileWithRename(pdfFileForDelete, parentId, pdfFavorites)).entry.id;
       fileFavId = (await apis.user.upload.uploadFile(docxFile2, parentId)).entry.id;
@@ -1043,9 +835,9 @@ describe('Viewer actions', () => {
 
       await apis.user.nodes.lockFile(fileForCancelEditingId);
       await apis.user.nodes.lockFile(fileForUploadNewVersionId);
-      await apis.user.nodes.lockFile(docxLockedId);
 
-      await apis.user.favorites.addFavoritesByIds('file', [docxFileId, docxLockedId, xlsxFileId, pdfFileId, fileForEditOfflineId, fileForCancelEditingId, fileForUploadNewVersionId, fileFavId])
+
+      await apis.user.favorites.addFavoritesByIds('file', [docxFileId, xlsxFileId, pdfFileId, fileForEditOfflineId, fileForCancelEditingId, fileForUploadNewVersionId, fileFavId])
       await apis.user.favorites.waitForApi({expect: 8});
 
       await loginPage.loginWith(username);
@@ -1067,58 +859,6 @@ describe('Viewer actions', () => {
       await apis.user.nodes.deleteNodeById(destinationId);
       await apis.user.trashcan.emptyTrash();
       done();
-    });
-
-    it('Correct actions appear in the viewer toolbar - [C297599]', async () => {
-      await dataTable.doubleClickOnRowByName(docxFavorites);
-      await viewer.waitForViewerToOpen();
-
-      expect(await toolbar.isEmpty()).toBe(false, `viewer toolbar is empty`);
-      expect(await toolbar.isViewPresent()).toBe(false, `View is displayed`);
-      expect(await toolbar.isDownloadPresent()).toBe(true, `Download is not displayed`);
-      expect(await toolbar.isPrintPresent()).toBe(true, `Print is not displayed`);
-      expect(await toolbar.isFullScreenPresent()).toBe(true, `Full screen is not displayed`);
-      expect(await toolbar.isSharePresent()).toBe(true, `Share is not displayed`);
-      expect(await toolbar.isViewDetailsPresent()).toBe(true, `view details is not displayed`);
-
-      await toolbar.openMoreMenu();
-
-      expect(await toolbar.menu.isEditOfflinePresent()).toBe(true, `Edit offline is not displayed`);
-      expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
-      expect(await toolbar.menu.isToggleRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed`);
-      expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed`);
-      expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed`);
-      expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed`);
-      expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed`);
-      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is not displayed`);
-
-      await toolbar.closeMoreMenu();
-    });
-
-    it('Correct actions appear in the viewer toolbar for a locked file - [C297600]', async () => {
-      await dataTable.doubleClickOnRowByName(docxLockedFavorites);
-      await viewer.waitForViewerToOpen();
-
-      expect(await toolbar.isEmpty()).toBe(false, `viewer toolbar is empty`);
-      expect(await toolbar.isViewPresent()).toBe(false, `View is displayed`);
-      expect(await toolbar.isDownloadPresent()).toBe(true, `Download is not displayed`);
-      expect(await toolbar.isPrintPresent()).toBe(true, `Print is not displayed`);
-      expect(await toolbar.isFullScreenPresent()).toBe(true, `Full screen is not displayed`);
-      expect(await toolbar.isSharePresent()).toBe(true, `Share is not displayed`);
-      expect(await toolbar.isViewDetailsPresent()).toBe(true, `view details is not displayed`);
-
-      await toolbar.openMoreMenu();
-
-      expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
-      expect(await toolbar.menu.isCancelEditingPresent()).toBe(true, `Cancel editing is not displayed`);
-      expect(await toolbar.menu.isToggleRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed`);
-      expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed`);
-      expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed`);
-      expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed`);
-      expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed`);
-      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is not displayed`);
-
-      await toolbar.closeMoreMenu();
     });
 
     it('Download action - [C286390]', async () => {
@@ -1205,7 +945,7 @@ describe('Viewer actions', () => {
       await viewer.waitForViewerToOpen();
       await toolbar.clickMoreActionsCancelEditing();
 
-      expect(await apis.user.nodes.isFileLockedWrite(fileForCancelEditingId)).toBe(false, `${fileForCancelEditing} is still locked`);
+      expect(await apis.user.nodes.isFileLockedWriteWithRetry(fileForCancelEditingId, false)).toBe(false, `${fileForCancelEditing} is still locked`);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
     });
 

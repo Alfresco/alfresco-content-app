@@ -1,0 +1,18 @@
+<div
+  class="aca-custom-name-column"
+  [ngClass]="{
+    'aca-name-column-container': isFile() && isFileWriteLocked()
+  }"
+>
+  <span
+    class="adf-datatable-cell-value"
+    title="{{ node | adfNodeNameTooltip }}"
+    (click)="onClick()"
+  >
+    {{ displayText$ | async }}
+  </span>
+
+  <ng-container *ngIf="isFile() && isFileWriteLocked()">
+    <aca-locked-by [context]="context"></aca-locked-by>
+  </ng-container>
+</div>

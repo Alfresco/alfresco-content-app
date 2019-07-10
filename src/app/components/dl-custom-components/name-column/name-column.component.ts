@@ -15,61 +15,67 @@
  * limitations under the License.
  */
 
+import { NameColumnComponent } from '@alfresco/adf-content-services';
+import { AlfrescoApiService } from '@alfresco/adf-core';
 import {
-  Component,
-  Input,
-  OnInit,
-  ViewEncapsulation,
   ChangeDetectorRef,
-  OnDestroy
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewEncapsulation
 } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
-import { EDIT_OFFLINE } from '../../../store/actions';
-import { NodeEntry } from '@alfresco/js-api';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
+import { NodeActionTypes } from '@alfresco/aca-shared/store';
 import { isLocked } from '../../../utils/node.utils';
 
 @Component({
   selector: 'aca-custom-name-column',
-  template: `
-    <div
-      class="aca-custom-name-column"
-      [ngClass]="{
-        'aca-name-column-container': isFile() && isFileWriteLocked()
-      }"
-    >
-      <adf-name-column [context]="context"></adf-name-column>
-
-      <ng-container *ngIf="isFile() && isFileWriteLocked()">
-        <aca-locked-by [context]="context"></aca-locked-by>
-      </ng-container>
-    </div>
-  `,
+  templateUrl: './name-column.component.html',
   styleUrls: ['name-column.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  host: {
+    class: ' adf-datatable-content-cell adf-datatable-link adf-name-column'
+  }
 })
-export class CustomNameColumnComponent implements OnInit, OnDestroy {
-  node: NodeEntry;
+export class CustomNameColumnComponent extends NameColumnComponent
+  implements OnInit, OnDestroy {
+  private onDestroy$ = new Subject<boolean>();
 
-  @Input()
-  context: any;
-
-  private onDestroy$: Subject<boolean> = new Subject<boolean>();
-
-  constructor(private cd: ChangeDetectorRef, private actions$: Actions) {}
-
-  ngOnDestroy() {
-    this.onDestroy$.next(true);
-    this.onDestroy$.complete();
+  constructor(
+    element: ElementRef,
+    private cd: ChangeDetectorRef,
+    private actions$: Actions,
+    private apiService: AlfrescoApiService
+  ) {
+    super(element, apiService);
   }
 
   ngOnInit() {
-    this.node = this.context.row.node;
+    this.updateValue();
+
+    this.apiService.nodeUpdated
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((node: any) => {
+        const row = this.context.row;
+        if (row) {
+          const { entry } = row.node;
+          const currentId = entry.nodeId || entry.id;
+          const updatedId = node.nodeId || node.id;
+
+          if (currentId === updatedId) {
+            entry.name = node.name;
+            row.node = { entry };
+            this.updateValue();
+          }
+        }
+      });
 
     this.actions$
       .pipe(
-        ofType<any>(EDIT_OFFLINE),
+        ofType<any>(NodeActionTypes.EditOffline),
         filter(val => {
           return this.node.entry.id === val.payload.entry.id;
         }),
@@ -80,11 +86,18 @@ export class CustomNameColumnComponent implements OnInit, OnDestroy {
       });
   }
 
-  isFile() {
+  ngOnDestroy() {
+    super.ngOnDestroy();
+
+    this.onDestroy$.next(true);
+    this.onDestroy$.complete();
+  }
+
+  isFile(): boolean {
     return this.node && this.node.entry && this.node.entry.isFile;
   }
 
-  isFileWriteLocked() {
+  isFileWriteLocked(): boolean {
     return isLocked(this.node);
   }
 }

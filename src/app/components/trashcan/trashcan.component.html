@@ -1,15 +1,15 @@
-<app-page-layout>
-  <app-page-layout-header>
+<aca-page-layout>
+  <aca-page-layout-header>
     <adf-breadcrumb root="APP.BROWSE.TRASHCAN.TITLE"> </adf-breadcrumb>
 
-    <adf-toolbar class="inline">
+    <adf-toolbar class="adf-toolbar--inline">
       <ng-container *ngFor="let entry of actions; trackBy: trackByActionId">
         <aca-toolbar-action [actionRef]="entry"></aca-toolbar-action>
       </ng-container>
     </adf-toolbar>
-  </app-page-layout-header>
+  </aca-page-layout-header>
 
-  <app-page-layout-content>
+  <aca-page-layout-content>
     <div class="main-content">
       <adf-document-list
         #documentList
@@ -76,7 +76,7 @@
 
           <data-column
             *ngIf="!isSmallScreen && (user$ | async)?.isAdmin"
-            class="adf-data-table-cell--ellipsis"
+            class="adf-ellipsis-cell"
             key="archivedByUser.displayName"
             title="APP.DOCUMENT_LIST.COLUMNS.DELETED_BY"
           >
@@ -86,5 +86,5 @@
 
       <adf-pagination acaPagination [target]="documentList"> </adf-pagination>
     </div>
-  </app-page-layout-content>
-</app-page-layout>
+  </aca-page-layout-content>
+</aca-page-layout>

@@ -33,7 +33,7 @@ import {
   DownloadNodesAction,
   EditOfflineAction,
   SnackbarErrorAction
-} from '../../../store/actions';
+} from '@alfresco/aca-shared/store';
 
 describe('ToggleEditOfflineComponent', () => {
   let fixture;

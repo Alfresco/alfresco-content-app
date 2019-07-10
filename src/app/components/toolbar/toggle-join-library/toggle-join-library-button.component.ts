@@ -23,18 +23,22 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import {
+  AppStore,
+  SetSelectedNodesAction,
+  SnackbarErrorAction,
+  SnackbarInfoAction,
+  getAppSelection
+} from '@alfresco/aca-shared/store';
+import { SelectionState } from '@alfresco/adf-extensions';
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../../../store/states';
-import { appSelection } from '../../../store/selectors/app.selectors';
 import { Observable } from 'rxjs';
-import { SelectionState } from '@alfresco/adf-extensions';
-import { ContentManagementService } from '../../../services/content-management.service';
 import {
-  SnackbarErrorAction,
-  SnackbarInfoAction
-} from '../../../store/actions/snackbar.actions';
-import { SetSelectedNodesAction } from '../../../store/actions/node.actions';
+  LibraryMembershipErrorEvent,
+  LibraryMembershipToggleEvent
+} from '../../../directives/library-membership.directive';
+import { ContentManagementService } from '../../../services/content-management.service';
 
 @Component({
   selector: 'app-toggle-join-library-button',
@@ -52,7 +56,7 @@ import { SetSelectedNodesAction } from '../../../store/actions/node.actions';
           : ('APP.ACTIONS.JOIN' | translate)
       "
     >
-      <mat-icon *ngIf="(membership.isJoinRequested | async)">cancel</mat-icon>
+      <mat-icon *ngIf="membership.isJoinRequested | async">cancel</mat-icon>
       <mat-icon
         *ngIf="!(membership.isJoinRequested | async)"
         svgIcon="adf:join_library"
@@ -69,10 +73,10 @@ export class ToggleJoinLibraryButtonComponent {
     private store: Store<AppStore>,
     private content: ContentManagementService
   ) {
-    this.selection$ = this.store.select(appSelection);
+    this.selection$ = this.store.select(getAppSelection);
   }
 
-  onToggleEvent(event) {
+  onToggleEvent(event: LibraryMembershipToggleEvent) {
     this.store.dispatch(new SnackbarInfoAction(event.i18nKey));
 
     if (event.shouldReload) {
@@ -89,7 +93,7 @@ export class ToggleJoinLibraryButtonComponent {
     }
   }
 
-  onErrorEvent(event) {
+  onErrorEvent(event: LibraryMembershipErrorEvent) {
     this.store.dispatch(new SnackbarErrorAction(event.i18nKey));
   }
 }

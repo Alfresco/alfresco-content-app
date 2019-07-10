@@ -23,18 +23,21 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import {
+  AppStore,
+  DownloadNodesAction,
+  NodeActionTypes,
+  NodeInfo,
+  getAppSelection
+} from '@alfresco/aca-shared/store';
 import { DownloadZipDialogComponent } from '@alfresco/adf-core';
-import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material';
-import { Actions, Effect, ofType } from '@ngrx/effects';
-import { map, take } from 'rxjs/operators';
-import { DownloadNodesAction, DOWNLOAD_NODES } from '../actions';
-import { NodeInfo } from '../models';
-import { ContentApiService } from '../../services/content-api.service';
 import { MinimalNodeEntity } from '@alfresco/js-api';
+import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../states';
-import { appSelection } from '../selectors/app.selectors';
+import { map, take } from 'rxjs/operators';
+import { ContentApiService } from '@alfresco/aca-shared';
 
 @Injectable()
 export class DownloadEffects {
@@ -47,13 +50,13 @@ export class DownloadEffects {
 
   @Effect({ dispatch: false })
   downloadNode$ = this.actions$.pipe(
-    ofType<DownloadNodesAction>(DOWNLOAD_NODES),
+    ofType<DownloadNodesAction>(NodeActionTypes.Download),
     map(action => {
       if (action.payload && action.payload.length > 0) {
         this.downloadNodes(action.payload);
       } else {
         this.store
-          .select(appSelection)
+          .select(getAppSelection)
           .pipe(take(1))
           .subscribe(selection => {
             if (selection && !selection.isEmpty) {

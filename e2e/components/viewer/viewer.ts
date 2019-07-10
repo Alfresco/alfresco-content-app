@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, browser, ExpectedConditions as EC } from 'protractor';
+import { ElementFinder, by, browser, ExpectedConditions as EC, ElementArrayFinder } from 'protractor';
 import { Component } from '../component';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Toolbar } from '../toolbar/toolbar';
@@ -37,7 +37,9 @@ export class Viewer extends Component {
     closeBtn: '.adf-viewer-close-button',
     fileTitle: '.adf-viewer__file-title',
 
-    viewerExtensionContent: 'app-preview-extension'
+    viewerExtensionContent: 'adf-preview-extension',
+
+    pdfViewerContentPage: '.adf-pdf-viewer__content .page'
   };
 
   root: ElementFinder = browser.$(Viewer.selectors.root);
@@ -46,6 +48,7 @@ export class Viewer extends Component {
   closeButton: ElementFinder = this.component.element(by.css(Viewer.selectors.closeBtn));
   fileTitle: ElementFinder = this.component.element(by.css(Viewer.selectors.fileTitle));
   viewerExtensionContent: ElementFinder = this.component.element(by.css(Viewer.selectors.viewerExtensionContent));
+  pdfViewerContentPages: ElementArrayFinder = this.component.all(by.css(Viewer.selectors.pdfViewerContentPage));
 
   toolbar = new Toolbar(this.component);
 
@@ -63,7 +66,6 @@ export class Viewer extends Component {
 
   async isViewerOpened() {
     return await browser.isElementPresent(this.viewerLayout);
-    // return await this.viewerLayout.isPresent();
   }
 
   async isViewerContentDisplayed() {
@@ -102,5 +104,10 @@ export class Viewer extends Component {
     if (await this.isCustomContentPresent()) {
       return await this.viewerExtensionContent.getAttribute('data-automation-id');
     }
+  }
+
+  async isPdfViewerContentDisplayed() {
+    const count = await this.pdfViewerContentPages.count();
+    return count > 0;
   }
 }

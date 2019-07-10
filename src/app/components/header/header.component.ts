@@ -32,14 +32,14 @@ import {
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import {
-  selectHeaderColor,
-  selectAppName,
-  selectLogoPath
-} from '../../store/selectors/app.selectors';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { AppExtensionService } from '../../extensions/extension.service';
-import { AppStore } from '../../store/states';
+import {
+  AppStore,
+  getHeaderColor,
+  getAppName,
+  getLogoPath
+} from '@alfresco/aca-shared/store';
 
 @Component({
   selector: 'app-header',
@@ -61,16 +61,16 @@ export class AppHeaderComponent implements OnInit {
     store: Store<AppStore>,
     private appExtensions: AppExtensionService
   ) {
-    this.headerColor$ = store.select(selectHeaderColor);
-    this.appName$ = store.select(selectAppName);
-    this.logo$ = store.select(selectLogoPath);
+    this.headerColor$ = store.select(getHeaderColor);
+    this.appName$ = store.select(getAppName);
+    this.logo$ = store.select(getLogoPath);
   }
 
   ngOnInit() {
     this.actions = this.appExtensions.getHeaderActions();
   }
 
-  trackByActionId(index: number, action: ContentActionRef) {
+  trackByActionId(_: number, action: ContentActionRef) {
     return action.id;
   }
 }

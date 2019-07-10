@@ -28,12 +28,14 @@ import { AppLayoutComponent } from './components/layout/app-layout/app-layout.co
 import { FilesComponent } from './components/files/files.component';
 import { LibrariesComponent } from './components/libraries/libraries.component';
 import { FavoriteLibrariesComponent } from './components/favorite-libraries/favorite-libraries.component';
-import { GenericErrorComponent } from './components/common/generic-error/generic-error.component';
 import { SearchResultsComponent } from './components/search/search-results/search-results.component';
 import { SearchLibrariesResultsComponent } from './components/search/search-libraries-results/search-libraries-results.component';
 import { LoginComponent } from './components/login/login.component';
-import { AppAuthGuard } from './guards/auth.guard';
-import { AppSharedRuleGuard } from './guards/shared.guard';
+import {
+  AppSharedRuleGuard,
+  GenericErrorComponent
+} from '@alfresco/aca-shared';
+import { AuthGuardEcm } from '@alfresco/adf-core';
 
 export const APP_ROUTES: Routes = [
   {
@@ -51,6 +53,22 @@ export const APP_ROUTES: Routes = [
     path: 'preview/s/:id',
     loadChildren:
       './components/shared-link-view/shared-link-view.module#AppSharedLinkViewModule'
+  },
+  {
+    path: 'view',
+    component: AppLayoutComponent,
+    children: [
+      {
+        path: ':nodeId',
+        outlet: 'viewer',
+        children: [
+          {
+            path: '',
+            loadChildren: './components/viewer/viewer.module#AppViewerModule'
+          }
+        ]
+      }
+    ]
   },
   {
     path: '',
@@ -85,7 +103,7 @@ export const APP_ROUTES: Routes = [
             path: '',
             component: LibrariesComponent,
             data: {
-              title: 'APP.BROWSE.LIBRARIES.TITLE',
+              title: 'APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.TITLE',
               sortingPreferenceKey: 'libraries'
             }
           },
@@ -93,7 +111,7 @@ export const APP_ROUTES: Routes = [
             path: ':folderId',
             component: FilesComponent,
             data: {
-              title: 'APP.BROWSE.LIBRARIES.TITLE',
+              title: 'APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.TITLE',
               sortingPreferenceKey: 'libraries-files'
             }
           },
@@ -149,6 +167,18 @@ export const APP_ROUTES: Routes = [
               navigateSource: 'personal-files'
             }
           }
+          // Do not remove, will be enabled in future iterations
+          // {
+          //   path: 'view/:nodeId',
+          //   outlet: 'viewer',
+          //   children: [
+          //     {
+          //       path: '',
+          //       loadChildren:
+          //         './components/viewer/viewer.module#AppViewerModule'
+          //     }
+          //   ]
+          // }
         ]
       },
       {
@@ -242,7 +272,7 @@ export const APP_ROUTES: Routes = [
         component: GenericErrorComponent
       }
     ],
-    canActivateChild: [AppAuthGuard],
-    canActivate: [AppAuthGuard]
+    canActivateChild: [AuthGuardEcm],
+    canActivate: [AuthGuardEcm]
   }
 ];

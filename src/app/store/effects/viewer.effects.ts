@@ -26,15 +26,22 @@
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { map, take } from 'rxjs/operators';
-import { VIEW_FILE, ViewFileAction } from '../actions';
+import {
+  AppStore,
+  ViewerActionTypes,
+  ViewFileAction,
+  ViewNodeAction,
+  getCurrentFolder,
+  getAppSelection,
+  FullscreenViewerAction
+} from '@alfresco/aca-shared/store';
 import { Router } from '@angular/router';
 import { Store, createSelector } from '@ngrx/store';
-import { AppStore } from '../states';
-import { appSelection, currentFolder } from '../selectors/app.selectors';
+import { AppExtensionService } from '../../extensions/extension.service';
 
 export const fileToPreview = createSelector(
-  appSelection,
-  currentFolder,
+  getAppSelection,
+  getCurrentFolder,
   (selection, folder) => {
     return {
       selection,
@@ -48,17 +55,51 @@ export class ViewerEffects {
   constructor(
     private store: Store<AppStore>,
     private actions$: Actions,
-    private router: Router
+    private router: Router,
+    private extensions: AppExtensionService
   ) {}
 
   @Effect({ dispatch: false })
+  fullscreenViewer$ = this.actions$.pipe(
+    ofType<FullscreenViewerAction>(ViewerActionTypes.FullScreen),
+    map(() => {
+      this.enterFullScreen();
+    })
+  );
+
+  @Effect({ dispatch: false })
+  viewNode$ = this.actions$.pipe(
+    ofType<ViewNodeAction>(ViewerActionTypes.ViewNode),
+    map(action => {
+      if (action.location) {
+        this.router.navigate(
+          [action.location, { outlets: { viewer: ['view', action.nodeId] } }],
+          {
+            queryParams: {
+              source: action.location
+            }
+          }
+        );
+      } else {
+        this.router.navigate([
+          'view',
+          { outlets: { viewer: [action.nodeId] } }
+        ]);
+      }
+    })
+  );
+
+  @Effect({ dispatch: false })
   viewFile$ = this.actions$.pipe(
-    ofType<ViewFileAction>(VIEW_FILE),
+    ofType<ViewFileAction>(ViewerActionTypes.ViewFile),
     map(action => {
       if (action.payload && action.payload.entry) {
         const { id, nodeId, isFile } = <any>action.payload.entry;
 
-        if (isFile || nodeId) {
+        if (
+          this.extensions.canPreviewNode(action.payload) &&
+          (isFile || nodeId)
+        ) {
           this.displayPreview(nodeId || id, action.parentId);
         }
       } else {
@@ -69,7 +110,10 @@ export class ViewerEffects {
             if (result.selection && result.selection.file) {
               const { id, nodeId, isFile } = <any>result.selection.file.entry;
 
-              if (isFile || nodeId) {
+              if (
+                this.extensions.canPreviewNode(action.payload) &&
+                (isFile || nodeId)
+              ) {
                 const parentId = result.folder ? result.folder.id : null;
                 this.displayPreview(nodeId || id, parentId);
               }
@@ -99,5 +143,24 @@ export class ViewerEffects {
     }
     path.push('preview', nodeId);
     this.router.navigateByUrl(path.join('/'));
+  }
+
+  enterFullScreen() {
+    const container = <any>(
+      document.documentElement.querySelector(
+        '.adf-viewer__fullscreen-container'
+      )
+    );
+    if (container) {
+      if (container.requestFullscreen) {
+        container.requestFullscreen();
+      } else if (container.webkitRequestFullscreen) {
+        container.webkitRequestFullscreen();
+      } else if (container.mozRequestFullScreen) {
+        container.mozRequestFullScreen();
+      } else if (container.msRequestFullscreen) {
+        container.msRequestFullscreen();
+      }
+    }
   }
 }

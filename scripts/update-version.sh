@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-eval GNU=false
 
 eval libs=( "@alfresco/adf-core"
     "@alfresco/adf-content-services"
@@ -15,11 +14,6 @@ show_help() {
     echo "Usage: update-version.sh -v latest"
     echo ""
     echo "-v or -version the new version of the libraries, can also be alpha|beta|latest"
-    echo "-gnu for gnu"
-}
-
-set_gnu_mode() {
-    GNU=true
 }
 
 set_version() {
@@ -39,16 +33,9 @@ while [[ $1  == -* ]]; do
     case "$1" in
       -h|--help|-\?) show_help; exit 0;;
       -v|version) set_version $2; shift 2;;
-      -gnu) set_gnu_mode; shift;;
       -*) shift;;
     esac
 done
-
-if $GNU; then
- sedi='-i'
-else
- sedi=('-i' '')
-fi
 
 if [[ "${VERSION}" == "" ]]
 then

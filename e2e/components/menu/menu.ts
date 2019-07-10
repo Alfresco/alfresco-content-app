@@ -40,8 +40,8 @@ export class Menu extends Component {
     editFolder: `.mat-menu-item[id$='editFolder']`,
     favoriteAction: `.mat-menu-item[id$='favorite.add']`,
     removeFavoriteAction: `.mat-menu-item[id$='favorite.remove']`,
-    editOffline: `.mat-menu-item[title='Edit offline']`,
-    cancelEditing: `.mat-menu-item[title='Cancel editing']`
+    editOffline: `.mat-menu-item[title='Edit Offline']`,
+    cancelEditing: `.mat-menu-item[title='Cancel Editing']`
   };
 
   items: ElementArrayFinder = this.component.all(by.css(Menu.selectors.item));
@@ -50,9 +50,9 @@ export class Menu extends Component {
   submenus: ElementArrayFinder = browser.element.all(by.css(Menu.selectors.submenu));
 
   cancelEditingAction: ElementFinder = this.component.element(by.css(Menu.selectors.cancelEditing));
-  cancelJoinAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Cancel join'));
+  cancelJoinAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Cancel Join'));
   copyAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Copy'));
-  createFolderAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Create folder'));
+  createFolderAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Create Folder'));
   createLibraryAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Create Library'));
   deleteAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Delete'));
   downloadAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Download'));
@@ -61,38 +61,38 @@ export class Menu extends Component {
   favoriteAction: ElementFinder = this.component.element(by.css(Menu.selectors.favoriteAction));
   removeFavoriteAction: ElementFinder = this.component.element(by.css(Menu.selectors.removeFavoriteAction));
   toggleFavoriteAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Favorite'));
-  toggleRemoveFavoriteAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Remove favorite'));
+  toggleRemoveFavoriteAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Remove Favorite'));
   joinAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Join'));
   leaveAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Leave'));
   managePermissionsAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Permissions'));
   manageVersionsAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Manage Versions'));
-  uploadNewVersionAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Upload new version'));
+  uploadNewVersionAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Upload New Version'));
   moveAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Move'));
-  permanentDeleteAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Permanently delete'));
+  permanentDeleteAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Permanently Delete'));
   restoreAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Restore'));
   shareAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Share'));
-  shareEditAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Shared link settings'));
-  uploadFileAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Upload file'));
-  uploadFolderAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Upload folder'));
+  shareEditAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Shared Link Settings'));
+  uploadFileAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Upload File'));
+  uploadFolderAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Upload Folder'));
   viewAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'View'));
-  viewDetailsAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'View details'));
+  viewDetailsAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'View Details'));
 
   constructor(ancestor?: ElementFinder) {
     super(Menu.selectors.root, ancestor);
   }
 
   async waitForMenuToOpen() {
-    await browser.wait(EC.presenceOf(browser.element(by.css('.cdk-overlay-backdrop'))), BROWSER_WAIT_TIMEOUT);
-    await browser.wait(EC.presenceOf(browser.element(by.css('.mat-menu-panel'))), BROWSER_WAIT_TIMEOUT);
+    await browser.wait(EC.presenceOf(browser.element(by.css('.cdk-overlay-container .mat-menu-panel'))), BROWSER_WAIT_TIMEOUT);
     await browser.wait(EC.visibilityOf(this.items.get(0)), BROWSER_WAIT_TIMEOUT);
   }
 
   async waitForMenuToClose() {
-    await browser.wait(EC.not(EC.presenceOf(browser.element(by.css('.mat-menu-panel')))), BROWSER_WAIT_TIMEOUT);
+    await browser.wait(EC.not(EC.presenceOf(browser.element(by.css('.cdk-overlay-container .mat-menu-panel')))), BROWSER_WAIT_TIMEOUT);
   }
 
   async closeMenu() {
-    return Utils.pressEscape();
+    await Utils.pressEscape();
+    await this.waitForMenuToClose();
   }
 
   getNthItem(nth: number) {
@@ -127,17 +127,29 @@ export class Menu extends Component {
     return await this.items.count();
   }
 
+  async getMenuItems(): Promise<string[]> {
+    return this.items.map(async (elem) => {
+      const text = await elem.element(by.css('span')).getText();
+      return text;
+    });
+  }
+
   async clickNthItem(nth: number) {
-    const elem = this.getNthItem(nth);
-    await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT);
-    await browser.actions().mouseMove(elem).click().perform();
-    await this.waitForMenuToClose();
+    try {
+      const elem = this.getNthItem(nth);
+      await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT, 'timeout waiting for menu item to be clickable');
+      await browser.actions().mouseMove(elem).perform();
+      await browser.actions().click().perform();
+      await this.waitForMenuToClose();
+    } catch (e) {
+      console.log('____ click nth menu item catch ___', e);
+    }
   }
 
   async clickMenuItem(menuItem: string) {
     try {
       const elem = this.getItemByLabel(menuItem);
-      await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT);
+      await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT, 'timeout waiting for menu item to be clickable');
       await elem.click();
     } catch (e) {
       console.log('___click menu item catch___', e);

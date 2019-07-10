@@ -23,17 +23,16 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { AppStore, SnackbarErrorAction } from '@alfresco/aca-shared/store';
 import {
   NodePermissionDialogService,
   PermissionListComponent
 } from '@alfresco/adf-content-services';
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material';
-import { Store } from '@ngrx/store';
 import { MinimalNodeEntryEntity } from '@alfresco/js-api';
-import { ContentApiService } from '../../../services/content-api.service';
-import { SnackbarErrorAction } from '../../../store/actions/snackbar.actions';
-import { AppStore } from '../../../store/states/app.state';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
+import { ContentApiService } from '@alfresco/aca-shared';
 import { NodePermissionsDialogComponent } from '../permission-dialog/node-permissions.dialog';
 
 @Component({
@@ -77,7 +76,7 @@ export class PermissionsManagerComponent implements OnInit {
     this.permissionList.reload();
   }
 
-  openAddPermissionDialog(event: Event) {
+  openAddPermissionDialog() {
     this.nodePermissionDialogService
       .updateNodePermissionByDialog(this.nodeId)
       .subscribe(

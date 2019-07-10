@@ -2,8 +2,7 @@
 import {
   AppConfigService,
   AuthenticationService,
-  NotificationService,
-  AlfrescoApiService
+  NotificationService
 } from '@alfresco/adf-core';
 import { Injectable } from '@angular/core';
 import { MinimalNodeEntryEntity } from '@alfresco/js-api';
@@ -16,8 +15,7 @@ export class AosEditOnlineService {
   constructor(
     private alfrescoAuthenticationService: AuthenticationService,
     private appConfigService: AppConfigService,
-    private notificationService: NotificationService,
-    private apiService: AlfrescoApiService
+    private notificationService: NotificationService
   ) {}
 
   onActionEditOnlineAos(node: MinimalNodeEntryEntity): void {
@@ -89,22 +87,7 @@ export class AosEditOnlineService {
         3000
       );
     } else {
-      this.apiService.nodesApi
-        .lockNode(node.id, {
-          type: 'ALLOW_OWNER_CHANGES',
-          lifetime: 'PERSISTENT'
-        })
-        .then(
-          () => {
-            this.aos_tryToLaunchOfficeByMsProtocolHandler(protocolHandler, url);
-          },
-          () => {
-            this.notificationService.openSnackMessage(
-              'Cannot lock the node for editing.',
-              3000
-            );
-          }
-        );
+      this.aos_tryToLaunchOfficeByMsProtocolHandler(protocolHandler, url);
     }
   }
 

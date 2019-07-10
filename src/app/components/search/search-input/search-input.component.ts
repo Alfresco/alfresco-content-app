@@ -24,12 +24,21 @@
  */
 
 import {
+  AppStore,
+  SearchByTermAction,
+  SearchOptionIds,
+  SearchOptionModel
+} from '@alfresco/aca-shared/store';
+import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
+import { AppConfigService } from '@alfresco/adf-core';
+import {
   Component,
   OnDestroy,
   OnInit,
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
+import { MatMenuTrigger } from '@angular/material/menu';
 import {
   NavigationEnd,
   PRIMARY_OUTLET,
@@ -39,23 +48,12 @@ import {
   UrlSegmentGroup,
   UrlTree
 } from '@angular/router';
-import { SearchInputControlComponent } from '../search-input-control/search-input-control.component';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../../../store/states/app.state';
-import { SearchByTermAction } from '../../../store/actions';
-import { filter, takeUntil } from 'rxjs/operators';
-import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
-import { ContentManagementService } from '../../../services/content-management.service';
 import { Subject } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
+import { ContentManagementService } from '../../../services/content-management.service';
+import { SearchInputControlComponent } from '../search-input-control/search-input-control.component';
 import { SearchLibrariesQueryBuilderService } from '../search-libraries-results/search-libraries-query-builder.service';
-import { MatMenuTrigger } from '@angular/material';
-import { AppConfigService } from '@alfresco/adf-core';
-
-export enum SearchOptionIds {
-  Files = 'content',
-  Folders = 'folder',
-  Libraries = 'libraries'
-}
 
 @Component({
   selector: 'aca-search-input',
@@ -69,10 +67,10 @@ export class SearchInputComponent implements OnInit, OnDestroy {
   hasNewChange = false;
   navigationTimer: any;
   has400LibraryError = false;
-  searchOnChange;
+  searchOnChange: boolean;
 
-  searchedWord = null;
-  searchOptions: Array<any> = [
+  searchedWord: string = null;
+  searchOptions: Array<SearchOptionModel> = [
     {
       id: SearchOptionIds.Files,
       key: 'SEARCH.INPUT.FILES',
