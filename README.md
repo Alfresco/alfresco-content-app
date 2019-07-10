@@ -1,4 +1,4 @@
-<p align="left"> <img title="Alfresco" src="alfresco.png" alt="Alfresco - make business flow"></p>
+<p align="left"> <img title="Alfresco" src="alfresco.png" alt="Alfresco - Simply a better way to create amazing digital experiences"></p>
 
 # Alfresco Content Application
 
@@ -32,10 +32,10 @@ Please include a clear description, steps to reproduce and screenshots where app
 
 #### Features added in the latest release
 
-- Edit Offline - lock and download files whilst editing
-- Edit Online - edit files directly in Microsoft Office 
-- [Alfresco Full Text Search (FTS) syntax](https://alfresco-content-app.netlify.com/#/features/search-results?id=alfresco-full-text-search) - enhanced search input to support the Alfresco Search Query Language
-- [Single Sign-On](https://alfresco-content-app.netlify.com/#/getting-started/sso) (SSO) support with Alfresco Identity Service and ADF 3.0.0, basic Kerberos support
+- New language translations (Arabic, Czech, Danish, Finnish, Polish and Swedish)
+- Automatic display of metadata aspects and properties
+- Search result facet improvements
+- Various extensibility improvements and enhancements
 
 Please refer to the [release notes] for details of all changes.
 
@@ -47,11 +47,8 @@ Please refer to the [release notes] for details of all changes.
   - Folder rule creation
   - File/Folder linking via secondary association
 - File Library Management
-  - For managers: manage Library users and requests to join
 - Enhanced UI and user experience
-  - New language translations (Arabic, Czech, Danish, Finnish, Polish and Swedish).
   - Accessibility WCAG AA compliance
-  - Search result facet improvements
   - Search query input assistance
   - Metadata information drawer enhancements
 
@@ -64,6 +61,7 @@ Read up on our guidelines for [contributing] and then check out one of our issue
 
 | ACA Version | Built with | Tested on |
 | ----------- | ---------- | --------- |
+| ACA 1.8     | ADF 3.3.0  | ACS 6.1   |
 | ACA 1.7     | ADF 3.0.0  | ACS 6.1   |
 | ACA 1.6     | ADF 2.6.1  | ACS 6.1   |
 | ACA 1.5     | ADF 2.6.0  | ACS 6.0   |
@@ -96,7 +94,11 @@ Read up on our guidelines for [contributing] and then check out one of our issue
 | 1.7     | Edit Offline               | Lock and unlock for editing, download current version, upload new version.                                                                                                                     |
 | 1.7     | Edit with Microsoft Office | Extension to edit online with Alfresco Office Services (AOS)                                                                                                                                   |
 | 1.7     | Single Sign-On (SSO)       | Support for Alfresco Identity Service, with ADF 3.0.0    |        
-| 1.7     | Search Query Language     | Enhanced search input using the Alfresco Search Query Language    |        
+| 1.7     | Search Query Language      | Enhanced search input using the Alfresco Search Query Language    | 
+| 1.8     | Localizations .            | Arabic, Czech, Danish, Finnish, Polish and Swedish |
+| 1.8     | Metadata improvements      | Automatic display of aspects and properties |
+| 1.8     | Search facet improvements  | Facet intervals and grouped facet queries |
+| 1.8     | Extensibility improvements | Various - see [release notes](https://github.com/Alfresco/alfresco-content-app/releases) for details | 
 
 [contributing]: https://github.com/Alfresco/alfresco-content-app/blob/master/CONTRIBUTING.md
 [github]: https://github.com/Alfresco/alfresco-content-app/issues
