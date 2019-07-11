@@ -1,7 +1,17 @@
 {
-  "rulesDirectory": ["node_modules/codelyzer"],
+  "rulesDirectory": [
+    "node_modules/codelyzer",
+    "node_modules/adf-tslint-rules"
+  ],
   "extends": ["rxjs-tslint-rules"],
   "rules": {
+    "adf-license-banner": [true, "**/*.ts", "./license-header.txt"],
+    "ban": [
+      true,
+      "eval",
+      "fdescribe",
+      "fit"
+    ],
     "arrow-return-shorthand": true,
     "callable-types": true,
     "class-name": true,
