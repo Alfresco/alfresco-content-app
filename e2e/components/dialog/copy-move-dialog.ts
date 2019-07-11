@@ -1,4 +1,3 @@
-import { Utils } from './../../utilities/utils';
 /*!
  * @license
  * Alfresco Example Content Application
@@ -27,6 +26,7 @@ import { Utils } from './../../utilities/utils';
 import { ElementFinder, by, browser, ExpectedConditions as EC } from 'protractor';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
+import { Utils } from './../../utilities/utils';
 
 export class CopyMoveDialog extends Component {
   private static selectors = {
