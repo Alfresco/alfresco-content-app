@@ -111,7 +111,6 @@ export class ContentManagementService {
           node.entry.isFavorite = true;
         });
         this.store.dispatch(new SetSelectedNodesAction(nodes));
-        this.store.dispatch(new ReloadDocumentListAction());
       });
     }
   }
@@ -123,7 +122,6 @@ export class ContentManagementService {
           node.entry.isFavorite = false;
         });
         this.store.dispatch(new SetSelectedNodesAction(nodes));
-        this.store.dispatch(new ReloadDocumentListAction());
       });
     }
   }

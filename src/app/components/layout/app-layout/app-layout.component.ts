@@ -43,8 +43,8 @@ import { NodePermissionService } from '@alfresco/aca-shared';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import {
   AppStore,
-  SetSelectedNodesAction,
-  getCurrentFolder
+  getCurrentFolder,
+  SetSelectedNodesAction
 } from '@alfresco/aca-shared/store';
 import { Directionality } from '@angular/cdk/bidi';
 
