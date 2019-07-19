@@ -50,7 +50,7 @@ import { isLocked } from '../../../utils/node.utils';
 })
 export class CustomNameColumnComponent extends NameColumnComponent
   implements OnInit, OnDestroy {
-  private onDestroy$ = new Subject<boolean>();
+  private onDestroy$$ = new Subject<boolean>();
 
   constructor(
     element: ElementRef,
@@ -65,7 +65,7 @@ export class CustomNameColumnComponent extends NameColumnComponent
     this.updateValue();
 
     this.apiService.nodeUpdated
-      .pipe(takeUntil(this.onDestroy$))
+      .pipe(takeUntil(this.onDestroy$$))
       .subscribe((node: any) => {
         const row = this.context.row;
         if (row) {
@@ -87,7 +87,7 @@ export class CustomNameColumnComponent extends NameColumnComponent
         filter(val => {
           return this.node.entry.id === val.payload.entry.id;
         }),
-        takeUntil(this.onDestroy$)
+        takeUntil(this.onDestroy$$)
       )
       .subscribe(() => {
         this.cd.detectChanges();
@@ -97,8 +97,8 @@ export class CustomNameColumnComponent extends NameColumnComponent
   ngOnDestroy() {
     super.ngOnDestroy();
 
-    this.onDestroy$.next(true);
-    this.onDestroy$.complete();
+    this.onDestroy$$.next(true);
+    this.onDestroy$$.complete();
   }
 
   isFile(): boolean {
