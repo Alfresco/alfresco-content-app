@@ -27,7 +27,7 @@ import { MetadataTabComponent } from './metadata-tab.component';
 import { Node } from '@alfresco/js-api';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../../../testing/app-testing.module';
-import { AppConfigService, setupTestBed } from '@alfresco/adf-core';
+import { AppConfigService, setupTestBed, CoreModule } from '@alfresco/adf-core';
 import { ContentMetadataModule } from '@alfresco/adf-content-services';
 import { Store } from '@ngrx/store';
 import {
@@ -45,7 +45,7 @@ describe('MetadataTabComponent', () => {
   let extensions: AppExtensionService;
 
   setupTestBed({
-    imports: [AppTestingModule, ContentMetadataModule],
+    imports: [CoreModule, AppTestingModule, ContentMetadataModule],
     declarations: [MetadataTabComponent]
   });
 

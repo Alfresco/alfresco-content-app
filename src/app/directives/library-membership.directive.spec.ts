@@ -28,7 +28,8 @@ import {
   AlfrescoApiService,
   AlfrescoApiServiceMock,
   AppConfigService,
-  CoreModule
+  CoreModule,
+  StorageService
 } from '@alfresco/adf-core';
 import { AppTestingModule } from '../testing/app-testing.module';
 import { DirectivesModule } from './directives.module';
@@ -61,7 +62,10 @@ describe('LibraryMembershipDirective', () => {
       imports: [AppTestingModule, DirectivesModule, CoreModule.forRoot()],
       schemas: [NO_ERRORS_SCHEMA]
     });
-    alfrescoApiService = new AlfrescoApiServiceMock(new AppConfigService(null));
+    alfrescoApiService = new AlfrescoApiServiceMock(
+      new AppConfigService(null),
+      new StorageService()
+    );
     peopleApi = alfrescoApiService.getInstance().core.peopleApi;
     directive = new LibraryMembershipDirective(alfrescoApiService);
   });
