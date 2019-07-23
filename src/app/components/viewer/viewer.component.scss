@@ -20,4 +20,8 @@
   .adf-viewer-toolbar .mat-toolbar > button:last-child {
     display: none;
   }
+
+  .adf-viewer.right_side--hide .adf-viewer__sidebar__right {
+    width: 0;
+  }
 }
