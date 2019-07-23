@@ -152,12 +152,12 @@ describe('AppLayoutComponent', () => {
     });
   });
 
-  it('should not reset selection if route is `/search`', done => {
+  it('should not reset selection if route contains `viewer`', done => {
     fixture.detectChanges();
     const selection = [<any>{ entry: { id: 'nodeId', name: 'name' } }];
     store.dispatch(new SetSelectedNodesAction(selection));
 
-    router.navigateByUrl('/search;q=');
+    router.navigateByUrl('/search;q=something/(viewer:view/rainbow)');
     fixture.detectChanges();
     store.select(getAppSelection).subscribe(state => {
       expect(state.isEmpty).toBe(false);
