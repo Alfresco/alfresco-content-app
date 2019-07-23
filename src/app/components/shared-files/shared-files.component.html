@@ -19,7 +19,7 @@
         currentFolderId="-sharedlinks-"
         selectionMode="multiple"
         [sorting]="['modifiedAt', 'desc']"
-        (node-dblclick)="showPreview($event.detail?.node)"
+        (node-dblclick)="preview($event.detail?.node)"
         (name-click)="showPreview($event.detail?.node)"
       >
         <adf-custom-empty-content-template>

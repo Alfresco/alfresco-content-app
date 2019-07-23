@@ -131,15 +131,13 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   }
 
   navigate(nodeId: string = null) {
-    const commands = ['./'];
+    const commands = ['/personal-files'];
 
     if (nodeId && !this.isRootNode(nodeId)) {
       commands.push(nodeId);
     }
 
-    this.router.navigate(commands, {
-      relativeTo: this.route.parent
-    });
+    this.router.navigate(commands);
   }
 
   navigateTo(node: MinimalNodeEntity) {
@@ -151,7 +149,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
         return;
       }
 
-      this.showPreview(node);
+      this.showPreview(node, this.router.url);
     }
   }
 

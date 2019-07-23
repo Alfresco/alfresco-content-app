@@ -33,6 +33,7 @@ import { AppStore } from '@alfresco/aca-shared/store';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { UploadService } from '@alfresco/adf-core';
 import { debounceTime } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   templateUrl: './recent-files.component.html'
@@ -47,7 +48,8 @@ export class RecentFilesComponent extends PageComponent implements OnInit {
     extensions: AppExtensionService,
     content: ContentManagementService,
     private uploadService: UploadService,
-    private breakpointObserver: BreakpointObserver
+    private breakpointObserver: BreakpointObserver,
+    private router: Router
   ) {
     super(store, extensions, content);
   }
@@ -75,7 +77,7 @@ export class RecentFilesComponent extends PageComponent implements OnInit {
 
   onNodeDoubleClick(node: MinimalNodeEntity) {
     if (node && node.entry) {
-      this.showPreview(node);
+      this.showPreview(node, this.router.url);
     }
   }
 
