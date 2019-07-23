@@ -239,16 +239,16 @@ describe('FilesComponent', () => {
     it('should navigates to node when id provided', () => {
       component.navigate(node.id);
 
-      expect(router.navigate).toHaveBeenCalledWith(
-        ['./', node.id],
-        jasmine.any(Object)
-      );
+      expect(router.navigate).toHaveBeenCalledWith([
+        '/personal-files',
+        node.id
+      ]);
     });
 
     it('should navigates to home when id not provided', () => {
       component.navigate();
 
-      expect(router.navigate).toHaveBeenCalledWith(['./'], jasmine.any(Object));
+      expect(router.navigate).toHaveBeenCalledWith(['/personal-files']);
     });
 
     it('should navigate home if node is root', () => {
@@ -260,7 +260,7 @@ describe('FilesComponent', () => {
 
       component.navigate(node.id);
 
-      expect(router.navigate).toHaveBeenCalledWith(['./'], jasmine.any(Object));
+      expect(router.navigate).toHaveBeenCalledWith(['/personal-files']);
     });
   });
 
