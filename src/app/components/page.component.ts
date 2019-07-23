@@ -37,13 +37,13 @@ import { AppExtensionService } from '../extensions/extension.service';
 import { ContentManagementService } from '../services/content-management.service';
 import {
   AppStore,
-  ViewFileAction,
   ReloadDocumentListAction,
   getCurrentFolder,
   getAppSelection,
   getDocumentDisplayMode,
   isInfoDrawerOpened,
-  getSharedUrl
+  getSharedUrl,
+  ViewNodeAction
 } from '@alfresco/aca-shared/store';
 import { isLocked, isLibrary } from '../utils/node.utils';
 
@@ -105,10 +105,12 @@ export abstract class PageComponent implements OnInit, OnDestroy {
     this.onDestroy$.complete();
   }
 
-  showPreview(node: MinimalNodeEntity) {
+  showPreview(node: MinimalNodeEntity, location?: string) {
     if (node && node.entry) {
-      const parentId = this.node ? this.node.id : null;
-      this.store.dispatch(new ViewFileAction(node, parentId));
+      const id =
+        (<any>node).entry.nodeId || (<any>node).entry.guid || node.entry.id;
+
+      this.store.dispatch(new ViewNodeAction(id, location));
     }
   }
 
