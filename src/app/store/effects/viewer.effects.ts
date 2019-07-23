@@ -35,7 +35,13 @@ import {
   getAppSelection,
   FullscreenViewerAction
 } from '@alfresco/aca-shared/store';
-import { Router } from '@angular/router';
+import {
+  Router,
+  UrlTree,
+  UrlSegmentGroup,
+  PRIMARY_OUTLET,
+  UrlSegment
+} from '@angular/router';
 import { Store, createSelector } from '@ngrx/store';
 import { AppExtensionService } from '../../extensions/extension.service';
 
@@ -72,8 +78,10 @@ export class ViewerEffects {
     ofType<ViewNodeAction>(ViewerActionTypes.ViewNode),
     map(action => {
       if (action.location) {
+        const location = this.getNavigationCommands(action.location);
+
         this.router.navigate(
-          [action.location, { outlets: { viewer: ['view', action.nodeId] } }],
+          [...location, { outlets: { viewer: ['view', action.nodeId] } }],
           {
             queryParams: {
               source: action.location
@@ -162,5 +170,22 @@ export class ViewerEffects {
         container.msRequestFullscreen();
       }
     }
+  }
+
+  private getNavigationCommands(url: string): any[] {
+    const urlTree: UrlTree = this.router.parseUrl(url);
+    const urlSegmentGroup: UrlSegmentGroup =
+      urlTree.root.children[PRIMARY_OUTLET];
+
+    if (!urlSegmentGroup) {
+      return [url];
+    }
+
+    const urlSegments: UrlSegment[] = urlSegmentGroup.segments;
+
+    return urlSegments.reduce(function(acc, item) {
+      acc.push(item.path, item.parameters);
+      return acc;
+    }, []);
   }
 }
