@@ -180,10 +180,8 @@ export class AppViewerComponent implements OnInit, OnDestroy {
           this.nodeId = this.node.id;
           return;
         }
-      } catch (err) {
-        if (!err || err.status !== 401) {
-          // this.router.navigate([this.previewLocation, id]);
-        }
+      } catch (error) {
+        this.router.navigate(['view', 'error']);
       }
     }
   }

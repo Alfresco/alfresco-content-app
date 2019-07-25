@@ -328,6 +328,10 @@ export const APP_ROUTES: Routes = [
         ]
       },
       {
+        path: 'view/error',
+        component: GenericErrorComponent
+      },
+      {
         path: '**',
         component: GenericErrorComponent
       }
