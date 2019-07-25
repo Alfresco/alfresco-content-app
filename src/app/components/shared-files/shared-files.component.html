@@ -20,7 +20,7 @@
         selectionMode="multiple"
         [sorting]="['modifiedAt', 'desc']"
         (node-dblclick)="preview($event.detail?.node)"
-        (name-click)="showPreview($event.detail?.node)"
+        (name-click)="preview($event.detail?.node)"
       >
         <adf-custom-empty-content-template>
           <adf-empty-content
