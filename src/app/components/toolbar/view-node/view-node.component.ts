@@ -48,7 +48,7 @@ import { SharedLinkEntry } from '@alfresco/js-api';
 
     <button *ngIf="data.menuButton" mat-menu-item (click)="onClick()">
       <mat-icon>visibility</mat-icon>
-      {{ data.title | translate }}
+      <span>{{ data.title | translate }}</span>
     </button>
   `,
   encapsulation: ViewEncapsulation.None,
