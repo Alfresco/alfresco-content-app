@@ -131,7 +131,9 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   }
 
   navigate(nodeId: string = null) {
-    const commands = ['/personal-files'];
+    const location = this.router.url.match(/.*?(?=\/|$)/g)[1];
+
+    const commands = [location];
 
     if (nodeId && !this.isRootNode(nodeId)) {
       commands.push(nodeId);
