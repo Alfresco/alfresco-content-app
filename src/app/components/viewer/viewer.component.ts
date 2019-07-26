@@ -101,6 +101,8 @@ export class AppViewerComponent implements OnInit, OnDestroy {
     '-TYPE:"lnk:link"'
   ];
 
+  private previewLocation: string;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -148,6 +150,10 @@ export class AppViewerComponent implements OnInit, OnDestroy {
     this.actions$
       .pipe(ofType<ClosePreviewAction>(ViewerActionTypes.ClosePreview))
       .subscribe(() => this.navigateToFileLocation());
+
+    this.previewLocation = this.router.url
+      .substr(0, this.router.url.indexOf('/', 1))
+      .replace(/\//g, '');
   }
 
   onViewerVisibilityChanged() {
@@ -181,7 +187,15 @@ export class AppViewerComponent implements OnInit, OnDestroy {
           return;
         }
       } catch (error) {
-        this.router.navigate(['view', 'error']);
+        const statusCode = JSON.parse(error.message).error.statusCode;
+
+        if (statusCode !== 401) {
+          this.router
+            .navigate([this.previewLocation, { outlets: { viewer: null } }])
+            .then(() => {
+              this.router.navigate([this.previewLocation, id]);
+            });
+        }
       }
     }
   }
