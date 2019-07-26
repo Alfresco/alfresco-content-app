@@ -49,9 +49,12 @@ describe('FilesComponent', () => {
   let fixture: ComponentFixture<FilesComponent>;
   let component: FilesComponent;
   let uploadService: UploadService;
-  let router: Router;
   let nodeActionsService: NodeActionsService;
   let contentApi: ContentApiService;
+  let router = {
+    url: '',
+    navigate: jasmine.createSpy('navigate')
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -64,6 +67,10 @@ describe('FilesComponent', () => {
         AppConfigPipe
       ],
       providers: [
+        {
+          provide: Router,
+          useValue: router
+        },
         {
           provide: ActivatedRoute,
           useValue: {
@@ -122,7 +129,6 @@ describe('FilesComponent', () => {
       node.isFolder = false;
       node.parentId = 'parent-id';
       spyOn(contentApi, 'getNode').and.returnValue(of({ entry: node }));
-      spyOn(router, 'navigate');
 
       fixture.detectChanges();
 
@@ -231,12 +237,11 @@ describe('FilesComponent', () => {
   describe('Node navigation', () => {
     beforeEach(() => {
       spyOn(contentApi, 'getNode').and.returnValue(of({ entry: node }));
-      spyOn(router, 'navigate');
-
       fixture.detectChanges();
     });
 
     it('should navigates to node when id provided', () => {
+      router.url = '/personal-files';
       component.navigate(node.id);
 
       expect(router.navigate).toHaveBeenCalledWith([
@@ -246,6 +251,7 @@ describe('FilesComponent', () => {
     });
 
     it('should navigates to home when id not provided', () => {
+      router.url = '/personal-files';
       component.navigate();
 
       expect(router.navigate).toHaveBeenCalledWith(['/personal-files']);
@@ -258,6 +264,7 @@ describe('FilesComponent', () => {
         }
       };
 
+      router.url = '/personal-files';
       component.navigate(node.id);
 
       expect(router.navigate).toHaveBeenCalledWith(['/personal-files']);
