@@ -82,7 +82,7 @@ export class DocumentListDirective implements OnInit, OnDestroy {
 
     this.documentList.ready
       .pipe(
-        filter(() => !this.router.url.includes('viewer')),
+        filter(() => !this.router.url.includes('viewer:view')),
         takeUntil(this.onDestroy$)
       )
       .subscribe(() => this.onReady());
