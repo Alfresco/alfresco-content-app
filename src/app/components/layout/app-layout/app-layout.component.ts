@@ -142,9 +142,7 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
       .pipe(
         filter(event => {
           return (
-            event instanceof NavigationStart &&
-            // search employs reuse route strategy
-            !event.url.includes('viewer')
+            event instanceof NavigationStart && !event.url.includes('viewer')
           );
         }),
         takeUntil(this.onDestroy$)
