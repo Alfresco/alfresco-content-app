@@ -21,7 +21,7 @@ Please refer to the [Application Configuration](/getting-started/configuration) 
 ## Search
 
 The application [Search](../../src/app/components/search) -
-uses the [ADF Search Component](https://www.alfresco.com/abn/adf/docs/content-services/search.component/).
+uses the [ADF Search Component](https://www.alfresco.com/abn/adf/docs/content-services/components/search.component/).
 The app provides a 'live' search feature, where users can open files and folders directly from the Search API results.
 
 ![Search Input](../images/search.png)

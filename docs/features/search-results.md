@@ -10,10 +10,10 @@ When you type queries into the Search Input component, the application will retu
 
 This page consists of the following ADF components:
 
-- [Search Filter](https://www.alfresco.com/abn/adf/docs/content-services/search-filter.component/)
-- [Search Chip List](https://www.alfresco.com/abn/adf/docs/content-services/search-chip-list.component/)
-- [Search Sorting Picker](https://www.alfresco.com/abn/adf/docs/content-services/search-sorting-picker.component/)
-- [Document List](https://www.alfresco.com/abn/adf/docs/content-services/document-list.component/) with custom layout template
+- [Search Filter](https://www.alfresco.com/abn/adf/docs/content-services/components/search-filter.component/)
+- [Search Chip List](https://www.alfresco.com/abn/adf/docs/content-services/components/search-chip-list.component/)
+- [Search Sorting Picker](https://www.alfresco.com/abn/adf/docs/content-services/components/search-sorting-picker.component/)
+- [Document List](https://www.alfresco.com/abn/adf/docs/content-services/components/document-list.component/) with custom layout template
 - [Info Drawer](/features/info-drawer) with Metadata and [Version Management](#version-manager)
 - [Toolbar with basic actions](/features/document-list-layout#actions-and-the-actions-toolbar) like `Preview`, `Download`, `Favorite`, `Copy`, etc.
 

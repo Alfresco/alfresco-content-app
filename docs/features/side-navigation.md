@@ -16,7 +16,7 @@ The New button displays a menu which provides three actions:
 - Upload a file - invokes the operating system file browser and allows a user to select file(s) to upload into their current location in the content repository.
 - Upload a folder - invokes the operating system folder browser and allows a user to select a folder to upload to their current location in the content repository.
 
-When an upload starts the [upload component](https://www.alfresco.com/abn/adf/docs/content-services/upload.component/)
+When an upload starts the [upload component](https://www.alfresco.com/abn/adf/docs/content-services/components/upload.component/)
 is displayed which shows the user the progress of the uploads they have started.
 The upload dialog persists on the screen and can be minimized; users are able to continue using the application whilst uploads are in progress
 and uploads can be canceled which will stop uploads in progress or permanently delete already completed uploads.
