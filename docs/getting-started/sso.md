@@ -56,4 +56,4 @@ as the login process is handled entirely by Kerberos.
 
 ## See also
 
-For more details on the ADF Login component and configuration options please refer to the [Login](https://www.alfresco.com/abn/adf/docs/core/login.component/#single-sign-on-sso) documentation.
+For more details on the ADF Login component and configuration options please refer to the [Login](https://www.alfresco.com/abn/adf/docs/core/components/login.component/#single-sign-on-sso) documentation.

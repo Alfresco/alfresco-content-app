@@ -6,10 +6,10 @@ Title: Document List Layout
 
 The main area of the application is composed of several individual ADF components:
 
-1. [Breadcrumb](https://www.alfresco.com/abn/adf/docs/content-services/breadcrumb.component/)
-2. [Toolbar](https://www.alfresco.com/abn/adf/docs/core/toolbar.component/)
-3. [Document List](https://www.alfresco.com/abn/adf/docs/content-services/document-list.component/)
-4. [Pagination](https://www.alfresco.com/abn/adf/docs/core/pagination.component/)
+1. [Breadcrumb](https://www.alfresco.com/abn/adf/docs/content-services/components/breadcrumb.component/)
+2. [Toolbar](https://www.alfresco.com/abn/adf/docs/core/components/toolbar.component/)
+3. [Document List](https://www.alfresco.com/abn/adf/docs/content-services/components/document-list.component/)
+4. [Pagination](https://www.alfresco.com/abn/adf/docs/core/components/pagination.component/)
 
 ![](../images/doclist.png)
 
@@ -73,7 +73,7 @@ Another custom template layout shows the results when searching for libaries so 
 
 ## Actions and the Actions Toolbar
 
-All the views incorporate the [toolbar](https://www.alfresco.com/abn/adf/docs/core/toolbar.component/)
+All the views incorporate the [toolbar](https://www.alfresco.com/abn/adf/docs/core/components/toolbar.component/)
 component from the Alfresco Application Development Framework. 
 
 Actions are displayed in the toolbar when item(s) are selected, or a right click is performed; apart from the Trash view they all display the following actions when the current user has the necessary permissions,
@@ -89,8 +89,8 @@ actions are automatically hidden when the user does not have permission.
 | View | Opens the selected file using the [Preview component](../../src/app/components/preview). If the file cannot be displayed natively in a browser, a PDF rendition is obtained from the repository. | Not applicable |
 | Edit | Not applicable | The folder name and description can be edited in a dialog. |
 | Favorite | Toggle the favorite mark on or off for files and folders. If multiple items are selected and one or more are not favorites then the mark will be toggled on. |
-| Copy | Files and folders can be copied to another location in the content repository using the [Content node selector component](https://www.alfresco.com/abn/adf/docs/content-services/content-node-selector.component/). When the copy action has completed the user is notified and can undo the action (which permanently deletes the created copies). |
-| Move | Files and folders can be moved to another location in the content repository using the [Content node selector component](https://www.alfresco.com/abn/adf/docs/content-services/content-node-selector.component/). When the move action has completed the user is notified and can undo the action (which moves the items back to the original location). |
+| Copy | Files and folders can be copied to another location in the content repository using the [Content node selector component](https://www.alfresco.com/abn/adf/docs/content-services/components/content-node-selector.component/). When the copy action has completed the user is notified and can undo the action (which permanently deletes the created copies). |
+| Move | Files and folders can be moved to another location in the content repository using the [Content node selector component](https://www.alfresco.com/abn/adf/docs/content-services/components/content-node-selector.component/). When the move action has completed the user is notified and can undo the action (which moves the items back to the original location). |
 | Delete | Files and folders can be deleted from their location in the content repository. When the delete action has completed the user is notified and can undo the action (which restores the items from the trash). |
 | Manage Versions | Versions of files can be viewed, uploaded, restored, downloaded and deleted by using the version manager dialog. When each action has completed the list of versions is updated according to the change. | Not applicable |
 | Permissions | Permissions on a file can be adjusted as required in a number of ways; disable inheritance from the parent folder, change a user or groups role and grant users/groups access. | Not available |
