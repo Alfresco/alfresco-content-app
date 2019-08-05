@@ -90,6 +90,10 @@ export class DocumentListDirective implements OnInit, OnDestroy {
     this.content.reload.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
       this.reload();
     });
+
+    this.content.reset.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
+      this.reset();
+    });
   }
 
   ngOnDestroy() {
@@ -140,5 +144,10 @@ export class DocumentListDirective implements OnInit, OnDestroy {
     this.documentList.resetSelection();
     this.store.dispatch(new SetSelectedNodesAction([]));
     this.documentList.reload();
+  }
+
+  private reset() {
+    this.documentList.resetSelection();
+    this.store.dispatch(new SetSelectedNodesAction([]));
   }
 }
