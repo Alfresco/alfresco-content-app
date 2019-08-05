@@ -15,7 +15,6 @@
     "test": "ng test app --code-coverage",
     "test:ci": "npm run build.shared && npm run build.extensions && ng test adf-office-services-ext --watch=false && ng test app --code-coverage --watch=false",
     "lint": "ng lint && npm run spellcheck && npm run format:check && npm run e2e.typecheck",
-    "prewd:update": "cd ./node_modules/protractor && npm i webdriver-manager@latest",
     "wd:update": "webdriver-manager update --gecko=false",
     "e2e.typecheck": "tsc -p ./e2e/tsconfig.e2e.typecheck.json",
     "e2e": "npm run wd:update && protractor --baseUrl=http://localhost:4000 $SUITE",
@@ -109,7 +108,8 @@
     "tslib": "^1.9.0",
     "tslint": "~5.11.0",
     "typescript": "3.2.4",
-    "wait-on": "^3.0.1"
+    "wait-on": "^3.0.1",
+    "webdriver-manager": "12.1.6"
   },
   "lint-staged": {
     "*.{ts,js,css,scss,html}": [
