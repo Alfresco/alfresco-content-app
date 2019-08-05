@@ -28,20 +28,26 @@ jobs:
     - stage: Quality and Unit tests
       name: 'Code quality checks'
       script: npm run lint
-    - name: 'Unit tests'
-      script:
-        - npm run test:ci
-        - bash <(curl -s https://codecov.io/bash) -X gcov
+    # - name: 'Unit tests'
+    #   script:
+    #     - npm run test:ci
+    #     - bash <(curl -s https://codecov.io/bash) -X gcov
     - stage: e2e
-      name: Test Suite appNavigation&search
-      script: npm run build.e2e && SUITE="--suite authentication,listViews,navigation,application,pagination,search" npm run e2e:docker
-    - name: Test Suite actionsAvailable
-      script: npm run build.e2e && SUITE="--suite actionsAvailable" npm run e2e:docker
-    - name: Test Suite addRemoveContent
-      script: npm run build.e2e && SUITE="--suite addRemoveContent" npm run e2e:docker
-    - name: Test Suite manageContent
-      script: npm run build.e2e && SUITE="--suite manageContent" npm run e2e:docker
-    - name: Test Suite sharingContent&markFavorite
-      script: npm run build.e2e && SUITE="--suite sharingContent" npm run e2e:docker
-    - name: Test Suite viewContent&metadata&extensions
-      script: npm run build.e2e && SUITE="--suite viewer,infoDrawer,extensions" npm run e2e:docker
+      name: 'Nginx'
+      script: npm run build && npm run e2e:docker
+    - stage: e2e
+      name: 'Tomcat'
+      script: npm run build.tomcat && npm run docker.tomcat.e2e
+    # - stage: e2e
+    #   name: Test Suite appNavigation&search
+    #   script: npm run build.e2e && SUITE="--suite authentication,listViews,navigation,application,pagination,search" npm run e2e:docker
+    # - name: Test Suite actionsAvailable
+    #   script: npm run build.e2e && SUITE="--suite actionsAvailable" npm run e2e:docker
+    # - name: Test Suite addRemoveContent
+    #   script: npm run build.e2e && SUITE="--suite addRemoveContent" npm run e2e:docker
+    # - name: Test Suite manageContent
+    #   script: npm run build.e2e && SUITE="--suite manageContent" npm run e2e:docker
+    # - name: Test Suite sharingContent&markFavorite
+    #   script: npm run build.e2e && SUITE="--suite sharingContent" npm run e2e:docker
+    # - name: Test Suite viewContent&metadata&extensions
+    #   script: npm run build.e2e && SUITE="--suite viewer,infoDrawer,extensions" npm run e2e:docker
