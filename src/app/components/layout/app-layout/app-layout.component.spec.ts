@@ -36,6 +36,7 @@ import {
 } from '@alfresco/aca-shared/store';
 import { Router, NavigationStart } from '@angular/router';
 import { Subject } from 'rxjs';
+import { ResetSelectionAction } from '@alfresco/aca-shared/store';
 
 class MockRouter {
   private url = 'some-url';
@@ -139,17 +140,17 @@ describe('AppLayoutComponent', () => {
     });
   });
 
-  it('should reset selection before navigation', done => {
-    fixture.detectChanges();
+  it('should reset selection before navigation', () => {
     const selection = [<any>{ entry: { id: 'nodeId', name: 'name' } }];
+    spyOn(store, 'dispatch').and.stub();
+    fixture.detectChanges();
     store.dispatch(new SetSelectedNodesAction(selection));
-
     router.navigateByUrl('somewhere/over/the/rainbow');
     fixture.detectChanges();
-    store.select(getAppSelection).subscribe(state => {
-      expect(state.isEmpty).toBe(true);
-      done();
-    });
+
+    expect(store.dispatch['calls'].mostRecent().args).toEqual([
+      new ResetSelectionAction()
+    ]);
   });
 
   it('should not reset selection if route contains `viewer`', done => {

@@ -53,7 +53,8 @@ describe('DocumentListDirective', () => {
   };
 
   const contentManagementServiceMock = <any>{
-    reload: new Subject<any>()
+    reload: new Subject<any>(),
+    reset: new Subject<any>()
   };
 
   const mockRoute = <any>{
