@@ -40,8 +40,7 @@ import {
   SnackbarInfoAction,
   SnackbarUserAction,
   SnackbarWarningAction,
-  UndoDeleteNodesAction,
-  ClosePreviewAction
+  UndoDeleteNodesAction
 } from '@alfresco/aca-shared/store';
 import {
   ConfirmDialogComponent,
@@ -616,7 +615,6 @@ export class ContentManagementService {
       .subscribe(
         () => {
           this.store.dispatch(new ReloadDocumentListAction());
-          this.store.dispatch(new ClosePreviewAction());
         },
         error => {
           let message = 'APP.MESSAGES.ERRORS.GENERIC';
@@ -663,7 +661,6 @@ export class ContentManagementService {
       if (status.someSucceeded) {
         this.nodesDeleted.next();
         this.store.dispatch(new ReloadDocumentListAction());
-        this.store.dispatch(new ClosePreviewAction());
       }
     });
   }
