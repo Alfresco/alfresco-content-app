@@ -37,14 +37,20 @@ import { ContentActionRef, SelectionState } from '@alfresco/adf-extensions';
 import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router, PRIMARY_OUTLET } from '@angular/router';
-import { UserPreferencesService, ObjectUtils } from '@alfresco/adf-core';
+import {
+  UserPreferencesService,
+  ObjectUtils,
+  UploadService,
+  AlfrescoApiService
+} from '@alfresco/adf-core';
+import { ContentManagementService } from '../../services/content-management.service';
 import { Store } from '@ngrx/store';
 import { from, Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, debounceTime } from 'rxjs/operators';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { Actions, ofType } from '@ngrx/effects';
 import { SearchRequest } from '@alfresco/js-api';
-
+import { ReloadDocumentListAction } from '@alfresco/aca-shared/store';
 @Component({
   selector: 'app-viewer',
   templateUrl: './viewer.component.html',
@@ -110,7 +116,10 @@ export class AppViewerComponent implements OnInit, OnDestroy {
     private extensions: AppExtensionService,
     private contentApi: ContentApiService,
     private actions$: Actions,
-    private preferences: UserPreferencesService
+    private preferences: UserPreferencesService,
+    private content: ContentManagementService,
+    private apiService: AlfrescoApiService,
+    private uploadService: UploadService
   ) {}
 
   ngOnInit() {
@@ -148,8 +157,26 @@ export class AppViewerComponent implements OnInit, OnDestroy {
     }
 
     this.actions$
-      .pipe(ofType<ClosePreviewAction>(ViewerActionTypes.ClosePreview))
+      .pipe(
+        ofType<ClosePreviewAction>(ViewerActionTypes.ClosePreview),
+        takeUntil(this.onDestroy$)
+      )
       .subscribe(() => this.navigateToFileLocation());
+
+    this.content.nodesDeleted
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(() => this.navigateToFileLocation());
+
+    this.uploadService.fileUploadDeleted
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(() => this.navigateToFileLocation());
+
+    this.uploadService.fileUploadComplete
+      .pipe(
+        takeUntil(this.onDestroy$),
+        debounceTime(300)
+      )
+      .subscribe(file => this.apiService.nodeUpdated.next(file.data.entry));
 
     this.previewLocation = this.router.url
       .substr(0, this.router.url.indexOf('/', 1))
@@ -157,6 +184,7 @@ export class AppViewerComponent implements OnInit, OnDestroy {
   }
 
   onViewerVisibilityChanged() {
+    this.store.dispatch(new ReloadDocumentListAction());
     this.navigateToFileLocation();
   }
 
