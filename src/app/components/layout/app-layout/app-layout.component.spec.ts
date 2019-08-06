@@ -29,11 +29,7 @@ import { AppConfigService, UserPreferencesService } from '@alfresco/adf-core';
 import { AppLayoutComponent } from './app-layout.component';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { Store } from '@ngrx/store';
-import {
-  AppStore,
-  SetSelectedNodesAction,
-  getAppSelection
-} from '@alfresco/aca-shared/store';
+import { AppStore, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { Router, NavigationStart } from '@angular/router';
 import { Subject } from 'rxjs';
 import { ResetSelectionAction } from '@alfresco/aca-shared/store';
@@ -151,19 +147,6 @@ describe('AppLayoutComponent', () => {
     expect(store.dispatch['calls'].mostRecent().args).toEqual([
       new ResetSelectionAction()
     ]);
-  });
-
-  it('should not reset selection if route contains `viewer`', done => {
-    fixture.detectChanges();
-    const selection = [<any>{ entry: { id: 'nodeId', name: 'name' } }];
-    store.dispatch(new SetSelectedNodesAction(selection));
-
-    router.navigateByUrl('/search;q=something/(viewer:view/rainbow)');
-    fixture.detectChanges();
-    store.select(getAppSelection).subscribe(state => {
-      expect(state.isEmpty).toBe(false);
-      done();
-    });
   });
 
   it('should close menu on mobile screen size', () => {

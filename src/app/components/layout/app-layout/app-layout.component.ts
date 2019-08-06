@@ -35,7 +35,7 @@ import {
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import { NavigationEnd, Router, NavigationStart } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subject, Observable } from 'rxjs';
 import { filter, takeUntil, map, withLatestFrom } from 'rxjs/operators';
@@ -137,18 +137,9 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
         this.updateState();
       });
 
-    this.router.events
-      .pipe(
-        filter(event => {
-          return (
-            event instanceof NavigationStart && !event.url.includes('viewer')
-          );
-        }),
-        takeUntil(this.onDestroy$)
-      )
-      .subscribe(() => {
-        this.store.dispatch(new ResetSelectionAction());
-      });
+    this.router.events.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
+      this.store.dispatch(new ResetSelectionAction());
+    });
   }
 
   ngOnDestroy() {
