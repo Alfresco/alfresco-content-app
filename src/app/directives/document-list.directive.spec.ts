@@ -145,4 +145,14 @@ describe('DocumentListDirective', () => {
       new SetSelectedNodesAction([])
     );
   });
+
+  it('should reset store selection and document list on `reset` event', () => {
+    documentListDirective.ngOnInit();
+    contentManagementServiceMock.reload.next();
+
+    expect(documentListMock.resetSelection).toHaveBeenCalled();
+    expect(storeMock.dispatch).toHaveBeenCalledWith(
+      new SetSelectedNodesAction([])
+    );
+  });
 });
