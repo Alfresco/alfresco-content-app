@@ -125,7 +125,7 @@ By default, the application ships with the following rules already predefined:
 }
 ```
 
-**Tip:** You can find more details on the supported rules in the ADF [Upload Service](https://www.alfresco.com/abn/adf/docs/core/upload.service/) docs.
+**Tip:** You can find more details on the supported rules in the ADF [Upload Service](https://www.alfresco.com/abn/adf/docs/core/services/upload.service/) docs.
 
 ### Pagination settings
 
@@ -150,4 +150,4 @@ You can change the default settings of the pagination that gets applied to all t
 You can store any information in the application configuration file, and access it at runtime by using the `AppConfigService` service provided by ADF.
 
 **Tip:** Please refer to the ADF
-[App Config Service](https://www.alfresco.com/abn/adf/docs/core/app-config.service/) documentation to get more details on the Application Configuration features and APIs available.
+[App Config Service](https://www.alfresco.com/abn/adf/docs/core/services/app-config.service/) documentation to get more details on the Application Configuration features and APIs available.

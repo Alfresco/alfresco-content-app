@@ -579,7 +579,7 @@ The rule should return `true` if node preview is allowed, otherwise `false`.
 
 ## Content metadata presets
 
-The content metadata presets are needed by the [Content Metadata Component](https://www.alfresco.com/abn/adf/docs/content-services/content-metadata-card.component/) to render the properties of metadata aspects for a given node.
+The content metadata presets are needed by the [Content Metadata Component](https://www.alfresco.com/abn/adf/docs/content-services/components/content-metadata-card.component/) to render the properties of metadata aspects for a given node.
 The different aspects and their properties are configured in the `app.config.json` file, but they can also be set on runtime through extension files.
 
 Configuring these presets from `app.extensions.json` will overwrite the default application setting.
