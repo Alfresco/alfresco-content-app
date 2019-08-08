@@ -27,10 +27,10 @@ import * as app from './navigation.rules';
 
 describe('navigation.evaluators', () => {
   describe('isPreview', () => {
-    it('should return [true] if url contains `/preview/`', () => {
+    it('should return [true] if url contains `viewer:view`', () => {
       const context: any = {
         navigation: {
-          url: 'path/preview/id'
+          url: 'path/(viewer:view/id)'
         }
       };
 
@@ -271,20 +271,30 @@ describe('navigation.evaluators', () => {
   });
 
   describe('isSharedPreview', () => {
-    it('should return [true] if url starts with `/shared/preview/`', () => {
+    it('should return [true] if url starts with `/shared` and contains `viewer:view', () => {
       const context: any = {
         navigation: {
-          url: '/shared/preview/path'
+          url: '/shared/(viewer:view)'
         }
       };
 
       expect(app.isSharedPreview(context)).toBe(true);
     });
 
-    it('should return [false] if url does not start with `/shared/preview/`', () => {
+    it('should return [false] if url does not start with `/shared`', () => {
       const context: any = {
         navigation: {
-          url: '/path/shared/preview/'
+          url: '/path/shared/(viewer:view)'
+        }
+      };
+
+      expect(app.isSharedPreview(context)).toBe(false);
+    });
+
+    it('should return [false] if url starts with `/shared` and does not includes `viewer:view`', () => {
+      const context: any = {
+        navigation: {
+          url: '/shared/something'
         }
       };
 
@@ -293,20 +303,30 @@ describe('navigation.evaluators', () => {
   });
 
   describe('isFavoritesPreview', () => {
-    it('should return [true] if url starts with `/favorites/preview/`', () => {
+    it('should return [true] if url starts with `/favorites` and includes `viewer:view`', () => {
       const context: any = {
         navigation: {
-          url: '/favorites/preview/path'
+          url: '/favorites/(viewer:view)'
         }
       };
 
       expect(app.isFavoritesPreview(context)).toBe(true);
     });
 
-    it('should return [false] if url does not start with `/favorites/preview/`', () => {
+    it('should return [false] if url does not start with `/favorites`', () => {
       const context: any = {
         navigation: {
-          url: '/path/favorites/preview/'
+          url: '/path/favorites/(viewer:view)'
+        }
+      };
+
+      expect(app.isFavoritesPreview(context)).toBe(false);
+    });
+
+    it('should return [false] if url starts with `/favorites` and does not include `viewer:view`', () => {
+      const context: any = {
+        navigation: {
+          url: '/favorites/other'
         }
       };
 

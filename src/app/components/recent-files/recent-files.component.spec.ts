@@ -23,23 +23,34 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { TestBed, ComponentFixture } from '@angular/core/testing';
+import {
+  TestBed,
+  ComponentFixture,
+  fakeAsync,
+  tick
+} from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import {
   AlfrescoApiService,
   NodeFavoriteDirective,
   DataTableComponent,
-  AppConfigPipe
+  AppConfigPipe,
+  UploadService
 } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { RecentFilesComponent } from './recent-files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
+import { Router } from '@angular/router';
 
 describe('RecentFilesComponent', () => {
   let fixture: ComponentFixture<RecentFilesComponent>;
   let component: RecentFilesComponent;
   let alfrescoApi: AlfrescoApiService;
   let page;
+  let uploadService: UploadService;
+  const mockRouter = {
+    url: 'recent-files'
+  };
 
   beforeEach(() => {
     page = {
@@ -60,6 +71,12 @@ describe('RecentFilesComponent', () => {
         RecentFilesComponent,
         AppConfigPipe
       ],
+      providers: [
+        {
+          provide: Router,
+          useValue: mockRouter
+        }
+      ],
       schemas: [NO_ERRORS_SCHEMA]
     });
 
@@ -67,6 +84,7 @@ describe('RecentFilesComponent', () => {
     component = fixture.componentInstance;
 
     alfrescoApi = TestBed.get(AlfrescoApiService);
+    uploadService = TestBed.get(UploadService);
     alfrescoApi.reset();
 
     spyOn(alfrescoApi.peopleApi, 'getPerson').and.returnValue(
@@ -80,14 +98,32 @@ describe('RecentFilesComponent', () => {
     );
   });
 
-  describe('refresh', () => {
-    it('should call document list reload', () => {
-      spyOn(component, 'reload');
-      fixture.detectChanges();
+  it('should call document list reload on fileUploadComplete event', fakeAsync(() => {
+    spyOn(component, 'reload');
 
-      component.reload();
+    fixture.detectChanges();
+    uploadService.fileUploadComplete.next();
+    tick(500);
 
-      expect(component.reload).toHaveBeenCalled();
-    });
+    expect(component.reload).toHaveBeenCalled();
+  }));
+
+  it('should call document list reload on fileUploadDeleted event', fakeAsync(() => {
+    spyOn(component, 'reload');
+
+    fixture.detectChanges();
+    uploadService.fileUploadDeleted.next();
+    tick(500);
+
+    expect(component.reload).toHaveBeenCalled();
+  }));
+
+  it('should call showPreview method', () => {
+    const node = <any>{ entry: {} };
+    spyOn(component, 'showPreview');
+    fixture.detectChanges();
+
+    component.onNodeDoubleClick(node);
+    expect(component.showPreview).toHaveBeenCalledWith(node, mockRouter.url);
   });
 });

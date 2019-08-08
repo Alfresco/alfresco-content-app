@@ -33,7 +33,7 @@ import {
   SharedLinksApiService
 } from '@alfresco/adf-core';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, Router, ActivationEnd } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppExtensionService } from './extensions/extension.service';
 import {
@@ -97,22 +97,21 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.loadAppSettings();
 
-    const { router, pageTitle, route } = this;
+    const { router, pageTitle } = this;
 
-    router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe(() => {
-        let currentRoute = route.root;
-
-        while (currentRoute.firstChild) {
-          currentRoute = currentRoute.firstChild;
-        }
-
-        const snapshot: any = currentRoute.snapshot || {};
+    this.router.events
+      .pipe(
+        filter(
+          event =>
+            event instanceof ActivationEnd &&
+            event.snapshot.children.length === 0
+        )
+      )
+      .subscribe((event: ActivationEnd) => {
+        const snapshot: any = event.snapshot || {};
         const data: any = snapshot.data || {};
 
         pageTitle.setTitle(data.title || '');
-
         this.store.dispatch(new SetCurrentUrlAction(router.url));
       });
 

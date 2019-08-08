@@ -47,7 +47,10 @@
       </ng-container>
 
       <ng-container *ngSwitchCase="'custom'">
-        <adf-dynamic-component [id]="entry.component"></adf-dynamic-component>
+        <adf-dynamic-component
+          [data]="entry.data"
+          [id]="entry.component"
+        ></adf-dynamic-component>
       </ng-container>
     </ng-container>
   </mat-menu>

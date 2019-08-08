@@ -30,7 +30,7 @@ import { UserPreferencesService } from '@alfresco/adf-core';
 import { Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { SetSelectedNodesAction } from '@alfresco/aca-shared/store';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, filter } from 'rxjs/operators';
 import { ContentManagementService } from '../services/content-management.service';
 
 @Directive({
@@ -81,11 +81,18 @@ export class DocumentListDirective implements OnInit, OnDestroy {
     }
 
     this.documentList.ready
-      .pipe(takeUntil(this.onDestroy$))
+      .pipe(
+        filter(() => !this.router.url.includes('viewer:view')),
+        takeUntil(this.onDestroy$)
+      )
       .subscribe(() => this.onReady());
 
     this.content.reload.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
       this.reload();
+    });
+
+    this.content.reset.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
+      this.reset();
     });
   }
 
@@ -137,5 +144,10 @@ export class DocumentListDirective implements OnInit, OnDestroy {
     this.documentList.resetSelection();
     this.store.dispatch(new SetSelectedNodesAction([]));
     this.documentList.reload();
+  }
+
+  private reset() {
+    this.documentList.resetSelection();
+    this.store.dispatch(new SetSelectedNodesAction([]));
   }
 }
