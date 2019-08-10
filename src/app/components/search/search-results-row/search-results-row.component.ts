@@ -32,11 +32,12 @@ import {
   OnDestroy
 } from '@angular/core';
 import { MinimalNodeEntity } from '@alfresco/js-api';
-import { ViewFileAction, NavigateToFolder } from '@alfresco/aca-shared/store';
+import { ViewNodeAction, NavigateToFolder } from '@alfresco/aca-shared/store';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { takeUntil } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'aca-search-results-row',
@@ -58,7 +59,8 @@ export class SearchResultsRowComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<any>,
-    private alfrescoApiService: AlfrescoApiService
+    private alfrescoApiService: AlfrescoApiService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -123,7 +125,9 @@ export class SearchResultsRowComponent implements OnInit, OnDestroy {
 
   showPreview(event: MouseEvent) {
     event.stopPropagation();
-    this.store.dispatch(new ViewFileAction(this.node));
+    this.store.dispatch(
+      new ViewNodeAction(this.node.entry.id, this.router.url)
+    );
   }
 
   navigate(event: MouseEvent) {

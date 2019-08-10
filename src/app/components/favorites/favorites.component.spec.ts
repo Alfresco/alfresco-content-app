@@ -25,12 +25,18 @@
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
-import { TestBed, ComponentFixture } from '@angular/core/testing';
+import {
+  TestBed,
+  ComponentFixture,
+  fakeAsync,
+  tick
+} from '@angular/core/testing';
 import {
   AlfrescoApiService,
   NodeFavoriteDirective,
   DataTableComponent,
-  AppConfigPipe
+  AppConfigPipe,
+  UploadService
 } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { of } from 'rxjs';
@@ -44,8 +50,13 @@ describe('FavoritesComponent', () => {
   let alfrescoApi: AlfrescoApiService;
   let contentApi: ContentApiService;
   let router: Router;
+  const mockRouter = {
+    url: 'favorites',
+    navigate: () => {}
+  };
   let page;
   let node;
+  let uploadService: UploadService;
 
   beforeEach(() => {
     page = {
@@ -78,6 +89,12 @@ describe('FavoritesComponent', () => {
         FavoritesComponent,
         AppConfigPipe
       ],
+      providers: [
+        {
+          provide: Router,
+          useValue: mockRouter
+        }
+      ],
       schemas: [NO_ERRORS_SCHEMA]
     });
 
@@ -91,6 +108,7 @@ describe('FavoritesComponent', () => {
     );
 
     contentApi = TestBed.get(ContentApiService);
+    uploadService = TestBed.get(UploadService);
     router = TestBed.get(Router);
   });
 
@@ -132,14 +150,44 @@ describe('FavoritesComponent', () => {
     });
   });
 
-  describe('refresh', () => {
-    it('should call document list reload', () => {
-      spyOn(component, 'reload');
-      fixture.detectChanges();
+  it('should call document list reload on fileUploadComplete event', fakeAsync(() => {
+    spyOn(component, 'reload');
 
-      component.reload();
+    fixture.detectChanges();
+    uploadService.fileUploadComplete.next();
+    tick(500);
 
-      expect(component.reload).toHaveBeenCalled();
-    });
+    expect(component.reload).toHaveBeenCalled();
+  }));
+
+  it('should call document list reload on fileUploadDeleted event', fakeAsync(() => {
+    spyOn(component, 'reload');
+
+    fixture.detectChanges();
+    uploadService.fileUploadDeleted.next();
+    tick(500);
+
+    expect(component.reload).toHaveBeenCalled();
+  }));
+
+  it('should navigate if node is folder', () => {
+    const nodeEntity = <any>{ entry: { isFolder: true } };
+    spyOn(component, 'navigate').and.stub();
+    fixture.detectChanges();
+
+    component.onNodeDoubleClick(nodeEntity);
+    expect(component.navigate).toHaveBeenCalledWith(nodeEntity.entry);
+  });
+
+  it('should call showPreview if node is file', () => {
+    const nodeEntity = <any>{ entry: { isFile: true } };
+    spyOn(component, 'showPreview').and.stub();
+    fixture.detectChanges();
+
+    component.onNodeDoubleClick(nodeEntity);
+    expect(component.showPreview).toHaveBeenCalledWith(
+      nodeEntity,
+      mockRouter.url
+    );
   });
 });

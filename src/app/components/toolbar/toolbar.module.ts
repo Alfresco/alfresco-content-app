@@ -39,6 +39,7 @@ import { ToggleJoinLibraryMenuComponent } from './toggle-join-library/toggle-joi
 import { DirectivesModule } from '../../directives/directives.module';
 import { ToggleFavoriteLibraryComponent } from './toggle-favorite-library/toggle-favorite-library.component';
 import { ToggleEditOfflineComponent } from './toggle-edit-offline/toggle-edit-offline.component';
+import { ViewNodeComponent } from './view-node/view-node.component';
 import { AppCommonModule } from '../common/common.module';
 
 export function components() {
@@ -53,7 +54,8 @@ export function components() {
     ToggleJoinLibraryButtonComponent,
     ToggleJoinLibraryMenuComponent,
     ToggleFavoriteLibraryComponent,
-    ToggleEditOfflineComponent
+    ToggleEditOfflineComponent,
+    ViewNodeComponent
   ];
 }
 

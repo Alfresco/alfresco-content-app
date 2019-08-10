@@ -47,7 +47,7 @@ import {
 } from '@alfresco/aca-shared/store';
 import { Pagination } from '@alfresco/js-api';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 describe('SearchComponent', () => {
   let component: SearchResultsComponent;
@@ -57,6 +57,7 @@ describe('SearchComponent', () => {
   let queryBuilder: SearchQueryBuilderService;
   let alfrescoApi: AlfrescoApiService;
   let translate: TranslationService;
+  let router: Router;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -90,6 +91,7 @@ describe('SearchComponent', () => {
     queryBuilder = TestBed.get(SearchQueryBuilderService);
     alfrescoApi = TestBed.get(AlfrescoApiService);
     translate = TestBed.get(TranslationService);
+    router = TestBed.get(Router);
 
     fixture = TestBed.createComponent(SearchResultsComponent);
     component = fixture.componentInstance;
@@ -303,7 +305,7 @@ describe('SearchComponent', () => {
 
     component.onNodeDoubleClick(node);
 
-    expect(component.showPreview).toHaveBeenCalledWith(node);
+    expect(component.showPreview).toHaveBeenCalledWith(node, router.url);
   });
 
   it('should re-run search on pagination change', () => {

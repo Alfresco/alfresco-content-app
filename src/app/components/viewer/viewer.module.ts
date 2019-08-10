@@ -37,6 +37,10 @@ import { AppViewerComponent } from './viewer.component';
 const routes: Routes = [
   {
     path: '',
+    data: {
+      title: 'APP.PREVIEW.TITLE',
+      navigateMultiple: true
+    },
     component: AppViewerComponent
   }
 ];

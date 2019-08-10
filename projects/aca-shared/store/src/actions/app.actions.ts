@@ -38,6 +38,7 @@ export enum AppActionTypes {
   ToggleDocumentDisplayMode = 'TOGGLE_DOCUMENT_DISPLAY_MODE',
   Logout = 'LOGOUT',
   ReloadDocumentList = 'RELOAD_DOCUMENT_LIST',
+  ResetSelection = 'RESET_SELECTION',
   SetInfoDrawerState = 'SET_INFO_DRAWER_STATE',
   SetInfoDrawerMetadataAspect = 'SET_INFO_DRAWER_METADATA_ASPECT',
   CloseModalDialogs = 'CLOSE_MODAL_DIALOGS'
@@ -87,6 +88,12 @@ export class LogoutAction implements Action {
 
 export class ReloadDocumentListAction implements Action {
   readonly type = AppActionTypes.ReloadDocumentList;
+
+  constructor(public payload?: any) {}
+}
+
+export class ResetSelectionAction implements Action {
+  readonly type = AppActionTypes.ResetSelection;
 
   constructor(public payload?: any) {}
 }
