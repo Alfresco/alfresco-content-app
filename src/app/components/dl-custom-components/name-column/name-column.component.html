@@ -5,6 +5,14 @@
   }"
 >
   <span
+    role="link"
+    [attr.aria-label]="
+      'CUSTOM_NAME_COLUMN.ACCESSIBILITY.LINK_ARIA_LABEL'
+        | translate
+          : {
+              fileName: displayText$ | async
+            }
+    "
     class="adf-datatable-cell-value"
     title="{{ node | adfNodeNameTooltip }}"
     (click)="onClick()"
