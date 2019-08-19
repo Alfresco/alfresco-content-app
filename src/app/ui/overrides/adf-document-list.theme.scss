@@ -63,10 +63,6 @@
       &:first-child {
         min-width: $data-table-thumbnail-width;
       }
-
-      &:focus {
-        outline: none !important;
-      }
     }
 
     .adf-datatable-cell {
