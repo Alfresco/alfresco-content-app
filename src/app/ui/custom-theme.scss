@@ -58,7 +58,7 @@ $foreground: map-get($custom-theme, foreground);
 $warn: map-get($custom-theme, warn);
 
 @mixin custom-theme($theme) {
-  @include adf-document-list-theme($theme);
+  @include adf-document-list-theme-test($theme);
 
   @include layout-theme($theme);
   @include aca-search-input-theme($theme);

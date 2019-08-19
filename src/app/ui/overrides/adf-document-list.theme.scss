@@ -1,13 +1,11 @@
 @import 'mixins';
 
-@mixin adf-document-list-theme($theme) {
+@mixin adf-document-list-theme-test($theme) {
   $background: map-get($theme, background);
   $foreground: map-get($theme, foreground);
   $primary: map-get($theme, primary);
 
-  $document-list-selection-color: mat-color($primary) !default;
   $document-list-selection-background: #e0f7fa !default;
-  $document-list-background: mat-color($background, background) !default;
   $document-list-text-color: mat-color($foreground, text, 0.54) !default;
   $document-list-name-text-color: mat-color($foreground, text) !default;
   $data-table-thumbnail-width: 50px !default;
@@ -33,15 +31,6 @@
         padding: 0 10px;
       }
     }
-  }
-
-  .mat-icon.adf-datatable-selected > svg {
-    fill: $document-list-selection-color;
-  }
-
-  adf-document-list {
-    @include flex-column;
-    background-color: $document-list-background;
   }
 
   .adf-datatable {
