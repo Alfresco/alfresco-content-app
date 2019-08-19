@@ -31,6 +31,7 @@ const page = new BrowsingPage();
 const { dataTable, toolbar } = page;
 const contextMenu = dataTable.menu;
 const viewer = new Viewer();
+const viewerToolbar = viewer.toolbar;
 
 
 export async function checkContextMenu(item: string, expectedContextMenu: string[]) {
@@ -93,7 +94,7 @@ export async function checkViewerToolbarPrimaryActions(item: string, expectedToo
   await dataTable.doubleClickOnRowByName(item);
   await viewer.waitForViewerToOpen();
 
-  let actualPrimaryActions = await toolbar.getButtons();
+  let actualPrimaryActions = await viewerToolbar.getButtons();
 
   actualPrimaryActions = removeClosePreviousNextOldInfo(actualPrimaryActions);
 
@@ -106,9 +107,9 @@ export async function checkViewerToolbarPrimaryActions(item: string, expectedToo
 export async function checkViewerToolbarMoreActions(item: string, expectedToolbarMore: string[]) {
   await dataTable.doubleClickOnRowByName(item);
   await viewer.waitForViewerToOpen();
-  await toolbar.openMoreMenu();
+  await viewerToolbar.openMoreMenu();
 
-  const actualMoreActions = await toolbar.menu.getMenuItems();
+  const actualMoreActions = await viewerToolbar.menu.getMenuItems();
 
   expect(actualMoreActions.length).toBe(expectedToolbarMore.length, 'Incorrect number of toolbar More menu items');
   expect(JSON.stringify(actualMoreActions)).toEqual(JSON.stringify(expectedToolbarMore), 'Incorrect toolbar More actions');

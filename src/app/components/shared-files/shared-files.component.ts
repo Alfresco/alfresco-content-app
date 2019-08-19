@@ -31,6 +31,8 @@ import { Store } from '@ngrx/store';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { debounceTime } from 'rxjs/operators';
 import { UploadService } from '@alfresco/adf-core';
+import { Router } from '@angular/router';
+import { MinimalNodeEntity } from '@alfresco/js-api';
 
 @Component({
   templateUrl: './shared-files.component.html'
@@ -45,7 +47,8 @@ export class SharedFilesComponent extends PageComponent implements OnInit {
     extensions: AppExtensionService,
     content: ContentManagementService,
     private uploadService: UploadService,
-    private breakpointObserver: BreakpointObserver
+    private breakpointObserver: BreakpointObserver,
+    private router: Router
   ) {
     super(store, extensions, content);
   }
@@ -73,5 +76,9 @@ export class SharedFilesComponent extends PageComponent implements OnInit {
     ]);
 
     this.columns = this.extensions.documentListPresets.shared || [];
+  }
+
+  preview(node: MinimalNodeEntity) {
+    this.showPreview(node, this.router.url);
   }
 }

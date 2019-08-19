@@ -82,6 +82,7 @@ interface RestoredNode {
 })
 export class ContentManagementService {
   reload = new Subject<any>();
+  reset = new Subject<any>();
   nodesDeleted = new Subject<any>();
   libraryDeleted = new Subject<string>();
   libraryCreated = new Subject<SiteEntry>();

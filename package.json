@@ -36,10 +36,10 @@
   },
   "private": true,
   "dependencies": {
-    "@alfresco/adf-content-services": "3.4.0-1108e2e77a657c898dcaeb4c121a358434ece13c",
-    "@alfresco/adf-core": "3.4.0-1108e2e77a657c898dcaeb4c121a358434ece13c",
-    "@alfresco/adf-extensions": "3.4.0-1108e2e77a657c898dcaeb4c121a358434ece13c",
-    "@alfresco/js-api": "3.3.0",
+    "@alfresco/adf-content-services": "3.5.0-9ca61975a5930330959c1bdc85054ac4dd80629b",
+    "@alfresco/adf-core": "3.5.0-9ca61975a5930330959c1bdc85054ac4dd80629b",
+    "@alfresco/adf-extensions": "3.5.0-9ca61975a5930330959c1bdc85054ac4dd80629b",
+    "@alfresco/js-api": "3.4.0",
     "@angular/animations": "7.2.15",
     "@angular/cdk": "^7.3.7",
     "@angular/common": "7.2.15",
@@ -108,7 +108,8 @@
     "tslib": "^1.9.0",
     "tslint": "~5.11.0",
     "typescript": "3.2.4",
-    "wait-on": "^3.0.1"
+    "wait-on": "^3.0.1",
+    "webdriver-manager": "12.1.6"
   },
   "lint-staged": {
     "*.{ts,js,css,scss,html}": [

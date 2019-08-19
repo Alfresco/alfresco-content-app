@@ -122,4 +122,5 @@ Below is the list of public actions types you can use in the plugin definitions 
 | 1.7.0   | SHOW_SEARCH_FILTER     | n/a                 | Show Filter component in Search Results.                                                        |
 | 1.7.0   | HIDE_SEARCH_FILTER     | n/a                 | Hide Filter component in Search Results                                                         |
 | 1.8.0   | VIEW_NODE              | string              | Lightweight preview of a node by id. Can be invoked from extensions.                            |
-| 1.8.0   | CLOSE_PREVIEW          | n/a              | Closes the viewer ( preview of the item ) |
+| 1.8.0   | CLOSE_PREVIEW          | n/a                 | Closes the viewer ( preview of the item )                                                       |
+| 1.9.0   | RESET_SELECTION        | n/a                 | Resets active document list selection                                                           |

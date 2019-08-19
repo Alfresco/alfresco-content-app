@@ -221,12 +221,13 @@
       },
       {
         "id": "app.toolbar.preview",
+        "type": "custom",
         "order": 300,
-        "title": "APP.ACTIONS.VIEW",
-        "icon": "visibility",
-        "actions": {
-          "click": "VIEW_FILE"
+        "data": {
+          "title": "APP.ACTIONS.VIEW",
+          "iconButton": true
         },
+        "component": "app.toolbar.viewNode",
         "rules": {
           "visible": "canViewFile"
         }
@@ -504,12 +505,13 @@
       },
       {
         "id": "app.context.menu.preview",
+        "type": "custom",
         "order": 300,
-        "title": "APP.ACTIONS.VIEW",
-        "icon": "visibility",
-        "actions": {
-          "click": "VIEW_FILE"
+        "data": {
+          "title": "APP.ACTIONS.VIEW",
+          "menuButton": true
         },
+        "component": "app.toolbar.viewNode",
         "rules": {
           "visible": "canViewFile"
         }
@@ -581,6 +583,7 @@
         "comment": "workaround for Recent Files and Search API issue",
         "type": "custom",
         "order": 802,
+        "data": "['/favorites', '/favorite/libraries']",
         "component": "app.toolbar.toggleFavorite",
         "rules": {
           "visible": "canToggleFavorite"

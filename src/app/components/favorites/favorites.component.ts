@@ -112,7 +112,7 @@ export class FavoritesComponent extends PageComponent implements OnInit {
       }
 
       if (node.entry.isFile) {
-        this.showPreview(node);
+        this.showPreview(node, this.router.url);
       }
     }
   }

@@ -25,7 +25,7 @@
 
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NodePaging, Pagination, MinimalNodeEntity } from '@alfresco/js-api';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import {
   SearchQueryBuilderService,
   SearchFilterComponent
@@ -69,7 +69,8 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     store: Store<AppStore>,
     extensions: AppExtensionService,
     content: ContentManagementService,
-    private translationService: TranslationService
+    private translationService: TranslationService,
+    private router: Router
   ) {
     super(store, extensions, content);
 
@@ -251,7 +252,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
         return;
       }
 
-      this.showPreview(node);
+      this.showPreview(node, this.router.url);
     }
   }
 

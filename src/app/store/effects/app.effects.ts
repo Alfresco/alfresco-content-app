@@ -29,7 +29,8 @@ import { map } from 'rxjs/operators';
 import {
   AppActionTypes,
   LogoutAction,
-  ReloadDocumentListAction
+  ReloadDocumentListAction,
+  ResetSelectionAction
 } from '@alfresco/aca-shared/store';
 import { AuthenticationService } from '@alfresco/adf-core';
 import { Router } from '@angular/router';
@@ -49,6 +50,14 @@ export class AppEffects {
     ofType<ReloadDocumentListAction>(AppActionTypes.ReloadDocumentList),
     map(action => {
       this.content.reload.next(action);
+    })
+  );
+
+  @Effect({ dispatch: false })
+  resetSelection = this.actions$.pipe(
+    ofType<ResetSelectionAction>(AppActionTypes.ResetSelection),
+    map(action => {
+      this.content.reset.next(action);
     })
   );
 

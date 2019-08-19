@@ -20,6 +20,9 @@
   </ng-container>
 
   <ng-container *ngSwitchCase="'custom'">
-    <adf-dynamic-component [id]="actionRef.component"></adf-dynamic-component>
+    <adf-dynamic-component
+      [data]="actionRef.data"
+      [id]="actionRef.component"
+    ></adf-dynamic-component>
   </ng-container>
 </ng-container>

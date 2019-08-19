@@ -36,7 +36,7 @@ export enum ViewerActionTypes {
 export class ViewFileAction implements Action {
   readonly type = ViewerActionTypes.ViewFile;
 
-  constructor(public payload: MinimalNodeEntity, public parentId?: string) {}
+  constructor(public payload?: MinimalNodeEntity, public parentId?: string) {}
 }
 
 export class ViewNodeAction implements Action {
