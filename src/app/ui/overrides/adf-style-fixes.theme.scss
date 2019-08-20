@@ -5,11 +5,13 @@
   $foreground: map-get($theme, foreground);
   $primary: map-get($theme, primary);
 
-  $document-list-text-color: mat-color($foreground, text, 0.54) !default;
-  $document-list-name-text-color: mat-color($foreground, text) !default;
+  $data-table-cell-link-color: mat-color($foreground, text) !default;
 
-  .adf-datatable .adf-datatable-cell {
-    color: $document-list-text-color;
+  .adf-datatable {
+    .adf-datatable-link,
+    .adf-location-cell a {
+      color: $data-table-cell-link-color;
+    }
   }
 
   .adf-content-node-selector-content-list .adf-datatable-list {
