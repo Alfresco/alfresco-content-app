@@ -16,14 +16,6 @@
     .adf-datatable-cell {
       flex: 0 1 auto;
       min-width: 1px;
-
-      &:nth-child(2) {
-        flex: 1 0 200px;
-      }
-
-      &.adf-content-selector-visibility-cell {
-        display: initial;
-      }
     }
   }
 
