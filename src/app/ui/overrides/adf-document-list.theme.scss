@@ -1,6 +1,6 @@
 @import 'mixins';
 
-@mixin adf-document-list-theme-test($theme) {
+@mixin adf-style-fixes($theme) {
   $background: map-get($theme, background);
   $foreground: map-get($theme, foreground);
   $primary: map-get($theme, primary);
@@ -23,6 +23,21 @@
 
       &.adf-content-selector-visibility-cell {
         display: initial;
+      }
+    }
+  }
+
+  adf-permission-list {
+    .adf-display-permission-container {
+      flex: 1;
+
+      .adf-datatable-permission {
+        width: 100%;
+
+        .adf-datatable-cell--icon, // '--icon' should be replaced with '--image' as in all the other data tables
+        .adf-datatable-cell--image {
+          min-width: $data-table-thumbnail-width;
+        }
       }
     }
   }
