@@ -12,8 +12,11 @@
       flex: 1;
 
       .adf-datatable-permission {
-        .adf-datatable-cell--icon {
-          width: auto;
+        width: 100%;
+
+        .adf-datatable-cell--icon, // '--icon' should be replaced with '--image' as in all the other data tables
+        .adf-datatable-cell--image {
+          min-width: $data-table-thumbnail-width;
         }
       }
     }

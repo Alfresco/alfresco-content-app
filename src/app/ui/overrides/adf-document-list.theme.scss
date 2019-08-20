@@ -8,13 +8,8 @@
   $document-list-text-color: mat-color($foreground, text, 0.54) !default;
   $document-list-name-text-color: mat-color($foreground, text) !default;
 
-  .adf-datatable {
-    @include flex-column;
-    overflow-y: scroll;
-
-    .adf-datatable-cell {
-      color: $document-list-text-color;
-    }
+  .adf-datatable .adf-datatable-cell {
+    color: $document-list-text-color;
   }
 
   .adf-content-node-selector-content-list .adf-datatable-list {
