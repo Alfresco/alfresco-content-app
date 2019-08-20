@@ -17,13 +17,6 @@
     @include flex-column;
     overflow-y: scroll;
 
-    .adf-datatable-cell-header,
-    .adf-datatable-cell {
-      &:focus {
-        outline: none !important;
-      }
-    }
-
     .adf-datatable-cell {
       color: $document-list-text-color;
     }
