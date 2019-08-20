@@ -8,7 +8,6 @@
   $document-list-selection-background: #e0f7fa !default;
   $document-list-text-color: mat-color($foreground, text, 0.54) !default;
   $document-list-name-text-color: mat-color($foreground, text) !default;
-  $data-table-thumbnail-width: 50px !default;
 
   .adf-datatable-list {
     border: none;
@@ -20,10 +19,6 @@
 
     .adf-datatable-cell-header,
     .adf-datatable-cell {
-      &:first-child {
-        min-width: $data-table-thumbnail-width;
-      }
-
       &:focus {
         outline: none !important;
       }
