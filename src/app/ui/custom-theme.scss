@@ -80,6 +80,7 @@ $warn: map-get($custom-theme, warn);
 $document-list-selection-color: mat-color($alfresco-ecm-blue, 500);
 $document-list-background: white;
 $data-table-thumbnail-width: 35px;
+$data-table-cell-min-width: 120px;
 
 $adf-pagination--border: 1px solid mat-color($foreground, text, 0.07);
 $adf-pagination__empty--height: 0;
