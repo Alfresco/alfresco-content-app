@@ -20,10 +20,6 @@
 
     .adf-datatable-cell-header,
     .adf-datatable-cell {
-      &.adf-no-grow-cell {
-        min-width: 120px;
-      }
-
       &.adf-datatable-cell--fileSize {
         min-width: 80px;
       }
