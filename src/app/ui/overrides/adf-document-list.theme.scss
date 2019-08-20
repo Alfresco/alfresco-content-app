@@ -12,25 +12,6 @@
 
   .adf-datatable-list {
     border: none;
-
-    .adf-ellipsis-cell {
-      overflow: hidden;
-    }
-
-    .adf-dynamic-column .adf-datatable-link:hover {
-      text-decoration: none;
-
-      .adf-datatable-cell-value {
-        text-decoration: underline;
-      }
-    }
-
-    .adf-datatable-cell,
-    .adf-datatable-cell-header {
-      .adf-datatable-link .adf-datatable-cell-value {
-        padding: 0 10px;
-      }
-    }
   }
 
   .adf-datatable {
