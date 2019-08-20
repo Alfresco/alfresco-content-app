@@ -15,15 +15,6 @@
     .adf-datatable-cell {
       color: $document-list-text-color;
     }
-
-    .adf-datatable--empty {
-      .adf-datatable-row {
-        &:hover,
-        &:focus {
-          background-color: unset;
-        }
-      }
-    }
   }
 
   .adf-content-node-selector-content-list .adf-datatable-list {
