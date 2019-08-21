@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { NodePaging, Pagination, MinimalNodeEntity } from '@alfresco/js-api';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import {
@@ -46,6 +46,7 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'aca-search-results',
   templateUrl: './search-results.component.html',
+  encapsulation: ViewEncapsulation.None,
   styleUrls: ['./search-results.component.scss']
 })
 export class SearchResultsComponent extends PageComponent implements OnInit {
