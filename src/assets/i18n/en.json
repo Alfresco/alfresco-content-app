@@ -502,7 +502,8 @@
     },
     "CUSTOM_NAME_COLUMN": {
         "ACCESSIBILITY": {
-            "LINK_ARIA_LABEL": "View file {{ fileName }}"
+            "FILE_LINK_ARIA_LABEL": "View file {{ name }}",
+            "FOLDER_LINK_ARIA_LABEL": "Open {{ name }} folder"
         }
     }
 }

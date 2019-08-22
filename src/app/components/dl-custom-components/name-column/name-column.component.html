@@ -7,10 +7,12 @@
   <span
     role="link"
     [attr.aria-label]="
-      'CUSTOM_NAME_COLUMN.ACCESSIBILITY.LINK_ARIA_LABEL'
+      (isFile()
+        ? 'CUSTOM_NAME_COLUMN.ACCESSIBILITY.FILE_LINK_ARIA_LABEL'
+        : 'CUSTOM_NAME_COLUMN.ACCESSIBILITY.FOLDER_LINK_ARIA_LABEL')
         | translate
           : {
-              fileName: displayText$ | async
+              name: displayText$ | async
             }
     "
     class="adf-datatable-cell-value"
