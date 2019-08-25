@@ -66,9 +66,9 @@ if [[ $ACSURL ]]; then
   cat /tmp/app.config.json > ./app.config.json
 fi
 
-if [[ $BASEPATH ]]; then
+if [[ $BASE_PATH ]]; then
   replace="\/"
-  encoded=${BASEPATH//\//$replace}
+  encoded=${BASE_PATH//\//$replace}
   sed -i s%href=\"/\"%href=\""$encoded"\"%g /tmp/index.html && \
   cat /tmp/index.html > ./index.html
 fi

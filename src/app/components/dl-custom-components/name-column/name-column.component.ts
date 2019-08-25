@@ -102,7 +102,7 @@ export class CustomNameColumnComponent extends NameColumnComponent
   }
 
   isFile(): boolean {
-    return this.node && this.node.entry && this.node.entry.isFile;
+    return this.node && this.node.entry && !this.node.entry.isFolder;
   }
 
   isFileWriteLocked(): boolean {
