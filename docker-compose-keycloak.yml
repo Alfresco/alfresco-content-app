@@ -40,8 +40,8 @@ services:
         -Dtika.url=http://tika:8090/
         -Dtransform.misc.url=http://transform-misc:8090/
 
-        -Dauthentication.chain=identity-service1:identity-service
-        -Didentity-service.enable-basic-auth=false
+        -Dauthentication.chain=identity-service1:identity-service,alfrescoNtlm1:alfrescoNtlm
+        -Didentity-service.enable-basic-auth=true
         -Didentity-service.authentication.validation.failure.silent=false
         -Didentity-service.auth-server-url=http://${HOST_IP}:8085/auth
         -Didentity-service.realm=alfresco
