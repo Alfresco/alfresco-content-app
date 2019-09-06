@@ -208,6 +208,34 @@ Navigation definition also supports custom components to be dynamically render. 
 ]
 ```
 
+Navigation items or group of navigation items can be conditional render based on defined rules.
+
+```json
+"navbar": [
+  {
+    "id": "custom-group-1",
+    "rules": {
+      "visible": "rule-reference-id"
+    },
+    "items": [ ... ]
+  },
+  {
+    "id": "custom-group-2",
+    "items": [
+        {
+          "id": "itemId",
+          "rules": {
+            "visible": "rule-reference-id"
+          },
+          ...
+        }
+    ]
+  }
+]
+```
+
+For more informations about rules checkout [Rules](../extending/rules.md) section.
+
 Note that components must be declared as entryComponents under the app module.
 
 For more information about the content of a custom page see [Document List Layout](/features/document-list-layout) section.

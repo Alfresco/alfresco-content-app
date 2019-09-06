@@ -694,6 +694,62 @@ describe('AppExtensionService', () => {
         { items: [{ children: [] }] }
       ]);
     });
+
+    it('should filter out items based on rule', () => {
+      spyOn(service, 'filterVisible').and.callFake(item => {
+        if (item.rules) {
+          return item.rules.visible;
+        } else {
+          return true;
+        }
+      });
+
+      const navigation = service.getApplicationNavigation([
+        {
+          id: 'groupId',
+          items: [
+            {
+              id: 'itemId',
+              route: 'route1',
+              rules: { visible: false }
+            }
+          ]
+        }
+      ]);
+
+      expect(navigation).toEqual([{ id: 'groupId', items: [] }]);
+    });
+
+    it('should filter out group based on rule', () => {
+      spyOn(service, 'filterVisible').and.callFake(item => {
+        if (item.rules) {
+          return item.rules.visible;
+        } else {
+          return true;
+        }
+      });
+
+      const navigation = service.getApplicationNavigation([
+        {
+          id: 'group1',
+          rules: {
+            visible: false
+          },
+          items: [
+            {
+              id: 'item1',
+              route: 'route1'
+            }
+          ]
+        },
+        {
+          id: 'group2',
+          items: []
+        }
+      ]);
+
+      expect(navigation).toEqual([{ id: 'group2', items: [] }]);
+    });
   });
 
   describe('getSharedLinkViewerToolbarActions', () => {
