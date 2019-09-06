@@ -74,12 +74,14 @@ describe('ViewerEffects', () => {
   });
 
   describe('ViewNode', () => {
-    it('should open viewer from file location', fakeAsync(() => {
-      store.dispatch(new ViewNodeAction('nodeId', 'some-location'));
+    it('should open viewer from file location if', fakeAsync(() => {
+      store.dispatch(
+        new ViewNodeAction('nodeId', { location: 'some-location' })
+      );
       tick(100);
 
       expect(router.navigateByUrl['calls'].argsFor(0)[0].toString()).toEqual(
-        '/some-location/(viewer:view/nodeId)?source=some-location'
+        '/some-location/(viewer:view/nodeId)?location=some-location'
       );
     }));
 
@@ -89,6 +91,15 @@ describe('ViewerEffects', () => {
 
       expect(router.navigateByUrl['calls'].argsFor(0)[0].toString()).toEqual(
         '/view/(viewer:nodeId)'
+      );
+    }));
+
+    it('should navigate to viewer route with query param if path is passed', fakeAsync(() => {
+      store.dispatch(new ViewNodeAction('nodeId', { path: 'absolute-path' }));
+      tick(100);
+
+      expect(router.navigateByUrl['calls'].argsFor(0)[0].toString()).toEqual(
+        '/view/(viewer:nodeId)?path=absolute-path'
       );
     }));
   });

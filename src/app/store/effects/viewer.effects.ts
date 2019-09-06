@@ -77,17 +77,28 @@ export class ViewerEffects {
   viewNode$ = this.actions$.pipe(
     ofType<ViewNodeAction>(ViewerActionTypes.ViewNode),
     map(action => {
-      if (action.location) {
-        const location = this.getNavigationCommands(action.location);
+      if (action.viewNodeExtras) {
+        const { location, path } = action.viewNodeExtras;
 
-        this.router.navigate(
-          [...location, { outlets: { viewer: ['view', action.nodeId] } }],
-          {
-            queryParams: {
-              source: action.location
+        if (location) {
+          const navigation = this.getNavigationCommands(location);
+
+          this.router.navigate(
+            [...navigation, { outlets: { viewer: ['view', action.nodeId] } }],
+            {
+              queryParams: { location }
             }
-          }
-        );
+          );
+        }
+
+        if (path) {
+          this.router.navigate(
+            ['view', { outlets: { viewer: [action.nodeId] } }],
+            {
+              queryParams: { path }
+            }
+          );
+        }
       } else {
         this.router.navigate([
           'view',

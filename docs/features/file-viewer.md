@@ -59,3 +59,66 @@ At the bottom of the content the Viewer Controls allow users to interact with th
   - Toggle audio
   - Audio volume
   - Full screen
+
+## Details
+
+The viewer can be invoked by calling [ViewNodeAction](../extending/application-actions). This method supports a second parameter `ViewNodeExtras` which affects the behaviour on opening and closing hte viewer as detailed bellow.
+
+```typescript
+// ViewNodeExtras
+
+export interface ViewNodeExtras {
+  location?: string;
+  path?: string;
+}
+```
+
+```typescript
+// app.routes.ts
+...
+{
+    path: 'custom-path',
+    children: [
+        {
+            path: '',
+            component: CustomComponent
+        },
+        {
+            path: 'view/:nodeId',
+            outlet: 'viewer',
+            children: [
+                {
+                    path: '',
+                    loadChildren: './components/viewer/viewer.module#AppViewerModule'
+                }
+            ]
+        }
+    ]
+}
+...
+```
+
+```typescript
+// custom-component.component.ts
+
+import { ViewNodeAction } from '@alfresco/aca-shared/store';
+import { Router } from '@angular/router';
+
+@Component({...})
+export class CustomComponent {
+    constructor(private store: Store<AppStore>, private router: Router)
+
+    viewNode(nodeId: string) {
+        this.store.dispatch(new ViewNodeAction(nodeId, { location: this.router.url }));
+    }
+}
+```
+
+In the above example, passing `location` when calling `ViewNodeAction` will open the viewer relative to current activated route _/custom-path/(viewer:view/nodeId)_.
+
+If no location is passed, the viewer will default to open on a [predefined route](https://github.com/Alfresco/alfresco-content-app/blob/development/src/app/app.routes.ts#L58). In this case, in order to get back to original location from where the viewer was invoked, `ViewNodeAction` should be called by passing a `path`.
+
+```typescript
+// when invoked from an extension
+this.store.dispatch(new ViewNodeAction(nodeId, { path: this.router.url }));
+```

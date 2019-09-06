@@ -131,6 +131,8 @@ describe('SharedFilesComponent', () => {
     fixture.detectChanges();
 
     component.preview(node);
-    expect(component.showPreview).toHaveBeenCalledWith(node, mockRouter.url);
+    expect(component.showPreview).toHaveBeenCalledWith(node, {
+      location: mockRouter.url
+    });
   });
 });
