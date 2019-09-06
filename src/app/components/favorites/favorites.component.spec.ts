@@ -185,9 +185,8 @@ describe('FavoritesComponent', () => {
     fixture.detectChanges();
 
     component.onNodeDoubleClick(nodeEntity);
-    expect(component.showPreview).toHaveBeenCalledWith(
-      nodeEntity,
-      mockRouter.url
-    );
+    expect(component.showPreview).toHaveBeenCalledWith(nodeEntity, {
+      location: mockRouter.url
+    });
   });
 });
