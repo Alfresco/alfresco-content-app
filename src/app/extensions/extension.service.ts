@@ -235,71 +235,73 @@ export class AppExtensionService implements RuleContext {
   }
 
   getApplicationNavigation(elements) {
-    return elements.map(group => {
-      return {
-        ...group,
-        items: (group.items || [])
-          .filter(entry => !entry.disabled)
-          .filter(item => this.filterVisible(item))
-          .sort(sortByOrder)
-          .map(item => {
-            if (item.children && item.children.length > 0) {
-              item.children = item.children
-                .filter(entry => !entry.disabled)
-                .filter(child => this.filterVisible(child))
-                .sort(sortByOrder)
-                .map(child => {
-                  if (child.component) {
-                    return {
-                      ...child
-                    };
-                  }
+    return elements
+      .filter(group => this.filterVisible(group))
+      .map(group => {
+        return {
+          ...group,
+          items: (group.items || [])
+            .filter(entry => !entry.disabled)
+            .filter(item => this.filterVisible(item))
+            .sort(sortByOrder)
+            .map(item => {
+              if (item.children && item.children.length > 0) {
+                item.children = item.children
+                  .filter(entry => !entry.disabled)
+                  .filter(child => this.filterVisible(child))
+                  .sort(sortByOrder)
+                  .map(child => {
+                    if (child.component) {
+                      return {
+                        ...child
+                      };
+                    }
 
-                  if (!child.click) {
-                    const childRouteRef = this.extensions.getRouteById(
-                      child.route
-                    );
-                    const childUrl = `/${
-                      childRouteRef ? childRouteRef.path : child.route
-                    }`;
+                    if (!child.click) {
+                      const childRouteRef = this.extensions.getRouteById(
+                        child.route
+                      );
+                      const childUrl = `/${
+                        childRouteRef ? childRouteRef.path : child.route
+                      }`;
+                      return {
+                        ...child,
+                        url: childUrl
+                      };
+                    }
+
                     return {
                       ...child,
-                      url: childUrl
+                      action: child.click
                     };
-                  }
+                  });
 
-                  return {
-                    ...child,
-                    action: child.click
-                  };
-                });
+                return {
+                  ...item
+                };
+              }
 
-              return {
-                ...item
-              };
-            }
+              if (item.component) {
+                return { ...item };
+              }
 
-            if (item.component) {
-              return { ...item };
-            }
+              if (!item.click) {
+                const routeRef = this.extensions.getRouteById(item.route);
+                const url = `/${routeRef ? routeRef.path : item.route}`;
+                return {
+                  ...item,
+                  url
+                };
+              }
 
-            if (!item.click) {
-              const routeRef = this.extensions.getRouteById(item.route);
-              const url = `/${routeRef ? routeRef.path : item.route}`;
               return {
                 ...item,
-                url
+                action: item.click
               };
-            }
-
-            return {
-              ...item,
-              action: item.click
-            };
-          })
-          .reduce(reduceEmptyMenus, [])
-      };
-    });
+            })
+            .reduce(reduceEmptyMenus, [])
+        };
+      });
   }
 
   loadContentMetadata(config: ExtensionConfig): any {
