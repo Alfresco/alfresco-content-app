@@ -151,7 +151,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
         return;
       }
 
-      this.showPreview(node, this.router.url);
+      this.showPreview(node, { location: this.router.url });
     }
   }
 

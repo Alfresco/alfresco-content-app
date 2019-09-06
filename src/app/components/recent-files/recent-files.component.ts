@@ -77,7 +77,7 @@ export class RecentFilesComponent extends PageComponent implements OnInit {
 
   onNodeDoubleClick(node: MinimalNodeEntity) {
     if (node && node.entry) {
-      this.showPreview(node, this.router.url);
+      this.showPreview(node, { location: this.router.url });
     }
   }
 

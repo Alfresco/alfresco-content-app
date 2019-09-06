@@ -126,7 +126,7 @@ export class SearchResultsRowComponent implements OnInit, OnDestroy {
   showPreview(event: MouseEvent) {
     event.stopPropagation();
     this.store.dispatch(
-      new ViewNodeAction(this.node.entry.id, this.router.url)
+      new ViewNodeAction(this.node.entry.id, { location: this.router.url })
     );
   }
 

@@ -43,7 +43,8 @@ import {
   getDocumentDisplayMode,
   isInfoDrawerOpened,
   getSharedUrl,
-  ViewNodeAction
+  ViewNodeAction,
+  ViewNodeExtras
 } from '@alfresco/aca-shared/store';
 import { isLocked, isLibrary } from '../utils/node.utils';
 
@@ -105,12 +106,12 @@ export abstract class PageComponent implements OnInit, OnDestroy {
     this.onDestroy$.complete();
   }
 
-  showPreview(node: MinimalNodeEntity, location?: string) {
+  showPreview(node: MinimalNodeEntity, extras?: ViewNodeExtras) {
     if (node && node.entry) {
       const id =
         (<any>node).entry.nodeId || (<any>node).entry.guid || node.entry.id;
 
-      this.store.dispatch(new ViewNodeAction(id, location));
+      this.store.dispatch(new ViewNodeAction(id, extras));
     }
   }
 
