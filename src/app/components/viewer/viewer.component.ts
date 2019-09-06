@@ -59,6 +59,8 @@ import { ReloadDocumentListAction } from '@alfresco/aca-shared/store';
   host: { class: 'app-viewer' }
 })
 export class AppViewerComponent implements OnInit, OnDestroy {
+  private navigationPath: string;
+
   onDestroy$ = new Subject<boolean>();
 
   folderId: string = null;
@@ -149,6 +151,10 @@ export class AppViewerComponent implements OnInit, OnDestroy {
       }
     });
 
+    this.route.queryParams.subscribe(params => {
+      this.navigationPath = params.path;
+    });
+
     if (this.route.snapshot.data && this.route.snapshot.data.navigateSource) {
       const source = this.route.snapshot.data.navigateSource.toLowerCase();
       if (this.navigationSources.includes(source)) {
@@ -231,12 +237,12 @@ export class AppViewerComponent implements OnInit, OnDestroy {
   onNavigateBefore(): void {
     const location = this.getFileLocation();
 
-    this.store.dispatch(new ViewNodeAction(this.previousNodeId, location));
+    this.store.dispatch(new ViewNodeAction(this.previousNodeId, { location }));
   }
 
   onNavigateNext(): void {
     const location = this.getFileLocation();
-    this.store.dispatch(new ViewNodeAction(this.nextNodeId, location));
+    this.store.dispatch(new ViewNodeAction(this.nextNodeId, { location }));
   }
 
   /**
@@ -425,7 +431,7 @@ export class AppViewerComponent implements OnInit, OnDestroy {
 
   private getFileLocation(): string {
     return this.router
-      .parseUrl(this.router.url)
+      .parseUrl(this.navigationPath || this.router.url)
       .root.children[PRIMARY_OUTLET].toString();
   }
 }
