@@ -69,7 +69,9 @@ export class ViewNodeComponent {
           (<any>selection.file).entry.guid ||
           selection.file.entry.id;
 
-        this.store.dispatch(new ViewNodeAction(id, this.router.url));
+        this.store.dispatch(
+          new ViewNodeAction(id, { location: this.router.url })
+        );
       });
   }
 }

@@ -2,13 +2,12 @@ version: '2'
 
 services:
   alfresco:
-    image: alfresco/alfresco-content-repository-community:6.1.2-ga
+    image: alfresco/alfresco-content-repository-community:latest
     mem_limit: 1500m
     depends_on:
-      - postgres
       - auth
     environment:
-      AUTH_SERVER_URL: ${AUTH_SERVER_URL}
+      HOST_IP: ${HOST_IP}
       JAVA_OPTS: '
         -Ddb.driver=org.postgresql.Driver
         -Ddb.username=alfresco
@@ -21,15 +20,30 @@ services:
         -Dindex.subsystem.name=solr6
         -Dshare.host=localhost
         -Dalfresco.port=8080
-        -Daos.baseUrlOverwrite=http://localhost:8080/alfresco/aos
+        -Daos.baseUrlOverwrite=http://${HOST_IP}:8080/alfresco/aos
         -Dmessaging.broker.url="failover:(nio://activemq:61616)?timeout=3000&jms.useCompression=true"
         -Ddeployment.method=DOCKER_COMPOSE
         -Dcsrf.filter.enabled=false
         -Xms1g -Xmx1g
+
+        -Dlocal.transform.service.enabled=true
+        -DlocalTransform.pdfrenderer.url=http://alfresco-pdf-renderer:8090/
+        -DlocalTransform.imagemagick.url=http://imagemagick:8090/
+        -DlocalTransform.libreoffice.url=http://libreoffice:8090/
+        -DlocalTransform.tika.url=http://tika:8090/
+        -DlocalTransform.misc.url=http://transform-misc:8090/
+
+        -Dlegacy.transform.service.enabled=true
+        -Dalfresco-pdf-renderer.url=http://alfresco-pdf-renderer:8090/
+        -Djodconverter.url=http://libreoffice:8090/
+        -Dimg.url=http://imagemagick:8090/
+        -Dtika.url=http://tika:8090/
+        -Dtransform.misc.url=http://transform-misc:8090/
+
         -Dauthentication.chain=identity-service1:identity-service,alfrescoNtlm1:alfrescoNtlm
         -Didentity-service.enable-basic-auth=true
         -Didentity-service.authentication.validation.failure.silent=false
-        -Didentity-service.auth-server-url=${AUTH_SERVER_URL}
+        -Didentity-service.auth-server-url=http://${HOST_IP}:8085/auth
         -Didentity-service.realm=alfresco
         -Didentity-service.resource=alfresco
         '
@@ -37,6 +51,51 @@ services:
       - internal
     ports:
       - 8080:8080 #Browser port
+
+  alfresco-pdf-renderer:
+    image: alfresco/alfresco-pdf-renderer:2.1.0-EA4
+    environment:
+      JAVA_OPTS: ' -Xms256m -Xmx256m'
+    networks:
+      - internal
+    ports:
+      - 8090:8090
+
+  imagemagick:
+    image: alfresco/alfresco-imagemagick:2.1.0-EA4
+    environment:
+      JAVA_OPTS: ' -Xms256m -Xmx256m'
+    networks:
+      - internal
+    ports:
+      - 8091:8090
+
+  libreoffice:
+    image: alfresco/alfresco-libreoffice:2.1.0-EA4
+    environment:
+      JAVA_OPTS: ' -Xms256m -Xmx256m'
+    networks:
+      - internal
+    ports:
+      - 8092:8090
+
+  tika:
+    image: alfresco/alfresco-tika:2.1.0-EA4
+    environment:
+      JAVA_OPTS: ' -Xms256m -Xmx256m'
+    networks:
+      - internal
+    ports:
+      - 8093:8090
+
+  transform-misc:
+    image: alfresco/alfresco-transform-misc:2.1.0-EA4
+    environment:
+      JAVA_OPTS: ' -Xms256m -Xmx256m'
+    networks:
+      - internal
+    ports:
+      - 8094:8090
 
   share:
     image: alfresco/alfresco-share:6.1.0-RC3
@@ -107,10 +166,10 @@ services:
       APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI: ${APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI}
       APP_CONFIG_OAUTH2_REDIRECT_LOGIN: ${APP_CONFIG_OAUTH2_REDIRECT_LOGIN}
       APP_CONFIG_OAUTH2_REDIRECT_LOGOUT: ${APP_CONFIG_OAUTH2_REDIRECT_LOGOUT}
-    depends_on:
-      - alfresco
     networks:
       - internal
+    depends_on:
+      - alfresco
     ports:
       - 4001:80
     # volumes:
@@ -121,10 +180,15 @@ services:
     image: nginx:stable-alpine
     depends_on:
       - content-app
+      - alfresco
     volumes:
       - ./docker/proxy/nginx.conf:/etc/nginx/conf.d/default.conf
     networks:
       - internal
+    links:
+      - content-app
+      - alfresco
+      - share
     ports:
       - 4000:80
 
@@ -132,13 +196,13 @@ services:
     image: jboss/keycloak:4.8.3.Final
     volumes:
       - ./docker/auth/alfresco-realm.json:/tmp/alfresco-realm.json
+    networks:
+      - internal
     environment:
       - KEYCLOAK_USER=admin
       - KEYCLOAK_PASSWORD=admin
       - KEYCLOAK_IMPORT=/tmp/alfresco-realm.json
       - DB_VENDOR=h2
-    networks:
-      - internal
     ports:
       - 8085:8080
 

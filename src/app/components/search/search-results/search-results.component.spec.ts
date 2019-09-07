@@ -305,7 +305,9 @@ describe('SearchComponent', () => {
 
     component.onNodeDoubleClick(node);
 
-    expect(component.showPreview).toHaveBeenCalledWith(node, router.url);
+    expect(component.showPreview).toHaveBeenCalledWith(node, {
+      location: router.url
+    });
   });
 
   it('should re-run search on pagination change', () => {

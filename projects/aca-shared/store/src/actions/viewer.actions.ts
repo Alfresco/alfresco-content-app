@@ -33,6 +33,11 @@ export enum ViewerActionTypes {
   ClosePreview = 'CLOSE_PREVIEW'
 }
 
+export interface ViewNodeExtras {
+  location?: string;
+  path?: string;
+}
+
 export class ViewFileAction implements Action {
   readonly type = ViewerActionTypes.ViewFile;
 
@@ -42,7 +47,7 @@ export class ViewFileAction implements Action {
 export class ViewNodeAction implements Action {
   readonly type = ViewerActionTypes.ViewNode;
 
-  constructor(public nodeId: string, public location?: string) {}
+  constructor(public nodeId: string, public viewNodeExtras?: ViewNodeExtras) {}
 }
 
 export class FullscreenViewerAction implements Action {

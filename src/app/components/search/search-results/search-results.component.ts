@@ -253,7 +253,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
         return;
       }
 
-      this.showPreview(node, this.router.url);
+      this.showPreview(node, { location: this.router.url });
     }
   }
 
