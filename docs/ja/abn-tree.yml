@@ -1,0 +1,44 @@
+- features:
+    title: App features
+    children:
+      - user-interface-layout.md: User interface layout
+      - header.md: Header
+      - side-navigation.md: Side navigation
+      - document-list-layout.md: Document List Layout
+      - file-viewer.md: File Viewer
+      - info-drawer.md: Info Drawer
+      - version-manager.md: Version Manager
+      - search-results.md: Search results
+- getting-started:
+    title: Getting started
+    children:
+      - prerequisites.md: Prerequisites
+      - building-from-source.md: Building from source
+      - internationalization.md: Internationalization
+      - cors.md: CORS
+      - configuration.md: Configuration
+      - navigation.md: Navigation
+      - docker.md: Docker
+- extending:
+    title: extending
+    children:
+      - extensibility-features.md: Extensibility features
+      - extension-format.md: Extension format
+      - routes.md: Routes
+      - components.md: Components
+      - actions.md: Actions
+      - application-actions.md: Application actions
+      - rules.md: Rules
+      - application-features.md: Application features
+      - icons.md: Custom icons
+      - registration.md: Registration
+      - creating-custom-evaluators.md: Creating custom evaluators
+      - tutorials.md: Tutorials
+      - redistributable-libraries.md: Redistributable libraries
+- tutorials:
+    title: Tutorials
+    children:
+      - introduction-to-extending.md: Introduction to extending ACA
+      - custom-route-with-parameters.md: Custom route with parameters
+      - dialog-actions.md: Dialog actions
+- help.md: 'Get help'
