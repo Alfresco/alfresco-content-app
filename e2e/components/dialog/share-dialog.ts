@@ -44,9 +44,7 @@ export class ShareDialog extends Component {
     button: `[data-automation-id='adf-share-dialog-close']`
   };
 
-  root: ElementFinder = this.component.element(by.css(ShareDialog.selectors.root));
-
-  dateTimePicker = new DateTimePicker(this.root);
+  dateTimePicker = new DateTimePicker();
 
   title: ElementFinder = this.component.element(by.css(ShareDialog.selectors.title));
   infoText: ElementFinder = this.component.element(by.css(ShareDialog.selectors.info));

@@ -66,7 +66,6 @@ export class DataTable extends Component {
     searchResultsNameLink: '.link'
   };
 
-  root: ElementFinder = this.component.element(by.css(DataTable.selectors.root));
   head: ElementFinder = this.component.element(by.css(DataTable.selectors.head));
   body: ElementFinder = this.component.element(by.css(DataTable.selectors.body));
 
@@ -78,7 +77,7 @@ export class DataTable extends Component {
 
   emptySearchText: ElementFinder = this.component.element(by.css(DataTable.selectors.emptySearchText));
 
-  menu: Menu = new Menu(this.root);
+  menu: Menu = new Menu();
 
   constructor(ancestor?: ElementFinder) {
     super(DataTable.selectors.root, ancestor);
