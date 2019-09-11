@@ -1,5 +1,6 @@
 ---
 Title: ルール
+nav: ja
 ---
 
 # ルール
@@ -200,7 +201,7 @@ Title: ルール
 | 1.7.0   | app.navigation.isLibraryFiles     | 現在のページは**ライブラリファイル**です。                               |
 
 **Tip:** 実行時に再利用される独自のエントリを登録する方法の詳細については、
-[登録](/extending/registration) セクションを参照してください。
+[登録](/ja/extending/registration) セクションを参照してください。
 
 ### 例
 

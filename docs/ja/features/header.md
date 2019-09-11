@@ -1,14 +1,15 @@
 ---
 Title: Header
+nav: ja
 ---
 
 # ヘッダー
 
 アプリケーションの [ヘッダー](../../src/app/components/header) には3つの主要な要素があります。
 
-1. [ロゴと色](#logo-and-color)
-2. [検索](#search)
-3. [現在のユーザ](#current-user)
+1. [ロゴと色](#ロゴと色)
+2. [検索](#検索)
+3. [現在のユーザ](#現在のユーザ)
 
 ![Header](../images/header.png)
 

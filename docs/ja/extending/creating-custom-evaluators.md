@@ -1,5 +1,6 @@
 ---
 Title: カスタムエバリュエータの作成
+nav: ja
 ---
 
 # カスタムエバリュエータの作成
@@ -66,4 +67,4 @@ extensions.setEvaluators({
 `core.every` のような複合ルールの一部として使用したりできます。
 
 **Tip:** 実行時に再利用される独自のエントリを登録する方法の詳細については、
-[登録](/extending/registration) セクションを参照してください。
+[登録](/ja/extending/registration) セクションを参照してください。

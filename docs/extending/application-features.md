@@ -115,7 +115,7 @@ You can populate the menu with an extra entries like in the example below:
 }
 ```
 
-Please refer to the [Content Actions](/extending/application-features#content-actions) section for more details on supported properties.
+Please refer to the [Content Actions](#content-actions) section for more details on supported properties.
 
 **Tip:** It is also possible to update or disable existing entries from within the external extension files. You will need to know the `id` of the target element to customize.
 

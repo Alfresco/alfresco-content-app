@@ -1,5 +1,6 @@
 ---
 Title: CORS
+nav: ja
 ---
 
 # CORS

@@ -1,6 +1,7 @@
 ---
 Title: Alfresco Content Application
 Github only: true
+nav: ja
 ---
 
 # Alfresco Content Application
@@ -14,11 +15,11 @@ Alfresco Content Application は、[Alfresco Application Development Framework (
 
 ドキュメントは次のセクションに分かれています:
 
-- [アプリの機能](/features/): ユーザーインターフェイスとアプリの使用方法の詳細。
-- [入門](/getting-started/): 開発環境とアプリの構成。
-- [拡張](/extending/): 独自のコードでアプリの機能を拡張する方法。
-- [チュートリアル](/tutorials/): 開発技術の詳細な調査。
-- [ヘルプ](/help): さらなるヘルプとサポートの詳細が利用可能です。
+- [アプリの機能](/ja/features/): ユーザーインターフェイスとアプリの使用方法の詳細。
+- [入門](/ja/getting-started/): 開発環境とアプリの構成。
+- [拡張](/ja/extending/): 独自のコードでアプリの機能を拡張する方法。
+- [チュートリアル](/ja/tutorials/): 開発技術の詳細な調査。
+- [ヘルプ](/ja/help): さらなるヘルプとサポートの詳細が利用可能です。
 
 ## 互換性
 

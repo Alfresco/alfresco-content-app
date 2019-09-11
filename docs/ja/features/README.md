@@ -1,6 +1,7 @@
 ---
 Title: アプリの機能
 Github only: true
+nav: ja
 ---
 
 # アプリの機能
@@ -16,11 +17,11 @@ Github only: true
 
 ## コンテンツ
 
-- [ユーザーインターフェイスのレイアウト](/features/user-interface-layout)
-- [ヘッダー](/features/header)
-- [サイドナビゲーション](/features/side-navigation)
-- [ドキュメントリストのレイアウト](/features/document-list-layout)
-- [ファイルビューア](/features/file-viewer)
-- [情報ドロワー](/features/info-drawer)
-- [バージョンマネージャ](/features/version-manager)
-- [検索結果](/features/search-results)
+- [ユーザーインターフェイスのレイアウト](/ja/features/user-interface-layout)
+- [ヘッダー](/ja/features/header)
+- [サイドナビゲーション](/ja/features/side-navigation)
+- [ドキュメントリストのレイアウト](/ja/features/document-list-layout)
+- [ファイルビューア](/ja/features/file-viewer)
+- [情報ドロワー](/ja/features/info-drawer)
+- [バージョンマネージャ](/ja/features/version-manager)
+- [検索結果](/ja/features/search-results)

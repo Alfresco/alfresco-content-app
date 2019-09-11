@@ -1,5 +1,6 @@
 ---
 Title: ルート
+nav: ja
 ---
 
 # ルート
@@ -29,9 +30,9 @@ Title: ルート
 | ------------- | -------------------------------------------------------------------------------------- |
 | **id**        | 一意の識別子。                                                                     |
 | **path**      | ルートの実行パス。                                                             |
-| **component** | ルートに使用するメインの[コンポーネント](/extending/components)。                                |
-| layout        | ルートに使用するレイアウト[コンポーネント](/extending/components)。                              |
-| auth          | [認証ガード](/extending/routes#authentication-guards)のリスト。デフォルトは `[ "app.auth" ]` です。 |
+| **component** | ルートに使用するメインの[コンポーネント](/ja/extending/components)。                                |
+| layout        | ルートに使用するレイアウト[コンポーネント](/ja/extending/components)。                              |
+| auth          | [認証ガード](#認証ガード)のリスト。デフォルトは `[ "app.auth" ]` です。 |
 | data          | ルートとともに移すカスタムプロパティバッグ。                                           |
 
 レイアウトプロパティの `app.layout.main` の値を使用して、
@@ -76,4 +77,4 @@ Title: ルート
 | app.auth | AuthGuardEcm | ADF ガードは、ACS の認証を検証し、必要に応じてログインにリダイレクトします。 |
 
 カスタムエクステンション内からこれらのガードを参照するか、
-カスタム実装を [登録](/extending/registration) できます。
+カスタム実装を [登録](/ja/extending/registration) できます。
