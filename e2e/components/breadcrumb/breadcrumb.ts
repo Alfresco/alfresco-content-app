@@ -53,7 +53,7 @@ export class Breadcrumb extends Component {
   }
 
   async getAllItems() {
-    return this.items.map(async elem => {
+    return this.items.map(async (elem: ElementFinder) => {
       const str = await elem.getText();
       return str.split('\nchevron_right')[0];
     });

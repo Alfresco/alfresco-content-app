@@ -77,7 +77,7 @@ export class DataTable extends Component {
 
   emptySearchText: ElementFinder = this.component.element(by.css(DataTable.selectors.emptySearchText));
 
-  menu: Menu = new Menu();
+  menu: Menu = new Menu(this.root);
 
   constructor(ancestor?: ElementFinder) {
     super(DataTable.selectors.root, ancestor);
