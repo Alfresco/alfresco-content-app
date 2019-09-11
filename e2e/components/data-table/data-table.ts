@@ -66,6 +66,7 @@ export class DataTable extends Component {
     searchResultsNameLink: '.link'
   };
 
+  root: ElementFinder = this.component.element(by.css(DataTable.selectors.root));
   head: ElementFinder = this.component.element(by.css(DataTable.selectors.head));
   body: ElementFinder = this.component.element(by.css(DataTable.selectors.body));
 
