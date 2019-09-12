@@ -13,8 +13,6 @@ const downloadFolder = `${projectRoot}/e2e-downloads`;
 const width = 1366;
 const height = 768;
 
-process.env.CHROME_BIN = require('puppeteer').executablePath();
-
 function rmDir(dirPath) {
   try {
     var files = fs.readdirSync(dirPath);
@@ -103,7 +101,7 @@ exports.config = {
       },
       args: [
         '--incognito',
-        '--headless',
+        // '--headless',
         '--remote-debugging-port=9222',
         '--disable-gpu',
         '--no-sandbox'
