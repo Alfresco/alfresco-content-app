@@ -16,34 +16,94 @@
     <script src="https://unpkg.com/docute@3/dist/docute.js"></script>
     <script src="https://unpkg.com/prismjs/components/prism-typescript.js"></script>
     <script>
+      var langs = [
+        { title: 'English', path: '/' },
+        { title: '日本語', path: '/ja/', matchPath: /^\/ja[\/$]/ }
+      ];
+
       docute.init({
-        toc: 'toc.md',
-        nav: [
-          {
-            title: 'Home',
-            path: '/'
-          },
-          {
-            title: 'App features',
-            path: '/features/'
-          },
-          {
-            title: 'Getting Started',
-            path: '/getting-started/'
-          },
-          {
-            title: 'Extending',
-            path: '/extending/'
-          },
-          {
-            title: 'Tutorials',
-            path: '/tutorials/'
-          },
-          {
-            title: 'Get Help',
-            path: '/help'
+        url: '.',
+        toc: $route => {
+          const isJapaneseLang = $route.path.split('/')[1] === 'ja';
+          const wasJapaneseLang = $route.from.path.split('/')[1] === 'ja';
+
+          if (wasJapaneseLang !== isJapaneseLang) {
+            const isFirstPageLoad =
+              $route.from.path === '/' && $route.from.meta.name !== 'home';
+            if (!isFirstPageLoad) {
+              document.location.reload();
+            }
           }
-        ],
+
+          if (isJapaneseLang) {
+            return './ja/toc.md';
+          }
+          return './toc.md';
+        },
+        nav: {
+          default: [
+            {
+              title: 'English',
+              type: 'dropdown',
+              items: langs
+            },
+            {
+              title: 'Home',
+              path: '/'
+            },
+            {
+              title: 'App features',
+              path: '/features/'
+            },
+            {
+              title: 'Getting Started',
+              path: '/getting-started/'
+            },
+            {
+              title: 'Extending',
+              path: '/extending/'
+            },
+            {
+              title: 'Tutorials',
+              path: '/tutorials/'
+            },
+            {
+              title: 'Get Help',
+              path: '/help'
+            }
+          ],
+          ja: [
+            {
+              title: '日本語',
+              type: 'dropdown',
+              items: langs
+            },
+            {
+              title: 'ホーム',
+              path: '/ja/'
+            },
+            {
+              title: 'アプリの機能',
+              path: '/ja/features/'
+            },
+            {
+              title: '入門',
+              path: '/ja/getting-started/'
+            },
+            {
+              title: '拡張',
+              path: '/ja/extending/'
+            },
+            {
+              title: 'チュートリアル',
+              path: '/ja/tutorials/'
+            },
+            {
+              title: 'ヘルプ',
+              path: '/ja/help'
+            }
+          ]
+        },
         icons: [
           {
             icon: 'github',

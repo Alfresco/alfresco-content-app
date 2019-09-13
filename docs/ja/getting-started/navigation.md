@@ -1,5 +1,6 @@
 ---
 Title: ナビゲーション
+nav: ja
 ---
 
 # ナビゲーション
@@ -76,7 +77,7 @@ Title: ナビゲーション
 }
 ```
 
-国際化の詳細については、[国際化 (i18n)](/getting-started/internationalization) セクションを参照してください。
+国際化の詳細については、[国際化 (i18n)](/ja/getting-started/internationalization) セクションを参照してください。
 
 ## ユーザー定義のナビゲーション
 
@@ -210,4 +211,4 @@ export class CustomPage {
 
 コンポーネントは app モジュールの下で entryComponents として宣言する必要があることに注意してください。
 
-カスタムページのコンテンツの詳細については、[ドキュメントリストのレイアウト](/features/document-list-layout) セクションを参照してください。
+カスタムページのコンテンツの詳細については、[ドキュメントリストのレイアウト](/ja/features/document-list-layout) セクションを参照してください。

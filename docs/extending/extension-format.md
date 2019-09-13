@@ -201,7 +201,7 @@ Final result:
 }
 ```
 
-You can find more details in the [Disabling Content](/extending/extension-format#disabling-content) section
+You can find more details in the [Disabling Content](#disabling-content) section
 
 ### Merging arrays
 

@@ -17,6 +17,7 @@ Learn how to extend the features of the Alfresco Content Application.
 - [Application actions](/extending/application-actions)
 - [Rules](/extending/rules)
 - [Application features](/extending/application-features)
+- [Custom icons](/extending/icons)
 - [Registration](/extending/registration)
 - [Creating custom evaluators](/extending/creating-custom-evaluators)
 - [Tutorials](/extending/tutorials)

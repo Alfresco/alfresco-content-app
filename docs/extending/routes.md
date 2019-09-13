@@ -31,7 +31,7 @@ To create a new route, populate the `routes` section with the corresponding entr
 | **path**      | Runtime path of the route.                                                             |
 | **component** | The main [component](/extending/components) to use for the route.                                |
 | layout        | The layout [component](/extending/components) to use for the route.                              |
-| auth          | List of [authentication guards](/extending/routes#authentication-guards). Defaults to `[ "app.auth" ]`. |
+| auth          | List of [authentication guards](#authentication-guards). Defaults to `[ "app.auth" ]`. |
 | data          | Custom property bag to carry with the route.                                           |
 
 Use the `app.layout.main` value for the `layout` property to get the default application layout,

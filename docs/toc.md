@@ -1,6 +1,6 @@
 - [Home](/)
-  - [Documentation](/#documentation)
-  - [How to contribute](/#how-to-contribute)
+  - [Documentation](/READMe#documentation)
+  - [How to contribute](/README#how-to-contribute)
 - [App features](/features/)
   - [User interface layout](/features/user-interface-layout)
   - [Header](/features/header)
