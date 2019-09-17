@@ -35,7 +35,7 @@ import {
   AppSharedRuleGuard,
   GenericErrorComponent
 } from '@alfresco/aca-shared';
-import { AuthGuardEcm } from '@alfresco/adf-core';
+import { AuthGuardEcm, AuthGuard } from '@alfresco/adf-core';
 
 export const APP_ROUTES: Routes = [
   {
@@ -73,6 +73,7 @@ export const APP_ROUTES: Routes = [
   {
     path: '',
     component: AppLayoutComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',
@@ -332,7 +333,6 @@ export const APP_ROUTES: Routes = [
         component: GenericErrorComponent
       }
     ],
-    canActivateChild: [AuthGuardEcm],
-    canActivate: [AuthGuardEcm]
+    canActivateChild: [AuthGuardEcm]
   }
 ];
