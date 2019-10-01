@@ -101,7 +101,7 @@ $adf-upload-dragging-background: #e0f7fa;
 $adf-upload-dragging-level1-color: unset;
 $adf-upload-dragging-level1-border: none;
 
-$adf-permission-list-width: 100% !default;
+$adf-permission-list-width: 100%;
 
 $defaults: (
   --theme-warn-color: mat-color($warn),
