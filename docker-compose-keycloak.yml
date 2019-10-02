@@ -159,7 +159,7 @@ services:
     image: alfresco/alfresco-content-app:latest
     build: .
     environment:
-      # BASEPATH: ./
+      BASE_PATH: ./
       APP_CONFIG_OAUTH2_HOST: ${APP_CONFIG_OAUTH2_HOST}
       APP_CONFIG_AUTH_TYPE: ${APP_CONFIG_AUTH_TYPE}
       APP_CONFIG_OAUTH2_CLIENTID: ${APP_CONFIG_OAUTH2_CLIENTID}
