@@ -1,31 +1,6 @@
 @import 'mixins';
 
 @mixin adf-style-fixes($theme) {
-  $background: map-get($theme, background);
-  $foreground: map-get($theme, foreground);
-  $primary: map-get($theme, primary);
-
-  $data-table-cell-link-color: mat-color($foreground, text) !default;
-
-  .adf-datatable {
-    .adf-datatable-link,
-    .adf-location-cell a {
-      color: $data-table-cell-link-color;
-    }
-  }
-
-  adf-permission-list {
-    .adf-display-permission-container {
-      flex: 1;
-
-      .adf-datatable-permission {
-        width: 100%;
-
-        .adf-datatable-cell--icon,
-        .adf-datatable-cell--image {
-          min-width: $data-table-thumbnail-width;
-        }
-      }
-    }
-  }
+  //  add here all ADF style overrides
+  //  and create a task to move them to ADF
 }
