@@ -166,7 +166,7 @@ services:
       APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI: ${APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI}
       APP_CONFIG_OAUTH2_REDIRECT_LOGIN: ${APP_CONFIG_OAUTH2_REDIRECT_LOGIN}
       APP_CONFIG_OAUTH2_REDIRECT_LOGOUT: ${APP_CONFIG_OAUTH2_REDIRECT_LOGOUT}
-      APP_BASE_SHARE_URL: "{protocol}//{hostname}{:port}/content-app/"
+      APP_BASE_SHARE_URL: "{protocol}//{hostname}{:port}/content-app/#/preview/s"
     networks:
       - internal
     depends_on:
