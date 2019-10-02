@@ -121,5 +121,5 @@ OAUTH2:
 APP Misc:
 
 - BASE_PATH: ...
-- APP_SERVER_PATH: Server path after host url e.g. /workspace. Defaults to /workspace
+- APP_SERVER_PATH: Server path after host url e.g. /content-app. Defaults to /content-app
 - APP_BASE_SHARE_URL: ...
