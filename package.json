@@ -29,7 +29,7 @@
     "format:fix": "prettier --write \"src/{app,environments}/**/*.{ts,js,css,scss,html}\"",
     "build.tomcat": "npm run build.shared && npm run build.extensions && npm run build.app -- --prod --base-href ./ && jar -cvf docker/tomcat/artifacts/content-app.war -C dist/app/ .",
     "build.tomcat.e2e": "./build-tomcat-e2e.sh",
-    "e2e.tomcat": "npm run wd:update && protractor --baseUrl=http://localhost:4000/content-app/ $SUITE",
+    "e2e.tomcat": "npm run wd:update && protractor --baseUrl=${TEST_BASE_URL:-http://localhost:4000/content-app/} $SUITE",
     "docker.tomcat.start": "cd docker/tomcat && docker-compose up -d --build && npm run wait:app",
     "docker.tomcat.stop": "cd docker/tomcat && docker-compose stop",
     "docker.tomcat.e2e": "npm run docker.tomcat.start && npm run e2e.tomcat"
