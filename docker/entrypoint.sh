@@ -1,7 +1,15 @@
 #!/bin/sh
 
+APP_SERVER_PATH=${APP_SERVER_PATH:-/content}
 cp ./app.config.json /tmp/app.config.json
 cp ./index.html /tmp/index.html
+cp /nginx.conf /tmp/nginx.conf
+
+if [ -n "${APP_SERVER_PATH}" ];then
+  sed -e "s#/content#$APP_SERVER_PATH#g" \
+    -i /tmp/nginx.conf && \
+  cat /tmp/nginx.conf > /nginx.conf
+fi
 
 if [ -n "${APP_CONFIG_AUTH_TYPE}" ];then
   sed -e "s/\"authType\": \".*\"/\"authType\": \"${APP_CONFIG_AUTH_TYPE}\"/g" \
@@ -81,4 +89,4 @@ if [ -n "${APP_BASE_SHARE_URL}" ];then
   cat /tmp/app.config.json > ./app.config.json
 fi
 
-nginx -g "daemon off;"
+nginx -g "daemon off;" -c /nginx.conf

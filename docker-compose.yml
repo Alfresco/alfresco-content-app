@@ -95,6 +95,8 @@ services:
       - alfresco
     networks:
       - internal
+    environment:
+      BASE_PATH: ./
     ports:
       - 4001:8080
     # volumes:

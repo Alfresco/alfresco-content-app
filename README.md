@@ -93,14 +93,33 @@ Read up on our guidelines for [contributing] and then check out one of our issue
 | 1.6     | Library management         | Join and favorite libraries. New search input to find Libraries, files and/or folders.                                                                                                         |
 | 1.7     | Edit Offline               | Lock and unlock for editing, download current version, upload new version.                                                                                                                     |
 | 1.7     | Edit with Microsoft Office | Extension to edit online with Alfresco Office Services (AOS)                                                                                                                                   |
-| 1.7     | Single Sign-On (SSO)       | Support for Alfresco Identity Service, with ADF 3.0.0    |        
-| 1.7     | Search Query Language      | Enhanced search input using the Alfresco Search Query Language    | 
-| 1.8     | Localizations .            | Arabic, Czech, Danish, Finnish, Polish and Swedish |
-| 1.8     | Metadata improvements      | Automatic display of aspects and properties |
-| 1.8     | Search facet improvements  | Facet intervals and grouped facet queries |
-| 1.8     | Extensibility improvements | Various - see [release notes](https://github.com/Alfresco/alfresco-content-app/releases) for details | 
+| 1.7     | Single Sign-On (SSO)       | Support for Alfresco Identity Service, with ADF 3.0.0                                                                                                                                          |
+| 1.7     | Search Query Language      | Enhanced search input using the Alfresco Search Query Language                                                                                                                                 |
+| 1.8     | Localizations .            | Arabic, Czech, Danish, Finnish, Polish and Swedish                                                                                                                                             |
+| 1.8     | Metadata improvements      | Automatic display of aspects and properties                                                                                                                                                    |
+| 1.8     | Search facet improvements  | Facet intervals and grouped facet queries                                                                                                                                                      |
+| 1.8     | Extensibility improvements | Various - see [release notes](https://github.com/Alfresco/alfresco-content-app/releases) for details                                                                                           |
 
 [contributing]: https://github.com/Alfresco/alfresco-content-app/blob/master/CONTRIBUTING.md
 [github]: https://github.com/Alfresco/alfresco-content-app/issues
 [jira]: https://issues.alfresco.com/jira/projects/ACA
 [release notes]: https://github.com/Alfresco/alfresco-content-app/releases
+
+## Docker alfresco/alfresco-content-app
+
+### Environment Variables
+
+OAUTH2:
+
+- APP_CONFIG_AUTH_TYPE: ...
+- APP_CONFIG_OAUTH2_HOST: ...
+- APP_CONFIG_OAUTH2_CLIENTID: ...
+- APP_CONFIG_OAUTH2_REDIRECT_LOGIN: ...
+- APP_CONFIG_OAUTH2_REDIRECT_LOGOUT: ...
+- APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI: ...
+
+APP Misc:
+
+- BASE_PATH: ...
+- APP_SERVER_PATH: Server path after host url e.g. /workspace. Defaults to /workspace
+- APP_BASE_SHARE_URL: ...

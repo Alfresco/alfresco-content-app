@@ -19,7 +19,7 @@ ARG GROUPID=1000
 ARG USERNAME=aca
 ARG USERID=33009
 
-COPY ./docker/nginx.conf /etc/nginx/nginx.conf
+COPY ./docker/nginx.conf /
 COPY ./docker/entrypoint.sh /
 
 WORKDIR /usr/share/nginx/html
@@ -34,7 +34,8 @@ RUN addgroup -g ${GROUPID} ${GROUPNAME} && \
   touch /var/run/nginx.pid && \
   chown -R ${USERNAME}:${GROUPNAME} /var/run/nginx.pid && \
   chmod +x /entrypoint.sh && \
-  chown -R ${USERNAME}:${GROUPNAME} /entrypoint.sh
+  chown -R ${USERNAME}:${GROUPNAME} /entrypoint.sh && \
+  chown -R ${USERNAME}:${GROUPNAME} /nginx.conf
 
 EXPOSE 8080
 USER ${USERNAME}
