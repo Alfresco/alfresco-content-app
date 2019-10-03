@@ -88,7 +88,6 @@ describe('Share a file', () => {
     });
 
     it('A non-logged user can download the shared file from the viewer - [C286326]', async () => {
-      console.log(`link: ${file6SharedLink}`)
       await browser.get(file6SharedLink);
       expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
       expect(await viewer.getFileTitle()).toEqual(file6);
