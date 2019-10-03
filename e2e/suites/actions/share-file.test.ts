@@ -48,7 +48,7 @@ describe('Share a file', () => {
   const viewer = new Viewer();
   const page = new BrowsingPage();
   const { dataTable, toolbar } = page;
-  const shareLinkPreUrl = "/content-app/#/preview/s/";
+  const shareLinkPreUrl = browser.baseUrl + browser.baseUrl.endsWith('/') ? '' : '/' + "#/preview/s/";
 
   const apis = {
     admin: new RepoClient(),
