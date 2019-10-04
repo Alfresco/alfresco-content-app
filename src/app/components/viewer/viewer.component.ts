@@ -109,6 +109,8 @@ export class AppViewerComponent implements OnInit, OnDestroy {
     '-TYPE:"lnk:link"'
   ];
 
+  fileName: string;
+
   private previewLocation: string;
 
   constructor(
@@ -218,6 +220,7 @@ export class AppViewerComponent implements OnInit, OnDestroy {
           this.previousNodeId = nearest.left;
           this.nextNodeId = nearest.right;
           this.nodeId = this.node.id;
+          this.fileName = this.node.name;
           return;
         }
       } catch (error) {
