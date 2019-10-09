@@ -505,5 +505,11 @@
             "FILE_LINK_ARIA_LABEL": "View file {{ name }}",
             "FOLDER_LINK_ARIA_LABEL": "Open {{ name }} folder"
         }
+    },
+    "ADF-DATATABLE": {
+        "FILE_TYPE": {
+            "BOOKS-24PX": "file library",
+            "BASELINE-LOCK-24PX": "locked file"
+        }
     }
 }

@@ -11,6 +11,7 @@
     "secret": "",
     "implicitFlow": true,
     "silentLogin": true,
+    "publicUrls": ["**/preview/s/*", "**/settings"],
     "redirectSilentIframeUri": "./assets/silent-refresh.html",
     "redirectUri": "/",
     "redirectUriLogout": "/logout"

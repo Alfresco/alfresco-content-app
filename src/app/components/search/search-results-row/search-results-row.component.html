@@ -1,8 +1,20 @@
 <div class="line">
-  <span *ngIf="isFile" (click)="showPreview($event)" class="link">
+  <span
+    tabindex="0"
+    role="link"
+    *ngIf="isFile"
+    (click)="showPreview($event)"
+    class="link"
+  >
     {{ name$ | async }}
   </span>
-  <span *ngIf="!isFile" (click)="navigate($event)" class="bold link">
+  <span
+    tabindex="0"
+    role="link"
+    *ngIf="!isFile"
+    (click)="navigate($event)"
+    class="bold link"
+  >
     {{ name$ | async }}
   </span>
   <span>{{ title$ | async }}</span>
