@@ -40,6 +40,7 @@ import { SharedLinkEntry } from '@alfresco/js-api';
     <button
       *ngIf="data.iconButton"
       mat-icon-button
+      [attr.aria-label]="data.title | translate"
       [attr.title]="data.title | translate"
       (click)="onClick()"
     >

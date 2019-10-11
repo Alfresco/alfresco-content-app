@@ -2,6 +2,7 @@
   [id]="actionRef.id"
   [color]="color"
   mat-icon-button
+  [attr.aria-label]="actionRef.description || actionRef.title | translate"
   [attr.title]="actionRef.description || actionRef.title | translate"
   [matMenuTriggerFor]="menu"
 >

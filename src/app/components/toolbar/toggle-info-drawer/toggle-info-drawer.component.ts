@@ -37,6 +37,7 @@ import {
     <button
       mat-icon-button
       [color]="(infoDrawerOpened$ | async) ? 'primary' : ''"
+      [attr.aria-label]="'APP.ACTIONS.DETAILS' | translate"
       [attr.title]="'APP.ACTIONS.DETAILS' | translate"
       (click)="onClick()"
     >
