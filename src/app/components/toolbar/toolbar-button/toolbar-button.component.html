@@ -4,6 +4,7 @@
       [id]="actionRef.id"
       mat-icon-button
       [color]="color"
+      [attr.aria-label]="actionRef.description || actionRef.title | translate"
       [attr.title]="actionRef.description || actionRef.title | translate"
       (click)="runAction()"
     >

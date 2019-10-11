@@ -35,10 +35,18 @@ import {
 @Component({
   selector: 'app-document-display-mode',
   template: `
-    <button mat-icon-button color="primary" (click)="onClick()">
-      <mat-icon *ngIf="(displayMode$ | async) === 'list'">view_comfy</mat-icon>
-      <mat-icon *ngIf="(displayMode$ | async) === 'gallery'">list</mat-icon>
-    </button>
+    <ng-container *ngIf="displayMode$ | async as displayMode">
+      <button
+        [attr.title]="getTitle(displayMode) | translate"
+        [attr.aria-label]="getTitle(displayMode) | translate"
+        mat-icon-button
+        color="primary"
+        (click)="onClick()"
+      >
+        <mat-icon *ngIf="displayMode === 'list'">view_comfy</mat-icon>
+        <mat-icon *ngIf="displayMode === 'gallery'">list</mat-icon>
+      </button>
+    </ng-container>
   `,
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-document-display-mode' }
@@ -48,6 +56,12 @@ export class DocumentDisplayModeComponent {
 
   constructor(private store: Store<AppStore>) {
     this.displayMode$ = store.select(getDocumentDisplayMode);
+  }
+
+  getTitle(displayMode: string): string {
+    return displayMode === 'list'
+      ? 'APP.ACTIONS.LIST_MODE'
+      : 'APP.ACTIONS.GALLERY_MODE';
   }
 
   onClick() {
