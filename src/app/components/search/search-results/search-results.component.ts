@@ -24,7 +24,11 @@
  */
 
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { NodePaging, Pagination, MinimalNodeEntity } from '@alfresco/js-api';
+import {
+  Pagination,
+  MinimalNodeEntity,
+  ResultSetPaging
+} from '@alfresco/js-api';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import {
   SearchQueryBuilderService,
@@ -57,7 +61,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
 
   searchedWord: string;
   queryParamName = 'q';
-  data: NodePaging;
+  data: ResultSetPaging;
   totalResults = 0;
   hasSelectedFilters = false;
   sorting = ['name', 'asc'];
@@ -201,7 +205,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     return this.formatFields(fields, userInput);
   }
 
-  onSearchResultLoaded(nodePaging: NodePaging) {
+  onSearchResultLoaded(nodePaging: ResultSetPaging) {
     this.data = nodePaging;
     this.totalResults = this.getNumberOfResults();
     this.hasSelectedFilters = this.isFiltered();
