@@ -131,7 +131,11 @@ export class DataTable extends Component {
       return 'asc';
     }
 
-    return 'desc';
+    if (str.includes('desc')) {
+      return 'desc';
+    }
+
+    return 'none';
   }
 
   async sortByColumn(columnName: string) {
