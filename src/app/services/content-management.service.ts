@@ -205,6 +205,7 @@ export class ContentManagementService {
       .subscribe(baseShareUrl => {
         this.dialogRef
           .open(ShareDialogComponent, {
+            restoreFocus: true,
             width: '600px',
             panelClass: 'adf-share-link-dialog',
             data: {
