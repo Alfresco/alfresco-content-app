@@ -47,15 +47,21 @@
   }}</mat-hint>
 
   <div id="search-options">
-    <mat-checkbox
+    <button
+      mat-menu-item
       *ngFor="let option of searchOptions"
-      id="{{ option.id }}"
-      [(ngModel)]="option.value"
+      (click)="$event.stopPropagation(); option.value = !option.value"
       [disabled]="option.shouldDisable()"
-      (change)="searchByOption()"
-      (click)="$event.stopPropagation()"
     >
-      {{ option.key | translate }}
-    </mat-checkbox>
+      <mat-checkbox
+        id="{{ option.id }}"
+        [(ngModel)]="option.value"
+        [disabled]="option.shouldDisable()"
+        (change)="searchByOption()"
+        (click)="$event.stopPropagation()"
+      >
+        {{ option.key | translate }}
+      </mat-checkbox>
+    </button>
   </div>
 </mat-menu>
