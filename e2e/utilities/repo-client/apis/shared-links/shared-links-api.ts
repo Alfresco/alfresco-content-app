@@ -25,7 +25,7 @@
 
 import { RepoApi } from '../repo-api';
 import { Utils } from '../../../../utilities/utils';
-import { SharedlinksApi as AdfSharedlinksApi } from '@alfresco/js-api';
+import { SharedlinksApi as AdfSharedlinksApi, SharedLinkEntry } from '@alfresco/js-api';
 
 export class SharedLinksApi extends RepoApi {
     sharedlinksApi = new AdfSharedlinksApi(this.alfrescoJsApi);
@@ -34,7 +34,7 @@ export class SharedLinksApi extends RepoApi {
         super(username, password);
     }
 
-    async shareFileById(id: string, expireDate?: Date) {
+    async shareFileById(id: string, expireDate?: Date): Promise<SharedLinkEntry|null> {
       try {
         await this.apiAuth();
         const data = {
@@ -44,6 +44,7 @@ export class SharedLinksApi extends RepoApi {
       return await this.sharedlinksApi.createSharedLink(data);
       } catch (error) {
         console.log('---- shareFileById error: ', error);
+        return null;
       }
     }
 

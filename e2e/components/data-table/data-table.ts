@@ -125,16 +125,17 @@ export class DataTable extends Component {
     return await this.getSortedColumnHeader().getText();
   }
 
-  async getSortingOrder() {
+  async getSortingOrder(): Promise<string> {
     const str = await this.getSortedColumnHeader().getAttribute('class');
     if (str.includes('asc')) {
       return 'asc';
     }
-    else {
-      if (str.includes('desc')) {
-        return 'desc';
-      }
+
+    if (str.includes('desc')) {
+      return 'desc';
     }
+
+    return 'none';
   }
 
   async sortByColumn(columnName: string) {
@@ -328,32 +329,40 @@ export class DataTable extends Component {
     return await this.emptyFolderDragAndDrop.isDisplayed();
   }
 
-  async getEmptyDragAndDropText() {
+  async getEmptyDragAndDropText(): Promise<string> {
     const isEmpty = await this.isEmptyWithDragAndDrop();
     if (isEmpty) {
       return await this.emptyFolderDragAndDrop.getText();
     }
+
+    return '';
   }
 
-  async getEmptyStateTitle() {
+  async getEmptyStateTitle(): Promise<string> {
     const isEmpty = await this.isEmptyList();
     if (isEmpty) {
       return await this.emptyListTitle.getText();
     }
+
+    return '';
   }
 
-  async getEmptyStateSubtitle() {
+  async getEmptyStateSubtitle(): Promise<string> {
     const isEmpty = await this.isEmptyList();
     if (isEmpty) {
       return await this.emptyListSubtitle.getText();
     }
+
+    return '';
   }
 
-  async getEmptyStateText() {
+  async getEmptyStateText(): Promise<string> {
     const isEmpty = await this.isEmptyList();
     if (isEmpty) {
       return await this.emptyListText.getText();
     }
+
+    return '';
   }
 
   async getEmptySearchResultsText() {

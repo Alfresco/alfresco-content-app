@@ -24,7 +24,7 @@
  */
 
 import { RepoApi } from '../repo-api';
-import { SiteBody, SiteMemberRoleBody, SiteMemberBody } from '@alfresco/js-api';
+import { SiteBody, SiteMemberRoleBody, SiteMemberBody, SiteEntry, SiteMembershipRequestEntry } from '@alfresco/js-api';
 import { SITE_VISIBILITY } from '../../../../configs';
 import { Utils } from '../../../../utilities/utils';
 import { SitesApi as AdfSiteApi } from '@alfresco/js-api';
@@ -66,7 +66,7 @@ export class SitesApi extends RepoApi {
       return site.entry.title;
     }
 
-    async createSite(title: string, visibility?: string, description?: string, siteId?: string) {
+    async createSite(title: string, visibility?: string, description?: string, siteId?: string): Promise<SiteEntry|null> {
         const site = <SiteBody>{
             title,
             visibility: visibility || SITE_VISIBILITY.PUBLIC,
@@ -79,6 +79,7 @@ export class SitesApi extends RepoApi {
         return await this.sitesApi.createSite(site);
         } catch (error) {
           console.log('=== create site catch: ', error);
+          return null;
         }
     }
 
@@ -134,7 +135,7 @@ export class SitesApi extends RepoApi {
         return await this.sitesApi.deleteSiteMembership(siteId, userId);
     }
 
-    async requestToJoin(siteId: string) {
+    async requestToJoin(siteId: string): Promise<SiteMembershipRequestEntry|null> {
         const body = {
           id: siteId
         };
@@ -143,6 +144,7 @@ export class SitesApi extends RepoApi {
           return await this.sitesApi.createSiteMembershipRequestForPerson('-me-', body);
         } catch (error) {
           console.log('====== requestToJoin catch ', error);
+          return null;
         };
     }
 

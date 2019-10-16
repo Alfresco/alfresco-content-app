@@ -26,7 +26,7 @@
 import { RepoApi } from '../repo-api';
 import { RepoClient } from './../../repo-client';
 import { Utils } from '../../../../utilities/utils';
-import { FavoritesApi as AdfFavoritesApi, SitesApi as AdfSiteApi } from '@alfresco/js-api';
+import { FavoritesApi as AdfFavoritesApi, SitesApi as AdfSiteApi, FavoriteEntry } from '@alfresco/js-api';
 
 export class FavoritesApi extends RepoApi {
     favoritesApi = new AdfFavoritesApi(this.alfrescoJsApi);
@@ -48,7 +48,7 @@ export class FavoritesApi extends RepoApi {
         return await this.favoritesApi.createFavorite('-me-', data);
     }
 
-    async addFavoriteById(nodeType: 'file' | 'folder' | 'site', id: string) {
+    async addFavoriteById(nodeType: 'file' | 'folder' | 'site', id: string): Promise<FavoriteEntry|null> {
         let guid;
         await this.apiAuth();
 
@@ -68,6 +68,7 @@ export class FavoritesApi extends RepoApi {
           return await this.favoritesApi.createFavorite('-me-', data);
         } catch (error) {
           console.log('--- add favorite by id catch ');
+          return null;
         }
     }
 

@@ -92,10 +92,12 @@ export class InfoDrawer extends Component {
     return await this.getTabByTitle(title).isPresent();
   }
 
-  async isTabDisplayed(title: string) {
+  async isTabDisplayed(title: string): Promise<boolean> {
     if (await browser.isElementPresent(this.getTabByTitle(title))) {
       return await this.getTabByTitle(title).isDisplayed();
     }
+
+    return false;
   }
 
   async getTabTitle(index: number) {
