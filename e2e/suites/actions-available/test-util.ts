@@ -119,10 +119,11 @@ export async function checkViewerToolbarMoreActions(item: string, expectedToolba
 }
 
 
-function removeClosePreviousNextOldInfo(actions: string[]) {
+function removeClosePreviousNextOldInfo(actions: string[]): string[] {
   return actions.filter(elem => {
     if ( (elem !== 'Close') && (elem !== 'Previous File') && (elem !== 'Next File') && (elem !== 'View details')) {
       return elem;
     }
-  });
+    return null
+  }).filter((action) => action != null);
 }

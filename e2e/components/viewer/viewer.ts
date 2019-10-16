@@ -100,10 +100,12 @@ export class Viewer extends Component {
     return await browser.isElementPresent(this.viewerExtensionContent);
   }
 
-  async getComponentIdOfView() {
+  async getComponentIdOfView(): Promise<string|null> {
     if (await this.isCustomContentPresent()) {
       return await this.viewerExtensionContent.getAttribute('data-automation-id');
     }
+
+    return null;
   }
 
   async isPdfViewerContentDisplayed() {

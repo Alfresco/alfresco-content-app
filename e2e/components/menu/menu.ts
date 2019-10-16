@@ -167,7 +167,7 @@ export class Menu extends Component {
     }
   }
 
-  async hasSubMenu(menuItem: string) {
+  async hasSubMenu(menuItem: string): Promise<boolean> {
     try {
       const elem = this.getItemByLabel(menuItem);
       await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT);
@@ -175,6 +175,7 @@ export class Menu extends Component {
       return elemClass.includes('mat-menu-item-submenu-trigger');
     } catch (error) {
       console.log('---- has submenu error: ', error);
+      return false;
     }
   }
 
@@ -200,13 +201,14 @@ export class Menu extends Component {
     return await this.submenus.count();
   }
 
-  async isMenuItemDisabled(title: string) {
+  async isMenuItemDisabled(title: string): Promise<string | null> {
     try {
       const item = this.getItemByLabel(title);
       const disabled = await item.getAttribute('disabled');
       return disabled;
     } catch (error) {
       console.log('----- isMenuItemDisabled catch: ', error);
+      return null;
     }
   }
 
