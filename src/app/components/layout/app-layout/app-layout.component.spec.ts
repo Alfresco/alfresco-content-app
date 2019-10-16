@@ -111,6 +111,7 @@ describe('AppLayoutComponent', () => {
         if (key === 'expandedSidenav') {
           return 'true';
         }
+        return 'false';
       });
 
       fixture.detectChanges();
@@ -128,6 +129,7 @@ describe('AppLayoutComponent', () => {
         if (key === 'expandedSidenav') {
           return 'false';
         }
+        return 'true';
       });
 
       fixture.detectChanges();

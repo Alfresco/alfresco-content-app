@@ -982,6 +982,8 @@ describe('ContentManagementService', () => {
         if (id === '3') {
           return of(null);
         }
+
+        return of(null);
       });
 
       actions$.pipe(
@@ -1047,6 +1049,8 @@ describe('ContentManagementService', () => {
           if (id === '3') {
             return throwError({});
           }
+
+          return of(null);
         });
 
         const selection = [
@@ -1082,6 +1086,8 @@ describe('ContentManagementService', () => {
           if (id === '4') {
             return of({});
           }
+
+          return of(null);
         });
 
         const selection = [
@@ -1139,6 +1145,8 @@ describe('ContentManagementService', () => {
           if (id === '2') {
             return of({});
           }
+
+          return of(null);
         });
 
         const selection = [
@@ -1164,6 +1172,8 @@ describe('ContentManagementService', () => {
           if (id === '2') {
             return throwError({});
           }
+
+          return of({});
         });
 
         const selection = [
@@ -1295,6 +1305,8 @@ describe('ContentManagementService', () => {
           if (id === '3') {
             return throwError(error);
           }
+
+          return of({});
         });
 
         const path = {
@@ -1395,6 +1407,8 @@ describe('ContentManagementService', () => {
           if (id === '2') {
             return of({});
           }
+
+          return of({});
         });
 
         actions$.pipe(
