@@ -38,6 +38,7 @@ import {
       mat-icon-button
       [color]="(infoDrawerOpened$ | async) ? 'primary' : ''"
       [attr.aria-label]="'APP.ACTIONS.DETAILS' | translate"
+      [attr.aria-expanded]="infoDrawerOpened$ | async"
       [attr.title]="'APP.ACTIONS.DETAILS' | translate"
       (click)="onClick()"
     >
