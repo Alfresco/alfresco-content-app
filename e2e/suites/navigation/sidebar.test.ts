@@ -176,26 +176,26 @@ describe('Sidebar', () => {
   });
 
   it('default state is expanded - [C269095]', async () => {
-    expect(await header.isExpandedSidenav()).toBe(true, 'Sidebar not expanded');
+    expect(await header.isSidenavExpanded()).toBe(true, 'Sidebar not expanded');
   });
 
   it('sidebar toggle - [C269096]', async () => {
     await header.collapseSideNav();
-    expect(await header.isExpandedSidenav()).toBe(false, 'Sidebar not collapsed');
+    expect(await header.isSidenavExpanded()).toBe(false, 'Sidebar not collapsed');
 
     await header.expandSideNav();
-    expect(await header.isExpandedSidenav()).toBe(true, 'Sidebar not expanded');
+    expect(await header.isSidenavExpanded()).toBe(true, 'Sidebar not expanded');
   });
 
   it('sidebar state is preserved on page refresh - [C269100]', async () => {
-    expect(await header.isExpandedSidenav()).toBe(true, 'Sidebar not expanded');
+    expect(await header.isSidenavExpanded()).toBe(true, 'Sidebar not expanded');
     await page.refresh();
-    expect(await header.isExpandedSidenav()).toBe(true, 'Sidebar not expanded');
+    expect(await header.isSidenavExpanded()).toBe(true, 'Sidebar not expanded');
 
     await header.collapseSideNav();
-    expect(await header.isExpandedSidenav()).toBe(false, 'Sidebar not collapsed');
+    expect(await header.isSidenavExpanded()).toBe(false, 'Sidebar not collapsed');
     await page.refresh();
-    expect(await header.isExpandedSidenav()).toBe(false, 'Sidebar not collapsed');
+    expect(await header.isSidenavExpanded()).toBe(false, 'Sidebar not collapsed');
   });
 
   it('sidebar state is preserved after logout / login - [C269102]', async () => {
@@ -203,7 +203,7 @@ describe('Sidebar', () => {
     await page.signOut();
     await loginPage.loginWithAdmin();
 
-    expect(await header.isExpandedSidenav()).toBe(false, 'Sidebar not collapsed');
+    expect(await header.isSidenavExpanded()).toBe(false, 'Sidebar not collapsed');
   });
 
   it('sidebar is collapsed automatically when Search Results opens - [C277223]', async () => {
@@ -212,7 +212,7 @@ describe('Sidebar', () => {
     await searchInput.searchFor('qwertyuiop');
     await searchResultsPage.waitForResults();
 
-    expect(await header.isExpandedSidenav()).toBe(false, 'Sidebar not collapsed');
+    expect(await header.isSidenavExpanded()).toBe(false, 'Sidebar not collapsed');
   });
 
   it('sidenav returns to the default state when navigating away from the Search Results page - [C277224]', async () => {
@@ -222,7 +222,7 @@ describe('Sidebar', () => {
     await searchResultsPage.waitForResults();
     await page.clickFavorites();
 
-    expect(await header.isExpandedSidenav()).toBe(true, 'Sidebar not expanded');
+    expect(await header.isSidenavExpanded()).toBe(true, 'Sidebar not expanded');
   });
 
   it('sidenav can be expanded when search results page is displayed - [C277230]', async () => {
@@ -232,6 +232,6 @@ describe('Sidebar', () => {
     await searchResultsPage.waitForResults();
     await header.expandSideNav();
 
-    expect(await header.isExpandedSidenav()).toBe(true, 'Sidebar not expanded');
+    expect(await header.isSidenavExpanded()).toBe(true, 'Sidebar not expanded');
   });
 });

@@ -74,7 +74,7 @@ export class Toolbar extends Component {
   }
 
   async numberOfAvailableActions() {
-    return await this.buttons.count();
+    return this.buttons.count();
   }
 
   async getButtons(): Promise<string[]> {
@@ -85,7 +85,7 @@ export class Toolbar extends Component {
 
   async isButtonPresent(title: string) {
     const elem = this.component.element(by.css(`${Toolbar.selectors.button}[title="${title}"]`));
-    return await elem.isPresent();
+    return elem.isPresent();
   }
 
   getButtonByLabel(label: string) {
@@ -112,7 +112,7 @@ export class Toolbar extends Component {
   }
 
   async getButtonTooltip(button: ElementFinder) {
-    return await button.getAttribute('title');
+    return button.getAttribute('title');
   }
 
   async clickButton(title: string) {
@@ -122,47 +122,47 @@ export class Toolbar extends Component {
 
 
   async isSharedLinkSettingsPresent() {
-    return await browser.isElementPresent(this.shareEditButton);
+    return browser.isElementPresent(this.shareEditButton);
   }
 
   async isSharePresent() {
-    return await browser.isElementPresent(this.shareButton);
+    return browser.isElementPresent(this.shareButton);
   }
 
   async isViewPresent() {
-    return await browser.isElementPresent(this.viewButton);
+    return browser.isElementPresent(this.viewButton);
   }
 
   async isToggleSearchFiltersPresent() {
-    return await browser.isElementPresent(this.searchFiltersToggleButton);
+    return browser.isElementPresent(this.searchFiltersToggleButton);
   }
 
   async isDownloadPresent() {
-    return await browser.isElementPresent(this.downloadButton);
+    return browser.isElementPresent(this.downloadButton);
   }
 
   async isPermanentlyDeletePresent() {
-    return await browser.isElementPresent(this.permanentlyDeleteButton);
+    return browser.isElementPresent(this.permanentlyDeleteButton);
   }
 
   async isRestorePresent() {
-    return await browser.isElementPresent(this.restoreButton);
+    return browser.isElementPresent(this.restoreButton);
   }
 
   async isEditFolderPresent() {
-    return await browser.isElementPresent(this.editFolderButton);
+    return browser.isElementPresent(this.editFolderButton);
   }
 
   async isViewDetailsPresent() {
-    return await browser.isElementPresent(this.viewDetailsButton);
+    return browser.isElementPresent(this.viewDetailsButton);
   }
 
   async isPrintPresent() {
-    return await browser.isElementPresent(this.printButton);
+    return browser.isElementPresent(this.printButton);
   }
 
   async isFullScreenPresent() {
-    return await browser.isElementPresent(this.fullScreenButton);
+    return browser.isElementPresent(this.fullScreenButton);
   }
 
 
@@ -177,84 +177,84 @@ export class Toolbar extends Component {
   }
 
   async clickView() {
-    return await this.viewButton.click();
+    await this.viewButton.click();
   }
 
   async clickEditFolder() {
-    return await this.editFolderButton.click();
+    await this.editFolderButton.click();
   }
 
   async clickViewDetails() {
-    return await this.viewDetailsButton.click();
+    await this.viewDetailsButton.click();
   }
 
   async clickDownload() {
-    return await this.downloadButton.click();
+    await this.downloadButton.click();
   }
 
   async clickJoin() {
-    return await this.joinButton.click();
+    await this.joinButton.click();
   }
 
   async clickLeave() {
-    return await this.leaveButton.click();
+    await this.leaveButton.click();
   }
 
   async clickPermanentlyDelete() {
-    return await this.permanentlyDeleteButton.click();
+    await this.permanentlyDeleteButton.click();
   }
   async clickRestore() {
-    return await this.restoreButton.click();
+    await this.restoreButton.click();
   }
 
 
   async clickMoreActionsFavorite() {
     await this.openMoreMenu();
-    return await this.menu.clickMenuItem('Favorite');
+    await this.menu.clickMenuItem('Favorite');
   }
 
   async clickMoreActionsRemoveFavorite() {
     await this.openMoreMenu();
-    return await this.menu.clickMenuItem('Remove Favorite');
+    await this.menu.clickMenuItem('Remove Favorite');
   }
 
   async clickMoreActionsDelete() {
     await this.openMoreMenu();
-    return await this.menu.clickMenuItem('Delete');
+    await this.menu.clickMenuItem('Delete');
   }
 
   async clickMoreActionsManageVersions() {
     await this.openMoreMenu();
-    return await this.menu.clickMenuItem('Manage Versions');
+    await this.menu.clickMenuItem('Manage Versions');
   }
 
   async clickMoreActionsMove() {
     await this.openMoreMenu();
-    return await this.menu.clickMenuItem('Move');
+    await this.menu.clickMenuItem('Move');
   }
 
   async clickMoreActionsCopy() {
     await this.openMoreMenu();
-    return await this.menu.clickMenuItem('Copy');
+    await this.menu.clickMenuItem('Copy');
   }
 
   async clickMoreActionsEditOffline() {
     await this.openMoreMenu();
-    return await this.menu.clickMenuItem('Edit Offline');
+    await this.menu.clickMenuItem('Edit Offline');
   }
 
   async clickMoreActionsCancelEditing() {
     await this.openMoreMenu();
-    return await this.menu.clickMenuItem('Cancel Editing');
+    await this.menu.clickMenuItem('Cancel Editing');
   }
 
   async clickMoreActionsUploadNewVersion() {
     await this.openMoreMenu();
-    return await this.menu.clickMenuItem('Upload New Version');
+    await this.menu.clickMenuItem('Upload New Version');
   }
 
   async clickFullScreen() {
-    return await this.fullScreenButton.click();
+    await this.fullScreenButton.click();
   }
 
 }

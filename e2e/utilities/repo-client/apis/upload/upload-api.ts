@@ -30,39 +30,40 @@ import { UploadApi as AdfUploadApi } from '@alfresco/js-api';
 const fs = require('fs');
 
 export class UploadApi extends RepoApi {
-    upload = new AdfUploadApi(this.alfrescoJsApi);
+  upload = new AdfUploadApi(this.alfrescoJsApi);
 
-    constructor(username?, password?) {
-        super(username, password);
+  constructor(username?, password?) {
+    super(username, password);
+  }
+
+  async uploadFile(fileName: string, parentFolderId: string = '-my-') {
+    const file = fs.createReadStream(`${E2E_ROOT_PATH}/resources/test-files/${fileName}`);
+    const opts = {
+      name: file.name,
+      nodeType: 'cm:content'
+    };
+
+    try {
+      await this.apiAuth();
+      return await this.upload.uploadFile(file, '', parentFolderId, null, opts);
+    } catch (error) {
+      console.log('--- upload api uploadFile catch error: ', error);
     }
+  }
 
-    async uploadFile(fileName: string, parentFolderId: string = '-my-') {
-        const file = fs.createReadStream(`${E2E_ROOT_PATH}/resources/test-files/${fileName}`);
-        const opts = {
-            name: file.name,
-            nodeType: 'cm:content'
-        };
+  async uploadFileWithRename(fileName: string, parentFolderId: string = '-my-', newName: string) {
+    const file = fs.createReadStream(`${E2E_ROOT_PATH}/resources/test-files/${fileName}`);
+    const opts = {
+        name: newName,
+        nodeType: 'cm:content'
+    };
 
-        await this.apiAuth();
-        return await this.upload.uploadFile(file, '', parentFolderId, null, opts);
+    try {
+      await this.apiAuth();
+      return await this.upload.uploadFile(file, '', parentFolderId, null, opts);
+    } catch (error) {
+      console.log('--- upload api uploadFileWithRename catch error: ', error);
     }
-
-    async uploadFileWithRename(fileName: string, parentFolderId: string = '-my-', newName: string) {
-      const file = fs.createReadStream(`${E2E_ROOT_PATH}/resources/test-files/${fileName}`);
-      const opts = {
-          name: newName,
-          nodeType: 'cm:content'
-      };
-
-      try {
-        await this.apiAuth();
-        return await this.upload.uploadFile(file, '', parentFolderId, null, opts);
-      } catch (error) {
-        console.log('=== catch upload file with rename: ', error);
-      }
-
-
-
   }
 
 }

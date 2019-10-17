@@ -73,7 +73,7 @@ export class LoginComponent extends Component {
   }
 
   async clickPasswordVisibility() {
-    return await this.passwordVisibility.click();
+    await this.passwordVisibility.click();
   }
 
   async getPasswordVisibility(): Promise<boolean> {
@@ -105,15 +105,15 @@ export class LoginComponent extends Component {
   }
 
   async isUsernameEnabled() {
-    return await this.usernameInput.isEnabled();
+    return this.usernameInput.isEnabled();
   }
 
   async isPasswordEnabled() {
-    return await this.passwordInput.isEnabled();
+    return this.passwordInput.isEnabled();
   }
 
   async isSubmitEnabled() {
-    return await this.submitButton.isEnabled();
+    return this.submitButton.isEnabled();
   }
 
   async isPasswordHidden() {

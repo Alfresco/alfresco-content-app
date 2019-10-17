@@ -67,44 +67,44 @@ export class CreateLibraryDialog extends Component {
   }
 
   async isDialogOpen() {
-    return await browser.isElementPresent(by.css(CreateLibraryDialog.selectors.root));
+    return browser.isElementPresent(by.css(CreateLibraryDialog.selectors.root));
   }
 
   async getTitle() {
-    return await this.title.getText();
+    return this.title.getText();
   }
 
   async isErrorMessageDisplayed() {
-    return await this.errorMessage.isDisplayed();
+    return this.errorMessage.isDisplayed();
   }
 
   async getErrorMessage() {
     await this.isErrorMessageDisplayed();
-    return await this.errorMessage.getText();
+    return this.errorMessage.getText();
   }
 
   async isNameDisplayed() {
-    return await this.nameInput.isDisplayed();
+    return this.nameInput.isDisplayed();
   }
 
   async isLibraryIdDisplayed() {
-    return await this.libraryIdInput.isDisplayed();
+    return this.libraryIdInput.isDisplayed();
   }
 
   async isDescriptionDisplayed() {
-    return await this.descriptionTextArea.isDisplayed();
+    return this.descriptionTextArea.isDisplayed();
   }
 
   async isPublicDisplayed() {
-    return await this.visibilityPublic.isDisplayed();
+    return this.visibilityPublic.isDisplayed();
   }
 
   async isModeratedDisplayed() {
-    return await this.visibilityModerated.isDisplayed();
+    return this.visibilityModerated.isDisplayed();
   }
 
   async isPrivateDisplayed() {
-    return await this.visibilityPrivate.isDisplayed();
+    return this.visibilityPrivate.isDisplayed();
   }
 
   async enterName(name: string) {
@@ -128,11 +128,11 @@ export class CreateLibraryDialog extends Component {
   }
 
   async isCreateEnabled() {
-    return await this.createButton.isEnabled();
+    return this.createButton.isEnabled();
   }
 
   async isCancelEnabled() {
-    return await this.cancelButton.isEnabled();
+    return this.cancelButton.isEnabled();
   }
 
   async clickCreate() {
@@ -146,17 +146,17 @@ export class CreateLibraryDialog extends Component {
 
   async isPublicChecked() {
     const elemClass = await this.visibilityPublic.element(by.xpath('..')).getAttribute('class');
-    return await elemClass.includes(CreateLibraryDialog.selectors.radioChecked);
+    return elemClass.includes(CreateLibraryDialog.selectors.radioChecked);
   }
 
   async isModeratedChecked() {
     const elemClass = await this.visibilityModerated.element(by.xpath('..')).getAttribute('class');
-    return await elemClass.includes(CreateLibraryDialog.selectors.radioChecked);
+    return elemClass.includes(CreateLibraryDialog.selectors.radioChecked);
   }
 
   async isPrivateChecked() {
     const elemClass = await this.visibilityPrivate.element(by.xpath('..')).getAttribute('class');
-    return await elemClass.includes(CreateLibraryDialog.selectors.radioChecked);
+    return elemClass.includes(CreateLibraryDialog.selectors.radioChecked);
   }
 
   async selectPublic() {

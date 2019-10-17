@@ -45,11 +45,11 @@ export class Breadcrumb extends Component {
   }
 
   async getNthItemName(nth: number) {
-      return await this.getNthItem(nth).getText();
+      return this.getNthItem(nth).getText();
   }
 
   async getItemsCount() {
-    return await this.items.count();
+    return this.items.count();
   }
 
   async getAllItems() {
@@ -60,7 +60,7 @@ export class Breadcrumb extends Component {
   }
 
   async getFirstItemName() {
-    return await this.items.get(0).getText();
+    return this.items.get(0).getText();
   }
 
   getCurrentItem() {
@@ -68,7 +68,7 @@ export class Breadcrumb extends Component {
   }
 
   async getCurrentItemName() {
-    return await this.currentItem.getText();
+    return this.currentItem.getText();
   }
 
   async clickItem(name: string) {
@@ -81,6 +81,6 @@ export class Breadcrumb extends Component {
   }
 
   async getNthItemTooltip(nth: number) {
-    return await this.getNthItem(nth).getAttribute('title');
+    return this.getNthItem(nth).getAttribute('title');
   }
 }

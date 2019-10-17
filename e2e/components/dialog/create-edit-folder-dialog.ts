@@ -61,15 +61,15 @@ export class CreateOrEditFolderDialog extends Component {
   }
 
   async isDialogOpen() {
-    return await browser.isElementPresent(by.css(CreateOrEditFolderDialog.selectors.root));
+    return browser.isElementPresent(by.css(CreateOrEditFolderDialog.selectors.root));
   }
 
   async getTitle() {
-    return await this.title.getText();
+    return this.title.getText();
   }
 
   async isValidationMessageDisplayed() {
-    return await this.validationMessage.isDisplayed();
+    return this.validationMessage.isDisplayed();
   }
 
   async isUpdateButtonEnabled() {
@@ -85,24 +85,24 @@ export class CreateOrEditFolderDialog extends Component {
   }
 
   async isNameDisplayed() {
-    return await this.nameInput.isDisplayed();
+    return this.nameInput.isDisplayed();
   }
 
   async isDescriptionDisplayed() {
-    return await this.descriptionTextArea.isDisplayed();
+    return this.descriptionTextArea.isDisplayed();
   }
 
   async getValidationMessage() {
     await this.isValidationMessageDisplayed();
-    return await this.validationMessage.getText();
+    return this.validationMessage.getText();
   }
 
   async getName() {
-    return await this.nameInput.getAttribute('value');
+    return this.nameInput.getAttribute('value');
   }
 
   async getDescription() {
-    return await this.descriptionTextArea.getAttribute('value');
+    return this.descriptionTextArea.getAttribute('value');
   }
 
   async enterName(name: string) {

@@ -85,11 +85,11 @@ export class DataTable extends Component {
 
   // Wait methods (waits for elements)
   async waitForHeader() {
-    return await browser.wait(EC.presenceOf(this.head), BROWSER_WAIT_TIMEOUT, '--- timeout waitForHeader ---');
+    await browser.wait(EC.presenceOf(this.head), BROWSER_WAIT_TIMEOUT, '--- timeout waitForHeader ---');
   }
 
   async waitForBody() {
-    return await browser.wait(EC.presenceOf(this.body), BROWSER_WAIT_TIMEOUT, '--- timeout waitForBody ---');
+    await browser.wait(EC.presenceOf(this.body), BROWSER_WAIT_TIMEOUT, '--- timeout waitForBody ---');
   }
 
   async waitForEmptyState() {
@@ -104,7 +104,7 @@ export class DataTable extends Component {
 
   async getColumnHeadersText() {
     const el = this.getColumnHeaders();
-    return await el.getText();
+    return el.getText();
   }
 
   getNthColumnHeader(nth: number) {
@@ -122,7 +122,7 @@ export class DataTable extends Component {
   }
 
   async getSortedColumnHeaderText() {
-    return await this.getSortedColumnHeader().getText();
+    return this.getSortedColumnHeader().getText();
   }
 
   async getSortingOrder(): Promise<string> {
@@ -151,7 +151,7 @@ export class DataTable extends Component {
   }
 
   async countRows() {
-    return await this.getRows().count();
+    return this.getRows().count();
   }
 
   getSelectedRows() {
@@ -159,7 +159,7 @@ export class DataTable extends Component {
   }
 
   async countSelectedRows() {
-    return await this.getSelectedRows().count();
+    return this.getSelectedRows().count();
   }
 
   getNthRow(nth: number) {
@@ -180,7 +180,7 @@ export class DataTable extends Component {
   }
 
   async getRowCellsCount(itemName: string) {
-    return await this.getRowCells(itemName).count();
+    return this.getRowCells(itemName).count();
   }
 
   getRowFirstCell(name: string, location: string = '') {
@@ -196,28 +196,28 @@ export class DataTable extends Component {
   }
 
   async getItemNameTooltip(name: string, location: string = '') {
-    return await this.getRowNameCellSpan(name, location).getAttribute('title');
+    return this.getRowNameCellSpan(name, location).getAttribute('title');
   }
 
   async hasCheckMarkIcon(itemName: string, location: string = '') {
     const row = this.getRowByName(itemName, location);
-    return await row.element(by.css(DataTable.selectors.selectedIcon)).isPresent();
+    return row.element(by.css(DataTable.selectors.selectedIcon)).isPresent();
   }
 
   async hasLockIcon(itemName: string, location: string = '') {
     const row = this.getRowByName(itemName, location);
-    return await row.element(by.css(DataTable.selectors.lockIcon)).isPresent();
+    return row.element(by.css(DataTable.selectors.lockIcon)).isPresent();
   }
 
   async hasLockOwnerInfo(itemName: string, location: string = '') {
     const row = this.getRowByName(itemName, location);
-    return await row.element(by.css(DataTable.selectors.lockOwner)).isPresent();
+    return row.element(by.css(DataTable.selectors.lockOwner)).isPresent();
   }
 
   async getLockOwner(itemName: string, location: string = '') {
     if (await this.hasLockOwnerInfo(itemName, location)) {
       const row = this.getRowByName(itemName, location);
-      return await row.$(DataTable.selectors.lockOwner).$('.locked_by--name').getText();
+      return row.$(DataTable.selectors.lockOwner).$('.locked_by--name').getText();
     }
     return '';
   }
@@ -227,7 +227,7 @@ export class DataTable extends Component {
   }
 
   async hasLinkOnName(itemName: string) {
-    return await this.getNameLink(itemName).isPresent();
+    return this.getNameLink(itemName).isPresent();
   }
 
   // Navigation/selection methods
@@ -303,7 +303,7 @@ export class DataTable extends Component {
   }
 
   async getItemLocation(name: string) {
-    return await this.getItemLocationEl(name).getText();
+    return this.getItemLocationEl(name).getText();
   }
 
   async getItemLocationTooltip(name: string) {
@@ -313,7 +313,7 @@ export class DataTable extends Component {
     await browser.actions().mouseMove(location).perform();
 
     await browser.wait(condition, BROWSER_WAIT_TIMEOUT);
-    return await location.getAttribute('title');
+    return location.getAttribute('title');
   }
 
   async clickItemLocation(name: string) {
@@ -322,17 +322,17 @@ export class DataTable extends Component {
 
   // empty state methods
   async isEmptyList() {
-    return await this.emptyList.isPresent();
+    return this.emptyList.isPresent();
   }
 
   async isEmptyWithDragAndDrop() {
-    return await this.emptyFolderDragAndDrop.isDisplayed();
+    return this.emptyFolderDragAndDrop.isDisplayed();
   }
 
   async getEmptyDragAndDropText(): Promise<string> {
     const isEmpty = await this.isEmptyWithDragAndDrop();
     if (isEmpty) {
-      return await this.emptyFolderDragAndDrop.getText();
+      return this.emptyFolderDragAndDrop.getText();
     }
 
     return '';
@@ -341,7 +341,7 @@ export class DataTable extends Component {
   async getEmptyStateTitle(): Promise<string> {
     const isEmpty = await this.isEmptyList();
     if (isEmpty) {
-      return await this.emptyListTitle.getText();
+      return this.emptyListTitle.getText();
     }
 
     return '';
@@ -350,7 +350,7 @@ export class DataTable extends Component {
   async getEmptyStateSubtitle(): Promise<string> {
     const isEmpty = await this.isEmptyList();
     if (isEmpty) {
-      return await this.emptyListSubtitle.getText();
+      return this.emptyListSubtitle.getText();
     }
 
     return '';
@@ -359,14 +359,14 @@ export class DataTable extends Component {
   async getEmptyStateText(): Promise<string> {
     const isEmpty = await this.isEmptyList();
     if (isEmpty) {
-      return await this.emptyListText.getText();
+      return this.emptyListText.getText();
     }
 
     return '';
   }
 
   async getEmptySearchResultsText() {
-    return await this.emptySearchText.getText();
+    return this.emptySearchText.getText();
   }
 
   async getCellsContainingName(name: string) {
@@ -380,11 +380,11 @@ export class DataTable extends Component {
   }
 
   async getLibraryRole(name: string) {
-    return await this.getRowByName(name).element(by.css(DataTable.selectors.libraryRole)).getText();
+    return this.getRowByName(name).element(by.css(DataTable.selectors.libraryRole)).getText();
   }
 
   async isItemPresent(name: string, location? : string) {
-    return await this.getRowByName(name, location).isPresent();
+    return this.getRowByName(name, location).isPresent();
   }
 
   async getEntireDataTableText() {
@@ -423,7 +423,7 @@ export class DataTable extends Component {
   }
 
   async getSearchResultLinesCount(name: string, location: string = '') {
-    return await this.getSearchResultRowLines(name, location).count();
+    return this.getSearchResultRowLines(name, location).count();
   }
 
   getSearchResultNthLine(name: string, location: string = '', index: number) {
@@ -431,19 +431,19 @@ export class DataTable extends Component {
   }
 
   async getSearchResultNameAndTitle(name: string, location: string = '') {
-    return await this.getSearchResultNthLine(name, location, 0).getText();
+    return this.getSearchResultNthLine(name, location, 0).getText();
   }
 
   async getSearchResultDescription(name: string, location: string = '') {
-    return await this.getSearchResultNthLine(name, location, 1).getText();
+    return this.getSearchResultNthLine(name, location, 1).getText();
   }
 
   async getSearchResultModified(name: string, location: string = '') {
-    return await this.getSearchResultNthLine(name, location, 2).getText();
+    return this.getSearchResultNthLine(name, location, 2).getText();
   }
 
   async getSearchResultLocation(name: string, location: string = '') {
-    return await this.getSearchResultNthLine(name, location, 3).getText();
+    return this.getSearchResultNthLine(name, location, 3).getText();
   }
 
   getSearchResultNameLink(itemName: string, location: string = '') {
@@ -451,7 +451,7 @@ export class DataTable extends Component {
   }
 
   async hasLinkOnSearchResultName(itemName: string, location: string = '') {
-    return await this.getSearchResultNameLink(itemName, location).isPresent();
+    return this.getSearchResultNameLink(itemName, location).isPresent();
   }
 
   async clickSearchResultNameLink(itemName: string, location: string = '') {

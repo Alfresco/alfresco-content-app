@@ -61,15 +61,15 @@ export class DateTimePicker extends Component {
   }
 
   async isCalendarOpen() {
-    return await browser.isElementPresent(by.css(DateTimePicker.selectors.root));
+    return browser.isElementPresent(by.css(DateTimePicker.selectors.root));
   }
 
   async getDate() {
-    return await this.headerDate.getText();
+    return this.headerDate.getText();
   }
 
   async getYear() {
-    return await this.headerYear.getText();
+    return this.headerYear.getText();
   }
 
   async setDefaultDay() {

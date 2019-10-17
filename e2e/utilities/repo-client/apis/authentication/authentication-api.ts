@@ -32,7 +32,11 @@ export class AuthenticationApi extends RepoApi {
     }
 
     async logout() {
+      try {
         await this.apiAuth();
-        return await this.alfrescoJsApi.logout();
+        await this.alfrescoJsApi.logout();
+      } catch (error) {
+        console.log('--- authentication api logout catch error: ', error);
+      }
     }
 }

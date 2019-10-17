@@ -112,19 +112,19 @@ export class Menu extends Component {
   }
 
   async getItemTooltip(menuItem: string) {
-    return await this.getItemByLabel(menuItem).getAttribute('title');
+    return this.getItemByLabel(menuItem).getAttribute('title');
   }
 
   async getItemIconText(menuItem: string) {
-    return await this.getItemByLabel(menuItem).element(by.css(Menu.selectors.icon)).getText();
+    return this.getItemByLabel(menuItem).element(by.css(Menu.selectors.icon)).getText();
   }
 
   async getItemIdAttribute(menuItem: string) {
-    return await this.getItemByLabel(menuItem).getAttribute('id');
+    return this.getItemByLabel(menuItem).getAttribute('id');
   }
 
   async getItemsCount() {
-    return await this.items.count();
+    return this.items.count();
   }
 
   async getMenuItems(): Promise<string[]> {
@@ -190,15 +190,15 @@ export class Menu extends Component {
   }
 
   async isMenuItemPresent(title: string) {
-    return await browser.element(by.cssContainingText(Menu.selectors.item, title)).isPresent();
+    return browser.element(by.cssContainingText(Menu.selectors.item, title)).isPresent();
   }
 
   async isSubMenuItemPresent(title: string) {
-    return await browser.element(by.cssContainingText(Menu.selectors.submenu, title)).isPresent();
+    return browser.element(by.cssContainingText(Menu.selectors.submenu, title)).isPresent();
   }
 
   async getSubmenuItemsCount() {
-    return await this.submenus.count();
+    return this.submenus.count();
   }
 
   async isMenuItemDisabled(title: string): Promise<string | null> {
@@ -217,7 +217,7 @@ export class Menu extends Component {
   }
 
   async clickEditFolder() {
-    return await this.editFolderAction.click();
+    await this.editFolderAction.click();
   }
 
   async clickShare() {
@@ -232,125 +232,124 @@ export class Menu extends Component {
 
 
   async isViewPresent() {
-    return await this.viewAction.isPresent();
+    return this.viewAction.isPresent();
   }
 
   async isDownloadPresent() {
-    return await this.downloadAction.isPresent();
+    return this.downloadAction.isPresent();
   }
 
   async isEditFolderPresent() {
-    return await this.editFolderAction.isPresent();
+    return this.editFolderAction.isPresent();
   }
 
   async isEditOfflinePresent() {
-    return await this.editOfflineAction.isPresent();
+    return this.editOfflineAction.isPresent();
   }
 
   async isCancelEditingPresent() {
-    return await this.cancelEditingAction.isPresent();
+    return this.cancelEditingAction.isPresent();
   }
 
   async isCopyPresent() {
-    return await this.copyAction.isPresent();
+    return this.copyAction.isPresent();
   }
 
   async isMovePresent() {
-    return await this.moveAction.isPresent();
+    return this.moveAction.isPresent();
   }
 
   async isDeletePresent() {
-    return await this.deleteAction.isPresent();
+    return this.deleteAction.isPresent();
   }
 
   async isManagePermissionsPresent() {
-    return await this.managePermissionsAction.isPresent();
+    return this.managePermissionsAction.isPresent();
   }
 
   async isManageVersionsPresent() {
-    return await this.manageVersionsAction.isPresent();
+    return this.manageVersionsAction.isPresent();
   }
 
   async isUploadNewVersionPresent() {
-    return await this.uploadNewVersionAction.isPresent();
+    return this.uploadNewVersionAction.isPresent();
   }
 
   async isFavoritePresent() {
-    return await this.favoriteAction.isPresent();
+    return this.favoriteAction.isPresent();
   }
 
   async isRemoveFavoritePresent() {
-    return await this.removeFavoriteAction.isPresent();
+    return this.removeFavoriteAction.isPresent();
   }
 
   async isToggleFavoritePresent() {
-    return await this.toggleFavoriteAction.isPresent();
+    return this.toggleFavoriteAction.isPresent();
   }
 
   async isToggleRemoveFavoritePresent() {
-    return await this.toggleRemoveFavoriteAction.isPresent();
+    return this.toggleRemoveFavoriteAction.isPresent();
   }
 
   async isJoinLibraryPresent() {
-    return await this.joinAction.isPresent();
+    return this.joinAction.isPresent();
   }
 
   async isCancelJoinPresent() {
-    return await this.cancelJoinAction.isPresent();
+    return this.cancelJoinAction.isPresent();
   }
 
   async isLeaveLibraryPresent() {
-    return await this.leaveAction.isPresent();
+    return this.leaveAction.isPresent();
   }
 
   async isPermanentDeletePresent() {
-    return await this.permanentDeleteAction.isPresent();
+    return this.permanentDeleteAction.isPresent();
   }
 
   async isRestorePresent() {
-    return await this.restoreAction.isPresent();
+    return this.restoreAction.isPresent();
   }
 
   async isSharePresent() {
-    return await this.shareAction.isPresent();
+    return this.shareAction.isPresent();
   }
 
   async isSharedLinkSettingsPresent() {
-    return await this.shareEditAction.isPresent();
+    return this.shareEditAction.isPresent();
   }
 
   async isViewDetailsPresent() {
-    return await this.viewDetailsAction.isPresent();
+    return this.viewDetailsAction.isPresent();
   }
 
   async isCreateFolderPresent() {
-    return await this.createFolderAction.isPresent();
+    return this.createFolderAction.isPresent();
   }
   async isCreateFolderEnabled() {
-    return await this.createFolderAction.isEnabled();
+    return this.createFolderAction.isEnabled();
   }
 
   async isCreateLibraryPresent() {
-    return await this.createLibraryAction.isPresent();
+    return this.createLibraryAction.isPresent();
   }
   async isCreateLibraryEnabled() {
-    return await this.createLibraryAction.isEnabled();
+    return this.createLibraryAction.isEnabled();
   }
 
   async isUploadFilePresent() {
-    return await this.uploadFileAction.isPresent();
+    return this.uploadFileAction.isPresent();
   }
   async isUploadFileEnabled() {
-    return await this.uploadFileAction.isEnabled();
+    return this.uploadFileAction.isEnabled();
   }
 
   async isUploadFolderPresent() {
-    return await this.uploadFolderAction.isPresent();
+    return this.uploadFolderAction.isPresent();
   }
   async isUploadFolderEnabled() {
-    return await this.uploadFolderAction.isEnabled();
+    return this.uploadFolderAction.isEnabled();
   }
-
 
 
   async clickCreateFolder() {

@@ -31,7 +31,7 @@ export class QueriesApi extends RepoApi {
   queriesApi = new AdfQueriesApi(this.alfrescoJsApi);
 
   constructor(username?: string, password?: string) {
-      super(username, password);
+    super(username, password);
   }
 
   async findSites(searchTerm: string) {
@@ -40,18 +40,28 @@ export class QueriesApi extends RepoApi {
         fields: ['title']
     };
 
-    await this.apiAuth();
-    return this.queriesApi.findSites(searchTerm, data);
+    try {
+      await this.apiAuth();
+      return this.queriesApi.findSites(searchTerm, data);
+    } catch (error) {
+      console.log('--- queries api findSites catch error: ', error);
+      return null;
+    }
   }
 
   async findNodes(searchTerm: string) {
     const data = {
-        term: searchTerm,
-        fields: ['name']
+      term: searchTerm,
+      fields: ['name']
     };
 
-    await this.apiAuth();
-    return this.queriesApi.findNodes(searchTerm, data);
+    try {
+      await this.apiAuth();
+      return this.queriesApi.findNodes(searchTerm, data);
+    } catch (error) {
+      console.log('--- queries api findNodes catch error: ', error);
+      return null;
+    }
   }
 
   async waitForSites(searchTerm: string, data: any) {
@@ -67,7 +77,7 @@ export class QueriesApi extends RepoApi {
 
       return await Utils.retryCall(sites);
     } catch (error) {
-      console.log('-----> catch queries findSites: ', error);
+      console.log('--- queries api waitForSites catch error: ', error);
     }
   }
 
@@ -84,7 +94,7 @@ export class QueriesApi extends RepoApi {
 
       return await Utils.retryCall(nodes);
     } catch (error) {
-      console.log('-----> catch queries findFilesAndFolders: ', error);
+      console.log('--- queries api waitForFilesAndFolders catch error: ', error);
     }
   }
 }

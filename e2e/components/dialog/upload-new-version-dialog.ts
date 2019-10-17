@@ -56,32 +56,32 @@ export class UploadNewVersionDialog extends Component {
   }
 
   async waitForDialogToClose() {
-    return await browser.wait(EC.stalenessOf(this.title), BROWSER_WAIT_TIMEOUT);
+    await browser.wait(EC.stalenessOf(this.title), BROWSER_WAIT_TIMEOUT);
   }
 
   async isDialogOpen() {
-    return await browser.$(UploadNewVersionDialog.selectors.root).isDisplayed();
+    return browser.$(UploadNewVersionDialog.selectors.root).isDisplayed();
   }
 
   async getTitle() {
-    return await this.title.getText();
+    return this.title.getText();
   }
 
   async getText() {
-    return await this.content.getText();
+    return this.content.getText();
   }
 
 
   async isDescriptionDisplayed() {
-    return await this.description.isDisplayed();
+    return this.description.isDisplayed();
   }
 
   async isMinorOptionDisplayed() {
-    return await this.minorOption.isDisplayed();
+    return this.minorOption.isDisplayed();
   }
 
   async isMajorOptionDisplayed() {
-    return await this.majorOption.isDisplayed();
+    return this.majorOption.isDisplayed();
   }
 
   async isCancelButtonEnabled() {
@@ -105,11 +105,11 @@ export class UploadNewVersionDialog extends Component {
 
 
   async clickMajor() {
-    return await this.majorOption.click();
+    await this.majorOption.click();
   }
 
   async clickMinor() {
-    return await this.minorOption.click();
+    await this.minorOption.click();
   }
 
 

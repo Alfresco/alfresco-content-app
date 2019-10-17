@@ -30,269 +30,411 @@ import { NodesApi as AdfNodeApi, NodeBodyLock} from '@alfresco/js-api';
 import { Utils } from '../../../../utilities/utils';
 
 export class NodesApi extends RepoApi {
-    nodesApi = new AdfNodeApi(this.alfrescoJsApi);
+  nodesApi = new AdfNodeApi(this.alfrescoJsApi);
 
-    constructor(username?, password?) {
-        super(username, password);
+  constructor(username?, password?) {
+    super(username, password);
+  }
+
+  async getNodeByPath(relativePath: string = '/') {
+    try {
+      await this.apiAuth();
+      return await this.nodesApi.getNode('-my-', { relativePath });
+    } catch (error) {
+      console.log('--- nodes api getNodeByPath catch error: ', error);
+      return null;
     }
+  }
 
-    async getNodeByPath(relativePath: string = '/') {
-        await this.apiAuth();
-        return await this.nodesApi.getNode('-my-', { relativePath });
+  async getNodeById(id: string) {
+    try {
+      await this.apiAuth();
+      return await this.nodesApi.getNode(id);
+    } catch (error) {
+      console.log('--- nodes api getNodeById catch error: ', error);
+      return null;
     }
+  }
 
-    async getNodeById(id: string) {
-        await this.apiAuth();
-        return await this.nodesApi.getNode(id);
-    }
-
-    async getNodeIdFromParent(name: string, parentId: string) {
+  async getNodeIdFromParent(name: string, parentId: string) {
+    try {
       const children = (await this.getNodeChildren(parentId)).list.entries;
       return children.find(elem => elem.entry.name === name).entry.id;
+    } catch (error) {
+      console.log('--- nodes api getNodeIdFromParent catch error: ', error);
+      return null;
     }
+  }
 
-    async getNodeDescription(name: string, parentId: string) {
+  async getNodeDescription(name: string, parentId: string) {
+    try {
       const children = (await this.getNodeChildren(parentId)).list.entries;
       return children.find(elem => elem.entry.name === name).entry.properties['cm:description'];
+    } catch (error) {
+      console.log('--- nodes api getNodeDescription catch error: ', error);
+      return '';
     }
+  }
 
-    async getNodeProperty(nodeId: string, property: string) {
+  async getNodeProperty(nodeId: string, property: string) {
+    try {
       const node = await this.getNodeById(nodeId);
       if (node.entry.properties) {
         return node.entry.properties[property];
       }
+    } catch (error) {
+      console.log('--- nodes api getNodeProperty catch error: ', error);
       return '';
     }
+  }
 
-    async getFileVersionType(nodeId: string) {
+  async getFileVersionType(nodeId: string) {
+    try {
       const prop = await this.getNodeProperty(nodeId, 'cm:versionType');
       if ( prop ) {
         return prop;
       }
+    } catch (error) {
+      console.log('--- nodes api getFileVersionType catch error: ', error);
       return '';
     }
-    async getFileVersionLabel(nodeId: string) {
+  }
+
+  async getFileVersionLabel(nodeId: string) {
+    try {
       const prop = await this.getNodeProperty(nodeId, 'cm:versionLabel');
       if ( prop ) {
         return prop;
       }
+    } catch (error) {
+      console.log('--- nodes api getFileVersionLabel catch error: ', error);
       return '';
     }
+  }
 
-
-    async getSharedId(nodeId: string) {
+  async getSharedId(nodeId: string) {
+    try {
       return await this.getNodeProperty(nodeId, 'qshare:sharedId');
+    } catch (error) {
+      console.log('--- nodes api getSharedId catch error: ', error);
     }
+  }
 
-    async getSharedExpiryDate(nodeId: string) {
+  async getSharedExpiryDate(nodeId: string) {
+    try {
       return await this.getNodeProperty(nodeId, 'qshare:expiryDate');
+    } catch (error) {
+      console.log('--- nodes api getSharedExpiryDate catch error: ', error);
     }
+  }
 
-    async isFileShared(nodeId: string) {
+  async isFileShared(nodeId: string) {
+    try {
       return (await this.getSharedId(nodeId)) !== '';
+    } catch (error) {
+      console.log('--- nodes api isFileShared catch error: ', error);
+      return null;
     }
+  }
 
-    async deleteNodeById(id: string, permanent: boolean = true) {
-        await this.apiAuth();
-        try {
-          return await this.nodesApi.deleteNode(id, { permanent });
-        } catch (error) {
-          console.log('------ deleteNodeById failed ');
-        }
+  async deleteNodeById(id: string, permanent: boolean = true) {
+    try {
+      await this.apiAuth();
+      return await this.nodesApi.deleteNode(id, { permanent });
+    } catch (error) {
+      console.log('--- nodes api deleteNodeById catch error: ', error);
     }
+  }
 
-    async deleteNodeByPath(path: string, permanent: boolean = true) {
-        const id = (await this.getNodeByPath(path)).entry.id;
-        return await this.deleteNodeById(id, permanent);
+  async deleteNodeByPath(path: string, permanent: boolean = true) {
+    try {
+      const id = (await this.getNodeByPath(path)).entry.id;
+      return await this.deleteNodeById(id, permanent);
+    } catch (error) {
+      console.log('--- nodes api deleteNodeByPath catch error: ', error);
     }
+  }
 
-    async deleteNodes(names: string[], relativePath: string = '', permanent: boolean = true) {
-        return await names.reduce(async (previous, current) => {
-            await previous;
-            return await this.deleteNodeByPath(`${relativePath}/${current}`, permanent);
-        }, Promise.resolve());
+  async deleteNodes(names: string[], relativePath: string = '', permanent: boolean = true) {
+    try {
+      return await names.reduce(async (previous, current) => {
+        await previous;
+        const req = await this.deleteNodeByPath(`${relativePath}/${current}`, permanent);
+        return req;
+      }, Promise.resolve());
+    } catch (error) {
+      console.log('--- nodes api deleteNodes catch error: ', error);
     }
+  }
 
-    async deleteNodesById(ids: string[], permanent: boolean = true) {
-        return await ids.reduce(async (previous, current) => {
-            await previous;
-            return await this.deleteNodeById(current, permanent);
-        }, Promise.resolve());
+  async deleteNodesById(ids: string[], permanent: boolean = true) {
+    try {
+      return await ids.reduce(async (previous, current) => {
+        await previous;
+        const req = await this.deleteNodeById(current, permanent);
+        return req;
+      }, Promise.resolve());
+    } catch (error) {
+      console.log('--- nodes api deleteNodesById catch error: ', error);
     }
+  }
 
-    async getNodeChildren(nodeId: string) {
-        const opts = {
-          include: [ 'properties' ]
-        };
-        await this.apiAuth();
-        return await this.nodesApi.listNodeChildren(nodeId, opts);
+  async getNodeChildren(nodeId: string) {
+    try {
+      const opts = {
+        include: [ 'properties' ]
+      };
+      await this.apiAuth();
+      return await this.nodesApi.listNodeChildren(nodeId, opts);
+    } catch (error) {
+      console.log('--- nodes api getNodeChildren catch error: ', error);
+      return null;
     }
+  }
 
-    async deleteNodeChildren(parentId: string) {
+  async deleteNodeChildren(parentId: string) {
+    try {
       const listEntries = (await this.getNodeChildren(parentId)).list.entries;
       const nodeIds = listEntries.map(entries => entries.entry.id);
       return await this.deleteNodesById(nodeIds);
+    } catch (error) {
+      console.log('--- nodes api deleteNodeChildren catch error: ', error);
     }
+  }
 
-    async createImageNode(nodeType: string, name: string, parentId: string = '-my-', title: string = '', description: string = '') {
-      const imageProps = {
-        'exif:pixelXDimension': 1000,
-        'exif:pixelYDimension': 1200
-      };
+  async createImageNode(name: string, parentId: string = '-my-', title: string = '', description: string = '') {
+    const imageProps = {
+      'exif:pixelXDimension': 1000,
+      'exif:pixelYDimension': 1200
+    };
+    try {
       return await this.createNode('cm:content', name, parentId, title, description, imageProps);
+    } catch (error) {
+      console.log('--- nodes api createImageNode catch error: ', error);
     }
+  }
 
-    async createNode(nodeType: string, name: string, parentId: string = '-my-', title: string = '', description: string = '', imageProps: any = null, author: string = '', majorVersion: boolean = true) {
-        const nodeBody = {
-            name,
-            nodeType,
-            properties: {
-                'cm:title': title,
-                'cm:description': description,
-                'cm:author': author
-            }
-        };
-        if (imageProps) {
-          nodeBody.properties = Object.assign(nodeBody.properties, imageProps);
+  async createNode(nodeType: string, name: string, parentId: string = '-my-', title: string = '', description: string = '', imageProps: any = null, author: string = '', majorVersion: boolean = true) {
+    const nodeBody = {
+        name,
+        nodeType,
+        properties: {
+            'cm:title': title,
+            'cm:description': description,
+            'cm:author': author
         }
-
-        await this.apiAuth();
-
-        try {
-          return await this.nodesApi.createNode(parentId, nodeBody, { majorVersion });
-        } catch (error) {
-          console.log('===========> API create node catch ===========');
-        }
-
+    };
+    if (imageProps) {
+      nodeBody.properties = Object.assign(nodeBody.properties, imageProps);
     }
 
-    async createFile(name: string, parentId: string = '-my-', title: string = '', description: string = '', author: string = '', majorVersion: boolean = true) {
-      try {
-        return await this.createNode('cm:content', name, parentId, title, description, null, author, majorVersion);
-      } catch (error) {
-        console.log('==== catch createFile: ', error);
-      }
+    try {
+      await this.apiAuth();
+      return await this.nodesApi.createNode(parentId, nodeBody, { majorVersion });
+    } catch (error) {
+      console.log('--- nodes api createNode catch error: ', error);
     }
+  }
 
-    async createImage(name: string, parentId: string = '-my-', title: string = '', description: string = '') {
-        return await this.createImageNode('cm:content', name, parentId, title, description);
+  async createFile(name: string, parentId: string = '-my-', title: string = '', description: string = '', author: string = '', majorVersion: boolean = true) {
+    try {
+      return await this.createNode('cm:content', name, parentId, title, description, null, author, majorVersion);
+    } catch (error) {
+      console.log('--- nodes api createFile catch error: ', error);
     }
+  }
 
-    async createFolder(name: string, parentId: string = '-my-', title: string = '', description: string = '', author: string = '') {
-      try {
-        return await this.createNode('cm:folder', name, parentId, title, description, null, author);
-      } catch (error) {
-        console.log('======> API create folder catch ==========');
-      }
+  async createImage(name: string, parentId: string = '-my-', title: string = '', description: string = '') {
+    try {
+      return await this.createImageNode(name, parentId, title, description);
+    } catch (error) {
+      console.log('--- nodes api createImage catch error: ', error);
     }
+  }
 
-    async createChildren(data: NodeBodyCreate[]) {
-        await this.apiAuth();
-        return await this.nodesApi.createNode('-my-', <any>data);
+  async createFolder(name: string, parentId: string = '-my-', title: string = '', description: string = '', author: string = '') {
+    try {
+      return await this.createNode('cm:folder', name, parentId, title, description, null, author);
+    } catch (error) {
+      console.log('--- nodes api createFolder catch error: ', error);
     }
+  }
 
-    async createContent(content: NodeContentTree, relativePath: string = '/') {
-        return await this.createChildren(flattenNodeContentTree(content, relativePath));
+  async createChildren(data: NodeBodyCreate[]) {
+    try {
+      await this.apiAuth();
+      return await this.nodesApi.createNode('-my-', <any>data);
+    } catch (error) {
+      console.log('--- nodes api createChildren catch error: ', error);
     }
+  }
 
-    async createFolders(names: string[], relativePath: string = '/') {
-        return await this.createContent({ folders: names }, relativePath);
+  async createContent(content: NodeContentTree, relativePath: string = '/') {
+    try {
+      return await this.createChildren(flattenNodeContentTree(content, relativePath));
+    } catch (error) {
+      console.log('--- nodes api createContent catch error: ', error);
     }
+  }
 
-    async createFiles(names: string[], relativePath: string = '/') {
-        return await this.createContent({ files: names }, relativePath);
+  async createFolders(names: string[], relativePath: string = '/') {
+    try {
+      return await this.createContent({ folders: names }, relativePath);
+    } catch (error) {
+      console.log('--- nodes api createFolders catch error: ', error);
     }
+  }
 
-    // node content
-    async getNodeContent(nodeId: string) {
-        await this.apiAuth();
-        return await this.nodesApi.getNodeContent(nodeId);
+  async createFiles(names: string[], relativePath: string = '/') {
+    try {
+      return await this.createContent({ files: names }, relativePath);
+    } catch (error) {
+      console.log('--- nodes api createFiles catch error: ', error);
     }
+  }
 
-    async editNodeContent(nodeId: string, content: string) {
-        await this.apiAuth();
-        return await this.nodesApi.updateNodeContent(nodeId, content);
+  // node content
+  async getNodeContent(nodeId: string) {
+    try {
+      await this.apiAuth();
+      return await this.nodesApi.getNodeContent(nodeId);
+    } catch (error) {
+      console.log('--- nodes api getNodeContent catch error: ', error);
     }
+  }
 
-    async renameNode(nodeId: string, newName: string) {
-        await this.apiAuth();
-        return this.nodesApi.updateNode(nodeId, { name: newName });
+  async editNodeContent(nodeId: string, content: string) {
+    try {
+      await this.apiAuth();
+      return await this.nodesApi.updateNodeContent(nodeId, content);
+    } catch (error) {
+      console.log('--- nodes api editNodeContent catch error: ', error);
+      return null;
     }
+  }
 
-    // node permissions
-    async setGranularPermission(nodeId: string, inheritPermissions: boolean = false, username: string, role: string) {
-        const data = {
-            permissions: {
-                isInheritanceEnabled: inheritPermissions,
-                locallySet: [
-                    {
-                        authorityId: username,
-                        name: role
-                    }
-                ]
-            }
-        };
-
-        await this.apiAuth();
-        return await this.nodesApi.updateNode(nodeId, data);
+  async renameNode(nodeId: string, newName: string) {
+    try {
+      await this.apiAuth();
+      return this.nodesApi.updateNode(nodeId, { name: newName });
+    } catch (error) {
+      console.log('--- nodes api renameNode catch error: ', error);
+      return null;
     }
+  }
 
-    async getNodePermissions(nodeId: string) {
-        await this.apiAuth();
-        return await this.nodesApi.getNode(nodeId, { include: ['permissions'] });
-    }
-
-    // lock node
-    async lockFile(nodeId: string, lockType: string = 'ALLOW_OWNER_CHANGES') {
-        const data = <NodeBodyLock>{
-            type: lockType
-        };
-
-        await this.apiAuth();
-        return await this.nodesApi.lockNode(nodeId, data );
-    }
-
-    async unlockFile(nodeId: string) {
-        await this.apiAuth();
-        return await this.nodesApi.unlockNode(nodeId);
-    }
-
-    async getLockType(nodeId: string) {
-      return await this.getNodeProperty(nodeId, 'cm:lockType');
-    }
-
-    async getLockOwner(nodeId: string) {
-      return await this.getNodeProperty(nodeId, 'cm:lockOwner');
-    }
-
-    async isFileLockedWrite(nodeId: string) {
-        return (await this.getLockType(nodeId)) === 'WRITE_LOCK';
-    }
-
-    async isFileLockedWriteWithRetry(nodeId: string, expect: boolean) {
-      const data = {
-        expect: expect,
-        retry: 5
-      };
-      let isLocked;
-      try {
-        const locked = async () => {
-          isLocked = (await this.getLockType(nodeId)) === 'WRITE_LOCK';
-          if ( isLocked !== data.expect ) {
-            return Promise.reject(isLocked);
-          } else {
-            return Promise.resolve(isLocked);
+  // node permissions
+  async setGranularPermission(nodeId: string, inheritPermissions: boolean = false, username: string, role: string) {
+    const data = {
+      permissions: {
+        isInheritanceEnabled: inheritPermissions,
+        locallySet: [
+          {
+            authorityId: username,
+            name: role
           }
-        }
-        return await Utils.retryCall(locked, data.retry);
-      } catch (error) {
-        console.log('-----> catch isLockedWriteWithRetry: ', error);
+        ]
       }
-      return isLocked;
-    }
+    };
 
-    async isFileLockedByName(fileName: string, parentId: string) {
+    try {
+      await this.apiAuth();
+      return await this.nodesApi.updateNode(nodeId, data);
+    } catch (error) {
+      console.log('--- nodes api setGranularPermission catch error: ', error);
+      return null;
+    }
+  }
+
+  async getNodePermissions(nodeId: string) {
+    try {
+      await this.apiAuth();
+      return await this.nodesApi.getNode(nodeId, { include: ['permissions'] });
+    } catch (error) {
+      console.log('--- nodes api getNodePermissions catch error: ', error);
+      return null;
+    }
+  }
+
+  // lock node
+  async lockFile(nodeId: string, lockType: string = 'ALLOW_OWNER_CHANGES') {
+    const data = <NodeBodyLock>{
+        type: lockType
+    };
+
+    try {
+      await this.apiAuth();
+      return await this.nodesApi.lockNode(nodeId, data );
+    } catch (error) {
+      console.log('--- nodes api lockFile catch error: ', error);
+      return null;
+    }
+  }
+
+  async unlockFile(nodeId: string) {
+    try {
+      await this.apiAuth();
+      return await this.nodesApi.unlockNode(nodeId);
+    } catch (error) {
+      console.log('--- nodes api unlockFile catch error: ', error);
+      return null;
+    }
+  }
+
+  async getLockType(nodeId: string) {
+    try {
+      return await this.getNodeProperty(nodeId, 'cm:lockType');
+    } catch (error) {
+      console.log('--- nodes api getLockType catch error: ', error);
+    }
+  }
+
+  async getLockOwner(nodeId: string) {
+    try {
+      return await this.getNodeProperty(nodeId, 'cm:lockOwner');
+    } catch (error) {
+      console.log('--- nodes api getLockOwner catch error: ', error);
+    }
+  }
+
+  async isFileLockedWrite(nodeId: string) {
+    try {
+      return (await this.getLockType(nodeId)) === 'WRITE_LOCK';
+    } catch (error) {
+      console.log('--- nodes api isFileLockedWrite catch error: ', error);
+      return null;
+    }
+  }
+
+  async isFileLockedWriteWithRetry(nodeId: string, expect: boolean) {
+    const data = {
+      expect: expect,
+      retry: 5
+    };
+    let isLocked;
+    try {
+      const locked = async () => {
+        isLocked = (await this.getLockType(nodeId)) === 'WRITE_LOCK';
+        if ( isLocked !== data.expect ) {
+          return Promise.reject(isLocked);
+        } else {
+          return Promise.resolve(isLocked);
+        }
+      }
+      return await Utils.retryCall(locked, data.retry);
+    } catch (error) {
+      console.log('--- nodes api isFileLockedWriteWithRetry catch error: ', error);
+    }
+    return isLocked;
+  }
+
+  async isFileLockedByName(fileName: string, parentId: string) {
+    try {
       const id = await this.getNodeIdFromParent(fileName, parentId);
       return await this.isFileLockedWrite(id);
+    } catch (error) {
+      console.log('--- nodes api isFileLockedByName catch error: ', error);
+      return null;
     }
+  }
 }
