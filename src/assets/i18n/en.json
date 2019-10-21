@@ -477,6 +477,11 @@
             "THIS_YEAR": "This year"
         }
     },
+    "AVATAR": {
+      "ACCESSIBILITY": {
+        "AVATAR_BUTTON_ARIA_LABEL": "User options"
+      }
+    },
     "CORE": {
         "METADATA": {
             "ACTIONS": {
@@ -505,8 +510,7 @@
     "CUSTOM_NAME_COLUMN": {
         "ACCESSIBILITY": {
             "FILE_LINK_ARIA_LABEL": "View file {{ name }}",
-            "FOLDER_LINK_ARIA_LABEL": "Open {{ name }} folder",
-            "AVATAR_BUTTON_ARIA_LABEL": "User options"
+            "FOLDER_LINK_ARIA_LABEL": "Open {{ name }} folder"
         }
     },
     "ADF-DATATABLE": {
