@@ -113,6 +113,11 @@ export class PreviewComponent extends PageComponent
     '-TYPE:"lnk:link"'
   ];
 
+  private containersSkipNavigation = [
+    'adf-viewer__sidebar',
+    'mat-dialog-container'
+  ];
+
   constructor(
     private contentApi: ContentApiService,
     private preferences: UserPreferencesService,
@@ -258,7 +263,14 @@ export class PreviewComponent extends PageComponent
   }
 
   /** Handles navigation to a previous document */
-  onNavigateBefore(): void {
+  onNavigateBefore(event: MouseEvent | KeyboardEvent): void {
+    if (
+      event.type !== 'click' &&
+      this.shouldNavigate(event.target as HTMLElement)
+    ) {
+      return;
+    }
+
     if (this.previousNodeId) {
       this.router.navigate(
         this.getPreviewPath(this.folderId, this.previousNodeId)
@@ -267,7 +279,14 @@ export class PreviewComponent extends PageComponent
   }
 
   /** Handles navigation to a next document */
-  onNavigateNext(): void {
+  onNavigateNext(event: MouseEvent | KeyboardEvent): void {
+    if (
+      event.type !== 'click' &&
+      this.shouldNavigate(event.target as HTMLElement)
+    ) {
+      return;
+    }
+
     if (this.nextNodeId) {
       this.router.navigate(this.getPreviewPath(this.folderId, this.nextNodeId));
     }
@@ -486,5 +505,21 @@ export class PreviewComponent extends PageComponent
       acc.push(item.path, item.parameters);
       return acc;
     }, []);
+  }
+
+  private shouldNavigate(element: HTMLElement): boolean {
+    let currentElement = element.parentElement;
+
+    while (currentElement && !this.isChild(currentElement.classList)) {
+      currentElement = currentElement.parentElement;
+    }
+
+    return !!currentElement;
+  }
+
+  private isChild(list: DOMTokenList): boolean {
+    return Array.from(list).some((className: string) =>
+      this.containersSkipNavigation.includes(className)
+    );
   }
 }

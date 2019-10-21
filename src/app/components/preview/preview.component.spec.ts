@@ -91,11 +91,12 @@ describe('PreviewComponent', () => {
 
   it('should navigate to previous node in sub-folder', () => {
     spyOn(router, 'navigate').and.stub();
+    const clickEvent = new MouseEvent('click');
 
     component.previewLocation = 'personal-files';
     component.folderId = 'folder1';
     component.previousNodeId = 'previous1';
-    component.onNavigateBefore();
+    component.onNavigateBefore(clickEvent);
 
     expect(router.navigate).toHaveBeenCalledWith([
       'personal-files',
@@ -107,11 +108,12 @@ describe('PreviewComponent', () => {
 
   it('should navigate back to previous node in the root path', () => {
     spyOn(router, 'navigate').and.stub();
+    const clickEvent = new MouseEvent('click');
 
     component.previewLocation = 'personal-files';
     component.folderId = null;
     component.previousNodeId = 'previous1';
-    component.onNavigateBefore();
+    component.onNavigateBefore(clickEvent);
 
     expect(router.navigate).toHaveBeenCalledWith([
       'personal-files',
@@ -122,20 +124,22 @@ describe('PreviewComponent', () => {
 
   it('should not navigate back if node unset', () => {
     spyOn(router, 'navigate').and.stub();
+    const clickEvent = new MouseEvent('click');
 
     component.previousNodeId = null;
-    component.onNavigateBefore();
+    component.onNavigateBefore(clickEvent);
 
     expect(router.navigate).not.toHaveBeenCalled();
   });
 
   it('should navigate to next node in sub-folder', () => {
     spyOn(router, 'navigate').and.stub();
+    const clickEvent = new MouseEvent('click');
 
     component.previewLocation = 'personal-files';
     component.folderId = 'folder1';
     component.nextNodeId = 'next1';
-    component.onNavigateNext();
+    component.onNavigateNext(clickEvent);
 
     expect(router.navigate).toHaveBeenCalledWith([
       'personal-files',
@@ -147,11 +151,12 @@ describe('PreviewComponent', () => {
 
   it('should navigate to next node in the root path', () => {
     spyOn(router, 'navigate').and.stub();
+    const clickEvent = new MouseEvent('click');
 
     component.previewLocation = 'personal-files';
     component.folderId = null;
     component.nextNodeId = 'next1';
-    component.onNavigateNext();
+    component.onNavigateNext(clickEvent);
 
     expect(router.navigate).toHaveBeenCalledWith([
       'personal-files',
@@ -162,9 +167,10 @@ describe('PreviewComponent', () => {
 
   it('should not navigate back if node unset', () => {
     spyOn(router, 'navigate').and.stub();
+    const clickEvent = new MouseEvent('click');
 
     component.nextNodeId = null;
-    component.onNavigateNext();
+    component.onNavigateNext(clickEvent);
 
     expect(router.navigate).not.toHaveBeenCalled();
   });
@@ -743,4 +749,48 @@ describe('PreviewComponent', () => {
     store.dispatch(new ClosePreviewAction());
     expect(component.navigateToFileLocation).toHaveBeenCalled();
   }));
+
+  describe('Keyboard navigation', () => {
+    beforeEach(() => {
+      component.nextNodeId = 'nextNodeId';
+      component.previousNodeId = 'previousNodeId';
+      spyOn(router, 'navigate').and.stub();
+    });
+
+    afterEach(() => {
+      fixture.destroy();
+    });
+
+    it('should not navigate on keyboard event if target is child of sidebar container', () => {
+      const parent = document.createElement('div');
+      parent.className = 'adf-viewer__sidebar';
+
+      const child = document.createElement('button');
+      child.addEventListener('keyup', function(e) {
+        component.onNavigateNext(e);
+      });
+      parent.appendChild(child);
+      document.body.appendChild(parent);
+
+      child.dispatchEvent(new KeyboardEvent('keyup', { key: 'ArrowLeft' }));
+
+      expect(router.navigate).not.toHaveBeenCalled();
+    });
+
+    it('should not navigate on keyboard event if target is child of dialog container', () => {
+      const parent = document.createElement('div');
+      parent.className = 'mat-dialog-container';
+
+      const child = document.createElement('button');
+      child.addEventListener('keyup', function(e) {
+        component.onNavigateNext(e);
+      });
+      parent.appendChild(child);
+      document.body.appendChild(parent);
+
+      child.dispatchEvent(new KeyboardEvent('keyup', { key: 'ArrowLeft' }));
+
+      expect(router.navigate).not.toHaveBeenCalled();
+    });
+  });
 });
