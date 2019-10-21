@@ -14,8 +14,8 @@
     [canNavigateNext]="nextNodeId"
     [overlayMode]="true"
     (showViewerChange)="onVisibilityChanged($event)"
-    (navigateBefore)="onNavigateBefore()"
-    (navigateNext)="onNavigateNext()"
+    (navigateBefore)="onNavigateBefore($event)"
+    (navigateNext)="onNavigateNext($event)"
   >
     <adf-viewer-sidebar *ngIf="infoDrawerOpened$ | async">
       <aca-info-drawer [node]="selection.file"></aca-info-drawer>
