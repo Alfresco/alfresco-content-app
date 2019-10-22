@@ -72,7 +72,7 @@ export class LibraryMetadata extends Component {
   }
 
   async isFieldDisplayed(fieldName: string) {
-    return await browser.isElementPresent(this.getFieldByName(fieldName));
+    return browser.isElementPresent(this.getFieldByName(fieldName));
   }
 
   async isInputEnabled(fieldName: string) {
@@ -80,13 +80,13 @@ export class LibraryMetadata extends Component {
   }
 
   async getValueOfField(fieldName: string) {
-    return await this.getFieldByName(fieldName).getText();
+    return this.getFieldByName(fieldName).getText();
   }
 
   async enterTextInInput(fieldName: string, text: string) {
     const input = this.getFieldByName(fieldName);
     await input.clear();
-    return await input.sendKeys(text);
+    await input.sendKeys(text);
   }
 
 
@@ -99,11 +99,11 @@ export class LibraryMetadata extends Component {
   }
 
   async isButtonEnabled(button: string) {
-    return await this.getButton(button).isEnabled();
+    return this.getButton(button).isEnabled();
   }
 
   async clickButton(button: string) {
-    return await this.getButton(button).click();
+    await this.getButton(button).click();
   }
 
   async waitForVisibilityDropDownToOpen() {
@@ -115,68 +115,68 @@ export class LibraryMetadata extends Component {
   }
 
   async isMessageDisplayed() {
-    return await browser.isElementPresent(this.hint);
+    return browser.isElementPresent(this.hint);
   }
 
   async getMessage() {
-    return await this.hint.getText();
+    return this.hint.getText();
   }
 
   async isErrorDisplayed() {
-    return await browser.isElementPresent(this.error);
+    return browser.isElementPresent(this.error);
   }
 
   async getError() {
-    return await this.error.getText();
+    return this.error.getText();
   }
 
 
   async isNameDisplayed() {
-    return await this.isFieldDisplayed('Name');
+    return this.isFieldDisplayed('Name');
   }
 
   async isNameEnabled() {
-    return await this.isInputEnabled('Name');
+    return this.isInputEnabled('Name');
   }
 
   async getName() {
-    return await this.getValueOfField('Name');
+    return this.getValueOfField('Name');
   }
 
   async enterName(name: string) {
-    return await this.enterTextInInput('Name', name);
+    await this.enterTextInInput('Name', name);
   }
 
 
   async isDescriptionDisplayed() {
-    return await this.isFieldDisplayed('Description');
+    return this.isFieldDisplayed('Description');
   }
 
   async isDescriptionEnabled() {
-    return await this.isInputEnabled('Description');
+    return this.isInputEnabled('Description');
   }
 
   async getDescription() {
-    return await this.getValueOfField('Description');
+    return this.getValueOfField('Description');
   }
 
   async enterDescription(desc: string) {
-    return await this.enterTextInInput('Description', desc);
+    await this.enterTextInInput('Description', desc);
   }
 
 
   async isVisibilityEnabled() {
     const wrapper = this.getLabelWrapper('Visibility');
     const field = wrapper.element(by.xpath('..')).element(by.css(LibraryMetadata.selectors.dropDown));
-    return await field.isEnabled();
+    return field.isEnabled();
   }
 
   async isVisibilityDisplayed() {
-    return await this.isFieldDisplayed('Visibility');
+    return this.isFieldDisplayed('Visibility');
   }
 
   async getVisibility() {
-    return await this.getValueOfField('Visibility');
+    return this.getValueOfField('Visibility');
   }
 
   async setVisibility(visibility: string) {
@@ -200,54 +200,54 @@ export class LibraryMetadata extends Component {
 
 
   async isLibraryIdDisplayed() {
-    return await this.isFieldDisplayed('Library ID');
+    return this.isFieldDisplayed('Library ID');
   }
 
   async isLibraryIdEnabled() {
-    return await this.isInputEnabled('Library ID');
+    return this.isInputEnabled('Library ID');
   }
 
   async getLibraryId() {
-    return await this.getValueOfField('Library ID');
+    return this.getValueOfField('Library ID');
   }
 
 
   async isEditLibraryPropertiesEnabled() {
-    return await this.isButtonEnabled('Edit');
+    return this.isButtonEnabled('Edit');
   }
 
   async isEditLibraryPropertiesDisplayed() {
-    return await this.isButtonDisplayed('Edit');
+    return this.isButtonDisplayed('Edit');
   }
 
   async clickEditLibraryProperties() {
-    return await this.clickButton('Edit');
+    await this.clickButton('Edit');
   }
 
 
   async isUpdateEnabled() {
-    return await this.isButtonEnabled('Update');
+    return this.isButtonEnabled('Update');
   }
 
   async isUpdateDisplayed() {
-    return await this.isButtonDisplayed('Update');
+    return this.isButtonDisplayed('Update');
   }
 
   async clickUpdate() {
-    return await this.clickButton('Update');
+    await this.clickButton('Update');
   }
 
 
   async isCancelEnabled() {
-    return await this.isButtonEnabled('Cancel');
+    return this.isButtonEnabled('Cancel');
   }
 
   async isCancelDisplayed() {
-    return await this.isButtonDisplayed('Cancel');
+    return this.isButtonDisplayed('Cancel');
   }
 
   async clickCancel() {
-    return await this.clickButton('Cancel');
+    await this.clickButton('Cancel');
   }
 
 }

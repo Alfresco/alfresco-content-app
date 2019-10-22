@@ -71,15 +71,15 @@ export class ShareDialog extends Component {
   }
 
   async isDialogOpen() {
-    return await browser.isElementPresent(by.css(ShareDialog.selectors.root));
+    return browser.isElementPresent(by.css(ShareDialog.selectors.root));
   }
 
   async getTitle() {
-    return await this.title.getText();
+    return this.title.getText();
   }
 
   async getInfoText() {
-    return await this.infoText.getText();
+    return this.infoText.getText();
   }
 
   getLabels() {
@@ -87,15 +87,15 @@ export class ShareDialog extends Component {
   }
 
   async getLinkUrl() {
-    return await this.url.getAttribute('value');
+    return this.url.getAttribute('value');
   }
 
   async isUrlReadOnly() {
-    return await this.url.getAttribute('readonly');
+    return this.url.getAttribute('readonly');
   }
 
   async isCloseEnabled() {
-    return await this.closeButton.isEnabled();
+    return this.closeButton.isEnabled();
   }
 
   async clickClose() {
@@ -131,21 +131,21 @@ export class ShareDialog extends Component {
   }
 
   async copyUrl() {
-    return await this.urlAction.click();
+    await this.urlAction.click();
   }
 
   async openDatetimePicker() {
-    return await this.datetimePickerButton.click();
+    await this.datetimePickerButton.click();
   }
 
   async closeDatetimePicker() {
     if (await this.dateTimePicker.isCalendarOpen()) {
-      return await this.datetimePickerButton.click();
+      await this.datetimePickerButton.click();
     }
   }
 
   async getExpireDate() {
-    return await this.getExpireInput().getAttribute('value');
+    return this.getExpireInput().getAttribute('value');
   }
 
   async clickExpirationToggle() {

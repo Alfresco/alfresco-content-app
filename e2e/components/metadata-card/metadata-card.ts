@@ -44,7 +44,7 @@ export class MetadataCard extends Component {
   }
 
   async isExpandPresent() {
-    return await this.expandButton.isPresent();
+    return this.expandButton.isPresent();
   }
 
   async clickExpandButton() {
@@ -52,15 +52,15 @@ export class MetadataCard extends Component {
   }
 
   async waitForFirstExpansionPanel() {
-    return await browser.wait(EC.presenceOf(this.expansionPanels.get(0)), BROWSER_WAIT_TIMEOUT);
+    await browser.wait(EC.presenceOf(this.expansionPanels.get(0)), BROWSER_WAIT_TIMEOUT);
   }
 
   async isExpansionPanelPresent(index) {
-    return await this.expansionPanels.get(index).isPresent();
+    return this.expansionPanels.get(index).isPresent();
   }
 
   async getComponentIdOfPanel(index) {
-    return await this.expansionPanels.get(index).getAttribute('data-automation-id');
+    return this.expansionPanels.get(index).getAttribute('data-automation-id');
   }
 }
 

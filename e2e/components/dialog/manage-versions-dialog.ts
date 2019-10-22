@@ -45,19 +45,19 @@ export class ManageVersionsDialog extends Component {
   }
 
   async waitForDialogToClose() {
-    return await browser.wait(EC.stalenessOf(this.title), BROWSER_WAIT_TIMEOUT);
+    await browser.wait(EC.stalenessOf(this.title), BROWSER_WAIT_TIMEOUT);
   }
 
   async isDialogOpen() {
-    return await browser.$(ManageVersionsDialog.selectors.root).isDisplayed();
+    return browser.$(ManageVersionsDialog.selectors.root).isDisplayed();
   }
 
   async getTitle() {
-    return await this.title.getText();
+    return this.title.getText();
   }
 
   async getText() {
-    return await this.content.getText();
+    return this.content.getText();
   }
 
   async clickClose() {

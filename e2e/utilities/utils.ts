@@ -81,7 +81,7 @@ export class Utils {
   }
 
   static async waitUntilElementClickable(element: ElementFinder) {
-    return await browser.wait(EC.elementToBeClickable(element), BROWSER_WAIT_TIMEOUT).catch(Error);
+    await browser.wait(EC.elementToBeClickable(element), BROWSER_WAIT_TIMEOUT).catch(Error);
   }
 
   static async typeInField(elem: ElementFinder, value: string) {
@@ -156,21 +156,20 @@ export class Utils {
   }
 
   static async pressEscape() {
-    return await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
+    await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
   }
 
   static async pressTab() {
-    return await browser.actions().sendKeys(protractor.Key.TAB).perform();
+    await browser.actions().sendKeys(protractor.Key.TAB).perform();
   }
 
   static async getBrowserLog() {
-    return await browser.manage().logs().get('browser');
+    return browser.manage().logs().get('browser');
   }
 
   static formatDate(date: string) {
     return new Date(date).toLocaleDateString('en-US');
   }
-
 
   static async uploadFileNewVersion(fileFromOS: string) {
     const el = browser.element(by.id('app-upload-file-version'));

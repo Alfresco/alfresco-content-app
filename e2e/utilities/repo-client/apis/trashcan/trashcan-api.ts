@@ -28,53 +28,72 @@ import { Utils } from '../../../../utilities/utils';
 import { TrashcanApi as AdfTrashcanApi} from '@alfresco/js-api';
 
 export class TrashcanApi extends RepoApi {
-    trashcanApi = new AdfTrashcanApi(this.alfrescoJsApi);
+  trashcanApi = new AdfTrashcanApi(this.alfrescoJsApi);
 
-    constructor(username?, password?) {
-        super(username, password);
+  constructor(username?, password?) {
+    super(username, password);
+  }
+
+  async permanentlyDelete(id: string) {
+    try {
+      await this.apiAuth();
+      return await this.trashcanApi.deleteDeletedNode(id);
+    } catch (error) {
+      this.handleError(`${this.constructor.name} ${this.permanentlyDelete.name}`, error);
     }
+  }
 
-    async permanentlyDelete(id: string) {
-        await this.apiAuth();
-        return await this.trashcanApi.deleteDeletedNode(id);
+  async restore(id: string) {
+    try {
+      await this.apiAuth();
+      return await this.trashcanApi.restoreDeletedNode(id);
+    } catch (error) {
+      this.handleError(`${this.constructor.name} ${this.restore.name}`, error);
+      return null;
     }
+  }
 
-    async restore(id: string) {
-        await this.apiAuth();
-        return await this.trashcanApi.restoreDeletedNode(id);
+  async getDeletedNodes() {
+    const opts = {
+        maxItems: 1000
+    };
+    try {
+      await this.apiAuth();
+      return await this.trashcanApi.listDeletedNodes(opts);
+    } catch (error) {
+      this.handleError(`${this.constructor.name} ${this.getDeletedNodes.name}`, error);
+      return null;
     }
+  }
 
-    async getDeletedNodes() {
-        const opts = {
-            maxItems: 1000
-        };
-        await this.apiAuth();
-        return await this.trashcanApi.listDeletedNodes(opts);
+  async emptyTrash() {
+    try {
+      const ids = (await this.getDeletedNodes()).list.entries.map(entries => entries.entry.id);
+
+      return await ids.reduce(async (previous, current) => {
+          await previous;
+          return await this.permanentlyDelete(current);
+      }, Promise.resolve());
+    } catch (error) {
+      this.handleError(`${this.constructor.name} ${this.emptyTrash.name}`, error);
     }
+  }
 
-    async emptyTrash() {
-        const ids = (await this.getDeletedNodes()).list.entries.map(entries => entries.entry.id);
-
-        return await ids.reduce(async (previous, current) => {
-            await previous;
-            return await this.permanentlyDelete(current);
-        }, Promise.resolve());
-    }
-
-    async waitForApi(data) {
-        try {
-          const deletedFiles = async () => {
-            const totalItems = (await this.getDeletedNodes()).list.pagination.totalItems;
-            if ( totalItems !== data.expect) {
-                return Promise.reject(totalItems);
-            } else {
-                return Promise.resolve(totalItems);
-            }
-        };
-
-        return await Utils.retryCall(deletedFiles);
-        } catch (error) {
-          console.log('-----> catch trash: ', error);
+  async waitForApi(data: { expect: number }) {
+    try {
+      const deletedFiles = async () => {
+        const totalItems = (await this.getDeletedNodes()).list.pagination.totalItems;
+        if ( totalItems !== data.expect) {
+            return Promise.reject(totalItems);
+        } else {
+            return Promise.resolve(totalItems);
         }
+      };
+
+      return await Utils.retryCall(deletedFiles);
+    } catch (error) {
+      console.log(`${this.constructor.name} ${this.waitForApi.name} catch: `);
+      console.log(`\tExpected: ${data.expect} items, but found ${error}`);
     }
+  }
 }

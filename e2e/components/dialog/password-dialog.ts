@@ -58,33 +58,33 @@ export class PasswordDialog extends Component {
   }
 
   async isDialogOpen() {
-    return await browser.isElementPresent(by.css(PasswordDialog.selectors.root));
+    return browser.isElementPresent(by.css(PasswordDialog.selectors.root));
   }
 
   async getTitle() {
-    return await this.title.getText();
+    return this.title.getText();
   }
 
   async isCloseEnabled() {
-    return await this.closeButton.isEnabled();
+    return this.closeButton.isEnabled();
   }
 
   async isSubmitEnabled() {
-    return await this.submitButton.isEnabled();
+    return this.submitButton.isEnabled();
   }
 
   async clickClose() {
-    return await this.closeButton.click();
+    await this.closeButton.click();
   }
 
   async clickSubmit() {
-    return await this.submitButton.click();
+    await this.submitButton.click();
   }
 
   async isPasswordInputDisplayed() {
     const present = await browser.isElementPresent(this.passwordInput);
     if (present) {
-      return await this.passwordInput.isDisplayed();
+      return this.passwordInput.isDisplayed();
     } else {
       return false;
     }
@@ -92,12 +92,12 @@ export class PasswordDialog extends Component {
 
   async isErrorDisplayed() {
     const elem = await browser.wait(until.elementLocated(by.css(PasswordDialog.selectors.errorMessage)), BROWSER_WAIT_TIMEOUT, '------- timeout waiting for error message to appear')
-    return await browser.isElementPresent(elem);
+    return browser.isElementPresent(elem);
   }
 
   async getErrorMessage() {
     if (await this.isErrorDisplayed()) {
-      return await this.errorMessage.getText();
+      return this.errorMessage.getText();
     }
     return '';
   }

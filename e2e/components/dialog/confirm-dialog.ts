@@ -57,15 +57,15 @@ export class ConfirmDialog extends Component {
   }
 
   async isDialogOpen() {
-    return await browser.isElementPresent(by.css(ConfirmDialog.selectors.root));
+    return browser.isElementPresent(by.css(ConfirmDialog.selectors.root));
   }
 
   async getTitle() {
-    return await this.title.getText();
+    return this.title.getText();
   }
 
   async getText() {
-    return await this.content.getText();
+    return this.content.getText();
   }
 
   getButtonByName(name: string) {
@@ -79,49 +79,49 @@ export class ConfirmDialog extends Component {
 
   async isButtonEnabled(name: string) {
     const button = this.getButtonByName(name);
-    return await button.isEnabled();
+    return button.isEnabled();
   }
 
 
   async isOkEnabled() {
-    return await this.isButtonEnabled('OK');
+    return this.isButtonEnabled('OK');
   }
 
   async isCancelEnabled() {
-    return await this.isButtonEnabled('Cancel');
+    return this.isButtonEnabled('Cancel');
   }
 
   async isKeepEnabled() {
-    return await this.isButtonEnabled('Keep');
+    return this.isButtonEnabled('Keep');
   }
 
   async isDeleteEnabled() {
-    return await this.isButtonEnabled('Delete');
+    return this.isButtonEnabled('Delete');
   }
 
   async isRemoveEnabled() {
-    return await this.isButtonEnabled('Remove');
+    return this.isButtonEnabled('Remove');
   }
 
 
   async clickOk() {
-    return await this.clickButton('OK');
+    await this.clickButton('OK');
   }
 
   async clickCancel() {
-    return await this.cancelButton.click();
+    await this.cancelButton.click();
   }
 
   async clickKeep() {
-    return await this.clickButton('Keep');
+    await this.clickButton('Keep');
   }
 
   async clickDelete() {
-    return await this.clickButton('Delete');
+    await this.clickButton('Delete');
   }
 
   async clickRemove() {
-    return await this.clickButton('Remove');
+    await this.clickButton('Remove');
   }
 
 }

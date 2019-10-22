@@ -146,7 +146,7 @@ export class Sidenav extends Component {
 
     await browser.wait(condition, BROWSER_WAIT_TIMEOUT);
 
-    return await link.getAttribute('title');
+    return link.getAttribute('title');
   }
 
   async clickLink(name: string) {
@@ -154,18 +154,17 @@ export class Sidenav extends Component {
       const link = this.getLinkLabel(name);
       await Utils.waitUntilElementClickable(link);
       return await link.click();
-
-    } catch (e){
-      console.log('---- sidebar navigation catch clickLink: ', e);
+    } catch (error) {
+      console.log('---- sidebar navigation clickLink catch error: ', error);
     }
   }
 
   async isFileLibrariesMenuExpanded() {
-    return await element(by.cssContainingText('.mat-expanded', SIDEBAR_LABELS.FILE_LIBRARIES)).isPresent();
+    return element(by.cssContainingText('.mat-expanded', SIDEBAR_LABELS.FILE_LIBRARIES)).isPresent();
   }
 
   async expandFileLibraries() {
-    return await this.expandMenu(SIDEBAR_LABELS.FILE_LIBRARIES);
+    await this.expandMenu(SIDEBAR_LABELS.FILE_LIBRARIES);
   }
 
 }

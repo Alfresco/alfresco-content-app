@@ -110,54 +110,54 @@ export class Pagination extends Component {
   }
 
   async isNextEnabled() {
-    return await this.nextButton.isEnabled();
+    return this.nextButton.isEnabled();
   }
 
   async isPreviousEnabled() {
-    return await this.previousButton.isEnabled();
+    return this.previousButton.isEnabled();
   }
 
   async isPagesButtonPresent() {
-    return await browser.isElementPresent(this.pagesButton);
+    return browser.isElementPresent(this.pagesButton);
   }
 
   async isRangePresent() {
-    return await this.range.isPresent();
+    return this.range.isPresent();
   }
 
   async isMaxItemsPresent() {
-    return await this.maxItems.isPresent();
+    return this.maxItems.isPresent();
   }
 
   async isCurrentPagePresent() {
-    return await this.currentPage.isPresent();
+    return this.currentPage.isPresent();
   }
 
   async isTotalPagesPresent() {
-    return await this.totalPages.isPresent();
+    return this.totalPages.isPresent();
   }
 
   async isPreviousButtonPresent() {
-    return await this.previousButton.isPresent();
+    return this.previousButton.isPresent();
   }
 
   async isNextButtonPresent() {
-    return await this.nextButton.isPresent();
+    return this.nextButton.isPresent();
   }
 
   async getCurrentPage() {
-    return await this.currentPage.getText();
+    return this.currentPage.getText();
   }
 
   async getRange() {
-    return await this.range.getText();
+    return this.range.getText();
   }
 
   async getMaxItems() {
-    return await this.maxItems.getText();
+    return this.maxItems.getText();
   }
 
   async getTotalPages() {
-    return await this.totalPages.getText();
+    return this.totalPages.getText();
   }
 }

@@ -31,7 +31,7 @@ export class QueriesApi extends RepoApi {
   queriesApi = new AdfQueriesApi(this.alfrescoJsApi);
 
   constructor(username?: string, password?: string) {
-      super(username, password);
+    super(username, password);
   }
 
   async findSites(searchTerm: string) {
@@ -40,21 +40,31 @@ export class QueriesApi extends RepoApi {
         fields: ['title']
     };
 
-    await this.apiAuth();
-    return this.queriesApi.findSites(searchTerm, data);
+    try {
+      await this.apiAuth();
+      return this.queriesApi.findSites(searchTerm, data);
+    } catch (error) {
+      this.handleError(`${this.constructor.name} ${this.findSites.name}`, error);
+      return null;
+    }
   }
 
   async findNodes(searchTerm: string) {
     const data = {
-        term: searchTerm,
-        fields: ['name']
+      term: searchTerm,
+      fields: ['name']
     };
 
-    await this.apiAuth();
-    return this.queriesApi.findNodes(searchTerm, data);
+    try {
+      await this.apiAuth();
+      return this.queriesApi.findNodes(searchTerm, data);
+    } catch (error) {
+      this.handleError(`${this.constructor.name} ${this.findNodes.name}`, error);
+      return null;
+    }
   }
 
-  async waitForSites(searchTerm: string, data: any) {
+  async waitForSites(searchTerm: string, data: { expect: number }) {
     try {
       const sites = async () => {
         const totalItems = (await this.findSites(searchTerm)).list.pagination.totalItems;
@@ -67,11 +77,12 @@ export class QueriesApi extends RepoApi {
 
       return await Utils.retryCall(sites);
     } catch (error) {
-      console.log('-----> catch queries findSites: ', error);
+      console.log(`${this.constructor.name} ${this.waitForSites.name} catch: `);
+      console.log(`\tExpected: ${data.expect} items, but found ${error}`);
     }
   }
 
-  async waitForFilesAndFolders(searchTerm: string, data: any) {
+  async waitForFilesAndFolders(searchTerm: string, data: { expect: number }) {
     try {
       const nodes = async () => {
         const totalItems = (await this.findNodes(searchTerm)).list.pagination.totalItems;
@@ -84,7 +95,8 @@ export class QueriesApi extends RepoApi {
 
       return await Utils.retryCall(nodes);
     } catch (error) {
-      console.log('-----> catch queries findFilesAndFolders: ', error);
+      console.log(`${this.constructor.name} ${this.waitForFilesAndFolders.name} catch: `);
+      console.log(`\tExpected: ${data.expect} items, but found ${error}`);
     }
   }
 }

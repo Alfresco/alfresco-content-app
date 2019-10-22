@@ -50,10 +50,10 @@ export class SearchResultsPage extends BrowsingPage {
   };
 
   async waitForResults() {
-    return await this.dataTable.waitForBody();
+    await this.dataTable.waitForBody();
   }
 
   async getResultsHeader() {
-    return await browser.element(by.css(SearchResultsPage.selectors.resultsContentHeader)).getText();
+    return browser.element(by.css(SearchResultsPage.selectors.resultsContentHeader)).getText();
   }
 }
