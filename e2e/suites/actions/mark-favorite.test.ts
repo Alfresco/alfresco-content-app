@@ -45,7 +45,7 @@ describe('Mark items as favorites', () => {
   const fileFav4 = `fileFav4-${Utils.random()}.txt`;
   const folder = `folder-${Utils.random()}`;
 
-  let fileNotFavUIId, fileFavUIId, fileNotFav1Id, fileNotFav2Id, fileNotFav3Id, fileNotFav4Id, fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id, folderId, parentId;
+  let fileFavUIId, fileNotFav1Id, fileNotFav2Id, fileNotFav3Id, fileNotFav4Id, fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id, folderId, parentId;
 
   const fileSearchNotFav1 = `search-fileNotFav1-${Utils.random()}.txt`;
   const fileSearchNotFav2 = `search-fileNotFav2-${Utils.random()}.txt`;
@@ -75,7 +75,7 @@ describe('Mark items as favorites', () => {
 
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
 
-    fileNotFavUIId = (await apis.user.nodes.createFile(fileNotFavUI, parentId)).entry.id;
+    await apis.user.nodes.createFile(fileNotFavUI, parentId);
     fileFavUIId = (await apis.user.nodes.createFile(fileFavUI, parentId)).entry.id;
     fileNotFav1Id = (await apis.user.nodes.createFile(fileNotFav1, parentId)).entry.id;
     fileNotFav2Id = (await apis.user.nodes.createFile(fileNotFav2, parentId)).entry.id;
