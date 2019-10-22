@@ -250,7 +250,7 @@ describe('Share a file', () => {
         expect(await shareDialog.getExpireDate()).toBe('', 'Expire date input is not empty');
 
         await shareDialog.clickClose();
-        expect(await apis.user.nodes.getSharedExpiryDate(file7Id)).toBe(undefined, `${file7} link still has expiration`);
+        expect(await apis.user.nodes.getSharedExpiryDate(file7Id)).toBe('', `${file7} link still has expiration`);
       });
 
       it('Shared file URL is not changed when Share dialog is closed and opened again - [C286335]', async () => {
@@ -430,7 +430,7 @@ describe('Share a file', () => {
         expect(await shareDialog.getExpireDate()).toBe('', 'Expire date input is not empty');
 
         await shareDialog.clickClose();
-        expect(await apis.user.nodes.getSharedExpiryDate(file7Id)).toBe(undefined, `${file7} link still has expiration`);
+        expect(await apis.user.nodes.getSharedExpiryDate(file7Id)).toBe('', `${file7} link still has expiration`);
       });
 
       it('Shared file URL is not changed when Share dialog is closed and opened again - [C286646]', async () => {
@@ -607,7 +607,7 @@ describe('Share a file', () => {
         expect(await shareDialog.getExpireDate()).toBe('', 'Expire date input is not empty');
 
         await shareDialog.clickClose();
-        expect(await apis.user.nodes.getSharedExpiryDate(file7Id)).toBe(undefined, `${file7} link still has expiration`);
+        expect(await apis.user.nodes.getSharedExpiryDate(file7Id)).toBe('', `${file7} link still has expiration`);
       });
 
       it('Shared file URL is not changed when Share dialog is closed and opened again - [C286664]', async () => {
@@ -753,7 +753,7 @@ describe('Share a file', () => {
         expect(await shareDialog.getExpireDate()).toBe('', 'Expire date input is not empty');
 
         await shareDialog.clickClose();
-        expect(await apis.user.nodes.getSharedExpiryDate(file5Id)).toBe(undefined, `${file5} link still has expiration`);
+        expect(await apis.user.nodes.getSharedExpiryDate(file5Id)).toBe('', `${file5} link still has expiration`);
       });
 
       it('Shared file URL is not changed when Share dialog is closed and opened again - [C286655]', async () => {
@@ -946,7 +946,7 @@ describe('Share a file', () => {
         expect(await shareDialog.getExpireDate()).toBe('', 'Expire date input is not empty');
 
         await shareDialog.clickClose();
-        expect(await apis.user.nodes.getSharedExpiryDate(file7Id)).toBe(undefined, `${file7} link still has expiration`);
+        expect(await apis.user.nodes.getSharedExpiryDate(file7Id)).toBe('', `${file7} link still has expiration`);
       });
 
       it('Shared file URL is not changed when Share dialog is closed and opened again - [C286673]', async () => {
@@ -1082,7 +1082,7 @@ describe('Share a file', () => {
         expect(await shareDialog.getExpireDate()).toBe('', 'Expire date input is not empty');
 
         await shareDialog.clickClose();
-        expect(await apis.user.nodes.getSharedExpiryDate(file7Id)).toBe(undefined, `${file7} link still has expiration`);
+        expect(await apis.user.nodes.getSharedExpiryDate(file7Id)).toBe('', `${file7} link still has expiration`);
       });
 
       it('Share a file from the context menu - [C306981]', async () => {

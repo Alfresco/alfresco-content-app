@@ -116,8 +116,8 @@ export class FavoritesApi extends RepoApi {
     }
   }
 
-  async isFavoriteWithRetry(nodeId: string, data) {
-    let isFavorite;
+  async isFavoriteWithRetry(nodeId: string, data: { expect: boolean }) {
+    let isFavorite: boolean;
     try {
       const favorite = async () => {
         isFavorite = await this.isFavorite(nodeId);
@@ -129,7 +129,7 @@ export class FavoritesApi extends RepoApi {
       };
       return await Utils.retryCall(favorite);
     } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.isFavoriteWithRetry.name}`, error);
+      // this.handleError(`${this.constructor.name} ${this.isFavoriteWithRetry.name}`, error);
     }
     return isFavorite;
   }
@@ -166,7 +166,8 @@ export class FavoritesApi extends RepoApi {
       };
       return await Utils.retryCall(favoriteFiles);
     } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.waitForApi.name}`, error);
+      console.log(`${this.constructor.name} ${this.waitForApi.name} catch: `);
+      console.log(`\tExpected: ${data.expect} items, but found ${error}`);
     }
   }
 }

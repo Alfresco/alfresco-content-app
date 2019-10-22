@@ -233,7 +233,8 @@ export class SitesApi extends RepoApi {
 
       return await Utils.retryCall(sites);
     } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.waitForApi.name}`, error);
+      console.log(`${this.constructor.name} ${this.waitForApi.name} catch: `);
+      console.log(`\tExpected: ${data.expect} items, but found ${error}`);
     }
   }
 }

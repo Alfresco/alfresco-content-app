@@ -687,7 +687,7 @@ describe('Viewer actions', () => {
       expect(await Utils.fileExistsOnOS(docxSharedFiles)).toBe(true, 'File not found in download location');
     });
 
-    it('Copy action - [C286377]', async (done) => {
+    it('Copy action - [C286377]', async () => {
       await dataTable.doubleClickOnRowByName(docxSharedFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
@@ -704,7 +704,6 @@ describe('Viewer actions', () => {
       expect(await dataTable.isItemPresent(docxSharedFiles)).toBe(true, 'Item is not present in destination');
 
       await apis.user.nodes.deleteNodeChildren(destinationId);
-      done();
     });
 
     it('Move action - [C286378]', async () => {

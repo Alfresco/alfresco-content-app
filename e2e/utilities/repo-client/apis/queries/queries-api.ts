@@ -77,11 +77,12 @@ export class QueriesApi extends RepoApi {
 
       return await Utils.retryCall(sites);
     } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.waitForSites.name}`, error);
+      console.log(`${this.constructor.name} ${this.waitForSites.name} catch: `);
+      console.log(`\tExpected: ${data.expect} items, but found ${error}`);
     }
   }
 
-  async waitForFilesAndFolders(searchTerm: string, data: any) {
+  async waitForFilesAndFolders(searchTerm: string, data: { expect: number }) {
     try {
       const nodes = async () => {
         const totalItems = (await this.findNodes(searchTerm)).list.pagination.totalItems;
@@ -94,7 +95,8 @@ export class QueriesApi extends RepoApi {
 
       return await Utils.retryCall(nodes);
     } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.waitForFilesAndFolders.name}`, error);
+      console.log(`${this.constructor.name} ${this.waitForFilesAndFolders.name} catch: `);
+      console.log(`\tExpected: ${data.expect} items, but found ${error}`);
     }
   }
 }

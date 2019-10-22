@@ -96,7 +96,7 @@ export class SearchApi extends RepoApi {
     }
   }
 
-  async waitForApi(username, data) {
+  async waitForApi(username: string, data: { expect: number }) {
     try {
       const recentFiles = async () => {
         const totalItems = (await this.queryRecentFiles(username)).list.pagination.totalItems;
@@ -109,11 +109,12 @@ export class SearchApi extends RepoApi {
 
       return await Utils.retryCall(recentFiles);
     } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.waitForApi.name}`, error);
+      console.log(`${this.constructor.name} ${this.waitForApi.name} catch: `);
+      console.log(`\tExpected: ${data.expect} items, but found ${error}`);
     }
   }
 
-  async waitForNodes(searchTerm: string, data) {
+  async waitForNodes(searchTerm: string, data: { expect: number }) {
     try {
       const nodes = async () => {
         const totalItems = (await this.queryNodesNames(searchTerm)).list.pagination.totalItems;
@@ -126,7 +127,8 @@ export class SearchApi extends RepoApi {
 
       return await Utils.retryCall(nodes);
     } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.waitForNodes.name}`, error);
+      console.log(`${this.constructor.name} ${this.waitForNodes.name} catch: `);
+      console.log(`\tExpected: ${data.expect} items, but found ${error}`);
     }
   }
 }

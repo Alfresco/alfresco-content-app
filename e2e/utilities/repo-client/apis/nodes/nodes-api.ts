@@ -415,7 +415,7 @@ export class NodesApi extends RepoApi {
           return Promise.resolve(isLocked);
         }
       }
-      await Utils.retryCall(locked, data.retry);
+      return await Utils.retryCall(locked, data.retry);
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.isFileLockedWriteWithRetry.name}`, error);
     }
