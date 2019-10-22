@@ -459,6 +459,7 @@ describe('Viewer actions', () => {
 
     beforeAll(async (done) => {
       await apis.user.search.waitForApi(username, {expect: 0});
+
       parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
       destinationId = (await apis.user.nodes.createFolder(destination)).entry.id;
       docxFileId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, docxRecentFiles)).entry.id;
@@ -476,7 +477,7 @@ describe('Viewer actions', () => {
       await apis.user.upload.uploadFileWithRename(xlsxFileForMove, parentId, xlsxRecentFiles);
       await apis.user.upload.uploadFileWithRename(pdfFileForDelete, parentId, pdfRecentFiles);
 
-      await apis.user.search.waitForApi(username, {expect: 8});
+      await apis.user.search.waitForApi(username, {expect: 7});
 
       await loginPage.loginWith(username);
       done();
@@ -654,9 +655,8 @@ describe('Viewer actions', () => {
       await apis.user.nodes.lockFile(fileForCancelEditingId);
       await apis.user.nodes.lockFile(fileForUploadNewVersionId);
 
-
       await apis.user.shared.shareFilesByIds([docxFileId, xlsxFileId, pdfFileId, fileForCancelEditingId, fileForEditOfflineId, fileForUploadNewVersionId, fileSharedId])
-      await apis.user.shared.waitForApi({expect: 8});
+      await apis.user.shared.waitForApi({expect: 7});
 
       await loginPage.loginWith(username);
       done();
@@ -668,6 +668,7 @@ describe('Viewer actions', () => {
     });
 
     afterEach(async (done) => {
+      await page.closeOpenDialogs();
       await Utils.pressEscape();
       done();
     });
@@ -837,7 +838,7 @@ describe('Viewer actions', () => {
 
 
       await apis.user.favorites.addFavoritesByIds('file', [docxFileId, xlsxFileId, pdfFileId, fileForEditOfflineId, fileForCancelEditingId, fileForUploadNewVersionId, fileFavId])
-      await apis.user.favorites.waitForApi({expect: 8});
+      await apis.user.favorites.waitForApi({expect: 7});
 
       await loginPage.loginWith(username);
       done();

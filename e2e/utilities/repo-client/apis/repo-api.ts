@@ -50,7 +50,7 @@ export abstract class RepoApi {
 
     protected handleError(message: string, response: any) {
       console.log(`\n--- ${message} error :`);
-      if ( response.status ) {
+      if ( response.status && response.response ) {
         try {
           console.log('\t>>> Status: ', response.status);
           console.log('\t>>> Text: ', response.response.text);
