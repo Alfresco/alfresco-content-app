@@ -44,7 +44,7 @@ export class QueriesApi extends RepoApi {
       await this.apiAuth();
       return this.queriesApi.findSites(searchTerm, data);
     } catch (error) {
-      console.log('--- queries api findSites catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.findSites.name}`, error);
       return null;
     }
   }
@@ -59,12 +59,12 @@ export class QueriesApi extends RepoApi {
       await this.apiAuth();
       return this.queriesApi.findNodes(searchTerm, data);
     } catch (error) {
-      console.log('--- queries api findNodes catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.findNodes.name}`, error);
       return null;
     }
   }
 
-  async waitForSites(searchTerm: string, data: any) {
+  async waitForSites(searchTerm: string, data: { expect: number }) {
     try {
       const sites = async () => {
         const totalItems = (await this.findSites(searchTerm)).list.pagination.totalItems;
@@ -77,7 +77,7 @@ export class QueriesApi extends RepoApi {
 
       return await Utils.retryCall(sites);
     } catch (error) {
-      console.log('--- queries api waitForSites catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.waitForSites.name}`, error);
     }
   }
 
@@ -94,7 +94,7 @@ export class QueriesApi extends RepoApi {
 
       return await Utils.retryCall(nodes);
     } catch (error) {
-      console.log('--- queries api waitForFilesAndFolders catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.waitForFilesAndFolders.name}`, error);
     }
   }
 }

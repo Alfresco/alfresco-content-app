@@ -30,7 +30,7 @@ import { PeopleApi as AdfPeopleApi} from '@alfresco/js-api';
 export class PeopleApi extends RepoApi {
   peopleApi = new AdfPeopleApi(this.alfrescoJsApi);
 
-  constructor(username?, password?) {
+  constructor(username?: string, password?: string) {
     super(username, password);
   }
 
@@ -40,7 +40,7 @@ export class PeopleApi extends RepoApi {
       await this.apiAuth();
       return await this.peopleApi.createPerson(person);
     } catch (error) {
-      console.log('--- people api createUser catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.createUser.name}`, error);
       return null;
     }
   }
@@ -50,7 +50,7 @@ export class PeopleApi extends RepoApi {
       await this.apiAuth();
       return await this.peopleApi.getPerson(username);
     } catch (error) {
-      console.log('--- people api getUser catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.getUser.name}`, error);
       return null;
     }
   }
@@ -60,7 +60,7 @@ export class PeopleApi extends RepoApi {
       await this.apiAuth();
       return this.peopleApi.updatePerson(username, userDetails);
     } catch (error) {
-      console.log('--- people api updateUser catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.updateUser.name}`, error);
       return null;
     }
   }
@@ -69,7 +69,7 @@ export class PeopleApi extends RepoApi {
     try {
       return await this.updateUser(username, { enabled: false });
     } catch (error) {
-      console.log('--- people api disableUser catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.disableUser.name}`, error);
       return null;
     }
   }
@@ -78,7 +78,7 @@ export class PeopleApi extends RepoApi {
     try {
       return await this.updateUser(username, { password: newPassword });
     } catch (error) {
-      console.log('--- people api changePassword catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.changePassword.name}`, error);
       return null;
     }
   }

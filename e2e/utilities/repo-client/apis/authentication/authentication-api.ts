@@ -36,7 +36,7 @@ export class AuthenticationApi extends RepoApi {
         await this.apiAuth();
         await this.alfrescoJsApi.logout();
       } catch (error) {
-        console.log('--- authentication api logout catch error: ', error);
+        this.handleError(`${this.constructor.name} ${this.logout.name}`, error);
       }
     }
 }

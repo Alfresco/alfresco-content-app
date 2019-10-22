@@ -51,7 +51,7 @@ export class SearchApi extends RepoApi {
       await this.apiAuth();
       return this.searchApi.search(data);
     } catch (error) {
-      console.log('--- search api queryRecentFiles catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.queryRecentFiles.name}`, error);
       return null;
     }
   }
@@ -71,7 +71,7 @@ export class SearchApi extends RepoApi {
       await this.apiAuth();
       return this.searchApi.search(data);
     } catch (error) {
-      console.log('--- search api queryNodesNames catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.queryNodesNames.name}`, error);
       return null;
     }
   }
@@ -91,7 +91,7 @@ export class SearchApi extends RepoApi {
       await this.apiAuth();
       return this.searchApi.search(data);
     } catch (error) {
-      console.log('--- search api queryNodesExactNames catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.queryNodesExactNames.name}`, error);
       return null;
     }
   }
@@ -109,7 +109,7 @@ export class SearchApi extends RepoApi {
 
       return await Utils.retryCall(recentFiles);
     } catch (error) {
-      console.log('--- search api waitForApi catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.waitForApi.name}`, error);
     }
   }
 
@@ -126,7 +126,7 @@ export class SearchApi extends RepoApi {
 
       return await Utils.retryCall(nodes);
     } catch (error) {
-      console.log('--- search api waitForNodes catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.waitForNodes.name}`, error);
     }
   }
 }

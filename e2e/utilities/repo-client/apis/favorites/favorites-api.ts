@@ -48,7 +48,7 @@ export class FavoritesApi extends RepoApi {
       };
       return await this.favoritesApi.createFavorite('-me-', data);
     } catch (error) {
-      console.log('--- favorites api addFavorite catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.addFavorite.name}`, error);
       return null;
     }
   }
@@ -71,7 +71,7 @@ export class FavoritesApi extends RepoApi {
       };
       return await this.favoritesApi.createFavorite('-me-', data);
     } catch (error) {
-      console.log('--- favorites api addFavoriteById catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.addFavoriteById.name}`, error);
       return null;
     }
   }
@@ -83,7 +83,7 @@ export class FavoritesApi extends RepoApi {
         await this.addFavoriteById(nodeType, current);
       }, Promise.resolve());
     } catch (error) {
-      console.log('--- favorites api addFavoritesByIds catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.addFavoritesByIds.name}`, error);
     }
   }
 
@@ -92,7 +92,7 @@ export class FavoritesApi extends RepoApi {
       await this.apiAuth();
       return await this.favoritesApi.listFavorites(this.getUsername());
     } catch (error) {
-      console.log('--- favorites api getFavorites catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.getFavorites.name}`, error);
       return null;
     }
   }
@@ -102,7 +102,7 @@ export class FavoritesApi extends RepoApi {
       await this.apiAuth();
       return await this.favoritesApi.getFavorite('-me-', nodeId);
     } catch (error) {
-      console.log('--- favorites api getFavoriteById catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.getFavoriteById.name}`, error);
       return null;
     }
   }
@@ -111,7 +111,7 @@ export class FavoritesApi extends RepoApi {
     try {
       return JSON.stringify((await this.getFavorites()).list.entries).includes(nodeId);
     } catch (error) {
-      console.log('--- favorites api isFavorite catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.isFavorite.name}`, error);
       return null;
     }
   }
@@ -127,10 +127,9 @@ export class FavoritesApi extends RepoApi {
           return Promise.resolve(isFavorite);
         }
       };
-
       return await Utils.retryCall(favorite);
     } catch (error) {
-      console.log('--- favorites api isFavoriteWithRetry catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.isFavoriteWithRetry.name}`, error);
     }
     return isFavorite;
   }
@@ -140,7 +139,7 @@ export class FavoritesApi extends RepoApi {
       await this.apiAuth();
       return await this.favoritesApi.deleteFavorite('-me-', nodeId);
     } catch (error) {
-      console.log('--- favorites api removeFavoriteById catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.removeFavoriteById.name}`, error);
     }
   }
 
@@ -151,7 +150,7 @@ export class FavoritesApi extends RepoApi {
         await this.removeFavoriteById(current);
       }, Promise.resolve());
     } catch (error) {
-      console.log('--- favorites api removeFavoritesByIds catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.removeFavoritesByIds.name}`, error);
     }
   }
 
@@ -165,10 +164,9 @@ export class FavoritesApi extends RepoApi {
             return Promise.resolve(totalItems);
         }
       };
-
       return await Utils.retryCall(favoriteFiles);
     } catch (error) {
-      console.log('favorites api waitForApi catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.waitForApi.name}`, error);
     }
   }
 }

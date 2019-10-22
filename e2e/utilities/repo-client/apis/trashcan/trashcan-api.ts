@@ -39,7 +39,7 @@ export class TrashcanApi extends RepoApi {
       await this.apiAuth();
       return await this.trashcanApi.deleteDeletedNode(id);
     } catch (error) {
-      console.log('--- trashcan api permanentlyDelete catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.permanentlyDelete.name}`, error);
     }
   }
 
@@ -48,7 +48,7 @@ export class TrashcanApi extends RepoApi {
       await this.apiAuth();
       return await this.trashcanApi.restoreDeletedNode(id);
     } catch (error) {
-      console.log('--- trashcan api restore catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.restore.name}`, error);
       return null;
     }
   }
@@ -61,7 +61,7 @@ export class TrashcanApi extends RepoApi {
       await this.apiAuth();
       return await this.trashcanApi.listDeletedNodes(opts);
     } catch (error) {
-      console.log('--- trashcan api getDeletedNodes catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.getDeletedNodes.name}`, error);
       return null;
     }
   }
@@ -75,7 +75,7 @@ export class TrashcanApi extends RepoApi {
           return await this.permanentlyDelete(current);
       }, Promise.resolve());
     } catch (error) {
-      console.log('--- trashcan api emptyTrash catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.emptyTrash.name}`, error);
     }
   }
 
@@ -92,7 +92,7 @@ export class TrashcanApi extends RepoApi {
 
       return await Utils.retryCall(deletedFiles);
     } catch (error) {
-      console.log('--- trashcan api waitForApi catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.waitForApi.name}`, error);
     }
   }
 }

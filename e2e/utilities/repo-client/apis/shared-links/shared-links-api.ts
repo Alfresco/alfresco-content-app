@@ -43,7 +43,7 @@ export class SharedLinksApi extends RepoApi {
       };
       return await this.sharedlinksApi.createSharedLink(data);
     } catch (error) {
-      console.log('---- shareFileById error: ', error);
+      this.handleError(`${this.constructor.name} ${this.shareFileById.name}`, error);
       return null;
     }
   }
@@ -55,7 +55,7 @@ export class SharedLinksApi extends RepoApi {
         return await this.shareFileById(current);
       }, Promise.resolve());
     } catch (error) {
-      console.log('--- shared links api shareFilesByIds catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.shareFilesByIds.name}`, error);
     }
   }
 
@@ -65,7 +65,7 @@ export class SharedLinksApi extends RepoApi {
       const found = sharedLinks.find(sharedLink => sharedLink.entry.name === name);
       return (found || { entry: { id: null } }).entry.id;
     } catch (error) {
-      console.log('--- shared links api getSharedIdOfNode catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.getSharedIdOfNode.name}`, error);
       return null;
     }
   }
@@ -75,7 +75,7 @@ export class SharedLinksApi extends RepoApi {
       const id = await this.getSharedIdOfNode(name);
       return await this.sharedlinksApi.deleteSharedLink(id);
     } catch (error) {
-      console.log('--- shared links api unshareFile catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.unshareFile.name}`, error);
     }
   }
 
@@ -84,7 +84,7 @@ export class SharedLinksApi extends RepoApi {
       await this.apiAuth();
       return await this.sharedlinksApi.listSharedLinks();
     } catch (error) {
-      console.log('--- shared links api getSharedLinks catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.getSharedLinks.name}`, error);
       return null;
     }
   }
@@ -102,7 +102,7 @@ export class SharedLinksApi extends RepoApi {
 
       return await Utils.retryCall(sharedFiles);
     } catch (error) {
-      console.log('--- shared links api waitForApi catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.waitForApi.name}`, error);
     }
   }
 }

@@ -48,4 +48,12 @@ export abstract class RepoApi {
         return this.username;
     }
 
+    protected handleError(message: string, response: any) {
+      console.log(`\n--- ${message} error :`);
+      console.log('\t>>> Status: ', response.status);
+      console.log('\t>>> Text: ', response.response.text);
+      console.log('\t>>> Method: ', response.response.error.method);
+      console.log('\t>>> Path: ', response.response.error.path);
+    }
+
 }

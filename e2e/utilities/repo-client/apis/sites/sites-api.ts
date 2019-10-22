@@ -41,7 +41,7 @@ export class SitesApi extends RepoApi {
       await this.apiAuth();
       return await this.sitesApi.getSite(siteId);
     } catch (error) {
-      console.log('--- sites api getSite catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.getSite.name}`, error);
       return null;
     }
   }
@@ -51,7 +51,7 @@ export class SitesApi extends RepoApi {
       await this.apiAuth();
       return await this.sitesApi.listSiteMembershipsForPerson(this.getUsername());
     } catch (error) {
-      console.log('--- sites api getSites catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.getSites.name}`, error);
       return null;
     }
   }
@@ -61,7 +61,7 @@ export class SitesApi extends RepoApi {
       await this.apiAuth();
       return (await this.sitesApi.listSiteContainers(siteId)).list.entries[0].entry.id;
     } catch (error) {
-      console.log('--- sites api getDocLibId catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.getDocLibId.name}`, error);
       return null;
     }
   }
@@ -71,7 +71,7 @@ export class SitesApi extends RepoApi {
       const site = await this.getSite(siteId);
       return site.entry.visibility;
     } catch (error) {
-      console.log('--- sites api getVisibility catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.getVisibility.name}`, error);
       return null;
     }
   }
@@ -81,7 +81,7 @@ export class SitesApi extends RepoApi {
       const site = await this.getSite(siteId);
       return site.entry.description;
     } catch (error) {
-      console.log('--- sites api getDescription catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.getDescription.name}`, error);
       return null;
     }
   }
@@ -91,7 +91,7 @@ export class SitesApi extends RepoApi {
       const site = await this.getSite(siteId);
       return site.entry.title;
     } catch (error) {
-      console.log('--- sites api getTitle catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.getTitle.name}`, error);
       return null;
     }
   }
@@ -108,7 +108,7 @@ export class SitesApi extends RepoApi {
       await this.apiAuth();
       return await this.sitesApi.createSite(site);
     } catch (error) {
-      console.log('--- sites api createSite catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.createSite.name}`, error);
       return null;
     }
   }
@@ -120,7 +120,7 @@ export class SitesApi extends RepoApi {
         return await this.createSite(current, visibility);
       }, Promise.resolve());
     } catch (error) {
-      console.log('--- sites api createSites catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.createSites.name}`, error);
     }
   }
 
@@ -129,7 +129,7 @@ export class SitesApi extends RepoApi {
       await this.apiAuth();
       return await this.sitesApi.deleteSite(siteId, { permanent });
     } catch (error) {
-      console.log('--- sites api deleteSite catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.deleteSite.name}`, error);
     }
   }
 
@@ -140,7 +140,7 @@ export class SitesApi extends RepoApi {
         return await this.deleteSite(current, permanent);
       }, Promise.resolve());
     } catch (error) {
-      console.log('--- sites api deleteSites catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.deleteSites.name}`, error);
     }
   }
 
@@ -153,7 +153,7 @@ export class SitesApi extends RepoApi {
         return await this.deleteSite(current, permanent);
       }, Promise.resolve());
     } catch (error) {
-      console.log('--- sites api deleteAllUserSites catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.deleteAllUserSites.name}`, error);
     }
   }
 
@@ -166,7 +166,7 @@ export class SitesApi extends RepoApi {
       await this.apiAuth();
       return await this.sitesApi.updateSiteMembership(siteId, userId, siteRole);
     } catch (error) {
-      console.log('--- sites api updateSiteMember catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.updateSiteMember.name}`, error);
       return null;
     }
   }
@@ -181,7 +181,7 @@ export class SitesApi extends RepoApi {
       await this.apiAuth();
       return await this.sitesApi.createSiteMembership(siteId, memberBody);
     } catch (error) {
-      console.log('--- sites api addSiteMember catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.addSiteMember.name}`, error);
       return null;
     }
   }
@@ -191,7 +191,7 @@ export class SitesApi extends RepoApi {
       await this.apiAuth();
       return await this.sitesApi.deleteSiteMembership(siteId, userId);
     } catch (error) {
-      console.log('--- sites api deleteSiteMember catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.deleteSiteMember.name}`, error);
     }
   }
 
@@ -204,7 +204,7 @@ export class SitesApi extends RepoApi {
       await this.apiAuth();
       return await this.sitesApi.createSiteMembershipRequestForPerson('-me-', body);
     } catch (error) {
-      console.log('--- sites api requestToJoin catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.requestToJoin.name}`, error);
       return null;
     };
   }
@@ -215,7 +215,7 @@ export class SitesApi extends RepoApi {
       const requests = (await this.sitesApi.getSiteMembershipRequests('-me-')).list.entries.map(e => e.entry.id);
       return requests.includes(siteId);
     } catch (error) {
-      console.log('--- sites api hasMembershipRequest catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.hasMembershipRequest.name}`, error);
       return null;
     }
   }
@@ -233,7 +233,7 @@ export class SitesApi extends RepoApi {
 
       return await Utils.retryCall(sites);
     } catch (error) {
-      console.log('sites api waitForApi catch error: ', error);
+      this.handleError(`${this.constructor.name} ${this.waitForApi.name}`, error);
     }
   }
 }
