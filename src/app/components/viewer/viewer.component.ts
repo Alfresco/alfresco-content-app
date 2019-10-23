@@ -114,7 +114,7 @@ export class AppViewerComponent implements OnInit, OnDestroy {
   private previewLocation: string;
   private containersSkipNavigation = [
     'adf-viewer__sidebar',
-    'mat-dialog-container',
+    'cdk-overlay-container',
     'adf-image-viewer'
   ];
 

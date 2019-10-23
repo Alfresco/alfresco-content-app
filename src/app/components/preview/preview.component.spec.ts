@@ -777,25 +777,9 @@ describe('PreviewComponent', () => {
       expect(router.navigate).not.toHaveBeenCalled();
     });
 
-    it('should not navigate on keyboard event if target is child of dialog container', () => {
+    it('should not navigate on keyboard event if target is child of cdk overlay', () => {
       const parent = document.createElement('div');
-      parent.className = 'mat-dialog-container';
-
-      const child = document.createElement('button');
-      child.addEventListener('keyup', function(e) {
-        component.onNavigateNext(e);
-      });
-      parent.appendChild(child);
-      document.body.appendChild(parent);
-
-      child.dispatchEvent(new KeyboardEvent('keyup', { key: 'ArrowLeft' }));
-
-      expect(router.navigate).not.toHaveBeenCalled();
-    });
-
-    it('should not navigate on keyboard event if target is child of image viewer', () => {
-      const parent = document.createElement('div');
-      parent.className = 'adf-image-viewer';
+      parent.className = 'cdk-overlay-container';
 
       const child = document.createElement('button');
       child.addEventListener('keyup', function(e) {
