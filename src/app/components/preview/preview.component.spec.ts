@@ -777,9 +777,9 @@ describe('PreviewComponent', () => {
       expect(router.navigate).not.toHaveBeenCalled();
     });
 
-    it('should not navigate on keyboard event if target is child of dialog container', () => {
+    it('should not navigate on keyboard event if target is child of cdk overlay', () => {
       const parent = document.createElement('div');
-      parent.className = 'mat-dialog-container';
+      parent.className = 'cdk-overlay-container';
 
       const child = document.createElement('button');
       child.addEventListener('keyup', function(e) {

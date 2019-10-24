@@ -115,7 +115,8 @@ export class PreviewComponent extends PageComponent
 
   private containersSkipNavigation = [
     'adf-viewer__sidebar',
-    'mat-dialog-container'
+    'cdk-overlay-container',
+    'adf-image-viewer'
   ];
 
   constructor(
