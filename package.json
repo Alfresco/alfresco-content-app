@@ -15,7 +15,7 @@
     "test": "ng test app --code-coverage",
     "test:ci": "npm run build.shared && npm run build.extensions && ng test adf-office-services-ext --watch=false && ng test app --code-coverage --watch=false",
     "lint": "ng lint && npm run spellcheck && npm run format:check && npm run e2e.typecheck",
-    "wd:update": "webdriver-manager update --gecko=false",
+    "wd:update": "webdriver-manager update --gecko=false $VERSION_CHROME",
     "e2e.typecheck": "tsc -p ./e2e/tsconfig.e2e.typecheck.json",
     "e2e": "npm run wd:update && protractor --baseUrl=http://localhost:4000 $SUITE",
     "e2e.local": "npm run wd:update && protractor --baseUrl=http://localhost:4200 $SUITE",
