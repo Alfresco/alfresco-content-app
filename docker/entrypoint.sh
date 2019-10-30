@@ -69,7 +69,7 @@ fi
 if [[ $BASE_PATH ]]; then
   replace="\/"
   encoded=${BASE_PATH//\//$replace}
-  sed -ri s%href=\"(\\.?/)+\"%href=\""$encoded"\"%g /tmp/index.html && \
+  sed -ri 's%href=".?/"%href="'$encoded'"%g' /tmp/index.html && \
   cat /tmp/index.html > ./index.html
 fi
 
