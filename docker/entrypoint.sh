@@ -59,9 +59,9 @@ if [ -n "${APP_CONFIG_OAUTH2_REDIRECT_LOGOUT}" ];then
   cat /tmp/app.config.json > ./app.config.json
 fi
 
-if [[ $ACSURL ]]; then
+if [[ $ACS_URL ]]; then
   replace="\/"
-  encoded=${ACSURL//\//$replace}
+  encoded=${ACS_URL//\//$replace}
   sed -i s%{protocol}//{hostname}{:port}%"$encoded"%g /tmp/app.config.json && \
   cat /tmp/app.config.json > ./app.config.json
 fi
@@ -69,7 +69,7 @@ fi
 if [[ $BASE_PATH ]]; then
   replace="\/"
   encoded=${BASE_PATH//\//$replace}
-  sed -i s%href=\"/\"%href=\""$encoded"\"%g /tmp/index.html && \
+  sed -ri s%href=\"(\\.?/)+\"%href=\""$encoded"\"%g /tmp/index.html && \
   cat /tmp/index.html > ./index.html
 fi
 
