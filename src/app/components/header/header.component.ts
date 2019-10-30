@@ -52,7 +52,7 @@ export class AppHeaderComponent implements OnInit {
   @Output()
   toggleClicked = new EventEmitter();
 
-  @Input() expandedSidenav: Boolean = true;
+  @Input() expandedSidenav = true;
 
   appName$: Observable<string>;
   headerColor$: Observable<string>;
