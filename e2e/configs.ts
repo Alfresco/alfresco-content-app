@@ -32,7 +32,7 @@ export const BROWSER_WAIT_TIMEOUT = 10000;
 export const USE_HASH_STRATEGY = true;
 
 // Repository configs
-export const REPO_API_HOST = 'http://localhost:8080';
+// export const REPO_API_HOST = 'http://localhost:8080';
 export const REPO_API_TENANT = '-default-';
 
 // Admin details
