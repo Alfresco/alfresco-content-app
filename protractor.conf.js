@@ -13,7 +13,7 @@ const downloadFolder = `${projectRoot}/e2e-downloads`;
 const width = 1366;
 const height = 768;
 
-const REPO_API_HOST = 'http://localhost:8080';
+const REPO_API_HOST = process.env.REPO_API_HOST || 'http://localhost:8080';
 const OAUTH_HOST = process.env.OAUTH_HOST || 'http://localhost:8080/auth';
 
 function rmDir(dirPath) {
