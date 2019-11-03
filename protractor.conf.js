@@ -31,27 +31,29 @@ function rmDir(dirPath) {
   fs.rmdirSync(dirPath);
 }
 
-const appConfig = {
-  "ecmHost": REPO_API_HOST,
-  "providers": "ECM",
-  "authType": "BASIC",
-  "oauth2": {
-    "host": OAUTH_HOST,
-    "clientId": "activiti",
-    "scope": "openid",
-    "secret": "",
-    "implicitFlow": false,
-    "silentLogin": false,
-    "redirectUri": "/",
-    "redirectUriLogout": "/logout"
-  }
-};
+// const appConfig = {
+//   "ecmHost": REPO_API_HOST,
+//   "providers": "ECM",
+//   "authType": "BASIC",
+//   "oauth2": {
+//     "host": OAUTH_HOST,
+//     "clientId": "activiti",
+//     "scope": "openid",
+//     "secret": "",
+//     "implicitFlow": false,
+//     "silentLogin": false,
+//     "redirectUri": "/",
+//     "redirectUriLogout": "/logout"
+//   }
+// };
 
 exports.config = {
   allScriptsTimeout: 50000,
 
   params: {
-    config: appConfig,
+    config: {
+      "ecmHost": REPO_API_HOST,
+    },
     downloadFolder: downloadFolder
   },
 
