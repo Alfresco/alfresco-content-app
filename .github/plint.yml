@@ -24,4 +24,3 @@ spellcheck:
     - docx
   exclude:
     - src/assets/app.extensions.json
-    - protractor.conf.js
