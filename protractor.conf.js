@@ -37,7 +37,7 @@ const appConfig = {
   authType: 'BASIC',
   oauth2: {
     host: OAUTH_HOST,
-    clientId: 'alfresco',
+    clientId: 'activiti',
     scope: 'openid',
     secret: '',
     implicitFlow: false,
