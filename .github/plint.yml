@@ -7,6 +7,7 @@ prettier:
     singleQuote: true
   exclude:
     - '*.json'
+    - 'protractor.conf.js'
 
 spellcheck:
   dictionaries:
