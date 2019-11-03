@@ -32,18 +32,18 @@ function rmDir(dirPath) {
 }
 
 const appConfig = {
-  ecmHost: REPO_API_HOST,
-  providers: 'ECM',
-  authType: 'BASIC',
-  oauth2: {
-    host: OAUTH_HOST,
-    clientId: 'activiti',
-    scope: 'openid',
-    secret: '',
-    implicitFlow: false,
-    silentLogin: false,
-    redirectUri: '/',
-    redirectUriLogout: '/logout'
+  "ecmHost": REPO_API_HOST,
+  "providers": "ECM",
+  "authType": "BASIC",
+  "oauth2": {
+    "host": OAUTH_HOST,
+    "clientId": "activiti",
+    "scope": "openid",
+    "secret": "",
+    "implicitFlow": false,
+    "silentLogin": false,
+    "redirectUri": "/",
+    "redirectUriLogout": "/logout"
   }
 };
 

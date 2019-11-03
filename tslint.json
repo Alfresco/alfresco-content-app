@@ -4,11 +4,6 @@
     "node_modules/adf-tslint-rules"
   ],
   "extends": ["rxjs-tslint-rules"],
-  "linterOptions": {
-    "exclude": [
-        "protractor.conf.js"
-    ]
-  },
   "rules": {
     "adf-license-banner": [true, "**/*.ts", "./license-header.txt"],
     "ban": [
