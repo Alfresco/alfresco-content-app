@@ -78,11 +78,11 @@ export class CopyMoveDialog extends Component {
   }
 
   async isDialogOpen() {
-    return await browser.$(CopyMoveDialog.selectors.root).isDisplayed();
+    return browser.$(CopyMoveDialog.selectors.root).isDisplayed();
   }
 
   async getTitle() {
-    return await this.title.getText();
+    return this.title.getText();
   }
 
   async clickCancel() {

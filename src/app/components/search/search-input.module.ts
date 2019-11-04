@@ -29,9 +29,15 @@ import { CoreModule } from '@alfresco/adf-core';
 import { SearchInputComponent } from './search-input/search-input.component';
 import { SearchInputControlComponent } from './search-input-control/search-input-control.component';
 import { ContentModule } from '@alfresco/adf-content-services';
+import { A11yModule } from '@angular/cdk/a11y';
 
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild(), ContentModule.forChild()],
+  imports: [
+    CommonModule,
+    CoreModule.forChild(),
+    ContentModule.forChild(),
+    A11yModule
+  ],
   declarations: [SearchInputComponent, SearchInputControlComponent],
   exports: [SearchInputComponent, SearchInputControlComponent]
 })

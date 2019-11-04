@@ -28,33 +28,58 @@ import { RepoApi } from '../repo-api';
 import { PeopleApi as AdfPeopleApi} from '@alfresco/js-api';
 
 export class PeopleApi extends RepoApi {
-    peopleApi = new AdfPeopleApi(this.alfrescoJsApi);
+  peopleApi = new AdfPeopleApi(this.alfrescoJsApi);
 
-    constructor(username?, password?) {
-        super(username, password);
-    }
+  constructor(username?: string, password?: string) {
+    super(username, password);
+  }
 
-    async createUser(user: PersonModel) {
-        const person = new Person(user);
-        await this.apiAuth();
-        return await this.peopleApi.createPerson(person);
+  async createUser(user: PersonModel) {
+    try {
+      const person = new Person(user);
+      await this.apiAuth();
+      return await this.peopleApi.createPerson(person);
+    } catch (error) {
+      this.handleError(`${this.constructor.name} ${this.createUser.name}`, error);
+      return null;
     }
+  }
 
-    async getUser(username: string) {
-        await this.apiAuth();
-        return await this.peopleApi.getPerson(username);
+  async getUser(username: string) {
+    try {
+      await this.apiAuth();
+      return await this.peopleApi.getPerson(username);
+    } catch (error) {
+      this.handleError(`${this.constructor.name} ${this.getUser.name}`, error);
+      return null;
     }
+  }
 
-    async updateUser(username: string, userDetails?: PersonModel) {
-        await this.apiAuth();
-        return this.peopleApi.updatePerson(username, userDetails);
+  async updateUser(username: string, userDetails?: PersonModel) {
+    try {
+      await this.apiAuth();
+      return this.peopleApi.updatePerson(username, userDetails);
+    } catch (error) {
+      this.handleError(`${this.constructor.name} ${this.updateUser.name}`, error);
+      return null;
     }
+  }
 
-    async disableUser(username: string) {
-        return await this.updateUser(username, { enabled: false });
+  async disableUser(username: string) {
+    try {
+      return await this.updateUser(username, { enabled: false });
+    } catch (error) {
+      this.handleError(`${this.constructor.name} ${this.disableUser.name}`, error);
+      return null;
     }
+  }
 
-    async changePassword(username: string, newPassword: string) {
-        return await this.updateUser(username, { password: newPassword });
+  async changePassword(username: string, newPassword: string) {
+    try {
+      return await this.updateUser(username, { password: newPassword });
+    } catch (error) {
+      this.handleError(`${this.constructor.name} ${this.changePassword.name}`, error);
+      return null;
     }
+  }
 }

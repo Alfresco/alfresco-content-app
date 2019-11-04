@@ -62,19 +62,19 @@ export class Header extends Component {
   }
 
   async isSignOutDisplayed() {
-    return await this.userInfo.menu.isMenuItemPresent('Sign out');
+    return this.userInfo.menu.isMenuItemPresent('Sign out');
   }
 
   async clickSidenavToggle() {
     await this.sidenavToggle.click();
   }
 
-  async isExpandedSidenav() {
-    return await browser.isElementPresent(Header.selectors.expandedSidenav);
+  async isSidenavExpanded() {
+    return browser.isElementPresent(Header.selectors.expandedSidenav);
   }
 
   async expandSideNav() {
-    const expanded = await this.isExpandedSidenav();
+    const expanded = await this.isSidenavExpanded();
     if ( !expanded ) {
       await this.clickSidenavToggle();
       await browser.wait(until.elementLocated(Header.selectors.expandedSidenav), BROWSER_WAIT_TIMEOUT, '--- timeout waiting for expanded sidenav' );
@@ -82,7 +82,7 @@ export class Header extends Component {
   }
 
   async collapseSideNav() {
-    const expanded = await this.isExpandedSidenav();
+    const expanded = await this.isSidenavExpanded();
     if ( expanded ) {
       await this.clickSidenavToggle();
       await browser.wait(until.elementLocated(Header.selectors.collapsedSidenav), BROWSER_WAIT_TIMEOUT, '--- timeout waiting for collapsed sidenav')

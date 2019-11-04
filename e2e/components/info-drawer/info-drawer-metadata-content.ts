@@ -58,11 +58,11 @@ export class ContentMetadata extends Component {
   }
 
   async isPropertiesListExpanded() {
-    return await browser.isElementPresent(this.expandedPanel);
+    return browser.isElementPresent(this.expandedPanel);
   }
 
   async waitForImagePropertiesPanelToExpand() {
-    return await browser.wait(EC.visibilityOf(this.expandedImagePropertiesPanel), BROWSER_WAIT_TIMEOUT);
+    await browser.wait(EC.visibilityOf(this.expandedImagePropertiesPanel), BROWSER_WAIT_TIMEOUT);
   }
 
   async getVisiblePropertiesLabels() {
@@ -98,19 +98,19 @@ export class ContentMetadata extends Component {
   }
 
   async isLessInfoButtonDisplayed() {
-    return await browser.isElementPresent(this.lessInfoButton);
+    return browser.isElementPresent(this.lessInfoButton);
   }
 
   async isMoreInfoButtonDisplayed() {
-    return await browser.isElementPresent(this.moreInfoButton);
+    return browser.isElementPresent(this.moreInfoButton);
   }
 
   async clickLessInformationButton() {
-    return await this.lessInfoButton.click();
+    await this.lessInfoButton.click();
   }
 
   async clickMoreInformationButton() {
-    return await this.moreInfoButton.click();
+    await this.moreInfoButton.click();
   }
 
   async isImagePropertiesPanelDisplayed() {
@@ -118,7 +118,7 @@ export class ContentMetadata extends Component {
   }
 
   async clickImagePropertiesPanel() {
-    return await this.imagePropertiesPanel.click();
+    await this.imagePropertiesPanel.click();
   }
 
 }

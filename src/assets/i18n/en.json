@@ -477,6 +477,11 @@
             "THIS_YEAR": "This year"
         }
     },
+    "AVATAR": {
+      "ACCESSIBILITY": {
+        "AVATAR_BUTTON_ARIA_LABEL": "User options"
+      }
+    },
     "CORE": {
         "METADATA": {
             "ACTIONS": {

@@ -112,6 +112,11 @@ export class AppViewerComponent implements OnInit, OnDestroy {
   fileName: string;
 
   private previewLocation: string;
+  private containersSkipNavigation = [
+    'adf-viewer__sidebar',
+    'cdk-overlay-container',
+    'adf-image-viewer'
+  ];
 
   constructor(
     private router: Router,
@@ -237,13 +242,26 @@ export class AppViewerComponent implements OnInit, OnDestroy {
     }
   }
 
-  onNavigateBefore(): void {
-    const location = this.getFileLocation();
+  onNavigateBefore(event: MouseEvent | KeyboardEvent): void {
+    if (
+      event.type !== 'click' &&
+      this.shouldNavigate(event.target as HTMLElement)
+    ) {
+      return;
+    }
 
+    const location = this.getFileLocation();
     this.store.dispatch(new ViewNodeAction(this.previousNodeId, { location }));
   }
 
-  onNavigateNext(): void {
+  onNavigateNext(event: MouseEvent | KeyboardEvent): void {
+    if (
+      event.type !== 'click' &&
+      this.shouldNavigate(event.target as HTMLElement)
+    ) {
+      return;
+    }
+
     const location = this.getFileLocation();
     this.store.dispatch(new ViewNodeAction(this.nextNodeId, { location }));
   }
@@ -436,5 +454,21 @@ export class AppViewerComponent implements OnInit, OnDestroy {
     return this.router
       .parseUrl(this.navigationPath || this.router.url)
       .root.children[PRIMARY_OUTLET].toString();
+  }
+
+  private shouldNavigate(element: HTMLElement): boolean {
+    let currentElement = element.parentElement;
+
+    while (currentElement && !this.isChild(currentElement.classList)) {
+      currentElement = currentElement.parentElement;
+    }
+
+    return !!currentElement;
+  }
+
+  private isChild(list: DOMTokenList): boolean {
+    return Array.from(list).some((className: string) =>
+      this.containersSkipNavigation.includes(className)
+    );
   }
 }

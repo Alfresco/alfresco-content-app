@@ -57,21 +57,21 @@ export abstract class Page {
   constructor(public url: string = '') {}
 
   async getTitle() {
-    return await browser.getTitle();
+    return browser.getTitle();
   }
 
   async load(relativeUrl: string = '') {
     const hash = USE_HASH_STRATEGY ? '/#' : '';
     const path = `${browser.baseUrl}${hash}${this.url}${relativeUrl}`;
-    return await browser.get(path);
+    return browser.get(path);
   }
 
   async waitForApp() {
-    return await browser.wait(EC.presenceOf(this.layout), BROWSER_WAIT_TIMEOUT);
+    await browser.wait(EC.presenceOf(this.layout), BROWSER_WAIT_TIMEOUT);
   }
 
   async waitForSnackBarToAppear() {
-    return await browser.wait(until.elementLocated(by.css('.mat-snack-bar-container')), BROWSER_WAIT_TIMEOUT, '------- timeout waiting for snackbar to appear');
+    return browser.wait(until.elementLocated(by.css('.mat-snack-bar-container')), BROWSER_WAIT_TIMEOUT, '------- timeout waiting for snackbar to appear');
   }
 
   async waitForSnackBarToClose() {
@@ -83,7 +83,7 @@ export abstract class Page {
   }
 
   async isDialogOpen() {
-    return await browser.isElementPresent(this.dialogContainer);
+    return browser.isElementPresent(this.dialogContainer);
   }
 
   async closeOpenDialogs() {
@@ -99,24 +99,24 @@ export abstract class Page {
 
   async getSnackBarMessage() {
     const elem = await this.waitForSnackBarToAppear();
-    return await elem.getAttribute('innerText');
+    return elem.getAttribute('innerText');
   }
 
   async clickSnackBarAction() {
     try {
-      const action = browser.wait(until.elementLocated(by.css('.mat-simple-snackbar-action button')), BROWSER_WAIT_TIMEOUT, '------- timeout waiting for snack action to appear');
-      return await action.click();
+      const action = await browser.wait(until.elementLocated(by.css('.mat-simple-snackbar-action button')), BROWSER_WAIT_TIMEOUT, '------- timeout waiting for snack action to appear');
+      await action.click();
     } catch (e) {
       console.log(e, '.......failed on click snack bar action.........');
     }
   }
 
   async isGenericErrorDisplayed() {
-    return await this.genericError.isDisplayed();
+    return this.genericError.isDisplayed();
   }
 
   async getGenericErrorTitle() {
-    return await this.genericErrorTitle.getText();
+    return this.genericErrorTitle.getText();
   }
 
 

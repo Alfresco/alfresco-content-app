@@ -55,7 +55,7 @@ export class SearchInput extends Component {
   }
 
   async waitForSearchControl() {
-    return await browser.wait(EC.presenceOf(this.searchControl), BROWSER_WAIT_TIMEOUT, '--- timeout waitForSearchControl ---');
+    await browser.wait(EC.presenceOf(this.searchControl), BROWSER_WAIT_TIMEOUT, '--- timeout waitForSearchControl ---');
   }
 
   async isSearchContainerDisplayed() {
@@ -70,22 +70,22 @@ export class SearchInput extends Component {
 
   async isOptionsAreaDisplayed() {
     await browser.wait(until.elementLocated(by.css(SearchInput.selectors.searchControl)), BROWSER_WAIT_TIMEOUT);
-    return await browser.isElementPresent(this.searchOptionsArea);
+    return browser.isElementPresent(this.searchOptionsArea);
   }
 
   async clickFilesOption() {
     await browser.wait(EC.elementToBeClickable(this.searchFilesOption), BROWSER_WAIT_TIMEOUT, '--- timeout waiting for Files to be clickable');
-    return await this.searchFilesOption.click();
+    await this.searchFilesOption.click();
   }
 
   async clickFoldersOption() {
     await browser.wait(EC.elementToBeClickable(this.searchFoldersOption), BROWSER_WAIT_TIMEOUT, '--- timeout waiting for Folders to be clickable');
-    return await this.searchFoldersOption.click();
+    await this.searchFoldersOption.click();
   }
 
   async clickLibrariesOption() {
     await browser.wait(EC.elementToBeClickable(this.searchLibrariesOption), BROWSER_WAIT_TIMEOUT, '--- timeout waiting for Libraries to be clickable');
-    return await this.searchLibrariesOption.click();
+    await this.searchLibrariesOption.click();
   }
 
   async isFilesOptionEnabled() {
@@ -131,12 +131,12 @@ export class SearchInput extends Component {
   }
 
   async isClearSearchButtonPresent() {
-    return await browser.isElementPresent(this.clearSearchButton);
+    return browser.isElementPresent(this.clearSearchButton);
   }
 
   async clickClearSearchButton() {
     if (await this.isClearSearchButtonPresent()) {
-      return await this.clearSearchButton.click();
+      await this.clearSearchButton.click();
     }
   }
 

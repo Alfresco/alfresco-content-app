@@ -65,23 +65,23 @@ export class Viewer extends Component {
   }
 
   async isViewerOpened() {
-    return await browser.isElementPresent(this.viewerLayout);
+    return browser.isElementPresent(this.viewerLayout);
   }
 
   async isViewerContentDisplayed() {
-    return await browser.isElementPresent(this.viewerContainer);
+    return browser.isElementPresent(this.viewerContainer);
   }
 
   async isViewerToolbarDisplayed() {
-    return await browser.isElementPresent(this.toolbar.component);
+    return browser.isElementPresent(this.toolbar.component);
   }
 
   async isCloseButtonDisplayed() {
-    return await browser.isElementPresent(this.closeButton);
+    return browser.isElementPresent(this.closeButton);
   }
 
   async isFileTitleDisplayed() {
-    return await browser.isElementPresent(this.fileTitle);
+    return browser.isElementPresent(this.fileTitle);
   }
 
   async clickClose() {
@@ -89,21 +89,23 @@ export class Viewer extends Component {
   }
 
   async getCloseButtonTooltip() {
-    return await this.toolbar.getButtonTooltip(this.closeButton);
+    return this.toolbar.getButtonTooltip(this.closeButton);
   }
 
   async getFileTitle() {
-    return await this.fileTitle.getText();
+    return this.fileTitle.getText();
   }
 
   async isCustomContentPresent() {
-    return await browser.isElementPresent(this.viewerExtensionContent);
+    return browser.isElementPresent(this.viewerExtensionContent);
   }
 
-  async getComponentIdOfView() {
+  async getComponentIdOfView(): Promise<string> {
     if (await this.isCustomContentPresent()) {
-      return await this.viewerExtensionContent.getAttribute('data-automation-id');
+      return this.viewerExtensionContent.getAttribute('data-automation-id');
     }
+
+    return '';
   }
 
   async isPdfViewerContentDisplayed() {

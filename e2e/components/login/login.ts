@@ -73,10 +73,10 @@ export class LoginComponent extends Component {
   }
 
   async clickPasswordVisibility() {
-    return await this.passwordVisibility.click();
+    await this.passwordVisibility.click();
   }
 
-  async getPasswordVisibility() {
+  async getPasswordVisibility(): Promise<boolean> {
     const text = await this.passwordVisibility.getText();
     if (text.endsWith('visibility_off')) {
       return false;
@@ -86,9 +86,11 @@ export class LoginComponent extends Component {
         return true;
       }
     }
+
+    return false;
   }
 
-  async isPasswordDisplayed() {
+  async isPasswordDisplayed(): Promise<boolean> {
     const type = await this.passwordInput.getAttribute('type');
     if (type === 'text') {
       return true;
@@ -98,18 +100,20 @@ export class LoginComponent extends Component {
         return false;
       }
     }
+
+    return false;
   }
 
   async isUsernameEnabled() {
-    return await this.usernameInput.isEnabled();
+    return this.usernameInput.isEnabled();
   }
 
   async isPasswordEnabled() {
-    return await this.passwordInput.isEnabled();
+    return this.passwordInput.isEnabled();
   }
 
   async isSubmitEnabled() {
-    return await this.submitButton.isEnabled();
+    return this.submitButton.isEnabled();
   }
 
   async isPasswordHidden() {

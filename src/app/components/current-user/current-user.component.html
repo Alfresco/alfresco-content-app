@@ -1,8 +1,15 @@
 <div title="{{ (profile$ | async)?.id }}">
   <div class="current-user__full-name">{{ (profile$ | async)?.userName }}</div>
-  <div class="current-user__avatar am-avatar" [matMenuTriggerFor]="userMenu">
+  <button
+    mat-icon-button
+    [attr.aria-label]="
+      'AVATAR.ACCESSIBILITY.AVATAR_BUTTON_ARIA_LABEL' | translate
+    "
+    class="current-user__avatar am-avatar"
+    [matMenuTriggerFor]="userMenu"
+  >
     {{ (profile$ | async)?.initials }}
-  </div>
+  </button>
 </div>
 
 <mat-menu #userMenu="matMenu" [overlapTrigger]="false">

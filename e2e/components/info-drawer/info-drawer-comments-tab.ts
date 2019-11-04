@@ -67,73 +67,73 @@ export class CommentsTab extends Component {
   }
 
   async getCommentsTabHeaderText() {
-    return await this.commentsHeader.getText();
+    return this.commentsHeader.getText();
   }
 
   async isCommentTextAreaDisplayed() {
-    return await browser.isElementPresent(this.commentTextarea);
+    return browser.isElementPresent(this.commentTextarea);
   }
 
   async isAddCommentButtonEnabled() {
     const present = await browser.isElementPresent(this.addCommentButton);
     if (present) {
-      return await this.addCommentButton.isEnabled();
+      return this.addCommentButton.isEnabled();
     }
     return false;
   }
 
   async getCommentListItem() {
-    return await browser.wait(until.elementLocated(this.commentListItem), BROWSER_WAIT_TIMEOUT / 2);
+    return browser.wait(until.elementLocated(this.commentListItem), BROWSER_WAIT_TIMEOUT / 2);
   }
 
   async getCommentById(commentId?: string) {
     if (commentId) {
-      return await browser.wait(until.elementLocated(by.id(`${CommentsTab.selectors.commentById}${commentId}`)), BROWSER_WAIT_TIMEOUT / 2);
+      return browser.wait(until.elementLocated(by.id(`${CommentsTab.selectors.commentById}${commentId}`)), BROWSER_WAIT_TIMEOUT / 2);
     }
-    return await this.getCommentListItem();
+    return this.getCommentListItem();
   }
 
   async isCommentDisplayed(commentId?: string) {
-    return await browser.isElementPresent(await this.getCommentById(commentId));
+    return browser.isElementPresent(await this.getCommentById(commentId));
   }
 
   async isCommentUserAvatarDisplayed(commentId?: string) {
     const commentElement = await this.getCommentById(commentId);
-    return await browser.isElementPresent(commentElement.findElement(this.commentUserAvatar));
+    return browser.isElementPresent(commentElement.findElement(this.commentUserAvatar));
   }
 
   async getCommentText(commentId?: string) {
     const commentElement = await this.getCommentById(commentId);
     const message = await commentElement.findElement(this.commentText);
-    return await message.getText();
+    return message.getText();
   }
 
   async getCommentUserName(commentId?: string) {
     const commentElement = await this.getCommentById(commentId);
     const user = await commentElement.findElement(this.commentUser);
-    return await user.getText();
+    return user.getText();
   }
 
   async getCommentTime(commentId?: string) {
     const commentElement = await this.getCommentById(commentId);
     const time = await commentElement.findElement(this.commentTime);
-    return await time.getText();
+    return time.getText();
   }
 
   async getNthCommentId(index: number) {
-    return await this.commentsList.get(index - 1).getAttribute('id');
+    return this.commentsList.get(index - 1).getAttribute('id');
   }
 
   async typeComment(text: string) {
-    return await this.commentTextarea.sendKeys(text);
+    await this.commentTextarea.sendKeys(text);
   }
 
   async clickAddButton() {
-    return await this.addCommentButton.click();
+    await this.addCommentButton.click();
   }
 
   async getCommentTextFromTextArea() {
-    return await this.commentTextarea.getAttribute('value');
+    return this.commentTextarea.getAttribute('value');
   }
 
 }

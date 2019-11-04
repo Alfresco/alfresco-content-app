@@ -69,11 +69,11 @@ export class InfoDrawer extends Component {
   }
 
   async waitForInfoDrawerToOpen() {
-    return await browser.wait(EC.presenceOf(this.header), BROWSER_WAIT_TIMEOUT);
+    await browser.wait(EC.presenceOf(this.header), BROWSER_WAIT_TIMEOUT);
   }
 
   async isOpen() {
-    return await browser.isElementPresent(this.header);
+    return browser.isElementPresent(this.header);
   }
 
   async isEmpty() {
@@ -85,25 +85,27 @@ export class InfoDrawer extends Component {
   }
 
   async getTabsCount() {
-    return await this.component.all(by.css(InfoDrawer.selectors.tabLabel)).count();
+    return this.component.all(by.css(InfoDrawer.selectors.tabLabel)).count();
   }
 
   async isTabPresent(title: string) {
-    return await this.getTabByTitle(title).isPresent();
+    return this.getTabByTitle(title).isPresent();
   }
 
-  async isTabDisplayed(title: string) {
+  async isTabDisplayed(title: string): Promise<boolean> {
     if (await browser.isElementPresent(this.getTabByTitle(title))) {
-      return await this.getTabByTitle(title).isDisplayed();
+      return this.getTabByTitle(title).isDisplayed();
     }
+
+    return false;
   }
 
   async getTabTitle(index: number) {
-    return await this.tabLabelsList.get(index - 1).getAttribute('innerText');
+    return this.tabLabelsList.get(index - 1).getAttribute('innerText');
   }
 
   async getActiveTabTitle() {
-    return await this.tabActiveLabel.getText();
+    return this.tabActiveLabel.getText();
   }
 
   async clickTab(title: string) {
@@ -111,19 +113,19 @@ export class InfoDrawer extends Component {
   }
 
   async getComponentIdOfTab() {
-    return await this.tabActiveContent.getAttribute('data-automation-id');
+    return this.tabActiveContent.getAttribute('data-automation-id');
   }
 
   async getHeaderTitle() {
-    return await this.headerTitle.getText();
+    return this.headerTitle.getText();
   }
 
   async isAboutTabDisplayed() {
-    return await this.isTabDisplayed('About');
+    return this.isTabDisplayed('About');
   }
 
   async isPropertiesTabDisplayed() {
-    return await this.isTabDisplayed('Properties');
+    return this.isTabDisplayed('Properties');
   }
 
   async isPropertiesTabActive() {
@@ -131,7 +133,7 @@ export class InfoDrawer extends Component {
   }
 
   async isCommentsTabDisplayed() {
-    return await this.isTabDisplayed('Comments');
+    return this.isTabDisplayed('Comments');
   }
 
   async clickCommentsTab() {
@@ -143,8 +145,7 @@ export class InfoDrawer extends Component {
         browser.wait(EC.invisibilityOf(this.propertiesTab.component), BROWSER_WAIT_TIMEOUT)
       ]);
     } catch (error) {
-      console.error('--- catch error on clickCommentsTab ---');
-      throw error;
+      console.error('--- info-drawer clickCommentsTab catch error: ', error);
     }
   }
 

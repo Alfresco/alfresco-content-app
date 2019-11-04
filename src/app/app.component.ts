@@ -59,6 +59,7 @@ import { INITIAL_APP_STATE } from './store/initial-state';
 })
 export class AppComponent implements OnInit, OnDestroy {
   onDestroy$: Subject<boolean> = new Subject<boolean>();
+  pageHeading = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -111,6 +112,7 @@ export class AppComponent implements OnInit, OnDestroy {
         const snapshot: any = event.snapshot || {};
         const data: any = snapshot.data || {};
 
+        this.pageHeading = data.title || '';
         pageTitle.setTitle(data.title || '');
         this.store.dispatch(new SetCurrentUrlAction(router.url));
       });
