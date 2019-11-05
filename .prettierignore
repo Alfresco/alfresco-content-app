@@ -2,4 +2,3 @@ node_modules
 src/assets/i18n
 e2e
 /angular.json
-/protractor.conf.js

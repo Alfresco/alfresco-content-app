@@ -99,7 +99,7 @@
     "ng-packagr": "^4.7.1",
     "node-stream-zip": "1.8.0",
     "prettier": "^1.17.1",
-    "protractor": "^5.4.2",
+    "protractor": "5.4.2",
     "protractor-screenshoter-plugin": "0.10.3",
     "puppeteer": "^1.20.0",
     "rxjs-tslint-rules": "^4.19.0",
