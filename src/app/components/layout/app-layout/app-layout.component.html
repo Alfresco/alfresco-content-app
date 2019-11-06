@@ -15,6 +15,7 @@
           aria-level="1"
           *ngIf="!hideSidenav"
           (toggleClicked)="layout.toggleMenu($event)"
+          [expandedSidenav]="expandedSidenav"
         >
         </app-header>
       </ng-template>
