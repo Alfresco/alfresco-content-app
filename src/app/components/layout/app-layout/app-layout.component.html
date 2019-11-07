@@ -9,13 +9,13 @@
     (expanded)="onExpanded($event)"
   >
     <adf-sidenav-layout-header>
-      <ng-template>
+      <ng-template let-isMenuMinimized="isMenuMinimized">
         <app-header
           role="heading"
           aria-level="1"
           *ngIf="!hideSidenav"
           (toggleClicked)="layout.toggleMenu($event)"
-          [expandedSidenav]="expandedSidenav"
+          [expandedSidenav]="isMenuMinimized() ? 'false' : 'true'"
         >
         </app-header>
       </ng-template>
