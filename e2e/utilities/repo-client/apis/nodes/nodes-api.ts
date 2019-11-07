@@ -219,10 +219,11 @@ export class NodesApi extends RepoApi {
         name,
         nodeType,
         properties: {
-            'cm:title': title,
-            'cm:description': description,
-            'cm:author': author
-        }
+            'cm:title': title === '' ? undefined : title,
+            'cm:description': description  === '' ? undefined : description,
+            'cm:author': author  === '' ? undefined : author
+        },
+        aspectNames: ['cm:versionable']
     };
     if (imageProps) {
       nodeBody.properties = Object.assign(nodeBody.properties, imageProps);
