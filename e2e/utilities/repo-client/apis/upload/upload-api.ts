@@ -40,7 +40,8 @@ export class UploadApi extends RepoApi {
     const file = fs.createReadStream(`${E2E_ROOT_PATH}/resources/test-files/${fileName}`);
     const opts = {
       name: file.name,
-      nodeType: 'cm:content'
+      nodeType: 'cm:content',
+      aspectNames: ['cm:versionable']
     };
 
     try {
@@ -55,7 +56,8 @@ export class UploadApi extends RepoApi {
     const file = fs.createReadStream(`${E2E_ROOT_PATH}/resources/test-files/${fileName}`);
     const opts = {
         name: newName,
-        nodeType: 'cm:content'
+        nodeType: 'cm:content',
+        aspectNames: ['cm:versionable']
     };
 
     try {

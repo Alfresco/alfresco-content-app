@@ -33,6 +33,7 @@ export class NodeBodyCreate {
         public name: string,
         public nodeType: string,
         public relativePath: string = '/',
-        public properties?: any[]
+        public properties?: any[],
+        public aspectNames = ['cm:versionable']
     ) {}
 }

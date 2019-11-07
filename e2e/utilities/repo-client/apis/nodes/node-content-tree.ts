@@ -48,7 +48,8 @@ export function flattenNodeContentTree(content: NodeContentTree, relativePath: s
             nodeType: NODE_TYPE_FOLDER,
             name,
             relativePath,
-            properties
+            properties,
+            aspectNames: ['cm:versionable']
         }]);
 
         relativePath = (relativePath === '/')
@@ -75,7 +76,8 @@ export function flattenNodeContentTree(content: NodeContentTree, relativePath: s
             .map((filename: string): NodeBodyCreate => ({
                 nodeType: NODE_TYPE_FILE,
                 name: filename,
-                relativePath
+                relativePath,
+                aspectNames: ['cm:versionable']
             }));
 
         data = data.concat(filesData);
