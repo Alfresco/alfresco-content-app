@@ -91,7 +91,9 @@ export async function checkMultipleSelToolbarMoreActions(items: string[], expect
 }
 
 export async function checkViewerToolbarPrimaryActions(item: string, expectedToolbarPrimary: string[]) {
-  await dataTable.doubleClickOnRowByName(item);
+  // await dataTable.doubleClickOnRowByName(item);
+  await dataTable.selectItem(item);
+  await toolbar.clickView();
   await viewer.waitForViewerToOpen();
 
   let actualPrimaryActions = await viewerToolbar.getButtons();
@@ -105,7 +107,9 @@ export async function checkViewerToolbarPrimaryActions(item: string, expectedToo
 }
 
 export async function checkViewerToolbarMoreActions(item: string, expectedToolbarMore: string[]) {
-  await dataTable.doubleClickOnRowByName(item);
+  // await dataTable.doubleClickOnRowByName(item);
+  await dataTable.selectItem(item);
+  await toolbar.clickView();
   await viewer.waitForViewerToOpen();
   await viewerToolbar.openMoreMenu();
 
