@@ -45,3 +45,8 @@ jobs:
       script: npm run build.e2e && SUITE="--suite sharingContent" npm run e2e:docker
     - name: Test Suite viewContent&metadata&extensions
       script: npm run build.e2e && SUITE="--suite viewer,infoDrawer,extensions" npm run e2e:docker
+
+after_failure:
+  - alfrescoContainerId=$(docker ps -a | grep 'alfresco-content-repository-community' | awk '{print $1}')
+  - docker logs $alfrescoContainerId > alfresco.log
+  - cat alfresco.log
