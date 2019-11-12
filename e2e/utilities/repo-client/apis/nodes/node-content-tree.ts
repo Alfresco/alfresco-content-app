@@ -35,6 +35,7 @@ export interface NodeContentTree {
 
 export function flattenNodeContentTree(content: NodeContentTree, relativePath: string = '/'): NodeBodyCreate[] {
     const { name, files, folders, title, description } = content;
+    const aspectNames: string[] = ['cm:versionable'];
     let data: NodeBodyCreate[] = [];
     let properties: any;
 
@@ -75,7 +76,8 @@ export function flattenNodeContentTree(content: NodeContentTree, relativePath: s
             .map((filename: string): NodeBodyCreate => ({
                 nodeType: NODE_TYPE_FILE,
                 name: filename,
-                relativePath
+                relativePath,
+                aspectNames
             }));
 
         data = data.concat(filesData);
