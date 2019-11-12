@@ -149,6 +149,7 @@ describe('Upload new version', () => {
       await uploadNewVersionDialog.clickMajor();
       await uploadNewVersionDialog.enterDescription('new major version description');
       await uploadNewVersionDialog.clickUpload();
+      await uploadNewVersionDialog.waitForDialogToClose();
 
       expect(await dataTable.isItemPresent(fileToUpload1)).toBe(true, 'File not updated');
       expect(await apis.user.nodes.getFileVersionType(file1Id)).toEqual('MAJOR', 'File has incorrect version type');
@@ -165,6 +166,7 @@ describe('Upload new version', () => {
       await uploadNewVersionDialog.clickMinor();
       await uploadNewVersionDialog.enterDescription('new minor version description');
       await uploadNewVersionDialog.clickUpload();
+      await uploadNewVersionDialog.waitForDialogToClose();
 
       expect(await dataTable.isItemPresent(fileToUpload2)).toBe(true, 'File not updated');
       expect(await apis.user.nodes.getFileVersionType(file2Id)).toEqual('MINOR', 'File has incorrect version type');
@@ -298,6 +300,7 @@ describe('Upload new version', () => {
       await uploadNewVersionDialog.clickMajor();
       await uploadNewVersionDialog.enterDescription('new major version description');
       await uploadNewVersionDialog.clickUpload();
+      await uploadNewVersionDialog.waitForDialogToClose();
 
       expect(await dataTable.isItemPresent(fileToUpload1)).toBe(true, 'File not updated');
       expect(await apis.user.nodes.getFileVersionType(file1Id)).toEqual('MAJOR', 'File has incorrect version type');
@@ -314,6 +317,7 @@ describe('Upload new version', () => {
       await uploadNewVersionDialog.clickMinor();
       await uploadNewVersionDialog.enterDescription('new minor version description');
       await uploadNewVersionDialog.clickUpload();
+      await uploadNewVersionDialog.waitForDialogToClose();
 
       expect(await dataTable.isItemPresent(fileToUpload2)).toBe(true, 'File not updated');
       expect(await apis.user.nodes.getFileVersionType(file2Id)).toEqual('MINOR', 'File has incorrect version type');
@@ -446,6 +450,7 @@ describe('Upload new version', () => {
       await uploadNewVersionDialog.clickMajor();
       await uploadNewVersionDialog.enterDescription('new major version description');
       await uploadNewVersionDialog.clickUpload();
+      await uploadNewVersionDialog.waitForDialogToClose();
 
       expect(await dataTable.isItemPresent(fileToUpload1, parentRF)).toBe(true, 'File not updated');
       expect(await apis.user.nodes.getFileVersionType(file1Id)).toEqual('MAJOR', 'File has incorrect version type');
@@ -462,6 +467,7 @@ describe('Upload new version', () => {
       await uploadNewVersionDialog.clickMinor();
       await uploadNewVersionDialog.enterDescription('new minor version description');
       await uploadNewVersionDialog.clickUpload();
+      await uploadNewVersionDialog.waitForDialogToClose();
 
       expect(await dataTable.isItemPresent(fileToUpload2, parentRF)).toBe(true, 'File not updated');
       expect(await apis.user.nodes.getFileVersionType(file2Id)).toEqual('MINOR', 'File has incorrect version type');
@@ -595,6 +601,7 @@ describe('Upload new version', () => {
       await uploadNewVersionDialog.clickMajor();
       await uploadNewVersionDialog.enterDescription('new major version description');
       await uploadNewVersionDialog.clickUpload();
+      await uploadNewVersionDialog.waitForDialogToClose();
 
       expect(await dataTable.isItemPresent(fileToUpload1)).toBe(true, 'File not updated');
       expect(await apis.user.nodes.getFileVersionType(file1Id)).toEqual('MAJOR', 'File has incorrect version type');
@@ -611,6 +618,7 @@ describe('Upload new version', () => {
       await uploadNewVersionDialog.clickMinor();
       await uploadNewVersionDialog.enterDescription('new minor version description');
       await uploadNewVersionDialog.clickUpload();
+      await uploadNewVersionDialog.waitForDialogToClose();
 
       expect(await dataTable.isItemPresent(fileToUpload2)).toBe(true, 'File not updated');
       expect(await apis.user.nodes.getFileVersionType(file2Id)).toEqual('MINOR', 'File has incorrect version type');
