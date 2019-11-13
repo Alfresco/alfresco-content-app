@@ -120,7 +120,7 @@ exports.config = {
 
   directConnect: true,
 
-  // baseUrl: 'http://localhost:4000',
+  // baseUrl: 'http://localhost:8080',
   getPageTimeout: 50000,
 
   framework: 'jasmine',

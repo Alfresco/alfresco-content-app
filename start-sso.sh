@@ -1,5 +1,5 @@
 export HOST_IP=$(ifconfig | grep -E "([0-9]{1,3}\.){3}[0-9]{1,3}" | grep -v 127.0.0.1 | awk '{ print $2 }' | cut -f2 -d: | head -n1)
-export APP_URL="http://${HOST_IP}:4000"
+export APP_URL="http://${HOST_IP}:8080"
 
 export APP_CONFIG_AUTH_TYPE="OAUTH"
 export APP_CONFIG_OAUTH2_HOST="http://${HOST_IP}:8085/auth/realms/alfresco"

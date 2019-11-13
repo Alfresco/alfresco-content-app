@@ -4,6 +4,8 @@ services:
   alfresco:
     image: alfresco/alfresco-content-repository-community:latest
     mem_limit: 1500m
+    volumes:
+      - ./docker/acs-cm:/usr/local/tomcat/shared/classes/alfresco/extension
     environment:
       JAVA_OPTS: '
         -Ddb.driver=org.postgresql.Driver
@@ -37,8 +39,6 @@ services:
         -Dcsrf.filter.enabled=false
         -Xms1500m -Xmx1500m
         '
-    ports:
-      - 8080:8080 #Browser port
 
   alfresco-pdf-renderer:
     image: alfresco/alfresco-pdf-renderer:2.1.0
@@ -83,17 +83,11 @@ services:
   share:
     image: alfresco/alfresco-share:6.2.0
     mem_limit: 1g
+    depends_on:
+      - alfresco
     environment:
-      REPO_HOST: 'alfresco'
-      REPO_PORT: '8080'
-      JAVA_OPTS: '
-        -Xms500m
-        -Xmx500m
-        -Dalfresco.host=localhost
-        -Dalfresco.port=8080
-        -Dalfresco.context=alfresco
-        -Dalfresco.protocol=http
-        '
+      - REPO_HOST=alfresco
+      - REPO_PORT=8080
 
   postgres:
     image: postgres:11.4
@@ -142,10 +136,15 @@ services:
       - 4001:8080
 
   proxy:
-    image: nginx:stable-alpine
+    image: alfresco/acs-community-ngnix:1.0.0
+    mem_limit: 128m
     depends_on:
-      - content-app
+      - alfresco
     volumes:
-      - ./docker/proxy/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./docker/proxy/nginx.conf:/etc/nginx/nginx.conf
     ports:
-      - 4000:80
+      - 8080:8080
+    links:
+      - alfresco
+      - share
+      - content-app
