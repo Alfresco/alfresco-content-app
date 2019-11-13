@@ -73,8 +73,6 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
 
       const id = entry.nodeId || entry.id;
       return this.loadNodeInfo(id);
-
-      this.setDisplayNode(entry);
     }
   }
 
