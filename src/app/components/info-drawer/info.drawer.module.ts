@@ -39,6 +39,7 @@ import { MetadataTabComponent } from './metadata-tab/metadata-tab.component';
 import { LibraryMetadataTabComponent } from './library-metadata-tab/library-metadata-tab.component';
 import { LibraryMetadataFormComponent } from './library-metadata-tab/library-metadata-form.component';
 import { VersionsTabComponent } from './versions-tab/versions-tab.component';
+import { A11yModule } from '@angular/cdk/a11y';
 
 export function components() {
   return [
@@ -59,7 +60,8 @@ export function components() {
     ExtensionsModule,
     ContentMetadataModule,
     VersionManagerModule,
-    DirectivesModule
+    DirectivesModule,
+    A11yModule
   ],
   declarations: [...components()],
   exports: [...components()],
