@@ -59,8 +59,11 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
   displayNode: MinimalNodeEntryEntity | SiteEntry;
   tabs: Array<SidebarTabRef> = [];
 
-  @HostListener('keydown.escape') onEscapeKeyboardEvent() {
-    this.close();
+  @HostListener('keydown.escape', ['$event'])
+  onEscapeKeyboardEvent(event: KeyboardEvent): void {
+    if ((event.target as HTMLElement).tagName !== 'INPUT') {
+      this.close();
+    }
   }
 
   constructor(
