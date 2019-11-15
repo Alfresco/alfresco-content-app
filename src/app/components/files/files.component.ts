@@ -35,11 +35,14 @@ import {
 } from '@alfresco/js-api';
 import { ContentManagementService } from '../../services/content-management.service';
 import { NodeActionsService } from '../../services/node-actions.service';
-import { AppStore } from '@alfresco/aca-shared/store';
 import { PageComponent } from '../page.component';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { AppExtensionService } from '../../extensions/extension.service';
-import { SetCurrentFolderAction, isAdmin } from '@alfresco/aca-shared/store';
+import {
+  SetCurrentFolderAction,
+  isAdmin,
+  AppStore
+} from '@alfresco/aca-shared/store';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { ShareDataRow } from '@alfresco/adf-content-services';

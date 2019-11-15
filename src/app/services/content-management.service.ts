@@ -40,7 +40,8 @@ import {
   SnackbarInfoAction,
   SnackbarUserAction,
   SnackbarWarningAction,
-  UndoDeleteNodesAction
+  UndoDeleteNodesAction,
+  NodePermissionService
 } from '@alfresco/aca-shared/store';
 import {
   ConfirmDialogComponent,
@@ -69,7 +70,6 @@ import { NodePermissionsDialogComponent } from '../components/permissions/permis
 import { NodeVersionUploadDialogComponent } from '../dialogs/node-version-upload/node-version-upload.dialog';
 import { NodeVersionsDialogComponent } from '../dialogs/node-versions/node-versions.dialog';
 import { NodeActionsService } from './node-actions.service';
-import { NodePermissionService } from '@alfresco/aca-shared';
 
 interface RestoredNode {
   status: number;
