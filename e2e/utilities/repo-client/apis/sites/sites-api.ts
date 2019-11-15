@@ -24,10 +24,9 @@
  */
 
 import { RepoApi } from '../repo-api';
-import { SiteBody, SiteMemberRoleBody, SiteMemberBody, SiteEntry, SiteMembershipRequestEntry } from '@alfresco/js-api';
+import { SiteBody, SiteMemberRoleBody, SiteMemberBody, SiteEntry, SiteMembershipRequestEntry, SitesApi as AdfSiteApi } from '@alfresco/js-api';
 import { SITE_VISIBILITY } from '../../../../configs';
 import { Utils } from '../../../../utilities/utils';
-import { SitesApi as AdfSiteApi } from '@alfresco/js-api';
 
 export class SitesApi extends RepoApi {
   sitesApi = new AdfSiteApi(this.alfrescoJsApi);

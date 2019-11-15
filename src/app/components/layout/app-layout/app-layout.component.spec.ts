@@ -29,10 +29,13 @@ import { AppConfigService, UserPreferencesService } from '@alfresco/adf-core';
 import { AppLayoutComponent } from './app-layout.component';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { Store } from '@ngrx/store';
-import { AppStore, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
+import {
+  AppStore,
+  SetSelectedNodesAction,
+  ResetSelectionAction
+} from '@alfresco/aca-shared/store';
 import { Router, NavigationStart } from '@angular/router';
 import { Subject } from 'rxjs';
-import { ResetSelectionAction } from '@alfresco/aca-shared/store';
 
 class MockRouter {
   private url = 'some-url';

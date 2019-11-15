@@ -28,10 +28,9 @@ import { Overlay } from '@angular/cdk/overlay';
 import { Injector } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
-import { CoreModule } from '@alfresco/adf-core';
+import { CoreModule, UserPreferencesService } from '@alfresco/adf-core';
 import { ContextMenuService } from './context-menu.service';
 import { ContextMenuModule } from './context-menu.module';
-import { UserPreferencesService } from '@alfresco/adf-core';
 
 describe('ContextMenuService', () => {
   let contextMenuService;

@@ -49,9 +49,9 @@ import { Store } from '@ngrx/store';
 import {
   AppStore,
   ClosePreviewAction,
-  ViewerActionTypes
+  ViewerActionTypes,
+  SetSelectedNodesAction
 } from '@alfresco/aca-shared/store';
-import { SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { PageComponent } from '../page.component';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { AppExtensionService } from '../../extensions/extension.service';
