@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ContentApiService } from '@alfresco/aca-shared';
+import { ContentApiService, NodePermissionService } from '@alfresco/aca-shared';
 import {
   AppStore,
   DeletedNodeInfo,
@@ -40,8 +40,7 @@ import {
   SnackbarInfoAction,
   SnackbarUserAction,
   SnackbarWarningAction,
-  UndoDeleteNodesAction,
-  NodePermissionService
+  UndoDeleteNodesAction
 } from '@alfresco/aca-shared/store';
 import {
   ConfirmDialogComponent,
