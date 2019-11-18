@@ -100,7 +100,6 @@ export class UploadNewVersionDialog extends Component {
 
   async clickUpload() {
     await this.uploadButton.click();
-    await this.waitForDialogToClose();
   }
 
 

@@ -190,7 +190,7 @@ services:
       - alfresco
       - share
     ports:
-      - 4000:80
+      - 8080:8080
 
   auth:
     image: jboss/keycloak:4.8.3.Final
