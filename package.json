@@ -36,6 +36,7 @@
   },
   "private": true,
   "dependencies": {
+    "@alfresco/adf-cli": "^3.6.0-9814e2802790389cea32a9e31e760dc93ca48f3a",
     "@alfresco/adf-content-services": "3.6.0-58aef5a02986ad0a3e7a31a2805d83018143482e",
     "@alfresco/adf-core": "3.6.0-58aef5a02986ad0a3e7a31a2805d83018143482e",
     "@alfresco/adf-extensions": "3.6.0-58aef5a02986ad0a3e7a31a2805d83018143482e",
