@@ -33,6 +33,7 @@ export class NodeBodyCreate {
         public name: string,
         public nodeType: string,
         public relativePath: string = '/',
+        public aspectNames?: string[], // workaround for REPO-4772
         public properties?: any[]
     ) {}
 }

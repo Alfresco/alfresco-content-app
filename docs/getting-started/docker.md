@@ -20,7 +20,7 @@ npm run build
 npm run start:docker
 ```
 
-The ACA runs on port `4000` when served from within container.
+The ACA runs on port `8080` when served from within container.
 
 Use the following command to stop all the containers:
 
