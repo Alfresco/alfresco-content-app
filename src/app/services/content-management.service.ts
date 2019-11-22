@@ -214,9 +214,7 @@ export class ContentManagementService {
           })
           .afterClosed()
           .subscribe(deletedSharedLink => {
-            this.store.dispatch(
-              new SetSelectedNodesAction([deletedSharedLink || node])
-            );
+            this.store.dispatch(new SetSelectedNodesAction([node]));
             if (deletedSharedLink) {
               this.linksUnshared.next(deletedSharedLink);
             }
