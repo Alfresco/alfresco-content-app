@@ -197,26 +197,14 @@
       },
       {
         "id": "app.toolbar.share",
+        "type": "custom",
         "order": 100,
-        "title": "APP.ACTIONS.SHARE",
-        "icon": "link",
-        "actions": {
-          "click": "SHARE_NODE"
+        "data": {
+          "iconButton": true
         },
+        "component": "app.shared-link.toggleSharedLink",
         "rules": {
-          "visible": "app.selection.file.canShare"
-        }
-      },
-      {
-        "id": "app.toolbar.share.edit",
-        "order": 101,
-        "title": "APP.ACTIONS.SHARE_EDIT",
-        "icon": "link",
-        "actions": {
-          "click": "SHARE_NODE"
-        },
-        "rules": {
-          "visible": "app.selection.file.isShared"
+          "visible": "canToggleSharedLink"
         }
       },
       {
@@ -486,6 +474,9 @@
         "id": "app.context.menu.share",
         "type": "custom",
         "order": 100,
+        "data": {
+          "iconButton": false
+        },
         "component": "app.shared-link.toggleSharedLink",
         "rules": {
           "visible": "canToggleSharedLink"
@@ -747,26 +738,14 @@
         },
         {
           "id": "app.viewer.share",
+          "type": "custom",
           "order": 200,
-          "title": "APP.ACTIONS.SHARE",
-          "icon": "link",
-          "actions": {
-            "click": "SHARE_NODE"
+          "data": {
+            "iconButton": true
           },
+          "component": "app.shared-link.toggleSharedLink",
           "rules": {
-            "visible": "app.selection.file.canShare"
-          }
-        },
-        {
-          "id": "app.viewer.share.edit",
-          "order": 250,
-          "title": "APP.ACTIONS.SHARE_EDIT",
-          "icon": "link",
-          "actions": {
-            "click": "SHARE_NODE"
-          },
-          "rules": {
-            "visible": "app.selection.file.isShared"
+            "visible": "canToggleSharedLink"
           }
         },
         {

@@ -1,14 +1,30 @@
 <ng-container *ngIf="selection$ | async as selection">
-  <button
-    mat-menu-item
-    data-automation-id="share-action-button"
-    (click)="editSharedNode(selection)"
-  >
-    <mat-icon>link</mat-icon>
-    <ng-container *ngIf="isShared(selection); else not_shared">
-      <span>{{ 'APP.ACTIONS.SHARE_EDIT' | translate }}</span>
-    </ng-container>
-  </button>
+  <ng-container *ngIf="!data.iconButton">
+    <button
+      mat-menu-item
+      data-automation-id="share-action-button"
+      (click)="editSharedNode(selection)"
+    >
+      <mat-icon>link</mat-icon>
+      <ng-container *ngIf="isShared(selection); else not_shared">
+        <span>{{ 'APP.ACTIONS.SHARE_EDIT' | translate }}</span>
+      </ng-container>
+    </button>
+  </ng-container>
+
+  <ng-container *ngIf="data.iconButton">
+    <button
+      mat-icon-button
+      data-automation-id="share-action-button"
+      (click)="editSharedNode(selection)"
+      [attr.title]="
+        (isShared(selection) ? 'APP.ACTIONS.SHARE_EDIT' : 'APP.ACTIONS.SHARE')
+          | translate
+      "
+    >
+      <mat-icon>link</mat-icon>
+    </button>
+  </ng-container>
 </ng-container>
 
 <ng-template #not_shared>
