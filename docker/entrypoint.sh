@@ -81,4 +81,13 @@ if [ -n "${APP_BASE_SHARE_URL}" ];then
   cat /tmp/app.config.json > ./app.config.json
 fi
 
+if [[ $SERVER_PATH ]]; then
+  mkdir -p .$SERVER_PATH
+  cp -R * .$SERVER_PATH
+  replace="\/"
+  encoded=${SERVER_PATH//\//$replace}
+  sed -ri 's%href=".?/"%href="'$encoded/'"%g' /tmp/index.html && \
+  cat /tmp/index.html > .$SERVER_PATH/index.html
+fi
+
 nginx -g "daemon off;"
