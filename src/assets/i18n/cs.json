@@ -211,7 +211,9 @@
       "CANCEL_JOIN": "Zrušit žádost o připojení",
       "LEAVE": "Opustit knihovnu",
       "EDIT_OFFLINE": "Upravit offline",
-      "EDIT_OFFLINE_CANCEL": "Zrušit úpravu"
+      "EDIT_OFFLINE_CANCEL": "Zrušit úpravu",
+      "LIST_MODE": "Zobrazit seznam",
+      "GALLERY_MODE": "Zobrazit galerii"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -475,6 +477,11 @@
       "THIS_YEAR": "Letos"
     }
   },
+  "AVATAR": {
+    "ACCESSIBILITY": {
+      "AVATAR_BUTTON_ARIA_LABEL": "Uživatelské možnosti"
+    }
+  },
   "CORE": {
     "METADATA": {
       "ACTIONS": {
@@ -498,6 +505,18 @@
       "UPLOAD": {
         "TOOLTIP": "Odeslat novou verzi"
       }
+    }
+  },
+  "CUSTOM_NAME_COLUMN": {
+    "ACCESSIBILITY": {
+      "FILE_LINK_ARIA_LABEL": "Zobrazit {{ name }}",
+      "FOLDER_LINK_ARIA_LABEL": "Otevřít složku {{ name }}"
+    }
+  },
+  "ADF-DATATABLE": {
+    "FILE_TYPE": {
+      "BOOKS-24PX": "knihovnu souborů",
+      "BASELINE-LOCK-24PX": "uzamčený soubor"
     }
   }
 }

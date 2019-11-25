@@ -211,7 +211,9 @@
       "CANCEL_JOIN": "参加リクエストのキャンセル",
       "LEAVE": "ライブラリから脱退",
       "EDIT_OFFLINE": "オフライン編集",
-      "EDIT_OFFLINE_CANCEL": "編集のキャンセル"
+      "EDIT_OFFLINE_CANCEL": "編集のキャンセル",
+      "LIST_MODE": "リストを表示",
+      "GALLERY_MODE": "ギャラリーを表示"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -475,6 +477,11 @@
       "THIS_YEAR": "今年"
     }
   },
+  "AVATAR": {
+    "ACCESSIBILITY": {
+      "AVATAR_BUTTON_ARIA_LABEL": "ユーザーオプション"
+    }
+  },
   "CORE": {
     "METADATA": {
       "ACTIONS": {
@@ -498,6 +505,18 @@
       "UPLOAD": {
         "TOOLTIP": "新しいバージョンをアップロードします"
       }
+    }
+  },
+  "CUSTOM_NAME_COLUMN": {
+    "ACCESSIBILITY": {
+      "FILE_LINK_ARIA_LABEL": "{{ name }} を表示",
+      "FOLDER_LINK_ARIA_LABEL": "{{ name }} フォルダを開く"
+    }
+  },
+  "ADF-DATATABLE": {
+    "FILE_TYPE": {
+      "BOOKS-24PX": "ファイルライブラリ",
+      "BASELINE-LOCK-24PX": "ロックされているファイル"
     }
   }
 }

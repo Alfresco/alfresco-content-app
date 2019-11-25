@@ -211,7 +211,9 @@
       "CANCEL_JOIN": "取消加入请求",
       "LEAVE": "离开库",
       "EDIT_OFFLINE": "离线编辑",
-      "EDIT_OFFLINE_CANCEL": "取消编辑"
+      "EDIT_OFFLINE_CANCEL": "取消编辑",
+      "LIST_MODE": "查看列表",
+      "GALLERY_MODE": "查看图库"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -420,7 +422,7 @@
     "ERRORS": {
       "GENERIC": "我们遇到一个问题",
       "EXISTENT_SITE": "此库 ID 不可用。请尝试使用其他库 ID。",
-      "CONFLICT": "此库 ID 已被使用。请检查回收站。",
+      "CONFLICT": "此库 ID 已被使用。请检查垃圾桶。",
       "ID_TOO_LONG": "对 URL 名称使用 72 个字符或更少字符",
       "DESCRIPTION_TOO_LONG": "对描述使用 512 个字符或更少字符",
       "TITLE_TOO_LONG": "对标题使用 256 个字符或更少字符",
@@ -475,6 +477,11 @@
       "THIS_YEAR": "今年"
     }
   },
+  "AVATAR": {
+    "ACCESSIBILITY": {
+      "AVATAR_BUTTON_ARIA_LABEL": "用户选项"
+    }
+  },
   "CORE": {
     "METADATA": {
       "ACTIONS": {
@@ -498,6 +505,18 @@
       "UPLOAD": {
         "TOOLTIP": "上传新版本"
       }
+    }
+  },
+  "CUSTOM_NAME_COLUMN": {
+    "ACCESSIBILITY": {
+      "FILE_LINK_ARIA_LABEL": "查看 {{ name }}",
+      "FOLDER_LINK_ARIA_LABEL": "打开 {{ name }} 文件夹"
+    }
+  },
+  "ADF-DATATABLE": {
+    "FILE_TYPE": {
+      "BOOKS-24PX": "文件库",
+      "BASELINE-LOCK-24PX": "已锁定文件"
     }
   }
 }
