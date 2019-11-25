@@ -211,7 +211,9 @@
       "CANCEL_JOIN": "Отменить запрос на присоединение",
       "LEAVE": "Покинуть библиотеку",
       "EDIT_OFFLINE": "Редактировать в автономном режиме",
-      "EDIT_OFFLINE_CANCEL": "Отменить редактирование"
+      "EDIT_OFFLINE_CANCEL": "Отменить редактирование",
+      "LIST_MODE": "Просмотреть список",
+      "GALLERY_MODE": "Просмотреть галерею"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -475,6 +477,11 @@
       "THIS_YEAR": "В этом году"
     }
   },
+  "AVATAR": {
+    "ACCESSIBILITY": {
+      "AVATAR_BUTTON_ARIA_LABEL": "Пользовательские настройки"
+    }
+  },
   "CORE": {
     "METADATA": {
       "ACTIONS": {
@@ -498,6 +505,18 @@
       "UPLOAD": {
         "TOOLTIP": "Загрузить новую версию"
       }
+    }
+  },
+  "CUSTOM_NAME_COLUMN": {
+    "ACCESSIBILITY": {
+      "FILE_LINK_ARIA_LABEL": "Просмотреть {{ name }}",
+      "FOLDER_LINK_ARIA_LABEL": "Открыть папку {{ name }}"
+    }
+  },
+  "ADF-DATATABLE": {
+    "FILE_TYPE": {
+      "BOOKS-24PX": "Библиотека файлов",
+      "BASELINE-LOCK-24PX": "заблокированный файл"
     }
   }
 }

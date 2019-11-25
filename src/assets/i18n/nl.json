@@ -211,7 +211,9 @@
       "CANCEL_JOIN": "Verzoek om lid te worden annuleren",
       "LEAVE": "Bibliotheek verlaten",
       "EDIT_OFFLINE": "Offline bewerken",
-      "EDIT_OFFLINE_CANCEL": "Bewerken annuleren"
+      "EDIT_OFFLINE_CANCEL": "Bewerken annuleren",
+      "LIST_MODE": "Lijst weergeven",
+      "GALLERY_MODE": "Galerie weergeven"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -475,6 +477,11 @@
       "THIS_YEAR": "Dit jaar"
     }
   },
+  "AVATAR": {
+    "ACCESSIBILITY": {
+      "AVATAR_BUTTON_ARIA_LABEL": "Gebruikersopties"
+    }
+  },
   "CORE": {
     "METADATA": {
       "ACTIONS": {
@@ -498,6 +505,18 @@
       "UPLOAD": {
         "TOOLTIP": "Nieuwe versie uploaden"
       }
+    }
+  },
+  "CUSTOM_NAME_COLUMN": {
+    "ACCESSIBILITY": {
+      "FILE_LINK_ARIA_LABEL": "{{ name }} weergeven",
+      "FOLDER_LINK_ARIA_LABEL": "Map {{ name }} openen"
+    }
+  },
+  "ADF-DATATABLE": {
+    "FILE_TYPE": {
+      "BOOKS-24PX": "Bestandsbibliotheek",
+      "BASELINE-LOCK-24PX": "Vergrendeld bestand"
     }
   }
 }
