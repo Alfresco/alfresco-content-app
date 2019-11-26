@@ -33,7 +33,7 @@ Please include a clear description, steps to reproduce and screenshots where app
 #### What's new in the latest release
 
 - Single Sign On improvements and fixes
-- Accessibility enhancments WCAG AA compliance
+- Accessibility enhancements WCAG AA compliance
 
 Please refer to the [release notes] for details of all changes.
 
