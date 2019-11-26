@@ -30,16 +30,14 @@ There are a number of resources available to help get you started with the Conte
 Issues can be raised in [GitHub] or in the Alfresco JIRA project.
 Please include a clear description, steps to reproduce and screenshots where appropriate. All issues will be reviewed; bugs will be categorized if reproducible and enhancement/feature suggestions will be considered against existing priorities if the use case serves a general-purpose need.
 
-#### Features added in the latest release
+#### What's new in the latest release
 
-- New language translations (Arabic, Czech, Danish, Finnish, Polish and Swedish)
-- Automatic display of metadata aspects and properties
-- Search result facet improvements
-- Various extensibility improvements and enhancements
+- Single Sign On improvements and fixes
+- Accessibility enhancements WCAG AA compliance
 
 Please refer to the [release notes] for details of all changes.
 
-#### High level feature themes planned for 2019
+#### High level feature themes under consideration for future releases
 
 - Extensibility
   - Building on the existing framework to further enhance the developer experience
@@ -61,6 +59,7 @@ Read up on our guidelines for [contributing] and then check out one of our issue
 
 | ACA Version | Built with | Tested on |
 | ----------- | ---------- | --------- |
+| ACA 1.9     | ADF 3.6.0  | ACS 6.2   |
 | ACA 1.8     | ADF 3.3.0  | ACS 6.1   |
 | ACA 1.7     | ADF 3.0.0  | ACS 6.1   |
 | ACA 1.6     | ADF 2.6.1  | ACS 6.1   |
@@ -98,7 +97,9 @@ Read up on our guidelines for [contributing] and then check out one of our issue
 | 1.8     | Localizations .            | Arabic, Czech, Danish, Finnish, Polish and Swedish |
 | 1.8     | Metadata improvements      | Automatic display of aspects and properties |
 | 1.8     | Search facet improvements  | Facet intervals and grouped facet queries |
-| 1.8     | Extensibility improvements | Various - see [release notes](https://github.com/Alfresco/alfresco-content-app/releases) for details | 
+| 1.8     | Extensibility improvements | Various - see [release notes](https://github.com/Alfresco/alfresco-content-app/releases) for details |
+| 1.9     | Accessibility improvements | Various - see [release notes](https://github.com/Alfresco/alfresco-content-app/releases) for details | 
+| 1.9     | Extensibility improvements | Various - see [release notes](https://github.com/Alfresco/alfresco-content-app/releases) for details | 
 
 [contributing]: https://github.com/Alfresco/alfresco-content-app/blob/master/CONTRIBUTING.md
 [github]: https://github.com/Alfresco/alfresco-content-app/issues
