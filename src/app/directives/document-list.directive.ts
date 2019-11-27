@@ -88,12 +88,24 @@ export class DocumentListDirective implements OnInit, OnDestroy {
       .subscribe(() => this.onReady());
 
     this.content.reload.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
-      this.reload();
+      if (!this.isViewer) {
+        this.reload();
+      }
     });
 
     this.content.reset.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
       this.reset();
     });
+  }
+
+  private isViewer() {
+    if (
+      this.router.url.includes('viewer:view') ||
+      this.router.url.includes('/view/')
+    ) {
+      return true;
+    }
+    return false;
   }
 
   ngOnDestroy() {

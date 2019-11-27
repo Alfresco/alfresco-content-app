@@ -176,7 +176,9 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
     // check root and child nodes
     if (node && node.entry && node.entry.parentId === this.getParentNodeId()) {
-      this.reload();
+      if (!this.isViewer) {
+        this.reload();
+      }
       return;
     }
 
@@ -214,7 +216,9 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     if (alreadyDisplayedParentFolder) {
       return;
     }
-    this.reload();
+    if (!this.isViewer) {
+      this.reload();
+    }
   }
 
   onContentCopied(nodes: MinimalNodeEntity[]) {
@@ -224,13 +228,20 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
       );
     });
     if (newNode) {
-      if (
-        !this.router.url.includes('viewer:view') &&
-        !this.router.url.includes('/view/')
-      ) {
+      if (!this.isViewer) {
         this.reload();
       }
     }
+  }
+
+  private isViewer() {
+    if (
+      this.router.url.includes('viewer:view') ||
+      this.router.url.includes('/view/')
+    ) {
+      return true;
+    }
+    return false;
   }
 
   // todo: review this approach once 5.2.3 is out
