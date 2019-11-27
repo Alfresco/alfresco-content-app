@@ -22,6 +22,7 @@
     "logo": "assets/images/alfresco-logo-flower.svg",
     "copyright": "APP.COPYRIGHT"
   },
+  "viewer.maxRetries": 1,
   "sharedLinkDateTimePickerType": "date",
   "headerColor": "#2196F3",
   "languagePicker": true,
