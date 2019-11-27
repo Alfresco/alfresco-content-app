@@ -224,7 +224,12 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
       );
     });
     if (newNode) {
-      this.reload();
+      if (
+        !this.router.url.includes('viewer:view') &&
+        !this.router.url.includes('/view/')
+      ) {
+        this.reload();
+      }
     }
   }
 
