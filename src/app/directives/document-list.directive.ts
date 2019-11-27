@@ -145,7 +145,11 @@ export class DocumentListDirective implements OnInit, OnDestroy {
 
   private reload(selectedNode?: MinimalNodeEntity) {
     this.documentList.resetSelection();
-    this.store.dispatch(new SetSelectedNodesAction([selectedNode]));
+    if (selectedNode) {
+      this.store.dispatch(new SetSelectedNodesAction([selectedNode]));
+    } else {
+      this.store.dispatch(new SetSelectedNodesAction([]));
+    }
     this.documentList.reload();
   }
 
