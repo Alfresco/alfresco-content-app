@@ -99,7 +99,7 @@ Read up on our guidelines for [contributing] and then check out one of our issue
 | 1.8     | Search facet improvements  | Facet intervals and grouped facet queries |
 | 1.8     | Extensibility improvements | Various - see [release notes](https://github.com/Alfresco/alfresco-content-app/releases) for details |
 | 1.9     | Single Sign Out | Users will be automatically logged out from the Digital Workspace application after logging out from another application in the same browser session | 
-| 1.9     | Accessibilty improvements | Various - see [release notes](https://github.com/Alfresco/alfresco-content-app/releases) for details | 
+| 1.9     | Accessibility improvements | Various - see [release notes](https://github.com/Alfresco/alfresco-content-app/releases) for details | 
 
 [contributing]: https://github.com/Alfresco/alfresco-content-app/blob/master/CONTRIBUTING.md
 [github]: https://github.com/Alfresco/alfresco-content-app/issues
