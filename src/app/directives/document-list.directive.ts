@@ -32,12 +32,14 @@ import { Store } from '@ngrx/store';
 import { SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { takeUntil, filter } from 'rxjs/operators';
 import { ContentManagementService } from '../services/content-management.service';
+import { MinimalNodeEntity } from '@alfresco/js-api';
 
 @Directive({
   selector: '[acaDocumentList]'
 })
 export class DocumentListDirective implements OnInit, OnDestroy {
   private isLibrary = false;
+  selectedNode: MinimalNodeEntity;
 
   onDestroy$ = new Subject<boolean>();
 
@@ -88,7 +90,7 @@ export class DocumentListDirective implements OnInit, OnDestroy {
       .subscribe(() => this.onReady());
 
     this.content.reload.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
-      this.reload();
+      this.reload(this.selectedNode);
     });
 
     this.content.reset.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
@@ -119,6 +121,7 @@ export class DocumentListDirective implements OnInit, OnDestroy {
   onNodeSelect(event: CustomEvent) {
     if (!!event.detail && !!event.detail.node) {
       this.updateSelection();
+      this.selectedNode = event.detail.node;
     }
   }
 
@@ -140,9 +143,9 @@ export class DocumentListDirective implements OnInit, OnDestroy {
     this.store.dispatch(new SetSelectedNodesAction(selection));
   }
 
-  private reload() {
+  private reload(selectedNode?: MinimalNodeEntity) {
     this.documentList.resetSelection();
-    this.store.dispatch(new SetSelectedNodesAction([]));
+    this.store.dispatch(new SetSelectedNodesAction([selectedNode]));
     this.documentList.reload();
   }
 
