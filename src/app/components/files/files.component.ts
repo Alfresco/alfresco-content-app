@@ -54,6 +54,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   isValidPath = true;
   isSmallScreen = false;
   isAdmin = false;
+  selectedNode: MinimalNodeEntity;
 
   private nodePath: PathElement[];
 
@@ -147,6 +148,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
   navigateTo(node: MinimalNodeEntity) {
     if (node && node.entry) {
+      this.selectedNode = node;
       const { id, isFolder } = node.entry;
 
       if (isFolder) {
@@ -176,7 +178,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
     // check root and child nodes
     if (node && node.entry && node.entry.parentId === this.getParentNodeId()) {
-      this.reload();
+      this.reload(this.selectedNode);
       return;
     }
 
@@ -214,7 +216,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     if (alreadyDisplayedParentFolder) {
       return;
     }
-    this.reload();
+    this.reload(this.selectedNode);
   }
 
   onContentCopied(nodes: MinimalNodeEntity[]) {
@@ -224,7 +226,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
       );
     });
     if (newNode) {
-      this.reload();
+      this.reload(this.selectedNode);
     }
   }
 
