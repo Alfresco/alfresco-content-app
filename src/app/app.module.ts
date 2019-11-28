@@ -73,6 +73,10 @@ import { AppSearchResultsModule } from './components/search/search-results.modul
 import { AppLoginModule } from './components/login/login.module';
 import { AppHeaderModule } from './components/header/header.module';
 import { AppNodeVersionModule } from './components/node-version/node-version.module';
+import { FavoritesComponent } from './components/favorites/favorites.component';
+import { RecentFilesComponent } from './components/recent-files/recent-files.component';
+import { SharedFilesComponent } from './components/shared-files/shared-files.component';
+
 import { environment } from '../environments/environment';
 
 import { registerLocaleData } from '@angular/common';
@@ -151,7 +155,10 @@ registerLocaleData(localeSv);
     LibrariesComponent,
     FavoriteLibrariesComponent,
     NodeVersionUploadDialogComponent,
-    NodeVersionsDialogComponent
+    NodeVersionsDialogComponent,
+    FavoritesComponent,
+    RecentFilesComponent,
+    SharedFilesComponent
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: AppRouteReuseStrategy },

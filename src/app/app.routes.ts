@@ -36,6 +36,9 @@ import {
   GenericErrorComponent
 } from '@alfresco/aca-shared';
 import { AuthGuardEcm, AuthGuard } from '@alfresco/adf-core';
+import { FavoritesComponent } from './components/favorites/favorites.component';
+import { RecentFilesComponent } from './components/recent-files/recent-files.component';
+import { SharedFilesComponent } from './components/shared-files/shared-files.component';
 
 export const APP_ROUTES: Routes = [
   {
@@ -196,8 +199,13 @@ export const APP_ROUTES: Routes = [
         children: [
           {
             path: '',
-            loadChildren:
-              './components/favorites/favorites.module#AppFavoritesModule'
+            component: FavoritesComponent,
+            data: {
+              title: 'APP.BROWSE.FAVORITES.TITLE',
+              sortingPreferenceKey: 'favorites'
+            }
+            // loadChildren:
+            //   './components/favorites/favorites.module#AppFavoritesModule'
           },
           {
             path: 'view/:nodeId',
@@ -223,8 +231,12 @@ export const APP_ROUTES: Routes = [
         children: [
           {
             path: '',
-            loadChildren:
-              './components/recent-files/recent-files.module#AppRecentFilesModule'
+            component: RecentFilesComponent,
+            data: {
+              title: 'APP.BROWSE.RECENT.TITLE'
+            }
+            // loadChildren:
+            //   './components/recent-files/recent-files.module#AppRecentFilesModule'
           },
           {
             path: 'view/:nodeId',
@@ -247,8 +259,13 @@ export const APP_ROUTES: Routes = [
         children: [
           {
             path: '',
-            loadChildren:
-              './components/shared-files/shared-files.module#AppSharedFilesModule'
+            data: {
+              title: 'APP.BROWSE.SHARED.TITLE',
+              sortingPreferenceKey: 'shared-files'
+            },
+            component: SharedFilesComponent
+            // loadChildren:
+            //   './components/shared-files/shared-files.module#AppSharedFilesModule'
           },
           {
             path: 'view/:nodeId',
