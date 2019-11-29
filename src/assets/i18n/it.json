@@ -8,7 +8,7 @@
         "ID": "ID",
         "NAME": "Nome",
         "VERSION": "Versione",
-        "VENDOR": "Fornitore",
+        "VENDOR": "Venditore",
         "LICENSE": "Licenza",
         "RUNTIME": "Runtime",
         "DESCRIPTION": "Descrizione"
@@ -103,9 +103,9 @@
             }
           },
           "FAVORITE_LIBRARIES": {
-            "TITLE": "Raccolte  preferite",
+            "TITLE": "Raccolte preferite",
             "SIDENAV_LINK": {
-              "LABEL": "Raccolte  preferite",
+              "LABEL": "Raccolte preferite",
               "TOOLTIP": "Accedi alle raccolte preferite"
             }
           }
@@ -201,7 +201,7 @@
       "UNSHARE": "Rimuovi condivisione",
       "DETAILS": "Visualizza dettagli",
       "VERSIONS": "Gestione versioni",
-      "UPLOAD_VERSION": "Caricare la nuova versione",
+      "UPLOAD_VERSION": "Carica la nuova versione",
       "TOGGLE-SIDENAV": "Attiva/disattiva barra di navigazione laterale",
       "SHARE": "Condividi",
       "SHARE_EDIT": "Impostazioni di collegamento condiviso",
@@ -211,7 +211,9 @@
       "CANCEL_JOIN": "Annulla richiesta di partecipazione",
       "LEAVE": "Esci dalla raccolta",
       "EDIT_OFFLINE": "Modifica offline",
-      "EDIT_OFFLINE_CANCEL": "Annulla modifica"
+      "EDIT_OFFLINE_CANCEL": "Annulla modifica",
+      "LIST_MODE": "Visualizza elenco",
+      "GALLERY_MODE": "Visualizza raccolta"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -278,13 +280,13 @@
         "JOIN_REQUEST_FAILED": "Impossibile partecipare alla raccolta",
         "JOIN_CANCEL_FAILED": "Impossibile annullare la richiesta di partecipazione",
         "LEAVE_LIBRARY_FAILED": "Impossibile uscire dalla raccolta",
-        "INVALID_SENDER_EMAIL": "L'indirizzo email deve essere valido prima della richiesta di accesso.",
-        "INVALID_RECEIVER_EMAIL": "Indirizzo email del destinatario non valido. Contattare l'IT."
+        "INVALID_SENDER_EMAIL": "L'indirizzo e-mail deve essere valido prima della richiesta di accesso.",
+        "INVALID_RECEIVER_EMAIL": "Indirizzo e-mail del destinatario non valido. Contattare l'IT."
       },
       "UPLOAD": {
         "ERROR": {
           "GENERIC": "Caricamento non riuscito. Se il problema persiste, contattare l'IT",
-          "CONFLICT": "Nuova versione non caricata. Esiste già un fil con lo stesso nome.",
+          "CONFLICT": "Nuova versione non caricata. Esiste già un file con lo stesso nome.",
           "500": "Errore interno del server. Riprovare o contattare il supporto IT [500]",
           "504": "Timeout del server. Riprovare o contattare il supporto IT [504]",
           "403": "Autorizzazioni insufficienti per caricare in questa posizione [403]",
@@ -295,7 +297,7 @@
         "TRASH": {
           "NODES_PURGE": {
             "PLURAL": "{{ number }} elementi eliminati",
-            "SINGULAR": "Elemento {{ name }} eliminato",
+            "SINGULAR": "{{ name }} eliminato",
             "PARTIAL_SINGULAR": "Elemento {{ name }} eliminato. Impossibile eliminare l'elemento {{ failed }}.",
             "PARTIAL_PLURAL": "{{ number }} elementi eliminati, impossibile eliminare {{ failed }}"
           },
@@ -306,7 +308,7 @@
         },
         "NODE_DELETION": {
           "SINGULAR": "{{ name }} eliminato",
-          "PLURAL": "{{ number }} elementi eliminati",
+          "PLURAL": "Eliminati {{ number }} elementi",
           "PARTIAL_SINGULAR": "Elemento {{ success }} eliminato, impossibile eliminare {{ failed }}",
           "PARTIAL_PLURAL": "Elementi {{ success }} eliminati, impossibile eliminare {{ failed }}"
         },
@@ -343,7 +345,7 @@
       "TABS": {
         "PROPERTIES": "Proprietà",
         "LIBRARY_PROPERTIES": "Informazioni su",
-        "VERSIONS": "Versione",
+        "VERSIONS": "Versioni",
         "COMMENTS": "Commenti"
       }
     }
@@ -365,7 +367,7 @@
     }
   },
   "SHARED_LINK": {
-    "UNSHARE_PERMISSION_ERROR": "Non hai il permesso per rimuovere la condivisione di questo file"
+    "UNSHARE_PERMISSION_ERROR": "Non si dispone dei permessi per rimuovere la condivisione di questo file"
   },
   "VERSION": {
     "DIALOG_ADF": {
@@ -373,7 +375,7 @@
       "CLOSE": "Chiudi"
     },
     "DIALOG": {
-      "TITLE": "Utilizza nuova versione",
+      "TITLE": "Carica la nuova versione",
       "CANCEL": "Annulla",
       "UPLOAD": "Carica"
     },
@@ -475,6 +477,11 @@
       "THIS_YEAR": "Quest'anno"
     }
   },
+  "AVATAR": {
+    "ACCESSIBILITY": {
+      "AVATAR_BUTTON_ARIA_LABEL": "Opzioni utente"
+    }
+  },
   "CORE": {
     "METADATA": {
       "ACTIONS": {
@@ -496,8 +503,20 @@
   "ADF_VERSION_LIST": {
     "ACTIONS": {
       "UPLOAD": {
-        "TOOLTIP": "Caricare la nuova versione"
+        "TOOLTIP": "Carica la nuova versione"
       }
+    }
+  },
+  "CUSTOM_NAME_COLUMN": {
+    "ACCESSIBILITY": {
+      "FILE_LINK_ARIA_LABEL": "Visualizza {{ name }}",
+      "FOLDER_LINK_ARIA_LABEL": "Apri cartella {{ name }}"
+    }
+  },
+  "ADF-DATATABLE": {
+    "FILE_TYPE": {
+      "BOOKS-24PX": "Raccolta di file",
+      "BASELINE-LOCK-24PX": "File bloccato"
     }
   }
 }

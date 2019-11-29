@@ -13,6 +13,8 @@ const downloadFolder = `${projectRoot}/e2e-downloads`;
 const width = 1366;
 const height = 768;
 
+const REPO_API_HOST = process.env.REPO_API_HOST || 'http://localhost:8080';
+
 function rmDir(dirPath) {
   try {
     var files = fs.readdirSync(dirPath);
@@ -28,10 +30,17 @@ function rmDir(dirPath) {
   fs.rmdirSync(dirPath);
 }
 
+const appConfig = {
+  ecmHost: REPO_API_HOST,
+  providers: 'ECM',
+  authType: 'BASIC'
+};
+
 exports.config = {
   allScriptsTimeout: 50000,
 
   params: {
+    config: appConfig,
     downloadFolder: downloadFolder
   },
 
@@ -111,7 +120,7 @@ exports.config = {
 
   directConnect: true,
 
-  // baseUrl: 'http://localhost:4000',
+  // baseUrl: 'http://localhost:8080',
   getPageTimeout: 50000,
 
   framework: 'jasmine',

@@ -211,7 +211,9 @@
       "CANCEL_JOIN": "إلغاء طلب الانضمام",
       "LEAVE": "مغادرة المكتبة",
       "EDIT_OFFLINE": "تحرير دون اتصال بالإنترنت",
-      "EDIT_OFFLINE_CANCEL": "إلغاء التحرير"
+      "EDIT_OFFLINE_CANCEL": "إلغاء التحرير",
+      "LIST_MODE": "عرض القائمة",
+      "GALLERY_MODE": "عرض المعرض"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -475,6 +477,11 @@
       "THIS_YEAR": "هذا العام"
     }
   },
+  "AVATAR": {
+    "ACCESSIBILITY": {
+      "AVATAR_BUTTON_ARIA_LABEL": "خيارات المستخدم"
+    }
+  },
   "CORE": {
     "METADATA": {
       "ACTIONS": {
@@ -498,6 +505,18 @@
       "UPLOAD": {
         "TOOLTIP": "تحميل إصدار جديد"
       }
+    }
+  },
+  "CUSTOM_NAME_COLUMN": {
+    "ACCESSIBILITY": {
+      "FILE_LINK_ARIA_LABEL": "عرض {{ name }}",
+      "FOLDER_LINK_ARIA_LABEL": "فتح مجلد {{ name }}"
+    }
+  },
+  "ADF-DATATABLE": {
+    "FILE_TYPE": {
+      "BOOKS-24PX": "مكتبة ملفات",
+      "BASELINE-LOCK-24PX": "ملف مؤمن"
     }
   }
 }

@@ -5,6 +5,7 @@
   [color]="headerColor$ | async"
   [title]="appName$ | async"
   (clicked)="toggleClicked.emit($event)"
+  [expandedSidenav]="expandedSidenav"
 >
   <div class="adf-toolbar--spacer adf-toolbar-divider"></div>
 

@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { SelectionState } from '@alfresco/adf-extensions';
@@ -38,6 +38,8 @@ import {
   templateUrl: './toggle-shared.component.html'
 })
 export class ToggleSharedComponent implements OnInit {
+  @Input() data: any;
+
   selection$: Observable<SelectionState>;
 
   constructor(private store: Store<AppStore>) {}

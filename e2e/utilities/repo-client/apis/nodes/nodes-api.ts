@@ -222,7 +222,8 @@ export class NodesApi extends RepoApi {
             'cm:title': title,
             'cm:description': description,
             'cm:author': author
-        }
+        },
+        aspectNames: ['cm:versionable'] // workaround for REPO-4772
     };
     if (imageProps) {
       nodeBody.properties = Object.assign(nodeBody.properties, imageProps);

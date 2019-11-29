@@ -28,7 +28,8 @@ import {
   ViewEncapsulation,
   Output,
   EventEmitter,
-  OnInit
+  OnInit,
+  Input
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -50,6 +51,8 @@ import {
 export class AppHeaderComponent implements OnInit {
   @Output()
   toggleClicked = new EventEmitter();
+
+  @Input() expandedSidenav = true;
 
   appName$: Observable<string>;
   headerColor$: Observable<string>;

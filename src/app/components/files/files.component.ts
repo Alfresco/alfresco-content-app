@@ -35,11 +35,14 @@ import {
 } from '@alfresco/js-api';
 import { ContentManagementService } from '../../services/content-management.service';
 import { NodeActionsService } from '../../services/node-actions.service';
-import { AppStore } from '@alfresco/aca-shared/store';
 import { PageComponent } from '../page.component';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { AppExtensionService } from '../../extensions/extension.service';
-import { SetCurrentFolderAction, isAdmin } from '@alfresco/aca-shared/store';
+import {
+  SetCurrentFolderAction,
+  isAdmin,
+  AppStore
+} from '@alfresco/aca-shared/store';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { ShareDataRow } from '@alfresco/adf-content-services';
@@ -51,6 +54,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   isValidPath = true;
   isSmallScreen = false;
   isAdmin = false;
+  selectedNode: MinimalNodeEntity;
 
   private nodePath: PathElement[];
 
@@ -144,6 +148,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
   navigateTo(node: MinimalNodeEntity) {
     if (node && node.entry) {
+      this.selectedNode = node;
       const { id, isFolder } = node.entry;
 
       if (isFolder) {
@@ -173,7 +178,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
     // check root and child nodes
     if (node && node.entry && node.entry.parentId === this.getParentNodeId()) {
-      this.reload();
+      this.reload(this.selectedNode);
       return;
     }
 
@@ -211,7 +216,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     if (alreadyDisplayedParentFolder) {
       return;
     }
-    this.reload();
+    this.reload(this.selectedNode);
   }
 
   onContentCopied(nodes: MinimalNodeEntity[]) {
@@ -221,7 +226,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
       );
     });
     if (newNode) {
-      this.reload();
+      this.reload(this.selectedNode);
     }
   }
 

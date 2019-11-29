@@ -28,8 +28,7 @@ COPY --from=builder /usr/src/alfresco/licenses ./licenses
 
 RUN addgroup -g ${GROUPID} ${GROUPNAME} && \
   adduser -S -u ${USERID} -G ${GROUPNAME} -s "/bin/bash" ${USERNAME} && \
-  chown -R ${USERNAME}:${GROUPNAME} ./app.config.json && \
-  chown -R ${USERNAME}:${GROUPNAME} ./index.html && \
+  chown -R ${USERNAME}:${GROUPNAME} /usr/share/nginx/html && \
   chown -R ${USERNAME}:${GROUPNAME} /var/cache/nginx && \
   touch /var/run/nginx.pid && \
   chown -R ${USERNAME}:${GROUPNAME} /var/run/nginx.pid && \

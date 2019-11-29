@@ -211,7 +211,9 @@
       "CANCEL_JOIN": "Annuller anmodning om tilmelding",
       "LEAVE": "Forlad bibliotek",
       "EDIT_OFFLINE": "Rediger offline",
-      "EDIT_OFFLINE_CANCEL": "Annuller redigering"
+      "EDIT_OFFLINE_CANCEL": "Annuller redigering",
+      "LIST_MODE": "Vis liste",
+      "GALLERY_MODE": "Vis galleri"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -475,6 +477,11 @@
       "THIS_YEAR": "I år"
     }
   },
+  "AVATAR": {
+    "ACCESSIBILITY": {
+      "AVATAR_BUTTON_ARIA_LABEL": "Valgmuligheder for bruger"
+    }
+  },
   "CORE": {
     "METADATA": {
       "ACTIONS": {
@@ -498,6 +505,18 @@
       "UPLOAD": {
         "TOOLTIP": "Upload ny version"
       }
+    }
+  },
+  "CUSTOM_NAME_COLUMN": {
+    "ACCESSIBILITY": {
+      "FILE_LINK_ARIA_LABEL": "Vis {{ name }}",
+      "FOLDER_LINK_ARIA_LABEL": "Åbn mappen {{ name }}"
+    }
+  },
+  "ADF-DATATABLE": {
+    "FILE_TYPE": {
+      "BOOKS-24PX": "filbibliotek",
+      "BASELINE-LOCK-24PX": "låst fil"
     }
   }
 }

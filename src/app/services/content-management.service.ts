@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ContentApiService } from '@alfresco/aca-shared';
+import { ContentApiService, NodePermissionService } from '@alfresco/aca-shared';
 import {
   AppStore,
   DeletedNodeInfo,
@@ -69,7 +69,6 @@ import { NodePermissionsDialogComponent } from '../components/permissions/permis
 import { NodeVersionUploadDialogComponent } from '../dialogs/node-version-upload/node-version-upload.dialog';
 import { NodeVersionsDialogComponent } from '../dialogs/node-versions/node-versions.dialog';
 import { NodeActionsService } from './node-actions.service';
-import { NodePermissionService } from '@alfresco/aca-shared';
 
 interface RestoredNode {
   status: number;
@@ -215,9 +214,7 @@ export class ContentManagementService {
           })
           .afterClosed()
           .subscribe(deletedSharedLink => {
-            this.store.dispatch(
-              new SetSelectedNodesAction([deletedSharedLink || node])
-            );
+            this.store.dispatch(new SetSelectedNodesAction([node]));
             if (deletedSharedLink) {
               this.linksUnshared.next(deletedSharedLink);
             }

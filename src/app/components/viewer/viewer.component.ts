@@ -31,10 +31,11 @@ import {
   SetSelectedNodesAction,
   ClosePreviewAction,
   ViewerActionTypes,
-  ViewNodeAction
+  ViewNodeAction,
+  ReloadDocumentListAction
 } from '@alfresco/aca-shared/store';
 import { ContentActionRef, SelectionState } from '@alfresco/adf-extensions';
-import { MinimalNodeEntryEntity } from '@alfresco/js-api';
+import { MinimalNodeEntryEntity, SearchRequest } from '@alfresco/js-api';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router, PRIMARY_OUTLET } from '@angular/router';
 import {
@@ -49,8 +50,6 @@ import { from, Observable, Subject } from 'rxjs';
 import { takeUntil, debounceTime } from 'rxjs/operators';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { Actions, ofType } from '@ngrx/effects';
-import { SearchRequest } from '@alfresco/js-api';
-import { ReloadDocumentListAction } from '@alfresco/aca-shared/store';
 @Component({
   selector: 'app-viewer',
   templateUrl: './viewer.component.html',

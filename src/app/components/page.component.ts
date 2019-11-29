@@ -44,7 +44,8 @@ import {
   isInfoDrawerOpened,
   getSharedUrl,
   ViewNodeAction,
-  ViewNodeExtras
+  ViewNodeExtras,
+  SetSelectedNodesAction
 } from '@alfresco/aca-shared/store';
 import { isLocked, isLibrary } from '../utils/node.utils';
 
@@ -131,8 +132,11 @@ export abstract class PageComponent implements OnInit, OnDestroy {
     return null;
   }
 
-  reload(): void {
+  reload(selectedNode?: MinimalNodeEntity): void {
     this.store.dispatch(new ReloadDocumentListAction());
+    if (selectedNode) {
+      this.store.dispatch(new SetSelectedNodesAction([selectedNode]));
+    }
   }
 
   trackByActionId(_: number, action: ContentActionRef) {

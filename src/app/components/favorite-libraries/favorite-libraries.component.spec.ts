@@ -25,13 +25,13 @@
 
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { UserPreferencesService } from '@alfresco/adf-core';
 import { Router } from '@angular/router';
 import {
   AlfrescoApiService,
   NodeFavoriteDirective,
   DataTableComponent,
-  AppConfigPipe
+  AppConfigPipe,
+  UserPreferencesService
 } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { FavoriteLibrariesComponent } from './favorite-libraries.component';
