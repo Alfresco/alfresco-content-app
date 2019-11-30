@@ -25,6 +25,7 @@ Alfresco Content Application は、[Alfresco Application Development Framework (
 
 | ACA バージョン | 構築バージョン | テスト済み環境 |
 | ----------- | ---------- | --------- |
+| ACA 1.9     | ADF 3.6.0  | ACS 6.2   |
 | ACA 1.8     | ADF 3.3.0  | ACS 6.1   |
 | ACA 1.7     | ADF 3.0.0  | ACS 6.1   |
 | ACA 1.6     | ADF 2.6.1  | ACS 6.1   |
