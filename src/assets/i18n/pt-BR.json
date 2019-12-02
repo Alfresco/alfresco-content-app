@@ -211,7 +211,9 @@
       "CANCEL_JOIN": "Cancelar solicitação de ingressar",
       "LEAVE": "Sair da biblioteca",
       "EDIT_OFFLINE": "Editar offline",
-      "EDIT_OFFLINE_CANCEL": "Cancelar a edição"
+      "EDIT_OFFLINE_CANCEL": "Cancelar a edição",
+      "LIST_MODE": "Exibir lista",
+      "GALLERY_MODE": "Exibir galeria"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -475,6 +477,11 @@
       "THIS_YEAR": "Este ano"
     }
   },
+  "AVATAR": {
+    "ACCESSIBILITY": {
+      "AVATAR_BUTTON_ARIA_LABEL": "Opções de usuário"
+    }
+  },
   "CORE": {
     "METADATA": {
       "ACTIONS": {
@@ -498,6 +505,18 @@
       "UPLOAD": {
         "TOOLTIP": "Carregar nova versão"
       }
+    }
+  },
+  "CUSTOM_NAME_COLUMN": {
+    "ACCESSIBILITY": {
+      "FILE_LINK_ARIA_LABEL": "Exibir {{ name }}",
+      "FOLDER_LINK_ARIA_LABEL": "Abrir pasta {{ name }}"
+    }
+  },
+  "ADF-DATATABLE": {
+    "FILE_TYPE": {
+      "BOOKS-24PX": "Biblioteca de arquivo",
+      "BASELINE-LOCK-24PX": "arquivo bloqueado"
     }
   }
 }

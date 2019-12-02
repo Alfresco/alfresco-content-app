@@ -36,6 +36,9 @@ import {
   GenericErrorComponent
 } from '@alfresco/aca-shared';
 import { AuthGuardEcm, AuthGuard } from '@alfresco/adf-core';
+import { FavoritesComponent } from './components/favorites/favorites.component';
+import { RecentFilesComponent } from './components/recent-files/recent-files.component';
+import { SharedFilesComponent } from './components/shared-files/shared-files.component';
 
 export const APP_ROUTES: Routes = [
   {
@@ -92,6 +95,14 @@ export const APP_ROUTES: Routes = [
               defaultNodeId: '-my-'
             }
           },
+          // deprecated, backwards compatibility with ACA 1.8
+          {
+            path: 'preview/:nodeId',
+            loadChildren: './components/preview/preview.module#PreviewModule',
+            data: {
+              navigateSource: 'personal-files'
+            }
+          },
           {
             path: 'view/:nodeId',
             outlet: 'viewer',
@@ -117,6 +128,22 @@ export const APP_ROUTES: Routes = [
             data: {
               title: 'APP.BROWSE.PERSONAL.TITLE',
               sortingPreferenceKey: 'personal-files'
+            }
+          },
+          // deprecated, backwards compatibility with ACA 1.8
+          {
+            path: 'preview/:nodeId',
+            loadChildren: './components/preview/preview.module#PreviewModule',
+            data: {
+              navigateSource: 'personal-files'
+            }
+          },
+          // deprecated, backwards compatibility with ACA 1.8
+          {
+            path: ':folderId/preview/:nodeId',
+            loadChildren: './components/preview/preview.module#PreviewModule',
+            data: {
+              navigateSource: 'personal-files'
             }
           },
           {
@@ -159,6 +186,14 @@ export const APP_ROUTES: Routes = [
               sortingPreferenceKey: 'libraries-files'
             }
           },
+          // deprecated, backwards compatibility with ACA 1.8
+          {
+            path: 'preview/:nodeId',
+            loadChildren: './components/preview/preview.module#PreviewModule',
+            data: {
+              navigateSource: 'libraries'
+            }
+          },
           {
             path: 'view/:nodeId',
             outlet: 'viewer',
@@ -196,8 +231,21 @@ export const APP_ROUTES: Routes = [
         children: [
           {
             path: '',
-            loadChildren:
-              './components/favorites/favorites.module#AppFavoritesModule'
+            component: FavoritesComponent,
+            data: {
+              title: 'APP.BROWSE.FAVORITES.TITLE',
+              sortingPreferenceKey: 'favorites'
+            }
+            // loadChildren:
+            //   './components/favorites/favorites.module#AppFavoritesModule'
+          },
+          // deprecated, backwards compatibility with ACA 1.8
+          {
+            path: 'preview/:nodeId',
+            loadChildren: './components/preview/preview.module#PreviewModule',
+            data: {
+              navigateSource: 'favorites'
+            }
           },
           {
             path: 'view/:nodeId',
@@ -223,8 +271,20 @@ export const APP_ROUTES: Routes = [
         children: [
           {
             path: '',
-            loadChildren:
-              './components/recent-files/recent-files.module#AppRecentFilesModule'
+            component: RecentFilesComponent,
+            data: {
+              title: 'APP.BROWSE.RECENT.TITLE'
+            }
+            // loadChildren:
+            //   './components/recent-files/recent-files.module#AppRecentFilesModule'
+          },
+          // deprecated, backwards compatibility with ACA 1.8
+          {
+            path: 'preview/:nodeId',
+            loadChildren: './components/preview/preview.module#PreviewModule',
+            data: {
+              navigateSource: 'recent-files'
+            }
           },
           {
             path: 'view/:nodeId',
@@ -247,8 +307,21 @@ export const APP_ROUTES: Routes = [
         children: [
           {
             path: '',
-            loadChildren:
-              './components/shared-files/shared-files.module#AppSharedFilesModule'
+            data: {
+              title: 'APP.BROWSE.SHARED.TITLE',
+              sortingPreferenceKey: 'shared-files'
+            },
+            component: SharedFilesComponent
+            // loadChildren:
+            //   './components/shared-files/shared-files.module#AppSharedFilesModule'
+          },
+          // deprecated, backwards compatibility with ACA 1.8
+          {
+            path: 'preview/:nodeId',
+            loadChildren: './components/preview/preview.module#PreviewModule',
+            data: {
+              navigateSource: 'shared'
+            }
           },
           {
             path: 'view/:nodeId',
@@ -284,6 +357,14 @@ export const APP_ROUTES: Routes = [
             component: SearchResultsComponent,
             data: {
               title: 'APP.BROWSE.SEARCH.TITLE'
+            }
+          },
+          // deprecated, backwards compatibility with ACA 1.8
+          {
+            path: 'preview/:nodeId',
+            loadChildren: './components/preview/preview.module#PreviewModule',
+            data: {
+              navigateSource: 'search'
             }
           },
           {

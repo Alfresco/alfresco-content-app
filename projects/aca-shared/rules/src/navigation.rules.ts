@@ -31,7 +31,12 @@ import { RuleContext } from '@alfresco/adf-extensions';
  */
 export function isPreview(context: RuleContext): boolean {
   const { url } = context.navigation;
-  return url && (url.includes('viewer:view') || url.includes('/view/'));
+  return (
+    url &&
+    (url.includes('/preview/') ||
+      url.includes('viewer:view') ||
+      url.includes('/view/'))
+  );
 }
 
 /**
@@ -165,7 +170,11 @@ export function isNotSearchResults(context: RuleContext): boolean {
  */
 export function isSharedPreview(context: RuleContext): boolean {
   const { url } = context.navigation;
-  return url && url.startsWith('/shared') && url.includes('viewer:view');
+  return (
+    url &&
+    (url.startsWith('/shared/preview/') ||
+      (url.startsWith('/shared') && url.includes('viewer:view')))
+  );
 }
 
 /**
@@ -174,7 +183,11 @@ export function isSharedPreview(context: RuleContext): boolean {
  */
 export function isFavoritesPreview(context: RuleContext): boolean {
   const { url } = context.navigation;
-  return url && url.startsWith('/favorites') && url.includes('viewer:view');
+  return (
+    url &&
+    (url.startsWith('/favorites/preview/') ||
+      (url.startsWith('/favorites') && url.includes('viewer:view')))
+  );
 }
 
 /**

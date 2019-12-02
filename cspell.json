@@ -64,7 +64,8 @@
     "denysvuika",
     "submenu",
     "submenus",
-    "dateitem"
+    "dateitem",
+    "versionable"
   ],
   "dictionaries": ["html", "en-gb", "en_US"]
 }

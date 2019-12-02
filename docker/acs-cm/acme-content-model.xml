@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model name="acme:contentModel" xmlns="http://www.alfresco.org/model/dictionary/1.0">
+   <description>Sample Document Model</description>
+   <author>My Name</author>
+   <version>1.0</version>
+
+   <imports>
+       <import uri="http://www.alfresco.org/model/dictionary/1.0" prefix="d"/>
+       <import uri="http://www.alfresco.org/model/content/1.0" prefix="cm"/>
+       <import uri="http://www.alfresco.org/model/system/1.0" prefix="sys"/>
+   </imports>
+
+   <namespaces>
+       <namespace uri="http://www.acme.org/model/content/1.0" prefix="acme"/>
+   </namespaces>
+
+   <constraints>
+       <constraint name="acme:securityClassificationOptions" type="LIST">
+           <parameter name="allowedValues">
+               <list>
+                   <value></value>
+                   <value>Public</value>
+                   <value>Client Confidential</value>
+                   <value>Company Confidential</value>
+                   <value>Strictly Confidential</value>
+               </list>
+           </parameter>
+       </constraint>
+   </constraints>
+
+   <types>
+       <type name="acme:document">
+           <title>Sample Document Type</title>
+           <parent>cm:content</parent>
+           <properties>
+               <property name="acme:documentId">
+                   <title>Document Identification Number</title>
+                   <type>d:text</type>
+               </property>
+           </properties>
+           <mandatory-aspects>
+               <aspect>acme:securityClassified</aspect>
+           </mandatory-aspects>
+       </type>
+   </types>
+
+   <aspects>
+       <aspect name="acme:securityClassified">
+           <title>ACME Security Classified</title>
+           <description>Content has been security classified</description>
+           <properties>
+               <property name="acme:securityClassification">
+                   <type>d:text</type>
+                   <index enabled="true">
+                       <atomic>true</atomic>
+                       <stored>false</stored>
+                       <tokenised>false</tokenised>
+                   </index>
+                   <constraints>
+                       <constraint ref="acme:securityClassificationOptions"/>
+                   </constraints>
+               </property>
+           </properties>
+       </aspect>
+   </aspects>
+</model>

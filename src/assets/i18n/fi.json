@@ -211,7 +211,9 @@
       "CANCEL_JOIN": "Peruuta liittymispyyntö",
       "LEAVE": "Poistu kirjastosta",
       "EDIT_OFFLINE": "Muokkaa offline-tilassa",
-      "EDIT_OFFLINE_CANCEL": "Peruuta muokkaus"
+      "EDIT_OFFLINE_CANCEL": "Peruuta muokkaus",
+      "LIST_MODE": "Tarkastele luetteloa",
+      "GALLERY_MODE": "Tarkastele galleriaa"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -475,6 +477,11 @@
       "THIS_YEAR": "Tänä vuonna"
     }
   },
+  "AVATAR": {
+    "ACCESSIBILITY": {
+      "AVATAR_BUTTON_ARIA_LABEL": "Käyttäjän valinnat"
+    }
+  },
   "CORE": {
     "METADATA": {
       "ACTIONS": {
@@ -498,6 +505,18 @@
       "UPLOAD": {
         "TOOLTIP": "Lataa uusi versio"
       }
+    }
+  },
+  "CUSTOM_NAME_COLUMN": {
+    "ACCESSIBILITY": {
+      "FILE_LINK_ARIA_LABEL": "Tarkastele kohdetta {{ name }}",
+      "FOLDER_LINK_ARIA_LABEL": "Avaa kansio {{ name }}"
+    }
+  },
+  "ADF-DATATABLE": {
+    "FILE_TYPE": {
+      "BOOKS-24PX": "tiedostokirjasto",
+      "BASELINE-LOCK-24PX": "tiedosto lukittu"
     }
   }
 }

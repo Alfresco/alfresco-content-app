@@ -88,18 +88,6 @@ describe('InfoDrawerComponent', () => {
     );
   });
 
-  it('should set displayNode when node is from personal list', () => {
-    spyOn(contentApiService, 'getNodeInfo');
-    const nodeMock = <any>{ entry: { id: 'nodeId', aspectNames: [] } };
-    component.node = nodeMock;
-
-    fixture.detectChanges();
-    component.ngOnChanges();
-
-    expect(component.displayNode).toBe(nodeMock.entry);
-    expect(contentApiService.getNodeInfo).not.toHaveBeenCalled();
-  });
-
   it('should set displayNode when node is library', async(() => {
     spyOn(contentApiService, 'getNodeInfo');
     const nodeMock = <any>{

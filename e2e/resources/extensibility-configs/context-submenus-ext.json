@@ -422,6 +422,9 @@
             "id": "app.toolbar.share",
             "type": "custom",
             "order": 600,
+            "data": {
+              "iconButton": true
+            },
             "component": "app.shared-link.toggleSharedLink",
             "rules": {
               "visible": "app.selection.file.canShare"
@@ -517,6 +520,9 @@
             "id": "item3",
             "type": "custom",
             "order": 400,
+            "data": {
+              "iconButton": false
+            },
             "component": "app.shared-link.toggleSharedLink",
             "rules": {
               "visible": "app.selection.file.canShare"
@@ -538,6 +544,9 @@
             "id": "item3",
             "type": "custom",
             "order": 400,
+            "data": {
+              "iconButton": false
+            },
             "component": "app.shared-link.toggleSharedLink",
             "rules": {
               "visible": "app.selection.file.canShare"
@@ -586,6 +595,9 @@
         "id": "app.context.menu.share",
         "type": "custom",
         "order": 400,
+        "data": {
+          "iconButton": false
+        },
         "component": "app.shared-link.toggleSharedLink",
         "rules": {
           "visible": "app.selection.file.canShare"
@@ -805,6 +817,9 @@
               "id": "app.viewer.share",
               "type": "custom",
               "order": 300,
+              "data": {
+                "iconButton": true
+              },
               "component": "app.shared-link.toggleSharedLink",
               "rules": {
                 "visible": "app.selection.file.canShare"
