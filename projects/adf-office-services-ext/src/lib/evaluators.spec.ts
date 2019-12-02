@@ -91,7 +91,7 @@ describe('evaluators', () => {
               name: 'document.docx',
               isLocked: false,
               properties: {},
-              aspectName: ['rma:declaredRecord']
+              aspectNames: ['rma:declaredRecord']
             }
           }
         },
@@ -110,7 +110,7 @@ describe('evaluators', () => {
               name: 'document.docx',
               isLocked: false,
               properties: {},
-              aspectName: ['rma:record']
+              aspectNames: ['rma:record']
             }
           }
         },
