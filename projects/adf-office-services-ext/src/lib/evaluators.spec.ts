@@ -83,7 +83,7 @@ describe('evaluators', () => {
       expect(canOpenWithOffice(context)).toBeFalsy();
     });
 
-    it('should return [false] if selected file is a record 1', () => {
+    it('should return [false] if selected file is a record with containing aspect rma:declaredRecord', () => {
       const context: any = {
         selection: {
           file: {
@@ -102,7 +102,7 @@ describe('evaluators', () => {
       expect(canOpenWithOffice(context)).toBeFalsy();
     });
 
-    it('should return [false] if selected file is a record 2', () => {
+    it('should return [false] if selected file is a record with containing aspect rma:record', () => {
       const context: any = {
         selection: {
           file: {
