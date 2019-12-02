@@ -101,8 +101,8 @@ export function canOpenWithOffice(
   // check if record
   if (
     file.entry.aspectNames &&
-    (file.entry.aspectNames.indexOf('rma:declaredRecord') !== -1 ||
-      file.entry.aspectNames.indexOf('rma:record') !== -1)
+    (file.entry.aspectNames.includes('rma:declaredRecord') ||
+      file.entry.aspectNames.includes('rma:record'))
   ) {
     return false;
   }
