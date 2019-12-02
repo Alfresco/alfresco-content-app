@@ -83,6 +83,58 @@ describe('evaluators', () => {
       expect(canOpenWithOffice(context)).toBeFalsy();
     });
 
+    it('should return [false] if selected file is a record 1', () => {
+      const context: any = {
+        selection: {
+          file: {
+            entry: {
+              name: 'document.docx',
+              isLocked: false,
+              properties: {},
+              aspectName: ['rma:declaredRecord']
+            }
+          }
+        },
+        permissions: {
+          check: () => true
+        }
+      };
+      expect(canOpenWithOffice(context)).toBeFalsy();
+    });
+
+    it('should return [false] if selected file is a record 2', () => {
+      const context: any = {
+        selection: {
+          file: {
+            entry: {
+              name: 'document.docx',
+              isLocked: false,
+              properties: {},
+              aspectName: ['rma:record']
+            }
+          }
+        },
+        permissions: {
+          check: () => true
+        }
+      };
+      expect(canOpenWithOffice(context)).toBeFalsy();
+    });
+
+    it('should return [false] if selected file is a record 1', () => {
+      const context: any = {
+        selection: {
+          file: {
+            entry: {
+              aspectName: ['rma:declaredRecord']
+            }
+          }
+        }
+      };
+
+      expect(canOpenWithOffice(context)).toBeFalsy();
+    });
+
     it('should return [false] if selected file is locked', () => {
       const context: any = {
         selection: {

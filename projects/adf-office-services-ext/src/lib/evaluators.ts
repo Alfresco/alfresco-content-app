@@ -98,5 +98,14 @@ export function canOpenWithOffice(
     return false;
   }
 
+  // check if record
+  if (
+    file.entry.aspectNames &&
+    (file.entry.aspectNames.indexOf('rma:declaredRecord') !== -1 ||
+      file.entry.aspectNames.indexOf('rma:record') !== -1)
+  ) {
+    return false;
+  }
+
   return context.permissions.check(file, ['update']);
 }
