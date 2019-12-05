@@ -152,8 +152,6 @@ describe('InfoDrawerComponent', () => {
   }));
 
   it('should dispatch close panel on Esc keyboard event', () => {
-    const nodeMock = <any>{ entry: { id: 'nodeId', aspectNames: [] } };
-    component.node = nodeMock;
     const event = new KeyboardEvent('keydown', {
       code: 'Escape',
       key: 'Escape',
@@ -161,7 +159,6 @@ describe('InfoDrawerComponent', () => {
     } as KeyboardEventInit);
 
     fixture.detectChanges();
-    component.ngOnChanges();
 
     fixture.debugElement.nativeElement.dispatchEvent(event);
 
