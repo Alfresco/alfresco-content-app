@@ -183,8 +183,7 @@ describe('', () => {
       expect(await toolbar.isDownloadPresent()).toBe(true, `Download is not displayed for ${file1}`);
       expect(await toolbar.isViewDetailsPresent()).toBe(true, `View details is not displayed for ${file1}`);
       expect(await toolbar.isEditFolderPresent()).toBe(false, `Edit folder is displayed for ${file1}`);
-      // TODO: replace with isSharedLinkSettingsPresent when ACA-2175 is done
-      expect(await toolbar.isSharePresent()).toBe(true, `Share is not displayed`);
+      expect(await toolbar.isSharedLinkSettingsPresent()).toBe(true, `Shared Link Settings is not displayed`);
 
       await toolbar.openMoreMenu();
 
@@ -422,8 +421,7 @@ describe('', () => {
       expect(await toolbar.isDownloadPresent()).toBe(true, `Download is not displayed for ${fileLocked}`);
       expect(await toolbar.isViewDetailsPresent()).toBe(true, `View details is not displayed for ${fileLocked}`);
       expect(await toolbar.isEditFolderPresent()).toBe(false, `Edit folder is displayed for ${fileLocked}`);
-      // TODO: replace with isSharedLinkSettingsPresent when ACA-2175 is done
-      expect(await toolbar.isSharePresent()).toBe(true, `Share is not displayed`);
+      expect(await toolbar.isSharedLinkSettingsPresent()).toBe(true, `Shared Link Settings is not displayed`);
 
       await toolbar.openMoreMenu();
 
@@ -663,8 +661,7 @@ describe('', () => {
       expect(await toolbar.isDownloadPresent()).toBe(true, `Download is not displayed for ${fileLocked}`);
       expect(await toolbar.isViewDetailsPresent()).toBe(true, `View details is not displayed for ${fileLocked}`);
       expect(await toolbar.isEditFolderPresent()).toBe(false, `Edit folder is displayed for ${fileLocked}`);
-      // TODO: replace with isSharedLinkSettingsPresent when ACA-2175 is done
-      expect(await toolbar.isSharePresent()).toBe(true, `Share is not displayed`);
+      expect(await toolbar.isSharedLinkSettingsPresent()).toBe(true, `Shared Link Settings is not displayed`);
 
       await toolbar.openMoreMenu();
 
