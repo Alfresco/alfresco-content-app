@@ -61,9 +61,7 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
 
   @HostListener('keydown.escape', ['$event'])
   onEscapeKeyboardEvent(event: KeyboardEvent): void {
-    if ((event.target as HTMLElement).tagName !== 'INPUT') {
-      this.close();
-    }
+    this.close();
   }
 
   constructor(
