@@ -26,7 +26,10 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { InfoDrawerComponent } from './info-drawer.component';
 import { TestBed, ComponentFixture, async } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
-import { SetInfoDrawerStateAction } from '@alfresco/aca-shared/store';
+import {
+  SetInfoDrawerStateAction,
+  ToggleInfoDrawerAction
+} from '@alfresco/aca-shared/store';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { ContentApiService } from '@alfresco/aca-shared';
@@ -147,4 +150,20 @@ describe('InfoDrawerComponent', () => {
     expect(component.displayNode).toBe(response);
     expect(contentApiService.getNodeInfo).toHaveBeenCalled();
   }));
+
+  it('should dispatch close panel on Esc keyboard event', () => {
+    const event = new KeyboardEvent('keydown', {
+      code: 'Escape',
+      key: 'Escape',
+      keyCode: 27
+    } as KeyboardEventInit);
+
+    fixture.detectChanges();
+
+    fixture.debugElement.nativeElement.dispatchEvent(event);
+
+    expect(storeMock.dispatch).toHaveBeenCalledWith(
+      new ToggleInfoDrawerAction()
+    );
+  });
 });
