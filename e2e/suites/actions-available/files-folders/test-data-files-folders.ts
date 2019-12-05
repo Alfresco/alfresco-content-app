@@ -65,11 +65,9 @@ const viewerLockedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Favori
 // ---- FAVORITES workarounds ----
 
 // TODO: add Edit Offline when ACA-2174 is fixed
-// TODO: change 'Share' into 'Shared Link Settings' when ACA-2175 is done
 // TODO: investigate why 'Edit in Microsoft Office™' and 'Permissions' are not displayed and raise issue
 
-// TODO: change 'Share' into 'Shared Link Settings' when ACA-2175 is done
-const favoritesSharedToolbarPrimary = ['Share', 'Download', 'View', 'View Details', 'More Actions'];
+const favoritesSharedToolbarPrimary = ['Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
 // TODO: add Edit Offline when ACA-2174 is fixed
 // TODO: investigate why 'Edit in Microsoft Office™' and 'Permissions' are not displayed and raise issue
 const favoritesContextMenu = ['Share', 'Download', 'View', 'Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
@@ -78,8 +76,7 @@ const favoritesContextMenu = ['Share', 'Download', 'View', 'Upload New Version',
 const favoritesToolbarMore = ['Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
 // TODO: add Edit Offline when ACA-2174 is fixed
 // TODO: investigate why 'Edit in Microsoft Office™' and 'Permissions' are not displayed and raise issue
-// TODO: change 'Share' into 'Shared Link Settings' when ACA-2175 is done
-const favoritesSharedContextMenu = ['Share', 'Download', 'View', 'Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
+const favoritesSharedContextMenu = ['Shared Link Settings', 'Download', 'View', 'Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
 
 // ---- SEARCH workarounds ----
 
