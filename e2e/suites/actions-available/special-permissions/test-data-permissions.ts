@@ -59,10 +59,8 @@ const favoritesConsumerToolbarMore = ['Upload New Version', 'Remove Favorite', '
 const favoritesConsumerContextMenu = ['Share', 'Download', 'View', 'Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
 // TODO: remove 'Move' and 'Delete' when ACA-1737 is done
 // TODO: remove 'Upload New Version' when ACA-2175 is done
-// TODO: change 'Share' into 'Shared Link Settings' when ACA-2175 is done
-const favoritesConsumerSharedContextMenu = ['Share', 'Download', 'View', 'Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
-// TODO: change 'Share' into 'Shared Link Settings' when ACA-2175 is done
-const favoritesConsumerSharedToolbarPrimary = ['Share', 'Download', 'View', 'View Details', 'More Actions'];
+const favoritesConsumerSharedContextMenu = ['Shared Link Settings', 'Download', 'View', 'Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
+const favoritesConsumerSharedToolbarPrimary = ['Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
 
 
 // ---- SHARED FILES workaround ----
