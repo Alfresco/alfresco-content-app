@@ -1,4 +1,5 @@
 {
+  "$schema": "../node_modules/@alfresco/adf-core/app.config.schema.json",
   "ecmHost": "{protocol}//{hostname}{:port}",
   "aosHost": "{protocol}//{hostname}{:port}/alfresco/aos",
   "baseShareUrl": "{protocol}//{hostname}{:port}/#/preview/s",
@@ -279,18 +280,22 @@
       "expanded": true,
       "fields": [
         {
+          "mincount": 1,
           "field": "content.mimetype",
           "label": "SEARCH.FACET_FIELDS.FILE_TYPE"
         },
         {
+          "mincount": 1,
           "field": "creator",
           "label": "SEARCH.FACET_FIELDS.CREATOR"
         },
         {
+          "mincount": 1,
           "field": "modifier",
           "label": "SEARCH.FACET_FIELDS.MODIFIER"
         },
         {
+          "mincount": 1,
           "field": "SITE",
           "label": "SEARCH.FACET_FIELDS.LOCATION"
         }
