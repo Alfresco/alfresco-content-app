@@ -23,13 +23,14 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './effects/app.effects';
-export * from './effects/download.effects';
-export * from './effects/favorite.effects';
-export * from './effects/node.effects';
-export * from './effects/viewer.effects';
-export * from './effects/search.effects';
-export * from './effects/library.effects';
-export * from './effects/upload.effects';
-export * from './effects/upload.effects';
-export * from './effects/template.effects';
+import { Action } from '@ngrx/store';
+
+export enum TemplateActionTypes {
+  CreateFileFromTemplate = 'CREATE_FILE_FROM_TEMPLATE'
+}
+
+export class CreateFileFromTemplate implements Action {
+  readonly type = TemplateActionTypes.CreateFileFromTemplate;
+
+  constructor() {}
+}
