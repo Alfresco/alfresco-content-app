@@ -76,7 +76,7 @@ import { AppNodeVersionModule } from './components/node-version/node-version.mod
 import { FavoritesComponent } from './components/favorites/favorites.component';
 import { RecentFilesComponent } from './components/recent-files/recent-files.component';
 import { SharedFilesComponent } from './components/shared-files/shared-files.component';
-
+import { CreateFileFromTemplateDialogComponent } from './dialogs/node-templates/create-from-template.dialog';
 import { environment } from '../environments/environment';
 
 import { registerLocaleData } from '@angular/common';
@@ -158,7 +158,8 @@ registerLocaleData(localeSv);
     NodeVersionsDialogComponent,
     FavoritesComponent,
     RecentFilesComponent,
-    SharedFilesComponent
+    SharedFilesComponent,
+    CreateFileFromTemplateDialogComponent
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: AppRouteReuseStrategy },
@@ -175,7 +176,8 @@ registerLocaleData(localeSv);
   entryComponents: [
     NodeVersionsDialogComponent,
     NodeVersionUploadDialogComponent,
-    LibraryDialogComponent
+    LibraryDialogComponent,
+    CreateFileFromTemplateDialogComponent
   ],
   bootstrap: [AppComponent]
 })
