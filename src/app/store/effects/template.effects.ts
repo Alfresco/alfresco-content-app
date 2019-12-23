@@ -25,7 +25,15 @@
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
-import { map, withLatestFrom, switchMap, catchError } from 'rxjs/operators';
+import {
+  map,
+  withLatestFrom,
+  switchMap,
+  catchError,
+  debounceTime,
+  flatMap,
+  skipWhile
+} from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import {
   CreateFileFromTemplate,
@@ -37,8 +45,8 @@ import {
 import { CreateFileFromTemplateService } from '../../services/create-file-from-template.service';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { ContentManagementService } from '../../services/content-management.service';
-import { from, of } from 'rxjs';
-import { NodeEntry } from '@alfresco/js-api';
+import { from, of, Observable } from 'rxjs';
+import { NodeEntry, NodeBodyUpdate, MinimalNode } from '@alfresco/js-api';
 
 @Injectable()
 export class TemplateEffects {
@@ -57,31 +65,70 @@ export class TemplateEffects {
       this.createFileFromTemplateService
         .openTemplatesDialog()
         .pipe(
+          debounceTime(300),
+          flatMap(([node]) =>
+            this.createFileFromTemplateService
+              .createTemplateDialog(node)
+              .afterClosed()
+          ),
+          skipWhile(node => !node),
           withLatestFrom(this.store.select(getCurrentFolder)),
-          switchMap(([[template], parentNode]) => {
-            return from(
-              this.apiService
-                .getInstance()
-                .nodes.copyNode(template.id, { targetParentId: parentNode.id })
-            );
+          switchMap(([template, parentNode]) => {
+            return this.copyNode(template, parentNode.id);
           }),
           catchError(error => {
-            const { statusCode } = JSON.parse(error.message).error;
-
-            if (statusCode !== 409) {
-              this.store.dispatch(
-                new SnackbarErrorAction('APP.MESSAGES.ERRORS.GENERIC')
-              );
-            }
-
-            return of(null);
+            return this.handleError(error);
           })
         )
         .subscribe((node: NodeEntry | null) => {
           if (node) {
-            this.content.reload.next();
+            this.content.reload.next(node);
           }
         });
     })
   );
+
+  private copyNode(
+    source: MinimalNode,
+    parentId: string
+  ): Observable<NodeEntry> {
+    return from(
+      this.apiService.getInstance().nodes.copyNode(source.id, {
+        targetParentId: parentId,
+        name: source.name
+      })
+    ).pipe(
+      switchMap(node =>
+        this.updateNode(node.entry.id, {
+          properties: {
+            'cm:title': source.properties['cm:title'],
+            'cm:description': source.properties['cm:description']
+          }
+        })
+      )
+    );
+  }
+
+  private updateNode(
+    id: string,
+    update: NodeBodyUpdate
+  ): Observable<NodeEntry> {
+    return from(this.apiService.getInstance().nodes.updateNode(id, update));
+  }
+
+  private handleError(error: Error): Observable<null> {
+    const { statusCode } = JSON.parse(error.message).error;
+
+    if (statusCode !== 409) {
+      this.store.dispatch(
+        new SnackbarErrorAction('APP.MESSAGES.ERRORS.GENERIC')
+      );
+    } else {
+      this.store.dispatch(
+        new SnackbarErrorAction('APP.MESSAGES.ERRORS.CONFLICT')
+      );
+    }
+
+    return of(null);
+  }
 }
