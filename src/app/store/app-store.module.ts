@@ -39,7 +39,8 @@ import {
   SearchEffects,
   LibraryEffects,
   UploadEffects,
-  FavoriteEffects
+  FavoriteEffects,
+  TemplateEffects
 } from './effects';
 import { INITIAL_STATE } from './initial-state';
 
@@ -56,7 +57,8 @@ import { INITIAL_STATE } from './initial-state';
       SearchEffects,
       LibraryEffects,
       UploadEffects,
-      FavoriteEffects
+      FavoriteEffects,
+      TemplateEffects
     ]),
     !environment.production
       ? StoreDevtoolsModule.instrument({ maxAge: 25 })

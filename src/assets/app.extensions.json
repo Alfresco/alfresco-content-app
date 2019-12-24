@@ -102,6 +102,24 @@
         "actions": {
           "click": "CREATE_LIBRARY"
         }
+      },
+      {
+        "id": "app.create.separator.2",
+        "type": "separator",
+        "order": 650
+      },
+      {
+        "id": "app.create.fileFromTemplate",
+        "order": 700,
+        "icon": "description",
+        "title": "APP.NEW_MENU.MENU_ITEMS.FILE_TEMPLATE",
+        "description": "APP.NEW_MENU.MENU_ITEMS.FILE_TEMPLATE",
+        "actions": {
+          "click": "CREATE_FILE_FROM_TEMPLATE"
+        },
+        "rules": {
+          "enabled": "app.navigation.folder.canUpload"
+        }
       }
     ],
     "navbar": [

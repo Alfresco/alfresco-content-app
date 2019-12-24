@@ -94,6 +94,11 @@ export class CustomNameColumnComponent extends NameColumnComponent
       });
   }
 
+  onLinkClick(event: Event) {
+    event.stopPropagation();
+    this.onClick();
+  }
+
   ngOnDestroy() {
     super.ngOnDestroy();
 

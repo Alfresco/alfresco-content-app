@@ -17,7 +17,7 @@
     "
     class="adf-datatable-cell-value"
     title="{{ node | adfNodeNameTooltip }}"
-    (click)="onClick()"
+    (click)="onLinkClick($event)"
   >
     {{ displayText$ | async }}
   </span>

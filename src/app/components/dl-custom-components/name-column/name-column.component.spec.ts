@@ -105,4 +105,21 @@ describe('CustomNameColumnComponent', () => {
       fixture.debugElement.nativeElement.querySelector('aca-locked-by')
     ).not.toBe(null);
   });
+
+  it('should call parent component onClick method', () => {
+    const event = new MouseEvent('click');
+    spyOn(component, 'onClick');
+
+    component.onLinkClick(event);
+
+    expect(component.onClick).toHaveBeenCalled();
+  });
+
+  it('should prevent event propagation', () => {
+    const event = new MouseEvent('click');
+    spyOn(event, 'stopPropagation');
+
+    component.onLinkClick(event);
+    expect(event.stopPropagation).toHaveBeenCalled();
+  });
 });
