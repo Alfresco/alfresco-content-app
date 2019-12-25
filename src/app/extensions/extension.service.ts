@@ -49,12 +49,20 @@ import {
   ExtensionRef,
   RuleContext,
   DocumentListPresetRef,
-  IconRef
+  IconRef,
+  getValue
 } from '@alfresco/adf-extensions';
 import { AppConfigService, AuthenticationService } from '@alfresco/adf-core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { RepositoryInfo, NodeEntry } from '@alfresco/js-api';
 import { ViewerRules } from './viewer.rules';
+
+export interface DocumentListPropsRef {
+  showHeader?: boolean;
+  multiselect?: boolean;
+  selectionMode?: string;
+  sorting?: Array<string>;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -79,6 +87,28 @@ export class AppExtensionService implements RuleContext {
   contentMetadata: any;
   viewerRules: ViewerRules = {};
 
+  documentListProps: {
+    files: DocumentListPropsRef;
+    libraries: DocumentListPropsRef;
+    favoriteLibraries: DocumentListPropsRef;
+    shared: DocumentListPropsRef;
+    recent: DocumentListPropsRef;
+    favorites: DocumentListPropsRef;
+    trashcan: DocumentListPropsRef;
+    searchLibraries: DocumentListPropsRef;
+    search: DocumentListPropsRef;
+  } = {
+    files: {},
+    libraries: {},
+    favoriteLibraries: {},
+    shared: {},
+    recent: {},
+    favorites: {},
+    trashcan: {},
+    searchLibraries: {},
+    search: {}
+  };
+
   documentListPresets: {
     files: Array<DocumentListPresetRef>;
     libraries: Array<DocumentListPresetRef>;
@@ -88,6 +118,7 @@ export class AppExtensionService implements RuleContext {
     favorites: Array<DocumentListPresetRef>;
     trashcan: Array<DocumentListPresetRef>;
     searchLibraries: Array<DocumentListPresetRef>;
+    search: Array<DocumentListPresetRef>;
   } = {
     files: [],
     libraries: [],
@@ -96,7 +127,8 @@ export class AppExtensionService implements RuleContext {
     recent: [],
     favorites: [],
     trashcan: [],
-    searchLibraries: []
+    searchLibraries: [],
+    search: []
   };
 
   selection: SelectionState;
@@ -172,6 +204,18 @@ export class AppExtensionService implements RuleContext {
     );
     this.contentMetadata = this.loadContentMetadata(config);
 
+    this.documentListProps = {
+      files: this.getDocumentListProps(config, 'files'),
+      libraries: this.getDocumentListProps(config, 'libraries'),
+      favoriteLibraries: this.getDocumentListProps(config, 'favoriteLibraries'),
+      shared: this.getDocumentListProps(config, 'shared'),
+      recent: this.getDocumentListProps(config, 'recent'),
+      favorites: this.getDocumentListProps(config, 'favorites'),
+      trashcan: this.getDocumentListProps(config, 'trashcan'),
+      searchLibraries: this.getDocumentListProps(config, 'search-libraries'),
+      search: this.getDocumentListProps(config, 'search')
+    };
+
     this.documentListPresets = {
       files: this.getDocumentListPreset(config, 'files'),
       libraries: this.getDocumentListPreset(config, 'libraries'),
@@ -183,7 +227,8 @@ export class AppExtensionService implements RuleContext {
       recent: this.getDocumentListPreset(config, 'recent'),
       favorites: this.getDocumentListPreset(config, 'favorites'),
       trashcan: this.getDocumentListPreset(config, 'trashcan'),
-      searchLibraries: this.getDocumentListPreset(config, 'search-libraries')
+      searchLibraries: this.getDocumentListPreset(config, 'search-libraries'),
+      search: this.getDocumentListPreset(config, 'search')
     };
 
     if (config.features && config.features.viewer) {
@@ -232,6 +277,13 @@ export class AppExtensionService implements RuleContext {
         `features.documentList.${key}`
       )
       .filter(entry => !entry.disabled);
+  }
+
+  protected getDocumentListProps(
+    config: ExtensionConfig,
+    key: string
+  ): DocumentListPropsRef {
+    return getValue(config, `features.documentListProps.${key}`);
   }
 
   getApplicationNavigation(elements) {
