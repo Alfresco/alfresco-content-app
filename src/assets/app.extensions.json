@@ -1087,6 +1087,20 @@
         ]
       }
     ],
+    "documentListProps": {
+      "libraries": {
+        "selectionMode": "single",
+        "sorting": ["title", "asc"]
+      },
+      "favoriteLibraries": {
+        "selectionMode": "single",
+        "sorting": ["title", "asc"]
+      },
+      "search": {
+        "showHeader": false,
+        "sorting": ["name", "asc"]
+      }
+    },
     "documentList": {
       "files": [
         {
