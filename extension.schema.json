@@ -537,6 +537,31 @@
         }
       ]
     },
+    "documentListPropsRef": {
+      "type": "object",
+      "properties": {
+        "multiselect": {
+          "description": "Toggles checkboxes",
+          "type": "boolean"
+        },
+        "showHeader": {
+          "description": "Toggles columns header",
+          "type": "boolean"
+        },
+        "selectionMode": {
+          "description": "Toggles columns header",
+          "type": ["string", "null"],
+          "enum": [null, "single", "multiple"]
+        },
+        "sorting": {
+          "description": "Initial sorting",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
     "documentListPresetRef": {
       "type": "object",
       "required": ["id", "key", "type"],
@@ -774,6 +799,17 @@
                   { "$ref": "#/definitions/content-metadata-layout-group" }
                 ]
               }
+            }
+          }
+        },
+        "documentListProps": {
+          "description": "Document list properties",
+          "type": "object",
+          "patternProperties": {
+            "^.*$": {
+              "description": "Feature document list properties",
+              "type": "object",
+              "$ref": "#/definitions/documentListPropsRef"
             }
           }
         },
