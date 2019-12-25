@@ -33,7 +33,10 @@ import { Store } from '@ngrx/store';
 import { MinimalNodeEntity, MinimalNodeEntryEntity } from '@alfresco/js-api';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { AppExtensionService } from '../extensions/extension.service';
+import {
+  AppExtensionService,
+  DocumentListPropsRef
+} from '../extensions/extension.service';
 import { ContentManagementService } from '../services/content-management.service';
 import {
   AppStore,
@@ -65,6 +68,12 @@ export abstract class PageComponent implements OnInit, OnDestroy {
   viewerToolbarActions: Array<ContentActionRef> = [];
   canUpdateNode = false;
   canUpload = false;
+  documentListProps: DocumentListPropsRef = {
+    showHeader: true,
+    multiselect: false,
+    selectionMode: 'multiple',
+    sorting: ['modifiedAt', 'desc']
+  };
 
   protected subscriptions: Subscription[] = [];
 
