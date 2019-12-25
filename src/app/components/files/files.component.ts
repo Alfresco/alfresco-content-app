@@ -37,7 +37,10 @@ import { ContentManagementService } from '../../services/content-management.serv
 import { NodeActionsService } from '../../services/node-actions.service';
 import { PageComponent } from '../page.component';
 import { ContentApiService } from '@alfresco/aca-shared';
-import { AppExtensionService } from '../../extensions/extension.service';
+import {
+  AppExtensionService,
+  DocumentListPropsRef
+} from '../../extensions/extension.service';
 import {
   SetCurrentFolderAction,
   isAdmin,
@@ -59,6 +62,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   private nodePath: PathElement[];
 
   columns: any[] = [];
+  config: DocumentListPropsRef;
 
   constructor(
     private router: Router,
@@ -127,6 +131,10 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
       });
 
     this.columns = this.extensions.documentListPresets.files || [];
+    this.config = {
+      ...this.documentListProps,
+      ...(this.extensions.documentListProps.files || {})
+    };
   }
 
   ngOnDestroy() {

@@ -27,8 +27,10 @@
           acaDocumentList
           acaContextActions
           [display]="documentDisplayMode$ | async"
-          [sorting]="['modifiedAt', 'desc']"
-          selectionMode="multiple"
+          [multiselect]="config.multiselect"
+          [showHeader]="config.showHeader"
+          [sorting]="config.sorting"
+          [selectionMode]="config.selectionMode"
           [currentFolderId]="node?.id"
           [allowDropFiles]="true"
           [navigate]="false"

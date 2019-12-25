@@ -27,7 +27,10 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { SiteEntry, FavoritePaging, Pagination } from '@alfresco/js-api';
-import { AppExtensionService } from '../../extensions/extension.service';
+import {
+  AppExtensionService,
+  DocumentListPropsRef
+} from '../../extensions/extension.service';
 import { ContentManagementService } from '../../services/content-management.service';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { NavigateLibraryAction } from '@alfresco/aca-shared/store';
@@ -43,6 +46,7 @@ export class FavoriteLibrariesComponent extends PageComponent
   list: FavoritePaging;
   isSmallScreen = false;
   columns: any[] = [];
+  config: DocumentListPropsRef;
 
   constructor(
     content: ContentManagementService,
@@ -74,6 +78,10 @@ export class FavoriteLibrariesComponent extends PageComponent
         })
     ]);
     this.columns = this.extensions.documentListPresets.favoriteLibraries || [];
+    this.config = {
+      ...this.documentListProps,
+      ...(this.extensions.documentListProps.favoriteLibraries || {})
+    };
   }
 
   navigateTo(node: SiteEntry) {

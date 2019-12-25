@@ -16,9 +16,11 @@
         acaDocumentList
         acaContextActions
         [display]="documentDisplayMode$ | async"
+        [multiselect]="config.multiselect"
+        [showHeader]="config.showHeader"
         currentFolderId="-sharedlinks-"
-        selectionMode="multiple"
-        [sorting]="['modifiedAt', 'desc']"
+        [selectionMode]="config.selectionMode"
+        [sorting]="config.sorting"
         (node-dblclick)="preview($event.detail?.node)"
         (name-click)="preview($event.detail?.node)"
       >

@@ -37,7 +37,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { debounceTime, map } from 'rxjs/operators';
-import { AppExtensionService } from '../../extensions/extension.service';
+import {
+  AppExtensionService,
+  DocumentListPropsRef
+} from '../../extensions/extension.service';
 import { ContentManagementService } from '../../services/content-management.service';
 import { PageComponent } from '../page.component';
 
@@ -48,6 +51,7 @@ export class FavoritesComponent extends PageComponent implements OnInit {
   isSmallScreen = false;
 
   columns: any[] = [];
+  config: DocumentListPropsRef;
 
   constructor(
     private router: Router,
@@ -80,6 +84,10 @@ export class FavoritesComponent extends PageComponent implements OnInit {
     ]);
 
     this.columns = this.extensions.documentListPresets.favorites;
+    this.config = {
+      ...this.documentListProps,
+      ...(this.extensions.documentListProps.favorites || {})
+    };
   }
 
   navigate(favorite: MinimalNodeEntryEntity) {

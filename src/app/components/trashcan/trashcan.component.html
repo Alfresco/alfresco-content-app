@@ -17,10 +17,12 @@
         acaContextActions
         [display]="documentDisplayMode$ | async"
         currentFolderId="-trashcan-"
-        selectionMode="multiple"
+        [multiselect]="config.multiselect"
+        [showHeader]="config.showHeader"
+        [selectionMode]="config.selectionMode"
         [navigate]="false"
         [imageResolver]="imageResolver"
-        [sorting]="['archivedAt', 'desc']"
+        [sorting]="config.sorting"
       >
         <adf-custom-empty-content-template>
           <adf-empty-content

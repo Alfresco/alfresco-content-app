@@ -48,9 +48,10 @@
             #documentList
             acaContextActions
             acaDocumentList
-            [showHeader]="true"
-            [selectionMode]="'single'"
-            [sorting]="['name', 'asc']"
+            [multiselect]="config.multiselect"
+            [showHeader]="config.showHeader"
+            [sorting]="config.sorting"
+            [selectionMode]="config.selectionMode"
             [node]="data"
             [imageResolver]="imageResolver"
             (node-dblclick)="navigateTo($event.detail?.node)"

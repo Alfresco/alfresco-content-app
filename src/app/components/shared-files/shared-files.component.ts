@@ -28,7 +28,10 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { ContentManagementService } from '../../services/content-management.service';
 import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
-import { AppExtensionService } from '../../extensions/extension.service';
+import {
+  AppExtensionService,
+  DocumentListPropsRef
+} from '../../extensions/extension.service';
 import { debounceTime } from 'rxjs/operators';
 import { UploadService } from '@alfresco/adf-core';
 import { Router } from '@angular/router';
@@ -41,6 +44,7 @@ export class SharedFilesComponent extends PageComponent implements OnInit {
   isSmallScreen = false;
 
   columns: any[] = [];
+  config: DocumentListPropsRef;
 
   constructor(
     store: Store<any>,
@@ -76,6 +80,10 @@ export class SharedFilesComponent extends PageComponent implements OnInit {
     ]);
 
     this.columns = this.extensions.documentListPresets.shared || [];
+    this.config = {
+      ...this.documentListProps,
+      ...(this.extensions.documentListProps.shared || {})
+    };
   }
 
   preview(node: MinimalNodeEntity) {

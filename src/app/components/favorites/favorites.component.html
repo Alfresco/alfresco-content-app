@@ -17,9 +17,11 @@
         acaContextActions
         [display]="documentDisplayMode$ | async"
         currentFolderId="-favorites-"
-        selectionMode="multiple"
+        [multiselect]="config.multiselect"
+        [showHeader]="config.showHeader"
+        [selectionMode]="config.selectionMode"
         [navigate]="false"
-        [sorting]="['modifiedAt', 'desc']"
+        [sorting]="config.sorting"
         (node-dblclick)="onNodeDoubleClick($event.detail?.node)"
         (name-click)="onNodeDoubleClick($event.detail?.node)"
       >

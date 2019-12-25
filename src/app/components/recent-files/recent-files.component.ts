@@ -30,7 +30,10 @@ import { ContentManagementService } from '../../services/content-management.serv
 import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
 import { AppStore } from '@alfresco/aca-shared/store';
-import { AppExtensionService } from '../../extensions/extension.service';
+import {
+  AppExtensionService,
+  DocumentListPropsRef
+} from '../../extensions/extension.service';
 import { UploadService } from '@alfresco/adf-core';
 import { debounceTime } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -42,6 +45,7 @@ export class RecentFilesComponent extends PageComponent implements OnInit {
   isSmallScreen = false;
 
   columns: any[] = [];
+  config: DocumentListPropsRef;
 
   constructor(
     store: Store<AppStore>,
@@ -73,6 +77,10 @@ export class RecentFilesComponent extends PageComponent implements OnInit {
     ]);
 
     this.columns = this.extensions.documentListPresets.recent || [];
+    this.config = {
+      ...this.documentListProps,
+      ...(this.extensions.documentListProps.recent || {})
+    };
   }
 
   onNodeDoubleClick(node: MinimalNodeEntity) {

@@ -29,7 +29,10 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { AppExtensionService } from '../../extensions/extension.service';
+import {
+  AppExtensionService,
+  DocumentListPropsRef
+} from '../../extensions/extension.service';
 import { ContentManagementService } from '../../services/content-management.service';
 import { PageComponent } from '../page.component';
 
@@ -41,6 +44,7 @@ export class TrashcanComponent extends PageComponent implements OnInit {
   user$: Observable<ProfileState>;
 
   columns: any[] = [];
+  config: DocumentListPropsRef;
 
   constructor(
     content: ContentManagementService,
@@ -64,5 +68,9 @@ export class TrashcanComponent extends PageComponent implements OnInit {
     );
 
     this.columns = this.extensions.documentListPresets.trashcan || [];
+    this.config = {
+      ...this.documentListProps,
+      ...(this.extensions.documentListProps.trashcan || {})
+    };
   }
 }

@@ -29,7 +29,10 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AppExtensionService } from '../../../extensions/extension.service';
+import {
+  AppExtensionService,
+  DocumentListPropsRef
+} from '../../../extensions/extension.service';
 import { ContentManagementService } from '../../../services/content-management.service';
 import { PageComponent } from '../../page.component';
 import { SearchLibrariesQueryBuilderService } from './search-libraries-query-builder.service';
@@ -48,6 +51,7 @@ export class SearchLibrariesResultsComponent extends PageComponent
   totalResults = 0;
   isLoading = false;
   columns: any[] = [];
+  config: DocumentListPropsRef;
 
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -69,6 +73,10 @@ export class SearchLibrariesResultsComponent extends PageComponent
     super.ngOnInit();
 
     this.columns = this.extensions.documentListPresets.searchLibraries || [];
+    this.config = {
+      ...this.documentListProps,
+      ...(this.extensions.documentListProps.searchLibraries || {})
+    };
 
     this.subscriptions.push(
       this.content.libraryJoined.subscribe(() =>
