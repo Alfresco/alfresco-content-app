@@ -58,6 +58,7 @@ import { ContextMenuModule } from '../context-menu/context-menu.module';
     SearchResultsComponent,
     SearchLibrariesResultsComponent,
     SearchResultsRowComponent
-  ]
+  ],
+  entryComponents: [SearchResultsRowComponent]
 })
 export class AppSearchResultsModule {}

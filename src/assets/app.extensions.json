@@ -1484,6 +1484,25 @@
           "template": "app.columns.libraryStatus",
           "desktopOnly": true
         }
+      ],
+      "search": [
+        {
+          "id": "app.search.thumbnail",
+          "key": "$thumbnail",
+          "type": "image",
+          "sortable": false,
+          "desktopOnly": false
+        },
+        {
+          "id": "app.search.name",
+          "key": "name",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.NAME",
+          "type": "text",
+          "class": "adf-ellipsis-cell adf-expand-cell-5",
+          "sortable": false,
+          "template": "app.column.searchRow",
+          "desktopOnly": false
+        }
       ]
     }
   }

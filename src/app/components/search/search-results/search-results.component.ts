@@ -23,12 +23,19 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation,
+  OnDestroy
+} from '@angular/core';
 import {
   Pagination,
   MinimalNodeEntity,
   ResultSetPaging
 } from '@alfresco/js-api';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import {
   SearchQueryBuilderService,
@@ -42,10 +49,14 @@ import {
   SnackbarErrorAction,
   showFacetFilter
 } from '@alfresco/aca-shared/store';
-import { AppExtensionService } from '../../../extensions/extension.service';
+import {
+  AppExtensionService,
+  DocumentListPropsRef
+} from '../../../extensions/extension.service';
 import { ContentManagementService } from '../../../services/content-management.service';
 import { AppConfigService, TranslationService } from '@alfresco/adf-core';
 import { Observable } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'aca-search-results',
@@ -53,7 +64,8 @@ import { Observable } from 'rxjs';
   encapsulation: ViewEncapsulation.None,
   styleUrls: ['./search-results.component.scss']
 })
-export class SearchResultsComponent extends PageComponent implements OnInit {
+export class SearchResultsComponent extends PageComponent
+  implements OnInit, OnDestroy {
   @ViewChild('searchFilter')
   searchFilter: SearchFilterComponent;
 
@@ -64,8 +76,11 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   data: ResultSetPaging;
   totalResults = 0;
   hasSelectedFilters = false;
-  sorting = ['name', 'asc'];
+  sorting: Array<string>;
   isLoading = false;
+  columns: any[] = [];
+  isSmallScreen = false;
+  props: DocumentListPropsRef;
 
   constructor(
     private queryBuilder: SearchQueryBuilderService,
@@ -75,7 +90,8 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     extensions: AppExtensionService,
     content: ContentManagementService,
     private translationService: TranslationService,
-    private router: Router
+    private router: Router,
+    private breakpointObserver: BreakpointObserver
   ) {
     super(store, extensions, content);
 
@@ -87,10 +103,27 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     this.showFacetFilter$ = store.select(showFacetFilter);
   }
 
+  ngOnDestroy() {
+    super.ngOnDestroy();
+  }
+
   ngOnInit() {
     super.ngOnInit();
 
+    this.columns = this.extensions.documentListPresets.search || [];
+    this.props = {
+      ...this.documentListProps,
+      ...(this.extensions.documentListProps.search || {})
+    };
+
     this.sorting = this.getSorting();
+
+    this.breakpointObserver
+      .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(result => {
+        this.isSmallScreen = result.matches;
+      });
 
     this.subscriptions.push(
       this.queryBuilder.updated.subscribe(query => {
@@ -247,7 +280,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
       return [primary.key, primary.ascending ? 'asc' : 'desc'];
     }
 
-    return ['name', 'asc'];
+    return this.props.sorting;
   }
 
   onNodeDoubleClick(node: MinimalNodeEntity) {

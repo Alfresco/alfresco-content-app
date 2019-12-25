@@ -51,6 +51,7 @@ import {
 } from '@alfresco/adf-content-services';
 import { ToggleSharedComponent } from '../components/common/toggle-shared/toggle-shared.component';
 import { ViewNodeComponent } from '../components/toolbar/view-node/view-node.component';
+import { SearchResultsRowComponent } from '../components/search/search-results-row/search-results-row.component';
 
 export function setupExtensions(service: AppExtensionService): Function {
   return () => service.load();
@@ -101,7 +102,8 @@ export class CoreExtensionsModule {
       'app.columns.trashcanName': TrashcanNameColumnComponent,
       'app.columns.location': LocationLinkComponent,
       'app.toolbar.toggleEditOffline': ToggleEditOfflineComponent,
-      'app.toolbar.viewNode': ViewNodeComponent
+      'app.toolbar.viewNode': ViewNodeComponent,
+      'app.column.searchRow': SearchResultsRowComponent
     });
 
     extensions.setAuthGuards({
