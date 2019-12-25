@@ -65,7 +65,8 @@
     "submenu",
     "submenus",
     "dateitem",
-    "versionable"
+    "versionable",
+    "multiselect"
   ],
   "dictionaries": ["html", "en-gb", "en_US"]
 }
