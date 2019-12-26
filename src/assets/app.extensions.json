@@ -1096,7 +1096,7 @@
         "selectionMode": "single",
         "sorting": ["title", "asc"]
       },
-      "trash": {
+      "trashcan": {
         "sorting": ["archivedAt", "desc"]
       },
       "search": {
