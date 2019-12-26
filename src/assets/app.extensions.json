@@ -1096,6 +1096,9 @@
         "selectionMode": "single",
         "sorting": ["title", "asc"]
       },
+      "trash": {
+        "sorting": ["archivedAt", "desc"]
+      },
       "search": {
         "showHeader": false,
         "sorting": ["name", "asc"]
