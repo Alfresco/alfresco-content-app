@@ -24,8 +24,10 @@
  */
 
 import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { Store } from '@ngrx/store';
+import { AppStore, NavigateLibraryAction } from '@alfresco/aca-shared/store';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { Router } from '@angular/router';
+import { ContentManagementService } from '../../services/content-management.service';
 import {
   AlfrescoApiService,
   NodeFavoriteDirective,
@@ -37,13 +39,15 @@ import { LibrariesComponent } from './libraries.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { EffectsModule } from '@ngrx/effects';
 import { LibraryEffects } from '../../store/effects';
+import { of } from 'rxjs';
 
 describe('LibrariesComponent', () => {
   let fixture: ComponentFixture<LibrariesComponent>;
   let component: LibrariesComponent;
   let alfrescoApi: AlfrescoApiService;
-  let router: Router;
   let page;
+  let store: Store<AppStore>;
+  let content: ContentManagementService;
 
   beforeEach(() => {
     page = {
@@ -64,15 +68,25 @@ describe('LibrariesComponent', () => {
         LibrariesComponent,
         AppConfigPipe
       ],
+      providers: [
+        {
+          provide: Store,
+          useValue: {
+            select: () => of(),
+            dispatch: jasmine.createSpy('dispatch')
+          }
+        }
+      ],
       schemas: [NO_ERRORS_SCHEMA]
     });
 
     fixture = TestBed.createComponent(LibrariesComponent);
+    content = TestBed.get(ContentManagementService);
     component = fixture.componentInstance;
 
     alfrescoApi = TestBed.get(AlfrescoApiService);
+    store = TestBed.get(Store);
     alfrescoApi.reset();
-    router = TestBed.get(Router);
 
     spyOn(alfrescoApi.sitesApi, 'getSites').and.returnValue(
       Promise.resolve(page)
@@ -82,12 +96,55 @@ describe('LibrariesComponent', () => {
     );
   });
 
+  beforeEach(() => {
+    store.dispatch['calls'].reset();
+  });
+
+  describe('Events', () => {
+    beforeEach(() => {
+      spyOn(component, 'reload').and.stub();
+    });
+
+    it('should reload list on libraryDeleted event', () => {
+      fixture.detectChanges();
+      content.libraryDeleted.next();
+      expect(component.reload).toHaveBeenCalled();
+    });
+
+    it('should reload list on libraryLeft event', () => {
+      fixture.detectChanges();
+      content.libraryLeft.next();
+      expect(component.reload).toHaveBeenCalled();
+    });
+
+    it('should reload list on libraryUpdated event', () => {
+      fixture.detectChanges();
+      content.libraryUpdated.next();
+      expect(component.reload).toHaveBeenCalled();
+    });
+  });
+
   describe('Node navigation', () => {
-    it('does not navigate when id is not passed', () => {
-      spyOn(router, 'navigate').and.stub();
+    it('does not navigate when node is not passed', () => {
       component.navigateTo(null);
 
-      expect(router.navigate).not.toHaveBeenCalled();
+      expect(store.dispatch).not.toHaveBeenCalledWith();
+    });
+
+    it('should navigate when node is passed', () => {
+      const libraryNode = {
+        entry: {
+          id: 'library-id',
+          title: 'library-title',
+          visibility: 'private',
+          guid: 'library-guid'
+        }
+      };
+      component.navigateTo(libraryNode);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new NavigateLibraryAction(libraryNode.entry.guid)
+      );
     });
   });
 });

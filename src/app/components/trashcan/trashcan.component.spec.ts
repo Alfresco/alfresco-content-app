@@ -33,12 +33,17 @@ import {
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { TrashcanComponent } from './trashcan.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
+import { AppExtensionService } from '../../extensions/extension.service';
 
 describe('TrashcanComponent', () => {
   let fixture: ComponentFixture<TrashcanComponent>;
   let component: TrashcanComponent;
   let alfrescoApi: AlfrescoApiService;
   let page;
+  const extensionServiceMock = {
+    documentListPresets: { trashcan: [{ id: 'column-id' }] },
+    documentListProps: { trashcan: null }
+  };
 
   beforeEach(() => {
     page = {
@@ -59,6 +64,12 @@ describe('TrashcanComponent', () => {
         TrashcanComponent,
         AppConfigPipe
       ],
+      providers: [
+        {
+          provide: AppExtensionService,
+          useValue: extensionServiceMock
+        }
+      ],
       schemas: [NO_ERRORS_SCHEMA]
     });
 
@@ -78,5 +89,20 @@ describe('TrashcanComponent', () => {
     spyOn(alfrescoApi.nodesApi, 'getDeletedNodes').and.returnValue(
       Promise.resolve(page)
     );
+  });
+
+  it('should set list columns on init', () => {
+    fixture.detectChanges();
+    expect(component.columns).toEqual([{ id: 'column-id' }]);
+  });
+
+  it('should set default list properties on init if none defined', () => {
+    fixture.detectChanges();
+    expect(component.config).toEqual({
+      showHeader: true,
+      multiselect: false,
+      selectionMode: 'multiple',
+      sorting: ['modifiedAt', 'desc']
+    });
   });
 });
