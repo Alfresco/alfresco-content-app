@@ -40,7 +40,8 @@ import {
   SnackbarInfoAction,
   SnackbarUserAction,
   SnackbarWarningAction,
-  UndoDeleteNodesAction
+  UndoDeleteNodesAction,
+  ViewFileAction
 } from '@alfresco/aca-shared/store';
 import {
   ConfirmDialogComponent,
@@ -69,6 +70,7 @@ import { NodePermissionsDialogComponent } from '../components/permissions/permis
 import { NodeVersionUploadDialogComponent } from '../dialogs/node-version-upload/node-version-upload.dialog';
 import { NodeVersionsDialogComponent } from '../dialogs/node-versions/node-versions.dialog';
 import { NodeActionsService } from './node-actions.service';
+import { isPreview } from '@alfresco/aca-shared/rules';
 
 interface RestoredNode {
   status: number;
@@ -1179,12 +1181,21 @@ export class ContentManagementService {
   }
 
   unlockNode(node: NodeEntry) {
-    this.contentApi.unlockNode(node.entry.id).catch(() => {
-      this.store.dispatch(
-        new SnackbarErrorAction('APP.MESSAGES.ERRORS.UNLOCK_NODE', {
-          fileName: node.entry.name
-        })
-      );
-    });
+    this.contentApi.unlockNode(node.entry.id).subscribe(
+      nodeResult => {
+        delete node.entry.properties['cm:lockType'];
+        this.store.dispatch(new SetSelectedNodesAction([node]));
+        if (isPreview) {
+          this.store.dispatch(new ViewFileAction(nodeResult));
+        }
+      },
+      () => {
+        this.store.dispatch(
+          new SnackbarErrorAction('APP.MESSAGES.ERRORS.UNLOCK_NODE', {
+            fileName: node.entry.name
+          })
+        );
+      }
+    );
   }
 }

@@ -287,7 +287,7 @@ export class ContentApiService {
     );
   }
 
-  unlockNode(nodeId: string, opts?: any) {
-    return this.api.nodesApi.unlockNode(nodeId, opts);
+  unlockNode(nodeId: string, opts?: any): Observable<any> {
+    return from(this.api.nodesApi.unlockNode(nodeId, opts));
   }
 }
