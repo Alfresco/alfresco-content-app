@@ -224,7 +224,7 @@ describe('Viewer actions', () => {
       expect(await apis.user.nodes.getFileVersionLabel(filePersonalFilesId)).toEqual('2.0', 'File has incorrect version label');
     });
 
-    fit('Upload new version action when node is locked - [MNT-21058]', async () => {
+    it('Upload new version action when node is locked - [MNT-21058]', async () => {
 
       await dataTable.doubleClickOnRowByName(fileForUploadNewVersion2);
       await viewer.waitForViewerToOpen();
