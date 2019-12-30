@@ -24,20 +24,29 @@
  */
 
 import { PageComponent } from './page.component';
+import {
+  ReloadDocumentListAction,
+  SetSelectedNodesAction
+} from '@alfresco/aca-shared/store';
+import { MinimalNodeEntity } from '@alfresco/js-api';
 
 class TestClass extends PageComponent {
   node: any;
 
-  constructor() {
-    super(null, null, null);
+  constructor(store) {
+    super(store, null, null);
   }
 }
 
 describe('PageComponent', () => {
   let component: TestClass;
+  const store = {
+    dispatch: jasmine.createSpy('dispatch'),
+    select: jasmine.createSpy('select')
+  };
 
   beforeEach(() => {
-    component = new TestClass();
+    component = new TestClass(store);
   });
 
   describe('getParentNodeId()', () => {
@@ -51,6 +60,40 @@ describe('PageComponent', () => {
       component.node = null;
 
       expect(component.getParentNodeId()).toBe(null);
+    });
+  });
+
+  describe('Reload', () => {
+    const locationHref = location.href;
+
+    afterEach(() => {
+      window.history.pushState({}, null, locationHref);
+    });
+
+    it('should not reload if url contains viewer outlet', () => {
+      window.history.pushState({}, null, `${locationHref}#test(viewer:view)`);
+      component.reload();
+      expect(store.dispatch).not.toHaveBeenCalled();
+    });
+
+    it('should reload if url does not contain viewer outlet', () => {
+      component.reload();
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new ReloadDocumentListAction()
+      );
+    });
+
+    it('should set selection after reload if node is passed', () => {
+      const node = {
+        entry: {
+          id: 'node-id'
+        }
+      } as MinimalNodeEntity;
+
+      component.reload(node);
+      expect(store.dispatch['calls'].mostRecent().args[0]).toEqual(
+        new SetSelectedNodesAction([node])
+      );
     });
   });
 });
