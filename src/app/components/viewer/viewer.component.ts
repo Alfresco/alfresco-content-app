@@ -188,7 +188,10 @@ export class AppViewerComponent implements OnInit, OnDestroy {
         debounceTime(300),
         takeUntil(this.onDestroy$)
       )
-      .subscribe(file => this.apiService.nodeUpdated.next(file.data.entry));
+      .subscribe(file => {
+        this.apiService.nodeUpdated.next(file.data.entry);
+        this.displayNode(file.data.entry.id);
+      });
 
     this.previewLocation = this.router.url
       .substr(0, this.router.url.indexOf('/', 1))
