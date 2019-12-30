@@ -41,6 +41,8 @@ describe('TrashcanComponent', () => {
   let alfrescoApi: AlfrescoApiService;
   let page;
   const extensionServiceMock = {
+    getAllowedToolbarActions: () => [],
+    getViewerToolbarActions: () => [],
     documentListPresets: { trashcan: [{ id: 'column-id' }] },
     documentListProps: { trashcan: null }
   };
