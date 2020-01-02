@@ -351,7 +351,7 @@ export class Menu extends Component {
     return this.uploadFolderAction.isEnabled();
   }
 
-  async isCancelEditingActionPresent() {
+  async isCancelEditingActionPresent(): Promise<boolean> {
     return this.cancelEditingAction.isPresent();
   }
 
