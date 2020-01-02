@@ -79,9 +79,6 @@ if [[ $KEYCLOAK == "true" ]]; then
 fi
 
 echo "Start docker compose"
-export REGISTRY=${REGISTRY}
-export SHARE_TAG=${SHARE_TAG:-latest}
-export REPO_TAG=${REPO_TAG:-latest}
 export AIMS_PROPS=${AIMS_PROPS}
 docker-compose up -d --build
 
