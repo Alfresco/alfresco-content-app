@@ -151,7 +151,7 @@ export abstract class PageComponent implements OnInit, OnDestroy {
     return obj.id;
   }
 
-  private isOutletPreviewUrl() {
+  private isOutletPreviewUrl(): boolean {
     return location.href.includes('viewer:view');
   }
 }
