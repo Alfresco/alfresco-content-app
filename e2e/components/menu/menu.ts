@@ -355,7 +355,7 @@ export class Menu extends Component {
     return this.cancelEditingAction.isPresent();
   }
 
-  async isEditOfflineActionPresent() {
+  async isEditOfflineActionPresent(): Promise<boolean> {
     return this.editOfflineAction.isPresent();
   }
 
