@@ -133,6 +133,10 @@ export abstract class PageComponent implements OnInit, OnDestroy {
   }
 
   reload(selectedNode?: MinimalNodeEntity): void {
+    if (this.isOutletPreviewUrl()) {
+      return;
+    }
+
     this.store.dispatch(new ReloadDocumentListAction());
     if (selectedNode) {
       this.store.dispatch(new SetSelectedNodesAction([selectedNode]));
@@ -145,5 +149,9 @@ export abstract class PageComponent implements OnInit, OnDestroy {
 
   trackById(_: number, obj: { id: string }) {
     return obj.id;
+  }
+
+  private isOutletPreviewUrl(): boolean {
+    return location.href.includes('viewer:view');
   }
 }
