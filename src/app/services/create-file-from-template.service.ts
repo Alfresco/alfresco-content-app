@@ -24,17 +24,18 @@
  */
 
 import { Injectable } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material';
-import {
-  ContentNodeSelectorComponentData,
-  ContentNodeSelectorComponent
-} from '@alfresco/adf-content-services';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
+import { CreateFileFromTemplateDialogComponent } from '../dialogs/node-templates/create-from-template.dialog';
 import { Subject, from, of } from 'rxjs';
-import { Node } from '@alfresco/js-api';
-import { AlfrescoApiService } from '@alfresco/adf-core';
+import { Node, MinimalNode } from '@alfresco/js-api';
+import { AlfrescoApiService, TranslationService } from '@alfresco/adf-core';
 import { switchMap, catchError } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { AppStore, SnackbarErrorAction } from '@alfresco/aca-shared/store';
+import {
+  ContentNodeSelectorComponent,
+  ContentNodeSelectorComponentData
+} from '@alfresco/adf-content-services';
 
 @Injectable({
   providedIn: 'root'
@@ -43,6 +44,7 @@ export class CreateFileFromTemplateService {
   constructor(
     private store: Store<AppStore>,
     private alfrescoApiService: AlfrescoApiService,
+    private translation: TranslationService,
     public dialog: MatDialog
   ) {}
 
@@ -53,7 +55,8 @@ export class CreateFileFromTemplateService {
     });
 
     const data: ContentNodeSelectorComponentData = {
-      title: null,
+      title: this.title,
+      actionName: 'NEXT',
       dropdownHideMyFiles: true,
       currentFolderId: null,
       dropdownSiteList: null,
@@ -61,10 +64,6 @@ export class CreateFileFromTemplateService {
       select,
       isSelectionValid: this.isSelectionValid.bind(this)
     };
-
-    data.select.subscribe({
-      complete: this.close.bind(this)
-    });
 
     from(
       this.alfrescoApiService.getInstance().nodes.getNodeInfo('-root-', {
@@ -97,7 +96,17 @@ export class CreateFileFromTemplateService {
     return select;
   }
 
-  private transformNode(node: Node): Node {
+  createTemplateDialog(
+    node: Node
+  ): MatDialogRef<CreateFileFromTemplateDialogComponent> {
+    return this.dialog.open(CreateFileFromTemplateDialogComponent, {
+      data: node,
+      panelClass: 'aca-file-from-template-dialog',
+      width: '630px'
+    });
+  }
+
+  private transformNode(node: MinimalNode): MinimalNode {
     if (node && node.path && node.path && node.path.elements instanceof Array) {
       let {
         path: { elements: elementsPath = [] }
@@ -117,5 +126,9 @@ export class CreateFileFromTemplateService {
 
   private close() {
     this.dialog.closeAll();
+  }
+
+  private get title() {
+    return this.translation.instant('NODE_SELECTOR.SELECT_TEMPLATE_TITLE');
   }
 }

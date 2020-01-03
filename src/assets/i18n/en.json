@@ -356,7 +356,29 @@
         "COPY_ITEMS": "Copy {{ number }} items to...",
         "MOVE_ITEM": "Move '{{ name }}' to...",
         "MOVE_ITEMS": "Move {{ number }} items to...",
-        "SEARCH": "Search"
+        "SEARCH": "Search",
+        "NEXT": "Next",
+        "SELECT_TEMPLATE_TITLE": "Select a document template"
+    },
+    "FILE_FROM_TEMPLATE": {
+        "CANCEL": "CANCEL",
+        "CREATE": "Create",
+        "TITLE": "Create new document from <span class=\"bold\">'{{ template }}'</span>",
+        "FORM": {
+            "PLACEHOLDER": {
+                "NAME": "Name",
+                "TITLE": "Title",
+                "DESCRIPTION": "Description"
+            },
+            "ERRORS": {
+                "DESCRIPTION_TOO_LONG": "Use 512 characters or less for description",
+                "TITLE_TOO_LONG": "Use 256 characters or less for title",
+                "REQUIRED": "File name is required",
+                "SPECIAL_CHARACTERS": "File name can't contain these characters * \" < > \\ / ? : |",
+                "ENDING_DOT": "File name can't end with a period .",
+                "ONLY_SPACES": "File name can't contain only spaces"
+            }
+        }
     },
     "PERMISSIONS": {
         "DIALOG": {

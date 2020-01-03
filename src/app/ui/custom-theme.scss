@@ -10,6 +10,7 @@
 @import '../dialogs/node-versions/node-versions.dialog.theme';
 @import '../components/create-menu/create-menu.component.scss';
 @import '../components/layout/layout.theme.scss';
+@import '../dialogs/node-templates/create-from-template.dialog.scss';
 
 @import './overrides/adf-style-fixes.theme';
 
@@ -67,6 +68,7 @@ $warn: map-get($custom-theme, warn);
   @include sidenav-component-theme($theme);
   @include aca-current-user-theme($theme);
   @include aca-context-menu-theme($theme);
+  @include app-create-file-from-template-theme($theme);
   @include app-create-menu-theme($theme);
   @include adf-style-fixes($theme);
 
