@@ -29,7 +29,7 @@ import { Utils } from '../../utilities/utils';
 import { FILES, SITE_VISIBILITY, SITE_ROLES } from '../../configs';
 import * as moment from 'moment';
 
-fdescribe('Search filters', () => {
+describe('Search filters', () => {
   const random = Utils.random();
 
   const user1 = `user1-${random}`;
