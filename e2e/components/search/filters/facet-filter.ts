@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, ElementArrayFinder, by } from 'protractor';
+import { ElementFinder, ElementArrayFinder, by, browser } from 'protractor';
 import { GenericFilterPanel } from './generic-filter-panel';
 
 export class FacetFilter extends GenericFilterPanel {
@@ -85,7 +85,8 @@ export class FacetFilter extends GenericFilterPanel {
 
   async checkCategory(name: string): Promise<void> {
     const option = this.facets.filter(async (elem) => (await elem.getText()).includes(name)).first();
-    await option.click();
+    await browser.actions().mouseMove(option).perform();
+    await browser.actions().click().perform();
   }
 
   async filterCategoriesBy(name: string): Promise<void> {
