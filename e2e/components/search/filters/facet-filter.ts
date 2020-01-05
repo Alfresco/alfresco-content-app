@@ -85,6 +85,7 @@ export class FacetFilter extends GenericFilterPanel {
 
   async checkCategory(name: string): Promise<void> {
     const option = this.facets.filter(async (elem) => (await elem.getText()).includes(name)).first();
+    await browser.executeScript(`arguments[0].scrollIntoView();`, option);
     await browser.actions().mouseMove(option).perform();
     await browser.actions().click().perform();
   }
