@@ -63,7 +63,6 @@ describe('Search results - libraries', () => {
   const adminSite2 = `admin-site-${Utils.random()}`;
   const adminSite3 = `admin-site-${Utils.random()}`;
   const adminSite4 = `admin-site-${Utils.random()}`;
-
   const adminPrivate = `admin-site-${Utils.random()}`;
 
   const apis = {

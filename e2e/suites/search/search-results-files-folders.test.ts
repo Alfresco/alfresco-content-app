@@ -60,19 +60,9 @@ describe('Search results - files and folders', () => {
   beforeAll(async done => {
     await apis.admin.people.createUser({ username });
 
-    fileId = (await apis.user.nodes.createFile(
-      file,
-      '-my-',
-      fileTitle,
-      fileDescription
-    )).entry.id;
+    fileId = (await apis.user.nodes.createFile(file, '-my-', fileTitle, fileDescription)).entry.id;
     await apis.user.nodes.editNodeContent(fileId, 'edited by user');
-    folderId = (await apis.user.nodes.createFolder(
-      folder,
-      '-my-',
-      folderTitle,
-      folderDescription
-    )).entry.id;
+    folderId = (await apis.user.nodes.createFolder(folder, '-my-', folderTitle, folderDescription)).entry.id;
     fileRussianId = (await apis.user.nodes.createFile(fileRussian)).entry.id;
     await apis.user.sites.createSite(site);
 
@@ -80,6 +70,11 @@ describe('Search results - files and folders', () => {
     await apis.user.queries.waitForSites(site, { expect: 1 });
 
     await loginPage.loginWith(username);
+    done();
+  });
+
+  beforeEach(async done => {
+    await page.refresh();
     done();
   });
 
@@ -93,20 +88,13 @@ describe('Search results - files and folders', () => {
     done();
   });
 
-  beforeEach(async done => {
-    await page.refresh();
-    done();
-  });
-
   it('Results page title - [C307002]', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkFilesAndFolders();
     await searchInput.searchFor('test-');
     await dataTable.waitForBody();
 
-    expect(await page.breadcrumb.getCurrentItemName()).toEqual(
-      'Search Results'
-    );
+    expect(await page.breadcrumb.getCurrentItemName()).toEqual('Search Results');
   });
 
   it('File information - [C279183]', async () => {
@@ -116,38 +104,17 @@ describe('Search results - files and folders', () => {
     await dataTable.waitForBody();
 
     const fileEntry = await apis.user.nodes.getNodeById(fileId);
-    const modifiedDate = moment(fileEntry.entry.modifiedAt).format(
-      'MMM D, YYYY, h:mm:ss A'
-    );
+    const modifiedDate = moment(fileEntry.entry.modifiedAt).format('MMM D, YYYY, h:mm:ss A');
     const modifiedBy = fileEntry.entry.modifiedByUser.displayName;
     const size = fileEntry.entry.content.sizeInBytes;
 
-    expect(await dataTable.isItemPresent(file)).toBe(
-      true,
-      `${file} is not displayed`
-    );
-
-    expect(await dataTable.getRowCellsCount(file)).toEqual(
-      2,
-      'incorrect number of columns'
-    );
-
-    expect(await dataTable.getSearchResultLinesCount(file)).toEqual(
-      4,
-      'incorrect number of lines for search result'
-    );
-    expect(await dataTable.getSearchResultNameAndTitle(file)).toBe(
-      `${file} ( ${fileTitle} )`
-    );
-    expect(await dataTable.getSearchResultDescription(file)).toBe(
-      fileDescription
-    );
-    expect(await dataTable.getSearchResultModified(file)).toBe(
-      `Modified: ${modifiedDate} by ${modifiedBy} | Size: ${size} Bytes`
-    );
-    expect(await dataTable.getSearchResultLocation(file)).toMatch(
-      /Location:\s+Personal Files/
-    );
+    expect(await dataTable.isItemPresent(file)).toBe(true, `${file} is not displayed`);
+    expect(await dataTable.getRowCellsCount(file)).toEqual(2, 'incorrect number of columns');
+    expect(await dataTable.getSearchResultLinesCount(file)).toEqual(4, 'incorrect number of lines for search result');
+    expect(await dataTable.getSearchResultNameAndTitle(file)).toBe(`${file} ( ${fileTitle} )`);
+    expect(await dataTable.getSearchResultDescription(file)).toBe(fileDescription);
+    expect(await dataTable.getSearchResultModified(file)).toBe(`Modified: ${modifiedDate} by ${modifiedBy} | Size: ${size} Bytes`);
+    expect(await dataTable.getSearchResultLocation(file)).toMatch(/Location:\s+Personal Files/);
   });
 
   it('Folder information - [C306867]', async () => {
@@ -157,37 +124,16 @@ describe('Search results - files and folders', () => {
     await dataTable.waitForBody();
 
     const folderEntry = await apis.user.nodes.getNodeById(folderId);
-    const modifiedDate = moment(folderEntry.entry.modifiedAt).format(
-      'MMM D, YYYY, h:mm:ss A'
-    );
+    const modifiedDate = moment(folderEntry.entry.modifiedAt).format('MMM D, YYYY, h:mm:ss A');
     const modifiedBy = folderEntry.entry.modifiedByUser.displayName;
 
-    expect(await dataTable.isItemPresent(folder)).toBe(
-      true,
-      `${folder} is not displayed`
-    );
-
-    expect(await dataTable.getRowCellsCount(folder)).toEqual(
-      2,
-      'incorrect number of columns'
-    );
-
-    expect(await dataTable.getSearchResultLinesCount(folder)).toEqual(
-      4,
-      'incorrect number of lines for search result'
-    );
-    expect(await dataTable.getSearchResultNameAndTitle(folder)).toBe(
-      `${folder} ( ${folderTitle} )`
-    );
-    expect(await dataTable.getSearchResultDescription(folder)).toBe(
-      folderDescription
-    );
-    expect(await dataTable.getSearchResultModified(folder)).toBe(
-      `Modified: ${modifiedDate} by ${modifiedBy}`
-    );
-    expect(await dataTable.getSearchResultLocation(folder)).toMatch(
-      /Location:\s+Personal Files/
-    );
+    expect(await dataTable.isItemPresent(folder)).toBe(true, `${folder} is not displayed`);
+    expect(await dataTable.getRowCellsCount(folder)).toEqual(2, 'incorrect number of columns');
+    expect(await dataTable.getSearchResultLinesCount(folder)).toEqual(4, 'incorrect number of lines for search result');
+    expect(await dataTable.getSearchResultNameAndTitle(folder)).toBe(`${folder} ( ${folderTitle} )`);
+    expect(await dataTable.getSearchResultDescription(folder)).toBe(folderDescription);
+    expect(await dataTable.getSearchResultModified(folder)).toBe(`Modified: ${modifiedDate} by ${modifiedBy}`);
+    expect(await dataTable.getSearchResultLocation(folder)).toMatch(/Location:\s+Personal Files/);
   });
 
   it('Search file with special characters - [C290029]', async () => {
@@ -196,10 +142,7 @@ describe('Search results - files and folders', () => {
     await searchInput.searchFor(fileRussian);
     await dataTable.waitForBody();
 
-    expect(await dataTable.isItemPresent(fileRussian)).toBe(
-      true,
-      `${fileRussian} is not displayed`
-    );
+    expect(await dataTable.isItemPresent(fileRussian)).toBe(true, `${fileRussian} is not displayed`);
   });
 
   it('Location column redirect - file in user Home - [C279177]', async () => {

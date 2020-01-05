@@ -409,6 +409,14 @@ export class DataTable extends Component {
     }, {});
   }
 
+  getSearchResultsRows(): ElementArrayFinder {
+    return this.body.all(by.css(DataTable.selectors.searchResultsRow));
+  }
+
+  getNthSearchResultsRow(nth: number): ElementFinder {
+    return this.getSearchResultsRows().get(nth - 1);
+  }
+
   getSearchResultsRowByName(name: string, location: string = '') {
     if (location) {
       return this.body.all(by.cssContainingText(DataTable.selectors.searchResultsRow, name))
