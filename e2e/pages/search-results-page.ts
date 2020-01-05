@@ -70,7 +70,6 @@ export class SearchResultsPage extends BrowsingPage {
   async removeChip(chipName: string): Promise<void> {
     const chip: ElementFinder = browser.element(By.cssContainingText(SearchResultsPage.selectors.chip, chipName));
     const closeChip: ElementFinder = chip.element(by.css(SearchResultsPage.selectors.chipCloseIcon));
-
     await closeChip.click();
   }
 }
