@@ -70,7 +70,7 @@ if [[ $KEYCLOAK == "true" ]]; then
   export APP_CONFIG_OAUTH2_CLIENTID="alfresco"
   export APP_CONFIG_OAUTH2_IMPLICIT_FLOW=true
   export APP_CONFIG_OAUTH2_SILENT_LOGIN=true
-  export APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI="${APP_URL}assets/silent-refresh.html"
+  export APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI="${APP_URL}/assets/silent-refresh.html"
   export APP_CONFIG_OAUTH2_REDIRECT_LOGIN="/$URL_FRAGMENT/"
   export APP_CONFIG_OAUTH2_REDIRECT_LOGOUT="/$URL_FRAGMENT/logout"
   # export APP_BASE_SHARE_URL="${APP_URL}#/preview/s"

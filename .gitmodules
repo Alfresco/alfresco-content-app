@@ -1,0 +1,3 @@
+[submodule "alfresco-js-api"]
+	path = alfresco-js-api
+	url = https://github.com/Alfresco/alfresco-js-api
