@@ -12,3 +12,7 @@ cd alfresco-js-api && git checkout master && git pull
 cd ..
 
 echo
+echo "Updating alfresco-ng2-components ..."
+echo  --------------------------
+cd alfresco-ng2-components && git checkout master && git pull
+cd ..
