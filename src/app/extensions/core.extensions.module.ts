@@ -170,7 +170,9 @@ export class CoreExtensionsModule {
       'app.navigation.isSharedFileViewer': rules.isSharedFileViewer,
 
       'repository.isQuickShareEnabled': rules.hasQuickShareEnabled,
-      'user.isAdmin': rules.isAdmin
+      'user.isAdmin': rules.isAdmin,
+      'app.canShowLanguagePicker': rules.canShowLanguagePicker,
+      'app.canShowLogout': rules.canShowLogout
     });
   }
 }

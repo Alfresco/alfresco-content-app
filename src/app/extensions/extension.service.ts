@@ -28,7 +28,11 @@ import { Store } from '@ngrx/store';
 import { Route } from '@angular/router';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
-import { AppStore, getRuleContext } from '@alfresco/aca-shared/store';
+import {
+  AppStore,
+  getRuleContext,
+  getLanguagePickerState
+} from '@alfresco/aca-shared/store';
 import { NodePermissionService } from '@alfresco/aca-shared';
 import {
   SelectionState,
@@ -78,6 +82,7 @@ export class AppExtensionService implements RuleContext {
   sidebar: Array<SidebarTabRef> = [];
   contentMetadata: any;
   viewerRules: ViewerRules = {};
+  userActions: Array<ContentActionRef> = [];
 
   documentListPresets: {
     files: Array<DocumentListPresetRef>;
@@ -103,6 +108,8 @@ export class AppExtensionService implements RuleContext {
   navigation: NavigationState;
   profile: ProfileState;
   repository: RepositoryInfo;
+  withCredentials: boolean;
+  languagePicker: boolean;
 
   references$: Observable<ExtensionRef[]>;
 
@@ -123,6 +130,10 @@ export class AppExtensionService implements RuleContext {
       this.navigation = result.navigation;
       this.profile = result.profile;
       this.repository = result.repository;
+    });
+
+    this.store.select(getLanguagePickerState).subscribe(result => {
+      this.languagePicker = result;
     });
   }
 
@@ -170,6 +181,10 @@ export class AppExtensionService implements RuleContext {
       config,
       'features.sidebar'
     );
+    this.userActions = this.loader.getContentActions(
+      config,
+      'features.userActions'
+    );
     this.contentMetadata = this.loadContentMetadata(config);
 
     this.documentListPresets = {
@@ -185,6 +200,11 @@ export class AppExtensionService implements RuleContext {
       trashcan: this.getDocumentListPreset(config, 'trashcan'),
       searchLibraries: this.getDocumentListPreset(config, 'search-libraries')
     };
+
+    this.withCredentials = this.appConfig.get<boolean>(
+      'auth.withCredentials',
+      false
+    );
 
     if (config.features && config.features.viewer) {
       this.viewerRules = <ViewerRules>(config.features.viewer['rules'] || {});
@@ -471,6 +491,12 @@ export class AppExtensionService implements RuleContext {
 
   getAllowedContextMenuActions(): Array<ContentActionRef> {
     return this.getAllowedActions(this.contextMenuActions);
+  }
+
+  getUserActions(): Array<ContentActionRef> {
+    return this.userActions
+      .filter(action => this.filterVisible(action))
+      .sort(sortByOrder);
   }
 
   copyAction(action: ContentActionRef): ContentActionRef {
