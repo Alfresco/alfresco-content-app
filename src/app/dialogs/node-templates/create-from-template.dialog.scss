@@ -52,11 +52,11 @@
         font-weight: normal;
       }
 
-      .create:disabled {
-        color: mat-color($primary);
+      .create[disabled] {
+        opacity: 0.6;
       }
 
-      .create {
+      .create:enabled {
         color: mat-color($accent);
       }
     }
