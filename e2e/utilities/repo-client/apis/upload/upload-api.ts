@@ -51,8 +51,15 @@ export class UploadApi extends RepoApi {
     }
   }
 
-  async uploadFileWithRename(fileName: string, parentFolderId: string = '-my-', newName: string) {
+  async uploadFileWithRename(fileName: string, parentId: string = '-my-', newName: string, title: string = '', description: string = '') {
     const file = fs.createReadStream(`${E2E_ROOT_PATH}/resources/test-files/${fileName}`);
+    const nodeProps = {
+      properties: {
+        'cm:title': title,
+        'cm:description': description
+      }
+    };
+
     const opts = {
         name: newName,
         nodeType: 'cm:content'
@@ -60,7 +67,7 @@ export class UploadApi extends RepoApi {
 
     try {
       await this.apiAuth();
-      return await this.upload.uploadFile(file, '', parentFolderId, null, opts);
+      return await this.upload.uploadFile(file, '', parentId, nodeProps, opts);
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.uploadFileWithRename.name}`, error);
     }

@@ -92,6 +92,13 @@ export class Utils {
     }
   }
 
+  static async clearFieldWithBackspace(elem: ElementFinder): Promise<void> {
+    const text = await elem.getAttribute('value');
+    for (let i = 0; i < text.length; i++) {
+      await elem.sendKeys(protractor.Key.BACK_SPACE);
+    }
+  }
+
   static async fileExistsOnOS(fileName: string, folderName: string = '', subFolderName: string = '') {
     const config = await browser.getProcessedConfig();
     const filePath = path.join(config.params.downloadFolder, folderName, subFolderName, fileName);

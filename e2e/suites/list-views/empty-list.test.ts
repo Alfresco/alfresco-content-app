@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage, SearchResultsPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 
@@ -38,6 +38,7 @@ describe('Empty list views', () => {
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
+  const searchResultsPage = new SearchResultsPage();
   const { dataTable, pagination } = page;
   const { searchInput } = page.header;
 
@@ -168,7 +169,6 @@ describe('Empty list views', () => {
 
   it('Search results - pagination controls not displayed - [C290123]', async () => {
     await searchInput.clickSearchButton();
-    await searchInput.checkOnlyFiles();
     /* cspell:disable-next-line */
     await searchInput.searchFor('qwertyuiop');
     await dataTable.waitForBody();
@@ -179,6 +179,15 @@ describe('Empty list views', () => {
     expect(await pagination.isTotalPagesPresent()).toBe(false, 'Total pages is present');
     expect(await pagination.isPreviousButtonPresent()).toBe(false, 'Previous button is present');
     expect(await pagination.isNextButtonPresent()).toBe(false, 'Next button is present');
+  });
+
+  it('Search filters panel is not displayed on empty Search Results page - [C279189]', async () => {
+    await searchInput.clickSearchButton();
+    /* cspell:disable-next-line */
+    await searchInput.searchFor('qwertyuiop');
+    await dataTable.waitForBody();
+
+    expect(await searchResultsPage.filters.isSearchFiltersPanelDisplayed()).toBe(false, 'Search filters panel is present');
   });
 
   it('Empty Search results - Libraries - [C290020]', async () => {

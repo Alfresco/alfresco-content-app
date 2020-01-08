@@ -23,37 +23,53 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { browser, by } from 'protractor';
+import { browser, by, By, ElementFinder, ElementArrayFinder } from 'protractor';
 import { BrowsingPage } from './browsing-page';
+import { SearchSortingPicker } from '../components/search/search-sorting-picker';
+import { SearchFilters } from '../components/search/search-filters';
 
 export class SearchResultsPage extends BrowsingPage {
 
   private static selectors = {
     root: 'aca-search-results',
 
-    filter: 'adf-search-filter',
-    expansionPanel: 'mat-expansion-panel',
-    size: '#expansion-panel-SEARCH.CATEGORIES.SIZE',
-    createdDate: '#expansion-panel-SEARCH.CATEGORIES.CREATED_DATE',
-    modifiedDate: '#expansion-panel-SEARCH.CATEGORIES.MODIFIED_DATE',
-    fileType: '#expansion-panel-SEARCH.FACET_FIELDS.FILE_TYPE',
-    creator: '#expansion-panel-SEARCH.CATEGORIES.CREATOR',
-    modifier: '#expansion-panel-SEARCH.CATEGORIES.MODIFIER',
-    location: '#expansion-panel-SEARCH.CATEGORIES.LOCATION',
-
-    resultsContent: 'adf-search-results__content',
     resultsContentHeader: '.adf-search-results__content-header',
-    resultsInfoText: 'adf-search-results--info-text',
-    resultsFacets: 'adf-search-results__facets',
-
-    sortingPicker: 'adf-sorting-picker'
+    infoText: '.adf-search-results--info-text',
+    chipList: '.adf-search-chip-list',
+    chip: '.mat-chip',
+    chipCloseIcon: '.mat-chip-remove'
   };
 
-  async waitForResults() {
+  root: ElementFinder = browser.element(by.css(SearchResultsPage.selectors.root));
+  chipList: ElementFinder = this.root.element(by.css(SearchResultsPage.selectors.chipList));
+  infoText: ElementFinder = this.root.element(by.css(SearchResultsPage.selectors.infoText));
+
+  sortingPicker = new SearchSortingPicker(this.root);
+  filters = new SearchFilters(this.root);
+
+  async waitForResults(): Promise<void> {
     await this.dataTable.waitForBody();
   }
 
-  async getResultsHeader() {
-    return browser.element(by.css(SearchResultsPage.selectors.resultsContentHeader)).getText();
+  async getResultsHeader(): Promise<string> {
+    return await browser.element(by.css(SearchResultsPage.selectors.resultsContentHeader)).getText();
+  }
+
+  async getResultsFoundText(): Promise<string> {
+    return await this.infoText.getText();
+  }
+
+  async getResultsChipsValues(): Promise<string[]> {
+    const chips: ElementArrayFinder = this.chipList.all(by.css(SearchResultsPage.selectors.chip));
+    const chipsValues: string[] = await chips.map(async elem => {
+      return (await elem.getText()).replace(`\ncancel`, '');
+    });
+    return chipsValues;
+  }
+
+  async removeChip(chipName: string): Promise<void> {
+    const chip: ElementFinder = browser.element(By.cssContainingText(SearchResultsPage.selectors.chip, chipName));
+    const closeChip: ElementFinder = chip.element(by.css(SearchResultsPage.selectors.chipCloseIcon));
+    await closeChip.click();
   }
 }
