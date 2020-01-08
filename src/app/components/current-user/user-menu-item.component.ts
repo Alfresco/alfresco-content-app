@@ -23,40 +23,36 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewEncapsulation, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { ProfileState, ContentActionRef } from '@alfresco/adf-extensions';
-import {
-  AppStore,
-  getUserProfile,
-  getLanguagePickerState
-} from '@alfresco/aca-shared/store';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { ContentActionRef } from '@alfresco/adf-extensions';
 import { AppExtensionService } from '../../extensions/extension.service';
 
 @Component({
-  selector: 'aca-current-user',
-  templateUrl: './current-user.component.html',
+  selector: 'app-user-menu-item',
+  templateUrl: 'user-menu-item.component.html',
   encapsulation: ViewEncapsulation.None,
-  host: { class: 'aca-current-user' }
+  host: { class: 'app-user-menu-item' }
 })
-export class CurrentUserComponent implements OnInit {
-  profile$: Observable<ProfileState>;
-  languagePicker$: Observable<boolean>;
-  actions: Array<ContentActionRef> = [];
+export class UserMenuItemComponent {
+  @Input()
+  actionRef: ContentActionRef;
 
-  constructor(
-    private store: Store<AppStore>,
-    private extensions: AppExtensionService
-  ) {}
+  constructor(private extensions: AppExtensionService) {}
 
-  ngOnInit() {
-    this.profile$ = this.store.select(getUserProfile);
-    this.languagePicker$ = this.store.select(getLanguagePickerState);
-    this.actions = this.extensions.getUserActions();
+  runAction() {
+    if (this.hasClickAction(this.actionRef)) {
+      this.extensions.runActionById(this.actionRef.actions.click);
+    }
   }
 
-  trackByActionId(_: number, action: ContentActionRef) {
-    return action.id;
+  private hasClickAction(actionRef: ContentActionRef): boolean {
+    if (actionRef && actionRef.actions && actionRef.actions.click) {
+      return true;
+    }
+    return false;
+  }
+
+  trackById(_: number, obj: { id: string }) {
+    return obj.id;
   }
 }

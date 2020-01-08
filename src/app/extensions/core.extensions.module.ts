@@ -51,6 +51,8 @@ import {
 } from '@alfresco/adf-content-services';
 import { ToggleSharedComponent } from '../components/common/toggle-shared/toggle-shared.component';
 import { ViewNodeComponent } from '../components/toolbar/view-node/view-node.component';
+import { LanguagePickerComponent } from '../components/common/language-picker/language-picker.component';
+import { LogoutComponent } from '../components/common/logout/logout.component';
 
 export function setupExtensions(service: AppExtensionService): Function {
   return () => service.load();
@@ -101,7 +103,9 @@ export class CoreExtensionsModule {
       'app.columns.trashcanName': TrashcanNameColumnComponent,
       'app.columns.location': LocationLinkComponent,
       'app.toolbar.toggleEditOffline': ToggleEditOfflineComponent,
-      'app.toolbar.viewNode': ViewNodeComponent
+      'app.toolbar.viewNode': ViewNodeComponent,
+      'app.languagePicker': LanguagePickerComponent,
+      'app.logout': LogoutComponent
     });
 
     extensions.setAuthGuards({
@@ -166,7 +170,9 @@ export class CoreExtensionsModule {
       'app.navigation.isSharedFileViewer': rules.isSharedFileViewer,
 
       'repository.isQuickShareEnabled': rules.hasQuickShareEnabled,
-      'user.isAdmin': rules.isAdmin
+      'user.isAdmin': rules.isAdmin,
+      'app.canShowLanguagePicker': rules.canShowLanguagePicker,
+      'app.canShowLogout': rules.canShowLogout
     });
   }
 }

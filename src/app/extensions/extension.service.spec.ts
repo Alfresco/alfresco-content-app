@@ -39,18 +39,21 @@ import {
   ExtensionConfig,
   ComponentRegisterService
 } from '@alfresco/adf-extensions';
+import { AppConfigService } from '@alfresco/adf-core';
 
 describe('AppExtensionService', () => {
   let service: AppExtensionService;
   let store: Store<AppStore>;
   let extensions: ExtensionService;
   let components: ComponentRegisterService;
+  let appConfigService: AppConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule]
     });
 
+    appConfigService = TestBed.get(AppConfigService);
     store = TestBed.get(Store);
     service = TestBed.get(AppExtensionService);
     extensions = TestBed.get(ExtensionService);
@@ -782,6 +785,116 @@ describe('AppExtensionService', () => {
       });
 
       expect(service.getSharedLinkViewerToolbarActions()).toEqual(<any>actions);
+    });
+  });
+
+  describe('withCredentials', () => {
+    it('should set `withCredentials` to true from app configuration', () => {
+      appConfigService.config = {
+        auth: { withCredentials: true }
+      };
+      applyConfig({
+        $id: 'test',
+        $name: 'test',
+        $version: '1.0.0',
+        $license: 'MIT',
+        $vendor: 'Good company',
+        $runtime: '1.5.0'
+      });
+
+      expect(service.withCredentials).toBe(true);
+    });
+
+    it('should set `withCredentials` to false from app configuration', () => {
+      appConfigService.config = {
+        auth: { withCredentials: false }
+      };
+      applyConfig({
+        $id: 'test',
+        $name: 'test',
+        $version: '1.0.0',
+        $license: 'MIT',
+        $vendor: 'Good company',
+        $runtime: '1.5.0'
+      });
+
+      expect(service.withCredentials).toBe(false);
+    });
+
+    it('should set `withCredentials` to false as default value if no app configuration', () => {
+      appConfigService.config = {};
+      applyConfig({
+        $id: 'test',
+        $name: 'test',
+        $version: '1.0.0',
+        $license: 'MIT',
+        $vendor: 'Good company',
+        $runtime: '1.5.0'
+      });
+
+      expect(service.withCredentials).toBe(false);
+    });
+  });
+
+  describe('userActions', () => {
+    it('should load user actions from the config', () => {
+      applyConfig({
+        $id: 'test',
+        $name: 'test',
+        $version: '1.0.0',
+        $license: 'MIT',
+        $vendor: 'Good company',
+        $runtime: '1.5.0',
+        features: {
+          userActions: [
+            {
+              id: 'aca:toolbar/separator-1',
+              order: 1,
+              type: ContentActionType.separator,
+              title: 'action1'
+            },
+            {
+              id: 'aca:toolbar/separator-2',
+              order: 2,
+              type: ContentActionType.separator,
+              title: 'action2'
+            }
+          ]
+        }
+      });
+
+      expect(service.userActions.length).toBe(2);
+    });
+
+    it('should sort user actions by order', () => {
+      applyConfig({
+        $id: 'test',
+        $name: 'test',
+        $version: '1.0.0',
+        $license: 'MIT',
+        $vendor: 'Good company',
+        $runtime: '1.5.0',
+        features: {
+          userActions: [
+            {
+              id: 'aca:toolbar/separator-2',
+              order: 2,
+              type: ContentActionType.separator,
+              title: 'action2'
+            },
+            {
+              id: 'aca:toolbar/separator-1',
+              order: 1,
+              type: ContentActionType.separator,
+              title: 'action1'
+            }
+          ]
+        }
+      });
+
+      expect(service.userActions.length).toBe(2);
+      expect(service.userActions[0].id).toBe('aca:toolbar/separator-1');
+      expect(service.userActions[1].id).toBe('aca:toolbar/separator-2');
     });
   });
 });

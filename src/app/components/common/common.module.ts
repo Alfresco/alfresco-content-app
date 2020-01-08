@@ -30,6 +30,8 @@ import { NgModule } from '@angular/core';
 import { GenericErrorModule } from '@alfresco/aca-shared';
 import { LocationLinkComponent } from './location-link/location-link.component';
 import { ToggleSharedComponent } from './toggle-shared/toggle-shared.component';
+import { LanguagePickerComponent } from './language-picker/language-picker.component';
+import { LogoutComponent } from './logout/logout.component';
 
 @NgModule({
   imports: [
@@ -38,13 +40,25 @@ import { ToggleSharedComponent } from './toggle-shared/toggle-shared.component';
     ExtensionsModule,
     GenericErrorModule
   ],
-  declarations: [LocationLinkComponent, ToggleSharedComponent],
+  declarations: [
+    LocationLinkComponent,
+    ToggleSharedComponent,
+    LanguagePickerComponent,
+    LogoutComponent
+  ],
   exports: [
     ExtensionsModule,
     LocationLinkComponent,
     GenericErrorModule,
-    ToggleSharedComponent
+    ToggleSharedComponent,
+    LanguagePickerComponent,
+    LogoutComponent
   ],
-  entryComponents: [LocationLinkComponent, ToggleSharedComponent]
+  entryComponents: [
+    LocationLinkComponent,
+    ToggleSharedComponent,
+    LanguagePickerComponent,
+    LogoutComponent
+  ]
 })
 export class AppCommonModule {}

@@ -27,6 +27,11 @@ import { RuleContext } from '@alfresco/adf-extensions';
 import * as navigation from './navigation.rules';
 import * as repository from './repository.rules';
 
+export interface AcaRuleContext extends RuleContext {
+  languagePicker: boolean;
+  withCredentials: boolean;
+}
+
 /**
  * Checks if user can copy selected node.
  * JSON ref: `app.canCopyNode`
@@ -525,4 +530,22 @@ export function canToggleFavorite(context: RuleContext): boolean {
       navigation.isFavorites(context)
     ].some(Boolean)
   ].every(Boolean);
+}
+
+/**
+ * Checks if application should render language picker menu.
+ * JSON ref: `canShowLanguagePicker`
+ * @param context Rule execution context
+ */
+export function canShowLanguagePicker(context: AcaRuleContext): boolean {
+  return context.languagePicker;
+}
+
+/**
+ * Checks if application should render logout option.
+ * JSON ref: `canShowLogout`
+ * @param context Rule execution context
+ */
+export function canShowLogout(context: AcaRuleContext): boolean {
+  return !context.withCredentials;
 }

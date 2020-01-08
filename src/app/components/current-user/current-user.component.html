@@ -13,21 +13,10 @@
 </div>
 
 <mat-menu #userMenu="matMenu" [overlapTrigger]="false">
-  <button
-    *ngIf="languagePicker$ | async"
-    mat-menu-item
-    [matMenuTriggerFor]="langMenu"
-  >
-    {{ 'APP.LANGUAGE' | translate }}
-  </button>
-
-  <ng-container *ngIf="showLogout">
-    <button mat-menu-item (click)="onLogoutEvent()" adf-logout>
-      {{ 'APP.SIGN_OUT' | translate }}
-    </button>
+  <ng-container *ngFor="let actionRef of actions; trackBy: trackByActionId">
+    <app-user-menu-item
+      [actionRef]="actionRef"
+      color="default"
+    ></app-user-menu-item>
   </ng-container>
-</mat-menu>
-
-<mat-menu #langMenu="matMenu">
-  <adf-language-menu></adf-language-menu>
 </mat-menu>

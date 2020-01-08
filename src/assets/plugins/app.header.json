@@ -22,6 +22,26 @@
   ],
 
   "features": {
+    "userActions": [
+      {
+        "id": "app.languagePicker",
+        "order": 100,
+        "type": "custom",
+        "component": "app.languagePicker",
+        "rules": {
+          "visible": "app.canShowLanguagePicker"
+        }
+      },
+      {
+        "id": "app.logout",
+        "order": 200,
+        "type": "custom",
+        "component": "app.logout",
+        "rules": {
+          "visible": "app.canShowLogout"
+        }
+      }
+    ],
     "header": [
       {
         "id": "app.header.more",

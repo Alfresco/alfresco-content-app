@@ -23,40 +23,17 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewEncapsulation, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { ProfileState, ContentActionRef } from '@alfresco/adf-extensions';
-import {
-  AppStore,
-  getUserProfile,
-  getLanguagePickerState
-} from '@alfresco/aca-shared/store';
-import { AppExtensionService } from '../../extensions/extension.service';
+import { Component } from '@angular/core';
 
 @Component({
-  selector: 'aca-current-user',
-  templateUrl: './current-user.component.html',
-  encapsulation: ViewEncapsulation.None,
-  host: { class: 'aca-current-user' }
+  selector: 'aca-language-picker',
+  template: `
+    <button mat-menu-item [matMenuTriggerFor]="langMenu">
+      {{ 'APP.LANGUAGE' | translate }}
+    </button>
+    <mat-menu #langMenu="matMenu">
+      <adf-language-menu></adf-language-menu>
+    </mat-menu>
+  `
 })
-export class CurrentUserComponent implements OnInit {
-  profile$: Observable<ProfileState>;
-  languagePicker$: Observable<boolean>;
-  actions: Array<ContentActionRef> = [];
-
-  constructor(
-    private store: Store<AppStore>,
-    private extensions: AppExtensionService
-  ) {}
-
-  ngOnInit() {
-    this.profile$ = this.store.select(getUserProfile);
-    this.languagePicker$ = this.store.select(getLanguagePickerState);
-    this.actions = this.extensions.getUserActions();
-  }
-
-  trackByActionId(_: number, action: ContentActionRef) {
-    return action.id;
-  }
-}
+export class LanguagePickerComponent {}

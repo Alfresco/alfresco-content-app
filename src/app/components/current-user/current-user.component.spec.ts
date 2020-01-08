@@ -24,9 +24,91 @@
  */
 
 import { CurrentUserComponent } from './current-user.component';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { AppTestingModule } from '../../testing/app-testing.module';
+import { AppExtensionService } from '../../extensions/extension.service';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { Store } from '@ngrx/store';
+import {
+  AppState,
+  SetUserProfileAction,
+  SetLanguagePickerAction
+} from '@alfresco/aca-shared/store';
 
 describe('CurrentUserComponent', () => {
-  it('should be defined', () => {
-    expect(CurrentUserComponent).toBeDefined();
+  let fixture: ComponentFixture<CurrentUserComponent>;
+  let component: CurrentUserComponent;
+  let appExtensionService;
+  let store: Store<AppState>;
+  const person = {
+    entry: {
+      id: 'user-id',
+      firstName: 'Test',
+      lastName: 'User',
+      email: 'user@email.com',
+      enabled: true,
+      isAdmin: false,
+      userName: 'user-name'
+    }
+  };
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [AppTestingModule],
+      declarations: [CurrentUserComponent],
+      providers: [AppExtensionService],
+      schemas: [NO_ERRORS_SCHEMA]
+    });
+
+    fixture = TestBed.createComponent(CurrentUserComponent);
+    appExtensionService = TestBed.get(AppExtensionService);
+    store = TestBed.get(Store);
+    component = fixture.componentInstance;
+  });
+
+  it('should get profile data', done => {
+    const expectedProfile = {
+      firstName: 'Test',
+      lastName: 'User',
+      userName: 'Test User',
+      isAdmin: true,
+      id: 'user-id',
+      groups: []
+    };
+
+    fixture.detectChanges();
+
+    store.dispatch(
+      new SetUserProfileAction({ person: person.entry, groups: [] })
+    );
+
+    component.profile$.subscribe((profile: any) => {
+      expect(profile).toEqual(jasmine.objectContaining(expectedProfile));
+      done();
+    });
+  });
+
+  it('should set language picker state', done => {
+    fixture.detectChanges();
+
+    store.dispatch(new SetLanguagePickerAction(true));
+
+    component.languagePicker$.subscribe((languagePicker: boolean) => {
+      expect(languagePicker).toBe(true);
+      done();
+    });
+  });
+
+  it('should set menu actions', () => {
+    const actions = <any>[
+      {
+        id: 'action-id'
+      }
+    ];
+    spyOn(appExtensionService, 'getUserActions').and.returnValue(actions);
+
+    fixture.detectChanges();
+
+    expect(component.actions).toBe(actions);
   });
 });
