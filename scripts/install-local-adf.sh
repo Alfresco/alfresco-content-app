@@ -1,8 +1,11 @@
 #!/bin/bash
 
-rm -rf node_modules
-./alfresco-ng2-components/scripts/build.sh
+cd alfresco-ng2-components
 npm install
+./scripts/build/build-all-lib.sh
+./scripts/build/build-content-services.sh
+./scripts/build/build-extensions.sh
+cd ..
 rm -rf node_modules/@alfresco/adf-content-services
 rm -rf node_modules/@alfresco/adf-core
 rm -rf node_modules/@alfresco/adf-extensions
