@@ -69,7 +69,7 @@ export class CreateFileFromTemplateDialogComponent implements OnInit {
 
   onSubmit() {
     const update = {
-      name: this.form.value.name,
+      name: this.form.value.name.trim(),
       properties: {
         'cm:title': this.form.value.title,
         'cm:description': this.form.value.description
