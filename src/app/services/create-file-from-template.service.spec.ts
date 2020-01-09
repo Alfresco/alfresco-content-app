@@ -153,4 +153,52 @@ describe('CreateFileFromTemplateService', () => {
       new SnackbarErrorAction('APP.MESSAGES.ERRORS.GENERIC')
     );
   }));
+
+  it('it should return true if row is not a `link` nodeType', () => {
+    spyOn(
+      alfrescoApiService.getInstance().nodes,
+      'getNodeInfo'
+    ).and.returnValue(
+      of({
+        id: 'templates-folder-id',
+        path: {
+          elements: [],
+          name: '/Company Home/Data Dictionary'
+        }
+      })
+    );
+    spyOn(dialog, 'open');
+
+    createFileFromTemplateService.openTemplatesDialog();
+
+    expect(
+      dialog.open['calls'].argsFor(0)[1].data.rowFilter({
+        node: { entry: { nodeType: 'text' } }
+      })
+    ).toBe(true);
+  });
+
+  it('it should return false if row is a `link` nodeType', () => {
+    spyOn(
+      alfrescoApiService.getInstance().nodes,
+      'getNodeInfo'
+    ).and.returnValue(
+      of({
+        id: 'templates-folder-id',
+        path: {
+          elements: [],
+          name: '/Company Home/Data Dictionary'
+        }
+      })
+    );
+    spyOn(dialog, 'open');
+
+    createFileFromTemplateService.openTemplatesDialog();
+
+    expect(
+      dialog.open['calls'].argsFor(0)[1].data.rowFilter({
+        node: { entry: { nodeType: 'app:filelink' } }
+      })
+    ).toBe(false);
+  });
 });
