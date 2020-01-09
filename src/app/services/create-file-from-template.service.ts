@@ -27,14 +27,15 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
 import { CreateFileFromTemplateDialogComponent } from '../dialogs/node-templates/create-from-template.dialog';
 import { Subject, from, of } from 'rxjs';
-import { Node, MinimalNode } from '@alfresco/js-api';
+import { Node, MinimalNode, MinimalNodeEntryEntity } from '@alfresco/js-api';
 import { AlfrescoApiService, TranslationService } from '@alfresco/adf-core';
 import { switchMap, catchError } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { AppStore, SnackbarErrorAction } from '@alfresco/aca-shared/store';
 import {
   ContentNodeSelectorComponent,
-  ContentNodeSelectorComponentData
+  ContentNodeSelectorComponentData,
+  ShareDataRow
 } from '@alfresco/adf-content-services';
 
 @Injectable({
@@ -62,7 +63,8 @@ export class CreateFileFromTemplateService {
       dropdownSiteList: null,
       breadcrumbTransform: this.transformNode.bind(this),
       select,
-      isSelectionValid: this.isSelectionValid.bind(this)
+      isSelectionValid: this.isSelectionValid.bind(this),
+      rowFilter: this.rowFilter.bind(this)
     };
 
     from(
@@ -130,5 +132,10 @@ export class CreateFileFromTemplateService {
 
   private get title() {
     return this.translation.instant('NODE_SELECTOR.SELECT_TEMPLATE_TITLE');
+  }
+
+  private rowFilter(row: ShareDataRow): boolean {
+    const node: MinimalNodeEntryEntity = row.node.entry;
+    return node.nodeType !== 'app:filelink';
   }
 }
