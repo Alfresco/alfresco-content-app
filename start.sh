@@ -8,6 +8,7 @@ show_help() {
   echo "-hi or --host-ip set the host ip"
   echo "-hp or --host-port set the host port. Default 8080"
   echo "-w or --wait wait for backend. Default true"
+  echo "-aca. Only redeploy ACA and skip the other docker compose services"
   echo "-h or --help"
 }
 
@@ -32,18 +33,24 @@ set_wait(){
   WAIT=$1
 }
 
+redeploy_aca(){
+  REDEPLOY_ACA="true"
+}
+
 # Defaults
 WAIT="true"
 SET_HOST_IP=""
 HOST_PORT="8080"
 KEYCLOAK="false"
 AIMS_PROPS=""
+REDEPLOY_ACA="false"
 
 while [[ $1 == -* ]]; do
   case "$1" in
     -h|--help|-\?) show_help; exit 0;;
     -k|--keycloak)  set_keycloak; shift;;
     -d|--down)  down; shift;;
+    -aca)  redeploy_aca; shift;;
     -w|--wait)  set_wait $2; shift 2;;
     -hi|--host-ip)  set_host_ip $2; shift 2;;
     -hp|--host-port)  set_host_port $2; shift 2;;
@@ -78,9 +85,15 @@ if [[ $KEYCLOAK == "true" ]]; then
   AIMS_PROPS="-Dauthentication.chain=identity-service1:identity-service,alfrescoNtlm1:alfrescoNtlm"
 fi
 
-echo "Start docker compose"
 export AIMS_PROPS=${AIMS_PROPS}
-docker-compose up -d --build
+
+if [[ $REDEPLOY_ACA == "true" ]]; then
+  echo "Redeploy content-app"
+  docker-compose up --detach --build content-app
+else
+  echo "Start docker compose"
+  docker-compose up -d --build
+fi
 
 if [[ $WAIT == "true" ]]; then
   echo "http://${HOST_IP:-localhost}:${HOST_PORT:-8080}/$URL_FRAGMENT/"
