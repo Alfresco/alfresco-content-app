@@ -154,7 +154,7 @@ describe('CreateFileFromTemplateService', () => {
     );
   }));
 
-  it('it should return true if row is not a `link` nodeType', () => {
+  it('should return true if row is not a `link` nodeType', () => {
     spyOn(
       alfrescoApiService.getInstance().nodes,
       'getNodeInfo'
@@ -178,7 +178,7 @@ describe('CreateFileFromTemplateService', () => {
     ).toBe(true);
   });
 
-  it('it should return false if row is a `link` nodeType', () => {
+  it('should return false if row is a `link` nodeType', () => {
     spyOn(
       alfrescoApiService.getInstance().nodes,
       'getNodeInfo'
