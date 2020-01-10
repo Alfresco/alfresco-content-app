@@ -115,7 +115,7 @@
         "title": "APP.NEW_MENU.MENU_ITEMS.FILE_TEMPLATE",
         "description": "APP.NEW_MENU.MENU_ITEMS.FILE_TEMPLATE",
         "actions": {
-          "click": "CREATE_FILE_FROM_TEMPLATE"
+          "click": "FILE_FROM_TEMPLATE"
         },
         "rules": {
           "enabled": "app.navigation.folder.canUpload"

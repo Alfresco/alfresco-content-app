@@ -26,11 +26,11 @@
 import { Action } from '@ngrx/store';
 
 export enum TemplateActionTypes {
-  CreateFileFromTemplate = 'CREATE_FILE_FROM_TEMPLATE'
+  FileFromTemplate = 'FILE_FROM_TEMPLATE'
 }
 
-export class CreateFileFromTemplate implements Action {
-  readonly type = TemplateActionTypes.CreateFileFromTemplate;
+export class FileFromTemplate implements Action {
+  readonly type = TemplateActionTypes.FileFromTemplate;
 
   constructor() {}
 }
