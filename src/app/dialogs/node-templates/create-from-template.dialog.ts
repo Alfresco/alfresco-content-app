@@ -33,6 +33,7 @@ import {
   FormControl,
   ValidationErrors
 } from '@angular/forms';
+import { CreateFromTemplateDialogService } from './create-from-template-dialog.service';
 
 @Component({
   templateUrl: './create-from-template.dialog.html',
@@ -43,12 +44,17 @@ export class CreateFileFromTemplateDialogComponent implements OnInit {
   public form: FormGroup;
 
   constructor(
+    private createFromTemplateDialogService: CreateFromTemplateDialogService,
     private formBuilder: FormBuilder,
     private dialogRef: MatDialogRef<CreateFileFromTemplateDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
   ngOnInit() {
+    this.createFromTemplateDialogService.success$.subscribe((data: Node) => {
+      this.dialogRef.close(data);
+    });
+
     this.form = this.formBuilder.group({
       name: [
         this.data.name,
