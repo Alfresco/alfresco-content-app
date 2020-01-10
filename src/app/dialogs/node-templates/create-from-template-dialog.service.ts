@@ -25,10 +25,11 @@
 
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { Node } from '@alfresco/js-api';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CreateFromTemplateDialogService {
-  success$: Subject<any> = new Subject();
+  success$: Subject<Node> = new Subject();
 }
