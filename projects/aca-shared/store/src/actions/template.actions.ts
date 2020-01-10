@@ -24,13 +24,21 @@
  */
 
 import { Action } from '@ngrx/store';
+import { Node } from '@alfresco/js-api';
 
 export enum TemplateActionTypes {
-  FileFromTemplate = 'FILE_FROM_TEMPLATE'
+  FileFromTemplate = 'FILE_FROM_TEMPLATE',
+  CreateFileFromTemplate = 'CREATE_FILE_FROM_TEMPLATE'
 }
 
 export class FileFromTemplate implements Action {
   readonly type = TemplateActionTypes.FileFromTemplate;
 
   constructor() {}
+}
+
+export class CreateFileFromTemplate implements Action {
+  readonly type = TemplateActionTypes.CreateFileFromTemplate;
+
+  constructor(public payload: Node) {}
 }
