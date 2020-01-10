@@ -32,6 +32,10 @@ import {
   MatDialogRef,
   MAT_DIALOG_DATA
 } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
+import { CreateFileFromTemplate } from '@alfresco/aca-shared/store';
+import { Node } from '@alfresco/js-api';
+import { CreateFromTemplateDialogService } from './create-from-template-dialog.service';
 
 function text(length: number) {
   return new Array(length)
@@ -47,6 +51,8 @@ describe('CreateFileFromTemplateDialogComponent', () => {
   let fixture: ComponentFixture<CreateFileFromTemplateDialogComponent>;
   let component: CreateFileFromTemplateDialogComponent;
   let dialogRef: MatDialogRef<CreateFileFromTemplateDialogComponent>;
+  let store;
+  let createFromTemplateDialogService: CreateFromTemplateDialogService;
 
   const data = {
     id: 'node-id',
@@ -62,6 +68,12 @@ describe('CreateFileFromTemplateDialogComponent', () => {
       imports: [CoreModule.forRoot(), AppTestingModule, MatDialogModule],
       declarations: [CreateFileFromTemplateDialogComponent],
       providers: [
+        {
+          provide: Store,
+          useValue: {
+            dispatch: jasmine.createSpy('dispatch')
+          }
+        },
         { provide: MAT_DIALOG_DATA, useValue: data },
         {
           provide: MatDialogRef,
@@ -74,6 +86,10 @@ describe('CreateFileFromTemplateDialogComponent', () => {
 
     fixture = TestBed.createComponent(CreateFileFromTemplateDialogComponent);
     dialogRef = TestBed.get(MatDialogRef);
+    store = TestBed.get(Store);
+    createFromTemplateDialogService = TestBed.get(
+      CreateFromTemplateDialogService
+    );
     component = fixture.componentInstance;
 
     fixture.detectChanges();
@@ -119,7 +135,15 @@ describe('CreateFileFromTemplateDialogComponent', () => {
     expect(component.form.invalid).toBe(true);
   });
 
-  it('should update data with form values', () => {
+  it('should create node from template with form values', () => {
+    const newNode = {
+      id: 'node-id',
+      name: 'new-node-name',
+      properties: {
+        'cm:title': 'new-node-title',
+        'cm:description': 'new-node-description'
+      }
+    } as Node;
     component.form.controls.name.setValue('new-node-name');
     component.form.controls.title.setValue('new-node-title');
     component.form.controls.description.setValue('new-node-description');
@@ -128,13 +152,27 @@ describe('CreateFileFromTemplateDialogComponent', () => {
 
     component.onSubmit();
 
-    expect(dialogRef.close['calls'].argsFor(0)[0]).toEqual({
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new CreateFileFromTemplate(newNode)
+    );
+  });
+
+  it('should close dialog on create file from template success', done => {
+    const newNode = {
       id: 'node-id',
       name: 'new-node-name',
       properties: {
         'cm:title': 'new-node-title',
         'cm:description': 'new-node-description'
       }
+    } as Node;
+
+    fixture.detectChanges();
+    createFromTemplateDialogService.success$.subscribe(node => {
+      expect(dialogRef.close).toHaveBeenCalledWith(node);
+      done();
     });
+
+    createFromTemplateDialogService.success$.next(newNode);
   });
 });
