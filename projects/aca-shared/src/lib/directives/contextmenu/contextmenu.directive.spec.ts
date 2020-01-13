@@ -23,24 +23,25 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ContextActionsDirective } from './context-menu.directive';
+import { ContextActionsDirective } from './contextmenu.directive';
+import { ContextMenu } from '@alfresco/aca-shared/store';
 import { fakeAsync, tick } from '@angular/core/testing';
 
 describe('ContextActionsDirective', () => {
   let directive;
-  const contextMenuServiceMock = <any>{
-    open: jasmine.createSpy('open')
+  const storeMock = <any>{
+    dispatch: jasmine.createSpy('dispatch')
   };
 
   beforeEach(() => {
-    directive = new ContextActionsDirective(contextMenuServiceMock);
+    directive = new ContextActionsDirective(storeMock);
   });
 
   it('should not render context menu when `enabled` property is false', () => {
     directive.enabled = false;
     directive.onContextMenuEvent(new MouseEvent('contextmenu'));
 
-    expect(contextMenuServiceMock.open).not.toHaveBeenCalled();
+    expect(storeMock.dispatch).not.toHaveBeenCalled();
   });
 
   it('should call service to render context menu', fakeAsync(() => {
@@ -51,13 +52,16 @@ describe('ContextActionsDirective', () => {
     const fragment = document.createDocumentFragment();
     fragment.appendChild(el);
     const target = fragment.querySelector('div');
+    const mouseEventMock = <any>{ preventDefault: () => {}, target };
 
     directive.ngOnInit();
 
-    directive.onContextMenuEvent(<any>{ preventDefault: () => {}, target });
+    directive.onContextMenuEvent(mouseEventMock);
 
     tick(500);
 
-    expect(contextMenuServiceMock.open).toHaveBeenCalled();
+    expect(storeMock.dispatch).toHaveBeenCalledWith(
+      new ContextMenu(mouseEventMock)
+    );
   }));
 });
