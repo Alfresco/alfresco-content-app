@@ -124,5 +124,5 @@ Below is the list of public actions types you can use in the plugin definitions 
 | 1.8.0   | VIEW_NODE              | NodeId<`string`> , [ViewNodeExtras](../features/file-viewer.md#details)<`any`> | Lightweight preview of a node by id. Can be invoked from extensions. For details also see [File Viewer](../features/file-viewer.md#details) |
 | 1.8.0   | CLOSE_PREVIEW          | n/a                                                                            | Closes the viewer ( preview of the item )                                                                                                   |
 | 1.9.0   | RESET_SELECTION        | n/a                                                                            | Resets active document list selection                                                                                                       |
-| 2.0.0   | FILE_FROM_TEMPLATE | n/a | Invoke dialogs flow for creating a file from selected template|
-| 2.0.0   | CREATE_FILE_FROM_TEMPLATE | Node | Copy selected tetmplate into current folder    |
+| 1.10.0   | FILE_FROM_TEMPLATE | n/a | Invoke dialogs flow for creating a file from selected template|
+| 1.10.0   | CREATE_FILE_FROM_TEMPLATE | Node | Copy selected tetmplate into current folder    |
