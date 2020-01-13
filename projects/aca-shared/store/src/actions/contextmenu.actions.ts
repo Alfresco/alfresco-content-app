@@ -23,29 +23,14 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './actions/app.actions';
-export * from './actions/library.actions';
-export * from './actions/node.actions';
-export * from './actions/router.actions';
-export * from './actions/search.actions';
-export * from './actions/snackbar.actions';
-export * from './actions/upload.actions';
-export * from './actions/viewer.actions';
-export * from './actions/metadata-aspect.actions';
-export * from './actions/template.actions';
-export * from './actions/contextmenu.actions';
+import { Action } from '@ngrx/store';
 
-export * from './effects/dialog.effects';
-export * from './effects/router.effects';
-export * from './effects/snackbar.effects';
+export enum ContextMenuActionTypes {
+  ContextMenu = 'CONTEXT_MENU'
+}
 
-export * from './models/delete-status.model';
-export * from './models/deleted-node-info.model';
-export * from './models/node-info.model';
-export * from './models/search-option.model';
+export class ContextMenu implements Action {
+  readonly type = ContextMenuActionTypes.ContextMenu;
 
-export * from './selectors/app.selectors';
-
-export * from './states/app.state';
-
-export * from './store.module';
+  constructor(public event: MouseEvent) {}
+}
