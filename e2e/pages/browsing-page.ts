@@ -28,12 +28,12 @@ import { SIDEBAR_LABELS } from './../configs';
 import { Page } from './page';
 
 export class BrowsingPage extends Page {
-  header = new Header(this.app);
-  sidenav = new Sidenav(this.app);
-  toolbar = new Toolbar(this.app);
-  breadcrumb = new Breadcrumb(this.app);
-  dataTable = new DataTable(this.app);
-  pagination = new Pagination(this.app);
+  header = new Header(this.appRoot);
+  sidenav = new Sidenav(this.appRoot);
+  toolbar = new Toolbar(this.appRoot);
+  breadcrumb = new Breadcrumb(this.appRoot);
+  dataTable = new DataTable(this.appRoot);
+  pagination = new Pagination(this.appRoot);
 
   async signOut() {
     await this.header.userInfo.signOut();

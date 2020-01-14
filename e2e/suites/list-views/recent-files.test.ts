@@ -93,7 +93,7 @@ describe('Recent Files', () => {
   });
 
   it('displays the files added by the current user in the last 30 days - [C213170]', async () => {
-    expect(await dataTable.countRows()).toEqual(3, 'Incorrect number of files displayed');
+    expect(await dataTable.getRowsCount()).toEqual(3, 'Incorrect number of files displayed');
     expect(await dataTable.isItemPresent(fileName1)).toBe(true, `${fileName1} not displayed`);
     expect(await dataTable.isItemPresent(fileName2)).toBe(true, `${fileName2} not displayed`);
     expect(await dataTable.isItemPresent(fileSite)).toBe(true, `${fileSite} not displayed`);

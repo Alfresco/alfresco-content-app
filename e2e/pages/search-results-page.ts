@@ -44,8 +44,8 @@ export class SearchResultsPage extends BrowsingPage {
   chipList: ElementFinder = this.root.element(by.css(SearchResultsPage.selectors.chipList));
   infoText: ElementFinder = this.root.element(by.css(SearchResultsPage.selectors.infoText));
 
-  sortingPicker = new SearchSortingPicker(this.root);
-  filters = new SearchFilters(this.root);
+  sortingPicker = new SearchSortingPicker(SearchResultsPage.selectors.root);
+  filters = new SearchFilters(SearchResultsPage.selectors.root);
 
   async waitForResults(): Promise<void> {
     await this.dataTable.waitForBody();

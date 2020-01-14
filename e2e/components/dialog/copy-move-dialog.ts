@@ -33,31 +33,26 @@ export class CopyMoveDialog extends Component {
     root: '.adf-content-node-selector-dialog',
 
     title: '.mat-dialog-title',
-    content: '.mat-dialog-content',
     locationDropDown: 'site-dropdown-container',
     locationOption: '.mat-option .mat-option-text',
 
     dataTable: '.adf-datatable-body',
-    row: '.adf-datatable-row[role]',
     selectedRow: '.adf-is-selected',
 
     button: '.mat-dialog-actions button'
   };
 
   title: ElementFinder = this.component.element(by.css(CopyMoveDialog.selectors.title));
-  content: ElementFinder = this.component.element(by.css(CopyMoveDialog.selectors.content));
   dataTable: ElementFinder = this.component.element(by.css(CopyMoveDialog.selectors.dataTable));
   locationDropDown: ElementFinder = this.component.element(by.id(CopyMoveDialog.selectors.locationDropDown));
   locationPersonalFiles: ElementFinder = browser.element(by.cssContainingText(CopyMoveDialog.selectors.locationOption, 'Personal Files'));
   locationFileLibraries: ElementFinder = browser.element(by.cssContainingText(CopyMoveDialog.selectors.locationOption, 'File Libraries'));
 
-  row: ElementFinder = this.component.element(by.css(CopyMoveDialog.selectors.row));
-
   cancelButton: ElementFinder = this.component.element(by.cssContainingText(CopyMoveDialog.selectors.button, 'Cancel'));
   copyButton: ElementFinder = this.component.element(by.cssContainingText(CopyMoveDialog.selectors.button, 'Copy'));
   moveButton: ElementFinder = this.component.element(by.cssContainingText(CopyMoveDialog.selectors.button, 'Move'));
 
-  constructor(ancestor?: ElementFinder) {
+  constructor(ancestor?: string) {
     super(CopyMoveDialog.selectors.root, ancestor);
   }
 

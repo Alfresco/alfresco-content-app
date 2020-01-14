@@ -155,7 +155,7 @@ describe('Search filters', () => {
       await sizeFilter.expandPanel();
       await sizeFilter.checkSizeHuge();
 
-      expect(await dataTable.isEmptyList()).toBe(true, 'list is not empty');
+      expect(await dataTable.isEmpty()).toBe(true, 'list is not empty');
     });
 
     it('Filter by multiple size categories - [C279203]', async () => {

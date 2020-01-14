@@ -29,7 +29,7 @@ import { Page } from './page';
 import { ADMIN_USERNAME, ADMIN_PASSWORD, BROWSER_WAIT_TIMEOUT, APP_ROUTES } from '../configs';
 
 export class LoginPage extends Page {
-  login: LoginComponent = new LoginComponent(this.app);
+  login: LoginComponent = new LoginComponent(this.appRoot);
 
   /** @override */
   constructor() {

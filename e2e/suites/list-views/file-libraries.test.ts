@@ -110,7 +110,7 @@ describe('File Libraries', () => {
     });
 
     it('User can see only the sites he is a member of - [C280501]', async () => {
-      const sitesCount = await dataTable.countRows();
+      const sitesCount = await dataTable.getRowsCount();
 
       expect(sitesCount).toEqual(10, 'Incorrect number of sites displayed');
       expect(await dataTable.isItemPresent(adminSite5)).toBe(false, `${adminSite5} should not appear in the list`);
@@ -181,7 +181,7 @@ describe('File Libraries', () => {
     });
 
     it('User can see only his favorite sites - [C289897]', async () => {
-      const sitesCount = await dataTable.countRows();
+      const sitesCount = await dataTable.getRowsCount();
 
       expect(sitesCount).toEqual(9, 'Incorrect number of sites displayed');
       expect(await dataTable.isItemPresent(adminSite6)).toBe(false, `${adminSite6} should not appear`);

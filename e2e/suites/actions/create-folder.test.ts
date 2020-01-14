@@ -23,7 +23,6 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { SITE_VISIBILITY, SITE_ROLES } from '../../configs';
 import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { CreateOrEditFolderDialog } from '../../components/dialog/create-edit-folder-dialog';
 import { Utils } from '../../utilities/utils';
@@ -39,7 +38,6 @@ describe('Create folder', () => {
   const duplicateFolderName = `folder-${Utils.random()}`;
   const nameWithSpaces = ` folder-${Utils.random()} `;
 
-  const sitePrivate = `site-private-${Utils.random()}`;
   const siteName = `site-${Utils.random()}`;
 
   const folderSite = `folder-site-${Utils.random()}`;
@@ -59,11 +57,6 @@ describe('Create folder', () => {
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
 
-    await apis.admin.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
-    const docLibId = await apis.admin.sites.getDocLibId(sitePrivate);
-    await apis.admin.nodes.createFolder(folderName1, docLibId);
-    await apis.admin.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_CONSUMER.ROLE);
-
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
     await apis.user.nodes.createFolder(duplicateFolderName, parentId);
 
@@ -76,7 +69,6 @@ describe('Create folder', () => {
   });
 
   afterAll(async (done) => {
-    await apis.admin.sites.deleteSite(sitePrivate);
     await apis.user.sites.deleteSite(siteName);
     await apis.user.nodes.deleteNodeById(parentId);
     done();

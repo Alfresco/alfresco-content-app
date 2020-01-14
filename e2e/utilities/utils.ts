@@ -170,6 +170,14 @@ export class Utils {
     await browser.actions().sendKeys(protractor.Key.TAB).perform();
   }
 
+  static async pressCmd() {
+    await browser.actions().sendKeys(protractor.Key.COMMAND).perform();
+  }
+
+  static async releaseKeyPressed() {
+    await browser.actions().sendKeys(protractor.Key.NULL).perform();
+  }
+
   static async getBrowserLog() {
     return browser.manage().logs().get('browser');
   }

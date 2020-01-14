@@ -153,7 +153,7 @@ describe('Pagination on multiple pages on Personal Files', () => {
   it('Next button is disabled on last page - [C280082]', async () => {
     await pagination.openCurrentPageMenu();
     await pagination.menu.clickNthItem(5);
-    expect(await dataTable.countRows()).toBe(1, 'Incorrect number of items on the last page');
+    expect(await dataTable.getRowsCount()).toBe(1, 'Incorrect number of items on the last page');
     expect(await pagination.getCurrentPage()).toContain('Page 5');
     expect(await pagination.isNextEnabled()).toBe(false, 'Next button is enabled on last page');
   });

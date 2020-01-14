@@ -77,6 +77,16 @@ export class NodesApi extends RepoApi {
     }
   }
 
+  async getNodeTitle(name: string, parentId: string): Promise<string> {
+    try {
+      const children = (await this.getNodeChildren(parentId)).list.entries;
+      return children.find(elem => elem.entry.name === name).entry.properties['cm:title'] || '';
+    } catch (error) {
+      this.handleError(`${this.constructor.name} ${this.getNodeTitle.name}`, error);
+      return '';
+    }
+  }
+
   async getNodeProperty(nodeId: string, property: string): Promise<any> {
     try {
       const node = await this.getNodeById(nodeId);
@@ -214,6 +224,24 @@ export class NodesApi extends RepoApi {
     }
   }
 
+  async createNodeLink(originalNodeId: string, destinationId: string): Promise<any> {
+    const name = (await this.getNodeById(originalNodeId)).entry.name;
+    const nodeBody = {
+      name: `Link to ${name}.url`,
+      nodeType: 'app:filelink',
+      properties: {
+        'cm:destination': originalNodeId
+      }
+    }
+
+    try {
+      await this.apiAuth();
+      return await this.nodesApi.createNode(destinationId, nodeBody);
+    } catch (error) {
+      this.handleError(`${this.constructor.name} ${this.createNode.name}`, error);
+    }
+  }
+
   async createNode(nodeType: string, name: string, parentId: string = '-my-', title: string = '', description: string = '', imageProps: any = null, author: string = '', majorVersion: boolean = true): Promise<any> {
     const nodeBody = {
         name,
@@ -325,6 +353,22 @@ export class NodesApi extends RepoApi {
   }
 
   // node permissions
+  async setInheritPermissions(nodeId: string, inheritPermissions: boolean) {
+    const data = {
+      permissions: {
+        isInheritanceEnabled: inheritPermissions
+      }
+    };
+
+    try {
+      await this.apiAuth();
+      return await this.nodesApi.updateNode(nodeId, data);
+    } catch (error) {
+      this.handleError(`${this.constructor.name} ${this.setGranularPermission.name}`, error);
+      return null;
+    }
+  }
+
   async setGranularPermission(nodeId: string, inheritPermissions: boolean = false, username: string, role: string): Promise<NodeEntry|null> {
     const data = {
       permissions: {

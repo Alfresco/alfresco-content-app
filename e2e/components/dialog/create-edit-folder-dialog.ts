@@ -47,7 +47,7 @@ export class CreateOrEditFolderDialog extends Component {
   updateButton: ElementFinder = this.component.element(by.cssContainingText(CreateOrEditFolderDialog.selectors.button, 'Update'));
   validationMessage: ElementFinder = this.component.element(by.css(CreateOrEditFolderDialog.selectors.validationMessage));
 
-  constructor(ancestor?: ElementFinder) {
+  constructor(ancestor?: string) {
     super(CreateOrEditFolderDialog.selectors.root, ancestor);
   }
 
@@ -68,8 +68,8 @@ export class CreateOrEditFolderDialog extends Component {
     return this.title.getText();
   }
 
-  async isValidationMessageDisplayed() {
-    return this.validationMessage.isDisplayed();
+  async isValidationMessageDisplayed(): Promise<boolean> {
+    return (await this.validationMessage.isPresent()) && (await this.validationMessage.isDisplayed());
   }
 
   async isUpdateButtonEnabled() {
@@ -92,9 +92,12 @@ export class CreateOrEditFolderDialog extends Component {
     return this.descriptionTextArea.isDisplayed();
   }
 
-  async getValidationMessage() {
-    await this.isValidationMessageDisplayed();
-    return this.validationMessage.getText();
+  async getValidationMessage(): Promise<string> {
+    if (await this.isValidationMessageDisplayed()) {
+      return this.validationMessage.getText();
+    } else {
+      return '';
+    }
   }
 
   async getName() {

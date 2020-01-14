@@ -53,7 +53,7 @@ export class Pagination extends Component {
 
   menu: Menu = new Menu();
 
-  constructor(ancestor?: ElementFinder) {
+  constructor(ancestor?: string) {
     super(Pagination.selectors.root, ancestor);
   }
 

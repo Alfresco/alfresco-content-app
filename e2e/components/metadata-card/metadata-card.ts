@@ -39,7 +39,7 @@ export class MetadataCard extends Component {
   expandButton: ElementFinder = this.component.element(by.css(MetadataCard.selectors.expandButton));
   expansionPanels: ElementArrayFinder = this.component.all(by.css(MetadataCard.selectors.expansionPanel));
 
-  constructor(ancestor?: ElementFinder) {
+  constructor(ancestor?: string) {
     super(MetadataCard.selectors.root, ancestor);
   }
 

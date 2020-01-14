@@ -57,7 +57,6 @@ export class DataTable extends Component {
 
     emptyListTitle: '.adf-empty-content__title',
     emptyListSubtitle: '.adf-empty-content__subtitle',
-    emptyListText: '.adf-empty-content__text',
 
     emptySearchText: '.empty-search__text',
 
@@ -73,13 +72,13 @@ export class DataTable extends Component {
   emptyFolderDragAndDrop: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyFolderDragAndDrop));
   emptyListTitle: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyListTitle));
   emptyListSubtitle: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyListSubtitle));
-  emptyListText: ElementArrayFinder = this.component.all(by.css(DataTable.selectors.emptyListText));
+  emptyListContainerText: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyListContainer));
 
   emptySearchText: ElementFinder = this.component.element(by.css(DataTable.selectors.emptySearchText));
 
   menu: Menu = new Menu();
 
-  constructor(ancestor?: ElementFinder) {
+  constructor(ancestor?: string) {
     super(DataTable.selectors.root, ancestor);
   }
 
@@ -150,15 +149,26 @@ export class DataTable extends Component {
     return this.body.all(by.css(DataTable.selectors.row));
   }
 
-  async countRows() {
+  async getRowsCount() {
     return this.getRows().count();
   }
 
-  getSelectedRows() {
+  async waitForRowToBeSelected(): Promise<void> {
+    await browser.wait(EC.presenceOf(this.component.element(by.css(DataTable.selectors.selectedRow))), BROWSER_WAIT_TIMEOUT, 'timeout waiting for row to be selected');
+  }
+
+  getSelectedRows(): ElementArrayFinder {
     return this.body.all(by.css(DataTable.selectors.selectedRow));
   }
 
-  async countSelectedRows() {
+  async getSelectedRowsNames(): Promise<string[]> {
+    const rowsText: string[] = await this.getSelectedRows().map((row) => {
+      return row.element(by.css('.adf-datatable-cell[title="Name"]')).getText();
+    });
+    return rowsText;
+  }
+
+  async getSelectedRowsCount(): Promise<number> {
     return this.getSelectedRows().count();
   }
 
@@ -253,7 +263,6 @@ export class DataTable extends Component {
         console.log('--- select item catch : ', e);
       }
     }
-
   }
 
   async clickItem(name: string, location: string = '') {
@@ -276,7 +285,7 @@ export class DataTable extends Component {
 
   async clearSelection() {
     try {
-      const count = await this.countSelectedRows();
+      const count = await this.getSelectedRowsCount();
       if (count !== 0) {
         await browser.refresh();
         await this.wait();
@@ -321,7 +330,7 @@ export class DataTable extends Component {
   }
 
   // empty state methods
-  async isEmptyList() {
+  async isEmpty(): Promise<boolean> {
     return this.emptyList.isPresent();
   }
 
@@ -339,7 +348,7 @@ export class DataTable extends Component {
   }
 
   async getEmptyStateTitle(): Promise<string> {
-    const isEmpty = await this.isEmptyList();
+    const isEmpty = await this.isEmpty();
     if (isEmpty) {
       return this.emptyListTitle.getText();
     }
@@ -348,7 +357,7 @@ export class DataTable extends Component {
   }
 
   async getEmptyStateSubtitle(): Promise<string> {
-    const isEmpty = await this.isEmptyList();
+    const isEmpty = await this.isEmpty();
     if (isEmpty) {
       return this.emptyListSubtitle.getText();
     }
@@ -356,10 +365,10 @@ export class DataTable extends Component {
     return '';
   }
 
-  async getEmptyStateText(): Promise<string> {
-    const isEmpty = await this.isEmptyList();
+  async getEmptyListText(): Promise<string> {
+    const isEmpty = await this.isEmpty();
     if (isEmpty) {
-      return this.emptyListText.getText();
+      return this.component.element(by.css('adf-custom-empty-content-template')).getText();
     }
 
     return '';

@@ -68,11 +68,11 @@ export class Sidenav extends Component {
 
   menu: Menu = new Menu();
 
-  constructor(ancestor?: ElementFinder) {
+  constructor(ancestor?: string) {
     super(Sidenav.selectors.root, ancestor);
   }
 
-  private async expandMenu(name: string) {
+  private async expandMenu(name: string): Promise<void> {
     try{
 
       if (await element(by.cssContainingText('.mat-expanded', name)).isPresent()) {
@@ -89,37 +89,42 @@ export class Sidenav extends Component {
     }
   }
 
-  async openNewMenu() {
+  async openNewMenu(): Promise<void> {
     const { menu, newButton } = this;
 
     await newButton.click();
     await menu.waitForMenuToOpen();
   }
 
-  async openCreateFolderDialog() {
+  async openCreateFolderDialog(): Promise<void> {
     await this.openNewMenu();
     await this.menu.clickMenuItem('Create Folder');
   }
 
-  async openCreateLibraryDialog() {
+  async openCreateLibraryDialog(): Promise<void> {
     await this.openNewMenu();
     await this.menu.clickMenuItem('Create Library');
   }
 
-  async isActive(name: string) {
+  async openCreateFileFromTemplateDialog(): Promise<void> {
+    await this.openNewMenu();
+    await this.menu.clickMenuItem('Create file from template');
+  }
+
+  async isActive(name: string): Promise<boolean> {
     return (await this.getLinkLabel(name).getAttribute('class')).includes(Sidenav.selectors.activeClassName);
   }
 
-  async childIsActive(name: string) {
+  async childIsActive(name: string): Promise<boolean> {
     const childClass = await this.getLinkLabel(name).element(by.css('span')).getAttribute('class');
     return childClass.includes(Sidenav.selectors.activeChild);
   }
 
-  getLink(name: string) {
+  getLink(name: string): ElementFinder {
     return this.getLinkLabel(name).element(by.xpath('..'));
   }
 
-  getLinkLabel(name: string) {
+  getLinkLabel(name: string): ElementFinder {
     switch (name) {
       case 'Personal Files': return this.personalFiles;
       case 'File Libraries': return this.fileLibraries;
@@ -133,37 +138,35 @@ export class Sidenav extends Component {
     }
   }
 
-  getActiveLink() {
+  getActiveLink(): ElementFinder {
     return this.activeLink;
   }
 
-  async getLinkTooltip(name: string) {
+  async getLinkTooltip(name: string): Promise<string> {
     const link = this.getLinkLabel(name);
-
     const condition = () => link.getAttribute('title').then(value => value && value.length > 0);
 
     await browser.actions().mouseMove(link).perform();
-
     await browser.wait(condition, BROWSER_WAIT_TIMEOUT);
 
     return link.getAttribute('title');
   }
 
-  async clickLink(name: string) {
+  async clickLink(name: string): Promise<void> {
     try{
       const link = this.getLinkLabel(name);
       await Utils.waitUntilElementClickable(link);
-      return await link.click();
+      await link.click();
     } catch (error) {
       console.log('---- sidebar navigation clickLink catch error: ', error);
     }
   }
 
-  async isFileLibrariesMenuExpanded() {
+  async isFileLibrariesMenuExpanded(): Promise<boolean> {
     return element(by.cssContainingText('.mat-expanded', SIDEBAR_LABELS.FILE_LIBRARIES)).isPresent();
   }
 
-  async expandFileLibraries() {
+  async expandFileLibraries(): Promise<void> {
     await this.expandMenu(SIDEBAR_LABELS.FILE_LIBRARIES);
   }
 

@@ -95,7 +95,7 @@ describe('Favorites', () => {
   });
 
   it('displays the favorite files and folders - [C213226]', async () => {
-    expect(await dataTable.countRows()).toEqual(4, 'Incorrect number of items displayed');
+    expect(await dataTable.getRowsCount()).toEqual(4, 'Incorrect number of items displayed');
     expect(await dataTable.isItemPresent(fileName1)).toBe(true, `${fileName1} not displayed`);
     expect(await dataTable.isItemPresent(fileName2)).toBe(true, `${fileName2} not displayed`);
     expect(await dataTable.isItemPresent(favFolderName)).toBe(true, `${favFolderName} not displayed`);

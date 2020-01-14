@@ -58,7 +58,7 @@ export class CommentsTab extends Component {
   commentTime = by.id(CommentsTab.selectors.commentTime);
 
 
-  constructor(ancestor?: ElementFinder) {
+  constructor(ancestor?: string) {
     super(CommentsTab.selectors.root, ancestor);
   }
 
