@@ -27,7 +27,6 @@ import { NgModule } from '@angular/core';
 import { ContextActionsDirective } from './contextmenu.directive';
 
 @NgModule({
-  imports: [],
   declarations: [ContextActionsDirective],
   exports: [ContextActionsDirective]
 })

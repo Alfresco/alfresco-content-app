@@ -35,7 +35,7 @@ import { AppCommonModule } from '../common/common.module';
 import { ContextMenuItemComponent } from './context-menu-item.component';
 import { OutsideEventDirective } from './context-menu-outside-event.directive';
 import { ContextMenuComponent } from './context-menu.component';
-import { ContextActionsDirective } from '@alfresco/aca-shared';
+import { ContextActionsModule } from '@alfresco/aca-shared';
 
 @NgModule({
   imports: [
@@ -46,17 +46,16 @@ import { ContextActionsDirective } from '@alfresco/aca-shared';
     CoreExtensionsModule.forChild(),
     CoreModule.forChild(),
     AppCommonModule,
-    ExtensionsModule
+    ExtensionsModule,
+    ContextActionsModule
   ],
   declarations: [
-    ContextActionsDirective,
     ContextMenuComponent,
     ContextMenuItemComponent,
     OutsideEventDirective
   ],
   exports: [
     OutsideEventDirective,
-    ContextActionsDirective,
     ContextMenuComponent,
     ContextMenuItemComponent
   ],

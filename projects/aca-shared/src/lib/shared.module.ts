@@ -27,8 +27,11 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { ContentApiService } from './services/content-api.service';
 import { NodePermissionService } from './services/node-permission.service';
 import { AppService } from './services/app.service';
-
-@NgModule({})
+import { ContextActionsModule } from './directives/contextmenu/contextmenu.module';
+@NgModule({
+  imports: [ContextActionsModule],
+  exports: [ContextActionsModule]
+})
 export class SharedModule {
   static forRoot(): ModuleWithProviders {
     return {
