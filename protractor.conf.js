@@ -70,6 +70,7 @@ exports.config = {
       './e2e/suites/actions/new-menu.test.ts',
       './e2e/suites/actions/create-folder.test.ts',
       './e2e/suites/actions/create-library.test.ts',
+      './e2e/suites/actions/create-file-from-template.test.ts',
       './e2e/suites/actions/upload-file.test.ts',
       './e2e/suites/actions/upload-new-version.test.ts',
       './e2e/suites/actions/delete-undo-delete.test.ts',
