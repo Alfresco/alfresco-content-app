@@ -150,10 +150,8 @@ describe('File Libraries', () => {
         `${siteName} (${siteId1})`,
         `${siteName} (${siteId2})`
       ];
-      const cells = await dataTable.getCellsContainingName(siteName);
-      const expectedJSON = JSON.stringify(expectedSites.sort());
-      const actualJSON = JSON.stringify(cells.sort());
-      expect(actualJSON).toEqual(expectedJSON);
+      const actualSites = await dataTable.getCellsContainingName(siteName);
+      expect(actualSites.sort()).toEqual(expectedSites.sort());
     });
 
     it('Tooltip for sites without description - [C217096]', async () => {
@@ -221,10 +219,8 @@ describe('File Libraries', () => {
         `${siteName} (${siteId1})`,
         `${siteName} (${siteId2})`
       ];
-      const cells = await dataTable.getCellsContainingName(siteName);
-      const expectedJSON = JSON.stringify(expectedSites.sort());
-      const actualJSON = JSON.stringify(cells.sort());
-      expect(actualJSON).toEqual(expectedJSON);
+      const actualSites = await dataTable.getCellsContainingName(siteName);
+      expect(actualSites.sort()).toEqual(expectedSites.sort());
     });
 
     it('Tooltip for sites without description - [C289894]', async () => {

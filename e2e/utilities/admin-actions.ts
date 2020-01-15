@@ -24,7 +24,7 @@
  */
 
 import { RepoClient, NodeContentTree } from './repo-client/repo-client';
-import { PersonEntry } from '@alfresco/js-api';
+import { PersonEntry, NodeEntry } from '@alfresco/js-api';
 import { PersonModel } from './repo-client/apis/people/people-api-models';
 
 export class AdminActions {
@@ -46,17 +46,17 @@ export class AdminActions {
     return await this.adminApi.people.createUser(user);
   }
 
-  async createNodeTemplate(name: string, title: string = '', description: string = '', author: string = '') {
+  async createNodeTemplate(name: string, title: string = '', description: string = '', author: string = ''): Promise<NodeEntry> {
     const templatesRootFolderId: string = await this.getNodeTemplatesFolderId();
 
     return await this.adminApi.nodes.createFile(name, templatesRootFolderId, title, description, author);
   }
 
-  async createNodeTemplatesHierarchy(hierarchy: NodeContentTree) {
+  async createNodeTemplatesHierarchy(hierarchy: NodeContentTree): Promise<any> {
     return await this.adminApi.nodes.createContent(hierarchy, `Data Dictionary/Node Templates`);
   }
 
-  async removeUserAccessOnNode(nodeName: string) {
+  async removeUserAccessOnNode(nodeName: string): Promise<NodeEntry> {
     const templatesRootFolderId = await this.getNodeTemplatesFolderId();
     const nodeId: string = await this.adminApi.nodes.getNodeIdFromParent(nodeName, templatesRootFolderId);
 
@@ -67,11 +67,11 @@ export class AdminActions {
     return await this.adminApi.nodes.deleteNodeChildren(await this.getNodeTemplatesFolderId());
   }
 
-  async createLinkToFileId(originalFileId: string, destinationParentId: string) {
+  async createLinkToFileId(originalFileId: string, destinationParentId: string): Promise<NodeEntry> {
     return await this.adminApi.nodes.createNodeLink(originalFileId, destinationParentId);
   }
 
-  async createLinkToFileName(originalFileName: string, originalFileParentId: string, destinationParentId?: string) {
+  async createLinkToFileName(originalFileName: string, originalFileParentId: string, destinationParentId?: string): Promise<NodeEntry> {
     if (!destinationParentId) {
       destinationParentId = originalFileParentId
     };

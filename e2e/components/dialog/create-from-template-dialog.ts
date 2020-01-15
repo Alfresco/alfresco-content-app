@@ -123,7 +123,7 @@ export class CreateFromTemplateDialog extends Component {
     await this.descriptionTextArea.sendKeys(description);
   }
 
-  async deleteNameWithBackspace() {
+  async deleteNameWithBackspace(): Promise<void> {
     await this.nameInput.clear();
     await this.nameInput.sendKeys(' ', protractor.Key.CONTROL, 'a', protractor.Key.NULL, protractor.Key.BACK_SPACE);
   }

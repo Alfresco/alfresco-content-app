@@ -46,11 +46,11 @@ export class DropDownBreadcrumb extends Component {
     super(DropDownBreadcrumb.selectors.root, ancestor);
   }
 
-  async waitForPathListDropdownToOpen() {
+  async waitForPathListDropdownToOpen(): Promise<void> {
     await browser.wait(EC.presenceOf(this.pathItemsContainer), BROWSER_WAIT_TIMEOUT, 'Timeout waiting for breadcrumb dropdown to open');
   }
 
-  async waitForPathListDropdownToClose() {
+  async waitForPathListDropdownToClose(): Promise<void> {
     await browser.wait(EC.stalenessOf(browser.$(DropDownBreadcrumb.selectors.pathOption)), BROWSER_WAIT_TIMEOUT, 'Timeout waiting for breadcrumb dropdown to close');
   }
 
@@ -68,10 +68,10 @@ export class DropDownBreadcrumb extends Component {
     await elem.click();
   }
 
-  async getPathItems() {
-    return this.pathItems.map(async elem => {
-      const str = await elem.getText();
-      return str;
+  async getPathItems(): Promise<string[]> {
+    const items: string[] = await this.pathItems.map(async elem => {
+      return elem.getText();
     });
+    return items;
   }
 }

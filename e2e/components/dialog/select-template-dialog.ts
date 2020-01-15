@@ -27,7 +27,6 @@ import { ElementFinder, by, browser, ExpectedConditions as EC } from 'protractor
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
 import { DropDownBreadcrumb } from '../breadcrumb/dropdown-breadcrumb';
-// import { Utils } from '../../utilities/utils';
 import { DataTable } from '../data-table/data-table';
 
 export class SelectTemplateDialog extends Component {
