@@ -27,9 +27,12 @@
   </ng-container>
 
   <ng-container *ngSwitchDefault>
+    <!--
+      ACA-2543: removed attribute mat-menu-item which applied a role, overriding the native button role; added the applied class directly for styling.
+    -->
     <button
       [id]="actionRef.id"
-      mat-menu-item
+      [class]="'mat-menu-item'"
       color="primary"
       [disabled]="actionRef.disabled"
       [attr.title]="
