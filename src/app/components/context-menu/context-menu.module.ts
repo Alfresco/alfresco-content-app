@@ -57,7 +57,8 @@ import { ContextActionsModule } from '@alfresco/aca-shared';
   exports: [
     OutsideEventDirective,
     ContextMenuComponent,
-    ContextMenuItemComponent
+    ContextMenuItemComponent,
+    ContextActionsModule
   ],
   entryComponents: [ContextMenuComponent]
 })
