@@ -29,7 +29,8 @@
   <ng-container *ngSwitchDefault>
     <button
       [id]="actionRef.id"
-      [class]="'mat-menu-item'"
+      mat-menu-item
+      [role]="'button'"
       color="primary"
       [disabled]="actionRef.disabled"
       [attr.title]="
