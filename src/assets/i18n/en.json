@@ -63,6 +63,7 @@
             "TOOLTIPS": {
                 "CREATE_FOLDER": "Create new folder",
                 "CREATE_FOLDER_NOT_ALLOWED": "Folders cannot be created whilst viewing the current items",
+                "CREATE_FILE_NOT_ALLOWED": "Files cannot be created whilst viewing the current items",
                 "UPLOAD_FILES": "Select files to upload",
                 "UPLOAD_FILES_NOT_ALLOWED": "Files cannot be uploaded whilst viewing the current items",
                 "UPLOAD_FOLDERS": "Select folders to upload",
