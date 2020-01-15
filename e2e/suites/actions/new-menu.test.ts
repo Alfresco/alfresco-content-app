@@ -145,9 +145,8 @@ describe('New menu', () => {
     tooltip = await menu.getTooltipForCreateFolder();
     expect(tooltip).toContain('Folders cannot be created whilst viewing the current items');
 
-    // TODO: enable this when ACA-2865 is done
-    // tooltip = await menu.getTooltipForCreateFileFromTemplate();
-    // expect(tooltip).toContain('Files cannot be created whilst viewing the current items');
+    tooltip = await menu.getTooltipForCreateFileFromTemplate();
+    expect(tooltip).toContain('Files cannot be created whilst viewing the current items');
   });
 
 });
