@@ -208,7 +208,6 @@ describe('Create file from template', () => {
         expect(await selectTemplateDialog.dataTable.getSelectedRowsNames()).toEqual([ template2InRootFolder ], 'Incorrect selected item');
       });
 
-      // TODO: enable this when ACA-2871 is done
       it('Links to files are not displayed - [C325050]', async () => {
         expect(await selectTemplateDialog.dataTable.isItemPresent(link)).toBe(false, 'Link to file is displayed');
       });
@@ -340,8 +339,7 @@ describe('Create file from template', () => {
         await createFromTemplateDialog.clickCreate();
 
         expect(await page.getSnackBarMessage()).toEqual(`This name is already in use, try a different name.`);
-        // TODO: enable this when ACA-2869 is done
-        // expect(await createFromTemplateDialog.isDialogOpen()).toBe(true, 'dialog is not present');
+        expect(await createFromTemplateDialog.isDialogOpen()).toBe(true, 'dialog is not present');
       });
 
       it('Cancel file creation - [C325027]', async () => {
@@ -405,8 +403,7 @@ describe('Create file from template', () => {
         await createFromTemplateDialog.clickCreate();
 
         expect(await page.getSnackBarMessage()).toEqual(`This name is already in use, try a different name.`);
-        // TODO: enable this when ACA-2869 is done
-        // expect(await createFromTemplateDialog.isDialogOpen()).toBe(true, 'dialog is not present');
+        expect(await createFromTemplateDialog.isDialogOpen()).toBe(true, 'dialog is not present');
       });
     });
   });
