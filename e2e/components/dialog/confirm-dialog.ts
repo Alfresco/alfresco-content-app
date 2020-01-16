@@ -44,7 +44,7 @@ export class ConfirmDialog extends Component {
   cancelButton: ElementFinder = this.component.element(by.id(ConfirmDialog.selectors.cancel));
   actionButton: ElementFinder = this.component.element(by.id(ConfirmDialog.selectors.actionButton));
 
-  constructor(ancestor?: ElementFinder) {
+  constructor(ancestor?: string) {
     super(ConfirmDialog.selectors.root, ancestor);
   }
 

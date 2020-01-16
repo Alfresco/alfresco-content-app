@@ -45,7 +45,7 @@ export class PasswordDialog extends Component {
   closeButton: ElementFinder = this.component.element(by.buttonText('Close'));
   submitButton: ElementFinder = this.component.element(by.buttonText('Submit'));
 
-  constructor(ancestor?: ElementFinder) {
+  constructor(ancestor?: string) {
     super(PasswordDialog.selectors.root, ancestor);
   }
 

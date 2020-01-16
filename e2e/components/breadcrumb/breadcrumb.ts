@@ -36,7 +36,7 @@ export class Breadcrumb extends Component {
   items: ElementArrayFinder = this.component.all(by.css(Breadcrumb.selectors.item));
   currentItem: ElementFinder = this.component.element(by.css(Breadcrumb.selectors.currentItem));
 
-  constructor(ancestor?: ElementFinder) {
+  constructor(ancestor?: string) {
     super(Breadcrumb.selectors.root, ancestor);
   }
 

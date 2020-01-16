@@ -58,7 +58,7 @@ export class LibraryMetadata extends Component {
   error: ElementFinder = this.component.element(by.css(LibraryMetadata.selectors.error));
 
 
-  constructor(ancestor?: ElementFinder) {
+  constructor(ancestor?: string) {
     super(LibraryMetadata.selectors.root, ancestor);
   }
 

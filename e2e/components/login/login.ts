@@ -45,7 +45,7 @@ export class LoginComponent extends Component {
   copyright: ElementFinder = this.component.element(LoginComponent.selectors.copyright);
   passwordVisibility: ElementFinder = this.component.element(LoginComponent.selectors.passwordVisibility);
 
-  constructor(ancestor?: ElementFinder) {
+  constructor(ancestor?: string) {
     super(LoginComponent.selectors.root, ancestor);
   }
 

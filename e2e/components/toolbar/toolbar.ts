@@ -64,7 +64,7 @@ export class Toolbar extends Component {
   permanentlyDeleteButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.permanentlyDelete));
   restoreButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.restore));
 
-  constructor(ancestor?: ElementFinder) {
+  constructor(ancestor?: string) {
     super(Toolbar.selectors.root, ancestor);
   }
 

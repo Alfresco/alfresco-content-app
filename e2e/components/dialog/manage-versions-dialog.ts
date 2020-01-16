@@ -40,7 +40,7 @@ export class ManageVersionsDialog extends Component {
   content: ElementFinder = this.component.element(by.css(ManageVersionsDialog.selectors.content));
   closeButton: ElementFinder = this.component.element(by.cssContainingText(ManageVersionsDialog.selectors.button, 'Close'));
 
-  constructor(ancestor?: ElementFinder) {
+  constructor(ancestor?: string) {
     super(ManageVersionsDialog.selectors.root, ancestor);
   }
 

@@ -39,7 +39,7 @@ export class UserInfo extends Component {
 
   menu: Menu = new Menu();
 
-  constructor(ancestor?: ElementFinder) {
+  constructor(ancestor?: string) {
     super('aca-current-user', ancestor);
   }
 

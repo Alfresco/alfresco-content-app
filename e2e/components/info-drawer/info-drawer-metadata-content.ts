@@ -53,7 +53,7 @@ export class ContentMetadata extends Component {
   imagePropertiesPanel: ElementFinder = this.component.element(by.css(`[data-automation-id='adf-metadata-group-APP.CONTENT_METADATA.EXIF_GROUP_TITLE']`));
   expandedImagePropertiesPanel: ElementFinder = this.component.element(by.css(`[data-automation-id='adf-metadata-group-APP.CONTENT_METADATA.EXIF_GROUP_TITLE'].mat-expanded`));
 
-  constructor(ancestor?: ElementFinder) {
+  constructor(ancestor?: string) {
     super(ContentMetadata.selectors.root, ancestor);
   }
 

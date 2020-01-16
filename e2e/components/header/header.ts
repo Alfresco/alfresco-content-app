@@ -47,12 +47,12 @@ export class Header extends Component {
   moreActions: ElementFinder = browser.element(Header.selectors.moreActions);
   sidenavToggle: ElementFinder = this.component.element(by.css(Header.selectors.sidenavToggle));
 
-  userInfo: UserInfo = new UserInfo(this.component);
+  userInfo: UserInfo = new UserInfo();
   menu: Menu = new Menu();
   toolbar: Toolbar = new Toolbar();
   searchInput: SearchInput = new SearchInput();
 
-  constructor(ancestor?: ElementFinder) {
+  constructor(ancestor?: string) {
     super('adf-layout-header', ancestor);
   }
 

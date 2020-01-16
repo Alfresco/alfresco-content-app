@@ -29,11 +29,11 @@ import { BROWSER_WAIT_TIMEOUT } from '../configs';
 export abstract class Component {
   component: ElementFinder;
 
-  constructor(selector: string, ancestor?: ElementFinder) {
+  constructor(selector: string, ancestor?: string) {
     const locator = selector;
 
     this.component = ancestor
-      ? ancestor.$$(locator).first()
+      ? browser.$$(ancestor).first().$$(locator).first()
       : browser.$$(locator).first();
   }
 
