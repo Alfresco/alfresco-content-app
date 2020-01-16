@@ -23,61 +23,72 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage } from '../../../pages/pages';
-import { FILES, SITE_VISIBILITY, SITE_ROLES } from '../../../configs';
+import { LoginPage, BrowsingPage, SearchResultsPage } from '../../../pages/pages';
+import { FILES, SITE_ROLES } from '../../../configs';
 import { RepoClient } from '../../../utilities/repo-client/repo-client';
 import { Utils } from '../../../utilities/utils';
+import { AdminActions } from '../../../utilities/admin-actions';
 import * as data from './test-data-permissions';
 import * as testUtil from '../test-util';
 
 describe('Special permissions actions : on Search Results : ', () => {
+  const random = Utils.random();
 
-  const site = `site-private-${Utils.random()}`;
+  const site = `site-private-${random}`;
 
-  const userConsumer = `consumer-${Utils.random()}`;
+  const userConsumer = `consumer-${random}`;
 
-  const file3 = `file-3-${Utils.random()}.txt`;
-  let file3Id;
+  const file3 = `file-3-${random}.txt`;
+  let file3Id: string;
 
-  let fileDocxFavId, fileFavId, fileDocxSharedId, fileDocxSharedFavId, fileSharedId, fileSharedFavId, fileLockedId, fileFavLockedId, fileSharedLockedId, fileSharedFavLockedId;
-  let folderFavId;
+  let fileDocxFavId: string;
+  let fileFavId: string;
+  let fileDocxSharedId: string;
+  let fileDocxSharedFavId: string;
+  let fileSharedId: string;
+  let fileSharedFavId: string;
+  let fileLockedId: string;
+  let fileFavLockedId: string;
+  let fileSharedLockedId: string;
+  let fileSharedFavLockedId: string;
+  let folderFavId: string;
 
-  const apis = {
-    admin: new RepoClient(),
-    userConsumer: new RepoClient(userConsumer, userConsumer)
-  };
+  const adminApiActions = new AdminActions();
+
+  const userApi = new RepoClient(userConsumer, userConsumer);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
+  const searchResultsPage = new SearchResultsPage();
   const { searchInput } = page.header;
 
-  beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username: userConsumer });
+  beforeAll(async () => {
+    await adminApiActions.createUser({ username: userConsumer });
 
-    await apis.admin.sites.createSite(site, SITE_VISIBILITY.PRIVATE);
-    const docLibId = await apis.admin.sites.getDocLibId(site);
-    await apis.admin.sites.addSiteMember(site, userConsumer, SITE_ROLES.SITE_CONSUMER.ROLE);
+    await adminApiActions.sites.createSitePrivate(site);
+    const docLibId = await adminApiActions.sites.getDocLibId(site);
+    await adminApiActions.sites.addSiteConsumer(site, userConsumer);
 
-    await apis.admin.upload.uploadFileWithRename(FILES.docxFile, docLibId, data.fileDocx.name );
-    fileDocxFavId = (await apis.admin.upload.uploadFileWithRename(FILES.docxFile, docLibId, data.fileDocxFav.name)).entry.id;
-    await apis.admin.nodes.createFile(data.file.name, docLibId);
-    fileFavId = (await apis.admin.nodes.createFile(data.fileFav.name, docLibId)).entry.id;
-    fileDocxSharedId = (await apis.admin.upload.uploadFileWithRename(FILES.docxFile, docLibId, data.fileDocxShared.name)).entry.id;
-    fileDocxSharedFavId = (await apis.admin.upload.uploadFileWithRename(FILES.docxFile, docLibId, data.fileDocxSharedFav.name)).entry.id;
-    fileSharedId = (await apis.admin.nodes.createFile(data.fileShared.name, docLibId)).entry.id;
-    fileSharedFavId = (await apis.admin.nodes.createFile(data.fileSharedFav.name, docLibId)).entry.id;
-    fileLockedId = (await apis.admin.nodes.createFile(data.fileLocked.name, docLibId)).entry.id;
-    fileFavLockedId = (await apis.admin.nodes.createFile(data.fileFavLocked.name, docLibId)).entry.id;
-    fileSharedLockedId = (await apis.admin.nodes.createFile(data.fileSharedLocked.name, docLibId)).entry.id;
-    fileSharedFavLockedId = (await apis.admin.nodes.createFile(data.fileSharedFavLocked.name, docLibId)).entry.id;
+    await adminApiActions.upload.uploadFileWithRename(FILES.docxFile, docLibId, data.fileDocx.name );
+    fileDocxFavId = (await adminApiActions.upload.uploadFileWithRename(FILES.docxFile, docLibId, data.fileDocxFav.name)).entry.id;
+    await adminApiActions.nodes.createFile(data.file.name, docLibId);
+    fileFavId = (await adminApiActions.nodes.createFile(data.fileFav.name, docLibId)).entry.id;
+    fileDocxSharedId = (await adminApiActions.upload.uploadFileWithRename(FILES.docxFile, docLibId, data.fileDocxShared.name)).entry.id;
+    fileDocxSharedFavId = (await adminApiActions.upload.uploadFileWithRename(FILES.docxFile, docLibId, data.fileDocxSharedFav.name)).entry.id;
+    fileSharedId = (await adminApiActions.nodes.createFile(data.fileShared.name, docLibId)).entry.id;
+    fileSharedFavId = (await adminApiActions.nodes.createFile(data.fileSharedFav.name, docLibId)).entry.id;
+    fileLockedId = (await adminApiActions.nodes.createFile(data.fileLocked.name, docLibId)).entry.id;
+    fileFavLockedId = (await adminApiActions.nodes.createFile(data.fileFavLocked.name, docLibId)).entry.id;
+    fileSharedLockedId = (await adminApiActions.nodes.createFile(data.fileSharedLocked.name, docLibId)).entry.id;
+    fileSharedFavLockedId = (await adminApiActions.nodes.createFile(data.fileSharedFavLocked.name, docLibId)).entry.id;
 
-    file3Id = (await apis.admin.nodes.createFile(file3, docLibId)).entry.id;
+    file3Id = (await adminApiActions.nodes.createFile(file3, docLibId)).entry.id;
 
-    await apis.admin.nodes.createFolder(data.folder.name, docLibId);
-    folderFavId = (await apis.admin.nodes.createFolder(data.folderFav.name, docLibId)).entry.id;
-    await apis.userConsumer.favorites.addFavoriteById('folder', folderFavId);
+    await adminApiActions.nodes.createFolder(data.folder.name, docLibId);
+    folderFavId = (await adminApiActions.nodes.createFolder(data.folderFav.name, docLibId)).entry.id;
+    await userApi.favorites.addFavoriteById('folder', folderFavId);
 
-    await apis.userConsumer.favorites.addFavoritesByIds('file', [
+    await userApi.favorites.addFavoritesByIds('file', [
       fileDocxFavId,
       fileFavId,
       fileDocxSharedFavId,
@@ -87,7 +98,7 @@ describe('Special permissions actions : on Search Results : ', () => {
       file3Id
     ]);
 
-    await apis.userConsumer.shared.shareFilesByIds([
+    await userApi.shared.shareFilesByIds([
       fileDocxSharedId,
       fileDocxSharedFavId,
       fileSharedId,
@@ -97,214 +108,172 @@ describe('Special permissions actions : on Search Results : ', () => {
       file3Id
     ]);
 
-    await apis.admin.nodes.lockFile(fileLockedId);
-    await apis.admin.nodes.lockFile(fileFavLockedId);
-    await apis.admin.nodes.lockFile(fileSharedLockedId);
-    await apis.admin.nodes.lockFile(fileSharedFavLockedId);
+    await adminApiActions.nodes.lockFile(fileLockedId);
+    await adminApiActions.nodes.lockFile(fileFavLockedId);
+    await adminApiActions.nodes.lockFile(fileSharedLockedId);
+    await adminApiActions.nodes.lockFile(fileSharedFavLockedId);
 
-    await apis.admin.nodes.setGranularPermission(file3Id, false, userConsumer, SITE_ROLES.SITE_MANAGER.ROLE);
+    await adminApiActions.nodes.setGranularPermission(file3Id, false, userConsumer, SITE_ROLES.SITE_MANAGER.ROLE);
 
-    await apis.userConsumer.favorites.waitForApi({ expect: 8 });
-    await apis.userConsumer.shared.waitForApi({ expect: 7 });
-    await apis.userConsumer.search.waitForApi(userConsumer, { expect: 13 });
+    await Promise.all([
+      userApi.favorites.waitForApi({ expect: 8 }),
+      userApi.shared.waitForApi({ expect: 7 }),
+      userApi.search.waitForApi(userConsumer, { expect: 13 })
+    ]);
 
     await loginPage.loginWith(userConsumer);
-    done();
   });
 
-  afterAll(async (done) => {
-    await apis.admin.sites.deleteSite(site);
-    done();
+  afterAll(async () => {
+    await adminApiActions.sites.deleteSite(site);
+  });
+
+  beforeEach(async () => {
+    await Utils.pressEscape();
+  });
+
+  afterEach(async () => {
+    await page.closeOpenDialogs();
   });
 
   describe('on a file', () => {
 
-    beforeEach(async (done) => {
-      await Utils.pressEscape();
+    beforeAll(async () => {
       await page.clickPersonalFiles();
       await searchInput.clickSearchButton();
-      await searchInput.checkOnlyFiles();
       await searchInput.searchFor('file-');
-      done();
-    });
-
-    afterEach(async (done) => {
-      await Utils.pressEscape();
-      done();
+      await searchResultsPage.waitForResults();
     });
 
     it('File Office - []', async () => {
-      await testUtil.checkToolbarPrimary(data.fileDocx.name, data.fileDocx.searchToolbarPrimary);
-      await testUtil.checkToolbarMoreActions(data.fileDocx.name, data.fileDocx.toolbarMore);
+      await testUtil.checkToolbarActions(data.fileDocx.name, data.fileDocx.searchToolbarPrimary, data.fileDocx.toolbarMore);
       await testUtil.checkContextMenu(data.fileDocx.name, data.fileDocx.contextMenu);
     });
 
     it('File Office, favorite - []', async () => {
-      await testUtil.checkToolbarPrimary(data.fileDocxFav.name, data.fileDocxFav.searchToolbarPrimary);
-      await testUtil.checkToolbarMoreActions(data.fileDocxFav.name, data.fileDocxFav.toolbarMore);
+      await testUtil.checkToolbarActions(data.fileDocxFav.name, data.fileDocxFav.searchToolbarPrimary, data.fileDocxFav.toolbarMore);
       await testUtil.checkContextMenu(data.fileDocxFav.name, data.fileDocxFav.contextMenu);
     });
 
     it('File simple - []', async () => {
-      await testUtil.checkToolbarPrimary(data.file.name, data.file.searchToolbarPrimary);
-      await testUtil.checkToolbarMoreActions(data.file.name, data.file.toolbarMore);
+      await testUtil.checkToolbarActions(data.file.name, data.file.searchToolbarPrimary, data.file.toolbarMore);
       await testUtil.checkContextMenu(data.file.name, data.file.contextMenu);
     });
 
     it('File favorite - []', async () => {
-      await testUtil.checkToolbarPrimary(data.fileFav.name, data.fileFav.searchToolbarPrimary);
-      await testUtil.checkToolbarMoreActions(data.fileFav.name, data.fileFav.toolbarMore);
+      await testUtil.checkToolbarActions(data.fileFav.name, data.fileFav.searchToolbarPrimary, data.fileFav.toolbarMore);
       await testUtil.checkContextMenu(data.fileFav.name, data.fileFav.contextMenu);
     });
 
     it('File Office, shared - []', async () => {
-      await testUtil.checkToolbarPrimary(data.fileDocxShared.name, data.fileDocxShared.searchToolbarPrimary);
-      await testUtil.checkToolbarMoreActions(data.fileDocxShared.name, data.fileDocxShared.toolbarMore);
+      await testUtil.checkToolbarActions(data.fileDocxShared.name, data.fileDocxShared.searchToolbarPrimary, data.fileDocxShared.toolbarMore);
       await testUtil.checkContextMenu(data.fileDocxShared.name, data.fileDocxShared.contextMenu);
     });
 
     it('File Office, shared, favorite - []', async () => {
-      await testUtil.checkToolbarPrimary(data.fileDocxSharedFav.name, data.fileDocxSharedFav.searchToolbarPrimary);
-      await testUtil.checkToolbarMoreActions(data.fileDocxSharedFav.name, data.fileDocxSharedFav.toolbarMore);
+      await testUtil.checkToolbarActions(data.fileDocxSharedFav.name, data.fileDocxSharedFav.searchToolbarPrimary, data.fileDocxSharedFav.toolbarMore);
       await testUtil.checkContextMenu(data.fileDocxSharedFav.name, data.fileDocxSharedFav.contextMenu);
     });
 
     it('File shared - []', async () => {
-      await testUtil.checkToolbarPrimary(data.fileShared.name, data.fileShared.searchToolbarPrimary);
-      await testUtil.checkToolbarMoreActions(data.fileShared.name, data.fileShared.toolbarMore);
+      await testUtil.checkToolbarActions(data.fileShared.name, data.fileShared.searchToolbarPrimary, data.fileShared.toolbarMore);
       await testUtil.checkContextMenu(data.fileShared.name, data.fileShared.contextMenu);
     });
 
     it('File shared, favorite - []', async () => {
-      await testUtil.checkToolbarPrimary(data.fileSharedFav.name, data.fileSharedFav.searchToolbarPrimary);
-      await testUtil.checkToolbarMoreActions(data.fileSharedFav.name, data.fileSharedFav.toolbarMore);
+      await testUtil.checkToolbarActions(data.fileSharedFav.name, data.fileSharedFav.searchToolbarPrimary, data.fileSharedFav.toolbarMore);
       await testUtil.checkContextMenu(data.fileSharedFav.name, data.fileSharedFav.contextMenu);
     });
 
     it('File locked - []', async () => {
-      await testUtil.checkToolbarPrimary(data.fileLocked.name, data.fileLocked.searchToolbarPrimary);
-      await testUtil.checkToolbarMoreActions(data.fileLocked.name, data.fileLocked.toolbarMore);
+      await testUtil.checkToolbarActions(data.fileLocked.name, data.fileLocked.searchToolbarPrimary, data.fileLocked.toolbarMore);
       await testUtil.checkContextMenu(data.fileLocked.name, data.fileLocked.contextMenu);
     });
 
     it('File favorite, locked - []', async () => {
-      await testUtil.checkToolbarPrimary(data.fileFavLocked.name, data.fileFavLocked.searchToolbarPrimary);
-      await testUtil.checkToolbarMoreActions(data.fileFavLocked.name, data.fileFavLocked.toolbarMore);
+      await testUtil.checkToolbarActions(data.fileFavLocked.name, data.fileFavLocked.searchToolbarPrimary, data.fileFavLocked.toolbarMore);
       await testUtil.checkContextMenu(data.fileFavLocked.name, data.fileFavLocked.contextMenu);
     });
 
     it('File shared, locked - []', async () => {
-      await testUtil.checkToolbarPrimary(data.fileSharedLocked.name, data.fileSharedLocked.searchToolbarPrimary);
-      await testUtil.checkToolbarMoreActions(data.fileSharedLocked.name, data.fileSharedLocked.toolbarMore);
+      await testUtil.checkToolbarActions(data.fileSharedLocked.name, data.fileSharedLocked.searchToolbarPrimary, data.fileSharedLocked.toolbarMore);
       await testUtil.checkContextMenu(data.fileSharedLocked.name, data.fileSharedLocked.contextMenu);
     });
 
     it('File shared, favorite, locked - []', async () => {
-      await testUtil.checkToolbarPrimary(data.fileSharedFavLocked.name, data.fileSharedFavLocked.searchToolbarPrimary);
-      await testUtil.checkToolbarMoreActions(data.fileSharedFavLocked.name, data.fileSharedFavLocked.toolbarMore);
+      await testUtil.checkToolbarActions(data.fileSharedFavLocked.name, data.fileSharedFavLocked.searchToolbarPrimary, data.fileSharedFavLocked.toolbarMore);
       await testUtil.checkContextMenu(data.fileSharedFavLocked.name, data.fileSharedFavLocked.contextMenu);
     });
   });
 
   describe('on a folder', () => {
 
-    beforeEach(async (done) => {
-      await Utils.pressEscape();
+    beforeAll(async () => {
       await page.clickPersonalFiles();
       await searchInput.clickSearchButton();
-      await searchInput.checkOnlyFolders();
       await searchInput.searchFor('folder-');
-      done();
-    });
-
-    afterEach(async (done) => {
-      await Utils.pressEscape();
-      done();
+      await searchResultsPage.waitForResults();
     });
 
     it('Folder not favorite - []', async () => {
-      await testUtil.checkToolbarPrimary(data.folder.name, data.folder.searchToolbarPrimary);
-      await testUtil.checkToolbarMoreActions(data.folder.name, data.folder.toolbarMore);
+      await testUtil.checkToolbarActions(data.folder.name, data.folder.searchToolbarPrimary, data.folder.toolbarMore);
       await testUtil.checkContextMenu(data.folder.name, data.folder.contextMenu);
     });
 
     it('Folder favorite - []', async () => {
-      await testUtil.checkToolbarPrimary(data.folderFav.name, data.folderFav.searchToolbarPrimary);
-      await testUtil.checkToolbarMoreActions(data.folderFav.name, data.folderFav.toolbarMore);
+      await testUtil.checkToolbarActions(data.folderFav.name, data.folderFav.searchToolbarPrimary, data.folderFav.toolbarMore);
       await testUtil.checkContextMenu(data.folderFav.name, data.folderFav.contextMenu);
     });
   });
 
   describe('on multiple selection', () => {
-    beforeEach(async (done) => {
-      await Utils.pressEscape();
-      await page.clickPersonalFiles();
-      done();
-    });
 
-    afterEach(async (done) => {
-      await Utils.pressEscape();
-      done();
-    });
+    describe('of files', () => {
 
-    it('multiple files - []', async () => {
-      await searchInput.clickSearchButton();
-      await searchInput.checkOnlyFiles();
-      await searchInput.searchFor('file-');
+      beforeAll(async () => {
+        await page.clickPersonalFiles();
+        await searchInput.clickSearchButton();
+        await searchInput.searchFor('file-');
+        await searchResultsPage.waitForResults();
+      });
 
-      await testUtil.checkMultipleSelContextMenu([ data.file.name, data.fileDocxShared.name ], data.multipleSel.contextMenu);
-      await testUtil.checkMultipleSelToolbarPrimary([ data.file.name, data.fileDocxShared.name ], data.multipleSel.searchToolbarPrimary);
-      await testUtil.checkMultipleSelToolbarMoreActions([ data.file.name, data.fileDocxShared.name ], data.multipleSel.toolbarMore);
-    });
+      it('multiple files - []', async () => {
+        await testUtil.checkMultipleSelContextMenu([ data.file.name, data.fileDocxShared.name ], data.multipleSel.contextMenu);
+        await testUtil.checkMultipleSelToolbarActions([ data.file.name, data.fileDocxShared.name ], data.multipleSel.searchToolbarPrimary, data.multipleSel.toolbarMore);
+      });
 
-    it('multiple files - all favorite - []', async () => {
-      await searchInput.clickSearchButton();
-      await searchInput.checkOnlyFiles();
-      await searchInput.searchFor('file-');
+      it('multiple files - all favorite - []', async () => {
+        await testUtil.checkMultipleSelContextMenu([ data.fileDocxFav.name, data.fileSharedFav.name ], data.multipleSelAllFav.contextMenu);
+        await testUtil.checkMultipleSelToolbarActions([ data.fileDocxFav.name, data.fileSharedFav.name ], data.multipleSel.searchToolbarPrimary, data.multipleSelAllFav.toolbarMore);
+      });
 
-      await testUtil.checkMultipleSelContextMenu([ data.fileDocxFav.name, data.fileSharedFav.name ], data.multipleSelAllFav.contextMenu);
-      await testUtil.checkMultipleSelToolbarPrimary([ data.fileDocxFav.name, data.fileSharedFav.name ], data.multipleSel.searchToolbarPrimary);
-      await testUtil.checkMultipleSelToolbarMoreActions([ data.fileDocxFav.name, data.fileSharedFav.name ], data.multipleSelAllFav.toolbarMore);
-    });
+      it('multiple locked files - []', async () => {
+        await testUtil.checkMultipleSelContextMenu([ data.fileLocked.name, data.fileSharedFavLocked.name ], data.multipleSel.contextMenu);
+        await testUtil.checkMultipleSelToolbarActions([ data.fileLocked.name, data.fileSharedFavLocked.name ], data.multipleSel.searchToolbarPrimary, data.multipleSel.toolbarMore);
+      });
 
-    it('multiple locked files - []', async () => {
-      await searchInput.clickSearchButton();
-      await searchInput.checkOnlyFiles();
-      await searchInput.searchFor('file-');
-
-      await testUtil.checkMultipleSelContextMenu([ data.fileLocked.name, data.fileSharedFavLocked.name ], data.multipleSel.contextMenu);
-      await testUtil.checkMultipleSelToolbarPrimary([ data.fileLocked.name, data.fileSharedFavLocked.name ], data.multipleSel.searchToolbarPrimary);
-      await testUtil.checkMultipleSelToolbarMoreActions([ data.fileLocked.name, data.fileSharedFavLocked.name ], data.multipleSel.toolbarMore);
+      it('multiple files with different granular permissions - []', async () => {
+        await testUtil.checkMultipleSelContextMenu([ data.fileDocxFav.name, file3 ], data.multipleSelAllFav.contextMenu);
+        await testUtil.checkMultipleSelToolbarActions([ data.fileDocxFav.name, file3 ], data.multipleSel.searchToolbarPrimary, data.multipleSelAllFav.toolbarMore);
+      });
     });
 
     it('multiple folders - []', async () => {
+      await page.clickPersonalFiles();
       await searchInput.clickSearchButton();
-      await searchInput.checkOnlyFolders();
       await searchInput.searchFor('folder-');
 
       await testUtil.checkMultipleSelContextMenu([ data.folder.name, data.folderFav.name ], data.multipleSel.contextMenu);
-      await testUtil.checkMultipleSelToolbarPrimary([ data.folder.name, data.folderFav.name ], data.multipleSel.searchToolbarPrimary);
-      await testUtil.checkMultipleSelToolbarMoreActions([ data.folder.name, data.folderFav.name ], data.multipleSel.toolbarMore);
+      await testUtil.checkMultipleSelToolbarActions([ data.folder.name, data.folderFav.name ], data.multipleSel.searchToolbarPrimary, data.multipleSel.toolbarMore);
     });
 
     it('both files and folders - []', async () => {
+      await page.clickPersonalFiles();
       await searchInput.clickSearchButton();
-      await searchInput.checkFilesAndFolders();
       await searchInput.searchFor(`=${data.file.name} or =${data.folderFav.name}`);
 
       await testUtil.checkMultipleSelContextMenu([ data.file.name, data.folderFav.name ], data.multipleSel.contextMenu);
-      await testUtil.checkMultipleSelToolbarPrimary([ data.file.name, data.folderFav.name ], data.multipleSel.searchToolbarPrimary);
-      await testUtil.checkMultipleSelToolbarMoreActions([ data.file.name, data.folderFav.name ], data.multipleSel.toolbarMore);
-    });
-
-    it('multiple files with different granular permissions - []', async () => {
-      await searchInput.clickSearchButton();
-      await searchInput.checkOnlyFiles();
-      await searchInput.searchFor('file-');
-
-      await testUtil.checkMultipleSelContextMenu([ data.fileDocxFav.name, file3 ], data.multipleSelAllFav.contextMenu);
-      await testUtil.checkMultipleSelToolbarPrimary([ data.fileDocxFav.name, file3 ], data.multipleSel.searchToolbarPrimary);
-      await testUtil.checkMultipleSelToolbarMoreActions([ data.fileDocxFav.name, file3 ], data.multipleSelAllFav.toolbarMore);
+      await testUtil.checkMultipleSelToolbarActions([ data.file.name, data.folderFav.name ], data.multipleSel.searchToolbarPrimary, data.multipleSel.toolbarMore);
     });
   });
 });

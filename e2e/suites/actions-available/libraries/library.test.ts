@@ -24,76 +24,72 @@
  */
 
 import { LoginPage, BrowsingPage, SearchResultsPage } from '../../../pages/pages';
-import { SITE_VISIBILITY } from '../../../configs';
 import { RepoClient } from '../../../utilities/repo-client/repo-client';
 import { Utils } from '../../../utilities/utils';
+import { AdminActions } from '../../../utilities/admin-actions';
 import * as data from './test-data-libraries';
 import * as testUtil from '../test-util';
 
 describe('Library actions : ', () => {
   const username = `user-${Utils.random()}`;
 
-  const apis = {
-      admin: new RepoClient(),
-      user: new RepoClient(username, username)
-  };
+  const userApi = new RepoClient(username, username);
+
+  const adminApiActions = new AdminActions();
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const searchResultsPage = new SearchResultsPage();
   const { searchInput } = searchResultsPage.header;
 
-  beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+  beforeAll(async () => {
+    await adminApiActions.createUser({ username });
 
-    await apis.user.sites.createSite(data.publicUserMemberFav.name);
-    await apis.user.sites.createSite(data.privateUserMemberFav.name, SITE_VISIBILITY.PRIVATE);
-    await apis.user.sites.createSite(data.moderatedUserMemberFav.name, SITE_VISIBILITY.MODERATED);
+    await userApi.sites.createSite(data.publicUserMemberFav.name);
+    await userApi.sites.createSitePrivate(data.privateUserMemberFav.name);
+    await userApi.sites.createSiteModerated(data.moderatedUserMemberFav.name);
 
-    const publicUserMemberNotFavId = (await apis.user.sites.createSite(data.publicUserMemberNotFav.name)).entry.guid;
-    const privateUserMemberNotFavId = (await apis.user.sites.createSite(data.privateUserMemberNotFav.name, SITE_VISIBILITY.PRIVATE)).entry.guid;
-    const moderatedUserMemberNotFavId = (await apis.user.sites.createSite(data.moderatedUserMemberNotFav.name, SITE_VISIBILITY.MODERATED)).entry.guid;
+    const publicUserMemberNotFavId = (await userApi.sites.createSite(data.publicUserMemberNotFav.name)).entry.guid;
+    const privateUserMemberNotFavId = (await userApi.sites.createSitePrivate(data.privateUserMemberNotFav.name)).entry.guid;
+    const moderatedUserMemberNotFavId = (await userApi.sites.createSiteModerated(data.moderatedUserMemberNotFav.name)).entry.guid;
 
-    await apis.admin.sites.createSite(data.publicNotMemberFav.name);
-    await apis.admin.sites.createSite(data.moderatedNotMemberFav.name, SITE_VISIBILITY.MODERATED);
+    await adminApiActions.sites.createSite(data.publicNotMemberFav.name);
+    await adminApiActions.sites.createSiteModerated(data.moderatedNotMemberFav.name);
 
-    await apis.admin.sites.createSite(data.publicNotMemberNotFav.name);
-    await apis.admin.sites.createSite(data.moderatedNotMemberNotFav.name, SITE_VISIBILITY.MODERATED);
+    await adminApiActions.sites.createSite(data.publicNotMemberNotFav.name);
+    await adminApiActions.sites.createSiteModerated(data.moderatedNotMemberNotFav.name);
 
-    await apis.admin.sites.createSite(data.moderatedRequestedJoinFav.name, SITE_VISIBILITY.MODERATED);
-    await apis.admin.sites.createSite(data.moderatedRequestedJoinNotFav.name, SITE_VISIBILITY.MODERATED);
+    await adminApiActions.sites.createSiteModerated(data.moderatedRequestedJoinFav.name);
+    await adminApiActions.sites.createSiteModerated(data.moderatedRequestedJoinNotFav.name);
 
-    await apis.user.sites.createSite(data.siteInTrash.name, SITE_VISIBILITY.PUBLIC);
-    await apis.user.sites.createSite(data.site2InTrash.name, SITE_VISIBILITY.PUBLIC);
+    await userApi.sites.createSite(data.siteInTrash.name);
+    await userApi.sites.createSite(data.site2InTrash.name);
 
-    await apis.user.sites.waitForApi({ expect: 8 });
-    await apis.admin.sites.waitForApi({ expect: 6 });
+    await Promise.all([
+      userApi.sites.waitForApi({ expect: 8 }),
+      adminApiActions.sites.waitForApi({ expect: 6 + 1 })
+    ]);
 
-    await apis.user.favorites.removeFavoriteById(publicUserMemberNotFavId);
-    await apis.user.favorites.removeFavoriteById(privateUserMemberNotFavId);
-    await apis.user.favorites.removeFavoriteById(moderatedUserMemberNotFavId);
+    await userApi.favorites.removeFavoritesByIds([publicUserMemberNotFavId, privateUserMemberNotFavId, moderatedUserMemberNotFavId]);
 
-    await apis.user.favorites.addFavoriteById('site', data.publicNotMemberFav.name);
-    await apis.user.favorites.addFavoriteById('site', data.moderatedNotMemberFav.name);
-    await apis.user.favorites.addFavoriteById('site', data.moderatedRequestedJoinFav.name);
+    await userApi.favorites.addFavoritesByIds('site', [data.publicNotMemberFav.name, data.moderatedNotMemberFav.name, data.moderatedRequestedJoinFav.name]);
 
-    await apis.user.sites.requestToJoin(data.moderatedRequestedJoinFav.name);
-    await apis.user.sites.requestToJoin(data.moderatedRequestedJoinNotFav.name);
+    await userApi.sites.requestToJoin(data.moderatedRequestedJoinFav.name);
+    await userApi.sites.requestToJoin(data.moderatedRequestedJoinNotFav.name);
 
-    await apis.user.queries.waitForSites('site-', { expect: 13 });
+    await userApi.queries.waitForSites('site-', { expect: 14 + 1 });
 
-    await apis.user.sites.deleteSite(data.siteInTrash.name, false);
-    await apis.user.sites.deleteSite(data.site2InTrash.name, false);
+    await userApi.sites.deleteSite(data.siteInTrash.name, false);
+    await userApi.sites.deleteSite(data.site2InTrash.name, false);
 
-    await apis.user.trashcan.waitForApi({ expect: 2 });
+    await userApi.trashcan.waitForApi({ expect: 2 });
 
     await loginPage.loginWith(username);
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await Promise.all([
-      apis.user.sites.deleteSites([
+      userApi.sites.deleteSites([
         data.publicUserMemberFav.name,
         data.privateUserMemberFav.name,
         data.moderatedUserMemberFav.name,
@@ -101,7 +97,7 @@ describe('Library actions : ', () => {
         data.privateUserMemberNotFav.name,
         data.moderatedUserMemberNotFav.name
       ]),
-      apis.admin.sites.deleteSites([
+      adminApiActions.sites.deleteSites([
         data.publicNotMemberFav.name,
         data.moderatedNotMemberFav.name,
         data.publicNotMemberNotFav.name,
@@ -109,22 +105,19 @@ describe('Library actions : ', () => {
         data.moderatedRequestedJoinFav.name,
         data.moderatedRequestedJoinNotFav.name
       ]),
-      apis.user.trashcan.emptyTrash()
+      userApi.trashcan.emptyTrash()
     ]);
-    done();
   });
 
   describe('on My Libraries', () => {
 
-    beforeEach(async (done) => {
+    beforeAll(async () => {
       await Utils.pressEscape();
       await page.goToMyLibrariesAndWait();
-      done();
     });
 
-    afterEach(async (done) => {
+    beforeEach(async () => {
       await Utils.pressEscape();
-      done();
     });
 
     it('Public library, user is a member, favorite - []', async () => {
@@ -167,15 +160,13 @@ describe('Library actions : ', () => {
 
   describe('on Favorite Libraries', () => {
 
-    beforeEach(async (done) => {
+    beforeAll(async () => {
       await Utils.pressEscape();
       await page.goToFavoriteLibrariesAndWait();
-      done();
     });
 
-    afterEach(async (done) => {
+    beforeEach(async () => {
       await Utils.pressEscape();
-      done();
     });
 
     it('Public library, user is a member, favorite - []', async () => {
@@ -217,18 +208,16 @@ describe('Library actions : ', () => {
 
   describe('on Search Results', () => {
 
-    beforeEach(async (done) => {
+    beforeAll(async () => {
       await Utils.pressEscape();
       await page.clickPersonalFiles();
       await searchInput.clickSearchButton();
       await searchInput.checkLibraries();
       await searchInput.searchFor('site-');
-      done();
     });
 
-    afterEach(async (done) => {
+    beforeEach(async () => {
       await Utils.pressEscape();
-      done();
     });
 
     it('Public library, user is a member, favorite - []', async () => {
@@ -305,14 +294,13 @@ describe('Library actions : ', () => {
   });
 
   describe('on Trash', () => {
-    beforeEach(async (done) => {
+    beforeAll(async () => {
+      await Utils.pressEscape();
       await page.clickTrashAndWait();
-      done();
     });
 
-    afterEach(async (done) => {
+    beforeEach(async () => {
       await Utils.pressEscape();
-      done();
     });
 
     it('single library - []', async () => {

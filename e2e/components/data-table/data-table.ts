@@ -276,11 +276,11 @@ export class DataTable extends Component {
 
   async selectMultipleItems(names: string[], location: string = ''): Promise<void> {
     await this.clearSelection();
-    await browser.actions().sendKeys(protractor.Key.COMMAND).perform();
+    await Utils.pressCmd();
     for (const name of names) {
       await this.selectItem(name, location);
     }
-    await browser.actions().sendKeys(protractor.Key.NULL).perform();
+    await Utils.releaseKeyPressed();
   }
 
   async clearSelection(): Promise<void> {

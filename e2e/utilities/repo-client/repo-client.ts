@@ -48,7 +48,7 @@ export class RepoClient {
         return { username, password };
     }
 
-    get people () {
+    get people() {
         return new PeopleApi(this.auth.username, this.auth.password);
     }
 

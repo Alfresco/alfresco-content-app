@@ -24,8 +24,8 @@
  */
 
 import { RepoApi } from '../repo-api';
-import { SiteBody, SiteMemberRoleBody, SiteMemberBody, SiteEntry, SiteMembershipRequestEntry, SitesApi as AdfSiteApi } from '@alfresco/js-api';
-import { SITE_VISIBILITY } from '../../../../configs';
+import { SiteBody, SiteMemberRoleBody, SiteMemberBody, SiteEntry, SiteMembershipRequestEntry, SitesApi as AdfSiteApi, SiteMemberEntry } from '@alfresco/js-api';
+import { SITE_VISIBILITY, SITE_ROLES } from '../../../../configs';
 import { Utils } from '../../../../utilities/utils';
 
 export class SitesApi extends RepoApi {
@@ -112,6 +112,14 @@ export class SitesApi extends RepoApi {
     }
   }
 
+  async createSitePrivate(title: string, description?: string, siteId?: string): Promise<SiteEntry> {
+    return this.createSite(title, SITE_VISIBILITY.PRIVATE, description, siteId);
+  }
+
+  async createSiteModerated(title: string, description?: string, siteId?: string): Promise<SiteEntry> {
+    return this.createSite(title, SITE_VISIBILITY.MODERATED, description, siteId);
+  }
+
   async createSites(titles: string[], visibility?: string) {
     try {
       return titles.reduce(async (previous: any, current: any) => {
@@ -183,6 +191,22 @@ export class SitesApi extends RepoApi {
       this.handleError(`${this.constructor.name} ${this.addSiteMember.name}`, error);
       return null;
     }
+  }
+
+  async addSiteConsumer(siteId: string, userId: string): Promise<SiteMemberEntry> {
+    return this.addSiteMember(siteId, userId, SITE_ROLES.SITE_CONSUMER.ROLE);
+  }
+
+  async addSiteContributor(siteId: string, userId: string): Promise<SiteMemberEntry> {
+    return this.addSiteMember(siteId, userId, SITE_ROLES.SITE_CONTRIBUTOR.ROLE);
+  }
+
+  async addSiteCollaborator(siteId: string, userId: string): Promise<SiteMemberEntry> {
+    return this.addSiteMember(siteId, userId, SITE_ROLES.SITE_COLLABORATOR.ROLE);
+  }
+
+  async addSiteManager(siteId: string, userId: string): Promise<SiteMemberEntry> {
+    return this.addSiteMember(siteId, userId, SITE_ROLES.SITE_MANAGER.ROLE);
   }
 
   async deleteSiteMember(siteId: string, userId: string) {

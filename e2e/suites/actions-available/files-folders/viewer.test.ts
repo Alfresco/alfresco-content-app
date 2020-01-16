@@ -23,10 +23,11 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage } from '../../../pages/pages';
+import { LoginPage, BrowsingPage, SearchResultsPage } from '../../../pages/pages';
 import { FILES } from '../../../configs';
 import { RepoClient } from '../../../utilities/repo-client/repo-client';
 import { Utils } from '../../../utilities/utils';
+import { AdminActions } from '../../../utilities/admin-actions';
 import * as data from './test-data-files-folders';
 import * as testUtil from '../test-util';
 
@@ -36,39 +37,49 @@ describe('File/folder actions : in the viewer : ', () => {
 
   const username = `user-${random}`;
 
-  const parent = `parent-${random}`; let parentId;
+  const parent = `parent-${random}`;
+  let parentId: string;
 
-  let fileDocxFavId, fileFavId, fileDocxSharedId, fileDocxSharedFavId, fileSharedId, fileSharedFavId, fileLockedId, fileFavLockedId, fileSharedLockedId, fileSharedFavLockedId;
+  let fileDocxFavId: string;
+  let fileFavId: string;
+  let fileDocxSharedId: string;
+  let fileDocxSharedFavId: string;
+  let fileSharedId: string;
+  let fileSharedFavId: string;
+  let fileLockedId: string;
+  let fileFavLockedId: string;
+  let fileSharedLockedId: string;
+  let fileSharedFavLockedId: string;
 
-  const apis = {
-    admin: new RepoClient(),
-    user: new RepoClient(username, username)
-  };
+  const userApi = new RepoClient(username, username);
+
+  const adminApiActions = new AdminActions();
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
+  const searchResultsPage = new SearchResultsPage();
   const { dataTable } = page;
   const { searchInput } = page.header;
 
-  beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+  beforeAll(async () => {
+    await adminApiActions.createUser({ username });
 
-    parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
+    parentId = (await userApi.nodes.createFolder(parent)).entry.id;
 
-    await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentId, data.fileDocx.name );
-    fileDocxFavId = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentId, data.fileDocxFav.name)).entry.id;
-    await apis.user.nodes.createFile(data.file.name, parentId);
-    fileFavId = (await apis.user.nodes.createFile(data.fileFav.name, parentId)).entry.id;
-    fileDocxSharedId = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentId, data.fileDocxShared.name)).entry.id;
-    fileDocxSharedFavId = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentId, data.fileDocxSharedFav.name)).entry.id;
-    fileSharedId = (await apis.user.nodes.createFile(data.fileShared.name, parentId)).entry.id;
-    fileSharedFavId = (await apis.user.nodes.createFile(data.fileSharedFav.name, parentId)).entry.id;
-    fileLockedId = (await apis.user.nodes.createFile(data.fileLocked.name, parentId)).entry.id;
-    fileFavLockedId = (await apis.user.nodes.createFile(data.fileFavLocked.name, parentId)).entry.id;
-    fileSharedLockedId = (await apis.user.nodes.createFile(data.fileSharedLocked.name, parentId)).entry.id;
-    fileSharedFavLockedId = (await apis.user.nodes.createFile(data.fileSharedFavLocked.name, parentId)).entry.id;
+    await userApi.upload.uploadFileWithRename(FILES.docxFile, parentId, data.fileDocx.name );
+    fileDocxFavId = (await userApi.upload.uploadFileWithRename(FILES.docxFile, parentId, data.fileDocxFav.name)).entry.id;
+    await userApi.nodes.createFile(data.file.name, parentId);
+    fileFavId = (await userApi.nodes.createFile(data.fileFav.name, parentId)).entry.id;
+    fileDocxSharedId = (await userApi.upload.uploadFileWithRename(FILES.docxFile, parentId, data.fileDocxShared.name)).entry.id;
+    fileDocxSharedFavId = (await userApi.upload.uploadFileWithRename(FILES.docxFile, parentId, data.fileDocxSharedFav.name)).entry.id;
+    fileSharedId = (await userApi.nodes.createFile(data.fileShared.name, parentId)).entry.id;
+    fileSharedFavId = (await userApi.nodes.createFile(data.fileSharedFav.name, parentId)).entry.id;
+    fileLockedId = (await userApi.nodes.createFile(data.fileLocked.name, parentId)).entry.id;
+    fileFavLockedId = (await userApi.nodes.createFile(data.fileFavLocked.name, parentId)).entry.id;
+    fileSharedLockedId = (await userApi.nodes.createFile(data.fileSharedLocked.name, parentId)).entry.id;
+    fileSharedFavLockedId = (await userApi.nodes.createFile(data.fileSharedFavLocked.name, parentId)).entry.id;
 
-    await apis.user.favorites.addFavoritesByIds('file', [
+    await userApi.favorites.addFavoritesByIds('file', [
       fileDocxFavId,
       fileFavId,
       fileDocxSharedFavId,
@@ -77,7 +88,7 @@ describe('File/folder actions : in the viewer : ', () => {
       fileSharedFavLockedId
     ]);
 
-    await apis.user.shared.shareFilesByIds([
+    await userApi.shared.shareFilesByIds([
       fileDocxSharedId,
       fileDocxSharedFavId,
       fileSharedId,
@@ -86,335 +97,259 @@ describe('File/folder actions : in the viewer : ', () => {
       fileSharedFavLockedId
     ]);
 
-    await apis.user.nodes.lockFile(fileLockedId);
-    await apis.user.nodes.lockFile(fileFavLockedId);
-    await apis.user.nodes.lockFile(fileSharedLockedId);
-    await apis.user.nodes.lockFile(fileSharedFavLockedId);
+    await userApi.nodes.lockFile(fileLockedId);
+    await userApi.nodes.lockFile(fileFavLockedId);
+    await userApi.nodes.lockFile(fileSharedLockedId);
+    await userApi.nodes.lockFile(fileSharedFavLockedId);
 
-    await apis.user.favorites.waitForApi({ expect: 6 });
-    await apis.user.shared.waitForApi({ expect: 6 });
+    await Promise.all([
+      userApi.favorites.waitForApi({ expect: 6 }),
+      userApi.shared.waitForApi({ expect: 6 })
+    ]);
 
     await loginPage.loginWith(username);
-    done();
   });
 
-  afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(parentId);
-    done();
+  afterAll(async () => {
+    await userApi.nodes.deleteNodeById(parentId);
+  });
+
+  beforeEach(async () => {
+    await Utils.pressEscape();
+  });
+
+  afterEach(async () => {
+    await page.closeOpenDialogs();
   });
 
   describe('file opened from Personal Files', () => {
 
-    beforeEach(async (done) => {
-      await Utils.pressEscape();
+    beforeAll(async () => {
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(parent);
       await dataTable.waitForHeader();
-      done();
-    });
-
-    afterEach(async (done) => {
-      await Utils.pressEscape();
-      done();
     });
 
     it('File Office - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileDocx.name, data.fileDocx.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileDocx.name, data.fileDocx.viewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileDocx.name, data.fileDocx.viewerToolbarPrimary, data.fileDocx.viewerToolbarMore);
     });
 
     it('File Office, favorite - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileDocxFav.name, data.fileDocxFav.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileDocxFav.name, data.fileDocxFav.viewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileDocxFav.name, data.fileDocxFav.viewerToolbarPrimary, data.fileDocxFav.viewerToolbarMore);
     });
 
     it('File simple - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.file.name, data.file.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.file.name, data.file.viewerToolbarMore);
+      await testUtil.checkViewerActions(data.file.name, data.file.viewerToolbarPrimary, data.file.viewerToolbarMore);
     });
 
     it('File favorite - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileFav.name, data.fileFav.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileFav.name, data.fileFav.viewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileFav.name, data.fileFav.viewerToolbarPrimary, data.fileFav.viewerToolbarMore);
     });
 
     it('File Office, shared - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileDocxShared.name, data.fileDocxShared.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileDocxShared.name, data.fileDocxShared.viewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileDocxShared.name, data.fileDocxShared.viewerToolbarPrimary, data.fileDocxShared.viewerToolbarMore);
     });
 
     it('File Office, shared, favorite - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileDocxSharedFav.name, data.fileDocxSharedFav.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileDocxSharedFav.name, data.fileDocxSharedFav.viewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileDocxSharedFav.name, data.fileDocxSharedFav.viewerToolbarPrimary, data.fileDocxSharedFav.viewerToolbarMore);
     });
 
     it('File shared - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileShared.name, data.fileShared.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileShared.name, data.fileShared.viewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileShared.name, data.fileShared.viewerToolbarPrimary, data.fileShared.viewerToolbarMore);
     });
 
     it('File shared, favorite - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileSharedFav.name, data.fileSharedFav.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileSharedFav.name, data.fileSharedFav.viewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileSharedFav.name, data.fileSharedFav.viewerToolbarPrimary, data.fileSharedFav.viewerToolbarMore);
     });
 
     it('File locked - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileLocked.name, data.fileLocked.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileLocked.name, data.fileLocked.viewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileLocked.name, data.fileLocked.viewerToolbarPrimary, data.fileLocked.viewerToolbarMore);
     });
 
     it('File favorite, locked - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileFavLocked.name, data.fileFavLocked.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileFavLocked.name, data.fileFavLocked.viewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileFavLocked.name, data.fileFavLocked.viewerToolbarPrimary, data.fileFavLocked.viewerToolbarMore);
     });
 
     it('File shared, locked - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileSharedLocked.name, data.fileSharedLocked.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileSharedLocked.name, data.fileSharedLocked.viewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileSharedLocked.name, data.fileSharedLocked.viewerToolbarPrimary, data.fileSharedLocked.viewerToolbarMore);
     });
 
     it('File shared, favorite, locked - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileSharedFavLocked.name, data.fileSharedFavLocked.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileSharedFavLocked.name, data.fileSharedFavLocked.viewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileSharedFavLocked.name, data.fileSharedFavLocked.viewerToolbarPrimary, data.fileSharedFavLocked.viewerToolbarMore);
     });
   });
 
   describe('file opened from Recent Files', () => {
 
-    beforeEach(async (done) => {
-      await Utils.pressEscape();
+    beforeAll(async () => {
       await page.clickRecentFilesAndWait();
-      done();
-    });
-
-    afterEach(async (done) => {
-      await Utils.pressEscape();
-      done();
     });
 
     it('File Office - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileDocx.name, data.fileDocx.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileDocx.name, data.fileDocx.viewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileDocx.name, data.fileDocx.viewerToolbarPrimary, data.fileDocx.viewerToolbarMore);
     });
 
     it('File Office, favorite - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileDocxFav.name, data.fileDocxFav.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileDocxFav.name, data.fileDocxFav.viewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileDocxFav.name, data.fileDocxFav.viewerToolbarPrimary, data.fileDocxFav.viewerToolbarMore);
     });
 
     it('File simple - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.file.name, data.file.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.file.name, data.file.viewerToolbarMore);
+      await testUtil.checkViewerActions(data.file.name, data.file.viewerToolbarPrimary, data.file.viewerToolbarMore);
     });
 
     it('File favorite - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileFav.name, data.fileFav.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileFav.name, data.fileFav.viewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileFav.name, data.fileFav.viewerToolbarPrimary, data.fileFav.viewerToolbarMore);
     });
 
     it('File Office, shared - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileDocxShared.name, data.fileDocxShared.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileDocxShared.name, data.fileDocxShared.viewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileDocxShared.name, data.fileDocxShared.viewerToolbarPrimary, data.fileDocxShared.viewerToolbarMore);
     });
 
     it('File Office, shared, favorite - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileDocxSharedFav.name, data.fileDocxSharedFav.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileDocxSharedFav.name, data.fileDocxSharedFav.viewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileDocxSharedFav.name, data.fileDocxSharedFav.viewerToolbarPrimary, data.fileDocxSharedFav.viewerToolbarMore);
     });
 
     it('File shared - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileShared.name, data.fileShared.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileShared.name, data.fileShared.viewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileShared.name, data.fileShared.viewerToolbarPrimary, data.fileShared.viewerToolbarMore);
     });
 
     it('File shared, favorite - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileSharedFav.name, data.fileSharedFav.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileSharedFav.name, data.fileSharedFav.viewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileSharedFav.name, data.fileSharedFav.viewerToolbarPrimary, data.fileSharedFav.viewerToolbarMore);
     });
 
     it('File locked - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileLocked.name, data.fileLocked.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileLocked.name, data.fileLocked.viewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileLocked.name, data.fileLocked.viewerToolbarPrimary, data.fileLocked.viewerToolbarMore);
     });
 
     it('File favorite, locked - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileFavLocked.name, data.fileFavLocked.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileFavLocked.name, data.fileFavLocked.viewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileFavLocked.name, data.fileFavLocked.viewerToolbarPrimary, data.fileFavLocked.viewerToolbarMore);
     });
 
     it('File shared, locked - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileSharedLocked.name, data.fileSharedLocked.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileSharedLocked.name, data.fileSharedLocked.viewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileSharedLocked.name, data.fileSharedLocked.viewerToolbarPrimary, data.fileSharedLocked.viewerToolbarMore);
     });
 
     it('File shared, favorite, locked - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileSharedFavLocked.name, data.fileSharedFavLocked.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileSharedFavLocked.name, data.fileSharedFavLocked.viewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileSharedFavLocked.name, data.fileSharedFavLocked.viewerToolbarPrimary, data.fileSharedFavLocked.viewerToolbarMore);
     });
   });
 
   describe('file opened from Favorites', () => {
 
-    beforeEach(async (done) => {
-      await Utils.pressEscape();
+    beforeAll(async () => {
       await page.clickFavoritesAndWait();
-      done();
-    });
-
-    afterEach(async (done) => {
-      await Utils.pressEscape();
-      done();
     });
 
     it('File Office, favorite - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileDocxFav.name, data.fileDocxFav.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileDocxFav.name, data.fileDocxFav.viewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileDocxFav.name, data.fileDocxFav.viewerToolbarPrimary, data.fileDocxFav.viewerToolbarMore);
     });
 
     it('File favorite - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileFav.name, data.fileFav.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileFav.name, data.fileFav.viewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileFav.name, data.fileFav.viewerToolbarPrimary, data.fileFav.viewerToolbarMore);
     });
 
     it('File Office, shared, favorite - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileDocxSharedFav.name, data.fileDocxSharedFav.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileDocxSharedFav.name, data.fileDocxSharedFav.viewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileDocxSharedFav.name, data.fileDocxSharedFav.viewerToolbarPrimary, data.fileDocxSharedFav.viewerToolbarMore);
     });
 
     it('File shared, favorite - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileSharedFav.name, data.fileSharedFav.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileSharedFav.name, data.fileSharedFav.viewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileSharedFav.name, data.fileSharedFav.viewerToolbarPrimary, data.fileSharedFav.viewerToolbarMore);
     });
 
     it('File favorite, locked - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileFavLocked.name, data.fileFavLocked.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileFavLocked.name, data.fileFavLocked.viewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileFavLocked.name, data.fileFavLocked.viewerToolbarPrimary, data.fileFavLocked.viewerToolbarMore);
     });
 
     it('File shared, favorite, locked - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileSharedFavLocked.name, data.fileSharedFavLocked.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileSharedFavLocked.name, data.fileSharedFavLocked.viewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileSharedFavLocked.name, data.fileSharedFavLocked.viewerToolbarPrimary, data.fileSharedFavLocked.viewerToolbarMore);
     });
   });
 
   describe('file opened from Shared Files', () => {
 
-    beforeEach(async (done) => {
-      await Utils.pressEscape();
+    beforeAll(async () => {
       await page.clickSharedFilesAndWait();
-      done();
-    });
-
-    afterEach(async (done) => {
-      await Utils.pressEscape();
-      done();
     });
 
     it('File Office, shared - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileDocxShared.name, data.fileDocxShared.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileDocxShared.name, data.fileDocxShared.viewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileDocxShared.name, data.fileDocxShared.viewerToolbarPrimary, data.fileDocxShared.viewerToolbarMore);
     });
 
     it('File Office, shared, favorite - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileDocxSharedFav.name, data.fileDocxSharedFav.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileDocxSharedFav.name, data.fileDocxSharedFav.viewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileDocxSharedFav.name, data.fileDocxSharedFav.viewerToolbarPrimary, data.fileDocxSharedFav.viewerToolbarMore);
     });
 
     it('File shared - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileShared.name, data.fileShared.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileShared.name, data.fileShared.viewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileShared.name, data.fileShared.viewerToolbarPrimary, data.fileShared.viewerToolbarMore);
     });
 
     it('File shared, favorite - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileSharedFav.name, data.fileSharedFav.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileSharedFav.name, data.fileSharedFav.viewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileSharedFav.name, data.fileSharedFav.viewerToolbarPrimary, data.fileSharedFav.viewerToolbarMore);
     });
 
     it('File shared, locked - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileSharedLocked.name, data.fileSharedLocked.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileSharedLocked.name, data.fileSharedLocked.viewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileSharedLocked.name, data.fileSharedLocked.viewerToolbarPrimary, data.fileSharedLocked.viewerToolbarMore);
     });
 
     it('File shared, favorite, locked - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileSharedFavLocked.name, data.fileSharedFavLocked.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileSharedFavLocked.name, data.fileSharedFavLocked.viewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileSharedFavLocked.name, data.fileSharedFavLocked.viewerToolbarPrimary, data.fileSharedFavLocked.viewerToolbarMore);
     });
   });
 
   describe('file opened from Search Results', () => {
 
-    beforeAll(async (done) => {
-      await Utils.pressEscape();
-      await page.clickPersonalFiles();
+    beforeAll(async () => {
       await searchInput.clickSearchButton();
-      await searchInput.checkOnlyFiles();
       await searchInput.searchFor('file-');
-      done();
-    });
-
-    afterEach(async (done) => {
-      await Utils.pressEscape();
-      done();
+      await searchResultsPage.waitForResults();
     });
 
     it('File Office - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileDocx.name, data.fileDocx.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileDocx.name, data.fileDocx.searchViewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileDocx.name, data.fileDocx.viewerToolbarPrimary, data.fileDocx.searchViewerToolbarMore);
     });
 
     it('File Office, favorite - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileDocxFav.name, data.fileDocxFav.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileDocxFav.name, data.fileDocxFav.searchViewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileDocxFav.name, data.fileDocxFav.viewerToolbarPrimary, data.fileDocxFav.searchViewerToolbarMore);
     });
 
     it('File simple - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.file.name, data.file.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.file.name, data.file.searchViewerToolbarMore);
+      await testUtil.checkViewerActions(data.file.name, data.file.viewerToolbarPrimary, data.file.searchViewerToolbarMore);
     });
 
     it('File favorite - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileFav.name, data.fileFav.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileFav.name, data.fileFav.searchViewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileFav.name, data.fileFav.viewerToolbarPrimary, data.fileFav.searchViewerToolbarMore);
     });
 
     it('File Office, shared - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileDocxShared.name, data.fileDocxShared.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileDocxShared.name, data.fileDocxShared.searchViewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileDocxShared.name, data.fileDocxShared.viewerToolbarPrimary, data.fileDocxShared.searchViewerToolbarMore);
     });
 
     it('File Office, shared, favorite - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileDocxSharedFav.name, data.fileDocxSharedFav.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileDocxSharedFav.name, data.fileDocxSharedFav.searchViewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileDocxSharedFav.name, data.fileDocxSharedFav.viewerToolbarPrimary, data.fileDocxSharedFav.searchViewerToolbarMore);
     });
 
     it('File shared - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileShared.name, data.fileShared.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileShared.name, data.fileShared.searchViewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileShared.name, data.fileShared.viewerToolbarPrimary, data.fileShared.searchViewerToolbarMore);
     });
 
     it('File shared, favorite - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileSharedFav.name, data.fileSharedFav.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileSharedFav.name, data.fileSharedFav.searchViewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileSharedFav.name, data.fileSharedFav.viewerToolbarPrimary, data.fileSharedFav.searchViewerToolbarMore);
     });
 
     it('File locked - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileLocked.name, data.fileLocked.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileLocked.name, data.fileLocked.searchViewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileLocked.name, data.fileLocked.viewerToolbarPrimary, data.fileLocked.searchViewerToolbarMore);
     });
 
     it('File favorite, locked - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileFavLocked.name, data.fileFavLocked.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileFavLocked.name, data.fileFavLocked.searchViewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileFavLocked.name, data.fileFavLocked.viewerToolbarPrimary, data.fileFavLocked.searchViewerToolbarMore);
     });
 
     it('File shared, locked - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileSharedLocked.name, data.fileSharedLocked.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileSharedLocked.name, data.fileSharedLocked.searchViewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileSharedLocked.name, data.fileSharedLocked.viewerToolbarPrimary, data.fileSharedLocked.searchViewerToolbarMore);
     });
 
     it('File shared, favorite, locked - []', async () => {
-      await testUtil.checkViewerToolbarPrimaryActions(data.fileSharedFavLocked.name, data.fileSharedFavLocked.viewerToolbarPrimary);
-      await testUtil.checkViewerToolbarMoreActions(data.fileSharedFavLocked.name, data.fileSharedFavLocked.searchViewerToolbarMore);
+      await testUtil.checkViewerActions(data.fileSharedFavLocked.name, data.fileSharedFavLocked.viewerToolbarPrimary, data.fileSharedFavLocked.searchViewerToolbarMore);
     });
   });
 
