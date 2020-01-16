@@ -116,7 +116,7 @@
         "description": "APP.NEW_MENU.MENU_ITEMS.FILE_TEMPLATE",
         "description-disabled": "APP.NEW_MENU.TOOLTIPS.CREATE_FILE_NOT_ALLOWED",
         "actions": {
-          "click": "CREATE_FILE_FROM_TEMPLATE"
+          "click": "FILE_FROM_TEMPLATE"
         },
         "rules": {
           "enabled": "app.navigation.folder.canUpload"

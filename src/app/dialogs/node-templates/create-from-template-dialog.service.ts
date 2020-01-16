@@ -23,22 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Action } from '@ngrx/store';
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 import { Node } from '@alfresco/js-api';
 
-export enum TemplateActionTypes {
-  FileFromTemplate = 'FILE_FROM_TEMPLATE',
-  CreateFileFromTemplate = 'CREATE_FILE_FROM_TEMPLATE'
-}
-
-export class FileFromTemplate implements Action {
-  readonly type = TemplateActionTypes.FileFromTemplate;
-
-  constructor() {}
-}
-
-export class CreateFileFromTemplate implements Action {
-  readonly type = TemplateActionTypes.CreateFileFromTemplate;
-
-  constructor(public payload: Node) {}
+@Injectable({
+  providedIn: 'root'
+})
+export class CreateFromTemplateDialogService {
+  success$: Subject<Node> = new Subject();
 }
