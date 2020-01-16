@@ -50,51 +50,51 @@ describe('Empty list views', () => {
 
   it('empty Personal Files - [C280131]', async () => {
     await page.clickPersonalFiles();
-    expect(await dataTable.isEmptyList()).toBe(true, 'list is not empty');
+    expect(await dataTable.isEmpty()).toBe(true, 'list is not empty');
     expect(await dataTable.getEmptyDragAndDropText()).toContain('Drag and drop');
   });
 
   it('empty My Libraries - [C217099]', async () => {
     await page.goToMyLibraries();
-    expect(await dataTable.isEmptyList()).toBe(true, 'list is not empty');
+    expect(await dataTable.isEmpty()).toBe(true, 'list is not empty');
     expect(await dataTable.getEmptyStateTitle()).toContain(`You aren't a member of any File Libraries yet`);
     expect(await dataTable.getEmptyStateSubtitle()).toContain('Join libraries to upload, view, and share files.');
   });
 
   it('empty Favorite Libraries - [C289911]', async () => {
     await page.goToFavoriteLibraries();
-    expect(await dataTable.isEmptyList()).toBe(true, 'list is not empty');
+    expect(await dataTable.isEmpty()).toBe(true, 'list is not empty');
     expect(await dataTable.getEmptyStateTitle()).toContain(`No Favorite Libraries`);
     expect(await dataTable.getEmptyStateSubtitle()).toContain('Favorite a library that you want to find easily later.');
   });
 
   it('empty Shared Files - [C280132]', async () => {
     await page.clickSharedFiles();
-    expect(await dataTable.isEmptyList()).toBe(true, 'list is not empty');
+    expect(await dataTable.isEmpty()).toBe(true, 'list is not empty');
     expect(await dataTable.getEmptyStateTitle()).toContain('No shared files or folders');
     expect(await dataTable.getEmptyStateSubtitle()).toContain('Items you share using the Share option are shown here.');
   });
 
   it('empty Recent Files - [C213169]', async () => {
     await page.clickRecentFiles();
-    expect(await dataTable.isEmptyList()).toBe(true, 'list is not empty');
+    expect(await dataTable.isEmpty()).toBe(true, 'list is not empty');
     expect(await dataTable.getEmptyStateTitle()).toContain('No recent files');
     expect(await dataTable.getEmptyStateSubtitle()).toContain('Items you uploaded or edited in the last 30 days are shown here.');
   });
 
   it('empty Favorites - [C280133]', async () => {
     await page.clickFavorites();
-    expect(await dataTable.isEmptyList()).toBe(true, 'list is not empty');
+    expect(await dataTable.isEmpty()).toBe(true, 'list is not empty');
     expect(await dataTable.getEmptyStateTitle()).toContain('No favorite files or folders');
     expect(await dataTable.getEmptyStateSubtitle()).toContain('Favorite items that you want to easily find later.');
   });
 
   it('empty Trash - [C280134]', async () => {
     await page.clickTrash();
-    expect(await dataTable.isEmptyList()).toBe(true, 'list is not empty');
+    expect(await dataTable.isEmpty()).toBe(true, 'list is not empty');
     expect(await dataTable.getEmptyStateTitle()).toContain('Trash is empty');
-    expect(await dataTable.getEmptyStateText()).toContain('Items you delete are moved to the Trash.');
-    expect(await dataTable.getEmptyStateText()).toContain('Empty Trash to permanently delete items.');
+    expect(await dataTable.getEmptyListText()).toContain('Items you delete are moved to the Trash.');
+    expect(await dataTable.getEmptyListText()).toContain('Empty Trash to permanently delete items.');
   });
 
   it('Favorites - pagination controls not displayed - [C280111]', async () => {
@@ -197,7 +197,7 @@ describe('Empty list views', () => {
     await searchInput.searchFor('qwertyuiop');
     await dataTable.waitForBody();
 
-    expect(await dataTable.isEmptyList()).toBe(true, 'list is not empty');
+    expect(await dataTable.isEmpty()).toBe(true, 'list is not empty');
     expect(await dataTable.getEmptySearchResultsText()).toContain('Your search returned 0 results');
   });
 
@@ -208,7 +208,7 @@ describe('Empty list views', () => {
     await searchInput.searchFor('qwertyuiop');
     await dataTable.waitForBody();
 
-    expect(await dataTable.isEmptyList()).toBe(true, 'list is not empty');
+    expect(await dataTable.isEmpty()).toBe(true, 'list is not empty');
     expect(await dataTable.getEmptySearchResultsText()).toContain('Your search returned 0 results');
   });
 });

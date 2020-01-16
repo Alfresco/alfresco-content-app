@@ -106,7 +106,7 @@ describe('Trash', () => {
     });
 
     it('displays the files and folders deleted by everyone - [C280493]', async () => {
-      expect(await dataTable.countRows()).toEqual(8, 'Incorrect number of deleted items displayed');
+      expect(await dataTable.getRowsCount()).toEqual(8, 'Incorrect number of deleted items displayed');
 
       expect(await dataTable.isItemPresent(fileAdmin)).toBe(true, `${fileAdmin} not displayed`);
       expect(await dataTable.isItemPresent(folderAdmin)).toBe(true, `${folderAdmin} not displayed`);
@@ -135,7 +135,7 @@ describe('Trash', () => {
     });
 
     it('displays the files and folders deleted by the user - [C213218]', async () => {
-      expect(await dataTable.countRows()).toEqual(6, 'Incorrect number of deleted items displayed');
+      expect(await dataTable.getRowsCount()).toEqual(6, 'Incorrect number of deleted items displayed');
 
       expect(await dataTable.isItemPresent(fileSite)).toBe(true, `${fileSite} not displayed`);
       expect(await dataTable.isItemPresent(fileUser)).toBe(true, `${fileUser} not displayed`);

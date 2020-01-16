@@ -23,21 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, ExpectedConditions as EC, browser } from 'protractor';
-import { BROWSER_WAIT_TIMEOUT } from '../configs';
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
+import { Node } from '@alfresco/js-api';
 
-export abstract class Component {
-  component: ElementFinder;
-
-  constructor(selector: string, ancestor?: string) {
-    const locator = selector;
-
-    this.component = ancestor
-      ? browser.$$(ancestor).first().$$(locator).first()
-      : browser.$$(locator).first();
-  }
-
-  async wait() {
-    await browser.wait(EC.presenceOf(this.component), BROWSER_WAIT_TIMEOUT);
-  }
+@Injectable({
+  providedIn: 'root'
+})
+export class CreateFromTemplateDialogService {
+  success$: Subject<Node> = new Subject();
 }

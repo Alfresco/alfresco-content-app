@@ -187,7 +187,7 @@ describe('Generic tests : ', () => {
     await dataTable.rightClickOnItem(file1);
 
     expect(await dataTable.hasContextMenu()).toBe(true, `Context menu is not displayed for ${file1}`);
-    expect(await dataTable.countSelectedRows()).toEqual(1, 'incorrect number of selected rows');
+    expect(await dataTable.getSelectedRowsCount()).toEqual(1, 'incorrect number of selected rows');
     expect(await contextMenu.isEditFolderPresent()).toBe(false, `Edit folder is displayed for ${file1}`);
     expect(await dataTable.hasCheckMarkIcon(file1)).toBe(true, `${file1} is not selected`);
     expect(await dataTable.hasCheckMarkIcon(file2)).toBe(false, `${file2} is selected`);
@@ -197,11 +197,11 @@ describe('Generic tests : ', () => {
   it('Unselect items with single click - [C280458]', async () => {
     await dataTable.selectMultipleItems([file1, file2, folder1, folder2]);
 
-    expect(await dataTable.countSelectedRows()).toEqual(4, 'incorrect selected rows number');
+    expect(await dataTable.getSelectedRowsCount()).toEqual(4, 'incorrect selected rows number');
 
     await dataTable.clickItem(file1);
 
-    expect(await dataTable.countSelectedRows()).toEqual(1, 'incorrect selected rows number');
+    expect(await dataTable.getSelectedRowsCount()).toEqual(1, 'incorrect selected rows number');
   });
 
   it('Select / unselect items by CMD+click - [C217110]', async () => {
@@ -212,13 +212,13 @@ describe('Generic tests : ', () => {
     await dataTable.clickItem(folder2);
     await browser.actions().sendKeys(protractor.Key.NULL).perform();
 
-    expect(await dataTable.countSelectedRows()).toEqual(4, 'incorrect selected rows number');
+    expect(await dataTable.getSelectedRowsCount()).toEqual(4, 'incorrect selected rows number');
 
     await browser.actions().sendKeys(protractor.Key.COMMAND).perform();
     await dataTable.clickItem(file1);
     await dataTable.clickItem(file2);
     await browser.actions().sendKeys(protractor.Key.NULL).perform();
 
-    expect(await dataTable.countSelectedRows()).toEqual(2, 'incorrect selected rows number');
+    expect(await dataTable.getSelectedRowsCount()).toEqual(2, 'incorrect selected rows number');
   });
 });

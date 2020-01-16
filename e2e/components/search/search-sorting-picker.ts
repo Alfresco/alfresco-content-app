@@ -39,7 +39,7 @@ export class SearchSortingPicker extends Component {
   sortByDropdownExpanded: ElementFinder = browser.element(by.css('.mat-select-panel'));
   sortByList: ElementArrayFinder = this.sortByDropdownExpanded.all(by.css(SearchSortingPicker.selectors.sortByOption));
 
-  constructor(ancestor?: ElementFinder) {
+  constructor(ancestor?: string) {
     super(SearchSortingPicker.selectors.root, ancestor);
   }
 

@@ -50,7 +50,7 @@ export class SearchInput extends Component {
   searchLibrariesOption: ElementFinder = this.searchOptionsArea.element(by.cssContainingText(SearchInput.selectors.optionCheckbox, 'Libraries'));
   clearSearchButton: ElementFinder = this.searchContainer.$(SearchInput.selectors.clearButton);
 
-  constructor(ancestor?: ElementFinder) {
+  constructor(ancestor?: string) {
     super(SearchInput.selectors.root, ancestor);
   }
 

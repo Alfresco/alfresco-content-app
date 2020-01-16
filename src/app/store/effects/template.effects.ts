@@ -27,15 +27,15 @@ import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import {
   map,
-  withLatestFrom,
   switchMap,
-  catchError,
   debounceTime,
   flatMap,
-  skipWhile
+  take,
+  catchError
 } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import {
+  FileFromTemplate,
   CreateFileFromTemplate,
   TemplateActionTypes,
   getCurrentFolder,
@@ -45,9 +45,9 @@ import {
 import { CreateFileFromTemplateService } from '../../services/create-file-from-template.service';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { ContentManagementService } from '../../services/content-management.service';
-import { from, of, Observable } from 'rxjs';
-import { NodeEntry, NodeBodyUpdate, MinimalNode } from '@alfresco/js-api';
-
+import { from, Observable, of } from 'rxjs';
+import { NodeEntry, NodeBodyUpdate, Node } from '@alfresco/js-api';
+import { CreateFromTemplateDialogService } from '../../dialogs/node-templates/create-from-template-dialog.service';
 @Injectable()
 export class TemplateEffects {
   constructor(
@@ -55,12 +55,13 @@ export class TemplateEffects {
     private store: Store<AppStore>,
     private apiService: AlfrescoApiService,
     private actions$: Actions,
+    private createFromTemplateDialogService: CreateFromTemplateDialogService,
     private createFileFromTemplateService: CreateFileFromTemplateService
   ) {}
 
   @Effect({ dispatch: false })
   fileFromTemplate$ = this.actions$.pipe(
-    ofType<CreateFileFromTemplate>(TemplateActionTypes.CreateFileFromTemplate),
+    ofType<FileFromTemplate>(TemplateActionTypes.FileFromTemplate),
     map(() => {
       this.createFileFromTemplateService
         .openTemplatesDialog()
@@ -70,15 +71,7 @@ export class TemplateEffects {
             this.createFileFromTemplateService
               .createTemplateDialog(node)
               .afterClosed()
-          ),
-          skipWhile(node => !node),
-          withLatestFrom(this.store.select(getCurrentFolder)),
-          switchMap(([template, parentNode]) => {
-            return this.copyNode(template, parentNode.id);
-          }),
-          catchError(error => {
-            return this.handleError(error);
-          })
+          )
         )
         .subscribe((node: NodeEntry | null) => {
           if (node) {
@@ -88,10 +81,27 @@ export class TemplateEffects {
     })
   );
 
-  private copyNode(
-    source: MinimalNode,
-    parentId: string
-  ): Observable<NodeEntry> {
+  @Effect({ dispatch: false })
+  createFileFromTemplate$ = this.actions$.pipe(
+    ofType<CreateFileFromTemplate>(TemplateActionTypes.CreateFileFromTemplate),
+    map(action => {
+      this.store
+        .select(getCurrentFolder)
+        .pipe(
+          switchMap(folder => {
+            return this.copyNode(action.payload, folder.id);
+          }),
+          take(1)
+        )
+        .subscribe((node: NodeEntry | null) => {
+          if (node) {
+            this.createFromTemplateDialogService.success$.next(node.entry);
+          }
+        });
+    })
+  );
+
+  private copyNode(source: Node, parentId: string): Observable<NodeEntry> {
     return from(
       this.apiService.getInstance().nodes.copyNode(source.id, {
         targetParentId: parentId,
@@ -99,25 +109,36 @@ export class TemplateEffects {
       })
     ).pipe(
       switchMap(node =>
-        this.updateNode(node.entry.id, {
+        this.updateNode(node, {
           properties: {
             'cm:title': source.properties['cm:title'],
             'cm:description': source.properties['cm:description']
           }
         })
-      )
+      ),
+      catchError(error => {
+        return this.handleError(error);
+      })
     );
   }
 
   private updateNode(
-    id: string,
+    node: NodeEntry,
     update: NodeBodyUpdate
   ): Observable<NodeEntry> {
-    return from(this.apiService.getInstance().nodes.updateNode(id, update));
+    return from(
+      this.apiService.getInstance().nodes.updateNode(node.entry.id, update)
+    ).pipe(catchError(() => of(node)));
   }
 
   private handleError(error: Error): Observable<null> {
-    const { statusCode } = JSON.parse(error.message).error;
+    let statusCode: number;
+
+    try {
+      statusCode = JSON.parse(error.message).error.statusCode;
+    } catch (e) {
+      statusCode = null;
+    }
 
     if (statusCode !== 409) {
       this.store.dispatch(

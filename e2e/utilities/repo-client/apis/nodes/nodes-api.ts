@@ -36,7 +36,7 @@ export class NodesApi extends RepoApi {
     super(username, password);
   }
 
-  async getNodeByPath(relativePath: string = '/'): Promise<NodeEntry> {
+  async getNodeByPath(relativePath: string = '/'): Promise<NodeEntry|null> {
     try {
       await this.apiAuth();
       return await this.nodesApi.getNode('-my-', { relativePath });
@@ -46,7 +46,7 @@ export class NodesApi extends RepoApi {
     }
   }
 
-  async getNodeById(id: string): Promise<NodeEntry> {
+  async getNodeById(id: string): Promise<NodeEntry|null> {
     try {
       await this.apiAuth();
       const node = await this.nodesApi.getNode(id);
@@ -77,7 +77,17 @@ export class NodesApi extends RepoApi {
     }
   }
 
-  async getNodeProperty(nodeId: string, property: string): Promise<any> {
+  async getNodeTitle(name: string, parentId: string): Promise<string> {
+    try {
+      const children = (await this.getNodeChildren(parentId)).list.entries;
+      return children.find(elem => elem.entry.name === name).entry.properties['cm:title'] || '';
+    } catch (error) {
+      this.handleError(`${this.constructor.name} ${this.getNodeTitle.name}`, error);
+      return '';
+    }
+  }
+
+  async getNodeProperty(nodeId: string, property: string): Promise<string> {
     try {
       const node = await this.getNodeById(nodeId);
       return (node.entry.properties && node.entry.properties[property]) || '';
@@ -179,7 +189,7 @@ export class NodesApi extends RepoApi {
     }
   }
 
-  async getNodeChildren(nodeId: string): Promise<NodeChildAssociationPaging> {
+  async getNodeChildren(nodeId: string): Promise<NodeChildAssociationPaging|null> {
     try {
       const opts = {
         include: [ 'properties' ]
@@ -202,7 +212,7 @@ export class NodesApi extends RepoApi {
     }
   }
 
-  async createImageNode(name: string, parentId: string = '-my-', title: string = '', description: string = ''): Promise<any> {
+  async createImageNode(name: string, parentId: string = '-my-', title: string = '', description: string = ''): Promise<NodeEntry|null> {
     const imageProps = {
       'exif:pixelXDimension': 1000,
       'exif:pixelYDimension': 1200
@@ -211,10 +221,30 @@ export class NodesApi extends RepoApi {
       return await this.createNode('cm:content', name, parentId, title, description, imageProps);
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.createImageNode.name}`, error);
+      return null;
     }
   }
 
-  async createNode(nodeType: string, name: string, parentId: string = '-my-', title: string = '', description: string = '', imageProps: any = null, author: string = '', majorVersion: boolean = true): Promise<any> {
+  async createNodeLink(originalNodeId: string, destinationId: string): Promise<NodeEntry|null> {
+    const name = (await this.getNodeById(originalNodeId)).entry.name;
+    const nodeBody = {
+      name: `Link to ${name}.url`,
+      nodeType: 'app:filelink',
+      properties: {
+        'cm:destination': originalNodeId
+      }
+    }
+
+    try {
+      await this.apiAuth();
+      return await this.nodesApi.createNode(destinationId, nodeBody);
+    } catch (error) {
+      this.handleError(`${this.constructor.name} ${this.createNode.name}`, error);
+      return null;
+    }
+  }
+
+  async createNode(nodeType: string, name: string, parentId: string = '-my-', title: string = '', description: string = '', imageProps: any = null, author: string = '', majorVersion: boolean = true): Promise<NodeEntry|null> {
     const nodeBody = {
         name,
         nodeType,
@@ -234,34 +264,38 @@ export class NodesApi extends RepoApi {
       return await this.nodesApi.createNode(parentId, nodeBody, { majorVersion });
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.createNode.name}`, error);
+      return null;
     }
   }
 
-  async createFile(name: string, parentId: string = '-my-', title: string = '', description: string = '', author: string = '', majorVersion: boolean = true): Promise<any> {
+  async createFile(name: string, parentId: string = '-my-', title: string = '', description: string = '', author: string = '', majorVersion: boolean = true): Promise<NodeEntry> {
     try {
       return await this.createNode('cm:content', name, parentId, title, description, null, author, majorVersion);
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.createFile.name}`, error);
+      return null;
     }
   }
 
-  async createImage(name: string, parentId: string = '-my-', title: string = '', description: string = ''): Promise<any> {
+  async createImage(name: string, parentId: string = '-my-', title: string = '', description: string = ''): Promise<NodeEntry|null> {
     try {
       return await this.createImageNode(name, parentId, title, description);
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.createImage.name}`, error);
+      return null;
     }
   }
 
-  async createFolder(name: string, parentId: string = '-my-', title: string = '', description: string = '', author: string = ''): Promise<any> {
+  async createFolder(name: string, parentId: string = '-my-', title: string = '', description: string = '', author: string = ''): Promise<NodeEntry|null> {
     try {
       return await this.createNode('cm:folder', name, parentId, title, description, null, author);
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.createFolder.name}`, error);
+      return null;
     }
   }
 
-  async createChildren(data: NodeBodyCreate[]): Promise<any> {
+  async createChildren(data: NodeBodyCreate[]): Promise<NodeEntry|any> {
     try {
       await this.apiAuth();
       return await this.nodesApi.createNode('-my-', <any>data);
@@ -270,7 +304,7 @@ export class NodesApi extends RepoApi {
     }
   }
 
-  async createContent(content: NodeContentTree, relativePath: string = '/'): Promise<any> {
+  async createContent(content: NodeContentTree, relativePath: string = '/'): Promise<NodeEntry|any> {
     try {
       return await this.createChildren(flattenNodeContentTree(content, relativePath));
     } catch (error) {
@@ -278,7 +312,7 @@ export class NodesApi extends RepoApi {
     }
   }
 
-  async createFolders(names: string[], relativePath: string = '/'): Promise<any> {
+  async createFolders(names: string[], relativePath: string = '/'): Promise<NodeEntry|any> {
     try {
       return await this.createContent({ folders: names }, relativePath);
     } catch (error) {
@@ -286,7 +320,7 @@ export class NodesApi extends RepoApi {
     }
   }
 
-  async createFiles(names: string[], relativePath: string = '/'): Promise<any> {
+  async createFiles(names: string[], relativePath: string = '/'): Promise<NodeEntry|any> {
     try {
       return await this.createContent({ files: names }, relativePath);
     } catch (error) {
@@ -325,6 +359,22 @@ export class NodesApi extends RepoApi {
   }
 
   // node permissions
+  async setInheritPermissions(nodeId: string, inheritPermissions: boolean): Promise<NodeEntry|null> {
+    const data = {
+      permissions: {
+        isInheritanceEnabled: inheritPermissions
+      }
+    };
+
+    try {
+      await this.apiAuth();
+      return await this.nodesApi.updateNode(nodeId, data);
+    } catch (error) {
+      this.handleError(`${this.constructor.name} ${this.setGranularPermission.name}`, error);
+      return null;
+    }
+  }
+
   async setGranularPermission(nodeId: string, inheritPermissions: boolean = false, username: string, role: string): Promise<NodeEntry|null> {
     const data = {
       permissions: {
@@ -372,7 +422,7 @@ export class NodesApi extends RepoApi {
     }
   }
 
-  async getLockType(nodeId: string): Promise<any> {
+  async getLockType(nodeId: string): Promise<string> {
     try {
       const lockType = await this.getNodeProperty(nodeId, 'cm:lockType');
       return lockType || '';
@@ -382,7 +432,7 @@ export class NodesApi extends RepoApi {
     }
   }
 
-  async getLockOwner(nodeId: string): Promise<any> {
+  async getLockOwner(nodeId: string): Promise<string> {
     try {
       const lockOwner = await this.getNodeProperty(nodeId, 'cm:lockOwner');
       return lockOwner || '';

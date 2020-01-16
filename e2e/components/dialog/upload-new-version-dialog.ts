@@ -51,7 +51,7 @@ export class UploadNewVersionDialog extends Component {
 
   description: ElementFinder = this.component.element(by.css(UploadNewVersionDialog.selectors.descriptionTextArea));
 
-  constructor(ancestor?: ElementFinder) {
+  constructor(ancestor?: string) {
     super(UploadNewVersionDialog.selectors.root, ancestor);
   }
 

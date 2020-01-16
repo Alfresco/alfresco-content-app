@@ -45,7 +45,7 @@ export class SearchFilters extends Component {
   location = new FacetFilter('Location');
   modifiedDate = new FacetFilter('Modified date');
 
-  constructor(ancestor?: ElementFinder) {
+  constructor(ancestor?: string) {
     super(SearchFilters.selectors.root, ancestor);
   }
 

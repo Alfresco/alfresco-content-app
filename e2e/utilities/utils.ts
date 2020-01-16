@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { browser, protractor, promise, ElementFinder, ExpectedConditions as EC, by } from 'protractor';
+import { browser, protractor, ElementFinder, ExpectedConditions as EC, by, logging } from 'protractor';
 import { BROWSER_WAIT_TIMEOUT, E2E_ROOT_PATH, EXTENSIBILITY_CONFIGS } from '../configs';
 
 const path = require('path');
@@ -41,35 +41,35 @@ export class Utils {
     lighter track cinema tread tick climate lend summit singer radical flower visual negotiation promises cooperative live';
 
   // generate a random value
-  static random() {
+  static random(): string {
     return Math.random().toString(36).substring(5, 10).toLowerCase();
   }
 
   // local storage
-  static clearLocalStorage(): promise.Promise<any> {
-    return browser.executeScript('window.localStorage.clear();');
+  static async clearLocalStorage(): Promise<void> {
+    await browser.executeScript('window.localStorage.clear();');
   }
 
   // session storage
-  static clearSessionStorage(): promise.Promise<any> {
-    return browser.executeScript('window.sessionStorage.clear();');
+  static async clearSessionStorage(): Promise<void> {
+    await browser.executeScript('window.sessionStorage.clear();');
   }
 
-  static getSessionStorage() {
-    return browser.executeScript('return window.sessionStorage.getItem("app.extension.config");');
+  static async getSessionStorage(): Promise<any> {
+    return await browser.executeScript('return window.sessionStorage.getItem("app.extension.config");');
   }
 
-  static setSessionStorageFromConfig(configFileName: string) {
+  static async setSessionStorageFromConfig(configFileName: string): Promise<void> {
     const configFile = `${E2E_ROOT_PATH}/resources/extensibility-configs/${configFileName}`;
     const fileContent = JSON.stringify(fs.readFileSync(configFile, { encoding: 'utf8' }));
 
-    return browser.executeScript(`window.sessionStorage.setItem('app.extension.config', ${fileContent});`);
+    await browser.executeScript(`window.sessionStorage.setItem('app.extension.config', ${fileContent});`);
   }
 
-  static resetExtensionConfig() {
+  static async resetExtensionConfig(): Promise<void> {
     const defConfig = `${E2E_ROOT_PATH}/resources/extensibility-configs/${EXTENSIBILITY_CONFIGS.DEFAULT_EXTENSIONS_CONFIG}`;
 
-    return this.setSessionStorageFromConfig(defConfig);
+    await this.setSessionStorageFromConfig(defConfig);
   }
 
   static retryCall(fn: () => Promise<any>, retry: number = 30, delay: number = 1000): Promise<any> {
@@ -80,11 +80,11 @@ export class Utils {
     return run(retry);
   }
 
-  static async waitUntilElementClickable(element: ElementFinder) {
+  static async waitUntilElementClickable(element: ElementFinder): Promise<void> {
     await browser.wait(EC.elementToBeClickable(element), BROWSER_WAIT_TIMEOUT).catch(Error);
   }
 
-  static async typeInField(elem: ElementFinder, value: string) {
+  static async typeInField(elem: ElementFinder, value: string): Promise<void> {
     for (let i = 0; i < value.length; i++) {
       const c = value.charAt(i);
       await elem.sendKeys(c);
@@ -99,7 +99,7 @@ export class Utils {
     }
   }
 
-  static async fileExistsOnOS(fileName: string, folderName: string = '', subFolderName: string = '') {
+  static async fileExistsOnOS(fileName: string, folderName: string = '', subFolderName: string = ''): Promise<any> {
     const config = await browser.getProcessedConfig();
     const filePath = path.join(config.params.downloadFolder, folderName, subFolderName, fileName);
 
@@ -124,7 +124,7 @@ export class Utils {
     });
   }
 
-  static async renameFile(oldName: string, newName: string) {
+  static async renameFile(oldName: string, newName: string): Promise<void> {
     const config = await browser.getProcessedConfig();
     const oldFilePath = path.join(config.params.downloadFolder, oldName);
     const newFilePath = path.join(config.params.downloadFolder, newName);
@@ -140,7 +140,7 @@ export class Utils {
     }
   }
 
-  static async unzip(filename: string, unzippedName: string = '') {
+  static async unzip(filename: string, unzippedName: string = ''): Promise<void> {
     const config = await browser.getProcessedConfig();
     const filePath = path.join(config.params.downloadFolder, filename);
     const output = path.join(config.params.downloadFolder, unzippedName ? unzippedName : '');
@@ -162,23 +162,31 @@ export class Utils {
     });
   }
 
-  static async pressEscape() {
+  static async pressEscape(): Promise<void> {
     await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
   }
 
-  static async pressTab() {
+  static async pressTab(): Promise<void> {
     await browser.actions().sendKeys(protractor.Key.TAB).perform();
   }
 
-  static async getBrowserLog() {
+  static async pressCmd(): Promise<void> {
+    await browser.actions().sendKeys(protractor.Key.COMMAND).perform();
+  }
+
+  static async releaseKeyPressed(): Promise<void> {
+    await browser.actions().sendKeys(protractor.Key.NULL).perform();
+  }
+
+  static async getBrowserLog(): Promise<logging.Entry[]> {
     return browser.manage().logs().get('browser');
   }
 
-  static formatDate(date: string) {
+  static formatDate(date: string): string {
     return new Date(date).toLocaleDateString('en-US');
   }
 
-  static async uploadFileNewVersion(fileFromOS: string) {
+  static async uploadFileNewVersion(fileFromOS: string): Promise<void> {
     const el = browser.element(by.id('app-upload-file-version'));
     await el.sendKeys(`${E2E_ROOT_PATH}/resources/test-files/${fileFromOS}`);
   }

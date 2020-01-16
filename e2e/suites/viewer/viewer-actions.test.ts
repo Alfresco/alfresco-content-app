@@ -225,13 +225,12 @@ describe('Viewer actions', () => {
     });
 
     it('Upload new version action when node is locked - [MNT-21058]', async () => {
-
       await dataTable.doubleClickOnRowByName(fileForUploadNewVersion2);
       await viewer.waitForViewerToOpen();
 
       await toolbar.openMoreMenu();
-      expect(await toolbar.menu.isCancelEditingActionPresent()).toBe(true, `'Cancel Editing' button should be shown`);
-      expect(await toolbar.menu.isEditOfflineActionPresent()).toBe(false, `'Edit Offline' shouldn't be shown`);
+      expect(await toolbar.menu.isCancelEditingPresent()).toBe(true, `'Cancel Editing' button should be shown`);
+      expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `'Edit Offline' shouldn't be shown`);
 
       await toolbar.menu.clickMenuItem('Upload New Version');
       await Utils.uploadFileNewVersion(docxFile);
@@ -240,8 +239,8 @@ describe('Viewer actions', () => {
       await uploadNewVersionDialog.clickUpload();
 
       await toolbar.openMoreMenu();
-      expect(await toolbar.menu.isCancelEditingActionPresent()).toBe(false, `'Cancel Editing' button shouldn't be shown`);
-      expect(await toolbar.menu.isEditOfflineActionPresent()).toBe(true, `'Edit Offline' should be shown`);
+      expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `'Cancel Editing' button shouldn't be shown`);
+      expect(await toolbar.menu.isEditOfflinePresent()).toBe(true, `'Edit Offline' should be shown`);
     });
 
     it('Full screen action - [C279282]', async () => {

@@ -50,9 +50,9 @@ export class Viewer extends Component {
   viewerExtensionContent: ElementFinder = this.component.element(by.css(Viewer.selectors.viewerExtensionContent));
   pdfViewerContentPages: ElementArrayFinder = this.component.all(by.css(Viewer.selectors.pdfViewerContentPage));
 
-  toolbar = new Toolbar(this.component);
+  toolbar = new Toolbar(Viewer.selectors.root);
 
-  constructor(ancestor?: ElementFinder) {
+  constructor(ancestor?: string) {
     super(Viewer.selectors.root, ancestor);
   }
 

@@ -40,6 +40,7 @@ testem.log
 /e2e/*.js
 /e2e/*.map
 /e2e-output
+/e2e-downloads
 
 # System Files
 .DS_Store

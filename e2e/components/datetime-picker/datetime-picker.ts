@@ -48,7 +48,7 @@ export class DateTimePicker extends Component {
   headerYear: ElementFinder = this.component.element(by.css(DateTimePicker.selectors.year));
   dayPicker: ElementFinder = this.component.element(by.css(DateTimePicker.selectors.dayPicker));
 
-  constructor(ancestor?: ElementFinder) {
+  constructor(ancestor?: string) {
     super(DateTimePicker.selectors.root, ancestor);
   }
 

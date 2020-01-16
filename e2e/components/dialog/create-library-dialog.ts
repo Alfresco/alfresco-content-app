@@ -53,7 +53,7 @@ export class CreateLibraryDialog extends Component {
   cancelButton: ElementFinder = this.component.element(by.cssContainingText(CreateLibraryDialog.selectors.button, 'Cancel'));
   errorMessage: ElementFinder = this.component.element(by.css(CreateLibraryDialog.selectors.errorMessage));
 
-  constructor(ancestor?: ElementFinder) {
+  constructor(ancestor?: string) {
     super(CreateLibraryDialog.selectors.root, ancestor);
   }
 
