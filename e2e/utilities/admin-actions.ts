@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -27,12 +27,22 @@ import { RepoClient, NodeContentTree } from './repo-client/repo-client';
 import { PersonEntry, NodeEntry } from '@alfresco/js-api';
 import { PersonModel } from './repo-client/apis/people/people-api-models';
 
+import { SitesApi } from './repo-client/apis/sites/sites-api';
+import { UploadApi } from './repo-client/apis/upload/upload-api';
+import { NodesApi } from './repo-client/apis/nodes/nodes-api';
+import { FavoritesApi } from './repo-client/apis/favorites/favorites-api';
+
 export class AdminActions {
   private adminApi: RepoClient;
 
   constructor() {
     this.adminApi = new RepoClient();
   }
+
+  sites: SitesApi = new SitesApi();
+  upload: UploadApi = new UploadApi();
+  nodes: NodesApi = new NodesApi();
+  favorites: FavoritesApi = new FavoritesApi();
 
   async getDataDictionaryId(): Promise<string> {
     return await this.adminApi.nodes.getNodeIdFromParent('Data Dictionary', '-root-');
