@@ -26,6 +26,7 @@
 import { LoginPage, BrowsingPage } from '../../../pages/pages';
 import { RepoClient } from '../../../utilities/repo-client/repo-client';
 import { Utils } from '../../../utilities/utils';
+import { AdminActions } from '../../../utilities/admin-actions';
 import * as data from './test-data-files-folders';
 import * as testUtil from '../test-util';
 
@@ -33,49 +34,44 @@ describe('File/folder actions : on Trash : ', () => {
 
   const username = `user-${Utils.random()}`;
 
-  let fileInTrashId, file2InTrashId, folderInTrashId, folder2InTrashId;
+  let fileInTrashId: string;
+  let file2InTrashId: string;
+  let folderInTrashId: string;
+  let folder2InTrashId: string;
 
-  const apis = {
-    admin: new RepoClient(),
-    user: new RepoClient(username, username)
-  };
+  const userApi = new RepoClient(username, username);
+
+  const adminApiActions = new AdminActions();
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
 
-  beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+  beforeAll(async () => {
+    await adminApiActions.createUser({ username });
 
-    fileInTrashId = (await apis.user.nodes.createFile(data.fileInTrash.name)).entry.id;
-    file2InTrashId = (await apis.user.nodes.createFile(data.file2InTrash.name)).entry.id;
-    folderInTrashId = (await apis.user.nodes.createFolder(data.folderInTrash.name)).entry.id;
-    folder2InTrashId = (await apis.user.nodes.createFolder(data.folder2InTrash.name)).entry.id;
+    fileInTrashId = (await userApi.nodes.createFile(data.fileInTrash.name)).entry.id;
+    file2InTrashId = (await userApi.nodes.createFile(data.file2InTrash.name)).entry.id;
+    folderInTrashId = (await userApi.nodes.createFolder(data.folderInTrash.name)).entry.id;
+    folder2InTrashId = (await userApi.nodes.createFolder(data.folder2InTrash.name)).entry.id;
 
-    await apis.user.nodes.deleteNodeById(fileInTrashId, false);
-    await apis.user.nodes.deleteNodeById(file2InTrashId, false);
-    await apis.user.nodes.deleteNodeById(folderInTrashId, false);
-    await apis.user.nodes.deleteNodeById(folder2InTrashId, false);
+    await userApi.nodes.deleteNodeById(fileInTrashId, false);
+    await userApi.nodes.deleteNodeById(file2InTrashId, false);
+    await userApi.nodes.deleteNodeById(folderInTrashId, false);
+    await userApi.nodes.deleteNodeById(folder2InTrashId, false);
 
-    await apis.user.trashcan.waitForApi({ expect: 4 });
+    await userApi.trashcan.waitForApi({ expect: 4 });
 
     await loginPage.loginWith(username);
-    done();
-  });
 
-  afterAll(async (done) => {
-    await apis.user.trashcan.emptyTrash();
-    done();
-  });
-
-  beforeEach(async (done) => {
-    await Utils.pressEscape();
     await page.clickTrashAndWait();
-    done();
   });
 
-  afterEach(async (done) => {
+  afterAll(async () => {
+    await userApi.trashcan.emptyTrash();
+  });
+
+  beforeEach(async () => {
     await Utils.pressEscape();
-    done();
   });
 
   it('on a file - [C286258]', async () => {
