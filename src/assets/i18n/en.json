@@ -58,7 +58,8 @@
                 "UPLOAD_FILE": "Upload File",
                 "UPLOAD_FOLDER": "Upload Folder",
                 "CREATE_LIBRARY": "Create Library",
-                "FILE_TEMPLATE": "Create file from template"
+                "FILE_TEMPLATE": "Create file from template",
+                "FOLDER_TEMPLATE": "Create folder from template"
             },
             "TOOLTIPS": {
                 "CREATE_FOLDER": "Create new folder",
