@@ -29,25 +29,27 @@ import { TemplateEffects } from './template.effects';
 import { EffectsModule } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import {
-  CreateFileFromTemplate,
+  CreateFromTemplate,
+  CreateFromTemplateSuccess,
   FileFromTemplate,
+  FolderFromTemplate,
   SnackbarErrorAction
 } from '@alfresco/aca-shared/store';
-import { CreateFileFromTemplateService } from '../../services/create-file-from-template.service';
+import { NodeTemplateService } from '../../services/node-template.service';
 import { of } from 'rxjs';
 import { AlfrescoApiServiceMock, AlfrescoApiService } from '@alfresco/adf-core';
 import { ContentManagementService } from '../../services/content-management.service';
 import { Node, NodeEntry } from '@alfresco/js-api';
-import { CreateFromTemplateDialogService } from '../../dialogs/node-templates/create-from-template-dialog.service';
+import { MatDialog } from '@angular/material/dialog';
 
 describe('TemplateEffects', () => {
   let store: Store<any>;
-  let createFileFromTemplateService: CreateFileFromTemplateService;
+  let nodeTemplateService: NodeTemplateService;
   let alfrescoApiService: AlfrescoApiService;
   let contentManagementService: ContentManagementService;
-  let createFromTemplateDialogService: CreateFromTemplateDialogService;
   let copyNodeSpy;
   let updateNodeSpy;
+  let matDialog: MatDialog;
   const node: Node = {
     name: 'node-name',
     id: 'node-id',
@@ -63,29 +65,41 @@ describe('TemplateEffects', () => {
       'cm:description': 'description'
     }
   };
+  const fileTemplateConfig = {
+    relativePath: 'Data Dictionary/Node Templates',
+    selectionType: 'file'
+  };
+
+  const folderTemplateConfig = {
+    relativePath: 'Data Dictionary/Space Templates',
+    selectionType: 'folder'
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule, EffectsModule.forRoot([TemplateEffects])],
       providers: [
-        CreateFileFromTemplateService,
-        { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock }
+        NodeTemplateService,
+        { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
+        {
+          provide: MatDialog,
+          useValue: {
+            closeAll: jasmine.createSpy('closeAll')
+          }
+        }
       ]
     });
 
     store = TestBed.get(Store);
-    createFileFromTemplateService = TestBed.get(CreateFileFromTemplateService);
+    nodeTemplateService = TestBed.get(NodeTemplateService);
     alfrescoApiService = TestBed.get(AlfrescoApiService);
-    createFromTemplateDialogService = TestBed.get(
-      CreateFromTemplateDialogService
-    );
     contentManagementService = TestBed.get(ContentManagementService);
+    matDialog = TestBed.get(MatDialog);
 
     spyOn(store, 'dispatch').and.callThrough();
-    spyOn(createFromTemplateDialogService.success$, 'next');
     spyOn(contentManagementService.reload, 'next');
     spyOn(store, 'select').and.returnValue(of({ id: 'parent-id' }));
-    spyOn(createFileFromTemplateService, 'openTemplatesDialog').and.returnValue(
+    spyOn(nodeTemplateService, 'selectTemplateDialog').and.returnValue(
       of([{ id: 'template-id' }])
     );
 
@@ -98,41 +112,43 @@ describe('TemplateEffects', () => {
     updateNodeSpy.calls.reset();
   });
 
-  it('should reload content on create file from template', fakeAsync(() => {
-    spyOn(
-      createFileFromTemplateService,
-      'createTemplateDialog'
-    ).and.returnValue({ afterClosed: () => of(node) });
+  it('should open dialog to select template files', fakeAsync(() => {
+    spyOn(nodeTemplateService, 'createTemplateDialog').and.returnValue({
+      afterClosed: () => of(node)
+    });
 
     store.dispatch(new FileFromTemplate());
-    tick(300);
+    tick();
 
-    expect(contentManagementService.reload.next).toHaveBeenCalled();
+    expect(nodeTemplateService.selectTemplateDialog).toHaveBeenCalledWith(
+      fileTemplateConfig
+    );
   }));
 
-  it('should not reload content if no file was created', fakeAsync(() => {
-    spyOn(
-      createFileFromTemplateService,
-      'createTemplateDialog'
-    ).and.returnValue({ afterClosed: () => of(null) });
+  it('should open dialog to select template folders', fakeAsync(() => {
+    spyOn(nodeTemplateService, 'createTemplateDialog').and.returnValue({
+      afterClosed: () => of(node)
+    });
 
-    store.dispatch(new FileFromTemplate());
-    tick(300);
+    store.dispatch(new FolderFromTemplate());
+    tick();
 
-    expect(contentManagementService.reload.next).not.toHaveBeenCalled();
+    expect(nodeTemplateService.selectTemplateDialog).toHaveBeenCalledWith(
+      folderTemplateConfig
+    );
   }));
 
-  it('should call dialog service success event on create file from template', fakeAsync(() => {
+  it('should create node from template successful', fakeAsync(() => {
     copyNodeSpy.and.returnValue(
       of({ entry: { id: 'node-id', properties: {} } })
     );
     updateNodeSpy.and.returnValue(of({ entry: node }));
 
-    store.dispatch(new CreateFileFromTemplate(node));
+    store.dispatch(new CreateFromTemplate(node));
     tick();
 
-    expect(createFromTemplateDialogService.success$.next).toHaveBeenCalledWith(
-      node
+    expect(store.dispatch['calls'].mostRecent().args[0]).toEqual(
+      new CreateFromTemplateSuccess(node)
     );
   }));
 
@@ -143,12 +159,12 @@ describe('TemplateEffects', () => {
       })
     );
 
-    store.dispatch(new CreateFileFromTemplate(node));
+    store.dispatch(new CreateFromTemplate(node));
     tick();
 
-    expect(
-      createFromTemplateDialogService.success$.next
-    ).not.toHaveBeenCalledWith();
+    expect(store.dispatch['calls'].mostRecent().args[0]).not.toEqual(
+      new CreateFromTemplateSuccess(node)
+    );
     expect(store.dispatch['calls'].argsFor(1)[0]).toEqual(
       new SnackbarErrorAction('APP.MESSAGES.ERRORS.GENERIC')
     );
@@ -161,12 +177,12 @@ describe('TemplateEffects', () => {
       })
     );
 
-    store.dispatch(new CreateFileFromTemplate(node));
+    store.dispatch(new CreateFromTemplate(node));
     tick();
 
-    expect(
-      createFromTemplateDialogService.success$.next
-    ).not.toHaveBeenCalledWith();
+    expect(store.dispatch['calls'].mostRecent().args[0]).not.toEqual(
+      new CreateFromTemplateSuccess(node)
+    );
     expect(store.dispatch['calls'].argsFor(1)[0]).toEqual(
       new SnackbarErrorAction('APP.MESSAGES.ERRORS.CONFLICT')
     );
@@ -190,11 +206,26 @@ describe('TemplateEffects', () => {
       })
     );
 
-    store.dispatch(new CreateFileFromTemplate(test_node.entry));
+    store.dispatch(new CreateFromTemplate(test_node.entry));
     tick();
 
-    expect(createFromTemplateDialogService.success$.next).toHaveBeenCalledWith(
-      test_node.entry
+    expect(store.dispatch['calls'].mostRecent().args[0]).toEqual(
+      new CreateFromTemplateSuccess(test_node.entry)
+    );
+  }));
+
+  it('should close dialog on create template success', fakeAsync(() => {
+    store.dispatch(new CreateFromTemplateSuccess({} as Node));
+    tick();
+    expect(matDialog.closeAll).toHaveBeenCalled();
+  }));
+
+  it('should should reload content on create template success', fakeAsync(() => {
+    const test_node = { id: 'test-node-id' } as Node;
+    store.dispatch(new CreateFromTemplateSuccess(test_node));
+    tick();
+    expect(contentManagementService.reload.next).toHaveBeenCalledWith(
+      test_node
     );
   }));
 });
