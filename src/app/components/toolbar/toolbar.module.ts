@@ -41,7 +41,6 @@ import { ToggleFavoriteLibraryComponent } from './toggle-favorite-library/toggle
 import { ToggleEditOfflineComponent } from './toggle-edit-offline/toggle-edit-offline.component';
 import { ViewNodeComponent } from './view-node/view-node.component';
 import { AppCommonModule } from '../common/common.module';
-import { ToolbarMenuAccessibilityDirective } from './toolbar-menu/directives/toolbar-menu.accessibility.directive';
 
 export function components() {
   return [
@@ -68,7 +67,7 @@ export function components() {
     ExtensionsModule,
     DirectivesModule
   ],
-  declarations: [...components(), ToolbarMenuAccessibilityDirective],
+  declarations: components(),
   exports: components(),
   entryComponents: components()
 })

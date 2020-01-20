@@ -23,13 +23,36 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Directive, ElementRef } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  // Input,
+  // Renderer2,
+  AfterViewInit
+} from '@angular/core';
 
 @Directive({
   selector: '[acaToolbarAccessibility]'
 })
-export class ToolbarMenuAccessibilityDirective {
-  constructor(private elementRef: ElementRef) {
-    console.log(this.elementRef.nativeElement);
+export class ToolbarMenuAccessibilityDirective implements AfterViewInit {
+  // @Input() ToolbarMenuAccessibilityDirective: boolean;
+  el: ElementRef;
+
+  constructor(el: ElementRef) {
+    this.el = el;
   }
+
+  ngAfterViewInit() {
+    console.log(this.el.nativeElement.parentNode);
+    console.log(this.el.nativeElement.children);
+    // console.log(document.querySelector(this.el.nativeElement[0]).parentNode);
+  }
+  // constructor(private elementRef: ElementRef, private renderer: Renderer2) {}
+  // ngAfterViewInit() {
+  //   console.log(this.elementRef.nativeElement.parentNode);
+  // this.renderer.removeAttribute(
+  //   this.elementRef.nativeElement.parentNode.parentNode,
+  //   'role'
+  // );
+  // }
 }

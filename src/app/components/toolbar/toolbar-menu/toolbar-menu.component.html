@@ -9,7 +9,7 @@
   <adf-icon [value]="actionRef.icon"></adf-icon>
 </button>
 
-<mat-menu #menu="matMenu" [overlapTrigger]="false" [attr.role]="'menu'">
+<mat-menu #menu="matMenu" [overlapTrigger]="false">
   <ng-container *ngFor="let child of actionRef.children; trackBy: trackById">
     <ng-container [ngSwitch]="child.type">
       <ng-container *ngSwitchCase="'custom'">
