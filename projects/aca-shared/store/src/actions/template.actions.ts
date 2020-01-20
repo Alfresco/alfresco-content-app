@@ -28,7 +28,9 @@ import { Node } from '@alfresco/js-api';
 
 export enum TemplateActionTypes {
   FileFromTemplate = 'FILE_FROM_TEMPLATE',
-  CreateFileFromTemplate = 'CREATE_FILE_FROM_TEMPLATE'
+  FolderFromTemplate = 'FOLDER_FROM_TEMPLATE',
+  CreateFromTemplate = 'CREATE_FROM_TEMPLATE',
+  CreateFromTemplateSuccess = 'CREATE_FROM_TEMPLATE_SUCCESS'
 }
 
 export class FileFromTemplate implements Action {
@@ -37,8 +39,20 @@ export class FileFromTemplate implements Action {
   constructor() {}
 }
 
-export class CreateFileFromTemplate implements Action {
-  readonly type = TemplateActionTypes.CreateFileFromTemplate;
+export class FolderFromTemplate implements Action {
+  readonly type = TemplateActionTypes.FolderFromTemplate;
+
+  constructor() {}
+}
+
+export class CreateFromTemplate implements Action {
+  readonly type = TemplateActionTypes.CreateFromTemplate;
 
   constructor(public payload: Node) {}
+}
+
+export class CreateFromTemplateSuccess implements Action {
+  readonly type = TemplateActionTypes.CreateFromTemplateSuccess;
+
+  constructor(public node: Node) {}
 }
