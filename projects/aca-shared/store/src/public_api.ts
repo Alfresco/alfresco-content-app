@@ -33,6 +33,7 @@ export * from './actions/upload.actions';
 export * from './actions/viewer.actions';
 export * from './actions/metadata-aspect.actions';
 export * from './actions/template.actions';
+export * from './actions/contextmenu.actions';
 
 export * from './effects/dialog.effects';
 export * from './effects/router.effects';

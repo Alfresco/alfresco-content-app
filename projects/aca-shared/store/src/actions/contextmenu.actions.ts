@@ -23,14 +23,14 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './effects/app.effects';
-export * from './effects/download.effects';
-export * from './effects/favorite.effects';
-export * from './effects/node.effects';
-export * from './effects/viewer.effects';
-export * from './effects/search.effects';
-export * from './effects/library.effects';
-export * from './effects/upload.effects';
-export * from './effects/upload.effects';
-export * from './effects/template.effects';
-export * from './effects/contextmenu.effects';
+import { Action } from '@ngrx/store';
+
+export enum ContextMenuActionTypes {
+  ContextMenu = 'CONTEXT_MENU'
+}
+
+export class ContextMenu implements Action {
+  readonly type = ContextMenuActionTypes.ContextMenu;
+
+  constructor(public event: MouseEvent) {}
+}

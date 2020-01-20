@@ -30,18 +30,18 @@ import {
   OnInit,
   OnDestroy
 } from '@angular/core';
-import { ContextMenuOverlayRef } from './context-menu-overlay';
-import { ContextMenuService } from './context-menu.service';
-import { debounceTime } from 'rxjs/operators';
-import { Subject, fromEvent, Subscription } from 'rxjs';
+import { debounceTime, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { AppStore, ContextMenu } from '@alfresco/aca-shared/store';
 
 @Directive({
-  selector: '[acaContextActions]'
+  selector: '[acaContextActions]',
+  exportAs: 'acaContextActions'
 })
 export class ContextActionsDirective implements OnInit, OnDestroy {
   private execute$: Subject<any> = new Subject();
-  private subscriptions: Subscription[] = [];
-  private overlayRef: ContextMenuOverlayRef = null;
+  onDestroy$: Subject<boolean> = new Subject<boolean>();
 
   // tslint:disable-next-line:no-input-rename
   @Input('acaContextEnable')
@@ -61,42 +61,30 @@ export class ContextActionsDirective implements OnInit, OnDestroy {
     }
   }
 
-  constructor(private contextMenuService: ContextMenuService) {}
+  constructor(private store: Store<AppStore>) {}
 
   ngOnInit() {
-    this.subscriptions.push(
-      fromEvent(document.body, 'contextmenu').subscribe(() => {
-        if (this.overlayRef) {
-          this.overlayRef.close();
-        }
-      }),
-
-      this.execute$.pipe(debounceTime(300)).subscribe((event: MouseEvent) => {
-        this.render(event);
-      })
-    );
+    this.execute$
+      .pipe(
+        debounceTime(300),
+        takeUntil(this.onDestroy$)
+      )
+      .subscribe((event: MouseEvent) => {
+        this.store.dispatch(new ContextMenu(event));
+      });
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
-    this.subscriptions = [];
-    this.execute$ = null;
+    this.onDestroy$.next(true);
+    this.onDestroy$.complete();
   }
 
   execute(event: MouseEvent, target: Element) {
     if (!this.isSelected(target)) {
       target.dispatchEvent(new MouseEvent('click'));
     }
-    this.execute$.next(event);
-  }
 
-  private render(event: MouseEvent) {
-    this.overlayRef = this.contextMenuService.open({
-      source: event,
-      hasBackdrop: false,
-      backdropClass: 'cdk-overlay-transparent-backdrop',
-      panelClass: 'cdk-overlay-pane'
-    });
+    this.execute$.next(event);
   }
 
   private getTarget(event: MouseEvent): Element {
