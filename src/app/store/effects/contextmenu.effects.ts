@@ -23,14 +23,39 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './effects/app.effects';
-export * from './effects/download.effects';
-export * from './effects/favorite.effects';
-export * from './effects/node.effects';
-export * from './effects/viewer.effects';
-export * from './effects/search.effects';
-export * from './effects/library.effects';
-export * from './effects/upload.effects';
-export * from './effects/upload.effects';
-export * from './effects/template.effects';
-export * from './effects/contextmenu.effects';
+import {
+  ContextMenuActionTypes,
+  ContextMenu
+} from '@alfresco/aca-shared/store';
+import { Injectable } from '@angular/core';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { map } from 'rxjs/operators';
+import { ContextMenuOverlayRef } from '../../components/context-menu/context-menu-overlay';
+import { ContextMenuService } from '../../components/context-menu/context-menu.service';
+
+@Injectable()
+export class ContextMenuEffects {
+  private overlayRef: ContextMenuOverlayRef = null;
+
+  constructor(
+    private contextMenuService: ContextMenuService,
+    private actions$: Actions
+  ) {}
+
+  @Effect({ dispatch: false })
+  contextMenu$ = this.actions$.pipe(
+    ofType<ContextMenu>(ContextMenuActionTypes.ContextMenu),
+    map(action => {
+      if (this.overlayRef) {
+        this.overlayRef.close();
+      }
+
+      this.overlayRef = this.contextMenuService.open({
+        source: action.event,
+        hasBackdrop: false,
+        backdropClass: 'cdk-overlay-transparent-backdrop',
+        panelClass: 'cdk-overlay-pane'
+      });
+    })
+  );
+}

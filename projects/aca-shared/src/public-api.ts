@@ -39,4 +39,7 @@ export * from './lib/services/node-permission.service';
 export * from './lib/components/generic-error/generic-error.component';
 export * from './lib/components/generic-error/generic-error.module';
 
+export * from './lib/directives/contextmenu/contextmenu.directive';
+export * from './lib/directives/contextmenu/contextmenu.module';
+
 export * from './lib/shared.module';
