@@ -33,31 +33,27 @@ import {
   FormControl,
   ValidationErrors
 } from '@angular/forms';
-import { CreateFromTemplateDialogService } from './create-from-template-dialog.service';
 import { Store } from '@ngrx/store';
-import { AppStore, CreateFileFromTemplate } from '@alfresco/aca-shared/store';
+import { AppStore, CreateFromTemplate } from '@alfresco/aca-shared/store';
+import { TranslationService } from '@alfresco/adf-core';
 
 @Component({
   templateUrl: './create-from-template.dialog.html',
   encapsulation: ViewEncapsulation.None,
   styleUrls: ['./create-from-template.dialog.scss']
 })
-export class CreateFileFromTemplateDialogComponent implements OnInit {
+export class CreateFromTemplateDialogComponent implements OnInit {
   public form: FormGroup;
 
   constructor(
-    private createFromTemplateDialogService: CreateFromTemplateDialogService,
+    private translationService: TranslationService,
     private store: Store<AppStore>,
     private formBuilder: FormBuilder,
-    private dialogRef: MatDialogRef<CreateFileFromTemplateDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    private dialogRef: MatDialogRef<CreateFromTemplateDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: Node
   ) {}
 
   ngOnInit() {
-    this.createFromTemplateDialogService.success$.subscribe((data: Node) => {
-      this.dialogRef.close(data);
-    });
-
     this.form = this.formBuilder.group({
       name: [
         this.data.name,
@@ -85,7 +81,21 @@ export class CreateFileFromTemplateDialogComponent implements OnInit {
       }
     };
     const data: Node = Object.assign({}, this.data, update);
-    this.store.dispatch(new CreateFileFromTemplate(data));
+    this.store.dispatch(new CreateFromTemplate(data));
+  }
+
+  title(): string {
+    if (this.data.isFolder) {
+      return this.translationService.instant(
+        'NODE_FROM_TEMPLATE.FOLDER_DIALOG_TITLE',
+        { template: this.data.name }
+      );
+    }
+
+    return this.translationService.instant(
+      'NODE_FROM_TEMPLATE.FILE_DIALOG_TITLE',
+      { template: this.data.name }
+    );
   }
 
   close() {
