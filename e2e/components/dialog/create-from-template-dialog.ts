@@ -29,7 +29,7 @@ import { Component } from '../component';
 
 export class CreateFromTemplateDialog extends Component {
   private static selectors = {
-    root: '.aca-file-from-template-dialog',
+    root: '.aca-create-from-template-dialog',
 
     title: '.mat-dialog-title',
     nameInput: 'input[placeholder="Name" i]',
