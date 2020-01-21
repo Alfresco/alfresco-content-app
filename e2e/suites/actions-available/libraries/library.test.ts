@@ -27,7 +27,7 @@ import { LoginPage, BrowsingPage, SearchResultsPage } from '../../../pages/pages
 import { RepoClient } from '../../../utilities/repo-client/repo-client';
 import { Utils } from '../../../utilities/utils';
 import { AdminActions } from '../../../utilities/admin-actions';
-import * as data from './test-data-libraries';
+import * as testData from './test-data-libraries';
 import * as testUtil from '../test-util';
 
 describe('Library actions : ', () => {
@@ -45,25 +45,25 @@ describe('Library actions : ', () => {
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
 
-    await userApi.sites.createSite(data.publicUserMemberFav.name);
-    await userApi.sites.createSitePrivate(data.privateUserMemberFav.name);
-    await userApi.sites.createSiteModerated(data.moderatedUserMemberFav.name);
+    await userApi.sites.createSite(testData.publicUserMemberFav.name);
+    await userApi.sites.createSitePrivate(testData.privateUserMemberFav.name);
+    await userApi.sites.createSiteModerated(testData.moderatedUserMemberFav.name);
 
-    const publicUserMemberNotFavId = (await userApi.sites.createSite(data.publicUserMemberNotFav.name)).entry.guid;
-    const privateUserMemberNotFavId = (await userApi.sites.createSitePrivate(data.privateUserMemberNotFav.name)).entry.guid;
-    const moderatedUserMemberNotFavId = (await userApi.sites.createSiteModerated(data.moderatedUserMemberNotFav.name)).entry.guid;
+    const publicUserMemberNotFavId = (await userApi.sites.createSite(testData.publicUserMemberNotFav.name)).entry.guid;
+    const privateUserMemberNotFavId = (await userApi.sites.createSitePrivate(testData.privateUserMemberNotFav.name)).entry.guid;
+    const moderatedUserMemberNotFavId = (await userApi.sites.createSiteModerated(testData.moderatedUserMemberNotFav.name)).entry.guid;
 
-    await adminApiActions.sites.createSite(data.publicNotMemberFav.name);
-    await adminApiActions.sites.createSiteModerated(data.moderatedNotMemberFav.name);
+    await adminApiActions.sites.createSite(testData.publicNotMemberFav.name);
+    await adminApiActions.sites.createSiteModerated(testData.moderatedNotMemberFav.name);
 
-    await adminApiActions.sites.createSite(data.publicNotMemberNotFav.name);
-    await adminApiActions.sites.createSiteModerated(data.moderatedNotMemberNotFav.name);
+    await adminApiActions.sites.createSite(testData.publicNotMemberNotFav.name);
+    await adminApiActions.sites.createSiteModerated(testData.moderatedNotMemberNotFav.name);
 
-    await adminApiActions.sites.createSiteModerated(data.moderatedRequestedJoinFav.name);
-    await adminApiActions.sites.createSiteModerated(data.moderatedRequestedJoinNotFav.name);
+    await adminApiActions.sites.createSiteModerated(testData.moderatedRequestedJoinFav.name);
+    await adminApiActions.sites.createSiteModerated(testData.moderatedRequestedJoinNotFav.name);
 
-    await userApi.sites.createSite(data.siteInTrash.name);
-    await userApi.sites.createSite(data.site2InTrash.name);
+    await userApi.sites.createSite(testData.siteInTrash.name);
+    await userApi.sites.createSite(testData.site2InTrash.name);
 
     await Promise.all([
       userApi.sites.waitForApi({ expect: 8 }),
@@ -72,15 +72,15 @@ describe('Library actions : ', () => {
 
     await userApi.favorites.removeFavoritesByIds([publicUserMemberNotFavId, privateUserMemberNotFavId, moderatedUserMemberNotFavId]);
 
-    await userApi.favorites.addFavoritesByIds('site', [data.publicNotMemberFav.name, data.moderatedNotMemberFav.name, data.moderatedRequestedJoinFav.name]);
+    await userApi.favorites.addFavoritesByIds('site', [testData.publicNotMemberFav.name, testData.moderatedNotMemberFav.name, testData.moderatedRequestedJoinFav.name]);
 
-    await userApi.sites.requestToJoin(data.moderatedRequestedJoinFav.name);
-    await userApi.sites.requestToJoin(data.moderatedRequestedJoinNotFav.name);
+    await userApi.sites.requestToJoin(testData.moderatedRequestedJoinFav.name);
+    await userApi.sites.requestToJoin(testData.moderatedRequestedJoinNotFav.name);
 
     await userApi.queries.waitForSites('site-', { expect: 14 + 1 });
 
-    await userApi.sites.deleteSite(data.siteInTrash.name, false);
-    await userApi.sites.deleteSite(data.site2InTrash.name, false);
+    await userApi.sites.deleteSite(testData.siteInTrash.name, false);
+    await userApi.sites.deleteSite(testData.site2InTrash.name, false);
 
     await userApi.trashcan.waitForApi({ expect: 2 });
 
@@ -90,20 +90,20 @@ describe('Library actions : ', () => {
   afterAll(async () => {
     await Promise.all([
       userApi.sites.deleteSites([
-        data.publicUserMemberFav.name,
-        data.privateUserMemberFav.name,
-        data.moderatedUserMemberFav.name,
-        data.publicUserMemberNotFav.name,
-        data.privateUserMemberNotFav.name,
-        data.moderatedUserMemberNotFav.name
+        testData.publicUserMemberFav.name,
+        testData.privateUserMemberFav.name,
+        testData.moderatedUserMemberFav.name,
+        testData.publicUserMemberNotFav.name,
+        testData.privateUserMemberNotFav.name,
+        testData.moderatedUserMemberNotFav.name
       ]),
       adminApiActions.sites.deleteSites([
-        data.publicNotMemberFav.name,
-        data.moderatedNotMemberFav.name,
-        data.publicNotMemberNotFav.name,
-        data.moderatedNotMemberNotFav.name,
-        data.moderatedRequestedJoinFav.name,
-        data.moderatedRequestedJoinNotFav.name
+        testData.publicNotMemberFav.name,
+        testData.moderatedNotMemberFav.name,
+        testData.publicNotMemberNotFav.name,
+        testData.moderatedNotMemberNotFav.name,
+        testData.moderatedRequestedJoinFav.name,
+        testData.moderatedRequestedJoinNotFav.name
       ]),
       userApi.trashcan.emptyTrash()
     ]);
@@ -121,39 +121,39 @@ describe('Library actions : ', () => {
     });
 
     it('Public library, user is a member, favorite - []', async () => {
-      await testUtil.checkToolbarPrimary(data.publicUserMemberFav.name, data.publicUserMemberFav.toolbarPrimary);
-      await testUtil.checkToolbarMoreActions(data.publicUserMemberFav.name, data.publicUserMemberFav.toolbarMore);
-      await testUtil.checkContextMenu(data.publicUserMemberFav.name, data.publicUserMemberFav.contextMenu);
+      await testUtil.checkToolbarPrimary(testData.publicUserMemberFav.name, testData.publicUserMemberFav.toolbarPrimary);
+      await testUtil.checkToolbarMoreActions(testData.publicUserMemberFav.name, testData.publicUserMemberFav.toolbarMore);
+      await testUtil.checkContextMenu(testData.publicUserMemberFav.name, testData.publicUserMemberFav.contextMenu);
     });
 
     it('Private library, user is a member, favorite - []', async () => {
-      await testUtil.checkToolbarPrimary(data.privateUserMemberFav.name, data.privateUserMemberFav.toolbarPrimary);
-      await testUtil.checkToolbarMoreActions(data.privateUserMemberFav.name, data.privateUserMemberFav.toolbarMore);
-      await testUtil.checkContextMenu(data.privateUserMemberFav.name, data.privateUserMemberFav.contextMenu);
+      await testUtil.checkToolbarPrimary(testData.privateUserMemberFav.name, testData.privateUserMemberFav.toolbarPrimary);
+      await testUtil.checkToolbarMoreActions(testData.privateUserMemberFav.name, testData.privateUserMemberFav.toolbarMore);
+      await testUtil.checkContextMenu(testData.privateUserMemberFav.name, testData.privateUserMemberFav.contextMenu);
     });
 
     it('Moderated library, user is a member, favorite - []', async () => {
-      await testUtil.checkToolbarPrimary(data.moderatedUserMemberFav.name, data.moderatedUserMemberFav.toolbarPrimary);
-      await testUtil.checkToolbarMoreActions(data.moderatedUserMemberFav.name, data.moderatedUserMemberFav.toolbarMore);
-      await testUtil.checkContextMenu(data.moderatedUserMemberFav.name, data.moderatedUserMemberFav.contextMenu);
+      await testUtil.checkToolbarPrimary(testData.moderatedUserMemberFav.name, testData.moderatedUserMemberFav.toolbarPrimary);
+      await testUtil.checkToolbarMoreActions(testData.moderatedUserMemberFav.name, testData.moderatedUserMemberFav.toolbarMore);
+      await testUtil.checkContextMenu(testData.moderatedUserMemberFav.name, testData.moderatedUserMemberFav.contextMenu);
     });
 
     it('Public library, user is a member, not favorite - []', async () => {
-      await testUtil.checkToolbarPrimary(data.publicUserMemberNotFav.name, data.publicUserMemberNotFav.toolbarPrimary);
-      await testUtil.checkToolbarMoreActions(data.publicUserMemberNotFav.name, data.publicUserMemberNotFav.toolbarMore);
-      await testUtil.checkContextMenu(data.publicUserMemberNotFav.name, data.publicUserMemberNotFav.contextMenu);
+      await testUtil.checkToolbarPrimary(testData.publicUserMemberNotFav.name, testData.publicUserMemberNotFav.toolbarPrimary);
+      await testUtil.checkToolbarMoreActions(testData.publicUserMemberNotFav.name, testData.publicUserMemberNotFav.toolbarMore);
+      await testUtil.checkContextMenu(testData.publicUserMemberNotFav.name, testData.publicUserMemberNotFav.contextMenu);
     });
 
     it('Private library, user is a member, not favorite - []', async () => {
-      await testUtil.checkToolbarPrimary(data.privateUserMemberNotFav.name, data.privateUserMemberNotFav.toolbarPrimary);
-      await testUtil.checkToolbarMoreActions(data.privateUserMemberNotFav.name, data.privateUserMemberNotFav.toolbarMore);
-      await testUtil.checkContextMenu(data.privateUserMemberNotFav.name, data.privateUserMemberNotFav.contextMenu);
+      await testUtil.checkToolbarPrimary(testData.privateUserMemberNotFav.name, testData.privateUserMemberNotFav.toolbarPrimary);
+      await testUtil.checkToolbarMoreActions(testData.privateUserMemberNotFav.name, testData.privateUserMemberNotFav.toolbarMore);
+      await testUtil.checkContextMenu(testData.privateUserMemberNotFav.name, testData.privateUserMemberNotFav.contextMenu);
     });
 
     it('Moderated library, user is a member, not favorite - []', async () => {
-      await testUtil.checkToolbarPrimary(data.moderatedUserMemberNotFav.name, data.moderatedUserMemberNotFav.toolbarPrimary);
-      await testUtil.checkToolbarMoreActions(data.moderatedUserMemberNotFav.name, data.moderatedUserMemberNotFav.toolbarMore);
-      await testUtil.checkContextMenu(data.moderatedUserMemberNotFav.name, data.moderatedUserMemberNotFav.contextMenu);
+      await testUtil.checkToolbarPrimary(testData.moderatedUserMemberNotFav.name, testData.moderatedUserMemberNotFav.toolbarPrimary);
+      await testUtil.checkToolbarMoreActions(testData.moderatedUserMemberNotFav.name, testData.moderatedUserMemberNotFav.toolbarMore);
+      await testUtil.checkContextMenu(testData.moderatedUserMemberNotFav.name, testData.moderatedUserMemberNotFav.contextMenu);
     });
 
   });
@@ -170,39 +170,39 @@ describe('Library actions : ', () => {
     });
 
     it('Public library, user is a member, favorite - []', async () => {
-      await testUtil.checkToolbarPrimary(data.publicUserMemberFav.name, data.publicUserMemberFav.toolbarPrimary);
-      await testUtil.checkToolbarMoreActions(data.publicUserMemberFav.name, data.publicUserMemberFav.toolbarMore);
-      await testUtil.checkContextMenu(data.publicUserMemberFav.name, data.publicUserMemberFav.contextMenu);
+      await testUtil.checkToolbarPrimary(testData.publicUserMemberFav.name, testData.publicUserMemberFav.toolbarPrimary);
+      await testUtil.checkToolbarMoreActions(testData.publicUserMemberFav.name, testData.publicUserMemberFav.toolbarMore);
+      await testUtil.checkContextMenu(testData.publicUserMemberFav.name, testData.publicUserMemberFav.contextMenu);
     });
 
     it('Private library, user is a member, favorite - []', async () => {
-      await testUtil.checkToolbarPrimary(data.privateUserMemberFav.name, data.privateUserMemberFav.toolbarPrimary);
-      await testUtil.checkToolbarMoreActions(data.privateUserMemberFav.name, data.privateUserMemberFav.toolbarMore);
-      await testUtil.checkContextMenu(data.privateUserMemberFav.name, data.privateUserMemberFav.contextMenu);
+      await testUtil.checkToolbarPrimary(testData.privateUserMemberFav.name, testData.privateUserMemberFav.toolbarPrimary);
+      await testUtil.checkToolbarMoreActions(testData.privateUserMemberFav.name, testData.privateUserMemberFav.toolbarMore);
+      await testUtil.checkContextMenu(testData.privateUserMemberFav.name, testData.privateUserMemberFav.contextMenu);
     });
 
     it('Moderated library, user is a member, favorite - []', async () => {
-      await testUtil.checkToolbarPrimary(data.moderatedUserMemberFav.name, data.moderatedUserMemberFav.toolbarPrimary);
-      await testUtil.checkToolbarMoreActions(data.moderatedUserMemberFav.name, data.moderatedUserMemberFav.toolbarMore);
-      await testUtil.checkContextMenu(data.moderatedUserMemberFav.name, data.moderatedUserMemberFav.contextMenu);
+      await testUtil.checkToolbarPrimary(testData.moderatedUserMemberFav.name, testData.moderatedUserMemberFav.toolbarPrimary);
+      await testUtil.checkToolbarMoreActions(testData.moderatedUserMemberFav.name, testData.moderatedUserMemberFav.toolbarMore);
+      await testUtil.checkContextMenu(testData.moderatedUserMemberFav.name, testData.moderatedUserMemberFav.contextMenu);
     });
 
     it('Public library, user not a member, favorite - []', async () => {
-      await testUtil.checkToolbarPrimary(data.publicNotMemberFav.name, data.publicNotMemberFav.toolbarPrimary);
-      await testUtil.checkToolbarMoreActions(data.publicNotMemberFav.name, data.publicNotMemberFav.toolbarMore);
-      await testUtil.checkContextMenu(data.publicNotMemberFav.name, data.publicNotMemberFav.contextMenu);
+      await testUtil.checkToolbarPrimary(testData.publicNotMemberFav.name, testData.publicNotMemberFav.toolbarPrimary);
+      await testUtil.checkToolbarMoreActions(testData.publicNotMemberFav.name, testData.publicNotMemberFav.toolbarMore);
+      await testUtil.checkContextMenu(testData.publicNotMemberFav.name, testData.publicNotMemberFav.contextMenu);
     });
 
     it('Moderated library, user not a member, favorite - []', async () => {
-      await testUtil.checkToolbarPrimary(data.moderatedNotMemberFav.name, data.moderatedNotMemberFav.toolbarPrimary);
-      await testUtil.checkToolbarMoreActions(data.moderatedNotMemberFav.name, data.moderatedNotMemberFav.toolbarMore);
-      await testUtil.checkContextMenu(data.moderatedNotMemberFav.name, data.moderatedNotMemberFav.contextMenu);
+      await testUtil.checkToolbarPrimary(testData.moderatedNotMemberFav.name, testData.moderatedNotMemberFav.toolbarPrimary);
+      await testUtil.checkToolbarMoreActions(testData.moderatedNotMemberFav.name, testData.moderatedNotMemberFav.toolbarMore);
+      await testUtil.checkContextMenu(testData.moderatedNotMemberFav.name, testData.moderatedNotMemberFav.contextMenu);
     });
 
     it('Moderated library, user requested to join, favorite - []', async () => {
-      await testUtil.checkToolbarPrimary(data.moderatedRequestedJoinFav.name, data.moderatedRequestedJoinFav.toolbarPrimary);
-      await testUtil.checkToolbarMoreActions(data.moderatedRequestedJoinFav.name, data.moderatedRequestedJoinFav.toolbarMore);
-      await testUtil.checkContextMenu(data.moderatedRequestedJoinFav.name, data.moderatedRequestedJoinFav.contextMenu);
+      await testUtil.checkToolbarPrimary(testData.moderatedRequestedJoinFav.name, testData.moderatedRequestedJoinFav.toolbarPrimary);
+      await testUtil.checkToolbarMoreActions(testData.moderatedRequestedJoinFav.name, testData.moderatedRequestedJoinFav.toolbarMore);
+      await testUtil.checkContextMenu(testData.moderatedRequestedJoinFav.name, testData.moderatedRequestedJoinFav.contextMenu);
     });
   });
 
@@ -221,75 +221,75 @@ describe('Library actions : ', () => {
     });
 
     it('Public library, user is a member, favorite - []', async () => {
-      await testUtil.checkToolbarPrimary(data.publicUserMemberFav.name, data.publicUserMemberFav.searchToolbarPrimary);
-      await testUtil.checkToolbarMoreActions(data.publicUserMemberFav.name, data.publicUserMemberFav.toolbarMore);
-      await testUtil.checkContextMenu(data.publicUserMemberFav.name, data.publicUserMemberFav.contextMenu);
+      await testUtil.checkToolbarPrimary(testData.publicUserMemberFav.name, testData.publicUserMemberFav.searchToolbarPrimary);
+      await testUtil.checkToolbarMoreActions(testData.publicUserMemberFav.name, testData.publicUserMemberFav.toolbarMore);
+      await testUtil.checkContextMenu(testData.publicUserMemberFav.name, testData.publicUserMemberFav.contextMenu);
     });
 
     it('Private library, user is a member, favorite - []', async () => {
-      await testUtil.checkToolbarPrimary(data.privateUserMemberFav.name, data.privateUserMemberFav.searchToolbarPrimary);
-      await testUtil.checkToolbarMoreActions(data.privateUserMemberFav.name, data.privateUserMemberFav.toolbarMore);
-      await testUtil.checkContextMenu(data.privateUserMemberFav.name, data.privateUserMemberFav.contextMenu);
+      await testUtil.checkToolbarPrimary(testData.privateUserMemberFav.name, testData.privateUserMemberFav.searchToolbarPrimary);
+      await testUtil.checkToolbarMoreActions(testData.privateUserMemberFav.name, testData.privateUserMemberFav.toolbarMore);
+      await testUtil.checkContextMenu(testData.privateUserMemberFav.name, testData.privateUserMemberFav.contextMenu);
     });
 
     it('Moderated library, user is a member, favorite - []', async () => {
-      await testUtil.checkToolbarPrimary(data.moderatedUserMemberFav.name, data.moderatedUserMemberFav.searchToolbarPrimary);
-      await testUtil.checkToolbarMoreActions(data.moderatedUserMemberFav.name, data.moderatedUserMemberFav.toolbarMore);
-      await testUtil.checkContextMenu(data.moderatedUserMemberFav.name, data.moderatedUserMemberFav.contextMenu);
+      await testUtil.checkToolbarPrimary(testData.moderatedUserMemberFav.name, testData.moderatedUserMemberFav.searchToolbarPrimary);
+      await testUtil.checkToolbarMoreActions(testData.moderatedUserMemberFav.name, testData.moderatedUserMemberFav.toolbarMore);
+      await testUtil.checkContextMenu(testData.moderatedUserMemberFav.name, testData.moderatedUserMemberFav.contextMenu);
     });
 
     it('Public library, user is a member, not favorite - []', async () => {
-      await testUtil.checkToolbarPrimary(data.publicUserMemberNotFav.name, data.publicUserMemberNotFav.searchToolbarPrimary);
-      await testUtil.checkToolbarMoreActions(data.publicUserMemberNotFav.name, data.publicUserMemberNotFav.toolbarMore);
-      await testUtil.checkContextMenu(data.publicUserMemberNotFav.name, data.publicUserMemberNotFav.contextMenu);
+      await testUtil.checkToolbarPrimary(testData.publicUserMemberNotFav.name, testData.publicUserMemberNotFav.searchToolbarPrimary);
+      await testUtil.checkToolbarMoreActions(testData.publicUserMemberNotFav.name, testData.publicUserMemberNotFav.toolbarMore);
+      await testUtil.checkContextMenu(testData.publicUserMemberNotFav.name, testData.publicUserMemberNotFav.contextMenu);
     });
 
     it('Private library, user is a member, not favorite - []', async () => {
-      await testUtil.checkToolbarPrimary(data.privateUserMemberNotFav.name, data.privateUserMemberNotFav.searchToolbarPrimary);
-      await testUtil.checkToolbarMoreActions(data.privateUserMemberNotFav.name, data.privateUserMemberNotFav.toolbarMore);
-      await testUtil.checkContextMenu(data.privateUserMemberNotFav.name, data.privateUserMemberNotFav.contextMenu);
+      await testUtil.checkToolbarPrimary(testData.privateUserMemberNotFav.name, testData.privateUserMemberNotFav.searchToolbarPrimary);
+      await testUtil.checkToolbarMoreActions(testData.privateUserMemberNotFav.name, testData.privateUserMemberNotFav.toolbarMore);
+      await testUtil.checkContextMenu(testData.privateUserMemberNotFav.name, testData.privateUserMemberNotFav.contextMenu);
     });
 
     it('Moderated library, user is a member, not favorite - []', async () => {
-      await testUtil.checkToolbarPrimary(data.moderatedUserMemberNotFav.name, data.moderatedUserMemberNotFav.searchToolbarPrimary);
-      await testUtil.checkToolbarMoreActions(data.moderatedUserMemberNotFav.name, data.moderatedUserMemberNotFav.toolbarMore);
-      await testUtil.checkContextMenu(data.moderatedUserMemberNotFav.name, data.moderatedUserMemberNotFav.contextMenu);
+      await testUtil.checkToolbarPrimary(testData.moderatedUserMemberNotFav.name, testData.moderatedUserMemberNotFav.searchToolbarPrimary);
+      await testUtil.checkToolbarMoreActions(testData.moderatedUserMemberNotFav.name, testData.moderatedUserMemberNotFav.toolbarMore);
+      await testUtil.checkContextMenu(testData.moderatedUserMemberNotFav.name, testData.moderatedUserMemberNotFav.contextMenu);
     });
 
     it('Public library, user not a member, favorite - []', async () => {
-      await testUtil.checkToolbarPrimary(data.publicNotMemberFav.name, data.publicNotMemberFav.searchToolbarPrimary);
-      await testUtil.checkToolbarMoreActions(data.publicNotMemberFav.name, data.publicNotMemberFav.toolbarMore);
-      await testUtil.checkContextMenu(data.publicNotMemberFav.name, data.publicNotMemberFav.contextMenu);
+      await testUtil.checkToolbarPrimary(testData.publicNotMemberFav.name, testData.publicNotMemberFav.searchToolbarPrimary);
+      await testUtil.checkToolbarMoreActions(testData.publicNotMemberFav.name, testData.publicNotMemberFav.toolbarMore);
+      await testUtil.checkContextMenu(testData.publicNotMemberFav.name, testData.publicNotMemberFav.contextMenu);
     });
 
     it('Moderated library, user not a member, favorite - []', async () => {
-      await testUtil.checkToolbarPrimary(data.moderatedNotMemberFav.name, data.moderatedNotMemberFav.searchToolbarPrimary);
-      await testUtil.checkToolbarMoreActions(data.moderatedNotMemberFav.name, data.moderatedNotMemberFav.toolbarMore);
-      await testUtil.checkContextMenu(data.moderatedNotMemberFav.name, data.moderatedNotMemberFav.contextMenu);
+      await testUtil.checkToolbarPrimary(testData.moderatedNotMemberFav.name, testData.moderatedNotMemberFav.searchToolbarPrimary);
+      await testUtil.checkToolbarMoreActions(testData.moderatedNotMemberFav.name, testData.moderatedNotMemberFav.toolbarMore);
+      await testUtil.checkContextMenu(testData.moderatedNotMemberFav.name, testData.moderatedNotMemberFav.contextMenu);
     });
 
     it('Public library, user not a member, not favorite - []', async () => {
-      await testUtil.checkToolbarPrimary(data.publicNotMemberNotFav.name, data.publicNotMemberNotFav.searchToolbarPrimary);
-      await testUtil.checkToolbarMoreActions(data.publicNotMemberNotFav.name, data.publicNotMemberNotFav.toolbarMore);
-      await testUtil.checkContextMenu(data.publicNotMemberNotFav.name, data.publicNotMemberNotFav.contextMenu);
+      await testUtil.checkToolbarPrimary(testData.publicNotMemberNotFav.name, testData.publicNotMemberNotFav.searchToolbarPrimary);
+      await testUtil.checkToolbarMoreActions(testData.publicNotMemberNotFav.name, testData.publicNotMemberNotFav.toolbarMore);
+      await testUtil.checkContextMenu(testData.publicNotMemberNotFav.name, testData.publicNotMemberNotFav.contextMenu);
     });
 
     it('Moderated library, user not a member, not favorite - []', async () => {
-      await testUtil.checkToolbarPrimary(data.moderatedNotMemberNotFav.name, data.moderatedNotMemberNotFav.searchToolbarPrimary);
-      await testUtil.checkToolbarMoreActions(data.moderatedNotMemberNotFav.name, data.moderatedNotMemberNotFav.toolbarMore);
-      await testUtil.checkContextMenu(data.moderatedNotMemberNotFav.name, data.moderatedNotMemberNotFav.contextMenu);
+      await testUtil.checkToolbarPrimary(testData.moderatedNotMemberNotFav.name, testData.moderatedNotMemberNotFav.searchToolbarPrimary);
+      await testUtil.checkToolbarMoreActions(testData.moderatedNotMemberNotFav.name, testData.moderatedNotMemberNotFav.toolbarMore);
+      await testUtil.checkContextMenu(testData.moderatedNotMemberNotFav.name, testData.moderatedNotMemberNotFav.contextMenu);
     });
 
     it('Moderated library, user requested to join, favorite - []', async () => {
-      await testUtil.checkToolbarPrimary(data.moderatedRequestedJoinFav.name, data.moderatedRequestedJoinFav.searchToolbarPrimary);
-      await testUtil.checkToolbarMoreActions(data.moderatedRequestedJoinFav.name, data.moderatedRequestedJoinFav.toolbarMore);
-      await testUtil.checkContextMenu(data.moderatedRequestedJoinFav.name, data.moderatedRequestedJoinFav.contextMenu);
+      await testUtil.checkToolbarPrimary(testData.moderatedRequestedJoinFav.name, testData.moderatedRequestedJoinFav.searchToolbarPrimary);
+      await testUtil.checkToolbarMoreActions(testData.moderatedRequestedJoinFav.name, testData.moderatedRequestedJoinFav.toolbarMore);
+      await testUtil.checkContextMenu(testData.moderatedRequestedJoinFav.name, testData.moderatedRequestedJoinFav.contextMenu);
     });
 
     it('Moderated library, user requested to join, not favorite - []', async () => {
-      await testUtil.checkToolbarPrimary(data.moderatedRequestedJoinNotFav.name, data.moderatedRequestedJoinNotFav.searchToolbarPrimary);
-      await testUtil.checkToolbarMoreActions(data.moderatedRequestedJoinNotFav.name, data.moderatedRequestedJoinNotFav.toolbarMore);
-      await testUtil.checkContextMenu(data.moderatedRequestedJoinNotFav.name, data.moderatedRequestedJoinNotFav.contextMenu);
+      await testUtil.checkToolbarPrimary(testData.moderatedRequestedJoinNotFav.name, testData.moderatedRequestedJoinNotFav.searchToolbarPrimary);
+      await testUtil.checkToolbarMoreActions(testData.moderatedRequestedJoinNotFav.name, testData.moderatedRequestedJoinNotFav.toolbarMore);
+      await testUtil.checkContextMenu(testData.moderatedRequestedJoinNotFav.name, testData.moderatedRequestedJoinNotFav.contextMenu);
     });
   });
 
@@ -304,13 +304,13 @@ describe('Library actions : ', () => {
     });
 
     it('single library - []', async () => {
-      await testUtil.checkToolbarPrimary(data.siteInTrash.name, data.siteInTrash.trashActions);
-      await testUtil.checkContextMenu(data.siteInTrash.name, data.siteInTrash.trashActions);
+      await testUtil.checkToolbarPrimary(testData.siteInTrash.name, testData.siteInTrash.trashActions);
+      await testUtil.checkContextMenu(testData.siteInTrash.name, testData.siteInTrash.trashActions);
     });
 
     it('multiple libraries - []', async () => {
-      await testUtil.checkMultipleSelContextMenu([ data.siteInTrash.name, data.site2InTrash.name ], data.trashActions);
-      await testUtil.checkMultipleSelToolbarPrimary([ data.siteInTrash.name, data.site2InTrash.name ], data.trashActions);
+      await testUtil.checkMultipleSelContextMenu([ testData.siteInTrash.name, testData.site2InTrash.name ], testData.trashActions);
+      await testUtil.checkMultipleSelToolbarPrimary([ testData.siteInTrash.name, testData.site2InTrash.name ], testData.trashActions);
     });
   });
 });
