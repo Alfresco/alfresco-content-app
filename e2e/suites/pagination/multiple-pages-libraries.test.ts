@@ -23,48 +23,45 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { SITE_VISIBILITY } from '../../configs';
 import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
+import { AdminActions } from '../../utilities/admin-actions';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 
 describe('Pagination on multiple pages', () => {
-  const username = `user-${Utils.random()}`;
+  const random = Utils.random();
 
-  const apis = {
-      admin: new RepoClient(),
-      user: new RepoClient(username, username)
-  };
+  const username = `user-${random}`;
+
+  const userApi = new RepoClient(username, username);
+  const adminApiActions = new AdminActions();
+
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable, pagination } = page;
 
   const sites = Array(101)
     .fill('site')
-    .map((name, index): string => `${name}-${index + 1}-${Utils.random()}`);
+    .map((name, index): string => `${name}-${index + 1}-${random}`);
 
-  beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
-    await apis.user.sites.createSites(sites, SITE_VISIBILITY.PRIVATE);
-    await apis.user.sites.waitForApi({ expect: 101 });
+  beforeAll(async () => {
+    await adminApiActions.createUser({ username });
+    await userApi.sites.createSitesPrivate(sites);
+    await userApi.sites.waitForApi({ expect: 101 });
     await loginPage.loginWith(username);
-    done();
   });
 
-  afterAll(async (done) => {
-    await apis.user.sites.deleteSites(sites);
-    done();
+  afterAll(async () => {
+    await userApi.sites.deleteSites(sites);
   })
 
   describe('on My Libraries', () => {
-    beforeEach(async (done) => {
+    beforeAll(async () => {
       await page.goToMyLibrariesAndWait();
-      done();
     });
 
-    afterEach(async (done) => {
+    afterEach(async () => {
       await Utils.pressEscape();
-      done();
     });
 
     it('Pagination control default values - [C280086]', async () => {
@@ -158,14 +155,12 @@ describe('Pagination on multiple pages', () => {
   });
 
   describe('on Favorite Libraries', () => {
-    beforeEach(async (done) => {
+    beforeAll(async () => {
       await page.goToFavoriteLibrariesAndWait();
-      done();
     });
 
-    afterEach(async (done) => {
+    afterEach(async () => {
       await Utils.pressEscape();
-      done();
     });
 
     it('Pagination control default values - [C291875]', async () => {

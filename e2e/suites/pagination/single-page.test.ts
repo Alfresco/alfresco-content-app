@@ -23,60 +23,60 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage, SearchResultsPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
+import { AdminActions } from '../../utilities/admin-actions';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 
 describe('Pagination on single page', () => {
-  const username = `user-${Utils.random()}`;
+  const random = Utils.random();
 
-  const siteName = `site-${Utils.random()}`; let siteId;
+  const username = `user-${random}`;
 
-  const file = `file-${Utils.random()}.txt`; let fileId;
-  const fileInTrash = `fileInTrash-${Utils.random()}.txt`; let fileInTrashId;
+  const siteName = `site-${random}`;
+  let siteId: string;
 
-  const apis = {
-    admin: new RepoClient(),
-    user: new RepoClient(username, username)
-  };
+  const file = `file-${random}.txt`;
+  let fileId: string;
+  const fileInTrash = `fileInTrash-${random}.txt`;
+  let fileInTrashId: string;
+
+  const userApi = new RepoClient(username, username);
+  const adminApiActions = new AdminActions();
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
-  const { pagination, dataTable } = page;
+  const { pagination } = page;
   const { searchInput } = page.header;
+  const searchResultsPage = new SearchResultsPage();
 
-  beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
-    const [fileP, fileInTrashP, siteP] = await Promise.all([
-      apis.user.nodes.createFile(file),
-      apis.user.nodes.createFile(fileInTrash),
-      apis.user.sites.createSite(siteName)
+  beforeAll(async () => {
+    await adminApiActions.createUser({ username });
+
+    fileId = (await userApi.nodes.createFile(file)).entry.id;
+    fileInTrashId = (await userApi.nodes.createFile(fileInTrash)).entry.id;
+    siteId = (await userApi.sites.createSite(siteName)).entry.id;
+
+    await userApi.nodes.deleteNodeById(fileInTrashId, false);
+    await userApi.favorites.addFavoriteById('file', fileId);
+    await userApi.shared.shareFileById(fileId);
+
+    await Promise.all([
+      userApi.favorites.waitForApi({ expect: 2 }),
+      userApi.search.waitForApi(username, { expect: 1 }),
+      userApi.shared.waitForApi({ expect: 1 }),
+      userApi.trashcan.waitForApi({ expect: 1 })
     ]);
-
-    fileId = fileP.entry.id;
-    fileInTrashId = fileInTrashP.entry.id;
-    siteId = siteP.entry.id;
-
-    await apis.user.nodes.deleteNodeById(fileInTrashId, false);
-    await apis.user.favorites.addFavoriteById('file', fileId);
-    await apis.user.shared.shareFileById(fileId);
-
-    await apis.user.favorites.waitForApi({ expect: 2 });
-    await apis.user.search.waitForApi(username, { expect: 1 });
-    await apis.user.shared.waitForApi({ expect: 1 });
-    await apis.user.trashcan.waitForApi({ expect: 1 });
 
     await loginPage.loginWith(username);
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await Promise.all([
-      apis.user.nodes.deleteNodeById(fileId),
-      apis.user.sites.deleteSite(siteId),
-      apis.user.trashcan.emptyTrash()
+      userApi.nodes.deleteNodeById(fileId),
+      userApi.sites.deleteSite(siteId),
+      userApi.trashcan.emptyTrash()
     ]);
-    done();
   });
 
   it('page selector not displayed on Favorites - [C280112]', async () => {
@@ -116,9 +116,8 @@ describe('Pagination on single page', () => {
 
   it('page selector not displayed on Search results - [C290124]', async () => {
     await searchInput.clickSearchButton();
-    await searchInput.checkOnlyFiles();
     await searchInput.searchFor(file);
-    await dataTable.waitForBody();
+    await searchResultsPage.waitForResults();
     expect(await pagination.isPagesButtonPresent()).toBe(false, 'page selector displayed');
   });
 

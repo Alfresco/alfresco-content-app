@@ -25,46 +25,42 @@
 
 import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
+import { AdminActions } from '../../utilities/admin-actions';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 
 describe('Pagination on multiple pages on Trash', () => {
-  const username = `user-${Utils.random()}`;
+  const random = Utils.random();
+
+  const username = `user-${random}`;
   const filesForDelete = Array(101)
     .fill('file')
-    .map((name, index): string => `${name}-${index + 1}.txt`);
-  let filesDeletedIds;
+    .map((name, index): string => `${name}-${index + 1}-${random}.txt`);
+  let filesDeletedIds: string[];
 
-  const apis = {
-    admin: new RepoClient(),
-    user: new RepoClient(username, username)
-  };
+  const userApi = new RepoClient(username, username);
+  const adminApiActions = new AdminActions();
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable, pagination } = page;
 
-  beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
-    filesDeletedIds = (await apis.user.nodes.createFiles(filesForDelete)).list.entries.map(entries => entries.entry.id);
-    await apis.user.nodes.deleteNodesById(filesDeletedIds, false);
-    await apis.user.trashcan.waitForApi({expect: 101});
+  beforeAll(async () => {
+    await adminApiActions.createUser({ username });
+    filesDeletedIds = (await userApi.nodes.createFiles(filesForDelete)).list.entries.map(entries => entries.entry.id);
+
+    await userApi.nodes.deleteNodesById(filesDeletedIds, false);
+    await userApi.trashcan.waitForApi({expect: 101});
+
     await loginPage.loginWith(username);
-    done();
-  });
-
-  beforeEach(async (done) => {
     await page.clickTrashAndWait();
-    done();
   });
 
-  afterEach(async (done) => {
+  afterEach(async () => {
     await Utils.pressEscape();
-    done();
   });
 
-  afterAll(async (done) => {
-    await apis.user.trashcan.emptyTrash();
-    done();
+  afterAll(async () => {
+    await userApi.trashcan.emptyTrash();
   });
 
   it('Pagination control default values - [C280122]', async () => {
