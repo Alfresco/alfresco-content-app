@@ -111,7 +111,7 @@ export class CreateFromTemplateDialogComponent implements OnInit {
     return isValid
       ? null
       : {
-          message: `FILE_FROM_TEMPLATE.FORM.ERRORS.SPECIAL_CHARACTERS`
+          message: `NODE_FROM_TEMPLATE.FORM.ERRORS.SPECIAL_CHARACTERS`
         };
   }
 
@@ -125,7 +125,7 @@ export class CreateFromTemplateDialogComponent implements OnInit {
     return isValid
       ? null
       : {
-          message: `FILE_FROM_TEMPLATE.FORM.ERRORS.ENDING_DOT`
+          message: `NODE_FROM_TEMPLATE.FORM.ERRORS.ENDING_DOT`
         };
   }
 
@@ -136,11 +136,11 @@ export class CreateFromTemplateDialogComponent implements OnInit {
       return isValid
         ? null
         : {
-            message: `FILE_FROM_TEMPLATE.FORM.ERRORS.ONLY_SPACES`
+            message: `NODE_FROM_TEMPLATE.FORM.ERRORS.ONLY_SPACES`
           };
     } else {
       return {
-        message: `FILE_FROM_TEMPLATE.FORM.ERRORS.REQUIRED`
+        message: `NODE_FROM_TEMPLATE.FORM.ERRORS.REQUIRED`
       };
     }
   }
