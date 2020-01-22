@@ -31,6 +31,7 @@ import { SitesApi } from './repo-client/apis/sites/sites-api';
 import { UploadApi } from './repo-client/apis/upload/upload-api';
 import { NodesApi } from './repo-client/apis/nodes/nodes-api';
 import { FavoritesApi } from './repo-client/apis/favorites/favorites-api';
+import { SearchApi } from './repo-client/apis/search/search-api';
 
 export class AdminActions {
   private adminApi: RepoClient;
@@ -43,6 +44,7 @@ export class AdminActions {
   upload: UploadApi = new UploadApi();
   nodes: NodesApi = new NodesApi();
   favorites: FavoritesApi = new FavoritesApi();
+  search: SearchApi = new SearchApi();
 
   async getDataDictionaryId(): Promise<string> {
     return await this.adminApi.nodes.getNodeIdFromParent('Data Dictionary', '-root-');

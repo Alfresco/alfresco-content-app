@@ -270,6 +270,9 @@ export const fileSharedFavLocked = {
   searchToolbarPrimary: searchConsumerSharedToolbarPrimary
 };
 
+export const fileGranularPermission = `file-granular-${Utils.random()}.txt`;
+export const fileLockedByUser = `my-file-locked-${Utils.random()}.txt`;
+
 // ---- folders ---
 
 const consumerFolderContextMenu = ['Download', 'Favorite', 'Copy'];

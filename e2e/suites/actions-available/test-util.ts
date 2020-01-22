@@ -90,16 +90,6 @@ export async function checkMultipleSelToolbarPrimary(items: string[], expectedTo
   expect(actualPrimaryActions).toEqual(expectedToolbarPrimary);
 }
 
-export async function checkMultipleSelToolbarMoreActions(items: string[], expectedToolbarMore: string[]): Promise<void> {
-  await dataTable.selectMultipleItems(items);
-  await toolbar.openMoreMenu();
-
-  const actualMoreActions = await toolbar.menu.getMenuItems();
-  expect(actualMoreActions).toEqual(expectedToolbarMore);
-
-  await toolbar.closeMoreMenu();
-}
-
 export async function checkMultipleSelToolbarActions(items: string[], expectedToolbarPrimary: string[], expectedToolbarMore: string[]): Promise<void> {
   await dataTable.selectMultipleItems(items);
 
@@ -112,31 +102,6 @@ export async function checkMultipleSelToolbarActions(items: string[], expectedTo
   expect(actualMoreActions).toEqual(expectedToolbarMore);
 
   await toolbar.closeMoreMenu();
-}
-
-export async function checkViewerToolbarPrimaryActions(item: string, expectedToolbarPrimary: string[]): Promise<void> {
-  await dataTable.selectItem(item);
-  await toolbar.clickView();
-  await viewer.waitForViewerToOpen();
-
-  let actualPrimaryActions = await viewerToolbar.getButtons();
-  actualPrimaryActions = removeClosePreviousNextOldInfo(actualPrimaryActions);
-  expect(actualPrimaryActions).toEqual(expectedToolbarPrimary);
-
-  await Utils.pressEscape();
-}
-
-export async function checkViewerToolbarMoreActions(item: string, expectedToolbarMore: string[]): Promise<void> {
-  await dataTable.selectItem(item);
-  await toolbar.clickView();
-  await viewer.waitForViewerToOpen();
-  await viewerToolbar.openMoreMenu();
-
-  const actualMoreActions = await viewerToolbar.menu.getMenuItems();
-  expect(actualMoreActions).toEqual(expectedToolbarMore);
-
-  await toolbar.closeMoreMenu();
-  await Utils.pressEscape();
 }
 
 export async function checkViewerActions(item: string, expectedToolbarPrimary: string[], expectedToolbarMore: string[]): Promise<void> {
