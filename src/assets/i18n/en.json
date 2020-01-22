@@ -58,7 +58,8 @@
                 "UPLOAD_FILE": "Upload File",
                 "UPLOAD_FOLDER": "Upload Folder",
                 "CREATE_LIBRARY": "Create Library",
-                "FILE_TEMPLATE": "Create file from template"
+                "FILE_TEMPLATE": "Create file from template",
+                "FOLDER_TEMPLATE": "Create folder from template"
             },
             "TOOLTIPS": {
                 "CREATE_FOLDER": "Create new folder",
@@ -359,12 +360,14 @@
         "MOVE_ITEMS": "Move {{ number }} items to...",
         "SEARCH": "Search",
         "NEXT": "Next",
-        "SELECT_TEMPLATE_TITLE": "Select a document template"
+        "SELECT_FILE_TEMPLATE_TITLE": "Select a document template",
+        "SELECT_FOLDER_TEMPLATE_TITLE": "Select a folder template"
     },
-    "FILE_FROM_TEMPLATE": {
+    "NODE_FROM_TEMPLATE": {
         "CANCEL": "CANCEL",
         "CREATE": "Create",
-        "TITLE": "Create new document from <span class=\"bold\">'{{ template }}'</span>",
+        "FOLDER_DIALOG_TITLE": "Create new folder from <span class=\"bold\">'{{ template }}'</span>",
+        "FILE_DIALOG_TITLE": "Create new document from <span class=\"bold\">'{{ template }}'</span>",
         "FORM": {
             "PLACEHOLDER": {
                 "NAME": "Name",

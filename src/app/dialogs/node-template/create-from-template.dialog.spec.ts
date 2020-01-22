@@ -23,19 +23,18 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { CreateFileFromTemplateDialogComponent } from './create-from-template.dialog';
+import { CreateFromTemplateDialogComponent } from './create-from-template.dialog';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { CoreModule } from '@alfresco/adf-core';
+import { CoreModule, TranslationMock } from '@alfresco/adf-core';
 import {
   MatDialogModule,
-  MatDialogRef,
-  MAT_DIALOG_DATA
+  MAT_DIALOG_DATA,
+  MatDialogRef
 } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { CreateFileFromTemplate } from '@alfresco/aca-shared/store';
+import { CreateFromTemplate } from '@alfresco/aca-shared/store';
 import { Node } from '@alfresco/js-api';
-import { CreateFromTemplateDialogService } from './create-from-template-dialog.service';
 
 function text(length: number) {
   return new Array(length)
@@ -48,15 +47,15 @@ function text(length: number) {
 }
 
 describe('CreateFileFromTemplateDialogComponent', () => {
-  let fixture: ComponentFixture<CreateFileFromTemplateDialogComponent>;
-  let component: CreateFileFromTemplateDialogComponent;
-  let dialogRef: MatDialogRef<CreateFileFromTemplateDialogComponent>;
+  let fixture: ComponentFixture<CreateFromTemplateDialogComponent>;
+  let component: CreateFromTemplateDialogComponent;
   let store;
-  let createFromTemplateDialogService: CreateFromTemplateDialogService;
 
   const data = {
     id: 'node-id',
     name: 'node-name',
+    isFolder: false,
+    isFile: true,
     properties: {
       'cm:title': 'node-title',
       'cm:description': ''
@@ -66,36 +65,39 @@ describe('CreateFileFromTemplateDialogComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [CoreModule.forRoot(), AppTestingModule, MatDialogModule],
-      declarations: [CreateFileFromTemplateDialogComponent],
+      declarations: [CreateFromTemplateDialogComponent],
       providers: [
+        {
+          provide: MatDialogRef,
+          useValue: {
+            close: jasmine.createSpy('close')
+          }
+        },
+        {
+          provide: TranslationMock,
+          useValue: {
+            instant: jasmine.createSpy('instant')
+          }
+        },
         {
           provide: Store,
           useValue: {
             dispatch: jasmine.createSpy('dispatch')
           }
         },
-        { provide: MAT_DIALOG_DATA, useValue: data },
-        {
-          provide: MatDialogRef,
-          useValue: {
-            close: jasmine.createSpy('close')
-          }
-        }
+        { provide: MAT_DIALOG_DATA, useValue: {} }
       ]
     });
 
-    fixture = TestBed.createComponent(CreateFileFromTemplateDialogComponent);
-    dialogRef = TestBed.get(MatDialogRef);
+    fixture = TestBed.createComponent(CreateFromTemplateDialogComponent);
     store = TestBed.get(Store);
-    createFromTemplateDialogService = TestBed.get(
-      CreateFromTemplateDialogService
-    );
     component = fixture.componentInstance;
-
-    fixture.detectChanges();
+    component.data = data as Node;
   });
 
   it('should populate form with provided dialog data', () => {
+    fixture.detectChanges();
+
     expect(component.form.controls.name.value).toBe(data.name);
     expect(component.form.controls.title.value).toBe(
       data.properties['cm:title']
@@ -106,32 +108,47 @@ describe('CreateFileFromTemplateDialogComponent', () => {
   });
 
   it('should invalidate form if required `name` field is invalid', () => {
+    fixture.detectChanges();
+
     component.form.controls.name.setValue('');
     fixture.detectChanges();
+
     expect(component.form.invalid).toBe(true);
   });
 
   it('should invalidate form if required `name` field has `only spaces`', () => {
+    fixture.detectChanges();
+
     component.form.controls.name.setValue('   ');
     fixture.detectChanges();
+
     expect(component.form.invalid).toBe(true);
   });
 
   it('should invalidate form if required `name` field has `ending dot`', () => {
+    fixture.detectChanges();
+
     component.form.controls.name.setValue('something.');
     fixture.detectChanges();
+
     expect(component.form.invalid).toBe(true);
   });
 
   it('should invalidate form if `title` text length is long', () => {
+    fixture.detectChanges();
+
     component.form.controls.title.setValue(text(260));
     fixture.detectChanges();
+
     expect(component.form.invalid).toBe(true);
   });
 
   it('should invalidate form if `description` text length is long', () => {
+    fixture.detectChanges();
+
     component.form.controls.description.setValue(text(520));
     fixture.detectChanges();
+
     expect(component.form.invalid).toBe(true);
   });
 
@@ -139,11 +156,16 @@ describe('CreateFileFromTemplateDialogComponent', () => {
     const newNode = {
       id: 'node-id',
       name: 'new-node-name',
+      isFolder: false,
+      isFile: true,
       properties: {
         'cm:title': 'new-node-title',
         'cm:description': 'new-node-description'
       }
     } as Node;
+
+    fixture.detectChanges();
+
     component.form.controls.name.setValue('new-node-name');
     component.form.controls.title.setValue('new-node-title');
     component.form.controls.description.setValue('new-node-description');
@@ -152,27 +174,8 @@ describe('CreateFileFromTemplateDialogComponent', () => {
 
     component.onSubmit();
 
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new CreateFileFromTemplate(newNode)
+    expect(store.dispatch['calls'].mostRecent().args[0]).toEqual(
+      new CreateFromTemplate(newNode)
     );
-  });
-
-  it('should close dialog on create file from template success', done => {
-    const newNode = {
-      id: 'node-id',
-      name: 'new-node-name',
-      properties: {
-        'cm:title': 'new-node-title',
-        'cm:description': 'new-node-description'
-      }
-    } as Node;
-
-    fixture.detectChanges();
-    createFromTemplateDialogService.success$.subscribe(node => {
-      expect(dialogRef.close).toHaveBeenCalledWith(node);
-      done();
-    });
-
-    createFromTemplateDialogService.success$.next(newNode);
   });
 });

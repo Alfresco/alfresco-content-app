@@ -25,7 +25,7 @@
 
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
-import { CreateFileFromTemplateDialogComponent } from '../dialogs/node-templates/create-from-template.dialog';
+import { CreateFromTemplateDialogComponent } from '../dialogs/node-template/create-from-template.dialog';
 import { Subject, from, of } from 'rxjs';
 import { Node, MinimalNode, MinimalNodeEntryEntity } from '@alfresco/js-api';
 import { AlfrescoApiService, TranslationService } from '@alfresco/adf-core';
@@ -38,10 +38,17 @@ import {
   ShareDataRow
 } from '@alfresco/adf-content-services';
 
+export interface TemplateDialogConfig {
+  relativePath: string;
+  selectionType: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
-export class CreateFileFromTemplateService {
+export class NodeTemplateService {
+  private currentTemplateConfig: TemplateDialogConfig = null;
+
   constructor(
     private store: Store<AppStore>,
     private alfrescoApiService: AlfrescoApiService,
@@ -49,14 +56,16 @@ export class CreateFileFromTemplateService {
     public dialog: MatDialog
   ) {}
 
-  openTemplatesDialog(): Subject<Node[]> {
+  selectTemplateDialog(config: TemplateDialogConfig): Subject<Node[]> {
+    this.currentTemplateConfig = config;
+
     const select = new Subject<Node[]>();
     select.subscribe({
       complete: this.close.bind(this)
     });
 
     const data: ContentNodeSelectorComponentData = {
-      title: this.title,
+      title: this.title(config.selectionType),
       actionName: 'NEXT',
       dropdownHideMyFiles: true,
       currentFolderId: null,
@@ -69,7 +78,7 @@ export class CreateFileFromTemplateService {
 
     from(
       this.alfrescoApiService.getInstance().nodes.getNodeInfo('-root-', {
-        relativePath: 'Data Dictionary/Node Templates'
+        relativePath: config.relativePath
       })
     )
       .pipe(
@@ -100,10 +109,10 @@ export class CreateFileFromTemplateService {
 
   createTemplateDialog(
     node: Node
-  ): MatDialogRef<CreateFileFromTemplateDialogComponent> {
-    return this.dialog.open(CreateFileFromTemplateDialogComponent, {
+  ): MatDialogRef<CreateFromTemplateDialogComponent> {
+    return this.dialog.open(CreateFromTemplateDialogComponent, {
       data: node,
-      panelClass: 'aca-file-from-template-dialog',
+      panelClass: 'aca-create-from-template-dialog',
       width: '630px'
     });
   }
@@ -123,6 +132,14 @@ export class CreateFileFromTemplateService {
   }
 
   private isSelectionValid(node: Node): boolean {
+    if (node.name === this.currentTemplateConfig.relativePath.split('/')[1]) {
+      return false;
+    }
+
+    if (this.currentTemplateConfig.selectionType === 'folder') {
+      return node.isFolder;
+    }
+
     return node.isFile;
   }
 
@@ -130,8 +147,16 @@ export class CreateFileFromTemplateService {
     this.dialog.closeAll();
   }
 
-  private get title() {
-    return this.translation.instant('NODE_SELECTOR.SELECT_TEMPLATE_TITLE');
+  private title(selectionType: string) {
+    if (selectionType === 'file') {
+      return this.translation.instant(
+        'NODE_SELECTOR.SELECT_FILE_TEMPLATE_TITLE'
+      );
+    }
+
+    return this.translation.instant(
+      'NODE_SELECTOR.SELECT_FOLDER_TEMPLATE_TITLE'
+    );
   }
 
   private rowFilter(row: ShareDataRow): boolean {

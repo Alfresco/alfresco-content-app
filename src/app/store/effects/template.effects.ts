@@ -25,65 +25,64 @@
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
-import {
-  map,
-  switchMap,
-  debounceTime,
-  flatMap,
-  take,
-  catchError
-} from 'rxjs/operators';
+import { map, switchMap, debounceTime, take, catchError } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import {
   FileFromTemplate,
-  CreateFileFromTemplate,
+  FolderFromTemplate,
+  CreateFromTemplate,
+  CreateFromTemplateSuccess,
   TemplateActionTypes,
   getCurrentFolder,
   AppStore,
   SnackbarErrorAction
 } from '@alfresco/aca-shared/store';
-import { CreateFileFromTemplateService } from '../../services/create-file-from-template.service';
+import {
+  NodeTemplateService,
+  TemplateDialogConfig
+} from '../../services/node-template.service';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { ContentManagementService } from '../../services/content-management.service';
 import { from, Observable, of } from 'rxjs';
 import { NodeEntry, NodeBodyUpdate, Node } from '@alfresco/js-api';
-import { CreateFromTemplateDialogService } from '../../dialogs/node-templates/create-from-template-dialog.service';
+import { MatDialog } from '@angular/material/dialog';
+
 @Injectable()
 export class TemplateEffects {
   constructor(
+    private matDialog: MatDialog,
     private content: ContentManagementService,
     private store: Store<AppStore>,
     private apiService: AlfrescoApiService,
     private actions$: Actions,
-    private createFromTemplateDialogService: CreateFromTemplateDialogService,
-    private createFileFromTemplateService: CreateFileFromTemplateService
+    private nodeTemplateService: NodeTemplateService
   ) {}
 
   @Effect({ dispatch: false })
   fileFromTemplate$ = this.actions$.pipe(
     ofType<FileFromTemplate>(TemplateActionTypes.FileFromTemplate),
     map(() => {
-      this.createFileFromTemplateService
-        .openTemplatesDialog()
-        .pipe(
-          debounceTime(300),
-          flatMap(([node]) =>
-            this.createFileFromTemplateService
-              .createTemplateDialog(node)
-              .afterClosed()
-          )
-        )
-        .subscribe((node: NodeEntry | null) => {
-          if (node) {
-            this.content.reload.next(node);
-          }
-        });
+      this.openDialog({
+        relativePath: 'Data Dictionary/Node Templates',
+        selectionType: 'file'
+      });
     })
   );
 
   @Effect({ dispatch: false })
-  createFileFromTemplate$ = this.actions$.pipe(
-    ofType<CreateFileFromTemplate>(TemplateActionTypes.CreateFileFromTemplate),
+  folderFromTemplate$ = this.actions$.pipe(
+    ofType<FolderFromTemplate>(TemplateActionTypes.FolderFromTemplate),
+    map(() =>
+      this.openDialog({
+        relativePath: 'Data Dictionary/Space Templates',
+        selectionType: 'folder'
+      })
+    )
+  );
+
+  @Effect({ dispatch: false })
+  createFromTemplate$ = this.actions$.pipe(
+    ofType<CreateFromTemplate>(TemplateActionTypes.CreateFromTemplate),
     map(action => {
       this.store
         .select(getCurrentFolder)
@@ -95,11 +94,31 @@ export class TemplateEffects {
         )
         .subscribe((node: NodeEntry | null) => {
           if (node) {
-            this.createFromTemplateDialogService.success$.next(node.entry);
+            this.store.dispatch(new CreateFromTemplateSuccess(node.entry));
           }
         });
     })
   );
+
+  @Effect({ dispatch: false })
+  createFromTemplateSuccess$ = this.actions$.pipe(
+    ofType<CreateFromTemplateSuccess>(
+      TemplateActionTypes.CreateFromTemplateSuccess
+    ),
+    map(payload => {
+      this.matDialog.closeAll();
+      this.content.reload.next(payload.node);
+    })
+  );
+
+  private openDialog(config: TemplateDialogConfig) {
+    this.nodeTemplateService
+      .selectTemplateDialog(config)
+      .pipe(debounceTime(300))
+      .subscribe(([node]) =>
+        this.nodeTemplateService.createTemplateDialog(node)
+      );
+  }
 
   private copyNode(source: Node, parentId: string): Observable<NodeEntry> {
     return from(
