@@ -161,6 +161,8 @@ export class NodeTemplateService {
 
   private rowFilter(row: ShareDataRow): boolean {
     const node: MinimalNodeEntryEntity = row.node.entry;
-    return node.nodeType !== 'app:filelink';
+    return (
+      node.nodeType !== 'app:filelink' && node.nodeType !== 'app:folderlink'
+    );
   }
 }
