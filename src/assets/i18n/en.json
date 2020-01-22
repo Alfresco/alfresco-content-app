@@ -377,10 +377,10 @@
             "ERRORS": {
                 "DESCRIPTION_TOO_LONG": "Use 512 characters or less for description",
                 "TITLE_TOO_LONG": "Use 256 characters or less for title",
-                "REQUIRED": "File name is required",
-                "SPECIAL_CHARACTERS": "File name can't contain these characters * \" < > \\ / ? : |",
-                "ENDING_DOT": "File name can't end with a period .",
-                "ONLY_SPACES": "File name can't contain only spaces"
+                "REQUIRED": "Name is required",
+                "SPECIAL_CHARACTERS": "Name can't contain these characters * \" < > \\ / ? : |",
+                "ENDING_DOT": "Name can't end with a period .",
+                "ONLY_SPACES": "Name can't contain only spaces"
             }
         }
     },
