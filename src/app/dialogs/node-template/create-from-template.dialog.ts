@@ -64,9 +64,12 @@ export class CreateFromTemplateDialogComponent implements OnInit {
           this.forbidSpecialCharacters
         ]
       ],
-      title: [this.data.properties['cm:title'], Validators.maxLength(256)],
+      title: [
+        this.data.properties ? this.data.properties['cm:title'] : '',
+        Validators.maxLength(256)
+      ],
       description: [
-        this.data.properties['cm:description'],
+        this.data.properties ? this.data.properties['cm:description'] : '',
         Validators.maxLength(512)
       ]
     });
