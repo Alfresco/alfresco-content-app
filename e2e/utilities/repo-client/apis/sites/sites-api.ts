@@ -120,7 +120,7 @@ export class SitesApi extends RepoApi {
     return this.createSite(title, SITE_VISIBILITY.MODERATED, description, siteId);
   }
 
-  async createSites(titles: string[], visibility?: string) {
+  async createSites(titles: string[], visibility?: string): Promise<any> {
     try {
       return titles.reduce(async (previous: any, current: any) => {
         await previous;
@@ -129,6 +129,10 @@ export class SitesApi extends RepoApi {
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.createSites.name}`, error);
     }
+  }
+
+  async createSitesPrivate(siteNames: string[]): Promise<any> {
+    return this.createSites(siteNames, SITE_VISIBILITY.PRIVATE)
   }
 
   async deleteSite(siteId: string, permanent: boolean = true) {

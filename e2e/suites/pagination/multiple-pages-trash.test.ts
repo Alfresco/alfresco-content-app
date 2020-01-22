@@ -25,54 +25,45 @@
 
 import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
+import { AdminActions } from '../../utilities/admin-actions';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 
-describe('Pagination on multiple pages on Favorites', () => {
-  const username = `user-${Utils.random()}`;
+describe('Pagination on multiple pages on Trash', () => {
+  const random = Utils.random();
 
-  const apis = {
-    admin: new RepoClient(),
-    user: new RepoClient(username, username)
-  };
-
-  const parent = `parent-${Utils.random()}`; let parentId;
-
-  const files = Array(101)
+  const username = `user-${random}`;
+  const filesForDelete = Array(101)
     .fill('file')
-    .map((name, index): string => `${name}-${index + 1}-${Utils.random()}.txt`);
-  let filesIds;
+    .map((name, index): string => `${name}-${index + 1}-${random}.txt`);
+  let filesDeletedIds: string[];
+
+  const userApi = new RepoClient(username, username);
+  const adminApiActions = new AdminActions();
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable, pagination } = page;
 
-  beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
-    parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
-    filesIds = (await apis.user.nodes.createFiles(files, parent)).list.entries.map(entries => entries.entry.id);
-    await apis.user.favorites.addFavoritesByIds('file', filesIds);
-    await apis.user.favorites.waitForApi({ expect: 101 });
+  beforeAll(async () => {
+    await adminApiActions.createUser({ username });
+    filesDeletedIds = (await userApi.nodes.createFiles(filesForDelete)).list.entries.map(entries => entries.entry.id);
+
+    await userApi.nodes.deleteNodesById(filesDeletedIds, false);
+    await userApi.trashcan.waitForApi({expect: 101});
+
     await loginPage.loginWith(username);
-    done();
+    await page.clickTrashAndWait();
   });
 
-  beforeEach(async (done) => {
-    await page.clickFavoritesAndWait();
-    done();
-  });
-
-  afterEach(async (done) => {
+  afterEach(async () => {
     await Utils.pressEscape();
-    done();
   });
 
-  afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(parentId);
-    await apis.user.favorites.waitForApi({ expect: 0 });
-    done();
+  afterAll(async () => {
+    await userApi.trashcan.emptyTrash();
   });
 
-  it('Pagination control default values - [C280113]', async () => {
+  it('Pagination control default values - [C280122]', async () => {
     expect(await pagination.getRange()).toContain('1-25 of 101');
     expect(await pagination.getMaxItems()).toContain('25');
     expect(await pagination.getCurrentPage()).toContain('Page 1');
@@ -81,7 +72,7 @@ describe('Pagination on multiple pages on Favorites', () => {
     expect(await pagination.isNextEnabled()).toBe(true, 'Next button is not enabled');
   });
 
-  it('Items per page values - [C280114]', async () => {
+  it('Items per page values - [C280123]', async () => {
     await pagination.openMaxItemsMenu();
     expect(await pagination.menu.getNthItem(1).getText()).toBe('25');
     expect(await pagination.menu.getNthItem(2).getText()).toBe('50');
@@ -89,8 +80,8 @@ describe('Pagination on multiple pages on Favorites', () => {
     await pagination.menu.closeMenu();
   });
 
-  it('current page menu items - [C280115]', async () => {
-    await pagination.openMaxItemsMenu()
+  it('current page menu items - [C280124]', async () => {
+    await pagination.openMaxItemsMenu();
     await pagination.menu.clickMenuItem('25');
     expect(await pagination.getMaxItems()).toContain('25');
     expect(await pagination.getTotalPages()).toContain('of 5');
@@ -117,9 +108,10 @@ describe('Pagination on multiple pages on Favorites', () => {
     await pagination.resetToDefaultPageSize();
   });
 
-  it('change the current page from menu - [C280116]', async () => {
+  it('change the current page from menu - [C280125]', async () => {
     await pagination.openCurrentPageMenu();
     await pagination.menu.clickNthItem(3);
+    await dataTable.waitForHeader();
     expect(await pagination.getRange()).toContain('51-75 of 101');
     expect(await pagination.getCurrentPage()).toContain('Page 3');
     expect(await pagination.isPreviousEnabled()).toBe(true, 'Previous button is not enabled');
@@ -129,7 +121,7 @@ describe('Pagination on multiple pages on Favorites', () => {
     await pagination.resetToDefaultPageNumber();
   });
 
-  it('navigate to next and previous pages - [C280119]', async () => {
+  it('navigate to next and previous pages - [C280128]', async () => {
     await pagination.clickNext();
     await dataTable.waitForHeader();
     expect(await pagination.getRange()).toContain('26-50 of 101');
@@ -147,12 +139,12 @@ describe('Pagination on multiple pages on Favorites', () => {
     await pagination.resetToDefaultPageNumber();
   });
 
-  it('Previous button is disabled on first page - [C280117]', async () => {
+  it('Previous button is disabled on first page - [C280126]', async () => {
     expect(await pagination.getCurrentPage()).toContain('Page 1');
     expect(await pagination.isPreviousEnabled()).toBe(false, 'Previous button is enabled on first page');
   });
 
-  it('Next button is disabled on last page - [C280118]', async () => {
+  it('Next button is disabled on last page - [C280127]', async () => {
     await pagination.openCurrentPageMenu();
     await pagination.menu.clickNthItem(5);
     expect(await dataTable.getRowsCount()).toBe(1, 'Incorrect number of items on the last page');
