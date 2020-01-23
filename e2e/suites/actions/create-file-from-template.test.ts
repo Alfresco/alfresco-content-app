@@ -252,7 +252,7 @@ describe('Create file from template', () => {
         expect(await createFromTemplateDialog.getName()).toEqual(template1InRootFolder);
         await createFromTemplateDialog.deleteNameWithBackspace();
 
-        expect(await createFromTemplateDialog.getValidationMessage()).toEqual('File name is required');
+        expect(await createFromTemplateDialog.getValidationMessage()).toEqual('Name is required');
         expect(await createFromTemplateDialog.isCreateButtonEnabled()).toBe(false, 'Create button is not disabled');
       });
 
