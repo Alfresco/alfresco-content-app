@@ -77,6 +77,7 @@ describe('New menu', () => {
     expect(await menu.isCreateLibraryEnabled()).toBe(true, 'Create Library option not enabled');
 
     expect(await menu.isCreateFileFromTemplateEnabled()).toBe(true, 'Create file from template is not enabled');
+    expect(await menu.isCreateFolderFromTemplateEnabled()).toBe(true, 'Create folder from template is not enabled');
   });
 
   it('Actions in File Libraries - user with enough permissions - [C280393]', async () => {
@@ -91,6 +92,7 @@ describe('New menu', () => {
     expect(await menu.isCreateLibraryEnabled()).toBe(true, 'Create Library option not enabled');
 
     expect(await menu.isCreateFileFromTemplateEnabled()).toBe(true, 'Create file from template is not enabled');
+    expect(await menu.isCreateFolderFromTemplateEnabled()).toBe(true, 'Create folder from template is not enabled');
   });
 
   it('Actions in File Libraries - user without enough permissions - [C280397]', async () => {
@@ -105,6 +107,7 @@ describe('New menu', () => {
     expect(await menu.isCreateLibraryEnabled()).toBe(true, 'Create Library option not enabled');
 
     expect(await menu.isCreateFileFromTemplateEnabled()).toBe(false, 'Create file from template is not disabled');
+    expect(await menu.isCreateFolderFromTemplateEnabled()).toBe(false, 'Create folder from template is not disabled');
   });
 
   it('Enabled actions tooltips - [C216342]', async () => {

@@ -33,7 +33,15 @@ export class Menu extends Component {
     root: '.mat-menu-panel',
     item: '.mat-menu-item',
     icon: '.mat-icon',
-    uploadFiles: 'app-upload-files',
+
+    uploadFilesInput: 'app-upload-files',
+
+    uploadFile: 'app.create.uploadFile',
+    uploadFolder: 'app.create.uploadFolder',
+    createFolder: 'app.create.folder',
+    createLibrary: 'app.create.library',
+    createFileFromTemplate: 'app.create.fileFromTemplate',
+    createFolderFromTemplate: 'app.create.folderFromTemplate',
 
     submenu: 'app-context-menu-item .mat-menu-item',
 
@@ -46,14 +54,20 @@ export class Menu extends Component {
 
   items: ElementArrayFinder = this.component.all(by.css(Menu.selectors.item));
   backdrop: ElementFinder = browser.element(by.css('.cdk-overlay-backdrop'));
-  uploadFiles: ElementFinder = browser.element(by.id(Menu.selectors.uploadFiles));
+
+  uploadFilesInput: ElementFinder = browser.element(by.id(Menu.selectors.uploadFilesInput));
   submenus: ElementArrayFinder = browser.element.all(by.css(Menu.selectors.submenu));
+
+  uploadFileAction: ElementFinder = this.component.element(by.id(Menu.selectors.uploadFile));
+  uploadFolderAction: ElementFinder = this.component.element(by.id(Menu.selectors.uploadFolder));
+  createFolderAction: ElementFinder = this.component.element(by.id(Menu.selectors.createFolder));
+  createLibraryAction: ElementFinder = this.component.element(by.id(Menu.selectors.createLibrary));
+  createFileFromTemplateAction: ElementFinder = this.component.element(by.id(Menu.selectors.createFileFromTemplate));
+  createFolderFromTemplateAction: ElementFinder = this.component.element(by.id(Menu.selectors.createFolderFromTemplate));
 
   cancelEditingAction: ElementFinder = this.component.element(by.css(Menu.selectors.cancelEditing));
   cancelJoinAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Cancel Join'));
   copyAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Copy'));
-  createFolderAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Create Folder'));
-  createLibraryAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Create Library'));
   deleteAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Delete'));
   downloadAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Download'));
   editFolderAction: ElementFinder = this.component.element(by.css(Menu.selectors.editFolder));
@@ -72,9 +86,6 @@ export class Menu extends Component {
   restoreAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Restore'));
   shareAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Share'));
   shareEditAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Shared Link Settings'));
-  uploadFileAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Upload File'));
-  uploadFolderAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Upload Folder'));
-  createFileFromTemplateAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Create file from template'));
   viewAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'View'));
   viewDetailsAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'View Details'));
 
@@ -235,7 +246,7 @@ export class Menu extends Component {
   }
 
   uploadFile(): ElementFinder {
-    return this.uploadFiles;
+    return this.uploadFilesInput;
   }
 
   async clickEditFolder(): Promise<void> {
@@ -364,6 +375,10 @@ export class Menu extends Component {
     return (await this.createFileFromTemplateAction.isPresent()) && (await this.createFileFromTemplateAction.isEnabled());
   }
 
+  async isCreateFolderFromTemplateEnabled(): Promise<boolean> {
+    return (await this.createFolderFromTemplateAction.isPresent()) && (await this.createFolderFromTemplateAction.isEnabled());
+  }
+
   async clickCreateFolder(): Promise<void> {
     const action = this.createFolderAction;
     await action.click();
@@ -374,18 +389,13 @@ export class Menu extends Component {
     await action.click();
   }
 
-  async clickUploadFile(): Promise<void> {
-    const action = this.uploadFileAction;
-    await action.click();
-  }
-
-  async clickUploadFolder(): Promise<void> {
-    const action = this.uploadFolderAction;
-    await action.click();
-  }
-
   async clickCreateFileFromTemplate(): Promise<void> {
     const action = this.createFileFromTemplateAction;
+    await action.click();
+  }
+
+  async clickCreateFolderFromTemplate(): Promise<void> {
+    const action = this.createFolderFromTemplateAction;
     await action.click();
   }
 }
