@@ -262,7 +262,7 @@ describe('Create file from template', () => {
         for (const name of namesWithSpecialChars) {
           await createFromTemplateDialog.enterName(name);
           expect(await createFromTemplateDialog.isCreateButtonEnabled()).toBe(false, 'Create button is not disabled');
-          expect(await createFromTemplateDialog.getValidationMessage()).toContain(`File name can't contain these characters`);
+          expect(await createFromTemplateDialog.getValidationMessage()).toContain(`Name can't contain these characters`);
         }
       });
 
@@ -270,14 +270,14 @@ describe('Create file from template', () => {
         await createFromTemplateDialog.enterName('file-name.');
 
         expect(await createFromTemplateDialog.isCreateButtonEnabled()).toBe(false, 'Create button is not disabled');
-        expect(await createFromTemplateDialog.getValidationMessage()).toMatch(`File name can't end with a period .`);
+        expect(await createFromTemplateDialog.getValidationMessage()).toMatch(`Name can't end with a period .`);
       });
 
       it('File name containing only spaces - [C325034]', async () => {
         await createFromTemplateDialog.enterName('    ');
 
         expect(await createFromTemplateDialog.isCreateButtonEnabled()).toBe(false, 'Create button is not disabled');
-        expect(await createFromTemplateDialog.getValidationMessage()).toMatch(`File name can't contain only spaces`);
+        expect(await createFromTemplateDialog.getValidationMessage()).toMatch(`Name can't contain only spaces`);
       });
 
       it('Title too long - [C290146]', async () => {
