@@ -339,8 +339,8 @@ export class NodesApi extends RepoApi {
 
     try {
       await this.apiAuth();
-      const link = await this.nodesApi.createNode(originalNodeId, nodeBody);
-      await this.addAspects(destinationId, ['app:linked']);
+      const link = await this.nodesApi.createNode(destinationId, nodeBody);
+      await this.addAspects(originalNodeId, ['app:linked']);
       return link;
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.createFileLink.name}`, error);
