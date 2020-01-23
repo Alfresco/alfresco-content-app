@@ -55,6 +55,7 @@ export class Sidenav extends Component {
 
   links: ElementArrayFinder = this.component.all(by.css(Sidenav.selectors.link));
   activeLink: ElementFinder = this.component.element(by.css(Sidenav.selectors.activeClass));
+
   newButton: ElementArrayFinder = this.component.all(by.css(Sidenav.selectors.newButton));
 
   personalFiles: ElementFinder = this.component.element(by.css(Sidenav.selectors.personalFiles));
@@ -90,25 +91,28 @@ export class Sidenav extends Component {
   }
 
   async openNewMenu(): Promise<void> {
-    const { menu, newButton } = this;
-
-    await newButton.click();
-    await menu.waitForMenuToOpen();
+    await this.newButton.click();
+    await this.menu.waitForMenuToOpen();
   }
 
   async openCreateFolderDialog(): Promise<void> {
     await this.openNewMenu();
-    await this.menu.clickMenuItem('Create Folder');
+    await this.menu.clickCreateFolder();
   }
 
   async openCreateLibraryDialog(): Promise<void> {
     await this.openNewMenu();
-    await this.menu.clickMenuItem('Create Library');
+    await this.menu.clickCreateLibrary();
   }
 
   async openCreateFileFromTemplateDialog(): Promise<void> {
     await this.openNewMenu();
-    await this.menu.clickMenuItem('Create file from template');
+    await this.menu.clickCreateFileFromTemplate();
+  }
+
+  async openCreateFolderFromTemplateDialog(): Promise<void> {
+    await this.openNewMenu();
+    await this.menu.clickCreateFolderFromTemplate();
   }
 
   async isActive(name: string): Promise<boolean> {

@@ -179,11 +179,9 @@ export class NodesApi extends RepoApi {
 
   async deleteNodesById(ids: string[], permanent: boolean = true): Promise<void> {
     try {
-      await ids.reduce(async (previous, current) => {
-        await previous;
-        const req = await this.deleteNodeById(current, permanent);
-        return req;
-      }, Promise.resolve());
+      for (const id of ids) {
+        await this.deleteNodeById(id, permanent);
+      }
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.deleteNodesById.name}`, error);
     }
@@ -202,10 +200,17 @@ export class NodesApi extends RepoApi {
     }
   }
 
-  async deleteNodeChildren(parentId: string): Promise<void> {
+  async deleteNodeChildren(parentId: string, exceptNodesNamed?: string[]): Promise<void> {
     try {
       const listEntries = (await this.getNodeChildren(parentId)).list.entries;
-      const nodeIds = listEntries.map(entries => entries.entry.id);
+      let nodeIds: string[];
+      if (exceptNodesNamed) {
+        nodeIds = listEntries
+          .filter(entries => !exceptNodesNamed.includes(entries.entry.name))
+          .map(entries => entries.entry.id);
+      } else {
+        nodeIds = listEntries.map(entries => entries.entry.id);
+      }
       await this.deleteNodesById(nodeIds);
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.deleteNodeChildren.name}`, error);
@@ -225,26 +230,7 @@ export class NodesApi extends RepoApi {
     }
   }
 
-  async createNodeLink(originalNodeId: string, destinationId: string): Promise<NodeEntry|null> {
-    const name = (await this.getNodeById(originalNodeId)).entry.name;
-    const nodeBody = {
-      name: `Link to ${name}.url`,
-      nodeType: 'app:filelink',
-      properties: {
-        'cm:destination': originalNodeId
-      }
-    }
-
-    try {
-      await this.apiAuth();
-      return await this.nodesApi.createNode(destinationId, nodeBody);
-    } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.createNode.name}`, error);
-      return null;
-    }
-  }
-
-  async createNode(nodeType: string, name: string, parentId: string = '-my-', title: string = '', description: string = '', imageProps: any = null, author: string = '', majorVersion: boolean = true): Promise<NodeEntry|null> {
+  async createNode(nodeType: string, name: string, parentId: string = '-my-', title: string = '', description: string = '', imageProps: any = null, author: string = '', majorVersion: boolean = true, aspectNames: string[] = null): Promise<NodeEntry|null> {
     const nodeBody = {
         name,
         nodeType,
@@ -253,7 +239,7 @@ export class NodesApi extends RepoApi {
             'cm:description': description,
             'cm:author': author
         },
-        aspectNames: ['cm:versionable'] // workaround for REPO-4772
+        aspectNames
     };
     if (imageProps) {
       nodeBody.properties = Object.assign(nodeBody.properties, imageProps);
@@ -268,9 +254,12 @@ export class NodesApi extends RepoApi {
     }
   }
 
-  async createFile(name: string, parentId: string = '-my-', title: string = '', description: string = '', author: string = '', majorVersion: boolean = true): Promise<NodeEntry> {
+  async createFile(name: string, parentId: string = '-my-', title: string = '', description: string = '', author: string = '', majorVersion: boolean = true, aspectNames: string[] = null): Promise<NodeEntry> {
+    if (!aspectNames) {
+      aspectNames = ['cm:versionable'] // workaround for REPO-4772
+    }
     try {
-      return await this.createNode('cm:content', name, parentId, title, description, null, author, majorVersion);
+      return await this.createNode('cm:content', name, parentId, title, description, null, author, majorVersion, aspectNames);
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.createFile.name}`, error);
       return null;
@@ -286,9 +275,9 @@ export class NodesApi extends RepoApi {
     }
   }
 
-  async createFolder(name: string, parentId: string = '-my-', title: string = '', description: string = '', author: string = ''): Promise<NodeEntry|null> {
+  async createFolder(name: string, parentId: string = '-my-', title: string = '', description: string = '', author: string = '', aspectNames: string[] = null): Promise<NodeEntry|null> {
     try {
-      return await this.createNode('cm:folder', name, parentId, title, description, null, author);
+      return await this.createNode('cm:folder', name, parentId, title, description, null, author, null, aspectNames);
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.createFolder.name}`, error);
       return null;
@@ -325,6 +314,61 @@ export class NodesApi extends RepoApi {
       return await this.createContent({ files: names }, relativePath);
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.createFiles.name}`, error);
+    }
+  }
+
+  async addAspects(nodeId: string, aspectNames: string[]): Promise<NodeEntry> {
+    try {
+      await this.apiAuth();
+      return this.nodesApi.updateNode(nodeId, { aspectNames });
+    } catch (error) {
+      this.handleError(`${this.constructor.name} ${this.addAspects.name}`, error);
+      return null;
+    }
+  }
+
+  async createFileLink(originalNodeId: string, destinationId: string): Promise<NodeEntry|null> {
+    const name = (await this.getNodeById(originalNodeId)).entry.name;
+    const nodeBody = {
+      name: `Link to ${name}.url`,
+      nodeType: 'app:filelink',
+      properties: {
+        'cm:destination': originalNodeId
+      }
+    }
+
+    try {
+      await this.apiAuth();
+      const link = await this.nodesApi.createNode(originalNodeId, nodeBody);
+      await this.addAspects(destinationId, ['app:linked']);
+      return link;
+    } catch (error) {
+      this.handleError(`${this.constructor.name} ${this.createFileLink.name}`, error);
+      return null;
+    }
+  }
+
+  async createFolderLink(originalNodeId: string, destinationId: string): Promise<NodeEntry|null> {
+    const name = (await this.getNodeById(originalNodeId)).entry.name;
+    const nodeBody = {
+      name: `Link to ${name}.url`,
+      nodeType: 'app:folderlink',
+      properties: {
+        'cm:title': `Link to ${name}.url`,
+        'cm:destination': originalNodeId,
+        'cm:description': `Link to ${name}.url`,
+        'app:icon': 'space-icon-link'
+      }
+    }
+
+    try {
+      await this.apiAuth();
+      const link = await this.nodesApi.createNode(destinationId, nodeBody);
+      await this.addAspects(originalNodeId, ['app:linked']);
+      return link;
+    } catch (error) {
+      this.handleError(`${this.constructor.name} ${this.createFolderLink.name}`, error);
+      return null;
     }
   }
 
@@ -405,7 +449,7 @@ export class NodesApi extends RepoApi {
 
     try {
       await this.apiAuth();
-      return await this.nodesApi.lockNode(nodeId, data );
+      return await this.nodesApi.lockNode(nodeId, data);
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.lockFile.name}`, error);
       return null;

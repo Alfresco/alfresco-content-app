@@ -150,7 +150,7 @@ describe('NodeTemplateService', () => {
     ).toBe(true);
   });
 
-  it('should return false if row is a `link` nodeType', () => {
+  it('should return false if row is a `filelink` nodeType', () => {
     spyOn(
       alfrescoApiService.getInstance().nodes,
       'getNodeInfo'
@@ -170,6 +170,30 @@ describe('NodeTemplateService', () => {
     expect(
       dialog.open['calls'].argsFor(0)[1].data.rowFilter({
         node: { entry: { nodeType: 'app:filelink' } }
+      })
+    ).toBe(false);
+  });
+
+  it('should return false if row is a `folderlink` nodeType', () => {
+    spyOn(
+      alfrescoApiService.getInstance().nodes,
+      'getNodeInfo'
+    ).and.returnValue(
+      of({
+        id: 'templates-folder-id',
+        path: {
+          elements: [],
+          name: '/Company Home/Data Dictionary'
+        }
+      })
+    );
+    spyOn(dialog, 'open');
+
+    nodeTemplateService.selectTemplateDialog(fileTemplateConfig);
+
+    expect(
+      dialog.open['calls'].argsFor(0)[1].data.rowFilter({
+        node: { entry: { nodeType: 'app:folderlink' } }
       })
     ).toBe(false);
   });

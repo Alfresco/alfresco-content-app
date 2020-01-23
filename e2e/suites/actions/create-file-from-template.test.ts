@@ -67,7 +67,7 @@ describe('Create file from template', () => {
     title: `file site title`,
     description: `file site description`
   };
-  const duplicateFileSite = `duplicate-file-site-${random}`;
+  const duplicateFileSite = `duplicate-file-site-${random}.txt`;
   let docLibUserSite: string;
 
   const userApi = new RepoClient(username, username);
@@ -80,7 +80,7 @@ describe('Create file from template', () => {
   const createFromTemplateDialog = new CreateFromTemplateDialog();
   const { sidenav } = page;
 
-  beforeAll( async (done) => {
+  beforeAll(async () => {
     await adminApiActions.createUser({ username });
 
     parentId = (await userApi.nodes.createFolder(parent)).entry.id;
@@ -88,17 +88,15 @@ describe('Create file from template', () => {
 
     await userApi.sites.createSite(siteName);
     docLibUserSite = await userApi.sites.getDocLibId(siteName);
-    await userApi.nodes.createFolder(duplicateFileSite, docLibUserSite);
+    await userApi.nodes.createFile(duplicateFileSite, docLibUserSite);
 
     await loginPage.loginWith(username);
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await userApi.nodes.deleteNodeById(parentId);
     await userApi.sites.deleteSite(siteName);
-    await adminApiActions.cleanNodeTemplatesFolder();
-    done();
+    await adminApiActions.cleanupNodeTemplatesFolder();
   });
 
   beforeEach(async () => {
@@ -142,18 +140,16 @@ describe('Create file from template', () => {
     };
     let link: string;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await adminApiActions.createNodeTemplatesHierarchy(templates);
-      await adminApiActions.removeUserAccessOnNode(restrictedTemplateFolder);
+      await adminApiActions.removeUserAccessOnNodeTemplate(restrictedTemplateFolder);
       link = (await adminApiActions.createLinkToFileName(template2InRootFolder, await adminApiActions.getNodeTemplatesFolderId())).entry.name;
-      done();
     });
 
     describe('Select Template dialog', () => {
-      beforeEach(async (done) => {
+      beforeEach(async () => {
         await sidenav.openCreateFileFromTemplateDialog();
         await selectTemplateDialog.waitForDialogToOpen();
-        done();
       });
 
       it('Select template - dialog UI - with existing templates - [C325043]', async () => {
@@ -230,13 +226,12 @@ describe('Create file from template', () => {
     });
 
     describe('Create from template dialog', () => {
-      beforeEach(async (done) => {
+      beforeEach(async () => {
         await sidenav.openCreateFileFromTemplateDialog();
         await selectTemplateDialog.waitForDialogToOpen();
         await selectTemplateDialog.dataTable.selectItem(template1InRootFolder);
         await selectTemplateDialog.clickNext();
         await createFromTemplateDialog.waitForDialogToOpen();
-        done();
       });
 
       it('Create file from template - dialog UI - [C325020]', async () => {
@@ -298,7 +293,7 @@ describe('Create file from template', () => {
     });
 
     describe('On Personal Files', () => {
-      beforeEach(async (done) => {
+      beforeEach(async () => {
         await page.clickPersonalFilesAndWait();
         await page.dataTable.doubleClickOnRowByName(parent);
         await sidenav.openCreateFileFromTemplateDialog();
@@ -306,7 +301,6 @@ describe('Create file from template', () => {
         await selectTemplateDialog.dataTable.selectItem(template1InRootFolder);
         await selectTemplateDialog.clickNext();
         await createFromTemplateDialog.waitForDialogToOpen();
-        done();
       });
 
       it('Create a file from a template - with a new Name - [C325030]', async () => {
@@ -318,7 +312,7 @@ describe('Create file from template', () => {
         expect(await page.dataTable.isItemPresent(file1.name)).toBe(true, 'File not displayed in list view');
       });
 
-      it('Create a file from a template - with a Name, Title and Description - [C325026]', async (done) => {
+      it('Create a file from a template - with a Name, Title and Description - [C325026]', async () => {
         await createFromTemplateDialog.enterName(file2.name);
         await createFromTemplateDialog.enterTitle(file2.title);
         await createFromTemplateDialog.enterDescription(file2.description);
@@ -331,7 +325,6 @@ describe('Create file from template', () => {
         expect(desc).toEqual(file2.description);
         const title = await userApi.nodes.getNodeTitle(file2.name, parentId);
         expect(title).toEqual(file2.title);
-        done();
       });
 
       it('Create a file with a duplicate name - [C325028]', async () => {
@@ -356,14 +349,14 @@ describe('Create file from template', () => {
         await createFromTemplateDialog.waitForDialogToClose();
         await page.dataTable.waitForHeader();
 
-        expect(await page.dataTable.isItemPresent(nameWithSpaces.trim())).toBe(true, 'Folder not displayed in list view');
+        expect(await page.dataTable.isItemPresent(nameWithSpaces.trim())).toBe(true, 'File not displayed in list view');
       });
     });
 
     describe('On File Libraries', () => {
       const fileLibrariesPage = new BrowsingPage();
 
-      beforeEach(async (done) => {
+      beforeEach(async () => {
         await fileLibrariesPage.goToMyLibrariesAndWait();
         await page.dataTable.doubleClickOnRowByName(siteName);
         await sidenav.openCreateFileFromTemplateDialog();
@@ -371,10 +364,9 @@ describe('Create file from template', () => {
         await selectTemplateDialog.dataTable.selectItem(template1InRootFolder);
         await selectTemplateDialog.clickNext();
         await createFromTemplateDialog.waitForDialogToOpen();
-        done();
       });
 
-      it('Create a file from a template - with Name, Title and Description - [C325023]', async (done) => {
+      it('Create a file from a template - with Name, Title and Description - [C325023]', async () => {
         await createFromTemplateDialog.enterName(fileSite.name);
         await createFromTemplateDialog.enterTitle(fileSite.title);
         await createFromTemplateDialog.enterDescription(fileSite.description);
@@ -387,7 +379,6 @@ describe('Create file from template', () => {
         expect(desc).toEqual(fileSite.description);
         const title = await userApi.nodes.getNodeTitle(fileSite.name, docLibUserSite);
         expect(title).toEqual(fileSite.title);
-        done();
       });
 
       it('Cancel file creation - [C325024]', async () => {
