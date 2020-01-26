@@ -50,7 +50,7 @@ export class DataTable extends Component {
 
     selectedIcon: '.mat-icon[class*="selected"]',
     lockIcon: 'img[src*="lock"]',
-    lockOwner: '.aca-locked-by',
+    lockOwner: '.app-locked-by',
 
     emptyListContainer: 'div.adf-no-content-container',
     emptyFolderDragAndDrop: '.adf-empty-list_template .adf-empty-folder',
