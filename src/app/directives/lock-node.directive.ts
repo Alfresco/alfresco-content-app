@@ -32,7 +32,7 @@ import {
 } from '@angular/core';
 import { NodeEntry, NodeBodyLock, SharedLinkEntry } from '@alfresco/js-api';
 import { AlfrescoApiService } from '@alfresco/adf-core';
-import { isLocked } from '../utils/node.utils';
+import { isLocked } from '@alfresco/aca-shared';
 
 @Directive({
   selector: '[acaLockNode]',

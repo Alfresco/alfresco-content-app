@@ -35,7 +35,7 @@ import { NodePermissionService } from '@alfresco/aca-shared';
 import { AppStore, infoDrawerMetadataAspect } from '@alfresco/aca-shared/store';
 import { AppExtensionService } from '../../../extensions/extension.service';
 import { AppConfigService, NotificationService } from '@alfresco/adf-core';
-import { isLocked } from '../../../utils/node.utils';
+import { isLocked } from '@alfresco/aca-shared';
 import { Observable, Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { ContentMetadataService } from '@alfresco/adf-content-services';
