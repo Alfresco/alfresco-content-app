@@ -34,7 +34,7 @@ import {
 import { NodeEntry } from '@alfresco/js-api';
 
 @Component({
-  selector: 'app-locked-by',
+  selector: 'aca-locked-by',
   template: `
     <mat-icon class="locked_by--icon">lock</mat-icon>
     <span class="locked_by--name">{{ writeLockedBy() }}</span>
@@ -43,7 +43,7 @@ import { NodeEntry } from '@alfresco/js-api';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   host: {
-    class: 'app-locked-by'
+    class: 'aca-locked-by'
   }
 })
 export class LockedByComponent implements OnInit {
