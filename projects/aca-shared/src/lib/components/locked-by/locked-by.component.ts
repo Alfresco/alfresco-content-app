@@ -23,25 +23,47 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './lib/components/page-layout/page-layout-content.component';
-export * from './lib/components/page-layout/page-layout-error.component';
-export * from './lib/components/page-layout/page-layout-header.component';
-export * from './lib/components/page-layout/page-layout.component';
-export * from './lib/components/page-layout/page-layout.module';
-export * from './lib/components/locked-by/locked-by.component';
-export * from './lib/components/locked-by/locked-by.module';
+import {
+  Component,
+  Input,
+  OnInit,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
+} from '@angular/core';
 
-export * from './lib/routing/app.routes.strategy';
-export * from './lib/routing/shared.guard';
+import { NodeEntry } from '@alfresco/js-api';
 
-export * from './lib/services/app.service';
-export * from './lib/services/content-api.service';
-export * from './lib/services/node-permission.service';
+@Component({
+  selector: 'app-locked-by',
+  template: `
+    <mat-icon class="locked_by--icon">lock</mat-icon>
+    <span class="locked_by--name">{{ writeLockedBy() }}</span>
+  `,
+  styleUrls: ['./locked-by.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  host: {
+    class: 'app-locked-by'
+  }
+})
+export class LockedByComponent implements OnInit {
+  @Input()
+  context: any;
 
-export * from './lib/components/generic-error/generic-error.component';
-export * from './lib/components/generic-error/generic-error.module';
+  node: NodeEntry;
 
-export * from './lib/directives/contextmenu/contextmenu.directive';
-export * from './lib/directives/contextmenu/contextmenu.module';
+  constructor() {}
 
-export * from './lib/shared.module';
+  ngOnInit() {
+    this.node = this.context.row.node;
+  }
+
+  writeLockedBy() {
+    return (
+      this.node &&
+      this.node.entry.properties &&
+      this.node.entry.properties['cm:lockOwner'] &&
+      this.node.entry.properties['cm:lockOwner'].displayName
+    );
+  }
+}
