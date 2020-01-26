@@ -44,4 +44,6 @@ export * from './lib/components/generic-error/generic-error.module';
 export * from './lib/directives/contextmenu/contextmenu.directive';
 export * from './lib/directives/contextmenu/contextmenu.module';
 
+export * from './lib/utils/node.utils';
+
 export * from './lib/shared.module';
