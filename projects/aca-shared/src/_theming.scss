@@ -1,5 +1,0 @@
-@import './lib/components/locked-by/locked-by.component.scss';
-
-@mixin aca-shared-theme($theme) {
-  @include aca-locked-by-theme($theme);
-}
