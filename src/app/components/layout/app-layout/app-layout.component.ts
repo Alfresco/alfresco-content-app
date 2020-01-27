@@ -70,7 +70,7 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
   direction: Directionality;
 
   private minimizeConditions: string[] = ['search'];
-  private hideConditions: string[] = ['preview'];
+  private hideConditions: string[] = ['/preview/'];
 
   constructor(
     protected store: Store<AppStore>,
