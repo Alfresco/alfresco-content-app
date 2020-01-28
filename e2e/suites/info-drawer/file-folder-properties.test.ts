@@ -234,7 +234,7 @@ describe('File / Folder properties', () => {
       await page.toolbar.clickViewDetails();
       await infoDrawer.waitForInfoDrawerToOpen();
 
-      await propertiesTab.clickLessInformationButton();
+      await propertiesTab.clickMoreInformationButton();
       await propertiesTab.clickImagePropertiesPanel();
       await propertiesTab.waitForImagePropertiesPanelToExpand();
 
