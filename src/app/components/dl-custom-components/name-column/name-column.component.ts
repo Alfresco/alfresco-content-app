@@ -37,7 +37,7 @@ import { Actions, ofType } from '@ngrx/effects';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { NodeActionTypes } from '@alfresco/aca-shared/store';
-import { isLocked } from '../../../utils/node.utils';
+import { isLocked } from '@alfresco/aca-shared';
 
 @Component({
   selector: 'aca-custom-name-column',

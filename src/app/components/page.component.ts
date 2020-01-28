@@ -47,7 +47,7 @@ import {
   ViewNodeExtras,
   SetSelectedNodesAction
 } from '@alfresco/aca-shared/store';
-import { isLocked, isLibrary } from '../utils/node.utils';
+import { isLocked, isLibrary } from '@alfresco/aca-shared';
 
 export abstract class PageComponent implements OnInit, OnDestroy {
   onDestroy$: Subject<boolean> = new Subject<boolean>();
