@@ -94,7 +94,7 @@ describe('Personal Files', () => {
     });
 
     it('has the correct columns - [C217142]', async () => {
-      const expectedColumns = [ 'Thumbnail', 'Name', 'Size', 'Modified', 'Modified by' ];
+      const expectedColumns = [ 'Name', 'Size', 'Modified', 'Modified by' ];
       const actualColumns = await dataTable.getColumnHeadersText();
 
       expect(actualColumns).toEqual(expectedColumns);
