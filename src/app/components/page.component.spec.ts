@@ -23,30 +23,55 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { PageComponent } from './page.component';
 import {
   ReloadDocumentListAction,
-  SetSelectedNodesAction
+  SetSelectedNodesAction,
+  SetInfoDrawerStateAction,
+  AppState,
+  AppStore
 } from '@alfresco/aca-shared/store';
 import { MinimalNodeEntity } from '@alfresco/js-api';
+import { ContentManagementService } from '../services/content-management.service';
+import { EffectsModule } from '@ngrx/effects';
+import { ViewerEffects } from '../store/effects';
+import { Store } from '@ngrx/store';
+import { AppExtensionService } from '../extensions/extension.service';
+import { AppTestingModule } from '../testing/app-testing.module';
+import { Component } from '@angular/core';
 
-class TestClass extends PageComponent {
+@Component({
+  selector: 'aca-test',
+  template: ''
+})
+class TestComponent extends PageComponent {
   node: any;
 
-  constructor(store) {
-    super(store, null, null);
+  constructor(
+    store: Store<AppStore>,
+    extensions: AppExtensionService,
+    content: ContentManagementService
+  ) {
+    super(store, extensions, content);
   }
 }
 
 describe('PageComponent', () => {
-  let component: TestClass;
-  const store = {
-    dispatch: jasmine.createSpy('dispatch'),
-    select: jasmine.createSpy('select')
-  };
+  let component: TestComponent;
+  let store: Store<AppState>;
+  let fixture: ComponentFixture<TestComponent>;
 
   beforeEach(() => {
-    component = new TestClass(store);
+    TestBed.configureTestingModule({
+      imports: [AppTestingModule, EffectsModule.forRoot([ViewerEffects])],
+      declarations: [TestComponent],
+      providers: [ContentManagementService, AppExtensionService]
+    });
+
+    store = TestBed.get(Store);
+    fixture = TestBed.createComponent(TestComponent);
+    component = fixture.componentInstance;
   });
 
   describe('getParentNodeId()', () => {
@@ -63,6 +88,42 @@ describe('PageComponent', () => {
     });
   });
 
+  describe('Info Drawer state', () => {
+    const locationHref = location.href;
+
+    afterEach(() => {
+      window.history.pushState({}, null, locationHref);
+    });
+
+    it('should open info drawer on action event', done => {
+      window.history.pushState({}, null, `${locationHref}#test`);
+      fixture.detectChanges();
+
+      fixture.whenStable().then(() => {
+        component.infoDrawerOpened$.subscribe(state => {
+          expect(state).toBe(true);
+          done();
+        });
+      });
+
+      store.dispatch(new SetInfoDrawerStateAction(true));
+    });
+
+    it('should not open info drawer if viewer outlet is active', done => {
+      window.history.pushState({}, null, `${locationHref}#test(viewer:view)`);
+      fixture.detectChanges();
+
+      fixture.whenStable().then(() => {
+        component.infoDrawerOpened$.subscribe(state => {
+          expect(state).toBe(false);
+          done();
+        });
+      });
+
+      store.dispatch(new SetInfoDrawerStateAction(true));
+    });
+  });
+
   describe('Reload', () => {
     const locationHref = location.href;
 
@@ -72,11 +133,15 @@ describe('PageComponent', () => {
 
     it('should not reload if url contains viewer outlet', () => {
       window.history.pushState({}, null, `${locationHref}#test(viewer:view)`);
+      spyOn(store, 'dispatch');
+
       component.reload();
       expect(store.dispatch).not.toHaveBeenCalled();
     });
 
     it('should reload if url does not contain viewer outlet', () => {
+      spyOn(store, 'dispatch');
+
       component.reload();
       expect(store.dispatch).toHaveBeenCalledWith(
         new ReloadDocumentListAction()
@@ -89,6 +154,7 @@ describe('PageComponent', () => {
           id: 'node-id'
         }
       } as MinimalNodeEntity;
+      spyOn(store, 'dispatch');
 
       component.reload(node);
       expect(store.dispatch['calls'].mostRecent().args[0]).toEqual(
