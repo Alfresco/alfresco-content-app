@@ -171,7 +171,7 @@ describe('Destination picker dialog : ', () => {
     });
 
     it('Search - No results displayed - [C263889]', async () => {
-      await contentNodeSelector.searchFor('inexistent-folder');
+      await contentNodeSelector.searchFor('nonexistent-folder');
       expect(await contentNodeSelector.dataTable.isEmpty()).toBe(true, 'datatable not empty');
       expect(await contentNodeSelector.dataTable.getEmptyListText()).toEqual('No results found');
     });
