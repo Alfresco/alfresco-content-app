@@ -99,7 +99,7 @@ describe('Trash', () => {
     });
 
     it('has the correct columns - [C213217]', async () => {
-      const expectedColumns = [ 'Thumbnail', 'Name', 'Location', 'Size', 'Deleted', 'Deleted by' ];
+      const expectedColumns = [ 'Name', 'Location', 'Size', 'Deleted', 'Deleted by' ];
       const actualColumns = await dataTable.getColumnHeadersText();
 
       expect(actualColumns).toEqual(expectedColumns);
@@ -128,7 +128,7 @@ describe('Trash', () => {
     });
 
     it('has the correct columns - [C280494]', async () => {
-      const expectedColumns = [ 'Thumbnail', 'Name', 'Location', 'Size', 'Deleted'];
+      const expectedColumns = [ 'Name', 'Location', 'Size', 'Deleted'];
       const actualColumns = await dataTable.getColumnHeadersText();
 
       expect(actualColumns).toEqual(expectedColumns);
