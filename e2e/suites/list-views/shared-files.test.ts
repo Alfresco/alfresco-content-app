@@ -87,7 +87,7 @@ describe('Shared Files', () => {
   });
 
   it('has the correct columns - [C213113]', async () => {
-    const expectedColumns = [ 'Thumbnail', 'Name', 'Location', 'Size', 'Modified', 'Modified by', 'Shared by' ];
+    const expectedColumns = [ 'Name', 'Location', 'Size', 'Modified', 'Modified by', 'Shared by' ];
     const actualColumns = await dataTable.getColumnHeadersText();
 
     expect(actualColumns).toEqual(expectedColumns);

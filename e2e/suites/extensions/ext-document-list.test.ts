@@ -39,10 +39,6 @@ describe('Extensions - DocumentList presets', () => {
       label: 'Name'
     },
     {
-      id: 'app.files.thumbnail',
-      label: 'Thumbnail'
-    },
-    {
       id: 'app.files.size',
       label: 'Size',
       disabled: true
