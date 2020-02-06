@@ -72,7 +72,6 @@ export class DataTable extends Component {
   emptyFolderDragAndDrop: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyFolderDragAndDrop));
   emptyListTitle: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyListTitle));
   emptyListSubtitle: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyListSubtitle));
-  emptyListContainerText: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyListContainer));
 
   emptySearchText: ElementFinder = this.component.element(by.css(DataTable.selectors.emptySearchText));
 

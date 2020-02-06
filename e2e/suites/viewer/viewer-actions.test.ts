@@ -28,7 +28,7 @@ import { FILES } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 import { Viewer } from '../../components/viewer/viewer';
-import { CopyMoveDialog } from './../../components/dialog/copy-move-dialog';
+import { ContentNodeSelectorDialog } from './../../components/dialog/content-node-selector-dialog';
 import { ShareDialog } from './../../components/dialog/share-dialog';
 import { ManageVersionsDialog } from './../../components/dialog/manage-versions-dialog';
 import { UploadNewVersionDialog } from './../../components/dialog/upload-new-version-dialog';
@@ -51,7 +51,7 @@ describe('Viewer actions', () => {
   const dataTable = page.dataTable;
   const viewer = new Viewer();
   const { toolbar } = viewer;
-  const copyMoveDialog = new CopyMoveDialog();
+  const copyMoveDialog = new ContentNodeSelectorDialog();
   const shareDialog = new ShareDialog();
   const manageVersionsDialog = new ManageVersionsDialog();
   const uploadNewVersionDialog = new UploadNewVersionDialog();

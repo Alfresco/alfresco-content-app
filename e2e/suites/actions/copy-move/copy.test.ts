@@ -23,10 +23,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage } from '../../pages/pages';
-import { CopyMoveDialog } from './../../components/dialog/copy-move-dialog';
-import { RepoClient } from '../../utilities/repo-client/repo-client';
-import { Utils } from '../../utilities/utils';
+import { LoginPage, BrowsingPage } from '../../../pages/pages';
+import { ContentNodeSelectorDialog } from '../../../components/dialog/content-node-selector-dialog';
+import { RepoClient } from '../../../utilities/repo-client/repo-client';
+import { Utils } from '../../../utilities/utils';
 
 describe('Copy content', () => {
   const username = `user-${Utils.random()}`;
@@ -86,7 +86,7 @@ describe('Copy content', () => {
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable, toolbar } = page;
-  const copyDialog = new CopyMoveDialog();
+  const copyDialog = new ContentNodeSelectorDialog();
   const { searchInput } = page.header;
 
   beforeAll(async (done) => {
@@ -539,8 +539,8 @@ describe('Copy content', () => {
     await dataTable.selectMultipleItems(items, location);
     await toolbar.clickMoreActionsCopy();
     await copyDialog.selectLocation('File Libraries');
-    await copyDialog.doubleClickOnRow(siteName);
-    await copyDialog.doubleClickOnRow('documentLibrary');
+    await copyDialog.dataTable.doubleClickOnRowByName(siteName);
+    await copyDialog.dataTable.doubleClickOnRowByName('documentLibrary');
     await copyDialog.selectDestination(destination);
     await copyDialog.clickCopy();
     const msg = await page.getSnackBarMessage();
@@ -665,7 +665,7 @@ describe('Copy content', () => {
     await dataTable.selectItem(fileName, location);
     await toolbar.clickMoreActionsCopy();
     await copyDialog.selectLocation('Personal Files');
-    await copyDialog.doubleClickOnRow(source);
+    await copyDialog.dataTable.doubleClickOnRowByName(source);
     await copyDialog.selectDestination(destination);
     await copyDialog.clickCopy();
     const msg = await page.getSnackBarMessage();
@@ -692,7 +692,7 @@ describe('Copy content', () => {
     await dataTable.selectItem(folderName, location);
     await toolbar.clickMoreActionsCopy();
     await copyDialog.selectLocation('Personal Files');
-    await copyDialog.doubleClickOnRow(destination);
+    await copyDialog.dataTable.doubleClickOnRowByName(destination);
     await copyDialog.clickCopy();
     const msg = await page.getSnackBarMessage();
     expect(msg).toContain('Copied 1 item');
