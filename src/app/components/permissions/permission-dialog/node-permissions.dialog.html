@@ -1,4 +1,6 @@
-<header mat-dialog-title>{{'PERMISSIONS.DIALOG.TITLE' | translate}}</header>
+<header role="heading" aria-level="2" mat-dialog-title>
+  {{'PERMISSIONS.DIALOG.TITLE' | translate}}
+</header>
 <section mat-dialog-content>
   <app-permission-manager [nodeId]="nodeId"></app-permission-manager>
 </section>
