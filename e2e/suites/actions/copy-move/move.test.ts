@@ -23,10 +23,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage } from '../../pages/pages';
-import { CopyMoveDialog } from './../../components/dialog/copy-move-dialog';
-import { RepoClient } from '../../utilities/repo-client/repo-client';
-import { Utils } from '../../utilities/utils';
+import { LoginPage, BrowsingPage } from '../../../pages/pages';
+import { ContentNodeSelectorDialog } from '../../../components/dialog/content-node-selector-dialog';
+import { RepoClient } from '../../../utilities/repo-client/repo-client';
+import { Utils } from '../../../utilities/utils';
 
 describe('Move content', () => {
   const username = `user-${Utils.random()}`;
@@ -57,7 +57,7 @@ describe('Move content', () => {
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable, toolbar } = page;
-  const moveDialog = new CopyMoveDialog();
+  const moveDialog = new ContentNodeSelectorDialog();
 
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
@@ -254,8 +254,8 @@ describe('Move content', () => {
       await dataTable.selectMultipleItems([file4, folder2]);
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('File Libraries');
-      await moveDialog.doubleClickOnRow(siteName);
-      await moveDialog.doubleClickOnRow('documentLibrary');
+      await moveDialog.dataTable.doubleClickOnRowByName(siteName);
+      await moveDialog.dataTable.doubleClickOnRowByName('documentLibrary');
       await moveDialog.selectDestination(folderSitePF);
       await moveDialog.clickMove();
       const msg = await page.getSnackBarMessage();
@@ -374,8 +374,8 @@ describe('Move content', () => {
       await dataTable.selectItem(file4, sourceRF);
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('File Libraries');
-      await moveDialog.doubleClickOnRow(siteName);
-      await moveDialog.doubleClickOnRow('documentLibrary');
+      await moveDialog.dataTable.doubleClickOnRowByName(siteName);
+      await moveDialog.dataTable.doubleClickOnRowByName('documentLibrary');
       await moveDialog.selectDestination(folderSiteRF);
       await moveDialog.clickMove();
       const msg = await page.getSnackBarMessage();
@@ -496,8 +496,8 @@ describe('Move content', () => {
       await dataTable.selectItem(file4, sourceSF);
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('File Libraries');
-      await moveDialog.doubleClickOnRow(siteName);
-      await moveDialog.doubleClickOnRow('documentLibrary');
+      await moveDialog.dataTable.doubleClickOnRowByName(siteName);
+      await moveDialog.dataTable.doubleClickOnRowByName('documentLibrary');
       await moveDialog.selectDestination(folderSiteSF);
       await moveDialog.clickMove();
       const msg = await page.getSnackBarMessage();
@@ -686,8 +686,8 @@ describe('Move content', () => {
       await dataTable.selectMultipleItems([file4, folder2], sourceFav);
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('File Libraries');
-      await moveDialog.doubleClickOnRow(siteName);
-      await moveDialog.doubleClickOnRow('documentLibrary');
+      await moveDialog.dataTable.doubleClickOnRowByName(siteName);
+      await moveDialog.dataTable.doubleClickOnRowByName('documentLibrary');
       await moveDialog.selectDestination(folderSiteFav);
       await moveDialog.clickMove();
       const msg = await page.getSnackBarMessage();
