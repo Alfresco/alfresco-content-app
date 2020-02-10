@@ -69,7 +69,7 @@
     "minimatch-browser": "^1.0.0",
     "moment": "^2.24.0",
     "moment-es6": "1.0.0",
-    "pdfjs-dist": "2.0.943",
+    "pdfjs-dist": "2.3.200",
     "rxjs": "^6.5.2",
     "zone.js": "0.8.29"
   },
