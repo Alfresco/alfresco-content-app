@@ -13,4 +13,8 @@
       display: none;
     }
   }
+
+  adf-share-dialog .mat-form-field-label-wrapper label {
+    display: none !important;
+  }
 }
