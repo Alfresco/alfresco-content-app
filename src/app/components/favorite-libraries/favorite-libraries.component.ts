@@ -24,7 +24,7 @@
  */
 
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { SiteEntry, FavoritePaging, Pagination } from '@alfresco/js-api';
 import { AppExtensionService } from '../../extensions/extension.service';
@@ -54,7 +54,8 @@ export class FavoriteLibrariesComponent extends PageComponent
     extensions: AppExtensionService,
     private contentApiService: ContentApiService,
     private breakpointObserver: BreakpointObserver,
-    private preferences: UserPreferencesService
+    private preferences: UserPreferencesService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {
     super(store, extensions, content);
   }
@@ -102,6 +103,7 @@ export class FavoriteLibrariesComponent extends PageComponent
         this.list = favoriteLibraries;
         this.pagination = favoriteLibraries.list.pagination;
         this.isLoading = false;
+        this.changeDetectorRef.detectChanges();
       },
       () => {
         this.list = null;
