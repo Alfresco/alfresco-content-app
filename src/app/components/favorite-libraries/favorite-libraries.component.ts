@@ -38,7 +38,11 @@ import { UserPreferencesService } from '@alfresco/adf-core';
 })
 export class FavoriteLibrariesComponent extends PageComponent
   implements OnInit {
-  pagination: Pagination;
+  pagination: Pagination = new Pagination({
+    skipCount: 0,
+    maxItems: 25,
+    totalItems: 0
+  });
   isLoading = false;
   list: FavoritePaging;
   isSmallScreen = false;
