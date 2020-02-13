@@ -508,9 +508,6 @@ export function canToggleEditOffline(context: RuleContext): boolean {
   return [
     hasFileSelected(context),
     navigation.isNotTrashcan(context),
-    navigation.isNotFavorites(context) ||
-      navigation.isFavoritesPreview(context),
-    navigation.isNotSharedFiles(context) || navigation.isSharedPreview(context),
     canLockFile(context) || canUnlockFile(context)
   ].every(Boolean);
 }

@@ -20,6 +20,7 @@
         selectionMode="multiple"
         [navigate]="false"
         [sorting]="['modifiedAt', 'desc']"
+        [imageResolver]="imageResolver"
         (node-dblclick)="onNodeDoubleClick($event.detail?.node)"
         (name-click)="onNodeDoubleClick($event.detail?.node)"
       >
