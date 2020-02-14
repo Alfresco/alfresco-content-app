@@ -58,7 +58,13 @@ export class PasswordDialog extends Component {
   }
 
   async isDialogOpen() {
-    return browser.isElementPresent(by.css(PasswordDialog.selectors.root));
+    try {
+      const dialog = await browser.wait(until.elementLocated(by.css(PasswordDialog.selectors.root)), BROWSER_WAIT_TIMEOUT, '------- timeout waiting for dialog')
+      return dialog.isDisplayed();
+    } catch (error) {
+      return false;
+    }
+
   }
 
   async getTitle() {

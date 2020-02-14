@@ -48,16 +48,15 @@ describe('Viewer - password protected file', () => {
   const viewer = new Viewer();
   const passwordDialog = new PasswordDialog();
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     await apis.admin.people.createUser({ username });
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
     await apis.user.upload.uploadFile(protectedFile.name, parentId);
 
     await loginPage.loginWith(username);
-    done();
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     await page.header.expandSideNav();
     await page.clickPersonalFilesAndWait();
     await dataTable.doubleClickOnRowByName(parent);
@@ -65,20 +64,15 @@ describe('Viewer - password protected file', () => {
     await dataTable.doubleClickOnRowByName(protectedFile.name);
     await viewer.waitForViewerToOpen();
     await page.waitForDialog();
-    done();
   });
 
-  afterEach(async (done) => {
-    if (await passwordDialog.isDialogOpen()) {
-      await passwordDialog.clickClose();
-    }
+  afterEach(async () => {
+    await page.closeOpenDialogs();
     await Utils.pressEscape();
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await apis.user.nodes.deleteNodeById(parentId);
-    done();
   });
 
   it('Password dialog appears when opening a protected file - [C268958]', async () => {
