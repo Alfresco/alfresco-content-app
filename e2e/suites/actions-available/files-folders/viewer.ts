@@ -56,51 +56,51 @@ export function viewerTests(parentName?: string) {
         await dataTable.waitForHeader();
       });
 
-      it('File Office - []', async () => {
+      it('File Office - [C282025]', async () => {
         await testUtil.checkViewerActions(testData.fileDocx.name, testData.fileDocx.viewerToolbarPrimary, testData.fileDocx.viewerToolbarMore);
       });
 
-      it('File Office, favorite - []', async () => {
+      it('File Office, favorite - [C297583]', async () => {
         await testUtil.checkViewerActions(testData.fileDocxFav.name, testData.fileDocxFav.viewerToolbarPrimary, testData.fileDocxFav.viewerToolbarMore);
       });
 
-      it('File simple - []', async () => {
+      it('File simple - [C297587]', async () => {
         await testUtil.checkViewerActions(testData.file.name, testData.file.viewerToolbarPrimary, testData.file.viewerToolbarMore);
       });
 
-      it('File favorite - []', async () => {
+      it('File favorite - [C297588]', async () => {
         await testUtil.checkViewerActions(testData.fileFav.name, testData.fileFav.viewerToolbarPrimary, testData.fileFav.viewerToolbarMore);
       });
 
-      it('File Office, shared - []', async () => {
+      it('File Office, shared - [C297597]', async () => {
         await testUtil.checkViewerActions(testData.fileDocxShared.name, testData.fileDocxShared.viewerToolbarPrimary, testData.fileDocxShared.viewerToolbarMore);
       });
 
-      it('File Office, shared, favorite - []', async () => {
+      it('File Office, shared, favorite - [C297598]', async () => {
         await testUtil.checkViewerActions(testData.fileDocxSharedFav.name, testData.fileDocxSharedFav.viewerToolbarPrimary, testData.fileDocxSharedFav.viewerToolbarMore);
       });
 
-      it('File shared - []', async () => {
+      it('File shared - [C291831]', async () => {
         await testUtil.checkViewerActions(testData.fileShared.name, testData.fileShared.viewerToolbarPrimary, testData.fileShared.viewerToolbarMore);
       });
 
-      it('File shared, favorite - []', async () => {
+      it('File shared, favorite - [C297632]', async () => {
         await testUtil.checkViewerActions(testData.fileSharedFav.name, testData.fileSharedFav.viewerToolbarPrimary, testData.fileSharedFav.viewerToolbarMore);
       });
 
-      it('File locked - []', async () => {
+      it('File locked - [C291832]', async () => {
         await testUtil.checkViewerActions(testData.fileLocked.name, testData.fileLocked.viewerToolbarPrimary, testData.fileLocked.viewerToolbarMore);
       });
 
-      it('File favorite, locked - []', async () => {
+      it('File favorite, locked - [C297593]', async () => {
         await testUtil.checkViewerActions(testData.fileFavLocked.name, testData.fileFavLocked.viewerToolbarPrimary, testData.fileFavLocked.viewerToolbarMore);
       });
 
-      it('File shared, locked - []', async () => {
+      it('File shared, locked - [C291833]', async () => {
         await testUtil.checkViewerActions(testData.fileSharedLocked.name, testData.fileSharedLocked.viewerToolbarPrimary, testData.fileSharedLocked.viewerToolbarMore);
       });
 
-      it('File shared, favorite, locked - []', async () => {
+      it('File shared, favorite, locked - [C297592]', async () => {
         await testUtil.checkViewerActions(testData.fileSharedFavLocked.name, testData.fileSharedFavLocked.viewerToolbarPrimary, testData.fileSharedFavLocked.viewerToolbarMore);
       });
     });
@@ -111,51 +111,51 @@ export function viewerTests(parentName?: string) {
         await page.clickRecentFilesAndWait();
       });
 
-      it('File Office - []', async () => {
+      it('File Office - [C297599]', async () => {
         await testUtil.checkViewerActions(testData.fileDocx.name, testData.fileDocx.viewerToolbarPrimary, testData.fileDocx.viewerToolbarMore);
       });
 
-      it('File Office, favorite - []', async () => {
+      it('File Office, favorite - [C297600]', async () => {
         await testUtil.checkViewerActions(testData.fileDocxFav.name, testData.fileDocxFav.viewerToolbarPrimary, testData.fileDocxFav.viewerToolbarMore);
       });
 
-      it('File simple - []', async () => {
+      it('File simple - [C326692]', async () => {
         await testUtil.checkViewerActions(testData.file.name, testData.file.viewerToolbarPrimary, testData.file.viewerToolbarMore);
       });
 
-      it('File favorite - []', async () => {
+      it('File favorite - [C326693]', async () => {
         await testUtil.checkViewerActions(testData.fileFav.name, testData.fileFav.viewerToolbarPrimary, testData.fileFav.viewerToolbarMore);
       });
 
-      it('File Office, shared - []', async () => {
+      it('File Office, shared - [C326694]', async () => {
         await testUtil.checkViewerActions(testData.fileDocxShared.name, testData.fileDocxShared.viewerToolbarPrimary, testData.fileDocxShared.viewerToolbarMore);
       });
 
-      it('File Office, shared, favorite - []', async () => {
+      it('File Office, shared, favorite - [C326695]', async () => {
         await testUtil.checkViewerActions(testData.fileDocxSharedFav.name, testData.fileDocxSharedFav.viewerToolbarPrimary, testData.fileDocxSharedFav.viewerToolbarMore);
       });
 
-      it('File shared - []', async () => {
+      it('File shared - [C326696]', async () => {
         await testUtil.checkViewerActions(testData.fileShared.name, testData.fileShared.viewerToolbarPrimary, testData.fileShared.viewerToolbarMore);
       });
 
-      it('File shared, favorite - []', async () => {
+      it('File shared, favorite - [C326697]', async () => {
         await testUtil.checkViewerActions(testData.fileSharedFav.name, testData.fileSharedFav.viewerToolbarPrimary, testData.fileSharedFav.viewerToolbarMore);
       });
 
-      it('File locked - []', async () => {
+      it('File locked - [C326698]', async () => {
         await testUtil.checkViewerActions(testData.fileLocked.name, testData.fileLocked.viewerToolbarPrimary, testData.fileLocked.viewerToolbarMore);
       });
 
-      it('File favorite, locked - []', async () => {
+      it('File favorite, locked - [C326701]', async () => {
         await testUtil.checkViewerActions(testData.fileFavLocked.name, testData.fileFavLocked.viewerToolbarPrimary, testData.fileFavLocked.viewerToolbarMore);
       });
 
-      it('File shared, locked - []', async () => {
+      it('File shared, locked - [C326699]', async () => {
         await testUtil.checkViewerActions(testData.fileSharedLocked.name, testData.fileSharedLocked.viewerToolbarPrimary, testData.fileSharedLocked.viewerToolbarMore);
       });
 
-      it('File shared, favorite, locked - []', async () => {
+      it('File shared, favorite, locked - [C326700]', async () => {
         await testUtil.checkViewerActions(testData.fileSharedFavLocked.name, testData.fileSharedFavLocked.viewerToolbarPrimary, testData.fileSharedFavLocked.viewerToolbarMore);
       });
     });
@@ -166,27 +166,27 @@ export function viewerTests(parentName?: string) {
         await page.clickFavoritesAndWait();
       });
 
-      it('File Office, favorite - []', async () => {
+      it('File Office, favorite - [C326702]', async () => {
         await testUtil.checkViewerActions(testData.fileDocxFav.name, testData.fileDocxFav.viewerToolbarPrimary, testData.fileDocxFav.viewerToolbarMore);
       });
 
-      it('File favorite - []', async () => {
+      it('File favorite - [C326703]', async () => {
         await testUtil.checkViewerActions(testData.fileFav.name, testData.fileFav.viewerToolbarPrimary, testData.fileFav.viewerToolbarMore);
       });
 
-      it('File Office, shared, favorite - []', async () => {
+      it('File Office, shared, favorite - [C326704]', async () => {
         await testUtil.checkViewerActions(testData.fileDocxSharedFav.name, testData.fileDocxSharedFav.viewerToolbarPrimary, testData.fileDocxSharedFav.viewerToolbarMore);
       });
 
-      it('File shared, favorite - []', async () => {
+      it('File shared, favorite - [C326705]', async () => {
         await testUtil.checkViewerActions(testData.fileSharedFav.name, testData.fileSharedFav.viewerToolbarPrimary, testData.fileSharedFav.viewerToolbarMore);
       });
 
-      it('File favorite, locked - []', async () => {
+      it('File favorite, locked - [C326707]', async () => {
         await testUtil.checkViewerActions(testData.fileFavLocked.name, testData.fileFavLocked.viewerToolbarPrimary, testData.fileFavLocked.viewerToolbarMore);
       });
 
-      it('File shared, favorite, locked - []', async () => {
+      it('File shared, favorite, locked - [C326706]', async () => {
         await testUtil.checkViewerActions(testData.fileSharedFavLocked.name, testData.fileSharedFavLocked.viewerToolbarPrimary, testData.fileSharedFavLocked.viewerToolbarMore);
       });
     });
@@ -197,27 +197,27 @@ export function viewerTests(parentName?: string) {
         await page.clickSharedFilesAndWait();
       });
 
-      it('File Office, shared - []', async () => {
+      it('File Office, shared - [C326708]', async () => {
         await testUtil.checkViewerActions(testData.fileDocxShared.name, testData.fileDocxShared.viewerToolbarPrimary, testData.fileDocxShared.viewerToolbarMore);
       });
 
-      it('File Office, shared, favorite - []', async () => {
+      it('File Office, shared, favorite - [C326709]', async () => {
         await testUtil.checkViewerActions(testData.fileDocxSharedFav.name, testData.fileDocxSharedFav.viewerToolbarPrimary, testData.fileDocxSharedFav.viewerToolbarMore);
       });
 
-      it('File shared - []', async () => {
+      it('File shared - [C326710]', async () => {
         await testUtil.checkViewerActions(testData.fileShared.name, testData.fileShared.viewerToolbarPrimary, testData.fileShared.viewerToolbarMore);
       });
 
-      it('File shared, favorite - []', async () => {
+      it('File shared, favorite - [C326711]', async () => {
         await testUtil.checkViewerActions(testData.fileSharedFav.name, testData.fileSharedFav.viewerToolbarPrimary, testData.fileSharedFav.viewerToolbarMore);
       });
 
-      it('File shared, locked - []', async () => {
+      it('File shared, locked - [C326712]', async () => {
         await testUtil.checkViewerActions(testData.fileSharedLocked.name, testData.fileSharedLocked.viewerToolbarPrimary, testData.fileSharedLocked.viewerToolbarMore);
       });
 
-      it('File shared, favorite, locked - []', async () => {
+      it('File shared, favorite, locked - [C326713]', async () => {
         await testUtil.checkViewerActions(testData.fileSharedFavLocked.name, testData.fileSharedFavLocked.viewerToolbarPrimary, testData.fileSharedFavLocked.viewerToolbarMore);
       });
     });
@@ -230,51 +230,51 @@ export function viewerTests(parentName?: string) {
         await searchResultsPage.waitForResults();
       });
 
-      it('File Office - []', async () => {
+      it('File Office - [C326714]', async () => {
         await testUtil.checkViewerActions(testData.fileDocx.name, testData.fileDocx.viewerToolbarPrimary, testData.fileDocx.searchViewerToolbarMore);
       });
 
-      it('File Office, favorite - []', async () => {
+      it('File Office, favorite - [C326715]', async () => {
         await testUtil.checkViewerActions(testData.fileDocxFav.name, testData.fileDocxFav.viewerToolbarPrimary, testData.fileDocxFav.searchViewerToolbarMore);
       });
 
-      it('File simple - []', async () => {
+      it('File simple - [C326716]', async () => {
         await testUtil.checkViewerActions(testData.file.name, testData.file.viewerToolbarPrimary, testData.file.searchViewerToolbarMore);
       });
 
-      it('File favorite - []', async () => {
+      it('File favorite - [C326717]', async () => {
         await testUtil.checkViewerActions(testData.fileFav.name, testData.fileFav.viewerToolbarPrimary, testData.fileFav.searchViewerToolbarMore);
       });
 
-      it('File Office, shared - []', async () => {
+      it('File Office, shared - [C326718]', async () => {
         await testUtil.checkViewerActions(testData.fileDocxShared.name, testData.fileDocxShared.viewerToolbarPrimary, testData.fileDocxShared.searchViewerToolbarMore);
       });
 
-      it('File Office, shared, favorite - []', async () => {
+      it('File Office, shared, favorite - [C326719]', async () => {
         await testUtil.checkViewerActions(testData.fileDocxSharedFav.name, testData.fileDocxSharedFav.viewerToolbarPrimary, testData.fileDocxSharedFav.searchViewerToolbarMore);
       });
 
-      it('File shared - []', async () => {
+      it('File shared - [C326720]', async () => {
         await testUtil.checkViewerActions(testData.fileShared.name, testData.fileShared.viewerToolbarPrimary, testData.fileShared.searchViewerToolbarMore);
       });
 
-      it('File shared, favorite - []', async () => {
+      it('File shared, favorite - [C326721]', async () => {
         await testUtil.checkViewerActions(testData.fileSharedFav.name, testData.fileSharedFav.viewerToolbarPrimary, testData.fileSharedFav.searchViewerToolbarMore);
       });
 
-      it('File locked - []', async () => {
+      it('File locked - [C326722]', async () => {
         await testUtil.checkViewerActions(testData.fileLocked.name, testData.fileLocked.viewerToolbarPrimary, testData.fileLocked.searchViewerToolbarMore);
       });
 
-      it('File favorite, locked - []', async () => {
+      it('File favorite, locked - [C326725]', async () => {
         await testUtil.checkViewerActions(testData.fileFavLocked.name, testData.fileFavLocked.viewerToolbarPrimary, testData.fileFavLocked.searchViewerToolbarMore);
       });
 
-      it('File shared, locked - []', async () => {
+      it('File shared, locked - [C326723]', async () => {
         await testUtil.checkViewerActions(testData.fileSharedLocked.name, testData.fileSharedLocked.viewerToolbarPrimary, testData.fileSharedLocked.searchViewerToolbarMore);
       });
 
-      it('File shared, favorite, locked - []', async () => {
+      it('File shared, favorite, locked - [C326724]', async () => {
         await testUtil.checkViewerActions(testData.fileSharedFavLocked.name, testData.fileSharedFavLocked.viewerToolbarPrimary, testData.fileSharedFavLocked.searchViewerToolbarMore);
       });
     });
