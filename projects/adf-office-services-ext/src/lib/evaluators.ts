@@ -53,19 +53,6 @@ export function canOpenWithOffice(
     return false;
   }
 
-  // workaround for Shared files
-  if (
-    context.navigation &&
-    context.navigation.url &&
-    context.navigation.url.startsWith('/shared')
-  ) {
-    if (file.entry.hasOwnProperty('allowableOperationsOnTarget')) {
-      return context.permissions.check(file, ['update'], {
-        target: 'allowableOperationsOnTarget'
-      });
-    }
-  }
-
   if (!file.entry.properties) {
     return false;
   }
@@ -105,6 +92,19 @@ export function canOpenWithOffice(
       file.entry.aspectNames.includes('rma:record'))
   ) {
     return false;
+  }
+
+  // workaround for Shared files
+  if (
+    context.navigation &&
+    context.navigation.url &&
+    context.navigation.url.startsWith('/shared')
+  ) {
+    if (file.entry.hasOwnProperty('allowableOperationsOnTarget')) {
+      return context.permissions.check(file, ['update'], {
+        target: 'allowableOperationsOnTarget'
+      });
+    }
   }
 
   return context.permissions.check(file, ['update']);
