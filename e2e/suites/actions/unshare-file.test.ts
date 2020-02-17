@@ -479,9 +479,6 @@ describe('Unshare a file', () => {
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
       expect(await apis.user.nodes.isFileShared(file2Id)).toBe(false, `${file2} is shared`);
 
-      // TODO: disable check cause api is slow to update
-      // expect(await dataTable.isItemPresent(file2)).toBe(false, `${file2} is in the Shared files list`);
-
       await browser.get(url);
       expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
       expect(await viewer.getFileTitle()).not.toEqual(file2);
@@ -518,9 +515,6 @@ describe('Unshare a file', () => {
       await shareDialog.waitForDialogToClose();
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
       expect(await apis.user.nodes.isFileShared(file4Id)).toBe(false, `${file4} is shared`);
-
-      // TODO: disable check cause api is slow to update
-      // expect(await dataTable.isItemPresent(file4)).toBe(false, `${file4} is in the Shared files list`);
 
       await browser.get(url);
       expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
@@ -631,9 +625,7 @@ describe('Unshare a file', () => {
 
     it('Unshare a file from the context menu - [C286698]', async () => {
       await dataTable.rightClickOnItem(file4);
-      // TODO: remove workaround for favorites
-      // await toolbar.clickSharedLinkSettings();
-      await contextMenu.clickShare();
+      await contextMenu.clickSharedLinkSettings();
       await shareDialog.waitForDialogToOpen();
       const url = await shareDialog.getLinkUrl();
       await shareDialog.clickShareToggle();

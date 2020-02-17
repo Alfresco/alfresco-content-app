@@ -264,6 +264,19 @@ export class DataTable extends Component {
     }
   }
 
+  async unselectItem(name: string, location: string = ''): Promise<void> {
+    const isSelected = await this.hasCheckMarkIcon(name, location);
+    if (isSelected) {
+      try {
+        const item = this.getRowFirstCell(name, location);
+        await item.click();
+
+      } catch (e) {
+        console.log('--- unselect item catch : ', e);
+      }
+    }
+  }
+
   async clickItem(name: string, location: string = ''): Promise<void> {
     const item = this.getRowFirstCell(name, location);
     await item.click();

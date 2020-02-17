@@ -19,6 +19,7 @@
         currentFolderId="-sharedlinks-"
         selectionMode="multiple"
         [sorting]="['modifiedAt', 'desc']"
+        [imageResolver]="imageResolver"
         (node-dblclick)="preview($event.detail?.node)"
         (name-click)="preview($event.detail?.node)"
       >

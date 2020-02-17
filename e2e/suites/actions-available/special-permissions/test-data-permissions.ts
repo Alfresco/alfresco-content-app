@@ -52,27 +52,38 @@ const consumerViewerToolbarMore = ['Favorite', 'Copy', 'Manage Versions'];
 // ---- FAVORITES workarounds ----
 
 // TODO: remove 'Move' and 'Delete' when ACA-1737 is done
-// TODO: remove 'Upload New Version' when ACA-2175 is done
+// TODO: investigate why 'Upload New Version' appears and raise issue
 const favoritesConsumerToolbarMore = ['Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
 // TODO: remove 'Move' and 'Delete' when ACA-1737 is done
-// TODO: remove 'Upload New Version' when ACA-2175 is done
+// TODO: investigate why 'Upload New Version' appears and raise issue
 const favoritesConsumerContextMenu = ['Share', 'Download', 'View', 'Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
 // TODO: remove 'Move' and 'Delete' when ACA-1737 is done
-// TODO: remove 'Upload New Version' when ACA-2175 is done
+// TODO: investigate why 'Upload New Version' appears and raise issue
 const favoritesConsumerSharedContextMenu = ['Shared Link Settings', 'Download', 'View', 'Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
-const favoritesConsumerSharedToolbarPrimary = ['Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
 
 
 // ---- SHARED FILES workaround ----
 
-// TODO: remove 'Upload New Version' when ACA-2173 is done
+// TODO: investigate why 'Upload New Version' appears and raise issue
 const sharedConsumerToolbarMore = ['Upload New Version', 'Favorite', 'Copy', 'Manage Versions'];
-// TODO: remove 'Upload New Version' when ACA-2173 is done
+// TODO: investigate why 'Cancel Editing' appears and raise issue
+// TODO: investigate why 'Upload New Version' appears and raise issue
+const sharedConsumerLockedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Favorite', 'Copy', 'Manage Versions'];
+// TODO: investigate why 'Upload New Version' appears and raise issue
 const sharedConsumerFavToolbarMore = ['Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions'];
-// TODO: remove 'Upload New Version' when ACA-2173 is done
+// TODO: investigate why 'Cancel Editing' appears and raise issue
+// TODO: investigate why 'Upload New Version' appears and raise issue
+const sharedConsumerFavLockedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions'];
+// TODO: investigate why 'Upload New Version' appears and raise issue
 const sharedConsumerContextMenu = ['Shared Link Settings', 'Download', 'View', 'Upload New Version', 'Favorite', 'Copy', 'Manage Versions'];
-// TODO: remove 'Upload New Version' when ACA-2173 is done
+// TODO: investigate why 'Cancel Editing' appears and raise issue
+// TODO: investigate why 'Upload New Version' appears and raise issue
+const sharedConsumerLockedContextMenu = ['Shared Link Settings', 'Download', 'View', 'Cancel Editing', 'Upload New Version', 'Favorite', 'Copy', 'Manage Versions'];
+// TODO: investigate why 'Upload New Version' appears and raise issue
 const sharedConsumerFavContextMenu = ['Shared Link Settings', 'Download', 'View', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions'];
+// TODO: investigate why 'Cancel Editing' appears and raise issue
+// TODO: investigate why 'Upload New Version' appears and raise issue
+const sharedConsumerFavLockedContextMenu = ['Shared Link Settings', 'Download', 'View', 'Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions'];
 
 
 export const fileDocx = {
@@ -161,7 +172,6 @@ export const fileDocxSharedFav = {
 
   favoritesToolbarMore: favoritesConsumerToolbarMore,
   favoritesContextMenu: favoritesConsumerSharedContextMenu,
-  favoritesToolbarPrimary: favoritesConsumerSharedToolbarPrimary,
 
   sharedToolbarMore: sharedConsumerFavToolbarMore,
   sharedContextMenu: sharedConsumerFavContextMenu,
@@ -197,7 +207,6 @@ export const fileSharedFav = {
 
   favoritesToolbarMore: favoritesConsumerToolbarMore,
   favoritesContextMenu: favoritesConsumerSharedContextMenu,
-  favoritesToolbarPrimary: favoritesConsumerSharedToolbarPrimary,
 
   sharedToolbarMore: sharedConsumerFavToolbarMore,
   sharedContextMenu: sharedConsumerFavContextMenu,
@@ -244,8 +253,8 @@ export const fileSharedLocked = {
   viewerToolbarPrimary: consumerViewerSharedToolbarPrimary,
   viewerToolbarMore: consumerViewerToolbarMore,
 
-  sharedToolbarMore: sharedConsumerToolbarMore,
-  sharedContextMenu: sharedConsumerContextMenu,
+  sharedToolbarMore: sharedConsumerLockedToolbarMore,
+  sharedContextMenu: sharedConsumerLockedContextMenu,
 
   searchToolbarPrimary: searchConsumerSharedToolbarPrimary
 };
@@ -262,10 +271,9 @@ export const fileSharedFavLocked = {
 
   favoritesToolbarMore: favoritesConsumerToolbarMore,
   favoritesContextMenu: favoritesConsumerSharedContextMenu,
-  favoritesToolbarPrimary: favoritesConsumerSharedToolbarPrimary,
 
-  sharedToolbarMore: sharedConsumerFavToolbarMore,
-  sharedContextMenu: sharedConsumerFavContextMenu,
+  sharedToolbarMore: sharedConsumerFavLockedToolbarMore,
+  sharedContextMenu: sharedConsumerFavLockedContextMenu,
 
   searchToolbarPrimary: searchConsumerSharedToolbarPrimary
 };

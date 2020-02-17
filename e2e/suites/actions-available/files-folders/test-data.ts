@@ -64,18 +64,18 @@ const viewerLockedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Favori
 
 // ---- FAVORITES workarounds ----
 
-// TODO: add Edit Offline when ACA-2174 is fixed
-// TODO: investigate why 'Edit in Microsoft Office™' and 'Permissions' are not displayed and raise issue
-const favoritesSharedToolbarPrimary = ['Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
-// TODO: add Edit Offline when ACA-2174 is fixed
-// TODO: investigate why 'Edit in Microsoft Office™' and 'Permissions' are not displayed and raise issue
+// TODO: investigate why 'Edit Offline', 'Edit in Microsoft Office™' and 'Permissions' are not displayed and raise issue
 const favoritesContextMenu = ['Share', 'Download', 'View', 'Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
-// TODO: add Edit Offline when ACA-2174 is fixed
-// TODO: investigate why 'Edit in Microsoft Office™' and 'Permissions' are not displayed and raise issue
+// TODO: investigate why 'Permissions' is not displayed and raise issue
+const favoritesLockedContextMenu = ['Share', 'Download', 'View', 'Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
+// TODO: investigate why 'Edit Offline', 'Edit in Microsoft Office™' and 'Permissions' are not displayed and raise issue
 const favoritesToolbarMore = ['Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
-// TODO: add Edit Offline when ACA-2174 is fixed
-// TODO: investigate why 'Edit in Microsoft Office™' and 'Permissions' are not displayed and raise issue
+// TODO: investigate why 'Permissions' is not displayed and raise issue
+const favoritesLockedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
+// TODO: investigate why 'Edit Offline', 'Edit in Microsoft Office™' and 'Permissions' are not displayed and raise issue
 const favoritesSharedContextMenu = ['Shared Link Settings', 'Download', 'View', 'Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
+// TODO: investigate why 'Permissions' is not displayed and raise issue
+const favoritesSharedLockedContextMenu = ['Shared Link Settings', 'Download', 'View', 'Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
 
 // ---- SEARCH workarounds ----
 
@@ -106,26 +106,6 @@ const searchViewerDocxToolbarMore = ['Edit in Microsoft Office™', 'Edit Offlin
 const searchViewerFavLockedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions', 'Permissions'];
 const searchViewerDocxFavToolbarMore = ['Edit in Microsoft Office™', 'Edit Offline', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions', 'Permissions'];
 const searchViewerLockedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Favorite', 'Copy', 'Manage Versions', 'Permissions'];
-
-// ---- SHARED workarounds ----
-
-// TODO: add Edit Offline to expectedContextMenu when ACA-2173 is fixed
-const sharedFilesDocxContextMenu = ['Shared Link Settings', 'Download', 'View', 'Edit in Microsoft Office™', 'Upload New Version', 'Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Permissions'];
-// TODO: add Edit Offline to expectedToolbarMore when ACA-2173 is fixed
-const sharedFilesDocxToolbarMore = ['Edit in Microsoft Office™', 'Upload New Version', 'Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Permissions'];
-// TODO: add Edit Offline to expectedContextMenu when ACA-2173 is fixed
-const sharedFilesDocxSharedFavContextMenu = ['Shared Link Settings', 'Download', 'View', 'Edit in Microsoft Office™', 'Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Permissions'];
-// TODO: add Edit Offline to expectedToolbarMore when ACA-2173 is fixed
-const sharedFilesDocxSharedFavToolbarMore = ['Edit in Microsoft Office™', 'Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Permissions'];
-// TODO: add Cancel Editing to expectedContextMenu when ACA-2173 is fixed
-const sharedFilesSharedContextMenu = ['Shared Link Settings', 'Download', 'View', 'Upload New Version', 'Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Permissions'];
-// TODO: add Cancel Editing to expectedToolbarMore when ACA-2173 is fixed
-const sharedFilesSharedToolbarMore = ['Upload New Version', 'Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Permissions'];
-// TODO: add Edit Offline to expectedToolbarMore when ACA-2173 is fixed
-const sharedFilesFavSharedContextMenu = ['Shared Link Settings', 'Download', 'View', 'Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Permissions'];
-// TODO: add Cancel Editing to expectedToolbarMore when ACA-2173 is fixed
-const sharedFilesSharedFavToolbarMore = ['Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Permissions'];
-
 
 
 export const fileDocx = {
@@ -211,10 +191,7 @@ export const fileDocxShared = {
   searchContextMenu: searchDocxSharedContextMenu,
   searchToolbarPrimary: searchSharedToolbarPrimary,
   searchToolbarMore: searchDocxToolbarMore,
-  searchViewerToolbarMore: searchViewerDocxToolbarMore,
-
-  sharedContextMenu: sharedFilesDocxContextMenu,
-  sharedToolbarMore: sharedFilesDocxToolbarMore
+  searchViewerToolbarMore: searchViewerDocxToolbarMore
 };
 
 export const fileDocxSharedFav = {
@@ -228,16 +205,13 @@ export const fileDocxSharedFav = {
   viewerToolbarMore: viewerDocxFavToolbarMore,
 
   favoritesContextMenu: favoritesSharedContextMenu,
-  favoritesToolbarPrimary: favoritesSharedToolbarPrimary,
+  favoritesToolbarPrimary: fileSharedToolbarPrimary,
   favoritesToolbarMore,
 
   searchContextMenu: searchDocxSharedFavContextMenu,
   searchToolbarPrimary: searchSharedToolbarPrimary,
   searchToolbarMore: searchDocxFavToolbarMore,
-  searchViewerToolbarMore: searchViewerDocxFavToolbarMore,
-
-  sharedContextMenu: sharedFilesDocxSharedFavContextMenu,
-  sharedToolbarMore: sharedFilesDocxSharedFavToolbarMore
+  searchViewerToolbarMore: searchViewerDocxFavToolbarMore
 };
 
 export const fileShared = {
@@ -253,10 +227,7 @@ export const fileShared = {
   searchContextMenu: searchSharedContextMenu,
   searchToolbarPrimary: searchSharedToolbarPrimary,
   searchToolbarMore,
-  searchViewerToolbarMore,
-
-  sharedContextMenu: sharedFilesSharedContextMenu,
-  sharedToolbarMore: sharedFilesSharedToolbarMore
+  searchViewerToolbarMore
 };
 
 export const fileSharedFav = {
@@ -270,16 +241,13 @@ export const fileSharedFav = {
   viewerToolbarMore: viewerFavToolbarMore,
 
   favoritesContextMenu: favoritesSharedContextMenu,
-  favoritesToolbarPrimary: favoritesSharedToolbarPrimary,
+  favoritesToolbarPrimary: fileSharedToolbarPrimary,
   favoritesToolbarMore,
 
   searchContextMenu: searchSharedFavContextMenu,
   searchToolbarPrimary: searchSharedToolbarPrimary,
   searchToolbarMore: searchFavToolbarMore,
-  searchViewerToolbarMore: searchViewerFavToolbarMore,
-
-  sharedContextMenu: sharedFilesFavSharedContextMenu,
-  sharedToolbarMore: sharedFilesSharedFavToolbarMore
+  searchViewerToolbarMore: searchViewerFavToolbarMore
 };
 
 export const fileLocked = {
@@ -308,8 +276,8 @@ export const fileFavLocked = {
   viewerToolbarPrimary,
   viewerToolbarMore: viewerFavLockedToolbarMore,
 
-  favoritesContextMenu,
-  favoritesToolbarMore,
+  favoritesContextMenu: favoritesLockedContextMenu,
+  favoritesToolbarMore: favoritesLockedToolbarMore,
 
   searchContextMenu: searchFavLockedContextMenu,
   searchToolbarPrimary,
@@ -330,10 +298,7 @@ export const fileSharedLocked = {
   searchContextMenu: searchSharedLockedContextMenu,
   searchToolbarPrimary: searchSharedToolbarPrimary,
   searchToolbarMore: searchLockedToolbarMore,
-  searchViewerToolbarMore: searchViewerLockedToolbarMore,
-
-  sharedContextMenu: sharedFilesSharedContextMenu,
-  sharedToolbarMore: sharedFilesSharedToolbarMore
+  searchViewerToolbarMore: searchViewerLockedToolbarMore
 };
 
 export const fileSharedFavLocked = {
@@ -346,17 +311,14 @@ export const fileSharedFavLocked = {
   viewerToolbarPrimary: viewerSharedToolbarPrimary,
   viewerToolbarMore: viewerFavLockedToolbarMore,
 
-  favoritesContextMenu: favoritesSharedContextMenu,
-  favoritesToolbarPrimary: favoritesSharedToolbarPrimary,
-  favoritesToolbarMore,
+  favoritesToolbarMore: favoritesLockedToolbarMore,
+  favoritesContextMenu: favoritesSharedLockedContextMenu,
+  favoritesToolbarPrimary: fileSharedToolbarPrimary,
 
   searchContextMenu: searchSharedFavLockedContextMenu,
   searchToolbarPrimary: searchSharedToolbarPrimary,
   searchToolbarMore: searchFavLockedToolbarMore,
-  searchViewerToolbarMore: searchViewerFavLockedToolbarMore,
-
-  sharedContextMenu: sharedFilesFavSharedContextMenu,
-  sharedToolbarMore: sharedFilesSharedFavToolbarMore
+  searchViewerToolbarMore: searchViewerFavLockedToolbarMore
 };
 
 export const fileInTrash = {
