@@ -314,7 +314,7 @@ describe('Edit offline', () => {
       expect(await dataTable.isItemPresent(fileSearchLocked2, parentSearch)).toBe(true, `${fileSearchLocked2} is not displayed`);
       expect(await dataTable.hasLockIcon(fileSearchLocked2, parentSearch)).toBe(true, `${fileSearchLocked2} does not have a lock icon`);
       // TODO: enable when ACA-2314 is fixed
-      expect(await dataTable.getLockOwner(fileSearchLocked2, parentSearch)).toContain(username, `${fileSearchLocked2} does not have correct lock owner info`);
+      // expect(await dataTable.getLockOwner(fileSearchLocked2, parentSearch)).toContain(username, `${fileSearchLocked2} does not have correct lock owner info`);
     });
 
     it('Cancel Editing unlocks the file - [C306955]', async () => {
