@@ -1,7 +1,7 @@
 {
   "$schema": "../../../extension.schema.json",
   "$id": "9a635542-d87a-4558-ae64-ffa199d1a364",
-  "$version": "0.0.9",
+  "$version": "0.0.10",
   "$name": "keensoft.aos.plugin",
   "$description": "Extension that provides Office Edit Online Action",
   "$vendor": "Keensoft",
