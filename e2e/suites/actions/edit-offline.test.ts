@@ -124,8 +124,7 @@ describe('Edit offline', () => {
     });
   });
 
-  // TODO: enable tests when ACA-2173 is done
-  xdescribe('on Shared Files', () => {
+  describe('on Shared Files', () => {
     beforeAll(async (done) => {
       file1Id = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentSFId, file1)).entry.id;
       fileLockedId = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentSFId, fileLocked)).entry.id;
@@ -151,7 +150,7 @@ describe('Edit offline', () => {
       done();
     });
 
-    xit('File is locked and downloaded when clicking Edit Offline - [C306950]', async () => {
+    it('File is locked and downloaded when clicking Edit Offline - [C306950]', async () => {
       await dataTable.selectItem(file1, parentSF);
       await toolbar.clickMoreActionsEditOffline();
 
@@ -159,13 +158,13 @@ describe('Edit offline', () => {
       expect(await apis.user.nodes.isFileLockedWrite(file1Id)).toBe(true, `${file1} is not locked`);
     });
 
-    xit('Lock information is displayed - [C306951]', async () => {
+    it('Lock information is displayed - [C306951]', async () => {
       expect(await dataTable.isItemPresent(fileLocked2, parentSF)).toBe(true, `${fileLocked2} is not displayed`);
       expect(await dataTable.hasLockIcon(fileLocked2, parentSF)).toBe(true, `${fileLocked2} does not have a lock icon`);
       expect(await dataTable.getLockOwner(fileLocked2, parentSF)).toContain(username, `${fileLocked2} does not have correct lock owner info`);
     });
 
-    xit('Cancel Editing unlocks the file - [C306952]', async () => {
+    it('Cancel Editing unlocks the file - [C306952]', async () => {
       await dataTable.selectItem(fileLocked);
       await toolbar.clickMoreActionsCancelEditing();
       await dataTable.clearSelection();
@@ -224,8 +223,7 @@ describe('Edit offline', () => {
     });
   });
 
-  // TODO: enable tests when ACA-2174 is done
-  xdescribe('on Favorite Files', () => {
+  describe('on Favorite Files', () => {
     beforeAll(async (done) => {
       file1Id = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentFavId, file1)).entry.id;
       fileLockedId = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentFavId, fileLocked)).entry.id;
@@ -251,6 +249,7 @@ describe('Edit offline', () => {
       done();
     });
 
+    // TODO: raise REPO issue: permissions not returned in /people/${personId}/favorites api
     xit('File is locked and downloaded when clicking Edit Offline - [C306956]', async () => {
       await dataTable.selectItem(file1);
       await toolbar.clickMoreActionsEditOffline();
@@ -259,13 +258,13 @@ describe('Edit offline', () => {
       expect(await apis.user.nodes.isFileLockedWrite(file1Id)).toBe(true, `${file1} is not locked`);
     });
 
-    xit('Lock information is displayed - [C306957]', async () => {
+    it('Lock information is displayed - [C306957]', async () => {
       expect(await dataTable.isItemPresent(fileLocked2)).toBe(true, `${fileLocked2} is not displayed`);
       expect(await dataTable.hasLockIcon(fileLocked2)).toBe(true, `${fileLocked2} does not have a lock icon`);
       expect(await dataTable.getLockOwner(fileLocked2)).toContain(username, `${fileLocked2} does not have correct lock owner info`);
     });
 
-    xit('Cancel Editing unlocks the file - [C306958]', async () => {
+    it('Cancel Editing unlocks the file - [C306958]', async () => {
       await dataTable.selectItem(fileLocked);
       await toolbar.clickMoreActionsCancelEditing();
       await dataTable.clearSelection();

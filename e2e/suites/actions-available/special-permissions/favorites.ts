@@ -58,12 +58,12 @@ export function favoritesTests() {
     });
 
       it('File Office, shared, favorite - [C279187]', async () => {
-        await testUtil.checkToolbarActions(testData.fileDocxSharedFav.name, testData.fileDocxSharedFav.favoritesToolbarPrimary, testData.fileDocxSharedFav.favoritesToolbarMore);
+        await testUtil.checkToolbarActions(testData.fileDocxSharedFav.name, testData.fileDocxSharedFav.toolbarPrimary, testData.fileDocxSharedFav.favoritesToolbarMore);
         await testUtil.checkContextMenu(testData.fileDocxSharedFav.name, testData.fileDocxSharedFav.favoritesContextMenu);
     });
 
       it('File shared, favorite - [C280053]', async () => {
-        await testUtil.checkToolbarActions(testData.fileSharedFav.name, testData.fileSharedFav.favoritesToolbarPrimary, testData.fileSharedFav.favoritesToolbarMore);
+        await testUtil.checkToolbarActions(testData.fileSharedFav.name, testData.fileSharedFav.toolbarPrimary, testData.fileSharedFav.favoritesToolbarMore);
         await testUtil.checkContextMenu(testData.fileSharedFav.name, testData.fileSharedFav.favoritesContextMenu);
       });
 
@@ -73,7 +73,7 @@ export function favoritesTests() {
     });
 
       it('File shared, favorite, locked - [C325011]', async () => {
-        await testUtil.checkToolbarActions(testData.fileSharedFavLocked.name, testData.fileSharedFavLocked.favoritesToolbarPrimary, testData.fileSharedFavLocked.favoritesToolbarMore);
+        await testUtil.checkToolbarActions(testData.fileSharedFavLocked.name, testData.fileSharedFavLocked.toolbarPrimary, testData.fileSharedFavLocked.favoritesToolbarMore);
         await testUtil.checkContextMenu(testData.fileSharedFavLocked.name, testData.fileSharedFavLocked.favoritesContextMenu);
       });
 

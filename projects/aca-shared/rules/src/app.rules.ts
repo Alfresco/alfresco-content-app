@@ -152,7 +152,7 @@ export function canDeleteSelection(context: RuleContext): boolean {
       return false;
     }
 
-    // temp workaround for Search api
+    // temp workaround for Favorites api
     if (navigation.isFavorites(context)) {
       return true;
     }
@@ -391,7 +391,7 @@ export function canLockFile(context: RuleContext): boolean {
 
 /**
  * Checks if user can unlock selected file.
- * JSON ref: `app.selection.file.canLock`
+ * JSON ref: `app.selection.file.canUnlock`
  */
 export function canUnlockFile(context: RuleContext): boolean {
   const { file } = context.selection;

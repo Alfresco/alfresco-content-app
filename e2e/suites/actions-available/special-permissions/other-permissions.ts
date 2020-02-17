@@ -59,8 +59,7 @@ export function collaboratorTests(siteName?: string) {
       await page.clickSharedFilesAndWait();
 
       const expectedToolbarPrimary = ['Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
-      // TODO: add 'Edit Offline' when ACA-2173 is done
-      const expectedToolbarMore = ['Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions', 'Permissions'];
+      const expectedToolbarMore = ['Edit Offline', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions', 'Permissions'];
 
       await testUtil.checkToolbarActions(testData.fileSharedFav.name, expectedToolbarPrimary, expectedToolbarMore);
     });
@@ -156,8 +155,7 @@ export function filesLockedByCurrentUser(siteName?: string) {
       await page.clickSharedFilesAndWait();
 
       const expectedToolbarPrimary = ['Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
-      // TODO: add 'Cancel Editing' when ACA-2173 is done
-      const expectedToolbarMore = ['Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions'];
+      const expectedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions'];
 
       await testUtil.checkToolbarActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
     });
@@ -166,10 +164,9 @@ export function filesLockedByCurrentUser(siteName?: string) {
       await page.clickFavoritesAndWait();
 
       const expectedToolbarPrimary = ['Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
-      // TODO: add 'Cancel Editing' when ACA-2174 is fixed
       // TODO: remove 'Move' when ACA-1737 is fixed
       // TODO: remove 'Delete' when ACA-1737 is fixed
-      const expectedToolbarMore = ['Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
+      const expectedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
 
       await testUtil.checkToolbarActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
     });
@@ -255,9 +252,8 @@ export function filesLockedByOtherUser(siteName?: string) {
       await page.clickSharedFilesAndWait();
 
       const expectedToolbarPrimary = ['Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
-      // TODO: add 'Cancel Editing' when ACA-2173 is done
-      // TODO: remove 'Upload New Version' when ACA-2173 is done
-      const expectedToolbarMore = ['Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Permissions'];
+      // TODO: investigate why 'Upload New Version' appears and raise issue
+      const expectedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Permissions'];
 
       await testUtil.checkToolbarActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
     });
