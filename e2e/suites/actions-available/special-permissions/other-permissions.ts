@@ -68,9 +68,8 @@ export function collaboratorTests(siteName?: string) {
       await page.clickFavoritesAndWait();
 
       const expectedToolbarPrimary = ['Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
-      // TODO: add 'Edit Offline' when ACA-2174 is done
-      // TODO: remove 'Delete' when ACA-1737 is done
-      // TODO: remove 'Move' when ACA-1737 is done
+      // TODO: investigate why 'Edit Offline' is not displayed and raise issue
+      // TODO: remove 'Move' and 'Delete' when ACA-1737 is done
       const expectedToolbarMore = ['Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
 
       await testUtil.checkToolbarActions(testData.fileSharedFav.name, expectedToolbarPrimary, expectedToolbarMore);
@@ -164,8 +163,7 @@ export function filesLockedByCurrentUser(siteName?: string) {
       await page.clickFavoritesAndWait();
 
       const expectedToolbarPrimary = ['Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
-      // TODO: remove 'Move' when ACA-1737 is fixed
-      // TODO: remove 'Delete' when ACA-1737 is fixed
+      // TODO: remove 'Move' and 'Delete' when ACA-1737 is fixed
       const expectedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
 
       await testUtil.checkToolbarActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
@@ -262,7 +260,7 @@ export function filesLockedByOtherUser(siteName?: string) {
       await page.clickFavoritesAndWait();
 
       const expectedToolbarPrimary = ['Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
-      // TODO: add 'Cancel Editing' when ACA-2174 is fixed
+      // TODO: investigate why 'Cancel Editing' doesn't appear and raise issue
       // TODO: remove 'Upload New Version' when ACA-1737 is done
       const expectedToolbarMore = ['Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
 
@@ -316,8 +314,7 @@ export function filesLockedByOtherUser(siteName?: string) {
         await searchResultsPage.waitForResults();
 
         const expectedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Download', 'Print', 'View Details', 'More Actions'];
-        // TODO: add 'Move' when ACA-2319 is fixed
-        // TODO: add 'Delete' when ACA-2319 is fixed
+        // TODO: add 'Move' and 'Delete' when ACA-2319 is fixed
         const expectedToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Copy', 'Manage Versions', 'Permissions'];
 
         await testUtil.checkViewerActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);

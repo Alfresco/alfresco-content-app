@@ -52,15 +52,14 @@ const consumerViewerToolbarMore = ['Favorite', 'Copy', 'Manage Versions'];
 // ---- FAVORITES workarounds ----
 
 // TODO: remove 'Move' and 'Delete' when ACA-1737 is done
-// TODO: remove 'Upload New Version' when ACA-2175 is done
+// TODO: investigate why 'Upload New Version' appears and raise issue
 const favoritesConsumerToolbarMore = ['Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
 // TODO: remove 'Move' and 'Delete' when ACA-1737 is done
-// TODO: remove 'Upload New Version' when ACA-2175 is done
+// TODO: investigate why 'Upload New Version' appears and raise issue
 const favoritesConsumerContextMenu = ['Share', 'Download', 'View', 'Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
 // TODO: remove 'Move' and 'Delete' when ACA-1737 is done
-// TODO: remove 'Upload New Version' when ACA-2175 is done
+// TODO: investigate why 'Upload New Version' appears and raise issue
 const favoritesConsumerSharedContextMenu = ['Shared Link Settings', 'Download', 'View', 'Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
-// const favoritesConsumerSharedToolbarPrimary = ['Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
 
 
 // ---- SHARED FILES workaround ----
