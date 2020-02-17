@@ -625,9 +625,7 @@ describe('Unshare a file', () => {
 
     it('Unshare a file from the context menu - [C286698]', async () => {
       await dataTable.rightClickOnItem(file4);
-      // TODO: remove workaround for favorites
-      // await contextMenu.clickSharedLinkSettings();
-      await contextMenu.clickShare();
+      await contextMenu.clickSharedLinkSettings();
       await shareDialog.waitForDialogToOpen();
       const url = await shareDialog.getLinkUrl();
       await shareDialog.clickShareToggle();
