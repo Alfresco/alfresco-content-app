@@ -23,151 +23,140 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, browser, protractor, ExpectedConditions as EC } from 'protractor';
+import { ElementFinder, by, protractor, browser, ExpectedConditions as EC } from 'protractor';
+import { GenericDialog } from '../dialog/generic-dialog';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
-import { Component } from '../component';
-import { Utils } from '../../utilities/utils';
 
-export class CreateLibraryDialog extends Component {
+export class CreateLibraryDialog extends GenericDialog {
   private static selectors = {
     root: 'adf-library-dialog',
 
-    title: '.mat-dialog-title',
     nameInput: 'input[placeholder="Name" i]',
     libraryIdInput: 'input[placeholder="Library ID" i]',
     descriptionTextArea: 'textarea[placeholder="Description" i]',
-    button: '.mat-dialog-actions button',
+
     radioButton: '.mat-radio-label',
     radioChecked: 'mat-radio-checked',
-    errorMessage: '.mat-error'
+    errorMessage: '.mat-error',
+
+    createButton: by.cssContainingText('.mat-dialog-actions button', 'Create'),
+    cancelButton: by.cssContainingText('.mat-dialog-actions button', 'Cancel')
   };
 
-  title: ElementFinder = this.component.element(by.css(CreateLibraryDialog.selectors.title));
-  nameInput: ElementFinder = this.component.element(by.css(CreateLibraryDialog.selectors.nameInput));
-  libraryIdInput: ElementFinder = this.component.element(by.css(CreateLibraryDialog.selectors.libraryIdInput));
-  descriptionTextArea: ElementFinder = this.component.element(by.css(CreateLibraryDialog.selectors.descriptionTextArea));
-  visibilityPublic: ElementFinder = this.component.element(by.cssContainingText(CreateLibraryDialog.selectors.radioButton, 'Public'));
-  visibilityModerated: ElementFinder = this.component.element(by.cssContainingText(CreateLibraryDialog.selectors.radioButton, 'Moderated'));
-  visibilityPrivate: ElementFinder = this.component.element(by.cssContainingText(CreateLibraryDialog.selectors.radioButton, 'Private'));
-  createButton: ElementFinder = this.component.element(by.cssContainingText(CreateLibraryDialog.selectors.button, 'Create'));
-  cancelButton: ElementFinder = this.component.element(by.cssContainingText(CreateLibraryDialog.selectors.button, 'Cancel'));
-  errorMessage: ElementFinder = this.component.element(by.css(CreateLibraryDialog.selectors.errorMessage));
+  nameInput: ElementFinder = this.rootElem.element(by.css(CreateLibraryDialog.selectors.nameInput));
+  libraryIdInput: ElementFinder = this.rootElem.element(by.css(CreateLibraryDialog.selectors.libraryIdInput));
+  descriptionTextArea: ElementFinder = this.rootElem.element(by.css(CreateLibraryDialog.selectors.descriptionTextArea));
+  visibilityPublic: ElementFinder = this.rootElem.element(by.cssContainingText(CreateLibraryDialog.selectors.radioButton, 'Public'));
+  visibilityModerated: ElementFinder = this.rootElem.element(by.cssContainingText(CreateLibraryDialog.selectors.radioButton, 'Moderated'));
+  visibilityPrivate: ElementFinder = this.rootElem.element(by.cssContainingText(CreateLibraryDialog.selectors.radioButton, 'Private'));
 
-  constructor(ancestor?: string) {
-    super(CreateLibraryDialog.selectors.root, ancestor);
+  errorMessage: ElementFinder = this.rootElem.element(by.css(CreateLibraryDialog.selectors.errorMessage));
+
+  constructor() {
+    super(CreateLibraryDialog.selectors.root);
   }
 
-  async waitForDialogToOpen() {
-    await browser.wait(EC.presenceOf(this.title), BROWSER_WAIT_TIMEOUT);
-    await browser.wait(EC.presenceOf(browser.element(by.css('.cdk-overlay-backdrop'))), BROWSER_WAIT_TIMEOUT);
+  async waitForDialogToOpen(): Promise<void> {
+    await super.waitForDialogToOpen();
+    await browser.wait(EC.elementToBeClickable(this.nameInput), BROWSER_WAIT_TIMEOUT, '--- timeout waiting for input to be clickable ---');
   }
 
-  async waitForDialogToClose() {
-    await browser.wait(EC.stalenessOf(this.title), BROWSER_WAIT_TIMEOUT);
-  }
-
-  async isDialogOpen() {
-    return browser.isElementPresent(by.css(CreateLibraryDialog.selectors.root));
-  }
-
-  async getTitle() {
-    return this.title.getText();
-  }
-
-  async isErrorMessageDisplayed() {
+  async isErrorMessageDisplayed(): Promise<boolean> {
     return this.errorMessage.isDisplayed();
   }
 
-  async getErrorMessage() {
-    await this.isErrorMessageDisplayed();
-    return this.errorMessage.getText();
+  async getErrorMessage(): Promise<string> {
+    if (await this.isErrorMessageDisplayed()) {
+      return this.errorMessage.getText();
+    }
+    return '';
   }
 
-  async isNameDisplayed() {
+  async isNameDisplayed(): Promise<boolean> {
     return this.nameInput.isDisplayed();
   }
 
-  async isLibraryIdDisplayed() {
+  async isLibraryIdDisplayed(): Promise<boolean> {
     return this.libraryIdInput.isDisplayed();
   }
 
-  async isDescriptionDisplayed() {
+  async isDescriptionDisplayed(): Promise<boolean> {
     return this.descriptionTextArea.isDisplayed();
   }
 
-  async isPublicDisplayed() {
+  async isPublicDisplayed(): Promise<boolean> {
     return this.visibilityPublic.isDisplayed();
   }
 
-  async isModeratedDisplayed() {
+  async isModeratedDisplayed(): Promise<boolean> {
     return this.visibilityModerated.isDisplayed();
   }
 
-  async isPrivateDisplayed() {
+  async isPrivateDisplayed(): Promise<boolean> {
     return this.visibilityPrivate.isDisplayed();
   }
 
-  async enterName(name: string) {
+  async enterName(name: string): Promise<void> {
     await this.nameInput.clear();
-    await Utils.typeInField(this.nameInput, name);
+    await this.nameInput.sendKeys(name);
   }
 
-  async enterLibraryId(id: string) {
+  async enterLibraryId(id: string): Promise<void> {
     await this.libraryIdInput.clear();
-    await Utils.typeInField(this.libraryIdInput, id);
+    await this.libraryIdInput.sendKeys(id);
   }
 
-  async enterDescription(description: string) {
+  async enterDescription(description: string): Promise<void> {
     await this.descriptionTextArea.clear();
-    await Utils.typeInField(this.descriptionTextArea, description);
+    await this.descriptionTextArea.sendKeys(description);
   }
 
-  async deleteNameWithBackspace() {
+  async deleteNameWithBackspace(): Promise<void> {
     await this.nameInput.clear();
     await this.nameInput.sendKeys(' ', protractor.Key.CONTROL, 'a', protractor.Key.NULL, protractor.Key.BACK_SPACE);
   }
 
-  async isCreateEnabled() {
-    return this.createButton.isEnabled();
+  async isCreateEnabled(): Promise<boolean> {
+    return this.isButtonEnabled(CreateLibraryDialog.selectors.createButton);
   }
 
-  async isCancelEnabled() {
-    return this.cancelButton.isEnabled();
+  async isCancelEnabled(): Promise<boolean> {
+    return this.isButtonEnabled(CreateLibraryDialog.selectors.cancelButton);
   }
 
-  async clickCreate() {
-    await this.createButton.click();
+  async clickCreate(): Promise<void> {
+    await this.clickButton(CreateLibraryDialog.selectors.createButton);
   }
 
-  async clickCancel() {
-    await this.cancelButton.click();
+  async clickCancel(): Promise<void> {
+    await this.clickButton(CreateLibraryDialog.selectors.cancelButton);
     await this.waitForDialogToClose();
   }
 
-  async isPublicChecked() {
+  async isPublicChecked(): Promise<boolean> {
     const elemClass = await this.visibilityPublic.element(by.xpath('..')).getAttribute('class');
     return elemClass.includes(CreateLibraryDialog.selectors.radioChecked);
   }
 
-  async isModeratedChecked() {
+  async isModeratedChecked(): Promise<boolean> {
     const elemClass = await this.visibilityModerated.element(by.xpath('..')).getAttribute('class');
     return elemClass.includes(CreateLibraryDialog.selectors.radioChecked);
   }
 
-  async isPrivateChecked() {
+  async isPrivateChecked(): Promise<boolean> {
     const elemClass = await this.visibilityPrivate.element(by.xpath('..')).getAttribute('class');
     return elemClass.includes(CreateLibraryDialog.selectors.radioChecked);
   }
 
-  async selectPublic() {
+  async selectPublic(): Promise<void> {
     await this.visibilityPublic.click();
   }
 
-  async selectModerated() {
+  async selectModerated(): Promise<void> {
     await this.visibilityModerated.click();
   }
 
-  async selectPrivate() {
+  async selectPrivate(): Promise<void> {
     await this.visibilityPrivate.click();
   }
 }

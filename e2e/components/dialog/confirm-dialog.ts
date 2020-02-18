@@ -23,105 +23,66 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, browser, ExpectedConditions as EC } from 'protractor';
-import { BROWSER_WAIT_TIMEOUT } from '../../configs';
-import { Component } from '../component';
+import { by } from 'protractor';
+import { GenericDialog } from '../dialog/generic-dialog';
 
-export class ConfirmDialog extends Component {
+export class ConfirmDialog extends GenericDialog {
   private static selectors = {
     root: 'adf-confirm-dialog',
 
-    title: '.mat-dialog-title',
-    content: '.mat-dialog-content',
-    accept: 'adf-confirm-accept',
-    cancel: 'adf-confirm-cancel',
-    actionButton: 'adf-confirm'
-  };
-
-  title: ElementFinder = this.component.element(by.css(ConfirmDialog.selectors.title));
-  content: ElementFinder = this.component.element(by.css(ConfirmDialog.selectors.content));
-  acceptButton: ElementFinder = this.component.element(by.id(ConfirmDialog.selectors.accept));
-  cancelButton: ElementFinder = this.component.element(by.id(ConfirmDialog.selectors.cancel));
-  actionButton: ElementFinder = this.component.element(by.id(ConfirmDialog.selectors.actionButton));
-
-  constructor(ancestor?: string) {
-    super(ConfirmDialog.selectors.root, ancestor);
+    okButton: by.buttonText('OK'),
+    cancelButton: by.buttonText('Cancel'),
+    keepButton: by.buttonText('Keep'),
+    deleteButton: by.buttonText('Delete'),
+    removeButton: by.buttonText('Remove')
   }
 
-  async waitForDialogToClose() {
-    await browser.wait(EC.stalenessOf(this.title), BROWSER_WAIT_TIMEOUT);
+  constructor() {
+    super(ConfirmDialog.selectors.root);
   }
 
-  async waitForDialogToOpen() {
-    await browser.wait(EC.presenceOf(this.title), BROWSER_WAIT_TIMEOUT);
-  }
-
-  async isDialogOpen() {
-    return browser.isElementPresent(by.css(ConfirmDialog.selectors.root));
-  }
-
-  async getTitle() {
-    return this.title.getText();
-  }
-
-  async getText() {
+  async getText(): Promise<string> {
     return this.content.getText();
   }
 
-  getButtonByName(name: string) {
-    return this.component.element(by.buttonText(name));
+  async isOkEnabled(): Promise<boolean> {
+    return this.isButtonEnabled(ConfirmDialog.selectors.okButton);
   }
 
-  async clickButton(name: string) {
-    const button = this.getButtonByName(name);
-    await button.click();
+  async isCancelEnabled(): Promise<boolean> {
+    return this.isButtonEnabled(ConfirmDialog.selectors.cancelButton);
   }
 
-  async isButtonEnabled(name: string) {
-    const button = this.getButtonByName(name);
-    return button.isEnabled();
+  async isKeepEnabled(): Promise<boolean> {
+    return this.isButtonEnabled(ConfirmDialog.selectors.keepButton);
   }
 
-
-  async isOkEnabled() {
-    return this.isButtonEnabled('OK');
+  async isDeleteEnabled(): Promise<boolean> {
+    return this.isButtonEnabled(ConfirmDialog.selectors.deleteButton);
   }
 
-  async isCancelEnabled() {
-    return this.isButtonEnabled('Cancel');
+  async isRemoveEnabled(): Promise<boolean> {
+    return this.isButtonEnabled(ConfirmDialog.selectors.removeButton);
   }
 
-  async isKeepEnabled() {
-    return this.isButtonEnabled('Keep');
+  async clickOk(): Promise<void> {
+    await this.clickButton(ConfirmDialog.selectors.okButton);
   }
 
-  async isDeleteEnabled() {
-    return this.isButtonEnabled('Delete');
+  async clickCancel(): Promise<void> {
+    await this.clickButton(ConfirmDialog.selectors.cancelButton);
   }
 
-  async isRemoveEnabled() {
-    return this.isButtonEnabled('Remove');
+  async clickKeep(): Promise<void> {
+    await this.clickButton(ConfirmDialog.selectors.keepButton);
   }
 
-
-  async clickOk() {
-    await this.clickButton('OK');
+  async clickDelete(): Promise<void> {
+    await this.clickButton(ConfirmDialog.selectors.deleteButton);
   }
 
-  async clickCancel() {
-    await this.cancelButton.click();
-  }
-
-  async clickKeep() {
-    await this.clickButton('Keep');
-  }
-
-  async clickDelete() {
-    await this.clickButton('Delete');
-  }
-
-  async clickRemove() {
-    await this.clickButton('Remove');
+  async clickRemove(): Promise<void> {
+    await this.clickButton(ConfirmDialog.selectors.removeButton);
   }
 
 }

@@ -23,72 +23,58 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, browser, protractor, ExpectedConditions as EC } from 'protractor';
+import { ElementFinder, by, protractor, browser, ExpectedConditions as EC } from 'protractor';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
-import { Component } from '../component';
-import { Utils } from '../../utilities/utils';
+import { GenericDialog } from '../dialog/generic-dialog';
 
-export class CreateOrEditFolderDialog extends Component {
+export class CreateOrEditFolderDialog extends GenericDialog {
   private static selectors = {
     root: 'adf-folder-dialog',
 
-    title: '.mat-dialog-title',
     nameInput: 'input[placeholder="Name" i]',
     descriptionTextArea: 'textarea[placeholder="Description" i]',
-    button: '.mat-dialog-actions button',
-    validationMessage: '.mat-hint span'
+
+    validationMessage: '.mat-hint span',
+
+    createButton: by.cssContainingText('.mat-dialog-actions button', 'Create'),
+    cancelButton: by.id('adf-folder-cancel-button'),
+    updateButton: by.cssContainingText('.mat-dialog-actions button', 'Update')
   };
 
-  title: ElementFinder = this.component.element(by.css(CreateOrEditFolderDialog.selectors.title));
-  nameInput: ElementFinder = this.component.element(by.css(CreateOrEditFolderDialog.selectors.nameInput));
-  descriptionTextArea: ElementFinder = this.component.element(by.css(CreateOrEditFolderDialog.selectors.descriptionTextArea));
-  createButton: ElementFinder = this.component.element(by.cssContainingText(CreateOrEditFolderDialog.selectors.button, 'Create'));
-  cancelButton: ElementFinder = this.component.element(by.cssContainingText(CreateOrEditFolderDialog.selectors.button, 'Cancel'));
-  updateButton: ElementFinder = this.component.element(by.cssContainingText(CreateOrEditFolderDialog.selectors.button, 'Update'));
-  validationMessage: ElementFinder = this.component.element(by.css(CreateOrEditFolderDialog.selectors.validationMessage));
+  nameInput: ElementFinder = this.rootElem.element(by.css(CreateOrEditFolderDialog.selectors.nameInput));
+  descriptionTextArea: ElementFinder = this.rootElem.element(by.css(CreateOrEditFolderDialog.selectors.descriptionTextArea));
+  validationMessage: ElementFinder = this.rootElem.element(by.css(CreateOrEditFolderDialog.selectors.validationMessage));
 
-  constructor(ancestor?: string) {
-    super(CreateOrEditFolderDialog.selectors.root, ancestor);
+  constructor() {
+    super(CreateOrEditFolderDialog.selectors.root);
   }
 
   async waitForDialogToOpen() {
-    await browser.wait(EC.presenceOf(this.title), BROWSER_WAIT_TIMEOUT);
-    await browser.wait(EC.presenceOf(browser.element(by.css('.cdk-overlay-backdrop'))), BROWSER_WAIT_TIMEOUT);
-  }
-
-  async waitForDialogToClose() {
-    await browser.wait(EC.stalenessOf(this.title), BROWSER_WAIT_TIMEOUT, '---- timeout waiting for dialog to close ----');
-  }
-
-  async isDialogOpen() {
-    return browser.isElementPresent(by.css(CreateOrEditFolderDialog.selectors.root));
-  }
-
-  async getTitle() {
-    return this.title.getText();
+    await super.waitForDialogToOpen();
+    await browser.wait(EC.elementToBeClickable(this.nameInput), BROWSER_WAIT_TIMEOUT, '--- timeout waiting for input to be clickable ---');
   }
 
   async isValidationMessageDisplayed(): Promise<boolean> {
     return (await this.validationMessage.isPresent()) && (await this.validationMessage.isDisplayed());
   }
 
-  async isUpdateButtonEnabled() {
-    return this.updateButton.isEnabled();
+  async isUpdateButtonEnabled(): Promise<boolean> {
+    return this.isButtonEnabled(CreateOrEditFolderDialog.selectors.updateButton);
   }
 
-  async isCreateButtonEnabled() {
-    return this.createButton.isEnabled();
+  async isCreateButtonEnabled(): Promise<boolean> {
+    return this.isButtonEnabled(CreateOrEditFolderDialog.selectors.createButton);
   }
 
-  async isCancelButtonEnabled() {
-    return this.cancelButton.isEnabled();
+  async isCancelButtonEnabled(): Promise<boolean> {
+    return this.isButtonEnabled(CreateOrEditFolderDialog.selectors.cancelButton);
   }
 
-  async isNameDisplayed() {
+  async isNameDisplayed(): Promise<boolean> {
     return this.nameInput.isDisplayed();
   }
 
-  async isDescriptionDisplayed() {
+  async isDescriptionDisplayed(): Promise<boolean> {
     return this.descriptionTextArea.isDisplayed();
   }
 
@@ -100,40 +86,40 @@ export class CreateOrEditFolderDialog extends Component {
     }
   }
 
-  async getName() {
+  async getName(): Promise<string> {
     return this.nameInput.getAttribute('value');
   }
 
-  async getDescription() {
+  async getDescription(): Promise<string> {
     return this.descriptionTextArea.getAttribute('value');
   }
 
-  async enterName(name: string) {
+  async enterName(name: string): Promise<void> {
     await this.nameInput.clear();
-    await Utils.typeInField(this.nameInput, name);
+    await this.nameInput.sendKeys(name);
   }
 
-  async enterDescription(description: string) {
+  async enterDescription(description: string): Promise<void> {
     await this.descriptionTextArea.clear();
-    await Utils.typeInField(this.descriptionTextArea, description);
+    await this.descriptionTextArea.sendKeys(description);
   }
 
-  async deleteNameWithBackspace() {
+  async deleteNameWithBackspace(): Promise<void> {
     await this.nameInput.clear();
     await this.nameInput.sendKeys(' ', protractor.Key.CONTROL, 'a', protractor.Key.NULL, protractor.Key.BACK_SPACE);
   }
 
-  async clickCreate() {
-    await this.createButton.click();
+  async clickCreate(): Promise<void> {
+    await this.clickButton(CreateOrEditFolderDialog.selectors.createButton);
   }
 
-  async clickCancel() {
-    await this.cancelButton.click();
+  async clickCancel(): Promise<void> {
+    await this.clickButton(CreateOrEditFolderDialog.selectors.cancelButton);
     await this.waitForDialogToClose();
   }
 
-  async clickUpdate() {
-    await this.updateButton.click();
+  async clickUpdate(): Promise<void> {
+    await this.clickButton(CreateOrEditFolderDialog.selectors.updateButton);
   }
 
 }

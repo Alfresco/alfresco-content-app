@@ -159,7 +159,7 @@ describe('Share a file', () => {
         expect(await shareDialog.getInfoText()).toEqual('Click the link below to copy it to the clipboard.');
         expect(await shareDialog.getLabels().get(0).getText()).toEqual('Link to share');
         expect(await shareDialog.getLinkUrl()).toContain(shareLinkPreUrl);
-        expect(await shareDialog.isUrlReadOnly()).toBe('true', 'url is not readonly');
+        expect(await shareDialog.isUrlReadOnly()).toBe(true, 'url is not readonly');
         expect(await shareDialog.isShareToggleChecked()).toBe(true, 'Share toggle not checked');
         expect(await shareDialog.getLabels().get(1).getText()).toEqual('Expires on');
         expect(await shareDialog.isExpireToggleEnabled()).toBe(false, 'Expire toggle is checked');
@@ -339,7 +339,7 @@ describe('Share a file', () => {
         expect(await shareDialog.getInfoText()).toEqual('Click the link below to copy it to the clipboard.');
         expect(await shareDialog.getLabels().get(0).getText()).toEqual('Link to share');
         expect(await shareDialog.getLinkUrl()).toContain(shareLinkPreUrl);
-        expect(await shareDialog.isUrlReadOnly()).toBe('true', 'url is not readonly');
+        expect(await shareDialog.isUrlReadOnly()).toBe(true, 'url is not readonly');
         expect(await shareDialog.isShareToggleChecked()).toBe(true, 'Share toggle not checked');
         expect(await shareDialog.getLabels().get(1).getText()).toEqual('Expires on');
         expect(await shareDialog.isExpireToggleEnabled()).toBe(false, 'Expire toggle is checked');
@@ -516,7 +516,7 @@ describe('Share a file', () => {
         expect(await shareDialog.getInfoText()).toEqual('Click the link below to copy it to the clipboard.');
         expect(await shareDialog.getLabels().get(0).getText()).toEqual('Link to share');
         expect(await shareDialog.getLinkUrl()).toContain(shareLinkPreUrl);
-        expect(await shareDialog.isUrlReadOnly()).toBe('true', 'url is not readonly');
+        expect(await shareDialog.isUrlReadOnly()).toBe(true, 'url is not readonly');
         expect(await shareDialog.isShareToggleChecked()).toBe(true, 'Share toggle not checked');
         expect(await shareDialog.getLabels().get(1).getText()).toEqual('Expires on');
         expect(await shareDialog.isExpireToggleEnabled()).toBe(false, 'Expire toggle is checked');
@@ -695,7 +695,7 @@ describe('Share a file', () => {
         expect(await shareDialog.getInfoText()).toEqual('Click the link below to copy it to the clipboard.');
         expect(await shareDialog.getLabels().get(0).getText()).toEqual('Link to share');
         expect(await shareDialog.getLinkUrl()).toContain(shareLinkPreUrl);
-        expect(await shareDialog.isUrlReadOnly()).toBe('true', 'url is not readonly');
+        expect(await shareDialog.isUrlReadOnly()).toBe(true, 'url is not readonly');
         expect(await shareDialog.isShareToggleChecked()).toBe(true, 'Share toggle not checked');
         expect(await shareDialog.getLabels().get(1).getText()).toEqual('Expires on');
         expect(await shareDialog.isExpireToggleEnabled()).toBe(false, 'Expire toggle is checked');
@@ -783,7 +783,7 @@ describe('Share a file', () => {
         expect(await shareDialog.getInfoText()).toEqual('Click the link below to copy it to the clipboard.');
         expect(await shareDialog.getLabels().get(0).getText()).toEqual('Link to share');
         expect(await shareDialog.getLinkUrl()).toContain(shareLinkPreUrl);
-        expect(await shareDialog.isUrlReadOnly()).toBe('true', 'url is not readonly');
+        expect(await shareDialog.isUrlReadOnly()).toBe(true, 'url is not readonly');
         expect(await shareDialog.isShareToggleChecked()).toBe(true, 'Share toggle not checked');
         expect(await shareDialog.getLabels().get(1).getText()).toEqual('Expires on');
         expect(await shareDialog.isExpireToggleEnabled()).toBe(false, 'Expire toggle is checked');
@@ -855,7 +855,7 @@ describe('Share a file', () => {
         expect(await shareDialog.getInfoText()).toEqual('Click the link below to copy it to the clipboard.');
         expect(await shareDialog.getLabels().get(0).getText()).toEqual('Link to share');
         expect(await shareDialog.getLinkUrl()).toContain(shareLinkPreUrl);
-        expect(await shareDialog.isUrlReadOnly()).toBe('true', 'url is not readonly');
+        expect(await shareDialog.isUrlReadOnly()).toBe(true, 'url is not readonly');
         expect(await shareDialog.isShareToggleChecked()).toBe(true, 'Share toggle not checked');
         expect(await shareDialog.getLabels().get(1).getText()).toEqual('Expires on');
         expect(await shareDialog.isExpireToggleEnabled()).toBe(false, 'Expire toggle is checked');

@@ -44,43 +44,32 @@ export class Breadcrumb extends Component {
     return this.items.get(nth - 1);
   }
 
-  async getNthItemName(nth: number) {
-      return this.getNthItem(nth).getText();
-  }
-
-  async getItemsCount() {
+  async getItemsCount(): Promise<number> {
     return this.items.count();
   }
 
-  async getAllItems() {
-    return this.items.map(async elem => {
+  async getAllItems(): Promise<string[]> {
+    const items: string[] = await this.items.map(async elem => {
       const str = await elem.getText();
       return str.split('\nchevron_right')[0];
     });
+    return items;
   }
 
-  async getFirstItemName() {
-    return this.items.get(0).getText();
-  }
-
-  getCurrentItem() {
+  getCurrentItem(): ElementFinder {
     return this.currentItem;
   }
 
-  async getCurrentItemName() {
+  async getCurrentItemName(): Promise<string> {
     return this.currentItem.getText();
   }
 
-  async clickItem(name: string) {
+  async clickItem(name: string): Promise<void> {
     const elem = this.component.element(by.css(`${Breadcrumb.selectors.item}[title=${name}]`));
     await elem.click();
   }
 
-  async clickNthItem(nth: number) {
-    await this.getNthItem(nth).click();
-  }
-
-  async getNthItemTooltip(nth: number) {
+  async getNthItemTooltip(nth: number): Promise<string> {
     return this.getNthItem(nth).getAttribute('title');
   }
 }
