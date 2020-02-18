@@ -57,11 +57,14 @@
         "CREATE_FOLDER": "Opret mappe",
         "UPLOAD_FILE": "Upload fil",
         "UPLOAD_FOLDER": "Upload mappe",
-        "CREATE_LIBRARY": "Opret bibliotek"
+        "CREATE_LIBRARY": "Opret bibliotek",
+        "FILE_TEMPLATE": "Opret fil fra skabelon",
+        "FOLDER_TEMPLATE": "Opret mappe fra skabelon"
       },
       "TOOLTIPS": {
         "CREATE_FOLDER": "Opret ny mappe",
         "CREATE_FOLDER_NOT_ALLOWED": "Der kan ikke oprettes mapper, mens du får vist de aktuelle elementer",
+        "CREATE_FILE_NOT_ALLOWED": "Filer kan ikke oprettes, samtidig med at de aktuelle elementer vises",
         "UPLOAD_FILES": "Vælg de filer, du vil uploade",
         "UPLOAD_FILES_NOT_ALLOWED": "Der kan ikke uploades filer, mens du får vist de aktuelle elementer",
         "UPLOAD_FOLDERS": "Vælg de mapper, du vil uploade",
@@ -355,7 +358,31 @@
     "COPY_ITEMS": "Kopiér {{ number }} elementer til...",
     "MOVE_ITEM": "Flyt '{{ name }}' til...",
     "MOVE_ITEMS": "Flyt {{ number }} elementer til...",
-    "SEARCH": "Søg"
+    "SEARCH": "Søg",
+    "NEXT": "Næste",
+    "SELECT_FILE_TEMPLATE_TITLE": "Vælg en dokumentskabelon",
+    "SELECT_FOLDER_TEMPLATE_TITLE": "Vælg en mappeskabelon"
+  },
+  "NODE_FROM_TEMPLATE": {
+    "CANCEL": "Annuller",
+    "CREATE": "Opret",
+    "FOLDER_DIALOG_TITLE": "Opret en ny mappe fra <span class=\"bold\">'{{ template }}'</span>",
+    "FILE_DIALOG_TITLE": "Opret et nyt dokument fra <span class=\"bold\">'{{ template }}'</span>",
+    "FORM": {
+      "PLACEHOLDER": {
+        "NAME": "Navn",
+        "TITLE": "Titel",
+        "DESCRIPTION": "Beskrivelse"
+      },
+      "ERRORS": {
+        "DESCRIPTION_TOO_LONG": "Beskrivelsen må ikke være på mere end 512 tegn",
+        "TITLE_TOO_LONG": "Titlen må ikke være på mere end 256 tegn",
+        "REQUIRED": "Et navn er påkrævet",
+        "SPECIAL_CHARACTERS": "Navnet må ikke indeholde følgende tegn: * \" < > \\ / ? : |",
+        "ENDING_DOT": "Navnet må ikke slutte med et punktum (.)",
+        "ONLY_SPACES": "Navnet skal indeholde andet end mellemrum"
+      }
+    }
   },
   "PERMISSIONS": {
     "DIALOG": {

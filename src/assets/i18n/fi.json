@@ -57,11 +57,14 @@
         "CREATE_FOLDER": "Luo kansio",
         "UPLOAD_FILE": "Lataa tiedosto",
         "UPLOAD_FOLDER": "Lataa kansio",
-        "CREATE_LIBRARY": "Luo kirjasto"
+        "CREATE_LIBRARY": "Luo kirjasto",
+        "FILE_TEMPLATE": "Luo tiedosto mallista",
+        "FOLDER_TEMPLATE": "Luo kansio mallista"
       },
       "TOOLTIPS": {
         "CREATE_FOLDER": "Luo uusi kansio",
         "CREATE_FOLDER_NOT_ALLOWED": "Kansioita ei voi luoda, kun tarkastelet nykyisiä kohteita",
+        "CREATE_FILE_NOT_ALLOWED": "Tiedostoja ei voi luoda, kun tarkastelet nykyisiä kohteita",
         "UPLOAD_FILES": "Valitse ladattavat tiedostot",
         "UPLOAD_FILES_NOT_ALLOWED": "Tiedostoja ei voi ladata, kun tarkastelet nykyisiä kohteita",
         "UPLOAD_FOLDERS": "Valitse ladattavat kansiot",
@@ -355,7 +358,31 @@
     "COPY_ITEMS": "Kopioi {{ number }} kohdetta kohteeseen...",
     "MOVE_ITEM": "Siirrä '{{ name }}' kohteeseen...",
     "MOVE_ITEMS": "Siirrä {{ number }} kohdetta kohteeseen...",
-    "SEARCH": "Hae"
+    "SEARCH": "Hae",
+    "NEXT": "Seuraava",
+    "SELECT_FILE_TEMPLATE_TITLE": "Valitse asiakirjamalli",
+    "SELECT_FOLDER_TEMPLATE_TITLE": "Valitse kansiomalli"
+  },
+  "NODE_FROM_TEMPLATE": {
+    "CANCEL": "Peruuta",
+    "CREATE": "Luo",
+    "FOLDER_DIALOG_TITLE": "Luo uusi kansio mallista <span class=\"bold\">'{{ template }}'</span>",
+    "FILE_DIALOG_TITLE": "Luo uusi asiakirja mallista <span class=\"bold\">'{{ template }}'</span>",
+    "FORM": {
+      "PLACEHOLDER": {
+        "NAME": "Nimi",
+        "TITLE": "Otsikko",
+        "DESCRIPTION": "Kuvaus"
+      },
+      "ERRORS": {
+        "DESCRIPTION_TOO_LONG": "Kuvauksessa voi olla enintään 512 merkkiä",
+        "TITLE_TOO_LONG": "Otsikossa voi olla enintään 256 merkkiä",
+        "REQUIRED": "Nimi on pakollinen",
+        "SPECIAL_CHARACTERS": "Nimessä ei saa olla näitä merkkejä: * \" < > \\ / ? : |",
+        "ENDING_DOT": "Nimi ei voi päättyä pisteeseen (.)",
+        "ONLY_SPACES": "Nimi ei voi koostua vain välilyönneistä"
+      }
+    }
   },
   "PERMISSIONS": {
     "DIALOG": {

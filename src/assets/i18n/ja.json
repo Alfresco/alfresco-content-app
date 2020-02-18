@@ -57,11 +57,14 @@
         "CREATE_FOLDER": "フォルダの作成",
         "UPLOAD_FILE": "ファイルのアップロード",
         "UPLOAD_FOLDER": "フォルダのアップロード",
-        "CREATE_LIBRARY": "ライブラリの作成"
+        "CREATE_LIBRARY": "ライブラリの作成",
+        "FILE_TEMPLATE": "テンプレートからファイルを作成",
+        "FOLDER_TEMPLATE": "テンプレートからフォルダを作成"
       },
       "TOOLTIPS": {
         "CREATE_FOLDER": "新しいフォルダを作成します",
         "CREATE_FOLDER_NOT_ALLOWED": "現在のアイテムを表示している間はフォルダを作成できません",
+        "CREATE_FILE_NOT_ALLOWED": "現在のアイテムを表示している間はファイルを作成できません",
         "UPLOAD_FILES": "アップロードするファイルを選択します",
         "UPLOAD_FILES_NOT_ALLOWED": "現在のアイテムを表示している間はファイルをアップロードできません",
         "UPLOAD_FOLDERS": "アップロードするフォルダを選択します",
@@ -355,7 +358,31 @@
     "COPY_ITEMS": "{{ number }} 件のアイテムのコピー先...",
     "MOVE_ITEM": "'{{ name }}' の移動先...",
     "MOVE_ITEMS": "{{ number }} 件のアイテムの移動先...",
-    "SEARCH": "検索"
+    "SEARCH": "検索",
+    "NEXT": "次へ",
+    "SELECT_FILE_TEMPLATE_TITLE": "文書テンプレートを選択してください",
+    "SELECT_FOLDER_TEMPLATE_TITLE": "フォルダテンプレートを選択してください"
+  },
+  "NODE_FROM_TEMPLATE": {
+    "CANCEL": "キャンセル",
+    "CREATE": "作成",
+    "FOLDER_DIALOG_TITLE": "<span class=\"bold\">'{{ template }}'</span> から新規フォルダを作成します",
+    "FILE_DIALOG_TITLE": "<span class=\"bold\">'{{ template }}'</span> から新規文書を作成します",
+    "FORM": {
+      "PLACEHOLDER": {
+        "NAME": "名前",
+        "TITLE": "タイトル",
+        "DESCRIPTION": "説明"
+      },
+      "ERRORS": {
+        "DESCRIPTION_TOO_LONG": "説明は 512 文字以内で入力してください",
+        "TITLE_TOO_LONG": "タイトルは 256 文字以内で入力してください",
+        "REQUIRED": "名前を指定してください",
+        "SPECIAL_CHARACTERS": "名前に次の文字を含めることはできません。 * \" < > \\ / ? : |",
+        "ENDING_DOT": "名前の末尾にピリオド (.) を付けることはできません。",
+        "ONLY_SPACES": "名前にスペースだけを含めることはできません"
+      }
+    }
   },
   "PERMISSIONS": {
     "DIALOG": {

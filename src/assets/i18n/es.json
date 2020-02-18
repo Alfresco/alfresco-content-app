@@ -15,12 +15,12 @@
       },
       "LICENSE": {
         "TITLE": "Licencia",
-        "PROPERTY": "Propiedad",
+        "PROPERTY": "Propiedades",
         "VALUE": "Valor"
       },
       "STATUS": {
         "TITLE": "Estado",
-        "PROPERTY": "Propiedad",
+        "PROPERTY": "Propiedades",
         "VALUE": "Valor"
       },
       "MODULES": {
@@ -57,13 +57,16 @@
         "CREATE_FOLDER": "Crear carpeta",
         "UPLOAD_FILE": "Añadir fichero",
         "UPLOAD_FOLDER": "Cargar carpeta",
-        "CREATE_LIBRARY": "Crear biblioteca"
+        "CREATE_LIBRARY": "Crear biblioteca",
+        "FILE_TEMPLATE": "Crear fichero a partir de plantilla",
+        "FOLDER_TEMPLATE": "Crear carpeta a partir de plantilla"
       },
       "TOOLTIPS": {
         "CREATE_FOLDER": "Crear nueva carpeta",
         "CREATE_FOLDER_NOT_ALLOWED": "No se pueden crear carpetas mientras se visualizan los elementos actuales",
+        "CREATE_FILE_NOT_ALLOWED": "No es posible crear los ficheros mientras se muestran los elementos actuales",
         "UPLOAD_FILES": "Seleccionar ficheros para cargar",
-        "UPLOAD_FILES_NOT_ALLOWED": "No se pueden crear ficheros mientras se visualizan los elementos actuales",
+        "UPLOAD_FILES_NOT_ALLOWED": "No se pueden cargar ficheros mientras se visualizan elementos actuales",
         "UPLOAD_FOLDERS": "Seleccionar carpetas para cargar",
         "UPLOAD_FOLDERS_NOT_ALLOWED": "No se pueden cargar carpetas mientras se visualizan los elementos actuales",
         "CREATE_LIBRARY": "Crear una nueva biblioteca de ficheros"
@@ -309,8 +312,8 @@
         "NODE_DELETION": {
           "SINGULAR": "{{ name }} eliminado",
           "PLURAL": "Se han eliminado {{ number }} elementos",
-          "PARTIAL_SINGULAR": "Se ha eliminado {{ success }} elemento, {{ failed }} no se ha podido eliminar",
-          "PARTIAL_PLURAL": "Se han eliminado {{ success }} elementos, {{ failed }} no se han podido eliminar"
+          "PARTIAL_SINGULAR": "Se ha eliminado el elemento {{ success }}, {{ failed }} no se ha podido eliminar",
+          "PARTIAL_PLURAL": "Se han eliminado los elementos {{ success }}, {{ failed }} no se han podido eliminar"
         },
         "NODE_COPY": {
           "SINGULAR": "Se ha copiado {{ success }} elemento",
@@ -355,7 +358,31 @@
     "COPY_ITEMS": "Copiar {{ number }} elementos a...",
     "MOVE_ITEM": "Mover '{{ name }}' a...",
     "MOVE_ITEMS": "Mover {{ number }} elementos a...",
-    "SEARCH": "Buscar"
+    "SEARCH": "Buscar",
+    "NEXT": "Siguiente",
+    "SELECT_FILE_TEMPLATE_TITLE": "Seleccione una plantilla de documento",
+    "SELECT_FOLDER_TEMPLATE_TITLE": "Seleccione una plantilla de carpeta"
+  },
+  "NODE_FROM_TEMPLATE": {
+    "CANCEL": "Cancelar",
+    "CREATE": "Crear",
+    "FOLDER_DIALOG_TITLE": "Crear nueva carpeta a partir de <span class=\"bold\">'{{ template }}'</span>",
+    "FILE_DIALOG_TITLE": "Crear nuevo documento a partir de <span class=\"bold\">'{{ template }}'</span>",
+    "FORM": {
+      "PLACEHOLDER": {
+        "NAME": "Nombre",
+        "TITLE": "Título",
+        "DESCRIPTION": "Descripción"
+      },
+      "ERRORS": {
+        "DESCRIPTION_TOO_LONG": "Utilice como máximo 512 caracteres para la descripción",
+        "TITLE_TOO_LONG": "Utilice como máximo 256 caracteres para el título",
+        "REQUIRED": "Se requiere el nombre",
+        "SPECIAL_CHARACTERS": "El nombre no puede contener estos caracteres * \" < > \\ / ? : |",
+        "ENDING_DOT": "El nombre no puede terminar en punto .",
+        "ONLY_SPACES": "El nombre no puede contener solo espacios"
+      }
+    }
   },
   "PERMISSIONS": {
     "DIALOG": {
@@ -367,7 +394,7 @@
     }
   },
   "SHARED_LINK": {
-    "UNSHARE_PERMISSION_ERROR": "No tiene acceso para dejar de compartir este fichero"
+    "UNSHARE_PERMISSION_ERROR": "No tiene permiso para dejar de compartir este fichero"
   },
   "VERSION": {
     "DIALOG_ADF": {
@@ -503,7 +530,7 @@
   "ADF_VERSION_LIST": {
     "ACTIONS": {
       "UPLOAD": {
-        "TOOLTIP": "Cargue nueva versión"
+        "TOOLTIP": "Cargar nueva versión"
       }
     }
   },

@@ -57,11 +57,14 @@
         "CREATE_FOLDER": "إنشاء مجلد",
         "UPLOAD_FILE": "تحميل ملف",
         "UPLOAD_FOLDER": "تحميل مجلد",
-        "CREATE_LIBRARY": "إنشاء مكتبة"
+        "CREATE_LIBRARY": "إنشاء مكتبة",
+        "FILE_TEMPLATE": "إنشاء ملف من قالب",
+        "FOLDER_TEMPLATE": "إنشاء مجلد من قالب"
       },
       "TOOLTIPS": {
         "CREATE_FOLDER": "إنشاء مجلد جديد",
         "CREATE_FOLDER_NOT_ALLOWED": "يتعذر إنشاء مجلدات أثناء عرض العناصر الحالية",
+        "CREATE_FILE_NOT_ALLOWED": "لا يمكن إنشاء الملفات أثناء عرض العناصر الحالية",
         "UPLOAD_FILES": "تحديد ملفات لتحميلها",
         "UPLOAD_FILES_NOT_ALLOWED": "يتعذر تحميل الملفات أثناء عرض العناصر الحالية",
         "UPLOAD_FOLDERS": "تحديد مجلدات لتحميلها",
@@ -355,7 +358,31 @@
     "COPY_ITEMS": "نسخ {{ number }} عناصر إلى...",
     "MOVE_ITEM": "نقل '{{ name }}' إلى...",
     "MOVE_ITEMS": "نقل {{ number }} عناصر إلى...",
-    "SEARCH": "بحث"
+    "SEARCH": "بحث",
+    "NEXT": "التالي",
+    "SELECT_FILE_TEMPLATE_TITLE": "تحديد قالب مستند",
+    "SELECT_FOLDER_TEMPLATE_TITLE": "تحديد قالب مجلد"
+  },
+  "NODE_FROM_TEMPLATE": {
+    "CANCEL": "إلغاء",
+    "CREATE": "إنشاء",
+    "FOLDER_DIALOG_TITLE": "إنشاء مجلد جديد من <span class=\"bold\">'{{ template }}'</span>",
+    "FILE_DIALOG_TITLE": "إنشاء مجلد جديد من <span class=\"bold\">'{{ template }}'</span>",
+    "FORM": {
+      "PLACEHOLDER": {
+        "NAME": "الاسم",
+        "TITLE": "العنوان",
+        "DESCRIPTION": "الوصف"
+      },
+      "ERRORS": {
+        "DESCRIPTION_TOO_LONG": "استخدم 512 حرفًا أو أقل للوصف",
+        "TITLE_TOO_LONG": "استخدم 256 أو أقل للعنوان",
+        "REQUIRED": "الاسم مطلوب",
+        "SPECIAL_CHARACTERS": "لا يمكن أن يحتوي الاسم على هذه الرموز * \" < > \\ / ? : |",
+        "ENDING_DOT": "لا يمكن أن ينتهي الاسم بنقطة .",
+        "ONLY_SPACES": "لا يمكن أن يحتوي الاسم على مسافات فقط"
+      }
+    }
   },
   "PERMISSIONS": {
     "DIALOG": {

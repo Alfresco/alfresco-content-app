@@ -57,11 +57,14 @@
         "CREATE_FOLDER": "Map maken",
         "UPLOAD_FILE": "Bestand uploaden",
         "UPLOAD_FOLDER": "Map uploaden",
-        "CREATE_LIBRARY": "Bibliotheek maken"
+        "CREATE_LIBRARY": "Bibliotheek maken",
+        "FILE_TEMPLATE": "Bestand maken op basis van sjabloon",
+        "FOLDER_TEMPLATE": "Map maken op basis van sjabloon"
       },
       "TOOLTIPS": {
         "CREATE_FOLDER": "Nieuwe map maken",
         "CREATE_FOLDER_NOT_ALLOWED": "Mappen kunnen niet worden gemaakt terwijl de huidige items worden weergegeven",
+        "CREATE_FILE_NOT_ALLOWED": "Bestanden kunnen niet worden gemaakt terwijl de huidige items worden weergegeven",
         "UPLOAD_FILES": "Bestanden selecteren om te uploaden",
         "UPLOAD_FILES_NOT_ALLOWED": "Bestanden kunnen niet worden geüpload terwijl de huidige items worden weergegeven",
         "UPLOAD_FOLDERS": "Mappen selecteren om te uploaden",
@@ -355,7 +358,31 @@
     "COPY_ITEMS": "{{ number }} items kopiëren naar...",
     "MOVE_ITEM": "'{{ name }}' verplaatsen naar...",
     "MOVE_ITEMS": "{{ number }} items verplaatsen naar...",
-    "SEARCH": "Zoeken"
+    "SEARCH": "Zoeken",
+    "NEXT": "Volgende",
+    "SELECT_FILE_TEMPLATE_TITLE": "Een documentsjabloon selecteren",
+    "SELECT_FOLDER_TEMPLATE_TITLE": "Een mapsjabloon selecteren"
+  },
+  "NODE_FROM_TEMPLATE": {
+    "CANCEL": "Annuleren",
+    "CREATE": "Maken",
+    "FOLDER_DIALOG_TITLE": "Nieuwe map maken op basis van <span class=\"bold\">'{{ template }}'</span>",
+    "FILE_DIALOG_TITLE": "Nieuw document maken op basis van <span class=\"bold\">'{{ template }}'</span>",
+    "FORM": {
+      "PLACEHOLDER": {
+        "NAME": "Naam",
+        "TITLE": "Titel",
+        "DESCRIPTION": "Beschrijving"
+      },
+      "ERRORS": {
+        "DESCRIPTION_TOO_LONG": "Gebruik 512 tekens of minder voor de beschrijving",
+        "TITLE_TOO_LONG": "Gebruik 256 tekens of minder voor de titel",
+        "REQUIRED": "Naam is vereist",
+        "SPECIAL_CHARACTERS": "Naam mag de volgende tekens niet bevatten: * \" < > \\ / ? : |",
+        "ENDING_DOT": "Naam mag niet eindigen met een punt.",
+        "ONLY_SPACES": "Naam mag niet alleen uit spaties bestaan"
+      }
+    }
   },
   "PERMISSIONS": {
     "DIALOG": {
