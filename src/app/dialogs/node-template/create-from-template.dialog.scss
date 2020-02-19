@@ -1,0 +1,64 @@
+@mixin app-create-from-template-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $foreground: map-get($theme, foreground);
+  $background: map-get($theme, background);
+
+  .aca-create-from-template-dialog {
+    ng-component {
+      overflow: visible;
+    }
+
+    .mat-dialog-title {
+      margin-left: 24px;
+      margin-right: 24px;
+      font-size: 20px;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.6;
+      letter-spacing: -0.5px;
+      color: mat-color($foreground, text, 0.87);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      .bold {
+        font-weight: 600;
+      }
+    }
+
+    .mat-form-field {
+      margin-bottom: 20px;
+    }
+
+    .mat-dialog-container {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .mat-dialog-content {
+      margin: 0 2px;
+      overflow: hidden;
+    }
+
+    .mat-dialog-actions {
+      padding: 8px 22px;
+      display: flex;
+      justify-content: flex-end;
+      color: mat-color($foreground, secondary-text);
+
+      button {
+        text-transform: uppercase;
+        font-weight: normal;
+      }
+
+      .create[disabled] {
+        opacity: 0.6;
+      }
+
+      .create:enabled {
+        color: mat-color($accent);
+      }
+    }
+  }
+}

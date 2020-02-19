@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -94,7 +94,7 @@ describe('Personal Files', () => {
     });
 
     it('has the correct columns - [C217142]', async () => {
-      const expectedColumns = [ 'Thumbnail', 'Name', 'Size', 'Modified', 'Modified by' ];
+      const expectedColumns = [ 'Name', 'Size', 'Modified', 'Modified by' ];
       const actualColumns = await dataTable.getColumnHeadersText();
 
       expect(actualColumns).toEqual(expectedColumns);

@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -24,7 +24,7 @@
  */
 
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { SiteEntry, FavoritePaging, Pagination } from '@alfresco/js-api';
 import { AppExtensionService } from '../../extensions/extension.service';
@@ -38,7 +38,11 @@ import { UserPreferencesService } from '@alfresco/adf-core';
 })
 export class FavoriteLibrariesComponent extends PageComponent
   implements OnInit {
-  pagination: Pagination;
+  pagination: Pagination = new Pagination({
+    skipCount: 0,
+    maxItems: 25,
+    totalItems: 0
+  });
   isLoading = false;
   list: FavoritePaging;
   isSmallScreen = false;
@@ -50,7 +54,8 @@ export class FavoriteLibrariesComponent extends PageComponent
     extensions: AppExtensionService,
     private contentApiService: ContentApiService,
     private breakpointObserver: BreakpointObserver,
-    private preferences: UserPreferencesService
+    private preferences: UserPreferencesService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {
     super(store, extensions, content);
   }
@@ -98,6 +103,7 @@ export class FavoriteLibrariesComponent extends PageComponent
         this.list = favoriteLibraries;
         this.pagination = favoriteLibraries.list.pagination;
         this.isLoading = false;
+        this.changeDetectorRef.detectChanges();
       },
       () => {
         this.list = null;

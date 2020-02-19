@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -63,5 +63,7 @@ describe('Upload files', () => {
     await dataTable.doubleClickOnRowByName(folder1);
     await page.sidenav.openNewMenu();
     await page.sidenav.menu.uploadFile().sendKeys(`${__dirname}/create-folder.test.ts`);
+
+    expect(await dataTable.isItemPresent('create-folder.test.ts')).toBe(true, 'file not uploaded');
   });
 });

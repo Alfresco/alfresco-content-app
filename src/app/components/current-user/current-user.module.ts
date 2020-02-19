@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -26,12 +26,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
+import { ExtensionsModule } from '@alfresco/adf-extensions';
 import { CurrentUserComponent } from './current-user.component';
+import { UserMenuItemComponent } from './user-menu-item.component';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild(), RouterModule],
-  declarations: [CurrentUserComponent],
-  exports: [CurrentUserComponent]
+  imports: [
+    CommonModule,
+    CoreModule.forChild(),
+    RouterModule,
+    ExtensionsModule
+  ],
+  declarations: [CurrentUserComponent, UserMenuItemComponent],
+  exports: [CurrentUserComponent, UserMenuItemComponent]
 })
 export class AppCurrentUserModule {}

@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -25,8 +25,7 @@
 
 import { Component, Input } from '@angular/core';
 import { MinimalNodeEntryEntity } from '@alfresco/js-api';
-import { NodePermissionService } from '@alfresco/aca-shared';
-import { isLocked } from '../../../utils/node.utils';
+import { NodePermissionService, isLocked } from '@alfresco/aca-shared';
 
 @Component({
   selector: 'app-comments-tab',

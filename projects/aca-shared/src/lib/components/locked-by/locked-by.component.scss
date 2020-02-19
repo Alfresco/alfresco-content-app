@@ -1,0 +1,17 @@
+.aca-locked-by {
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  color: var(--theme-text-color, rgba(0, 0, 0, 0.54));
+
+  .locked_by--icon {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+  }
+
+  .locked_by--name {
+    font-size: 12px;
+    padding: 0 2px;
+  }
+}

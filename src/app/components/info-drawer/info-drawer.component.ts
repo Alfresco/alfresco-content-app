@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -23,7 +23,14 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, OnChanges, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  Input,
+  OnChanges,
+  OnInit,
+  OnDestroy
+} from '@angular/core';
 import {
   MinimalNodeEntity,
   MinimalNodeEntryEntity,
@@ -33,7 +40,10 @@ import { ContentApiService } from '@alfresco/aca-shared';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { SidebarTabRef } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
-import { SetInfoDrawerStateAction } from '@alfresco/aca-shared/store';
+import {
+  SetInfoDrawerStateAction,
+  ToggleInfoDrawerAction
+} from '@alfresco/aca-shared/store';
 
 @Component({
   selector: 'aca-info-drawer',
@@ -48,6 +58,11 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
   isLoading = false;
   displayNode: MinimalNodeEntryEntity | SiteEntry;
   tabs: Array<SidebarTabRef> = [];
+
+  @HostListener('keydown.escape', ['$event'])
+  onEscapeKeyboardEvent(event: KeyboardEvent): void {
+    this.close();
+  }
 
   constructor(
     private store: Store<any>,
@@ -74,6 +89,10 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
       const id = entry.nodeId || entry.id;
       return this.loadNodeInfo(id);
     }
+  }
+
+  private close() {
+    this.store.dispatch(new ToggleInfoDrawerAction());
   }
 
   private loadNodeInfo(nodeId: string) {

@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -37,7 +37,7 @@ import { Actions, ofType } from '@ngrx/effects';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { NodeActionTypes } from '@alfresco/aca-shared/store';
-import { isLocked } from '../../../utils/node.utils';
+import { isLocked } from '@alfresco/aca-shared';
 
 @Component({
   selector: 'aca-custom-name-column',
@@ -92,6 +92,11 @@ export class CustomNameColumnComponent extends NameColumnComponent
       .subscribe(() => {
         this.cd.detectChanges();
       });
+  }
+
+  onLinkClick(event: Event) {
+    event.stopPropagation();
+    this.onClick();
   }
 
   ngOnDestroy() {

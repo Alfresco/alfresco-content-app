@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -80,26 +80,26 @@ describe('Special permissions', () => {
 
     it('on Recent Files - [C213173]', async () => {
       await page.clickRecentFilesAndWait();
-      expect(await dataTable.countRows()).toBe(1, 'Incorrect number of items');
+      expect(await dataTable.getRowsCount()).toBe(1, 'Incorrect number of items');
       await apis.admin.sites.deleteSiteMember(sitePrivate, username);
       await page.refresh();
-      expect(await dataTable.isEmptyList()).toBe(true, 'Items are still displayed');
+      expect(await dataTable.isEmpty()).toBe(true, 'Items are still displayed');
     });
 
     it('on Favorites - [C213227]', async () => {
       await page.clickFavoritesAndWait();
-      expect(await dataTable.countRows()).toBe(1, 'Incorrect number of items');
+      expect(await dataTable.getRowsCount()).toBe(1, 'Incorrect number of items');
       await apis.admin.sites.deleteSiteMember(sitePrivate, username);
       await page.refresh();
-      expect(await dataTable.isEmptyList()).toBe(true, 'Items are still displayed');
+      expect(await dataTable.isEmpty()).toBe(true, 'Items are still displayed');
     });
 
     it('on Shared Files - [C213116]', async () => {
       await page.clickSharedFilesAndWait();
-      expect(await dataTable.countRows()).toBe(1, 'Incorrect number of items');
+      expect(await dataTable.getRowsCount()).toBe(1, 'Incorrect number of items');
       await apis.admin.sites.deleteSiteMember(sitePrivate, username);
       await page.refresh();
-      expect(await dataTable.isEmptyList()).toBe(true, 'Items are still displayed');
+      expect(await dataTable.isEmpty()).toBe(true, 'Items are still displayed');
     });
 
     it('on Search Results - [C290122]', async () => {
@@ -147,19 +147,19 @@ describe('Special permissions', () => {
 
     it(`on Recent Files - [C213178]`, async () => {
       await page.clickRecentFilesAndWait();
-      expect(await dataTable.countRows()).toBe(1, 'Incorrect number of items');
+      expect(await dataTable.getRowsCount()).toBe(1, 'Incorrect number of items');
       expect(await dataTable.getItemLocation(fileName)).toEqual('Unknown');
     });
 
     it(`on Favorites - [C213672]`, async () => {
       await page.clickFavoritesAndWait();
-      expect(await dataTable.countRows()).toBe(1, 'Incorrect number of items');
+      expect(await dataTable.getRowsCount()).toBe(1, 'Incorrect number of items');
       expect(await dataTable.getItemLocation(fileName)).toEqual('Unknown');
     });
 
     it(`on Shared Files - [C213668]`, async () => {
       await page.clickSharedFilesAndWait();
-      expect(await dataTable.countRows()).toBe(1, 'Incorrect number of items');
+      expect(await dataTable.getRowsCount()).toBe(1, 'Incorrect number of items');
       expect(await dataTable.getItemLocation(fileName)).toEqual('Unknown');
     });
 

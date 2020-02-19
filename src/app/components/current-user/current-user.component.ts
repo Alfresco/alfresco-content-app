@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -23,17 +23,16 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { ProfileState } from '@alfresco/adf-extensions';
+import { ProfileState, ContentActionRef } from '@alfresco/adf-extensions';
 import {
   AppStore,
-  SetSelectedNodesAction,
   getUserProfile,
   getLanguagePickerState
 } from '@alfresco/aca-shared/store';
-import { AppService } from '@alfresco/aca-shared';
+import { AppExtensionService } from '../../extensions/extension.service';
 
 @Component({
   selector: 'aca-current-user',
@@ -41,20 +40,23 @@ import { AppService } from '@alfresco/aca-shared';
   encapsulation: ViewEncapsulation.None,
   host: { class: 'aca-current-user' }
 })
-export class CurrentUserComponent {
+export class CurrentUserComponent implements OnInit {
   profile$: Observable<ProfileState>;
   languagePicker$: Observable<boolean>;
+  actions: Array<ContentActionRef> = [];
 
-  get showLogout(): boolean {
-    return !this.appService.withCredentials;
-  }
+  constructor(
+    private store: Store<AppStore>,
+    private extensions: AppExtensionService
+  ) {}
 
-  constructor(private store: Store<AppStore>, private appService: AppService) {
+  ngOnInit() {
     this.profile$ = this.store.select(getUserProfile);
-    this.languagePicker$ = store.select(getLanguagePickerState);
+    this.languagePicker$ = this.store.select(getLanguagePickerState);
+    this.actions = this.extensions.getUserActions();
   }
 
-  onLogoutEvent() {
-    this.store.dispatch(new SetSelectedNodesAction([]));
+  trackByActionId(_: number, action: ContentActionRef) {
+    return action.id;
   }
 }

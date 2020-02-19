@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -126,7 +126,7 @@ describe('Delete and undo delete', () => {
     });
 
     it('delete a file and check notification - [C217125]', async () => {
-      let items = await page.dataTable.countRows();
+      let items = await page.dataTable.getRowsCount();
       await dataTable.selectItem(file1);
       await toolbar.clickMoreActionsDelete();
       const message = await page.getSnackBarMessage();
@@ -140,7 +140,7 @@ describe('Delete and undo delete', () => {
     });
 
     it('delete multiple files and check notification - [C280502]', async () => {
-      let items = await page.dataTable.countRows();
+      let items = await page.dataTable.getRowsCount();
       await dataTable.selectMultipleItems([file2, file3]);
       await toolbar.clickMoreActionsDelete();
       const message = await page.getSnackBarMessage();
@@ -155,7 +155,7 @@ describe('Delete and undo delete', () => {
     });
 
     it('delete a folder with content - [C217126]', async () => {
-      let items = await page.dataTable.countRows();
+      let items = await page.dataTable.getRowsCount();
       await dataTable.selectItem(folder1);
       await toolbar.clickMoreActionsDelete();
       expect(await dataTable.isItemPresent(folder1)).toBe(false, 'Item was not removed from list');
@@ -195,7 +195,7 @@ describe('Delete and undo delete', () => {
     });
 
     it('undo delete of file - [C217132]', async () => {
-      const items = await page.dataTable.countRows();
+      const items = await page.dataTable.getRowsCount();
 
       await dataTable.selectItem(file5);
       await toolbar.clickMoreActionsDelete();
@@ -206,7 +206,7 @@ describe('Delete and undo delete', () => {
     });
 
     it('undo delete of folder with content - [C280503]', async () => {
-      const items = await page.dataTable.countRows();
+      const items = await page.dataTable.getRowsCount();
 
       await dataTable.selectItem(folder6);
       await toolbar.clickMoreActionsDelete();
@@ -218,7 +218,7 @@ describe('Delete and undo delete', () => {
     });
 
     it('undo delete of multiple files - [C280504]', async () => {
-      const items = await page.dataTable.countRows();
+      const items = await page.dataTable.getRowsCount();
 
       await dataTable.selectMultipleItems([file6, file7]);
       await toolbar.clickMoreActionsDelete();
@@ -393,7 +393,7 @@ describe('Delete and undo delete', () => {
     });
 
     it('delete a file and check notification - [C280516]', async () => {
-      let items = await page.dataTable.countRows();
+      let items = await page.dataTable.getRowsCount();
 
       await dataTable.selectItem(favFile1);
       await toolbar.clickMoreActionsDelete();
@@ -408,7 +408,7 @@ describe('Delete and undo delete', () => {
     });
 
     it('delete multiple files and check notification - [C280517]', async () => {
-      let items = await page.dataTable.countRows();
+      let items = await page.dataTable.getRowsCount();
 
       await dataTable.selectMultipleItems([favFile2, favFile3]);
       await toolbar.clickMoreActionsDelete();
@@ -425,7 +425,7 @@ describe('Delete and undo delete', () => {
     });
 
     it('delete a folder with content - [C280518]', async () => {
-      let items = await page.dataTable.countRows();
+      let items = await page.dataTable.getRowsCount();
       await dataTable.selectItem(favFolder1);
       await toolbar.clickMoreActionsDelete();
       expect(await dataTable.isItemPresent(favFolder1)).toBe(false, 'Item was not removed from list');
@@ -464,7 +464,7 @@ describe('Delete and undo delete', () => {
     });
 
     it('undo delete of file - [C280524]', async () => {
-      const items = await page.dataTable.countRows();
+      const items = await page.dataTable.getRowsCount();
 
       await dataTable.selectItem(favFile5);
       await toolbar.clickMoreActionsDelete();
@@ -474,7 +474,7 @@ describe('Delete and undo delete', () => {
     });
 
     it('undo delete of folder with content - [C280526]', async () => {
-      const items = await page.dataTable.countRows();
+      const items = await page.dataTable.getRowsCount();
 
       await dataTable.selectItem(favFolder6);
       await toolbar.clickMoreActionsDelete();
@@ -486,7 +486,7 @@ describe('Delete and undo delete', () => {
     });
 
     it('undo delete of multiple files - [C280525]', async () => {
-      const items = await page.dataTable.countRows();
+      const items = await page.dataTable.getRowsCount();
 
       await dataTable.selectMultipleItems([favFile6, favFile7]);
       await toolbar.clickMoreActionsDelete();

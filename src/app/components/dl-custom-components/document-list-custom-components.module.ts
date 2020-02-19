@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -26,7 +26,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { CustomNameColumnComponent } from './name-column/name-column.component';
-import { LockByComponent } from './locked-by/locked-by.component';
+import { LockedByModule } from '@alfresco/aca-shared';
 import { ContentModule } from '@alfresco/adf-content-services';
 import { MaterialModule } from '../../material.module';
 import { CoreModule } from '@alfresco/adf-core';
@@ -36,10 +36,11 @@ import { CoreModule } from '@alfresco/adf-core';
     BrowserModule,
     CoreModule.forChild(),
     ContentModule.forChild(),
-    MaterialModule
+    MaterialModule,
+    LockedByModule
   ],
-  declarations: [CustomNameColumnComponent, LockByComponent],
-  exports: [CustomNameColumnComponent, LockByComponent],
-  entryComponents: [CustomNameColumnComponent, LockByComponent]
+  declarations: [CustomNameColumnComponent],
+  exports: [CustomNameColumnComponent],
+  entryComponents: [CustomNameColumnComponent]
 })
 export class DocumentListCustomComponentsModule {}

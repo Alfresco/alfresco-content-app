@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, ElementArrayFinder, by, browser, ExpectedConditions as EC, $ } from 'protractor';
+import { ElementFinder, ElementArrayFinder, by, browser, ExpectedConditions as EC } from 'protractor';
 import { Component } from '../component';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { CommentsTab } from './info-drawer-comments-tab';
@@ -48,9 +48,9 @@ export class InfoDrawer extends Component {
     headerTitle: '.adf-info-drawer-layout-header-title'
   };
 
-  commentsTab = new CommentsTab($(InfoDrawer.selectors.root));
-  aboutTab = new LibraryMetadata($(InfoDrawer.selectors.root));
-  propertiesTab = new ContentMetadata($(InfoDrawer.selectors.root));
+  commentsTab = new CommentsTab(InfoDrawer.selectors.root);
+  aboutTab = new LibraryMetadata(InfoDrawer.selectors.root);
+  propertiesTab = new ContentMetadata(InfoDrawer.selectors.root);
 
   header: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.header));
   headerTitle: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.headerTitle));
@@ -64,7 +64,7 @@ export class InfoDrawer extends Component {
   previousButton: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.previous));
 
 
-  constructor(ancestor?: ElementFinder) {
+  constructor(ancestor?: string) {
     super(InfoDrawer.selectors.root, ancestor);
   }
 

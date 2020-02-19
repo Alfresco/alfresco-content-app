@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -33,7 +33,15 @@ export class Menu extends Component {
     root: '.mat-menu-panel',
     item: '.mat-menu-item',
     icon: '.mat-icon',
-    uploadFiles: 'app-upload-files',
+
+    uploadFilesInput: 'app-upload-files',
+
+    uploadFile: 'app.create.uploadFile',
+    uploadFolder: 'app.create.uploadFolder',
+    createFolder: 'app.create.folder',
+    createLibrary: 'app.create.library',
+    createFileFromTemplate: 'app.create.fileFromTemplate',
+    createFolderFromTemplate: 'app.create.folderFromTemplate',
 
     submenu: 'app-context-menu-item .mat-menu-item',
 
@@ -46,14 +54,20 @@ export class Menu extends Component {
 
   items: ElementArrayFinder = this.component.all(by.css(Menu.selectors.item));
   backdrop: ElementFinder = browser.element(by.css('.cdk-overlay-backdrop'));
-  uploadFiles: ElementFinder = browser.element(by.id(Menu.selectors.uploadFiles));
+
+  uploadFilesInput: ElementFinder = browser.element(by.id(Menu.selectors.uploadFilesInput));
   submenus: ElementArrayFinder = browser.element.all(by.css(Menu.selectors.submenu));
+
+  uploadFileAction: ElementFinder = this.component.element(by.id(Menu.selectors.uploadFile));
+  uploadFolderAction: ElementFinder = this.component.element(by.id(Menu.selectors.uploadFolder));
+  createFolderAction: ElementFinder = this.component.element(by.id(Menu.selectors.createFolder));
+  createLibraryAction: ElementFinder = this.component.element(by.id(Menu.selectors.createLibrary));
+  createFileFromTemplateAction: ElementFinder = this.component.element(by.id(Menu.selectors.createFileFromTemplate));
+  createFolderFromTemplateAction: ElementFinder = this.component.element(by.id(Menu.selectors.createFolderFromTemplate));
 
   cancelEditingAction: ElementFinder = this.component.element(by.css(Menu.selectors.cancelEditing));
   cancelJoinAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Cancel Join'));
   copyAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Copy'));
-  createFolderAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Create Folder'));
-  createLibraryAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Create Library'));
   deleteAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Delete'));
   downloadAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Download'));
   editFolderAction: ElementFinder = this.component.element(by.css(Menu.selectors.editFolder));
@@ -72,69 +86,88 @@ export class Menu extends Component {
   restoreAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Restore'));
   shareAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Share'));
   shareEditAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Shared Link Settings'));
-  uploadFileAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Upload File'));
-  uploadFolderAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Upload Folder'));
   viewAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'View'));
   viewDetailsAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'View Details'));
 
-  constructor(ancestor?: ElementFinder) {
+  constructor(ancestor?: string) {
     super(Menu.selectors.root, ancestor);
   }
 
-  async waitForMenuToOpen() {
+  async waitForMenuToOpen(): Promise<void> {
     await browser.wait(EC.presenceOf(browser.element(by.css('.cdk-overlay-container .mat-menu-panel'))), BROWSER_WAIT_TIMEOUT);
     await browser.wait(EC.visibilityOf(this.items.get(0)), BROWSER_WAIT_TIMEOUT);
   }
 
-  async waitForMenuToClose() {
+  async waitForMenuToClose(): Promise<void> {
     await browser.wait(EC.not(EC.presenceOf(browser.element(by.css('.cdk-overlay-container .mat-menu-panel')))), BROWSER_WAIT_TIMEOUT);
   }
 
-  async closeMenu() {
+  async closeMenu(): Promise<void> {
     await Utils.pressEscape();
     await this.waitForMenuToClose();
   }
 
-  getNthItem(nth: number) {
+  getNthItem(nth: number): ElementFinder {
     return this.items.get(nth - 1);
   }
 
-  getItemByLabel(menuItem: string) {
+  getItemByLabel(menuItem: string): ElementFinder {
     return this.component.element(by.cssContainingText(Menu.selectors.item, menuItem));
   }
 
-  getSubItemByLabel(subMenuItem: string) {
+  getSubItemByLabel(subMenuItem: string): ElementFinder {
     return this.component.element(by.cssContainingText(Menu.selectors.submenu, subMenuItem));
   }
 
-  getItemById(id: string) {
+  getItemById(id: string): ElementFinder {
     return this.component.element(by.id(id));
   }
 
-  async getItemTooltip(menuItem: string) {
+  async getItemTooltip(menuItem: string): Promise<string> {
     return this.getItemByLabel(menuItem).getAttribute('title');
   }
 
-  async getItemIconText(menuItem: string) {
+  async getTooltipForUploadFile(): Promise<string> {
+    return this.getItemTooltip('Upload File');
+  }
+
+  async getTooltipForUploadFolder(): Promise<string> {
+    return this.getItemTooltip('Upload Folder');
+  }
+
+  async getTooltipForCreateFolder(): Promise<string> {
+    return this.getItemTooltip('Create Folder');
+  }
+
+  async getTooltipForCreateLibrary(): Promise<string> {
+    return this.getItemTooltip('Create Library');
+  }
+
+  async getTooltipForCreateFileFromTemplate(): Promise<string> {
+    return this.getItemTooltip('Create file from template');
+  }
+
+  async getItemIconText(menuItem: string): Promise<string> {
     return this.getItemByLabel(menuItem).element(by.css(Menu.selectors.icon)).getText();
   }
 
-  async getItemIdAttribute(menuItem: string) {
+  async getItemIdAttribute(menuItem: string): Promise<string> {
     return this.getItemByLabel(menuItem).getAttribute('id');
   }
 
-  async getItemsCount() {
+  async getItemsCount(): Promise<number> {
     return this.items.count();
   }
 
   async getMenuItems(): Promise<string[]> {
-    return this.items.map(async (elem) => {
-      const text = await elem.element(by.css('span')).getText();
-      return text;
+    const items: string[] = await this.items.map(async (elem) => {
+      const span: ElementFinder = elem.element(by.css('span'));
+      return span.getText();
     });
+    return items;
   }
 
-  async clickNthItem(nth: number) {
+  async clickNthItem(nth: number): Promise<void> {
     try {
       const elem = this.getNthItem(nth);
       await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT, 'timeout waiting for menu item to be clickable');
@@ -146,7 +179,7 @@ export class Menu extends Component {
     }
   }
 
-  async clickMenuItem(menuItem: string) {
+  async clickMenuItem(menuItem: string): Promise<void> {
     try {
       const elem = this.getItemByLabel(menuItem);
       await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT, 'timeout waiting for menu item to be clickable');
@@ -156,7 +189,7 @@ export class Menu extends Component {
     }
   }
 
-  async mouseOverMenuItem(menuItem: string) {
+  async mouseOverMenuItem(menuItem: string): Promise<void> {
     try {
       const elem = this.getItemByLabel(menuItem);
       await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT);
@@ -179,7 +212,7 @@ export class Menu extends Component {
     }
   }
 
-  async clickSubMenuItem(subMenuItem: string) {
+  async clickSubMenuItem(subMenuItem: string): Promise<void> {
     try {
       const elem = this.getSubItemByLabel(subMenuItem);
       await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT);
@@ -189,15 +222,15 @@ export class Menu extends Component {
     }
   }
 
-  async isMenuItemPresent(title: string) {
+  async isMenuItemPresent(title: string): Promise<boolean> {
     return browser.element(by.cssContainingText(Menu.selectors.item, title)).isPresent();
   }
 
-  async isSubMenuItemPresent(title: string) {
+  async isSubMenuItemPresent(title: string): Promise<boolean> {
     return browser.element(by.cssContainingText(Menu.selectors.submenu, title)).isPresent();
   }
 
-  async getSubmenuItemsCount() {
+  async getSubmenuItemsCount(): Promise<number> {
     return this.submenus.count();
   }
 
@@ -212,164 +245,157 @@ export class Menu extends Component {
     }
   }
 
-  uploadFile() {
-    return this.uploadFiles;
+  uploadFile(): ElementFinder {
+    return this.uploadFilesInput;
   }
 
-  async clickEditFolder() {
+  async clickEditFolder(): Promise<void> {
     await this.editFolderAction.click();
   }
 
-  async clickShare() {
+  async clickShare(): Promise<void> {
     const action = this.shareAction;
     await action.click();
   }
 
-  async clickSharedLinkSettings() {
+  async clickSharedLinkSettings(): Promise<void> {
     const action = this.shareEditAction;
     await action.click();
   }
 
-
-  async isViewPresent() {
+  async isViewPresent(): Promise<boolean> {
     return this.viewAction.isPresent();
   }
 
-  async isDownloadPresent() {
+  async isDownloadPresent(): Promise<boolean> {
     return this.downloadAction.isPresent();
   }
 
-  async isEditFolderPresent() {
+  async isEditFolderPresent(): Promise<boolean> {
     return this.editFolderAction.isPresent();
   }
 
-  async isEditOfflinePresent() {
+  async isEditOfflinePresent(): Promise<boolean> {
     return this.editOfflineAction.isPresent();
   }
 
-  async isCancelEditingPresent() {
+  async isCancelEditingPresent(): Promise<boolean> {
     return this.cancelEditingAction.isPresent();
   }
 
-  async isCopyPresent() {
+  async isCopyPresent(): Promise<boolean> {
     return this.copyAction.isPresent();
   }
 
-  async isMovePresent() {
+  async isMovePresent(): Promise<boolean> {
     return this.moveAction.isPresent();
   }
 
-  async isDeletePresent() {
+  async isDeletePresent(): Promise<boolean> {
     return this.deleteAction.isPresent();
   }
 
-  async isManagePermissionsPresent() {
+  async isManagePermissionsPresent(): Promise<boolean> {
     return this.managePermissionsAction.isPresent();
   }
 
-  async isManageVersionsPresent() {
+  async isManageVersionsPresent(): Promise<boolean> {
     return this.manageVersionsAction.isPresent();
   }
 
-  async isUploadNewVersionPresent() {
+  async isUploadNewVersionPresent(): Promise<boolean> {
     return this.uploadNewVersionAction.isPresent();
   }
 
-  async isFavoritePresent() {
+  async isFavoritePresent(): Promise<boolean> {
     return this.favoriteAction.isPresent();
   }
 
-  async isRemoveFavoritePresent() {
+  async isRemoveFavoritePresent(): Promise<boolean> {
     return this.removeFavoriteAction.isPresent();
   }
 
-  async isToggleFavoritePresent() {
+  async isToggleFavoritePresent(): Promise<boolean> {
     return this.toggleFavoriteAction.isPresent();
   }
 
-  async isToggleRemoveFavoritePresent() {
+  async isToggleRemoveFavoritePresent(): Promise<boolean> {
     return this.toggleRemoveFavoriteAction.isPresent();
   }
 
-  async isJoinLibraryPresent() {
+  async isJoinLibraryPresent(): Promise<boolean> {
     return this.joinAction.isPresent();
   }
 
-  async isCancelJoinPresent() {
+  async isCancelJoinPresent(): Promise<boolean> {
     return this.cancelJoinAction.isPresent();
   }
 
-  async isLeaveLibraryPresent() {
+  async isLeaveLibraryPresent(): Promise<boolean> {
     return this.leaveAction.isPresent();
   }
 
-  async isPermanentDeletePresent() {
+  async isPermanentDeletePresent(): Promise<boolean> {
     return this.permanentDeleteAction.isPresent();
   }
 
-  async isRestorePresent() {
+  async isRestorePresent(): Promise<boolean> {
     return this.restoreAction.isPresent();
   }
 
-  async isSharePresent() {
+  async isSharePresent(): Promise<boolean> {
     return this.shareAction.isPresent();
   }
 
-  async isSharedLinkSettingsPresent() {
+  async isSharedLinkSettingsPresent(): Promise<boolean> {
     return this.shareEditAction.isPresent();
   }
 
-  async isViewDetailsPresent() {
+  async isViewDetailsPresent(): Promise<boolean> {
     return this.viewDetailsAction.isPresent();
   }
 
-  async isCreateFolderPresent() {
-    return this.createFolderAction.isPresent();
-  }
-  async isCreateFolderEnabled() {
-    return this.createFolderAction.isEnabled();
+  async isCreateFolderEnabled(): Promise<boolean> {
+    return (await this.createFolderAction.isPresent()) && (await this.createFolderAction.isEnabled());
   }
 
-  async isCreateLibraryPresent() {
-    return this.createLibraryAction.isPresent();
-  }
-  async isCreateLibraryEnabled() {
-    return this.createLibraryAction.isEnabled();
+  async isCreateLibraryEnabled(): Promise<boolean> {
+    return (await this.createLibraryAction.isPresent()) && (await this.createLibraryAction.isEnabled());
   }
 
-  async isUploadFilePresent() {
-    return this.uploadFileAction.isPresent();
-  }
-  async isUploadFileEnabled() {
-    return this.uploadFileAction.isEnabled();
+  async isUploadFileEnabled(): Promise<boolean> {
+    return (await this.uploadFileAction.isPresent()) && (await this.uploadFileAction.isEnabled());
   }
 
-  async isUploadFolderPresent() {
-    return this.uploadFolderAction.isPresent();
-  }
-  async isUploadFolderEnabled() {
-    return this.uploadFolderAction.isEnabled();
+  async isUploadFolderEnabled(): Promise<boolean> {
+    return (await this.uploadFolderAction.isPresent()) && (await this.uploadFolderAction.isEnabled());
   }
 
+  async isCreateFileFromTemplateEnabled(): Promise<boolean> {
+    return (await this.createFileFromTemplateAction.isPresent()) && (await this.createFileFromTemplateAction.isEnabled());
+  }
 
-  async clickCreateFolder() {
+  async isCreateFolderFromTemplateEnabled(): Promise<boolean> {
+    return (await this.createFolderFromTemplateAction.isPresent()) && (await this.createFolderFromTemplateAction.isEnabled());
+  }
+
+  async clickCreateFolder(): Promise<void> {
     const action = this.createFolderAction;
     await action.click();
   }
 
-  async clickCreateLibrary() {
+  async clickCreateLibrary(): Promise<void> {
     const action = this.createLibraryAction;
     await action.click();
   }
 
-  async clickUploadFile() {
-    const action = this.uploadFileAction;
+  async clickCreateFileFromTemplate(): Promise<void> {
+    const action = this.createFileFromTemplateAction;
     await action.click();
   }
 
-  async clickUploadFolder() {
-    const action = this.uploadFolderAction;
+  async clickCreateFolderFromTemplate(): Promise<void> {
+    const action = this.createFolderFromTemplateAction;
     await action.click();
   }
-
 }

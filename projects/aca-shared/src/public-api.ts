@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -28,6 +28,8 @@ export * from './lib/components/page-layout/page-layout-error.component';
 export * from './lib/components/page-layout/page-layout-header.component';
 export * from './lib/components/page-layout/page-layout.component';
 export * from './lib/components/page-layout/page-layout.module';
+export * from './lib/components/locked-by/locked-by.component';
+export * from './lib/components/locked-by/locked-by.module';
 
 export * from './lib/routing/app.routes.strategy';
 export * from './lib/routing/shared.guard';
@@ -38,5 +40,10 @@ export * from './lib/services/node-permission.service';
 
 export * from './lib/components/generic-error/generic-error.component';
 export * from './lib/components/generic-error/generic-error.module';
+
+export * from './lib/directives/contextmenu/contextmenu.directive';
+export * from './lib/directives/contextmenu/contextmenu.module';
+
+export * from './lib/utils/node.utils';
 
 export * from './lib/shared.module';

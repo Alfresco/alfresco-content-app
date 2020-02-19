@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -45,7 +45,7 @@ export class PasswordDialog extends Component {
   closeButton: ElementFinder = this.component.element(by.buttonText('Close'));
   submitButton: ElementFinder = this.component.element(by.buttonText('Submit'));
 
-  constructor(ancestor?: ElementFinder) {
+  constructor(ancestor?: string) {
     super(PasswordDialog.selectors.root, ancestor);
   }
 
@@ -58,7 +58,13 @@ export class PasswordDialog extends Component {
   }
 
   async isDialogOpen() {
-    return browser.isElementPresent(by.css(PasswordDialog.selectors.root));
+    try {
+      const dialog = await browser.wait(until.elementLocated(by.css(PasswordDialog.selectors.root)), BROWSER_WAIT_TIMEOUT, '------- timeout waiting for dialog')
+      return dialog.isDisplayed();
+    } catch (error) {
+      return false;
+    }
+
   }
 
   async getTitle() {

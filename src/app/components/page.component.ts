@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -32,7 +32,7 @@ import { OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { MinimalNodeEntity, MinimalNodeEntryEntity } from '@alfresco/js-api';
 import { Observable, Subject, Subscription } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, map } from 'rxjs/operators';
 import { AppExtensionService } from '../extensions/extension.service';
 import { ContentManagementService } from '../services/content-management.service';
 import {
@@ -47,7 +47,7 @@ import {
   ViewNodeExtras,
   SetSelectedNodesAction
 } from '@alfresco/aca-shared/store';
-import { isLocked, isLibrary } from '../utils/node.utils';
+import { isLocked, isLibrary } from '@alfresco/aca-shared';
 
 export abstract class PageComponent implements OnInit, OnDestroy {
   onDestroy$: Subject<boolean> = new Subject<boolean>();
@@ -76,7 +76,12 @@ export abstract class PageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.sharedPreviewUrl$ = this.store.select(getSharedUrl);
-    this.infoDrawerOpened$ = this.store.select(isInfoDrawerOpened);
+    this.infoDrawerOpened$ = this.store.select(isInfoDrawerOpened).pipe(
+      map(infoDrawerState => {
+        return !this.isOutletPreviewUrl() && infoDrawerState;
+      })
+    );
+
     this.documentDisplayMode$ = this.store.select(getDocumentDisplayMode);
 
     this.store
@@ -133,6 +138,10 @@ export abstract class PageComponent implements OnInit, OnDestroy {
   }
 
   reload(selectedNode?: MinimalNodeEntity): void {
+    if (this.isOutletPreviewUrl()) {
+      return;
+    }
+
     this.store.dispatch(new ReloadDocumentListAction());
     if (selectedNode) {
       this.store.dispatch(new SetSelectedNodesAction([selectedNode]));
@@ -145,5 +154,9 @@ export abstract class PageComponent implements OnInit, OnDestroy {
 
   trackById(_: number, obj: { id: string }) {
     return obj.id;
+  }
+
+  private isOutletPreviewUrl(): boolean {
+    return location.href.includes('viewer:view');
   }
 }

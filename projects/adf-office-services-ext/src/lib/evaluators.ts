@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -53,19 +53,6 @@ export function canOpenWithOffice(
     return false;
   }
 
-  // workaround for Shared files
-  if (
-    context.navigation &&
-    context.navigation.url &&
-    context.navigation.url.startsWith('/shared')
-  ) {
-    if (file.entry.hasOwnProperty('allowableOperationsOnTarget')) {
-      return context.permissions.check(file, ['update'], {
-        target: 'allowableOperationsOnTarget'
-      });
-    }
-  }
-
   if (!file.entry.properties) {
     return false;
   }
@@ -105,6 +92,19 @@ export function canOpenWithOffice(
       file.entry.aspectNames.includes('rma:record'))
   ) {
     return false;
+  }
+
+  // workaround for Shared files
+  if (
+    context.navigation &&
+    context.navigation.url &&
+    context.navigation.url.startsWith('/shared')
+  ) {
+    if (file.entry.hasOwnProperty('allowableOperationsOnTarget')) {
+      return context.permissions.check(file, ['update'], {
+        target: 'allowableOperationsOnTarget'
+      });
+    }
   }
 
   return context.permissions.check(file, ['update']);

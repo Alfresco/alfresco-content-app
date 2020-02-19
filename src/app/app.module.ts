@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -76,7 +76,7 @@ import { AppNodeVersionModule } from './components/node-version/node-version.mod
 import { FavoritesComponent } from './components/favorites/favorites.component';
 import { RecentFilesComponent } from './components/recent-files/recent-files.component';
 import { SharedFilesComponent } from './components/shared-files/shared-files.component';
-
+import { CreateFromTemplateDialogComponent } from './dialogs/node-template/create-from-template.dialog';
 import { environment } from '../environments/environment';
 
 import { registerLocaleData } from '@angular/common';
@@ -158,7 +158,8 @@ registerLocaleData(localeSv);
     NodeVersionsDialogComponent,
     FavoritesComponent,
     RecentFilesComponent,
-    SharedFilesComponent
+    SharedFilesComponent,
+    CreateFromTemplateDialogComponent
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: AppRouteReuseStrategy },
@@ -175,7 +176,8 @@ registerLocaleData(localeSv);
   entryComponents: [
     NodeVersionsDialogComponent,
     NodeVersionUploadDialogComponent,
-    LibraryDialogComponent
+    LibraryDialogComponent,
+    CreateFromTemplateDialogComponent
   ],
   bootstrap: [AppComponent]
 })

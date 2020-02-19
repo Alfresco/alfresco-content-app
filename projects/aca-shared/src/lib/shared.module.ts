@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -27,8 +27,11 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { ContentApiService } from './services/content-api.service';
 import { NodePermissionService } from './services/node-permission.service';
 import { AppService } from './services/app.service';
-
-@NgModule({})
+import { ContextActionsModule } from './directives/contextmenu/contextmenu.module';
+@NgModule({
+  imports: [ContextActionsModule],
+  exports: [ContextActionsModule]
+})
 export class SharedModule {
   static forRoot(): ModuleWithProviders {
     return {

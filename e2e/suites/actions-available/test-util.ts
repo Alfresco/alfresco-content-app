@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -33,101 +33,97 @@ const contextMenu = dataTable.menu;
 const viewer = new Viewer();
 const viewerToolbar = viewer.toolbar;
 
-
-export async function checkContextMenu(item: string, expectedContextMenu: string[]) {
+export async function checkContextMenu(item: string, expectedContextMenu: string[]): Promise<void> {
   await dataTable.rightClickOnItem(item);
+
   const actualActions = await contextMenu.getMenuItems();
-  expect(actualActions.length).toBe(expectedContextMenu.length, 'Incorrect number of context menu items');
-  expect(JSON.stringify(actualActions)).toEqual(JSON.stringify(expectedContextMenu), 'Incorrect context menu actions');
+  expect(actualActions).toEqual(expectedContextMenu);
+
+  await Utils.pressEscape();
 }
 
-export async function checkToolbarPrimary(item: string, expectedToolbarPrimary: string[]) {
+export async function checkToolbarPrimary(item: string, expectedToolbarPrimary: string[]): Promise<void> {
   await dataTable.selectItem(item);
 
   const actualPrimaryActions = await toolbar.getButtons();
-  expect(actualPrimaryActions.length).toBe(expectedToolbarPrimary.length, 'Incorrect number of toolbar primary items');
-  expect(JSON.stringify(actualPrimaryActions)).toEqual(JSON.stringify(expectedToolbarPrimary), 'Incorrect toolbar primary actions');
+  expect(actualPrimaryActions).toEqual(expectedToolbarPrimary);
 }
 
-export async function checkToolbarMoreActions(item: string, expectedToolbarMore: string[]) {
+export async function checkToolbarMoreActions(item: string, expectedToolbarMore: string[]): Promise<void> {
   await dataTable.selectItem(item);
-
   await toolbar.openMoreMenu();
 
   const actualMoreActions = await toolbar.menu.getMenuItems();
-  expect(actualMoreActions.length).toBe(expectedToolbarMore.length, 'Incorrect number of toolbar More menu items');
-  expect(JSON.stringify(actualMoreActions)).toEqual(JSON.stringify(expectedToolbarMore), 'Incorrect toolbar More actions');
+  expect(actualMoreActions).toEqual(expectedToolbarMore);
 
   await toolbar.closeMoreMenu();
 }
 
-export async function checkMultipleSelContextMenu(items: string[], expectedContextMenu: string[]) {
+export async function checkToolbarActions(item: string, expectedToolbarPrimary: string[], expectedToolbarMore: string[]): Promise<void> {
+  await dataTable.selectItem(item);
+
+  const actualPrimaryActions = await toolbar.getButtons();
+  expect(actualPrimaryActions).toEqual(expectedToolbarPrimary);
+
+  await toolbar.openMoreMenu();
+
+  const actualMoreActions = await toolbar.menu.getMenuItems();
+  expect(actualMoreActions).toEqual(expectedToolbarMore);
+
+  await toolbar.closeMoreMenu();
+}
+
+export async function checkMultipleSelContextMenu(items: string[], expectedContextMenu: string[]): Promise<void> {
   await dataTable.selectMultipleItems(items);
   await dataTable.rightClickOnMultipleSelection();
 
   const actualActions = await contextMenu.getMenuItems();
-  expect(actualActions.length).toBe(expectedContextMenu.length, 'Incorrect number of context menu items');
-  expect(JSON.stringify(actualActions)).toEqual(JSON.stringify(expectedContextMenu), 'Incorrect context menu actions');
+  expect(actualActions).toEqual(expectedContextMenu);
+
+  await Utils.pressEscape();
 }
 
-export async function checkMultipleSelToolbarPrimary(items: string[], expectedToolbarPrimary: string[]) {
+export async function checkMultipleSelToolbarPrimary(items: string[], expectedToolbarPrimary: string[]): Promise<void> {
   await dataTable.selectMultipleItems(items);
 
   const actualPrimaryActions = await toolbar.getButtons();
-  expect(actualPrimaryActions.length).toBe(expectedToolbarPrimary.length, 'Incorrect number of toolbar primary items');
-  expect(JSON.stringify(actualPrimaryActions)).toEqual(JSON.stringify(expectedToolbarPrimary), 'Incorrect toolbar primary actions');
+  expect(actualPrimaryActions).toEqual(expectedToolbarPrimary);
 }
 
-export async function checkMultipleSelToolbarMoreActions(items: string[], expectedToolbarMore: string[]) {
+export async function checkMultipleSelToolbarActions(items: string[], expectedToolbarPrimary: string[], expectedToolbarMore: string[]): Promise<void> {
   await dataTable.selectMultipleItems(items);
+
+  const actualPrimaryActions = await toolbar.getButtons();
+  expect(actualPrimaryActions).toEqual(expectedToolbarPrimary);
 
   await toolbar.openMoreMenu();
 
   const actualMoreActions = await toolbar.menu.getMenuItems();
-  expect(actualMoreActions.length).toBe(expectedToolbarMore.length, 'Incorrect number of toolbar More menu items');
-  expect(JSON.stringify(actualMoreActions)).toEqual(JSON.stringify(expectedToolbarMore), 'Incorrect toolbar More actions');
+  expect(actualMoreActions).toEqual(expectedToolbarMore);
 
   await toolbar.closeMoreMenu();
 }
 
-export async function checkViewerToolbarPrimaryActions(item: string, expectedToolbarPrimary: string[]) {
-  // await dataTable.doubleClickOnRowByName(item);
+export async function checkViewerActions(item: string, expectedToolbarPrimary: string[], expectedToolbarMore: string[]): Promise<void> {
   await dataTable.selectItem(item);
   await toolbar.clickView();
   await viewer.waitForViewerToOpen();
 
   let actualPrimaryActions = await viewerToolbar.getButtons();
-
   actualPrimaryActions = removeClosePreviousNextOldInfo(actualPrimaryActions);
+  expect(actualPrimaryActions).toEqual(expectedToolbarPrimary);
 
-  expect(actualPrimaryActions.length).toBe(expectedToolbarPrimary.length, 'Incorrect number of viewer toolbar primary items');
-  expect(JSON.stringify(actualPrimaryActions)).toEqual(JSON.stringify(expectedToolbarPrimary), 'Incorrect viewer toolbar primary actions');
-
-  await Utils.pressEscape();
-}
-
-export async function checkViewerToolbarMoreActions(item: string, expectedToolbarMore: string[]) {
-  // await dataTable.doubleClickOnRowByName(item);
-  await dataTable.selectItem(item);
-  await toolbar.clickView();
-  await viewer.waitForViewerToOpen();
   await viewerToolbar.openMoreMenu();
 
   const actualMoreActions = await viewerToolbar.menu.getMenuItems();
-
-  expect(actualMoreActions.length).toBe(expectedToolbarMore.length, 'Incorrect number of toolbar More menu items');
-  expect(JSON.stringify(actualMoreActions)).toEqual(JSON.stringify(expectedToolbarMore), 'Incorrect toolbar More actions');
+  expect(actualMoreActions).toEqual(expectedToolbarMore);
 
   await toolbar.closeMoreMenu();
   await Utils.pressEscape();
 }
 
+const toRemove = ['Close', 'Previous File', 'Next File', 'View details'];
 
 function removeClosePreviousNextOldInfo(actions: string[]): string[] {
-  return actions.filter(elem => {
-    if ( (elem !== 'Close') && (elem !== 'Previous File') && (elem !== 'Next File') && (elem !== 'View details')) {
-      return elem;
-    }
-    return null
-  }).filter((action) => action != null);
+  return actions.filter((elem) => !toRemove.includes(elem));
 }

@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -39,7 +39,7 @@ export class MetadataCard extends Component {
   expandButton: ElementFinder = this.component.element(by.css(MetadataCard.selectors.expandButton));
   expansionPanels: ElementArrayFinder = this.component.all(by.css(MetadataCard.selectors.expansionPanel));
 
-  constructor(ancestor?: ElementFinder) {
+  constructor(ancestor?: string) {
     super(MetadataCard.selectors.root, ancestor);
   }
 

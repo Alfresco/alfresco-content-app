@@ -676,6 +676,12 @@
           "items": { "$ref": "#/definitions/iconRef" },
           "minItems": 1
         },
+        "userActions": {
+          "description": "User option menu extensions",
+          "type": "array",
+          "items": { "$ref": "#/definitions/contentActionRef" },
+          "minItems": 1
+        },
         "header": {
           "description": "Application header extensions",
           "type": "array",

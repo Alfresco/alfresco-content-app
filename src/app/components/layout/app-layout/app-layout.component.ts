@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -70,7 +70,7 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
   direction: Directionality;
 
   private minimizeConditions: string[] = ['search'];
-  private hideConditions: string[] = ['preview'];
+  private hideConditions: string[] = ['/preview/'];
 
   constructor(
     protected store: Store<AppStore>,

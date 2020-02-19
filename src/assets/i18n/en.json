@@ -1,6 +1,6 @@
 {
     "APP": {
-      "COPYRIGHT": "© 2017 - 2019 Alfresco Software, Inc. All rights reserved.",
+      "COPYRIGHT": "© 2017 - 2020 Alfresco Software, Inc. All rights reserved.",
       "ABOUT": {
         "VERSION": "Version:",
         "PLUGINS": {
@@ -57,11 +57,14 @@
                 "CREATE_FOLDER": "Create Folder",
                 "UPLOAD_FILE": "Upload File",
                 "UPLOAD_FOLDER": "Upload Folder",
-                "CREATE_LIBRARY": "Create Library"
+                "CREATE_LIBRARY": "Create Library",
+                "FILE_TEMPLATE": "Create file from template",
+                "FOLDER_TEMPLATE": "Create folder from template"
             },
             "TOOLTIPS": {
                 "CREATE_FOLDER": "Create new folder",
                 "CREATE_FOLDER_NOT_ALLOWED": "Folders cannot be created whilst viewing the current items",
+                "CREATE_FILE_NOT_ALLOWED": "Files cannot be created whilst viewing the current items",
                 "UPLOAD_FILES": "Select files to upload",
                 "UPLOAD_FILES_NOT_ALLOWED": "Files cannot be uploaded whilst viewing the current items",
                 "UPLOAD_FOLDERS": "Select folders to upload",
@@ -355,7 +358,31 @@
         "COPY_ITEMS": "Copy {{ number }} items to...",
         "MOVE_ITEM": "Move '{{ name }}' to...",
         "MOVE_ITEMS": "Move {{ number }} items to...",
-        "SEARCH": "Search"
+        "SEARCH": "Search",
+        "NEXT": "Next",
+        "SELECT_FILE_TEMPLATE_TITLE": "Select a document template",
+        "SELECT_FOLDER_TEMPLATE_TITLE": "Select a folder template"
+    },
+    "NODE_FROM_TEMPLATE": {
+        "CANCEL": "CANCEL",
+        "CREATE": "Create",
+        "FOLDER_DIALOG_TITLE": "Create new folder from <span class=\"bold\">'{{ template }}'</span>",
+        "FILE_DIALOG_TITLE": "Create new document from <span class=\"bold\">'{{ template }}'</span>",
+        "FORM": {
+            "PLACEHOLDER": {
+                "NAME": "Name",
+                "TITLE": "Title",
+                "DESCRIPTION": "Description"
+            },
+            "ERRORS": {
+                "DESCRIPTION_TOO_LONG": "Use 512 characters or less for description",
+                "TITLE_TOO_LONG": "Use 256 characters or less for title",
+                "REQUIRED": "Name is required",
+                "SPECIAL_CHARACTERS": "Name can't contain these characters * \" < > \\ / ? : |",
+                "ENDING_DOT": "Name can't end with a period .",
+                "ONLY_SPACES": "Name can't contain only spaces"
+            }
+        }
     },
     "PERMISSIONS": {
         "DIALOG": {

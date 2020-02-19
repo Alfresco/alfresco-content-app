@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -29,7 +29,7 @@ import { Page } from './page';
 import { ADMIN_USERNAME, ADMIN_PASSWORD, BROWSER_WAIT_TIMEOUT, APP_ROUTES } from '../configs';
 
 export class LoginPage extends Page {
-  login: LoginComponent = new LoginComponent(this.app);
+  login: LoginComponent = new LoginComponent(this.appRoot);
 
   /** @override */
   constructor() {

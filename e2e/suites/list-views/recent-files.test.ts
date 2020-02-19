@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -81,7 +81,7 @@ describe('Recent Files', () => {
   });
 
   it('has the correct columns - [C213168]', async () => {
-    const expectedColumns = [ 'Thumbnail', 'Name', 'Location', 'Size', 'Modified' ];
+    const expectedColumns = [ 'Name', 'Location', 'Size', 'Modified' ];
     const actualColumns = await dataTable.getColumnHeadersText();
 
     expect(actualColumns).toEqual(expectedColumns);
@@ -93,7 +93,7 @@ describe('Recent Files', () => {
   });
 
   it('displays the files added by the current user in the last 30 days - [C213170]', async () => {
-    expect(await dataTable.countRows()).toEqual(3, 'Incorrect number of files displayed');
+    expect(await dataTable.getRowsCount()).toEqual(3, 'Incorrect number of files displayed');
     expect(await dataTable.isItemPresent(fileName1)).toBe(true, `${fileName1} not displayed`);
     expect(await dataTable.isItemPresent(fileName2)).toBe(true, `${fileName2} not displayed`);
     expect(await dataTable.isItemPresent(fileSite)).toBe(true, `${fileSite} not displayed`);

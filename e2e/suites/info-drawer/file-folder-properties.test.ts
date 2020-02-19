@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -140,7 +140,7 @@ describe('File / Folder properties', () => {
       expect(await propertiesTab.getVisiblePropertiesLabels()).toEqual(expectedPropLabels, 'Incorrect properties displayed');
       expect(await propertiesTab.getVisiblePropertiesValues()).toEqual(expectedPropValues, 'Incorrect properties values');
       expect(await propertiesTab.isEditPropertiesButtonEnabled()).toBe(true, 'Edit button not enabled');
-      expect(await propertiesTab.isLessInfoButtonEnabled()).toBe(true, 'Less information button not enabled');
+      expect(await propertiesTab.isMoreInfoButtonEnabled()).toBe(true, 'More information button not enabled');
     });
 
     it('Folder properties - [C307106]', async () => {
@@ -174,7 +174,7 @@ describe('File / Folder properties', () => {
       expect(await propertiesTab.getVisiblePropertiesLabels()).toEqual(expectedPropLabels, 'Incorrect properties displayed');
       expect(await propertiesTab.getVisiblePropertiesValues()).toEqual(expectedPropValues, 'Incorrect properties values');
       expect(await propertiesTab.isEditPropertiesButtonEnabled()).toBe(true, 'Edit button not enabled');
-      expect(await propertiesTab.isLessInfoButtonEnabled()).toBe(true, 'Less information button not enabled');
+      expect(await propertiesTab.isMoreInfoButtonEnabled()).toBe(true, 'More information button not enabled');
     });
 
     it('Less / More information buttons - [C269004]', async () => {
@@ -182,19 +182,19 @@ describe('File / Folder properties', () => {
       await page.toolbar.clickViewDetails();
       await infoDrawer.waitForInfoDrawerToOpen();
 
-      expect(await propertiesTab.isLessInfoButtonEnabled()).toBe(true, 'Less information button not enabled');
-      expect(await propertiesTab.isPropertiesListExpanded()).toBe(true, 'Properties list not expanded');
-
-      await propertiesTab.clickLessInformationButton();
-
-      expect(await propertiesTab.isLessInfoButtonDisplayed()).toBe(false, 'Less information button displayed');
       expect(await propertiesTab.isMoreInfoButtonEnabled()).toBe(true, 'More information button not enabled');
-      expect(await propertiesTab.isPropertiesListExpanded()).toBe(false, 'Properties list expanded');
+      expect(await propertiesTab.isPropertiesListExpanded()).toBe(true, 'Properties list not expanded');
 
       await propertiesTab.clickMoreInformationButton();
 
       expect(await propertiesTab.isMoreInfoButtonDisplayed()).toBe(false, 'More information button displayed');
       expect(await propertiesTab.isLessInfoButtonEnabled()).toBe(true, 'Less information button not enabled');
+      expect(await propertiesTab.isPropertiesListExpanded()).toBe(false, 'Properties list expanded');
+
+      await propertiesTab.clickLessInformationButton();
+
+      expect(await propertiesTab.isMoreInfoButtonDisplayed()).toBe(true, 'More information button not displayed');
+      expect(await propertiesTab.isLessInfoButtonEnabled()).toBe(false, 'Less information button enabled');
       expect(await propertiesTab.isPropertiesListExpanded()).toBe(true, 'Properties list not expanded');
     });
 
@@ -234,7 +234,7 @@ describe('File / Folder properties', () => {
       await page.toolbar.clickViewDetails();
       await infoDrawer.waitForInfoDrawerToOpen();
 
-      await propertiesTab.clickLessInformationButton();
+      await propertiesTab.clickMoreInformationButton();
       await propertiesTab.clickImagePropertiesPanel();
       await propertiesTab.waitForImagePropertiesPanelToExpand();
 
@@ -242,7 +242,7 @@ describe('File / Folder properties', () => {
       expect(await propertiesTab.getVisiblePropertiesLabels()).toEqual(expectedPropLabels, 'Incorrect properties displayed');
       expect(await propertiesTab.getVisiblePropertiesValues()).toEqual(expectedPropValues, 'Incorrect properties values');
       expect(await propertiesTab.isEditPropertiesButtonEnabled()).toBe(true, 'Edit button not enabled');
-      expect(await propertiesTab.isMoreInfoButtonEnabled()).toBe(true, 'More information button not enabled');
+      expect(await propertiesTab.isLessInfoButtonEnabled()).toBe(true, 'Less information button not enabled');
     });
   });
 

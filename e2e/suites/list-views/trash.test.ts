@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -99,14 +99,14 @@ describe('Trash', () => {
     });
 
     it('has the correct columns - [C213217]', async () => {
-      const expectedColumns = [ 'Thumbnail', 'Name', 'Location', 'Size', 'Deleted', 'Deleted by' ];
+      const expectedColumns = [ 'Name', 'Location', 'Size', 'Deleted', 'Deleted by' ];
       const actualColumns = await dataTable.getColumnHeadersText();
 
       expect(actualColumns).toEqual(expectedColumns);
     });
 
     it('displays the files and folders deleted by everyone - [C280493]', async () => {
-      expect(await dataTable.countRows()).toEqual(8, 'Incorrect number of deleted items displayed');
+      expect(await dataTable.getRowsCount()).toEqual(8, 'Incorrect number of deleted items displayed');
 
       expect(await dataTable.isItemPresent(fileAdmin)).toBe(true, `${fileAdmin} not displayed`);
       expect(await dataTable.isItemPresent(folderAdmin)).toBe(true, `${folderAdmin} not displayed`);
@@ -128,14 +128,14 @@ describe('Trash', () => {
     });
 
     it('has the correct columns - [C280494]', async () => {
-      const expectedColumns = [ 'Thumbnail', 'Name', 'Location', 'Size', 'Deleted'];
+      const expectedColumns = [ 'Name', 'Location', 'Size', 'Deleted'];
       const actualColumns = await dataTable.getColumnHeadersText();
 
       expect(actualColumns).toEqual(expectedColumns);
     });
 
     it('displays the files and folders deleted by the user - [C213218]', async () => {
-      expect(await dataTable.countRows()).toEqual(6, 'Incorrect number of deleted items displayed');
+      expect(await dataTable.getRowsCount()).toEqual(6, 'Incorrect number of deleted items displayed');
 
       expect(await dataTable.isItemPresent(fileSite)).toBe(true, `${fileSite} not displayed`);
       expect(await dataTable.isItemPresent(fileUser)).toBe(true, `${fileUser} not displayed`);

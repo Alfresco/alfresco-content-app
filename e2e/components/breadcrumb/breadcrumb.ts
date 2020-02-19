@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -36,7 +36,7 @@ export class Breadcrumb extends Component {
   items: ElementArrayFinder = this.component.all(by.css(Breadcrumb.selectors.item));
   currentItem: ElementFinder = this.component.element(by.css(Breadcrumb.selectors.currentItem));
 
-  constructor(ancestor?: ElementFinder) {
+  constructor(ancestor?: string) {
     super(Breadcrumb.selectors.root, ancestor);
   }
 

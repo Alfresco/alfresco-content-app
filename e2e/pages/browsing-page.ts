@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -28,12 +28,12 @@ import { SIDEBAR_LABELS } from './../configs';
 import { Page } from './page';
 
 export class BrowsingPage extends Page {
-  header = new Header(this.app);
-  sidenav = new Sidenav(this.app);
-  toolbar = new Toolbar(this.app);
-  breadcrumb = new Breadcrumb(this.app);
-  dataTable = new DataTable(this.app);
-  pagination = new Pagination(this.app);
+  header = new Header(this.appRoot);
+  sidenav = new Sidenav(this.appRoot);
+  toolbar = new Toolbar(this.appRoot);
+  breadcrumb = new Breadcrumb(this.appRoot);
+  dataTable = new DataTable(this.appRoot);
+  pagination = new Pagination(this.appRoot);
 
   async signOut() {
     await this.header.userInfo.signOut();

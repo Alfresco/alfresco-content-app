@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -26,6 +26,11 @@
 import { RuleContext } from '@alfresco/adf-extensions';
 import * as navigation from './navigation.rules';
 import * as repository from './repository.rules';
+
+export interface AcaRuleContext extends RuleContext {
+  languagePicker: boolean;
+  withCredentials: boolean;
+}
 
 /**
  * Checks if user can copy selected node.
@@ -147,7 +152,7 @@ export function canDeleteSelection(context: RuleContext): boolean {
       return false;
     }
 
-    // temp workaround for Search api
+    // temp workaround for Favorites api
     if (navigation.isFavorites(context)) {
       return true;
     }
@@ -386,7 +391,7 @@ export function canLockFile(context: RuleContext): boolean {
 
 /**
  * Checks if user can unlock selected file.
- * JSON ref: `app.selection.file.canLock`
+ * JSON ref: `app.selection.file.canUnlock`
  */
 export function canUnlockFile(context: RuleContext): boolean {
   const { file } = context.selection;
@@ -503,9 +508,6 @@ export function canToggleEditOffline(context: RuleContext): boolean {
   return [
     hasFileSelected(context),
     navigation.isNotTrashcan(context),
-    navigation.isNotFavorites(context) ||
-      navigation.isFavoritesPreview(context),
-    navigation.isNotSharedFiles(context) || navigation.isSharedPreview(context),
     canLockFile(context) || canUnlockFile(context)
   ].every(Boolean);
 }
@@ -525,4 +527,22 @@ export function canToggleFavorite(context: RuleContext): boolean {
       navigation.isFavorites(context)
     ].some(Boolean)
   ].every(Boolean);
+}
+
+/**
+ * Checks if application should render language picker menu.
+ * JSON ref: `canShowLanguagePicker`
+ * @param context Rule execution context
+ */
+export function canShowLanguagePicker(context: AcaRuleContext): boolean {
+  return context.languagePicker;
+}
+
+/**
+ * Checks if application should render logout option.
+ * JSON ref: `canShowLogout`
+ * @param context Rule execution context
+ */
+export function canShowLogout(context: AcaRuleContext): boolean {
+  return !context.withCredentials;
 }

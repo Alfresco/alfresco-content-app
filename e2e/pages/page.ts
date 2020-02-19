@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -29,7 +29,7 @@ import { Utils } from '../utilities/utils';
 
 export abstract class Page {
   protected static locators = {
-    app: 'app-root',
+    root: 'app-root',
     layout: 'app-layout',
     overlay: '.cdk-overlay-container',
     dialogContainer: '.mat-dialog-container',
@@ -42,7 +42,8 @@ export abstract class Page {
     genericErrorTitle: '.generic-error__title'
   };
 
-  app: ElementFinder = browser.element(by.css(Page.locators.app));
+  appRoot: string = Page.locators.root;
+
   layout: ElementFinder = browser.element(by.css(Page.locators.layout));
   overlay: ElementFinder = browser.element(by.css(Page.locators.overlay));
   snackBar: ElementFinder = browser.element(by.css(Page.locators.snackBar));

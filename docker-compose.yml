@@ -4,6 +4,8 @@ services:
   alfresco:
     image: alfresco/alfresco-content-repository-community:latest
     mem_limit: 1500m
+    depends_on:
+      - auth
     volumes:
       - ./docker/acs-cm:/usr/local/tomcat/shared/classes/alfresco/extension
     environment:
@@ -37,6 +39,14 @@ services:
         -Dtika.url=http://tika:8090/
         -Dtransform.misc.url=http://transform-misc:8090/
         -Dcsrf.filter.enabled=false
+
+        -Didentity-service.enable-basic-auth=true
+        -Didentity-service.authentication.validation.failure.silent=false
+        -Didentity-service.auth-server-url=http://${HOST_IP}:8085/auth
+        -Didentity-service.realm=alfresco
+        -Didentity-service.resource=alfresco
+
+        ${AIMS_PROPS}
         -Xms1500m -Xmx1500m
         '
 
@@ -132,6 +142,15 @@ services:
     build: .
     depends_on:
       - alfresco
+    environment:
+      BASE_PATH: ./
+      APP_CONFIG_OAUTH2_HOST: ${APP_CONFIG_OAUTH2_HOST}
+      APP_CONFIG_AUTH_TYPE: ${APP_CONFIG_AUTH_TYPE}
+      APP_CONFIG_OAUTH2_CLIENTID: ${APP_CONFIG_OAUTH2_CLIENTID}
+      APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI: ${APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI}
+      APP_CONFIG_OAUTH2_REDIRECT_LOGIN: ${APP_CONFIG_OAUTH2_REDIRECT_LOGIN}
+      APP_CONFIG_OAUTH2_REDIRECT_LOGOUT: ${APP_CONFIG_OAUTH2_REDIRECT_LOGOUT}
+      APP_BASE_SHARE_URL: '{protocol}//{hostname}{:port}/content-app/#/preview/s'
     ports:
       - 4001:8080
 
@@ -148,3 +167,15 @@ services:
       - alfresco
       - share
       - content-app
+
+  auth:
+    image: jboss/keycloak:4.8.3.Final
+    volumes:
+      - ./docker/auth/alfresco-realm.json:/tmp/alfresco-realm.json
+    environment:
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=admin
+      - KEYCLOAK_IMPORT=/tmp/alfresco-realm.json
+      - DB_VENDOR=h2
+    ports:
+      - 8085:8080

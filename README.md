@@ -32,8 +32,8 @@ Please include a clear description, steps to reproduce and screenshots where app
 
 #### What's new in the latest release
 
-- Single Log Out
-- WCAG AA accessibility improvements
+- Create (file/folder) Templates
+- More WCAG AA accessibility improvements
 
 Please refer to the [release notes] for details of all changes.
 
@@ -59,6 +59,7 @@ Read up on our guidelines for [contributing] and then check out one of our issue
 
 | ACA Version | Built with | Tested on |
 | ----------- | ---------- | --------- |
+| ACA 1.10    | ADF 3.7.0  | ACS 6.2   |
 | ACA 1.9     | ADF 3.6.0  | ACS 6.2   |
 | ACA 1.8     | ADF 3.3.0  | ACS 6.1   |
 | ACA 1.7     | ADF 3.0.0  | ACS 6.1   |
@@ -100,6 +101,7 @@ Read up on our guidelines for [contributing] and then check out one of our issue
 | 1.8     | Extensibility improvements | Various - see [release notes](https://github.com/Alfresco/alfresco-content-app/releases) for details |
 | 1.9     | Single Log Out | Users will be automatically logged out from the Content App after logging out from another application in the same browser session | 
 | 1.9     | Accessibility improvements | Various - see [release notes](https://github.com/Alfresco/alfresco-content-app/releases) for details | 
+ 1.10     | Create (file/folder) from template | Users can create files and folders structures from pre-set templates | 
 
 [contributing]: https://github.com/Alfresco/alfresco-content-app/blob/master/CONTRIBUTING.md
 [github]: https://github.com/Alfresco/alfresco-content-app/issues

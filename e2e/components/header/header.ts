@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -47,12 +47,12 @@ export class Header extends Component {
   moreActions: ElementFinder = browser.element(Header.selectors.moreActions);
   sidenavToggle: ElementFinder = this.component.element(by.css(Header.selectors.sidenavToggle));
 
-  userInfo: UserInfo = new UserInfo(this.component);
+  userInfo: UserInfo = new UserInfo();
   menu: Menu = new Menu();
   toolbar: Toolbar = new Toolbar();
   searchInput: SearchInput = new SearchInput();
 
-  constructor(ancestor?: ElementFinder) {
+  constructor(ancestor?: string) {
     super('adf-layout-header', ancestor);
   }
 

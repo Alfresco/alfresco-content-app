@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -437,6 +437,42 @@ describe('app.evaluators', () => {
       };
 
       expect(app.isShared(context)).toBe(true);
+    });
+  });
+
+  describe('canShowLanguagePicker', () => {
+    it('should return true when property is true', () => {
+      const context: any = {
+        languagePicker: true
+      };
+
+      expect(app.canShowLanguagePicker(context)).toBe(true);
+    });
+
+    it('should return false when property is false', () => {
+      const context: any = {
+        languagePicker: false
+      };
+
+      expect(app.canShowLanguagePicker(context)).toBe(false);
+    });
+  });
+
+  describe('canShowLogout', () => {
+    it('should return false when `withCredentials` property is true', () => {
+      const context: any = {
+        withCredentials: true
+      };
+
+      expect(app.canShowLogout(context)).toBe(false);
+    });
+
+    it('should return true when `withCredentials` property is false', () => {
+      const context: any = {
+        withCredentials: false
+      };
+
+      expect(app.canShowLanguagePicker(context)).toBe(true);
     });
   });
 });

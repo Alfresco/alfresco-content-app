@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -51,8 +51,15 @@ export class UploadApi extends RepoApi {
     }
   }
 
-  async uploadFileWithRename(fileName: string, parentFolderId: string = '-my-', newName: string) {
+  async uploadFileWithRename(fileName: string, parentId: string = '-my-', newName: string, title: string = '', description: string = '') {
     const file = fs.createReadStream(`${E2E_ROOT_PATH}/resources/test-files/${fileName}`);
+    const nodeProps = {
+      properties: {
+        'cm:title': title,
+        'cm:description': description
+      }
+    };
+
     const opts = {
         name: newName,
         nodeType: 'cm:content'
@@ -60,7 +67,7 @@ export class UploadApi extends RepoApi {
 
     try {
       await this.apiAuth();
-      return await this.upload.uploadFile(file, '', parentFolderId, null, opts);
+      return await this.upload.uploadFile(file, '', parentId, nodeProps, opts);
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.uploadFileWithRename.name}`, error);
     }

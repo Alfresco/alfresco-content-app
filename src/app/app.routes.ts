@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -35,7 +35,7 @@ import {
   AppSharedRuleGuard,
   GenericErrorComponent
 } from '@alfresco/aca-shared';
-import { AuthGuardEcm, AuthGuard } from '@alfresco/adf-core';
+import { AuthGuardEcm } from '@alfresco/adf-core';
 import { FavoritesComponent } from './components/favorites/favorites.component';
 import { RecentFilesComponent } from './components/recent-files/recent-files.component';
 import { SharedFilesComponent } from './components/shared-files/shared-files.component';
@@ -76,7 +76,7 @@ export const APP_ROUTES: Routes = [
   {
     path: '',
     component: AppLayoutComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuardEcm],
     children: [
       {
         path: '',

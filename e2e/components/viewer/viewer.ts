@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -50,9 +50,9 @@ export class Viewer extends Component {
   viewerExtensionContent: ElementFinder = this.component.element(by.css(Viewer.selectors.viewerExtensionContent));
   pdfViewerContentPages: ElementArrayFinder = this.component.all(by.css(Viewer.selectors.pdfViewerContentPage));
 
-  toolbar = new Toolbar(this.component);
+  toolbar = new Toolbar(Viewer.selectors.root);
 
-  constructor(ancestor?: ElementFinder) {
+  constructor(ancestor?: string) {
     super(Viewer.selectors.root, ancestor);
   }
 

@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -44,7 +44,7 @@ export class AosEditOnlineService {
   ) {}
 
   onActionEditOnlineAos(node: MinimalNodeEntryEntity): void {
-    if (node && node.isFile && node.properties) {
+    if (node && this.isFile(node) && node.properties) {
       if (node.isLocked) {
         // const checkedOut = node.aspectNames.find(
         //   (aspect: string) => aspect === 'cm:checkedOut'
@@ -92,9 +92,9 @@ export class AosEditOnlineService {
 
   private triggerEditOnlineAos(node: MinimalNodeEntryEntity): void {
     const aosHost = this.appConfigService.get('aosHost');
-    const url = `${aosHost}/_aos_nodeid/${node.id}/${encodeURIComponent(
-      node.name
-    )}`;
+    const url = `${aosHost}/_aos_nodeid/${this.getNodeId(
+      node
+    )}/${encodeURIComponent(node.name)}`;
     const fileExtension = getFileExtension(node.name);
     const protocolHandler = this.getProtocolForFileExtension(fileExtension);
 
@@ -133,5 +133,15 @@ export class AosEditOnlineService {
         document.body.removeChild(iframe);
       }
     }, 500);
+  }
+
+  private isFile(node: MinimalNodeEntryEntity): boolean {
+    const implicitFile = (<any>node).nodeId || (<any>node).guid;
+
+    return !!implicitFile || node.isFile;
+  }
+
+  private getNodeId(node: MinimalNodeEntryEntity): string {
+    return (<any>node).nodeId || (<any>node).guid || node.id;
   }
 }

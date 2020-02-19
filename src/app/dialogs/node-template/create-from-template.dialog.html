@@ -1,0 +1,56 @@
+<h2 mat-dialog-title [innerHTML]="title()"></h2>
+<div mat-dialog-content>
+  <form [formGroup]="form" novalidate>
+    <mat-form-field class="adf-full-width">
+      <input
+        cdkFocusInitial
+        placeholder="{{ 'NODE_FROM_TEMPLATE.FORM.PLACEHOLDER.NAME' | translate }}"
+        matInput
+        formControlName="name"
+        required
+      />
+
+      <mat-error *ngIf="form.controls['name'].errors?.message">
+        {{ form.controls['name'].errors?.message | translate }}
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="adf-full-width">
+      <input
+        placeholder="{{ 'NODE_FROM_TEMPLATE.FORM.PLACEHOLDER.TITLE' | translate }}"
+        matInput
+        formControlName="title"
+      />
+
+      <mat-error *ngIf="form.controls['title'].hasError('maxlength')">
+        {{ 'NODE_FROM_TEMPLATE.FORM.ERRORS.TITLE_TOO_LONG' | translate }}
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="adf-full-width">
+      <textarea
+        matInput
+        placeholder="{{ 'NODE_FROM_TEMPLATE.FORM.PLACEHOLDER.DESCRIPTION' | translate }}"
+        rows="2"
+        formControlName="description"
+      ></textarea>
+
+      <mat-error *ngIf="form.controls['description'].hasError('maxlength')">
+        {{ 'NODE_FROM_TEMPLATE.FORM.ERRORS.DESCRIPTION_TOO_LONG' | translate }}
+      </mat-error>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>
+    {{ 'NODE_FROM_TEMPLATE.CANCEL' | translate }}
+  </button>
+  <button
+    class="create"
+    [disabled]="form.invalid"
+    mat-button
+    (click)="onSubmit()"
+  >
+    {{ 'NODE_FROM_TEMPLATE.CREATE' | translate }}
+  </button>
+</div>

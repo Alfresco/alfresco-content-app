@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -103,14 +103,14 @@ describe('File Libraries', () => {
     });
 
     it('has the correct columns - [C217095]', async () => {
-      const expectedColumns = [ 'Thumbnail', 'Name', 'My Role', 'Visibility' ];
+      const expectedColumns = [ 'Name', 'My Role', 'Visibility' ];
       const actualColumns = await dataTable.getColumnHeadersText();
 
       expect(actualColumns).toEqual(expectedColumns);
     });
 
     it('User can see only the sites he is a member of - [C280501]', async () => {
-      const sitesCount = await dataTable.countRows();
+      const sitesCount = await dataTable.getRowsCount();
 
       expect(sitesCount).toEqual(10, 'Incorrect number of sites displayed');
       expect(await dataTable.isItemPresent(adminSite5)).toBe(false, `${adminSite5} should not appear in the list`);
@@ -150,10 +150,8 @@ describe('File Libraries', () => {
         `${siteName} (${siteId1})`,
         `${siteName} (${siteId2})`
       ];
-      const cells = await dataTable.getCellsContainingName(siteName);
-      const expectedJSON = JSON.stringify(expectedSites.sort());
-      const actualJSON = JSON.stringify(cells.sort());
-      expect(actualJSON).toEqual(expectedJSON);
+      const actualSites = await dataTable.getCellsContainingName(siteName);
+      expect(actualSites.sort()).toEqual(expectedSites.sort());
     });
 
     it('Tooltip for sites without description - [C217096]', async () => {
@@ -174,14 +172,14 @@ describe('File Libraries', () => {
     });
 
     it('has the correct columns - [C289893]', async () => {
-      const expectedColumns = [ 'Thumbnail', 'Name', 'My Role', 'Visibility' ];
+      const expectedColumns = [ 'Name', 'My Role', 'Visibility' ];
       const actualColumns = await dataTable.getColumnHeadersText();
 
       expect(actualColumns).toEqual(expectedColumns);
     });
 
     it('User can see only his favorite sites - [C289897]', async () => {
-      const sitesCount = await dataTable.countRows();
+      const sitesCount = await dataTable.getRowsCount();
 
       expect(sitesCount).toEqual(9, 'Incorrect number of sites displayed');
       expect(await dataTable.isItemPresent(adminSite6)).toBe(false, `${adminSite6} should not appear`);
@@ -221,10 +219,8 @@ describe('File Libraries', () => {
         `${siteName} (${siteId1})`,
         `${siteName} (${siteId2})`
       ];
-      const cells = await dataTable.getCellsContainingName(siteName);
-      const expectedJSON = JSON.stringify(expectedSites.sort());
-      const actualJSON = JSON.stringify(cells.sort());
-      expect(actualJSON).toEqual(expectedJSON);
+      const actualSites = await dataTable.getCellsContainingName(siteName);
+      expect(actualSites.sort()).toEqual(expectedSites.sort());
     });
 
     it('Tooltip for sites without description - [C289894]', async () => {

@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -479,9 +479,6 @@ describe('Unshare a file', () => {
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
       expect(await apis.user.nodes.isFileShared(file2Id)).toBe(false, `${file2} is shared`);
 
-      // TODO: disable check cause api is slow to update
-      // expect(await dataTable.isItemPresent(file2)).toBe(false, `${file2} is in the Shared files list`);
-
       await browser.get(url);
       expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
       expect(await viewer.getFileTitle()).not.toEqual(file2);
@@ -518,9 +515,6 @@ describe('Unshare a file', () => {
       await shareDialog.waitForDialogToClose();
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
       expect(await apis.user.nodes.isFileShared(file4Id)).toBe(false, `${file4} is shared`);
-
-      // TODO: disable check cause api is slow to update
-      // expect(await dataTable.isItemPresent(file4)).toBe(false, `${file4} is in the Shared files list`);
 
       await browser.get(url);
       expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
@@ -579,9 +573,7 @@ describe('Unshare a file', () => {
 
     it('Unshare dialog UI - [C286694]', async () => {
       await dataTable.selectItem(file1);
-      // TODO: remove workaround for favorites
-      // await toolbar.clickSharedLinkSettings();
-      await toolbar.clickShare();
+      await toolbar.clickSharedLinkSettings();
       await shareDialog.waitForDialogToOpen();
 
       expect(await shareDialog.isShareToggleChecked()).toBe(true, 'Share toggle not checked');
@@ -596,9 +588,7 @@ describe('Unshare a file', () => {
 
     it('Unshare a file - [C286695]', async () => {
       await dataTable.selectItem(file2);
-      // TODO: remove workaround for favorites
-      // await toolbar.clickSharedLinkSettings();
-      await toolbar.clickShare();
+      await toolbar.clickSharedLinkSettings();
       await shareDialog.waitForDialogToOpen();
       const url = await shareDialog.getLinkUrl();
       await shareDialog.clickShareToggle();
@@ -618,9 +608,7 @@ describe('Unshare a file', () => {
 
     it('Cancel the Unshare action - [C286696]', async () => {
       await dataTable.selectItem(file3);
-      // TODO: remove workaround for favorites
-      // await toolbar.clickSharedLinkSettings();
-      await toolbar.clickShare();
+      await toolbar.clickSharedLinkSettings();
       await shareDialog.waitForDialogToOpen();
 
       const urlBefore = await shareDialog.getLinkUrl();
@@ -637,9 +625,7 @@ describe('Unshare a file', () => {
 
     it('Unshare a file from the context menu - [C286698]', async () => {
       await dataTable.rightClickOnItem(file4);
-      // TODO: remove workaround for favorites
-      // await toolbar.clickSharedLinkSettings();
-      await contextMenu.clickShare();
+      await contextMenu.clickSharedLinkSettings();
       await shareDialog.waitForDialogToOpen();
       const url = await shareDialog.getLinkUrl();
       await shareDialog.clickShareToggle();
@@ -780,9 +766,7 @@ describe('Unshare a file', () => {
     it('on Favorites - file shared by other user - [C286697]', async () => {
       await page.clickFavoritesAndWait();
       await dataTable.selectItem(file1Fav);
-      // TODO: remove workaround for favorites
-      // await toolbar.clickSharedLinkSettings();
-      await toolbar.clickShare();
+      await toolbar.clickSharedLinkSettings();
       await shareDialog.waitForDialogToOpen();
 
       expect(await shareDialog.isShareToggleDisabled()).toBe(false, 'Share toggle disabled for consumer');
@@ -797,9 +781,7 @@ describe('Unshare a file', () => {
     it('on Favorites - file shared by the user - [C286703]', async () => {
       await page.clickFavoritesAndWait();
       await dataTable.selectItem(file2Fav);
-      // TODO: remove workaround for favorites
-      // await toolbar.clickSharedLinkSettings();
-      await toolbar.clickShare();
+      await toolbar.clickSharedLinkSettings();
       await shareDialog.waitForDialogToOpen();
 
       expect(await shareDialog.isShareToggleDisabled()).toBe(false, 'Share toggle disabled for consumer');

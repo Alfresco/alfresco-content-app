@@ -52,7 +52,7 @@ exports.config = {
     './e2e/suites/pagination/*.test.ts',
     './e2e/suites/search/*.test.ts',
     './e2e/suites/actions-available/**/*.test.ts',
-    './e2e/suites/actions/*.test.ts',
+    './e2e/suites/actions/**/*.test.ts',
     './e2e/suites/viewer/*.test.ts',
     './e2e/suites/info-drawer/*.test.ts',
     './e2e/suites/extensions/*.test.ts'
@@ -69,7 +69,9 @@ exports.config = {
     addRemoveContent: [
       './e2e/suites/actions/new-menu.test.ts',
       './e2e/suites/actions/create-folder.test.ts',
+      './e2e/suites/actions/create-folder-from-template.test.ts',
       './e2e/suites/actions/create-library.test.ts',
+      './e2e/suites/actions/create-file-from-template.test.ts',
       './e2e/suites/actions/upload-file.test.ts',
       './e2e/suites/actions/upload-new-version.test.ts',
       './e2e/suites/actions/delete-undo-delete.test.ts',

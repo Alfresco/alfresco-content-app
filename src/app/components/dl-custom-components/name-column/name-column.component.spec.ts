@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -104,5 +104,22 @@ describe('CustomNameColumnComponent', () => {
     expect(
       fixture.debugElement.nativeElement.querySelector('aca-locked-by')
     ).not.toBe(null);
+  });
+
+  it('should call parent component onClick method', () => {
+    const event = new MouseEvent('click');
+    spyOn(component, 'onClick');
+
+    component.onLinkClick(event);
+
+    expect(component.onClick).toHaveBeenCalled();
+  });
+
+  it('should prevent event propagation', () => {
+    const event = new MouseEvent('click');
+    spyOn(event, 'stopPropagation');
+
+    component.onLinkClick(event);
+    expect(event.stopPropagation).toHaveBeenCalled();
   });
 });

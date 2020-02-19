@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -35,7 +35,7 @@ import { AppCommonModule } from '../common/common.module';
 import { ContextMenuItemComponent } from './context-menu-item.component';
 import { OutsideEventDirective } from './context-menu-outside-event.directive';
 import { ContextMenuComponent } from './context-menu.component';
-import { ContextActionsDirective } from './context-menu.directive';
+import { ContextActionsModule } from '@alfresco/aca-shared';
 
 @NgModule({
   imports: [
@@ -46,19 +46,19 @@ import { ContextActionsDirective } from './context-menu.directive';
     CoreExtensionsModule.forChild(),
     CoreModule.forChild(),
     AppCommonModule,
-    ExtensionsModule
+    ExtensionsModule,
+    ContextActionsModule
   ],
   declarations: [
-    ContextActionsDirective,
     ContextMenuComponent,
     ContextMenuItemComponent,
     OutsideEventDirective
   ],
   exports: [
     OutsideEventDirective,
-    ContextActionsDirective,
     ContextMenuComponent,
-    ContextMenuItemComponent
+    ContextMenuItemComponent,
+    ContextActionsModule
   ],
   entryComponents: [ContextMenuComponent]
 })

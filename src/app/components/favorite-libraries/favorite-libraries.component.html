@@ -79,6 +79,7 @@
       </adf-document-list>
 
       <adf-pagination
+        [target]="documentList"
         [pagination]="pagination"
         (changePageSize)="onChangePageSize($event)"
         (changePageNumber)="onChange($event)"

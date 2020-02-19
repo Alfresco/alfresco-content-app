@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -58,7 +58,7 @@ export class ShareDialog extends Component {
   closeButton: ElementFinder = this.component.element(by.css(ShareDialog.selectors.button));
 
 
-  constructor(ancestor?: ElementFinder) {
+  constructor(ancestor?: string) {
     super(ShareDialog.selectors.root, ancestor);
   }
 

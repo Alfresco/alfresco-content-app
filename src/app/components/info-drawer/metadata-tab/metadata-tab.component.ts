@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -31,11 +31,10 @@ import {
   OnDestroy
 } from '@angular/core';
 import { MinimalNodeEntryEntity } from '@alfresco/js-api';
-import { NodePermissionService } from '@alfresco/aca-shared';
+import { NodePermissionService, isLocked } from '@alfresco/aca-shared';
 import { AppStore, infoDrawerMetadataAspect } from '@alfresco/aca-shared/store';
 import { AppExtensionService } from '../../../extensions/extension.service';
 import { AppConfigService, NotificationService } from '@alfresco/adf-core';
-import { isLocked } from '../../../utils/node.utils';
 import { Observable, Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { ContentMetadataService } from '@alfresco/adf-content-services';

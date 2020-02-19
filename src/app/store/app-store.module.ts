@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -39,7 +39,9 @@ import {
   SearchEffects,
   LibraryEffects,
   UploadEffects,
-  FavoriteEffects
+  FavoriteEffects,
+  TemplateEffects,
+  ContextMenuEffects
 } from './effects';
 import { INITIAL_STATE } from './initial-state';
 
@@ -56,7 +58,9 @@ import { INITIAL_STATE } from './initial-state';
       SearchEffects,
       LibraryEffects,
       UploadEffects,
-      FavoriteEffects
+      FavoriteEffects,
+      TemplateEffects,
+      ContextMenuEffects
     ]),
     !environment.production
       ? StoreDevtoolsModule.instrument({ maxAge: 25 })

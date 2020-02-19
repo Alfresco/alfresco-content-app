@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -30,6 +30,8 @@ import { NgModule } from '@angular/core';
 import { GenericErrorModule } from '@alfresco/aca-shared';
 import { LocationLinkComponent } from './location-link/location-link.component';
 import { ToggleSharedComponent } from './toggle-shared/toggle-shared.component';
+import { LanguagePickerComponent } from './language-picker/language-picker.component';
+import { LogoutComponent } from './logout/logout.component';
 
 @NgModule({
   imports: [
@@ -38,13 +40,25 @@ import { ToggleSharedComponent } from './toggle-shared/toggle-shared.component';
     ExtensionsModule,
     GenericErrorModule
   ],
-  declarations: [LocationLinkComponent, ToggleSharedComponent],
+  declarations: [
+    LocationLinkComponent,
+    ToggleSharedComponent,
+    LanguagePickerComponent,
+    LogoutComponent
+  ],
   exports: [
     ExtensionsModule,
     LocationLinkComponent,
     GenericErrorModule,
-    ToggleSharedComponent
+    ToggleSharedComponent,
+    LanguagePickerComponent,
+    LogoutComponent
   ],
-  entryComponents: [LocationLinkComponent, ToggleSharedComponent]
+  entryComponents: [
+    LocationLinkComponent,
+    ToggleSharedComponent,
+    LanguagePickerComponent,
+    LogoutComponent
+  ]
 })
 export class AppCommonModule {}

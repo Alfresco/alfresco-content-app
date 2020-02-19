@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2019 Alfresco Software Limited
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -24,8 +24,8 @@
  */
 
 import { RepoApi } from '../repo-api';
-import { SiteBody, SiteMemberRoleBody, SiteMemberBody, SiteEntry, SiteMembershipRequestEntry, SitesApi as AdfSiteApi } from '@alfresco/js-api';
-import { SITE_VISIBILITY } from '../../../../configs';
+import { SiteBody, SiteMemberRoleBody, SiteMemberBody, SiteEntry, SiteMembershipRequestEntry, SitesApi as AdfSiteApi, SiteMemberEntry } from '@alfresco/js-api';
+import { SITE_VISIBILITY, SITE_ROLES } from '../../../../configs';
 import { Utils } from '../../../../utilities/utils';
 
 export class SitesApi extends RepoApi {
@@ -112,7 +112,15 @@ export class SitesApi extends RepoApi {
     }
   }
 
-  async createSites(titles: string[], visibility?: string) {
+  async createSitePrivate(title: string, description?: string, siteId?: string): Promise<SiteEntry> {
+    return this.createSite(title, SITE_VISIBILITY.PRIVATE, description, siteId);
+  }
+
+  async createSiteModerated(title: string, description?: string, siteId?: string): Promise<SiteEntry> {
+    return this.createSite(title, SITE_VISIBILITY.MODERATED, description, siteId);
+  }
+
+  async createSites(titles: string[], visibility?: string): Promise<any> {
     try {
       return titles.reduce(async (previous: any, current: any) => {
         await previous;
@@ -121,6 +129,10 @@ export class SitesApi extends RepoApi {
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.createSites.name}`, error);
     }
+  }
+
+  async createSitesPrivate(siteNames: string[]): Promise<any> {
+    return this.createSites(siteNames, SITE_VISIBILITY.PRIVATE)
   }
 
   async deleteSite(siteId: string, permanent: boolean = true) {
@@ -183,6 +195,22 @@ export class SitesApi extends RepoApi {
       this.handleError(`${this.constructor.name} ${this.addSiteMember.name}`, error);
       return null;
     }
+  }
+
+  async addSiteConsumer(siteId: string, userId: string): Promise<SiteMemberEntry> {
+    return this.addSiteMember(siteId, userId, SITE_ROLES.SITE_CONSUMER.ROLE);
+  }
+
+  async addSiteContributor(siteId: string, userId: string): Promise<SiteMemberEntry> {
+    return this.addSiteMember(siteId, userId, SITE_ROLES.SITE_CONTRIBUTOR.ROLE);
+  }
+
+  async addSiteCollaborator(siteId: string, userId: string): Promise<SiteMemberEntry> {
+    return this.addSiteMember(siteId, userId, SITE_ROLES.SITE_COLLABORATOR.ROLE);
+  }
+
+  async addSiteManager(siteId: string, userId: string): Promise<SiteMemberEntry> {
+    return this.addSiteMember(siteId, userId, SITE_ROLES.SITE_MANAGER.ROLE);
   }
 
   async deleteSiteMember(siteId: string, userId: string) {
