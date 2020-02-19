@@ -57,7 +57,7 @@ export class SelectTemplateDialog extends GenericDialog {
   }
 
   async clickNext(): Promise<void> {
-    await this.isButtonEnabled(SelectTemplateDialog.selectors.nextButton);
+    await this.clickButton(SelectTemplateDialog.selectors.nextButton);
     await this.waitForDialogToClose();
   }
 }

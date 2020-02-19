@@ -55,12 +55,13 @@ export abstract class GenericDialog {
   }
 
   async waitForDialogToOpen(): Promise<void> {
-    await browser.wait(EC.presenceOf(this.title), BROWSER_WAIT_TIMEOUT);
+    await browser.wait(EC.presenceOf(this.rootElem), BROWSER_WAIT_TIMEOUT);
+    await browser.wait(EC.visibilityOf(this.content), BROWSER_WAIT_TIMEOUT);
     await browser.wait(EC.presenceOf(browser.element(by.css('.cdk-overlay-backdrop'))), BROWSER_WAIT_TIMEOUT);
   }
 
   async waitForDialogToClose(): Promise<void> {
-    await browser.wait(EC.stalenessOf(this.title), BROWSER_WAIT_TIMEOUT, '---- timeout waiting for dialog to close ----');
+    await browser.wait(EC.stalenessOf(this.content), BROWSER_WAIT_TIMEOUT, '---- timeout waiting for dialog to close ----');
   }
 
   async isDialogOpen(): Promise<boolean> {

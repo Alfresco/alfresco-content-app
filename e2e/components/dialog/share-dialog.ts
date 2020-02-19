@@ -31,6 +31,7 @@ export class ShareDialog extends GenericDialog {
   private static selectors = {
     root: '.adf-share-dialog',
 
+    dialogTitle: `[data-automation-id='adf-share-dialog-title']`,
     info: '.adf-share-link__info',
     label: '.adf-share-link__label',
     shareToggle: `[data-automation-id='adf-share-toggle']`,
@@ -45,6 +46,7 @@ export class ShareDialog extends GenericDialog {
 
   dateTimePicker = new DateTimePicker();
 
+  dialogTitle: ElementFinder = this.rootElem.element(by.css(ShareDialog.selectors.dialogTitle));
   infoText: ElementFinder = this.rootElem.element(by.css(ShareDialog.selectors.info));
   labels: ElementArrayFinder = this.rootElem.all(by.css(ShareDialog.selectors.label));
   shareToggle: ElementFinder = this.rootElem.element(by.css(ShareDialog.selectors.shareToggle));
@@ -56,6 +58,10 @@ export class ShareDialog extends GenericDialog {
 
   constructor() {
     super(ShareDialog.selectors.root);
+  }
+
+  async getTitle(): Promise<string> {
+    return this.dialogTitle.getText();
   }
 
   async getInfoText(): Promise<string> {
