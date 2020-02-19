@@ -57,11 +57,14 @@
         "CREATE_FOLDER": "Criar pasta",
         "UPLOAD_FILE": "Carregar arquivo",
         "UPLOAD_FOLDER": "Carregar pasta",
-        "CREATE_LIBRARY": "Criar biblioteca"
+        "CREATE_LIBRARY": "Criar biblioteca",
+        "FILE_TEMPLATE": "Criar arquivo a partir do modelo",
+        "FOLDER_TEMPLATE": "Criar pasta a partir do modelo"
       },
       "TOOLTIPS": {
         "CREATE_FOLDER": "Criar nova pasta",
         "CREATE_FOLDER_NOT_ALLOWED": "Não é possível criar pastas durante a visualização dos itens atuais",
+        "CREATE_FILE_NOT_ALLOWED": "Os arquivos não podem ser criados enquanto os itens atuais estiverem sendo visualizados",
         "UPLOAD_FILES": "Selecionar arquivos para carregar",
         "UPLOAD_FILES_NOT_ALLOWED": "Não é possível carregar arquivos durante a visualização dos itens atuais",
         "UPLOAD_FOLDERS": "Selecionar pastas para carregar",
@@ -355,7 +358,31 @@
     "COPY_ITEMS": "Copiar {{ number }} itens para...",
     "MOVE_ITEM": "Mover '{{ name }}' para...",
     "MOVE_ITEMS": "Mover {{ number }} itens para...",
-    "SEARCH": "Pesquisar"
+    "SEARCH": "Pesquisar",
+    "NEXT": "Próximo",
+    "SELECT_FILE_TEMPLATE_TITLE": "Selecionar um modelo de documento",
+    "SELECT_FOLDER_TEMPLATE_TITLE": "Selecionar um modelo de pasta"
+  },
+  "NODE_FROM_TEMPLATE": {
+    "CANCEL": "Cancelar",
+    "CREATE": "Criar",
+    "FOLDER_DIALOG_TITLE": "Criar nova pasta a partir de <span class=\"bold\">'{{ template }}'</span>",
+    "FILE_DIALOG_TITLE": "Criar novo documento a partir de <span class=\"bold\">'{{ template }}'</span>",
+    "FORM": {
+      "PLACEHOLDER": {
+        "NAME": "Nome",
+        "TITLE": "Título",
+        "DESCRIPTION": "Descrição"
+      },
+      "ERRORS": {
+        "DESCRIPTION_TOO_LONG": "Use 512 caracteres ou menos para a descrição",
+        "TITLE_TOO_LONG": "Use 256 caracteres ou menos para o título",
+        "REQUIRED": "Nome é obrigatório",
+        "SPECIAL_CHARACTERS": "O nome não pode ter estes caracteres * \" < > \\ / ? : |",
+        "ENDING_DOT": "O nome não pode terminar com um ponto final .",
+        "ONLY_SPACES": "O nome não pode ter apenas espaços"
+      }
+    }
   },
   "PERMISSIONS": {
     "DIALOG": {

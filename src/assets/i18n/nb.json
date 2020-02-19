@@ -57,11 +57,14 @@
         "CREATE_FOLDER": "Opprett mappe",
         "UPLOAD_FILE": "Last opp fil",
         "UPLOAD_FOLDER": "Last opp mappe",
-        "CREATE_LIBRARY": "Opprett bibliotek"
+        "CREATE_LIBRARY": "Opprett bibliotek",
+        "FILE_TEMPLATE": "Opprett fil fra mal",
+        "FOLDER_TEMPLATE": "Opprett mappe fra mal"
       },
       "TOOLTIPS": {
         "CREATE_FOLDER": "Opprett ny mappe",
         "CREATE_FOLDER_NOT_ALLOWED": "Mapper kan ikke opprettes mens du viser de gjeldende elementene",
+        "CREATE_FILE_NOT_ALLOWED": "Filer kan ikke opprettes mens du viser de gjeldende elementene",
         "UPLOAD_FILES": "Velg filene som skal lastes opp",
         "UPLOAD_FILES_NOT_ALLOWED": "Filer kan ikke lastes opp mens du viser de gjeldende elementene",
         "UPLOAD_FOLDERS": "Velg mappene som skal lastes opp",
@@ -355,7 +358,31 @@
     "COPY_ITEMS": "Kopier {{ number }} elementer til...",
     "MOVE_ITEM": "Flytt {{ name }}'til...",
     "MOVE_ITEMS": "Flytt {{ number }} elementer til...",
-    "SEARCH": "Søk"
+    "SEARCH": "Søk",
+    "NEXT": "Neste",
+    "SELECT_FILE_TEMPLATE_TITLE": "Velg en dokumentmal",
+    "SELECT_FOLDER_TEMPLATE_TITLE": "Velg en mappemal"
+  },
+  "NODE_FROM_TEMPLATE": {
+    "CANCEL": "Avbryt",
+    "CREATE": "Opprett",
+    "FOLDER_DIALOG_TITLE": "Opprett ny mappe fra <span class=\"bold\">'{{ template }}'</span>",
+    "FILE_DIALOG_TITLE": "Opprett nytt dokument fra <span class=\"bold\">'{{ template }}'</span>",
+    "FORM": {
+      "PLACEHOLDER": {
+        "NAME": "Navn",
+        "TITLE": "Tittel",
+        "DESCRIPTION": "Beskrivelse"
+      },
+      "ERRORS": {
+        "DESCRIPTION_TOO_LONG": "Bruk 512 tegn eller mindre i beskrivelsen",
+        "TITLE_TOO_LONG": "Bruk 256 tegn eller mindre i tittelen",
+        "REQUIRED": "Navn må oppgis",
+        "SPECIAL_CHARACTERS": "Navnet kan ikke inneholde tegnene * \" < > \\ / ? : |",
+        "ENDING_DOT": "Navnet kan ikke ende med et punktum .",
+        "ONLY_SPACES": "Navnet kan ikke kun bestå av mellomrom"
+      }
+    }
   },
   "PERMISSIONS": {
     "DIALOG": {

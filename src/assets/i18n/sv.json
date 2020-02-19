@@ -45,7 +45,7 @@
       "INVALID-VALUE-FORMAT": "Ogiltigt värdeformat",
       "REQUIRED-FIELD": "Det här fältet krävs",
       "RESET": "Återställ",
-      "APPLY": "Använd"
+      "APPLY": "Tillämpa"
     },
     "PREVIEW": {
       "TITLE": "Förhandsgranskning"
@@ -57,11 +57,14 @@
         "CREATE_FOLDER": "Skapa mapp",
         "UPLOAD_FILE": "Ladda upp fil",
         "UPLOAD_FOLDER": "Ladda upp mapp",
-        "CREATE_LIBRARY": "Skapa bibliotek"
+        "CREATE_LIBRARY": "Skapa bibliotek",
+        "FILE_TEMPLATE": "Skapa fil från mall",
+        "FOLDER_TEMPLATE": "Skapa mapp från mall"
       },
       "TOOLTIPS": {
         "CREATE_FOLDER": "Skapa ny mapp",
         "CREATE_FOLDER_NOT_ALLOWED": "Mappar kan inte skapas när man visar de aktuella objekten",
+        "CREATE_FILE_NOT_ALLOWED": "Filerna kan inte skapas när aktuella objekt visas",
         "UPLOAD_FILES": "Välj filer att ladda upp",
         "UPLOAD_FILES_NOT_ALLOWED": "Filer kan inte laddas upp när man visar de aktuella objekten",
         "UPLOAD_FOLDERS": "Välj mappar att ladda upp",
@@ -355,7 +358,31 @@
     "COPY_ITEMS": "Kopiera {{ number }} objekt till...",
     "MOVE_ITEM": "Flytta '{{ name }}' till...",
     "MOVE_ITEMS": "Flytta {{ number }} objekt till...",
-    "SEARCH": "Sök"
+    "SEARCH": "Sök",
+    "NEXT": "Nästa",
+    "SELECT_FILE_TEMPLATE_TITLE": "Välj en dokumentmall",
+    "SELECT_FOLDER_TEMPLATE_TITLE": "Välj en mappmall"
+  },
+  "NODE_FROM_TEMPLATE": {
+    "CANCEL": "Avbryt",
+    "CREATE": "Skapa",
+    "FOLDER_DIALOG_TITLE": "Skapa ny mapp från <span class=\"bold\">'{{ template }}'</span>",
+    "FILE_DIALOG_TITLE": "Skapa nytt dokument från <span class=\"bold\">'{{ template }}'</span>",
+    "FORM": {
+      "PLACEHOLDER": {
+        "NAME": "Namn",
+        "TITLE": "Titel",
+        "DESCRIPTION": "Beskrivning"
+      },
+      "ERRORS": {
+        "DESCRIPTION_TOO_LONG": "Använd 512 tecken eller färre till beskrivningen",
+        "TITLE_TOO_LONG": "Använd 256 tecken eller färre till titeln",
+        "REQUIRED": "Namn krävs",
+        "SPECIAL_CHARACTERS": "Namnet kan inte innehålla dessa tecken * \" < > \\ / ? : |",
+        "ENDING_DOT": "Namnet kan inte sluta med en punkt .",
+        "ONLY_SPACES": "Namnet kan inte innehålla endast mellanslag"
+      }
+    }
   },
   "PERMISSIONS": {
     "DIALOG": {

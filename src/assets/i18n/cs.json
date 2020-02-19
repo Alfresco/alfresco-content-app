@@ -57,11 +57,14 @@
         "CREATE_FOLDER": "Vytvořit složku",
         "UPLOAD_FILE": "Odeslat soubor",
         "UPLOAD_FOLDER": "Odeslat složku",
-        "CREATE_LIBRARY": "Vytvořit knihovnu"
+        "CREATE_LIBRARY": "Vytvořit knihovnu",
+        "FILE_TEMPLATE": "Vytvořit soubor ze šablony",
+        "FOLDER_TEMPLATE": "Vytvořit složku ze šablony"
       },
       "TOOLTIPS": {
         "CREATE_FOLDER": "Vytvořit novou složku",
         "CREATE_FOLDER_NOT_ALLOWED": "Během prohlížení současných položek není vytvoření složky možné",
+        "CREATE_FILE_NOT_ALLOWED": "Soubory nelze vytvářet během prohlížení aktuálních položek.",
         "UPLOAD_FILES": "Vyberte soubory, které chcete odeslat",
         "UPLOAD_FILES_NOT_ALLOWED": "Během prohlížení současných položek není odeslání souborů možné",
         "UPLOAD_FOLDERS": "Vyberte složky, které chcete odeslat",
@@ -355,7 +358,31 @@
     "COPY_ITEMS": "Zkopírovat položky ({{ number }}) do...",
     "MOVE_ITEM": "Přesunout položku '{{ name }}' do...",
     "MOVE_ITEMS": "Přesunout položky ({{ number }}) do...",
-    "SEARCH": "Hledat"
+    "SEARCH": "Hledat",
+    "NEXT": "Další",
+    "SELECT_FILE_TEMPLATE_TITLE": "Výběr šablony dokumentu",
+    "SELECT_FOLDER_TEMPLATE_TITLE": "Výběr šablony složky"
+  },
+  "NODE_FROM_TEMPLATE": {
+    "CANCEL": "Zrušit",
+    "CREATE": "Vytvořit",
+    "FOLDER_DIALOG_TITLE": "Vytvořit novou složku ze šablony <span class=\"bold\">'{{ template }}'</span>",
+    "FILE_DIALOG_TITLE": "Vytvořit nový dokument ze šablony <span class=\"bold\">'{{ template }}'</span>",
+    "FORM": {
+      "PLACEHOLDER": {
+        "NAME": "Název",
+        "TITLE": "Označení",
+        "DESCRIPTION": "Popis"
+      },
+      "ERRORS": {
+        "DESCRIPTION_TOO_LONG": "Popis může obsahovat maximálně 512 znaků",
+        "TITLE_TOO_LONG": "Označení může obsahovat maximálně 256 znaků",
+        "REQUIRED": "Název je povinný",
+        "SPECIAL_CHARACTERS": "Název nemůže obsahovat tyto znaky: * \" < > \\ / ? : |",
+        "ENDING_DOT": "Název nemůže končit tečkou.",
+        "ONLY_SPACES": "Název nemůže obsahovat pouze mezery."
+      }
+    }
   },
   "PERMISSIONS": {
     "DIALOG": {

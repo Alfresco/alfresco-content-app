@@ -57,11 +57,14 @@
         "CREATE_FOLDER": "Utwórz Folder",
         "UPLOAD_FILE": "Prześlij plik",
         "UPLOAD_FOLDER": "Prześlij folder",
-        "CREATE_LIBRARY": "Utwórz bibliotekę"
+        "CREATE_LIBRARY": "Utwórz bibliotekę",
+        "FILE_TEMPLATE": "Stwórz plik w oparciu o szablon",
+        "FOLDER_TEMPLATE": "Stwórz folder w oparciu o szablon"
       },
       "TOOLTIPS": {
         "CREATE_FOLDER": "Utwórz nowy folder",
         "CREATE_FOLDER_NOT_ALLOWED": "Nie można tworzyć folderów podczas przeglądania bieżących elementów",
+        "CREATE_FILE_NOT_ALLOWED": "Pliki nie mogą zostać utworzone podczas oglądania aktualnych elementów.",
         "UPLOAD_FILES": "Wybierz pliki do przesłania",
         "UPLOAD_FILES_NOT_ALLOWED": "Nie można przesyłać plików podczas przeglądania bieżących elementów",
         "UPLOAD_FOLDERS": "Wybierz foldery do przesłania",
@@ -355,7 +358,31 @@
     "COPY_ITEMS": "Kopiowanie {{ number }} elementów do...",
     "MOVE_ITEM": "Przenieś '{{ name }}' do...",
     "MOVE_ITEMS": "Przenoszenie {{ number }} elementów do...",
-    "SEARCH": "Szukaj"
+    "SEARCH": "Szukaj",
+    "NEXT": "Następny",
+    "SELECT_FILE_TEMPLATE_TITLE": "Wybierz szablon dokumentu",
+    "SELECT_FOLDER_TEMPLATE_TITLE": "Wybierz szablon folderu"
+  },
+  "NODE_FROM_TEMPLATE": {
+    "CANCEL": "Anuluj",
+    "CREATE": "Utwórz",
+    "FOLDER_DIALOG_TITLE": "Utwórz nowy folder w oparciu o <span class=\"bold\">'{{ szablon }}'</span>",
+    "FILE_DIALOG_TITLE": "Utwórz nowy dokument w oparciu o <span class=\"bold\">'{{ szablon }}'</span>",
+    "FORM": {
+      "PLACEHOLDER": {
+        "NAME": "Nazwa",
+        "TITLE": "Tytuł",
+        "DESCRIPTION": "Opis"
+      },
+      "ERRORS": {
+        "DESCRIPTION_TOO_LONG": "W opisie można użyć maksymalnie 512 znaków",
+        "TITLE_TOO_LONG": "W tytule można użyć maksymalnie 256 znaków",
+        "REQUIRED": "Nazwa jest wymagana",
+        "SPECIAL_CHARACTERS": "Nazwa nie może zawierać następujących znaków: * \" < > \\ / ? : |",
+        "ENDING_DOT": "Nazwa nie może kończyć się kropką (.)",
+        "ONLY_SPACES": "Nazwa nie może zawierać spacji"
+      }
+    }
   },
   "PERMISSIONS": {
     "DIALOG": {

@@ -8,7 +8,7 @@
         "ID": "ID",
         "NAME": "Nome",
         "VERSION": "Versione",
-        "VENDOR": "Venditore",
+        "VENDOR": "Fornitore",
         "LICENSE": "Licenza",
         "RUNTIME": "Runtime",
         "DESCRIPTION": "Descrizione"
@@ -57,11 +57,14 @@
         "CREATE_FOLDER": "Crea cartella",
         "UPLOAD_FILE": "Carica file",
         "UPLOAD_FOLDER": "Carica cartella",
-        "CREATE_LIBRARY": "Crea libreria"
+        "CREATE_LIBRARY": "Crea libreria",
+        "FILE_TEMPLATE": "Crea file da modello",
+        "FOLDER_TEMPLATE": "Crea cartella da modello"
       },
       "TOOLTIPS": {
         "CREATE_FOLDER": "Crea nuova cartella",
         "CREATE_FOLDER_NOT_ALLOWED": "Impossibile creare cartelle durante la visualizzazione degli elementi correnti",
+        "CREATE_FILE_NOT_ALLOWED": "I file non possono essere creati durante la visualizzazione degli elementi correnti",
         "UPLOAD_FILES": "Seleziona file da caricare",
         "UPLOAD_FILES_NOT_ALLOWED": "Impossibile caricare file durante la visualizzazione degli elementi correnti",
         "UPLOAD_FOLDERS": "Seleziona cartelle da caricare",
@@ -103,9 +106,9 @@
             }
           },
           "FAVORITE_LIBRARIES": {
-            "TITLE": "Raccolte preferite",
+            "TITLE": "Raccolte  preferite",
             "SIDENAV_LINK": {
-              "LABEL": "Raccolte preferite",
+              "LABEL": "Raccolte  preferite",
               "TOOLTIP": "Accedi alle raccolte preferite"
             }
           }
@@ -201,7 +204,7 @@
       "UNSHARE": "Rimuovi condivisione",
       "DETAILS": "Visualizza dettagli",
       "VERSIONS": "Gestione versioni",
-      "UPLOAD_VERSION": "Carica la nuova versione",
+      "UPLOAD_VERSION": "Caricare la nuova versione",
       "TOGGLE-SIDENAV": "Attiva/disattiva barra di navigazione laterale",
       "SHARE": "Condividi",
       "SHARE_EDIT": "Impostazioni di collegamento condiviso",
@@ -280,13 +283,13 @@
         "JOIN_REQUEST_FAILED": "Impossibile partecipare alla raccolta",
         "JOIN_CANCEL_FAILED": "Impossibile annullare la richiesta di partecipazione",
         "LEAVE_LIBRARY_FAILED": "Impossibile uscire dalla raccolta",
-        "INVALID_SENDER_EMAIL": "L'indirizzo e-mail deve essere valido prima della richiesta di accesso.",
-        "INVALID_RECEIVER_EMAIL": "Indirizzo e-mail del destinatario non valido. Contattare l'IT."
+        "INVALID_SENDER_EMAIL": "L'indirizzo email deve essere valido prima della richiesta di accesso.",
+        "INVALID_RECEIVER_EMAIL": "Indirizzo email del destinatario non valido. Contattare l'IT."
       },
       "UPLOAD": {
         "ERROR": {
           "GENERIC": "Caricamento non riuscito. Se il problema persiste, contattare l'IT",
-          "CONFLICT": "Nuova versione non caricata. Esiste già un file con lo stesso nome.",
+          "CONFLICT": "Nuova versione non caricata. Esiste già un fil con lo stesso nome.",
           "500": "Errore interno del server. Riprovare o contattare il supporto IT [500]",
           "504": "Timeout del server. Riprovare o contattare il supporto IT [504]",
           "403": "Autorizzazioni insufficienti per caricare in questa posizione [403]",
@@ -297,7 +300,7 @@
         "TRASH": {
           "NODES_PURGE": {
             "PLURAL": "{{ number }} elementi eliminati",
-            "SINGULAR": "{{ name }} eliminato",
+            "SINGULAR": "Elemento {{ name }} eliminato",
             "PARTIAL_SINGULAR": "Elemento {{ name }} eliminato. Impossibile eliminare l'elemento {{ failed }}.",
             "PARTIAL_PLURAL": "{{ number }} elementi eliminati, impossibile eliminare {{ failed }}"
           },
@@ -308,7 +311,7 @@
         },
         "NODE_DELETION": {
           "SINGULAR": "{{ name }} eliminato",
-          "PLURAL": "Eliminati {{ number }} elementi",
+          "PLURAL": "{{ number }} elementi eliminati",
           "PARTIAL_SINGULAR": "Elemento {{ success }} eliminato, impossibile eliminare {{ failed }}",
           "PARTIAL_PLURAL": "Elementi {{ success }} eliminati, impossibile eliminare {{ failed }}"
         },
@@ -345,7 +348,7 @@
       "TABS": {
         "PROPERTIES": "Proprietà",
         "LIBRARY_PROPERTIES": "Informazioni su",
-        "VERSIONS": "Versioni",
+        "VERSIONS": "Versione",
         "COMMENTS": "Commenti"
       }
     }
@@ -355,7 +358,31 @@
     "COPY_ITEMS": "Copia {{ number }} elementi in...",
     "MOVE_ITEM": "Sposta '{{ name }}' in...",
     "MOVE_ITEMS": "Sposta {{ number }} elementi in...",
-    "SEARCH": "Cerca"
+    "SEARCH": "Cerca",
+    "NEXT": "Successivo",
+    "SELECT_FILE_TEMPLATE_TITLE": "Selezionare un modello di documento",
+    "SELECT_FOLDER_TEMPLATE_TITLE": "Selezionare un modello di cartella"
+  },
+  "NODE_FROM_TEMPLATE": {
+    "CANCEL": "Annulla",
+    "CREATE": "Crea",
+    "FOLDER_DIALOG_TITLE": "Creazione nuova cartella da <span class=\"bold\">'{{ template }}'</span>",
+    "FILE_DIALOG_TITLE": "Creazione nuovo documento da <span class=\"bold\">'{{ template }}'</span>",
+    "FORM": {
+      "PLACEHOLDER": {
+        "NAME": "Nome",
+        "TITLE": "Titolo",
+        "DESCRIPTION": "Descrizione"
+      },
+      "ERRORS": {
+        "DESCRIPTION_TOO_LONG": "Utilizzare 512 o meno per la descrizione",
+        "TITLE_TOO_LONG": "Utilizzare 256 caratteri o meno per il titolo",
+        "REQUIRED": "Nome obbligatorio",
+        "SPECIAL_CHARACTERS": "Il nome non può contenere questi caratteri * \" < > \\ / ? : |",
+        "ENDING_DOT": "Il nome non può terminare con un punto.",
+        "ONLY_SPACES": "Il nome non può contenere solo spazi"
+      }
+    }
   },
   "PERMISSIONS": {
     "DIALOG": {
@@ -367,7 +394,7 @@
     }
   },
   "SHARED_LINK": {
-    "UNSHARE_PERMISSION_ERROR": "Non si dispone dei permessi per rimuovere la condivisione di questo file"
+    "UNSHARE_PERMISSION_ERROR": "Non hai il permesso per rimuovere la condivisione di questo file"
   },
   "VERSION": {
     "DIALOG_ADF": {
@@ -375,7 +402,7 @@
       "CLOSE": "Chiudi"
     },
     "DIALOG": {
-      "TITLE": "Carica la nuova versione",
+      "TITLE": "Utilizza nuova versione",
       "CANCEL": "Annulla",
       "UPLOAD": "Carica"
     },
@@ -503,7 +530,7 @@
   "ADF_VERSION_LIST": {
     "ACTIONS": {
       "UPLOAD": {
-        "TOOLTIP": "Carica la nuova versione"
+        "TOOLTIP": "Caricare la nuova versione"
       }
     }
   },

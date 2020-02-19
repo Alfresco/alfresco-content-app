@@ -57,11 +57,14 @@
         "CREATE_FOLDER": "Создать папку",
         "UPLOAD_FILE": "Загрузить файл",
         "UPLOAD_FOLDER": "Загрузить папку",
-        "CREATE_LIBRARY": "Создание библиотеки"
+        "CREATE_LIBRARY": "Создание библиотеки",
+        "FILE_TEMPLATE": "Создать файл из шаблона",
+        "FOLDER_TEMPLATE": "Создать папку из шаблона"
       },
       "TOOLTIPS": {
         "CREATE_FOLDER": "Создать новую папку",
         "CREATE_FOLDER_NOT_ALLOWED": "Невозможно создать папки во время просмотра текущих элементов",
+        "CREATE_FILE_NOT_ALLOWED": "Файлы нельзя создать во время просмотра текущих элементов",
         "UPLOAD_FILES": "Выберите файлы, которые необходимо загрузить",
         "UPLOAD_FILES_NOT_ALLOWED": "Невозможно загрузить файлы во время просмотра текущих элементов",
         "UPLOAD_FOLDERS": "Выберите папки, которые необходимо загрузить",
@@ -355,7 +358,31 @@
     "COPY_ITEMS": "Скопировать элементы {{ number }} в...",
     "MOVE_ITEM": "Переместить '{{ name }}' в...",
     "MOVE_ITEMS": "Переместить элементы {{ number }} в...",
-    "SEARCH": "Поиск"
+    "SEARCH": "Поиск",
+    "NEXT": "Далее",
+    "SELECT_FILE_TEMPLATE_TITLE": "Выберите шаблон документа",
+    "SELECT_FOLDER_TEMPLATE_TITLE": "Выберите шаблон папки"
+  },
+  "NODE_FROM_TEMPLATE": {
+    "CANCEL": "Отмена",
+    "CREATE": "Создать",
+    "FOLDER_DIALOG_TITLE": "Создать новую папку из <span class=\"bold\">'{{ шаблона }}'</span>",
+    "FILE_DIALOG_TITLE": "Создать новый документ из <span class=\"bold\">'{{ шаблона }}'</span>",
+    "FORM": {
+      "PLACEHOLDER": {
+        "NAME": "Имя",
+        "TITLE": "Название",
+        "DESCRIPTION": "Описание"
+      },
+      "ERRORS": {
+        "DESCRIPTION_TOO_LONG": "Описание должно содержать не более 512 символов",
+        "TITLE_TOO_LONG": "Название должно содержать не более 256 символов",
+        "REQUIRED": "Необходимо указать имя",
+        "SPECIAL_CHARACTERS": "Имя не может содержать символы * \" < > \\ / ? : |",
+        "ENDING_DOT": "Имя не может заканчиваться точкой .",
+        "ONLY_SPACES": "Имя не может содержать только пробелы"
+      }
+    }
   },
   "PERMISSIONS": {
     "DIALOG": {

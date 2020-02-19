@@ -57,11 +57,14 @@
         "CREATE_FOLDER": "创建文件夹",
         "UPLOAD_FILE": "上传文件",
         "UPLOAD_FOLDER": "上传文件夹",
-        "CREATE_LIBRARY": "创建库"
+        "CREATE_LIBRARY": "创建库",
+        "FILE_TEMPLATE": "从模板创建文件",
+        "FOLDER_TEMPLATE": "从模板创建文件夹"
       },
       "TOOLTIPS": {
         "CREATE_FOLDER": "新建文件夹",
         "CREATE_FOLDER_NOT_ALLOWED": "查看当前项目时无法创建文件夹",
+        "CREATE_FILE_NOT_ALLOWED": "查看当前项目时无法创建文件",
         "UPLOAD_FILES": "选择要上传的文件",
         "UPLOAD_FILES_NOT_ALLOWED": "查看当前项目时无法上传文件",
         "UPLOAD_FOLDERS": "选择要上传的文件夹",
@@ -355,7 +358,31 @@
     "COPY_ITEMS": "将 {{ number }} 个项目复制到...",
     "MOVE_ITEM": "将 '{{ name }}' 移动到...",
     "MOVE_ITEMS": "将 {{ number }} 个项目移动到...",
-    "SEARCH": "搜索"
+    "SEARCH": "搜索",
+    "NEXT": "下一个",
+    "SELECT_FILE_TEMPLATE_TITLE": "选择一个文档模板",
+    "SELECT_FOLDER_TEMPLATE_TITLE": "选择一个文件夹模板"
+  },
+  "NODE_FROM_TEMPLATE": {
+    "CANCEL": "取消",
+    "CREATE": "创建",
+    "FOLDER_DIALOG_TITLE": "从 <span class=\"bold\">'{{ template }}'</span> 创建新文件夹",
+    "FILE_DIALOG_TITLE": "从 <span class=\"bold\">'{{ template }}'</span> 创建新文档",
+    "FORM": {
+      "PLACEHOLDER": {
+        "NAME": "名称",
+        "TITLE": "标题",
+        "DESCRIPTION": "说明"
+      },
+      "ERRORS": {
+        "DESCRIPTION_TOO_LONG": "对描述使用 512 个字符或更少字符",
+        "TITLE_TOO_LONG": "对标题使用 256 个字符或更少字符",
+        "REQUIRED": "需要名称",
+        "SPECIAL_CHARACTERS": "名称不能包含字符 * \" < > \\ / ? : |",
+        "ENDING_DOT": "名称不能以句号 . 结尾",
+        "ONLY_SPACES": "名称不能仅包含空格"
+      }
+    }
   },
   "PERMISSIONS": {
     "DIALOG": {
