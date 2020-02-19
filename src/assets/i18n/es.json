@@ -312,8 +312,8 @@
         "NODE_DELETION": {
           "SINGULAR": "{{ name }} eliminado",
           "PLURAL": "Se han eliminado {{ number }} elementos",
-          "PARTIAL_SINGULAR": "Se ha eliminado el elemento {{ success }}, {{ failed }} no se ha podido eliminar",
-          "PARTIAL_PLURAL": "Se han eliminado los elementos {{ success }}, {{ failed }} no se han podido eliminar"
+          "PARTIAL_SINGULAR": "Se ha eliminado el elemento {{ success }}, {{ failed }} no se ha podido eliminar.",
+          "PARTIAL_PLURAL": "Se han eliminado los elementos {{ success }}, {{ failed }} no se han podido eliminar."
         },
         "NODE_COPY": {
           "SINGULAR": "Se ha copiado {{ success }} elemento",
