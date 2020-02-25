@@ -23,49 +23,29 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, browser, protractor, ExpectedConditions as EC } from 'protractor';
-import { BROWSER_WAIT_TIMEOUT } from '../../configs';
-import { Component } from '../component';
+import { ElementFinder, by, protractor } from 'protractor';
+import { GenericDialog } from '../dialog/generic-dialog';
 
-export class CreateFromTemplateDialog extends Component {
+export class CreateFromTemplateDialog extends GenericDialog {
   private static selectors = {
     root: '.aca-create-from-template-dialog',
 
-    title: '.mat-dialog-title',
     nameInput: 'input[placeholder="Name" i]',
     titleInput: 'input[placeholder="Title" i]',
     descriptionTextArea: 'textarea[placeholder="Description" i]',
-    button: '.mat-dialog-actions button',
-    validationMessage: '.mat-error'
+    validationMessage: '.mat-error',
+
+    createButton: by.cssContainingText('.mat-dialog-actions button', 'Create'),
+    cancelButton: by.cssContainingText('.mat-dialog-actions button', 'CANCEL')
   };
 
-  title: ElementFinder = this.component.element(by.css(CreateFromTemplateDialog.selectors.title));
-  nameInput: ElementFinder = this.component.element(by.css(CreateFromTemplateDialog.selectors.nameInput));
-  titleInput: ElementFinder = this.component.element(by.css(CreateFromTemplateDialog.selectors.titleInput));
-  descriptionTextArea: ElementFinder = this.component.element(by.css(CreateFromTemplateDialog.selectors.descriptionTextArea));
-  createButton: ElementFinder = this.component.element(by.cssContainingText(CreateFromTemplateDialog.selectors.button, 'Create'));
-  cancelButton: ElementFinder = this.component.element(by.cssContainingText(CreateFromTemplateDialog.selectors.button, 'CANCEL'));
-  validationMessage: ElementFinder = this.component.element(by.css(CreateFromTemplateDialog.selectors.validationMessage));
+  nameInput: ElementFinder = this.rootElem.element(by.css(CreateFromTemplateDialog.selectors.nameInput));
+  titleInput: ElementFinder = this.rootElem.element(by.css(CreateFromTemplateDialog.selectors.titleInput));
+  descriptionTextArea: ElementFinder = this.rootElem.element(by.css(CreateFromTemplateDialog.selectors.descriptionTextArea));
+  validationMessage: ElementFinder = this.rootElem.element(by.css(CreateFromTemplateDialog.selectors.validationMessage));
 
-  constructor(ancestor?: string) {
-    super(CreateFromTemplateDialog.selectors.root, ancestor);
-  }
-
-  async waitForDialogToOpen(): Promise<void> {
-    await browser.wait(EC.presenceOf(this.title), BROWSER_WAIT_TIMEOUT, 'timeout waiting for dialog title');
-    await browser.wait(EC.presenceOf(browser.element(by.css('.cdk-overlay-backdrop'))), BROWSER_WAIT_TIMEOUT, 'timeout waiting for overlay backdrop');
-  }
-
-  async waitForDialogToClose(): Promise<void> {
-    await browser.wait(EC.stalenessOf(this.title), BROWSER_WAIT_TIMEOUT, '---- timeout waiting for dialog to close ----');
-  }
-
-  async isDialogOpen(): Promise<boolean> {
-    return browser.isElementPresent(by.css(CreateFromTemplateDialog.selectors.root));
-  }
-
-  async getTitle(): Promise<string> {
-    return this.title.getText();
+  constructor() {
+    super(CreateFromTemplateDialog.selectors.root);
   }
 
   async isValidationMessageDisplayed(): Promise<boolean> {
@@ -73,11 +53,11 @@ export class CreateFromTemplateDialog extends Component {
   }
 
   async isCreateButtonEnabled(): Promise<boolean> {
-    return this.createButton.isEnabled();
+    return this.isButtonEnabled(CreateFromTemplateDialog.selectors.createButton);
   }
 
   async isCancelButtonEnabled(): Promise<boolean> {
-    return this.cancelButton.isEnabled();
+    return this.isButtonEnabled(CreateFromTemplateDialog.selectors.cancelButton);
   }
 
   async isNameFieldDisplayed(): Promise<boolean> {
@@ -129,11 +109,11 @@ export class CreateFromTemplateDialog extends Component {
   }
 
   async clickCreate(): Promise<void> {
-    await this.createButton.click();
+    await this.clickButton(CreateFromTemplateDialog.selectors.createButton);
   }
 
   async clickCancel(): Promise<void> {
-    await this.cancelButton.click();
+    await this.clickButton(CreateFromTemplateDialog.selectors.cancelButton);
     await this.waitForDialogToClose();
   }
 

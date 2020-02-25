@@ -25,55 +25,41 @@
 
 import { ElementFinder, by, browser, ExpectedConditions as EC, protractor } from 'protractor';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
-import { Component } from '../component';
+import { GenericDialog } from '../dialog/generic-dialog';
 import { Utils } from '../../utilities/utils';
 import { DropDownBreadcrumb } from '../breadcrumb/dropdown-breadcrumb';
 import { DataTable } from '../data-table/data-table';
 
-export class ContentNodeSelectorDialog extends Component {
+export class ContentNodeSelectorDialog extends GenericDialog {
   private static selectors = {
     root: '.adf-content-node-selector-dialog',
 
-    title: '.mat-dialog-title',
     locationDropDown: 'site-dropdown-container',
     locationOption: '.mat-option .mat-option-text',
 
     dataTable: '.adf-datatable-body',
     selectedRow: '.adf-is-selected',
 
-    button: '.mat-dialog-actions button',
-    chooseAction: '.adf-choose-action',
-
     searchInput: '#searchInput',
-    toolbarTitle: '.adf-toolbar-title'
+    toolbarTitle: '.adf-toolbar-title',
+
+    cancelButton: by.css('[data-automation-id="content-node-selector-actions-cancel"]'),
+    copyButton: by.cssContainingText('[data-automation-id="content-node-selector-actions-choose"]', 'Copy'),
+    moveButton: by.cssContainingText('[data-automation-id="content-node-selector-actions-choose"]', 'Move')
   };
 
-  title: ElementFinder = this.component.element(by.css(ContentNodeSelectorDialog.selectors.title));
-  locationDropDown: ElementFinder = this.component.element(by.id(ContentNodeSelectorDialog.selectors.locationDropDown));
+  locationDropDown: ElementFinder = this.rootElem.element(by.id(ContentNodeSelectorDialog.selectors.locationDropDown));
   locationPersonalFiles: ElementFinder = browser.element(by.cssContainingText(ContentNodeSelectorDialog.selectors.locationOption, 'Personal Files'));
   locationFileLibraries: ElementFinder = browser.element(by.cssContainingText(ContentNodeSelectorDialog.selectors.locationOption, 'File Libraries'));
 
-  cancelButton: ElementFinder = this.component.element(by.cssContainingText(ContentNodeSelectorDialog.selectors.button, 'Cancel'));
-  copyButton: ElementFinder = this.component.element(by.css(ContentNodeSelectorDialog.selectors.chooseAction));
-  moveButton: ElementFinder = this.component.element(by.cssContainingText(ContentNodeSelectorDialog.selectors.button, 'Move'));
-
-  searchInput: ElementFinder = this.component.element(by.css(ContentNodeSelectorDialog.selectors.searchInput));
-  toolbarTitle: ElementFinder = this.component.element(by.css(ContentNodeSelectorDialog.selectors.toolbarTitle));
+  searchInput: ElementFinder = this.rootElem.element(by.css(ContentNodeSelectorDialog.selectors.searchInput));
+  toolbarTitle: ElementFinder = this.rootElem.element(by.css(ContentNodeSelectorDialog.selectors.toolbarTitle));
 
   breadcrumb: DropDownBreadcrumb = new DropDownBreadcrumb();
   dataTable: DataTable = new DataTable(ContentNodeSelectorDialog.selectors.root);
 
-  constructor(ancestor?: string) {
-    super(ContentNodeSelectorDialog.selectors.root, ancestor);
-  }
-
-  async waitForDialogToOpen(): Promise<void> {
-    await browser.wait(EC.presenceOf(this.title), BROWSER_WAIT_TIMEOUT, 'timeout waiting for dialog title');
-    await browser.wait(EC.presenceOf(browser.element(by.css('.cdk-overlay-backdrop'))), BROWSER_WAIT_TIMEOUT, 'timeout waiting for overlay backdrop');
-  }
-
-  async waitForDialogToClose(): Promise<void> {
-    await browser.wait(EC.stalenessOf(this.title), BROWSER_WAIT_TIMEOUT);
+  constructor() {
+    super(ContentNodeSelectorDialog.selectors.root);
   }
 
   async waitForDropDownToOpen(): Promise<void> {
@@ -85,28 +71,20 @@ export class ContentNodeSelectorDialog extends Component {
   }
 
   async waitForRowToBeSelected(): Promise<void> {
-    await browser.wait(EC.presenceOf(this.component.element(by.css(ContentNodeSelectorDialog.selectors.selectedRow))), BROWSER_WAIT_TIMEOUT);
-  }
-
-  async isDialogOpen(): Promise<boolean> {
-    return browser.$(ContentNodeSelectorDialog.selectors.root).isDisplayed();
-  }
-
-  async getTitle(): Promise<string> {
-    return this.title.getText();
+    await browser.wait(EC.presenceOf(browser.element(by.css(ContentNodeSelectorDialog.selectors.selectedRow))), BROWSER_WAIT_TIMEOUT);
   }
 
   async clickCancel(): Promise<void> {
-    await this.cancelButton.click();
+    await this.clickButton(ContentNodeSelectorDialog.selectors.cancelButton);
     await this.waitForDialogToClose();
   }
 
   async clickCopy(): Promise<void> {
-    await this.copyButton.click();
+    await this.clickButton(ContentNodeSelectorDialog.selectors.copyButton);
   }
 
   async clickMove(): Promise<void> {
-    await this.moveButton.click();
+    await this.clickButton(ContentNodeSelectorDialog.selectors.moveButton);
   }
 
   async selectLocation(location: 'Personal Files' | 'File Libraries'): Promise<void> {
@@ -138,11 +116,11 @@ export class ContentNodeSelectorDialog extends Component {
   }
 
   async isCopyButtonEnabled(): Promise<boolean> {
-    return (await this.copyButton.isPresent()) && (await this.copyButton.isEnabled());
+    return this.isButtonEnabled(ContentNodeSelectorDialog.selectors.copyButton);
   }
 
   async isCancelButtonEnabled(): Promise<boolean> {
-    return (await this.cancelButton.isPresent()) && (await this.cancelButton.isEnabled());
+    return this.isButtonEnabled(ContentNodeSelectorDialog.selectors.cancelButton);
   }
 
   async searchFor(text: string): Promise<void> {

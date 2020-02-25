@@ -48,31 +48,33 @@ export class DateTimePicker extends Component {
   headerYear: ElementFinder = this.component.element(by.css(DateTimePicker.selectors.year));
   dayPicker: ElementFinder = this.component.element(by.css(DateTimePicker.selectors.dayPicker));
 
+  rootElemLocator = by.css(DateTimePicker.selectors.root);
+
   constructor(ancestor?: string) {
     super(DateTimePicker.selectors.root, ancestor);
   }
 
-  async waitForDateTimePickerToOpen() {
+  async waitForDateTimePickerToOpen(): Promise<void> {
     await browser.wait(EC.presenceOf(this.calendar), BROWSER_WAIT_TIMEOUT);
   }
 
-  async waitForDateTimePickerToClose() {
+  async waitForDateTimePickerToClose(): Promise<void> {
     await browser.wait(EC.stalenessOf(this.calendar), BROWSER_WAIT_TIMEOUT);
   }
 
-  async isCalendarOpen() {
-    return browser.isElementPresent(by.css(DateTimePicker.selectors.root));
+  async isCalendarOpen(): Promise<boolean> {
+    return (await browser.element(this.rootElemLocator).isPresent()) && (await browser.element(this.rootElemLocator).isDisplayed());
   }
 
-  async getDate() {
+  async getDate(): Promise<string> {
     return this.headerDate.getText();
   }
 
-  async getYear() {
+  async getYear(): Promise<string> {
     return this.headerYear.getText();
   }
 
-  async setDefaultDay() {
+  async setDefaultDay(): Promise<string> {
     const today = moment();
     const tomorrow = today.add(1, 'day');
     const dayOfTomorrow = tomorrow.date();

@@ -23,98 +23,71 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, browser, ExpectedConditions as EC } from 'protractor';
-import { BROWSER_WAIT_TIMEOUT } from '../../configs';
-import { Component } from '../component';
-import { Utils } from '../../utilities/utils';
+import { ElementFinder, by } from 'protractor';
+import { GenericDialog } from '../dialog/generic-dialog';
 
-export class UploadNewVersionDialog extends Component {
+export class UploadNewVersionDialog extends GenericDialog {
   private static selectors = {
     root: '.aca-node-version-upload-dialog',
 
-    title: '.mat-dialog-title',
-    content: '.mat-dialog-content',
-    button: '.mat-button',
+    cancelButton: by.cssContainingText('.mat-button', 'Cancel'),
+    uploadButton: by.cssContainingText('.mat-button', 'Upload'),
 
     radioButton: `.mat-radio-label`,
 
     descriptionTextArea: 'textarea'
   };
 
-  title: ElementFinder = this.component.element(by.css(UploadNewVersionDialog.selectors.title));
-  content: ElementFinder = this.component.element(by.css(UploadNewVersionDialog.selectors.content));
-  cancelButton: ElementFinder = this.component.element(by.cssContainingText(UploadNewVersionDialog.selectors.button, 'Cancel'));
-  uploadButton: ElementFinder = this.component.element(by.cssContainingText(UploadNewVersionDialog.selectors.button, 'Upload'));
 
-  majorOption: ElementFinder = this.component.element(by.cssContainingText(UploadNewVersionDialog.selectors.radioButton, 'Major'));
-  minorOption: ElementFinder = this.component.element(by.cssContainingText(UploadNewVersionDialog.selectors.radioButton, 'Minor'));
+  majorOption: ElementFinder = this.rootElem.element(by.cssContainingText(UploadNewVersionDialog.selectors.radioButton, 'Major'));
+  minorOption: ElementFinder = this.rootElem.element(by.cssContainingText(UploadNewVersionDialog.selectors.radioButton, 'Minor'));
 
-  description: ElementFinder = this.component.element(by.css(UploadNewVersionDialog.selectors.descriptionTextArea));
+  description: ElementFinder = this.rootElem.element(by.css(UploadNewVersionDialog.selectors.descriptionTextArea));
 
-  constructor(ancestor?: string) {
-    super(UploadNewVersionDialog.selectors.root, ancestor);
+  constructor() {
+    super(UploadNewVersionDialog.selectors.root);
   }
 
-  async waitForDialogToClose() {
-    await browser.wait(EC.stalenessOf(this.title), BROWSER_WAIT_TIMEOUT);
-  }
-
-  async isDialogOpen() {
-    return browser.$(UploadNewVersionDialog.selectors.root).isDisplayed();
-  }
-
-  async getTitle() {
-    return this.title.getText();
-  }
-
-  async getText() {
-    return this.content.getText();
-  }
-
-
-  async isDescriptionDisplayed() {
+  async isDescriptionDisplayed(): Promise<boolean> {
     return this.description.isDisplayed();
   }
 
-  async isMinorOptionDisplayed() {
+  async isMinorOptionDisplayed(): Promise<boolean> {
     return this.minorOption.isDisplayed();
   }
 
-  async isMajorOptionDisplayed() {
+  async isMajorOptionDisplayed(): Promise<boolean> {
     return this.majorOption.isDisplayed();
   }
 
-  async isCancelButtonEnabled() {
-    return this.cancelButton.isEnabled();
+  async isCancelButtonEnabled(): Promise<boolean> {
+    return this.isButtonEnabled(UploadNewVersionDialog.selectors.cancelButton);
   }
 
-  async isUploadButtonEnabled() {
-    return this.uploadButton.isEnabled();
+  async isUploadButtonEnabled(): Promise<boolean> {
+    return this.isButtonEnabled(UploadNewVersionDialog.selectors.uploadButton);
   }
 
-
-  async clickCancel() {
-    await this.cancelButton.click();
+  async clickCancel(): Promise<void> {
+    await this.clickButton(UploadNewVersionDialog.selectors.cancelButton);
     await this.waitForDialogToClose();
   }
 
-  async clickUpload() {
-    await this.uploadButton.click();
+  async clickUpload(): Promise<void> {
+    await this.clickButton(UploadNewVersionDialog.selectors.uploadButton);
   }
 
-
-  async clickMajor() {
+  async clickMajor(): Promise<void> {
     await this.majorOption.click();
   }
 
-  async clickMinor() {
+  async clickMinor(): Promise<void> {
     await this.minorOption.click();
   }
 
-
-  async enterDescription(description: string) {
+  async enterDescription(description: string): Promise<void> {
     await this.description.clear();
-    await Utils.typeInField(this.description, description);
+    await this.description.sendKeys(description);
   }
 
 }

@@ -23,71 +23,45 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, browser, ExpectedConditions as EC, until } from 'protractor';
+import { ElementFinder, by, browser, until } from 'protractor';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
-import { Component } from '../component';
+import { GenericDialog } from '../dialog/generic-dialog';
 
-export class PasswordDialog extends Component {
+export class PasswordDialog extends GenericDialog {
   private static selectors = {
     root: 'adf-pdf-viewer-password-dialog',
 
-    title: '.mat-dialog-title',
-    content: '.mat-dialog-content',
     passwordInput: 'input[type="Password"]',
-    actionButtons: '.mat-dialog-actions',
-    errorMessage: '.mat-error'
+    errorMessage: '.mat-error',
+
+    closeButton: by.css('[data-automation-id="adf-password-dialog-close"]'),
+    submitButton: by.css('[data-automation-id="adf-password-dialog-submit"]')
   };
 
-  title: ElementFinder = this.component.element(by.css(PasswordDialog.selectors.title));
-  content: ElementFinder = this.component.element(by.css(PasswordDialog.selectors.content));
-  passwordInput: ElementFinder = this.component.element(by.css(PasswordDialog.selectors.passwordInput));
-  errorMessage: ElementFinder = this.component.element(by.css(PasswordDialog.selectors.errorMessage));
-  closeButton: ElementFinder = this.component.element(by.buttonText('Close'));
-  submitButton: ElementFinder = this.component.element(by.buttonText('Submit'));
+  passwordInput: ElementFinder = this.rootElem.element(by.css(PasswordDialog.selectors.passwordInput));
+  errorMessage: ElementFinder = this.rootElem.element(by.css(PasswordDialog.selectors.errorMessage));
 
-  constructor(ancestor?: string) {
-    super(PasswordDialog.selectors.root, ancestor);
+  constructor() {
+    super(PasswordDialog.selectors.root);
   }
 
-  async waitForDialogToClose() {
-    await browser.wait(EC.stalenessOf(this.title), BROWSER_WAIT_TIMEOUT);
+  async isCloseEnabled(): Promise<boolean> {
+    return this.isButtonEnabled(PasswordDialog.selectors.closeButton);
   }
 
-  async waitForDialogToOpen() {
-    await browser.wait(EC.presenceOf(this.title), BROWSER_WAIT_TIMEOUT);
+  async isSubmitEnabled(): Promise<boolean> {
+    return this.isButtonEnabled(PasswordDialog.selectors.submitButton);
   }
 
-  async isDialogOpen() {
-    try {
-      const dialog = await browser.wait(until.elementLocated(by.css(PasswordDialog.selectors.root)), BROWSER_WAIT_TIMEOUT, '------- timeout waiting for dialog')
-      return dialog.isDisplayed();
-    } catch (error) {
-      return false;
-    }
-
+  async clickClose(): Promise<void> {
+    await this.clickButton(PasswordDialog.selectors.closeButton);
   }
 
-  async getTitle() {
-    return this.title.getText();
+  async clickSubmit(): Promise<void> {
+    await this.clickButton(PasswordDialog.selectors.submitButton);
   }
 
-  async isCloseEnabled() {
-    return this.closeButton.isEnabled();
-  }
-
-  async isSubmitEnabled() {
-    return this.submitButton.isEnabled();
-  }
-
-  async clickClose() {
-    await this.closeButton.click();
-  }
-
-  async clickSubmit() {
-    await this.submitButton.click();
-  }
-
-  async isPasswordInputDisplayed() {
+  async isPasswordInputDisplayed(): Promise<boolean> {
     const present = await browser.isElementPresent(this.passwordInput);
     if (present) {
       return this.passwordInput.isDisplayed();
@@ -96,19 +70,19 @@ export class PasswordDialog extends Component {
     }
   }
 
-  async isErrorDisplayed() {
+  async isErrorDisplayed(): Promise<boolean> {
     const elem = await browser.wait(until.elementLocated(by.css(PasswordDialog.selectors.errorMessage)), BROWSER_WAIT_TIMEOUT, '------- timeout waiting for error message to appear')
-    return browser.isElementPresent(elem);
+    return (await browser.isElementPresent(elem)) && (await elem.isDisplayed());
   }
 
-  async getErrorMessage() {
+  async getErrorMessage(): Promise<string> {
     if (await this.isErrorDisplayed()) {
       return this.errorMessage.getText();
     }
     return '';
   }
 
-  async enterPassword(password: string) {
+  async enterPassword(password: string): Promise<void> {
     await this.passwordInput.clear();
     await this.passwordInput.sendKeys(password);
   }

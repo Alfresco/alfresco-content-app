@@ -23,45 +23,22 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, browser, ExpectedConditions as EC } from 'protractor';
-import { BROWSER_WAIT_TIMEOUT } from '../../configs';
-import { Component } from '../component';
+import { by } from 'protractor';
+import { GenericDialog } from '../dialog/generic-dialog';
 
-export class ManageVersionsDialog extends Component {
+export class ManageVersionsDialog extends GenericDialog {
   private static selectors = {
     root: '.aca-node-versions-dialog',
 
-    title: '.mat-dialog-title',
-    content: '.mat-dialog-content',
-    button: '.mat-button'
+    closeButton: by.cssContainingText('.mat-button', 'Close')
   };
 
-  title: ElementFinder = this.component.element(by.css(ManageVersionsDialog.selectors.title));
-  content: ElementFinder = this.component.element(by.css(ManageVersionsDialog.selectors.content));
-  closeButton: ElementFinder = this.component.element(by.cssContainingText(ManageVersionsDialog.selectors.button, 'Close'));
-
-  constructor(ancestor?: string) {
-    super(ManageVersionsDialog.selectors.root, ancestor);
+  constructor() {
+    super(ManageVersionsDialog.selectors.root);
   }
 
-  async waitForDialogToClose() {
-    await browser.wait(EC.stalenessOf(this.title), BROWSER_WAIT_TIMEOUT);
-  }
-
-  async isDialogOpen() {
-    return browser.$(ManageVersionsDialog.selectors.root).isDisplayed();
-  }
-
-  async getTitle() {
-    return this.title.getText();
-  }
-
-  async getText() {
-    return this.content.getText();
-  }
-
-  async clickClose() {
-    await this.closeButton.click();
+  async clickClose(): Promise<void> {
+    await this.clickButton(ManageVersionsDialog.selectors.closeButton);
     await this.waitForDialogToClose();
   }
 }

@@ -23,64 +23,41 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, browser, ExpectedConditions as EC } from 'protractor';
-import { BROWSER_WAIT_TIMEOUT } from '../../configs';
-import { Component } from '../component';
+import { by } from 'protractor';
+import { GenericDialog } from '../dialog/generic-dialog';
 import { DropDownBreadcrumb } from '../breadcrumb/dropdown-breadcrumb';
 import { DataTable } from '../data-table/data-table';
 
-export class SelectTemplateDialog extends Component {
+export class SelectTemplateDialog extends GenericDialog {
   private static selectors = {
     root: '.aca-template-node-selector-dialog',
-    title: '.mat-dialog-title',
-    button: '.mat-dialog-actions button'
-  };
 
-  title: ElementFinder = this.component.element(by.css(SelectTemplateDialog.selectors.title));
-  nextButton: ElementFinder = this.component.element(by.cssContainingText(SelectTemplateDialog.selectors.button, 'Next'));
-  cancelButton: ElementFinder = this.component.element(by.cssContainingText(SelectTemplateDialog.selectors.button, 'Cancel'));
+    nextButton: by.css('[data-automation-id="content-node-selector-actions-choose"]'),
+    cancelButton: by.css('[data-automation-id="content-node-selector-actions-cancel"]')
+  };
 
   breadcrumb: DropDownBreadcrumb = new DropDownBreadcrumb();
   dataTable: DataTable = new DataTable(SelectTemplateDialog.selectors.root);
 
-  constructor(ancestor?: string) {
-    super(SelectTemplateDialog.selectors.root, ancestor);
+  constructor() {
+    super(SelectTemplateDialog.selectors.root);
   }
-
-  async waitForDialogToOpen(): Promise<void> {
-    await browser.wait(EC.presenceOf(this.title), BROWSER_WAIT_TIMEOUT, 'timeout waiting for dialog title');
-    await browser.wait(EC.presenceOf(browser.element(by.css('.cdk-overlay-backdrop'))), BROWSER_WAIT_TIMEOUT, 'timeout waiting for overlay backdrop');
-  }
-
-  async waitForDialogToClose(): Promise<void> {
-    await browser.wait(EC.stalenessOf(this.title), BROWSER_WAIT_TIMEOUT, '---- timeout waiting for dialog to close ----');
-  }
-
-  async isDialogOpen(): Promise<boolean> {
-    return browser.isElementPresent(by.css(SelectTemplateDialog.selectors.root));
-  }
-
-  async getTitle(): Promise<string> {
-    return this.title.getText();
-  }
-
-  // action buttons
 
   async isCancelButtonEnabled(): Promise<boolean> {
-    return this.cancelButton.isEnabled();
+    return this.isButtonEnabled(SelectTemplateDialog.selectors.cancelButton);
   }
 
   async isNextButtonEnabled(): Promise<boolean> {
-    return this.nextButton.isEnabled();
+    return this.isButtonEnabled(SelectTemplateDialog.selectors.nextButton);
   }
 
   async clickCancel(): Promise<void> {
-    await this.cancelButton.click();
+    await this.clickButton(SelectTemplateDialog.selectors.cancelButton);
     await this.waitForDialogToClose();
   }
 
   async clickNext(): Promise<void> {
-    await this.nextButton.click();
+    await this.clickButton(SelectTemplateDialog.selectors.nextButton);
     await this.waitForDialogToClose();
   }
 }
