@@ -231,6 +231,9 @@ export class NodesApi extends RepoApi {
   }
 
   async createNode(nodeType: string, name: string, parentId: string = '-my-', title: string = '', description: string = '', imageProps: any = null, author: string = '', majorVersion: boolean = true, aspectNames: string[] = null): Promise<NodeEntry|null> {
+    if (!aspectNames) {
+      aspectNames = ['cm:versionable']; // workaround for REPO-4772
+    }
     const nodeBody = {
         name,
         nodeType,
@@ -255,9 +258,6 @@ export class NodesApi extends RepoApi {
   }
 
   async createFile(name: string, parentId: string = '-my-', title: string = '', description: string = '', author: string = '', majorVersion: boolean = true, aspectNames: string[] = null): Promise<NodeEntry> {
-    if (!aspectNames) {
-      aspectNames = ['cm:versionable'] // workaround for REPO-4772
-    }
     try {
       return await this.createNode('cm:content', name, parentId, title, description, null, author, majorVersion, aspectNames);
     } catch (error) {
