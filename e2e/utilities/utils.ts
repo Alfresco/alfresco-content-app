@@ -75,7 +75,9 @@ export class Utils {
   static retryCall(fn: () => Promise<any>, retry: number = 30, delay: number = 1000): Promise<any> {
     const pause = duration => new Promise(res => setTimeout(res, duration));
 
-    const run = retries => fn().catch(err => (retries > 1 ? pause(delay).then(() => run(retries - 1)) : Promise.reject(err)));
+    const run = retries => {
+      return fn().catch(err => (retries > 1 ? pause(delay).then(() => run(retries - 1)) : Promise.reject(err)));
+    }
 
     return run(retry);
   }
