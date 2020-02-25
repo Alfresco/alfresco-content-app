@@ -16,6 +16,8 @@
     "module": "es2015",
     "baseUrl": "./",
     "paths": {
+      "@app": [ "src/app" ],
+      "@app/*": [ "src/app/*" ],
       "@alfresco/adf-office-services-ext": [
         "dist/@alfresco/adf-office-services-ext"
       ],
