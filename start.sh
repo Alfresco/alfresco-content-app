@@ -5,6 +5,7 @@ show_help() {
   echo ""
   echo "-k or --keycloak if you want to use keycloak as identity provider"
   echo "-d or --down delete all container"
+  echo "-wp or --windows-path convert to Windows path"
   echo "-hi or --host-ip set the host ip"
   echo "-hp or --host-port set the host port. Default 8080"
   echo "-w or --wait wait for backend. Default true"
@@ -14,6 +15,10 @@ show_help() {
 
 set_keycloak(){
   KEYCLOAK="true"
+}
+
+set_windows_path(){
+  export COMPOSE_CONVERT_WINDOWS_PATHS=1
 }
 
 down(){
@@ -49,6 +54,7 @@ while [[ $1 == -* ]]; do
   case "$1" in
     -h|--help|-\?) show_help; exit 0;;
     -k|--keycloak)  set_keycloak; shift;;
+    -wp|--windows-path)  set_windows_path; shift;;
     -d|--down)  down; shift;;
     -aca)  redeploy_aca; shift;;
     -w|--wait)  set_wait $2; shift 2;;

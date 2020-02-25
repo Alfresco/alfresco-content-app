@@ -37,4 +37,4 @@ RUN addgroup -g ${GROUPID} ${GROUPNAME} && \
 
 EXPOSE 8080
 USER ${USERNAME}
-ENTRYPOINT [ "/entrypoint.sh" ]
+ENTRYPOINT [ "sh", "/entrypoint.sh" ]
