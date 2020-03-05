@@ -203,9 +203,7 @@ export class PreviewComponent extends PageComponent
   async displayNode(id: string) {
     if (id) {
       try {
-        this.node = await this.contentApi
-          .getNodeInfo(id, { include: ['path', 'allowableOperations'] })
-          .toPromise();
+        this.node = await this.contentApi.getNodeInfo(id).toPromise();
         this.store.dispatch(new SetSelectedNodesAction([{ entry: this.node }]));
 
         if (this.node && this.node.isFile) {

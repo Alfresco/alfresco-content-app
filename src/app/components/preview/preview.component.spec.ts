@@ -383,9 +383,7 @@ describe('PreviewComponent', () => {
     component.previewLocation = 'personal-files';
     await component.displayNode('folder1');
 
-    expect(contentApi.getNodeInfo).toHaveBeenCalledWith('folder1', {
-      include: ['path', 'allowableOperations']
-    });
+    expect(contentApi.getNodeInfo).toHaveBeenCalledWith('folder1');
     expect(router.navigate).toHaveBeenCalledWith(['personal-files', 'folder1']);
   });
 
@@ -400,9 +398,7 @@ describe('PreviewComponent', () => {
     component.previewLocation = 'personal-files';
     await component.displayNode('folder1');
 
-    expect(contentApi.getNodeInfo).toHaveBeenCalledWith('folder1', {
-      include: ['path', 'allowableOperations']
-    });
+    expect(contentApi.getNodeInfo).toHaveBeenCalledWith('folder1');
     expect(router.navigate).toHaveBeenCalledWith(['personal-files', 'folder1']);
   });
 
@@ -413,9 +409,7 @@ describe('PreviewComponent', () => {
     component.previewLocation = 'personal-files';
     await component.displayNode('folder1');
 
-    expect(contentApi.getNodeInfo).toHaveBeenCalledWith('folder1', {
-      include: ['path', 'allowableOperations']
-    });
+    expect(contentApi.getNodeInfo).toHaveBeenCalledWith('folder1');
     expect(router.navigate).toHaveBeenCalledWith(['personal-files', 'folder1']);
   });
 
