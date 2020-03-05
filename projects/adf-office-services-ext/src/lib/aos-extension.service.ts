@@ -93,7 +93,9 @@ export class AosEditOnlineService {
   private triggerEditOnlineAos(node: MinimalNodeEntryEntity): void {
     const aosHost = this.appConfigService.get('aosHost');
     let url: string;
-    const pathElements = node.path.elements.map(segment => segment.name);
+    const pathElements = (node.path.elements || []).map(
+      segment => segment.name
+    );
 
     if (pathElements.length === 1) {
       url = `${aosHost}/${encodeURIComponent(node.name)}`;
