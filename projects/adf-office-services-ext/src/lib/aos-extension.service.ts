@@ -97,6 +97,12 @@ export class AosEditOnlineService {
       segment => segment.name
     );
 
+    if (!pathElements.length) {
+      url = `${aosHost}/Company Home/_aos_nodeid/${this.getNodeId(
+        node
+      )}/${encodeURIComponent(node.name)}`;
+    }
+
     if (pathElements.length === 1) {
       url = `${aosHost}/${encodeURIComponent(node.name)}`;
     }
