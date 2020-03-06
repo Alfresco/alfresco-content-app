@@ -98,8 +98,9 @@
     "ng-packagr": "^4.7.1",
     "node-stream-zip": "1.8.0",
     "prettier": "^1.17.1",
-    "protractor": "^5.4.0",
+    "protractor": "5.4.2",
     "protractor-screenshoter-plugin": "0.10.3",
+    "puppeteer": "^2.1.0",
     "rxjs-tslint-rules": "^4.19.0",
     "selenium-webdriver": "4.0.0-alpha.1",
     "ts-node": "^8.0.3",
@@ -107,7 +108,8 @@
     "tslib": "^1.9.0",
     "tslint": "~5.11.0",
     "typescript": "3.2.4",
-    "wait-on": "^3.0.1"
+    "wait-on": "^3.0.1",
+    "webdriver-manager": "12.1.7"
   },
   "lint-staged": {
     "*.{ts,js,css,scss,html}": [
