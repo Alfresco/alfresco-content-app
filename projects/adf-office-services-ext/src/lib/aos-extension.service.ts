@@ -92,9 +92,28 @@ export class AosEditOnlineService {
 
   private triggerEditOnlineAos(node: MinimalNodeEntryEntity): void {
     const aosHost = this.appConfigService.get('aosHost');
-    const url = `${aosHost}/_aos_nodeid/${this.getNodeId(
-      node
-    )}/${encodeURIComponent(node.name)}`;
+    let url: string;
+    const pathElements = (node.path.elements || []).map(
+      segment => segment.name
+    );
+
+    if (!pathElements.length) {
+      url = `${aosHost}/Company Home/_aos_nodeid/${this.getNodeId(
+        node
+      )}/${encodeURIComponent(node.name)}`;
+    }
+
+    if (pathElements.length === 1) {
+      url = `${aosHost}/${encodeURIComponent(node.name)}`;
+    }
+
+    if (pathElements.length > 1) {
+      const root = pathElements[1];
+      url = `${aosHost}/${root}/_aos_nodeid/${this.getNodeId(
+        node
+      )}/${encodeURIComponent(node.name)}`;
+    }
+
     const fileExtension = getFileExtension(node.name);
     const protocolHandler = this.getProtocolForFileExtension(fileExtension);
 
