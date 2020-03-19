@@ -100,7 +100,7 @@ You can change the header background color by specifying the color code for the 
 ```json
 {
     ...,
-    "headerColor": "#2196F3"
+    "headerColor": "#1565c0"
 }
 ```
 
