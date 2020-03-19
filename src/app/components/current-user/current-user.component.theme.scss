@@ -1,6 +1,5 @@
 @mixin aca-current-user-theme($theme) {
   $background: map-get($theme, background);
-  $foreground: map-get($theme, foreground);
   $am-avatar-size: 35px;
 
   .aca-current-user {
