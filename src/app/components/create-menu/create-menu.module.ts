@@ -28,11 +28,10 @@ import { CreateMenuComponent } from './create-menu.component';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
 import { AppToolbarModule } from '../toolbar/toolbar.module';
-import { ToolbarMenuAccessibilityDirective } from './directives/create-menu.accessibility.directive';
 
 @NgModule({
   imports: [CommonModule, CoreModule.forChild(), AppToolbarModule],
-  declarations: [CreateMenuComponent, ToolbarMenuAccessibilityDirective],
+  declarations: [CreateMenuComponent],
   exports: [CreateMenuComponent]
 })
 export class AppCreateMenuModule {}
