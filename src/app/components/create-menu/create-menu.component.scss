@@ -15,11 +15,11 @@
       display: block;
       box-shadow: none !important;
       height: 37.5px;
-      background-color: mat-color($accent, 800);
+      background-color: mat-color($accent);
       color: mat-color($primary, default-contrast) !important;
       border-radius: 4px;
-      font-size: 18.7px;
-      font-weight: bold;
+      font-size: 12.7px;
+      font-weight: normal;
       text-transform: uppercase;
 
       .mat-icon {
