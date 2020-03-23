@@ -7,16 +7,16 @@
   $border: 1px solid mat-color($foreground, divider, 0.07);
 
   .aca-menu-panel {
+    .action-button--active {
+      color: mat-color($accent) !important;
+    }
+
     .action-button {
       color: mat-color($primary);
+    }
 
-      &--active {
-        color: mat-color($accent, 800) !important;
-      }
-
-      &:hover {
-        color: mat-color($accent, 800);
-      }
+    .action-button:hover {
+      color: mat-color($accent);
     }
   }
 
@@ -24,12 +24,7 @@
     background-color: mat-color($background, background);
 
     .item:hover .action-button__label {
-      color: mat-color($accent, 800);
-    }
-
-    .action-button__label {
-      font-size: 18.7px;
-      font-weight: bold;
+      color: mat-color($accent);
     }
 
     .mat-expansion-panel {
@@ -51,7 +46,7 @@
     }
 
     .action-button--active {
-      color: mat-color($accent, 800) !important;
+      color: mat-color($accent) !important;
     }
 
     .action-button {

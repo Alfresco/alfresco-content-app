@@ -12,21 +12,6 @@ $accent: mat-palette($alfresco-ecm-blue);
 $warn: mat-palette($alfresco-warn);
 $theme: mat-light-theme($primary, $accent, $warn);
 
-$custom-background-color: #fcfcfc;
-$background: map-get($theme, background);
-$background: map_merge(
-  $background,
-  (
-    background: $custom-background-color
-  )
-);
-$theme: map_merge(
-  $theme,
-  (
-    background: $background
-  )
-);
-
 @include angular-material-theme($theme);
 
 @include adf-content-services-theme($theme);
