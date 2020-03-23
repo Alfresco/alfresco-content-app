@@ -2,6 +2,7 @@
   <ng-container *ngSwitchCase="'menu'">
     <button
       mat-menu-item
+      role="menuitem"
       [disabled]="actionRef.disabled"
       [matMenuTriggerFor]="childMenu"
     >
@@ -29,7 +30,7 @@
   <ng-container *ngSwitchDefault>
     <button
       [id]="actionRef.id"
-      [role]="'button'"
+      role="button"
       mat-menu-item
       color="primary"
       [disabled]="actionRef.disabled"

@@ -38,7 +38,7 @@ import { AppExtensionService } from '../../../extensions/extension.service';
     `
   ],
   encapsulation: ViewEncapsulation.None,
-  host: { class: 'app-toolbar-menu-item', role: 'menuitem' }
+  host: { class: 'app-toolbar-menu-item' }
 })
 export class ToolbarMenuItemComponent {
   @Input()
