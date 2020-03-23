@@ -36,7 +36,13 @@ import {
 } from '@alfresco/aca-shared/store';
 import { ContentActionRef, SelectionState } from '@alfresco/adf-extensions';
 import { MinimalNodeEntryEntity, SearchRequest } from '@alfresco/js-api';
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  ViewEncapsulation
+} from '@angular/core';
 import { ActivatedRoute, Router, PRIMARY_OUTLET } from '@angular/router';
 import {
   UserPreferencesService,
@@ -472,5 +478,17 @@ export class AppViewerComponent implements OnInit, OnDestroy {
     return Array.from(list).some((className: string) =>
       this.containersSkipNavigation.includes(className)
     );
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    const key = event.keyCode;
+    const rightArrow = 39;
+    const leftArrow = 37;
+
+    if (key === rightArrow || key === leftArrow) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    }
   }
 }
