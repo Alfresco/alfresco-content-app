@@ -58,6 +58,21 @@ $custom-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent);
 $foreground: map-get($custom-theme, foreground);
 $warn: map-get($custom-theme, warn);
 
+$custom-background-color: #fcfcfc;
+$background: map-get($custom-theme, background);
+$background: map_merge(
+  $background,
+  (
+    background: $custom-background-color
+  )
+);
+$custom-theme: map_merge(
+  $custom-theme,
+  (
+    background: $background
+  )
+);
+
 @mixin custom-theme($theme) {
   @include layout-theme($theme);
   @include aca-search-input-theme($theme);
