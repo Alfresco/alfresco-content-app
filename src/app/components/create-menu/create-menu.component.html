@@ -37,7 +37,7 @@
   [overlapTrigger]="false"
   yPosition="below"
 >
-  <ng-container *ngFor="let action of createActions; trackBy: trackById">
+  <div role="menu" *ngFor="let action of createActions; trackBy: trackById">
     <app-toolbar-menu-item [actionRef]="action"></app-toolbar-menu-item>
-  </ng-container>
+  </div>
 </mat-menu>
