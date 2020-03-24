@@ -87,11 +87,20 @@
       <mat-panel-title>Extensions</mat-panel-title>
     </mat-expansion-panel-header>
 
-    <mat-checkbox
-      [ngModel]="aiExtensions$ | async"
-      (change)="onToggleAiExtensions($event)"
-    >
-      Enable AI Extensions
-    </mat-checkbox>
+    <div class="aca-settings-extensions-list">
+      <mat-checkbox
+        [ngModel]="aiExtensions$ | async"
+        (change)="onToggleAiExtensions($event)"
+      >
+        Enable AI Extensions
+      </mat-checkbox>
+
+      <mat-checkbox
+        [ngModel]="psExtensions$ | async"
+        (change)="onTogglePsExtensions($event)"
+      >
+        Enable Process Services Extensions
+      </mat-checkbox>
+    </div>
   </mat-expansion-panel>
 </mat-accordion>

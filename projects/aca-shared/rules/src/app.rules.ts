@@ -30,6 +30,7 @@ import * as repository from './repository.rules';
 export interface AcaRuleContext extends RuleContext {
   languagePicker: boolean;
   withCredentials: boolean;
+  processServices: boolean;
 }
 
 /**
@@ -545,4 +546,14 @@ export function canShowLanguagePicker(context: AcaRuleContext): boolean {
  */
 export function canShowLogout(context: AcaRuleContext): boolean {
   return !context.withCredentials;
+}
+
+/**
+ * Checks if application should render process services extension.
+ * JSON ref: `canShowProcessServices`
+ * @param context Rule execution context
+ */
+export function canShowProcessServices(context: AcaRuleContext): boolean {
+  console.log('can show: ' + context.processServices);
+  return context.processServices;
 }

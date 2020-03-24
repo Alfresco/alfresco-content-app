@@ -172,7 +172,8 @@ export class CoreExtensionsModule {
       'repository.isQuickShareEnabled': rules.hasQuickShareEnabled,
       'user.isAdmin': rules.isAdmin,
       'app.canShowLanguagePicker': rules.canShowLanguagePicker,
-      'app.canShowLogout': rules.canShowLogout
+      'app.canShowLogout': rules.canShowLogout,
+      'app.canShowProcessServices': rules.canShowProcessServices
     });
   }
 }

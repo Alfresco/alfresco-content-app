@@ -133,3 +133,8 @@ export const infoDrawerMetadataAspect = createSelector(
   selectApp,
   state => state.infoDrawerMetadataAspect
 );
+
+export const getProcessServicesState = createSelector(
+  selectApp,
+  state => state.processServices
+);
