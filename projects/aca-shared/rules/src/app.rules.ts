@@ -554,6 +554,5 @@ export function canShowLogout(context: AcaRuleContext): boolean {
  * @param context Rule execution context
  */
 export function canShowProcessServices(context: AcaRuleContext): boolean {
-  console.log('can show: ' + context.processServices);
   return context.processServices;
 }
