@@ -27,6 +27,7 @@
   "sharedLinkDateTimePickerType": "date",
   "headerColor": "#1565c0",
   "languagePicker": true,
+  "processServices": true,
   "pagination": {
     "size": 25,
     "supportedPageSizes": [25, 50, 100]

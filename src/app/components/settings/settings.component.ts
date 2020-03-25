@@ -39,7 +39,8 @@ import {
   getHeaderColor,
   getAppName,
   getUserProfile,
-  getLanguagePickerState
+  getLanguagePickerState,
+  ToggleProcessServicesAction
 } from '@alfresco/aca-shared/store';
 import { ProfileState } from '@alfresco/adf-extensions';
 
@@ -65,6 +66,7 @@ export class SettingsComponent implements OnInit {
   headerColor$: Observable<string>;
   languagePicker$: Observable<boolean>;
   aiExtensions$: Observable<boolean>;
+  psExtensions$: Observable<boolean>;
 
   constructor(
     private store: Store<AppStore>,
@@ -85,6 +87,10 @@ export class SettingsComponent implements OnInit {
   ngOnInit() {
     this.aiExtensions$ = new BehaviorSubject(
       this.storage.getItem('ai') === 'true'
+    );
+
+    this.psExtensions$ = new BehaviorSubject(
+      this.storage.getItem('processServices') === 'true'
     );
 
     this.form = this.fb.group({
@@ -140,5 +146,10 @@ export class SettingsComponent implements OnInit {
 
   onToggleAiExtensions(event: MatCheckboxChange) {
     this.storage.setItem('ai', event.checked.toString());
+  }
+
+  onTogglePsExtensions(event: MatCheckboxChange) {
+    this.storage.setItem('processServices', event.checked.toString());
+    this.store.dispatch(new ToggleProcessServicesAction(event.checked));
   }
 }

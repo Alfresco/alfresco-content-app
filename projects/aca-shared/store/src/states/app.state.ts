@@ -44,6 +44,7 @@ export interface AppState {
   showFacetFilter: boolean;
   documentDisplayMode: string;
   repository: RepositoryInfo;
+  processServices: boolean;
 }
 
 export interface AppStore {

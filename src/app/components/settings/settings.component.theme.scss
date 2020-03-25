@@ -3,6 +3,11 @@
   $app-menu-height: 64px;
 
   .aca-settings {
+    &-extensions-list {
+      display: flex;
+      flex-direction: column;
+    }
+
     .settings-input {
       width: 50%;
     }
