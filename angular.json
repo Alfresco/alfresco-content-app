@@ -145,7 +145,7 @@
             "browserTarget": "app:build",
             "port": 4200,
             "host": "0.0.0.0",
-            "proxyConfig": "proxy.conf.js"
+            "proxyConfig": "src/proxy.conf.js"
           },
           "configurations": {
             "production": {
