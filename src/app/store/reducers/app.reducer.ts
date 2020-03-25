@@ -37,10 +37,10 @@ import {
   SetSelectedNodesAction,
   SetRepositoryInfoAction,
   SetInfoDrawerStateAction,
-  SetInfoDrawerMetadataAspectAction
+  SetInfoDrawerMetadataAspectAction,
+  ToggleProcessServicesAction
 } from '@alfresco/aca-shared/store';
 import { INITIAL_APP_STATE } from '../initial-state';
-import { ToggleProcessServicesAction } from '../../../../projects/aca-shared/store/src/actions/app.actions';
 
 export function appReducer(
   state: AppState = INITIAL_APP_STATE,
