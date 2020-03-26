@@ -31,9 +31,12 @@ jobs:
       script: npm run lint
     - name: 'Build'
       script: npm run build
-    - name: 'Unit tests'
+    - name: 'Unit tests aos'
       script:
-        - npm run test:ci
+        - ng test adf-office-services-ext --watch=false
+    - name: 'Unit tests ACA'
+      script:
+        - ng test app --code-coverage --watch=false
         - bash <(curl -s https://codecov.io/bash) -X gcov
       after_success:
         - ./scripts/ci/utils/artifact-to-s3.sh -a ./dist/app -o "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2"
