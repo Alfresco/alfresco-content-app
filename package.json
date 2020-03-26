@@ -11,7 +11,7 @@
     "build.aos": "npm run build:aos-extension",
     "build.extensions": "npm run build.shared && npm run build.aos",
     "build.app": "node --max-old-space-size=8192 node_modules/@angular/cli/bin/ng build app",
-    "build": "npm run validate-config && npm run build.extensions && npm run build.app -- --prod",
+    "build": "npm run validate-config && npm run build.app -- --prod",
     "build.js-api": "./scripts/install-local-js-api.sh && npm run build",
     "build.adf": "./scripts/install-local-adf.sh && npm run build.extensions && npm run build.app",
     "build.e2e": "npm run build.extensions && npm run build.app -- --prod --configuration=e2e",
