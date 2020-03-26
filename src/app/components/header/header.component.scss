@@ -1,0 +1,23 @@
+@mixin app-header-theme($theme) {
+  $foreground: map-get($theme, foreground);
+
+  .adf-app-title {
+    color: mat-color($foreground, text, 0.72);
+  }
+
+  .adf-menu-icon {
+    color: mat-color($foreground, text, 0.72) !important;
+  }
+
+  .aca-current-user {
+    color: mat-color($foreground, text, 0.72) !important;
+  }
+
+  .adf-toolbar-divider div {
+    background-color: mat-color($foreground, text, 0.72) !important;
+  }
+
+  .app-toolbar-menu {
+    color: mat-color($foreground, text, 0.72) !important;
+  }
+}
