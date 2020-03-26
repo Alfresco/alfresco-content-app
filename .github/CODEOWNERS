@@ -27,7 +27,7 @@ protractor.conf.js @adinapitul
 # The `docs/*` pattern will match files like
 # `docs/getting-started.md` but not further nested files like
 # `docs/build-app/troubleshooting.md`.
-#docs/*  docs@example.com
+docs/*  @m-hulbert
 
 # In this example, @octocat owns any file in an apps directory
 # anywhere in your repository.

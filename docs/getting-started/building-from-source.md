@@ -27,11 +27,19 @@ npm start
 
 The application runs at port `4200` by default, and should automatically open in the default browser once the project has compiled.
 
+## Setting up environment variables
+
+You might need to set some environment variables to be able to run the local dev server. In the project's root folder, create a `.env` file (this is gitignored) with the following data:
+
+```bash
+API_HOST_CONTENT="http://your-url-here"
+```
+
 ## Proxy settings
 
 The Content App provides a proxy configuration for a local development server that allows you to address specific scenarios with CORS and a native authentication dialog.
 
-You can find settings in the `proxy.conf.js` file in the project root directory.
+You can find settings in the `proxy.conf.js` file in the project's `src` directory. By default, your settings coming from environment variables are preferenced.
 
 **Note:** The proxy settings get automatically applied every time you run the application with the `npm start` script.
 You must restart the application every time you change its settings.

@@ -1,31 +1,28 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "baseUrl": "./",
     "importHelpers": true,
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
+    "module": "es2015",
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "noUnusedLocals": true,
     "noImplicitReturns": true,
     "target": "es5",
+    "resolveJsonModule": true,
     "typeRoots": ["node_modules/@types"],
     "lib": ["es2018", "dom"],
-    "module": "es2015",
-    "baseUrl": "./",
     "paths": {
-      "@alfresco/adf-office-services-ext": [
-        "dist/@alfresco/adf-office-services-ext"
-      ],
-      "@alfresco/adf-office-services-ext/*": [
-        "dist/@alfresco/adf-office-services-ext/*"
-      ],
-      "@alfresco/aca-shared": ["dist/@alfresco/aca-shared"],
-      "@alfresco/aca-shared/*": ["dist/@alfresco/aca-shared/*"]
-    },
-    "resolveJsonModule": true
+      "@alfresco/aca-shared": ["projects/aca-shared/src/public-api.ts"],
+      "@alfresco/aca-shared/store": ["projects/aca-shared/store/src/public_api.ts"],
+      "@alfresco/aca-shared/rules": ["projects/aca-shared/rules/src/public_api.ts"],
+      "@alfresco/adf-office-services-ext": ["projects/adf-office-services-ext/src/public_api.ts"],
+      "@alfresco/adf-office-services-ext/*": ["projects/adf-office-services-ext/src/lib/*"]
+    }
   },
   "exclude": ["node_modules"],
   "angularCompilerOptions": {
