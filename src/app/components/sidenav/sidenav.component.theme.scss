@@ -24,12 +24,11 @@
     background-color: mat-color($background, background);
 
     .item:hover .action-button__label {
-      color: mat-color($accent);
+      color: mat-color($primary);
     }
 
     .mat-expansion-panel {
       background-color: unset;
-      color: mat-color($primary, 0.87) !important;
     }
 
     .mat-expansion-panel {
@@ -46,11 +45,11 @@
     }
 
     .action-button--active {
-      color: mat-color($accent) !important;
+      color: mat-color($primary) !important;
     }
 
     .action-button {
-      color: mat-color($primary);
+      color: mat-color($foreground, text, 0.54);
     }
 
     .section {
