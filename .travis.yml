@@ -31,6 +31,7 @@ jobs:
       script: npm run lint
     - name: 'Build'
       script: npm run build
+      after_success: ./scripts/ci/utils/artifact-to-s3.sh -a ./dist/app -o "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2"
     - name: 'Unit tests aos'
       script:
         - ng test adf-office-services-ext --watch=false
@@ -38,8 +39,6 @@ jobs:
       script:
         - ng test app --code-coverage --watch=false
         - bash <(curl -s https://codecov.io/bash) -X gcov
-      after_success:
-        - ./scripts/ci/utils/artifact-to-s3.sh -a ./dist/app -o "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2"
     - stage: e2e
       name: Test Suite appNavigation&search
       before_script: ./scripts/ci/utils/artifact-from-s3.sh -a "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" -o "./dist/app"
