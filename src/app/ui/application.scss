@@ -1,7 +1,7 @@
 @import 'mixins';
 @import 'theme';
 
-$foreground: map-get($theme, foreground);
+$foreground: map-get($custom-theme, foreground);
 
 html,
 body {
