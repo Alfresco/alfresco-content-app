@@ -6,7 +6,7 @@ addons:
   chrome: stable
 language: node_js
 node_js:
-  - '10'
+  - "12.14.0"
 
 cache:
   directories:
@@ -45,6 +45,10 @@ jobs:
       script: npm run build.e2e && SUITE="--suite sharingContent" npm run e2e:docker
     - name: Test Suite viewContent&metadata&extensions
       script: npm run build.e2e && SUITE="--suite viewer,infoDrawer,extensions" npm run e2e:docker
+
+    - stage: Trtigger DW
+      if: (branch = master OR branch = development OR (tag =~ .*beta.*)) AND type = push
+      script: ./scripts/trigger-travis.sh --pro --branch $TRAVIS_BRANCH Alfresco digital-workspace $TRAVIS_ACCESS_TOKEN
 
 after_failure:
   - alfrescoContainerId=$(docker ps -a | grep 'alfresco-content-repository-community' | awk '{print $1}')
