@@ -12,6 +12,12 @@ cache:
   directories:
     - node_modules
 
+branches:
+  only:
+  - master
+  - development
+  - /.*beta.*/
+  
 before_install:
   - sudo /etc/init.d/postgresql stop
   - npm install -g npm@latest
