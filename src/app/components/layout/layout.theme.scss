@@ -1,5 +1,5 @@
 @import './app-layout/app-layout.theme.scss';
-@import './../components/header/header.component.scss';
+@import '../header/header.component.scss';
 
 @mixin layout-theme($theme) {
   @include app-layout-theme($theme);

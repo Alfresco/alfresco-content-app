@@ -18,6 +18,7 @@ before_install:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
   - sleep 3
+  - . ./scripts/ci/job_hooks/before_install.sh
 
 stages:
   - name: Quality and Unit tests
@@ -28,23 +29,35 @@ jobs:
     - stage: Quality and Unit tests
       name: 'Code quality checks'
       script: npm run lint
-    - name: 'Unit tests'
+    - name: 'Build'
+      script: npm run build
+      after_success: ./scripts/ci/utils/artifact-to-s3.sh -a ./dist/app -o "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2"
+    - name: 'Unit tests aos'
       script:
-        - npm run test:ci
+        - ng test adf-office-services-ext --watch=false
+    - name: 'Unit tests ACA'
+      script:
+        - ng test app --code-coverage --watch=false
         - bash <(curl -s https://codecov.io/bash) -X gcov
     - stage: e2e
       name: Test Suite appNavigation&search
-      script: npm run build.e2e && SUITE="--suite authentication,listViews,navigation,application,pagination,search" npm run e2e:docker
+      before_script: ./scripts/ci/utils/artifact-from-s3.sh -a "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" -o "./dist/app"
+      script: SUITE="--suite authentication,listViews,navigation,application,pagination,search" npm run e2e:docker
     - name: Test Suite actionsAvailable
-      script: npm run build.e2e && SUITE="--suite actionsAvailable" npm run e2e:docker
+      before_script: ./scripts/ci/utils/artifact-from-s3.sh -a "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" -o "./dist/app"
+      script: SUITE="--suite actionsAvailable" npm run e2e:docker
     - name: Test Suite addRemoveContent
-      script: npm run build.e2e && SUITE="--suite addRemoveContent" npm run e2e:docker
+      before_script: ./scripts/ci/utils/artifact-from-s3.sh -a "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" -o "./dist/app"
+      script: SUITE="--suite addRemoveContent" npm run e2e:docker
     - name: Test Suite manageContent
-      script: npm run build.e2e && SUITE="--suite manageContent" npm run e2e:docker
+      before_script: ./scripts/ci/utils/artifact-from-s3.sh -a "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" -o "./dist/app"
+      script: SUITE="--suite manageContent" npm run e2e:docker
     - name: Test Suite sharingContent&markFavorite
-      script: npm run build.e2e && SUITE="--suite sharingContent" npm run e2e:docker
+      before_script: ./scripts/ci/utils/artifact-from-s3.sh -a "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" -o "./dist/app"
+      script: SUITE="--suite sharingContent" npm run e2e:docker
     - name: Test Suite viewContent&metadata&extensions
-      script: npm run build.e2e && SUITE="--suite viewer,infoDrawer,extensions" npm run e2e:docker
+      before_script: ./scripts/ci/utils/artifact-from-s3.sh -a "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" -o "./dist/app"
+      script: SUITE="--suite viewer,infoDrawer,extensions" npm run e2e:docker
 
 after_failure:
   - alfrescoContainerId=$(docker ps -a | grep 'alfresco-content-repository-community' | awk '{print $1}')
