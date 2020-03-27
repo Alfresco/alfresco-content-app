@@ -1,9 +1,10 @@
 <p align="left"> <img title="Alfresco" src="alfresco.png" alt="Alfresco - Simply a better way to create amazing digital experiences"></p>
 
 # Alfresco Content Application
-
-Testing Supported By<br/>
-<img width="160" src="docs/images/Browserstack-logo.svg" alt="BrowserStack"/>
+| branch | status |
+| --- | --- |
+| master | [![Build Status](https://travis-ci.com/Alfresco/alfresco-content-app.svg?branch=master)](https://travis-ci.com/Alfresco/alfresco-content-app) |
+| development | [![Build Status](https://travis-ci.org/Alfresco/alfresco-content-app.svg?branch=development)](https://travis-ci.com/Alfresco/alfresco-content-app) |
 
 ## Introduction
 
@@ -107,3 +108,6 @@ Read up on our guidelines for [contributing] and then check out one of our issue
 [github]: https://github.com/Alfresco/alfresco-content-app/issues
 [jira]: https://issues.alfresco.com/jira/projects/ACA
 [release notes]: https://github.com/Alfresco/alfresco-content-app/releases
+
+Testing Supported By<br/>
+<img width="160" src="docs/images/Browserstack-logo.svg" alt="BrowserStack"/>
