@@ -28,7 +28,7 @@ jobs:
     - stage: Quality and Unit tests
       name: 'Code quality checks'
       script: npm run lint
-    - name: 'Unit tests'
+    - name: 'Unit tests ACA'
       script:
         - npm run test:ci
         - bash <(curl -s https://codecov.io/bash) -X gcov
