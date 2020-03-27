@@ -1,23 +1,35 @@
+@import '~@angular/material/theming';
+
 @mixin app-header-theme($theme) {
   $foreground: map-get($theme, foreground);
 
-  .adf-app-title {
-    color: mat-color($foreground, text, 0.72);
-  }
+  .app-header {
+    @include mat-elevation(6, #000000, 0.1);
+    z-index: 2;
 
-  .adf-menu-icon {
-    color: mat-color($foreground, text, 0.72) !important;
-  }
+    .mat-toolbar {
+      background-image: url('./assets/images/mastHead-bg-shapesPattern.svg') !important;
+      background-repeat: no-repeat !important;
 
-  .aca-current-user {
-    color: mat-color($foreground, text, 0.72) !important;
-  }
+      .adf-app-title {
+        color: mat-color($foreground, text, 0.72);
+      }
 
-  .adf-toolbar-divider div {
-    background-color: mat-color($foreground, text, 0.72) !important;
-  }
+      .adf-menu-icon {
+        color: mat-color($foreground, text, 0.72) !important;
+      }
 
-  .app-toolbar-menu {
-    color: mat-color($foreground, text, 0.72) !important;
+      .aca-current-user {
+        color: mat-color($foreground, text, 0.72) !important;
+      }
+
+      .adf-toolbar-divider div {
+        background-color: mat-color($foreground, text, 0.72) !important;
+      }
+
+      .app-toolbar-menu {
+        color: mat-color($foreground, text, 0.72) !important;
+      }
+    }
   }
 }
