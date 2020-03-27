@@ -6,7 +6,7 @@ addons:
   chrome: stable
 language: node_js
 node_js:
-  - '10'
+  - "12.14.0"
 
 cache:
   directories:
@@ -58,6 +58,10 @@ jobs:
     - name: Test Suite viewContent&metadata&extensions
       before_script: ./scripts/ci/utils/artifact-from-s3.sh -a "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" -o "./dist/app"
       script: SUITE="--suite viewer,infoDrawer,extensions" npm run e2e:docker
+
+    - stage: Trigger DW
+      if: (branch = master OR branch = development OR (tag =~ .*beta.*)) AND type = push
+      script: ./scripts/trigger-travis.sh --pro --branch $TRAVIS_BRANCH Alfresco digital-workspace $TRAVIS_ACCESS_TOKEN
 
 after_failure:
   - alfrescoContainerId=$(docker ps -a | grep 'alfresco-content-repository-community' | awk '{print $1}')
