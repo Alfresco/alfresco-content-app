@@ -46,7 +46,7 @@ jobs:
     - name: Test Suite viewContent&metadata&extensions
       script: npm run build.e2e && SUITE="--suite viewer,infoDrawer,extensions" npm run e2e:docker
 
-    - stage: Trtigger DW
+    - stage: Trigger DW
       if: (branch = master OR branch = development OR (tag =~ .*beta.*)) AND type = push
       script: ./scripts/trigger-travis.sh --pro --branch $TRAVIS_BRANCH Alfresco digital-workspace $TRAVIS_ACCESS_TOKEN
 
