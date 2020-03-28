@@ -255,6 +255,7 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "protractor.conf.js",
+            "webdriverUpdate": false,
             "devServerTarget": "app:lite-serve"
           }
         },

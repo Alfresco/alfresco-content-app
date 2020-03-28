@@ -9,7 +9,7 @@ const fs = require('fs');
 
 const projectRoot = path.resolve(__dirname);
 const downloadFolder = `${projectRoot}/e2e-downloads`;
-
+const BROWSER_RUN = process.env.BROWSER_RUN;
 const width = 1366;
 const height = 768;
 
@@ -41,7 +41,9 @@ exports.config = {
 
   params: {
     config: appConfig,
-    downloadFolder: downloadFolder
+    downloadFolder: downloadFolder,
+    ADMIN_USERNAME: process.env.ADMIN_EMAIL || 'admin',
+    ADMIN_PASSWORD: process.env.ADMIN_PASSWORD || 'admin'
   },
 
   specs: [

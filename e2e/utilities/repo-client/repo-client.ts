@@ -23,8 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { RepoClientAuth } from './repo-client-models';
-
+import { browser } from 'protractor';
 import { PeopleApi } from './apis/people/people-api';
 import { NodesApi } from './apis/nodes/nodes-api';
 import { CommentsApi } from './apis/comments/comments-api';
@@ -39,8 +38,8 @@ import { AuthenticationApi } from './apis/authentication/authentication-api';
 
 export class RepoClient {
     constructor(
-        private username: string = RepoClientAuth.DEFAULT_USERNAME,
-        private password: string = RepoClientAuth.DEFAULT_PASSWORD
+        private username: string = browser.params.ADMIN_USERNAME,
+        private password: string = browser.params.ADMIN_PASSWORD
     ) {}
 
     private get auth() {

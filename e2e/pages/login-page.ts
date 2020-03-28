@@ -26,7 +26,7 @@ import { browser, ExpectedConditions as EC } from 'protractor';
 import { LoginComponent } from '../components/components';
 import { Page } from './page';
 
-import { ADMIN_USERNAME, ADMIN_PASSWORD, BROWSER_WAIT_TIMEOUT, APP_ROUTES } from '../configs';
+import { BROWSER_WAIT_TIMEOUT, APP_ROUTES } from '../configs';
 
 export class LoginPage extends Page {
   login: LoginComponent = new LoginComponent(this.appRoot);
@@ -54,7 +54,7 @@ export class LoginPage extends Page {
 
   async loginWithAdmin() {
     await this.load();
-    return this.loginWith(ADMIN_USERNAME, ADMIN_PASSWORD);
+    return this.loginWith(browser.params.ADMIN_USERNAME, browser.params.ADMIN_PASSWORD);
   }
 
   async tryLoginWith(username: string, password?: string) {
