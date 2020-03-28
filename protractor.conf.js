@@ -31,7 +31,7 @@ function rmDir(dirPath) {
 }
 
 const appConfig = {
-  ecmHost: REPO_API_HOST,
+  hostEcm: REPO_API_HOST,
   providers: 'ECM',
   authType: 'BASIC'
 };
@@ -112,7 +112,8 @@ exports.config = {
       },
       args: [
         '--incognito',
-        '--headless',
+        ...(BROWSER_RUN === 'true' ? [] : ['--headless']),
+        '--disable-web-security',
         '--remote-debugging-port=9222',
         '--disable-gpu',
         '--no-sandbox'

@@ -47,6 +47,9 @@ export abstract class RepoApi {
 
     protected handleError(message: string, response: any) {
       console.log(`\n--- ${message} error :`);
+      console.log('\t>>> username: ', this.username);
+      console.log('\t>>> password: ', this.password);
+      console.log('\t>>> JSON: ', JSON.stringify(browser.params.config));
       if ( response.status && response.response ) {
         try {
           console.log('\t>>> Status: ', response.status);
