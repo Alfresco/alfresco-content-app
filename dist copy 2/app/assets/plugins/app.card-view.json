@@ -1,0 +1,21 @@
+{
+  "$schema": "../../../extension.schema.json",
+  "$id": "app.demo.cardView",
+  "$name": "app.demo.cardView",
+  "$version": "1.0.0",
+  "$vendor": "Alfresco Software, Ltd.",
+  "$license": "LGPL-3.0",
+  "$runtime": "1.5.0",
+  "$description": "Simple extension that provides Card View toolbar button",
+
+  "features": {
+    "toolbar": [
+      {
+        "id": "app.toolbar.cardView",
+        "order": 50,
+        "type": "custom",
+        "component": "app.toolbar.cardView"
+      }
+    ]
+  }
+}

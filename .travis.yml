@@ -6,7 +6,7 @@ addons:
   chrome: stable
 language: node_js
 node_js:
-  - "12.14.0"
+  - '12.14.0'
 
 cache:
   directories:
@@ -46,23 +46,22 @@ jobs:
         - bash <(curl -s https://codecov.io/bash) -X gcov
     - stage: e2e
       name: Test Suite appNavigation&search
-      before_script: ./scripts/ci/utils/artifact-from-s3.sh -a "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" -o "./dist/app"
+      before_script: ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app"
       script: npm run wd:update && ng run app-e2e:e2elite --suite "authentication,listViews,navigation,application,pagination,search"
     - name: Test Suite actionsAvailable
-      before_script: ./scripts/ci/utils/artifact-from-s3.sh -a "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" -o "./dist/app"
-      script: SUITE="--suite actionsAvailable" npm run e2e:docker
+      before_script: ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app"
       script: npm run wd:update && ng run app-e2e:e2elite --suite "actionsAvailable"
     - name: Test Suite addRemoveContent
-      before_script: ./scripts/ci/utils/artifact-from-s3.sh -a "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" -o "./dist/app"
+      before_script: ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app"
       script: npm run wd:update && ng run app-e2e:e2elite --suite "addRemoveContent"
     - name: Test Suite manageContent
-      before_script: ./scripts/ci/utils/artifact-from-s3.sh -a "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" -o "./dist/app"
+      before_script: ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app"
       script: npm run wd:update && ng run app-e2e:e2elite --suite "manageContent"
     - name: Test Suite sharingContent&markFavorite
-      before_script: ./scripts/ci/utils/artifact-from-s3.sh -a "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" -o "./dist/app"
+      before_script: ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app"
       script: npm run wd:update && ng run app-e2e:e2elite --suite "sharingContent"
     - name: Test Suite viewContent&metadata&extensions
-      before_script: ./scripts/ci/utils/artifact-from-s3.sh -a "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" -o "./dist/app"
+      before_script: ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app"
       script: npm run wd:update && ng run app-e2e:e2elite --suite "viewer,infoDrawer,extensions"
 
     - stage: Trigger DW

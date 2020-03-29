@@ -1,0 +1,549 @@
+{
+  "APP": {
+    "COPYRIGHT": "© 2017 - 2020 Alfresco Software, Inc. Tutti i diritti riservati.",
+    "ABOUT": {
+      "VERSION": "Versione:",
+      "PLUGINS": {
+        "TITLE": "Estensioni",
+        "ID": "ID",
+        "NAME": "Nome",
+        "VERSION": "Versione",
+        "VENDOR": "Fornitore",
+        "LICENSE": "Licenza",
+        "RUNTIME": "Runtime",
+        "DESCRIPTION": "Descrizione"
+      },
+      "LICENSE": {
+        "TITLE": "Licenza",
+        "PROPERTY": "Proprietà",
+        "VALUE": "Valore"
+      },
+      "STATUS": {
+        "TITLE": "Stato",
+        "PROPERTY": "Proprietà",
+        "VALUE": "Valore"
+      },
+      "MODULES": {
+        "TITLE": "Moduli della piattaforma Alfresco",
+        "ID": "ID",
+        "NAME": "Nome",
+        "VERSION": "Versione"
+      },
+      "PACKAGES": {
+        "TITLE": "Pacchetti",
+        "NAME": "Nome",
+        "VERSION": "Versione"
+      }
+    },
+    "LANGUAGE": "Lingua",
+    "SIGN_IN": "Accedi",
+    "SIGN_OUT": "Disconnetti",
+    "SETTINGS": {
+      "TITLE": "Impostazioni",
+      "APPLICATION-SETTINGS": "Impostazioni applicazione",
+      "REPOSITORY-SETTINGS": "Impostazioni repository",
+      "INVALID-VALUE-FORMAT": "Formato valore non valido",
+      "REQUIRED-FIELD": "Questo campo è obbligatorio",
+      "RESET": "Reimposta",
+      "APPLY": "Applica"
+    },
+    "PREVIEW": {
+      "TITLE": "Anteprima"
+    },
+    "NEW_MENU": {
+      "LABEL": "Nuovo",
+      "TOOLTIP": "Aggiungi nuovi file o cartelle oppure crea una nuova raccolta di file",
+      "MENU_ITEMS": {
+        "CREATE_FOLDER": "Crea cartella",
+        "UPLOAD_FILE": "Carica file",
+        "UPLOAD_FOLDER": "Carica cartella",
+        "CREATE_LIBRARY": "Crea libreria",
+        "FILE_TEMPLATE": "Crea file da modello",
+        "FOLDER_TEMPLATE": "Crea cartella da modello"
+      },
+      "TOOLTIPS": {
+        "CREATE_FOLDER": "Crea nuova cartella",
+        "CREATE_FOLDER_NOT_ALLOWED": "Impossibile creare cartelle durante la visualizzazione degli elementi correnti",
+        "CREATE_FILE_NOT_ALLOWED": "I file non possono essere creati durante la visualizzazione degli elementi correnti",
+        "UPLOAD_FILES": "Seleziona file da caricare",
+        "UPLOAD_FILES_NOT_ALLOWED": "Impossibile caricare file durante la visualizzazione degli elementi correnti",
+        "UPLOAD_FOLDERS": "Seleziona cartelle da caricare",
+        "UPLOAD_FOLDERS_NOT_ALLOWED": "Impossibile caricare cartelle durante la visualizzazione degli elementi correnti",
+        "CREATE_LIBRARY": "Crea una nuova libreria di file"
+      }
+    },
+    "BROWSE": {
+      "PERSONAL": {
+        "TITLE": "File personali",
+        "SIDENAV_LINK": {
+          "LABEL": "File personali",
+          "TOOLTIP": "Visualizza i file personali"
+        }
+      },
+      "LIBRARIES": {
+        "TITLE": "Raccolte file",
+        "DESCRIPTION": "Accedi alle raccolte di file",
+        "SIDENAV_LINK": {
+          "LABEL": "Raccolte file",
+          "TOOLTIP": "Raccolte file"
+        },
+        "EMPTY_STATE": {
+          "FILE_LIBRARIES": {
+            "TITLE": "L'utente non è ancora membro di alcuna Raccolta file",
+            "TEXT": "Unire le librerie per caricare, visualizzare e condividere file."
+          },
+          "FAVORITE_LIBRARIES": {
+            "TITLE": "Nessuna raccolta preferita",
+            "TEXT": "Imposta una raccolta come preferita per trovarla facilmente in seguito."
+          }
+        },
+        "MENU": {
+          "MY_LIBRARIES": {
+            "TITLE": "Le mie raccolte",
+            "SIDENAV_LINK": {
+              "LABEL": "Le mie raccolte",
+              "TOOLTIP": "Accedi alle raccolte"
+            }
+          },
+          "FAVORITE_LIBRARIES": {
+            "TITLE": "Raccolte  preferite",
+            "SIDENAV_LINK": {
+              "LABEL": "Raccolte  preferite",
+              "TOOLTIP": "Accedi alle raccolte preferite"
+            }
+          }
+        }
+      },
+      "SHARED": {
+        "TITLE": "File condivisi",
+        "SIDENAV_LINK": {
+          "LABEL": "Condiviso",
+          "TOOLTIP": "Visualizza file condivisi"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "Nessun file o cartella condivisi",
+          "TEXT": "Gli elementi condivisi con l'opzione Condividi vengono mostrati qui."
+        }
+      },
+      "RECENT": {
+        "TITLE": "File recenti",
+        "SIDENAV_LINK": {
+          "LABEL": "File recenti",
+          "TOOLTIP": "Visualizza i file modificati di recente"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "Nessun file recente",
+          "TEXT": "Gli elementi caricati o modificati negli ultimi 30 giorni sono mostrati qui."
+        }
+      },
+      "FAVORITES": {
+        "TITLE": "Preferiti",
+        "SIDENAV_LINK": {
+          "LABEL": "Preferiti",
+          "TOOLTIP": "Visualizza file e cartelle preferite"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "Nessun file o cartella preferiti",
+          "TEXT": "Elementi preferiti da recuperare facilmente in un altro momento."
+        }
+      },
+      "TRASHCAN": {
+        "TITLE": "Cestino",
+        "SIDENAV_LINK": {
+          "LABEL": "Cestino",
+          "TOOLTIP": "Visualizza i file eliminati nel cestino"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "Il cestino è vuoto",
+          "FIRST_TEXT": "Gli elementi eliminati vengono spostati nel cestino.",
+          "SECOND_TEXT": "Svuotare il cestino per eliminare definitivamente gli elementi."
+        }
+      },
+      "ABOUT": {
+        "TITLE": "Informazioni su"
+      },
+      "SEARCH": {
+        "TITLE": "Risultati della ricerca",
+        "FOUND_RESULTS": "{{ number }} risultati trovati",
+        "FOUND_ONE_RESULT": "{{ number }} risultato trovato",
+        "CUSTOM_ROW": {
+          "MODIFIED": "Modificato",
+          "BY_USER": "da {{ user }}",
+          "LOCATION": "Località",
+          "SIZE": "Dimensione"
+        },
+        "UNKNOWN_LOCATION": "Sconosciuto",
+        "NO_RESULTS": "La ricerca ha restituito 0 risultati",
+        "TOGGLE_SEARCH_FILTER": "Attiva filtro di ricerca",
+        "ERRORS": {
+          "500": "Si è verificato un errore di elaborazione della query di ricerca [500]",
+          "GENERIC": "Si è verificato un errore di elaborazione della query di ricerca"
+        }
+      },
+      "SEARCH_LIBRARIES": {
+        "TITLE": "Raccolte trovate...",
+        "FOUND_RESULTS": "{{ number }} risultati",
+        "FOUND_ONE_RESULT": "{{ number }} risultato"
+      }
+    },
+    "ACTIONS": {
+      "VIEW": "Visualizza",
+      "EDIT": "Modifica",
+      "DOWNLOAD": "Scarica",
+      "COPY": "Copia",
+      "MOVE": "Sposta",
+      "DELETE": "Elimina",
+      "DELETE_PERMANENT": "Elimina definitivamente",
+      "MORE": "Altre azioni",
+      "UNDO": "Annulla",
+      "PERMISSIONS": "Permessi",
+      "RESTORE": "Ripristina",
+      "FAVORITE": "Preferito",
+      "ADD_FAVORITE": "Aggiungi preferito",
+      "REMOVE_FAVORITE": "Rimuovi preferito",
+      "UNSHARE": "Rimuovi condivisione",
+      "DETAILS": "Visualizza dettagli",
+      "VERSIONS": "Gestione versioni",
+      "UPLOAD_VERSION": "Caricare la nuova versione",
+      "TOGGLE-SIDENAV": "Attiva/disattiva barra di navigazione laterale",
+      "SHARE": "Condividi",
+      "SHARE_EDIT": "Impostazioni di collegamento condiviso",
+      "PRINT": "Stampa",
+      "FULLSCREEN": "Attiva modalità schermo intero",
+      "JOIN": "Partecipa",
+      "CANCEL_JOIN": "Annulla richiesta di partecipazione",
+      "LEAVE": "Esci dalla raccolta",
+      "EDIT_OFFLINE": "Modifica offline",
+      "EDIT_OFFLINE_CANCEL": "Annulla modifica",
+      "LIST_MODE": "Visualizza elenco",
+      "GALLERY_MODE": "Visualizza raccolta"
+    },
+    "DIALOGS": {
+      "CONFIRM_PURGE": {
+        "TITLE": "Elimina dal cestino?",
+        "MESSAGE": "Questa operazione eliminerà in maniera permanente gli elementi selezionati.",
+        "YES_LABEL": "Elimina",
+        "NO_LABEL": "Salvare"
+      },
+      "CONFIRM_LEAVE": {
+        "TITLE": "Uscire dalla raccolta?",
+        "MESSAGE": "L'uscita comporta la rimozione dei dati di accesso.",
+        "YES_LABEL": "OK",
+        "NO_LABEL": "Annulla"
+      }
+    },
+    "DOCUMENT_LIST": {
+      "COLUMNS": {
+        "ID": "ID",
+        "NAME": "Nome",
+        "SIZE": "Dimensione",
+        "MODIFIED_ON": "Modificato",
+        "MODIFIED_BY": "Modificato da",
+        "VISIBILITY": "Visibilità",
+        "TITLE": "Titolo",
+        "LOCATION": "Località",
+        "SHARED_BY": "Condiviso da",
+        "DELETED_ON": "Eliminato",
+        "DELETED_BY": "Eliminato da",
+        "ROLE": "Il mio ruolo"
+      },
+      "TOOLBAR": {
+        "CARDVIEW": "Modalità di visualizzazione scheda",
+        "LISTVIEW": "Modalità vista elenco"
+      }
+    },
+    "MESSAGES": {
+      "ERRORS": {
+        "CANNOT_NAVIGATE_LOCATION": "Impossibile aprire questo percorso",
+        "MISSING_CONTENT": "Questo elemento non esiste più o non si dispone delle autorizzazioni per visualizzarlo.",
+        "GENERIC": "Azione non eseguita correttamente. Riprovare o contattare il team IT.",
+        "CONFLICT": "Nome già in uso, provare un nome diverso.",
+        "NODE_MOVE": "Spostamento non eseguito correttamente, file con lo stesso nome già esistente.",
+        "EXISTENT_FOLDER": "Esiste già una cartella con questo nome. Provare un nome diverso.",
+        "NODE_DELETION": "Impossibile eliminare {{ name }}",
+        "NODE_DELETION_PLURAL": "Impossibile eliminare {{ number }} elementi",
+        "NODE_RESTORE": "Impossibile ripristinare {{ name }}",
+        "NODE_RESTORE_PLURAL": "Impossibile ripristinare {{ number }} elementi",
+        "PERMISSION": "Non si dispone dell'accesso per eseguire questa operazione",
+        "LOCK_NODE": "Si è verificato un problema con il blocco del file {{ fileName }}",
+        "UNLOCK_NODE": "Si è verificato un problema con lo sblocco del file {{ fileName }}",
+        "TRASH": {
+          "NODES_PURGE": {
+            "PLURAL": "Impossibile eliminare {{ number }} elementi",
+            "SINGULAR": "Impossibile eliminare {{ name }}"
+          },
+          "NODES_RESTORE": {
+            "PARTIAL_PLURAL": "{{ number }} elementi non ripristinati a causa dei problemi con il percorso di ripristino",
+            "NODE_EXISTS": "Impossibile eseguire il ripristino. {{ name }} è già esistente.",
+            "LOCATION_MISSING": "Impossibile ripristinare {{ name }}. Il percorso originale non esiste più.",
+            "GENERIC": "Si è verificato un problema durante il ripristino di {{ name }}"
+          }
+        },
+        "DELETE_LIBRARY_FAILED": "Impossibile eliminare la raccolta",
+        "JOIN_REQUEST_FAILED": "Impossibile partecipare alla raccolta",
+        "JOIN_CANCEL_FAILED": "Impossibile annullare la richiesta di partecipazione",
+        "LEAVE_LIBRARY_FAILED": "Impossibile uscire dalla raccolta",
+        "INVALID_SENDER_EMAIL": "L'indirizzo email deve essere valido prima della richiesta di accesso.",
+        "INVALID_RECEIVER_EMAIL": "Indirizzo email del destinatario non valido. Contattare l'IT."
+      },
+      "UPLOAD": {
+        "ERROR": {
+          "GENERIC": "Caricamento non riuscito. Se il problema persiste, contattare l'IT",
+          "CONFLICT": "Nuova versione non caricata. Esiste già un fil con lo stesso nome.",
+          "500": "Errore interno del server. Riprovare o contattare il supporto IT [500]",
+          "504": "Timeout del server. Riprovare o contattare il supporto IT [504]",
+          "403": "Autorizzazioni insufficienti per caricare in questa posizione [403]",
+          "404": "La posizione di caricamento non esiste più [404]"
+        }
+      },
+      "INFO": {
+        "TRASH": {
+          "NODES_PURGE": {
+            "PLURAL": "{{ number }} elementi eliminati",
+            "SINGULAR": "Elemento {{ name }} eliminato",
+            "PARTIAL_SINGULAR": "Elemento {{ name }} eliminato. Impossibile eliminare l'elemento {{ failed }}.",
+            "PARTIAL_PLURAL": "{{ number }} elementi eliminati, impossibile eliminare {{ failed }}"
+          },
+          "NODES_RESTORE": {
+            "PLURAL": "Ripristino eseguito correttamente",
+            "SINGULAR": "Elemento {{ name }} ripristinato"
+          }
+        },
+        "NODE_DELETION": {
+          "SINGULAR": "{{ name }} eliminato",
+          "PLURAL": "{{ number }} elementi eliminati",
+          "PARTIAL_SINGULAR": "Elemento {{ success }} eliminato, impossibile eliminare {{ failed }}",
+          "PARTIAL_PLURAL": "Elementi {{ success }} eliminati, impossibile eliminare {{ failed }}"
+        },
+        "NODE_COPY": {
+          "SINGULAR": "Elemento {{ success }} copiato",
+          "PLURAL": "Elementi {{ success }} copiati",
+          "PARTIAL_SINGULAR": "Elemento {{ success }} copiato. Impossibile copiare l'elemento {{ failed }}.",
+          "PARTIAL_PLURAL": "Elementi {{ success }} copiati. Impossibile copiare {{ failed }}.",
+          "FAIL_SINGULAR": "Impossibile copiare l'elemento {{ failed }}.",
+          "FAIL_PLURAL": "Impossibile copiare gli elementi {{ failed }}."
+        },
+        "NODE_MOVE": {
+          "SINGULAR": "Spostato {{ success }} elemento.",
+          "PLURAL": "Spostati {{ success }} elementi.",
+          "PARTIAL": {
+            "SINGULAR": "Elemento {{ partially }} parzialmente spostato.",
+            "PLURAL": "Elementi {{ partially }} parzialmente spostati.",
+            "FAIL": "Impossibile spostare {{ failed }}."
+          }
+        },
+        "LIBRARY_DELETED": "Raccolta eliminata",
+        "JOINED": "Partecipazione alla raccolta confermata",
+        "JOIN_REQUESTED": "Richiesta di partecipazione alla raccolta inviata",
+        "JOIN_CANCELED": "Richiesta di partecipazione alla raccolta annullata",
+        "LEFT_LIBRARY": "Sei uscito dalla raccolta"
+      }
+    },
+    "CONTENT_METADATA": {
+      "EXIF_GROUP_TITLE": "Immagine EXIF",
+      "EFFECTIVITY_GROUP_TITLE": "Validità"
+    },
+    "INFO_DRAWER": {
+      "TITLE": "Dettagli",
+      "TABS": {
+        "PROPERTIES": "Proprietà",
+        "LIBRARY_PROPERTIES": "Informazioni su",
+        "VERSIONS": "Versione",
+        "COMMENTS": "Commenti"
+      }
+    }
+  },
+  "NODE_SELECTOR": {
+    "COPY_ITEM": "Copia '{{ name }}' in...",
+    "COPY_ITEMS": "Copia {{ number }} elementi in...",
+    "MOVE_ITEM": "Sposta '{{ name }}' in...",
+    "MOVE_ITEMS": "Sposta {{ number }} elementi in...",
+    "SEARCH": "Cerca",
+    "NEXT": "Successivo",
+    "SELECT_FILE_TEMPLATE_TITLE": "Selezionare un modello di documento",
+    "SELECT_FOLDER_TEMPLATE_TITLE": "Selezionare un modello di cartella"
+  },
+  "NODE_FROM_TEMPLATE": {
+    "CANCEL": "Annulla",
+    "CREATE": "Crea",
+    "FOLDER_DIALOG_TITLE": "Creazione nuova cartella da <span class=\"bold\">'{{ template }}'</span>",
+    "FILE_DIALOG_TITLE": "Creazione nuovo documento da <span class=\"bold\">'{{ template }}'</span>",
+    "FORM": {
+      "PLACEHOLDER": {
+        "NAME": "Nome",
+        "TITLE": "Titolo",
+        "DESCRIPTION": "Descrizione"
+      },
+      "ERRORS": {
+        "DESCRIPTION_TOO_LONG": "Utilizzare 512 o meno per la descrizione",
+        "TITLE_TOO_LONG": "Utilizzare 256 caratteri o meno per il titolo",
+        "REQUIRED": "Nome obbligatorio",
+        "SPECIAL_CHARACTERS": "Il nome non può contenere questi caratteri * \" < > \\ / ? : |",
+        "ENDING_DOT": "Il nome non può terminare con un punto.",
+        "ONLY_SPACES": "Il nome non può contenere solo spazi"
+      }
+    }
+  },
+  "PERMISSIONS": {
+    "DIALOG": {
+      "TITLE": "Gestione autorizzazioni",
+      "CLOSE": "Chiudi",
+      "INHERIT_PERMISSIONS_BUTTON": "Eredita permessi",
+      "INHERITED_PERMISSIONS_BUTTON": "Permesso ereditato",
+      "ADD_USER_OR_GROUP": "Aggiungi utente o gruppo"
+    }
+  },
+  "SHARED_LINK": {
+    "UNSHARE_PERMISSION_ERROR": "Non hai il permesso per rimuovere la condivisione di questo file"
+  },
+  "VERSION": {
+    "DIALOG_ADF": {
+      "TITLE": "Gestione versioni",
+      "CLOSE": "Chiudi"
+    },
+    "DIALOG": {
+      "TITLE": "Utilizza nuova versione",
+      "CANCEL": "Annulla",
+      "UPLOAD": "Carica"
+    },
+    "FORM": {
+      "SUBTITLE": "Qual è il livello delle modifiche apportate a questa versione?",
+      "VERSION": {
+        "MINOR": "Minore (x.1)",
+        "MAJOR": "Maggiore (2.0)"
+      },
+      "COMMENT": {
+        "PLACEHOLDER": "Aggiungere note per descrivere le modifiche"
+      }
+    },
+    "SELECTION": {
+      "EMPTY": "Selezionare un documento per vedere le versioni.",
+      "NO_PERMISSION": "Non hai il permesso per gestire le versioni di questo documento."
+    },
+    "ERROR": {
+      "GENERIC": "Si è verificato un errore di gestione della versione del file"
+    }
+  },
+  "LIBRARY": {
+    "DIALOG": {
+      "CREATE_TITLE": "Crea libreria",
+      "CREATE": "Crea",
+      "UPDATE": "Aggiorna",
+      "EDIT": "Modifica",
+      "CANCEL": "Annulla",
+      "FORM": {
+        "DESCRIPTION": "Descrizione",
+        "SITE_ID": "ID libreria",
+        "NAME": "Nome",
+        "VISIBILITY": "Visibilità"
+      }
+    },
+    "VISIBILITY": {
+      "PRIVATE": "Privato",
+      "PUBLIC": "Pubblico",
+      "MODERATED": "Moderato"
+    },
+    "HINTS": {
+      "SITE_TITLE_EXISTS": "Nome raccolta già utilizzato"
+    },
+    "ERRORS": {
+      "GENERIC": "Si è verificato un problema",
+      "EXISTENT_SITE": "L'ID raccolta non è disponibile. Provare con un altro ID raccolta.",
+      "CONFLICT": "L'ID libreria specificato è già in uso. Verificare il cestino.",
+      "ID_TOO_LONG": "Utilizzare 72 caratteri o meno per il nome URL",
+      "DESCRIPTION_TOO_LONG": "Utilizzare 512 o meno per la descrizione",
+      "TITLE_TOO_LONG": "Utilizzare 256 caratteri o meno per il titolo",
+      "ILLEGAL_CHARACTERS": "Utilizzare solo lettere e numeri",
+      "ONLY_SPACES": "Il nome della raccolta non può contenere solo spazi",
+      "LIBRARY_UPDATE_ERROR": "Si è verificato un errore di caricamento delle proprietà della raccolta"
+    },
+    "SUCCESS": {
+      "LIBRARY_UPDATED": "Proprietà della raccolta aggiornate"
+    }
+  },
+  "SEARCH": {
+    "INPUT": {
+      "PLACEHOLDER": "Cerca",
+      "FILES": "File",
+      "FOLDERS": "Cartelle",
+      "LIBRARIES": "Raccolte",
+      "HINT": "La stringa di ricerca deve contenere almeno 2 caratteri alfanumerici."
+    },
+    "SORT": {
+      "RELEVANCE": "Pertinenza",
+      "FILENAME": "Nome file",
+      "TITLE": "Titolo",
+      "MODIFIED_DATE": "Data di modifica",
+      "SIZE": "Dimensione",
+      "TYPE": "Tipo",
+      "MODIFIER": "Modificatore",
+      "CREATE_DATE": "Data di creazione"
+    },
+    "FACET_FIELDS": {
+      "FILE_TYPE": "Tipo di file",
+      "CREATOR": "Creatore",
+      "MODIFIER": "Modificatore",
+      "LOCATION": "Località"
+    },
+    "CATEGORIES": {
+      "MODIFIED_DATE": "Data di modifica",
+      "SIZE": "Dimensione",
+      "SIZE_OPTIONS": {
+        "SMALL": "Piccola",
+        "MEDIUM": "Media",
+        "LARGE": "Grande",
+        "HUGE": "Enorme"
+      },
+      "CREATED_DATE": "Data di creazione"
+    },
+    "FACET_QUERIES": {
+      "TODAY": "Oggi",
+      "THIS_WEEK": "Questa settimana",
+      "THIS_MONTH": "Questo mese",
+      "LAST_6_MONTHS": "Negli ultimi 6 mesi",
+      "THIS_YEAR": "Quest'anno"
+    }
+  },
+  "AVATAR": {
+    "ACCESSIBILITY": {
+      "AVATAR_BUTTON_ARIA_LABEL": "Opzioni utente"
+    }
+  },
+  "CORE": {
+    "METADATA": {
+      "ACTIONS": {
+        "SAVE": "Salva modifiche",
+        "CANCEL": "Ignora modifiche"
+      }
+    }
+  },
+  "ADF_VIEWER": {
+    "ACTIONS": {
+      "INFO": "Visualizza dettagli"
+    }
+  },
+  "FILE_UPLOAD": {
+    "ERRORS": {
+      "409": "Questo nome è già in uso. Provare con un altro nome [409]."
+    }
+  },
+  "ADF_VERSION_LIST": {
+    "ACTIONS": {
+      "UPLOAD": {
+        "TOOLTIP": "Caricare la nuova versione"
+      }
+    }
+  },
+  "CUSTOM_NAME_COLUMN": {
+    "ACCESSIBILITY": {
+      "FILE_LINK_ARIA_LABEL": "Visualizza {{ name }}",
+      "FOLDER_LINK_ARIA_LABEL": "Apri cartella {{ name }}"
+    }
+  },
+  "ADF-DATATABLE": {
+    "FILE_TYPE": {
+      "BOOKS-24PX": "Raccolta di file",
+      "BASELINE-LOCK-24PX": "File bloccato"
+    }
+  }
+}

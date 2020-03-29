@@ -1,0 +1,54 @@
+{
+  "$schema": "../../../extension.schema.json",
+  "$id": "app.demo.create",
+  "$name": "app.demo.create",
+  "$version": "1.0.0",
+  "$vendor": "Alfresco Software, Ltd.",
+  "$license": "LGPL-3.0",
+  "$runtime": "1.5.0",
+  "$description": "Simple extension that provides custom entries for Create menu",
+
+  "features": {
+    "create": [
+      {
+        "id": "app.test.create1",
+        "order": 10,
+        "icon": "extension",
+        "title": "Custom Create",
+        "type": "menu",
+        "children": [
+          {
+            "id": "level1.1",
+            "icon": "extension",
+            "title": "Level 1.1"
+          },
+          {
+            "id": "level1.separator",
+            "type": "separator"
+          },
+          {
+            "id": "level1.2",
+            "icon": "extension",
+            "title": "Level 1.2",
+            "type": "menu",
+            "children": [
+              {
+                "id": "level2.1",
+                "icon": "extension",
+                "title": "Level 2.1"
+              }
+            ],
+            "rules": {
+              "enabled": "app.navigation.folder.canCreate"
+            }
+          }
+        ]
+      },
+      {
+        "id": "app.create.separator",
+        "order": 20,
+        "type": "separator"
+      }
+    ]
+  }
+}

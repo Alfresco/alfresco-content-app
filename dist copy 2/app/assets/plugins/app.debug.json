@@ -1,0 +1,129 @@
+{
+    "$schema": "../../../extension.schema.json",
+    "$id": "app.debug.plugin",
+    "$version": "1.0.0",
+    "$name": "app.debug.plugin",
+    "$vendor": "Alfresco Software, Ltd.",
+    "$license": "LGPL-3.0",
+    "$runtime": "1.5.0",
+    "$description": "Plugin for debugging and testing purposes",
+
+    "actions": [
+        {
+            "id": "plugin1.actions.settings",
+            "type": "NAVIGATE_URL",
+            "payload": "/settings"
+        },
+        {
+            "id": "plugin1.actions.info",
+            "type": "SNACKBAR_INFO",
+            "payload": "I'm a nice little popup raised by extension."
+        },
+        {
+            "id": "plugin1.actions.node-name",
+            "type": "SNACKBAR_INFO",
+            "payload": "$('Action for ' + context.selection.first.entry.name)"
+        }
+    ],
+
+    "features": {
+        "viewer": {
+            "openWith": [
+                {
+                    "id": "plugin1.viewer.openWith.action1",
+                    "type": "button",
+                    "icon": "build",
+                    "title": "Snackbar",
+                    "actions": {
+                        "click": "plugin1.actions.info"
+                    }
+                }
+            ]
+        },
+        "navbar": [
+            {
+                "id": "__app.navbar.primary",
+                "disabled": true,
+                "items": [
+                    {
+                        "id": "app.navbar.personalFiles",
+                        "icon": "extension",
+                        "title": "APP.BROWSE.PERSONAL.SIDENAV_LINK.LABEL",
+                        "route": "personal-files"
+                    }
+                ]
+            }
+        ],
+        "toolbar": [
+            {
+                "disabled": true,
+                "id": "app.toolbar.createFolder",
+                "type": "button",
+                "order": 10,
+                "title": "APP.NEW_MENU.MENU_ITEMS.CREATE_FOLDER",
+                "description": "APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER",
+                "icon": "create_new_folder",
+                "actions": {
+                    "click": "CREATE_FOLDER"
+                },
+                "rules": {
+                    "visible": "app.navigation.folder.canCreate"
+                }
+            },
+            {
+                "disabled": true,
+                "id": "app.toolbar.uploadFile",
+                "order": 11,
+                "type": "button",
+                "icon": "file_upload",
+                "title": "APP.NEW_MENU.MENU_ITEMS.UPLOAD_FILE",
+                "description": "APP.NEW_MENU.TOOLTIPS.UPLOAD_FILES",
+                "actions": {
+                    "click": "UPLOAD_FILES"
+                },
+                "rules": {
+                    "visible": "app.navigation.folder.canUpload"
+                }
+            },
+            {
+                "disabled": true,
+                "id": "app.toolbar.uploadFolder",
+                "order": 12,
+                "type": "button",
+                "icon": "cloud_upload",
+                "title": "APP.NEW_MENU.MENU_ITEMS.UPLOAD_FOLDER",
+                "description": "APP.NEW_MENU.TOOLTIPS.UPLOAD_FOLDERS",
+                "actions": {
+                    "click": "UPLOAD_FOLDER"
+                },
+                "rules": {
+                    "visible": "app.navigation.folder.canUpload"
+                }
+            },
+            {
+                "disabled": true,
+                "id": "plugin1.toolbar.menu1",
+                "type": "menu",
+                "icon": "storage",
+                "order": 300,
+                "children": [
+                    {
+                        "id": "plugin1.toolbar.menu1.settings",
+                        "type": "button",
+                        "title": "Settings",
+                        "icon": "settings_applications",
+                        "actions": {
+                            "click": "plugin1.actions.settings"
+                        }
+                    }
+                ]
+            },
+            {
+                "disabled": true,
+                "id": "plugin1.toolbar.separator3",
+                "order": 301,
+                "type": "separator"
+            }
+        ]
+    }
+}

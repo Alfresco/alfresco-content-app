@@ -9,11 +9,13 @@ const fs = require('fs');
 
 const projectRoot = path.resolve(__dirname);
 const downloadFolder = `${projectRoot}/e2e-downloads`;
-const BROWSER_RUN = process.env.BROWSER_RUN;
+const E2E_HOST = process.env.E2E_HOST || 'http://localhost',
+  E2E_PORT = process.env.E2E_PORT || 4200,
+  BROWSER_RUN = process.env.BROWSER_RUN;
 const width = 1366;
 const height = 768;
 
-const REPO_API_HOST = process.env.REPO_API_HOST || 'http://localhost:8080';
+const API_HOST = process.env.API_HOST || 'http://localhost:8080';
 
 function rmDir(dirPath) {
   try {
@@ -31,7 +33,7 @@ function rmDir(dirPath) {
 }
 
 const appConfig = {
-  hostEcm: REPO_API_HOST,
+  hostEcm: API_HOST,
   providers: 'ECM',
   authType: 'BASIC'
 };
@@ -125,7 +127,8 @@ exports.config = {
 
   directConnect: true,
 
-  // baseUrl: 'http://localhost:8080',
+  baseUrl: `${E2E_HOST}${E2E_PORT ? `:${E2E_PORT}` : ''}`,
+
   getPageTimeout: 50000,
 
   framework: 'jasmine',

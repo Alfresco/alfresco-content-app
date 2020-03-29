@@ -1,0 +1,549 @@
+{
+  "APP": {
+    "COPYRIGHT": "© 2017 - 2020 Alfresco Software, Inc. Alle rechten voorbehouden.",
+    "ABOUT": {
+      "VERSION": "Versie:",
+      "PLUGINS": {
+        "TITLE": "Extensies",
+        "ID": "Id",
+        "NAME": "Naam",
+        "VERSION": "Versie",
+        "VENDOR": "Leverancier",
+        "LICENSE": "Licentie",
+        "RUNTIME": "Runtime",
+        "DESCRIPTION": "Beschrijving"
+      },
+      "LICENSE": {
+        "TITLE": "Licentie",
+        "PROPERTY": "Eigenschap",
+        "VALUE": "Waarde"
+      },
+      "STATUS": {
+        "TITLE": "Status",
+        "PROPERTY": "Eigenschap",
+        "VALUE": "Waarde"
+      },
+      "MODULES": {
+        "TITLE": "Alfresco-platformmodules",
+        "ID": "Id",
+        "NAME": "Naam",
+        "VERSION": "Versie"
+      },
+      "PACKAGES": {
+        "TITLE": "Pakketten",
+        "NAME": "Naam",
+        "VERSION": "Versie"
+      }
+    },
+    "LANGUAGE": "Taal",
+    "SIGN_IN": "Aanmelden",
+    "SIGN_OUT": "Afmelden",
+    "SETTINGS": {
+      "TITLE": "Instellingen",
+      "APPLICATION-SETTINGS": "Toepassingsinstellingen",
+      "REPOSITORY-SETTINGS": "Opslagplaatsinstellingen",
+      "INVALID-VALUE-FORMAT": "Ongeldige indeling van waarde",
+      "REQUIRED-FIELD": "Dit veld is vereist",
+      "RESET": "Opnieuw instellen",
+      "APPLY": "Toepassen"
+    },
+    "PREVIEW": {
+      "TITLE": "Preview"
+    },
+    "NEW_MENU": {
+      "LABEL": "Nieuw",
+      "TOOLTIP": "Nieuwe bestanden en mappen toevoegen, of een nieuwe bestandsbibliotheek maken",
+      "MENU_ITEMS": {
+        "CREATE_FOLDER": "Map maken",
+        "UPLOAD_FILE": "Bestand uploaden",
+        "UPLOAD_FOLDER": "Map uploaden",
+        "CREATE_LIBRARY": "Bibliotheek maken",
+        "FILE_TEMPLATE": "Bestand maken op basis van sjabloon",
+        "FOLDER_TEMPLATE": "Map maken op basis van sjabloon"
+      },
+      "TOOLTIPS": {
+        "CREATE_FOLDER": "Nieuwe map maken",
+        "CREATE_FOLDER_NOT_ALLOWED": "Mappen kunnen niet worden gemaakt terwijl de huidige items worden weergegeven",
+        "CREATE_FILE_NOT_ALLOWED": "Bestanden kunnen niet worden gemaakt terwijl de huidige items worden weergegeven",
+        "UPLOAD_FILES": "Bestanden selecteren om te uploaden",
+        "UPLOAD_FILES_NOT_ALLOWED": "Bestanden kunnen niet worden geüpload terwijl de huidige items worden weergegeven",
+        "UPLOAD_FOLDERS": "Mappen selecteren om te uploaden",
+        "UPLOAD_FOLDERS_NOT_ALLOWED": "Mappen kunnen niet worden geüpload terwijl de huidige items worden weergegeven",
+        "CREATE_LIBRARY": "Een nieuwe bestandsbibliotheek maken"
+      }
+    },
+    "BROWSE": {
+      "PERSONAL": {
+        "TITLE": "Persoonlijke bestanden",
+        "SIDENAV_LINK": {
+          "LABEL": "Persoonlijke bestanden",
+          "TOOLTIP": "Uw persoonlijke bestanden weergeven"
+        }
+      },
+      "LIBRARIES": {
+        "TITLE": "Bestandsbibliotheken",
+        "DESCRIPTION": "Toegang krijgen tot bestandsbibliotheken",
+        "SIDENAV_LINK": {
+          "LABEL": "Bestandsbibliotheken",
+          "TOOLTIP": "Bestandsbibliotheken"
+        },
+        "EMPTY_STATE": {
+          "FILE_LIBRARIES": {
+            "TITLE": "U bent nog geen lid van een bestandsbibliotheek",
+            "TEXT": "Word lid van bibliotheken om bestanden te uploaden, weer te geven en te delen."
+          },
+          "FAVORITE_LIBRARIES": {
+            "TITLE": "Geen favoriete bibliotheken",
+            "TEXT": "Voeg een bibliotheek toe aan uw favorieten zodat u deze later gemakkelijk kunt vinden."
+          }
+        },
+        "MENU": {
+          "MY_LIBRARIES": {
+            "TITLE": "Mijn bibliotheken",
+            "SIDENAV_LINK": {
+              "LABEL": "Mijn bibliotheken",
+              "TOOLTIP": "Toegang krijgen tot mijn bibliotheken"
+            }
+          },
+          "FAVORITE_LIBRARIES": {
+            "TITLE": "Favoriete bibliotheken",
+            "SIDENAV_LINK": {
+              "LABEL": "Favoriete bibliotheken",
+              "TOOLTIP": "Toegang krijgen tot mijn favoriete bibliotheken"
+            }
+          }
+        }
+      },
+      "SHARED": {
+        "TITLE": "Gedeelde bestanden",
+        "SIDENAV_LINK": {
+          "LABEL": "Gedeeld",
+          "TOOLTIP": "Bestanden weergeven die zijn gedeeld"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "Geen gedeelde bestanden of mappen",
+          "TEXT": "Items die u deelt met de optie Delen worden hier weergegeven."
+        }
+      },
+      "RECENT": {
+        "TITLE": "Recente bestanden",
+        "SIDENAV_LINK": {
+          "LABEL": "Recente bestanden",
+          "TOOLTIP": "Bestand weergeven die u onlangs hebt bewerkt"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "Geen recente bestanden",
+          "TEXT": "Items die u de afgelopen 30 dagen hebt geüpload of bewerkt worden hier weergegeven."
+        }
+      },
+      "FAVORITES": {
+        "TITLE": "Favorieten",
+        "SIDENAV_LINK": {
+          "LABEL": "Favorieten",
+          "TOOLTIP": "Uw favoriete bestanden en mappen weergeven"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "Geen favoriete bestanden of mappen",
+          "TEXT": "Favoriete items die u later gemakkelijk wilt kunnen vinden."
+        }
+      },
+      "TRASHCAN": {
+        "TITLE": "Prullenbak",
+        "SIDENAV_LINK": {
+          "LABEL": "Prullenbak",
+          "TOOLTIP": "Verwijderde bestanden in de prullenbak weergeven"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "Prullenbak is leeg",
+          "FIRST_TEXT": "Items die u verwijdert worden verplaatst naar de prullenbak.",
+          "SECOND_TEXT": "Maak de prullenmand leeg om items definitief te verwijderen."
+        }
+      },
+      "ABOUT": {
+        "TITLE": "Info"
+      },
+      "SEARCH": {
+        "TITLE": "Zoekresultaten",
+        "FOUND_RESULTS": "{{ number }} resultaten gevonden",
+        "FOUND_ONE_RESULT": "{{ number }} resultaat gevonden",
+        "CUSTOM_ROW": {
+          "MODIFIED": "Aangepast",
+          "BY_USER": "door {{ user }}",
+          "LOCATION": "Locatie",
+          "SIZE": "Grootte"
+        },
+        "UNKNOWN_LOCATION": "Onbekend",
+        "NO_RESULTS": "Uw zoekopdracht heeft 0 resultaten opgeleverd",
+        "TOGGLE_SEARCH_FILTER": "Zoekfilter in- of uitschakelen",
+        "ERRORS": {
+          "500": "Er is een fout opgetreden bij het verwerken van de zoekquery [500]",
+          "GENERIC": "Er is een fout opgetreden bij het verwerken van de zoekquery"
+        }
+      },
+      "SEARCH_LIBRARIES": {
+        "TITLE": "Bibliotheken gevonden...",
+        "FOUND_RESULTS": "{{ number }} resultaten",
+        "FOUND_ONE_RESULT": "{{ number }} resultaat"
+      }
+    },
+    "ACTIONS": {
+      "VIEW": "Weergeven",
+      "EDIT": "Bewerken",
+      "DOWNLOAD": "Downloaden",
+      "COPY": "Kopiëren",
+      "MOVE": "Verplaatsen",
+      "DELETE": "Verwijderen",
+      "DELETE_PERMANENT": "Definitief verwijderen",
+      "MORE": "Meer acties",
+      "UNDO": "Ongedaan maken",
+      "PERMISSIONS": "Rechten",
+      "RESTORE": "Herstellen",
+      "FAVORITE": "Favoriet",
+      "ADD_FAVORITE": "Favoriet toevoegen",
+      "REMOVE_FAVORITE": "Favoriet verwijderen",
+      "UNSHARE": "Delen ongedaan maken",
+      "DETAILS": "Details weergeven",
+      "VERSIONS": "Versies beheren",
+      "UPLOAD_VERSION": "Nieuwe versie uploaden",
+      "TOGGLE-SIDENAV": "Zij-navigatiebalk in- of uitschakelen",
+      "SHARE": "Delen",
+      "SHARE_EDIT": "Instellingen gedeelde koppeling",
+      "PRINT": "Afdrukken",
+      "FULLSCREEN": "Modus voor volledig scherm activeren",
+      "JOIN": "Lid worden",
+      "CANCEL_JOIN": "Verzoek om lid te worden annuleren",
+      "LEAVE": "Bibliotheek verlaten",
+      "EDIT_OFFLINE": "Offline bewerken",
+      "EDIT_OFFLINE_CANCEL": "Bewerken annuleren",
+      "LIST_MODE": "Lijst weergeven",
+      "GALLERY_MODE": "Galerie weergeven"
+    },
+    "DIALOGS": {
+      "CONFIRM_PURGE": {
+        "TITLE": "Verwijderen uit prullenbak?",
+        "MESSAGE": "Hiermee worden de geselecteerde items permanent verwijderd.",
+        "YES_LABEL": "Verwijderen",
+        "NO_LABEL": "Bewaren"
+      },
+      "CONFIRM_LEAVE": {
+        "TITLE": "Deze bibliotheek verlaten?",
+        "MESSAGE": "Als u de bibliotheek verlaat, wordt uw toegang verwijderd.",
+        "YES_LABEL": "OK",
+        "NO_LABEL": "Annuleren"
+      }
+    },
+    "DOCUMENT_LIST": {
+      "COLUMNS": {
+        "ID": "Id",
+        "NAME": "Naam",
+        "SIZE": "Grootte",
+        "MODIFIED_ON": "Aangepast",
+        "MODIFIED_BY": "Aangepast door",
+        "VISIBILITY": "Zichtbaarheid",
+        "TITLE": "Titel",
+        "LOCATION": "Locatie",
+        "SHARED_BY": "Gedeeld door",
+        "DELETED_ON": "Verwijderd",
+        "DELETED_BY": "Verwijderd door",
+        "ROLE": "Mijn rol"
+      },
+      "TOOLBAR": {
+        "CARDVIEW": "Kaartweergavemodus",
+        "LISTVIEW": "Lijstweergavemodus"
+      }
+    },
+    "MESSAGES": {
+      "ERRORS": {
+        "CANNOT_NAVIGATE_LOCATION": "Kan deze locatie niet openen",
+        "MISSING_CONTENT": "Dit item bestaat niet meer of u hebt geen rechten om het weer te geven.",
+        "GENERIC": "De actie is mislukt. Probeer het opnieuw of neem contact op met het IT-team.",
+        "CONFLICT": "Deze naam wordt al gebruikt, probeer een andere naam.",
+        "NODE_MOVE": "Verplaatsen is mislukt, er bestaat al een bestand met dezelfde naam.",
+        "EXISTENT_FOLDER": "Er bestaat al een map met deze naam. Probeer een andere naam.",
+        "NODE_DELETION": "Kan {{ name }} niet verwijderen",
+        "NODE_DELETION_PLURAL": "Kan {{ number }} items niet verwijderen",
+        "NODE_RESTORE": "Kan {{ name }} niet herstellen",
+        "NODE_RESTORE_PLURAL": "Kan {{ number }} items niet herstellen",
+        "PERMISSION": "U hebt geen toegang om dit te doen",
+        "LOCK_NODE": "Er is een probleem opgetreden bij het vergrendelen van het bestand {{ fileName }}",
+        "UNLOCK_NODE": "Er is een probleem opgetreden bij het ontgrendelen van het bestand {{ fileName }}",
+        "TRASH": {
+          "NODES_PURGE": {
+            "PLURAL": "Kan {{ number }} items niet verwijderen",
+            "SINGULAR": "Kan {{ name }} niet verwijderen"
+          },
+          "NODES_RESTORE": {
+            "PARTIAL_PLURAL": "Kan {{ number }} items niet herstellen vanwege problemen met de herstellocatie",
+            "NODE_EXISTS": "Herstellen niet mogelijk, {{ name }} bestaat al",
+            "LOCATION_MISSING": "Kan {{ name }} niet herstellen, de oorspronkelijke locatie bestaat niet meer",
+            "GENERIC": "Er is een probleem opgetreden bij het herstellen van {{ name }}"
+          }
+        },
+        "DELETE_LIBRARY_FAILED": "De bibliotheek kan niet worden verwijderd",
+        "JOIN_REQUEST_FAILED": "Lid worden van de bibliotheek niet mogelijk",
+        "JOIN_CANCEL_FAILED": "Verzoek om lid te worden kan niet worden geannuleerd",
+        "LEAVE_LIBRARY_FAILED": "Kan deze bibliotheek niet verlaten",
+        "INVALID_SENDER_EMAIL": "U moet een geldig e-mailadres hebben voordat u kunt verzoeken om lid te worden.",
+        "INVALID_RECEIVER_EMAIL": "Het e-mailadres van de ontvanger(s) is niet geldig, neem contact op met IT."
+      },
+      "UPLOAD": {
+        "ERROR": {
+          "GENERIC": "Uploaden is mislukt. Neem contact op met IT als het probleem zich blijft voordoen",
+          "CONFLICT": "Nieuwe versie is niet geüpload, er bestaat al een ander bestand met dezelfde naam",
+          "500": "Interne serverfout, probeer het opnieuw of neem contact op met de IT-ondersteuning [500]",
+          "504": "Er is een time-out opgetreden in de server, probeer het opnieuw of neem contact op met de IT-ondersteuning [504]",
+          "403": "Onvoldoende rechten voor uploaden op deze locatie [403]",
+          "404": "Uploadlocatie bestaat niet meer [404]"
+        }
+      },
+      "INFO": {
+        "TRASH": {
+          "NODES_PURGE": {
+            "PLURAL": "{{ number }} items verwijderd",
+            "SINGULAR": "{{ name }} verwijderd",
+            "PARTIAL_SINGULAR": "{{ name }} verwijderd, kan {{ failed }} niet verwijderen",
+            "PARTIAL_PLURAL": "{{ number }} items verwijderd, kan {{ failed }} niet verwijderen"
+          },
+          "NODES_RESTORE": {
+            "PLURAL": "Herstellen geslaagd",
+            "SINGULAR": "{{ name }} hersteld"
+          }
+        },
+        "NODE_DELETION": {
+          "SINGULAR": "{{ name }} verwijderd",
+          "PLURAL": "{{ number }} items verwijderd",
+          "PARTIAL_SINGULAR": "{{ success }} item verwijderd, kan {{ failed }} niet verwijderen",
+          "PARTIAL_PLURAL": "{{ success }} items verwijderd, kan {{ failed }} niet verwijderen"
+        },
+        "NODE_COPY": {
+          "SINGULAR": "{{ success }} item gekopieerd",
+          "PLURAL": "{{ success }} items gekopieerd",
+          "PARTIAL_SINGULAR": "{{ success }} item gekopieerd, kan {{ failed }} niet kopiëren.",
+          "PARTIAL_PLURAL": "{{ success }} items gekopieerd, kan {{ failed }} niet kopiëren.",
+          "FAIL_SINGULAR": "Kan {{ failed }} item niet kopiëren.",
+          "FAIL_PLURAL": "Kan {{ failed }} items niet kopiëren."
+        },
+        "NODE_MOVE": {
+          "SINGULAR": "{{ success }} item verplaatst.",
+          "PLURAL": "{{ success }} items verplaatst.",
+          "PARTIAL": {
+            "SINGULAR": "{{ partially }} item gedeeltelijk verplaatst.",
+            "PLURAL": "{{ partially }} items gedeeltelijk verplaatst.",
+            "FAIL": "Kan {{ failed }} niet verplaatsen."
+          }
+        },
+        "LIBRARY_DELETED": "Bibliotheek verwijderd",
+        "JOINED": "Lid geworden van bibliotheek",
+        "JOIN_REQUESTED": "Verzoek om lid te worden van deze bibliotheek is verzonden",
+        "JOIN_CANCELED": "Verzoek om lid te worden van de bibliotheek is geannuleerd",
+        "LEFT_LIBRARY": "U hebt de bibliotheek verlaten"
+      }
+    },
+    "CONTENT_METADATA": {
+      "EXIF_GROUP_TITLE": "EXIF afbeelding",
+      "EFFECTIVITY_GROUP_TITLE": "Effectiviteit"
+    },
+    "INFO_DRAWER": {
+      "TITLE": "Details",
+      "TABS": {
+        "PROPERTIES": "Eigenschappen",
+        "LIBRARY_PROPERTIES": "Info",
+        "VERSIONS": "Versies",
+        "COMMENTS": "Opmerkingen"
+      }
+    }
+  },
+  "NODE_SELECTOR": {
+    "COPY_ITEM": "'{{ name }}' kopiëren naar...",
+    "COPY_ITEMS": "{{ number }} items kopiëren naar...",
+    "MOVE_ITEM": "'{{ name }}' verplaatsen naar...",
+    "MOVE_ITEMS": "{{ number }} items verplaatsen naar...",
+    "SEARCH": "Zoeken",
+    "NEXT": "Volgende",
+    "SELECT_FILE_TEMPLATE_TITLE": "Een documentsjabloon selecteren",
+    "SELECT_FOLDER_TEMPLATE_TITLE": "Een mapsjabloon selecteren"
+  },
+  "NODE_FROM_TEMPLATE": {
+    "CANCEL": "Annuleren",
+    "CREATE": "Maken",
+    "FOLDER_DIALOG_TITLE": "Nieuwe map maken op basis van <span class=\"bold\">'{{ template }}'</span>",
+    "FILE_DIALOG_TITLE": "Nieuw document maken op basis van <span class=\"bold\">'{{ template }}'</span>",
+    "FORM": {
+      "PLACEHOLDER": {
+        "NAME": "Naam",
+        "TITLE": "Titel",
+        "DESCRIPTION": "Beschrijving"
+      },
+      "ERRORS": {
+        "DESCRIPTION_TOO_LONG": "Gebruik 512 tekens of minder voor de beschrijving",
+        "TITLE_TOO_LONG": "Gebruik 256 tekens of minder voor de titel",
+        "REQUIRED": "Naam is vereist",
+        "SPECIAL_CHARACTERS": "Naam mag de volgende tekens niet bevatten: * \" < > \\ / ? : |",
+        "ENDING_DOT": "Naam mag niet eindigen met een punt.",
+        "ONLY_SPACES": "Naam mag niet alleen uit spaties bestaan"
+      }
+    }
+  },
+  "PERMISSIONS": {
+    "DIALOG": {
+      "TITLE": "Rechten beheren",
+      "CLOSE": "Sluiten",
+      "INHERIT_PERMISSIONS_BUTTON": "Rechten overnemen",
+      "INHERITED_PERMISSIONS_BUTTON": "Overgenomen rechten",
+      "ADD_USER_OR_GROUP": "Gebruiker of groep toevoegen"
+    }
+  },
+  "SHARED_LINK": {
+    "UNSHARE_PERMISSION_ERROR": "U hebt geen rechten om het delen van dit bestand ongedaan te maken"
+  },
+  "VERSION": {
+    "DIALOG_ADF": {
+      "TITLE": "Versies beheren",
+      "CLOSE": "Sluiten"
+    },
+    "DIALOG": {
+      "TITLE": "Nieuwe versie uploaden",
+      "CANCEL": "Annuleren",
+      "UPLOAD": "Uploaden"
+    },
+    "FORM": {
+      "SUBTITLE": "Welk niveau wijzigingen zijn in deze versie aangebracht?",
+      "VERSION": {
+        "MINOR": "Klein (#.1)",
+        "MAJOR": "Belangrijk (2.0)"
+      },
+      "COMMENT": {
+        "PLACEHOLDER": "Voeg opmerkingen toe met een beschrijving van wat er is gewijzigd"
+      }
+    },
+    "SELECTION": {
+      "EMPTY": "Kies een document om de versies ervan weer te geven.",
+      "NO_PERMISSION": "U hebt geen rechten voor het beheren van de versies van deze content."
+    },
+    "ERROR": {
+      "GENERIC": "Er is een fout opgetreden bij het versiebeheer van het bestand"
+    }
+  },
+  "LIBRARY": {
+    "DIALOG": {
+      "CREATE_TITLE": "Bibliotheek maken",
+      "CREATE": "Maken",
+      "UPDATE": "Bijwerken",
+      "EDIT": "Bewerken",
+      "CANCEL": "Annuleren",
+      "FORM": {
+        "DESCRIPTION": "Beschrijving",
+        "SITE_ID": "Bibliotheek-id",
+        "NAME": "Naam",
+        "VISIBILITY": "Zichtbaarheid"
+      }
+    },
+    "VISIBILITY": {
+      "PRIVATE": "Privé",
+      "PUBLIC": "Openbaar",
+      "MODERATED": "Onder toezicht"
+    },
+    "HINTS": {
+      "SITE_TITLE_EXISTS": "Bibliotheeknaam wordt al gebruikt"
+    },
+    "ERRORS": {
+      "GENERIC": "Er is een probleem opgetreden",
+      "EXISTENT_SITE": "Deze bibliotheek-id is niet beschikbaar. Probeer een andere bibliotheek-id.",
+      "CONFLICT": "Deze bibliotheek wordt al gebruikt. Controleer de prullenbak.",
+      "ID_TOO_LONG": "Gebruik 72 tekens of minder voor de URL-naam",
+      "DESCRIPTION_TOO_LONG": "Gebruik 512 tekens of minder voor de beschrijving",
+      "TITLE_TOO_LONG": "Gebruik 256 tekens of minder voor de titel",
+      "ILLEGAL_CHARACTERS": "Gebruik alleen cijfers en letters",
+      "ONLY_SPACES": "Bibliotheeknaam mag niet alleen uit spaties bestaan",
+      "LIBRARY_UPDATE_ERROR": "Er is een fout opgetreden bij het bijwerken van de bibliotheekeigenschappen"
+    },
+    "SUCCESS": {
+      "LIBRARY_UPDATED": "Bibliotheekeigenschappen bijgewerkt"
+    }
+  },
+  "SEARCH": {
+    "INPUT": {
+      "PLACEHOLDER": "Zoeken",
+      "FILES": "Bestanden",
+      "FOLDERS": "Mappen",
+      "LIBRARIES": "Bibliotheken",
+      "HINT": "Invoer voor een zoekopdracht moet uit minstens 2 alfanumerieke tekens bestaan."
+    },
+    "SORT": {
+      "RELEVANCE": "Relevantie",
+      "FILENAME": "Bestandsnaam",
+      "TITLE": "Titel",
+      "MODIFIED_DATE": "Datum gewijzigd",
+      "SIZE": "Grootte",
+      "TYPE": "Type",
+      "MODIFIER": "Gewijzigd door",
+      "CREATE_DATE": "Datum gemaakt"
+    },
+    "FACET_FIELDS": {
+      "FILE_TYPE": "Bestandstype",
+      "CREATOR": "Maker",
+      "MODIFIER": "Gewijzigd door",
+      "LOCATION": "Locatie"
+    },
+    "CATEGORIES": {
+      "MODIFIED_DATE": "Datum gewijzigd",
+      "SIZE": "Grootte",
+      "SIZE_OPTIONS": {
+        "SMALL": "Klein",
+        "MEDIUM": "Gemiddeld",
+        "LARGE": "Groot",
+        "HUGE": "Zeer groot"
+      },
+      "CREATED_DATE": "Datum gemaakt"
+    },
+    "FACET_QUERIES": {
+      "TODAY": "Vandaag",
+      "THIS_WEEK": "Deze week",
+      "THIS_MONTH": "Deze maand",
+      "LAST_6_MONTHS": "In de afgelopen 6 maanden",
+      "THIS_YEAR": "Dit jaar"
+    }
+  },
+  "AVATAR": {
+    "ACCESSIBILITY": {
+      "AVATAR_BUTTON_ARIA_LABEL": "Gebruikersopties"
+    }
+  },
+  "CORE": {
+    "METADATA": {
+      "ACTIONS": {
+        "SAVE": "Wijzigingen opslaan",
+        "CANCEL": "Wijzigingen negeren"
+      }
+    }
+  },
+  "ADF_VIEWER": {
+    "ACTIONS": {
+      "INFO": "Details weergeven"
+    }
+  },
+  "FILE_UPLOAD": {
+    "ERRORS": {
+      "409": "Deze naam wordt al gebruikt, probeer een andere naam [409]"
+    }
+  },
+  "ADF_VERSION_LIST": {
+    "ACTIONS": {
+      "UPLOAD": {
+        "TOOLTIP": "Nieuwe versie uploaden"
+      }
+    }
+  },
+  "CUSTOM_NAME_COLUMN": {
+    "ACCESSIBILITY": {
+      "FILE_LINK_ARIA_LABEL": "{{ name }} weergeven",
+      "FOLDER_LINK_ARIA_LABEL": "Map {{ name }} openen"
+    }
+  },
+  "ADF-DATATABLE": {
+    "FILE_TYPE": {
+      "BOOKS-24PX": "Bestandsbibliotheek",
+      "BASELINE-LOCK-24PX": "Vergrendeld bestand"
+    }
+  }
+}

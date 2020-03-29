@@ -1,0 +1,549 @@
+{
+  "APP": {
+    "COPYRIGHT": "© 2017 - 2020 Alfresco Software, Inc。 All rights reserved。",
+    "ABOUT": {
+      "VERSION": "バージョン:",
+      "PLUGINS": {
+        "TITLE": "拡張機能",
+        "ID": "ID",
+        "NAME": "名前",
+        "VERSION": "バージョン",
+        "VENDOR": "ベンダー",
+        "LICENSE": "ライセンス",
+        "RUNTIME": "ランタイム",
+        "DESCRIPTION": "説明"
+      },
+      "LICENSE": {
+        "TITLE": "ライセンス",
+        "PROPERTY": "プロパティ",
+        "VALUE": "値"
+      },
+      "STATUS": {
+        "TITLE": "ステータス",
+        "PROPERTY": "プロパティ",
+        "VALUE": "値"
+      },
+      "MODULES": {
+        "TITLE": "Alfresco プラットフォームのモジュール",
+        "ID": "ID",
+        "NAME": "名前",
+        "VERSION": "バージョン"
+      },
+      "PACKAGES": {
+        "TITLE": "パッケージ",
+        "NAME": "名前",
+        "VERSION": "バージョン"
+      }
+    },
+    "LANGUAGE": "言語",
+    "SIGN_IN": "サインイン",
+    "SIGN_OUT": "サインアウト",
+    "SETTINGS": {
+      "TITLE": "設定",
+      "APPLICATION-SETTINGS": "アプリケーションの設定",
+      "REPOSITORY-SETTINGS": "リポジトリの設定",
+      "INVALID-VALUE-FORMAT": "無効な値形式",
+      "REQUIRED-FIELD": "このフィールドは必須です",
+      "RESET": "リセット",
+      "APPLY": "適用"
+    },
+    "PREVIEW": {
+      "TITLE": "プレビュー"
+    },
+    "NEW_MENU": {
+      "LABEL": "新規",
+      "TOOLTIP": "新しいフィールドやフォルダを追加したり、新しいファイルライブラリを作成できます。",
+      "MENU_ITEMS": {
+        "CREATE_FOLDER": "フォルダの作成",
+        "UPLOAD_FILE": "ファイルのアップロード",
+        "UPLOAD_FOLDER": "フォルダのアップロード",
+        "CREATE_LIBRARY": "ライブラリの作成",
+        "FILE_TEMPLATE": "テンプレートからファイルを作成",
+        "FOLDER_TEMPLATE": "テンプレートからフォルダを作成"
+      },
+      "TOOLTIPS": {
+        "CREATE_FOLDER": "新しいフォルダを作成します",
+        "CREATE_FOLDER_NOT_ALLOWED": "現在のアイテムを表示している間はフォルダを作成できません",
+        "CREATE_FILE_NOT_ALLOWED": "現在のアイテムを表示している間はファイルを作成できません",
+        "UPLOAD_FILES": "アップロードするファイルを選択します",
+        "UPLOAD_FILES_NOT_ALLOWED": "現在のアイテムを表示している間はファイルをアップロードできません",
+        "UPLOAD_FOLDERS": "アップロードするフォルダを選択します",
+        "UPLOAD_FOLDERS_NOT_ALLOWED": "現在のアイテムを表示している間はフォルダをアップロードできません",
+        "CREATE_LIBRARY": "新しいファイルライブラリを作成します"
+      }
+    },
+    "BROWSE": {
+      "PERSONAL": {
+        "TITLE": "個人用ファイル",
+        "SIDENAV_LINK": {
+          "LABEL": "個人用ファイル",
+          "TOOLTIP": "自分の個人用ファイルを表示します"
+        }
+      },
+      "LIBRARIES": {
+        "TITLE": "ファイルライブラリ",
+        "DESCRIPTION": "ファイルライブラリにアクセスします",
+        "SIDENAV_LINK": {
+          "LABEL": "ファイルライブラリ",
+          "TOOLTIP": "ファイルライブラリ"
+        },
+        "EMPTY_STATE": {
+          "FILE_LIBRARIES": {
+            "TITLE": "あなたはまだファイルライブラリのメンバーではありません",
+            "TEXT": "ファイルをアップロード、表示、共有するライブラリに参加してください"
+          },
+          "FAVORITE_LIBRARIES": {
+            "TITLE": "お気に入りのライブラリはありません",
+            "TEXT": "後で簡単に見つけられるようにライブラリをお気に入りに追加します。"
+          }
+        },
+        "MENU": {
+          "MY_LIBRARIES": {
+            "TITLE": "あなたのライブラリ",
+            "SIDENAV_LINK": {
+              "LABEL": "あなたのライブラリ",
+              "TOOLTIP": "ライブラリにアクセス"
+            }
+          },
+          "FAVORITE_LIBRARIES": {
+            "TITLE": "お気に入りのライブラリ",
+            "SIDENAV_LINK": {
+              "LABEL": "お気に入りのライブラリ",
+              "TOOLTIP": "お気に入りのライブラリにアクセス"
+            }
+          }
+        }
+      },
+      "SHARED": {
+        "TITLE": "共有ファイル",
+        "SIDENAV_LINK": {
+          "LABEL": "共有",
+          "TOOLTIP": "共有されているファイルを表示します"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "共有しているファイルまたはフォルダはありません",
+          "TEXT": "Share オプションを使って共有しているアイテムがここに表示されます。"
+        }
+      },
+      "RECENT": {
+        "TITLE": "最近使用したファイル",
+        "SIDENAV_LINK": {
+          "LABEL": "最近使用したファイル",
+          "TOOLTIP": "最近編集したファイルを表示します"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "最近使ったファイルはありません",
+          "TEXT": "過去 30 日間にアップロードまたは編集したアイテムがここに表示されます。"
+        }
+      },
+      "FAVORITES": {
+        "TITLE": "お気に入り",
+        "SIDENAV_LINK": {
+          "LABEL": "お気に入り",
+          "TOOLTIP": "お気に入りのファイルやフォルダを表示します"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "お気に入りのファイルまたはフォルダはありません",
+          "TEXT": "後で簡単に見つけたいお気に入りのアイテム。"
+        }
+      },
+      "TRASHCAN": {
+        "TITLE": "ごみ箱",
+        "SIDENAV_LINK": {
+          "LABEL": "ごみ箱",
+          "TOOLTIP": "ごみ箱にある削除済みのファイルを表示します"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "ごみ箱は空です",
+          "FIRST_TEXT": "削除したアイテムはごみ箱に移動されます。",
+          "SECOND_TEXT": "アイテムを完全に削除するには、ごみ箱を空にします。"
+        }
+      },
+      "ABOUT": {
+        "TITLE": "バージョン情報"
+      },
+      "SEARCH": {
+        "TITLE": "検索結果",
+        "FOUND_RESULTS": "{{ number }} 件見つかりました",
+        "FOUND_ONE_RESULT": "{{ number }} 件見つかりました",
+        "CUSTOM_ROW": {
+          "MODIFIED": "変更日",
+          "BY_USER": "変更者: {{ user }}",
+          "LOCATION": "場所",
+          "SIZE": "サイズ"
+        },
+        "UNKNOWN_LOCATION": "不明",
+        "NO_RESULTS": "検索結果は 0 件です",
+        "TOGGLE_SEARCH_FILTER": "検索フィルタを切り替えます",
+        "ERRORS": {
+          "500": "検索クエリの処理中にエラーが発生しました [500]",
+          "GENERIC": "検索クエリの処理中にエラーが発生しました"
+        }
+      },
+      "SEARCH_LIBRARIES": {
+        "TITLE": "ライブラリが見つかりました...",
+        "FOUND_RESULTS": "検索結果: {{ number }} 件",
+        "FOUND_ONE_RESULT": "検索結果: {{ number }} 件"
+      }
+    },
+    "ACTIONS": {
+      "VIEW": "表示",
+      "EDIT": "編集",
+      "DOWNLOAD": "ダウンロード",
+      "COPY": "コピー",
+      "MOVE": "移動",
+      "DELETE": "削除",
+      "DELETE_PERMANENT": "完全に削除する",
+      "MORE": "その他の処理",
+      "UNDO": "元に戻す",
+      "PERMISSIONS": "権限",
+      "RESTORE": "復元",
+      "FAVORITE": "お気に入り",
+      "ADD_FAVORITE": "お気に入りに追加",
+      "REMOVE_FAVORITE": "お気に入りの削除",
+      "UNSHARE": "共有の解除",
+      "DETAILS": "詳細の表示",
+      "VERSIONS": "バージョンの管理",
+      "UPLOAD_VERSION": "新しいバージョンのアップロード",
+      "TOGGLE-SIDENAV": "サイドナビゲーションバーの切り替え",
+      "SHARE": "共有",
+      "SHARE_EDIT": "共有リンクの設定",
+      "PRINT": "印刷",
+      "FULLSCREEN": "全画面表示モードをアクティブにする",
+      "JOIN": "参加",
+      "CANCEL_JOIN": "参加リクエストのキャンセル",
+      "LEAVE": "ライブラリから脱退",
+      "EDIT_OFFLINE": "オフライン編集",
+      "EDIT_OFFLINE_CANCEL": "編集のキャンセル",
+      "LIST_MODE": "リストを表示",
+      "GALLERY_MODE": "ギャラリーを表示"
+    },
+    "DIALOGS": {
+      "CONFIRM_PURGE": {
+        "TITLE": "ごみ箱から削除しますか?",
+        "MESSAGE": "この操作を行うと、選択したアイテムが完全に削除されます。",
+        "YES_LABEL": "削除",
+        "NO_LABEL": "残す"
+      },
+      "CONFIRM_LEAVE": {
+        "TITLE": "このライブラリから脱退しますか?",
+        "MESSAGE": "脱退すると、アクセス権が削除されます。",
+        "YES_LABEL": "OK",
+        "NO_LABEL": "キャンセル"
+      }
+    },
+    "DOCUMENT_LIST": {
+      "COLUMNS": {
+        "ID": "ID",
+        "NAME": "名前",
+        "SIZE": "サイズ",
+        "MODIFIED_ON": "変更日",
+        "MODIFIED_BY": "変更者",
+        "VISIBILITY": "公開レベル",
+        "TITLE": "タイトル",
+        "LOCATION": "場所",
+        "SHARED_BY": "共有者",
+        "DELETED_ON": "削除日",
+        "DELETED_BY": "削除者",
+        "ROLE": "あなたの役割"
+      },
+      "TOOLBAR": {
+        "CARDVIEW": "カード表示モード",
+        "LISTVIEW": "一覧表示モード"
+      }
+    },
+    "MESSAGES": {
+      "ERRORS": {
+        "CANNOT_NAVIGATE_LOCATION": "この場所は開けません",
+        "MISSING_CONTENT": "このアイテムは削除されたか、このアイテムを表示する権限がありません。",
+        "GENERIC": "処理が失敗しました。もう一度操作をやり直すか、IT 担当者に連絡してください。",
+        "CONFLICT": "この名前は既に使用されています。別の名前を使用してください。",
+        "NODE_MOVE": "移動できません。同じ名前のファイルが既に存在します。",
+        "EXISTENT_FOLDER": "この名前のフォルダが既に存在します。別の名前を使用してください。",
+        "NODE_DELETION": "{{ name }} を削除できませんでした",
+        "NODE_DELETION_PLURAL": "{{ number }} 件のアイテムを削除できませんでした",
+        "NODE_RESTORE": "{{ name }} を復元できませんでした",
+        "NODE_RESTORE_PLURAL": "{{ number }} 件のアイテムを復元できませんでした",
+        "PERMISSION": "この操作を行うための権限がありません",
+        "LOCK_NODE": "{{ fileName }} ファイルのロック中に問題が発生しました",
+        "UNLOCK_NODE": "{{ fileName }} ファイルのロック解除中に問題が発生しました",
+        "TRASH": {
+          "NODES_PURGE": {
+            "PLURAL": "{{ number }} 件のアイテムを削除できませんでした",
+            "SINGULAR": "{{ name }} を削除できませんでした"
+          },
+          "NODES_RESTORE": {
+            "PARTIAL_PLURAL": "{{ number }} 件のアイテムが復元されませんでした。復元先の場所に問題があります。",
+            "NODE_EXISTS": "復元できません。{{ name }} は既に存在します。",
+            "LOCATION_MISSING": "{{ name }} を復元できません。元の場所が削除されています。",
+            "GENERIC": "{{ name }} の復元中に問題が発生しました"
+          }
+        },
+        "DELETE_LIBRARY_FAILED": "このライブラリは削除できません",
+        "JOIN_REQUEST_FAILED": "ライブラリに参加できません",
+        "JOIN_CANCEL_FAILED": "参加リクエストをキャンセルできません",
+        "LEAVE_LIBRARY_FAILED": "このライブラリから脱退できません",
+        "INVALID_SENDER_EMAIL": "参加リクエストを行うには、有効な E メールアドレスが必要です。",
+        "INVALID_RECEIVER_EMAIL": "受取人の E メールアドレスが無効です。IT 担当者に連絡してください。"
+      },
+      "UPLOAD": {
+        "ERROR": {
+          "GENERIC": "アップロードできませんでした。問題が解決しない場合は、IT 担当者に連絡してください。",
+          "CONFLICT": "新しいバージョンはアップロードされていません。同じ名前のファイルが既に存在します",
+          "500": "内部サーバーエラーが発生しました。もう一度操作をやり直すか、IT 担当者に連絡してください。 [500]",
+          "504": "サーバーがタイムアウトになりました。もう一度操作をやり直すか、IT 担当者に連絡してください。[504]",
+          "403": "この場所にアップロードするための権限がありません [403]",
+          "404": "アップロード場所は削除されました [404]"
+        }
+      },
+      "INFO": {
+        "TRASH": {
+          "NODES_PURGE": {
+            "PLURAL": "{{ number }} 件のアイテムを削除しました",
+            "SINGULAR": "{{ name }} を削除しました",
+            "PARTIAL_SINGULAR": "{{ name }} を削除しましたが、{{ failed }} 件は削除できませんでした",
+            "PARTIAL_PLURAL": "{{ number }} 件のアイテムを削除しましたが、{{ failed }} 件は削除できませんでした"
+          },
+          "NODES_RESTORE": {
+            "PLURAL": "正常に復元されました",
+            "SINGULAR": "{{ name }} を復元しました"
+          }
+        },
+        "NODE_DELETION": {
+          "SINGULAR": "''{{ name }}'' アイテムを削除しました",
+          "PLURAL": "{{ number }} 件のアイテムを削除しました",
+          "PARTIAL_SINGULAR": "{{ success }} 件のアイテムを削除しましたが、{{ failed }} 件は削除できませんでした",
+          "PARTIAL_PLURAL": "{{ success }} 件のアイテムを削除しましたが、{{ failed }} 件は削除できませんでした"
+        },
+        "NODE_COPY": {
+          "SINGULAR": "{{ success }} 件のアイテムをコピーしました",
+          "PLURAL": "{{ success }} 件のアイテムをコピーしました",
+          "PARTIAL_SINGULAR": "{{ success }} 件のアイテムをコピーしましたが、{{ failed }} 件はコピーできませんでした。",
+          "PARTIAL_PLURAL": "{{ success }} 件のアイテムをコピーしましたが、{{ failed }} 件はコピーできませんでした。",
+          "FAIL_SINGULAR": "{{ failed }} 件のアイテムをコピーできませんでした。",
+          "FAIL_PLURAL": "{{ failed }} 件のアイテムをコピーできませんでした。"
+        },
+        "NODE_MOVE": {
+          "SINGULAR": "{{ success }} 件のアイテムを移動しました。",
+          "PLURAL": "{{ success }} 件のアイテムを移動しました。",
+          "PARTIAL": {
+            "SINGULAR": "一部のアイテム ({{ partially }} 件) を移動しました。",
+            "PLURAL": "一部のアイテム ({{ partially }} 件) を移動しました。",
+            "FAIL": "{{ failed }} 件を移動できませんでした。"
+          }
+        },
+        "LIBRARY_DELETED": "ライブラリが削除されました",
+        "JOINED": "ライブラリに参加しました",
+        "JOIN_REQUESTED": "このライブラリへの参加リクエストが送信されました",
+        "JOIN_CANCELED": "ライブラリへの参加リクエストをキャンセルしました",
+        "LEFT_LIBRARY": "このライブラリからは脱退しています"
+      }
+    },
+    "CONTENT_METADATA": {
+      "EXIF_GROUP_TITLE": "画像の Exif",
+      "EFFECTIVITY_GROUP_TITLE": "有効性"
+    },
+    "INFO_DRAWER": {
+      "TITLE": "詳細",
+      "TABS": {
+        "PROPERTIES": "プロパティ",
+        "LIBRARY_PROPERTIES": "バージョン情報",
+        "VERSIONS": "バージョン",
+        "COMMENTS": "コメント"
+      }
+    }
+  },
+  "NODE_SELECTOR": {
+    "COPY_ITEM": "'{{ name }}' のコピー先...",
+    "COPY_ITEMS": "{{ number }} 件のアイテムのコピー先...",
+    "MOVE_ITEM": "'{{ name }}' の移動先...",
+    "MOVE_ITEMS": "{{ number }} 件のアイテムの移動先...",
+    "SEARCH": "検索",
+    "NEXT": "次へ",
+    "SELECT_FILE_TEMPLATE_TITLE": "文書テンプレートを選択してください",
+    "SELECT_FOLDER_TEMPLATE_TITLE": "フォルダテンプレートを選択してください"
+  },
+  "NODE_FROM_TEMPLATE": {
+    "CANCEL": "キャンセル",
+    "CREATE": "作成",
+    "FOLDER_DIALOG_TITLE": "<span class=\"bold\">'{{ template }}'</span> から新規フォルダを作成します",
+    "FILE_DIALOG_TITLE": "<span class=\"bold\">'{{ template }}'</span> から新規文書を作成します",
+    "FORM": {
+      "PLACEHOLDER": {
+        "NAME": "名前",
+        "TITLE": "タイトル",
+        "DESCRIPTION": "説明"
+      },
+      "ERRORS": {
+        "DESCRIPTION_TOO_LONG": "説明は 512 文字以内で入力してください",
+        "TITLE_TOO_LONG": "タイトルは 256 文字以内で入力してください",
+        "REQUIRED": "名前を指定してください",
+        "SPECIAL_CHARACTERS": "名前に次の文字を含めることはできません。 * \" < > \\ / ? : |",
+        "ENDING_DOT": "名前の末尾にピリオド (.) を付けることはできません。",
+        "ONLY_SPACES": "名前にスペースだけを含めることはできません"
+      }
+    }
+  },
+  "PERMISSIONS": {
+    "DIALOG": {
+      "TITLE": "権限の管理",
+      "CLOSE": "閉じる",
+      "INHERIT_PERMISSIONS_BUTTON": "権限の継承",
+      "INHERITED_PERMISSIONS_BUTTON": "継承された権限",
+      "ADD_USER_OR_GROUP": "ユーザー/グループの追加"
+    }
+  },
+  "SHARED_LINK": {
+    "UNSHARE_PERMISSION_ERROR": "このファイルの共有を解除する権限がありません。"
+  },
+  "VERSION": {
+    "DIALOG_ADF": {
+      "TITLE": "バージョンの管理",
+      "CLOSE": "閉じる"
+    },
+    "DIALOG": {
+      "TITLE": "新しいバージョンのアップロード",
+      "CANCEL": "キャンセル",
+      "UPLOAD": "アップロード"
+    },
+    "FORM": {
+      "SUBTITLE": "このバージョンに加えた変更はどのレベルですか?",
+      "VERSION": {
+        "MINOR": "マイナー (#.1)",
+        "MAJOR": "メジャー (2.0)"
+      },
+      "COMMENT": {
+        "PLACEHOLDER": "変更内容の説明を追加してください"
+      }
+    },
+    "SELECTION": {
+      "EMPTY": "バージョンを表示する文書を選択してください。",
+      "NO_PERMISSION": "このコンテンツのバージョンを管理するための権限がありません。"
+    },
+    "ERROR": {
+      "GENERIC": "ファイルのバージョン作成中にエラーが発生しました"
+    }
+  },
+  "LIBRARY": {
+    "DIALOG": {
+      "CREATE_TITLE": "ライブラリの作成",
+      "CREATE": "作成",
+      "UPDATE": "更新",
+      "EDIT": "編集",
+      "CANCEL": "キャンセル",
+      "FORM": {
+        "DESCRIPTION": "説明",
+        "SITE_ID": "ライブラリ ID",
+        "NAME": "名前",
+        "VISIBILITY": "公開レベル"
+      }
+    },
+    "VISIBILITY": {
+      "PRIVATE": "非公開",
+      "PUBLIC": "公開",
+      "MODERATED": "条件付き公開"
+    },
+    "HINTS": {
+      "SITE_TITLE_EXISTS": "ライブラリ名は既に使用されています"
+    },
+    "ERRORS": {
+      "GENERIC": "問題が発生しました",
+      "EXISTENT_SITE": "このライブラリ ID は使用できません。別のライブラリ ID を使用してください。",
+      "CONFLICT": "このライブラリ ID は既に使われています。ごみ箱をチェックしてください。",
+      "ID_TOO_LONG": "URL 名は 72 文字以内で入力してください",
+      "DESCRIPTION_TOO_LONG": "説明は 512 文字以内で入力してください",
+      "TITLE_TOO_LONG": "タイトルは 256 文字以内で入力してください",
+      "ILLEGAL_CHARACTERS": "英数字だけを使用してください",
+      "ONLY_SPACES": "ライブラリ名にスペースだけを含めることはできません",
+      "LIBRARY_UPDATE_ERROR": "ライブラリのプロパティの更新中にエラーが発生しました"
+    },
+    "SUCCESS": {
+      "LIBRARY_UPDATED": "ライブラリのプロパティが更新されました"
+    }
+  },
+  "SEARCH": {
+    "INPUT": {
+      "PLACEHOLDER": "検索",
+      "FILES": "ファイル",
+      "FOLDERS": "フォルダ",
+      "LIBRARIES": "ライブラリ",
+      "HINT": "検索する語句は、2 文字以上の英数字で入力してください。"
+    },
+    "SORT": {
+      "RELEVANCE": "関連性",
+      "FILENAME": "ファイル名",
+      "TITLE": "タイトル",
+      "MODIFIED_DATE": "変更日",
+      "SIZE": "サイズ",
+      "TYPE": "種類",
+      "MODIFIER": "変更者",
+      "CREATE_DATE": "作成日"
+    },
+    "FACET_FIELDS": {
+      "FILE_TYPE": "ファイルの種類",
+      "CREATOR": "作成者",
+      "MODIFIER": "変更者",
+      "LOCATION": "場所"
+    },
+    "CATEGORIES": {
+      "MODIFIED_DATE": "変更日",
+      "SIZE": "サイズ",
+      "SIZE_OPTIONS": {
+        "SMALL": "小",
+        "MEDIUM": "中",
+        "LARGE": "大",
+        "HUGE": "特大"
+      },
+      "CREATED_DATE": "作成日"
+    },
+    "FACET_QUERIES": {
+      "TODAY": "今日",
+      "THIS_WEEK": "今週",
+      "THIS_MONTH": "今月",
+      "LAST_6_MONTHS": "過去 6 か月",
+      "THIS_YEAR": "今年"
+    }
+  },
+  "AVATAR": {
+    "ACCESSIBILITY": {
+      "AVATAR_BUTTON_ARIA_LABEL": "ユーザーオプション"
+    }
+  },
+  "CORE": {
+    "METADATA": {
+      "ACTIONS": {
+        "SAVE": "変更を保存する",
+        "CANCEL": "変更を破棄する"
+      }
+    }
+  },
+  "ADF_VIEWER": {
+    "ACTIONS": {
+      "INFO": "詳細の表示"
+    }
+  },
+  "FILE_UPLOAD": {
+    "ERRORS": {
+      "409": "この名前は既に使用されています。別の名前を使用してください [409]"
+    }
+  },
+  "ADF_VERSION_LIST": {
+    "ACTIONS": {
+      "UPLOAD": {
+        "TOOLTIP": "新しいバージョンをアップロードします"
+      }
+    }
+  },
+  "CUSTOM_NAME_COLUMN": {
+    "ACCESSIBILITY": {
+      "FILE_LINK_ARIA_LABEL": "{{ name }} を表示",
+      "FOLDER_LINK_ARIA_LABEL": "{{ name }} フォルダを開く"
+    }
+  },
+  "ADF-DATATABLE": {
+    "FILE_TYPE": {
+      "BOOKS-24PX": "ファイルライブラリ",
+      "BASELINE-LOCK-24PX": "ロックされているファイル"
+    }
+  }
+}

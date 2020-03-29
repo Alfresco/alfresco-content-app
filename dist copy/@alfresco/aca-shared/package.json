@@ -1,0 +1,28 @@
+{
+  "name": "@alfresco/aca-shared",
+  "version": "1.9.2",
+  "peerDependencies": {
+    "@angular/common": "^7.2.0",
+    "@angular/core": "^7.2.0",
+    "@angular/material": "^7.3.7",
+    "@ngrx/effects": "^7.4.0",
+    "@ngrx/store": "^7.4.0",
+    "@alfresco/adf-extensions": "^3.1.0",
+    "@alfresco/js-api": "^3.1.0",
+    "rxjs": "^6.4.0",
+    "@ngx-translate/core": "^11.0.1"
+  },
+  "main": "bundles/alfresco-aca-shared.umd.js",
+  "module": "fesm5/alfresco-aca-shared.js",
+  "es2015": "fesm2015/alfresco-aca-shared.js",
+  "esm5": "esm5/alfresco-aca-shared.js",
+  "esm2015": "esm2015/alfresco-aca-shared.js",
+  "fesm5": "fesm5/alfresco-aca-shared.js",
+  "fesm2015": "fesm2015/alfresco-aca-shared.js",
+  "typings": "alfresco-aca-shared.d.ts",
+  "metadata": "alfresco-aca-shared.metadata.json",
+  "sideEffects": false,
+  "dependencies": {
+    "tslib": "^1.9.0"
+  }
+}

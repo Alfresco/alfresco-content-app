@@ -1,0 +1,13 @@
+{
+  "main": "../bundles/alfresco-aca-shared-rules.umd.js",
+  "module": "../fesm5/alfresco-aca-shared-rules.js",
+  "es2015": "../fesm2015/alfresco-aca-shared-rules.js",
+  "esm5": "../esm5/rules/alfresco-aca-shared-rules.js",
+  "esm2015": "../esm2015/rules/alfresco-aca-shared-rules.js",
+  "fesm5": "../fesm5/alfresco-aca-shared-rules.js",
+  "fesm2015": "../fesm2015/alfresco-aca-shared-rules.js",
+  "typings": "alfresco-aca-shared-rules.d.ts",
+  "metadata": "alfresco-aca-shared-rules.metadata.json",
+  "sideEffects": false,
+  "name": "@alfresco/aca-shared/rules"
+}

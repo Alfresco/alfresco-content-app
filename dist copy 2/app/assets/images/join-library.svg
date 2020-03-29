@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <polygon id="path-1" points="0.0003 0 16 0 16 16 0.0003 16"></polygon>
+        <polygon id="path-3" points="0 0 15.9998 0 15.9998 16 0 16"></polygon>
+    </defs>
+    <g id="join-library" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.54">
+        <g id="systemicon/join_library">
+            <g id="Group" transform="translate(2.000000, 2.000000)">
+                <g id="Group-2">
+                    <g id="Group">
+                        <g id="Group-3" transform="translate(4.000000, 0.000000)">
+                            <mask id="mask-2" fill="white">
+                                <use xlink:href="#path-1"></use>
+                            </mask>
+                            <g id="Clip-2"></g>
+                            <path d="M14.0003,0 L2.0003,0 C0.9003,0 0.0003,0.9 0.0003,2 L0.0003,14 C0.0003,15.1 0.9003,16 2.0003,16 L14.0003,16 C15.1003,16 16.0003,15.1 16.0003,14 L16.0003,2 C16.0003,0.9 15.1003,0 14.0003,0" id="Fill-1" fill="#000000" mask="url(#mask-2)"></path>
+                        </g>
+                        <g id="Group-6" transform="translate(0.000000, 4.000000)">
+                            <mask id="mask-4" fill="white">
+                                <use xlink:href="#path-3"></use>
+                            </mask>
+                            <g id="Clip-5"></g>
+                            <path d="M1.9998,0 L-0.0002,0 L-0.0002,14 C-0.0002,15.1 0.8998,16 1.9998,16 L15.9998,16 L15.9998,14 L1.9998,14 L1.9998,0 Z" id="Fill-4" fill="#000000" mask="url(#mask-4)"></path>
+                        </g>
+                        <polygon id="Fill-7" fill="#FEFEFE" points="11 12 11 10 7 10 7 6 11 6 11 4 15 8"></polygon>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
