@@ -4,6 +4,7 @@
     role="link"
     *ngIf="isFile"
     (click)="showPreview($event)"
+    (keyup.enter)="showPreview($event)"
     class="link"
   >
     {{ name$ | async }}
@@ -13,6 +14,7 @@
     role="link"
     *ngIf="!isFile"
     (click)="navigate($event)"
+    (keyup.enter)="navigate($event)"
     class="bold link"
   >
     {{ name$ | async }}

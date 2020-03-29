@@ -36,10 +36,9 @@ import { TestBed, async } from '@angular/core/testing';
 @Component({
   selector: 'app-test-component',
   template: `
-    <button
-      #favoriteLibrary="favoriteLibrary"
-      [acaFavoriteLibrary]="selection"
-    ></button>
+    <button #favoriteLibrary="favoriteLibrary" [acaFavoriteLibrary]="selection">
+      Favorite
+    </button>
   `
 })
 class TestComponent {

@@ -36,7 +36,7 @@ import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 @Component({
   selector: 'app-test-component',
   template: `
-    <button #lock="lockNode" [acaLockNode]="selection"></button>
+    <button #lock="lockNode" [acaLockNode]="selection">Lock</button>
   `
 })
 class TestComponent {
