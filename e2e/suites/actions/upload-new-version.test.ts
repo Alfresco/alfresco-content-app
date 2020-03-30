@@ -709,7 +709,7 @@ describe('Upload new version', () => {
       await apis.user.nodes.lockFile(fileLockedSearch1Id);
       await apis.user.nodes.lockFile(fileLockedSearch2Id);
 
-      await apis.user.search.waitForNodes('search-f', { expect: 6 })
+      await apis.user.search.waitForNodes('search-f', { expect: 6 });
 
       await loginPage.loginWith(username);
       done();

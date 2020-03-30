@@ -27,6 +27,7 @@ import { ElementFinder, by, browser, ExpectedConditions as EC } from 'protractor
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
+import { Logger } from '@alfresco/adf-testing';
 
 export class Pagination extends Component {
   private static selectors = {
@@ -65,7 +66,7 @@ export class Pagination extends Component {
       await maxItemsButton.click();
       await menu.waitForMenuToOpen();
     } catch (error) {
-      console.log('____ open max items catch ___', error);
+      Logger.info('____ open max items catch ___', error);
     }
   }
 
@@ -77,7 +78,7 @@ export class Pagination extends Component {
       await pagesButton.click();
       await menu.waitForMenuToOpen();
     } catch (error) {
-      console.log('____ open current page menu ___', error);
+      Logger.info('____ open current page menu ___', error);
     }
   }
 
@@ -87,7 +88,7 @@ export class Pagination extends Component {
       await this.menu.clickNthItem(1);
       await this.menu.waitForMenuToClose();
     } catch (error) {
-      console.log('___ reset to default page size catch ___', error);
+      Logger.info('___ reset to default page size catch ___', error);
     }
   }
 
@@ -97,7 +98,7 @@ export class Pagination extends Component {
       await this.menu.clickNthItem(1);
       await this.menu.waitForMenuToClose();
     } catch (error) {
-      console.log('____ reset to default page number catch ___', error);
+      Logger.info('____ reset to default page number catch ___', error);
     }
   }
 

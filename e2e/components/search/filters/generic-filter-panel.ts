@@ -38,7 +38,7 @@ export class GenericFilterPanel {
     panel: '.mat-expansion-panel',
     panelExpanded: '.mat-expansion-panel.mat-expanded',
     panelHeader: '.mat-expansion-panel-header'
-  }
+  };
 
   get panel(): ElementFinder { return browser.element(by.cssContainingText(this.selectors.panel, this.filterName)); }
   get panelExpanded(): ElementFinder { return browser.element(by.cssContainingText(this.selectors.panelExpanded, this.filterName)); }
@@ -49,11 +49,11 @@ export class GenericFilterPanel {
   }
 
   async isPanelDisplayed(): Promise<boolean> {
-    return (await browser.isElementPresent(this.panel)) && (await this.panel.isDisplayed());
+    return (await browser.isElementPresent(this.panel)) && (this.panel.isDisplayed());
   }
 
   async isPanelExpanded(): Promise<boolean> {
-    return (await this.panelExpanded.isPresent()) && (await this.panelExpanded.isDisplayed());
+    return (await this.panelExpanded.isPresent()) && (this.panelExpanded.isDisplayed());
   }
 
   async expandPanel(): Promise<void> {

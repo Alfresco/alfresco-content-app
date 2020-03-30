@@ -26,7 +26,8 @@
 import { ElementFinder, ElementArrayFinder, by, browser, ExpectedConditions as EC } from 'protractor';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
-import { Utils } from '../../utilities/utils'
+import { Utils } from '../../utilities/utils';
+import { Logger } from '@alfresco/adf-testing';
 
 export class Menu extends Component {
   private static selectors = {
@@ -175,7 +176,7 @@ export class Menu extends Component {
       await browser.actions().click().perform();
       await this.waitForMenuToClose();
     } catch (e) {
-      console.log('____ click nth menu item catch ___', e);
+      Logger.info('____ click nth menu item catch ___', e);
     }
   }
 
@@ -185,7 +186,7 @@ export class Menu extends Component {
       await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT, 'timeout waiting for menu item to be clickable');
       await elem.click();
     } catch (e) {
-      console.log('___click menu item catch___', e);
+      Logger.info('___click menu item catch___', e);
     }
   }
 
@@ -196,7 +197,7 @@ export class Menu extends Component {
       await browser.actions().mouseMove(elem).perform();
       await browser.sleep(500);
     } catch (error) {
-      console.log('----- mouse over error: ', error);
+      Logger.info('----- mouse over error: ', error);
     }
   }
 
@@ -207,7 +208,7 @@ export class Menu extends Component {
       const elemClass = await elem.getAttribute('class');
       return elemClass.includes('mat-menu-item-submenu-trigger');
     } catch (error) {
-      console.log('---- has submenu error: ', error);
+      Logger.info('---- has submenu error: ', error);
       return false;
     }
   }
@@ -218,7 +219,7 @@ export class Menu extends Component {
       await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT);
       await elem.click();
     } catch (e) {
-      console.log('___click submenu item catch___', e);
+      Logger.info('___click submenu item catch___', e);
     }
   }
 
@@ -240,7 +241,7 @@ export class Menu extends Component {
       const disabled = await item.getAttribute('disabled');
       return disabled;
     } catch (error) {
-      console.log('----- isMenuItemDisabled catch: ', error);
+      Logger.info('----- isMenuItemDisabled catch: ', error);
       return null;
     }
   }
@@ -356,27 +357,27 @@ export class Menu extends Component {
   }
 
   async isCreateFolderEnabled(): Promise<boolean> {
-    return (await this.createFolderAction.isPresent()) && (await this.createFolderAction.isEnabled());
+    return (await this.createFolderAction.isPresent()) && (this.createFolderAction.isEnabled());
   }
 
   async isCreateLibraryEnabled(): Promise<boolean> {
-    return (await this.createLibraryAction.isPresent()) && (await this.createLibraryAction.isEnabled());
+    return (await this.createLibraryAction.isPresent()) && (this.createLibraryAction.isEnabled());
   }
 
   async isUploadFileEnabled(): Promise<boolean> {
-    return (await this.uploadFileAction.isPresent()) && (await this.uploadFileAction.isEnabled());
+    return (await this.uploadFileAction.isPresent()) && (this.uploadFileAction.isEnabled());
   }
 
   async isUploadFolderEnabled(): Promise<boolean> {
-    return (await this.uploadFolderAction.isPresent()) && (await this.uploadFolderAction.isEnabled());
+    return (await this.uploadFolderAction.isPresent()) && (this.uploadFolderAction.isEnabled());
   }
 
   async isCreateFileFromTemplateEnabled(): Promise<boolean> {
-    return (await this.createFileFromTemplateAction.isPresent()) && (await this.createFileFromTemplateAction.isEnabled());
+    return (await this.createFileFromTemplateAction.isPresent()) && (this.createFileFromTemplateAction.isEnabled());
   }
 
   async isCreateFolderFromTemplateEnabled(): Promise<boolean> {
-    return (await this.createFolderFromTemplateAction.isPresent()) && (await this.createFolderFromTemplateAction.isEnabled());
+    return (await this.createFolderFromTemplateAction.isPresent()) && (this.createFolderFromTemplateAction.isEnabled());
   }
 
   async clickCreateFolder(): Promise<void> {

@@ -50,7 +50,7 @@ export class SearchFilters extends Component {
   }
 
   async isSearchFiltersPanelDisplayed(): Promise<boolean> {
-    return (await this.mainPanel.isPresent()) && (await this.mainPanel.isDisplayed());
+    return (await this.mainPanel.isPresent()) && (this.mainPanel.isDisplayed());
   }
 
   async clickResetAllButton(): Promise<void> {

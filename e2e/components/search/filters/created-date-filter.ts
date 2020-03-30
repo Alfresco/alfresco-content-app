@@ -36,33 +36,33 @@ export class CreatedDateFilter extends GenericFilterPanel {
   fromInput: ElementFinder = this.fromField.element(by.css(`[data-automation-id='date-range-from-input']`));
   fromFieldError: ElementFinder = this.fromField.element(by.css(`[data-automation-id='date-range-from-error']`));
   toField: ElementFinder = this.panelExpanded.element(by.cssContainingText('.adf-search-date-range .mat-form-field', 'To'));
-  toInput: ElementFinder = this.toField.element(by.css(`[data-automation-id='date-range-to-input']`))
-  toFieldError: ElementFinder = this.toField.element(by.css(`[data-automation-id='date-range-to-error']`))
+  toInput: ElementFinder = this.toField.element(by.css(`[data-automation-id='date-range-to-input']`));
+  toFieldError: ElementFinder = this.toField.element(by.css(`[data-automation-id='date-range-to-error']`));
   clearButton: ElementFinder = this.panel.element(by.css('.adf-facet-buttons [data-automation-id="date-range-clear-btn"]'));
   applyButton: ElementFinder = this.panel.element(by.css('.adf-facet-buttons [data-automation-id="date-range-apply-btn"]'));
 
   async isFromFieldDisplayed(): Promise<boolean> {
-    return (await this.fromField.isPresent()) && (await this.fromField.isDisplayed());
+    return (await this.fromField.isPresent()) && (this.fromField.isDisplayed());
   }
 
   async isFromErrorDisplayed(): Promise<boolean> {
-    return (await this.fromFieldError.isPresent()) && (await this.fromFieldError.isDisplayed());
+    return (await this.fromFieldError.isPresent()) && (this.fromFieldError.isDisplayed());
   }
 
   async isToFieldDisplayed(): Promise<boolean> {
-    return (await this.toField.isPresent()) && (await this.toField.isDisplayed());
+    return (await this.toField.isPresent()) && (this.toField.isDisplayed());
   }
 
   async isToErrorDisplayed(): Promise<boolean> {
-    return (await this.toFieldError.isPresent()) && (await this.toFieldError.isDisplayed());
+    return (await this.toFieldError.isPresent()) && (this.toFieldError.isDisplayed());
   }
 
   async isClearButtonEnabled(): Promise<boolean> {
-    return await this.clearButton.isEnabled();
+    return this.clearButton.isEnabled();
   }
 
   async isApplyButtonEnabled(): Promise<boolean> {
-    return await this.applyButton.isEnabled();
+    return this.applyButton.isEnabled();
   }
 
   async clickClearButton(): Promise<void> {

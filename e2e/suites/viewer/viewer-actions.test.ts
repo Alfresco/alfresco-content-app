@@ -95,7 +95,6 @@ describe('Viewer actions', () => {
       await apis.user.nodes.lockFile(fileForUploadNewVersionId);
       await apis.user.nodes.lockFile(fileForUploadNewVersionId2);
 
-
       await loginPage.loginWith(username);
       done();
     });
@@ -495,7 +494,6 @@ describe('Viewer actions', () => {
       await apis.user.nodes.lockFile(fileForCancelEditingId);
       await apis.user.nodes.lockFile(fileForUploadNewVersionId);
 
-
       await apis.user.upload.uploadFileWithRename(xlsxFileForMove, parentId, xlsxRecentFiles);
       await apis.user.upload.uploadFileWithRename(pdfFileForDelete, parentId, pdfRecentFiles);
 
@@ -677,7 +675,7 @@ describe('Viewer actions', () => {
       await apis.user.nodes.lockFile(fileForCancelEditingId);
       await apis.user.nodes.lockFile(fileForUploadNewVersionId);
 
-      await apis.user.shared.shareFilesByIds([docxFileId, xlsxFileId, pdfFileId, fileForCancelEditingId, fileForEditOfflineId, fileForUploadNewVersionId, fileSharedId])
+      await apis.user.shared.shareFilesByIds([docxFileId, xlsxFileId, pdfFileId, fileForCancelEditingId, fileForEditOfflineId, fileForUploadNewVersionId, fileSharedId]);
       await apis.user.shared.waitForApi({expect: 7});
 
       await loginPage.loginWith(username);
@@ -858,8 +856,7 @@ describe('Viewer actions', () => {
       await apis.user.nodes.lockFile(fileForCancelEditingId);
       await apis.user.nodes.lockFile(fileForUploadNewVersionId);
 
-
-      await apis.user.favorites.addFavoritesByIds('file', [docxFileId, xlsxFileId, pdfFileId, fileForEditOfflineId, fileForCancelEditingId, fileForUploadNewVersionId, fileFavId])
+      await apis.user.favorites.addFavoritesByIds('file', [docxFileId, xlsxFileId, pdfFileId, fileForEditOfflineId, fileForCancelEditingId, fileForUploadNewVersionId, fileFavId]);
       await apis.user.favorites.waitForApi({expect: 7});
 
       await loginPage.loginWith(username);

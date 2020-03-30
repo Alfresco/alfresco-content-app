@@ -61,7 +61,6 @@ const viewerFavLockedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Rem
 const viewerDocxFavToolbarMore = ['Edit in Microsoft Office™', 'Edit Offline', 'Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Permissions'];
 const viewerLockedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Permissions'];
 
-
 // ---- FAVORITES workarounds ----
 
 // TODO: investigate why 'Edit Offline', 'Edit in Microsoft Office™' and 'Permissions' are not displayed and raise issue
@@ -106,7 +105,6 @@ const searchViewerDocxToolbarMore = ['Edit in Microsoft Office™', 'Edit Offlin
 const searchViewerFavLockedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions', 'Permissions'];
 const searchViewerDocxFavToolbarMore = ['Edit in Microsoft Office™', 'Edit Offline', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions', 'Permissions'];
 const searchViewerLockedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Favorite', 'Copy', 'Manage Versions', 'Permissions'];
-
 
 export const fileDocx = {
   name: `file-docx-${Utils.random()}.docx`,
@@ -405,7 +403,6 @@ export const folderFav2 = {
 
 // ---- multiple selection ---
 
-
 // TODO: raise issue to remove 'Permissions'
 const multipleSelContextMenu = ['Download', 'Favorite', 'Move', 'Copy', 'Delete', 'Permissions'];
 // TODO: raise issue to remove 'Permissions'
@@ -429,7 +426,6 @@ const searchMultipleSelToolbarMore = ['Favorite', 'Copy', 'Permissions'];
 // TODO: raise issue to remove 'Permissions'
 const searchMultipleSelAllFavToolbarMore = ['Remove Favorite', 'Copy', 'Permissions'];
 
-
 export const multipleSel = {
   contextMenu: multipleSelContextMenu,
   toolbarPrimary: multipleSelToolbarPrimary,
@@ -438,7 +434,7 @@ export const multipleSel = {
   searchContextMenu: searchMultipleSelContextMenu,
   searchToolbarMore: searchMultipleSelToolbarMore,
   searchToolbarPrimary: searchMultipleSelToolbarPrimary
-}
+};
 
 export const multipleSelAllFav = {
   contextMenu: multipleSelAllFavContextMenu,
@@ -451,4 +447,4 @@ export const multipleSelAllFav = {
   searchToolbarPrimary: searchMultipleSelToolbarPrimary,
   searchContextMenu: searchMultipleSelAllFavContextMenu,
   searchToolbarMore: searchMultipleSelAllFavToolbarMore
-}
+};

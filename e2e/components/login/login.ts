@@ -80,8 +80,7 @@ export class LoginComponent extends Component {
     const text = await this.passwordVisibility.getText();
     if (text.endsWith('visibility_off')) {
       return false;
-    }
-    else {
+    } else {
       if (text.endsWith('visibility')) {
         return true;
       }
@@ -94,8 +93,7 @@ export class LoginComponent extends Component {
     const type = await this.passwordInput.getAttribute('type');
     if (type === 'text') {
       return true;
-    }
-    else {
+    } else {
       if (type === 'password') {
         return false;
       }

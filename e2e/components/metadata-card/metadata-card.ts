@@ -63,4 +63,3 @@ export class MetadataCard extends Component {
     return this.expansionPanels.get(index).getAttribute('data-automation-id');
   }
 }
-

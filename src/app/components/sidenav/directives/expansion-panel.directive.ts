@@ -37,6 +37,7 @@ import { MatExpansionPanel } from '@angular/material/expansion';
 import { Store } from '@ngrx/store';
 
 @Directive({
+  // tslint:disable-next-line: directive-selector
   selector: '[acaExpansionPanel]',
   exportAs: 'acaExpansionPanel'
 })

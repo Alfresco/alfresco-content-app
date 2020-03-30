@@ -27,6 +27,7 @@ import { ElementFinder, by, browser, ExpectedConditions as EC, ElementArrayFinde
 import { Component } from '../component';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Toolbar } from '../toolbar/toolbar';
+import { Logger } from '@alfresco/adf-testing';
 
 export class Viewer extends Component {
   private static selectors = {
@@ -61,7 +62,7 @@ export class Viewer extends Component {
       await browser.wait(EC.presenceOf(this.viewerContainer), BROWSER_WAIT_TIMEOUT);
       await browser.wait(EC.presenceOf(this.viewerLayout), BROWSER_WAIT_TIMEOUT);
     } catch (error) {
-      console.log('\n-----> catch waitForViewerToOpen <-----\n', error)
+      Logger.info('\n-----> catch waitForViewerToOpen <-----\n', error);
     }
   }
 

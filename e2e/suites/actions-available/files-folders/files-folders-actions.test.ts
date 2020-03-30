@@ -40,7 +40,7 @@ import { trashTests } from './trash';
 describe('Files / folders actions : ', () => {
   const random = Utils.random();
 
-  const username = `user-${random}`
+  const username = `user-${random}`;
 
   const parent = `parent-${random}`;
 

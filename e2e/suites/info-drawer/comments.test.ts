@@ -69,7 +69,7 @@ describe('Comments', () => {
     await apis.user.nodes.createFile(file1, parentId);
     await apis.user.nodes.createFile(file2Personal, parentId);
     await apis.user.nodes.createFile(file2Recent, parentId);
-    file2SharedId = (await apis.user.nodes.createFile(file2Shared, parentId)).entry.id
+    file2SharedId = (await apis.user.nodes.createFile(file2Shared, parentId)).entry.id;
     file2FavoritesId = (await apis.user.nodes.createFile(file2Favorites, parentId)).entry.id;
 
     fileWith1CommentId = (await apis.user.nodes.createFile(fileWith1Comment, parentId)).entry.id;

@@ -48,6 +48,7 @@ export interface LibraryMembershipErrorEvent {
 }
 
 @Directive({
+  // tslint:disable-next-line: directive-selector
   selector: '[acaLibraryMembership]',
   exportAs: 'libraryMembership'
 })

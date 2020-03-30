@@ -41,6 +41,7 @@ interface LibraryEntity {
 }
 
 @Directive({
+  // tslint:disable-next-line: directive-selector
   selector: '[acaFavoriteLibrary]',
   exportAs: 'favoriteLibrary'
 })

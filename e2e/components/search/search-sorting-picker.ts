@@ -48,31 +48,31 @@ export class SearchSortingPicker extends Component {
   }
 
   async isSortOrderButtonDisplayed(): Promise<boolean> {
-    return (await this.sortOrderButton.isPresent()) && (await this.sortOrderButton.isDisplayed());
+    return (await this.sortOrderButton.isPresent()) && (this.sortOrderButton.isDisplayed());
   }
 
   async getSortOrder(): Promise<'ASC' | 'DESC' | ''> {
     const orderArrow = await this.sortOrderButton.getText();
 
     if ( orderArrow.includes('upward') ) {
-      return 'ASC'
+      return 'ASC';
     } else if ( orderArrow.includes('downward') ) {
-        return 'DESC'
+        return 'DESC';
       } else {
         return '';
       }
   }
 
   async isSortByOptionDisplayed(): Promise<boolean> {
-    return (await this.sortByDropdownCollapsed.isPresent()) && (await this.sortByDropdownCollapsed.isDisplayed());
+    return (await this.sortByDropdownCollapsed.isPresent()) && (this.sortByDropdownCollapsed.isDisplayed());
   }
 
   async isSortByDropdownExpanded(): Promise<boolean> {
-    return (await this.sortByDropdownExpanded.isPresent()) && (await this.sortByDropdownExpanded.isDisplayed());
+    return (await this.sortByDropdownExpanded.isPresent()) && (this.sortByDropdownExpanded.isDisplayed());
   }
 
   async getSelectedSortByOption(): Promise<string> {
-    return await this.sortByDropdownCollapsed.getText();
+    return this.sortByDropdownCollapsed.getText();
   }
 
   async clickSortByDropdown(): Promise<void> {

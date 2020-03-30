@@ -33,6 +33,7 @@ import {
 import { Subscription } from 'rxjs';
 
 @Directive({
+  // tslint:disable-next-line: directive-selector
   selector: '[acaPagination]'
 })
 export class PaginationDirective implements OnInit, OnDestroy {

@@ -36,6 +36,7 @@ import { Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 @Directive({
+  // tslint:disable-next-line: directive-selector
   selector: '[acaMenuPanel]',
   exportAs: 'acaMenuPanel'
 })

@@ -26,6 +26,7 @@
 import { RepoApi } from '../repo-api';
 import { Utils } from '../../../../utilities/utils';
 import { TrashcanApi as AdfTrashcanApi} from '@alfresco/js-api';
+import { Logger } from '@alfresco/adf-testing';
 
 export class TrashcanApi extends RepoApi {
   trashcanApi = new AdfTrashcanApi(this.alfrescoJsApi);
@@ -37,7 +38,7 @@ export class TrashcanApi extends RepoApi {
   async permanentlyDelete(id: string) {
     try {
       await this.apiAuth();
-      return await this.trashcanApi.deleteDeletedNode(id);
+      return this.trashcanApi.deleteDeletedNode(id);
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.permanentlyDelete.name}`, error);
     }
@@ -46,7 +47,7 @@ export class TrashcanApi extends RepoApi {
   async restore(id: string) {
     try {
       await this.apiAuth();
-      return await this.trashcanApi.restoreDeletedNode(id);
+      return this.trashcanApi.restoreDeletedNode(id);
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.restore.name}`, error);
       return null;
@@ -59,7 +60,7 @@ export class TrashcanApi extends RepoApi {
     };
     try {
       await this.apiAuth();
-      return await this.trashcanApi.listDeletedNodes(opts);
+      return this.trashcanApi.listDeletedNodes(opts);
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.getDeletedNodes.name}`, error);
       return null;
@@ -70,9 +71,9 @@ export class TrashcanApi extends RepoApi {
     try {
       const ids = (await this.getDeletedNodes()).list.entries.map(entries => entries.entry.id);
 
-      return await ids.reduce(async (previous, current) => {
+      return ids.reduce(async (previous, current) => {
           await previous;
-          return await this.permanentlyDelete(current);
+          return this.permanentlyDelete(current);
       }, Promise.resolve());
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.emptyTrash.name}`, error);
@@ -90,10 +91,10 @@ export class TrashcanApi extends RepoApi {
         }
       };
 
-      return await Utils.retryCall(deletedFiles);
+      return Utils.retryCall(deletedFiles);
     } catch (error) {
-      console.log(`${this.constructor.name} ${this.waitForApi.name} catch: `);
-      console.log(`\tExpected: ${data.expect} items, but found ${error}`);
+      Logger.info(`${this.constructor.name} ${this.waitForApi.name} catch: `);
+      Logger.info(`\tExpected: ${data.expect} items, but found ${error}`);
     }
   }
 }

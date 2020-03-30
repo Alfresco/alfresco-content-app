@@ -63,7 +63,6 @@ export class InfoDrawer extends Component {
   nextButton: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.next));
   previousButton: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.previous));
 
-
   constructor(ancestor?: string) {
     super(InfoDrawer.selectors.root, ancestor);
   }
@@ -150,4 +149,3 @@ export class InfoDrawer extends Component {
   }
 
 }
-

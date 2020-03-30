@@ -40,17 +40,17 @@ describe('Create library', () => {
     name: `site4-${Utils.random()}`,
     id: `site4-id-${Utils.random()}`,
     description: 'site4 description'
-  }
+  };
 
   const duplicateSite = {
     name: `duplicate-${Utils.random()}`,
     id: `duplicate-${Utils.random()}`
-  }
+  };
 
   const siteInTrash = {
     name: `site-trash-${Utils.random()}`,
     id: `site-trash-id-${Utils.random()}`
-  }
+  };
 
   const apis = {
     admin: new RepoClient(),

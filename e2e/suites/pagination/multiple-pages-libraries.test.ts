@@ -53,7 +53,7 @@ describe('Pagination on multiple pages', () => {
 
   afterAll(async () => {
     await userApi.sites.deleteSites(sites);
-  })
+  });
 
   describe('on My Libraries', () => {
     beforeAll(async () => {

@@ -79,7 +79,7 @@ export class Toolbar extends Component {
 
   async getButtons(): Promise<string[]> {
     return this.buttons.map(async elem => {
-      return await elem.getAttribute('title');
+      return elem.getAttribute('title');
     });
   }
 
@@ -119,7 +119,6 @@ export class Toolbar extends Component {
     const btn = this.getButtonByTitleAttribute(title);
     await btn.click();
   }
-
 
   async isSharedLinkSettingsPresent() {
     return browser.isElementPresent(this.shareEditButton);
@@ -165,7 +164,6 @@ export class Toolbar extends Component {
     return browser.isElementPresent(this.fullScreenButton);
   }
 
-
   async clickShare() {
     const btn = this.shareButton;
     await btn.click();
@@ -206,7 +204,6 @@ export class Toolbar extends Component {
   async clickRestore() {
     await this.restoreButton.click();
   }
-
 
   async clickMoreActionsFavorite() {
     await this.openMoreMenu();

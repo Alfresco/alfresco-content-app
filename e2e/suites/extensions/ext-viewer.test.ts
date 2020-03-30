@@ -64,7 +64,7 @@ describe('Extensions - Viewer', () => {
     const moveAction = {
         id: 'app.viewer.move',
         title: 'My new title'
-    }
+    };
 
     const apis = {
         admin: new RepoClient(),

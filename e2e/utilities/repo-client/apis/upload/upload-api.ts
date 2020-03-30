@@ -45,7 +45,7 @@ export class UploadApi extends RepoApi {
 
     try {
       await this.apiAuth();
-      return await this.upload.uploadFile(file, '', parentFolderId, null, opts);
+      return this.upload.uploadFile(file, '', parentFolderId, null, opts);
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.uploadFile.name}`, error);
     }
@@ -67,7 +67,7 @@ export class UploadApi extends RepoApi {
 
     try {
       await this.apiAuth();
-      return await this.upload.uploadFile(file, '', parentId, nodeProps, opts);
+      return this.upload.uploadFile(file, '', parentId, nodeProps, opts);
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.uploadFileWithRename.name}`, error);
     }

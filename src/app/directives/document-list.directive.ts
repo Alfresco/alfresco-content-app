@@ -35,6 +35,7 @@ import { ContentManagementService } from '../services/content-management.service
 import { MinimalNodeEntity } from '@alfresco/js-api';
 
 @Directive({
+  // tslint:disable-next-line: directive-selector
   selector: '[acaDocumentList]'
 })
 export class DocumentListDirective implements OnInit, OnDestroy {

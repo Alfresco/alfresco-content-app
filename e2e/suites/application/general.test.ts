@@ -28,6 +28,7 @@ import { BrowsingPage, LoginPage } from '../../pages/pages';
 import { CreateOrEditFolderDialog } from '../../components/dialog/create-edit-folder-dialog';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
+import { Logger } from '@alfresco/adf-testing';
 
 describe('General', () => {
   const loginPage = new LoginPage();
@@ -67,7 +68,7 @@ describe('General', () => {
       try {
         await createDialog.waitForDialogToClose();
       } catch (error) {
-        console.log('err: ', error);
+        Logger.info('err: ', error);
       }
       expect(await createDialog.isDialogOpen()).not.toBe(true, 'dialog is present');
     });

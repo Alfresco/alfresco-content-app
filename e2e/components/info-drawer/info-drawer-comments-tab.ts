@@ -53,10 +53,9 @@ export class CommentsTab extends Component {
   commentListItem = by.css(CommentsTab.selectors.commentsListItem);
 
   commentUserAvatar = by.id(CommentsTab.selectors.commentUserAvatar);
-  commentUser = by.id(CommentsTab.selectors.commentUserName)
+  commentUser = by.id(CommentsTab.selectors.commentUserName);
   commentText = by.id(CommentsTab.selectors.commentMessage);
   commentTime = by.id(CommentsTab.selectors.commentTime);
-
 
   constructor(ancestor?: string) {
     super(CommentsTab.selectors.root, ancestor);
@@ -137,4 +136,3 @@ export class CommentsTab extends Component {
   }
 
 }
-

@@ -25,11 +25,9 @@
 
 import { Utils } from '../../../utilities/utils';
 
-
 // ---- multiple selection ---
 
 export const trashActions = ['Permanently Delete', 'Restore'];
-
 
 // ---- single selection ----
 
@@ -47,7 +45,6 @@ const notMemberNotFavContextMenu = ['Join', 'Delete', 'Favorite'];
 const notMemberToolbarPrimary = ['Join', 'View Details', 'More Actions'];
 const reqJoinNotFavContextMenu = ['Cancel Join Request', 'Delete', 'Favorite'];
 const reqJoinFavContextMenu = ['Cancel Join Request', 'Delete', 'Remove Favorite'];
-
 
 export const publicUserMemberFav = {
   name: `site-public-member-fav-${Utils.random()}`,
@@ -178,4 +175,3 @@ export const site2InTrash = {
   name: `deleted-site2-${Utils.random()}`,
   trashActions
 };
-

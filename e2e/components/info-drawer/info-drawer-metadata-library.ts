@@ -26,6 +26,7 @@
 import { ElementFinder, by, browser, ExpectedConditions as EC } from 'protractor';
 import { Component } from '../component';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
+import { Logger } from '@alfresco/adf-testing';
 
 export class LibraryMetadata extends Component {
   private static selectors = {
@@ -57,7 +58,6 @@ export class LibraryMetadata extends Component {
   hint: ElementFinder = this.component.element(by.css(LibraryMetadata.selectors.hint));
   error: ElementFinder = this.component.element(by.css(LibraryMetadata.selectors.error));
 
-
   constructor(ancestor?: string) {
     super(LibraryMetadata.selectors.root, ancestor);
   }
@@ -88,7 +88,6 @@ export class LibraryMetadata extends Component {
     await input.clear();
     await input.sendKeys(text);
   }
-
 
   getButton(button: string) {
     return this.component.element(by.cssContainingText(LibraryMetadata.selectors.metadataTabAction, button));
@@ -130,7 +129,6 @@ export class LibraryMetadata extends Component {
     return this.error.getText();
   }
 
-
   async isNameDisplayed() {
     return this.isFieldDisplayed('Name');
   }
@@ -147,7 +145,6 @@ export class LibraryMetadata extends Component {
     await this.enterTextInInput('Name', name);
   }
 
-
   async isDescriptionDisplayed() {
     return this.isFieldDisplayed('Description');
   }
@@ -163,7 +160,6 @@ export class LibraryMetadata extends Component {
   async enterDescription(desc: string) {
     await this.enterTextInInput('Description', desc);
   }
-
 
   async isVisibilityEnabled() {
     const wrapper = this.getLabelWrapper('Visibility');
@@ -192,12 +188,11 @@ export class LibraryMetadata extends Component {
     } else if (val === 'moderated') {
       await this.visibilityModerated.click();
     } else {
-      console.log('----- invalid visibility', val);
+      Logger.info('----- invalid visibility', val);
     }
 
     await this.waitForVisibilityDropDownToClose();
   }
-
 
   async isLibraryIdDisplayed() {
     return this.isFieldDisplayed('Library ID');
@@ -211,7 +206,6 @@ export class LibraryMetadata extends Component {
     return this.getValueOfField('Library ID');
   }
 
-
   async isEditLibraryPropertiesEnabled() {
     return this.isButtonEnabled('Edit');
   }
@@ -224,7 +218,6 @@ export class LibraryMetadata extends Component {
     await this.clickButton('Edit');
   }
 
-
   async isUpdateEnabled() {
     return this.isButtonEnabled('Update');
   }
@@ -236,7 +229,6 @@ export class LibraryMetadata extends Component {
   async clickUpdate() {
     await this.clickButton('Update');
   }
-
 
   async isCancelEnabled() {
     return this.isButtonEnabled('Cancel');
@@ -251,4 +243,3 @@ export class LibraryMetadata extends Component {
   }
 
 }
-

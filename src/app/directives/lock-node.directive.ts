@@ -35,6 +35,7 @@ import { AlfrescoApiService } from '@alfresco/adf-core';
 import { isLocked } from '@alfresco/aca-shared';
 
 @Directive({
+  // tslint:disable-next-line: directive-selector
   selector: '[acaLockNode]',
   exportAs: 'lockNode'
 })

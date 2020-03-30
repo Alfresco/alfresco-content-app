@@ -63,7 +63,7 @@ export class DateTimePicker extends Component {
   }
 
   async isCalendarOpen(): Promise<boolean> {
-    return (await browser.element(this.rootElemLocator).isPresent()) && (await browser.element(this.rootElemLocator).isDisplayed());
+    return (await browser.element(this.rootElemLocator).isPresent()) && (browser.element(this.rootElemLocator).isDisplayed());
   }
 
   async getDate(): Promise<string> {

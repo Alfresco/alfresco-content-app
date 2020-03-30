@@ -48,7 +48,7 @@ describe('File / Folder properties', () => {
     title: 'image title',
     description: 'image description',
     author: 'image author'
-  }
+  };
   let image1Id;
 
   const folder1 = {

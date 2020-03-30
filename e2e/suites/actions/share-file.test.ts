@@ -91,7 +91,7 @@ describe('Share a file', () => {
       await toolbar.clickDownload();
       expect(await Utils.fileExistsOnOS(file6)).toBe(true, 'File not found in download location');
     });
-  })
+  });
 
   describe('when logged in', () => {
     const expiryDate: any = '2020-12-25T18:30:00.000+0000';
@@ -1103,5 +1103,5 @@ describe('Share a file', () => {
         expect(url).toContain(sharedId);
       });
     });
-  })
+  });
 });

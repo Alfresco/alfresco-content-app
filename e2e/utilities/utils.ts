@@ -25,11 +25,11 @@
 
 import { browser, protractor, ElementFinder, ExpectedConditions as EC, by, logging } from 'protractor';
 import { BROWSER_WAIT_TIMEOUT, E2E_ROOT_PATH, EXTENSIBILITY_CONFIGS } from '../configs';
+import { Logger } from '@alfresco/adf-testing';
 
 const path = require('path');
 const fs = require('fs');
 const StreamZip = require('node-stream-zip');
-
 
 export class Utils {
   static string257 = 'assembly doctor offender limit clearance inspiration baker fraud active apples trait brainstorm concept breaks down presidential \
@@ -56,7 +56,7 @@ export class Utils {
   }
 
   static async getSessionStorage(): Promise<any> {
-    return await browser.executeScript('return window.sessionStorage.getItem("app.extension.config");');
+    return browser.executeScript('return window.sessionStorage.getItem("app.extension.config");');
   }
 
   static async setSessionStorageFromConfig(configFileName: string): Promise<void> {
@@ -77,7 +77,7 @@ export class Utils {
 
     const run = retries => {
       return fn().catch(err => (retries > 1 ? pause(delay).then(() => run(retries - 1)) : Promise.reject(err)));
-    }
+    };
 
     return run(retry);
   }
@@ -136,7 +136,7 @@ export class Utils {
     if (fileExists) {
       fs.rename(oldFilePath, newFilePath, function (err) {
         if (err) {
-          console.log('==== rename err: ', err);
+          Logger.info('==== rename err: ', err);
         }
       });
     }
@@ -152,7 +152,7 @@ export class Utils {
       storeEntries: true
     });
 
-    await zip.on('error', err => { console.log('=== unzip err: ', err) });
+    await zip.on('error', err => { Logger.info('=== unzip err: ', err); });
 
     await zip.on('ready', async () => {
       if (unzippedName) {

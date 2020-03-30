@@ -38,7 +38,7 @@ export class PeopleApi extends RepoApi {
     try {
       const person = new Person(user);
       await this.apiAuth();
-      return await this.peopleApi.createPerson(person);
+      return this.peopleApi.createPerson(person);
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.createUser.name}`, error);
       return null;
@@ -48,7 +48,7 @@ export class PeopleApi extends RepoApi {
   async getUser(username: string) {
     try {
       await this.apiAuth();
-      return await this.peopleApi.getPerson(username);
+      return this.peopleApi.getPerson(username);
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.getUser.name}`, error);
       return null;
@@ -67,7 +67,7 @@ export class PeopleApi extends RepoApi {
 
   async disableUser(username: string) {
     try {
-      return await this.updateUser(username, { enabled: false });
+      return this.updateUser(username, { enabled: false });
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.disableUser.name}`, error);
       return null;
@@ -76,7 +76,7 @@ export class PeopleApi extends RepoApi {
 
   async changePassword(username: string, newPassword: string) {
     try {
-      return await this.updateUser(username, { password: newPassword });
+      return this.updateUser(username, { password: newPassword });
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.changePassword.name}`, error);
       return null;

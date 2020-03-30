@@ -111,7 +111,7 @@ describe('Personal Files', () => {
     it('navigates to folder - [C213244]', async () => {
       const nodeId = (await apis.user.nodes.getNodeByPath(`/${userFolder}`)).entry.id;
 
-      await dataTable.doubleClickOnRowByName(userFolder)
+      await dataTable.doubleClickOnRowByName(userFolder);
       await dataTable.waitForHeader();
 
       expect(await browser.getCurrentUrl()).toContain(nodeId, 'Node ID is not in the URL');

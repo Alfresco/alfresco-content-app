@@ -33,7 +33,7 @@ export class FacetFilter extends GenericFilterPanel {
     button: '.adf-facet-buttons button',
     categoryInput: 'input[placeholder="Filter category"',
     facetsFilter: '.adf-facet-result-filter'
-  }
+  };
 
   get facets(): ElementArrayFinder { return this.panelExpanded.all(by.css(this.locators.checkbox)); }
   get selectedFacets(): ElementArrayFinder { return this.panel.all(by.css(this.locators.checkboxChecked)); }
@@ -66,11 +66,11 @@ export class FacetFilter extends GenericFilterPanel {
   }
 
   async isFilterFacetsDisplayed(): Promise<boolean> {
-    return await this.facetsFilter.isDisplayed();
+    return this.facetsFilter.isDisplayed();
   }
 
   async isClearButtonEnabled(): Promise<boolean> {
-    return await this.clearButton.isEnabled();
+    return this.clearButton.isEnabled();
   }
 
   async clickClearButton(): Promise<void> {
@@ -80,7 +80,7 @@ export class FacetFilter extends GenericFilterPanel {
   }
 
   async isFilterCategoryInputDisplayed(): Promise<boolean> {
-    return await this.filterCategoryInput.isDisplayed();
+    return this.filterCategoryInput.isDisplayed();
   }
 
   async checkCategory(name: string): Promise<void> {

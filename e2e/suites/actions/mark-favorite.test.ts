@@ -197,7 +197,7 @@ describe('Mark items as favorites', () => {
     });
 
     it('unfavorite multiple items - [C217193]', async () => {
-      await dataTable.selectMultipleItems([ fileFav3, fileFav4 ])
+      await dataTable.selectMultipleItems([ fileFav3, fileFav4 ]);
       await toolbar.clickMoreActionsRemoveFavorite();
 
       expect(await apis.user.favorites.isFavoriteWithRetry(fileFav3Id, { expect: false })).toBe(false, `${fileFav3} marked as favorite`);
@@ -419,7 +419,7 @@ describe('Mark items as favorites', () => {
     });
 
     it('unfavorite multiple items - [C306969]', async () => {
-      await dataTable.selectMultipleItems([ fileSearchFav3, fileSearchFav4 ])
+      await dataTable.selectMultipleItems([ fileSearchFav3, fileSearchFav4 ]);
       await toolbar.clickMoreActionsRemoveFavorite();
 
       expect(await apis.user.favorites.isFavoriteWithRetry(fileSearchFav3Id, { expect: false })).toBe(false, `${fileSearchFav3} marked as favorite`);

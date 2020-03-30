@@ -36,7 +36,7 @@ export class CommentsApi extends RepoApi {
   async getNodeComments(nodeId: string) {
     try {
       await this.apiAuth();
-      return await this.commentsApi.listComments(nodeId);
+      return this.commentsApi.listComments(nodeId);
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.getNodeComments.name}`, error);
       return null;
@@ -46,7 +46,7 @@ export class CommentsApi extends RepoApi {
   async addComment(nodeId: string, comment: string) {
     try {
       await this.apiAuth();
-      return await this.commentsApi.createComment(nodeId, { "content": comment });
+      return this.commentsApi.createComment(nodeId, { 'content': comment });
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.addComment.name}`, error);
       return null;
@@ -56,7 +56,7 @@ export class CommentsApi extends RepoApi {
   async addComments(nodeId: string, comment: any) {
     try {
       await this.apiAuth();
-      return await this.commentsApi.createComment(nodeId, comment);
+      return this.commentsApi.createComment(nodeId, comment);
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.addComments.name}`, error);
       return null;

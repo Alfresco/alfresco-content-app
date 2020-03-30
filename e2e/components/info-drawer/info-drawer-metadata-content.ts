@@ -66,35 +66,35 @@ export class ContentMetadata extends Component {
   }
 
   async getVisiblePropertiesLabels() {
-    return await this.component.all(by.css(ContentMetadata.selectors.propertyLabel))
-      .filter(async (elem) => await elem.isDisplayed())
-      .map(async (elem) => await elem.getText());
+    return this.component.all(by.css(ContentMetadata.selectors.propertyLabel))
+      .filter(async (elem) => elem.isDisplayed())
+      .map(async (elem) => elem.getText());
   }
 
   async getVisiblePropertiesValues() {
-    return await this.component.all(by.css(ContentMetadata.selectors.propertyValue))
-      .filter(async (elem) => await elem.isDisplayed())
+    return this.component.all(by.css(ContentMetadata.selectors.propertyValue))
+      .filter(async (elem) => elem.isDisplayed())
       .map(async (elem) => {
         if (await elem.isElementPresent(by.css('.mat-checkbox'))) {
           if (await elem.isElementPresent(by.css('.mat-checkbox-checked'))) {
             return true;
           }
-          return false
+          return false;
         }
-        return await elem.getText();
+        return elem.getText();
       });
   }
 
   async isEditPropertiesButtonEnabled() {
-    return (await browser.isElementPresent(this.editPropertiesButton)) && (await this.editPropertiesButton.isEnabled());
+    return (await browser.isElementPresent(this.editPropertiesButton)) && (this.editPropertiesButton.isEnabled());
   }
 
   async isLessInfoButtonEnabled() {
-    return (await browser.isElementPresent(this.lessInfoButton)) && (await this.lessInfoButton.isEnabled());
+    return (await browser.isElementPresent(this.lessInfoButton)) && (this.lessInfoButton.isEnabled());
   }
 
   async isMoreInfoButtonEnabled() {
-    return (await browser.isElementPresent(this.moreInfoButton)) && (await this.moreInfoButton.isEnabled());
+    return (await browser.isElementPresent(this.moreInfoButton)) && (this.moreInfoButton.isEnabled());
   }
 
   async isLessInfoButtonDisplayed() {
@@ -114,7 +114,7 @@ export class ContentMetadata extends Component {
   }
 
   async isImagePropertiesPanelDisplayed() {
-    return (await browser.isElementPresent(this.imagePropertiesPanel)) && (await this.imagePropertiesPanel.isDisplayed());
+    return (await browser.isElementPresent(this.imagePropertiesPanel)) && (this.imagePropertiesPanel.isDisplayed());
   }
 
   async clickImagePropertiesPanel() {
@@ -122,4 +122,3 @@ export class ContentMetadata extends Component {
   }
 
 }
-

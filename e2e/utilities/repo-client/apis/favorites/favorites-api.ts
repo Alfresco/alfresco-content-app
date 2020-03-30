@@ -27,6 +27,7 @@ import { RepoApi } from '../repo-api';
 import { RepoClient } from './../../repo-client';
 import { Utils } from '../../../../utilities/utils';
 import { FavoritesApi as AdfFavoritesApi, SitesApi as AdfSiteApi, FavoriteEntry } from '@alfresco/js-api';
+import { Logger } from '@alfresco/adf-testing';
 
 export class FavoritesApi extends RepoApi {
   favoritesApi = new AdfFavoritesApi(this.alfrescoJsApi);
@@ -46,7 +47,7 @@ export class FavoritesApi extends RepoApi {
               }
           }
       };
-      return await this.favoritesApi.createFavorite('-me-', data);
+      return this.favoritesApi.createFavorite('-me-', data);
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.addFavorite.name}`, error);
       return null;
@@ -69,7 +70,7 @@ export class FavoritesApi extends RepoApi {
           }
         }
       };
-      return await this.favoritesApi.createFavorite('-me-', data);
+      return this.favoritesApi.createFavorite('-me-', data);
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.addFavoriteById.name}`, error);
       return null;
@@ -78,7 +79,7 @@ export class FavoritesApi extends RepoApi {
 
   async addFavoritesByIds(nodeType: 'file' | 'folder' | 'site', ids: string[]) {
     try {
-      return await ids.reduce(async (previous, current) => {
+      return ids.reduce(async (previous, current) => {
         await previous;
         await this.addFavoriteById(nodeType, current);
       }, Promise.resolve());
@@ -90,7 +91,7 @@ export class FavoritesApi extends RepoApi {
   async getFavorites() {
     try {
       await this.apiAuth();
-      return await this.favoritesApi.listFavorites(this.getUsername());
+      return this.favoritesApi.listFavorites(this.getUsername());
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.getFavorites.name}`, error);
       return null;
@@ -100,7 +101,7 @@ export class FavoritesApi extends RepoApi {
   async getFavoriteById(nodeId: string) {
     try {
       await this.apiAuth();
-      return await this.favoritesApi.getFavorite('-me-', nodeId);
+      return this.favoritesApi.getFavorite('-me-', nodeId);
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.getFavoriteById.name}`, error);
       return null;
@@ -127,7 +128,7 @@ export class FavoritesApi extends RepoApi {
           return Promise.resolve(isFavorite);
         }
       };
-      return await Utils.retryCall(favorite);
+      return Utils.retryCall(favorite);
     } catch (error) {
       // this.handleError(`${this.constructor.name} ${this.isFavoriteWithRetry.name}`, error);
     }
@@ -137,7 +138,7 @@ export class FavoritesApi extends RepoApi {
   async removeFavoriteById(nodeId: string) {
     try {
       await this.apiAuth();
-      return await this.favoritesApi.deleteFavorite('-me-', nodeId);
+      return this.favoritesApi.deleteFavorite('-me-', nodeId);
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.removeFavoriteById.name}`, error);
     }
@@ -145,7 +146,7 @@ export class FavoritesApi extends RepoApi {
 
   async removeFavoritesByIds(ids: string[]) {
     try {
-      return await ids.reduce(async (previous, current) => {
+      return ids.reduce(async (previous, current) => {
         await previous;
         await this.removeFavoriteById(current);
       }, Promise.resolve());
@@ -164,10 +165,10 @@ export class FavoritesApi extends RepoApi {
             return Promise.resolve(totalItems);
         }
       };
-      return await Utils.retryCall(favoriteFiles);
+      return Utils.retryCall(favoriteFiles);
     } catch (error) {
-      console.log(`${this.constructor.name} ${this.waitForApi.name} catch: `);
-      console.log(`\tExpected: ${data.expect} items, but found ${error}`);
+      Logger.info(`${this.constructor.name} ${this.waitForApi.name} catch: `);
+      Logger.info(`\tExpected: ${data.expect} items, but found ${error}`);
     }
   }
 }

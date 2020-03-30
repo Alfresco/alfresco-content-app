@@ -47,7 +47,7 @@ export class LoginPage extends Page {
   async loginWith(username: string, password?: string) {
     const pass = password || username;
     await this.load();
-    await this.login.enterCredentials(username, pass)
+    await this.login.enterCredentials(username, pass);
     await this.login.submit();
     return super.waitForApp();
   }

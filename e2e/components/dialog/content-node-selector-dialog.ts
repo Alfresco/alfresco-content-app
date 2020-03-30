@@ -108,11 +108,11 @@ export class ContentNodeSelectorDialog extends GenericDialog {
   }
 
   async isSearchInputPresent(): Promise<boolean> {
-    return await this.searchInput.isPresent();
+    return this.searchInput.isPresent();
   }
 
   async isSelectLocationDropdownDisplayed(): Promise<boolean> {
-    return (await this.locationDropDown.isPresent()) && (await this.locationDropDown.isDisplayed());
+    return (await this.locationDropDown.isPresent()) && (this.locationDropDown.isDisplayed());
   }
 
   async isCopyButtonEnabled(): Promise<boolean> {
@@ -130,6 +130,6 @@ export class ContentNodeSelectorDialog extends GenericDialog {
   }
 
   async getToolbarTitle(): Promise<string> {
-    return await this.toolbarTitle.getText();
+    return this.toolbarTitle.getText();
   }
 }

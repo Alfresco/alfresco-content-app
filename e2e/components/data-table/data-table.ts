@@ -28,6 +28,7 @@ import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
 import { Menu } from '../menu/menu';
 import { Utils } from '../../utilities/utils';
+import { Logger } from '@alfresco/adf-testing';
 
 export class DataTable extends Component {
   private static selectors = {
@@ -178,7 +179,7 @@ export class DataTable extends Component {
   getRowByName(name: string, location: string = ''): ElementFinder {
     if (location) {
       return this.body.all(by.cssContainingText(DataTable.selectors.row, name))
-        .filter(async (elem) => await browser.isElementPresent(elem.element(by.cssContainingText(DataTable.selectors.cell, location))))
+        .filter(async (elem) => browser.isElementPresent(elem.element(by.cssContainingText(DataTable.selectors.cell, location))))
         .first();
     }
     return this.body.element(by.cssContainingText(DataTable.selectors.row, name));
@@ -247,7 +248,7 @@ export class DataTable extends Component {
       await browser.actions().mouseMove(item).perform();
       await browser.actions().doubleClick().perform();
     } catch (error) {
-      console.log('--- catch: doubleClickOnRowByName', error);
+      Logger.info('--- catch: doubleClickOnRowByName', error);
     }
   }
 
@@ -259,7 +260,7 @@ export class DataTable extends Component {
         await item.click();
 
       } catch (e) {
-        console.log('--- select item catch : ', e);
+        Logger.info('--- select item catch : ', e);
       }
     }
   }
@@ -272,7 +273,7 @@ export class DataTable extends Component {
         await item.click();
 
       } catch (e) {
-        console.log('--- unselect item catch : ', e);
+        Logger.info('--- unselect item catch : ', e);
       }
     }
   }
@@ -303,7 +304,7 @@ export class DataTable extends Component {
         await this.wait();
       }
     } catch (error) {
-      console.log('------ clearSelection catch : ', error);
+      Logger.info('------ clearSelection catch : ', error);
     }
   }
 
@@ -403,7 +404,7 @@ export class DataTable extends Component {
     return this.getRowByName(name).element(by.css(DataTable.selectors.libraryRole)).getText();
   }
 
-  async isItemPresent(name: string, location? : string): Promise<boolean> {
+  async isItemPresent(name: string, location?: string): Promise<boolean> {
     return this.getRowByName(name, location).isPresent();
   }
 
@@ -443,7 +444,7 @@ export class DataTable extends Component {
   getSearchResultsRowByName(name: string, location: string = ''): ElementFinder {
     if (location) {
       return this.body.all(by.cssContainingText(DataTable.selectors.searchResultsRow, name))
-        .filter(async (elem) => await browser.isElementPresent(elem.element(by.cssContainingText(DataTable.selectors.searchResultsRowLine, location))))
+        .filter(async (elem) => browser.isElementPresent(elem.element(by.cssContainingText(DataTable.selectors.searchResultsRowLine, location))))
         .first();
     }
     return this.body.element(by.cssContainingText(DataTable.selectors.searchResultsRow, name));

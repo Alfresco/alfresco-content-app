@@ -39,6 +39,7 @@ import { Subject } from 'rxjs';
 import { ActionDirective } from './action.directive';
 
 @Directive({
+  // tslint:disable-next-line: directive-selector
   selector: '[acaActiveLink]',
   exportAs: 'acaActiveLink'
 })

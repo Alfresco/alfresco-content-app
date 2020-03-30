@@ -25,7 +25,6 @@
 
 import { Utils } from '../../../utilities/utils';
 
-
 // ----- files -----
 
 const consumerContextMenu = ['Share', 'Download', 'View', 'Favorite', 'Copy', 'Manage Versions'];
@@ -61,7 +60,6 @@ const favoritesConsumerContextMenu = ['Share', 'Download', 'View', 'Upload New V
 // TODO: investigate why 'Upload New Version' appears and raise issue
 const favoritesConsumerSharedContextMenu = ['Shared Link Settings', 'Download', 'View', 'Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
 
-
 // ---- SHARED FILES workaround ----
 
 // TODO: investigate why 'Upload New Version' appears and raise issue
@@ -84,7 +82,6 @@ const sharedConsumerFavContextMenu = ['Shared Link Settings', 'Download', 'View'
 // TODO: investigate why 'Cancel Editing' appears and raise issue
 // TODO: investigate why 'Upload New Version' appears and raise issue
 const sharedConsumerFavLockedContextMenu = ['Shared Link Settings', 'Download', 'View', 'Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions'];
-
 
 export const fileDocx = {
   name: `file-docx-${Utils.random()}.docx`,
@@ -345,7 +342,6 @@ const favoritesMultipleSelAllFavContextMenu = ['Download', 'Remove Favorite', 'M
 // TODO: remove 'Move' and 'Delete' when ACA-1737 is done
 const favoritesMultipleSelAllFavToolbarMore = ['Remove Favorite', 'Move', 'Copy', 'Delete'];
 
-
 export const multipleSel = {
   contextMenu: multipleSelContextMenu,
   toolbarPrimary: multipleSelToolbarPrimary,
@@ -355,7 +351,7 @@ export const multipleSel = {
   favoritesToolbarMore: favoritesMultipleSelToolbarMore,
 
   searchToolbarPrimary: searchMultipleSelToolbarPrimary
-}
+};
 
 export const multipleSelAllFav = {
   contextMenu: multipleSelAllFavContextMenu,
@@ -366,4 +362,4 @@ export const multipleSelAllFav = {
   favoritesToolbarMore: favoritesMultipleSelAllFavToolbarMore,
 
   searchToolbarPrimary: searchMultipleSelToolbarPrimary
-}
+};

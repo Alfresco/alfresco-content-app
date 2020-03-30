@@ -85,9 +85,8 @@ export class Header extends Component {
     const expanded = await this.isSidenavExpanded();
     if ( expanded ) {
       await this.clickSidenavToggle();
-      await browser.wait(until.elementLocated(Header.selectors.collapsedSidenav), BROWSER_WAIT_TIMEOUT, '--- timeout waiting for collapsed sidenav')
+      await browser.wait(until.elementLocated(Header.selectors.collapsedSidenav), BROWSER_WAIT_TIMEOUT, '--- timeout waiting for collapsed sidenav');
     }
   }
 
 }
-

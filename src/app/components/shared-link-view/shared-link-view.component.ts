@@ -76,8 +76,9 @@ export class SharedLinkViewComponent implements OnInit {
       });
 
     this.store.select(getAppSelection).subscribe(selection => {
-      if (!selection.isEmpty)
+      if (!selection.isEmpty) {
         this.viewerToolbarActions = this.extensions.getSharedLinkViewerToolbarActions();
+      }
     });
   }
 

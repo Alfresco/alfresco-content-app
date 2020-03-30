@@ -35,7 +35,7 @@ export class ConfirmDialog extends GenericDialog {
     keepButton: by.buttonText('Keep'),
     deleteButton: by.buttonText('Delete'),
     removeButton: by.buttonText('Remove')
-  }
+  };
 
   constructor() {
     super(ConfirmDialog.selectors.root);

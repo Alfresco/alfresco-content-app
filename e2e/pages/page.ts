@@ -26,6 +26,7 @@
 import { browser, by, ElementFinder, ExpectedConditions as EC, until } from 'protractor';
 import { BROWSER_WAIT_TIMEOUT, USE_HASH_STRATEGY } from './../configs';
 import { Utils } from '../utilities/utils';
+import { Logger } from '@alfresco/adf-testing';
 
 export abstract class Page {
   protected static locators = {
@@ -108,7 +109,7 @@ export abstract class Page {
       const action = await browser.wait(until.elementLocated(by.css('.mat-simple-snackbar-action button')), BROWSER_WAIT_TIMEOUT, '------- timeout waiting for snack action to appear');
       await action.click();
     } catch (e) {
-      console.log(e, '.......failed on click snack bar action.........');
+      Logger.info(e, '.......failed on click snack bar action.........');
     }
   }
 
@@ -119,7 +120,6 @@ export abstract class Page {
   async getGenericErrorTitle() {
     return this.genericErrorTitle.getText();
   }
-
 
   async isUndoActionPresent() {
     const message = await this.snackBar.getAttribute('innerText');

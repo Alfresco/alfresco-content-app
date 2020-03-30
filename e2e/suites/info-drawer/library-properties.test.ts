@@ -52,7 +52,7 @@ describe('Library properties', () => {
     name: `site-for-rename-${Utils.random()}`,
     visibility: SITE_VISIBILITY.PRIVATE,
     description: 'new description'
-  }
+  };
 
   const siteDup = `site3-${Utils.random()}`;
 

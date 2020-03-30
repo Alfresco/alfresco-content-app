@@ -38,7 +38,6 @@ export class UploadNewVersionDialog extends GenericDialog {
     descriptionTextArea: 'textarea'
   };
 
-
   majorOption: ElementFinder = this.rootElem.element(by.cssContainingText(UploadNewVersionDialog.selectors.radioButton, 'Major'));
   minorOption: ElementFinder = this.rootElem.element(by.cssContainingText(UploadNewVersionDialog.selectors.radioButton, 'Minor'));
 

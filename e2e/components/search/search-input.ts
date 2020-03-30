@@ -63,7 +63,7 @@ export class SearchInput extends Component {
   }
 
   async isSearchContainerDisplayed() {
-    return (await this.searchContainer.isDisplayed()) && (await this.searchButton.isDisplayed());
+    return (await this.searchContainer.isDisplayed()) && (this.searchButton.isDisplayed());
   }
 
   async clickSearchButton() {

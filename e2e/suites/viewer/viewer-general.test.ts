@@ -128,14 +128,14 @@ describe('Viewer general', () => {
     });
 
     it('Viewer opens when accessing the preview URL for a file - [C279285]', async () => {
-        const previewURL = `personal-files/${parentId}/(viewer:view/${xlsxFileId})`
+        const previewURL = `personal-files/${parentId}/(viewer:view/${xlsxFileId})`;
         await page.load(previewURL);
         expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
         expect(await viewer.getFileTitle()).toEqual(xlsxFile);
     });
 
     it('Viewer does not open when accessing the preview URL for a file without permissions - [C279287]', async () => {
-        const previewURL = `libraries/${docLibId}/(viewer:view/${fileAdminId})`
+        const previewURL = `libraries/${docLibId}/(viewer:view/${fileAdminId})`;
         await page.load(previewURL);
         expect(await viewer.isViewerOpened()).toBe(false, 'Viewer should not be opened!');
     });

@@ -28,14 +28,15 @@ import { SIDEBAR_LABELS, BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
 import { Utils } from '../../utilities/utils';
+import { Logger } from '@alfresco/adf-testing';
 
 export class Sidenav extends Component {
   private static selectors = {
     root: 'app-sidenav',
     link: '.item',
     label: '.action-button__label',
-    expansion_panel: ".mat-expansion-panel-header",
-    expansion_panel_content: ".mat-expansion-panel-body",
+    expansion_panel: '.mat-expansion-panel-header',
+    expansion_panel_content: '.mat-expansion-panel-body',
     active: 'mat-accent',
     activeClass: '.action-button--active',
     activeClassName: 'action-button--active',
@@ -74,7 +75,7 @@ export class Sidenav extends Component {
   }
 
   private async expandMenu(name: string): Promise<void> {
-    try{
+    try {
 
       if (await element(by.cssContainingText('.mat-expanded', name)).isPresent()) {
         return Promise.resolve();
@@ -86,7 +87,7 @@ export class Sidenav extends Component {
       }
 
     } catch (e) {
-      console.log('---- sidebar navigation catch expandMenu: ', e);
+      Logger.info('---- sidebar navigation catch expandMenu: ', e);
     }
   }
 
@@ -157,12 +158,12 @@ export class Sidenav extends Component {
   }
 
   async clickLink(name: string): Promise<void> {
-    try{
+    try {
       const link = this.getLinkLabel(name);
       await Utils.waitUntilElementClickable(link);
       await link.click();
     } catch (error) {
-      console.log('---- sidebar navigation clickLink catch error: ', error);
+      Logger.info('---- sidebar navigation clickLink catch error: ', error);
     }
   }
 
