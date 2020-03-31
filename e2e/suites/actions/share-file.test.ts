@@ -94,7 +94,7 @@ describe('Share a file', () => {
   })
 
   describe('when logged in', () => {
-    const expiryDate: any = '2020-12-25T18:30:00.000+0000';
+    const expiryDate: any = '2020-12-25T23:59:59.000+0000';
 
     const loginPage = new LoginPage();
     const shareDialog = new ShareDialog();
