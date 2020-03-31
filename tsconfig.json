@@ -6,26 +6,28 @@
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
-    "module": "es2015",
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "skipLibCheck": true,
     "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "noImplicitReturns": true,
     "target": "es5",
     "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
     "typeRoots": ["node_modules/@types"],
     "lib": ["es2018", "dom"],
     "paths": {
       "@alfresco/aca-shared": ["projects/aca-shared/src/public-api.ts"],
       "@alfresco/aca-shared/store": [
-        "projects/aca-shared/store/src/public_api.ts"
+        "projects/aca-shared/store/src/public-api.ts"
       ],
       "@alfresco/aca-shared/rules": [
-        "projects/aca-shared/rules/src/public_api.ts"
+        "projects/aca-shared/rules/src/public-api.ts"
       ],
       "@alfresco/adf-office-services-ext": [
-        "projects/adf-office-services-ext/src/public_api.ts"
+        "projects/adf-office-services-ext/src/public-api.ts"
       ]
     }
   },

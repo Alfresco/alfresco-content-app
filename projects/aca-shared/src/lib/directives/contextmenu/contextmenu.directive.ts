@@ -105,7 +105,7 @@ export class ContextActionsDirective implements OnInit, OnDestroy {
     if (el.classList.contains(className)) {
       return el;
     }
-    // tslint:disable-next-line:curly
+    // tslint:disable-next-line
     while ((el = el.parentElement) && !el.classList.contains(className));
     return el;
   }

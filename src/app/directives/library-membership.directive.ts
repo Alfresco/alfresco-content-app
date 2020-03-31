@@ -63,12 +63,12 @@ export class LibraryMembershipDirective implements OnChanges {
   @Input('acaLibraryMembership')
   selection: SiteEntry = null;
 
-  @Output() toggle: EventEmitter<
-    LibraryMembershipToggleEvent
-  > = new EventEmitter();
-  @Output() error: EventEmitter<
-    LibraryMembershipErrorEvent
-  > = new EventEmitter();
+  @Output()
+  toggle: EventEmitter<LibraryMembershipToggleEvent> = new EventEmitter();
+
+  @Output()
+  // tslint:disable-next-line
+  error: EventEmitter<LibraryMembershipErrorEvent> = new EventEmitter();
 
   @HostListener('click')
   onClick() {

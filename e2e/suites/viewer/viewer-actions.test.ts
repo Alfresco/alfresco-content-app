@@ -118,7 +118,7 @@ describe('Viewer actions', () => {
       done();
     });
 
-    it('Download action - [C268129]', async () => {
+    it('[C268129] - Download action', async () => {
       await dataTable.doubleClickOnRowByName(docxPersonalFiles);
       await viewer.waitForViewerToOpen();
 
@@ -127,7 +127,7 @@ describe('Viewer actions', () => {
       expect(await Utils.fileExistsOnOS(docxPersonalFiles)).toBe(true, 'File not found in download location');
     });
 
-    it('Copy action - [C268130]', async () => {
+    it('[C268130] - Copy action', async () => {
       await dataTable.doubleClickOnRowByName(docxPersonalFiles);
       await viewer.waitForViewerToOpen();
 
@@ -146,7 +146,7 @@ describe('Viewer actions', () => {
       await apis.user.nodes.deleteNodeChildren(destinationId);
     });
 
-    it('Move action - [C268131]', async () => {
+    it('[C268131] - Move action', async () => {
       await dataTable.doubleClickOnRowByName(xlsxPersonalFiles);
       await viewer.waitForViewerToOpen();
 
@@ -163,7 +163,7 @@ describe('Viewer actions', () => {
       expect(await dataTable.isItemPresent(xlsxPersonalFiles)).toBe(true, 'Item is not present in destination');
     });
 
-    it('Favorite action - [C268132]', async () => {
+    it('[C268132] - Favorite action', async () => {
       await dataTable.doubleClickOnRowByName(docxPersonalFiles);
       await viewer.waitForViewerToOpen();
 
@@ -174,7 +174,7 @@ describe('Viewer actions', () => {
       expect(await dataTable.isItemPresent(docxPersonalFiles)).toBe(true, 'Item is not present in Favorites list');
     });
 
-    it('Delete action - [C268133]', async () => {
+    it('[C268133] - Delete action', async () => {
       await dataTable.doubleClickOnRowByName(pdfPersonalFiles);
       await viewer.waitForViewerToOpen();
 
@@ -186,7 +186,7 @@ describe('Viewer actions', () => {
       expect(await dataTable.isItemPresent(pdfPersonalFiles)).toBe(true, 'Item is not present in Trash');
     });
 
-    it('Edit Offline action - [C297584]', async () => {
+    it('[C297584] - Edit Offline action', async () => {
       await dataTable.doubleClickOnRowByName(fileForEditOffline);
       await viewer.waitForViewerToOpen();
       await toolbar.clickMoreActionsEditOffline();
@@ -196,7 +196,7 @@ describe('Viewer actions', () => {
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
     });
 
-    it('Cancel Editing action - [C297585]', async () => {
+    it('[C297585] - Cancel Editing action', async () => {
       await dataTable.doubleClickOnRowByName(fileForCancelEditing);
       await viewer.waitForViewerToOpen();
       await toolbar.clickMoreActionsCancelEditing();
@@ -205,7 +205,7 @@ describe('Viewer actions', () => {
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
     });
 
-    it('Upload new version action - [C297586]', async () => {
+    it('[C297586] - Upload new version action', async () => {
       await dataTable.doubleClickOnRowByName(filePersonalFiles);
       await viewer.waitForViewerToOpen();
       await toolbar.clickMoreActionsUploadNewVersion();
@@ -223,7 +223,7 @@ describe('Viewer actions', () => {
       expect(await apis.user.nodes.getFileVersionLabel(filePersonalFilesId)).toEqual('2.0', 'File has incorrect version label');
     });
 
-    it('Upload new version action when node is locked - [MNT-21058]', async () => {
+    it('[MNT-21058] - Upload new version action when node is locked', async () => {
       await dataTable.doubleClickOnRowByName(fileForUploadNewVersion2);
       await viewer.waitForViewerToOpen();
 
@@ -242,7 +242,7 @@ describe('Viewer actions', () => {
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(true, `'Edit Offline' should be shown`);
     });
 
-    it('Full screen action - [C279282]', async () => {
+    it(' [C279282] - Full screen action', async () => {
       await dataTable.doubleClickOnRowByName(docxPersonalFiles);
       await viewer.waitForViewerToOpen();
       await Utils.getBrowserLog();
@@ -254,7 +254,7 @@ describe('Viewer actions', () => {
       expect(browserLogAfter.length).toEqual(0);
     });
 
-    it('Share action - [C286313]', async () => {
+    it('[C286313] - Share action', async () => {
       await dataTable.doubleClickOnRowByName(docxPersonalFiles);
       await viewer.waitForViewerToOpen();
 
@@ -263,7 +263,7 @@ describe('Viewer actions', () => {
       await shareDialog.clickClose();
     });
 
-    it('Manage Versions action - [C286316]', async () => {
+    it('[C286316] - Manage Versions action', async () => {
       await dataTable.doubleClickOnRowByName(docxPersonalFiles);
       await viewer.waitForViewerToOpen();
 
@@ -272,8 +272,7 @@ describe('Viewer actions', () => {
       await manageVersionsDialog.clickClose();
     });
 
-    // TODO: disabled until ACA-2176 is done
-    xit('Pressing ESC in the viewer closes only the action dialog - [C286314]', async () => {
+    it('[C286314] - Pressing ESC in the viewer closes only the action dialog', async () => {
       await dataTable.doubleClickOnRowByName(docxPersonalFiles);
       await viewer.waitForViewerToOpen();
 
@@ -340,7 +339,7 @@ describe('Viewer actions', () => {
       done();
     });
 
-    it('Download action - [C286369]', async () => {
+    it('[C286369] - Download action', async () => {
       await dataTable.doubleClickOnRowByName(docxLibraries);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
@@ -348,7 +347,7 @@ describe('Viewer actions', () => {
       expect(await Utils.fileExistsOnOS(docxLibraries)).toBe(true, 'File not found in download location');
     });
 
-    it('Copy action - [C286370]', async (done) => {
+    it('[C286370] - Copy action', async (done) => {
       await dataTable.doubleClickOnRowByName(docxLibraries);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
@@ -368,7 +367,7 @@ describe('Viewer actions', () => {
       done();
     });
 
-    it('Move action - [C286371]', async () => {
+    it('[C286371] - Move action', async () => {
       await dataTable.doubleClickOnRowByName(xlsxLibraries);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
@@ -385,7 +384,7 @@ describe('Viewer actions', () => {
       expect(await dataTable.isItemPresent(xlsxLibraries)).toBe(true, 'Item is not present in destination');
     });
 
-    it('Favorite action - [C286372]', async () => {
+    it('[C286372] - Favorite action', async () => {
       await dataTable.doubleClickOnRowByName(docxLibraries);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
@@ -396,7 +395,7 @@ describe('Viewer actions', () => {
       expect(await dataTable.isItemPresent(docxLibraries)).toBe(true, `${docxLibraries} is not present in Favorites list`);
     });
 
-    it('Delete action - [C286373]', async () => {
+    it('[C286373] - Delete action', async () => {
       await dataTable.doubleClickOnRowByName(pdfLibraries);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
@@ -408,7 +407,7 @@ describe('Viewer actions', () => {
       expect(await dataTable.isItemPresent(pdfLibraries)).toBe(true, 'Item is not present in Trash');
     });
 
-    it('Edit Offline action - [C297589]', async () => {
+    it('[C297589] - Edit Offline action', async () => {
       await dataTable.doubleClickOnRowByName(fileForEditOffline);
       await viewer.waitForViewerToOpen();
       await toolbar.clickMoreActionsEditOffline();
@@ -418,7 +417,7 @@ describe('Viewer actions', () => {
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
     });
 
-    it('Cancel Editing action - [C297590]', async () => {
+    it('[C297590] - Cancel Editing action', async () => {
       await dataTable.doubleClickOnRowByName(fileForCancelEditing);
       await viewer.waitForViewerToOpen();
       await toolbar.clickMoreActionsCancelEditing();
@@ -427,7 +426,7 @@ describe('Viewer actions', () => {
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
     });
 
-    it('Upload new version action - [C297591]', async () => {
+    it('[C297591] - Upload new version action', async () => {
       await dataTable.doubleClickOnRowByName(fileLibraries);
       await viewer.waitForViewerToOpen();
       await toolbar.clickMoreActionsUploadNewVersion();
@@ -445,7 +444,7 @@ describe('Viewer actions', () => {
       expect(await apis.user.nodes.getFileVersionLabel(fileLibrariesId)).toEqual('2.0', 'File has incorrect version label');
     });
 
-    it('Share action - [C286374]', async () => {
+    it('[C286374] - Share action', async () => {
       await dataTable.doubleClickOnRowByName(docxLibraries);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
@@ -454,7 +453,7 @@ describe('Viewer actions', () => {
       await shareDialog.clickClose();
     });
 
-    it('Manage Versions action - [C286375]', async () => {
+    it('[C286375] - Manage Versions action', async () => {
       await dataTable.doubleClickOnRowByName(docxLibraries);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
@@ -520,7 +519,7 @@ describe('Viewer actions', () => {
       done();
     });
 
-    it('Download action - [C286383]', async () => {
+    it('[C286383] - Download action', async () => {
       await dataTable.doubleClickOnRowByName(docxRecentFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
@@ -528,7 +527,7 @@ describe('Viewer actions', () => {
       expect(await Utils.fileExistsOnOS(docxRecentFiles)).toBe(true, 'File not found in download location');
     });
 
-    it('Copy action - [C286384]', async (done) => {
+    it(' [C286384] - Copy action', async (done) => {
       await dataTable.doubleClickOnRowByName(docxRecentFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
@@ -548,7 +547,7 @@ describe('Viewer actions', () => {
       done();
     });
 
-    it('Move action - [C286385]', async () => {
+    it('[C286385] - Move action', async () => {
       await dataTable.doubleClickOnRowByName(xlsxRecentFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
@@ -566,7 +565,7 @@ describe('Viewer actions', () => {
       expect(await dataTable.isItemPresent(xlsxRecentFiles)).toBe(true, 'Item is not present in destination');
     });
 
-    it('Favorite action - [C286386]', async () => {
+    it('[C286386] - Favorite action', async () => {
       await dataTable.doubleClickOnRowByName(docxRecentFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
@@ -577,7 +576,7 @@ describe('Viewer actions', () => {
       expect(await dataTable.isItemPresent(docxRecentFiles)).toBe(true, 'Item is not present in Favorites list');
     });
 
-    it('Delete action - [C286387]', async () => {
+    it('[C286387] - Delete action', async () => {
       await dataTable.doubleClickOnRowByName(pdfRecentFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
@@ -589,7 +588,7 @@ describe('Viewer actions', () => {
       expect(await dataTable.isItemPresent(pdfRecentFiles)).toBe(true, 'Item is not present in Trash');
     });
 
-    it('Edit Offline action - [C297594]', async () => {
+    it('[C297594] - Edit Offline action', async () => {
       await dataTable.doubleClickOnRowByName(fileForEditOffline);
       await viewer.waitForViewerToOpen();
       await toolbar.clickMoreActionsEditOffline();
@@ -599,7 +598,7 @@ describe('Viewer actions', () => {
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
     });
 
-    it('Cancel Editing action - [C297595]', async () => {
+    it('[C297595] - Cancel Editing action', async () => {
       await dataTable.doubleClickOnRowByName(fileForCancelEditing);
       await viewer.waitForViewerToOpen();
       await toolbar.clickMoreActionsCancelEditing();
@@ -608,7 +607,7 @@ describe('Viewer actions', () => {
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
     });
 
-    it('Upload new version action - [C297596]', async () => {
+    it('[C297596] - Upload new version action', async () => {
       await dataTable.doubleClickOnRowByName(fileRecent);
       await viewer.waitForViewerToOpen();
       await toolbar.clickMoreActionsUploadNewVersion();
@@ -626,7 +625,7 @@ describe('Viewer actions', () => {
       expect(await apis.user.nodes.getFileVersionLabel(fileRecentId)).toEqual('2.0', 'File has incorrect version label');
     });
 
-    it('Share action - [C286388]', async () => {
+    it('[C286388] - Share action', async () => {
       await dataTable.doubleClickOnRowByName(docxRecentFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
@@ -635,7 +634,7 @@ describe('Viewer actions', () => {
       await shareDialog.clickClose();
     });
 
-    it('Manage Versions action - [C286389]', async () => {
+    it('[C286389] - Manage Versions action', async () => {
       await dataTable.doubleClickOnRowByName(docxRecentFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
@@ -700,7 +699,7 @@ describe('Viewer actions', () => {
       done();
     });
 
-    it('Download action - [C286376]', async () => {
+    it('[C286376] - Download action', async () => {
       await dataTable.doubleClickOnRowByName(docxSharedFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
@@ -708,7 +707,7 @@ describe('Viewer actions', () => {
       expect(await Utils.fileExistsOnOS(docxSharedFiles)).toBe(true, 'File not found in download location');
     });
 
-    it('Copy action - [C286377]', async () => {
+    it('[C286377] - Copy action', async () => {
       await dataTable.doubleClickOnRowByName(docxSharedFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
@@ -727,7 +726,7 @@ describe('Viewer actions', () => {
       await apis.user.nodes.deleteNodeChildren(destinationId);
     });
 
-    it('Move action - [C286378]', async () => {
+    it('[C286378] - Move action', async () => {
       await dataTable.doubleClickOnRowByName(xlsxSharedFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
@@ -745,7 +744,7 @@ describe('Viewer actions', () => {
       expect(await dataTable.isItemPresent(xlsxSharedFiles)).toBe(true, 'Item is not present in destination');
     });
 
-    it('Favorite action - [C286379]', async () => {
+    it('[C286379] - Favorite action', async () => {
       await dataTable.doubleClickOnRowByName(docxSharedFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
@@ -756,7 +755,7 @@ describe('Viewer actions', () => {
       expect(await dataTable.isItemPresent(docxSharedFiles)).toBe(true, 'Item is not present in Favorites list');
     });
 
-    it('Delete action - [C286380]', async () => {
+    it('[C286380] - Delete action', async () => {
       await dataTable.doubleClickOnRowByName(pdfSharedFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
@@ -768,7 +767,7 @@ describe('Viewer actions', () => {
       expect(await dataTable.isItemPresent(pdfSharedFiles)).toBe(true, 'Item is not present in Trash');
     });
 
-    it('Edit Offline action - [C297601]', async () => {
+    it('[C297601] - Edit Offline action', async () => {
       await dataTable.doubleClickOnRowByName(fileForEditOffline);
       await viewer.waitForViewerToOpen();
       await toolbar.clickMoreActionsEditOffline();
@@ -778,7 +777,7 @@ describe('Viewer actions', () => {
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
     });
 
-    it('Cancel Editing action - [C297602]', async () => {
+    it('[C297602] - Cancel Editing action', async () => {
       await dataTable.doubleClickOnRowByName(fileForCancelEditing);
       await viewer.waitForViewerToOpen();
       await toolbar.clickMoreActionsCancelEditing();
@@ -787,7 +786,7 @@ describe('Viewer actions', () => {
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
     });
 
-    it('Upload new version action - [C297603]', async () => {
+    it('[C297603] - Upload new version action', async () => {
       await dataTable.doubleClickOnRowByName(fileShared);
       await viewer.waitForViewerToOpen();
       await toolbar.clickMoreActionsUploadNewVersion();
@@ -805,7 +804,7 @@ describe('Viewer actions', () => {
       expect(await apis.user.nodes.getFileVersionLabel(fileSharedId)).toEqual('2.0', 'File has incorrect version label');
     });
 
-    it('Share action - [C286381]', async () => {
+    it('[C286381] - Share action', async () => {
       await dataTable.doubleClickOnRowByName(docxSharedFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
@@ -814,7 +813,7 @@ describe('Viewer actions', () => {
       await shareDialog.clickClose();
     });
 
-    it('Manage Versions action - [C286382]', async () => {
+    it('[C286382] - Manage Versions action', async () => {
       await dataTable.doubleClickOnRowByName(docxSharedFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
@@ -880,7 +879,7 @@ describe('Viewer actions', () => {
       done();
     });
 
-    it('Download action - [C286390]', async () => {
+    it('[C286390] - Download action', async () => {
       await dataTable.doubleClickOnRowByName(docxFavorites);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
@@ -888,7 +887,7 @@ describe('Viewer actions', () => {
       expect(await Utils.fileExistsOnOS(docxFavorites)).toBe(true, 'File not found in download location');
     });
 
-    it('Copy action - [C286391]', async (done) => {
+    it('[C286391] - Copy action', async (done) => {
       await dataTable.doubleClickOnRowByName(docxFavorites);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
@@ -908,7 +907,7 @@ describe('Viewer actions', () => {
       done();
     });
 
-    it('Move action - [C286392]', async () => {
+    it('[C286392] - Move action', async () => {
       await dataTable.doubleClickOnRowByName(xlsxFavorites);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
@@ -926,7 +925,7 @@ describe('Viewer actions', () => {
       expect(await dataTable.isItemPresent(xlsxFavorites)).toBe(true, 'Item is not present in destination');
     });
 
-    it('Favorite action - [C286393]', async () => {
+    it('[C286393] - Favorite action', async () => {
       await dataTable.doubleClickOnRowByName(xlsxFavorites);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
@@ -937,7 +936,7 @@ describe('Viewer actions', () => {
       expect(await dataTable.isItemPresent(xlsxFavorites)).toBe(false, 'Item is still present in Favorites list');
     });
 
-    it('Delete action - [C286394]', async () => {
+    it('[C286394] - Delete action', async () => {
       await dataTable.doubleClickOnRowByName(pdfFavorites);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
@@ -949,7 +948,7 @@ describe('Viewer actions', () => {
       expect(await dataTable.isItemPresent(pdfFavorites)).toBe(true, 'Item is not present in Trash');
     });
 
-    it('Edit Offline action - [C297604]', async () => {
+    it('[C297604] - Edit Offline action', async () => {
       await dataTable.doubleClickOnRowByName(fileForEditOffline);
       await viewer.waitForViewerToOpen();
       await toolbar.clickMoreActionsEditOffline();
@@ -959,7 +958,7 @@ describe('Viewer actions', () => {
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
     });
 
-    it('Cancel Editing action - [C297605]', async () => {
+    it('[C297605] - Cancel Editing action', async () => {
       await dataTable.doubleClickOnRowByName(fileForCancelEditing);
       await viewer.waitForViewerToOpen();
       await toolbar.clickMoreActionsCancelEditing();
@@ -968,7 +967,7 @@ describe('Viewer actions', () => {
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
     });
 
-    it('Upload new version action - [C297606]', async () => {
+    it('[C297606] - Upload new version action', async () => {
       await dataTable.doubleClickOnRowByName(fileFav);
       await viewer.waitForViewerToOpen();
       await toolbar.clickMoreActionsUploadNewVersion();
@@ -986,7 +985,7 @@ describe('Viewer actions', () => {
       expect(await apis.user.nodes.getFileVersionLabel(fileFavId)).toEqual('2.0', 'File has incorrect version label');
     });
 
-    it('Share action - [C286395]', async () => {
+    it('[C286395] - Share action', async () => {
       await dataTable.doubleClickOnRowByName(docxFavorites);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
@@ -995,7 +994,7 @@ describe('Viewer actions', () => {
       await shareDialog.clickClose();
     });
 
-    it('Manage Versions action - [C286396]', async () => {
+    it('[C286396] - Manage Versions action', async () => {
       await dataTable.doubleClickOnRowByName(docxFavorites);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 

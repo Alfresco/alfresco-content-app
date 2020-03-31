@@ -25,7 +25,7 @@
 
 import { RepoApi } from '../repo-api';
 import { Utils } from '../../../../utilities/utils';
-import { TrashcanApi as AdfTrashcanApi} from '@alfresco/js-api';
+import { TrashcanApi as AdfTrashcanApi } from '@alfresco/js-api';
 import { Logger } from '@alfresco/adf-testing';
 
 export class TrashcanApi extends RepoApi {

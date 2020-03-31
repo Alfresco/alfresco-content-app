@@ -55,7 +55,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   SnackbarActionTypes,
   RouterActionTypes
-} from '../../../projects/aca-shared/store/src/public_api';
+} from '../../../projects/aca-shared/store/src/public-api';
 
 describe('ContentManagementService', () => {
   let dialog: MatDialog;
@@ -1429,28 +1429,6 @@ describe('ContentManagementService', () => {
           <any>{ entry: { id: '1', name: 'name1', path } },
           <any>{ entry: { id: '2', name: 'name2', path } }
         ];
-
-        store.dispatch(new RestoreDeletedNodesAction(selection));
-      }));
-
-      xit('should raise info message when restore selected node', fakeAsync(done => {
-        spyOn(contentApi, 'restoreNode').and.returnValue(of({}));
-
-        actions$.pipe(
-          ofType<SnackbarInfoAction>(SnackbarActionTypes.Info),
-          map(action => done())
-        );
-
-        const path = {
-          elements: [
-            {
-              id: '1-1',
-              name: 'somewhere-over-the-rainbow'
-            }
-          ]
-        };
-
-        const selection = [<any>{ entry: { id: '1', name: 'name1', path } }];
 
         store.dispatch(new RestoreDeletedNodesAction(selection));
       }));

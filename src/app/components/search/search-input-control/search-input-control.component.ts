@@ -53,6 +53,7 @@ export class SearchInputControlComponent implements OnDestroy {
    * The search term is provided as value of the event.
    */
   @Output()
+  // tslint:disable-next-line
   submit: EventEmitter<any> = new EventEmitter();
 
   /** Emitted when the search term is changed. The search term is provided
@@ -63,7 +64,7 @@ export class SearchInputControlComponent implements OnDestroy {
   @Output()
   searchChange: EventEmitter<string> = new EventEmitter();
 
-  @ViewChild('searchInput')
+  @ViewChild()
   searchInput: ElementRef;
 
   searchTerm = '';

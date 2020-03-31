@@ -142,13 +142,13 @@ describe('Viewer general', () => {
 
     it('Viewer opens for a file from File Libraries - [C284633]', async () => {
       await page.goToMyLibrariesAndWait();
-        await dataTable.doubleClickOnRowByName(siteUser);
-        await dataTable.waitForHeader();
-        await dataTable.doubleClickOnRowByName(fileInSite);
-        expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
-        expect(await viewer.isViewerToolbarDisplayed()).toBe(true, 'Toolbar not displayed');
-        expect(await viewer.isCloseButtonDisplayed()).toBe(true, 'Close button is not displayed');
-        expect(await viewer.isFileTitleDisplayed()).toBe(true, 'File title is not displayed');
+      await dataTable.doubleClickOnRowByName(siteUser);
+      await dataTable.waitForHeader();
+      await dataTable.doubleClickOnRowByName(fileInSite);
+      expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
+      expect(await viewer.isViewerToolbarDisplayed()).toBe(true, 'Toolbar not displayed');
+      expect(await viewer.isCloseButtonDisplayed()).toBe(true, 'Close button is not displayed');
+      expect(await viewer.isFileTitleDisplayed()).toBe(true, 'File title is not displayed');
     });
 
     it('Viewer opens for a file from Recent Files - [C284636]', async () => {

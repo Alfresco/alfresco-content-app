@@ -97,7 +97,7 @@ export class SitesApi extends RepoApi {
   }
 
   async createSite(title: string, visibility?: string, description?: string, siteId?: string): Promise<SiteEntry|null> {
-    const site = <SiteBody>{
+    const site = <SiteBody> {
         title,
         visibility: visibility || SITE_VISIBILITY.PUBLIC,
         description: description,
@@ -170,7 +170,7 @@ export class SitesApi extends RepoApi {
   }
 
   async updateSiteMember(siteId: string, userId: string, role: string) {
-    const siteRole = <SiteMemberRoleBody>{
+    const siteRole = <SiteMemberRoleBody> {
         role: role
     };
 
@@ -184,7 +184,7 @@ export class SitesApi extends RepoApi {
   }
 
   async addSiteMember(siteId: string, userId: string, role: string) {
-    const memberBody = <SiteMemberBody>{
+    const memberBody = <SiteMemberBody> {
         id: userId,
         role: role
     };

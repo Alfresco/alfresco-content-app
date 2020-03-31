@@ -25,7 +25,7 @@
 
 import { PersonModel, Person } from './people-api-models';
 import { RepoApi } from '../repo-api';
-import { PeopleApi as AdfPeopleApi} from '@alfresco/js-api';
+import { PeopleApi as AdfPeopleApi } from '@alfresco/js-api';
 
 export class PeopleApi extends RepoApi {
   peopleApi = new AdfPeopleApi(this.alfrescoJsApi);

@@ -1,49 +1,59 @@
 {
   "rulesDirectory": [
-        "codelyzer",
-        "adf-tslint-rules"
+    "node_modules/codelyzer",
+    "node_modules/adf-tslint-rules",
+    "node_modules/rxjs-tslint-rules",
+    "node_modules/rxjs-tslint"
   ],
-    "extends": [
-        "rxjs-tslint-rules"
-    ],
-    "linterOptions": {
-        "exclude": [
-            "apps/modeling-community/**/*.ts"
-        ]
-    },
+  "extends": [
+    "rxjs-tslint-rules"
+  ],
   "rules": {
-    "adf-license-banner": [true, "**/*.ts", "./license-header.txt"],
+    "adf-license-banner": [
+      true,
+      "**/*.ts",
+      "./license-header.txt"
+    ],
     "ban": [
       true,
       "eval",
       "fdescribe",
-      "fit"
+      "fit",
+      "xit",
+      "xdescribe"
     ],
+    "align": [
+      true,
+      "parameters",
+      "statements"
+    ],
+    "ordered-imports": false,
     "arrow-return-shorthand": true,
     "callable-types": true,
     "class-name": true,
-        "comment-format": [
-            true,
-            "check-space"
-        ],
-        "curly": true,
-        "eofline": true,
+    "comment-format": [
+      true,
+      "check-space"
+    ],
+    "curly": true,
+    "eofline": true,
     "forin": true,
-        "import-blacklist": [
-            true,
-            "rxjs/Rx"
-        ],
-        "import-spacing": true,
-        "indent": [
-            true,
-            "spaces"
-        ],
+    "import-blacklist": [
+      true,
+      "rxjs/Rx"
+    ],
+    "import-spacing": true,
+    "indent": [
+      true,
+      "spaces"
+    ],
+    "interface-name": false,
     "interface-over-type-literal": true,
     "label-position": true,
-        "max-line-length": [
-            true,
-            240
-        ],
+    "max-line-length": [
+      true,
+      240
+    ],
     "member-access": false,
     "member-ordering": [
       true,
@@ -56,69 +66,75 @@
         ]
       }
     ],
+    "no-any": false,
     "no-arg": true,
     "no-bitwise": true,
-        "no-console": [
-            true,
-            "log",
-            "debug",
-            "info",
-            "time",
-            "timeEnd",
-            "trace"
-        ],
+    "no-conditional-assignment": true,
+    "no-consecutive-blank-lines": true,
+    "no-console": [
+      true,
+      "log",
+      "debug",
+      "info",
+      "time",
+      "timeEnd",
+      "trace"
+    ],
     "no-construct": true,
     "no-debugger": true,
     "no-duplicate-super": true,
     "no-empty": false,
     "no-empty-interface": true,
     "no-eval": true,
-
-        "no-inferrable-types": [
-            true,
-            "ignore-params"
-        ],
+    "no-inferrable-types": [
+      true,
+      "ignore-params"
+    ],
+    "no-misused-new": true,
+    "no-non-null-assertion": true,
     "no-shadowed-variable": true,
     "no-string-literal": false,
     "no-string-throw": true,
     "no-switch-case-fall-through": true,
-        "no-trailing-whitespace": true,
+    "no-unnecessary-initializer": true,
+    "no-trailing-whitespace": true,
     "no-unused-expression": true,
     "no-var-keyword": true,
-        "no-duplicate-imports": true,
+    "no-var-requires": false,
     "object-literal-sort-keys": false,
-        "no-consecutive-blank-lines": true,
-        "one-line": [
-            true,
-            "check-open-brace",
-            "check-catch",
-            "check-else",
-            "check-whitespace"
-        ],
+    "one-line": [
+      true,
+      "check-open-brace",
+      "check-catch",
+      "check-else",
+      "check-whitespace"
+    ],
     "prefer-const": true,
-        "quotemark": [
-            true,
-            "single"
-        ],
+    "quotemark": [
+      true,
+      "single",
+      "avoid-escape"
+    ],
     "radix": true,
-        "semicolon": [
-            true,
-            "always"
-        ],
-        "triple-equals": [
-            true,
-            "allow-null-check"
-        ],
-        "typedef-whitespace": [
-            true,
-            {
-                "call-signature": "nospace",
-                "index-signature": "nospace",
-                "parameter": "nospace",
-                "property-declaration": "nospace",
-                "variable-declaration": "nospace"
-            }
-        ],
+    "semicolon": [
+      true,
+      "always"
+    ],
+    "triple-equals": [
+      true,
+      "allow-null-check"
+    ],
+    "typedef-whitespace": [
+      true,
+      {
+        "call-signature": "nospace",
+        "index-signature": "nospace",
+        "parameter": "nospace",
+        "property-declaration": "nospace",
+        "variable-declaration": "nospace"
+      }
+    ],
+    "use-strict": false,
     "unified-signatures": true,
     "variable-name": false,
     "whitespace": [
@@ -127,29 +143,35 @@
       "check-decl",
       "check-operator",
       "check-separator",
-      "check-type"
+      "check-type",
+      "check-typecast",
+      "check-module"
     ],
-    "directive-selector": [
-        true,
-        "attribute",
-        "ama",
-        "camelCase"
-    ],
-    "component-selector": [
-      true,
-      "element",
-      ["app", "aca", "adf"],
-      "kebab-case"
-    ],
+    "no-conflicting-lifecycle": true,
+    "no-host-metadata-property": false,
     "no-inputs-metadata-property": true,
+    "no-output-native": true,
+    "no-output-on-prefix": true,
     "no-outputs-metadata-property": true,
+    "template-banana-in-box": true,
+    "template-no-negated-async": false,
+    "use-lifecycle-interface": true,
+    "rxjs-collapse-imports": true,
+    "rxjs-pipeable-operators-only": true,
+    "rxjs-no-static-observable-methods": true,
+    "rxjs-proper-imports": true,
     "no-input-rename": true,
     "no-output-rename": true,
-    "use-life-cycle-interface": true,
+    "use-lifecycle-interface": true,
     "use-pipe-transform-interface": true,
     "component-class-suffix": true,
     "directive-class-suffix": true,
-        "no-return-await": true,
+    "no-return-await": true,
+    "no-duplicate-imports": true,
+    "file-name-casing": [
+      true,
+      "kebab-case"
+    ],
     "rxjs-ban-operators": {
       "severity": "error"
     },
@@ -194,7 +216,6 @@
       ],
       "severity": "error"
     },
-
     "template-accessibility-alt-text": true,
     "template-accessibility-elements-content": true,
     "template-accessibility-label-for": true,

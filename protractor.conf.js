@@ -6,6 +6,7 @@ const { SpecReporter } = require('jasmine-spec-reporter');
 const jasmineReporters = require('jasmine-reporters');
 const CDP = require('chrome-remote-interface');
 const fs = require('fs');
+const SmartRunner = require('protractor-smartrunner');
 
 const projectRoot = path.resolve(__dirname);
 const downloadFolder = `${projectRoot}/e2e-downloads`;
@@ -135,7 +136,10 @@ exports.config = {
   jasmineNodeOpts: {
     showColors: true,
     defaultTimeoutInterval: 100000,
-    print: function() {}
+    print: () => {},
+    ...SmartRunner.withOptionalExclusions(
+      resolve(__dirname, 'protractor.excludes.json')
+    )
   },
 
   plugins: [
