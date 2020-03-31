@@ -122,7 +122,7 @@ export class SettingsComponent implements OnInit {
       null
     );
 
-    this.form.reset(<RepositoryConfig>{
+    this.form.reset(<RepositoryConfig> {
       ecmHost:
         this.storage.getItem('ecmHost') ||
         this.appConfig.get<string>('ecmHost'),

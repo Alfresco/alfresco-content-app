@@ -88,7 +88,7 @@ export class ContextActionsDirective implements OnInit, OnDestroy {
   }
 
   private getTarget(event: MouseEvent): Element {
-    return this.findAncestor(<Element>event.target, 'adf-datatable-cell');
+    return this.findAncestor(<Element> event.target, 'adf-datatable-cell');
   }
 
   private isSelected(target: Element): boolean {

@@ -50,8 +50,8 @@ export const INITIAL_APP_STATE: AppState = {
   infoDrawerMetadataAspect: '',
   showFacetFilter: true,
   documentDisplayMode: 'list',
-  repository: <any>{
-    status: <any>{
+  repository: <any> {
+    status: <any> {
       isQuickShareEnabled: true
     }
   }

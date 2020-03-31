@@ -44,7 +44,7 @@ class TestNode {
     nodeType?: string,
     properties?: any
   ) {
-    this.entry = <any>{};
+    this.entry = <any> {};
     this.entry.id = id || 'node-id';
     this.entry.isFile = isFile;
     this.entry.isFolder = !isFile;
@@ -241,14 +241,14 @@ describe('NodeActionsService', () => {
   describe('getEntryParentId', () => {
     it('should return the parentId, if that exists on the node entry', () => {
       const parentID = 'parent-id';
-      const entry = <any>{ nodeId: '1234', parentId: parentID };
+      const entry = <any> { nodeId: '1234', parentId: parentID };
 
       expect(service.getEntryParentId(entry)).toBe(parentID);
     });
 
     it('should give the last element in path property, if parentId is missing and path exists on the node entry', () => {
       const firstParentId = 'parent-0-id';
-      const entry = <any>{
+      const entry = <any> {
         nodeId: '1234',
         path: { elements: [{ id: 'parent-1-id' }, { id: firstParentId }] }
       };

@@ -71,7 +71,7 @@ describe('LibraryMetadataFormComponent', () => {
       visibility: 'PRIVATE'
     };
     component.node = {
-      entry: <Site>{
+      entry: <Site> {
         id: 'libraryId',
         ...siteEntryModel
       }
@@ -95,7 +95,7 @@ describe('LibraryMetadataFormComponent', () => {
     };
 
     component.node = {
-      entry: <Site>{
+      entry: <Site> {
         id: 'libraryId',
         ...siteEntryModel
       }
@@ -106,7 +106,7 @@ describe('LibraryMetadataFormComponent', () => {
     expect(component.form.value).toEqual(siteEntryModel);
 
     component.node = {
-      entry: <Site>{
+      entry: <Site> {
         id: 'libraryId',
         ...newSiteEntryModel
       }
@@ -124,7 +124,7 @@ describe('LibraryMetadataFormComponent', () => {
       visibility: 'PRIVATE'
     };
     component.node = {
-      entry: <Site>{
+      entry: <Site> {
         id: 'libraryId',
         role: 'SiteManager',
         ...siteEntryModel
@@ -136,7 +136,7 @@ describe('LibraryMetadataFormComponent', () => {
     component.update();
 
     expect(storeMock.dispatch).toHaveBeenCalledWith(
-      new UpdateLibraryAction(<SiteBody>siteEntryModel)
+      new UpdateLibraryAction(<SiteBody> siteEntryModel)
     );
   });
 
@@ -147,7 +147,7 @@ describe('LibraryMetadataFormComponent', () => {
       visibility: 'PRIVATE'
     };
     component.node = {
-      entry: <Site>{
+      entry: <Site> {
         id: 'libraryId',
         role: 'Consumer',
         ...siteEntryModel
@@ -159,7 +159,7 @@ describe('LibraryMetadataFormComponent', () => {
     component.update();
 
     expect(storeMock.dispatch).not.toHaveBeenCalledWith(
-      new UpdateLibraryAction(<SiteBody>siteEntryModel)
+      new UpdateLibraryAction(<SiteBody> siteEntryModel)
     );
   });
 
@@ -170,7 +170,7 @@ describe('LibraryMetadataFormComponent', () => {
       visibility: 'PRIVATE'
     };
     component.node = {
-      entry: <Site>{
+      entry: <Site> {
         id: 'libraryId',
         role: 'SiteManager',
         ...siteEntryModel
@@ -184,7 +184,7 @@ describe('LibraryMetadataFormComponent', () => {
     component.update();
 
     expect(storeMock.dispatch).not.toHaveBeenCalledWith(
-      new UpdateLibraryAction(<SiteBody>siteEntryModel)
+      new UpdateLibraryAction(<SiteBody> siteEntryModel)
     );
   });
 
@@ -205,7 +205,7 @@ describe('LibraryMetadataFormComponent', () => {
       visibility: 'PRIVATE'
     };
     component.node = {
-      entry: <Site>{
+      entry: <Site> {
         id: 'libraryId',
         ...siteEntryModel
       }
@@ -241,7 +241,7 @@ describe('LibraryMetadataFormComponent', () => {
     };
 
     component.node = {
-      entry: <Site>{
+      entry: <Site> {
         id: 'libraryId',
         ...siteEntryModel
       }
@@ -272,7 +272,7 @@ describe('LibraryMetadataFormComponent', () => {
     };
 
     component.node = {
-      entry: <Site>{
+      entry: <Site> {
         id: 'libraryId',
         ...siteEntryModel
       }
@@ -303,7 +303,7 @@ describe('LibraryMetadataFormComponent', () => {
     };
 
     component.node = {
-      entry: <Site>{
+      entry: <Site> {
         id: 'libraryId',
         ...siteEntryModel
       }

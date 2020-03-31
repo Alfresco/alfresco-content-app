@@ -59,7 +59,7 @@ export class LockNodeDirective {
   }
 
   private async toggleLock(node: NodeEntry | SharedLinkEntry) {
-    const id = (<SharedLinkEntry>node).entry.nodeId || node.entry.id;
+    const id = (<SharedLinkEntry> node).entry.nodeId || node.entry.id;
 
     if (isLocked(this.node)) {
       try {
@@ -83,7 +83,7 @@ export class LockNodeDirective {
   }
 
   private lockNode(nodeId: string) {
-    return this.alfrescoApiService.nodesApi.lockNode(nodeId, <NodeBodyLock>{
+    return this.alfrescoApiService.nodesApi.lockNode(nodeId, <NodeBodyLock> {
       type: 'ALLOW_OWNER_CHANGES',
       lifetime: 'PERSISTENT'
     });

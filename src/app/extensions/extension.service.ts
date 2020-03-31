@@ -215,14 +215,14 @@ export class AppExtensionService implements RuleContext {
     );
 
     if (config.features && config.features.viewer) {
-      this.viewerRules = <ViewerRules>(config.features.viewer['rules'] || {});
+      this.viewerRules = <ViewerRules> (config.features.viewer['rules'] || {});
     }
 
     this.registerIcons(config);
 
     const references = (config.$references || [])
       .filter(entry => typeof entry === 'object')
-      .map(entry => <ExtensionRef>entry);
+      .map(entry => <ExtensionRef> entry);
     this._references.next(references);
   }
 
@@ -378,7 +378,7 @@ export class AppExtensionService implements RuleContext {
   }
 
   getSidebarTabs(): Array<SidebarTabRef> {
-    return this.sidebar.filter(action => this.filterVisible(<any>action));
+    return this.sidebar.filter(action => this.filterVisible(<any> action));
   }
 
   getComponentById(id: string): Type<{}> {

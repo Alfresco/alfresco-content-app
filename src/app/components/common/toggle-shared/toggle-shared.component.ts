@@ -53,7 +53,7 @@ export class ToggleSharedComponent implements OnInit {
     if (
       selection.first &&
       selection.first.entry &&
-      (<any>selection.first.entry).sharedByUser
+      (<any> selection.first.entry).sharedByUser
     ) {
       return true;
     }

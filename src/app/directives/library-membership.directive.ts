@@ -188,7 +188,7 @@ export class LibraryMembershipDirective implements OnChanges {
   }
 
   private joinLibraryRequest() {
-    const memberBody = <SiteMembershipRequestBody>{
+    const memberBody = <SiteMembershipRequestBody> {
       id: this.targetSite.id
     };
     return from(

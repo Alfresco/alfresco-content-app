@@ -155,12 +155,12 @@ export class AosEditOnlineService {
   }
 
   private isFile(node: MinimalNodeEntryEntity): boolean {
-    const implicitFile = (<any>node).nodeId || (<any>node).guid;
+    const implicitFile = (<any> node).nodeId || (<any> node).guid;
 
     return !!implicitFile || node.isFile;
   }
 
   private getNodeId(node: MinimalNodeEntryEntity): string {
-    return (<any>node).nodeId || (<any>node).guid || node.id;
+    return (<any> node).nodeId || (<any> node).guid || node.id;
   }
 }

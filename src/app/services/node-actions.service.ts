@@ -231,7 +231,7 @@ export class NodeActionsService {
       list: {
         entries: [
           {
-            entry: <Site>{
+            entry: <Site> {
               guid: '-my-',
               title: this.translation.instant(
                 'APP.BROWSE.PERSONAL.SIDENAV_LINK.LABEL'
@@ -239,7 +239,7 @@ export class NodeActionsService {
             }
           },
           {
-            entry: <Site>{
+            entry: <Site> {
               guid: '-mysites-',
               title: this.translation.instant(
                 'APP.BROWSE.LIBRARIES.SIDENAV_LINK.LABEL'
@@ -267,7 +267,7 @@ export class NodeActionsService {
       excludeSiteContent: ContentNodeDialogService.nonDocumentSiteContent
     };
 
-    this.dialog.open(ContentNodeSelectorComponent, <any>{
+    this.dialog.open(ContentNodeSelectorComponent, <any> {
       data,
       panelClass: 'adf-content-node-selector-dialog',
       width: '630px'
@@ -344,7 +344,7 @@ export class NodeActionsService {
         }
       }
     } else if (node === null && this.isSitesDestinationAvailable) {
-      node = <any>{
+      node = <any> {
         name: this.translation.instant('APP.BROWSE.LIBRARIES.TITLE'),
         path: { elements: [] }
       };

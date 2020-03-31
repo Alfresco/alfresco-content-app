@@ -87,7 +87,7 @@ export class NodeTemplateService {
         switchMap(node => {
           data.currentFolderId = node.id;
           return this.dialog
-            .open(ContentNodeSelectorComponent, <MatDialogConfig>{
+            .open(ContentNodeSelectorComponent, <MatDialogConfig> {
               data,
               panelClass: [
                 'adf-content-node-selector-dialog',

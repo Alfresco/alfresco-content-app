@@ -29,7 +29,7 @@ import { fakeAsync, tick } from '@angular/core/testing';
 
 describe('ContextActionsDirective', () => {
   let directive;
-  const storeMock = <any>{
+  const storeMock = <any> {
     dispatch: jasmine.createSpy('dispatch')
   };
 
@@ -52,7 +52,7 @@ describe('ContextActionsDirective', () => {
     const fragment = document.createDocumentFragment();
     fragment.appendChild(el);
     const target = fragment.querySelector('div');
-    const mouseEventMock = <any>{ preventDefault: () => {}, target };
+    const mouseEventMock = <any> { preventDefault: () => {}, target };
 
     directive.ngOnInit();
 

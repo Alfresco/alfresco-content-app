@@ -68,7 +68,7 @@ describe('TrashcanComponent', () => {
     alfrescoApi = TestBed.get(AlfrescoApiService);
     alfrescoApi.reset();
 
-    component.documentList = <any>{
+    component.documentList = <any> {
       reload: jasmine.createSpy('reload'),
       resetSelection: jasmine.createSpy('resetSelection')
     };

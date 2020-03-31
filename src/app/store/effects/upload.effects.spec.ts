@@ -107,7 +107,7 @@ describe('UploadEffects', () => {
 
     it('should dispatch the unlock write action for a locked file', () => {
       const file: FileModel = new FileModel(
-        <File>{ name: 'file1.png', size: 10 },
+        <File> { name: 'file1.png', size: 10 },
         null,
         'file1'
       );
@@ -137,7 +137,7 @@ describe('UploadEffects', () => {
 
     it('should dispatch only one unlock action for a locked file', () => {
       const file: FileModel = new FileModel(
-        <File>{ name: 'file1.png', size: 10 },
+        <File> { name: 'file1.png', size: 10 },
         null,
         'file1'
       );
@@ -171,7 +171,7 @@ describe('UploadEffects', () => {
 
     it('should dispatch no actions if file is not locked', () => {
       const file: FileModel = new FileModel(
-        <File>{ name: 'file1.png', size: 10 },
+        <File> { name: 'file1.png', size: 10 },
         null,
         'file1'
       );

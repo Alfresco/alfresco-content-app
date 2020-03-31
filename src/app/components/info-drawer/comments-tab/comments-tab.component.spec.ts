@@ -73,7 +73,7 @@ describe('CommentsTabComponent', () => {
         isFile: false,
         isFolder: false
       };
-      component.node = <any>testNode;
+      component.node = <any> testNode;
       expect(component.canUpdateNode).toBe(false);
     });
 
@@ -84,7 +84,7 @@ describe('CommentsTabComponent', () => {
         isFolder: false,
         isLocked: true
       };
-      component.node = <any>testNode;
+      component.node = <any> testNode;
       expect(component.canUpdateNode).toBe(false);
     });
 
@@ -94,7 +94,7 @@ describe('CommentsTabComponent', () => {
         isFile: true,
         isFolder: false
       };
-      component.node = <any>testNode;
+      component.node = <any> testNode;
       expect(component.canUpdateNode).toBe(true);
       expect(checked).toContain('update');
     });
@@ -105,7 +105,7 @@ describe('CommentsTabComponent', () => {
         isFile: false,
         isFolder: true
       };
-      component.node = <any>testNode;
+      component.node = <any> testNode;
       expect(component.canUpdateNode).toBe(true);
       expect(checked).toContain('update');
     });

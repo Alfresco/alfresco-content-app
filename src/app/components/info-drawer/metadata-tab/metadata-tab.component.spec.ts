@@ -90,7 +90,7 @@ describe('MetadataTabComponent', () => {
     });
 
     it('should return true if node is not locked and has update permission', () => {
-      const node = <Node>{
+      const node = <Node> {
         isLocked: false,
         allowableOperations: ['update']
       };
@@ -100,7 +100,7 @@ describe('MetadataTabComponent', () => {
     });
 
     it('should return false if node is locked', () => {
-      const node = <Node>{
+      const node = <Node> {
         isLocked: true,
         allowableOperations: ['update']
       };
@@ -110,7 +110,7 @@ describe('MetadataTabComponent', () => {
     });
 
     it('should return false if node has no update permission', () => {
-      const node = <Node>{
+      const node = <Node> {
         isLocked: false,
         allowableOperations: ['other']
       };
@@ -120,7 +120,7 @@ describe('MetadataTabComponent', () => {
     });
 
     it('should return false if node has read only property', () => {
-      const node = <Node>{
+      const node = <Node> {
         isLocked: false,
         allowableOperations: ['update'],
         properties: {

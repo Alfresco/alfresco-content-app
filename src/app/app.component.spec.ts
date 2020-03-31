@@ -83,42 +83,42 @@ describe('AppComponent', () => {
 
   describe('onFileUploadedError', () => {
     it('should dispatch 403 error message', () => {
-      component.onFileUploadedError(<any>{ error: { status: 403 } });
+      component.onFileUploadedError(<any> { error: { status: 403 } });
       expect(storeMock.dispatch['calls'].argsFor(0)[0].payload).toBe(
         'APP.MESSAGES.UPLOAD.ERROR.403'
       );
     });
 
     it('should dispatch 404 error message', () => {
-      component.onFileUploadedError(<any>{ error: { status: 404 } });
+      component.onFileUploadedError(<any> { error: { status: 404 } });
       expect(storeMock.dispatch['calls'].argsFor(0)[0].payload).toBe(
         'APP.MESSAGES.UPLOAD.ERROR.404'
       );
     });
 
     it('should dispatch 409 error message', () => {
-      component.onFileUploadedError(<any>{ error: { status: 409 } });
+      component.onFileUploadedError(<any> { error: { status: 409 } });
       expect(storeMock.dispatch['calls'].argsFor(0)[0].payload).toBe(
         'APP.MESSAGES.UPLOAD.ERROR.CONFLICT'
       );
     });
 
     it('should dispatch 500 error message', () => {
-      component.onFileUploadedError(<any>{ error: { status: 500 } });
+      component.onFileUploadedError(<any> { error: { status: 500 } });
       expect(storeMock.dispatch['calls'].argsFor(0)[0].payload).toBe(
         'APP.MESSAGES.UPLOAD.ERROR.500'
       );
     });
 
     it('should dispatch 504 error message', () => {
-      component.onFileUploadedError(<any>{ error: { status: 504 } });
+      component.onFileUploadedError(<any> { error: { status: 504 } });
       expect(storeMock.dispatch['calls'].argsFor(0)[0].payload).toBe(
         'APP.MESSAGES.UPLOAD.ERROR.504'
       );
     });
 
     it('should dispatch generic error message', () => {
-      component.onFileUploadedError(<any>{ error: { status: 999 } });
+      component.onFileUploadedError(<any> { error: { status: 999 } });
       expect(storeMock.dispatch['calls'].argsFor(0)[0].payload).toBe(
         'APP.MESSAGES.UPLOAD.ERROR.GENERIC'
       );

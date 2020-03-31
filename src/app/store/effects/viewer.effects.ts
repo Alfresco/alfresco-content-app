@@ -113,7 +113,7 @@ export class ViewerEffects {
     ofType<ViewFileAction>(ViewerActionTypes.ViewFile),
     map(action => {
       if (action.payload && action.payload.entry) {
-        const { id, nodeId, isFile } = <any>action.payload.entry;
+        const { id, nodeId, isFile } = <any> action.payload.entry;
 
         if (
           this.extensions.canPreviewNode(action.payload) &&
@@ -127,7 +127,7 @@ export class ViewerEffects {
           .pipe(take(1))
           .subscribe(result => {
             if (result.selection && result.selection.file) {
-              const { id, nodeId, isFile } = <any>result.selection.file.entry;
+              const { id, nodeId, isFile } = <any> result.selection.file.entry;
 
               if (
                 this.extensions.canPreviewNode(action.payload) &&
@@ -165,7 +165,7 @@ export class ViewerEffects {
   }
 
   enterFullScreen() {
-    const container = <any>(
+    const container = <any> (
       document.documentElement.querySelector(
         '.adf-viewer__fullscreen-container'
       )

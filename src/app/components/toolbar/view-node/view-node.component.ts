@@ -66,8 +66,8 @@ export class ViewNodeComponent {
       .pipe(take(1))
       .subscribe(selection => {
         const id =
-          (<SharedLinkEntry>selection.file).entry.nodeId ||
-          (<any>selection.file).entry.guid ||
+          (<SharedLinkEntry> selection.file).entry.nodeId ||
+          (<any> selection.file).entry.guid ||
           selection.file.entry.id;
 
         this.store.dispatch(

@@ -42,7 +42,7 @@ describe('ToggleSharedComponent', () => {
       }
     };
 
-    component = new ToggleSharedComponent(<any>storeMock);
+    component = new ToggleSharedComponent(<any> storeMock);
   });
 
   it('should get Store selection entry on initialization', done => {
