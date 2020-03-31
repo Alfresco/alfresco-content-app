@@ -18,7 +18,8 @@
     "build.e2e": "npm run build.extensions && npm run build.app -- --prod --configuration=e2e",
     "test": "ng test app --code-coverage",
     "test:ci": "npm run build.extensions && ng test adf-office-services-ext --watch=false && ng test app --code-coverage --watch=false",
-    "lint": "ng lint && npm run spellcheck && npm run format:check && npm run e2e.typecheck",
+    "lint": "ng lint && npm run spellcheck && npm run e2e.typecheck",
+    "wd:update": "webdriver-manager update --gecko=false $VERSION_CHROME",
     "e2e.typecheck": "tsc -p ./e2e/tsconfig.e2e.typecheck.json",
     "e2e": "protractor --baseUrl=${TEST_BASE_URL:-http://localhost:8080/content-app} $SUITE",
     "e2e.local": "protractor --baseUrl=http://localhost:4200 $SUITE",
@@ -28,8 +29,6 @@
     "e2e:docker": "./start.sh && npm run e2e && ./start.sh -d",
     "spellcheck": "cspell '{src,e2e,projects}/**/*.ts'",
     "inspect.bundle": "ng build app --prod --stats-json && npx webpack-bundle-analyzer dist/app/stats.json",
-    "format:check": "prettier --check \"src/{app,environments}/**/*.{ts,js,css,scss,html}\"",
-    "format:fix": "prettier --write \"src/{app,environments}/**/*.{ts,js,css,scss,html}\"",
     "build.tomcat": "npm run validate-config && npm run build.extensions && npm run build.app -- --prod --base-href ./ && jar -cvf docker/tomcat/artifacts/content-app.war -C dist/app/ .",
     "build.tomcat.e2e": "./build-tomcat-e2e.sh",
     "e2e.tomcat": "protractor --baseUrl=http://localhost:8080/content-app/ $SUITE",
@@ -108,7 +107,6 @@
     "ng-packagr": "^4.7.1",
     "node-sass": "4.13.1",
     "node-stream-zip": "^1.9.1",
-    "prettier": "^1.17.1",
     "protractor": "5.4.2",
     "protractor-screenshoter-plugin": "0.10.3",
     "protractor-smartrunner": "^0.1.1",
@@ -125,10 +123,9 @@
     "webdriver-manager": "12.1.7"
   },
   "lint-staged": {
-    "*.{ts,js,css,scss,html}": [
-      "prettier --single-quote --write",
-      "git add"
-    ]
+    "linters": {
+      "**/*.ts": "npm run lint -- --fix"
+    }
   },
   "husky": {
     "hooks": {
