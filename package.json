@@ -22,7 +22,7 @@
     "e2e.typecheck": "tsc -p ./e2e/tsconfig.e2e.typecheck.json",
     "e2e": "npm run wd:update && protractor --baseUrl=${TEST_BASE_URL:-http://localhost:8080/content-app} $SUITE",
     "e2e.local": "npm run wd:update && protractor --baseUrl=http://localhost:4200 $SUITE",
-    "wait:app": "wait-on http://${HOST_IP:-localhost}:${HOST_PORT:-8080}/alfresco/ -t 1000000 && wait-on http://${HOST_IP:-localhost}:${HOST_PORT:-8080}/content-app/ -t 400000",
+    "wait:app": "wait-on http://${HOST_IP:-localhost}:${HOST_PORT:-8080}/alfresco/ -t 1000000",
     "start:docker": "./start.sh",
     "stop:docker": "./start.sh -d",
     "e2e:docker": "./start.sh && npm run e2e && ./start.sh -d",

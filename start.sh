@@ -76,4 +76,12 @@ export AIMS_PROPS=${AIMS_PROPS}
 echo "Start docker compose"
 docker-compose up -d --build
 
+if [[ $WAIT == "true" ]]; then
+  echo "Waiting for the content ..."
+  HOST_IP=$HOST_IP HOST_PORT=$HOST_PORT npm run wait:app
+  if [ $? == 1 ]; then
+    echo "Waiting failed -> exit 1"
+    exit 1
+  fi
+fi
 
