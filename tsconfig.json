@@ -21,7 +21,7 @@
       "@alfresco/aca-shared/store": ["projects/aca-shared/store/src/public_api.ts"],
       "@alfresco/aca-shared/rules": ["projects/aca-shared/rules/src/public_api.ts"],
       "@alfresco/adf-office-services-ext": ["projects/adf-office-services-ext/src/public_api.ts"],
-      "@alfresco/adf-office-services-ext/*": ["projects/adf-office-services-ext/src/lib/*"]
+      "@alfresco/adf-office-services-ext/*": ["projects/adf-office-services-ext/src/lib/*"],
       "@alfresco/aca-shared/store": [
         "projects/aca-shared/store/src/public_api.ts"
       ],

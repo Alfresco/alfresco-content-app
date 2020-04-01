@@ -4,7 +4,6 @@
     "outDir": "../out-tsc/e2e",
     "baseUrl": "./",
     "module": "commonjs",
-    "target": "es5",
     "target": "es2017",
     "types": [
       "jasmine",
@@ -13,4 +12,3 @@
     ]
   }
 }
-
