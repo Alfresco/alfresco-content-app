@@ -19,8 +19,6 @@ services:
         -Dsolr.secureComms=none
         -Dsolr.base.url=/solr
         -Dindex.subsystem.name=solr6
-        -Dshare.host=127.0.0.1
-        -Dshare.port=8080
         -Dalfresco.host=localhost
         -Dalfresco.port=8080
         -Daos.baseUrlOverwrite=http://localhost:8080/alfresco/aos
@@ -90,15 +88,6 @@ services:
     ports:
       - 8094:8090
 
-  share:
-    image: alfresco/alfresco-share:6.2.0
-    mem_limit: 1g
-    depends_on:
-      - alfresco
-    environment:
-      - REPO_HOST=alfresco
-      - REPO_PORT=8080
-
   postgres:
     image: postgres:11.4
     mem_limit: 512m
@@ -137,23 +126,6 @@ services:
       - 61616:61616 # OpenWire
       - 61613:61613 # STOMP
 
-  content-app:
-    image: alfresco/alfresco-content-app:latest
-    build: .
-    depends_on:
-      - alfresco
-    environment:
-      BASE_PATH: ./
-      APP_CONFIG_OAUTH2_HOST: ${APP_CONFIG_OAUTH2_HOST}
-      APP_CONFIG_AUTH_TYPE: ${APP_CONFIG_AUTH_TYPE}
-      APP_CONFIG_OAUTH2_CLIENTID: ${APP_CONFIG_OAUTH2_CLIENTID}
-      APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI: ${APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI}
-      APP_CONFIG_OAUTH2_REDIRECT_LOGIN: ${APP_CONFIG_OAUTH2_REDIRECT_LOGIN}
-      APP_CONFIG_OAUTH2_REDIRECT_LOGOUT: ${APP_CONFIG_OAUTH2_REDIRECT_LOGOUT}
-      APP_BASE_SHARE_URL: '{protocol}//{hostname}{:port}/content-app/#/preview/s'
-    ports:
-      - 4001:8080
-
   proxy:
     image: alfresco/acs-community-ngnix:1.0.0
     mem_limit: 128m
@@ -165,8 +137,6 @@ services:
       - 8080:8080
     links:
       - alfresco
-      - share
-      - content-app
 
   auth:
     image: jboss/keycloak:4.8.3.Final

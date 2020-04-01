@@ -74,7 +74,7 @@ fi
 export AIMS_PROPS=${AIMS_PROPS}
 
 echo "Start docker compose"
-docker-compose up -d --build
+docker-compose -f docker-compose.e2e.yml up -d --build
 
 if [[ $WAIT == "true" ]]; then
   echo "Waiting for the content ..."
