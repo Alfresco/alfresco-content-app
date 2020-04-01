@@ -24,13 +24,12 @@
 
   .link:hover,
   .aca-location-link .adf-datatable-cell-value:hover {
-    color: mat-color($primary) !important;
+    color: mat-color($primary, A200) !important;
     text-decoration: underline;
   }
 
   .adf-is-selected .link:not(:hover),
-  .adf-is-selected .aca-location-link .adf-datatable-cell-value:not(:hover) {
-    text-decoration: none;
-    color: mat-color($primary, A400) !important;
+  .adf-is-selected .adf-datatable-cell-value:not(:hover) {
+    color: mat-color($primary) !important;
   }
 }
