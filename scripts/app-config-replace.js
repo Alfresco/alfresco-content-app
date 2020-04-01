@@ -14,7 +14,6 @@ const options = {
     set: appConfig => {
       appConfig.ecmHost = API_HOST;
       appConfig.aosHost = API_HOST + '/alfresco/aos';
-      appConfig.baseShareUrl = API_HOST + '/#/preview/s';
     }
   },
   oauthHost: {
