@@ -14,10 +14,10 @@ cache:
 
 branches:
   only:
-  - master
-  - development
-  - /.*beta.*/
-  
+    - master
+    - development
+    - /.*beta.*/
+
 before_install:
   - sudo /etc/init.d/postgresql stop
   - npm install -g npm@latest
@@ -68,9 +68,9 @@ jobs:
     - name: Test Suite manageContent
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app"
-        - docker-compose up
+        - ./start.sh
       script: npm run wd:update && ng run app-e2e:e2elite --suite "manageContent"
-      after_script: docker-compose down
+      after_script: ./start.sh -d
     - name: Test Suite sharingContent&markFavorite
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app"
