@@ -212,6 +212,7 @@ describe('Share a file', () => {
 
         await shareDialog.clickExpirationToggle();
         expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expire toggle not checked');
+        await shareDialog.openDatetimePicker();
         expect(await shareDialog.dateTimePicker.isCalendarOpen()).toBe(true, 'Calendar not opened');
         const date = await shareDialog.dateTimePicker.setDefaultDay();
         await shareDialog.dateTimePicker.waitForDateTimePickerToClose();
@@ -392,6 +393,7 @@ describe('Share a file', () => {
 
         await shareDialog.clickExpirationToggle();
         expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expire toggle not checked');
+        await shareDialog.openDatetimePicker();
         expect(await shareDialog.dateTimePicker.isCalendarOpen()).toBe(true, 'Calendar not opened');
         const date = await shareDialog.dateTimePicker.setDefaultDay();
         await shareDialog.dateTimePicker.waitForDateTimePickerToClose();
@@ -569,6 +571,7 @@ describe('Share a file', () => {
 
         await shareDialog.clickExpirationToggle();
         expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expire toggle not checked');
+        await shareDialog.openDatetimePicker();
         expect(await shareDialog.dateTimePicker.isCalendarOpen()).toBe(true, 'Calendar not opened');
         const date = await shareDialog.dateTimePicker.setDefaultDay();
         await shareDialog.dateTimePicker.waitForDateTimePickerToClose();
@@ -908,6 +911,7 @@ describe('Share a file', () => {
 
         await shareDialog.clickExpirationToggle();
         expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expire toggle not checked');
+        await shareDialog.openDatetimePicker();
         expect(await shareDialog.dateTimePicker.isCalendarOpen()).toBe(true, 'Calendar not opened');
         const date = await shareDialog.dateTimePicker.setDefaultDay();
         await shareDialog.dateTimePicker.waitForDateTimePickerToClose();
@@ -1044,6 +1048,7 @@ describe('Share a file', () => {
 
         await shareDialog.clickExpirationToggle();
         expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expire toggle not checked');
+        await shareDialog.openDatetimePicker();
         expect(await shareDialog.dateTimePicker.isCalendarOpen()).toBe(true, 'Calendar not opened');
         const date = await shareDialog.dateTimePicker.setDefaultDay();
         await shareDialog.dateTimePicker.waitForDateTimePickerToClose();
