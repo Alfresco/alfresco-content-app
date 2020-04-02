@@ -1,0 +1,151 @@
+version: '2'
+
+services:
+  alfresco:
+    image: alfresco/alfresco-content-repository-community:latest
+    mem_limit: 1500m
+    depends_on:
+      - auth
+    volumes:
+      - ./docker/acs-cm:/usr/local/tomcat/shared/classes/alfresco/extension
+    environment:
+      JAVA_OPTS: '
+        -Ddb.driver=org.postgresql.Driver
+        -Ddb.username=alfresco
+        -Ddb.password=alfresco
+        -Ddb.url=jdbc:postgresql://postgres:5432/alfresco
+        -Dsolr.host=solr6
+        -Dsolr.port=8983
+        -Dsolr.secureComms=none
+        -Dsolr.base.url=/solr
+        -Dindex.subsystem.name=solr6
+        -Dalfresco.host=localhost
+        -Dalfresco.port=8080
+        -Daos.baseUrlOverwrite=http://localhost:8080/alfresco/aos
+        -Dmessaging.broker.url="failover:(nio://activemq:61616)?timeout=3000&jms.useCompression=true"
+        -Ddeployment.method=DOCKER_COMPOSE
+        -Dlocal.transform.service.enabled=true
+        -DlocalTransform.pdfrenderer.url=http://alfresco-pdf-renderer:8090/
+        -DlocalTransform.imagemagick.url=http://imagemagick:8090/
+        -DlocalTransform.libreoffice.url=http://libreoffice:8090/
+        -DlocalTransform.tika.url=http://tika:8090/
+        -DlocalTransform.misc.url=http://transform-misc:8090/
+        -Dlegacy.transform.service.enabled=true
+        -Dalfresco-pdf-renderer.url=http://alfresco-pdf-renderer:8090/
+        -Djodconverter.url=http://libreoffice:8090/
+        -Dimg.url=http://imagemagick:8090/
+        -Dtika.url=http://tika:8090/
+        -Dtransform.misc.url=http://transform-misc:8090/
+        -Dcsrf.filter.enabled=false
+
+        -Didentity-service.enable-basic-auth=true
+        -Didentity-service.authentication.validation.failure.silent=false
+        -Didentity-service.auth-server-url=http://${HOST_IP}:8085/auth
+        -Didentity-service.realm=alfresco
+        -Didentity-service.resource=alfresco
+
+        ${AIMS_PROPS}
+        -Xms1500m -Xmx1500m
+        '
+
+  alfresco-pdf-renderer:
+    image: alfresco/alfresco-pdf-renderer:2.1.0
+    mem_limit: 1g
+    environment:
+      JAVA_OPTS: ' -Xms256m -Xmx512m'
+    ports:
+      - 8090:8090
+
+  imagemagick:
+    image: alfresco/alfresco-imagemagick:2.1.0
+    mem_limit: 1g
+    environment:
+      JAVA_OPTS: ' -Xms256m -Xmx512m'
+    ports:
+      - 8091:8090
+
+  libreoffice:
+    image: alfresco/alfresco-libreoffice:2.1.0
+    mem_limit: 1g
+    environment:
+      JAVA_OPTS: ' -Xms256m -Xmx512m'
+    ports:
+      - 8092:8090
+
+  tika:
+    image: alfresco/alfresco-tika:2.1.0
+    mem_limit: 1g
+    environment:
+      JAVA_OPTS: ' -Xms256m -Xmx512m'
+    ports:
+      - 8093:8090
+
+  transform-misc:
+    image: alfresco/alfresco-transform-misc:2.1.0
+    mem_limit: 1g
+    environment:
+      JAVA_OPTS: ' -Xms256m -Xmx512m'
+    ports:
+      - 8094:8090
+
+  postgres:
+    image: postgres:11.4
+    mem_limit: 512m
+    environment:
+      - POSTGRES_PASSWORD=alfresco
+      - POSTGRES_USER=alfresco
+      - POSTGRES_DB=alfresco
+    command: postgres -c max_connections=300 -c log_min_messages=LOG
+    ports:
+      - 5432:5432
+
+  solr6:
+    image: alfresco/alfresco-search-services:1.4.0
+    mem_limit: 2g
+    environment:
+      #Solr needs to know how to register itself with Alfresco
+      - SOLR_ALFRESCO_HOST=alfresco
+      - SOLR_ALFRESCO_PORT=8080
+      #Alfresco needs to know how to call solr
+      - SOLR_SOLR_HOST=solr6
+      - SOLR_SOLR_PORT=8983
+      #Create the default alfresco and archive cores
+      - SOLR_CREATE_ALFRESCO_DEFAULTS=alfresco,archive
+      #HTTP by default
+      - ALFRESCO_SECURE_COMMS=none
+      - 'SOLR_JAVA_MEM=-Xms2g -Xmx2g'
+    ports:
+      - 8083:8983 #Browser port
+
+  activemq:
+    image: alfresco/alfresco-activemq:5.15.8
+    mem_limit: 1g
+    ports:
+      - 8161:8161 # Web Console
+      - 5672:5672 # AMQP
+      - 61616:61616 # OpenWire
+      - 61613:61613 # STOMP
+
+  proxy:
+    image: alfresco/acs-community-ngnix:1.0.0
+    mem_limit: 128m
+    depends_on:
+      - alfresco
+    volumes:
+      - ./docker/proxy/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 8080:8080
+    links:
+      - alfresco
+
+  auth:
+    image: jboss/keycloak:4.8.3.Final
+    volumes:
+      - ./docker/auth/alfresco-realm.json:/tmp/alfresco-realm.json
+    environment:
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=admin
+      - KEYCLOAK_IMPORT=/tmp/alfresco-realm.json
+      - DB_VENDOR=h2
+    ports:
+      - 8085:8080

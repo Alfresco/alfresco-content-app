@@ -156,6 +156,13 @@
             }
           }
         },
+        "lite-serve": {
+          "builder": "@angular-custom-builders/lite-serve:dist-serve",
+          "options": {
+            "publicHost": "http://localhost:4200",
+            "outputPath": "dist/app"
+          }
+        },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
@@ -242,6 +249,14 @@
             "production": {
               "devServerTarget": "app:serve:production"
             }
+          }
+        },
+        "e2elite": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "protractor.conf.js",
+            "webdriverUpdate": false,
+            "devServerTarget": "app:lite-serve"
           }
         },
         "lint": {

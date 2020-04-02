@@ -25,14 +25,13 @@
 
 import { browser } from 'protractor';
 import { AlfrescoApi } from '@alfresco/js-api';
-import { RepoClientAuth } from '../repo-client-models';
 
 export abstract class RepoApi {
     alfrescoJsApi = new AlfrescoApi();
 
     constructor(
-        private username: string = RepoClientAuth.DEFAULT_USERNAME,
-        private password: string = RepoClientAuth.DEFAULT_PASSWORD
+        private username: string = browser.params.ADMIN_USERNAME,
+        private password: string = browser.params.ADMIN_PASSWORD
     ) {
         this.alfrescoJsApi.setConfig(browser.params.config);
     }
@@ -47,6 +46,8 @@ export abstract class RepoApi {
 
     protected handleError(message: string, response: any) {
       console.log(`\n--- ${message} error :`);
+      console.log('\t>>> username: ', this.username);
+      console.log('\t>>> JSON: ', JSON.stringify(browser.params.config));
       if ( response.status && response.response ) {
         try {
           console.log('\t>>> Status: ', response.status);

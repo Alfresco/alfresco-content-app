@@ -38,9 +38,6 @@ set_wait(){
   WAIT=$1
 }
 
-redeploy_aca(){
-  REDEPLOY_ACA="true"
-}
 
 # Defaults
 WAIT="true"
@@ -48,7 +45,6 @@ SET_HOST_IP=""
 HOST_PORT="8080"
 KEYCLOAK="false"
 AIMS_PROPS=""
-REDEPLOY_ACA="false"
 
 while [[ $1 == -* ]]; do
   case "$1" in
@@ -56,7 +52,6 @@ while [[ $1 == -* ]]; do
     -k|--keycloak)  set_keycloak; shift;;
     -wp|--windows-path)  set_windows_path; shift;;
     -d|--down)  down; shift;;
-    -aca)  redeploy_aca; shift;;
     -w|--wait)  set_wait $2; shift 2;;
     -hi|--host-ip)  set_host_ip $2; shift 2;;
     -hp|--host-port)  set_host_port $2; shift 2;;
@@ -72,41 +67,21 @@ else
 fi
 echo "HOST_IP: ${HOST_IP}"
 
-URL_FRAGMENT="content-app"
-export APP_URL="http://${HOST_IP}:${HOST_PORT}/${URL_FRAGMENT}"
-echo "Content Workspace: ${APP_URL}"
-
 if [[ $KEYCLOAK == "true" ]]; then
-  export APP_CONFIG_AUTH_TYPE="OAUTH"
-  export APP_CONFIG_OAUTH2_HOST="http://${HOST_IP}:8085/auth/realms/alfresco"
-  echo "Realm: ${APP_CONFIG_OAUTH2_HOST}"
-  export APP_CONFIG_OAUTH2_CLIENTID="alfresco"
-  export APP_CONFIG_OAUTH2_IMPLICIT_FLOW=true
-  export APP_CONFIG_OAUTH2_SILENT_LOGIN=true
-  export APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI="${APP_URL}/assets/silent-refresh.html"
-  export APP_CONFIG_OAUTH2_REDIRECT_LOGIN="${APP_URL}/"
-  export APP_CONFIG_OAUTH2_REDIRECT_LOGOUT="/$URL_FRAGMENT/logout"
-  # export APP_BASE_SHARE_URL="${APP_URL}#/preview/s"
-
   AIMS_PROPS="-Dauthentication.chain=identity-service1:identity-service,alfrescoNtlm1:alfrescoNtlm"
 fi
 
 export AIMS_PROPS=${AIMS_PROPS}
 
-if [[ $REDEPLOY_ACA == "true" ]]; then
-  echo "Redeploy content-app"
-  docker-compose up --detach --build content-app
-else
-  echo "Start docker compose"
-  docker-compose up -d --build
-fi
+echo "Start docker compose"
+docker-compose -f docker-compose.e2e.yml up -d --build
 
 if [[ $WAIT == "true" ]]; then
-  echo "http://${HOST_IP:-localhost}:${HOST_PORT:-8080}/$URL_FRAGMENT/"
-  echo "Waiting for the app ..."
+  echo "Waiting for the content ..."
   HOST_IP=$HOST_IP HOST_PORT=$HOST_PORT npm run wait:app
   if [ $? == 1 ]; then
     echo "Waiting failed -> exit 1"
     exit 1
   fi
 fi
+

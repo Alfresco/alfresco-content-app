@@ -34,11 +34,6 @@ export const USE_HASH_STRATEGY = true;
 // Repository configs
 export const REPO_API_TENANT = '-default-';
 
-// Admin details
-export const ADMIN_USERNAME = 'admin';
-export const ADMIN_PASSWORD = 'admin';
-export const ADMIN_FULL_NAME = 'Administrator';
-
 export const E2E_ROOT_PATH = __dirname;
 
 // Dates
