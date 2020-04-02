@@ -80,7 +80,7 @@ export class SettingsComponent implements OnInit {
     this.headerColor$ = store.select(getHeaderColor);
   }
 
-  get logo() {
+  get logo(): string {
     return this.appConfig.get('application.logo', this.defaultPath);
   }
 
