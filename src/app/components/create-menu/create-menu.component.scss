@@ -75,10 +75,9 @@
         transform: none;
         transition: unset;
         font-weight: normal;
-        color: mat-color($primary);
 
         &:hover {
-          color: mat-color($accent);
+          color: mat-color($primary, A400);
         }
       }
 
