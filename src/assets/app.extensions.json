@@ -9,6 +9,49 @@
   "$description": "Core application extensions and features",
   "$references": ["aos.plugin.json", "app.header.json"],
 
+  "settings": [
+    {
+      "id": "app.settings",
+      "name": "APP.SETTINGS.APPLICATION-SETTINGS",
+      "parameters": [
+        {
+          "id": "app.settings.languagePicker",
+          "name": "Language Picker",
+          "key": "languagePicker",
+          "type": "boolean",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "extension.settings",
+      "name": "Extension Settings",
+      "parameters": [
+        {
+          "id": "app.settings.1",
+          "name": "Setting 1",
+          "key": "aca_settings_1",
+          "type": "string",
+          "value": "hello world"
+        },
+        {
+          "id": "app.setting.2",
+          "name": "Enable AI Extensions",
+          "key": "ai",
+          "type": "boolean",
+          "value": false
+        },
+        {
+          "id": "app.setting.2",
+          "name": "Enable Process Services Extensions",
+          "key": "processServices",
+          "type": "boolean",
+          "value": false
+        }
+      ]
+    }
+  ],
+
   "rules": [
     {
       "id": "app.toolbar.favorite.canAdd",

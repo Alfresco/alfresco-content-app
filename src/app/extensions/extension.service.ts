@@ -60,6 +60,7 @@ import { AppConfigService, AuthenticationService } from '@alfresco/adf-core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { RepositoryInfo, NodeEntry } from '@alfresco/js-api';
 import { ViewerRules } from './viewer.rules';
+import { SettingsGroupRef } from '../types';
 
 @Injectable({
   providedIn: 'root'
@@ -84,6 +85,7 @@ export class AppExtensionService implements RuleContext {
   contentMetadata: any;
   viewerRules: ViewerRules = {};
   userActions: Array<ContentActionRef> = [];
+  settingGroups: Array<SettingsGroupRef> = [];
 
   documentListPresets: {
     files: Array<DocumentListPresetRef>;
@@ -153,6 +155,13 @@ export class AppExtensionService implements RuleContext {
       console.error('Extension configuration not found');
       return;
     }
+
+    this.settingGroups = this.loader.getElements<SettingsGroupRef>(
+      config,
+      'settings'
+    );
+    console.log(this.settingGroups);
+
     this.headerActions = this.loader.getContentActions(
       config,
       'features.header'
