@@ -26,7 +26,6 @@
   "viewer.maxRetries": 1,
   "sharedLinkDateTimePickerType": "date",
   "headerColor": "#ffffff",
-  "languagePicker": true,
   "processServices": true,
   "pagination": {
     "size": 25,

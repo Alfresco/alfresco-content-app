@@ -35,11 +35,9 @@ import { Store } from '@ngrx/store';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import {
   AppStore,
-  SetLanguagePickerAction,
   getHeaderColor,
   getAppName,
   getUserProfile,
-  getLanguagePickerState,
   ToggleProcessServicesAction,
   SetSettingsParameterAction
 } from '@alfresco/aca-shared/store';
@@ -67,7 +65,6 @@ export class SettingsComponent implements OnInit {
   profile$: Observable<ProfileState>;
   appName$: Observable<string>;
   headerColor$: Observable<string>;
-  languagePicker$: Observable<boolean>;
 
   get settingGroups(): SettingsGroupRef[] {
     return this.appExtensions.settingGroups;
@@ -82,7 +79,6 @@ export class SettingsComponent implements OnInit {
   ) {
     this.profile$ = store.select(getUserProfile);
     this.appName$ = store.select(getAppName);
-    this.languagePicker$ = store.select(getLanguagePickerState);
     this.headerColor$ = store.select(getHeaderColor);
   }
 
@@ -137,11 +133,6 @@ export class SettingsComponent implements OnInit {
     });
   }
 
-  onLanguagePickerValueChanged(event: MatCheckboxChange) {
-    this.storage.setItem('languagePicker', event.checked.toString());
-    this.store.dispatch(new SetLanguagePickerAction(event.checked));
-  }
-
   onTogglePsExtensions(event: MatCheckboxChange) {
     this.storage.setItem('processServices', event.checked.toString());
     this.store.dispatch(new ToggleProcessServicesAction(event.checked));
@@ -171,7 +162,7 @@ export class SettingsComponent implements OnInit {
       param.value ? param.value.toString() : param.value
     );
     this.store.dispatch(
-      new SetSettingsParameterAction({ name: param.name, value: param.value })
+      new SetSettingsParameterAction({ name: param.key, value: param.value })
     );
   }
 }

@@ -68,20 +68,6 @@
     </form>
   </mat-expansion-panel>
 
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        {{ 'APP.SETTINGS.APPLICATION-SETTINGS' | translate }}
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <mat-checkbox
-      [ngModel]="languagePicker$ | async"
-      (change)="onLanguagePickerValueChanged($event)"
-    >
-      Language Picker
-    </mat-checkbox>
-  </mat-expansion-panel>
-
   <mat-expansion-panel *ngFor="let group of settingGroups">
     <mat-expansion-panel-header>
       <mat-panel-title>{{ group.name | translate }}</mat-panel-title>
