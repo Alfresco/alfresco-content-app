@@ -30,19 +30,18 @@ import {
   OauthConfigModel
 } from '@alfresco/adf-core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { MatCheckboxChange } from '@angular/material/checkbox';
 import {
   AppStore,
-  SetLanguagePickerAction,
   getHeaderColor,
   getAppName,
   getUserProfile,
-  getLanguagePickerState,
-  ToggleProcessServicesAction
+  SetSettingsParameterAction
 } from '@alfresco/aca-shared/store';
 import { ProfileState } from '@alfresco/adf-extensions';
+import { AppExtensionService } from '../../extensions/extension.service';
+import { SettingsGroupRef, SettingsParameterRef } from '../../types';
 
 interface RepositoryConfig {
   ecmHost: string;
@@ -64,11 +63,13 @@ export class SettingsComponent implements OnInit {
   profile$: Observable<ProfileState>;
   appName$: Observable<string>;
   headerColor$: Observable<string>;
-  languagePicker$: Observable<boolean>;
-  aiExtensions$: Observable<boolean>;
-  psExtensions$: Observable<boolean>;
+
+  get settingGroups(): SettingsGroupRef[] {
+    return this.appExtensions.settingGroups;
+  }
 
   constructor(
+    private appExtensions: AppExtensionService,
     private store: Store<AppStore>,
     private appConfig: AppConfigService,
     private storage: StorageService,
@@ -76,23 +77,14 @@ export class SettingsComponent implements OnInit {
   ) {
     this.profile$ = store.select(getUserProfile);
     this.appName$ = store.select(getAppName);
-    this.languagePicker$ = store.select(getLanguagePickerState);
     this.headerColor$ = store.select(getHeaderColor);
   }
 
-  get logo() {
+  get logo(): string {
     return this.appConfig.get('application.logo', this.defaultPath);
   }
 
   ngOnInit() {
-    this.aiExtensions$ = new BehaviorSubject(
-      this.storage.getItem('ai') === 'true'
-    );
-
-    this.psExtensions$ = new BehaviorSubject(
-      this.storage.getItem('processServices') === 'true'
-    );
-
     this.form = this.fb.group({
       ecmHost: [
         '',
@@ -139,17 +131,33 @@ export class SettingsComponent implements OnInit {
     });
   }
 
-  onLanguagePickerValueChanged(event: MatCheckboxChange) {
-    this.storage.setItem('languagePicker', event.checked.toString());
-    this.store.dispatch(new SetLanguagePickerAction(event.checked));
+  getStringParamValue(param: SettingsParameterRef): string {
+    return this.storage.getItem(param.key) || param.value;
   }
 
-  onToggleAiExtensions(event: MatCheckboxChange) {
-    this.storage.setItem('ai', event.checked.toString());
+  setParamValue(param: SettingsParameterRef, value: any) {
+    if (param.value !== value) {
+      param.value = value;
+      this.saveToStorage(param);
+    }
   }
 
-  onTogglePsExtensions(event: MatCheckboxChange) {
-    this.storage.setItem('processServices', event.checked.toString());
-    this.store.dispatch(new ToggleProcessServicesAction(event.checked));
+  getBooleanParamValue(param: SettingsParameterRef): boolean {
+    const result = this.storage.getItem(param.key);
+    if (result) {
+      return result === 'true';
+    } else {
+      return param.value ? true : false;
+    }
+  }
+
+  private saveToStorage(param: SettingsParameterRef) {
+    this.storage.setItem(
+      param.key,
+      param.value ? param.value.toString() : param.value
+    );
+    this.store.dispatch(
+      new SetSettingsParameterAction({ name: param.key, value: param.value })
+    );
   }
 }

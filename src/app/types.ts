@@ -23,29 +23,16 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  SelectionState,
-  ProfileState,
-  NavigationState
-} from '@alfresco/adf-extensions';
-import { RepositoryInfo } from '@alfresco/js-api';
-
-export interface AppState {
-  appName: string;
-  headerColor: string;
-  logoPath: string;
-  languagePicker: boolean;
-  sharedUrl: string;
-  selection: SelectionState;
-  user: ProfileState;
-  navigation: NavigationState;
-  infoDrawerOpened: boolean;
-  infoDrawerMetadataAspect: string;
-  showFacetFilter: boolean;
-  documentDisplayMode: string;
-  repository: RepositoryInfo;
+export interface SettingsGroupRef {
+  id: string;
+  name: string;
+  parameters: Array<SettingsParameterRef>;
 }
 
-export interface AppStore {
-  app: AppState;
+export interface SettingsParameterRef {
+  id?: string;
+  name: string;
+  key: string;
+  type: 'string' | 'boolean';
+  value?: any;
 }

@@ -605,6 +605,52 @@
           "type": "boolean"
         }
       }
+    },
+    "settingsGroupRef": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Unique identifier",
+          "type": "string"
+        },
+        "name": {
+          "description": "Category name, can be translation key",
+          "type": "string"
+        },
+        "parameters": {
+          "description": "Settings group parameters",
+          "type": "array",
+          "items": { "$ref": "#/definitions/settingsGroupParameterRef" },
+          "minItems": 1
+        }
+      },
+      "required": ["id", "name", "parameters"]
+    },
+    "settingsGroupParameterRef": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Unique identifier",
+          "type": "string"
+        },
+        "name": {
+          "description": "Public name, can be a translation key",
+          "type": "string"
+        },
+        "key": {
+          "description": "The key to use when saving to the storage",
+          "type": "string"
+        },
+        "type": {
+          "description": "The type of the value",
+          "type": "string"
+        },
+        "value": {
+          "description": "Default value to use for the setting",
+          "type": ["boolean", "string", "number"]
+        }
+      },
+      "required": ["name", "key", "type"]
     }
   },
 
@@ -664,6 +710,12 @@
       "description": "List of action definitions",
       "type": "array",
       "items": { "$ref": "#/definitions/actionRef" },
+      "minItems": 1
+    },
+    "settings": {
+      "description": "List of application-specific setting groups",
+      "type": "array",
+      "items": { "$ref": "#/definitions/settingsGroupRef" },
       "minItems": 1
     },
     "features": {

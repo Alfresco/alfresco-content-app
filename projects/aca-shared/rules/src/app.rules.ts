@@ -30,7 +30,6 @@ import * as repository from './repository.rules';
 export interface AcaRuleContext extends RuleContext {
   languagePicker: boolean;
   withCredentials: boolean;
-  processServices: boolean;
 }
 
 /**
@@ -554,5 +553,5 @@ export function canShowLogout(context: AcaRuleContext): boolean {
  * @param context Rule execution context
  */
 export function canShowProcessServices(context: AcaRuleContext): boolean {
-  return context.processServices;
+  return localStorage && localStorage.getItem('processServices') === 'true';
 }

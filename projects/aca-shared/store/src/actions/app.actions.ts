@@ -28,8 +28,8 @@ import { Node, Person, Group, RepositoryInfo } from '@alfresco/js-api';
 import { AppState } from '../states/app.state';
 
 export enum AppActionTypes {
+  SetSettingsParameter = 'SET_SETTINGS_PARAMETER',
   SetInitialState = 'SET_INITIAL_STATE',
-  SetLanguagePicker = 'SET_LANGUAGE_PICKER',
   SetCurrentFolder = 'SET_CURRENT_FOLDER',
   SetCurrentUrl = 'SET_CURRENT_URL',
   SetUserProfile = 'SET_USER_PROFILE',
@@ -41,20 +41,19 @@ export enum AppActionTypes {
   ResetSelection = 'RESET_SELECTION',
   SetInfoDrawerState = 'SET_INFO_DRAWER_STATE',
   SetInfoDrawerMetadataAspect = 'SET_INFO_DRAWER_METADATA_ASPECT',
-  CloseModalDialogs = 'CLOSE_MODAL_DIALOGS',
-  ToggleProcessServices = 'TOGGLE_PROCESS_SERVICES'
+  CloseModalDialogs = 'CLOSE_MODAL_DIALOGS'
+}
+
+export class SetSettingsParameterAction implements Action {
+  readonly type = AppActionTypes.SetSettingsParameter;
+
+  constructor(public payload: { name: string; value: any }) {}
 }
 
 export class SetInitialStateAction implements Action {
   readonly type = AppActionTypes.SetInitialState;
 
   constructor(public payload: AppState) {}
-}
-
-export class SetLanguagePickerAction implements Action {
-  readonly type = AppActionTypes.SetLanguagePicker;
-
-  constructor(public payload: boolean) {}
 }
 
 export class SetCurrentFolderAction implements Action {
@@ -113,10 +112,4 @@ export class SetRepositoryInfoAction implements Action {
   readonly type = AppActionTypes.SetRepositoryInfo;
 
   constructor(public payload: RepositoryInfo) {}
-}
-
-export class ToggleProcessServicesAction implements Action {
-  readonly type = AppActionTypes.ToggleProcessServices;
-
-  constructor(public payload: boolean) {}
 }

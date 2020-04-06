@@ -31,8 +31,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import {
   AppStore,
   getRuleContext,
-  getLanguagePickerState,
-  getProcessServicesState
+  getLanguagePickerState
 } from '@alfresco/aca-shared/store';
 import { NodePermissionService } from '@alfresco/aca-shared';
 import {
@@ -60,6 +59,7 @@ import { AppConfigService, AuthenticationService } from '@alfresco/adf-core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { RepositoryInfo, NodeEntry } from '@alfresco/js-api';
 import { ViewerRules } from './viewer.rules';
+import { SettingsGroupRef } from '../types';
 
 @Injectable({
   providedIn: 'root'
@@ -84,6 +84,7 @@ export class AppExtensionService implements RuleContext {
   contentMetadata: any;
   viewerRules: ViewerRules = {};
   userActions: Array<ContentActionRef> = [];
+  settingGroups: Array<SettingsGroupRef> = [];
 
   documentListPresets: {
     files: Array<DocumentListPresetRef>;
@@ -111,7 +112,6 @@ export class AppExtensionService implements RuleContext {
   repository: RepositoryInfo;
   withCredentials: boolean;
   languagePicker: boolean;
-  processServices: boolean;
 
   references$: Observable<ExtensionRef[]>;
 
@@ -137,10 +137,6 @@ export class AppExtensionService implements RuleContext {
     this.store.select(getLanguagePickerState).subscribe(result => {
       this.languagePicker = result;
     });
-
-    this.store.select(getProcessServicesState).subscribe(result => {
-      this.processServices = result;
-    });
   }
 
   async load() {
@@ -153,6 +149,12 @@ export class AppExtensionService implements RuleContext {
       console.error('Extension configuration not found');
       return;
     }
+
+    this.settingGroups = this.loader.getElements<SettingsGroupRef>(
+      config,
+      'settings'
+    );
+
     this.headerActions = this.loader.getContentActions(
       config,
       'features.header'

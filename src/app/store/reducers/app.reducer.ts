@@ -30,7 +30,6 @@ import {
   NodeActionTypes,
   SearchActionTypes,
   SetUserProfileAction,
-  SetLanguagePickerAction,
   SetCurrentFolderAction,
   SetCurrentUrlAction,
   SetInitialStateAction,
@@ -38,7 +37,7 @@ import {
   SetRepositoryInfoAction,
   SetInfoDrawerStateAction,
   SetInfoDrawerMetadataAspectAction,
-  ToggleProcessServicesAction
+  SetSettingsParameterAction
 } from '@alfresco/aca-shared/store';
 import { INITIAL_APP_STATE } from '../initial-state';
 
@@ -52,14 +51,17 @@ export function appReducer(
     case AppActionTypes.SetInitialState:
       newState = Object.assign({}, (<SetInitialStateAction>action).payload);
       break;
+    case AppActionTypes.SetSettingsParameter:
+      newState = handleSettingsUpdate(
+        state,
+        action as SetSettingsParameterAction
+      );
+      break;
     case NodeActionTypes.SetSelection:
       newState = updateSelectedNodes(state, <SetSelectedNodesAction>action);
       break;
     case AppActionTypes.SetUserProfile:
       newState = updateUser(state, <SetUserProfileAction>action);
-      break;
-    case AppActionTypes.SetLanguagePicker:
-      newState = updateLanguagePicker(state, <SetLanguagePickerAction>action);
       break;
     case AppActionTypes.SetCurrentFolder:
       newState = updateCurrentFolder(state, <SetCurrentFolderAction>action);
@@ -93,11 +95,6 @@ export function appReducer(
     case SearchActionTypes.HideFilter:
       newState = hideSearchFilter(state);
       break;
-    case AppActionTypes.ToggleProcessServices:
-      newState = updateProcessServices(state, <ToggleProcessServicesAction>(
-        action
-      ));
-      break;
     default:
       newState = Object.assign({}, state);
   }
@@ -120,15 +117,6 @@ function hideSearchFilter(state: AppState): AppState {
 function showSearchFilter(state: AppState): AppState {
   const newState = Object.assign({}, state);
   newState.showFacetFilter = true;
-  return newState;
-}
-
-function updateLanguagePicker(
-  state: AppState,
-  action: SetLanguagePickerAction
-): AppState {
-  const newState = Object.assign({}, state);
-  newState.languagePicker = action.payload;
   return newState;
 }
 
@@ -275,11 +263,15 @@ function updateRepositoryStatus(
   return newState;
 }
 
-function updateProcessServices(
+function handleSettingsUpdate(
   state: AppState,
-  action: ToggleProcessServicesAction
-) {
-  const newState = Object.assign({}, state);
-  newState.processServices = action.payload;
+  action: SetSettingsParameterAction
+): AppState {
+  const newState = { ...state };
+  const { payload } = action;
+
+  if (payload.name === 'languagePicker') {
+    newState.languagePicker = payload.value ? true : false;
+  }
   return newState;
 }

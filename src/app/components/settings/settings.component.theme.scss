@@ -2,6 +2,11 @@
   $background: map-get($theme, background);
   $app-menu-height: 64px;
 
+  .aca-settings-parameter-list {
+    display: flex;
+    flex-direction: column;
+  }
+
   .aca-settings {
     &-extensions-list {
       display: flex;

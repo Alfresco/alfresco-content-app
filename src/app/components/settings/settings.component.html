@@ -68,39 +68,40 @@
     </form>
   </mat-expansion-panel>
 
-  <mat-expansion-panel>
+  <mat-expansion-panel *ngFor="let group of settingGroups">
     <mat-expansion-panel-header>
-      <mat-panel-title>
-        {{ 'APP.SETTINGS.APPLICATION-SETTINGS' | translate }}
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <mat-checkbox
-      [ngModel]="languagePicker$ | async"
-      (change)="onLanguagePickerValueChanged($event)"
-    >
-      Language Picker
-    </mat-checkbox>
-  </mat-expansion-panel>
-
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>Extensions</mat-panel-title>
+      <mat-panel-title>{{ group.name | translate }}</mat-panel-title>
     </mat-expansion-panel-header>
 
-    <div class="aca-settings-extensions-list">
-      <mat-checkbox
-        [ngModel]="aiExtensions$ | async"
-        (change)="onToggleAiExtensions($event)"
-      >
-        Enable AI Extensions
-      </mat-checkbox>
+    <div class="aca-settings-parameter-list">
+      <ng-container *ngFor="let param of group.parameters">
+        <ng-container [ngSwitch]="param.type">
+          <ng-container *ngSwitchCase="'boolean'">
+            <mat-checkbox
+              [checked]="getBooleanParamValue(param)"
+              (change)="setParamValue(param, $event.checked)"
+              >{{ param.name | translate }}</mat-checkbox
+            >
+          </ng-container>
 
-      <mat-checkbox
-        [ngModel]="psExtensions$ | async"
-        (change)="onTogglePsExtensions($event)"
-      >
-        Enable Process Services Extensions
-      </mat-checkbox>
+          <ng-container *ngSwitchCase="'string'">
+            <mat-form-field class="settings-input" appearance="outline">
+              <mat-label>{{ param.name | translate }}</mat-label>
+              <input
+                matInput
+                type="text"
+                [value]="getStringParamValue(param)"
+                (blur)="setParamValue(param, $event.target.value)"
+                (keyup.enter)="setParamValue(param, $event.target.value)"
+              />
+            </mat-form-field>
+          </ng-container>
+
+          <ng-container *ngSwitchDefault>
+            <span>Unknown parameter type: {{ param.name | translate }}</span>
+          </ng-container>
+        </ng-container>
+      </ng-container>
     </div>
   </mat-expansion-panel>
 </mat-accordion>

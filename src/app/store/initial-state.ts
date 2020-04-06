@@ -54,8 +54,7 @@ export const INITIAL_APP_STATE: AppState = {
     status: <any>{
       isQuickShareEnabled: true
     }
-  },
-  processServices: false
+  }
 };
 
 export const INITIAL_STATE: AppStore = {
