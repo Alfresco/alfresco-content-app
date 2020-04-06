@@ -87,7 +87,13 @@
           <ng-container *ngSwitchCase="'string'">
             <mat-form-field class="settings-input" appearance="outline">
               <mat-label>{{ param.name | translate }}</mat-label>
-              <input matInput type="text" [value]="param.value" />
+              <input
+                matInput
+                type="text"
+                [value]="getStringParamValue(param)"
+                (blur)="setParamValue(param, $event.target.value)"
+                (keyup.enter)="setParamValue(param, $event.target.value)"
+              />
             </mat-form-field>
           </ng-container>
 

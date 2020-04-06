@@ -143,8 +143,10 @@ export class SettingsComponent implements OnInit {
   }
 
   setParamValue(param: SettingsParameterRef, value: any) {
-    param.value = value;
-    this.saveToStorage(param);
+    if (param.value !== value) {
+      param.value = value;
+      this.saveToStorage(param);
+    }
   }
 
   getBooleanParamValue(param: SettingsParameterRef): boolean {

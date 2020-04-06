@@ -53,12 +53,10 @@ export function appReducer(
       newState = Object.assign({}, (<SetInitialStateAction>action).payload);
       break;
     case AppActionTypes.SetSettingsParameter:
-      newState = { ...state };
-      const { payload } = action as SetSettingsParameterAction;
-      console.log(action);
-      if (payload.name === 'languagePicker') {
-        newState.languagePicker = payload.value ? true : false;
-      }
+      newState = handleSettingsUpdate(
+        state,
+        action as SetSettingsParameterAction
+      );
       break;
     case NodeActionTypes.SetSelection:
       newState = updateSelectedNodes(state, <SetSelectedNodesAction>action);
@@ -277,5 +275,18 @@ function updateProcessServices(
 ) {
   const newState = Object.assign({}, state);
   newState.processServices = action.payload;
+  return newState;
+}
+
+function handleSettingsUpdate(
+  state: AppState,
+  action: SetSettingsParameterAction
+): AppState {
+  const newState = { ...state };
+  const { payload } = action;
+
+  if (payload.name === 'languagePicker') {
+    newState.languagePicker = payload.value ? true : false;
+  }
   return newState;
 }

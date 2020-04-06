@@ -160,7 +160,6 @@ export class AppExtensionService implements RuleContext {
       config,
       'settings'
     );
-    console.log(this.settingGroups);
 
     this.headerActions = this.loader.getContentActions(
       config,
