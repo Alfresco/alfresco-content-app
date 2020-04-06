@@ -41,8 +41,7 @@ export enum AppActionTypes {
   ResetSelection = 'RESET_SELECTION',
   SetInfoDrawerState = 'SET_INFO_DRAWER_STATE',
   SetInfoDrawerMetadataAspect = 'SET_INFO_DRAWER_METADATA_ASPECT',
-  CloseModalDialogs = 'CLOSE_MODAL_DIALOGS',
-  ToggleProcessServices = 'TOGGLE_PROCESS_SERVICES'
+  CloseModalDialogs = 'CLOSE_MODAL_DIALOGS'
 }
 
 export class SetSettingsParameterAction implements Action {
@@ -113,10 +112,4 @@ export class SetRepositoryInfoAction implements Action {
   readonly type = AppActionTypes.SetRepositoryInfo;
 
   constructor(public payload: RepositoryInfo) {}
-}
-
-export class ToggleProcessServicesAction implements Action {
-  readonly type = AppActionTypes.ToggleProcessServices;
-
-  constructor(public payload: boolean) {}
 }

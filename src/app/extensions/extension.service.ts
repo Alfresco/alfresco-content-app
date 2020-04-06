@@ -31,8 +31,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import {
   AppStore,
   getRuleContext,
-  getLanguagePickerState,
-  getProcessServicesState
+  getLanguagePickerState
 } from '@alfresco/aca-shared/store';
 import { NodePermissionService } from '@alfresco/aca-shared';
 import {
@@ -113,7 +112,6 @@ export class AppExtensionService implements RuleContext {
   repository: RepositoryInfo;
   withCredentials: boolean;
   languagePicker: boolean;
-  processServices: boolean;
 
   references$: Observable<ExtensionRef[]>;
 
@@ -138,10 +136,6 @@ export class AppExtensionService implements RuleContext {
 
     this.store.select(getLanguagePickerState).subscribe(result => {
       this.languagePicker = result;
-    });
-
-    this.store.select(getProcessServicesState).subscribe(result => {
-      this.processServices = result;
     });
   }
 

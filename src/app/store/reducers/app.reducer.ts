@@ -37,7 +37,6 @@ import {
   SetRepositoryInfoAction,
   SetInfoDrawerStateAction,
   SetInfoDrawerMetadataAspectAction,
-  ToggleProcessServicesAction,
   SetSettingsParameterAction
 } from '@alfresco/aca-shared/store';
 import { INITIAL_APP_STATE } from '../initial-state';
@@ -95,11 +94,6 @@ export function appReducer(
       break;
     case SearchActionTypes.HideFilter:
       newState = hideSearchFilter(state);
-      break;
-    case AppActionTypes.ToggleProcessServices:
-      newState = updateProcessServices(state, <ToggleProcessServicesAction>(
-        action
-      ));
       break;
     default:
       newState = Object.assign({}, state);
@@ -266,15 +260,6 @@ function updateRepositoryStatus(
 ) {
   const newState = Object.assign({}, state);
   newState.repository = action.payload;
-  return newState;
-}
-
-function updateProcessServices(
-  state: AppState,
-  action: ToggleProcessServicesAction
-) {
-  const newState = Object.assign({}, state);
-  newState.processServices = action.payload;
   return newState;
 }
 

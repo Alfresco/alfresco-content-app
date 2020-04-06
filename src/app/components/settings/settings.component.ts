@@ -32,13 +32,11 @@ import {
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { MatCheckboxChange } from '@angular/material/checkbox';
 import {
   AppStore,
   getHeaderColor,
   getAppName,
   getUserProfile,
-  ToggleProcessServicesAction,
   SetSettingsParameterAction
 } from '@alfresco/aca-shared/store';
 import { ProfileState } from '@alfresco/adf-extensions';
@@ -131,11 +129,6 @@ export class SettingsComponent implements OnInit {
       aisHost: config.host,
       authType: this.appConfig.get<string>('authType')
     });
-  }
-
-  onTogglePsExtensions(event: MatCheckboxChange) {
-    this.storage.setItem('processServices', event.checked.toString());
-    this.store.dispatch(new ToggleProcessServicesAction(event.checked));
   }
 
   getStringParamValue(param: SettingsParameterRef): string {
