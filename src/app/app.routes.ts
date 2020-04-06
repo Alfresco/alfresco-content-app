@@ -35,7 +35,7 @@ import {
   AppSharedRuleGuard,
   GenericErrorComponent
 } from '@alfresco/aca-shared';
-import { AuthGuardEcm } from '@alfresco/adf-core';
+import { AuthGuard } from '@alfresco/adf-core';
 import { FavoritesComponent } from './components/favorites/favorites.component';
 import { RecentFilesComponent } from './components/recent-files/recent-files.component';
 import { SharedFilesComponent } from './components/shared-files/shared-files.component';
