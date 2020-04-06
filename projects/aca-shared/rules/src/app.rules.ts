@@ -553,5 +553,5 @@ export function canShowLogout(context: AcaRuleContext): boolean {
  * @param context Rule execution context
  */
 export function canShowProcessServices(context: AcaRuleContext): boolean {
-  return localStorage.getItem('processServices') === 'true';
+  return localStorage && localStorage.getItem('processServices') === 'true';
 }

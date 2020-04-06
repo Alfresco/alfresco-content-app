@@ -42,6 +42,12 @@ describe('AppComponent', () => {
     }
   };
 
+  const storageMock: any = {
+    getItem(): string {
+      return '';
+    }
+  };
+
   beforeAll(() => {
     component = new AppComponent(
       null,
@@ -56,7 +62,7 @@ describe('AppComponent', () => {
       null,
       null,
       null,
-      null
+      storageMock
     );
   });
 
