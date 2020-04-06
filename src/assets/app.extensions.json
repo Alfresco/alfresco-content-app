@@ -15,7 +15,6 @@
       "name": "APP.SETTINGS.APPLICATION-SETTINGS",
       "parameters": [
         {
-          "id": "app.settings.languagePicker",
           "name": "Language Picker",
           "key": "languagePicker",
           "type": "boolean",
@@ -24,25 +23,22 @@
       ]
     },
     {
-      "id": "extension.settings",
-      "name": "Extension Settings",
+      "id": "extensions.ai.settings",
+      "name": "Extensions: AI",
       "parameters": [
         {
-          "id": "app.settings.1",
-          "name": "Setting 1",
-          "key": "aca_settings_1",
-          "type": "string",
-          "value": "hello world"
-        },
-        {
-          "id": "app.setting.2",
           "name": "Enable AI Extensions",
           "key": "ai",
           "type": "boolean",
           "value": false
-        },
+        }
+      ]
+    },
+    {
+      "id": "extensions.ps.settings",
+      "name": "Extensions: Process Services",
+      "parameters": [
         {
-          "id": "app.setting.2",
           "name": "Enable Process Services Extensions",
           "key": "processServices",
           "type": "boolean",
