@@ -36,7 +36,13 @@ import {
 } from '@alfresco/aca-shared/store';
 import { ContentActionRef, SelectionState } from '@alfresco/adf-extensions';
 import { MinimalNodeEntryEntity, SearchRequest } from '@alfresco/js-api';
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  ViewEncapsulation
+} from '@angular/core';
 import { ActivatedRoute, Router, PRIMARY_OUTLET } from '@angular/router';
 import {
   UserPreferencesService,
@@ -50,6 +56,7 @@ import { from, Observable, Subject } from 'rxjs';
 import { takeUntil, debounceTime } from 'rxjs/operators';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { Actions, ofType } from '@ngrx/effects';
+
 @Component({
   selector: 'app-viewer',
   templateUrl: './viewer.component.html',
@@ -58,10 +65,9 @@ import { Actions, ofType } from '@ngrx/effects';
   host: { class: 'app-viewer' }
 })
 export class AppViewerComponent implements OnInit, OnDestroy {
-  private navigationPath: string;
-
   onDestroy$ = new Subject<boolean>();
 
+  fileName: string;
   folderId: string = null;
   nodeId: string = null;
   node: MinimalNodeEntryEntity;
@@ -108,8 +114,7 @@ export class AppViewerComponent implements OnInit, OnDestroy {
     '-TYPE:"lnk:link"'
   ];
 
-  fileName: string;
-
+  private navigationPath: string;
   private previewLocation: string;
   private containersSkipNavigation = [
     'adf-viewer__sidebar',
@@ -405,6 +410,30 @@ export class AppViewerComponent implements OnInit, OnDestroy {
     return [];
   }
 
+  /**
+   * Get the root field name from the property path.
+   * Example: 'property1.some.child.property' => 'property1'
+   * @param path Property path
+   */
+  getRootField(path: string) {
+    if (path) {
+      return path.split('.')[0];
+    }
+    return path;
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    const key = event.keyCode;
+    const rightArrow = 39;
+    const leftArrow = 37;
+
+    if (key === rightArrow || key === leftArrow) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    }
+  }
+
   private sort(items: any[], key: string, direction: string) {
     const options: Intl.CollatorOptions = {};
 
@@ -433,18 +462,6 @@ export class AppViewerComponent implements OnInit, OnDestroy {
         ? left.localeCompare(right, undefined, options)
         : right.localeCompare(left, undefined, options);
     });
-  }
-
-  /**
-   * Get the root field name from the property path.
-   * Example: 'property1.some.child.property' => 'property1'
-   * @param path Property path
-   */
-  getRootField(path: string) {
-    if (path) {
-      return path.split('.')[0];
-    }
-    return path;
   }
 
   private navigateToFileLocation() {

@@ -28,8 +28,8 @@ import {
   HostListener,
   Input,
   OnChanges,
-  OnInit,
-  OnDestroy
+  OnDestroy,
+  OnInit
 } from '@angular/core';
 import {
   MinimalNodeEntity,
