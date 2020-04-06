@@ -76,7 +76,7 @@ export const APP_ROUTES: Routes = [
   {
     path: '',
     component: AppLayoutComponent,
-    canActivate: [AuthGuardEcm],
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',
@@ -414,6 +414,6 @@ export const APP_ROUTES: Routes = [
         component: GenericErrorComponent
       }
     ],
-    canActivateChild: [AuthGuardEcm]
+    canActivateChild: [AuthGuard]
   }
 ];

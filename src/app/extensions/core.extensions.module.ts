@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { CoreModule, AuthGuardEcm } from '@alfresco/adf-core';
+import { CoreModule, AuthGuard } from '@alfresco/adf-core';
 import { CommonModule } from '@angular/common';
 import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 import { AppLayoutComponent } from '../components/layout/app-layout/app-layout.component';
@@ -109,7 +109,7 @@ export class CoreExtensionsModule {
     });
 
     extensions.setAuthGuards({
-      'app.auth': AuthGuardEcm
+      'app.auth': AuthGuard
     });
 
     extensions.setEvaluators({
