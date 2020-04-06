@@ -108,6 +108,3 @@ Read up on our guidelines for [contributing] and then check out one of our issue
 [github]: https://github.com/Alfresco/alfresco-content-app/issues
 [jira]: https://issues.alfresco.com/jira/projects/ACA
 [release notes]: https://github.com/Alfresco/alfresco-content-app/releases
-
-Testing Supported By<br/>
-<img width="160" src="docs/images/Browserstack-logo.svg" alt="BrowserStack"/>
