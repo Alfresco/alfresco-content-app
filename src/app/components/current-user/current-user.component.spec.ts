@@ -32,7 +32,7 @@ import { Store } from '@ngrx/store';
 import {
   AppState,
   SetUserProfileAction,
-  SetLanguagePickerAction
+  SetSettingsParameterAction
 } from '@alfresco/aca-shared/store';
 
 describe('CurrentUserComponent', () => {
@@ -91,7 +91,9 @@ describe('CurrentUserComponent', () => {
   it('should set language picker state', done => {
     fixture.detectChanges();
 
-    store.dispatch(new SetLanguagePickerAction(true));
+    store.dispatch(
+      new SetSettingsParameterAction({ name: 'languagePicker', value: true })
+    );
 
     component.languagePicker$.subscribe((languagePicker: boolean) => {
       expect(languagePicker).toBe(true);

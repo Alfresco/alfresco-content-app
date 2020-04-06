@@ -30,9 +30,9 @@ export interface SettingsGroupRef {
 }
 
 export interface SettingsParameterRef {
-  id: string;
+  id?: string;
   name: string;
   key: string;
   type: 'string' | 'boolean';
-  value: any;
+  value?: any;
 }

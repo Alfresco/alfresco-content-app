@@ -55,6 +55,7 @@ describe('AppComponent', () => {
       null,
       null,
       null,
+      null,
       null
     );
   });
