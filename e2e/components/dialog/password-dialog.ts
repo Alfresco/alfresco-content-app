@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, browser, until } from 'protractor';
+import { ElementFinder, by, browser, ExpectedConditions as EC } from 'protractor';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { GenericDialog } from '../dialog/generic-dialog';
 
@@ -43,6 +43,24 @@ export class PasswordDialog extends GenericDialog {
 
   constructor() {
     super(PasswordDialog.selectors.root);
+  }
+
+  async waitForPasswordInputToBeInteractive() {
+    await browser.wait(EC.elementToBeClickable(this.passwordInput), BROWSER_WAIT_TIMEOUT, '--- timeout wait for passwordInput ---');
+  }
+
+  async waitForDialogToOpen(): Promise<void> {
+    await super.waitForDialogToOpen();
+    await this.waitForPasswordInputToBeInteractive();
+  }
+
+  async isDialogOpen(): Promise<boolean> {
+    try {
+      await this.waitForDialogToOpen();
+      return true;
+    } catch (error) {
+      return false;
+    }
   }
 
   async isCloseEnabled(): Promise<boolean> {
@@ -71,8 +89,13 @@ export class PasswordDialog extends GenericDialog {
   }
 
   async isErrorDisplayed(): Promise<boolean> {
-    const elem = await browser.wait(until.elementLocated(by.css(PasswordDialog.selectors.errorMessage)), BROWSER_WAIT_TIMEOUT, '------- timeout waiting for error message to appear')
-    return (await browser.isElementPresent(elem)) && (await elem.isDisplayed());
+    try {
+      await this.waitForDialogToOpen();
+      return (await this.errorMessage.isPresent()) && (await this.errorMessage.isDisplayed());
+    } catch (error) {
+      return false;
+    }
+
   }
 
   async getErrorMessage(): Promise<string> {

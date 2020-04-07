@@ -63,7 +63,7 @@ describe('Viewer - password protected file', () => {
     await dataTable.waitForHeader();
     await dataTable.doubleClickOnRowByName(protectedFile.name);
     await viewer.waitForViewerToOpen();
-    await page.waitForDialog();
+    await passwordDialog.waitForDialogToOpen();
   });
 
   afterEach(async () => {
