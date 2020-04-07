@@ -37,7 +37,8 @@ import {
   SetRepositoryInfoAction,
   SetInfoDrawerStateAction,
   SetInfoDrawerMetadataAspectAction,
-  SetSettingsParameterAction
+  SetSettingsParameterAction,
+  SetHeaderColorAction
 } from '@alfresco/aca-shared/store';
 import { INITIAL_APP_STATE } from '../initial-state';
 
@@ -56,6 +57,12 @@ export function appReducer(
         state,
         action as SetSettingsParameterAction
       );
+      break;
+    case AppActionTypes.SetHeaderColor:
+      newState = {
+        ...state,
+        headerColor: (action as SetHeaderColorAction).color
+      };
       break;
     case NodeActionTypes.SetSelection:
       newState = updateSelectedNodes(state, <SetSelectedNodesAction>action);
