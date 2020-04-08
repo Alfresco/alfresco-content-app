@@ -22,11 +22,11 @@
             </ng-template>
           </ng-container>
 
-          <ng-container *ngIf="!item.component">
+          <ng-container *ngIf="isLoggedIn(item.provider) && !item.component">
             <app-expand-menu [item]="item"></app-expand-menu>
           </ng-container>
 
-          <ng-container *ngIf="item.component">
+          <ng-container *ngIf="isLoggedIn(item.provider) && item.component">
             <adf-dynamic-component
               [data]="{ item: item, state: 'expanded' }"
               [id]="item.component"
@@ -51,11 +51,11 @@
             </ng-template>
           </ng-container>
 
-          <ng-container *ngIf="!item.component">
+          <ng-container *ngIf="isLoggedIn(item.provider) && !item.component">
             <app-button-menu [item]="item"></app-button-menu>
           </ng-container>
 
-          <ng-container *ngIf="item.component">
+          <ng-container *ngIf="isLoggedIn(item.provider) && item.component">
             <adf-dynamic-component
               [data]="{ item: item, state: 'collapsed' }"
               [id]="item.component"
