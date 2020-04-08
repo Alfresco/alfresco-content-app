@@ -35,7 +35,7 @@ import { CoreModule } from '@alfresco/adf-core';
   imports: [
     BrowserModule,
     CoreModule.forChild(),
-    ContentModule.forChild(),
+    ContentModule,
     MaterialModule,
     LockedByModule
   ],

@@ -40,7 +40,7 @@ import { PageLayoutModule } from '@alfresco/aca-shared';
     CommonModule,
     RouterModule,
     CoreModule.forChild(),
-    ContentModule.forChild(),
+    ContentModule,
     AppCommonModule,
     AppSidenavModule,
     AppHeaderModule,

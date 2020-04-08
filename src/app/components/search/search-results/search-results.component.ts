@@ -54,7 +54,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./search-results.component.scss']
 })
 export class SearchResultsComponent extends PageComponent implements OnInit {
-  @ViewChild('searchFilter')
+  @ViewChild('searchFilter', { static: true })
   searchFilter: SearchFilterComponent;
 
   showFacetFilter$: Observable<boolean>;

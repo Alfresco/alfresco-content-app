@@ -42,7 +42,7 @@ import { TestBed, async } from '@angular/core/testing';
   `
 })
 class TestComponent {
-  @ViewChild('favoriteLibrary')
+  @ViewChild('favoriteLibrary', { static: false })
   directive: LibraryFavoriteDirective;
 
   selection = null;

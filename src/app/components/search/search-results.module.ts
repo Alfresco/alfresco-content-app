@@ -41,7 +41,7 @@ import { ContextMenuModule } from '../context-menu/context-menu.module';
   imports: [
     CommonModule,
     CoreModule.forChild(),
-    ContentModule.forChild(),
+    ContentModule,
     AppCommonModule,
     AppInfoDrawerModule,
     AppToolbarModule,

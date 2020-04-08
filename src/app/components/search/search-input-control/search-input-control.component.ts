@@ -63,7 +63,7 @@ export class SearchInputControlComponent implements OnDestroy {
   @Output()
   searchChange: EventEmitter<string> = new EventEmitter();
 
-  @ViewChild('searchInput')
+  @ViewChild('searchInput', { static: true })
   searchInput: ElementRef;
 
   searchTerm = '';

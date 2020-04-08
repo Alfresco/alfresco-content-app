@@ -52,7 +52,7 @@ import { isLocked, isLibrary } from '@alfresco/aca-shared';
 export abstract class PageComponent implements OnInit, OnDestroy {
   onDestroy$: Subject<boolean> = new Subject<boolean>();
 
-  @ViewChild(DocumentListComponent)
+  @ViewChild(DocumentListComponent, { static: false })
   documentList: DocumentListComponent;
 
   title = 'Page';

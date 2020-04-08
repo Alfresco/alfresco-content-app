@@ -44,7 +44,7 @@ import { ActionDirective } from './directives/action.directive';
     CommonModule,
     CoreModule.forChild(),
     CoreExtensionsModule.forChild(),
-    ExtensionsModule.forChild(),
+    ExtensionsModule,
     RouterModule,
     AppCreateMenuModule
   ],
