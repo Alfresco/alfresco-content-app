@@ -74,9 +74,10 @@ export function appReducer(
       newState = setInfoDrawer(state, <SetInfoDrawerStateAction>action);
       break;
     case AppActionTypes.SetInfoDrawerMetadataAspect:
-      newState = setInfoDrawerAspect(state, <SetInfoDrawerMetadataAspectAction>(
-        action
-      ));
+      newState = setInfoDrawerAspect(
+        state,
+        <SetInfoDrawerMetadataAspectAction>action
+      );
       break;
     case AppActionTypes.ToggleDocumentDisplayMode:
       newState = toggleDocumentDisplayMode(state);
@@ -94,9 +95,10 @@ export function appReducer(
       newState = hideSearchFilter(state);
       break;
     case AppActionTypes.ToggleProcessServices:
-      newState = updateProcessServices(state, <ToggleProcessServicesAction>(
-        action
-      ));
+      newState = updateProcessServices(
+        state,
+        <ToggleProcessServicesAction>action
+      );
       break;
     default:
       newState = Object.assign({}, state);
@@ -161,15 +163,19 @@ function updateUser(state: AppState, action: SetUserProfileAction): AppState {
 }
 
 function updateCurrentFolder(state: AppState, action: SetCurrentFolderAction) {
-  const newState = Object.assign({}, state);
-  newState.navigation.currentFolder = action.payload;
-  return newState;
+  const navigation = { ...state.navigation, currentFolder: action.payload };
+  return {
+    ...state,
+    navigation: { ...navigation }
+  };
 }
 
 function updateCurrentUrl(state: AppState, action: SetCurrentUrlAction) {
-  const newState = Object.assign({}, state);
-  newState.navigation.url = action.payload;
-  return newState;
+  const navigation = { ...state.navigation, url: action.payload };
+  return {
+    ...state,
+    navigation: { ...navigation }
+  };
 }
 
 function toggleInfoDrawer(state: AppState) {
