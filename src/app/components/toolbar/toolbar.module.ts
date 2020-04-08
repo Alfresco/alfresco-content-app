@@ -68,7 +68,6 @@ export function components() {
     DirectivesModule
   ],
   declarations: components(),
-  exports: components(),
-  entryComponents: components()
+  exports: components()
 })
 export class AppToolbarModule {}
