@@ -36,6 +36,7 @@ import { CollapsedTemplateDirective } from './directives/collapsed-template.dire
 import { ExpandedTemplateDirective } from './directives/expanded-template.directive';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { NavBarGroupRef } from '@alfresco/adf-extensions';
+import { AuthenticationService } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
 import { AppStore, getSideNavState } from '@alfresco/aca-shared/store';
 import { Subject } from 'rxjs';
@@ -62,7 +63,8 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<AppStore>,
-    private extensions: AppExtensionService
+    private extensions: AppExtensionService,
+    private authService: AuthenticationService
   ) {}
 
   ngOnInit() {
@@ -78,6 +80,11 @@ export class SidenavComponent implements OnInit, OnDestroy {
           this.extensions.navbar
         );
       });
+  }
+
+  isLoggedIn(provider: string): boolean {
+    if (provider === undefined) return true;
+    return this.authService.isLoggedInWith(provider);
   }
 
   trackById(_: number, obj: { id: string }) {

@@ -1,0 +1,61 @@
+/*!
+ * @license
+ * Copyright 2019 Alfresco Software, Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import {
+  ContentApi,
+  Core,
+  Activiti,
+  SearchApi,
+  Node,
+  AlfrescoApiCompatibility,
+  AlfrescoApiConfig
+} from '@alfresco/js-api';
+import { AppConfigService } from '../app-config/app-config.service';
+import { Subject, Observable } from 'rxjs';
+import { StorageService } from './storage.service';
+export declare class AlfrescoApiService {
+  protected appConfig: AppConfigService;
+  protected storageService: StorageService;
+  /**
+   * Publish/subscribe to events related to node updates.
+   */
+  nodeUpdated: Subject<Node>;
+  protected alfrescoApiInitializedSubject: Subject<any>;
+  alfrescoApiInitialized: Observable<any>;
+  protected alfrescoApi: AlfrescoApiCompatibility;
+  lastConfig: AlfrescoApiConfig;
+  getInstance(): AlfrescoApiCompatibility;
+  readonly taskApi: Activiti.TaskApi;
+  readonly contentApi: ContentApi;
+  readonly nodesApi: Core.NodesApi;
+  readonly renditionsApi: Core.RenditionsApi;
+  readonly sharedLinksApi: Core.SharedlinksApi;
+  readonly sitesApi: Core.SitesApi;
+  readonly favoritesApi: Core.FavoritesApi;
+  readonly peopleApi: Core.PeopleApi;
+  readonly searchApi: SearchApi;
+  readonly versionsApi: Core.VersionsApi;
+  readonly classesApi: Core.ClassesApi;
+  readonly groupsApi: Core.GroupsApi;
+  constructor(appConfig: AppConfigService, storageService: StorageService);
+  load(): Promise<void>;
+  reset(): Promise<void>;
+  protected initAlfrescoApi(): void;
+  isDifferentConfig(
+    lastConfig: AlfrescoApiConfig,
+    newConfig: AlfrescoApiConfig
+  ): boolean;
+}

@@ -1,0 +1,41 @@
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/*!
+ * @license
+ * Copyright 2019 Alfresco Software, Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import { CardViewDateItemModel } from './card-view-dateitem.model';
+export class CardViewDatetimeItemModel extends CardViewDateItemModel {
+  /**
+   * @param {?} cardViewDateItemProperties
+   */
+  constructor(cardViewDateItemProperties) {
+    super(cardViewDateItemProperties);
+    this.type = 'datetime';
+    this.format = 'MMM d, y, H:mm';
+    if (cardViewDateItemProperties.format) {
+      this.format = cardViewDateItemProperties.format;
+    }
+  }
+}
+if (false) {
+  /** @type {?} */
+  CardViewDatetimeItemModel.prototype.type;
+  /** @type {?} */
+  CardViewDatetimeItemModel.prototype.format;
+}
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiY2FyZC12aWV3LWRhdGV0aW1laXRlbS5tb2RlbC5qcyIsInNvdXJjZVJvb3QiOiJuZzovL0BhbGZyZXNjby9hZGYtY29yZS8iLCJzb3VyY2VzIjpbImNhcmQtdmlldy9tb2RlbHMvY2FyZC12aWV3LWRhdGV0aW1laXRlbS5tb2RlbC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7Ozs7Ozs7Ozs7OztBQW1CQSxPQUFPLEVBQUUscUJBQXFCLEVBQUUsTUFBTSw0QkFBNEIsQ0FBQztBQUduRSxNQUFNLE9BQU8seUJBQTBCLFNBQVEscUJBQXFCOzs7O0lBSWhFLFlBQVksMEJBQXNEO1FBQzlELEtBQUssQ0FBQywwQkFBMEIsQ0FBQyxDQUFDO1FBSnRDLFNBQUksR0FBVyxVQUFVLENBQUM7UUFDMUIsV0FBTSxHQUFXLGdCQUFnQixDQUFDO1FBSzlCLElBQUksMEJBQTBCLENBQUMsTUFBTSxFQUFFO1lBQ25DLElBQUksQ0FBQyxNQUFNLEdBQUcsMEJBQTBCLENBQUMsTUFBTSxDQUFDO1NBQ25EO0lBQ0wsQ0FBQztDQUNKOzs7SUFWRyx5Q0FBMEI7O0lBQzFCLDJDQUFrQyIsInNvdXJjZXNDb250ZW50IjpbIi8qIVxuICogQGxpY2Vuc2VcbiAqIENvcHlyaWdodCAyMDE5IEFsZnJlc2NvIFNvZnR3YXJlLCBMdGQuXG4gKlxuICogTGljZW5zZWQgdW5kZXIgdGhlIEFwYWNoZSBMaWNlbnNlLCBWZXJzaW9uIDIuMCAodGhlIFwiTGljZW5zZVwiKTtcbiAqIHlvdSBtYXkgbm90IHVzZSB0aGlzIGZpbGUgZXhjZXB0IGluIGNvbXBsaWFuY2Ugd2l0aCB0aGUgTGljZW5zZS5cbiAqIFlvdSBtYXkgb2J0YWluIGEgY29weSBvZiB0aGUgTGljZW5zZSBhdFxuICpcbiAqICAgICBodHRwOi8vd3d3LmFwYWNoZS5vcmcvbGljZW5zZXMvTElDRU5TRS0yLjBcbiAqXG4gKiBVbmxlc3MgcmVxdWlyZWQgYnkgYXBwbGljYWJsZSBsYXcgb3IgYWdyZWVkIHRvIGluIHdyaXRpbmcsIHNvZnR3YXJlXG4gKiBkaXN0cmlidXRlZCB1bmRlciB0aGUgTGljZW5zZSBpcyBkaXN0cmlidXRlZCBvbiBhbiBcIkFTIElTXCIgQkFTSVMsXG4gKiBXSVRIT1VUIFdBUlJBTlRJRVMgT1IgQ09ORElUSU9OUyBPRiBBTlkgS0lORCwgZWl0aGVyIGV4cHJlc3Mgb3IgaW1wbGllZC5cbiAqIFNlZSB0aGUgTGljZW5zZSBmb3IgdGhlIHNwZWNpZmljIGxhbmd1YWdlIGdvdmVybmluZyBwZXJtaXNzaW9ucyBhbmRcbiAqIGxpbWl0YXRpb25zIHVuZGVyIHRoZSBMaWNlbnNlLlxuICovXG5cbmltcG9ydCB7IENhcmRWaWV3SXRlbSB9IGZyb20gJy4uL2ludGVyZmFjZXMvY2FyZC12aWV3LWl0ZW0uaW50ZXJmYWNlJztcbmltcG9ydCB7IER5bmFtaWNDb21wb25lbnRNb2RlbCB9IGZyb20gJy4uLy4uL3NlcnZpY2VzL2R5bmFtaWMtY29tcG9uZW50LW1hcHBlci5zZXJ2aWNlJztcbmltcG9ydCB7IENhcmRWaWV3RGF0ZUl0ZW1Nb2RlbCB9IGZyb20gJy4vY2FyZC12aWV3LWRhdGVpdGVtLm1vZGVsJztcbmltcG9ydCB7IENhcmRWaWV3RGF0ZUl0ZW1Qcm9wZXJ0aWVzIH0gZnJvbSAnLi4vaW50ZXJmYWNlcy9jYXJkLXZpZXcuaW50ZXJmYWNlcyc7XG5cbmV4cG9ydCBjbGFzcyBDYXJkVmlld0RhdGV0aW1lSXRlbU1vZGVsIGV4dGVuZHMgQ2FyZFZpZXdEYXRlSXRlbU1vZGVsIGltcGxlbWVudHMgQ2FyZFZpZXdJdGVtLCBEeW5hbWljQ29tcG9uZW50TW9kZWwge1xuICAgIHR5cGU6IHN0cmluZyA9ICdkYXRldGltZSc7XG4gICAgZm9ybWF0OiBzdHJpbmcgPSAnTU1NIGQsIHksIEg6bW0nO1xuXG4gICAgY29uc3RydWN0b3IoY2FyZFZpZXdEYXRlSXRlbVByb3BlcnRpZXM6IENhcmRWaWV3RGF0ZUl0ZW1Qcm9wZXJ0aWVzKSB7XG4gICAgICAgIHN1cGVyKGNhcmRWaWV3RGF0ZUl0ZW1Qcm9wZXJ0aWVzKTtcblxuICAgICAgICBpZiAoY2FyZFZpZXdEYXRlSXRlbVByb3BlcnRpZXMuZm9ybWF0KSB7XG4gICAgICAgICAgICB0aGlzLmZvcm1hdCA9IGNhcmRWaWV3RGF0ZUl0ZW1Qcm9wZXJ0aWVzLmZvcm1hdDtcbiAgICAgICAgfVxuICAgIH1cbn1cbiJdfQ==
