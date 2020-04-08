@@ -50,7 +50,16 @@ import { INITIAL_STATE } from './initial-state';
 
 @NgModule({
   imports: [
-    StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE }),
+    StoreModule.forRoot(
+      { app: appReducer },
+      {
+        initialState: INITIAL_STATE,
+        runtimeChecks: {
+          strictStateImmutability: false,
+          strictActionImmutability: false
+        }
+      }
+    ),
     StoreRouterConnectingModule.forRoot({
       serializer: DefaultRouterStateSerializer,
       stateKey: 'router'
