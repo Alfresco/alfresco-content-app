@@ -59,7 +59,6 @@ import { ContextActionsModule } from '@alfresco/aca-shared';
     ContextMenuComponent,
     ContextMenuItemComponent,
     ContextActionsModule
-  ],
-  entryComponents: [ContextMenuComponent]
+  ]
 })
 export class ContextMenuModule {}

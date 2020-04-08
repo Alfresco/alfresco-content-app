@@ -37,10 +37,7 @@ import {
   AppConfigService,
   DebugAppConfigService
 } from '@alfresco/adf-core';
-import {
-  LibraryDialogComponent,
-  ContentModule
-} from '@alfresco/adf-content-services';
+import { ContentModule } from '@alfresco/adf-content-services';
 import { AppRouteReuseStrategy, SharedModule } from '@alfresco/aca-shared';
 
 import { AppComponent } from './app.component';
@@ -172,12 +169,6 @@ registerLocaleData(localeSv);
         source: 'assets'
       }
     }
-  ],
-  entryComponents: [
-    NodeVersionsDialogComponent,
-    NodeVersionUploadDialogComponent,
-    LibraryDialogComponent,
-    CreateFromTemplateDialogComponent
   ],
   bootstrap: [AppComponent]
 })

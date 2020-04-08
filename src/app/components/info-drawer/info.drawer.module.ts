@@ -64,7 +64,6 @@ export function components() {
     A11yModule
   ],
   declarations: [...components()],
-  exports: [...components()],
-  entryComponents: [...components()]
+  exports: [...components()]
 })
 export class AppInfoDrawerModule {}

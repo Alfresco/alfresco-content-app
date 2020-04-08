@@ -40,7 +40,6 @@ import { CoreModule } from '@alfresco/adf-core';
     LockedByModule
   ],
   declarations: [CustomNameColumnComponent],
-  exports: [CustomNameColumnComponent],
-  entryComponents: [CustomNameColumnComponent]
+  exports: [CustomNameColumnComponent]
 })
 export class DocumentListCustomComponentsModule {}

@@ -51,7 +51,6 @@ import { NgModule } from '@angular/core';
   ],
   exports: [AppNodeVersionFormComponent],
   declarations: [AppNodeVersionFormComponent],
-  providers: [],
-  entryComponents: [AppNodeVersionFormComponent]
+  providers: []
 })
 export class AppNodeVersionModule {}
