@@ -21,36 +21,6 @@
           "value": true
         }
       ]
-    },
-    {
-      "id": "extensions.ai.settings",
-      "name": "Extensions: AI",
-      "parameters": [
-        {
-          "name": "Enable AI Extensions",
-          "key": "ai",
-          "type": "boolean",
-          "value": false
-        }
-      ],
-      "rules": {
-        "visible": "user.isAdmin"
-      }
-    },
-    {
-      "id": "extensions.ps.settings",
-      "name": "Extensions: Process Services",
-      "parameters": [
-        {
-          "name": "Enable Process Services Extensions",
-          "key": "processServices",
-          "type": "boolean",
-          "value": false
-        }
-      ],
-      "rules": {
-        "visible": "user.isAdmin"
-      }
     }
   ],
 
