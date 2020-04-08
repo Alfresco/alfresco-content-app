@@ -28,7 +28,7 @@ import {
   ShareDataRow
 } from '@alfresco/adf-content-services';
 import { ContentActionRef, SelectionState } from '@alfresco/adf-extensions';
-import { OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { OnDestroy, OnInit, ViewChild, Directive } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { MinimalNodeEntity, MinimalNodeEntryEntity } from '@alfresco/js-api';
 import { Observable, Subject, Subscription } from 'rxjs';
@@ -49,10 +49,11 @@ import {
 } from '@alfresco/aca-shared/store';
 import { isLocked, isLibrary } from '@alfresco/aca-shared';
 
+@Directive()
 export abstract class PageComponent implements OnInit, OnDestroy {
   onDestroy$: Subject<boolean> = new Subject<boolean>();
 
-  @ViewChild(DocumentListComponent, { static: false })
+  @ViewChild(DocumentListComponent)
   documentList: DocumentListComponent;
 
   title = 'Page';

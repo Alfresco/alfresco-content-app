@@ -33,7 +33,7 @@ import { ContextActionsModule } from './directives/contextmenu/contextmenu.modul
   exports: [ContextActionsModule]
 })
 export class SharedModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<SharedModule> {
     return {
       ngModule: SharedModule,
       providers: [ContentApiService, NodePermissionService, AppService]

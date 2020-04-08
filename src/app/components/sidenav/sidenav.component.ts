@@ -51,12 +51,11 @@ import { takeUntil, distinctUntilChanged, debounceTime } from 'rxjs/operators';
 export class SidenavComponent implements OnInit, OnDestroy {
   @Input() mode: 'collapsed' | 'expanded' = 'expanded';
 
-  @ContentChild(ExpandedTemplateDirective, { read: TemplateRef, static: false })
+  @ContentChild(ExpandedTemplateDirective, { read: TemplateRef })
   expandedTemplate;
 
   @ContentChild(CollapsedTemplateDirective, {
-    read: TemplateRef,
-    static: false
+    read: TemplateRef
   })
   collapsedTemplate;
 

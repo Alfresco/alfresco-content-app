@@ -28,7 +28,7 @@ import {
   DetachedRouteHandle,
   ActivatedRouteSnapshot
 } from '@angular/router';
-import { ComponentRef } from '@angular/core';
+import { ComponentRef, Injectable } from '@angular/core';
 
 interface RouteData {
   reuse: boolean;
@@ -39,6 +39,7 @@ interface RouteInfo {
   data: RouteData;
 }
 
+@Injectable()
 export class AppRouteReuseStrategy implements RouteReuseStrategy {
   private routeCache = new Map<string, RouteInfo>();
 

@@ -40,7 +40,7 @@ import { TestBed, fakeAsync, tick } from '@angular/core/testing';
   `
 })
 class TestComponent {
-  @ViewChild('lock', { static: false })
+  @ViewChild('lock')
   directive: LockNodeDirective;
 
   selection = null;
