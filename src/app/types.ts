@@ -27,6 +27,10 @@ export interface SettingsGroupRef {
   id: string;
   name: string;
   parameters: Array<SettingsParameterRef>;
+  rules?: {
+    visible?: string;
+    [key: string]: string;
+  };
 }
 
 export interface SettingsParameterRef {

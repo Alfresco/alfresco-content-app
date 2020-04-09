@@ -507,6 +507,10 @@ export class AppExtensionService implements RuleContext {
       .sort(sortByOrder);
   }
 
+  getSettingsGroups(): Array<SettingsGroupRef> {
+    return this.settingGroups.filter(group => this.filterVisible(group));
+  }
+
   copyAction(action: ContentActionRef): ContentActionRef {
     return {
       ...action,
@@ -514,7 +518,7 @@ export class AppExtensionService implements RuleContext {
     };
   }
 
-  filterVisible(action: ContentActionRef): boolean {
+  filterVisible(action: ContentActionRef | SettingsGroupRef): boolean {
     if (action && action.rules && action.rules.visible) {
       return this.extensions.evaluateRule(action.rules.visible, this);
     }

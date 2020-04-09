@@ -627,6 +627,16 @@
           "type": "array",
           "items": { "$ref": "#/definitions/settingsGroupParameterRef" },
           "minItems": 1
+        },
+        "rules": {
+          "description": "Element rules",
+          "type": "object",
+          "properties": {
+            "visible": {
+              "description": "Rule to evaluate the visibility state",
+              "type": "string"
+            }
+          }
         }
       },
       "required": ["id", "name", "parameters"]
