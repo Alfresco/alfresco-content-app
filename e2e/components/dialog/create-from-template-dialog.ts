@@ -49,7 +49,7 @@ export class CreateFromTemplateDialog extends GenericDialog {
   }
 
   async isValidationMessageDisplayed(): Promise<boolean> {
-    return (await this.validationMessage.isPresent()) && (this.validationMessage.isDisplayed());
+    return (await this.validationMessage.isPresent()) && (await this.validationMessage.isDisplayed());
   }
 
   async isCreateButtonEnabled(): Promise<boolean> {
