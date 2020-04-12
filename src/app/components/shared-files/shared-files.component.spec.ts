@@ -32,6 +32,7 @@ import {
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import {
   AlfrescoApiService,
+  AlfrescoApiServiceMock,
   NodeFavoriteDirective,
   DataTableComponent,
   AppConfigPipe,
@@ -74,6 +75,7 @@ describe('SharedFilesComponent', () => {
         AppConfigPipe
       ],
       providers: [
+        { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
         {
           provide: Router,
           useValue: mockRouter
@@ -83,11 +85,11 @@ describe('SharedFilesComponent', () => {
     });
 
     fixture = TestBed.createComponent(SharedFilesComponent);
-    uploadService = TestBed.get(UploadService);
+    uploadService = TestBed.inject(UploadService);
     contentManagementService = TestBed.get(ContentManagementService);
     component = fixture.componentInstance;
 
-    alfrescoApi = TestBed.get(AlfrescoApiService);
+    alfrescoApi = TestBed.inject(AlfrescoApiService);
     alfrescoApi.reset();
 
     spyOn(alfrescoApi.sharedLinksApi, 'findSharedLinks').and.returnValue(

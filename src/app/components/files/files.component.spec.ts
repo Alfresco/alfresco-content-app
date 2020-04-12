@@ -32,6 +32,8 @@ import {
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
+  AlfrescoApiService,
+  AlfrescoApiServiceMock,
   NodeFavoriteDirective,
   DataTableComponent,
   UploadService,
@@ -51,7 +53,7 @@ describe('FilesComponent', () => {
   let uploadService: UploadService;
   let nodeActionsService: NodeActionsService;
   let contentApi: ContentApiService;
-  let router = {
+  let router: any = {
     url: '',
     navigate: jasmine.createSpy('navigate')
   };
@@ -67,6 +69,7 @@ describe('FilesComponent', () => {
         AppConfigPipe
       ],
       providers: [
+        { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
         {
           provide: Router,
           useValue: router
@@ -85,18 +88,21 @@ describe('FilesComponent', () => {
     fixture = TestBed.createComponent(FilesComponent);
     component = fixture.componentInstance;
 
-    uploadService = TestBed.get(UploadService);
-    router = TestBed.get(Router);
-    nodeActionsService = TestBed.get(NodeActionsService);
-    contentApi = TestBed.get(ContentApiService);
+    uploadService = TestBed.inject(UploadService);
+    router = TestBed.inject(Router);
+    nodeActionsService = TestBed.inject(NodeActionsService);
+    contentApi = TestBed.inject(ContentApiService);
   });
 
   beforeEach(() => {
     node = { id: 'node-id', isFolder: true };
-    spyOn(component.documentList, 'loadFolder').and.callFake(() => {});
   });
 
   describe('Current page is valid', () => {
+    beforeEach(() => {
+      fixture.detectChanges();
+      spyOn(component.documentList, 'loadFolder').and.callFake(() => {});
+    });
     it('should be a valid current page', fakeAsync(() => {
       spyOn(contentApi, 'getNode').and.returnValue(throwError(null));
 
@@ -111,24 +117,27 @@ describe('FilesComponent', () => {
       spyOn(contentApi, 'getNode').and.returnValue(of({ entry: node }));
 
       component.ngOnInit();
-      tick();
       fixture.detectChanges();
+      tick();
 
       expect(component.isValidPath).toBe(true);
     }));
   });
 
   describe('OnInit', () => {
+    beforeEach(() => {
+      router.navigate['calls'].reset();
+    });
+
     it('should set current node', () => {
       spyOn(contentApi, 'getNode').and.returnValue(of({ entry: node }));
       fixture.detectChanges();
       expect(component.node).toBe(node);
     });
 
-    it('if should navigate to parent if node is not a folder', () => {
-      node.isFolder = false;
-      node.parentId = 'parent-id';
-      spyOn(contentApi, 'getNode').and.returnValue(of({ entry: node }));
+    it('should navigate to parent if node is not a folder', () => {
+      const nodeEntry = { isFolder: false, parentId: 'parent-id' };
+      spyOn(contentApi, 'getNode').and.returnValue(of({ entry: nodeEntry }));
 
       fixture.detectChanges();
 

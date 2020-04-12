@@ -101,26 +101,26 @@ export function appReducer(
       );
       break;
     default:
-      newState = Object.assign({}, state);
+      newState = { ...state };
   }
 
   return newState;
 }
 
 function toggleSearchFilter(state: AppState): AppState {
-  const newState = Object.assign({}, state);
+  const newState = { ...state };
   newState.showFacetFilter = !newState.showFacetFilter;
   return newState;
 }
 
 function hideSearchFilter(state: AppState): AppState {
-  const newState = Object.assign({}, state);
+  const newState = { ...state };
   newState.showFacetFilter = false;
   return newState;
 }
 
 function showSearchFilter(state: AppState): AppState {
-  const newState = Object.assign({}, state);
+  const newState = { ...state };
   newState.showFacetFilter = true;
   return newState;
 }
@@ -179,7 +179,7 @@ function updateCurrentUrl(state: AppState, action: SetCurrentUrlAction) {
 }
 
 function toggleInfoDrawer(state: AppState) {
-  const newState = Object.assign({}, state);
+  const newState = { ...state };
 
   let value = state.infoDrawerOpened;
   if (state.selection.isEmpty) {
@@ -194,7 +194,7 @@ function toggleInfoDrawer(state: AppState) {
 }
 
 function toggleDocumentDisplayMode(state: AppState) {
-  const newState = Object.assign({}, state);
+  const newState = { ...state };
   newState.documentDisplayMode =
     newState.documentDisplayMode === 'list' ? 'gallery' : 'list';
   return newState;
@@ -204,7 +204,7 @@ function updateSelectedNodes(
   state: AppState,
   action: SetSelectedNodesAction
 ): AppState {
-  const newState = Object.assign({}, state);
+  const newState = { ...state };
   const nodes = [...action.payload];
   const count = nodes.length;
   const isEmpty = nodes.length === 0;
@@ -236,7 +236,7 @@ function updateSelectedNodes(
     (node: any) => node.isLibrary
   );
   if (libraries.length === 1) {
-    library = libraries[0];
+    library = libraries[0] as any;
   }
 
   if (isEmpty) {
@@ -258,7 +258,7 @@ function updateSelectedNodes(
 }
 
 function setInfoDrawer(state: AppState, action: SetInfoDrawerStateAction) {
-  const newState = Object.assign({}, state);
+  const newState = { ...state };
   newState.infoDrawerOpened = action.payload;
   return newState;
 }
@@ -267,7 +267,7 @@ function setInfoDrawerAspect(
   state: AppState,
   action: SetInfoDrawerMetadataAspectAction
 ) {
-  const newState = Object.assign({}, state);
+  const newState = { ...state };
   newState.infoDrawerMetadataAspect = action.payload;
   return newState;
 }
@@ -276,7 +276,7 @@ function updateRepositoryStatus(
   state: AppState,
   action: SetRepositoryInfoAction
 ) {
-  const newState = Object.assign({}, state);
+  const newState = { ...state };
   newState.repository = action.payload;
   return newState;
 }
@@ -285,7 +285,7 @@ function updateProcessServices(
   state: AppState,
   action: ToggleProcessServicesAction
 ) {
-  const newState = Object.assign({}, state);
+  const newState = { ...state };
   newState.processServices = action.payload;
   return newState;
 }

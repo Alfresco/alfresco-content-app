@@ -82,22 +82,16 @@ describe('ToggleFavoriteLibraryComponent', () => {
     spyOn(api.peopleApi, 'getFavoriteSite').and.returnValue(Promise.resolve());
   });
 
-  it('should get library selection from Store', done => {
+  it('should get library selection from Store', () => {
     fixture.detectChanges();
-    component.selection$.subscribe(selected => {
-      expect(selected.library.entry.id).toEqual(selection.library.entry.id);
-      done();
-    });
+    expect(component.library.entry.id).toEqual(selection.library.entry.id);
   });
 
-  it('should mark selection as favorite when on favorite libraries route', done => {
+  it('should mark selection as favorite when on favorite libraries route', () => {
     mockRouter.url = '/favorite/libraries';
     fixture.detectChanges();
 
-    component.selection$.subscribe(selected => {
-      expect(selected.library.isFavorite).toBe(true);
-      done();
-    });
+    expect(component.library.isFavorite).toBe(true);
   });
 
   it('should emit onToggleEvent() event', () => {

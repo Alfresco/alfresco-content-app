@@ -30,7 +30,7 @@ import { CoreModule } from '@alfresco/adf-core';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
 
-describe('ToggleFavoriteComponent', () => {
+describe('ViewNodeComponent', () => {
   let component: ViewNodeComponent;
   let fixture;
   const mockRouter = {
