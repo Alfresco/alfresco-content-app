@@ -65,7 +65,10 @@ export abstract class GenericDialog {
   }
 
   async isDialogOpen(): Promise<boolean> {
-    return (await this.rootElem.isPresent()) && (this.rootElem.isDisplayed());
+    const rootElemPresent = await this.rootElem.isPresent();
+    const rootElemDisplayed = await this.rootElem.isDisplayed();
+
+    return rootElemPresent && rootElemDisplayed;
   }
 
   async getTitle(): Promise<string> {
@@ -77,7 +80,10 @@ export abstract class GenericDialog {
   }
 
   async isButtonEnabled(selector: Locator): Promise<boolean> {
-    return (await this.getActionButton(selector).isPresent()) && (this.getActionButton(selector).isEnabled());
+    const actionButtonPresent = await this.getActionButton(selector).isPresent();
+    const actionButtonEnabled = await this.getActionButton(selector).isEnabled();
+
+    return actionButtonPresent && actionButtonEnabled;
   }
 
   async clickButton(selector: Locator): Promise<void> {

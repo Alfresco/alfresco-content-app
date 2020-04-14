@@ -55,7 +55,10 @@ export class CreateOrEditFolderDialog extends GenericDialog {
   }
 
   async isValidationMessageDisplayed(): Promise<boolean> {
-    return (await this.validationMessage.isPresent()) && (this.validationMessage.isDisplayed());
+    const validationMessagePresent = await browser.element(this.validationMessage).isPresent();
+    const validationMessageDisplayed = await browser.element(this.validationMessage).isDisplayed();
+
+    return validationMessagePresent && validationMessageDisplayed;
   }
 
   async isUpdateButtonEnabled(): Promise<boolean> {

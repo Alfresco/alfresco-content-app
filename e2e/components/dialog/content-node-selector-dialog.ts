@@ -112,7 +112,10 @@ export class ContentNodeSelectorDialog extends GenericDialog {
   }
 
   async isSelectLocationDropdownDisplayed(): Promise<boolean> {
-    return (await this.locationDropDown.isPresent()) && (this.locationDropDown.isDisplayed());
+    const locationDropDownPresent = await browser.element(this.locationDropDown).isPresent();
+    const locationDropDownDisplayed = await browser.element(this.locationDropDown).isDisplayed();
+
+    return locationDropDownPresent && locationDropDownDisplayed;
   }
 
   async isCopyButtonEnabled(): Promise<boolean> {

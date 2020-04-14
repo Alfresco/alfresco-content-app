@@ -41,20 +41,18 @@ export class CreatedDateFilter extends GenericFilterPanel {
   clearButton: ElementFinder = this.panel.element(by.css('.adf-facet-buttons [data-automation-id="date-range-clear-btn"]'));
   applyButton: ElementFinder = this.panel.element(by.css('.adf-facet-buttons [data-automation-id="date-range-apply-btn"]'));
 
-  async isFromFieldDisplayed(): Promise<boolean> {
-    return (await this.fromField.isPresent()) && (this.fromField.isDisplayed());
-  }
-
   async isFromErrorDisplayed(): Promise<boolean> {
-    return (await this.fromFieldError.isPresent()) && (this.fromFieldError.isDisplayed());
-  }
+    const isPresent = await this.fromFieldError.isPresent();
+    const isDisplayed = await this.fromFieldError.isDisplayed();
 
-  async isToFieldDisplayed(): Promise<boolean> {
-    return (await this.toField.isPresent()) && (this.toField.isDisplayed());
+    return isPresent && isDisplayed;
   }
 
   async isToErrorDisplayed(): Promise<boolean> {
-    return (await this.toFieldError.isPresent()) && (this.toFieldError.isDisplayed());
+    const isPresent = await this.toFieldError.isPresent();
+    const isDisplayed = await this.toFieldError.isDisplayed();
+
+    return isPresent && isDisplayed;
   }
 
   async isClearButtonEnabled(): Promise<boolean> {
@@ -66,13 +64,13 @@ export class CreatedDateFilter extends GenericFilterPanel {
   }
 
   async clickClearButton(): Promise<void> {
-    if ( await this.isClearButtonEnabled() ) {
+    if (await this.isClearButtonEnabled()) {
       await this.clearButton.click();
     }
   }
 
   async clickApplyButton(): Promise<void> {
-    if ( await this.isApplyButtonEnabled() ) {
+    if (await this.isApplyButtonEnabled()) {
       await this.applyButton.click();
     }
   }
@@ -116,7 +114,7 @@ export class CreatedDateFilter extends GenericFilterPanel {
   async resetPanel(): Promise<void> {
     const fromValue = await this.getFromValue();
     const toValue = await this.getToValue();
-    if ( fromValue.length > 0 || toValue.length > 0 ) {
+    if (fromValue.length > 0 || toValue.length > 0) {
       await this.expandPanel();
       await this.clickClearButton();
       await this.collapsePanel();

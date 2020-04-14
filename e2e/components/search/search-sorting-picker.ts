@@ -48,7 +48,10 @@ export class SearchSortingPicker extends Component {
   }
 
   async isSortOrderButtonDisplayed(): Promise<boolean> {
-    return (await this.sortOrderButton.isPresent()) && (this.sortOrderButton.isDisplayed());
+    const isPresent = await this.sortOrderButton.isPresent();
+    const isDisplayed = await this.sortOrderButton.isDisplayed();
+
+    return isPresent && isDisplayed;
   }
 
   async getSortOrder(): Promise<'ASC' | 'DESC' | ''> {
@@ -64,11 +67,17 @@ export class SearchSortingPicker extends Component {
   }
 
   async isSortByOptionDisplayed(): Promise<boolean> {
-    return (await this.sortByDropdownCollapsed.isPresent()) && (this.sortByDropdownCollapsed.isDisplayed());
+    const isPresent = await this.sortByDropdownCollapsed.isPresent();
+    const isDisplayed = await this.sortByDropdownCollapsed.isDisplayed();
+
+    return isPresent && isDisplayed;
   }
 
   async isSortByDropdownExpanded(): Promise<boolean> {
-    return (await this.sortByDropdownExpanded.isPresent()) && (this.sortByDropdownExpanded.isDisplayed());
+    const isPresent = await this.sortByDropdownExpanded.isPresent();
+    const isDisplayed = await this.sortByDropdownExpanded.isDisplayed();
+
+    return isPresent && isDisplayed;
   }
 
   async getSelectedSortByOption(): Promise<string> {

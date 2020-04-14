@@ -40,30 +40,44 @@ export class GenericFilterPanel {
     panelHeader: '.mat-expansion-panel-header'
   };
 
-  get panel(): ElementFinder { return browser.element(by.cssContainingText(this.selectors.panel, this.filterName)); }
-  get panelExpanded(): ElementFinder { return browser.element(by.cssContainingText(this.selectors.panelExpanded, this.filterName)); }
-  get panelHeader(): ElementFinder { return this.panel.element(by.css(this.selectors.panelHeader)); }
+  get panel(): ElementFinder {
+    return browser.element(by.cssContainingText(this.selectors.panel, this.filterName));
+  }
+
+  get panelExpanded(): ElementFinder {
+    return browser.element(by.cssContainingText(this.selectors.panelExpanded, this.filterName));
+  }
+
+  get panelHeader(): ElementFinder {
+    return this.panel.element(by.css(this.selectors.panelHeader));
+  }
 
   async clickPanelHeader(): Promise<void> {
     await this.panelHeader.click();
   }
 
   async isPanelDisplayed(): Promise<boolean> {
-    return (await browser.isElementPresent(this.panel)) && (this.panel.isDisplayed());
+    const isPresent = await browser.isElementPresent(this.panel);
+    const isDisplayed = await this.panel.isDisplayed();
+
+    return isPresent && isDisplayed;
   }
 
   async isPanelExpanded(): Promise<boolean> {
-    return (await this.panelExpanded.isPresent()) && (this.panelExpanded.isDisplayed());
+    const isPresent = await this.panelExpanded.isPresent();
+    const isDisplayed = await this.panelExpanded.isDisplayed();
+
+    return isPresent && isDisplayed;
   }
 
   async expandPanel(): Promise<void> {
-    if ( !(await this.isPanelExpanded()) ) {
+    if (!(await this.isPanelExpanded())) {
       await this.clickPanelHeader();
     }
   }
 
   async collapsePanel(): Promise<void> {
-    if ( await this.isPanelExpanded() ) {
+    if (await this.isPanelExpanded()) {
       await this.clickPanelHeader();
     }
   }

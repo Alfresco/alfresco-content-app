@@ -91,8 +91,11 @@ export class PasswordDialog extends GenericDialog {
   async isErrorDisplayed(): Promise<boolean> {
     try {
       await this.waitForDialogToOpen();
-      return (await this.errorMessage.isPresent()) && (await this.errorMessage.isDisplayed());
-    } catch (error) {
+    const elem = await browser.wait(until.elementLocated(by.css(PasswordDialog.selectors.errorMessage)), BROWSER_WAIT_TIMEOUT, '------- timeout waiting for error message to appear');
+    const errorIsPresent = await browser.isElementPresent(elem);
+    const errorIsDisplayed = await browser.isElementPresent(elem);
+
+    return errorIsPresent && errorIsDisplayed;    } catch (error) {
       return false;
     }
 

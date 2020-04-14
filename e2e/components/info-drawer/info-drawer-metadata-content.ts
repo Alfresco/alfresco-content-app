@@ -86,15 +86,24 @@ export class ContentMetadata extends Component {
   }
 
   async isEditPropertiesButtonEnabled() {
-    return (await browser.isElementPresent(this.editPropertiesButton)) && (this.editPropertiesButton.isEnabled());
+    const isPresent = await browser.isElementPresent(this.editPropertiesButton);
+    const isEnabled = await this.editPropertiesButton.isEnabled();
+
+    return isPresent && isEnabled;
   }
 
   async isLessInfoButtonEnabled() {
-    return (await browser.isElementPresent(this.lessInfoButton)) && (this.lessInfoButton.isEnabled());
+    const isPresent = await browser.isElementPresent(this.lessInfoButton);
+    const isEnabled = await this.lessInfoButton.isEnabled();
+
+    return isPresent && isEnabled;
   }
 
   async isMoreInfoButtonEnabled() {
-    return (await browser.isElementPresent(this.moreInfoButton)) && (this.moreInfoButton.isEnabled());
+    const isPresent = await browser.isElementPresent(this.moreInfoButton);
+    const isEnabled = await this.moreInfoButton.isEnabled();
+
+    return isPresent && isEnabled;
   }
 
   async isLessInfoButtonDisplayed() {

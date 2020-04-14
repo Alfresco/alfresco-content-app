@@ -357,27 +357,45 @@ export class Menu extends Component {
   }
 
   async isCreateFolderEnabled(): Promise<boolean> {
-    return (await this.createFolderAction.isPresent()) && (this.createFolderAction.isEnabled());
+    const isPresent = await browser.isElementPresent(this.createFolderAction);
+    const isEnabled = await this.createFolderAction.isEnabled();
+
+    return isPresent && isEnabled;
   }
 
   async isCreateLibraryEnabled(): Promise<boolean> {
-    return (await this.createLibraryAction.isPresent()) && (this.createLibraryAction.isEnabled());
+    const isPresent = await browser.isElementPresent(this.createLibraryAction);
+    const isEnabled = await this.createLibraryAction.isEnabled();
+
+    return isPresent && isEnabled;
   }
 
   async isUploadFileEnabled(): Promise<boolean> {
-    return (await this.uploadFileAction.isPresent()) && (this.uploadFileAction.isEnabled());
+    const isPresent = await browser.isElementPresent(this.uploadFileAction);
+    const isEnabled = await this.uploadFileAction.isEnabled();
+
+    return isPresent && isEnabled;
   }
 
   async isUploadFolderEnabled(): Promise<boolean> {
-    return (await this.uploadFolderAction.isPresent()) && (this.uploadFolderAction.isEnabled());
+    const isPresent = await browser.isElementPresent(this.uploadFolderAction);
+    const isEnabled = await this.uploadFolderAction.isEnabled();
+
+    return isPresent && isEnabled;
   }
 
   async isCreateFileFromTemplateEnabled(): Promise<boolean> {
-    return (await this.createFileFromTemplateAction.isPresent()) && (this.createFileFromTemplateAction.isEnabled());
+    const isPresent = await browser.isElementPresent(this.createFileFromTemplateAction);
+    const isEnabled = await this.createFileFromTemplateAction.isEnabled();
+
+    return isPresent && isEnabled;
   }
 
   async isCreateFolderFromTemplateEnabled(): Promise<boolean> {
-    return (await this.createFolderFromTemplateAction.isPresent()) && (this.createFolderFromTemplateAction.isEnabled());
+    const isPresent = await browser.isElementPresent(this.createFolderFromTemplateAction);
+    const isEnabled = await this.createFolderFromTemplateAction.isEnabled();
+
+    return isPresent && isEnabled;
   }
 
   async clickCreateFolder(): Promise<void> {
