@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, browser, ExpectedConditions as EC } from 'protractor';
+import { ElementFinder, by, browser, ExpectedConditions as EC, until } from 'protractor';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { GenericDialog } from '../dialog/generic-dialog';
 
@@ -91,11 +91,12 @@ export class PasswordDialog extends GenericDialog {
   async isErrorDisplayed(): Promise<boolean> {
     try {
       await this.waitForDialogToOpen();
-    const elem = await browser.wait(until.elementLocated(by.css(PasswordDialog.selectors.errorMessage)), BROWSER_WAIT_TIMEOUT, '------- timeout waiting for error message to appear');
-    const errorIsPresent = await browser.isElementPresent(elem);
-    const errorIsDisplayed = await browser.isElementPresent(elem);
+      const elem = await browser.wait(until.elementLocated(by.css(PasswordDialog.selectors.errorMessage)), BROWSER_WAIT_TIMEOUT, '------- timeout waiting for error message to appear');
+      const errorIsPresent = await browser.isElementPresent(elem);
+      const errorIsDisplayed = await elem.isDisplayed();
 
-    return errorIsPresent && errorIsDisplayed;    } catch (error) {
+      return errorIsPresent && errorIsDisplayed;
+    } catch (error) {
       return false;
     }
 

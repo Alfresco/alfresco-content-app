@@ -83,7 +83,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
   }
 
   isLoggedIn(provider: string): boolean {
-    if (provider === undefined) return true;
+    if (provider === undefined) { return true; }
     return this.authService.isLoggedInWith(provider);
   }
 
