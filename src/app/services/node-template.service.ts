@@ -139,20 +139,13 @@ export class NodeTemplateService {
 
   private transformNode(node: MinimalNode): MinimalNode {
     if (node && node.path && node.path && node.path.elements instanceof Array) {
-      let {
-        path: { elements: elementsPath = [] }
-      } = node;
-      elementsPath = elementsPath.filter(
-        path => path.name !== 'Company Home' && path.name !== 'Data Dictionary'
-      );
-      node.path.elements = elementsPath;
+      node.path.elements = this.getPathElements(node);
     }
-
     return node;
   }
 
   private isSelectionValid(node: Node): boolean {
-    if (node.name === this.currentTemplateConfig.relativePath.split('/')[1]) {
+    if (!node.path.elements.length) {
       return false;
     }
 
@@ -183,6 +176,15 @@ export class NodeTemplateService {
     const node: MinimalNodeEntryEntity = row.node.entry;
     return (
       node.nodeType !== 'app:filelink' && node.nodeType !== 'app:folderlink'
+    );
+  }
+
+  private getPathElements(node: Node): PathElement[] {
+    return node.path.elements.filter(
+      pathElement =>
+        !this.rootNode.path.elements.some(
+          rootPathElement => pathElement.id === rootPathElement.id
+        )
     );
   }
 }
