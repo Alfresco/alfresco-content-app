@@ -3,6 +3,7 @@
   "version": "1.10.0",
   "license": "LGPL-3.0",
   "scripts": {
+    "postinstall": "./scripts/postinstall.sh",
     "ng": "ng",
     "start": "npm run validate-config && ng serve --open",
     "start:prod": "npm run validate-config && node --max-old-space-size=8192 node_modules/@angular/cli/bin/ng serve --prod --open",
@@ -18,10 +19,9 @@
     "test": "ng test app --code-coverage",
     "test:ci": "npm run build.extensions && ng test adf-office-services-ext --watch=false && ng test app --code-coverage --watch=false",
     "lint": "ng lint && npm run spellcheck && npm run format:check && npm run e2e.typecheck",
-    "wd:update": "webdriver-manager update --gecko=false $VERSION_CHROME",
     "e2e.typecheck": "tsc -p ./e2e/tsconfig.e2e.typecheck.json",
-    "e2e": "npm run wd:update && protractor --baseUrl=${TEST_BASE_URL:-http://localhost:8080/content-app} $SUITE",
-    "e2e.local": "npm run wd:update && protractor --baseUrl=http://localhost:4200 $SUITE",
+    "e2e": "protractor --baseUrl=${TEST_BASE_URL:-http://localhost:8080/content-app} $SUITE",
+    "e2e.local": "protractor --baseUrl=http://localhost:4200 $SUITE",
     "wait:app": "wait-on http://${HOST_IP:-localhost}:${HOST_PORT:-8080}/alfresco/ -t 1000000",
     "start:docker": "./start.sh",
     "stop:docker": "./start.sh -d",
@@ -32,7 +32,7 @@
     "format:fix": "prettier --write \"src/{app,environments}/**/*.{ts,js,css,scss,html}\"",
     "build.tomcat": "npm run validate-config && npm run build.extensions && npm run build.app -- --prod --base-href ./ && jar -cvf docker/tomcat/artifacts/content-app.war -C dist/app/ .",
     "build.tomcat.e2e": "./build-tomcat-e2e.sh",
-    "e2e.tomcat": "npm run wd:update && protractor --baseUrl=http://localhost:8080/content-app/ $SUITE",
+    "e2e.tomcat": "protractor --baseUrl=http://localhost:8080/content-app/ $SUITE",
     "docker.tomcat.start": "cd docker/tomcat && docker-compose up -d --build && npm run wait:app",
     "docker.tomcat.stop": "cd docker/tomcat && docker-compose stop",
     "docker.tomcat.e2e": "npm run docker.tomcat.start && npm run e2e.tomcat",
@@ -110,7 +110,7 @@
     "prettier": "^1.17.1",
     "protractor": "5.4.2",
     "protractor-screenshoter-plugin": "0.10.3",
-    "puppeteer": "^2.1.0",
+    "puppeteer": "1.20.0",
     "rxjs-tslint-rules": "^4.30.1",
     "selenium-webdriver": "4.0.0-alpha.1",
     "ts-node": "^8.0.3",
@@ -131,5 +131,8 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
+  },
+  "config": {
+    "chromeDriver": "78.0.3904.70"
   }
 }
