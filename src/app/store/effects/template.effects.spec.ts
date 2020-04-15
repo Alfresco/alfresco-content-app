@@ -66,12 +66,12 @@ describe('TemplateEffects', () => {
     }
   };
   const fileTemplateConfig = {
-    relativePath: 'Data Dictionary/Node Templates',
+    primaryPathName: 'app:node_templates',
     selectionType: 'file'
   };
 
   const folderTemplateConfig = {
-    relativePath: 'Data Dictionary/Space Templates',
+    primaryPathName: 'app:space_templates',
     selectionType: 'folder'
   };
 
