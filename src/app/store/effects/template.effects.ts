@@ -63,7 +63,7 @@ export class TemplateEffects {
     ofType<FileFromTemplate>(TemplateActionTypes.FileFromTemplate),
     map(() => {
       this.openDialog({
-        relativePath: 'Data Dictionary/Node Templates',
+        primaryPathName: 'app:node_templates',
         selectionType: 'file'
       });
     })
@@ -74,7 +74,7 @@ export class TemplateEffects {
     ofType<FolderFromTemplate>(TemplateActionTypes.FolderFromTemplate),
     map(() =>
       this.openDialog({
-        relativePath: 'Data Dictionary/Space Templates',
+        primaryPathName: 'app:space_templates',
         selectionType: 'folder'
       })
     )

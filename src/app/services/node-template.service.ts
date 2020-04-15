@@ -24,10 +24,20 @@
  */
 
 import { Injectable } from '@angular/core';
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
+import {
+  MatDialog,
+  MatDialogConfig,
+  MatDialogRef
+} from '@angular/material/dialog';
 import { CreateFromTemplateDialogComponent } from '../dialogs/node-template/create-from-template.dialog';
 import { Subject, from, of } from 'rxjs';
-import { Node, MinimalNode, MinimalNodeEntryEntity } from '@alfresco/js-api';
+import {
+  Node,
+  MinimalNode,
+  MinimalNodeEntryEntity,
+  ResultNode,
+  PathElement
+} from '@alfresco/js-api';
 import { AlfrescoApiService, TranslationService } from '@alfresco/adf-core';
 import { switchMap, catchError } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
@@ -39,7 +49,7 @@ import {
 } from '@alfresco/adf-content-services';
 
 export interface TemplateDialogConfig {
-  relativePath: string;
+  primaryPathName: string;
   selectionType: string;
 }
 
@@ -48,6 +58,7 @@ export interface TemplateDialogConfig {
 })
 export class NodeTemplateService {
   private currentTemplateConfig: TemplateDialogConfig = null;
+  private rootNode: ResultNode;
 
   constructor(
     private store: Store<AppStore>,
@@ -78,14 +89,21 @@ export class NodeTemplateService {
       rowFilter: this.rowFilter.bind(this)
     };
 
-    from(
-      this.alfrescoApiService.getInstance().nodes.getNodeInfo('-root-', {
-        relativePath: config.relativePath
-      })
-    )
+    const query = {
+      query: {
+        query: `PATH:"//${config.primaryPathName}"`,
+        language: 'afts'
+      },
+      include: ['path', 'properties', 'allowableOperations', 'permissions']
+    };
+
+    from(this.alfrescoApiService.searchApi.search(query))
       .pipe(
-        switchMap(node => {
-          data.currentFolderId = node.id;
+        switchMap(response => {
+          const entry = response.list.entries[0].entry;
+          this.rootNode = entry;
+          data.currentFolderId = entry.id;
+
           return this.dialog
             .open(ContentNodeSelectorComponent, <MatDialogConfig>{
               data,
