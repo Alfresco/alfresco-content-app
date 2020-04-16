@@ -29,21 +29,21 @@ import { Observable, of } from 'rxjs';
 
 @Injectable()
 export class TranslateServiceMock extends TranslateService {
-  constructor() {
-    super(null, null, null, null, null);
-  }
+    constructor() {
+        super(null, null, null, null, null);
+    }
 
-  get(
-    key: string | Array<string> /*,
+    get(
+        key: string | Array<string> /*,
     interpolateParams?: Object*/
-  ): Observable<string | any> {
-    return of(key);
-  }
+    ): Observable<string | any> {
+        return of(key);
+    }
 
-  instant(
-    key: string | Array<string> /*,
+    instant(
+        key: string | Array<string> /*,
     interpolateParams?: Object*/
-  ): string | any {
-    return key;
-  }
+    ): string | any {
+        return key;
+    }
 }

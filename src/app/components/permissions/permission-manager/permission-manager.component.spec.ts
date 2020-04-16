@@ -26,7 +26,7 @@
 import { PermissionsManagerComponent } from './permission-manager.component';
 
 describe('PermissionsManagerComponent', () => {
-  it('should be defined', () => {
-    expect(PermissionsManagerComponent).toBeDefined();
-  });
+    it('should be defined', () => {
+        expect(PermissionsManagerComponent).toBeDefined();
+    });
 });

@@ -28,53 +28,53 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { AppTestingModule } from '../testing/app-testing.module';
 import { DirectivesModule } from './directives.module';
 import {
-  UserPreferencesService,
-  AppConfigService,
-  PaginationComponent,
-  CoreModule,
-  PaginationModel
+    UserPreferencesService,
+    AppConfigService,
+    PaginationComponent,
+    CoreModule,
+    PaginationModel,
 } from '@alfresco/adf-core';
 
 describe('PaginationDirective', () => {
-  let preferences: UserPreferencesService;
-  let config: AppConfigService;
-  let pagination: PaginationComponent;
-  let fixture: ComponentFixture<PaginationComponent>;
-  let directive: PaginationDirective;
+    let preferences: UserPreferencesService;
+    let config: AppConfigService;
+    let pagination: PaginationComponent;
+    let fixture: ComponentFixture<PaginationComponent>;
+    let directive: PaginationDirective;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [AppTestingModule, DirectivesModule, CoreModule.forRoot()]
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            imports: [AppTestingModule, DirectivesModule, CoreModule.forRoot()],
+        });
+
+        preferences = TestBed.get(UserPreferencesService);
+        config = TestBed.get(AppConfigService);
+        fixture = TestBed.createComponent(PaginationComponent);
+        pagination = fixture.componentInstance;
+        directive = new PaginationDirective(pagination, preferences, config);
     });
 
-    preferences = TestBed.get(UserPreferencesService);
-    config = TestBed.get(AppConfigService);
-    fixture = TestBed.createComponent(PaginationComponent);
-    pagination = fixture.componentInstance;
-    directive = new PaginationDirective(pagination, preferences, config);
-  });
+    afterEach(() => {
+        fixture.destroy();
+        directive.ngOnDestroy();
+    });
 
-  afterEach(() => {
-    fixture.destroy();
-    directive.ngOnDestroy();
-  });
+    it('should setup supported page sizes from app config', () => {
+        spyOn(config, 'get').and.returnValue([21, 31, 41]);
 
-  it('should setup supported page sizes from app config', () => {
-    spyOn(config, 'get').and.returnValue([21, 31, 41]);
+        directive.ngOnInit();
 
-    directive.ngOnInit();
+        expect(pagination.supportedPageSizes).toEqual([21, 31, 41]);
+    });
 
-    expect(pagination.supportedPageSizes).toEqual([21, 31, 41]);
-  });
+    it('should update preferences on page size change', () => {
+        directive.ngOnInit();
 
-  it('should update preferences on page size change', () => {
-    directive.ngOnInit();
-
-    pagination.changePageSize.emit(
-      new PaginationModel({
-        maxItems: 100
-      })
-    );
-    expect(preferences.paginationSize).toBe(100);
-  });
+        pagination.changePageSize.emit(
+            new PaginationModel({
+                maxItems: 100,
+            })
+        );
+        expect(preferences.paginationSize).toBe(100);
+    });
 });

@@ -24,24 +24,22 @@
  */
 
 import {
-  Component,
-  ViewEncapsulation,
-  ChangeDetectionStrategy,
-  Input,
-  HostBinding
+    Component,
+    ViewEncapsulation,
+    ChangeDetectionStrategy,
+    Input,
+    HostBinding,
 } from '@angular/core';
 
 @Component({
-  selector: 'aca-page-layout-content',
-  template: `
-    <ng-content></ng-content>
-  `,
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'aca-page-layout-content' }
+    selector: 'aca-page-layout-content',
+    template: ` <ng-content></ng-content> `,
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: { class: 'aca-page-layout-content' },
 })
 export class PageLayoutContentComponent {
-  @Input()
-  @HostBinding('class.scrollable')
-  scrollable = false;
+    @Input()
+    @HostBinding('class.scrollable')
+    scrollable = false;
 }

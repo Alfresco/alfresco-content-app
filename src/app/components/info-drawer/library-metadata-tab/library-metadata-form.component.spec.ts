@@ -24,296 +24,299 @@
  */
 import { LibraryMetadataFormComponent } from './library-metadata-form.component';
 import {
-  TestBed,
-  ComponentFixture,
-  fakeAsync,
-  tick
+    TestBed,
+    ComponentFixture,
+    fakeAsync,
+    tick,
 } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
 import { UpdateLibraryAction } from '@alfresco/aca-shared/store';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { Site, SiteBody } from '@alfresco/js-api';
+import { Site } from '@alfresco/js-api';
 import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-core';
 
 describe('LibraryMetadataFormComponent', () => {
-  let fixture: ComponentFixture<LibraryMetadataFormComponent>;
-  let component: LibraryMetadataFormComponent;
-  let alfrescoApiService: AlfrescoApiService;
-  const storeMock = {
-    dispatch: jasmine.createSpy('dispatch')
-  };
+    let fixture: ComponentFixture<LibraryMetadataFormComponent>;
+    let component: LibraryMetadataFormComponent;
+    let alfrescoApiService: AlfrescoApiService;
+    const storeMock = {
+        dispatch: jasmine.createSpy('dispatch'),
+    };
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [AppTestingModule],
-      declarations: [LibraryMetadataFormComponent],
-      providers: [
-        { provide: Store, useValue: storeMock },
-        { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock }
-      ],
-      schemas: [NO_ERRORS_SCHEMA]
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            imports: [AppTestingModule],
+            declarations: [LibraryMetadataFormComponent],
+            providers: [
+                { provide: Store, useValue: storeMock },
+                {
+                    provide: AlfrescoApiService,
+                    useClass: AlfrescoApiServiceMock,
+                },
+            ],
+            schemas: [NO_ERRORS_SCHEMA],
+        });
+
+        fixture = TestBed.createComponent(LibraryMetadataFormComponent);
+        component = fixture.componentInstance;
+        alfrescoApiService = TestBed.get(AlfrescoApiService);
     });
 
-    fixture = TestBed.createComponent(LibraryMetadataFormComponent);
-    component = fixture.componentInstance;
-    alfrescoApiService = TestBed.get(AlfrescoApiService);
-  });
+    afterEach(() => {
+        storeMock.dispatch.calls.reset();
+    });
 
-  afterEach(() => {
-    storeMock.dispatch.calls.reset();
-  });
+    it('should initialize form with node data', () => {
+        const siteEntryModel = {
+            title: 'libraryTitle',
+            description: 'description',
+            visibility: 'PRIVATE',
+        };
+        component.node = {
+            entry: {
+                id: 'libraryId',
+                ...siteEntryModel,
+            } as Site,
+        };
+        fixture.detectChanges();
 
-  it('should initialize form with node data', () => {
-    const siteEntryModel = {
-      title: 'libraryTitle',
-      description: 'description',
-      visibility: 'PRIVATE'
-    };
-    component.node = {
-      entry: <Site> {
-        id: 'libraryId',
-        ...siteEntryModel
-      }
-    };
-    fixture.detectChanges();
+        expect(component.form.value).toEqual(siteEntryModel);
+    });
 
-    expect(component.form.value).toEqual(siteEntryModel);
-  });
+    it('should update form data when node data changes', () => {
+        const siteEntryModel = {
+            title: 'libraryTitle',
+            description: 'description',
+            visibility: 'PRIVATE',
+        };
 
-  it('should update form data when node data changes', () => {
-    const siteEntryModel = {
-      title: 'libraryTitle',
-      description: 'description',
-      visibility: 'PRIVATE'
-    };
+        const newSiteEntryModel = {
+            title: 'libraryTitle2',
+            description: 'description2',
+            visibility: 'PUBLIC',
+        };
 
-    const newSiteEntryModel = {
-      title: 'libraryTitle2',
-      description: 'description2',
-      visibility: 'PUBLIC'
-    };
+        component.node = {
+            entry: {
+                id: 'libraryId',
+                ...siteEntryModel,
+            } as Site,
+        };
 
-    component.node = {
-      entry: <Site> {
-        id: 'libraryId',
-        ...siteEntryModel
-      }
-    };
+        fixture.detectChanges();
 
-    fixture.detectChanges();
+        expect(component.form.value).toEqual(siteEntryModel);
 
-    expect(component.form.value).toEqual(siteEntryModel);
+        component.node = {
+            entry: {
+                id: 'libraryId',
+                ...newSiteEntryModel,
+            } as Site,
+        };
 
-    component.node = {
-      entry: <Site> {
-        id: 'libraryId',
-        ...newSiteEntryModel
-      }
-    };
+        component.ngOnChanges();
 
-    component.ngOnChanges();
+        expect(component.form.value).toEqual(newSiteEntryModel);
+    });
 
-    expect(component.form.value).toEqual(newSiteEntryModel);
-  });
+    it('should update library node if form is valid', () => {
+        const siteEntryModel = {
+            title: 'libraryTitle',
+            description: 'description',
+            visibility: 'PRIVATE',
+        };
+        component.node = {
+            entry: {
+                id: 'libraryId',
+                role: 'SiteManager',
+                ...siteEntryModel,
+            } as Site,
+        };
 
-  it('should update library node if form is valid', () => {
-    const siteEntryModel = {
-      title: 'libraryTitle',
-      description: 'description',
-      visibility: 'PRIVATE'
-    };
-    component.node = {
-      entry: <Site> {
-        id: 'libraryId',
-        role: 'SiteManager',
-        ...siteEntryModel
-      }
-    };
+        fixture.detectChanges();
 
-    fixture.detectChanges();
+        component.update();
 
-    component.update();
+        expect(storeMock.dispatch).toHaveBeenCalledWith(
+            new UpdateLibraryAction(siteEntryModel)
+        );
+    });
 
-    expect(storeMock.dispatch).toHaveBeenCalledWith(
-      new UpdateLibraryAction(<SiteBody> siteEntryModel)
-    );
-  });
+    it('should not update library node if it has no permission', () => {
+        const siteEntryModel = {
+            title: 'libraryTitle',
+            description: 'description',
+            visibility: 'PRIVATE',
+        };
+        component.node = {
+            entry: {
+                id: 'libraryId',
+                role: 'Consumer',
+                ...siteEntryModel,
+            } as Site,
+        };
 
-  it('should not update library node if it has no permission', () => {
-    const siteEntryModel = {
-      title: 'libraryTitle',
-      description: 'description',
-      visibility: 'PRIVATE'
-    };
-    component.node = {
-      entry: <Site> {
-        id: 'libraryId',
-        role: 'Consumer',
-        ...siteEntryModel
-      }
-    };
+        fixture.detectChanges();
 
-    fixture.detectChanges();
+        component.update();
 
-    component.update();
+        expect(storeMock.dispatch).not.toHaveBeenCalledWith(
+            new UpdateLibraryAction(siteEntryModel)
+        );
+    });
 
-    expect(storeMock.dispatch).not.toHaveBeenCalledWith(
-      new UpdateLibraryAction(<SiteBody> siteEntryModel)
-    );
-  });
+    it('should not update library node if form is invalid', () => {
+        const siteEntryModel = {
+            title: 'libraryTitle',
+            description: 'description',
+            visibility: 'PRIVATE',
+        };
+        component.node = {
+            entry: {
+                id: 'libraryId',
+                role: 'SiteManager',
+                ...siteEntryModel,
+            } as Site,
+        };
 
-  it('should not update library node if form is invalid', () => {
-    const siteEntryModel = {
-      title: 'libraryTitle',
-      description: 'description',
-      visibility: 'PRIVATE'
-    };
-    component.node = {
-      entry: <Site> {
-        id: 'libraryId',
-        role: 'SiteManager',
-        ...siteEntryModel
-      }
-    };
+        fixture.detectChanges();
 
-    fixture.detectChanges();
+        component.form.controls['title'].setErrors({ maxlength: true });
 
-    component.form.controls['title'].setErrors({ maxlength: true });
+        component.update();
 
-    component.update();
+        expect(storeMock.dispatch).not.toHaveBeenCalledWith(
+            new UpdateLibraryAction(siteEntryModel)
+        );
+    });
 
-    expect(storeMock.dispatch).not.toHaveBeenCalledWith(
-      new UpdateLibraryAction(<SiteBody> siteEntryModel)
-    );
-  });
+    it('should toggle edit mode', () => {
+        component.edit = false;
 
-  it('should toggle edit mode', () => {
-    component.edit = false;
+        component.toggleEdit();
+        expect(component.edit).toBe(true);
 
-    component.toggleEdit();
-    expect(component.edit).toBe(true);
+        component.toggleEdit();
+        expect(component.edit).toBe(false);
+    });
 
-    component.toggleEdit();
-    expect(component.edit).toBe(false);
-  });
+    it('should cancel from changes', () => {
+        const siteEntryModel = {
+            title: 'libraryTitle',
+            description: 'description',
+            visibility: 'PRIVATE',
+        };
+        component.node = {
+            entry: {
+                id: 'libraryId',
+                ...siteEntryModel,
+            } as Site,
+        };
+        fixture.detectChanges();
 
-  it('should cancel from changes', () => {
-    const siteEntryModel = {
-      title: 'libraryTitle',
-      description: 'description',
-      visibility: 'PRIVATE'
-    };
-    component.node = {
-      entry: <Site> {
-        id: 'libraryId',
-        ...siteEntryModel
-      }
-    };
-    fixture.detectChanges();
+        expect(component.form.value).toEqual(siteEntryModel);
 
-    expect(component.form.value).toEqual(siteEntryModel);
+        component.form.controls.title.setValue('libraryTitle-edit');
 
-    component.form.controls.title.setValue('libraryTitle-edit');
+        expect(component.form.value.title).toBe('libraryTitle-edit');
 
-    expect(component.form.value.title).toBe('libraryTitle-edit');
+        component.cancel();
 
-    component.cancel();
+        expect(component.form.value).toEqual(siteEntryModel);
+    });
 
-    expect(component.form.value).toEqual(siteEntryModel);
-  });
+    it('should warn if library name input is used by another library', fakeAsync(() => {
+        const title = 'some-title';
+        spyOn(
+            alfrescoApiService.getInstance().core.queriesApi,
+            'findSites'
+        ).and.returnValue(
+            Promise.resolve({
+                list: { entries: [{ entry: { title } }] },
+            })
+        );
 
-  it('should warn if library name input is used by another library', fakeAsync(() => {
-    const title = 'some-title';
-    spyOn(
-      alfrescoApiService.getInstance().core.queriesApi,
-      'findSites'
-    ).and.returnValue(
-      Promise.resolve({
-        list: { entries: [{ entry: { title } }] }
-      })
-    );
+        const siteEntryModel = {
+            title: 'libraryTitle',
+            description: 'description',
+            visibility: 'PRIVATE',
+        };
 
-    const siteEntryModel = {
-      title: 'libraryTitle',
-      description: 'description',
-      visibility: 'PRIVATE'
-    };
+        component.node = {
+            entry: {
+                id: 'libraryId',
+                ...siteEntryModel,
+            } as Site,
+        };
 
-    component.node = {
-      entry: <Site> {
-        id: 'libraryId',
-        ...siteEntryModel
-      }
-    };
+        fixture.detectChanges();
+        component.form.controls.title.setValue(title);
+        fixture.detectChanges();
 
-    fixture.detectChanges();
-    component.form.controls.title.setValue(title);
-    fixture.detectChanges();
+        tick(500);
+        expect(component.libraryTitleExists).toBe(true);
+    }));
 
-    tick(500);
-    expect(component.libraryTitleExists).toBe(true);
-  }));
+    it('should not warn if library name input is the same with library node data', fakeAsync(() => {
+        spyOn(
+            alfrescoApiService.getInstance().core.queriesApi,
+            'findSites'
+        ).and.returnValue(
+            Promise.resolve({
+                list: { entries: [{ entry: { title: 'libraryTitle' } }] },
+            })
+        );
 
-  it('should not warn if library name input is the same with library node data', fakeAsync(() => {
-    spyOn(
-      alfrescoApiService.getInstance().core.queriesApi,
-      'findSites'
-    ).and.returnValue(
-      Promise.resolve({
-        list: { entries: [{ entry: { title: 'libraryTitle' } }] }
-      })
-    );
+        const siteEntryModel = {
+            title: 'libraryTitle',
+            description: 'description',
+            visibility: 'PRIVATE',
+        };
 
-    const siteEntryModel = {
-      title: 'libraryTitle',
-      description: 'description',
-      visibility: 'PRIVATE'
-    };
+        component.node = {
+            entry: {
+                id: 'libraryId',
+                ...siteEntryModel,
+            } as Site,
+        };
 
-    component.node = {
-      entry: <Site> {
-        id: 'libraryId',
-        ...siteEntryModel
-      }
-    };
+        fixture.detectChanges();
+        component.form.controls.title.setValue('libraryTitle');
+        fixture.detectChanges();
 
-    fixture.detectChanges();
-    component.form.controls.title.setValue('libraryTitle');
-    fixture.detectChanges();
+        tick(500);
+        expect(component.libraryTitleExists).toBe(false);
+    }));
 
-    tick(500);
-    expect(component.libraryTitleExists).toBe(false);
-  }));
+    it('should not warn if library name is unique', fakeAsync(() => {
+        spyOn(
+            alfrescoApiService.getInstance().core.queriesApi,
+            'findSites'
+        ).and.returnValue(
+            Promise.resolve({
+                list: { entries: [] },
+            })
+        );
 
-  it('should not warn if library name is unique', fakeAsync(() => {
-    spyOn(
-      alfrescoApiService.getInstance().core.queriesApi,
-      'findSites'
-    ).and.returnValue(
-      Promise.resolve({
-        list: { entries: [] }
-      })
-    );
+        const siteEntryModel = {
+            title: 'libraryTitle',
+            description: 'description',
+            visibility: 'PRIVATE',
+        };
 
-    const siteEntryModel = {
-      title: 'libraryTitle',
-      description: 'description',
-      visibility: 'PRIVATE'
-    };
+        component.node = {
+            entry: {
+                id: 'libraryId',
+                ...siteEntryModel,
+            } as Site,
+        };
 
-    component.node = {
-      entry: <Site> {
-        id: 'libraryId',
-        ...siteEntryModel
-      }
-    };
+        fixture.detectChanges();
+        component.form.controls.title.setValue('some-name');
+        fixture.detectChanges();
 
-    fixture.detectChanges();
-    component.form.controls.title.setValue('some-name');
-    fixture.detectChanges();
-
-    tick(500);
-    expect(component.libraryTitleExists).toBe(false);
-  }));
+        tick(500);
+        expect(component.libraryTitleExists).toBe(false);
+    }));
 });

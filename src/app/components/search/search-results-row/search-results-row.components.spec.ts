@@ -26,7 +26,7 @@
 import { SearchResultsRowComponent } from './search-results-row.component';
 
 describe('SearchResultsRowComponent', () => {
-  it('should be defined', () => {
-    expect(SearchResultsRowComponent).toBeDefined();
-  });
+    it('should be defined', () => {
+        expect(SearchResultsRowComponent).toBeDefined();
+    });
 });

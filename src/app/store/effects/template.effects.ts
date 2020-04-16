@@ -28,18 +28,18 @@ import { Injectable } from '@angular/core';
 import { map, switchMap, debounceTime, take, catchError } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import {
-  FileFromTemplate,
-  FolderFromTemplate,
-  CreateFromTemplate,
-  CreateFromTemplateSuccess,
-  TemplateActionTypes,
-  getCurrentFolder,
-  AppStore,
-  SnackbarErrorAction
+    FileFromTemplate,
+    FolderFromTemplate,
+    CreateFromTemplate,
+    CreateFromTemplateSuccess,
+    TemplateActionTypes,
+    getCurrentFolder,
+    AppStore,
+    SnackbarErrorAction,
 } from '@alfresco/aca-shared/store';
 import {
-  NodeTemplateService,
-  TemplateDialogConfig
+    NodeTemplateService,
+    TemplateDialogConfig,
 } from '../../services/node-template.service';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { ContentManagementService } from '../../services/content-management.service';
@@ -49,126 +49,130 @@ import { MatDialog } from '@angular/material/dialog';
 
 @Injectable()
 export class TemplateEffects {
-  constructor(
-    private matDialog: MatDialog,
-    private content: ContentManagementService,
-    private store: Store<AppStore>,
-    private apiService: AlfrescoApiService,
-    private actions$: Actions,
-    private nodeTemplateService: NodeTemplateService
-  ) {}
+    constructor(
+        private matDialog: MatDialog,
+        private content: ContentManagementService,
+        private store: Store<AppStore>,
+        private apiService: AlfrescoApiService,
+        private actions$: Actions,
+        private nodeTemplateService: NodeTemplateService
+    ) {}
 
-  @Effect({ dispatch: false })
-  fileFromTemplate$ = this.actions$.pipe(
-    ofType<FileFromTemplate>(TemplateActionTypes.FileFromTemplate),
-    map(() => {
-      this.openDialog({
-        relativePath: 'Data Dictionary/Node Templates',
-        selectionType: 'file'
-      });
-    })
-  );
-
-  @Effect({ dispatch: false })
-  folderFromTemplate$ = this.actions$.pipe(
-    ofType<FolderFromTemplate>(TemplateActionTypes.FolderFromTemplate),
-    map(() =>
-      this.openDialog({
-        relativePath: 'Data Dictionary/Space Templates',
-        selectionType: 'folder'
-      })
-    )
-  );
-
-  @Effect({ dispatch: false })
-  createFromTemplate$ = this.actions$.pipe(
-    ofType<CreateFromTemplate>(TemplateActionTypes.CreateFromTemplate),
-    map(action => {
-      this.store
-        .select(getCurrentFolder)
-        .pipe(
-          switchMap(folder => {
-            return this.copyNode(action.payload, folder.id);
-          }),
-          take(1)
-        )
-        .subscribe((node: NodeEntry | null) => {
-          if (node) {
-            this.store.dispatch(new CreateFromTemplateSuccess(node.entry));
-          }
-        });
-    })
-  );
-
-  @Effect({ dispatch: false })
-  createFromTemplateSuccess$ = this.actions$.pipe(
-    ofType<CreateFromTemplateSuccess>(
-      TemplateActionTypes.CreateFromTemplateSuccess
-    ),
-    map(payload => {
-      this.matDialog.closeAll();
-      this.content.reload.next(payload.node);
-    })
-  );
-
-  private openDialog(config: TemplateDialogConfig) {
-    this.nodeTemplateService
-      .selectTemplateDialog(config)
-      .pipe(debounceTime(300))
-      .subscribe(([node]) =>
-        this.nodeTemplateService.createTemplateDialog(node)
-      );
-  }
-
-  private copyNode(source: Node, parentId: string): Observable<NodeEntry> {
-    return from(
-      this.apiService.getInstance().nodes.copyNode(source.id, {
-        targetParentId: parentId,
-        name: source.name
-      })
-    ).pipe(
-      switchMap(node =>
-        this.updateNode(node, {
-          properties: {
-            'cm:title': source.properties['cm:title'],
-            'cm:description': source.properties['cm:description']
-          }
+    @Effect({ dispatch: false })
+    fileFromTemplate$ = this.actions$.pipe(
+        ofType<FileFromTemplate>(TemplateActionTypes.FileFromTemplate),
+        map(() => {
+            this.openDialog({
+                relativePath: 'Data Dictionary/Node Templates',
+                selectionType: 'file',
+            });
         })
-      ),
-      catchError(error => {
-        return this.handleError(error);
-      })
     );
-  }
 
-  private updateNode(
-    node: NodeEntry,
-    update: NodeBodyUpdate
-  ): Observable<NodeEntry> {
-    return from(
-      this.apiService.getInstance().nodes.updateNode(node.entry.id, update)
-    ).pipe(catchError(() => of(node)));
-  }
+    @Effect({ dispatch: false })
+    folderFromTemplate$ = this.actions$.pipe(
+        ofType<FolderFromTemplate>(TemplateActionTypes.FolderFromTemplate),
+        map(() =>
+            this.openDialog({
+                relativePath: 'Data Dictionary/Space Templates',
+                selectionType: 'folder',
+            })
+        )
+    );
 
-  private handleError(error: Error): Observable<null> {
-    let statusCode: number;
+    @Effect({ dispatch: false })
+    createFromTemplate$ = this.actions$.pipe(
+        ofType<CreateFromTemplate>(TemplateActionTypes.CreateFromTemplate),
+        map((action) => {
+            this.store
+                .select(getCurrentFolder)
+                .pipe(
+                    switchMap((folder) => {
+                        return this.copyNode(action.payload, folder.id);
+                    }),
+                    take(1)
+                )
+                .subscribe((node: NodeEntry | null) => {
+                    if (node) {
+                        this.store.dispatch(
+                            new CreateFromTemplateSuccess(node.entry)
+                        );
+                    }
+                });
+        })
+    );
 
-    try {
-      statusCode = JSON.parse(error.message).error.statusCode;
-    } catch (e) {
-      statusCode = null;
+    @Effect({ dispatch: false })
+    createFromTemplateSuccess$ = this.actions$.pipe(
+        ofType<CreateFromTemplateSuccess>(
+            TemplateActionTypes.CreateFromTemplateSuccess
+        ),
+        map((payload) => {
+            this.matDialog.closeAll();
+            this.content.reload.next(payload.node);
+        })
+    );
+
+    private openDialog(config: TemplateDialogConfig) {
+        this.nodeTemplateService
+            .selectTemplateDialog(config)
+            .pipe(debounceTime(300))
+            .subscribe(([node]) =>
+                this.nodeTemplateService.createTemplateDialog(node)
+            );
     }
 
-    if (statusCode !== 409) {
-      this.store.dispatch(
-        new SnackbarErrorAction('APP.MESSAGES.ERRORS.GENERIC')
-      );
-    } else {
-      this.store.dispatch(
-        new SnackbarErrorAction('APP.MESSAGES.ERRORS.CONFLICT')
-      );
+    private copyNode(source: Node, parentId: string): Observable<NodeEntry> {
+        return from(
+            this.apiService.getInstance().nodes.copyNode(source.id, {
+                targetParentId: parentId,
+                name: source.name,
+            })
+        ).pipe(
+            switchMap((node) =>
+                this.updateNode(node, {
+                    properties: {
+                        'cm:title': source.properties['cm:title'],
+                        'cm:description': source.properties['cm:description'],
+                    },
+                })
+            ),
+            catchError((error) => {
+                return this.handleError(error);
+            })
+        );
     }
 
-    return of(null);
-  }
+    private updateNode(
+        node: NodeEntry,
+        update: NodeBodyUpdate
+    ): Observable<NodeEntry> {
+        return from(
+            this.apiService
+                .getInstance()
+                .nodes.updateNode(node.entry.id, update)
+        ).pipe(catchError(() => of(node)));
+    }
+
+    private handleError(error: Error): Observable<null> {
+        let statusCode: number;
+
+        try {
+            statusCode = JSON.parse(error.message).error.statusCode;
+        } catch (e) {
+            statusCode = null;
+        }
+
+        if (statusCode !== 409) {
+            this.store.dispatch(
+                new SnackbarErrorAction('APP.MESSAGES.ERRORS.GENERIC')
+            );
+        } else {
+            this.store.dispatch(
+                new SnackbarErrorAction('APP.MESSAGES.ERRORS.CONFLICT')
+            );
+        }
+
+        return of(null);
+    }
 }

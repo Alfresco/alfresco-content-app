@@ -30,42 +30,45 @@ import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { APP_ROUTES } from '../../configs';
 
 describe('Logout', () => {
-  const page = new BrowsingPage();
-  const loginPage = new LoginPage();
+    const page = new BrowsingPage();
+    const loginPage = new LoginPage();
 
-  const peopleApi = new RepoClient().people;
+    const peopleApi = new RepoClient().people;
 
-  const johnDoe = `user-${Utils.random()}`;
+    const johnDoe = `user-${Utils.random()}`;
 
-  beforeAll(async (done) => {
-    await peopleApi.createUser({ username: johnDoe });
-    done();
-  });
+    beforeAll(async (done) => {
+        await peopleApi.createUser({ username: johnDoe });
+        done();
+    });
 
-  beforeEach(async (done) => {
-    await loginPage.loginWith(johnDoe);
-    done();
-  });
+    beforeEach(async (done) => {
+        await loginPage.loginWith(johnDoe);
+        done();
+    });
 
-  it('Sign out option is available - [C213143]', async () => {
-    await page.header.userInfo.openMenu();
-    expect(await page.header.isSignOutDisplayed()).toBe(true, 'Sign out option not displayed');
-  });
+    it('Sign out option is available - [C213143]', async () => {
+        await page.header.userInfo.openMenu();
+        expect(await page.header.isSignOutDisplayed()).toBe(
+            true,
+            'Sign out option not displayed'
+        );
+    });
 
-  it('redirects to Login page on sign out - [C213144]', async () => {
-    await page.signOut();
-    expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.LOGIN);
-  });
+    it('redirects to Login page on sign out - [C213144]', async () => {
+        await page.signOut();
+        expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.LOGIN);
+    });
 
-  it('redirects to Login page when pressing browser Back after logout - [C213145]', async () => {
-    await page.signOut();
-    await browser.navigate().back();
-    expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.LOGIN);
-  });
+    it('redirects to Login page when pressing browser Back after logout - [C213145]', async () => {
+        await page.signOut();
+        await browser.navigate().back();
+        expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.LOGIN);
+    });
 
-  it('redirects to Login page when trying to access a part of the app after logout - [C213146]', async () => {
-    await page.signOut();
-    await page.load('/favorites');
-    expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.LOGIN);
-  });
+    it('redirects to Login page when trying to access a part of the app after logout - [C213146]', async () => {
+        await page.signOut();
+        await page.load('/favorites');
+        expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.LOGIN);
+    });
 });

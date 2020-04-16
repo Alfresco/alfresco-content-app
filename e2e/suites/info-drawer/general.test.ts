@@ -29,62 +29,62 @@ import { InfoDrawer } from './../../components/info-drawer/info-drawer';
 import { Utils } from '../../utilities/utils';
 
 describe('General', () => {
-  const username = `user1-${Utils.random()}`;
+    const username = `user1-${Utils.random()}`;
 
-  const parent = `parent-${Utils.random()}`; let parentId;
+    const parent = `parent-${Utils.random()}`;
+    let parentId;
 
-  const file1 = `file1-${Utils.random()}.txt`;
-  const folder1 = `folder1-${Utils.random()}`;
+    const file1 = `file1-${Utils.random()}.txt`;
+    const folder1 = `folder1-${Utils.random()}`;
 
-  const apis = {
-    admin: new RepoClient(),
-    user: new RepoClient(username, username)
-  };
+    const apis = {
+        admin: new RepoClient(),
+        user: new RepoClient(username, username),
+    };
 
-  const infoDrawer = new InfoDrawer();
+    const infoDrawer = new InfoDrawer();
 
-  const loginPage = new LoginPage();
-  const page = new BrowsingPage();
-  const { dataTable } = page;
+    const loginPage = new LoginPage();
+    const page = new BrowsingPage();
+    const { dataTable } = page;
 
-  beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    beforeAll(async (done) => {
+        await apis.admin.people.createUser({ username });
 
-    parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
-    await apis.user.nodes.createFile(file1, parentId);
-    await apis.user.nodes.createFolder(folder1, parentId);
+        parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
+        await apis.user.nodes.createFile(file1, parentId);
+        await apis.user.nodes.createFolder(folder1, parentId);
 
-    await loginPage.loginWith(username);
-    done();
-  });
+        await loginPage.loginWith(username);
+        done();
+    });
 
-  afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(parentId);
-    done();
-  });
+    afterAll(async (done) => {
+        await apis.user.nodes.deleteNodeById(parentId);
+        done();
+    });
 
-  beforeEach(async (done) => {
-    await page.clickPersonalFilesAndWait();
-    await dataTable.doubleClickOnRowByName(parent);
-    done();
-  });
+    beforeEach(async (done) => {
+        await page.clickPersonalFilesAndWait();
+        await dataTable.doubleClickOnRowByName(parent);
+        done();
+    });
 
-  afterEach(async (done) => {
-    if (await infoDrawer.isOpen()) {
-      await page.toolbar.clickViewDetails();
-    }
-    done();
-  });
+    afterEach(async (done) => {
+        if (await infoDrawer.isOpen()) {
+            await page.toolbar.clickViewDetails();
+        }
+        done();
+    });
 
-  it('Info drawer closes on page refresh - [C268999]', async () => {
-    await dataTable.selectItem(file1);
-    await page.toolbar.clickViewDetails();
-    expect(await infoDrawer.isOpen()).toBe(true, 'Info drawer not open');
+    it('Info drawer closes on page refresh - [C268999]', async () => {
+        await dataTable.selectItem(file1);
+        await page.toolbar.clickViewDetails();
+        expect(await infoDrawer.isOpen()).toBe(true, 'Info drawer not open');
 
-    await page.refresh();
-    await dataTable.waitForBody();
+        await page.refresh();
+        await dataTable.waitForBody();
 
-    expect(await infoDrawer.isOpen()).toBe(false, 'Info drawer open');
-  });
-
+        expect(await infoDrawer.isOpen()).toBe(false, 'Info drawer open');
+    });
 });

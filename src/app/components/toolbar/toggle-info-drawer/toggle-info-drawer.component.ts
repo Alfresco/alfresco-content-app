@@ -27,35 +27,35 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import {
-  ToggleInfoDrawerAction,
-  isInfoDrawerOpened
+    ToggleInfoDrawerAction,
+    isInfoDrawerOpened,
 } from '@alfresco/aca-shared/store';
 
 @Component({
-  selector: 'app-toggle-info-drawer',
-  template: `
-    <button
-      mat-icon-button
-      [color]="(infoDrawerOpened$ | async) ? 'primary' : ''"
-      [attr.aria-label]="'APP.ACTIONS.DETAILS' | translate"
-      [attr.aria-expanded]="infoDrawerOpened$ | async"
-      [attr.title]="'APP.ACTIONS.DETAILS' | translate"
-      (click)="onClick()"
-    >
-      <mat-icon>info_outline</mat-icon>
-    </button>
-  `,
-  encapsulation: ViewEncapsulation.None,
-  host: { class: 'app-toggle-info-drawer' }
+    selector: 'app-toggle-info-drawer',
+    template: `
+        <button
+            mat-icon-button
+            [color]="(infoDrawerOpened$ | async) ? 'primary' : ''"
+            [attr.aria-label]="'APP.ACTIONS.DETAILS' | translate"
+            [attr.aria-expanded]="infoDrawerOpened$ | async"
+            [attr.title]="'APP.ACTIONS.DETAILS' | translate"
+            (click)="onClick()"
+        >
+            <mat-icon>info_outline</mat-icon>
+        </button>
+    `,
+    encapsulation: ViewEncapsulation.None,
+    host: { class: 'app-toggle-info-drawer' },
 })
 export class ToggleInfoDrawerComponent {
-  infoDrawerOpened$: Observable<boolean>;
+    infoDrawerOpened$: Observable<boolean>;
 
-  constructor(private store: Store<any>) {
-    this.infoDrawerOpened$ = this.store.select(isInfoDrawerOpened);
-  }
+    constructor(private store: Store<any>) {
+        this.infoDrawerOpened$ = this.store.select(isInfoDrawerOpened);
+    }
 
-  onClick() {
-    this.store.dispatch(new ToggleInfoDrawerAction());
-  }
+    onClick() {
+        this.store.dispatch(new ToggleInfoDrawerAction());
+    }
 }

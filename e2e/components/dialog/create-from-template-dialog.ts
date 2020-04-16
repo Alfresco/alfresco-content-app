@@ -27,96 +27,119 @@ import { ElementFinder, by, protractor } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
 
 export class CreateFromTemplateDialog extends GenericDialog {
-  private static selectors = {
-    root: '.aca-create-from-template-dialog',
+    private static selectors = {
+        root: '.aca-create-from-template-dialog',
 
-    nameInput: 'input[placeholder="Name" i]',
-    titleInput: 'input[placeholder="Title" i]',
-    descriptionTextArea: 'textarea[placeholder="Description" i]',
-    validationMessage: '.mat-error',
+        nameInput: 'input[placeholder="Name" i]',
+        titleInput: 'input[placeholder="Title" i]',
+        descriptionTextArea: 'textarea[placeholder="Description" i]',
+        validationMessage: '.mat-error',
 
-    createButton: by.cssContainingText('.mat-dialog-actions button', 'Create'),
-    cancelButton: by.cssContainingText('.mat-dialog-actions button', 'CANCEL')
-  };
+        createButton: by.cssContainingText(
+            '.mat-dialog-actions button',
+            'Create'
+        ),
+        cancelButton: by.cssContainingText(
+            '.mat-dialog-actions button',
+            'CANCEL'
+        ),
+    };
 
-  nameInput: ElementFinder = this.rootElem.element(by.css(CreateFromTemplateDialog.selectors.nameInput));
-  titleInput: ElementFinder = this.rootElem.element(by.css(CreateFromTemplateDialog.selectors.titleInput));
-  descriptionTextArea: ElementFinder = this.rootElem.element(by.css(CreateFromTemplateDialog.selectors.descriptionTextArea));
-  validationMessage: ElementFinder = this.rootElem.element(by.css(CreateFromTemplateDialog.selectors.validationMessage));
+    nameInput: ElementFinder = this.rootElem.element(
+        by.css(CreateFromTemplateDialog.selectors.nameInput)
+    );
+    titleInput: ElementFinder = this.rootElem.element(
+        by.css(CreateFromTemplateDialog.selectors.titleInput)
+    );
+    descriptionTextArea: ElementFinder = this.rootElem.element(
+        by.css(CreateFromTemplateDialog.selectors.descriptionTextArea)
+    );
+    validationMessage: ElementFinder = this.rootElem.element(
+        by.css(CreateFromTemplateDialog.selectors.validationMessage)
+    );
 
-  constructor() {
-    super(CreateFromTemplateDialog.selectors.root);
-  }
-
-  async isValidationMessageDisplayed(): Promise<boolean> {
-    const isDisplayed = await this.validationMessage.isDisplayed();
-    const isPresent = await this.validationMessage.isPresent();
-    return isDisplayed && isPresent;
-  }
-
-  async isCreateButtonEnabled(): Promise<boolean> {
-    return this.isButtonEnabled(CreateFromTemplateDialog.selectors.createButton);
-  }
-
-  async isCancelButtonEnabled(): Promise<boolean> {
-    return this.isButtonEnabled(CreateFromTemplateDialog.selectors.cancelButton);
-  }
-
-  async isNameFieldDisplayed(): Promise<boolean> {
-    return this.nameInput.isDisplayed();
-  }
-
-  async isTitleFieldDisplayed(): Promise<boolean> {
-    return this.titleInput.isDisplayed();
-  }
-
-  async isDescriptionFieldDisplayed(): Promise<boolean> {
-    return this.descriptionTextArea.isDisplayed();
-  }
-
-  async getValidationMessage(): Promise<string> {
-    if (await this.isValidationMessageDisplayed()) {
-      return this.validationMessage.getText();
-    } else {
-      return '';
+    constructor() {
+        super(CreateFromTemplateDialog.selectors.root);
     }
-  }
 
-  async getName(): Promise<string> {
-    return this.nameInput.getAttribute('value');
-  }
+    async isValidationMessageDisplayed(): Promise<boolean> {
+        const isDisplayed = await this.validationMessage.isDisplayed();
+        const isPresent = await this.validationMessage.isPresent();
+        return isDisplayed && isPresent;
+    }
 
-  async getDescription(): Promise<string> {
-    return this.descriptionTextArea.getAttribute('value');
-  }
+    async isCreateButtonEnabled(): Promise<boolean> {
+        return this.isButtonEnabled(
+            CreateFromTemplateDialog.selectors.createButton
+        );
+    }
 
-  async enterName(name: string): Promise<void> {
-    await this.nameInput.clear();
-    await this.nameInput.sendKeys(name);
-  }
+    async isCancelButtonEnabled(): Promise<boolean> {
+        return this.isButtonEnabled(
+            CreateFromTemplateDialog.selectors.cancelButton
+        );
+    }
 
-  async enterTitle(title: string): Promise<void> {
-    await this.titleInput.clear();
-    await this.titleInput.sendKeys(title);
-  }
+    async isNameFieldDisplayed(): Promise<boolean> {
+        return this.nameInput.isDisplayed();
+    }
 
-  async enterDescription(description: string): Promise<void> {
-    await this.descriptionTextArea.clear();
-    await this.descriptionTextArea.sendKeys(description);
-  }
+    async isTitleFieldDisplayed(): Promise<boolean> {
+        return this.titleInput.isDisplayed();
+    }
 
-  async deleteNameWithBackspace(): Promise<void> {
-    await this.nameInput.clear();
-    await this.nameInput.sendKeys(' ', protractor.Key.CONTROL, 'a', protractor.Key.NULL, protractor.Key.BACK_SPACE);
-  }
+    async isDescriptionFieldDisplayed(): Promise<boolean> {
+        return this.descriptionTextArea.isDisplayed();
+    }
 
-  async clickCreate(): Promise<void> {
-    await this.clickButton(CreateFromTemplateDialog.selectors.createButton);
-  }
+    async getValidationMessage(): Promise<string> {
+        if (await this.isValidationMessageDisplayed()) {
+            return this.validationMessage.getText();
+        } else {
+            return '';
+        }
+    }
 
-  async clickCancel(): Promise<void> {
-    await this.clickButton(CreateFromTemplateDialog.selectors.cancelButton);
-    await this.waitForDialogToClose();
-  }
+    async getName(): Promise<string> {
+        return this.nameInput.getAttribute('value');
+    }
 
+    async getDescription(): Promise<string> {
+        return this.descriptionTextArea.getAttribute('value');
+    }
+
+    async enterName(name: string): Promise<void> {
+        await this.nameInput.clear();
+        await this.nameInput.sendKeys(name);
+    }
+
+    async enterTitle(title: string): Promise<void> {
+        await this.titleInput.clear();
+        await this.titleInput.sendKeys(title);
+    }
+
+    async enterDescription(description: string): Promise<void> {
+        await this.descriptionTextArea.clear();
+        await this.descriptionTextArea.sendKeys(description);
+    }
+
+    async deleteNameWithBackspace(): Promise<void> {
+        await this.nameInput.clear();
+        await this.nameInput.sendKeys(
+            ' ',
+            protractor.Key.CONTROL,
+            'a',
+            protractor.Key.NULL,
+            protractor.Key.BACK_SPACE
+        );
+    }
+
+    async clickCreate(): Promise<void> {
+        await this.clickButton(CreateFromTemplateDialog.selectors.createButton);
+    }
+
+    async clickCancel(): Promise<void> {
+        await this.clickButton(CreateFromTemplateDialog.selectors.cancelButton);
+        await this.waitForDialogToClose();
+    }
 }

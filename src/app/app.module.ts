@@ -27,19 +27,19 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, RouteReuseStrategy } from '@angular/router';
 import {
-  BrowserAnimationsModule,
-  NoopAnimationsModule
+    BrowserAnimationsModule,
+    NoopAnimationsModule,
 } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
-  TRANSLATION_PROVIDER,
-  CoreModule,
-  AppConfigService,
-  DebugAppConfigService
+    TRANSLATION_PROVIDER,
+    CoreModule,
+    AppConfigService,
+    DebugAppConfigService,
 } from '@alfresco/adf-core';
 import {
-  LibraryDialogComponent,
-  ContentModule
+    LibraryDialogComponent,
+    ContentModule,
 } from '@alfresco/adf-content-services';
 import { AppRouteReuseStrategy, SharedModule } from '@alfresco/aca-shared';
 
@@ -115,70 +115,70 @@ registerLocaleData(localeDa);
 registerLocaleData(localeSv);
 
 @NgModule({
-  imports: [
-    BrowserModule,
-    environment.e2e ? NoopAnimationsModule : BrowserAnimationsModule,
-    FormsModule,
-    ReactiveFormsModule,
-    RouterModule.forRoot(APP_ROUTES, {
-      useHash: true,
-      enableTracing: false // enable for debug only
-    }),
-    MaterialModule,
-    CoreModule.forRoot(),
-    ContentModule.forRoot(),
-    SharedModule.forRoot(),
-    AppStoreModule,
-    CoreExtensionsModule.forRoot(),
-    ExtensionsModule,
-    AppExtensionsModule,
-    AppLoginModule,
-    AppCommonModule,
-    AppLayoutModule,
-    AppCurrentUserModule,
-    DirectivesModule,
-    ContextMenuModule,
-    AppInfoDrawerModule,
-    AppToolbarModule,
-    AppSidenavModule,
-    AppCreateMenuModule,
-    DocumentListCustomComponentsModule,
-    AppPermissionsModule,
-    AppSearchInputModule,
-    AppSearchResultsModule,
-    AppHeaderModule,
-    AppNodeVersionModule
-  ],
-  declarations: [
-    AppComponent,
-    FilesComponent,
-    LibrariesComponent,
-    FavoriteLibrariesComponent,
-    NodeVersionUploadDialogComponent,
-    NodeVersionsDialogComponent,
-    FavoritesComponent,
-    RecentFilesComponent,
-    SharedFilesComponent,
-    CreateFromTemplateDialogComponent
-  ],
-  providers: [
-    { provide: RouteReuseStrategy, useClass: AppRouteReuseStrategy },
-    { provide: AppConfigService, useClass: DebugAppConfigService },
-    {
-      provide: TRANSLATION_PROVIDER,
-      multi: true,
-      useValue: {
-        name: 'app',
-        source: 'assets'
-      }
-    }
-  ],
-  entryComponents: [
-    NodeVersionsDialogComponent,
-    NodeVersionUploadDialogComponent,
-    LibraryDialogComponent,
-    CreateFromTemplateDialogComponent
-  ],
-  bootstrap: [AppComponent]
+    imports: [
+        BrowserModule,
+        environment.e2e ? NoopAnimationsModule : BrowserAnimationsModule,
+        FormsModule,
+        ReactiveFormsModule,
+        RouterModule.forRoot(APP_ROUTES, {
+            useHash: true,
+            enableTracing: false, // enable for debug only
+        }),
+        MaterialModule,
+        CoreModule.forRoot(),
+        ContentModule.forRoot(),
+        SharedModule.forRoot(),
+        AppStoreModule,
+        CoreExtensionsModule.forRoot(),
+        ExtensionsModule,
+        AppExtensionsModule,
+        AppLoginModule,
+        AppCommonModule,
+        AppLayoutModule,
+        AppCurrentUserModule,
+        DirectivesModule,
+        ContextMenuModule,
+        AppInfoDrawerModule,
+        AppToolbarModule,
+        AppSidenavModule,
+        AppCreateMenuModule,
+        DocumentListCustomComponentsModule,
+        AppPermissionsModule,
+        AppSearchInputModule,
+        AppSearchResultsModule,
+        AppHeaderModule,
+        AppNodeVersionModule,
+    ],
+    declarations: [
+        AppComponent,
+        FilesComponent,
+        LibrariesComponent,
+        FavoriteLibrariesComponent,
+        NodeVersionUploadDialogComponent,
+        NodeVersionsDialogComponent,
+        FavoritesComponent,
+        RecentFilesComponent,
+        SharedFilesComponent,
+        CreateFromTemplateDialogComponent,
+    ],
+    providers: [
+        { provide: RouteReuseStrategy, useClass: AppRouteReuseStrategy },
+        { provide: AppConfigService, useClass: DebugAppConfigService },
+        {
+            provide: TRANSLATION_PROVIDER,
+            multi: true,
+            useValue: {
+                name: 'app',
+                source: 'assets',
+            },
+        },
+    ],
+    entryComponents: [
+        NodeVersionsDialogComponent,
+        NodeVersionUploadDialogComponent,
+        LibraryDialogComponent,
+        CreateFromTemplateDialogComponent,
+    ],
+    bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -26,11 +26,11 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { PageComponent } from './page.component';
 import {
-  ReloadDocumentListAction,
-  SetSelectedNodesAction,
-  SetInfoDrawerStateAction,
-  AppState,
-  AppStore
+    ReloadDocumentListAction,
+    SetSelectedNodesAction,
+    SetInfoDrawerStateAction,
+    AppState,
+    AppStore,
 } from '@alfresco/aca-shared/store';
 import { MinimalNodeEntity } from '@alfresco/js-api';
 import { ContentManagementService } from '../services/content-management.service';
@@ -42,124 +42,132 @@ import { AppTestingModule } from '../testing/app-testing.module';
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'aca-test',
-  template: ''
+    selector: 'aca-test',
+    template: '',
 })
 class TestComponent extends PageComponent {
-  node: any;
+    node: any;
 
-  constructor(
-    store: Store<AppStore>,
-    extensions: AppExtensionService,
-    content: ContentManagementService
-  ) {
-    super(store, extensions, content);
-  }
+    constructor(
+        store: Store<AppStore>,
+        extensions: AppExtensionService,
+        content: ContentManagementService
+    ) {
+        super(store, extensions, content);
+    }
 }
 
 describe('PageComponent', () => {
-  let component: TestComponent;
-  let store: Store<AppState>;
-  let fixture: ComponentFixture<TestComponent>;
+    let component: TestComponent;
+    let store: Store<AppState>;
+    let fixture: ComponentFixture<TestComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [AppTestingModule, EffectsModule.forRoot([ViewerEffects])],
-      declarations: [TestComponent],
-      providers: [ContentManagementService, AppExtensionService]
-    });
-
-    store = TestBed.get(Store);
-    fixture = TestBed.createComponent(TestComponent);
-    component = fixture.componentInstance;
-  });
-
-  describe('getParentNodeId()', () => {
-    it('returns parent node id when node is set', () => {
-      component.node = { id: 'node-id' };
-
-      expect(component.getParentNodeId()).toBe('node-id');
-    });
-
-    it('returns null when node is not set', () => {
-      component.node = null;
-
-      expect(component.getParentNodeId()).toBe(null);
-    });
-  });
-
-  describe('Info Drawer state', () => {
-    const locationHref = location.href;
-
-    afterEach(() => {
-      window.history.pushState({}, null, locationHref);
-    });
-
-    it('should open info drawer on action event', done => {
-      window.history.pushState({}, null, `${locationHref}#test`);
-      fixture.detectChanges();
-
-      fixture.whenStable().then(() => {
-        component.infoDrawerOpened$.subscribe(state => {
-          expect(state).toBe(true);
-          done();
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            imports: [AppTestingModule, EffectsModule.forRoot([ViewerEffects])],
+            declarations: [TestComponent],
+            providers: [ContentManagementService, AppExtensionService],
         });
-      });
 
-      store.dispatch(new SetInfoDrawerStateAction(true));
+        store = TestBed.get(Store);
+        fixture = TestBed.createComponent(TestComponent);
+        component = fixture.componentInstance;
     });
 
-    it('should not open info drawer if viewer outlet is active', done => {
-      window.history.pushState({}, null, `${locationHref}#test(viewer:view)`);
-      fixture.detectChanges();
+    describe('getParentNodeId()', () => {
+        it('returns parent node id when node is set', () => {
+            component.node = { id: 'node-id' };
 
-      fixture.whenStable().then(() => {
-        component.infoDrawerOpened$.subscribe(state => {
-          expect(state).toBe(false);
-          done();
+            expect(component.getParentNodeId()).toBe('node-id');
         });
-      });
 
-      store.dispatch(new SetInfoDrawerStateAction(true));
-    });
-  });
+        it('returns null when node is not set', () => {
+            component.node = null;
 
-  describe('Reload', () => {
-    const locationHref = location.href;
-
-    afterEach(() => {
-      window.history.pushState({}, null, locationHref);
+            expect(component.getParentNodeId()).toBe(null);
+        });
     });
 
-    it('should not reload if url contains viewer outlet', () => {
-      window.history.pushState({}, null, `${locationHref}#test(viewer:view)`);
-      spyOn(store, 'dispatch');
+    describe('Info Drawer state', () => {
+        const locationHref = location.href;
 
-      component.reload();
-      expect(store.dispatch).not.toHaveBeenCalled();
+        afterEach(() => {
+            window.history.pushState({}, null, locationHref);
+        });
+
+        it('should open info drawer on action event', (done) => {
+            window.history.pushState({}, null, `${locationHref}#test`);
+            fixture.detectChanges();
+
+            fixture.whenStable().then(() => {
+                component.infoDrawerOpened$.subscribe((state) => {
+                    expect(state).toBe(true);
+                    done();
+                });
+            });
+
+            store.dispatch(new SetInfoDrawerStateAction(true));
+        });
+
+        it('should not open info drawer if viewer outlet is active', (done) => {
+            window.history.pushState(
+                {},
+                null,
+                `${locationHref}#test(viewer:view)`
+            );
+            fixture.detectChanges();
+
+            fixture.whenStable().then(() => {
+                component.infoDrawerOpened$.subscribe((state) => {
+                    expect(state).toBe(false);
+                    done();
+                });
+            });
+
+            store.dispatch(new SetInfoDrawerStateAction(true));
+        });
     });
 
-    it('should reload if url does not contain viewer outlet', () => {
-      spyOn(store, 'dispatch');
+    describe('Reload', () => {
+        const locationHref = location.href;
 
-      component.reload();
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new ReloadDocumentListAction()
-      );
+        afterEach(() => {
+            window.history.pushState({}, null, locationHref);
+        });
+
+        it('should not reload if url contains viewer outlet', () => {
+            window.history.pushState(
+                {},
+                null,
+                `${locationHref}#test(viewer:view)`
+            );
+            spyOn(store, 'dispatch');
+
+            component.reload();
+            expect(store.dispatch).not.toHaveBeenCalled();
+        });
+
+        it('should reload if url does not contain viewer outlet', () => {
+            spyOn(store, 'dispatch');
+
+            component.reload();
+            expect(store.dispatch).toHaveBeenCalledWith(
+                new ReloadDocumentListAction()
+            );
+        });
+
+        it('should set selection after reload if node is passed', () => {
+            const node = {
+                entry: {
+                    id: 'node-id',
+                },
+            } as MinimalNodeEntity;
+            spyOn(store, 'dispatch');
+
+            component.reload(node);
+            expect(store.dispatch['calls'].mostRecent().args[0]).toEqual(
+                new SetSelectedNodesAction([node])
+            );
+        });
     });
-
-    it('should set selection after reload if node is passed', () => {
-      const node = {
-        entry: {
-          id: 'node-id'
-        }
-      } as MinimalNodeEntity;
-      spyOn(store, 'dispatch');
-
-      component.reload(node);
-      expect(store.dispatch['calls'].mostRecent().args[0]).toEqual(
-        new SetSelectedNodesAction([node])
-      );
-    });
-  });
 });

@@ -24,28 +24,28 @@
  */
 
 import {
-  SelectionState,
-  ProfileState,
-  NavigationState
+    SelectionState,
+    ProfileState,
+    NavigationState,
 } from '@alfresco/adf-extensions';
 import { RepositoryInfo } from '@alfresco/js-api';
 
 export interface AppState {
-  appName: string;
-  headerColor: string;
-  logoPath: string;
-  languagePicker: boolean;
-  sharedUrl: string;
-  selection: SelectionState;
-  user: ProfileState;
-  navigation: NavigationState;
-  infoDrawerOpened: boolean;
-  infoDrawerMetadataAspect: string;
-  showFacetFilter: boolean;
-  documentDisplayMode: string;
-  repository: RepositoryInfo;
+    appName: string;
+    headerColor: string;
+    logoPath: string;
+    languagePicker: boolean;
+    sharedUrl: string;
+    selection: SelectionState;
+    user: ProfileState;
+    navigation: NavigationState;
+    infoDrawerOpened: boolean;
+    infoDrawerMetadataAspect: string;
+    showFacetFilter: boolean;
+    documentDisplayMode: string;
+    repository: RepositoryInfo;
 }
 
 export interface AppStore {
-  app: AppState;
+    app: AppState;
 }

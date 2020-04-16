@@ -24,11 +24,11 @@
  */
 
 import {
-  Directive,
-  Input,
-  OnInit,
-  OnDestroy,
-  HostListener
+    Directive,
+    Input,
+    OnInit,
+    OnDestroy,
+    HostListener,
 } from '@angular/core';
 import { Router, NavigationEnd, PRIMARY_OUTLET } from '@angular/router';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -36,73 +36,79 @@ import { Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 @Directive({
-  // tslint:disable-next-line: directive-selector
-  selector: '[acaMenuPanel]',
-  exportAs: 'acaMenuPanel'
+    // tslint:disable-next-line: directive-selector
+    selector: '[acaMenuPanel]',
+    exportAs: 'acaMenuPanel',
 })
 export class MenuPanelDirective implements OnInit, OnDestroy {
-  @Input() acaMenuPanel;
-  hasActiveChildren = false;
+    @Input() acaMenuPanel;
+    hasActiveChildren = false;
 
-  private onDestroy$: Subject<boolean> = new Subject<boolean>();
+    private onDestroy$: Subject<boolean> = new Subject<boolean>();
 
-  @HostListener('menuOpened')
-  menuOpened() {
-    if (this.acaMenuPanel.children && !this.hasActiveLinks()) {
-      const firstChild = this.acaMenuPanel.children[0];
-      if (firstChild.url) {
-        this.router.navigate(this.getNavigationCommands(firstChild.url));
-      } else {
-        this.store.dispatch({
-          type: firstChild.action.action,
-          payload: this.getNavigationCommands(firstChild.action.payload)
-        });
-      }
+    @HostListener('menuOpened')
+    menuOpened() {
+        if (this.acaMenuPanel.children && !this.hasActiveLinks()) {
+            const firstChild = this.acaMenuPanel.children[0];
+            if (firstChild.url) {
+                this.router.navigate(
+                    this.getNavigationCommands(firstChild.url)
+                );
+            } else {
+                this.store.dispatch({
+                    type: firstChild.action.action,
+                    payload: this.getNavigationCommands(
+                        firstChild.action.payload
+                    ),
+                });
+            }
+        }
     }
-  }
 
-  constructor(private store: Store<any>, private router: Router) {}
+    constructor(private store: Store<any>, private router: Router) {}
 
-  hasActiveLinks() {
-    if (this.acaMenuPanel && this.acaMenuPanel.children) {
-      return this.acaMenuPanel.children.some(child => {
-        return this.router.url.startsWith(child.url || child.action.payload);
-      });
+    hasActiveLinks() {
+        if (this.acaMenuPanel && this.acaMenuPanel.children) {
+            return this.acaMenuPanel.children.some((child) => {
+                return this.router.url.startsWith(
+                    child.url || child.action.payload
+                );
+            });
+        }
+        return false;
     }
-    return false;
-  }
 
-  ngOnInit() {
-    this.hasActiveChildren = this.hasActiveLinks();
-
-    this.router.events
-      .pipe(
-        filter(event => event instanceof NavigationEnd),
-        takeUntil(this.onDestroy$)
-      )
-      .subscribe(() => {
+    ngOnInit() {
         this.hasActiveChildren = this.hasActiveLinks();
-      });
-  }
 
-  ngOnDestroy() {
-    this.onDestroy$.next(true);
-    this.onDestroy$.complete();
-  }
-
-  private getNavigationCommands(url: string): any[] {
-    const urlTree = this.router.parseUrl(url);
-    const urlSegmentGroup = urlTree.root.children[PRIMARY_OUTLET];
-
-    if (!urlSegmentGroup) {
-      return [url];
+        this.router.events
+            .pipe(
+                filter((event) => event instanceof NavigationEnd),
+                takeUntil(this.onDestroy$)
+            )
+            .subscribe(() => {
+                this.hasActiveChildren = this.hasActiveLinks();
+            });
     }
 
-    const urlSegments = urlSegmentGroup.segments;
+    ngOnDestroy() {
+        this.onDestroy$.next(true);
+        this.onDestroy$.complete();
+    }
 
-    return urlSegments.reduce(function(acc, item) {
-      acc.push(item.path, item.parameters);
-      return acc;
-    }, []);
-  }
+    private getNavigationCommands(url: string): any[] {
+        const urlTree = this.router.parseUrl(url);
+        const urlSegmentGroup = urlTree.root.children[PRIMARY_OUTLET];
+
+        if (!urlSegmentGroup) {
+            return [url];
+        }
+
+        const urlSegments = urlSegmentGroup.segments;
+
+        return urlSegments.reduce(function (acc, item) {
+            acc.push(item.path, item.parameters);
+            return acc;
+        }, []);
+    }
 }

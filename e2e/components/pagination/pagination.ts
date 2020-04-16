@@ -23,142 +23,171 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, browser, ExpectedConditions as EC } from 'protractor';
+import {
+    ElementFinder,
+    by,
+    browser,
+    ExpectedConditions as EC,
+} from 'protractor';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
 import { Logger } from '@alfresco/adf-testing';
 
 export class Pagination extends Component {
-  private static selectors = {
-    root: 'adf-pagination',
-    range: '.adf-pagination__range',
-    maxItems: '.adf-pagination__max-items',
-    currentPage: '.adf-pagination__current-page',
-    totalPages: '.adf-pagination__total-pages',
+    private static selectors = {
+        root: 'adf-pagination',
+        range: '.adf-pagination__range',
+        maxItems: '.adf-pagination__max-items',
+        currentPage: '.adf-pagination__current-page',
+        totalPages: '.adf-pagination__total-pages',
 
-    previousButton: '.adf-pagination__previous-button',
-    nextButton: '.adf-pagination__next-button',
-    maxItemsButton: '.adf-pagination__max-items + button[mat-icon-button]',
-    pagesButton: '.adf-pagination__current-page + button[mat-icon-button]'
-  };
+        previousButton: '.adf-pagination__previous-button',
+        nextButton: '.adf-pagination__next-button',
+        maxItemsButton: '.adf-pagination__max-items + button[mat-icon-button]',
+        pagesButton: '.adf-pagination__current-page + button[mat-icon-button]',
+    };
 
-  range: ElementFinder = this.component.element(by.css(Pagination.selectors.range));
-  maxItems: ElementFinder = this.component.element(by.css(Pagination.selectors.maxItems));
-  currentPage: ElementFinder = this.component.element(by.css(Pagination.selectors.currentPage));
-  totalPages: ElementFinder = this.component.element(by.css(Pagination.selectors.totalPages));
-  previousButton: ElementFinder = this.component.element(by.css(Pagination.selectors.previousButton));
-  nextButton: ElementFinder = this.component.element(by.css(Pagination.selectors.nextButton));
-  maxItemsButton: ElementFinder = this.component.element(by.css(Pagination.selectors.maxItemsButton));
-  pagesButton: ElementFinder = this.component.element(by.css(Pagination.selectors.pagesButton));
+    range: ElementFinder = this.component.element(
+        by.css(Pagination.selectors.range)
+    );
+    maxItems: ElementFinder = this.component.element(
+        by.css(Pagination.selectors.maxItems)
+    );
+    currentPage: ElementFinder = this.component.element(
+        by.css(Pagination.selectors.currentPage)
+    );
+    totalPages: ElementFinder = this.component.element(
+        by.css(Pagination.selectors.totalPages)
+    );
+    previousButton: ElementFinder = this.component.element(
+        by.css(Pagination.selectors.previousButton)
+    );
+    nextButton: ElementFinder = this.component.element(
+        by.css(Pagination.selectors.nextButton)
+    );
+    maxItemsButton: ElementFinder = this.component.element(
+        by.css(Pagination.selectors.maxItemsButton)
+    );
+    pagesButton: ElementFinder = this.component.element(
+        by.css(Pagination.selectors.pagesButton)
+    );
 
-  menu: Menu = new Menu();
+    menu: Menu = new Menu();
 
-  constructor(ancestor?: string) {
-    super(Pagination.selectors.root, ancestor);
-  }
-
-  async openMaxItemsMenu() {
-    const { menu, maxItemsButton } = this;
-
-    try {
-      await browser.wait(EC.elementToBeClickable(maxItemsButton), BROWSER_WAIT_TIMEOUT, 'timeout waiting for maxItemsButton to be clickable');
-      await maxItemsButton.click();
-      await menu.waitForMenuToOpen();
-    } catch (error) {
-      Logger.info('____ open max items catch ___', error);
+    constructor(ancestor?: string) {
+        super(Pagination.selectors.root, ancestor);
     }
-  }
 
-  async openCurrentPageMenu() {
-    const { menu, pagesButton } = this;
+    async openMaxItemsMenu() {
+        const { menu, maxItemsButton } = this;
 
-    try {
-      await browser.wait(EC.elementToBeClickable(pagesButton), BROWSER_WAIT_TIMEOUT, 'timeout waiting for pagesButton to be clickable');
-      await pagesButton.click();
-      await menu.waitForMenuToOpen();
-    } catch (error) {
-      Logger.info('____ open current page menu ___', error);
+        try {
+            await browser.wait(
+                EC.elementToBeClickable(maxItemsButton),
+                BROWSER_WAIT_TIMEOUT,
+                'timeout waiting for maxItemsButton to be clickable'
+            );
+            await maxItemsButton.click();
+            await menu.waitForMenuToOpen();
+        } catch (error) {
+            Logger.info('____ open max items catch ___', error);
+        }
     }
-  }
 
-  async resetToDefaultPageSize() {
-    try {
-      await this.openMaxItemsMenu();
-      await this.menu.clickNthItem(1);
-      await this.menu.waitForMenuToClose();
-    } catch (error) {
-      Logger.info('___ reset to default page size catch ___', error);
+    async openCurrentPageMenu() {
+        const { menu, pagesButton } = this;
+
+        try {
+            await browser.wait(
+                EC.elementToBeClickable(pagesButton),
+                BROWSER_WAIT_TIMEOUT,
+                'timeout waiting for pagesButton to be clickable'
+            );
+            await pagesButton.click();
+            await menu.waitForMenuToOpen();
+        } catch (error) {
+            Logger.info('____ open current page menu ___', error);
+        }
     }
-  }
 
-  async resetToDefaultPageNumber() {
-    try {
-      await this.openCurrentPageMenu();
-      await this.menu.clickNthItem(1);
-      await this.menu.waitForMenuToClose();
-    } catch (error) {
-      Logger.info('____ reset to default page number catch ___', error);
+    async resetToDefaultPageSize() {
+        try {
+            await this.openMaxItemsMenu();
+            await this.menu.clickNthItem(1);
+            await this.menu.waitForMenuToClose();
+        } catch (error) {
+            Logger.info('___ reset to default page size catch ___', error);
+        }
     }
-  }
 
-  async clickNext() {
-    await this.nextButton.click();
-  }
+    async resetToDefaultPageNumber() {
+        try {
+            await this.openCurrentPageMenu();
+            await this.menu.clickNthItem(1);
+            await this.menu.waitForMenuToClose();
+        } catch (error) {
+            Logger.info('____ reset to default page number catch ___', error);
+        }
+    }
 
-  async clickPrevious() {
-    await this.previousButton.click();
-  }
+    async clickNext() {
+        await this.nextButton.click();
+    }
 
-  async isNextEnabled() {
-    return this.nextButton.isEnabled();
-  }
+    async clickPrevious() {
+        await this.previousButton.click();
+    }
 
-  async isPreviousEnabled() {
-    return this.previousButton.isEnabled();
-  }
+    async isNextEnabled() {
+        return this.nextButton.isEnabled();
+    }
 
-  async isPagesButtonPresent() {
-    return browser.isElementPresent(this.pagesButton);
-  }
+    async isPreviousEnabled() {
+        return this.previousButton.isEnabled();
+    }
 
-  async isRangePresent() {
-    return this.range.isPresent();
-  }
+    async isPagesButtonPresent() {
+        return browser.isElementPresent(this.pagesButton);
+    }
 
-  async isMaxItemsPresent() {
-    return this.maxItems.isPresent();
-  }
+    async isRangePresent() {
+        return this.range.isPresent();
+    }
 
-  async isCurrentPagePresent() {
-    return this.currentPage.isPresent();
-  }
+    async isMaxItemsPresent() {
+        return this.maxItems.isPresent();
+    }
 
-  async isTotalPagesPresent() {
-    return this.totalPages.isPresent();
-  }
+    async isCurrentPagePresent() {
+        return this.currentPage.isPresent();
+    }
 
-  async isPreviousButtonPresent() {
-    return this.previousButton.isPresent();
-  }
+    async isTotalPagesPresent() {
+        return this.totalPages.isPresent();
+    }
 
-  async isNextButtonPresent() {
-    return this.nextButton.isPresent();
-  }
+    async isPreviousButtonPresent() {
+        return this.previousButton.isPresent();
+    }
 
-  async getCurrentPage() {
-    return this.currentPage.getText();
-  }
+    async isNextButtonPresent() {
+        return this.nextButton.isPresent();
+    }
 
-  async getRange() {
-    return this.range.getText();
-  }
+    async getCurrentPage() {
+        return this.currentPage.getText();
+    }
 
-  async getMaxItems() {
-    return this.maxItems.getText();
-  }
+    async getRange() {
+        return this.range.getText();
+    }
 
-  async getTotalPages() {
-    return this.totalPages.getText();
-  }
+    async getMaxItems() {
+        return this.maxItems.getText();
+    }
+
+    async getTotalPages() {
+        return this.totalPages.getText();
+    }
 }

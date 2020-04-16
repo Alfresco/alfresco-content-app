@@ -36,18 +36,18 @@ import { HttpClientModule } from '@angular/common/http';
 import { PageLayoutModule } from '@alfresco/aca-shared';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    CoreModule.forChild(),
-    ContentModule.forChild(),
-    AppCommonModule,
-    AppSidenavModule,
-    AppHeaderModule,
-    HttpClientModule,
-    PageLayoutModule
-  ],
-  declarations: [AppLayoutComponent],
-  exports: [AppLayoutComponent, PageLayoutModule]
+    imports: [
+        CommonModule,
+        RouterModule,
+        CoreModule.forChild(),
+        ContentModule.forChild(),
+        AppCommonModule,
+        AppSidenavModule,
+        AppHeaderModule,
+        HttpClientModule,
+        PageLayoutModule,
+    ],
+    declarations: [AppLayoutComponent],
+    exports: [AppLayoutComponent, PageLayoutModule],
 })
 export class AppLayoutModule {}

@@ -38,26 +38,26 @@ import { AppLayoutModule } from '../layout/layout.module';
 import { ContextMenuModule } from '../context-menu/context-menu.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    CoreModule.forChild(),
-    ContentModule.forChild(),
-    AppCommonModule,
-    AppInfoDrawerModule,
-    AppToolbarModule,
-    DirectivesModule,
-    AppLayoutModule,
-    ContextMenuModule
-  ],
-  declarations: [
-    SearchResultsComponent,
-    SearchLibrariesResultsComponent,
-    SearchResultsRowComponent
-  ],
-  exports: [
-    SearchResultsComponent,
-    SearchLibrariesResultsComponent,
-    SearchResultsRowComponent
-  ]
+    imports: [
+        CommonModule,
+        CoreModule.forChild(),
+        ContentModule.forChild(),
+        AppCommonModule,
+        AppInfoDrawerModule,
+        AppToolbarModule,
+        DirectivesModule,
+        AppLayoutModule,
+        ContextMenuModule,
+    ],
+    declarations: [
+        SearchResultsComponent,
+        SearchLibrariesResultsComponent,
+        SearchResultsRowComponent,
+    ],
+    exports: [
+        SearchResultsComponent,
+        SearchLibrariesResultsComponent,
+        SearchResultsRowComponent,
+    ],
 })
 export class AppSearchResultsModule {}

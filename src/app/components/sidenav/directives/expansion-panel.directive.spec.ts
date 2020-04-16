@@ -28,112 +28,112 @@ import { ExpansionPanelDirective } from './expansion-panel.directive';
 import { Subject } from 'rxjs';
 
 class RouterStub {
-  url;
-  private subject = new Subject();
-  events = this.subject.asObservable();
+    url;
+    private subject = new Subject();
+    events = this.subject.asObservable();
 
-  constructor(url = 'some-url') {
-    this.url = url;
-  }
+    constructor(url = 'some-url') {
+        this.url = url;
+    }
 
-  parseUrl() {
-    return {
-      root: {
-        children: []
-      }
-    };
-  }
+    parseUrl() {
+        return {
+            root: {
+                children: [],
+            },
+        };
+    }
 
-  navigate(nextUrl: string) {
-    const navigationEnd = new NavigationEnd(0, this.url, nextUrl);
-    this.subject.next(navigationEnd);
-  }
+    navigate(nextUrl: string) {
+        const navigationEnd = new NavigationEnd(0, this.url, nextUrl);
+        this.subject.next(navigationEnd);
+    }
 }
 
 describe('AcaExpansionPanel', () => {
-  const mockStore = <any> {
-    dispatch: jasmine.createSpy('dispatch')
-  };
-  const mockMatExpansionPanel = <any> {
-    expanded: false,
-    children: []
-  };
+    const mockStore: any = {
+        dispatch: jasmine.createSpy('dispatch'),
+    };
+    const mockMatExpansionPanel: any = {
+        expanded: false,
+        children: [],
+    };
 
-  describe('hasActiveLinks()', () => {
-    it('should return true if child is active route', () => {
-      const router: any = new RouterStub('dummy-route-2');
-      const item = {
-        children: [{ url: 'dummy-route-1' }, { url: 'dummy-route-2' }]
-      };
-      const directive = new ExpansionPanelDirective(
-        mockStore,
-        router,
-        mockMatExpansionPanel
-      );
+    describe('hasActiveLinks()', () => {
+        it('should return true if child is active route', () => {
+            const router: any = new RouterStub('dummy-route-2');
+            const item = {
+                children: [{ url: 'dummy-route-1' }, { url: 'dummy-route-2' }],
+            };
+            const directive = new ExpansionPanelDirective(
+                mockStore,
+                router,
+                mockMatExpansionPanel
+            );
 
-      directive.acaExpansionPanel = item;
+            directive.acaExpansionPanel = item;
 
-      expect(directive.hasActiveLinks()).toBe(true);
-    });
-    it('should return false if no child is active route', () => {
-      const router: any = new RouterStub('other');
-      const item = {
-        children: [{ url: 'dummy-route-1' }, { url: 'dummy-route-2' }]
-      };
-      const directive = new ExpansionPanelDirective(
-        mockStore,
-        router,
-        mockMatExpansionPanel
-      );
+            expect(directive.hasActiveLinks()).toBe(true);
+        });
+        it('should return false if no child is active route', () => {
+            const router: any = new RouterStub('other');
+            const item = {
+                children: [{ url: 'dummy-route-1' }, { url: 'dummy-route-2' }],
+            };
+            const directive = new ExpansionPanelDirective(
+                mockStore,
+                router,
+                mockMatExpansionPanel
+            );
 
-      directive.acaExpansionPanel = item;
+            directive.acaExpansionPanel = item;
 
-      expect(directive.hasActiveLinks()).toBe(false);
-    });
-  });
-
-  describe('navigation', () => {
-    it('should navigate to first child if none is active route', () => {
-      const router: any = new RouterStub('other');
-      spyOn(router, 'navigate').and.callThrough();
-      const item = {
-        children: [{ url: 'dummy-route-1' }, { url: 'dummy-route-2' }]
-      };
-
-      mockMatExpansionPanel.expanded = true;
-
-      const directive = new ExpansionPanelDirective(
-        mockStore,
-        router,
-        mockMatExpansionPanel
-      );
-
-      directive.acaExpansionPanel = item;
-
-      directive.onClick();
-
-      expect(router.navigate).toHaveBeenCalledWith(['dummy-route-1']);
+            expect(directive.hasActiveLinks()).toBe(false);
+        });
     });
 
-    it('should not navigate to first child if one is active route', () => {
-      const router: any = new RouterStub('dummy-route-2');
-      spyOn(router, 'navigate').and.callThrough();
-      const item = {
-        children: [{ url: 'dummy-route-1' }, { url: 'dummy-route-2' }]
-      };
+    describe('navigation', () => {
+        it('should navigate to first child if none is active route', () => {
+            const router: any = new RouterStub('other');
+            spyOn(router, 'navigate').and.callThrough();
+            const item = {
+                children: [{ url: 'dummy-route-1' }, { url: 'dummy-route-2' }],
+            };
 
-      const directive = new ExpansionPanelDirective(
-        mockStore,
-        router,
-        mockMatExpansionPanel
-      );
+            mockMatExpansionPanel.expanded = true;
 
-      directive.acaExpansionPanel = item;
-      mockMatExpansionPanel.expanded = true;
+            const directive = new ExpansionPanelDirective(
+                mockStore,
+                router,
+                mockMatExpansionPanel
+            );
 
-      directive.onClick();
+            directive.acaExpansionPanel = item;
 
-      expect(router.navigate).not.toHaveBeenCalled();
+            directive.onClick();
+
+            expect(router.navigate).toHaveBeenCalledWith(['dummy-route-1']);
+        });
+
+        it('should not navigate to first child if one is active route', () => {
+            const router: any = new RouterStub('dummy-route-2');
+            spyOn(router, 'navigate').and.callThrough();
+            const item = {
+                children: [{ url: 'dummy-route-1' }, { url: 'dummy-route-2' }],
+            };
+
+            const directive = new ExpansionPanelDirective(
+                mockStore,
+                router,
+                mockMatExpansionPanel
+            );
+
+            directive.acaExpansionPanel = item;
+            mockMatExpansionPanel.expanded = true;
+
+            directive.onClick();
+
+            expect(router.navigate).not.toHaveBeenCalled();
+        });
     });
-  });
 });

@@ -5,161 +5,161 @@ $search-border-radius: 4px;
 $top-margin: 12px;
 
 @mixin aca-search-input-theme($theme) {
-  $background: map-get($theme, background);
-  $foreground: map-get($theme, foreground);
-  $border: 1px solid mat-color($foreground, divider, 0.07);
+    $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
+    $border: 1px solid mat-color($foreground, divider, 0.07);
 
-  .app-search-container {
-    color: mat-color($foreground, text, 0.72);
+    .app-search-container {
+        color: mat-color($foreground, text, 0.72);
 
-    .app-input-form-field {
-      .mat-input-element {
-        caret-color: mat-color($foreground, text, 0.54);
+        .app-input-form-field {
+            .mat-input-element {
+                caret-color: mat-color($foreground, text, 0.54);
 
-        &:disabled {
-          color: mat-color($foreground, text, 0.54);
+                &:disabled {
+                    color: mat-color($foreground, text, 0.54);
+                }
+            }
         }
-      }
+
+        .mat-focused label.mat-form-field-label {
+            display: none;
+        }
     }
 
-    .mat-focused label.mat-form-field-label {
-      display: none;
+    .app-search-options-menu {
+        &.mat-menu-panel {
+            background-color: mat-color($background, dialog);
+        }
     }
-  }
+    #search-options {
+        color: mat-color($foreground, text, 0.54);
+        border-top: $border;
+    }
 
-  .app-search-options-menu {
-    &.mat-menu-panel {
-      background-color: mat-color($background, dialog);
+    mat-checkbox {
+        .mat-checkbox-frame {
+            border-color: mat-color($foreground, text, 0.54);
+        }
     }
-  }
-  #search-options {
-    color: mat-color($foreground, text, 0.54);
-    border-top: $border;
-  }
-
-  mat-checkbox {
-    .mat-checkbox-frame {
-      border-color: mat-color($foreground, text, 0.54);
-    }
-  }
 }
 
 .aca-search-input {
-  width: 100%;
-  max-width: $search-width;
-  background-color: $search-background;
-  border-radius: $search-border-radius;
-  height: $search-height;
+    width: 100%;
+    max-width: $search-width;
+    background-color: $search-background;
+    border-radius: $search-border-radius;
+    height: $search-height;
 }
 
 .app-search-container {
-  width: 100%;
-  max-width: $search-width;
-  height: $search-height + $top-margin;
+    width: 100%;
+    max-width: $search-width;
+    height: $search-height + $top-margin;
 }
 
 .app-search-control {
-  margin-top: -$top-margin;
+    margin-top: -$top-margin;
 }
 
 .app-search-options-menu {
-  &.mat-menu-panel {
-    width: $search-width;
-    max-width: unset;
-    border-radius: $search-border-radius;
-    margin-top: $top-margin;
-  }
+    &.mat-menu-panel {
+        width: $search-width;
+        max-width: unset;
+        border-radius: $search-border-radius;
+        margin-top: $top-margin;
+    }
 
-  .mat-menu-content:not(:empty) {
-    padding-top: 0;
-    padding-bottom: 0;
-  }
+    .mat-menu-content:not(:empty) {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
 }
 
 #search-options {
-  padding: 20px 0;
-  font-size: 16px;
-  letter-spacing: -0.7px;
-
-  mat-checkbox {
-    padding: 3px 24px 3px 19px;
-
-    .mat-checkbox-inner-container {
-      height: 18px;
-      width: 18px;
-    }
-
-    .mat-checkbox-label {
-      padding: 0 0 0 11px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-  }
-
-  .mat-checkbox-layout {
-    max-width: 155px;
-  }
-}
-
-.app-search-hint {
-  position: absolute;
-  font-size: 12px;
-  padding-left: 17px;
-}
-
-@media screen and ($mat-small) {
-  $search-width-small: 400px;
-
-  .aca-search-input {
-    max-width: $search-width-small;
-  }
-
-  .app-search-container {
-    max-width: $search-width-small;
-  }
-
-  .app-search-options-menu {
-    &.mat-menu-panel {
-      width: $search-width-small;
-    }
-  }
-
-  #search-options {
-    padding-left: 20px;
+    padding: 20px 0;
+    font-size: 16px;
+    letter-spacing: -0.7px;
 
     mat-checkbox {
-      padding: 3px 20px 3px 0;
+        padding: 3px 24px 3px 19px;
 
-      .mat-checkbox-label {
-        padding: 0;
-      }
+        .mat-checkbox-inner-container {
+            height: 18px;
+            width: 18px;
+        }
+
+        .mat-checkbox-label {
+            padding: 0 0 0 11px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     }
 
     .mat-checkbox-layout {
-      max-width: 105px;
+        max-width: 155px;
     }
-  }
+}
+
+.app-search-hint {
+    position: absolute;
+    font-size: 12px;
+    padding-left: 17px;
+}
+
+@media screen and ($mat-small) {
+    $search-width-small: 400px;
+
+    .aca-search-input {
+        max-width: $search-width-small;
+    }
+
+    .app-search-container {
+        max-width: $search-width-small;
+    }
+
+    .app-search-options-menu {
+        &.mat-menu-panel {
+            width: $search-width-small;
+        }
+    }
+
+    #search-options {
+        padding-left: 20px;
+
+        mat-checkbox {
+            padding: 3px 20px 3px 0;
+
+            .mat-checkbox-label {
+                padding: 0;
+            }
+        }
+
+        .mat-checkbox-layout {
+            max-width: 105px;
+        }
+    }
 }
 
 @media screen and ($mat-xsmall) {
-  $search-width-xsmall: 220px;
+    $search-width-xsmall: 220px;
 
-  .aca-search-input {
-    max-width: $search-width-xsmall;
-  }
-
-  .app-search-container {
-    max-width: $search-width-xsmall;
-  }
-
-  .app-search-options-menu {
-    &.mat-menu-panel {
-      width: $search-width-xsmall;
-      margin-top: 9px;
+    .aca-search-input {
+        max-width: $search-width-xsmall;
     }
-  }
 
-  #search-options .mat-checkbox-layout {
-    max-width: 180px;
-  }
+    .app-search-container {
+        max-width: $search-width-xsmall;
+    }
+
+    .app-search-options-menu {
+        &.mat-menu-panel {
+            width: $search-width-xsmall;
+            margin-top: 9px;
+        }
+    }
+
+    #search-options .mat-checkbox-layout {
+        max-width: 180px;
+    }
 }

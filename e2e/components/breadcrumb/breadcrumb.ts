@@ -27,49 +27,55 @@ import { ElementFinder, ElementArrayFinder, by } from 'protractor';
 import { Component } from '../component';
 
 export class Breadcrumb extends Component {
-  private static selectors = {
-    root: 'adf-breadcrumb',
-    item: '.adf-breadcrumb-item',
-    currentItem: '.adf-breadcrumb-item-current'
-  };
+    private static selectors = {
+        root: 'adf-breadcrumb',
+        item: '.adf-breadcrumb-item',
+        currentItem: '.adf-breadcrumb-item-current',
+    };
 
-  items: ElementArrayFinder = this.component.all(by.css(Breadcrumb.selectors.item));
-  currentItem: ElementFinder = this.component.element(by.css(Breadcrumb.selectors.currentItem));
+    items: ElementArrayFinder = this.component.all(
+        by.css(Breadcrumb.selectors.item)
+    );
+    currentItem: ElementFinder = this.component.element(
+        by.css(Breadcrumb.selectors.currentItem)
+    );
 
-  constructor(ancestor?: string) {
-    super(Breadcrumb.selectors.root, ancestor);
-  }
+    constructor(ancestor?: string) {
+        super(Breadcrumb.selectors.root, ancestor);
+    }
 
-  getNthItem(nth: number): ElementFinder {
-    return this.items.get(nth - 1);
-  }
+    getNthItem(nth: number): ElementFinder {
+        return this.items.get(nth - 1);
+    }
 
-  async getItemsCount(): Promise<number> {
-    return this.items.count();
-  }
+    async getItemsCount(): Promise<number> {
+        return this.items.count();
+    }
 
-  async getAllItems(): Promise<string[]> {
-    const items: string[] = await this.items.map(async elem => {
-      const str = await elem.getText();
-      return str.split('\nchevron_right')[0];
-    });
-    return items;
-  }
+    async getAllItems(): Promise<string[]> {
+        const items: string[] = await this.items.map(async (elem) => {
+            const str = await elem.getText();
+            return str.split('\nchevron_right')[0];
+        });
+        return items;
+    }
 
-  getCurrentItem(): ElementFinder {
-    return this.currentItem;
-  }
+    getCurrentItem(): ElementFinder {
+        return this.currentItem;
+    }
 
-  async getCurrentItemName(): Promise<string> {
-    return this.currentItem.getText();
-  }
+    async getCurrentItemName(): Promise<string> {
+        return this.currentItem.getText();
+    }
 
-  async clickItem(name: string): Promise<void> {
-    const elem = this.component.element(by.css(`${Breadcrumb.selectors.item}[title=${name}]`));
-    await elem.click();
-  }
+    async clickItem(name: string): Promise<void> {
+        const elem = this.component.element(
+            by.css(`${Breadcrumb.selectors.item}[title=${name}]`)
+        );
+        await elem.click();
+    }
 
-  async getNthItemTooltip(nth: number): Promise<string> {
-    return this.getNthItem(nth).getAttribute('title');
-  }
+    async getNthItemTooltip(nth: number): Promise<string> {
+        return this.getNthItem(nth).getAttribute('title');
+    }
 }

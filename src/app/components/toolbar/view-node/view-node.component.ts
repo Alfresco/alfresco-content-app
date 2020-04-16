@@ -26,53 +26,53 @@
 import { Component, ViewEncapsulation, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
-  AppStore,
-  ViewNodeAction,
-  getAppSelection
+    AppStore,
+    ViewNodeAction,
+    getAppSelection,
 } from '@alfresco/aca-shared/store';
 import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { SharedLinkEntry } from '@alfresco/js-api';
 
 @Component({
-  selector: 'app-view-node',
-  template: `
-    <button
-      *ngIf="data.iconButton"
-      mat-icon-button
-      [attr.aria-label]="data.title | translate"
-      [attr.title]="data.title | translate"
-      (click)="onClick()"
-    >
-      <mat-icon>visibility</mat-icon>
-    </button>
+    selector: 'app-view-node',
+    template: `
+        <button
+            *ngIf="data.iconButton"
+            mat-icon-button
+            [attr.aria-label]="data.title | translate"
+            [attr.title]="data.title | translate"
+            (click)="onClick()"
+        >
+            <mat-icon>visibility</mat-icon>
+        </button>
 
-    <button *ngIf="data.menuButton" mat-menu-item (click)="onClick()">
-      <mat-icon>visibility</mat-icon>
-      <span>{{ data.title | translate }}</span>
-    </button>
-  `,
-  encapsulation: ViewEncapsulation.None,
-  host: { class: 'app-view-node' }
+        <button *ngIf="data.menuButton" mat-menu-item (click)="onClick()">
+            <mat-icon>visibility</mat-icon>
+            <span>{{ data.title | translate }}</span>
+        </button>
+    `,
+    encapsulation: ViewEncapsulation.None,
+    host: { class: 'app-view-node' },
 })
 export class ViewNodeComponent {
-  @Input() data: any;
+    @Input() data: any;
 
-  constructor(private store: Store<AppStore>, private router: Router) {}
+    constructor(private store: Store<AppStore>, private router: Router) {}
 
-  onClick() {
-    this.store
-      .select(getAppSelection)
-      .pipe(take(1))
-      .subscribe(selection => {
-        const id =
-          (<SharedLinkEntry> selection.file).entry.nodeId ||
-          (<any> selection.file).entry.guid ||
-          selection.file.entry.id;
+    onClick() {
+        this.store
+            .select(getAppSelection)
+            .pipe(take(1))
+            .subscribe((selection) => {
+                const id =
+                    (selection.file as SharedLinkEntry).entry.nodeId ||
+                    (selection.file as any).entry.guid ||
+                    selection.file.entry.id;
 
-        this.store.dispatch(
-          new ViewNodeAction(id, { location: this.router.url })
-        );
-      });
-  }
+                this.store.dispatch(
+                    new ViewNodeAction(id, { location: this.router.url })
+                );
+            });
+    }
 }

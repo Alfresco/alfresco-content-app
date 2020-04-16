@@ -24,8 +24,8 @@
  */
 
 export interface ViewerRules {
-  /**
-   * Checks if user can preview the node.
-   */
-  canPreview?: string;
+    /**
+     * Checks if user can preview the node.
+     */
+    canPreview?: string;
 }

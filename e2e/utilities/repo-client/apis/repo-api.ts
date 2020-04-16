@@ -46,18 +46,18 @@ export abstract class RepoApi {
     }
 
     protected handleError(message: string, response: any) {
-      Logger.info(`\n--- ${message} error :`);
-      if ( response.status && response.response ) {
-        try {
-          Logger.info('\t>>> Status: ', response.status);
-          Logger.info('\t>>> Text: ', response.response.text);
-          Logger.info('\t>>> Method: ', response.response.error.method);
-          Logger.info('\t>>> Path: ', response.response.error.path);
-        } catch {
-          Logger.info('\t>>> ', response);
+        Logger.info(`\n--- ${message} error :`);
+        if (response.status && response.response) {
+            try {
+                Logger.info('\t>>> Status: ', response.status);
+                Logger.info('\t>>> Text: ', response.response.text);
+                Logger.info('\t>>> Method: ', response.response.error.method);
+                Logger.info('\t>>> Path: ', response.response.error.path);
+            } catch {
+                Logger.info('\t>>> ', response);
+            }
+        } else {
+            Logger.info('\t>>> ', response);
         }
-      } else { Logger.info('\t>>> ', response); }
-
     }
-
 }

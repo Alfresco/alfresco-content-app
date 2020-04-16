@@ -26,7 +26,7 @@
 import { DocumentDisplayModeComponent } from './document-display-mode.component';
 
 describe('DocumentDisplayModeComponent', () => {
-  it('should be defined', () => {
-    expect(DocumentDisplayModeComponent).toBeDefined();
-  });
+    it('should be defined', () => {
+        expect(DocumentDisplayModeComponent).toBeDefined();
+    });
 });

@@ -29,14 +29,14 @@ import { NodePermissionService } from './services/node-permission.service';
 import { AppService } from './services/app.service';
 import { ContextActionsModule } from './directives/contextmenu/contextmenu.module';
 @NgModule({
-  imports: [ContextActionsModule],
-  exports: [ContextActionsModule]
+    imports: [ContextActionsModule],
+    exports: [ContextActionsModule],
 })
 export class SharedModule {
-  static forRoot(): ModuleWithProviders {
-    return {
-      ngModule: SharedModule,
-      providers: [ContentApiService, NodePermissionService, AppService]
-    };
-  }
+    static forRoot(): ModuleWithProviders {
+        return {
+            ngModule: SharedModule,
+            providers: [ContentApiService, NodePermissionService, AppService],
+        };
+    }
 }

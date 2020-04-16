@@ -29,129 +29,187 @@ import { Utils } from '../../utilities/utils';
 import * as moment from 'moment';
 
 describe('Search results - files and folders', () => {
-  const username = `user-${Utils.random()}`;
+    const username = `user-${Utils.random()}`;
 
-  const file = `test-file-${Utils.random()}.txt`;
-  let fileId;
-  const fileTitle = 'file title';
-  const fileDescription = 'file description';
+    const file = `test-file-${Utils.random()}.txt`;
+    let fileId;
+    const fileTitle = 'file title';
+    const fileDescription = 'file description';
 
-  /* cspell:disable-next-line */
-  const fileRussian = `любимый-сайт-${Utils.random()}`;
-  let fileRussianId;
+    /* cspell:disable-next-line */
+    const fileRussian = `любимый-сайт-${Utils.random()}`;
+    let fileRussianId;
 
-  const folder = `test-folder-${Utils.random()}`;
-  let folderId;
-  const folderTitle = 'folder title';
-  const folderDescription = 'folder description';
+    const folder = `test-folder-${Utils.random()}`;
+    let folderId;
+    const folderTitle = 'folder title';
+    const folderDescription = 'folder description';
 
-  const site = `test-site-${Utils.random()}`;
+    const site = `test-site-${Utils.random()}`;
 
-  const apis = {
-    admin: new RepoClient(),
-    user: new RepoClient(username, username)
-  };
+    const apis = {
+        admin: new RepoClient(),
+        user: new RepoClient(username, username),
+    };
 
-  const loginPage = new LoginPage();
-  const page = new SearchResultsPage();
-  const { searchInput } = page.header;
-  const { dataTable, breadcrumb } = page;
+    const loginPage = new LoginPage();
+    const page = new SearchResultsPage();
+    const { searchInput } = page.header;
+    const { dataTable, breadcrumb } = page;
 
-  beforeAll(async done => {
-    await apis.admin.people.createUser({ username });
+    beforeAll(async (done) => {
+        await apis.admin.people.createUser({ username });
 
-    fileId = (await apis.user.nodes.createFile(file, '-my-', fileTitle, fileDescription)).entry.id;
-    await apis.user.nodes.editNodeContent(fileId, 'edited by user');
-    folderId = (await apis.user.nodes.createFolder(folder, '-my-', folderTitle, folderDescription)).entry.id;
-    fileRussianId = (await apis.user.nodes.createFile(fileRussian)).entry.id;
-    await apis.user.sites.createSite(site);
+        fileId = (
+            await apis.user.nodes.createFile(
+                file,
+                '-my-',
+                fileTitle,
+                fileDescription
+            )
+        ).entry.id;
+        await apis.user.nodes.editNodeContent(fileId, 'edited by user');
+        folderId = (
+            await apis.user.nodes.createFolder(
+                folder,
+                '-my-',
+                folderTitle,
+                folderDescription
+            )
+        ).entry.id;
+        fileRussianId = (await apis.user.nodes.createFile(fileRussian)).entry
+            .id;
+        await apis.user.sites.createSite(site);
 
-    await apis.user.search.waitForApi(username, { expect: 2 });
-    await apis.user.queries.waitForSites(site, { expect: 1 });
+        await apis.user.search.waitForApi(username, { expect: 2 });
+        await apis.user.queries.waitForSites(site, { expect: 1 });
 
-    await loginPage.loginWith(username);
-    done();
-  });
+        await loginPage.loginWith(username);
+        done();
+    });
 
-  beforeEach(async done => {
-    await page.refresh();
-    done();
-  });
+    beforeEach(async (done) => {
+        await page.refresh();
+        done();
+    });
 
-  afterAll(async done => {
-    await Promise.all([
-      apis.user.nodes.deleteNodeById(fileId),
-      apis.user.nodes.deleteNodeById(fileRussianId),
-      apis.user.nodes.deleteNodeById(folderId),
-      apis.user.sites.deleteSite(site)
-    ]);
-    done();
-  });
+    afterAll(async (done) => {
+        await Promise.all([
+            apis.user.nodes.deleteNodeById(fileId),
+            apis.user.nodes.deleteNodeById(fileRussianId),
+            apis.user.nodes.deleteNodeById(folderId),
+            apis.user.sites.deleteSite(site),
+        ]);
+        done();
+    });
 
-  it('Results page title - [C307002]', async () => {
-    await searchInput.clickSearchButton();
-    await searchInput.checkFilesAndFolders();
-    await searchInput.searchFor('test-');
-    await dataTable.waitForBody();
+    it('Results page title - [C307002]', async () => {
+        await searchInput.clickSearchButton();
+        await searchInput.checkFilesAndFolders();
+        await searchInput.searchFor('test-');
+        await dataTable.waitForBody();
 
-    expect(await page.breadcrumb.getCurrentItemName()).toEqual('Search Results');
-  });
+        expect(await page.breadcrumb.getCurrentItemName()).toEqual(
+            'Search Results'
+        );
+    });
 
-  it('File information - [C279183]', async () => {
-    await searchInput.clickSearchButton();
-    await searchInput.checkFilesAndFolders();
-    await searchInput.searchFor('test-');
-    await dataTable.waitForBody();
+    it('File information - [C279183]', async () => {
+        await searchInput.clickSearchButton();
+        await searchInput.checkFilesAndFolders();
+        await searchInput.searchFor('test-');
+        await dataTable.waitForBody();
 
-    const fileEntry = await apis.user.nodes.getNodeById(fileId);
-    const modifiedDate = moment(fileEntry.entry.modifiedAt).format('MMM D, YYYY, h:mm:ss A');
-    const modifiedBy = fileEntry.entry.modifiedByUser.displayName;
-    const size = fileEntry.entry.content.sizeInBytes;
+        const fileEntry = await apis.user.nodes.getNodeById(fileId);
+        const modifiedDate = moment(fileEntry.entry.modifiedAt).format(
+            'MMM D, YYYY, h:mm:ss A'
+        );
+        const modifiedBy = fileEntry.entry.modifiedByUser.displayName;
+        const size = fileEntry.entry.content.sizeInBytes;
 
-    expect(await dataTable.isItemPresent(file)).toBe(true, `${file} is not displayed`);
-    expect(await dataTable.getRowCellsCount(file)).toEqual(2, 'incorrect number of columns');
-    expect(await dataTable.getSearchResultLinesCount(file)).toEqual(4, 'incorrect number of lines for search result');
-    expect(await dataTable.getSearchResultNameAndTitle(file)).toBe(`${file} ( ${fileTitle} )`);
-    expect(await dataTable.getSearchResultDescription(file)).toBe(fileDescription);
-    expect(await dataTable.getSearchResultModified(file)).toBe(`Modified: ${modifiedDate} by ${modifiedBy} | Size: ${size} Bytes`);
-    expect(await dataTable.getSearchResultLocation(file)).toMatch(/Location:\s+Personal Files/);
-  });
+        expect(await dataTable.isItemPresent(file)).toBe(
+            true,
+            `${file} is not displayed`
+        );
+        expect(await dataTable.getRowCellsCount(file)).toEqual(
+            2,
+            'incorrect number of columns'
+        );
+        expect(await dataTable.getSearchResultLinesCount(file)).toEqual(
+            4,
+            'incorrect number of lines for search result'
+        );
+        expect(await dataTable.getSearchResultNameAndTitle(file)).toBe(
+            `${file} ( ${fileTitle} )`
+        );
+        expect(await dataTable.getSearchResultDescription(file)).toBe(
+            fileDescription
+        );
+        expect(await dataTable.getSearchResultModified(file)).toBe(
+            `Modified: ${modifiedDate} by ${modifiedBy} | Size: ${size} Bytes`
+        );
+        expect(await dataTable.getSearchResultLocation(file)).toMatch(
+            /Location:\s+Personal Files/
+        );
+    });
 
-  it('Folder information - [C306867]', async () => {
-    await searchInput.clickSearchButton();
-    await searchInput.checkFilesAndFolders();
-    await searchInput.searchFor('test-');
-    await dataTable.waitForBody();
+    it('Folder information - [C306867]', async () => {
+        await searchInput.clickSearchButton();
+        await searchInput.checkFilesAndFolders();
+        await searchInput.searchFor('test-');
+        await dataTable.waitForBody();
 
-    const folderEntry = await apis.user.nodes.getNodeById(folderId);
-    const modifiedDate = moment(folderEntry.entry.modifiedAt).format('MMM D, YYYY, h:mm:ss A');
-    const modifiedBy = folderEntry.entry.modifiedByUser.displayName;
+        const folderEntry = await apis.user.nodes.getNodeById(folderId);
+        const modifiedDate = moment(folderEntry.entry.modifiedAt).format(
+            'MMM D, YYYY, h:mm:ss A'
+        );
+        const modifiedBy = folderEntry.entry.modifiedByUser.displayName;
 
-    expect(await dataTable.isItemPresent(folder)).toBe(true, `${folder} is not displayed`);
-    expect(await dataTable.getRowCellsCount(folder)).toEqual(2, 'incorrect number of columns');
-    expect(await dataTable.getSearchResultLinesCount(folder)).toEqual(4, 'incorrect number of lines for search result');
-    expect(await dataTable.getSearchResultNameAndTitle(folder)).toBe(`${folder} ( ${folderTitle} )`);
-    expect(await dataTable.getSearchResultDescription(folder)).toBe(folderDescription);
-    expect(await dataTable.getSearchResultModified(folder)).toBe(`Modified: ${modifiedDate} by ${modifiedBy}`);
-    expect(await dataTable.getSearchResultLocation(folder)).toMatch(/Location:\s+Personal Files/);
-  });
+        expect(await dataTable.isItemPresent(folder)).toBe(
+            true,
+            `${folder} is not displayed`
+        );
+        expect(await dataTable.getRowCellsCount(folder)).toEqual(
+            2,
+            'incorrect number of columns'
+        );
+        expect(await dataTable.getSearchResultLinesCount(folder)).toEqual(
+            4,
+            'incorrect number of lines for search result'
+        );
+        expect(await dataTable.getSearchResultNameAndTitle(folder)).toBe(
+            `${folder} ( ${folderTitle} )`
+        );
+        expect(await dataTable.getSearchResultDescription(folder)).toBe(
+            folderDescription
+        );
+        expect(await dataTable.getSearchResultModified(folder)).toBe(
+            `Modified: ${modifiedDate} by ${modifiedBy}`
+        );
+        expect(await dataTable.getSearchResultLocation(folder)).toMatch(
+            /Location:\s+Personal Files/
+        );
+    });
 
-  it('Search file with special characters - [C290029]', async () => {
-    await searchInput.clickSearchButton();
-    await searchInput.checkFilesAndFolders();
-    await searchInput.searchFor(fileRussian);
-    await dataTable.waitForBody();
+    it('Search file with special characters - [C290029]', async () => {
+        await searchInput.clickSearchButton();
+        await searchInput.checkFilesAndFolders();
+        await searchInput.searchFor(fileRussian);
+        await dataTable.waitForBody();
 
-    expect(await dataTable.isItemPresent(fileRussian)).toBe(true, `${fileRussian} is not displayed`);
-  });
+        expect(await dataTable.isItemPresent(fileRussian)).toBe(
+            true,
+            `${fileRussian} is not displayed`
+        );
+    });
 
-  it('Location column redirect - file in user Home - [C279177]', async () => {
-    await searchInput.clickSearchButton();
-    await searchInput.checkFilesAndFolders();
-    await searchInput.searchFor(file);
-    await dataTable.waitForBody();
+    it('Location column redirect - file in user Home - [C279177]', async () => {
+        await searchInput.clickSearchButton();
+        await searchInput.checkFilesAndFolders();
+        await searchInput.searchFor(file);
+        await dataTable.waitForBody();
 
-    await dataTable.clickItemLocation(file);
-    expect(await breadcrumb.getAllItems()).toEqual(['Personal Files']);
-  });
+        await dataTable.clickItemLocation(file);
+        expect(await breadcrumb.getAllItems()).toEqual(['Personal Files']);
+    });
 });

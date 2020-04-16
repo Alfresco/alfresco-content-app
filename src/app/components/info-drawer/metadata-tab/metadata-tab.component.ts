@@ -24,11 +24,11 @@
  */
 
 import {
-  Component,
-  Input,
-  ViewEncapsulation,
-  OnInit,
-  OnDestroy
+    Component,
+    Input,
+    ViewEncapsulation,
+    OnInit,
+    OnDestroy,
 } from '@angular/core';
 import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 import { NodePermissionService, isLocked } from '@alfresco/aca-shared';
@@ -41,61 +41,61 @@ import { ContentMetadataService } from '@alfresco/adf-content-services';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-metadata-tab',
-  template: `
-    <adf-content-metadata-card
-      [readOnly]="!canUpdateNode"
-      [preset]="'custom'"
-      [node]="node"
-      [displayAspect]="displayAspect$ | async"
-    >
-    </adf-content-metadata-card>
-  `,
-  encapsulation: ViewEncapsulation.None,
-  host: { class: 'app-metadata-tab' }
+    selector: 'app-metadata-tab',
+    template: `
+        <adf-content-metadata-card
+            [readOnly]="!canUpdateNode"
+            [preset]="'custom'"
+            [node]="node"
+            [displayAspect]="displayAspect$ | async"
+        >
+        </adf-content-metadata-card>
+    `,
+    encapsulation: ViewEncapsulation.None,
+    host: { class: 'app-metadata-tab' },
 })
 export class MetadataTabComponent implements OnInit, OnDestroy {
-  protected onDestroy$ = new Subject<boolean>();
+    protected onDestroy$ = new Subject<boolean>();
 
-  @Input()
-  node: MinimalNodeEntryEntity;
+    @Input()
+    node: MinimalNodeEntryEntity;
 
-  displayAspect$: Observable<string>;
+    displayAspect$: Observable<string>;
 
-  constructor(
-    private permission: NodePermissionService,
-    protected extensions: AppExtensionService,
-    private appConfig: AppConfigService,
-    private store: Store<AppStore>,
-    private notificationService: NotificationService,
-    private contentMetadataService: ContentMetadataService
-  ) {
-    if (this.extensions.contentMetadata) {
-      this.appConfig.config[
-        'content-metadata'
-      ] = this.extensions.contentMetadata;
-    }
-    this.displayAspect$ = this.store.select(infoDrawerMetadataAspect);
-  }
-
-  get canUpdateNode(): boolean {
-    if (this.node && !isLocked({ entry: this.node })) {
-      return this.permission.check(this.node, ['update']);
+    constructor(
+        private permission: NodePermissionService,
+        protected extensions: AppExtensionService,
+        private appConfig: AppConfigService,
+        private store: Store<AppStore>,
+        private notificationService: NotificationService,
+        private contentMetadataService: ContentMetadataService
+    ) {
+        if (this.extensions.contentMetadata) {
+            this.appConfig.config[
+                'content-metadata'
+            ] = this.extensions.contentMetadata;
+        }
+        this.displayAspect$ = this.store.select(infoDrawerMetadataAspect);
     }
 
-    return false;
-  }
+    get canUpdateNode(): boolean {
+        if (this.node && !isLocked({ entry: this.node })) {
+            return this.permission.check(this.node, ['update']);
+        }
 
-  ngOnInit() {
-    this.contentMetadataService.error
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((err: { message: string }) => {
-        this.notificationService.showError(err.message);
-      });
-  }
+        return false;
+    }
 
-  ngOnDestroy() {
-    this.onDestroy$.next(true);
-    this.onDestroy$.complete();
-  }
+    ngOnInit() {
+        this.contentMetadataService.error
+            .pipe(takeUntil(this.onDestroy$))
+            .subscribe((err: { message: string }) => {
+                this.notificationService.showError(err.message);
+            });
+    }
+
+    ngOnDestroy() {
+        this.onDestroy$.next(true);
+        this.onDestroy$.complete();
+    }
 }

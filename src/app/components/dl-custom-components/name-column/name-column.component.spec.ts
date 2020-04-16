@@ -31,95 +31,95 @@ import { TestBed } from '@angular/core/testing';
 import { CoreModule } from '@alfresco/adf-core';
 
 describe('CustomNameColumnComponent', () => {
-  let fixture;
-  let component;
+    let fixture;
+    let component;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        CoreModule.forRoot(),
-        DocumentListCustomComponentsModule,
-        StoreModule.forRoot({ app: () => {} }, { initialState: {} })
-      ],
-      providers: [Actions]
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            imports: [
+                CoreModule.forRoot(),
+                DocumentListCustomComponentsModule,
+                StoreModule.forRoot({ app: () => {} }, { initialState: {} }),
+            ],
+            providers: [Actions],
+        });
+
+        fixture = TestBed.createComponent(CustomNameColumnComponent);
+        component = fixture.componentInstance;
     });
 
-    fixture = TestBed.createComponent(CustomNameColumnComponent);
-    component = fixture.componentInstance;
-  });
+    it('should not render lock element if file is not locked', () => {
+        component.context = {
+            row: {
+                node: {
+                    entry: {
+                        isFile: true,
+                        id: 'nodeId',
+                    },
+                },
+            },
+        };
 
-  it('should not render lock element if file is not locked', () => {
-    component.context = {
-      row: {
-        node: {
-          entry: {
-            isFile: true,
-            id: 'nodeId'
-          }
-        }
-      }
-    };
+        fixture.detectChanges();
 
-    fixture.detectChanges();
+        expect(
+            fixture.debugElement.nativeElement.querySelector('aca-locked-by')
+        ).toBe(null);
+    });
 
-    expect(
-      fixture.debugElement.nativeElement.querySelector('aca-locked-by')
-    ).toBe(null);
-  });
+    it('should not render lock element if node is not a file', () => {
+        component.context = {
+            row: {
+                node: {
+                    entry: {
+                        isFile: false,
+                        id: 'nodeId',
+                    },
+                },
+            },
+        };
 
-  it('should not render lock element if node is not a file', () => {
-    component.context = {
-      row: {
-        node: {
-          entry: {
-            isFile: false,
-            id: 'nodeId'
-          }
-        }
-      }
-    };
+        fixture.detectChanges();
 
-    fixture.detectChanges();
+        expect(
+            fixture.debugElement.nativeElement.querySelector('aca-locked-by')
+        ).toBe(null);
+    });
 
-    expect(
-      fixture.debugElement.nativeElement.querySelector('aca-locked-by')
-    ).toBe(null);
-  });
+    it('should render lock element if file is locked', () => {
+        component.context = {
+            row: {
+                node: {
+                    entry: {
+                        isFile: true,
+                        id: 'nodeId',
+                        properties: { 'cm:lockType': 'WRITE_LOCK' },
+                    },
+                },
+            },
+        };
 
-  it('should render lock element if file is locked', () => {
-    component.context = {
-      row: {
-        node: {
-          entry: {
-            isFile: true,
-            id: 'nodeId',
-            properties: { 'cm:lockType': 'WRITE_LOCK' }
-          }
-        }
-      }
-    };
+        fixture.detectChanges();
 
-    fixture.detectChanges();
+        expect(
+            fixture.debugElement.nativeElement.querySelector('aca-locked-by')
+        ).not.toBe(null);
+    });
 
-    expect(
-      fixture.debugElement.nativeElement.querySelector('aca-locked-by')
-    ).not.toBe(null);
-  });
+    it('should call parent component onClick method', () => {
+        const event = new MouseEvent('click');
+        spyOn(component, 'onClick');
 
-  it('should call parent component onClick method', () => {
-    const event = new MouseEvent('click');
-    spyOn(component, 'onClick');
+        component.onLinkClick(event);
 
-    component.onLinkClick(event);
+        expect(component.onClick).toHaveBeenCalled();
+    });
 
-    expect(component.onClick).toHaveBeenCalled();
-  });
+    it('should prevent event propagation', () => {
+        const event = new MouseEvent('click');
+        spyOn(event, 'stopPropagation');
 
-  it('should prevent event propagation', () => {
-    const event = new MouseEvent('click');
-    spyOn(event, 'stopPropagation');
-
-    component.onLinkClick(event);
-    expect(event.stopPropagation).toHaveBeenCalled();
-  });
+        component.onLinkClick(event);
+        expect(event.stopPropagation).toHaveBeenCalled();
+    });
 });

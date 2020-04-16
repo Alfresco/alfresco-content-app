@@ -28,282 +28,486 @@ import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 
 describe('File / folder tooltips', () => {
-  const username = `user-${Utils.random()}`;
+    const username = `user-${Utils.random()}`;
 
-  const apis = {
-    admin: new RepoClient(),
-    user: new RepoClient(username, username)
-  };
+    const apis = {
+        admin: new RepoClient(),
+        user: new RepoClient(username, username),
+    };
 
-  const parent = `parent-${Utils.random()}`;
+    const parent = `parent-${Utils.random()}`;
 
-  const file = `file1-${Utils.random()}`;
-  const fileWithDesc = `file2-${Utils.random()}`;
-  const fileWithTitle = `file3-${Utils.random()}`;
-  const fileWithTitleAndDesc = `file4-${Utils.random()}`;
-  const fileNameEqTitleEqDesc = `file5-${Utils.random()}`;
-  const fileNameEqTitleDiffDesc = `file6-${Utils.random()}`;
-  const fileNameEqDescDiffTitle = `file7-${Utils.random()}`;
-  const fileTitleEqDesc = `file8-${Utils.random()}`;
-  let parentId, file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id;
+    const file = `file1-${Utils.random()}`;
+    const fileWithDesc = `file2-${Utils.random()}`;
+    const fileWithTitle = `file3-${Utils.random()}`;
+    const fileWithTitleAndDesc = `file4-${Utils.random()}`;
+    const fileNameEqTitleEqDesc = `file5-${Utils.random()}`;
+    const fileNameEqTitleDiffDesc = `file6-${Utils.random()}`;
+    const fileNameEqDescDiffTitle = `file7-${Utils.random()}`;
+    const fileTitleEqDesc = `file8-${Utils.random()}`;
+    let parentId,
+        file1Id,
+        file2Id,
+        file3Id,
+        file4Id,
+        file5Id,
+        file6Id,
+        file7Id,
+        file8Id;
 
-  const fileTitle = 'file title';
-  const fileDescription = 'file description';
+    const fileTitle = 'file title';
+    const fileDescription = 'file description';
 
-  const loginPage = new LoginPage();
-  const page = new BrowsingPage();
-  const { dataTable } = page;
-
-  beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
-    parentId = (await apis.user.nodes.createFolder( parent )).entry.id;
-
-    file1Id = (await apis.user.nodes.createFile(file, parentId)).entry.id;
-    file2Id = (await apis.user.nodes.createFile(fileWithDesc, parentId, '', fileDescription)).entry.id;
-    file3Id = (await apis.user.nodes.createFile(fileWithTitle, parentId, fileTitle)).entry.id;
-    file4Id = (await apis.user.nodes.createFile(fileWithTitleAndDesc, parentId, fileTitle, fileDescription)).entry.id;
-    file5Id = (await apis.user.nodes.createFile(fileNameEqTitleEqDesc, parentId, fileNameEqTitleEqDesc, fileNameEqTitleEqDesc)).entry.id;
-    file6Id = (await apis.user.nodes.createFile(fileNameEqTitleDiffDesc, parentId, fileNameEqTitleDiffDesc, fileDescription)).entry.id;
-    file7Id = (await apis.user.nodes.createFile(fileNameEqDescDiffTitle, parentId, fileTitle, fileNameEqDescDiffTitle)).entry.id;
-    file8Id = (await apis.user.nodes.createFile(fileTitleEqDesc, parentId, fileTitle, fileTitle)).entry.id;
-
-    await apis.user.shared.shareFilesByIds([ file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id ]);
-
-    await apis.user.favorites.addFavoritesByIds('file', [
-      file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id
-    ]);
-
-    await loginPage.loginWith(username);
-    done();
-  });
-
-  afterAll(async (done) => {
-    await Promise.all([
-      apis.user.nodes.deleteNodes([ parent ]),
-      apis.user.trashcan.emptyTrash()
-    ]);
-    done();
-  });
-
-  describe('on Personal Files', () => {
-    beforeAll(async (done) => {
-      await page.clickPersonalFilesAndWait();
-      await dataTable.doubleClickOnRowByName(parent);
-      done();
-    });
-
-    it('File with name, no title, no description - [C255871]', async () => {
-      expect(await dataTable.getItemNameTooltip(file)).toEqual(`${file}`);
-    });
-
-    it('File with name and description, no title - [C255872]', async () => {
-      expect(await dataTable.getItemNameTooltip(fileWithDesc)).toEqual(`${fileWithDesc}\n${fileDescription}`);
-    });
-
-    it('File with name and title, no description - [C255873]', async () => {
-      expect(await dataTable.getItemNameTooltip(fileWithTitle)).toEqual(`${fileWithTitle}\n${fileTitle}`);
-    });
-
-    it('File with name and title and description, all different - [C255874]', async () => {
-      expect(await dataTable.getItemNameTooltip(fileWithTitleAndDesc)).toEqual(`${fileTitle}\n${fileDescription}`);
-    });
-
-    it('File with name and title and description, all equal - [C255875]', async () => {
-      expect(await dataTable.getItemNameTooltip(fileNameEqTitleEqDesc)).toEqual(`${fileNameEqTitleEqDesc}`);
-    });
-
-    it('File with name = title, different description - [C255876]', async () => {
-      expect(await dataTable.getItemNameTooltip(fileNameEqTitleDiffDesc)).toEqual(`${fileNameEqTitleDiffDesc}\n${fileDescription}`);
-    });
-
-    it('File with name = description, different title - [C255877]', async () => {
-      expect(await dataTable.getItemNameTooltip(fileNameEqDescDiffTitle)).toEqual(`${fileTitle}\n${fileNameEqDescDiffTitle}`);
-    });
-
-    it('File with title = description, different name - [C255878]', async () => {
-      expect(await dataTable.getItemNameTooltip(fileTitleEqDesc)).toEqual(`${fileTitle}`);
-    });
-  });
-
-  describe('on Recent Files', () => {
-    beforeAll(async (done) => {
-      await apis.user.search.waitForApi(username, { expect: 8 });
-      await page.clickRecentFilesAndWait();
-      done();
-    });
-
-    it('File with name, no title, no description - [C280135]', async () => {
-      expect(await dataTable.getItemNameTooltip(file)).toEqual(`${file}`);
-    });
-
-    it('File with name and description, no title - [C280136]', async () => {
-      expect(await dataTable.getItemNameTooltip(fileWithDesc)).toEqual(`${fileWithDesc}\n${fileDescription}`);
-    });
-
-    it('File with name and title, no description - [C280137]', async () => {
-      expect(await dataTable.getItemNameTooltip(fileWithTitle)).toEqual(`${fileWithTitle}\n${fileTitle}`);
-    });
-
-    it('File with name and title and description, all different - [C280138]', async () => {
-      expect(await dataTable.getItemNameTooltip(fileWithTitleAndDesc)).toEqual(`${fileTitle}\n${fileDescription}`);
-    });
-
-    it('File with name and title and description, all equal - [C280139]', async () => {
-      expect(await dataTable.getItemNameTooltip(fileNameEqTitleEqDesc)).toEqual(`${fileNameEqTitleEqDesc}`);
-    });
-
-    it('File with name = title, different description - [C280140]', async () => {
-      expect(await dataTable.getItemNameTooltip(fileNameEqTitleDiffDesc)).toEqual(`${fileNameEqTitleDiffDesc}\n${fileDescription}`);
-    });
-
-    it('File with name = description, different title - [C280141]', async () => {
-      expect(await dataTable.getItemNameTooltip(fileNameEqDescDiffTitle)).toEqual(`${fileTitle}\n${fileNameEqDescDiffTitle}`);
-    });
-
-    it('File with title = description, different name - [C280142]', async () => {
-      expect(await dataTable.getItemNameTooltip(fileTitleEqDesc)).toEqual(`${fileTitle}`);
-    });
-  });
-
-  describe('on Shared Files', () => {
-    beforeAll(async (done) => {
-      await apis.user.shared.waitForApi({ expect: 8 });
-      await page.clickSharedFilesAndWait();
-      done();
-    });
-
-    it('[C280143] - File with name, no title, no description', async () => {
-      expect(await dataTable.getItemNameTooltip(file)).toEqual(`${file}`);
-    });
-
-    it('[C280144] - File with name and description, no title', async () => {
-      expect(await dataTable.getItemNameTooltip(fileWithDesc)).toEqual(`${fileWithDesc}\n${fileDescription}`);
-    });
-
-    it('[C280145] - File with name and title, no description', async () => {
-      expect(await dataTable.getItemNameTooltip(fileWithTitle)).toEqual(`${fileWithTitle}\n${fileTitle}`);
-    });
-
-    it('[C280146] - File with name and title and description, all different', async () => {
-      expect(await dataTable.getItemNameTooltip(fileWithTitleAndDesc)).toEqual(`${fileTitle}\n${fileDescription}`);
-    });
-
-    it('[C280147] - File with name and title and description, all equal', async () => {
-      expect(await dataTable.getItemNameTooltip(fileNameEqTitleEqDesc)).toEqual(`${fileNameEqTitleEqDesc}`);
-    });
-
-    it('[C280148] - File with name = title, different description', async () => {
-      expect(await dataTable.getItemNameTooltip(fileNameEqTitleDiffDesc)).toEqual(`${fileNameEqTitleDiffDesc}\n${fileDescription}`);
-    });
-
-    it('[C280149] - File with name = description, different title', async () => {
-      expect(await dataTable.getItemNameTooltip(fileNameEqDescDiffTitle)).toEqual(`${fileTitle}\n${fileNameEqDescDiffTitle}`);
-    });
-
-    it('[C280150] - File with title = description, different name', async () => {
-      expect(await dataTable.getItemNameTooltip(fileTitleEqDesc)).toEqual(`${fileTitle}`);
-    });
-  });
-
-  describe('on Favorites', () => {
-    beforeAll(async (done) => {
-      await page.clickFavoritesAndWait();
-      done();
-    });
-
-    it('[C280151] - File with name, no title, no description', async () => {
-      expect(await dataTable.getItemNameTooltip(file)).toEqual(`${file}`);
-    });
-
-    it('[C280152] - File with name and description, no title', async () => {
-      expect(await dataTable.getItemNameTooltip(fileWithDesc)).toEqual(`${fileWithDesc}\n${fileDescription}`);
-    });
-
-    it('[C280153] - File with name and title, no description', async () => {
-      expect(await dataTable.getItemNameTooltip(fileWithTitle)).toEqual(`${fileWithTitle}\n${fileTitle}`);
-    });
-
-    it('[C280154] - File with name and title and description, all different', async () => {
-      expect(await dataTable.getItemNameTooltip(fileWithTitleAndDesc)).toEqual(`${fileTitle}\n${fileDescription}`);
-    });
-
-    it('[C280155] - File with name and title and description, all equal', async () => {
-      expect(await dataTable.getItemNameTooltip(fileNameEqTitleEqDesc)).toEqual(`${fileNameEqTitleEqDesc}`);
-    });
-
-    it('[C280156] - File with name = title, different description', async () => {
-      expect(await dataTable.getItemNameTooltip(fileNameEqTitleDiffDesc)).toEqual(`${fileNameEqTitleDiffDesc}\n${fileDescription}`);
-    });
-
-    it('[C280157] - File with name = description, different title', async () => {
-      expect(await dataTable.getItemNameTooltip(fileNameEqDescDiffTitle)).toEqual(`${fileTitle}\n${fileNameEqDescDiffTitle}`);
-    });
-
-    it('[C280158] - File with title = description, different name', async () => {
-      expect(await dataTable.getItemNameTooltip(fileTitleEqDesc)).toEqual(`${fileTitle}`);
-    });
-  });
-
-  describe('on Trash', () => {
-    const parentForTrash = `parent-${Utils.random()}`;
-    let parentForTrashId, file1TrashId, file2TrashId, file3TrashId, file4TrashId;
-    let file5TrashId, file6TrashId, file7TrashId, file8TrashId;
+    const loginPage = new LoginPage();
+    const page = new BrowsingPage();
+    const { dataTable } = page;
 
     beforeAll(async (done) => {
-      parentForTrashId = (await apis.user.nodes.createFolder( parentForTrash )).entry.id;
-      file1TrashId = (await apis.user.nodes.createFile(file, parentForTrashId)).entry.id;
-      file2TrashId = (await apis.user.nodes.createFile(fileWithDesc, parentForTrashId, '', fileDescription)).entry.id;
-      file3TrashId = (await apis.user.nodes.createFile(fileWithTitle, parentForTrashId, fileTitle)).entry.id;
-      file4TrashId = (await apis.user.nodes.createFile(fileWithTitleAndDesc, parentForTrashId, fileTitle, fileDescription)).entry.id;
-      file5TrashId = (await apis.user.nodes.createFile(fileNameEqTitleEqDesc, parentForTrashId, fileNameEqTitleEqDesc, fileNameEqTitleEqDesc)).entry.id;
-      file6TrashId = (await apis.user.nodes.createFile(fileNameEqTitleDiffDesc, parentForTrashId, fileNameEqTitleDiffDesc, fileDescription)).entry.id;
-      file7TrashId = (await apis.user.nodes.createFile(fileNameEqDescDiffTitle, parentForTrashId, fileTitle, fileNameEqDescDiffTitle)).entry.id;
-      file8TrashId = (await apis.user.nodes.createFile(fileTitleEqDesc, parentForTrashId, fileTitle, fileTitle)).entry.id;
+        await apis.admin.people.createUser({ username });
+        parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
 
-      await apis.user.nodes.deleteNodesById([
-        file1TrashId, file2TrashId, file3TrashId, file4TrashId, file5TrashId, file6TrashId, file7TrashId, file8TrashId
-      ], false);
+        file1Id = (await apis.user.nodes.createFile(file, parentId)).entry.id;
+        file2Id = (
+            await apis.user.nodes.createFile(
+                fileWithDesc,
+                parentId,
+                '',
+                fileDescription
+            )
+        ).entry.id;
+        file3Id = (
+            await apis.user.nodes.createFile(fileWithTitle, parentId, fileTitle)
+        ).entry.id;
+        file4Id = (
+            await apis.user.nodes.createFile(
+                fileWithTitleAndDesc,
+                parentId,
+                fileTitle,
+                fileDescription
+            )
+        ).entry.id;
+        file5Id = (
+            await apis.user.nodes.createFile(
+                fileNameEqTitleEqDesc,
+                parentId,
+                fileNameEqTitleEqDesc,
+                fileNameEqTitleEqDesc
+            )
+        ).entry.id;
+        file6Id = (
+            await apis.user.nodes.createFile(
+                fileNameEqTitleDiffDesc,
+                parentId,
+                fileNameEqTitleDiffDesc,
+                fileDescription
+            )
+        ).entry.id;
+        file7Id = (
+            await apis.user.nodes.createFile(
+                fileNameEqDescDiffTitle,
+                parentId,
+                fileTitle,
+                fileNameEqDescDiffTitle
+            )
+        ).entry.id;
+        file8Id = (
+            await apis.user.nodes.createFile(
+                fileTitleEqDesc,
+                parentId,
+                fileTitle,
+                fileTitle
+            )
+        ).entry.id;
 
-      await page.clickTrashAndWait();
-      done();
+        await apis.user.shared.shareFilesByIds([
+            file1Id,
+            file2Id,
+            file3Id,
+            file4Id,
+            file5Id,
+            file6Id,
+            file7Id,
+            file8Id,
+        ]);
+
+        await apis.user.favorites.addFavoritesByIds('file', [
+            file1Id,
+            file2Id,
+            file3Id,
+            file4Id,
+            file5Id,
+            file6Id,
+            file7Id,
+            file8Id,
+        ]);
+
+        await loginPage.loginWith(username);
+        done();
     });
 
     afterAll(async (done) => {
-      await apis.user.nodes.deleteNodes([ parentForTrash ]);
-      await apis.user.trashcan.emptyTrash();
-      done();
+        await Promise.all([
+            apis.user.nodes.deleteNodes([parent]),
+            apis.user.trashcan.emptyTrash(),
+        ]);
+        done();
     });
 
-    it('[C280159] - File with name, no title, no description', async () => {
-      expect(await dataTable.getItemNameTooltip(file)).toEqual(`${file}`);
+    describe('on Personal Files', () => {
+        beforeAll(async (done) => {
+            await page.clickPersonalFilesAndWait();
+            await dataTable.doubleClickOnRowByName(parent);
+            done();
+        });
+
+        it('File with name, no title, no description - [C255871]', async () => {
+            expect(await dataTable.getItemNameTooltip(file)).toEqual(`${file}`);
+        });
+
+        it('File with name and description, no title - [C255872]', async () => {
+            expect(await dataTable.getItemNameTooltip(fileWithDesc)).toEqual(
+                `${fileWithDesc}\n${fileDescription}`
+            );
+        });
+
+        it('File with name and title, no description - [C255873]', async () => {
+            expect(await dataTable.getItemNameTooltip(fileWithTitle)).toEqual(
+                `${fileWithTitle}\n${fileTitle}`
+            );
+        });
+
+        it('File with name and title and description, all different - [C255874]', async () => {
+            expect(
+                await dataTable.getItemNameTooltip(fileWithTitleAndDesc)
+            ).toEqual(`${fileTitle}\n${fileDescription}`);
+        });
+
+        it('File with name and title and description, all equal - [C255875]', async () => {
+            expect(
+                await dataTable.getItemNameTooltip(fileNameEqTitleEqDesc)
+            ).toEqual(`${fileNameEqTitleEqDesc}`);
+        });
+
+        it('File with name = title, different description - [C255876]', async () => {
+            expect(
+                await dataTable.getItemNameTooltip(fileNameEqTitleDiffDesc)
+            ).toEqual(`${fileNameEqTitleDiffDesc}\n${fileDescription}`);
+        });
+
+        it('File with name = description, different title - [C255877]', async () => {
+            expect(
+                await dataTable.getItemNameTooltip(fileNameEqDescDiffTitle)
+            ).toEqual(`${fileTitle}\n${fileNameEqDescDiffTitle}`);
+        });
+
+        it('File with title = description, different name - [C255878]', async () => {
+            expect(await dataTable.getItemNameTooltip(fileTitleEqDesc)).toEqual(
+                `${fileTitle}`
+            );
+        });
     });
 
-    it('[C280160] - File with name and description, no title', async () => {
-      expect(await dataTable.getItemNameTooltip(fileWithDesc)).toEqual(`${fileWithDesc}\n${fileDescription}`);
+    describe('on Recent Files', () => {
+        beforeAll(async (done) => {
+            await apis.user.search.waitForApi(username, { expect: 8 });
+            await page.clickRecentFilesAndWait();
+            done();
+        });
+
+        it('File with name, no title, no description - [C280135]', async () => {
+            expect(await dataTable.getItemNameTooltip(file)).toEqual(`${file}`);
+        });
+
+        it('File with name and description, no title - [C280136]', async () => {
+            expect(await dataTable.getItemNameTooltip(fileWithDesc)).toEqual(
+                `${fileWithDesc}\n${fileDescription}`
+            );
+        });
+
+        it('File with name and title, no description - [C280137]', async () => {
+            expect(await dataTable.getItemNameTooltip(fileWithTitle)).toEqual(
+                `${fileWithTitle}\n${fileTitle}`
+            );
+        });
+
+        it('File with name and title and description, all different - [C280138]', async () => {
+            expect(
+                await dataTable.getItemNameTooltip(fileWithTitleAndDesc)
+            ).toEqual(`${fileTitle}\n${fileDescription}`);
+        });
+
+        it('File with name and title and description, all equal - [C280139]', async () => {
+            expect(
+                await dataTable.getItemNameTooltip(fileNameEqTitleEqDesc)
+            ).toEqual(`${fileNameEqTitleEqDesc}`);
+        });
+
+        it('File with name = title, different description - [C280140]', async () => {
+            expect(
+                await dataTable.getItemNameTooltip(fileNameEqTitleDiffDesc)
+            ).toEqual(`${fileNameEqTitleDiffDesc}\n${fileDescription}`);
+        });
+
+        it('File with name = description, different title - [C280141]', async () => {
+            expect(
+                await dataTable.getItemNameTooltip(fileNameEqDescDiffTitle)
+            ).toEqual(`${fileTitle}\n${fileNameEqDescDiffTitle}`);
+        });
+
+        it('File with title = description, different name - [C280142]', async () => {
+            expect(await dataTable.getItemNameTooltip(fileTitleEqDesc)).toEqual(
+                `${fileTitle}`
+            );
+        });
     });
 
-    it('[C280161] - File with name and title, no description', async () => {
-      expect(await dataTable.getItemNameTooltip(fileWithTitle)).toEqual(`${fileWithTitle}\n${fileTitle}`);
+    describe('on Shared Files', () => {
+        beforeAll(async (done) => {
+            await apis.user.shared.waitForApi({ expect: 8 });
+            await page.clickSharedFilesAndWait();
+            done();
+        });
+
+        it('[C280143] - File with name, no title, no description', async () => {
+            expect(await dataTable.getItemNameTooltip(file)).toEqual(`${file}`);
+        });
+
+        it('[C280144] - File with name and description, no title', async () => {
+            expect(await dataTable.getItemNameTooltip(fileWithDesc)).toEqual(
+                `${fileWithDesc}\n${fileDescription}`
+            );
+        });
+
+        it('[C280145] - File with name and title, no description', async () => {
+            expect(await dataTable.getItemNameTooltip(fileWithTitle)).toEqual(
+                `${fileWithTitle}\n${fileTitle}`
+            );
+        });
+
+        it('[C280146] - File with name and title and description, all different', async () => {
+            expect(
+                await dataTable.getItemNameTooltip(fileWithTitleAndDesc)
+            ).toEqual(`${fileTitle}\n${fileDescription}`);
+        });
+
+        it('[C280147] - File with name and title and description, all equal', async () => {
+            expect(
+                await dataTable.getItemNameTooltip(fileNameEqTitleEqDesc)
+            ).toEqual(`${fileNameEqTitleEqDesc}`);
+        });
+
+        it('[C280148] - File with name = title, different description', async () => {
+            expect(
+                await dataTable.getItemNameTooltip(fileNameEqTitleDiffDesc)
+            ).toEqual(`${fileNameEqTitleDiffDesc}\n${fileDescription}`);
+        });
+
+        it('[C280149] - File with name = description, different title', async () => {
+            expect(
+                await dataTable.getItemNameTooltip(fileNameEqDescDiffTitle)
+            ).toEqual(`${fileTitle}\n${fileNameEqDescDiffTitle}`);
+        });
+
+        it('[C280150] - File with title = description, different name', async () => {
+            expect(await dataTable.getItemNameTooltip(fileTitleEqDesc)).toEqual(
+                `${fileTitle}`
+            );
+        });
     });
 
-    it('[C280162] - File with name and title and description, all different', async () => {
-      expect(await dataTable.getItemNameTooltip(fileWithTitleAndDesc)).toEqual(`${fileTitle}\n${fileDescription}`);
+    describe('on Favorites', () => {
+        beforeAll(async (done) => {
+            await page.clickFavoritesAndWait();
+            done();
+        });
+
+        it('[C280151] - File with name, no title, no description', async () => {
+            expect(await dataTable.getItemNameTooltip(file)).toEqual(`${file}`);
+        });
+
+        it('[C280152] - File with name and description, no title', async () => {
+            expect(await dataTable.getItemNameTooltip(fileWithDesc)).toEqual(
+                `${fileWithDesc}\n${fileDescription}`
+            );
+        });
+
+        it('[C280153] - File with name and title, no description', async () => {
+            expect(await dataTable.getItemNameTooltip(fileWithTitle)).toEqual(
+                `${fileWithTitle}\n${fileTitle}`
+            );
+        });
+
+        it('[C280154] - File with name and title and description, all different', async () => {
+            expect(
+                await dataTable.getItemNameTooltip(fileWithTitleAndDesc)
+            ).toEqual(`${fileTitle}\n${fileDescription}`);
+        });
+
+        it('[C280155] - File with name and title and description, all equal', async () => {
+            expect(
+                await dataTable.getItemNameTooltip(fileNameEqTitleEqDesc)
+            ).toEqual(`${fileNameEqTitleEqDesc}`);
+        });
+
+        it('[C280156] - File with name = title, different description', async () => {
+            expect(
+                await dataTable.getItemNameTooltip(fileNameEqTitleDiffDesc)
+            ).toEqual(`${fileNameEqTitleDiffDesc}\n${fileDescription}`);
+        });
+
+        it('[C280157] - File with name = description, different title', async () => {
+            expect(
+                await dataTable.getItemNameTooltip(fileNameEqDescDiffTitle)
+            ).toEqual(`${fileTitle}\n${fileNameEqDescDiffTitle}`);
+        });
+
+        it('[C280158] - File with title = description, different name', async () => {
+            expect(await dataTable.getItemNameTooltip(fileTitleEqDesc)).toEqual(
+                `${fileTitle}`
+            );
+        });
     });
 
-    it('[C280163] - File with name and title and description, all equal', async () => {
-      expect(await dataTable.getItemNameTooltip(fileNameEqTitleEqDesc)).toEqual(`${fileNameEqTitleEqDesc}`);
-    });
+    describe('on Trash', () => {
+        const parentForTrash = `parent-${Utils.random()}`;
+        let parentForTrashId,
+            file1TrashId,
+            file2TrashId,
+            file3TrashId,
+            file4TrashId;
+        let file5TrashId, file6TrashId, file7TrashId, file8TrashId;
 
-    it('[C280164] - File with name = title, different description', async () => {
-      expect(await dataTable.getItemNameTooltip(fileNameEqTitleDiffDesc)).toEqual(`${fileNameEqTitleDiffDesc}\n${fileDescription}`);
-    });
+        beforeAll(async (done) => {
+            parentForTrashId = (
+                await apis.user.nodes.createFolder(parentForTrash)
+            ).entry.id;
+            file1TrashId = (
+                await apis.user.nodes.createFile(file, parentForTrashId)
+            ).entry.id;
+            file2TrashId = (
+                await apis.user.nodes.createFile(
+                    fileWithDesc,
+                    parentForTrashId,
+                    '',
+                    fileDescription
+                )
+            ).entry.id;
+            file3TrashId = (
+                await apis.user.nodes.createFile(
+                    fileWithTitle,
+                    parentForTrashId,
+                    fileTitle
+                )
+            ).entry.id;
+            file4TrashId = (
+                await apis.user.nodes.createFile(
+                    fileWithTitleAndDesc,
+                    parentForTrashId,
+                    fileTitle,
+                    fileDescription
+                )
+            ).entry.id;
+            file5TrashId = (
+                await apis.user.nodes.createFile(
+                    fileNameEqTitleEqDesc,
+                    parentForTrashId,
+                    fileNameEqTitleEqDesc,
+                    fileNameEqTitleEqDesc
+                )
+            ).entry.id;
+            file6TrashId = (
+                await apis.user.nodes.createFile(
+                    fileNameEqTitleDiffDesc,
+                    parentForTrashId,
+                    fileNameEqTitleDiffDesc,
+                    fileDescription
+                )
+            ).entry.id;
+            file7TrashId = (
+                await apis.user.nodes.createFile(
+                    fileNameEqDescDiffTitle,
+                    parentForTrashId,
+                    fileTitle,
+                    fileNameEqDescDiffTitle
+                )
+            ).entry.id;
+            file8TrashId = (
+                await apis.user.nodes.createFile(
+                    fileTitleEqDesc,
+                    parentForTrashId,
+                    fileTitle,
+                    fileTitle
+                )
+            ).entry.id;
 
-    it('[C280165] - File with name = description, different title', async () => {
-      expect(await dataTable.getItemNameTooltip(fileNameEqDescDiffTitle)).toEqual(`${fileTitle}\n${fileNameEqDescDiffTitle}`);
-    });
+            await apis.user.nodes.deleteNodesById(
+                [
+                    file1TrashId,
+                    file2TrashId,
+                    file3TrashId,
+                    file4TrashId,
+                    file5TrashId,
+                    file6TrashId,
+                    file7TrashId,
+                    file8TrashId,
+                ],
+                false
+            );
 
-    it('[C280166] - File with title = description, different name', async () => {
-      expect(await dataTable.getItemNameTooltip(fileTitleEqDesc)).toEqual(`${fileTitle}`);
+            await page.clickTrashAndWait();
+            done();
+        });
+
+        afterAll(async (done) => {
+            await apis.user.nodes.deleteNodes([parentForTrash]);
+            await apis.user.trashcan.emptyTrash();
+            done();
+        });
+
+        it('[C280159] - File with name, no title, no description', async () => {
+            expect(await dataTable.getItemNameTooltip(file)).toEqual(`${file}`);
+        });
+
+        it('[C280160] - File with name and description, no title', async () => {
+            expect(await dataTable.getItemNameTooltip(fileWithDesc)).toEqual(
+                `${fileWithDesc}\n${fileDescription}`
+            );
+        });
+
+        it('[C280161] - File with name and title, no description', async () => {
+            expect(await dataTable.getItemNameTooltip(fileWithTitle)).toEqual(
+                `${fileWithTitle}\n${fileTitle}`
+            );
+        });
+
+        it('[C280162] - File with name and title and description, all different', async () => {
+            expect(
+                await dataTable.getItemNameTooltip(fileWithTitleAndDesc)
+            ).toEqual(`${fileTitle}\n${fileDescription}`);
+        });
+
+        it('[C280163] - File with name and title and description, all equal', async () => {
+            expect(
+                await dataTable.getItemNameTooltip(fileNameEqTitleEqDesc)
+            ).toEqual(`${fileNameEqTitleEqDesc}`);
+        });
+
+        it('[C280164] - File with name = title, different description', async () => {
+            expect(
+                await dataTable.getItemNameTooltip(fileNameEqTitleDiffDesc)
+            ).toEqual(`${fileNameEqTitleDiffDesc}\n${fileDescription}`);
+        });
+
+        it('[C280165] - File with name = description, different title', async () => {
+            expect(
+                await dataTable.getItemNameTooltip(fileNameEqDescDiffTitle)
+            ).toEqual(`${fileTitle}\n${fileNameEqDescDiffTitle}`);
+        });
+
+        it('[C280166] - File with title = description, different name', async () => {
+            expect(await dataTable.getItemNameTooltip(fileTitleEqDesc)).toEqual(
+                `${fileTitle}`
+            );
+        });
     });
-  });
 });

@@ -24,8 +24,8 @@
  */
 
 import {
-  ContentMetadataModule,
-  VersionManagerModule
+    ContentMetadataModule,
+    VersionManagerModule,
 } from '@alfresco/adf-content-services';
 import { CoreModule } from '@alfresco/adf-core';
 import { ExtensionsModule } from '@alfresco/adf-extensions';
@@ -42,29 +42,29 @@ import { VersionsTabComponent } from './versions-tab/versions-tab.component';
 import { A11yModule } from '@angular/cdk/a11y';
 
 export function components() {
-  return [
-    InfoDrawerComponent,
-    MetadataTabComponent,
-    CommentsTabComponent,
-    VersionsTabComponent,
-    LibraryMetadataTabComponent,
-    LibraryMetadataFormComponent
-  ];
+    return [
+        InfoDrawerComponent,
+        MetadataTabComponent,
+        CommentsTabComponent,
+        VersionsTabComponent,
+        LibraryMetadataTabComponent,
+        LibraryMetadataFormComponent,
+    ];
 }
 
 @NgModule({
-  imports: [
-    CommonModule,
-    MaterialModule,
-    CoreModule.forChild(),
-    ExtensionsModule,
-    ContentMetadataModule,
-    VersionManagerModule,
-    DirectivesModule,
-    A11yModule
-  ],
-  declarations: [...components()],
-  exports: [...components()],
-  entryComponents: [...components()]
+    imports: [
+        CommonModule,
+        MaterialModule,
+        CoreModule.forChild(),
+        ExtensionsModule,
+        ContentMetadataModule,
+        VersionManagerModule,
+        DirectivesModule,
+        A11yModule,
+    ],
+    declarations: [...components()],
+    exports: [...components()],
+    entryComponents: [...components()],
 })
 export class AppInfoDrawerModule {}

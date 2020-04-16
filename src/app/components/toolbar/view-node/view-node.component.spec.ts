@@ -31,75 +31,75 @@ import { Router } from '@angular/router';
 import { of } from 'rxjs';
 
 describe('ToggleFavoriteComponent', () => {
-  let component: ViewNodeComponent;
-  let fixture;
-  const mockRouter = {
-    url: 'some-url'
-  };
-  const mockStore = <any> {
-    dispatch: jasmine.createSpy('dispatch'),
-    select: jasmine.createSpy('select').and.returnValue(
-      of({
-        file: {
-          entry: {
-            id: 'nodeId'
-          }
-        }
-      })
-    )
-  };
+    let component: ViewNodeComponent;
+    let fixture;
+    const mockRouter = {
+        url: 'some-url',
+    };
+    const mockStore: any = {
+        dispatch: jasmine.createSpy('dispatch'),
+        select: jasmine.createSpy('select').and.returnValue(
+            of({
+                file: {
+                    entry: {
+                        id: 'nodeId',
+                    },
+                },
+            })
+        ),
+    };
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [CoreModule.forRoot()],
-      declarations: [ViewNodeComponent],
-      providers: [
-        { provide: Store, useValue: mockStore },
-        { provide: Router, useValue: mockRouter }
-      ]
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            imports: [CoreModule.forRoot()],
+            declarations: [ViewNodeComponent],
+            providers: [
+                { provide: Store, useValue: mockStore },
+                { provide: Router, useValue: mockRouter },
+            ],
+        });
+
+        fixture = TestBed.createComponent(ViewNodeComponent);
+        component = fixture.componentInstance;
     });
 
-    fixture = TestBed.createComponent(ViewNodeComponent);
-    component = fixture.componentInstance;
-  });
+    afterEach(() => {
+        mockStore.dispatch.calls.reset();
+    });
 
-  afterEach(() => {
-    mockStore.dispatch.calls.reset();
-  });
+    it('should render as a menu button', () => {
+        component.data = {
+            menuButton: true,
+        };
 
-  it('should render as a menu button', () => {
-    component.data = {
-      menuButton: true
-    };
+        fixture.detectChanges();
 
-    fixture.detectChanges();
+        expect(fixture.nativeElement.querySelector('.mat-menu-item')).not.toBe(
+            null
+        );
+    });
 
-    expect(fixture.nativeElement.querySelector('.mat-menu-item')).not.toBe(
-      null
-    );
-  });
+    it('should render as a icon button', () => {
+        component.data = {
+            iconButton: true,
+        };
 
-  it('should render as a icon button', () => {
-    component.data = {
-      iconButton: true
-    };
+        fixture.detectChanges();
 
-    fixture.detectChanges();
+        expect(
+            fixture.nativeElement.querySelector('.mat-icon-button')
+        ).not.toBe(null);
+    });
 
-    expect(fixture.nativeElement.querySelector('.mat-icon-button')).not.toBe(
-      null
-    );
-  });
+    it('should call ViewNodeAction onClick event', () => {
+        component.data = {
+            iconButton: true,
+        };
 
-  it('should call ViewNodeAction onClick event', () => {
-    component.data = {
-      iconButton: true
-    };
+        fixture.detectChanges();
 
-    fixture.detectChanges();
+        component.onClick();
 
-    component.onClick();
-
-    expect(mockStore.dispatch).toHaveBeenCalled();
-  });
+        expect(mockStore.dispatch).toHaveBeenCalled();
+    });
 });

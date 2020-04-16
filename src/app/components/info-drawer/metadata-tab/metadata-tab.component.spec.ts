@@ -31,132 +31,134 @@ import { AppConfigService, setupTestBed, CoreModule } from '@alfresco/adf-core';
 import { ContentMetadataModule } from '@alfresco/adf-content-services';
 import { Store } from '@ngrx/store';
 import {
-  SetInfoDrawerMetadataAspectAction,
-  AppState
+    SetInfoDrawerMetadataAspectAction,
+    AppState,
 } from '@alfresco/aca-shared/store';
 import { By } from '@angular/platform-browser';
 import { AppExtensionService } from '../../../extensions/extension.service';
 
 describe('MetadataTabComponent', () => {
-  let fixture: ComponentFixture<MetadataTabComponent>;
-  let component: MetadataTabComponent;
-  let store: Store<AppState>;
-  let appConfig: AppConfigService;
-  let extensions: AppExtensionService;
+    let fixture: ComponentFixture<MetadataTabComponent>;
+    let component: MetadataTabComponent;
+    let store: Store<AppState>;
+    let appConfig: AppConfigService;
+    let extensions: AppExtensionService;
 
-  setupTestBed({
-    imports: [CoreModule, AppTestingModule, ContentMetadataModule],
-    declarations: [MetadataTabComponent]
-  });
-
-  afterEach(() => {
-    fixture.destroy();
-  });
-
-  describe('content-metadata configuration', () => {
-    beforeEach(() => {
-      appConfig = TestBed.get(AppConfigService);
-      extensions = TestBed.get(AppExtensionService);
+    setupTestBed({
+        imports: [CoreModule, AppTestingModule, ContentMetadataModule],
+        declarations: [MetadataTabComponent],
     });
 
-    it('should remain unchanged when metadata extension is missing', () => {
-      appConfig.config['content-metadata'] = 'initial config';
-      extensions.contentMetadata = null;
-
-      fixture = TestBed.createComponent(MetadataTabComponent);
-
-      expect(appConfig.config['content-metadata']).toEqual('initial config');
+    afterEach(() => {
+        fixture.destroy();
     });
 
-    it('should be overwritten by the one from extension', () => {
-      appConfig.config['content-metadata'] = 'initial config';
-      extensions.contentMetadata = [{ 'new config': true }];
+    describe('content-metadata configuration', () => {
+        beforeEach(() => {
+            appConfig = TestBed.get(AppConfigService);
+            extensions = TestBed.get(AppExtensionService);
+        });
 
-      fixture = TestBed.createComponent(MetadataTabComponent);
+        it('should remain unchanged when metadata extension is missing', () => {
+            appConfig.config['content-metadata'] = 'initial config';
+            extensions.contentMetadata = null;
 
-      expect(appConfig.config['content-metadata']).not.toEqual(
-        'initial config'
-      );
-      expect(appConfig.config['content-metadata']).toEqual(
-        extensions.contentMetadata
-      );
-    });
-  });
+            fixture = TestBed.createComponent(MetadataTabComponent);
 
-  describe('canUpdateNode()', () => {
-    beforeEach(() => {
-      fixture = TestBed.createComponent(MetadataTabComponent);
-      component = fixture.componentInstance;
-    });
+            expect(appConfig.config['content-metadata']).toEqual(
+                'initial config'
+            );
+        });
 
-    it('should return true if node is not locked and has update permission', () => {
-      const node = <Node> {
-        isLocked: false,
-        allowableOperations: ['update']
-      };
+        it('should be overwritten by the one from extension', () => {
+            appConfig.config['content-metadata'] = 'initial config';
+            extensions.contentMetadata = [{ 'new config': true }];
 
-      component.node = node;
-      expect(component.canUpdateNode).toBe(true);
-    });
+            fixture = TestBed.createComponent(MetadataTabComponent);
 
-    it('should return false if node is locked', () => {
-      const node = <Node> {
-        isLocked: true,
-        allowableOperations: ['update']
-      };
-
-      component.node = node;
-      expect(component.canUpdateNode).toBe(false);
+            expect(appConfig.config['content-metadata']).not.toEqual(
+                'initial config'
+            );
+            expect(appConfig.config['content-metadata']).toEqual(
+                extensions.contentMetadata
+            );
+        });
     });
 
-    it('should return false if node has no update permission', () => {
-      const node = <Node> {
-        isLocked: false,
-        allowableOperations: ['other']
-      };
+    describe('canUpdateNode()', () => {
+        beforeEach(() => {
+            fixture = TestBed.createComponent(MetadataTabComponent);
+            component = fixture.componentInstance;
+        });
 
-      component.node = node;
-      expect(component.canUpdateNode).toBe(false);
+        it('should return true if node is not locked and has update permission', () => {
+            const node = {
+                isLocked: false,
+                allowableOperations: ['update'],
+            } as Node;
+
+            component.node = node;
+            expect(component.canUpdateNode).toBe(true);
+        });
+
+        it('should return false if node is locked', () => {
+            const node = {
+                isLocked: true,
+                allowableOperations: ['update'],
+            } as Node;
+
+            component.node = node;
+            expect(component.canUpdateNode).toBe(false);
+        });
+
+        it('should return false if node has no update permission', () => {
+            const node = {
+                isLocked: false,
+                allowableOperations: ['other'],
+            } as Node;
+
+            component.node = node;
+            expect(component.canUpdateNode).toBe(false);
+        });
+
+        it('should return false if node has read only property', () => {
+            const node = {
+                isLocked: false,
+                allowableOperations: ['update'],
+                properties: {
+                    'cm:lockType': 'WRITE_LOCK',
+                },
+            } as Node;
+
+            component.node = node;
+            expect(component.canUpdateNode).toBe(false);
+        });
     });
 
-    it('should return false if node has read only property', () => {
-      const node = <Node> {
-        isLocked: false,
-        allowableOperations: ['update'],
-        properties: {
-          'cm:lockType': 'WRITE_LOCK'
-        }
-      };
+    describe('displayAspect', () => {
+        beforeEach(() => {
+            fixture = TestBed.createComponent(MetadataTabComponent);
+            store = TestBed.get(Store);
+            component = fixture.componentInstance;
+        });
 
-      component.node = node;
-      expect(component.canUpdateNode).toBe(false);
-    });
-  });
+        it('show pass empty when store is in initial state', () => {
+            const initialState = fixture.debugElement.query(
+                By.css('adf-content-metadata-card')
+            );
+            expect(initialState.componentInstance.displayAspect).toBeFalsy();
+        });
 
-  describe('displayAspect', () => {
-    beforeEach(() => {
-      fixture = TestBed.createComponent(MetadataTabComponent);
-      store = TestBed.get(Store);
-      component = fixture.componentInstance;
+        it('should update the exif if store got updated', () => {
+            store.dispatch(new SetInfoDrawerMetadataAspectAction('EXIF'));
+            component.displayAspect$.subscribe((aspect) => {
+                expect(aspect).toBe('EXIF');
+            });
+            fixture.detectChanges();
+            const initialState = fixture.debugElement.query(
+                By.css('adf-content-metadata-card')
+            );
+            expect(initialState.componentInstance.displayAspect).toBe('EXIF');
+        });
     });
-
-    it('show pass empty when store is in initial state', () => {
-      const initialState = fixture.debugElement.query(
-        By.css('adf-content-metadata-card')
-      );
-      expect(initialState.componentInstance.displayAspect).toBeFalsy();
-    });
-
-    it('should update the exif if store got updated', () => {
-      store.dispatch(new SetInfoDrawerMetadataAspectAction('EXIF'));
-      component.displayAspect$.subscribe(aspect => {
-        expect(aspect).toBe('EXIF');
-      });
-      fixture.detectChanges();
-      const initialState = fixture.debugElement.query(
-        By.css('adf-content-metadata-card')
-      );
-      expect(initialState.componentInstance.displayAspect).toBe('EXIF');
-    });
-  });
 });

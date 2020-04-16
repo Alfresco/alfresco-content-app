@@ -34,109 +34,189 @@ import { FavoritesApi } from './repo-client/apis/favorites/favorites-api';
 import { SearchApi } from './repo-client/apis/search/search-api';
 
 export class AdminActions {
-  private adminApi: RepoClient;
+    private adminApi: RepoClient;
 
-  constructor() {
-    this.adminApi = new RepoClient();
-  }
-
-  sites: SitesApi = new SitesApi();
-  upload: UploadApi = new UploadApi();
-  nodes: NodesApi = new NodesApi();
-  favorites: FavoritesApi = new FavoritesApi();
-  search: SearchApi = new SearchApi();
-
-  async getDataDictionaryId(): Promise<string> {
-    return this.adminApi.nodes.getNodeIdFromParent('Data Dictionary', '-root-');
-  }
-
-  async getNodeTemplatesFolderId(): Promise<string> {
-    return this.adminApi.nodes.getNodeIdFromParent('Node Templates', await this.getDataDictionaryId());
-  }
-
-  async getSpaceTemplatesFolderId(): Promise<string> {
-    return this.adminApi.nodes.getNodeIdFromParent('Space Templates', await this.getDataDictionaryId());
-  }
-
-  async createUser(user: PersonModel): Promise<PersonEntry> {
-    return this.adminApi.people.createUser(user);
-  }
-
-  async createNodeTemplate(name: string, title: string = '', description: string = '', author: string = ''): Promise<NodeEntry> {
-    const templatesRootFolderId: string = await this.getNodeTemplatesFolderId();
-
-    return this.adminApi.nodes.createFile(name, templatesRootFolderId, title, description, author);
-  }
-
-  async createNodeTemplatesHierarchy(hierarchy: NodeContentTree): Promise<any> {
-    return this.adminApi.nodes.createContent(hierarchy, `Data Dictionary/Node Templates`);
-  }
-
-  async createSpaceTemplate(name: string, title: string = '', description: string = ''): Promise<NodeEntry> {
-    const templatesRootFolderId: string = await this.getSpaceTemplatesFolderId();
-
-    return this.adminApi.nodes.createFolder(name, templatesRootFolderId, title, description);
-  }
-
-  async createSpaceTemplatesHierarchy(hierarchy: NodeContentTree): Promise<any> {
-    return this.adminApi.nodes.createContent(hierarchy, `Data Dictionary/Space Templates`);
-  }
-
-  async removeUserAccessOnNodeTemplate(nodeName: string): Promise<NodeEntry> {
-    const templatesRootFolderId = await this.getNodeTemplatesFolderId();
-    const nodeId: string = await this.adminApi.nodes.getNodeIdFromParent(nodeName, templatesRootFolderId);
-
-    return this.adminApi.nodes.setInheritPermissions(nodeId, false);
-  }
-
-  async removeUserAccessOnSpaceTemplate(nodeName: string): Promise<NodeEntry> {
-    const templatesRootFolderId = await this.getSpaceTemplatesFolderId();
-    const nodeId: string = await this.adminApi.nodes.getNodeIdFromParent(nodeName, templatesRootFolderId);
-
-    return this.adminApi.nodes.setInheritPermissions(nodeId, false);
-  }
-
-  async cleanupNodeTemplatesFolder(): Promise<void> {
-    return this.adminApi.nodes.deleteNodeChildren(await this.getNodeTemplatesFolderId());
-  }
-
-  async cleanupSpaceTemplatesFolder(): Promise<void> {
-    const spaceTemplatesNodeId = await this.getSpaceTemplatesFolderId();
-
-    // folder links are deleted automatically when original folder is deleted
-    // Software Engineering Project is the default folder template coming from ACS, should not be deleted
-    const nodesToDelete = (await this.adminApi.nodes.getNodeChildren(spaceTemplatesNodeId)).list.entries
-      .filter(node => (node.entry.nodeType !== 'app:folderlink') && (node.entry.name !== 'Software Engineering Project'))
-      .map(node => node.entry.id);
-    return this.adminApi.nodes.deleteNodesById(nodesToDelete);
-  }
-
-  async createLinkToFileId(originalFileId: string, destinationParentId: string): Promise<NodeEntry> {
-    return this.adminApi.nodes.createFileLink(originalFileId, destinationParentId);
-  }
-
-  async createLinkToFileName(originalFileName: string, originalFileParentId: string, destinationParentId?: string): Promise<NodeEntry> {
-    if (!destinationParentId) {
-      destinationParentId = originalFileParentId;
+    constructor() {
+        this.adminApi = new RepoClient();
     }
 
-    const nodeId = await this.adminApi.nodes.getNodeIdFromParent(originalFileName, originalFileParentId);
+    sites: SitesApi = new SitesApi();
+    upload: UploadApi = new UploadApi();
+    nodes: NodesApi = new NodesApi();
+    favorites: FavoritesApi = new FavoritesApi();
+    search: SearchApi = new SearchApi();
 
-    return this.createLinkToFileId(nodeId, destinationParentId);
-  }
-
-  async createLinkToFolderId(originalFolderId: string, destinationParentId: string): Promise<NodeEntry> {
-    return this.adminApi.nodes.createFolderLink(originalFolderId, destinationParentId);
-  }
-
-  async createLinkToFolderName(originalFolderName: string, originalFolderParentId: string, destinationParentId?: string): Promise<NodeEntry> {
-    if (!destinationParentId) {
-      destinationParentId = originalFolderParentId;
+    async getDataDictionaryId(): Promise<string> {
+        return this.adminApi.nodes.getNodeIdFromParent(
+            'Data Dictionary',
+            '-root-'
+        );
     }
 
-    const nodeId = await this.adminApi.nodes.getNodeIdFromParent(originalFolderName, originalFolderParentId);
+    async getNodeTemplatesFolderId(): Promise<string> {
+        return this.adminApi.nodes.getNodeIdFromParent(
+            'Node Templates',
+            await this.getDataDictionaryId()
+        );
+    }
 
-    return this.createLinkToFolderId(nodeId, destinationParentId);
-  }
+    async getSpaceTemplatesFolderId(): Promise<string> {
+        return this.adminApi.nodes.getNodeIdFromParent(
+            'Space Templates',
+            await this.getDataDictionaryId()
+        );
+    }
 
+    async createUser(user: PersonModel): Promise<PersonEntry> {
+        return this.adminApi.people.createUser(user);
+    }
+
+    async createNodeTemplate(
+        name: string,
+        title: string = '',
+        description: string = '',
+        author: string = ''
+    ): Promise<NodeEntry> {
+        const templatesRootFolderId: string = await this.getNodeTemplatesFolderId();
+
+        return this.adminApi.nodes.createFile(
+            name,
+            templatesRootFolderId,
+            title,
+            description,
+            author
+        );
+    }
+
+    async createNodeTemplatesHierarchy(
+        hierarchy: NodeContentTree
+    ): Promise<any> {
+        return this.adminApi.nodes.createContent(
+            hierarchy,
+            `Data Dictionary/Node Templates`
+        );
+    }
+
+    async createSpaceTemplate(
+        name: string,
+        title: string = '',
+        description: string = ''
+    ): Promise<NodeEntry> {
+        const templatesRootFolderId: string = await this.getSpaceTemplatesFolderId();
+
+        return this.adminApi.nodes.createFolder(
+            name,
+            templatesRootFolderId,
+            title,
+            description
+        );
+    }
+
+    async createSpaceTemplatesHierarchy(
+        hierarchy: NodeContentTree
+    ): Promise<any> {
+        return this.adminApi.nodes.createContent(
+            hierarchy,
+            `Data Dictionary/Space Templates`
+        );
+    }
+
+    async removeUserAccessOnNodeTemplate(nodeName: string): Promise<NodeEntry> {
+        const templatesRootFolderId = await this.getNodeTemplatesFolderId();
+        const nodeId: string = await this.adminApi.nodes.getNodeIdFromParent(
+            nodeName,
+            templatesRootFolderId
+        );
+
+        return this.adminApi.nodes.setInheritPermissions(nodeId, false);
+    }
+
+    async removeUserAccessOnSpaceTemplate(
+        nodeName: string
+    ): Promise<NodeEntry> {
+        const templatesRootFolderId = await this.getSpaceTemplatesFolderId();
+        const nodeId: string = await this.adminApi.nodes.getNodeIdFromParent(
+            nodeName,
+            templatesRootFolderId
+        );
+
+        return this.adminApi.nodes.setInheritPermissions(nodeId, false);
+    }
+
+    async cleanupNodeTemplatesFolder(): Promise<void> {
+        return this.adminApi.nodes.deleteNodeChildren(
+            await this.getNodeTemplatesFolderId()
+        );
+    }
+
+    async cleanupSpaceTemplatesFolder(): Promise<void> {
+        const spaceTemplatesNodeId = await this.getSpaceTemplatesFolderId();
+
+        // folder links are deleted automatically when original folder is deleted
+        // Software Engineering Project is the default folder template coming from ACS, should not be deleted
+        const nodesToDelete = (
+            await this.adminApi.nodes.getNodeChildren(spaceTemplatesNodeId)
+        ).list.entries
+            .filter(
+                (node) =>
+                    node.entry.nodeType !== 'app:folderlink' &&
+                    node.entry.name !== 'Software Engineering Project'
+            )
+            .map((node) => node.entry.id);
+        return this.adminApi.nodes.deleteNodesById(nodesToDelete);
+    }
+
+    async createLinkToFileId(
+        originalFileId: string,
+        destinationParentId: string
+    ): Promise<NodeEntry> {
+        return this.adminApi.nodes.createFileLink(
+            originalFileId,
+            destinationParentId
+        );
+    }
+
+    async createLinkToFileName(
+        originalFileName: string,
+        originalFileParentId: string,
+        destinationParentId?: string
+    ): Promise<NodeEntry> {
+        if (!destinationParentId) {
+            destinationParentId = originalFileParentId;
+        }
+
+        const nodeId = await this.adminApi.nodes.getNodeIdFromParent(
+            originalFileName,
+            originalFileParentId
+        );
+
+        return this.createLinkToFileId(nodeId, destinationParentId);
+    }
+
+    async createLinkToFolderId(
+        originalFolderId: string,
+        destinationParentId: string
+    ): Promise<NodeEntry> {
+        return this.adminApi.nodes.createFolderLink(
+            originalFolderId,
+            destinationParentId
+        );
+    }
+
+    async createLinkToFolderName(
+        originalFolderName: string,
+        originalFolderParentId: string,
+        destinationParentId?: string
+    ): Promise<NodeEntry> {
+        if (!destinationParentId) {
+            destinationParentId = originalFolderParentId;
+        }
+
+        const nodeId = await this.adminApi.nodes.getNodeIdFromParent(
+            originalFolderName,
+            originalFolderParentId
+        );
+
+        return this.createLinkToFolderId(nodeId, destinationParentId);
+    }
 }

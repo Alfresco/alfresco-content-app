@@ -23,94 +23,115 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, browser, ExpectedConditions as EC, until } from 'protractor';
+import {
+    ElementFinder,
+    by,
+    browser,
+    ExpectedConditions as EC,
+    until,
+} from 'protractor';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { GenericDialog } from '../dialog/generic-dialog';
 
 export class PasswordDialog extends GenericDialog {
-  private static selectors = {
-    root: 'adf-pdf-viewer-password-dialog',
+    private static selectors = {
+        root: 'adf-pdf-viewer-password-dialog',
 
-    passwordInput: 'input[type="Password"]',
-    errorMessage: '.mat-error',
+        passwordInput: 'input[type="Password"]',
+        errorMessage: '.mat-error',
 
-    closeButton: by.css('[data-automation-id="adf-password-dialog-close"]'),
-    submitButton: by.css('[data-automation-id="adf-password-dialog-submit"]')
-  };
+        closeButton: by.css('[data-automation-id="adf-password-dialog-close"]'),
+        submitButton: by.css(
+            '[data-automation-id="adf-password-dialog-submit"]'
+        ),
+    };
 
-  passwordInput: ElementFinder = this.rootElem.element(by.css(PasswordDialog.selectors.passwordInput));
-  errorMessage: ElementFinder = this.rootElem.element(by.css(PasswordDialog.selectors.errorMessage));
+    passwordInput: ElementFinder = this.rootElem.element(
+        by.css(PasswordDialog.selectors.passwordInput)
+    );
+    errorMessage: ElementFinder = this.rootElem.element(
+        by.css(PasswordDialog.selectors.errorMessage)
+    );
 
-  constructor() {
-    super(PasswordDialog.selectors.root);
-  }
-
-  async waitForPasswordInputToBeInteractive() {
-    await browser.wait(EC.elementToBeClickable(this.passwordInput), BROWSER_WAIT_TIMEOUT, '--- timeout wait for passwordInput ---');
-  }
-
-  async waitForDialogToOpen(): Promise<void> {
-    await super.waitForDialogToOpen();
-    await this.waitForPasswordInputToBeInteractive();
-  }
-
-  async isDialogOpen(): Promise<boolean> {
-    try {
-      await this.waitForDialogToOpen();
-      return true;
-    } catch (error) {
-      return false;
-    }
-  }
-
-  async isCloseEnabled(): Promise<boolean> {
-    return this.isButtonEnabled(PasswordDialog.selectors.closeButton);
-  }
-
-  async isSubmitEnabled(): Promise<boolean> {
-    return this.isButtonEnabled(PasswordDialog.selectors.submitButton);
-  }
-
-  async clickClose(): Promise<void> {
-    await this.clickButton(PasswordDialog.selectors.closeButton);
-  }
-
-  async clickSubmit(): Promise<void> {
-    await this.clickButton(PasswordDialog.selectors.submitButton);
-  }
-
-  async isPasswordInputDisplayed(): Promise<boolean> {
-    const present = await browser.isElementPresent(this.passwordInput);
-    if (present) {
-      return this.passwordInput.isDisplayed();
-    } else {
-      return false;
-    }
-  }
-
-  async isErrorDisplayed(): Promise<boolean> {
-    try {
-      await this.waitForDialogToOpen();
-      const elem = await browser.wait(until.elementLocated(by.css(PasswordDialog.selectors.errorMessage)), BROWSER_WAIT_TIMEOUT, '------- timeout waiting for error message to appear');
-      const errorIsPresent = await browser.isElementPresent(elem);
-      const errorIsDisplayed = await elem.isDisplayed();
-
-      return errorIsPresent && errorIsDisplayed;
-    } catch (error) {
-      return false;
+    constructor() {
+        super(PasswordDialog.selectors.root);
     }
 
-  }
-
-  async getErrorMessage(): Promise<string> {
-    if (await this.isErrorDisplayed()) {
-      return this.errorMessage.getText();
+    async waitForPasswordInputToBeInteractive() {
+        await browser.wait(
+            EC.elementToBeClickable(this.passwordInput),
+            BROWSER_WAIT_TIMEOUT,
+            '--- timeout wait for passwordInput ---'
+        );
     }
-    return '';
-  }
 
-  async enterPassword(password: string): Promise<void> {
-    await this.passwordInput.clear();
-    await this.passwordInput.sendKeys(password);
-  }
+    async waitForDialogToOpen(): Promise<void> {
+        await super.waitForDialogToOpen();
+        await this.waitForPasswordInputToBeInteractive();
+    }
+
+    async isDialogOpen(): Promise<boolean> {
+        try {
+            await this.waitForDialogToOpen();
+            return true;
+        } catch (error) {
+            return false;
+        }
+    }
+
+    async isCloseEnabled(): Promise<boolean> {
+        return this.isButtonEnabled(PasswordDialog.selectors.closeButton);
+    }
+
+    async isSubmitEnabled(): Promise<boolean> {
+        return this.isButtonEnabled(PasswordDialog.selectors.submitButton);
+    }
+
+    async clickClose(): Promise<void> {
+        await this.clickButton(PasswordDialog.selectors.closeButton);
+    }
+
+    async clickSubmit(): Promise<void> {
+        await this.clickButton(PasswordDialog.selectors.submitButton);
+    }
+
+    async isPasswordInputDisplayed(): Promise<boolean> {
+        const present = await browser.isElementPresent(this.passwordInput);
+        if (present) {
+            return this.passwordInput.isDisplayed();
+        } else {
+            return false;
+        }
+    }
+
+    async isErrorDisplayed(): Promise<boolean> {
+        try {
+            await this.waitForDialogToOpen();
+            const elem = await browser.wait(
+                until.elementLocated(
+                    by.css(PasswordDialog.selectors.errorMessage)
+                ),
+                BROWSER_WAIT_TIMEOUT,
+                '------- timeout waiting for error message to appear'
+            );
+            const errorIsPresent = await browser.isElementPresent(elem);
+            const errorIsDisplayed = await elem.isDisplayed();
+
+            return errorIsPresent && errorIsDisplayed;
+        } catch (error) {
+            return false;
+        }
+    }
+
+    async getErrorMessage(): Promise<string> {
+        if (await this.isErrorDisplayed()) {
+            return this.errorMessage.getText();
+        }
+        return '';
+    }
+
+    async enterPassword(password: string): Promise<void> {
+        await this.passwordInput.clear();
+        await this.passwordInput.sendKeys(password);
+    }
 }

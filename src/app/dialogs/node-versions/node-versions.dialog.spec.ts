@@ -26,7 +26,7 @@
 import { NodeVersionsDialogComponent } from './node-versions.dialog';
 
 describe('NodeVersionsDialogComponent', () => {
-  it('should be defined', () => {
-    expect(NodeVersionsDialogComponent).toBeDefined();
-  });
+    it('should be defined', () => {
+        expect(NodeVersionsDialogComponent).toBeDefined();
+    });
 });

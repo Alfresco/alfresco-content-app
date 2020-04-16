@@ -27,41 +27,41 @@ import { RuleContext, RuleParameter } from '@alfresco/adf-extensions';
 import { getFileExtension, supportedExtensions } from './utils';
 
 export function canOpenWithOffice(
-  context: RuleContext,
-  ...args: RuleParameter[]
+    context: RuleContext,
+    ...args: RuleParameter[]
 ): boolean {
-  if (
-    context.navigation &&
-    context.navigation.url &&
-    context.navigation.url.startsWith('/trashcan')
-  ) {
-    return false;
-  }
+    if (
+        context.navigation &&
+        context.navigation.url &&
+        context.navigation.url.startsWith('/trashcan')
+    ) {
+        return false;
+    }
 
-  if (!context || !context.selection) {
-    return false;
-  }
+    if (!context || !context.selection) {
+        return false;
+    }
 
-  const { file } = context.selection;
+    const { file } = context.selection;
 
-  if (!file || !file.entry) {
-    return false;
-  }
+    if (!file || !file.entry) {
+        return false;
+    }
 
-  const extension = getFileExtension(file.entry.name);
-  if (!extension || !supportedExtensions[extension]) {
-    return false;
-  }
+    const extension = getFileExtension(file.entry.name);
+    if (!extension || !supportedExtensions[extension]) {
+        return false;
+    }
 
-  if (!file.entry.properties) {
-    return false;
-  }
+    if (!file.entry.properties) {
+        return false;
+    }
 
-  if (file.entry.isLocked) {
-    return false;
-  }
+    if (file.entry.isLocked) {
+        return false;
+    }
 
-  /*
+    /*
   if (file.entry && file.entry.aspectNames) {
     const checkedOut = file.entry.aspectNames.find(
       (aspect: string) => aspect === 'cm:checkedOut'
@@ -73,39 +73,39 @@ export function canOpenWithOffice(
   }
   */
 
-  if (
-    file.entry.properties['cm:lockType'] === 'WRITE_LOCK' ||
-    file.entry.properties['cm:lockType'] === 'READ_ONLY_LOCK'
-  ) {
-    return false;
-  }
-
-  const lockOwner = file.entry.properties['cm:lockOwner'];
-  if (lockOwner && lockOwner.id !== context.profile.id) {
-    return false;
-  }
-
-  // check if record
-  if (
-    file.entry.aspectNames &&
-    (file.entry.aspectNames.includes('rma:declaredRecord') ||
-      file.entry.aspectNames.includes('rma:record'))
-  ) {
-    return false;
-  }
-
-  // workaround for Shared files
-  if (
-    context.navigation &&
-    context.navigation.url &&
-    context.navigation.url.startsWith('/shared')
-  ) {
-    if (file.entry.hasOwnProperty('allowableOperationsOnTarget')) {
-      return context.permissions.check(file, ['update'], {
-        target: 'allowableOperationsOnTarget'
-      });
+    if (
+        file.entry.properties['cm:lockType'] === 'WRITE_LOCK' ||
+        file.entry.properties['cm:lockType'] === 'READ_ONLY_LOCK'
+    ) {
+        return false;
     }
-  }
 
-  return context.permissions.check(file, ['update']);
+    const lockOwner = file.entry.properties['cm:lockOwner'];
+    if (lockOwner && lockOwner.id !== context.profile.id) {
+        return false;
+    }
+
+    // check if record
+    if (
+        file.entry.aspectNames &&
+        (file.entry.aspectNames.includes('rma:declaredRecord') ||
+            file.entry.aspectNames.includes('rma:record'))
+    ) {
+        return false;
+    }
+
+    // workaround for Shared files
+    if (
+        context.navigation &&
+        context.navigation.url &&
+        context.navigation.url.startsWith('/shared')
+    ) {
+        if (file.entry.hasOwnProperty('allowableOperationsOnTarget')) {
+            return context.permissions.check(file, ['update'], {
+                target: 'allowableOperationsOnTarget',
+            });
+        }
+    }
+
+    return context.permissions.check(file, ['update']);
 }

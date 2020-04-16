@@ -23,7 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, browser, ExpectedConditions as EC, protractor } from 'protractor';
+import {
+    ElementFinder,
+    by,
+    browser,
+    ExpectedConditions as EC,
+    protractor,
+} from 'protractor';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { GenericDialog } from '../dialog/generic-dialog';
 import { Utils } from '../../utilities/utils';
@@ -31,108 +37,161 @@ import { DropDownBreadcrumb } from '../breadcrumb/dropdown-breadcrumb';
 import { DataTable } from '../data-table/data-table';
 
 export class ContentNodeSelectorDialog extends GenericDialog {
-  private static selectors = {
-    root: '.adf-content-node-selector-dialog',
+    private static selectors = {
+        root: '.adf-content-node-selector-dialog',
 
-    locationDropDown: 'site-dropdown-container',
-    locationOption: '.mat-option .mat-option-text',
+        locationDropDown: 'site-dropdown-container',
+        locationOption: '.mat-option .mat-option-text',
 
-    dataTable: '.adf-datatable-body',
-    selectedRow: '.adf-is-selected',
+        dataTable: '.adf-datatable-body',
+        selectedRow: '.adf-is-selected',
 
-    searchInput: '#searchInput',
-    toolbarTitle: '.adf-toolbar-title',
+        searchInput: '#searchInput',
+        toolbarTitle: '.adf-toolbar-title',
 
-    cancelButton: by.css('[data-automation-id="content-node-selector-actions-cancel"]'),
-    copyButton: by.cssContainingText('[data-automation-id="content-node-selector-actions-choose"]', 'Copy'),
-    moveButton: by.cssContainingText('[data-automation-id="content-node-selector-actions-choose"]', 'Move')
-  };
+        cancelButton: by.css(
+            '[data-automation-id="content-node-selector-actions-cancel"]'
+        ),
+        copyButton: by.cssContainingText(
+            '[data-automation-id="content-node-selector-actions-choose"]',
+            'Copy'
+        ),
+        moveButton: by.cssContainingText(
+            '[data-automation-id="content-node-selector-actions-choose"]',
+            'Move'
+        ),
+    };
 
-  locationDropDown: ElementFinder = this.rootElem.element(by.id(ContentNodeSelectorDialog.selectors.locationDropDown));
-  locationPersonalFiles: ElementFinder = browser.element(by.cssContainingText(ContentNodeSelectorDialog.selectors.locationOption, 'Personal Files'));
-  locationFileLibraries: ElementFinder = browser.element(by.cssContainingText(ContentNodeSelectorDialog.selectors.locationOption, 'File Libraries'));
+    locationDropDown: ElementFinder = this.rootElem.element(
+        by.id(ContentNodeSelectorDialog.selectors.locationDropDown)
+    );
+    locationPersonalFiles: ElementFinder = browser.element(
+        by.cssContainingText(
+            ContentNodeSelectorDialog.selectors.locationOption,
+            'Personal Files'
+        )
+    );
+    locationFileLibraries: ElementFinder = browser.element(
+        by.cssContainingText(
+            ContentNodeSelectorDialog.selectors.locationOption,
+            'File Libraries'
+        )
+    );
 
-  searchInput: ElementFinder = this.rootElem.element(by.css(ContentNodeSelectorDialog.selectors.searchInput));
-  toolbarTitle: ElementFinder = this.rootElem.element(by.css(ContentNodeSelectorDialog.selectors.toolbarTitle));
+    searchInput: ElementFinder = this.rootElem.element(
+        by.css(ContentNodeSelectorDialog.selectors.searchInput)
+    );
+    toolbarTitle: ElementFinder = this.rootElem.element(
+        by.css(ContentNodeSelectorDialog.selectors.toolbarTitle)
+    );
 
-  breadcrumb: DropDownBreadcrumb = new DropDownBreadcrumb();
-  dataTable: DataTable = new DataTable(ContentNodeSelectorDialog.selectors.root);
+    breadcrumb: DropDownBreadcrumb = new DropDownBreadcrumb();
+    dataTable: DataTable = new DataTable(
+        ContentNodeSelectorDialog.selectors.root
+    );
 
-  constructor() {
-    super(ContentNodeSelectorDialog.selectors.root);
-  }
-
-  async waitForDropDownToOpen(): Promise<void> {
-    await browser.wait(EC.presenceOf(this.locationPersonalFiles), BROWSER_WAIT_TIMEOUT);
-  }
-
-  async waitForDropDownToClose(): Promise<void> {
-    await browser.wait(EC.stalenessOf(browser.$(ContentNodeSelectorDialog.selectors.locationOption)), BROWSER_WAIT_TIMEOUT);
-  }
-
-  async waitForRowToBeSelected(): Promise<void> {
-    await browser.wait(EC.presenceOf(browser.element(by.css(ContentNodeSelectorDialog.selectors.selectedRow))), BROWSER_WAIT_TIMEOUT);
-  }
-
-  async clickCancel(): Promise<void> {
-    await this.clickButton(ContentNodeSelectorDialog.selectors.cancelButton);
-    await this.waitForDialogToClose();
-  }
-
-  async clickCopy(): Promise<void> {
-    await this.clickButton(ContentNodeSelectorDialog.selectors.copyButton);
-  }
-
-  async clickMove(): Promise<void> {
-    await this.clickButton(ContentNodeSelectorDialog.selectors.moveButton);
-  }
-
-  async selectLocation(location: 'Personal Files' | 'File Libraries'): Promise<void> {
-    await this.locationDropDown.click();
-    await this.waitForDropDownToOpen();
-
-    if (location === 'Personal Files') {
-      await this.locationPersonalFiles.click();
-    } else {
-      await this.locationFileLibraries.click();
+    constructor() {
+        super(ContentNodeSelectorDialog.selectors.root);
     }
 
-    await this.waitForDropDownToClose();
-  }
+    async waitForDropDownToOpen(): Promise<void> {
+        await browser.wait(
+            EC.presenceOf(this.locationPersonalFiles),
+            BROWSER_WAIT_TIMEOUT
+        );
+    }
 
-  async selectDestination(folderName: string): Promise<void> {
-    const row = this.dataTable.getRowByName(folderName);
-    await Utils.waitUntilElementClickable(row);
-    await row.click();
-    await this.waitForRowToBeSelected();
-  }
+    async waitForDropDownToClose(): Promise<void> {
+        await browser.wait(
+            EC.stalenessOf(
+                browser.$(ContentNodeSelectorDialog.selectors.locationOption)
+            ),
+            BROWSER_WAIT_TIMEOUT
+        );
+    }
 
-  async isSearchInputPresent(): Promise<boolean> {
-    return this.searchInput.isPresent();
-  }
+    async waitForRowToBeSelected(): Promise<void> {
+        await browser.wait(
+            EC.presenceOf(
+                browser.element(
+                    by.css(ContentNodeSelectorDialog.selectors.selectedRow)
+                )
+            ),
+            BROWSER_WAIT_TIMEOUT
+        );
+    }
 
-  async isSelectLocationDropdownDisplayed(): Promise<boolean> {
-    const locationDropDownPresent = await browser.element(this.locationDropDown).isPresent();
-    const locationDropDownDisplayed = await browser.element(this.locationDropDown).isDisplayed();
+    async clickCancel(): Promise<void> {
+        await this.clickButton(
+            ContentNodeSelectorDialog.selectors.cancelButton
+        );
+        await this.waitForDialogToClose();
+    }
 
-    return locationDropDownPresent && locationDropDownDisplayed;
-  }
+    async clickCopy(): Promise<void> {
+        await this.clickButton(ContentNodeSelectorDialog.selectors.copyButton);
+    }
 
-  async isCopyButtonEnabled(): Promise<boolean> {
-    return this.isButtonEnabled(ContentNodeSelectorDialog.selectors.copyButton);
-  }
+    async clickMove(): Promise<void> {
+        await this.clickButton(ContentNodeSelectorDialog.selectors.moveButton);
+    }
 
-  async isCancelButtonEnabled(): Promise<boolean> {
-    return this.isButtonEnabled(ContentNodeSelectorDialog.selectors.cancelButton);
-  }
+    async selectLocation(
+        location: 'Personal Files' | 'File Libraries'
+    ): Promise<void> {
+        await this.locationDropDown.click();
+        await this.waitForDropDownToOpen();
 
-  async searchFor(text: string): Promise<void> {
-    await Utils.clearFieldWithBackspace(this.searchInput);
-    await this.searchInput.sendKeys(text);
-    await this.searchInput.sendKeys(protractor.Key.ENTER);
-  }
+        if (location === 'Personal Files') {
+            await this.locationPersonalFiles.click();
+        } else {
+            await this.locationFileLibraries.click();
+        }
 
-  async getToolbarTitle(): Promise<string> {
-    return this.toolbarTitle.getText();
-  }
+        await this.waitForDropDownToClose();
+    }
+
+    async selectDestination(folderName: string): Promise<void> {
+        const row = this.dataTable.getRowByName(folderName);
+        await Utils.waitUntilElementClickable(row);
+        await row.click();
+        await this.waitForRowToBeSelected();
+    }
+
+    async isSearchInputPresent(): Promise<boolean> {
+        return this.searchInput.isPresent();
+    }
+
+    async isSelectLocationDropdownDisplayed(): Promise<boolean> {
+        const locationDropDownPresent = await browser
+            .element(this.locationDropDown)
+            .isPresent();
+        const locationDropDownDisplayed = await browser
+            .element(this.locationDropDown)
+            .isDisplayed();
+
+        return locationDropDownPresent && locationDropDownDisplayed;
+    }
+
+    async isCopyButtonEnabled(): Promise<boolean> {
+        return this.isButtonEnabled(
+            ContentNodeSelectorDialog.selectors.copyButton
+        );
+    }
+
+    async isCancelButtonEnabled(): Promise<boolean> {
+        return this.isButtonEnabled(
+            ContentNodeSelectorDialog.selectors.cancelButton
+        );
+    }
+
+    async searchFor(text: string): Promise<void> {
+        await Utils.clearFieldWithBackspace(this.searchInput);
+        await this.searchInput.sendKeys(text);
+        await this.searchInput.sendKeys(protractor.Key.ENTER);
+    }
+
+    async getToolbarTitle(): Promise<string> {
+        return this.toolbarTitle.getText();
+    }
 }

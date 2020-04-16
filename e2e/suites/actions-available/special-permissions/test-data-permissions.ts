@@ -27,252 +27,407 @@ import { Utils } from '../../../utilities/utils';
 
 // ----- files -----
 
-const consumerContextMenu = ['Share', 'Download', 'View', 'Favorite', 'Copy', 'Manage Versions'];
-const consumerFavContextMenu = ['Share', 'Download', 'View', 'Remove Favorite', 'Copy', 'Manage Versions'];
-const consumerSharedContextMenu = ['Shared Link Settings', 'Download', 'View', 'Favorite', 'Copy', 'Manage Versions'];
-const consumerSharedFavContextMenu = ['Shared Link Settings', 'Download', 'View', 'Remove Favorite', 'Copy', 'Manage Versions'];
+const consumerContextMenu = [
+    'Share',
+    'Download',
+    'View',
+    'Favorite',
+    'Copy',
+    'Manage Versions',
+];
+const consumerFavContextMenu = [
+    'Share',
+    'Download',
+    'View',
+    'Remove Favorite',
+    'Copy',
+    'Manage Versions',
+];
+const consumerSharedContextMenu = [
+    'Shared Link Settings',
+    'Download',
+    'View',
+    'Favorite',
+    'Copy',
+    'Manage Versions',
+];
+const consumerSharedFavContextMenu = [
+    'Shared Link Settings',
+    'Download',
+    'View',
+    'Remove Favorite',
+    'Copy',
+    'Manage Versions',
+];
 
-const consumerToolbarPrimary = ['Share', 'Download', 'View', 'View Details', 'More Actions'];
-const consumerSharedToolbarPrimary = ['Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
+const consumerToolbarPrimary = [
+    'Share',
+    'Download',
+    'View',
+    'View Details',
+    'More Actions',
+];
+const consumerSharedToolbarPrimary = [
+    'Shared Link Settings',
+    'Download',
+    'View',
+    'View Details',
+    'More Actions',
+];
 
-const searchConsumerToolbarPrimary = ['Toggle search filter', 'Share', 'Download', 'View', 'View Details', 'More Actions'];
-const searchConsumerSharedToolbarPrimary = ['Toggle search filter', 'Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
+const searchConsumerToolbarPrimary = [
+    'Toggle search filter',
+    'Share',
+    'Download',
+    'View',
+    'View Details',
+    'More Actions',
+];
+const searchConsumerSharedToolbarPrimary = [
+    'Toggle search filter',
+    'Shared Link Settings',
+    'Download',
+    'View',
+    'View Details',
+    'More Actions',
+];
 
 const consumerToolbarMore = ['Favorite', 'Copy', 'Manage Versions'];
 const consumerFavToolbarMore = ['Remove Favorite', 'Copy', 'Manage Versions'];
 
 // ---- VIEWER ----
 
-const consumerViewerSharedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Download', 'Print', 'View Details', 'More Actions'];
-const consumerViewerToolbarPrimary = ['Activate full-screen mode', 'Share', 'Download', 'Print', 'View Details', 'More Actions'];
-const consumerViewerFavToolbarMore = ['Remove Favorite', 'Copy', 'Manage Versions'];
+const consumerViewerSharedToolbarPrimary = [
+    'Activate full-screen mode',
+    'Shared Link Settings',
+    'Download',
+    'Print',
+    'View Details',
+    'More Actions',
+];
+const consumerViewerToolbarPrimary = [
+    'Activate full-screen mode',
+    'Share',
+    'Download',
+    'Print',
+    'View Details',
+    'More Actions',
+];
+const consumerViewerFavToolbarMore = [
+    'Remove Favorite',
+    'Copy',
+    'Manage Versions',
+];
 const consumerViewerToolbarMore = ['Favorite', 'Copy', 'Manage Versions'];
 
 // ---- FAVORITES workarounds ----
 
 // TODO: remove 'Move' and 'Delete' when ACA-1737 is done
 // TODO: investigate why 'Upload New Version' appears and raise issue
-const favoritesConsumerToolbarMore = ['Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
+const favoritesConsumerToolbarMore = [
+    'Upload New Version',
+    'Remove Favorite',
+    'Move',
+    'Copy',
+    'Delete',
+    'Manage Versions',
+];
 // TODO: remove 'Move' and 'Delete' when ACA-1737 is done
 // TODO: investigate why 'Upload New Version' appears and raise issue
-const favoritesConsumerContextMenu = ['Share', 'Download', 'View', 'Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
+const favoritesConsumerContextMenu = [
+    'Share',
+    'Download',
+    'View',
+    'Upload New Version',
+    'Remove Favorite',
+    'Move',
+    'Copy',
+    'Delete',
+    'Manage Versions',
+];
 // TODO: remove 'Move' and 'Delete' when ACA-1737 is done
 // TODO: investigate why 'Upload New Version' appears and raise issue
-const favoritesConsumerSharedContextMenu = ['Shared Link Settings', 'Download', 'View', 'Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
+const favoritesConsumerSharedContextMenu = [
+    'Shared Link Settings',
+    'Download',
+    'View',
+    'Upload New Version',
+    'Remove Favorite',
+    'Move',
+    'Copy',
+    'Delete',
+    'Manage Versions',
+];
 
 // ---- SHARED FILES workaround ----
 
 // TODO: investigate why 'Upload New Version' appears and raise issue
-const sharedConsumerToolbarMore = ['Upload New Version', 'Favorite', 'Copy', 'Manage Versions'];
+const sharedConsumerToolbarMore = [
+    'Upload New Version',
+    'Favorite',
+    'Copy',
+    'Manage Versions',
+];
 // TODO: investigate why 'Cancel Editing' appears and raise issue
 // TODO: investigate why 'Upload New Version' appears and raise issue
-const sharedConsumerLockedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Favorite', 'Copy', 'Manage Versions'];
+const sharedConsumerLockedToolbarMore = [
+    'Cancel Editing',
+    'Upload New Version',
+    'Favorite',
+    'Copy',
+    'Manage Versions',
+];
 // TODO: investigate why 'Upload New Version' appears and raise issue
-const sharedConsumerFavToolbarMore = ['Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions'];
+const sharedConsumerFavToolbarMore = [
+    'Upload New Version',
+    'Remove Favorite',
+    'Copy',
+    'Manage Versions',
+];
 // TODO: investigate why 'Cancel Editing' appears and raise issue
 // TODO: investigate why 'Upload New Version' appears and raise issue
-const sharedConsumerFavLockedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions'];
+const sharedConsumerFavLockedToolbarMore = [
+    'Cancel Editing',
+    'Upload New Version',
+    'Remove Favorite',
+    'Copy',
+    'Manage Versions',
+];
 // TODO: investigate why 'Upload New Version' appears and raise issue
-const sharedConsumerContextMenu = ['Shared Link Settings', 'Download', 'View', 'Upload New Version', 'Favorite', 'Copy', 'Manage Versions'];
+const sharedConsumerContextMenu = [
+    'Shared Link Settings',
+    'Download',
+    'View',
+    'Upload New Version',
+    'Favorite',
+    'Copy',
+    'Manage Versions',
+];
 // TODO: investigate why 'Cancel Editing' appears and raise issue
 // TODO: investigate why 'Upload New Version' appears and raise issue
-const sharedConsumerLockedContextMenu = ['Shared Link Settings', 'Download', 'View', 'Cancel Editing', 'Upload New Version', 'Favorite', 'Copy', 'Manage Versions'];
+const sharedConsumerLockedContextMenu = [
+    'Shared Link Settings',
+    'Download',
+    'View',
+    'Cancel Editing',
+    'Upload New Version',
+    'Favorite',
+    'Copy',
+    'Manage Versions',
+];
 // TODO: investigate why 'Upload New Version' appears and raise issue
-const sharedConsumerFavContextMenu = ['Shared Link Settings', 'Download', 'View', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions'];
+const sharedConsumerFavContextMenu = [
+    'Shared Link Settings',
+    'Download',
+    'View',
+    'Upload New Version',
+    'Remove Favorite',
+    'Copy',
+    'Manage Versions',
+];
 // TODO: investigate why 'Cancel Editing' appears and raise issue
 // TODO: investigate why 'Upload New Version' appears and raise issue
-const sharedConsumerFavLockedContextMenu = ['Shared Link Settings', 'Download', 'View', 'Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions'];
+const sharedConsumerFavLockedContextMenu = [
+    'Shared Link Settings',
+    'Download',
+    'View',
+    'Cancel Editing',
+    'Upload New Version',
+    'Remove Favorite',
+    'Copy',
+    'Manage Versions',
+];
 
 export const fileDocx = {
-  name: `file-docx-${Utils.random()}.docx`,
-  description: 'file not shared, not fav, office, not locked',
+    name: `file-docx-${Utils.random()}.docx`,
+    description: 'file not shared, not fav, office, not locked',
 
-  contextMenu: consumerContextMenu,
-  toolbarPrimary: consumerToolbarPrimary,
-  toolbarMore: consumerToolbarMore,
-  viewerToolbarPrimary: consumerViewerToolbarPrimary,
-  viewerToolbarMore: consumerViewerToolbarMore,
+    contextMenu: consumerContextMenu,
+    toolbarPrimary: consumerToolbarPrimary,
+    toolbarMore: consumerToolbarMore,
+    viewerToolbarPrimary: consumerViewerToolbarPrimary,
+    viewerToolbarMore: consumerViewerToolbarMore,
 
-  searchToolbarPrimary: searchConsumerToolbarPrimary
+    searchToolbarPrimary: searchConsumerToolbarPrimary,
 };
 
 export const fileDocxFav = {
-  name: `file-docx-fav-${Utils.random()}.docx`,
-  description: 'file not shared, fav, office, not locked',
+    name: `file-docx-fav-${Utils.random()}.docx`,
+    description: 'file not shared, fav, office, not locked',
 
-  contextMenu: consumerFavContextMenu,
-  toolbarPrimary: consumerToolbarPrimary,
-  toolbarMore: consumerFavToolbarMore,
-  viewerToolbarPrimary: consumerViewerToolbarPrimary,
-  viewerToolbarMore: consumerViewerFavToolbarMore,
+    contextMenu: consumerFavContextMenu,
+    toolbarPrimary: consumerToolbarPrimary,
+    toolbarMore: consumerFavToolbarMore,
+    viewerToolbarPrimary: consumerViewerToolbarPrimary,
+    viewerToolbarMore: consumerViewerFavToolbarMore,
 
-  favoritesToolbarMore: favoritesConsumerToolbarMore,
-  favoritesContextMenu: favoritesConsumerContextMenu,
+    favoritesToolbarMore: favoritesConsumerToolbarMore,
+    favoritesContextMenu: favoritesConsumerContextMenu,
 
-  searchToolbarPrimary: searchConsumerToolbarPrimary
+    searchToolbarPrimary: searchConsumerToolbarPrimary,
 };
 
 export const file = {
-  name: `file-${Utils.random()}.txt`,
-  description: 'file not shared, not fav, not office, not locked',
+    name: `file-${Utils.random()}.txt`,
+    description: 'file not shared, not fav, not office, not locked',
 
-  contextMenu: consumerContextMenu,
-  toolbarPrimary: consumerToolbarPrimary,
-  toolbarMore: consumerToolbarMore,
-  viewerToolbarPrimary: consumerViewerToolbarPrimary,
-  viewerToolbarMore: consumerViewerToolbarMore,
+    contextMenu: consumerContextMenu,
+    toolbarPrimary: consumerToolbarPrimary,
+    toolbarMore: consumerToolbarMore,
+    viewerToolbarPrimary: consumerViewerToolbarPrimary,
+    viewerToolbarMore: consumerViewerToolbarMore,
 
-  searchToolbarPrimary: searchConsumerToolbarPrimary
+    searchToolbarPrimary: searchConsumerToolbarPrimary,
 };
 
 export const fileFav = {
-  name: `file-fav-${Utils.random()}.txt`,
-  description: 'file not shared, fav, not office, not locked',
+    name: `file-fav-${Utils.random()}.txt`,
+    description: 'file not shared, fav, not office, not locked',
 
-  contextMenu: consumerFavContextMenu,
-  toolbarPrimary: consumerToolbarPrimary,
-  toolbarMore: consumerFavToolbarMore,
-  viewerToolbarPrimary: consumerViewerToolbarPrimary,
-  viewerToolbarMore: consumerViewerFavToolbarMore,
+    contextMenu: consumerFavContextMenu,
+    toolbarPrimary: consumerToolbarPrimary,
+    toolbarMore: consumerFavToolbarMore,
+    viewerToolbarPrimary: consumerViewerToolbarPrimary,
+    viewerToolbarMore: consumerViewerFavToolbarMore,
 
-  favoritesToolbarMore: favoritesConsumerToolbarMore,
-  favoritesContextMenu: favoritesConsumerContextMenu,
+    favoritesToolbarMore: favoritesConsumerToolbarMore,
+    favoritesContextMenu: favoritesConsumerContextMenu,
 
-  searchToolbarPrimary: searchConsumerToolbarPrimary
+    searchToolbarPrimary: searchConsumerToolbarPrimary,
 };
 
 export const fileDocxShared = {
-  name: `file-docx-shared-${Utils.random()}.docx`,
-  description: 'file shared, not fav, office, not locked',
+    name: `file-docx-shared-${Utils.random()}.docx`,
+    description: 'file shared, not fav, office, not locked',
 
-  contextMenu: consumerSharedContextMenu,
-  toolbarPrimary: consumerSharedToolbarPrimary,
-  toolbarMore: consumerToolbarMore,
-  viewerToolbarPrimary: consumerViewerSharedToolbarPrimary,
-  viewerToolbarMore: consumerViewerToolbarMore,
+    contextMenu: consumerSharedContextMenu,
+    toolbarPrimary: consumerSharedToolbarPrimary,
+    toolbarMore: consumerToolbarMore,
+    viewerToolbarPrimary: consumerViewerSharedToolbarPrimary,
+    viewerToolbarMore: consumerViewerToolbarMore,
 
-  sharedToolbarMore: sharedConsumerToolbarMore,
-  sharedContextMenu: sharedConsumerContextMenu,
+    sharedToolbarMore: sharedConsumerToolbarMore,
+    sharedContextMenu: sharedConsumerContextMenu,
 
-  searchToolbarPrimary: searchConsumerSharedToolbarPrimary
+    searchToolbarPrimary: searchConsumerSharedToolbarPrimary,
 };
 
 export const fileDocxSharedFav = {
-  name: `file-docx-shared-fav-${Utils.random()}.docx`,
-  description: 'file shared, fav, office, not locked',
+    name: `file-docx-shared-fav-${Utils.random()}.docx`,
+    description: 'file shared, fav, office, not locked',
 
-  contextMenu: consumerSharedFavContextMenu,
-  toolbarPrimary: consumerSharedToolbarPrimary,
-  toolbarMore: consumerFavToolbarMore,
-  viewerToolbarPrimary: consumerViewerSharedToolbarPrimary,
-  viewerToolbarMore: consumerViewerFavToolbarMore,
+    contextMenu: consumerSharedFavContextMenu,
+    toolbarPrimary: consumerSharedToolbarPrimary,
+    toolbarMore: consumerFavToolbarMore,
+    viewerToolbarPrimary: consumerViewerSharedToolbarPrimary,
+    viewerToolbarMore: consumerViewerFavToolbarMore,
 
-  favoritesToolbarMore: favoritesConsumerToolbarMore,
-  favoritesContextMenu: favoritesConsumerSharedContextMenu,
+    favoritesToolbarMore: favoritesConsumerToolbarMore,
+    favoritesContextMenu: favoritesConsumerSharedContextMenu,
 
-  sharedToolbarMore: sharedConsumerFavToolbarMore,
-  sharedContextMenu: sharedConsumerFavContextMenu,
+    sharedToolbarMore: sharedConsumerFavToolbarMore,
+    sharedContextMenu: sharedConsumerFavContextMenu,
 
-  searchToolbarPrimary: searchConsumerSharedToolbarPrimary
+    searchToolbarPrimary: searchConsumerSharedToolbarPrimary,
 };
 
 export const fileShared = {
-  name: `file-shared-${Utils.random()}.txt`,
-  description: 'file shared, not fav, not office, not locked',
+    name: `file-shared-${Utils.random()}.txt`,
+    description: 'file shared, not fav, not office, not locked',
 
-  contextMenu: consumerSharedContextMenu,
-  toolbarPrimary: consumerSharedToolbarPrimary,
-  toolbarMore: consumerToolbarMore,
-  viewerToolbarPrimary: consumerViewerSharedToolbarPrimary,
-  viewerToolbarMore: consumerViewerToolbarMore,
+    contextMenu: consumerSharedContextMenu,
+    toolbarPrimary: consumerSharedToolbarPrimary,
+    toolbarMore: consumerToolbarMore,
+    viewerToolbarPrimary: consumerViewerSharedToolbarPrimary,
+    viewerToolbarMore: consumerViewerToolbarMore,
 
-  sharedToolbarMore: sharedConsumerToolbarMore,
-  sharedContextMenu: sharedConsumerContextMenu,
+    sharedToolbarMore: sharedConsumerToolbarMore,
+    sharedContextMenu: sharedConsumerContextMenu,
 
-  searchToolbarPrimary: searchConsumerSharedToolbarPrimary
+    searchToolbarPrimary: searchConsumerSharedToolbarPrimary,
 };
 
 export const fileSharedFav = {
-  name: `file-shared-fav-${Utils.random()}.txt`,
-  description: 'file shared, fav, not office, not locked',
+    name: `file-shared-fav-${Utils.random()}.txt`,
+    description: 'file shared, fav, not office, not locked',
 
-  contextMenu: consumerSharedFavContextMenu,
-  toolbarPrimary: consumerSharedToolbarPrimary,
-  toolbarMore: consumerFavToolbarMore,
-  viewerToolbarPrimary: consumerViewerSharedToolbarPrimary,
-  viewerToolbarMore: consumerViewerFavToolbarMore,
+    contextMenu: consumerSharedFavContextMenu,
+    toolbarPrimary: consumerSharedToolbarPrimary,
+    toolbarMore: consumerFavToolbarMore,
+    viewerToolbarPrimary: consumerViewerSharedToolbarPrimary,
+    viewerToolbarMore: consumerViewerFavToolbarMore,
 
-  favoritesToolbarMore: favoritesConsumerToolbarMore,
-  favoritesContextMenu: favoritesConsumerSharedContextMenu,
+    favoritesToolbarMore: favoritesConsumerToolbarMore,
+    favoritesContextMenu: favoritesConsumerSharedContextMenu,
 
-  sharedToolbarMore: sharedConsumerFavToolbarMore,
-  sharedContextMenu: sharedConsumerFavContextMenu,
+    sharedToolbarMore: sharedConsumerFavToolbarMore,
+    sharedContextMenu: sharedConsumerFavContextMenu,
 
-  searchToolbarPrimary: searchConsumerSharedToolbarPrimary
+    searchToolbarPrimary: searchConsumerSharedToolbarPrimary,
 };
 
 export const fileLocked = {
-  name: `file-locked-${Utils.random()}.txt`,
-  description: 'file not shared, not fav, not office, locked',
+    name: `file-locked-${Utils.random()}.txt`,
+    description: 'file not shared, not fav, not office, locked',
 
-  contextMenu: consumerContextMenu,
-  toolbarPrimary: consumerToolbarPrimary,
-  toolbarMore: consumerToolbarMore,
-  viewerToolbarPrimary: consumerViewerToolbarPrimary,
-  viewerToolbarMore: consumerViewerToolbarMore,
+    contextMenu: consumerContextMenu,
+    toolbarPrimary: consumerToolbarPrimary,
+    toolbarMore: consumerToolbarMore,
+    viewerToolbarPrimary: consumerViewerToolbarPrimary,
+    viewerToolbarMore: consumerViewerToolbarMore,
 
-  searchToolbarPrimary: searchConsumerToolbarPrimary
+    searchToolbarPrimary: searchConsumerToolbarPrimary,
 };
 
 export const fileFavLocked = {
-  name: `file-fav-locked-${Utils.random()}.txt`,
-  description: 'file not shared, fav, not office, locked',
+    name: `file-fav-locked-${Utils.random()}.txt`,
+    description: 'file not shared, fav, not office, locked',
 
-  contextMenu: consumerFavContextMenu,
-  toolbarPrimary: consumerToolbarPrimary,
-  toolbarMore: consumerFavToolbarMore,
-  viewerToolbarPrimary: consumerViewerToolbarPrimary,
-  viewerToolbarMore: consumerViewerFavToolbarMore,
+    contextMenu: consumerFavContextMenu,
+    toolbarPrimary: consumerToolbarPrimary,
+    toolbarMore: consumerFavToolbarMore,
+    viewerToolbarPrimary: consumerViewerToolbarPrimary,
+    viewerToolbarMore: consumerViewerFavToolbarMore,
 
-  favoritesToolbarMore: favoritesConsumerToolbarMore,
-  favoritesContextMenu: favoritesConsumerContextMenu,
+    favoritesToolbarMore: favoritesConsumerToolbarMore,
+    favoritesContextMenu: favoritesConsumerContextMenu,
 
-  searchToolbarPrimary: searchConsumerToolbarPrimary
+    searchToolbarPrimary: searchConsumerToolbarPrimary,
 };
 
 export const fileSharedLocked = {
-  name: `file-shared-locked-${Utils.random()}.txt`,
-  description: 'file shared, not fav, not office, locked',
+    name: `file-shared-locked-${Utils.random()}.txt`,
+    description: 'file shared, not fav, not office, locked',
 
-  contextMenu: consumerSharedContextMenu,
-  toolbarPrimary: consumerSharedToolbarPrimary,
-  toolbarMore: consumerToolbarMore,
-  viewerToolbarPrimary: consumerViewerSharedToolbarPrimary,
-  viewerToolbarMore: consumerViewerToolbarMore,
+    contextMenu: consumerSharedContextMenu,
+    toolbarPrimary: consumerSharedToolbarPrimary,
+    toolbarMore: consumerToolbarMore,
+    viewerToolbarPrimary: consumerViewerSharedToolbarPrimary,
+    viewerToolbarMore: consumerViewerToolbarMore,
 
-  sharedToolbarMore: sharedConsumerLockedToolbarMore,
-  sharedContextMenu: sharedConsumerLockedContextMenu,
+    sharedToolbarMore: sharedConsumerLockedToolbarMore,
+    sharedContextMenu: sharedConsumerLockedContextMenu,
 
-  searchToolbarPrimary: searchConsumerSharedToolbarPrimary
+    searchToolbarPrimary: searchConsumerSharedToolbarPrimary,
 };
 
 export const fileSharedFavLocked = {
-  name: `file-shared-fav-locked-${Utils.random()}.txt`,
-  description: 'file shared, fav, not office, locked',
+    name: `file-shared-fav-locked-${Utils.random()}.txt`,
+    description: 'file shared, fav, not office, locked',
 
-  contextMenu: consumerSharedFavContextMenu,
-  toolbarPrimary: consumerSharedToolbarPrimary,
-  toolbarMore: consumerFavToolbarMore,
-  viewerToolbarPrimary: consumerViewerSharedToolbarPrimary,
-  viewerToolbarMore: consumerViewerFavToolbarMore,
+    contextMenu: consumerSharedFavContextMenu,
+    toolbarPrimary: consumerSharedToolbarPrimary,
+    toolbarMore: consumerFavToolbarMore,
+    viewerToolbarPrimary: consumerViewerSharedToolbarPrimary,
+    viewerToolbarMore: consumerViewerFavToolbarMore,
 
-  favoritesToolbarMore: favoritesConsumerToolbarMore,
-  favoritesContextMenu: favoritesConsumerSharedContextMenu,
+    favoritesToolbarMore: favoritesConsumerToolbarMore,
+    favoritesContextMenu: favoritesConsumerSharedContextMenu,
 
-  sharedToolbarMore: sharedConsumerFavLockedToolbarMore,
-  sharedContextMenu: sharedConsumerFavLockedContextMenu,
+    sharedToolbarMore: sharedConsumerFavLockedToolbarMore,
+    sharedContextMenu: sharedConsumerFavLockedContextMenu,
 
-  searchToolbarPrimary: searchConsumerSharedToolbarPrimary
+    searchToolbarPrimary: searchConsumerSharedToolbarPrimary,
 };
 
 export const fileGranularPermission = `file-granular-${Utils.random()}.txt`;
@@ -281,45 +436,67 @@ export const fileLockedByUser = `my-file-locked-${Utils.random()}.txt`;
 // ---- folders ---
 
 const consumerFolderContextMenu = ['Download', 'Favorite', 'Copy'];
-const consumerFolderToolbarPrimary = ['Download', 'View Details', 'More Actions'];
+const consumerFolderToolbarPrimary = [
+    'Download',
+    'View Details',
+    'More Actions',
+];
 const consumerFolderToolbarMore = ['Favorite', 'Copy'];
-const searchConsumerFolderToolbarPrimary = ['Toggle search filter', 'Download', 'View Details', 'More Actions'];
+const searchConsumerFolderToolbarPrimary = [
+    'Toggle search filter',
+    'Download',
+    'View Details',
+    'More Actions',
+];
 const consumerFolderFavContextMenu = ['Download', 'Remove Favorite', 'Copy'];
 const consumerFolderFavToolbarMore = ['Remove Favorite', 'Copy'];
 
 // ---- FAVORITES workarounds ----
 
 // TODO: remove 'Edit', 'Move' and 'Delete' when ACA-1737 is done
-const favoritesConsumerFolderContextMenu = ['Download', 'Edit', 'Remove Favorite', 'Move', 'Copy', 'Delete'];
+const favoritesConsumerFolderContextMenu = [
+    'Download',
+    'Edit',
+    'Remove Favorite',
+    'Move',
+    'Copy',
+    'Delete',
+];
 // TODO: remove 'Edit', 'Move' and 'Delete' when ACA-1737 is done
-const favoritesConsumerFolderToolbarMore = ['Edit', 'Remove Favorite', 'Move', 'Copy', 'Delete'];
+const favoritesConsumerFolderToolbarMore = [
+    'Edit',
+    'Remove Favorite',
+    'Move',
+    'Copy',
+    'Delete',
+];
 
 export const folder = {
-  name: `folder-${Utils.random()}`,
-  description: 'folder not favorite',
-  contextMenu: consumerFolderContextMenu,
-  toolbarPrimary: consumerFolderToolbarPrimary,
-  toolbarMore: consumerFolderToolbarMore,
+    name: `folder-${Utils.random()}`,
+    description: 'folder not favorite',
+    contextMenu: consumerFolderContextMenu,
+    toolbarPrimary: consumerFolderToolbarPrimary,
+    toolbarMore: consumerFolderToolbarMore,
 
-  searchToolbarPrimary: searchConsumerFolderToolbarPrimary
+    searchToolbarPrimary: searchConsumerFolderToolbarPrimary,
 };
 
 export const folderFav = {
-  name: `folder-fav-${Utils.random()}`,
-  description: 'folder favorite',
-  contextMenu: consumerFolderFavContextMenu,
-  toolbarPrimary: consumerFolderToolbarPrimary,
-  toolbarMore: consumerFolderFavToolbarMore,
+    name: `folder-fav-${Utils.random()}`,
+    description: 'folder favorite',
+    contextMenu: consumerFolderFavContextMenu,
+    toolbarPrimary: consumerFolderToolbarPrimary,
+    toolbarMore: consumerFolderFavToolbarMore,
 
-  favoritesContextMenu: favoritesConsumerFolderContextMenu,
-  favoritesToolbarMore: favoritesConsumerFolderToolbarMore,
+    favoritesContextMenu: favoritesConsumerFolderContextMenu,
+    favoritesToolbarMore: favoritesConsumerFolderToolbarMore,
 
-  searchToolbarPrimary: searchConsumerFolderToolbarPrimary,
+    searchToolbarPrimary: searchConsumerFolderToolbarPrimary,
 };
 
 export const folderFav2 = {
-  name: `folder-fav-2-${Utils.random()}`,
-  description: 'folder 2 favorite'
+    name: `folder-fav-2-${Utils.random()}`,
+    description: 'folder 2 favorite',
 };
 
 // ---- multiple selection ---
@@ -329,37 +506,59 @@ const multipleSelAllFavContextMenu = ['Download', 'Remove Favorite', 'Copy'];
 const multipleSelToolbarPrimary = ['Download', 'View Details', 'More Actions'];
 const multipleSelToolbarMore = ['Favorite', 'Copy'];
 const multipleSelAllFavToolbarMore = ['Remove Favorite', 'Copy'];
-const searchMultipleSelToolbarPrimary = ['Toggle search filter', 'Download', 'View Details', 'More Actions'];
+const searchMultipleSelToolbarPrimary = [
+    'Toggle search filter',
+    'Download',
+    'View Details',
+    'More Actions',
+];
 
 // ---- FAVORITES workarounds ----
 
 // TODO: remove 'Move' and 'Delete' when ACA-1737 is done
-const favoritesMultipleSelContextMenu = ['Download', 'Favorite', 'Move', 'Copy', 'Delete'];
+const favoritesMultipleSelContextMenu = [
+    'Download',
+    'Favorite',
+    'Move',
+    'Copy',
+    'Delete',
+];
 // TODO: remove 'Move' and 'Delete' when ACA-1737 is done
 const favoritesMultipleSelToolbarMore = ['Favorite', 'Move', 'Copy', 'Delete'];
 // TODO: remove 'Move' and 'Delete' when ACA-1737 is done
-const favoritesMultipleSelAllFavContextMenu = ['Download', 'Remove Favorite', 'Move', 'Copy', 'Delete'];
+const favoritesMultipleSelAllFavContextMenu = [
+    'Download',
+    'Remove Favorite',
+    'Move',
+    'Copy',
+    'Delete',
+];
 // TODO: remove 'Move' and 'Delete' when ACA-1737 is done
-const favoritesMultipleSelAllFavToolbarMore = ['Remove Favorite', 'Move', 'Copy', 'Delete'];
+const favoritesMultipleSelAllFavToolbarMore = [
+    'Remove Favorite',
+    'Move',
+    'Copy',
+    'Delete',
+];
 
 export const multipleSel = {
-  contextMenu: multipleSelContextMenu,
-  toolbarPrimary: multipleSelToolbarPrimary,
-  toolbarMore: multipleSelToolbarMore,
+    contextMenu: multipleSelContextMenu,
+    toolbarPrimary: multipleSelToolbarPrimary,
+    toolbarMore: multipleSelToolbarMore,
 
-  favoritesContextMenu: favoritesMultipleSelContextMenu,
-  favoritesToolbarMore: favoritesMultipleSelToolbarMore,
+    favoritesContextMenu: favoritesMultipleSelContextMenu,
+    favoritesToolbarMore: favoritesMultipleSelToolbarMore,
 
-  searchToolbarPrimary: searchMultipleSelToolbarPrimary
+    searchToolbarPrimary: searchMultipleSelToolbarPrimary,
 };
 
 export const multipleSelAllFav = {
-  contextMenu: multipleSelAllFavContextMenu,
-  toolbarPrimary: multipleSelToolbarPrimary,
-  toolbarMore: multipleSelAllFavToolbarMore,
+    contextMenu: multipleSelAllFavContextMenu,
+    toolbarPrimary: multipleSelToolbarPrimary,
+    toolbarMore: multipleSelAllFavToolbarMore,
 
-  favoritesContextMenu: favoritesMultipleSelAllFavContextMenu,
-  favoritesToolbarMore: favoritesMultipleSelAllFavToolbarMore,
+    favoritesContextMenu: favoritesMultipleSelAllFavContextMenu,
+    favoritesToolbarMore: favoritesMultipleSelAllFavToolbarMore,
 
-  searchToolbarPrimary: searchMultipleSelToolbarPrimary
+    searchToolbarPrimary: searchMultipleSelToolbarPrimary,
 };

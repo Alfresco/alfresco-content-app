@@ -27,13 +27,13 @@ import { browser } from 'protractor';
 import { USE_HASH_STRATEGY } from '../configs';
 
 export async function navigate(relativePath: string) {
-  const path = [
-    browser.baseUrl,
-    browser.baseUrl.endsWith('/') ? '' : '/',
-    USE_HASH_STRATEGY ? '#' : '',
-    relativePath.startsWith('/') ? '' : '/',
-    relativePath
-  ].join('');
+    const path = [
+        browser.baseUrl,
+        browser.baseUrl.endsWith('/') ? '' : '/',
+        USE_HASH_STRATEGY ? '#' : '',
+        relativePath.startsWith('/') ? '' : '/',
+        relativePath,
+    ].join('');
 
-  return browser.get(path);
+    return browser.get(path);
 }

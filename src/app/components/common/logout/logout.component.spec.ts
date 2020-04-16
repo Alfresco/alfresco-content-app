@@ -25,46 +25,51 @@
 
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import {
-  TranslateModule,
-  TranslateLoader,
-  TranslateFakeLoader
+    TranslateModule,
+    TranslateLoader,
+    TranslateFakeLoader,
 } from '@ngx-translate/core';
 import { LogoutComponent } from './logout.component';
 import { Store } from '@ngrx/store';
 import { SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 
 describe('LogoutComponent', () => {
-  let fixture: ComponentFixture<LogoutComponent>;
-  let component: LogoutComponent;
-  let store;
+    let fixture: ComponentFixture<LogoutComponent>;
+    let component: LogoutComponent;
+    let store;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
-        })
-      ],
-      declarations: [LogoutComponent],
-      providers: [
-        {
-          provide: Store,
-          useValue: {
-            dispatch: jasmine.createSpy('dispatch')
-          }
-        }
-      ]
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            imports: [
+                TranslateModule.forRoot({
+                    loader: {
+                        provide: TranslateLoader,
+                        useClass: TranslateFakeLoader,
+                    },
+                }),
+            ],
+            declarations: [LogoutComponent],
+            providers: [
+                {
+                    provide: Store,
+                    useValue: {
+                        dispatch: jasmine.createSpy('dispatch'),
+                    },
+                },
+            ],
+        });
+
+        store = TestBed.get(Store);
+        fixture = TestBed.createComponent(LogoutComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
     });
 
-    store = TestBed.get(Store);
-    fixture = TestBed.createComponent(LogoutComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    it('should reset selected nodes from store', () => {
+        component.onLogoutEvent();
 
-  it('should reset selected nodes from store', () => {
-    component.onLogoutEvent();
-
-    expect(store.dispatch).toHaveBeenCalledWith(new SetSelectedNodesAction([]));
-  });
+        expect(store.dispatch).toHaveBeenCalledWith(
+            new SetSelectedNodesAction([])
+        );
+    });
 });

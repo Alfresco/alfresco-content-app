@@ -24,35 +24,37 @@
  */
 
 import {
-  Component,
-  Input,
-  ViewEncapsulation,
-  OnInit,
-  ChangeDetectorRef
+    Component,
+    Input,
+    ViewEncapsulation,
+    OnInit,
+    ChangeDetectorRef,
 } from '@angular/core';
 import { OverlayContainer } from '@angular/cdk/overlay';
 
 @Component({
-  selector: 'app-button-menu',
-  templateUrl: './button-menu.component.html',
-  host: { class: 'app-button-menu' },
-  encapsulation: ViewEncapsulation.None
+    selector: 'app-button-menu',
+    templateUrl: './button-menu.component.html',
+    host: { class: 'app-button-menu' },
+    encapsulation: ViewEncapsulation.None,
 })
 export class ButtonMenuComponent implements OnInit {
-  @Input() item;
+    @Input() item;
 
-  constructor(
-    private cd: ChangeDetectorRef,
-    private overlayContainer: OverlayContainer
-  ) {
-    this.overlayContainer.getContainerElement().classList.add('aca-menu-panel');
-  }
+    constructor(
+        private cd: ChangeDetectorRef,
+        private overlayContainer: OverlayContainer
+    ) {
+        this.overlayContainer
+            .getContainerElement()
+            .classList.add('aca-menu-panel');
+    }
 
-  ngOnInit() {
-    this.cd.detectChanges();
-  }
+    ngOnInit() {
+        this.cd.detectChanges();
+    }
 
-  trackById(index: number, obj: { id: string }) {
-    return obj.id;
-  }
+    trackById(index: number, obj: { id: string }) {
+        return obj.id;
+    }
 }

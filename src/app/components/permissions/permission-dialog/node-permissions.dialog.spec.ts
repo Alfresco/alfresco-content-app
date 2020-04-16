@@ -26,7 +26,7 @@
 import { NodePermissionsDialogComponent } from './node-permissions.dialog';
 
 describe('NodePermissionsDialogComponent', () => {
-  it('should be defined', () => {
-    expect(NodePermissionsDialogComponent).toBeDefined();
-  });
+    it('should be defined', () => {
+        expect(NodePermissionsDialogComponent).toBeDefined();
+    });
 });

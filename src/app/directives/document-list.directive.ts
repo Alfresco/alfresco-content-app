@@ -35,127 +35,127 @@ import { ContentManagementService } from '../services/content-management.service
 import { MinimalNodeEntity } from '@alfresco/js-api';
 
 @Directive({
-  // tslint:disable-next-line: directive-selector
-  selector: '[acaDocumentList]'
+    // tslint:disable-next-line: directive-selector
+    selector: '[acaDocumentList]',
 })
 export class DocumentListDirective implements OnInit, OnDestroy {
-  private isLibrary = false;
-  selectedNode: MinimalNodeEntity;
+    private isLibrary = false;
+    selectedNode: MinimalNodeEntity;
 
-  onDestroy$ = new Subject<boolean>();
+    onDestroy$ = new Subject<boolean>();
 
-  get sortingPreferenceKey(): string {
-    return this.route.snapshot.data.sortingPreferenceKey;
-  }
-
-  constructor(
-    private store: Store<any>,
-    private content: ContentManagementService,
-    private documentList: DocumentListComponent,
-    private preferences: UserPreferencesService,
-    private route: ActivatedRoute,
-    private router: Router
-  ) {}
-
-  ngOnInit() {
-    this.documentList.stickyHeader = true;
-    this.documentList.includeFields = ['isFavorite', 'aspectNames'];
-    this.isLibrary =
-      this.documentList.currentFolderId === '-mysites-' ||
-      // workaround for custom node list
-      this.router.url.endsWith('/libraries') ||
-      this.router.url.startsWith('/search-libraries');
-
-    if (this.sortingPreferenceKey) {
-      const current = this.documentList.sorting;
-
-      const key = this.preferences.get(
-        `${this.sortingPreferenceKey}.sorting.key`,
-        current[0]
-      );
-      const direction = this.preferences.get(
-        `${this.sortingPreferenceKey}.sorting.direction`,
-        current[1]
-      );
-
-      this.documentList.sorting = [key, direction];
-      // TODO: bug in ADF, the `sorting` binding is not updated when changed from code
-      this.documentList.data.setSorting({ key, direction });
+    get sortingPreferenceKey(): string {
+        return this.route.snapshot.data.sortingPreferenceKey;
     }
 
-    this.documentList.ready
-      .pipe(
-        filter(() => !this.router.url.includes('viewer:view')),
-        takeUntil(this.onDestroy$)
-      )
-      .subscribe(() => this.onReady());
+    constructor(
+        private store: Store<any>,
+        private content: ContentManagementService,
+        private documentList: DocumentListComponent,
+        private preferences: UserPreferencesService,
+        private route: ActivatedRoute,
+        private router: Router
+    ) {}
 
-    this.content.reload.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
-      this.reload(this.selectedNode);
-    });
+    ngOnInit() {
+        this.documentList.stickyHeader = true;
+        this.documentList.includeFields = ['isFavorite', 'aspectNames'];
+        this.isLibrary =
+            this.documentList.currentFolderId === '-mysites-' ||
+            // workaround for custom node list
+            this.router.url.endsWith('/libraries') ||
+            this.router.url.startsWith('/search-libraries');
 
-    this.content.reset.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
-      this.reset();
-    });
-  }
+        if (this.sortingPreferenceKey) {
+            const current = this.documentList.sorting;
 
-  ngOnDestroy() {
-    this.onDestroy$.next(true);
-    this.onDestroy$.complete();
-  }
+            const key = this.preferences.get(
+                `${this.sortingPreferenceKey}.sorting.key`,
+                current[0]
+            );
+            const direction = this.preferences.get(
+                `${this.sortingPreferenceKey}.sorting.direction`,
+                current[1]
+            );
 
-  @HostListener('sorting-changed', ['$event'])
-  onSortingChanged(event: CustomEvent) {
-    if (this.sortingPreferenceKey) {
-      this.preferences.set(
-        `${this.sortingPreferenceKey}.sorting.key`,
-        event.detail.key
-      );
-      this.preferences.set(
-        `${this.sortingPreferenceKey}.sorting.direction`,
-        event.detail.direction
-      );
+            this.documentList.sorting = [key, direction];
+            // TODO: bug in ADF, the `sorting` binding is not updated when changed from code
+            this.documentList.data.setSorting({ key, direction });
+        }
+
+        this.documentList.ready
+            .pipe(
+                filter(() => !this.router.url.includes('viewer:view')),
+                takeUntil(this.onDestroy$)
+            )
+            .subscribe(() => this.onReady());
+
+        this.content.reload.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
+            this.reload(this.selectedNode);
+        });
+
+        this.content.reset.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
+            this.reset();
+        });
     }
-  }
 
-  @HostListener('node-select', ['$event'])
-  onNodeSelect(event: CustomEvent) {
-    if (!!event.detail && !!event.detail.node) {
-      this.updateSelection();
-      this.selectedNode = event.detail.node;
+    ngOnDestroy() {
+        this.onDestroy$.next(true);
+        this.onDestroy$.complete();
     }
-  }
 
-  @HostListener('node-unselect')
-  onNodeUnselect() {
-    this.updateSelection();
-  }
-
-  onReady() {
-    this.updateSelection();
-  }
-
-  private updateSelection() {
-    const selection = this.documentList.selection.map(node => {
-      node['isLibrary'] = this.isLibrary;
-      return node;
-    });
-
-    this.store.dispatch(new SetSelectedNodesAction(selection));
-  }
-
-  private reload(selectedNode?: MinimalNodeEntity) {
-    this.documentList.resetSelection();
-    if (selectedNode) {
-      this.store.dispatch(new SetSelectedNodesAction([selectedNode]));
-    } else {
-      this.store.dispatch(new SetSelectedNodesAction([]));
+    @HostListener('sorting-changed', ['$event'])
+    onSortingChanged(event: CustomEvent) {
+        if (this.sortingPreferenceKey) {
+            this.preferences.set(
+                `${this.sortingPreferenceKey}.sorting.key`,
+                event.detail.key
+            );
+            this.preferences.set(
+                `${this.sortingPreferenceKey}.sorting.direction`,
+                event.detail.direction
+            );
+        }
     }
-    this.documentList.reload();
-  }
 
-  private reset() {
-    this.documentList.resetSelection();
-    this.store.dispatch(new SetSelectedNodesAction([]));
-  }
+    @HostListener('node-select', ['$event'])
+    onNodeSelect(event: CustomEvent) {
+        if (!!event.detail && !!event.detail.node) {
+            this.updateSelection();
+            this.selectedNode = event.detail.node;
+        }
+    }
+
+    @HostListener('node-unselect')
+    onNodeUnselect() {
+        this.updateSelection();
+    }
+
+    onReady() {
+        this.updateSelection();
+    }
+
+    private updateSelection() {
+        const selection = this.documentList.selection.map((node) => {
+            node['isLibrary'] = this.isLibrary;
+            return node;
+        });
+
+        this.store.dispatch(new SetSelectedNodesAction(selection));
+    }
+
+    private reload(selectedNode?: MinimalNodeEntity) {
+        this.documentList.resetSelection();
+        if (selectedNode) {
+            this.store.dispatch(new SetSelectedNodesAction([selectedNode]));
+        } else {
+            this.store.dispatch(new SetSelectedNodesAction([]));
+        }
+        this.documentList.reload();
+    }
+
+    private reset() {
+        this.documentList.resetSelection();
+        this.store.dispatch(new SetSelectedNodesAction([]));
+    }
 }

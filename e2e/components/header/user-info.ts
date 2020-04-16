@@ -28,35 +28,37 @@ import { Menu } from '../menu/menu';
 import { Component } from '../component';
 
 export class UserInfo extends Component {
-  private static selectors = {
-    avatar: by.css('.current-user__avatar'),
-    fullName: by.css('.current-user__full-name'),
-    menuItems: by.css('[mat-menu-item]')
-  };
+    private static selectors = {
+        avatar: by.css('.current-user__avatar'),
+        fullName: by.css('.current-user__full-name'),
+        menuItems: by.css('[mat-menu-item]'),
+    };
 
-  fullName: ElementFinder = this.component.element(UserInfo.selectors.fullName);
-  avatar: ElementFinder = this.component.element(UserInfo.selectors.avatar);
+    fullName: ElementFinder = this.component.element(
+        UserInfo.selectors.fullName
+    );
+    avatar: ElementFinder = this.component.element(UserInfo.selectors.avatar);
 
-  menu: Menu = new Menu();
+    menu: Menu = new Menu();
 
-  constructor(ancestor?: string) {
-    super('aca-current-user', ancestor);
-  }
+    constructor(ancestor?: string) {
+        super('aca-current-user', ancestor);
+    }
 
-  async openMenu() {
-    const { menu, avatar } = this;
+    async openMenu() {
+        const { menu, avatar } = this;
 
-    await avatar.click();
-    await menu.wait();
-    return menu;
-  }
+        await avatar.click();
+        await menu.wait();
+        return menu;
+    }
 
-  getName() {
-    return this.fullName.getText();
-  }
+    getName() {
+        return this.fullName.getText();
+    }
 
-  async signOut() {
-    const menu = await this.openMenu();
-    await menu.clickMenuItem('Sign out');
-  }
+    async signOut() {
+        const menu = await this.openMenu();
+        await menu.clickMenuItem('Sign out');
+    }
 }

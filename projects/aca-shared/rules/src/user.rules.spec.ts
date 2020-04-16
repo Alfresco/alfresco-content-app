@@ -26,25 +26,25 @@
 import * as user from './user.rules';
 
 describe('evaluators', () => {
-  describe('isAdmin', () => {
-    it('should return [true] if user is admin', () => {
-      const context: any = {
-        profile: {
-          isAdmin: true
-        }
-      };
+    describe('isAdmin', () => {
+        it('should return [true] if user is admin', () => {
+            const context: any = {
+                profile: {
+                    isAdmin: true,
+                },
+            };
 
-      expect(user.isAdmin(context)).toBe(true);
+            expect(user.isAdmin(context)).toBe(true);
+        });
+
+        it('should return [false] if user is not an admin', () => {
+            const context: any = {
+                profile: {
+                    isAdmin: false,
+                },
+            };
+
+            expect(user.isAdmin(context)).toBe(false);
+        });
     });
-
-    it('should return [false] if user is not an admin', () => {
-      const context: any = {
-        profile: {
-          isAdmin: false
-        }
-      };
-
-      expect(user.isAdmin(context)).toBe(false);
-    });
-  });
 });

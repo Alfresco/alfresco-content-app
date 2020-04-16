@@ -27,60 +27,60 @@ import { AppRouteReuseStrategy } from './app.routes.strategy';
 import { TestBed } from '@angular/core/testing';
 
 describe('AppRouteReuseStrategy', () => {
-  let appRouteReuse: AppRouteReuseStrategy;
+    let appRouteReuse: AppRouteReuseStrategy;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [AppRouteReuseStrategy]
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            providers: [AppRouteReuseStrategy],
+        });
+
+        appRouteReuse = TestBed.get(AppRouteReuseStrategy);
     });
 
-    appRouteReuse = TestBed.get(AppRouteReuseStrategy);
-  });
+    it('should allow detach if route is configured to be reused', () => {
+        const route: any = {
+            routeConfig: {
+                data: {
+                    reuse: true,
+                },
+                path: 'tested-path',
+            },
+        };
+        expect(appRouteReuse.shouldDetach(route)).toBe(true);
+    });
 
-  it('should allow detach if route is configured to be reused', () => {
-    const route = <any> {
-      routeConfig: {
-        data: {
-          reuse: true
-        },
-        path: 'tested-path'
-      }
-    };
-    expect(appRouteReuse.shouldDetach(<any> route)).toBe(true);
-  });
+    it('should store on routeCache', () => {
+        const route: any = {
+            url: [],
+            routeConfig: {
+                data: {
+                    reuse: true,
+                },
+                path: 'tested-path',
+                component: {},
+            },
+            firstChild: null,
+            children: [],
+        };
+        appRouteReuse.store(route, { route: {} });
+        expect(appRouteReuse.shouldAttach(route)).toBe(true);
+    });
 
-  it('should store on routeCache', () => {
-    const route = <any> {
-      url: [],
-      routeConfig: {
-        data: {
-          reuse: true
-        },
-        path: 'tested-path',
-        component: {}
-      },
-      firstChild: null,
-      children: []
-    };
-    appRouteReuse.store(route, { route: {} });
-    expect(appRouteReuse.shouldAttach(<any> route)).toBe(true);
-  });
-
-  it('should clear routeCache on resetCache', () => {
-    const route = <any> {
-      url: [],
-      routeConfig: {
-        data: {
-          reuse: true
-        },
-        path: 'tested-path',
-        component: {}
-      },
-      firstChild: null,
-      children: []
-    };
-    appRouteReuse.store(route, { route: {} });
-    appRouteReuse.resetCache();
-    expect(appRouteReuse.shouldAttach(<any> route)).toBe(false);
-  });
+    it('should clear routeCache on resetCache', () => {
+        const route: any = {
+            url: [],
+            routeConfig: {
+                data: {
+                    reuse: true,
+                },
+                path: 'tested-path',
+                component: {},
+            },
+            firstChild: null,
+            children: [],
+        };
+        appRouteReuse.store(route, { route: {} });
+        appRouteReuse.resetCache();
+        expect(appRouteReuse.shouldAttach(route)).toBe(false);
+    });
 });

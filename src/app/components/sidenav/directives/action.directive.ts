@@ -28,40 +28,40 @@ import { PRIMARY_OUTLET, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 @Directive({
-  /* tslint:disable-next-line */
-  selector: '[action]',
-  exportAs: 'action'
+    /* tslint:disable-next-line */
+    selector: '[action]',
+    exportAs: 'action',
 })
 export class ActionDirective {
-  @Input() action;
+    @Input() action;
 
-  @HostListener('click')
-  onClick() {
-    if (this.action.route) {
-      this.router.navigate(this.getNavigationCommands(this.action.route));
-    } else if (this.action.click) {
-      this.store.dispatch({
-        type: this.action.click.action,
-        payload: this.getNavigationCommands(this.action.click.payload)
-      });
-    }
-  }
-
-  constructor(private router: Router, private store: Store<any>) {}
-
-  private getNavigationCommands(url: string): any[] {
-    const urlTree = this.router.parseUrl(url);
-    const urlSegmentGroup = urlTree.root.children[PRIMARY_OUTLET];
-
-    if (!urlSegmentGroup) {
-      return [url];
+    @HostListener('click')
+    onClick() {
+        if (this.action.route) {
+            this.router.navigate(this.getNavigationCommands(this.action.route));
+        } else if (this.action.click) {
+            this.store.dispatch({
+                type: this.action.click.action,
+                payload: this.getNavigationCommands(this.action.click.payload),
+            });
+        }
     }
 
-    const urlSegments = urlSegmentGroup.segments;
+    constructor(private router: Router, private store: Store<any>) {}
 
-    return urlSegments.reduce(function(acc, item) {
-      acc.push(item.path, item.parameters);
-      return acc;
-    }, []);
-  }
+    private getNavigationCommands(url: string): any[] {
+        const urlTree = this.router.parseUrl(url);
+        const urlSegmentGroup = urlTree.root.children[PRIMARY_OUTLET];
+
+        if (!urlSegmentGroup) {
+            return [url];
+        }
+
+        const urlSegments = urlSegmentGroup.segments;
+
+        return urlSegments.reduce(function (acc, item) {
+            acc.push(item.path, item.parameters);
+            return acc;
+        }, []);
+    }
 }

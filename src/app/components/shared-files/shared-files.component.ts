@@ -35,50 +35,53 @@ import { Router } from '@angular/router';
 import { MinimalNodeEntity } from '@alfresco/js-api';
 
 @Component({
-  templateUrl: './shared-files.component.html'
+    templateUrl: './shared-files.component.html',
 })
 export class SharedFilesComponent extends PageComponent implements OnInit {
-  isSmallScreen = false;
+    isSmallScreen = false;
 
-  columns: any[] = [];
+    columns: any[] = [];
 
-  constructor(
-    store: Store<any>,
-    extensions: AppExtensionService,
-    content: ContentManagementService,
-    private uploadService: UploadService,
-    private breakpointObserver: BreakpointObserver,
-    private router: Router
-  ) {
-    super(store, extensions, content);
-  }
+    constructor(
+        store: Store<any>,
+        extensions: AppExtensionService,
+        content: ContentManagementService,
+        private uploadService: UploadService,
+        private breakpointObserver: BreakpointObserver,
+        private router: Router
+    ) {
+        super(store, extensions, content);
+    }
 
-  ngOnInit() {
-    super.ngOnInit();
+    ngOnInit() {
+        super.ngOnInit();
 
-    this.subscriptions = this.subscriptions.concat([
-      this.content.linksUnshared
-        .pipe(debounceTime(300))
-        .subscribe(() => this.reload()),
+        this.subscriptions = this.subscriptions.concat([
+            this.content.linksUnshared
+                .pipe(debounceTime(300))
+                .subscribe(() => this.reload()),
 
-      this.uploadService.fileUploadComplete
-        .pipe(debounceTime(300))
-        .subscribe(_ => this.reload()),
-      this.uploadService.fileUploadDeleted
-        .pipe(debounceTime(300))
-        .subscribe(_ => this.reload()),
+            this.uploadService.fileUploadComplete
+                .pipe(debounceTime(300))
+                .subscribe((_) => this.reload()),
+            this.uploadService.fileUploadDeleted
+                .pipe(debounceTime(300))
+                .subscribe((_) => this.reload()),
 
-      this.breakpointObserver
-        .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
-        .subscribe(result => {
-          this.isSmallScreen = result.matches;
-        })
-    ]);
+            this.breakpointObserver
+                .observe([
+                    Breakpoints.HandsetPortrait,
+                    Breakpoints.HandsetLandscape,
+                ])
+                .subscribe((result) => {
+                    this.isSmallScreen = result.matches;
+                }),
+        ]);
 
-    this.columns = this.extensions.documentListPresets.shared || [];
-  }
+        this.columns = this.extensions.documentListPresets.shared || [];
+    }
 
-  preview(node: MinimalNodeEntity) {
-    this.showPreview(node, { location: this.router.url });
-  }
+    preview(node: MinimalNodeEntity) {
+        this.showPreview(node, { location: this.router.url });
+    }
 }

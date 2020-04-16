@@ -29,40 +29,40 @@ import { setupTestBed, CoreModule } from '@alfresco/adf-core';
 import { TestBed } from '@angular/core/testing';
 
 describe('AppNodeVersionFormComponent', () => {
-  let fixture;
-  let component;
+    let fixture;
+    let component;
 
-  setupTestBed({
-    imports: [CoreModule.forRoot(), NoopAnimationsModule],
-    declarations: [AppNodeVersionFormComponent]
-  });
+    setupTestBed({
+        imports: [CoreModule.forRoot(), NoopAnimationsModule],
+        declarations: [AppNodeVersionFormComponent],
+    });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(AppNodeVersionFormComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(AppNodeVersionFormComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should have minor version option selected', () => {
-    const isSelected = fixture.debugElement.nativeElement
-      .querySelectorAll('.form__version--option')[0]
-      .classList.contains('mat-radio-checked');
+    it('should have minor version option selected', () => {
+        const isSelected = fixture.debugElement.nativeElement
+            .querySelectorAll('.form__version--option')[0]
+            .classList.contains('mat-radio-checked');
 
-    expect(isSelected).toBe(true);
-  });
+        expect(isSelected).toBe(true);
+    });
 
-  it('should emit form state on changes', () => {
-    const formData = {
-      comment: 'some text',
-      version: true
-    };
-    spyOn(component.update, 'emit');
+    it('should emit form state on changes', () => {
+        const formData = {
+            comment: 'some text',
+            version: true,
+        };
+        spyOn(component.update, 'emit');
 
-    component.form.valueChanges.next(formData);
-    expect(component.update.emit).toHaveBeenCalledWith(formData);
-  });
+        component.form.valueChanges.next(formData);
+        expect(component.update.emit).toHaveBeenCalledWith(formData);
+    });
 
-  it('form should have valid state upon initialization', () => {
-    expect(component.form.valid).toBe(true);
-  });
+    it('form should have valid state upon initialization', () => {
+        expect(component.form.valid).toBe(true);
+    });
 });

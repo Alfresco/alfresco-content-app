@@ -31,17 +31,17 @@ import { LibraryFavoriteDirective } from './library-favorite.directive';
 import { LockNodeDirective } from './lock-node.directive';
 
 export function directives() {
-  return [
-    DocumentListDirective,
-    PaginationDirective,
-    LibraryMembershipDirective,
-    LibraryFavoriteDirective,
-    LockNodeDirective
-  ];
+    return [
+        DocumentListDirective,
+        PaginationDirective,
+        LibraryMembershipDirective,
+        LibraryFavoriteDirective,
+        LockNodeDirective,
+    ];
 }
 
 @NgModule({
-  declarations: directives(),
-  exports: directives()
+    declarations: directives(),
+    exports: directives(),
 })
 export class DirectivesModule {}

@@ -1,8 +1,8 @@
 @mixin aca-context-menu-theme($theme) {
-  $foreground: map-get($theme, foreground);
-  $primary: map-get($theme, primary);
+    $foreground: map-get($theme, foreground);
+    $primary: map-get($theme, primary);
 
-  .aca-context-menu {
-    @include angular-material-theme($theme);
-  }
+    .aca-context-menu {
+        @include angular-material-theme($theme);
+    }
 }

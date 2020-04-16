@@ -26,37 +26,37 @@
 import { AppState, AppStore } from '@alfresco/aca-shared/store';
 
 export const INITIAL_APP_STATE: AppState = {
-  appName: 'Alfresco Content Application',
-  headerColor: '#ffffff',
-  logoPath: 'assets/images/alfresco-logo-white.svg',
-  languagePicker: false,
-  sharedUrl: '',
-  user: {
-    isAdmin: null,
-    id: null,
-    firstName: '',
-    lastName: ''
-  },
-  selection: {
-    nodes: [],
-    libraries: [],
-    isEmpty: true,
-    count: 0
-  },
-  navigation: {
-    currentFolder: null
-  },
-  infoDrawerOpened: false,
-  infoDrawerMetadataAspect: '',
-  showFacetFilter: true,
-  documentDisplayMode: 'list',
-  repository: <any> {
-    status: <any> {
-      isQuickShareEnabled: true
-    }
-  }
+    appName: 'Alfresco Content Application',
+    headerColor: '#ffffff',
+    logoPath: 'assets/images/alfresco-logo-white.svg',
+    languagePicker: false,
+    sharedUrl: '',
+    user: {
+        isAdmin: null,
+        id: null,
+        firstName: '',
+        lastName: '',
+    },
+    selection: {
+        nodes: [],
+        libraries: [],
+        isEmpty: true,
+        count: 0,
+    },
+    navigation: {
+        currentFolder: null,
+    },
+    infoDrawerOpened: false,
+    infoDrawerMetadataAspect: '',
+    showFacetFilter: true,
+    documentDisplayMode: 'list',
+    repository: {
+        status: {
+            isQuickShareEnabled: true,
+        },
+    } as any,
 };
 
 export const INITIAL_STATE: AppStore = {
-  app: INITIAL_APP_STATE
+    app: INITIAL_APP_STATE,
 };

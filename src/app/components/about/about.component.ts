@@ -32,55 +32,59 @@ import { AppExtensionService } from '../../extensions/extension.service';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { dependencies } from '../../../../package.json';
 @Component({
-  selector: 'app-about',
-  templateUrl: './about.component.html',
-  styleUrls: ['about.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  host: { class: 'app-about' }
+    selector: 'app-about',
+    templateUrl: './about.component.html',
+    styleUrls: ['about.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    host: { class: 'app-about' },
 })
 export class AboutComponent implements OnInit {
-  repository: RepositoryInfo;
-  extensions$: Observable<ExtensionRef[]>;
-  dependencyEntries: Array<{ name: string; version: string }>;
-  statusEntries: Array<{ property: string; value: string }>;
-  licenseEntries: Array<{ property: string; value: string }>;
+    repository: RepositoryInfo;
+    extensions$: Observable<ExtensionRef[]>;
+    dependencyEntries: Array<{ name: string; version: string }>;
+    statusEntries: Array<{ property: string; value: string }>;
+    licenseEntries: Array<{ property: string; value: string }>;
 
-  constructor(
-    private contentApi: ContentApiService,
-    appExtensions: AppExtensionService
-  ) {
-    this.extensions$ = appExtensions.references$;
-  }
+    constructor(
+        private contentApi: ContentApiService,
+        appExtensions: AppExtensionService
+    ) {
+        this.extensions$ = appExtensions.references$;
+    }
 
-  ngOnInit() {
-    this.dependencyEntries = Object.keys(dependencies).map(key => {
-      return {
-        name: key,
-        version: dependencies[key]
-      };
-    });
-
-    this.contentApi
-      .getRepositoryInformation()
-      .pipe(map(node => node.entry.repository))
-      .subscribe(repository => {
-        this.repository = repository;
-
-        this.statusEntries = Object.keys(repository.status).map(key => {
-          return {
-            property: key,
-            value: repository.status[key]
-          };
+    ngOnInit() {
+        this.dependencyEntries = Object.keys(dependencies).map((key) => {
+            return {
+                name: key,
+                version: dependencies[key],
+            };
         });
 
-        if (repository.license) {
-          this.licenseEntries = Object.keys(repository.license).map(key => {
-            return {
-              property: key,
-              value: repository.license[key]
-            };
-          });
-        }
-      });
-  }
+        this.contentApi
+            .getRepositoryInformation()
+            .pipe(map((node) => node.entry.repository))
+            .subscribe((repository) => {
+                this.repository = repository;
+
+                this.statusEntries = Object.keys(repository.status).map(
+                    (key) => {
+                        return {
+                            property: key,
+                            value: repository.status[key],
+                        };
+                    }
+                );
+
+                if (repository.license) {
+                    this.licenseEntries = Object.keys(repository.license).map(
+                        (key) => {
+                            return {
+                                property: key,
+                                value: repository.license[key],
+                            };
+                        }
+                    );
+                }
+            });
+    }
 }

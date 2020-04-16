@@ -24,21 +24,21 @@
  */
 
 import {
-  Component,
-  ViewEncapsulation,
-  ChangeDetectionStrategy,
-  Input
+    Component,
+    ViewEncapsulation,
+    ChangeDetectionStrategy,
+    Input,
 } from '@angular/core';
 
 @Component({
-  selector: 'aca-page-layout',
-  templateUrl: 'page-layout.component.html',
-  styleUrls: ['./page-layout.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  host: { class: 'aca-page-layout' },
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'aca-page-layout',
+    templateUrl: 'page-layout.component.html',
+    styleUrls: ['./page-layout.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    host: { class: 'aca-page-layout' },
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PageLayoutComponent {
-  @Input()
-  hasError = false;
+    @Input()
+    hasError = false;
 }

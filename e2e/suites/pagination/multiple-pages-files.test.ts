@@ -34,61 +34,62 @@ import { sharedFilesTests } from './shared-files';
 import { favoritesTests } from './favorites';
 
 describe('Pagination on multiple pages : ', () => {
-  const random = Utils.random();
-  const username = `user-${random}`;
+    const random = Utils.random();
+    const username = `user-${random}`;
 
-  const parent = `parent-${random}`;
-  let parentId: string;
+    const parent = `parent-${random}`;
+    let parentId: string;
 
-  const files = Array(101)
-    .fill('my-file')
-    .map((name, index): string => `${name}-${index + 1}-${random}.txt`);
-  let filesIds: string[];
+    const files = Array(101)
+        .fill('my-file')
+        .map((name, index): string => `${name}-${index + 1}-${random}.txt`);
+    let filesIds: string[];
 
-  const userApi = new RepoClient(username, username);
-  const adminApiActions = new AdminActions();
+    const userApi = new RepoClient(username, username);
+    const adminApiActions = new AdminActions();
 
-  const loginPage = new LoginPage();
+    const loginPage = new LoginPage();
 
-  beforeAll(async () => {
-    await adminApiActions.createUser({ username });
-    parentId = (await userApi.nodes.createFolder(parent)).entry.id;
-    filesIds = (await userApi.nodes.createFiles(files, parent)).list.entries.map(entries => entries.entry.id);
+    beforeAll(async () => {
+        await adminApiActions.createUser({ username });
+        parentId = (await userApi.nodes.createFolder(parent)).entry.id;
+        filesIds = (
+            await userApi.nodes.createFiles(files, parent)
+        ).list.entries.map((entries) => entries.entry.id);
 
-    await userApi.shared.shareFilesByIds(filesIds);
-    await userApi.favorites.addFavoritesByIds('file', filesIds);
+        await userApi.shared.shareFilesByIds(filesIds);
+        await userApi.favorites.addFavoritesByIds('file', filesIds);
 
-    await Promise.all([
-      userApi.favorites.waitForApi({ expect: 101 }),
-      userApi.shared.waitForApi({ expect: 101 }),
-      userApi.search.waitForApi(username, { expect: 101 }),
-    ]);
+        await Promise.all([
+            userApi.favorites.waitForApi({ expect: 101 }),
+            userApi.shared.waitForApi({ expect: 101 }),
+            userApi.search.waitForApi(username, { expect: 101 }),
+        ]);
 
-    await loginPage.loginWith(username);
-  });
+        await loginPage.loginWith(username);
+    });
 
-  afterAll(async () => {
-    await userApi.nodes.deleteNodeById(parentId);
-  });
+    afterAll(async () => {
+        await userApi.nodes.deleteNodeById(parentId);
+    });
 
-  describe('on Personal Files', () => {
-    personalFilesTests(parent);
-  });
+    describe('on Personal Files', () => {
+        personalFilesTests(parent);
+    });
 
-  describe('on Recent Files', () => {
-    recentFilesTests();
-  });
+    describe('on Recent Files', () => {
+        recentFilesTests();
+    });
 
-  describe('on Search Results', () => {
-    searchResultsTests();
-  });
+    describe('on Search Results', () => {
+        searchResultsTests();
+    });
 
-  describe('on Shared Files', () => {
-    sharedFilesTests();
-  });
+    describe('on Shared Files', () => {
+        sharedFilesTests();
+    });
 
-  describe('on Favorites', () => {
-    favoritesTests();
-  });
-
+    describe('on Favorites', () => {
+        favoritesTests();
+    });
 });

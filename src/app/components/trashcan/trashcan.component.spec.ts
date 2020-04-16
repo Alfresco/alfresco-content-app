@@ -25,58 +25,58 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import {
-  AlfrescoApiService,
-  NodeFavoriteDirective,
-  DataTableComponent,
-  AppConfigPipe
+    AlfrescoApiService,
+    NodeFavoriteDirective,
+    DataTableComponent,
+    AppConfigPipe,
 } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { TrashcanComponent } from './trashcan.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 
 describe('TrashcanComponent', () => {
-  let fixture: ComponentFixture<TrashcanComponent>;
-  let component: TrashcanComponent;
-  let alfrescoApi: AlfrescoApiService;
-  let page;
+    let fixture: ComponentFixture<TrashcanComponent>;
+    let component: TrashcanComponent;
+    let alfrescoApi: AlfrescoApiService;
+    let page;
 
-  beforeEach(() => {
-    page = {
-      list: {
-        entries: [{ entry: { id: 1 } }, { entry: { id: 2 } }],
-        pagination: { data: 'data' }
-      }
-    };
-  });
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [AppTestingModule],
-      declarations: [
-        DataTableComponent,
-        NodeFavoriteDirective,
-        DocumentListComponent,
-        TrashcanComponent,
-        AppConfigPipe
-      ],
-      schemas: [NO_ERRORS_SCHEMA]
+    beforeEach(() => {
+        page = {
+            list: {
+                entries: [{ entry: { id: 1 } }, { entry: { id: 2 } }],
+                pagination: { data: 'data' },
+            },
+        };
     });
 
-    fixture = TestBed.createComponent(TrashcanComponent);
-    component = fixture.componentInstance;
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            imports: [AppTestingModule],
+            declarations: [
+                DataTableComponent,
+                NodeFavoriteDirective,
+                DocumentListComponent,
+                TrashcanComponent,
+                AppConfigPipe,
+            ],
+            schemas: [NO_ERRORS_SCHEMA],
+        });
 
-    alfrescoApi = TestBed.get(AlfrescoApiService);
-    alfrescoApi.reset();
+        fixture = TestBed.createComponent(TrashcanComponent);
+        component = fixture.componentInstance;
 
-    component.documentList = <any> {
-      reload: jasmine.createSpy('reload'),
-      resetSelection: jasmine.createSpy('resetSelection')
-    };
-  });
+        alfrescoApi = TestBed.get(AlfrescoApiService);
+        alfrescoApi.reset();
 
-  beforeEach(() => {
-    spyOn(alfrescoApi.nodesApi, 'getDeletedNodes').and.returnValue(
-      Promise.resolve(page)
-    );
-  });
+        component.documentList = {
+            reload: jasmine.createSpy('reload'),
+            resetSelection: jasmine.createSpy('resetSelection'),
+        } as any;
+    });
+
+    beforeEach(() => {
+        spyOn(alfrescoApi.nodesApi, 'getDeletedNodes').and.returnValue(
+            Promise.resolve(page)
+        );
+    });
 });

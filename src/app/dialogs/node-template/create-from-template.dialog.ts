@@ -27,124 +27,122 @@ import { Component, ViewEncapsulation, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Node } from '@alfresco/js-api';
 import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-  FormControl,
-  ValidationErrors
+    FormBuilder,
+    FormGroup,
+    Validators,
+    FormControl,
+    ValidationErrors,
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppStore, CreateFromTemplate } from '@alfresco/aca-shared/store';
 import { TranslationService } from '@alfresco/adf-core';
 
 @Component({
-  templateUrl: './create-from-template.dialog.html',
-  encapsulation: ViewEncapsulation.None,
-  styleUrls: ['./create-from-template.dialog.scss']
+    templateUrl: './create-from-template.dialog.html',
+    encapsulation: ViewEncapsulation.None,
+    styleUrls: ['./create-from-template.dialog.scss'],
 })
 export class CreateFromTemplateDialogComponent implements OnInit {
-  public form: FormGroup;
+    public form: FormGroup;
 
-  constructor(
-    private translationService: TranslationService,
-    private store: Store<AppStore>,
-    private formBuilder: FormBuilder,
-    private dialogRef: MatDialogRef<CreateFromTemplateDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Node
-  ) {}
+    constructor(
+        private translationService: TranslationService,
+        private store: Store<AppStore>,
+        private formBuilder: FormBuilder,
+        private dialogRef: MatDialogRef<CreateFromTemplateDialogComponent>,
+        @Inject(MAT_DIALOG_DATA) public data: Node
+    ) {}
 
-  ngOnInit() {
-    this.form = this.formBuilder.group({
-      name: [
-        this.data.name,
-        [
-          Validators.required,
-          this.forbidEndingDot,
-          this.forbidOnlySpaces,
-          this.forbidSpecialCharacters
-        ]
-      ],
-      title: [
-        this.data.properties ? this.data.properties['cm:title'] : '',
-        Validators.maxLength(256)
-      ],
-      description: [
-        this.data.properties ? this.data.properties['cm:description'] : '',
-        Validators.maxLength(512)
-      ]
-    });
-  }
-
-  onSubmit() {
-    const update = {
-      name: this.form.value.name.trim(),
-      properties: {
-        'cm:title': this.form.value.title,
-        'cm:description': this.form.value.description
-      }
-    };
-    const data: Node = Object.assign({}, this.data, update);
-    this.store.dispatch(new CreateFromTemplate(data));
-  }
-
-  title(): string {
-    if (this.data.isFolder) {
-      return this.translationService.instant(
-        'NODE_FROM_TEMPLATE.FOLDER_DIALOG_TITLE',
-        { template: this.data.name }
-      );
+    ngOnInit() {
+        this.form = this.formBuilder.group({
+            name: [
+                this.data.name,
+                [
+                    Validators.required,
+                    this.forbidEndingDot,
+                    this.forbidOnlySpaces,
+                    this.forbidSpecialCharacters,
+                ],
+            ],
+            title: [
+                this.data.properties ? this.data.properties['cm:title'] : '',
+                Validators.maxLength(256),
+            ],
+            description: [
+                this.data.properties
+                    ? this.data.properties['cm:description']
+                    : '',
+                Validators.maxLength(512),
+            ],
+        });
     }
 
-    return this.translationService.instant(
-      'NODE_FROM_TEMPLATE.FILE_DIALOG_TITLE',
-      { template: this.data.name }
-    );
-  }
-
-  close() {
-    this.dialogRef.close();
-  }
-
-  private forbidSpecialCharacters({
-    value
-  }: FormControl): ValidationErrors | null {
-    const specialCharacters: RegExp = /([\*\"\<\>\\\/\?\:\|])/;
-    const isValid: boolean = !specialCharacters.test(value);
-
-    return isValid
-      ? null
-      : {
-          message: `NODE_FROM_TEMPLATE.FORM.ERRORS.SPECIAL_CHARACTERS`
+    onSubmit() {
+        const update = {
+            name: this.form.value.name.trim(),
+            properties: {
+                'cm:title': this.form.value.title,
+                'cm:description': this.form.value.description,
+            },
         };
-  }
-
-  private forbidEndingDot({ value }: FormControl): ValidationErrors | null {
-    const isValid: boolean =
-      (value || '')
-        .trim()
-        .split('')
-        .pop() !== '.';
-
-    return isValid
-      ? null
-      : {
-          message: `NODE_FROM_TEMPLATE.FORM.ERRORS.ENDING_DOT`
-        };
-  }
-
-  private forbidOnlySpaces({ value }: FormControl): ValidationErrors | null {
-    if (value.length) {
-      const isValid: boolean = !!(value || '').trim();
-
-      return isValid
-        ? null
-        : {
-            message: `NODE_FROM_TEMPLATE.FORM.ERRORS.ONLY_SPACES`
-          };
-    } else {
-      return {
-        message: `NODE_FROM_TEMPLATE.FORM.ERRORS.REQUIRED`
-      };
+        const data: Node = Object.assign({}, this.data, update);
+        this.store.dispatch(new CreateFromTemplate(data));
     }
-  }
+
+    title(): string {
+        if (this.data.isFolder) {
+            return this.translationService.instant(
+                'NODE_FROM_TEMPLATE.FOLDER_DIALOG_TITLE',
+                { template: this.data.name }
+            );
+        }
+
+        return this.translationService.instant(
+            'NODE_FROM_TEMPLATE.FILE_DIALOG_TITLE',
+            { template: this.data.name }
+        );
+    }
+
+    close() {
+        this.dialogRef.close();
+    }
+
+    private forbidSpecialCharacters({
+        value,
+    }: FormControl): ValidationErrors | null {
+        const specialCharacters: RegExp = /([\*\"\<\>\\\/\?\:\|])/;
+        const isValid: boolean = !specialCharacters.test(value);
+
+        return isValid
+            ? null
+            : {
+                  message: `NODE_FROM_TEMPLATE.FORM.ERRORS.SPECIAL_CHARACTERS`,
+              };
+    }
+
+    private forbidEndingDot({ value }: FormControl): ValidationErrors | null {
+        const isValid: boolean = (value || '').trim().split('').pop() !== '.';
+
+        return isValid
+            ? null
+            : {
+                  message: `NODE_FROM_TEMPLATE.FORM.ERRORS.ENDING_DOT`,
+              };
+    }
+
+    private forbidOnlySpaces({ value }: FormControl): ValidationErrors | null {
+        if (value.length) {
+            const isValid: boolean = !!(value || '').trim();
+
+            return isValid
+                ? null
+                : {
+                      message: `NODE_FROM_TEMPLATE.FORM.ERRORS.ONLY_SPACES`,
+                  };
+        } else {
+            return {
+                message: `NODE_FROM_TEMPLATE.FORM.ERRORS.REQUIRED`,
+            };
+        }
+    }
 }

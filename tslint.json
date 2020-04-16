@@ -5,10 +5,9 @@
     "node_modules/rxjs-tslint-rules",
     "node_modules/rxjs-tslint"
   ],
-  "extends": [
-    "rxjs-tslint-rules"
-  ],
+  "extends": ["tslint-plugin-prettier", "tslint-config-prettier", "rxjs-tslint-rules"],
   "rules": {
+    "prettier": true,
     "adf-license-banner": [
       true,
       "**/*.ts",
@@ -162,7 +161,6 @@
     "rxjs-proper-imports": true,
     "no-input-rename": true,
     "no-output-rename": true,
-    "use-lifecycle-interface": true,
     "use-pipe-transform-interface": true,
     "component-class-suffix": true,
     "directive-class-suffix": true,

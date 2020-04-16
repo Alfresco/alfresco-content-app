@@ -31,83 +31,102 @@ import { InfoDrawer } from '../../components/info-drawer/info-drawer';
 import { MetadataCard } from '../../components/metadata-card/metadata-card';
 
 describe('Extensions - Metadata presets', () => {
-  const username = `user-${Utils.random()}`;
+    const username = `user-${Utils.random()}`;
 
-  const file = `file-${Utils.random()}.png`;
+    const file = `file-${Utils.random()}.png`;
 
-  let fileId;
+    let fileId;
 
-  const properties_tab = {
-    title: 'Properties',
-    component: 'app.components.tabs.metadata'
-  };
+    const properties_tab = {
+        title: 'Properties',
+        component: 'app.components.tabs.metadata',
+    };
 
-  const customGroup1 = {
-    id: 'a.testGroup',
-    title: 'A Test Group of Properties'
-  };
+    const customGroup1 = {
+        id: 'a.testGroup',
+        title: 'A Test Group of Properties',
+    };
 
-  const customGroup2 = {
-    id: 'another.testGroup',
-    title: 'Another Test Group of Properties'
-  };
+    const customGroup2 = {
+        id: 'another.testGroup',
+        title: 'Another Test Group of Properties',
+    };
 
-  const disabledGroup = {
-    id: 'disabled.testGroup',
-    title: 'Hidden Group of Properties'
-  };
+    const disabledGroup = {
+        id: 'disabled.testGroup',
+        title: 'Hidden Group of Properties',
+    };
 
-  const apis = {
-    admin: new RepoClient(),
-    user: new RepoClient(username, username)
-  };
+    const apis = {
+        admin: new RepoClient(),
+        user: new RepoClient(username, username),
+    };
 
-  const infoDrawer = new InfoDrawer();
-  const metadataCard = new MetadataCard();
+    const infoDrawer = new InfoDrawer();
+    const metadataCard = new MetadataCard();
 
-  const loginPage = new LoginPage();
-  const page = new BrowsingPage();
+    const loginPage = new LoginPage();
+    const page = new BrowsingPage();
 
-  beforeAll(async done => {
-    await apis.admin.people.createUser({ username });
-    fileId = (await apis.user.nodes.createImage(file)).entry.id;
+    beforeAll(async (done) => {
+        await apis.admin.people.createUser({ username });
+        fileId = (await apis.user.nodes.createImage(file)).entry.id;
 
-    await loginPage.load();
-    await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.METADATA_PRESETS);
-    await loginPage.loginWith(username);
+        await loginPage.load();
+        await Utils.setSessionStorageFromConfig(
+            EXTENSIBILITY_CONFIGS.METADATA_PRESETS
+        );
+        await loginPage.loginWith(username);
 
-    done();
-  });
+        done();
+    });
 
-  beforeEach(async done => {
-    await page.refresh();
+    beforeEach(async (done) => {
+        await page.refresh();
 
-    await page.dataTable.selectItem(file);
-    await page.toolbar.clickViewDetails();
-    await infoDrawer.waitForInfoDrawerToOpen();
+        await page.dataTable.selectItem(file);
+        await page.toolbar.clickViewDetails();
+        await infoDrawer.waitForInfoDrawerToOpen();
 
-    await infoDrawer.clickTab(properties_tab.title);
-    await metadataCard.clickExpandButton();
-    await metadataCard.waitForFirstExpansionPanel();
+        await infoDrawer.clickTab(properties_tab.title);
+        await metadataCard.clickExpandButton();
+        await metadataCard.waitForFirstExpansionPanel();
 
-    done();
-  });
+        done();
+    });
 
-  afterAll(async done => {
-    await apis.user.nodes.deleteNodeById(fileId);
-    done();
-  });
+    afterAll(async (done) => {
+        await apis.user.nodes.deleteNodeById(fileId);
+        done();
+    });
 
-  it('Set groups of properties to display - [C286636]', async () => {
-    expect(await metadataCard.isExpansionPanelPresent(0)).toBe(true, `expansion panel is not present`);
-    expect(await metadataCard.getComponentIdOfPanel(0)).toEqual(`adf-metadata-group-${customGroup1.title}`);
-    expect(await metadataCard.isExpansionPanelPresent(1)).toBe(true, `expansion panel is not present`);
-    expect(await metadataCard.getComponentIdOfPanel(1)).toEqual(`adf-metadata-group-${customGroup2.title}`);
-  });
+    it('Set groups of properties to display - [C286636]', async () => {
+        expect(await metadataCard.isExpansionPanelPresent(0)).toBe(
+            true,
+            `expansion panel is not present`
+        );
+        expect(await metadataCard.getComponentIdOfPanel(0)).toEqual(
+            `adf-metadata-group-${customGroup1.title}`
+        );
+        expect(await metadataCard.isExpansionPanelPresent(1)).toBe(
+            true,
+            `expansion panel is not present`
+        );
+        expect(await metadataCard.getComponentIdOfPanel(1)).toEqual(
+            `adf-metadata-group-${customGroup2.title}`
+        );
+    });
 
-  it('Disabled group is not displayed - [C286637]', async () => {
-    expect(await metadataCard.isExpansionPanelPresent(2)).toBe(false, `disabled group is displayed`);
-    expect(await metadataCard.getComponentIdOfPanel(1)).not.toEqual(`adf-metadata-group-${disabledGroup.title}`);
-    expect(await metadataCard.getComponentIdOfPanel(0)).not.toEqual(`adf-metadata-group-${disabledGroup.title}`);
-  });
+    it('Disabled group is not displayed - [C286637]', async () => {
+        expect(await metadataCard.isExpansionPanelPresent(2)).toBe(
+            false,
+            `disabled group is displayed`
+        );
+        expect(await metadataCard.getComponentIdOfPanel(1)).not.toEqual(
+            `adf-metadata-group-${disabledGroup.title}`
+        );
+        expect(await metadataCard.getComponentIdOfPanel(0)).not.toEqual(
+            `adf-metadata-group-${disabledGroup.title}`
+        );
+    });
 });

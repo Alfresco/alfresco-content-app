@@ -26,453 +26,453 @@
 import * as app from './app.rules';
 
 describe('app.evaluators', () => {
-  describe('isWriteLocked', () => {
-    it('should return [true] if lock type is set', () => {
-      const context: any = {
-        selection: {
-          file: {
-            entry: {
-              properties: {
-                'cm:lockType': 'WRITE_LOCK'
-              }
-            }
-          }
-        }
-      };
+    describe('isWriteLocked', () => {
+        it('should return [true] if lock type is set', () => {
+            const context: any = {
+                selection: {
+                    file: {
+                        entry: {
+                            properties: {
+                                'cm:lockType': 'WRITE_LOCK',
+                            },
+                        },
+                    },
+                },
+            };
 
-      expect(app.isWriteLocked(context)).toBe(true);
+            expect(app.isWriteLocked(context)).toBe(true);
+        });
+
+        it('should return [false] if lock type is not set', () => {
+            const context: any = {
+                selection: {
+                    file: {
+                        entry: {
+                            properties: {},
+                        },
+                    },
+                },
+            };
+
+            expect(app.isWriteLocked(context)).toBe(false);
+        });
+
+        it('should return [false] if selection not present', () => {
+            const context: any = {};
+
+            expect(app.isWriteLocked(context)).toBe(false);
+        });
     });
 
-    it('should return [false] if lock type is not set', () => {
-      const context: any = {
-        selection: {
-          file: {
-            entry: {
-              properties: {}
-            }
-          }
-        }
-      };
+    describe('hasLockedFiles', () => {
+        it('should return [false] if selection not present', () => {
+            const context: any = {};
+            expect(app.hasLockedFiles(context)).toBe(false);
+        });
 
-      expect(app.isWriteLocked(context)).toBe(false);
+        it('should return [false] if nodes not present', () => {
+            const context: any = {
+                selection: {
+                    nodes: null,
+                },
+            };
+
+            expect(app.hasLockedFiles(context)).toBe(false);
+        });
+
+        it('should return [false] if no files selected', () => {
+            const context: any = {
+                selection: {
+                    nodes: [
+                        {
+                            entry: {
+                                isFile: false,
+                            },
+                        },
+                        {
+                            entry: {
+                                isFile: false,
+                            },
+                        },
+                    ],
+                },
+            };
+
+            expect(app.hasLockedFiles(context)).toBe(false);
+        });
+
+        it('should return [true] when one of files is locked', () => {
+            const context: any = {
+                selection: {
+                    nodes: [
+                        {
+                            entry: {
+                                isFile: true,
+                                isLocked: true,
+                            },
+                        },
+                        {
+                            entry: {
+                                isFile: true,
+                                isLocked: false,
+                            },
+                        },
+                    ],
+                },
+            };
+
+            expect(app.hasLockedFiles(context)).toBe(true);
+        });
     });
 
-    it('should return [false] if selection not present', () => {
-      const context: any = {};
-
-      expect(app.isWriteLocked(context)).toBe(false);
-    });
-  });
-
-  describe('hasLockedFiles', () => {
-    it('should return [false] if selection not present', () => {
-      const context: any = {};
-      expect(app.hasLockedFiles(context)).toBe(false);
-    });
-
-    it('should return [false] if nodes not present', () => {
-      const context: any = {
-        selection: {
-          nodes: null
-        }
-      };
-
-      expect(app.hasLockedFiles(context)).toBe(false);
-    });
-
-    it('should return [false] if no files selected', () => {
-      const context: any = {
-        selection: {
-          nodes: [
-            {
-              entry: {
-                isFile: false
-              }
+    it('should return [true] when one of files has readonly lock', () => {
+        const context: any = {
+            selection: {
+                nodes: [
+                    {
+                        entry: {
+                            isFile: true,
+                            isLocked: false,
+                        },
+                    },
+                    {
+                        entry: {
+                            isFile: true,
+                            isLocked: false,
+                            properties: {
+                                'cm:lockType': 'READ_ONLY_LOCK',
+                            },
+                        },
+                    },
+                ],
             },
-            {
-              entry: {
-                isFile: false
-              }
-            }
-          ]
-        }
-      };
+        };
 
-      expect(app.hasLockedFiles(context)).toBe(false);
+        expect(app.hasLockedFiles(context)).toBe(true);
     });
 
-    it('should return [true] when one of files is locked', () => {
-      const context: any = {
-        selection: {
-          nodes: [
-            {
-              entry: {
-                isFile: true,
-                isLocked: true
-              }
-            },
-            {
-              entry: {
-                isFile: true,
-                isLocked: false
-              }
-            }
-          ]
-        }
-      };
+    describe('canUpdateSelectedNode', () => {
+        it('should return [false] if selection not preset', () => {
+            const context: any = {};
 
-      expect(app.hasLockedFiles(context)).toBe(true);
-    });
-  });
+            expect(app.canUpdateSelectedNode(context)).toBe(false);
+        });
 
-  it('should return [true] when one of files has readonly lock', () => {
-    const context: any = {
-      selection: {
-        nodes: [
-          {
-            entry: {
-              isFile: true,
-              isLocked: false
-            }
-          },
-          {
-            entry: {
-              isFile: true,
-              isLocked: false,
-              properties: {
-                'cm:lockType': 'READ_ONLY_LOCK'
-              }
-            }
-          }
-        ]
-      }
-    };
+        it('should return [false] if selection is empty', () => {
+            const context: any = {
+                selection: {
+                    isEmpty: true,
+                },
+            };
 
-    expect(app.hasLockedFiles(context)).toBe(true);
-  });
+            expect(app.canUpdateSelectedNode(context)).toBe(false);
+        });
 
-  describe('canUpdateSelectedNode', () => {
-    it('should return [false] if selection not preset', () => {
-      const context: any = {};
+        it('should return [false] if first selection is not a file', () => {
+            const context: any = {
+                permissions: {
+                    check: () => false,
+                },
+                selection: {
+                    isEmpty: false,
+                    first: {
+                        entry: {
+                            isFile: false,
+                        },
+                    },
+                },
+            };
 
-      expect(app.canUpdateSelectedNode(context)).toBe(false);
-    });
+            expect(app.canUpdateSelectedNode(context)).toBe(false);
+        });
 
-    it('should return [false] if selection is empty', () => {
-      const context: any = {
-        selection: {
-          isEmpty: true
-        }
-      };
+        it('should return [false] if the file is locked', () => {
+            const context: any = {
+                permissions: {
+                    check: () => true,
+                },
+                selection: {
+                    isEmpty: false,
+                    nodes: [
+                        {
+                            entry: {
+                                isFile: true,
+                                isLocked: true,
+                            },
+                        },
+                    ],
+                    first: {
+                        entry: {
+                            isFile: true,
+                            isLocked: true,
+                        },
+                    },
+                },
+            };
 
-      expect(app.canUpdateSelectedNode(context)).toBe(false);
-    });
+            expect(app.canUpdateSelectedNode(context)).toBe(false);
+        });
 
-    it('should return [false] if first selection is not a file', () => {
-      const context: any = {
-        permissions: {
-          check: () => false
-        },
-        selection: {
-          isEmpty: false,
-          first: {
-            entry: {
-              isFile: false
-            }
-          }
-        }
-      };
+        it('should evaluate allowable operation for the file', () => {
+            const context: any = {
+                permissions: {
+                    check: () => true,
+                },
+                selection: {
+                    isEmpty: false,
+                    nodes: [
+                        {
+                            entry: {
+                                isFile: true,
+                                allowableOperationsOnTarget: [],
+                            },
+                        },
+                    ],
+                    first: {
+                        entry: {
+                            isFile: true,
+                            allowableOperationsOnTarget: [],
+                        },
+                    },
+                },
+            };
 
-      expect(app.canUpdateSelectedNode(context)).toBe(false);
-    });
-
-    it('should return [false] if the file is locked', () => {
-      const context: any = {
-        permissions: {
-          check: () => true
-        },
-        selection: {
-          isEmpty: false,
-          nodes: [
-            {
-              entry: {
-                isFile: true,
-                isLocked: true
-              }
-            }
-          ],
-          first: {
-            entry: {
-              isFile: true,
-              isLocked: true
-            }
-          }
-        }
-      };
-
-      expect(app.canUpdateSelectedNode(context)).toBe(false);
+            expect(app.canUpdateSelectedNode(context)).toBe(true);
+        });
     });
 
-    it('should evaluate allowable operation for the file', () => {
-      const context: any = {
-        permissions: {
-          check: () => true
-        },
-        selection: {
-          isEmpty: false,
-          nodes: [
-            {
-              entry: {
-                isFile: true,
-                allowableOperationsOnTarget: []
-              }
-            }
-          ],
-          first: {
-            entry: {
-              isFile: true,
-              allowableOperationsOnTarget: []
-            }
-          }
-        }
-      };
+    describe('canUploadVersion', () => {
+        it('should return [true] if user has locked it previously', () => {
+            const context: any = {
+                navigation: {
+                    url: '/personal-files',
+                },
+                profile: {
+                    id: 'user1',
+                },
+                selection: {
+                    file: {
+                        entry: {
+                            properties: {
+                                'cm:lockType': 'WRITE_LOCK',
+                                'cm:lockOwner': {
+                                    id: 'user1',
+                                },
+                            },
+                        },
+                    },
+                },
+            };
 
-      expect(app.canUpdateSelectedNode(context)).toBe(true);
-    });
-  });
+            expect(app.canUploadVersion(context)).toBe(true);
+        });
 
-  describe('canUploadVersion', () => {
-    it('should return [true] if user has locked it previously', () => {
-      const context: any = {
-        navigation: {
-          url: '/personal-files'
-        },
-        profile: {
-          id: 'user1'
-        },
-        selection: {
-          file: {
-            entry: {
-              properties: {
-                'cm:lockType': 'WRITE_LOCK',
-                'cm:lockOwner': {
-                  id: 'user1'
-                }
-              }
-            }
-          }
-        }
-      };
+        it('should return [false] if other user has locked it previously', () => {
+            const context: any = {
+                navigation: {
+                    url: '/personal-files',
+                },
+                profile: {
+                    id: 'user2',
+                },
+                selection: {
+                    file: {
+                        entry: {
+                            properties: {
+                                'cm:lockType': 'WRITE_LOCK',
+                                'cm:lockOwner': {
+                                    id: 'user1',
+                                },
+                            },
+                        },
+                    },
+                },
+            };
 
-      expect(app.canUploadVersion(context)).toBe(true);
-    });
+            expect(app.canUploadVersion(context)).toBe(false);
+        });
 
-    it('should return [false] if other user has locked it previously', () => {
-      const context: any = {
-        navigation: {
-          url: '/personal-files'
-        },
-        profile: {
-          id: 'user2'
-        },
-        selection: {
-          file: {
-            entry: {
-              properties: {
-                'cm:lockType': 'WRITE_LOCK',
-                'cm:lockOwner': {
-                  id: 'user1'
-                }
-              }
-            }
-          }
-        }
-      };
+        it('should check the [update] operation when no write lock present', () => {
+            let checked = false;
+            const context: any = {
+                navigation: {
+                    url: '/personal-files',
+                },
+                permissions: {
+                    check: () => (checked = true),
+                },
+                selection: {
+                    file: {},
+                    isEmpty: false,
+                    nodes: [
+                        {
+                            entry: {
+                                isFile: true,
+                            },
+                        },
+                    ],
+                    first: {
+                        entry: {
+                            isFile: true,
+                        },
+                    },
+                },
+            };
 
-      expect(app.canUploadVersion(context)).toBe(false);
-    });
+            expect(app.canUploadVersion(context)).toBe(true);
+            expect(checked).toBe(true);
+        });
 
-    it('should check the [update] operation when no write lock present', () => {
-      let checked = false;
-      const context: any = {
-        navigation: {
-          url: '/personal-files'
-        },
-        permissions: {
-          check: () => (checked = true)
-        },
-        selection: {
-          file: {},
-          isEmpty: false,
-          nodes: [
-            {
-              entry: {
-                isFile: true
-              }
-            }
-          ],
-          first: {
-            entry: {
-              isFile: true
-            }
-          }
-        }
-      };
+        it('should return [true] if route is `/favorites`', () => {
+            const context: any = {
+                selection: {
+                    file: {},
+                },
+                navigation: {
+                    url: '/favorites',
+                },
+            };
 
-      expect(app.canUploadVersion(context)).toBe(true);
-      expect(checked).toBe(true);
-    });
+            expect(app.canUploadVersion(context)).toBe(true);
+        });
 
-    it('should return [true] if route is `/favorites`', () => {
-      const context: any = {
-        selection: {
-          file: {}
-        },
-        navigation: {
-          url: '/favorites'
-        }
-      };
+        it('should return [true] if route is `/favorites`', () => {
+            const context: any = {
+                selection: {
+                    file: {},
+                },
+                navigation: {
+                    url: '/favorites',
+                },
+            };
 
-      expect(app.canUploadVersion(context)).toBe(true);
-    });
+            expect(app.canUploadVersion(context)).toBe(true);
+        });
 
-    it('should return [true] if route is `/favorites`', () => {
-      const context: any = {
-        selection: {
-          file: {}
-        },
-        navigation: {
-          url: '/favorites'
-        }
-      };
+        it('should return [true] if route is `/shared`', () => {
+            const context: any = {
+                selection: {
+                    file: {},
+                },
+                navigation: {
+                    url: '/shared',
+                },
+            };
 
-      expect(app.canUploadVersion(context)).toBe(true);
+            expect(app.canUploadVersion(context)).toBe(true);
+        });
     });
 
-    it('should return [true] if route is `/shared`', () => {
-      const context: any = {
-        selection: {
-          file: {}
-        },
-        navigation: {
-          url: '/shared'
-        }
-      };
+    describe('isShared', () => {
+        it('should return true if route is shared files and single selection', () => {
+            const context: any = {
+                selection: {
+                    file: {},
+                },
+                navigation: {
+                    url: '/shared',
+                },
+            };
 
-      expect(app.canUploadVersion(context)).toBe(true);
-    });
-  });
+            expect(app.isShared(context)).toBe(true);
+        });
 
-  describe('isShared', () => {
-    it('should return true if route is shared files and single selection', () => {
-      const context: any = {
-        selection: {
-          file: {}
-        },
-        navigation: {
-          url: '/shared'
-        }
-      };
+        it('should return false if route is shared files and multiple selection', () => {
+            const context: any = {
+                selection: {
+                    file: null,
+                },
+                navigation: {
+                    url: '/shared',
+                },
+            };
 
-      expect(app.isShared(context)).toBe(true);
-    });
+            expect(app.isShared(context)).toBe(false);
+        });
 
-    it('should return false if route is shared files and multiple selection', () => {
-      const context: any = {
-        selection: {
-          file: null
-        },
-        navigation: {
-          url: '/shared'
-        }
-      };
+        it('should return false if route is trashcan route', () => {
+            const context: any = {
+                selection: {
+                    file: {},
+                },
+                navigation: {
+                    url: '/trashcan',
+                },
+            };
 
-      expect(app.isShared(context)).toBe(false);
-    });
+            expect(app.isShared(context)).toBe(false);
+        });
 
-    it('should return false if route is trashcan route', () => {
-      const context: any = {
-        selection: {
-          file: {}
-        },
-        navigation: {
-          url: '/trashcan'
-        }
-      };
+        it('should return false if selection is not shared', () => {
+            const context: any = {
+                selection: {
+                    file: {
+                        entry: {
+                            properties: {},
+                        },
+                    },
+                },
+                navigation: {
+                    url: '/other',
+                },
+            };
 
-      expect(app.isShared(context)).toBe(false);
-    });
+            expect(app.isShared(context)).toBe(false);
+        });
 
-    it('should return false if selection is not shared', () => {
-      const context: any = {
-        selection: {
-          file: {
-            entry: {
-              properties: {}
-            }
-          }
-        },
-        navigation: {
-          url: '/other'
-        }
-      };
+        it('should return true if selection is shared', () => {
+            const context: any = {
+                selection: {
+                    file: {
+                        entry: {
+                            properties: {
+                                'qshare:sharedId': 'some-id',
+                            },
+                        },
+                    },
+                },
+                navigation: {
+                    url: '/other',
+                },
+            };
 
-      expect(app.isShared(context)).toBe(false);
-    });
-
-    it('should return true if selection is shared', () => {
-      const context: any = {
-        selection: {
-          file: {
-            entry: {
-              properties: {
-                'qshare:sharedId': 'some-id'
-              }
-            }
-          }
-        },
-        navigation: {
-          url: '/other'
-        }
-      };
-
-      expect(app.isShared(context)).toBe(true);
-    });
-  });
-
-  describe('canShowLanguagePicker', () => {
-    it('should return true when property is true', () => {
-      const context: any = {
-        languagePicker: true
-      };
-
-      expect(app.canShowLanguagePicker(context)).toBe(true);
+            expect(app.isShared(context)).toBe(true);
+        });
     });
 
-    it('should return false when property is false', () => {
-      const context: any = {
-        languagePicker: false
-      };
+    describe('canShowLanguagePicker', () => {
+        it('should return true when property is true', () => {
+            const context: any = {
+                languagePicker: true,
+            };
 
-      expect(app.canShowLanguagePicker(context)).toBe(false);
+            expect(app.canShowLanguagePicker(context)).toBe(true);
+        });
+
+        it('should return false when property is false', () => {
+            const context: any = {
+                languagePicker: false,
+            };
+
+            expect(app.canShowLanguagePicker(context)).toBe(false);
+        });
     });
-  });
 
-  describe('canShowLogout', () => {
-    it('should return false when `withCredentials` property is true', () => {
-      const context: any = {
-        withCredentials: true
-      };
+    describe('canShowLogout', () => {
+        it('should return false when `withCredentials` property is true', () => {
+            const context: any = {
+                withCredentials: true,
+            };
 
-      expect(app.canShowLogout(context)).toBe(false);
+            expect(app.canShowLogout(context)).toBe(false);
+        });
+
+        it('should return true when `withCredentials` property is false', () => {
+            const context: any = {
+                withCredentials: false,
+            };
+
+            expect(app.canShowLanguagePicker(context)).toBe(true);
+        });
     });
-
-    it('should return true when `withCredentials` property is false', () => {
-      const context: any = {
-        withCredentials: false
-      };
-
-      expect(app.canShowLanguagePicker(context)).toBe(true);
-    });
-  });
 });

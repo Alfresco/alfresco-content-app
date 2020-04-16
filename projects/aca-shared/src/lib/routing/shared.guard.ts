@@ -30,24 +30,24 @@ import { Store } from '@ngrx/store';
 import { AppStore, isQuickShareEnabled } from '@alfresco/aca-shared/store';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root',
 })
 export class AppSharedRuleGuard implements CanActivate {
-  isQuickShareEnabled$: Observable<boolean>;
+    isQuickShareEnabled$: Observable<boolean>;
 
-  constructor(store: Store<AppStore>) {
-    this.isQuickShareEnabled$ = store.select(isQuickShareEnabled);
-  }
+    constructor(store: Store<AppStore>) {
+        this.isQuickShareEnabled$ = store.select(isQuickShareEnabled);
+    }
 
-  canActivate(
-    _: ActivatedRouteSnapshot
-  ): Observable<boolean> | Promise<boolean> | boolean {
-    return this.isQuickShareEnabled$;
-  }
+    canActivate(
+        _: ActivatedRouteSnapshot
+    ): Observable<boolean> | Promise<boolean> | boolean {
+        return this.isQuickShareEnabled$;
+    }
 
-  canActivateChild(
-    route: ActivatedRouteSnapshot
-  ): Observable<boolean> | Promise<boolean> | boolean {
-    return this.canActivate(route);
-  }
+    canActivateChild(
+        route: ActivatedRouteSnapshot
+    ): Observable<boolean> | Promise<boolean> | boolean {
+        return this.canActivate(route);
+    }
 }

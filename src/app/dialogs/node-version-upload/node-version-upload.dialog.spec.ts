@@ -32,46 +32,52 @@ import { By } from '@angular/platform-browser';
 import { CoreModule } from '@alfresco/adf-core';
 
 describe('NodeVersionsDialogComponent', () => {
-  let fixture: ComponentFixture<NodeVersionUploadDialogComponent>;
+    let fixture: ComponentFixture<NodeVersionUploadDialogComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [CoreModule.forRoot(), AppTestingModule, AppNodeVersionModule],
-      declarations: [NodeVersionUploadDialogComponent]
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            imports: [
+                CoreModule.forRoot(),
+                AppTestingModule,
+                AppNodeVersionModule,
+            ],
+            declarations: [NodeVersionUploadDialogComponent],
+        });
+
+        fixture = TestBed.createComponent(NodeVersionUploadDialogComponent);
+        fixture.detectChanges();
     });
 
-    fixture = TestBed.createComponent(NodeVersionUploadDialogComponent);
-    fixture.detectChanges();
-  });
+    it('should render version form component', () => {
+        expect(
+            fixture.debugElement.nativeElement.querySelector(
+                'app-node-version-form'
+            )
+        ).not.toBe(null);
+    });
 
-  it('should render version form component', () => {
-    expect(
-      fixture.debugElement.nativeElement.querySelector('app-node-version-form')
-    ).not.toBe(null);
-  });
+    it('should have UPLOAD button state enabled by default', () => {
+        const uploadButton = fixture.debugElement.nativeElement.querySelectorAll(
+            'button'
+        )[1] as HTMLElement;
 
-  it('should have UPLOAD button state enabled by default', () => {
-    const uploadButton = fixture.debugElement.nativeElement.querySelectorAll(
-      'button'
-    )[1] as HTMLElement;
+        expect(uploadButton.textContent.includes('VERSION.DIALOG.UPLOAD')).toBe(
+            true
+        );
+        expect(uploadButton.getAttribute('disabled')).toBe(null);
+    });
 
-    expect(uploadButton.textContent.includes('VERSION.DIALOG.UPLOAD')).toBe(
-      true
-    );
-    expect(uploadButton.getAttribute('disabled')).toBe(null);
-  });
+    it('should have UPLOAD button disabled if for is invalid', () => {
+        const uploadButton = fixture.debugElement.nativeElement.querySelectorAll(
+            'button'
+        )[1] as HTMLElement;
 
-  it('should have UPLOAD button disabled if for is invalid', () => {
-    const uploadButton = fixture.debugElement.nativeElement.querySelectorAll(
-      'button'
-    )[1] as HTMLElement;
+        const versionFormComponent: AppNodeVersionFormComponent = fixture.debugElement.query(
+            By.directive(AppNodeVersionFormComponent)
+        ).componentInstance;
+        versionFormComponent.form.setErrors({ invalid: true });
+        fixture.detectChanges();
 
-    const versionFormComponent: AppNodeVersionFormComponent = fixture.debugElement.query(
-      By.directive(AppNodeVersionFormComponent)
-    ).componentInstance;
-    versionFormComponent.form.setErrors({ invalid: true });
-    fixture.detectChanges();
-
-    expect(uploadButton.getAttribute('disabled')).not.toBe(null);
-  });
+        expect(uploadButton.getAttribute('disabled')).not.toBe(null);
+    });
 });

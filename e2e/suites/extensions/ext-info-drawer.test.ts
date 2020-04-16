@@ -37,29 +37,29 @@ describe('Extensions - Info Drawer', () => {
 
     const properties_tab = {
         order: 1,
-        title: 'MY PROPERTIES'
+        title: 'MY PROPERTIES',
     };
 
     const custom_tab = {
         order: 2,
         icon: 'mood',
         title: 'MY CUSTOM TITLE',
-        component: 'app.toolbar.toggleFavorite'
+        component: 'app.toolbar.toggleFavorite',
     };
 
     const no_title_tab = {
         order: 3,
         icon: 'check_circle',
-        title: ''
+        title: '',
     };
 
     const comments_tab = {
-        title: 'COMMENTS'
+        title: 'COMMENTS',
     };
 
     const apis = {
         admin: new RepoClient(),
-        user: new RepoClient(username, username)
+        user: new RepoClient(username, username),
     };
 
     const infoDrawer = new InfoDrawer();
@@ -81,7 +81,9 @@ describe('Extensions - Info Drawer', () => {
     describe('', () => {
         beforeAll(async (done) => {
             await loginPage.load();
-            await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.INFO_DRAWER);
+            await Utils.setSessionStorageFromConfig(
+                EXTENSIBILITY_CONFIGS.INFO_DRAWER
+            );
             await loginPage.loginWith(username);
             done();
         });
@@ -98,8 +100,13 @@ describe('Extensions - Info Drawer', () => {
             await infoDrawer.waitForInfoDrawerToOpen();
 
             const val = await infoDrawer.getTabTitle(custom_tab.order);
-            expect(await infoDrawer.isTabPresent(custom_tab.title)).toBe(true, `${custom_tab.title} tab is not present`);
-            expect(val.trim()).toEqual(`${custom_tab.icon}\n${custom_tab.title}`.trim());
+            expect(await infoDrawer.isTabPresent(custom_tab.title)).toBe(
+                true,
+                `${custom_tab.title} tab is not present`
+            );
+            expect(val.trim()).toEqual(
+                `${custom_tab.icon}\n${custom_tab.title}`.trim()
+            );
         });
 
         it('Remove existing tab - [C284647]', async () => {
@@ -107,7 +114,10 @@ describe('Extensions - Info Drawer', () => {
             await page.toolbar.clickViewDetails();
             await infoDrawer.waitForInfoDrawerToOpen();
 
-            expect(await infoDrawer.isTabPresent(comments_tab.title)).toBe(false, `${comments_tab.title} tab should not be present!`);
+            expect(await infoDrawer.isTabPresent(comments_tab.title)).toBe(
+                false,
+                `${comments_tab.title} tab should not be present!`
+            );
         });
 
         it('Change tab title - [C284648]', async () => {
@@ -115,8 +125,13 @@ describe('Extensions - Info Drawer', () => {
             await page.toolbar.clickViewDetails();
             await infoDrawer.waitForInfoDrawerToOpen();
 
-            expect(await infoDrawer.isTabPresent(properties_tab.title)).toBe(true, `${properties_tab.title} tab is not present`);
-            expect(await infoDrawer.getTabTitle(properties_tab.order)).toEqual(properties_tab.title);
+            expect(await infoDrawer.isTabPresent(properties_tab.title)).toBe(
+                true,
+                `${properties_tab.title} tab is not present`
+            );
+            expect(await infoDrawer.getTabTitle(properties_tab.order)).toEqual(
+                properties_tab.title
+            );
         });
 
         it('Tab with icon and no title - [C284649]', async () => {
@@ -124,8 +139,13 @@ describe('Extensions - Info Drawer', () => {
             await page.toolbar.clickViewDetails();
             await infoDrawer.waitForInfoDrawerToOpen();
 
-            expect(await infoDrawer.isTabPresent(no_title_tab.title)).toBe(true, `${no_title_tab.title} tab is not present`);
-            expect((await infoDrawer.getTabTitle(no_title_tab.order)).trim()).toEqual(`${no_title_tab.icon}`.trim());
+            expect(await infoDrawer.isTabPresent(no_title_tab.title)).toBe(
+                true,
+                `${no_title_tab.title} tab is not present`
+            );
+            expect(
+                (await infoDrawer.getTabTitle(no_title_tab.order)).trim()
+            ).toEqual(`${no_title_tab.icon}`.trim());
         });
 
         it('Insert new component in tab - [C284651]', async () => {
@@ -133,16 +153,23 @@ describe('Extensions - Info Drawer', () => {
             await page.toolbar.clickViewDetails();
             await infoDrawer.waitForInfoDrawerToOpen();
 
-            expect(await infoDrawer.isTabDisplayed(custom_tab.title)).toBe(true, `${custom_tab.title} tab is not displayed`);
+            expect(await infoDrawer.isTabDisplayed(custom_tab.title)).toBe(
+                true,
+                `${custom_tab.title} tab is not displayed`
+            );
             await infoDrawer.clickTab(custom_tab.title);
-            expect(await infoDrawer.getComponentIdOfTab()).toEqual(custom_tab.component);
+            expect(await infoDrawer.getComponentIdOfTab()).toEqual(
+                custom_tab.component
+            );
         });
     });
 
     describe('', () => {
         beforeAll(async (done) => {
             await loginPage.load();
-            await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.INFO_DRAWER_EMPTY);
+            await Utils.setSessionStorageFromConfig(
+                EXTENSIBILITY_CONFIGS.INFO_DRAWER_EMPTY
+            );
             await loginPage.loginWith(username);
             await page.clickPersonalFilesAndWait();
             done();
@@ -153,8 +180,10 @@ describe('Extensions - Info Drawer', () => {
             await page.toolbar.clickViewDetails();
             await infoDrawer.waitForInfoDrawerToOpen();
 
-            expect(await infoDrawer.isEmpty()).toBe(true, 'Info Drawer is not empty');
+            expect(await infoDrawer.isEmpty()).toBe(
+                true,
+                'Info Drawer is not empty'
+            );
         });
     });
-
 });

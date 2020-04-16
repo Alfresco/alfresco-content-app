@@ -44,7 +44,7 @@ describe('Permanently delete from Trash', () => {
 
     const apis = {
         admin: new RepoClient(),
-        user: new RepoClient(username, username)
+        user: new RepoClient(username, username),
     };
 
     const loginPage = new LoginPage();
@@ -55,8 +55,12 @@ describe('Permanently delete from Trash', () => {
 
     beforeAll(async (done) => {
         await apis.admin.people.createUser({ username });
-        filesIds = (await apis.user.nodes.createFiles([ file1, file2, file3 ])).list.entries.map(entries => entries.entry.id);
-        foldersIds = (await apis.user.nodes.createFolders([ folder1, folder2 ])).list.entries.map(entries => entries.entry.id);
+        filesIds = (
+            await apis.user.nodes.createFiles([file1, file2, file3])
+        ).list.entries.map((entries) => entries.entry.id);
+        foldersIds = (
+            await apis.user.nodes.createFolders([folder1, folder2])
+        ).list.entries.map((entries) => entries.entry.id);
         await apis.user.sites.createSite(site);
 
         await apis.user.nodes.deleteNodesById(filesIds, false);
@@ -84,7 +88,10 @@ describe('Permanently delete from Trash', () => {
         await confirmDialog.clickDelete();
 
         expect(await page.getSnackBarMessage()).toEqual(`${file1} deleted`);
-        expect(await dataTable.isItemPresent(file1)).toBe(false, 'Item was not deleted');
+        expect(await dataTable.isItemPresent(file1)).toBe(
+            false,
+            'Item was not deleted'
+        );
     });
 
     it('delete a folder - [C280416]', async () => {
@@ -94,7 +101,10 @@ describe('Permanently delete from Trash', () => {
         await confirmDialog.clickDelete();
 
         expect(await page.getSnackBarMessage()).toEqual(`${folder1} deleted`);
-        expect(await dataTable.isItemPresent(folder1)).toBe(false, 'Item was not deleted');
+        expect(await dataTable.isItemPresent(folder1)).toBe(
+            false,
+            'Item was not deleted'
+        );
     });
 
     it('delete a library - [C290103]', async () => {
@@ -104,18 +114,27 @@ describe('Permanently delete from Trash', () => {
         await confirmDialog.clickDelete();
 
         expect(await page.getSnackBarMessage()).toEqual(`${site} deleted`);
-        expect(await dataTable.isItemPresent(site)).toBe(false, `${site} was not deleted`);
+        expect(await dataTable.isItemPresent(site)).toBe(
+            false,
+            `${site} was not deleted`
+        );
     });
 
     it('delete multiple items - [C280417]', async () => {
-        await dataTable.selectMultipleItems([ file2, folder2 ]);
+        await dataTable.selectMultipleItems([file2, folder2]);
         await toolbar.clickPermanentlyDelete();
         await page.waitForDialog();
         await confirmDialog.clickDelete();
 
         expect(await page.getSnackBarMessage()).toEqual(`2 items deleted`);
-        expect(await dataTable.isItemPresent(file2)).toBe(false, 'Item was not deleted');
-        expect(await dataTable.isItemPresent(folder2)).toBe(false, 'Item was not deleted');
+        expect(await dataTable.isItemPresent(file2)).toBe(
+            false,
+            'Item was not deleted'
+        );
+        expect(await dataTable.isItemPresent(folder2)).toBe(
+            false,
+            'Item was not deleted'
+        );
     });
 
     it('Confirmation dialog UI - [C269113]', async () => {
@@ -123,11 +142,22 @@ describe('Permanently delete from Trash', () => {
         await toolbar.clickPermanentlyDelete();
         await page.waitForDialog();
 
-        expect(await confirmDialog.isDialogOpen()).toBe(true, 'Confirm delete dialog not open');
+        expect(await confirmDialog.isDialogOpen()).toBe(
+            true,
+            'Confirm delete dialog not open'
+        );
         expect(await confirmDialog.getTitle()).toContain('Delete from trash');
-        expect(await confirmDialog.getText()).toContain('This will permanently remove the selected item(s)');
-        expect(await confirmDialog.isDeleteEnabled()).toBe(true, 'DELETE button is not enabled');
-        expect(await confirmDialog.isKeepEnabled()).toBe(true, 'KEEP button is not enabled');
+        expect(await confirmDialog.getText()).toContain(
+            'This will permanently remove the selected item(s)'
+        );
+        expect(await confirmDialog.isDeleteEnabled()).toBe(
+            true,
+            'DELETE button is not enabled'
+        );
+        expect(await confirmDialog.isKeepEnabled()).toBe(
+            true,
+            'KEEP button is not enabled'
+        );
 
         await Utils.pressEscape();
         await dataTable.clearSelection();
@@ -138,8 +168,14 @@ describe('Permanently delete from Trash', () => {
         await toolbar.clickPermanentlyDelete();
         await page.waitForDialog();
 
-        expect(await confirmDialog.isKeepEnabled()).toBe(true, 'KEEP button is not enabled');
+        expect(await confirmDialog.isKeepEnabled()).toBe(
+            true,
+            'KEEP button is not enabled'
+        );
         await confirmDialog.clickKeep();
-        expect(await dataTable.isItemPresent(file3)).toBe(true, 'Item was deleted');
+        expect(await dataTable.isItemPresent(file3)).toBe(
+            true,
+            'Item was deleted'
+        );
     });
 });

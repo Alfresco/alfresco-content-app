@@ -25,142 +25,143 @@
 
 /* cspell:disable */
 import {
-  AppConfigService,
-  AuthenticationService,
-  NotificationService
+    AppConfigService,
+    AuthenticationService,
+    NotificationService,
 } from '@alfresco/adf-core';
 import { Injectable } from '@angular/core';
 import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 import { supportedExtensions, getFileExtension } from './utils';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root',
 })
 export class AosEditOnlineService {
-  constructor(
-    private alfrescoAuthenticationService: AuthenticationService,
-    private appConfigService: AppConfigService,
-    private notificationService: NotificationService
-  ) {}
+    constructor(
+        private alfrescoAuthenticationService: AuthenticationService,
+        private appConfigService: AppConfigService,
+        private notificationService: NotificationService
+    ) {}
 
-  onActionEditOnlineAos(node: MinimalNodeEntryEntity): void {
-    if (node && this.isFile(node) && node.properties) {
-      if (node.isLocked) {
-        // const checkedOut = node.aspectNames.find(
-        //   (aspect: string) => aspect === 'cm:checkedOut'
-        // );
-        const checkedOut =
-          node.properties['cm:lockType'] === 'WRITE_LOCK' ||
-          node.properties['cm:lockType'] === 'READ_ONLY_LOCK';
-        const lockOwner = node.properties['cm:lockOwner'];
-        const differentLockOwner =
-          lockOwner.id !== this.alfrescoAuthenticationService.getEcmUsername();
+    onActionEditOnlineAos(node: MinimalNodeEntryEntity): void {
+        if (node && this.isFile(node) && node.properties) {
+            if (node.isLocked) {
+                // const checkedOut = node.aspectNames.find(
+                //   (aspect: string) => aspect === 'cm:checkedOut'
+                // );
+                const checkedOut =
+                    node.properties['cm:lockType'] === 'WRITE_LOCK' ||
+                    node.properties['cm:lockType'] === 'READ_ONLY_LOCK';
+                const lockOwner = node.properties['cm:lockOwner'];
+                const differentLockOwner =
+                    lockOwner.id !==
+                    this.alfrescoAuthenticationService.getEcmUsername();
 
-        if (checkedOut && differentLockOwner) {
-          this.onAlreadyLockedNotification(node.id, lockOwner);
-        } else {
-          this.triggerEditOnlineAos(node);
+                if (checkedOut && differentLockOwner) {
+                    this.onAlreadyLockedNotification(node.id, lockOwner);
+                } else {
+                    this.triggerEditOnlineAos(node);
+                }
+            } else {
+                this.triggerEditOnlineAos(node);
+            }
         }
-      } else {
-        this.triggerEditOnlineAos(node);
-      }
-    }
-  }
-
-  private getUserAgent(): string {
-    return navigator.userAgent.toLowerCase();
-  }
-
-  private isWindows(): boolean {
-    return this.getUserAgent().indexOf('win') !== -1 ? true : false;
-  }
-
-  private isMacOs(): boolean {
-    return this.getUserAgent().indexOf('mac') !== -1 ? true : false;
-  }
-
-  private onAlreadyLockedNotification(nodeId: string, lockOwner: string) {
-    this.notificationService.openSnackMessage(
-      `Document {nodeId} locked by {lockOwner}`,
-      3000
-    );
-  }
-
-  private getProtocolForFileExtension(fileExtension: string) {
-    return supportedExtensions[fileExtension];
-  }
-
-  private triggerEditOnlineAos(node: MinimalNodeEntryEntity): void {
-    const aosHost = this.appConfigService.get('aosHost');
-    let url: string;
-    const pathElements = (node.path.elements || []).map(
-      segment => segment.name
-    );
-
-    if (!pathElements.length) {
-      url = `${aosHost}/Company Home/_aos_nodeid/${this.getNodeId(
-        node
-      )}/${encodeURIComponent(node.name)}`;
     }
 
-    if (pathElements.length === 1) {
-      url = `${aosHost}/${encodeURIComponent(node.name)}`;
+    private getUserAgent(): string {
+        return navigator.userAgent.toLowerCase();
     }
 
-    if (pathElements.length > 1) {
-      const root = pathElements[1];
-      url = `${aosHost}/${root}/_aos_nodeid/${this.getNodeId(
-        node
-      )}/${encodeURIComponent(node.name)}`;
+    private isWindows(): boolean {
+        return this.getUserAgent().indexOf('win') !== -1 ? true : false;
     }
 
-    const fileExtension = getFileExtension(node.name);
-    const protocolHandler = this.getProtocolForFileExtension(fileExtension);
-
-    if (protocolHandler === undefined) {
-      this.notificationService.openSnackMessage(
-        `No protocol handler found for {fileExtension}`,
-        3000
-      );
-      return;
+    private isMacOs(): boolean {
+        return this.getUserAgent().indexOf('mac') !== -1 ? true : false;
     }
 
-    if (!this.isWindows() && !this.isMacOs()) {
-      this.notificationService.openSnackMessage(
-        'Only supported for Windows and Mac',
-        3000
-      );
-    } else {
-      this.aos_tryToLaunchOfficeByMsProtocolHandler(protocolHandler, url);
+    private onAlreadyLockedNotification(nodeId: string, lockOwner: string) {
+        this.notificationService.openSnackMessage(
+            `Document {nodeId} locked by {lockOwner}`,
+            3000
+        );
     }
-  }
 
-  private aos_tryToLaunchOfficeByMsProtocolHandler(
-    protocolHandler: string,
-    url: string
-  ) {
-    const protocolUrl = protocolHandler + ':ofe%7Cu%7C' + url;
+    private getProtocolForFileExtension(fileExtension: string) {
+        return supportedExtensions[fileExtension];
+    }
 
-    const iframe = document.createElement('iframe');
-    iframe.style.display = 'none';
-    iframe.src = protocolUrl;
+    private triggerEditOnlineAos(node: MinimalNodeEntryEntity): void {
+        const aosHost = this.appConfigService.get('aosHost');
+        let url: string;
+        const pathElements = (node.path.elements || []).map(
+            (segment) => segment.name
+        );
 
-    document.body.appendChild(iframe);
+        if (!pathElements.length) {
+            url = `${aosHost}/Company Home/_aos_nodeid/${this.getNodeId(
+                node
+            )}/${encodeURIComponent(node.name)}`;
+        }
 
-    setTimeout(() => {
-      if (iframe) {
-        document.body.removeChild(iframe);
-      }
-    }, 500);
-  }
+        if (pathElements.length === 1) {
+            url = `${aosHost}/${encodeURIComponent(node.name)}`;
+        }
 
-  private isFile(node: MinimalNodeEntryEntity): boolean {
-    const implicitFile = (<any> node).nodeId || (<any> node).guid;
+        if (pathElements.length > 1) {
+            const root = pathElements[1];
+            url = `${aosHost}/${root}/_aos_nodeid/${this.getNodeId(
+                node
+            )}/${encodeURIComponent(node.name)}`;
+        }
 
-    return !!implicitFile || node.isFile;
-  }
+        const fileExtension = getFileExtension(node.name);
+        const protocolHandler = this.getProtocolForFileExtension(fileExtension);
 
-  private getNodeId(node: MinimalNodeEntryEntity): string {
-    return (<any> node).nodeId || (<any> node).guid || node.id;
-  }
+        if (protocolHandler === undefined) {
+            this.notificationService.openSnackMessage(
+                `No protocol handler found for {fileExtension}`,
+                3000
+            );
+            return;
+        }
+
+        if (!this.isWindows() && !this.isMacOs()) {
+            this.notificationService.openSnackMessage(
+                'Only supported for Windows and Mac',
+                3000
+            );
+        } else {
+            this.aos_tryToLaunchOfficeByMsProtocolHandler(protocolHandler, url);
+        }
+    }
+
+    private aos_tryToLaunchOfficeByMsProtocolHandler(
+        protocolHandler: string,
+        url: string
+    ) {
+        const protocolUrl = protocolHandler + ':ofe%7Cu%7C' + url;
+
+        const iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        iframe.src = protocolUrl;
+
+        document.body.appendChild(iframe);
+
+        setTimeout(() => {
+            if (iframe) {
+                document.body.removeChild(iframe);
+            }
+        }, 500);
+    }
+
+    private isFile(node: MinimalNodeEntryEntity): boolean {
+        const implicitFile = (node as any).nodeId || (node as any).guid;
+
+        return !!implicitFile || node.isFile;
+    }
+
+    private getNodeId(node: MinimalNodeEntryEntity): string {
+        return (node as any).nodeId || (node as any).guid || node.id;
+    }
 }

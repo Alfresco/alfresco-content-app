@@ -33,82 +33,82 @@ import { ContextMenuService } from './context-menu.service';
 import { ContextMenuModule } from './context-menu.module';
 
 describe('ContextMenuService', () => {
-  let contextMenuService;
-  let overlay;
-  let injector;
-  let userPreferencesService;
-  const overlayConfig = {
-    hasBackdrop: false,
-    backdropClass: '',
-    panelClass: 'test-panel',
-    source: {
-      x: 1,
-      y: 1
-    }
-  };
+    let contextMenuService;
+    let overlay;
+    let injector;
+    let userPreferencesService;
+    const overlayConfig = {
+        hasBackdrop: false,
+        backdropClass: '',
+        panelClass: 'test-panel',
+        source: {
+            x: 1,
+            y: 1,
+        },
+    };
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [CoreModule.forRoot(), ContextMenuModule],
-      providers: [
-        Overlay,
-        { provide: Store, useValue: { select: () => of() } },
-        UserPreferencesService
-      ]
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            imports: [CoreModule.forRoot(), ContextMenuModule],
+            providers: [
+                Overlay,
+                { provide: Store, useValue: { select: () => of() } },
+                UserPreferencesService,
+            ],
+        });
+
+        injector = TestBed.get(Injector);
+        overlay = TestBed.get(Overlay);
+        userPreferencesService = TestBed.get(UserPreferencesService);
     });
 
-    injector = TestBed.get(Injector);
-    overlay = TestBed.get(Overlay);
-    userPreferencesService = TestBed.get(UserPreferencesService);
-  });
+    it('should create a custom overlay', () => {
+        contextMenuService = new ContextMenuService(
+            injector,
+            overlay,
+            userPreferencesService
+        );
 
-  it('should create a custom overlay', () => {
-    contextMenuService = new ContextMenuService(
-      injector,
-      overlay,
-      userPreferencesService
-    );
+        contextMenuService.open(overlayConfig);
 
-    contextMenuService.open(overlayConfig);
+        expect(document.querySelector('.test-panel')).not.toBe(null);
+    });
 
-    expect(document.querySelector('.test-panel')).not.toBe(null);
-  });
+    it('should render component', () => {
+        contextMenuService = new ContextMenuService(
+            injector,
+            overlay,
+            userPreferencesService
+        );
 
-  it('should render component', () => {
-    contextMenuService = new ContextMenuService(
-      injector,
-      overlay,
-      userPreferencesService
-    );
+        contextMenuService.open(overlayConfig);
 
-    contextMenuService.open(overlayConfig);
+        expect(document.querySelector('aca-context-menu')).not.toBe(null);
+    });
 
-    expect(document.querySelector('aca-context-menu')).not.toBe(null);
-  });
+    it('should have default LTR direction value', () => {
+        contextMenuService = new ContextMenuService(
+            injector,
+            overlay,
+            userPreferencesService
+        );
 
-  it('should have default LTR direction value', () => {
-    contextMenuService = new ContextMenuService(
-      injector,
-      overlay,
-      userPreferencesService
-    );
+        contextMenuService.open(overlayConfig);
 
-    contextMenuService.open(overlayConfig);
+        expect(document.body.querySelector('div[dir="ltr"]')).not.toBe(null);
+    });
 
-    expect(document.body.querySelector('div[dir="ltr"]')).not.toBe(null);
-  });
+    it('should change direction on textOrientation event', () => {
+        spyOn(userPreferencesService, 'select').and.returnValue(of('rtl'));
 
-  it('should change direction on textOrientation event', () => {
-    spyOn(userPreferencesService, 'select').and.returnValue(of('rtl'));
+        contextMenuService = new ContextMenuService(
+            injector,
+            overlay,
+            userPreferencesService
+        );
 
-    contextMenuService = new ContextMenuService(
-      injector,
-      overlay,
-      userPreferencesService
-    );
+        contextMenuService.open(overlayConfig);
 
-    contextMenuService.open(overlayConfig);
-
-    expect(document.body.querySelector('div[dir="rtl"]')).not.toBe(null);
-  });
+        expect(document.body.querySelector('div[dir="rtl"]')).not.toBe(null);
+    });
 });

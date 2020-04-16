@@ -34,35 +34,38 @@ import { ContentManagementService } from '../../services/content-management.serv
 import { PageComponent } from '../page.component';
 
 @Component({
-  templateUrl: './trashcan.component.html'
+    templateUrl: './trashcan.component.html',
 })
 export class TrashcanComponent extends PageComponent implements OnInit {
-  isSmallScreen = false;
-  user$: Observable<ProfileState>;
+    isSmallScreen = false;
+    user$: Observable<ProfileState>;
 
-  columns: any[] = [];
+    columns: any[] = [];
 
-  constructor(
-    content: ContentManagementService,
-    extensions: AppExtensionService,
-    store: Store<AppStore>,
-    private breakpointObserver: BreakpointObserver
-  ) {
-    super(store, extensions, content);
-    this.user$ = this.store.select(getUserProfile);
-  }
+    constructor(
+        content: ContentManagementService,
+        extensions: AppExtensionService,
+        store: Store<AppStore>,
+        private breakpointObserver: BreakpointObserver
+    ) {
+        super(store, extensions, content);
+        this.user$ = this.store.select(getUserProfile);
+    }
 
-  ngOnInit() {
-    super.ngOnInit();
+    ngOnInit() {
+        super.ngOnInit();
 
-    this.subscriptions.push(
-      this.breakpointObserver
-        .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
-        .subscribe(result => {
-          this.isSmallScreen = result.matches;
-        })
-    );
+        this.subscriptions.push(
+            this.breakpointObserver
+                .observe([
+                    Breakpoints.HandsetPortrait,
+                    Breakpoints.HandsetLandscape,
+                ])
+                .subscribe((result) => {
+                    this.isSmallScreen = result.matches;
+                })
+        );
 
-    this.columns = this.extensions.documentListPresets.trashcan || [];
-  }
+        this.columns = this.extensions.documentListPresets.trashcan || [];
+    }
 }

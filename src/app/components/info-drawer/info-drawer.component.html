@@ -1,23 +1,23 @@
 <div *ngIf="isLoading">
-  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div>
 <ng-container *ngIf="!isLoading && !!displayNode">
-  <adf-info-drawer
-    [title]="'APP.INFO_DRAWER.TITLE'"
-    cdkTrapFocus
-    cdkTrapFocusAutoCapture
-  >
-    <adf-info-drawer-tab
-      *ngFor="let tab of tabs"
-      [icon]="tab.icon"
-      [label]="tab.title"
+    <adf-info-drawer
+        [title]="'APP.INFO_DRAWER.TITLE'"
+        cdkTrapFocus
+        cdkTrapFocusAutoCapture
     >
-      <adf-dynamic-tab
-        [node]="displayNode"
-        [id]="tab.component"
-        [attr.data-automation-id]="tab.component"
-      >
-      </adf-dynamic-tab>
-    </adf-info-drawer-tab>
-  </adf-info-drawer>
+        <adf-info-drawer-tab
+            *ngFor="let tab of tabs"
+            [icon]="tab.icon"
+            [label]="tab.title"
+        >
+            <adf-dynamic-tab
+                [node]="displayNode"
+                [id]="tab.component"
+                [attr.data-automation-id]="tab.component"
+            >
+            </adf-dynamic-tab>
+        </adf-info-drawer-tab>
+    </adf-info-drawer>
 </ng-container>

@@ -31,9 +31,9 @@ import { NodePermissionsDialogComponent } from './permission-dialog/node-permiss
 import { PermissionsManagerComponent } from './permission-manager/permission-manager.component';
 
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild(), ContentModule.forChild()],
-  declarations: [PermissionsManagerComponent, NodePermissionsDialogComponent],
-  exports: [PermissionsManagerComponent, NodePermissionsDialogComponent],
-  entryComponents: [NodePermissionsDialogComponent]
+    imports: [CommonModule, CoreModule.forChild(), ContentModule.forChild()],
+    declarations: [PermissionsManagerComponent, NodePermissionsDialogComponent],
+    exports: [PermissionsManagerComponent, NodePermissionsDialogComponent],
+    entryComponents: [NodePermissionsDialogComponent],
 })
 export class AppPermissionsModule {}

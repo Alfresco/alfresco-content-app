@@ -28,17 +28,17 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import {
-  CloseModalDialogsAction,
-  AppActionTypes
+    CloseModalDialogsAction,
+    AppActionTypes,
 } from '../actions/app.actions';
 
 @Injectable()
 export class DialogEffects {
-  constructor(private actions$: Actions, private matDialog: MatDialog) {}
+    constructor(private actions$: Actions, private matDialog: MatDialog) {}
 
-  @Effect({ dispatch: false })
-  closeAll$ = this.actions$.pipe(
-    ofType<CloseModalDialogsAction>(AppActionTypes.CloseModalDialogs),
-    map(() => this.matDialog.closeAll())
-  );
+    @Effect({ dispatch: false })
+    closeAll$ = this.actions$.pipe(
+        ofType<CloseModalDialogsAction>(AppActionTypes.CloseModalDialogs),
+        map(() => this.matDialog.closeAll())
+    );
 }

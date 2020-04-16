@@ -40,35 +40,35 @@ import { ExpandMenuComponent } from './components/expand-menu.component';
 import { ButtonMenuComponent } from './components/button-menu.component';
 import { ActionDirective } from './directives/action.directive';
 @NgModule({
-  imports: [
-    CommonModule,
-    CoreModule.forChild(),
-    CoreExtensionsModule.forChild(),
-    ExtensionsModule.forChild(),
-    RouterModule,
-    AppCreateMenuModule
-  ],
-  declarations: [
-    MenuPanelDirective,
-    ExpansionPanelDirective,
-    ExpandedTemplateDirective,
-    CollapsedTemplateDirective,
-    ActiveLinkDirective,
-    ActionDirective,
-    ExpandMenuComponent,
-    ButtonMenuComponent,
-    SidenavComponent
-  ],
-  exports: [
-    MenuPanelDirective,
-    ExpansionPanelDirective,
-    ExpandedTemplateDirective,
-    CollapsedTemplateDirective,
-    ActiveLinkDirective,
-    ActionDirective,
-    ExpandMenuComponent,
-    ButtonMenuComponent,
-    SidenavComponent
-  ]
+    imports: [
+        CommonModule,
+        CoreModule.forChild(),
+        CoreExtensionsModule.forChild(),
+        ExtensionsModule.forChild(),
+        RouterModule,
+        AppCreateMenuModule,
+    ],
+    declarations: [
+        MenuPanelDirective,
+        ExpansionPanelDirective,
+        ExpandedTemplateDirective,
+        CollapsedTemplateDirective,
+        ActiveLinkDirective,
+        ActionDirective,
+        ExpandMenuComponent,
+        ButtonMenuComponent,
+        SidenavComponent,
+    ],
+    exports: [
+        MenuPanelDirective,
+        ExpansionPanelDirective,
+        ExpandedTemplateDirective,
+        CollapsedTemplateDirective,
+        ActiveLinkDirective,
+        ActionDirective,
+        ExpandMenuComponent,
+        ButtonMenuComponent,
+        SidenavComponent,
+    ],
 })
 export class AppSidenavModule {}

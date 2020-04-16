@@ -29,7 +29,7 @@ import { CoreModule } from '@alfresco/adf-core';
 import { LoginComponent } from './login.component';
 
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild()],
-  declarations: [LoginComponent]
+    imports: [CommonModule, CoreModule.forChild()],
+    declarations: [LoginComponent],
 })
 export class AppLoginModule {}

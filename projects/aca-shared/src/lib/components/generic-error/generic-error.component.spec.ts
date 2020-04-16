@@ -26,7 +26,7 @@
 import { GenericErrorComponent } from './generic-error.component';
 
 describe('GenericErrorComponent', () => {
-  it('should be defined', () => {
-    expect(GenericErrorComponent).toBeDefined();
-  });
+    it('should be defined', () => {
+        expect(GenericErrorComponent).toBeDefined();
+    });
 });

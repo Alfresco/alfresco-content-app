@@ -27,17 +27,17 @@ import { ElementFinder, ExpectedConditions as EC, browser } from 'protractor';
 import { BROWSER_WAIT_TIMEOUT } from '../configs';
 
 export abstract class Component {
-  component: ElementFinder;
+    component: ElementFinder;
 
-  constructor(selector: string, ancestor?: string) {
-    const locator = selector;
+    constructor(selector: string, ancestor?: string) {
+        const locator = selector;
 
-    this.component = ancestor
-      ? browser.$$(ancestor).first().$$(locator).first()
-      : browser.$$(locator).first();
-  }
+        this.component = ancestor
+            ? browser.$$(ancestor).first().$$(locator).first()
+            : browser.$$(locator).first();
+    }
 
-  async wait() {
-    await browser.wait(EC.presenceOf(this.component), BROWSER_WAIT_TIMEOUT);
-  }
+    async wait() {
+        await browser.wait(EC.presenceOf(this.component), BROWSER_WAIT_TIMEOUT);
+    }
 }

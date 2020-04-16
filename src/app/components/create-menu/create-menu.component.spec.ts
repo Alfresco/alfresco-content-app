@@ -26,7 +26,7 @@
 import { CreateMenuComponent } from './create-menu.component';
 
 describe('CreateMenuComponent', () => {
-  it('should be defined', () => {
-    expect(CreateMenuComponent).toBeDefined();
-  });
+    it('should be defined', () => {
+        expect(CreateMenuComponent).toBeDefined();
+    });
 });

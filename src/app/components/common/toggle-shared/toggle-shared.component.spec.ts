@@ -27,49 +27,49 @@ import { ToggleSharedComponent } from './toggle-shared.component';
 import { of } from 'rxjs';
 
 describe('ToggleSharedComponent', () => {
-  let component;
-  let entry;
+    let component: ToggleSharedComponent;
+    let entry: any;
 
-  const storeMock = {
-    select: () => of({ first: { entry } }),
-    dispatch: jasmine.createSpy('dispatch')
-  };
-
-  beforeEach(() => {
-    entry = {
-      properties: {
-        'qshare:sharedId': null
-      }
+    const storeMock: any = {
+        select: () => of({ first: { entry } }),
+        dispatch: jasmine.createSpy('dispatch'),
     };
 
-    component = new ToggleSharedComponent(<any> storeMock);
-  });
+    beforeEach(() => {
+        entry = {
+            properties: {
+                'qshare:sharedId': null,
+            },
+        };
 
-  it('should get Store selection entry on initialization', done => {
-    component.ngOnInit();
-
-    component.selection$.subscribe(selection => {
-      expect(selection.first.entry).toEqual(entry);
-      done();
+        component = new ToggleSharedComponent(storeMock);
     });
-  });
 
-  it('should return false when entry is not shared', () => {
-    component.ngOnInit();
+    it('should get Store selection entry on initialization', (done) => {
+        component.ngOnInit();
 
-    expect(component.isShared({ first: { entry } })).toBe(false);
-  });
+        component.selection$.subscribe((selection) => {
+            expect(selection.first.entry).toEqual(entry);
+            done();
+        });
+    });
 
-  it('should return true when entry is shared', () => {
-    entry.properties['qshare:sharedId'] = 'some-id';
-    component.ngOnInit();
+    it('should return false when entry is not shared', () => {
+        component.ngOnInit();
 
-    expect(component.isShared({ first: { entry } })).toBe(true);
-  });
+        expect(component.isShared({ first: { entry } } as any)).toBe(false);
+    });
 
-  it('should dispatch `SHARE_NODE` action on share', () => {
-    component.ngOnInit();
-    component.editSharedNode({ first: { entry } });
-    expect(storeMock.dispatch).toHaveBeenCalled();
-  });
+    it('should return true when entry is shared', () => {
+        entry.properties['qshare:sharedId'] = 'some-id';
+        component.ngOnInit();
+
+        expect(component.isShared({ first: { entry } } as any)).toBe(true);
+    });
+
+    it('should dispatch `SHARE_NODE` action on share', () => {
+        component.ngOnInit();
+        component.editSharedNode({ first: { entry } } as any);
+        expect(storeMock.dispatch).toHaveBeenCalled();
+    });
 });

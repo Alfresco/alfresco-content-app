@@ -26,9 +26,9 @@
 import { Action } from '@ngrx/store';
 
 export const SET_INFO_DRAWER_METADATA_ASPECT =
-  'SET_INFO_DRAWER_METADATA_ASPECT';
+    'SET_INFO_DRAWER_METADATA_ASPECT';
 
 export class SetInfoDrawerMetadataAspectAction implements Action {
-  readonly type = SET_INFO_DRAWER_METADATA_ASPECT;
-  constructor(public payload: string) {}
+    readonly type = SET_INFO_DRAWER_METADATA_ASPECT;
+    constructor(public payload: string) {}
 }

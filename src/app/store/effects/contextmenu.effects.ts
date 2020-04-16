@@ -24,8 +24,8 @@
  */
 
 import {
-  ContextMenuActionTypes,
-  ContextMenu
+    ContextMenuActionTypes,
+    ContextMenu,
 } from '@alfresco/aca-shared/store';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
@@ -35,27 +35,27 @@ import { ContextMenuService } from '../../components/context-menu/context-menu.s
 
 @Injectable()
 export class ContextMenuEffects {
-  private overlayRef: ContextMenuOverlayRef = null;
+    private overlayRef: ContextMenuOverlayRef = null;
 
-  constructor(
-    private contextMenuService: ContextMenuService,
-    private actions$: Actions
-  ) {}
+    constructor(
+        private contextMenuService: ContextMenuService,
+        private actions$: Actions
+    ) {}
 
-  @Effect({ dispatch: false })
-  contextMenu$ = this.actions$.pipe(
-    ofType<ContextMenu>(ContextMenuActionTypes.ContextMenu),
-    map(action => {
-      if (this.overlayRef) {
-        this.overlayRef.close();
-      }
+    @Effect({ dispatch: false })
+    contextMenu$ = this.actions$.pipe(
+        ofType<ContextMenu>(ContextMenuActionTypes.ContextMenu),
+        map((action) => {
+            if (this.overlayRef) {
+                this.overlayRef.close();
+            }
 
-      this.overlayRef = this.contextMenuService.open({
-        source: action.event,
-        hasBackdrop: false,
-        backdropClass: 'cdk-overlay-transparent-backdrop',
-        panelClass: 'cdk-overlay-pane'
-      });
-    })
-  );
+            this.overlayRef = this.contextMenuService.open({
+                source: action.event,
+                hasBackdrop: false,
+                backdropClass: 'cdk-overlay-transparent-backdrop',
+                panelClass: 'cdk-overlay-pane',
+            });
+        })
+    );
 }

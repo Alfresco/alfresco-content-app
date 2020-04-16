@@ -28,57 +28,58 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { SelectionState, ExtensionService } from '@alfresco/adf-extensions';
 import {
-  AppStore,
-  ReloadDocumentListAction,
-  getAppSelection
+    AppStore,
+    ReloadDocumentListAction,
+    getAppSelection,
 } from '@alfresco/aca-shared/store';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-toggle-favorite',
-  template: `
-    <button
-      mat-menu-item
-      #favorites="adfFavorite"
-      (toggle)="onToggleEvent()"
-      [adf-node-favorite]="(selection$ | async).nodes"
-    >
-      <mat-icon *ngIf="favorites.hasFavorites()">star</mat-icon>
-      <mat-icon *ngIf="!favorites.hasFavorites()">star_border</mat-icon>
-      <span>{{
-        (favorites.hasFavorites()
-          ? 'APP.ACTIONS.REMOVE_FAVORITE'
-          : 'APP.ACTIONS.FAVORITE') | translate
-      }}</span>
-    </button>
-  `,
-  encapsulation: ViewEncapsulation.None,
-  host: { class: 'app-toggle-favorite' }
+    selector: 'app-toggle-favorite',
+    template: `
+        <button
+            mat-menu-item
+            #favorites="adfFavorite"
+            (toggle)="onToggleEvent()"
+            [adf-node-favorite]="(selection$ | async).nodes"
+        >
+            <mat-icon *ngIf="favorites.hasFavorites()">star</mat-icon>
+            <mat-icon *ngIf="!favorites.hasFavorites()">star_border</mat-icon>
+            <span>{{
+                (favorites.hasFavorites()
+                    ? 'APP.ACTIONS.REMOVE_FAVORITE'
+                    : 'APP.ACTIONS.FAVORITE'
+                ) | translate
+            }}</span>
+        </button>
+    `,
+    encapsulation: ViewEncapsulation.None,
+    host: { class: 'app-toggle-favorite' },
 })
 export class ToggleFavoriteComponent implements OnInit {
-  @Input() data: any;
-  selection$: Observable<SelectionState>;
-  private reloadOnRoutes: string[] = [];
+    @Input() data: any;
+    selection$: Observable<SelectionState>;
+    private reloadOnRoutes: string[] = [];
 
-  constructor(
-    private store: Store<AppStore>,
-    private extensionService: ExtensionService,
-    private router: Router
-  ) {
-    this.selection$ = this.store.select(getAppSelection);
-  }
-
-  ngOnInit() {
-    if (this.data) {
-      this.reloadOnRoutes = this.extensionService.runExpression(
-        `$( ${this.data} )`
-      );
+    constructor(
+        private store: Store<AppStore>,
+        private extensionService: ExtensionService,
+        private router: Router
+    ) {
+        this.selection$ = this.store.select(getAppSelection);
     }
-  }
 
-  onToggleEvent() {
-    if (this.reloadOnRoutes.includes(this.router.url)) {
-      this.store.dispatch(new ReloadDocumentListAction());
+    ngOnInit() {
+        if (this.data) {
+            this.reloadOnRoutes = this.extensionService.runExpression(
+                `$( ${this.data} )`
+            );
+        }
     }
-  }
+
+    onToggleEvent() {
+        if (this.reloadOnRoutes.includes(this.router.url)) {
+            this.store.dispatch(new ReloadDocumentListAction());
+        }
+    }
 }

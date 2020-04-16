@@ -27,8 +27,8 @@ import { InfoDrawerComponent } from './info-drawer.component';
 import { TestBed, ComponentFixture, async } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
 import {
-  SetInfoDrawerStateAction,
-  ToggleInfoDrawerAction
+    SetInfoDrawerStateAction,
+    ToggleInfoDrawerAction,
 } from '@alfresco/aca-shared/store';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { AppExtensionService } from '../../extensions/extension.service';
@@ -36,134 +36,137 @@ import { ContentApiService } from '@alfresco/aca-shared';
 import { of } from 'rxjs';
 
 describe('InfoDrawerComponent', () => {
-  let fixture: ComponentFixture<InfoDrawerComponent>;
-  let component: InfoDrawerComponent;
-  let contentApiService: ContentApiService;
-  let tab;
-  let appExtensionService: AppExtensionService;
-  const storeMock = {
-    dispatch: jasmine.createSpy('dispatch')
-  };
-  const extensionServiceMock = {
-    getSidebarTabs: () => {}
-  };
+    let fixture: ComponentFixture<InfoDrawerComponent>;
+    let component: InfoDrawerComponent;
+    let contentApiService: ContentApiService;
+    let tab;
+    let appExtensionService: AppExtensionService;
+    const storeMock = {
+        dispatch: jasmine.createSpy('dispatch'),
+    };
+    const extensionServiceMock = {
+        getSidebarTabs: () => {},
+    };
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [AppTestingModule],
-      declarations: [InfoDrawerComponent],
-      providers: [
-        ContentApiService,
-        { provide: AppExtensionService, useValue: extensionServiceMock },
-        { provide: Store, useValue: storeMock }
-      ],
-      schemas: [NO_ERRORS_SCHEMA]
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            imports: [AppTestingModule],
+            declarations: [InfoDrawerComponent],
+            providers: [
+                ContentApiService,
+                {
+                    provide: AppExtensionService,
+                    useValue: extensionServiceMock,
+                },
+                { provide: Store, useValue: storeMock },
+            ],
+            schemas: [NO_ERRORS_SCHEMA],
+        });
+
+        fixture = TestBed.createComponent(InfoDrawerComponent);
+        component = fixture.componentInstance;
+        appExtensionService = TestBed.get(AppExtensionService);
+        contentApiService = TestBed.get(ContentApiService);
+
+        tab = { title: 'tab1' } as any;
+        spyOn(appExtensionService, 'getSidebarTabs').and.returnValue([tab]);
     });
 
-    fixture = TestBed.createComponent(InfoDrawerComponent);
-    component = fixture.componentInstance;
-    appExtensionService = TestBed.get(AppExtensionService);
-    contentApiService = TestBed.get(ContentApiService);
+    afterEach(() => {
+        fixture.destroy();
+    });
 
-    tab = <any> { title: 'tab1' };
-    spyOn(appExtensionService, 'getSidebarTabs').and.returnValue([tab]);
-  });
+    it('should get tabs configuration on initialization', () => {
+        fixture.detectChanges();
 
-  afterEach(() => {
-    fixture.destroy();
-  });
+        expect(component.tabs).toEqual([tab]);
+    });
 
-  it('should get tabs configuration on initialization', () => {
-    fixture.detectChanges();
+    it('should set state to false OnDestroy event', () => {
+        fixture.detectChanges();
+        component.ngOnDestroy();
 
-    expect(component.tabs).toEqual([tab]);
-  });
+        expect(storeMock.dispatch).toHaveBeenCalledWith(
+            new SetInfoDrawerStateAction(false)
+        );
+    });
 
-  it('should set state to false OnDestroy event', () => {
-    fixture.detectChanges();
-    component.ngOnDestroy();
+    it('should set displayNode when node is library', async(() => {
+        spyOn(contentApiService, 'getNodeInfo');
+        const nodeMock: any = {
+            entry: { id: 'nodeId' },
+            isLibrary: true,
+        };
+        component.node = nodeMock;
 
-    expect(storeMock.dispatch).toHaveBeenCalledWith(
-      new SetInfoDrawerStateAction(false)
-    );
-  });
+        fixture.detectChanges();
+        component.ngOnChanges();
 
-  it('should set displayNode when node is library', async(() => {
-    spyOn(contentApiService, 'getNodeInfo');
-    const nodeMock = <any> {
-      entry: { id: 'nodeId' },
-      isLibrary: true
-    };
-    component.node = nodeMock;
+        expect(component.displayNode).toBe(nodeMock);
+        expect(contentApiService.getNodeInfo).not.toHaveBeenCalled();
+    }));
 
-    fixture.detectChanges();
-    component.ngOnChanges();
+    it('should call getNodeInfo() when node is a shared file', async(() => {
+        const response: any = { entry: { id: 'nodeId' } };
+        spyOn(contentApiService, 'getNodeInfo').and.returnValue(of(response));
+        const nodeMock: any = { entry: { nodeId: 'nodeId' }, isLibrary: false };
+        component.node = nodeMock;
 
-    expect(component.displayNode).toBe(nodeMock);
-    expect(contentApiService.getNodeInfo).not.toHaveBeenCalled();
-  }));
+        fixture.detectChanges();
+        component.ngOnChanges();
 
-  it('should call getNodeInfo() when node is a shared file', async(() => {
-    const response = <any> { entry: { id: 'nodeId' } };
-    spyOn(contentApiService, 'getNodeInfo').and.returnValue(of(response));
-    const nodeMock = <any> { entry: { nodeId: 'nodeId' }, isLibrary: false };
-    component.node = nodeMock;
+        expect(component.displayNode).toBe(response);
+        expect(contentApiService.getNodeInfo).toHaveBeenCalled();
+    }));
 
-    fixture.detectChanges();
-    component.ngOnChanges();
+    it('should call getNodeInfo() when node is a favorite file', async(() => {
+        const response: any = { entry: { id: 'nodeId' } };
+        spyOn(contentApiService, 'getNodeInfo').and.returnValue(of(response));
+        const nodeMock: any = {
+            entry: { id: 'nodeId', guid: 'guidId' },
+            isLibrary: false,
+        };
+        component.node = nodeMock;
 
-    expect(component.displayNode).toBe(response);
-    expect(contentApiService.getNodeInfo).toHaveBeenCalled();
-  }));
+        fixture.detectChanges();
+        component.ngOnChanges();
 
-  it('should call getNodeInfo() when node is a favorite file', async(() => {
-    const response = <any> { entry: { id: 'nodeId' } };
-    spyOn(contentApiService, 'getNodeInfo').and.returnValue(of(response));
-    const nodeMock = <any> {
-      entry: { id: 'nodeId', guid: 'guidId' },
-      isLibrary: false
-    };
-    component.node = nodeMock;
+        expect(component.displayNode).toBe(response);
+        expect(contentApiService.getNodeInfo).toHaveBeenCalled();
+    }));
 
-    fixture.detectChanges();
-    component.ngOnChanges();
+    it('should call getNodeInfo() when node is a recent file', async(() => {
+        const response: any = { entry: { id: 'nodeId' } };
+        spyOn(contentApiService, 'getNodeInfo').and.returnValue(of(response));
+        const nodeMock: any = {
+            entry: {
+                id: 'nodeId',
+                content: { mimeType: 'image/jpeg' },
+            },
+            isLibrary: false,
+        };
+        component.node = nodeMock;
 
-    expect(component.displayNode).toBe(response);
-    expect(contentApiService.getNodeInfo).toHaveBeenCalled();
-  }));
+        fixture.detectChanges();
+        component.ngOnChanges();
 
-  it('should call getNodeInfo() when node is a recent file', async(() => {
-    const response = <any> { entry: { id: 'nodeId' } };
-    spyOn(contentApiService, 'getNodeInfo').and.returnValue(of(response));
-    const nodeMock = <any> {
-      entry: {
-        id: 'nodeId',
-        content: { mimeType: 'image/jpeg' }
-      },
-      isLibrary: false
-    };
-    component.node = nodeMock;
+        expect(component.displayNode).toBe(response);
+        expect(contentApiService.getNodeInfo).toHaveBeenCalled();
+    }));
 
-    fixture.detectChanges();
-    component.ngOnChanges();
+    it('should dispatch close panel on Esc keyboard event', () => {
+        const event = new KeyboardEvent('keydown', {
+            code: 'Escape',
+            key: 'Escape',
+            keyCode: 27,
+        } as KeyboardEventInit);
 
-    expect(component.displayNode).toBe(response);
-    expect(contentApiService.getNodeInfo).toHaveBeenCalled();
-  }));
+        fixture.detectChanges();
 
-  it('should dispatch close panel on Esc keyboard event', () => {
-    const event = new KeyboardEvent('keydown', {
-      code: 'Escape',
-      key: 'Escape',
-      keyCode: 27
-    } as KeyboardEventInit);
+        fixture.debugElement.nativeElement.dispatchEvent(event);
 
-    fixture.detectChanges();
-
-    fixture.debugElement.nativeElement.dispatchEvent(event);
-
-    expect(storeMock.dispatch).toHaveBeenCalledWith(
-      new ToggleInfoDrawerAction()
-    );
-  });
+        expect(storeMock.dispatch).toHaveBeenCalledWith(
+            new ToggleInfoDrawerAction()
+        );
+    });
 });

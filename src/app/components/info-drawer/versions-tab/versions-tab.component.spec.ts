@@ -26,7 +26,7 @@
 import { VersionsTabComponent } from './versions-tab.component';
 
 describe('VersionsTabComponent', () => {
-  it('should be defined', () => {
-    expect(VersionsTabComponent).toBeDefined();
-  });
+    it('should be defined', () => {
+        expect(VersionsTabComponent).toBeDefined();
+    });
 });

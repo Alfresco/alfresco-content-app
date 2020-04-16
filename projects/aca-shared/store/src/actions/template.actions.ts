@@ -27,32 +27,28 @@ import { Action } from '@ngrx/store';
 import { Node } from '@alfresco/js-api';
 
 export enum TemplateActionTypes {
-  FileFromTemplate = 'FILE_FROM_TEMPLATE',
-  FolderFromTemplate = 'FOLDER_FROM_TEMPLATE',
-  CreateFromTemplate = 'CREATE_FROM_TEMPLATE',
-  CreateFromTemplateSuccess = 'CREATE_FROM_TEMPLATE_SUCCESS'
+    FileFromTemplate = 'FILE_FROM_TEMPLATE',
+    FolderFromTemplate = 'FOLDER_FROM_TEMPLATE',
+    CreateFromTemplate = 'CREATE_FROM_TEMPLATE',
+    CreateFromTemplateSuccess = 'CREATE_FROM_TEMPLATE_SUCCESS',
 }
 
 export class FileFromTemplate implements Action {
-  readonly type = TemplateActionTypes.FileFromTemplate;
-
-  constructor() {}
+    readonly type = TemplateActionTypes.FileFromTemplate;
 }
 
 export class FolderFromTemplate implements Action {
-  readonly type = TemplateActionTypes.FolderFromTemplate;
-
-  constructor() {}
+    readonly type = TemplateActionTypes.FolderFromTemplate;
 }
 
 export class CreateFromTemplate implements Action {
-  readonly type = TemplateActionTypes.CreateFromTemplate;
+    readonly type = TemplateActionTypes.CreateFromTemplate;
 
-  constructor(public payload: Node) {}
+    constructor(public payload: Node) {}
 }
 
 export class CreateFromTemplateSuccess implements Action {
-  readonly type = TemplateActionTypes.CreateFromTemplateSuccess;
+    readonly type = TemplateActionTypes.CreateFromTemplateSuccess;
 
-  constructor(public node: Node) {}
+    constructor(public node: Node) {}
 }

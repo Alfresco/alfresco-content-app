@@ -1,35 +1,35 @@
 @import 'mixins';
 
 @mixin aca-result-row-theme($theme) {
-  $primary: map-get($theme, primary);
-  $foreground: map-get($theme, foreground);
+    $primary: map-get($theme, primary);
+    $foreground: map-get($theme, foreground);
 
-  .aca-search-results-row {
-    @include flex-column;
-  }
+    .aca-search-results-row {
+        @include flex-column;
+    }
 
-  .line {
-    margin: 5px;
-  }
+    .line {
+        margin: 5px;
+    }
 
-  .bold {
-    font-weight: 400;
-    color: mat-color($foreground, text, 0.87);
-  }
+    .bold {
+        font-weight: 400;
+        color: mat-color($foreground, text, 0.87);
+    }
 
-  .link {
-    text-decoration: none;
-    color: mat-color($foreground, text, 0.87);
-  }
+    .link {
+        text-decoration: none;
+        color: mat-color($foreground, text, 0.87);
+    }
 
-  .link:hover,
-  .aca-location-link .adf-datatable-cell-value:hover {
-    color: mat-color($primary, A200) !important;
-    text-decoration: underline;
-  }
+    .link:hover,
+    .aca-location-link .adf-datatable-cell-value:hover {
+        color: mat-color($primary, A200) !important;
+        text-decoration: underline;
+    }
 
-  .adf-is-selected .link:not(:hover),
-  .adf-is-selected .adf-datatable-cell-value:not(:hover) {
-    color: mat-color($primary) !important;
-  }
+    .adf-is-selected .link:not(:hover),
+    .adf-is-selected .adf-datatable-cell-value:not(:hover) {
+        color: mat-color($primary) !important;
+    }
 }

@@ -29,35 +29,41 @@ import { DropDownBreadcrumb } from '../breadcrumb/dropdown-breadcrumb';
 import { DataTable } from '../data-table/data-table';
 
 export class SelectTemplateDialog extends GenericDialog {
-  private static selectors = {
-    root: '.aca-template-node-selector-dialog',
+    private static selectors = {
+        root: '.aca-template-node-selector-dialog',
 
-    nextButton: by.css('[data-automation-id="content-node-selector-actions-choose"]'),
-    cancelButton: by.css('[data-automation-id="content-node-selector-actions-cancel"]')
-  };
+        nextButton: by.css(
+            '[data-automation-id="content-node-selector-actions-choose"]'
+        ),
+        cancelButton: by.css(
+            '[data-automation-id="content-node-selector-actions-cancel"]'
+        ),
+    };
 
-  breadcrumb: DropDownBreadcrumb = new DropDownBreadcrumb();
-  dataTable: DataTable = new DataTable(SelectTemplateDialog.selectors.root);
+    breadcrumb: DropDownBreadcrumb = new DropDownBreadcrumb();
+    dataTable: DataTable = new DataTable(SelectTemplateDialog.selectors.root);
 
-  constructor() {
-    super(SelectTemplateDialog.selectors.root);
-  }
+    constructor() {
+        super(SelectTemplateDialog.selectors.root);
+    }
 
-  async isCancelButtonEnabled(): Promise<boolean> {
-    return this.isButtonEnabled(SelectTemplateDialog.selectors.cancelButton);
-  }
+    async isCancelButtonEnabled(): Promise<boolean> {
+        return this.isButtonEnabled(
+            SelectTemplateDialog.selectors.cancelButton
+        );
+    }
 
-  async isNextButtonEnabled(): Promise<boolean> {
-    return this.isButtonEnabled(SelectTemplateDialog.selectors.nextButton);
-  }
+    async isNextButtonEnabled(): Promise<boolean> {
+        return this.isButtonEnabled(SelectTemplateDialog.selectors.nextButton);
+    }
 
-  async clickCancel(): Promise<void> {
-    await this.clickButton(SelectTemplateDialog.selectors.cancelButton);
-    await this.waitForDialogToClose();
-  }
+    async clickCancel(): Promise<void> {
+        await this.clickButton(SelectTemplateDialog.selectors.cancelButton);
+        await this.waitForDialogToClose();
+    }
 
-  async clickNext(): Promise<void> {
-    await this.clickButton(SelectTemplateDialog.selectors.nextButton);
-    await this.waitForDialogToClose();
-  }
+    async clickNext(): Promise<void> {
+        await this.clickButton(SelectTemplateDialog.selectors.nextButton);
+        await this.waitForDialogToClose();
+    }
 }

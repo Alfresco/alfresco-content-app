@@ -30,5 +30,5 @@ import { RuleContext } from '@alfresco/adf-extensions';
  * JSON ref: `user.isAdmin`
  */
 export function isAdmin(context: RuleContext): boolean {
-  return context.profile.isAdmin;
+    return context.profile.isAdmin;
 }

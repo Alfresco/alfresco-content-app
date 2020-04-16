@@ -28,35 +28,35 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { ProfileState, ContentActionRef } from '@alfresco/adf-extensions';
 import {
-  AppStore,
-  getUserProfile,
-  getLanguagePickerState
+    AppStore,
+    getUserProfile,
+    getLanguagePickerState,
 } from '@alfresco/aca-shared/store';
 import { AppExtensionService } from '../../extensions/extension.service';
 
 @Component({
-  selector: 'aca-current-user',
-  templateUrl: './current-user.component.html',
-  encapsulation: ViewEncapsulation.None,
-  host: { class: 'aca-current-user' }
+    selector: 'aca-current-user',
+    templateUrl: './current-user.component.html',
+    encapsulation: ViewEncapsulation.None,
+    host: { class: 'aca-current-user' },
 })
 export class CurrentUserComponent implements OnInit {
-  profile$: Observable<ProfileState>;
-  languagePicker$: Observable<boolean>;
-  actions: Array<ContentActionRef> = [];
+    profile$: Observable<ProfileState>;
+    languagePicker$: Observable<boolean>;
+    actions: Array<ContentActionRef> = [];
 
-  constructor(
-    private store: Store<AppStore>,
-    private extensions: AppExtensionService
-  ) {}
+    constructor(
+        private store: Store<AppStore>,
+        private extensions: AppExtensionService
+    ) {}
 
-  ngOnInit() {
-    this.profile$ = this.store.select(getUserProfile);
-    this.languagePicker$ = this.store.select(getLanguagePickerState);
-    this.actions = this.extensions.getUserActions();
-  }
+    ngOnInit() {
+        this.profile$ = this.store.select(getUserProfile);
+        this.languagePicker$ = this.store.select(getLanguagePickerState);
+        this.actions = this.extensions.getUserActions();
+    }
 
-  trackByActionId(_: number, action: ContentActionRef) {
-    return action.id;
-  }
+    trackByActionId(_: number, action: ContentActionRef) {
+        return action.id;
+    }
 }

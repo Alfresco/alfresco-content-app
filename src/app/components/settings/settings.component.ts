@@ -25,141 +25,149 @@
 
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import {
-  AppConfigService,
-  StorageService,
-  OauthConfigModel
+    AppConfigService,
+    StorageService,
+    OauthConfigModel,
 } from '@alfresco/adf-core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import {
-  AppStore,
-  getHeaderColor,
-  getAppName,
-  getUserProfile,
-  SetSettingsParameterAction
+    AppStore,
+    getHeaderColor,
+    getAppName,
+    getUserProfile,
+    SetSettingsParameterAction,
 } from '@alfresco/aca-shared/store';
 import { ProfileState } from '@alfresco/adf-extensions';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { SettingsGroupRef, SettingsParameterRef } from '../../types';
 
 interface RepositoryConfig {
-  ecmHost: string;
-  authType: string;
-  aisHost: string;
+    ecmHost: string;
+    authType: string;
+    aisHost: string;
 }
 
 @Component({
-  selector: 'aca-settings',
-  templateUrl: './settings.component.html',
-  encapsulation: ViewEncapsulation.None,
-  host: { class: 'aca-settings' }
+    selector: 'aca-settings',
+    templateUrl: './settings.component.html',
+    encapsulation: ViewEncapsulation.None,
+    host: { class: 'aca-settings' },
 })
 export class SettingsComponent implements OnInit {
-  private defaultPath = '/assets/images/alfresco-logo-white.svg';
+    private defaultPath = '/assets/images/alfresco-logo-white.svg';
 
-  form: FormGroup;
+    form: FormGroup;
 
-  profile$: Observable<ProfileState>;
-  appName$: Observable<string>;
-  headerColor$: Observable<string>;
+    profile$: Observable<ProfileState>;
+    appName$: Observable<string>;
+    headerColor$: Observable<string>;
 
-  get settingGroups(): SettingsGroupRef[] {
-    return this.appExtensions.getSettingsGroups();
-  }
-
-  constructor(
-    private appExtensions: AppExtensionService,
-    private store: Store<AppStore>,
-    private appConfig: AppConfigService,
-    private storage: StorageService,
-    private fb: FormBuilder
-  ) {
-    this.profile$ = store.select(getUserProfile);
-    this.appName$ = store.select(getAppName);
-    this.headerColor$ = store.select(getHeaderColor);
-  }
-
-  get logo(): string {
-    return this.appConfig.get('application.logo', this.defaultPath);
-  }
-
-  ngOnInit() {
-    this.form = this.fb.group({
-      ecmHost: [
-        '',
-        [Validators.required, Validators.pattern('^(http|https)://.*[^/]$')]
-      ],
-      aisHost: [
-        '',
-        [Validators.required, Validators.pattern('^(http|https)://.*[^/]$')]
-      ],
-      authType: ['']
-    });
-
-    this.reset();
-  }
-
-  apply(model: RepositoryConfig, isValid: boolean) {
-    if (isValid) {
-      this.storage.setItem('ecmHost', model.ecmHost);
-      this.storage.setItem('authType', model.authType);
-
-      const config: OauthConfigModel = this.appConfig.get<OauthConfigModel>(
-        'oauth2',
-        null
-      );
-      config.host = model.aisHost;
-      this.storage.setItem('oauth2', JSON.stringify(config));
-
-      // window.location.reload(true);
+    get settingGroups(): SettingsGroupRef[] {
+        return this.appExtensions.getSettingsGroups();
     }
-  }
 
-  reset() {
-    const config: OauthConfigModel = this.appConfig.get<OauthConfigModel>(
-      'oauth2',
-      null
-    );
-
-    this.form.reset(<RepositoryConfig> {
-      ecmHost:
-        this.storage.getItem('ecmHost') ||
-        this.appConfig.get<string>('ecmHost'),
-      aisHost: config.host,
-      authType: this.appConfig.get<string>('authType')
-    });
-  }
-
-  getStringParamValue(param: SettingsParameterRef): string {
-    return this.storage.getItem(param.key) || param.value;
-  }
-
-  setParamValue(param: SettingsParameterRef, value: any) {
-    const currentValue = this.getStringParamValue(param);
-
-    if (currentValue !== value.toString()) {
-      param.value = value;
-      this.saveToStorage(param);
+    constructor(
+        private appExtensions: AppExtensionService,
+        private store: Store<AppStore>,
+        private appConfig: AppConfigService,
+        private storage: StorageService,
+        private fb: FormBuilder
+    ) {
+        this.profile$ = store.select(getUserProfile);
+        this.appName$ = store.select(getAppName);
+        this.headerColor$ = store.select(getHeaderColor);
     }
-  }
 
-  getBooleanParamValue(param: SettingsParameterRef): boolean {
-    const result = this.storage.getItem(param.key);
-    if (result) {
-      return result === 'true';
-    } else {
-      return param.value ? true : false;
+    get logo(): string {
+        return this.appConfig.get('application.logo', this.defaultPath);
     }
-  }
 
-  private saveToStorage(param: SettingsParameterRef) {
-    this.storage.setItem(
-      param.key,
-      param.value ? param.value.toString() : param.value
-    );
-    this.store.dispatch(
-      new SetSettingsParameterAction({ name: param.key, value: param.value })
-    );
-  }
+    ngOnInit() {
+        this.form = this.fb.group({
+            ecmHost: [
+                '',
+                [
+                    Validators.required,
+                    Validators.pattern('^(http|https)://.*[^/]$'),
+                ],
+            ],
+            aisHost: [
+                '',
+                [
+                    Validators.required,
+                    Validators.pattern('^(http|https)://.*[^/]$'),
+                ],
+            ],
+            authType: [''],
+        });
+
+        this.reset();
+    }
+
+    apply(model: RepositoryConfig, isValid: boolean) {
+        if (isValid) {
+            this.storage.setItem('ecmHost', model.ecmHost);
+            this.storage.setItem('authType', model.authType);
+
+            const config: OauthConfigModel = this.appConfig.get<
+                OauthConfigModel
+            >('oauth2', null);
+            config.host = model.aisHost;
+            this.storage.setItem('oauth2', JSON.stringify(config));
+
+            // window.location.reload(true);
+        }
+    }
+
+    reset() {
+        const config: OauthConfigModel = this.appConfig.get<OauthConfigModel>(
+            'oauth2',
+            null
+        );
+
+        this.form.reset({
+            ecmHost:
+                this.storage.getItem('ecmHost') ||
+                this.appConfig.get<string>('ecmHost'),
+            aisHost: config.host,
+            authType: this.appConfig.get<string>('authType'),
+        });
+    }
+
+    getStringParamValue(param: SettingsParameterRef): string {
+        return this.storage.getItem(param.key) || param.value;
+    }
+
+    setParamValue(param: SettingsParameterRef, value: any) {
+        const currentValue = this.getStringParamValue(param);
+
+        if (currentValue !== value.toString()) {
+            param.value = value;
+            this.saveToStorage(param);
+        }
+    }
+
+    getBooleanParamValue(param: SettingsParameterRef): boolean {
+        const result = this.storage.getItem(param.key);
+        if (result) {
+            return result === 'true';
+        } else {
+            return param.value ? true : false;
+        }
+    }
+
+    private saveToStorage(param: SettingsParameterRef) {
+        this.storage.setItem(
+            param.key,
+            param.value ? param.value.toString() : param.value
+        );
+        this.store.dispatch(
+            new SetSettingsParameterAction({
+                name: param.key,
+                value: param.value,
+            })
+        );
+    }
 }

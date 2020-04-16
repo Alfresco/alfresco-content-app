@@ -26,7 +26,7 @@
 import { Directive } from '@angular/core';
 
 @Directive({
-  // tslint:disable-next-line: directive-selector
-  selector: '[acaCollapsedTemplate]'
+    // tslint:disable-next-line: directive-selector
+    selector: '[acaCollapsedTemplate]',
 })
 export class CollapsedTemplateDirective {}

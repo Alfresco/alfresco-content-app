@@ -36,29 +36,29 @@ import { ContextMenuModule } from '../context-menu/context-menu.module';
 import { AppLayoutModule } from '../layout/layout.module';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: TrashcanComponent,
-    data: {
-      title: 'APP.BROWSE.TRASHCAN.TITLE',
-      sortingPreferenceKey: 'trashcan'
-    }
-  }
+    {
+        path: '',
+        component: TrashcanComponent,
+        data: {
+            title: 'APP.BROWSE.TRASHCAN.TITLE',
+            sortingPreferenceKey: 'trashcan',
+        },
+    },
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    CoreModule.forChild(),
-    RouterModule.forChild(routes),
-    ContentModule.forChild(),
-    DirectivesModule,
-    AppCommonModule,
-    AppToolbarModule,
-    ContextMenuModule,
-    AppLayoutModule
-  ],
-  declarations: [TrashcanComponent],
-  exports: [TrashcanComponent]
+    imports: [
+        CommonModule,
+        CoreModule.forChild(),
+        RouterModule.forChild(routes),
+        ContentModule.forChild(),
+        DirectivesModule,
+        AppCommonModule,
+        AppToolbarModule,
+        ContextMenuModule,
+        AppLayoutModule,
+    ],
+    declarations: [TrashcanComponent],
+    exports: [TrashcanComponent],
 })
 export class AppTrashcanModule {}

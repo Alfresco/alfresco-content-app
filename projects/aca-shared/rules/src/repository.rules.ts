@@ -30,5 +30,5 @@ import { RuleContext } from '@alfresco/adf-extensions';
  * JSON ref: `repository.isQuickShareEnabled`
  */
 export function hasQuickShareEnabled(context: RuleContext): boolean {
-  return context.repository.status.isQuickShareEnabled;
+    return context.repository.status.isQuickShareEnabled;
 }

@@ -24,7 +24,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material';
 import { CreateFromTemplateDialogComponent } from '../dialogs/node-template/create-from-template.dialog';
 import { Subject, from, of } from 'rxjs';
 import { Node, MinimalNode, MinimalNodeEntryEntity } from '@alfresco/js-api';
@@ -33,138 +33,151 @@ import { switchMap, catchError } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { AppStore, SnackbarErrorAction } from '@alfresco/aca-shared/store';
 import {
-  ContentNodeSelectorComponent,
-  ContentNodeSelectorComponentData,
-  ShareDataRow
+    ContentNodeSelectorComponent,
+    ContentNodeSelectorComponentData,
+    ShareDataRow,
 } from '@alfresco/adf-content-services';
 
 export interface TemplateDialogConfig {
-  relativePath: string;
-  selectionType: string;
+    relativePath: string;
+    selectionType: string;
 }
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root',
 })
 export class NodeTemplateService {
-  private currentTemplateConfig: TemplateDialogConfig = null;
+    private currentTemplateConfig: TemplateDialogConfig = null;
 
-  constructor(
-    private store: Store<AppStore>,
-    private alfrescoApiService: AlfrescoApiService,
-    private translation: TranslationService,
-    public dialog: MatDialog
-  ) {}
+    constructor(
+        private store: Store<AppStore>,
+        private alfrescoApiService: AlfrescoApiService,
+        private translation: TranslationService,
+        public dialog: MatDialog
+    ) {}
 
-  selectTemplateDialog(config: TemplateDialogConfig): Subject<Node[]> {
-    this.currentTemplateConfig = config;
+    selectTemplateDialog(config: TemplateDialogConfig): Subject<Node[]> {
+        this.currentTemplateConfig = config;
 
-    const select = new Subject<Node[]>();
-    select.subscribe({
-      complete: this.close.bind(this)
-    });
+        const select = new Subject<Node[]>();
+        select.subscribe({
+            complete: this.close.bind(this),
+        });
 
-    const data: ContentNodeSelectorComponentData = {
-      title: this.title(config.selectionType),
-      actionName: 'NEXT',
-      dropdownHideMyFiles: true,
-      currentFolderId: null,
-      dropdownSiteList: null,
-      breadcrumbTransform: this.transformNode.bind(this),
-      select,
-      showSearch: false,
-      showDropdownSiteList: false,
-      isSelectionValid: this.isSelectionValid.bind(this),
-      rowFilter: this.rowFilter.bind(this)
-    };
+        const data: ContentNodeSelectorComponentData = {
+            title: this.title(config.selectionType),
+            actionName: 'NEXT',
+            dropdownHideMyFiles: true,
+            currentFolderId: null,
+            dropdownSiteList: null,
+            breadcrumbTransform: this.transformNode.bind(this),
+            select,
+            showSearch: false,
+            showDropdownSiteList: false,
+            isSelectionValid: this.isSelectionValid.bind(this),
+            rowFilter: this.rowFilter.bind(this),
+        };
 
-    from(
-      this.alfrescoApiService.getInstance().nodes.getNodeInfo('-root-', {
-        relativePath: config.relativePath
-      })
-    )
-      .pipe(
-        switchMap(node => {
-          data.currentFolderId = node.id;
-          return this.dialog
-            .open(ContentNodeSelectorComponent, <MatDialogConfig> {
-              data,
-              panelClass: [
-                'adf-content-node-selector-dialog',
-                'aca-template-node-selector-dialog'
-              ],
-              width: '630px'
+        from(
+            this.alfrescoApiService.getInstance().nodes.getNodeInfo('-root-', {
+                relativePath: config.relativePath,
             })
-            .afterClosed();
-        }),
-        catchError(error => {
-          this.store.dispatch(
-            new SnackbarErrorAction('APP.MESSAGES.ERRORS.GENERIC')
-          );
-          return of(error);
-        })
-      )
-      .subscribe({ next: () => select.complete() });
+        )
+            .pipe(
+                switchMap((node) => {
+                    data.currentFolderId = node.id;
+                    return this.dialog
+                        .open<ContentNodeSelectorComponent>(
+                            ContentNodeSelectorComponent,
+                            {
+                                data,
+                                panelClass: [
+                                    'adf-content-node-selector-dialog',
+                                    'aca-template-node-selector-dialog',
+                                ],
+                                width: '630px',
+                            }
+                        )
+                        .afterClosed();
+                }),
+                catchError((error) => {
+                    this.store.dispatch(
+                        new SnackbarErrorAction('APP.MESSAGES.ERRORS.GENERIC')
+                    );
+                    return of(error);
+                })
+            )
+            .subscribe({ next: () => select.complete() });
 
-    return select;
-  }
-
-  createTemplateDialog(
-    node: Node
-  ): MatDialogRef<CreateFromTemplateDialogComponent> {
-    return this.dialog.open(CreateFromTemplateDialogComponent, {
-      data: node,
-      panelClass: 'aca-create-from-template-dialog',
-      width: '630px'
-    });
-  }
-
-  private transformNode(node: MinimalNode): MinimalNode {
-    if (node && node.path && node.path && node.path.elements instanceof Array) {
-      let {
-        path: { elements: elementsPath = [] }
-      } = node;
-      elementsPath = elementsPath.filter(
-        path => path.name !== 'Company Home' && path.name !== 'Data Dictionary'
-      );
-      node.path.elements = elementsPath;
+        return select;
     }
 
-    return node;
-  }
-
-  private isSelectionValid(node: Node): boolean {
-    if (node.name === this.currentTemplateConfig.relativePath.split('/')[1]) {
-      return false;
+    createTemplateDialog(
+        node: Node
+    ): MatDialogRef<CreateFromTemplateDialogComponent> {
+        return this.dialog.open(CreateFromTemplateDialogComponent, {
+            data: node,
+            panelClass: 'aca-create-from-template-dialog',
+            width: '630px',
+        });
     }
 
-    if (this.currentTemplateConfig.selectionType === 'folder') {
-      return node.isFolder;
+    private transformNode(node: MinimalNode): MinimalNode {
+        if (
+            node &&
+            node.path &&
+            node.path &&
+            node.path.elements instanceof Array
+        ) {
+            let {
+                path: { elements: elementsPath = [] },
+            } = node;
+            elementsPath = elementsPath.filter(
+                (path) =>
+                    path.name !== 'Company Home' &&
+                    path.name !== 'Data Dictionary'
+            );
+            node.path.elements = elementsPath;
+        }
+
+        return node;
     }
 
-    return node.isFile;
-  }
+    private isSelectionValid(node: Node): boolean {
+        if (
+            node.name === this.currentTemplateConfig.relativePath.split('/')[1]
+        ) {
+            return false;
+        }
 
-  private close() {
-    this.dialog.closeAll();
-  }
+        if (this.currentTemplateConfig.selectionType === 'folder') {
+            return node.isFolder;
+        }
 
-  private title(selectionType: string) {
-    if (selectionType === 'file') {
-      return this.translation.instant(
-        'NODE_SELECTOR.SELECT_FILE_TEMPLATE_TITLE'
-      );
+        return node.isFile;
     }
 
-    return this.translation.instant(
-      'NODE_SELECTOR.SELECT_FOLDER_TEMPLATE_TITLE'
-    );
-  }
+    private close() {
+        this.dialog.closeAll();
+    }
 
-  private rowFilter(row: ShareDataRow): boolean {
-    const node: MinimalNodeEntryEntity = row.node.entry;
-    return (
-      node.nodeType !== 'app:filelink' && node.nodeType !== 'app:folderlink'
-    );
-  }
+    private title(selectionType: string) {
+        if (selectionType === 'file') {
+            return this.translation.instant(
+                'NODE_SELECTOR.SELECT_FILE_TEMPLATE_TITLE'
+            );
+        }
+
+        return this.translation.instant(
+            'NODE_SELECTOR.SELECT_FOLDER_TEMPLATE_TITLE'
+        );
+    }
+
+    private rowFilter(row: ShareDataRow): boolean {
+        const node: MinimalNodeEntryEntity = row.node.entry;
+        return (
+            node.nodeType !== 'app:filelink' &&
+            node.nodeType !== 'app:folderlink'
+        );
+    }
 }

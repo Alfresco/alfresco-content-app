@@ -28,72 +28,75 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { Router } from '@angular/router';
 import {
-  TranslateModule,
-  TranslateLoader,
-  TranslateFakeLoader
+    TranslateModule,
+    TranslateLoader,
+    TranslateFakeLoader,
 } from '@ngx-translate/core';
 import { AppSidenavModule } from '../sidenav.module';
 
 describe('ButtonMenuComponent', () => {
-  let component: ButtonMenuComponent;
-  let fixture: ComponentFixture<ButtonMenuComponent>;
-  let router: Router;
+    let component: ButtonMenuComponent;
+    let fixture: ComponentFixture<ButtonMenuComponent>;
+    let router: Router;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        AppTestingModule,
-        AppSidenavModule,
-        TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
-        })
-      ]
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            imports: [
+                AppTestingModule,
+                AppSidenavModule,
+                TranslateModule.forRoot({
+                    loader: {
+                        provide: TranslateLoader,
+                        useClass: TranslateFakeLoader,
+                    },
+                }),
+            ],
+        });
+
+        fixture = TestBed.createComponent(ButtonMenuComponent);
+        component = fixture.componentInstance;
+        router = TestBed.get(Router);
+
+        spyOn(router, 'navigate');
     });
 
-    fixture = TestBed.createComponent(ButtonMenuComponent);
-    component = fixture.componentInstance;
-    router = TestBed.get(Router);
+    it('should render action item', () => {
+        component.item = {
+            id: 'test-action-button',
+            url: 'dummy',
+        };
 
-    spyOn(router, 'navigate');
-  });
+        fixture.detectChanges();
 
-  it('should render action item', () => {
-    component.item = {
-      id: 'test-action-button',
-      url: 'dummy'
-    };
+        const actionButton = document.body.querySelector('#test-action-button');
+        expect(actionButton).not.toBeNull();
+    });
 
-    fixture.detectChanges();
+    it('should render action item with children', () => {
+        component.item = {
+            id: 'test-action-button',
+            children: [
+                {
+                    id: 'child-1',
+                    title: 'child-1',
+                    url: 'dummy',
+                },
+                {
+                    id: 'child-2',
+                    title: 'child-2',
+                    url: 'dummy',
+                },
+            ],
+        };
 
-    const actionButton = document.body.querySelector('#test-action-button');
-    expect(actionButton).not.toBeNull();
-  });
+        fixture.detectChanges();
 
-  it('should render action item with children', () => {
-    component.item = {
-      id: 'test-action-button',
-      children: [
-        {
-          id: 'child-1',
-          title: 'child-1',
-          url: 'dummy'
-        },
-        {
-          id: 'child-2',
-          title: 'child-2',
-          url: 'dummy'
-        }
-      ]
-    };
+        const actionButton = document.body.querySelector(
+            '[id="test-action-button"]'
+        );
+        actionButton.dispatchEvent(new Event('click'));
 
-    fixture.detectChanges();
-
-    const actionButton = document.body.querySelector(
-      '[id="test-action-button"]'
-    );
-    actionButton.dispatchEvent(new Event('click'));
-
-    expect(document.querySelector('[id="child-1"]')).not.toBeNull();
-    expect(document.querySelector('[id="child-2"]')).not.toBeNull();
-  });
+        expect(document.querySelector('[id="child-1"]')).not.toBeNull();
+        expect(document.querySelector('[id="child-2"]')).not.toBeNull();
+    });
 });

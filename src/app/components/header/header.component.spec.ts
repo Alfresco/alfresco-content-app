@@ -26,7 +26,7 @@
 import { AppHeaderComponent } from './header.component';
 
 describe('AppHeaderComponent', () => {
-  it('should be defined', () => {
-    expect(AppHeaderComponent).toBeDefined();
-  });
+    it('should be defined', () => {
+        expect(AppHeaderComponent).toBeDefined();
+    });
 });

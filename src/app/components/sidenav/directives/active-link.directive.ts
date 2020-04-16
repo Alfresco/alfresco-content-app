@@ -24,14 +24,14 @@
  */
 
 import {
-  Directive,
-  OnInit,
-  Input,
-  ElementRef,
-  Renderer2,
-  ContentChildren,
-  QueryList,
-  AfterContentInit
+    Directive,
+    OnInit,
+    Input,
+    ElementRef,
+    Renderer2,
+    ContentChildren,
+    QueryList,
+    AfterContentInit,
 } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -39,60 +39,63 @@ import { Subject } from 'rxjs';
 import { ActionDirective } from './action.directive';
 
 @Directive({
-  // tslint:disable-next-line: directive-selector
-  selector: '[acaActiveLink]',
-  exportAs: 'acaActiveLink'
+    // tslint:disable-next-line: directive-selector
+    selector: '[acaActiveLink]',
+    exportAs: 'acaActiveLink',
 })
 export class ActiveLinkDirective implements OnInit, AfterContentInit {
-  @Input() acaActiveLink;
-  @ContentChildren(ActionDirective, { descendants: true })
-  links: QueryList<ActionDirective>;
-  isLinkActive = false;
+    @Input() acaActiveLink;
+    @ContentChildren(ActionDirective, { descendants: true })
+    links: QueryList<ActionDirective>;
+    isLinkActive = false;
 
-  private onDestroy$: Subject<boolean> = new Subject<boolean>();
+    private onDestroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(
-    private router: Router,
-    private element: ElementRef,
-    private renderer: Renderer2
-  ) {}
+    constructor(
+        private router: Router,
+        private element: ElementRef,
+        private renderer: Renderer2
+    ) {}
 
-  ngOnInit() {
-    this.router.events
-      .pipe(
-        filter(event => event instanceof NavigationEnd),
-        takeUntil(this.onDestroy$)
-      )
-      .subscribe((event: NavigationEnd) => {
-        this.update(event.urlAfterRedirects);
-      });
-  }
+    ngOnInit() {
+        this.router.events
+            .pipe(
+                filter((event) => event instanceof NavigationEnd),
+                takeUntil(this.onDestroy$)
+            )
+            .subscribe((event: NavigationEnd) => {
+                this.update(event.urlAfterRedirects);
+            });
+    }
 
-  private update(url: string) {
-    this.links.map(item => {
-      const itemUrl = this.resolveUrl(item);
-      if (url && url.substring(1).startsWith(itemUrl)) {
-        this.isLinkActive = true;
-        this.renderer.addClass(this.element.nativeElement, this.acaActiveLink);
-      } else {
-        this.isLinkActive = false;
-        this.renderer.removeClass(
-          this.element.nativeElement,
-          this.acaActiveLink
+    private update(url: string) {
+        this.links.map((item) => {
+            const itemUrl = this.resolveUrl(item);
+            if (url && url.substring(1).startsWith(itemUrl)) {
+                this.isLinkActive = true;
+                this.renderer.addClass(
+                    this.element.nativeElement,
+                    this.acaActiveLink
+                );
+            } else {
+                this.isLinkActive = false;
+                this.renderer.removeClass(
+                    this.element.nativeElement,
+                    this.acaActiveLink
+                );
+            }
+        });
+    }
+
+    ngAfterContentInit() {
+        this.links.changes.subscribe(() => this.update(this.router.url));
+        this.update(this.router.url);
+    }
+
+    private resolveUrl(item): string {
+        return (
+            (item.action && item.action.click && item.action.click.payload) ||
+            item.action.route
         );
-      }
-    });
-  }
-
-  ngAfterContentInit() {
-    this.links.changes.subscribe(() => this.update(this.router.url));
-    this.update(this.router.url);
-  }
-
-  private resolveUrl(item): string {
-    return (
-      (item.action && (item.action.click && item.action.click.payload)) ||
-      item.action.route
-    );
-  }
+    }
 }

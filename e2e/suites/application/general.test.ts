@@ -31,46 +31,51 @@ import { Utils } from '../../utilities/utils';
 import { Logger } from '@alfresco/adf-testing';
 
 describe('General', () => {
-  const loginPage = new LoginPage();
-  const page = new BrowsingPage();
-  const createDialog = new CreateOrEditFolderDialog();
-  const adminApi = new RepoClient();
-  const { nodes: nodesApi, authentication: authApi } = adminApi;
-  const folder = `folder-${Utils.random()}`;
-  let folderId;
+    const loginPage = new LoginPage();
+    const page = new BrowsingPage();
+    const createDialog = new CreateOrEditFolderDialog();
+    const adminApi = new RepoClient();
+    const { nodes: nodesApi, authentication: authApi } = adminApi;
+    const folder = `folder-${Utils.random()}`;
+    let folderId;
 
-  describe('on session expire', () => {
-    beforeAll(async (done) => {
-      folderId = (await nodesApi.createFolder(folder)).entry.id;
-      done();
+    describe('on session expire', () => {
+        beforeAll(async (done) => {
+            folderId = (await nodesApi.createFolder(folder)).entry.id;
+            done();
+        });
+
+        afterAll(async (done) => {
+            await nodesApi.deleteNodeById(folderId);
+            done();
+        });
+
+        it('should close opened dialogs - [C286473]', async () => {
+            await loginPage.loginWithAdmin();
+
+            await page.sidenav.openCreateFolderDialog();
+            await createDialog.waitForDialogToOpen();
+            await createDialog.enterName(folder);
+
+            await authApi.logout();
+
+            await createDialog.clickCreate();
+
+            expect(await page.getSnackBarMessage()).toEqual(
+                'The action was unsuccessful. Try again or contact your IT Team.'
+            );
+
+            expect(await browser.getTitle()).toContain('Sign in');
+
+            try {
+                await createDialog.waitForDialogToClose();
+            } catch (error) {
+                Logger.info('err: ', error);
+            }
+            expect(await createDialog.isDialogOpen()).not.toBe(
+                true,
+                'dialog is present'
+            );
+        });
     });
-
-    afterAll(async (done) => {
-      await nodesApi.deleteNodeById(folderId);
-      done();
-    });
-
-    it('should close opened dialogs - [C286473]', async () => {
-      await loginPage.loginWithAdmin();
-
-      await page.sidenav.openCreateFolderDialog();
-      await createDialog.waitForDialogToOpen();
-      await createDialog.enterName(folder);
-
-      await authApi.logout();
-
-      await createDialog.clickCreate();
-
-      expect(await page.getSnackBarMessage()).toEqual('The action was unsuccessful. Try again or contact your IT Team.');
-
-      expect(await browser.getTitle()).toContain('Sign in');
-
-      try {
-        await createDialog.waitForDialogToClose();
-      } catch (error) {
-        Logger.info('err: ', error);
-      }
-      expect(await createDialog.isDialogOpen()).not.toBe(true, 'dialog is present');
-    });
-  });
 });

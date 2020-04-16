@@ -28,99 +28,106 @@ import { AppTestingModule } from '../../testing/app-testing.module';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { UserMenuItemComponent } from './user-menu-item.component';
 import {
-  TranslateModule,
-  TranslateLoader,
-  TranslateFakeLoader
+    TranslateModule,
+    TranslateLoader,
+    TranslateFakeLoader,
 } from '@ngx-translate/core';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 
 describe('UserMenuItemComponent', () => {
-  let fixture: ComponentFixture<UserMenuItemComponent>;
-  let component: UserMenuItemComponent;
-  let appExtensionService;
+    let fixture: ComponentFixture<UserMenuItemComponent>;
+    let component: UserMenuItemComponent;
+    let appExtensionService;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        AppTestingModule,
-        TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
-        })
-      ],
-      declarations: [UserMenuItemComponent],
-      providers: [AppExtensionService],
-      schemas: [NO_ERRORS_SCHEMA]
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            imports: [
+                AppTestingModule,
+                TranslateModule.forRoot({
+                    loader: {
+                        provide: TranslateLoader,
+                        useClass: TranslateFakeLoader,
+                    },
+                }),
+            ],
+            declarations: [UserMenuItemComponent],
+            providers: [AppExtensionService],
+            schemas: [NO_ERRORS_SCHEMA],
+        });
+
+        fixture = TestBed.createComponent(UserMenuItemComponent);
+        appExtensionService = TestBed.get(AppExtensionService);
+        component = fixture.componentInstance;
     });
 
-    fixture = TestBed.createComponent(UserMenuItemComponent);
-    appExtensionService = TestBed.get(AppExtensionService);
-    component = fixture.componentInstance;
-  });
+    afterEach(() => {
+        fixture.destroy();
+    });
 
-  afterEach(() => {
-    fixture.destroy();
-  });
+    it('should render button action', () => {
+        component.actionRef = {
+            id: 'action-button',
+            title: 'Test Button',
+            actions: {
+                click: 'TEST_EVENT',
+            },
+        } as ContentActionRef;
+        fixture.detectChanges();
 
-  it('should render button action', () => {
-    component.actionRef = {
-      id: 'action-button',
-      title: 'Test Button',
-      actions: {
-        click: 'TEST_EVENT'
-      }
-    } as ContentActionRef;
-    fixture.detectChanges();
+        const buttonElement = fixture.nativeElement.querySelector(
+            '#action-button'
+        );
+        expect(buttonElement).not.toBe(null);
+    });
 
-    const buttonElement = fixture.nativeElement.querySelector('#action-button');
-    expect(buttonElement).not.toBe(null);
-  });
+    it('should render menu action', () => {
+        component.actionRef = {
+            type: 'menu',
+            id: 'action-menu',
+            title: 'Test Button',
+            actions: {
+                click: 'TEST_EVENT',
+            },
+        } as ContentActionRef;
+        fixture.detectChanges();
 
-  it('should render menu action', () => {
-    component.actionRef = {
-      type: 'menu',
-      id: 'action-menu',
-      title: 'Test Button',
-      actions: {
-        click: 'TEST_EVENT'
-      }
-    } as ContentActionRef;
-    fixture.detectChanges();
+        const menuElement = fixture.nativeElement.querySelector('#action-menu');
+        expect(menuElement).not.toBe(null);
+    });
 
-    const menuElement = fixture.nativeElement.querySelector('#action-menu');
-    expect(menuElement).not.toBe(null);
-  });
+    it('should render custom action', () => {
+        component.actionRef = {
+            type: 'custom',
+            id: 'action-custom',
+            component: 'custom-component',
+        } as ContentActionRef;
+        fixture.detectChanges();
 
-  it('should render custom action', () => {
-    component.actionRef = {
-      type: 'custom',
-      id: 'action-custom',
-      component: 'custom-component'
-    } as ContentActionRef;
-    fixture.detectChanges();
+        const componentElement = fixture.nativeElement.querySelector(
+            '#custom-component'
+        );
+        expect(componentElement).not.toBe(null);
+    });
 
-    const componentElement = fixture.nativeElement.querySelector(
-      '#custom-component'
-    );
-    expect(componentElement).not.toBe(null);
-  });
+    it('should run defined action', () => {
+        spyOn(appExtensionService, 'runActionById');
 
-  it('should run defined action', () => {
-    spyOn(appExtensionService, 'runActionById');
+        component.actionRef = {
+            id: 'action-button',
+            title: 'Test Button',
+            actions: {
+                click: 'TEST_EVENT',
+            },
+        } as ContentActionRef;
+        fixture.detectChanges();
 
-    component.actionRef = {
-      id: 'action-button',
-      title: 'Test Button',
-      actions: {
-        click: 'TEST_EVENT'
-      }
-    } as ContentActionRef;
-    fixture.detectChanges();
-
-    const buttonElement = fixture.nativeElement.querySelector('#action-button');
-    buttonElement.dispatchEvent(new MouseEvent('click'));
-    expect(appExtensionService.runActionById).toHaveBeenCalledWith(
-      'TEST_EVENT'
-    );
-  });
+        const buttonElement = fixture.nativeElement.querySelector(
+            '#action-button'
+        );
+        buttonElement.dispatchEvent(new MouseEvent('click'));
+        expect(appExtensionService.runActionById).toHaveBeenCalledWith(
+            'TEST_EVENT'
+        );
+    });
 });

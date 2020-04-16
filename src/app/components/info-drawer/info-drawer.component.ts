@@ -24,92 +24,92 @@
  */
 
 import {
-  Component,
-  HostListener,
-  Input,
-  OnChanges,
-  OnDestroy,
-  OnInit
+    Component,
+    HostListener,
+    Input,
+    OnChanges,
+    OnDestroy,
+    OnInit,
 } from '@angular/core';
 import {
-  MinimalNodeEntity,
-  MinimalNodeEntryEntity,
-  SiteEntry
+    MinimalNodeEntity,
+    MinimalNodeEntryEntity,
+    SiteEntry,
 } from '@alfresco/js-api';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { SidebarTabRef } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
 import {
-  SetInfoDrawerStateAction,
-  ToggleInfoDrawerAction
+    SetInfoDrawerStateAction,
+    ToggleInfoDrawerAction,
 } from '@alfresco/aca-shared/store';
 
 @Component({
-  selector: 'aca-info-drawer',
-  templateUrl: './info-drawer.component.html'
+    selector: 'aca-info-drawer',
+    templateUrl: './info-drawer.component.html',
 })
 export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
-  @Input()
-  nodeId: string;
-  @Input()
-  node: MinimalNodeEntity;
+    @Input()
+    nodeId: string;
+    @Input()
+    node: MinimalNodeEntity;
 
-  isLoading = false;
-  displayNode: MinimalNodeEntryEntity | SiteEntry;
-  tabs: Array<SidebarTabRef> = [];
+    isLoading = false;
+    displayNode: MinimalNodeEntryEntity | SiteEntry;
+    tabs: Array<SidebarTabRef> = [];
 
-  @HostListener('keydown.escape', ['$event'])
-  onEscapeKeyboardEvent(event: KeyboardEvent): void {
-    this.close();
-  }
-
-  constructor(
-    private store: Store<any>,
-    private contentApi: ContentApiService,
-    private extensions: AppExtensionService
-  ) {}
-
-  ngOnInit() {
-    this.tabs = this.extensions.getSidebarTabs();
-  }
-
-  ngOnDestroy() {
-    this.store.dispatch(new SetInfoDrawerStateAction(false));
-  }
-
-  ngOnChanges() {
-    if (this.node) {
-      if (this.node['isLibrary']) {
-        return this.setDisplayNode(this.node);
-      }
-
-      const entry: any = this.node.entry;
-
-      const id = entry.nodeId || entry.id;
-      return this.loadNodeInfo(id);
+    @HostListener('keydown.escape', ['$event'])
+    onEscapeKeyboardEvent(event: KeyboardEvent): void {
+        this.close();
     }
-  }
 
-  private close() {
-    this.store.dispatch(new ToggleInfoDrawerAction());
-  }
+    constructor(
+        private store: Store<any>,
+        private contentApi: ContentApiService,
+        private extensions: AppExtensionService
+    ) {}
 
-  private loadNodeInfo(nodeId: string) {
-    if (nodeId) {
-      this.isLoading = true;
-
-      this.contentApi.getNodeInfo(nodeId).subscribe(
-        entity => {
-          this.setDisplayNode(entity);
-          this.isLoading = false;
-        },
-        () => (this.isLoading = false)
-      );
+    ngOnInit() {
+        this.tabs = this.extensions.getSidebarTabs();
     }
-  }
 
-  private setDisplayNode(node: any) {
-    this.displayNode = node;
-  }
+    ngOnDestroy() {
+        this.store.dispatch(new SetInfoDrawerStateAction(false));
+    }
+
+    ngOnChanges() {
+        if (this.node) {
+            if (this.node['isLibrary']) {
+                return this.setDisplayNode(this.node);
+            }
+
+            const entry: any = this.node.entry;
+
+            const id = entry.nodeId || entry.id;
+            return this.loadNodeInfo(id);
+        }
+    }
+
+    private close() {
+        this.store.dispatch(new ToggleInfoDrawerAction());
+    }
+
+    private loadNodeInfo(nodeId: string) {
+        if (nodeId) {
+            this.isLoading = true;
+
+            this.contentApi.getNodeInfo(nodeId).subscribe(
+                (entity) => {
+                    this.setDisplayNode(entity);
+                    this.isLoading = false;
+                },
+                () => (this.isLoading = false)
+            );
+        }
+    }
+
+    private setDisplayNode(node: any) {
+        this.displayNode = node;
+    }
 }

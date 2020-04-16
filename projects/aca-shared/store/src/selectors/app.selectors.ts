@@ -29,107 +29,95 @@ import { createSelector } from '@ngrx/store';
 export const selectApp = (state: AppStore) => state.app;
 
 export const getHeaderColor = createSelector(
-  selectApp,
-  state => state.headerColor
+    selectApp,
+    (state) => state.headerColor
 );
 
-export const getAppName = createSelector(
-  selectApp,
-  state => state.appName
-);
+export const getAppName = createSelector(selectApp, (state) => state.appName);
 
-export const getLogoPath = createSelector(
-  selectApp,
-  state => state.logoPath
-);
+export const getLogoPath = createSelector(selectApp, (state) => state.logoPath);
 
 export const getLanguagePickerState = createSelector(
-  selectApp,
-  state => state.languagePicker
+    selectApp,
+    (state) => state.languagePicker
 );
 
-export const getUserProfile = createSelector(
-  selectApp,
-  state => state.user
-);
+export const getUserProfile = createSelector(selectApp, (state) => state.user);
 
 export const getCurrentFolder = createSelector(
-  selectApp,
-  state => state.navigation.currentFolder
+    selectApp,
+    (state) => state.navigation.currentFolder
 );
 
 export const getAppSelection = createSelector(
-  selectApp,
-  state => state.selection
+    selectApp,
+    (state) => state.selection
 );
 
 export const getSharedUrl = createSelector(
-  selectApp,
-  state => state.sharedUrl
+    selectApp,
+    (state) => state.sharedUrl
 );
 
 export const getNavigationState = createSelector(
-  selectApp,
-  state => state.navigation
+    selectApp,
+    (state) => state.navigation
 );
 
 export const isInfoDrawerOpened = createSelector(
-  selectApp,
-  state => state.infoDrawerOpened
+    selectApp,
+    (state) => state.infoDrawerOpened
 );
 
 export const showFacetFilter = createSelector(
-  selectApp,
-  state => state.showFacetFilter
+    selectApp,
+    (state) => state.showFacetFilter
 );
 
 export const getDocumentDisplayMode = createSelector(
-  selectApp,
-  state => state.documentDisplayMode
+    selectApp,
+    (state) => state.documentDisplayMode
 );
 
 export const getRepositoryStatus = createSelector(
-  selectApp,
-  state => state.repository
+    selectApp,
+    (state) => state.repository
 );
 
 export const isQuickShareEnabled = createSelector(
-  getRepositoryStatus,
-  info => info.status.isQuickShareEnabled
+    getRepositoryStatus,
+    (info) => info.status.isQuickShareEnabled
 );
 
-export const isAdmin = createSelector(
-  selectApp,
-  state => state.user.isAdmin
-);
+export const isAdmin = createSelector(selectApp, (state) => state.user.isAdmin);
 
 export const getSideNavState = createSelector(
-  getAppSelection,
-  getNavigationState,
-  (selection, navigation) => {
-    return {
-      selection,
-      navigation
-    };
-  }
+    getAppSelection,
+    getNavigationState,
+    (selection, navigation) => {
+        return {
+            selection,
+            navigation,
+        };
+    }
 );
 
 export const getRuleContext = createSelector(
-  getAppSelection,
-  getNavigationState,
-  getUserProfile,
-  getRepositoryStatus,
-  (selection, navigation, profile, repository) => {
-    return {
-      selection,
-      navigation,
-      profile,
-      repository
-    };
-  }
+    getAppSelection,
+    getNavigationState,
+    getUserProfile,
+    getRepositoryStatus,
+    (selection, navigation, profile, repository) => {
+        return {
+            selection,
+            navigation,
+            profile,
+            repository,
+        };
+    }
 );
 
 export const infoDrawerMetadataAspect = createSelector(
-  selectApp,
-  state => state.infoDrawerMetadataAspect
+    selectApp,
+    (state) => state.infoDrawerMetadataAspect
 );

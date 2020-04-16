@@ -28,31 +28,31 @@ import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 import { NodePermissionService, isLocked } from '@alfresco/aca-shared';
 
 @Component({
-  selector: 'app-comments-tab',
-  template: `
-    <adf-comments
-      [readOnly]="!canUpdateNode"
-      [nodeId]="node?.id"
-    ></adf-comments>
-  `
+    selector: 'app-comments-tab',
+    template: `
+        <adf-comments
+            [readOnly]="!canUpdateNode"
+            [nodeId]="node?.id"
+        ></adf-comments>
+    `,
 })
 export class CommentsTabComponent {
-  @Input()
-  node: MinimalNodeEntryEntity;
+    @Input()
+    node: MinimalNodeEntryEntity;
 
-  constructor(private permission: NodePermissionService) {}
+    constructor(private permission: NodePermissionService) {}
 
-  get canUpdateNode(): boolean {
-    if (!this.node) {
-      return false;
+    get canUpdateNode(): boolean {
+        if (!this.node) {
+            return false;
+        }
+
+        if (
+            this.node.isFolder ||
+            (this.node.isFile && !isLocked({ entry: this.node }))
+        ) {
+            return this.permission.check(this.node, ['update']);
+        }
+        return false;
     }
-
-    if (
-      this.node.isFolder ||
-      (this.node.isFile && !isLocked({ entry: this.node }))
-    ) {
-      return this.permission.check(this.node, ['update']);
-    }
-    return false;
-  }
 }

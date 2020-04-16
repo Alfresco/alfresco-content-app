@@ -24,13 +24,13 @@
  */
 
 import {
-  Component,
-  ContentChild,
-  Input,
-  TemplateRef,
-  OnInit,
-  ViewEncapsulation,
-  OnDestroy
+    Component,
+    ContentChild,
+    Input,
+    TemplateRef,
+    OnInit,
+    ViewEncapsulation,
+    OnDestroy,
 } from '@angular/core';
 import { CollapsedTemplateDirective } from './directives/collapsed-template.directive';
 import { ExpandedTemplateDirective } from './directives/expanded-template.directive';
@@ -43,56 +43,58 @@ import { Subject } from 'rxjs';
 import { takeUntil, distinctUntilChanged, debounceTime } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-sidenav',
-  templateUrl: './sidenav.component.html',
-  styleUrls: ['./sidenav.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  host: { class: 'app-sidenav' }
+    selector: 'app-sidenav',
+    templateUrl: './sidenav.component.html',
+    styleUrls: ['./sidenav.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    host: { class: 'app-sidenav' },
 })
 export class SidenavComponent implements OnInit, OnDestroy {
-  @Input() mode: 'collapsed' | 'expanded' = 'expanded';
+    @Input() mode: 'collapsed' | 'expanded' = 'expanded';
 
-  @ContentChild(ExpandedTemplateDirective, { read: TemplateRef })
-  expandedTemplate;
+    @ContentChild(ExpandedTemplateDirective, { read: TemplateRef })
+    expandedTemplate;
 
-  @ContentChild(CollapsedTemplateDirective, { read: TemplateRef })
-  collapsedTemplate;
+    @ContentChild(CollapsedTemplateDirective, { read: TemplateRef })
+    collapsedTemplate;
 
-  groups: Array<NavBarGroupRef> = [];
-  private onDestroy$: Subject<boolean> = new Subject<boolean>();
+    groups: Array<NavBarGroupRef> = [];
+    private onDestroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(
-    private store: Store<AppStore>,
-    private extensions: AppExtensionService,
-    private authService: AuthenticationService
-  ) {}
+    constructor(
+        private store: Store<AppStore>,
+        private extensions: AppExtensionService,
+        private authService: AuthenticationService
+    ) {}
 
-  ngOnInit() {
-    this.store
-      .select(getSideNavState)
-      .pipe(
-        debounceTime(300),
-        distinctUntilChanged(),
-        takeUntil(this.onDestroy$)
-      )
-      .subscribe(() => {
-        this.groups = this.extensions.getApplicationNavigation(
-          this.extensions.navbar
-        );
-      });
-  }
+    ngOnInit() {
+        this.store
+            .select(getSideNavState)
+            .pipe(
+                debounceTime(300),
+                distinctUntilChanged(),
+                takeUntil(this.onDestroy$)
+            )
+            .subscribe(() => {
+                this.groups = this.extensions.getApplicationNavigation(
+                    this.extensions.navbar
+                );
+            });
+    }
 
-  isLoggedIn(provider: string): boolean {
-    if (provider === undefined) { return true; }
-    return this.authService.isLoggedInWith(provider);
-  }
+    isLoggedIn(provider: string): boolean {
+        if (provider === undefined) {
+            return true;
+        }
+        return this.authService.isLoggedInWith(provider);
+    }
 
-  trackById(_: number, obj: { id: string }) {
-    return obj.id;
-  }
+    trackById(_: number, obj: { id: string }) {
+        return obj.id;
+    }
 
-  ngOnDestroy() {
-    this.onDestroy$.next(true);
-    this.onDestroy$.complete();
-  }
+    ngOnDestroy() {
+        this.onDestroy$.next(true);
+        this.onDestroy$.complete();
+    }
 }

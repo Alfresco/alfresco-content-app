@@ -24,21 +24,21 @@
  */
 
 import {
-  Component,
-  ViewEncapsulation,
-  ChangeDetectionStrategy,
-  Input
+    Component,
+    ViewEncapsulation,
+    ChangeDetectionStrategy,
+    Input,
 } from '@angular/core';
 
 @Component({
-  selector: 'aca-generic-error',
-  templateUrl: './generic-error.component.html',
-  styleUrls: ['./generic-error.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'aca-generic-error' }
+    selector: 'aca-generic-error',
+    templateUrl: './generic-error.component.html',
+    styleUrls: ['./generic-error.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: { class: 'aca-generic-error' },
 })
 export class GenericErrorComponent {
-  @Input()
-  text = 'APP.MESSAGES.ERRORS.MISSING_CONTENT';
+    @Input()
+    text = 'APP.MESSAGES.ERRORS.MISSING_CONTENT';
 }

@@ -24,46 +24,44 @@
  */
 
 import {
-  Component,
-  Input,
-  OnInit,
-  ChangeDetectionStrategy,
-  ViewEncapsulation
+    Component,
+    Input,
+    OnInit,
+    ChangeDetectionStrategy,
+    ViewEncapsulation,
 } from '@angular/core';
 
 import { NodeEntry } from '@alfresco/js-api';
 
 @Component({
-  selector: 'aca-locked-by',
-  template: `
-    <mat-icon class="locked_by--icon">lock</mat-icon>
-    <span class="locked_by--name">{{ writeLockedBy() }}</span>
-  `,
-  styleUrls: ['./locked-by.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  host: {
-    class: 'aca-locked-by'
-  }
+    selector: 'aca-locked-by',
+    template: `
+        <mat-icon class="locked_by--icon">lock</mat-icon>
+        <span class="locked_by--name">{{ writeLockedBy() }}</span>
+    `,
+    styleUrls: ['./locked-by.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    host: {
+        class: 'aca-locked-by',
+    },
 })
 export class LockedByComponent implements OnInit {
-  @Input()
-  context: any;
+    @Input()
+    context: any;
 
-  node: NodeEntry;
+    node: NodeEntry;
 
-  constructor() {}
+    ngOnInit() {
+        this.node = this.context.row.node;
+    }
 
-  ngOnInit() {
-    this.node = this.context.row.node;
-  }
-
-  writeLockedBy() {
-    return (
-      this.node &&
-      this.node.entry.properties &&
-      this.node.entry.properties['cm:lockOwner'] &&
-      this.node.entry.properties['cm:lockOwner'].displayName
-    );
-  }
+    writeLockedBy() {
+        return (
+            this.node &&
+            this.node.entry.properties &&
+            this.node.entry.properties['cm:lockOwner'] &&
+            this.node.entry.properties['cm:lockOwner'].displayName
+        );
+    }
 }

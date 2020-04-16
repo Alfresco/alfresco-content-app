@@ -24,57 +24,57 @@
  */
 
 import {
-  Component,
-  ViewEncapsulation,
-  Output,
-  EventEmitter,
-  OnInit,
-  Input
+    Component,
+    ViewEncapsulation,
+    Output,
+    EventEmitter,
+    OnInit,
+    Input,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { AppExtensionService } from '../../extensions/extension.service';
 import {
-  AppStore,
-  getHeaderColor,
-  getAppName,
-  getLogoPath
+    AppStore,
+    getHeaderColor,
+    getAppName,
+    getLogoPath,
 } from '@alfresco/aca-shared/store';
 
 @Component({
-  selector: 'app-header',
-  templateUrl: 'header.component.html',
-  styleUrls: ['header.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  host: { class: 'app-header' }
+    selector: 'app-header',
+    templateUrl: 'header.component.html',
+    styleUrls: ['header.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    host: { class: 'app-header' },
 })
 export class AppHeaderComponent implements OnInit {
-  @Output()
-  toggleClicked = new EventEmitter();
+    @Output()
+    toggleClicked = new EventEmitter();
 
-  @Input() expandedSidenav = true;
+    @Input() expandedSidenav = true;
 
-  appName$: Observable<string>;
-  headerColor$: Observable<string>;
-  logo$: Observable<string>;
+    appName$: Observable<string>;
+    headerColor$: Observable<string>;
+    logo$: Observable<string>;
 
-  actions: Array<ContentActionRef> = [];
+    actions: Array<ContentActionRef> = [];
 
-  constructor(
-    store: Store<AppStore>,
-    private appExtensions: AppExtensionService
-  ) {
-    this.headerColor$ = store.select(getHeaderColor);
-    this.appName$ = store.select(getAppName);
-    this.logo$ = store.select(getLogoPath);
-  }
+    constructor(
+        store: Store<AppStore>,
+        private appExtensions: AppExtensionService
+    ) {
+        this.headerColor$ = store.select(getHeaderColor);
+        this.appName$ = store.select(getAppName);
+        this.logo$ = store.select(getLogoPath);
+    }
 
-  ngOnInit() {
-    this.actions = this.appExtensions.getHeaderActions();
-  }
+    ngOnInit() {
+        this.actions = this.appExtensions.getHeaderActions();
+    }
 
-  trackByActionId(_: number, action: ContentActionRef) {
-    return action.id;
-  }
+    trackByActionId(_: number, action: ContentActionRef) {
+        return action.id;
+    }
 }

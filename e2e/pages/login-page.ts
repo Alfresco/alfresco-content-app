@@ -29,39 +29,45 @@ import { Page } from './page';
 import { BROWSER_WAIT_TIMEOUT, APP_ROUTES } from '../configs';
 
 export class LoginPage extends Page {
-  login: LoginComponent = new LoginComponent(this.appRoot);
+    login: LoginComponent = new LoginComponent(this.appRoot);
 
-  /** @override */
-  constructor() {
-    super(APP_ROUTES.LOGIN);
-  }
+    /** @override */
+    constructor() {
+        super(APP_ROUTES.LOGIN);
+    }
 
-  /** @override */
-  async load() {
-    await super.load();
-    const { submitButton } = this.login;
-    const hasSubmitButton = EC.presenceOf(submitButton);
-    return browser.wait(hasSubmitButton, BROWSER_WAIT_TIMEOUT);
-  }
+    /** @override */
+    async load() {
+        await super.load();
+        const { submitButton } = this.login;
+        const hasSubmitButton = EC.presenceOf(submitButton);
+        return browser.wait(hasSubmitButton, BROWSER_WAIT_TIMEOUT);
+    }
 
-  async loginWith(username: string, password?: string) {
-    const pass = password || username;
-    await this.load();
-    await this.login.enterCredentials(username, pass);
-    await this.login.submit();
-    return super.waitForApp();
-  }
+    async loginWith(username: string, password?: string) {
+        const pass = password || username;
+        await this.load();
+        await this.login.enterCredentials(username, pass);
+        await this.login.submit();
+        return super.waitForApp();
+    }
 
-  async loginWithAdmin() {
-    await this.load();
-    return this.loginWith(browser.params.ADMIN_USERNAME, browser.params.ADMIN_PASSWORD);
-  }
+    async loginWithAdmin() {
+        await this.load();
+        return this.loginWith(
+            browser.params.ADMIN_USERNAME,
+            browser.params.ADMIN_PASSWORD
+        );
+    }
 
-  async tryLoginWith(username: string, password?: string) {
-    const pass = password || username;
-    await this.load();
-    await this.login.enterCredentials(username, pass);
-    await this.login.submit();
-    return browser.wait(EC.presenceOf(this.login.errorMessage), BROWSER_WAIT_TIMEOUT);
-  }
+    async tryLoginWith(username: string, password?: string) {
+        const pass = password || username;
+        await this.load();
+        await this.login.enterCredentials(username, pass);
+        await this.login.submit();
+        return browser.wait(
+            EC.presenceOf(this.login.errorMessage),
+            BROWSER_WAIT_TIMEOUT
+        );
+    }
 }

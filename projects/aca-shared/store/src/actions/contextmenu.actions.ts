@@ -26,11 +26,11 @@
 import { Action } from '@ngrx/store';
 
 export enum ContextMenuActionTypes {
-  ContextMenu = 'CONTEXT_MENU'
+    ContextMenu = 'CONTEXT_MENU',
 }
 
 export class ContextMenu implements Action {
-  readonly type = ContextMenuActionTypes.ContextMenu;
+    readonly type = ContextMenuActionTypes.ContextMenu;
 
-  constructor(public event: MouseEvent) {}
+    constructor(public event: MouseEvent) {}
 }

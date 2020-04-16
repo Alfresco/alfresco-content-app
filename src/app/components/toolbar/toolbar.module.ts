@@ -43,32 +43,32 @@ import { ViewNodeComponent } from './view-node/view-node.component';
 import { AppCommonModule } from '../common/common.module';
 
 export function components() {
-  return [
-    DocumentDisplayModeComponent,
-    ToggleFavoriteComponent,
-    ToggleInfoDrawerComponent,
-    ToolbarButtonComponent,
-    ToolbarActionComponent,
-    ToolbarMenuItemComponent,
-    ToolbarMenuComponent,
-    ToggleJoinLibraryButtonComponent,
-    ToggleJoinLibraryMenuComponent,
-    ToggleFavoriteLibraryComponent,
-    ToggleEditOfflineComponent,
-    ViewNodeComponent
-  ];
+    return [
+        DocumentDisplayModeComponent,
+        ToggleFavoriteComponent,
+        ToggleInfoDrawerComponent,
+        ToolbarButtonComponent,
+        ToolbarActionComponent,
+        ToolbarMenuItemComponent,
+        ToolbarMenuComponent,
+        ToggleJoinLibraryButtonComponent,
+        ToggleJoinLibraryMenuComponent,
+        ToggleFavoriteLibraryComponent,
+        ToggleEditOfflineComponent,
+        ViewNodeComponent,
+    ];
 }
 
 @NgModule({
-  imports: [
-    CommonModule,
-    CoreModule.forChild(),
-    AppCommonModule,
-    ExtensionsModule,
-    DirectivesModule
-  ],
-  declarations: components(),
-  exports: components(),
-  entryComponents: components()
+    imports: [
+        CommonModule,
+        CoreModule.forChild(),
+        AppCommonModule,
+        ExtensionsModule,
+        DirectivesModule,
+    ],
+    declarations: components(),
+    exports: components(),
+    entryComponents: components(),
 })
 export class AppToolbarModule {}

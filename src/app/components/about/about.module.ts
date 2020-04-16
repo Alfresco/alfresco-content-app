@@ -37,30 +37,30 @@ import { ModuleListComponent } from './module-list/module-list.component';
 import { LicenseListComponent } from './license-list/license-list.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: AboutComponent,
-    data: {
-      title: 'APP.BROWSE.ABOUT.TITLE'
-    }
-  }
+    {
+        path: '',
+        component: AboutComponent,
+        data: {
+            title: 'APP.BROWSE.ABOUT.TITLE',
+        },
+    },
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    CoreModule.forChild(),
-    RouterModule.forChild(routes),
-    AppLayoutModule,
-    MatTableModule
-  ],
-  declarations: [
-    AboutComponent,
-    PackageListComponent,
-    ExtensionListComponent,
-    StatusListComponent,
-    ModuleListComponent,
-    LicenseListComponent
-  ]
+    imports: [
+        CommonModule,
+        CoreModule.forChild(),
+        RouterModule.forChild(routes),
+        AppLayoutModule,
+        MatTableModule,
+    ],
+    declarations: [
+        AboutComponent,
+        PackageListComponent,
+        ExtensionListComponent,
+        StatusListComponent,
+        ModuleListComponent,
+        LicenseListComponent,
+    ],
 })
 export class AboutModule {}

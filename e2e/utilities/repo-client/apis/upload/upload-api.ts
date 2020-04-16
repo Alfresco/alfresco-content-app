@@ -30,47 +30,62 @@ import { UploadApi as AdfUploadApi } from '@alfresco/js-api';
 const fs = require('fs');
 
 export class UploadApi extends RepoApi {
-  upload = new AdfUploadApi(this.alfrescoJsApi);
+    upload = new AdfUploadApi(this.alfrescoJsApi);
 
-  constructor(username?, password?) {
-    super(username, password);
-  }
-
-  async uploadFile(fileName: string, parentFolderId: string = '-my-') {
-    const file = fs.createReadStream(`${E2E_ROOT_PATH}/resources/test-files/${fileName}`);
-    const opts = {
-      name: file.name,
-      nodeType: 'cm:content'
-    };
-
-    try {
-      await this.apiAuth();
-      return this.upload.uploadFile(file, '', parentFolderId, null, opts);
-    } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.uploadFile.name}`, error);
+    constructor(username?: string, password?: string) {
+        super(username, password);
     }
-  }
 
-  async uploadFileWithRename(fileName: string, parentId: string = '-my-', newName: string, title: string = '', description: string = '') {
-    const file = fs.createReadStream(`${E2E_ROOT_PATH}/resources/test-files/${fileName}`);
-    const nodeProps = {
-      properties: {
-        'cm:title': title,
-        'cm:description': description
-      }
-    };
+    async uploadFile(fileName: string, parentFolderId: string = '-my-') {
+        const file = fs.createReadStream(
+            `${E2E_ROOT_PATH}/resources/test-files/${fileName}`
+        );
+        const opts = {
+            name: file.name,
+            nodeType: 'cm:content',
+        };
 
-    const opts = {
-        name: newName,
-        nodeType: 'cm:content'
-    };
-
-    try {
-      await this.apiAuth();
-      return this.upload.uploadFile(file, '', parentId, nodeProps, opts);
-    } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.uploadFileWithRename.name}`, error);
+        try {
+            await this.apiAuth();
+            return this.upload.uploadFile(file, '', parentFolderId, null, opts);
+        } catch (error) {
+            this.handleError(
+                `${this.constructor.name} ${this.uploadFile.name}`,
+                error
+            );
+        }
     }
-  }
 
+    async uploadFileWithRename(
+        fileName: string,
+        parentId: string = '-my-',
+        newName: string,
+        title: string = '',
+        description: string = ''
+    ) {
+        const file = fs.createReadStream(
+            `${E2E_ROOT_PATH}/resources/test-files/${fileName}`
+        );
+        const nodeProps = {
+            properties: {
+                'cm:title': title,
+                'cm:description': description,
+            },
+        };
+
+        const opts = {
+            name: newName,
+            nodeType: 'cm:content',
+        };
+
+        try {
+            await this.apiAuth();
+            return this.upload.uploadFile(file, '', parentId, nodeProps, opts);
+        } catch (error) {
+            this.handleError(
+                `${this.constructor.name} ${this.uploadFileWithRename.name}`,
+                error
+            );
+        }
+    }
 }

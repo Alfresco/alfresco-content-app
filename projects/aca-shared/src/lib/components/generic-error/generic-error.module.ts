@@ -30,8 +30,8 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
-  imports: [CommonModule, MatIconModule, TranslateModule.forChild()],
-  declarations: [GenericErrorComponent],
-  exports: [GenericErrorComponent]
+    imports: [CommonModule, MatIconModule, TranslateModule.forChild()],
+    declarations: [GenericErrorComponent],
+    exports: [GenericErrorComponent],
 })
 export class GenericErrorModule {}

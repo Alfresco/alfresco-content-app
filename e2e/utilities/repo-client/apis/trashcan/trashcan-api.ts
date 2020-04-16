@@ -29,72 +29,89 @@ import { TrashcanApi as AdfTrashcanApi } from '@alfresco/js-api';
 import { Logger } from '@alfresco/adf-testing';
 
 export class TrashcanApi extends RepoApi {
-  trashcanApi = new AdfTrashcanApi(this.alfrescoJsApi);
+    trashcanApi = new AdfTrashcanApi(this.alfrescoJsApi);
 
-  constructor(username?, password?) {
-    super(username, password);
-  }
-
-  async permanentlyDelete(id: string) {
-    try {
-      await this.apiAuth();
-      return this.trashcanApi.deleteDeletedNode(id);
-    } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.permanentlyDelete.name}`, error);
+    constructor(username?, password?) {
+        super(username, password);
     }
-  }
 
-  async restore(id: string) {
-    try {
-      await this.apiAuth();
-      return this.trashcanApi.restoreDeletedNode(id);
-    } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.restore.name}`, error);
-      return null;
-    }
-  }
-
-  async getDeletedNodes() {
-    const opts = {
-        maxItems: 1000
-    };
-    try {
-      await this.apiAuth();
-      return this.trashcanApi.listDeletedNodes(opts);
-    } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.getDeletedNodes.name}`, error);
-      return null;
-    }
-  }
-
-  async emptyTrash() {
-    try {
-      const ids = (await this.getDeletedNodes()).list.entries.map(entries => entries.entry.id);
-
-      return ids.reduce(async (previous, current) => {
-          await previous;
-          return this.permanentlyDelete(current);
-      }, Promise.resolve());
-    } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.emptyTrash.name}`, error);
-    }
-  }
-
-  async waitForApi(data: { expect: number }) {
-    try {
-      const deletedFiles = async () => {
-        const totalItems = (await this.getDeletedNodes()).list.pagination.totalItems;
-        if ( totalItems !== data.expect) {
-            return Promise.reject(totalItems);
-        } else {
-            return Promise.resolve(totalItems);
+    async permanentlyDelete(id: string) {
+        try {
+            await this.apiAuth();
+            return this.trashcanApi.deleteDeletedNode(id);
+        } catch (error) {
+            this.handleError(
+                `${this.constructor.name} ${this.permanentlyDelete.name}`,
+                error
+            );
         }
-      };
-
-      return Utils.retryCall(deletedFiles);
-    } catch (error) {
-      Logger.info(`${this.constructor.name} ${this.waitForApi.name} catch: `);
-      Logger.info(`\tExpected: ${data.expect} items, but found ${error}`);
     }
-  }
+
+    async restore(id: string) {
+        try {
+            await this.apiAuth();
+            return this.trashcanApi.restoreDeletedNode(id);
+        } catch (error) {
+            this.handleError(
+                `${this.constructor.name} ${this.restore.name}`,
+                error
+            );
+            return null;
+        }
+    }
+
+    async getDeletedNodes() {
+        const opts = {
+            maxItems: 1000,
+        };
+        try {
+            await this.apiAuth();
+            return this.trashcanApi.listDeletedNodes(opts);
+        } catch (error) {
+            this.handleError(
+                `${this.constructor.name} ${this.getDeletedNodes.name}`,
+                error
+            );
+            return null;
+        }
+    }
+
+    async emptyTrash() {
+        try {
+            const ids = (await this.getDeletedNodes()).list.entries.map(
+                (entries) => entries.entry.id
+            );
+
+            return ids.reduce(async (previous, current) => {
+                await previous;
+                return this.permanentlyDelete(current);
+            }, Promise.resolve());
+        } catch (error) {
+            this.handleError(
+                `${this.constructor.name} ${this.emptyTrash.name}`,
+                error
+            );
+        }
+    }
+
+    async waitForApi(data: { expect: number }) {
+        try {
+            const deletedFiles = async () => {
+                const totalItems = (await this.getDeletedNodes()).list
+                    .pagination.totalItems;
+                if (totalItems !== data.expect) {
+                    return Promise.reject(totalItems);
+                } else {
+                    return Promise.resolve(totalItems);
+                }
+            };
+
+            return Utils.retryCall(deletedFiles);
+        } catch (error) {
+            Logger.info(
+                `${this.constructor.name} ${this.waitForApi.name} catch: `
+            );
+            Logger.info(`\tExpected: ${data.expect} items, but found ${error}`);
+        }
+    }
 }

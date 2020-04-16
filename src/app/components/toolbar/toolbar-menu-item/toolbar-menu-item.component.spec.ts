@@ -26,7 +26,7 @@
 import { ToolbarMenuItemComponent } from './toolbar-menu-item.component';
 
 describe('ToolbarMenuItemComponent', () => {
-  it('should be defined', () => {
-    expect(ToolbarMenuItemComponent).toBeDefined();
-  });
+    it('should be defined', () => {
+        expect(ToolbarMenuItemComponent).toBeDefined();
+    });
 });

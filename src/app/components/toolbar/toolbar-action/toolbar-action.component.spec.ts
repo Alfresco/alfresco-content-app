@@ -26,7 +26,7 @@
 import { ToolbarActionComponent } from './toolbar-action.component';
 
 describe('ToolbarActionComponent', () => {
-  it('should be defined', () => {
-    expect(ToolbarActionComponent).toBeDefined();
-  });
+    it('should be defined', () => {
+        expect(ToolbarActionComponent).toBeDefined();
+    });
 });

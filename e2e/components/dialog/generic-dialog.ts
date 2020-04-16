@@ -23,70 +23,87 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, browser, ExpectedConditions as EC, Locator } from 'protractor';
+import {
+    ElementFinder,
+    by,
+    browser,
+    ExpectedConditions as EC,
+    Locator,
+} from 'protractor';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 
 export abstract class GenericDialog {
-  private static locators = {
-    title: '.mat-dialog-title',
-    content: '.mat-dialog-content'
-  };
+    private static locators = {
+        title: '.mat-dialog-title',
+        content: '.mat-dialog-content',
+    };
 
-  private rootCssSelector: string;
+    private rootCssSelector: string;
 
-  constructor(selector?: string) {
-    this.rootCssSelector = selector;
-  }
+    constructor(selector?: string) {
+        this.rootCssSelector = selector;
+    }
 
-  get rootElem(): ElementFinder {
-    return browser.element(by.css(this.rootCssSelector));
-  }
+    get rootElem(): ElementFinder {
+        return browser.element(by.css(this.rootCssSelector));
+    }
 
-  get title(): ElementFinder {
-    return this.rootElem.element(by.css(GenericDialog.locators.title));
-  }
+    get title(): ElementFinder {
+        return this.rootElem.element(by.css(GenericDialog.locators.title));
+    }
 
-  get content(): ElementFinder {
-    return this.rootElem.element(by.css(GenericDialog.locators.content));
-  }
+    get content(): ElementFinder {
+        return this.rootElem.element(by.css(GenericDialog.locators.content));
+    }
 
-  async getText(): Promise<string> {
-    return this.content.getText();
-  }
+    async getText(): Promise<string> {
+        return this.content.getText();
+    }
 
-  async waitForDialogToOpen(): Promise<void> {
-    await browser.wait(EC.presenceOf(this.rootElem), BROWSER_WAIT_TIMEOUT);
-    await browser.wait(EC.visibilityOf(this.content), BROWSER_WAIT_TIMEOUT);
-    await browser.wait(EC.presenceOf(browser.element(by.css('.cdk-overlay-backdrop'))), BROWSER_WAIT_TIMEOUT);
-  }
+    async waitForDialogToOpen(): Promise<void> {
+        await browser.wait(EC.presenceOf(this.rootElem), BROWSER_WAIT_TIMEOUT);
+        await browser.wait(EC.visibilityOf(this.content), BROWSER_WAIT_TIMEOUT);
+        await browser.wait(
+            EC.presenceOf(browser.element(by.css('.cdk-overlay-backdrop'))),
+            BROWSER_WAIT_TIMEOUT
+        );
+    }
 
-  async waitForDialogToClose(): Promise<void> {
-    await browser.wait(EC.stalenessOf(this.content), BROWSER_WAIT_TIMEOUT, '---- timeout waiting for dialog to close ----');
-  }
+    async waitForDialogToClose(): Promise<void> {
+        await browser.wait(
+            EC.stalenessOf(this.content),
+            BROWSER_WAIT_TIMEOUT,
+            '---- timeout waiting for dialog to close ----'
+        );
+    }
 
-  async isDialogOpen(): Promise<boolean> {
-    const rootElemPresent = await this.rootElem.isPresent();
-    const rootElemDisplayed = await this.rootElem.isDisplayed();
+    async isDialogOpen(): Promise<boolean> {
+        const rootElemPresent = await this.rootElem.isPresent();
+        const rootElemDisplayed = await this.rootElem.isDisplayed();
 
-    return rootElemPresent && rootElemDisplayed;
-  }
+        return rootElemPresent && rootElemDisplayed;
+    }
 
-  async getTitle(): Promise<string> {
-    return this.title.getText();
-  }
+    async getTitle(): Promise<string> {
+        return this.title.getText();
+    }
 
-  getActionButton(selector: Locator): ElementFinder {
-    return this.rootElem.element(selector);
-  }
+    getActionButton(selector: Locator): ElementFinder {
+        return this.rootElem.element(selector);
+    }
 
-  async isButtonEnabled(selector: Locator): Promise<boolean> {
-    const actionButtonPresent = await this.getActionButton(selector).isPresent();
-    const actionButtonEnabled = await this.getActionButton(selector).isEnabled();
+    async isButtonEnabled(selector: Locator): Promise<boolean> {
+        const actionButtonPresent = await this.getActionButton(
+            selector
+        ).isPresent();
+        const actionButtonEnabled = await this.getActionButton(
+            selector
+        ).isEnabled();
 
-    return actionButtonPresent && actionButtonEnabled;
-  }
+        return actionButtonPresent && actionButtonEnabled;
+    }
 
-  async clickButton(selector: Locator): Promise<void> {
-    await this.getActionButton(selector).click();
-  }
+    async clickButton(selector: Locator): Promise<void> {
+        await this.getActionButton(selector).click();
+    }
 }

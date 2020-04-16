@@ -23,55 +23,79 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, ElementArrayFinder, by, browser, ExpectedConditions as EC } from 'protractor';
+import {
+    ElementFinder,
+    ElementArrayFinder,
+    by,
+    browser,
+    ExpectedConditions as EC,
+} from 'protractor';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
 
 export class DropDownBreadcrumb extends Component {
-  private static selectors = {
-    root: '.adf-dropdown-breadcrumb',
-    trigger: '.adf-dropdown-breadcrumb-trigger',
+    private static selectors = {
+        root: '.adf-dropdown-breadcrumb',
+        trigger: '.adf-dropdown-breadcrumb-trigger',
 
-    currentFolder: '.adf-current-folder',
+        currentFolder: '.adf-current-folder',
 
-    pathOption: '.adf-dropdown-breadcrumb-path-option .mat-option-text'
-  };
+        pathOption: '.adf-dropdown-breadcrumb-path-option .mat-option-text',
+    };
 
-  trigger: ElementFinder = this.component.element(by.css(DropDownBreadcrumb.selectors.trigger));
-  pathItems: ElementArrayFinder = browser.$$(DropDownBreadcrumb.selectors.pathOption);
-  pathItemsContainer: ElementFinder = browser.element(by.css('.mat-select-panel'));
-  currentFolder: ElementFinder = this.component.element(by.css(DropDownBreadcrumb.selectors.currentFolder));
+    trigger: ElementFinder = this.component.element(
+        by.css(DropDownBreadcrumb.selectors.trigger)
+    );
+    pathItems: ElementArrayFinder = browser.$$(
+        DropDownBreadcrumb.selectors.pathOption
+    );
+    pathItemsContainer: ElementFinder = browser.element(
+        by.css('.mat-select-panel')
+    );
+    currentFolder: ElementFinder = this.component.element(
+        by.css(DropDownBreadcrumb.selectors.currentFolder)
+    );
 
-  constructor(ancestor?: string) {
-    super(DropDownBreadcrumb.selectors.root, ancestor);
-  }
+    constructor(ancestor?: string) {
+        super(DropDownBreadcrumb.selectors.root, ancestor);
+    }
 
-  async waitForPathListDropdownToOpen(): Promise<void> {
-    await browser.wait(EC.presenceOf(this.pathItemsContainer), BROWSER_WAIT_TIMEOUT, 'Timeout waiting for breadcrumb dropdown to open');
-  }
+    async waitForPathListDropdownToOpen(): Promise<void> {
+        await browser.wait(
+            EC.presenceOf(this.pathItemsContainer),
+            BROWSER_WAIT_TIMEOUT,
+            'Timeout waiting for breadcrumb dropdown to open'
+        );
+    }
 
-  async waitForPathListDropdownToClose(): Promise<void> {
-    await browser.wait(EC.stalenessOf(browser.$(DropDownBreadcrumb.selectors.pathOption)), BROWSER_WAIT_TIMEOUT, 'Timeout waiting for breadcrumb dropdown to close');
-  }
+    async waitForPathListDropdownToClose(): Promise<void> {
+        await browser.wait(
+            EC.stalenessOf(browser.$(DropDownBreadcrumb.selectors.pathOption)),
+            BROWSER_WAIT_TIMEOUT,
+            'Timeout waiting for breadcrumb dropdown to close'
+        );
+    }
 
-  async getCurrentFolderName(): Promise<string> {
-    return this.currentFolder.getText();
-  }
+    async getCurrentFolderName(): Promise<string> {
+        return this.currentFolder.getText();
+    }
 
-  async openPath(): Promise<void> {
-    await this.trigger.click();
-    await this.waitForPathListDropdownToOpen();
-  }
+    async openPath(): Promise<void> {
+        await this.trigger.click();
+        await this.waitForPathListDropdownToOpen();
+    }
 
-  async clickPathItem(name: string): Promise<void> {
-    const elem = browser.element(by.cssContainingText(DropDownBreadcrumb.selectors.pathOption, name));
-    await elem.click();
-  }
+    async clickPathItem(name: string): Promise<void> {
+        const elem = browser.element(
+            by.cssContainingText(DropDownBreadcrumb.selectors.pathOption, name)
+        );
+        await elem.click();
+    }
 
-  async getPathItems(): Promise<string[]> {
-    const items: string[] = await this.pathItems.map(async elem => {
-      return elem.getText();
-    });
-    return items;
-  }
+    async getPathItems(): Promise<string[]> {
+        const items: string[] = await this.pathItems.map(async (elem) => {
+            return elem.getText();
+        });
+        return items;
+    }
 }

@@ -24,19 +24,19 @@
  */
 
 export interface SettingsGroupRef {
-  id: string;
-  name: string;
-  parameters: Array<SettingsParameterRef>;
-  rules?: {
-    visible?: string;
-    [key: string]: string;
-  };
+    id: string;
+    name: string;
+    parameters: Array<SettingsParameterRef>;
+    rules?: {
+        visible?: string;
+        [key: string]: string;
+    };
 }
 
 export interface SettingsParameterRef {
-  id?: string;
-  name: string;
-  key: string;
-  type: 'string' | 'boolean';
-  value?: any;
+    id?: string;
+    name: string;
+    key: string;
+    type: 'string' | 'boolean';
+    value?: any;
 }

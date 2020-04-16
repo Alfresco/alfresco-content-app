@@ -26,149 +26,188 @@
 import { RepoApi } from '../repo-api';
 import { RepoClient } from './../../repo-client';
 import { Utils } from '../../../../utilities/utils';
-import { FavoritesApi as AdfFavoritesApi, SitesApi as AdfSiteApi, FavoriteEntry } from '@alfresco/js-api';
+import {
+    FavoritesApi as AdfFavoritesApi,
+    SitesApi as AdfSiteApi,
+    FavoriteEntry,
+} from '@alfresco/js-api';
 import { Logger } from '@alfresco/adf-testing';
 
 export class FavoritesApi extends RepoApi {
-  favoritesApi = new AdfFavoritesApi(this.alfrescoJsApi);
-  sitesApi = new AdfSiteApi(this.alfrescoJsApi);
+    favoritesApi = new AdfFavoritesApi(this.alfrescoJsApi);
+    sitesApi = new AdfSiteApi(this.alfrescoJsApi);
 
-  constructor(username?, password?) {
-    super(username, password);
-  }
-
-  async addFavorite(api: RepoClient, nodeType: string, name: string) {
-    try {
-      const nodeId = (await api.nodes.getNodeByPath(name)).entry.id;
-      const data = {
-          target: {
-              [nodeType]: {
-                  guid: nodeId
-              }
-          }
-      };
-      return this.favoritesApi.createFavorite('-me-', data);
-    } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.addFavorite.name}`, error);
-      return null;
+    constructor(username?, password?) {
+        super(username, password);
     }
-  }
 
-  async addFavoriteById(nodeType: 'file' | 'folder' | 'site', id: string): Promise<FavoriteEntry|null> {
-    let guid;
-    try {
-      await this.apiAuth();
-      if ( nodeType === 'site' ) {
-        guid = (await this.sitesApi.getSite(id)).entry.guid;
-      } else {
-        guid = id;
-      }
-      const data = {
-        target: {
-          [nodeType]: {
-            guid: guid
-          }
+    async addFavorite(api: RepoClient, nodeType: string, name: string) {
+        try {
+            const nodeId = (await api.nodes.getNodeByPath(name)).entry.id;
+            const data = {
+                target: {
+                    [nodeType]: {
+                        guid: nodeId,
+                    },
+                },
+            };
+            return this.favoritesApi.createFavorite('-me-', data);
+        } catch (error) {
+            this.handleError(
+                `${this.constructor.name} ${this.addFavorite.name}`,
+                error
+            );
+            return null;
         }
-      };
-      return this.favoritesApi.createFavorite('-me-', data);
-    } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.addFavoriteById.name}`, error);
-      return null;
     }
-  }
 
-  async addFavoritesByIds(nodeType: 'file' | 'folder' | 'site', ids: string[]) {
-    try {
-      return ids.reduce(async (previous, current) => {
-        await previous;
-        await this.addFavoriteById(nodeType, current);
-      }, Promise.resolve());
-    } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.addFavoritesByIds.name}`, error);
-    }
-  }
-
-  async getFavorites() {
-    try {
-      await this.apiAuth();
-      return this.favoritesApi.listFavorites(this.getUsername());
-    } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.getFavorites.name}`, error);
-      return null;
-    }
-  }
-
-  async getFavoriteById(nodeId: string) {
-    try {
-      await this.apiAuth();
-      return this.favoritesApi.getFavorite('-me-', nodeId);
-    } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.getFavoriteById.name}`, error);
-      return null;
-    }
-  }
-
-  async isFavorite(nodeId: string) {
-    try {
-      return JSON.stringify((await this.getFavorites()).list.entries).includes(nodeId);
-    } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.isFavorite.name}`, error);
-      return null;
-    }
-  }
-
-  async isFavoriteWithRetry(nodeId: string, data: { expect: boolean }) {
-    let isFavorite: boolean;
-    try {
-      const favorite = async () => {
-        isFavorite = await this.isFavorite(nodeId);
-        if ( isFavorite !== data.expect ) {
-          return Promise.reject(isFavorite);
-        } else {
-          return Promise.resolve(isFavorite);
+    async addFavoriteById(
+        nodeType: 'file' | 'folder' | 'site',
+        id: string
+    ): Promise<FavoriteEntry | null> {
+        let guid;
+        try {
+            await this.apiAuth();
+            if (nodeType === 'site') {
+                guid = (await this.sitesApi.getSite(id)).entry.guid;
+            } else {
+                guid = id;
+            }
+            const data = {
+                target: {
+                    [nodeType]: {
+                        guid: guid,
+                    },
+                },
+            };
+            return this.favoritesApi.createFavorite('-me-', data);
+        } catch (error) {
+            this.handleError(
+                `${this.constructor.name} ${this.addFavoriteById.name}`,
+                error
+            );
+            return null;
         }
-      };
-      return Utils.retryCall(favorite);
-    } catch (error) {
-      // this.handleError(`${this.constructor.name} ${this.isFavoriteWithRetry.name}`, error);
     }
-    return isFavorite;
-  }
 
-  async removeFavoriteById(nodeId: string) {
-    try {
-      await this.apiAuth();
-      return this.favoritesApi.deleteFavorite('-me-', nodeId);
-    } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.removeFavoriteById.name}`, error);
-    }
-  }
-
-  async removeFavoritesByIds(ids: string[]) {
-    try {
-      return ids.reduce(async (previous, current) => {
-        await previous;
-        await this.removeFavoriteById(current);
-      }, Promise.resolve());
-    } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.removeFavoritesByIds.name}`, error);
-    }
-  }
-
-  async waitForApi(data: { expect: number }) {
-    try {
-      const favoriteFiles = async () => {
-        const totalItems = (await this.getFavorites()).list.pagination.totalItems;
-        if ( totalItems !== data.expect) {
-            return Promise.reject(totalItems);
-        } else {
-            return Promise.resolve(totalItems);
+    async addFavoritesByIds(
+        nodeType: 'file' | 'folder' | 'site',
+        ids: string[]
+    ) {
+        try {
+            return ids.reduce(async (previous, current) => {
+                await previous;
+                await this.addFavoriteById(nodeType, current);
+            }, Promise.resolve());
+        } catch (error) {
+            this.handleError(
+                `${this.constructor.name} ${this.addFavoritesByIds.name}`,
+                error
+            );
         }
-      };
-      return Utils.retryCall(favoriteFiles);
-    } catch (error) {
-      Logger.info(`${this.constructor.name} ${this.waitForApi.name} catch: `);
-      Logger.info(`\tExpected: ${data.expect} items, but found ${error}`);
     }
-  }
+
+    async getFavorites() {
+        try {
+            await this.apiAuth();
+            return this.favoritesApi.listFavorites(this.getUsername());
+        } catch (error) {
+            this.handleError(
+                `${this.constructor.name} ${this.getFavorites.name}`,
+                error
+            );
+            return null;
+        }
+    }
+
+    async getFavoriteById(nodeId: string) {
+        try {
+            await this.apiAuth();
+            return this.favoritesApi.getFavorite('-me-', nodeId);
+        } catch (error) {
+            this.handleError(
+                `${this.constructor.name} ${this.getFavoriteById.name}`,
+                error
+            );
+            return null;
+        }
+    }
+
+    async isFavorite(nodeId: string) {
+        try {
+            return JSON.stringify(
+                (await this.getFavorites()).list.entries
+            ).includes(nodeId);
+        } catch (error) {
+            this.handleError(
+                `${this.constructor.name} ${this.isFavorite.name}`,
+                error
+            );
+            return null;
+        }
+    }
+
+    async isFavoriteWithRetry(nodeId: string, data: { expect: boolean }) {
+        let isFavorite: boolean;
+        try {
+            const favorite = async () => {
+                isFavorite = await this.isFavorite(nodeId);
+                if (isFavorite !== data.expect) {
+                    return Promise.reject(isFavorite);
+                } else {
+                    return Promise.resolve(isFavorite);
+                }
+            };
+            return Utils.retryCall(favorite);
+        } catch (error) {
+            // this.handleError(`${this.constructor.name} ${this.isFavoriteWithRetry.name}`, error);
+        }
+        return isFavorite;
+    }
+
+    async removeFavoriteById(nodeId: string) {
+        try {
+            await this.apiAuth();
+            return this.favoritesApi.deleteFavorite('-me-', nodeId);
+        } catch (error) {
+            this.handleError(
+                `${this.constructor.name} ${this.removeFavoriteById.name}`,
+                error
+            );
+        }
+    }
+
+    async removeFavoritesByIds(ids: string[]) {
+        try {
+            return ids.reduce(async (previous, current) => {
+                await previous;
+                await this.removeFavoriteById(current);
+            }, Promise.resolve());
+        } catch (error) {
+            this.handleError(
+                `${this.constructor.name} ${this.removeFavoritesByIds.name}`,
+                error
+            );
+        }
+    }
+
+    async waitForApi(data: { expect: number }) {
+        try {
+            const favoriteFiles = async () => {
+                const totalItems = (await this.getFavorites()).list.pagination
+                    .totalItems;
+                if (totalItems !== data.expect) {
+                    return Promise.reject(totalItems);
+                } else {
+                    return Promise.resolve(totalItems);
+                }
+            };
+            return Utils.retryCall(favoriteFiles);
+        } catch (error) {
+            Logger.info(
+                `${this.constructor.name} ${this.waitForApi.name} catch: `
+            );
+            Logger.info(`\tExpected: ${data.expect} items, but found ${error}`);
+        }
+    }
 }

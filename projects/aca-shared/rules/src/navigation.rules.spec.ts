@@ -26,333 +26,333 @@
 import * as app from './navigation.rules';
 
 describe('navigation.evaluators', () => {
-  describe('isPreview', () => {
-    it('should return [true] if url contains `viewer:view`', () => {
-      const context: any = {
-        navigation: {
-          url: 'path/(viewer:view/id)'
-        }
-      };
+    describe('isPreview', () => {
+        it('should return [true] if url contains `viewer:view`', () => {
+            const context: any = {
+                navigation: {
+                    url: 'path/(viewer:view/id)',
+                },
+            };
 
-      expect(app.isPreview(context)).toBe(true);
-    });
-  });
-
-  describe('isFavorites', () => {
-    it('should return [true] if url contains `/favorites`', () => {
-      const context: any = {
-        navigation: {
-          url: '/favorites/path'
-        }
-      };
-
-      expect(app.isFavorites(context)).toBe(true);
+            expect(app.isPreview(context)).toBe(true);
+        });
     });
 
-    it('should return [false] if `/favorites` url contains `/preview/`', () => {
-      const context: any = {
-        navigation: {
-          url: '/favorites/preview/'
-        }
-      };
+    describe('isFavorites', () => {
+        it('should return [true] if url contains `/favorites`', () => {
+            const context: any = {
+                navigation: {
+                    url: '/favorites/path',
+                },
+            };
 
-      expect(app.isFavorites(context)).toBe(false);
-    });
-  });
+            expect(app.isFavorites(context)).toBe(true);
+        });
 
-  describe('isNotFavorites', () => {
-    it('should return [true] if url is not `/favorites`', () => {
-      const context: any = {
-        navigation: {
-          url: '/some/path'
-        }
-      };
+        it('should return [false] if `/favorites` url contains `/preview/`', () => {
+            const context: any = {
+                navigation: {
+                    url: '/favorites/preview/',
+                },
+            };
 
-      expect(app.isNotFavorites(context)).toBe(true);
-    });
-
-    it('should return [false] if url starts with `/favorites`', () => {
-      const context: any = {
-        navigation: {
-          url: '/favorites/path'
-        }
-      };
-
-      expect(app.isNotFavorites(context)).toBe(false);
-    });
-  });
-
-  describe('isSharedFiles', () => {
-    it('should return [true] if path starts with `/shared`', () => {
-      const context: any = {
-        navigation: {
-          url: '/shared/path'
-        }
-      };
-
-      expect(app.isSharedFiles(context)).toBe(true);
+            expect(app.isFavorites(context)).toBe(false);
+        });
     });
 
-    it('should return [false] if `/shared` url contains `/preview/`', () => {
-      const context: any = {
-        navigation: {
-          url: '/shared/preview/'
-        }
-      };
+    describe('isNotFavorites', () => {
+        it('should return [true] if url is not `/favorites`', () => {
+            const context: any = {
+                navigation: {
+                    url: '/some/path',
+                },
+            };
 
-      expect(app.isSharedFiles(context)).toBe(false);
-    });
-  });
+            expect(app.isNotFavorites(context)).toBe(true);
+        });
 
-  describe('isNotSharedFiles', () => {
-    it('should return [true] if path does not contain `/shared`', () => {
-      const context: any = {
-        navigation: {
-          url: '/some/path/'
-        }
-      };
+        it('should return [false] if url starts with `/favorites`', () => {
+            const context: any = {
+                navigation: {
+                    url: '/favorites/path',
+                },
+            };
 
-      expect(app.isNotSharedFiles(context)).toBe(true);
-    });
-
-    it('should return [false] if path contains `/shared`', () => {
-      const context: any = {
-        navigation: {
-          url: '/shared/path/'
-        }
-      };
-
-      expect(app.isNotSharedFiles(context)).toBe(false);
-    });
-  });
-
-  describe('isTrashcan', () => {
-    it('should return [true] if url starts with `/trashcan`', () => {
-      const context: any = {
-        navigation: {
-          url: '/trashcan'
-        }
-      };
-
-      expect(app.isTrashcan(context)).toBe(true);
+            expect(app.isNotFavorites(context)).toBe(false);
+        });
     });
 
-    it('should return [false] if url does not start with `/trashcan`', () => {
-      const context: any = {
-        navigation: {
-          url: '/path/trashcan'
-        }
-      };
+    describe('isSharedFiles', () => {
+        it('should return [true] if path starts with `/shared`', () => {
+            const context: any = {
+                navigation: {
+                    url: '/shared/path',
+                },
+            };
 
-      expect(app.isTrashcan(context)).toBe(false);
-    });
-  });
+            expect(app.isSharedFiles(context)).toBe(true);
+        });
 
-  describe('isNotTrashcan', () => {
-    it('should return [true] if url does not start with `/trashcan`', () => {
-      const context: any = {
-        navigation: {
-          url: '/path/trashcan'
-        }
-      };
+        it('should return [false] if `/shared` url contains `/preview/`', () => {
+            const context: any = {
+                navigation: {
+                    url: '/shared/preview/',
+                },
+            };
 
-      expect(app.isNotTrashcan(context)).toBe(true);
-    });
-
-    it('should return [false] if url does start with `/trashcan`', () => {
-      const context: any = {
-        navigation: {
-          url: '/trashcan'
-        }
-      };
-
-      expect(app.isNotTrashcan(context)).toBe(false);
-    });
-  });
-
-  describe('isPersonalFiles', () => {
-    it('should return [true] if url starts with `/personal-files`', () => {
-      const context: any = {
-        navigation: {
-          url: '/personal-files'
-        }
-      };
-
-      expect(app.isPersonalFiles(context)).toBe(true);
+            expect(app.isSharedFiles(context)).toBe(false);
+        });
     });
 
-    it('should return [false] if url does not start with `/personal-files`', () => {
-      const context: any = {
-        navigation: {
-          url: '/path/personal-files'
-        }
-      };
+    describe('isNotSharedFiles', () => {
+        it('should return [true] if path does not contain `/shared`', () => {
+            const context: any = {
+                navigation: {
+                    url: '/some/path/',
+                },
+            };
 
-      expect(app.isPersonalFiles(context)).toBe(false);
-    });
-  });
+            expect(app.isNotSharedFiles(context)).toBe(true);
+        });
 
-  describe('isLibraries', () => {
-    it('should return [true] if url ends with `/libraries`', () => {
-      const context: any = {
-        navigation: {
-          url: '/path/libraries'
-        }
-      };
+        it('should return [false] if path contains `/shared`', () => {
+            const context: any = {
+                navigation: {
+                    url: '/shared/path/',
+                },
+            };
 
-      expect(app.isLibraries(context)).toBe(true);
-    });
-
-    it('should return [true] if url starts with `/search-libraries`', () => {
-      const context: any = {
-        navigation: {
-          url: '/search-libraries/path'
-        }
-      };
-
-      expect(app.isLibraries(context)).toBe(true);
-    });
-  });
-
-  describe('isNotLibraries', () => {
-    it('should return [true] if url does not end with `/libraries`', () => {
-      const context: any = {
-        navigation: {
-          url: '/libraries/path'
-        }
-      };
-
-      expect(app.isNotLibraries(context)).toBe(true);
-    });
-  });
-
-  describe('isRecentFiles', () => {
-    it('should return [true] if url starts with `/recent-files`', () => {
-      const context: any = {
-        navigation: {
-          url: '/recent-files'
-        }
-      };
-
-      expect(app.isRecentFiles(context)).toBe(true);
+            expect(app.isNotSharedFiles(context)).toBe(false);
+        });
     });
 
-    it('should return [false] if url does not start with `/recent-files`', () => {
-      const context: any = {
-        navigation: {
-          url: '/path/recent-files'
-        }
-      };
+    describe('isTrashcan', () => {
+        it('should return [true] if url starts with `/trashcan`', () => {
+            const context: any = {
+                navigation: {
+                    url: '/trashcan',
+                },
+            };
 
-      expect(app.isRecentFiles(context)).toBe(false);
-    });
-  });
+            expect(app.isTrashcan(context)).toBe(true);
+        });
 
-  describe('isSearchResults', () => {
-    it('should return [true] if url starts with `/search`', () => {
-      const context: any = {
-        navigation: {
-          url: '/search'
-        }
-      };
+        it('should return [false] if url does not start with `/trashcan`', () => {
+            const context: any = {
+                navigation: {
+                    url: '/path/trashcan',
+                },
+            };
 
-      expect(app.isSearchResults(context)).toBe(true);
-    });
-
-    it('should return [false] if url does not start with `/search`', () => {
-      const context: any = {
-        navigation: {
-          url: '/path/search'
-        }
-      };
-
-      expect(app.isSearchResults(context)).toBe(false);
-    });
-  });
-
-  describe('isSharedPreview', () => {
-    it('should return [true] if url starts with `/shared` and contains `viewer:view', () => {
-      const context: any = {
-        navigation: {
-          url: '/shared/(viewer:view)'
-        }
-      };
-
-      expect(app.isSharedPreview(context)).toBe(true);
+            expect(app.isTrashcan(context)).toBe(false);
+        });
     });
 
-    it('should return [false] if url does not start with `/shared`', () => {
-      const context: any = {
-        navigation: {
-          url: '/path/shared/(viewer:view)'
-        }
-      };
+    describe('isNotTrashcan', () => {
+        it('should return [true] if url does not start with `/trashcan`', () => {
+            const context: any = {
+                navigation: {
+                    url: '/path/trashcan',
+                },
+            };
 
-      expect(app.isSharedPreview(context)).toBe(false);
+            expect(app.isNotTrashcan(context)).toBe(true);
+        });
+
+        it('should return [false] if url does start with `/trashcan`', () => {
+            const context: any = {
+                navigation: {
+                    url: '/trashcan',
+                },
+            };
+
+            expect(app.isNotTrashcan(context)).toBe(false);
+        });
     });
 
-    it('should return [false] if url starts with `/shared` and does not includes `viewer:view`', () => {
-      const context: any = {
-        navigation: {
-          url: '/shared/something'
-        }
-      };
+    describe('isPersonalFiles', () => {
+        it('should return [true] if url starts with `/personal-files`', () => {
+            const context: any = {
+                navigation: {
+                    url: '/personal-files',
+                },
+            };
 
-      expect(app.isSharedPreview(context)).toBe(false);
-    });
-  });
+            expect(app.isPersonalFiles(context)).toBe(true);
+        });
 
-  describe('isFavoritesPreview', () => {
-    it('should return [true] if url starts with `/favorites` and includes `viewer:view`', () => {
-      const context: any = {
-        navigation: {
-          url: '/favorites/(viewer:view)'
-        }
-      };
+        it('should return [false] if url does not start with `/personal-files`', () => {
+            const context: any = {
+                navigation: {
+                    url: '/path/personal-files',
+                },
+            };
 
-      expect(app.isFavoritesPreview(context)).toBe(true);
-    });
-
-    it('should return [false] if url does not start with `/favorites`', () => {
-      const context: any = {
-        navigation: {
-          url: '/path/favorites/(viewer:view)'
-        }
-      };
-
-      expect(app.isFavoritesPreview(context)).toBe(false);
+            expect(app.isPersonalFiles(context)).toBe(false);
+        });
     });
 
-    it('should return [false] if url starts with `/favorites` and does not include `viewer:view`', () => {
-      const context: any = {
-        navigation: {
-          url: '/favorites/other'
-        }
-      };
+    describe('isLibraries', () => {
+        it('should return [true] if url ends with `/libraries`', () => {
+            const context: any = {
+                navigation: {
+                    url: '/path/libraries',
+                },
+            };
 
-      expect(app.isFavoritesPreview(context)).toBe(false);
+            expect(app.isLibraries(context)).toBe(true);
+        });
+
+        it('should return [true] if url starts with `/search-libraries`', () => {
+            const context: any = {
+                navigation: {
+                    url: '/search-libraries/path',
+                },
+            };
+
+            expect(app.isLibraries(context)).toBe(true);
+        });
     });
-  });
 
-  describe('isSharedFileViewer', () => {
-    it('should return [true] if url starts with `/preview/s/`', () => {
-      const context: any = {
-        navigation: {
-          url: '/preview/s/path'
-        }
-      };
+    describe('isNotLibraries', () => {
+        it('should return [true] if url does not end with `/libraries`', () => {
+            const context: any = {
+                navigation: {
+                    url: '/libraries/path',
+                },
+            };
 
-      expect(app.isSharedFileViewer(context)).toBe(true);
+            expect(app.isNotLibraries(context)).toBe(true);
+        });
     });
 
-    it('should return [false] if url does not start with `/preview/s/`', () => {
-      const context: any = {
-        navigation: {
-          url: '/path/preview/s/'
-        }
-      };
+    describe('isRecentFiles', () => {
+        it('should return [true] if url starts with `/recent-files`', () => {
+            const context: any = {
+                navigation: {
+                    url: '/recent-files',
+                },
+            };
 
-      expect(app.isSharedFileViewer(context)).toBe(false);
+            expect(app.isRecentFiles(context)).toBe(true);
+        });
+
+        it('should return [false] if url does not start with `/recent-files`', () => {
+            const context: any = {
+                navigation: {
+                    url: '/path/recent-files',
+                },
+            };
+
+            expect(app.isRecentFiles(context)).toBe(false);
+        });
     });
-  });
+
+    describe('isSearchResults', () => {
+        it('should return [true] if url starts with `/search`', () => {
+            const context: any = {
+                navigation: {
+                    url: '/search',
+                },
+            };
+
+            expect(app.isSearchResults(context)).toBe(true);
+        });
+
+        it('should return [false] if url does not start with `/search`', () => {
+            const context: any = {
+                navigation: {
+                    url: '/path/search',
+                },
+            };
+
+            expect(app.isSearchResults(context)).toBe(false);
+        });
+    });
+
+    describe('isSharedPreview', () => {
+        it('should return [true] if url starts with `/shared` and contains `viewer:view', () => {
+            const context: any = {
+                navigation: {
+                    url: '/shared/(viewer:view)',
+                },
+            };
+
+            expect(app.isSharedPreview(context)).toBe(true);
+        });
+
+        it('should return [false] if url does not start with `/shared`', () => {
+            const context: any = {
+                navigation: {
+                    url: '/path/shared/(viewer:view)',
+                },
+            };
+
+            expect(app.isSharedPreview(context)).toBe(false);
+        });
+
+        it('should return [false] if url starts with `/shared` and does not includes `viewer:view`', () => {
+            const context: any = {
+                navigation: {
+                    url: '/shared/something',
+                },
+            };
+
+            expect(app.isSharedPreview(context)).toBe(false);
+        });
+    });
+
+    describe('isFavoritesPreview', () => {
+        it('should return [true] if url starts with `/favorites` and includes `viewer:view`', () => {
+            const context: any = {
+                navigation: {
+                    url: '/favorites/(viewer:view)',
+                },
+            };
+
+            expect(app.isFavoritesPreview(context)).toBe(true);
+        });
+
+        it('should return [false] if url does not start with `/favorites`', () => {
+            const context: any = {
+                navigation: {
+                    url: '/path/favorites/(viewer:view)',
+                },
+            };
+
+            expect(app.isFavoritesPreview(context)).toBe(false);
+        });
+
+        it('should return [false] if url starts with `/favorites` and does not include `viewer:view`', () => {
+            const context: any = {
+                navigation: {
+                    url: '/favorites/other',
+                },
+            };
+
+            expect(app.isFavoritesPreview(context)).toBe(false);
+        });
+    });
+
+    describe('isSharedFileViewer', () => {
+        it('should return [true] if url starts with `/preview/s/`', () => {
+            const context: any = {
+                navigation: {
+                    url: '/preview/s/path',
+                },
+            };
+
+            expect(app.isSharedFileViewer(context)).toBe(true);
+        });
+
+        it('should return [false] if url does not start with `/preview/s/`', () => {
+            const context: any = {
+                navigation: {
+                    url: '/path/preview/s/',
+                },
+            };
+
+            expect(app.isSharedFileViewer(context)).toBe(false);
+        });
+    });
 });

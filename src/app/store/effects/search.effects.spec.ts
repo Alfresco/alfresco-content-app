@@ -30,59 +30,59 @@ import { EffectsModule } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import {
-  SearchOptionIds,
-  SearchByTermAction
+    SearchOptionIds,
+    SearchByTermAction,
 } from '@alfresco/aca-shared/store';
 
 describe('SearchEffects', () => {
-  let store: Store<any>;
-  let router: Router;
+    let store: Store<any>;
+    let router: Router;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [AppTestingModule, EffectsModule.forRoot([SearchEffects])]
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            imports: [AppTestingModule, EffectsModule.forRoot([SearchEffects])],
+        });
+
+        store = TestBed.get(Store);
+        router = TestBed.get(Router);
+
+        spyOn(router, 'navigateByUrl').and.stub();
     });
 
-    store = TestBed.get(Store);
-    router = TestBed.get(Router);
+    describe('searchByTerm$', () => {
+        it('should navigate to `search` when search options has library false', fakeAsync(() => {
+            store.dispatch(new SearchByTermAction('test', []));
+            tick();
+            expect(router.navigateByUrl).toHaveBeenCalledWith('/search;q=test');
+        }));
 
-    spyOn(router, 'navigateByUrl').and.stub();
-  });
+        it('should navigate to `search-libraries` when search options has library true', fakeAsync(() => {
+            store.dispatch(
+                new SearchByTermAction('test', [
+                    {
+                        id: SearchOptionIds.Libraries,
+                        value: true,
+                        key: '',
+                        shouldDisable: null,
+                    },
+                ])
+            );
 
-  describe('searchByTerm$', () => {
-    it('should navigate to `search` when search options has library false', fakeAsync(() => {
-      store.dispatch(new SearchByTermAction('test', []));
-      tick();
-      expect(router.navigateByUrl).toHaveBeenCalledWith('/search;q=test');
-    }));
+            tick();
 
-    it('should navigate to `search-libraries` when search options has library true', fakeAsync(() => {
-      store.dispatch(
-        new SearchByTermAction('test', [
-          {
-            id: SearchOptionIds.Libraries,
-            value: true,
-            key: '',
-            shouldDisable: null
-          }
-        ])
-      );
+            expect(router.navigateByUrl).toHaveBeenCalledWith(
+                '/search-libraries;q=test'
+            );
+        }));
 
-      tick();
+        it('should encode search string for parentheses', fakeAsync(() => {
+            store.dispatch(new SearchByTermAction('(test)', []));
 
-      expect(router.navigateByUrl).toHaveBeenCalledWith(
-        '/search-libraries;q=test'
-      );
-    }));
+            tick();
 
-    it('should encode search string for parentheses', fakeAsync(() => {
-      store.dispatch(new SearchByTermAction('(test)', []));
-
-      tick();
-
-      expect(router.navigateByUrl).toHaveBeenCalledWith(
-        '/search;q=%2528test%2529'
-      );
-    }));
-  });
+            expect(router.navigateByUrl).toHaveBeenCalledWith(
+                '/search;q=%2528test%2529'
+            );
+        }));
+    });
 });

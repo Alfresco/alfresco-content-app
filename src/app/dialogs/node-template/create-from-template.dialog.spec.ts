@@ -28,154 +28,150 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { CoreModule, TranslationMock } from '@alfresco/adf-core';
 import {
-  MatDialogModule,
-  MAT_DIALOG_DATA,
-  MatDialogRef
+    MatDialogModule,
+    MAT_DIALOG_DATA,
+    MatDialogRef,
 } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { CreateFromTemplate } from '@alfresco/aca-shared/store';
 import { Node } from '@alfresco/js-api';
 
 function text(length: number) {
-  return new Array(length)
-    .fill(
-      Math.random()
-        .toString()
-        .substring(2, 3)
-    )
-    .join('');
+    return new Array(length)
+        .fill(Math.random().toString().substring(2, 3))
+        .join('');
 }
 
 describe('CreateFileFromTemplateDialogComponent', () => {
-  let fixture: ComponentFixture<CreateFromTemplateDialogComponent>;
-  let component: CreateFromTemplateDialogComponent;
-  let store;
+    let fixture: ComponentFixture<CreateFromTemplateDialogComponent>;
+    let component: CreateFromTemplateDialogComponent;
+    let store;
 
-  const data = {
-    id: 'node-id',
-    name: 'node-name',
-    isFolder: false,
-    isFile: true,
-    properties: {
-      'cm:title': 'node-title',
-      'cm:description': ''
-    }
-  };
+    const data = {
+        id: 'node-id',
+        name: 'node-name',
+        isFolder: false,
+        isFile: true,
+        properties: {
+            'cm:title': 'node-title',
+            'cm:description': '',
+        },
+    };
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [CoreModule.forRoot(), AppTestingModule, MatDialogModule],
-      declarations: [CreateFromTemplateDialogComponent],
-      providers: [
-        {
-          provide: MatDialogRef,
-          useValue: {
-            close: jasmine.createSpy('close')
-          }
-        },
-        {
-          provide: TranslationMock,
-          useValue: {
-            instant: jasmine.createSpy('instant')
-          }
-        },
-        {
-          provide: Store,
-          useValue: {
-            dispatch: jasmine.createSpy('dispatch')
-          }
-        },
-        { provide: MAT_DIALOG_DATA, useValue: {} }
-      ]
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            imports: [CoreModule.forRoot(), AppTestingModule, MatDialogModule],
+            declarations: [CreateFromTemplateDialogComponent],
+            providers: [
+                {
+                    provide: MatDialogRef,
+                    useValue: {
+                        close: jasmine.createSpy('close'),
+                    },
+                },
+                {
+                    provide: TranslationMock,
+                    useValue: {
+                        instant: jasmine.createSpy('instant'),
+                    },
+                },
+                {
+                    provide: Store,
+                    useValue: {
+                        dispatch: jasmine.createSpy('dispatch'),
+                    },
+                },
+                { provide: MAT_DIALOG_DATA, useValue: {} },
+            ],
+        });
+
+        fixture = TestBed.createComponent(CreateFromTemplateDialogComponent);
+        store = TestBed.get(Store);
+        component = fixture.componentInstance;
+        component.data = data as Node;
     });
 
-    fixture = TestBed.createComponent(CreateFromTemplateDialogComponent);
-    store = TestBed.get(Store);
-    component = fixture.componentInstance;
-    component.data = data as Node;
-  });
+    it('should populate form with provided dialog data', () => {
+        fixture.detectChanges();
 
-  it('should populate form with provided dialog data', () => {
-    fixture.detectChanges();
+        expect(component.form.controls.name.value).toBe(data.name);
+        expect(component.form.controls.title.value).toBe(
+            data.properties['cm:title']
+        );
+        expect(component.form.controls.description.value).toBe(
+            data.properties['cm:description']
+        );
+    });
 
-    expect(component.form.controls.name.value).toBe(data.name);
-    expect(component.form.controls.title.value).toBe(
-      data.properties['cm:title']
-    );
-    expect(component.form.controls.description.value).toBe(
-      data.properties['cm:description']
-    );
-  });
+    it('should invalidate form if required `name` field is invalid', () => {
+        fixture.detectChanges();
 
-  it('should invalidate form if required `name` field is invalid', () => {
-    fixture.detectChanges();
+        component.form.controls.name.setValue('');
+        fixture.detectChanges();
 
-    component.form.controls.name.setValue('');
-    fixture.detectChanges();
+        expect(component.form.invalid).toBe(true);
+    });
 
-    expect(component.form.invalid).toBe(true);
-  });
+    it('should invalidate form if required `name` field has `only spaces`', () => {
+        fixture.detectChanges();
 
-  it('should invalidate form if required `name` field has `only spaces`', () => {
-    fixture.detectChanges();
+        component.form.controls.name.setValue('   ');
+        fixture.detectChanges();
 
-    component.form.controls.name.setValue('   ');
-    fixture.detectChanges();
+        expect(component.form.invalid).toBe(true);
+    });
 
-    expect(component.form.invalid).toBe(true);
-  });
+    it('should invalidate form if required `name` field has `ending dot`', () => {
+        fixture.detectChanges();
 
-  it('should invalidate form if required `name` field has `ending dot`', () => {
-    fixture.detectChanges();
+        component.form.controls.name.setValue('something.');
+        fixture.detectChanges();
 
-    component.form.controls.name.setValue('something.');
-    fixture.detectChanges();
+        expect(component.form.invalid).toBe(true);
+    });
 
-    expect(component.form.invalid).toBe(true);
-  });
+    it('should invalidate form if `title` text length is long', () => {
+        fixture.detectChanges();
 
-  it('should invalidate form if `title` text length is long', () => {
-    fixture.detectChanges();
+        component.form.controls.title.setValue(text(260));
+        fixture.detectChanges();
 
-    component.form.controls.title.setValue(text(260));
-    fixture.detectChanges();
+        expect(component.form.invalid).toBe(true);
+    });
 
-    expect(component.form.invalid).toBe(true);
-  });
+    it('should invalidate form if `description` text length is long', () => {
+        fixture.detectChanges();
 
-  it('should invalidate form if `description` text length is long', () => {
-    fixture.detectChanges();
+        component.form.controls.description.setValue(text(520));
+        fixture.detectChanges();
 
-    component.form.controls.description.setValue(text(520));
-    fixture.detectChanges();
+        expect(component.form.invalid).toBe(true);
+    });
 
-    expect(component.form.invalid).toBe(true);
-  });
+    it('should create node from template with form values', () => {
+        const newNode = {
+            id: 'node-id',
+            name: 'new-node-name',
+            isFolder: false,
+            isFile: true,
+            properties: {
+                'cm:title': 'new-node-title',
+                'cm:description': 'new-node-description',
+            },
+        } as Node;
 
-  it('should create node from template with form values', () => {
-    const newNode = {
-      id: 'node-id',
-      name: 'new-node-name',
-      isFolder: false,
-      isFile: true,
-      properties: {
-        'cm:title': 'new-node-title',
-        'cm:description': 'new-node-description'
-      }
-    } as Node;
+        fixture.detectChanges();
 
-    fixture.detectChanges();
+        component.form.controls.name.setValue('new-node-name');
+        component.form.controls.title.setValue('new-node-title');
+        component.form.controls.description.setValue('new-node-description');
 
-    component.form.controls.name.setValue('new-node-name');
-    component.form.controls.title.setValue('new-node-title');
-    component.form.controls.description.setValue('new-node-description');
+        fixture.detectChanges();
 
-    fixture.detectChanges();
+        component.onSubmit();
 
-    component.onSubmit();
-
-    expect(store.dispatch['calls'].mostRecent().args[0]).toEqual(
-      new CreateFromTemplate(newNode)
-    );
-  });
+        expect(store.dispatch['calls'].mostRecent().args[0]).toEqual(
+            new CreateFromTemplate(newNode)
+        );
+    });
 });

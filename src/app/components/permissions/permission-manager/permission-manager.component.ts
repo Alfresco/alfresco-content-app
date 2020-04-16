@@ -25,8 +25,8 @@
 
 import { AppStore, SnackbarErrorAction } from '@alfresco/aca-shared/store';
 import {
-  NodePermissionDialogService,
-  PermissionListComponent
+    NodePermissionDialogService,
+    PermissionListComponent,
 } from '@alfresco/adf-content-services';
 import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
@@ -36,60 +36,61 @@ import { ContentApiService } from '@alfresco/aca-shared';
 import { NodePermissionsDialogComponent } from '../permission-dialog/node-permissions.dialog';
 
 @Component({
-  selector: 'app-permission-manager',
-  templateUrl: './permission-manager.component.html'
+    selector: 'app-permission-manager',
+    templateUrl: './permission-manager.component.html',
 })
 export class PermissionsManagerComponent implements OnInit {
-  @ViewChild('permissionList')
-  permissionList: PermissionListComponent;
+    @ViewChild('permissionList')
+    permissionList: PermissionListComponent;
 
-  @Input()
-  nodeId: string;
+    @Input()
+    nodeId: string;
 
-  toggleStatus = false;
+    toggleStatus = false;
 
-  constructor(
-    private store: Store<AppStore>,
-    private dialog: MatDialog,
-    private contentApi: ContentApiService,
-    private nodePermissionDialogService: NodePermissionDialogService
-  ) {}
+    constructor(
+        private store: Store<AppStore>,
+        private dialog: MatDialog,
+        private contentApi: ContentApiService,
+        private nodePermissionDialogService: NodePermissionDialogService
+    ) {}
 
-  ngOnInit() {
-    this.contentApi
-      .getNodeInfo(this.nodeId, { include: ['permissions'] })
-      .subscribe((currentNode: MinimalNodeEntryEntity) => {
-        this.toggleStatus = currentNode.permissions.isInheritanceEnabled;
-      });
-  }
+    ngOnInit() {
+        this.contentApi
+            .getNodeInfo(this.nodeId, { include: ['permissions'] })
+            .subscribe((currentNode: MinimalNodeEntryEntity) => {
+                this.toggleStatus =
+                    currentNode.permissions.isInheritanceEnabled;
+            });
+    }
 
-  onError(errorMessage: string) {
-    this.store.dispatch(new SnackbarErrorAction(errorMessage));
-  }
+    onError(errorMessage: string) {
+        this.store.dispatch(new SnackbarErrorAction(errorMessage));
+    }
 
-  onUpdate() {
-    this.permissionList.reload();
-  }
+    onUpdate() {
+        this.permissionList.reload();
+    }
 
-  onUpdatedPermissions(node: MinimalNodeEntryEntity) {
-    this.toggleStatus = node.permissions.isInheritanceEnabled;
-    this.permissionList.reload();
-  }
+    onUpdatedPermissions(node: MinimalNodeEntryEntity) {
+        this.toggleStatus = node.permissions.isInheritanceEnabled;
+        this.permissionList.reload();
+    }
 
-  openAddPermissionDialog() {
-    this.nodePermissionDialogService
-      .updateNodePermissionByDialog(this.nodeId)
-      .subscribe(
-        () => {
-          this.dialog.open(NodePermissionsDialogComponent, {
-            data: { nodeId: this.nodeId },
-            panelClass: 'aca-permissions-dialog-panel',
-            width: '800px'
-          });
-        },
-        error => {
-          this.store.dispatch(new SnackbarErrorAction(error));
-        }
-      );
-  }
+    openAddPermissionDialog() {
+        this.nodePermissionDialogService
+            .updateNodePermissionByDialog(this.nodeId)
+            .subscribe(
+                () => {
+                    this.dialog.open(NodePermissionsDialogComponent, {
+                        data: { nodeId: this.nodeId },
+                        panelClass: 'aca-permissions-dialog-panel',
+                        width: '800px',
+                    });
+                },
+                (error) => {
+                    this.store.dispatch(new SnackbarErrorAction(error));
+                }
+            );
+    }
 }

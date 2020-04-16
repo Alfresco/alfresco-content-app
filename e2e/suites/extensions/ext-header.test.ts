@@ -34,22 +34,22 @@ describe('Extensions - Info Drawer', () => {
     const username = `user-${Utils.random()}`;
 
     const disabledMenu = {
-      id: 'settings',
-      title: 'App settings',
-      description: 'Application settings',
-      icon: 'settings'
+        id: 'settings',
+        title: 'App settings',
+        description: 'Application settings',
+        icon: 'settings',
     };
 
     const enabledMenu = {
-      id: 'button',
-      title: 'New Button',
-      description: 'new button description',
-      icon: 'alarm_on'
+        id: 'button',
+        title: 'New Button',
+        description: 'new button description',
+        icon: 'alarm_on',
     };
 
     const apis = {
         admin: new RepoClient(),
-        user: new RepoClient(username, username)
+        user: new RepoClient(username, username),
     };
 
     const header = new Header();
@@ -58,28 +58,37 @@ describe('Extensions - Info Drawer', () => {
     const loginPage = new LoginPage();
 
     beforeAll(async (done) => {
-      await apis.admin.people.createUser({ username });
-      await loginPage.load();
-      await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.HEADER);
-      await loginPage.loginWith(username);
-      done();
+        await apis.admin.people.createUser({ username });
+        await loginPage.load();
+        await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.HEADER);
+        await loginPage.loginWith(username);
+        done();
     });
 
     beforeEach(async (done) => {
-      await Utils.pressEscape();
-      done();
+        await Utils.pressEscape();
+        done();
     });
 
     it('Add a new button in the header - [C286474]', async () => {
-      await header.openMoreMenu();
-      expect(await toolbarMenu.isMenuItemPresent(enabledMenu.title)).toBe(true, 'menu item not present');
-      expect(await toolbarMenu.getItemIconText(enabledMenu.title)).toEqual(enabledMenu.icon);
+        await header.openMoreMenu();
+        expect(await toolbarMenu.isMenuItemPresent(enabledMenu.title)).toBe(
+            true,
+            'menu item not present'
+        );
+        expect(await toolbarMenu.getItemIconText(enabledMenu.title)).toEqual(
+            enabledMenu.icon
+        );
     });
 
     it('Disable a button from the header - [C286477]', async () => {
-      await header.openMoreMenu();
-      expect(await toolbarMenu.isMenuItemPresent(disabledMenu.title)).toBe(true, `${disabledMenu.title} menu item not present`);
-      expect(await toolbarMenu.isMenuItemDisabled(disabledMenu.title)).toEqual('true', `${disabledMenu.title} is not disabled`);
+        await header.openMoreMenu();
+        expect(await toolbarMenu.isMenuItemPresent(disabledMenu.title)).toBe(
+            true,
+            `${disabledMenu.title} menu item not present`
+        );
+        expect(
+            await toolbarMenu.isMenuItemDisabled(disabledMenu.title)
+        ).toEqual('true', `${disabledMenu.title} is not disabled`);
     });
-
 });

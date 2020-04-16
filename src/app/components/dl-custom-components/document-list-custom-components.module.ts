@@ -32,15 +32,15 @@ import { MaterialModule } from '../../material.module';
 import { CoreModule } from '@alfresco/adf-core';
 
 @NgModule({
-  imports: [
-    BrowserModule,
-    CoreModule.forChild(),
-    ContentModule.forChild(),
-    MaterialModule,
-    LockedByModule
-  ],
-  declarations: [CustomNameColumnComponent],
-  exports: [CustomNameColumnComponent],
-  entryComponents: [CustomNameColumnComponent]
+    imports: [
+        BrowserModule,
+        CoreModule.forChild(),
+        ContentModule.forChild(),
+        MaterialModule,
+        LockedByModule,
+    ],
+    declarations: [CustomNameColumnComponent],
+    exports: [CustomNameColumnComponent],
+    entryComponents: [CustomNameColumnComponent],
 })
 export class DocumentListCustomComponentsModule {}

@@ -1,23 +1,23 @@
 .aca-name-column-container {
-  aca-locked-by {
-    display: flex;
-    align-items: center;
-    color: rgba(0, 0, 0, 0.54);
-    max-width: 100%;
-    padding: 0 10px;
+    aca-locked-by {
+        display: flex;
+        align-items: center;
+        color: rgba(0, 0, 0, 0.54);
+        max-width: 100%;
+        padding: 0 10px;
 
-    .locked_by--name {
-      overflow: hidden;
-      text-overflow: ellipsis;
+        .locked_by--name {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     }
-  }
 }
 
 .aca-custom-name-column {
-  display: block;
-  align-items: center;
+    display: block;
+    align-items: center;
 
-  .adf-datatable-cell-value {
-    margin: 0 4px;
-  }
+    .adf-datatable-cell-value {
+        margin: 0 4px;
+    }
 }

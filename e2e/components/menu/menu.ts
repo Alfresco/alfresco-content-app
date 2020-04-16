@@ -23,398 +23,522 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, ElementArrayFinder, by, browser, ExpectedConditions as EC } from 'protractor';
+import {
+    ElementFinder,
+    ElementArrayFinder,
+    by,
+    browser,
+    ExpectedConditions as EC,
+} from 'protractor';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
 import { Utils } from '../../utilities/utils';
 import { Logger } from '@alfresco/adf-testing';
 
 export class Menu extends Component {
-  private static selectors = {
-    root: '.mat-menu-panel',
-    item: '.mat-menu-item',
-    icon: '.mat-icon',
+    private static selectors = {
+        root: '.mat-menu-panel',
+        item: '.mat-menu-item',
+        icon: '.mat-icon',
 
-    uploadFilesInput: 'app-upload-files',
+        uploadFilesInput: 'app-upload-files',
 
-    uploadFile: 'app.create.uploadFile',
-    uploadFolder: 'app.create.uploadFolder',
-    createFolder: 'app.create.folder',
-    createLibrary: 'app.create.library',
-    createFileFromTemplate: 'app.create.fileFromTemplate',
-    createFolderFromTemplate: 'app.create.folderFromTemplate',
+        uploadFile: 'app.create.uploadFile',
+        uploadFolder: 'app.create.uploadFolder',
+        createFolder: 'app.create.folder',
+        createLibrary: 'app.create.library',
+        createFileFromTemplate: 'app.create.fileFromTemplate',
+        createFolderFromTemplate: 'app.create.folderFromTemplate',
 
-    submenu: 'app-context-menu-item .mat-menu-item',
+        submenu: 'app-context-menu-item .mat-menu-item',
 
-    editFolder: `.mat-menu-item[id$='editFolder']`,
-    favoriteAction: `.mat-menu-item[id$='favorite.add']`,
-    removeFavoriteAction: `.mat-menu-item[id$='favorite.remove']`,
-    editOffline: `.mat-menu-item[title='Edit Offline']`,
-    cancelEditing: `.mat-menu-item[title='Cancel Editing']`
-  };
+        editFolder: `.mat-menu-item[id$='editFolder']`,
+        favoriteAction: `.mat-menu-item[id$='favorite.add']`,
+        removeFavoriteAction: `.mat-menu-item[id$='favorite.remove']`,
+        editOffline: `.mat-menu-item[title='Edit Offline']`,
+        cancelEditing: `.mat-menu-item[title='Cancel Editing']`,
+    };
 
-  items: ElementArrayFinder = this.component.all(by.css(Menu.selectors.item));
-  backdrop: ElementFinder = browser.element(by.css('.cdk-overlay-backdrop'));
+    items: ElementArrayFinder = this.component.all(by.css(Menu.selectors.item));
+    backdrop: ElementFinder = browser.element(by.css('.cdk-overlay-backdrop'));
 
-  uploadFilesInput: ElementFinder = browser.element(by.id(Menu.selectors.uploadFilesInput));
-  submenus: ElementArrayFinder = browser.element.all(by.css(Menu.selectors.submenu));
+    uploadFilesInput: ElementFinder = browser.element(
+        by.id(Menu.selectors.uploadFilesInput)
+    );
+    submenus: ElementArrayFinder = browser.element.all(
+        by.css(Menu.selectors.submenu)
+    );
 
-  uploadFileAction: ElementFinder = this.component.element(by.id(Menu.selectors.uploadFile));
-  uploadFolderAction: ElementFinder = this.component.element(by.id(Menu.selectors.uploadFolder));
-  createFolderAction: ElementFinder = this.component.element(by.id(Menu.selectors.createFolder));
-  createLibraryAction: ElementFinder = this.component.element(by.id(Menu.selectors.createLibrary));
-  createFileFromTemplateAction: ElementFinder = this.component.element(by.id(Menu.selectors.createFileFromTemplate));
-  createFolderFromTemplateAction: ElementFinder = this.component.element(by.id(Menu.selectors.createFolderFromTemplate));
+    uploadFileAction: ElementFinder = this.component.element(
+        by.id(Menu.selectors.uploadFile)
+    );
+    uploadFolderAction: ElementFinder = this.component.element(
+        by.id(Menu.selectors.uploadFolder)
+    );
+    createFolderAction: ElementFinder = this.component.element(
+        by.id(Menu.selectors.createFolder)
+    );
+    createLibraryAction: ElementFinder = this.component.element(
+        by.id(Menu.selectors.createLibrary)
+    );
+    createFileFromTemplateAction: ElementFinder = this.component.element(
+        by.id(Menu.selectors.createFileFromTemplate)
+    );
+    createFolderFromTemplateAction: ElementFinder = this.component.element(
+        by.id(Menu.selectors.createFolderFromTemplate)
+    );
 
-  cancelEditingAction: ElementFinder = this.component.element(by.css(Menu.selectors.cancelEditing));
-  cancelJoinAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Cancel Join'));
-  copyAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Copy'));
-  deleteAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Delete'));
-  downloadAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Download'));
-  editFolderAction: ElementFinder = this.component.element(by.css(Menu.selectors.editFolder));
-  editOfflineAction: ElementFinder = this.component.element(by.css(Menu.selectors.editOffline));
-  favoriteAction: ElementFinder = this.component.element(by.css(Menu.selectors.favoriteAction));
-  removeFavoriteAction: ElementFinder = this.component.element(by.css(Menu.selectors.removeFavoriteAction));
-  toggleFavoriteAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Favorite'));
-  toggleRemoveFavoriteAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Remove Favorite'));
-  joinAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Join'));
-  leaveAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Leave'));
-  managePermissionsAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Permissions'));
-  manageVersionsAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Manage Versions'));
-  uploadNewVersionAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Upload New Version'));
-  moveAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Move'));
-  permanentDeleteAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Permanently Delete'));
-  restoreAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Restore'));
-  shareAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Share'));
-  shareEditAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Shared Link Settings'));
-  viewAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'View'));
-  viewDetailsAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'View Details'));
+    cancelEditingAction: ElementFinder = this.component.element(
+        by.css(Menu.selectors.cancelEditing)
+    );
+    cancelJoinAction: ElementFinder = this.component.element(
+        by.cssContainingText(Menu.selectors.item, 'Cancel Join')
+    );
+    copyAction: ElementFinder = this.component.element(
+        by.cssContainingText(Menu.selectors.item, 'Copy')
+    );
+    deleteAction: ElementFinder = this.component.element(
+        by.cssContainingText(Menu.selectors.item, 'Delete')
+    );
+    downloadAction: ElementFinder = this.component.element(
+        by.cssContainingText(Menu.selectors.item, 'Download')
+    );
+    editFolderAction: ElementFinder = this.component.element(
+        by.css(Menu.selectors.editFolder)
+    );
+    editOfflineAction: ElementFinder = this.component.element(
+        by.css(Menu.selectors.editOffline)
+    );
+    favoriteAction: ElementFinder = this.component.element(
+        by.css(Menu.selectors.favoriteAction)
+    );
+    removeFavoriteAction: ElementFinder = this.component.element(
+        by.css(Menu.selectors.removeFavoriteAction)
+    );
+    toggleFavoriteAction: ElementFinder = this.component.element(
+        by.cssContainingText(Menu.selectors.item, 'Favorite')
+    );
+    toggleRemoveFavoriteAction: ElementFinder = this.component.element(
+        by.cssContainingText(Menu.selectors.item, 'Remove Favorite')
+    );
+    joinAction: ElementFinder = this.component.element(
+        by.cssContainingText(Menu.selectors.item, 'Join')
+    );
+    leaveAction: ElementFinder = this.component.element(
+        by.cssContainingText(Menu.selectors.item, 'Leave')
+    );
+    managePermissionsAction: ElementFinder = this.component.element(
+        by.cssContainingText(Menu.selectors.item, 'Permissions')
+    );
+    manageVersionsAction: ElementFinder = this.component.element(
+        by.cssContainingText(Menu.selectors.item, 'Manage Versions')
+    );
+    uploadNewVersionAction: ElementFinder = this.component.element(
+        by.cssContainingText(Menu.selectors.item, 'Upload New Version')
+    );
+    moveAction: ElementFinder = this.component.element(
+        by.cssContainingText(Menu.selectors.item, 'Move')
+    );
+    permanentDeleteAction: ElementFinder = this.component.element(
+        by.cssContainingText(Menu.selectors.item, 'Permanently Delete')
+    );
+    restoreAction: ElementFinder = this.component.element(
+        by.cssContainingText(Menu.selectors.item, 'Restore')
+    );
+    shareAction: ElementFinder = this.component.element(
+        by.cssContainingText(Menu.selectors.item, 'Share')
+    );
+    shareEditAction: ElementFinder = this.component.element(
+        by.cssContainingText(Menu.selectors.item, 'Shared Link Settings')
+    );
+    viewAction: ElementFinder = this.component.element(
+        by.cssContainingText(Menu.selectors.item, 'View')
+    );
+    viewDetailsAction: ElementFinder = this.component.element(
+        by.cssContainingText(Menu.selectors.item, 'View Details')
+    );
 
-  constructor(ancestor?: string) {
-    super(Menu.selectors.root, ancestor);
-  }
-
-  async waitForMenuToOpen(): Promise<void> {
-    await browser.wait(EC.presenceOf(browser.element(by.css('.cdk-overlay-container .mat-menu-panel'))), BROWSER_WAIT_TIMEOUT);
-    await browser.wait(EC.visibilityOf(this.items.get(0)), BROWSER_WAIT_TIMEOUT);
-  }
-
-  async waitForMenuToClose(): Promise<void> {
-    await browser.wait(EC.not(EC.presenceOf(browser.element(by.css('.cdk-overlay-container .mat-menu-panel')))), BROWSER_WAIT_TIMEOUT);
-  }
-
-  async closeMenu(): Promise<void> {
-    await Utils.pressEscape();
-    await this.waitForMenuToClose();
-  }
-
-  getNthItem(nth: number): ElementFinder {
-    return this.items.get(nth - 1);
-  }
-
-  getItemByLabel(menuItem: string): ElementFinder {
-    return this.component.element(by.cssContainingText(Menu.selectors.item, menuItem));
-  }
-
-  getSubItemByLabel(subMenuItem: string): ElementFinder {
-    return this.component.element(by.cssContainingText(Menu.selectors.submenu, subMenuItem));
-  }
-
-  getItemById(id: string): ElementFinder {
-    return this.component.element(by.id(id));
-  }
-
-  async getItemTooltip(menuItem: string): Promise<string> {
-    return this.getItemByLabel(menuItem).getAttribute('title');
-  }
-
-  async getTooltipForUploadFile(): Promise<string> {
-    return this.getItemTooltip('Upload File');
-  }
-
-  async getTooltipForUploadFolder(): Promise<string> {
-    return this.getItemTooltip('Upload Folder');
-  }
-
-  async getTooltipForCreateFolder(): Promise<string> {
-    return this.getItemTooltip('Create Folder');
-  }
-
-  async getTooltipForCreateLibrary(): Promise<string> {
-    return this.getItemTooltip('Create Library');
-  }
-
-  async getTooltipForCreateFileFromTemplate(): Promise<string> {
-    return this.getItemTooltip('Create file from template');
-  }
-
-  async getItemIconText(menuItem: string): Promise<string> {
-    return this.getItemByLabel(menuItem).element(by.css(Menu.selectors.icon)).getText();
-  }
-
-  async getItemIdAttribute(menuItem: string): Promise<string> {
-    return this.getItemByLabel(menuItem).getAttribute('id');
-  }
-
-  async getItemsCount(): Promise<number> {
-    return this.items.count();
-  }
-
-  async getMenuItems(): Promise<string[]> {
-    const items: string[] = await this.items.map(async (elem) => {
-      const span: ElementFinder = elem.element(by.css('span'));
-      return span.getText();
-    });
-    return items;
-  }
-
-  async clickNthItem(nth: number): Promise<void> {
-    try {
-      const elem = this.getNthItem(nth);
-      await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT, 'timeout waiting for menu item to be clickable');
-      await browser.actions().mouseMove(elem).perform();
-      await browser.actions().click().perform();
-      await this.waitForMenuToClose();
-    } catch (e) {
-      Logger.info('____ click nth menu item catch ___', e);
+    constructor(ancestor?: string) {
+        super(Menu.selectors.root, ancestor);
     }
-  }
 
-  async clickMenuItem(menuItem: string): Promise<void> {
-    try {
-      const elem = this.getItemByLabel(menuItem);
-      await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT, 'timeout waiting for menu item to be clickable');
-      await elem.click();
-    } catch (e) {
-      Logger.info('___click menu item catch___', e);
+    async waitForMenuToOpen(): Promise<void> {
+        await browser.wait(
+            EC.presenceOf(
+                browser.element(
+                    by.css('.cdk-overlay-container .mat-menu-panel')
+                )
+            ),
+            BROWSER_WAIT_TIMEOUT
+        );
+        await browser.wait(
+            EC.visibilityOf(this.items.get(0)),
+            BROWSER_WAIT_TIMEOUT
+        );
     }
-  }
 
-  async mouseOverMenuItem(menuItem: string): Promise<void> {
-    try {
-      const elem = this.getItemByLabel(menuItem);
-      await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT);
-      await browser.actions().mouseMove(elem).perform();
-      await browser.sleep(500);
-    } catch (error) {
-      Logger.info('----- mouse over error: ', error);
+    async waitForMenuToClose(): Promise<void> {
+        await browser.wait(
+            EC.not(
+                EC.presenceOf(
+                    browser.element(
+                        by.css('.cdk-overlay-container .mat-menu-panel')
+                    )
+                )
+            ),
+            BROWSER_WAIT_TIMEOUT
+        );
     }
-  }
 
-  async hasSubMenu(menuItem: string): Promise<boolean> {
-    try {
-      const elem = this.getItemByLabel(menuItem);
-      await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT);
-      const elemClass = await elem.getAttribute('class');
-      return elemClass.includes('mat-menu-item-submenu-trigger');
-    } catch (error) {
-      Logger.info('---- has submenu error: ', error);
-      return false;
+    async closeMenu(): Promise<void> {
+        await Utils.pressEscape();
+        await this.waitForMenuToClose();
     }
-  }
 
-  async clickSubMenuItem(subMenuItem: string): Promise<void> {
-    try {
-      const elem = this.getSubItemByLabel(subMenuItem);
-      await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT);
-      await elem.click();
-    } catch (e) {
-      Logger.info('___click submenu item catch___', e);
+    getNthItem(nth: number): ElementFinder {
+        return this.items.get(nth - 1);
     }
-  }
 
-  async isMenuItemPresent(title: string): Promise<boolean> {
-    return browser.element(by.cssContainingText(Menu.selectors.item, title)).isPresent();
-  }
-
-  async isSubMenuItemPresent(title: string): Promise<boolean> {
-    return browser.element(by.cssContainingText(Menu.selectors.submenu, title)).isPresent();
-  }
-
-  async getSubmenuItemsCount(): Promise<number> {
-    return this.submenus.count();
-  }
-
-  async isMenuItemDisabled(title: string): Promise<string | null> {
-    try {
-      const item = this.getItemByLabel(title);
-      const disabled = await item.getAttribute('disabled');
-      return disabled;
-    } catch (error) {
-      Logger.info('----- isMenuItemDisabled catch: ', error);
-      return null;
+    getItemByLabel(menuItem: string): ElementFinder {
+        return this.component.element(
+            by.cssContainingText(Menu.selectors.item, menuItem)
+        );
     }
-  }
 
-  uploadFile(): ElementFinder {
-    return this.uploadFilesInput;
-  }
+    getSubItemByLabel(subMenuItem: string): ElementFinder {
+        return this.component.element(
+            by.cssContainingText(Menu.selectors.submenu, subMenuItem)
+        );
+    }
 
-  async clickEditFolder(): Promise<void> {
-    await this.editFolderAction.click();
-  }
+    getItemById(id: string): ElementFinder {
+        return this.component.element(by.id(id));
+    }
 
-  async clickShare(): Promise<void> {
-    const action = this.shareAction;
-    await action.click();
-  }
+    async getItemTooltip(menuItem: string): Promise<string> {
+        return this.getItemByLabel(menuItem).getAttribute('title');
+    }
 
-  async clickSharedLinkSettings(): Promise<void> {
-    const action = this.shareEditAction;
-    await action.click();
-  }
+    async getTooltipForUploadFile(): Promise<string> {
+        return this.getItemTooltip('Upload File');
+    }
 
-  async isViewPresent(): Promise<boolean> {
-    return this.viewAction.isPresent();
-  }
+    async getTooltipForUploadFolder(): Promise<string> {
+        return this.getItemTooltip('Upload Folder');
+    }
 
-  async isDownloadPresent(): Promise<boolean> {
-    return this.downloadAction.isPresent();
-  }
+    async getTooltipForCreateFolder(): Promise<string> {
+        return this.getItemTooltip('Create Folder');
+    }
 
-  async isEditFolderPresent(): Promise<boolean> {
-    return this.editFolderAction.isPresent();
-  }
+    async getTooltipForCreateLibrary(): Promise<string> {
+        return this.getItemTooltip('Create Library');
+    }
 
-  async isEditOfflinePresent(): Promise<boolean> {
-    return this.editOfflineAction.isPresent();
-  }
+    async getTooltipForCreateFileFromTemplate(): Promise<string> {
+        return this.getItemTooltip('Create file from template');
+    }
 
-  async isCancelEditingPresent(): Promise<boolean> {
-    return this.cancelEditingAction.isPresent();
-  }
+    async getItemIconText(menuItem: string): Promise<string> {
+        return this.getItemByLabel(menuItem)
+            .element(by.css(Menu.selectors.icon))
+            .getText();
+    }
 
-  async isCopyPresent(): Promise<boolean> {
-    return this.copyAction.isPresent();
-  }
+    async getItemIdAttribute(menuItem: string): Promise<string> {
+        return this.getItemByLabel(menuItem).getAttribute('id');
+    }
 
-  async isMovePresent(): Promise<boolean> {
-    return this.moveAction.isPresent();
-  }
+    async getItemsCount(): Promise<number> {
+        return this.items.count();
+    }
 
-  async isDeletePresent(): Promise<boolean> {
-    return this.deleteAction.isPresent();
-  }
+    async getMenuItems(): Promise<string[]> {
+        const items: string[] = await this.items.map(async (elem) => {
+            const span: ElementFinder = elem.element(by.css('span'));
+            return span.getText();
+        });
+        return items;
+    }
 
-  async isManagePermissionsPresent(): Promise<boolean> {
-    return this.managePermissionsAction.isPresent();
-  }
+    async clickNthItem(nth: number): Promise<void> {
+        try {
+            const elem = this.getNthItem(nth);
+            await browser.wait(
+                EC.elementToBeClickable(elem),
+                BROWSER_WAIT_TIMEOUT,
+                'timeout waiting for menu item to be clickable'
+            );
+            await browser.actions().mouseMove(elem).perform();
+            await browser.actions().click().perform();
+            await this.waitForMenuToClose();
+        } catch (e) {
+            Logger.info('____ click nth menu item catch ___', e);
+        }
+    }
 
-  async isManageVersionsPresent(): Promise<boolean> {
-    return this.manageVersionsAction.isPresent();
-  }
+    async clickMenuItem(menuItem: string): Promise<void> {
+        try {
+            const elem = this.getItemByLabel(menuItem);
+            await browser.wait(
+                EC.elementToBeClickable(elem),
+                BROWSER_WAIT_TIMEOUT,
+                'timeout waiting for menu item to be clickable'
+            );
+            await elem.click();
+        } catch (e) {
+            Logger.info('___click menu item catch___', e);
+        }
+    }
 
-  async isUploadNewVersionPresent(): Promise<boolean> {
-    return this.uploadNewVersionAction.isPresent();
-  }
+    async mouseOverMenuItem(menuItem: string): Promise<void> {
+        try {
+            const elem = this.getItemByLabel(menuItem);
+            await browser.wait(
+                EC.elementToBeClickable(elem),
+                BROWSER_WAIT_TIMEOUT
+            );
+            await browser.actions().mouseMove(elem).perform();
+            await browser.sleep(500);
+        } catch (error) {
+            Logger.info('----- mouse over error: ', error);
+        }
+    }
 
-  async isFavoritePresent(): Promise<boolean> {
-    return this.favoriteAction.isPresent();
-  }
+    async hasSubMenu(menuItem: string): Promise<boolean> {
+        try {
+            const elem = this.getItemByLabel(menuItem);
+            await browser.wait(
+                EC.elementToBeClickable(elem),
+                BROWSER_WAIT_TIMEOUT
+            );
+            const elemClass = await elem.getAttribute('class');
+            return elemClass.includes('mat-menu-item-submenu-trigger');
+        } catch (error) {
+            Logger.info('---- has submenu error: ', error);
+            return false;
+        }
+    }
 
-  async isRemoveFavoritePresent(): Promise<boolean> {
-    return this.removeFavoriteAction.isPresent();
-  }
+    async clickSubMenuItem(subMenuItem: string): Promise<void> {
+        try {
+            const elem = this.getSubItemByLabel(subMenuItem);
+            await browser.wait(
+                EC.elementToBeClickable(elem),
+                BROWSER_WAIT_TIMEOUT
+            );
+            await elem.click();
+        } catch (e) {
+            Logger.info('___click submenu item catch___', e);
+        }
+    }
 
-  async isToggleFavoritePresent(): Promise<boolean> {
-    return this.toggleFavoriteAction.isPresent();
-  }
+    async isMenuItemPresent(title: string): Promise<boolean> {
+        return browser
+            .element(by.cssContainingText(Menu.selectors.item, title))
+            .isPresent();
+    }
 
-  async isToggleRemoveFavoritePresent(): Promise<boolean> {
-    return this.toggleRemoveFavoriteAction.isPresent();
-  }
+    async isSubMenuItemPresent(title: string): Promise<boolean> {
+        return browser
+            .element(by.cssContainingText(Menu.selectors.submenu, title))
+            .isPresent();
+    }
 
-  async isJoinLibraryPresent(): Promise<boolean> {
-    return this.joinAction.isPresent();
-  }
+    async getSubmenuItemsCount(): Promise<number> {
+        return this.submenus.count();
+    }
 
-  async isCancelJoinPresent(): Promise<boolean> {
-    return this.cancelJoinAction.isPresent();
-  }
+    async isMenuItemDisabled(title: string): Promise<string | null> {
+        try {
+            const item = this.getItemByLabel(title);
+            const disabled = await item.getAttribute('disabled');
+            return disabled;
+        } catch (error) {
+            Logger.info('----- isMenuItemDisabled catch: ', error);
+            return null;
+        }
+    }
 
-  async isLeaveLibraryPresent(): Promise<boolean> {
-    return this.leaveAction.isPresent();
-  }
+    uploadFile(): ElementFinder {
+        return this.uploadFilesInput;
+    }
 
-  async isPermanentDeletePresent(): Promise<boolean> {
-    return this.permanentDeleteAction.isPresent();
-  }
+    async clickEditFolder(): Promise<void> {
+        await this.editFolderAction.click();
+    }
 
-  async isRestorePresent(): Promise<boolean> {
-    return this.restoreAction.isPresent();
-  }
+    async clickShare(): Promise<void> {
+        const action = this.shareAction;
+        await action.click();
+    }
 
-  async isSharePresent(): Promise<boolean> {
-    return this.shareAction.isPresent();
-  }
+    async clickSharedLinkSettings(): Promise<void> {
+        const action = this.shareEditAction;
+        await action.click();
+    }
 
-  async isSharedLinkSettingsPresent(): Promise<boolean> {
-    return this.shareEditAction.isPresent();
-  }
+    async isViewPresent(): Promise<boolean> {
+        return this.viewAction.isPresent();
+    }
 
-  async isViewDetailsPresent(): Promise<boolean> {
-    return this.viewDetailsAction.isPresent();
-  }
+    async isDownloadPresent(): Promise<boolean> {
+        return this.downloadAction.isPresent();
+    }
 
-  async isCreateFolderEnabled(): Promise<boolean> {
-    const isPresent = await browser.isElementPresent(this.createFolderAction);
-    const isEnabled = await this.createFolderAction.isEnabled();
+    async isEditFolderPresent(): Promise<boolean> {
+        return this.editFolderAction.isPresent();
+    }
 
-    return isPresent && isEnabled;
-  }
+    async isEditOfflinePresent(): Promise<boolean> {
+        return this.editOfflineAction.isPresent();
+    }
 
-  async isCreateLibraryEnabled(): Promise<boolean> {
-    const isPresent = await browser.isElementPresent(this.createLibraryAction);
-    const isEnabled = await this.createLibraryAction.isEnabled();
+    async isCancelEditingPresent(): Promise<boolean> {
+        return this.cancelEditingAction.isPresent();
+    }
 
-    return isPresent && isEnabled;
-  }
+    async isCopyPresent(): Promise<boolean> {
+        return this.copyAction.isPresent();
+    }
 
-  async isUploadFileEnabled(): Promise<boolean> {
-    const isPresent = await browser.isElementPresent(this.uploadFileAction);
-    const isEnabled = await this.uploadFileAction.isEnabled();
+    async isMovePresent(): Promise<boolean> {
+        return this.moveAction.isPresent();
+    }
 
-    return isPresent && isEnabled;
-  }
+    async isDeletePresent(): Promise<boolean> {
+        return this.deleteAction.isPresent();
+    }
 
-  async isUploadFolderEnabled(): Promise<boolean> {
-    const isPresent = await browser.isElementPresent(this.uploadFolderAction);
-    const isEnabled = await this.uploadFolderAction.isEnabled();
+    async isManagePermissionsPresent(): Promise<boolean> {
+        return this.managePermissionsAction.isPresent();
+    }
 
-    return isPresent && isEnabled;
-  }
+    async isManageVersionsPresent(): Promise<boolean> {
+        return this.manageVersionsAction.isPresent();
+    }
 
-  async isCreateFileFromTemplateEnabled(): Promise<boolean> {
-    const isPresent = await browser.isElementPresent(this.createFileFromTemplateAction);
-    const isEnabled = await this.createFileFromTemplateAction.isEnabled();
+    async isUploadNewVersionPresent(): Promise<boolean> {
+        return this.uploadNewVersionAction.isPresent();
+    }
 
-    return isPresent && isEnabled;
-  }
+    async isFavoritePresent(): Promise<boolean> {
+        return this.favoriteAction.isPresent();
+    }
 
-  async isCreateFolderFromTemplateEnabled(): Promise<boolean> {
-    const isPresent = await browser.isElementPresent(this.createFolderFromTemplateAction);
-    const isEnabled = await this.createFolderFromTemplateAction.isEnabled();
+    async isRemoveFavoritePresent(): Promise<boolean> {
+        return this.removeFavoriteAction.isPresent();
+    }
 
-    return isPresent && isEnabled;
-  }
+    async isToggleFavoritePresent(): Promise<boolean> {
+        return this.toggleFavoriteAction.isPresent();
+    }
 
-  async clickCreateFolder(): Promise<void> {
-    const action = this.createFolderAction;
-    await action.click();
-  }
+    async isToggleRemoveFavoritePresent(): Promise<boolean> {
+        return this.toggleRemoveFavoriteAction.isPresent();
+    }
 
-  async clickCreateLibrary(): Promise<void> {
-    const action = this.createLibraryAction;
-    await action.click();
-  }
+    async isJoinLibraryPresent(): Promise<boolean> {
+        return this.joinAction.isPresent();
+    }
 
-  async clickCreateFileFromTemplate(): Promise<void> {
-    const action = this.createFileFromTemplateAction;
-    await action.click();
-  }
+    async isCancelJoinPresent(): Promise<boolean> {
+        return this.cancelJoinAction.isPresent();
+    }
 
-  async clickCreateFolderFromTemplate(): Promise<void> {
-    const action = this.createFolderFromTemplateAction;
-    await action.click();
-  }
+    async isLeaveLibraryPresent(): Promise<boolean> {
+        return this.leaveAction.isPresent();
+    }
+
+    async isPermanentDeletePresent(): Promise<boolean> {
+        return this.permanentDeleteAction.isPresent();
+    }
+
+    async isRestorePresent(): Promise<boolean> {
+        return this.restoreAction.isPresent();
+    }
+
+    async isSharePresent(): Promise<boolean> {
+        return this.shareAction.isPresent();
+    }
+
+    async isSharedLinkSettingsPresent(): Promise<boolean> {
+        return this.shareEditAction.isPresent();
+    }
+
+    async isViewDetailsPresent(): Promise<boolean> {
+        return this.viewDetailsAction.isPresent();
+    }
+
+    async isCreateFolderEnabled(): Promise<boolean> {
+        const isPresent = await browser.isElementPresent(
+            this.createFolderAction
+        );
+        const isEnabled = await this.createFolderAction.isEnabled();
+
+        return isPresent && isEnabled;
+    }
+
+    async isCreateLibraryEnabled(): Promise<boolean> {
+        const isPresent = await browser.isElementPresent(
+            this.createLibraryAction
+        );
+        const isEnabled = await this.createLibraryAction.isEnabled();
+
+        return isPresent && isEnabled;
+    }
+
+    async isUploadFileEnabled(): Promise<boolean> {
+        const isPresent = await browser.isElementPresent(this.uploadFileAction);
+        const isEnabled = await this.uploadFileAction.isEnabled();
+
+        return isPresent && isEnabled;
+    }
+
+    async isUploadFolderEnabled(): Promise<boolean> {
+        const isPresent = await browser.isElementPresent(
+            this.uploadFolderAction
+        );
+        const isEnabled = await this.uploadFolderAction.isEnabled();
+
+        return isPresent && isEnabled;
+    }
+
+    async isCreateFileFromTemplateEnabled(): Promise<boolean> {
+        const isPresent = await browser.isElementPresent(
+            this.createFileFromTemplateAction
+        );
+        const isEnabled = await this.createFileFromTemplateAction.isEnabled();
+
+        return isPresent && isEnabled;
+    }
+
+    async isCreateFolderFromTemplateEnabled(): Promise<boolean> {
+        const isPresent = await browser.isElementPresent(
+            this.createFolderFromTemplateAction
+        );
+        const isEnabled = await this.createFolderFromTemplateAction.isEnabled();
+
+        return isPresent && isEnabled;
+    }
+
+    async clickCreateFolder(): Promise<void> {
+        const action = this.createFolderAction;
+        await action.click();
+    }
+
+    async clickCreateLibrary(): Promise<void> {
+        const action = this.createLibraryAction;
+        await action.click();
+    }
+
+    async clickCreateFileFromTemplate(): Promise<void> {
+        const action = this.createFileFromTemplateAction;
+        await action.click();
+    }
+
+    async clickCreateFolderFromTemplate(): Promise<void> {
+        const action = this.createFolderFromTemplateAction;
+        await action.click();
+    }
 }

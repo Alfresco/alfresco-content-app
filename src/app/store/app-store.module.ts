@@ -32,39 +32,42 @@ import { environment } from '../../environments/environment';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { SharedStoreModule } from '@alfresco/aca-shared/store';
 import {
-  AppEffects,
-  NodeEffects,
-  DownloadEffects,
-  ViewerEffects,
-  SearchEffects,
-  LibraryEffects,
-  UploadEffects,
-  FavoriteEffects,
-  TemplateEffects,
-  ContextMenuEffects
+    AppEffects,
+    NodeEffects,
+    DownloadEffects,
+    ViewerEffects,
+    SearchEffects,
+    LibraryEffects,
+    UploadEffects,
+    FavoriteEffects,
+    TemplateEffects,
+    ContextMenuEffects,
 } from './effects';
 import { INITIAL_STATE } from './initial-state';
 
 @NgModule({
-  imports: [
-    StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE }),
-    StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
-    SharedStoreModule,
-    EffectsModule.forRoot([
-      AppEffects,
-      NodeEffects,
-      DownloadEffects,
-      ViewerEffects,
-      SearchEffects,
-      LibraryEffects,
-      UploadEffects,
-      FavoriteEffects,
-      TemplateEffects,
-      ContextMenuEffects
-    ]),
-    !environment.production
-      ? StoreDevtoolsModule.instrument({ maxAge: 25 })
-      : []
-  ]
+    imports: [
+        StoreModule.forRoot(
+            { app: appReducer },
+            { initialState: INITIAL_STATE }
+        ),
+        StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
+        SharedStoreModule,
+        EffectsModule.forRoot([
+            AppEffects,
+            NodeEffects,
+            DownloadEffects,
+            ViewerEffects,
+            SearchEffects,
+            LibraryEffects,
+            UploadEffects,
+            FavoriteEffects,
+            TemplateEffects,
+            ContextMenuEffects,
+        ]),
+        !environment.production
+            ? StoreDevtoolsModule.instrument({ maxAge: 25 })
+            : [],
+    ],
 })
 export class AppStoreModule {}

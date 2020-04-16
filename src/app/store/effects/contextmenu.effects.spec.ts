@@ -32,34 +32,37 @@ import { ContextMenu } from '@alfresco/aca-shared/store';
 import { ContextMenuService } from '../../components/context-menu/context-menu.service';
 
 describe('ContextMenuEffects', () => {
-  let store: Store<any>;
-  let contextMenuService: ContextMenuService;
-  const overlayRefMock = {
-    close: jasmine.createSpy('close')
-  };
+    let store: Store<any>;
+    let contextMenuService: ContextMenuService;
+    const overlayRefMock = {
+        close: jasmine.createSpy('close'),
+    };
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [AppTestingModule, EffectsModule.forRoot([ContextMenuEffects])],
-      providers: [ContextMenuService]
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            imports: [
+                AppTestingModule,
+                EffectsModule.forRoot([ContextMenuEffects]),
+            ],
+            providers: [ContextMenuService],
+        });
+
+        store = TestBed.get(Store);
+        contextMenuService = TestBed.get(ContextMenuService);
+
+        spyOn(contextMenuService, 'open').and.returnValue(overlayRefMock);
     });
 
-    store = TestBed.get(Store);
-    contextMenuService = TestBed.get(ContextMenuService);
+    it('should open dialog', () => {
+        store.dispatch(new ContextMenu(new MouseEvent('click')));
+        expect(contextMenuService.open).toHaveBeenCalled();
+    });
 
-    spyOn(contextMenuService, 'open').and.returnValue(overlayRefMock);
-  });
+    it('should close dialog reference if previously was opened', () => {
+        store.dispatch(new ContextMenu(new MouseEvent('click')));
+        expect(contextMenuService.open).toHaveBeenCalled();
 
-  it('should open dialog', () => {
-    store.dispatch(new ContextMenu(new MouseEvent('click')));
-    expect(contextMenuService.open).toHaveBeenCalled();
-  });
-
-  it('should close dialog reference if previously was opened', () => {
-    store.dispatch(new ContextMenu(new MouseEvent('click')));
-    expect(contextMenuService.open).toHaveBeenCalled();
-
-    store.dispatch(new ContextMenu(new MouseEvent('click')));
-    expect(overlayRefMock.close).toHaveBeenCalled();
-  });
+        store.dispatch(new ContextMenu(new MouseEvent('click')));
+        expect(overlayRefMock.close).toHaveBeenCalled();
+    });
 });

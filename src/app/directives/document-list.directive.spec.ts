@@ -28,131 +28,131 @@ import { Subject } from 'rxjs';
 import { SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 
 describe('DocumentListDirective', () => {
-  let documentListDirective;
+    let documentListDirective;
 
-  const documentListMock = <any> {
-    currentFolderId: '',
-    stickyHeader: false,
-    includeFields: [],
-    sorting: [],
-    data: {
-      setSorting: jasmine.createSpy('setSorting')
-    },
-    selection: [],
-    reload: jasmine.createSpy('reload'),
-    resetSelection: jasmine.createSpy('resetSelection'),
-    ready: new Subject<any>()
-  };
+    const documentListMock: any = {
+        currentFolderId: '',
+        stickyHeader: false,
+        includeFields: [],
+        sorting: [],
+        data: {
+            setSorting: jasmine.createSpy('setSorting'),
+        },
+        selection: [],
+        reload: jasmine.createSpy('reload'),
+        resetSelection: jasmine.createSpy('resetSelection'),
+        ready: new Subject<any>(),
+    };
 
-  const storeMock = <any> {
-    dispatch: jasmine.createSpy('dispatch')
-  };
+    const storeMock: any = {
+        dispatch: jasmine.createSpy('dispatch'),
+    };
 
-  const mockRouter = <any> {
-    url: ''
-  };
+    const mockRouter: any = {
+        url: '',
+    };
 
-  const contentManagementServiceMock = <any> {
-    reload: new Subject<any>(),
-    reset: new Subject<any>()
-  };
+    const contentManagementServiceMock: any = {
+        reload: new Subject<any>(),
+        reset: new Subject<any>(),
+    };
 
-  const mockRoute = <any> {
-    snapshot: {
-      data: {
-        sortingPreferenceKey: null
-      }
-    }
-  };
+    const mockRoute: any = {
+        snapshot: {
+            data: {
+                sortingPreferenceKey: null,
+            },
+        },
+    };
 
-  const userPreferencesServiceMock = <any> {
-    set: jasmine.createSpy('set'),
-    get: jasmine.createSpy('get')
-  };
+    const userPreferencesServiceMock: any = {
+        set: jasmine.createSpy('set'),
+        get: jasmine.createSpy('get'),
+    };
 
-  beforeEach(() => {
-    documentListDirective = new DocumentListDirective(
-      storeMock,
-      contentManagementServiceMock,
-      documentListMock,
-      userPreferencesServiceMock,
-      mockRoute,
-      mockRouter
-    );
-  });
+    beforeEach(() => {
+        documentListDirective = new DocumentListDirective(
+            storeMock,
+            contentManagementServiceMock,
+            documentListMock,
+            userPreferencesServiceMock,
+            mockRoute,
+            mockRouter
+        );
+    });
 
-  afterEach(() => {
-    storeMock.dispatch.calls.reset();
-  });
+    afterEach(() => {
+        storeMock.dispatch.calls.reset();
+    });
 
-  it('should not update store selection on `documentList.ready` if route includes `viewer:view`', () => {
-    mockRouter.url = '/some-route/(viewer:view)';
-    documentListDirective.ngOnInit();
-    documentListMock.ready.next();
+    it('should not update store selection on `documentList.ready` if route includes `viewer:view`', () => {
+        mockRouter.url = '/some-route/(viewer:view)';
+        documentListDirective.ngOnInit();
+        documentListMock.ready.next();
 
-    expect(storeMock.dispatch).not.toHaveBeenCalled();
-  });
+        expect(storeMock.dispatch).not.toHaveBeenCalled();
+    });
 
-  it('should update store selection on `documentList.ready`', () => {
-    mockRouter.url = '/some-route';
-    documentListDirective.ngOnInit();
-    documentListMock.ready.next();
+    it('should update store selection on `documentList.ready`', () => {
+        mockRouter.url = '/some-route';
+        documentListDirective.ngOnInit();
+        documentListMock.ready.next();
 
-    expect(storeMock.dispatch).toHaveBeenCalled();
-  });
+        expect(storeMock.dispatch).toHaveBeenCalled();
+    });
 
-  it('should set `isLibrary` to true if selected node is a library', () => {
-    mockRouter.url = '/some-route';
-    documentListMock.currentFolderId = '-mysites-';
-    documentListMock.selection = [{}];
-    documentListDirective.ngOnInit();
-    documentListMock.ready.next();
+    it('should set `isLibrary` to true if selected node is a library', () => {
+        mockRouter.url = '/some-route';
+        documentListMock.currentFolderId = '-mysites-';
+        documentListMock.selection = [{}];
+        documentListDirective.ngOnInit();
+        documentListMock.ready.next();
 
-    expect(storeMock.dispatch).toHaveBeenCalledWith(
-      new SetSelectedNodesAction([<any> { isLibrary: true }])
-    );
-  });
+        expect(storeMock.dispatch).toHaveBeenCalledWith(
+            new SetSelectedNodesAction([{ isLibrary: true } as any])
+        );
+    });
 
-  it('should update store selection on `node-unselect` event', () => {
-    mockRouter.url = '/some-route';
-    documentListDirective.ngOnInit();
-    documentListDirective.onNodeUnselect();
+    it('should update store selection on `node-unselect` event', () => {
+        mockRouter.url = '/some-route';
+        documentListDirective.ngOnInit();
+        documentListDirective.onNodeUnselect();
 
-    expect(storeMock.dispatch).toHaveBeenCalled();
-  });
+        expect(storeMock.dispatch).toHaveBeenCalled();
+    });
 
-  it('should update store selection on `node-select` event', () => {
-    mockRouter.url = '/some-route';
-    documentListDirective.ngOnInit();
-    documentListDirective.onNodeSelect({ detail: { node: {} } });
+    it('should update store selection on `node-select` event', () => {
+        mockRouter.url = '/some-route';
+        documentListDirective.ngOnInit();
+        documentListDirective.onNodeSelect({ detail: { node: {} } });
 
-    expect(storeMock.dispatch).toHaveBeenCalled();
-  });
+        expect(storeMock.dispatch).toHaveBeenCalled();
+    });
 
-  it('should reset and reload document list on `reload` event', () => {
-    documentListDirective.ngOnInit();
-    contentManagementServiceMock.reload.next();
+    it('should reset and reload document list on `reload` event', () => {
+        documentListDirective.ngOnInit();
+        contentManagementServiceMock.reload.next();
 
-    expect(documentListMock.resetSelection).toHaveBeenCalled();
-    expect(documentListMock.reload).toHaveBeenCalled();
-  });
+        expect(documentListMock.resetSelection).toHaveBeenCalled();
+        expect(documentListMock.reload).toHaveBeenCalled();
+    });
 
-  it('should reset store selection on `reload` event', () => {
-    documentListDirective.ngOnInit();
-    contentManagementServiceMock.reload.next();
+    it('should reset store selection on `reload` event', () => {
+        documentListDirective.ngOnInit();
+        contentManagementServiceMock.reload.next();
 
-    expect(storeMock.dispatch).toHaveBeenCalledWith(
-      new SetSelectedNodesAction([])
-    );
-  });
+        expect(storeMock.dispatch).toHaveBeenCalledWith(
+            new SetSelectedNodesAction([])
+        );
+    });
 
-  it('should reset store selection and document list on `reset` event', () => {
-    documentListDirective.ngOnInit();
-    contentManagementServiceMock.reload.next();
+    it('should reset store selection and document list on `reset` event', () => {
+        documentListDirective.ngOnInit();
+        contentManagementServiceMock.reload.next();
 
-    expect(documentListMock.resetSelection).toHaveBeenCalled();
-    expect(storeMock.dispatch).toHaveBeenCalledWith(
-      new SetSelectedNodesAction([])
-    );
-  });
+        expect(documentListMock.resetSelection).toHaveBeenCalled();
+        expect(storeMock.dispatch).toHaveBeenCalledWith(
+            new SetSelectedNodesAction([])
+        );
+    });
 });

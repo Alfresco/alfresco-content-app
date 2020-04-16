@@ -31,83 +31,119 @@ import { Viewer } from '../../components/viewer/viewer';
 import { PasswordDialog } from './../../components/dialog/password-dialog';
 
 describe('Viewer - password protected file', () => {
-  const username = `user-${Utils.random()}`;
+    const username = `user-${Utils.random()}`;
 
-  const parent = `parent-${Utils.random()}`; let parentId;
+    const parent = `parent-${Utils.random()}`;
+    let parentId;
 
-  const protectedFile = FILES.protectedFile;
+    const protectedFile = FILES.protectedFile;
 
-  const apis = {
-    admin: new RepoClient(),
-    user: new RepoClient(username, username)
-  };
+    const apis = {
+        admin: new RepoClient(),
+        user: new RepoClient(username, username),
+    };
 
-  const loginPage = new LoginPage();
-  const page = new BrowsingPage();
-  const { dataTable } = page;
-  const viewer = new Viewer();
-  const passwordDialog = new PasswordDialog();
+    const loginPage = new LoginPage();
+    const page = new BrowsingPage();
+    const { dataTable } = page;
+    const viewer = new Viewer();
+    const passwordDialog = new PasswordDialog();
 
-  beforeAll(async () => {
-    await apis.admin.people.createUser({ username });
-    parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
-    await apis.user.upload.uploadFile(protectedFile.name, parentId);
+    beforeAll(async () => {
+        await apis.admin.people.createUser({ username });
+        parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
+        await apis.user.upload.uploadFile(protectedFile.name, parentId);
 
-    await loginPage.loginWith(username);
-  });
+        await loginPage.loginWith(username);
+    });
 
-  beforeEach(async () => {
-    await page.header.expandSideNav();
-    await page.clickPersonalFilesAndWait();
-    await dataTable.doubleClickOnRowByName(parent);
-    await dataTable.waitForHeader();
-    await dataTable.doubleClickOnRowByName(protectedFile.name);
-    await viewer.waitForViewerToOpen();
-    await passwordDialog.waitForDialogToOpen();
-  });
+    beforeEach(async () => {
+        await page.header.expandSideNav();
+        await page.clickPersonalFilesAndWait();
+        await dataTable.doubleClickOnRowByName(parent);
+        await dataTable.waitForHeader();
+        await dataTable.doubleClickOnRowByName(protectedFile.name);
+        await viewer.waitForViewerToOpen();
+        await passwordDialog.waitForDialogToOpen();
+    });
 
-  afterEach(async () => {
-    await page.closeOpenDialogs();
-    await Utils.pressEscape();
-  });
+    afterEach(async () => {
+        await page.closeOpenDialogs();
+        await Utils.pressEscape();
+    });
 
-  afterAll(async () => {
-    await apis.user.nodes.deleteNodeById(parentId);
-  });
+    afterAll(async () => {
+        await apis.user.nodes.deleteNodeById(parentId);
+    });
 
-  it('Password dialog appears when opening a protected file - [C268958]', async () => {
-    expect(await passwordDialog.isDialogOpen()).toBe(true, 'Password dialog not open');
-    expect(await passwordDialog.isPasswordInputDisplayed()).toBe(true, 'Password input not displayed');
-    expect(await passwordDialog.isSubmitEnabled()).toBe(false, 'Submit button not disabled');
-    expect(await passwordDialog.isCloseEnabled()).toBe(true, 'Close button not enabled');
-    expect(await viewer.isPdfViewerContentDisplayed()).toBe(false, 'file content is displayed');
-  });
+    it('Password dialog appears when opening a protected file - [C268958]', async () => {
+        expect(await passwordDialog.isDialogOpen()).toBe(
+            true,
+            'Password dialog not open'
+        );
+        expect(await passwordDialog.isPasswordInputDisplayed()).toBe(
+            true,
+            'Password input not displayed'
+        );
+        expect(await passwordDialog.isSubmitEnabled()).toBe(
+            false,
+            'Submit button not disabled'
+        );
+        expect(await passwordDialog.isCloseEnabled()).toBe(
+            true,
+            'Close button not enabled'
+        );
+        expect(await viewer.isPdfViewerContentDisplayed()).toBe(
+            false,
+            'file content is displayed'
+        );
+    });
 
-  it('File content is displayed when entering the correct password - [C268959]', async () => {
-    await passwordDialog.enterPassword(protectedFile.password);
-    expect(await passwordDialog.isSubmitEnabled()).toBe(true, 'Submit button not enabled');
+    it('File content is displayed when entering the correct password - [C268959]', async () => {
+        await passwordDialog.enterPassword(protectedFile.password);
+        expect(await passwordDialog.isSubmitEnabled()).toBe(
+            true,
+            'Submit button not enabled'
+        );
 
-    await passwordDialog.clickSubmit();
-    await passwordDialog.waitForDialogToClose();
+        await passwordDialog.clickSubmit();
+        await passwordDialog.waitForDialogToClose();
 
-    expect(await viewer.isPdfViewerContentDisplayed()).toBe(true, 'file content not displayed');
-  });
+        expect(await viewer.isPdfViewerContentDisplayed()).toBe(
+            true,
+            'file content not displayed'
+        );
+    });
 
-  it('Error appears when entering an incorrect password - [C268960]', async () => {
-    await passwordDialog.enterPassword('incorrect');
-    expect(await passwordDialog.isSubmitEnabled()).toBe(true, 'Submit button not enabled');
-    await passwordDialog.clickSubmit();
+    it('Error appears when entering an incorrect password - [C268960]', async () => {
+        await passwordDialog.enterPassword('incorrect');
+        expect(await passwordDialog.isSubmitEnabled()).toBe(
+            true,
+            'Submit button not enabled'
+        );
+        await passwordDialog.clickSubmit();
 
-    expect(await passwordDialog.getErrorMessage()).toBe('Password is wrong');
-    expect(await viewer.isPdfViewerContentDisplayed()).toBe(false, 'file content is displayed');
-  });
+        expect(await passwordDialog.getErrorMessage()).toBe(
+            'Password is wrong'
+        );
+        expect(await viewer.isPdfViewerContentDisplayed()).toBe(
+            false,
+            'file content is displayed'
+        );
+    });
 
-  it('Refresh the page while Password dialog is open - [C268961]', async () => {
-    await passwordDialog.enterPassword(protectedFile.password);
-    await page.refresh();
-    await viewer.waitForViewerToOpen();
+    it('Refresh the page while Password dialog is open - [C268961]', async () => {
+        await passwordDialog.enterPassword(protectedFile.password);
+        await page.refresh();
+        await viewer.waitForViewerToOpen();
 
-    expect(await viewer.isPdfViewerContentDisplayed()).toBe(false, 'file content is displayed');
-    expect(await passwordDialog.isDialogOpen()).toBe(true, 'Password dialog not open');
-  });
+        expect(await viewer.isPdfViewerContentDisplayed()).toBe(
+            false,
+            'file content is displayed'
+        );
+        expect(await passwordDialog.isDialogOpen()).toBe(
+            true,
+            'Password dialog not open'
+        );
+    });
 });

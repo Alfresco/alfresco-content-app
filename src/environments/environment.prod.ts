@@ -24,6 +24,6 @@
  */
 
 export const environment = {
-  production: true,
-  e2e: false
+    production: true,
+    e2e: false,
 };

@@ -27,66 +27,79 @@ import { ElementFinder, by, ElementArrayFinder } from 'protractor';
 import { GenericFilterPanel } from './generic-filter-panel';
 
 export class SizeFilter extends GenericFilterPanel {
-  constructor() {
-    super('Size');
-  }
-
-  facets: ElementArrayFinder = this.panelExpanded.all(by.css('.mat-checkbox'));
-  selectedFacets: ElementArrayFinder = this.panel.all(by.css('.mat-checkbox.mat-checkbox-checked'));
-  clearButton: ElementFinder = this.panel.element(by.cssContainingText('.adf-facet-buttons button', 'Clear all'));
-
-  async getFiltersValues(): Promise<string[]> {
-    const list: string[] = await this.facets.map(option => {
-      return option.getText();
-    });
-    return list;
-  }
-
-  async getFiltersCheckedValues(): Promise<string[]> {
-    const list: string[] = await this.selectedFacets.map(option => {
-      return option.getText();
-    });
-    return list;
-  }
-
-  async resetPanel(): Promise<void> {
-    if ( (await this.selectedFacets.count()) > 0 ) {
-      await this.expandPanel();
-      await this.selectedFacets.each(async elem => {
-        await elem.click();
-      });
+    constructor() {
+        super('Size');
     }
-    await this.collapsePanel();
-  }
 
-  async isClearButtonEnabled(): Promise<boolean> {
-    return this.clearButton.isEnabled();
-  }
+    facets: ElementArrayFinder = this.panelExpanded.all(
+        by.css('.mat-checkbox')
+    );
+    selectedFacets: ElementArrayFinder = this.panel.all(
+        by.css('.mat-checkbox.mat-checkbox-checked')
+    );
+    clearButton: ElementFinder = this.panel.element(
+        by.cssContainingText('.adf-facet-buttons button', 'Clear all')
+    );
 
-  async clickClearButton(): Promise<void> {
-    if ( await this.isClearButtonEnabled() ) {
-      await this.clearButton.click();
+    async getFiltersValues(): Promise<string[]> {
+        const list: string[] = await this.facets.map((option) => {
+            return option.getText();
+        });
+        return list;
     }
-  }
 
-  async checkSizeSmall(): Promise<void> {
-    const small = this.facets.filter(async (elem) => await elem.getText() === 'Small').first();
-    await small.click();
-  }
+    async getFiltersCheckedValues(): Promise<string[]> {
+        const list: string[] = await this.selectedFacets.map((option) => {
+            return option.getText();
+        });
+        return list;
+    }
 
-  async checkSizeMedium(): Promise<void> {
-    const medium = this.facets.filter(async (elem) => await elem.getText() === 'Medium').first();
-    await medium.click();
-  }
+    async resetPanel(): Promise<void> {
+        if ((await this.selectedFacets.count()) > 0) {
+            await this.expandPanel();
+            await this.selectedFacets.each(async (elem) => {
+                await elem.click();
+            });
+        }
+        await this.collapsePanel();
+    }
 
-  async checkSizeLarge(): Promise<void> {
-    const large = this.facets.filter(async (elem) => await elem.getText() === 'Large').first();
-    await large.click();
-  }
+    async isClearButtonEnabled(): Promise<boolean> {
+        return this.clearButton.isEnabled();
+    }
 
-  async checkSizeHuge(): Promise<void> {
-    const huge = this.facets.filter(async (elem) => await elem.getText() === 'Huge').first();
-    await huge.click();
-  }
+    async clickClearButton(): Promise<void> {
+        if (await this.isClearButtonEnabled()) {
+            await this.clearButton.click();
+        }
+    }
 
+    async checkSizeSmall(): Promise<void> {
+        const small = this.facets
+            .filter(async (elem) => (await elem.getText()) === 'Small')
+            .first();
+        await small.click();
+    }
+
+    async checkSizeMedium(): Promise<void> {
+        const medium = this.facets
+            .filter(async (elem) => (await elem.getText()) === 'Medium')
+            .first();
+        await medium.click();
+    }
+
+    async checkSizeLarge(): Promise<void> {
+        const large = this.facets
+            .filter(async (elem) => (await elem.getText()) === 'Large')
+            .first();
+        await large.click();
+    }
+
+    async checkSizeHuge(): Promise<void> {
+        const huge = this.facets
+            .filter(async (elem) => (await elem.getText()) === 'Huge')
+            .first();
+        await huge.click();
+    }
 }

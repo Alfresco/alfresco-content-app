@@ -29,96 +29,119 @@ import { AdminActions } from '../../utilities/admin-actions';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 
 describe('Pagination on single page', () => {
-  const random = Utils.random();
+    const random = Utils.random();
 
-  const username = `user-${random}`;
+    const username = `user-${random}`;
 
-  const siteName = `site-${random}`;
-  let siteId: string;
+    const siteName = `site-${random}`;
+    let siteId: string;
 
-  const file = `file-${random}.txt`;
-  let fileId: string;
-  const fileInTrash = `fileInTrash-${random}.txt`;
-  let fileInTrashId: string;
+    const file = `file-${random}.txt`;
+    let fileId: string;
+    const fileInTrash = `fileInTrash-${random}.txt`;
+    let fileInTrashId: string;
 
-  const userApi = new RepoClient(username, username);
-  const adminApiActions = new AdminActions();
+    const userApi = new RepoClient(username, username);
+    const adminApiActions = new AdminActions();
 
-  const loginPage = new LoginPage();
-  const page = new BrowsingPage();
-  const { pagination } = page;
-  const { searchInput } = page.header;
-  const searchResultsPage = new SearchResultsPage();
+    const loginPage = new LoginPage();
+    const page = new BrowsingPage();
+    const { pagination } = page;
+    const { searchInput } = page.header;
+    const searchResultsPage = new SearchResultsPage();
 
-  beforeAll(async () => {
-    await adminApiActions.createUser({ username });
+    beforeAll(async () => {
+        await adminApiActions.createUser({ username });
 
-    fileId = (await userApi.nodes.createFile(file)).entry.id;
-    fileInTrashId = (await userApi.nodes.createFile(fileInTrash)).entry.id;
-    siteId = (await userApi.sites.createSite(siteName)).entry.id;
+        fileId = (await userApi.nodes.createFile(file)).entry.id;
+        fileInTrashId = (await userApi.nodes.createFile(fileInTrash)).entry.id;
+        siteId = (await userApi.sites.createSite(siteName)).entry.id;
 
-    await userApi.nodes.deleteNodeById(fileInTrashId, false);
-    await userApi.favorites.addFavoriteById('file', fileId);
-    await userApi.shared.shareFileById(fileId);
+        await userApi.nodes.deleteNodeById(fileInTrashId, false);
+        await userApi.favorites.addFavoriteById('file', fileId);
+        await userApi.shared.shareFileById(fileId);
 
-    await Promise.all([
-      userApi.favorites.waitForApi({ expect: 2 }),
-      userApi.search.waitForApi(username, { expect: 1 }),
-      userApi.shared.waitForApi({ expect: 1 }),
-      userApi.trashcan.waitForApi({ expect: 1 })
-    ]);
+        await Promise.all([
+            userApi.favorites.waitForApi({ expect: 2 }),
+            userApi.search.waitForApi(username, { expect: 1 }),
+            userApi.shared.waitForApi({ expect: 1 }),
+            userApi.trashcan.waitForApi({ expect: 1 }),
+        ]);
 
-    await loginPage.loginWith(username);
-  });
+        await loginPage.loginWith(username);
+    });
 
-  afterAll(async () => {
-    await Promise.all([
-      userApi.nodes.deleteNodeById(fileId),
-      userApi.sites.deleteSite(siteId),
-      userApi.trashcan.emptyTrash()
-    ]);
-  });
+    afterAll(async () => {
+        await Promise.all([
+            userApi.nodes.deleteNodeById(fileId),
+            userApi.sites.deleteSite(siteId),
+            userApi.trashcan.emptyTrash(),
+        ]);
+    });
 
-  it('page selector not displayed on Favorites - [C280112]', async () => {
-    await page.clickFavoritesAndWait();
-    expect(await pagination.isPagesButtonPresent()).toBe(false, 'page selector displayed');
-  });
+    it('page selector not displayed on Favorites - [C280112]', async () => {
+        await page.clickFavoritesAndWait();
+        expect(await pagination.isPagesButtonPresent()).toBe(
+            false,
+            'page selector displayed'
+        );
+    });
 
-  it('page selector not displayed on My Libraries - [C280085]', async () => {
-    await page.goToMyLibrariesAndWait();
-    expect(await pagination.isPagesButtonPresent()).toBe(false, 'page selector displayed');
-  });
+    it('page selector not displayed on My Libraries - [C280085]', async () => {
+        await page.goToMyLibrariesAndWait();
+        expect(await pagination.isPagesButtonPresent()).toBe(
+            false,
+            'page selector displayed'
+        );
+    });
 
-  it('page selector not displayed on Favorite Libraries - [C291874]', async () => {
-    await page.goToFavoriteLibrariesAndWait();
-    expect(await pagination.isPagesButtonPresent()).toBe(false, 'page selector displayed');
-  });
+    it('page selector not displayed on Favorite Libraries - [C291874]', async () => {
+        await page.goToFavoriteLibrariesAndWait();
+        expect(await pagination.isPagesButtonPresent()).toBe(
+            false,
+            'page selector displayed'
+        );
+    });
 
-  it('page selector not displayed on Personal Files - [C280076]', async () => {
-    await page.clickPersonalFilesAndWait();
-    expect(await pagination.isPagesButtonPresent()).toBe(false, 'page selector displayed');
-  });
+    it('page selector not displayed on Personal Files - [C280076]', async () => {
+        await page.clickPersonalFilesAndWait();
+        expect(await pagination.isPagesButtonPresent()).toBe(
+            false,
+            'page selector displayed'
+        );
+    });
 
-  it('page selector not displayed on Recent Files - [C280103]', async () => {
-    await page.clickRecentFilesAndWait();
-    expect(await pagination.isPagesButtonPresent()).toBe(false, 'page selector displayed');
-  });
+    it('page selector not displayed on Recent Files - [C280103]', async () => {
+        await page.clickRecentFilesAndWait();
+        expect(await pagination.isPagesButtonPresent()).toBe(
+            false,
+            'page selector displayed'
+        );
+    });
 
-  it('page selector not displayed on Shared Files - [C280094]', async () => {
-    await page.clickSharedFilesAndWait();
-    expect(await pagination.isPagesButtonPresent()).toBe(false, 'page selector displayed');
-  });
+    it('page selector not displayed on Shared Files - [C280094]', async () => {
+        await page.clickSharedFilesAndWait();
+        expect(await pagination.isPagesButtonPresent()).toBe(
+            false,
+            'page selector displayed'
+        );
+    });
 
-  it('page selector not displayed on Trash - [C280121]', async () => {
-    await page.clickTrashAndWait();
-    expect(await pagination.isPagesButtonPresent()).toBe(false, 'page selector displayed');
-  });
+    it('page selector not displayed on Trash - [C280121]', async () => {
+        await page.clickTrashAndWait();
+        expect(await pagination.isPagesButtonPresent()).toBe(
+            false,
+            'page selector displayed'
+        );
+    });
 
-  it('page selector not displayed on Search results - [C290124]', async () => {
-    await searchInput.clickSearchButton();
-    await searchInput.searchFor(file);
-    await searchResultsPage.waitForResults();
-    expect(await pagination.isPagesButtonPresent()).toBe(false, 'page selector displayed');
-  });
-
+    it('page selector not displayed on Search results - [C290124]', async () => {
+        await searchInput.clickSearchButton();
+        await searchInput.searchFor(file);
+        await searchResultsPage.waitForResults();
+        expect(await pagination.isPagesButtonPresent()).toBe(
+            false,
+            'page selector displayed'
+        );
+    });
 });

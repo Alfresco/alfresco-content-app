@@ -24,11 +24,11 @@
  */
 
 import {
-  Directive,
-  HostListener,
-  Input,
-  OnInit,
-  OnDestroy
+    Directive,
+    HostListener,
+    Input,
+    OnInit,
+    OnDestroy,
 } from '@angular/core';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -36,77 +36,75 @@ import { Store } from '@ngrx/store';
 import { AppStore, ContextMenu } from '@alfresco/aca-shared/store';
 
 @Directive({
-  selector: '[acaContextActions]',
-  exportAs: 'acaContextActions'
+    selector: '[acaContextActions]',
+    exportAs: 'acaContextActions',
 })
 export class ContextActionsDirective implements OnInit, OnDestroy {
-  private execute$: Subject<any> = new Subject();
-  onDestroy$: Subject<boolean> = new Subject<boolean>();
+    private execute$: Subject<any> = new Subject();
+    onDestroy$: Subject<boolean> = new Subject<boolean>();
 
-  // tslint:disable-next-line:no-input-rename
-  @Input('acaContextEnable')
-  enabled = true;
+    // tslint:disable-next-line:no-input-rename
+    @Input('acaContextEnable')
+    enabled = true;
 
-  @HostListener('contextmenu', ['$event'])
-  onContextMenuEvent(event: MouseEvent) {
-    if (event) {
-      event.preventDefault();
+    @HostListener('contextmenu', ['$event'])
+    onContextMenuEvent(event: MouseEvent) {
+        if (event) {
+            event.preventDefault();
 
-      if (this.enabled) {
-        const target = this.getTarget(event);
-        if (target) {
-          this.execute(event, target);
+            if (this.enabled) {
+                const target = this.getTarget(event);
+                if (target) {
+                    this.execute(event, target);
+                }
+            }
         }
-      }
-    }
-  }
-
-  constructor(private store: Store<AppStore>) {}
-
-  ngOnInit() {
-    this.execute$
-      .pipe(
-        debounceTime(300),
-        takeUntil(this.onDestroy$)
-      )
-      .subscribe((event: MouseEvent) => {
-        this.store.dispatch(new ContextMenu(event));
-      });
-  }
-
-  ngOnDestroy() {
-    this.onDestroy$.next(true);
-    this.onDestroy$.complete();
-  }
-
-  execute(event: MouseEvent, target: Element) {
-    if (!this.isSelected(target)) {
-      target.dispatchEvent(new MouseEvent('click'));
     }
 
-    this.execute$.next(event);
-  }
+    constructor(private store: Store<AppStore>) {}
 
-  private getTarget(event: MouseEvent): Element {
-    return this.findAncestor(<Element> event.target, 'adf-datatable-cell');
-  }
-
-  private isSelected(target: Element): boolean {
-    if (!target) {
-      return false;
+    ngOnInit() {
+        this.execute$
+            .pipe(debounceTime(300), takeUntil(this.onDestroy$))
+            .subscribe((event: MouseEvent) => {
+                this.store.dispatch(new ContextMenu(event));
+            });
     }
 
-    return this.findAncestor(target, 'adf-datatable-row').classList.contains(
-      'adf-is-selected'
-    );
-  }
-
-  private findAncestor(el: Element, className: string): Element {
-    if (el.classList.contains(className)) {
-      return el;
+    ngOnDestroy() {
+        this.onDestroy$.next(true);
+        this.onDestroy$.complete();
     }
-    // tslint:disable-next-line
-    while ((el = el.parentElement) && !el.classList.contains(className));
-    return el;
-  }
+
+    execute(event: MouseEvent, target: Element) {
+        if (!this.isSelected(target)) {
+            target.dispatchEvent(new MouseEvent('click'));
+        }
+
+        this.execute$.next(event);
+    }
+
+    private getTarget(event: MouseEvent): Element {
+        return this.findAncestor(event.target as Element, 'adf-datatable-cell');
+    }
+
+    private isSelected(target: Element): boolean {
+        if (!target) {
+            return false;
+        }
+
+        return this.findAncestor(
+            target,
+            'adf-datatable-row'
+        ).classList.contains('adf-is-selected');
+    }
+
+    private findAncestor(el: Element, className: string): Element {
+        if (el.classList.contains(className)) {
+            return el;
+        }
+        // tslint:disable-next-line
+        while ((el = el.parentElement) && !el.classList.contains(className));
+        return el;
+    }
 }

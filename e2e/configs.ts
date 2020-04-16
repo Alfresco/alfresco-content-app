@@ -42,90 +42,90 @@ export const DATE_TIME_FORMAT = 'MMM D, YYYY, H:mm';
 
 // Application Routes
 export const APP_ROUTES = {
-  FAVORITES: '/favorites',
-  MY_LIBRARIES: '/libraries',
-  FAVORITE_LIBRARIES: '/favorite/libraries',
-  LOGIN: '/login',
-  LOGOUT: '/logout',
-  PERSONAL_FILES: '/personal-files',
-  RECENT_FILES: '/recent-files',
-  SHARED_FILES: '/shared',
-  TRASHCAN: '/trashcan'
+    FAVORITES: '/favorites',
+    MY_LIBRARIES: '/libraries',
+    FAVORITE_LIBRARIES: '/favorite/libraries',
+    LOGIN: '/login',
+    LOGOUT: '/logout',
+    PERSONAL_FILES: '/personal-files',
+    RECENT_FILES: '/recent-files',
+    SHARED_FILES: '/shared',
+    TRASHCAN: '/trashcan',
 };
 
 // Sidebar labels
 export const SIDEBAR_LABELS = {
-  PERSONAL_FILES: 'Personal Files',
-  FILE_LIBRARIES: 'File Libraries',
-  MY_LIBRARIES: 'My Libraries',
-  FAVORITE_LIBRARIES: 'Favorite Libraries',
-  SHARED_FILES: 'Shared',
-  RECENT_FILES: 'Recent Files',
-  FAVORITES: 'Favorites',
-  TRASH: 'Trash'
+    PERSONAL_FILES: 'Personal Files',
+    FILE_LIBRARIES: 'File Libraries',
+    MY_LIBRARIES: 'My Libraries',
+    FAVORITE_LIBRARIES: 'Favorite Libraries',
+    SHARED_FILES: 'Shared',
+    RECENT_FILES: 'Recent Files',
+    FAVORITES: 'Favorites',
+    TRASH: 'Trash',
 };
 
 // Page titles
 export const PAGE_TITLES = {
-  PERSONAL_FILES: 'Personal Files',
-  MY_LIBRARIES: 'My Libraries',
-  FAVORITE_LIBRARIES: 'Favorite Libraries',
-  SHARED_FILES: 'Shared',
-  RECENT_FILES: 'Recent Files',
-  FAVORITES: 'Favorites',
-  TRASH: 'Trash',
-  VIEWER: 'Preview',
-  SEARCH: 'Search Results'
+    PERSONAL_FILES: 'Personal Files',
+    MY_LIBRARIES: 'My Libraries',
+    FAVORITE_LIBRARIES: 'Favorite Libraries',
+    SHARED_FILES: 'Shared',
+    RECENT_FILES: 'Recent Files',
+    FAVORITES: 'Favorites',
+    TRASH: 'Trash',
+    VIEWER: 'Preview',
+    SEARCH: 'Search Results',
 };
 
 // Site visibility
 export const SITE_VISIBILITY = {
-  PUBLIC: 'PUBLIC',
-  MODERATED: 'MODERATED',
-  PRIVATE: 'PRIVATE'
+    PUBLIC: 'PUBLIC',
+    MODERATED: 'MODERATED',
+    PRIVATE: 'PRIVATE',
 };
 
 // Site roles
 export const SITE_ROLES = {
-  SITE_CONSUMER: {
-    ROLE: 'SiteConsumer',
-    LABEL: 'Consumer'
-  },
-  SITE_COLLABORATOR: {
-    ROLE: 'SiteCollaborator',
-    LABEL: 'Collaborator'
-  },
-  SITE_CONTRIBUTOR: {
-    ROLE: 'SiteContributor',
-    LABEL: 'Contributor'
-  },
-  SITE_MANAGER: {
-    ROLE: 'SiteManager',
-    LABEL: 'Manager'
-  }
+    SITE_CONSUMER: {
+        ROLE: 'SiteConsumer',
+        LABEL: 'Consumer',
+    },
+    SITE_COLLABORATOR: {
+        ROLE: 'SiteCollaborator',
+        LABEL: 'Collaborator',
+    },
+    SITE_CONTRIBUTOR: {
+        ROLE: 'SiteContributor',
+        LABEL: 'Contributor',
+    },
+    SITE_MANAGER: {
+        ROLE: 'SiteManager',
+        LABEL: 'Manager',
+    },
 };
 
 export const FILES = {
-  docxFile: 'file-docx.docx',
-  docxFile2: 'file2-docx.docx',
-  xlsxFile: 'file-xlsx.xlsx',
-  xlsxFile2: 'file2-xlsx.xlsx',
-  pdfFile: 'file-pdf.pdf',
-  unsupportedFile: 'file_unsupported.3DS',
-  protectedFile: {
-    name: 'protected.pdf',
-    password: '0000'
-  },
-  jpgFile: 'file-jpg.jpg'
+    docxFile: 'file-docx.docx',
+    docxFile2: 'file2-docx.docx',
+    xlsxFile: 'file-xlsx.xlsx',
+    xlsxFile2: 'file2-xlsx.xlsx',
+    pdfFile: 'file-pdf.pdf',
+    unsupportedFile: 'file_unsupported.3DS',
+    protectedFile: {
+        name: 'protected.pdf',
+        password: '0000',
+    },
+    jpgFile: 'file-jpg.jpg',
 };
 
 export const EXTENSIBILITY_CONFIGS = {
-  DEFAULT_EXTENSIONS_CONFIG: 'extensions-default.json',
-  INFO_DRAWER: 'info-drawer-ext.json',
-  INFO_DRAWER_EMPTY: 'info-drawer-no-tabs-ext.json',
-  VIEWER: 'viewer-ext.json',
-  HEADER: 'header-ext.json',
-  METADATA_PRESETS: 'metadata-ext.json',
-  DOCUMENT_LIST_PRESETS: 'document-presets-ext.json',
-  CONTEXT_SUBMENUS: 'context-submenus-ext.json'
+    DEFAULT_EXTENSIONS_CONFIG: 'extensions-default.json',
+    INFO_DRAWER: 'info-drawer-ext.json',
+    INFO_DRAWER_EMPTY: 'info-drawer-no-tabs-ext.json',
+    VIEWER: 'viewer-ext.json',
+    HEADER: 'header-ext.json',
+    METADATA_PRESETS: 'metadata-ext.json',
+    DOCUMENT_LIST_PRESETS: 'document-presets-ext.json',
+    CONTEXT_SUBMENUS: 'context-submenus-ext.json',
 };

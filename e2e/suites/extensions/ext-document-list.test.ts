@@ -29,73 +29,78 @@ import { EXTENSIBILITY_CONFIGS } from '../../configs';
 import { Utils } from '../../utilities/utils';
 
 describe('Extensions - DocumentList presets', () => {
-  const username = `user-${Utils.random()}`;
-  const file = `file-${Utils.random()}.txt`;
-  let fileId;
+    const username = `user-${Utils.random()}`;
+    const file = `file-${Utils.random()}.txt`;
+    let fileId;
 
-  const testData = [
-    {
-      id: 'app.files.name',
-      label: 'Name'
-    },
-    {
-      id: 'app.files.size',
-      label: 'Size',
-      disabled: true
-    },
-    {
-      id: 'app.files.modifiedBy',
-      label: 'Test header'
-    },
-    {
-      id: 'some.id.createdBy',
-      label: 'New column'
-    }
-  ];
+    const testData = [
+        {
+            id: 'app.files.name',
+            label: 'Name',
+        },
+        {
+            id: 'app.files.size',
+            label: 'Size',
+            disabled: true,
+        },
+        {
+            id: 'app.files.modifiedBy',
+            label: 'Test header',
+        },
+        {
+            id: 'some.id.createdBy',
+            label: 'New column',
+        },
+    ];
 
-  const apis = {
-    admin: new RepoClient(),
-    user: new RepoClient(username, username)
-  };
+    const apis = {
+        admin: new RepoClient(),
+        user: new RepoClient(username, username),
+    };
 
-  const loginPage = new LoginPage();
-  const page = new BrowsingPage();
-  const { dataTable } = page;
+    const loginPage = new LoginPage();
+    const page = new BrowsingPage();
+    const { dataTable } = page;
 
-  beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
-    fileId = (await apis.user.nodes.createFile(file)).entry.id;
+    beforeAll(async (done) => {
+        await apis.admin.people.createUser({ username });
+        fileId = (await apis.user.nodes.createFile(file)).entry.id;
 
-    await loginPage.load();
-    await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.DOCUMENT_LIST_PRESETS);
-    await loginPage.loginWith(username);
+        await loginPage.load();
+        await Utils.setSessionStorageFromConfig(
+            EXTENSIBILITY_CONFIGS.DOCUMENT_LIST_PRESETS
+        );
+        await loginPage.loginWith(username);
 
-    done();
-  });
+        done();
+    });
 
-  beforeEach(async done => {
-    await page.clickPersonalFilesAndWait();
-    done();
-  });
+    beforeEach(async (done) => {
+        await page.clickPersonalFilesAndWait();
+        done();
+    });
 
-  afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(fileId);
-    done();
-  });
+    afterAll(async (done) => {
+        await apis.user.nodes.deleteNodeById(fileId);
+        done();
+    });
 
-  it('Sets the columns to display - [C286700]', async () => {
-    const expectedColumns = testData
-      .filter(item => !item.disabled)
-      .map(data => data.label);
-    const actualColumns = await dataTable.getColumnHeadersText();
+    it('Sets the columns to display - [C286700]', async () => {
+        const expectedColumns = testData
+            .filter((item) => !item.disabled)
+            .map((data) => data.label);
+        const actualColumns = await dataTable.getColumnHeadersText();
 
-    expect(actualColumns).toEqual(expectedColumns);
-  });
+        expect(actualColumns).toEqual(expectedColumns);
+    });
 
-  it('Disabled items are not shown - [C286699]', async () => {
-    const noColumnLabel = testData.find(item => item.disabled).label;
-    const element = dataTable.getColumnHeaderByLabel(noColumnLabel);
+    it('Disabled items are not shown - [C286699]', async () => {
+        const noColumnLabel = testData.find((item) => item.disabled).label;
+        const element = dataTable.getColumnHeaderByLabel(noColumnLabel);
 
-    expect(await element.isPresent()).toBe(false, `"${noColumnLabel}" is displayed`);
-  });
+        expect(await element.isPresent()).toBe(
+            false,
+            `"${noColumnLabel}" is displayed`
+        );
+    });
 });

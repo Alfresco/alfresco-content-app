@@ -28,42 +28,48 @@ import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 
 describe('Upload files', () => {
-  const username = `user-${Utils.random()}`;
+    const username = `user-${Utils.random()}`;
 
-  const folder1 = `folder1-${Utils.random()}`; let folder1Id;
+    const folder1 = `folder1-${Utils.random()}`;
+    let folder1Id;
 
-  const apis = {
-    admin: new RepoClient(),
-    user: new RepoClient(username, username)
-  };
+    const apis = {
+        admin: new RepoClient(),
+        user: new RepoClient(username, username),
+    };
 
-  const loginPage = new LoginPage();
-  const page = new BrowsingPage();
-  const { dataTable } = page;
+    const loginPage = new LoginPage();
+    const page = new BrowsingPage();
+    const { dataTable } = page;
 
-  beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
-    folder1Id = (await apis.user.nodes.createFolder(folder1)).entry.id;
+    beforeAll(async (done) => {
+        await apis.admin.people.createUser({ username });
+        folder1Id = (await apis.user.nodes.createFolder(folder1)).entry.id;
 
-    await loginPage.loginWith(username);
-    done();
-  });
+        await loginPage.loginWith(username);
+        done();
+    });
 
-  beforeEach(async (done) => {
-    await page.clickPersonalFilesAndWait();
-    done();
-  });
+    beforeEach(async (done) => {
+        await page.clickPersonalFilesAndWait();
+        done();
+    });
 
-  afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(folder1Id);
-    done();
-  });
+    afterAll(async (done) => {
+        await apis.user.nodes.deleteNodeById(folder1Id);
+        done();
+    });
 
-  it('Upload a file', async () => {
-    await dataTable.doubleClickOnRowByName(folder1);
-    await page.sidenav.openNewMenu();
-    await page.sidenav.menu.uploadFile().sendKeys(`${__dirname}/create-folder.test.ts`);
+    it('Upload a file', async () => {
+        await dataTable.doubleClickOnRowByName(folder1);
+        await page.sidenav.openNewMenu();
+        await page.sidenav.menu
+            .uploadFile()
+            .sendKeys(`${__dirname}/create-folder.test.ts`);
 
-    expect(await dataTable.isItemPresent('create-folder.test.ts')).toBe(true, 'file not uploaded');
-  });
+        expect(await dataTable.isItemPresent('create-folder.test.ts')).toBe(
+            true,
+            'file not uploaded'
+        );
+    });
 });

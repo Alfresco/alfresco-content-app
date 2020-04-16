@@ -26,122 +26,124 @@
 import { Component, ViewChild } from '@angular/core';
 import { LockNodeDirective } from './lock-node.directive';
 import {
-  AlfrescoApiService,
-  AlfrescoApiServiceMock,
-  setupTestBed,
-  CoreModule
+    AlfrescoApiService,
+    AlfrescoApiServiceMock,
+    setupTestBed,
+    CoreModule,
 } from '@alfresco/adf-core';
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 
 @Component({
-  selector: 'app-test-component',
-  template: `
-    <button #lock="lockNode" [acaLockNode]="selection">Lock</button>
-  `
+    selector: 'app-test-component',
+    template: `
+        <button #lock="lockNode" [acaLockNode]="selection">Lock</button>
+    `,
 })
 class TestComponent {
-  @ViewChild('lock')
-  directive: LockNodeDirective;
+    @ViewChild('lock')
+    directive: LockNodeDirective;
 
-  selection = null;
+    selection = null;
 }
 
 describe('LockNodeDirective', () => {
-  let fixture;
-  let api;
-  let component;
+    let fixture;
+    let api;
+    let component;
 
-  setupTestBed({
-    imports: [CoreModule.forRoot()],
-    declarations: [TestComponent, LockNodeDirective],
-    providers: [
-      {
-        provide: AlfrescoApiService,
-        useClass: AlfrescoApiServiceMock
-      }
-    ]
-  });
+    setupTestBed({
+        imports: [CoreModule.forRoot()],
+        declarations: [TestComponent, LockNodeDirective],
+        providers: [
+            {
+                provide: AlfrescoApiService,
+                useClass: AlfrescoApiServiceMock,
+            },
+        ],
+    });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(TestComponent);
-    component = fixture.componentInstance;
-    component.selection = null;
-    api = TestBed.get(AlfrescoApiService);
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(TestComponent);
+        component = fixture.componentInstance;
+        component.selection = null;
+        api = TestBed.get(AlfrescoApiService);
+    });
 
-  it('should return false if selection is null', () => {
-    component.selection = null;
-    fixture.detectChanges();
-    expect(component.directive.isNodeLocked()).toBe(false);
-  });
+    it('should return false if selection is null', () => {
+        component.selection = null;
+        fixture.detectChanges();
+        expect(component.directive.isNodeLocked()).toBe(false);
+    });
 
-  it('should return false if selection is not locked', () => {
-    component.selection = { entry: { name: 'test-name', properties: {} } };
-    fixture.detectChanges();
-    expect(component.directive.isNodeLocked()).toBe(false);
-  });
+    it('should return false if selection is not locked', () => {
+        component.selection = { entry: { name: 'test-name', properties: {} } };
+        fixture.detectChanges();
+        expect(component.directive.isNodeLocked()).toBe(false);
+    });
 
-  it('should return true if selection is locked', () => {
-    component.selection = {
-      entry: {
-        name: 'test-name',
-        properties: { 'cm:lockType': 'WRITE_LOCK' }
-      }
-    };
+    it('should return true if selection is locked', () => {
+        component.selection = {
+            entry: {
+                name: 'test-name',
+                properties: { 'cm:lockType': 'WRITE_LOCK' },
+            },
+        };
 
-    fixture.detectChanges();
-    expect(component.directive.isNodeLocked()).toBe(true);
-  });
+        fixture.detectChanges();
+        expect(component.directive.isNodeLocked()).toBe(true);
+    });
 
-  it('should lock selection', fakeAsync(() => {
-    component.selection = {
-      entry: {
-        id: 'id',
-        name: 'test-name',
-        properties: {}
-      }
-    };
+    it('should lock selection', fakeAsync(() => {
+        component.selection = {
+            entry: {
+                id: 'id',
+                name: 'test-name',
+                properties: {},
+            },
+        };
 
-    spyOn(api.nodesApi, 'lockNode').and.returnValue(
-      Promise.resolve({
-        entry: { properties: { 'cm:lockType': 'WRITE_LOCK' } }
-      })
-    );
+        spyOn(api.nodesApi, 'lockNode').and.returnValue(
+            Promise.resolve({
+                entry: { properties: { 'cm:lockType': 'WRITE_LOCK' } },
+            })
+        );
 
-    fixture.detectChanges();
+        fixture.detectChanges();
 
-    component.directive.onClick();
-    tick();
-    fixture.detectChanges();
+        component.directive.onClick();
+        tick();
+        fixture.detectChanges();
 
-    expect(component.selection.entry.properties['cm:lockType']).toBe(
-      'WRITE_LOCK'
-    );
-  }));
+        expect(component.selection.entry.properties['cm:lockType']).toBe(
+            'WRITE_LOCK'
+        );
+    }));
 
-  it('should unlock selection', fakeAsync(() => {
-    component.selection = {
-      entry: {
-        id: 'id',
-        name: 'test-name',
-        properties: {
-          'cm:lockType': 'WRITE_LOCK'
-        }
-      }
-    };
+    it('should unlock selection', fakeAsync(() => {
+        component.selection = {
+            entry: {
+                id: 'id',
+                name: 'test-name',
+                properties: {
+                    'cm:lockType': 'WRITE_LOCK',
+                },
+            },
+        };
 
-    spyOn(api.nodesApi, 'unlockNode').and.returnValue(
-      Promise.resolve({
-        entry: { properties: {} }
-      })
-    );
+        spyOn(api.nodesApi, 'unlockNode').and.returnValue(
+            Promise.resolve({
+                entry: { properties: {} },
+            })
+        );
 
-    fixture.detectChanges();
-    component.directive.onClick();
+        fixture.detectChanges();
+        component.directive.onClick();
 
-    tick();
-    fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
 
-    expect(component.selection.entry.properties['cm:lockType']).toBe(undefined);
-  }));
+        expect(component.selection.entry.properties['cm:lockType']).toBe(
+            undefined
+        );
+    }));
 });

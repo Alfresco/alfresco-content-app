@@ -31,66 +31,66 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRouteReuseStrategy } from '../routing/app.routes.strategy';
 
 describe('AppService', () => {
-  let service: AppService;
-  let auth: AuthenticationService;
-  let routeReuse: AppRouteReuseStrategy;
-  let appConfig: AppConfigService;
+    let service: AppService;
+    let auth: AuthenticationService;
+    let routeReuse: AppRouteReuseStrategy;
+    let appConfig: AppConfigService;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [HttpClientModule],
-      providers: [
-        AppRouteReuseStrategy,
-        {
-          provide: AuthenticationService,
-          useValue: {
-            onLogin: new Subject<any>(),
-            onLogout: new Subject<any>(),
-            isLoggedIn: () => false
-          }
-        }
-      ]
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            imports: [HttpClientModule],
+            providers: [
+                AppRouteReuseStrategy,
+                {
+                    provide: AuthenticationService,
+                    useValue: {
+                        onLogin: new Subject<any>(),
+                        onLogout: new Subject<any>(),
+                        isLoggedIn: () => false,
+                    },
+                },
+            ],
+        });
+
+        routeReuse = TestBed.get(AppRouteReuseStrategy);
+        auth = TestBed.get(AuthenticationService);
+        appConfig = TestBed.get(AppConfigService);
+        spyOn(routeReuse, 'resetCache').and.stub();
+
+        service = new AppService(auth, appConfig, routeReuse);
     });
 
-    routeReuse = TestBed.get(AppRouteReuseStrategy);
-    auth = TestBed.get(AuthenticationService);
-    appConfig = TestBed.get(AppConfigService);
-    spyOn(routeReuse, 'resetCache').and.stub();
+    it('should be ready if [withCredentials] mode is used', (done) => {
+        appConfig.config = {
+            auth: {
+                withCredentials: true,
+            },
+        };
 
-    service = new AppService(auth, appConfig, routeReuse);
-  });
+        const instance = new AppService(auth, appConfig, routeReuse);
+        expect(instance.withCredentials).toBeTruthy();
 
-  it('should be ready if [withCredentials] mode is used', done => {
-    appConfig.config = {
-      auth: {
-        withCredentials: true
-      }
-    };
-
-    const instance = new AppService(auth, appConfig, routeReuse);
-    expect(instance.withCredentials).toBeTruthy();
-
-    instance.ready$.subscribe(() => {
-      done();
+        instance.ready$.subscribe(() => {
+            done();
+        });
     });
-  });
 
-  it('should reset route cache on login', async () => {
-    auth.onLogin.next();
-    await expect(routeReuse.resetCache).toHaveBeenCalled();
-  });
-
-  it('should reset route cache on logout', async () => {
-    auth.onLogout.next();
-    await expect(routeReuse.resetCache).toHaveBeenCalled();
-  });
-
-  it('should be ready after login', async () => {
-    let isReady = false;
-    service.ready$.subscribe(value => {
-      isReady = value;
+    it('should reset route cache on login', async () => {
+        auth.onLogin.next();
+        await expect(routeReuse.resetCache).toHaveBeenCalled();
     });
-    auth.onLogin.next();
-    await expect(<any> isReady).toEqual(true);
-  });
+
+    it('should reset route cache on logout', async () => {
+        auth.onLogout.next();
+        await expect(routeReuse.resetCache).toHaveBeenCalled();
+    });
+
+    it('should be ready after login', async () => {
+        let isReady = false;
+        service.ready$.subscribe((value) => {
+            isReady = value;
+        });
+        auth.onLogin.next();
+        await expect(isReady).toEqual(true);
+    });
 });

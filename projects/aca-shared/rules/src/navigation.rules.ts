@@ -30,13 +30,13 @@ import { RuleContext } from '@alfresco/adf-extensions';
  * JSON ref: `app.navigation.isPreview`
  */
 export function isPreview(context: RuleContext): boolean {
-  const { url } = context.navigation;
-  return (
-    url &&
-    (url.includes('/preview/') ||
-      url.includes('viewer:view') ||
-      url.includes('/view/'))
-  );
+    const { url } = context.navigation;
+    return (
+        url &&
+        (url.includes('/preview/') ||
+            url.includes('viewer:view') ||
+            url.includes('/view/'))
+    );
 }
 
 /**
@@ -44,8 +44,8 @@ export function isPreview(context: RuleContext): boolean {
  * JSON ref: `app.navigation.isFavorites`
  */
 export function isFavorites(context: RuleContext): boolean {
-  const { url } = context.navigation;
-  return url && url.startsWith('/favorites') && !isPreview(context);
+    const { url } = context.navigation;
+    return url && url.startsWith('/favorites') && !isPreview(context);
 }
 
 /**
@@ -53,7 +53,7 @@ export function isFavorites(context: RuleContext): boolean {
  * JSON ref: `app.navigation.isNotFavorites`
  */
 export function isNotFavorites(context: RuleContext): boolean {
-  return !isFavorites(context);
+    return !isFavorites(context);
 }
 
 /**
@@ -61,8 +61,8 @@ export function isNotFavorites(context: RuleContext): boolean {
  * JSON ref: `app.navigation.isSharedFiles`
  */
 export function isSharedFiles(context: RuleContext): boolean {
-  const { url } = context.navigation;
-  return url && url.startsWith('/shared') && !isPreview(context);
+    const { url } = context.navigation;
+    return url && url.startsWith('/shared') && !isPreview(context);
 }
 
 /**
@@ -70,7 +70,7 @@ export function isSharedFiles(context: RuleContext): boolean {
  * JSON ref: `app.navigation.isNotSharedFiles`
  */
 export function isNotSharedFiles(context: RuleContext): boolean {
-  return !isSharedFiles(context);
+    return !isSharedFiles(context);
 }
 
 /**
@@ -78,8 +78,8 @@ export function isNotSharedFiles(context: RuleContext): boolean {
  * JSON ref: `app.navigation.isTrashcan`
  */
 export function isTrashcan(context: RuleContext): boolean {
-  const { url } = context.navigation;
-  return url && url.startsWith('/trashcan');
+    const { url } = context.navigation;
+    return url && url.startsWith('/trashcan');
 }
 
 /**
@@ -87,7 +87,7 @@ export function isTrashcan(context: RuleContext): boolean {
  * JSON ref: `app.navigation.isNotTrashcan`
  */
 export function isNotTrashcan(context: RuleContext): boolean {
-  return !isTrashcan(context);
+    return !isTrashcan(context);
 }
 
 /**
@@ -95,8 +95,8 @@ export function isNotTrashcan(context: RuleContext): boolean {
  * JSON ref: `app.navigation.isPersonalFiles`
  */
 export function isPersonalFiles(context: RuleContext): boolean {
-  const { url } = context.navigation;
-  return url && url.startsWith('/personal-files');
+    const { url } = context.navigation;
+    return url && url.startsWith('/personal-files');
 }
 
 /**
@@ -104,8 +104,8 @@ export function isPersonalFiles(context: RuleContext): boolean {
  * JSON ref: `app.navigation.isLibraryFiles`
  */
 export function isLibraryFiles(context: RuleContext): boolean {
-  const { url } = context.navigation;
-  return url && url.startsWith('/libraries');
+    const { url } = context.navigation;
+    return url && url.startsWith('/libraries');
 }
 
 /**
@@ -113,10 +113,11 @@ export function isLibraryFiles(context: RuleContext): boolean {
  * JSON ref: `app.navigation.isLibraryFiles`
  */
 export function isLibraries(context: RuleContext): boolean {
-  const { url } = context.navigation;
-  return (
-    url && (url.endsWith('/libraries') || url.startsWith('/search-libraries'))
-  );
+    const { url } = context.navigation;
+    return (
+        url &&
+        (url.endsWith('/libraries') || url.startsWith('/search-libraries'))
+    );
 }
 
 /**
@@ -124,7 +125,7 @@ export function isLibraries(context: RuleContext): boolean {
  * JSON ref: `app.navigation.isNotLibraries`
  */
 export function isNotLibraries(context: RuleContext): boolean {
-  return !isLibraries(context);
+    return !isLibraries(context);
 }
 
 /**
@@ -132,8 +133,8 @@ export function isNotLibraries(context: RuleContext): boolean {
  * JSON ref: `app.navigation.isRecentFiles`
  */
 export function isRecentFiles(context: RuleContext): boolean {
-  const { url } = context.navigation;
-  return url && url.startsWith('/recent-files');
+    const { url } = context.navigation;
+    return url && url.startsWith('/recent-files');
 }
 
 /**
@@ -141,7 +142,7 @@ export function isRecentFiles(context: RuleContext): boolean {
  * JSON ref: `app.navigation.isNotRecentFiles`
  */
 export function isNotRecentFiles(context: RuleContext): boolean {
-  return !isRecentFiles(context);
+    return !isRecentFiles(context);
 }
 
 /**
@@ -149,11 +150,11 @@ export function isNotRecentFiles(context: RuleContext): boolean {
  * JSON ref: `app.navigation.isSearchResults`
  */
 export function isSearchResults(
-  context: RuleContext /*,
+    context: RuleContext /*,
   ...args: RuleParameter[]*/
 ): boolean {
-  const { url } = context.navigation;
-  return url && url.startsWith('/search');
+    const { url } = context.navigation;
+    return url && url.startsWith('/search');
 }
 
 /**
@@ -161,7 +162,7 @@ export function isSearchResults(
  * JSON ref: `app.navigation.isNotSearchResults`
  */
 export function isNotSearchResults(context: RuleContext): boolean {
-  return !isSearchResults(context);
+    return !isSearchResults(context);
 }
 
 /**
@@ -169,12 +170,12 @@ export function isNotSearchResults(context: RuleContext): boolean {
  * JSON ref: `app.navigation.isSharedPreview`
  */
 export function isSharedPreview(context: RuleContext): boolean {
-  const { url } = context.navigation;
-  return (
-    url &&
-    (url.startsWith('/shared/preview/') ||
-      (url.startsWith('/shared') && url.includes('viewer:view')))
-  );
+    const { url } = context.navigation;
+    return (
+        url &&
+        (url.startsWith('/shared/preview/') ||
+            (url.startsWith('/shared') && url.includes('viewer:view')))
+    );
 }
 
 /**
@@ -182,12 +183,12 @@ export function isSharedPreview(context: RuleContext): boolean {
  * JSON ref: `app.navigation.isFavoritesPreview`
  */
 export function isFavoritesPreview(context: RuleContext): boolean {
-  const { url } = context.navigation;
-  return (
-    url &&
-    (url.startsWith('/favorites/preview/') ||
-      (url.startsWith('/favorites') && url.includes('viewer:view')))
-  );
+    const { url } = context.navigation;
+    return (
+        url &&
+        (url.startsWith('/favorites/preview/') ||
+            (url.startsWith('/favorites') && url.includes('viewer:view')))
+    );
 }
 
 /**
@@ -195,6 +196,6 @@ export function isFavoritesPreview(context: RuleContext): boolean {
  * JSON ref: `app.navigation.isFavoritesPreview`
  */
 export function isSharedFileViewer(context: RuleContext): boolean {
-  const { url } = context.navigation;
-  return url && url.startsWith('/preview/s/');
+    const { url } = context.navigation;
+    return url && url.startsWith('/preview/s/');
 }

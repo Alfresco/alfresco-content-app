@@ -26,7 +26,7 @@
 import { ContentApiService } from './content-api.service';
 
 describe('ContentApiService', () => {
-  it('should be defined', () => {
-    expect(ContentApiService).toBeDefined();
-  });
+    it('should be defined', () => {
+        expect(ContentApiService).toBeDefined();
+    });
 });

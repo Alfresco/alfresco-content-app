@@ -27,61 +27,121 @@ import { BrowsingPage, LoginPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 
 describe('Search input', () => {
-  const loginPage = new LoginPage();
-  const page = new BrowsingPage();
-  const { searchInput } = page.header;
+    const loginPage = new LoginPage();
+    const page = new BrowsingPage();
+    const { searchInput } = page.header;
 
-  beforeAll(async (done) => {
-    await loginPage.loginWithAdmin();
-    done();
-  });
+    beforeAll(async (done) => {
+        await loginPage.loginWithAdmin();
+        done();
+    });
 
-  beforeEach(async (done) => {
-    await Utils.pressEscape();
-    await page.clickPersonalFiles();
-    done();
-  });
+    beforeEach(async (done) => {
+        await Utils.pressEscape();
+        await page.clickPersonalFiles();
+        done();
+    });
 
-  it('Search input is displayed in the app header - [C289847]', async () => {
-    expect(await searchInput.isSearchContainerDisplayed()).toBe(true, 'search controls not displayed');
-  });
+    it('Search input is displayed in the app header - [C289847]', async () => {
+        expect(await searchInput.isSearchContainerDisplayed()).toBe(
+            true,
+            'search controls not displayed'
+        );
+    });
 
-  it('Search options are displayed when clicking in the search input - [C289848]', async () => {
-    await searchInput.clickSearchButton();
-    expect(await searchInput.isOptionsAreaDisplayed()).toBe(true, 'Search options not displayed');
-    expect(await searchInput.isFilesOptionEnabled()).toBe(true, 'Files option not enabled');
-    expect(await searchInput.isFoldersOptionEnabled()).toBe(true, 'Folders option not enabled');
-    expect(await searchInput.isLibrariesOptionEnabled()).toBe(true, 'Libraries option not enabled');
-    expect(await searchInput.isFilesOptionChecked()).toBe(false, 'Files option is checked');
-    expect(await searchInput.isFoldersOptionChecked()).toBe(false, 'Folders option is checked');
-    expect(await searchInput.isLibrariesOptionChecked()).toBe(false, 'Libraries option is checked');
-  });
+    it('Search options are displayed when clicking in the search input - [C289848]', async () => {
+        await searchInput.clickSearchButton();
+        expect(await searchInput.isOptionsAreaDisplayed()).toBe(
+            true,
+            'Search options not displayed'
+        );
+        expect(await searchInput.isFilesOptionEnabled()).toBe(
+            true,
+            'Files option not enabled'
+        );
+        expect(await searchInput.isFoldersOptionEnabled()).toBe(
+            true,
+            'Folders option not enabled'
+        );
+        expect(await searchInput.isLibrariesOptionEnabled()).toBe(
+            true,
+            'Libraries option not enabled'
+        );
+        expect(await searchInput.isFilesOptionChecked()).toBe(
+            false,
+            'Files option is checked'
+        );
+        expect(await searchInput.isFoldersOptionChecked()).toBe(
+            false,
+            'Folders option is checked'
+        );
+        expect(await searchInput.isLibrariesOptionChecked()).toBe(
+            false,
+            'Libraries option is checked'
+        );
+    });
 
-  it('Search options are correctly enabled / disabled - [C289849]', async () => {
-    await searchInput.clickSearchButton();
+    it('Search options are correctly enabled / disabled - [C289849]', async () => {
+        await searchInput.clickSearchButton();
 
-    await searchInput.clickFilesOption();
-    expect(await searchInput.isFoldersOptionEnabled()).toBe(true, 'Folders option not enabled');
-    expect(await searchInput.isLibrariesOptionEnabled()).toBe(false, 'Libraries option not disabled');
+        await searchInput.clickFilesOption();
+        expect(await searchInput.isFoldersOptionEnabled()).toBe(
+            true,
+            'Folders option not enabled'
+        );
+        expect(await searchInput.isLibrariesOptionEnabled()).toBe(
+            false,
+            'Libraries option not disabled'
+        );
 
-    await searchInput.clickFilesOption();
-    expect(await searchInput.isFoldersOptionEnabled()).toBe(true, 'Folders option not enabled');
-    expect(await searchInput.isLibrariesOptionEnabled()).toBe(true, 'Folders option not enabled');
+        await searchInput.clickFilesOption();
+        expect(await searchInput.isFoldersOptionEnabled()).toBe(
+            true,
+            'Folders option not enabled'
+        );
+        expect(await searchInput.isLibrariesOptionEnabled()).toBe(
+            true,
+            'Folders option not enabled'
+        );
 
-    await searchInput.clickFoldersOption();
-    expect(await searchInput.isFilesOptionEnabled()).toBe(true, 'Files option not enabled');
-    expect(await searchInput.isLibrariesOptionEnabled()).toBe(false, 'Libraries option not disabled');
+        await searchInput.clickFoldersOption();
+        expect(await searchInput.isFilesOptionEnabled()).toBe(
+            true,
+            'Files option not enabled'
+        );
+        expect(await searchInput.isLibrariesOptionEnabled()).toBe(
+            false,
+            'Libraries option not disabled'
+        );
 
-    await searchInput.clickFoldersOption();
-    expect(await searchInput.isFilesOptionEnabled()).toBe(true, 'Files option not enabled');
-    expect(await searchInput.isLibrariesOptionEnabled()).toBe(true, 'Libraries option not enabled');
+        await searchInput.clickFoldersOption();
+        expect(await searchInput.isFilesOptionEnabled()).toBe(
+            true,
+            'Files option not enabled'
+        );
+        expect(await searchInput.isLibrariesOptionEnabled()).toBe(
+            true,
+            'Libraries option not enabled'
+        );
 
-    await searchInput.clickLibrariesOption();
-    expect(await searchInput.isFilesOptionEnabled()).toBe(false, 'Files option not disabled');
-    expect(await searchInput.isFoldersOptionEnabled()).toBe(false, 'Folders option not disabled');
+        await searchInput.clickLibrariesOption();
+        expect(await searchInput.isFilesOptionEnabled()).toBe(
+            false,
+            'Files option not disabled'
+        );
+        expect(await searchInput.isFoldersOptionEnabled()).toBe(
+            false,
+            'Folders option not disabled'
+        );
 
-    await searchInput.clickLibrariesOption();
-    expect(await searchInput.isFilesOptionEnabled()).toBe(true, 'Files option not enabled');
-    expect(await searchInput.isFoldersOptionEnabled()).toBe(true, 'Folders option not enabled');
-  });
+        await searchInput.clickLibrariesOption();
+        expect(await searchInput.isFilesOptionEnabled()).toBe(
+            true,
+            'Files option not enabled'
+        );
+        expect(await searchInput.isFoldersOptionEnabled()).toBe(
+            true,
+            'Folders option not enabled'
+        );
+    });
 });

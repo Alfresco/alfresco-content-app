@@ -33,97 +33,124 @@ const contextMenu = dataTable.menu;
 const viewer = new Viewer();
 const viewerToolbar = viewer.toolbar;
 
-export async function checkContextMenu(item: string, expectedContextMenu: string[]): Promise<void> {
-  await dataTable.rightClickOnItem(item);
+export async function checkContextMenu(
+    item: string,
+    expectedContextMenu: string[]
+): Promise<void> {
+    await dataTable.rightClickOnItem(item);
 
-  const actualActions = await contextMenu.getMenuItems();
-  expect(actualActions).toEqual(expectedContextMenu);
+    const actualActions = await contextMenu.getMenuItems();
+    expect(actualActions).toEqual(expectedContextMenu);
 
-  await Utils.pressEscape();
+    await Utils.pressEscape();
 }
 
-export async function checkToolbarPrimary(item: string, expectedToolbarPrimary: string[]): Promise<void> {
-  await dataTable.selectItem(item);
+export async function checkToolbarPrimary(
+    item: string,
+    expectedToolbarPrimary: string[]
+): Promise<void> {
+    await dataTable.selectItem(item);
 
-  const actualPrimaryActions = await toolbar.getButtons();
-  expect(actualPrimaryActions).toEqual(expectedToolbarPrimary);
+    const actualPrimaryActions = await toolbar.getButtons();
+    expect(actualPrimaryActions).toEqual(expectedToolbarPrimary);
 }
 
-export async function checkToolbarMoreActions(item: string, expectedToolbarMore: string[]): Promise<void> {
-  await dataTable.selectItem(item);
-  await toolbar.openMoreMenu();
+export async function checkToolbarMoreActions(
+    item: string,
+    expectedToolbarMore: string[]
+): Promise<void> {
+    await dataTable.selectItem(item);
+    await toolbar.openMoreMenu();
 
-  const actualMoreActions = await toolbar.menu.getMenuItems();
-  expect(actualMoreActions).toEqual(expectedToolbarMore);
+    const actualMoreActions = await toolbar.menu.getMenuItems();
+    expect(actualMoreActions).toEqual(expectedToolbarMore);
 
-  await toolbar.closeMoreMenu();
+    await toolbar.closeMoreMenu();
 }
 
-export async function checkToolbarActions(item: string, expectedToolbarPrimary: string[], expectedToolbarMore: string[]): Promise<void> {
-  await dataTable.selectItem(item);
+export async function checkToolbarActions(
+    item: string,
+    expectedToolbarPrimary: string[],
+    expectedToolbarMore: string[]
+): Promise<void> {
+    await dataTable.selectItem(item);
 
-  const actualPrimaryActions = await toolbar.getButtons();
-  expect(actualPrimaryActions).toEqual(expectedToolbarPrimary);
+    const actualPrimaryActions = await toolbar.getButtons();
+    expect(actualPrimaryActions).toEqual(expectedToolbarPrimary);
 
-  await toolbar.openMoreMenu();
+    await toolbar.openMoreMenu();
 
-  const actualMoreActions = await toolbar.menu.getMenuItems();
-  expect(actualMoreActions).toEqual(expectedToolbarMore);
+    const actualMoreActions = await toolbar.menu.getMenuItems();
+    expect(actualMoreActions).toEqual(expectedToolbarMore);
 
-  await toolbar.closeMoreMenu();
+    await toolbar.closeMoreMenu();
 }
 
-export async function checkMultipleSelContextMenu(items: string[], expectedContextMenu: string[]): Promise<void> {
-  await dataTable.selectMultipleItems(items);
-  await dataTable.rightClickOnMultipleSelection();
+export async function checkMultipleSelContextMenu(
+    items: string[],
+    expectedContextMenu: string[]
+): Promise<void> {
+    await dataTable.selectMultipleItems(items);
+    await dataTable.rightClickOnMultipleSelection();
 
-  const actualActions = await contextMenu.getMenuItems();
-  expect(actualActions).toEqual(expectedContextMenu);
+    const actualActions = await contextMenu.getMenuItems();
+    expect(actualActions).toEqual(expectedContextMenu);
 
-  await Utils.pressEscape();
+    await Utils.pressEscape();
 }
 
-export async function checkMultipleSelToolbarPrimary(items: string[], expectedToolbarPrimary: string[]): Promise<void> {
-  await dataTable.selectMultipleItems(items);
+export async function checkMultipleSelToolbarPrimary(
+    items: string[],
+    expectedToolbarPrimary: string[]
+): Promise<void> {
+    await dataTable.selectMultipleItems(items);
 
-  const actualPrimaryActions = await toolbar.getButtons();
-  expect(actualPrimaryActions).toEqual(expectedToolbarPrimary);
+    const actualPrimaryActions = await toolbar.getButtons();
+    expect(actualPrimaryActions).toEqual(expectedToolbarPrimary);
 }
 
-export async function checkMultipleSelToolbarActions(items: string[], expectedToolbarPrimary: string[], expectedToolbarMore: string[]): Promise<void> {
-  await dataTable.selectMultipleItems(items);
+export async function checkMultipleSelToolbarActions(
+    items: string[],
+    expectedToolbarPrimary: string[],
+    expectedToolbarMore: string[]
+): Promise<void> {
+    await dataTable.selectMultipleItems(items);
 
-  const actualPrimaryActions = await toolbar.getButtons();
-  expect(actualPrimaryActions).toEqual(expectedToolbarPrimary);
+    const actualPrimaryActions = await toolbar.getButtons();
+    expect(actualPrimaryActions).toEqual(expectedToolbarPrimary);
 
-  await toolbar.openMoreMenu();
+    await toolbar.openMoreMenu();
 
-  const actualMoreActions = await toolbar.menu.getMenuItems();
-  expect(actualMoreActions).toEqual(expectedToolbarMore);
+    const actualMoreActions = await toolbar.menu.getMenuItems();
+    expect(actualMoreActions).toEqual(expectedToolbarMore);
 
-  await toolbar.closeMoreMenu();
+    await toolbar.closeMoreMenu();
 }
 
-export async function checkViewerActions(item: string, expectedToolbarPrimary: string[], expectedToolbarMore: string[]): Promise<void> {
-  await dataTable.selectItem(item);
-  await toolbar.clickView();
-  await viewer.waitForViewerToOpen();
+export async function checkViewerActions(
+    item: string,
+    expectedToolbarPrimary: string[],
+    expectedToolbarMore: string[]
+): Promise<void> {
+    await dataTable.selectItem(item);
+    await toolbar.clickView();
+    await viewer.waitForViewerToOpen();
 
-  let actualPrimaryActions = await viewerToolbar.getButtons();
-  actualPrimaryActions = removeClosePreviousNextOldInfo(actualPrimaryActions);
-  expect(actualPrimaryActions).toEqual(expectedToolbarPrimary);
+    let actualPrimaryActions = await viewerToolbar.getButtons();
+    actualPrimaryActions = removeClosePreviousNextOldInfo(actualPrimaryActions);
+    expect(actualPrimaryActions).toEqual(expectedToolbarPrimary);
 
-  await viewerToolbar.openMoreMenu();
+    await viewerToolbar.openMoreMenu();
 
-  const actualMoreActions = await viewerToolbar.menu.getMenuItems();
-  expect(actualMoreActions).toEqual(expectedToolbarMore);
+    const actualMoreActions = await viewerToolbar.menu.getMenuItems();
+    expect(actualMoreActions).toEqual(expectedToolbarMore);
 
-  await toolbar.closeMoreMenu();
-  await Utils.pressEscape();
+    await toolbar.closeMoreMenu();
+    await Utils.pressEscape();
 }
 
 const toRemove = ['Close', 'Previous File', 'Next File', 'View details'];
 
 function removeClosePreviousNextOldInfo(actions: string[]): string[] {
-  return actions.filter((elem) => !toRemove.includes(elem));
+    return actions.filter((elem) => !toRemove.includes(elem));
 }

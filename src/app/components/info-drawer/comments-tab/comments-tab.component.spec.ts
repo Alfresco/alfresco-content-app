@@ -30,84 +30,84 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { NodePermissionService } from '@alfresco/aca-shared';
 
 describe('CommentsTabComponent', () => {
-  let component: CommentsTabComponent;
-  let fixture: ComponentFixture<CommentsTabComponent>;
-  const permissionsMock = {
-    check: jasmine.createSpy('check')
-  };
-  let checked;
+    let component: CommentsTabComponent;
+    let fixture: ComponentFixture<CommentsTabComponent>;
+    const permissionsMock = {
+        check: jasmine.createSpy('check'),
+    };
+    let checked;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [AppTestingModule],
-      declarations: [CommentsTabComponent],
-      providers: [
-        { provide: NodePermissionService, useValue: permissionsMock }
-      ],
-      schemas: [NO_ERRORS_SCHEMA]
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            imports: [AppTestingModule],
+            declarations: [CommentsTabComponent],
+            providers: [
+                { provide: NodePermissionService, useValue: permissionsMock },
+            ],
+            schemas: [NO_ERRORS_SCHEMA],
+        });
+
+        fixture = TestBed.createComponent(CommentsTabComponent);
+        component = fixture.componentInstance;
+
+        checked = null;
+        permissionsMock.check.and.callFake((source, permissions) => {
+            checked = permissions;
+            return true;
+        });
     });
 
-    fixture = TestBed.createComponent(CommentsTabComponent);
-    component = fixture.componentInstance;
-
-    checked = null;
-    permissionsMock.check.and.callFake((source, permissions) => {
-      checked = permissions;
-      return true;
-    });
-  });
-
-  afterEach(() => {
-    fixture.destroy();
-  });
-
-  describe('canUpdateNode', () => {
-    it('should return [false] if no node selected', () => {
-      component.node = null;
-      expect(component.canUpdateNode).toBe(false);
+    afterEach(() => {
+        fixture.destroy();
     });
 
-    it('should return [false] if node selected is neither file or folder', () => {
-      const testNode = {
-        id: 'test-node-id',
-        isFile: false,
-        isFolder: false
-      };
-      component.node = <any> testNode;
-      expect(component.canUpdateNode).toBe(false);
-    });
+    describe('canUpdateNode', () => {
+        it('should return [false] if no node selected', () => {
+            component.node = null;
+            expect(component.canUpdateNode).toBe(false);
+        });
 
-    it('should return [false] if node selected is a locked file', () => {
-      const testNode = {
-        id: 'test-node-id',
-        isFile: true,
-        isFolder: false,
-        isLocked: true
-      };
-      component.node = <any> testNode;
-      expect(component.canUpdateNode).toBe(false);
-    });
+        it('should return [false] if node selected is neither file or folder', () => {
+            const testNode: any = {
+                id: 'test-node-id',
+                isFile: false,
+                isFolder: false,
+            };
+            component.node = testNode;
+            expect(component.canUpdateNode).toBe(false);
+        });
 
-    it('should check [update] permission if node selected is a not locked file', () => {
-      const testNode = {
-        id: 'test-node-id',
-        isFile: true,
-        isFolder: false
-      };
-      component.node = <any> testNode;
-      expect(component.canUpdateNode).toBe(true);
-      expect(checked).toContain('update');
-    });
+        it('should return [false] if node selected is a locked file', () => {
+            const testNode: any = {
+                id: 'test-node-id',
+                isFile: true,
+                isFolder: false,
+                isLocked: true,
+            };
+            component.node = testNode;
+            expect(component.canUpdateNode).toBe(false);
+        });
 
-    it('should check [update] permission if node selected is a folder', () => {
-      const testNode = {
-        id: 'test-node-id',
-        isFile: false,
-        isFolder: true
-      };
-      component.node = <any> testNode;
-      expect(component.canUpdateNode).toBe(true);
-      expect(checked).toContain('update');
+        it('should check [update] permission if node selected is a not locked file', () => {
+            const testNode: any = {
+                id: 'test-node-id',
+                isFile: true,
+                isFolder: false,
+            };
+            component.node = testNode;
+            expect(component.canUpdateNode).toBe(true);
+            expect(checked).toContain('update');
+        });
+
+        it('should check [update] permission if node selected is a folder', () => {
+            const testNode: any = {
+                id: 'test-node-id',
+                isFile: false,
+                isFolder: true,
+            };
+            component.node = testNode;
+            expect(component.canUpdateNode).toBe(true);
+            expect(checked).toContain('update');
+        });
     });
-  });
 });

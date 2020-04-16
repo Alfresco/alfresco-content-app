@@ -30,48 +30,48 @@ import { AppTestingModule } from '../../testing/app-testing.module';
 import { AppExtensionService } from '../../extensions/extension.service';
 
 describe('SidenavComponent', () => {
-  let fixture: ComponentFixture<SidenavComponent>;
-  let component: SidenavComponent;
-  let extensionService: AppExtensionService;
-  const navbarMock = <any> [
-    {
-      items: [
+    let fixture: ComponentFixture<SidenavComponent>;
+    let component: SidenavComponent;
+    let extensionService: AppExtensionService;
+    const navbarMock: any = [
         {
-          route: 'route'
-        }
-      ]
-    }
-  ];
+            items: [
+                {
+                    route: 'route',
+                },
+            ],
+        },
+    ];
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [AppTestingModule],
-      providers: [AppExtensionService],
-      declarations: [SidenavComponent],
-      schemas: [NO_ERRORS_SCHEMA]
-    })
-      .compileComponents()
-      .then(() => {
-        fixture = TestBed.createComponent(SidenavComponent);
-        component = fixture.componentInstance;
-        extensionService = TestBed.get(AppExtensionService);
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            imports: [AppTestingModule],
+            providers: [AppExtensionService],
+            declarations: [SidenavComponent],
+            schemas: [NO_ERRORS_SCHEMA],
+        })
+            .compileComponents()
+            .then(() => {
+                fixture = TestBed.createComponent(SidenavComponent);
+                component = fixture.componentInstance;
+                extensionService = TestBed.get(AppExtensionService);
 
-        extensionService.navbar = navbarMock;
+                extensionService.navbar = navbarMock;
 
-        fixture.detectChanges();
-      });
-  }));
+                fixture.detectChanges();
+            });
+    }));
 
-  it('should set the sidenav data', async(() => {
-    expect(component.groups).toEqual(<any> [
-      {
-        items: [
-          {
-            route: 'route',
-            url: '/route'
-          }
-        ]
-      }
-    ]);
-  }));
+    it('should set the sidenav data', async(() => {
+        expect(component.groups).toEqual([
+            {
+                items: [
+                    {
+                        route: 'route',
+                        url: '/route',
+                    },
+                ],
+            } as any,
+        ]);
+    }));
 });

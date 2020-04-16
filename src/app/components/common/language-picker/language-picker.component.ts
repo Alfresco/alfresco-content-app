@@ -26,14 +26,14 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'aca-language-picker',
-  template: `
-    <button mat-menu-item [matMenuTriggerFor]="langMenu">
-      {{ 'APP.LANGUAGE' | translate }}
-    </button>
-    <mat-menu #langMenu="matMenu">
-      <adf-language-menu></adf-language-menu>
-    </mat-menu>
-  `
+    selector: 'aca-language-picker',
+    template: `
+        <button mat-menu-item [matMenuTriggerFor]="langMenu">
+            {{ 'APP.LANGUAGE' | translate }}
+        </button>
+        <mat-menu #langMenu="matMenu">
+            <adf-language-menu></adf-language-menu>
+        </mat-menu>
+    `,
 })
 export class LanguagePickerComponent {}

@@ -30,77 +30,83 @@ import { EffectsModule } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import {
-  ViewFileAction,
-  ViewNodeAction,
-  SetSelectedNodesAction,
-  SetCurrentFolderAction
+    ViewFileAction,
+    ViewNodeAction,
+    SetSelectedNodesAction,
+    SetCurrentFolderAction,
 } from '@alfresco/aca-shared/store';
 
 describe('ViewerEffects', () => {
-  let store: Store<any>;
-  let router: Router;
+    let store: Store<any>;
+    let router: Router;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [AppTestingModule, EffectsModule.forRoot([ViewerEffects])]
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            imports: [AppTestingModule, EffectsModule.forRoot([ViewerEffects])],
+        });
+
+        store = TestBed.get(Store);
+        router = TestBed.get(Router);
+
+        spyOn(router, 'navigateByUrl').and.stub();
     });
 
-    store = TestBed.get(Store);
-    router = TestBed.get(Router);
+    describe('ViewFile', () => {
+        it('should preview file from store selection', fakeAsync(() => {
+            const node: any = { entry: { isFile: true, id: 'someId' } };
+            const folder: any = { isFolder: true, id: 'folder1' };
+            store.dispatch(new SetCurrentFolderAction(folder));
+            store.dispatch(new SetSelectedNodesAction([node]));
+            tick(100);
 
-    spyOn(router, 'navigateByUrl').and.stub();
-  });
+            store.dispatch(new ViewFileAction());
+            tick(100);
+            expect(router.navigateByUrl).toHaveBeenCalledWith(
+                '/folder1/preview/someId'
+            );
+        }));
+        it('should preview file from payload', fakeAsync(() => {
+            const node: any = { entry: { isFile: true, id: 'someId' } };
+            store.dispatch(new ViewFileAction(node));
+            tick(100);
+            expect(router.navigateByUrl).toHaveBeenCalledWith(
+                '/preview/someId'
+            );
+        }));
+    });
 
-  describe('ViewFile', () => {
-    it('should preview file from store selection', fakeAsync(() => {
-      const node: any = { entry: { isFile: true, id: 'someId' } };
-      const folder: any = { isFolder: true, id: 'folder1' };
-      store.dispatch(new SetCurrentFolderAction(folder));
-      store.dispatch(new SetSelectedNodesAction([node]));
-      tick(100);
+    describe('ViewNode', () => {
+        it('should open viewer from file location if', fakeAsync(() => {
+            store.dispatch(
+                new ViewNodeAction('nodeId', { location: 'some-location' })
+            );
+            tick(100);
 
-      store.dispatch(new ViewFileAction());
-      tick(100);
-      expect(router.navigateByUrl).toHaveBeenCalledWith(
-        '/folder1/preview/someId'
-      );
-    }));
-    it('should preview file from payload', fakeAsync(() => {
-      const node: any = { entry: { isFile: true, id: 'someId' } };
-      store.dispatch(new ViewFileAction(node));
-      tick(100);
-      expect(router.navigateByUrl).toHaveBeenCalledWith('/preview/someId');
-    }));
-  });
+            expect(
+                router.navigateByUrl['calls'].argsFor(0)[0].toString()
+            ).toEqual(
+                '/some-location/(viewer:view/nodeId)?location=some-location'
+            );
+        }));
 
-  describe('ViewNode', () => {
-    it('should open viewer from file location if', fakeAsync(() => {
-      store.dispatch(
-        new ViewNodeAction('nodeId', { location: 'some-location' })
-      );
-      tick(100);
+        it('should navigate to viewer route if no location is passed', fakeAsync(() => {
+            store.dispatch(new ViewNodeAction('nodeId'));
+            tick(100);
 
-      expect(router.navigateByUrl['calls'].argsFor(0)[0].toString()).toEqual(
-        '/some-location/(viewer:view/nodeId)?location=some-location'
-      );
-    }));
+            expect(
+                router.navigateByUrl['calls'].argsFor(0)[0].toString()
+            ).toEqual('/view/(viewer:nodeId)');
+        }));
 
-    it('should navigate to viewer route if no location is passed', fakeAsync(() => {
-      store.dispatch(new ViewNodeAction('nodeId'));
-      tick(100);
+        it('should navigate to viewer route with query param if path is passed', fakeAsync(() => {
+            store.dispatch(
+                new ViewNodeAction('nodeId', { path: 'absolute-path' })
+            );
+            tick(100);
 
-      expect(router.navigateByUrl['calls'].argsFor(0)[0].toString()).toEqual(
-        '/view/(viewer:nodeId)'
-      );
-    }));
-
-    it('should navigate to viewer route with query param if path is passed', fakeAsync(() => {
-      store.dispatch(new ViewNodeAction('nodeId', { path: 'absolute-path' }));
-      tick(100);
-
-      expect(router.navigateByUrl['calls'].argsFor(0)[0].toString()).toEqual(
-        '/view/(viewer:nodeId)?path=absolute-path'
-      );
-    }));
-  });
+            expect(
+                router.navigateByUrl['calls'].argsFor(0)[0].toString()
+            ).toEqual('/view/(viewer:nodeId)?path=absolute-path');
+        }));
+    });
 });

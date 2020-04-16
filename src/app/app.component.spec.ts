@@ -27,101 +27,101 @@ import { AppComponent } from './app.component';
 import { SetInitialStateAction } from '@alfresco/aca-shared/store';
 
 describe('AppComponent', () => {
-  let component: AppComponent;
+    let component: AppComponent;
 
-  const storeMock: any = {
-    dispatch: jasmine.createSpy('dispatch')
-  };
+    const storeMock: any = {
+        dispatch: jasmine.createSpy('dispatch'),
+    };
 
-  const configMock: any = {
-    get: (key: string) => {
-      if (key === 'baseShareUrl') {
-        return 'http://localhost:4200/#/preview/s';
-      }
-      return null;
-    }
-  };
+    const configMock: any = {
+        get: (key: string) => {
+            if (key === 'baseShareUrl') {
+                return 'http://localhost:4200/#/preview/s';
+            }
+            return null;
+        },
+    };
 
-  const storageMock: any = {
-    getItem(): string {
-      return '';
-    }
-  };
+    const storageMock: any = {
+        getItem(): string {
+            return '';
+        },
+    };
 
-  beforeAll(() => {
-    component = new AppComponent(
-      null,
-      null,
-      null,
-      storeMock,
-      configMock,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      storageMock
-    );
-  });
-
-  beforeEach(() => {
-    storeMock.dispatch = jasmine.createSpy('dispatch');
-  });
-
-  it('should setup baseShareUrl as per config', done => {
-    storeMock.dispatch.and.callFake((action: SetInitialStateAction) => {
-      expect(action.payload.sharedUrl).toBe(
-        'http://localhost:4200/#/preview/s/'
-      );
-      done();
+    beforeAll(() => {
+        component = new AppComponent(
+            null,
+            null,
+            null,
+            storeMock,
+            configMock,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            storageMock
+        );
     });
 
-    component.loadAppSettings();
-  });
-
-  describe('onFileUploadedError', () => {
-    it('should dispatch 403 error message', () => {
-      component.onFileUploadedError(<any> { error: { status: 403 } });
-      expect(storeMock.dispatch['calls'].argsFor(0)[0].payload).toBe(
-        'APP.MESSAGES.UPLOAD.ERROR.403'
-      );
+    beforeEach(() => {
+        storeMock.dispatch = jasmine.createSpy('dispatch');
     });
 
-    it('should dispatch 404 error message', () => {
-      component.onFileUploadedError(<any> { error: { status: 404 } });
-      expect(storeMock.dispatch['calls'].argsFor(0)[0].payload).toBe(
-        'APP.MESSAGES.UPLOAD.ERROR.404'
-      );
+    it('should setup baseShareUrl as per config', (done) => {
+        storeMock.dispatch.and.callFake((action: SetInitialStateAction) => {
+            expect(action.payload.sharedUrl).toBe(
+                'http://localhost:4200/#/preview/s/'
+            );
+            done();
+        });
+
+        component.loadAppSettings();
     });
 
-    it('should dispatch 409 error message', () => {
-      component.onFileUploadedError(<any> { error: { status: 409 } });
-      expect(storeMock.dispatch['calls'].argsFor(0)[0].payload).toBe(
-        'APP.MESSAGES.UPLOAD.ERROR.CONFLICT'
-      );
-    });
+    describe('onFileUploadedError', () => {
+        it('should dispatch 403 error message', () => {
+            component.onFileUploadedError({ error: { status: 403 } } as any);
+            expect(storeMock.dispatch['calls'].argsFor(0)[0].payload).toBe(
+                'APP.MESSAGES.UPLOAD.ERROR.403'
+            );
+        });
 
-    it('should dispatch 500 error message', () => {
-      component.onFileUploadedError(<any> { error: { status: 500 } });
-      expect(storeMock.dispatch['calls'].argsFor(0)[0].payload).toBe(
-        'APP.MESSAGES.UPLOAD.ERROR.500'
-      );
-    });
+        it('should dispatch 404 error message', () => {
+            component.onFileUploadedError({ error: { status: 404 } } as any);
+            expect(storeMock.dispatch['calls'].argsFor(0)[0].payload).toBe(
+                'APP.MESSAGES.UPLOAD.ERROR.404'
+            );
+        });
 
-    it('should dispatch 504 error message', () => {
-      component.onFileUploadedError(<any> { error: { status: 504 } });
-      expect(storeMock.dispatch['calls'].argsFor(0)[0].payload).toBe(
-        'APP.MESSAGES.UPLOAD.ERROR.504'
-      );
-    });
+        it('should dispatch 409 error message', () => {
+            component.onFileUploadedError({ error: { status: 409 } } as any);
+            expect(storeMock.dispatch['calls'].argsFor(0)[0].payload).toBe(
+                'APP.MESSAGES.UPLOAD.ERROR.CONFLICT'
+            );
+        });
 
-    it('should dispatch generic error message', () => {
-      component.onFileUploadedError(<any> { error: { status: 999 } });
-      expect(storeMock.dispatch['calls'].argsFor(0)[0].payload).toBe(
-        'APP.MESSAGES.UPLOAD.ERROR.GENERIC'
-      );
+        it('should dispatch 500 error message', () => {
+            component.onFileUploadedError({ error: { status: 500 } } as any);
+            expect(storeMock.dispatch['calls'].argsFor(0)[0].payload).toBe(
+                'APP.MESSAGES.UPLOAD.ERROR.500'
+            );
+        });
+
+        it('should dispatch 504 error message', () => {
+            component.onFileUploadedError({ error: { status: 504 } } as any);
+            expect(storeMock.dispatch['calls'].argsFor(0)[0].payload).toBe(
+                'APP.MESSAGES.UPLOAD.ERROR.504'
+            );
+        });
+
+        it('should dispatch generic error message', () => {
+            component.onFileUploadedError({ error: { status: 999 } } as any);
+            expect(storeMock.dispatch['calls'].argsFor(0)[0].payload).toBe(
+                'APP.MESSAGES.UPLOAD.ERROR.GENERIC'
+            );
+        });
     });
-  });
 });

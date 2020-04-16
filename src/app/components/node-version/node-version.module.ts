@@ -37,21 +37,21 @@ import { MatInputModule } from '@angular/material/input';
 
 import { NgModule } from '@angular/core';
 @NgModule({
-  imports: [
-    CoreModule,
-    MatButtonModule,
-    MatDialogModule,
-    FormsModule,
-    ReactiveFormsModule,
-    BrowserModule,
-    CommonModule,
-    MatRadioModule,
-    MatFormFieldModule,
-    MatInputModule
-  ],
-  exports: [AppNodeVersionFormComponent],
-  declarations: [AppNodeVersionFormComponent],
-  providers: [],
-  entryComponents: [AppNodeVersionFormComponent]
+    imports: [
+        CoreModule,
+        MatButtonModule,
+        MatDialogModule,
+        FormsModule,
+        ReactiveFormsModule,
+        BrowserModule,
+        CommonModule,
+        MatRadioModule,
+        MatFormFieldModule,
+        MatInputModule,
+    ],
+    exports: [AppNodeVersionFormComponent],
+    declarations: [AppNodeVersionFormComponent],
+    providers: [],
+    entryComponents: [AppNodeVersionFormComponent],
 })
 export class AppNodeVersionModule {}

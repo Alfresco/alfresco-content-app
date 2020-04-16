@@ -23,155 +23,203 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, browser, by, until, protractor, ExpectedConditions as EC } from 'protractor';
+import {
+    ElementFinder,
+    browser,
+    by,
+    until,
+    protractor,
+    ExpectedConditions as EC,
+} from 'protractor';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
 import { Utils } from '../../utilities/utils';
 
 export class SearchInput extends Component {
-  private static selectors = {
-    root: 'aca-search-input',
-    searchContainer: '.app-search-container',
-    searchButton: '.app-search-button',
-    searchControl: '.app-search-control',
-    searchInput: `input[id='app-control-input']`,
-    searchOptionsArea: 'search-options',
-    optionCheckbox: '.mat-checkbox',
-    clearButton: '.app-clear-icon'
-  };
+    private static selectors = {
+        root: 'aca-search-input',
+        searchContainer: '.app-search-container',
+        searchButton: '.app-search-button',
+        searchControl: '.app-search-control',
+        searchInput: `input[id='app-control-input']`,
+        searchOptionsArea: 'search-options',
+        optionCheckbox: '.mat-checkbox',
+        clearButton: '.app-clear-icon',
+    };
 
-  searchButton: ElementFinder = this.component.element(by.css(SearchInput.selectors.searchButton));
-  searchContainer: ElementFinder = browser.element(by.css(SearchInput.selectors.searchContainer));
-  searchControl: ElementFinder = browser.element(by.css(SearchInput.selectors.searchControl));
-  searchInput: ElementFinder = browser.element(by.css(SearchInput.selectors.searchInput));
-  searchOptionsArea: ElementFinder = browser.element(by.id(SearchInput.selectors.searchOptionsArea));
-  searchFilesOption: ElementFinder = this.searchOptionsArea.element(by.cssContainingText(SearchInput.selectors.optionCheckbox, 'Files'));
-  searchFoldersOption: ElementFinder = this.searchOptionsArea.element(by.cssContainingText(SearchInput.selectors.optionCheckbox, 'Folders'));
-  searchLibrariesOption: ElementFinder = this.searchOptionsArea.element(by.cssContainingText(SearchInput.selectors.optionCheckbox, 'Libraries'));
-  clearSearchButton: ElementFinder = this.searchContainer.$(SearchInput.selectors.clearButton);
+    searchButton: ElementFinder = this.component.element(
+        by.css(SearchInput.selectors.searchButton)
+    );
+    searchContainer: ElementFinder = browser.element(
+        by.css(SearchInput.selectors.searchContainer)
+    );
+    searchControl: ElementFinder = browser.element(
+        by.css(SearchInput.selectors.searchControl)
+    );
+    searchInput: ElementFinder = browser.element(
+        by.css(SearchInput.selectors.searchInput)
+    );
+    searchOptionsArea: ElementFinder = browser.element(
+        by.id(SearchInput.selectors.searchOptionsArea)
+    );
+    searchFilesOption: ElementFinder = this.searchOptionsArea.element(
+        by.cssContainingText(SearchInput.selectors.optionCheckbox, 'Files')
+    );
+    searchFoldersOption: ElementFinder = this.searchOptionsArea.element(
+        by.cssContainingText(SearchInput.selectors.optionCheckbox, 'Folders')
+    );
+    searchLibrariesOption: ElementFinder = this.searchOptionsArea.element(
+        by.cssContainingText(SearchInput.selectors.optionCheckbox, 'Libraries')
+    );
+    clearSearchButton: ElementFinder = this.searchContainer.$(
+        SearchInput.selectors.clearButton
+    );
 
-  constructor(ancestor?: string) {
-    super(SearchInput.selectors.root, ancestor);
-  }
-
-  async waitForSearchControl() {
-    await browser.wait(EC.presenceOf(this.searchControl), BROWSER_WAIT_TIMEOUT, '--- timeout waitForSearchControl ---');
-  }
-
-  async waitForSearchInputToBeInteractive() {
-    await browser.wait(EC.elementToBeClickable(this.searchControl), BROWSER_WAIT_TIMEOUT, '--- timeout waitForSearchControl ---');
-  }
-
-  async isSearchContainerDisplayed() {
-    const isDisplayedSearchContainer = await this.searchContainer.isPresent();
-    const isDisplayedSearchButton = await this.searchButton.isDisplayed();
-
-    return isDisplayedSearchContainer && isDisplayedSearchButton;
-  }
-
-  async clickSearchButton() {
-    await Utils.waitUntilElementClickable(this.searchButton);
-    await this.searchButton.click();
-    await this.waitForSearchControl();
-  }
-
-  async isOptionsAreaDisplayed() {
-    await browser.wait(until.elementLocated(by.css(SearchInput.selectors.searchControl)), BROWSER_WAIT_TIMEOUT);
-    return browser.isElementPresent(this.searchOptionsArea);
-  }
-
-  async clickFilesOption() {
-    await browser.wait(EC.elementToBeClickable(this.searchFilesOption), BROWSER_WAIT_TIMEOUT, '--- timeout waiting for Files to be clickable');
-    await this.searchFilesOption.click();
-  }
-
-  async clickFoldersOption() {
-    await browser.wait(EC.elementToBeClickable(this.searchFoldersOption), BROWSER_WAIT_TIMEOUT, '--- timeout waiting for Folders to be clickable');
-    await this.searchFoldersOption.click();
-  }
-
-  async clickLibrariesOption() {
-    await browser.wait(EC.elementToBeClickable(this.searchLibrariesOption), BROWSER_WAIT_TIMEOUT, '--- timeout waiting for Libraries to be clickable');
-    await this.searchLibrariesOption.click();
-  }
-
-  async isFilesOptionEnabled() {
-    const optClass = await this.searchFilesOption.getAttribute('class');
-    return !optClass.includes('mat-checkbox-disabled');
-  }
-
-  async isFoldersOptionEnabled() {
-    const optClass = await this.searchFoldersOption.getAttribute('class');
-    return !optClass.includes('mat-checkbox-disabled');
-  }
-
-  async isLibrariesOptionEnabled() {
-    const optClass = await this.searchLibrariesOption.getAttribute('class');
-    return !optClass.includes('mat-checkbox-disabled');
-  }
-
-  async isFilesOptionChecked() {
-    const optClass = await this.searchFilesOption.getAttribute('class');
-    return optClass.includes('mat-checkbox-checked');
-  }
-
-  async isFoldersOptionChecked() {
-    const optClass = await this.searchFoldersOption.getAttribute('class');
-    return optClass.includes('mat-checkbox-checked');
-  }
-
-  async isLibrariesOptionChecked() {
-    const optClass = await this.searchLibrariesOption.getAttribute('class');
-    return optClass.includes('mat-checkbox-checked');
-  }
-
-  async clearOptions() {
-    if (await this.isFilesOptionChecked()) {
-      await this.clickFilesOption();
+    constructor(ancestor?: string) {
+        super(SearchInput.selectors.root, ancestor);
     }
-    if (await this.isFoldersOptionChecked()) {
-      await this.clickFoldersOption();
+
+    async waitForSearchControl() {
+        await browser.wait(
+            EC.presenceOf(this.searchControl),
+            BROWSER_WAIT_TIMEOUT,
+            '--- timeout waitForSearchControl ---'
+        );
     }
-    if (await this.isLibrariesOptionChecked()) {
-      await this.clickLibrariesOption();
+
+    async waitForSearchInputToBeInteractive() {
+        await browser.wait(
+            EC.elementToBeClickable(this.searchControl),
+            BROWSER_WAIT_TIMEOUT,
+            '--- timeout waitForSearchControl ---'
+        );
     }
-  }
 
-  async isClearSearchButtonPresent() {
-    return browser.isElementPresent(this.clearSearchButton);
-  }
+    async isSearchContainerDisplayed() {
+        const isDisplayedSearchContainer = await this.searchContainer.isPresent();
+        const isDisplayedSearchButton = await this.searchButton.isDisplayed();
 
-  async clickClearSearchButton() {
-    if (await this.isClearSearchButtonPresent()) {
-      await this.clearSearchButton.click();
+        return isDisplayedSearchContainer && isDisplayedSearchButton;
     }
-  }
 
-  async checkOnlyFiles() {
-    await this.clearOptions();
-    await this.clickFilesOption();
-  }
+    async clickSearchButton() {
+        await Utils.waitUntilElementClickable(this.searchButton);
+        await this.searchButton.click();
+        await this.waitForSearchControl();
+    }
 
-  async checkOnlyFolders() {
-    await this.clearOptions();
-    await this.clickFoldersOption();
-  }
+    async isOptionsAreaDisplayed() {
+        await browser.wait(
+            until.elementLocated(by.css(SearchInput.selectors.searchControl)),
+            BROWSER_WAIT_TIMEOUT
+        );
+        return browser.isElementPresent(this.searchOptionsArea);
+    }
 
-  async checkFilesAndFolders() {
-    await this.clearOptions();
-    await this.clickFilesOption();
-    await this.clickFoldersOption();
-  }
+    async clickFilesOption() {
+        await browser.wait(
+            EC.elementToBeClickable(this.searchFilesOption),
+            BROWSER_WAIT_TIMEOUT,
+            '--- timeout waiting for Files to be clickable'
+        );
+        await this.searchFilesOption.click();
+    }
 
-  async checkLibraries() {
-    await this.clearOptions();
-    await this.clickLibrariesOption();
-  }
+    async clickFoldersOption() {
+        await browser.wait(
+            EC.elementToBeClickable(this.searchFoldersOption),
+            BROWSER_WAIT_TIMEOUT,
+            '--- timeout waiting for Folders to be clickable'
+        );
+        await this.searchFoldersOption.click();
+    }
 
-  async searchFor(text: string) {
-    await this.waitForSearchInputToBeInteractive();
-    await Utils.clearFieldWithBackspace(this.searchInput);
-    await this.searchInput.sendKeys(text);
-    await this.searchInput.sendKeys(protractor.Key.ENTER);
-  }
+    async clickLibrariesOption() {
+        await browser.wait(
+            EC.elementToBeClickable(this.searchLibrariesOption),
+            BROWSER_WAIT_TIMEOUT,
+            '--- timeout waiting for Libraries to be clickable'
+        );
+        await this.searchLibrariesOption.click();
+    }
+
+    async isFilesOptionEnabled() {
+        const optClass = await this.searchFilesOption.getAttribute('class');
+        return !optClass.includes('mat-checkbox-disabled');
+    }
+
+    async isFoldersOptionEnabled() {
+        const optClass = await this.searchFoldersOption.getAttribute('class');
+        return !optClass.includes('mat-checkbox-disabled');
+    }
+
+    async isLibrariesOptionEnabled() {
+        const optClass = await this.searchLibrariesOption.getAttribute('class');
+        return !optClass.includes('mat-checkbox-disabled');
+    }
+
+    async isFilesOptionChecked() {
+        const optClass = await this.searchFilesOption.getAttribute('class');
+        return optClass.includes('mat-checkbox-checked');
+    }
+
+    async isFoldersOptionChecked() {
+        const optClass = await this.searchFoldersOption.getAttribute('class');
+        return optClass.includes('mat-checkbox-checked');
+    }
+
+    async isLibrariesOptionChecked() {
+        const optClass = await this.searchLibrariesOption.getAttribute('class');
+        return optClass.includes('mat-checkbox-checked');
+    }
+
+    async clearOptions() {
+        if (await this.isFilesOptionChecked()) {
+            await this.clickFilesOption();
+        }
+        if (await this.isFoldersOptionChecked()) {
+            await this.clickFoldersOption();
+        }
+        if (await this.isLibrariesOptionChecked()) {
+            await this.clickLibrariesOption();
+        }
+    }
+
+    async isClearSearchButtonPresent() {
+        return browser.isElementPresent(this.clearSearchButton);
+    }
+
+    async clickClearSearchButton() {
+        if (await this.isClearSearchButtonPresent()) {
+            await this.clearSearchButton.click();
+        }
+    }
+
+    async checkOnlyFiles() {
+        await this.clearOptions();
+        await this.clickFilesOption();
+    }
+
+    async checkOnlyFolders() {
+        await this.clearOptions();
+        await this.clickFoldersOption();
+    }
+
+    async checkFilesAndFolders() {
+        await this.clearOptions();
+        await this.clickFilesOption();
+        await this.clickFoldersOption();
+    }
+
+    async checkLibraries() {
+        await this.clearOptions();
+        await this.clickLibrariesOption();
+    }
+
+    async searchFor(text: string) {
+        await this.waitForSearchInputToBeInteractive();
+        await Utils.clearFieldWithBackspace(this.searchInput);
+        await this.searchInput.sendKeys(text);
+        await this.searchInput.sendKeys(protractor.Key.ENTER);
+    }
 }

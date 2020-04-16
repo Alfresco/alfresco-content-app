@@ -23,95 +23,121 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, browser, ExpectedConditions as EC, ElementArrayFinder } from 'protractor';
+import {
+    ElementFinder,
+    by,
+    browser,
+    ExpectedConditions as EC,
+    ElementArrayFinder,
+} from 'protractor';
 import { Component } from '../component';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Toolbar } from '../toolbar/toolbar';
 import { Logger } from '@alfresco/adf-testing';
 
 export class Viewer extends Component {
-  private static selectors = {
-    root: 'adf-viewer',
+    private static selectors = {
+        root: 'adf-viewer',
 
-    layout: '.adf-viewer-layout-content',
-    contentContainer: '.adf-viewer-content-container',
-    closeBtn: '.adf-viewer-close-button',
-    fileTitle: '.adf-viewer__file-title',
+        layout: '.adf-viewer-layout-content',
+        contentContainer: '.adf-viewer-content-container',
+        closeBtn: '.adf-viewer-close-button',
+        fileTitle: '.adf-viewer__file-title',
 
-    viewerExtensionContent: 'adf-preview-extension',
+        viewerExtensionContent: 'adf-preview-extension',
 
-    pdfViewerContentPage: '.adf-pdf-viewer__content .page'
-  };
+        pdfViewerContentPage: '.adf-pdf-viewer__content .page',
+    };
 
-  root: ElementFinder = browser.$(Viewer.selectors.root);
-  viewerLayout: ElementFinder = this.component.element(by.css(Viewer.selectors.layout));
-  viewerContainer: ElementFinder = this.component.element(by.css(Viewer.selectors.contentContainer));
-  closeButton: ElementFinder = this.component.element(by.css(Viewer.selectors.closeBtn));
-  fileTitle: ElementFinder = this.component.element(by.css(Viewer.selectors.fileTitle));
-  viewerExtensionContent: ElementFinder = this.component.element(by.css(Viewer.selectors.viewerExtensionContent));
-  pdfViewerContentPages: ElementArrayFinder = this.component.all(by.css(Viewer.selectors.pdfViewerContentPage));
+    root: ElementFinder = browser.$(Viewer.selectors.root);
+    viewerLayout: ElementFinder = this.component.element(
+        by.css(Viewer.selectors.layout)
+    );
+    viewerContainer: ElementFinder = this.component.element(
+        by.css(Viewer.selectors.contentContainer)
+    );
+    closeButton: ElementFinder = this.component.element(
+        by.css(Viewer.selectors.closeBtn)
+    );
+    fileTitle: ElementFinder = this.component.element(
+        by.css(Viewer.selectors.fileTitle)
+    );
+    viewerExtensionContent: ElementFinder = this.component.element(
+        by.css(Viewer.selectors.viewerExtensionContent)
+    );
+    pdfViewerContentPages: ElementArrayFinder = this.component.all(
+        by.css(Viewer.selectors.pdfViewerContentPage)
+    );
 
-  toolbar = new Toolbar(Viewer.selectors.root);
+    toolbar = new Toolbar(Viewer.selectors.root);
 
-  constructor(ancestor?: string) {
-    super(Viewer.selectors.root, ancestor);
-  }
-
-  async waitForViewerToOpen() {
-    try {
-      await browser.wait(EC.presenceOf(this.viewerContainer), BROWSER_WAIT_TIMEOUT);
-      await browser.wait(EC.presenceOf(this.viewerLayout), BROWSER_WAIT_TIMEOUT);
-    } catch (error) {
-      Logger.info('\n-----> catch waitForViewerToOpen <-----\n', error);
-    }
-  }
-
-  async isViewerOpened() {
-    return browser.isElementPresent(this.viewerLayout);
-  }
-
-  async isViewerContentDisplayed() {
-    return browser.isElementPresent(this.viewerContainer);
-  }
-
-  async isViewerToolbarDisplayed() {
-    return browser.isElementPresent(this.toolbar.component);
-  }
-
-  async isCloseButtonDisplayed() {
-    return browser.isElementPresent(this.closeButton);
-  }
-
-  async isFileTitleDisplayed() {
-    return browser.isElementPresent(this.fileTitle);
-  }
-
-  async clickClose() {
-    await this.closeButton.click();
-  }
-
-  async getCloseButtonTooltip() {
-    return this.toolbar.getButtonTooltip(this.closeButton);
-  }
-
-  async getFileTitle() {
-    return this.fileTitle.getText();
-  }
-
-  async isCustomContentPresent() {
-    return browser.isElementPresent(this.viewerExtensionContent);
-  }
-
-  async getComponentIdOfView(): Promise<string> {
-    if (await this.isCustomContentPresent()) {
-      return this.viewerExtensionContent.getAttribute('data-automation-id');
+    constructor(ancestor?: string) {
+        super(Viewer.selectors.root, ancestor);
     }
 
-    return '';
-  }
+    async waitForViewerToOpen() {
+        try {
+            await browser.wait(
+                EC.presenceOf(this.viewerContainer),
+                BROWSER_WAIT_TIMEOUT
+            );
+            await browser.wait(
+                EC.presenceOf(this.viewerLayout),
+                BROWSER_WAIT_TIMEOUT
+            );
+        } catch (error) {
+            Logger.info('\n-----> catch waitForViewerToOpen <-----\n', error);
+        }
+    }
 
-  async isPdfViewerContentDisplayed() {
-    const count = await this.pdfViewerContentPages.count();
-    return count > 0;
-  }
+    async isViewerOpened() {
+        return browser.isElementPresent(this.viewerLayout);
+    }
+
+    async isViewerContentDisplayed() {
+        return browser.isElementPresent(this.viewerContainer);
+    }
+
+    async isViewerToolbarDisplayed() {
+        return browser.isElementPresent(this.toolbar.component);
+    }
+
+    async isCloseButtonDisplayed() {
+        return browser.isElementPresent(this.closeButton);
+    }
+
+    async isFileTitleDisplayed() {
+        return browser.isElementPresent(this.fileTitle);
+    }
+
+    async clickClose() {
+        await this.closeButton.click();
+    }
+
+    async getCloseButtonTooltip() {
+        return this.toolbar.getButtonTooltip(this.closeButton);
+    }
+
+    async getFileTitle() {
+        return this.fileTitle.getText();
+    }
+
+    async isCustomContentPresent() {
+        return browser.isElementPresent(this.viewerExtensionContent);
+    }
+
+    async getComponentIdOfView(): Promise<string> {
+        if (await this.isCustomContentPresent()) {
+            return this.viewerExtensionContent.getAttribute(
+                'data-automation-id'
+            );
+        }
+
+        return '';
+    }
+
+    async isPdfViewerContentDisplayed() {
+        const count = await this.pdfViewerContentPages.count();
+        return count > 0;
+    }
 }

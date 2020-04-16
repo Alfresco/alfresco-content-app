@@ -26,60 +26,63 @@
 import { ElementFinder, by, browser } from 'protractor';
 
 export class GenericFilterPanel {
-  private filterName: string;
+    private filterName: string;
 
-  constructor(filterName: string) {
-    this.filterName = filterName;
-  }
-
-  private readonly selectors = {
-    root: 'adf-search-filter',
-
-    panel: '.mat-expansion-panel',
-    panelExpanded: '.mat-expansion-panel.mat-expanded',
-    panelHeader: '.mat-expansion-panel-header'
-  };
-
-  get panel(): ElementFinder {
-    return browser.element(by.cssContainingText(this.selectors.panel, this.filterName));
-  }
-
-  get panelExpanded(): ElementFinder {
-    return browser.element(by.cssContainingText(this.selectors.panelExpanded, this.filterName));
-  }
-
-  get panelHeader(): ElementFinder {
-    return this.panel.element(by.css(this.selectors.panelHeader));
-  }
-
-  async clickPanelHeader(): Promise<void> {
-    await this.panelHeader.click();
-  }
-
-  async isPanelDisplayed(): Promise<boolean> {
-    const isPresent = await browser.isElementPresent(this.panel);
-    const isDisplayed = await this.panel.isDisplayed();
-
-    return isPresent && isDisplayed;
-  }
-
-  async isPanelExpanded(): Promise<boolean> {
-    const isPresent = await this.panelExpanded.isPresent();
-    const isDisplayed = await this.panelExpanded.isDisplayed();
-
-    return isPresent && isDisplayed;
-  }
-
-  async expandPanel(): Promise<void> {
-    if (!(await this.isPanelExpanded())) {
-      await this.clickPanelHeader();
+    constructor(filterName: string) {
+        this.filterName = filterName;
     }
-  }
 
-  async collapsePanel(): Promise<void> {
-    if (await this.isPanelExpanded()) {
-      await this.clickPanelHeader();
+    private readonly selectors = {
+        root: 'adf-search-filter',
+
+        panel: '.mat-expansion-panel',
+        panelExpanded: '.mat-expansion-panel.mat-expanded',
+        panelHeader: '.mat-expansion-panel-header',
+    };
+
+    get panel(): ElementFinder {
+        return browser.element(
+            by.cssContainingText(this.selectors.panel, this.filterName)
+        );
     }
-  }
 
+    get panelExpanded(): ElementFinder {
+        return browser.element(
+            by.cssContainingText(this.selectors.panelExpanded, this.filterName)
+        );
+    }
+
+    get panelHeader(): ElementFinder {
+        return this.panel.element(by.css(this.selectors.panelHeader));
+    }
+
+    async clickPanelHeader(): Promise<void> {
+        await this.panelHeader.click();
+    }
+
+    async isPanelDisplayed(): Promise<boolean> {
+        const isPresent = await browser.isElementPresent(this.panel);
+        const isDisplayed = await this.panel.isDisplayed();
+
+        return isPresent && isDisplayed;
+    }
+
+    async isPanelExpanded(): Promise<boolean> {
+        const isPresent = await this.panelExpanded.isPresent();
+        const isDisplayed = await this.panelExpanded.isDisplayed();
+
+        return isPresent && isDisplayed;
+    }
+
+    async expandPanel(): Promise<void> {
+        if (!(await this.isPanelExpanded())) {
+            await this.clickPanelHeader();
+        }
+    }
+
+    async collapsePanel(): Promise<void> {
+        if (await this.isPanelExpanded()) {
+            await this.clickPanelHeader();
+        }
+    }
 }

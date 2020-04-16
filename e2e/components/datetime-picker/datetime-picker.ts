@@ -23,68 +23,91 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, browser, ExpectedConditions as EC } from 'protractor';
+import {
+    ElementFinder,
+    by,
+    browser,
+    ExpectedConditions as EC,
+} from 'protractor';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
 import * as moment from 'moment';
 
 export class DateTimePicker extends Component {
-  private static selectors = {
-    root: '.mat-datetimepicker-popup',
+    private static selectors = {
+        root: '.mat-datetimepicker-popup',
 
-    header: '.mat-datetimepicker-calendar-header',
-    year: '.mat-datetimepicker-calendar-header-year',
-    date: '.mat-datetimepicker-calendar-header-date',
+        header: '.mat-datetimepicker-calendar-header',
+        year: '.mat-datetimepicker-calendar-header-year',
+        date: '.mat-datetimepicker-calendar-header-date',
 
-    content: '.mat-datetimepicker-calendar-content',
-    dayPicker: 'mat-datetimepicker-month-view',
+        content: '.mat-datetimepicker-calendar-content',
+        dayPicker: 'mat-datetimepicker-month-view',
 
-    today: '.mat-datetimepicker-calendar-body-today',
-    firstActiveDay: '.mat-datetimepicker-calendar-body-active .mat-datetimepicker-calendar-body-cell-content',
-  };
+        today: '.mat-datetimepicker-calendar-body-today',
+        firstActiveDay:
+            '.mat-datetimepicker-calendar-body-active .mat-datetimepicker-calendar-body-cell-content',
+    };
 
-  calendar: ElementFinder = browser.element(by.css(DateTimePicker.selectors.root));
-  headerDate: ElementFinder = this.component.element(by.css(DateTimePicker.selectors.date));
-  headerYear: ElementFinder = this.component.element(by.css(DateTimePicker.selectors.year));
-  dayPicker: ElementFinder = this.component.element(by.css(DateTimePicker.selectors.dayPicker));
+    calendar: ElementFinder = browser.element(
+        by.css(DateTimePicker.selectors.root)
+    );
+    headerDate: ElementFinder = this.component.element(
+        by.css(DateTimePicker.selectors.date)
+    );
+    headerYear: ElementFinder = this.component.element(
+        by.css(DateTimePicker.selectors.year)
+    );
+    dayPicker: ElementFinder = this.component.element(
+        by.css(DateTimePicker.selectors.dayPicker)
+    );
 
-  rootElemLocator = by.css(DateTimePicker.selectors.root);
+    rootElemLocator = by.css(DateTimePicker.selectors.root);
 
-  constructor(ancestor?: string) {
-    super(DateTimePicker.selectors.root, ancestor);
-  }
+    constructor(ancestor?: string) {
+        super(DateTimePicker.selectors.root, ancestor);
+    }
 
-  async waitForDateTimePickerToOpen(): Promise<void> {
-    await browser.wait(EC.presenceOf(this.calendar), BROWSER_WAIT_TIMEOUT);
-  }
+    async waitForDateTimePickerToOpen(): Promise<void> {
+        await browser.wait(EC.presenceOf(this.calendar), BROWSER_WAIT_TIMEOUT);
+    }
 
-  async waitForDateTimePickerToClose(): Promise<void> {
-    await browser.wait(EC.stalenessOf(this.calendar), BROWSER_WAIT_TIMEOUT);
-  }
+    async waitForDateTimePickerToClose(): Promise<void> {
+        await browser.wait(EC.stalenessOf(this.calendar), BROWSER_WAIT_TIMEOUT);
+    }
 
-  async isCalendarOpen(): Promise<boolean> {
-    const rootPresent = await browser.element(this.rootElemLocator).isPresent();
-    const rootDisplayed = await browser.element(this.rootElemLocator).isDisplayed();
+    async isCalendarOpen(): Promise<boolean> {
+        const rootPresent = await browser
+            .element(this.rootElemLocator)
+            .isPresent();
+        const rootDisplayed = await browser
+            .element(this.rootElemLocator)
+            .isDisplayed();
 
-    return rootPresent && rootDisplayed;
-  }
+        return rootPresent && rootDisplayed;
+    }
 
-  async getDate(): Promise<string> {
-    return this.headerDate.getText();
-  }
+    async getDate(): Promise<string> {
+        return this.headerDate.getText();
+    }
 
-  async getYear(): Promise<string> {
-    return this.headerYear.getText();
-  }
+    async getYear(): Promise<string> {
+        return this.headerYear.getText();
+    }
 
-  async setDefaultDay(): Promise<string> {
-    const today = moment();
-    const tomorrow = today.add(1, 'day');
-    const dayOfTomorrow = tomorrow.date();
-    const date = await this.getDate();
-    const year = await this.getYear();
-    const elem = this.dayPicker.element(by.cssContainingText(DateTimePicker.selectors.firstActiveDay, `${dayOfTomorrow}`));
-    await elem.click();
-    return `${date} ${year}`;
-  }
+    async setDefaultDay(): Promise<string> {
+        const today = moment();
+        const tomorrow = today.add(1, 'day');
+        const dayOfTomorrow = tomorrow.date();
+        const date = await this.getDate();
+        const year = await this.getYear();
+        const elem = this.dayPicker.element(
+            by.cssContainingText(
+                DateTimePicker.selectors.firstActiveDay,
+                `${dayOfTomorrow}`
+            )
+        );
+        await elem.click();
+        return `${date} ${year}`;
+    }
 }

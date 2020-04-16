@@ -26,7 +26,7 @@
 import { LocationLinkComponent } from './location-link.component';
 
 describe('LocationLinkComponent', () => {
-  it('should be defined', () => {
-    expect(LocationLinkComponent).toBeDefined();
-  });
+    it('should be defined', () => {
+        expect(LocationLinkComponent).toBeDefined();
+    });
 });

@@ -32,13 +32,13 @@ import { ContentModule } from '@alfresco/adf-content-services';
 import { A11yModule } from '@angular/cdk/a11y';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    CoreModule.forChild(),
-    ContentModule.forChild(),
-    A11yModule
-  ],
-  declarations: [SearchInputComponent, SearchInputControlComponent],
-  exports: [SearchInputComponent, SearchInputControlComponent]
+    imports: [
+        CommonModule,
+        CoreModule.forChild(),
+        ContentModule.forChild(),
+        A11yModule,
+    ],
+    declarations: [SearchInputComponent, SearchInputControlComponent],
+    exports: [SearchInputComponent, SearchInputControlComponent],
 })
 export class AppSearchInputModule {}

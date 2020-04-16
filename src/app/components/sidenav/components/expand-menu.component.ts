@@ -24,29 +24,29 @@
  */
 
 import {
-  Component,
-  OnInit,
-  Input,
-  ViewEncapsulation,
-  ChangeDetectorRef
+    Component,
+    OnInit,
+    Input,
+    ViewEncapsulation,
+    ChangeDetectorRef,
 } from '@angular/core';
 
 @Component({
-  selector: 'app-expand-menu',
-  encapsulation: ViewEncapsulation.None,
-  templateUrl: './expand-menu.component.html',
-  host: { class: 'app-expand-menu' }
+    selector: 'app-expand-menu',
+    encapsulation: ViewEncapsulation.None,
+    templateUrl: './expand-menu.component.html',
+    host: { class: 'app-expand-menu' },
 })
 export class ExpandMenuComponent implements OnInit {
-  @Input() item;
+    @Input() item;
 
-  constructor(private cd: ChangeDetectorRef) {}
+    constructor(private cd: ChangeDetectorRef) {}
 
-  ngOnInit() {
-    this.cd.detectChanges();
-  }
+    ngOnInit() {
+        this.cd.detectChanges();
+    }
 
-  trackById(index: number, obj: { id: string }) {
-    return obj.id;
-  }
+    trackById(index: number, obj: { id: string }) {
+        return obj.id;
+    }
 }

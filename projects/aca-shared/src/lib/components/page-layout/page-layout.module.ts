@@ -31,18 +31,18 @@ import { PageLayoutComponent } from './page-layout.component';
 import { CommonModule } from '@angular/common';
 
 @NgModule({
-  imports: [CommonModule],
-  declarations: [
-    PageLayoutContentComponent,
-    PageLayoutErrorComponent,
-    PageLayoutHeaderComponent,
-    PageLayoutComponent
-  ],
-  exports: [
-    PageLayoutContentComponent,
-    PageLayoutErrorComponent,
-    PageLayoutHeaderComponent,
-    PageLayoutComponent
-  ]
+    imports: [CommonModule],
+    declarations: [
+        PageLayoutContentComponent,
+        PageLayoutErrorComponent,
+        PageLayoutHeaderComponent,
+        PageLayoutComponent,
+    ],
+    exports: [
+        PageLayoutContentComponent,
+        PageLayoutErrorComponent,
+        PageLayoutHeaderComponent,
+        PageLayoutComponent,
+    ],
 })
 export class PageLayoutModule {}

@@ -24,9 +24,9 @@
  */
 
 import {
-  AppStore,
-  SetSelectedNodesAction,
-  getAppSelection
+    AppStore,
+    SetSelectedNodesAction,
+    getAppSelection,
 } from '@alfresco/aca-shared/store';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
@@ -39,50 +39,54 @@ import { catchError, flatMap } from 'rxjs/operators';
 import { AppExtensionService } from '../../extensions/extension.service';
 
 @Component({
-  selector: 'app-shared-link-view',
-  templateUrl: 'shared-link-view.component.html',
-  styleUrls: ['shared-link-view.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  host: { class: 'app-shared-link-view' }
+    selector: 'app-shared-link-view',
+    templateUrl: 'shared-link-view.component.html',
+    styleUrls: ['shared-link-view.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    host: { class: 'app-shared-link-view' },
 })
 export class SharedLinkViewComponent implements OnInit {
-  sharedLinkId: string = null;
-  viewerToolbarActions: Array<ContentActionRef> = [];
+    sharedLinkId: string = null;
+    viewerToolbarActions: Array<ContentActionRef> = [];
 
-  constructor(
-    private route: ActivatedRoute,
-    private store: Store<AppStore>,
-    private extensions: AppExtensionService,
-    private alfrescoApiService: AlfrescoApiService
-  ) {}
+    constructor(
+        private route: ActivatedRoute,
+        private store: Store<AppStore>,
+        private extensions: AppExtensionService,
+        private alfrescoApiService: AlfrescoApiService
+    ) {}
 
-  ngOnInit() {
-    this.route.params
-      .pipe(
-        flatMap(params =>
-          forkJoin(
-            from(
-              this.alfrescoApiService.sharedLinksApi.getSharedLink(params.id)
-            ),
-            of(params.id)
-          ).pipe(catchError(() => of([null, params.id])))
-        )
-      )
-      .subscribe(([sharedEntry, sharedId]: [SharedLinkEntry, string]) => {
-        if (sharedEntry) {
-          this.store.dispatch(new SetSelectedNodesAction([<any> sharedEntry]));
-        }
-        this.sharedLinkId = sharedId;
-      });
+    ngOnInit() {
+        this.route.params
+            .pipe(
+                flatMap((params) =>
+                    forkJoin(
+                        from(
+                            this.alfrescoApiService.sharedLinksApi.getSharedLink(
+                                params.id
+                            )
+                        ),
+                        of(params.id)
+                    ).pipe(catchError(() => of([null, params.id])))
+                )
+            )
+            .subscribe(([sharedEntry, sharedId]: [SharedLinkEntry, string]) => {
+                if (sharedEntry) {
+                    this.store.dispatch(
+                        new SetSelectedNodesAction([sharedEntry as any])
+                    );
+                }
+                this.sharedLinkId = sharedId;
+            });
 
-    this.store.select(getAppSelection).subscribe(selection => {
-      if (!selection.isEmpty) {
-        this.viewerToolbarActions = this.extensions.getSharedLinkViewerToolbarActions();
-      }
-    });
-  }
+        this.store.select(getAppSelection).subscribe((selection) => {
+            if (!selection.isEmpty) {
+                this.viewerToolbarActions = this.extensions.getSharedLinkViewerToolbarActions();
+            }
+        });
+    }
 
-  trackByActionId(_: number, action: ContentActionRef) {
-    return action.id;
-  }
+    trackByActionId(_: number, action: ContentActionRef) {
+        return action.id;
+    }
 }

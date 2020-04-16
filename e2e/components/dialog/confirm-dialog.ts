@@ -27,62 +27,61 @@ import { by } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
 
 export class ConfirmDialog extends GenericDialog {
-  private static selectors = {
-    root: 'adf-confirm-dialog',
+    private static selectors = {
+        root: 'adf-confirm-dialog',
 
-    okButton: by.buttonText('OK'),
-    cancelButton: by.buttonText('Cancel'),
-    keepButton: by.buttonText('Keep'),
-    deleteButton: by.buttonText('Delete'),
-    removeButton: by.buttonText('Remove')
-  };
+        okButton: by.buttonText('OK'),
+        cancelButton: by.buttonText('Cancel'),
+        keepButton: by.buttonText('Keep'),
+        deleteButton: by.buttonText('Delete'),
+        removeButton: by.buttonText('Remove'),
+    };
 
-  constructor() {
-    super(ConfirmDialog.selectors.root);
-  }
+    constructor() {
+        super(ConfirmDialog.selectors.root);
+    }
 
-  async getText(): Promise<string> {
-    return this.content.getText();
-  }
+    async getText(): Promise<string> {
+        return this.content.getText();
+    }
 
-  async isOkEnabled(): Promise<boolean> {
-    return this.isButtonEnabled(ConfirmDialog.selectors.okButton);
-  }
+    async isOkEnabled(): Promise<boolean> {
+        return this.isButtonEnabled(ConfirmDialog.selectors.okButton);
+    }
 
-  async isCancelEnabled(): Promise<boolean> {
-    return this.isButtonEnabled(ConfirmDialog.selectors.cancelButton);
-  }
+    async isCancelEnabled(): Promise<boolean> {
+        return this.isButtonEnabled(ConfirmDialog.selectors.cancelButton);
+    }
 
-  async isKeepEnabled(): Promise<boolean> {
-    return this.isButtonEnabled(ConfirmDialog.selectors.keepButton);
-  }
+    async isKeepEnabled(): Promise<boolean> {
+        return this.isButtonEnabled(ConfirmDialog.selectors.keepButton);
+    }
 
-  async isDeleteEnabled(): Promise<boolean> {
-    return this.isButtonEnabled(ConfirmDialog.selectors.deleteButton);
-  }
+    async isDeleteEnabled(): Promise<boolean> {
+        return this.isButtonEnabled(ConfirmDialog.selectors.deleteButton);
+    }
 
-  async isRemoveEnabled(): Promise<boolean> {
-    return this.isButtonEnabled(ConfirmDialog.selectors.removeButton);
-  }
+    async isRemoveEnabled(): Promise<boolean> {
+        return this.isButtonEnabled(ConfirmDialog.selectors.removeButton);
+    }
 
-  async clickOk(): Promise<void> {
-    await this.clickButton(ConfirmDialog.selectors.okButton);
-  }
+    async clickOk(): Promise<void> {
+        await this.clickButton(ConfirmDialog.selectors.okButton);
+    }
 
-  async clickCancel(): Promise<void> {
-    await this.clickButton(ConfirmDialog.selectors.cancelButton);
-  }
+    async clickCancel(): Promise<void> {
+        await this.clickButton(ConfirmDialog.selectors.cancelButton);
+    }
 
-  async clickKeep(): Promise<void> {
-    await this.clickButton(ConfirmDialog.selectors.keepButton);
-  }
+    async clickKeep(): Promise<void> {
+        await this.clickButton(ConfirmDialog.selectors.keepButton);
+    }
 
-  async clickDelete(): Promise<void> {
-    await this.clickButton(ConfirmDialog.selectors.deleteButton);
-  }
+    async clickDelete(): Promise<void> {
+        await this.clickButton(ConfirmDialog.selectors.deleteButton);
+    }
 
-  async clickRemove(): Promise<void> {
-    await this.clickButton(ConfirmDialog.selectors.removeButton);
-  }
-
+    async clickRemove(): Promise<void> {
+        await this.clickButton(ConfirmDialog.selectors.removeButton);
+    }
 }

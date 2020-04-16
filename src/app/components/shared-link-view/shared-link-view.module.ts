@@ -35,27 +35,27 @@ import { AppInfoDrawerModule } from '../info-drawer/info.drawer.module';
 import { CoreExtensionsModule } from '../../extensions/core.extensions.module';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: SharedLinkViewComponent,
-    data: {
-      title: 'APP.PREVIEW.TITLE'
-    }
-  }
+    {
+        path: '',
+        component: SharedLinkViewComponent,
+        data: {
+            title: 'APP.PREVIEW.TITLE',
+        },
+    },
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    CoreModule.forChild(),
-    RouterModule.forChild(routes),
-    DirectivesModule,
-    AppCommonModule,
-    AppToolbarModule,
-    CoreExtensionsModule.forChild(),
-    AppInfoDrawerModule
-  ],
-  declarations: [SharedLinkViewComponent],
-  exports: [SharedLinkViewComponent]
+    imports: [
+        CommonModule,
+        CoreModule.forChild(),
+        RouterModule.forChild(routes),
+        DirectivesModule,
+        AppCommonModule,
+        AppToolbarModule,
+        CoreExtensionsModule.forChild(),
+        AppInfoDrawerModule,
+    ],
+    declarations: [SharedLinkViewComponent],
+    exports: [SharedLinkViewComponent],
 })
 export class AppSharedLinkViewModule {}

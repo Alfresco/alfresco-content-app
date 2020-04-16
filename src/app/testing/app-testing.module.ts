@@ -28,70 +28,9 @@ import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { TranslatePipeMock } from './translate-pipe.directive';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {
-  TranslationService,
-  TranslationMock,
-  AuthenticationService,
-  UserPreferencesService,
-  AppConfigService,
-  StorageService,
-  AlfrescoApiService,
-  LogService,
-  NotificationService,
-  NodesApiService,
-  ContentService,
-  ThumbnailService,
-  UploadService,
-  AlfrescoApiMock,
-  PipeModule
-} from '@alfresco/adf-core';
-import { HttpClientModule } from '@angular/common/http';
-import { TranslateServiceMock } from './translation.service';
-import { StoreModule } from '@ngrx/store';
-import { appReducer } from '../store/reducers/app.reducer';
-import { RouterTestingModule } from '@angular/router/testing';
-import { EffectsModule } from '@ngrx/effects';
-import {
-  CustomResourcesService,
-  DocumentListService
-} from '@alfresco/adf-content-services';
-import { MaterialModule } from '../material.module';
-import { INITIAL_STATE } from '../store/initial-state';
-
-@NgModule({
-  imports: [
-    NoopAnimationsModule,
-    HttpClientModule,
-    RouterTestingModule,
-    MaterialModule,
-    StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE }),
-    EffectsModule.forRoot([]),
-    PipeModule
-  ],
-  declarations: [TranslatePipeMock],
-  exports: [TranslatePipeMock, RouterTestingModule, MaterialModule, PipeModule],
-  providers: [
-    { provide: AlfrescoApiService, useClass: AlfrescoApiMock },
-    { provide: TranslationService, useClass: TranslationMock },
-    { provide: TranslateService, useClass: TranslateServiceMock },
-    { provide: TranslatePipe, useClass: TranslatePipeMock },
-    {
-      provide: AuthenticationService,
-      useValue: {
-        isEcmLoggedIn(): boolean {
-          return true;
-        },
-        getRedirect(): string {
-          return null;
-        },
-        setRedirect() {},
-        isOauth(): boolean {
-          return false;
-        },
-        isOAuthWithoutSilentLogin(): boolean {
-          return false;
-        }
-      }
-    },
+    TranslationService,
+    TranslationMock,
+    AuthenticationService,
     UserPreferencesService,
     AppConfigService,
     StorageService,
@@ -102,8 +41,77 @@ import { INITIAL_STATE } from '../store/initial-state';
     ContentService,
     ThumbnailService,
     UploadService,
+    AlfrescoApiMock,
+    PipeModule,
+} from '@alfresco/adf-core';
+import { HttpClientModule } from '@angular/common/http';
+import { TranslateServiceMock } from './translation.service';
+import { StoreModule } from '@ngrx/store';
+import { appReducer } from '../store/reducers/app.reducer';
+import { RouterTestingModule } from '@angular/router/testing';
+import { EffectsModule } from '@ngrx/effects';
+import {
     CustomResourcesService,
-    DocumentListService
-  ]
+    DocumentListService,
+} from '@alfresco/adf-content-services';
+import { MaterialModule } from '../material.module';
+import { INITIAL_STATE } from '../store/initial-state';
+
+@NgModule({
+    imports: [
+        NoopAnimationsModule,
+        HttpClientModule,
+        RouterTestingModule,
+        MaterialModule,
+        StoreModule.forRoot(
+            { app: appReducer },
+            { initialState: INITIAL_STATE }
+        ),
+        EffectsModule.forRoot([]),
+        PipeModule,
+    ],
+    declarations: [TranslatePipeMock],
+    exports: [
+        TranslatePipeMock,
+        RouterTestingModule,
+        MaterialModule,
+        PipeModule,
+    ],
+    providers: [
+        { provide: AlfrescoApiService, useClass: AlfrescoApiMock },
+        { provide: TranslationService, useClass: TranslationMock },
+        { provide: TranslateService, useClass: TranslateServiceMock },
+        { provide: TranslatePipe, useClass: TranslatePipeMock },
+        {
+            provide: AuthenticationService,
+            useValue: {
+                isEcmLoggedIn(): boolean {
+                    return true;
+                },
+                getRedirect(): string {
+                    return null;
+                },
+                setRedirect() {},
+                isOauth(): boolean {
+                    return false;
+                },
+                isOAuthWithoutSilentLogin(): boolean {
+                    return false;
+                },
+            },
+        },
+        UserPreferencesService,
+        AppConfigService,
+        StorageService,
+        AlfrescoApiService,
+        LogService,
+        NotificationService,
+        NodesApiService,
+        ContentService,
+        ThumbnailService,
+        UploadService,
+        CustomResourcesService,
+        DocumentListService,
+    ],
 })
 export class AppTestingModule {}

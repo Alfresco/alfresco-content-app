@@ -26,7 +26,7 @@
 import { ToolbarButtonComponent } from './toolbar-button.component';
 
 describe('ToolbarButtonComponent', () => {
-  it('should be defined', () => {
-    expect(ToolbarButtonComponent).toBeDefined();
-  });
+    it('should be defined', () => {
+        expect(ToolbarButtonComponent).toBeDefined();
+    });
 });

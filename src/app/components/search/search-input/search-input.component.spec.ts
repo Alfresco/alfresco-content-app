@@ -25,19 +25,19 @@
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import {
-  TestBed,
-  async,
-  ComponentFixture,
-  fakeAsync,
-  tick
+    TestBed,
+    async,
+    ComponentFixture,
+    fakeAsync,
+    tick,
 } from '@angular/core/testing';
 
 import { SearchInputComponent } from './search-input.component';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { Actions, ofType } from '@ngrx/effects';
 import {
-  SearchByTermAction,
-  SearchActionTypes
+    SearchByTermAction,
+    SearchActionTypes,
 } from '@alfresco/aca-shared/store';
 import { map } from 'rxjs/operators';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
@@ -45,152 +45,167 @@ import { SearchLibrariesQueryBuilderService } from '../search-libraries-results/
 import { ContentManagementService } from '../../../services/content-management.service';
 
 describe('SearchInputComponent', () => {
-  let fixture: ComponentFixture<SearchInputComponent>;
-  let component: SearchInputComponent;
-  let actions$: Actions;
-  let content: ContentManagementService;
+    let fixture: ComponentFixture<SearchInputComponent>;
+    let component: SearchInputComponent;
+    let actions$: Actions;
+    let content: ContentManagementService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [AppTestingModule],
-      declarations: [SearchInputComponent],
-      schemas: [NO_ERRORS_SCHEMA],
-      providers: [SearchQueryBuilderService, SearchLibrariesQueryBuilderService]
-    })
-      .compileComponents()
-      .then(() => {
-        actions$ = TestBed.get(Actions);
-        fixture = TestBed.createComponent(SearchInputComponent);
-        content = TestBed.get(ContentManagementService);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
-      });
-  }));
-
-  it('should change flag on library400Error event', () => {
-    expect(component.has400LibraryError).toBe(false);
-    content.library400Error.next();
-
-    expect(component.has400LibraryError).toBe(true);
-  });
-
-  it('should have no library constraint by default', () => {
-    expect(component.hasLibraryConstraint()).toBe(false);
-  });
-
-  it('should have library constraint on 400 error received', () => {
-    const libItem = component.searchOptions.find(
-      item => item.key.toLowerCase().indexOf('libraries') > 0
-    );
-    libItem.value = true;
-    content.library400Error.next();
-
-    expect(component.hasLibraryConstraint()).toBe(true);
-  });
-
-  describe('onSearchSubmit()', () => {
-    it('should call search action with correct search options', fakeAsync(done => {
-      const searchedTerm = 's';
-      const currentSearchOptions = [{ key: 'test' }];
-      actions$.pipe(
-        ofType<SearchByTermAction>(SearchActionTypes.SearchByTerm),
-        map(action => {
-          expect(action.searchOptions[0].key).toBe(currentSearchOptions[0].key);
-          done();
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            imports: [AppTestingModule],
+            declarations: [SearchInputComponent],
+            schemas: [NO_ERRORS_SCHEMA],
+            providers: [
+                SearchQueryBuilderService,
+                SearchLibrariesQueryBuilderService,
+            ],
         })
-      );
-      component.onSearchSubmit(<any> { target: { value: searchedTerm } });
-      tick();
+            .compileComponents()
+            .then(() => {
+                actions$ = TestBed.get(Actions);
+                fixture = TestBed.createComponent(SearchInputComponent);
+                content = TestBed.get(ContentManagementService);
+                component = fixture.componentInstance;
+                fixture.detectChanges();
+            });
     }));
 
-    it('should call search action with correct searched term', fakeAsync(done => {
-      const searchedTerm = 's';
-      actions$.pipe(
-        ofType<SearchByTermAction>(SearchActionTypes.SearchByTerm),
-        map(action => {
-          expect(action.payload).toBe(searchedTerm);
-          done();
-        })
-      );
-      component.onSearchSubmit(<any> { target: { value: searchedTerm } });
-      tick();
-    }));
-  });
+    it('should change flag on library400Error event', () => {
+        expect(component.has400LibraryError).toBe(false);
+        content.library400Error.next();
 
-  describe('onSearchChange()', () => {
-    it('should call search action with correct search options', fakeAsync(done => {
-      const searchedTerm = 's';
-      const currentSearchOptions = [{ key: 'test' }];
-      actions$.pipe(
-        ofType<SearchByTermAction>(SearchActionTypes.SearchByTerm),
-        map(action => {
-          expect(action.searchOptions[0].key).toBe(currentSearchOptions[0].key);
-          done();
-        })
-      );
-      component.onSearchChange(searchedTerm);
-      tick(1000);
-    }));
-
-    it('should call search action with correct searched term', fakeAsync(done => {
-      const searchedTerm = 's';
-      actions$.pipe(
-        ofType<SearchByTermAction>(SearchActionTypes.SearchByTerm),
-        map(action => {
-          expect(action.payload).toBe(searchedTerm);
-          done();
-        })
-      );
-      component.onSearchChange(searchedTerm);
-      tick(1000);
-    }));
-  });
-
-  describe('isLibrariesChecked()', () => {
-    it('should return false by default', () => {
-      expect(component.isLibrariesChecked()).toBe(false);
+        expect(component.has400LibraryError).toBe(true);
     });
 
-    it('should return true when libraries checked', () => {
-      const libItem = component.searchOptions.find(
-        item => item.key.toLowerCase().indexOf('libraries') > 0
-      );
-      libItem.value = true;
-      expect(component.isLibrariesChecked()).toBe(true);
-    });
-  });
-
-  describe('isContentChecked()', () => {
-    it('should return false by default', () => {
-      expect(component.isContentChecked()).toBe(false);
+    it('should have no library constraint by default', () => {
+        expect(component.hasLibraryConstraint()).toBe(false);
     });
 
-    it('should return true when files checked', () => {
-      const filesItem = component.searchOptions.find(
-        item => item.key.toLowerCase().indexOf('files') > 0
-      );
-      filesItem.value = true;
-      expect(component.isContentChecked()).toBe(true);
+    it('should have library constraint on 400 error received', () => {
+        const libItem = component.searchOptions.find(
+            (item) => item.key.toLowerCase().indexOf('libraries') > 0
+        );
+        libItem.value = true;
+        content.library400Error.next();
+
+        expect(component.hasLibraryConstraint()).toBe(true);
     });
 
-    it('should return true when folders checked', () => {
-      const foldersItem = component.searchOptions.find(
-        item => item.key.toLowerCase().indexOf('folders') > 0
-      );
-      foldersItem.value = true;
-      expect(component.isContentChecked()).toBe(true);
+    describe('onSearchSubmit()', () => {
+        it('should call search action with correct search options', fakeAsync((
+            done
+        ) => {
+            const searchedTerm = 's';
+            const currentSearchOptions = [{ key: 'test' }];
+            actions$.pipe(
+                ofType<SearchByTermAction>(SearchActionTypes.SearchByTerm),
+                map((action) => {
+                    expect(action.searchOptions[0].key).toBe(
+                        currentSearchOptions[0].key
+                    );
+                    done();
+                })
+            );
+            component.onSearchSubmit({ target: { value: searchedTerm } });
+            tick();
+        }));
+
+        it('should call search action with correct searched term', fakeAsync((
+            done
+        ) => {
+            const searchedTerm = 's';
+            actions$.pipe(
+                ofType<SearchByTermAction>(SearchActionTypes.SearchByTerm),
+                map((action) => {
+                    expect(action.payload).toBe(searchedTerm);
+                    done();
+                })
+            );
+            component.onSearchSubmit({ target: { value: searchedTerm } });
+            tick();
+        }));
     });
 
-    it('should return true when both files and folders checked', () => {
-      const filesItem = component.searchOptions.find(
-        item => item.key.toLowerCase().indexOf('files') > 0
-      );
-      filesItem.value = true;
-      const foldersItem = component.searchOptions.find(
-        item => item.key.toLowerCase().indexOf('folders') > 0
-      );
-      foldersItem.value = true;
-      expect(component.isContentChecked()).toBe(true);
+    describe('onSearchChange()', () => {
+        it('should call search action with correct search options', fakeAsync((
+            done
+        ) => {
+            const searchedTerm = 's';
+            const currentSearchOptions = [{ key: 'test' }];
+            actions$.pipe(
+                ofType<SearchByTermAction>(SearchActionTypes.SearchByTerm),
+                map((action) => {
+                    expect(action.searchOptions[0].key).toBe(
+                        currentSearchOptions[0].key
+                    );
+                    done();
+                })
+            );
+            component.onSearchChange(searchedTerm);
+            tick(1000);
+        }));
+
+        it('should call search action with correct searched term', fakeAsync((
+            done
+        ) => {
+            const searchedTerm = 's';
+            actions$.pipe(
+                ofType<SearchByTermAction>(SearchActionTypes.SearchByTerm),
+                map((action) => {
+                    expect(action.payload).toBe(searchedTerm);
+                    done();
+                })
+            );
+            component.onSearchChange(searchedTerm);
+            tick(1000);
+        }));
     });
-  });
+
+    describe('isLibrariesChecked()', () => {
+        it('should return false by default', () => {
+            expect(component.isLibrariesChecked()).toBe(false);
+        });
+
+        it('should return true when libraries checked', () => {
+            const libItem = component.searchOptions.find(
+                (item) => item.key.toLowerCase().indexOf('libraries') > 0
+            );
+            libItem.value = true;
+            expect(component.isLibrariesChecked()).toBe(true);
+        });
+    });
+
+    describe('isContentChecked()', () => {
+        it('should return false by default', () => {
+            expect(component.isContentChecked()).toBe(false);
+        });
+
+        it('should return true when files checked', () => {
+            const filesItem = component.searchOptions.find(
+                (item) => item.key.toLowerCase().indexOf('files') > 0
+            );
+            filesItem.value = true;
+            expect(component.isContentChecked()).toBe(true);
+        });
+
+        it('should return true when folders checked', () => {
+            const foldersItem = component.searchOptions.find(
+                (item) => item.key.toLowerCase().indexOf('folders') > 0
+            );
+            foldersItem.value = true;
+            expect(component.isContentChecked()).toBe(true);
+        });
+
+        it('should return true when both files and folders checked', () => {
+            const filesItem = component.searchOptions.find(
+                (item) => item.key.toLowerCase().indexOf('files') > 0
+            );
+            filesItem.value = true;
+            const foldersItem = component.searchOptions.find(
+                (item) => item.key.toLowerCase().indexOf('folders') > 0
+            );
+            foldersItem.value = true;
+            expect(component.isContentChecked()).toBe(true);
+        });
+    });
 });

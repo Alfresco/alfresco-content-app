@@ -26,32 +26,32 @@
 import { ActionDirective } from './action.directive';
 
 describe('ActionDirective', () => {
-  let directive: ActionDirective;
-  const routeMock = <any> {
-    navigate: jasmine.createSpy('navigate'),
-    parseUrl: () => ({
-      root: {
-        children: []
-      }
-    })
-  };
-  const storeMock = <any> {
-    dispatch: jasmine.createSpy('dispatch')
-  };
+    let directive: ActionDirective;
+    const routeMock: any = {
+        navigate: jasmine.createSpy('navigate'),
+        parseUrl: () => ({
+            root: {
+                children: [],
+            },
+        }),
+    };
+    const storeMock: any = {
+        dispatch: jasmine.createSpy('dispatch'),
+    };
 
-  beforeEach(() => {
-    directive = new ActionDirective(routeMock, storeMock);
-  });
+    beforeEach(() => {
+        directive = new ActionDirective(routeMock, storeMock);
+    });
 
-  it('should navigate if action is route', () => {
-    directive.action = { route: 'dummy' };
-    directive.onClick();
-    expect(routeMock.navigate).toHaveBeenCalled();
-  });
+    it('should navigate if action is route', () => {
+        directive.action = { route: 'dummy' };
+        directive.onClick();
+        expect(routeMock.navigate).toHaveBeenCalled();
+    });
 
-  it('should dispatch store action', () => {
-    directive.action = { click: {} };
-    directive.onClick();
-    expect(storeMock.dispatch).toHaveBeenCalled();
-  });
+    it('should dispatch store action', () => {
+        directive.action = { click: {} };
+        directive.onClick();
+        expect(storeMock.dispatch).toHaveBeenCalled();
+    });
 });

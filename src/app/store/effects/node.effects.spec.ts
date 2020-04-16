@@ -30,456 +30,468 @@ import { EffectsModule } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { ContentManagementService } from '../../services/content-management.service';
 import {
-  SharedStoreModule,
-  ShareNodeAction,
-  SetSelectedNodesAction,
-  UnshareNodesAction,
-  PurgeDeletedNodesAction,
-  RestoreDeletedNodesAction,
-  DeleteNodesAction,
-  UndoDeleteNodesAction,
-  CreateFolderAction,
-  EditFolderAction,
-  CopyNodesAction,
-  MoveNodesAction,
-  ManagePermissionsAction,
-  UnlockWriteAction,
-  FullscreenViewerAction,
-  PrintFileAction,
-  SetCurrentFolderAction
+    SharedStoreModule,
+    ShareNodeAction,
+    SetSelectedNodesAction,
+    UnshareNodesAction,
+    PurgeDeletedNodesAction,
+    RestoreDeletedNodesAction,
+    DeleteNodesAction,
+    UndoDeleteNodesAction,
+    CreateFolderAction,
+    EditFolderAction,
+    CopyNodesAction,
+    MoveNodesAction,
+    ManagePermissionsAction,
+    UnlockWriteAction,
+    FullscreenViewerAction,
+    PrintFileAction,
+    SetCurrentFolderAction,
 } from '@alfresco/aca-shared/store';
 import { ViewUtilService } from '@alfresco/adf-core';
 import { ViewerEffects } from './viewer.effects';
 
 describe('NodeEffects', () => {
-  let store: Store<any>;
-  let contentService: ContentManagementService;
-  let viewUtilService: ViewUtilService;
-  let viewerEffects: ViewerEffects;
+    let store: Store<any>;
+    let contentService: ContentManagementService;
+    let viewUtilService: ViewUtilService;
+    let viewerEffects: ViewerEffects;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        AppTestingModule,
-        SharedStoreModule,
-        EffectsModule.forRoot([NodeEffects, ViewerEffects])
-      ],
-      declarations: [],
-      providers: [ViewUtilService]
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            imports: [
+                AppTestingModule,
+                SharedStoreModule,
+                EffectsModule.forRoot([NodeEffects, ViewerEffects]),
+            ],
+            declarations: [],
+            providers: [ViewUtilService],
+        });
+
+        // actions$ = TestBed.get(Actions);
+        store = TestBed.get(Store);
+        contentService = TestBed.get(ContentManagementService);
+        viewUtilService = TestBed.get(ViewUtilService);
+        viewerEffects = TestBed.get(ViewerEffects);
     });
 
-    // actions$ = TestBed.get(Actions);
-    store = TestBed.get(Store);
-    contentService = TestBed.get(ContentManagementService);
-    viewUtilService = TestBed.get(ViewUtilService);
-    viewerEffects = TestBed.get(ViewerEffects);
-  });
+    describe('shareNode$', () => {
+        it('should share node from payload', () => {
+            spyOn(contentService, 'shareNode').and.stub();
 
-  describe('shareNode$', () => {
-    it('should share node from payload', () => {
-      spyOn(contentService, 'shareNode').and.stub();
+            const node: any = {};
+            store.dispatch(new ShareNodeAction(node));
 
-      const node: any = {};
-      store.dispatch(new ShareNodeAction(node));
+            expect(contentService.shareNode).toHaveBeenCalledWith(node);
+        });
 
-      expect(contentService.shareNode).toHaveBeenCalledWith(node);
+        it('should share node from active selection', fakeAsync(() => {
+            spyOn(contentService, 'shareNode').and.stub();
+
+            const node: any = { entry: { isFile: true } };
+            store.dispatch(new SetSelectedNodesAction([node]));
+
+            tick(100);
+
+            store.dispatch(new ShareNodeAction(null));
+            expect(contentService.shareNode).toHaveBeenCalledWith(node);
+        }));
+
+        it('should do nothing if invoking share with no data', () => {
+            spyOn(contentService, 'shareNode').and.stub();
+
+            store.dispatch(new ShareNodeAction(null));
+
+            expect(contentService.shareNode).not.toHaveBeenCalled();
+        });
     });
 
-    it('should share node from active selection', fakeAsync(() => {
-      spyOn(contentService, 'shareNode').and.stub();
+    describe('unshareNodes$', () => {
+        it('should unshare nodes from the payload', () => {
+            spyOn(contentService, 'unshareNodes').and.stub();
 
-      const node: any = { entry: { isFile: true } };
-      store.dispatch(new SetSelectedNodesAction([node]));
+            const node: any = {};
+            store.dispatch(new UnshareNodesAction([node]));
 
-      tick(100);
+            expect(contentService.unshareNodes).toHaveBeenCalledWith([node]);
+        });
 
-      store.dispatch(new ShareNodeAction(null));
-      expect(contentService.shareNode).toHaveBeenCalledWith(node);
-    }));
+        it('should unshare nodes from the active selection', fakeAsync(() => {
+            spyOn(contentService, 'unshareNodes').and.stub();
 
-    it('should do nothing if invoking share with no data', () => {
-      spyOn(contentService, 'shareNode').and.stub();
+            const node: any = { entry: { isFile: true } };
+            store.dispatch(new SetSelectedNodesAction([node]));
 
-      store.dispatch(new ShareNodeAction(null));
+            tick(100);
 
-      expect(contentService.shareNode).not.toHaveBeenCalled();
-    });
-  });
+            store.dispatch(new UnshareNodesAction(null));
+            expect(contentService.unshareNodes).toHaveBeenCalledWith([node]);
+        }));
 
-  describe('unshareNodes$', () => {
-    it('should unshare nodes from the payload', () => {
-      spyOn(contentService, 'unshareNodes').and.stub();
+        it('should do nothing if invoking unshare with no data', () => {
+            spyOn(contentService, 'unshareNodes').and.stub();
 
-      const node: any = {};
-      store.dispatch(new UnshareNodesAction([node]));
+            store.dispatch(new UnshareNodesAction(null));
 
-      expect(contentService.unshareNodes).toHaveBeenCalledWith([node]);
-    });
-
-    it('should unshare nodes from the active selection', fakeAsync(() => {
-      spyOn(contentService, 'unshareNodes').and.stub();
-
-      const node: any = { entry: { isFile: true } };
-      store.dispatch(new SetSelectedNodesAction([node]));
-
-      tick(100);
-
-      store.dispatch(new UnshareNodesAction(null));
-      expect(contentService.unshareNodes).toHaveBeenCalledWith([node]);
-    }));
-
-    it('should do nothing if invoking unshare with no data', () => {
-      spyOn(contentService, 'unshareNodes').and.stub();
-
-      store.dispatch(new UnshareNodesAction(null));
-
-      expect(contentService.unshareNodes).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('purgeDeletedNodes$', () => {
-    it('should purge deleted nodes from the payload', () => {
-      spyOn(contentService, 'purgeDeletedNodes').and.stub();
-
-      const node: any = {};
-      store.dispatch(new PurgeDeletedNodesAction([node]));
-
-      expect(contentService.purgeDeletedNodes).toHaveBeenCalledWith([node]);
+            expect(contentService.unshareNodes).not.toHaveBeenCalled();
+        });
     });
 
-    it('should purge nodes from the active selection', fakeAsync(() => {
-      spyOn(contentService, 'purgeDeletedNodes').and.stub();
+    describe('purgeDeletedNodes$', () => {
+        it('should purge deleted nodes from the payload', () => {
+            spyOn(contentService, 'purgeDeletedNodes').and.stub();
 
-      const node: any = { entry: { isFile: true } };
-      store.dispatch(new SetSelectedNodesAction([node]));
+            const node: any = {};
+            store.dispatch(new PurgeDeletedNodesAction([node]));
 
-      tick(100);
+            expect(contentService.purgeDeletedNodes).toHaveBeenCalledWith([
+                node,
+            ]);
+        });
 
-      store.dispatch(new PurgeDeletedNodesAction(null));
-      expect(contentService.purgeDeletedNodes).toHaveBeenCalledWith([node]);
-    }));
+        it('should purge nodes from the active selection', fakeAsync(() => {
+            spyOn(contentService, 'purgeDeletedNodes').and.stub();
 
-    it('should do nothing if invoking purge with no data', () => {
-      spyOn(contentService, 'purgeDeletedNodes').and.stub();
+            const node: any = { entry: { isFile: true } };
+            store.dispatch(new SetSelectedNodesAction([node]));
 
-      store.dispatch(new PurgeDeletedNodesAction(null));
+            tick(100);
 
-      expect(contentService.purgeDeletedNodes).not.toHaveBeenCalled();
-    });
-  });
+            store.dispatch(new PurgeDeletedNodesAction(null));
+            expect(contentService.purgeDeletedNodes).toHaveBeenCalledWith([
+                node,
+            ]);
+        }));
 
-  describe('restoreDeletedNodes$', () => {
-    it('should restore deleted nodes from the payload', () => {
-      spyOn(contentService, 'restoreDeletedNodes').and.stub();
+        it('should do nothing if invoking purge with no data', () => {
+            spyOn(contentService, 'purgeDeletedNodes').and.stub();
 
-      const node: any = {};
-      store.dispatch(new RestoreDeletedNodesAction([node]));
+            store.dispatch(new PurgeDeletedNodesAction(null));
 
-      expect(contentService.restoreDeletedNodes).toHaveBeenCalledWith([node]);
-    });
-
-    it('should restore deleted nodes from the active selection', fakeAsync(() => {
-      spyOn(contentService, 'restoreDeletedNodes').and.stub();
-
-      const node: any = { entry: { isFile: true } };
-      store.dispatch(new SetSelectedNodesAction([node]));
-
-      tick(100);
-
-      store.dispatch(new RestoreDeletedNodesAction(null));
-      expect(contentService.restoreDeletedNodes).toHaveBeenCalledWith([node]);
-    }));
-
-    it('should do nothing if invoking restore with no data', () => {
-      spyOn(contentService, 'restoreDeletedNodes').and.stub();
-
-      store.dispatch(new RestoreDeletedNodesAction(null));
-
-      expect(contentService.restoreDeletedNodes).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('deleteNodes$', () => {
-    it('should delete nodes from the payload', () => {
-      spyOn(contentService, 'deleteNodes').and.stub();
-
-      const node: any = {};
-      store.dispatch(new DeleteNodesAction([node]));
-
-      expect(contentService.deleteNodes).toHaveBeenCalledWith([node]);
+            expect(contentService.purgeDeletedNodes).not.toHaveBeenCalled();
+        });
     });
 
-    it('should delete nodes from the active selection', fakeAsync(() => {
-      spyOn(contentService, 'deleteNodes').and.stub();
+    describe('restoreDeletedNodes$', () => {
+        it('should restore deleted nodes from the payload', () => {
+            spyOn(contentService, 'restoreDeletedNodes').and.stub();
 
-      const node: any = { entry: { isFile: true } };
-      store.dispatch(new SetSelectedNodesAction([node]));
+            const node: any = {};
+            store.dispatch(new RestoreDeletedNodesAction([node]));
 
-      tick(100);
+            expect(contentService.restoreDeletedNodes).toHaveBeenCalledWith([
+                node,
+            ]);
+        });
 
-      store.dispatch(new DeleteNodesAction(null));
-      expect(contentService.deleteNodes).toHaveBeenCalledWith([node]);
-    }));
+        it('should restore deleted nodes from the active selection', fakeAsync(() => {
+            spyOn(contentService, 'restoreDeletedNodes').and.stub();
 
-    it('should do nothing if invoking delete with no data', () => {
-      spyOn(contentService, 'deleteNodes').and.stub();
+            const node: any = { entry: { isFile: true } };
+            store.dispatch(new SetSelectedNodesAction([node]));
 
-      store.dispatch(new DeleteNodesAction(null));
+            tick(100);
 
-      expect(contentService.deleteNodes).not.toHaveBeenCalled();
-    });
-  });
+            store.dispatch(new RestoreDeletedNodesAction(null));
+            expect(contentService.restoreDeletedNodes).toHaveBeenCalledWith([
+                node,
+            ]);
+        }));
 
-  describe('undoDeleteNodes$', () => {
-    it('should undo deleted nodes from the payload', () => {
-      spyOn(contentService, 'undoDeleteNodes').and.stub();
+        it('should do nothing if invoking restore with no data', () => {
+            spyOn(contentService, 'restoreDeletedNodes').and.stub();
 
-      const node: any = {};
-      store.dispatch(new UndoDeleteNodesAction([node]));
+            store.dispatch(new RestoreDeletedNodesAction(null));
 
-      expect(contentService.undoDeleteNodes).toHaveBeenCalledWith([node]);
-    });
-
-    it('should do nothing if undoing deletion with no data', () => {
-      spyOn(contentService, 'undoDeleteNodes').and.stub();
-
-      store.dispatch(new UndoDeleteNodesAction([]));
-
-      expect(contentService.undoDeleteNodes).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('createFolder$', () => {
-    it('should create folder from the payload', () => {
-      spyOn(contentService, 'createFolder').and.stub();
-
-      const currentFolder = 'folder1';
-      store.dispatch(new CreateFolderAction(currentFolder));
-
-      expect(contentService.createFolder).toHaveBeenCalledWith(currentFolder);
+            expect(contentService.restoreDeletedNodes).not.toHaveBeenCalled();
+        });
     });
 
-    it('should create folder in the active selected one', fakeAsync(() => {
-      spyOn(contentService, 'createFolder').and.stub();
+    describe('deleteNodes$', () => {
+        it('should delete nodes from the payload', () => {
+            spyOn(contentService, 'deleteNodes').and.stub();
 
-      const currentFolder: any = { isFolder: true, id: 'folder1' };
-      store.dispatch(new SetCurrentFolderAction(currentFolder));
+            const node: any = {};
+            store.dispatch(new DeleteNodesAction([node]));
 
-      tick(100);
+            expect(contentService.deleteNodes).toHaveBeenCalledWith([node]);
+        });
 
-      store.dispatch(new CreateFolderAction(null));
-      expect(contentService.createFolder).toHaveBeenCalledWith(
-        currentFolder.id
-      );
-    }));
+        it('should delete nodes from the active selection', fakeAsync(() => {
+            spyOn(contentService, 'deleteNodes').and.stub();
 
-    it('should do nothing if invoking delete with no data', () => {
-      spyOn(contentService, 'createFolder').and.stub();
+            const node: any = { entry: { isFile: true } };
+            store.dispatch(new SetSelectedNodesAction([node]));
 
-      store.dispatch(new CreateFolderAction(null));
+            tick(100);
 
-      expect(contentService.createFolder).not.toHaveBeenCalled();
-    });
-  });
+            store.dispatch(new DeleteNodesAction(null));
+            expect(contentService.deleteNodes).toHaveBeenCalledWith([node]);
+        }));
 
-  describe('editFolder$', () => {
-    it('should edit folder from the payload', () => {
-      spyOn(contentService, 'editFolder').and.stub();
+        it('should do nothing if invoking delete with no data', () => {
+            spyOn(contentService, 'deleteNodes').and.stub();
 
-      const node: any = { entry: { isFolder: true, id: 'folder1' } };
-      store.dispatch(new EditFolderAction(node));
+            store.dispatch(new DeleteNodesAction(null));
 
-      expect(contentService.editFolder).toHaveBeenCalledWith(node);
+            expect(contentService.deleteNodes).not.toHaveBeenCalled();
+        });
     });
 
-    it('should edit folder from the active selection', fakeAsync(() => {
-      spyOn(contentService, 'editFolder').and.stub();
+    describe('undoDeleteNodes$', () => {
+        it('should undo deleted nodes from the payload', () => {
+            spyOn(contentService, 'undoDeleteNodes').and.stub();
 
-      const currentFolder: any = {
-        entry: { isFolder: true, isFile: false, id: 'folder1' }
-      };
-      store.dispatch(new SetSelectedNodesAction([currentFolder]));
+            const node: any = {};
+            store.dispatch(new UndoDeleteNodesAction([node]));
 
-      tick(100);
+            expect(contentService.undoDeleteNodes).toHaveBeenCalledWith([node]);
+        });
 
-      store.dispatch(new EditFolderAction(null));
-      expect(contentService.editFolder).toHaveBeenCalledWith(currentFolder);
-    }));
+        it('should do nothing if undoing deletion with no data', () => {
+            spyOn(contentService, 'undoDeleteNodes').and.stub();
 
-    it('should do nothing if editing folder with no selection and payload', () => {
-      spyOn(contentService, 'editFolder').and.stub();
+            store.dispatch(new UndoDeleteNodesAction([]));
 
-      store.dispatch(new EditFolderAction(null));
-
-      expect(contentService.editFolder).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('copyNodes$', () => {
-    it('should copy nodes from the payload', () => {
-      spyOn(contentService, 'copyNodes').and.stub();
-
-      const node: any = { entry: { isFile: true } };
-      store.dispatch(new CopyNodesAction([node]));
-
-      expect(contentService.copyNodes).toHaveBeenCalledWith([node]);
+            expect(contentService.undoDeleteNodes).not.toHaveBeenCalled();
+        });
     });
 
-    it('should copy nodes from the active selection', fakeAsync(() => {
-      spyOn(contentService, 'copyNodes').and.stub();
+    describe('createFolder$', () => {
+        it('should create folder from the payload', () => {
+            spyOn(contentService, 'createFolder').and.stub();
 
-      const node: any = { entry: { isFile: true } };
-      store.dispatch(new SetSelectedNodesAction([node]));
+            const currentFolder = 'folder1';
+            store.dispatch(new CreateFolderAction(currentFolder));
 
-      tick(100);
+            expect(contentService.createFolder).toHaveBeenCalledWith(
+                currentFolder
+            );
+        });
 
-      store.dispatch(new CopyNodesAction(null));
+        it('should create folder in the active selected one', fakeAsync(() => {
+            spyOn(contentService, 'createFolder').and.stub();
 
-      expect(contentService.copyNodes).toHaveBeenCalledWith([node]);
-    }));
+            const currentFolder: any = { isFolder: true, id: 'folder1' };
+            store.dispatch(new SetCurrentFolderAction(currentFolder));
 
-    it('should do nothing if invoking copy with no data', () => {
-      spyOn(contentService, 'copyNodes').and.stub();
+            tick(100);
 
-      store.dispatch(new CopyNodesAction(null));
+            store.dispatch(new CreateFolderAction(null));
+            expect(contentService.createFolder).toHaveBeenCalledWith(
+                currentFolder.id
+            );
+        }));
 
-      expect(contentService.copyNodes).not.toHaveBeenCalled();
-    });
-  });
+        it('should do nothing if invoking delete with no data', () => {
+            spyOn(contentService, 'createFolder').and.stub();
 
-  describe('moveNodes$', () => {
-    it('should move nodes from the payload', () => {
-      spyOn(contentService, 'moveNodes').and.stub();
+            store.dispatch(new CreateFolderAction(null));
 
-      const node: any = { entry: { isFile: true } };
-      store.dispatch(new MoveNodesAction([node]));
-
-      expect(contentService.moveNodes).toHaveBeenCalledWith([node]);
-    });
-
-    it('should move nodes from the active selection', fakeAsync(() => {
-      spyOn(contentService, 'moveNodes').and.stub();
-
-      const node: any = { entry: { isFile: true } };
-      store.dispatch(new SetSelectedNodesAction([node]));
-
-      tick(100);
-
-      store.dispatch(new MoveNodesAction(null));
-
-      expect(contentService.moveNodes).toHaveBeenCalledWith([node]);
-    }));
-
-    it('should do nothing if invoking move with no data', () => {
-      spyOn(contentService, 'moveNodes').and.stub();
-
-      store.dispatch(new MoveNodesAction(null));
-
-      expect(contentService.moveNodes).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('managePermissions$', () => {
-    it('should manage permissions from the payload', () => {
-      spyOn(contentService, 'managePermissions').and.stub();
-
-      const node: any = { entry: { isFile: true } };
-      store.dispatch(new ManagePermissionsAction(node));
-
-      expect(contentService.managePermissions).toHaveBeenCalledWith(node);
+            expect(contentService.createFolder).not.toHaveBeenCalled();
+        });
     });
 
-    it('should manage permissions from the active selection', fakeAsync(() => {
-      spyOn(contentService, 'managePermissions').and.stub();
+    describe('editFolder$', () => {
+        it('should edit folder from the payload', () => {
+            spyOn(contentService, 'editFolder').and.stub();
 
-      const node: any = { entry: { isFile: true } };
-      store.dispatch(new SetSelectedNodesAction([node]));
+            const node: any = { entry: { isFolder: true, id: 'folder1' } };
+            store.dispatch(new EditFolderAction(node));
 
-      tick(100);
+            expect(contentService.editFolder).toHaveBeenCalledWith(node);
+        });
 
-      store.dispatch(new ManagePermissionsAction(null));
+        it('should edit folder from the active selection', fakeAsync(() => {
+            spyOn(contentService, 'editFolder').and.stub();
 
-      expect(contentService.managePermissions).toHaveBeenCalledWith(node);
-    }));
+            const currentFolder: any = {
+                entry: { isFolder: true, isFile: false, id: 'folder1' },
+            };
+            store.dispatch(new SetSelectedNodesAction([currentFolder]));
 
-    it('should do nothing if invoking manage permissions with no data', () => {
-      spyOn(contentService, 'managePermissions').and.stub();
+            tick(100);
 
-      store.dispatch(new ManagePermissionsAction(null));
+            store.dispatch(new EditFolderAction(null));
+            expect(contentService.editFolder).toHaveBeenCalledWith(
+                currentFolder
+            );
+        }));
 
-      expect(contentService.managePermissions).not.toHaveBeenCalled();
-    });
-  });
+        it('should do nothing if editing folder with no selection and payload', () => {
+            spyOn(contentService, 'editFolder').and.stub();
 
-  describe('printFile$', () => {
-    it('it should print node content from payload', () => {
-      spyOn(viewUtilService, 'printFileGeneric').and.stub();
-      const node: any = {
-        entry: { id: 'node-id', content: { mimeType: 'text/json' } }
-      };
+            store.dispatch(new EditFolderAction(null));
 
-      store.dispatch(new PrintFileAction(node));
-
-      expect(viewUtilService.printFileGeneric).toHaveBeenCalledWith(
-        'node-id',
-        'text/json'
-      );
+            expect(contentService.editFolder).not.toHaveBeenCalled();
+        });
     });
 
-    it('it should print node content from store', fakeAsync(() => {
-      spyOn(viewUtilService, 'printFileGeneric').and.stub();
-      const node: any = {
-        entry: {
-          isFile: true,
-          id: 'node-id',
-          content: { mimeType: 'text/json' }
-        }
-      };
+    describe('copyNodes$', () => {
+        it('should copy nodes from the payload', () => {
+            spyOn(contentService, 'copyNodes').and.stub();
 
-      store.dispatch(new SetSelectedNodesAction([node]));
+            const node: any = { entry: { isFile: true } };
+            store.dispatch(new CopyNodesAction([node]));
 
-      tick(100);
+            expect(contentService.copyNodes).toHaveBeenCalledWith([node]);
+        });
 
-      store.dispatch(new PrintFileAction(null));
+        it('should copy nodes from the active selection', fakeAsync(() => {
+            spyOn(contentService, 'copyNodes').and.stub();
 
-      expect(viewUtilService.printFileGeneric).toHaveBeenCalledWith(
-        'node-id',
-        'text/json'
-      );
-    }));
-  });
+            const node: any = { entry: { isFile: true } };
+            store.dispatch(new SetSelectedNodesAction([node]));
 
-  describe('fullscreenViewer$', () => {
-    it('should call fullscreen viewer', () => {
-      spyOn(viewerEffects, 'enterFullScreen').and.stub();
+            tick(100);
 
-      store.dispatch(new FullscreenViewerAction(null));
+            store.dispatch(new CopyNodesAction(null));
 
-      expect(viewerEffects.enterFullScreen).toHaveBeenCalled();
-    });
-  });
+            expect(contentService.copyNodes).toHaveBeenCalledWith([node]);
+        }));
 
-  describe('unlockWrite$', () => {
-    it('should unlock node from payload', () => {
-      spyOn(contentService, 'unlockNode').and.stub();
-      const node: any = { entry: { id: 'node-id' } };
+        it('should do nothing if invoking copy with no data', () => {
+            spyOn(contentService, 'copyNodes').and.stub();
 
-      store.dispatch(new UnlockWriteAction(node));
+            store.dispatch(new CopyNodesAction(null));
 
-      expect(contentService.unlockNode).toHaveBeenCalledWith(node);
+            expect(contentService.copyNodes).not.toHaveBeenCalled();
+        });
     });
 
-    it('should unlock node from store selection', fakeAsync(() => {
-      spyOn(contentService, 'unlockNode').and.stub();
-      const node: any = { entry: { isFile: true, id: 'node-id' } };
+    describe('moveNodes$', () => {
+        it('should move nodes from the payload', () => {
+            spyOn(contentService, 'moveNodes').and.stub();
 
-      store.dispatch(new SetSelectedNodesAction([node]));
+            const node: any = { entry: { isFile: true } };
+            store.dispatch(new MoveNodesAction([node]));
 
-      tick(100);
+            expect(contentService.moveNodes).toHaveBeenCalledWith([node]);
+        });
 
-      store.dispatch(new UnlockWriteAction(null));
+        it('should move nodes from the active selection', fakeAsync(() => {
+            spyOn(contentService, 'moveNodes').and.stub();
 
-      expect(contentService.unlockNode).toHaveBeenCalledWith(node);
-    }));
-  });
+            const node: any = { entry: { isFile: true } };
+            store.dispatch(new SetSelectedNodesAction([node]));
+
+            tick(100);
+
+            store.dispatch(new MoveNodesAction(null));
+
+            expect(contentService.moveNodes).toHaveBeenCalledWith([node]);
+        }));
+
+        it('should do nothing if invoking move with no data', () => {
+            spyOn(contentService, 'moveNodes').and.stub();
+
+            store.dispatch(new MoveNodesAction(null));
+
+            expect(contentService.moveNodes).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('managePermissions$', () => {
+        it('should manage permissions from the payload', () => {
+            spyOn(contentService, 'managePermissions').and.stub();
+
+            const node: any = { entry: { isFile: true } };
+            store.dispatch(new ManagePermissionsAction(node));
+
+            expect(contentService.managePermissions).toHaveBeenCalledWith(node);
+        });
+
+        it('should manage permissions from the active selection', fakeAsync(() => {
+            spyOn(contentService, 'managePermissions').and.stub();
+
+            const node: any = { entry: { isFile: true } };
+            store.dispatch(new SetSelectedNodesAction([node]));
+
+            tick(100);
+
+            store.dispatch(new ManagePermissionsAction(null));
+
+            expect(contentService.managePermissions).toHaveBeenCalledWith(node);
+        }));
+
+        it('should do nothing if invoking manage permissions with no data', () => {
+            spyOn(contentService, 'managePermissions').and.stub();
+
+            store.dispatch(new ManagePermissionsAction(null));
+
+            expect(contentService.managePermissions).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('printFile$', () => {
+        it('it should print node content from payload', () => {
+            spyOn(viewUtilService, 'printFileGeneric').and.stub();
+            const node: any = {
+                entry: { id: 'node-id', content: { mimeType: 'text/json' } },
+            };
+
+            store.dispatch(new PrintFileAction(node));
+
+            expect(viewUtilService.printFileGeneric).toHaveBeenCalledWith(
+                'node-id',
+                'text/json'
+            );
+        });
+
+        it('it should print node content from store', fakeAsync(() => {
+            spyOn(viewUtilService, 'printFileGeneric').and.stub();
+            const node: any = {
+                entry: {
+                    isFile: true,
+                    id: 'node-id',
+                    content: { mimeType: 'text/json' },
+                },
+            };
+
+            store.dispatch(new SetSelectedNodesAction([node]));
+
+            tick(100);
+
+            store.dispatch(new PrintFileAction(null));
+
+            expect(viewUtilService.printFileGeneric).toHaveBeenCalledWith(
+                'node-id',
+                'text/json'
+            );
+        }));
+    });
+
+    describe('fullscreenViewer$', () => {
+        it('should call fullscreen viewer', () => {
+            spyOn(viewerEffects, 'enterFullScreen').and.stub();
+
+            store.dispatch(new FullscreenViewerAction(null));
+
+            expect(viewerEffects.enterFullScreen).toHaveBeenCalled();
+        });
+    });
+
+    describe('unlockWrite$', () => {
+        it('should unlock node from payload', () => {
+            spyOn(contentService, 'unlockNode').and.stub();
+            const node: any = { entry: { id: 'node-id' } };
+
+            store.dispatch(new UnlockWriteAction(node));
+
+            expect(contentService.unlockNode).toHaveBeenCalledWith(node);
+        });
+
+        it('should unlock node from store selection', fakeAsync(() => {
+            spyOn(contentService, 'unlockNode').and.stub();
+            const node: any = { entry: { isFile: true, id: 'node-id' } };
+
+            store.dispatch(new SetSelectedNodesAction([node]));
+
+            tick(100);
+
+            store.dispatch(new UnlockWriteAction(null));
+
+            expect(contentService.unlockNode).toHaveBeenCalledWith(node);
+        }));
+    });
 });

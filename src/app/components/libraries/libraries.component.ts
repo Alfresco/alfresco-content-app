@@ -33,43 +33,46 @@ import { ContentManagementService } from '../../services/content-management.serv
 import { PageComponent } from '../page.component';
 
 @Component({
-  templateUrl: './libraries.component.html'
+    templateUrl: './libraries.component.html',
 })
 export class LibrariesComponent extends PageComponent implements OnInit {
-  isSmallScreen = false;
+    isSmallScreen = false;
 
-  columns: any[] = [];
+    columns: any[] = [];
 
-  constructor(
-    content: ContentManagementService,
-    store: Store<AppStore>,
-    extensions: AppExtensionService,
-    private breakpointObserver: BreakpointObserver
-  ) {
-    super(store, extensions, content);
-  }
-
-  ngOnInit() {
-    super.ngOnInit();
-
-    this.subscriptions.push(
-      this.content.libraryDeleted.subscribe(() => this.reload()),
-      this.content.libraryUpdated.subscribe(() => this.reload()),
-      this.content.libraryLeft.subscribe(() => this.reload()),
-
-      this.breakpointObserver
-        .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
-        .subscribe(result => {
-          this.isSmallScreen = result.matches;
-        })
-    );
-
-    this.columns = this.extensions.documentListPresets.libraries || [];
-  }
-
-  navigateTo(node: SiteEntry) {
-    if (node && node.entry && node.entry.guid) {
-      this.store.dispatch(new NavigateLibraryAction(node.entry.guid));
+    constructor(
+        content: ContentManagementService,
+        store: Store<AppStore>,
+        extensions: AppExtensionService,
+        private breakpointObserver: BreakpointObserver
+    ) {
+        super(store, extensions, content);
     }
-  }
+
+    ngOnInit() {
+        super.ngOnInit();
+
+        this.subscriptions.push(
+            this.content.libraryDeleted.subscribe(() => this.reload()),
+            this.content.libraryUpdated.subscribe(() => this.reload()),
+            this.content.libraryLeft.subscribe(() => this.reload()),
+
+            this.breakpointObserver
+                .observe([
+                    Breakpoints.HandsetPortrait,
+                    Breakpoints.HandsetLandscape,
+                ])
+                .subscribe((result) => {
+                    this.isSmallScreen = result.matches;
+                })
+        );
+
+        this.columns = this.extensions.documentListPresets.libraries || [];
+    }
+
+    navigateTo(node: SiteEntry) {
+        if (node && node.entry && node.entry.guid) {
+            this.store.dispatch(new NavigateLibraryAction(node.entry.guid));
+        }
+    }
 }

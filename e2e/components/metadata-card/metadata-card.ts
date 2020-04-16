@@ -23,43 +23,61 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, browser, ExpectedConditions as EC, ElementArrayFinder } from 'protractor';
+import {
+    ElementFinder,
+    by,
+    browser,
+    ExpectedConditions as EC,
+    ElementArrayFinder,
+} from 'protractor';
 import { Component } from '../component';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 
 export class MetadataCard extends Component {
-  private static selectors = {
-    root: 'adf-content-metadata-card',
-    footer: '.adf-content-metadata-card-footer',
-    expandButton: '[data-automation-id="meta-data-card-toggle-expand"]',
-    expansionPanel: '.adf-metadata-grouped-properties-container mat-expansion-panel'
-  };
+    private static selectors = {
+        root: 'adf-content-metadata-card',
+        footer: '.adf-content-metadata-card-footer',
+        expandButton: '[data-automation-id="meta-data-card-toggle-expand"]',
+        expansionPanel:
+            '.adf-metadata-grouped-properties-container mat-expansion-panel',
+    };
 
-  footer: ElementFinder = this.component.element(by.css(MetadataCard.selectors.footer));
-  expandButton: ElementFinder = this.component.element(by.css(MetadataCard.selectors.expandButton));
-  expansionPanels: ElementArrayFinder = this.component.all(by.css(MetadataCard.selectors.expansionPanel));
+    footer: ElementFinder = this.component.element(
+        by.css(MetadataCard.selectors.footer)
+    );
+    expandButton: ElementFinder = this.component.element(
+        by.css(MetadataCard.selectors.expandButton)
+    );
+    expansionPanels: ElementArrayFinder = this.component.all(
+        by.css(MetadataCard.selectors.expansionPanel)
+    );
 
-  constructor(ancestor?: string) {
-    super(MetadataCard.selectors.root, ancestor);
-  }
+    constructor(ancestor?: string) {
+        super(MetadataCard.selectors.root, ancestor);
+    }
 
-  async isExpandPresent() {
-    return this.expandButton.isPresent();
-  }
+    async isExpandPresent() {
+        return this.expandButton.isPresent();
+    }
 
-  async clickExpandButton() {
-    await this.expandButton.click();
-  }
+    async clickExpandButton() {
+        await this.expandButton.click();
+    }
 
-  async waitForFirstExpansionPanel() {
-    await browser.wait(EC.presenceOf(this.expansionPanels.get(0)), BROWSER_WAIT_TIMEOUT);
-  }
+    async waitForFirstExpansionPanel() {
+        await browser.wait(
+            EC.presenceOf(this.expansionPanels.get(0)),
+            BROWSER_WAIT_TIMEOUT
+        );
+    }
 
-  async isExpansionPanelPresent(index) {
-    return this.expansionPanels.get(index).isPresent();
-  }
+    async isExpansionPanelPresent(index) {
+        return this.expansionPanels.get(index).isPresent();
+    }
 
-  async getComponentIdOfPanel(index) {
-    return this.expansionPanels.get(index).getAttribute('data-automation-id');
-  }
+    async getComponentIdOfPanel(index) {
+        return this.expansionPanels
+            .get(index)
+            .getAttribute('data-automation-id');
+    }
 }

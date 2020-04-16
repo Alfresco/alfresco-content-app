@@ -1,59 +1,59 @@
 @mixin sidenav-component-theme($theme) {
-  $primary: map-get($theme, primary);
-  $accent: map-get($theme, accent);
-  $foreground: map-get($theme, foreground);
-  $background: map-get($theme, background);
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+    $foreground: map-get($theme, foreground);
+    $background: map-get($theme, background);
 
-  $border: 1px solid mat-color($foreground, divider, 0.07);
+    $border: 1px solid mat-color($foreground, divider, 0.07);
 
-  .aca-menu-panel {
-    .action-button--active {
-      color: mat-color($accent) !important;
+    .aca-menu-panel {
+        .action-button--active {
+            color: mat-color($accent) !important;
+        }
+
+        .action-button {
+            color: mat-color($primary);
+        }
+
+        .action-button:hover {
+            color: mat-color($accent);
+        }
     }
 
-    .action-button {
-      color: mat-color($primary);
-    }
+    .sidenav {
+        background-color: mat-color($background, background);
 
-    .action-button:hover {
-      color: mat-color($accent);
-    }
-  }
+        .item:hover .action-button__label {
+            color: mat-color($primary);
+        }
 
-  .sidenav {
-    background-color: mat-color($background, background);
+        .mat-expansion-panel {
+            background-color: unset;
+        }
 
-    .item:hover .action-button__label {
-      color: mat-color($primary);
-    }
+        .mat-expansion-panel {
+            box-shadow: none !important;
+        }
 
-    .mat-expansion-panel {
-      background-color: unset;
-    }
+        .mat-expansion-panel:not(.mat-expanded)
+            .mat-expansion-panel-header:not([aria-disabled='true']):hover {
+            background: none !important;
+        }
 
-    .mat-expansion-panel {
-      box-shadow: none !important;
-    }
+        .mat-expansion-panel-header {
+            font-size: 14px !important;
+        }
 
-    .mat-expansion-panel:not(.mat-expanded)
-      .mat-expansion-panel-header:not([aria-disabled='true']):hover {
-      background: none !important;
-    }
+        .action-button--active {
+            color: mat-color($primary) !important;
+        }
 
-    .mat-expansion-panel-header {
-      font-size: 14px !important;
-    }
+        .action-button {
+            color: mat-color($foreground, text, 0.54);
+        }
 
-    .action-button--active {
-      color: mat-color($primary) !important;
+        .section {
+            border-bottom: $border;
+        }
     }
-
-    .action-button {
-      color: mat-color($foreground, text, 0.54);
-    }
-
-    .section {
-      border-bottom: $border;
-    }
-  }
 }

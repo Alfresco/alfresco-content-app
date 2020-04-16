@@ -26,17 +26,17 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 import {
-  TestBed,
-  ComponentFixture,
-  fakeAsync,
-  tick
+    TestBed,
+    ComponentFixture,
+    fakeAsync,
+    tick,
 } from '@angular/core/testing';
 import {
-  AlfrescoApiService,
-  NodeFavoriteDirective,
-  DataTableComponent,
-  AppConfigPipe,
-  UploadService
+    AlfrescoApiService,
+    NodeFavoriteDirective,
+    DataTableComponent,
+    AppConfigPipe,
+    UploadService,
 } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { of } from 'rxjs';
@@ -45,148 +45,148 @@ import { AppTestingModule } from '../../testing/app-testing.module';
 import { ContentApiService } from '@alfresco/aca-shared';
 
 describe('FavoritesComponent', () => {
-  let fixture: ComponentFixture<FavoritesComponent>;
-  let component: FavoritesComponent;
-  let alfrescoApi: AlfrescoApiService;
-  let contentApi: ContentApiService;
-  let router: Router;
-  const mockRouter = {
-    url: 'favorites',
-    navigate: () => {}
-  };
-  let page;
-  let node;
-  let uploadService: UploadService;
-
-  beforeEach(() => {
-    page = {
-      list: {
-        entries: [
-          { entry: { id: 1, target: { file: {} } } },
-          { entry: { id: 2, target: { folder: {} } } }
-        ],
-        pagination: { data: 'data' }
-      }
+    let fixture: ComponentFixture<FavoritesComponent>;
+    let component: FavoritesComponent;
+    let alfrescoApi: AlfrescoApiService;
+    let contentApi: ContentApiService;
+    let router: Router;
+    const mockRouter = {
+        url: 'favorites',
+        navigate: () => {},
     };
+    let page;
+    let node;
+    let uploadService: UploadService;
 
-    node = <any> {
-      id: 'folder-node',
-      isFolder: true,
-      isFile: false,
-      path: {
-        elements: []
-      }
-    };
-  });
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [AppTestingModule],
-      declarations: [
-        DataTableComponent,
-        NodeFavoriteDirective,
-        DocumentListComponent,
-        FavoritesComponent,
-        AppConfigPipe
-      ],
-      providers: [
-        {
-          provide: Router,
-          useValue: mockRouter
-        }
-      ],
-      schemas: [NO_ERRORS_SCHEMA]
-    });
-
-    fixture = TestBed.createComponent(FavoritesComponent);
-    component = fixture.componentInstance;
-
-    alfrescoApi = TestBed.get(AlfrescoApiService);
-    alfrescoApi.reset();
-    spyOn(alfrescoApi.favoritesApi, 'getFavorites').and.returnValue(
-      Promise.resolve(page)
-    );
-
-    contentApi = TestBed.get(ContentApiService);
-    uploadService = TestBed.get(UploadService);
-    router = TestBed.get(Router);
-  });
-
-  describe('Node navigation', () => {
     beforeEach(() => {
-      spyOn(contentApi, 'getNode').and.returnValue(of({ entry: node }));
-      spyOn(router, 'navigate');
-      fixture.detectChanges();
+        page = {
+            list: {
+                entries: [
+                    { entry: { id: 1, target: { file: {} } } },
+                    { entry: { id: 2, target: { folder: {} } } },
+                ],
+                pagination: { data: 'data' },
+            },
+        };
+
+        node = {
+            id: 'folder-node',
+            isFolder: true,
+            isFile: false,
+            path: {
+                elements: [],
+            },
+        } as any;
     });
 
-    it('navigates to `/libraries` if node path has `Sites`', () => {
-      node.path.elements = [{ name: 'Sites' }];
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            imports: [AppTestingModule],
+            declarations: [
+                DataTableComponent,
+                NodeFavoriteDirective,
+                DocumentListComponent,
+                FavoritesComponent,
+                AppConfigPipe,
+            ],
+            providers: [
+                {
+                    provide: Router,
+                    useValue: mockRouter,
+                },
+            ],
+            schemas: [NO_ERRORS_SCHEMA],
+        });
 
-      component.navigate(node);
+        fixture = TestBed.createComponent(FavoritesComponent);
+        component = fixture.componentInstance;
 
-      expect(router.navigate).toHaveBeenCalledWith([
-        '/libraries',
-        'folder-node'
-      ]);
+        alfrescoApi = TestBed.get(AlfrescoApiService);
+        alfrescoApi.reset();
+        spyOn(alfrescoApi.favoritesApi, 'getFavorites').and.returnValue(
+            Promise.resolve(page)
+        );
+
+        contentApi = TestBed.get(ContentApiService);
+        uploadService = TestBed.get(UploadService);
+        router = TestBed.get(Router);
     });
 
-    it('navigates to `/personal-files` if node path has no `Sites`', () => {
-      node.path.elements = [{ name: 'something else' }];
+    describe('Node navigation', () => {
+        beforeEach(() => {
+            spyOn(contentApi, 'getNode').and.returnValue(of({ entry: node }));
+            spyOn(router, 'navigate');
+            fixture.detectChanges();
+        });
 
-      component.navigate(node);
+        it('navigates to `/libraries` if node path has `Sites`', () => {
+            node.path.elements = [{ name: 'Sites' }];
 
-      expect(router.navigate).toHaveBeenCalledWith([
-        '/personal-files',
-        'folder-node'
-      ]);
+            component.navigate(node);
+
+            expect(router.navigate).toHaveBeenCalledWith([
+                '/libraries',
+                'folder-node',
+            ]);
+        });
+
+        it('navigates to `/personal-files` if node path has no `Sites`', () => {
+            node.path.elements = [{ name: 'something else' }];
+
+            component.navigate(node);
+
+            expect(router.navigate).toHaveBeenCalledWith([
+                '/personal-files',
+                'folder-node',
+            ]);
+        });
+
+        it('does not navigate when node is not folder', () => {
+            node.isFolder = false;
+
+            component.navigate(node);
+
+            expect(router.navigate).not.toHaveBeenCalled();
+        });
     });
 
-    it('does not navigate when node is not folder', () => {
-      node.isFolder = false;
+    it('should call document list reload on fileUploadComplete event', fakeAsync(() => {
+        spyOn(component, 'reload');
 
-      component.navigate(node);
+        fixture.detectChanges();
+        uploadService.fileUploadComplete.next();
+        tick(500);
 
-      expect(router.navigate).not.toHaveBeenCalled();
+        expect(component.reload).toHaveBeenCalled();
+    }));
+
+    it('should call document list reload on fileUploadDeleted event', fakeAsync(() => {
+        spyOn(component, 'reload');
+
+        fixture.detectChanges();
+        uploadService.fileUploadDeleted.next();
+        tick(500);
+
+        expect(component.reload).toHaveBeenCalled();
+    }));
+
+    it('should navigate if node is folder', () => {
+        const nodeEntity: any = { entry: { isFolder: true } };
+        spyOn(component, 'navigate').and.stub();
+        fixture.detectChanges();
+
+        component.onNodeDoubleClick(nodeEntity);
+        expect(component.navigate).toHaveBeenCalledWith(nodeEntity.entry);
     });
-  });
 
-  it('should call document list reload on fileUploadComplete event', fakeAsync(() => {
-    spyOn(component, 'reload');
+    it('should call showPreview if node is file', () => {
+        const nodeEntity: any = { entry: { isFile: true } };
+        spyOn(component, 'showPreview').and.stub();
+        fixture.detectChanges();
 
-    fixture.detectChanges();
-    uploadService.fileUploadComplete.next();
-    tick(500);
-
-    expect(component.reload).toHaveBeenCalled();
-  }));
-
-  it('should call document list reload on fileUploadDeleted event', fakeAsync(() => {
-    spyOn(component, 'reload');
-
-    fixture.detectChanges();
-    uploadService.fileUploadDeleted.next();
-    tick(500);
-
-    expect(component.reload).toHaveBeenCalled();
-  }));
-
-  it('should navigate if node is folder', () => {
-    const nodeEntity = <any> { entry: { isFolder: true } };
-    spyOn(component, 'navigate').and.stub();
-    fixture.detectChanges();
-
-    component.onNodeDoubleClick(nodeEntity);
-    expect(component.navigate).toHaveBeenCalledWith(nodeEntity.entry);
-  });
-
-  it('should call showPreview if node is file', () => {
-    const nodeEntity = <any> { entry: { isFile: true } };
-    spyOn(component, 'showPreview').and.stub();
-    fixture.detectChanges();
-
-    component.onNodeDoubleClick(nodeEntity);
-    expect(component.showPreview).toHaveBeenCalledWith(nodeEntity, {
-      location: mockRouter.url
+        component.onNodeDoubleClick(nodeEntity);
+        expect(component.showPreview).toHaveBeenCalledWith(nodeEntity, {
+            location: mockRouter.url,
+        });
     });
-  });
 });

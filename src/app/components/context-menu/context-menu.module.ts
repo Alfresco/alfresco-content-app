@@ -38,28 +38,28 @@ import { ContextMenuComponent } from './context-menu.component';
 import { ContextActionsModule } from '@alfresco/aca-shared';
 
 @NgModule({
-  imports: [
-    MatMenuModule,
-    MatListModule,
-    MatIconModule,
-    MatButtonModule,
-    CoreExtensionsModule.forChild(),
-    CoreModule.forChild(),
-    AppCommonModule,
-    ExtensionsModule,
-    ContextActionsModule
-  ],
-  declarations: [
-    ContextMenuComponent,
-    ContextMenuItemComponent,
-    OutsideEventDirective
-  ],
-  exports: [
-    OutsideEventDirective,
-    ContextMenuComponent,
-    ContextMenuItemComponent,
-    ContextActionsModule
-  ],
-  entryComponents: [ContextMenuComponent]
+    imports: [
+        MatMenuModule,
+        MatListModule,
+        MatIconModule,
+        MatButtonModule,
+        CoreExtensionsModule.forChild(),
+        CoreModule.forChild(),
+        AppCommonModule,
+        ExtensionsModule,
+        ContextActionsModule,
+    ],
+    declarations: [
+        ContextMenuComponent,
+        ContextMenuItemComponent,
+        OutsideEventDirective,
+    ],
+    exports: [
+        OutsideEventDirective,
+        ContextMenuComponent,
+        ContextMenuItemComponent,
+        ContextActionsModule,
+    ],
+    entryComponents: [ContextMenuComponent],
 })
 export class ContextMenuModule {}

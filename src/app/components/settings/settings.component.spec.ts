@@ -32,123 +32,126 @@ import { SettingsParameterRef } from '../../types';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { By } from '@angular/platform-browser';
 import {
-  TranslateModule,
-  TranslateLoader,
-  TranslateFakeLoader
+    TranslateModule,
+    TranslateLoader,
+    TranslateFakeLoader,
 } from '@ngx-translate/core';
 
 describe('SettingsComponent', () => {
-  let fixture: ComponentFixture<SettingsComponent>;
-  let component: SettingsComponent;
-  let storage: StorageService;
-  let appExtensions: AppExtensionService;
+    let fixture: ComponentFixture<SettingsComponent>;
+    let component: SettingsComponent;
+    let storage: StorageService;
+    let appExtensions: AppExtensionService;
 
-  let stringParam: SettingsParameterRef;
-  let boolParam: SettingsParameterRef;
+    let stringParam: SettingsParameterRef;
+    let boolParam: SettingsParameterRef;
 
-  setupTestBed({
-    imports: [
-      AppSettingsModule,
-      AppTestingModule,
-      TranslateModule.forRoot({
-        loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
-      })
-    ]
-  });
+    setupTestBed({
+        imports: [
+            AppSettingsModule,
+            AppTestingModule,
+            TranslateModule.forRoot({
+                loader: {
+                    provide: TranslateLoader,
+                    useClass: TranslateFakeLoader,
+                },
+            }),
+        ],
+    });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(SettingsComponent);
-    component = fixture.componentInstance;
+    beforeEach(() => {
+        fixture = TestBed.createComponent(SettingsComponent);
+        component = fixture.componentInstance;
 
-    storage = TestBed.get(StorageService);
-    appExtensions = TestBed.get(AppExtensionService);
+        storage = TestBed.get(StorageService);
+        appExtensions = TestBed.get(AppExtensionService);
 
-    stringParam = {
-      key: 'key',
-      name: 'param1',
-      type: 'string',
-      value: 'paramValue'
-    };
+        stringParam = {
+            key: 'key',
+            name: 'param1',
+            type: 'string',
+            value: 'paramValue',
+        };
 
-    boolParam = {
-      key: 'key',
-      name: 'param2',
-      type: 'boolean',
-      value: true
-    };
-  });
+        boolParam = {
+            key: 'key',
+            name: 'param2',
+            type: 'boolean',
+            value: true,
+        };
+    });
 
-  it('should retrieve string param value from storage', () => {
-    spyOn(storage, 'getItem').and.returnValue('storageValue');
+    it('should retrieve string param value from storage', () => {
+        spyOn(storage, 'getItem').and.returnValue('storageValue');
 
-    const value = component.getStringParamValue(stringParam);
-    expect(value).toBe('storageValue');
-  });
+        const value = component.getStringParamValue(stringParam);
+        expect(value).toBe('storageValue');
+    });
 
-  it('should use param value as fallback when storage is empty', () => {
-    spyOn(storage, 'getItem').and.returnValue(null);
+    it('should use param value as fallback when storage is empty', () => {
+        spyOn(storage, 'getItem').and.returnValue(null);
 
-    const value = component.getStringParamValue(stringParam);
-    expect(value).toBe('paramValue');
-  });
+        const value = component.getStringParamValue(stringParam);
+        expect(value).toBe('paramValue');
+    });
 
-  it('should save param value', () => {
-    spyOn(storage, 'setItem').and.stub();
+    it('should save param value', () => {
+        spyOn(storage, 'setItem').and.stub();
 
-    component.setParamValue(stringParam, 'test');
+        component.setParamValue(stringParam, 'test');
 
-    expect(stringParam.value).toBe('test');
-    expect(storage.setItem).toHaveBeenCalledWith(
-      stringParam.key,
-      stringParam.value
-    );
-  });
+        expect(stringParam.value).toBe('test');
+        expect(storage.setItem).toHaveBeenCalledWith(
+            stringParam.key,
+            stringParam.value
+        );
+    });
 
-  it('should save param value only if changed', () => {
-    spyOn(storage, 'setItem').and.stub();
+    it('should save param value only if changed', () => {
+        spyOn(storage, 'setItem').and.stub();
 
-    component.setParamValue(stringParam, 'test');
-    component.setParamValue(stringParam, 'test');
-    component.setParamValue(stringParam, 'test');
+        component.setParamValue(stringParam, 'test');
+        component.setParamValue(stringParam, 'test');
+        component.setParamValue(stringParam, 'test');
 
-    expect(storage.setItem).toHaveBeenCalledTimes(1);
-  });
+        expect(storage.setItem).toHaveBeenCalledTimes(1);
+    });
 
-  it('should retrieve boolean param value', () => {
-    const getItemSpy = spyOn(storage, 'getItem').and.returnValue('true');
-    expect(component.getBooleanParamValue(boolParam)).toBe(true);
+    it('should retrieve boolean param value', () => {
+        const getItemSpy = spyOn(storage, 'getItem').and.returnValue('true');
+        expect(component.getBooleanParamValue(boolParam)).toBe(true);
 
-    getItemSpy.and.returnValue('false');
-    expect(component.getBooleanParamValue(boolParam)).toBe(false);
-  });
+        getItemSpy.and.returnValue('false');
+        expect(component.getBooleanParamValue(boolParam)).toBe(false);
+    });
 
-  it('should fallback to boolean param value when storage is empty', () => {
-    spyOn(storage, 'getItem').and.returnValue(null);
-    expect(component.getBooleanParamValue(boolParam)).toBe(true);
-  });
+    it('should fallback to boolean param value when storage is empty', () => {
+        spyOn(storage, 'getItem').and.returnValue(null);
+        expect(component.getBooleanParamValue(boolParam)).toBe(true);
+    });
 
-  it('should render categories as expansion panels', async () => {
-    spyOn(component, 'reset').and.stub();
+    it('should render categories as expansion panels', async () => {
+        spyOn(component, 'reset').and.stub();
 
-    appExtensions.settingGroups = [
-      {
-        id: 'group1',
-        name: 'Group 1',
-        parameters: []
-      },
-      {
-        id: 'group2',
-        name: 'Group 2',
-        parameters: []
-      }
-    ];
+        appExtensions.settingGroups = [
+            {
+                id: 'group1',
+                name: 'Group 1',
+                parameters: [],
+            },
+            {
+                id: 'group2',
+                name: 'Group 2',
+                parameters: [],
+            },
+        ];
 
-    fixture.detectChanges();
-    await fixture.whenStable();
+        fixture.detectChanges();
+        await fixture.whenStable();
 
-    const panels = fixture.debugElement.queryAll(
-      By.css('.mat-expansion-panel')
-    );
-    expect(panels.length).toBe(3);
-  });
+        const panels = fixture.debugElement.queryAll(
+            By.css('.mat-expansion-panel')
+        );
+        expect(panels.length).toBe(3);
+    });
 });

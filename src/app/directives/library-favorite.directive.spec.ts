@@ -26,118 +26,129 @@
 import { Component, ViewChild } from '@angular/core';
 import { LibraryFavoriteDirective } from './library-favorite.directive';
 import {
-  AlfrescoApiService,
-  AlfrescoApiServiceMock,
-  setupTestBed,
-  CoreModule
+    AlfrescoApiService,
+    AlfrescoApiServiceMock,
+    setupTestBed,
+    CoreModule,
 } from '@alfresco/adf-core';
 import { TestBed, async } from '@angular/core/testing';
 
 @Component({
-  selector: 'app-test-component',
-  template: `
-    <button #favoriteLibrary="favoriteLibrary" [acaFavoriteLibrary]="selection">
-      Favorite
-    </button>
-  `
+    selector: 'app-test-component',
+    template: `
+        <button
+            #favoriteLibrary="favoriteLibrary"
+            [acaFavoriteLibrary]="selection"
+        >
+            Favorite
+        </button>
+    `,
 })
 class TestComponent {
-  @ViewChild('favoriteLibrary')
-  directive: LibraryFavoriteDirective;
+    @ViewChild('favoriteLibrary')
+    directive: LibraryFavoriteDirective;
 
-  selection = null;
+    selection = null;
 }
 
 describe('LibraryFavoriteDirective', () => {
-  let fixture;
-  let api;
-  let component;
-  let selection;
+    let fixture;
+    let api;
+    let component;
+    let selection;
 
-  setupTestBed({
-    imports: [CoreModule.forRoot()],
-    declarations: [TestComponent, LibraryFavoriteDirective],
-    providers: [
-      {
-        provide: AlfrescoApiService,
-        useClass: AlfrescoApiServiceMock
-      }
-    ]
-  });
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(TestComponent);
-    component = fixture.componentInstance;
-    api = TestBed.get(AlfrescoApiService);
-    selection = { entry: { guid: 'guid', id: 'id' } };
-  });
-
-  it('should not check for favorite if no selection exists', () => {
-    spyOn(api.peopleApi, 'getFavoriteSite');
-    fixture.detectChanges();
-
-    expect(api.peopleApi.getFavoriteSite).not.toHaveBeenCalled();
-  });
-
-  it('should mark selection as favorite when getFavoriteSite returns successfully', async(() => {
-    spyOn(api.peopleApi, 'getFavoriteSite').and.returnValue(Promise.resolve());
-    component.selection = selection;
-    fixture.detectChanges();
-
-    fixture.whenStable().then(() => {
-      expect(api.peopleApi.getFavoriteSite).toHaveBeenCalled();
-      expect(component.directive.isFavorite()).toBe(true);
+    setupTestBed({
+        imports: [CoreModule.forRoot()],
+        declarations: [TestComponent, LibraryFavoriteDirective],
+        providers: [
+            {
+                provide: AlfrescoApiService,
+                useClass: AlfrescoApiServiceMock,
+            },
+        ],
     });
-  }));
 
-  it('should mark selection not favorite when getFavoriteSite errors', async(() => {
-    spyOn(api.peopleApi, 'getFavoriteSite').and.returnValue(Promise.reject());
-    component.selection = selection;
-    fixture.detectChanges();
-
-    fixture.whenStable().then(() => {
-      expect(api.peopleApi.getFavoriteSite).toHaveBeenCalled();
-      expect(component.directive.isFavorite()).toBe(false);
+    beforeEach(() => {
+        fixture = TestBed.createComponent(TestComponent);
+        component = fixture.componentInstance;
+        api = TestBed.get(AlfrescoApiService);
+        selection = { entry: { guid: 'guid', id: 'id' } };
     });
-  }));
 
-  it('should call addFavorite() on click event when selection is not a favorite', async(() => {
-    spyOn(api.peopleApi, 'getFavoriteSite').and.returnValue(Promise.reject());
-    spyOn(api.peopleApi, 'addFavorite').and.returnValue(Promise.resolve());
-    component.selection = selection;
-    fixture.detectChanges();
+    it('should not check for favorite if no selection exists', () => {
+        spyOn(api.peopleApi, 'getFavoriteSite');
+        fixture.detectChanges();
 
-    expect(component.directive.isFavorite()).toBeFalsy();
-
-    fixture.whenStable().then(() => {
-      fixture.nativeElement
-        .querySelector('button')
-        .dispatchEvent(new MouseEvent('click'));
-
-      fixture.detectChanges();
-
-      expect(api.peopleApi.addFavorite).toHaveBeenCalled();
+        expect(api.peopleApi.getFavoriteSite).not.toHaveBeenCalled();
     });
-  }));
 
-  it('should call removeFavoriteSite() on click event when selection is not a favorite', async(() => {
-    spyOn(api.peopleApi, 'getFavoriteSite').and.returnValue(Promise.resolve());
-    spyOn(api.favoritesApi, 'removeFavoriteSite').and.returnValue(
-      Promise.resolve()
-    );
-    component.selection = selection;
-    fixture.detectChanges();
+    it('should mark selection as favorite when getFavoriteSite returns successfully', async(() => {
+        spyOn(api.peopleApi, 'getFavoriteSite').and.returnValue(
+            Promise.resolve()
+        );
+        component.selection = selection;
+        fixture.detectChanges();
 
-    expect(component.directive.isFavorite()).toBeFalsy();
+        fixture.whenStable().then(() => {
+            expect(api.peopleApi.getFavoriteSite).toHaveBeenCalled();
+            expect(component.directive.isFavorite()).toBe(true);
+        });
+    }));
 
-    fixture.whenStable().then(() => {
-      fixture.nativeElement
-        .querySelector('button')
-        .dispatchEvent(new MouseEvent('click'));
+    it('should mark selection not favorite when getFavoriteSite errors', async(() => {
+        spyOn(api.peopleApi, 'getFavoriteSite').and.returnValue(
+            Promise.reject()
+        );
+        component.selection = selection;
+        fixture.detectChanges();
 
-      fixture.detectChanges();
+        fixture.whenStable().then(() => {
+            expect(api.peopleApi.getFavoriteSite).toHaveBeenCalled();
+            expect(component.directive.isFavorite()).toBe(false);
+        });
+    }));
 
-      expect(api.favoritesApi.removeFavoriteSite).toHaveBeenCalled();
-    });
-  }));
+    it('should call addFavorite() on click event when selection is not a favorite', async(() => {
+        spyOn(api.peopleApi, 'getFavoriteSite').and.returnValue(
+            Promise.reject()
+        );
+        spyOn(api.peopleApi, 'addFavorite').and.returnValue(Promise.resolve());
+        component.selection = selection;
+        fixture.detectChanges();
+
+        expect(component.directive.isFavorite()).toBeFalsy();
+
+        fixture.whenStable().then(() => {
+            fixture.nativeElement
+                .querySelector('button')
+                .dispatchEvent(new MouseEvent('click'));
+
+            fixture.detectChanges();
+
+            expect(api.peopleApi.addFavorite).toHaveBeenCalled();
+        });
+    }));
+
+    it('should call removeFavoriteSite() on click event when selection is not a favorite', async(() => {
+        spyOn(api.peopleApi, 'getFavoriteSite').and.returnValue(
+            Promise.resolve()
+        );
+        spyOn(api.favoritesApi, 'removeFavoriteSite').and.returnValue(
+            Promise.resolve()
+        );
+        component.selection = selection;
+        fixture.detectChanges();
+
+        expect(component.directive.isFavorite()).toBeFalsy();
+
+        fixture.whenStable().then(() => {
+            fixture.nativeElement
+                .querySelector('button')
+                .dispatchEvent(new MouseEvent('click'));
+
+            fixture.detectChanges();
+
+            expect(api.favoritesApi.removeFavoriteSite).toHaveBeenCalled();
+        });
+    }));
 });

@@ -26,17 +26,19 @@
 import { RepoApi } from '../repo-api';
 
 export class AuthenticationApi extends RepoApi {
-
-    constructor(username?, password?) {
+    constructor(username?: string, password?: string) {
         super(username, password);
     }
 
     async logout() {
-      try {
-        await this.apiAuth();
-        await this.alfrescoJsApi.logout();
-      } catch (error) {
-        this.handleError(`${this.constructor.name} ${this.logout.name}`, error);
-      }
+        try {
+            await this.apiAuth();
+            await this.alfrescoJsApi.logout();
+        } catch (error) {
+            this.handleError(
+                `${this.constructor.name} ${this.logout.name}`,
+                error
+            );
+        }
     }
 }

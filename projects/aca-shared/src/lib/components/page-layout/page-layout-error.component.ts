@@ -24,18 +24,16 @@
  */
 
 import {
-  Component,
-  ViewEncapsulation,
-  ChangeDetectionStrategy
+    Component,
+    ViewEncapsulation,
+    ChangeDetectionStrategy,
 } from '@angular/core';
 
 @Component({
-  selector: 'aca-page-layout-error',
-  template: `
-    <ng-content></ng-content>
-  `,
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'aca-page-layout-error' }
+    selector: 'aca-page-layout-error',
+    template: ` <ng-content></ng-content> `,
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: { class: 'aca-page-layout-error' },
 })
 export class PageLayoutErrorComponent {}

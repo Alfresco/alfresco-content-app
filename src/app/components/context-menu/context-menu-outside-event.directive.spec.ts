@@ -26,7 +26,7 @@
 import { OutsideEventDirective } from './context-menu-outside-event.directive';
 
 describe('OutsideEventDirective', () => {
-  it('should be defined', () => {
-    expect(OutsideEventDirective).toBeDefined();
-  });
+    it('should be defined', () => {
+        expect(OutsideEventDirective).toBeDefined();
+    });
 });

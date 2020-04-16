@@ -29,8 +29,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 
 @NgModule({
-  imports: [CommonModule, MatIconModule],
-  declarations: [LockedByComponent],
-  exports: [LockedByComponent]
+    imports: [CommonModule, MatIconModule],
+    declarations: [LockedByComponent],
+    exports: [LockedByComponent],
 })
 export class LockedByModule {}

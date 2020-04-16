@@ -32,32 +32,32 @@ import { SearchLibrariesQueryBuilderService } from './search-libraries-query-bui
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 
 describe('SearchLibrariesResultsComponent', () => {
-  let component: SearchLibrariesResultsComponent;
-  let fixture: ComponentFixture<SearchLibrariesResultsComponent>;
+    let component: SearchLibrariesResultsComponent;
+    let fixture: ComponentFixture<SearchLibrariesResultsComponent>;
 
-  const emptyPage = { list: { pagination: { totalItems: 0 }, entries: [] } };
+    const emptyPage = { list: { pagination: { totalItems: 0 }, entries: [] } };
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [AppTestingModule],
-      declarations: [
-        DataTableComponent,
-        DocumentListComponent,
-        SearchLibrariesResultsComponent,
-        AppConfigPipe
-      ],
-      schemas: [NO_ERRORS_SCHEMA],
-      providers: [SearchLibrariesQueryBuilderService]
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            imports: [AppTestingModule],
+            declarations: [
+                DataTableComponent,
+                DocumentListComponent,
+                SearchLibrariesResultsComponent,
+                AppConfigPipe,
+            ],
+            schemas: [NO_ERRORS_SCHEMA],
+            providers: [SearchLibrariesQueryBuilderService],
+        });
+
+        fixture = TestBed.createComponent(SearchLibrariesResultsComponent);
+        component = fixture.componentInstance;
     });
 
-    fixture = TestBed.createComponent(SearchLibrariesResultsComponent);
-    component = fixture.componentInstance;
-  });
+    it('should show empty page by default', async () => {
+        spyOn(component, 'onSearchResultLoaded').and.callThrough();
+        fixture.detectChanges();
 
-  it('should show empty page by default', async () => {
-    spyOn(component, 'onSearchResultLoaded').and.callThrough();
-    fixture.detectChanges();
-
-    expect(component.onSearchResultLoaded).toHaveBeenCalledWith(emptyPage);
-  });
+        expect(component.onSearchResultLoaded).toHaveBeenCalledWith(emptyPage);
+    });
 });

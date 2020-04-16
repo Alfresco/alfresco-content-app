@@ -30,8 +30,8 @@ import { CoreModule } from '@alfresco/adf-core';
 import { AppToolbarModule } from '../toolbar/toolbar.module';
 
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild(), AppToolbarModule],
-  declarations: [CreateMenuComponent],
-  exports: [CreateMenuComponent]
+    imports: [CommonModule, CoreModule.forChild(), AppToolbarModule],
+    declarations: [CreateMenuComponent],
+    exports: [CreateMenuComponent],
 })
 export class AppCreateMenuModule {}

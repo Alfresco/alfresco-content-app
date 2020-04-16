@@ -30,35 +30,37 @@ import { RouteReuseStrategy } from '@angular/router';
 import { AppRouteReuseStrategy } from '../routing/app.routes.strategy';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root',
 })
 export class AppService {
-  private ready: BehaviorSubject<boolean>;
-  ready$: Observable<boolean>;
+    private ready: BehaviorSubject<boolean>;
+    ready$: Observable<boolean>;
 
-  /**
-   * Whether `withCredentials` mode is enabled.
-   * Usually means that `Kerberos` mode is used.
-   */
-  get withCredentials(): boolean {
-    return this.config.get<boolean>('auth.withCredentials', false);
-  }
+    /**
+     * Whether `withCredentials` mode is enabled.
+     * Usually means that `Kerberos` mode is used.
+     */
+    get withCredentials(): boolean {
+        return this.config.get<boolean>('auth.withCredentials', false);
+    }
 
-  constructor(
-    auth: AuthenticationService,
-    private config: AppConfigService,
-    @Inject(RouteReuseStrategy) routeStrategy: AppRouteReuseStrategy
-  ) {
-    this.ready = new BehaviorSubject(auth.isLoggedIn() || this.withCredentials);
-    this.ready$ = this.ready.asObservable();
+    constructor(
+        auth: AuthenticationService,
+        private config: AppConfigService,
+        @Inject(RouteReuseStrategy) routeStrategy: AppRouteReuseStrategy
+    ) {
+        this.ready = new BehaviorSubject(
+            auth.isLoggedIn() || this.withCredentials
+        );
+        this.ready$ = this.ready.asObservable();
 
-    auth.onLogin.subscribe(() => {
-      routeStrategy.resetCache();
-      this.ready.next(true);
-    });
+        auth.onLogin.subscribe(() => {
+            routeStrategy.resetCache();
+            this.ready.next(true);
+        });
 
-    auth.onLogout.subscribe(() => {
-      routeStrategy.resetCache();
-    });
-  }
+        auth.onLogout.subscribe(() => {
+            routeStrategy.resetCache();
+        });
+    }
 }

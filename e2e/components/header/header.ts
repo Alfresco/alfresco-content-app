@@ -32,61 +32,70 @@ import { SearchInput } from '../search/search-input';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 
 export class Header extends Component {
-  private static selectors = {
-    root: 'app-header',
-    logoLink: by.css('.app-menu__title'),
-    userInfo: by.css('aca-current-user'),
-    moreActions: by.id('app.header.more'),
+    private static selectors = {
+        root: 'app-header',
+        logoLink: by.css('.app-menu__title'),
+        userInfo: by.css('aca-current-user'),
+        moreActions: by.id('app.header.more'),
 
-    sidenavToggle: `[id='adf-sidebar-toggle-start']`,
-    expandedSidenav: by.css(`[data-automation-id='expanded']`),
-    collapsedSidenav: by.css(`[data-automation-id='collapsed']`)
-  };
+        sidenavToggle: `[id='adf-sidebar-toggle-start']`,
+        expandedSidenav: by.css(`[data-automation-id='expanded']`),
+        collapsedSidenav: by.css(`[data-automation-id='collapsed']`),
+    };
 
-  logoLink: ElementFinder = this.component.element(Header.selectors.logoLink);
-  moreActions: ElementFinder = browser.element(Header.selectors.moreActions);
-  sidenavToggle: ElementFinder = this.component.element(by.css(Header.selectors.sidenavToggle));
+    logoLink: ElementFinder = this.component.element(Header.selectors.logoLink);
+    moreActions: ElementFinder = browser.element(Header.selectors.moreActions);
+    sidenavToggle: ElementFinder = this.component.element(
+        by.css(Header.selectors.sidenavToggle)
+    );
 
-  userInfo: UserInfo = new UserInfo();
-  menu: Menu = new Menu();
-  toolbar: Toolbar = new Toolbar();
-  searchInput: SearchInput = new SearchInput();
+    userInfo: UserInfo = new UserInfo();
+    menu: Menu = new Menu();
+    toolbar: Toolbar = new Toolbar();
+    searchInput: SearchInput = new SearchInput();
 
-  constructor(ancestor?: string) {
-    super('adf-layout-header', ancestor);
-  }
-
-  async openMoreMenu() {
-    await this.moreActions.click();
-    await this.menu.waitForMenuToOpen();
-  }
-
-  async isSignOutDisplayed() {
-    return this.userInfo.menu.isMenuItemPresent('Sign out');
-  }
-
-  async clickSidenavToggle() {
-    await this.sidenavToggle.click();
-  }
-
-  async isSidenavExpanded() {
-    return browser.isElementPresent(Header.selectors.expandedSidenav);
-  }
-
-  async expandSideNav() {
-    const expanded = await this.isSidenavExpanded();
-    if ( !expanded ) {
-      await this.clickSidenavToggle();
-      await browser.wait(until.elementLocated(Header.selectors.expandedSidenav), BROWSER_WAIT_TIMEOUT, '--- timeout waiting for expanded sidenav' );
+    constructor(ancestor?: string) {
+        super('adf-layout-header', ancestor);
     }
-  }
 
-  async collapseSideNav() {
-    const expanded = await this.isSidenavExpanded();
-    if ( expanded ) {
-      await this.clickSidenavToggle();
-      await browser.wait(until.elementLocated(Header.selectors.collapsedSidenav), BROWSER_WAIT_TIMEOUT, '--- timeout waiting for collapsed sidenav');
+    async openMoreMenu() {
+        await this.moreActions.click();
+        await this.menu.waitForMenuToOpen();
     }
-  }
 
+    async isSignOutDisplayed() {
+        return this.userInfo.menu.isMenuItemPresent('Sign out');
+    }
+
+    async clickSidenavToggle() {
+        await this.sidenavToggle.click();
+    }
+
+    async isSidenavExpanded() {
+        return browser.isElementPresent(Header.selectors.expandedSidenav);
+    }
+
+    async expandSideNav() {
+        const expanded = await this.isSidenavExpanded();
+        if (!expanded) {
+            await this.clickSidenavToggle();
+            await browser.wait(
+                until.elementLocated(Header.selectors.expandedSidenav),
+                BROWSER_WAIT_TIMEOUT,
+                '--- timeout waiting for expanded sidenav'
+            );
+        }
+    }
+
+    async collapseSideNav() {
+        const expanded = await this.isSidenavExpanded();
+        if (expanded) {
+            await this.clickSidenavToggle();
+            await browser.wait(
+                until.elementLocated(Header.selectors.collapsedSidenav),
+                BROWSER_WAIT_TIMEOUT,
+                '--- timeout waiting for collapsed sidenav'
+            );
+        }
+    }
 }

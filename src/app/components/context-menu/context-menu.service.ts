@@ -34,90 +34,90 @@ import { Directionality } from '@angular/cdk/bidi';
 import { CONTEXT_MENU_DIRECTION } from './direction.token';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root',
 })
 export class ContextMenuService {
-  private direction: Directionality;
+    private direction: Directionality;
 
-  constructor(
-    private injector: Injector,
-    private overlay: Overlay,
-    private userPreferenceService: UserPreferencesService
-  ) {
-    this.userPreferenceService
-      .select('textOrientation')
-      .subscribe(textOrientation => {
-        this.direction = textOrientation;
-      });
-  }
+    constructor(
+        private injector: Injector,
+        private overlay: Overlay,
+        private userPreferenceService: UserPreferencesService
+    ) {
+        this.userPreferenceService
+            .select('textOrientation')
+            .subscribe((textOrientation) => {
+                this.direction = textOrientation;
+            });
+    }
 
-  open(config: ContextmenuOverlayConfig) {
-    const overlay = this.createOverlay(config);
-    const overlayRef = new ContextMenuOverlayRef(overlay);
+    open(config: ContextmenuOverlayConfig) {
+        const overlay = this.createOverlay(config);
+        const overlayRef = new ContextMenuOverlayRef(overlay);
 
-    this.attachDialogContainer(overlay, overlayRef);
+        this.attachDialogContainer(overlay, overlayRef);
 
-    return overlayRef;
-  }
+        return overlayRef;
+    }
 
-  private createOverlay(config: ContextmenuOverlayConfig) {
-    const overlayConfig = this.getOverlayConfig(config);
-    return this.overlay.create(overlayConfig);
-  }
+    private createOverlay(config: ContextmenuOverlayConfig) {
+        const overlayConfig = this.getOverlayConfig(config);
+        return this.overlay.create(overlayConfig);
+    }
 
-  private attachDialogContainer(
-    overlay: OverlayRef,
-    contextmenuOverlayRef: ContextMenuOverlayRef
-  ) {
-    const injector = this.createInjector(contextmenuOverlayRef);
+    private attachDialogContainer(
+        overlay: OverlayRef,
+        contextmenuOverlayRef: ContextMenuOverlayRef
+    ) {
+        const injector = this.createInjector(contextmenuOverlayRef);
 
-    const containerPortal = new ComponentPortal(
-      ContextMenuComponent,
-      null,
-      injector
-    );
-    const containerRef: ComponentRef<ContextMenuComponent> = overlay.attach(
-      containerPortal
-    );
+        const containerPortal = new ComponentPortal(
+            ContextMenuComponent,
+            null,
+            injector
+        );
+        const containerRef: ComponentRef<ContextMenuComponent> = overlay.attach(
+            containerPortal
+        );
 
-    return containerRef.instance;
-  }
+        return containerRef.instance;
+    }
 
-  private createInjector(
-    contextmenuOverlayRef: ContextMenuOverlayRef
-  ): PortalInjector {
-    const injectionTokens = new WeakMap();
+    private createInjector(
+        contextmenuOverlayRef: ContextMenuOverlayRef
+    ): PortalInjector {
+        const injectionTokens = new WeakMap();
 
-    injectionTokens.set(ContextMenuOverlayRef, contextmenuOverlayRef);
-    injectionTokens.set(CONTEXT_MENU_DIRECTION, this.direction);
+        injectionTokens.set(ContextMenuOverlayRef, contextmenuOverlayRef);
+        injectionTokens.set(CONTEXT_MENU_DIRECTION, this.direction);
 
-    return new PortalInjector(this.injector, injectionTokens);
-  }
+        return new PortalInjector(this.injector, injectionTokens);
+    }
 
-  private getOverlayConfig(config: ContextmenuOverlayConfig): OverlayConfig {
-    const { x, y } = config.source;
+    private getOverlayConfig(config: ContextmenuOverlayConfig): OverlayConfig {
+        const { x, y } = config.source;
 
-    const positionStrategy = this.overlay
-      .position()
-      .flexibleConnectedTo({ x, y })
-      .withPositions([
-        {
-          originX: 'end',
-          originY: 'bottom',
-          overlayX: 'end',
-          overlayY: 'top'
-        }
-      ]);
+        const positionStrategy = this.overlay
+            .position()
+            .flexibleConnectedTo({ x, y })
+            .withPositions([
+                {
+                    originX: 'end',
+                    originY: 'bottom',
+                    overlayX: 'end',
+                    overlayY: 'top',
+                },
+            ]);
 
-    const overlayConfig = new OverlayConfig({
-      hasBackdrop: config.hasBackdrop,
-      backdropClass: config.backdropClass,
-      panelClass: config.panelClass,
-      scrollStrategy: this.overlay.scrollStrategies.close(),
-      positionStrategy,
-      direction: this.direction
-    });
+        const overlayConfig = new OverlayConfig({
+            hasBackdrop: config.hasBackdrop,
+            backdropClass: config.backdropClass,
+            panelClass: config.panelClass,
+            scrollStrategy: this.overlay.scrollStrategies.close(),
+            positionStrategy,
+            direction: this.direction,
+        });
 
-    return overlayConfig;
-  }
+        return overlayConfig;
+    }
 }

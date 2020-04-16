@@ -27,95 +27,106 @@ import { by, ElementFinder } from 'protractor';
 import { Component } from '../component';
 
 export class LoginComponent extends Component {
-  private static selectors = {
-    root: 'adf-login',
+    private static selectors = {
+        root: 'adf-login',
 
-    usernameInput: by.css('input#username'),
-    passwordInput: by.css('input#password'),
-    passwordVisibility: by.css('.adf-login-password-icon'),
-    submitButton: by.css('button#login-button'),
-    errorMessage: by.css('.adf-login-error-message'),
-    copyright: by.css('.adf-copyright')
-  };
+        usernameInput: by.css('input#username'),
+        passwordInput: by.css('input#password'),
+        passwordVisibility: by.css('.adf-login-password-icon'),
+        submitButton: by.css('button#login-button'),
+        errorMessage: by.css('.adf-login-error-message'),
+        copyright: by.css('.adf-copyright'),
+    };
 
-  usernameInput: ElementFinder = this.component.element(LoginComponent.selectors.usernameInput);
-  passwordInput: ElementFinder = this.component.element(LoginComponent.selectors.passwordInput);
-  submitButton: ElementFinder = this.component.element(LoginComponent.selectors.submitButton);
-  errorMessage: ElementFinder = this.component.element(LoginComponent.selectors.errorMessage);
-  copyright: ElementFinder = this.component.element(LoginComponent.selectors.copyright);
-  passwordVisibility: ElementFinder = this.component.element(LoginComponent.selectors.passwordVisibility);
+    usernameInput: ElementFinder = this.component.element(
+        LoginComponent.selectors.usernameInput
+    );
+    passwordInput: ElementFinder = this.component.element(
+        LoginComponent.selectors.passwordInput
+    );
+    submitButton: ElementFinder = this.component.element(
+        LoginComponent.selectors.submitButton
+    );
+    errorMessage: ElementFinder = this.component.element(
+        LoginComponent.selectors.errorMessage
+    );
+    copyright: ElementFinder = this.component.element(
+        LoginComponent.selectors.copyright
+    );
+    passwordVisibility: ElementFinder = this.component.element(
+        LoginComponent.selectors.passwordVisibility
+    );
 
-  constructor(ancestor?: string) {
-    super(LoginComponent.selectors.root, ancestor);
-  }
-
-  async enterUsername(username: string) {
-    const { usernameInput } = this;
-
-    await usernameInput.clear();
-    await usernameInput.sendKeys(username);
-  }
-
-  async enterPassword(password: string) {
-    const { passwordInput } = this;
-
-    await passwordInput.clear();
-    await passwordInput.sendKeys(password);
-  }
-
-  async enterCredentials(username: string, password: string) {
-    await this.enterUsername(username);
-    await this.enterPassword(password);
-  }
-
-  async submit() {
-    await this.submitButton.click();
-  }
-
-  async clickPasswordVisibility() {
-    await this.passwordVisibility.click();
-  }
-
-  async getPasswordVisibility(): Promise<boolean> {
-    const text = await this.passwordVisibility.getText();
-    if (text.endsWith('visibility_off')) {
-      return false;
-    } else {
-      if (text.endsWith('visibility')) {
-        return true;
-      }
+    constructor(ancestor?: string) {
+        super(LoginComponent.selectors.root, ancestor);
     }
 
-    return false;
-  }
+    async enterUsername(username: string) {
+        const { usernameInput } = this;
 
-  async isPasswordDisplayed(): Promise<boolean> {
-    const type = await this.passwordInput.getAttribute('type');
-    if (type === 'text') {
-      return true;
-    } else {
-      if (type === 'password') {
+        await usernameInput.clear();
+        await usernameInput.sendKeys(username);
+    }
+
+    async enterPassword(password: string) {
+        const { passwordInput } = this;
+
+        await passwordInput.clear();
+        await passwordInput.sendKeys(password);
+    }
+
+    async enterCredentials(username: string, password: string) {
+        await this.enterUsername(username);
+        await this.enterPassword(password);
+    }
+
+    async submit() {
+        await this.submitButton.click();
+    }
+
+    async clickPasswordVisibility() {
+        await this.passwordVisibility.click();
+    }
+
+    async getPasswordVisibility(): Promise<boolean> {
+        const text = await this.passwordVisibility.getText();
+        if (text.endsWith('visibility_off')) {
+            return false;
+        } else {
+            if (text.endsWith('visibility')) {
+                return true;
+            }
+        }
+
         return false;
-      }
     }
 
-    return false;
-  }
+    async isPasswordDisplayed(): Promise<boolean> {
+        const type = await this.passwordInput.getAttribute('type');
+        if (type === 'text') {
+            return true;
+        } else {
+            if (type === 'password') {
+                return false;
+            }
+        }
 
-  async isUsernameEnabled() {
-    return this.usernameInput.isEnabled();
-  }
+        return false;
+    }
 
-  async isPasswordEnabled() {
-    return this.passwordInput.isEnabled();
-  }
+    async isUsernameEnabled() {
+        return this.usernameInput.isEnabled();
+    }
 
-  async isSubmitEnabled() {
-    return this.submitButton.isEnabled();
-  }
+    async isPasswordEnabled() {
+        return this.passwordInput.isEnabled();
+    }
 
-  async isPasswordHidden() {
-    return !(await this.getPasswordVisibility());
-  }
+    async isSubmitEnabled() {
+        return this.submitButton.isEnabled();
+    }
 
+    async isPasswordHidden() {
+        return !(await this.getPasswordVisibility());
+    }
 }

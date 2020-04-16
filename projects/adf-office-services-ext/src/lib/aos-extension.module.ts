@@ -34,17 +34,17 @@ import { canOpenWithOffice } from './evaluators';
 import { TranslationService } from '@alfresco/adf-core';
 
 @NgModule({
-  imports: [EffectsModule.forFeature([AosEffects])],
-  providers: [AosEditOnlineService]
+    imports: [EffectsModule.forFeature([AosEffects])],
+    providers: [AosEditOnlineService],
 })
 export class AosExtensionModule {
-  constructor(extensions: ExtensionService, translation: TranslationService) {
-    translation.addTranslationFolder(
-      'adf-office-services-ext',
-      'assets/adf-office-services-ext'
-    );
-    extensions.setEvaluators({
-      'aos.canOpenWithOffice': canOpenWithOffice
-    });
-  }
+    constructor(extensions: ExtensionService, translation: TranslationService) {
+        translation.addTranslationFolder(
+            'adf-office-services-ext',
+            'assets/adf-office-services-ext'
+        );
+        extensions.setEvaluators({
+            'aos.canOpenWithOffice': canOpenWithOffice,
+        });
+    }
 }

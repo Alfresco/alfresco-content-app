@@ -35,28 +35,28 @@ import { AppToolbarModule } from '../toolbar/toolbar.module';
 import { AppViewerComponent } from './viewer.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    data: {
-      title: 'APP.PREVIEW.TITLE',
-      navigateMultiple: true
+    {
+        path: '',
+        data: {
+            title: 'APP.PREVIEW.TITLE',
+            navigateMultiple: true,
+        },
+        component: AppViewerComponent,
     },
-    component: AppViewerComponent
-  }
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    CoreModule.forChild(),
-    ContentDirectiveModule,
-    DirectivesModule,
-    AppInfoDrawerModule,
-    CoreExtensionsModule.forChild(),
-    AppToolbarModule
-  ],
-  declarations: [AppViewerComponent],
-  exports: [AppViewerComponent]
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        CoreModule.forChild(),
+        ContentDirectiveModule,
+        DirectivesModule,
+        AppInfoDrawerModule,
+        CoreExtensionsModule.forChild(),
+        AppToolbarModule,
+    ],
+    declarations: [AppViewerComponent],
+    exports: [AppViewerComponent],
 })
 export class AppViewerModule {}

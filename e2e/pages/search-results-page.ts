@@ -29,47 +29,60 @@ import { SearchSortingPicker } from '../components/search/search-sorting-picker'
 import { SearchFilters } from '../components/search/search-filters';
 
 export class SearchResultsPage extends BrowsingPage {
+    private static selectors = {
+        root: 'aca-search-results',
 
-  private static selectors = {
-    root: 'aca-search-results',
+        resultsContentHeader: '.adf-search-results__content-header',
+        infoText: '.adf-search-results--info-text',
+        chipList: '.adf-search-chip-list',
+        chip: '.mat-chip',
+        chipCloseIcon: '.mat-chip-remove',
+    };
 
-    resultsContentHeader: '.adf-search-results__content-header',
-    infoText: '.adf-search-results--info-text',
-    chipList: '.adf-search-chip-list',
-    chip: '.mat-chip',
-    chipCloseIcon: '.mat-chip-remove'
-  };
+    root: ElementFinder = browser.element(
+        by.css(SearchResultsPage.selectors.root)
+    );
+    chipList: ElementFinder = this.root.element(
+        by.css(SearchResultsPage.selectors.chipList)
+    );
+    infoText: ElementFinder = this.root.element(
+        by.css(SearchResultsPage.selectors.infoText)
+    );
 
-  root: ElementFinder = browser.element(by.css(SearchResultsPage.selectors.root));
-  chipList: ElementFinder = this.root.element(by.css(SearchResultsPage.selectors.chipList));
-  infoText: ElementFinder = this.root.element(by.css(SearchResultsPage.selectors.infoText));
+    sortingPicker = new SearchSortingPicker(SearchResultsPage.selectors.root);
+    filters = new SearchFilters(SearchResultsPage.selectors.root);
 
-  sortingPicker = new SearchSortingPicker(SearchResultsPage.selectors.root);
-  filters = new SearchFilters(SearchResultsPage.selectors.root);
+    async waitForResults(): Promise<void> {
+        await this.dataTable.waitForBody();
+    }
 
-  async waitForResults(): Promise<void> {
-    await this.dataTable.waitForBody();
-  }
+    async getResultsHeader(): Promise<string> {
+        return browser
+            .element(by.css(SearchResultsPage.selectors.resultsContentHeader))
+            .getText();
+    }
 
-  async getResultsHeader(): Promise<string> {
-    return browser.element(by.css(SearchResultsPage.selectors.resultsContentHeader)).getText();
-  }
+    async getResultsFoundText(): Promise<string> {
+        return this.infoText.getText();
+    }
 
-  async getResultsFoundText(): Promise<string> {
-    return this.infoText.getText();
-  }
+    async getResultsChipsValues(): Promise<string[]> {
+        const chips: ElementArrayFinder = this.chipList.all(
+            by.css(SearchResultsPage.selectors.chip)
+        );
+        const chipsValues: string[] = await chips.map(async (elem) => {
+            return (await elem.getText()).replace(`\ncancel`, '');
+        });
+        return chipsValues;
+    }
 
-  async getResultsChipsValues(): Promise<string[]> {
-    const chips: ElementArrayFinder = this.chipList.all(by.css(SearchResultsPage.selectors.chip));
-    const chipsValues: string[] = await chips.map(async elem => {
-      return (await elem.getText()).replace(`\ncancel`, '');
-    });
-    return chipsValues;
-  }
-
-  async removeChip(chipName: string): Promise<void> {
-    const chip: ElementFinder = browser.element(By.cssContainingText(SearchResultsPage.selectors.chip, chipName));
-    const closeChip: ElementFinder = chip.element(by.css(SearchResultsPage.selectors.chipCloseIcon));
-    await closeChip.click();
-  }
+    async removeChip(chipName: string): Promise<void> {
+        const chip: ElementFinder = browser.element(
+            By.cssContainingText(SearchResultsPage.selectors.chip, chipName)
+        );
+        const closeChip: ElementFinder = chip.element(
+            by.css(SearchResultsPage.selectors.chipCloseIcon)
+        );
+        await closeChip.click();
+    }
 }

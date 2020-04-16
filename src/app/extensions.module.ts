@@ -30,6 +30,6 @@ import { AosExtensionModule } from '@alfresco/adf-office-services-ext';
 // For any application-specific code use CoreExtensionsModule instead.
 
 @NgModule({
-  imports: [AosExtensionModule]
+    imports: [AosExtensionModule],
 })
 export class AppExtensionsModule {}

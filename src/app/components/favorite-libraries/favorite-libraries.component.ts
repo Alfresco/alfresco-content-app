@@ -34,87 +34,95 @@ import { NavigateLibraryAction } from '@alfresco/aca-shared/store';
 import { PageComponent } from '../page.component';
 import { UserPreferencesService } from '@alfresco/adf-core';
 @Component({
-  templateUrl: './favorite-libraries.component.html'
+    templateUrl: './favorite-libraries.component.html',
 })
 export class FavoriteLibrariesComponent extends PageComponent
-  implements OnInit {
-  pagination: Pagination = new Pagination({
-    skipCount: 0,
-    maxItems: 25,
-    totalItems: 0
-  });
-  isLoading = false;
-  list: FavoritePaging;
-  isSmallScreen = false;
-  columns: any[] = [];
+    implements OnInit {
+    pagination: Pagination = new Pagination({
+        skipCount: 0,
+        maxItems: 25,
+        totalItems: 0,
+    });
+    isLoading = false;
+    list: FavoritePaging;
+    isSmallScreen = false;
+    columns: any[] = [];
 
-  constructor(
-    content: ContentManagementService,
-    store: Store<any>,
-    extensions: AppExtensionService,
-    private contentApiService: ContentApiService,
-    private breakpointObserver: BreakpointObserver,
-    private preferences: UserPreferencesService,
-    private changeDetectorRef: ChangeDetectorRef
-  ) {
-    super(store, extensions, content);
-  }
-
-  ngOnInit() {
-    super.ngOnInit();
-
-    this.getList({ maxItems: this.preferences.paginationSize });
-
-    this.subscriptions = this.subscriptions.concat([
-      this.content.libraryDeleted.subscribe(() => this.reloadList()),
-      this.content.libraryUpdated.subscribe(() => this.reloadList()),
-      this.content.libraryJoined.subscribe(() => this.reloadList()),
-      this.content.libraryLeft.subscribe(() => this.reloadList()),
-      this.content.favoriteLibraryToggle.subscribe(() => this.reloadList()),
-
-      this.breakpointObserver
-        .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
-        .subscribe(result => {
-          this.isSmallScreen = result.matches;
-        })
-    ]);
-    this.columns = this.extensions.documentListPresets.favoriteLibraries || [];
-  }
-
-  navigateTo(node: SiteEntry) {
-    if (node && node.entry && node.entry.guid) {
-      this.store.dispatch(new NavigateLibraryAction(node.entry.guid));
+    constructor(
+        content: ContentManagementService,
+        store: Store<any>,
+        extensions: AppExtensionService,
+        private contentApiService: ContentApiService,
+        private breakpointObserver: BreakpointObserver,
+        private preferences: UserPreferencesService,
+        private changeDetectorRef: ChangeDetectorRef
+    ) {
+        super(store, extensions, content);
     }
-  }
 
-  onChangePageSize(pagination: Pagination) {
-    this.preferences.paginationSize = pagination.maxItems;
-    this.getList(pagination);
-  }
+    ngOnInit() {
+        super.ngOnInit();
 
-  onChange(pagination: Pagination) {
-    this.getList(pagination);
-  }
+        this.getList({ maxItems: this.preferences.paginationSize });
 
-  private getList(pagination: Pagination) {
-    this.isLoading = true;
-    this.contentApiService.getFavoriteLibraries('-me-', pagination).subscribe(
-      (favoriteLibraries: FavoritePaging) => {
-        this.list = favoriteLibraries;
-        this.pagination = favoriteLibraries.list.pagination;
-        this.isLoading = false;
-        this.changeDetectorRef.detectChanges();
-      },
-      () => {
-        this.list = null;
-        this.pagination = null;
-        this.isLoading = false;
-      }
-    );
-  }
+        this.subscriptions = this.subscriptions.concat([
+            this.content.libraryDeleted.subscribe(() => this.reloadList()),
+            this.content.libraryUpdated.subscribe(() => this.reloadList()),
+            this.content.libraryJoined.subscribe(() => this.reloadList()),
+            this.content.libraryLeft.subscribe(() => this.reloadList()),
+            this.content.favoriteLibraryToggle.subscribe(() =>
+                this.reloadList()
+            ),
 
-  private reloadList() {
-    this.reload();
-    this.getList(this.pagination);
-  }
+            this.breakpointObserver
+                .observe([
+                    Breakpoints.HandsetPortrait,
+                    Breakpoints.HandsetLandscape,
+                ])
+                .subscribe((result) => {
+                    this.isSmallScreen = result.matches;
+                }),
+        ]);
+        this.columns =
+            this.extensions.documentListPresets.favoriteLibraries || [];
+    }
+
+    navigateTo(node: SiteEntry) {
+        if (node && node.entry && node.entry.guid) {
+            this.store.dispatch(new NavigateLibraryAction(node.entry.guid));
+        }
+    }
+
+    onChangePageSize(pagination: Pagination) {
+        this.preferences.paginationSize = pagination.maxItems;
+        this.getList(pagination);
+    }
+
+    onChange(pagination: Pagination) {
+        this.getList(pagination);
+    }
+
+    private getList(pagination: Pagination) {
+        this.isLoading = true;
+        this.contentApiService
+            .getFavoriteLibraries('-me-', pagination)
+            .subscribe(
+                (favoriteLibraries: FavoritePaging) => {
+                    this.list = favoriteLibraries;
+                    this.pagination = favoriteLibraries.list.pagination;
+                    this.isLoading = false;
+                    this.changeDetectorRef.detectChanges();
+                },
+                () => {
+                    this.list = null;
+                    this.pagination = null;
+                    this.isLoading = false;
+                }
+            );
+    }
+
+    private reloadList() {
+        this.reload();
+        this.getList(this.pagination);
+    }
 }

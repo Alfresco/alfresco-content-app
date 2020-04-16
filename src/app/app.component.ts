@@ -24,28 +24,28 @@
  */
 
 import {
-  AlfrescoApiService,
-  AppConfigService,
-  AuthenticationService,
-  FileUploadErrorEvent,
-  PageTitleService,
-  UploadService,
-  SharedLinksApiService,
-  StorageService
+    AlfrescoApiService,
+    AppConfigService,
+    AuthenticationService,
+    FileUploadErrorEvent,
+    PageTitleService,
+    UploadService,
+    SharedLinksApiService,
+    StorageService,
 } from '@alfresco/adf-core';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, ActivationEnd } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppExtensionService } from './extensions/extension.service';
 import {
-  AppStore,
-  AppState,
-  SetCurrentUrlAction,
-  SetInitialStateAction,
-  SetUserProfileAction,
-  SnackbarErrorAction,
-  CloseModalDialogsAction,
-  SetRepositoryInfoAction
+    AppStore,
+    AppState,
+    SetCurrentUrlAction,
+    SetInitialStateAction,
+    SetUserProfileAction,
+    SnackbarErrorAction,
+    CloseModalDialogsAction,
+    SetRepositoryInfoAction,
 } from '@alfresco/aca-shared/store';
 import { filter, takeUntil } from 'rxjs/operators';
 import { AppService, ContentApiService } from '@alfresco/aca-shared';
@@ -54,165 +54,167 @@ import { Subject } from 'rxjs';
 import { INITIAL_APP_STATE } from './store/initial-state';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, OnDestroy {
-  onDestroy$: Subject<boolean> = new Subject<boolean>();
-  pageHeading = '';
+    onDestroy$: Subject<boolean> = new Subject<boolean>();
+    pageHeading = '';
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private pageTitle: PageTitleService,
-    private store: Store<AppStore>,
-    private config: AppConfigService,
-    private alfrescoApiService: AlfrescoApiService,
-    private authenticationService: AuthenticationService,
-    private uploadService: UploadService,
-    private extensions: AppExtensionService,
-    private contentApi: ContentApiService,
-    private appService: AppService,
-    private sharedLinksApiService: SharedLinksApiService,
-    private storage: StorageService
-  ) {}
+    constructor(
+        private route: ActivatedRoute,
+        private router: Router,
+        private pageTitle: PageTitleService,
+        private store: Store<AppStore>,
+        private config: AppConfigService,
+        private alfrescoApiService: AlfrescoApiService,
+        private authenticationService: AuthenticationService,
+        private uploadService: UploadService,
+        private extensions: AppExtensionService,
+        private contentApi: ContentApiService,
+        private appService: AppService,
+        private sharedLinksApiService: SharedLinksApiService,
+        private storage: StorageService
+    ) {}
 
-  ngOnInit() {
-    this.alfrescoApiService
-      .getInstance()
-      .on('error', (error: { status: number }) => {
-        if (error.status === 401) {
-          if (!this.authenticationService.isLoggedIn()) {
-            this.store.dispatch(new CloseModalDialogsAction());
+    ngOnInit() {
+        this.alfrescoApiService
+            .getInstance()
+            .on('error', (error: { status: number }) => {
+                if (error.status === 401) {
+                    if (!this.authenticationService.isLoggedIn()) {
+                        this.store.dispatch(new CloseModalDialogsAction());
 
-            let redirectUrl = this.route.snapshot.queryParams['redirectUrl'];
-            if (!redirectUrl) {
-              redirectUrl = this.router.url;
-            }
+                        let redirectUrl = this.route.snapshot.queryParams[
+                            'redirectUrl'
+                        ];
+                        if (!redirectUrl) {
+                            redirectUrl = this.router.url;
+                        }
 
-            this.router.navigate(['/login'], {
-              queryParams: { redirectUrl: redirectUrl }
+                        this.router.navigate(['/login'], {
+                            queryParams: { redirectUrl: redirectUrl },
+                        });
+                    }
+                }
             });
-          }
-        }
-      });
 
-    this.loadAppSettings();
+        this.loadAppSettings();
 
-    const { router, pageTitle } = this;
+        const { router, pageTitle } = this;
 
-    this.router.events
-      .pipe(
-        filter(
-          event =>
-            event instanceof ActivationEnd &&
-            event.snapshot.children.length === 0
-        )
-      )
-      .subscribe((event: ActivationEnd) => {
-        const snapshot: any = event.snapshot || {};
-        const data: any = snapshot.data || {};
+        this.router.events
+            .pipe(
+                filter(
+                    (event) =>
+                        event instanceof ActivationEnd &&
+                        event.snapshot.children.length === 0
+                )
+            )
+            .subscribe((event: ActivationEnd) => {
+                const snapshot: any = event.snapshot || {};
+                const data: any = snapshot.data || {};
 
-        this.pageHeading = data.title || '';
-        pageTitle.setTitle(data.title || '');
-        this.store.dispatch(new SetCurrentUrlAction(router.url));
-      });
+                this.pageHeading = data.title || '';
+                pageTitle.setTitle(data.title || '');
+                this.store.dispatch(new SetCurrentUrlAction(router.url));
+            });
 
-    this.router.config.unshift(...this.extensions.getApplicationRoutes());
+        this.router.config.unshift(...this.extensions.getApplicationRoutes());
 
-    this.uploadService.fileUploadError.subscribe(error =>
-      this.onFileUploadedError(error)
-    );
-
-    this.sharedLinksApiService.error
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((err: { message: string }) => {
-        this.store.dispatch(new SnackbarErrorAction(err.message));
-      });
-
-    this.appService.ready$
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe(isReady => {
-        if (isReady) {
-          this.loadRepositoryStatus();
-          this.loadUserProfile();
-        }
-      });
-  }
-
-  ngOnDestroy() {
-    this.onDestroy$.next(true);
-    this.onDestroy$.complete();
-  }
-
-  private loadRepositoryStatus() {
-    this.contentApi
-      .getRepositoryInformation()
-      .subscribe((response: DiscoveryEntry) => {
-        this.store.dispatch(
-          new SetRepositoryInfoAction(response.entry.repository)
+        this.uploadService.fileUploadError.subscribe((error) =>
+            this.onFileUploadedError(error)
         );
-      });
-  }
 
-  private async loadUserProfile() {
-    const groupsApi = new GroupsApi(this.alfrescoApiService.getInstance());
-    const paging = await groupsApi.listGroupMembershipsForPerson('-me-');
-    const groups: Group[] = [];
+        this.sharedLinksApiService.error
+            .pipe(takeUntil(this.onDestroy$))
+            .subscribe((err: { message: string }) => {
+                this.store.dispatch(new SnackbarErrorAction(err.message));
+            });
 
-    if (paging && paging.list && paging.list.entries) {
-      groups.push(...paging.list.entries.map(obj => obj.entry));
+        this.appService.ready$
+            .pipe(takeUntil(this.onDestroy$))
+            .subscribe((isReady) => {
+                if (isReady) {
+                    this.loadRepositoryStatus();
+                    this.loadUserProfile();
+                }
+            });
     }
 
-    this.contentApi.getPerson('-me-').subscribe(person => {
-      this.store.dispatch(
-        new SetUserProfileAction({ person: person.entry, groups })
-      );
-    });
-  }
-
-  loadAppSettings() {
-    let baseShareUrl = this.config.get<string>('baseShareUrl');
-    if (!baseShareUrl.endsWith('/')) {
-      baseShareUrl += '/';
+    ngOnDestroy() {
+        this.onDestroy$.next(true);
+        this.onDestroy$.complete();
     }
 
-    const state: AppState = {
-      ...INITIAL_APP_STATE,
-      languagePicker: this.storage.getItem('languagePicker') === 'true',
-      appName: this.config.get<string>('application.name'),
-      headerColor: this.config.get<string>('headerColor'),
-      logoPath: this.config.get<string>('application.logo'),
-      sharedUrl: baseShareUrl
-    };
-
-    this.store.dispatch(new SetInitialStateAction(state));
-  }
-
-  onFileUploadedError(error: FileUploadErrorEvent) {
-    let message = 'APP.MESSAGES.UPLOAD.ERROR.GENERIC';
-
-    if (error.error.status === 403) {
-      message = 'APP.MESSAGES.UPLOAD.ERROR.403';
+    private loadRepositoryStatus() {
+        this.contentApi
+            .getRepositoryInformation()
+            .subscribe((response: DiscoveryEntry) => {
+                this.store.dispatch(
+                    new SetRepositoryInfoAction(response.entry.repository)
+                );
+            });
     }
 
-    if (error.error.status === 404) {
-      message = 'APP.MESSAGES.UPLOAD.ERROR.404';
+    private async loadUserProfile() {
+        const groupsApi = new GroupsApi(this.alfrescoApiService.getInstance());
+        const paging = await groupsApi.listGroupMembershipsForPerson('-me-');
+        const groups: Group[] = [];
+
+        if (paging && paging.list && paging.list.entries) {
+            groups.push(...paging.list.entries.map((obj) => obj.entry));
+        }
+
+        this.contentApi.getPerson('-me-').subscribe((person) => {
+            this.store.dispatch(
+                new SetUserProfileAction({ person: person.entry, groups })
+            );
+        });
     }
 
-    if (error.error.status === 409) {
-      message = 'APP.MESSAGES.UPLOAD.ERROR.CONFLICT';
+    loadAppSettings() {
+        let baseShareUrl = this.config.get<string>('baseShareUrl');
+        if (!baseShareUrl.endsWith('/')) {
+            baseShareUrl += '/';
+        }
+
+        const state: AppState = {
+            ...INITIAL_APP_STATE,
+            languagePicker: this.storage.getItem('languagePicker') === 'true',
+            appName: this.config.get<string>('application.name'),
+            headerColor: this.config.get<string>('headerColor'),
+            logoPath: this.config.get<string>('application.logo'),
+            sharedUrl: baseShareUrl,
+        };
+
+        this.store.dispatch(new SetInitialStateAction(state));
     }
 
-    if (error.error.status === 500) {
-      message = 'APP.MESSAGES.UPLOAD.ERROR.500';
-    }
+    onFileUploadedError(error: FileUploadErrorEvent) {
+        let message = 'APP.MESSAGES.UPLOAD.ERROR.GENERIC';
 
-    if (error.error.status === 504) {
-      message = 'APP.MESSAGES.UPLOAD.ERROR.504';
-    }
+        if (error.error.status === 403) {
+            message = 'APP.MESSAGES.UPLOAD.ERROR.403';
+        }
 
-    this.store.dispatch(new SnackbarErrorAction(message));
-  }
+        if (error.error.status === 404) {
+            message = 'APP.MESSAGES.UPLOAD.ERROR.404';
+        }
+
+        if (error.error.status === 409) {
+            message = 'APP.MESSAGES.UPLOAD.ERROR.CONFLICT';
+        }
+
+        if (error.error.status === 500) {
+            message = 'APP.MESSAGES.UPLOAD.ERROR.500';
+        }
+
+        if (error.error.status === 504) {
+            message = 'APP.MESSAGES.UPLOAD.ERROR.504';
+        }
+
+        this.store.dispatch(new SnackbarErrorAction(message));
+    }
 }

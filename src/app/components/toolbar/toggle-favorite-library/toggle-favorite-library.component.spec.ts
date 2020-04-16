@@ -25,9 +25,9 @@
 
 import { TestBed } from '@angular/core/testing';
 import {
-  CoreModule,
-  AlfrescoApiService,
-  AlfrescoApiServiceMock
+    CoreModule,
+    AlfrescoApiService,
+    AlfrescoApiServiceMock,
 } from '@alfresco/adf-core';
 import { ToggleFavoriteLibraryComponent } from './toggle-favorite-library.component';
 import { LibraryFavoriteDirective } from '../../../directives/library-favorite.directive';
@@ -39,75 +39,82 @@ import { of } from 'rxjs';
 import { Router } from '@angular/router';
 
 describe('ToggleFavoriteLibraryComponent', () => {
-  let fixture;
-  let component;
-  let contentManagementService;
-  const selection = { library: { entry: { id: 'libraryId' } } };
-  const mockRouter = {
-    url: ''
-  };
+    let fixture;
+    let component;
+    let contentManagementService;
+    const selection = { library: { entry: { id: 'libraryId' } } };
+    const mockRouter = {
+        url: '',
+    };
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [CoreModule.forRoot(), AppTestingModule],
-      declarations: [ToggleFavoriteLibraryComponent, LibraryFavoriteDirective],
-      providers: [
-        {
-          provide: Router,
-          useValue: mockRouter
-        },
-        {
-          provide: AlfrescoApiService,
-          useClass: AlfrescoApiServiceMock
-        },
-        {
-          provide: Store,
-          useValue: {
-            dispatch: () => {},
-            select: () => of(selection)
-          }
-        },
-        ContentManagementService
-      ],
-      schemas: [NO_ERRORS_SCHEMA]
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            imports: [CoreModule.forRoot(), AppTestingModule],
+            declarations: [
+                ToggleFavoriteLibraryComponent,
+                LibraryFavoriteDirective,
+            ],
+            providers: [
+                {
+                    provide: Router,
+                    useValue: mockRouter,
+                },
+                {
+                    provide: AlfrescoApiService,
+                    useClass: AlfrescoApiServiceMock,
+                },
+                {
+                    provide: Store,
+                    useValue: {
+                        dispatch: () => {},
+                        select: () => of(selection),
+                    },
+                },
+                ContentManagementService,
+            ],
+            schemas: [NO_ERRORS_SCHEMA],
+        });
     });
-  });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ToggleFavoriteLibraryComponent);
-    component = fixture.componentInstance;
+    beforeEach(() => {
+        fixture = TestBed.createComponent(ToggleFavoriteLibraryComponent);
+        component = fixture.componentInstance;
 
-    contentManagementService = TestBed.get(ContentManagementService);
-    const api = TestBed.get(AlfrescoApiService);
-    spyOn(api.peopleApi, 'getFavoriteSite').and.returnValue(Promise.resolve());
-  });
-
-  it('should get library selection from Store', done => {
-    fixture.detectChanges();
-    component.selection$.subscribe(selected => {
-      expect(selected.library.entry.id).toEqual(selection.library.entry.id);
-      done();
+        contentManagementService = TestBed.get(ContentManagementService);
+        const api = TestBed.get(AlfrescoApiService);
+        spyOn(api.peopleApi, 'getFavoriteSite').and.returnValue(
+            Promise.resolve()
+        );
     });
-  });
 
-  it('should mark selection as favorite when on favorite libraries route', done => {
-    mockRouter.url = '/favorite/libraries';
-    fixture.detectChanges();
-
-    component.selection$.subscribe(selected => {
-      expect(selected.library.isFavorite).toBe(true);
-      done();
+    it('should get library selection from Store', (done) => {
+        fixture.detectChanges();
+        component.selection$.subscribe((selected) => {
+            expect(selected.library.entry.id).toEqual(
+                selection.library.entry.id
+            );
+            done();
+        });
     });
-  });
 
-  it('should emit onToggleEvent() event', () => {
-    fixture.detectChanges();
-    spyOn(contentManagementService.favoriteLibraryToggle, 'next');
+    it('should mark selection as favorite when on favorite libraries route', (done) => {
+        mockRouter.url = '/favorite/libraries';
+        fixture.detectChanges();
 
-    component.onToggleEvent();
+        component.selection$.subscribe((selected) => {
+            expect(selected.library.isFavorite).toBe(true);
+            done();
+        });
+    });
 
-    expect(
-      contentManagementService.favoriteLibraryToggle.next
-    ).toHaveBeenCalled();
-  });
+    it('should emit onToggleEvent() event', () => {
+        fixture.detectChanges();
+        spyOn(contentManagementService.favoriteLibraryToggle, 'next');
+
+        component.onToggleEvent();
+
+        expect(
+            contentManagementService.favoriteLibraryToggle.next
+        ).toHaveBeenCalled();
+    });
 });

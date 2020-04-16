@@ -31,79 +31,79 @@ import { Router, NavigationEnd } from '@angular/router';
 import { Subject } from 'rxjs';
 
 @Component({
-  selector: 'app-test-component',
-  template: `
-    <span
-      id="test-element"
-      acaActiveLink="active-link-class"
-      [action]="item"
-    ></span>
-  `
+    selector: 'app-test-component',
+    template: `
+        <span
+            id="test-element"
+            acaActiveLink="active-link-class"
+            [action]="item"
+        ></span>
+    `,
 })
 class TestComponent {
-  item = {
-    route: 'dummy'
-  };
+    item = {
+        route: 'dummy',
+    };
 }
 
 class MockRouter {
-  private subject = new Subject();
-  events = this.subject.asObservable();
-  url = '';
+    private subject = new Subject();
+    events = this.subject.asObservable();
+    url = '';
 
-  navigateByUrl(url: string) {
-    const navigationEnd = new NavigationEnd(0, '', url);
-    this.subject.next(navigationEnd);
-  }
+    navigateByUrl(url: string) {
+        const navigationEnd = new NavigationEnd(0, '', url);
+        this.subject.next(navigationEnd);
+    }
 }
 
 describe('ActionDirective', () => {
-  let fixture: ComponentFixture<TestComponent>;
-  let router: Router;
+    let fixture: ComponentFixture<TestComponent>;
+    let router: Router;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [AppTestingModule, AppSidenavModule],
-      declarations: [TestComponent],
-      providers: [
-        {
-          provide: Router,
-          useClass: MockRouter
-        }
-      ]
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            imports: [AppTestingModule, AppSidenavModule],
+            declarations: [TestComponent],
+            providers: [
+                {
+                    provide: Router,
+                    useClass: MockRouter,
+                },
+            ],
+        });
+
+        fixture = TestBed.createComponent(TestComponent);
+        router = TestBed.get(Router);
     });
 
-    fixture = TestBed.createComponent(TestComponent);
-    router = TestBed.get(Router);
-  });
+    it('should add active route class name', () => {
+        fixture.detectChanges();
+        router.navigateByUrl('/dummy');
+        // fixture.detectChanges();
+        expect(
+            document.body
+                .querySelector('#test-element')
+                .className.includes('active-link-class')
+        ).toBe(true);
+    });
 
-  it('should add active route class name', () => {
-    fixture.detectChanges();
-    router.navigateByUrl('/dummy');
-    // fixture.detectChanges();
-    expect(
-      document.body
-        .querySelector('#test-element')
-        .className.includes('active-link-class')
-    ).toBe(true);
-  });
+    it('should remove class name if route not active', () => {
+        fixture.detectChanges();
+        router.navigateByUrl('/dummy');
 
-  it('should remove class name if route not active', () => {
-    fixture.detectChanges();
-    router.navigateByUrl('/dummy');
+        expect(
+            document.body
+                .querySelector('#test-element')
+                .className.includes('active-link-class')
+        ).toBe(true);
 
-    expect(
-      document.body
-        .querySelector('#test-element')
-        .className.includes('active-link-class')
-    ).toBe(true);
+        router.navigateByUrl('/other');
 
-    router.navigateByUrl('/other');
-
-    expect(
-      document.body
-        .querySelector('#test-element')
-        .className.includes('active-link-class')
-    ).not.toBe(true);
-  });
+        expect(
+            document.body
+                .querySelector('#test-element')
+                .className.includes('active-link-class')
+        ).not.toBe(true);
+    });
 });

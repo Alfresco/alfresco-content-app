@@ -29,81 +29,84 @@ import { AppExtensionService } from '../../extensions/extension.service';
 import { ContextMenuItemComponent } from './context-menu-item.component';
 import { ContextMenuModule } from './context-menu.module';
 import {
-  TranslateModule,
-  TranslateLoader,
-  TranslateFakeLoader
+    TranslateModule,
+    TranslateLoader,
+    TranslateFakeLoader,
 } from '@ngx-translate/core';
 
 describe('ContextMenuComponent', () => {
-  let fixture: ComponentFixture<ContextMenuItemComponent>;
-  let component: ContextMenuItemComponent;
-  let extensionsService;
-  let contextItem;
+    let fixture: ComponentFixture<ContextMenuItemComponent>;
+    let component: ContextMenuItemComponent;
+    let extensionsService;
+    let contextItem;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        AppTestingModule,
-        ContextMenuModule,
-        TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
-        })
-      ],
-      providers: [AppExtensionService]
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            imports: [
+                AppTestingModule,
+                ContextMenuModule,
+                TranslateModule.forRoot({
+                    loader: {
+                        provide: TranslateLoader,
+                        useClass: TranslateFakeLoader,
+                    },
+                }),
+            ],
+            providers: [AppExtensionService],
+        });
+
+        fixture = TestBed.createComponent(ContextMenuItemComponent);
+        component = fixture.componentInstance;
+        extensionsService = TestBed.get(AppExtensionService);
+
+        contextItem = {
+            type: 'button',
+            id: 'action-button',
+            title: 'Test Button',
+            actions: {
+                click: 'TEST_EVENT',
+            },
+        };
     });
 
-    fixture = TestBed.createComponent(ContextMenuItemComponent);
-    component = fixture.componentInstance;
-    extensionsService = TestBed.get(AppExtensionService);
+    afterEach(() => {
+        fixture.destroy();
+    });
 
-    contextItem = <any> {
-      type: 'button',
-      id: 'action-button',
-      title: 'Test Button',
-      actions: {
-        click: 'TEST_EVENT'
-      }
-    };
-  });
+    it('should render defined menu actions items', () => {
+        component.actionRef = contextItem;
+        fixture.detectChanges();
 
-  afterEach(() => {
-    fixture.destroy();
-  });
+        const buttonElement = fixture.nativeElement.querySelector('button');
+        expect(buttonElement.querySelector('span').innerText.trim()).toBe(
+            contextItem.title
+        );
+    });
 
-  it('should render defined menu actions items', () => {
-    component.actionRef = contextItem;
-    fixture.detectChanges();
+    it('should not run action when entry has no click attribute defined', () => {
+        spyOn(extensionsService, 'runActionById');
+        contextItem.actions = {};
+        component.actionRef = contextItem;
+        fixture.detectChanges();
 
-    const buttonElement = fixture.nativeElement.querySelector('button');
-    expect(buttonElement.querySelector('span').innerText.trim()).toBe(
-      contextItem.title
-    );
-  });
+        fixture.nativeElement
+            .querySelector('#action-button')
+            .dispatchEvent(new MouseEvent('click'));
 
-  it('should not run action when entry has no click attribute defined', () => {
-    spyOn(extensionsService, 'runActionById');
-    contextItem.actions = {};
-    component.actionRef = contextItem;
-    fixture.detectChanges();
+        expect(extensionsService.runActionById).not.toHaveBeenCalled();
+    });
 
-    fixture.nativeElement
-      .querySelector('#action-button')
-      .dispatchEvent(new MouseEvent('click'));
+    it('should run action with provided action id', () => {
+        spyOn(extensionsService, 'runActionById');
+        component.actionRef = contextItem;
+        fixture.detectChanges();
 
-    expect(extensionsService.runActionById).not.toHaveBeenCalled();
-  });
+        fixture.nativeElement
+            .querySelector('#action-button')
+            .dispatchEvent(new MouseEvent('click'));
 
-  it('should run action with provided action id', () => {
-    spyOn(extensionsService, 'runActionById');
-    component.actionRef = contextItem;
-    fixture.detectChanges();
-
-    fixture.nativeElement
-      .querySelector('#action-button')
-      .dispatchEvent(new MouseEvent('click'));
-
-    expect(extensionsService.runActionById).toHaveBeenCalledWith(
-      contextItem.actions.click
-    );
-  });
+        expect(extensionsService.runActionById).toHaveBeenCalledWith(
+            contextItem.actions.click
+        );
+    });
 });

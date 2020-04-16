@@ -24,16 +24,16 @@
  */
 
 import {
-  Component,
-  ViewEncapsulation,
-  ChangeDetectionStrategy
+    Component,
+    ViewEncapsulation,
+    ChangeDetectionStrategy,
 } from '@angular/core';
 
 @Component({
-  selector: 'aca-page-layout-header',
-  template: '<ng-content></ng-content>',
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'aca-page-layout-header' }
+    selector: 'aca-page-layout-header',
+    template: '<ng-content></ng-content>',
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: { class: 'aca-page-layout-header' },
 })
 export class PageLayoutHeaderComponent {}

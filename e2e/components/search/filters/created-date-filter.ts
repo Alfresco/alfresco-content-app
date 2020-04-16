@@ -28,108 +28,124 @@ import { GenericFilterPanel } from './generic-filter-panel';
 import { Utils } from '../../../utilities/utils';
 
 export class CreatedDateFilter extends GenericFilterPanel {
-  constructor() {
-    super('Created date');
-  }
-
-  fromField: ElementFinder = this.panelExpanded.element(by.cssContainingText('.adf-search-date-range .mat-form-field', 'From'));
-  fromInput: ElementFinder = this.fromField.element(by.css(`[data-automation-id='date-range-from-input']`));
-  fromFieldError: ElementFinder = this.fromField.element(by.css(`[data-automation-id='date-range-from-error']`));
-  toField: ElementFinder = this.panelExpanded.element(by.cssContainingText('.adf-search-date-range .mat-form-field', 'To'));
-  toInput: ElementFinder = this.toField.element(by.css(`[data-automation-id='date-range-to-input']`));
-  toFieldError: ElementFinder = this.toField.element(by.css(`[data-automation-id='date-range-to-error']`));
-  clearButton: ElementFinder = this.panel.element(by.css('.adf-facet-buttons [data-automation-id="date-range-clear-btn"]'));
-  applyButton: ElementFinder = this.panel.element(by.css('.adf-facet-buttons [data-automation-id="date-range-apply-btn"]'));
-
-  async isFromErrorDisplayed(): Promise<boolean> {
-    const isPresent = await this.fromFieldError.isPresent();
-    const isDisplayed = await this.fromFieldError.isDisplayed();
-
-    return isPresent && isDisplayed;
-  }
-
-  async isToErrorDisplayed(): Promise<boolean> {
-    const isPresent = await this.toFieldError.isPresent();
-    const isDisplayed = await this.toFieldError.isDisplayed();
-
-    return isPresent && isDisplayed;
-  }
-
-  async isClearButtonEnabled(): Promise<boolean> {
-    return this.clearButton.isEnabled();
-  }
-
-  async isApplyButtonEnabled(): Promise<boolean> {
-    return this.applyButton.isEnabled();
-  }
-
-  async clickClearButton(): Promise<void> {
-    if (await this.isClearButtonEnabled()) {
-      await this.clearButton.click();
+    constructor() {
+        super('Created date');
     }
-  }
 
-  async clickApplyButton(): Promise<void> {
-    if (await this.isApplyButtonEnabled()) {
-      await this.applyButton.click();
+    fromField: ElementFinder = this.panelExpanded.element(
+        by.cssContainingText('.adf-search-date-range .mat-form-field', 'From')
+    );
+    fromInput: ElementFinder = this.fromField.element(
+        by.css(`[data-automation-id='date-range-from-input']`)
+    );
+    fromFieldError: ElementFinder = this.fromField.element(
+        by.css(`[data-automation-id='date-range-from-error']`)
+    );
+    toField: ElementFinder = this.panelExpanded.element(
+        by.cssContainingText('.adf-search-date-range .mat-form-field', 'To')
+    );
+    toInput: ElementFinder = this.toField.element(
+        by.css(`[data-automation-id='date-range-to-input']`)
+    );
+    toFieldError: ElementFinder = this.toField.element(
+        by.css(`[data-automation-id='date-range-to-error']`)
+    );
+    clearButton: ElementFinder = this.panel.element(
+        by.css('.adf-facet-buttons [data-automation-id="date-range-clear-btn"]')
+    );
+    applyButton: ElementFinder = this.panel.element(
+        by.css('.adf-facet-buttons [data-automation-id="date-range-apply-btn"]')
+    );
+
+    async isFromErrorDisplayed(): Promise<boolean> {
+        const isPresent = await this.fromFieldError.isPresent();
+        const isDisplayed = await this.fromFieldError.isDisplayed();
+
+        return isPresent && isDisplayed;
     }
-  }
 
-  async getFromValue(): Promise<string> {
-    try {
-      const value = await this.fromInput.getAttribute('value');
-      return value;
-    } catch (error) {
-      return '';
+    async isToErrorDisplayed(): Promise<boolean> {
+        const isPresent = await this.toFieldError.isPresent();
+        const isDisplayed = await this.toFieldError.isDisplayed();
+
+        return isPresent && isDisplayed;
     }
-  }
 
-  async getFromError(): Promise<string> {
-    try {
-      const error = await this.fromFieldError.getText();
-      return error;
-    } catch (err) {
-      return '';
+    async isClearButtonEnabled(): Promise<boolean> {
+        return this.clearButton.isEnabled();
     }
-  }
 
-  async getToValue(): Promise<string> {
-    try {
-      const value = await this.toInput.getAttribute('value');
-      return value;
-    } catch (err) {
-      return '';
+    async isApplyButtonEnabled(): Promise<boolean> {
+        return this.applyButton.isEnabled();
     }
-  }
 
-  async getToError(): Promise<string> {
-    try {
-      const error = await this.toFieldError.getText();
-      return error;
-    } catch (err) {
-      return '';
+    async clickClearButton(): Promise<void> {
+        if (await this.isClearButtonEnabled()) {
+            await this.clearButton.click();
+        }
     }
-  }
 
-  async resetPanel(): Promise<void> {
-    const fromValue = await this.getFromValue();
-    const toValue = await this.getToValue();
-    if (fromValue.length > 0 || toValue.length > 0) {
-      await this.expandPanel();
-      await this.clickClearButton();
-      await this.collapsePanel();
+    async clickApplyButton(): Promise<void> {
+        if (await this.isApplyButtonEnabled()) {
+            await this.applyButton.click();
+        }
     }
-  }
 
-  async enterFromDate(date: string): Promise<void> {
-    await this.expandPanel();
-    await Utils.clearFieldWithBackspace(this.fromInput);
-    await this.fromInput.sendKeys(date, protractor.Key.TAB);
-  }
+    async getFromValue(): Promise<string> {
+        try {
+            const value = await this.fromInput.getAttribute('value');
+            return value;
+        } catch (error) {
+            return '';
+        }
+    }
 
-  async enterToDate(date: string): Promise<void> {
-    await this.expandPanel();
-    await Utils.clearFieldWithBackspace(this.toInput);
-    await this.toInput.sendKeys(date, protractor.Key.TAB);
-  }
+    async getFromError(): Promise<string> {
+        try {
+            const error = await this.fromFieldError.getText();
+            return error;
+        } catch (err) {
+            return '';
+        }
+    }
+
+    async getToValue(): Promise<string> {
+        try {
+            const value = await this.toInput.getAttribute('value');
+            return value;
+        } catch (err) {
+            return '';
+        }
+    }
+
+    async getToError(): Promise<string> {
+        try {
+            const error = await this.toFieldError.getText();
+            return error;
+        } catch (err) {
+            return '';
+        }
+    }
+
+    async resetPanel(): Promise<void> {
+        const fromValue = await this.getFromValue();
+        const toValue = await this.getToValue();
+        if (fromValue.length > 0 || toValue.length > 0) {
+            await this.expandPanel();
+            await this.clickClearButton();
+            await this.collapsePanel();
+        }
+    }
+
+    async enterFromDate(date: string): Promise<void> {
+        await this.expandPanel();
+        await Utils.clearFieldWithBackspace(this.fromInput);
+        await this.fromInput.sendKeys(date, protractor.Key.TAB);
+    }
+
+    async enterToDate(date: string): Promise<void> {
+        await this.expandPanel();
+        await Utils.clearFieldWithBackspace(this.toInput);
+        await this.toInput.sendKeys(date, protractor.Key.TAB);
+    }
 }

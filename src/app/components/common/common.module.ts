@@ -34,31 +34,31 @@ import { LanguagePickerComponent } from './language-picker/language-picker.compo
 import { LogoutComponent } from './logout/logout.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    CoreModule.forChild(),
-    ExtensionsModule,
-    GenericErrorModule
-  ],
-  declarations: [
-    LocationLinkComponent,
-    ToggleSharedComponent,
-    LanguagePickerComponent,
-    LogoutComponent
-  ],
-  exports: [
-    ExtensionsModule,
-    LocationLinkComponent,
-    GenericErrorModule,
-    ToggleSharedComponent,
-    LanguagePickerComponent,
-    LogoutComponent
-  ],
-  entryComponents: [
-    LocationLinkComponent,
-    ToggleSharedComponent,
-    LanguagePickerComponent,
-    LogoutComponent
-  ]
+    imports: [
+        CommonModule,
+        CoreModule.forChild(),
+        ExtensionsModule,
+        GenericErrorModule,
+    ],
+    declarations: [
+        LocationLinkComponent,
+        ToggleSharedComponent,
+        LanguagePickerComponent,
+        LogoutComponent,
+    ],
+    exports: [
+        ExtensionsModule,
+        LocationLinkComponent,
+        GenericErrorModule,
+        ToggleSharedComponent,
+        LanguagePickerComponent,
+        LogoutComponent,
+    ],
+    entryComponents: [
+        LocationLinkComponent,
+        ToggleSharedComponent,
+        LanguagePickerComponent,
+        LogoutComponent,
+    ],
 })
 export class AppCommonModule {}

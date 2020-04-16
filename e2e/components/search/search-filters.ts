@@ -30,34 +30,37 @@ import { CreatedDateFilter } from './filters/created-date-filter';
 import { FacetFilter } from './filters/facet-filter';
 
 export class SearchFilters extends Component {
-  private static selectors = {
-    root: 'adf-search-filter',
-  };
+    private static selectors = {
+        root: 'adf-search-filter',
+    };
 
-  mainPanel: ElementFinder = browser.element(by.css(SearchFilters.selectors.root));
-  resetAllButton: ElementFinder = this.component.element(by.cssContainingText('.mat-button', 'Reset all'));
+    mainPanel: ElementFinder = browser.element(
+        by.css(SearchFilters.selectors.root)
+    );
+    resetAllButton: ElementFinder = this.component.element(
+        by.cssContainingText('.mat-button', 'Reset all')
+    );
 
-  size = new SizeFilter();
-  createdDate = new CreatedDateFilter();
-  fileType = new FacetFilter('File type');
-  creator = new FacetFilter('Creator');
-  modifier = new FacetFilter('Modifier');
-  location = new FacetFilter('Location');
-  modifiedDate = new FacetFilter('Modified date');
+    size = new SizeFilter();
+    createdDate = new CreatedDateFilter();
+    fileType = new FacetFilter('File type');
+    creator = new FacetFilter('Creator');
+    modifier = new FacetFilter('Modifier');
+    location = new FacetFilter('Location');
+    modifiedDate = new FacetFilter('Modified date');
 
-  constructor(ancestor?: string) {
-    super(SearchFilters.selectors.root, ancestor);
-  }
+    constructor(ancestor?: string) {
+        super(SearchFilters.selectors.root, ancestor);
+    }
 
-  async isSearchFiltersPanelDisplayed(): Promise<boolean> {
-    const isPresent = await this.mainPanel.isPresent();
-    const isDisplayed = await this.mainPanel.isDisplayed();
+    async isSearchFiltersPanelDisplayed(): Promise<boolean> {
+        const isPresent = await this.mainPanel.isPresent();
+        const isDisplayed = await this.mainPanel.isDisplayed();
 
-    return isPresent && isDisplayed;
-  }
+        return isPresent && isDisplayed;
+    }
 
-  async clickResetAllButton(): Promise<void> {
-    await this.resetAllButton.click();
-  }
-
+    async clickResetAllButton(): Promise<void> {
+        await this.resetAllButton.click();
+    }
 }
