@@ -8,6 +8,7 @@
 @import '../components/current-user/current-user.component.theme';
 @import '../components/permissions/permission-manager/permission-manager.component.theme';
 @import '../components/context-menu/context-menu.component.theme';
+@import '../components/dl-custom-components/name-column/name-column.component.scss';
 @import '../dialogs/node-versions/node-versions.dialog.theme';
 @import '../components/create-menu/create-menu.component.scss';
 @import '../components/layout/layout.theme.scss';
@@ -42,6 +43,7 @@ $warn: map-get($custom-theme, warn);
   @include sidenav-component-theme($theme);
   @include aca-current-user-theme($theme);
   @include aca-context-menu-theme($theme);
+  @include aca-custom-name-column-theme($theme);
   @include app-create-from-template-theme($theme);
   @include app-create-menu-theme($theme);
   @include adf-style-fixes($theme);
