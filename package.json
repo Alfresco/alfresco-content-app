@@ -28,8 +28,6 @@
     "e2e:docker": "./start.sh && npm run e2e && ./start.sh -d",
     "spellcheck": "cspell '{src,e2e,projects}/**/*.ts'",
     "inspect.bundle": "ng build app --prod --stats-json && npx webpack-bundle-analyzer dist/app/stats.json",
-    "format:check": "prettier --check \"src/{app,environments}/**/*.{ts,js,css,scss,html}\"",
-    "format:fix": "prettier --write \"src/{app,environments}/**/*.{ts,js,css,scss,html}\"",
     "build.tomcat": "npm run validate-config && npm run build.extensions && npm run build.app -- --prod --base-href ./ && jar -cvf docker/tomcat/artifacts/content-app.war -C dist/app/ .",
     "build.tomcat.e2e": "./build-tomcat-e2e.sh",
     "e2e.tomcat": "protractor --baseUrl=http://localhost:8080/content-app/ $SUITE",
