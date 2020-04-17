@@ -150,7 +150,7 @@ describe('Move content', () => {
       done();
     });
 
-    it('Move a file - [C217316]', async () => {
+    it('[C217316] Move a file', async () => {
       await dataTable.selectItem(file1);
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('Personal Files');
@@ -168,7 +168,7 @@ describe('Move content', () => {
       expect(await dataTable.isItemPresent(file1)).toBe(true, `${file1} not present in destination folder`);
     });
 
-    it('Move a folder with content - [C217317]', async () => {
+    it('[C217317] Move a folder with content', async () => {
       await dataTable.selectItem(folder1);
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('Personal Files');
@@ -190,7 +190,7 @@ describe('Move content', () => {
       expect(await dataTable.isItemPresent(fileInFolder)).toBe(true, `${fileInFolder} is not present in parent folder`);
     });
 
-    it('Move multiple items - [C291958]', async () => {
+    it('[C291958] Move multiple items', async () => {
       await dataTable.selectMultipleItems([file2, file3]);
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('Personal Files');
@@ -210,7 +210,7 @@ describe('Move content', () => {
       expect(await dataTable.isItemPresent(file3)).toBe(true, `${file3} not present in destination folder`);
     });
 
-    it('Move a file with a name that already exists on the destination - [C217318]', async () => {
+    it('[C217318] Move a file with a name that already exists on the destination', async () => {
       await dataTable.selectItem(existingFile);
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('Personal Files');
@@ -229,7 +229,7 @@ describe('Move content', () => {
       expect(await dataTable.isItemPresent(`${existingFile}-1.txt`)).toBe(false, `${existingFile}-1.txt is present in destination folder`);
     });
 
-    it('Move a folder with a name that already exists on the destination - [C217319]', async () => {
+    it('[C217319] Move a folder with a name that already exists on the destination', async () => {
       await dataTable.selectItem(existingFolder);
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('Personal Files');
@@ -250,7 +250,7 @@ describe('Move content', () => {
       expect(await dataTable.isItemPresent(file3InFolder)).toBe(true, `${file3InFolder} not present in destination folder`);
     });
 
-    it('Move items into a library - [C291969]', async () => {
+    it('[C291969] Move items into a library', async () => {
       await dataTable.selectMultipleItems([file4, folder2]);
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('File Libraries');
@@ -309,7 +309,7 @@ describe('Move content', () => {
       done();
     });
 
-    it('Move a file - [C280230]', async () => {
+    it('[C280230] Move a file', async () => {
       await dataTable.selectItem(file1, sourceRF);
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('Personal Files');
@@ -328,7 +328,7 @@ describe('Move content', () => {
       expect(await dataTable.isItemPresent(file1)).toBe(true, `${file1} not present in destination folder`);
     });
 
-    it('Move multiple items - [C280237]', async () => {
+    it('[C280237] Move multiple items', async () => {
       await dataTable.selectMultipleItems([file2, file3], sourceRF);
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('Personal Files');
@@ -350,7 +350,7 @@ describe('Move content', () => {
       expect(await dataTable.isItemPresent(file3)).toBe(true, `${file3} not present in destination folder`);
     });
 
-    it('Move a file with a name that already exists on the destination - [C291970]', async () => {
+    it('[C291970] Move a file with a name that already exists on the destination', async () => {
       await dataTable.selectItem(existingFile, sourceRF);
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('Personal Files');
@@ -370,7 +370,7 @@ describe('Move content', () => {
       expect(await dataTable.isItemPresent(`${existingFile}-1.txt`)).toBe(false, `${existingFile}-1.txt is present in destination folder`);
     });
 
-    it('Move items into a library - [C291971]', async () => {
+    it('[C291971] Move items into a library', async () => {
       await dataTable.selectItem(file4, sourceRF);
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('File Libraries');
@@ -431,7 +431,7 @@ describe('Move content', () => {
       done();
     });
 
-    it('Move a file - [C280243]', async () => {
+    it('[C280243] Move a file', async () => {
       await dataTable.selectItem(file1, sourceSF);
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('Personal Files');
@@ -450,7 +450,7 @@ describe('Move content', () => {
       expect(await dataTable.isItemPresent(file1)).toBe(true, `${file1} not present in destination folder`);
     });
 
-    it('Move multiple items - [C280250]', async () => {
+    it('[C280250] Move multiple items', async () => {
       await dataTable.selectMultipleItems([file2, file3], sourceSF);
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('Personal Files');
@@ -472,7 +472,7 @@ describe('Move content', () => {
       expect(await dataTable.isItemPresent(file3)).toBe(true, `${file3} not present in destination folder`);
     });
 
-    it('Move a file with a name that already exists on the destination - [C291977]', async () => {
+    it('[C291977] Move a file with a name that already exists on the destination', async () => {
       await dataTable.selectItem(existingFile, sourceSF);
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('Personal Files');
@@ -492,7 +492,7 @@ describe('Move content', () => {
       expect(await dataTable.isItemPresent(`${existingFile}-1.txt`)).toBe(false, `${existingFile}-1.txt not present in destination folder`);
     });
 
-    it('Move items into a library - [C291978]', async () => {
+    it('[C291978] Move items into a library', async () => {
       await dataTable.selectItem(file4, sourceSF);
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('File Libraries');
@@ -576,7 +576,7 @@ describe('Move content', () => {
       done();
     });
 
-    it('Move a file - [C280256]', async () => {
+    it('[C280256] Move a file', async () => {
       await dataTable.selectItem(file1);
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('Personal Files');
@@ -595,7 +595,7 @@ describe('Move content', () => {
       expect(await dataTable.isItemPresent(file1)).toBe(true, `${file1} not present in destination folder`);
     });
 
-    it('Move a folder with content - [C280257]', async () => {
+    it('[C280257] Move a folder with content', async () => {
       await dataTable.selectItem(folder1);
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('Personal Files');
@@ -618,7 +618,7 @@ describe('Move content', () => {
       expect(await dataTable.isItemPresent(fileInFolder)).toBe(true, `${fileInFolder} is not present in parent folder`);
     });
 
-    it('Move multiple items - [C280258]', async () => {
+    it('[C280258] Move multiple items', async () => {
       await dataTable.selectMultipleItems([file2, file3]);
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('Personal Files');
@@ -640,7 +640,7 @@ describe('Move content', () => {
       expect(await dataTable.isItemPresent(file3)).toBe(true, `${file3} not present in destination folder`);
     });
 
-    it('Move a file with a name that already exists on the destination - [C280263]', async () => {
+    it('[C280263] Move a file with a name that already exists on the destination', async () => {
       await dataTable.selectItem(existingFile);
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('Personal Files');
@@ -660,7 +660,7 @@ describe('Move content', () => {
       expect(await dataTable.isItemPresent(`${existingFile}-1.txt`)).toBe(false, `${existingFile}-1.txt is present in destination folder`);
     });
 
-    it('Move a folder with a name that already exists on the destination - [C280259]', async () => {
+    it('[C280259] Move a folder with a name that already exists on the destination', async () => {
       await dataTable.selectItem(existingFolder);
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('Personal Files');
@@ -682,7 +682,7 @@ describe('Move content', () => {
       expect(await dataTable.isItemPresent(file3InFolder)).toBe(true, `${file3InFolder} not present in destination folder`);
     });
 
-    it('Move items into a library - [C291979]', async () => {
+    it('[C291979] Move items into a library', async () => {
       await dataTable.selectMultipleItems([file4, folder2], sourceFav);
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('File Libraries');

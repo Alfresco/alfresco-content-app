@@ -83,49 +83,49 @@ describe('Breadcrumb', () => {
     done();
   });
 
-  it('Personal Files breadcrumb main node - [C260964]', async () => {
+  it('[C260964] Personal Files breadcrumb main node', async () => {
     await page.clickPersonalFiles();
     expect(await breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
     expect(await breadcrumb.getCurrentItemName()).toBe('Personal Files');
   });
 
-  it('My Libraries breadcrumb main node - [C260966]', async () => {
+  it('[C260966] My Libraries breadcrumb main node', async () => {
     await page.goToMyLibrariesAndWait();
     expect(await breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
     expect(await breadcrumb.getCurrentItemName()).toBe('My Libraries');
   });
 
-  it('Favorite Libraries breadcrumb main node - [C289891]', async () => {
+  it('[C289891] Favorite Libraries breadcrumb main node', async () => {
     await page.goToFavoriteLibrariesAndWait();
     expect(await breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
     expect(await breadcrumb.getCurrentItemName()).toBe('Favorite Libraries');
   });
 
-  it('Recent Files breadcrumb main node - [C260971]', async () => {
+  it('[C260971] Recent Files breadcrumb main node', async () => {
     await page.clickRecentFiles();
     expect(await breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
     expect(await breadcrumb.getCurrentItemName()).toBe('Recent Files');
   });
 
-  it('Shared Files breadcrumb main node - [C260972]', async () => {
+  it('[C260972] Shared Files breadcrumb main node', async () => {
     await page.clickSharedFiles();
     expect(await breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
     expect(await breadcrumb.getCurrentItemName()).toBe('Shared Files');
   });
 
-  it('Favorites breadcrumb main node - [C260973]', async () => {
+  it('[C260973] Favorites breadcrumb main node', async () => {
     await page.clickFavorites();
     expect(await breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
     expect(await breadcrumb.getCurrentItemName()).toBe('Favorites');
   });
 
-  it('Trash breadcrumb main node - [C260974]', async () => {
+  it('[C260974] Trash breadcrumb main node', async () => {
     await page.clickTrash();
     expect(await breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
     expect(await breadcrumb.getCurrentItemName()).toBe('Trash');
   });
 
-  it('Personal Files breadcrumb for a folder hierarchy - [C260965]', async () => {
+  it('[C260965] Personal Files breadcrumb for a folder hierarchy', async () => {
     await page.clickPersonalFilesAndWait();
     await page.dataTable.doubleClickOnRowByName(parent);
     await page.dataTable.doubleClickOnRowByName(subFolder1);
@@ -134,7 +134,7 @@ describe('Breadcrumb', () => {
     expect(await breadcrumb.getAllItems()).toEqual(expectedBreadcrumb);
   });
 
-  it('File Libraries breadcrumb for a folder hierarchy - [C260967]', async () => {
+  it('[C260967] File Libraries breadcrumb for a folder hierarchy', async () => {
     await page.clickFileLibrariesAndWait();
     await page.dataTable.doubleClickOnRowByName(siteName);
     await page.dataTable.doubleClickOnRowByName(parent);
@@ -144,7 +144,7 @@ describe('Breadcrumb', () => {
     expect(await breadcrumb.getAllItems()).toEqual(expectedItems);
   });
 
-  it('User can navigate to any location by clicking on a step from the breadcrumb - [C213235]', async () => {
+  it('[C213235] User can navigate to any location by clicking on a step from the breadcrumb', async () => {
     await page.clickPersonalFilesAndWait();
     await page.dataTable.doubleClickOnRowByName(parent);
     await page.dataTable.doubleClickOnRowByName(subFolder1);
@@ -154,7 +154,7 @@ describe('Breadcrumb', () => {
     expect(await breadcrumb.getAllItems()).toEqual(expectedBreadcrumb);
   });
 
-  it('Tooltip appears on hover on a step in breadcrumb - [C213237]', async () => {
+  it('[C213237] Tooltip appears on hover on a step in breadcrumb', async () => {
     await page.clickPersonalFilesAndWait();
     await page.dataTable.doubleClickOnRowByName(parent);
     await page.dataTable.doubleClickOnRowByName(subFolder1);
@@ -162,7 +162,7 @@ describe('Breadcrumb', () => {
     expect(await breadcrumb.getNthItemTooltip(3)).toEqual(subFolder1);
   });
 
-  it('Breadcrumb updates correctly when folder is renamed - [C213238]', async () => {
+  it('[C213238] Breadcrumb updates correctly when folder is renamed', async () => {
     await page.clickPersonalFilesAndWait();
     await page.dataTable.doubleClickOnRowByName(parent2);
     await page.dataTable.doubleClickOnRowByName(folder1);
@@ -173,7 +173,7 @@ describe('Breadcrumb', () => {
     expect(await breadcrumb.getCurrentItemName()).toEqual(folder1Renamed);
   });
 
-  it('Browser back navigates to previous location regardless of breadcrumb steps - [C213240]', async () => {
+  it('[C213240] Browser back navigates to previous location regardless of breadcrumb steps', async () => {
     await page.clickPersonalFilesAndWait();
     await page.dataTable.doubleClickOnRowByName(parent);
     await page.dataTable.doubleClickOnRowByName(subFolder1);
@@ -202,7 +202,7 @@ describe('Breadcrumb', () => {
       done();
     });
 
-    it(`Breadcrumb on navigation to a user's home - [C260970]`, async () => {
+    it(`[C260970] Breadcrumb on navigation to a user's home`, async () => {
       await page.dataTable.doubleClickOnRowByName('User Homes');
       await page.dataTable.doubleClickOnRowByName(user2);
       expect(await breadcrumb.getAllItems()).toEqual([ 'Personal Files', 'User Homes', user2 ]);

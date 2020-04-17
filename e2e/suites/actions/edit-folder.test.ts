@@ -118,7 +118,7 @@ describe('Edit folder', () => {
     done();
   });
 
-  it('dialog UI defaults - [C216331]', async () => {
+  it('[C216331] dialog UI defaults', async () => {
     await dataTable.doubleClickOnRowByName(parent);
     await dataTable.selectItem(folderName);
     await toolbar.openMoreMenu();
@@ -139,7 +139,7 @@ describe('Edit folder', () => {
       done();
     });
 
-    it('properties are modified when pressing OK - [C216335]', async (done) => {
+    it('[C216335] properties are modified when pressing OK', async (done) => {
       await dataTable.selectItem(folderNameToEdit);
       await toolbar.openMoreMenu();
       await toolbar.menu.clickEditFolder();
@@ -156,7 +156,7 @@ describe('Edit folder', () => {
       done();
     });
 
-    it('with empty folder name - [C216332]', async () => {
+    it('[C216332] with empty folder name', async () => {
       await dataTable.selectItem(folderName);
       await toolbar.openMoreMenu();
       await toolbar.menu.clickEditFolder();
@@ -166,7 +166,7 @@ describe('Edit folder', () => {
       expect(await editDialog.getValidationMessage()).toMatch('Folder name is required');
     });
 
-    it('with name with special characters - [C216333]', async () => {
+    it('[C216333] with name with special characters', async () => {
       const namesWithSpecialChars = [ 'a*a', 'a"a', 'a<a', 'a>a', `a\\a`, 'a/a', 'a?a', 'a:a', 'a|a' ];
 
       await dataTable.selectItem(folderName);
@@ -180,7 +180,7 @@ describe('Edit folder', () => {
       }
     });
 
-    it('with name ending with a dot - [C216334]', async () => {
+    it('[C216334] with name ending with a dot', async () => {
       await dataTable.selectItem(folderName);
       await toolbar.openMoreMenu();
       await toolbar.menu.clickEditFolder();
@@ -191,7 +191,7 @@ describe('Edit folder', () => {
       expect(await editDialog.getValidationMessage()).toMatch(`Folder name can't end with a period .`);
     });
 
-    it('Cancel button - [C216336]', async () => {
+    it('[C216336] Cancel button', async () => {
       await dataTable.selectItem(folderName);
       await toolbar.openMoreMenu();
       await toolbar.menu.clickEditFolder();
@@ -201,7 +201,7 @@ describe('Edit folder', () => {
       expect(await editDialog.isDialogOpen()).not.toBe(true, 'dialog is not closed');
     });
 
-    it('with duplicate folder name - [C216337]', async () => {
+    it('[C216337] with duplicate folder name', async () => {
       await dataTable.selectItem(folderName);
       await toolbar.openMoreMenu();
       await toolbar.menu.clickEditFolder();
@@ -213,7 +213,7 @@ describe('Edit folder', () => {
       expect(await editDialog.isDialogOpen()).toBe(true, 'dialog is not present');
     });
 
-    it('trim ending spaces - [C216338]', async () => {
+    it('[C216338] trim ending spaces', async () => {
       await dataTable.selectItem(folderName);
       await toolbar.openMoreMenu();
       await toolbar.menu.clickEditFolder();
@@ -232,7 +232,7 @@ describe('Edit folder', () => {
       done();
     });
 
-    it('properties are modified when pressing OK - [C280384]', async (done) => {
+    it('[C280384] properties are modified when pressing OK', async (done) => {
       await dataTable.selectItem(folderFavoriteToEdit);
       await toolbar.openMoreMenu();
       await toolbar.menu.clickEditFolder();
@@ -249,7 +249,7 @@ describe('Edit folder', () => {
       done();
     });
 
-    it('with duplicate folder name - [C280386]', async () => {
+    it('[C280386] with duplicate folder name', async () => {
       await dataTable.selectItem(folderFavorite);
       await toolbar.openMoreMenu();
       await toolbar.menu.clickEditFolder();
@@ -269,7 +269,7 @@ describe('Edit folder', () => {
       done();
     });
 
-    it('properties are modified when pressing OK - [C280509]', async (done) => {
+    it('[C280509] properties are modified when pressing OK', async (done) => {
       await dataTable.selectItem(folderSiteToEdit);
       await toolbar.openMoreMenu();
       await toolbar.menu.clickEditFolder();
@@ -286,7 +286,7 @@ describe('Edit folder', () => {
       done();
     });
 
-    it('with duplicate folder name - [C280511]', async () => {
+    it('[C280511] with duplicate folder name', async () => {
       await dataTable.selectItem(folderSite);
       await toolbar.openMoreMenu();
       await toolbar.menu.clickEditFolder();
@@ -305,7 +305,7 @@ describe('Edit folder', () => {
       done();
     });
 
-    it('properties are modified when pressing OK - [C306947]', async () => {
+    it('[C306947] properties are modified when pressing OK', async () => {
       await page.clickPersonalFiles();
       await searchInput.clickSearchButton();
       await searchInput.checkOnlyFolders();
@@ -327,7 +327,7 @@ describe('Edit folder', () => {
       expect(desc).toEqual(folderDescriptionEdited);
     });
 
-    it('with duplicate folder name - [C306948]', async () => {
+    it('[C306948] with duplicate folder name', async () => {
       await page.clickPersonalFiles();
       await searchInput.clickSearchButton();
       await searchInput.checkOnlyFolders();

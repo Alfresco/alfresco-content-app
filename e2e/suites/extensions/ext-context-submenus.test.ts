@@ -81,7 +81,7 @@ describe('Extensions - Context submenu', () => {
     done();
   });
 
-  it('Displays the submenu actions set from config - [C286717]', async () => {
+  it('[C286717] Displays the submenu actions set from config', async () => {
     await dataTable.rightClickOnItem(file);
     expect(await contextMenu.isMenuItemPresent(menuItem1.label)).toBe(true, `${menuItem1.label} is not displayed for ${file}`);
     expect(await contextMenu.hasSubMenu(menuItem1.label)).toBe(true, 'Menu does not have submenu');
@@ -93,7 +93,7 @@ describe('Extensions - Context submenu', () => {
     expect(await contextMenu.isSubMenuItemPresent(menuItem1.submenu[2])).toBe(true, `${restrictedPermissionsItem} is not displayed for ${file}`);
   });
 
-  it('Does not display submenu actions without permissions - [C286718]', async () => {
+  it('[C286718] Does not display submenu actions without permissions', async () => {
     await dataTable.rightClickOnItem(folder);
     expect(await contextMenu.isMenuItemPresent(menuItem1.label)).toBe(true, `${menuItem1.label} is not displayed for ${folder}`);
     await contextMenu.mouseOverMenuItem(menuItem1.label);
@@ -104,7 +104,7 @@ describe('Extensions - Context submenu', () => {
     expect(await contextMenu.isSubMenuItemPresent(menuItem1.submenu[2])).toBe(false, `no permission submenu ${restrictedPermissionsItem} is displayed`);
   });
 
-  it('The parent item is not displayed if all its children have no permission to be displayed - [C287784]', async () => {
+  it('[C287784] The parent item is not displayed if all its children have no permission to be displayed', async () => {
     await dataTable.rightClickOnItem(folder);
     expect(await contextMenu.isMenuItemPresent(menuItem2.label)).toBe(false, `${menuItem2.label} menu is displayed for ${folder}`);
   });

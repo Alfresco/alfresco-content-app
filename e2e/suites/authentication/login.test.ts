@@ -80,14 +80,14 @@ describe('Login', () => {
       done();
     });
 
-    it('login page layout - [C213089]', async () => {
+    it('[C213089] login page layout', async () => {
       expect(await login.isUsernameEnabled()).toBe(true, 'username input is not enabled');
       expect(await login.isPasswordEnabled()).toBe(true, 'password input is not enabled');
       expect(await login.isSubmitEnabled()).toBe(false, 'SIGN IN button is enabled');
       expect(await login.isPasswordHidden()).toBe(true, 'Password is not hidden by default');
     });
 
-    it('change password visibility - [C213091]', async () => {
+    it('[C213091] change password visibility', async () => {
       await login.enterPassword('some password');
       expect(await login.isPasswordDisplayed()).toBe(false, 'password is visible');
       await login.clickPasswordVisibility();
@@ -97,14 +97,14 @@ describe('Login', () => {
   });
 
   describe('with valid credentials', () => {
-    it('navigate to "Personal Files" - [C213092]', async () => {
+    it('[C213092] navigate to "Personal Files"', async () => {
       const { username } = johnDoe;
 
       await loginPage.loginWith(username);
       expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);
     });
 
-    it(`displays user's name in header - [C213108]`, async () => {
+    it(`[C213108] displays user's name in header`, async () => {
       const { userInfo } = new BrowsingPage(APP_ROUTES.PERSONAL_FILES).header;
       const { username, firstName, lastName } = johnDoe;
 
@@ -112,12 +112,12 @@ describe('Login', () => {
       expect(await userInfo.getName()).toEqual(`${firstName} ${lastName}`);
     });
 
-    it(`logs in with user having username containing "@" - [C213096]`, async () => {
+    it(`[C213096] logs in with user having username containing "@"`, async () => {
       await loginPage.loginWith(testUser);
       expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);
     });
 
-    it('logs in with user with non-latin characters - [C213097]', async () => {
+    it('[C213097] logs in with user with non-latin characters', async () => {
       const { username, password } = russianUser;
 
       await loginPage.loginWith(username, password);
@@ -125,7 +125,7 @@ describe('Login', () => {
     });
 
     // TODO: ACA-245
-    xit('redirects to Home Page when navigating to the Login page while already logged in - [C213107]', async () => {
+    xit('[C213107] redirects to Home Page when navigating to the Login page while already logged in', async () => {
       const { username } = johnDoe;
 
       await loginPage.loginWith(username);
@@ -134,7 +134,7 @@ describe('Login', () => {
       expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);
     });
 
-    it('redirects to Personal Files when pressing browser Back while already logged in - [C213109]', async () => {
+    it('[C213109] redirects to Personal Files when pressing browser Back while already logged in', async () => {
       const { username } = johnDoe;
 
       await loginPage.loginWith(username);
@@ -142,7 +142,7 @@ describe('Login', () => {
       expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);
     });
 
-    it('user is able to login after changing his password - [C213104]', async () => {
+    it('[C213104] user is able to login after changing his password', async () => {
       await loginPage.loginWith(testUser2.username, testUser2.password);
       await peopleApi.changePassword(testUser2.username, newPassword);
       await loginPage.loginWith(testUser2.username, newPassword);
@@ -159,24 +159,24 @@ describe('Login', () => {
       done();
     });
 
-    it('disabled submit button when password is empty - [C280072]', async () => {
+    it('[C280072] disabled submit button when password is empty', async () => {
       await loginComponent.enterUsername('any-username');
       expect(await submitButton.isEnabled()).toBe(false, 'submit button is enabled');
     });
 
-    it('disabled submit button when username is empty - [C280070]', async () => {
+    it('[C280070] disabled submit button when username is empty', async () => {
       await loginPage.login.enterPassword('any-password');
       expect(await submitButton.isEnabled()).toBe(false, 'submit button is enabled');
     });
 
-    it('shows error when entering nonexistent user - [C213093]', async () => {
+    it('[C213093] shows error when entering nonexistent user', async () => {
       await loginPage.tryLoginWith('nonexistent-user', 'any-password');
       expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.LOGIN);
       expect(await errorMessage.isDisplayed()).toBe(true, 'error message is not displayed');
       expect(await errorMessage.getText()).toBe(`You've entered an unknown username or password`);
     });
 
-    it('shows error when entering invalid password - [C280071]', async () => {
+    it('[C280071] shows error when entering invalid password', async () => {
       const { username } = johnDoe;
 
       await loginPage.tryLoginWith(username, 'incorrect-password');
@@ -185,12 +185,12 @@ describe('Login', () => {
       expect(await errorMessage.getText()).toBe(`You've entered an unknown username or password`);
     });
 
-    it('unauthenticated user is redirected to Login page - [C213106]', async () => {
+    it('[C213106] unauthenticated user is redirected to Login page', async () => {
       await navigate(APP_ROUTES.PERSONAL_FILES);
       expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.LOGIN);
     });
 
-    it('disabled user is not logged in - [C213100]', async () => {
+    it('[C213100] disabled user is not logged in', async () => {
       await loginPage.tryLoginWith(disabledUser);
       expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.LOGIN);
       expect(await errorMessage.isDisplayed()).toBe(true, 'error message is not displayed');

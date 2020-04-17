@@ -92,7 +92,7 @@ describe('Extensions - Info Drawer', () => {
             done();
         });
 
-        it('Add a new tab with icon and title - [C284646]', async () => {
+        it('[C284646] Add a new tab with icon and title', async () => {
             await page.dataTable.selectItem(file);
             await page.toolbar.clickViewDetails();
             await infoDrawer.waitForInfoDrawerToOpen();
@@ -102,7 +102,7 @@ describe('Extensions - Info Drawer', () => {
             expect(val.trim()).toEqual(`${custom_tab.icon}\n${custom_tab.title}`.trim());
         });
 
-        it('Remove existing tab - [C284647]', async () => {
+        it('[C284647] Remove existing tab', async () => {
             await page.dataTable.selectItem(file);
             await page.toolbar.clickViewDetails();
             await infoDrawer.waitForInfoDrawerToOpen();
@@ -110,7 +110,7 @@ describe('Extensions - Info Drawer', () => {
             expect(await infoDrawer.isTabPresent(comments_tab.title)).toBe(false, `${comments_tab.title} tab should not be present!`);
         });
 
-        it('Change tab title - [C284648]', async () => {
+        it('[C284648] Change tab title', async () => {
             await page.dataTable.selectItem(file);
             await page.toolbar.clickViewDetails();
             await infoDrawer.waitForInfoDrawerToOpen();
@@ -119,7 +119,7 @@ describe('Extensions - Info Drawer', () => {
             expect(await infoDrawer.getTabTitle(properties_tab.order)).toEqual(properties_tab.title);
         });
 
-        it('Tab with icon and no title - [C284649]', async () => {
+        it('[C284649] Tab with icon and no title', async () => {
             await page.dataTable.selectItem(file);
             await page.toolbar.clickViewDetails();
             await infoDrawer.waitForInfoDrawerToOpen();
@@ -128,7 +128,7 @@ describe('Extensions - Info Drawer', () => {
             expect((await infoDrawer.getTabTitle(no_title_tab.order)).trim()).toEqual(`${no_title_tab.icon}`.trim());
         });
 
-        it('Insert new component in tab - [C284651]', async () => {
+        it('[C284651] Insert new component in tab', async () => {
             await page.dataTable.selectItem(file);
             await page.toolbar.clickViewDetails();
             await infoDrawer.waitForInfoDrawerToOpen();
@@ -148,7 +148,7 @@ describe('Extensions - Info Drawer', () => {
             done();
         });
 
-        it('Remove all tabs - [C284650]', async () => {
+        it('[C284650] Remove all tabs', async () => {
             await page.dataTable.selectItem(file);
             await page.toolbar.clickViewDetails();
             await infoDrawer.waitForInfoDrawerToOpen();

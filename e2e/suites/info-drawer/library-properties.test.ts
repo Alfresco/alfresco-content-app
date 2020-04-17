@@ -102,7 +102,7 @@ describe('Library properties', () => {
     done();
   });
 
-  it('Info drawer opens for a library - [C289336]', async () => {
+  it('[C289336] Info drawer opens for a library', async () => {
     await dataTable.selectItem(site.name);
     await page.toolbar.clickViewDetails();
     await infoDrawer.waitForInfoDrawerToOpen();
@@ -122,7 +122,7 @@ describe('Library properties', () => {
     expect(await aboutTab.isEditLibraryPropertiesDisplayed()).toBe(true, 'Edit action is not displayed');
   });
 
-  it('Editable properties - [C289338]', async () => {
+  it('[C289338] Editable properties', async () => {
     await dataTable.selectItem(site.name);
     await page.toolbar.clickViewDetails();
     await infoDrawer.waitForInfoDrawerToOpen();
@@ -141,7 +141,7 @@ describe('Library properties', () => {
     expect(await aboutTab.isUpdateEnabled()).toBe(false, 'Update button not disabled');
   });
 
-  it('Edit site details - [C289339]', async () => {
+  it('[C289339] Edit site details', async () => {
     await dataTable.selectItem(siteForUpdate.name);
     await page.toolbar.clickViewDetails();
     await infoDrawer.waitForInfoDrawerToOpen();
@@ -165,7 +165,7 @@ describe('Library properties', () => {
     expect((await apis.user.sites.getSite(siteForUpdate.id)).entry.visibility).toEqual(siteUpdated.visibility);
   });
 
-  it('Cancel editing a site - [C289340]', async () => {
+  it('[C289340] Cancel editing a site', async () => {
     const newName = `new-name-${Utils.random}`;
     const newDesc = `new desc ${Utils.random}`;
 
@@ -187,7 +187,7 @@ describe('Library properties', () => {
     expect(await infoDrawer.isOpen()).toBe(true, 'Info drawer not open');
   });
 
-  it('Warning appears when editing the name of the library by entering an existing name - [C289341]', async () => {
+  it('[C289341] Warning appears when editing the name of the library by entering an existing name', async () => {
     await apis.user.queries.waitForSites(site.name, { expect: 1 });
 
     await dataTable.selectItem(siteDup);
@@ -200,7 +200,7 @@ describe('Library properties', () => {
     expect(await aboutTab.getMessage()).toEqual('Library name already in use');
   });
 
-  it('Site name too long - [C289342]', async () => {
+  it('[C289342] Site name too long', async () => {
     await dataTable.selectItem(site.name);
     await page.toolbar.clickViewDetails();
     await infoDrawer.waitForInfoDrawerToOpen();
@@ -213,7 +213,7 @@ describe('Library properties', () => {
     expect(await aboutTab.isUpdateEnabled()).toBe(false, 'Update button not disabled');
   });
 
-  it('Site description too long - [C289343]', async () => {
+  it('[C289343] Site description too long', async () => {
     await dataTable.selectItem(site.name);
     await page.toolbar.clickViewDetails();
     await infoDrawer.waitForInfoDrawerToOpen();
@@ -232,7 +232,7 @@ describe('Library properties', () => {
       done();
     });
 
-    it('Edit button is not displayed when user is not the library manager - [C289337]', async () => {
+    it('[C289337] Edit button is not displayed when user is not the library manager', async () => {
       await loginPage.loginWith(user2);
 
       await page.clickFileLibrariesAndWait();
@@ -242,7 +242,7 @@ describe('Library properties', () => {
       expect(await aboutTab.isEditLibraryPropertiesDisplayed()).toBe(false, 'Edit action is displayed');
     });
 
-    it('Error notification - [C289344]', async () => {
+    it('[C289344] Error notification', async () => {
       await loginPage.loginWith(user3);
 
       await page.clickFileLibrariesAndWait();

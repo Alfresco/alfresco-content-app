@@ -102,21 +102,21 @@ describe('File Libraries', () => {
       done();
     });
 
-    it('has the correct columns - [C217095]', async () => {
+    it('[C217095] has the correct columns', async () => {
       const expectedColumns = [ 'Name', 'My Role', 'Visibility' ];
       const actualColumns = await dataTable.getColumnHeadersText();
 
       expect(actualColumns).toEqual(expectedColumns);
     });
 
-    it('User can see only the sites he is a member of - [C280501]', async () => {
+    it('[C280501] User can see only the sites he is a member of', async () => {
       const sitesCount = await dataTable.getRowsCount();
 
       expect(sitesCount).toEqual(10, 'Incorrect number of sites displayed');
       expect(await dataTable.isItemPresent(adminSite5)).toBe(false, `${adminSite5} should not appear in the list`);
     });
 
-    it('Library visibility is correctly displayed - [C289905]', async () => {
+    it('[C289905] Library visibility is correctly displayed', async () => {
       const expectedSitesVisibility = {
         [userSitePrivate]: SITE_VISIBILITY.PRIVATE,
         [userSiteModerated]: SITE_VISIBILITY.MODERATED,
@@ -130,7 +130,7 @@ describe('File Libraries', () => {
       }
     });
 
-    it('User role is correctly displayed - [C289903]', async () => {
+    it('[C289903] User role is correctly displayed', async () => {
       const expectedSitesRoles = {
         [adminSite1]: SITE_ROLES.SITE_CONSUMER.LABEL,
         [adminSite2]: SITE_ROLES.SITE_CONTRIBUTOR.LABEL,
@@ -145,7 +145,7 @@ describe('File Libraries', () => {
       }
     });
 
-    it('Site ID is displayed when two sites have the same name - [C217098]', async () => {
+    it('[C217098] Site ID is displayed when two sites have the same name', async () => {
       const expectedSites = [
         `${siteName} (${siteId1})`,
         `${siteName} (${siteId2})`
@@ -154,12 +154,12 @@ describe('File Libraries', () => {
       expect(actualSites.sort()).toEqual(expectedSites.sort());
     });
 
-    it('Tooltip for sites without description - [C217096]', async () => {
+    it('[C217096] Tooltip for sites without description', async () => {
       const tooltip = await dataTable.getItemNameTooltip(userSitePrivate);
       expect(tooltip).toBe(`${userSitePrivate}`);
     });
 
-    it('Tooltip for sites with description - [C217097]', async () => {
+    it('[C217097] Tooltip for sites with description', async () => {
       const tooltip = await dataTable.getItemNameTooltip(userSiteModerated);
       expect(tooltip).toBe(`${siteDescription}`);
     });
@@ -171,21 +171,21 @@ describe('File Libraries', () => {
       done();
     });
 
-    it('has the correct columns - [C289893]', async () => {
+    it('[C289893] has the correct columns', async () => {
       const expectedColumns = [ 'Name', 'My Role', 'Visibility' ];
       const actualColumns = await dataTable.getColumnHeadersText();
 
       expect(actualColumns).toEqual(expectedColumns);
     });
 
-    it('User can see only his favorite sites - [C289897]', async () => {
+    it('[C289897] User can see only his favorite sites', async () => {
       const sitesCount = await dataTable.getRowsCount();
 
       expect(sitesCount).toEqual(9, 'Incorrect number of sites displayed');
       expect(await dataTable.isItemPresent(adminSite6)).toBe(false, `${adminSite6} should not appear`);
     });
 
-    it('Library visibility is correctly displayed - [C289906]', async () => {
+    it('[C289906] Library visibility is correctly displayed', async () => {
       const expectedSitesVisibility = {
         [userSitePrivate]: SITE_VISIBILITY.PRIVATE,
         [userSiteModerated]: SITE_VISIBILITY.MODERATED,
@@ -199,7 +199,7 @@ describe('File Libraries', () => {
       }
     });
 
-    it('User role is correctly displayed - [C289904]', async () => {
+    it('[C289904] User role is correctly displayed', async () => {
       const expectedSitesRoles = {
         [adminSite1]: SITE_ROLES.SITE_CONSUMER.LABEL,
         [adminSite2]: SITE_ROLES.SITE_CONTRIBUTOR.LABEL,
@@ -214,7 +214,7 @@ describe('File Libraries', () => {
       }
     });
 
-    it('Site ID is displayed when two sites have the same name - [C289896]', async () => {
+    it('[C289896] Site ID is displayed when two sites have the same name', async () => {
       const expectedSites = [
         `${siteName} (${siteId1})`,
         `${siteName} (${siteId2})`
@@ -223,12 +223,12 @@ describe('File Libraries', () => {
       expect(actualSites.sort()).toEqual(expectedSites.sort());
     });
 
-    it('Tooltip for sites without description - [C289894]', async () => {
+    it('[C289894] Tooltip for sites without description', async () => {
       const tooltip = await dataTable.getItemNameTooltip(userSitePrivate);
       expect(tooltip).toBe(`${userSitePrivate}`);
     });
 
-    it('Tooltip for sites with description - [C289895]', async () => {
+    it('[C289895] Tooltip for sites with description', async () => {
       const tooltip = await dataTable.getItemNameTooltip(userSiteModerated);
       expect(tooltip).toBe(`${siteDescription}`);
     });

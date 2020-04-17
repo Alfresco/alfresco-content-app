@@ -63,7 +63,7 @@ describe('Pagination on multiple pages on Trash', () => {
     await userApi.trashcan.emptyTrash();
   });
 
-  it('Pagination control default values - [C280122]', async () => {
+  it('[C280122] Pagination control default values', async () => {
     expect(await pagination.getRange()).toContain('1-25 of 101');
     expect(await pagination.getMaxItems()).toContain('25');
     expect(await pagination.getCurrentPage()).toContain('Page 1');
@@ -72,7 +72,7 @@ describe('Pagination on multiple pages on Trash', () => {
     expect(await pagination.isNextEnabled()).toBe(true, 'Next button is not enabled');
   });
 
-  it('Items per page values - [C280123]', async () => {
+  it('[C280123] Items per page values', async () => {
     await pagination.openMaxItemsMenu();
     expect(await pagination.menu.getNthItem(1).getText()).toBe('25');
     expect(await pagination.menu.getNthItem(2).getText()).toBe('50');
@@ -80,7 +80,7 @@ describe('Pagination on multiple pages on Trash', () => {
     await pagination.menu.closeMenu();
   });
 
-  it('current page menu items - [C280124]', async () => {
+  it('[C280124] current page menu items', async () => {
     await pagination.openMaxItemsMenu();
     await pagination.menu.clickMenuItem('25');
     expect(await pagination.getMaxItems()).toContain('25');
@@ -108,7 +108,7 @@ describe('Pagination on multiple pages on Trash', () => {
     await pagination.resetToDefaultPageSize();
   });
 
-  it('change the current page from menu - [C280125]', async () => {
+  it('[C280125] change the current page from menu', async () => {
     await pagination.openCurrentPageMenu();
     await pagination.menu.clickNthItem(3);
     await dataTable.waitForHeader();
@@ -121,7 +121,7 @@ describe('Pagination on multiple pages on Trash', () => {
     await pagination.resetToDefaultPageNumber();
   });
 
-  it('navigate to next and previous pages - [C280128]', async () => {
+  it('[C280128] navigate to next and previous pages', async () => {
     await pagination.clickNext();
     await dataTable.waitForHeader();
     expect(await pagination.getRange()).toContain('26-50 of 101');
@@ -139,12 +139,12 @@ describe('Pagination on multiple pages on Trash', () => {
     await pagination.resetToDefaultPageNumber();
   });
 
-  it('Previous button is disabled on first page - [C280126]', async () => {
+  it('[C280126] Previous button is disabled on first page', async () => {
     expect(await pagination.getCurrentPage()).toContain('Page 1');
     expect(await pagination.isPreviousEnabled()).toBe(false, 'Previous button is enabled on first page');
   });
 
-  it('Next button is disabled on last page - [C280127]', async () => {
+  it('[C280127] Next button is disabled on last page', async () => {
     await pagination.openCurrentPageMenu();
     await pagination.menu.clickNthItem(5);
     expect(await dataTable.getRowsCount()).toBe(1, 'Incorrect number of items on the last page');

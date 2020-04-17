@@ -77,7 +77,7 @@ describe('Permanently delete from Trash', () => {
         done();
     });
 
-    it('delete a file - [C217091]', async () => {
+    it('[C217091] delete a file', async () => {
         await dataTable.selectItem(file1);
         await toolbar.clickPermanentlyDelete();
         await page.waitForDialog();
@@ -87,7 +87,7 @@ describe('Permanently delete from Trash', () => {
         expect(await dataTable.isItemPresent(file1)).toBe(false, 'Item was not deleted');
     });
 
-    it('delete a folder - [C280416]', async () => {
+    it('[C280416] delete a folder', async () => {
         await dataTable.selectItem(folder1);
         await toolbar.clickPermanentlyDelete();
         await page.waitForDialog();
@@ -97,7 +97,7 @@ describe('Permanently delete from Trash', () => {
         expect(await dataTable.isItemPresent(folder1)).toBe(false, 'Item was not deleted');
     });
 
-    it('delete a library - [C290103]', async () => {
+    it('[C290103] delete a library', async () => {
         await dataTable.selectItem(site);
         await toolbar.clickPermanentlyDelete();
         await page.waitForDialog();
@@ -107,7 +107,7 @@ describe('Permanently delete from Trash', () => {
         expect(await dataTable.isItemPresent(site)).toBe(false, `${site} was not deleted`);
     });
 
-    it('delete multiple items - [C280417]', async () => {
+    it('[C280417] delete multiple items', async () => {
         await dataTable.selectMultipleItems([ file2, folder2 ]);
         await toolbar.clickPermanentlyDelete();
         await page.waitForDialog();
@@ -118,7 +118,7 @@ describe('Permanently delete from Trash', () => {
         expect(await dataTable.isItemPresent(folder2)).toBe(false, 'Item was not deleted');
     });
 
-    it('Confirmation dialog UI - [C269113]', async () => {
+    it('[C269113] Confirmation dialog UI', async () => {
         await dataTable.selectItem(file3);
         await toolbar.clickPermanentlyDelete();
         await page.waitForDialog();
@@ -133,7 +133,7 @@ describe('Permanently delete from Trash', () => {
         await dataTable.clearSelection();
     });
 
-    it('Keep action cancels the deletion - [C269115]', async () => {
+    it('[C269115] Keep action cancels the deletion', async () => {
         await dataTable.selectItem(file3);
         await toolbar.clickPermanentlyDelete();
         await page.waitForDialog();

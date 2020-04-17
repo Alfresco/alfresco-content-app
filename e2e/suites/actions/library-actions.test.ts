@@ -125,7 +125,7 @@ describe('Library actions', () => {
       done();
     });
 
-    it('from Favorite Libraries - [C290105]', async () => {
+    it('[C290105] from Favorite Libraries', async () => {
       await page.goToFavoriteLibrariesAndWait();
       await dataTable.selectItem(sitePublic1Admin);
       await toolbar.clickJoin();
@@ -133,7 +133,7 @@ describe('Library actions', () => {
       expect(await dataTable.getLibraryRole(sitePublic1Admin)).toEqual('Consumer');
     });
 
-    it('from Search Results - [C306959]', async () => {
+    it('[C306959] from Search Results', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkLibraries();
       await searchInput.searchFor(siteSearchPublic1Admin);
@@ -156,7 +156,7 @@ describe('Library actions', () => {
       done();
     });
 
-    it('from Favorite Libraries - [C290109]', async () => {
+    it('[C290109] from Favorite Libraries', async () => {
       await page.goToFavoriteLibrariesAndWait();
       await dataTable.selectItem(siteModerated1Admin);
       await toolbar.clickJoin();
@@ -166,7 +166,7 @@ describe('Library actions', () => {
       expect(hasJoinRequest).toBe(true, `Join request does not exist on ${siteModerated1Admin}`);
     });
 
-    it('from Search Results - [C306960]', async () => {
+    it('[C306960] from Search Results', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkLibraries();
       await searchInput.searchFor(siteSearchModerated1Admin);
@@ -200,7 +200,7 @@ describe('Library actions', () => {
       done();
     });
 
-    it('from My Libraries - [C290106]', async () => {
+    it('[C290106] from My Libraries', async () => {
       await page.goToMyLibrariesAndWait();
       await dataTable.selectItem(sitePublic2Admin);
       await toolbar.clickLeave();
@@ -211,7 +211,7 @@ describe('Library actions', () => {
       expect(await dataTable.isItemPresent(sitePublic2Admin)).toBe(false, `${sitePublic2Admin} is displayed`);
     });
 
-    it('from Favorite Libraries - [C290110]', async () => {
+    it('[C290110] from Favorite Libraries', async () => {
       await page.goToFavoriteLibrariesAndWait();
       await dataTable.selectItem(sitePublic3Admin);
       await toolbar.clickLeave();
@@ -222,7 +222,7 @@ describe('Library actions', () => {
       expect(await dataTable.isItemPresent(sitePublic3Admin)).toBe(true, `${sitePublic3Admin} is not displayed`);
     });
 
-    it('from Search Results - [C306961]', async () => {
+    it('[C306961] from Search Results', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkLibraries();
       await searchInput.searchFor(siteSearchPublic2Admin);
@@ -237,7 +237,7 @@ describe('Library actions', () => {
       expect(await dataTable.isItemPresent(siteSearchPublic2Admin)).toBe(true, `${siteSearchPublic2Admin} is not displayed`);
     });
 
-    it('Confirmation dialog UI - [C290136]', async () => {
+    it('[C290136] Confirmation dialog UI', async () => {
       await page.goToMyLibrariesAndWait();
       await dataTable.selectItem(sitePublic4Admin);
       await toolbar.clickLeave();
@@ -250,7 +250,7 @@ describe('Library actions', () => {
       expect(await confirmDialog.isCancelEnabled()).toBe(true, 'Cancel button is not enabled');
     });
 
-    it('Cancel Leave Library - [C290111]', async () => {
+    it('[C290111] Cancel Leave Library', async () => {
       await page.goToMyLibrariesAndWait();
       await dataTable.selectItem(sitePublic5Admin);
       await toolbar.clickLeave();
@@ -261,7 +261,7 @@ describe('Library actions', () => {
       expect(await dataTable.isItemPresent(sitePublic5Admin)).toBe(true, `${sitePublic5Admin} was deleted`);
     });
 
-    it('Leave a library - failure notification - [C290107]', async () => {
+    it('[C290107] Leave a library - failure notification', async () => {
       await page.goToMyLibrariesAndWait();
       await dataTable.selectItem(sitePublicUser);
       await toolbar.clickLeave();
@@ -283,7 +283,7 @@ describe('Library actions', () => {
       done();
     });
 
-    it('from Favorite Libraries - [C290108]', async () => {
+    it('[C290108] from Favorite Libraries', async () => {
       await page.goToFavoriteLibrariesAndWait();
       await dataTable.selectItem(siteModerated2Admin);
       await toolbar.clickButton('Cancel Join Request');
@@ -294,7 +294,7 @@ describe('Library actions', () => {
       expect(hasJoinRequest).toBe(false, `Join request exists on ${siteModerated2Admin}`);
     });
 
-    it('from Search Results - [C306962]', async () => {
+    it('[C306962] from Search Results', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkLibraries();
       await searchInput.searchFor(siteSearchModerated2Admin);
@@ -320,7 +320,7 @@ describe('Library actions', () => {
       done();
     });
 
-    it('from My Libraries - [C289974]', async () => {
+    it('[C289974] from My Libraries', async () => {
       await page.goToMyLibrariesAndWait();
       await dataTable.selectItem(sitePublic6Admin);
       await toolbar.clickMoreActionsFavorite();
@@ -328,7 +328,7 @@ describe('Library actions', () => {
       expect(await apis.user.favorites.isFavoriteWithRetry(sitePublic6Admin, { expect: true })).toBe(true, `${sitePublic6Admin} not favorite`);
     });
 
-    it('from on Search Results - [C306963]', async () => {
+    it('[C306963] from on Search Results', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkLibraries();
       await searchInput.searchFor(siteSearchPublic3Admin);
@@ -357,7 +357,7 @@ describe('Library actions', () => {
       done();
     });
 
-    it('from My Libraries - [C289975]', async () => {
+    it('[C289975] from My Libraries', async () => {
       await page.goToMyLibrariesAndWait();
       await dataTable.selectItem(sitePublic7Admin);
       await toolbar.clickMoreActionsRemoveFavorite();
@@ -365,7 +365,7 @@ describe('Library actions', () => {
       expect(await apis.user.favorites.isFavoriteWithRetry(sitePublic7Admin, { expect: false })).toBe(false, `${sitePublic7Admin} still favorite`);
     });
 
-    it('from Favorite Libraries - [C289976]', async () => {
+    it('[C289976] from Favorite Libraries', async () => {
       await page.goToFavoriteLibrariesAndWait();
       await dataTable.selectItem(sitePublic8Admin);
       await toolbar.clickMoreActionsRemoveFavorite();
@@ -374,7 +374,7 @@ describe('Library actions', () => {
       expect(await apis.user.favorites.isFavoriteWithRetry(sitePublic8Admin, { expect: false })).toBe(false, `${sitePublic8Admin} still favorite`);
     });
 
-    it('from Search Results - [C306964]', async () => {
+    it('[C306964] from Search Results', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkLibraries();
       await searchInput.searchFor(siteSearchPublic4Admin);
@@ -396,7 +396,7 @@ describe('Library actions', () => {
       done();
     });
 
-    it('from My Libraries - [C289988]', async () => {
+    it('[C289988] from My Libraries', async () => {
       await page.goToMyLibrariesAndWait();
       await dataTable.selectItem(siteForDelete1);
       await toolbar.clickMoreActionsDelete();
@@ -405,7 +405,7 @@ describe('Library actions', () => {
       expect(await dataTable.isItemPresent(siteForDelete1)).toBe(false, `${siteForDelete1} still displayed`);
     });
 
-    it('from Favorite Libraries - [C289991]', async () => {
+    it('[C289991] from Favorite Libraries', async () => {
       await page.goToFavoriteLibrariesAndWait();
       await dataTable.selectItem(siteForDelete2);
       await toolbar.clickMoreActionsDelete();
@@ -414,7 +414,7 @@ describe('Library actions', () => {
       expect(await dataTable.isItemPresent(siteForDelete2)).toBe(false, `${siteForDelete2} still displayed`);
     });
 
-    it('from Search Results - [C306965]', async () => {
+    it('[C306965] from Search Results', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkLibraries();
       await searchInput.searchFor(siteSearchForDelete);

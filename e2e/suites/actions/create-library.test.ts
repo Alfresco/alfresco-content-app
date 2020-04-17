@@ -82,7 +82,7 @@ describe('Create library', () => {
     done();
   });
 
-  it('Create Library dialog UI - [C280024]', async () => {
+  it('[C280024] Create Library dialog UI', async () => {
     await page.sidenav.openCreateLibraryDialog();
     await createDialog.waitForDialogToOpen();
 
@@ -98,7 +98,7 @@ describe('Create library', () => {
     expect(await createDialog.isCancelEnabled()).toBe(true, 'Cancel button is not enabled');
   });
 
-  it('Create a public library - [C280025]', async () => {
+  it('[C280025] Create a public library', async () => {
     await page.sidenav.openCreateLibraryDialog();
     await createDialog.waitForDialogToOpen();
     await createDialog.enterName(site1Name);
@@ -111,7 +111,7 @@ describe('Create library', () => {
     expect(await apis.user.sites.getVisibility(site1Name)).toEqual(SITE_VISIBILITY.PUBLIC);
   });
 
-  it('Create a moderated library - [C289880]', async () => {
+  it('[C289880] Create a moderated library', async () => {
     await page.sidenav.openCreateLibraryDialog();
     await createDialog.waitForDialogToOpen();
     await createDialog.enterName(site2Name);
@@ -125,7 +125,7 @@ describe('Create library', () => {
     expect(await apis.user.sites.getVisibility(site2Name)).toEqual(SITE_VISIBILITY.MODERATED);
   });
 
-  it('Create a private library - [C289881]', async () => {
+  it('[C289881] Create a private library', async () => {
     await page.sidenav.openCreateLibraryDialog();
     await createDialog.waitForDialogToOpen();
     await createDialog.enterName(site3Name);
@@ -139,7 +139,7 @@ describe('Create library', () => {
     expect(await apis.user.sites.getVisibility(site3Name)).toEqual(SITE_VISIBILITY.PRIVATE);
   });
 
-  it('Create a library with a given ID and description - [C289882]', async () => {
+  it('[C289882] Create a library with a given ID and description', async () => {
     await page.sidenav.openCreateLibraryDialog();
     await createDialog.waitForDialogToOpen();
     await createDialog.enterName(site4.name);
@@ -156,7 +156,7 @@ describe('Create library', () => {
     expect(await apis.user.sites.getDescription(site4.id)).toEqual(site4.description);
   });
 
-  it('Duplicate library ID - [C280027]', async () => {
+  it('[C280027] Duplicate library ID', async () => {
     await page.sidenav.openCreateLibraryDialog();
     await createDialog.waitForDialogToOpen();
     await createDialog.enterName(duplicateSite.name);
@@ -166,7 +166,7 @@ describe('Create library', () => {
     expect(await createDialog.getErrorMessage()).toEqual(`This Library ID isn't available. Try a different Library ID.`);
   });
 
-  it('Create library using the ID of a library from the Trashcan - [C280028]', async () => {
+  it('[C280028] Create library using the ID of a library from the Trashcan', async () => {
     await page.sidenav.openCreateLibraryDialog();
     await createDialog.waitForDialogToOpen();
     await createDialog.enterName(siteInTrash.name);
@@ -176,7 +176,7 @@ describe('Create library', () => {
     expect(await createDialog.getErrorMessage()).toEqual(`This Library ID is already used. Check the trashcan.`);
   });
 
-  it('Cancel button - [C280029]', async () => {
+  it('[C280029] Cancel button', async () => {
     await page.sidenav.openCreateLibraryDialog();
     await createDialog.waitForDialogToOpen();
     await createDialog.enterName('test site');
@@ -186,7 +186,7 @@ describe('Create library', () => {
     expect(await createDialog.isDialogOpen()).not.toBe(true, 'dialog is not closed');
   });
 
-  it('Library ID cannot contain special characters - [C280026]', async () => {
+  it('[C280026] Library ID cannot contain special characters', async () => {
     const idWithSpecialChars = [ 'a*a', 'a"a', 'a<a', 'a>a', `a\\a`, 'a/a', 'a?a', 'a:a', 'a|a' ];
 
     await page.sidenav.openCreateLibraryDialog();
@@ -200,7 +200,7 @@ describe('Create library', () => {
     }
   });
 
-  it('Create 2 libraries with same name but different IDs - [C280030]', async () => {
+  it('[C280030] Create 2 libraries with same name but different IDs', async () => {
     await page.sidenav.openCreateLibraryDialog();
     await createDialog.waitForDialogToOpen();
     await createDialog.enterName(duplicateSite.name);

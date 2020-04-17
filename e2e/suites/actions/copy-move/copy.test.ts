@@ -206,20 +206,20 @@ describe('Copy content', () => {
       done();
     });
 
-    it('Copy a file - [C280194]', async () => copyFile(file1, source, destinationRF));
+    it('[C280194] Copy a file', async () => copyFile(file1, source, destinationRF));
 
-    it('Copy multiple items - [C280201]', async () => copyMultipleItems([file2, file3], source, destinationRF));
+    it('[C280201] Copy multiple items', async () => copyMultipleItems([file2, file3], source, destinationRF));
 
-    it('Copy a file with a name that already exists on the destination - [C280196]', async () => copyFileWithNameThatAlreadyExists(existingFile, source, destinationRF));
+    it('[C280196] Copy a file with a name that already exists on the destination', async () => copyFileWithNameThatAlreadyExists(existingFile, source, destinationRF));
 
-    it('Copy items into a library - [C291899]', async () => copyItemsIntoLibrary([file1, file2], source, folderSiteRF));
+    it('[C291899] Copy items into a library', async () => copyItemsIntoLibrary([file1, file2], source, folderSiteRF));
 
-    it('Copy locked file - [C280198]', async () => copyLockedFile(fileLocked1, source, destinationRF, () => {
+    it('[C280198] Copy locked file', async () => copyLockedFile(fileLocked1, source, destinationRF, () => {
       locationId = sourceId;
       destinationId = destinationIdRF;
     }));
 
-    it('Undo copy of files - [C280202]', async () => undoCopyFile(file4, source, destinationRF));
+    it('[C280202] Undo copy of files', async () => undoCopyFile(file4, source, destinationRF));
 
   });
 
@@ -236,38 +236,38 @@ describe('Copy content', () => {
       done();
     });
 
-    it('Copy a file - [C217135]', async () => copyFile(file1, '', destinationPF));
+    it('[C217135] Copy a file', async () => copyFile(file1, '', destinationPF));
 
-    it('Copy a folder with content - [C291888]', async () => copyFolderWithContent(folder1, '', destinationPF));
+    it('[C291888] Copy a folder with content', async () => copyFolderWithContent(folder1, '', destinationPF));
 
-    it('Copy multiple items - [C291889]', async () => copyMultipleItems([file2, file3], '', destinationPF));
+    it('[C291889] Copy multiple items', async () => copyMultipleItems([file2, file3], '', destinationPF));
 
-    it('Copy a file with a name that already exists on the destination - [C217137]', async () => copyFileWithNameThatAlreadyExists(existingFile, '', destinationPF));
+    it('[C217137] Copy a file with a name that already exists on the destination', async () => copyFileWithNameThatAlreadyExists(existingFile, '', destinationPF));
 
-    it('Copy a folder with a name that already exists on the destination - [C217138]', async () => copyFolderWithNameThatAlreadyExists(existingFolder, '', destinationPF));
+    it('[C217138] Copy a folder with a name that already exists on the destination', async () => copyFolderWithNameThatAlreadyExists(existingFolder, '', destinationPF));
 
-    it('Copy items into a library - [C280282]', async () => copyItemsIntoLibrary([file1, folder1], '', folderSitePF));
+    it('[C280282] Copy items into a library', async () => copyItemsIntoLibrary([file1, folder1], '', folderSitePF));
 
-    it('Copy locked file - [C217139]', async () => copyLockedFile(fileLocked1, '', destinationPF, () => {
+    it('[C217139] Copy locked file', async () => copyLockedFile(fileLocked1, '', destinationPF, () => {
       locationId = sourceId;
       destinationId = destinationIdPF;
     }));
 
-    it('Copy folder that contains locked file - [C217140]', async () => copyFolderThatContainsLockedFile(folderWithLockedFiles, '', destinationPF, () => {
+    it('[C217140] Copy folder that contains locked file', async () => copyFolderThatContainsLockedFile(folderWithLockedFiles, '', destinationPF, () => {
       locationId = folderWithLockedFilesId;
       destinationId = destinationIdPF;
     }));
 
-    it('Undo copy of files - [C217171]', async () => undoCopyFile(file4, '', destinationPF));
+    it('[C217171] Undo copy of files', async () => undoCopyFile(file4, '', destinationPF));
 
-    it('Undo copy of folders - [C217172]', async () => undoCopyFolder(folder2, '', destinationPF));
+    it('[C217172] Undo copy of folders', async () => undoCopyFolder(folder2, '', destinationPF));
 
-    it('Undo copy of a file when a file with same name already exists on the destination - [C217173]', async () => undoCopyFileWithExistingName(fileInFolder, '', folder2, async () => {
+    it('[C217173] Undo copy of a file when a file with same name already exists on the destination', async () => undoCopyFileWithExistingName(fileInFolder, '', folder2, async () => {
       await dataTable.doubleClickOnRowByName(folder1);
       await dataTable.waitForHeader();
     }));
 
-    it('Undo copy of a folder when a folder with same name already exists on the destination - [C217174]', async () => undoCopyFolderWithExistingName(folderExisting, '', destinationPF));
+    it('[C217174] Undo copy of a folder when a folder with same name already exists on the destination', async () => undoCopyFolderWithExistingName(folderExisting, '', destinationPF));
 
   });
 
@@ -283,20 +283,20 @@ describe('Copy content', () => {
       done();
     });
 
-    it('Copy a file - [C280206]', async () => copyFile(file1, source, destinationSF));
+    it('[C280206] Copy a file', async () => copyFile(file1, source, destinationSF));
 
-    it('Copy multiple items - [C280213]', async () => copyMultipleItems([file2, file3], source, destinationSF));
+    it('[C280213] Copy multiple items', async () => copyMultipleItems([file2, file3], source, destinationSF));
 
-    it('Copy a file with a name that already exists on the destination - [C280208]', async () => copyFileWithNameThatAlreadyExists(existingFile, source, destinationSF));
+    it('[C280208] Copy a file with a name that already exists on the destination', async () => copyFileWithNameThatAlreadyExists(existingFile, source, destinationSF));
 
-    it('Copy items into a library - [C291900]', async () => copyItemsIntoLibrary([file1, file2], source, folderSiteSF));
+    it('[C291900] Copy items into a library', async () => copyItemsIntoLibrary([file1, file2], source, folderSiteSF));
 
-    it('Copy locked file - [C280210]', async () => copyLockedFile(fileLocked1, source, destinationSF, () => {
+    it('[C280210] Copy locked file', async () => copyLockedFile(fileLocked1, source, destinationSF, () => {
       locationId = sourceId;
       destinationId = destinationIdSF;
     }));
 
-    it('Undo copy of files - [C280214]', async () => undoCopyFile(file4, source, destinationSF));
+    it('[C280214] Undo copy of files', async () => undoCopyFile(file4, source, destinationSF));
 
   });
 
@@ -312,35 +312,35 @@ describe('Copy content', () => {
       done();
     });
 
-    it('Copy a file - [C280218]', async () => copyFile(file1, source, destinationFav));
+    it('[C280218] Copy a file', async () => copyFile(file1, source, destinationFav));
 
-    it('Copy a folder with content - [C280219]', async () => copyFolderWithContent(folder1, source, destinationFav));
+    it('[C280219] Copy a folder with content', async () => copyFolderWithContent(folder1, source, destinationFav));
 
-    it('Copy multiple items - [C280225]', async () => copyMultipleItems([file2, file3], source, destinationFav));
+    it('[C280225] Copy multiple items', async () => copyMultipleItems([file2, file3], source, destinationFav));
 
-    it('Copy a file with a name that already exists on the destination - [C280220]', async () => copyFileWithNameThatAlreadyExists(existingFile, source, destinationFav));
+    it('[C280220] Copy a file with a name that already exists on the destination', async () => copyFileWithNameThatAlreadyExists(existingFile, source, destinationFav));
 
-    it('Copy a folder with a name that already exists on the destination - [C280221]', async () => copyFolderWithNameThatAlreadyExists(existingFolder, source, destinationFav));
+    it('[C280221] Copy a folder with a name that already exists on the destination', async () => copyFolderWithNameThatAlreadyExists(existingFolder, source, destinationFav));
 
-    it('Copy items into a library - [C291901]', async () => copyItemsIntoLibrary([file1, folder1], source, folderSiteFav));
+    it('[C291901] Copy items into a library', async () => copyItemsIntoLibrary([file1, folder1], source, folderSiteFav));
 
-    it('Copy locked file - [C280222]', async () => copyLockedFile(fileLocked1, source, destinationFav, () => {
+    it('[C280222] Copy locked file', async () => copyLockedFile(fileLocked1, source, destinationFav, () => {
       locationId = sourceId;
       destinationId = destinationIdFav;
     }));
 
-    it('Copy folder that contains locked file - [C280223]', async () => copyFolderThatContainsLockedFile(folderWithLockedFiles, source, destinationFav, () => {
+    it('[C280223] Copy folder that contains locked file', async () => copyFolderThatContainsLockedFile(folderWithLockedFiles, source, destinationFav, () => {
       locationId = folderWithLockedFilesId;
       destinationId = destinationIdFav;
     }));
 
-    it('Undo copy of files - [C280226]', async () => undoCopyFile(file4, source, destinationFav));
+    it('[C280226] Undo copy of files', async () => undoCopyFile(file4, source, destinationFav));
 
-    it('Undo copy of folders - [C280227]', async () => undoCopyFolder(folder2, source, destinationFav));
+    it('[C280227] Undo copy of folders', async () => undoCopyFolder(folder2, source, destinationFav));
 
-    it('Undo copy of a file when a file with same name already exists on the destination - [C280228]', async () => undoCopyFileWithExistingName(fileInFolder, folder1, folder2));
+    it('[C280228] Undo copy of a file when a file with same name already exists on the destination', async () => undoCopyFileWithExistingName(fileInFolder, folder1, folder2));
 
-    it('Undo copy of a folder when a folder with same name already exists on the destination - [C280229]', async () => undoCopyFolderWithExistingName(folderExisting, source, destinationFav));
+    it('[C280229] Undo copy of a folder when a folder with same name already exists on the destination', async () => undoCopyFolderWithExistingName(folderExisting, source, destinationFav));
 
   });
 
@@ -357,66 +357,66 @@ describe('Copy content', () => {
       done();
     });
 
-    it('Copy a file - [C306932]', async () => copyFile(file1, source, destinationSearch, async () => {
+    it('[C306932] Copy a file', async () => copyFile(file1, source, destinationSearch, async () => {
       await searchInput.searchFor(file1);
       await dataTable.waitForBody();
     }));
 
-    it('Copy a folder with content - [C306943]', async () => copyFolderWithContent(folder1, source, destinationSearch, async () => {
+    it('[C306943] Copy a folder with content', async () => copyFolderWithContent(folder1, source, destinationSearch, async () => {
       await searchInput.searchFor(folder1);
       await dataTable.waitForBody();
     }));
 
-    it('Copy multiple items - [C306944]', async () => copyMultipleItems([file2, file3], source, destinationSearch, async () => {
+    it('[C306944] Copy multiple items', async () => copyMultipleItems([file2, file3], source, destinationSearch, async () => {
       await searchInput.searchFor('file');
       await dataTable.waitForBody();
     }));
 
-    it('Copy a file with a name that already exists on the destination - [C306933]', async () => copyFileWithNameThatAlreadyExists(existingFile, source, destinationSearch, async () => {
+    it('[C306933] Copy a file with a name that already exists on the destination', async () => copyFileWithNameThatAlreadyExists(existingFile, source, destinationSearch, async () => {
       await searchInput.searchFor(existingFile);
       await dataTable.waitForBody();
     }));
 
-    it('Copy a folder with a name that already exists on the destination - [C306934]', async () => copyFolderWithNameThatAlreadyExists(existingFolder, source, destinationSearch, async () => {
+    it('[C306934] Copy a folder with a name that already exists on the destination', async () => copyFolderWithNameThatAlreadyExists(existingFolder, source, destinationSearch, async () => {
       await searchInput.searchFor(existingFolder);
       await dataTable.waitForBody();
     }));
 
-    it('Copy items into a library - [C306942]', async () => copyItemsIntoLibrary([file1, file2], source, folderSiteSearch, async () => {
+    it('[C306942] Copy items into a library', async () => copyItemsIntoLibrary([file1, file2], source, folderSiteSearch, async () => {
       await searchInput.searchFor('file');
       await dataTable.waitForBody();
     }));
 
-    it('Copy locked file - [C306935]', async () => copyLockedFile(fileLocked1, source, destinationSearch, async () => {
+    it('[C306935] Copy locked file', async () => copyLockedFile(fileLocked1, source, destinationSearch, async () => {
       locationId = sourceId;
       destinationId = destinationIdSearch;
       await searchInput.searchFor(fileLocked1);
       await dataTable.waitForBody();
     }));
 
-    it('Copy folder that contains locked file - [C306936]', async () => copyFolderThatContainsLockedFile(folderWithLockedFiles, source, destinationSearch, async () => {
+    it('[C306936] Copy folder that contains locked file', async () => copyFolderThatContainsLockedFile(folderWithLockedFiles, source, destinationSearch, async () => {
       locationId = folderWithLockedFilesId;
       destinationId = destinationIdSearch;
       await searchInput.searchFor(folderWithLockedFiles);
       await dataTable.waitForBody();
     }));
 
-    it('Undo copy of files - [C306938]', async () => undoCopyFile(file4, source, destinationSearch, async () => {
+    it('[C306938] Undo copy of files', async () => undoCopyFile(file4, source, destinationSearch, async () => {
       await searchInput.searchFor(file4);
       await dataTable.waitForBody();
     }));
 
-    it('Undo copy of folders - [C306939]', async () => undoCopyFolder(folder2, source, destinationSearch, async () => {
+    it('[C306939] Undo copy of folders', async () => undoCopyFolder(folder2, source, destinationSearch, async () => {
       await searchInput.searchFor(folder2);
       await dataTable.waitForBody();
     }));
 
-    it('Undo copy of a file when a file with same name already exists on the destination - [C306940]', async () => undoCopyFileWithExistingName(fileInFolder, folder1, folder2, async () => {
+    it('[C306940] Undo copy of a file when a file with same name already exists on the destination', async () => undoCopyFileWithExistingName(fileInFolder, folder1, folder2, async () => {
       await searchInput.searchFor(fileInFolder);
       await dataTable.waitForBody();
     }));
 
-    it('Undo copy of a folder when a folder with same name already exists on the destination - [C306941]', async () => undoCopyFolderWithExistingName(folderExisting, source, destinationSearch, async () => {
+    it('[C306941] Undo copy of a folder when a folder with same name already exists on the destination', async () => undoCopyFolderWithExistingName(folderExisting, source, destinationSearch, async () => {
       await searchInput.searchFor(folderExisting);
       await dataTable.waitForBody();
     }));

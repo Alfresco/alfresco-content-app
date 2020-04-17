@@ -46,70 +46,70 @@ describe('Sidebar', () => {
     done();
   });
 
-  it('has "Personal Files" as default - [C217149]', async () => {
+  it('[C217149] has "Personal Files" as default', async () => {
     expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);
     expect(await sidenav.isActive(SIDEBAR_LABELS.PERSONAL_FILES)).toBe(true, 'Default active link');
   });
 
-  it('File Libraries has correct sub-categories - [C217150]', async () => {
+  it('[C217150] File Libraries has correct sub-categories', async () => {
     await page.clickFileLibraries();
     expect(await sidenav.isFileLibrariesMenuExpanded()).toBe(true, 'File Libraries not expanded');
     expect(await sidenav.getLink(SIDEBAR_LABELS.MY_LIBRARIES).isPresent()).toBe(true, 'My Libraries link not present');
     expect(await sidenav.getLink(SIDEBAR_LABELS.FAVORITE_LIBRARIES).isPresent()).toBe(true, 'Favorite Libraries link not present');
   });
 
-  it('My Libraries is automatically selected on expanding File Libraries - [C289900]', async () => {
+  it('[C289900] My Libraries is automatically selected on expanding File Libraries', async () => {
     await sidenav.expandFileLibraries();
     expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.MY_LIBRARIES);
     expect(await sidenav.isActive(SIDEBAR_LABELS.FILE_LIBRARIES)).toBe(true, 'File Libraries is not active');
     expect(await sidenav.isActive(SIDEBAR_LABELS.MY_LIBRARIES)).toBe(true, 'My Libraries link not active');
   });
 
-  it('navigate to Favorite Libraries - [C289902]', async () => {
+  it('[C289902] navigate to Favorite Libraries', async () => {
     await page.goToFavoriteLibraries();
     expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.FAVORITE_LIBRARIES);
     expect(await sidenav.isActive(SIDEBAR_LABELS.FILE_LIBRARIES)).toBe(true, 'File Libraries link is not active');
     expect(await sidenav.isActive(SIDEBAR_LABELS.FAVORITE_LIBRARIES)).toBe(true, 'Favorite Libraries link not active');
   });
 
-  it('navigate to My Libraries - [C289901]', async () => {
+  it('[C289901] navigate to My Libraries', async () => {
     await page.goToMyLibraries();
     expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.MY_LIBRARIES);
     expect(await sidenav.isActive(SIDEBAR_LABELS.FILE_LIBRARIES)).toBe(true, 'File Libraries link is not active');
     expect(await sidenav.isActive(SIDEBAR_LABELS.MY_LIBRARIES)).toBe(true, 'My Libraries link not active');
   });
 
-  it('navigates to "Shared Files" - [C213110]', async () => {
+  it('[C213110] navigates to "Shared Files"', async () => {
     await page.clickSharedFiles();
     expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.SHARED_FILES);
     expect(await sidenav.isActive(SIDEBAR_LABELS.SHARED_FILES)).toBe(true, 'Shared Files link not active');
   });
 
-  it('navigates to "Recent Files" - [C213166]', async () => {
+  it('[C213166] navigates to "Recent Files"', async () => {
     await page.clickRecentFiles();
     expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.RECENT_FILES);
     expect(await sidenav.isActive(SIDEBAR_LABELS.RECENT_FILES)).toBe(true, 'Recent Files link not active');
   });
 
-  it('navigates to "Favorites" - [C213225]', async () => {
+  it('[C213225] navigates to "Favorites"', async () => {
     await page.clickFavorites();
     expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.FAVORITES);
     expect(await sidenav.isActive(SIDEBAR_LABELS.FAVORITES)).toBe(true, 'Favorites link not active');
   });
 
-  it('navigates to "Trash" - [C213216]', async () => {
+  it('[C213216] navigates to "Trash"', async () => {
     await page.clickTrash();
     expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.TRASHCAN);
     expect(await sidenav.isActive(SIDEBAR_LABELS.TRASH)).toBe(true, 'Trash link not active');
   });
 
-  it('navigates to "Personal Files" - [C280409]', async () => {
+  it('[C280409] navigates to "Personal Files"', async () => {
     await page.clickPersonalFiles();
     expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);
     expect(await sidenav.isActive(SIDEBAR_LABELS.PERSONAL_FILES)).toBe(true, 'Personal Files link not active');
   });
 
-  it('Personal Files tooltip - [C217151]', async () => {
+  it('[C217151] Personal Files tooltip', async () => {
     await page.clickPersonalFiles();
     expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.PERSONAL_FILES)).toContain('View your Personal Files');
 
@@ -117,7 +117,7 @@ describe('Sidebar', () => {
     expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.PERSONAL_FILES)).toContain('View your Personal Files');
   });
 
-  it('Shared Files tooltip - [C213111]', async () => {
+  it('[C213111] Shared Files tooltip', async () => {
     await page.clickSharedFiles();
     expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.SHARED_FILES)).toContain('View files that have been shared');
 
@@ -125,7 +125,7 @@ describe('Sidebar', () => {
     expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.SHARED_FILES)).toContain('View files that have been shared');
   });
 
-  it('Recent Files tooltip - [C213167]', async () => {
+  it('[C213167] Recent Files tooltip', async () => {
     await page.clickRecentFiles();
     expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.RECENT_FILES)).toContain('View files you recently edited');
 
@@ -133,7 +133,7 @@ describe('Sidebar', () => {
     expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.RECENT_FILES)).toContain('View files you recently edited');
   });
 
-  it('Favorites tooltip - [C217153]', async () => {
+  it('[C217153] Favorites tooltip', async () => {
     await page.clickFavorites();
     expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.FAVORITES)).toContain('View your favorite files and folders');
 
@@ -141,7 +141,7 @@ describe('Sidebar', () => {
     expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.FAVORITES)).toContain('View your favorite files and folders');
   });
 
-  it('Trash tooltip - [C217154]', async () => {
+  it('[C217154] Trash tooltip', async () => {
     await page.clickTrash();
     expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.TRASH)).toContain('View deleted files in the trash');
 
@@ -149,7 +149,7 @@ describe('Sidebar', () => {
     expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.TRASH)).toContain('View deleted files in the trash');
   });
 
-  it('File Libraries tooltip - [C217152]', async () => {
+  it('[C217152] File Libraries tooltip', async () => {
     await page.clickFileLibraries();
     expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.FILE_LIBRARIES)).toContain('File Libraries');
 
@@ -157,7 +157,7 @@ describe('Sidebar', () => {
     expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.FILE_LIBRARIES)).toContain('File Libraries');
   });
 
-  it('My Libraries tooltip - [C289916]', async () => {
+  it('[C289916] My Libraries tooltip', async () => {
     await page.goToMyLibraries();
     expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.MY_LIBRARIES)).toContain('Access my libraries');
 
@@ -166,7 +166,7 @@ describe('Sidebar', () => {
     expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.MY_LIBRARIES)).toContain('Access my libraries');
   });
 
-  it('Favorite Libraries tooltip - [C289917]', async () => {
+  it('[C289917] Favorite Libraries tooltip', async () => {
     await page.goToFavoriteLibraries();
     expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.FAVORITE_LIBRARIES)).toContain('Access my favorite libraries');
 
@@ -175,11 +175,11 @@ describe('Sidebar', () => {
     expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.FAVORITE_LIBRARIES)).toContain('Access my favorite libraries');
   });
 
-  it('default state is expanded - [C269095]', async () => {
+  it('[C269095] default state is expanded', async () => {
     expect(await header.isSidenavExpanded()).toBe(true, 'Sidebar not expanded');
   });
 
-  it('sidebar toggle - [C269096]', async () => {
+  it('[C269096] sidebar toggle', async () => {
     await header.collapseSideNav();
     expect(await header.isSidenavExpanded()).toBe(false, 'Sidebar not collapsed');
 
@@ -187,7 +187,7 @@ describe('Sidebar', () => {
     expect(await header.isSidenavExpanded()).toBe(true, 'Sidebar not expanded');
   });
 
-  it('sidebar state is preserved on page refresh - [C269100]', async () => {
+  it('[C269100] sidebar state is preserved on page refresh', async () => {
     expect(await header.isSidenavExpanded()).toBe(true, 'Sidebar not expanded');
     await page.refresh();
     expect(await header.isSidenavExpanded()).toBe(true, 'Sidebar not expanded');
@@ -198,7 +198,7 @@ describe('Sidebar', () => {
     expect(await header.isSidenavExpanded()).toBe(false, 'Sidebar not collapsed');
   });
 
-  it('sidebar state is preserved after logout / login - [C269102]', async () => {
+  it('[C269102] sidebar state is preserved after logout / login', async () => {
     await header.collapseSideNav();
     await page.signOut();
     await loginPage.loginWithAdmin();
@@ -206,7 +206,7 @@ describe('Sidebar', () => {
     expect(await header.isSidenavExpanded()).toBe(false, 'Sidebar not collapsed');
   });
 
-  it('sidebar is collapsed automatically when Search Results opens - [C277223]', async () => {
+  it('[C277223] sidebar is collapsed automatically when Search Results opens', async () => {
     await searchInput.clickSearchButton();
     /* cspell:disable-next-line */
     await searchInput.searchFor('qwertyuiop');
@@ -215,7 +215,7 @@ describe('Sidebar', () => {
     expect(await header.isSidenavExpanded()).toBe(false, 'Sidebar not collapsed');
   });
 
-  it('sidenav returns to the default state when navigating away from the Search Results page - [C277224]', async () => {
+  it('[C277224] sidenav returns to the default state when navigating away from the Search Results page', async () => {
     await searchInput.clickSearchButton();
     /* cspell:disable-next-line */
     await searchInput.searchFor('qwertyuiop');
@@ -225,7 +225,7 @@ describe('Sidebar', () => {
     expect(await header.isSidenavExpanded()).toBe(true, 'Sidebar not expanded');
   });
 
-  it('sidenav can be expanded when search results page is displayed - [C277230]', async () => {
+  it('[C277230] sidenav can be expanded when search results page is displayed', async () => {
     await searchInput.clickSearchButton();
     /* cspell:disable-next-line */
     await searchInput.searchFor('qwertyuiop');

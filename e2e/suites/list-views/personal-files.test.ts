@@ -76,7 +76,7 @@ describe('Personal Files', () => {
       done();
     });
 
-    it('has Data Dictionary and created content - [C213241]', async () => {
+    it('[C213241] has Data Dictionary and created content', async () => {
       expect(await dataTable.isItemPresent('Data Dictionary')).toBe(true, 'Data Dictionary not displayed');
       expect(await dataTable.isItemPresent(adminFolder)).toBe(true, 'admin folder not displayed');
     });
@@ -93,22 +93,22 @@ describe('Personal Files', () => {
       done();
     });
 
-    it('has the correct columns - [C217142]', async () => {
+    it('[C217142] has the correct columns', async () => {
       const expectedColumns = [ 'Name', 'Size', 'Modified', 'Modified by' ];
       const actualColumns = await dataTable.getColumnHeadersText();
 
       expect(actualColumns).toEqual(expectedColumns);
     });
 
-    it('has default sorted column - [C217143]', async () => {
+    it('[C217143] has default sorted column', async () => {
       expect(await dataTable.getSortedColumnHeaderText()).toBe('Modified');
     });
 
-    it('has user created content - [C213242]', async () => {
+    it('[C213242] has user created content', async () => {
       expect(await dataTable.isItemPresent(userFolder)).toBe(true, 'user folder not displayed');
     });
 
-    it('navigates to folder - [C213244]', async () => {
+    it('[C213244] navigates to folder', async () => {
       const nodeId = (await apis.user.nodes.getNodeByPath(`/${userFolder}`)).entry.id;
 
       await dataTable.doubleClickOnRowByName(userFolder)
@@ -118,19 +118,19 @@ describe('Personal Files', () => {
       expect(await dataTable.isItemPresent(userFile)).toBe(true, 'user file is missing');
     });
 
-    it('redirects to Personal Files on clicking the link from sidebar - [C213245]', async () => {
+    it('[C213245] redirects to Personal Files on clicking the link from sidebar', async () => {
       await page.dataTable.doubleClickOnRowByName(userFolder);
       await page.clickPersonalFiles();
       const url = await browser.getCurrentUrl();
       expect(url.endsWith(APP_ROUTES.PERSONAL_FILES)).toBe(true, 'incorrect url');
     });
 
-    it('page loads correctly after browser refresh - [C213246]', async () => {
+    it('[C213246] page loads correctly after browser refresh', async () => {
       await page.refresh();
       expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);
     });
 
-    it('page load by URL - [C213247]', async () => {
+    it('[C213247] page load by URL', async () => {
       const url = await browser.getCurrentUrl();
       await page.clickTrash();
       await browser.get(url);

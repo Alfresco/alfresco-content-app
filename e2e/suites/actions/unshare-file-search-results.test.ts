@@ -105,7 +105,7 @@ describe('Unshare a file from Search Results', () => {
     done();
   });
 
-  it('Unshare dialog UI - [C306995]', async () => {
+  it('[C306995] Unshare dialog UI', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkFilesAndFolders();
     await searchInput.searchFor(file1);
@@ -125,7 +125,7 @@ describe('Unshare a file from Search Results', () => {
     expect(await confirmDialog.isCancelEnabled()).toBe(true, 'CANCEL button is not enabled');
   });
 
-  it('Unshare a file - [C306996]', async () => {
+  it('[C306996] Unshare a file', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkFilesAndFolders();
     await searchInput.searchFor(file2);
@@ -150,7 +150,7 @@ describe('Unshare a file from Search Results', () => {
     await page.load();
   });
 
-  it('Cancel the Unshare action - [C306997]', async () => {
+  it('[C306997] Cancel the Unshare action', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkFilesAndFolders();
     await searchInput.searchFor(file3);
@@ -172,7 +172,7 @@ describe('Unshare a file from Search Results', () => {
     expect(urlBefore).toEqual(urlAfter);
   });
 
-  it('Unshare a file from the context menu - [C306999]', async () => {
+  it('[C306999] Unshare a file from the context menu', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkFilesAndFolders();
     await searchInput.searchFor(file4);
@@ -198,7 +198,7 @@ describe('Unshare a file from Search Results', () => {
     await page.load();
   });
 
-  it('Consumer - on Search Results - file shared by other user - [C306998]', async () => {
+  it('[C306998] Consumer - on Search Results - file shared by other user', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkFilesAndFolders();
     await searchInput.searchFor(fileSite1);
@@ -216,7 +216,7 @@ describe('Unshare a file from Search Results', () => {
     expect(msg).toContain(`You don't have permission to unshare this file`);
   });
 
-  it('Consumer - on Search Results - file shared by the user - [C307000]', async () => {
+  it('[C307000] Consumer - on Search Results - file shared by the user', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkFilesAndFolders();
     await searchInput.searchFor(fileSite2);

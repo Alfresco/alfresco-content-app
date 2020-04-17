@@ -48,48 +48,48 @@ describe('Empty list views', () => {
     done();
   });
 
-  it('empty Personal Files - [C280131]', async () => {
+  it('[C280131] empty Personal Files', async () => {
     await page.clickPersonalFiles();
     expect(await dataTable.isEmpty()).toBe(true, 'list is not empty');
     expect(await dataTable.getEmptyDragAndDropText()).toContain('Drag and drop');
   });
 
-  it('empty My Libraries - [C217099]', async () => {
+  it('[C217099] empty My Libraries', async () => {
     await page.goToMyLibraries();
     expect(await dataTable.isEmpty()).toBe(true, 'list is not empty');
     expect(await dataTable.getEmptyStateTitle()).toContain(`You aren't a member of any File Libraries yet`);
     expect(await dataTable.getEmptyStateSubtitle()).toContain('Join libraries to upload, view, and share files.');
   });
 
-  it('empty Favorite Libraries - [C289911]', async () => {
+  it('[C289911] empty Favorite Libraries', async () => {
     await page.goToFavoriteLibraries();
     expect(await dataTable.isEmpty()).toBe(true, 'list is not empty');
     expect(await dataTable.getEmptyStateTitle()).toContain(`No Favorite Libraries`);
     expect(await dataTable.getEmptyStateSubtitle()).toContain('Favorite a library that you want to find easily later.');
   });
 
-  it('empty Shared Files - [C280132]', async () => {
+  it('[C280132] empty Shared Files', async () => {
     await page.clickSharedFiles();
     expect(await dataTable.isEmpty()).toBe(true, 'list is not empty');
     expect(await dataTable.getEmptyStateTitle()).toContain('No shared files or folders');
     expect(await dataTable.getEmptyStateSubtitle()).toContain('Items you share using the Share option are shown here.');
   });
 
-  it('empty Recent Files - [C213169]', async () => {
+  it('[C213169] empty Recent Files', async () => {
     await page.clickRecentFiles();
     expect(await dataTable.isEmpty()).toBe(true, 'list is not empty');
     expect(await dataTable.getEmptyStateTitle()).toContain('No recent files');
     expect(await dataTable.getEmptyStateSubtitle()).toContain('Items you uploaded or edited in the last 30 days are shown here.');
   });
 
-  it('empty Favorites - [C280133]', async () => {
+  it('[C280133] empty Favorites', async () => {
     await page.clickFavorites();
     expect(await dataTable.isEmpty()).toBe(true, 'list is not empty');
     expect(await dataTable.getEmptyStateTitle()).toContain('No favorite files or folders');
     expect(await dataTable.getEmptyStateSubtitle()).toContain('Favorite items that you want to easily find later.');
   });
 
-  it('empty Trash - [C280134]', async () => {
+  it('[C280134] empty Trash', async () => {
     await page.clickTrash();
     expect(await dataTable.isEmpty()).toBe(true, 'list is not empty');
     expect(await dataTable.getEmptyStateTitle()).toContain('Trash is empty');
@@ -97,7 +97,7 @@ describe('Empty list views', () => {
     expect(await dataTable.getEmptyListText()).toContain('Empty Trash to permanently delete items.');
   });
 
-  it('Favorites - pagination controls not displayed - [C280111]', async () => {
+  it('[C280111] Favorites - pagination controls not displayed', async () => {
     await page.clickFavorites();
     expect(await pagination.isRangePresent()).toBe(false, 'Range is present');
     expect(await pagination.isMaxItemsPresent()).toBe(false, 'Max items is present');
@@ -107,7 +107,7 @@ describe('Empty list views', () => {
     expect(await pagination.isNextButtonPresent()).toBe(false, 'Next button is present');
   });
 
-  it('My Libraries - pagination controls not displayed - [C280084]', async () => {
+  it('[C280084] My Libraries - pagination controls not displayed', async () => {
     await page.goToMyLibraries();
     expect(await pagination.isRangePresent()).toBe(false, 'Range is present');
     expect(await pagination.isMaxItemsPresent()).toBe(false, 'Max items is present');
@@ -117,7 +117,7 @@ describe('Empty list views', () => {
     expect(await pagination.isNextButtonPresent()).toBe(false, 'Next button is present');
   });
 
-  it('Favorite Libraries - pagination controls not displayed - [C291873]', async () => {
+  it('[C291873] Favorite Libraries - pagination controls not displayed', async () => {
     await page.goToFavoriteLibraries();
     expect(await pagination.isRangePresent()).toBe(false, 'Range is present');
     expect(await pagination.isMaxItemsPresent()).toBe(false, 'Max items is present');
@@ -127,7 +127,7 @@ describe('Empty list views', () => {
     expect(await pagination.isNextButtonPresent()).toBe(false, 'Next button is present');
   });
 
-  it('Personal Files - pagination controls not displayed - [C280075]', async () => {
+  it('[C280075] Personal Files - pagination controls not displayed', async () => {
     await page.clickPersonalFiles();
     expect(await pagination.isRangePresent()).toBe(false, 'Range is present');
     expect(await pagination.isMaxItemsPresent()).toBe(false, 'Max items is present');
@@ -137,7 +137,7 @@ describe('Empty list views', () => {
     expect(await pagination.isNextButtonPresent()).toBe(false, 'Next button is present');
   });
 
-  it('Recent Files - pagination controls not displayed - [C280102]', async () => {
+  it('[C280102] Recent Files - pagination controls not displayed', async () => {
     await page.clickRecentFiles();
     expect(await pagination.isRangePresent()).toBe(false, 'Range is present');
     expect(await pagination.isMaxItemsPresent()).toBe(false, 'Max items is present');
@@ -147,7 +147,7 @@ describe('Empty list views', () => {
     expect(await pagination.isNextButtonPresent()).toBe(false, 'Next button is present');
   });
 
-  it('Shared Files - pagination controls not displayed - [C280094]', async () => {
+  it('[C280094] Shared Files - pagination controls not displayed', async () => {
     await page.clickSharedFiles();
     expect(await pagination.isRangePresent()).toBe(false, 'Range is present');
     expect(await pagination.isMaxItemsPresent()).toBe(false, 'Max items is present');
@@ -157,7 +157,7 @@ describe('Empty list views', () => {
     expect(await pagination.isNextButtonPresent()).toBe(false, 'Next button is present');
   });
 
-  it('Trash - pagination controls not displayed - [C280120]', async () => {
+  it('[C280120] Trash - pagination controls not displayed', async () => {
     await page.clickTrash();
     expect(await pagination.isRangePresent()).toBe(false, 'Range is present');
     expect(await pagination.isMaxItemsPresent()).toBe(false, 'Max items is present');
@@ -167,7 +167,7 @@ describe('Empty list views', () => {
     expect(await pagination.isNextButtonPresent()).toBe(false, 'Next button is present');
   });
 
-  it('Search results - pagination controls not displayed - [C290123]', async () => {
+  it('[C290123] Search results - pagination controls not displayed', async () => {
     await searchInput.clickSearchButton();
     /* cspell:disable-next-line */
     await searchInput.searchFor('qwertyuiop');
@@ -181,7 +181,7 @@ describe('Empty list views', () => {
     expect(await pagination.isNextButtonPresent()).toBe(false, 'Next button is present');
   });
 
-  it('Search filters panel is not displayed on empty Search Results page - [C279189]', async () => {
+  it('[C279189] Search filters panel is not displayed on empty Search Results page', async () => {
     await searchInput.clickSearchButton();
     /* cspell:disable-next-line */
     await searchInput.searchFor('qwertyuiop');
@@ -190,7 +190,7 @@ describe('Empty list views', () => {
     expect(await searchResultsPage.filters.isSearchFiltersPanelDisplayed()).toBe(false, 'Search filters panel is present');
   });
 
-  it('Empty Search results - Libraries - [C290020]', async () => {
+  it('[C290020] Empty Search results - Libraries', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkLibraries();
     /* cspell:disable-next-line */
@@ -201,7 +201,7 @@ describe('Empty list views', () => {
     expect(await dataTable.getEmptySearchResultsText()).toContain('Your search returned 0 results');
   });
 
-  it('Empty Search results - Files / Folders - [C290031]', async () => {
+  it('[C290031] Empty Search results - Files / Folders', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkFilesAndFolders();
     /* cspell:disable-next-line */

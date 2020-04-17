@@ -138,7 +138,7 @@ describe('Destination picker dialog : ', () => {
       await contentNodeSelector.waitForDialogToOpen();
     });
 
-    it('Dialog UI - [C263875]', async () => {
+    it('[C263875] Dialog UI', async () => {
       expect(await contentNodeSelector.getTitle()).toEqual(`Copy '${file}' to...`);
       expect(await contentNodeSelector.isSearchInputPresent()).toBe(true, 'Search input is not displayed');
       expect(await contentNodeSelector.isSelectLocationDropdownDisplayed()).toBe(true, 'Select Location dropdown not displayed');
@@ -148,7 +148,7 @@ describe('Destination picker dialog : ', () => {
       expect(await contentNodeSelector.isCancelButtonEnabled()).toBe(true, 'Cancel button is not enabled');
     });
 
-    it('Files are not displayed - [C263880]', async () => {
+    it('[C263880] Files are not displayed', async () => {
       await contentNodeSelector.selectLocation('Personal Files');
       expect(await contentNodeSelector.dataTable.isItemPresent(destination)).toBe(true, 'destination folder not displayed');
       await contentNodeSelector.dataTable.doubleClickOnRowByName(destination);
@@ -156,7 +156,7 @@ describe('Destination picker dialog : ', () => {
       expect(await contentNodeSelector.dataTable.isItemPresent(fileInDestination)).toBe(false, 'file is displayed');
     });
 
-    it('Folder links are not displayed - [C263881]', async() => {
+    it('[C263881] Folder links are not displayed', async() => {
       await contentNodeSelector.selectLocation('Personal Files');
       await contentNodeSelector.dataTable.doubleClickOnRowByName(destination);
 
@@ -165,18 +165,18 @@ describe('Destination picker dialog : ', () => {
       expect(await contentNodeSelector.dataTable.isItemPresent(folderLink)).toBe(false, 'Link to folder is displayed');
     });
 
-    it('User can see his Libraries - [C263885]', async () => {
+    it('[C263885] User can see his Libraries', async () => {
       await contentNodeSelector.selectLocation('File Libraries');
       expect(await contentNodeSelector.dataTable.isItemPresent(site)).toBe(true, 'user site is not displayed');
     });
 
-    it('Search - No results displayed - [C263889]', async () => {
+    it('[C263889] Search - No results displayed', async () => {
       await contentNodeSelector.searchFor('nonexistent-folder');
       expect(await contentNodeSelector.dataTable.isEmpty()).toBe(true, 'datatable not empty');
       expect(await contentNodeSelector.dataTable.getEmptyListText()).toEqual('No results found');
     });
 
-    it('Search - results found - [C263888]', async () => {
+    it('[C263888] Search - results found', async () => {
       await contentNodeSelector.searchFor(searchFolder);
       expect(await contentNodeSelector.dataTable.isItemPresent(searchFolder, username)).toBe(true, 'folder from Personal Files not displayed');
       expect(await contentNodeSelector.dataTable.isItemPresent(searchFolder, site)).toBe(true, 'folder from site not displayed');
@@ -194,7 +194,7 @@ describe('Destination picker dialog : ', () => {
       await contentNodeSelector.waitForDialogToOpen();
     });
 
-    it('Dialog title - multiple selection - [C263879]', async () => {
+    it('[C263879] Dialog title - multiple selection', async () => {
       expect(await contentNodeSelector.getTitle()).toEqual(`Copy 2 items to...`);
     });
   });
@@ -210,28 +210,28 @@ describe('Destination picker dialog : ', () => {
       await contentNodeSelector.waitForDialogToOpen();
     });
 
-    it('Personal Files breadcrumb - main node - [C263890]', async () => {
+    it('[C263890] Personal Files breadcrumb - main node', async () => {
       await contentNodeSelector.selectLocation('Personal Files');
       expect(await contentNodeSelector.breadcrumb.getCurrentFolderName()).toEqual('Personal Files');
     });
 
-    it('File Libraries breadcrumb - main node - [C263891]', async () => {
+    it('[C263891] File Libraries breadcrumb - main node', async () => {
       await contentNodeSelector.selectLocation('File Libraries');
       expect(await contentNodeSelector.breadcrumb.getCurrentFolderName()).toEqual('File Libraries');
     });
 
-    it('Search results breadcrumb - [C263899]', async () => {
+    it('[C263899] Search results breadcrumb', async () => {
       await contentNodeSelector.searchFor(searchFolder);
       expect(await contentNodeSelector.getToolbarTitle()).toEqual('Search results');
     });
 
-    it('Search results breadcrumb when selecting a folder - [C263900]', async () => {
+    it('[C263900] Search results breadcrumb when selecting a folder', async () => {
       await contentNodeSelector.searchFor(searchFolder);
       await contentNodeSelector.dataTable.selectItem(searchFolder, site);
       expect(await contentNodeSelector.breadcrumb.getCurrentFolderName()).toEqual(searchFolder);
     });
 
-    it('Personal Files breadcrumb - folder structure - [C263897]', async () => {
+    it('[C263897] Personal Files breadcrumb - folder structure', async () => {
       await contentNodeSelector.selectLocation('Personal Files');
       await contentNodeSelector.dataTable.doubleClickOnRowByName(destination);
       expect(await contentNodeSelector.breadcrumb.getCurrentFolderName()).toEqual(destination);
@@ -245,7 +245,7 @@ describe('Destination picker dialog : ', () => {
       expect(await contentNodeSelector.breadcrumb.getPathItems()).toEqual([searchSubFolder1, searchFolder, destination, 'Personal Files']);
     });
 
-    it('File Libraries breadcrumb - folder structure - [C263898]', async () => {
+    it('[C263898] File Libraries breadcrumb - folder structure', async () => {
       await contentNodeSelector.selectLocation('File Libraries');
       await contentNodeSelector.dataTable.doubleClickOnRowByName(site);
       expect(await contentNodeSelector.breadcrumb.getCurrentFolderName()).toEqual(site);
@@ -261,7 +261,7 @@ describe('Destination picker dialog : ', () => {
       expect(await contentNodeSelector.breadcrumb.getPathItems()).toEqual([searchSubFolder1, searchFolder, site, 'File Libraries']);
     });
 
-    it('Select a node from the breadcrumb path - [C263895]', async () => {
+    it('[C263895] Select a node from the breadcrumb path', async () => {
       await contentNodeSelector.selectLocation('Personal Files');
       await contentNodeSelector.dataTable.doubleClickOnRowByName(destination);
       await contentNodeSelector.dataTable.doubleClickOnRowByName(searchFolder);
@@ -277,7 +277,7 @@ describe('Destination picker dialog : ', () => {
 
   describe('Users with different permissions', () => {
 
-    it('Consumer user cannot select the folder as destination - [C263876]', async () => {
+    it('[C263876] Consumer user cannot select the folder as destination', async () => {
       await loginPage.loginWith(consumer);
       await dataTable.selectItem(file);
       await toolbar.clickMoreActionsCopy();
@@ -291,7 +291,7 @@ describe('Destination picker dialog : ', () => {
       expect(await contentNodeSelector.isCopyButtonEnabled()).toBe(false, 'Copy should be disabled');
     });
 
-    it('Contributor user can select the folder as destination - [C263877]', async () => {
+    it('[C263877] Contributor user can select the folder as destination', async () => {
       await loginPage.loginWith(contributor);
       await dataTable.selectItem(file);
       await toolbar.clickMoreActionsCopy();
@@ -305,7 +305,7 @@ describe('Destination picker dialog : ', () => {
       expect(await contentNodeSelector.isCopyButtonEnabled()).toBe(true, 'Copy should be disabled');
     });
 
-    it('Collaborator user can select the folder as destination - [C263878]', async () => {
+    it('[C263878] Collaborator user can select the folder as destination', async () => {
       await loginPage.loginWith(collaborator);
       await dataTable.selectItem(file);
       await toolbar.clickMoreActionsCopy();
@@ -319,7 +319,7 @@ describe('Destination picker dialog : ', () => {
       expect(await contentNodeSelector.isCopyButtonEnabled()).toBe(true, 'Copy should be disabled');
     });
 
-    it('Admin user - Personal Files breadcrumb main node - [C263892]', async () => {
+    it('[C263892] Admin user - Personal Files breadcrumb main node', async () => {
       await loginPage.loginWithAdmin();
       await dataTable.selectItem(adminFolder);
       await toolbar.clickMoreActionsCopy();

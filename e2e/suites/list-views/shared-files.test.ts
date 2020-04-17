@@ -86,53 +86,53 @@ describe('Shared Files', () => {
     done();
   });
 
-  it('has the correct columns - [C213113]', async () => {
+  it('[C213113] has the correct columns', async () => {
     const expectedColumns = [ 'Name', 'Location', 'Size', 'Modified', 'Modified by', 'Shared by' ];
     const actualColumns = await dataTable.getColumnHeadersText();
 
     expect(actualColumns).toEqual(expectedColumns);
   });
 
-  it('default sorting column - [C213115]', async () => {
+  it('[C213115] default sorting column', async () => {
     expect(await dataTable.getSortedColumnHeaderText()).toBe('Modified');
     expect(await dataTable.getSortingOrder()).toBe('desc');
   });
 
-  it('displays the files shared by everyone - [C213114]', async () => {
+  it('[C213114] displays the files shared by everyone', async () => {
     expect(await dataTable.isItemPresent(fileAdmin)).toBe(true, `${fileAdmin} not displayed`);
     expect(await dataTable.isItemPresent(file1User)).toBe(true, `${file1User} not displayed`);
   });
 
-  it(`file not displayed if it's been deleted - [C213117]`, async () => {
+  it(`[C213117] file not displayed if it's been deleted`, async () => {
     expect(await dataTable.isItemPresent(file2User)).toBe(false, `${file2User} is displayed`);
   });
 
-  it('unshared file is not displayed - [C213118]', async () => {
+  it('[C213118] unshared file is not displayed', async () => {
     expect(await dataTable.isItemPresent(file3User)).toBe(false, `${file3User} is displayed`);
   });
 
-  it('Location column displays the parent folder of the file - [C213665]', async () => {
+  it('[C213665] Location column displays the parent folder of the file', async () => {
     expect(await dataTable.getItemLocationTooltip(file4User)).toEqual('Personal Files');
     expect(await dataTable.getItemLocation(fileAdmin)).toEqual(siteName);
     expect(await dataTable.getItemLocation(file1User)).toEqual(folderUser);
   });
 
-  it('Location column redirect - file in user Home - [C213666]', async () => {
+  it('[C213666] Location column redirect - file in user Home', async () => {
     await dataTable.clickItemLocation(file4User);
     expect(await breadcrumb.getAllItems()).toEqual([ 'Personal Files' ]);
   });
 
-  it('Location column redirect - file in folder - [C280490]', async () => {
+  it('[C280490] Location column redirect - file in folder', async () => {
     await dataTable.clickItemLocation(file1User);
     expect(await breadcrumb.getAllItems()).toEqual([ 'Personal Files', folderUser ]);
   });
 
-  it('Location column redirect - file in site - [C280491]', async () => {
+  it('[C280491] Location column redirect - file in site', async () => {
     await dataTable.clickItemLocation(fileAdmin);
     expect(await breadcrumb.getAllItems()).toEqual([ 'My Libraries', siteName ]);
   });
 
-  it('Location column displays a tooltip with the entire path of the file - [C213667]', async () => {
+  it('[C213667] Location column displays a tooltip with the entire path of the file', async () => {
     expect(await dataTable.getItemLocationTooltip(fileAdmin)).toEqual(`File Libraries/${siteName}`);
     expect(await dataTable.getItemLocationTooltip(file1User)).toEqual(`Personal Files/${folderUser}`);
   });

@@ -103,7 +103,7 @@ describe('Create file from template', () => {
     await page.closeOpenDialogs();
   });
 
-  it('Select template - dialog UI - when no templates exist in the repo - [C325049]', async () => {
+  it('[C325049] Select template - dialog UI - when no templates exist in the repo', async () => {
     await sidenav.openCreateFileFromTemplateDialog();
     await selectTemplateDialog.waitForDialogToOpen();
 
@@ -152,7 +152,7 @@ describe('Create file from template', () => {
         await selectTemplateDialog.waitForDialogToOpen();
       });
 
-      it('Select template - dialog UI - with existing templates - [C325043]', async () => {
+      it('[C325043] Select template - dialog UI - with existing templates', async () => {
         expect(await selectTemplateDialog.getTitle()).toEqual('Select a document template');
         expect(await selectTemplateDialog.dataTable.isEmpty()).toBe(false, 'Datatable is empty');
         expect(await selectTemplateDialog.dataTable.isItemPresent(templatesFolder1)).toBe(true, 'template folder not displayed');
@@ -164,11 +164,11 @@ describe('Create file from template', () => {
         expect(await selectTemplateDialog.isCancelButtonEnabled()).toBe(true, 'Cancel button is not enabled');
       });
 
-      it(`Templates don't appear if user doesn't have permissions to see them - [C325044]`, async () => {
+      it(`[C325044] Templates don't appear if user doesn't have permissions to see them`, async () => {
         expect(await selectTemplateDialog.dataTable.isItemPresent(restrictedTemplateFolder)).toBe(false, 'restricted templates folder is displayed');
       });
 
-      it('Navigate through the templates list with folder hierarchy - [C325045]', async () => {
+      it('[C325045] Navigate through the templates list with folder hierarchy', async () => {
         expect(await selectTemplateDialog.dataTable.isItemPresent(templatesFolder2)).toBe(true, 'template folder not displayed');
 
         await selectTemplateDialog.dataTable.doubleClickOnRowByName(templatesFolder2);
@@ -189,7 +189,7 @@ describe('Create file from template', () => {
         expect(await selectTemplateDialog.breadcrumb.getPathItems()).toEqual([ templatesFolder2, 'Node Templates' ]);
       });
 
-      it(`Templates list doesn't allow multiple selection - [C325047]`, async () => {
+      it(`[C325047] Templates list doesn't allow multiple selection`, async () => {
         expect(await selectTemplateDialog.dataTable.getSelectedRowsCount()).toEqual(0, 'Incorrect number of selected rows');
 
         await selectTemplateDialog.dataTable.selectItem(template1InRootFolder);
@@ -204,11 +204,11 @@ describe('Create file from template', () => {
         expect(await selectTemplateDialog.dataTable.getSelectedRowsNames()).toEqual([ template2InRootFolder ], 'Incorrect selected item');
       });
 
-      it('Links to files are not displayed - [C325050]', async () => {
+      it('[C325050] Links to files are not displayed', async () => {
         expect(await selectTemplateDialog.dataTable.isItemPresent(link)).toBe(false, 'Link to file is displayed');
       });
 
-      it('Cancel the Select template dialog - [C325048]', async () => {
+      it('[C325048] Cancel the Select template dialog', async () => {
         expect(await selectTemplateDialog.isCancelButtonEnabled()).toBe(true, 'Cancel button is not enabled');
 
         await selectTemplateDialog.clickCancel();
@@ -216,7 +216,7 @@ describe('Create file from template', () => {
         expect(await selectTemplateDialog.isDialogOpen()).toBe(false, 'Select Template dialog is open');
       });
 
-      it('Next button is disabled when selecting a folder - [C216339]', async () => {
+      it('[C216339] Next button is disabled when selecting a folder', async () => {
         expect(await selectTemplateDialog.isNextButtonEnabled()).toBe(false, 'Next button is enabled');
 
         await selectTemplateDialog.dataTable.selectItem(templatesFolder1);
@@ -234,7 +234,7 @@ describe('Create file from template', () => {
         await createFromTemplateDialog.waitForDialogToOpen();
       });
 
-      it('Create file from template - dialog UI - [C325020]', async () => {
+      it('[C325020] Create file from template - dialog UI', async () => {
         expect(await createFromTemplateDialog.getTitle()).toEqual(`Create new document from '${template1InRootFolder}'`);
         expect(await createFromTemplateDialog.isNameFieldDisplayed()).toBe(true, 'Name field not displayed');
         expect(await createFromTemplateDialog.isTitleFieldDisplayed()).toBe(true, 'Title field not displayed');
@@ -243,7 +243,7 @@ describe('Create file from template', () => {
         expect(await createFromTemplateDialog.isCreateButtonEnabled()).toBe(true, 'Create button is not enabled');
       });
 
-      it('File name is required - [C325031]', async () => {
+      it('[C325031] File name is required', async () => {
         expect(await createFromTemplateDialog.getName()).toEqual(template1InRootFolder);
         await createFromTemplateDialog.deleteNameWithBackspace();
 
@@ -251,7 +251,7 @@ describe('Create file from template', () => {
         expect(await createFromTemplateDialog.isCreateButtonEnabled()).toBe(false, 'Create button is not disabled');
       });
 
-      it('Special characters in file name - [C325032]', async () => {
+      it('[C325032] Special characters in file name', async () => {
         const namesWithSpecialChars = [ 'a*a', 'a"a', 'a<a', 'a>a', `a\\a`, 'a/a', 'a?a', 'a:a', 'a|a' ];
 
         for (const name of namesWithSpecialChars) {
@@ -261,21 +261,21 @@ describe('Create file from template', () => {
         }
       });
 
-      it('File name ending with a dot - [C325033]', async () => {
+      it('[C325033] File name ending with a dot', async () => {
         await createFromTemplateDialog.enterName('file-name.');
 
         expect(await createFromTemplateDialog.isCreateButtonEnabled()).toBe(false, 'Create button is not disabled');
         expect(await createFromTemplateDialog.getValidationMessage()).toMatch(`Name can't end with a period .`);
       });
 
-      it('File name containing only spaces - [C325034]', async () => {
+      it('[C325034] File name containing only spaces', async () => {
         await createFromTemplateDialog.enterName('    ');
 
         expect(await createFromTemplateDialog.isCreateButtonEnabled()).toBe(false, 'Create button is not disabled');
         expect(await createFromTemplateDialog.getValidationMessage()).toMatch(`Name can't contain only spaces`);
       });
 
-      it('Title too long - [C290146]', async () => {
+      it('[C290146] Title too long', async () => {
         await createFromTemplateDialog.enterTitle(Utils.string257);
         await Utils.pressTab();
 
@@ -283,7 +283,7 @@ describe('Create file from template', () => {
         expect(await createFromTemplateDialog.getValidationMessage()).toMatch(`Use 256 characters or less for title`);
       });
 
-      it('Description too long - [C290142]', async () => {
+      it('[C290142] Description too long', async () => {
         await createFromTemplateDialog.enterDescription(Utils.string513);
         await Utils.pressTab();
 
@@ -303,7 +303,7 @@ describe('Create file from template', () => {
         await createFromTemplateDialog.waitForDialogToOpen();
       });
 
-      it('Create a file from a template - with a new Name - [C325030]', async () => {
+      it('[C325030] Create a file from a template - with a new Name', async () => {
         await createFromTemplateDialog.enterName(file1.name);
         await createFromTemplateDialog.clickCreate();
         await createFromTemplateDialog.waitForDialogToClose();
@@ -312,7 +312,7 @@ describe('Create file from template', () => {
         expect(await page.dataTable.isItemPresent(file1.name)).toBe(true, 'File not displayed in list view');
       });
 
-      it('Create a file from a template - with a Name, Title and Description - [C325026]', async () => {
+      it('[C325026] Create a file from a template - with a Name, Title and Description', async () => {
         await createFromTemplateDialog.enterName(file2.name);
         await createFromTemplateDialog.enterTitle(file2.title);
         await createFromTemplateDialog.enterDescription(file2.description);
@@ -327,7 +327,7 @@ describe('Create file from template', () => {
         expect(title).toEqual(file2.title);
       });
 
-      it('Create a file with a duplicate name - [C325028]', async () => {
+      it('[C325028] Create a file with a duplicate name', async () => {
         await createFromTemplateDialog.enterName(duplicateFileName);
         await createFromTemplateDialog.clickCreate();
 
@@ -335,7 +335,7 @@ describe('Create file from template', () => {
         expect(await createFromTemplateDialog.isDialogOpen()).toBe(true, 'dialog is not present');
       });
 
-      it('Cancel file creation - [C325027]', async () => {
+      it('[C325027] Cancel file creation', async () => {
         await createFromTemplateDialog.enterName('test');
         await createFromTemplateDialog.clickCancel();
 
@@ -343,7 +343,7 @@ describe('Create file from template', () => {
         expect(await page.dataTable.isItemPresent('test')).toBe(false, 'File should not appear in the list');
       });
 
-      it('Trim spaces from file Name - [C325042]', async () => {
+      it('[C325042] Trim spaces from file Name', async () => {
         await createFromTemplateDialog.enterName(nameWithSpaces);
         await createFromTemplateDialog.clickCreate();
         await createFromTemplateDialog.waitForDialogToClose();
@@ -366,7 +366,7 @@ describe('Create file from template', () => {
         await createFromTemplateDialog.waitForDialogToOpen();
       });
 
-      it('Create a file from a template - with Name, Title and Description - [C325023]', async () => {
+      it('[C325023] Create a file from a template - with Name, Title and Description', async () => {
         await createFromTemplateDialog.enterName(fileSite.name);
         await createFromTemplateDialog.enterTitle(fileSite.title);
         await createFromTemplateDialog.enterDescription(fileSite.description);
@@ -381,7 +381,7 @@ describe('Create file from template', () => {
         expect(title).toEqual(fileSite.title);
       });
 
-      it('Cancel file creation - [C325024]', async () => {
+      it('[C325024] Cancel file creation', async () => {
         await createFromTemplateDialog.enterName('test');
         await createFromTemplateDialog.clickCancel();
 
@@ -389,7 +389,7 @@ describe('Create file from template', () => {
         expect(await page.dataTable.isItemPresent('test')).toBe(false, 'File should not appear in the list');
       });
 
-      it('Create a file with a duplicate name - [C325025]', async () => {
+      it('[C325025] Create a file with a duplicate name', async () => {
         await createFromTemplateDialog.enterName(duplicateFileSite);
         await createFromTemplateDialog.clickCreate();
 

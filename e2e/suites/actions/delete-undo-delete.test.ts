@@ -125,7 +125,7 @@ describe('Delete and undo delete', () => {
       done();
     });
 
-    it('delete a file and check notification - [C217125]', async () => {
+    it('[C217125] delete a file and check notification', async () => {
       let items = await page.dataTable.getRowsCount();
       await dataTable.selectItem(file1);
       await toolbar.clickMoreActionsDelete();
@@ -139,7 +139,7 @@ describe('Delete and undo delete', () => {
       expect(await dataTable.isItemPresent(file1)).toBe(true, 'Item is not in trash');
     });
 
-    it('delete multiple files and check notification - [C280502]', async () => {
+    it('[C280502] delete multiple files and check notification', async () => {
       let items = await page.dataTable.getRowsCount();
       await dataTable.selectMultipleItems([file2, file3]);
       await toolbar.clickMoreActionsDelete();
@@ -154,7 +154,7 @@ describe('Delete and undo delete', () => {
       expect(await dataTable.isItemPresent(file3)).toBe(true, `${file3} is not in trash`);
     });
 
-    it('delete a folder with content - [C217126]', async () => {
+    it('[C217126] delete a folder with content', async () => {
       let items = await page.dataTable.getRowsCount();
       await dataTable.selectItem(folder1);
       await toolbar.clickMoreActionsDelete();
@@ -166,7 +166,7 @@ describe('Delete and undo delete', () => {
       expect(await dataTable.isItemPresent(file1InFolder)).toBe(false, 'Item is in trash');
     });
 
-    it('delete a folder containing locked files - [C217127]', async () => {
+    it('[C217127] delete a folder containing locked files', async () => {
       await dataTable.selectItem(folder2);
       await toolbar.clickMoreActionsDelete();
       const message = await page.getSnackBarMessage();
@@ -178,7 +178,7 @@ describe('Delete and undo delete', () => {
       expect(await dataTable.isItemPresent(fileLocked1)).toBe(false, 'Item is in trash');
     });
 
-    it('notification on multiple items deletion - some items fail to delete - [C217129]', async () => {
+    it('[C217129] notification on multiple items deletion - some items fail to delete', async () => {
       await dataTable.selectMultipleItems([file4, folder3]);
       await toolbar.clickMoreActionsDelete();
       const message = await page.getSnackBarMessage();
@@ -186,7 +186,7 @@ describe('Delete and undo delete', () => {
       expect(message).toContain(`Undo`);
     });
 
-    it('notification on multiple items deletion - all items fail to delete - [C217130]', async () => {
+    it('[C217130] notification on multiple items deletion - all items fail to delete', async () => {
       await dataTable.selectMultipleItems([folder4, folder5]);
       await toolbar.clickMoreActionsDelete();
       const message = await page.getSnackBarMessage();
@@ -194,7 +194,7 @@ describe('Delete and undo delete', () => {
       expect(message).not.toContain(`Undo`);
     });
 
-    it('undo delete of file - [C217132]', async () => {
+    it('[C217132] undo delete of file', async () => {
       const items = await page.dataTable.getRowsCount();
 
       await dataTable.selectItem(file5);
@@ -205,7 +205,7 @@ describe('Delete and undo delete', () => {
       expect(await page.pagination.getRange()).toContain(`1-${items} of ${items}`);
     });
 
-    it('undo delete of folder with content - [C280503]', async () => {
+    it('[C280503] undo delete of folder with content', async () => {
       const items = await page.dataTable.getRowsCount();
 
       await dataTable.selectItem(folder6);
@@ -217,7 +217,7 @@ describe('Delete and undo delete', () => {
       expect(await dataTable.isItemPresent(file2InFolder)).toBe(true, 'file from folder not restored');
     });
 
-    it('undo delete of multiple files - [C280504]', async () => {
+    it('[C280504] undo delete of multiple files', async () => {
       const items = await page.dataTable.getRowsCount();
 
       await dataTable.selectMultipleItems([file6, file7]);
@@ -272,7 +272,7 @@ describe('Delete and undo delete', () => {
       done();
     });
 
-    it('delete a file and check notification - [C280316]', async () => {
+    it('[C280316] delete a file and check notification', async () => {
       await dataTable.selectItem(sharedFile1);
       await toolbar.clickMoreActionsDelete();
       const message = await page.getSnackBarMessage();
@@ -283,7 +283,7 @@ describe('Delete and undo delete', () => {
       expect(await dataTable.isItemPresent(sharedFile1)).toBe(true, 'Item is not in trash');
     });
 
-    it('delete multiple files and check notification - [C280513]', async () => {
+    it('[C280513] delete multiple files and check notification', async () => {
       await dataTable.selectMultipleItems([sharedFile2, sharedFile3]);
       await toolbar.clickMoreActionsDelete();
       const message = await page.getSnackBarMessage();
@@ -296,7 +296,7 @@ describe('Delete and undo delete', () => {
       expect(await dataTable.isItemPresent(sharedFile3)).toBe(true, `${sharedFile3} is not in trash`);
     });
 
-    it('undo delete of file - [C280324]', async () => {
+    it('[C280324] undo delete of file', async () => {
       await dataTable.selectItem(sharedFile4);
       await toolbar.clickMoreActionsDelete();
       await page.clickSnackBarAction();
@@ -304,7 +304,7 @@ describe('Delete and undo delete', () => {
       expect(await dataTable.isItemPresent(sharedFile4)).toBe(false, 'Item was not restored');
     });
 
-    it('undo delete of multiple files - [C280514]', async () => {
+    it('[C280514] undo delete of multiple files', async () => {
       await dataTable.selectMultipleItems([sharedFile5, sharedFile6]);
       await toolbar.clickMoreActionsDelete();
       await page.clickSnackBarAction();
@@ -392,7 +392,7 @@ describe('Delete and undo delete', () => {
       done();
     });
 
-    it('delete a file and check notification - [C280516]', async () => {
+    it('[C280516] delete a file and check notification', async () => {
       let items = await page.dataTable.getRowsCount();
 
       await dataTable.selectItem(favFile1);
@@ -407,7 +407,7 @@ describe('Delete and undo delete', () => {
       expect(await dataTable.isItemPresent(favFile1)).toBe(true, 'Item is not in trash');
     });
 
-    it('delete multiple files and check notification - [C280517]', async () => {
+    it('[C280517] delete multiple files and check notification', async () => {
       let items = await page.dataTable.getRowsCount();
 
       await dataTable.selectMultipleItems([favFile2, favFile3]);
@@ -424,7 +424,7 @@ describe('Delete and undo delete', () => {
       expect(await dataTable.isItemPresent(favFile3)).toBe(true, `${favFile3} is not in trash`);
     });
 
-    it('delete a folder with content - [C280518]', async () => {
+    it('[C280518] delete a folder with content', async () => {
       let items = await page.dataTable.getRowsCount();
       await dataTable.selectItem(favFolder1);
       await toolbar.clickMoreActionsDelete();
@@ -436,7 +436,7 @@ describe('Delete and undo delete', () => {
       expect(await dataTable.isItemPresent(file1InFolder)).toBe(false, 'Item is in trash');
     });
 
-    it('delete a folder containing locked files - [C280519]', async () => {
+    it('[C280519] delete a folder containing locked files', async () => {
       await dataTable.selectItem(favFolder2);
       await toolbar.clickMoreActionsDelete();
       const message = await page.getSnackBarMessage();
@@ -447,7 +447,7 @@ describe('Delete and undo delete', () => {
       expect(await dataTable.isItemPresent(fileLocked1)).toBe(false, 'Item is in trash');
     });
 
-    it('notification on multiple items deletion - some items fail to delete - [C280520]', async () => {
+    it('[C280520] notification on multiple items deletion - some items fail to delete', async () => {
       await dataTable.selectMultipleItems([favFile4, favFolder3]);
       await toolbar.clickMoreActionsDelete();
       const message = await page.getSnackBarMessage();
@@ -455,7 +455,7 @@ describe('Delete and undo delete', () => {
       expect(message).toContain(`Undo`);
     });
 
-    it('notification on multiple items deletion - all items fail to delete - [C280521]', async () => {
+    it('[C280521] notification on multiple items deletion - all items fail to delete', async () => {
       await dataTable.selectMultipleItems([favFolder4, favFolder5]);
       await toolbar.clickMoreActionsDelete();
       const message = await page.getSnackBarMessage();
@@ -463,7 +463,7 @@ describe('Delete and undo delete', () => {
       expect(message).not.toContain(`Undo`);
     });
 
-    it('undo delete of file - [C280524]', async () => {
+    it('[C280524] undo delete of file', async () => {
       const items = await page.dataTable.getRowsCount();
 
       await dataTable.selectItem(favFile5);
@@ -473,7 +473,7 @@ describe('Delete and undo delete', () => {
       expect(await page.pagination.getRange()).toContain(`1-${items} of ${items}`);
     });
 
-    it('undo delete of folder with content - [C280526]', async () => {
+    it('[C280526] undo delete of folder with content', async () => {
       const items = await page.dataTable.getRowsCount();
 
       await dataTable.selectItem(favFolder6);
@@ -485,7 +485,7 @@ describe('Delete and undo delete', () => {
       expect(await dataTable.isItemPresent(file2InFolder)).toBe(true, 'file from folder not restored');
     });
 
-    it('undo delete of multiple files - [C280525]', async () => {
+    it('[C280525] undo delete of multiple files', async () => {
       const items = await page.dataTable.getRowsCount();
 
       await dataTable.selectMultipleItems([favFile6, favFile7]);
@@ -535,7 +535,7 @@ describe('Delete and undo delete', () => {
       done();
     });
 
-    it('delete a file and check notification - [C280528]', async () => {
+    it('[C280528] delete a file and check notification', async () => {
       await dataTable.selectItem(recentFile1);
       await toolbar.clickMoreActionsDelete();
       const message = await page.getSnackBarMessage();
@@ -546,7 +546,7 @@ describe('Delete and undo delete', () => {
       expect(await dataTable.isItemPresent(recentFile1)).toBe(true, 'Item is not in trash');
     });
 
-    it('delete multiple files and check notification - [C280529]', async () => {
+    it('[C280529] delete multiple files and check notification', async () => {
       await dataTable.selectMultipleItems([recentFile2, recentFile3]);
       await toolbar.clickMoreActionsDelete();
       const message = await page.getSnackBarMessage();
@@ -563,7 +563,7 @@ describe('Delete and undo delete', () => {
     // we cannot test that the restored file is displayed in the Recent Files list
     // without adding a very big browser.sleep followed by a page.refresh
     // so for the moment we're testing that the restored file is not displayed in the Trash
-    it('undo delete of file - [C280536]', async () => {
+    it('[C280536] undo delete of file', async () => {
       await dataTable.selectItem(recentFile4);
       await toolbar.clickMoreActionsDelete();
       await page.clickSnackBarAction();
@@ -575,7 +575,7 @@ describe('Delete and undo delete', () => {
     // we cannot test that the restored file is displayed in the Recent Files list
     // without adding a very big browser.sleep followed by a page.refresh
     // so for the moment we're testing that the restored file is not displayed in the Trash
-    it('undo delete of multiple files - [C280537]', async () => {
+    it('[C280537] undo delete of multiple files', async () => {
       await dataTable.selectMultipleItems([recentFile5, recentFile6]);
       await toolbar.clickMoreActionsDelete();
       await page.clickSnackBarAction();

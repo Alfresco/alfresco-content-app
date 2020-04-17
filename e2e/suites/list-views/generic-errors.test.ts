@@ -63,7 +63,7 @@ describe('Generic errors', () => {
     done();
   });
 
-  it('File / folder not found - [C217313]', async () => {
+  it('[C217313] File / folder not found', async () => {
     await page.clickPersonalFilesAndWait();
     await dataTable.doubleClickOnRowByName(parent);
     await dataTable.doubleClickOnRowByName(file1);
@@ -75,7 +75,7 @@ describe('Generic errors', () => {
     expect(await page.getGenericErrorTitle()).toContain(`This item no longer exists or you don't have permission to view it.`);
   });
 
-  it('Invalid URL - [C217315]', async () => {
+  it('[C217315] Invalid URL', async () => {
     await page.load('/invalid page');
 
     expect(await page.isGenericErrorDisplayed()).toBe(true, 'Generic error page not displayed');
@@ -83,7 +83,7 @@ describe('Generic errors', () => {
 
   });
 
-  it('Permission denied - [C217314]', async () => {
+  it('[C217314] Permission denied', async () => {
     await page.clickPersonalFilesAndWait();
     await dataTable.doubleClickOnRowByName(parent);
     await dataTable.doubleClickOnRowByName(file2);

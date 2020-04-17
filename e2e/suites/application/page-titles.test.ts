@@ -38,18 +38,18 @@ describe('Page titles', () => {
   const { searchInput } = page.header;
 
   describe('on Login / Logout pages', () => {
-    it('on Login page - [C217155]', async () => {
+    it('[C217155] on Login page', async () => {
       await loginPage.load();
       expect(await browser.getTitle()).toContain('Sign in');
     });
 
-    it('after logout - [C217156]', async () => {
+    it('[C217156] after logout', async () => {
       await loginPage.loginWithAdmin();
       await page.signOut();
       expect(await browser.getTitle()).toContain('Sign in');
     });
 
-    it('when pressing Back after Logout - [C280414]', async () => {
+    it('[C280414] when pressing Back after Logout', async () => {
       await loginPage.loginWithAdmin();
       await page.signOut();
       await browser.navigate().back();
@@ -69,49 +69,49 @@ describe('Page titles', () => {
       done();
     });
 
-    it('Personal Files page - [C217157]', async () => {
+    it('[C217157] Personal Files page', async () => {
       await page.clickPersonalFiles();
       expect(await browser.getTitle()).toContain(PAGE_TITLES.PERSONAL_FILES);
     });
 
-    it('My Libraries page - [C217158]', async () => {
+    it('[C217158] My Libraries page', async () => {
       await page.goToMyLibraries();
       expect(await browser.getTitle()).toContain(PAGE_TITLES.MY_LIBRARIES);
     });
 
-    it('Favorite Libraries page - [C289907]', async () => {
+    it('[C289907] Favorite Libraries page', async () => {
       await page.goToFavoriteLibraries();
       expect(await browser.getTitle()).toContain(PAGE_TITLES.FAVORITE_LIBRARIES);
     });
 
-    it('Shared Files page - [C217159]', async () => {
+    it('[C217159] Shared Files page', async () => {
       await page.clickSharedFiles();
       expect(await browser.getTitle()).toContain(PAGE_TITLES.SHARED_FILES);
     });
 
-    it('Recent Files page - [C217160]', async () => {
+    it('[C217160] Recent Files page', async () => {
       await page.clickRecentFiles();
       expect(await browser.getTitle()).toContain(PAGE_TITLES.RECENT_FILES);
     });
 
-    it('Favorites page - [C217161]', async () => {
+    it('[C217161] Favorites page', async () => {
       await page.clickFavorites();
       expect(await browser.getTitle()).toContain(PAGE_TITLES.FAVORITES);
     });
 
-    it('Trash page - [C217162]', async () => {
+    it('[C217162] Trash page', async () => {
       await page.clickTrash();
       expect(await browser.getTitle()).toContain(PAGE_TITLES.TRASH);
     });
 
-    it('File Preview page - [C280415]', async () => {
+    it('[C280415] File Preview page', async () => {
       await page.clickPersonalFilesAndWait();
       await page.dataTable.doubleClickOnRowByName(file);
       expect(await browser.getTitle()).toContain(PAGE_TITLES.VIEWER);
       await Utils.pressEscape();
     });
 
-    it('Search Results page - [C280413]', async () => {
+    it('[C280413] Search Results page', async () => {
       await searchInput.clickSearchButton();
       await searchInput.searchFor(file);
       expect(await browser.getTitle()).toContain(PAGE_TITLES.SEARCH);

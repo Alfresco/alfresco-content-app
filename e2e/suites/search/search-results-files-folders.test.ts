@@ -88,7 +88,7 @@ describe('Search results - files and folders', () => {
     done();
   });
 
-  it('Results page title - [C307002]', async () => {
+  it('[C307002] Results page title', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkFilesAndFolders();
     await searchInput.searchFor('test-');
@@ -97,7 +97,7 @@ describe('Search results - files and folders', () => {
     expect(await page.breadcrumb.getCurrentItemName()).toEqual('Search Results');
   });
 
-  it('File information - [C279183]', async () => {
+  it('[C279183] File information', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkFilesAndFolders();
     await searchInput.searchFor('test-');
@@ -117,7 +117,7 @@ describe('Search results - files and folders', () => {
     expect(await dataTable.getSearchResultLocation(file)).toMatch(/Location:\s+Personal Files/);
   });
 
-  it('Folder information - [C306867]', async () => {
+  it('[C306867] Folder information', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkFilesAndFolders();
     await searchInput.searchFor('test-');
@@ -136,7 +136,7 @@ describe('Search results - files and folders', () => {
     expect(await dataTable.getSearchResultLocation(folder)).toMatch(/Location:\s+Personal Files/);
   });
 
-  it('Search file with special characters - [C290029]', async () => {
+  it('[C290029] Search file with special characters', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkFilesAndFolders();
     await searchInput.searchFor(fileRussian);
@@ -145,7 +145,7 @@ describe('Search results - files and folders', () => {
     expect(await dataTable.isItemPresent(fileRussian)).toBe(true, `${fileRussian} is not displayed`);
   });
 
-  it('Location column redirect - file in user Home - [C279177]', async () => {
+  it('[C279177] Location column redirect - file in user Home', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkFilesAndFolders();
     await searchInput.searchFor(file);

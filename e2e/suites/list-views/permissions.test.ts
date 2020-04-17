@@ -78,7 +78,7 @@ describe('Special permissions', () => {
       done();
     });
 
-    it('on Recent Files - [C213173]', async () => {
+    it('[C213173] on Recent Files', async () => {
       await page.clickRecentFilesAndWait();
       expect(await dataTable.getRowsCount()).toBe(1, 'Incorrect number of items');
       await apis.admin.sites.deleteSiteMember(sitePrivate, username);
@@ -86,7 +86,7 @@ describe('Special permissions', () => {
       expect(await dataTable.isEmpty()).toBe(true, 'Items are still displayed');
     });
 
-    it('on Favorites - [C213227]', async () => {
+    it('[C213227] on Favorites', async () => {
       await page.clickFavoritesAndWait();
       expect(await dataTable.getRowsCount()).toBe(1, 'Incorrect number of items');
       await apis.admin.sites.deleteSiteMember(sitePrivate, username);
@@ -94,7 +94,7 @@ describe('Special permissions', () => {
       expect(await dataTable.isEmpty()).toBe(true, 'Items are still displayed');
     });
 
-    it('on Shared Files - [C213116]', async () => {
+    it('[C213116] on Shared Files', async () => {
       await page.clickSharedFilesAndWait();
       expect(await dataTable.getRowsCount()).toBe(1, 'Incorrect number of items');
       await apis.admin.sites.deleteSiteMember(sitePrivate, username);
@@ -102,7 +102,7 @@ describe('Special permissions', () => {
       expect(await dataTable.isEmpty()).toBe(true, 'Items are still displayed');
     });
 
-    it('on Search Results - [C290122]', async () => {
+    it('[C290122] on Search Results', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
       await searchInput.searchFor(fileName);
@@ -145,25 +145,25 @@ describe('Special permissions', () => {
       done();
     });
 
-    it(`on Recent Files - [C213178]`, async () => {
+    it('[C213178] on Recent Files', async () => {
       await page.clickRecentFilesAndWait();
       expect(await dataTable.getRowsCount()).toBe(1, 'Incorrect number of items');
       expect(await dataTable.getItemLocation(fileName)).toEqual('Unknown');
     });
 
-    it(`on Favorites - [C213672]`, async () => {
+    it('[C213672] on Favorites', async () => {
       await page.clickFavoritesAndWait();
       expect(await dataTable.getRowsCount()).toBe(1, 'Incorrect number of items');
       expect(await dataTable.getItemLocation(fileName)).toEqual('Unknown');
     });
 
-    it(`on Shared Files - [C213668]`, async () => {
+    it(`[C213668] on Shared Files`, async () => {
       await page.clickSharedFilesAndWait();
       expect(await dataTable.getRowsCount()).toBe(1, 'Incorrect number of items');
       expect(await dataTable.getItemLocation(fileName)).toEqual('Unknown');
     });
 
-    it('on Search results - [C306868]', async () => {
+    it('[C306868] on Search results', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
       await searchInput.searchFor(fileName);
