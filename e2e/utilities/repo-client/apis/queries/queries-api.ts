@@ -24,6 +24,7 @@
  */
 
 import { RepoApi } from '../repo-api';
+import { Logger } from '@alfresco/adf-testing';
 import { Utils } from '../../../../utilities/utils';
 import { QueriesApi as AdfQueriesApi } from '@alfresco/js-api';
 
@@ -77,8 +78,8 @@ export class QueriesApi extends RepoApi {
 
       return await Utils.retryCall(sites);
     } catch (error) {
-      console.log(`${this.constructor.name} ${this.waitForSites.name} catch: `);
-      console.log(`\tExpected: ${data.expect} items, but found ${error}`);
+      Logger.error(`${this.constructor.name} ${this.waitForSites.name} catch: `);
+      Logger.error(`\tExpected: ${data.expect} items, but found ${error}`);
     }
   }
 
@@ -95,8 +96,8 @@ export class QueriesApi extends RepoApi {
 
       return await Utils.retryCall(nodes);
     } catch (error) {
-      console.log(`${this.constructor.name} ${this.waitForFilesAndFolders.name} catch: `);
-      console.log(`\tExpected: ${data.expect} items, but found ${error}`);
+      Logger.error(`${this.constructor.name} ${this.waitForFilesAndFolders.name} catch: `);
+      Logger.error(`\tExpected: ${data.expect} items, but found ${error}`);
     }
   }
 }

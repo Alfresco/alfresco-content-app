@@ -24,6 +24,7 @@
  */
 
 import { RepoApi } from '../repo-api';
+import { Logger } from '@alfresco/adf-testing';
 import { Utils } from '../../../../utilities/utils';
 import { SharedlinksApi as AdfSharedlinksApi, SharedLinkEntry } from '@alfresco/js-api';
 
@@ -102,8 +103,8 @@ export class SharedLinksApi extends RepoApi {
 
       return await Utils.retryCall(sharedFiles);
     } catch (error) {
-      console.log(`${this.constructor.name} ${this.waitForApi.name} catch: `);
-      console.log(`\tExpected: ${data.expect} items, but found ${error}`);
+      Logger.error(`${this.constructor.name} ${this.waitForApi.name} catch: `);
+      Logger.error(`\tExpected: ${data.expect} items, but found ${error}`);
     }
   }
 }

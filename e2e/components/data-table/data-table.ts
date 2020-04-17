@@ -24,6 +24,7 @@
  */
 
 import { ElementFinder, ElementArrayFinder, by, browser, ExpectedConditions as EC, protractor } from 'protractor';
+import { Logger } from '@alfresco/adf-testing';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
 import { Menu } from '../menu/menu';
@@ -247,7 +248,7 @@ export class DataTable extends Component {
       await browser.actions().mouseMove(item).perform();
       await browser.actions().doubleClick().perform();
     } catch (error) {
-      console.log('--- catch: doubleClickOnRowByName', error);
+      Logger.error('--- catch: doubleClickOnRowByName', error);
     }
   }
 
@@ -259,7 +260,7 @@ export class DataTable extends Component {
         await item.click();
 
       } catch (e) {
-        console.log('--- select item catch : ', e);
+        Logger.error('--- select item catch : ', e);
       }
     }
   }
@@ -272,7 +273,7 @@ export class DataTable extends Component {
         await item.click();
 
       } catch (e) {
-        console.log('--- unselect item catch : ', e);
+        Logger.error('--- unselect item catch : ', e);
       }
     }
   }
@@ -303,7 +304,7 @@ export class DataTable extends Component {
         await this.wait();
       }
     } catch (error) {
-      console.log('------ clearSelection catch : ', error);
+      Logger.error('------ clearSelection catch : ', error);
     }
   }
 

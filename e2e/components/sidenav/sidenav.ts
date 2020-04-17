@@ -24,6 +24,7 @@
  */
 
 import { ElementFinder, ElementArrayFinder, by, element, browser } from 'protractor';
+import { Logger } from '@alfresco/adf-testing';
 import { SIDEBAR_LABELS, BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
@@ -86,7 +87,7 @@ export class Sidenav extends Component {
       }
 
     } catch (e) {
-      console.log('---- sidebar navigation catch expandMenu: ', e);
+      Logger.error('---- sidebar navigation catch expandMenu: ', e);
     }
   }
 
@@ -162,7 +163,7 @@ export class Sidenav extends Component {
       await Utils.waitUntilElementClickable(link);
       await link.click();
     } catch (error) {
-      console.log('---- sidebar navigation clickLink catch error: ', error);
+      Logger.error('---- sidebar navigation clickLink catch error: ', error);
     }
   }
 

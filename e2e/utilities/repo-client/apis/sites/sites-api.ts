@@ -24,6 +24,7 @@
  */
 
 import { RepoApi } from '../repo-api';
+import { Logger } from '@alfresco/adf-testing';
 import { SiteBody, SiteMemberRoleBody, SiteMemberBody, SiteEntry, SiteMembershipRequestEntry, SitesApi as AdfSiteApi, SiteMemberEntry } from '@alfresco/js-api';
 import { SITE_VISIBILITY, SITE_ROLES } from '../../../../configs';
 import { Utils } from '../../../../utilities/utils';
@@ -260,8 +261,8 @@ export class SitesApi extends RepoApi {
 
       return await Utils.retryCall(sites);
     } catch (error) {
-      console.log(`${this.constructor.name} ${this.waitForApi.name} catch: `);
-      console.log(`\tExpected: ${data.expect} items, but found ${error}`);
+      Logger.error(`${this.constructor.name} ${this.waitForApi.name} catch: `);
+      Logger.error(`\tExpected: ${data.expect} items, but found ${error}`);
     }
   }
 }

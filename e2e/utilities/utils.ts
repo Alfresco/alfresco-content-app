@@ -24,12 +24,12 @@
  */
 
 import { browser, protractor, ElementFinder, ExpectedConditions as EC, by, logging } from 'protractor';
+import { Logger } from '@alfresco/adf-testing';
 import { BROWSER_WAIT_TIMEOUT, E2E_ROOT_PATH, EXTENSIBILITY_CONFIGS } from '../configs';
 
 const path = require('path');
 const fs = require('fs');
 const StreamZip = require('node-stream-zip');
-
 
 export class Utils {
   static string257 = 'assembly doctor offender limit clearance inspiration baker fraud active apples trait brainstorm concept breaks down presidential \
@@ -136,7 +136,7 @@ export class Utils {
     if (fileExists) {
       fs.rename(oldFilePath, newFilePath, function (err) {
         if (err) {
-          console.log('==== rename err: ', err);
+          Logger.error('==== rename err: ', err);
         }
       });
     }
@@ -152,7 +152,7 @@ export class Utils {
       storeEntries: true
     });
 
-    await zip.on('error', err => { console.log('=== unzip err: ', err) });
+    await zip.on('error', err => { Logger.error('=== unzip err: ', err) });
 
     await zip.on('ready', async () => {
       if (unzippedName) {
