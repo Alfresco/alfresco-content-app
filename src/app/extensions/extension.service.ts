@@ -55,7 +55,11 @@ import {
   DocumentListPresetRef,
   IconRef
 } from '@alfresco/adf-extensions';
-import { AppConfigService, AuthenticationService } from '@alfresco/adf-core';
+import {
+  AppConfigService,
+  AuthenticationService,
+  LogService
+} from '@alfresco/adf-core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { RepositoryInfo, NodeEntry } from '@alfresco/js-api';
 import { ViewerRules } from './viewer.rules';
@@ -123,7 +127,8 @@ export class AppExtensionService implements RuleContext {
     public permissions: NodePermissionService,
     protected appConfig: AppConfigService,
     protected matIconRegistry: MatIconRegistry,
-    protected sanitizer: DomSanitizer
+    protected sanitizer: DomSanitizer,
+    protected logger: LogService
   ) {
     this.references$ = this._references.asObservable();
 
@@ -146,7 +151,7 @@ export class AppExtensionService implements RuleContext {
 
   setup(config: ExtensionConfig) {
     if (!config) {
-      console.error('Extension configuration not found');
+      this.logger.error('Extension configuration not found');
       return;
     }
 
@@ -347,7 +352,7 @@ export class AppExtensionService implements RuleContext {
     try {
       this.appConfig.config['content-metadata'] = { presets };
     } catch (error) {
-      console.error(
+      this.logger.error(
         error,
         '- could not change content-metadata from app.config -'
       );

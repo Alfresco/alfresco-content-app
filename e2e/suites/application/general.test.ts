@@ -24,6 +24,7 @@
  */
 
 import { browser } from 'protractor';
+import { Logger } from '@alfresco/adf-testing';
 import { BrowsingPage, LoginPage } from '../../pages/pages';
 import { CreateOrEditFolderDialog } from '../../components/dialog/create-edit-folder-dialog';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
@@ -67,7 +68,7 @@ describe('General', () => {
       try {
         await createDialog.waitForDialogToClose();
       } catch (error) {
-        console.log('err: ', error);
+        Logger.error('err: ', error);
       }
       expect(await createDialog.isDialogOpen()).not.toBe(true, 'dialog is present');
     });

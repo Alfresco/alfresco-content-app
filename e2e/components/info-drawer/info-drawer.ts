@@ -24,6 +24,7 @@
  */
 
 import { ElementFinder, ElementArrayFinder, by, browser, ExpectedConditions as EC } from 'protractor';
+import { Logger } from '@alfresco/adf-testing';
 import { Component } from '../component';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { CommentsTab } from './info-drawer-comments-tab';
@@ -145,7 +146,7 @@ export class InfoDrawer extends Component {
         browser.wait(EC.invisibilityOf(this.propertiesTab.component), BROWSER_WAIT_TIMEOUT)
       ]);
     } catch (error) {
-      console.error('--- info-drawer clickCommentsTab catch error: ', error);
+      Logger.error('--- info-drawer clickCommentsTab catch error: ', error);
     }
   }
 

@@ -24,6 +24,7 @@
  */
 
 import { ElementFinder, ElementArrayFinder, by, browser, ExpectedConditions as EC } from 'protractor';
+import { Logger } from '@alfresco/adf-testing';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
 import { Utils } from '../../utilities/utils'
@@ -175,7 +176,7 @@ export class Menu extends Component {
       await browser.actions().click().perform();
       await this.waitForMenuToClose();
     } catch (e) {
-      console.log('____ click nth menu item catch ___', e);
+      Logger.error('____ click nth menu item catch ___', e);
     }
   }
 
@@ -185,7 +186,7 @@ export class Menu extends Component {
       await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT, 'timeout waiting for menu item to be clickable');
       await elem.click();
     } catch (e) {
-      console.log('___click menu item catch___', e);
+      Logger.error('___click menu item catch___', e);
     }
   }
 
@@ -196,7 +197,7 @@ export class Menu extends Component {
       await browser.actions().mouseMove(elem).perform();
       await browser.sleep(500);
     } catch (error) {
-      console.log('----- mouse over error: ', error);
+      Logger.error('----- mouse over error: ', error);
     }
   }
 
@@ -207,7 +208,7 @@ export class Menu extends Component {
       const elemClass = await elem.getAttribute('class');
       return elemClass.includes('mat-menu-item-submenu-trigger');
     } catch (error) {
-      console.log('---- has submenu error: ', error);
+      Logger.error('---- has submenu error: ', error);
       return false;
     }
   }
@@ -218,7 +219,7 @@ export class Menu extends Component {
       await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT);
       await elem.click();
     } catch (e) {
-      console.log('___click submenu item catch___', e);
+      Logger.error('___click submenu item catch___', e);
     }
   }
 
@@ -240,7 +241,7 @@ export class Menu extends Component {
       const disabled = await item.getAttribute('disabled');
       return disabled;
     } catch (error) {
-      console.log('----- isMenuItemDisabled catch: ', error);
+      Logger.error('----- isMenuItemDisabled catch: ', error);
       return null;
     }
   }

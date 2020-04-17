@@ -24,6 +24,7 @@
  */
 
 import { ElementFinder, by, browser, ExpectedConditions as EC } from 'protractor';
+import { Logger } from '@alfresco/adf-testing';
 import { Component } from '../component';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 
@@ -192,7 +193,7 @@ export class LibraryMetadata extends Component {
     } else if (val === 'moderated') {
       await this.visibilityModerated.click();
     } else {
-      console.log('----- invalid visibility', val);
+      Logger.error('----- invalid visibility', val);
     }
 
     await this.waitForVisibilityDropDownToClose();

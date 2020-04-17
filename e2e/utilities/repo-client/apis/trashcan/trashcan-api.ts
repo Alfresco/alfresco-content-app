@@ -24,13 +24,14 @@
  */
 
 import { RepoApi } from '../repo-api';
+import { Logger } from '@alfresco/adf-testing';
 import { Utils } from '../../../../utilities/utils';
 import { TrashcanApi as AdfTrashcanApi} from '@alfresco/js-api';
 
 export class TrashcanApi extends RepoApi {
   trashcanApi = new AdfTrashcanApi(this.alfrescoJsApi);
 
-  constructor(username?, password?) {
+  constructor(username?: string, password?: string) {
     super(username, password);
   }
 
@@ -92,8 +93,8 @@ export class TrashcanApi extends RepoApi {
 
       return await Utils.retryCall(deletedFiles);
     } catch (error) {
-      console.log(`${this.constructor.name} ${this.waitForApi.name} catch: `);
-      console.log(`\tExpected: ${data.expect} items, but found ${error}`);
+      Logger.error(`${this.constructor.name} ${this.waitForApi.name} catch: `);
+      Logger.error(`\tExpected: ${data.expect} items, but found ${error}`);
     }
   }
 }
