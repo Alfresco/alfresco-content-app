@@ -52,7 +52,7 @@ export class ButtonMenuComponent implements OnInit {
     this.cd.detectChanges();
   }
 
-  trackById(index: number, obj: { id: string }) {
+  trackById(_index: number, obj: { id: string }) {
     return obj.id;
   }
 }

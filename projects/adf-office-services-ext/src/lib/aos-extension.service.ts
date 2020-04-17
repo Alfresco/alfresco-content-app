@@ -57,7 +57,7 @@ export class AosEditOnlineService {
           lockOwner.id !== this.alfrescoAuthenticationService.getEcmUsername();
 
         if (checkedOut && differentLockOwner) {
-          this.onAlreadyLockedNotification(node.id, lockOwner);
+          this.onAlreadyLockedNotification();
         } else {
           this.triggerEditOnlineAos(node);
         }
@@ -79,7 +79,7 @@ export class AosEditOnlineService {
     return this.getUserAgent().indexOf('mac') !== -1 ? true : false;
   }
 
-  private onAlreadyLockedNotification(nodeId: string, lockOwner: string) {
+  private onAlreadyLockedNotification() {
     this.notificationService.openSnackMessage(
       `Document {nodeId} locked by {lockOwner}`,
       3000

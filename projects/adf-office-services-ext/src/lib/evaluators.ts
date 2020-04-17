@@ -23,13 +23,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { RuleContext, RuleParameter } from '@alfresco/adf-extensions';
+import { RuleContext } from '@alfresco/adf-extensions';
 import { getFileExtension, supportedExtensions } from './utils';
 
-export function canOpenWithOffice(
-  context: RuleContext,
-  ...args: RuleParameter[]
-): boolean {
+export function canOpenWithOffice(context: RuleContext): boolean {
   if (
     context.navigation &&
     context.navigation.url &&
