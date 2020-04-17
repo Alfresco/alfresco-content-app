@@ -51,7 +51,7 @@ describe('CommentsTabComponent', () => {
     component = fixture.componentInstance;
 
     checked = null;
-    permissionsMock.check.and.callFake((source, permissions) => {
+    permissionsMock.check.and.callFake((_source, permissions) => {
       checked = permissions;
       return true;
     });

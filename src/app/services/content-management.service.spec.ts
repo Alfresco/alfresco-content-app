@@ -775,7 +775,7 @@ describe('ContentManagementService', () => {
 
       actions$.pipe(
         ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
-        map(action => done())
+        map(() => done())
       );
 
       const initialParent = 'parent-id-0';
@@ -817,7 +817,7 @@ describe('ContentManagementService', () => {
 
       actions$.pipe(
         ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
-        map(action => done())
+        map(() => done())
       );
 
       const initialParent = 'parent-id-0';
@@ -850,7 +850,7 @@ describe('ContentManagementService', () => {
 
       actions$.pipe(
         ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
-        map(action => done())
+        map(() => done())
       );
 
       const initialParent = 'parent-id-0';
@@ -884,9 +884,7 @@ describe('ContentManagementService', () => {
 
       actions$.pipe(
         ofType<SnackbarInfoAction>(SnackbarActionTypes.Info),
-        map(action => {
-          done();
-        })
+        map(() => done())
       );
 
       const selection = [<any>{ entry: { id: '1', name: 'name1' } }];
@@ -899,7 +897,7 @@ describe('ContentManagementService', () => {
 
       actions$.pipe(
         ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
-        map(action => {
+        map(() => {
           done();
         })
       );
@@ -914,9 +912,7 @@ describe('ContentManagementService', () => {
 
       actions$.pipe(
         ofType<SnackbarInfoAction>(SnackbarActionTypes.Info),
-        map(action => {
-          done();
-        })
+        map(() => done())
       );
 
       const selection = [
@@ -932,9 +928,7 @@ describe('ContentManagementService', () => {
 
       actions$.pipe(
         ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
-        map(action => {
-          done();
-        })
+        map(() => done())
       );
 
       const selection = [
@@ -956,9 +950,7 @@ describe('ContentManagementService', () => {
 
       actions$.pipe(
         ofType<SnackbarWarningAction>(SnackbarActionTypes.Warning),
-        map(action => {
-          done();
-        })
+        map(() => done())
       );
 
       const selection = [
@@ -988,9 +980,7 @@ describe('ContentManagementService', () => {
 
       actions$.pipe(
         ofType<SnackbarWarningAction>(SnackbarActionTypes.Warning),
-        map(action => {
-          done();
-        })
+        map(() => done())
       );
 
       const selection = [
@@ -1032,9 +1022,7 @@ describe('ContentManagementService', () => {
       it('raises warning on multiple fail and one success', fakeAsync(done => {
         actions$.pipe(
           ofType<SnackbarWarningAction>(SnackbarActionTypes.Warning),
-          map((action: SnackbarWarningAction) => {
-            done();
-          })
+          map(() => done())
         );
 
         spyOn(contentApi, 'purgeDeletedNode').and.callFake(id => {
@@ -1065,9 +1053,7 @@ describe('ContentManagementService', () => {
       it('raises warning on multiple success and multiple fail', fakeAsync(done => {
         actions$.pipe(
           ofType<SnackbarWarningAction>(SnackbarActionTypes.Warning),
-          map((action: SnackbarWarningAction) => {
-            done();
-          })
+          map(() => done())
         );
 
         spyOn(contentApi, 'purgeDeletedNode').and.callFake(id => {
@@ -1103,9 +1089,7 @@ describe('ContentManagementService', () => {
       it('raises info on one selected node success', fakeAsync(done => {
         actions$.pipe(
           ofType<SnackbarInfoAction>(SnackbarActionTypes.Info),
-          map((action: SnackbarInfoAction) => {
-            done();
-          })
+          map(() => done())
         );
 
         spyOn(contentApi, 'purgeDeletedNode').and.returnValue(of({}));
@@ -1118,9 +1102,7 @@ describe('ContentManagementService', () => {
       it('raises error on one selected node fail', fakeAsync(done => {
         actions$.pipe(
           ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
-          map((action: SnackbarErrorAction) => {
-            done();
-          })
+          map(() => done())
         );
 
         spyOn(contentApi, 'purgeDeletedNode').and.returnValue(throwError({}));
@@ -1133,9 +1115,7 @@ describe('ContentManagementService', () => {
       it('raises info on all nodes success', fakeAsync(done => {
         actions$.pipe(
           ofType<SnackbarInfoAction>(SnackbarActionTypes.Info),
-          map((action: SnackbarInfoAction) => {
-            done();
-          })
+          map(() => done())
         );
         spyOn(contentApi, 'purgeDeletedNode').and.callFake(id => {
           if (id === '1') {
@@ -1160,9 +1140,7 @@ describe('ContentManagementService', () => {
       it('raises error on all nodes fail', fakeAsync(done => {
         actions$.pipe(
           ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
-          map((action: SnackbarErrorAction) => {
-            done();
-          })
+          map(() => done())
         );
         spyOn(contentApi, 'purgeDeletedNode').and.callFake(id => {
           if (id === '1') {
@@ -1290,7 +1268,7 @@ describe('ContentManagementService', () => {
 
         actions$.pipe(
           ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
-          map(action => done())
+          map(() => done())
         );
 
         spyOn(contentApi, 'restoreNode').and.callFake(id => {
@@ -1333,7 +1311,7 @@ describe('ContentManagementService', () => {
 
         actions$.pipe(
           ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
-          map(action => done())
+          map(() => done())
         );
 
         const path = {
@@ -1357,7 +1335,7 @@ describe('ContentManagementService', () => {
 
         actions$.pipe(
           ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
-          map(action => done())
+          map(() => done())
         );
 
         const path = {
@@ -1381,7 +1359,7 @@ describe('ContentManagementService', () => {
 
         actions$.pipe(
           ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
-          map(action => done())
+          map(() => done())
         );
 
         const path = {
@@ -1413,7 +1391,7 @@ describe('ContentManagementService', () => {
 
         actions$.pipe(
           ofType<SnackbarInfoAction>(SnackbarActionTypes.Info),
-          map(action => done())
+          map(() => done())
         );
 
         const path = {
@@ -1438,7 +1416,7 @@ describe('ContentManagementService', () => {
 
         actions$.pipe(
           ofType<SnackbarInfoAction>(SnackbarActionTypes.Info),
-          map(action => done())
+          map(() => done())
         );
 
         const path = {
@@ -1460,7 +1438,7 @@ describe('ContentManagementService', () => {
 
         actions$.pipe(
           ofType<NavigateRouteAction>(RouterActionTypes.NavigateRoute),
-          map(action => done())
+          map(() => done())
         );
 
         const path = {
@@ -1562,9 +1540,9 @@ describe('ContentManagementService', () => {
       expect(contentApi.unlockNode).toHaveBeenCalled();
     }));
 
-    it('should raise error when unlock node fails', fakeAsync(done => {
+    it('should raise error when unlock node fails', fakeAsync(() => {
       spyOn(contentApi, 'unlockNode').and.callFake(
-        () => new Promise((resolve, reject) => reject('error'))
+        () => new Promise((_resolve, reject) => reject('error'))
       );
       spyOn(store, 'dispatch').and.callThrough();
       store.dispatch(

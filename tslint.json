@@ -1,6 +1,7 @@
 {
   "rulesDirectory": [
     "node_modules/codelyzer",
+    "node_modules/rxjs-tslint",
     "node_modules/adf-tslint-rules"
   ],
   "extends": [
@@ -99,6 +100,10 @@
     "template-no-autofocus": true,
     "template-no-distracting-elements": true,
 
+    "rxjs-collapse-imports": true,
+    "rxjs-pipeable-operators-only": true,
+    "rxjs-no-static-observable-methods": true,
+    "rxjs-proper-imports": true,
     "rxjs-ban-operators": {
       "severity": "error"
     },
