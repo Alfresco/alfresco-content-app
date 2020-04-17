@@ -85,7 +85,7 @@ export class ToggleJoinLibraryButtonComponent {
       if (event.updatedEntry) {
         this.store.dispatch(
           new SetSelectedNodesAction([
-            <any>{ entry: event.updatedEntry, isLibrary: true }
+            { entry: event.updatedEntry, isLibrary: true } as any
           ])
         );
       }

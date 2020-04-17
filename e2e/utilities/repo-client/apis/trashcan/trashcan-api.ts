@@ -26,7 +26,7 @@
 import { RepoApi } from '../repo-api';
 import { Logger } from '@alfresco/adf-testing';
 import { Utils } from '../../../../utilities/utils';
-import { TrashcanApi as AdfTrashcanApi} from '@alfresco/js-api';
+import { TrashcanApi as AdfTrashcanApi } from '@alfresco/js-api';
 
 export class TrashcanApi extends RepoApi {
   trashcanApi = new AdfTrashcanApi(this.alfrescoJsApi);
@@ -73,7 +73,7 @@ export class TrashcanApi extends RepoApi {
 
       return await ids.reduce(async (previous, current) => {
           await previous;
-          return await this.permanentlyDelete(current);
+          return this.permanentlyDelete(current);
       }, Promise.resolve());
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.emptyTrash.name}`, error);

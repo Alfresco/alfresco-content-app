@@ -119,7 +119,7 @@ describe('RecentFilesComponent', () => {
   }));
 
   it('should call showPreview method', () => {
-    const node = <any>{ entry: {} };
+    const node: any = { entry: {} };
     spyOn(component, 'showPreview');
     fixture.detectChanges();
 

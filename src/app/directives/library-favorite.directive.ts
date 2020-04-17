@@ -48,8 +48,9 @@ export class LibraryFavoriteDirective implements OnChanges {
   @Input('acaFavoriteLibrary')
   library: any = null;
 
-  @Output() toggle: EventEmitter<any> = new EventEmitter();
-  @Output() error: EventEmitter<any> = new EventEmitter();
+  @Output() toggle = new EventEmitter<any>();
+  // tslint:disable-next-line: no-output-native
+  @Output() error = new EventEmitter<any>();
 
   private targetLibrary = null;
 

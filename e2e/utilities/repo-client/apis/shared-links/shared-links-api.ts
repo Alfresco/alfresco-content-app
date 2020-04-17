@@ -53,7 +53,7 @@ export class SharedLinksApi extends RepoApi {
     try {
       return await ids.reduce(async (previous: any, current: any) => {
         await previous;
-        return await this.shareFileById(current);
+        return this.shareFileById(current);
       }, Promise.resolve());
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.shareFilesByIds.name}`, error);

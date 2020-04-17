@@ -52,11 +52,11 @@ export class SearchResultsPage extends BrowsingPage {
   }
 
   async getResultsHeader(): Promise<string> {
-    return await browser.element(by.css(SearchResultsPage.selectors.resultsContentHeader)).getText();
+    return browser.element(by.css(SearchResultsPage.selectors.resultsContentHeader)).getText();
   }
 
   async getResultsFoundText(): Promise<string> {
-    return await this.infoText.getText();
+    return this.infoText.getText();
   }
 
   async getResultsChipsValues(): Promise<string[]> {

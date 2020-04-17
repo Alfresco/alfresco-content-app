@@ -26,6 +26,7 @@
 import { ElementFinder, by, browser, ExpectedConditions as EC, ElementArrayFinder } from 'protractor';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
+import { isPresentAndDisplayed } from '../../utilities/utils';
 
 export class SearchSortingPicker extends Component {
   private static selectors = {
@@ -48,7 +49,7 @@ export class SearchSortingPicker extends Component {
   }
 
   async isSortOrderButtonDisplayed(): Promise<boolean> {
-    return (await this.sortOrderButton.isPresent()) && (await this.sortOrderButton.isDisplayed());
+    return isPresentAndDisplayed(this.sortOrderButton);
   }
 
   async getSortOrder(): Promise<'ASC' | 'DESC' | ''> {
@@ -64,15 +65,15 @@ export class SearchSortingPicker extends Component {
   }
 
   async isSortByOptionDisplayed(): Promise<boolean> {
-    return (await this.sortByDropdownCollapsed.isPresent()) && (await this.sortByDropdownCollapsed.isDisplayed());
+    return isPresentAndDisplayed(this.sortByDropdownCollapsed);
   }
 
   async isSortByDropdownExpanded(): Promise<boolean> {
-    return (await this.sortByDropdownExpanded.isPresent()) && (await this.sortByDropdownExpanded.isDisplayed());
+    return isPresentAndDisplayed(this.sortByDropdownExpanded);
   }
 
   async getSelectedSortByOption(): Promise<string> {
-    return await this.sortByDropdownCollapsed.getText();
+    return this.sortByDropdownCollapsed.getText();
   }
 
   async clickSortByDropdown(): Promise<void> {

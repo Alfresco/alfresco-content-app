@@ -28,6 +28,7 @@ import { Component } from '../component';
 import { SizeFilter } from './filters/size-filter';
 import { CreatedDateFilter } from './filters/created-date-filter';
 import { FacetFilter } from './filters/facet-filter';
+import { isPresentAndDisplayed } from '../../utilities/utils';
 
 export class SearchFilters extends Component {
   private static selectors = {
@@ -50,7 +51,7 @@ export class SearchFilters extends Component {
   }
 
   async isSearchFiltersPanelDisplayed(): Promise<boolean> {
-    return (await this.mainPanel.isPresent()) && (await this.mainPanel.isDisplayed());
+    return isPresentAndDisplayed(this.mainPanel);
   }
 
   async clickResetAllButton(): Promise<void> {

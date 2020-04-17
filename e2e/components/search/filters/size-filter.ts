@@ -60,7 +60,7 @@ export class SizeFilter extends GenericFilterPanel {
   }
 
   async isClearButtonEnabled(): Promise<boolean> {
-    return await this.clearButton.isEnabled();
+    return this.clearButton.isEnabled();
   }
 
   async clickClearButton(): Promise<void> {

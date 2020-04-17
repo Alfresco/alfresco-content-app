@@ -27,6 +27,7 @@ import { ElementFinder, by, browser, ExpectedConditions as EC } from 'protractor
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
 import * as moment from 'moment';
+import { isPresentAndDisplayed } from '../../utilities/utils';
 
 export class DateTimePicker extends Component {
   private static selectors = {
@@ -63,7 +64,9 @@ export class DateTimePicker extends Component {
   }
 
   async isCalendarOpen(): Promise<boolean> {
-    return (await browser.element(this.rootElemLocator).isPresent()) && (await browser.element(this.rootElemLocator).isDisplayed());
+    const element = browser.element(this.rootElemLocator);
+
+    return isPresentAndDisplayed(element);
   }
 
   async getDate(): Promise<string> {

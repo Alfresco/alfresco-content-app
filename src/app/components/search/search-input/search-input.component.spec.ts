@@ -99,7 +99,7 @@ describe('SearchInputComponent', () => {
           done();
         })
       );
-      component.onSearchSubmit(<any>{ target: { value: searchedTerm } });
+      component.onSearchSubmit({ target: { value: searchedTerm } });
       tick();
     }));
 
@@ -112,7 +112,7 @@ describe('SearchInputComponent', () => {
           done();
         })
       );
-      component.onSearchSubmit(<any>{ target: { value: searchedTerm } });
+      component.onSearchSubmit({ target: { value: searchedTerm } });
       tick();
     }));
   });

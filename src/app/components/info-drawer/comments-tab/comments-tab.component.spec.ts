@@ -68,44 +68,44 @@ describe('CommentsTabComponent', () => {
     });
 
     it('should return [false] if node selected is neither file or folder', () => {
-      const testNode = {
+      const testNode: any = {
         id: 'test-node-id',
         isFile: false,
         isFolder: false
       };
-      component.node = <any>testNode;
+      component.node = testNode;
       expect(component.canUpdateNode).toBe(false);
     });
 
     it('should return [false] if node selected is a locked file', () => {
-      const testNode = {
+      const testNode: any = {
         id: 'test-node-id',
         isFile: true,
         isFolder: false,
         isLocked: true
       };
-      component.node = <any>testNode;
+      component.node = testNode;
       expect(component.canUpdateNode).toBe(false);
     });
 
     it('should check [update] permission if node selected is a not locked file', () => {
-      const testNode = {
+      const testNode: any = {
         id: 'test-node-id',
         isFile: true,
         isFolder: false
       };
-      component.node = <any>testNode;
+      component.node = testNode;
       expect(component.canUpdateNode).toBe(true);
       expect(checked).toContain('update');
     });
 
     it('should check [update] permission if node selected is a folder', () => {
-      const testNode = {
+      const testNode: any = {
         id: 'test-node-id',
         isFile: false,
         isFolder: true
       };
-      component.node = <any>testNode;
+      component.node = testNode;
       expect(component.canUpdateNode).toBe(true);
       expect(checked).toContain('update');
     });

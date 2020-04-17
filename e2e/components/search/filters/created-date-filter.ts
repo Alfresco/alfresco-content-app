@@ -25,7 +25,7 @@
 
 import { ElementFinder, by, protractor } from 'protractor';
 import { GenericFilterPanel } from './generic-filter-panel';
-import { Utils } from '../../../utilities/utils';
+import { Utils, isPresentAndDisplayed } from '../../../utilities/utils';
 
 export class CreatedDateFilter extends GenericFilterPanel {
   constructor() {
@@ -42,27 +42,27 @@ export class CreatedDateFilter extends GenericFilterPanel {
   applyButton: ElementFinder = this.panel.element(by.css('.adf-facet-buttons [data-automation-id="date-range-apply-btn"]'));
 
   async isFromFieldDisplayed(): Promise<boolean> {
-    return (await this.fromField.isPresent()) && (await this.fromField.isDisplayed());
+    return isPresentAndDisplayed(this.fromField);
   }
 
   async isFromErrorDisplayed(): Promise<boolean> {
-    return (await this.fromFieldError.isPresent()) && (await this.fromFieldError.isDisplayed());
+    return isPresentAndDisplayed(this.fromFieldError);
   }
 
   async isToFieldDisplayed(): Promise<boolean> {
-    return (await this.toField.isPresent()) && (await this.toField.isDisplayed());
+    return isPresentAndDisplayed(this.toField);
   }
 
   async isToErrorDisplayed(): Promise<boolean> {
-    return (await this.toFieldError.isPresent()) && (await this.toFieldError.isDisplayed());
+    return isPresentAndDisplayed(this.toFieldError);
   }
 
   async isClearButtonEnabled(): Promise<boolean> {
-    return await this.clearButton.isEnabled();
+    return this.clearButton.isEnabled();
   }
 
   async isApplyButtonEnabled(): Promise<boolean> {
-    return await this.applyButton.isEnabled();
+    return this.applyButton.isEnabled();
   }
 
   async clickClearButton(): Promise<void> {

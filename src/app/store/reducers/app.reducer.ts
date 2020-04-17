@@ -50,7 +50,7 @@ export function appReducer(
 
   switch (action.type) {
     case AppActionTypes.SetInitialState:
-      newState = Object.assign({}, (<SetInitialStateAction>action).payload);
+      newState = Object.assign({}, (action as SetInitialStateAction).payload);
       break;
     case AppActionTypes.SetSettingsParameter:
       newState = handleSettingsUpdate(
@@ -65,33 +65,37 @@ export function appReducer(
       };
       break;
     case NodeActionTypes.SetSelection:
-      newState = updateSelectedNodes(state, <SetSelectedNodesAction>action);
+      newState = updateSelectedNodes(state, action as SetSelectedNodesAction);
       break;
     case AppActionTypes.SetUserProfile:
-      newState = updateUser(state, <SetUserProfileAction>action);
+      newState = updateUser(state, action as SetUserProfileAction);
       break;
     case AppActionTypes.SetCurrentFolder:
-      newState = updateCurrentFolder(state, <SetCurrentFolderAction>action);
+      newState = updateCurrentFolder(state, action as SetCurrentFolderAction);
       break;
     case AppActionTypes.SetCurrentUrl:
-      newState = updateCurrentUrl(state, <SetCurrentUrlAction>action);
+      newState = updateCurrentUrl(state, action as SetCurrentUrlAction);
       break;
     case AppActionTypes.ToggleInfoDrawer:
       newState = toggleInfoDrawer(state);
       break;
     case AppActionTypes.SetInfoDrawerState:
-      newState = setInfoDrawer(state, <SetInfoDrawerStateAction>action);
+      newState = setInfoDrawer(state, action as SetInfoDrawerStateAction);
       break;
     case AppActionTypes.SetInfoDrawerMetadataAspect:
-      newState = setInfoDrawerAspect(state, <SetInfoDrawerMetadataAspectAction>(
-        action
-      ));
+      newState = setInfoDrawerAspect(
+        state,
+        action as SetInfoDrawerMetadataAspectAction
+      );
       break;
     case AppActionTypes.ToggleDocumentDisplayMode:
       newState = toggleDocumentDisplayMode(state);
       break;
     case AppActionTypes.SetRepositoryInfo:
-      newState = updateRepositoryStatus(state, <SetRepositoryInfoAction>action);
+      newState = updateRepositoryStatus(
+        state,
+        action as SetRepositoryInfoAction
+      );
       break;
     case SearchActionTypes.ToggleFilter:
       newState = toggleSearchFilter(state);
@@ -138,11 +142,10 @@ function updateUser(state: AppState, action: SetUserProfileAction): AppState {
   const userName = `${firstName} ${lastName}`;
   const initials = [firstName[0], lastName[0]].join('');
 
-  const capabilities = (<any>user).capabilities;
+  const capabilities = user.capabilities;
   const isAdmin = capabilities ? capabilities.isAdmin : true;
 
-  // todo: remove <any>
-  newState.user = <any>{
+  newState.user = {
     firstName,
     lastName,
     userName,

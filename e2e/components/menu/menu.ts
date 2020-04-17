@@ -27,7 +27,7 @@ import { ElementFinder, ElementArrayFinder, by, browser, ExpectedConditions as E
 import { Logger } from '@alfresco/adf-testing';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
-import { Utils } from '../../utilities/utils'
+import { Utils, isPresentAndEnabled } from '../../utilities/utils'
 
 export class Menu extends Component {
   private static selectors = {
@@ -357,27 +357,27 @@ export class Menu extends Component {
   }
 
   async isCreateFolderEnabled(): Promise<boolean> {
-    return (await this.createFolderAction.isPresent()) && (await this.createFolderAction.isEnabled());
+    return isPresentAndEnabled(this.createFolderAction);
   }
 
   async isCreateLibraryEnabled(): Promise<boolean> {
-    return (await this.createLibraryAction.isPresent()) && (await this.createLibraryAction.isEnabled());
+    return isPresentAndEnabled(this.createLibraryAction);
   }
 
   async isUploadFileEnabled(): Promise<boolean> {
-    return (await this.uploadFileAction.isPresent()) && (await this.uploadFileAction.isEnabled());
+    return isPresentAndEnabled(this.uploadFileAction);
   }
 
   async isUploadFolderEnabled(): Promise<boolean> {
-    return (await this.uploadFolderAction.isPresent()) && (await this.uploadFolderAction.isEnabled());
+    return isPresentAndEnabled(this.uploadFolderAction);
   }
 
   async isCreateFileFromTemplateEnabled(): Promise<boolean> {
-    return (await this.createFileFromTemplateAction.isPresent()) && (await this.createFileFromTemplateAction.isEnabled());
+    return isPresentAndEnabled(this.createFileFromTemplateAction);
   }
 
   async isCreateFolderFromTemplateEnabled(): Promise<boolean> {
-    return (await this.createFolderFromTemplateAction.isPresent()) && (await this.createFolderFromTemplateAction.isEnabled());
+    return isPresentAndEnabled(this.createFolderFromTemplateAction);
   }
 
   async clickCreateFolder(): Promise<void> {

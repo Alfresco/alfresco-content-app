@@ -65,7 +65,7 @@ export class VersionsTabComponent implements OnInit, OnChanges {
   }
 
   private updateState() {
-    if (this.node && (<any>this.node).nodeId) {
+    if (this.node && (this.node as any).nodeId) {
       // workaround for shared files type.
       this.isFileSelected = true;
     } else {

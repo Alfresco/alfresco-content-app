@@ -24,6 +24,7 @@
  */
 
 import { ElementFinder, by, browser } from 'protractor';
+import { isPresentAndDisplayed } from '../../../utilities/utils';
 
 export class GenericFilterPanel {
   private filterName: string;
@@ -49,11 +50,11 @@ export class GenericFilterPanel {
   }
 
   async isPanelDisplayed(): Promise<boolean> {
-    return (await browser.isElementPresent(this.panel)) && (await this.panel.isDisplayed());
+    return isPresentAndDisplayed(this.panel);
   }
 
   async isPanelExpanded(): Promise<boolean> {
-    return (await this.panelExpanded.isPresent()) && (await this.panelExpanded.isDisplayed());
+    return isPresentAndDisplayed(this.panelExpanded);
   }
 
   async expandPanel(): Promise<void> {

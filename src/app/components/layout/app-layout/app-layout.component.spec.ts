@@ -142,7 +142,7 @@ describe('AppLayoutComponent', () => {
   });
 
   it('should reset selection before navigation', () => {
-    const selection = [<any>{ entry: { id: 'nodeId', name: 'name' } }];
+    const selection: any[] = [{ entry: { id: 'nodeId', name: 'name' } }];
     spyOn(store, 'dispatch').and.stub();
     fixture.detectChanges();
     store.dispatch(new SetSelectedNodesAction(selection));
@@ -164,7 +164,7 @@ describe('AppLayoutComponent', () => {
     spyOn(component.layout.container, 'toggleMenu');
     fixture.detectChanges();
 
-    component.hideMenu(<any>{ preventDefault: () => {} });
+    component.hideMenu({ preventDefault: () => {} } as any);
 
     expect(component.layout.container.toggleMenu).toHaveBeenCalled();
   });
@@ -180,7 +180,7 @@ describe('AppLayoutComponent', () => {
     spyOn(component.layout.container, 'toggleMenu');
     fixture.detectChanges();
 
-    component.hideMenu(<any>{ preventDefault: () => {} });
+    component.hideMenu({ preventDefault: () => {} } as any);
 
     expect(component.layout.container.toggleMenu).toHaveBeenCalled();
   });

@@ -62,12 +62,12 @@ export class LibraryMembershipDirective implements OnChanges {
   @Input('acaLibraryMembership')
   selection: SiteEntry = null;
 
-  @Output() toggle: EventEmitter<
-    LibraryMembershipToggleEvent
-  > = new EventEmitter();
-  @Output() error: EventEmitter<
-    LibraryMembershipErrorEvent
-  > = new EventEmitter();
+  @Output()
+  toggle = new EventEmitter<LibraryMembershipToggleEvent>();
+
+  // tslint:disable-next-line: no-output-native
+  @Output()
+  error = new EventEmitter<LibraryMembershipErrorEvent>();
 
   @HostListener('click')
   onClick() {
@@ -187,9 +187,10 @@ export class LibraryMembershipDirective implements OnChanges {
   }
 
   private joinLibraryRequest() {
-    const memberBody = <SiteMembershipRequestBody>{
+    const memberBody = {
       id: this.targetSite.id
-    };
+    } as SiteMembershipRequestBody;
+
     return from(
       this.alfrescoApiService.peopleApi.addSiteMembershipRequest(
         '-me-',

@@ -70,7 +70,7 @@ export class SharedLinkViewComponent implements OnInit {
       )
       .subscribe(([sharedEntry, sharedId]: [SharedLinkEntry, string]) => {
         if (sharedEntry) {
-          this.store.dispatch(new SetSelectedNodesAction([<any>sharedEntry]));
+          this.store.dispatch(new SetSelectedNodesAction([sharedEntry as any]));
         }
         this.sharedLinkId = sharedId;
       });

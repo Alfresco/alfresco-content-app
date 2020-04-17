@@ -71,10 +71,10 @@ describe('LibraryMetadataFormComponent', () => {
       visibility: 'PRIVATE'
     };
     component.node = {
-      entry: <Site>{
+      entry: {
         id: 'libraryId',
         ...siteEntryModel
-      }
+      } as Site
     };
     fixture.detectChanges();
 
@@ -95,10 +95,10 @@ describe('LibraryMetadataFormComponent', () => {
     };
 
     component.node = {
-      entry: <Site>{
+      entry: {
         id: 'libraryId',
         ...siteEntryModel
-      }
+      } as Site
     };
 
     fixture.detectChanges();
@@ -106,10 +106,10 @@ describe('LibraryMetadataFormComponent', () => {
     expect(component.form.value).toEqual(siteEntryModel);
 
     component.node = {
-      entry: <Site>{
+      entry: {
         id: 'libraryId',
         ...newSiteEntryModel
-      }
+      } as Site
     };
 
     component.ngOnChanges();
@@ -124,11 +124,11 @@ describe('LibraryMetadataFormComponent', () => {
       visibility: 'PRIVATE'
     };
     component.node = {
-      entry: <Site>{
+      entry: {
         id: 'libraryId',
         role: 'SiteManager',
         ...siteEntryModel
-      }
+      } as Site
     };
 
     fixture.detectChanges();
@@ -136,7 +136,7 @@ describe('LibraryMetadataFormComponent', () => {
     component.update();
 
     expect(storeMock.dispatch).toHaveBeenCalledWith(
-      new UpdateLibraryAction(<SiteBody>siteEntryModel)
+      new UpdateLibraryAction(siteEntryModel)
     );
   });
 
@@ -147,11 +147,11 @@ describe('LibraryMetadataFormComponent', () => {
       visibility: 'PRIVATE'
     };
     component.node = {
-      entry: <Site>{
+      entry: {
         id: 'libraryId',
         role: 'Consumer',
         ...siteEntryModel
-      }
+      } as Site
     };
 
     fixture.detectChanges();
@@ -159,7 +159,7 @@ describe('LibraryMetadataFormComponent', () => {
     component.update();
 
     expect(storeMock.dispatch).not.toHaveBeenCalledWith(
-      new UpdateLibraryAction(<SiteBody>siteEntryModel)
+      new UpdateLibraryAction(siteEntryModel)
     );
   });
 
@@ -170,11 +170,11 @@ describe('LibraryMetadataFormComponent', () => {
       visibility: 'PRIVATE'
     };
     component.node = {
-      entry: <Site>{
+      entry: {
         id: 'libraryId',
         role: 'SiteManager',
         ...siteEntryModel
-      }
+      } as Site
     };
 
     fixture.detectChanges();
@@ -184,7 +184,7 @@ describe('LibraryMetadataFormComponent', () => {
     component.update();
 
     expect(storeMock.dispatch).not.toHaveBeenCalledWith(
-      new UpdateLibraryAction(<SiteBody>siteEntryModel)
+      new UpdateLibraryAction(siteEntryModel)
     );
   });
 
@@ -205,10 +205,10 @@ describe('LibraryMetadataFormComponent', () => {
       visibility: 'PRIVATE'
     };
     component.node = {
-      entry: <Site>{
+      entry: {
         id: 'libraryId',
         ...siteEntryModel
-      }
+      } as Site
     };
     fixture.detectChanges();
 
@@ -241,10 +241,10 @@ describe('LibraryMetadataFormComponent', () => {
     };
 
     component.node = {
-      entry: <Site>{
+      entry: {
         id: 'libraryId',
         ...siteEntryModel
-      }
+      } as Site
     };
 
     fixture.detectChanges();
@@ -272,10 +272,10 @@ describe('LibraryMetadataFormComponent', () => {
     };
 
     component.node = {
-      entry: <Site>{
+      entry: {
         id: 'libraryId',
         ...siteEntryModel
-      }
+      } as Site
     };
 
     fixture.detectChanges();
@@ -303,10 +303,10 @@ describe('LibraryMetadataFormComponent', () => {
     };
 
     component.node = {
-      entry: <Site>{
+      entry: {
         id: 'libraryId',
         ...siteEntryModel
-      }
+      } as Site
     };
 
     fixture.detectChanges();

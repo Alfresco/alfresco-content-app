@@ -31,6 +31,20 @@ const path = require('path');
 const fs = require('fs');
 const StreamZip = require('node-stream-zip');
 
+export const isPresentAndEnabled = async (element: ElementFinder): Promise<boolean> => {
+  const isPresent = await browser.isElementPresent(element);
+  const isEnabled = await element.isEnabled();
+
+  return isPresent && isEnabled;
+};
+
+export const isPresentAndDisplayed = async (element: ElementFinder): Promise<boolean> => {
+  const isPresent = await browser.isElementPresent(element);
+  const isDisplayed = await element.isDisplayed();
+
+  return isPresent && isDisplayed;
+};
+
 export class Utils {
   static string257 = 'assembly doctor offender limit clearance inspiration baker fraud active apples trait brainstorm concept breaks down presidential \
     reluctance summary communication patience books opponent banana economist head develop project swear unanimous read conservation';
@@ -56,7 +70,7 @@ export class Utils {
   }
 
   static async getSessionStorage(): Promise<any> {
-    return await browser.executeScript('return window.sessionStorage.getItem("app.extension.config");');
+    return browser.executeScript('return window.sessionStorage.getItem("app.extension.config");');
   }
 
   static async setSessionStorageFromConfig(configFileName: string): Promise<void> {

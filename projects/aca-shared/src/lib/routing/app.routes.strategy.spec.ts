@@ -38,7 +38,7 @@ describe('AppRouteReuseStrategy', () => {
   });
 
   it('should allow detach if route is configured to be reused', () => {
-    const route = <any>{
+    const route: any = {
       routeConfig: {
         data: {
           reuse: true
@@ -46,11 +46,11 @@ describe('AppRouteReuseStrategy', () => {
         path: 'tested-path'
       }
     };
-    expect(appRouteReuse.shouldDetach(<any>route)).toBe(true);
+    expect(appRouteReuse.shouldDetach(route)).toBe(true);
   });
 
   it('should store on routeCache', () => {
-    const route = <any>{
+    const route: any = {
       url: [],
       routeConfig: {
         data: {
@@ -63,11 +63,11 @@ describe('AppRouteReuseStrategy', () => {
       children: []
     };
     appRouteReuse.store(route, { route: {} });
-    expect(appRouteReuse.shouldAttach(<any>route)).toBe(true);
+    expect(appRouteReuse.shouldAttach(route)).toBe(true);
   });
 
   it('should clear routeCache on resetCache', () => {
-    const route = <any>{
+    const route: any = {
       url: [],
       routeConfig: {
         data: {
@@ -81,6 +81,6 @@ describe('AppRouteReuseStrategy', () => {
     };
     appRouteReuse.store(route, { route: {} });
     appRouteReuse.resetCache();
-    expect(appRouteReuse.shouldAttach(<any>route)).toBe(false);
+    expect(appRouteReuse.shouldAttach(route)).toBe(false);
   });
 });

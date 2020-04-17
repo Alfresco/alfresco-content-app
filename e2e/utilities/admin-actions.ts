@@ -47,57 +47,57 @@ export class AdminActions {
   search: SearchApi = new SearchApi();
 
   async getDataDictionaryId(): Promise<string> {
-    return await this.adminApi.nodes.getNodeIdFromParent('Data Dictionary', '-root-');
+    return this.adminApi.nodes.getNodeIdFromParent('Data Dictionary', '-root-');
   }
 
   async getNodeTemplatesFolderId(): Promise<string> {
-    return await this.adminApi.nodes.getNodeIdFromParent('Node Templates', await this.getDataDictionaryId());
+    return this.adminApi.nodes.getNodeIdFromParent('Node Templates', await this.getDataDictionaryId());
   }
 
   async getSpaceTemplatesFolderId(): Promise<string> {
-    return await this.adminApi.nodes.getNodeIdFromParent('Space Templates', await this.getDataDictionaryId());
+    return this.adminApi.nodes.getNodeIdFromParent('Space Templates', await this.getDataDictionaryId());
   }
 
   async createUser(user: PersonModel): Promise<PersonEntry> {
-    return await this.adminApi.people.createUser(user);
+    return this.adminApi.people.createUser(user);
   }
 
   async createNodeTemplate(name: string, title: string = '', description: string = '', author: string = ''): Promise<NodeEntry> {
     const templatesRootFolderId: string = await this.getNodeTemplatesFolderId();
 
-    return await this.adminApi.nodes.createFile(name, templatesRootFolderId, title, description, author);
+    return this.adminApi.nodes.createFile(name, templatesRootFolderId, title, description, author);
   }
 
   async createNodeTemplatesHierarchy(hierarchy: NodeContentTree): Promise<any> {
-    return await this.adminApi.nodes.createContent(hierarchy, `Data Dictionary/Node Templates`);
+    return this.adminApi.nodes.createContent(hierarchy, `Data Dictionary/Node Templates`);
   }
 
   async createSpaceTemplate(name: string, title: string = '', description: string = ''): Promise<NodeEntry> {
     const templatesRootFolderId: string = await this.getSpaceTemplatesFolderId();
 
-    return await this.adminApi.nodes.createFolder(name, templatesRootFolderId, title, description);
+    return this.adminApi.nodes.createFolder(name, templatesRootFolderId, title, description);
   }
 
   async createSpaceTemplatesHierarchy(hierarchy: NodeContentTree): Promise<any> {
-    return await this.adminApi.nodes.createContent(hierarchy, `Data Dictionary/Space Templates`);
+    return this.adminApi.nodes.createContent(hierarchy, `Data Dictionary/Space Templates`);
   }
 
   async removeUserAccessOnNodeTemplate(nodeName: string): Promise<NodeEntry> {
     const templatesRootFolderId = await this.getNodeTemplatesFolderId();
     const nodeId: string = await this.adminApi.nodes.getNodeIdFromParent(nodeName, templatesRootFolderId);
 
-    return await this.adminApi.nodes.setInheritPermissions(nodeId, false);
+    return this.adminApi.nodes.setInheritPermissions(nodeId, false);
   }
 
   async removeUserAccessOnSpaceTemplate(nodeName: string): Promise<NodeEntry> {
     const templatesRootFolderId = await this.getSpaceTemplatesFolderId();
     const nodeId: string = await this.adminApi.nodes.getNodeIdFromParent(nodeName, templatesRootFolderId);
 
-    return await this.adminApi.nodes.setInheritPermissions(nodeId, false);
+    return this.adminApi.nodes.setInheritPermissions(nodeId, false);
   }
 
   async cleanupNodeTemplatesFolder(): Promise<void> {
-    return await this.adminApi.nodes.deleteNodeChildren(await this.getNodeTemplatesFolderId());
+    return this.adminApi.nodes.deleteNodeChildren(await this.getNodeTemplatesFolderId());
   }
 
   async cleanupSpaceTemplatesFolder(): Promise<void> {
@@ -108,11 +108,11 @@ export class AdminActions {
     const nodesToDelete = (await this.adminApi.nodes.getNodeChildren(spaceTemplatesNodeId)).list.entries
       .filter(node => (node.entry.nodeType !== 'app:folderlink') && (node.entry.name !== 'Software Engineering Project'))
       .map(node => node.entry.id);
-    return await this.adminApi.nodes.deleteNodesById(nodesToDelete);
+    return this.adminApi.nodes.deleteNodesById(nodesToDelete);
   }
 
   async createLinkToFileId(originalFileId: string, destinationParentId: string): Promise<NodeEntry> {
-    return await this.adminApi.nodes.createFileLink(originalFileId, destinationParentId);
+    return this.adminApi.nodes.createFileLink(originalFileId, destinationParentId);
   }
 
   async createLinkToFileName(originalFileName: string, originalFileParentId: string, destinationParentId?: string): Promise<NodeEntry> {
@@ -122,11 +122,11 @@ export class AdminActions {
 
     const nodeId = await this.adminApi.nodes.getNodeIdFromParent(originalFileName, originalFileParentId);
 
-    return await this.createLinkToFileId(nodeId, destinationParentId);
+    return this.createLinkToFileId(nodeId, destinationParentId);
   }
 
   async createLinkToFolderId(originalFolderId: string, destinationParentId: string): Promise<NodeEntry> {
-    return await this.adminApi.nodes.createFolderLink(originalFolderId, destinationParentId);
+    return this.adminApi.nodes.createFolderLink(originalFolderId, destinationParentId);
   }
 
   async createLinkToFolderName(originalFolderName: string, originalFolderParentId: string, destinationParentId?: string): Promise<NodeEntry> {
@@ -136,7 +136,7 @@ export class AdminActions {
 
     const nodeId = await this.adminApi.nodes.getNodeIdFromParent(originalFolderName, originalFolderParentId);
 
-    return await this.createLinkToFolderId(nodeId, destinationParentId);
+    return this.createLinkToFolderId(nodeId, destinationParentId);
   }
 
 }

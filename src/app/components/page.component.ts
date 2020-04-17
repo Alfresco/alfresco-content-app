@@ -115,7 +115,7 @@ export abstract class PageComponent implements OnInit, OnDestroy {
   showPreview(node: MinimalNodeEntity, extras?: ViewNodeExtras) {
     if (node && node.entry) {
       const id =
-        (<any>node).entry.nodeId || (<any>node).entry.guid || node.entry.id;
+        (node as any).entry.nodeId || (node as any).entry.guid || node.entry.id;
 
       this.store.dispatch(new ViewNodeAction(id, extras));
     }

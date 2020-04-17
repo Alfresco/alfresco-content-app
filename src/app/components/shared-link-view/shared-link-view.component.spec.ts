@@ -102,7 +102,7 @@ describe('SharedLinkViewComponent', () => {
     tick();
 
     expect(storeMock.dispatch).toHaveBeenCalledWith(
-      new SetSelectedNodesAction([<any>{ entry: { id: 'shared-id' } }])
+      new SetSelectedNodesAction([{ entry: { id: 'shared-id' } } as any])
     );
   }));
 

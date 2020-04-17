@@ -26,6 +26,7 @@
 import { ElementFinder, by, protractor, browser, ExpectedConditions as EC } from 'protractor';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { GenericDialog } from '../dialog/generic-dialog';
+import { isPresentAndDisplayed } from '../../utilities/utils';
 
 export class CreateOrEditFolderDialog extends GenericDialog {
   private static selectors = {
@@ -55,7 +56,7 @@ export class CreateOrEditFolderDialog extends GenericDialog {
   }
 
   async isValidationMessageDisplayed(): Promise<boolean> {
-    return (await this.validationMessage.isPresent()) && (await this.validationMessage.isDisplayed());
+    return isPresentAndDisplayed(this.validationMessage);
   }
 
   async isUpdateButtonEnabled(): Promise<boolean> {

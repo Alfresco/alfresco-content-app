@@ -91,6 +91,6 @@ describe('AppService', () => {
       isReady = value;
     });
     auth.onLogin.next();
-    await expect(<any>isReady).toEqual(true);
+    await expect(isReady).toEqual(true);
   });
 });

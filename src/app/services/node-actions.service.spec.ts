@@ -44,7 +44,7 @@ class TestNode {
     nodeType?: string,
     properties?: any
   ) {
-    this.entry = <any>{};
+    this.entry = {} as any;
     this.entry.id = id || 'node-id';
     this.entry.isFile = isFile;
     this.entry.isFolder = !isFile;

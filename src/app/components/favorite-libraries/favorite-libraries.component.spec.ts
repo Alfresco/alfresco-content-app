@@ -141,7 +141,7 @@ describe('FavoriteLibrariesComponent', () => {
 
     it('does not navigate when id is not passed', () => {
       spyOn(router, 'navigate').and.stub();
-      component.navigateTo(<any>{ entry: { guid: 'guid' } });
+      component.navigateTo({ entry: { guid: 'guid' } } as any);
 
       expect(router.navigate).toHaveBeenCalledWith(['libraries', 'libraryId']);
     });

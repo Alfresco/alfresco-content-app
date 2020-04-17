@@ -647,7 +647,7 @@ describe('AppExtensionService', () => {
 
   it('should reduce empty menus', () => {
     const actions = [
-      <any>{ id: '1', type: ContentActionType.button },
+      { id: '1', type: ContentActionType.button },
       {
         id: '2',
         type: ContentActionType.menu
@@ -784,7 +784,7 @@ describe('AppExtensionService', () => {
         }
       });
 
-      expect(service.getSharedLinkViewerToolbarActions()).toEqual(<any>actions);
+      expect(service.getSharedLinkViewerToolbarActions()).toEqual(actions);
     });
   });
 
