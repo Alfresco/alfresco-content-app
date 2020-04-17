@@ -104,7 +104,7 @@ describe('InfoDrawerComponent', () => {
   }));
 
   it('should call getNodeInfo() when node is a shared file', async(() => {
-    const response = { entry: { id: 'nodeId' } };
+    const response: any = { entry: { id: 'nodeId' } };
     spyOn(contentApiService, 'getNodeInfo').and.returnValue(of(response));
     const nodeMock: any = { entry: { nodeId: 'nodeId' }, isLibrary: false };
     component.node = nodeMock;
@@ -117,7 +117,7 @@ describe('InfoDrawerComponent', () => {
   }));
 
   it('should call getNodeInfo() when node is a favorite file', async(() => {
-    const response = { entry: { id: 'nodeId' } };
+    const response: any = { entry: { id: 'nodeId' } };
     spyOn(contentApiService, 'getNodeInfo').and.returnValue(of(response));
     const nodeMock: any = {
       entry: { id: 'nodeId', guid: 'guidId' },
@@ -133,7 +133,7 @@ describe('InfoDrawerComponent', () => {
   }));
 
   it('should call getNodeInfo() when node is a recent file', async(() => {
-    const response = { entry: { id: 'nodeId' } };
+    const response: any = { entry: { id: 'nodeId' } };
     spyOn(contentApiService, 'getNodeInfo').and.returnValue(of(response));
     const nodeMock: any = {
       entry: {

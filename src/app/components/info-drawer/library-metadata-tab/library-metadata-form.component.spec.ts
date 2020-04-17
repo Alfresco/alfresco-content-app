@@ -33,7 +33,7 @@ import { Store } from '@ngrx/store';
 import { UpdateLibraryAction } from '@alfresco/aca-shared/store';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { Site, SiteBody } from '@alfresco/js-api';
+import { Site } from '@alfresco/js-api';
 import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-core';
 
 describe('LibraryMetadataFormComponent', () => {

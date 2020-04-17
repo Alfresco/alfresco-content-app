@@ -158,6 +158,10 @@
       "severity": "error"
     },
 
-    "no-return-await": true
+    "no-return-await": true,
+    "file-name-casing": [
+      true,
+      "kebab-case"
+    ]
   }
 }
