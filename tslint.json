@@ -3,8 +3,13 @@
     "node_modules/codelyzer",
     "node_modules/adf-tslint-rules"
   ],
-  "extends": ["rxjs-tslint-rules"],
+  "extends": [
+    "tslint-plugin-prettier",
+    "tslint-config-prettier",
+    "rxjs-tslint-rules"
+  ],
   "rules": {
+    "prettier": true,
     "adf-license-banner": [true, "**/*.ts", "./license-header.txt"],
     "ban": [
       true,
