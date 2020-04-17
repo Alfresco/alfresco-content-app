@@ -113,7 +113,7 @@ describe('Search filters', () => {
     done();
   });
 
-  it('Filters are displayed - [C279186]', async () => {
+  it('[C279186] Filters are displayed', async () => {
     expect(await sizeFilter.isPanelDisplayed()).toBe(true, 'Size filter panel not displayed');
     expect(await createdDateFilter.isPanelDisplayed()).toBe(true, 'Created date filter panel not displayed');
     expect(await fileTypeFilter.isPanelDisplayed()).toBe(true, 'File type filter panel not displayed');
@@ -129,7 +129,7 @@ describe('Search filters', () => {
       done();
     });
 
-    it('Expand / Collapse the Size filter panel - [C279197]', async () => {
+    it('[C279197] Expand / Collapse the Size filter panel', async () => {
       expect(await sizeFilter.isPanelExpanded()).toBe(false, 'Size filter panel is expanded');
 
       await sizeFilter.expandPanel();
@@ -143,7 +143,7 @@ describe('Search filters', () => {
       expect(await sizeFilter.isPanelExpanded()).toBe(false, 'Size filter panel is expanded');
     });
 
-    it('Filter by Small - [C279199]', async () => {
+    it('[C279199] Filter by Small', async () => {
       await sizeFilter.expandPanel();
       await sizeFilter.checkSizeSmall();
 
@@ -151,14 +151,14 @@ describe('Search filters', () => {
       expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(true, `${filePdfUser2.name} not in the list`);
     });
 
-    it('Filter by Huge - [C279202]', async () => {
+    it('[C279202] Filter by Huge', async () => {
       await sizeFilter.expandPanel();
       await sizeFilter.checkSizeHuge();
 
       expect(await dataTable.isEmpty()).toBe(true, 'list is not empty');
     });
 
-    it('Filter by multiple size categories - [C279203]', async () => {
+    it('[C279203] Filter by multiple size categories', async () => {
       await sizeFilter.expandPanel();
       await sizeFilter.checkSizeSmall();
       await sizeFilter.checkSizeMedium();
@@ -168,7 +168,7 @@ describe('Search filters', () => {
       expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(true, `${filePdfUser2.name} not in the list`);
     });
 
-    it('Clear the Size filter options - [C279198]', async () => {
+    it('[C279198] Clear the Size filter options', async () => {
       await sizeFilter.expandPanel();
       await sizeFilter.checkSizeSmall();
       await sizeFilter.checkSizeMedium();
@@ -189,7 +189,7 @@ describe('Search filters', () => {
       done();
     });
 
-    it('Expand / Collapse the Created date filter panel - [C279211]', async () => {
+    it('[C279211] Expand / Collapse the Created date filter panel', async () => {
       expect(await createdDateFilter.isPanelExpanded()).toBe(false, 'Created date filter panel is expanded');
 
       await createdDateFilter.expandPanel();
@@ -202,7 +202,7 @@ describe('Search filters', () => {
       expect(await createdDateFilter.isPanelExpanded()).toBe(false, 'Created date filter panel is expanded');
     });
 
-    it('Results are filtered by Created date - [C279217]', async () => {
+    it('[C279217] Results are filtered by Created date', async () => {
       await createdDateFilter.expandPanel();
       await createdDateFilter.enterFromDate(yesterday);
       await createdDateFilter.enterToDate(yesterday);
@@ -225,7 +225,7 @@ describe('Search filters', () => {
       expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, 'JPG file not displayed');
     });
 
-    it('Clear the Created date filter options - [C279216]', async () => {
+    it('[C279216] Clear the Created date filter options', async () => {
       await createdDateFilter.expandPanel();
       await createdDateFilter.enterFromDate(yesterday);
       await createdDateFilter.enterToDate(yesterday);
@@ -242,7 +242,7 @@ describe('Search filters', () => {
       expect(await createdDateFilter.getToValue()).toEqual('', 'To field not empty');
     });
 
-    it('From and To values are required - [C279212]', async () => {
+    it('[C279212] From and To values are required', async () => {
       await createdDateFilter.expandPanel();
       await createdDateFilter.enterFromDate('');
       await createdDateFilter.enterToDate('');
@@ -253,7 +253,7 @@ describe('Search filters', () => {
       expect(await createdDateFilter.getToError()).toEqual('Required value');
     });
 
-    it('Error message is displayed when entering an incorrect date format - [C279213]', async () => {
+    it('[C279213] Error message is displayed when entering an incorrect date format', async () => {
       await createdDateFilter.expandPanel();
       await createdDateFilter.enterFromDate('03.31.2019');
       await createdDateFilter.enterToDate('invalid text');
@@ -264,7 +264,7 @@ describe('Search filters', () => {
       expect(await createdDateFilter.getToError()).toEqual(`Invalid date. The date must be in the format 'DD-MMM-YY'`);
     });
 
-    it('Error message is displayed when entering a date from the future - [C279214]', async () => {
+    it('[C279214] Error message is displayed when entering a date from the future', async () => {
       await createdDateFilter.expandPanel();
       await createdDateFilter.enterFromDate(future);
       await createdDateFilter.enterToDate(future);
@@ -275,7 +275,7 @@ describe('Search filters', () => {
       expect(await createdDateFilter.getToError()).toEqual('The date is beyond the maximum date.');
     });
 
-    it('Error message is displayed when From value is bigger than To value - [C279215]', async () => {
+    it('[C279215] Error message is displayed when From value is bigger than To value', async () => {
       await createdDateFilter.expandPanel();
       await createdDateFilter.enterFromDate(today);
       await createdDateFilter.enterToDate(yesterday);
@@ -291,7 +291,7 @@ describe('Search filters', () => {
       done();
     });
 
-    it('Expand / Collapse the File type filter panel - [C279191]', async () => {
+    it('[C279191] Expand / Collapse the File type filter panel', async () => {
       expect(await fileTypeFilter.isPanelExpanded()).toBe(true, 'File type filter panel not expanded');
       expect(await fileTypeFilter.getFiltersValues()).toEqual(expectedFileTypes, 'Incorrect File type filters facets');
       expect(await fileTypeFilter.isFilterCategoryInputDisplayed()).toBe(true, 'File type filter categories not displayed');
@@ -300,7 +300,7 @@ describe('Search filters', () => {
       expect(await fileTypeFilter.isPanelExpanded()).toBe(false, 'File type filter panel is expanded');
     });
 
-    it('Results are filtered by File type - [C279192]', async () => {
+    it('[C279192] Results are filtered by File type', async () => {
       await fileTypeFilter.expandPanel();
       await fileTypeFilter.checkCategory('Adobe PDF Document');
 
@@ -316,7 +316,7 @@ describe('Search filters', () => {
       expect(await page.getResultsChipsValues()).toEqual(['Adobe PDF Document', 'JPEG Image']);
     });
 
-    it('Clear the File type filter options - [C279193]', async () => {
+    it('[C279193] Clear the File type filter options', async () => {
       await fileTypeFilter.expandPanel();
       await fileTypeFilter.checkCategory('Adobe PDF Document');
 
@@ -331,7 +331,7 @@ describe('Search filters', () => {
       expect(await fileTypeFilter.getFiltersCheckedValues()).toEqual([], 'File types selection not cleared');
     });
 
-    it('Search for a specific file type - [C279195]', async () => {
+    it('[C279195] Search for a specific file type', async () => {
       await fileTypeFilter.expandPanel();
       expect(await fileTypeFilter.getFiltersValues()).toEqual(expectedFileTypes, 'Incorrect File type filters facets');
       await fileTypeFilter.filterCategoriesBy('PDF');
@@ -345,7 +345,7 @@ describe('Search filters', () => {
       done();
     });
 
-    it('Expand / Collapse the Creator filter panel - [C279205]', async () => {
+    it('[C279205] Expand / Collapse the Creator filter panel', async () => {
       expect(await creatorFilter.isPanelExpanded()).toBe(true, 'Creator filter panel not expanded');
 
       expect(await creatorFilter.getFiltersValues()).toEqual(expectedCreators, 'Incorrect Creator filters facets');
@@ -355,7 +355,7 @@ describe('Search filters', () => {
       expect(await creatorFilter.isPanelExpanded()).toBe(false, 'Creator filter panel is expanded');
     });
 
-    it('Results are filtered by Creator - [C279206]', async () => {
+    it('[C279206] Results are filtered by Creator', async () => {
       await creatorFilter.expandPanel();
       await creatorFilter.checkCategory(user1);
 
@@ -371,7 +371,7 @@ describe('Search filters', () => {
       expect(await page.getResultsChipsValues()).toEqual([`${user1} ${user1}`, `${user2} ${user2}`]);
     });
 
-    it('Clear the Creator filter options - [C279207]', async () => {
+    it('[C279207] Clear the Creator filter options', async () => {
       await creatorFilter.expandPanel();
       await creatorFilter.checkCategory(user1);
 
@@ -386,7 +386,7 @@ describe('Search filters', () => {
       expect(await creatorFilter.getFiltersCheckedValues()).toEqual([], 'Creator selection not cleared');
     });
 
-    it('Search for a specific creator - [C279208]', async () => {
+    it('[C279208] Search for a specific creator', async () => {
       await creatorFilter.expandPanel();
       expect(await creatorFilter.getFiltersValues()).toEqual(expectedCreators, 'Incorrect Creator filters facets');
       await creatorFilter.filterCategoriesBy(user1);
@@ -400,7 +400,7 @@ describe('Search filters', () => {
       done();
     });
 
-    it('Expand / Collapse the Modifier filter panel - [C279224]', async () => {
+    it('[C279224] Expand / Collapse the Modifier filter panel', async () => {
       expect(await modifierFilter.isPanelExpanded()).toBe(true, 'Modifier filter panel not expanded');
 
       expect(await modifierFilter.getFiltersValues()).toEqual(expectedModifiers, 'Incorrect Modifier filters facets');
@@ -410,7 +410,7 @@ describe('Search filters', () => {
       expect(await modifierFilter.isPanelExpanded()).toBe(false, 'Modifier filter panel is expanded');
     });
 
-    it('Results are filtered by Modifier - [C279225]', async () => {
+    it('[C279225] Results are filtered by Modifier', async () => {
       await modifierFilter.expandPanel();
       await modifierFilter.checkCategory(user1);
 
@@ -426,7 +426,7 @@ describe('Search filters', () => {
       expect(await page.getResultsChipsValues()).toEqual([`${user1} ${user1}`, `${user2} ${user2}`]);
     });
 
-    it('Clear the Modifier filter options - [C279226]', async () => {
+    it('[C279226] Clear the Modifier filter options', async () => {
       await modifierFilter.expandPanel();
       await modifierFilter.checkCategory(user1);
 
@@ -441,7 +441,7 @@ describe('Search filters', () => {
       expect(await modifierFilter.getFiltersCheckedValues()).toEqual([], 'Modifier selection not cleared');
     });
 
-    it('Search for a specific modifier - [C279227]', async () => {
+    it('[C279227] Search for a specific modifier', async () => {
       await modifierFilter.expandPanel();
       expect(await modifierFilter.getFiltersValues()).toEqual(expectedModifiers, 'Incorrect Modifier filters facets');
       await modifierFilter.filterCategoriesBy(user1);
@@ -455,7 +455,7 @@ describe('Search filters', () => {
       done();
     });
 
-    it('Expand / Collapse the Location filter panel - [C279230]', async () => {
+    it('[C279230] Expand / Collapse the Location filter panel', async () => {
       expect(await locationFilter.isPanelExpanded()).toBe(true, 'Location filter panel not expanded');
 
       expect(await locationFilter.getFiltersValues()).toEqual(expectedLocations, 'Incorrect Location filters facets');
@@ -465,7 +465,7 @@ describe('Search filters', () => {
       expect(await locationFilter.isPanelExpanded()).toBe(false, 'Location filter panel is expanded');
     });
 
-    it('Results are filtered by Location - [C279231]', async () => {
+    it('[C279231] Results are filtered by Location', async () => {
       await locationFilter.expandPanel();
       await locationFilter.checkCategory(site);
 
@@ -481,7 +481,7 @@ describe('Search filters', () => {
       expect(await page.getResultsChipsValues()).toEqual([site, '_REPOSITORY_']);
     });
 
-    it('Clear the Location filter options - [C279232]', async () => {
+    it('[C279232] Clear the Location filter options', async () => {
       await locationFilter.expandPanel();
       await locationFilter.checkCategory(site);
 
@@ -496,7 +496,7 @@ describe('Search filters', () => {
       expect(await locationFilter.getFiltersCheckedValues()).toEqual([], 'Location selection not cleared');
     });
 
-    it('Search for a specific location - [C279233]', async () => {
+    it('[C279233] Search for a specific location', async () => {
       await locationFilter.expandPanel();
       expect(await locationFilter.getFiltersValues()).toEqual(expectedLocations, 'Incorrect Location filters facets');
       await locationFilter.filterCategoriesBy(site);
@@ -512,7 +512,7 @@ describe('Search filters', () => {
       done();
     });
 
-    it('Expand / Collapse the Modified date filter panel - [C279219]', async () => {
+    it('[C279219] Expand / Collapse the Modified date filter panel', async () => {
       expect(await modifiedDateFilter.isPanelExpanded()).toBe(true, 'Modified Date filter panel not expanded');
 
       expect(await modifiedDateFilter.getFiltersValues()).toEqual(expectedDateFilters, 'Incorrect Modified Date filters facets');
@@ -522,7 +522,7 @@ describe('Search filters', () => {
       expect(await modifiedDateFilter.isPanelExpanded()).toBe(false, 'Modified Date filter panel is expanded');
     });
 
-    it('Results are filtered by Modified date - [C279221]', async () => {
+    it('[C279221] Results are filtered by Modified date', async () => {
       await modifiedDateFilter.expandPanel();
       await modifiedDateFilter.checkCategory('Today');
 
@@ -538,7 +538,7 @@ describe('Search filters', () => {
       expect(await page.getResultsChipsValues()).toEqual(['Today', 'This week']);
     });
 
-    it('Clear the Modified date filter options - [C279220]', async () => {
+    it('[C279220] Clear the Modified date filter options', async () => {
       await modifiedDateFilter.expandPanel();
       await modifiedDateFilter.checkCategory('Today');
       await modifiedDateFilter.checkCategory('This week');
@@ -552,7 +552,7 @@ describe('Search filters', () => {
       expect(await modifiedDateFilter.getFiltersCheckedValues()).toEqual([], 'Modified date selection not cleared');
     });
 
-    it('Search for a specific modified date option - [C325006]', async () => {
+    it('[C325006] Search for a specific modified date option', async () => {
       await modifiedDateFilter.expandPanel();
       expect(await modifiedDateFilter.getFiltersValues()).toEqual(expectedDateFilters, 'Incorrect Modified date filters facets');
       await modifiedDateFilter.filterCategoriesBy('This');
@@ -568,7 +568,7 @@ describe('Search filters', () => {
       done();
     });
 
-    it('Multiple filters can be applied - [C280051]', async () => {
+    it('[C280051] Multiple filters can be applied', async () => {
       await sizeFilter.expandPanel();
       await sizeFilter.checkSizeSmall();
 
@@ -590,7 +590,7 @@ describe('Search filters', () => {
       expect(await page.getResultsChipsValues()).toEqual([]);
     });
 
-    it('Total results is updated correctly - [C280052]', async () => {
+    it('[C280052] Total results is updated correctly', async () => {
       await fileTypeFilter.expandPanel();
       await fileTypeFilter.checkCategory('JPEG Image');
       await creatorFilter.checkCategory(user1);
@@ -603,7 +603,7 @@ describe('Search filters', () => {
       expect(await page.getResultsFoundText()).toEqual('2 results found');
     });
 
-    it('Pagination is correct when search results are filtered - [C279188]', async () => {
+    it('[C279188] Pagination is correct when search results are filtered', async () => {
       await fileTypeFilter.expandPanel();
       await fileTypeFilter.checkCategory('JPEG Image');
       await creatorFilter.checkCategory(user1);
@@ -616,7 +616,7 @@ describe('Search filters', () => {
       expect(await page.pagination.getRange()).toEqual('Showing 1-2 of 2');
     });
 
-    it('The filter facets display is updated when making a new query - [C308042]', async () => {
+    it('[C308042] The filter facets display is updated when making a new query', async () => {
       expect(await fileTypeFilter.getFiltersValues()).toEqual(expectedFileTypes);
       expect(await creatorFilter.getFiltersValues()).toEqual(expectedCreators);
       expect(await modifierFilter.getFiltersValues()).toEqual(expectedModifiers);

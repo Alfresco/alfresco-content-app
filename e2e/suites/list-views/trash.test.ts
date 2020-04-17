@@ -98,14 +98,14 @@ describe('Trash', () => {
       done();
     });
 
-    it('has the correct columns - [C213217]', async () => {
+    it('[C213217] has the correct columns', async () => {
       const expectedColumns = [ 'Name', 'Location', 'Size', 'Deleted', 'Deleted by' ];
       const actualColumns = await dataTable.getColumnHeadersText();
 
       expect(actualColumns).toEqual(expectedColumns);
     });
 
-    it('displays the files and folders deleted by everyone - [C280493]', async () => {
+    it('[C280493] displays the files and folders deleted by everyone', async () => {
       expect(await dataTable.getRowsCount()).toEqual(8, 'Incorrect number of deleted items displayed');
 
       expect(await dataTable.isItemPresent(fileAdmin)).toBe(true, `${fileAdmin} not displayed`);
@@ -127,14 +127,14 @@ describe('Trash', () => {
       done();
     });
 
-    it('has the correct columns - [C280494]', async () => {
+    it('[C280494] has the correct columns', async () => {
       const expectedColumns = [ 'Name', 'Location', 'Size', 'Deleted'];
       const actualColumns = await dataTable.getColumnHeadersText();
 
       expect(actualColumns).toEqual(expectedColumns);
     });
 
-    it('displays the files and folders deleted by the user - [C213218]', async () => {
+    it('[C213218] displays the files and folders deleted by the user', async () => {
       expect(await dataTable.getRowsCount()).toEqual(6, 'Incorrect number of deleted items displayed');
 
       expect(await dataTable.isItemPresent(fileSite)).toBe(true, `${fileSite} not displayed`);
@@ -143,38 +143,38 @@ describe('Trash', () => {
       expect(await dataTable.isItemPresent(fileAdmin)).toBe(false, `${fileAdmin} is displayed`);
     });
 
-    it('default sorting column - [C213219]', async () => {
+    it('[C213219] default sorting column', async () => {
       expect(await dataTable.getSortedColumnHeaderText()).toBe('Deleted');
       expect(await dataTable.getSortingOrder()).toBe('desc');
     });
 
-    it('Location column displays the parent folder of the file - [C280498]', async () => {
+    it('[C280498] Location column displays the parent folder of the file', async () => {
       expect(await dataTable.getItemLocation(fileInFolder)).toEqual(folderNotDeleted);
       expect(await dataTable.getItemLocation(fileUser)).toEqual('Personal Files');
       expect(await dataTable.getItemLocation(fileSite)).toEqual(siteName);
     });
 
-    it('Location column displays a tooltip with the entire path of the file - [C280499]', async () => {
+    it('[C280499] Location column displays a tooltip with the entire path of the file', async () => {
       expect(await dataTable.getItemLocationTooltip(fileInFolder)).toEqual(`Personal Files/${folderNotDeleted}`);
       expect(await dataTable.getItemLocationTooltip(fileUser)).toEqual('Personal Files');
       expect(await dataTable.getItemLocationTooltip(fileSite)).toEqual(`File Libraries/${siteName}`);
     });
 
-    it('Location column is empty if parent folder no longer exists - [C280500]', async () => {
+    it('[C280500] Location column is empty if parent folder no longer exists', async () => {
       expect(await dataTable.getItemLocation(fileDeleted)).toEqual('');
     });
 
-    it('Location column redirect - file in user Home - [C217144]', async () => {
+    it('[C217144] Location column redirect - file in user Home', async () => {
       await dataTable.clickItemLocation(fileUser);
       expect(await breadcrumb.getAllItems()).toEqual([ 'Personal Files' ]);
     });
 
-    it('Location column redirect - file in folder - [C280496]', async () => {
+    it('[C280496] Location column redirect - file in folder', async () => {
       await dataTable.clickItemLocation(fileInFolder);
       expect(await breadcrumb.getAllItems()).toEqual([ 'Personal Files', folderNotDeleted ]);
     });
 
-    it('Location column redirect - file in site - [C280497]', async () => {
+    it('[C280497] Location column redirect - file in site', async () => {
       await dataTable.clickItemLocation(fileSite);
       expect(await breadcrumb.getAllItems()).toEqual([ 'My Libraries', siteName ]);
     });

@@ -83,7 +83,7 @@ describe('Extensions - DocumentList presets', () => {
     done();
   });
 
-  it('Sets the columns to display - [C286700]', async () => {
+  it('[C286700] Sets the columns to display', async () => {
     const expectedColumns = testData
       .filter(item => !item.disabled)
       .map(data => data.label);
@@ -92,7 +92,7 @@ describe('Extensions - DocumentList presets', () => {
     expect(actualColumns).toEqual(expectedColumns);
   });
 
-  it('Disabled items are not shown - [C286699]', async () => {
+  it('[C286699] Disabled items are not shown', async () => {
     const noColumnLabel = testData.find(item => item.disabled).label;
     const element = dataTable.getColumnHeaderByLabel(noColumnLabel);
 

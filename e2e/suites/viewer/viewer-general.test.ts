@@ -96,18 +96,18 @@ describe('Viewer general', () => {
       done();
     });
 
-    it('Viewer opens on double clicking on a file from Personal Files - [C279269]', async () => {
+    it('[C279269] Viewer opens on double clicking on a file from Personal Files', async () => {
         await dataTable.doubleClickOnRowByName(xlsxFile);
         expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
     });
 
-    it('Viewer opens when clicking the View action for a file - [C279270]', async () => {
+    it('[C279270] Viewer opens when clicking the View action for a file', async () => {
         await dataTable.selectItem(xlsxFile);
         await page.toolbar.clickView();
         expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
     });
 
-    it('The viewer general elements are displayed - [C279283]', async () => {
+    it('[C279283] The viewer general elements are displayed', async () => {
         await dataTable.doubleClickOnRowByName(xlsxFile);
         expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
         expect(await viewer.isViewerToolbarDisplayed()).toBe(true, 'Toolbar not displayed');
@@ -115,32 +115,32 @@ describe('Viewer general', () => {
         expect(await viewer.isFileTitleDisplayed()).toBe(true, 'File title is not displayed');
     });
 
-    it('Close the viewer - [C279271]', async () => {
+    it('[C279271] Close the viewer', async () => {
         await dataTable.doubleClickOnRowByName(xlsxFile);
         expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
         await viewer.clickClose();
         expect(await viewer.isViewerOpened()).toBe(false, 'Viewer did not close');
     });
 
-    it('Close button tooltip - [C284632]', async () => {
+    it('[C284632] Close button tooltip', async () => {
         await dataTable.doubleClickOnRowByName(xlsxFile);
         expect(await viewer.getCloseButtonTooltip()).toEqual('Close');
     });
 
-    it('Viewer opens when accessing the preview URL for a file - [C279285]', async () => {
+    it('[C279285] Viewer opens when accessing the preview URL for a file', async () => {
         const previewURL = `personal-files/${parentId}/(viewer:view/${xlsxFileId})`
         await page.load(previewURL);
         expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
         expect(await viewer.getFileTitle()).toEqual(xlsxFile);
     });
 
-    it('Viewer does not open when accessing the preview URL for a file without permissions - [C279287]', async () => {
+    it('[C279287] Viewer does not open when accessing the preview URL for a file without permissions', async () => {
         const previewURL = `libraries/${docLibId}/(viewer:view/${fileAdminId})`
         await page.load(previewURL);
         expect(await viewer.isViewerOpened()).toBe(false, 'Viewer should not be opened!');
     });
 
-    it('Viewer opens for a file from File Libraries - [C284633]', async () => {
+    it('[C284633] Viewer opens for a file from File Libraries', async () => {
       await page.goToMyLibrariesAndWait();
         await dataTable.doubleClickOnRowByName(siteUser);
         await dataTable.waitForHeader();
@@ -151,7 +151,7 @@ describe('Viewer general', () => {
         expect(await viewer.isFileTitleDisplayed()).toBe(true, 'File title is not displayed');
     });
 
-    it('Viewer opens for a file from Recent Files - [C284636]', async () => {
+    it('[C284636] Viewer opens for a file from Recent Files', async () => {
         await page.clickRecentFilesAndWait();
         await dataTable.doubleClickOnRowByName(xlsxFile);
         expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
@@ -160,7 +160,7 @@ describe('Viewer general', () => {
         expect(await viewer.isFileTitleDisplayed()).toBe(true, 'File title is not displayed');
     });
 
-    it('Viewer opens for a file from Shared Files - [C284635]', async () => {
+    it('[C284635] Viewer opens for a file from Shared Files', async () => {
         await page.clickSharedFilesAndWait();
         await dataTable.doubleClickOnRowByName(xlsxFile);
         expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
@@ -169,7 +169,7 @@ describe('Viewer general', () => {
         expect(await viewer.isFileTitleDisplayed()).toBe(true, 'File title is not displayed');
     });
 
-    it('Viewer opens for a file from Favorites - [C284634]', async () => {
+    it('[C284634] Viewer opens for a file from Favorites', async () => {
         await page.clickFavoritesAndWait();
         await dataTable.doubleClickOnRowByName(xlsxFile);
         expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
@@ -178,7 +178,7 @@ describe('Viewer general', () => {
         expect(await viewer.isFileTitleDisplayed()).toBe(true, 'File title is not displayed');
     });
 
-    it('Viewer opens for a file from Search Results - [C279175]', async () => {
+    it('[C279175] Viewer opens for a file from Search Results', async () => {
         await searchInput.clickSearchButton();
         await searchInput.checkFilesAndFolders();
         await searchInput.searchFor(xlsxFile);

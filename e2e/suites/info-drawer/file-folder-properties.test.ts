@@ -94,7 +94,7 @@ describe('File / Folder properties', () => {
   });
 
   describe('View properties', () => {
-    it('Default tabs - [C299162]', async () => {
+    it('[C299162] Default tabs', async () => {
       await dataTable.selectItem(file1.name);
       await page.toolbar.clickViewDetails();
       await infoDrawer.waitForInfoDrawerToOpen();
@@ -105,7 +105,7 @@ describe('File / Folder properties', () => {
       expect(await infoDrawer.getTabsCount()).toBe(2, 'Incorrect number of tabs');
     });
 
-    it('File properties - [C269003]', async () => {
+    it('[C269003] File properties', async () => {
       const apiProps = await apis.user.nodes.getNodeById(file1Id);
 
       const expectedPropLabels = [
@@ -143,7 +143,7 @@ describe('File / Folder properties', () => {
       expect(await propertiesTab.isMoreInfoButtonEnabled()).toBe(true, 'More information button not enabled');
     });
 
-    it('Folder properties - [C307106]', async () => {
+    it('[C307106] Folder properties', async () => {
       const apiProps = await apis.user.nodes.getNodeById(folder1Id);
 
       const expectedPropLabels = [
@@ -177,7 +177,7 @@ describe('File / Folder properties', () => {
       expect(await propertiesTab.isMoreInfoButtonEnabled()).toBe(true, 'More information button not enabled');
     });
 
-    it('Less / More information buttons - [C269004]', async () => {
+    it('[C269004] Less / More information buttons', async () => {
       await dataTable.selectItem(file1.name);
       await page.toolbar.clickViewDetails();
       await infoDrawer.waitForInfoDrawerToOpen();
@@ -198,7 +198,7 @@ describe('File / Folder properties', () => {
       expect(await propertiesTab.isPropertiesListExpanded()).toBe(true, 'Properties list not expanded');
     });
 
-    it('Image properties - [C269007]', async () => {
+    it('[C269007] Image properties', async () => {
       const apiProps = await apis.user.nodes.getNodeById(image1Id);
 
       const expectedPropLabels = [

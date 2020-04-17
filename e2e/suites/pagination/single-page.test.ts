@@ -79,42 +79,42 @@ describe('Pagination on single page', () => {
     ]);
   });
 
-  it('page selector not displayed on Favorites - [C280112]', async () => {
+  it('[C280112] page selector not displayed on Favorites', async () => {
     await page.clickFavoritesAndWait();
     expect(await pagination.isPagesButtonPresent()).toBe(false, 'page selector displayed');
   });
 
-  it('page selector not displayed on My Libraries - [C280085]', async () => {
+  it('[C280085] page selector not displayed on My Libraries', async () => {
     await page.goToMyLibrariesAndWait();
     expect(await pagination.isPagesButtonPresent()).toBe(false, 'page selector displayed');
   });
 
-  it('page selector not displayed on Favorite Libraries - [C291874]', async () => {
+  it('[C291874] page selector not displayed on Favorite Libraries', async () => {
     await page.goToFavoriteLibrariesAndWait();
     expect(await pagination.isPagesButtonPresent()).toBe(false, 'page selector displayed');
   });
 
-  it('page selector not displayed on Personal Files - [C280076]', async () => {
+  it('[C280076] page selector not displayed on Personal Files', async () => {
     await page.clickPersonalFilesAndWait();
     expect(await pagination.isPagesButtonPresent()).toBe(false, 'page selector displayed');
   });
 
-  it('page selector not displayed on Recent Files - [C280103]', async () => {
+  it('[C280103] page selector not displayed on Recent Files', async () => {
     await page.clickRecentFilesAndWait();
     expect(await pagination.isPagesButtonPresent()).toBe(false, 'page selector displayed');
   });
 
-  it('page selector not displayed on Shared Files - [C280094]', async () => {
+  it('[C280094] page selector not displayed on Shared Files', async () => {
     await page.clickSharedFilesAndWait();
     expect(await pagination.isPagesButtonPresent()).toBe(false, 'page selector displayed');
   });
 
-  it('page selector not displayed on Trash - [C280121]', async () => {
+  it('[C280121] page selector not displayed on Trash', async () => {
     await page.clickTrashAndWait();
     expect(await pagination.isPagesButtonPresent()).toBe(false, 'page selector displayed');
   });
 
-  it('page selector not displayed on Search results - [C290124]', async () => {
+  it('[C290124] page selector not displayed on Search results', async () => {
     await searchInput.clickSearchButton();
     await searchInput.searchFor(file);
     await searchResultsPage.waitForResults();

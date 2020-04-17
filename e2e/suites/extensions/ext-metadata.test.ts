@@ -98,14 +98,14 @@ describe('Extensions - Metadata presets', () => {
     done();
   });
 
-  it('Set groups of properties to display - [C286636]', async () => {
+  it('[C286636] Set groups of properties to display', async () => {
     expect(await metadataCard.isExpansionPanelPresent(0)).toBe(true, `expansion panel is not present`);
     expect(await metadataCard.getComponentIdOfPanel(0)).toEqual(`adf-metadata-group-${customGroup1.title}`);
     expect(await metadataCard.isExpansionPanelPresent(1)).toBe(true, `expansion panel is not present`);
     expect(await metadataCard.getComponentIdOfPanel(1)).toEqual(`adf-metadata-group-${customGroup2.title}`);
   });
 
-  it('Disabled group is not displayed - [C286637]', async () => {
+  it('[C286637] Disabled group is not displayed', async () => {
     expect(await metadataCard.isExpansionPanelPresent(2)).toBe(false, `disabled group is displayed`);
     expect(await metadataCard.getComponentIdOfPanel(1)).not.toEqual(`adf-metadata-group-${disabledGroup.title}`);
     expect(await metadataCard.getComponentIdOfPanel(0)).not.toEqual(`adf-metadata-group-${disabledGroup.title}`);

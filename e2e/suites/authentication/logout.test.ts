@@ -47,23 +47,23 @@ describe('Logout', () => {
     done();
   });
 
-  it('Sign out option is available - [C213143]', async () => {
+  it('[C213143] Sign out option is available', async () => {
     await page.header.userInfo.openMenu();
     expect(await page.header.isSignOutDisplayed()).toBe(true, 'Sign out option not displayed');
   });
 
-  it('redirects to Login page on sign out - [C213144]', async () => {
+  it('[C213144] redirects to Login page on sign out', async () => {
     await page.signOut();
     expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.LOGIN);
   });
 
-  it('redirects to Login page when pressing browser Back after logout - [C213145]', async () => {
+  it('[C213145] redirects to Login page when pressing browser Back after logout', async () => {
     await page.signOut();
     await browser.navigate().back();
     expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.LOGIN);
   });
 
-  it('redirects to Login page when trying to access a part of the app after logout - [C213146]', async () => {
+  it('[C213146] redirects to Login page when trying to access a part of the app after logout', async () => {
     await page.signOut();
     await page.load('/favorites');
     expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.LOGIN);

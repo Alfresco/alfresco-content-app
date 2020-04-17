@@ -73,7 +73,7 @@ describe('Search results general', () => {
     done();
   });
 
-  it('Only files are returned when Files option is the only one checked - [C290005]', async () => {
+  it('[C290005] Only files are returned when Files option is the only one checked', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkOnlyFiles();
     await searchInput.searchFor('test');
@@ -84,7 +84,7 @@ describe('Search results general', () => {
     expect(await dataTable.isItemPresent(site)).toBe(false, `${site} is displayed`);
   });
 
-  it('Only folders are returned when Folders option is the only one checked - [C290006]', async () => {
+  it('[C290006] Only folders are returned when Folders option is the only one checked', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkOnlyFolders();
     await searchInput.searchFor('test');
@@ -95,7 +95,7 @@ describe('Search results general', () => {
     expect(await dataTable.isItemPresent(site)).toBe(false, `${site} is displayed`);
   });
 
-  it('Files and folders are returned when both Files and Folders options are checked - [C290007]', async () => {
+  it('[C290007] Files and folders are returned when both Files and Folders options are checked', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkFilesAndFolders();
     await searchInput.searchFor('test');
@@ -106,7 +106,7 @@ describe('Search results general', () => {
     expect(await dataTable.isItemPresent(site)).toBe(false, `${site} is displayed`);
   });
 
-  it('Only libraries are returned when Libraries option is checked - [C290008]', async () => {
+  it('[C290008] Only libraries are returned when Libraries option is checked', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkLibraries();
     await searchInput.searchFor('test');
@@ -117,7 +117,7 @@ describe('Search results general', () => {
     expect(await dataTable.isItemPresent(site)).toBe(true, `${site} not displayed`);
   });
 
-  it('Results are updated automatically when changing the search term - [C279162]', async () => {
+  it('[C279162] Results are updated automatically when changing the search term', async () => {
     await searchInput.clickSearchButton();
     await searchInput.searchFor(file);
     await page.waitForResults();
@@ -132,7 +132,7 @@ describe('Search results general', () => {
     expect(await dataTable.isItemPresent(folder)).toBe(true, `${folder} is not displayed`);
   });
 
-  it('Results are returned when accessing an URL containing a search query - [C279178]', async () => {
+  it('[C279178] Results are returned when accessing an URL containing a search query', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkLibraries();
     await searchInput.searchFor(site);

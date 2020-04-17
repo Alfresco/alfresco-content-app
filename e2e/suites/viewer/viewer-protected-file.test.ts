@@ -75,7 +75,7 @@ describe('Viewer - password protected file', () => {
     await apis.user.nodes.deleteNodeById(parentId);
   });
 
-  it('Password dialog appears when opening a protected file - [C268958]', async () => {
+  it('[C268958] Password dialog appears when opening a protected file', async () => {
     expect(await passwordDialog.isDialogOpen()).toBe(true, 'Password dialog not open');
     expect(await passwordDialog.isPasswordInputDisplayed()).toBe(true, 'Password input not displayed');
     expect(await passwordDialog.isSubmitEnabled()).toBe(false, 'Submit button not disabled');
@@ -83,7 +83,7 @@ describe('Viewer - password protected file', () => {
     expect(await viewer.isPdfViewerContentDisplayed()).toBe(false, 'file content is displayed');
   });
 
-  it('File content is displayed when entering the correct password - [C268959]', async () => {
+  it('[C268959] File content is displayed when entering the correct password', async () => {
     await passwordDialog.enterPassword(protectedFile.password);
     expect(await passwordDialog.isSubmitEnabled()).toBe(true, 'Submit button not enabled');
 
@@ -93,7 +93,7 @@ describe('Viewer - password protected file', () => {
     expect(await viewer.isPdfViewerContentDisplayed()).toBe(true, 'file content not displayed');
   });
 
-  it('Error appears when entering an incorrect password - [C268960]', async () => {
+  it('[C268960] Error appears when entering an incorrect password', async () => {
     await passwordDialog.enterPassword('incorrect');
     expect(await passwordDialog.isSubmitEnabled()).toBe(true, 'Submit button not enabled');
     await passwordDialog.clickSubmit();
@@ -102,7 +102,7 @@ describe('Viewer - password protected file', () => {
     expect(await viewer.isPdfViewerContentDisplayed()).toBe(false, 'file content is displayed');
   });
 
-  it('Refresh the page while Password dialog is open - [C268961]', async () => {
+  it('[C268961] Refresh the page while Password dialog is open', async () => {
     await passwordDialog.enterPassword(protectedFile.password);
     await page.refresh();
     await viewer.waitForViewerToOpen();

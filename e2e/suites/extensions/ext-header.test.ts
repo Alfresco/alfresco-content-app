@@ -70,13 +70,13 @@ describe('Extensions - Info Drawer', () => {
       done();
     });
 
-    it('Add a new button in the header - [C286474]', async () => {
+    it('[C286474] Add a new button in the header', async () => {
       await header.openMoreMenu();
       expect(await toolbarMenu.isMenuItemPresent(enabledMenu.title)).toBe(true, 'menu item not present');
       expect(await toolbarMenu.getItemIconText(enabledMenu.title)).toEqual(enabledMenu.icon);
     });
 
-    it('Disable a button from the header - [C286477]', async () => {
+    it('[C286477] Disable a button from the header', async () => {
       await header.openMoreMenu();
       expect(await toolbarMenu.isMenuItemPresent(disabledMenu.title)).toBe(true, `${disabledMenu.title} menu item not present`);
       expect(await toolbarMenu.isMenuItemDisabled(disabledMenu.title)).toEqual('true', `${disabledMenu.title} is not disabled`);

@@ -121,7 +121,7 @@ describe('Search results - libraries', () => {
     done();
   });
 
-  it('Search library - full name match - [C290012]', async () => {
+  it('[C290012] Search library - full name match', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkLibraries();
     await searchInput.searchFor(site1.name);
@@ -133,7 +133,7 @@ describe('Search results - libraries', () => {
     expect(await dataTable.isItemPresent(site4.name)).toBe(false, `${site4.name} displayed`);
   });
 
-  it('Search library - partial name match - [C290013]', async () => {
+  it('[C290013] Search library - partial name match', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkLibraries();
     await searchInput.searchFor('lib');
@@ -145,7 +145,7 @@ describe('Search results - libraries', () => {
     expect(await dataTable.isItemPresent(site4.name)).toBe(false, `${site4.name} displayed`);
   });
 
-  it('Search library - description match - [C290014]', async () => {
+  it('[C290014] Search library - description match', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkLibraries();
     await searchInput.searchFor(site4.description);
@@ -157,7 +157,7 @@ describe('Search results - libraries', () => {
     expect(await dataTable.isItemPresent(site4.name)).toBe(true, `${site4.name} not displayed`);
   });
 
-  it('Results page title - [C290015]', async () => {
+  it('[C290015] Results page title', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkLibraries();
     await searchInput.searchFor('lib');
@@ -166,7 +166,7 @@ describe('Search results - libraries', () => {
     expect(await page.breadcrumb.getCurrentItemName()).toEqual('Libraries found...');
   });
 
-  it('Results page columns - [C290016]', async () => {
+  it('[C290016] Results page columns', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkLibraries();
     await searchInput.searchFor(site1.name);
@@ -178,7 +178,7 @@ describe('Search results - libraries', () => {
     expect(actualColumns).toEqual(expectedColumns);
   });
 
-  it('Library visibility is correctly displayed - [C290017]', async () => {
+  it('[C290017] Library visibility is correctly displayed', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkLibraries();
     await searchInput.searchFor('user-site');
@@ -197,7 +197,7 @@ describe('Search results - libraries', () => {
     }
   });
 
-  it('User role is correctly displayed - [C290018]', async () => {
+  it('[C290018] User role is correctly displayed', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkLibraries();
     await searchInput.searchFor('admin-site');
@@ -217,7 +217,7 @@ describe('Search results - libraries', () => {
     }
   });
 
-  it('Private sites are not displayed when user is not a member - [C290019]', async () => {
+  it('[C290019] Private sites are not displayed when user is not a member', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkLibraries();
     await searchInput.searchFor('admin-site');
@@ -226,7 +226,7 @@ describe('Search results - libraries', () => {
     expect(await dataTable.isItemPresent(adminPrivate)).toBe(false, `${adminPrivate} is displayed`);
   });
 
-  it('Search libraries with special characters - [C290028]', async () => {
+  it('[C290028] Search libraries with special characters', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkLibraries();
     await searchInput.searchFor(siteRussian.name);

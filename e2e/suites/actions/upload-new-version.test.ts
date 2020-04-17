@@ -123,7 +123,7 @@ describe('Upload new version', () => {
       done();
     });
 
-    it('dialog UI defaults - [C297544]', async () => {
+    it('[C297544] dialog UI defaults', async () => {
       await dataTable.selectItem(file);
       await toolbar.clickMoreActionsUploadNewVersion();
 
@@ -139,7 +139,7 @@ describe('Upload new version', () => {
       expect(await uploadNewVersionDialog.isUploadButtonEnabled()).toBe(true, 'Update button not enabled');
     });
 
-    it('file is updated after uploading a new version - major - [C297545]', async () => {
+    it('[C297545] file is updated after uploading a new version - major', async () => {
       await dataTable.selectItem(file1);
       await toolbar.clickMoreActionsUploadNewVersion();
 
@@ -156,7 +156,7 @@ describe('Upload new version', () => {
       expect(await apis.user.nodes.getFileVersionLabel(file1Id)).toEqual('2.0', 'File has incorrect version label');
     });
 
-    it('file is updated after uploading a new version - minor - [C297546]', async () => {
+    it('[C297546] file is updated after uploading a new version - minor', async () => {
       await dataTable.selectItem(file2);
       await toolbar.clickMoreActionsUploadNewVersion();
 
@@ -173,7 +173,7 @@ describe('Upload new version', () => {
       expect(await apis.user.nodes.getFileVersionLabel(file2Id)).toEqual('1.1', 'File has incorrect version label');
     });
 
-    it('file is not updated when clicking Cancel - [C297547]', async () => {
+    it('[C297547] file is not updated when clicking Cancel', async () => {
       await dataTable.selectItem(file3);
       await toolbar.clickMoreActionsUploadNewVersion();
 
@@ -189,7 +189,7 @@ describe('Upload new version', () => {
       expect(await apis.user.nodes.getFileVersionLabel(file3Id)).toEqual('1.0', 'File has incorrect version label');
     });
 
-    it('upload new version fails when new file name already exists - [C297548]', async () => {
+    it('[C297548] upload new version fails when new file name already exists', async () => {
       await dataTable.selectItem(file4);
       await toolbar.clickMoreActionsUploadNewVersion();
 
@@ -208,7 +208,7 @@ describe('Upload new version', () => {
       expect(await apis.user.nodes.getFileVersionLabel(file4Id)).toEqual('1.0', 'File has incorrect version label');
     });
 
-    it('file is unlocked after uploading a new version - [C297549]', async () => {
+    it('[C297549] file is unlocked after uploading a new version', async () => {
       await dataTable.selectItem(fileLocked1);
       await toolbar.clickMoreActionsUploadNewVersion();
 
@@ -226,7 +226,7 @@ describe('Upload new version', () => {
       expect(await apis.user.nodes.getFileVersionLabel(fileLocked1Id)).toEqual('1.1', 'File has incorrect version label');
     });
 
-    it('file remains locked after canceling of uploading a new version - [C297550]', async () => {
+    it('[C297550] file remains locked after canceling of uploading a new version', async () => {
       await dataTable.selectItem(fileLocked2);
       await toolbar.clickMoreActionsUploadNewVersion();
 
@@ -274,7 +274,7 @@ describe('Upload new version', () => {
       done();
     });
 
-    it('dialog UI defaults - [C297551]', async () => {
+    it('[C297551] dialog UI defaults', async () => {
       await dataTable.selectItem(file);
       await toolbar.clickMoreActionsUploadNewVersion();
 
@@ -290,7 +290,7 @@ describe('Upload new version', () => {
       expect(await uploadNewVersionDialog.isUploadButtonEnabled()).toBe(true, 'Update button not enabled');
     });
 
-    it('file is updated after uploading a new version - major - [C297552]', async () => {
+    it('[C297552] file is updated after uploading a new version - major', async () => {
       await dataTable.selectItem(file1);
       await toolbar.clickMoreActionsUploadNewVersion();
 
@@ -307,7 +307,7 @@ describe('Upload new version', () => {
       expect(await apis.user.nodes.getFileVersionLabel(file1Id)).toEqual('2.0', 'File has incorrect version label');
     });
 
-    it('file is updated after uploading a new version - minor - [C297553]', async () => {
+    it('[C297553] file is updated after uploading a new version - minor', async () => {
       await dataTable.selectItem(file2);
       await toolbar.clickMoreActionsUploadNewVersion();
 
@@ -324,7 +324,7 @@ describe('Upload new version', () => {
       expect(await apis.user.nodes.getFileVersionLabel(file2Id)).toEqual('1.1', 'File has incorrect version label');
     });
 
-    it('file is not updated when clicking Cancel - [C297554]', async () => {
+    it('[C297554] file is not updated when clicking Cancel', async () => {
       await dataTable.selectItem(file3);
       await toolbar.clickMoreActionsUploadNewVersion();
 
@@ -340,7 +340,7 @@ describe('Upload new version', () => {
       expect(await apis.user.nodes.getFileVersionLabel(file3Id)).toEqual('1.0', 'File has incorrect version label');
     });
 
-    it('upload new version fails when new file name already exists - [C297555]', async () => {
+    it('[C297555] upload new version fails when new file name already exists', async () => {
       await dataTable.selectItem(file4);
       await toolbar.clickMoreActionsUploadNewVersion();
 
@@ -359,7 +359,7 @@ describe('Upload new version', () => {
       expect(await apis.user.nodes.getFileVersionLabel(file4Id)).toEqual('1.0', 'File has incorrect version label');
     });
 
-    it('file is unlocked after uploading a new version - [C297556]', async () => {
+    it('[C297556] file is unlocked after uploading a new version', async () => {
       await dataTable.selectItem(fileLocked1);
       await toolbar.clickMoreActionsUploadNewVersion();
 
@@ -377,7 +377,7 @@ describe('Upload new version', () => {
       expect(await apis.user.nodes.getFileVersionLabel(fileLocked1Id)).toEqual('1.1', 'File has incorrect version label');
     });
 
-    it('file remains locked after canceling of uploading a new version - [C297557]', async () => {
+    it('[C297557] file remains locked after canceling of uploading a new version', async () => {
       await dataTable.selectItem(fileLocked2);
       await toolbar.clickMoreActionsUploadNewVersion();
 
@@ -424,7 +424,7 @@ describe('Upload new version', () => {
       done();
     });
 
-    it('dialog UI defaults - [C297558]', async () => {
+    it('[C297558] dialog UI defaults', async () => {
       await dataTable.selectItem(file, parentRF);
       await toolbar.clickMoreActionsUploadNewVersion();
 
@@ -440,7 +440,7 @@ describe('Upload new version', () => {
       expect(await uploadNewVersionDialog.isUploadButtonEnabled()).toBe(true, 'Update button not enabled');
     });
 
-    it('file is updated after uploading a new version - major - [C297559]', async () => {
+    it('[C297559] file is updated after uploading a new version - major', async () => {
       await dataTable.selectItem(file1, parentRF);
       await toolbar.clickMoreActionsUploadNewVersion();
 
@@ -457,7 +457,7 @@ describe('Upload new version', () => {
       expect(await apis.user.nodes.getFileVersionLabel(file1Id)).toEqual('2.0', 'File has incorrect version label');
     });
 
-    it('file is updated after uploading a new version - minor - [C297560]', async () => {
+    it('[C297560] file is updated after uploading a new version - minor', async () => {
       await dataTable.selectItem(file2, parentRF);
       await toolbar.clickMoreActionsUploadNewVersion();
 
@@ -474,7 +474,7 @@ describe('Upload new version', () => {
       expect(await apis.user.nodes.getFileVersionLabel(file2Id)).toEqual('1.1', 'File has incorrect version label');
     });
 
-    it('file is not updated when clicking Cancel - [C297561]', async () => {
+    it('[C297561] file is not updated when clicking Cancel', async () => {
       await dataTable.selectItem(file3, parentRF);
       await toolbar.clickMoreActionsUploadNewVersion();
 
@@ -490,7 +490,7 @@ describe('Upload new version', () => {
       expect(await apis.user.nodes.getFileVersionLabel(file3Id)).toEqual('1.0', 'File has incorrect version label');
     });
 
-    it('upload new version fails when new file name already exists - [C297562]', async () => {
+    it('[C297562] upload new version fails when new file name already exists', async () => {
       await dataTable.selectItem(file4, parentRF);
       await toolbar.clickMoreActionsUploadNewVersion();
 
@@ -509,7 +509,7 @@ describe('Upload new version', () => {
       expect(await apis.user.nodes.getFileVersionLabel(file4Id)).toEqual('1.0', 'File has incorrect version label');
     });
 
-    it('file is unlocked after uploading a new version - [C297563]', async () => {
+    it('[C297563] file is unlocked after uploading a new version', async () => {
       await dataTable.selectItem(fileLocked1, parentRF);
       await toolbar.clickMoreActionsUploadNewVersion();
 
@@ -527,7 +527,7 @@ describe('Upload new version', () => {
       expect(await apis.user.nodes.getFileVersionLabel(fileLocked1Id)).toEqual('1.1', 'File has incorrect version label');
     });
 
-    it('file remains locked after canceling of uploading a new version - [C297564]', async () => {
+    it('[C297564] file remains locked after canceling of uploading a new version', async () => {
       await dataTable.selectItem(fileLocked2, parentRF);
       await toolbar.clickMoreActionsUploadNewVersion();
 
@@ -575,7 +575,7 @@ describe('Upload new version', () => {
       done();
     });
 
-    it('dialog UI defaults - [C297565]', async () => {
+    it('[C297565] dialog UI defaults', async () => {
       await dataTable.selectItem(file);
       await toolbar.clickMoreActionsUploadNewVersion();
 
@@ -591,7 +591,7 @@ describe('Upload new version', () => {
       expect(await uploadNewVersionDialog.isUploadButtonEnabled()).toBe(true, 'Update button not enabled');
     });
 
-    it('file is updated after uploading a new version - major - [C297566]', async () => {
+    it('[C297566] file is updated after uploading a new version - major', async () => {
       await dataTable.selectItem(file1);
       await toolbar.clickMoreActionsUploadNewVersion();
 
@@ -608,7 +608,7 @@ describe('Upload new version', () => {
       expect(await apis.user.nodes.getFileVersionLabel(file1Id)).toEqual('2.0', 'File has incorrect version label');
     });
 
-    it('file is updated after uploading a new version - minor - [C297567]', async () => {
+    it('[C297567] file is updated after uploading a new version - minor', async () => {
       await dataTable.selectItem(file2);
       await toolbar.clickMoreActionsUploadNewVersion();
 
@@ -625,7 +625,7 @@ describe('Upload new version', () => {
       expect(await apis.user.nodes.getFileVersionLabel(file2Id)).toEqual('1.1', 'File has incorrect version label');
     });
 
-    it('file is not updated when clicking Cancel - [C297568]', async () => {
+    it('[C297568] file is not updated when clicking Cancel', async () => {
       await dataTable.selectItem(file3);
       await toolbar.clickMoreActionsUploadNewVersion();
 
@@ -641,7 +641,7 @@ describe('Upload new version', () => {
       expect(await apis.user.nodes.getFileVersionLabel(file3Id)).toEqual('1.0', 'File has incorrect version label');
     });
 
-    it('upload new version fails when new file name already exists - [C297569]', async () => {
+    it('[C297569] upload new version fails when new file name already exists', async () => {
       await dataTable.selectItem(file4);
       await toolbar.clickMoreActionsUploadNewVersion();
 
@@ -660,7 +660,7 @@ describe('Upload new version', () => {
       expect(await apis.user.nodes.getFileVersionLabel(file4Id)).toEqual('1.0', 'File has incorrect version label');
     });
 
-    it('file is unlocked after uploading a new version - [C297570]', async () => {
+    it('[C297570] file is unlocked after uploading a new version', async () => {
       await dataTable.selectItem(fileLocked1);
       await toolbar.clickMoreActionsUploadNewVersion();
 
@@ -678,7 +678,7 @@ describe('Upload new version', () => {
       expect(await apis.user.nodes.getFileVersionLabel(fileLocked1Id)).toEqual('1.1', 'File has incorrect version label');
     });
 
-    it('file remains locked after canceling of uploading a new version - [C297571]', async () => {
+    it('[C297571] file remains locked after canceling of uploading a new version', async () => {
       await dataTable.selectItem(fileLocked2);
       await toolbar.clickMoreActionsUploadNewVersion();
 
@@ -722,7 +722,7 @@ describe('Upload new version', () => {
       done();
     });
 
-    it('dialog UI defaults - [C307003]', async () => {
+    it('[C307003] dialog UI defaults', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
       await searchInput.searchFor(file);
@@ -742,7 +742,7 @@ describe('Upload new version', () => {
       expect(await uploadNewVersionDialog.isUploadButtonEnabled()).toBe(true, 'Update button not enabled');
     });
 
-    it('file is updated after uploading a new version - major - [C307004]', async () => {
+    it('[C307004] file is updated after uploading a new version - major', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
       await searchInput.searchFor(fileSearch1);
@@ -764,7 +764,7 @@ describe('Upload new version', () => {
       expect(await apis.user.nodes.getFileVersionLabel(fileSearch1Id)).toEqual('2.0', 'File has incorrect version label');
     });
 
-    it('file is updated after uploading a new version - minor - [C307005]', async () => {
+    it('[C307005] file is updated after uploading a new version - minor', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
       await searchInput.searchFor(fileSearch2);
@@ -786,7 +786,7 @@ describe('Upload new version', () => {
       expect(await apis.user.nodes.getFileVersionLabel(fileSearch2Id)).toEqual('1.1', 'File has incorrect version label');
     });
 
-    it('file is not updated when clicking Cancel - [C307006]', async () => {
+    it('[C307006] file is not updated when clicking Cancel', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
       await searchInput.searchFor(fileSearch3);
@@ -806,7 +806,7 @@ describe('Upload new version', () => {
       expect(await apis.user.nodes.getFileVersionLabel(fileSearch3Id)).toEqual('1.0', 'File has incorrect version label');
     });
 
-    it('upload new version fails when new file name already exists - [C307007]', async () => {
+    it('[C307007] upload new version fails when new file name already exists', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
       await searchInput.searchFor(fileSearch4);
@@ -829,7 +829,7 @@ describe('Upload new version', () => {
       expect(await apis.user.nodes.getFileVersionLabel(fileSearch4Id)).toEqual('1.0', 'File has incorrect version label');
     });
 
-    it('file is unlocked after uploading a new version - [C307008]', async () => {
+    it('[C307008] file is unlocked after uploading a new version', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
       await searchInput.searchFor(fileLockedSearch1);
@@ -852,7 +852,7 @@ describe('Upload new version', () => {
       expect(await apis.user.nodes.getFileVersionLabel(fileLockedSearch1Id)).toEqual('1.1', 'File has incorrect version label');
     });
 
-    it('file remains locked after canceling of uploading a new version - [C307009]', async () => {
+    it('[C307009] file remains locked after canceling of uploading a new version', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
       await searchInput.searchFor(fileLockedSearch2);

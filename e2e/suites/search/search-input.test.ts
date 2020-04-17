@@ -42,11 +42,11 @@ describe('Search input', () => {
     done();
   });
 
-  it('Search input is displayed in the app header - [C289847]', async () => {
+  it('[C289847] Search input is displayed in the app header', async () => {
     expect(await searchInput.isSearchContainerDisplayed()).toBe(true, 'search controls not displayed');
   });
 
-  it('Search options are displayed when clicking in the search input - [C289848]', async () => {
+  it('[C289848] Search options are displayed when clicking in the search input', async () => {
     await searchInput.clickSearchButton();
     expect(await searchInput.isOptionsAreaDisplayed()).toBe(true, 'Search options not displayed');
     expect(await searchInput.isFilesOptionEnabled()).toBe(true, 'Files option not enabled');
@@ -57,7 +57,7 @@ describe('Search input', () => {
     expect(await searchInput.isLibrariesOptionChecked()).toBe(false, 'Libraries option is checked');
   });
 
-  it('Search options are correctly enabled / disabled - [C289849]', async () => {
+  it('[C289849] Search options are correctly enabled / disabled', async () => {
     await searchInput.clickSearchButton();
 
     await searchInput.clickFilesOption();
