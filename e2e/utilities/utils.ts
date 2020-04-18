@@ -33,16 +33,22 @@ const StreamZip = require('node-stream-zip');
 
 export const isPresentAndEnabled = async (element: ElementFinder): Promise<boolean> => {
   const isPresent = await element.isPresent();
-  const isEnabled = await element.isEnabled();
 
-  return isPresent && isEnabled;
+  if (isPresent) {
+    return element.isEnabled();
+  }
+
+  return false;
 };
 
 export const isPresentAndDisplayed = async (element: ElementFinder): Promise<boolean> => {
   const isPresent = await element.isPresent();
-  const isDisplayed = await element.isDisplayed();
 
-  return isPresent && isDisplayed;
+  if (isPresent) {
+    return element.isDisplayed();
+  }
+
+  return false;
 };
 
 export class Utils {
