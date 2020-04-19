@@ -79,7 +79,7 @@ export class Toolbar extends Component {
 
   async getButtons(): Promise<string[]> {
     return this.buttons.map(async elem => {
-      return await elem.getAttribute('title');
+      return elem.getAttribute('title');
     });
   }
 

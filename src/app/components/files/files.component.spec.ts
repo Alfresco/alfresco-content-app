@@ -148,12 +148,12 @@ describe('FilesComponent', () => {
     });
 
     it('should call refresh onContentCopied event if parent is the same', () => {
-      const nodes = [
-        <any>{ entry: { parentId: '1' } },
-        <any>{ entry: { parentId: '2' } }
+      const nodes: any[] = [
+        { entry: { parentId: '1' } },
+        { entry: { parentId: '2' } }
       ];
 
-      component.node = <any>{ id: '1' };
+      component.node = { id: '1' } as any;
 
       nodeActionsService.contentCopied.next(nodes);
 
@@ -161,12 +161,12 @@ describe('FilesComponent', () => {
     });
 
     it('should not call refresh onContentCopied event when parent mismatch', () => {
-      const nodes = [
-        <any>{ entry: { parentId: '1' } },
-        <any>{ entry: { parentId: '2' } }
+      const nodes: any[] = [
+        { entry: { parentId: '1' } },
+        { entry: { parentId: '2' } }
       ];
 
-      component.node = <any>{ id: '3' };
+      component.node = { id: '3' } as any;
 
       nodeActionsService.contentCopied.next(nodes);
 
@@ -174,10 +174,10 @@ describe('FilesComponent', () => {
     });
 
     it('should call refresh on fileUploadComplete event if parent node match', fakeAsync(() => {
-      const file = { file: { options: { parentId: 'parentId' } } };
-      component.node = <any>{ id: 'parentId' };
+      const file: any = { file: { options: { parentId: 'parentId' } } };
+      component.node = { id: 'parentId' } as any;
 
-      uploadService.fileUploadComplete.next(<any>file);
+      uploadService.fileUploadComplete.next(file);
 
       tick(500);
 
@@ -185,10 +185,10 @@ describe('FilesComponent', () => {
     }));
 
     it('should not call refresh on fileUploadComplete event if parent mismatch', fakeAsync(() => {
-      const file = { file: { options: { parentId: 'otherId' } } };
-      component.node = <any>{ id: 'parentId' };
+      const file: any = { file: { options: { parentId: 'otherId' } } };
+      component.node = { id: 'parentId' } as any;
 
-      uploadService.fileUploadComplete.next(<any>file);
+      uploadService.fileUploadComplete.next(file);
 
       tick(500);
 
@@ -196,10 +196,10 @@ describe('FilesComponent', () => {
     }));
 
     it('should call refresh on fileUploadDeleted event if parent node match', fakeAsync(() => {
-      const file = { file: { options: { parentId: 'parentId' } } };
-      component.node = <any>{ id: 'parentId' };
+      const file: any = { file: { options: { parentId: 'parentId' } } };
+      component.node = { id: 'parentId' } as any;
 
-      uploadService.fileUploadDeleted.next(<any>file);
+      uploadService.fileUploadDeleted.next(file);
 
       tick(500);
 
@@ -208,7 +208,7 @@ describe('FilesComponent', () => {
 
     it('should not call refresh on fileUploadDeleted event if parent mismatch', fakeAsync(() => {
       const file: any = { file: { options: { parentId: 'otherId' } } };
-      component.node = <any>{ id: 'parentId' };
+      component.node = { id: 'parentId' } as any;
 
       uploadService.fileUploadDeleted.next(file);
 
@@ -258,11 +258,11 @@ describe('FilesComponent', () => {
     });
 
     it('should navigate home if node is root', () => {
-      component.node = <any>{
+      component.node = {
         path: {
           elements: [{ id: 'node-id' }]
         }
-      };
+      } as any;
 
       router.url = '/personal-files';
       component.navigate(node.id);
@@ -273,19 +273,19 @@ describe('FilesComponent', () => {
 
   describe('isSiteContainer', () => {
     it('should return false if node has no aspectNames', () => {
-      const mock = <any>{ aspectNames: [] };
+      const mock: any = { aspectNames: [] };
 
       expect(component.isSiteContainer(mock)).toBe(false);
     });
 
     it('should return false if node is not site container', () => {
-      const mock = <any>{ aspectNames: ['something-else'] };
+      const mock: any = { aspectNames: ['something-else'] };
 
       expect(component.isSiteContainer(mock)).toBe(false);
     });
 
     it('should return true if node is a site container', () => {
-      const mock = <any>{ aspectNames: ['st:siteContainer'] };
+      const mock: any = { aspectNames: ['st:siteContainer'] };
 
       expect(component.isSiteContainer(mock)).toBe(true);
     });

@@ -135,17 +135,14 @@ export class UploadEffects {
       )
       .subscribe(([form, node]) => {
         if (form && node) {
-          const file = this.fileVersionInput.files[0];
+          const file: any = this.fileVersionInput.files[0];
           const fileModel = new FileModel(
             file,
             {
               comment: form.comment,
               majorVersion: form.version,
               parentId: node.parentId,
-              path: ((<any>file).webkitRelativePath || '').replace(
-                /\/[^\/]*$/,
-                ''
-              ),
+              path: (file.webkitRelativePath || '').replace(/\/[^\/]*$/, ''),
               newVersion: true,
               nodeType: 'cm:content'
             },
@@ -164,14 +161,11 @@ export class UploadEffects {
       .pipe(take(1))
       .subscribe(node => {
         if (node && node.id) {
-          const input = <HTMLInputElement>event.currentTarget;
-          const files = FileUtils.toFileArray(input.files).map(file => {
+          const input = event.currentTarget as HTMLInputElement;
+          const files = FileUtils.toFileArray(input.files).map((file: any) => {
             return new FileModel(file, {
               parentId: node.id,
-              path: ((<any>file).webkitRelativePath || '').replace(
-                /\/[^\/]*$/,
-                ''
-              ),
+              path: (file.webkitRelativePath || '').replace(/\/[^\/]*$/, ''),
               nodeType: 'cm:content'
             });
           });

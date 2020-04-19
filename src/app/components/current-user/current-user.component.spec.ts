@@ -102,7 +102,7 @@ describe('CurrentUserComponent', () => {
   });
 
   it('should set menu actions', () => {
-    const actions = <any>[
+    const actions: any[] = [
       {
         id: 'action-id'
       }

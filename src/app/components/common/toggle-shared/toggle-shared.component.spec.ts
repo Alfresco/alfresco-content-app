@@ -30,7 +30,7 @@ describe('ToggleSharedComponent', () => {
   let component;
   let entry;
 
-  const storeMock = {
+  const storeMock: any = {
     select: () => of({ first: { entry } }),
     dispatch: jasmine.createSpy('dispatch')
   };
@@ -42,7 +42,7 @@ describe('ToggleSharedComponent', () => {
       }
     };
 
-    component = new ToggleSharedComponent(<any>storeMock);
+    component = new ToggleSharedComponent(storeMock);
   });
 
   it('should get Store selection entry on initialization', done => {

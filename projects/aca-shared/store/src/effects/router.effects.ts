@@ -90,7 +90,7 @@ export class RouterEffects {
     const { path, id } = node;
 
     if (path && path.name && path.elements) {
-      const isLibraryPath = this.isLibraryContent(<PathInfoEntity>path);
+      const isLibraryPath = this.isLibraryContent(path);
 
       const parent = path.elements[path.elements.length - 1];
       const area = isLibraryPath ? '/libraries' : '/personal-files';
@@ -115,7 +115,7 @@ export class RouterEffects {
     const { path } = node;
 
     if (path && path.name && path.elements) {
-      const isLibraryPath = this.isLibraryContent(<PathInfoEntity>path);
+      const isLibraryPath = this.isLibraryContent(path);
 
       const parent = path.elements[path.elements.length - 1];
       const area = isLibraryPath ? '/libraries' : '/personal-files';

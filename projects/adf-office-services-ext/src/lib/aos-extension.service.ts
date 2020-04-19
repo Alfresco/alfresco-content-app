@@ -81,7 +81,7 @@ export class AosEditOnlineService {
 
   private onAlreadyLockedNotification(nodeId: string, lockOwner: string) {
     this.notificationService.openSnackMessage(
-      `Document {nodeId} locked by {lockOwner}`,
+      `Document ${nodeId} locked by ${lockOwner}`,
       3000
     );
   }
@@ -155,12 +155,12 @@ export class AosEditOnlineService {
   }
 
   private isFile(node: MinimalNodeEntryEntity): boolean {
-    const implicitFile = (<any>node).nodeId || (<any>node).guid;
+    const implicitFile = (node as any).nodeId || (node as any).guid;
 
     return !!implicitFile || node.isFile;
   }
 
   private getNodeId(node: MinimalNodeEntryEntity): string {
-    return (<any>node).nodeId || (<any>node).guid || node.id;
+    return (node as any).nodeId || (node as any).guid || node.id;
   }
 }

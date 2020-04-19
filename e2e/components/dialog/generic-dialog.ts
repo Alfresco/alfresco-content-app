@@ -25,6 +25,7 @@
 
 import { ElementFinder, by, browser, ExpectedConditions as EC, Locator } from 'protractor';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
+import { isPresentAndDisplayed, isPresentAndEnabled } from '../../utilities/utils';
 
 export abstract class GenericDialog {
   private static locators = {
@@ -65,7 +66,7 @@ export abstract class GenericDialog {
   }
 
   async isDialogOpen(): Promise<boolean> {
-    return (await this.rootElem.isPresent()) && (await this.rootElem.isDisplayed());
+    return isPresentAndDisplayed(this.rootElem);
   }
 
   async getTitle(): Promise<string> {
@@ -77,7 +78,7 @@ export abstract class GenericDialog {
   }
 
   async isButtonEnabled(selector: Locator): Promise<boolean> {
-    return (await this.getActionButton(selector).isPresent()) && (await this.getActionButton(selector).isEnabled());
+    return isPresentAndEnabled(this.getActionButton(selector));
   }
 
   async clickButton(selector: Locator): Promise<void> {

@@ -11,6 +11,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "noImplicitReturns": true,
     "target": "es5",
     "resolveJsonModule": true,
@@ -19,13 +20,13 @@
     "paths": {
       "@alfresco/aca-shared": ["projects/aca-shared/src/public-api.ts"],
       "@alfresco/aca-shared/store": [
-        "projects/aca-shared/store/src/public_api.ts"
+        "projects/aca-shared/store/src/public-api.ts"
       ],
       "@alfresco/aca-shared/rules": [
-        "projects/aca-shared/rules/src/public_api.ts"
+        "projects/aca-shared/rules/src/public-api.ts"
       ],
       "@alfresco/adf-office-services-ext": [
-        "projects/adf-office-services-ext/src/public_api.ts"
+        "projects/adf-office-services-ext/src/public-api.ts"
       ]
     }
   },

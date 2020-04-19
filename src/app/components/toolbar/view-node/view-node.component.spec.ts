@@ -36,7 +36,7 @@ describe('ToggleFavoriteComponent', () => {
   const mockRouter = {
     url: 'some-url'
   };
-  const mockStore = <any>{
+  const mockStore: any = {
     dispatch: jasmine.createSpy('dispatch'),
     select: jasmine.createSpy('select').and.returnValue(
       of({

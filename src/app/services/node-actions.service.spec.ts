@@ -44,7 +44,7 @@ class TestNode {
     nodeType?: string,
     properties?: any
   ) {
-    this.entry = <any>{};
+    this.entry = {} as any;
     this.entry.id = id || 'node-id';
     this.entry.isFile = isFile;
     this.entry.isFolder = !isFile;
@@ -86,7 +86,7 @@ describe('NodeActionsService', () => {
       isForbidden: boolean = false,
       nameExistingOnDestination?: string
     ) => {
-      return (entryId, options) => {
+      return (_entryId, options) => {
         return new Promise((resolve, reject) => {
           if (isForbidden) {
             reject(permissionError);
@@ -106,7 +106,7 @@ describe('NodeActionsService', () => {
       familyNodes: { parentNodeId: string; nodeChildren: any[] }[],
       isForbidden: boolean = false
     ) => {
-      return (parentId, options) => {
+      return parentId => {
         return new Promise((resolve, reject) => {
           if (isForbidden) {
             reject(permissionError);
@@ -241,14 +241,14 @@ describe('NodeActionsService', () => {
   describe('getEntryParentId', () => {
     it('should return the parentId, if that exists on the node entry', () => {
       const parentID = 'parent-id';
-      const entry = <any>{ nodeId: '1234', parentId: parentID };
+      const entry: any = { nodeId: '1234', parentId: parentID };
 
       expect(service.getEntryParentId(entry)).toBe(parentID);
     });
 
     it('should give the last element in path property, if parentId is missing and path exists on the node entry', () => {
       const firstParentId = 'parent-0-id';
-      const entry = <any>{
+      const entry: any = {
         nodeId: '1234',
         path: { elements: [{ id: 'parent-1-id' }, { id: firstParentId }] }
       };
@@ -270,7 +270,7 @@ describe('NodeActionsService', () => {
 
       const dialog = TestBed.get(MatDialog);
       spyOn(dialog, 'open').and.callFake(
-        (contentNodeSelectorComponent: any, data: any) => {
+        (_contentNodeSelectorComponent: any, data: any) => {
           testContentNodeSelectorComponentData = data;
           return { componentInstance: {} };
         }
@@ -361,7 +361,7 @@ describe('NodeActionsService', () => {
       let testContentNodeSelectorComponentData;
       const dialog = TestBed.get(MatDialog);
       const spyOnDialog = spyOn(dialog, 'open').and.callFake(
-        (contentNodeSelectorComponent: any, data: any) => {
+        (_contentNodeSelectorComponent: any, data: any) => {
           testContentNodeSelectorComponentData = data;
           return { componentInstance: {} };
         }
@@ -415,7 +415,7 @@ describe('NodeActionsService', () => {
       let testContentNodeSelectorComponentData;
       const dialog = TestBed.get(MatDialog);
       spyOn(dialog, 'open').and.callFake(
-        (contentNodeSelectorComponent: any, data: any) => {
+        (_contentNodeSelectorComponent: any, data: any) => {
           testContentNodeSelectorComponentData = data;
           return { componentInstance: {} };
         }
@@ -445,7 +445,7 @@ describe('NodeActionsService', () => {
       let testContentNodeSelectorComponentData;
       const dialog = TestBed.get(MatDialog);
       spyOn(dialog, 'open').and.callFake(
-        (contentNodeSelectorComponent: any, data: any) => {
+        (_contentNodeSelectorComponent: any, data: any) => {
           testContentNodeSelectorComponentData = data;
           return { componentInstance: {} };
         }
@@ -1075,7 +1075,7 @@ describe('NodeActionsService', () => {
         spyOnDocumentListServiceAction = spyOn(
           documentListService,
           'moveNode'
-        ).and.callFake((contentEntryId, selectionId) => {
+        ).and.callFake(contentEntryId => {
           if (contentEntryId === parentFolderToMove.entry.id) {
             return throwError(conflictError);
           }

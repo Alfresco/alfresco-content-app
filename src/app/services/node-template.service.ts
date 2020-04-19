@@ -24,11 +24,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import {
-  MatDialog,
-  MatDialogConfig,
-  MatDialogRef
-} from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CreateFromTemplateDialogComponent } from '../dialogs/node-template/create-from-template.dialog';
 import { Subject, from, of } from 'rxjs';
 import {
@@ -105,7 +101,7 @@ export class NodeTemplateService {
           data.currentFolderId = entry.id;
 
           return this.dialog
-            .open(ContentNodeSelectorComponent, <MatDialogConfig>{
+            .open(ContentNodeSelectorComponent, {
               data,
               panelClass: [
                 'adf-content-node-selector-dialog',

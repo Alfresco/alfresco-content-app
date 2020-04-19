@@ -45,7 +45,6 @@ import {
   MinimalNodeEntity,
   MinimalNodeEntryEntity,
   SitePaging,
-  Site,
   NodeChildAssociationPaging
 } from '@alfresco/js-api';
 import { ContentApiService } from '@alfresco/aca-shared';
@@ -231,7 +230,7 @@ export class NodeActionsService {
       list: {
         entries: [
           {
-            entry: <Site>{
+            entry: {
               guid: '-my-',
               title: this.translation.instant(
                 'APP.BROWSE.PERSONAL.SIDENAV_LINK.LABEL'
@@ -239,7 +238,7 @@ export class NodeActionsService {
             }
           },
           {
-            entry: <Site>{
+            entry: {
               guid: '-mysites-',
               title: this.translation.instant(
                 'APP.BROWSE.LIBRARIES.SIDENAV_LINK.LABEL'
@@ -267,7 +266,7 @@ export class NodeActionsService {
       excludeSiteContent: ContentNodeDialogService.nonDocumentSiteContent
     };
 
-    this.dialog.open(ContentNodeSelectorComponent, <any>{
+    this.dialog.open(ContentNodeSelectorComponent, {
       data,
       panelClass: 'adf-content-node-selector-dialog',
       width: '630px'
@@ -344,10 +343,10 @@ export class NodeActionsService {
         }
       }
     } else if (node === null && this.isSitesDestinationAvailable) {
-      node = <any>{
+      node = {
         name: this.translation.instant('APP.BROWSE.LIBRARIES.TITLE'),
         path: { elements: [] }
-      };
+      } as any;
     }
 
     return node;

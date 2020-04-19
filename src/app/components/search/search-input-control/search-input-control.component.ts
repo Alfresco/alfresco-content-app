@@ -52,6 +52,7 @@ export class SearchInputControlComponent implements OnDestroy {
   /** Emitted when the search is submitted pressing ENTER button.
    * The search term is provided as value of the event.
    */
+  // tslint:disable-next-line: no-output-native
   @Output()
   submit: EventEmitter<any> = new EventEmitter();
 

@@ -259,7 +259,7 @@ export class ContentApiService {
 
   addFavorite(nodes: Array<MinimalNodeEntity>): Observable<FavoriteEntry> {
     const payload: FavoriteBody[] = nodes.map(node => {
-      const { isFolder, nodeId, id } = <any>node.entry;
+      const { isFolder, nodeId, id } = node.entry as any;
       const siteId = node.entry['guid'];
       const type = siteId ? 'site' : isFolder ? 'folder' : 'file';
       const guid = siteId || nodeId || id;
@@ -273,7 +273,7 @@ export class ContentApiService {
       };
     });
 
-    return from(this.api.favoritesApi.addFavorite('-me-', <any>payload));
+    return from(this.api.favoritesApi.addFavorite('-me-', payload as any));
   }
 
   removeFavorite(nodes: Array<MinimalNodeEntity>): Observable<any> {

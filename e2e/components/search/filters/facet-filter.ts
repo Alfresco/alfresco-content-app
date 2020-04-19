@@ -66,11 +66,11 @@ export class FacetFilter extends GenericFilterPanel {
   }
 
   async isFilterFacetsDisplayed(): Promise<boolean> {
-    return await this.facetsFilter.isDisplayed();
+    return this.facetsFilter.isDisplayed();
   }
 
   async isClearButtonEnabled(): Promise<boolean> {
-    return await this.clearButton.isEnabled();
+    return this.clearButton.isEnabled();
   }
 
   async clickClearButton(): Promise<void> {
@@ -80,7 +80,7 @@ export class FacetFilter extends GenericFilterPanel {
   }
 
   async isFilterCategoryInputDisplayed(): Promise<boolean> {
-    return await this.filterCategoryInput.isDisplayed();
+    return this.filterCategoryInput.isDisplayed();
   }
 
   async checkCategory(name: string): Promise<void> {

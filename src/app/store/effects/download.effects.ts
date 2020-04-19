@@ -69,7 +69,7 @@ export class DownloadEffects {
 
   private downloadNodes(toDownload: Array<MinimalNodeEntity>) {
     const nodes = toDownload.map(node => {
-      const { id, nodeId, name, isFile, isFolder } = <any>node.entry;
+      const { id, nodeId, name, isFile, isFolder } = node.entry as any;
 
       return {
         id: this.isSharedLinkPreview ? id : nodeId || id,

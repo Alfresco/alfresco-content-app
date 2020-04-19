@@ -90,43 +90,43 @@ describe('MetadataTabComponent', () => {
     });
 
     it('should return true if node is not locked and has update permission', () => {
-      const node = <Node>{
+      const node = {
         isLocked: false,
         allowableOperations: ['update']
-      };
+      } as Node;
 
       component.node = node;
       expect(component.canUpdateNode).toBe(true);
     });
 
     it('should return false if node is locked', () => {
-      const node = <Node>{
+      const node = {
         isLocked: true,
         allowableOperations: ['update']
-      };
+      } as Node;
 
       component.node = node;
       expect(component.canUpdateNode).toBe(false);
     });
 
     it('should return false if node has no update permission', () => {
-      const node = <Node>{
+      const node = {
         isLocked: false,
         allowableOperations: ['other']
-      };
+      } as Node;
 
       component.node = node;
       expect(component.canUpdateNode).toBe(false);
     });
 
     it('should return false if node has read only property', () => {
-      const node = <Node>{
+      const node = {
         isLocked: false,
         allowableOperations: ['update'],
         properties: {
           'cm:lockType': 'WRITE_LOCK'
         }
-      };
+      } as Node;
 
       component.node = node;
       expect(component.canUpdateNode).toBe(false);

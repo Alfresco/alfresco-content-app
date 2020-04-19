@@ -77,7 +77,7 @@ export class ToggleFavoriteLibraryComponent implements OnInit {
       map(selection => {
         // favorite libraries list should already be marked as favorite
         if (selection.library && isFavoriteLibraries) {
-          (<any>selection.library).isFavorite = true;
+          (selection.library as any).isFavorite = true;
           return selection;
         }
         return selection;

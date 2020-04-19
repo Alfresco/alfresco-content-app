@@ -287,7 +287,7 @@ export class NodesApi extends RepoApi {
   async createChildren(data: NodeBodyCreate[]): Promise<NodeEntry|any> {
     try {
       await this.apiAuth();
-      return await this.nodesApi.createNode('-my-', <any>data);
+      return await this.nodesApi.createNode('-my-', data as any);
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.createChildren.name}`, error);
     }
@@ -443,9 +443,9 @@ export class NodesApi extends RepoApi {
 
   // lock node
   async lockFile(nodeId: string, lockType: string = 'ALLOW_OWNER_CHANGES'): Promise<NodeEntry|null> {
-    const data = <NodeBodyLock>{
+    const data = {
         type: lockType
-    };
+    } as NodeBodyLock;
 
     try {
       await this.apiAuth();

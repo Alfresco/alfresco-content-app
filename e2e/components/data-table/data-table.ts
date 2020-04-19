@@ -179,7 +179,7 @@ export class DataTable extends Component {
   getRowByName(name: string, location: string = ''): ElementFinder {
     if (location) {
       return this.body.all(by.cssContainingText(DataTable.selectors.row, name))
-        .filter(async (elem) => await browser.isElementPresent(elem.element(by.cssContainingText(DataTable.selectors.cell, location))))
+        .filter(async (elem) => browser.isElementPresent(elem.element(by.cssContainingText(DataTable.selectors.cell, location))))
         .first();
     }
     return this.body.element(by.cssContainingText(DataTable.selectors.row, name));
@@ -444,7 +444,7 @@ export class DataTable extends Component {
   getSearchResultsRowByName(name: string, location: string = ''): ElementFinder {
     if (location) {
       return this.body.all(by.cssContainingText(DataTable.selectors.searchResultsRow, name))
-        .filter(async (elem) => await browser.isElementPresent(elem.element(by.cssContainingText(DataTable.selectors.searchResultsRowLine, location))))
+        .filter(async (elem) => browser.isElementPresent(elem.element(by.cssContainingText(DataTable.selectors.searchResultsRowLine, location))))
         .first();
     }
     return this.body.element(by.cssContainingText(DataTable.selectors.searchResultsRow, name));

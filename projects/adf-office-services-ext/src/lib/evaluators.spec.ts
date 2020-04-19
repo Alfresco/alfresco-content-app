@@ -36,7 +36,7 @@ describe('evaluators', () => {
         }
       };
 
-      expect(canOpenWithOffice(context, null)).toBeFalsy();
+      expect(canOpenWithOffice(context)).toBeFalsy();
     });
 
     it('should return [false] if no selection present', () => {

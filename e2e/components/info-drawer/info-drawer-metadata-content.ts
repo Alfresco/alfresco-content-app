@@ -26,6 +26,7 @@
 import { ElementFinder, ElementArrayFinder, by, browser, ExpectedConditions as EC } from 'protractor';
 import { Component } from '../component';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
+import { isPresentAndEnabled, isPresentAndDisplayed } from '../../utilities/utils';
 
 export class ContentMetadata extends Component {
   private static selectors = {
@@ -66,14 +67,14 @@ export class ContentMetadata extends Component {
   }
 
   async getVisiblePropertiesLabels() {
-    return await this.component.all(by.css(ContentMetadata.selectors.propertyLabel))
-      .filter(async (elem) => await elem.isDisplayed())
-      .map(async (elem) => await elem.getText());
+    return this.component.all(by.css(ContentMetadata.selectors.propertyLabel))
+      .filter(async (elem) => elem.isDisplayed())
+      .map(async (elem) => elem.getText());
   }
 
   async getVisiblePropertiesValues() {
-    return await this.component.all(by.css(ContentMetadata.selectors.propertyValue))
-      .filter(async (elem) => await elem.isDisplayed())
+    return this.component.all(by.css(ContentMetadata.selectors.propertyValue))
+      .filter(async (elem) => elem.isDisplayed())
       .map(async (elem) => {
         if (await elem.isElementPresent(by.css('.mat-checkbox'))) {
           if (await elem.isElementPresent(by.css('.mat-checkbox-checked'))) {
@@ -81,27 +82,27 @@ export class ContentMetadata extends Component {
           }
           return false
         }
-        return await elem.getText();
+        return elem.getText();
       });
   }
 
-  async isEditPropertiesButtonEnabled() {
-    return (await browser.isElementPresent(this.editPropertiesButton)) && (await this.editPropertiesButton.isEnabled());
+  async isEditPropertiesButtonEnabled(): Promise<boolean> {
+    return isPresentAndEnabled(this.editPropertiesButton);
   }
 
-  async isLessInfoButtonEnabled() {
-    return (await browser.isElementPresent(this.lessInfoButton)) && (await this.lessInfoButton.isEnabled());
+  async isLessInfoButtonEnabled(): Promise<boolean> {
+    return isPresentAndEnabled(this.lessInfoButton);
   }
 
-  async isMoreInfoButtonEnabled() {
-    return (await browser.isElementPresent(this.moreInfoButton)) && (await this.moreInfoButton.isEnabled());
+  async isMoreInfoButtonEnabled(): Promise<boolean> {
+    return isPresentAndEnabled(this.moreInfoButton);
   }
 
   async isLessInfoButtonDisplayed() {
     return browser.isElementPresent(this.lessInfoButton);
   }
 
-  async isMoreInfoButtonDisplayed() {
+  async isMoreInfoButtonDisplayed(): Promise<boolean> {
     return browser.isElementPresent(this.moreInfoButton);
   }
 
@@ -113,8 +114,8 @@ export class ContentMetadata extends Component {
     await this.moreInfoButton.click();
   }
 
-  async isImagePropertiesPanelDisplayed() {
-    return (await browser.isElementPresent(this.imagePropertiesPanel)) && (await this.imagePropertiesPanel.isDisplayed());
+  async isImagePropertiesPanelDisplayed(): Promise<boolean> {
+    return isPresentAndDisplayed(this.imagePropertiesPanel);
   }
 
   async clickImagePropertiesPanel() {

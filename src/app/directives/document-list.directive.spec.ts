@@ -30,7 +30,7 @@ import { SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 describe('DocumentListDirective', () => {
   let documentListDirective;
 
-  const documentListMock = <any>{
+  const documentListMock: any = {
     currentFolderId: '',
     stickyHeader: false,
     includeFields: [],
@@ -44,20 +44,20 @@ describe('DocumentListDirective', () => {
     ready: new Subject<any>()
   };
 
-  const storeMock = <any>{
+  const storeMock: any = {
     dispatch: jasmine.createSpy('dispatch')
   };
 
-  const mockRouter = <any>{
+  const mockRouter: any = {
     url: ''
   };
 
-  const contentManagementServiceMock = <any>{
+  const contentManagementServiceMock: any = {
     reload: new Subject<any>(),
     reset: new Subject<any>()
   };
 
-  const mockRoute = <any>{
+  const mockRoute: any = {
     snapshot: {
       data: {
         sortingPreferenceKey: null
@@ -65,7 +65,7 @@ describe('DocumentListDirective', () => {
     }
   };
 
-  const userPreferencesServiceMock = <any>{
+  const userPreferencesServiceMock: any = {
     set: jasmine.createSpy('set'),
     get: jasmine.createSpy('get')
   };
@@ -109,7 +109,7 @@ describe('DocumentListDirective', () => {
     documentListMock.ready.next();
 
     expect(storeMock.dispatch).toHaveBeenCalledWith(
-      new SetSelectedNodesAction([<any>{ isLibrary: true }])
+      new SetSelectedNodesAction([{ isLibrary: true } as any])
     );
   });
 

@@ -33,7 +33,7 @@ describe('SidenavComponent', () => {
   let fixture: ComponentFixture<SidenavComponent>;
   let component: SidenavComponent;
   let extensionService: AppExtensionService;
-  const navbarMock = <any>[
+  const navbarMock: any = [
     {
       items: [
         {
@@ -63,7 +63,7 @@ describe('SidenavComponent', () => {
   }));
 
   it('should set the sidenav data', async(() => {
-    expect(component.groups).toEqual(<any>[
+    expect(component.groups).toEqual([
       {
         items: [
           {
@@ -71,7 +71,7 @@ describe('SidenavComponent', () => {
             url: '/route'
           }
         ]
-      }
+      } as any
     ]);
   }));
 });

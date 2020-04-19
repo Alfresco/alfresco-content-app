@@ -27,7 +27,7 @@ import { ActionDirective } from './action.directive';
 
 describe('ActionDirective', () => {
   let directive: ActionDirective;
-  const routeMock = <any>{
+  const routeMock: any = {
     navigate: jasmine.createSpy('navigate'),
     parseUrl: () => ({
       root: {
@@ -35,7 +35,7 @@ describe('ActionDirective', () => {
       }
     })
   };
-  const storeMock = <any>{
+  const storeMock: any = {
     dispatch: jasmine.createSpy('dispatch')
   };
 

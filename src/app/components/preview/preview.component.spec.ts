@@ -737,7 +737,7 @@ describe('PreviewComponent', () => {
   it('should emit nodeUpdated event on fileUploadComplete event', fakeAsync(() => {
     spyOn(alfrescoApiService.nodeUpdated, 'next');
     fixture.detectChanges();
-    uploadService.fileUploadComplete.next(<any>{ data: { entry: {} } });
+    uploadService.fileUploadComplete.next({ data: { entry: {} } } as any);
     tick(300);
 
     expect(alfrescoApiService.nodeUpdated.next).toHaveBeenCalled();

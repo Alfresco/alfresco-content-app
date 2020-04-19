@@ -65,7 +65,7 @@ describe('InfoDrawerComponent', () => {
     appExtensionService = TestBed.get(AppExtensionService);
     contentApiService = TestBed.get(ContentApiService);
 
-    tab = <any>{ title: 'tab1' };
+    tab = { title: 'tab1' };
     spyOn(appExtensionService, 'getSidebarTabs').and.returnValue([tab]);
   });
 
@@ -90,7 +90,7 @@ describe('InfoDrawerComponent', () => {
 
   it('should set displayNode when node is library', async(() => {
     spyOn(contentApiService, 'getNodeInfo');
-    const nodeMock = <any>{
+    const nodeMock: any = {
       entry: { id: 'nodeId' },
       isLibrary: true
     };
@@ -104,9 +104,9 @@ describe('InfoDrawerComponent', () => {
   }));
 
   it('should call getNodeInfo() when node is a shared file', async(() => {
-    const response = <any>{ entry: { id: 'nodeId' } };
+    const response: any = { entry: { id: 'nodeId' } };
     spyOn(contentApiService, 'getNodeInfo').and.returnValue(of(response));
-    const nodeMock = <any>{ entry: { nodeId: 'nodeId' }, isLibrary: false };
+    const nodeMock: any = { entry: { nodeId: 'nodeId' }, isLibrary: false };
     component.node = nodeMock;
 
     fixture.detectChanges();
@@ -117,9 +117,9 @@ describe('InfoDrawerComponent', () => {
   }));
 
   it('should call getNodeInfo() when node is a favorite file', async(() => {
-    const response = <any>{ entry: { id: 'nodeId' } };
+    const response: any = { entry: { id: 'nodeId' } };
     spyOn(contentApiService, 'getNodeInfo').and.returnValue(of(response));
-    const nodeMock = <any>{
+    const nodeMock: any = {
       entry: { id: 'nodeId', guid: 'guidId' },
       isLibrary: false
     };
@@ -133,9 +133,9 @@ describe('InfoDrawerComponent', () => {
   }));
 
   it('should call getNodeInfo() when node is a recent file', async(() => {
-    const response = <any>{ entry: { id: 'nodeId' } };
+    const response: any = { entry: { id: 'nodeId' } };
     spyOn(contentApiService, 'getNodeInfo').and.returnValue(of(response));
-    const nodeMock = <any>{
+    const nodeMock: any = {
       entry: {
         id: 'nodeId',
         content: { mimeType: 'image/jpeg' }

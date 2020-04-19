@@ -69,7 +69,7 @@ describe('FavoritesComponent', () => {
       }
     };
 
-    node = <any>{
+    node = {
       id: 'folder-node',
       isFolder: true,
       isFile: false,
@@ -171,7 +171,7 @@ describe('FavoritesComponent', () => {
   }));
 
   it('should navigate if node is folder', () => {
-    const nodeEntity = <any>{ entry: { isFolder: true } };
+    const nodeEntity: any = { entry: { isFolder: true } };
     spyOn(component, 'navigate').and.stub();
     fixture.detectChanges();
 
@@ -180,7 +180,7 @@ describe('FavoritesComponent', () => {
   });
 
   it('should call showPreview if node is file', () => {
-    const nodeEntity = <any>{ entry: { isFile: true } };
+    const nodeEntity: any = { entry: { isFile: true } };
     spyOn(component, 'showPreview').and.stub();
     fixture.detectChanges();
 
