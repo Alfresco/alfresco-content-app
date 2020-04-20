@@ -71,6 +71,7 @@
     "moment-es6": "1.0.0",
     "pdfjs-dist": "2.3.200",
     "rxjs": "^6.5.5",
+    "tsickle": "0.34.0",
     "zone.js": "0.8.29"
   },
   "devDependencies": {
