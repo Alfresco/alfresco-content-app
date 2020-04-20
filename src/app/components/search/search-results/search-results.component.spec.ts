@@ -45,7 +45,7 @@ import {
   NavigateToFolder,
   SnackbarErrorAction
 } from '@alfresco/aca-shared/store';
-import { Pagination } from '@alfresco/js-api';
+import { Pagination, SearchRequest } from '@alfresco/js-api';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -108,7 +108,7 @@ describe('SearchComponent', () => {
       })
     );
 
-    spyOn(queryBuilder, 'buildQuery').and.returnValue({});
+    spyOn(queryBuilder, 'buildQuery').and.returnValue({} as SearchRequest);
     spyOn(store, 'dispatch').and.stub();
 
     queryBuilder.execute();
@@ -133,7 +133,7 @@ describe('SearchComponent', () => {
       })
     );
 
-    spyOn(queryBuilder, 'buildQuery').and.returnValue({});
+    spyOn(queryBuilder, 'buildQuery').and.returnValue({} as SearchRequest);
     spyOn(store, 'dispatch').and.stub();
 
     queryBuilder.execute();
@@ -158,7 +158,7 @@ describe('SearchComponent', () => {
       })
     );
 
-    spyOn(queryBuilder, 'buildQuery').and.returnValue({});
+    spyOn(queryBuilder, 'buildQuery').and.returnValue({} as SearchRequest);
     spyOn(store, 'dispatch').and.stub();
 
     queryBuilder.execute();

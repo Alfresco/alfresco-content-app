@@ -267,7 +267,7 @@ export class AppExtensionService implements RuleContext {
       .filter(entry => !entry.disabled);
   }
 
-  getApplicationNavigation(elements) {
+  getApplicationNavigation(elements): Array<NavBarGroupRef> {
     return elements
       .filter(group => this.filterVisible(group))
       .map(group => {

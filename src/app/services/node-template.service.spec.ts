@@ -32,7 +32,7 @@ import { Store } from '@ngrx/store';
 import { MatDialog } from '@angular/material/dialog';
 import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-core';
 import { NodeTemplateService } from './node-template.service';
-import { of } from 'rxjs';
+import { ResultSetPaging } from '@alfresco/js-api';
 
 describe('NodeTemplateService', () => {
   let dialog: MatDialog;
@@ -65,7 +65,9 @@ describe('NodeTemplateService', () => {
 
   it('should open dialog with parent node `id` as data property', fakeAsync(() => {
     spyOn(alfrescoApiService.searchApi, 'search').and.returnValue(
-      of({ list: { entries: [{ entry: { id: 'parent-node-id' } }] } })
+      Promise.resolve({
+        list: { entries: [{ entry: { id: 'parent-node-id' } }] }
+      } as ResultSetPaging)
     );
     spyOn(dialog, 'open');
 
@@ -79,7 +81,7 @@ describe('NodeTemplateService', () => {
 
   it('should remove parents path for templates breadcrumb', fakeAsync(() => {
     spyOn(alfrescoApiService.searchApi, 'search').and.returnValue(
-      of({
+      Promise.resolve({
         list: {
           entries: [
             {
@@ -96,11 +98,12 @@ describe('NodeTemplateService', () => {
             }
           ]
         }
-      })
+      } as ResultSetPaging)
     );
     spyOn(dialog, 'open');
 
     nodeTemplateService.selectTemplateDialog(fileTemplateConfig);
+    tick();
 
     const breadcrumb = dialog.open['calls']
       .argsFor(0)[1]
@@ -120,7 +123,7 @@ describe('NodeTemplateService', () => {
 
   it('should set template folder path as root for breadcrumb', fakeAsync(() => {
     spyOn(alfrescoApiService.searchApi, 'search').and.returnValue(
-      of({
+      Promise.resolve({
         list: {
           entries: [
             {
@@ -137,11 +140,12 @@ describe('NodeTemplateService', () => {
             }
           ]
         }
-      })
+      } as ResultSetPaging)
     );
     spyOn(dialog, 'open');
 
     nodeTemplateService.selectTemplateDialog(fileTemplateConfig);
+    tick();
 
     const breadcrumb = dialog.open['calls']
       .argsFor(0)[1]
@@ -178,9 +182,9 @@ describe('NodeTemplateService', () => {
     );
   }));
 
-  it('should return true if row is not a `link` nodeType', () => {
+  it('should return true if row is not a `link` nodeType', fakeAsync(() => {
     spyOn(alfrescoApiService.searchApi, 'search').and.returnValue(
-      of({
+      Promise.resolve({
         list: {
           entries: [
             {
@@ -194,22 +198,23 @@ describe('NodeTemplateService', () => {
             }
           ]
         }
-      })
+      } as ResultSetPaging)
     );
     spyOn(dialog, 'open');
 
     nodeTemplateService.selectTemplateDialog(fileTemplateConfig);
+    tick();
 
     expect(
       dialog.open['calls'].argsFor(0)[1].data.rowFilter({
         node: { entry: { nodeType: 'text' } }
       })
     ).toBe(true);
-  });
+  }));
 
-  it('should return false if row is a `filelink` nodeType', () => {
+  it('should return false if row is a `filelink` nodeType', fakeAsync(() => {
     spyOn(alfrescoApiService.searchApi, 'search').and.returnValue(
-      of({
+      Promise.resolve({
         list: {
           entries: [
             {
@@ -223,22 +228,23 @@ describe('NodeTemplateService', () => {
             }
           ]
         }
-      })
+      } as ResultSetPaging)
     );
     spyOn(dialog, 'open');
 
     nodeTemplateService.selectTemplateDialog(fileTemplateConfig);
+    tick();
 
     expect(
       dialog.open['calls'].argsFor(0)[1].data.rowFilter({
         node: { entry: { nodeType: 'app:filelink' } }
       })
     ).toBe(false);
-  });
+  }));
 
-  it('should return false if row is a `folderlink` nodeType', () => {
+  it('should return false if row is a `folderlink` nodeType', fakeAsync(() => {
     spyOn(alfrescoApiService.searchApi, 'search').and.returnValue(
-      of({
+      Promise.resolve({
         list: {
           entries: [
             {
@@ -252,27 +258,31 @@ describe('NodeTemplateService', () => {
             }
           ]
         }
-      })
+      } as ResultSetPaging)
     );
     spyOn(dialog, 'open');
 
     nodeTemplateService.selectTemplateDialog(fileTemplateConfig);
+    tick();
 
     expect(
       dialog.open['calls'].argsFor(0)[1].data.rowFilter({
         node: { entry: { nodeType: 'app:folderlink' } }
       })
     ).toBe(false);
-  });
+  }));
 
   describe('File templates', () => {
-    it('should return false if selected node is not a file', () => {
+    it('should return false if selected node is not a file', fakeAsync(() => {
       spyOn(alfrescoApiService.searchApi, 'search').and.returnValue(
-        of({ list: { entries: [{ entry: { id: 'templates-folder-id' } }] } })
+        Promise.resolve({
+          list: { entries: [{ entry: { id: 'templates-folder-id' } }] }
+        } as ResultSetPaging)
       );
       spyOn(dialog, 'open');
 
       nodeTemplateService.selectTemplateDialog(fileTemplateConfig);
+      tick();
 
       const isSelectionValid = dialog.open['calls']
         .argsFor(0)[1]
@@ -284,15 +294,18 @@ describe('NodeTemplateService', () => {
         });
 
       expect(isSelectionValid).toBe(false);
-    });
+    }));
 
-    it('should return true if selected node is a template file', () => {
+    it('should return true if selected node is a template file', fakeAsync(() => {
       spyOn(alfrescoApiService.searchApi, 'search').and.returnValue(
-        of({ list: { entries: [{ entry: { id: 'templates-folder-id' } }] } })
+        Promise.resolve({
+          list: { entries: [{ entry: { id: 'templates-folder-id' } }] }
+        } as ResultSetPaging)
       );
       spyOn(dialog, 'open');
 
       nodeTemplateService.selectTemplateDialog(fileTemplateConfig);
+      tick();
 
       const isSelectionValid = dialog.open['calls']
         .argsFor(0)[1]
@@ -304,30 +317,36 @@ describe('NodeTemplateService', () => {
         });
 
       expect(isSelectionValid).toBe(true);
-    });
+    }));
 
-    it('should set dialog title for file templates', () => {
+    it('should set dialog title for file templates', fakeAsync(() => {
       spyOn(alfrescoApiService.searchApi, 'search').and.returnValue(
-        of({ list: { entries: [{ entry: { id: 'templates-folder-id' } }] } })
+        Promise.resolve({
+          list: { entries: [{ entry: { id: 'templates-folder-id' } }] }
+        } as ResultSetPaging)
       );
       spyOn(dialog, 'open');
 
       nodeTemplateService.selectTemplateDialog(fileTemplateConfig);
+      tick();
 
       const title = dialog.open['calls'].argsFor(0)[1].data.title;
 
       expect(title).toBe('NODE_SELECTOR.SELECT_FILE_TEMPLATE_TITLE');
-    });
+    }));
   });
 
   describe('Folder templates', () => {
-    it('should return false if selected node is not a folder', () => {
+    it('should return false if selected node is not a folder', fakeAsync(() => {
       spyOn(alfrescoApiService.searchApi, 'search').and.returnValue(
-        of({ list: { entries: [{ entry: { id: 'templates-folder-id' } }] } })
+        Promise.resolve({
+          list: { entries: [{ entry: { id: 'templates-folder-id' } }] }
+        } as ResultSetPaging)
       );
       spyOn(dialog, 'open');
 
       nodeTemplateService.selectTemplateDialog(folderTemplateConfig);
+      tick();
 
       const isSelectionValid = dialog.open['calls']
         .argsFor(0)[1]
@@ -339,15 +358,18 @@ describe('NodeTemplateService', () => {
         });
 
       expect(isSelectionValid).toBe(false);
-    });
+    }));
 
     it('should return false if current node is the parent folder', fakeAsync(() => {
       spyOn(alfrescoApiService.searchApi, 'search').and.returnValue(
-        of({ list: { entries: [{ entry: { id: 'templates-folder-id' } }] } })
+        Promise.resolve({
+          list: { entries: [{ entry: { id: 'templates-folder-id' } }] }
+        } as ResultSetPaging)
       );
       spyOn(dialog, 'open');
 
       nodeTemplateService.selectTemplateDialog(folderTemplateConfig);
+      tick();
 
       const isSelectionValid = dialog.open['calls']
         .argsFor(0)[1]
@@ -363,13 +385,13 @@ describe('NodeTemplateService', () => {
 
     it('should return true if selected node is a folder template', fakeAsync(() => {
       spyOn(alfrescoApiService.searchApi, 'search').and.returnValue(
-        of({
+        Promise.resolve({
           list: {
             entries: [
               { entry: { id: 'templates-folder-id', path: { elements: [] } } }
             ]
           }
-        })
+        } as ResultSetPaging)
       );
       spyOn(dialog, 'open');
 
@@ -388,17 +410,20 @@ describe('NodeTemplateService', () => {
       expect(isSelectionValid).toBe(true);
     }));
 
-    it('should set dialog title for folder templates', () => {
+    it('should set dialog title for folder templates', fakeAsync(() => {
       spyOn(alfrescoApiService.searchApi, 'search').and.returnValue(
-        of({ list: { entries: [{ entry: { id: 'templates-folder-id' } }] } })
+        Promise.resolve({
+          list: { entries: [{ entry: { id: 'templates-folder-id' } }] }
+        } as ResultSetPaging)
       );
       spyOn(dialog, 'open');
 
       nodeTemplateService.selectTemplateDialog(folderTemplateConfig);
+      tick();
 
       const title = dialog.open['calls'].argsFor(0)[1].data.title;
 
       expect(title).toBe('NODE_SELECTOR.SELECT_FOLDER_TEMPLATE_TITLE');
-    });
+    }));
   });
 });

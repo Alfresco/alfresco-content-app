@@ -42,6 +42,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { RouterEffects } from '@alfresco/aca-shared/store';
 import { of, throwError } from 'rxjs';
 import { LibraryEffects } from '../../store/effects';
+import { NodeEntry } from '@alfresco/js-api';
 
 describe('FavoriteLibrariesComponent', () => {
   let fixture: ComponentFixture<FavoriteLibrariesComponent>;
@@ -90,7 +91,7 @@ describe('FavoriteLibrariesComponent', () => {
     router = TestBed.get(Router);
 
     spyOn(contentApiService, 'getNode').and.returnValue(
-      of({ entry: { id: 'libraryId' } })
+      of({ entry: { id: 'libraryId' } } as NodeEntry)
     );
   });
 

@@ -40,6 +40,8 @@ import {
 } from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../services/content-management.service';
 import { of, throwError } from 'rxjs';
+import { MatDialogRef } from '@angular/material/dialog';
+import { NodeVersionUploadDialogComponent } from '../../dialogs/node-version-upload/node-version-upload.dialog';
 
 function createFileList(fileName, type = 'text/plain') {
   const data = new Blob([''], { type });
@@ -198,7 +200,9 @@ describe('UploadEffects', () => {
 
   describe('upload file version', () => {
     beforeEach(() => {
-      const dialog = { afterClosed: () => of({}) };
+      const dialog = { afterClosed: () => of({}) } as MatDialogRef<
+        NodeVersionUploadDialogComponent
+      >;
       spyOn(contentManagementService, 'versionUploadDialog').and.returnValue(
         dialog
       );
@@ -212,7 +216,7 @@ describe('UploadEffects', () => {
             id: 'file1',
             properties: {}
           }
-        })
+        } as any)
       );
 
       uploadVersionInput.files = createFileList('bogus.txt');

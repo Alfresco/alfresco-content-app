@@ -51,7 +51,7 @@ export class ContextMenuService {
       });
   }
 
-  open(config: ContextmenuOverlayConfig) {
+  open(config: ContextmenuOverlayConfig): ContextMenuOverlayRef {
     const overlay = this.createOverlay(config);
     const overlayRef = new ContextMenuOverlayRef(overlay);
 
@@ -60,7 +60,7 @@ export class ContextMenuService {
     return overlayRef;
   }
 
-  private createOverlay(config: ContextmenuOverlayConfig) {
+  private createOverlay(config: ContextmenuOverlayConfig): OverlayRef {
     const overlayConfig = this.getOverlayConfig(config);
     return this.overlay.create(overlayConfig);
   }
@@ -68,7 +68,7 @@ export class ContextMenuService {
   private attachDialogContainer(
     overlay: OverlayRef,
     contextmenuOverlayRef: ContextMenuOverlayRef
-  ) {
+  ): ContextMenuComponent {
     const injector = this.createInjector(contextmenuOverlayRef);
 
     const containerPortal = new ComponentPortal(

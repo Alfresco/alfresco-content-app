@@ -45,7 +45,8 @@ import {
   MinimalNodeEntity,
   MinimalNodeEntryEntity,
   SitePaging,
-  NodeChildAssociationPaging
+  NodeChildAssociationPaging,
+  NodeChildAssociationEntry
 } from '@alfresco/js-api';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { catchError, map, mergeMap } from 'rxjs/operators';
@@ -479,7 +480,6 @@ export class NodeActionsService {
                   );
                 }
               });
-
               if (!batch.length) {
                 return of({});
               }
@@ -624,11 +624,14 @@ export class NodeActionsService {
     );
   }
 
-  getChildByName(parentId: string, name: string) {
-    const matchedNodes = new Subject<any>();
+  getChildByName(
+    parentId: string,
+    name: string
+  ): Subject<NodeChildAssociationEntry> {
+    const matchedNodes = new Subject<NodeChildAssociationEntry>();
 
     this.getNodeChildren(parentId).subscribe(
-      (childrenNodes: any) => {
+      (childrenNodes: NodeChildAssociationPaging) => {
         const result = childrenNodes.list.entries.find(
           node => node.entry.name === name
         );
