@@ -23,6 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+export * from './lib/adf-extensions/extensions-data-loader.guard';
 export * from './lib/components/page-layout/page-layout-content.component';
 export * from './lib/components/page-layout/page-layout-error.component';
 export * from './lib/components/page-layout/page-layout-header.component';
