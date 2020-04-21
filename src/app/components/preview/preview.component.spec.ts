@@ -48,6 +48,14 @@ import { AppTestingModule } from '../../testing/app-testing.module';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { ContentManagementService } from '../../services/content-management.service';
 import { Store } from '@ngrx/store';
+import {
+  Node,
+  NodePaging,
+  FavoritePaging,
+  SharedLinkPaging,
+  PersonEntry,
+  ResultSetPaging
+} from '@alfresco/js-api';
 
 describe('PreviewComponent', () => {
   let fixture: ComponentFixture<PreviewComponent>;
@@ -378,7 +386,7 @@ describe('PreviewComponent', () => {
 
   it('should navigate to original location if node not found', async () => {
     spyOn(router, 'navigate').and.stub();
-    spyOn(contentApi, 'getNodeInfo').and.returnValue(Promise.reject('error'));
+    spyOn(contentApi, 'getNodeInfo').and.returnValue(throwError('error'));
 
     component.previewLocation = 'personal-files';
     await component.displayNode('folder1');
@@ -392,7 +400,7 @@ describe('PreviewComponent', () => {
     spyOn(contentApi, 'getNodeInfo').and.returnValue(
       of({
         isFile: false
-      })
+      } as Node)
     );
 
     component.previewLocation = 'personal-files';
@@ -419,7 +427,7 @@ describe('PreviewComponent', () => {
     spyOn(contentApi, 'getNodeInfo').and.returnValue(
       of({
         isFile: true
-      })
+      } as Node)
     );
     spyOn(component, 'getNearestNodes').and.returnValue(
       Promise.reject('error')
@@ -434,16 +442,18 @@ describe('PreviewComponent', () => {
 
   xit('should setup node for displaying', async () => {
     spyOn(router, 'navigate').and.stub();
-    spyOn(component, 'getNearestNodes').and.returnValue({
-      left: 'node1',
-      right: 'node3'
-    });
+    spyOn(component, 'getNearestNodes').and.returnValue(
+      Promise.resolve({
+        left: 'node1',
+        right: 'node3'
+      })
+    );
     spyOn(contentApi, 'getNodeInfo').and.returnValue(
       of({
         id: 'node2',
         parentId: 'parent1',
         isFile: true
-      })
+      } as Node)
     );
 
     await component.displayNode('node2');
@@ -466,7 +476,7 @@ describe('PreviewComponent', () => {
             { entry: { id: 'node2', name: 'node 2' } }
           ]
         }
-      })
+      } as NodePaging)
     );
 
     const ids = await component.getFileIds('personal-files', 'folder1');
@@ -485,7 +495,7 @@ describe('PreviewComponent', () => {
             { entry: { id: 'node2', name: 'node 2' } }
           ]
         }
-      })
+      } as NodePaging)
     );
 
     const ids = await component.getFileIds('personal-files', 'folder1');
@@ -504,11 +514,11 @@ describe('PreviewComponent', () => {
       of({
         list: {
           entries: [
-            { entry: { id: 'node1', name: 'node 1', modifiedAt: 1 } },
-            { entry: { id: 'node2', name: 'node 2', modifiedAt: 2 } }
+            { entry: { id: 'node1', name: 'node 1', modifiedAt: new Date(1) } },
+            { entry: { id: 'node2', name: 'node 2', modifiedAt: new Date(2) } }
           ]
         }
-      })
+      } as NodePaging)
     );
 
     const ids = await component.getFileIds('personal-files', 'folder1');
@@ -527,7 +537,7 @@ describe('PreviewComponent', () => {
             { entry: { id: 'node2', name: 'node 2' } }
           ]
         }
-      })
+      } as NodePaging)
     );
 
     const ids = await component.getFileIds('libraries', 'site1');
@@ -550,7 +560,7 @@ describe('PreviewComponent', () => {
             { entry: { id: 'node2', name: 'node 2', modifiedAt: new Date(2) } }
           ]
         }
-      })
+      } as NodePaging)
     );
 
     const ids = await component.getFileIds('libraries', 'folder1');
@@ -570,7 +580,7 @@ describe('PreviewComponent', () => {
             { entry: { target: { file: { id: 'file2', name: 'file 2' } } } }
           ]
         }
-      })
+      } as FavoritePaging)
     );
 
     const ids = await component.getFileIds('favorites');
@@ -601,7 +611,7 @@ describe('PreviewComponent', () => {
             }
           ]
         }
-      })
+      } as FavoritePaging)
     );
 
     const ids = await component.getFileIds('favorites');
@@ -632,7 +642,7 @@ describe('PreviewComponent', () => {
             }
           ]
         }
-      })
+      } as SharedLinkPaging)
     );
 
     const ids = await component.getFileIds('shared');
@@ -662,7 +672,7 @@ describe('PreviewComponent', () => {
             }
           ]
         }
-      })
+      } as SharedLinkPaging)
     );
 
     const ids = await component.getFileIds('shared');
@@ -676,7 +686,7 @@ describe('PreviewComponent', () => {
     spyOn(contentApi, 'getPerson').and.returnValue(
       of({
         entry: { id: 'user' }
-      })
+      } as PersonEntry)
     );
 
     spyOn(contentApi, 'search').and.returnValue(
@@ -687,7 +697,7 @@ describe('PreviewComponent', () => {
             { entry: { id: 'node1', name: 'node 1', modifiedAt: new Date(1) } }
           ]
         }
-      })
+      } as ResultSetPaging)
     );
 
     const ids = await component.getFileIds('recent-files');
@@ -700,7 +710,7 @@ describe('PreviewComponent', () => {
     spyOn(contentApi, 'getPerson').and.returnValue(
       of({
         entry: { id: 'user' }
-      })
+      } as PersonEntry)
     );
 
     spyOn(contentApi, 'search').and.returnValue(
@@ -711,7 +721,7 @@ describe('PreviewComponent', () => {
             { entry: { id: 'node1', name: 'node 1', modifiedAt: new Date(1) } }
           ]
         }
-      })
+      } as ResultSetPaging)
     );
 
     const ids = await component.getFileIds('recent-files');

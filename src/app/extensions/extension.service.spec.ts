@@ -26,7 +26,7 @@
 import { TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../testing/app-testing.module';
 import { AppExtensionService } from './extension.service';
-import { Store } from '@ngrx/store';
+import { Store, Action } from '@ngrx/store';
 import { AppStore } from '@alfresco/aca-shared/store';
 import {
   ContentActionType,
@@ -37,7 +37,8 @@ import {
   reduceEmptyMenus,
   ExtensionService,
   ExtensionConfig,
-  ComponentRegisterService
+  ComponentRegisterService,
+  NavBarGroupRef
 } from '@alfresco/adf-extensions';
 import { AppConfigService } from '@alfresco/adf-core';
 
@@ -155,7 +156,7 @@ describe('AppExtensionService', () => {
       expect(store.dispatch).toHaveBeenCalledWith({
         type: 'CREATE_FOLDER',
         payload: 'folder-name'
-      });
+      } as Action);
     });
 
     it('should still invoke store if action is missing', () => {
@@ -667,6 +668,13 @@ describe('AppExtensionService', () => {
   });
 
   describe('getApplicationNavigation', () => {
+    beforeEach(() => {
+      extensions.setEvaluators({
+        notVisible: () => false,
+        isVisible: () => true
+      });
+    });
+
     it('should create navigation data', () => {
       const navigation = service.getApplicationNavigation([
         { items: [{ route: 'route1' }, { route: 'route2' }] },
@@ -683,7 +691,7 @@ describe('AppExtensionService', () => {
         {
           items: [{ children: [{ route: 'route3', url: '/route3' }] }]
         }
-      ]);
+      ] as NavBarGroupRef[]);
     });
 
     it('should filter out disabled items', () => {
@@ -695,18 +703,10 @@ describe('AppExtensionService', () => {
       expect(navigation).toEqual([
         { items: [{ route: 'route1', url: '/route1' }] },
         { items: [{ children: [] }] }
-      ]);
+      ] as NavBarGroupRef[]);
     });
 
     it('should filter out items based on rule', () => {
-      spyOn(service, 'filterVisible').and.callFake(item => {
-        if (item.rules) {
-          return item.rules.visible;
-        } else {
-          return true;
-        }
-      });
-
       const navigation = service.getApplicationNavigation([
         {
           id: 'groupId',
@@ -714,7 +714,7 @@ describe('AppExtensionService', () => {
             {
               id: 'itemId',
               route: 'route1',
-              rules: { visible: false }
+              rules: { visible: 'notVisible' }
             }
           ]
         }
@@ -724,19 +724,11 @@ describe('AppExtensionService', () => {
     });
 
     it('should filter out group based on rule', () => {
-      spyOn(service, 'filterVisible').and.callFake(item => {
-        if (item.rules) {
-          return item.rules.visible;
-        } else {
-          return true;
-        }
-      });
-
       const navigation = service.getApplicationNavigation([
         {
           id: 'group1',
           rules: {
-            visible: false
+            visible: 'notVisible'
           },
           items: [
             {

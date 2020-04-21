@@ -33,7 +33,7 @@ import { Store } from '@ngrx/store';
 import { UpdateLibraryAction } from '@alfresco/aca-shared/store';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { Site } from '@alfresco/js-api';
+import { Site, SitePaging } from '@alfresco/js-api';
 import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-core';
 
 describe('LibraryMetadataFormComponent', () => {
@@ -231,7 +231,7 @@ describe('LibraryMetadataFormComponent', () => {
     ).and.returnValue(
       Promise.resolve({
         list: { entries: [{ entry: { title } }] }
-      })
+      } as SitePaging)
     );
 
     const siteEntryModel = {
@@ -262,7 +262,7 @@ describe('LibraryMetadataFormComponent', () => {
     ).and.returnValue(
       Promise.resolve({
         list: { entries: [{ entry: { title: 'libraryTitle' } }] }
-      })
+      } as SitePaging)
     );
 
     const siteEntryModel = {
@@ -293,7 +293,7 @@ describe('LibraryMetadataFormComponent', () => {
     ).and.returnValue(
       Promise.resolve({
         list: { entries: [] }
-      })
+      } as SitePaging)
     );
 
     const siteEntryModel = {

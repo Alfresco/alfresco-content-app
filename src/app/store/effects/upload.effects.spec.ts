@@ -34,12 +34,15 @@ import {
   FileUploadCompleteEvent,
   FileModel
 } from '@alfresco/adf-core';
+import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 import {
   UnlockWriteAction,
   SnackbarErrorAction
 } from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../services/content-management.service';
 import { of, throwError } from 'rxjs';
+import { MatDialogRef } from '@angular/material';
+import { NodeVersionUploadDialogComponent } from '../../dialogs/node-version-upload/node-version-upload.dialog';
 
 function createFileList(fileName, type = 'text/plain') {
   const data = new Blob([''], { type });
@@ -198,7 +201,9 @@ describe('UploadEffects', () => {
 
   describe('upload file version', () => {
     beforeEach(() => {
-      const dialog = { afterClosed: () => of({}) };
+      const dialog = { afterClosed: () => of({}) } as MatDialogRef<
+        NodeVersionUploadDialogComponent
+      >;
       spyOn(contentManagementService, 'versionUploadDialog').and.returnValue(
         dialog
       );
@@ -208,11 +213,9 @@ describe('UploadEffects', () => {
     it('should upload file', () => {
       spyOn(contentManagementService, 'getNodeInfo').and.returnValue(
         of({
-          entry: {
-            id: 'file1',
-            properties: {}
-          }
-        })
+          id: 'file1',
+          properties: {}
+        } as MinimalNodeEntryEntity)
       );
 
       uploadVersionInput.files = createFileList('bogus.txt');

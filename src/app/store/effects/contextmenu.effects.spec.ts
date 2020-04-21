@@ -30,13 +30,13 @@ import { EffectsModule } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { ContextMenu } from '@alfresco/aca-shared/store';
 import { ContextMenuService } from '../../components/context-menu/context-menu.service';
+import { OverlayRef } from '@angular/cdk/overlay';
+import { ContextMenuOverlayRef } from '../../components/context-menu/context-menu-overlay';
 
 describe('ContextMenuEffects', () => {
   let store: Store<any>;
   let contextMenuService: ContextMenuService;
-  const overlayRefMock = {
-    close: jasmine.createSpy('close')
-  };
+  const overlayRefMock = new ContextMenuOverlayRef({} as OverlayRef);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -47,6 +47,7 @@ describe('ContextMenuEffects', () => {
     store = TestBed.get(Store);
     contextMenuService = TestBed.get(ContextMenuService);
 
+    spyOn(overlayRefMock, 'close').and.callFake(() => {});
     spyOn(contextMenuService, 'open').and.returnValue(overlayRefMock);
   });
 

@@ -472,7 +472,7 @@ describe('app.evaluators', () => {
         withCredentials: false
       };
 
-      expect(app.canShowLanguagePicker(context)).toBe(true);
+      expect(app.canShowLogout(context)).toBe(true);
     });
   });
 });
