@@ -16,12 +16,12 @@
 @mixin aca-custom-name-column-theme($theme) {
   $primary: map-get($theme, primary);
 
-  .aca-custom-name-column {
+  aca-custom-name-column {
     display: block;
     align-items: center;
 
     &:hover {
-      color: mat-color($primary, A200);
+      color: mat-color($primary, A200) !important;
     }
 
     .adf-datatable-cell-value {
