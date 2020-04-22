@@ -31,7 +31,8 @@ import { DocumentListService } from '@alfresco/adf-content-services';
 import { NodeActionsService, BatchOperationType } from './node-actions.service';
 import {
   MinimalNodeEntryEntity,
-  NodeChildAssociationEntry
+  NodeChildAssociationEntry,
+  NodeEntry
 } from '@alfresco/js-api';
 import { AppTestingModule } from '../testing/app-testing.module';
 import { ContentApiService } from '@alfresco/aca-shared';
@@ -83,6 +84,7 @@ describe('NodeActionsService', () => {
   const spyOnSuccess = jasmine.createSpy('spyOnSuccess');
   const spyOnError = jasmine.createSpy('spyOnError');
   let contentApi: ContentApiService;
+  let dialog: MatDialog;
 
   const helper = {
     fakeCopyNode: (
@@ -135,9 +137,98 @@ describe('NodeActionsService', () => {
 
     service = TestBed.get(NodeActionsService);
     apiService = TestBed.get(AlfrescoApiService);
+    dialog = TestBed.get(MatDialog);
     apiService.reset();
 
     nodesApi = apiService.getInstance().nodes;
+  });
+
+  describe('ContentNodeSelector configuration', () => {
+    it('should validate selection when allowableOperation has `create`', async(() => {
+      spyOn(dialog, 'open');
+      const contentEntities = [new TestNode(), { entry: { nodeId: '1234' } }];
+      const subject = new Subject<MinimalNodeEntryEntity[]>();
+
+      service.getContentNodeSelection('', contentEntities as NodeEntry[]);
+      subject.next([new TestNode().entry]);
+
+      const isSelectionValid = dialog.open['calls']
+        .argsFor(0)[1]
+        .data.isSelectionValid({
+          name: 'some-folder-template',
+          isFile: false,
+          isFolder: true,
+          path: { elements: [{}, {}] },
+          allowableOperations: ['create']
+        });
+
+      expect(isSelectionValid).toBe(true);
+    }));
+
+    it('should invalidate selection when allowableOperation does not have `create`', async(() => {
+      spyOn(dialog, 'open');
+      const contentEntities = [new TestNode(), { entry: { nodeId: '1234' } }];
+      const subject = new Subject<MinimalNodeEntryEntity[]>();
+
+      service.getContentNodeSelection('', contentEntities as NodeEntry[]);
+      subject.next([new TestNode().entry]);
+
+      const isSelectionValid = dialog.open['calls']
+        .argsFor(0)[1]
+        .data.isSelectionValid({
+          name: 'some-folder-template',
+          isFile: false,
+          isFolder: true,
+          path: { elements: [{}, {}] },
+          allowableOperations: ['any']
+        });
+
+      expect(isSelectionValid).toBe(false);
+    }));
+
+    it('should invalidate selection if isSite', async(() => {
+      spyOn(dialog, 'open');
+      const contentEntities = [new TestNode(), { entry: { nodeId: '1234' } }];
+      const subject = new Subject<MinimalNodeEntryEntity[]>();
+
+      service.getContentNodeSelection('', contentEntities as NodeEntry[]);
+      subject.next([new TestNode().entry]);
+
+      const isSelectionValid = dialog.open['calls']
+        .argsFor(0)[1]
+        .data.isSelectionValid({
+          name: 'some-folder-template',
+          isFile: false,
+          isFolder: true,
+          path: { elements: [{}, {}] },
+          nodeType: 'st:site',
+          allowableOperations: ['create']
+        });
+
+      expect(isSelectionValid).toBe(false);
+    }));
+
+    it('should validate selection if not a Site', async(() => {
+      spyOn(dialog, 'open');
+      const contentEntities = [new TestNode(), { entry: { nodeId: '1234' } }];
+      const subject = new Subject<MinimalNodeEntryEntity[]>();
+
+      service.getContentNodeSelection('', contentEntities as NodeEntry[]);
+      subject.next([new TestNode().entry]);
+
+      const isSelectionValid = dialog.open['calls']
+        .argsFor(0)[1]
+        .data.isSelectionValid({
+          name: 'some-folder-template',
+          isFile: false,
+          isFolder: true,
+          path: { elements: [{}, {}] },
+          nodeType: 'cm:folder',
+          allowableOperations: ['create']
+        });
+
+      expect(isSelectionValid).toBe(true);
+    }));
   });
 
   describe('doBatchOperation', () => {

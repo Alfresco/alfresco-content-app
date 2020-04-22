@@ -76,6 +76,8 @@ describe('TemplateEffects', () => {
     selectionType: 'folder'
   };
 
+  let subject: Subject<Node[]>;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule, EffectsModule.forRoot([TemplateEffects])],
@@ -96,7 +98,7 @@ describe('TemplateEffects', () => {
     alfrescoApiService = TestBed.get(AlfrescoApiService);
     contentManagementService = TestBed.get(ContentManagementService);
     matDialog = TestBed.get(MatDialog);
-    const subject = new Subject<Node[]>();
+    subject = new Subject<Node[]>();
 
     spyOn(store, 'dispatch').and.callThrough();
     spyOn(contentManagementService.reload, 'next');
@@ -111,6 +113,24 @@ describe('TemplateEffects', () => {
     copyNodeSpy.calls.reset();
     updateNodeSpy.calls.reset();
   });
+
+  it('should call createTemplateDialog on FileFromTemplate action', fakeAsync(() => {
+    spyOn(nodeTemplateService, 'createTemplateDialog');
+    store.dispatch(new FileFromTemplate());
+    subject.next([node]);
+    tick(300);
+
+    expect(nodeTemplateService.createTemplateDialog).toHaveBeenCalledWith(node);
+  }));
+
+  it('should call createTemplateDialog on FolderFromTemplate action', fakeAsync(() => {
+    spyOn(nodeTemplateService, 'createTemplateDialog');
+    store.dispatch(new FolderFromTemplate());
+    subject.next([node]);
+    tick(300);
+
+    expect(nodeTemplateService.createTemplateDialog).toHaveBeenCalledWith(node);
+  }));
 
   it('should open dialog to select template files', fakeAsync(() => {
     spyOn(nodeTemplateService, 'createTemplateDialog').and.returnValue({
