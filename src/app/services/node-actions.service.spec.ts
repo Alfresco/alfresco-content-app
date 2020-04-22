@@ -24,7 +24,7 @@
  */
 
 import { TestBed, async } from '@angular/core/testing';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { of, throwError, Subject } from 'rxjs';
 import { AlfrescoApiService, TranslationService } from '@alfresco/adf-core';
 import { DocumentListService } from '@alfresco/adf-content-services';
@@ -348,11 +348,10 @@ describe('NodeActionsService', () => {
 
       spyOn(service, 'getEntryParentId').and.returnValue('parent-id');
 
-      const dialog = TestBed.get(MatDialog);
       spyOn(dialog, 'open').and.callFake(
         (_contentNodeSelectorComponent: any, data: any) => {
           testContentNodeSelectorComponentData = data;
-          return { componentInstance: {} };
+          return { componentInstance: {} } as MatDialogRef<any>;
         }
       );
 
@@ -440,11 +439,10 @@ describe('NodeActionsService', () => {
       spyOn(service, 'getEntryParentId').and.returnValue('parent-id');
 
       let testContentNodeSelectorComponentData;
-      const dialog = TestBed.get(MatDialog);
       const spyOnDialog = spyOn(dialog, 'open').and.callFake(
         (_contentNodeSelectorComponent: any, data: any) => {
           testContentNodeSelectorComponentData = data;
-          return { componentInstance: {} };
+          return { componentInstance: {} } as MatDialogRef<any>;
         }
       );
 
@@ -494,11 +492,10 @@ describe('NodeActionsService', () => {
       spyOn(service, 'getEntryParentId').and.returnValue('parent-id');
 
       let testContentNodeSelectorComponentData;
-      const dialog = TestBed.get(MatDialog);
       spyOn(dialog, 'open').and.callFake(
         (_contentNodeSelectorComponent: any, data: any) => {
           testContentNodeSelectorComponentData = data;
-          return { componentInstance: {} };
+          return { componentInstance: {} } as MatDialogRef<any>;
         }
       );
 
@@ -524,11 +521,10 @@ describe('NodeActionsService', () => {
       spyOn(service, 'getEntryParentId').and.returnValue('parent-id');
 
       let testContentNodeSelectorComponentData;
-      const dialog = TestBed.get(MatDialog);
       spyOn(dialog, 'open').and.callFake(
         (_contentNodeSelectorComponent: any, data: any) => {
           testContentNodeSelectorComponentData = data;
-          return { componentInstance: {} };
+          return { componentInstance: {} } as MatDialogRef<any>;
         }
       );
 
