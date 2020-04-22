@@ -52,8 +52,13 @@ import { Store } from '@ngrx/store';
 import { ContentManagementService } from './content-management.service';
 import { NodeActionsService } from './node-actions.service';
 import { TranslationService, AlfrescoApiService } from '@alfresco/adf-core';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import {
+  MatSnackBar,
+  MatSnackBarRef,
+  SimpleSnackBar
+} from '@angular/material/snack-bar';
+import { NodeEntry, Node } from '@alfresco/js-api';
 
 describe('ContentManagementService', () => {
   let dialog: MatDialog;
@@ -84,14 +89,17 @@ describe('ContentManagementService', () => {
   });
 
   describe('Copy node action', () => {
+    let subject: Subject<string>;
+
     beforeEach(() => {
+      subject = new Subject<string>();
       spyOn(snackBar, 'open').and.callThrough();
     });
 
+    afterEach(() => subject.complete());
+
     it('notifies successful copy of a node', () => {
-      spyOn(nodeActions, 'copyNodes').and.returnValue(
-        of('OPERATION.SUCCES.CONTENT.COPY')
-      );
+      spyOn(nodeActions, 'copyNodes').and.returnValue(subject);
 
       const selection: any[] = [
         { entry: { id: 'node-to-copy-id', name: 'name' } }
@@ -100,6 +108,7 @@ describe('ContentManagementService', () => {
 
       store.dispatch(new CopyNodesAction(selection));
       nodeActions.contentCopied.next(createdItems);
+      subject.next('OPERATION.SUCCES.CONTENT.COPY');
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
       expect(snackBar.open['calls'].argsFor(0)[0]).toBe(
@@ -108,9 +117,7 @@ describe('ContentManagementService', () => {
     });
 
     it('notifies successful copy of multiple nodes', () => {
-      spyOn(nodeActions, 'copyNodes').and.returnValue(
-        of('OPERATION.SUCCES.CONTENT.COPY')
-      );
+      spyOn(nodeActions, 'copyNodes').and.returnValue(subject);
 
       const selection: any[] = [
         { entry: { id: 'node-to-copy-1', name: 'name1' } },
@@ -123,6 +130,7 @@ describe('ContentManagementService', () => {
 
       store.dispatch(new CopyNodesAction(selection));
       nodeActions.contentCopied.next(createdItems);
+      subject.next('OPERATION.SUCCES.CONTENT.COPY');
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
       expect(snackBar.open['calls'].argsFor(0)[0]).toBe(
@@ -131,9 +139,7 @@ describe('ContentManagementService', () => {
     });
 
     it('notifies partially copy of one node out of a multiple selection of nodes', () => {
-      spyOn(nodeActions, 'copyNodes').and.returnValue(
-        of('OPERATION.SUCCES.CONTENT.COPY')
-      );
+      spyOn(nodeActions, 'copyNodes').and.returnValue(subject);
 
       const selection: any[] = [
         { entry: { id: 'node-to-copy-1', name: 'name1' } },
@@ -145,6 +151,7 @@ describe('ContentManagementService', () => {
 
       store.dispatch(new CopyNodesAction(selection));
       nodeActions.contentCopied.next(createdItems);
+      subject.next('OPERATION.SUCCES.CONTENT.COPY');
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
       expect(snackBar.open['calls'].argsFor(0)[0]).toBe(
@@ -153,9 +160,7 @@ describe('ContentManagementService', () => {
     });
 
     it('notifies partially copy of more nodes out of a multiple selection of nodes', () => {
-      spyOn(nodeActions, 'copyNodes').and.returnValue(
-        of('OPERATION.SUCCES.CONTENT.COPY')
-      );
+      spyOn(nodeActions, 'copyNodes').and.returnValue(subject);
 
       const selection: any[] = [
         { entry: { id: 'node-to-copy-0', name: 'name0' } },
@@ -169,6 +174,7 @@ describe('ContentManagementService', () => {
 
       store.dispatch(new CopyNodesAction(selection));
       nodeActions.contentCopied.next(createdItems);
+      subject.next('OPERATION.SUCCES.CONTENT.COPY');
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
       expect(snackBar.open['calls'].argsFor(0)[0]).toBe(
@@ -177,9 +183,7 @@ describe('ContentManagementService', () => {
     });
 
     it('notifies of failed copy of multiple nodes', () => {
-      spyOn(nodeActions, 'copyNodes').and.returnValue(
-        of('OPERATION.SUCCES.CONTENT.COPY')
-      );
+      spyOn(nodeActions, 'copyNodes').and.returnValue(subject);
 
       const selection: any[] = [
         { entry: { id: 'node-to-copy-0', name: 'name0' } },
@@ -190,6 +194,7 @@ describe('ContentManagementService', () => {
 
       store.dispatch(new CopyNodesAction(selection));
       nodeActions.contentCopied.next(createdItems);
+      subject.next('OPERATION.SUCCES.CONTENT.COPY');
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
       expect(snackBar.open['calls'].argsFor(0)[0]).toBe(
@@ -198,9 +203,7 @@ describe('ContentManagementService', () => {
     });
 
     it('notifies of failed copy of one node', () => {
-      spyOn(nodeActions, 'copyNodes').and.returnValue(
-        of('OPERATION.SUCCES.CONTENT.COPY')
-      );
+      spyOn(nodeActions, 'copyNodes').and.returnValue(subject);
 
       const selection: any[] = [
         { entry: { id: 'node-to-copy', name: 'name' } }
@@ -209,6 +212,7 @@ describe('ContentManagementService', () => {
 
       store.dispatch(new CopyNodesAction(selection));
       nodeActions.contentCopied.next(createdItems);
+      subject.next('OPERATION.SUCCES.CONTENT.COPY');
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
       expect(snackBar.open['calls'].argsFor(0)[0]).toBe(
@@ -217,7 +221,7 @@ describe('ContentManagementService', () => {
     });
 
     it('notifies error if success message was not emitted', () => {
-      spyOn(nodeActions, 'copyNodes').and.returnValue(of(''));
+      spyOn(nodeActions, 'copyNodes').and.returnValue(subject);
 
       const selection: any[] = [
         { entry: { id: 'node-to-copy-id', name: 'name' } }
@@ -225,6 +229,7 @@ describe('ContentManagementService', () => {
 
       store.dispatch(new CopyNodesAction(selection));
       nodeActions.contentCopied.next();
+      subject.next('');
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
       expect(snackBar.open['calls'].argsFor(0)[0]).toBe(
@@ -233,12 +238,11 @@ describe('ContentManagementService', () => {
     });
 
     it('notifies permission error on copy of node', () => {
-      spyOn(nodeActions, 'copyNodes').and.returnValue(
-        throwError(new Error(JSON.stringify({ error: { statusCode: 403 } })))
-      );
+      spyOn(nodeActions, 'copyNodes').and.returnValue(subject);
 
       const selection: any[] = [{ entry: { id: '1', name: 'name' } }];
       store.dispatch(new CopyNodesAction(selection));
+      subject.error(new Error(JSON.stringify({ error: { statusCode: 403 } })));
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
       expect(snackBar.open['calls'].argsFor(0)[0]).toBe(
@@ -247,13 +251,12 @@ describe('ContentManagementService', () => {
     });
 
     it('notifies generic error message on all errors, but 403', () => {
-      spyOn(nodeActions, 'copyNodes').and.returnValue(
-        throwError(new Error(JSON.stringify({ error: { statusCode: 404 } })))
-      );
+      spyOn(nodeActions, 'copyNodes').and.returnValue(subject);
 
       const selection: any[] = [{ entry: { id: '1', name: 'name' } }];
 
       store.dispatch(new CopyNodesAction(selection));
+      subject.error(new Error(JSON.stringify({ error: { statusCode: 404 } })));
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
       expect(snackBar.open['calls'].argsFor(0)[0]).toBe(
@@ -263,14 +266,15 @@ describe('ContentManagementService', () => {
   });
 
   describe('Undo Copy action', () => {
-    beforeEach(() => {
-      spyOn(nodeActions, 'copyNodes').and.returnValue(
-        of('OPERATION.SUCCES.CONTENT.COPY')
-      );
+    let subject: Subject<string>;
 
+    beforeEach(() => {
+      subject = new Subject<string>();
+
+      spyOn(nodeActions, 'copyNodes').and.returnValue(subject);
       spyOn(snackBar, 'open').and.returnValue({
-        onAction: () => of({})
-      });
+        onAction: () => of(null)
+      } as MatSnackBarRef<SimpleSnackBar>);
     });
 
     it('should delete the newly created node on Undo action', () => {
@@ -282,6 +286,7 @@ describe('ContentManagementService', () => {
       const createdItems: any[] = [{ entry: { id: 'copy-id', name: 'name' } }];
 
       store.dispatch(new CopyNodesAction(selection));
+      nodeActions.copyNodes(null).next('OPERATION.SUCCES.CONTENT.COPY');
       nodeActions.contentCopied.next(createdItems);
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
@@ -325,6 +330,7 @@ describe('ContentManagementService', () => {
       ];
 
       store.dispatch(new CopyNodesAction(selection));
+      nodeActions.copyNodes(null).next('OPERATION.SUCCES.CONTENT.COPY');
       nodeActions.contentCopied.next(createdItems);
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
@@ -348,6 +354,7 @@ describe('ContentManagementService', () => {
       const createdItems: any[] = [{ entry: { id: 'copy-id', name: 'name' } }];
 
       store.dispatch(new CopyNodesAction(selection));
+      nodeActions.copyNodes(null).next('OPERATION.SUCCES.CONTENT.COPY');
       nodeActions.contentCopied.next(createdItems);
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
@@ -368,6 +375,7 @@ describe('ContentManagementService', () => {
       const createdItems: any[] = [{ entry: { id: 'copy-id', name: 'name' } }];
 
       store.dispatch(new CopyNodesAction(selection));
+      nodeActions.copyNodes(null).next('OPERATION.SUCCES.CONTENT.COPY');
       nodeActions.contentCopied.next(createdItems);
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
@@ -388,6 +396,7 @@ describe('ContentManagementService', () => {
       const createdItems: any[] = [{ entry: { id: 'copy-id', name: 'name' } }];
 
       store.dispatch(new CopyNodesAction(selection));
+      nodeActions.copyNodes(null).next('OPERATION.SUCCES.CONTENT.COPY');
       nodeActions.contentCopied.next(createdItems);
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
@@ -399,6 +408,8 @@ describe('ContentManagementService', () => {
   });
 
   describe('Move node action', () => {
+    let subject: Subject<string>;
+
     beforeEach(() => {
       spyOn(translationService, 'instant').and.callFake(keysArray => {
         if (Array.isArray(keysArray)) {
@@ -414,8 +425,11 @@ describe('ContentManagementService', () => {
     });
 
     beforeEach(() => {
+      subject = new Subject<string>();
       spyOn(snackBar, 'open').and.callThrough();
     });
+
+    afterEach(() => subject.complete());
 
     it('notifies successful move of a node', () => {
       const node = [{ entry: { id: 'node-to-move-id', name: 'name' } }];
@@ -425,14 +439,12 @@ describe('ContentManagementService', () => {
         partiallySucceeded: []
       };
 
-      spyOn(nodeActions, 'moveNodes').and.returnValue(
-        of('OPERATION.SUCCES.CONTENT.MOVE')
-      );
+      spyOn(nodeActions, 'moveNodes').and.returnValue(subject);
       spyOn(nodeActions, 'processResponse').and.returnValue(moveResponse);
 
       const selection: any = node;
       store.dispatch(new MoveNodesAction(selection));
-
+      nodeActions.moveNodes(null).next('OPERATION.SUCCES.CONTENT.MOVE');
       nodeActions.contentMoved.next(moveResponse);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
@@ -452,14 +464,13 @@ describe('ContentManagementService', () => {
         partiallySucceeded: []
       };
 
-      spyOn(nodeActions, 'moveNodes').and.returnValue(
-        of('OPERATION.SUCCES.CONTENT.MOVE')
-      );
+      spyOn(nodeActions, 'moveNodes').and.returnValue(subject);
       spyOn(nodeActions, 'processResponse').and.returnValue(moveResponse);
 
       const selection: any = nodes;
 
       store.dispatch(new MoveNodesAction(selection));
+      nodeActions.moveNodes(null).next('OPERATION.SUCCES.CONTENT.MOVE');
       nodeActions.contentMoved.next(moveResponse);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
@@ -476,14 +487,13 @@ describe('ContentManagementService', () => {
         partiallySucceeded: nodes
       };
 
-      spyOn(nodeActions, 'moveNodes').and.returnValue(
-        of('OPERATION.SUCCES.CONTENT.MOVE')
-      );
+      spyOn(nodeActions, 'moveNodes').and.returnValue(subject);
       spyOn(nodeActions, 'processResponse').and.returnValue(moveResponse);
 
       const selection = nodes;
 
       store.dispatch(new MoveNodesAction(selection));
+      nodeActions.moveNodes(null).next('OPERATION.SUCCES.CONTENT.MOVE');
       nodeActions.contentMoved.next(moveResponse);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
@@ -503,14 +513,13 @@ describe('ContentManagementService', () => {
         partiallySucceeded: nodes
       };
 
-      spyOn(nodeActions, 'moveNodes').and.returnValue(
-        of('OPERATION.SUCCES.CONTENT.MOVE')
-      );
+      spyOn(nodeActions, 'moveNodes').and.returnValue(subject);
       spyOn(nodeActions, 'processResponse').and.returnValue(moveResponse);
 
       const selection = nodes;
 
       store.dispatch(new MoveNodesAction(selection));
+      nodeActions.moveNodes(null).next('OPERATION.SUCCES.CONTENT.MOVE');
       nodeActions.contentMoved.next(moveResponse);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
@@ -530,13 +539,11 @@ describe('ContentManagementService', () => {
         partiallySucceeded: []
       };
 
-      spyOn(nodeActions, 'moveNodes').and.returnValue(
-        of('OPERATION.SUCCES.CONTENT.MOVE')
-      );
+      spyOn(nodeActions, 'moveNodes').and.returnValue(subject);
       spyOn(nodeActions, 'processResponse').and.returnValue(moveResponse);
 
       store.dispatch(new MoveNodesAction(nodes));
-
+      nodeActions.moveNodes(null).next('OPERATION.SUCCES.CONTENT.MOVE');
       nodeActions.contentMoved.next(moveResponse);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
@@ -556,12 +563,11 @@ describe('ContentManagementService', () => {
         partiallySucceeded: [nodes[1]]
       };
 
-      spyOn(nodeActions, 'moveNodes').and.returnValue(
-        of('OPERATION.SUCCES.CONTENT.MOVE')
-      );
+      spyOn(nodeActions, 'moveNodes').and.returnValue(subject);
       spyOn(nodeActions, 'processResponse').and.returnValue(moveResponse);
 
       store.dispatch(new MoveNodesAction(nodes));
+      nodeActions.moveNodes(null).next('OPERATION.SUCCES.CONTENT.MOVE');
       nodeActions.contentMoved.next(moveResponse);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
@@ -578,9 +584,10 @@ describe('ContentManagementService', () => {
         partiallySucceeded: []
       };
 
-      spyOn(nodeActions, 'moveNodes').and.returnValue(of(''));
+      spyOn(nodeActions, 'moveNodes').and.returnValue(subject);
 
       store.dispatch(new MoveNodesAction(nodes));
+      nodeActions.moveNodes(null).next('');
       nodeActions.contentMoved.next(moveResponse);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
@@ -590,12 +597,13 @@ describe('ContentManagementService', () => {
     });
 
     it('notifies permission error on move of node', () => {
-      spyOn(nodeActions, 'moveNodes').and.returnValue(
-        throwError(new Error(JSON.stringify({ error: { statusCode: 403 } })))
-      );
+      spyOn(nodeActions, 'moveNodes').and.returnValue(subject);
 
       const selection: any[] = [{ entry: { id: '1', name: 'name' } }];
       store.dispatch(new MoveNodesAction(selection));
+      nodeActions
+        .moveNodes(null)
+        .error(new Error(JSON.stringify({ error: { statusCode: 403 } })));
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
       expect(snackBar.open['calls'].argsFor(0)[0]).toBe(
@@ -604,12 +612,13 @@ describe('ContentManagementService', () => {
     });
 
     it('notifies generic error message on all errors, but 403', () => {
-      spyOn(nodeActions, 'moveNodes').and.returnValue(
-        throwError(new Error(JSON.stringify({ error: { statusCode: 404 } })))
-      );
+      spyOn(nodeActions, 'moveNodes').and.returnValue(subject);
 
       const selection: any[] = [{ entry: { id: '1', name: 'name' } }];
       store.dispatch(new MoveNodesAction(selection));
+      nodeActions
+        .moveNodes(null)
+        .error(new Error(JSON.stringify({ error: { statusCode: 404 } })));
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
       expect(snackBar.open['calls'].argsFor(0)[0]).toBe(
@@ -618,12 +627,13 @@ describe('ContentManagementService', () => {
     });
 
     it('notifies conflict error message on 409', () => {
-      spyOn(nodeActions, 'moveNodes').and.returnValue(
-        throwError(new Error(JSON.stringify({ error: { statusCode: 409 } })))
-      );
+      spyOn(nodeActions, 'moveNodes').and.returnValue(subject);
 
       const selection: any[] = [{ entry: { id: '1', name: 'name' } }];
       store.dispatch(new MoveNodesAction(selection));
+      nodeActions
+        .moveNodes(null)
+        .error(new Error(JSON.stringify({ error: { statusCode: 409 } })));
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
       expect(snackBar.open['calls'].argsFor(0)[0]).toBe(
@@ -639,12 +649,11 @@ describe('ContentManagementService', () => {
         partiallySucceeded: []
       };
 
-      spyOn(nodeActions, 'moveNodes').and.returnValue(
-        of('OPERATION.SUCCES.CONTENT.MOVE')
-      );
+      spyOn(nodeActions, 'moveNodes').and.returnValue(subject);
       spyOn(nodeActions, 'processResponse').and.returnValue(moveResponse);
 
       store.dispatch(new MoveNodesAction(nodes));
+      nodeActions.moveNodes(null).next('OPERATION.SUCCES.CONTENT.MOVE');
       nodeActions.contentMoved.next(moveResponse);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
@@ -655,6 +664,8 @@ describe('ContentManagementService', () => {
   });
 
   describe('Undo Move action', () => {
+    let subject: Subject<string>;
+
     beforeEach(() => {
       spyOn(translationService, 'instant').and.callFake(keysArray => {
         if (Array.isArray(keysArray)) {
@@ -670,14 +681,15 @@ describe('ContentManagementService', () => {
     });
 
     beforeEach(() => {
-      spyOn(nodeActions, 'moveNodes').and.returnValue(
-        of('OPERATION.SUCCES.CONTENT.MOVE')
-      );
+      subject = new Subject<string>();
+      spyOn(nodeActions, 'moveNodes').and.returnValue(subject);
 
       spyOn(snackBar, 'open').and.returnValue({
-        onAction: () => of({})
-      });
+        onAction: () => of(null)
+      } as MatSnackBarRef<SimpleSnackBar>);
     });
+
+    afterEach(() => subject.next());
 
     it('should move node back to initial parent, after succeeded move', () => {
       const initialParent = 'parent-id-0';
@@ -689,6 +701,7 @@ describe('ContentManagementService', () => {
       spyOn(nodeActions, 'moveNodeAction').and.returnValue(of({}));
 
       store.dispatch(new MoveNodesAction(selection));
+      nodeActions.moveNodes(null).next('OPERATION.SUCCES.CONTENT.MOVE');
       const movedItems = {
         failed: [],
         partiallySucceeded: [],
@@ -726,6 +739,7 @@ describe('ContentManagementService', () => {
       };
 
       store.dispatch(new MoveNodesAction(selection));
+      nodeActions.moveNodes(null).next('OPERATION.SUCCES.CONTENT.MOVE');
       nodeActions.contentMoved.next(movedItems);
 
       expect(nodeActions.moveNodeAction).toHaveBeenCalledWith(
@@ -762,6 +776,7 @@ describe('ContentManagementService', () => {
       };
 
       store.dispatch(new MoveNodesAction(selection));
+      nodeActions.moveNodes(null).next('OPERATION.SUCCES.CONTENT.MOVE');
       nodeActions.contentMoved.next(movedItems);
 
       expect(contentApi.restoreNode).toHaveBeenCalled();
@@ -805,6 +820,7 @@ describe('ContentManagementService', () => {
       };
 
       store.dispatch(new MoveNodesAction(selection));
+      nodeActions.moveNodes(null).next('OPERATION.SUCCES.CONTENT.MOVE');
       nodeActions.contentMoved.next(movedItems);
 
       expect(contentApi.restoreNode).toHaveBeenCalled();
@@ -838,6 +854,7 @@ describe('ContentManagementService', () => {
       };
 
       store.dispatch(new MoveNodesAction(selection));
+      nodeActions.moveNodes(null).next('OPERATION.SUCCES.CONTENT.MOVE');
       nodeActions.contentMoved.next(movedItems);
 
       expect(contentApi.restoreNode).toHaveBeenCalled();
@@ -871,6 +888,7 @@ describe('ContentManagementService', () => {
       };
 
       store.dispatch(new MoveNodesAction(selection));
+      nodeActions.moveNodes(null).next('OPERATION.SUCCES.CONTENT.MOVE');
       nodeActions.contentMoved.next(movedItems);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
@@ -999,7 +1017,7 @@ describe('ContentManagementService', () => {
         afterClosed() {
           return of(true);
         }
-      });
+      } as MatDialogRef<MatDialog>);
     });
 
     it('does not purge nodes if no selection', () => {
@@ -1185,7 +1203,7 @@ describe('ContentManagementService', () => {
     });
 
     it('call restore nodes if selection has nodes with path', fakeAsync(() => {
-      spyOn(contentApi, 'restoreNode').and.returnValue(of({}));
+      spyOn(contentApi, 'restoreNode').and.returnValue(of({} as NodeEntry));
       spyOn(contentApi, 'getDeletedNodes').and.returnValue(
         of({
           list: { entries: [] }
@@ -1217,7 +1235,7 @@ describe('ContentManagementService', () => {
 
     it('should navigate to library folder when node is a library content', fakeAsync(() => {
       spyOn(store, 'dispatch').and.callThrough();
-      spyOn(contentApi, 'restoreNode').and.returnValue(of({}));
+      spyOn(contentApi, 'restoreNode').and.returnValue(of({} as NodeEntry));
       spyOn(contentApi, 'getDeletedNodes').and.returnValue(
         of({
           list: { entries: [] }
@@ -1273,7 +1291,7 @@ describe('ContentManagementService', () => {
 
         spyOn(contentApi, 'restoreNode').and.callFake(id => {
           if (id === '1') {
-            return of({});
+            return of({} as NodeEntry);
           }
 
           if (id === '2') {
@@ -1284,7 +1302,7 @@ describe('ContentManagementService', () => {
             return throwError(error);
           }
 
-          return of({});
+          return of({} as NodeEntry);
         });
 
         const path = {
@@ -1378,15 +1396,16 @@ describe('ContentManagementService', () => {
 
       it('should raise info message when restore multiple nodes', fakeAsync(done => {
         spyOn(contentApi, 'restoreNode').and.callFake(id => {
+          const entry = {} as NodeEntry;
           if (id === '1') {
-            return of({});
+            return of(entry);
           }
 
           if (id === '2') {
-            return of({});
+            return of(entry);
           }
 
-          return of({});
+          return of(entry);
         });
 
         actions$.pipe(
@@ -1411,8 +1430,8 @@ describe('ContentManagementService', () => {
         store.dispatch(new RestoreDeletedNodesAction(selection));
       }));
 
-      xit('should raise info message when restore selected node', fakeAsync(done => {
-        spyOn(contentApi, 'restoreNode').and.returnValue(of({}));
+      it('should raise info message when restore selected node', fakeAsync(done => {
+        spyOn(contentApi, 'restoreNode').and.returnValue(of({} as NodeEntry));
 
         actions$.pipe(
           ofType<SnackbarInfoAction>(SnackbarActionTypes.Info),
@@ -1434,7 +1453,7 @@ describe('ContentManagementService', () => {
       }));
 
       it('navigate to restore selected node location onAction', fakeAsync(done => {
-        spyOn(contentApi, 'restoreNode').and.returnValue(of({}));
+        spyOn(contentApi, 'restoreNode').and.returnValue(of({} as NodeEntry));
 
         actions$.pipe(
           ofType<NavigateRouteAction>(RouterActionTypes.NavigateRoute),
@@ -1467,13 +1486,13 @@ describe('ContentManagementService', () => {
 
   describe('Share Node', () => {
     it('should open dialog for nodes without requesting getNodeInfo', fakeAsync(() => {
-      const node: any = { entry: { id: '1', name: 'name1' } };
-      spyOn(contentApi, 'getNodeInfo').and.returnValue(of({}));
+      const node = { entry: { id: '1', name: 'name1' } } as any;
+      spyOn(contentApi, 'getNodeInfo').and.returnValue(of({} as Node));
       spyOn(dialog, 'open').and.returnValue({
         afterClosed() {
           return of(null);
         }
-      });
+      } as MatDialogRef<MatDialog>);
 
       store.dispatch(new ShareNodeAction(node));
 
@@ -1482,13 +1501,15 @@ describe('ContentManagementService', () => {
     }));
 
     it('should open dialog with getNodeInfo data when `id` property is missing', fakeAsync(() => {
-      const node: any = { entry: { nodeId: '1', name: 'name1' } };
-      spyOn(contentApi, 'getNodeInfo').and.returnValue(of({}));
+      const node = {
+        entry: { nodeId: '1', name: 'name1' }
+      } as any;
+      spyOn(contentApi, 'getNodeInfo').and.returnValue(of({} as Node));
       spyOn(dialog, 'open').and.returnValue({
         afterClosed() {
           return of(null);
         }
-      });
+      } as MatDialogRef<MatDialog>);
 
       store.dispatch(new ShareNodeAction(node));
 
@@ -1497,13 +1518,13 @@ describe('ContentManagementService', () => {
     }));
 
     it('should update node selection after dialog is closed', fakeAsync(() => {
-      const node: any = { entry: { id: '1', name: 'name1' } };
+      const node = { entry: { id: '1', name: 'name1' } } as NodeEntry;
       spyOn(store, 'dispatch').and.callThrough();
       spyOn(dialog, 'open').and.returnValue({
         afterClosed() {
           return of(null);
         }
-      });
+      } as MatDialogRef<MatDialog>);
 
       store.dispatch(new ShareNodeAction(node));
 
@@ -1513,11 +1534,11 @@ describe('ContentManagementService', () => {
     }));
 
     it('should emit event when node is un-shared', fakeAsync(() => {
-      const node: any = { entry: { id: '1', name: 'name1' } };
+      const node = { entry: { id: '1', name: 'name1' } } as NodeEntry;
       spyOn(contentManagementService.linksUnshared, 'next').and.callThrough();
       spyOn(dialog, 'open').and.returnValue({
         afterClosed: () => of(node)
-      });
+      } as MatDialogRef<MatDialog>);
 
       store.dispatch(new ShareNodeAction(node));
       tick();
@@ -1531,7 +1552,9 @@ describe('ContentManagementService', () => {
 
   describe('Unlock Node', () => {
     it('should unlock node', fakeAsync(() => {
-      spyOn(contentApi, 'unlockNode').and.returnValue(Promise.resolve({}));
+      spyOn(contentApi, 'unlockNode').and.returnValue(
+        Promise.resolve({} as NodeEntry)
+      );
 
       store.dispatch(new UnlockWriteAction({ entry: { id: 'node-id' } }));
       tick();

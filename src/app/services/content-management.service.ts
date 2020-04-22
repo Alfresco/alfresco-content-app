@@ -1164,7 +1164,7 @@ export class ContentManagementService {
     return i18nMessageString;
   }
 
-  getNodeInfo() {
+  getNodeInfo(): Observable<MinimalNodeEntryEntity> {
     return this.store.select(getAppSelection).pipe(
       take(1),
       flatMap(({ file }) => {
@@ -1178,8 +1178,8 @@ export class ContentManagementService {
     );
   }
 
-  unlockNode(node: NodeEntry) {
-    this.contentApi.unlockNode(node.entry.id).catch(() => {
+  unlockNode(node: NodeEntry): Promise<void | NodeEntry> {
+    return this.contentApi.unlockNode(node.entry.id).catch(() => {
       this.store.dispatch(
         new SnackbarErrorAction('APP.MESSAGES.ERRORS.UNLOCK_NODE', {
           fileName: node.entry.name

@@ -36,11 +36,12 @@ import {
   SnackbarErrorAction
 } from '@alfresco/aca-shared/store';
 import { NodeTemplateService } from '../../services/node-template.service';
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { AlfrescoApiServiceMock, AlfrescoApiService } from '@alfresco/adf-core';
 import { ContentManagementService } from '../../services/content-management.service';
 import { Node, NodeEntry } from '@alfresco/js-api';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { CreateFromTemplateDialogComponent } from '../../dialogs/node-template/create-from-template.dialog';
 
 describe('TemplateEffects', () => {
   let store: Store<any>;
@@ -75,6 +76,8 @@ describe('TemplateEffects', () => {
     selectionType: 'folder'
   };
 
+  let subject: Subject<Node[]>;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule, EffectsModule.forRoot([TemplateEffects])],
@@ -95,13 +98,12 @@ describe('TemplateEffects', () => {
     alfrescoApiService = TestBed.get(AlfrescoApiService);
     contentManagementService = TestBed.get(ContentManagementService);
     matDialog = TestBed.get(MatDialog);
+    subject = new Subject<Node[]>();
 
     spyOn(store, 'dispatch').and.callThrough();
     spyOn(contentManagementService.reload, 'next');
     spyOn(store, 'select').and.returnValue(of({ id: 'parent-id' }));
-    spyOn(nodeTemplateService, 'selectTemplateDialog').and.returnValue(
-      of([{ id: 'template-id' }])
-    );
+    spyOn(nodeTemplateService, 'selectTemplateDialog').and.returnValue(subject);
 
     copyNodeSpy = spyOn(alfrescoApiService.getInstance().nodes, 'copyNode');
     updateNodeSpy = spyOn(alfrescoApiService.getInstance().nodes, 'updateNode');
@@ -112,10 +114,28 @@ describe('TemplateEffects', () => {
     updateNodeSpy.calls.reset();
   });
 
+  it('should call createTemplateDialog on FileFromTemplate action', fakeAsync(() => {
+    spyOn(nodeTemplateService, 'createTemplateDialog');
+    store.dispatch(new FileFromTemplate());
+    subject.next([node]);
+    tick(300);
+
+    expect(nodeTemplateService.createTemplateDialog).toHaveBeenCalledWith(node);
+  }));
+
+  it('should call createTemplateDialog on FolderFromTemplate action', fakeAsync(() => {
+    spyOn(nodeTemplateService, 'createTemplateDialog');
+    store.dispatch(new FolderFromTemplate());
+    subject.next([node]);
+    tick(300);
+
+    expect(nodeTemplateService.createTemplateDialog).toHaveBeenCalledWith(node);
+  }));
+
   it('should open dialog to select template files', fakeAsync(() => {
     spyOn(nodeTemplateService, 'createTemplateDialog').and.returnValue({
       afterClosed: () => of(node)
-    });
+    } as MatDialogRef<CreateFromTemplateDialogComponent>);
 
     store.dispatch(new FileFromTemplate());
     tick();
@@ -128,7 +148,7 @@ describe('TemplateEffects', () => {
   it('should open dialog to select template folders', fakeAsync(() => {
     spyOn(nodeTemplateService, 'createTemplateDialog').and.returnValue({
       afterClosed: () => of(node)
-    });
+    } as MatDialogRef<CreateFromTemplateDialogComponent>);
 
     store.dispatch(new FolderFromTemplate());
     tick();

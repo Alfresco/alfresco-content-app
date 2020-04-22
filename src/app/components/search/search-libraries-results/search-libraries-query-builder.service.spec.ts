@@ -26,12 +26,16 @@
 import { TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { AlfrescoApiService } from '@alfresco/adf-core';
-import { SearchLibrariesQueryBuilderService } from './search-libraries-query-builder.service';
+import {
+  SearchLibrariesQueryBuilderService,
+  LibrarySearchQuery
+} from './search-libraries-query-builder.service';
 
 describe('SearchLibrariesQueryBuilderService', () => {
   let apiService: AlfrescoApiService;
   let builder: SearchLibrariesQueryBuilderService;
   let queriesApi;
+  const query = {} as LibrarySearchQuery;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -54,7 +58,6 @@ describe('SearchLibrariesQueryBuilderService', () => {
   });
 
   it('should build query and raise an event on update', async () => {
-    const query = {};
     spyOn(builder, 'buildQuery').and.returnValue(query);
 
     let eventArgs = null;
@@ -68,7 +71,6 @@ describe('SearchLibrariesQueryBuilderService', () => {
     const data = {};
     spyOn(queriesApi, 'findSites').and.returnValue(Promise.resolve(data));
 
-    const query = {};
     spyOn(builder, 'buildQuery').and.returnValue(query);
 
     let eventArgs = null;
@@ -106,7 +108,6 @@ describe('SearchLibrariesQueryBuilderService', () => {
     const err = '{"error": {"statusCode": 400}}';
     spyOn(queriesApi, 'findSites').and.returnValue(Promise.reject(err));
 
-    const query = {};
     spyOn(builder, 'buildQuery').and.returnValue(query);
 
     let eventArgs = null;
