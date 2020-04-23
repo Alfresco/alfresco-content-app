@@ -25,14 +25,12 @@
 
 import {
   ElementFinder,
-  ExpectedConditions as EC,
   browser,
   by,
   ElementArrayFinder,
-  ProtractorBrowser,
-  until
+  ProtractorBrowser
 } from 'protractor';
-import { BROWSER_WAIT_TIMEOUT } from '../configs';
+import { waitForPresence } from '../utilities/utils';
 
 export abstract class Component {
   component: ElementFinder;
@@ -79,58 +77,6 @@ export abstract class Component {
   }
 
   async wait() {
-    await browser.wait(EC.presenceOf(this.component), BROWSER_WAIT_TIMEOUT);
-  }
-
-  async waitCss(css: string, errorMessage?: string): Promise<void> {
-    await browser.wait(
-      until.elementLocated(by.css(css)),
-      BROWSER_WAIT_TIMEOUT,
-      errorMessage || 'Timeout waiting for CSS selector'
-    );
-  }
-
-  protected async waitForVisibility(
-    element: ElementFinder,
-    errorMessage?: string
-  ): Promise<void> {
-    return browser.wait(
-      EC.visibilityOf(element),
-      BROWSER_WAIT_TIMEOUT,
-      errorMessage || 'Timeout waiting for element visibility'
-    );
-  }
-
-  protected async waitForClickable(
-    element: ElementFinder,
-    errorMessage?: string
-  ): Promise<void> {
-    return browser.wait(
-      EC.elementToBeClickable(element),
-      BROWSER_WAIT_TIMEOUT,
-      errorMessage || 'Timeout waiting for element to be clickable'
-    );
-  }
-
-  protected async waitForPresence(
-    element: ElementFinder,
-    errorMessage?: string
-  ): Promise<void> {
-    return browser.wait(
-      EC.presenceOf(element),
-      BROWSER_WAIT_TIMEOUT,
-      errorMessage || 'Timeout waiting for element presence'
-    );
-  }
-
-  protected async waitForStaleness(
-    element: ElementFinder,
-    errorMessage?: string
-  ): Promise<void> {
-    return browser.wait(
-      EC.stalenessOf(element),
-      BROWSER_WAIT_TIMEOUT,
-      errorMessage || 'Timeout waiting element staleness'
-    );
+    await waitForPresence(this.component);
   }
 }

@@ -137,7 +137,7 @@ describe('Unshare a file from Search Results', () => {
     const url = await shareDialog.getLinkUrl();
     await shareDialog.clickShareToggle();
 
-    await confirmDialog.clickRemove();
+    await confirmDialog.removeButton.click();
     await confirmDialog.waitForDialogToClose();
     await shareDialog.waitForDialogToClose();
     expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
@@ -163,7 +163,7 @@ describe('Unshare a file from Search Results', () => {
     const urlBefore = await shareDialog.getLinkUrl();
     await shareDialog.clickShareToggle();
 
-    await confirmDialog.clickCancel();
+    await confirmDialog.cancelButton.click();
     await confirmDialog.waitForDialogToClose();
     expect(await shareDialog.isDialogOpen()).toBe(true, 'Share dialog not open');
     expect(await shareDialog.isShareToggleChecked()).toBe(true, 'Share toggle is off');
@@ -185,7 +185,7 @@ describe('Unshare a file from Search Results', () => {
     const url = await shareDialog.getLinkUrl();
     await shareDialog.clickShareToggle();
 
-    await confirmDialog.clickRemove();
+    await confirmDialog.removeButton.click();
     await confirmDialog.waitForDialogToClose();
     await shareDialog.waitForDialogToClose();
     expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
@@ -210,7 +210,7 @@ describe('Unshare a file from Search Results', () => {
     expect(await shareDialog.isShareToggleDisabled()).toBe(false, 'Share toggle disabled for consumer');
 
     await shareDialog.clickShareToggle();
-    await confirmDialog.clickRemove();
+    await confirmDialog.removeButton.click();
 
     const msg = await page.getSnackBarMessage();
     expect(msg).toContain(`You don't have permission to unshare this file`);
@@ -228,7 +228,7 @@ describe('Unshare a file from Search Results', () => {
     expect(await shareDialog.isShareToggleDisabled()).toBe(false, 'Share toggle disabled for consumer');
 
     await shareDialog.clickShareToggle();
-    await confirmDialog.clickRemove();
+    await confirmDialog.removeButton.click();
     await confirmDialog.waitForDialogToClose();
     await shareDialog.waitForDialogToClose();
 

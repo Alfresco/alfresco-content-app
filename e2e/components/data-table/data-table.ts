@@ -28,7 +28,7 @@ import { Logger } from '@alfresco/adf-testing';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
 import { Menu } from '../menu/menu';
-import { Utils } from '../../utilities/utils';
+import { Utils, waitForPresence } from '../../utilities/utils';
 
 export class DataTable extends Component {
   private static selectors = {
@@ -60,15 +60,15 @@ export class DataTable extends Component {
   }
 
   async waitForHeader(): Promise<void> {
-    return this.waitForPresence(this.head, '--- timeout waitForHeader ---');
+    return waitForPresence(this.head, '--- timeout waitForHeader ---');
   }
 
   async waitForBody(): Promise<void> {
-    return this.waitForPresence(this.body, '--- timeout waitForBody ---');
+    return waitForPresence(this.body, '--- timeout waitForBody ---');
   }
 
   async waitForEmptyState(): Promise<void> {
-    return this.waitForPresence(this.emptyList);
+    return waitForPresence(this.emptyList);
   }
 
   private getColumnHeaders(): ElementArrayFinder {

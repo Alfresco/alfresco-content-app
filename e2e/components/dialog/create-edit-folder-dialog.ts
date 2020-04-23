@@ -23,31 +23,24 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, protractor, browser, ExpectedConditions as EC } from 'protractor';
+import { by, protractor, browser, ExpectedConditions as EC } from 'protractor';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { GenericDialog } from '../dialog/generic-dialog';
 import { isPresentAndDisplayed } from '../../utilities/utils';
 
 export class CreateOrEditFolderDialog extends GenericDialog {
   private static selectors = {
-    root: 'adf-folder-dialog',
-
-    nameInput: 'input[placeholder="Name" i]',
-    descriptionTextArea: 'textarea[placeholder="Description" i]',
-
-    validationMessage: '.mat-hint span',
-
     createButton: by.cssContainingText('.mat-dialog-actions button', 'Create'),
     cancelButton: by.id('adf-folder-cancel-button'),
     updateButton: by.cssContainingText('.mat-dialog-actions button', 'Update')
   };
 
-  nameInput: ElementFinder = this.rootElem.element(by.css(CreateOrEditFolderDialog.selectors.nameInput));
-  descriptionTextArea: ElementFinder = this.rootElem.element(by.css(CreateOrEditFolderDialog.selectors.descriptionTextArea));
-  validationMessage: ElementFinder = this.rootElem.element(by.css(CreateOrEditFolderDialog.selectors.validationMessage));
+  nameInput = this.rootElem.element(by.css('input[placeholder="Name" i]'));
+  descriptionTextArea = this.rootElem.element(by.css('textarea[placeholder="Description" i]'));
+  validationMessage = this.rootElem.element(by.css('.mat-hint span'));
 
   constructor() {
-    super(CreateOrEditFolderDialog.selectors.root);
+    super('adf-folder-dialog');
   }
 
   async waitForDialogToOpen() {

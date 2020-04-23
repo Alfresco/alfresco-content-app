@@ -205,7 +205,7 @@ describe('Library actions', () => {
       await dataTable.selectItem(sitePublic2Admin);
       await toolbar.leaveButton.click();
       await page.waitForDialog();
-      await confirmDialog.clickOk();
+      await confirmDialog.okButton.click();
 
       expect(await page.getSnackBarMessage()).toEqual(`You have left the library`);
       expect(await dataTable.isItemPresent(sitePublic2Admin)).toBe(false, `${sitePublic2Admin} is displayed`);
@@ -216,7 +216,7 @@ describe('Library actions', () => {
       await dataTable.selectItem(sitePublic3Admin);
       await toolbar.leaveButton.click();
       await page.waitForDialog();
-      await confirmDialog.clickOk();
+      await confirmDialog.okButton.click();
 
       expect(await page.getSnackBarMessage()).toEqual(`You have left the library`);
       expect(await dataTable.isItemPresent(sitePublic3Admin)).toBe(true, `${sitePublic3Admin} is not displayed`);
@@ -231,7 +231,7 @@ describe('Library actions', () => {
       await dataTable.selectItem(siteSearchPublic2Admin);
       await toolbar.leaveButton.click();
       await page.waitForDialog();
-      await confirmDialog.clickOk();
+      await confirmDialog.okButton.click();
 
       expect(await page.getSnackBarMessage()).toEqual(`You have left the library`);
       expect(await dataTable.isItemPresent(siteSearchPublic2Admin)).toBe(true, `${siteSearchPublic2Admin} is not displayed`);
@@ -257,7 +257,7 @@ describe('Library actions', () => {
       await page.waitForDialog();
 
       expect(await confirmDialog.isCancelEnabled()).toBe(true, 'Cancel button is not enabled');
-      await confirmDialog.clickCancel();
+      await confirmDialog.cancelButton.click();
       expect(await dataTable.isItemPresent(sitePublic5Admin)).toBe(true, `${sitePublic5Admin} was deleted`);
     });
 
@@ -266,7 +266,7 @@ describe('Library actions', () => {
       await dataTable.selectItem(sitePublicUser);
       await toolbar.leaveButton.click();
       await page.waitForDialog();
-      await confirmDialog.clickOk();
+      await confirmDialog.okButton.click();
 
       expect(await page.getSnackBarMessage()).toEqual(`Cannot leave this library`);
     });

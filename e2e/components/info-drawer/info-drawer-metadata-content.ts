@@ -25,7 +25,7 @@
 
 import { by, browser } from 'protractor';
 import { Component } from '../component';
-import { isPresentAndEnabled, isPresentAndDisplayed } from '../../utilities/utils';
+import { isPresentAndEnabled, isPresentAndDisplayed, waitForVisibility } from '../../utilities/utils';
 
 export class ContentMetadata extends Component {
   expandedPanel = this.byCss('.mat-expansion-panel.mat-expanded');
@@ -47,7 +47,7 @@ export class ContentMetadata extends Component {
   }
 
   async waitForImagePropertiesPanelToExpand(): Promise<void> {
-    await this.waitForVisibility(this.expandedImagePropertiesPanel);
+    await waitForVisibility(this.expandedImagePropertiesPanel);
   }
 
   async getVisiblePropertiesLabels(): Promise<string[]> {

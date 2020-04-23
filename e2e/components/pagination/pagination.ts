@@ -27,6 +27,7 @@ import { browser } from 'protractor';
 import { Logger } from '@alfresco/adf-testing';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
+import { waitForClickable } from '../../utilities/utils';
 
 export class Pagination extends Component {
   range = this.byCss('.adf-pagination__range');
@@ -46,7 +47,7 @@ export class Pagination extends Component {
 
   async openMaxItemsMenu() {
     try {
-      await this.waitForClickable(this.maxItemsButton, 'timeout waiting for maxItemsButton to be clickable');
+      await waitForClickable(this.maxItemsButton, 'timeout waiting for maxItemsButton to be clickable');
       await this.maxItemsButton.click();
       await this.menu.waitForMenuToOpen();
     } catch (error) {
@@ -56,7 +57,7 @@ export class Pagination extends Component {
 
   async openCurrentPageMenu() {
     try {
-      await this.waitForClickable(this.pagesButton, 'timeout waiting for pagesButton to be clickable');
+      await waitForClickable(this.pagesButton, 'timeout waiting for pagesButton to be clickable');
       await this.pagesButton.click();
       await this.menu.waitForMenuToOpen();
     } catch (error) {

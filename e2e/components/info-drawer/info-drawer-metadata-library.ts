@@ -26,6 +26,7 @@
 import { by, browser } from 'protractor';
 import { Logger } from '@alfresco/adf-testing';
 import { Component } from '../component';
+import { waitForPresence, waitForStaleness } from '../../utilities/utils';
 
 export class LibraryMetadata extends Component {
   metadataTabContent = this.byCss('.mat-card-content');
@@ -101,7 +102,7 @@ export class LibraryMetadata extends Component {
   }
 
   async waitForVisibilityDropDownToClose() {
-    await this.waitForStaleness(browser.$('.mat-option .mat-option-text'));
+    await waitForStaleness(browser.$('.mat-option .mat-option-text'));
   }
 
   async isMessageDisplayed() {
@@ -172,7 +173,7 @@ export class LibraryMetadata extends Component {
     const val = visibility.toLowerCase();
 
     await this.visibilityDropDown.click();
-    await this.waitForPresence(this.visibilityDropDown);
+    await waitForPresence(this.visibilityDropDown);
 
     if (val === 'public') {
       await this.visibilityPublic.click();

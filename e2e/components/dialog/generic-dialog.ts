@@ -73,7 +73,11 @@ export abstract class GenericDialog {
     return this.title.getText();
   }
 
-  getActionButton(selector: Locator): ElementFinder {
+  private getActionButton(selector: Locator): ElementFinder {
+    return this.rootElem.element(selector);
+  }
+
+  protected childElement(selector: Locator): ElementFinder {
     return this.rootElem.element(selector);
   }
 

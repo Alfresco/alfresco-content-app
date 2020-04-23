@@ -23,13 +23,65 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { browser, protractor, ElementFinder, ExpectedConditions as EC, by, logging } from 'protractor';
+import { browser, protractor, ElementFinder, ExpectedConditions as EC, by, logging, until } from 'protractor';
 import { Logger } from '@alfresco/adf-testing';
 import { BROWSER_WAIT_TIMEOUT, E2E_ROOT_PATH, EXTENSIBILITY_CONFIGS } from '../configs';
 
 const path = require('path');
 const fs = require('fs');
 const StreamZip = require('node-stream-zip');
+
+export async function waitCss(css: string, errorMessage?: string): Promise<void> {
+  await browser.wait(
+    until.elementLocated(by.css(css)),
+    BROWSER_WAIT_TIMEOUT,
+    errorMessage || 'Timeout waiting for CSS selector'
+  );
+}
+
+export async function waitForClickable(
+  element: ElementFinder,
+  errorMessage?: string
+): Promise<void> {
+  return browser.wait(
+    EC.elementToBeClickable(element),
+    BROWSER_WAIT_TIMEOUT,
+    errorMessage || 'Timeout waiting for element to be clickable'
+  );
+}
+
+export async function waitForVisibility(
+  element: ElementFinder,
+  errorMessage?: string
+): Promise<void> {
+  return browser.wait(
+    EC.visibilityOf(element),
+    BROWSER_WAIT_TIMEOUT,
+    errorMessage || 'Timeout waiting for element visibility'
+  );
+}
+
+export async function waitForPresence(
+  element: ElementFinder,
+  errorMessage?: string
+): Promise<void> {
+  return browser.wait(
+    EC.presenceOf(element),
+    BROWSER_WAIT_TIMEOUT,
+    errorMessage || 'Timeout waiting for element presence'
+  );
+}
+
+export async function waitForStaleness(
+  element: ElementFinder,
+  errorMessage?: string
+): Promise<void> {
+  return browser.wait(
+    EC.stalenessOf(element),
+    BROWSER_WAIT_TIMEOUT,
+    errorMessage || 'Timeout waiting element staleness'
+  );
+}
 
 export const isPresentAndEnabled = async (element: ElementFinder): Promise<boolean> => {
   const isPresent = await element.isPresent();

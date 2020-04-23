@@ -25,6 +25,7 @@
 
 import { by, browser } from 'protractor';
 import { Component } from '../component';
+import { waitForPresence, waitForStaleness } from '../../utilities/utils';
 
 export class DropDownBreadcrumb extends Component {
   pathOptionCss = '.adf-dropdown-breadcrumb-path-option .mat-option-text';
@@ -38,14 +39,14 @@ export class DropDownBreadcrumb extends Component {
   }
 
   async waitForPathListDropdownToOpen(): Promise<void> {
-    return this.waitForPresence(
+    return waitForPresence(
       this.pathItemsContainer,
       'Timeout waiting for breadcrumb dropdown to open'
     );
   }
 
   async waitForPathListDropdownToClose(): Promise<void> {
-    return this.waitForStaleness(
+    return waitForStaleness(
       browser.$(this.pathOptionCss),
       'Timeout waiting for breadcrumb dropdown to close'
     );

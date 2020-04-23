@@ -25,7 +25,7 @@
 
 import { by, browser } from 'protractor';
 import { Component } from '../component';
-import { isPresentAndDisplayed } from '../../utilities/utils';
+import { isPresentAndDisplayed, waitForVisibility } from '../../utilities/utils';
 
 export type SortByType =
   | 'Relevance'
@@ -53,7 +53,7 @@ export class SearchSortingPicker extends Component {
   }
 
   async waitForSortByDropdownToExpand(): Promise<void> {
-    await this.waitForVisibility(this.sortByDropdownExpanded, 'Timeout waiting for sortBy dropdown to expand');
+    await waitForVisibility(this.sortByDropdownExpanded, 'Timeout waiting for sortBy dropdown to expand');
   }
 
   async isSortOrderButtonDisplayed(): Promise<boolean> {

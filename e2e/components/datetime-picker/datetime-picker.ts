@@ -26,7 +26,7 @@
 import { by, browser } from 'protractor';
 import { Component } from '../component';
 import * as moment from 'moment';
-import { isPresentAndDisplayed } from '../../utilities/utils';
+import { isPresentAndDisplayed, waitForStaleness } from '../../utilities/utils';
 
 export class DateTimePicker extends Component {
   calendar = this.byCss('.mat-datetimepicker-popup', browser);
@@ -40,7 +40,7 @@ export class DateTimePicker extends Component {
   }
 
   async waitForDateTimePickerToClose(): Promise<void> {
-    return this.waitForStaleness(this.calendar);
+    return waitForStaleness(this.calendar);
   }
 
   async isCalendarOpen(): Promise<boolean> {

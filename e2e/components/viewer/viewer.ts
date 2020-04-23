@@ -27,6 +27,7 @@ import { browser } from 'protractor';
 import { Logger } from '@alfresco/adf-testing';
 import { Component } from '../component';
 import { Toolbar } from '../toolbar/toolbar';
+import { waitForPresence } from '../../utilities/utils';
 
 export class Viewer extends Component {
   root = browser.$('adf-viewer');
@@ -45,8 +46,8 @@ export class Viewer extends Component {
 
   async waitForViewerToOpen() {
     try {
-      await this.waitForPresence(this.viewerContainer);
-      await this.waitForPresence(this.viewerLayout);
+      await waitForPresence(this.viewerContainer);
+      await waitForPresence(this.viewerLayout);
     } catch (error) {
       Logger.error('\n-----> catch waitForViewerToOpen <-----\n', error)
     }
