@@ -59,7 +59,7 @@ export class Header extends Component {
 
   async expandSideNav(): Promise<void> {
     const expanded = await this.isSidenavExpanded();
-    if ( !expanded ) {
+    if (!expanded) {
       await this.sidenavToggle.click();
       this.waitCss(
         `[data-automation-id='expanded']`,
@@ -70,7 +70,7 @@ export class Header extends Component {
 
   async collapseSideNav(): Promise<void> {
     const expanded = await this.isSidenavExpanded();
-    if ( expanded ) {
+    if (expanded) {
       await this.sidenavToggle.click();
       this.waitCss(
         `[data-automation-id='collapsed']`,

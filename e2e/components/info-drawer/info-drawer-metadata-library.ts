@@ -23,96 +23,85 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, browser, ExpectedConditions as EC } from 'protractor';
+import { by, browser } from 'protractor';
 import { Logger } from '@alfresco/adf-testing';
 import { Component } from '../component';
-import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 
 export class LibraryMetadata extends Component {
-  private static selectors = {
-    root: 'app-library-metadata-form',
-
-    metadataTabContent: '.mat-card-content',
-    metadataTabAction: '.mat-card-actions .mat-button',
-    field: '.mat-form-field',
-    fieldLabelWrapper: '.mat-form-field-label-wrapper',
-    fieldInput: '.mat-input-element',
-    dropDown: '.mat-select',
-
-    visibilityOption: '.mat-option .mat-option-text',
-
-    hint: '.mat-hint',
-    error: '.mat-error'
-  };
-
-  metadataTabContent: ElementFinder = this.component.element(by.css(LibraryMetadata.selectors.metadataTabContent));
-  metadataTabAction: ElementFinder = this.component.element(by.css(LibraryMetadata.selectors.metadataTabAction));
-  fieldLabelWrapper: ElementFinder = this.component.element(by.css(LibraryMetadata.selectors.fieldLabelWrapper));
-  fieldInput: ElementFinder = this.component.element(by.css(LibraryMetadata.selectors.fieldInput));
-
-  visibilityDropDown: ElementFinder = this.component.element(by.css(LibraryMetadata.selectors.dropDown));
-  visibilityPublic: ElementFinder = browser.element(by.cssContainingText(LibraryMetadata.selectors.visibilityOption, 'Public'));
-  visibilityPrivate: ElementFinder = browser.element(by.cssContainingText(LibraryMetadata.selectors.visibilityOption, 'Private'));
-  visibilityModerated: ElementFinder = browser.element(by.cssContainingText(LibraryMetadata.selectors.visibilityOption, 'Moderated'));
-
-  hint: ElementFinder = this.component.element(by.css(LibraryMetadata.selectors.hint));
-  error: ElementFinder = this.component.element(by.css(LibraryMetadata.selectors.error));
-
+  metadataTabContent = this.byCss('.mat-card-content');
+  metadataTabAction = this.byCss('.mat-card-actions .mat-button');
+  fieldLabelWrapper = this.byCss('.mat-form-field-label-wrapper');
+  fieldInput = this.byCss('.mat-input-element');
+  visibilityDropDown = this.component.element(by.css('.mat-select'));
+  visibilityPublic = this.byCssText(
+    '.mat-option .mat-option-text',
+    'Public',
+    browser
+  );
+  visibilityPrivate = this.byCssText(
+    '.mat-option .mat-option-text',
+    'Private',
+    browser
+  );
+  visibilityModerated = this.byCssText(
+    '.mat-option .mat-option-text',
+    'Moderated',
+    browser
+  );
+  hint = this.byCss('.mat-hint');
+  error = this.byCss('.mat-error');
 
   constructor(ancestor?: string) {
-    super(LibraryMetadata.selectors.root, ancestor);
+    super('app-library-metadata-form', ancestor);
   }
 
-  getLabelWrapper(label: string) {
-    return this.component.element(by.cssContainingText(LibraryMetadata.selectors.fieldLabelWrapper, label));
+  private getLabelWrapper(label: string) {
+    return this.byCssText('.mat-form-field-label-wrapper', label);
   }
 
-  getFieldByName(fieldName: string) {
+  private getFieldByName(fieldName: string) {
     const wrapper = this.getLabelWrapper(fieldName);
-    return wrapper.element(by.xpath('..')).element(by.css(LibraryMetadata.selectors.fieldInput));
+    return wrapper
+      .element(by.xpath('..'))
+      .element(by.css('.mat-input-element'));
   }
 
-  async isFieldDisplayed(fieldName: string) {
+  private async isFieldDisplayed(fieldName: string) {
     return browser.isElementPresent(this.getFieldByName(fieldName));
   }
 
-  async isInputEnabled(fieldName: string) {
+  private async isInputEnabled(fieldName: string) {
     return this.getFieldByName(fieldName).isEnabled();
   }
 
-  async getValueOfField(fieldName: string) {
+  private async getValueOfField(fieldName: string) {
     return this.getFieldByName(fieldName).getText();
   }
 
-  async enterTextInInput(fieldName: string, text: string) {
+  private async enterTextInInput(fieldName: string, text: string) {
     const input = this.getFieldByName(fieldName);
     await input.clear();
     await input.sendKeys(text);
   }
 
-
-  getButton(button: string) {
-    return this.component.element(by.cssContainingText(LibraryMetadata.selectors.metadataTabAction, button));
+  private getButton(button: string) {
+    return this.byCssText('.mat-card-actions .mat-button', button);
   }
 
-  async isButtonDisplayed(button: string) {
+  private async isButtonDisplayed(button: string) {
     return browser.isElementPresent(this.getButton(button));
   }
 
-  async isButtonEnabled(button: string) {
+  private async isButtonEnabled(button: string) {
     return this.getButton(button).isEnabled();
   }
 
-  async clickButton(button: string) {
+  private async clickButton(button: string) {
     await this.getButton(button).click();
   }
 
-  async waitForVisibilityDropDownToOpen() {
-    await browser.wait(EC.presenceOf(this.visibilityDropDown), BROWSER_WAIT_TIMEOUT);
-  }
-
   async waitForVisibilityDropDownToClose() {
-    await browser.wait(EC.stalenessOf(browser.$('.mat-option .mat-option-text')), BROWSER_WAIT_TIMEOUT);
+    await this.waitForStaleness(browser.$('.mat-option .mat-option-text'));
   }
 
   async isMessageDisplayed() {
@@ -131,7 +120,6 @@ export class LibraryMetadata extends Component {
     return this.error.getText();
   }
 
-
   async isNameDisplayed() {
     return this.isFieldDisplayed('Name');
   }
@@ -140,14 +128,13 @@ export class LibraryMetadata extends Component {
     return this.isInputEnabled('Name');
   }
 
-  async getName() {
+  async getName(): Promise<string> {
     return this.getValueOfField('Name');
   }
 
-  async enterName(name: string) {
+  async enterName(name: string): Promise<void> {
     await this.enterTextInInput('Name', name);
   }
-
 
   async isDescriptionDisplayed() {
     return this.isFieldDisplayed('Description');
@@ -157,7 +144,7 @@ export class LibraryMetadata extends Component {
     return this.isInputEnabled('Description');
   }
 
-  async getDescription() {
+  async getDescription(): Promise<string> {
     return this.getValueOfField('Description');
   }
 
@@ -165,10 +152,11 @@ export class LibraryMetadata extends Component {
     await this.enterTextInInput('Description', desc);
   }
 
-
   async isVisibilityEnabled() {
     const wrapper = this.getLabelWrapper('Visibility');
-    const field = wrapper.element(by.xpath('..')).element(by.css(LibraryMetadata.selectors.dropDown));
+    const field = wrapper
+      .element(by.xpath('..'))
+      .element(by.css('.mat-select'));
     return field.isEnabled();
   }
 
@@ -176,7 +164,7 @@ export class LibraryMetadata extends Component {
     return this.isFieldDisplayed('Visibility');
   }
 
-  async getVisibility() {
+  async getVisibility(): Promise<string> {
     return this.getValueOfField('Visibility');
   }
 
@@ -184,7 +172,7 @@ export class LibraryMetadata extends Component {
     const val = visibility.toLowerCase();
 
     await this.visibilityDropDown.click();
-    await this.waitForVisibilityDropDownToOpen();
+    await this.waitForPresence(this.visibilityDropDown);
 
     if (val === 'public') {
       await this.visibilityPublic.click();
@@ -199,7 +187,6 @@ export class LibraryMetadata extends Component {
     await this.waitForVisibilityDropDownToClose();
   }
 
-
   async isLibraryIdDisplayed() {
     return this.isFieldDisplayed('Library ID');
   }
@@ -211,7 +198,6 @@ export class LibraryMetadata extends Component {
   async getLibraryId() {
     return this.getValueOfField('Library ID');
   }
-
 
   async isEditLibraryPropertiesEnabled() {
     return this.isButtonEnabled('Edit');
@@ -225,7 +211,6 @@ export class LibraryMetadata extends Component {
     await this.clickButton('Edit');
   }
 
-
   async isUpdateEnabled() {
     return this.isButtonEnabled('Update');
   }
@@ -238,7 +223,6 @@ export class LibraryMetadata extends Component {
     await this.clickButton('Update');
   }
 
-
   async isCancelEnabled() {
     return this.isButtonEnabled('Cancel');
   }
@@ -250,6 +234,4 @@ export class LibraryMetadata extends Component {
   async clickCancel() {
     await this.clickButton('Cancel');
   }
-
 }
-

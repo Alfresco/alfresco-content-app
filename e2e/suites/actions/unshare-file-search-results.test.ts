@@ -112,7 +112,7 @@ describe('Unshare a file from Search Results', () => {
     await dataTable.waitForBody();
 
     await dataTable.selectItem(file1);
-    await toolbar.clickSharedLinkSettings();
+    await toolbar.shareEditButton.click();
     await shareDialog.waitForDialogToOpen();
 
     expect(await shareDialog.isShareToggleChecked()).toBe(true, 'Share toggle not checked');
@@ -132,7 +132,7 @@ describe('Unshare a file from Search Results', () => {
     await dataTable.waitForBody();
 
     await dataTable.selectItem(file2);
-    await toolbar.clickSharedLinkSettings();
+    await toolbar.shareEditButton.click();
     await shareDialog.waitForDialogToOpen();
     const url = await shareDialog.getLinkUrl();
     await shareDialog.clickShareToggle();
@@ -157,7 +157,7 @@ describe('Unshare a file from Search Results', () => {
     await dataTable.waitForBody();
 
     await dataTable.selectItem(file3);
-    await toolbar.clickSharedLinkSettings();
+    await toolbar.shareEditButton.click();
     await shareDialog.waitForDialogToOpen();
 
     const urlBefore = await shareDialog.getLinkUrl();
@@ -204,7 +204,7 @@ describe('Unshare a file from Search Results', () => {
     await searchInput.searchFor(fileSite1);
     await dataTable.waitForBody();
     await dataTable.selectItem(fileSite1);
-    await toolbar.clickSharedLinkSettings();
+    await toolbar.shareEditButton.click();
     await shareDialog.waitForDialogToOpen();
 
     expect(await shareDialog.isShareToggleDisabled()).toBe(false, 'Share toggle disabled for consumer');
@@ -222,7 +222,7 @@ describe('Unshare a file from Search Results', () => {
     await searchInput.searchFor(fileSite2);
     await dataTable.waitForBody();
     await dataTable.selectItem(fileSite2);
-    await toolbar.clickSharedLinkSettings();
+    await toolbar.shareEditButton.click();
     await shareDialog.waitForDialogToOpen();
 
     expect(await shareDialog.isShareToggleDisabled()).toBe(false, 'Share toggle disabled for consumer');

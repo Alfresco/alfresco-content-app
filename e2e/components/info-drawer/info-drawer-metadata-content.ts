@@ -23,9 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { by, browser, ExpectedConditions as EC } from 'protractor';
+import { by, browser } from 'protractor';
 import { Component } from '../component';
-import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { isPresentAndEnabled, isPresentAndDisplayed } from '../../utilities/utils';
 
 export class ContentMetadata extends Component {
@@ -48,10 +47,10 @@ export class ContentMetadata extends Component {
   }
 
   async waitForImagePropertiesPanelToExpand(): Promise<void> {
-    await browser.wait(EC.visibilityOf(this.expandedImagePropertiesPanel), BROWSER_WAIT_TIMEOUT);
+    await this.waitForVisibility(this.expandedImagePropertiesPanel);
   }
 
-  async getVisiblePropertiesLabels() {
+  async getVisiblePropertiesLabels(): Promise<string[]> {
     return this.allByCss('.adf-property-label')
       .filter(async (elem) => elem.isDisplayed())
       .map(async (elem) => elem.getText());
@@ -83,29 +82,12 @@ export class ContentMetadata extends Component {
     return isPresentAndEnabled(this.moreInfoButton);
   }
 
-  async isLessInfoButtonDisplayed() {
-    return browser.isElementPresent(this.lessInfoButton);
-  }
-
   async isMoreInfoButtonDisplayed(): Promise<boolean> {
     return browser.isElementPresent(this.moreInfoButton);
-  }
-
-  async clickLessInformationButton() {
-    await this.lessInfoButton.click();
-  }
-
-  async clickMoreInformationButton() {
-    await this.moreInfoButton.click();
   }
 
   async isImagePropertiesPanelDisplayed(): Promise<boolean> {
     return isPresentAndDisplayed(this.imagePropertiesPanel);
   }
-
-  async clickImagePropertiesPanel() {
-    await this.imagePropertiesPanel.click();
-  }
-
 }
 

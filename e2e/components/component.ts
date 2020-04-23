@@ -49,7 +49,14 @@ export abstract class Component {
     text: string,
     root: ElementFinder | ProtractorBrowser = this.component
   ): ElementFinder {
-    return root.element(by.cssContainingText(css, text))
+    return root.element(by.cssContainingText(css, text));
+  }
+
+  protected byId(
+    css: string,
+    root: ElementFinder | ProtractorBrowser = this.component
+  ): ElementFinder {
+    return root.element(by.id(css));
   }
 
   protected allByCss(
@@ -80,6 +87,17 @@ export abstract class Component {
       until.elementLocated(by.css(css)),
       BROWSER_WAIT_TIMEOUT,
       errorMessage || 'Timeout waiting for CSS selector'
+    );
+  }
+
+  protected async waitForVisibility(
+    element: ElementFinder,
+    errorMessage?: string
+  ) {
+    return browser.wait(
+      EC.visibilityOf(element),
+      BROWSER_WAIT_TIMEOUT,
+      errorMessage || 'Timeout waiting for element visibility'
     );
   }
 

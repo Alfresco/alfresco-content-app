@@ -103,7 +103,7 @@ describe('Viewer general', () => {
 
     it('[C279270] Viewer opens when clicking the View action for a file', async () => {
         await dataTable.selectItem(xlsxFile);
-        await page.toolbar.clickView();
+        await page.toolbar.viewButton.click();
         expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
     });
 
@@ -118,7 +118,7 @@ describe('Viewer general', () => {
     it('[C279271] Close the viewer', async () => {
         await dataTable.doubleClickOnRowByName(xlsxFile);
         expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
-        await viewer.clickClose();
+        await viewer.closeButton.click();
         expect(await viewer.isViewerOpened()).toBe(false, 'Viewer did not close');
     });
 

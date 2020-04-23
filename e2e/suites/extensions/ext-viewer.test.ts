@@ -109,7 +109,7 @@ describe('Extensions - Viewer', () => {
             expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
             expect(await viewer.isCustomContentPresent()).toBe(true, 'Custom content is not present');
             expect(await viewer.getComponentIdOfView()).toEqual(pdfFile.component);
-            await viewer.clickClose();
+            await viewer.closeButton.click();
 
             await page.dataTable.doubleClickOnRowByName(docxFile.file_name);
             expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');

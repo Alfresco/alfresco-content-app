@@ -32,8 +32,12 @@ export class SelectTemplateDialog extends GenericDialog {
   private static selectors = {
     root: '.aca-template-node-selector-dialog',
 
-    nextButton: by.css('[data-automation-id="content-node-selector-actions-choose"]'),
-    cancelButton: by.css('[data-automation-id="content-node-selector-actions-cancel"]')
+    nextButton: by.css(
+      '[data-automation-id="content-node-selector-actions-choose"]'
+    ),
+    cancelButton: by.css(
+      '[data-automation-id="content-node-selector-actions-cancel"]'
+    )
   };
 
   breadcrumb: DropDownBreadcrumb = new DropDownBreadcrumb();

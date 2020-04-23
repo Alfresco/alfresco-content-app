@@ -79,7 +79,7 @@ describe('Permanently delete from Trash', () => {
 
     it('[C217091] delete a file', async () => {
         await dataTable.selectItem(file1);
-        await toolbar.clickPermanentlyDelete();
+        await toolbar.permanentlyDeleteButton.click();
         await page.waitForDialog();
         await confirmDialog.clickDelete();
 
@@ -89,7 +89,7 @@ describe('Permanently delete from Trash', () => {
 
     it('[C280416] delete a folder', async () => {
         await dataTable.selectItem(folder1);
-        await toolbar.clickPermanentlyDelete();
+        await toolbar.permanentlyDeleteButton.click();
         await page.waitForDialog();
         await confirmDialog.clickDelete();
 
@@ -99,7 +99,7 @@ describe('Permanently delete from Trash', () => {
 
     it('[C290103] delete a library', async () => {
         await dataTable.selectItem(site);
-        await toolbar.clickPermanentlyDelete();
+        await toolbar.permanentlyDeleteButton.click();
         await page.waitForDialog();
         await confirmDialog.clickDelete();
 
@@ -109,7 +109,7 @@ describe('Permanently delete from Trash', () => {
 
     it('[C280417] delete multiple items', async () => {
         await dataTable.selectMultipleItems([ file2, folder2 ]);
-        await toolbar.clickPermanentlyDelete();
+        await toolbar.permanentlyDeleteButton.click();
         await page.waitForDialog();
         await confirmDialog.clickDelete();
 
@@ -120,7 +120,7 @@ describe('Permanently delete from Trash', () => {
 
     it('[C269113] Confirmation dialog UI', async () => {
         await dataTable.selectItem(file3);
-        await toolbar.clickPermanentlyDelete();
+        await toolbar.permanentlyDeleteButton.click();
         await page.waitForDialog();
 
         expect(await confirmDialog.isDialogOpen()).toBe(true, 'Confirm delete dialog not open');
@@ -135,7 +135,7 @@ describe('Permanently delete from Trash', () => {
 
     it('[C269115] Keep action cancels the deletion', async () => {
         await dataTable.selectItem(file3);
-        await toolbar.clickPermanentlyDelete();
+        await toolbar.permanentlyDeleteButton.click();
         await page.waitForDialog();
 
         expect(await confirmDialog.isKeepEnabled()).toBe(true, 'KEEP button is not enabled');
