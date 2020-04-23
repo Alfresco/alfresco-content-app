@@ -110,7 +110,7 @@ describe('Create file from template', () => {
     expect(await selectTemplateDialog.getTitle()).toEqual('Select a document template');
     expect(await selectTemplateDialog.dataTable.isEmpty()).toBe(true, 'Datatable is not empty');
     expect(await selectTemplateDialog.dataTable.getEmptyListText()).toEqual('No results found');
-    expect(await selectTemplateDialog.breadcrumb.getCurrentFolderName()).toEqual('Node Templates');
+    expect(await selectTemplateDialog.breadcrumb.currentFolder.getText()).toEqual('Node Templates');
     expect(await selectTemplateDialog.isNextButtonEnabled()).toBe(false, 'Next button is not disabled');
     expect(await selectTemplateDialog.isCancelButtonEnabled()).toBe(true, 'Cancel button is not enabled');
   });
@@ -159,7 +159,7 @@ describe('Create file from template', () => {
         expect(await selectTemplateDialog.dataTable.isItemPresent(templatesFolder2)).toBe(true, 'template folder not displayed');
         expect(await selectTemplateDialog.dataTable.isItemPresent(template1InRootFolder)).toBe(true, 'template not displayed');
         expect(await selectTemplateDialog.dataTable.isItemPresent(template2InRootFolder)).toBe(true, 'template not displayed');
-        expect(await selectTemplateDialog.breadcrumb.getCurrentFolderName()).toEqual('Node Templates');
+        expect(await selectTemplateDialog.breadcrumb.currentFolder.getText()).toEqual('Node Templates');
         expect(await selectTemplateDialog.isNextButtonEnabled()).toBe(false, 'Next button is not disabled');
         expect(await selectTemplateDialog.isCancelButtonEnabled()).toBe(true, 'Cancel button is not enabled');
       });
@@ -177,11 +177,11 @@ describe('Create file from template', () => {
         expect(await selectTemplateDialog.dataTable.isItemPresent(template1InFolder2)).toBe(true, 'template not displayed');
         expect(await selectTemplateDialog.dataTable.isItemPresent(template1InRootFolder)).toBe(false, 'template is displayed');
         expect(await selectTemplateDialog.dataTable.isItemPresent(template2InRootFolder)).toBe(false, 'template is displayed');
-        expect(await selectTemplateDialog.breadcrumb.getCurrentFolderName()).toEqual(templatesFolder2);
+        expect(await selectTemplateDialog.breadcrumb.currentFolder.getText()).toEqual(templatesFolder2);
 
         await selectTemplateDialog.dataTable.doubleClickOnRowByName(templatesSubFolder);
 
-        expect(await selectTemplateDialog.breadcrumb.getCurrentFolderName()).toEqual(templatesSubFolder);
+        expect(await selectTemplateDialog.breadcrumb.currentFolder.getText()).toEqual(templatesSubFolder);
         expect(await selectTemplateDialog.dataTable.isEmpty()).toBe(true, 'datatable is not empty');
 
         await selectTemplateDialog.breadcrumb.openPath();

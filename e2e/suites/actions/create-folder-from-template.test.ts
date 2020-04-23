@@ -146,7 +146,7 @@ describe('Create folder from template', () => {
       expect(await selectTemplateDialog.dataTable.isItemPresent(templateFolder1)).toBe(true, 'template folder not displayed');
       expect(await selectTemplateDialog.dataTable.isItemPresent(templateFolder2)).toBe(true, 'template folder not displayed');
       expect(await selectTemplateDialog.dataTable.isItemPresent(fileInRootFolder)).toBe(true, 'file not displayed');
-      expect(await selectTemplateDialog.breadcrumb.getCurrentFolderName()).toEqual('Space Templates');
+      expect(await selectTemplateDialog.breadcrumb.currentFolder.getText()).toEqual('Space Templates');
       expect(await selectTemplateDialog.isNextButtonEnabled()).toBe(false, 'Next button is not disabled');
       expect(await selectTemplateDialog.isCancelButtonEnabled()).toBe(true, 'Cancel button is not enabled');
     });
@@ -163,11 +163,11 @@ describe('Create folder from template', () => {
       expect(await selectTemplateDialog.dataTable.isItemPresent(templateSubFolder)).toBe(true, 'template sub-folder not displayed');
       expect(await selectTemplateDialog.dataTable.isItemPresent(fileInFolder2)).toBe(true, 'template not displayed');
       expect(await selectTemplateDialog.dataTable.isItemPresent(templateFolder1)).toBe(false, 'template folder is displayed');
-      expect(await selectTemplateDialog.breadcrumb.getCurrentFolderName()).toEqual(templateFolder2);
+      expect(await selectTemplateDialog.breadcrumb.currentFolder.getText()).toEqual(templateFolder2);
 
       await selectTemplateDialog.dataTable.doubleClickOnRowByName(templateSubFolder);
 
-      expect(await selectTemplateDialog.breadcrumb.getCurrentFolderName()).toEqual(templateSubFolder);
+      expect(await selectTemplateDialog.breadcrumb.currentFolder.getText()).toEqual(templateSubFolder);
       expect(await selectTemplateDialog.dataTable.isEmpty()).toBe(true, 'datatable is not empty');
 
       await selectTemplateDialog.breadcrumb.openPath();
