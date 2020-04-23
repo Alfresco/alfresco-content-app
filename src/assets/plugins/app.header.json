@@ -13,11 +13,6 @@
       "id": "app.actions.about",
       "type": "NAVIGATE_URL",
       "payload": "/about"
-    },
-    {
-      "id": "app.actions.settings",
-      "type": "NAVIGATE_URL",
-      "payload": "/settings"
     }
   ],
 
@@ -50,15 +45,6 @@
         "icon": "more_vert",
         "title": "APP.ACTIONS.MORE",
         "children": [
-          {
-            "id": "app.header.settings",
-            "title": "APP.SETTINGS.TITLE",
-            "description": "APP.SETTINGS.TITLE",
-            "icon": "settings",
-            "actions": {
-              "click": "app.actions.settings"
-            }
-          },
           {
             "id": "app.header.about",
             "title": "APP.BROWSE.ABOUT.TITLE",
