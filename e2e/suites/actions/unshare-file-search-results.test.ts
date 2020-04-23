@@ -180,7 +180,7 @@ describe('Unshare a file from Search Results', () => {
 
     await dataTable.rightClickOnItem(file4);
     await contextMenu.waitForMenuToOpen();
-    await contextMenu.clickSharedLinkSettings();
+    await contextMenu.shareEditAction.click();
     await shareDialog.waitForDialogToOpen();
     const url = await shareDialog.getLinkUrl();
     await shareDialog.clickShareToggle();

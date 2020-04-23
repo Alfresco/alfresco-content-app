@@ -183,7 +183,7 @@ describe('Generic tests : ', () => {
 
       expect(await dataTable.hasContextMenu()).toBe(true, `Context menu is not displayed for ${file1}`);
       expect(await dataTable.getSelectedRowsCount()).toEqual(1, 'incorrect number of selected rows');
-      expect(await contextMenu.isEditFolderPresent()).toBe(false, `Edit folder is displayed for ${file1}`);
+      expect(await contextMenu.editFolderAction.isPresent()).toBe(false, `Edit folder is displayed for ${file1}`);
       expect(await dataTable.hasCheckMarkIcon(file1)).toBe(true, `${file1} is not selected`);
       expect(await dataTable.hasCheckMarkIcon(file2)).toBe(false, `${file2} is selected`);
       expect(await dataTable.hasCheckMarkIcon(folder1)).toBe(false, `${folder1} is selected`);

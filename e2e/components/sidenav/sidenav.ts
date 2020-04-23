@@ -73,22 +73,22 @@ export class Sidenav extends Component {
 
   async openCreateFolderDialog(): Promise<void> {
     await this.openNewMenu();
-    await this.menu.clickCreateFolder();
+    await this.menu.createFolderAction.click();
   }
 
   async openCreateLibraryDialog(): Promise<void> {
     await this.openNewMenu();
-    await this.menu.clickCreateLibrary();
+    await this.menu.createLibraryAction.click();
   }
 
   async openCreateFileFromTemplateDialog(): Promise<void> {
     await this.openNewMenu();
-    await this.menu.clickCreateFileFromTemplate();
+    await this.menu.createFileFromTemplateAction.click();
   }
 
   async openCreateFolderFromTemplateDialog(): Promise<void> {
     await this.openNewMenu();
-    await this.menu.clickCreateFolderFromTemplate();
+    await this.menu.createFolderFromTemplateAction.click();
   }
 
   async isActive(name: string): Promise<boolean> {

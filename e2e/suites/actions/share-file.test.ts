@@ -274,7 +274,7 @@ describe('Share a file', () => {
       it('[C286345] Share a file from the context menu', async () => {
         await dataTable.rightClickOnItem(file9);
         await contextMenu.waitForMenuToOpen();
-        await contextMenu.clickShare();
+        await contextMenu.shareAction.click();
         await shareDialog.waitForDialogToOpen();
 
         const url = await shareDialog.getLinkUrl();
@@ -455,7 +455,7 @@ describe('Share a file', () => {
       it('[C286647] Share a file from the context menu', async () => {
         await dataTable.rightClickOnItem(file9);
         await contextMenu.waitForMenuToOpen();
-        await contextMenu.clickShare();
+        await contextMenu.shareAction.click();
         await shareDialog.waitForDialogToOpen();
 
         const url = await shareDialog.getLinkUrl();
@@ -633,7 +633,7 @@ describe('Share a file', () => {
       it('[C286665] Share a file from the context menu', async () => {
         await dataTable.rightClickOnItem(file9);
         await contextMenu.waitForMenuToOpen();
-        await contextMenu.clickShare();
+        await contextMenu.shareAction.click();
         await shareDialog.waitForDialogToOpen();
 
         const url = await shareDialog.getLinkUrl();
@@ -779,7 +779,7 @@ describe('Share a file', () => {
       it('[C286656] Open Share dialog from context menu', async () => {
         await dataTable.rightClickOnItem(file7);
         await contextMenu.waitForMenuToOpen();
-        await contextMenu.clickSharedLinkSettings();
+        await contextMenu.shareEditAction.click();
         await shareDialog.waitForDialogToOpen();
 
         expect(await shareDialog.getTitle()).toEqual(`Share ${file7}`);
@@ -973,7 +973,7 @@ describe('Share a file', () => {
       it('[C286674] Share a file from the context menu', async () => {
         await dataTable.rightClickOnItem(file9);
         await contextMenu.waitForMenuToOpen();
-        await contextMenu.clickShare();
+        await contextMenu.shareAction.click();
         await shareDialog.waitForDialogToOpen();
 
         const url = await shareDialog.getLinkUrl();
@@ -1093,7 +1093,7 @@ describe('Share a file', () => {
       it('[C306981] Share a file from the context menu', async () => {
         await dataTable.rightClickOnItem(file9);
         await contextMenu.waitForMenuToOpen();
-        await contextMenu.clickShare();
+        await contextMenu.shareAction.click();
         await shareDialog.waitForDialogToOpen();
 
         const url = await shareDialog.getLinkUrl();

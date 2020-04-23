@@ -23,74 +23,51 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, ElementArrayFinder, by, browser } from 'protractor';
+import { ElementFinder, by, browser } from 'protractor';
 import { Logger } from '@alfresco/adf-testing';
 import { Component } from '../component';
 import { Utils, isPresentAndEnabled, waitForPresence, waitForVisibility, waitForStaleness, waitForClickable } from '../../utilities/utils'
 
 export class Menu extends Component {
-  private static selectors = {
-    root: '.mat-menu-panel',
-    item: '.mat-menu-item',
-    icon: '.mat-icon',
+  items = this.allByCss('.mat-menu-item');
+  backdrop = this.byCss('.cdk-overlay-backdrop', browser);
 
-    uploadFilesInput: 'app-upload-files',
+  uploadFilesInput = this.byId('app-upload-files', browser);
+  submenus = this.byCss('app-context-menu-item .mat-menu-item', browser);
 
-    uploadFile: 'app.create.uploadFile',
-    uploadFolder: 'app.create.uploadFolder',
-    createFolder: 'app.create.folder',
-    createLibrary: 'app.create.library',
-    createFileFromTemplate: 'app.create.fileFromTemplate',
-    createFolderFromTemplate: 'app.create.folderFromTemplate',
+  uploadFileAction = this.byId('app.create.uploadFile');
+  uploadFolderAction = this.byId('app.create.uploadFolder');
+  createFolderAction = this.byId('app.create.folder');
+  createLibraryAction = this.byId('app.create.library');
+  createFileFromTemplateAction = this.byId('app.create.fileFromTemplate');
+  createFolderFromTemplateAction = this.byId('app.create.folderFromTemplate');
 
-    submenu: 'app-context-menu-item .mat-menu-item',
-
-    editFolder: `.mat-menu-item[id$='editFolder']`,
-    favoriteAction: `.mat-menu-item[id$='favorite.add']`,
-    removeFavoriteAction: `.mat-menu-item[id$='favorite.remove']`,
-    editOffline: `.mat-menu-item[title='Edit Offline']`,
-    cancelEditing: `.mat-menu-item[title='Cancel Editing']`
-  };
-
-  items: ElementArrayFinder = this.component.all(by.css(Menu.selectors.item));
-  backdrop: ElementFinder = browser.element(by.css('.cdk-overlay-backdrop'));
-
-  uploadFilesInput: ElementFinder = browser.element(by.id(Menu.selectors.uploadFilesInput));
-  submenus: ElementArrayFinder = browser.element.all(by.css(Menu.selectors.submenu));
-
-  uploadFileAction: ElementFinder = this.component.element(by.id(Menu.selectors.uploadFile));
-  uploadFolderAction: ElementFinder = this.component.element(by.id(Menu.selectors.uploadFolder));
-  createFolderAction: ElementFinder = this.component.element(by.id(Menu.selectors.createFolder));
-  createLibraryAction: ElementFinder = this.component.element(by.id(Menu.selectors.createLibrary));
-  createFileFromTemplateAction: ElementFinder = this.component.element(by.id(Menu.selectors.createFileFromTemplate));
-  createFolderFromTemplateAction: ElementFinder = this.component.element(by.id(Menu.selectors.createFolderFromTemplate));
-
-  cancelEditingAction: ElementFinder = this.component.element(by.css(Menu.selectors.cancelEditing));
-  cancelJoinAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Cancel Join'));
-  copyAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Copy'));
-  deleteAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Delete'));
-  downloadAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Download'));
-  editFolderAction: ElementFinder = this.component.element(by.css(Menu.selectors.editFolder));
-  editOfflineAction: ElementFinder = this.component.element(by.css(Menu.selectors.editOffline));
-  favoriteAction: ElementFinder = this.component.element(by.css(Menu.selectors.favoriteAction));
-  removeFavoriteAction: ElementFinder = this.component.element(by.css(Menu.selectors.removeFavoriteAction));
-  toggleFavoriteAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Favorite'));
-  toggleRemoveFavoriteAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Remove Favorite'));
-  joinAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Join'));
-  leaveAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Leave'));
-  managePermissionsAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Permissions'));
-  manageVersionsAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Manage Versions'));
-  uploadNewVersionAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Upload New Version'));
-  moveAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Move'));
-  permanentDeleteAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Permanently Delete'));
-  restoreAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Restore'));
-  shareAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Share'));
-  shareEditAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Shared Link Settings'));
-  viewAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'View'));
-  viewDetailsAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'View Details'));
+  cancelEditingAction = this.byCss(`.mat-menu-item[title='Cancel Editing']`);
+  cancelJoinAction = this.byCssText('.mat-menu-item', 'Cancel Join');
+  copyAction = this.byCssText('.mat-menu-item', 'Copy');
+  deleteAction = this.byCssText('.mat-menu-item', 'Delete');
+  downloadAction = this.byCssText('.mat-menu-item', 'Download');
+  editFolderAction = this.byCss(`.mat-menu-item[id$='editFolder']`);
+  editOfflineAction = this.byCss(`.mat-menu-item[title='Edit Offline']`);
+  favoriteAction = this.byCss(`.mat-menu-item[id$='favorite.add']`);
+  removeFavoriteAction = this.byCss(`.mat-menu-item[id$='favorite.remove']`);
+  toggleFavoriteAction = this.byCssText('.mat-menu-item', 'Favorite');
+  toggleRemoveFavoriteAction = this.byCssText('.mat-menu-item', 'Remove Favorite');
+  joinAction = this.byCssText('.mat-menu-item', 'Join');
+  leaveAction = this.byCssText('.mat-menu-item', 'Leave');
+  managePermissionsAction = this.byCssText('.mat-menu-item', 'Permissions');
+  manageVersionsAction = this.byCssText('.mat-menu-item', 'Manage Versions');
+  uploadNewVersionAction = this.byCssText('.mat-menu-item', 'Upload New Version');
+  moveAction = this.byCssText('.mat-menu-item', 'Move');
+  permanentDeleteAction = this.byCssText('.mat-menu-item', 'Permanently Delete');
+  restoreAction = this.byCssText('.mat-menu-item', 'Restore');
+  shareAction = this.byCssText('.mat-menu-item', 'Share');
+  shareEditAction = this.byCssText('.mat-menu-item', 'Shared Link Settings');
+  viewAction = this.byCssText('.mat-menu-item', 'View');
+  viewDetailsAction = this.byCssText('.mat-menu-item', 'View Details');
 
   constructor(ancestor?: string) {
-    super(Menu.selectors.root, ancestor);
+    super('.mat-menu-panel', ancestor);
   }
 
   async waitForMenuToOpen(): Promise<void> {
@@ -111,44 +88,24 @@ export class Menu extends Component {
     return this.items.get(nth - 1);
   }
 
-  getItemByLabel(menuItem: string): ElementFinder {
-    return this.component.element(by.cssContainingText(Menu.selectors.item, menuItem));
+  private getItemByLabel(menuItem: string): ElementFinder {
+    return this.byCssText('.mat-menu-item', menuItem);
   }
 
-  getSubItemByLabel(subMenuItem: string): ElementFinder {
-    return this.component.element(by.cssContainingText(Menu.selectors.submenu, subMenuItem));
+  private getSubItemByLabel(subMenuItem: string): ElementFinder {
+    return this.byCssText('app-context-menu-item .mat-menu-item', subMenuItem);
   }
 
   getItemById(id: string): ElementFinder {
-    return this.component.element(by.id(id));
+    return this.byId(id);
   }
 
   async getItemTooltip(menuItem: string): Promise<string> {
     return this.getItemByLabel(menuItem).getAttribute('title');
   }
 
-  async getTooltipForUploadFile(): Promise<string> {
-    return this.getItemTooltip('Upload File');
-  }
-
-  async getTooltipForUploadFolder(): Promise<string> {
-    return this.getItemTooltip('Upload Folder');
-  }
-
-  async getTooltipForCreateFolder(): Promise<string> {
-    return this.getItemTooltip('Create Folder');
-  }
-
-  async getTooltipForCreateLibrary(): Promise<string> {
-    return this.getItemTooltip('Create Library');
-  }
-
-  async getTooltipForCreateFileFromTemplate(): Promise<string> {
-    return this.getItemTooltip('Create file from template');
-  }
-
   async getItemIconText(menuItem: string): Promise<string> {
-    return this.getItemByLabel(menuItem).element(by.css(Menu.selectors.icon)).getText();
+    return this.getItemByLabel(menuItem).element(by.css('.mat-icon')).getText();
   }
 
   async getItemIdAttribute(menuItem: string): Promise<string> {
@@ -161,7 +118,7 @@ export class Menu extends Component {
 
   async getMenuItems(): Promise<string[]> {
     const items: string[] = await this.items.map(async (elem) => {
-      const span: ElementFinder = elem.element(by.css('span'));
+      const span = elem.element(by.css('span'));
       return span.getText();
     });
     return items;
@@ -223,11 +180,11 @@ export class Menu extends Component {
   }
 
   async isMenuItemPresent(title: string): Promise<boolean> {
-    return browser.element(by.cssContainingText(Menu.selectors.item, title)).isPresent();
+    return browser.element(by.cssContainingText('.mat-menu-item', title)).isPresent();
   }
 
   async isSubMenuItemPresent(title: string): Promise<boolean> {
-    return browser.element(by.cssContainingText(Menu.selectors.submenu, title)).isPresent();
+    return browser.element(by.cssContainingText('app-context-menu-item .mat-menu-item', title)).isPresent();
   }
 
   async getSubmenuItemsCount(): Promise<number> {
@@ -243,116 +200,6 @@ export class Menu extends Component {
       Logger.error('----- isMenuItemDisabled catch: ', error);
       return null;
     }
-  }
-
-  uploadFile(): ElementFinder {
-    return this.uploadFilesInput;
-  }
-
-  async clickEditFolder(): Promise<void> {
-    await this.editFolderAction.click();
-  }
-
-  async clickShare(): Promise<void> {
-    const action = this.shareAction;
-    await action.click();
-  }
-
-  async clickSharedLinkSettings(): Promise<void> {
-    const action = this.shareEditAction;
-    await action.click();
-  }
-
-  async isViewPresent(): Promise<boolean> {
-    return this.viewAction.isPresent();
-  }
-
-  async isDownloadPresent(): Promise<boolean> {
-    return this.downloadAction.isPresent();
-  }
-
-  async isEditFolderPresent(): Promise<boolean> {
-    return this.editFolderAction.isPresent();
-  }
-
-  async isEditOfflinePresent(): Promise<boolean> {
-    return this.editOfflineAction.isPresent();
-  }
-
-  async isCancelEditingPresent(): Promise<boolean> {
-    return this.cancelEditingAction.isPresent();
-  }
-
-  async isCopyPresent(): Promise<boolean> {
-    return this.copyAction.isPresent();
-  }
-
-  async isMovePresent(): Promise<boolean> {
-    return this.moveAction.isPresent();
-  }
-
-  async isDeletePresent(): Promise<boolean> {
-    return this.deleteAction.isPresent();
-  }
-
-  async isManagePermissionsPresent(): Promise<boolean> {
-    return this.managePermissionsAction.isPresent();
-  }
-
-  async isManageVersionsPresent(): Promise<boolean> {
-    return this.manageVersionsAction.isPresent();
-  }
-
-  async isUploadNewVersionPresent(): Promise<boolean> {
-    return this.uploadNewVersionAction.isPresent();
-  }
-
-  async isFavoritePresent(): Promise<boolean> {
-    return this.favoriteAction.isPresent();
-  }
-
-  async isRemoveFavoritePresent(): Promise<boolean> {
-    return this.removeFavoriteAction.isPresent();
-  }
-
-  async isToggleFavoritePresent(): Promise<boolean> {
-    return this.toggleFavoriteAction.isPresent();
-  }
-
-  async isToggleRemoveFavoritePresent(): Promise<boolean> {
-    return this.toggleRemoveFavoriteAction.isPresent();
-  }
-
-  async isJoinLibraryPresent(): Promise<boolean> {
-    return this.joinAction.isPresent();
-  }
-
-  async isCancelJoinPresent(): Promise<boolean> {
-    return this.cancelJoinAction.isPresent();
-  }
-
-  async isLeaveLibraryPresent(): Promise<boolean> {
-    return this.leaveAction.isPresent();
-  }
-
-  async isPermanentDeletePresent(): Promise<boolean> {
-    return this.permanentDeleteAction.isPresent();
-  }
-
-  async isRestorePresent(): Promise<boolean> {
-    return this.restoreAction.isPresent();
-  }
-
-  async isSharePresent(): Promise<boolean> {
-    return this.shareAction.isPresent();
-  }
-
-  async isSharedLinkSettingsPresent(): Promise<boolean> {
-    return this.shareEditAction.isPresent();
-  }
-
-  async isViewDetailsPresent(): Promise<boolean> {
-    return this.viewDetailsAction.isPresent();
   }
 
   async isCreateFolderEnabled(): Promise<boolean> {
@@ -377,25 +224,5 @@ export class Menu extends Component {
 
   async isCreateFolderFromTemplateEnabled(): Promise<boolean> {
     return isPresentAndEnabled(this.createFolderFromTemplateAction);
-  }
-
-  async clickCreateFolder(): Promise<void> {
-    const action = this.createFolderAction;
-    await action.click();
-  }
-
-  async clickCreateLibrary(): Promise<void> {
-    const action = this.createLibraryAction;
-    await action.click();
-  }
-
-  async clickCreateFileFromTemplate(): Promise<void> {
-    const action = this.createFileFromTemplateAction;
-    await action.click();
-  }
-
-  async clickCreateFolderFromTemplate(): Promise<void> {
-    const action = this.createFolderFromTemplateAction;
-    await action.click();
   }
 }

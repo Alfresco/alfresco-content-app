@@ -158,7 +158,7 @@ describe('Unshare a file', () => {
 
     it('[C286359] Unshare a file from the context menu', async () => {
       await dataTable.rightClickOnItem(file4);
-      await contextMenu.clickSharedLinkSettings();
+      await contextMenu.shareEditAction.click();
       await shareDialog.waitForDialogToOpen();
       const url = await shareDialog.getLinkUrl();
       await shareDialog.clickShareToggle();
@@ -279,7 +279,7 @@ describe('Unshare a file', () => {
 
     it('[C286683] Unshare a file from the context menu', async () => {
       await dataTable.rightClickOnItem(file4);
-      await contextMenu.clickSharedLinkSettings();
+      await contextMenu.shareEditAction.click();
       await shareDialog.waitForDialogToOpen();
       const url = await shareDialog.getLinkUrl();
       await shareDialog.clickShareToggle();
@@ -392,7 +392,7 @@ describe('Unshare a file', () => {
 
     it('[C286693] Unshare a file from the context menu', async () => {
       await dataTable.rightClickOnItem(file4);
-      await contextMenu.clickSharedLinkSettings();
+      await contextMenu.shareEditAction.click();
       await shareDialog.waitForDialogToOpen();
       const url = await shareDialog.getLinkUrl();
       await shareDialog.clickShareToggle();
@@ -505,7 +505,7 @@ describe('Unshare a file', () => {
 
     it('[C286688] Unshare a file from the context menu', async () => {
       await dataTable.rightClickOnItem(file4);
-      await contextMenu.clickSharedLinkSettings();
+      await contextMenu.shareEditAction.click();
       await shareDialog.waitForDialogToOpen();
       const url = await shareDialog.getLinkUrl();
       await shareDialog.clickShareToggle();
@@ -625,7 +625,7 @@ describe('Unshare a file', () => {
 
     it('[C286698] Unshare a file from the context menu', async () => {
       await dataTable.rightClickOnItem(file4);
-      await contextMenu.clickSharedLinkSettings();
+      await contextMenu.shareEditAction.click();
       await shareDialog.waitForDialogToOpen();
       const url = await shareDialog.getLinkUrl();
       await shareDialog.clickShareToggle();
