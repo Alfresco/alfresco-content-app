@@ -50,13 +50,6 @@ export abstract class Component {
     return root.all(by.css(css));
   }
 
-  protected isPresent(
-    css: string,
-    root: ElementFinder | ProtractorBrowser = this.component
-  ) {
-    return this.byCss(css, root).isPresent();
-  }
-
   constructor(selector: string, ancestor?: string) {
     const locator = selector;
 

@@ -23,39 +23,27 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by } from 'protractor';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
 
 export class UserInfo extends Component {
-  private static selectors = {
-    avatar: by.css('.current-user__avatar'),
-    fullName: by.css('.current-user__full-name'),
-    menuItems: by.css('[mat-menu-item]')
-  };
+  fullName = this.byCss('.current-user__full-name');
+  avatar = this.byCss('.current-user__avatar');
 
-  fullName: ElementFinder = this.component.element(UserInfo.selectors.fullName);
-  avatar: ElementFinder = this.component.element(UserInfo.selectors.avatar);
-
-  menu: Menu = new Menu();
+  menu = new Menu();
 
   constructor(ancestor?: string) {
     super('aca-current-user', ancestor);
   }
 
-  async openMenu() {
-    const { menu, avatar } = this;
+  async openMenu(): Promise<Menu> {
+    await this.avatar.click();
+    await this.menu.wait();
 
-    await avatar.click();
-    await menu.wait();
-    return menu;
+    return this.menu;
   }
 
-  getName() {
-    return this.fullName.getText();
-  }
-
-  async signOut() {
+  async signOut(): Promise<void> {
     const menu = await this.openMenu();
     await menu.clickMenuItem('Sign out');
   }

@@ -109,7 +109,7 @@ describe('Login', () => {
       const { username, firstName, lastName } = johnDoe;
 
       await loginPage.loginWith(username);
-      expect(await userInfo.getName()).toEqual(`${firstName} ${lastName}`);
+      expect(await userInfo.fullName.getText()).toEqual(`${firstName} ${lastName}`);
     });
 
     it(`[C213096] logs in with user having username containing "@"`, async () => {
