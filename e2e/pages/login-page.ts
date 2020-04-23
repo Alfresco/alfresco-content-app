@@ -48,7 +48,7 @@ export class LoginPage extends Page {
     const pass = password || username;
     await this.load();
     await this.login.enterCredentials(username, pass)
-    await this.login.submit();
+    await this.login.submitButton.click();
     return super.waitForApp();
   }
 
@@ -61,7 +61,7 @@ export class LoginPage extends Page {
     const pass = password || username;
     await this.load();
     await this.login.enterCredentials(username, pass);
-    await this.login.submit();
+    await this.login.submitButton.click();
     return browser.wait(EC.presenceOf(this.login.errorMessage), BROWSER_WAIT_TIMEOUT);
   }
 }

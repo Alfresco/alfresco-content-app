@@ -23,44 +23,25 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { browser, by, ElementFinder, ExpectedConditions as EC, until } from 'protractor';
+import { browser, by, ExpectedConditions as EC, until } from 'protractor';
 import { Logger } from '@alfresco/adf-testing';
 import { BROWSER_WAIT_TIMEOUT, USE_HASH_STRATEGY } from './../configs';
 import { Utils } from '../utilities/utils';
 
 export abstract class Page {
-  protected static locators = {
-    root: 'app-root',
-    layout: 'app-layout',
-    overlay: '.cdk-overlay-container',
-    dialogContainer: '.mat-dialog-container',
-    snackBarContainer: '.mat-snack-bar-container',
-    snackBar: '.mat-simple-snackbar',
-    snackBarAction: '.mat-simple-snackbar-action button',
+  appRoot = 'app-root';
 
-    genericError: 'aca-generic-error',
-    genericErrorIcon: 'aca-generic-error .mat-icon',
-    genericErrorTitle: '.generic-error__title'
-  };
-
-  appRoot: string = Page.locators.root;
-
-  layout: ElementFinder = browser.element(by.css(Page.locators.layout));
-  overlay: ElementFinder = browser.element(by.css(Page.locators.overlay));
-  snackBar: ElementFinder = browser.element(by.css(Page.locators.snackBar));
-  dialogContainer: ElementFinder = browser.element(by.css(Page.locators.dialogContainer));
-  snackBarContainer: ElementFinder = browser.element(by.css(Page.locators.snackBarContainer));
-  snackBarAction: ElementFinder = browser.element(by.css(Page.locators.snackBarAction));
-
-  genericError: ElementFinder = browser.element(by.css(Page.locators.genericError));
-  genericErrorIcon: ElementFinder = browser.element(by.css(Page.locators.genericErrorIcon));
-  genericErrorTitle: ElementFinder = browser.element(by.css(Page.locators.genericErrorTitle));
+  layout = browser.element(by.css('app-layout'));
+  overlay = browser.element(by.css('.cdk-overlay-container'));
+  snackBar = browser.element(by.css('.mat-simple-snackbar-action button'));
+  dialogContainer = browser.element(by.css('.mat-dialog-container'));
+  snackBarContainer = browser.element(by.css('.mat-snack-bar-container'));
+  snackBarAction = browser.element(by.css('.mat-simple-snackbar-action button'));
+  genericError = browser.element(by.css('aca-generic-error'));
+  genericErrorIcon = browser.element(by.css('aca-generic-error .mat-icon'));
+  genericErrorTitle = browser.element(by.css('.generic-error__title'));
 
   constructor(public url: string = '') {}
-
-  async getTitle() {
-    return browser.getTitle();
-  }
 
   async load(relativeUrl: string = '') {
     const hash = USE_HASH_STRATEGY ? '/#' : '';
@@ -72,8 +53,12 @@ export abstract class Page {
     await browser.wait(EC.presenceOf(this.layout), BROWSER_WAIT_TIMEOUT);
   }
 
-  async waitForSnackBarToAppear() {
-    return browser.wait(until.elementLocated(by.css('.mat-snack-bar-container')), BROWSER_WAIT_TIMEOUT, '------- timeout waiting for snackbar to appear');
+  private async waitForSnackBarToAppear() {
+    return browser.wait(
+      until.elementLocated(by.css('.mat-snack-bar-container')),
+      BROWSER_WAIT_TIMEOUT,
+      '------- timeout waiting for snackbar to appear'
+    );
   }
 
   async waitForSnackBarToClose() {
@@ -94,17 +79,17 @@ export abstract class Page {
     }
   }
 
-  async refresh() {
+  async refresh(): Promise<void> {
     await browser.refresh();
     await this.waitForApp();
   }
 
-  async getSnackBarMessage() {
+  async getSnackBarMessage(): Promise<string> {
     const elem = await this.waitForSnackBarToAppear();
     return elem.getAttribute('innerText');
   }
 
-  async clickSnackBarAction() {
+  async clickSnackBarAction(): Promise<void> {
     try {
       const action = await browser.wait(until.elementLocated(by.css('.mat-simple-snackbar-action button')), BROWSER_WAIT_TIMEOUT, '------- timeout waiting for snack action to appear');
       await action.click();
@@ -112,18 +97,4 @@ export abstract class Page {
       Logger.error(e, '.......failed on click snack bar action.........');
     }
   }
-
-  async isGenericErrorDisplayed() {
-    return this.genericError.isDisplayed();
-  }
-
-  async getGenericErrorTitle() {
-    return this.genericErrorTitle.getText();
-  }
-
-  async isUndoActionPresent() {
-    const message = await this.snackBar.getAttribute('innerText');
-    return message.includes('Undo');
-  }
-
 }

@@ -27,18 +27,14 @@ import { by } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
 
 export class ManageVersionsDialog extends GenericDialog {
-  private static selectors = {
-    root: '.aca-node-versions-dialog',
-
-    closeButton: by.cssContainingText('.mat-button', 'Close')
-  };
+  private closeButton = by.cssContainingText('.mat-button', 'Close');
 
   constructor() {
-    super(ManageVersionsDialog.selectors.root);
+    super('.aca-node-versions-dialog');
   }
 
   async clickClose(): Promise<void> {
-    await this.clickButton(ManageVersionsDialog.selectors.closeButton);
+    await this.clickButton(this.closeButton);
     await this.waitForDialogToClose();
   }
 }

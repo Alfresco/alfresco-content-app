@@ -43,8 +43,6 @@ export class BrowsingPage extends Page {
     return this.snackBar.isPresent();
   }
 
-  // helper methods
-
   async clickPersonalFiles() {
     await this.sidenav.clickLink(SIDEBAR_LABELS.PERSONAL_FILES);
   }
@@ -54,7 +52,6 @@ export class BrowsingPage extends Page {
     await this.dataTable.waitForHeader();
   }
 
-
   async clickFileLibraries() {
     await this.sidenav.clickLink(SIDEBAR_LABELS.FILE_LIBRARIES);
   }
@@ -63,7 +60,6 @@ export class BrowsingPage extends Page {
     await this.clickFileLibraries();
     await this.dataTable.waitForHeader();
   }
-
 
   async goToFavoriteLibraries() {
     if ( !(await this.sidenav.isFileLibrariesMenuExpanded()) ) {
@@ -77,7 +73,6 @@ export class BrowsingPage extends Page {
     await this.dataTable.waitForHeader();
   }
 
-
   async goToMyLibraries() {
     if ( !(await this.sidenav.isFileLibrariesMenuExpanded()) ) {
       await this.sidenav.expandFileLibraries();
@@ -90,7 +85,6 @@ export class BrowsingPage extends Page {
     await this.dataTable.waitForHeader();
   }
 
-
   async clickRecentFiles() {
     await this.sidenav.clickLink(SIDEBAR_LABELS.RECENT_FILES);
   }
@@ -99,7 +93,6 @@ export class BrowsingPage extends Page {
     await this.clickRecentFiles();
     await this.dataTable.waitForHeader();
   }
-
 
   async clickSharedFiles() {
     await this.sidenav.clickLink(SIDEBAR_LABELS.SHARED_FILES);
@@ -110,7 +103,6 @@ export class BrowsingPage extends Page {
     await this.dataTable.waitForHeader();
   }
 
-
   async clickFavorites() {
     await this.sidenav.clickLink(SIDEBAR_LABELS.FAVORITES);
   }
@@ -119,7 +111,6 @@ export class BrowsingPage extends Page {
     await this.clickFavorites();
     await this.dataTable.waitForHeader();
   }
-
 
   async clickTrash() {
     await this.sidenav.clickLink(SIDEBAR_LABELS.TRASH);

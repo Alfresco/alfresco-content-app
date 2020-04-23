@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, browser } from 'protractor';
+import { by, browser } from 'protractor';
 import { Component } from '../component';
 import { SizeFilter } from './filters/size-filter';
 import { CreatedDateFilter } from './filters/created-date-filter';
@@ -31,12 +31,8 @@ import { FacetFilter } from './filters/facet-filter';
 import { isPresentAndDisplayed } from '../../utilities/utils';
 
 export class SearchFilters extends Component {
-  private static selectors = {
-    root: 'adf-search-filter',
-  };
-
-  mainPanel: ElementFinder = browser.element(by.css(SearchFilters.selectors.root));
-  resetAllButton: ElementFinder = this.component.element(by.cssContainingText('.mat-button', 'Reset all'));
+  mainPanel = browser.element(by.css('adf-search-filter'));
+  resetAllButton = this.byCssText('.mat-button', 'Reset all');
 
   size = new SizeFilter();
   createdDate = new CreatedDateFilter();
@@ -47,15 +43,10 @@ export class SearchFilters extends Component {
   modifiedDate = new FacetFilter('Modified date');
 
   constructor(ancestor?: string) {
-    super(SearchFilters.selectors.root, ancestor);
+    super('adf-search-filter', ancestor);
   }
 
   async isSearchFiltersPanelDisplayed(): Promise<boolean> {
     return isPresentAndDisplayed(this.mainPanel);
   }
-
-  async clickResetAllButton(): Promise<void> {
-    await this.resetAllButton.click();
-  }
-
 }

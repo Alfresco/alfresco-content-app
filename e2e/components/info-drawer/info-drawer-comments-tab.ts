@@ -32,7 +32,6 @@ export class CommentsTab extends Component {
   commentsHeader = this.byCss('.adf-comments-header');
   commentTextarea = this.byCss('.adf-comments-input-container textarea');
   addCommentButton = this.byCss('button.adf-comments-input-add');
-  commentsList = this.allByCss('.adf-comment-list');
   commentListItem = by.css('.adf-comment-list-item');
   commentUserAvatar = by.id('comment-user-icon');
   commentUser = by.id('comment-user')
@@ -102,7 +101,8 @@ export class CommentsTab extends Component {
   }
 
   async getNthCommentId(index: number): Promise<string> {
-    return this.commentsList.get(index - 1).getAttribute('id');
+    const list = this.allByCss('.adf-comment-list-item');
+    return list.get(index - 1).getAttribute('id');
   }
 
   async typeComment(text: string): Promise<void> {

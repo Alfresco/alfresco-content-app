@@ -81,16 +81,16 @@ describe('Login', () => {
     });
 
     it('[C213089] login page layout', async () => {
-      expect(await login.isUsernameEnabled()).toBe(true, 'username input is not enabled');
-      expect(await login.isPasswordEnabled()).toBe(true, 'password input is not enabled');
-      expect(await login.isSubmitEnabled()).toBe(false, 'SIGN IN button is enabled');
+      expect(await login.usernameInput.isEnabled()).toBe(true, 'username input is not enabled');
+      expect(await login.passwordInput.isEnabled()).toBe(true, 'password input is not enabled');
+      expect(await login.submitButton.isEnabled()).toBe(false, 'SIGN IN button is enabled');
       expect(await login.isPasswordHidden()).toBe(true, 'Password is not hidden by default');
     });
 
     it('[C213091] change password visibility', async () => {
       await login.enterPassword('some password');
       expect(await login.isPasswordDisplayed()).toBe(false, 'password is visible');
-      await login.clickPasswordVisibility();
+      await login.passwordVisibility.click();
       expect(await login.isPasswordHidden()).toBe(false, 'Password visibility not changed');
       expect(await login.isPasswordDisplayed()).toBe(true, 'password is not visible');
     });
