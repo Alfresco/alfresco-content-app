@@ -29,7 +29,7 @@ import { Component } from '../component';
 export class DropDownBreadcrumb extends Component {
   pathOptionCss = '.adf-dropdown-breadcrumb-path-option .mat-option-text';
   trigger = this.byCss('.adf-dropdown-breadcrumb-trigger');
-  pathItems = this.allByCss(this.pathOptionCss, browser);
+  pathItems = browser.$$(this.pathOptionCss);
   pathItemsContainer = this.byCss('.mat-select-panel', browser);
   currentFolder = this.byCss('.adf-current-folder');
 
