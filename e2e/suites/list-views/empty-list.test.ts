@@ -198,7 +198,7 @@ describe('Empty list views', () => {
     await dataTable.waitForBody();
 
     expect(await dataTable.isEmpty()).toBe(true, 'list is not empty');
-    expect(await dataTable.getEmptySearchResultsText()).toContain('Your search returned 0 results');
+    expect(await dataTable.emptySearchText.getText()).toContain('Your search returned 0 results');
   });
 
   it('[C290031] Empty Search results - Files / Folders', async () => {
@@ -209,6 +209,6 @@ describe('Empty list views', () => {
     await dataTable.waitForBody();
 
     expect(await dataTable.isEmpty()).toBe(true, 'list is not empty');
-    expect(await dataTable.getEmptySearchResultsText()).toContain('Your search returned 0 results');
+    expect(await dataTable.emptySearchText.getText()).toContain('Your search returned 0 results');
   });
 });
