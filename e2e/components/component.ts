@@ -29,7 +29,8 @@ import {
   browser,
   by,
   ElementArrayFinder,
-  ProtractorBrowser
+  ProtractorBrowser,
+  until
 } from 'protractor';
 import { BROWSER_WAIT_TIMEOUT } from '../configs';
 
@@ -41,6 +42,14 @@ export abstract class Component {
     root: ElementFinder | ProtractorBrowser = this.component
   ): ElementFinder {
     return root.element(by.css(css));
+  }
+
+  protected byCssText(
+    css: string,
+    text: string,
+    root: ElementFinder | ProtractorBrowser = this.component
+  ): ElementFinder {
+    return root.element(by.cssContainingText(css, text))
   }
 
   protected allByCss(
@@ -64,6 +73,14 @@ export abstract class Component {
 
   async wait() {
     await browser.wait(EC.presenceOf(this.component), BROWSER_WAIT_TIMEOUT);
+  }
+
+  async waitCss(css: string, errorMessage?: string): Promise<void> {
+    await browser.wait(
+      until.elementLocated(by.css(css)),
+      BROWSER_WAIT_TIMEOUT,
+      errorMessage || 'Timeout waiting for CSS selector'
+    );
   }
 
   protected async waitForPresence(

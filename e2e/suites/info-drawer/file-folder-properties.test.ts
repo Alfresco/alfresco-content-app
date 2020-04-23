@@ -200,6 +200,7 @@ describe('File / Folder properties', () => {
 
     it('[C269007] Image properties', async () => {
       const apiProps = await apis.user.nodes.getNodeById(image1Id);
+      const properties = apiProps.entry.properties;
 
       const expectedPropLabels = [
         'Image Width',
@@ -216,18 +217,18 @@ describe('File / Folder properties', () => {
         'Camera Software'
       ];
       const expectedPropValues = [
-        apiProps.entry.properties['exif:pixelXDimension'].toString(),
-        apiProps.entry.properties['exif:pixelYDimension'].toString(),
-        moment(apiProps.entry.properties['exif:dateTimeOriginal']).format(DATE_TIME_FORMAT),
-        apiProps.entry.properties['exif:exposureTime'].toString(),
-        apiProps.entry.properties['exif:fNumber'].toString(),
-        apiProps.entry.properties['exif:flash'],
-        apiProps.entry.properties['exif:focalLength'].toString(),
-        apiProps.entry.properties['exif:isoSpeedRatings'],
-        (apiProps.entry.properties['exif:orientation']).toString(),
-        apiProps.entry.properties['exif:manufacturer'],
-        apiProps.entry.properties['exif:model'],
-        apiProps.entry.properties['exif:software']
+        properties['exif:pixelXDimension'].toString(),
+        properties['exif:pixelYDimension'].toString(),
+        moment(properties['exif:dateTimeOriginal']).format(DATE_TIME_FORMAT),
+        properties['exif:exposureTime'].toString(),
+        properties['exif:fNumber'].toString(),
+        properties['exif:flash'],
+        properties['exif:focalLength'].toString(),
+        properties['exif:isoSpeedRatings'],
+        (properties['exif:orientation']).toString(),
+        properties['exif:manufacturer'],
+        properties['exif:model'],
+        properties['exif:software']
       ];
 
       await dataTable.selectItem(image1.name);

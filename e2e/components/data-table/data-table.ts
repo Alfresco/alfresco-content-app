@@ -165,12 +165,12 @@ export class DataTable extends Component {
 
   async hasCheckMarkIcon(itemName: string, location: string = ''): Promise<boolean> {
     const row = this.getRowByName(itemName, location);
-    return row.element('.mat-icon[class*="selected"]').isPresent();
+    return row.element(by.css('.mat-icon[class*="selected"]')).isPresent();
   }
 
   async hasLockIcon(itemName: string, location: string = ''): Promise<boolean> {
     const row = this.getRowByName(itemName, location);
-    return row.element('img[src*="lock"]').isPresent();
+    return row.element(by.css('img[src*="lock"]')).isPresent();
   }
 
   private async hasLockOwnerInfo(itemName: string, location: string = ''): Promise<boolean> {

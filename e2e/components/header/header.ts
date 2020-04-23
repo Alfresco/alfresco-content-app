@@ -23,13 +23,12 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { by, browser, until } from 'protractor';
+import { by, browser } from 'protractor';
 import { Component } from '../component';
 import { UserInfo } from './user-info';
 import { Menu } from '../menu/menu';
 import { Toolbar } from './../toolbar/toolbar';
 import { SearchInput } from '../search/search-input';
-import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 
 export class Header extends Component {
   logoLink = this.byCss('.app-menu__title');
@@ -45,7 +44,7 @@ export class Header extends Component {
     super('adf-layout-header', ancestor);
   }
 
-  async openMoreMenu() {
+  async openMoreMenu(): Promise<void> {
     await this.moreActions.click();
     await this.menu.waitForMenuToOpen();
   }
@@ -62,9 +61,8 @@ export class Header extends Component {
     const expanded = await this.isSidenavExpanded();
     if ( !expanded ) {
       await this.sidenavToggle.click();
-      await browser.wait(
-        until.elementLocated(by.css(`[data-automation-id='expanded']`)),
-        BROWSER_WAIT_TIMEOUT,
+      this.waitCss(
+        `[data-automation-id='expanded']`,
         '--- timeout waiting for expanded sidenav'
       );
     }
@@ -74,13 +72,10 @@ export class Header extends Component {
     const expanded = await this.isSidenavExpanded();
     if ( expanded ) {
       await this.sidenavToggle.click();
-      await browser.wait(
-        until.elementLocated(by.css(`[data-automation-id='collapsed']`)),
-        BROWSER_WAIT_TIMEOUT,
+      this.waitCss(
+        `[data-automation-id='collapsed']`,
         '--- timeout waiting for collapsed sidenav'
-      )
+      );
     }
   }
-
 }
-
