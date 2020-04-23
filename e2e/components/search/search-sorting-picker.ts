@@ -23,45 +23,53 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, browser, ExpectedConditions as EC, ElementArrayFinder } from 'protractor';
-import { BROWSER_WAIT_TIMEOUT } from '../../configs';
+import { by, browser } from 'protractor';
 import { Component } from '../component';
 import { isPresentAndDisplayed } from '../../utilities/utils';
 
+export type SortByType =
+  | 'Relevance'
+  | 'Title'
+  | 'Filename'
+  | 'Modified date'
+  | 'Modifier'
+  | 'Created date'
+  | 'Size'
+  | 'Type';
+
+export type SortOrderType =
+  | 'ASC'
+  | 'DESC'
+  | '';
+
 export class SearchSortingPicker extends Component {
-  private static selectors = {
-    root: 'adf-search-sorting-picker',
-
-    sortByOption: '.mat-option .mat-option-text'
-  };
-
-  sortOrderButton: ElementFinder = this.component.element(by.css('button[mat-icon-button]'));
-  sortByDropdownCollapsed: ElementFinder = this.component.element(by.css('.mat-select'));
-  sortByDropdownExpanded: ElementFinder = browser.element(by.css('.mat-select-panel'));
-  sortByList: ElementArrayFinder = this.sortByDropdownExpanded.all(by.css(SearchSortingPicker.selectors.sortByOption));
+  sortOrderButton = this.byCss('button[mat-icon-button]');
+  sortByDropdownCollapsed = this.byCss('.mat-select');
+  sortByDropdownExpanded = browser.element(by.css('.mat-select-panel'));
+  sortByList = this.sortByDropdownExpanded.all(by.css('.mat-option .mat-option-text'));
 
   constructor(ancestor?: string) {
-    super(SearchSortingPicker.selectors.root, ancestor);
+    super('adf-search-sorting-picker', ancestor);
   }
 
   async waitForSortByDropdownToExpand(): Promise<void> {
-    await browser.wait(EC.visibilityOf(this.sortByDropdownExpanded), BROWSER_WAIT_TIMEOUT, 'Timeout waiting for sortBy dropdown to expand');
+    await this.waitForVisibility(this.sortByDropdownExpanded, 'Timeout waiting for sortBy dropdown to expand');
   }
 
   async isSortOrderButtonDisplayed(): Promise<boolean> {
     return isPresentAndDisplayed(this.sortOrderButton);
   }
 
-  async getSortOrder(): Promise<'ASC' | 'DESC' | ''> {
+  async getSortOrder(): Promise<SortOrderType> {
     const orderArrow = await this.sortOrderButton.getText();
 
     if ( orderArrow.includes('upward') ) {
       return 'ASC'
     } else if ( orderArrow.includes('downward') ) {
-        return 'DESC'
-      } else {
-        return '';
-      }
+      return 'DESC'
+    } else {
+      return '';
+    }
   }
 
   async isSortByOptionDisplayed(): Promise<boolean> {
@@ -88,44 +96,12 @@ export class SearchSortingPicker extends Component {
     return list;
   }
 
-  async sortByOption(option: string): Promise<void> {
+  async sortBy(option: SortByType): Promise<void> {
     if ( !(await this.isSortByDropdownExpanded()) ) {
       await this.clickSortByDropdown();
     }
-    const elem = browser.element(by.cssContainingText(SearchSortingPicker.selectors.sortByOption, option));
+    const elem = browser.element(by.cssContainingText('.mat-option .mat-option-text', option));
     await elem.click();
-  }
-
-  async sortByName(): Promise<void> {
-    await this.sortByOption('Filename');
-  }
-
-  async sortByRelevance(): Promise<void> {
-    await this.sortByOption('Relevance');
-  }
-
-  async sortByTitle(): Promise<void> {
-    await this.sortByOption('Title');
-  }
-
-  async sortByModifiedDate(): Promise<void> {
-    await this.sortByOption('Modified date');
-  }
-
-  async sortByModifier(): Promise<void> {
-    await this.sortByOption('Modifier');
-  }
-
-  async sortByCreatedDate(): Promise<void> {
-    await this.sortByOption('Created date');
-  }
-
-  async sortBySize(): Promise<void> {
-    await this.sortByOption('Size');
-  }
-
-  async sortByType(): Promise<void> {
-    await this.sortByOption('Type');
   }
 
   async setSortOrderASC(): Promise<void> {

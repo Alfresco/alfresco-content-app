@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { browser, by, ExpectedConditions as EC, until } from 'protractor';
+import { browser, by, ExpectedConditions as EC, until, ElementFinder } from 'protractor';
 import { Logger } from '@alfresco/adf-testing';
 import { BROWSER_WAIT_TIMEOUT, USE_HASH_STRATEGY } from './../configs';
 import { Utils } from '../utilities/utils';
@@ -31,17 +31,21 @@ import { Utils } from '../utilities/utils';
 export abstract class Page {
   appRoot = 'app-root';
 
-  layout = browser.element(by.css('app-layout'));
-  overlay = browser.element(by.css('.cdk-overlay-container'));
-  snackBar = browser.element(by.css('.mat-simple-snackbar-action button'));
-  dialogContainer = browser.element(by.css('.mat-dialog-container'));
-  snackBarContainer = browser.element(by.css('.mat-snack-bar-container'));
-  snackBarAction = browser.element(by.css('.mat-simple-snackbar-action button'));
-  genericError = browser.element(by.css('aca-generic-error'));
-  genericErrorIcon = browser.element(by.css('aca-generic-error .mat-icon'));
-  genericErrorTitle = browser.element(by.css('.generic-error__title'));
+  layout = this.byCss('app-layout');
+  overlay = this.byCss('.cdk-overlay-container');
+  snackBar = this.byCss('.mat-simple-snackbar-action button');
+  dialogContainer = this.byCss('.mat-dialog-container');
+  snackBarContainer = this.byCss('.mat-snack-bar-container');
+  snackBarAction = this.byCss('.mat-simple-snackbar-action button');
+  genericError = this.byCss('aca-generic-error');
+  genericErrorIcon = this.byCss('aca-generic-error .mat-icon');
+  genericErrorTitle = this.byCss('.generic-error__title');
 
   constructor(public url: string = '') {}
+
+  protected byCss(css: string): ElementFinder {
+    return browser.element(by.css(css));
+  }
 
   async load(relativeUrl: string = '') {
     const hash = USE_HASH_STRATEGY ? '/#' : '';

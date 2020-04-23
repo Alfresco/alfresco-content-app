@@ -221,7 +221,7 @@ describe('Edit folder', () => {
       await editDialog.clickUpdate();
       await editDialog.waitForDialogToClose();
 
-      expect(await page.isSnackBarPresent()).not.toBe(true, 'notification appears');
+      expect(await page.snackBar.isPresent()).not.toBe(true, 'notification appears');
       expect(await dataTable.isItemPresent(folderName)).toBe(true, 'Folder not displayed in list view');
     });
   });

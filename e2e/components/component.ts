@@ -93,11 +93,22 @@ export abstract class Component {
   protected async waitForVisibility(
     element: ElementFinder,
     errorMessage?: string
-  ) {
+  ): Promise<void> {
     return browser.wait(
       EC.visibilityOf(element),
       BROWSER_WAIT_TIMEOUT,
       errorMessage || 'Timeout waiting for element visibility'
+    );
+  }
+
+  protected async waitForClickable(
+    element: ElementFinder,
+    errorMessage?: string
+  ): Promise<void> {
+    return browser.wait(
+      EC.elementToBeClickable(element),
+      BROWSER_WAIT_TIMEOUT,
+      errorMessage || 'Timeout waiting for element to be clickable'
     );
   }
 

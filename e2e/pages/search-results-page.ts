@@ -29,7 +29,7 @@ import { SearchSortingPicker } from '../components/search/search-sorting-picker'
 import { SearchFilters } from '../components/search/search-filters';
 
 export class SearchResultsPage extends BrowsingPage {
-  root = browser.element(by.css('aca-search-results'));
+  root = this.byCss('aca-search-results');
   chipList = this.root.element(by.css('.adf-search-chip-list'));
   infoText = this.root.element(by.css('.adf-search-results--info-text'));
 

@@ -29,14 +29,12 @@ import { Page } from './page';
 import { BROWSER_WAIT_TIMEOUT, APP_ROUTES } from '../configs';
 
 export class LoginPage extends Page {
-  login: LoginComponent = new LoginComponent(this.appRoot);
+  login = new LoginComponent(this.appRoot);
 
-  /** @override */
   constructor() {
     super(APP_ROUTES.LOGIN);
   }
 
-  /** @override */
   async load() {
     await super.load();
     const { submitButton } = this.login;

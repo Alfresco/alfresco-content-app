@@ -36,8 +36,8 @@ export class Sidenav extends Component {
   newButton = this.allByCss('[data-automation-id="create-button"]');
   personalFiles = this.byCss(`[data-automation-id='app.navbar.personalFiles']`);
   fileLibraries = this.byCss(`[data-automation-id='app.navbar.libraries.menu']`);
-  myLibraries = this.byCss(`[data-automation-id='app.navbar.libraries.files']`);
-  favoriteLibraries = this.byCss(`[data-automation-id='app.navbar.libraries.favorite']`);
+  myLibraries = this.byCss(`[data-automation-id='app.navbar.libraries.files']`, browser);
+  favoriteLibraries = this.byCss(`[data-automation-id='app.navbar.libraries.favorite']`, browser);
   shared = this.byCss(`[data-automation-id='app.navbar.shared']`);
   recentFiles = this.byCss(`[data-automation-id='app.navbar.recentFiles']`);
   favorites = this.byCss(`[data-automation-id='app.navbar.favorites']`);
