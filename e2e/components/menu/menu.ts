@@ -23,11 +23,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, ElementArrayFinder, by, browser, ExpectedConditions as EC } from 'protractor';
+import { ElementFinder, ElementArrayFinder, by, browser } from 'protractor';
 import { Logger } from '@alfresco/adf-testing';
-import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
-import { Utils, isPresentAndEnabled } from '../../utilities/utils'
+import { Utils, isPresentAndEnabled, waitForPresence, waitForVisibility, waitForStaleness, waitForClickable } from '../../utilities/utils'
 
 export class Menu extends Component {
   private static selectors = {
@@ -95,12 +94,12 @@ export class Menu extends Component {
   }
 
   async waitForMenuToOpen(): Promise<void> {
-    await browser.wait(EC.presenceOf(browser.element(by.css('.cdk-overlay-container .mat-menu-panel'))), BROWSER_WAIT_TIMEOUT);
-    await browser.wait(EC.visibilityOf(this.items.get(0)), BROWSER_WAIT_TIMEOUT);
+    await waitForPresence(browser.element(by.css('.cdk-overlay-container .mat-menu-panel')));
+    await waitForVisibility(this.items.get(0));
   }
 
   async waitForMenuToClose(): Promise<void> {
-    await browser.wait(EC.not(EC.presenceOf(browser.element(by.css('.cdk-overlay-container .mat-menu-panel')))), BROWSER_WAIT_TIMEOUT);
+    await waitForStaleness(browser.element(by.css('.cdk-overlay-container .mat-menu-panel')));
   }
 
   async closeMenu(): Promise<void> {
@@ -171,7 +170,7 @@ export class Menu extends Component {
   async clickNthItem(nth: number): Promise<void> {
     try {
       const elem = this.getNthItem(nth);
-      await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT, 'timeout waiting for menu item to be clickable');
+      await waitForClickable(elem);
       await browser.actions().mouseMove(elem).perform();
       await browser.actions().click().perform();
       await this.waitForMenuToClose();
@@ -183,7 +182,7 @@ export class Menu extends Component {
   async clickMenuItem(menuItem: string): Promise<void> {
     try {
       const elem = this.getItemByLabel(menuItem);
-      await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT, 'timeout waiting for menu item to be clickable');
+      await waitForClickable(elem);
       await elem.click();
     } catch (e) {
       Logger.error('___click menu item catch___', e);
@@ -193,7 +192,7 @@ export class Menu extends Component {
   async mouseOverMenuItem(menuItem: string): Promise<void> {
     try {
       const elem = this.getItemByLabel(menuItem);
-      await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT);
+      await waitForClickable(elem);
       await browser.actions().mouseMove(elem).perform();
       await browser.sleep(500);
     } catch (error) {
@@ -204,7 +203,7 @@ export class Menu extends Component {
   async hasSubMenu(menuItem: string): Promise<boolean> {
     try {
       const elem = this.getItemByLabel(menuItem);
-      await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT);
+      await waitForClickable(elem);
       const elemClass = await elem.getAttribute('class');
       return elemClass.includes('mat-menu-item-submenu-trigger');
     } catch (error) {
@@ -216,7 +215,7 @@ export class Menu extends Component {
   async clickSubMenuItem(subMenuItem: string): Promise<void> {
     try {
       const elem = this.getSubItemByLabel(subMenuItem);
-      await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT);
+      await waitForClickable(elem);
       await elem.click();
     } catch (e) {
       Logger.error('___click submenu item catch___', e);

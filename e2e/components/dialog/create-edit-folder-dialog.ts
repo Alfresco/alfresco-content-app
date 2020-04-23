@@ -23,10 +23,9 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { by, protractor, browser, ExpectedConditions as EC } from 'protractor';
-import { BROWSER_WAIT_TIMEOUT } from '../../configs';
+import { by, protractor } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
-import { isPresentAndDisplayed } from '../../utilities/utils';
+import { isPresentAndDisplayed, waitForClickable } from '../../utilities/utils';
 
 export class CreateOrEditFolderDialog extends GenericDialog {
   private static selectors = {
@@ -45,7 +44,7 @@ export class CreateOrEditFolderDialog extends GenericDialog {
 
   async waitForDialogToOpen() {
     await super.waitForDialogToOpen();
-    await browser.wait(EC.elementToBeClickable(this.nameInput), BROWSER_WAIT_TIMEOUT, '--- timeout waiting for input to be clickable ---');
+    await waitForClickable(this.nameInput, '--- timeout waiting for input to be clickable ---');
   }
 
   async isValidationMessageDisplayed(): Promise<boolean> {

@@ -115,7 +115,7 @@ describe('Create library', () => {
     await page.sidenav.openCreateLibraryDialog();
     await createDialog.waitForDialogToOpen();
     await createDialog.enterName(site2Name);
-    await createDialog.selectModerated();
+    await createDialog.visibilityModerated.click();
     await createDialog.clickCreate();
     await createDialog.waitForDialogToClose();
 
@@ -129,7 +129,7 @@ describe('Create library', () => {
     await page.sidenav.openCreateLibraryDialog();
     await createDialog.waitForDialogToOpen();
     await createDialog.enterName(site3Name);
-    await createDialog.selectPrivate();
+    await createDialog.visibilityPrivate.click();
     await createDialog.clickCreate();
     await createDialog.waitForDialogToClose();
 
@@ -145,7 +145,7 @@ describe('Create library', () => {
     await createDialog.enterName(site4.name);
     await createDialog.enterLibraryId(site4.id);
     await createDialog.enterDescription(site4.description);
-    await createDialog.selectPublic();
+    await createDialog.visibilityPublic.click();
     await createDialog.clickCreate();
     await createDialog.waitForDialogToClose();
 

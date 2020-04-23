@@ -23,54 +23,33 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, ElementArrayFinder, by, browser, ExpectedConditions as EC } from 'protractor';
+import { by, browser } from 'protractor';
 import { Logger } from '@alfresco/adf-testing';
 import { Component } from '../component';
-import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { CommentsTab } from './info-drawer-comments-tab';
 import { LibraryMetadata } from './info-drawer-metadata-library';
 import { ContentMetadata } from './info-drawer-metadata-content';
+import { waitForVisibility, waitForInvisibility, waitForPresence } from '../../utilities/utils';
 
 export class InfoDrawer extends Component {
-  private static selectors = {
-    root: 'adf-info-drawer',
-
-    header: '.adf-info-drawer-layout-header',
-    content: '.adf-info-drawer-layout-content',
-
-    tabs: '.adf-info-drawer-tabs',
-    tabLabel: '.mat-tab-label-content',
-    tabActiveLabel: '.mat-tab-label-active',
-
-    activeTabContent: '.mat-tab-body-active .mat-tab-body-content adf-dynamic-tab',
-    next: '.mat-tab-header-pagination-after .mat-tab-header-pagination-chevron',
-    previous: '.mat-tab-header-pagination-before .mat-tab-header-pagination-chevron',
-
-    headerTitle: '.adf-info-drawer-layout-header-title'
-  };
-
-  commentsTab = new CommentsTab(InfoDrawer.selectors.root);
-  aboutTab = new LibraryMetadata(InfoDrawer.selectors.root);
-  propertiesTab = new ContentMetadata(InfoDrawer.selectors.root);
-
-  header: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.header));
-  headerTitle: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.headerTitle));
-  tabLabel: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.tabLabel));
-  tabLabelsList: ElementArrayFinder = this.component.all(by.css(InfoDrawer.selectors.tabLabel));
-  tabActiveLabel: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.tabActiveLabel));
-
-  tabActiveContent: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.activeTabContent));
-
-  nextButton: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.next));
-  previousButton: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.previous));
-
+  commentsTab = new CommentsTab('adf-info-drawer');
+  aboutTab = new LibraryMetadata('adf-info-drawer');
+  propertiesTab = new ContentMetadata('adf-info-drawer');
+  header = this.byCss('.adf-info-drawer-layout-header');
+  headerTitle = this.byCss('.adf-info-drawer-layout-header-title');
+  tabLabel = this.byCss('.mat-tab-label-content');
+  tabLabelsList = this.allByCss('.mat-tab-label-content');
+  tabActiveLabel = this.byCss('.mat-tab-label-active');
+  tabActiveContent = this.byCss('.mat-tab-body-active .mat-tab-body-content adf-dynamic-tab');
+  nextButton = this.byCss('.mat-tab-header-pagination-after .mat-tab-header-pagination-chevron');
+  previousButton = this.byCss('.mat-tab-header-pagination-before .mat-tab-header-pagination-chevron');
 
   constructor(ancestor?: string) {
-    super(InfoDrawer.selectors.root, ancestor);
+    super('adf-info-drawer', ancestor);
   }
 
   async waitForInfoDrawerToOpen() {
-    await browser.wait(EC.presenceOf(this.header), BROWSER_WAIT_TIMEOUT);
+    await waitForPresence(this.header);
   }
 
   async isOpen() {
@@ -78,15 +57,15 @@ export class InfoDrawer extends Component {
   }
 
   async isEmpty() {
-    return !(await browser.isElementPresent(by.css(InfoDrawer.selectors.tabs)));
+    return !(await browser.isElementPresent(by.css('.adf-info-drawer-tabs')));
   }
 
   getTabByTitle(title: string) {
-    return this.component.element(by.cssContainingText(InfoDrawer.selectors.tabLabel, title));
+    return this.byCssText('.mat-tab-label-content', title);
   }
 
-  async getTabsCount() {
-    return this.component.all(by.css(InfoDrawer.selectors.tabLabel)).count();
+  async getTabsCount(): Promise<number> {
+    return this.allByCss('.mat-tab-label-content').count();
   }
 
   async isTabPresent(title: string) {
@@ -101,11 +80,11 @@ export class InfoDrawer extends Component {
     return false;
   }
 
-  async getTabTitle(index: number) {
+  async getTabTitle(index: number): Promise<string> {
     return this.tabLabelsList.get(index - 1).getAttribute('innerText');
   }
 
-  async getActiveTabTitle() {
+  async getActiveTabTitle(): Promise<string> {
     return this.tabActiveLabel.getText();
   }
 
@@ -113,11 +92,11 @@ export class InfoDrawer extends Component {
     await this.getTabByTitle(title).click();
   }
 
-  async getComponentIdOfTab() {
+  async getComponentIdOfTab(): Promise<string> {
     return this.tabActiveContent.getAttribute('data-automation-id');
   }
 
-  async getHeaderTitle() {
+  async getHeaderTitle(): Promise<string> {
     return this.headerTitle.getText();
   }
 
@@ -142,8 +121,8 @@ export class InfoDrawer extends Component {
       await this.getTabByTitle('Comments').click();
       await this.commentsTab.waitForCommentsContainer();
       await Promise.all([
-        browser.wait(EC.visibilityOf(this.commentsTab.component), BROWSER_WAIT_TIMEOUT),
-        browser.wait(EC.invisibilityOf(this.propertiesTab.component), BROWSER_WAIT_TIMEOUT)
+        waitForVisibility(this.commentsTab.component),
+        waitForInvisibility(this.propertiesTab.component)
       ]);
     } catch (error) {
       Logger.error('--- info-drawer clickCommentsTab catch error: ', error);

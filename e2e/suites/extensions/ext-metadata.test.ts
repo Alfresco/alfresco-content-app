@@ -87,7 +87,7 @@ describe('Extensions - Metadata presets', () => {
     await infoDrawer.waitForInfoDrawerToOpen();
 
     await infoDrawer.clickTab(properties_tab.title);
-    await metadataCard.clickExpandButton();
+    await metadataCard.expandButton.click();
     await metadataCard.waitForFirstExpansionPanel();
 
     done();

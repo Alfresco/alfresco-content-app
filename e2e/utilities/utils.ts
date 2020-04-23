@@ -31,8 +31,8 @@ const path = require('path');
 const fs = require('fs');
 const StreamZip = require('node-stream-zip');
 
-export async function waitCss(css: string, errorMessage?: string): Promise<void> {
-  await browser.wait(
+export async function waitCss(css: string, errorMessage?: string): Promise<any> {
+  return browser.wait(
     until.elementLocated(by.css(css)),
     BROWSER_WAIT_TIMEOUT,
     errorMessage || 'Timeout waiting for CSS selector'
@@ -56,6 +56,17 @@ export async function waitForVisibility(
 ): Promise<void> {
   return browser.wait(
     EC.visibilityOf(element),
+    BROWSER_WAIT_TIMEOUT,
+    errorMessage || 'Timeout waiting for element visibility'
+  );
+}
+
+export async function waitForInvisibility(
+  element: ElementFinder,
+  errorMessage?: string
+): Promise<void> {
+  return browser.wait(
+    EC.invisibilityOf(element),
     BROWSER_WAIT_TIMEOUT,
     errorMessage || 'Timeout waiting for element visibility'
   );

@@ -23,10 +23,9 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { by, browser, ExpectedConditions as EC, protractor } from 'protractor';
-import { BROWSER_WAIT_TIMEOUT } from '../../configs';
+import { by, browser, protractor } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
-import { Utils, isPresentAndDisplayed } from '../../utilities/utils';
+import { Utils, isPresentAndDisplayed, waitForStaleness, waitForPresence } from '../../utilities/utils';
 import { DropDownBreadcrumb } from '../breadcrumb/dropdown-breadcrumb';
 import { DataTable } from '../data-table/data-table';
 
@@ -52,7 +51,7 @@ export class ContentNodeSelectorDialog extends GenericDialog {
   }
 
   async waitForDropDownToClose(): Promise<void> {
-    await browser.wait(EC.stalenessOf(browser.$('.mat-option .mat-option-text')), BROWSER_WAIT_TIMEOUT);
+    await waitForStaleness(browser.$('.mat-option .mat-option-text'))
   }
 
   async clickCopy(): Promise<void> {
@@ -65,7 +64,7 @@ export class ContentNodeSelectorDialog extends GenericDialog {
 
   async selectLocation(location: 'Personal Files' | 'File Libraries'): Promise<void> {
     await this.locationDropDown.click();
-    await browser.wait(EC.presenceOf(this.locationPersonalFiles), BROWSER_WAIT_TIMEOUT);
+    await waitForPresence(this.locationPersonalFiles);
 
     if (location === 'Personal Files') {
       await this.locationPersonalFiles.click();
@@ -80,7 +79,7 @@ export class ContentNodeSelectorDialog extends GenericDialog {
     const row = this.dataTable.getRowByName(folderName);
     await Utils.waitUntilElementClickable(row);
     await row.click();
-    await browser.wait(EC.presenceOf(browser.element(by.css('.adf-is-selected'))), BROWSER_WAIT_TIMEOUT);
+    await waitForPresence(browser.element(by.css('.adf-is-selected')));
   }
 
   async isSearchInputPresent(): Promise<boolean> {

@@ -22,11 +22,12 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
-import { browser, ExpectedConditions as EC } from 'protractor';
+import { browser } from 'protractor';
 import { LoginComponent } from '../components/components';
 import { Page } from './page';
 
-import { BROWSER_WAIT_TIMEOUT, APP_ROUTES } from '../configs';
+import { APP_ROUTES } from '../configs';
+import { waitForPresence } from '../utilities/utils';
 
 export class LoginPage extends Page {
   login = new LoginComponent(this.appRoot);
@@ -37,9 +38,7 @@ export class LoginPage extends Page {
 
   async load() {
     await super.load();
-    const { submitButton } = this.login;
-    const hasSubmitButton = EC.presenceOf(submitButton);
-    return browser.wait(hasSubmitButton, BROWSER_WAIT_TIMEOUT);
+    await waitForPresence(this.login.submitButton);
   }
 
   async loginWith(username: string, password?: string) {
@@ -60,6 +59,6 @@ export class LoginPage extends Page {
     await this.load();
     await this.login.enterCredentials(username, pass);
     await this.login.submitButton.click();
-    return browser.wait(EC.presenceOf(this.login.errorMessage), BROWSER_WAIT_TIMEOUT);
+    await waitForPresence(this.login.errorMessage);
   }
 }

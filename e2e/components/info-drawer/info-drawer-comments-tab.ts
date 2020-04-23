@@ -23,9 +23,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { by, browser, ExpectedConditions as EC, until } from 'protractor';
+import { by, browser, until } from 'protractor';
 import { Component } from '../component';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
+import { waitForVisibility } from '../../utilities/utils';
 
 export class CommentsTab extends Component {
   commentsContainer = this.byCss('.adf-comments-container');
@@ -43,7 +44,7 @@ export class CommentsTab extends Component {
   }
 
   async waitForCommentsContainer() {
-    await browser.wait(EC.visibilityOf(this.commentsContainer), BROWSER_WAIT_TIMEOUT);
+    await waitForVisibility(this.commentsContainer);
   }
 
   async getCommentsTabHeaderText(): Promise<string> {

@@ -23,10 +23,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { browser, by, ExpectedConditions as EC, until, ElementFinder } from 'protractor';
+import { browser, by, ElementFinder } from 'protractor';
 import { Logger } from '@alfresco/adf-testing';
-import { BROWSER_WAIT_TIMEOUT, USE_HASH_STRATEGY } from './../configs';
-import { Utils } from '../utilities/utils';
+import { USE_HASH_STRATEGY } from './../configs';
+import { Utils, waitCss, waitForPresence, waitForVisibility } from '../utilities/utils';
 
 export abstract class Page {
   appRoot = 'app-root';
@@ -54,23 +54,15 @@ export abstract class Page {
   }
 
   async waitForApp() {
-    await browser.wait(EC.presenceOf(this.layout), BROWSER_WAIT_TIMEOUT);
-  }
-
-  private async waitForSnackBarToAppear() {
-    return browser.wait(
-      until.elementLocated(by.css('.mat-snack-bar-container')),
-      BROWSER_WAIT_TIMEOUT,
-      '------- timeout waiting for snackbar to appear'
-    );
+    await waitForPresence(this.layout);
   }
 
   async waitForSnackBarToClose() {
-    await browser.wait(EC.not(EC.visibilityOf(this.snackBarContainer)), BROWSER_WAIT_TIMEOUT);
+    await waitForVisibility(this.snackBarContainer);
   }
 
   async waitForDialog() {
-    await browser.wait(EC.visibilityOf(this.dialogContainer), BROWSER_WAIT_TIMEOUT);
+    await waitForVisibility(this.dialogContainer);
   }
 
   async isDialogOpen() {
@@ -89,13 +81,13 @@ export abstract class Page {
   }
 
   async getSnackBarMessage(): Promise<string> {
-    const elem = await this.waitForSnackBarToAppear();
+    const elem = await waitCss('.mat-snack-bar-container');
     return elem.getAttribute('innerText');
   }
 
   async clickSnackBarAction(): Promise<void> {
     try {
-      const action = await browser.wait(until.elementLocated(by.css('.mat-simple-snackbar-action button')), BROWSER_WAIT_TIMEOUT, '------- timeout waiting for snack action to appear');
+      const action = await waitCss('.mat-simple-snackbar-action button');
       await action.click();
     } catch (e) {
       Logger.error(e, '.......failed on click snack bar action.........');

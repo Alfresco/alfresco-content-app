@@ -23,35 +23,26 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, browser, ExpectedConditions as EC } from 'protractor';
-import { BROWSER_WAIT_TIMEOUT } from '../../configs';
+import { by, browser } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
+import { waitForClickable } from '../../utilities/utils';
 
 export class PasswordDialog extends GenericDialog {
   private static selectors = {
-    root: 'adf-pdf-viewer-password-dialog',
-
-    passwordInput: 'input[type="Password"]',
-    errorMessage: '.mat-error',
-
     closeButton: by.css('[data-automation-id="adf-password-dialog-close"]'),
     submitButton: by.css('[data-automation-id="adf-password-dialog-submit"]')
   };
 
-  passwordInput: ElementFinder = this.rootElem.element(by.css(PasswordDialog.selectors.passwordInput));
-  errorMessage: ElementFinder = this.rootElem.element(by.css(PasswordDialog.selectors.errorMessage));
+  passwordInput = this.rootElem.element(by.css('input[type="Password"]'));
+  errorMessage = this.rootElem.element(by.css('.mat-error'));
 
   constructor() {
-    super(PasswordDialog.selectors.root);
-  }
-
-  async waitForPasswordInputToBeInteractive() {
-    await browser.wait(EC.elementToBeClickable(this.passwordInput), BROWSER_WAIT_TIMEOUT, '--- timeout wait for passwordInput ---');
+    super('adf-pdf-viewer-password-dialog');
   }
 
   async waitForDialogToOpen(): Promise<void> {
     await super.waitForDialogToOpen();
-    await this.waitForPasswordInputToBeInteractive();
+    await waitForClickable(this.passwordInput);
   }
 
   async isDialogOpen(): Promise<boolean> {
