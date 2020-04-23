@@ -85,44 +85,44 @@ describe('Breadcrumb', () => {
 
   it('[C260964] Personal Files breadcrumb main node', async () => {
     await page.clickPersonalFiles();
-    expect(await breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
-    expect(await breadcrumb.getCurrentItemName()).toBe('Personal Files');
+    expect(await breadcrumb.items.count()).toEqual(1, 'Breadcrumb has incorrect number of items');
+    expect(await breadcrumb.currentItem.getText()).toBe('Personal Files');
   });
 
   it('[C260966] My Libraries breadcrumb main node', async () => {
     await page.goToMyLibrariesAndWait();
-    expect(await breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
-    expect(await breadcrumb.getCurrentItemName()).toBe('My Libraries');
+    expect(await breadcrumb.items.count()).toEqual(1, 'Breadcrumb has incorrect number of items');
+    expect(await breadcrumb.currentItem.getText()).toBe('My Libraries');
   });
 
   it('[C289891] Favorite Libraries breadcrumb main node', async () => {
     await page.goToFavoriteLibrariesAndWait();
-    expect(await breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
-    expect(await breadcrumb.getCurrentItemName()).toBe('Favorite Libraries');
+    expect(await breadcrumb.items.count()).toEqual(1, 'Breadcrumb has incorrect number of items');
+    expect(await breadcrumb.currentItem.getText()).toBe('Favorite Libraries');
   });
 
   it('[C260971] Recent Files breadcrumb main node', async () => {
     await page.clickRecentFiles();
-    expect(await breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
-    expect(await breadcrumb.getCurrentItemName()).toBe('Recent Files');
+    expect(await breadcrumb.items.count()).toEqual(1, 'Breadcrumb has incorrect number of items');
+    expect(await breadcrumb.currentItem.getText()).toBe('Recent Files');
   });
 
   it('[C260972] Shared Files breadcrumb main node', async () => {
     await page.clickSharedFiles();
-    expect(await breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
-    expect(await breadcrumb.getCurrentItemName()).toBe('Shared Files');
+    expect(await breadcrumb.items.count()).toEqual(1, 'Breadcrumb has incorrect number of items');
+    expect(await breadcrumb.currentItem.getText()).toBe('Shared Files');
   });
 
   it('[C260973] Favorites breadcrumb main node', async () => {
     await page.clickFavorites();
-    expect(await breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
-    expect(await breadcrumb.getCurrentItemName()).toBe('Favorites');
+    expect(await breadcrumb.items.count()).toEqual(1, 'Breadcrumb has incorrect number of items');
+    expect(await breadcrumb.currentItem.getText()).toBe('Favorites');
   });
 
   it('[C260974] Trash breadcrumb main node', async () => {
     await page.clickTrash();
-    expect(await breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
-    expect(await breadcrumb.getCurrentItemName()).toBe('Trash');
+    expect(await breadcrumb.items.count()).toEqual(1, 'Breadcrumb has incorrect number of items');
+    expect(await breadcrumb.currentItem.getText()).toBe('Trash');
   });
 
   it('[C260965] Personal Files breadcrumb for a folder hierarchy', async () => {
@@ -159,7 +159,11 @@ describe('Breadcrumb', () => {
     await page.dataTable.doubleClickOnRowByName(parent);
     await page.dataTable.doubleClickOnRowByName(subFolder1);
     await page.dataTable.doubleClickOnRowByName(subFolder2);
-    expect(await breadcrumb.getNthItemTooltip(3)).toEqual(subFolder1);
+
+    const item = breadcrumb.items.get(2);
+    const title = await item.getAttribute('title');
+
+    expect(title).toEqual(subFolder1);
   });
 
   it('[C213238] Breadcrumb updates correctly when folder is renamed', async () => {
@@ -170,7 +174,7 @@ describe('Breadcrumb', () => {
     await apis.user.nodes.renameNode(folder1Id, folder1Renamed)
     await page.refresh();
     await page.dataTable.wait();
-    expect(await breadcrumb.getCurrentItemName()).toEqual(folder1Renamed);
+    expect(await breadcrumb.currentItem.getText()).toEqual(folder1Renamed);
   });
 
   it('[C213240] Browser back navigates to previous location regardless of breadcrumb steps', async () => {

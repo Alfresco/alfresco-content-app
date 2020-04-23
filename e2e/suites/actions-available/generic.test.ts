@@ -112,7 +112,7 @@ describe('Generic tests : ', () => {
     it('[C280619] Context menu closes when clicking away from it', async () => {
       await dataTable.rightClickOnItem(file1);
       expect(await dataTable.hasContextMenu()).toBe(true, 'Context menu is not displayed');
-      await page.breadcrumb.getCurrentItem().click();
+      await page.breadcrumb.currentItem.click();
       expect(await dataTable.hasContextMenu()).toBe(false, 'Context menu is displayed');
     });
   });

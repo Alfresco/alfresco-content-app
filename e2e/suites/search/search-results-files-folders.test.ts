@@ -94,7 +94,7 @@ describe('Search results - files and folders', () => {
     await searchInput.searchFor('test-');
     await dataTable.waitForBody();
 
-    expect(await page.breadcrumb.getCurrentItemName()).toEqual('Search Results');
+    expect(await page.breadcrumb.currentItem.getText()).toEqual('Search Results');
   });
 
   it('[C279183] File information', async () => {

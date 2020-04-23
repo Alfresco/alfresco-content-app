@@ -112,7 +112,7 @@ describe('Single click on item name', () => {
     it('[C280034] Navigate inside the folder when clicking the hyperlink', async () => {
       await dataTable.clickNameLink(folder1);
 
-      expect(await breadcrumb.getCurrentItemName()).toBe(folder1);
+      expect(await breadcrumb.currentItem.getText()).toBe(folder1);
     });
   });
 
@@ -129,7 +129,7 @@ describe('Single click on item name', () => {
     it('[C284902] Navigate inside the library when clicking the hyperlink', async () => {
       await dataTable.clickNameLink(siteName);
 
-      expect(await breadcrumb.getCurrentItemName()).toBe(siteName);
+      expect(await breadcrumb.currentItem.getText()).toBe(siteName);
       expect(await dataTable.isItemPresent(fileSite)).toBe(true, `${fileSite} not displayed`);
     });
   });
@@ -193,7 +193,7 @@ describe('Single click on item name', () => {
     it('[C284911] Navigate inside the folder when clicking the hyperlink', async () => {
       await dataTable.clickNameLink(folder1);
 
-      expect(await breadcrumb.getCurrentItemName()).toBe(folder1);
+      expect(await breadcrumb.currentItem.getText()).toBe(folder1);
     });
   });
 
@@ -232,7 +232,7 @@ describe('Single click on item name', () => {
       await dataTable.waitForBody();
       await dataTable.clickSearchResultNameLink(folder1);
 
-      expect(await breadcrumb.getCurrentItemName()).toBe(folder1);
+      expect(await breadcrumb.currentItem.getText()).toBe(folder1);
     });
   });
 
