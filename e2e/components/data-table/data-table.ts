@@ -116,7 +116,7 @@ export class DataTable extends Component {
   }
 
   private getSelectedRows(): ElementArrayFinder {
-    return this.body.all(this.selectedRow);
+    return this.body.all(by.css('.adf-datatable-row.adf-is-selected'));
   }
 
   async getSelectedRowsNames(): Promise<string[]> {
