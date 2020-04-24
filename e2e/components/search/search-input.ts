@@ -25,7 +25,7 @@
 
 import { browser, by, protractor } from 'protractor';
 import { Component } from '../component';
-import { Utils, waitForPresence, waitForClickable, waitCss } from '../../utilities/utils';
+import { Utils, waitForPresence, waitForClickable, waitElement } from '../../utilities/utils';
 
 export class SearchInput extends Component {
   searchButton = this.component.element(by.css('.app-search-button'));
@@ -64,7 +64,7 @@ export class SearchInput extends Component {
   }
 
   async isOptionsAreaDisplayed() {
-    await waitCss('.app-search-control');
+    await waitElement('.app-search-control');
     return browser.isElementPresent(this.searchOptionsArea);
   }
 

@@ -64,19 +64,15 @@ export abstract class GenericDialog {
     return this.title.getText();
   }
 
-  private getActionButton(selector: Locator): ElementFinder {
-    return this.rootElem.element(selector);
-  }
-
   protected childElement(selector: Locator): ElementFinder {
     return this.rootElem.element(selector);
   }
 
   async isButtonEnabled(selector: Locator): Promise<boolean> {
-    return isPresentAndEnabled(this.getActionButton(selector));
+    return isPresentAndEnabled(this.childElement(selector));
   }
 
   async clickButton(selector: Locator): Promise<void> {
-    await this.getActionButton(selector).click();
+    await this.childElement(selector).click();
   }
 }

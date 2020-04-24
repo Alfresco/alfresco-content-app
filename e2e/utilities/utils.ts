@@ -31,11 +31,11 @@ const path = require('path');
 const fs = require('fs');
 const StreamZip = require('node-stream-zip');
 
-export async function waitCss(css: string, errorMessage?: string): Promise<any> {
+export async function waitElement(css: string, errorMessage?: string): Promise<any> {
   return browser.wait(
     until.elementLocated(by.css(css)),
     BROWSER_WAIT_TIMEOUT,
-    errorMessage || 'Timeout waiting for CSS selector'
+    errorMessage || 'Timeout waiting for element'
   );
 }
 

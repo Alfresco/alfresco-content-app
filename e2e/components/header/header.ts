@@ -29,7 +29,7 @@ import { UserInfo } from './user-info';
 import { Menu } from '../menu/menu';
 import { Toolbar } from './../toolbar/toolbar';
 import { SearchInput } from '../search/search-input';
-import { waitCss } from '../../utilities/utils';
+import { waitElement } from '../../utilities/utils';
 
 export class Header extends Component {
   logoLink = this.byCss('.app-menu__title');
@@ -62,7 +62,7 @@ export class Header extends Component {
     const expanded = await this.isSidenavExpanded();
     if (!expanded) {
       await this.sidenavToggle.click();
-      await waitCss(
+      await waitElement(
         `[data-automation-id='expanded']`,
         '--- timeout waiting for expanded sidenav'
       );
@@ -73,7 +73,7 @@ export class Header extends Component {
     const expanded = await this.isSidenavExpanded();
     if (expanded) {
       await this.sidenavToggle.click();
-      waitCss(
+      waitElement(
         `[data-automation-id='collapsed']`,
         '--- timeout waiting for collapsed sidenav'
       );

@@ -26,7 +26,7 @@
 import { browser, by, ElementFinder } from 'protractor';
 import { Logger } from '@alfresco/adf-testing';
 import { USE_HASH_STRATEGY } from './../configs';
-import { Utils, waitCss, waitForPresence, waitForVisibility } from '../utilities/utils';
+import { Utils, waitElement, waitForPresence, waitForVisibility } from '../utilities/utils';
 
 export abstract class Page {
   appRoot = 'app-root';
@@ -81,13 +81,13 @@ export abstract class Page {
   }
 
   async getSnackBarMessage(): Promise<string> {
-    const elem = await waitCss('.mat-snack-bar-container');
+    const elem = await waitElement('.mat-snack-bar-container');
     return elem.getAttribute('innerText');
   }
 
   async clickSnackBarAction(): Promise<void> {
     try {
-      const action = await waitCss('.mat-simple-snackbar-action button');
+      const action = await waitElement('.mat-simple-snackbar-action button');
       await action.click();
     } catch (e) {
       Logger.error(e, '.......failed on click snack bar action.........');
