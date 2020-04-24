@@ -61,9 +61,11 @@ export class ExtensionsDataLoaderGuard implements CanActivate {
     return forkJoin(...dataLoaderCallbacks).pipe(
       map(() => true),
       catchError(e => {
+        // tslint:disable-next-line
         console.error(
           'Some of the extension data loader guards has been errored.'
         );
+        // tslint:disable-next-line
         console.error(e);
         return of(true);
       })

@@ -35,7 +35,7 @@ describe('ExtensionsDataLoaderGuard', () => {
 
   describe('canActivate', () => {
     beforeEach(() => {
-      route = <ActivatedRouteSnapshot>{};
+      route = {} as ActivatedRouteSnapshot;
       emittedSpy = jasmine.createSpy('emitted');
       completedSpy = jasmine.createSpy('completed');
       erroredSpy = jasmine.createSpy('errored');
