@@ -304,7 +304,7 @@ describe('Destination picker dialog : ', () => {
 
     it('[C263877] Contributor user can select the folder as destination', async () => {
       await loginPage.loginWith(contributor);
-      await dataTable.selectItem(file);
+      await page.dataTable.selectItem(file);
       await page.toolbar.clickMoreActionsCopy();
       await dialog.waitForDialogToOpen();
 
