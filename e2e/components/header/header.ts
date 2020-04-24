@@ -62,10 +62,7 @@ export class Header extends Component {
     const expanded = await this.isSidenavExpanded();
     if (!expanded) {
       await this.sidenavToggle.click();
-      await waitElement(
-        `[data-automation-id='expanded']`,
-        '--- timeout waiting for expanded sidenav'
-      );
+      await waitElement(`[data-automation-id='expanded']`);
     }
   }
 
@@ -73,10 +70,7 @@ export class Header extends Component {
     const expanded = await this.isSidenavExpanded();
     if (expanded) {
       await this.sidenavToggle.click();
-      waitElement(
-        `[data-automation-id='collapsed']`,
-        '--- timeout waiting for collapsed sidenav'
-      );
+      waitElement(`[data-automation-id='collapsed']`);
     }
   }
 }
