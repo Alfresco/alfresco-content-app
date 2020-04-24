@@ -26,7 +26,7 @@
 import { ElementFinder, by, browser } from 'protractor';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
-import { Utils, waitForPresence } from '../../utilities/utils';
+import { Utils } from '../../utilities/utils';
 
 export class Toolbar extends Component {
   menu = new Menu();
