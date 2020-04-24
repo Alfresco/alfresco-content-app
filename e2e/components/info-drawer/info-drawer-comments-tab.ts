@@ -26,7 +26,7 @@
 import { by, browser, until } from 'protractor';
 import { Component } from '../component';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
-import { waitForVisibility } from '../../utilities/utils';
+import { waitForVisibility, typeText } from '../../utilities/utils';
 
 export class CommentsTab extends Component {
   commentsContainer = this.byCss('.adf-comments-container');
@@ -107,7 +107,7 @@ export class CommentsTab extends Component {
   }
 
   async typeComment(text: string): Promise<void> {
-    await this.commentTextarea.sendKeys(text);
+    await typeText(this.commentTextarea, text);
   }
 
   async clickAddButton(): Promise<void> {

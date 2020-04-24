@@ -24,6 +24,7 @@
  */
 
 import { Component } from '../component';
+import { typeText } from '../../utilities/utils';
 
 export class LoginComponent extends Component {
   usernameInput = this.byCss('input#username');
@@ -38,17 +39,11 @@ export class LoginComponent extends Component {
   }
 
   async enterUsername(username: string): Promise<void> {
-    const { usernameInput } = this;
-
-    await usernameInput.clear();
-    await usernameInput.sendKeys(username);
+    await typeText(this.usernameInput, username);
   }
 
   async enterPassword(password: string): Promise<void> {
-    const { passwordInput } = this;
-
-    await passwordInput.clear();
-    await passwordInput.sendKeys(password);
+    await typeText(this.passwordInput, password);
   }
 
   async enterCredentials(username: string, password: string): Promise<void> {

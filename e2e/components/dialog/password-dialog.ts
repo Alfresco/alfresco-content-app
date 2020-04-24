@@ -25,7 +25,7 @@
 
 import { by, browser } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
-import { waitForClickable, isPresentAndEnabled } from '../../utilities/utils';
+import { waitForClickable, isPresentAndEnabled, typeText } from '../../utilities/utils';
 
 export class PasswordDialog extends GenericDialog {
   closeButton = this.childElement(by.css('[data-automation-id="adf-password-dialog-close"]'));
@@ -86,7 +86,6 @@ export class PasswordDialog extends GenericDialog {
   }
 
   async enterPassword(password: string): Promise<void> {
-    await this.passwordInput.clear();
-    await this.passwordInput.sendKeys(password);
+    await typeText(this.passwordInput, password);
   }
 }

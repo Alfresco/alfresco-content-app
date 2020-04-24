@@ -31,6 +31,16 @@ const path = require('path');
 const fs = require('fs');
 const StreamZip = require('node-stream-zip');
 
+export async function typeText(element: ElementFinder, text: string) {
+  await element.clear();
+  await element.sendKeys(text);
+}
+
+export async function clearText(element: ElementFinder) {
+  await element.clear();
+  await element.sendKeys(' ', protractor.Key.CONTROL, 'a', protractor.Key.NULL, protractor.Key.BACK_SPACE);
+}
+
 export async function waitElement(css: string, errorMessage?: string): Promise<any> {
   return browser.wait(
     until.elementLocated(by.css(css)),

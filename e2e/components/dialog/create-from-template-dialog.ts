@@ -25,7 +25,7 @@
 
 import { by, protractor } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
-import { isPresentAndDisplayed, isPresentAndEnabled } from '../../utilities/utils';
+import { isPresentAndDisplayed, isPresentAndEnabled, typeText, clearText } from '../../utilities/utils';
 
 export class CreateFromTemplateDialog extends GenericDialog {
   createButton = this.childElement(by.cssContainingText('.mat-dialog-actions button', 'Create'));
@@ -69,23 +69,19 @@ export class CreateFromTemplateDialog extends GenericDialog {
   }
 
   async enterName(name: string): Promise<void> {
-    await this.nameInput.clear();
-    await this.nameInput.sendKeys(name);
+    await typeText(this.nameInput, name);
   }
 
   async enterTitle(title: string): Promise<void> {
-    await this.titleInput.clear();
-    await this.titleInput.sendKeys(title);
+    await typeText(this.titleInput, title);
   }
 
   async enterDescription(description: string): Promise<void> {
-    await this.descriptionTextArea.clear();
-    await this.descriptionTextArea.sendKeys(description);
+    await typeText(this.descriptionTextArea, description);
   }
 
   async deleteNameWithBackspace(): Promise<void> {
-    await this.nameInput.clear();
-    await this.nameInput.sendKeys(' ', protractor.Key.CONTROL, 'a', protractor.Key.NULL, protractor.Key.BACK_SPACE);
+    await clearText(this.nameInput);
   }
 
   async clickCancel(): Promise<void> {

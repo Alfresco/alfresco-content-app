@@ -25,7 +25,7 @@
 
 import { by } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
-import { isPresentAndEnabled } from '../../utilities/utils';
+import { isPresentAndEnabled, typeText } from '../../utilities/utils';
 
 export class UploadNewVersionDialog extends GenericDialog {
   cancelButton = this.childElement(by.cssContainingText('.mat-button', 'Cancel'));
@@ -52,7 +52,6 @@ export class UploadNewVersionDialog extends GenericDialog {
   }
 
   async enterDescription(description: string): Promise<void> {
-    await this.description.clear();
-    await this.description.sendKeys(description);
+    await typeText(this.description, description);
   }
 }

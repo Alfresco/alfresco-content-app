@@ -23,9 +23,9 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { by, protractor } from 'protractor';
+import { by } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
-import { isPresentAndDisplayed, waitForClickable, isPresentAndEnabled } from '../../utilities/utils';
+import { isPresentAndDisplayed, waitForClickable, isPresentAndEnabled, typeText, clearText } from '../../utilities/utils';
 
 export class CreateOrEditFolderDialog extends GenericDialog {
   createButton = this.childElement(by.cssContainingText('.mat-dialog-actions button', 'Create'));
@@ -74,18 +74,15 @@ export class CreateOrEditFolderDialog extends GenericDialog {
   }
 
   async enterName(name: string): Promise<void> {
-    await this.nameInput.clear();
-    await this.nameInput.sendKeys(name);
+    await typeText(this.nameInput, name);
   }
 
   async enterDescription(description: string): Promise<void> {
-    await this.descriptionTextArea.clear();
-    await this.descriptionTextArea.sendKeys(description);
+    await typeText(this.descriptionTextArea, description);
   }
 
   async deleteNameWithBackspace(): Promise<void> {
-    await this.nameInput.clear();
-    await this.nameInput.sendKeys(' ', protractor.Key.CONTROL, 'a', protractor.Key.NULL, protractor.Key.BACK_SPACE);
+    await clearText(this.nameInput);
   }
 
   async clickCancel(): Promise<void> {

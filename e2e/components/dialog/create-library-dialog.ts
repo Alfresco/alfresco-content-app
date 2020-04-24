@@ -25,7 +25,7 @@
 
 import { by, ElementFinder } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
-import { waitForClickable, isPresentAndEnabled } from '../../utilities/utils';
+import { waitForClickable, isPresentAndEnabled, typeText } from '../../utilities/utils';
 
 export class CreateLibraryDialog extends GenericDialog {
   createButton = this.childElement(by.cssContainingText('.mat-dialog-actions button', 'Create'));
@@ -57,18 +57,15 @@ export class CreateLibraryDialog extends GenericDialog {
   }
 
   async enterName(name: string): Promise<void> {
-    await this.nameInput.clear();
-    await this.nameInput.sendKeys(name);
+    await typeText(this.nameInput, name);
   }
 
   async enterLibraryId(id: string): Promise<void> {
-    await this.libraryIdInput.clear();
-    await this.libraryIdInput.sendKeys(id);
+    await typeText(this.libraryIdInput, id);
   }
 
   async enterDescription(description: string): Promise<void> {
-    await this.descriptionTextArea.clear();
-    await this.descriptionTextArea.sendKeys(description);
+    await typeText(this.descriptionTextArea, description);
   }
 
   async isCreateEnabled(): Promise<boolean> {

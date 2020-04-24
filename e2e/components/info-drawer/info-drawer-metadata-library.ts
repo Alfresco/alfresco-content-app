@@ -26,7 +26,7 @@
 import { by, browser } from 'protractor';
 import { Logger } from '@alfresco/adf-testing';
 import { Component } from '../component';
-import { waitForPresence, waitForStaleness } from '../../utilities/utils';
+import { waitForPresence, waitForStaleness, typeText } from '../../utilities/utils';
 
 export class LibraryMetadata extends Component {
   metadataTabContent = this.byCss('.mat-card-content');
@@ -81,8 +81,7 @@ export class LibraryMetadata extends Component {
 
   private async enterTextInInput(fieldName: string, text: string) {
     const input = this.getFieldByName(fieldName);
-    await input.clear();
-    await input.sendKeys(text);
+    await typeText(input, text);
   }
 
   private getButton(button: string) {
