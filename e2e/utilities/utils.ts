@@ -123,12 +123,10 @@ export class Utils {
     extension decay dismiss platform respect ceremony applaud absorption presentation dominate race courtship soprano body \
     lighter track cinema tread tick climate lend summit singer radical flower visual negotiation promises cooperative live';
 
-  // generate a random value
   static random(): string {
     return Math.random().toString(36).substring(5, 10).toLowerCase();
   }
 
-  // local storage
   static async clearLocalStorage(): Promise<void> {
     await browser.executeScript('window.localStorage.clear();');
   }

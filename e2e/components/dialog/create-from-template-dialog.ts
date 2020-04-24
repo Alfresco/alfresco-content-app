@@ -25,7 +25,7 @@
 
 import { by, protractor } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
-import { isPresentAndDisplayed } from '../../utilities/utils';
+import { isPresentAndDisplayed, isPresentAndEnabled } from '../../utilities/utils';
 
 export class CreateFromTemplateDialog extends GenericDialog {
   createButton = this.childElement(by.cssContainingText('.mat-dialog-actions button', 'Create'));
@@ -45,11 +45,11 @@ export class CreateFromTemplateDialog extends GenericDialog {
   }
 
   async isCreateButtonEnabled(): Promise<boolean> {
-    return isPresentAndDisplayed(this.createButton);
+    return isPresentAndEnabled(this.createButton);
   }
 
   async isCancelButtonEnabled(): Promise<boolean> {
-    return isPresentAndDisplayed(this.cancelButton);
+    return isPresentAndEnabled(this.cancelButton);
   }
 
   async getValidationMessage(): Promise<string> {
