@@ -65,7 +65,9 @@
     "submenu",
     "submenus",
     "dateitem",
-    "versionable"
+    "versionable",
+    "erroredSpy",
+    "errored"
   ],
   "dictionaries": ["html", "en-gb", "en_US"]
 }

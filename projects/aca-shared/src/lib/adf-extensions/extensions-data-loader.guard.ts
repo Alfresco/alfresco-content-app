@@ -57,7 +57,7 @@ export class ExtensionsDataLoaderGuard implements CanActivate {
 
     // Undocumented forkJoin behaviour/bug:
     // https://github.com/ReactiveX/rxjs/issues/3246
-    // So all callbacks need to emit before completion, otherwise forkJoin will shortcircuit
+    // So all callbacks need to emit before completion, otherwise forkJoin will short circuit
     return forkJoin(...dataLoaderCallbacks).pipe(
       map(() => true),
       catchError(e => {
