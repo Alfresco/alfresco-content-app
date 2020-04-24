@@ -26,7 +26,7 @@
 import { browser, by, ElementFinder } from 'protractor';
 import { Logger } from '@alfresco/adf-testing';
 import { USE_HASH_STRATEGY } from './../configs';
-import { Utils, waitElement, waitForPresence, waitForVisibility } from '../utilities/utils';
+import { Utils, waitElement, waitForPresence, waitForVisibility, waitForInvisibility } from '../utilities/utils';
 
 export abstract class Page {
   appRoot = 'app-root';
@@ -58,7 +58,7 @@ export abstract class Page {
   }
 
   async waitForSnackBarToClose() {
-    await waitForVisibility(this.snackBarContainer);
+    await waitForInvisibility(this.snackBarContainer);
   }
 
   async waitForDialog() {
