@@ -63,8 +63,6 @@ export class Toolbar extends Component {
 
   async isButtonPresent(title: string) {
     const element = this.byCss(`button[title="${title}"]`);
-    await waitForPresence(element)
-
     return element.isPresent();
   }
 
