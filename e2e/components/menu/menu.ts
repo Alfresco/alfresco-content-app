@@ -33,7 +33,7 @@ export class Menu extends Component {
   backdrop = this.byCss('.cdk-overlay-backdrop', browser);
 
   uploadFilesInput = this.byId('app-upload-files', browser);
-  submenus = this.byCss('app-context-menu-item .mat-menu-item', browser);
+  submenus = this.allByCss('app-context-menu-item .mat-menu-item', browser);
 
   uploadFileAction = this.byId('app.create.uploadFile');
   uploadFolderAction = this.byId('app.create.uploadFolder');

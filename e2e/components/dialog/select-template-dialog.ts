@@ -30,8 +30,6 @@ import { DataTable } from '../data-table/data-table';
 
 export class SelectTemplateDialog extends GenericDialog {
   private static selectors = {
-    root: '.aca-template-node-selector-dialog',
-
     nextButton: by.css(
       '[data-automation-id="content-node-selector-actions-choose"]'
     ),
@@ -40,11 +38,11 @@ export class SelectTemplateDialog extends GenericDialog {
     )
   };
 
-  breadcrumb: DropDownBreadcrumb = new DropDownBreadcrumb();
-  dataTable: DataTable = new DataTable(SelectTemplateDialog.selectors.root);
+  breadcrumb = new DropDownBreadcrumb();
+  dataTable = new DataTable('.aca-template-node-selector-dialog');
 
   constructor() {
-    super(SelectTemplateDialog.selectors.root);
+    super('.aca-template-node-selector-dialog');
   }
 
   async isCancelButtonEnabled(): Promise<boolean> {
