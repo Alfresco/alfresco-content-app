@@ -62,7 +62,7 @@ export class Header extends Component {
     const expanded = await this.isSidenavExpanded();
     if (!expanded) {
       await this.sidenavToggle.click();
-      waitCss(
+      await waitCss(
         `[data-automation-id='expanded']`,
         '--- timeout waiting for expanded sidenav'
       );
