@@ -90,7 +90,7 @@ describe('Create folder', () => {
       await page.sidenav.openCreateFolderDialog();
       await createDialog.waitForDialogToOpen();
       await createDialog.enterName(folderName1);
-      await createDialog.clickCreate();
+      await createDialog.createButton.click();
       await createDialog.waitForDialogToClose();
       await dataTable.waitForHeader();
 
@@ -103,7 +103,7 @@ describe('Create folder', () => {
       await createDialog.waitForDialogToOpen();
       await createDialog.enterName(folderName2);
       await createDialog.enterDescription(folderDescription);
-      await createDialog.clickCreate();
+      await createDialog.createButton.click();
       await createDialog.waitForDialogToClose();
       await dataTable.waitForHeader();
 
@@ -119,8 +119,8 @@ describe('Create folder', () => {
       await createDialog.waitForDialogToOpen();
 
       expect(await createDialog.getTitle()).toMatch('Create new folder');
-      expect(await createDialog.isNameDisplayed()).toBe(true, 'Name input is not displayed');
-      expect(await createDialog.isDescriptionDisplayed()).toBe(true, 'Description field is not displayed');
+      expect(await createDialog.nameInput.isDisplayed()).toBe(true, 'Name input is not displayed');
+      expect(await createDialog.descriptionTextArea.isDisplayed()).toBe(true, 'Description field is not displayed');
       expect(await createDialog.isCreateButtonEnabled()).toBe(false, 'Create button is not disabled');
       expect(await createDialog.isCancelButtonEnabled()).toBe(true, 'Cancel button is not enabled');
     });
@@ -185,7 +185,7 @@ describe('Create folder', () => {
       await page.sidenav.openCreateFolderDialog();
       await createDialog.waitForDialogToOpen();
       await createDialog.enterName(duplicateFolderName);
-      await createDialog.clickCreate();
+      await createDialog.createButton.click();
 
       expect(await page.getSnackBarMessage()).toEqual(`There's already a folder with this name. Try a different name.`);
       expect(await createDialog.isDialogOpen()).toBe(true, 'dialog is not present');
@@ -196,7 +196,7 @@ describe('Create folder', () => {
       await page.sidenav.openCreateFolderDialog();
       await createDialog.waitForDialogToOpen();
       await createDialog.enterName(nameWithSpaces);
-      await createDialog.clickCreate();
+      await createDialog.createButton.click();
       await createDialog.waitForDialogToClose();
       await dataTable.waitForHeader();
 
@@ -223,7 +223,7 @@ describe('Create folder', () => {
       await createDialog.waitForDialogToOpen();
       await createDialog.enterName(folderSite);
       await createDialog.enterDescription(folderDescription);
-      await createDialog.clickCreate();
+      await createDialog.createButton.click();
       await createDialog.waitForDialogToClose();
       await dataTable.waitForHeader();
 
@@ -248,7 +248,7 @@ describe('Create folder', () => {
       await page.sidenav.openCreateFolderDialog();
       await createDialog.waitForDialogToOpen();
       await createDialog.enterName(duplicateFolderSite);
-      await createDialog.clickCreate();
+      await createDialog.createButton.click();
 
       expect(await page.getSnackBarMessage()).toEqual(`There's already a folder with this name. Try a different name.`);
       expect(await createDialog.isDialogOpen()).toBe(true, 'dialog is not present');

@@ -25,16 +25,13 @@
 
 import { by, browser } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
-import { waitForClickable } from '../../utilities/utils';
+import { waitForClickable, isPresentAndEnabled } from '../../utilities/utils';
 
 export class PasswordDialog extends GenericDialog {
-  private static selectors = {
-    closeButton: by.css('[data-automation-id="adf-password-dialog-close"]'),
-    submitButton: by.css('[data-automation-id="adf-password-dialog-submit"]')
-  };
-
-  passwordInput = this.rootElem.element(by.css('input[type="Password"]'));
-  errorMessage = this.rootElem.element(by.css('.mat-error'));
+  closeButton = this.childElement(by.css('[data-automation-id="adf-password-dialog-close"]'));
+  submitButton = this.childElement(by.css('[data-automation-id="adf-password-dialog-submit"]'));
+  passwordInput = this.childElement(by.css('input[type="Password"]'));
+  errorMessage = this.childElement(by.css('.mat-error'));
 
   constructor() {
     super('adf-pdf-viewer-password-dialog');
@@ -55,19 +52,11 @@ export class PasswordDialog extends GenericDialog {
   }
 
   async isCloseEnabled(): Promise<boolean> {
-    return this.isButtonEnabled(PasswordDialog.selectors.closeButton);
+    return isPresentAndEnabled(this.closeButton);
   }
 
   async isSubmitEnabled(): Promise<boolean> {
-    return this.isButtonEnabled(PasswordDialog.selectors.submitButton);
-  }
-
-  async clickClose(): Promise<void> {
-    await this.clickButton(PasswordDialog.selectors.closeButton);
-  }
-
-  async clickSubmit(): Promise<void> {
-    await this.clickButton(PasswordDialog.selectors.submitButton);
+    return isPresentAndEnabled(this.submitButton);
   }
 
   async isPasswordInputDisplayed(): Promise<boolean> {

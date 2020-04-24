@@ -87,7 +87,7 @@ describe('Viewer - password protected file', () => {
     await passwordDialog.enterPassword(protectedFile.password);
     expect(await passwordDialog.isSubmitEnabled()).toBe(true, 'Submit button not enabled');
 
-    await passwordDialog.clickSubmit();
+    await passwordDialog.submitButton.click();
     await passwordDialog.waitForDialogToClose();
 
     expect(await viewer.isPdfViewerContentDisplayed()).toBe(true, 'file content not displayed');
@@ -96,7 +96,7 @@ describe('Viewer - password protected file', () => {
   it('[C268960] Error appears when entering an incorrect password', async () => {
     await passwordDialog.enterPassword('incorrect');
     expect(await passwordDialog.isSubmitEnabled()).toBe(true, 'Submit button not enabled');
-    await passwordDialog.clickSubmit();
+    await passwordDialog.submitButton.click();
 
     expect(await passwordDialog.getErrorMessage()).toBe('Password is wrong');
     expect(await viewer.isPdfViewerContentDisplayed()).toBe(false, 'file content is displayed');

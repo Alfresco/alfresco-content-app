@@ -146,7 +146,7 @@ describe('Edit folder', () => {
       await editDialog.waitForDialogToOpen();
       await editDialog.enterDescription(folderDescriptionEdited);
       await editDialog.enterName(folderNameEdited);
-      await editDialog.clickUpdate();
+      await editDialog.updateButton.click();
       await editDialog.waitForDialogToClose();
       await dataTable.waitForHeader();
 
@@ -207,7 +207,7 @@ describe('Edit folder', () => {
       await toolbar.menu.editFolderAction.click();
       await editDialog.waitForDialogToOpen();
       await editDialog.enterName(duplicateFolderName);
-      await editDialog.clickUpdate();
+      await editDialog.updateButton.click();
 
       expect(await page.getSnackBarMessage()).toEqual(`There's already a folder with this name. Try a different name.`);
       expect(await editDialog.isDialogOpen()).toBe(true, 'dialog is not present');
@@ -218,7 +218,7 @@ describe('Edit folder', () => {
       await toolbar.openMoreMenu();
       await toolbar.menu.editFolderAction.click();
       await editDialog.nameInput.sendKeys('   ');
-      await editDialog.clickUpdate();
+      await editDialog.updateButton.click();
       await editDialog.waitForDialogToClose();
 
       expect(await page.snackBar.isPresent()).not.toBe(true, 'notification appears');
@@ -239,7 +239,7 @@ describe('Edit folder', () => {
       await editDialog.waitForDialogToOpen();
       await editDialog.enterDescription(folderDescriptionEdited);
       await editDialog.enterName(folderNameEdited);
-      await editDialog.clickUpdate();
+      await editDialog.updateButton.click();
       await editDialog.waitForDialogToClose();
       await dataTable.waitForHeader();
 
@@ -255,7 +255,7 @@ describe('Edit folder', () => {
       await toolbar.menu.editFolderAction.click();
       await editDialog.waitForDialogToOpen();
       await editDialog.enterName(folderFavoriteDuplicate);
-      await editDialog.clickUpdate();
+      await editDialog.updateButton.click();
 
       expect(await page.getSnackBarMessage()).toEqual(`There's already a folder with this name. Try a different name.`);
       expect(await editDialog.isDialogOpen()).toBe(true, 'dialog is not present');
@@ -276,7 +276,7 @@ describe('Edit folder', () => {
       await editDialog.waitForDialogToOpen();
       await editDialog.enterDescription(folderDescriptionEdited);
       await editDialog.enterName(folderNameEdited);
-      await editDialog.clickUpdate();
+      await editDialog.updateButton.click();
       await editDialog.waitForDialogToClose();
       await dataTable.waitForHeader();
 
@@ -292,7 +292,7 @@ describe('Edit folder', () => {
       await toolbar.menu.editFolderAction.click();
       await editDialog.waitForDialogToOpen();
       await editDialog.enterName(duplicateFolderSite);
-      await editDialog.clickUpdate();
+      await editDialog.updateButton.click();
 
       expect(await page.getSnackBarMessage()).toEqual(`There's already a folder with this name. Try a different name.`);
       expect(await editDialog.isDialogOpen()).toBe(true, 'dialog is not present');
@@ -318,7 +318,7 @@ describe('Edit folder', () => {
       await editDialog.waitForDialogToOpen();
       await editDialog.enterDescription(folderDescriptionEdited);
       await editDialog.enterName(folderNameEdited2);
-      await editDialog.clickUpdate();
+      await editDialog.updateButton.click();
       await editDialog.waitForDialogToClose();
 
       await page.refresh();
@@ -339,7 +339,7 @@ describe('Edit folder', () => {
       await toolbar.menu.editFolderAction.click();
       await editDialog.waitForDialogToOpen();
       await editDialog.enterName(folderSearchDuplicate);
-      await editDialog.clickUpdate();
+      await editDialog.updateButton.click();
 
       expect(await page.getSnackBarMessage()).toEqual(`There's already a folder with this name. Try a different name.`);
       expect(await editDialog.isDialogOpen()).toBe(true, 'dialog is not present');

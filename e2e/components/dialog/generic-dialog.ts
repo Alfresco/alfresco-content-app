@@ -24,7 +24,7 @@
  */
 
 import { ElementFinder, by, browser, Locator } from 'protractor';
-import { isPresentAndDisplayed, isPresentAndEnabled, waitForPresence, waitForVisibility, waitForStaleness } from '../../utilities/utils';
+import { isPresentAndDisplayed, waitForPresence, waitForVisibility, waitForStaleness } from '../../utilities/utils';
 
 export abstract class GenericDialog {
 
@@ -66,13 +66,5 @@ export abstract class GenericDialog {
 
   protected childElement(selector: Locator): ElementFinder {
     return this.rootElem.element(selector);
-  }
-
-  async isButtonEnabled(selector: Locator): Promise<boolean> {
-    return isPresentAndEnabled(this.childElement(selector));
-  }
-
-  async clickButton(selector: Locator): Promise<void> {
-    await this.childElement(selector).click();
   }
 }

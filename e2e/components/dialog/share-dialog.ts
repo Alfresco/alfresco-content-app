@@ -23,41 +23,28 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, ElementArrayFinder, by } from 'protractor';
+import { by } from 'protractor';
 import { DateTimePicker } from '../../components/datetime-picker/datetime-picker';
 import { GenericDialog } from '../dialog/generic-dialog';
+import { isPresentAndEnabled } from '../../utilities/utils';
 
 export class ShareDialog extends GenericDialog {
-  private static selectors = {
-    root: '.adf-share-dialog',
-
-    dialogTitle: `[data-automation-id='adf-share-dialog-title']`,
-    info: '.adf-share-link__info',
-    label: '.adf-share-link__label',
-    shareToggle: `[data-automation-id='adf-share-toggle']`,
-    linkUrl: `[data-automation-id='adf-share-link']`,
-    inputAction: '.adf-input-action',
-    expireToggle: `[data-automation-id='adf-expire-toggle']`,
-    datetimePickerButton: '.mat-datetimepicker-toggle',
-    expirationInput: 'input[formcontrolname="time"]',
-
-    closeButton: by.css(`[data-automation-id='adf-share-dialog-close']`)
-  };
-
   dateTimePicker = new DateTimePicker();
 
-  dialogTitle: ElementFinder = this.rootElem.element(by.css(ShareDialog.selectors.dialogTitle));
-  infoText: ElementFinder = this.rootElem.element(by.css(ShareDialog.selectors.info));
-  labels: ElementArrayFinder = this.rootElem.all(by.css(ShareDialog.selectors.label));
-  shareToggle: ElementFinder = this.rootElem.element(by.css(ShareDialog.selectors.shareToggle));
-  url: ElementFinder = this.rootElem.element(by.css(ShareDialog.selectors.linkUrl));
-  urlAction: ElementFinder = this.rootElem.element(by.css(ShareDialog.selectors.inputAction));
-  expireToggle: ElementFinder = this.rootElem.element(by.css(ShareDialog.selectors.expireToggle));
-  expireInput: ElementFinder = this.rootElem.element(by.css(ShareDialog.selectors.expirationInput));
-  datetimePickerButton: ElementFinder = this.rootElem.element(by.css(ShareDialog.selectors.datetimePickerButton));
+  dialogTitle = this.childElement(by.css(`[data-automation-id='adf-share-dialog-title']`));
+  infoText = this.childElement(by.css('.adf-share-link__info'));
+  labels = this.rootElem.all(by.css('.adf-share-link__label'));
+  shareToggle = this.childElement(by.css(`[data-automation-id='adf-share-toggle']`));
+  url = this.childElement(by.css(`[data-automation-id='adf-share-link']`));
+  urlAction = this.childElement(by.css('.adf-input-action'));
+  expireToggle = this.childElement(by.css(`[data-automation-id='adf-expire-toggle']`));
+  expireInput = this.childElement(by.css('input[formcontrolname="time"]'));
+  datetimePickerButton = this.childElement(by.css('.mat-datetimepicker-toggle'));
+
+  closeButton = this.childElement(by.css(`[data-automation-id='adf-share-dialog-close']`));
 
   constructor() {
-    super(ShareDialog.selectors.root);
+    super('.adf-share-dialog');
   }
 
   async getTitle(): Promise<string> {
@@ -66,10 +53,6 @@ export class ShareDialog extends GenericDialog {
 
   async getInfoText(): Promise<string> {
     return this.infoText.getText();
-  }
-
-  getLabels(): ElementArrayFinder {
-    return this.labels;
   }
 
   async getLinkUrl(): Promise<string> {
@@ -82,47 +65,27 @@ export class ShareDialog extends GenericDialog {
   }
 
   async isCloseEnabled(): Promise<boolean> {
-    return this.isButtonEnabled(ShareDialog.selectors.closeButton);
+    return isPresentAndEnabled(this.closeButton);
   }
 
   async clickClose(): Promise<void> {
-    await this.clickButton(ShareDialog.selectors.closeButton);
+    await this.closeButton.click();
     await this.waitForDialogToClose();
   }
 
-  getShareToggle(): ElementFinder {
-    return this.shareToggle;
-  }
-
-  getExpireToggle(): ElementFinder {
-    return this.expireToggle;
-  }
-
-  getExpireInput(): ElementFinder {
-    return this.expireInput;
-  }
-
   async isShareToggleChecked(): Promise<boolean> {
-    const toggleClass = await this.getShareToggle().getAttribute('class');
+    const toggleClass = await this.shareToggle.getAttribute('class');
     return toggleClass.includes('checked');
   }
 
   async isShareToggleDisabled(): Promise<boolean> {
-    const toggleClass = await this.getShareToggle().getAttribute('class');
+    const toggleClass = await this.shareToggle.getAttribute('class');
     return toggleClass.includes('mat-disabled');
   }
 
   async isExpireToggleEnabled(): Promise<boolean> {
-    const toggleClass = await this.getExpireToggle().getAttribute('class');
+    const toggleClass = await this.expireToggle.getAttribute('class');
     return toggleClass.includes('checked');
-  }
-
-  async copyUrl(): Promise<void> {
-    await this.urlAction.click();
-  }
-
-  async openDatetimePicker(): Promise<void> {
-    await this.datetimePickerButton.click();
   }
 
   async closeDatetimePicker(): Promise<void> {
@@ -132,14 +95,6 @@ export class ShareDialog extends GenericDialog {
   }
 
   async getExpireDate(): Promise<string> {
-    return this.getExpireInput().getAttribute('value');
-  }
-
-  async clickExpirationToggle(): Promise<void> {
-    await this.expireToggle.click();
-  }
-
-  async clickShareToggle(): Promise<void> {
-    await this.shareToggle.click();
+    return this.expireInput.getAttribute('value');
   }
 }

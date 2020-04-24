@@ -102,7 +102,7 @@ describe('Create library', () => {
     await page.sidenav.openCreateLibraryDialog();
     await createDialog.waitForDialogToOpen();
     await createDialog.enterName(site1Name);
-    await createDialog.clickCreate();
+    await createDialog.createButton.click();
     await createDialog.waitForDialogToClose();
 
     expect(await page.breadcrumb.currentItem.getText()).toEqual(site1Name, `Not navigated into ${site1Name}`);
@@ -116,7 +116,7 @@ describe('Create library', () => {
     await createDialog.waitForDialogToOpen();
     await createDialog.enterName(site2Name);
     await createDialog.visibilityModerated.click();
-    await createDialog.clickCreate();
+    await createDialog.createButton.click();
     await createDialog.waitForDialogToClose();
 
     expect(await page.breadcrumb.currentItem.getText()).toEqual(site2Name, `Not navigated into ${site2Name}`);
@@ -130,7 +130,7 @@ describe('Create library', () => {
     await createDialog.waitForDialogToOpen();
     await createDialog.enterName(site3Name);
     await createDialog.visibilityPrivate.click();
-    await createDialog.clickCreate();
+    await createDialog.createButton.click();
     await createDialog.waitForDialogToClose();
 
     expect(await page.breadcrumb.currentItem.getText()).toEqual(site3Name, `Not navigated into ${site3Name}`);
@@ -146,7 +146,7 @@ describe('Create library', () => {
     await createDialog.enterLibraryId(site4.id);
     await createDialog.enterDescription(site4.description);
     await createDialog.visibilityPublic.click();
-    await createDialog.clickCreate();
+    await createDialog.createButton.click();
     await createDialog.waitForDialogToClose();
 
     expect(await page.breadcrumb.currentItem.getText()).toEqual(site4.name, `Not navigated into ${site4.name}`);
@@ -171,7 +171,7 @@ describe('Create library', () => {
     await createDialog.waitForDialogToOpen();
     await createDialog.enterName(siteInTrash.name);
     await createDialog.enterLibraryId(siteInTrash.id);
-    await createDialog.clickCreate();
+    await createDialog.createButton.click();
 
     expect(await createDialog.getErrorMessage()).toEqual(`This Library ID is already used. Check the trashcan.`);
   });
@@ -205,7 +205,7 @@ describe('Create library', () => {
     await createDialog.waitForDialogToOpen();
     await createDialog.enterName(duplicateSite.name);
     await createDialog.enterLibraryId(`${duplicateSite.id}-2`);
-    await createDialog.clickCreate();
+    await createDialog.createButton.click();
     await createDialog.waitForDialogToClose();
 
     expect(await page.breadcrumb.currentItem.getText()).toEqual(duplicateSite.name, `Not navigated into ${duplicateSite.name}`);

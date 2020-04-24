@@ -155,7 +155,7 @@ describe('Move content', () => {
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('Personal Files');
       await moveDialog.selectDestination(destinationPF);
-      await moveDialog.clickMove();
+      await moveDialog.moveButton.click();
       const msg = await page.getSnackBarMessage();
       expect(msg).toContain('Moved 1 item');
       expect(msg).toContain('Undo');
@@ -173,7 +173,7 @@ describe('Move content', () => {
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('Personal Files');
       await moveDialog.selectDestination(destinationPF);
-      await moveDialog.clickMove();
+      await moveDialog.moveButton.click();
       const msg = await page.getSnackBarMessage();
       expect(msg).toContain('Moved 1 item');
       expect(msg).toContain('Undo');
@@ -195,7 +195,7 @@ describe('Move content', () => {
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('Personal Files');
       await moveDialog.selectDestination(destinationPF);
-      await moveDialog.clickMove();
+      await moveDialog.moveButton.click();
       const msg = await page.getSnackBarMessage();
       expect(msg).toContain('Moved 2 items');
       expect(msg).toContain('Undo');
@@ -215,7 +215,7 @@ describe('Move content', () => {
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('Personal Files');
       await moveDialog.selectDestination(destinationPF);
-      await moveDialog.clickMove();
+      await moveDialog.moveButton.click();
       const msg = await page.getSnackBarMessage();
       expect(msg).toContain('Move unsuccessful, a file with the same name already exists');
       expect(msg).not.toContain('Undo');
@@ -234,7 +234,7 @@ describe('Move content', () => {
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('Personal Files');
       await moveDialog.selectDestination(destinationPF);
-      await moveDialog.clickMove();
+      await moveDialog.moveButton.click();
       const msg = await page.getSnackBarMessage();
       expect(msg).toContain('Moved 1 item');
       expect(msg).toContain('Undo');
@@ -257,7 +257,7 @@ describe('Move content', () => {
       await moveDialog.dataTable.doubleClickOnRowByName(siteName);
       await moveDialog.dataTable.doubleClickOnRowByName('documentLibrary');
       await moveDialog.selectDestination(folderSitePF);
-      await moveDialog.clickMove();
+      await moveDialog.moveButton.click();
       const msg = await page.getSnackBarMessage();
       expect(msg).toContain('Moved 2 items');
       expect(msg).toContain('Undo');
@@ -314,7 +314,7 @@ describe('Move content', () => {
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('Personal Files');
       await moveDialog.selectDestination(destinationRF);
-      await moveDialog.clickMove();
+      await moveDialog.moveButton.click();
       const msg = await page.getSnackBarMessage();
       expect(msg).toContain('Moved 1 item');
       expect(msg).toContain('Undo');
@@ -333,7 +333,7 @@ describe('Move content', () => {
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('Personal Files');
       await moveDialog.selectDestination(destinationRF);
-      await moveDialog.clickMove();
+      await moveDialog.moveButton.click();
       const msg = await page.getSnackBarMessage();
       expect(msg).toContain('Moved 2 items');
       expect(msg).toContain('Undo');
@@ -355,7 +355,7 @@ describe('Move content', () => {
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('Personal Files');
       await moveDialog.selectDestination(destinationRF);
-      await moveDialog.clickMove();
+      await moveDialog.moveButton.click();
       const msg = await page.getSnackBarMessage();
       expect(msg).toContain('Move unsuccessful, a file with the same name already exists');
       expect(msg).not.toContain('Undo');
@@ -377,7 +377,7 @@ describe('Move content', () => {
       await moveDialog.dataTable.doubleClickOnRowByName(siteName);
       await moveDialog.dataTable.doubleClickOnRowByName('documentLibrary');
       await moveDialog.selectDestination(folderSiteRF);
-      await moveDialog.clickMove();
+      await moveDialog.moveButton.click();
       const msg = await page.getSnackBarMessage();
       expect(msg).toContain('Moved 1 item');
       expect(msg).toContain('Undo');
@@ -436,7 +436,7 @@ describe('Move content', () => {
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('Personal Files');
       await moveDialog.selectDestination(destinationSF);
-      await moveDialog.clickMove();
+      await moveDialog.moveButton.click();
       const msg = await page.getSnackBarMessage();
       expect(msg).toContain('Moved 1 item');
       expect(msg).toContain('Undo');
@@ -455,7 +455,7 @@ describe('Move content', () => {
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('Personal Files');
       await moveDialog.selectDestination(destinationSF);
-      await moveDialog.clickMove();
+      await moveDialog.moveButton.click();
       const msg = await page.getSnackBarMessage();
       expect(msg).toContain('Moved 2 items');
       expect(msg).toContain('Undo');
@@ -477,7 +477,7 @@ describe('Move content', () => {
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('Personal Files');
       await moveDialog.selectDestination(destinationSF);
-      await moveDialog.clickMove();
+      await moveDialog.moveButton.click();
       const msg = await page.getSnackBarMessage();
       expect(msg).toContain('Move unsuccessful, a file with the same name already exists');
       expect(msg).not.toContain('Undo');
@@ -499,7 +499,7 @@ describe('Move content', () => {
       await moveDialog.dataTable.doubleClickOnRowByName(siteName);
       await moveDialog.dataTable.doubleClickOnRowByName('documentLibrary');
       await moveDialog.selectDestination(folderSiteSF);
-      await moveDialog.clickMove();
+      await moveDialog.moveButton.click();
       const msg = await page.getSnackBarMessage();
       expect(msg).toContain('Moved 1 item');
       expect(msg).toContain('Undo');
@@ -581,7 +581,7 @@ describe('Move content', () => {
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('Personal Files');
       await moveDialog.selectDestination(destinationFav);
-      await moveDialog.clickMove();
+      await moveDialog.moveButton.click();
       const msg = await page.getSnackBarMessage();
       expect(msg).toContain('Moved 1 item');
       expect(msg).toContain('Undo');
@@ -600,7 +600,7 @@ describe('Move content', () => {
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('Personal Files');
       await moveDialog.selectDestination(destinationFav);
-      await moveDialog.clickMove();
+      await moveDialog.moveButton.click();
       const msg = await page.getSnackBarMessage();
       expect(msg).toContain('Moved 1 item');
       expect(msg).toContain('Undo');
@@ -623,7 +623,7 @@ describe('Move content', () => {
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('Personal Files');
       await moveDialog.selectDestination(destinationFav);
-      await moveDialog.clickMove();
+      await moveDialog.moveButton.click();
       const msg = await page.getSnackBarMessage();
       expect(msg).toContain('Moved 2 items');
       expect(msg).toContain('Undo');
@@ -645,7 +645,7 @@ describe('Move content', () => {
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('Personal Files');
       await moveDialog.selectDestination(destinationFav);
-      await moveDialog.clickMove();
+      await moveDialog.moveButton.click();
       const msg = await page.getSnackBarMessage();
       expect(msg).toContain('Move unsuccessful, a file with the same name already exists');
       expect(msg).not.toContain('Undo');
@@ -665,7 +665,7 @@ describe('Move content', () => {
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('Personal Files');
       await moveDialog.selectDestination(destinationFav);
-      await moveDialog.clickMove();
+      await moveDialog.moveButton.click();
       const msg = await page.getSnackBarMessage();
       expect(msg).toContain('Moved 1 item');
       expect(msg).toContain('Undo');
@@ -689,7 +689,7 @@ describe('Move content', () => {
       await moveDialog.dataTable.doubleClickOnRowByName(siteName);
       await moveDialog.dataTable.doubleClickOnRowByName('documentLibrary');
       await moveDialog.selectDestination(folderSiteFav);
-      await moveDialog.clickMove();
+      await moveDialog.moveButton.click();
       const msg = await page.getSnackBarMessage();
       expect(msg).toContain('Moved 2 items');
       expect(msg).toContain('Undo');

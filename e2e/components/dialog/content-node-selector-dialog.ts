@@ -25,16 +25,14 @@
 
 import { by, browser, protractor } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
-import { Utils, isPresentAndDisplayed, waitForStaleness, waitForPresence } from '../../utilities/utils';
+import { Utils, isPresentAndDisplayed, waitForStaleness, waitForPresence, isPresentAndEnabled } from '../../utilities/utils';
 import { DropDownBreadcrumb } from '../breadcrumb/dropdown-breadcrumb';
 import { DataTable } from '../data-table/data-table';
 
 export class ContentNodeSelectorDialog extends GenericDialog {
-  private static selectors = {
-    cancelButton: by.css('[data-automation-id="content-node-selector-actions-cancel"]'),
-    copyButton: by.cssContainingText('[data-automation-id="content-node-selector-actions-choose"]', 'Copy'),
-    moveButton: by.cssContainingText('[data-automation-id="content-node-selector-actions-choose"]', 'Move')
-  };
+  cancelButton = this.childElement(by.css('[data-automation-id="content-node-selector-actions-cancel"]'));
+  copyButton = this.childElement(by.cssContainingText('[data-automation-id="content-node-selector-actions-choose"]', 'Copy'));
+  moveButton = this.childElement(by.cssContainingText('[data-automation-id="content-node-selector-actions-choose"]', 'Move'));
 
   locationDropDown = this.rootElem.element(by.id('site-dropdown-container'));
   locationPersonalFiles = browser.element(by.cssContainingText('.mat-option .mat-option-text', 'Personal Files'));
@@ -52,14 +50,6 @@ export class ContentNodeSelectorDialog extends GenericDialog {
 
   async waitForDropDownToClose(): Promise<void> {
     await waitForStaleness(browser.$('.mat-option .mat-option-text'))
-  }
-
-  async clickCopy(): Promise<void> {
-    await this.clickButton(ContentNodeSelectorDialog.selectors.copyButton);
-  }
-
-  async clickMove(): Promise<void> {
-    await this.clickButton(ContentNodeSelectorDialog.selectors.moveButton);
   }
 
   async selectLocation(location: 'Personal Files' | 'File Libraries'): Promise<void> {
@@ -82,20 +72,16 @@ export class ContentNodeSelectorDialog extends GenericDialog {
     await waitForPresence(browser.element(by.css('.adf-is-selected')));
   }
 
-  async isSearchInputPresent(): Promise<boolean> {
-    return this.searchInput.isPresent();
-  }
-
   async isSelectLocationDropdownDisplayed(): Promise<boolean> {
     return isPresentAndDisplayed(this.locationDropDown);
   }
 
   async isCopyButtonEnabled(): Promise<boolean> {
-    return this.isButtonEnabled(ContentNodeSelectorDialog.selectors.copyButton);
+    return isPresentAndEnabled(this.copyButton);
   }
 
   async isCancelButtonEnabled(): Promise<boolean> {
-    return this.isButtonEnabled(ContentNodeSelectorDialog.selectors.cancelButton);
+    return isPresentAndEnabled(this.cancelButton);
   }
 
   async searchFor(text: string): Promise<void> {

@@ -23,30 +23,21 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, protractor } from 'protractor';
+import { by, protractor } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
 import { isPresentAndDisplayed } from '../../utilities/utils';
 
 export class CreateFromTemplateDialog extends GenericDialog {
-  private static selectors = {
-    root: '.aca-create-from-template-dialog',
+  createButton = this.childElement(by.cssContainingText('.mat-dialog-actions button', 'Create'));
+  cancelButton = this.childElement(by.cssContainingText('.mat-dialog-actions button', 'CANCEL'));
 
-    nameInput: 'input[placeholder="Name" i]',
-    titleInput: 'input[placeholder="Title" i]',
-    descriptionTextArea: 'textarea[placeholder="Description" i]',
-    validationMessage: '.mat-error',
-
-    createButton: by.cssContainingText('.mat-dialog-actions button', 'Create'),
-    cancelButton: by.cssContainingText('.mat-dialog-actions button', 'CANCEL')
-  };
-
-  nameInput: ElementFinder = this.rootElem.element(by.css(CreateFromTemplateDialog.selectors.nameInput));
-  titleInput: ElementFinder = this.rootElem.element(by.css(CreateFromTemplateDialog.selectors.titleInput));
-  descriptionTextArea: ElementFinder = this.rootElem.element(by.css(CreateFromTemplateDialog.selectors.descriptionTextArea));
-  validationMessage: ElementFinder = this.rootElem.element(by.css(CreateFromTemplateDialog.selectors.validationMessage));
+  nameInput = this.childElement(by.css('input[placeholder="Name" i]'));
+  titleInput = this.childElement(by.css('input[placeholder="Title" i]'));
+  descriptionTextArea = this.childElement(by.css('textarea[placeholder="Description" i]'));
+  validationMessage = this.childElement(by.css('.mat-error'));
 
   constructor() {
-    super(CreateFromTemplateDialog.selectors.root);
+    super('.aca-create-from-template-dialog');
   }
 
   async isValidationMessageDisplayed(): Promise<boolean> {
@@ -54,23 +45,11 @@ export class CreateFromTemplateDialog extends GenericDialog {
   }
 
   async isCreateButtonEnabled(): Promise<boolean> {
-    return this.isButtonEnabled(CreateFromTemplateDialog.selectors.createButton);
+    return isPresentAndDisplayed(this.createButton);
   }
 
   async isCancelButtonEnabled(): Promise<boolean> {
-    return this.isButtonEnabled(CreateFromTemplateDialog.selectors.cancelButton);
-  }
-
-  async isNameFieldDisplayed(): Promise<boolean> {
-    return this.nameInput.isDisplayed();
-  }
-
-  async isTitleFieldDisplayed(): Promise<boolean> {
-    return this.titleInput.isDisplayed();
-  }
-
-  async isDescriptionFieldDisplayed(): Promise<boolean> {
-    return this.descriptionTextArea.isDisplayed();
+    return isPresentAndDisplayed(this.cancelButton);
   }
 
   async getValidationMessage(): Promise<string> {
@@ -109,13 +88,8 @@ export class CreateFromTemplateDialog extends GenericDialog {
     await this.nameInput.sendKeys(' ', protractor.Key.CONTROL, 'a', protractor.Key.NULL, protractor.Key.BACK_SPACE);
   }
 
-  async clickCreate(): Promise<void> {
-    await this.clickButton(CreateFromTemplateDialog.selectors.createButton);
-  }
-
   async clickCancel(): Promise<void> {
-    await this.clickButton(CreateFromTemplateDialog.selectors.cancelButton);
+    await this.cancelButton.click();
     await this.waitForDialogToClose();
   }
-
 }

@@ -141,7 +141,7 @@ describe('Destination picker dialog : ', () => {
 
     it('[C263875] Dialog UI', async () => {
       expect(await dialog.getTitle()).toEqual(`Copy '${file}' to...`);
-      expect(await dialog.isSearchInputPresent()).toBe(true, 'Search input is not displayed');
+      expect(await dialog.searchInput.isPresent()).toBe(true, 'Search input is not displayed');
       expect(await dialog.isSelectLocationDropdownDisplayed()).toBe(true, 'Select Location dropdown not displayed');
       expect(await breadcrumb.currentFolder.getText()).toEqual('Personal Files');
       expect(await dataTable.isItemPresent(destination)).toBe(true, 'Personal Files content not displayed');

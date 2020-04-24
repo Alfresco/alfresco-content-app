@@ -25,13 +25,11 @@
 
 import { by, ElementFinder } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
-import { waitForClickable } from '../../utilities/utils';
+import { waitForClickable, isPresentAndEnabled } from '../../utilities/utils';
 
 export class CreateLibraryDialog extends GenericDialog {
-  private static selectors = {
-    createButton: by.cssContainingText('.mat-dialog-actions button', 'Create'),
-    cancelButton: by.cssContainingText('.mat-dialog-actions button', 'Cancel')
-  };
+  createButton = this.childElement(by.cssContainingText('.mat-dialog-actions button', 'Create'));
+  cancelButton = this.childElement(by.cssContainingText('.mat-dialog-actions button', 'Cancel'));
 
   nameInput = this.rootElem.element(by.css('input[placeholder="Name" i]'));
   libraryIdInput = this.rootElem.element(by.css('input[placeholder="Library ID" i]'));
@@ -48,15 +46,11 @@ export class CreateLibraryDialog extends GenericDialog {
 
   async waitForDialogToOpen(): Promise<void> {
     await super.waitForDialogToOpen();
-    await waitForClickable(this.nameInput, '--- timeout waiting for input to be clickable ---');
-  }
-
-  async isErrorMessageDisplayed(): Promise<boolean> {
-    return this.errorMessage.isDisplayed();
+    await waitForClickable(this.nameInput);
   }
 
   async getErrorMessage(): Promise<string> {
-    if (await this.isErrorMessageDisplayed()) {
+    if (await this.errorMessage.isDisplayed()) {
       return this.errorMessage.getText();
     }
     return '';
@@ -78,19 +72,15 @@ export class CreateLibraryDialog extends GenericDialog {
   }
 
   async isCreateEnabled(): Promise<boolean> {
-    return this.isButtonEnabled(CreateLibraryDialog.selectors.createButton);
+    return isPresentAndEnabled(this.createButton);
   }
 
   async isCancelEnabled(): Promise<boolean> {
-    return this.isButtonEnabled(CreateLibraryDialog.selectors.cancelButton);
-  }
-
-  async clickCreate(): Promise<void> {
-    await this.clickButton(CreateLibraryDialog.selectors.createButton);
+    return isPresentAndEnabled(this.cancelButton);
   }
 
   async clickCancel(): Promise<void> {
-    await this.clickButton(CreateLibraryDialog.selectors.cancelButton);
+    await this.cancelButton.click();
     await this.waitForDialogToClose();
   }
 

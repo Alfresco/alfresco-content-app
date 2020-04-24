@@ -236,9 +236,9 @@ describe('Create file from template', () => {
 
       it('[C325020] Create file from template - dialog UI', async () => {
         expect(await createFromTemplateDialog.getTitle()).toEqual(`Create new document from '${template1InRootFolder}'`);
-        expect(await createFromTemplateDialog.isNameFieldDisplayed()).toBe(true, 'Name field not displayed');
-        expect(await createFromTemplateDialog.isTitleFieldDisplayed()).toBe(true, 'Title field not displayed');
-        expect(await createFromTemplateDialog.isDescriptionFieldDisplayed()).toBe(true, 'Description field not displayed');
+        expect(await createFromTemplateDialog.nameInput.isDisplayed()).toBe(true, 'Name field not displayed');
+        expect(await createFromTemplateDialog.titleInput.isDisplayed()).toBe(true, 'Title field not displayed');
+        expect(await createFromTemplateDialog.descriptionTextArea.isDisplayed()).toBe(true, 'Description field not displayed');
         expect(await createFromTemplateDialog.isCancelButtonEnabled()).toBe(true, 'Cancel button is not enabled');
         expect(await createFromTemplateDialog.isCreateButtonEnabled()).toBe(true, 'Create button is not enabled');
       });
@@ -305,7 +305,7 @@ describe('Create file from template', () => {
 
       it('[C325030] Create a file from a template - with a new Name', async () => {
         await createFromTemplateDialog.enterName(file1.name);
-        await createFromTemplateDialog.clickCreate();
+        await createFromTemplateDialog.createButton.click();
         await createFromTemplateDialog.waitForDialogToClose();
         await page.dataTable.waitForHeader();
 
@@ -316,7 +316,7 @@ describe('Create file from template', () => {
         await createFromTemplateDialog.enterName(file2.name);
         await createFromTemplateDialog.enterTitle(file2.title);
         await createFromTemplateDialog.enterDescription(file2.description);
-        await createFromTemplateDialog.clickCreate();
+        await createFromTemplateDialog.createButton.click();
         await createFromTemplateDialog.waitForDialogToClose();
         await page.dataTable.waitForHeader();
 
@@ -329,7 +329,7 @@ describe('Create file from template', () => {
 
       it('[C325028] Create a file with a duplicate name', async () => {
         await createFromTemplateDialog.enterName(duplicateFileName);
-        await createFromTemplateDialog.clickCreate();
+        await createFromTemplateDialog.createButton.click();
 
         expect(await page.getSnackBarMessage()).toEqual(`This name is already in use, try a different name.`);
         expect(await createFromTemplateDialog.isDialogOpen()).toBe(true, 'dialog is not present');
@@ -345,7 +345,7 @@ describe('Create file from template', () => {
 
       it('[C325042] Trim spaces from file Name', async () => {
         await createFromTemplateDialog.enterName(nameWithSpaces);
-        await createFromTemplateDialog.clickCreate();
+        await createFromTemplateDialog.createButton.click();
         await createFromTemplateDialog.waitForDialogToClose();
         await page.dataTable.waitForHeader();
 
@@ -370,7 +370,7 @@ describe('Create file from template', () => {
         await createFromTemplateDialog.enterName(fileSite.name);
         await createFromTemplateDialog.enterTitle(fileSite.title);
         await createFromTemplateDialog.enterDescription(fileSite.description);
-        await createFromTemplateDialog.clickCreate();
+        await createFromTemplateDialog.createButton.click();
         await createFromTemplateDialog.waitForDialogToClose();
         await page.dataTable.waitForHeader();
 
@@ -391,7 +391,7 @@ describe('Create file from template', () => {
 
       it('[C325025] Create a file with a duplicate name', async () => {
         await createFromTemplateDialog.enterName(duplicateFileSite);
-        await createFromTemplateDialog.clickCreate();
+        await createFromTemplateDialog.createButton.click();
 
         expect(await page.getSnackBarMessage()).toEqual(`This name is already in use, try a different name.`);
         expect(await createFromTemplateDialog.isDialogOpen()).toBe(true, 'dialog is not present');

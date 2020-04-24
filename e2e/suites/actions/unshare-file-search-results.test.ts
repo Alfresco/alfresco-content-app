@@ -116,7 +116,7 @@ describe('Unshare a file from Search Results', () => {
     await shareDialog.waitForDialogToOpen();
 
     expect(await shareDialog.isShareToggleChecked()).toBe(true, 'Share toggle not checked');
-    await shareDialog.clickShareToggle();
+    await shareDialog.shareToggle.click();
 
     expect(await confirmDialog.isDialogOpen()).toBe(true, 'Unshare dialog is not open');
     expect(await confirmDialog.getTitle()).toContain('Remove this shared link');
@@ -135,7 +135,7 @@ describe('Unshare a file from Search Results', () => {
     await toolbar.shareEditButton.click();
     await shareDialog.waitForDialogToOpen();
     const url = await shareDialog.getLinkUrl();
-    await shareDialog.clickShareToggle();
+    await shareDialog.shareToggle.click();
 
     await confirmDialog.removeButton.click();
     await confirmDialog.waitForDialogToClose();
@@ -161,7 +161,7 @@ describe('Unshare a file from Search Results', () => {
     await shareDialog.waitForDialogToOpen();
 
     const urlBefore = await shareDialog.getLinkUrl();
-    await shareDialog.clickShareToggle();
+    await shareDialog.shareToggle.click();
 
     await confirmDialog.cancelButton.click();
     await confirmDialog.waitForDialogToClose();
@@ -183,7 +183,7 @@ describe('Unshare a file from Search Results', () => {
     await contextMenu.shareEditAction.click();
     await shareDialog.waitForDialogToOpen();
     const url = await shareDialog.getLinkUrl();
-    await shareDialog.clickShareToggle();
+    await shareDialog.shareToggle.click();
 
     await confirmDialog.removeButton.click();
     await confirmDialog.waitForDialogToClose();
@@ -209,7 +209,7 @@ describe('Unshare a file from Search Results', () => {
 
     expect(await shareDialog.isShareToggleDisabled()).toBe(false, 'Share toggle disabled for consumer');
 
-    await shareDialog.clickShareToggle();
+    await shareDialog.shareToggle.click();
     await confirmDialog.removeButton.click();
 
     const msg = await page.getSnackBarMessage();
@@ -227,7 +227,7 @@ describe('Unshare a file from Search Results', () => {
 
     expect(await shareDialog.isShareToggleDisabled()).toBe(false, 'Share toggle disabled for consumer');
 
-    await shareDialog.clickShareToggle();
+    await shareDialog.shareToggle.click();
     await confirmDialog.removeButton.click();
     await confirmDialog.waitForDialogToClose();
     await shareDialog.waitForDialogToClose();

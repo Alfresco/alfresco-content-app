@@ -28,11 +28,9 @@ import { GenericDialog } from '../dialog/generic-dialog';
 import { isPresentAndDisplayed, waitForClickable } from '../../utilities/utils';
 
 export class CreateOrEditFolderDialog extends GenericDialog {
-  private static selectors = {
-    createButton: by.cssContainingText('.mat-dialog-actions button', 'Create'),
-    cancelButton: by.id('adf-folder-cancel-button'),
-    updateButton: by.cssContainingText('.mat-dialog-actions button', 'Update')
-  };
+  createButton = this.childElement(by.cssContainingText('.mat-dialog-actions button', 'Create'));
+  cancelButton = this.childElement(by.id('adf-folder-cancel-button'));
+  updateButton = this.childElement(by.cssContainingText('.mat-dialog-actions button', 'Update'));
 
   nameInput = this.rootElem.element(by.css('input[placeholder="Name" i]'));
   descriptionTextArea = this.rootElem.element(by.css('textarea[placeholder="Description" i]'));
@@ -44,35 +42,23 @@ export class CreateOrEditFolderDialog extends GenericDialog {
 
   async waitForDialogToOpen() {
     await super.waitForDialogToOpen();
-    await waitForClickable(this.nameInput, '--- timeout waiting for input to be clickable ---');
-  }
-
-  async isValidationMessageDisplayed(): Promise<boolean> {
-    return isPresentAndDisplayed(this.validationMessage);
+    await waitForClickable(this.nameInput);
   }
 
   async isUpdateButtonEnabled(): Promise<boolean> {
-    return this.isButtonEnabled(CreateOrEditFolderDialog.selectors.updateButton);
+    return isPresentAndDisplayed(this.updateButton);
   }
 
   async isCreateButtonEnabled(): Promise<boolean> {
-    return this.isButtonEnabled(CreateOrEditFolderDialog.selectors.createButton);
+    return isPresentAndDisplayed(this.createButton);
   }
 
   async isCancelButtonEnabled(): Promise<boolean> {
-    return this.isButtonEnabled(CreateOrEditFolderDialog.selectors.cancelButton);
-  }
-
-  async isNameDisplayed(): Promise<boolean> {
-    return this.nameInput.isDisplayed();
-  }
-
-  async isDescriptionDisplayed(): Promise<boolean> {
-    return this.descriptionTextArea.isDisplayed();
+    return isPresentAndDisplayed(this.cancelButton);
   }
 
   async getValidationMessage(): Promise<string> {
-    if (await this.isValidationMessageDisplayed()) {
+    if (await isPresentAndDisplayed(this.validationMessage)) {
       return this.validationMessage.getText();
     } else {
       return '';
@@ -102,17 +88,8 @@ export class CreateOrEditFolderDialog extends GenericDialog {
     await this.nameInput.sendKeys(' ', protractor.Key.CONTROL, 'a', protractor.Key.NULL, protractor.Key.BACK_SPACE);
   }
 
-  async clickCreate(): Promise<void> {
-    await this.clickButton(CreateOrEditFolderDialog.selectors.createButton);
-  }
-
   async clickCancel(): Promise<void> {
-    await this.clickButton(CreateOrEditFolderDialog.selectors.cancelButton);
+    this.cancelButton.click();
     await this.waitForDialogToClose();
   }
-
-  async clickUpdate(): Promise<void> {
-    await this.clickButton(CreateOrEditFolderDialog.selectors.updateButton);
-  }
-
 }

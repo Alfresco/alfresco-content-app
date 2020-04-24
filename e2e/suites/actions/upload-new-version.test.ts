@@ -132,9 +132,9 @@ describe('Upload new version', () => {
 
       expect(await uploadNewVersionDialog.getTitle()).toEqual('Upload New Version');
       expect(await uploadNewVersionDialog.getText()).toContain('What level of changes were made to this version?');
-      expect(await uploadNewVersionDialog.isDescriptionDisplayed()).toBe(true, 'Description not displayed');
-      expect(await uploadNewVersionDialog.isMinorOptionDisplayed()).toBe(true, 'Minor option not displayed');
-      expect(await uploadNewVersionDialog.isMajorOptionDisplayed()).toBe(true, 'Major option not displayed');
+      expect(await uploadNewVersionDialog.description.isDisplayed()).toBe(true, 'Description not displayed');
+      expect(await uploadNewVersionDialog.minorOption.isDisplayed()).toBe(true, 'Minor option not displayed');
+      expect(await uploadNewVersionDialog.majorOption.isDisplayed()).toBe(true, 'Major option not displayed');
       expect(await uploadNewVersionDialog.isCancelButtonEnabled()).toBe(true, 'Cancel button not enabled');
       expect(await uploadNewVersionDialog.isUploadButtonEnabled()).toBe(true, 'Update button not enabled');
     });
@@ -146,9 +146,9 @@ describe('Upload new version', () => {
       await Utils.uploadFileNewVersion(fileToUpload1);
       await page.waitForDialog();
 
-      await uploadNewVersionDialog.clickMajor();
+      await uploadNewVersionDialog.majorOption.click();
       await uploadNewVersionDialog.enterDescription('new major version description');
-      await uploadNewVersionDialog.clickUpload();
+      await uploadNewVersionDialog.uploadButton.click();
       await uploadNewVersionDialog.waitForDialogToClose();
 
       expect(await dataTable.isItemPresent(fileToUpload1)).toBe(true, 'File not updated');
@@ -163,9 +163,9 @@ describe('Upload new version', () => {
       await Utils.uploadFileNewVersion(fileToUpload2);
       await page.waitForDialog();
 
-      await uploadNewVersionDialog.clickMinor();
+      await uploadNewVersionDialog.minorOption.click();
       await uploadNewVersionDialog.enterDescription('new minor version description');
-      await uploadNewVersionDialog.clickUpload();
+      await uploadNewVersionDialog.uploadButton.click();
       await uploadNewVersionDialog.waitForDialogToClose();
 
       expect(await dataTable.isItemPresent(fileToUpload2)).toBe(true, 'File not updated');
@@ -180,7 +180,7 @@ describe('Upload new version', () => {
       await Utils.uploadFileNewVersion(fileToUpload3);
       await page.waitForDialog();
 
-      await uploadNewVersionDialog.clickMinor();
+      await uploadNewVersionDialog.minorOption.click();
       await uploadNewVersionDialog.enterDescription('new version description');
       await uploadNewVersionDialog.clickCancel();
 
@@ -196,9 +196,9 @@ describe('Upload new version', () => {
       await Utils.uploadFileNewVersion(file);
       await page.waitForDialog();
 
-      await uploadNewVersionDialog.clickMinor();
+      await uploadNewVersionDialog.minorOption.click();
       await uploadNewVersionDialog.enterDescription('new version description');
-      await uploadNewVersionDialog.clickUpload();
+      await uploadNewVersionDialog.uploadButton.click();
 
       const message = await page.getSnackBarMessage();
       expect(message).toContain(nameConflictMessage);
@@ -215,9 +215,9 @@ describe('Upload new version', () => {
       await Utils.uploadFileNewVersion(fileToUpload4);
       await page.waitForDialog();
 
-      await uploadNewVersionDialog.clickMinor();
+      await uploadNewVersionDialog.minorOption.click();
       await uploadNewVersionDialog.enterDescription('new version description');
-      await uploadNewVersionDialog.clickUpload();
+      await uploadNewVersionDialog.uploadButton.click();
       await uploadNewVersionDialog.waitForDialogToClose();
 
       expect(await dataTable.isItemPresent(fileToUpload4)).toBe(true, 'File name was not changed');
@@ -233,7 +233,7 @@ describe('Upload new version', () => {
       await Utils.uploadFileNewVersion(fileToUpload5);
       await page.waitForDialog();
 
-      await uploadNewVersionDialog.clickMinor();
+      await uploadNewVersionDialog.minorOption.click();
       await uploadNewVersionDialog.enterDescription('new version description');
       await uploadNewVersionDialog.clickCancel();
 
@@ -283,9 +283,9 @@ describe('Upload new version', () => {
 
       expect(await uploadNewVersionDialog.getTitle()).toEqual('Upload New Version');
       expect(await uploadNewVersionDialog.getText()).toContain('What level of changes were made to this version?');
-      expect(await uploadNewVersionDialog.isDescriptionDisplayed()).toBe(true, 'Description not displayed');
-      expect(await uploadNewVersionDialog.isMinorOptionDisplayed()).toBe(true, 'Minor option not displayed');
-      expect(await uploadNewVersionDialog.isMajorOptionDisplayed()).toBe(true, 'Major option not displayed');
+      expect(await uploadNewVersionDialog.description.isDisplayed()).toBe(true, 'Description not displayed');
+      expect(await uploadNewVersionDialog.minorOption.isDisplayed()).toBe(true, 'Minor option not displayed');
+      expect(await uploadNewVersionDialog.majorOption.isDisplayed()).toBe(true, 'Major option not displayed');
       expect(await uploadNewVersionDialog.isCancelButtonEnabled()).toBe(true, 'Cancel button not enabled');
       expect(await uploadNewVersionDialog.isUploadButtonEnabled()).toBe(true, 'Update button not enabled');
     });
@@ -297,9 +297,9 @@ describe('Upload new version', () => {
       await Utils.uploadFileNewVersion(fileToUpload1);
       await page.waitForDialog();
 
-      await uploadNewVersionDialog.clickMajor();
+      await uploadNewVersionDialog.majorOption.click();
       await uploadNewVersionDialog.enterDescription('new major version description');
-      await uploadNewVersionDialog.clickUpload();
+      await uploadNewVersionDialog.uploadButton.click();
       await uploadNewVersionDialog.waitForDialogToClose();
 
       expect(await dataTable.isItemPresent(fileToUpload1)).toBe(true, 'File not updated');
@@ -314,9 +314,9 @@ describe('Upload new version', () => {
       await Utils.uploadFileNewVersion(fileToUpload2);
       await page.waitForDialog();
 
-      await uploadNewVersionDialog.clickMinor();
+      await uploadNewVersionDialog.minorOption.click();
       await uploadNewVersionDialog.enterDescription('new minor version description');
-      await uploadNewVersionDialog.clickUpload();
+      await uploadNewVersionDialog.uploadButton.click();
       await uploadNewVersionDialog.waitForDialogToClose();
 
       expect(await dataTable.isItemPresent(fileToUpload2)).toBe(true, 'File not updated');
@@ -331,7 +331,7 @@ describe('Upload new version', () => {
       await Utils.uploadFileNewVersion(fileToUpload3);
       await page.waitForDialog();
 
-      await uploadNewVersionDialog.clickMinor();
+      await uploadNewVersionDialog.minorOption.click();
       await uploadNewVersionDialog.enterDescription('new version description');
       await uploadNewVersionDialog.clickCancel();
 
@@ -347,9 +347,9 @@ describe('Upload new version', () => {
       await Utils.uploadFileNewVersion(file);
       await page.waitForDialog();
 
-      await uploadNewVersionDialog.clickMinor();
+      await uploadNewVersionDialog.minorOption.click();
       await uploadNewVersionDialog.enterDescription('new version description');
-      await uploadNewVersionDialog.clickUpload();
+      await uploadNewVersionDialog.uploadButton.click();
 
       const message = await page.getSnackBarMessage();
       expect(message).toContain(nameConflictMessage);
@@ -366,9 +366,9 @@ describe('Upload new version', () => {
       await Utils.uploadFileNewVersion(fileToUpload4);
       await page.waitForDialog();
 
-      await uploadNewVersionDialog.clickMinor();
+      await uploadNewVersionDialog.minorOption.click();
       await uploadNewVersionDialog.enterDescription('new version description');
-      await uploadNewVersionDialog.clickUpload();
+      await uploadNewVersionDialog.uploadButton.click();
       await uploadNewVersionDialog.waitForDialogToClose();
 
       expect(await dataTable.isItemPresent(fileToUpload4)).toBe(true, 'File name was not changed');
@@ -384,7 +384,7 @@ describe('Upload new version', () => {
       await Utils.uploadFileNewVersion(fileToUpload5);
       await page.waitForDialog();
 
-      await uploadNewVersionDialog.clickMinor();
+      await uploadNewVersionDialog.minorOption.click();
       await uploadNewVersionDialog.enterDescription('new version description');
       await uploadNewVersionDialog.clickCancel();
 
@@ -433,9 +433,9 @@ describe('Upload new version', () => {
 
       expect(await uploadNewVersionDialog.getTitle()).toEqual('Upload New Version');
       expect(await uploadNewVersionDialog.getText()).toContain('What level of changes were made to this version?');
-      expect(await uploadNewVersionDialog.isDescriptionDisplayed()).toBe(true, 'Description not displayed');
-      expect(await uploadNewVersionDialog.isMinorOptionDisplayed()).toBe(true, 'Minor option not displayed');
-      expect(await uploadNewVersionDialog.isMajorOptionDisplayed()).toBe(true, 'Major option not displayed');
+      expect(await uploadNewVersionDialog.description.isDisplayed()).toBe(true, 'Description not displayed');
+      expect(await uploadNewVersionDialog.minorOption.isDisplayed()).toBe(true, 'Minor option not displayed');
+      expect(await uploadNewVersionDialog.majorOption.isDisplayed()).toBe(true, 'Major option not displayed');
       expect(await uploadNewVersionDialog.isCancelButtonEnabled()).toBe(true, 'Cancel button not enabled');
       expect(await uploadNewVersionDialog.isUploadButtonEnabled()).toBe(true, 'Update button not enabled');
     });
@@ -447,9 +447,9 @@ describe('Upload new version', () => {
       await Utils.uploadFileNewVersion(fileToUpload1);
       await page.waitForDialog();
 
-      await uploadNewVersionDialog.clickMajor();
+      await uploadNewVersionDialog.majorOption.click();
       await uploadNewVersionDialog.enterDescription('new major version description');
-      await uploadNewVersionDialog.clickUpload();
+      await uploadNewVersionDialog.uploadButton.click();
       await uploadNewVersionDialog.waitForDialogToClose();
 
       expect(await dataTable.isItemPresent(fileToUpload1, parentRF)).toBe(true, 'File not updated');
@@ -464,9 +464,9 @@ describe('Upload new version', () => {
       await Utils.uploadFileNewVersion(fileToUpload2);
       await page.waitForDialog();
 
-      await uploadNewVersionDialog.clickMinor();
+      await uploadNewVersionDialog.minorOption.click();
       await uploadNewVersionDialog.enterDescription('new minor version description');
-      await uploadNewVersionDialog.clickUpload();
+      await uploadNewVersionDialog.uploadButton.click();
       await uploadNewVersionDialog.waitForDialogToClose();
 
       expect(await dataTable.isItemPresent(fileToUpload2, parentRF)).toBe(true, 'File not updated');
@@ -481,7 +481,7 @@ describe('Upload new version', () => {
       await Utils.uploadFileNewVersion(fileToUpload3);
       await page.waitForDialog();
 
-      await uploadNewVersionDialog.clickMinor();
+      await uploadNewVersionDialog.minorOption.click();
       await uploadNewVersionDialog.enterDescription('new version description');
       await uploadNewVersionDialog.clickCancel();
 
@@ -497,9 +497,9 @@ describe('Upload new version', () => {
       await Utils.uploadFileNewVersion(file);
       await page.waitForDialog();
 
-      await uploadNewVersionDialog.clickMinor();
+      await uploadNewVersionDialog.minorOption.click();
       await uploadNewVersionDialog.enterDescription('new version description');
-      await uploadNewVersionDialog.clickUpload();
+      await uploadNewVersionDialog.uploadButton.click();
 
       const message = await page.getSnackBarMessage();
       expect(message).toContain(nameConflictMessage);
@@ -516,9 +516,9 @@ describe('Upload new version', () => {
       await Utils.uploadFileNewVersion(fileToUpload4);
       await page.waitForDialog();
 
-      await uploadNewVersionDialog.clickMinor();
+      await uploadNewVersionDialog.minorOption.click();
       await uploadNewVersionDialog.enterDescription('new version description');
-      await uploadNewVersionDialog.clickUpload();
+      await uploadNewVersionDialog.uploadButton.click();
       await uploadNewVersionDialog.waitForDialogToClose();
 
       expect(await dataTable.isItemPresent(fileToUpload4, parentRF)).toBe(true, 'File name was not changed');
@@ -534,7 +534,7 @@ describe('Upload new version', () => {
       await Utils.uploadFileNewVersion(fileToUpload5);
       await page.waitForDialog();
 
-      await uploadNewVersionDialog.clickMinor();
+      await uploadNewVersionDialog.minorOption.click();
       await uploadNewVersionDialog.enterDescription('new version description');
       await uploadNewVersionDialog.clickCancel();
 
@@ -584,9 +584,9 @@ describe('Upload new version', () => {
 
       expect(await uploadNewVersionDialog.getTitle()).toEqual('Upload New Version');
       expect(await uploadNewVersionDialog.getText()).toContain('What level of changes were made to this version?');
-      expect(await uploadNewVersionDialog.isDescriptionDisplayed()).toBe(true, 'Description not displayed');
-      expect(await uploadNewVersionDialog.isMinorOptionDisplayed()).toBe(true, 'Minor option not displayed');
-      expect(await uploadNewVersionDialog.isMajorOptionDisplayed()).toBe(true, 'Major option not displayed');
+      expect(await uploadNewVersionDialog.description.isDisplayed()).toBe(true, 'Description not displayed');
+      expect(await uploadNewVersionDialog.minorOption.isDisplayed()).toBe(true, 'Minor option not displayed');
+      expect(await uploadNewVersionDialog.majorOption.isDisplayed()).toBe(true, 'Major option not displayed');
       expect(await uploadNewVersionDialog.isCancelButtonEnabled()).toBe(true, 'Cancel button not enabled');
       expect(await uploadNewVersionDialog.isUploadButtonEnabled()).toBe(true, 'Update button not enabled');
     });
@@ -598,9 +598,9 @@ describe('Upload new version', () => {
       await Utils.uploadFileNewVersion(fileToUpload1);
       await page.waitForDialog();
 
-      await uploadNewVersionDialog.clickMajor();
+      await uploadNewVersionDialog.majorOption.click();
       await uploadNewVersionDialog.enterDescription('new major version description');
-      await uploadNewVersionDialog.clickUpload();
+      await uploadNewVersionDialog.uploadButton.click();
       await uploadNewVersionDialog.waitForDialogToClose();
 
       expect(await dataTable.isItemPresent(fileToUpload1)).toBe(true, 'File not updated');
@@ -615,9 +615,9 @@ describe('Upload new version', () => {
       await Utils.uploadFileNewVersion(fileToUpload2);
       await page.waitForDialog();
 
-      await uploadNewVersionDialog.clickMinor();
+      await uploadNewVersionDialog.minorOption.click();
       await uploadNewVersionDialog.enterDescription('new minor version description');
-      await uploadNewVersionDialog.clickUpload();
+      await uploadNewVersionDialog.uploadButton.click();
       await uploadNewVersionDialog.waitForDialogToClose();
 
       expect(await dataTable.isItemPresent(fileToUpload2)).toBe(true, 'File not updated');
@@ -632,7 +632,7 @@ describe('Upload new version', () => {
       await Utils.uploadFileNewVersion(fileToUpload3);
       await page.waitForDialog();
 
-      await uploadNewVersionDialog.clickMinor();
+      await uploadNewVersionDialog.minorOption.click();
       await uploadNewVersionDialog.enterDescription('new version description');
       await uploadNewVersionDialog.clickCancel();
 
@@ -648,9 +648,9 @@ describe('Upload new version', () => {
       await Utils.uploadFileNewVersion(file);
       await page.waitForDialog();
 
-      await uploadNewVersionDialog.clickMinor();
+      await uploadNewVersionDialog.minorOption.click();
       await uploadNewVersionDialog.enterDescription('new version description');
-      await uploadNewVersionDialog.clickUpload();
+      await uploadNewVersionDialog.uploadButton.click();
 
       const message = await page.getSnackBarMessage();
       expect(message).toContain(nameConflictMessage);
@@ -667,9 +667,9 @@ describe('Upload new version', () => {
       await Utils.uploadFileNewVersion(fileToUpload4);
       await page.waitForDialog();
 
-      await uploadNewVersionDialog.clickMinor();
+      await uploadNewVersionDialog.minorOption.click();
       await uploadNewVersionDialog.enterDescription('new version description');
-      await uploadNewVersionDialog.clickUpload();
+      await uploadNewVersionDialog.uploadButton.click();
       await uploadNewVersionDialog.waitForDialogToClose();
 
       expect(await dataTable.isItemPresent(fileToUpload4)).toBe(true, 'File name was not changed');
@@ -685,7 +685,7 @@ describe('Upload new version', () => {
       await Utils.uploadFileNewVersion(fileToUpload5);
       await page.waitForDialog();
 
-      await uploadNewVersionDialog.clickMinor();
+      await uploadNewVersionDialog.minorOption.click();
       await uploadNewVersionDialog.enterDescription('new version description');
       await uploadNewVersionDialog.clickCancel();
 
@@ -735,9 +735,9 @@ describe('Upload new version', () => {
 
       expect(await uploadNewVersionDialog.getTitle()).toEqual('Upload New Version');
       expect(await uploadNewVersionDialog.getText()).toContain('What level of changes were made to this version?');
-      expect(await uploadNewVersionDialog.isDescriptionDisplayed()).toBe(true, 'Description not displayed');
-      expect(await uploadNewVersionDialog.isMinorOptionDisplayed()).toBe(true, 'Minor option not displayed');
-      expect(await uploadNewVersionDialog.isMajorOptionDisplayed()).toBe(true, 'Major option not displayed');
+      expect(await uploadNewVersionDialog.description.isDisplayed()).toBe(true, 'Description not displayed');
+      expect(await uploadNewVersionDialog.minorOption.isDisplayed()).toBe(true, 'Minor option not displayed');
+      expect(await uploadNewVersionDialog.majorOption.isDisplayed()).toBe(true, 'Major option not displayed');
       expect(await uploadNewVersionDialog.isCancelButtonEnabled()).toBe(true, 'Cancel button not enabled');
       expect(await uploadNewVersionDialog.isUploadButtonEnabled()).toBe(true, 'Update button not enabled');
     });
@@ -753,9 +753,9 @@ describe('Upload new version', () => {
       await Utils.uploadFileNewVersion(fileToUpload1);
       await page.waitForDialog();
 
-      await uploadNewVersionDialog.clickMajor();
+      await uploadNewVersionDialog.majorOption.click();
       await uploadNewVersionDialog.enterDescription('new major version description');
-      await uploadNewVersionDialog.clickUpload();
+      await uploadNewVersionDialog.uploadButton.click();
       await uploadNewVersionDialog.waitForDialogToClose();
 
       // TODO: enable when ACA-2329 is fixed
@@ -775,9 +775,9 @@ describe('Upload new version', () => {
       await Utils.uploadFileNewVersion(fileToUpload2);
       await page.waitForDialog();
 
-      await uploadNewVersionDialog.clickMinor();
+      await uploadNewVersionDialog.minorOption.click();
       await uploadNewVersionDialog.enterDescription('new minor version description');
-      await uploadNewVersionDialog.clickUpload();
+      await uploadNewVersionDialog.uploadButton.click();
       await uploadNewVersionDialog.waitForDialogToClose();
 
       // TODO: enable when ACA-2329 is fixed
@@ -797,7 +797,7 @@ describe('Upload new version', () => {
       await Utils.uploadFileNewVersion(fileToUpload3);
       await page.waitForDialog();
 
-      await uploadNewVersionDialog.clickMinor();
+      await uploadNewVersionDialog.minorOption.click();
       await uploadNewVersionDialog.enterDescription('new version description');
       await uploadNewVersionDialog.clickCancel();
 
@@ -817,9 +817,9 @@ describe('Upload new version', () => {
       await Utils.uploadFileNewVersion(file);
       await page.waitForDialog();
 
-      await uploadNewVersionDialog.clickMinor();
+      await uploadNewVersionDialog.minorOption.click();
       await uploadNewVersionDialog.enterDescription('new version description');
-      await uploadNewVersionDialog.clickUpload();
+      await uploadNewVersionDialog.uploadButton.click();
 
       const message = await page.getSnackBarMessage();
       expect(message).toContain(nameConflictMessage);
@@ -840,9 +840,9 @@ describe('Upload new version', () => {
       await Utils.uploadFileNewVersion(fileToUpload4);
       await page.waitForDialog();
 
-      await uploadNewVersionDialog.clickMinor();
+      await uploadNewVersionDialog.minorOption.click();
       await uploadNewVersionDialog.enterDescription('new version description');
-      await uploadNewVersionDialog.clickUpload();
+      await uploadNewVersionDialog.uploadButton.click();
       await uploadNewVersionDialog.waitForDialogToClose();
 
       // TODO: enable when ACA-2329 is fixed
@@ -863,7 +863,7 @@ describe('Upload new version', () => {
       await Utils.uploadFileNewVersion(fileToUpload5);
       await page.waitForDialog();
 
-      await uploadNewVersionDialog.clickMinor();
+      await uploadNewVersionDialog.minorOption.click();
       await uploadNewVersionDialog.enterDescription('new version description');
       await uploadNewVersionDialog.clickCancel();
 

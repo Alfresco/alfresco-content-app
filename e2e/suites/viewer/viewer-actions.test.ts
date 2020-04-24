@@ -136,7 +136,7 @@ describe('Viewer actions', () => {
       expect(await copyMoveDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await copyMoveDialog.selectLocation('Personal Files');
       await copyMoveDialog.selectDestination(destination);
-      await copyMoveDialog.clickCopy();
+      await copyMoveDialog.copyButton.click();
       expect(await page.getSnackBarMessage()).toContain('Copied 1 item');
       await viewer.closeButton.click();
       expect(await dataTable.isItemPresent(docxPersonalFiles)).toBe(true, 'Item is not in the list');
@@ -155,7 +155,7 @@ describe('Viewer actions', () => {
       expect(await copyMoveDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await copyMoveDialog.selectLocation('Personal Files');
       await copyMoveDialog.selectDestination(destination);
-      await copyMoveDialog.clickMove();
+      await copyMoveDialog.moveButton.click();
       expect(await page.getSnackBarMessage()).toContain('Moved 1 item');
       await viewer.closeButton.click();
       expect(await dataTable.isItemPresent(xlsxPersonalFiles)).toBe(false, 'Item was not moved');
@@ -214,9 +214,9 @@ describe('Viewer actions', () => {
       await Utils.uploadFileNewVersion(docxFile2);
       await page.waitForDialog();
 
-      await uploadNewVersionDialog.clickMajor();
+      await uploadNewVersionDialog.majorOption.click();
       await uploadNewVersionDialog.enterDescription('new major version description');
-      await uploadNewVersionDialog.clickUpload();
+      await uploadNewVersionDialog.uploadButton.click();
 
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
       expect(await viewer.getFileTitle()).toContain(docxFile2);
@@ -236,7 +236,7 @@ describe('Viewer actions', () => {
       await Utils.uploadFileNewVersion(docxFile);
       await page.waitForDialog();
 
-      await uploadNewVersionDialog.clickUpload();
+      await uploadNewVersionDialog.uploadButton.click();
 
       await toolbar.openMoreMenu();
       expect(await toolbar.menu.cancelEditingAction.isPresent()).toBe(false, `'Cancel Editing' button shouldn't be shown`);
@@ -357,7 +357,7 @@ describe('Viewer actions', () => {
       expect(await copyMoveDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await copyMoveDialog.selectLocation('Personal Files');
       await copyMoveDialog.selectDestination(destination);
-      await copyMoveDialog.clickCopy();
+      await copyMoveDialog.copyButton.click();
       expect(await page.getSnackBarMessage()).toContain('Copied 1 item');
       await viewer.closeButton.click();
       expect(await dataTable.isItemPresent(docxLibraries)).toBe(true, 'Item is not in the list');
@@ -377,7 +377,7 @@ describe('Viewer actions', () => {
       expect(await copyMoveDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await copyMoveDialog.selectLocation('Personal Files');
       await copyMoveDialog.selectDestination(destination);
-      await copyMoveDialog.clickMove();
+      await copyMoveDialog.moveButton.click();
       expect(await page.getSnackBarMessage()).toContain('Moved 1 item');
       await viewer.closeButton.click();
       expect(await dataTable.isItemPresent(xlsxLibraries)).toBe(false, 'Item was not moved');
@@ -436,9 +436,9 @@ describe('Viewer actions', () => {
       await Utils.uploadFileNewVersion(docxFile2);
       await page.waitForDialog();
 
-      await uploadNewVersionDialog.clickMajor();
+      await uploadNewVersionDialog.majorOption.click();
       await uploadNewVersionDialog.enterDescription('new major version description');
-      await uploadNewVersionDialog.clickUpload();
+      await uploadNewVersionDialog.uploadButton.click();
 
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
       expect(await viewer.getFileTitle()).toContain(docxFile2);
@@ -538,7 +538,7 @@ describe('Viewer actions', () => {
       expect(await copyMoveDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await copyMoveDialog.selectLocation('Personal Files');
       await copyMoveDialog.selectDestination(destination);
-      await copyMoveDialog.clickCopy();
+      await copyMoveDialog.copyButton.click();
       expect(await page.getSnackBarMessage()).toContain('Copied 1 item');
       await viewer.closeButton.click();
       expect(await dataTable.isItemPresent(docxRecentFiles)).toBe(true, 'Item is not in the list');
@@ -558,7 +558,7 @@ describe('Viewer actions', () => {
       expect(await copyMoveDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await copyMoveDialog.selectLocation('Personal Files');
       await copyMoveDialog.selectDestination(destination);
-      await copyMoveDialog.clickMove();
+      await copyMoveDialog.moveButton.click();
       expect(await page.getSnackBarMessage()).toContain('Moved 1 item');
       await viewer.closeButton.click();
       expect(await dataTable.isItemPresent(xlsxRecentFiles)).toBe(true, 'Item is not in the list');
@@ -618,9 +618,9 @@ describe('Viewer actions', () => {
       await Utils.uploadFileNewVersion(docxFile2);
       await page.waitForDialog();
 
-      await uploadNewVersionDialog.clickMajor();
+      await uploadNewVersionDialog.majorOption.click();
       await uploadNewVersionDialog.enterDescription('new major version description');
-      await uploadNewVersionDialog.clickUpload();
+      await uploadNewVersionDialog.uploadButton.click();
 
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
       expect(await viewer.getFileTitle()).toContain(docxFile2);
@@ -718,7 +718,7 @@ describe('Viewer actions', () => {
       expect(await copyMoveDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await copyMoveDialog.selectLocation('Personal Files');
       await copyMoveDialog.selectDestination(destination);
-      await copyMoveDialog.clickCopy();
+      await copyMoveDialog.copyButton.click();
       expect(await page.getSnackBarMessage()).toContain('Copied 1 item');
       await viewer.closeButton.click();
       expect(await dataTable.isItemPresent(docxSharedFiles)).toBe(true, 'Item is not in the list');
@@ -737,7 +737,7 @@ describe('Viewer actions', () => {
       expect(await copyMoveDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await copyMoveDialog.selectLocation('Personal Files');
       await copyMoveDialog.selectDestination(destination);
-      await copyMoveDialog.clickMove();
+      await copyMoveDialog.moveButton.click();
       expect(await page.getSnackBarMessage()).toContain('Moved 1 item');
       await viewer.closeButton.click();
       expect(await dataTable.isItemPresent(xlsxSharedFiles)).toBe(true, 'Item is not in the list');
@@ -797,9 +797,9 @@ describe('Viewer actions', () => {
       await Utils.uploadFileNewVersion(docxFile2);
       await page.waitForDialog();
 
-      await uploadNewVersionDialog.clickMajor();
+      await uploadNewVersionDialog.majorOption.click();
       await uploadNewVersionDialog.enterDescription('new major version description');
-      await uploadNewVersionDialog.clickUpload();
+      await uploadNewVersionDialog.uploadButton.click();
 
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
       expect(await viewer.getFileTitle()).toContain(docxFile2);
@@ -899,7 +899,7 @@ describe('Viewer actions', () => {
       expect(await copyMoveDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await copyMoveDialog.selectLocation('Personal Files');
       await copyMoveDialog.selectDestination(destination);
-      await copyMoveDialog.clickCopy();
+      await copyMoveDialog.copyButton.click();
       expect(await page.getSnackBarMessage()).toContain('Copied 1 item');
       await viewer.closeButton.click();
       expect(await dataTable.isItemPresent(docxFavorites)).toBe(true, 'Item is not in the list');
@@ -919,7 +919,7 @@ describe('Viewer actions', () => {
       expect(await copyMoveDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await copyMoveDialog.selectLocation('Personal Files');
       await copyMoveDialog.selectDestination(destination);
-      await copyMoveDialog.clickMove();
+      await copyMoveDialog.moveButton.click();
       expect(await page.getSnackBarMessage()).toContain('Moved 1 item');
       await viewer.closeButton.click();
       expect(await dataTable.isItemPresent(xlsxFavorites)).toBe(true, 'Item is not in the list');
@@ -979,9 +979,9 @@ describe('Viewer actions', () => {
       await Utils.uploadFileNewVersion(docxFile2);
       await page.waitForDialog();
 
-      await uploadNewVersionDialog.clickMajor();
+      await uploadNewVersionDialog.majorOption.click();
       await uploadNewVersionDialog.enterDescription('new major version description');
-      await uploadNewVersionDialog.clickUpload();
+      await uploadNewVersionDialog.uploadButton.click();
 
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
       expect(await viewer.getFileTitle()).toContain(docxFile2);

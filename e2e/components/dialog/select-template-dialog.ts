@@ -27,16 +27,16 @@ import { by } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
 import { DropDownBreadcrumb } from '../breadcrumb/dropdown-breadcrumb';
 import { DataTable } from '../data-table/data-table';
+import { isPresentAndEnabled } from '../../utilities/utils';
 
 export class SelectTemplateDialog extends GenericDialog {
-  private static selectors = {
-    nextButton: by.css(
-      '[data-automation-id="content-node-selector-actions-choose"]'
-    ),
-    cancelButton: by.css(
-      '[data-automation-id="content-node-selector-actions-cancel"]'
-    )
-  };
+  nextButton = this.childElement(
+    by.css('[data-automation-id="content-node-selector-actions-choose"]')
+  );
+
+  cancelButton = this.childElement(
+    by.css('[data-automation-id="content-node-selector-actions-cancel"]')
+  );
 
   breadcrumb = new DropDownBreadcrumb();
   dataTable = new DataTable('.aca-template-node-selector-dialog');
@@ -46,20 +46,20 @@ export class SelectTemplateDialog extends GenericDialog {
   }
 
   async isCancelButtonEnabled(): Promise<boolean> {
-    return this.isButtonEnabled(SelectTemplateDialog.selectors.cancelButton);
+    return isPresentAndEnabled(this.cancelButton);
   }
 
   async isNextButtonEnabled(): Promise<boolean> {
-    return this.isButtonEnabled(SelectTemplateDialog.selectors.nextButton);
+    return isPresentAndEnabled(this.nextButton);
   }
 
   async clickCancel(): Promise<void> {
-    await this.clickButton(SelectTemplateDialog.selectors.cancelButton);
+    await this.cancelButton.click();
     await this.waitForDialogToClose();
   }
 
   async clickNext(): Promise<void> {
-    await this.clickButton(SelectTemplateDialog.selectors.nextButton);
+    await this.nextButton.click();
     await this.waitForDialogToClose();
   }
 }

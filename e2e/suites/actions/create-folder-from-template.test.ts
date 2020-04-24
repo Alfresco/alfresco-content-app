@@ -222,9 +222,9 @@ describe('Create folder from template', () => {
 
     it('[C325142] Create folder from template - dialog UI', async () => {
       expect(await createFromTemplateDialog.getTitle()).toEqual(`Create new folder from '${templateFolder1}'`);
-      expect(await createFromTemplateDialog.isNameFieldDisplayed()).toBe(true, 'Name field not displayed');
-      expect(await createFromTemplateDialog.isTitleFieldDisplayed()).toBe(true, 'Title field not displayed');
-      expect(await createFromTemplateDialog.isDescriptionFieldDisplayed()).toBe(true, 'Description field not displayed');
+      expect(await createFromTemplateDialog.nameInput.isDisplayed()).toBe(true, 'Name field not displayed');
+      expect(await createFromTemplateDialog.titleInput.isDisplayed()).toBe(true, 'Title field not displayed');
+      expect(await createFromTemplateDialog.descriptionTextArea.isDisplayed()).toBe(true, 'Description field not displayed');
       expect(await createFromTemplateDialog.isCancelButtonEnabled()).toBe(true, 'Cancel button is not enabled');
       expect(await createFromTemplateDialog.isCreateButtonEnabled()).toBe(true, 'Create button is not enabled');
     });
@@ -291,7 +291,7 @@ describe('Create folder from template', () => {
 
     it('[C325157] Create a folder from a template - with a new Name', async () => {
       await createFromTemplateDialog.enterName(folder1.name);
-      await createFromTemplateDialog.clickCreate();
+      await createFromTemplateDialog.createButton.click();
       await createFromTemplateDialog.waitForDialogToClose();
       await page.dataTable.waitForHeader();
 
@@ -302,7 +302,7 @@ describe('Create folder from template', () => {
       await createFromTemplateDialog.enterName(folder2.name);
       await createFromTemplateDialog.enterTitle(folder2.title);
       await createFromTemplateDialog.enterDescription(folder2.description);
-      await createFromTemplateDialog.clickCreate();
+      await createFromTemplateDialog.createButton.click();
       await createFromTemplateDialog.waitForDialogToClose();
       await page.dataTable.waitForHeader();
 
@@ -315,7 +315,7 @@ describe('Create folder from template', () => {
 
     it('[C325156] Create a folder with a duplicate name', async () => {
       await createFromTemplateDialog.enterName(duplicateFolderName);
-      await createFromTemplateDialog.clickCreate();
+      await createFromTemplateDialog.createButton.click();
 
       expect(await page.getSnackBarMessage()).toEqual(`This name is already in use, try a different name.`);
       expect(await createFromTemplateDialog.isDialogOpen()).toBe(true, 'dialog is not present');
@@ -331,7 +331,7 @@ describe('Create folder from template', () => {
 
     it('[C325158] Trim spaces from folder Name', async () => {
       await createFromTemplateDialog.enterName(nameWithSpaces);
-      await createFromTemplateDialog.clickCreate();
+      await createFromTemplateDialog.createButton.click();
       await createFromTemplateDialog.waitForDialogToClose();
       await page.dataTable.waitForHeader();
 
@@ -356,7 +356,7 @@ describe('Create folder from template', () => {
       await createFromTemplateDialog.enterName(folderSite.name);
       await createFromTemplateDialog.enterTitle(folderSite.title);
       await createFromTemplateDialog.enterDescription(folderSite.description);
-      await createFromTemplateDialog.clickCreate();
+      await createFromTemplateDialog.createButton.click();
       await createFromTemplateDialog.waitForDialogToClose();
       await page.dataTable.waitForHeader();
 
@@ -377,7 +377,7 @@ describe('Create folder from template', () => {
 
     it('[C325163] Create a folder with a duplicate name', async () => {
       await createFromTemplateDialog.enterName(duplicateFolderSite);
-      await createFromTemplateDialog.clickCreate();
+      await createFromTemplateDialog.createButton.click();
 
       expect(await page.getSnackBarMessage()).toEqual(`This name is already in use, try a different name.`);
       expect(await createFromTemplateDialog.isDialogOpen()).toBe(true, 'dialog is not present');
