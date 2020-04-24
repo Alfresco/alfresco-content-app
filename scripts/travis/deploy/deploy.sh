@@ -4,6 +4,8 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 cd $DIR/../../../
 
+npm run build
+
 # Get Tag Image
 TAG_VERSION=$(./scripts/travis/deploy/get-docker-image-tag-name.sh)
 echo "Running the docker with tag" $TAG_VERSION
