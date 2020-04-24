@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { by, protractor } from 'protractor';
+import { by } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
 import { isPresentAndDisplayed, isPresentAndEnabled, typeText, clearText } from '../../utilities/utils';
 
