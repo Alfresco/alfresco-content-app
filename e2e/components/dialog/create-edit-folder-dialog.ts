@@ -89,7 +89,7 @@ export class CreateOrEditFolderDialog extends GenericDialog {
   }
 
   async clickCancel(): Promise<void> {
-    this.cancelButton.click();
+    await this.cancelButton.click();
     await this.waitForDialogToClose();
   }
 }
