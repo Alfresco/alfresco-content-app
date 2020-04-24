@@ -25,7 +25,7 @@
 
 import { by, browser, protractor } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
-import { Utils, isPresentAndDisplayed, waitForStaleness, waitForPresence, isPresentAndEnabled } from '../../utilities/utils';
+import { Utils, isPresentAndDisplayed, waitForStaleness, waitForPresence, isPresentAndEnabled, waitForClickable } from '../../utilities/utils';
 import { DropDownBreadcrumb } from '../breadcrumb/dropdown-breadcrumb';
 import { DataTable } from '../data-table/data-table';
 
@@ -67,7 +67,7 @@ export class ContentNodeSelectorDialog extends GenericDialog {
 
   async selectDestination(folderName: string): Promise<void> {
     const row = this.dataTable.getRowByName(folderName);
-    await Utils.waitUntilElementClickable(row);
+    await waitForClickable(row);
     await row.click();
     await waitForPresence(browser.element(by.css('.adf-is-selected')));
   }

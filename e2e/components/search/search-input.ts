@@ -58,7 +58,7 @@ export class SearchInput extends Component {
   }
 
   async clickSearchButton() {
-    await Utils.waitUntilElementClickable(this.searchButton);
+    await waitForClickable(this.searchButton);
     await this.searchButton.click();
     await this.waitForSearchControl();
   }

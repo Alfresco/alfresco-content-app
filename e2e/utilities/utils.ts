@@ -25,7 +25,7 @@
 
 import { browser, protractor, ElementFinder, ExpectedConditions as EC, by, logging, until } from 'protractor';
 import { Logger } from '@alfresco/adf-testing';
-import { BROWSER_WAIT_TIMEOUT, E2E_ROOT_PATH, EXTENSIBILITY_CONFIGS } from '../configs';
+import { BROWSER_WAIT_TIMEOUT, E2E_ROOT_PATH } from '../configs';
 
 const path = require('path');
 const fs = require('fs');
@@ -133,26 +133,11 @@ export class Utils {
     await browser.executeScript('window.localStorage.clear();');
   }
 
-  // session storage
-  static async clearSessionStorage(): Promise<void> {
-    await browser.executeScript('window.sessionStorage.clear();');
-  }
-
-  static async getSessionStorage(): Promise<any> {
-    return browser.executeScript('return window.sessionStorage.getItem("app.extension.config");');
-  }
-
   static async setSessionStorageFromConfig(configFileName: string): Promise<void> {
     const configFile = `${E2E_ROOT_PATH}/resources/extensibility-configs/${configFileName}`;
     const fileContent = JSON.stringify(fs.readFileSync(configFile, { encoding: 'utf8' }));
 
     await browser.executeScript(`window.sessionStorage.setItem('app.extension.config', ${fileContent});`);
-  }
-
-  static async resetExtensionConfig(): Promise<void> {
-    const defConfig = `${E2E_ROOT_PATH}/resources/extensibility-configs/${EXTENSIBILITY_CONFIGS.DEFAULT_EXTENSIONS_CONFIG}`;
-
-    await this.setSessionStorageFromConfig(defConfig);
   }
 
   static retryCall(fn: () => Promise<any>, retry: number = 30, delay: number = 1000): Promise<any> {
@@ -163,18 +148,6 @@ export class Utils {
     }
 
     return run(retry);
-  }
-
-  static async waitUntilElementClickable(element: ElementFinder): Promise<void> {
-    await browser.wait(EC.elementToBeClickable(element), BROWSER_WAIT_TIMEOUT).catch(Error);
-  }
-
-  static async typeInField(elem: ElementFinder, value: string): Promise<void> {
-    for (let i = 0; i < value.length; i++) {
-      const c = value.charAt(i);
-      await elem.sendKeys(c);
-      await browser.sleep(100);
-    }
   }
 
   static async clearFieldWithBackspace(elem: ElementFinder): Promise<void> {

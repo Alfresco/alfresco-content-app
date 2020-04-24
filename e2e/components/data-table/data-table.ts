@@ -28,7 +28,7 @@ import { Logger } from '@alfresco/adf-testing';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
 import { Menu } from '../menu/menu';
-import { Utils, waitForPresence } from '../../utilities/utils';
+import { Utils, waitForPresence, waitForClickable } from '../../utilities/utils';
 
 export class DataTable extends Component {
   private static selectors = {
@@ -197,7 +197,7 @@ export class DataTable extends Component {
   async doubleClickOnRowByName(name: string, location: string = ''): Promise<void> {
     try {
       const item = this.getRowFirstCell(name, location);
-      await Utils.waitUntilElementClickable(item);
+      await waitForClickable(item);
       await browser.actions().mouseMove(item).perform();
       await browser.actions().doubleClick().perform();
     } catch (error) {

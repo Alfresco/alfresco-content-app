@@ -28,7 +28,7 @@ import { Logger } from '@alfresco/adf-testing';
 import { SIDEBAR_LABELS, BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
-import { Utils } from '../../utilities/utils';
+import { waitForClickable } from '../../utilities/utils';
 
 export class Sidenav extends Component {
   links = this.component.all(by.css('.item'));
@@ -56,7 +56,7 @@ export class Sidenav extends Component {
         return Promise.resolve();
       } else {
         const link = this.getLink(name);
-        await Utils.waitUntilElementClickable(link);
+        await waitForClickable(link);
         await link.click();
         await element(by.css('.mat-expansion-panel-body')).isPresent();
       }
@@ -132,7 +132,7 @@ export class Sidenav extends Component {
   async clickLink(name: string): Promise<void> {
     try{
       const link = this.getLinkLabel(name);
-      await Utils.waitUntilElementClickable(link);
+      await waitForClickable(link);
       await link.click();
     } catch (error) {
       Logger.error('---- sidebar navigation clickLink catch error: ', error);
