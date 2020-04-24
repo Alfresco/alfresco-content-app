@@ -87,12 +87,12 @@ describe('Create library', () => {
     await createDialog.waitForDialogToOpen();
 
     expect(await createDialog.getTitle()).toMatch('Create Library');
-    expect(await createDialog.isNameDisplayed()).toBe(true, 'Name input is not displayed');
-    expect(await createDialog.isLibraryIdDisplayed()).toBe(true, 'Library ID input is not displayed');
-    expect(await createDialog.isDescriptionDisplayed()).toBe(true, 'Description field is not displayed');
-    expect(await createDialog.isPublicDisplayed()).toBe(true, 'Public option is not displayed');
-    expect(await createDialog.isModeratedDisplayed()).toBe(true, 'Moderated option is not displayed');
-    expect(await createDialog.isPrivateDisplayed()).toBe(true, 'Private option is not displayed');
+    expect(await createDialog.nameInput.isDisplayed()).toBe(true, 'Name input is not displayed');
+    expect(await createDialog.libraryIdInput.isDisplayed()).toBe(true, 'Library ID input is not displayed');
+    expect(await createDialog.descriptionTextArea.isDisplayed()).toBe(true, 'Description field is not displayed');
+    expect(await createDialog.visibilityPublic.isDisplayed()).toBe(true, 'Public option is not displayed');
+    expect(await createDialog.visibilityModerated.isDisplayed()).toBe(true, 'Moderated option is not displayed');
+    expect(await createDialog.visibilityPrivate.isDisplayed()).toBe(true, 'Private option is not displayed');
     expect(await createDialog.isPublicChecked()).toBe(true, 'Public option not checked');
     expect(await createDialog.isCreateEnabled()).toBe(false, 'Create button is not disabled');
     expect(await createDialog.isCancelEnabled()).toBe(true, 'Cancel button is not enabled');

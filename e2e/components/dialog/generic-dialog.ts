@@ -27,27 +27,19 @@ import { ElementFinder, by, browser, Locator } from 'protractor';
 import { isPresentAndDisplayed, isPresentAndEnabled, waitForPresence, waitForVisibility, waitForStaleness } from '../../utilities/utils';
 
 export abstract class GenericDialog {
-  private static locators = {
-    title: '.mat-dialog-title',
-    content: '.mat-dialog-content'
-  };
 
-  private rootCssSelector: string;
-
-  constructor(selector?: string) {
-    this.rootCssSelector = selector;
-  }
+  constructor(private rootCssSelector?: string) {}
 
   get rootElem(): ElementFinder {
     return browser.element(by.css(this.rootCssSelector));
   }
 
   get title(): ElementFinder {
-    return this.rootElem.element(by.css(GenericDialog.locators.title));
+    return this.rootElem.element(by.css('.mat-dialog-title'));
   }
 
   get content(): ElementFinder {
-    return this.rootElem.element(by.css(GenericDialog.locators.content));
+    return this.rootElem.element(by.css('.mat-dialog-content'));
   }
 
   async getText(): Promise<string> {

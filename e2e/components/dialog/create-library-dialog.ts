@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { by } from 'protractor';
+import { by, ElementFinder } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
 import { waitForClickable } from '../../utilities/utils';
 
@@ -62,30 +62,6 @@ export class CreateLibraryDialog extends GenericDialog {
     return '';
   }
 
-  async isNameDisplayed(): Promise<boolean> {
-    return this.nameInput.isDisplayed();
-  }
-
-  async isLibraryIdDisplayed(): Promise<boolean> {
-    return this.libraryIdInput.isDisplayed();
-  }
-
-  async isDescriptionDisplayed(): Promise<boolean> {
-    return this.descriptionTextArea.isDisplayed();
-  }
-
-  async isPublicDisplayed(): Promise<boolean> {
-    return this.visibilityPublic.isDisplayed();
-  }
-
-  async isModeratedDisplayed(): Promise<boolean> {
-    return this.visibilityModerated.isDisplayed();
-  }
-
-  async isPrivateDisplayed(): Promise<boolean> {
-    return this.visibilityPrivate.isDisplayed();
-  }
-
   async enterName(name: string): Promise<void> {
     await this.nameInput.clear();
     await this.nameInput.sendKeys(name);
@@ -118,18 +94,20 @@ export class CreateLibraryDialog extends GenericDialog {
     await this.waitForDialogToClose();
   }
 
+  private async isChecked(target: ElementFinder): Promise<boolean> {
+    const elemClass = await target.element(by.xpath('..')).getAttribute('class');
+    return elemClass.includes('mat-radio-checked');
+  }
+
   async isPublicChecked(): Promise<boolean> {
-    const elemClass = await this.visibilityPublic.element(by.xpath('..')).getAttribute('class');
-    return elemClass.includes('.mat-error');
+    return this.isChecked(this.visibilityPublic);
   }
 
   async isModeratedChecked(): Promise<boolean> {
-    const elemClass = await this.visibilityModerated.element(by.xpath('..')).getAttribute('class');
-    return elemClass.includes('.mat-error');
+    return this.isChecked(this.visibilityModerated);
   }
 
   async isPrivateChecked(): Promise<boolean> {
-    const elemClass = await this.visibilityPrivate.element(by.xpath('..')).getAttribute('class');
-    return elemClass.includes('.mat-error');
+    return this.isChecked(this.visibilityPrivate);
   }
 }
