@@ -26,8 +26,12 @@ before_install:
   - sleep 3
   - . ./scripts/ci/job_hooks/before_install.sh
 
+install: ./scripts/install.sh
+
 stages:
   - name: Quality and Unit tests
+  - name: Update Rancher
+    if: (type = push AND tag IS blank)  OR type = api
   - name: e2e
 
 jobs:
@@ -83,6 +87,10 @@ jobs:
         - ./start.sh
       script: ng run app-e2e:e2elite --suite "viewer,infoDrawer,extensions"
       after_script: ./start.sh -d
+
+    - stage: Update Rancher
+      name: Update Rancher
+      script: ./scripts/travis/deploy/deploy.sh
 
     - stage: Trigger DW
       if: (branch = master OR branch = development OR (tag =~ .*beta.*)) AND type = push
