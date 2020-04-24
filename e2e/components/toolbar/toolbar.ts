@@ -26,7 +26,7 @@
 import { ElementFinder, by, browser } from 'protractor';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
-import { Utils } from '../../utilities/utils';
+import { Utils, waitForPresence } from '../../utilities/utils';
 
 export class Toolbar extends Component {
   menu = new Menu();
@@ -62,7 +62,10 @@ export class Toolbar extends Component {
   }
 
   async isButtonPresent(title: string) {
-    return this.byCss(`button[title="${title}"]`).isPresent();
+    const element = this.byCss(`button[title="${title}"]`);
+    await waitForPresence(element)
+
+    return element.isPresent();
   }
 
   getButtonByTitleAttribute(title: string) {
@@ -75,8 +78,10 @@ export class Toolbar extends Component {
 
   async openMoreMenu(): Promise<void> {
     await this.isButtonPresent('More Actions');
+
     const moreMenu = this.getButtonByTitleAttribute('More Actions');
     await moreMenu.click();
+
     await this.menu.waitForMenuToOpen();
   }
 
