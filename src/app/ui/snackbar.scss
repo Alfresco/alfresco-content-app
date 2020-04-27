@@ -4,7 +4,7 @@
   $primary: map-get($theme, primary);
 
   .error-snackbar {
-    background-color: mat-color($warn);
+    background-color: mat-color($warn) !important;
 
     .mat-simple-snackbar-action {
       color: white;
@@ -12,7 +12,7 @@
   }
 
   .warning-snackbar {
-    background-color: mat-color($accent);
+    background-color: mat-color($accent) !important;
 
     .mat-simple-snackbar-action {
       color: white;
@@ -20,7 +20,7 @@
   }
 
   .info-snackbar {
-    background-color: mat-color($primary);
+    background-color: mat-color($primary) !important;
 
     .mat-simple-snackbar-action {
       color: white;
