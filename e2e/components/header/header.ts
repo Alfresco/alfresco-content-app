@@ -70,7 +70,7 @@ export class Header extends Component {
     const expanded = await this.isSidenavExpanded();
     if (expanded) {
       await this.sidenavToggle.click();
-      waitElement(`[data-automation-id='collapsed']`);
+      await waitElement(`[data-automation-id='collapsed']`);
     }
   }
 }
