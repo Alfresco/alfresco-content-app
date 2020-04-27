@@ -26,7 +26,7 @@
 import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { SelectTemplateDialog } from '../../components/dialog/select-template-dialog';
 import { CreateFromTemplateDialog } from '../../components/dialog/create-from-template-dialog';
-import { Utils } from '../../utilities/utils';
+import { Utils, clearTextWithBackspace } from '../../utilities/utils';
 import { AdminActions } from '../../utilities/admin-actions';
 import { RepoClient, NodeContentTree } from '../../utilities/repo-client/repo-client';
 
@@ -245,7 +245,7 @@ describe('Create file from template', () => {
 
       it('[C325031] File name is required', async () => {
         expect(await createFromTemplateDialog.getName()).toEqual(template1InRootFolder);
-        await createFromTemplateDialog.deleteNameWithBackspace();
+        await clearTextWithBackspace(createFromTemplateDialog.nameInput);
 
         expect(await createFromTemplateDialog.getValidationMessage()).toEqual('Name is required');
         expect(await createFromTemplateDialog.isCreateButtonEnabled()).toBe(false, 'Create button is not disabled');

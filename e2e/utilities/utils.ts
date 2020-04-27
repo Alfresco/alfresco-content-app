@@ -36,7 +36,7 @@ export async function typeText(element: ElementFinder, text: string) {
   await element.sendKeys(text);
 }
 
-export async function clearText(element: ElementFinder) {
+export async function clearTextWithBackspace(element: ElementFinder) {
   await element.clear();
   await element.sendKeys(' ', protractor.Key.CONTROL, 'a', protractor.Key.NULL, protractor.Key.BACK_SPACE);
 }

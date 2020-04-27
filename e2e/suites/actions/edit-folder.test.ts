@@ -27,7 +27,7 @@ import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { SITE_VISIBILITY, SITE_ROLES } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { CreateOrEditFolderDialog } from '../../components/dialog/create-edit-folder-dialog';
-import { Utils } from '../../utilities/utils';
+import { Utils, clearTextWithBackspace } from '../../utilities/utils';
 
 describe('Edit folder', () => {
   const username = `user-${Utils.random()}`;
@@ -160,7 +160,7 @@ describe('Edit folder', () => {
       await dataTable.selectItem(folderName);
       await toolbar.openMoreMenu();
       await toolbar.menu.editFolderAction.click();
-      await editDialog.deleteNameWithBackspace();
+      await clearTextWithBackspace(editDialog.nameInput);
 
       expect(await editDialog.isUpdateButtonEnabled()).toBe(false, 'upload button is not enabled');
       expect(await editDialog.getValidationMessage()).toMatch('Folder name is required');

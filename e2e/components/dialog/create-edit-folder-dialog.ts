@@ -25,7 +25,7 @@
 
 import { by } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
-import { isPresentAndDisplayed, waitForClickable, isPresentAndEnabled, typeText, clearText } from '../../utilities/utils';
+import { isPresentAndDisplayed, waitForClickable, isPresentAndEnabled, typeText } from '../../utilities/utils';
 
 export class CreateOrEditFolderDialog extends GenericDialog {
   createButton = this.childElement(by.cssContainingText('.mat-dialog-actions button', 'Create'));
@@ -79,10 +79,6 @@ export class CreateOrEditFolderDialog extends GenericDialog {
 
   async enterDescription(description: string): Promise<void> {
     await typeText(this.descriptionTextArea, description);
-  }
-
-  async deleteNameWithBackspace(): Promise<void> {
-    await clearText(this.nameInput);
   }
 
   async clickCancel(): Promise<void> {

@@ -25,7 +25,7 @@
 
 import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { CreateOrEditFolderDialog } from '../../components/dialog/create-edit-folder-dialog';
-import { Utils } from '../../utilities/utils';
+import { Utils, clearTextWithBackspace } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 
 describe('Create folder', () => {
@@ -129,7 +129,7 @@ describe('Create folder', () => {
       await page.dataTable.doubleClickOnRowByName(parent);
       await page.sidenav.openCreateFolderDialog();
       await createDialog.waitForDialogToOpen();
-      await createDialog.deleteNameWithBackspace();
+      await clearTextWithBackspace(createDialog.nameInput);
 
       expect(await createDialog.isCreateButtonEnabled()).toBe(false, 'Create button is enabled');
       expect(await createDialog.getValidationMessage()).toMatch('Folder name is required');
