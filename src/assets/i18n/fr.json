@@ -58,8 +58,8 @@
         "UPLOAD_FILE": "Importer le fichier",
         "UPLOAD_FOLDER": "Importer le dossier",
         "CREATE_LIBRARY": "Créer une Bibliothèque",
-        "FILE_TEMPLATE": "Créer un fichier à partir d'un modèle",
-        "FOLDER_TEMPLATE": "Créer un dossier à partir d'un modèle"
+        "FILE_TEMPLATE": "Nouveau fichier à partir d'un modèle",
+        "FOLDER_TEMPLATE": "Nouveau dossier à partir d'un modèle"
       },
       "TOOLTIPS": {
         "CREATE_FOLDER": "Créer un nouveau filtre",

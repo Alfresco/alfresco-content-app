@@ -43,7 +43,7 @@
       "APPLICATION-SETTINGS": "Toepassingsinstellingen",
       "REPOSITORY-SETTINGS": "Opslagplaatsinstellingen",
       "INVALID-VALUE-FORMAT": "Ongeldige indeling van waarde",
-      "REQUIRED-FIELD": "Dit veld is vereist",
+      "REQUIRED-FIELD": "Dit veld is verplicht",
       "RESET": "Opnieuw instellen",
       "APPLY": "Toepassen"
     },
@@ -58,7 +58,7 @@
         "UPLOAD_FILE": "Bestand uploaden",
         "UPLOAD_FOLDER": "Map uploaden",
         "CREATE_LIBRARY": "Bibliotheek maken",
-        "FILE_TEMPLATE": "Bestand maken op basis van sjabloon",
+        "FILE_TEMPLATE": "Bestand maken vanuit sjabloon",
         "FOLDER_TEMPLATE": "Map maken op basis van sjabloon"
       },
       "TOOLTIPS": {
@@ -366,8 +366,8 @@
   "NODE_FROM_TEMPLATE": {
     "CANCEL": "Annuleren",
     "CREATE": "Maken",
-    "FOLDER_DIALOG_TITLE": "Nieuwe map maken op basis van <span class=\"bold\">'{{ template }}'</span>",
-    "FILE_DIALOG_TITLE": "Nieuw document maken op basis van <span class=\"bold\">'{{ template }}'</span>",
+    "FOLDER_DIALOG_TITLE": "Maak een map op basis van <span class=\"bold\">'{{ template }}'</span>",
+    "FILE_DIALOG_TITLE": "Maak een document op basis van <span class=\"bold\">'{{ template }}'</span>",
     "FORM": {
       "PLACEHOLDER": {
         "NAME": "Naam",
@@ -377,7 +377,7 @@
       "ERRORS": {
         "DESCRIPTION_TOO_LONG": "Gebruik 512 tekens of minder voor de beschrijving",
         "TITLE_TOO_LONG": "Gebruik 256 tekens of minder voor de titel",
-        "REQUIRED": "Naam is vereist",
+        "REQUIRED": "Naam is verplicht",
         "SPECIAL_CHARACTERS": "Naam mag de volgende tekens niet bevatten: * \" < > \\ / ? : |",
         "ENDING_DOT": "Naam mag niet eindigen met een punt.",
         "ONLY_SPACES": "Naam mag niet alleen uit spaties bestaan"
