@@ -33,6 +33,10 @@ $foreground: map-get($custom-theme, foreground);
 $warn: map-get($custom-theme, warn);
 
 @mixin custom-theme($theme) {
+  @include angular-material-theme($theme);
+  @include adf-content-services-theme($theme);
+  @include adf-core-theme($theme);
+
   @include layout-theme($theme);
   @include aca-search-input-theme($theme);
   @include aca-result-row-theme($theme);
@@ -47,10 +51,6 @@ $warn: map-get($custom-theme, warn);
   @include app-create-from-template-theme($theme);
   @include app-create-menu-theme($theme);
   @include adf-style-fixes($theme);
-
-  @include angular-material-theme($theme);
-  @include adf-content-services-theme($theme);
-  @include adf-core-theme($theme);
 
   .mat-toolbar {
     color: var(--theme-text-color, rgba(0, 0, 0, 0.54));
