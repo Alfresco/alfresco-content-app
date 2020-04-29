@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { by, browser } from 'protractor';
+import { by, browser, ElementFinder } from 'protractor';
 import { Component } from '../component';
 import { isPresentAndEnabled, isPresentAndDisplayed, waitForVisibility } from '../../utilities/utils';
 
@@ -66,7 +66,8 @@ export class ContentMetadata extends Component {
           }
           return false
         }
-        return elem.getText();
+
+        return this.getElementValue(elem);
       });
   }
 
@@ -88,6 +89,16 @@ export class ContentMetadata extends Component {
 
   async isImagePropertiesPanelDisplayed(): Promise<boolean> {
     return isPresentAndDisplayed(this.imagePropertiesPanel);
+  }
+
+  private async getElementValue(elem: ElementFinder): Promise<string> {
+    const tagName = await elem.getTagName();
+
+    if (tagName === 'input' || tagName === 'textarea') {
+      return elem.getAttribute('value');
+    }
+
+    return elem.getText();
   }
 }
 
