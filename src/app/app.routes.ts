@@ -33,7 +33,8 @@ import { SearchLibrariesResultsComponent } from './components/search/search-libr
 import { LoginComponent } from './components/login/login.component';
 import {
   AppSharedRuleGuard,
-  GenericErrorComponent
+  GenericErrorComponent,
+  ExtensionsDataLoaderGuard
 } from '@alfresco/aca-shared';
 import { AuthGuardEcm } from '@alfresco/adf-core';
 import { FavoritesComponent } from './components/favorites/favorites.component';
@@ -76,7 +77,7 @@ export const APP_ROUTES: Routes = [
   {
     path: '',
     component: AppLayoutComponent,
-    canActivate: [AuthGuardEcm],
+    canActivate: [AuthGuardEcm, ExtensionsDataLoaderGuard],
     children: [
       {
         path: '',
