@@ -23,21 +23,60 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, ExpectedConditions as EC, browser } from 'protractor';
-import { BROWSER_WAIT_TIMEOUT } from '../configs';
+import {
+  ElementFinder,
+  browser,
+  by,
+  ElementArrayFinder,
+  ProtractorBrowser
+} from 'protractor';
+import { waitForPresence } from '../utilities/utils';
 
 export abstract class Component {
   component: ElementFinder;
+
+  protected byCss(
+    css: string,
+    root: ElementFinder | ProtractorBrowser = this.component
+  ): ElementFinder {
+    return root.element(by.css(css));
+  }
+
+  protected byCssText(
+    css: string,
+    text: string,
+    root: ElementFinder | ProtractorBrowser = this.component
+  ): ElementFinder {
+    return root.element(by.cssContainingText(css, text));
+  }
+
+  protected byId(
+    css: string,
+    root: ElementFinder | ProtractorBrowser = this.component
+  ): ElementFinder {
+    return root.element(by.id(css));
+  }
+
+  protected allByCss(
+    css: string,
+    root: ElementFinder | ProtractorBrowser = this.component
+  ): ElementArrayFinder {
+    return root.all(by.css(css));
+  }
 
   constructor(selector: string, ancestor?: string) {
     const locator = selector;
 
     this.component = ancestor
-      ? browser.$$(ancestor).first().$$(locator).first()
+      ? browser
+          .$$(ancestor)
+          .first()
+          .$$(locator)
+          .first()
       : browser.$$(locator).first();
   }
 
   async wait() {
-    await browser.wait(EC.presenceOf(this.component), BROWSER_WAIT_TIMEOUT);
+    await waitForPresence(this.component);
   }
 }

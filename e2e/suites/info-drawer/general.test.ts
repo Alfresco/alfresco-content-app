@@ -71,14 +71,14 @@ describe('General', () => {
 
   afterEach(async (done) => {
     if (await infoDrawer.isOpen()) {
-      await page.toolbar.clickViewDetails();
+      await page.toolbar.viewDetailsButton.click();
     }
     done();
   });
 
   it('[C268999] Info drawer closes on page refresh', async () => {
     await dataTable.selectItem(file1);
-    await page.toolbar.clickViewDetails();
+    await page.toolbar.viewDetailsButton.click();
     expect(await infoDrawer.isOpen()).toBe(true, 'Info drawer not open');
 
     await page.refresh();

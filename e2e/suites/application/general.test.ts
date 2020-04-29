@@ -59,7 +59,7 @@ describe('General', () => {
 
       await authApi.logout();
 
-      await createDialog.clickCreate();
+      await createDialog.createButton.click();
 
       expect(await page.getSnackBarMessage()).toEqual('The action was unsuccessful. Try again or contact your IT Team.');
 

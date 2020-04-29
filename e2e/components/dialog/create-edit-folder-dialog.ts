@@ -23,64 +23,42 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, protractor, browser, ExpectedConditions as EC } from 'protractor';
-import { BROWSER_WAIT_TIMEOUT } from '../../configs';
+import { by } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
-import { isPresentAndDisplayed } from '../../utilities/utils';
+import { isPresentAndDisplayed, waitForClickable, isPresentAndEnabled, typeText } from '../../utilities/utils';
 
 export class CreateOrEditFolderDialog extends GenericDialog {
-  private static selectors = {
-    root: 'adf-folder-dialog',
+  createButton = this.childElement(by.cssContainingText('.mat-dialog-actions button', 'Create'));
+  cancelButton = this.childElement(by.id('adf-folder-cancel-button'));
+  updateButton = this.childElement(by.cssContainingText('.mat-dialog-actions button', 'Update'));
 
-    nameInput: 'input[placeholder="Name" i]',
-    descriptionTextArea: 'textarea[placeholder="Description" i]',
-
-    validationMessage: '.mat-hint span',
-
-    createButton: by.cssContainingText('.mat-dialog-actions button', 'Create'),
-    cancelButton: by.id('adf-folder-cancel-button'),
-    updateButton: by.cssContainingText('.mat-dialog-actions button', 'Update')
-  };
-
-  nameInput: ElementFinder = this.rootElem.element(by.css(CreateOrEditFolderDialog.selectors.nameInput));
-  descriptionTextArea: ElementFinder = this.rootElem.element(by.css(CreateOrEditFolderDialog.selectors.descriptionTextArea));
-  validationMessage: ElementFinder = this.rootElem.element(by.css(CreateOrEditFolderDialog.selectors.validationMessage));
+  nameInput = this.rootElem.element(by.css('input[placeholder="Name" i]'));
+  descriptionTextArea = this.rootElem.element(by.css('textarea[placeholder="Description" i]'));
+  validationMessage = this.rootElem.element(by.css('.mat-hint span'));
 
   constructor() {
-    super(CreateOrEditFolderDialog.selectors.root);
+    super('adf-folder-dialog');
   }
 
   async waitForDialogToOpen() {
     await super.waitForDialogToOpen();
-    await browser.wait(EC.elementToBeClickable(this.nameInput), BROWSER_WAIT_TIMEOUT, '--- timeout waiting for input to be clickable ---');
-  }
-
-  async isValidationMessageDisplayed(): Promise<boolean> {
-    return isPresentAndDisplayed(this.validationMessage);
+    await waitForClickable(this.nameInput);
   }
 
   async isUpdateButtonEnabled(): Promise<boolean> {
-    return this.isButtonEnabled(CreateOrEditFolderDialog.selectors.updateButton);
+    return isPresentAndEnabled(this.updateButton);
   }
 
   async isCreateButtonEnabled(): Promise<boolean> {
-    return this.isButtonEnabled(CreateOrEditFolderDialog.selectors.createButton);
+    return isPresentAndEnabled(this.createButton);
   }
 
   async isCancelButtonEnabled(): Promise<boolean> {
-    return this.isButtonEnabled(CreateOrEditFolderDialog.selectors.cancelButton);
-  }
-
-  async isNameDisplayed(): Promise<boolean> {
-    return this.nameInput.isDisplayed();
-  }
-
-  async isDescriptionDisplayed(): Promise<boolean> {
-    return this.descriptionTextArea.isDisplayed();
+    return isPresentAndEnabled(this.cancelButton);
   }
 
   async getValidationMessage(): Promise<string> {
-    if (await this.isValidationMessageDisplayed()) {
+    if (await isPresentAndDisplayed(this.validationMessage)) {
       return this.validationMessage.getText();
     } else {
       return '';
@@ -96,31 +74,15 @@ export class CreateOrEditFolderDialog extends GenericDialog {
   }
 
   async enterName(name: string): Promise<void> {
-    await this.nameInput.clear();
-    await this.nameInput.sendKeys(name);
+    await typeText(this.nameInput, name);
   }
 
   async enterDescription(description: string): Promise<void> {
-    await this.descriptionTextArea.clear();
-    await this.descriptionTextArea.sendKeys(description);
-  }
-
-  async deleteNameWithBackspace(): Promise<void> {
-    await this.nameInput.clear();
-    await this.nameInput.sendKeys(' ', protractor.Key.CONTROL, 'a', protractor.Key.NULL, protractor.Key.BACK_SPACE);
-  }
-
-  async clickCreate(): Promise<void> {
-    await this.clickButton(CreateOrEditFolderDialog.selectors.createButton);
+    await typeText(this.descriptionTextArea, description);
   }
 
   async clickCancel(): Promise<void> {
-    await this.clickButton(CreateOrEditFolderDialog.selectors.cancelButton);
+    await this.cancelButton.click();
     await this.waitForDialogToClose();
   }
-
-  async clickUpdate(): Promise<void> {
-    await this.clickButton(CreateOrEditFolderDialog.selectors.updateButton);
-  }
-
 }

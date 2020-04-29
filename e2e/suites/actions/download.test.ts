@@ -121,14 +121,14 @@ describe('Download', () => {
 
     it('[C213179] Download a file', async () => {
       await dataTable.selectItem(filePersonal);
-      await toolbar.clickDownload();
+      await toolbar.downloadButton.click();
 
       expect(await Utils.fileExistsOnOS(filePersonal)).toBe(true, 'File not found in download location');
     });
 
     it('[C216352] Download a folder', async () => {
       await dataTable.selectItem(folderPersonal);
-      await toolbar.clickDownload();
+      await toolbar.downloadButton.click();
 
       const folderZip = `${folderPersonal}.zip`;
 
@@ -141,7 +141,7 @@ describe('Download', () => {
 
     it('[C216353] Download multiple items', async () => {
       await dataTable.selectMultipleItems([filePersonal, folderPersonal]);
-      await toolbar.clickDownload();
+      await toolbar.downloadButton.click();
 
       expect(await Utils.fileExistsOnOS(archiveZip)).toBe(true, 'File not found in download location');
 
@@ -168,14 +168,14 @@ describe('Download', () => {
 
     it('[C280173] Download a file', async () => {
       await dataTable.selectItem(fileFavorites);
-      await toolbar.clickDownload();
+      await toolbar.downloadButton.click();
 
       expect(await Utils.fileExistsOnOS(fileFavorites)).toBe(true, 'File not found in download location');
     });
 
     it('[C280188] Download a folder', async () => {
       await dataTable.selectItem(folderFavorites);
-      await toolbar.clickDownload();
+      await toolbar.downloadButton.click();
 
       const folderZip = `${folderFavorites}.zip`;
 
@@ -188,7 +188,7 @@ describe('Download', () => {
 
     it('[C280189] Download multiple items', async () => {
       await dataTable.selectMultipleItems([fileFavorites, folderFavorites]);
-      await toolbar.clickDownload();
+      await toolbar.downloadButton.click();
 
       expect(await Utils.fileExistsOnOS(archiveZip)).toBe(true, 'File not found in download location');
 
@@ -215,14 +215,14 @@ describe('Download', () => {
 
     it('[C280170] Download a file', async () => {
       await dataTable.selectItem(fileShared1);
-      await toolbar.clickDownload();
+      await toolbar.downloadButton.click();
 
       expect(await Utils.fileExistsOnOS(fileShared1)).toBe(true, 'File not found in download location');
     });
 
     it('[C280183] Download multiple items', async () => {
       await dataTable.selectMultipleItems([fileShared1, fileShared2]);
-      await toolbar.clickDownload();
+      await toolbar.downloadButton.click();
 
       expect(await Utils.fileExistsOnOS(archiveZip)).toBe(true, 'File not found in download location');
 
@@ -248,14 +248,14 @@ describe('Download', () => {
 
     it('[C280167] Download a file', async () => {
       await dataTable.selectItem(fileRecent1);
-      await toolbar.clickDownload();
+      await toolbar.downloadButton.click();
 
       expect(await Utils.fileExistsOnOS(fileRecent1)).toBe(true, 'File not found in download location');
     });
 
     it('[C280177] Download multiple items', async () => {
       await dataTable.selectMultipleItems([fileRecent1, fileRecent2]);
-      await toolbar.clickDownload();
+      await toolbar.downloadButton.click();
 
       expect(await Utils.fileExistsOnOS(archiveZip)).toBe(true, 'File not found in download location');
 
@@ -279,14 +279,14 @@ describe('Download', () => {
 
     it('[C279164] Download a file', async () => {
       await dataTable.selectItem(fileSearch, parent);
-      await toolbar.clickDownload();
+      await toolbar.downloadButton.click();
 
       expect(await Utils.fileExistsOnOS(fileSearch)).toBe(true, 'File not found in download location');
     });
 
     it('[C297694] Download a folder', async () => {
       await dataTable.selectItem(folderSearch, parent);
-      await toolbar.clickDownload();
+      await toolbar.downloadButton.click();
 
       const folderZip = `${folderSearch}.zip`;
 
@@ -299,7 +299,7 @@ describe('Download', () => {
 
     it('[C297695] Download multiple items', async () => {
       await dataTable.selectMultipleItems([fileSearch, folderSearch], parent);
-      await toolbar.clickDownload();
+      await toolbar.downloadButton.click();
 
       expect(await Utils.fileExistsOnOS(archiveZip)).toBe(true, 'File not found in download location');
 

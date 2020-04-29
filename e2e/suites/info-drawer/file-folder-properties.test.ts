@@ -96,7 +96,7 @@ describe('File / Folder properties', () => {
   describe('View properties', () => {
     it('[C299162] Default tabs', async () => {
       await dataTable.selectItem(file1.name);
-      await page.toolbar.clickViewDetails();
+      await page.toolbar.viewDetailsButton.click();
       await infoDrawer.waitForInfoDrawerToOpen();
 
       expect(await infoDrawer.getHeaderTitle()).toEqual('Details');
@@ -134,7 +134,7 @@ describe('File / Folder properties', () => {
       ];
 
       await dataTable.selectItem(file1.name);
-      await page.toolbar.clickViewDetails();
+      await page.toolbar.viewDetailsButton.click();
       await infoDrawer.waitForInfoDrawerToOpen();
 
       expect(await propertiesTab.getVisiblePropertiesLabels()).toEqual(expectedPropLabels, 'Incorrect properties displayed');
@@ -168,7 +168,7 @@ describe('File / Folder properties', () => {
       ];
 
       await dataTable.selectItem(folder1.name);
-      await page.toolbar.clickViewDetails();
+      await page.toolbar.viewDetailsButton.click();
       await infoDrawer.waitForInfoDrawerToOpen();
 
       expect(await propertiesTab.getVisiblePropertiesLabels()).toEqual(expectedPropLabels, 'Incorrect properties displayed');
@@ -179,19 +179,19 @@ describe('File / Folder properties', () => {
 
     it('[C269004] Less / More information buttons', async () => {
       await dataTable.selectItem(file1.name);
-      await page.toolbar.clickViewDetails();
+      await page.toolbar.viewDetailsButton.click();
       await infoDrawer.waitForInfoDrawerToOpen();
 
       expect(await propertiesTab.isMoreInfoButtonEnabled()).toBe(true, 'More information button not enabled');
       expect(await propertiesTab.isPropertiesListExpanded()).toBe(true, 'Properties list not expanded');
 
-      await propertiesTab.clickMoreInformationButton();
+      await propertiesTab.moreInfoButton.click();
 
       expect(await propertiesTab.isMoreInfoButtonDisplayed()).toBe(false, 'More information button displayed');
       expect(await propertiesTab.isLessInfoButtonEnabled()).toBe(true, 'Less information button not enabled');
       expect(await propertiesTab.isPropertiesListExpanded()).toBe(false, 'Properties list expanded');
 
-      await propertiesTab.clickLessInformationButton();
+      await propertiesTab.lessInfoButton.click();
 
       expect(await propertiesTab.isMoreInfoButtonDisplayed()).toBe(true, 'More information button not displayed');
       expect(await propertiesTab.isLessInfoButtonEnabled()).toBe(false, 'Less information button enabled');
@@ -200,6 +200,7 @@ describe('File / Folder properties', () => {
 
     it('[C269007] Image properties', async () => {
       const apiProps = await apis.user.nodes.getNodeById(image1Id);
+      const properties = apiProps.entry.properties;
 
       const expectedPropLabels = [
         'Image Width',
@@ -216,26 +217,26 @@ describe('File / Folder properties', () => {
         'Camera Software'
       ];
       const expectedPropValues = [
-        apiProps.entry.properties['exif:pixelXDimension'].toString(),
-        apiProps.entry.properties['exif:pixelYDimension'].toString(),
-        moment(apiProps.entry.properties['exif:dateTimeOriginal']).format(DATE_TIME_FORMAT),
-        apiProps.entry.properties['exif:exposureTime'].toString(),
-        apiProps.entry.properties['exif:fNumber'].toString(),
-        apiProps.entry.properties['exif:flash'],
-        apiProps.entry.properties['exif:focalLength'].toString(),
-        apiProps.entry.properties['exif:isoSpeedRatings'],
-        (apiProps.entry.properties['exif:orientation']).toString(),
-        apiProps.entry.properties['exif:manufacturer'],
-        apiProps.entry.properties['exif:model'],
-        apiProps.entry.properties['exif:software']
+        properties['exif:pixelXDimension'].toString(),
+        properties['exif:pixelYDimension'].toString(),
+        moment(properties['exif:dateTimeOriginal']).format(DATE_TIME_FORMAT),
+        properties['exif:exposureTime'].toString(),
+        properties['exif:fNumber'].toString(),
+        properties['exif:flash'],
+        properties['exif:focalLength'].toString(),
+        properties['exif:isoSpeedRatings'],
+        (properties['exif:orientation']).toString(),
+        properties['exif:manufacturer'],
+        properties['exif:model'],
+        properties['exif:software']
       ];
 
       await dataTable.selectItem(image1.name);
-      await page.toolbar.clickViewDetails();
+      await page.toolbar.viewDetailsButton.click();
       await infoDrawer.waitForInfoDrawerToOpen();
 
-      await propertiesTab.clickMoreInformationButton();
-      await propertiesTab.clickImagePropertiesPanel();
+      await propertiesTab.moreInfoButton.click();
+      await propertiesTab.imagePropertiesPanel.click();
       await propertiesTab.waitForImagePropertiesPanelToExpand();
 
       expect(await propertiesTab.isImagePropertiesPanelDisplayed()).toBe(true, 'Image properties panel not displayed');

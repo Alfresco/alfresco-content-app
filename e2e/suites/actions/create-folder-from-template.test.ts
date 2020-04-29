@@ -26,7 +26,7 @@
 import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { SelectTemplateDialog } from '../../components/dialog/select-template-dialog';
 import { CreateFromTemplateDialog } from '../../components/dialog/create-from-template-dialog';
-import { Utils } from '../../utilities/utils';
+import { Utils, clearTextWithBackspace } from '../../utilities/utils';
 import { AdminActions } from '../../utilities/admin-actions';
 import { RepoClient, NodeContentTree } from '../../utilities/repo-client/repo-client';
 
@@ -146,7 +146,7 @@ describe('Create folder from template', () => {
       expect(await selectTemplateDialog.dataTable.isItemPresent(templateFolder1)).toBe(true, 'template folder not displayed');
       expect(await selectTemplateDialog.dataTable.isItemPresent(templateFolder2)).toBe(true, 'template folder not displayed');
       expect(await selectTemplateDialog.dataTable.isItemPresent(fileInRootFolder)).toBe(true, 'file not displayed');
-      expect(await selectTemplateDialog.breadcrumb.getCurrentFolderName()).toEqual('Space Templates');
+      expect(await selectTemplateDialog.breadcrumb.currentFolder.getText()).toEqual('Space Templates');
       expect(await selectTemplateDialog.isNextButtonEnabled()).toBe(false, 'Next button is not disabled');
       expect(await selectTemplateDialog.isCancelButtonEnabled()).toBe(true, 'Cancel button is not enabled');
     });
@@ -163,11 +163,11 @@ describe('Create folder from template', () => {
       expect(await selectTemplateDialog.dataTable.isItemPresent(templateSubFolder)).toBe(true, 'template sub-folder not displayed');
       expect(await selectTemplateDialog.dataTable.isItemPresent(fileInFolder2)).toBe(true, 'template not displayed');
       expect(await selectTemplateDialog.dataTable.isItemPresent(templateFolder1)).toBe(false, 'template folder is displayed');
-      expect(await selectTemplateDialog.breadcrumb.getCurrentFolderName()).toEqual(templateFolder2);
+      expect(await selectTemplateDialog.breadcrumb.currentFolder.getText()).toEqual(templateFolder2);
 
       await selectTemplateDialog.dataTable.doubleClickOnRowByName(templateSubFolder);
 
-      expect(await selectTemplateDialog.breadcrumb.getCurrentFolderName()).toEqual(templateSubFolder);
+      expect(await selectTemplateDialog.breadcrumb.currentFolder.getText()).toEqual(templateSubFolder);
       expect(await selectTemplateDialog.dataTable.isEmpty()).toBe(true, 'datatable is not empty');
 
       await selectTemplateDialog.breadcrumb.openPath();
@@ -222,16 +222,16 @@ describe('Create folder from template', () => {
 
     it('[C325142] Create folder from template - dialog UI', async () => {
       expect(await createFromTemplateDialog.getTitle()).toEqual(`Create new folder from '${templateFolder1}'`);
-      expect(await createFromTemplateDialog.isNameFieldDisplayed()).toBe(true, 'Name field not displayed');
-      expect(await createFromTemplateDialog.isTitleFieldDisplayed()).toBe(true, 'Title field not displayed');
-      expect(await createFromTemplateDialog.isDescriptionFieldDisplayed()).toBe(true, 'Description field not displayed');
+      expect(await createFromTemplateDialog.nameInput.isDisplayed()).toBe(true, 'Name field not displayed');
+      expect(await createFromTemplateDialog.titleInput.isDisplayed()).toBe(true, 'Title field not displayed');
+      expect(await createFromTemplateDialog.descriptionTextArea.isDisplayed()).toBe(true, 'Description field not displayed');
       expect(await createFromTemplateDialog.isCancelButtonEnabled()).toBe(true, 'Cancel button is not enabled');
       expect(await createFromTemplateDialog.isCreateButtonEnabled()).toBe(true, 'Create button is not enabled');
     });
 
     it('[C325143] Folder name is required', async () => {
       expect(await createFromTemplateDialog.getName()).toEqual(templateFolder1);
-      await createFromTemplateDialog.deleteNameWithBackspace();
+      await clearTextWithBackspace(createFromTemplateDialog.nameInput);
 
       expect(await createFromTemplateDialog.getValidationMessage()).toEqual('Name is required');
       expect(await createFromTemplateDialog.isCreateButtonEnabled()).toBe(false, 'Create button is not disabled');
@@ -291,7 +291,7 @@ describe('Create folder from template', () => {
 
     it('[C325157] Create a folder from a template - with a new Name', async () => {
       await createFromTemplateDialog.enterName(folder1.name);
-      await createFromTemplateDialog.clickCreate();
+      await createFromTemplateDialog.createButton.click();
       await createFromTemplateDialog.waitForDialogToClose();
       await page.dataTable.waitForHeader();
 
@@ -302,7 +302,7 @@ describe('Create folder from template', () => {
       await createFromTemplateDialog.enterName(folder2.name);
       await createFromTemplateDialog.enterTitle(folder2.title);
       await createFromTemplateDialog.enterDescription(folder2.description);
-      await createFromTemplateDialog.clickCreate();
+      await createFromTemplateDialog.createButton.click();
       await createFromTemplateDialog.waitForDialogToClose();
       await page.dataTable.waitForHeader();
 
@@ -315,7 +315,7 @@ describe('Create folder from template', () => {
 
     it('[C325156] Create a folder with a duplicate name', async () => {
       await createFromTemplateDialog.enterName(duplicateFolderName);
-      await createFromTemplateDialog.clickCreate();
+      await createFromTemplateDialog.createButton.click();
 
       expect(await page.getSnackBarMessage()).toEqual(`This name is already in use, try a different name.`);
       expect(await createFromTemplateDialog.isDialogOpen()).toBe(true, 'dialog is not present');
@@ -331,7 +331,7 @@ describe('Create folder from template', () => {
 
     it('[C325158] Trim spaces from folder Name', async () => {
       await createFromTemplateDialog.enterName(nameWithSpaces);
-      await createFromTemplateDialog.clickCreate();
+      await createFromTemplateDialog.createButton.click();
       await createFromTemplateDialog.waitForDialogToClose();
       await page.dataTable.waitForHeader();
 
@@ -356,7 +356,7 @@ describe('Create folder from template', () => {
       await createFromTemplateDialog.enterName(folderSite.name);
       await createFromTemplateDialog.enterTitle(folderSite.title);
       await createFromTemplateDialog.enterDescription(folderSite.description);
-      await createFromTemplateDialog.clickCreate();
+      await createFromTemplateDialog.createButton.click();
       await createFromTemplateDialog.waitForDialogToClose();
       await page.dataTable.waitForHeader();
 
@@ -377,7 +377,7 @@ describe('Create folder from template', () => {
 
     it('[C325163] Create a folder with a duplicate name', async () => {
       await createFromTemplateDialog.enterName(duplicateFolderSite);
-      await createFromTemplateDialog.clickCreate();
+      await createFromTemplateDialog.createButton.click();
 
       expect(await page.getSnackBarMessage()).toEqual(`This name is already in use, try a different name.`);
       expect(await createFromTemplateDialog.isDialogOpen()).toBe(true, 'dialog is not present');

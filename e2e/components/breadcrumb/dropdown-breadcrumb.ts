@@ -23,39 +23,33 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, ElementArrayFinder, by, browser, ExpectedConditions as EC } from 'protractor';
-import { BROWSER_WAIT_TIMEOUT } from '../../configs';
+import { by, browser } from 'protractor';
 import { Component } from '../component';
+import { waitForPresence, waitForStaleness } from '../../utilities/utils';
 
 export class DropDownBreadcrumb extends Component {
-  private static selectors = {
-    root: '.adf-dropdown-breadcrumb',
-    trigger: '.adf-dropdown-breadcrumb-trigger',
-
-    currentFolder: '.adf-current-folder',
-
-    pathOption: '.adf-dropdown-breadcrumb-path-option .mat-option-text'
-  };
-
-  trigger: ElementFinder = this.component.element(by.css(DropDownBreadcrumb.selectors.trigger));
-  pathItems: ElementArrayFinder = browser.$$(DropDownBreadcrumb.selectors.pathOption);
-  pathItemsContainer: ElementFinder = browser.element(by.css('.mat-select-panel'));
-  currentFolder: ElementFinder = this.component.element(by.css(DropDownBreadcrumb.selectors.currentFolder));
+  pathOptionCss = '.adf-dropdown-breadcrumb-path-option .mat-option-text';
+  trigger = this.byCss('.adf-dropdown-breadcrumb-trigger');
+  pathItems = browser.$$(this.pathOptionCss);
+  pathItemsContainer = this.byCss('.mat-select-panel', browser);
+  currentFolder = this.byCss('.adf-current-folder');
 
   constructor(ancestor?: string) {
-    super(DropDownBreadcrumb.selectors.root, ancestor);
+    super('.adf-dropdown-breadcrumb', ancestor);
   }
 
   async waitForPathListDropdownToOpen(): Promise<void> {
-    await browser.wait(EC.presenceOf(this.pathItemsContainer), BROWSER_WAIT_TIMEOUT, 'Timeout waiting for breadcrumb dropdown to open');
+    return waitForPresence(
+      this.pathItemsContainer,
+      'Timeout waiting for breadcrumb dropdown to open'
+    );
   }
 
   async waitForPathListDropdownToClose(): Promise<void> {
-    await browser.wait(EC.stalenessOf(browser.$(DropDownBreadcrumb.selectors.pathOption)), BROWSER_WAIT_TIMEOUT, 'Timeout waiting for breadcrumb dropdown to close');
-  }
-
-  async getCurrentFolderName(): Promise<string> {
-    return this.currentFolder.getText();
+    return waitForStaleness(
+      browser.$(this.pathOptionCss),
+      'Timeout waiting for breadcrumb dropdown to close'
+    );
   }
 
   async openPath(): Promise<void> {
@@ -64,7 +58,9 @@ export class DropDownBreadcrumb extends Component {
   }
 
   async clickPathItem(name: string): Promise<void> {
-    const elem = browser.element(by.cssContainingText(DropDownBreadcrumb.selectors.pathOption, name));
+    const elem = browser.element(
+      by.cssContainingText(this.pathOptionCss, name)
+    );
     await elem.click();
   }
 

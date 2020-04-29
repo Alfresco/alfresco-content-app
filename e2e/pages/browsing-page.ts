@@ -35,97 +35,84 @@ export class BrowsingPage extends Page {
   dataTable = new DataTable(this.appRoot);
   pagination = new Pagination(this.appRoot);
 
-  async signOut() {
+  async signOut(): Promise<void> {
     await this.header.userInfo.signOut();
   }
 
-  async isSnackBarPresent() {
-    return this.snackBar.isPresent();
-  }
-
-  // helper methods
-
-  async clickPersonalFiles() {
+  async clickPersonalFiles(): Promise<void> {
     await this.sidenav.clickLink(SIDEBAR_LABELS.PERSONAL_FILES);
   }
 
-  async clickPersonalFilesAndWait() {
+  async clickPersonalFilesAndWait(): Promise<void> {
     await this.clickPersonalFiles();
     await this.dataTable.waitForHeader();
   }
 
-
-  async clickFileLibraries() {
+  async clickFileLibraries(): Promise<void> {
     await this.sidenav.clickLink(SIDEBAR_LABELS.FILE_LIBRARIES);
   }
 
-  async clickFileLibrariesAndWait() {
+  async clickFileLibrariesAndWait(): Promise<void> {
     await this.clickFileLibraries();
     await this.dataTable.waitForHeader();
   }
 
-
-  async goToFavoriteLibraries() {
+  async goToFavoriteLibraries(): Promise<void> {
     if ( !(await this.sidenav.isFileLibrariesMenuExpanded()) ) {
       await this.sidenav.expandFileLibraries();
     }
     await this.sidenav.clickLink(SIDEBAR_LABELS.FAVORITE_LIBRARIES);
   }
 
-  async goToFavoriteLibrariesAndWait() {
+  async goToFavoriteLibrariesAndWait(): Promise<void> {
     await this.goToFavoriteLibraries();
     await this.dataTable.waitForHeader();
   }
 
-
-  async goToMyLibraries() {
+  async goToMyLibraries(): Promise<void> {
     if ( !(await this.sidenav.isFileLibrariesMenuExpanded()) ) {
       await this.sidenav.expandFileLibraries();
     }
     await this.sidenav.clickLink(SIDEBAR_LABELS.MY_LIBRARIES);
   }
 
-  async goToMyLibrariesAndWait() {
+  async goToMyLibrariesAndWait(): Promise<void> {
     await this.goToMyLibraries();
     await this.dataTable.waitForHeader();
   }
 
-
-  async clickRecentFiles() {
+  async clickRecentFiles(): Promise<void> {
     await this.sidenav.clickLink(SIDEBAR_LABELS.RECENT_FILES);
   }
 
-  async clickRecentFilesAndWait() {
+  async clickRecentFilesAndWait(): Promise<void> {
     await this.clickRecentFiles();
     await this.dataTable.waitForHeader();
   }
 
-
-  async clickSharedFiles() {
+  async clickSharedFiles(): Promise<void> {
     await this.sidenav.clickLink(SIDEBAR_LABELS.SHARED_FILES);
   }
 
-  async clickSharedFilesAndWait() {
+  async clickSharedFilesAndWait(): Promise<void> {
     await this.clickSharedFiles();
     await this.dataTable.waitForHeader();
   }
 
-
-  async clickFavorites() {
+  async clickFavorites(): Promise<void> {
     await this.sidenav.clickLink(SIDEBAR_LABELS.FAVORITES);
   }
 
-  async clickFavoritesAndWait() {
+  async clickFavoritesAndWait(): Promise<void> {
     await this.clickFavorites();
     await this.dataTable.waitForHeader();
   }
 
-
-  async clickTrash() {
+  async clickTrash(): Promise<void> {
     await this.sidenav.clickLink(SIDEBAR_LABELS.TRASH);
   }
 
-  async clickTrashAndWait() {
+  async clickTrashAndWait(): Promise<void> {
     await this.clickTrash();
     await this.dataTable.waitForHeader();
   }

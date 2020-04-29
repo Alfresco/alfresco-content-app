@@ -23,32 +23,23 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, browser, ExpectedConditions as EC, Locator } from 'protractor';
-import { BROWSER_WAIT_TIMEOUT } from '../../configs';
-import { isPresentAndDisplayed, isPresentAndEnabled } from '../../utilities/utils';
+import { ElementFinder, by, browser, Locator } from 'protractor';
+import { isPresentAndDisplayed, waitForPresence, waitForVisibility, waitForStaleness } from '../../utilities/utils';
 
 export abstract class GenericDialog {
-  private static locators = {
-    title: '.mat-dialog-title',
-    content: '.mat-dialog-content'
-  };
 
-  private rootCssSelector: string;
-
-  constructor(selector?: string) {
-    this.rootCssSelector = selector;
-  }
+  constructor(private rootCssSelector?: string) {}
 
   get rootElem(): ElementFinder {
     return browser.element(by.css(this.rootCssSelector));
   }
 
   get title(): ElementFinder {
-    return this.rootElem.element(by.css(GenericDialog.locators.title));
+    return this.rootElem.element(by.css('.mat-dialog-title'));
   }
 
   get content(): ElementFinder {
-    return this.rootElem.element(by.css(GenericDialog.locators.content));
+    return this.rootElem.element(by.css('.mat-dialog-content'));
   }
 
   async getText(): Promise<string> {
@@ -56,13 +47,13 @@ export abstract class GenericDialog {
   }
 
   async waitForDialogToOpen(): Promise<void> {
-    await browser.wait(EC.presenceOf(this.rootElem), BROWSER_WAIT_TIMEOUT);
-    await browser.wait(EC.visibilityOf(this.content), BROWSER_WAIT_TIMEOUT);
-    await browser.wait(EC.presenceOf(browser.element(by.css('.cdk-overlay-backdrop'))), BROWSER_WAIT_TIMEOUT);
+    await waitForPresence(this.rootElem);
+    await waitForVisibility(this.content);
+    await waitForPresence(browser.element(by.css('.cdk-overlay-backdrop')));
   }
 
   async waitForDialogToClose(): Promise<void> {
-    await browser.wait(EC.stalenessOf(this.content), BROWSER_WAIT_TIMEOUT, '---- timeout waiting for dialog to close ----');
+    await waitForStaleness(this.content);
   }
 
   async isDialogOpen(): Promise<boolean> {
@@ -73,15 +64,7 @@ export abstract class GenericDialog {
     return this.title.getText();
   }
 
-  getActionButton(selector: Locator): ElementFinder {
+  protected childElement(selector: Locator): ElementFinder {
     return this.rootElem.element(selector);
-  }
-
-  async isButtonEnabled(selector: Locator): Promise<boolean> {
-    return isPresentAndEnabled(this.getActionButton(selector));
-  }
-
-  async clickButton(selector: Locator): Promise<void> {
-    await this.getActionButton(selector).click();
   }
 }

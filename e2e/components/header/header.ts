@@ -23,71 +23,54 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, browser, until } from 'protractor';
+import { by, browser } from 'protractor';
 import { Component } from '../component';
 import { UserInfo } from './user-info';
 import { Menu } from '../menu/menu';
 import { Toolbar } from './../toolbar/toolbar';
 import { SearchInput } from '../search/search-input';
-import { BROWSER_WAIT_TIMEOUT } from '../../configs';
+import { waitElement } from '../../utilities/utils';
 
 export class Header extends Component {
-  private static selectors = {
-    root: 'app-header',
-    logoLink: by.css('.app-menu__title'),
-    userInfo: by.css('aca-current-user'),
-    moreActions: by.id('app.header.more'),
+  logoLink = this.byCss('.app-menu__title');
+  moreActions = browser.element(by.id('app.header.more'));
+  sidenavToggle = this.byCss(`[id='adf-sidebar-toggle-start']`);
 
-    sidenavToggle: `[id='adf-sidebar-toggle-start']`,
-    expandedSidenav: by.css(`[data-automation-id='expanded']`),
-    collapsedSidenav: by.css(`[data-automation-id='collapsed']`)
-  };
-
-  logoLink: ElementFinder = this.component.element(Header.selectors.logoLink);
-  moreActions: ElementFinder = browser.element(Header.selectors.moreActions);
-  sidenavToggle: ElementFinder = this.component.element(by.css(Header.selectors.sidenavToggle));
-
-  userInfo: UserInfo = new UserInfo();
-  menu: Menu = new Menu();
-  toolbar: Toolbar = new Toolbar();
-  searchInput: SearchInput = new SearchInput();
+  userInfo = new UserInfo();
+  menu = new Menu();
+  toolbar = new Toolbar();
+  searchInput = new SearchInput();
 
   constructor(ancestor?: string) {
     super('adf-layout-header', ancestor);
   }
 
-  async openMoreMenu() {
+  async openMoreMenu(): Promise<void> {
     await this.moreActions.click();
     await this.menu.waitForMenuToOpen();
   }
 
-  async isSignOutDisplayed() {
+  async isSignOutDisplayed(): Promise<boolean> {
     return this.userInfo.menu.isMenuItemPresent('Sign out');
   }
 
-  async clickSidenavToggle() {
-    await this.sidenavToggle.click();
+  async isSidenavExpanded(): Promise<boolean> {
+    return browser.isElementPresent(by.css(`[data-automation-id='expanded']`));
   }
 
-  async isSidenavExpanded() {
-    return browser.isElementPresent(Header.selectors.expandedSidenav);
-  }
-
-  async expandSideNav() {
+  async expandSideNav(): Promise<void> {
     const expanded = await this.isSidenavExpanded();
-    if ( !expanded ) {
-      await this.clickSidenavToggle();
-      await browser.wait(until.elementLocated(Header.selectors.expandedSidenav), BROWSER_WAIT_TIMEOUT, '--- timeout waiting for expanded sidenav' );
+    if (!expanded) {
+      await this.sidenavToggle.click();
+      await waitElement(`[data-automation-id='expanded']`);
     }
   }
 
-  async collapseSideNav() {
+  async collapseSideNav(): Promise<void> {
     const expanded = await this.isSidenavExpanded();
-    if ( expanded ) {
-      await this.clickSidenavToggle();
-      await browser.wait(until.elementLocated(Header.selectors.collapsedSidenav), BROWSER_WAIT_TIMEOUT, '--- timeout waiting for collapsed sidenav')
+    if (expanded) {
+      await this.sidenavToggle.click();
+      await waitElement(`[data-automation-id='collapsed']`);
     }
   }
-
 }
-

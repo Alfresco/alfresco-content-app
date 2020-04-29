@@ -287,7 +287,7 @@ describe('Search filters', () => {
 
   describe('Filter by File type', () => {
     afterEach(async (done) => {
-      await filters.clickResetAllButton();
+      await filters.resetAllButton.click();
       done();
     });
 
@@ -341,7 +341,7 @@ describe('Search filters', () => {
 
   describe('Filter by Creator', () => {
     afterEach(async (done) => {
-      await filters.clickResetAllButton();
+      await filters.resetAllButton.click();
       done();
     });
 
@@ -396,7 +396,7 @@ describe('Search filters', () => {
 
   describe('Filter by Modifier', () => {
     afterEach(async (done) => {
-      await filters.clickResetAllButton();
+      await filters.resetAllButton.click();
       done();
     });
 
@@ -451,7 +451,7 @@ describe('Search filters', () => {
 
   describe('Filter by Location', () => {
     afterEach(async (done) => {
-      await filters.clickResetAllButton();
+      await filters.resetAllButton.click();
       done();
     });
 
@@ -508,7 +508,7 @@ describe('Search filters', () => {
     const expectedDateFilters = ['Today (2)', 'This week (2)', 'This month (2)', 'In the last 6 months (2)', 'This year (2)'];
 
     afterEach(async (done) => {
-      await filters.clickResetAllButton();
+      await filters.resetAllButton.click();
       done();
     });
 
@@ -562,7 +562,7 @@ describe('Search filters', () => {
 
   describe('Multiple filters', () => {
     afterEach(async (done) => {
-      await filters.clickResetAllButton();
+      await filters.resetAllButton.click();
       await sizeFilter.resetPanel();
       await createdDateFilter.resetPanel();
       done();

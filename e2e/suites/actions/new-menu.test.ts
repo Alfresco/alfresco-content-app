@@ -116,19 +116,19 @@ describe('New menu', () => {
 
     let tooltip: string;
 
-    tooltip = await menu.getTooltipForUploadFile();
+    tooltip = await menu.getItemTooltip('Upload File');
     expect(tooltip).toContain('Select files to upload');
 
-    tooltip = await menu.getTooltipForUploadFolder();
+    tooltip = await menu.getItemTooltip('Upload Folder');
     expect(tooltip).toContain('Select folders to upload');
 
-    tooltip = await menu.getTooltipForCreateFolder();
+    tooltip = await menu.getItemTooltip('Create Folder');
     expect(tooltip).toContain('Create new folder');
 
-    tooltip = await menu.getTooltipForCreateLibrary();
+    tooltip = await menu.getItemTooltip('Create Library');
     expect(tooltip).toContain('Create a new File Library');
 
-    tooltip = await menu.getTooltipForCreateFileFromTemplate();
+    tooltip = await menu.getItemTooltip('Create file from template');
     expect(tooltip).toContain('Create file from template');
   });
 
@@ -139,16 +139,16 @@ describe('New menu', () => {
 
     let tooltip: string;
 
-    tooltip = await menu.getTooltipForUploadFile();
+    tooltip = await menu.getItemTooltip('Upload File');
     expect(tooltip).toContain('Files cannot be uploaded whilst viewing the current items');
 
-    tooltip = await menu.getTooltipForUploadFolder();
+    tooltip = await menu.getItemTooltip('Upload Folder');
     expect(tooltip).toContain('Folders cannot be uploaded whilst viewing the current items');
 
-    tooltip = await menu.getTooltipForCreateFolder();
+    tooltip = await menu.getItemTooltip('Create Folder');
     expect(tooltip).toContain('Folders cannot be created whilst viewing the current items');
 
-    tooltip = await menu.getTooltipForCreateFileFromTemplate();
+    tooltip = await menu.getItemTooltip('Create file from template');
     expect(tooltip).toContain('Files cannot be created whilst viewing the current items');
   });
 

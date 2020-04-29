@@ -87,12 +87,12 @@ describe('Create library', () => {
     await createDialog.waitForDialogToOpen();
 
     expect(await createDialog.getTitle()).toMatch('Create Library');
-    expect(await createDialog.isNameDisplayed()).toBe(true, 'Name input is not displayed');
-    expect(await createDialog.isLibraryIdDisplayed()).toBe(true, 'Library ID input is not displayed');
-    expect(await createDialog.isDescriptionDisplayed()).toBe(true, 'Description field is not displayed');
-    expect(await createDialog.isPublicDisplayed()).toBe(true, 'Public option is not displayed');
-    expect(await createDialog.isModeratedDisplayed()).toBe(true, 'Moderated option is not displayed');
-    expect(await createDialog.isPrivateDisplayed()).toBe(true, 'Private option is not displayed');
+    expect(await createDialog.nameInput.isDisplayed()).toBe(true, 'Name input is not displayed');
+    expect(await createDialog.libraryIdInput.isDisplayed()).toBe(true, 'Library ID input is not displayed');
+    expect(await createDialog.descriptionTextArea.isDisplayed()).toBe(true, 'Description field is not displayed');
+    expect(await createDialog.visibilityPublic.isDisplayed()).toBe(true, 'Public option is not displayed');
+    expect(await createDialog.visibilityModerated.isDisplayed()).toBe(true, 'Moderated option is not displayed');
+    expect(await createDialog.visibilityPrivate.isDisplayed()).toBe(true, 'Private option is not displayed');
     expect(await createDialog.isPublicChecked()).toBe(true, 'Public option not checked');
     expect(await createDialog.isCreateEnabled()).toBe(false, 'Create button is not disabled');
     expect(await createDialog.isCancelEnabled()).toBe(true, 'Cancel button is not enabled');
@@ -102,10 +102,10 @@ describe('Create library', () => {
     await page.sidenav.openCreateLibraryDialog();
     await createDialog.waitForDialogToOpen();
     await createDialog.enterName(site1Name);
-    await createDialog.clickCreate();
+    await createDialog.createButton.click();
     await createDialog.waitForDialogToClose();
 
-    expect(await page.breadcrumb.getCurrentItemName()).toEqual(site1Name, `Not navigated into ${site1Name}`);
+    expect(await page.breadcrumb.currentItem.getText()).toEqual(site1Name, `Not navigated into ${site1Name}`);
     await page.goToMyLibrariesAndWait();
     expect(await dataTable.isItemPresent(site1Name)).toBe(true, `${site1Name} not in the list`);
     expect(await apis.user.sites.getVisibility(site1Name)).toEqual(SITE_VISIBILITY.PUBLIC);
@@ -115,11 +115,11 @@ describe('Create library', () => {
     await page.sidenav.openCreateLibraryDialog();
     await createDialog.waitForDialogToOpen();
     await createDialog.enterName(site2Name);
-    await createDialog.selectModerated();
-    await createDialog.clickCreate();
+    await createDialog.visibilityModerated.click();
+    await createDialog.createButton.click();
     await createDialog.waitForDialogToClose();
 
-    expect(await page.breadcrumb.getCurrentItemName()).toEqual(site2Name, `Not navigated into ${site2Name}`);
+    expect(await page.breadcrumb.currentItem.getText()).toEqual(site2Name, `Not navigated into ${site2Name}`);
     await page.goToMyLibrariesAndWait();
     expect(await dataTable.isItemPresent(site2Name)).toBe(true, `${site2Name} not in the list`);
     expect(await apis.user.sites.getVisibility(site2Name)).toEqual(SITE_VISIBILITY.MODERATED);
@@ -129,11 +129,11 @@ describe('Create library', () => {
     await page.sidenav.openCreateLibraryDialog();
     await createDialog.waitForDialogToOpen();
     await createDialog.enterName(site3Name);
-    await createDialog.selectPrivate();
-    await createDialog.clickCreate();
+    await createDialog.visibilityPrivate.click();
+    await createDialog.createButton.click();
     await createDialog.waitForDialogToClose();
 
-    expect(await page.breadcrumb.getCurrentItemName()).toEqual(site3Name, `Not navigated into ${site3Name}`);
+    expect(await page.breadcrumb.currentItem.getText()).toEqual(site3Name, `Not navigated into ${site3Name}`);
     await page.goToMyLibrariesAndWait();
     expect(await dataTable.isItemPresent(site3Name)).toBe(true, `${site3Name} not in the list`);
     expect(await apis.user.sites.getVisibility(site3Name)).toEqual(SITE_VISIBILITY.PRIVATE);
@@ -145,11 +145,11 @@ describe('Create library', () => {
     await createDialog.enterName(site4.name);
     await createDialog.enterLibraryId(site4.id);
     await createDialog.enterDescription(site4.description);
-    await createDialog.selectPublic();
-    await createDialog.clickCreate();
+    await createDialog.visibilityPublic.click();
+    await createDialog.createButton.click();
     await createDialog.waitForDialogToClose();
 
-    expect(await page.breadcrumb.getCurrentItemName()).toEqual(site4.name, `Not navigated into ${site4.name}`);
+    expect(await page.breadcrumb.currentItem.getText()).toEqual(site4.name, `Not navigated into ${site4.name}`);
     await page.goToMyLibrariesAndWait();
     expect(await dataTable.isItemPresent(site4.name)).toBe(true, `${site4.name} not in the list`);
     expect(await apis.user.sites.getVisibility(site4.id)).toEqual(SITE_VISIBILITY.PUBLIC);
@@ -171,7 +171,7 @@ describe('Create library', () => {
     await createDialog.waitForDialogToOpen();
     await createDialog.enterName(siteInTrash.name);
     await createDialog.enterLibraryId(siteInTrash.id);
-    await createDialog.clickCreate();
+    await createDialog.createButton.click();
 
     expect(await createDialog.getErrorMessage()).toEqual(`This Library ID is already used. Check the trashcan.`);
   });
@@ -205,10 +205,10 @@ describe('Create library', () => {
     await createDialog.waitForDialogToOpen();
     await createDialog.enterName(duplicateSite.name);
     await createDialog.enterLibraryId(`${duplicateSite.id}-2`);
-    await createDialog.clickCreate();
+    await createDialog.createButton.click();
     await createDialog.waitForDialogToClose();
 
-    expect(await page.breadcrumb.getCurrentItemName()).toEqual(duplicateSite.name, `Not navigated into ${duplicateSite.name}`);
+    expect(await page.breadcrumb.currentItem.getText()).toEqual(duplicateSite.name, `Not navigated into ${duplicateSite.name}`);
     await page.goToMyLibrariesAndWait();
     expect(await dataTable.isItemPresent(`${duplicateSite.name} (${duplicateSite.id}-2)`)).toBe(true, `${duplicateSite.name} not in the list`);
     expect(await apis.user.sites.getTitle(`${duplicateSite.id}-2`)).toEqual(duplicateSite.name);

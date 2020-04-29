@@ -106,7 +106,7 @@ export async function checkMultipleSelToolbarActions(items: string[], expectedTo
 
 export async function checkViewerActions(item: string, expectedToolbarPrimary: string[], expectedToolbarMore: string[]): Promise<void> {
   await dataTable.selectItem(item);
-  await toolbar.clickView();
+  await toolbar.viewButton.click();
   await viewer.waitForViewerToOpen();
 
   let actualPrimaryActions = await viewerToolbar.getButtons();

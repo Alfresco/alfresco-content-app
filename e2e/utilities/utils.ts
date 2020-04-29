@@ -23,13 +23,86 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { browser, protractor, ElementFinder, ExpectedConditions as EC, by, logging } from 'protractor';
+import { browser, protractor, ElementFinder, ExpectedConditions as EC, by, logging, until } from 'protractor';
 import { Logger } from '@alfresco/adf-testing';
-import { BROWSER_WAIT_TIMEOUT, E2E_ROOT_PATH, EXTENSIBILITY_CONFIGS } from '../configs';
+import { BROWSER_WAIT_TIMEOUT, E2E_ROOT_PATH } from '../configs';
 
 const path = require('path');
 const fs = require('fs');
 const StreamZip = require('node-stream-zip');
+
+export async function typeText(element: ElementFinder, text: string) {
+  await element.clear();
+  await element.sendKeys(text);
+}
+
+export async function clearTextWithBackspace(element: ElementFinder) {
+  await element.clear();
+  await element.sendKeys(' ', protractor.Key.CONTROL, 'a', protractor.Key.NULL, protractor.Key.BACK_SPACE);
+}
+
+export async function waitElement(css: string, errorMessage?: string): Promise<any> {
+  return browser.wait(
+    until.elementLocated(by.css(css)),
+    BROWSER_WAIT_TIMEOUT,
+    errorMessage || 'Timeout waiting for element'
+  );
+}
+
+export async function waitForClickable(
+  element: ElementFinder,
+  errorMessage?: string
+): Promise<void> {
+  return browser.wait(
+    EC.elementToBeClickable(element),
+    BROWSER_WAIT_TIMEOUT,
+    errorMessage || 'Timeout waiting for element to be clickable'
+  );
+}
+
+export async function waitForVisibility(
+  element: ElementFinder,
+  errorMessage?: string
+): Promise<void> {
+  return browser.wait(
+    EC.visibilityOf(element),
+    BROWSER_WAIT_TIMEOUT,
+    errorMessage || 'Timeout waiting for element visibility'
+  );
+}
+
+export async function waitForInvisibility(
+  element: ElementFinder,
+  errorMessage?: string
+): Promise<void> {
+  return browser.wait(
+    EC.invisibilityOf(element),
+    BROWSER_WAIT_TIMEOUT,
+    errorMessage || 'Timeout waiting for element visibility'
+  );
+}
+
+export async function waitForPresence(
+  element: ElementFinder,
+  errorMessage?: string
+): Promise<void> {
+  return browser.wait(
+    EC.presenceOf(element),
+    BROWSER_WAIT_TIMEOUT,
+    errorMessage || 'Timeout waiting for element presence'
+  );
+}
+
+export async function waitForStaleness(
+  element: ElementFinder,
+  errorMessage?: string
+): Promise<void> {
+  return browser.wait(
+    EC.stalenessOf(element),
+    BROWSER_WAIT_TIMEOUT,
+    errorMessage || 'Timeout waiting element staleness'
+  );
+}
 
 export const isPresentAndEnabled = async (element: ElementFinder): Promise<boolean> => {
   const isPresent = await element.isPresent();
@@ -60,23 +133,12 @@ export class Utils {
     extension decay dismiss platform respect ceremony applaud absorption presentation dominate race courtship soprano body \
     lighter track cinema tread tick climate lend summit singer radical flower visual negotiation promises cooperative live';
 
-  // generate a random value
   static random(): string {
     return Math.random().toString(36).substring(5, 10).toLowerCase();
   }
 
-  // local storage
   static async clearLocalStorage(): Promise<void> {
     await browser.executeScript('window.localStorage.clear();');
-  }
-
-  // session storage
-  static async clearSessionStorage(): Promise<void> {
-    await browser.executeScript('window.sessionStorage.clear();');
-  }
-
-  static async getSessionStorage(): Promise<any> {
-    return browser.executeScript('return window.sessionStorage.getItem("app.extension.config");');
   }
 
   static async setSessionStorageFromConfig(configFileName: string): Promise<void> {
@@ -84,12 +146,6 @@ export class Utils {
     const fileContent = JSON.stringify(fs.readFileSync(configFile, { encoding: 'utf8' }));
 
     await browser.executeScript(`window.sessionStorage.setItem('app.extension.config', ${fileContent});`);
-  }
-
-  static async resetExtensionConfig(): Promise<void> {
-    const defConfig = `${E2E_ROOT_PATH}/resources/extensibility-configs/${EXTENSIBILITY_CONFIGS.DEFAULT_EXTENSIONS_CONFIG}`;
-
-    await this.setSessionStorageFromConfig(defConfig);
   }
 
   static retryCall(fn: () => Promise<any>, retry: number = 30, delay: number = 1000): Promise<any> {
@@ -100,18 +156,6 @@ export class Utils {
     }
 
     return run(retry);
-  }
-
-  static async waitUntilElementClickable(element: ElementFinder): Promise<void> {
-    await browser.wait(EC.elementToBeClickable(element), BROWSER_WAIT_TIMEOUT).catch(Error);
-  }
-
-  static async typeInField(elem: ElementFinder, value: string): Promise<void> {
-    for (let i = 0; i < value.length; i++) {
-      const c = value.charAt(i);
-      await elem.sendKeys(c);
-      await browser.sleep(100);
-    }
   }
 
   static async clearFieldWithBackspace(elem: ElementFinder): Promise<void> {

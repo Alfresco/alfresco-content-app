@@ -26,7 +26,7 @@
 import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { SelectTemplateDialog } from '../../components/dialog/select-template-dialog';
 import { CreateFromTemplateDialog } from '../../components/dialog/create-from-template-dialog';
-import { Utils } from '../../utilities/utils';
+import { Utils, clearTextWithBackspace } from '../../utilities/utils';
 import { AdminActions } from '../../utilities/admin-actions';
 import { RepoClient, NodeContentTree } from '../../utilities/repo-client/repo-client';
 
@@ -110,7 +110,7 @@ describe('Create file from template', () => {
     expect(await selectTemplateDialog.getTitle()).toEqual('Select a document template');
     expect(await selectTemplateDialog.dataTable.isEmpty()).toBe(true, 'Datatable is not empty');
     expect(await selectTemplateDialog.dataTable.getEmptyListText()).toEqual('No results found');
-    expect(await selectTemplateDialog.breadcrumb.getCurrentFolderName()).toEqual('Node Templates');
+    expect(await selectTemplateDialog.breadcrumb.currentFolder.getText()).toEqual('Node Templates');
     expect(await selectTemplateDialog.isNextButtonEnabled()).toBe(false, 'Next button is not disabled');
     expect(await selectTemplateDialog.isCancelButtonEnabled()).toBe(true, 'Cancel button is not enabled');
   });
@@ -159,7 +159,7 @@ describe('Create file from template', () => {
         expect(await selectTemplateDialog.dataTable.isItemPresent(templatesFolder2)).toBe(true, 'template folder not displayed');
         expect(await selectTemplateDialog.dataTable.isItemPresent(template1InRootFolder)).toBe(true, 'template not displayed');
         expect(await selectTemplateDialog.dataTable.isItemPresent(template2InRootFolder)).toBe(true, 'template not displayed');
-        expect(await selectTemplateDialog.breadcrumb.getCurrentFolderName()).toEqual('Node Templates');
+        expect(await selectTemplateDialog.breadcrumb.currentFolder.getText()).toEqual('Node Templates');
         expect(await selectTemplateDialog.isNextButtonEnabled()).toBe(false, 'Next button is not disabled');
         expect(await selectTemplateDialog.isCancelButtonEnabled()).toBe(true, 'Cancel button is not enabled');
       });
@@ -177,11 +177,11 @@ describe('Create file from template', () => {
         expect(await selectTemplateDialog.dataTable.isItemPresent(template1InFolder2)).toBe(true, 'template not displayed');
         expect(await selectTemplateDialog.dataTable.isItemPresent(template1InRootFolder)).toBe(false, 'template is displayed');
         expect(await selectTemplateDialog.dataTable.isItemPresent(template2InRootFolder)).toBe(false, 'template is displayed');
-        expect(await selectTemplateDialog.breadcrumb.getCurrentFolderName()).toEqual(templatesFolder2);
+        expect(await selectTemplateDialog.breadcrumb.currentFolder.getText()).toEqual(templatesFolder2);
 
         await selectTemplateDialog.dataTable.doubleClickOnRowByName(templatesSubFolder);
 
-        expect(await selectTemplateDialog.breadcrumb.getCurrentFolderName()).toEqual(templatesSubFolder);
+        expect(await selectTemplateDialog.breadcrumb.currentFolder.getText()).toEqual(templatesSubFolder);
         expect(await selectTemplateDialog.dataTable.isEmpty()).toBe(true, 'datatable is not empty');
 
         await selectTemplateDialog.breadcrumb.openPath();
@@ -236,16 +236,16 @@ describe('Create file from template', () => {
 
       it('[C325020] Create file from template - dialog UI', async () => {
         expect(await createFromTemplateDialog.getTitle()).toEqual(`Create new document from '${template1InRootFolder}'`);
-        expect(await createFromTemplateDialog.isNameFieldDisplayed()).toBe(true, 'Name field not displayed');
-        expect(await createFromTemplateDialog.isTitleFieldDisplayed()).toBe(true, 'Title field not displayed');
-        expect(await createFromTemplateDialog.isDescriptionFieldDisplayed()).toBe(true, 'Description field not displayed');
+        expect(await createFromTemplateDialog.nameInput.isDisplayed()).toBe(true, 'Name field not displayed');
+        expect(await createFromTemplateDialog.titleInput.isDisplayed()).toBe(true, 'Title field not displayed');
+        expect(await createFromTemplateDialog.descriptionTextArea.isDisplayed()).toBe(true, 'Description field not displayed');
         expect(await createFromTemplateDialog.isCancelButtonEnabled()).toBe(true, 'Cancel button is not enabled');
         expect(await createFromTemplateDialog.isCreateButtonEnabled()).toBe(true, 'Create button is not enabled');
       });
 
       it('[C325031] File name is required', async () => {
         expect(await createFromTemplateDialog.getName()).toEqual(template1InRootFolder);
-        await createFromTemplateDialog.deleteNameWithBackspace();
+        await clearTextWithBackspace(createFromTemplateDialog.nameInput);
 
         expect(await createFromTemplateDialog.getValidationMessage()).toEqual('Name is required');
         expect(await createFromTemplateDialog.isCreateButtonEnabled()).toBe(false, 'Create button is not disabled');
@@ -305,7 +305,7 @@ describe('Create file from template', () => {
 
       it('[C325030] Create a file from a template - with a new Name', async () => {
         await createFromTemplateDialog.enterName(file1.name);
-        await createFromTemplateDialog.clickCreate();
+        await createFromTemplateDialog.createButton.click();
         await createFromTemplateDialog.waitForDialogToClose();
         await page.dataTable.waitForHeader();
 
@@ -316,7 +316,7 @@ describe('Create file from template', () => {
         await createFromTemplateDialog.enterName(file2.name);
         await createFromTemplateDialog.enterTitle(file2.title);
         await createFromTemplateDialog.enterDescription(file2.description);
-        await createFromTemplateDialog.clickCreate();
+        await createFromTemplateDialog.createButton.click();
         await createFromTemplateDialog.waitForDialogToClose();
         await page.dataTable.waitForHeader();
 
@@ -329,7 +329,7 @@ describe('Create file from template', () => {
 
       it('[C325028] Create a file with a duplicate name', async () => {
         await createFromTemplateDialog.enterName(duplicateFileName);
-        await createFromTemplateDialog.clickCreate();
+        await createFromTemplateDialog.createButton.click();
 
         expect(await page.getSnackBarMessage()).toEqual(`This name is already in use, try a different name.`);
         expect(await createFromTemplateDialog.isDialogOpen()).toBe(true, 'dialog is not present');
@@ -345,7 +345,7 @@ describe('Create file from template', () => {
 
       it('[C325042] Trim spaces from file Name', async () => {
         await createFromTemplateDialog.enterName(nameWithSpaces);
-        await createFromTemplateDialog.clickCreate();
+        await createFromTemplateDialog.createButton.click();
         await createFromTemplateDialog.waitForDialogToClose();
         await page.dataTable.waitForHeader();
 
@@ -370,7 +370,7 @@ describe('Create file from template', () => {
         await createFromTemplateDialog.enterName(fileSite.name);
         await createFromTemplateDialog.enterTitle(fileSite.title);
         await createFromTemplateDialog.enterDescription(fileSite.description);
-        await createFromTemplateDialog.clickCreate();
+        await createFromTemplateDialog.createButton.click();
         await createFromTemplateDialog.waitForDialogToClose();
         await page.dataTable.waitForHeader();
 
@@ -391,7 +391,7 @@ describe('Create file from template', () => {
 
       it('[C325025] Create a file with a duplicate name', async () => {
         await createFromTemplateDialog.enterName(duplicateFileSite);
-        await createFromTemplateDialog.clickCreate();
+        await createFromTemplateDialog.createButton.click();
 
         expect(await page.getSnackBarMessage()).toEqual(`This name is already in use, try a different name.`);
         expect(await createFromTemplateDialog.isDialogOpen()).toBe(true, 'dialog is not present');

@@ -128,7 +128,7 @@ describe('Library actions', () => {
     it('[C290105] from Favorite Libraries', async () => {
       await page.goToFavoriteLibrariesAndWait();
       await dataTable.selectItem(sitePublic1Admin);
-      await toolbar.clickJoin();
+      await toolbar.joinButton.click();
 
       expect(await dataTable.getLibraryRole(sitePublic1Admin)).toEqual('Consumer');
     });
@@ -140,7 +140,7 @@ describe('Library actions', () => {
       await dataTable.waitForBody();
 
       await dataTable.selectItem(siteSearchPublic1Admin);
-      await toolbar.clickJoin();
+      await toolbar.joinButton.click();
 
       expect(await dataTable.getLibraryRole(siteSearchPublic1Admin)).toEqual('Consumer');
     });
@@ -159,7 +159,7 @@ describe('Library actions', () => {
     it('[C290109] from Favorite Libraries', async () => {
       await page.goToFavoriteLibrariesAndWait();
       await dataTable.selectItem(siteModerated1Admin);
-      await toolbar.clickJoin();
+      await toolbar.joinButton.click();
 
       expect(await dataTable.getLibraryRole(siteModerated1Admin)).toEqual('');
       const hasJoinRequest = await apis.user.sites.hasMembershipRequest(siteModerated1Admin);
@@ -173,7 +173,7 @@ describe('Library actions', () => {
       await dataTable.waitForBody();
 
       await dataTable.selectItem(siteSearchModerated1Admin);
-      await toolbar.clickJoin();
+      await toolbar.joinButton.click();
 
       expect(await dataTable.getLibraryRole(siteSearchModerated1Admin)).toEqual('');
       const hasJoinRequest = await apis.user.sites.hasMembershipRequest(siteSearchModerated1Admin);
@@ -203,9 +203,9 @@ describe('Library actions', () => {
     it('[C290106] from My Libraries', async () => {
       await page.goToMyLibrariesAndWait();
       await dataTable.selectItem(sitePublic2Admin);
-      await toolbar.clickLeave();
+      await toolbar.leaveButton.click();
       await page.waitForDialog();
-      await confirmDialog.clickOk();
+      await confirmDialog.okButton.click();
 
       expect(await page.getSnackBarMessage()).toEqual(`You have left the library`);
       expect(await dataTable.isItemPresent(sitePublic2Admin)).toBe(false, `${sitePublic2Admin} is displayed`);
@@ -214,9 +214,9 @@ describe('Library actions', () => {
     it('[C290110] from Favorite Libraries', async () => {
       await page.goToFavoriteLibrariesAndWait();
       await dataTable.selectItem(sitePublic3Admin);
-      await toolbar.clickLeave();
+      await toolbar.leaveButton.click();
       await page.waitForDialog();
-      await confirmDialog.clickOk();
+      await confirmDialog.okButton.click();
 
       expect(await page.getSnackBarMessage()).toEqual(`You have left the library`);
       expect(await dataTable.isItemPresent(sitePublic3Admin)).toBe(true, `${sitePublic3Admin} is not displayed`);
@@ -229,9 +229,9 @@ describe('Library actions', () => {
       await dataTable.waitForBody();
 
       await dataTable.selectItem(siteSearchPublic2Admin);
-      await toolbar.clickLeave();
+      await toolbar.leaveButton.click();
       await page.waitForDialog();
-      await confirmDialog.clickOk();
+      await confirmDialog.okButton.click();
 
       expect(await page.getSnackBarMessage()).toEqual(`You have left the library`);
       expect(await dataTable.isItemPresent(siteSearchPublic2Admin)).toBe(true, `${siteSearchPublic2Admin} is not displayed`);
@@ -240,7 +240,7 @@ describe('Library actions', () => {
     it('[C290136] Confirmation dialog UI', async () => {
       await page.goToMyLibrariesAndWait();
       await dataTable.selectItem(sitePublic4Admin);
-      await toolbar.clickLeave();
+      await toolbar.leaveButton.click();
       await page.waitForDialog();
 
       expect(await confirmDialog.isDialogOpen()).toBe(true, 'Confirm delete dialog not open');
@@ -253,20 +253,20 @@ describe('Library actions', () => {
     it('[C290111] Cancel Leave Library', async () => {
       await page.goToMyLibrariesAndWait();
       await dataTable.selectItem(sitePublic5Admin);
-      await toolbar.clickLeave();
+      await toolbar.leaveButton.click();
       await page.waitForDialog();
 
       expect(await confirmDialog.isCancelEnabled()).toBe(true, 'Cancel button is not enabled');
-      await confirmDialog.clickCancel();
+      await confirmDialog.cancelButton.click();
       expect(await dataTable.isItemPresent(sitePublic5Admin)).toBe(true, `${sitePublic5Admin} was deleted`);
     });
 
     it('[C290107] Leave a library - failure notification', async () => {
       await page.goToMyLibrariesAndWait();
       await dataTable.selectItem(sitePublicUser);
-      await toolbar.clickLeave();
+      await toolbar.leaveButton.click();
       await page.waitForDialog();
-      await confirmDialog.clickOk();
+      await confirmDialog.okButton.click();
 
       expect(await page.getSnackBarMessage()).toEqual(`Cannot leave this library`);
     });

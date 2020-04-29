@@ -23,35 +23,23 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, browser, ExpectedConditions as EC } from 'protractor';
-import { BROWSER_WAIT_TIMEOUT } from '../../configs';
+import { by, browser } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
+import { waitForClickable, isPresentAndEnabled, typeText } from '../../utilities/utils';
 
 export class PasswordDialog extends GenericDialog {
-  private static selectors = {
-    root: 'adf-pdf-viewer-password-dialog',
-
-    passwordInput: 'input[type="Password"]',
-    errorMessage: '.mat-error',
-
-    closeButton: by.css('[data-automation-id="adf-password-dialog-close"]'),
-    submitButton: by.css('[data-automation-id="adf-password-dialog-submit"]')
-  };
-
-  passwordInput: ElementFinder = this.rootElem.element(by.css(PasswordDialog.selectors.passwordInput));
-  errorMessage: ElementFinder = this.rootElem.element(by.css(PasswordDialog.selectors.errorMessage));
+  closeButton = this.childElement(by.css('[data-automation-id="adf-password-dialog-close"]'));
+  submitButton = this.childElement(by.css('[data-automation-id="adf-password-dialog-submit"]'));
+  passwordInput = this.childElement(by.css('input[type="Password"]'));
+  errorMessage = this.childElement(by.css('.mat-error'));
 
   constructor() {
-    super(PasswordDialog.selectors.root);
-  }
-
-  async waitForPasswordInputToBeInteractive() {
-    await browser.wait(EC.elementToBeClickable(this.passwordInput), BROWSER_WAIT_TIMEOUT, '--- timeout wait for passwordInput ---');
+    super('adf-pdf-viewer-password-dialog');
   }
 
   async waitForDialogToOpen(): Promise<void> {
     await super.waitForDialogToOpen();
-    await this.waitForPasswordInputToBeInteractive();
+    await waitForClickable(this.passwordInput);
   }
 
   async isDialogOpen(): Promise<boolean> {
@@ -64,19 +52,11 @@ export class PasswordDialog extends GenericDialog {
   }
 
   async isCloseEnabled(): Promise<boolean> {
-    return this.isButtonEnabled(PasswordDialog.selectors.closeButton);
+    return isPresentAndEnabled(this.closeButton);
   }
 
   async isSubmitEnabled(): Promise<boolean> {
-    return this.isButtonEnabled(PasswordDialog.selectors.submitButton);
-  }
-
-  async clickClose(): Promise<void> {
-    await this.clickButton(PasswordDialog.selectors.closeButton);
-  }
-
-  async clickSubmit(): Promise<void> {
-    await this.clickButton(PasswordDialog.selectors.submitButton);
+    return isPresentAndEnabled(this.submitButton);
   }
 
   async isPasswordInputDisplayed(): Promise<boolean> {
@@ -106,7 +86,6 @@ export class PasswordDialog extends GenericDialog {
   }
 
   async enterPassword(password: string): Promise<void> {
-    await this.passwordInput.clear();
-    await this.passwordInput.sendKeys(password);
+    await typeText(this.passwordInput, password);
   }
 }

@@ -23,71 +23,35 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by } from 'protractor';
+import { by } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
+import { isPresentAndEnabled, typeText } from '../../utilities/utils';
 
 export class UploadNewVersionDialog extends GenericDialog {
-  private static selectors = {
-    root: '.aca-node-version-upload-dialog',
-
-    cancelButton: by.cssContainingText('.mat-button', 'Cancel'),
-    uploadButton: by.cssContainingText('.mat-button', 'Upload'),
-
-    radioButton: `.mat-radio-label`,
-
-    descriptionTextArea: 'textarea'
-  };
-
-
-  majorOption: ElementFinder = this.rootElem.element(by.cssContainingText(UploadNewVersionDialog.selectors.radioButton, 'Major'));
-  minorOption: ElementFinder = this.rootElem.element(by.cssContainingText(UploadNewVersionDialog.selectors.radioButton, 'Minor'));
-
-  description: ElementFinder = this.rootElem.element(by.css(UploadNewVersionDialog.selectors.descriptionTextArea));
+  cancelButton = this.childElement(by.cssContainingText('.mat-button', 'Cancel'));
+  uploadButton = this.childElement(by.cssContainingText('.mat-button', 'Upload'));
+  majorOption = this.childElement(by.cssContainingText(`.mat-radio-label`, 'Major'));
+  minorOption = this.childElement(by.cssContainingText(`.mat-radio-label`, 'Minor'));
+  description = this.childElement(by.css('textarea'));
 
   constructor() {
-    super(UploadNewVersionDialog.selectors.root);
-  }
-
-  async isDescriptionDisplayed(): Promise<boolean> {
-    return this.description.isDisplayed();
-  }
-
-  async isMinorOptionDisplayed(): Promise<boolean> {
-    return this.minorOption.isDisplayed();
-  }
-
-  async isMajorOptionDisplayed(): Promise<boolean> {
-    return this.majorOption.isDisplayed();
+    super('.aca-node-version-upload-dialog');
   }
 
   async isCancelButtonEnabled(): Promise<boolean> {
-    return this.isButtonEnabled(UploadNewVersionDialog.selectors.cancelButton);
+    return isPresentAndEnabled(this.cancelButton);
   }
 
   async isUploadButtonEnabled(): Promise<boolean> {
-    return this.isButtonEnabled(UploadNewVersionDialog.selectors.uploadButton);
+    return isPresentAndEnabled(this.uploadButton);
   }
 
   async clickCancel(): Promise<void> {
-    await this.clickButton(UploadNewVersionDialog.selectors.cancelButton);
+    await this.cancelButton.click();
     await this.waitForDialogToClose();
   }
 
-  async clickUpload(): Promise<void> {
-    await this.clickButton(UploadNewVersionDialog.selectors.uploadButton);
-  }
-
-  async clickMajor(): Promise<void> {
-    await this.majorOption.click();
-  }
-
-  async clickMinor(): Promise<void> {
-    await this.minorOption.click();
-  }
-
   async enterDescription(description: string): Promise<void> {
-    await this.description.clear();
-    await this.description.sendKeys(description);
+    await typeText(this.description, description);
   }
-
 }

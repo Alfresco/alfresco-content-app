@@ -23,73 +23,38 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, browser, ExpectedConditions as EC, protractor } from 'protractor';
-import { BROWSER_WAIT_TIMEOUT } from '../../configs';
+import { by, browser, protractor } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
-import { Utils, isPresentAndDisplayed } from '../../utilities/utils';
+import { Utils, isPresentAndDisplayed, waitForStaleness, waitForPresence, isPresentAndEnabled, waitForClickable } from '../../utilities/utils';
 import { DropDownBreadcrumb } from '../breadcrumb/dropdown-breadcrumb';
 import { DataTable } from '../data-table/data-table';
 
 export class ContentNodeSelectorDialog extends GenericDialog {
-  private static selectors = {
-    root: '.adf-content-node-selector-dialog',
+  cancelButton = this.childElement(by.css('[data-automation-id="content-node-selector-actions-cancel"]'));
+  copyButton = this.childElement(by.cssContainingText('[data-automation-id="content-node-selector-actions-choose"]', 'Copy'));
+  moveButton = this.childElement(by.cssContainingText('[data-automation-id="content-node-selector-actions-choose"]', 'Move'));
 
-    locationDropDown: 'site-dropdown-container',
-    locationOption: '.mat-option .mat-option-text',
+  locationDropDown = this.rootElem.element(by.id('site-dropdown-container'));
+  locationPersonalFiles = browser.element(by.cssContainingText('.mat-option .mat-option-text', 'Personal Files'));
+  locationFileLibraries = browser.element(by.cssContainingText('.mat-option .mat-option-text', 'File Libraries'));
 
-    dataTable: '.adf-datatable-body',
-    selectedRow: '.adf-is-selected',
+  searchInput = this.rootElem.element(by.css('#searchInput'));
+  toolbarTitle = this.rootElem.element(by.css('.adf-toolbar-title'));
 
-    searchInput: '#searchInput',
-    toolbarTitle: '.adf-toolbar-title',
-
-    cancelButton: by.css('[data-automation-id="content-node-selector-actions-cancel"]'),
-    copyButton: by.cssContainingText('[data-automation-id="content-node-selector-actions-choose"]', 'Copy'),
-    moveButton: by.cssContainingText('[data-automation-id="content-node-selector-actions-choose"]', 'Move')
-  };
-
-  locationDropDown: ElementFinder = this.rootElem.element(by.id(ContentNodeSelectorDialog.selectors.locationDropDown));
-  locationPersonalFiles: ElementFinder = browser.element(by.cssContainingText(ContentNodeSelectorDialog.selectors.locationOption, 'Personal Files'));
-  locationFileLibraries: ElementFinder = browser.element(by.cssContainingText(ContentNodeSelectorDialog.selectors.locationOption, 'File Libraries'));
-
-  searchInput: ElementFinder = this.rootElem.element(by.css(ContentNodeSelectorDialog.selectors.searchInput));
-  toolbarTitle: ElementFinder = this.rootElem.element(by.css(ContentNodeSelectorDialog.selectors.toolbarTitle));
-
-  breadcrumb: DropDownBreadcrumb = new DropDownBreadcrumb();
-  dataTable: DataTable = new DataTable(ContentNodeSelectorDialog.selectors.root);
+  breadcrumb = new DropDownBreadcrumb();
+  dataTable = new DataTable('.adf-content-node-selector-dialog');
 
   constructor() {
-    super(ContentNodeSelectorDialog.selectors.root);
-  }
-
-  async waitForDropDownToOpen(): Promise<void> {
-    await browser.wait(EC.presenceOf(this.locationPersonalFiles), BROWSER_WAIT_TIMEOUT);
+    super('.adf-content-node-selector-dialog');
   }
 
   async waitForDropDownToClose(): Promise<void> {
-    await browser.wait(EC.stalenessOf(browser.$(ContentNodeSelectorDialog.selectors.locationOption)), BROWSER_WAIT_TIMEOUT);
-  }
-
-  async waitForRowToBeSelected(): Promise<void> {
-    await browser.wait(EC.presenceOf(browser.element(by.css(ContentNodeSelectorDialog.selectors.selectedRow))), BROWSER_WAIT_TIMEOUT);
-  }
-
-  async clickCancel(): Promise<void> {
-    await this.clickButton(ContentNodeSelectorDialog.selectors.cancelButton);
-    await this.waitForDialogToClose();
-  }
-
-  async clickCopy(): Promise<void> {
-    await this.clickButton(ContentNodeSelectorDialog.selectors.copyButton);
-  }
-
-  async clickMove(): Promise<void> {
-    await this.clickButton(ContentNodeSelectorDialog.selectors.moveButton);
+    await waitForStaleness(browser.$('.mat-option .mat-option-text'))
   }
 
   async selectLocation(location: 'Personal Files' | 'File Libraries'): Promise<void> {
     await this.locationDropDown.click();
-    await this.waitForDropDownToOpen();
+    await waitForPresence(this.locationPersonalFiles);
 
     if (location === 'Personal Files') {
       await this.locationPersonalFiles.click();
@@ -102,13 +67,9 @@ export class ContentNodeSelectorDialog extends GenericDialog {
 
   async selectDestination(folderName: string): Promise<void> {
     const row = this.dataTable.getRowByName(folderName);
-    await Utils.waitUntilElementClickable(row);
+    await waitForClickable(row);
     await row.click();
-    await this.waitForRowToBeSelected();
-  }
-
-  async isSearchInputPresent(): Promise<boolean> {
-    return this.searchInput.isPresent();
+    await waitForPresence(browser.element(by.css('.adf-is-selected')));
   }
 
   async isSelectLocationDropdownDisplayed(): Promise<boolean> {
@@ -116,11 +77,11 @@ export class ContentNodeSelectorDialog extends GenericDialog {
   }
 
   async isCopyButtonEnabled(): Promise<boolean> {
-    return this.isButtonEnabled(ContentNodeSelectorDialog.selectors.copyButton);
+    return isPresentAndEnabled(this.copyButton);
   }
 
   async isCancelButtonEnabled(): Promise<boolean> {
-    return this.isButtonEnabled(ContentNodeSelectorDialog.selectors.cancelButton);
+    return isPresentAndEnabled(this.cancelButton);
   }
 
   async searchFor(text: string): Promise<void> {

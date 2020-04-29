@@ -163,7 +163,7 @@ describe('Search results - libraries', () => {
     await searchInput.searchFor('lib');
     await dataTable.waitForBody();
 
-    expect(await page.breadcrumb.getCurrentItemName()).toEqual('Libraries found...');
+    expect(await page.breadcrumb.currentItem.getText()).toEqual('Libraries found...');
   });
 
   it('[C290016] Results page columns', async () => {

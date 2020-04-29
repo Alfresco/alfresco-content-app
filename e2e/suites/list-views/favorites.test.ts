@@ -139,6 +139,6 @@ describe('Favorites', () => {
   it('[C213230] Navigate into folder from Favorites', async () => {
     await dataTable.doubleClickOnRowByName(favFolderName);
     await dataTable.waitForEmptyState();
-    expect(await breadcrumb.getCurrentItemName()).toBe(favFolderName);
+    expect(await breadcrumb.currentItem.getText()).toBe(favFolderName);
   });
 });

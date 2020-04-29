@@ -23,71 +23,37 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { by, ElementFinder } from 'protractor';
 import { Component } from '../component';
+import { typeText } from '../../utilities/utils';
 
 export class LoginComponent extends Component {
-  private static selectors = {
-    root: 'adf-login',
-
-    usernameInput: by.css('input#username'),
-    passwordInput: by.css('input#password'),
-    passwordVisibility: by.css('.adf-login-password-icon'),
-    submitButton: by.css('button#login-button'),
-    errorMessage: by.css('.adf-login-error-message'),
-    copyright: by.css('.adf-copyright')
-  };
-
-  usernameInput: ElementFinder = this.component.element(LoginComponent.selectors.usernameInput);
-  passwordInput: ElementFinder = this.component.element(LoginComponent.selectors.passwordInput);
-  submitButton: ElementFinder = this.component.element(LoginComponent.selectors.submitButton);
-  errorMessage: ElementFinder = this.component.element(LoginComponent.selectors.errorMessage);
-  copyright: ElementFinder = this.component.element(LoginComponent.selectors.copyright);
-  passwordVisibility: ElementFinder = this.component.element(LoginComponent.selectors.passwordVisibility);
+  usernameInput = this.byCss('input#username');
+  passwordInput = this.byCss('input#password');
+  submitButton = this.byCss('button#login-button');
+  errorMessage = this.byCss('.adf-login-error-message');
+  copyright = this.byCss('.adf-copyright');
+  passwordVisibility = this.byCss('.adf-login-password-icon');
 
   constructor(ancestor?: string) {
-    super(LoginComponent.selectors.root, ancestor);
+    super('adf-login', ancestor);
   }
 
-  async enterUsername(username: string) {
-    const { usernameInput } = this;
-
-    await usernameInput.clear();
-    await usernameInput.sendKeys(username);
+  async enterUsername(username: string): Promise<void> {
+    await typeText(this.usernameInput, username);
   }
 
-  async enterPassword(password: string) {
-    const { passwordInput } = this;
-
-    await passwordInput.clear();
-    await passwordInput.sendKeys(password);
+  async enterPassword(password: string): Promise<void> {
+    await typeText(this.passwordInput, password);
   }
 
-  async enterCredentials(username: string, password: string) {
+  async enterCredentials(username: string, password: string): Promise<void> {
     await this.enterUsername(username);
     await this.enterPassword(password);
   }
 
-  async submit() {
-    await this.submitButton.click();
-  }
-
-  async clickPasswordVisibility() {
-    await this.passwordVisibility.click();
-  }
-
-  async getPasswordVisibility(): Promise<boolean> {
+  private async getPasswordVisibility(): Promise<boolean> {
     const text = await this.passwordVisibility.getText();
-    if (text.endsWith('visibility_off')) {
-      return false;
-    }
-    else {
-      if (text.endsWith('visibility')) {
-        return true;
-      }
-    }
-
-    return false;
+    return text.endsWith('visibility');
   }
 
   async isPasswordDisplayed(): Promise<boolean> {
@@ -102,18 +68,6 @@ export class LoginComponent extends Component {
     }
 
     return false;
-  }
-
-  async isUsernameEnabled() {
-    return this.usernameInput.isEnabled();
-  }
-
-  async isPasswordEnabled() {
-    return this.passwordInput.isEnabled();
-  }
-
-  async isSubmitEnabled() {
-    return this.submitButton.isEnabled();
   }
 
   async isPasswordHidden() {
