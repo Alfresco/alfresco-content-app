@@ -93,7 +93,7 @@ jobs:
       script: ./scripts/travis/deploy/deploy.sh
 
     - stage: Trigger DW
-      if: (branch = master OR branch = development OR (tag =~ .*beta.*)) AND type = push
+      if: (branch = master OR branch = development OR (tag =~ .*beta.*)) AND (type = push OR type = api)
       script: ./scripts/trigger-travis.sh --pro --branch $TRAVIS_BRANCH Alfresco digital-workspace $TRAVIS_ACCESS_TOKEN
 
 after_failure:
