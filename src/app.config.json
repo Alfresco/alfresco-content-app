@@ -19,7 +19,7 @@
   },
   "application": {
     "name": "Alfresco Content Application",
-    "version": "1.10.0",
+    "version": "1.11.0",
     "logo": "assets/images/alfresco-logo-flower.svg",
     "copyright": "APP.COPYRIGHT"
   },
