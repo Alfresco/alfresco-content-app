@@ -33,8 +33,8 @@ Please include a clear description, steps to reproduce and screenshots where app
 
 #### What's new in the latest release
 
-- Create (file/folder) Templates
-- More WCAG AA accessibility improvements
+- Phase 3 of 3 of WCAG AA accessibility improvements
+- New default colour theme
 
 Please refer to the [release notes] for details of all changes.
 
@@ -42,13 +42,8 @@ Please refer to the [release notes] for details of all changes.
 
 - Extensibility
   - Building on the existing framework to further enhance the developer experience
-- Collaboration & File Management
-  - Folder rule creation
-  - File/Folder linking via secondary association
-- File Library Management
 - Enhanced UI and user experience
   - Accessibility WCAG AA compliance
-  - Search query input assistance
   - Metadata information drawer enhancements
 
 ### Want to help
@@ -60,6 +55,7 @@ Read up on our guidelines for [contributing] and then check out one of our issue
 
 | ACA Version | Built with | Tested on |
 | ----------- | ---------- | --------- |
+| ACA 1.11    | ADF 3.8.0  | ACS 6.2   |
 | ACA 1.10    | ADF 3.7.0  | ACS 6.2   |
 | ACA 1.9     | ADF 3.6.0  | ACS 6.2   |
 | ACA 1.8     | ADF 3.3.0  | ACS 6.1   |
