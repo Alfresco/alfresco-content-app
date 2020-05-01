@@ -32,11 +32,15 @@ export type ExtensionLoaderCallback = (
   route: ActivatedRouteSnapshot
 ) => Observable<true>;
 
+export function DefaultExtensionLoaderFactory() {
+  return [];
+}
+
 export const EXTENSION_DATA_LOADERS = new InjectionToken<
   ExtensionLoaderCallback[]
 >('EXTENSION_DATA_LOADERS', {
   providedIn: 'root',
-  factory: () => []
+  factory: DefaultExtensionLoaderFactory
 });
 
 @Injectable({ providedIn: 'root' })
