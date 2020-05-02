@@ -28,12 +28,6 @@
     "e2e:docker": "./start.sh && npm run e2e && ./start.sh -d",
     "spellcheck": "cspell '{src,e2e,projects}/**/*.ts'",
     "inspect.bundle": "ng build app --prod --stats-json && npx webpack-bundle-analyzer dist/app/stats.json",
-    "build.tomcat": "npm run validate-config && npm run build.extensions && npm run build.app -- --prod --base-href ./ && jar -cvf docker/tomcat/artifacts/content-app.war -C dist/app/ .",
-    "build.tomcat.e2e": "./build-tomcat-e2e.sh",
-    "e2e.tomcat": "protractor --baseUrl=http://localhost:8080/content-app/ $SUITE",
-    "docker.tomcat.start": "cd docker/tomcat && docker-compose up -d --build && npm run wait:app",
-    "docker.tomcat.stop": "cd docker/tomcat && docker-compose stop",
-    "docker.tomcat.e2e": "npm run docker.tomcat.start && npm run e2e.tomcat",
     "validate-config": "ajv validate -s ./node_modules/@alfresco/adf-core/app.config.schema.json -d ./src/app.config.json --errors=text --verbose"
   },
   "private": true,
