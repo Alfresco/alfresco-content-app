@@ -1,6 +1,0 @@
-[submodule "alfresco-js-api"]
-	path = alfresco-js-api
-	url = https://github.com/Alfresco/alfresco-js-api
-[submodule "alfresco-ng2-components"]
-	path = alfresco-ng2-components
-	url = https://github.com/Alfresco/alfresco-ng2-components

@@ -13,8 +13,6 @@
     "build.extensions": "npm run build.shared && npm run build.aos",
     "build.app": "node --max-old-space-size=8192 node_modules/@angular/cli/bin/ng build app",
     "build": "npm run validate-config && npm run build.app -- --prod",
-    "build.js-api": "./scripts/install-local-js-api.sh && npm run build",
-    "build.adf": "./scripts/install-local-adf.sh && npm run build.extensions && npm run build.app",
     "build.e2e": "npm run build.app -- --prod --configuration=e2e",
     "test": "ng test app --code-coverage",
     "test:ci": "npm run build.extensions && ng test adf-office-services-ext --watch=false && ng test app --code-coverage --watch=false",
