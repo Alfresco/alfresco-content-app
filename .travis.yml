@@ -57,41 +57,41 @@ jobs:
         - bash <(curl -s https://codecov.io/bash) -X gcov
 
     - stage: e2e
-      name: Test Suite appNavigation&search
-      before_script:
-        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app"
-        - ./start.sh
-      script: ng run app-e2e:e2elite --suite "authentication,listViews,navigation,application,pagination,search"
-      after_script: ./start.sh -d
-    - name: Test Suite actionsAvailable
-      before_script:
-        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app"
-        - ./start.sh
-      script: ng run app-e2e:e2elite --suite "actionsAvailable"
-      after_script: ./start.sh -d
-    - name: Test Suite addRemoveContent
-      before_script:
-        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app"
-        - ./start.sh
-      script: ng run app-e2e:e2elite --suite "addRemoveContent"
-      after_script: ./start.sh -d
-    - name: Test Suite manageContent
+      name: Test Suite manageContent 1
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app"
         - ./start.sh
       script: ng run app-e2e:e2elite --suite "manageContent"
       after_script: ./start.sh -d
-    - name: Test Suite sharingContent&markFavorite
+    - name: Test Suite manageContent 2
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app"
         - ./start.sh
-      script: ng run app-e2e:e2elite --suite "sharingContent"
+      script: ng run app-e2e:e2elite --suite "manageContent"
       after_script: ./start.sh -d
-    - name: Test Suite viewContent&metadata&extensions
+    - name: Test Suite manageContent 3
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app"
         - ./start.sh
-      script: ng run app-e2e:e2elite --suite "viewer,infoDrawer,extensions"
+      script: ng run app-e2e:e2elite --suite "manageContent"
+      after_script: ./start.sh -d
+    - name: Test Suite manageContent 4
+      before_script:
+        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app"
+        - ./start.sh
+      script: ng run app-e2e:e2elite --suite "manageContent"
+      after_script: ./start.sh -d
+    - name: Test Suite manageContent 5
+      before_script:
+        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app"
+        - ./start.sh
+      script: ng run app-e2e:e2elite --suite "manageContent"
+      after_script: ./start.sh -d
+    - name: Test Suite manageContent 6
+      before_script:
+        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app"
+        - ./start.sh
+      script: ng run app-e2e:e2elite --suite "manageContent"
       after_script: ./start.sh -d
 
     - stage: Update Rancher
