@@ -34,7 +34,11 @@ stages:
     if: (type = push AND tag IS blank)  OR type = api
   - name: Release Libraries
     if: branch = master AND type = push
+  - name: Release Tag
+    if: branch = master AND type = push
   - name: e2e
+  - name: Trigger DW
+    if: (branch = master OR branch = development OR (tag =~ .*beta.*)) AND (type = push OR type = api)
 
 jobs:
   include:
@@ -100,8 +104,10 @@ jobs:
         - npm run build.extensions || exit 1;
         - ./scripts/travis/release/release-npm.sh || exit 1;
 
+    - stage: Release Tag
+      script: ./scripts/travis/release/git-tag.sh
+
     - stage: Trigger DW
-      if: (branch = master OR branch = development OR (tag =~ .*beta.*)) AND (type = push OR type = api)
       script: ./scripts/trigger-travis.sh --pro --branch $TRAVIS_BRANCH Alfresco digital-workspace $TRAVIS_ACCESS_TOKEN
 
 after_failure:
