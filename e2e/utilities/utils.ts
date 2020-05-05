@@ -53,7 +53,7 @@ export async function waitForClickable(
   element: ElementFinder,
   errorMessage?: string
 ): Promise<void> {
-  return browser.wait(
+  await browser.wait(
     EC.elementToBeClickable(element),
     BROWSER_WAIT_TIMEOUT,
     errorMessage || `Timeout waiting for element to be clickable: ${element.locator()}`
