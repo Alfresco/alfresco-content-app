@@ -30,8 +30,6 @@ install: ./scripts/install.sh
 
 stages:
   - name: Quality and Unit tests
-  - name: Update Rancher
-    if: (type = push AND tag IS blank)  OR type = api
   - name: Release Libraries
     if: branch = master AND type = push
   - name: Release Tag
@@ -93,10 +91,6 @@ jobs:
         - ./start.sh
       script: ng run app-e2e:e2elite --suite "viewer,infoDrawer,extensions"
       after_script: ./start.sh -d
-
-    - stage: Update Rancher
-      name: Update Rancher
-      script: ./scripts/travis/deploy/deploy.sh
 
     - stage: Release Libraries
       name: Release Libraries
