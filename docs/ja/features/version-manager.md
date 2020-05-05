@@ -41,4 +41,4 @@ app.config.json ファイルで、これらは ACA バージョンマネージ�
 
 バージョンコメントをバージョンリストに表示しない場合は、allowComments を false に設定します。
 
-ファイルのバージョンをクリックして削除すると、確認ダイアログが表示されます。詳細については、[Confirm Dialog Component](https://github.com/Alfresco/alfresco-ng2-components/blob/development/lib/content-services/dialogs/confirm.dialog.ts) をご覧ください。
+ファイルのバージョンをクリックして削除すると、確認ダイアログが表示されます。詳細については、[Confirm Dialog Component](https://github.com/Alfresco/alfresco-ng2-components/blob/develop/lib/content-services/dialogs/confirm.dialog.ts) をご覧ください。
