@@ -45,7 +45,7 @@ export async function waitElement(css: string, errorMessage?: string): Promise<a
   return browser.wait(
     until.elementLocated(by.css(css)),
     BROWSER_WAIT_TIMEOUT,
-    errorMessage || 'Timeout waiting for element'
+    errorMessage || `Timeout waiting for element: ${css}`
   );
 }
 
@@ -56,7 +56,7 @@ export async function waitForClickable(
   return browser.wait(
     EC.elementToBeClickable(element),
     BROWSER_WAIT_TIMEOUT,
-    errorMessage || 'Timeout waiting for element to be clickable'
+    errorMessage || `Timeout waiting for element to be clickable: ${element.locator()}`
   );
 }
 
@@ -67,7 +67,7 @@ export async function waitForVisibility(
   return browser.wait(
     EC.visibilityOf(element),
     BROWSER_WAIT_TIMEOUT,
-    errorMessage || 'Timeout waiting for element visibility'
+    errorMessage || `Timeout waiting for element visibility: ${element.locator()}`
   );
 }
 
@@ -78,7 +78,7 @@ export async function waitForInvisibility(
   return browser.wait(
     EC.invisibilityOf(element),
     BROWSER_WAIT_TIMEOUT,
-    errorMessage || 'Timeout waiting for element visibility'
+    errorMessage || `Timeout waiting for element visibility: ${element.locator()}`
   );
 }
 
@@ -89,7 +89,7 @@ export async function waitForPresence(
   return browser.wait(
     EC.presenceOf(element),
     BROWSER_WAIT_TIMEOUT,
-    errorMessage || 'Timeout waiting for element presence'
+    errorMessage || `Timeout waiting for element presence: ${element.locator()}`
   );
 }
 
@@ -100,7 +100,7 @@ export async function waitForStaleness(
   return browser.wait(
     EC.stalenessOf(element),
     BROWSER_WAIT_TIMEOUT,
-    errorMessage || 'Timeout waiting element staleness'
+    errorMessage || `Timeout waiting element staleness: ${element.locator()}`
   );
 }
 
@@ -171,9 +171,9 @@ export class Utils {
 
     let tries = 15;
 
-    return new Promise(function(resolve) {
+    return new Promise(function (resolve) {
       const checkExist = setInterval(() => {
-        fs.access(filePath, function(error) {
+        fs.access(filePath, function (error) {
           tries--;
 
           if (error && tries === 0) {
