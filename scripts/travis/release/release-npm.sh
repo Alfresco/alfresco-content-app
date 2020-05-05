@@ -18,15 +18,15 @@ then
 fi;
 
 cd $DIST/aca-shared
-npx @alfresco/adf-cli npm-publish && \
-  --npmRegistry $NPM_REGISTRY_ADDRESS && \
-  --tokenRegistry $NPM_REGISTRY_TOKEN && \
-  --tag $TAG_NPM && \
+npx @alfresco/adf-cli npm-publish \
+  --npmRegistry $NPM_REGISTRY_ADDRESS \
+  --tokenRegistry $NPM_REGISTRY_TOKEN \
+  --tag $TAG_NPM \
   --pathProject "$(pwd)"
 
 cd $DIST/adf-office-services-ext
-npx @alfresco/adf-cli npm-publish && \
-  --npmRegistry $NPM_REGISTRY_ADDRESS && \
-  --tokenRegistry $NPM_REGISTRY_TOKEN && \
-  --tag $TAG_NPM && \
+npx @alfresco/adf-cli npm-publish \
+  --npmRegistry $NPM_REGISTRY_ADDRESS \
+  --tokenRegistry $NPM_REGISTRY_TOKEN \
+  --tag $TAG_NPM \
   --pathProject "$(pwd)"
