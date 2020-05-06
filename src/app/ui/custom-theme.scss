@@ -90,7 +90,7 @@ $defaults: (
   --theme-title-color: mat-color($foreground, text, 0.87),
   --theme-text-disabled-color: mat-color($foreground, text, 0.38),
   --theme-border-color: mat-color($foreground, text, 0.07),
-  --header-background-image: url('assets/images/mastHead-bg-shapesPattern.svg')
+  --header-background-image: url('/assets/images/mastHead-bg-shapesPattern.svg')
 );
 
 // propagates SCSS variables into the CSS variables scope
