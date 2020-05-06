@@ -86,7 +86,6 @@ The default logo displayed in the top left corner of the Alfresco Content Applic
 
 ```json
 {
-    ...,
     "application": {
         "logo": "/assets/images/alfresco-logo-white.svg"
     }
@@ -99,8 +98,21 @@ You can change the header background color by specifying the color code for the 
 
 ```json
 {
-    ...,
-    "headerColor": "#ffffff"
+    "application": {
+      "headerColor": "#ffffff"
+    }
+}
+```
+
+### Header background image
+
+You can change the header background image by specifying the path to the corresponding resource:
+
+```json
+{
+    "application": {
+      "headerImagePath": "assets/images/mastHead-bg-shapesPattern.svg",
+    }
 }
 ```
 

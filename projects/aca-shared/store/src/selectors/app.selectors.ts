@@ -43,6 +43,11 @@ export const getLogoPath = createSelector(
   state => state.logoPath
 );
 
+export const getHeaderImagePath = createSelector(
+  selectApp,
+  state => state.headerImagePath
+);
+
 export const getLanguagePickerState = createSelector(
   selectApp,
   state => state.languagePicker

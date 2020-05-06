@@ -184,6 +184,7 @@ export class AppComponent implements OnInit, OnDestroy {
       appName: this.config.get<string>('application.name'),
       headerColor: this.config.get<string>('headerColor'),
       logoPath: this.config.get<string>('application.logo'),
+      headerImagePath: this.config.get<string>('application.headerImagePath'),
       sharedUrl: baseShareUrl
     };
 
