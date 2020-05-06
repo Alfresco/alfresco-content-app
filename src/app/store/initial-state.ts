@@ -29,6 +29,7 @@ export const INITIAL_APP_STATE: AppState = {
   appName: 'Alfresco Content Application',
   headerColor: '#ffffff',
   logoPath: 'assets/images/alfresco-logo-white.svg',
+  headerImagePath: 'assets/images/mastHead-bg-shapesPattern.svg',
   languagePicker: false,
   sharedUrl: '',
   user: {

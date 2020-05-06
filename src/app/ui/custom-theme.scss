@@ -89,10 +89,11 @@ $defaults: (
   --theme-text-color: mat-color($foreground, text, 0.54),
   --theme-title-color: mat-color($foreground, text, 0.87),
   --theme-text-disabled-color: mat-color($foreground, text, 0.38),
-  --theme-border-color: mat-color($foreground, text, 0.07)
+  --theme-border-color: mat-color($foreground, text, 0.07),
+  --header-background-image: url('assets/images/mastHead-bg-shapesPattern.svg')
 );
 
-// defaults
+// propagates SCSS variables into the CSS variables scope
 :root {
   @each $name, $value in $defaults {
     #{$name}: #{$value};

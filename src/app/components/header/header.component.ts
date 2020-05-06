@@ -39,7 +39,8 @@ import {
   AppStore,
   getHeaderColor,
   getAppName,
-  getLogoPath
+  getLogoPath,
+  getHeaderImagePath
 } from '@alfresco/aca-shared/store';
 
 @Component({
@@ -68,6 +69,13 @@ export class AppHeaderComponent implements OnInit {
     this.headerColor$ = store.select(getHeaderColor);
     this.appName$ = store.select(getAppName);
     this.logo$ = store.select(getLogoPath);
+
+    store.select(getHeaderImagePath).subscribe(path => {
+      document.body.style.setProperty(
+        '--header-background-image',
+        `url('${path}')`
+      );
+    });
   }
 
   ngOnInit() {
