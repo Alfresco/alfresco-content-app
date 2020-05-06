@@ -242,7 +242,7 @@ export class NodeActionsService {
             entry: {
               guid: '-mysites-',
               title: this.translation.instant(
-                'APP.BROWSE.LIBRARIES.SIDENAV_LINK.LABEL'
+                'APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.SIDENAV_LINK.LABEL'
               )
             }
           }
@@ -339,13 +339,17 @@ export class NodeActionsService {
         }
       } else if (elements.length === 1) {
         if (node.name === 'Sites') {
-          node.name = this.translation.instant('APP.BROWSE.LIBRARIES.TITLE');
+          node.name = this.translation.instant(
+            'APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.TITLE'
+          );
           elements.splice(0, 1);
         }
       }
     } else if (node === null && this.isSitesDestinationAvailable) {
       node = {
-        name: this.translation.instant('APP.BROWSE.LIBRARIES.TITLE'),
+        name: this.translation.instant(
+          'APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.TITLE'
+        ),
         path: { elements: [] }
       } as any;
     }
@@ -361,7 +365,9 @@ export class NodeActionsService {
     elements.splice(0, 1);
 
     // replace first item with 'File Libraries'
-    elements[0].name = this.translation.instant('APP.BROWSE.LIBRARIES.TITLE');
+    elements[0].name = this.translation.instant(
+      'APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.TITLE'
+    );
     elements[0].id = '-mysites-';
 
     if (this.isSiteContainer(node)) {
