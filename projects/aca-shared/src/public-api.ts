@@ -32,6 +32,7 @@ export * from './lib/components/page-layout/page-layout.module';
 export * from './lib/components/locked-by/locked-by.component';
 export * from './lib/components/locked-by/locked-by.module';
 export * from './lib/components/tool-bar/toolbar.module';
+export * from './lib/components/info-drawer/shared-info-drawer.module';
 
 export * from './lib/routing/app.routes.strategy';
 export * from './lib/routing/shared.guard';

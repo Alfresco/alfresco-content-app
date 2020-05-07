@@ -36,14 +36,14 @@ import {
   MinimalNodeEntryEntity,
   SiteEntry
 } from '@alfresco/js-api';
-import { ContentApiService } from '@alfresco/aca-shared';
-import { AppExtensionService } from '../../extensions/extension.service';
 import { SidebarTabRef } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
 import {
   SetInfoDrawerStateAction,
   ToggleInfoDrawerAction
 } from '@alfresco/aca-shared/store';
+import { SharedExtensionService } from '../../services/shared-extension.service';
+import { ContentApiService } from '../../services/content-api.service';
 
 @Component({
   selector: 'aca-info-drawer',
@@ -67,7 +67,7 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
   constructor(
     private store: Store<any>,
     private contentApi: ContentApiService,
-    private extensions: AppExtensionService
+    private extensions: SharedExtensionService
   ) {}
 
   ngOnInit() {

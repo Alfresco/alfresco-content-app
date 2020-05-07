@@ -86,7 +86,6 @@ export class AppExtensionService extends SharedExtensionService
   openWithActions: Array<ContentActionRef> = [];
   createActions: Array<ContentActionRef> = [];
   navbar: Array<NavBarGroupRef> = [];
-  sidebar: Array<SidebarTabRef> = [];
   contentMetadata: any;
   viewerRules: ViewerRules = {};
   userActions: Array<ContentActionRef> = [];
@@ -383,10 +382,6 @@ export class AppExtensionService extends SharedExtensionService
     return this.navbar;
   }
 
-  getSidebarTabs(): Array<SidebarTabRef> {
-    return this.sidebar.filter(action => this.filterVisible(action));
-  }
-
   getComponentById(id: string): Type<{}> {
     return this.extensions.getComponentById(id);
   }
@@ -523,15 +518,6 @@ export class AppExtensionService extends SharedExtensionService
       ...action,
       children: (action.children || []).map(child => this.copyAction(child))
     };
-  }
-
-  filterVisible(
-    action: ContentActionRef | SettingsGroupRef | SidebarTabRef
-  ): boolean {
-    if (action && action.rules && action.rules.visible) {
-      return this.extensions.evaluateRule(action.rules.visible, this);
-    }
-    return true;
   }
 
   isViewerExtensionDisabled(extension: any): boolean {

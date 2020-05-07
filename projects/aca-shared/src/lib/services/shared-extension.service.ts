@@ -1,13 +1,20 @@
 import { Injectable } from '@angular/core';
 import { AppStore, getRuleContext } from '@alfresco/aca-shared/store';
-import { ExtensionService, SelectionState } from '@alfresco/adf-extensions';
+import {
+  ContentActionRef,
+  ExtensionService,
+  SelectionState,
+  SidebarTabRef
+} from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
+import { SettingsGroupRef } from '../../../../../src/app/types';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SharedExtensionService {
   selection: SelectionState;
+  sidebar: Array<SidebarTabRef> = [];
 
   constructor(
     protected store: Store<AppStore>,
@@ -16,6 +23,10 @@ export class SharedExtensionService {
     this.store.select(getRuleContext).subscribe(result => {
       this.selection = result.selection;
     });
+  }
+
+  getSidebarTabs(): Array<SidebarTabRef> {
+    return this.sidebar.filter(action => this.filterVisible(action));
   }
 
   runActionById(id: string) {
@@ -31,5 +42,14 @@ export class SharedExtensionService {
     } else {
       this.store.dispatch({ type: id });
     }
+  }
+
+  filterVisible(
+    action: ContentActionRef | SettingsGroupRef | SidebarTabRef
+  ): boolean {
+    if (action && action.rules && action.rules.visible) {
+      return this.extensions.evaluateRule(action.rules.visible, this);
+    }
+    return true;
   }
 }
