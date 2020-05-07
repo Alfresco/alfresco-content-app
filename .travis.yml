@@ -45,7 +45,6 @@ jobs:
     - stage: Quality and Unit tests
       name: 'Code quality checks'
       script: npm ci && npm run lint
-      cache: true
 
     - stage: Quality and Unit tests
       name: 'Build (without animation)'
