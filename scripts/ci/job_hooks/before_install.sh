@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+# Run the build on mergin to development with always the latest ADF
+if [ "${TRAVIS_BRANCH}" == "develop" ] && [ "${TRAVIS_EVENT_TYPE}" == "push" ]; then
+   ./scripts/update-version.sh -v --$ADF_RELEASE_VERSION
+fi
+
 pip install --user awscli
 
 export NODE_OPTIONS="--max_old_space_size=30000"
