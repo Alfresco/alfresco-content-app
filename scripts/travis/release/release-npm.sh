@@ -7,7 +7,7 @@ DIST=${ROOT}/dist/@alfresco
 if [[ $TRAVIS_PULL_REQUEST == "false" ]];
 then
     TAG_NPM=latest
-    if [[ $TRAVIS_BRANCH == "development" ]];
+    if [[ $TRAVIS_BRANCH == "develop" ]];
     then
         TAG_NPM=alpha
         if [[ $TRAVIS_EVENT_TYPE == "cron" ]];
@@ -18,15 +18,21 @@ then
 fi;
 
 cd $DIST/aca-shared
-npx @alfresco/adf-cli npm-publish && \
-  --npmRegistry $NPM_REGISTRY_ADDRESS && \
-  --tokenRegistry $NPM_REGISTRY_TOKEN && \
-  --tag $TAG_NPM && \
-  --pathProject "$(pwd)"
+
+set -e
+touch .npmrc
+echo 'strict-ssl=false' >> .npmrc
+echo 'registry=http://${NPM_REGISTRY_ADDRESS}' >> .npmrc
+echo '//${NPM_REGISTRY_ADDRESS}/:_authToken="${NPM_REGISTRY_TOKEN}"' >> .npmrc
+
+npm publish
 
 cd $DIST/adf-office-services-ext
-npx @alfresco/adf-cli npm-publish && \
-  --npmRegistry $NPM_REGISTRY_ADDRESS && \
-  --tokenRegistry $NPM_REGISTRY_TOKEN && \
-  --tag $TAG_NPM && \
-  --pathProject "$(pwd)"
+
+set -e
+touch .npmrc
+echo 'strict-ssl=false' >> .npmrc
+echo 'registry=http://${NPM_REGISTRY_ADDRESS}' >> .npmrc
+echo '//${NPM_REGISTRY_ADDRESS}/:_authToken="${NPM_REGISTRY_TOKEN}"' >> .npmrc
+
+npm publish

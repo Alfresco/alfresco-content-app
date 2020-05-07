@@ -34,6 +34,7 @@ export interface AppState {
   appName: string;
   headerColor: string;
   logoPath: string;
+  headerImagePath: string;
   languagePicker: boolean;
   sharedUrl: string;
   selection: SelectionState;

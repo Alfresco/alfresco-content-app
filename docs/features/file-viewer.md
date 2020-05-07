@@ -116,7 +116,7 @@ export class CustomComponent {
 
 In the above example, passing `location` when calling `ViewNodeAction` will open the viewer relative to current activated route _/custom-path/(viewer:view/nodeId)_.
 
-If no location is passed, the viewer will default to open on a [predefined route](https://github.com/Alfresco/alfresco-content-app/blob/development/src/app/app.routes.ts#L58). In this case, in order to get back to original location from where the viewer was invoked, `ViewNodeAction` should be called by passing a `path`.
+If no location is passed, the viewer will default to open on a [predefined route](https://github.com/Alfresco/alfresco-content-app/blob/develop/src/app/app.routes.ts#L58). In this case, in order to get back to original location from where the viewer was invoked, `ViewNodeAction` should be called by passing a `path`.
 
 ```typescript
 // when invoked from an extension

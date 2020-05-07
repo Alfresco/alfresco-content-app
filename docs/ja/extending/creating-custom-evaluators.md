@@ -8,7 +8,7 @@ nav: ja
 ルールエバリュエータは、`RuleContext` 参照とオプションの `RuleParameter` インスタンスのリストを受け取るプレーンな JavaScript (または TypeScript) 関数です。
 
 アプリケーションは、評価関数に特別な
-[RuleEvaluator](https://github.com/Alfresco/alfresco-ng2-components/blob/development/lib/extensions/src/lib/config/rule.extensions.ts)
+[RuleEvaluator](https://github.com/Alfresco/alfresco-ng2-components/blob/develop/lib/extensions/src/lib/config/rule.extensions.ts)
 タイプエイリアスを提供します:
 
 ```ts
@@ -26,7 +26,7 @@ export function hasSelection(
 }
 ```
 
-`context` は、[RuleContext](https://github.com/Alfresco/alfresco-ng2-components/blob/development/lib/extensions/src/lib/config/rule.extensions.ts) 型の特別なインスタンスへの参照であり、
+`context` は、[RuleContext](https://github.com/Alfresco/alfresco-ng2-components/blob/develop/lib/extensions/src/lib/config/rule.extensions.ts) 型の特別なインスタンスへの参照であり、
 各エバリュエータがランタイムエンティティにアクセスできるようにします。
 
 ```ts

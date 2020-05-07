@@ -40,4 +40,4 @@ In the app.config.json file, these are the current settings for the ACA version 
 
 Set the allowComments to false if the version comments should not be displayed on the version list.
 
-Clicking to delete a version of a file triggers a confirmation dialog. Please see the [Confirm Dialog Component](https://github.com/Alfresco/alfresco-ng2-components/blob/development/lib/content-services/dialogs/confirm.dialog.ts) for more info.
+Clicking to delete a version of a file triggers a confirmation dialog. Please see the [Confirm Dialog Component](https://github.com/Alfresco/alfresco-ng2-components/blob/develop/lib/content-services/dialogs/confirm.dialog.ts) for more info.
