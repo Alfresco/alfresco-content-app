@@ -21,5 +21,6 @@ Learn how to extend the features of the Alfresco Content Application.
 - [Custom icons](/extending/icons)
 - [Registration](/extending/registration)
 - [Creating custom evaluators](/extending/creating-custom-evaluators)
+- [Custom extension loaders](/extending/custom-extension-loaders.md)
 - [Tutorials](/extending/tutorials)
 - [Redistributable libraries](/extending/redistributable-libraries)
