@@ -31,6 +31,7 @@ export * from './lib/components/page-layout/page-layout.component';
 export * from './lib/components/page-layout/page-layout.module';
 export * from './lib/components/locked-by/locked-by.component';
 export * from './lib/components/locked-by/locked-by.module';
+export * from './lib/components/tool-bar/toolbar.module';
 
 export * from './lib/routing/app.routes.strategy';
 export * from './lib/routing/shared.guard';
@@ -38,6 +39,7 @@ export * from './lib/routing/shared.guard';
 export * from './lib/services/app.service';
 export * from './lib/services/content-api.service';
 export * from './lib/services/node-permission.service';
+export * from './lib/services/shared-extension.service';
 
 export * from './lib/components/generic-error/generic-error.component';
 export * from './lib/components/generic-error/generic-error.module';

@@ -29,11 +29,7 @@ import { ToggleFavoriteComponent } from './toggle-favorite/toggle-favorite.compo
 import { ToggleInfoDrawerComponent } from './toggle-info-drawer/toggle-info-drawer.component';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
-import { ToolbarButtonComponent } from './toolbar-button/toolbar-button.component';
-import { ToolbarActionComponent } from './toolbar-action/toolbar-action.component';
 import { ExtensionsModule } from '@alfresco/adf-extensions';
-import { ToolbarMenuItemComponent } from './toolbar-menu-item/toolbar-menu-item.component';
-import { ToolbarMenuComponent } from './toolbar-menu/toolbar-menu.component';
 import { ToggleJoinLibraryButtonComponent } from './toggle-join-library/toggle-join-library-button.component';
 import { ToggleJoinLibraryMenuComponent } from './toggle-join-library/toggle-join-library-menu.component';
 import { DirectivesModule } from '../../directives/directives.module';
@@ -41,16 +37,13 @@ import { ToggleFavoriteLibraryComponent } from './toggle-favorite-library/toggle
 import { ToggleEditOfflineComponent } from './toggle-edit-offline/toggle-edit-offline.component';
 import { ViewNodeComponent } from './view-node/view-node.component';
 import { AppCommonModule } from '../common/common.module';
+import { ToolbarModule } from '@alfresco/aca-shared';
 
 export function components() {
   return [
     DocumentDisplayModeComponent,
     ToggleFavoriteComponent,
     ToggleInfoDrawerComponent,
-    ToolbarButtonComponent,
-    ToolbarActionComponent,
-    ToolbarMenuItemComponent,
-    ToolbarMenuComponent,
     ToggleJoinLibraryButtonComponent,
     ToggleJoinLibraryMenuComponent,
     ToggleFavoriteLibraryComponent,
@@ -65,10 +58,11 @@ export function components() {
     CoreModule.forChild(),
     AppCommonModule,
     ExtensionsModule,
+    ToolbarModule,
     DirectivesModule
   ],
   declarations: components(),
-  exports: components(),
+  exports: [components(), ToolbarModule],
   entryComponents: components()
 })
 export class AppToolbarModule {}

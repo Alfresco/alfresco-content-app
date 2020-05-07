@@ -32,9 +32,11 @@ import {
   getRuleContext,
   getLanguagePickerState
 } from '@alfresco/aca-shared/store';
-import { NodePermissionService } from '@alfresco/aca-shared';
 import {
-  SelectionState,
+  NodePermissionService,
+  SharedExtensionService
+} from '@alfresco/aca-shared';
+import {
   NavigationState,
   ExtensionConfig,
   RuleEvaluator,
@@ -67,7 +69,8 @@ import { SettingsGroupRef, ExtensionRoute } from '../types';
 @Injectable({
   providedIn: 'root'
 })
-export class AppExtensionService implements RuleContext {
+export class AppExtensionService extends SharedExtensionService
+  implements RuleContext {
   private _references = new BehaviorSubject<ExtensionRef[]>([]);
 
   defaults = {
@@ -109,7 +112,6 @@ export class AppExtensionService implements RuleContext {
     searchLibraries: []
   };
 
-  selection: SelectionState;
   navigation: NavigationState;
   profile: ProfileState;
   repository: RepositoryInfo;
@@ -129,10 +131,10 @@ export class AppExtensionService implements RuleContext {
     protected sanitizer: DomSanitizer,
     protected logger: LogService
   ) {
+    super(store, extensions);
     this.references$ = this._references.asObservable();
 
     this.store.select(getRuleContext).subscribe(result => {
-      this.selection = result.selection;
       this.navigation = result.navigation;
       this.profile = result.profile;
       this.repository = result.repository;
@@ -544,21 +546,6 @@ export class AppExtensionService implements RuleContext {
     }
 
     return false;
-  }
-
-  runActionById(id: string) {
-    const action = this.extensions.getActionById(id);
-    if (action) {
-      const { type, payload } = action;
-      const context = {
-        selection: this.selection
-      };
-      const expression = this.extensions.runExpression(payload, context);
-
-      this.store.dispatch({ type, payload: expression });
-    } else {
-      this.store.dispatch({ type: id });
-    }
   }
 
   // todo: move to ADF/RuleService
