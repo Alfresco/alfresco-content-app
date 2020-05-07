@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ContentApiService } from '@alfresco/aca-shared';
+import { AppExtensionService, ContentApiService } from '@alfresco/aca-shared';
 import {
   AppStore,
   getAppSelection,
@@ -54,7 +54,6 @@ import { ContentManagementService } from '../../services/content-management.serv
 import { Store } from '@ngrx/store';
 import { from, Observable, Subject } from 'rxjs';
 import { takeUntil, debounceTime } from 'rxjs/operators';
-import { AppExtensionService } from '../../extensions/extension.service';
 import { Actions, ofType } from '@ngrx/effects';
 
 @Component({

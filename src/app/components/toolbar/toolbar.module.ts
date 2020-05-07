@@ -37,7 +37,7 @@ import { ToggleFavoriteLibraryComponent } from './toggle-favorite-library/toggle
 import { ToggleEditOfflineComponent } from './toggle-edit-offline/toggle-edit-offline.component';
 import { ViewNodeComponent } from './view-node/view-node.component';
 import { AppCommonModule } from '../common/common.module';
-import { ToolbarModule } from '@alfresco/aca-shared';
+import { SharedToolbarModule } from '@alfresco/aca-shared';
 
 export function components() {
   return [
@@ -58,11 +58,11 @@ export function components() {
     CoreModule.forChild(),
     AppCommonModule,
     ExtensionsModule,
-    ToolbarModule,
+    SharedToolbarModule,
     DirectivesModule
   ],
   declarations: components(),
-  exports: [components(), ToolbarModule],
+  exports: [components(), SharedToolbarModule],
   entryComponents: components()
 })
 export class AppToolbarModule {}

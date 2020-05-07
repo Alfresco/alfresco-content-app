@@ -22,4 +22,4 @@ import { ExtensionsModule } from '@alfresco/adf-extensions';
     ToolbarMenuComponent
   ]
 })
-export class ToolbarModule {}
+export class SharedToolbarModule {}

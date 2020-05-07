@@ -25,7 +25,7 @@
 
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
-import { SharedExtensionService } from '../../../services/shared-extension.service';
+import { AppExtensionService } from '../../../services/app.extension.service';
 
 export enum ToolbarButtonType {
   ICON_BUTTON = 'icon-button',
@@ -48,7 +48,7 @@ export class ToolbarButtonComponent {
   @Input()
   actionRef: ContentActionRef;
 
-  constructor(private extensions: SharedExtensionService) {}
+  constructor(private extensions: AppExtensionService) {}
 
   runAction() {
     if (this.hasClickAction(this.actionRef)) {

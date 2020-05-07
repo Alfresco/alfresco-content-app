@@ -42,7 +42,7 @@ import {
   SetInfoDrawerStateAction,
   ToggleInfoDrawerAction
 } from '@alfresco/aca-shared/store';
-import { SharedExtensionService } from '../../services/shared-extension.service';
+import { AppExtensionService } from '../../services/app.extension.service';
 import { ContentApiService } from '../../services/content-api.service';
 
 @Component({
@@ -67,7 +67,7 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
   constructor(
     private store: Store<any>,
     private contentApi: ContentApiService,
-    private extensions: SharedExtensionService
+    private extensions: AppExtensionService
   ) {}
 
   ngOnInit() {

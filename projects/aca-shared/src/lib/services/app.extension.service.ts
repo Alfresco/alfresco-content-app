@@ -33,10 +33,7 @@ import {
   getLanguagePickerState
 } from '@alfresco/aca-shared/store';
 import {
-  NodePermissionService,
-  SharedExtensionService
-} from '@alfresco/aca-shared';
-import {
+  SelectionState,
   NavigationState,
   ExtensionConfig,
   RuleEvaluator,
@@ -63,14 +60,14 @@ import {
 } from '@alfresco/adf-core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { RepositoryInfo, NodeEntry } from '@alfresco/js-api';
-import { ViewerRules } from './viewer.rules';
-import { SettingsGroupRef, ExtensionRoute } from '../types';
+import { ViewerRules } from '../models/viewer.rules';
+import { SettingsGroupRef, ExtensionRoute } from '../models/types';
+import { NodePermissionService } from '../services/node-permission.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AppExtensionService extends SharedExtensionService
-  implements RuleContext {
+export class AppExtensionService implements RuleContext {
   private _references = new BehaviorSubject<ExtensionRef[]>([]);
 
   defaults = {
@@ -86,6 +83,7 @@ export class AppExtensionService extends SharedExtensionService
   openWithActions: Array<ContentActionRef> = [];
   createActions: Array<ContentActionRef> = [];
   navbar: Array<NavBarGroupRef> = [];
+  sidebar: Array<SidebarTabRef> = [];
   contentMetadata: any;
   viewerRules: ViewerRules = {};
   userActions: Array<ContentActionRef> = [];
@@ -111,6 +109,7 @@ export class AppExtensionService extends SharedExtensionService
     searchLibraries: []
   };
 
+  selection: SelectionState;
   navigation: NavigationState;
   profile: ProfileState;
   repository: RepositoryInfo;
@@ -130,10 +129,10 @@ export class AppExtensionService extends SharedExtensionService
     protected sanitizer: DomSanitizer,
     protected logger: LogService
   ) {
-    super(store, extensions);
     this.references$ = this._references.asObservable();
 
     this.store.select(getRuleContext).subscribe(result => {
+      this.selection = result.selection;
       this.navigation = result.navigation;
       this.profile = result.profile;
       this.repository = result.repository;
@@ -296,7 +295,7 @@ export class AppExtensionService extends SharedExtensionService
                       );
                       const childUrl = `/${
                         childRouteRef ? childRouteRef.path : child.route
-                      }`;
+                        }`;
                       return {
                         ...child,
                         url: childUrl
@@ -380,6 +379,10 @@ export class AppExtensionService extends SharedExtensionService
 
   getNavigationGroups(): Array<NavBarGroupRef> {
     return this.navbar;
+  }
+
+  getSidebarTabs(): Array<SidebarTabRef> {
+    return this.sidebar.filter(action => this.filterVisible(action));
   }
 
   getComponentById(id: string): Type<{}> {
@@ -520,6 +523,15 @@ export class AppExtensionService extends SharedExtensionService
     };
   }
 
+  filterVisible(
+    action: ContentActionRef | SettingsGroupRef | SidebarTabRef
+  ): boolean {
+    if (action && action.rules && action.rules.visible) {
+      return this.extensions.evaluateRule(action.rules.visible, this);
+    }
+    return true;
+  }
+
   isViewerExtensionDisabled(extension: any): boolean {
     if (extension) {
       if (extension.disabled) {
@@ -532,6 +544,21 @@ export class AppExtensionService extends SharedExtensionService
     }
 
     return false;
+  }
+
+  runActionById(id: string) {
+    const action = this.extensions.getActionById(id);
+    if (action) {
+      const { type, payload } = action;
+      const context = {
+        selection: this.selection
+      };
+      const expression = this.extensions.runExpression(payload, context);
+
+      this.store.dispatch({ type, payload: expression });
+    } else {
+      this.store.dispatch({ type: id });
+    }
   }
 
   // todo: move to ADF/RuleService

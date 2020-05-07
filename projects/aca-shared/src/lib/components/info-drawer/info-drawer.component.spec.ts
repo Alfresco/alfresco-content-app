@@ -31,7 +31,7 @@ import {
   ToggleInfoDrawerAction
 } from '@alfresco/aca-shared/store';
 import { AppTestingModule } from '../../../../../../src/app/testing/app-testing.module';
-import { AppExtensionService } from '../../../../../../src/app/extensions/extension.service';
+import { AppExtensionService } from '../../services/app.extension.service';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { of } from 'rxjs';
 

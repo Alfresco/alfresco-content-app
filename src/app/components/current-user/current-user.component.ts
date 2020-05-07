@@ -32,7 +32,7 @@ import {
   getUserProfile,
   getLanguagePickerState
 } from '@alfresco/aca-shared/store';
-import { AppExtensionService } from '../../extensions/extension.service';
+import { AppExtensionService } from '@alfresco/aca-shared';
 
 @Component({
   selector: 'aca-current-user',

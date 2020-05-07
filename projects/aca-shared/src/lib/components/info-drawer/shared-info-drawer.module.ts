@@ -2,10 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InfoDrawerComponent } from './info-drawer.component';
 import { InfoDrawerModule } from '@alfresco/adf-core';
-import { MatProgressSpinnerModule } from '@angular/material';
+import { ExtensionsModule } from '@alfresco/adf-extensions';
+import { MatProgressBarModule } from '@angular/material';
 
 @NgModule({
-  imports: [CommonModule, InfoDrawerModule, MatProgressSpinnerModule],
+  imports: [CommonModule, InfoDrawerModule, MatProgressBarModule, ExtensionsModule],
   declarations: [InfoDrawerComponent],
   exports: [InfoDrawerComponent]
 })

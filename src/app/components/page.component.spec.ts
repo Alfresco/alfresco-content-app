@@ -37,7 +37,7 @@ import { ContentManagementService } from '../services/content-management.service
 import { EffectsModule } from '@ngrx/effects';
 import { ViewerEffects } from '../store/effects';
 import { Store } from '@ngrx/store';
-import { AppExtensionService } from '../extensions/extension.service';
+import { AppExtensionService } from '../../../projects/aca-shared/src/lib/services/extension.service';
 import { AppTestingModule } from '../testing/app-testing.module';
 import { Component } from '@angular/core';
 

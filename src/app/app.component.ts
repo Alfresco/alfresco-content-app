@@ -36,7 +36,6 @@ import {
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, ActivationEnd } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AppExtensionService } from './extensions/extension.service';
 import {
   AppStore,
   AppState,
@@ -48,7 +47,7 @@ import {
   SetRepositoryInfoAction
 } from '@alfresco/aca-shared/store';
 import { filter, takeUntil } from 'rxjs/operators';
-import { AppService, ContentApiService } from '@alfresco/aca-shared';
+import { AppExtensionService, AppService, ContentApiService } from '@alfresco/aca-shared';
 import { DiscoveryEntry, GroupsApi, Group } from '@alfresco/js-api';
 import { Subject } from 'rxjs';
 import { INITIAL_APP_STATE } from './store/initial-state';

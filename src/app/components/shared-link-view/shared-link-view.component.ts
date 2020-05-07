@@ -36,7 +36,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { forkJoin, from, of } from 'rxjs';
 import { catchError, flatMap } from 'rxjs/operators';
-import { AppExtensionService } from '../../extensions/extension.service';
+import { AppExtensionService } from '@alfresco/aca-shared';
 
 @Component({
   selector: 'app-shared-link-view',

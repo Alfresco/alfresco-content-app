@@ -30,10 +30,10 @@ import { ContentManagementService } from '../../services/content-management.serv
 import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
 import { AppStore } from '@alfresco/aca-shared/store';
-import { AppExtensionService } from '../../extensions/extension.service';
 import { UploadService } from '@alfresco/adf-core';
 import { debounceTime } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { AppExtensionService } from '@alfresco/aca-shared';
 
 @Component({
   templateUrl: './recent-files.component.html'

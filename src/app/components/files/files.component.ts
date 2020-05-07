@@ -36,8 +36,7 @@ import {
 import { ContentManagementService } from '../../services/content-management.service';
 import { NodeActionsService } from '../../services/node-actions.service';
 import { PageComponent } from '../page.component';
-import { ContentApiService } from '@alfresco/aca-shared';
-import { AppExtensionService } from '../../extensions/extension.service';
+import { AppExtensionService, ContentApiService } from '@alfresco/aca-shared';
 import {
   SetCurrentFolderAction,
   isAdmin,

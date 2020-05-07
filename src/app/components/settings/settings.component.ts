@@ -40,8 +40,7 @@ import {
   SetSettingsParameterAction
 } from '@alfresco/aca-shared/store';
 import { ProfileState } from '@alfresco/adf-extensions';
-import { AppExtensionService } from '../../extensions/extension.service';
-import { SettingsGroupRef, SettingsParameterRef } from '../../types';
+import { AppExtensionService, SettingsGroupRef, SettingsParameterRef } from '@alfresco/aca-shared';
 
 interface RepositoryConfig {
   ecmHost: string;

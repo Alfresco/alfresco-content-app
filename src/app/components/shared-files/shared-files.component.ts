@@ -28,11 +28,11 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { ContentManagementService } from '../../services/content-management.service';
 import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
-import { AppExtensionService } from '../../extensions/extension.service';
 import { debounceTime } from 'rxjs/operators';
 import { UploadService } from '@alfresco/adf-core';
 import { Router } from '@angular/router';
 import { MinimalNodeEntity } from '@alfresco/js-api';
+import { AppExtensionService } from '@alfresco/aca-shared';
 
 @Component({
   templateUrl: './shared-files.component.html'
