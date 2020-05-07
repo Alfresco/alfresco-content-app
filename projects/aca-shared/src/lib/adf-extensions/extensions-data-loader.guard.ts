@@ -30,7 +30,7 @@ import { map, catchError } from 'rxjs/operators';
 
 export type ExtensionLoaderCallback = (
   route: ActivatedRouteSnapshot
-) => Observable<true>;
+) => Observable<boolean>;
 
 export function DefaultExtensionLoaderFactory() {
   return [];

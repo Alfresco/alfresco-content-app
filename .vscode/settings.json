@@ -3,7 +3,7 @@
   "javascript.preferences.importModuleSpecifier": "relative",
   "typescript.preferences.quoteStyle": "single",
   "typescript.preferences.importModuleSpecifier": "relative",
-  "editor.formatOnSave": true,
+  "editor.formatOnSave": false,
   "[json]": {
     "editor.formatOnSave": false
   },

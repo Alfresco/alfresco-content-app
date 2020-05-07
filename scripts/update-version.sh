@@ -23,12 +23,16 @@ set_version() {
 }
 
 update(){
-    for (( j=0; j<${libslength}; j++ ));
+    eval libsWithVersions=();
+
+    for (( i=0; i<${libslength}; i++ ));
     do
-      EXACT_VERSION="${libs[$j]}@${VERSION}"
-      echo "====== ${EXACT_VERSION} ======"
-      npm i -E ${EXACT_VERSION}
+        EXACT_VERSION="${libs[$i]}@${VERSION}"
+        eval libsWithVersions=( "${libsWithVersions[@]}" "${EXACT_VERSION}" )
     done
+
+    echo "npm i --ignore-scripts -E ${libsWithVersions[*]}"
+    npm i --ignore-scripts -E ${libsWithVersions[*]}
 }
 
 while [[ $1  == -* ]]; do
