@@ -15,7 +15,7 @@ cache:
 branches:
   only:
     - master
-    - development
+    - develop
     - /.*beta.*/
 
 before_install:
@@ -38,7 +38,7 @@ stages:
     if: branch = master AND type = push
   - name: e2e
   - name: Trigger DW
-    if: (branch = master OR branch = development OR (tag =~ .*beta.*)) AND (type = push OR type = api)
+    if: (branch = master OR branch = develop OR (tag =~ .*beta.*)) AND (type = push OR type = api)
 
 jobs:
   include:
