@@ -28,9 +28,17 @@ import { ContentApiService } from './services/content-api.service';
 import { NodePermissionService } from './services/node-permission.service';
 import { AppService } from './services/app.service';
 import { ContextActionsModule } from './directives/contextmenu/contextmenu.module';
+import { PaginationDirective } from './directives/pagination.directive';
+
 @NgModule({
   imports: [ContextActionsModule],
-  exports: [ContextActionsModule]
+  declarations: [
+    PaginationDirective
+  ],
+  exports: [
+    ContextActionsModule,
+    PaginationDirective
+  ]
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders {

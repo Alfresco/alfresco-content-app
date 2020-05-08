@@ -25,8 +25,8 @@
 
 import { PaginationDirective } from './pagination.directive';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { AppTestingModule } from '../testing/app-testing.module';
-import { DirectivesModule } from './directives.module';
+import { AppTestingModule } from '../../../../../src/app/testing/app-testing.module';
+import { DirectivesModule } from '../../../../../src/app/directives/directives.module';
 import {
   UserPreferencesService,
   AppConfigService,
