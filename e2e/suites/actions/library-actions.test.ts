@@ -87,6 +87,10 @@ describe('Library actions', () => {
     done();
   });
 
+  beforeEach(async () => {
+    await Utils.pressEscape();
+  });
+
   afterEach(async (done) => {
     await Utils.pressEscape();
     await page.header.expandSideNav();
