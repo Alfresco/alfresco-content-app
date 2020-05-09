@@ -47,7 +47,7 @@ export class SearchInput extends Component {
   }
 
   async waitForSearchInputToBeInteractive() {
-    waitForClickable(this.searchControl);
+    await waitForClickable(this.searchControl);
   }
 
   async isSearchContainerDisplayed() {

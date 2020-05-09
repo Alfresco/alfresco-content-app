@@ -9,9 +9,9 @@ const fs = require('fs');
 
 const projectRoot = path.resolve(__dirname);
 const downloadFolder = `${projectRoot}/e2e-downloads`;
-const E2E_HOST = process.env.E2E_HOST || 'http://localhost',
-  E2E_PORT = process.env.E2E_PORT || 4200,
-  BROWSER_RUN = process.env.BROWSER_RUN;
+const E2E_HOST = process.env.E2E_HOST || 'http://localhost';
+const E2E_PORT = process.env.E2E_PORT || 4200;
+const BROWSER_RUN = process.env.BROWSER_RUN;
 const width = 1366;
 const height = 768;
 

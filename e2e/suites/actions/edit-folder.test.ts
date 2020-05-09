@@ -108,14 +108,17 @@ describe('Edit folder', () => {
     await Promise.all([
       apis.admin.sites.deleteSite(sitePrivate),
       apis.user.sites.deleteSite(siteName),
-      apis.user.nodes.deleteNodesById([ parentId, folderFavoriteToEditId, folderFavoriteDuplicateId, folderSearchToEditId ])
+      apis.user.nodes.deleteNodesById([parentId, folderFavoriteToEditId, folderFavoriteDuplicateId, folderSearchToEditId])
     ]);
     done();
   });
 
-  afterEach(async (done) => {
+  beforeEach(async () => {
     await Utils.pressEscape();
-    done();
+  });
+
+  afterEach(async () => {
+    await page.closeOpenDialogs();
   });
 
   it('[C216331] dialog UI defaults', async () => {
@@ -167,7 +170,7 @@ describe('Edit folder', () => {
     });
 
     it('[C216333] with name with special characters', async () => {
-      const namesWithSpecialChars = [ 'a*a', 'a"a', 'a<a', 'a>a', `a\\a`, 'a/a', 'a?a', 'a:a', 'a|a' ];
+      const namesWithSpecialChars = ['a*a', 'a"a', 'a<a', 'a>a', `a\\a`, 'a/a', 'a?a', 'a:a', 'a|a'];
 
       await dataTable.selectItem(folderName);
       await toolbar.openMoreMenu();
