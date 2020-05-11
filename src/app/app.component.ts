@@ -167,7 +167,7 @@ export class AppComponent implements OnInit, OnDestroy {
     delete extensionRoute.component;
   }
 
-  private mapExtensionRoutes(extensionRoutes: ExtensionRoute[]) {
+  mapExtensionRoutes(extensionRoutes: ExtensionRoute[]) {
     const routesWithoutParent = [];
     extensionRoutes.forEach((extensionRoute: ExtensionRoute) => {
       if (this.extensionRouteHasChild(extensionRoute)) {
