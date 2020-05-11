@@ -24,9 +24,49 @@
  */
 
 import { AppHeaderComponent } from './header.component';
+import { AppState } from '@alfresco/aca-shared/store';
+import { of } from 'rxjs';
+import { async } from '@angular/core/testing';
+import { ContentActionRef } from '@alfresco/adf-extensions';
 
 describe('AppHeaderComponent', () => {
-  it('should be defined', () => {
-    expect(AppHeaderComponent).toBeDefined();
+  let component: AppHeaderComponent;
+
+  const actions = [
+    { id: 'action-1', type: 'button' },
+    { id: 'action-2', type: 'button' }
+  ] as Array<ContentActionRef>;
+
+  const store = {
+    select: jasmine.createSpy('select')
+  } as any;
+
+  const appExtensionService = {
+    getHeaderActions: () => actions
+  } as any;
+
+  const app = {
+    headerColor: 'some-color',
+    appName: 'name',
+    logoPath: 'some/path'
+  } as AppState;
+
+  beforeEach(() => {
+    store.select.and.callFake(memoizeFn => {
+      return of(memoizeFn({ app }));
+    });
+
+    component = new AppHeaderComponent(store, appExtensionService);
+  });
+
+  it('should set header color, name and logo', async(() => {
+    component.appName$.subscribe(val => expect(val).toBe(app.appName));
+    component.logo$.subscribe(val => expect(val).toBe(app.logoPath));
+    component.headerColor$.subscribe(val => expect(val).toBe(app.headerColor));
+  }));
+
+  it('should get header actions', () => {
+    component.ngOnInit();
+    expect(component.actions).toEqual(actions);
   });
 });
