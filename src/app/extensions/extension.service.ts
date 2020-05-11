@@ -25,7 +25,6 @@
 
 import { Injectable, Type } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Route } from '@angular/router';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import {
@@ -63,7 +62,7 @@ import {
 import { BehaviorSubject, Observable } from 'rxjs';
 import { RepositoryInfo, NodeEntry } from '@alfresco/js-api';
 import { ViewerRules } from './viewer.rules';
-import { SettingsGroupRef } from '../types';
+import { SettingsGroupRef, ExtensionRoute } from '../types';
 
 @Injectable({
   providedIn: 'root'
@@ -390,7 +389,7 @@ export class AppExtensionService implements RuleContext {
     return this.extensions.getComponentById(id);
   }
 
-  getApplicationRoutes(): Array<Route> {
+  getApplicationRoutes(): Array<ExtensionRoute> {
     return this.extensions.routes.map(route => {
       const guards = this.extensions.getAuthGuards(
         route.auth && route.auth.length > 0 ? route.auth : this.defaults.auth
@@ -401,6 +400,7 @@ export class AppExtensionService implements RuleContext {
         component: this.getComponentById(route.layout || this.defaults.layout),
         canActivateChild: guards,
         canActivate: guards,
+        parentRoute: route.parentRoute,
         children: [
           {
             path: '',

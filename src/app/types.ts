@@ -23,6 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { Route } from '@angular/router';
+
 export interface SettingsGroupRef {
   id: string;
   name: string;
@@ -39,4 +41,8 @@ export interface SettingsParameterRef {
   key: string;
   type: 'string' | 'boolean';
   value?: any;
+}
+
+export interface ExtensionRoute extends Route {
+  parentRoute?: string;
 }
