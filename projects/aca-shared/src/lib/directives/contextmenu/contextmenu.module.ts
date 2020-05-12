@@ -26,6 +26,9 @@
 import { NgModule } from '@angular/core';
 import { ContextActionsDirective } from './contextmenu.directive';
 
+/**
+ * @deprecated in 1.11.0, use SharedDirectivesModule instead.
+ */
 @NgModule({
   declarations: [ContextActionsDirective],
   exports: [ContextActionsDirective]

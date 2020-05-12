@@ -28,7 +28,7 @@ import { DocumentListDirective } from './document-list.directive';
 import { LibraryMembershipDirective } from './library-membership.directive';
 import { LibraryFavoriteDirective } from './library-favorite.directive';
 import { LockNodeDirective } from './lock-node.directive';
-import { SharedModule } from '@alfresco/aca-shared';
+import { SharedDirectivesModule } from '@alfresco/aca-shared';
 
 export function directives() {
   return [
@@ -40,8 +40,8 @@ export function directives() {
 }
 
 @NgModule({
-  imports: [SharedModule],
+  imports: [SharedDirectivesModule],
   declarations: directives(),
-  exports: [directives(), SharedModule]
+  exports: [directives(), SharedDirectivesModule]
 })
 export class DirectivesModule {}

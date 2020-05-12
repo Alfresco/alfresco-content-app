@@ -48,9 +48,8 @@ export * from './lib/services/app.extension.service';
 export * from './lib/components/generic-error/generic-error.component';
 export * from './lib/components/generic-error/generic-error.module';
 
-export * from './lib/directives/pagination.directive';
 export * from './lib/directives/contextmenu/contextmenu.module';
-export * from './lib/directives/contextmenu/contextmenu.module';
+export * from './lib/directives/shared.directives.module';
 
 export * from './lib/utils/node.utils';
 

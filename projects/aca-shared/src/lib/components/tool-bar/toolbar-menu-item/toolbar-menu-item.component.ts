@@ -28,7 +28,6 @@ import { ContentActionRef } from '@alfresco/adf-extensions';
 import { AppExtensionService } from '../../../services/app.extension.service';
 
 @Component({
-  // tslint:disable-next-line
   selector: 'app-toolbar-menu-item',
   templateUrl: 'toolbar-menu-item.component.html',
   styles: [

@@ -25,7 +25,6 @@
 
 import { NgModule } from '@angular/core';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
-import { TranslatePipeMock } from './translate-pipe.directive';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {
   TranslationService,
@@ -45,7 +44,6 @@ import {
   PipeModule
 } from '@alfresco/adf-core';
 import { HttpClientModule } from '@angular/common/http';
-import { TranslateServiceMock } from './translation.service';
 import { StoreModule } from '@ngrx/store';
 import { appReducer } from '../store/reducers/app.reducer';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -56,6 +54,8 @@ import {
 } from '@alfresco/adf-content-services';
 import { MaterialModule } from '../material.module';
 import { INITIAL_STATE } from '../store/initial-state';
+import { TranslatePipeMock } from './translate-pipe.directive';
+import { TranslateServiceMock } from './translation.service';
 
 @NgModule({
   imports: [

@@ -33,7 +33,6 @@ export enum ToolbarButtonType {
 }
 
 @Component({
-  // tslint:disable-next-line
   selector: 'app-toolbar-button',
   templateUrl: 'toolbar-button.component.html',
   encapsulation: ViewEncapsulation.None,

@@ -23,21 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ModuleWithProviders, NgModule } from '@angular/core';
-import { ContentApiService } from './services/content-api.service';
-import { NodePermissionService } from './services/node-permission.service';
-import { AppService } from './services/app.service';
-import { ContextActionsModule } from './directives/contextmenu/contextmenu.module';
+import { NgModule } from '@angular/core';
+import { PaginationDirective } from './pagination.directive';
+import { ContextActionsModule } from './contextmenu/contextmenu.module';
 
 @NgModule({
   imports: [ContextActionsModule],
-  exports: [ContextActionsModule]
+  declarations: [PaginationDirective],
+  exports: [PaginationDirective, ContextActionsModule]
 })
-export class SharedModule {
-  static forRoot(): ModuleWithProviders {
-    return {
-      ngModule: SharedModule,
-      providers: [ContentApiService, NodePermissionService, AppService]
-    };
-  }
-}
+export class SharedDirectivesModule {}
