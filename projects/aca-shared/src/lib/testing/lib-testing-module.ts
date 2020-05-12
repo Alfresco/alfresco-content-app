@@ -87,7 +87,7 @@ export const initialState = {
         useClass: TranslateLoaderService
       }
     }),
-    PipeModule,
+    PipeModule
   ],
   providers: [
     { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
