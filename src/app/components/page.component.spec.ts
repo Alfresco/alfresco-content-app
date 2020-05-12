@@ -32,12 +32,12 @@ import {
   AppState,
   AppStore
 } from '@alfresco/aca-shared/store';
+import { AppExtensionService } from '@alfresco/aca-shared';
 import { MinimalNodeEntity } from '@alfresco/js-api';
 import { ContentManagementService } from '../services/content-management.service';
 import { EffectsModule } from '@ngrx/effects';
 import { ViewerEffects } from '../store/effects';
 import { Store } from '@ngrx/store';
-import { AppExtensionService } from '../../../projects/aca-shared/src/lib/services/extension.service';
 import { AppTestingModule } from '../testing/app-testing.module';
 import { Component } from '@angular/core';
 
