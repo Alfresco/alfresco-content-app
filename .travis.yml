@@ -122,7 +122,7 @@ jobs:
       script: ./scripts/travis/release/git-tag.sh
 
     - stage: Trigger DW
-      script: ./scripts/trigger-travis.sh --pro --branch $TRAVIS_BRANCH Alfresco digital-workspace $TRAVIS_ACCESS_TOKEN
+      script: ./scripts/trigger-travis.sh --pro --branch $TRAVIS_BRANCH Alfresco alfresco-digital-workspace-app $TRAVIS_ACCESS_TOKEN
 
 after_failure:
   - alfrescoContainerId=$(docker ps -a | grep 'alfresco-content-repository-community' | awk '{print $1}')
