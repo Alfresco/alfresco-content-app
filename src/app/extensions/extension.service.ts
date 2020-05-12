@@ -499,7 +499,27 @@ export class AppExtensionService implements RuleContext {
   }
 
   getHeaderActions(): Array<ContentActionRef> {
-    return this.headerActions.filter(action => this.filterVisible(action));
+    return this.headerActions
+      .filter(action => this.filterVisible(action))
+      .map(action => {
+        if (action.type === ContentActionType.menu) {
+          const copy = this.copyAction(action);
+          if (copy.children && copy.children.length > 0) {
+            copy.children = copy.children
+              .filter(entry => !entry.disabled)
+              .filter(childAction => this.filterVisible(childAction))
+              .sort(sortByOrder)
+              .reduce(reduceEmptyMenus, [])
+              .reduce(reduceSeparators, []);
+          }
+          return copy;
+        }
+
+        return action;
+      })
+      .sort(sortByOrder)
+      .reduce(reduceEmptyMenus, [])
+      .reduce(reduceSeparators, []);
   }
 
   getAllowedContextMenuActions(): Array<ContentActionRef> {
