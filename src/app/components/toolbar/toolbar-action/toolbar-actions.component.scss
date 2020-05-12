@@ -1,9 +1,8 @@
 @mixin toolbar-actions-theme($theme) {
   $foreground: map-get($theme, foreground);
 
-  app-toolbar-button,
-  app-toolbar-menu,
-  adf-dynamic-component {
+  .aca-toolbar-action {
     color: mat-color($foreground, text, 0.72);
+    margin: 0 5px;
   }
 }
