@@ -908,11 +908,12 @@
             "description": "Application settings",
             "icon": "settings",
             "disabled": true,
+            "order": 10,
             "actions": {
               "click": "app.actions.settings"
             },
             "rules": {
-              "visible": "app.toolbar.canViewFile"
+              "visible": "app.navigation.isNotTrashcan"
             }
           },
           {
@@ -920,11 +921,12 @@
             "title": "New Button",
             "description": "new button description",
             "icon": "alarm_on",
+            "order": 20,
             "actions": {
               "click": "app.actions.settings"
             },
             "rules": {
-              "visible": "app.toolbar.canViewFile"
+              "visible": "app.navigation.isNotTrashcan"
             }
           }
         ]
