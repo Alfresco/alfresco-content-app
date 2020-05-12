@@ -13,6 +13,7 @@
 @import '../components/create-menu/create-menu.component.scss';
 @import '../components/layout/layout.theme.scss';
 @import '../dialogs/node-template/create-from-template.dialog.scss';
+@import '../components/toolbar/toolbar-action/toolbar-actions.component.scss';
 
 @import './overrides/adf-style-fixes.theme';
 
@@ -50,6 +51,7 @@ $warn: map-get($custom-theme, warn);
   @include aca-custom-name-column-theme($theme);
   @include app-create-from-template-theme($theme);
   @include app-create-menu-theme($theme);
+  @include toolbar-actions-theme($theme);
   @include adf-style-fixes($theme);
 
   .mat-toolbar {
