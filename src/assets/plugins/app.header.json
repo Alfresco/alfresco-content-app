@@ -39,6 +39,12 @@
     ],
     "header": [
       {
+        "id": "app.header.user",
+        "type": "custom",
+        "component": "app.user",
+        "order": 100
+      },
+      {
         "id": "app.header.more",
         "type": "menu",
         "order": 10000,

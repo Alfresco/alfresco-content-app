@@ -53,6 +53,7 @@ import { ToggleSharedComponent } from '../components/common/toggle-shared/toggle
 import { ViewNodeComponent } from '../components/toolbar/view-node/view-node.component';
 import { LanguagePickerComponent } from '../components/common/language-picker/language-picker.component';
 import { LogoutComponent } from '../components/common/logout/logout.component';
+import { CurrentUserComponent } from '../components/current-user/current-user.component';
 
 export function setupExtensions(service: AppExtensionService): Function {
   return () => service.load();
@@ -105,7 +106,8 @@ export class CoreExtensionsModule {
       'app.toolbar.toggleEditOffline': ToggleEditOfflineComponent,
       'app.toolbar.viewNode': ViewNodeComponent,
       'app.languagePicker': LanguagePickerComponent,
-      'app.logout': LogoutComponent
+      'app.logout': LogoutComponent,
+      'app.user': CurrentUserComponent
     });
 
     extensions.setAuthGuards({
