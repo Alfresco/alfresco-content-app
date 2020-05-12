@@ -32,7 +32,6 @@ import {
   getRuleContext,
   getLanguagePickerState
 } from '@alfresco/aca-shared/store';
-import { NodePermissionService } from '@alfresco/aca-shared';
 import {
   SelectionState,
   NavigationState,
@@ -61,8 +60,9 @@ import {
 } from '@alfresco/adf-core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { RepositoryInfo, NodeEntry } from '@alfresco/js-api';
-import { ViewerRules } from './viewer.rules';
-import { SettingsGroupRef, ExtensionRoute } from '../types';
+import { ViewerRules } from '../models/viewer.rules';
+import { SettingsGroupRef, ExtensionRoute } from '../models/types';
+import { NodePermissionService } from '../services/node-permission.service';
 
 @Injectable({
   providedIn: 'root'

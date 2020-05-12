@@ -28,7 +28,6 @@ import { CommonModule } from '@angular/common';
 import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 import { AppLayoutComponent } from '../components/layout/app-layout/app-layout.component';
 import * as rules from '@alfresco/aca-shared/rules';
-import { AppExtensionService } from './extension.service';
 import { ToggleInfoDrawerComponent } from '../components/toolbar/toggle-info-drawer/toggle-info-drawer.component';
 import { ToggleFavoriteComponent } from '../components/toolbar/toggle-favorite/toggle-favorite.component';
 import { ToggleFavoriteLibraryComponent } from '../components/toolbar/toggle-favorite-library/toggle-favorite-library.component';
@@ -53,6 +52,7 @@ import { ToggleSharedComponent } from '../components/common/toggle-shared/toggle
 import { ViewNodeComponent } from '../components/toolbar/view-node/view-node.component';
 import { LanguagePickerComponent } from '../components/common/language-picker/language-picker.component';
 import { LogoutComponent } from '../components/common/logout/logout.component';
+import { AppExtensionService } from '@alfresco/aca-shared';
 
 export function setupExtensions(service: AppExtensionService): Function {
   return () => service.load();

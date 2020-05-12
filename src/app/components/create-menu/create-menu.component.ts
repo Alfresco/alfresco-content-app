@@ -32,10 +32,10 @@ import {
 } from '@angular/core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { AppStore, getCurrentFolder } from '@alfresco/aca-shared/store';
-import { AppExtensionService } from '../../extensions/extension.service';
 import { Store } from '@ngrx/store';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { AppExtensionService } from '@alfresco/aca-shared';
 
 @Component({
   selector: 'app-create-menu',

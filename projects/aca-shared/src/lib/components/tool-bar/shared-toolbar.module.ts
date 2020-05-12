@@ -23,36 +23,28 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, ViewEncapsulation } from '@angular/core';
-import { ContentActionRef } from '@alfresco/adf-extensions';
-import { AppExtensionService } from '@alfresco/aca-shared';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ToolbarMenuItemComponent } from './toolbar-menu-item/toolbar-menu-item.component';
+import { ToolbarMenuComponent } from './toolbar-menu/toolbar-menu.component';
+import { ToolbarActionComponent } from './toolbar-action/toolbar-action.component';
+import { ToolbarButtonComponent } from './toolbar-button/toolbar-button.component';
+import { CoreModule } from '@alfresco/adf-core';
+import { ExtensionsModule } from '@alfresco/adf-extensions';
 
-@Component({
-  selector: 'app-context-menu-item',
-  templateUrl: 'context-menu-item.component.html',
-  encapsulation: ViewEncapsulation.None,
-  host: { class: 'app-context-menu-item' }
+@NgModule({
+  imports: [CommonModule, CoreModule, ExtensionsModule],
+  declarations: [
+    ToolbarButtonComponent,
+    ToolbarActionComponent,
+    ToolbarMenuItemComponent,
+    ToolbarMenuComponent
+  ],
+  exports: [
+    ToolbarButtonComponent,
+    ToolbarActionComponent,
+    ToolbarMenuItemComponent,
+    ToolbarMenuComponent
+  ]
 })
-export class ContextMenuItemComponent {
-  @Input()
-  actionRef: ContentActionRef;
-
-  constructor(private extensions: AppExtensionService) {}
-
-  runAction() {
-    if (this.hasClickAction(this.actionRef)) {
-      this.extensions.runActionById(this.actionRef.actions.click);
-    }
-  }
-
-  private hasClickAction(actionRef: ContentActionRef): boolean {
-    if (actionRef && actionRef.actions && actionRef.actions.click) {
-      return true;
-    }
-    return false;
-  }
-
-  trackById(_: number, obj: { id: string }) {
-    return obj.id;
-  }
-}
+export class SharedToolbarModule {}

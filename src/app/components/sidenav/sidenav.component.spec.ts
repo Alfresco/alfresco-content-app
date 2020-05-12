@@ -27,7 +27,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { SidenavComponent } from './sidenav.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { AppExtensionService } from '../../extensions/extension.service';
+import { AppExtensionService } from '@alfresco/aca-shared';
 
 describe('SidenavComponent', () => {
   let fixture: ComponentFixture<SidenavComponent>;

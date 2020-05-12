@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ContentApiService } from '@alfresco/aca-shared';
+import { AppExtensionService, ContentApiService } from '@alfresco/aca-shared';
 import { AppStore } from '@alfresco/aca-shared/store';
 import { UploadService } from '@alfresco/adf-core';
 import {
@@ -37,7 +37,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { debounceTime, map } from 'rxjs/operators';
-import { AppExtensionService } from '../../extensions/extension.service';
 import { ContentManagementService } from '../../services/content-management.service';
 import { PageComponent } from '../page.component';
 

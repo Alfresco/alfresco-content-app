@@ -36,14 +36,14 @@ import {
   MinimalNodeEntryEntity,
   SiteEntry
 } from '@alfresco/js-api';
-import { ContentApiService } from '@alfresco/aca-shared';
-import { AppExtensionService } from '../../extensions/extension.service';
 import { SidebarTabRef } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
 import {
   SetInfoDrawerStateAction,
   ToggleInfoDrawerAction
 } from '@alfresco/aca-shared/store';
+import { AppExtensionService } from '../../services/app.extension.service';
+import { ContentApiService } from '../../services/content-api.service';
 
 @Component({
   selector: 'aca-info-drawer',

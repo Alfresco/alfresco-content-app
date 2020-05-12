@@ -34,7 +34,6 @@ import {
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { ContentActionRef } from '@alfresco/adf-extensions';
-import { AppExtensionService } from '../../extensions/extension.service';
 import {
   AppStore,
   getHeaderColor,
@@ -42,6 +41,7 @@ import {
   getLogoPath,
   getHeaderImagePath
 } from '@alfresco/aca-shared/store';
+import { AppExtensionService } from '@alfresco/aca-shared';
 
 @Component({
   selector: 'app-header',

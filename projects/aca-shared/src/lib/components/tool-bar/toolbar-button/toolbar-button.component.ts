@@ -25,15 +25,26 @@
 
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
-import { AppExtensionService } from '@alfresco/aca-shared';
+import { AppExtensionService } from '../../../services/app.extension.service';
+
+export enum ToolbarButtonType {
+  ICON_BUTTON = 'icon-button',
+  MENU_ITEM = 'menu-item'
+}
 
 @Component({
-  selector: 'app-context-menu-item',
-  templateUrl: 'context-menu-item.component.html',
+  selector: 'app-toolbar-button',
+  templateUrl: 'toolbar-button.component.html',
   encapsulation: ViewEncapsulation.None,
-  host: { class: 'app-context-menu-item' }
+  host: { class: 'app-toolbar-button' }
 })
-export class ContextMenuItemComponent {
+export class ToolbarButtonComponent {
+  @Input()
+  type: ToolbarButtonType = ToolbarButtonType.ICON_BUTTON;
+
+  @Input()
+  color = '';
+
   @Input()
   actionRef: ContentActionRef;
 
@@ -50,9 +61,5 @@ export class ContextMenuItemComponent {
       return true;
     }
     return false;
-  }
-
-  trackById(_: number, obj: { id: string }) {
-    return obj.id;
   }
 }

@@ -33,7 +33,6 @@ import { Store } from '@ngrx/store';
 import { MinimalNodeEntity, MinimalNodeEntryEntity } from '@alfresco/js-api';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { takeUntil, map } from 'rxjs/operators';
-import { AppExtensionService } from '../extensions/extension.service';
 import { ContentManagementService } from '../services/content-management.service';
 import {
   AppStore,
@@ -47,7 +46,7 @@ import {
   ViewNodeExtras,
   SetSelectedNodesAction
 } from '@alfresco/aca-shared/store';
-import { isLocked, isLibrary } from '@alfresco/aca-shared';
+import { isLocked, isLibrary, AppExtensionService } from '@alfresco/aca-shared';
 
 export abstract class PageComponent implements OnInit, OnDestroy {
   onDestroy$: Subject<boolean> = new Subject<boolean>();

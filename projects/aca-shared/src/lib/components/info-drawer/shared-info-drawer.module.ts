@@ -23,43 +23,21 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, ViewEncapsulation } from '@angular/core';
-import { ContentActionRef } from '@alfresco/adf-extensions';
-import { AppExtensionService } from '../../../extensions/extension.service';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { InfoDrawerComponent } from './info-drawer.component';
+import { InfoDrawerModule } from '@alfresco/adf-core';
+import { ExtensionsModule } from '@alfresco/adf-extensions';
+import { MatProgressBarModule } from '@angular/material';
 
-@Component({
-  selector: 'app-toolbar-menu-item',
-  templateUrl: 'toolbar-menu-item.component.html',
-  styles: [
-    `
-      .app-toolbar-menu-item:last-child > .mat-divider-horizontal {
-        display: none;
-      }
-    `
+@NgModule({
+  imports: [
+    CommonModule,
+    InfoDrawerModule,
+    MatProgressBarModule,
+    ExtensionsModule
   ],
-  encapsulation: ViewEncapsulation.None,
-  host: { class: 'app-toolbar-menu-item' }
+  declarations: [InfoDrawerComponent],
+  exports: [InfoDrawerComponent]
 })
-export class ToolbarMenuItemComponent {
-  @Input()
-  actionRef: ContentActionRef;
-
-  constructor(private extensions: AppExtensionService) {}
-
-  runAction() {
-    if (this.hasClickAction(this.actionRef)) {
-      this.extensions.runActionById(this.actionRef.actions.click);
-    }
-  }
-
-  private hasClickAction(actionRef: ContentActionRef): boolean {
-    if (actionRef && actionRef.actions && actionRef.actions.click) {
-      return true;
-    }
-    return false;
-  }
-
-  trackById(_: number, obj: { id: string }) {
-    return obj.id;
-  }
-}
+export class SharedInfoDrawerModule {}

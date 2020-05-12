@@ -43,7 +43,7 @@ import {
   UrlSegment
 } from '@angular/router';
 import { Store, createSelector } from '@ngrx/store';
-import { AppExtensionService } from '../../extensions/extension.service';
+import { AppExtensionService } from '@alfresco/aca-shared';
 
 export const fileToPreview = createSelector(
   getAppSelection,

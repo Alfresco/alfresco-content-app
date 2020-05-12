@@ -23,43 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, ViewEncapsulation } from '@angular/core';
-import { ContentActionRef } from '@alfresco/adf-extensions';
-import { AppExtensionService } from '../../../extensions/extension.service';
+import { NgModule } from '@angular/core';
+import { PaginationDirective } from './pagination.directive';
+import { ContextActionsModule } from './contextmenu/contextmenu.module';
 
-export enum ToolbarButtonType {
-  ICON_BUTTON = 'icon-button',
-  MENU_ITEM = 'menu-item'
-}
-
-@Component({
-  selector: 'app-toolbar-button',
-  templateUrl: 'toolbar-button.component.html',
-  encapsulation: ViewEncapsulation.None,
-  host: { class: 'app-toolbar-button' }
+@NgModule({
+  imports: [ContextActionsModule],
+  declarations: [PaginationDirective],
+  exports: [PaginationDirective, ContextActionsModule]
 })
-export class ToolbarButtonComponent {
-  @Input()
-  type: ToolbarButtonType = ToolbarButtonType.ICON_BUTTON;
-
-  @Input()
-  color = '';
-
-  @Input()
-  actionRef: ContentActionRef;
-
-  constructor(private extensions: AppExtensionService) {}
-
-  runAction() {
-    if (this.hasClickAction(this.actionRef)) {
-      this.extensions.runActionById(this.actionRef.actions.click);
-    }
-  }
-
-  private hasClickAction(actionRef: ContentActionRef): boolean {
-    if (actionRef && actionRef.actions && actionRef.actions.click) {
-      return true;
-    }
-    return false;
-  }
-}
+export class SharedDirectivesModule {}
