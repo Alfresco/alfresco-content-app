@@ -23,26 +23,20 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Route } from '@angular/router';
+import { ExtensionRoute } from '../types';
 
-export interface SettingsGroupRef {
-  id: string;
-  name: string;
-  parameters: Array<SettingsParameterRef>;
-  rules?: {
-    visible?: string;
-    [key: string]: string;
-  };
-}
+export const mockRoutesWithoutParentRoute: Array<ExtensionRoute> = [
+  {
+    path: 'extension-path',
+    component: null,
+    canActivate: ['fake-guard'],
+    canActivateChild: ['fake-guard']
+  }
+];
 
-export interface SettingsParameterRef {
-  id?: string;
-  name: string;
-  key: string;
-  type: 'string' | 'boolean';
-  value?: any;
-}
-
-export interface ExtensionRoute extends Route {
-  parentRoute?: string;
-}
+export const mockRoutesWithParentRoute: Array<ExtensionRoute> = [
+  {
+    ...mockRoutesWithoutParentRoute[0],
+    parentRoute: 'fake-path'
+  }
+];
