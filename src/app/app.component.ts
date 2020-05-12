@@ -47,11 +47,15 @@ import {
   SetRepositoryInfoAction
 } from '@alfresco/aca-shared/store';
 import { filter, takeUntil } from 'rxjs/operators';
-import { AppExtensionService, AppService, ContentApiService } from '@alfresco/aca-shared';
+import {
+  AppExtensionService,
+  AppService,
+  ContentApiService,
+  ExtensionRoute
+} from '@alfresco/aca-shared';
 import { DiscoveryEntry, GroupsApi, Group } from '@alfresco/js-api';
 import { Subject } from 'rxjs';
 import { INITIAL_APP_STATE } from './store/initial-state';
-import { ExtensionRoute } from './types';
 
 @Component({
   selector: 'app-root',

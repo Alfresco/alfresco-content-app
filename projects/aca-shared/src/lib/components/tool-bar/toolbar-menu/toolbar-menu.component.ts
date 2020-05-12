@@ -27,6 +27,7 @@ import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 
 @Component({
+  // tslint:disable-next-line
   selector: 'app-toolbar-menu',
   templateUrl: 'toolbar-menu.component.html',
   encapsulation: ViewEncapsulation.None,

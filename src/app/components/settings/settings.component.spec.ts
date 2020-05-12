@@ -34,7 +34,10 @@ import {
   TranslateLoader,
   TranslateFakeLoader
 } from '@ngx-translate/core';
-import { AppExtensionService, SettingsParameterRef } from '@alfresco/aca-shared';
+import {
+  AppExtensionService,
+  SettingsParameterRef
+} from '@alfresco/aca-shared';
 
 describe('SettingsComponent', () => {
   let fixture: ComponentFixture<SettingsComponent>;

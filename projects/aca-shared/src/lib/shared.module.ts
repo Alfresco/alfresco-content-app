@@ -32,13 +32,8 @@ import { PaginationDirective } from './directives/pagination.directive';
 
 @NgModule({
   imports: [ContextActionsModule],
-  declarations: [
-    PaginationDirective
-  ],
-  exports: [
-    ContextActionsModule,
-    PaginationDirective
-  ]
+  declarations: [PaginationDirective],
+  exports: [ContextActionsModule, PaginationDirective]
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders {

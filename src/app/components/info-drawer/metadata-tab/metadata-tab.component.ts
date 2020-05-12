@@ -31,7 +31,11 @@ import {
   OnDestroy
 } from '@angular/core';
 import { MinimalNodeEntryEntity } from '@alfresco/js-api';
-import { NodePermissionService, isLocked, AppExtensionService } from '@alfresco/aca-shared';
+import {
+  NodePermissionService,
+  isLocked,
+  AppExtensionService
+} from '@alfresco/aca-shared';
 import { AppStore, infoDrawerMetadataAspect } from '@alfresco/aca-shared/store';
 import { AppConfigService, NotificationService } from '@alfresco/adf-core';
 import { Observable, Subject } from 'rxjs';

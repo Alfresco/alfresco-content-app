@@ -40,8 +40,8 @@ export function directives() {
 }
 
 @NgModule({
-  imports: [ SharedModule ],
+  imports: [SharedModule],
   declarations: directives(),
-  exports: [ directives(), SharedModule ]
+  exports: [directives(), SharedModule]
 })
 export class DirectivesModule {}
