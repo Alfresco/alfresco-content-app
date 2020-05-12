@@ -295,7 +295,7 @@ export class AppExtensionService implements RuleContext {
                       );
                       const childUrl = `/${
                         childRouteRef ? childRouteRef.path : child.route
-                        }`;
+                      }`;
                       return {
                         ...child,
                         url: childUrl
