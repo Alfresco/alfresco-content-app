@@ -28,14 +28,16 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { setupTestBed, StorageService } from '@alfresco/adf-core';
 import { AppSettingsModule } from './settings.module';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { SettingsParameterRef } from '../../types';
-import { AppExtensionService } from '../../extensions/extension.service';
 import { By } from '@angular/platform-browser';
 import {
   TranslateModule,
   TranslateLoader,
   TranslateFakeLoader
 } from '@ngx-translate/core';
+import {
+  AppExtensionService,
+  SettingsParameterRef
+} from '@alfresco/aca-shared';
 
 describe('SettingsComponent', () => {
   let fixture: ComponentFixture<SettingsComponent>;

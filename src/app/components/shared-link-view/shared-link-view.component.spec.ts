@@ -37,7 +37,7 @@ import { of } from 'rxjs';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { SetSelectedNodesAction } from '@alfresco/aca-shared/store';
-import { AppExtensionService } from '../../extensions/extension.service';
+import { AppExtensionService } from '@alfresco/aca-shared';
 
 describe('SharedLinkViewComponent', () => {
   let component: SharedLinkViewComponent;

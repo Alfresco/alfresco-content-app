@@ -31,6 +31,11 @@ export * from './lib/components/page-layout/page-layout.component';
 export * from './lib/components/page-layout/page-layout.module';
 export * from './lib/components/locked-by/locked-by.component';
 export * from './lib/components/locked-by/locked-by.module';
+export * from './lib/components/tool-bar/shared-toolbar.module';
+export * from './lib/components/info-drawer/shared-info-drawer.module';
+
+export * from './lib/models/types';
+export * from './lib/models/viewer.rules';
 
 export * from './lib/routing/app.routes.strategy';
 export * from './lib/routing/shared.guard';
@@ -38,12 +43,13 @@ export * from './lib/routing/shared.guard';
 export * from './lib/services/app.service';
 export * from './lib/services/content-api.service';
 export * from './lib/services/node-permission.service';
+export * from './lib/services/app.extension.service';
 
 export * from './lib/components/generic-error/generic-error.component';
 export * from './lib/components/generic-error/generic-error.module';
 
-export * from './lib/directives/contextmenu/contextmenu.directive';
 export * from './lib/directives/contextmenu/contextmenu.module';
+export * from './lib/directives/shared.directives.module';
 
 export * from './lib/utils/node.utils';
 

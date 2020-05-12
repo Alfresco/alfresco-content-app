@@ -25,7 +25,7 @@
 
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
-import { AppExtensionService } from '../../extensions/extension.service';
+import { AppExtensionService } from '@alfresco/aca-shared';
 
 @Component({
   selector: 'app-user-menu-item',

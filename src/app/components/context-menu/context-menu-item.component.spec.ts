@@ -25,7 +25,6 @@
 
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { AppExtensionService } from '../../extensions/extension.service';
 import { ContextMenuItemComponent } from './context-menu-item.component';
 import { ContextMenuModule } from './context-menu.module';
 import {
@@ -33,6 +32,7 @@ import {
   TranslateLoader,
   TranslateFakeLoader
 } from '@ngx-translate/core';
+import { AppExtensionService } from '@alfresco/aca-shared';
 
 describe('ContextMenuComponent', () => {
   let fixture: ComponentFixture<ContextMenuItemComponent>;

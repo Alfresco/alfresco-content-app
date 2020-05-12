@@ -58,6 +58,11 @@ jobs:
       cache: false
 
     - stage: Quality and Unit tests
+      name: 'Unit tests shared'
+      script: npm ci && ng test aca-shared --watch=false
+      cache: false
+
+    - stage: Quality and Unit tests
       name: 'Unit tests ACA'
       script:
         - npm ci

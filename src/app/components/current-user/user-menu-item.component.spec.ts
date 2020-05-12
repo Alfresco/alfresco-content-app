@@ -25,7 +25,6 @@
 
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { AppExtensionService } from '../../extensions/extension.service';
 import { UserMenuItemComponent } from './user-menu-item.component';
 import {
   TranslateModule,
@@ -34,6 +33,7 @@ import {
 } from '@ngx-translate/core';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
+import { AppExtensionService } from '@alfresco/aca-shared';
 
 describe('UserMenuItemComponent', () => {
   let fixture: ComponentFixture<UserMenuItemComponent>;

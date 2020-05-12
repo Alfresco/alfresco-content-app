@@ -34,13 +34,13 @@ import {
 } from '@angular/core';
 import { CollapsedTemplateDirective } from './directives/collapsed-template.directive';
 import { ExpandedTemplateDirective } from './directives/expanded-template.directive';
-import { AppExtensionService } from '../../extensions/extension.service';
 import { NavBarGroupRef } from '@alfresco/adf-extensions';
 import { AuthenticationService } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
 import { AppStore, getSideNavState } from '@alfresco/aca-shared/store';
 import { Subject } from 'rxjs';
 import { takeUntil, distinctUntilChanged, debounceTime } from 'rxjs/operators';
+import { AppExtensionService } from '@alfresco/aca-shared';
 
 @Component({
   selector: 'app-sidenav',

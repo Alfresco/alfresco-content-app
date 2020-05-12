@@ -35,7 +35,7 @@ import {
   AppState
 } from '@alfresco/aca-shared/store';
 import { By } from '@angular/platform-browser';
-import { AppExtensionService } from '../../../extensions/extension.service';
+import { AppExtensionService } from '@alfresco/aca-shared';
 
 describe('MetadataTabComponent', () => {
   let fixture: ComponentFixture<MetadataTabComponent>;

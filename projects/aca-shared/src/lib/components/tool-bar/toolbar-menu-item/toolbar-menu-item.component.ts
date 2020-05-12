@@ -25,15 +25,22 @@
 
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
-import { AppExtensionService } from '@alfresco/aca-shared';
+import { AppExtensionService } from '../../../services/app.extension.service';
 
 @Component({
-  selector: 'app-context-menu-item',
-  templateUrl: 'context-menu-item.component.html',
+  selector: 'app-toolbar-menu-item',
+  templateUrl: 'toolbar-menu-item.component.html',
+  styles: [
+    `
+      .app-toolbar-menu-item:last-child > .mat-divider-horizontal {
+        display: none;
+      }
+    `
+  ],
   encapsulation: ViewEncapsulation.None,
-  host: { class: 'app-context-menu-item' }
+  host: { class: 'app-toolbar-menu-item' }
 })
-export class ContextMenuItemComponent {
+export class ToolbarMenuItemComponent {
   @Input()
   actionRef: ContentActionRef;
 

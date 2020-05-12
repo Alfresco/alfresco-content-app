@@ -30,7 +30,6 @@ import {
   tick
 } from '@angular/core/testing';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { AppExtensionService } from '../../extensions/extension.service';
 import { ContextMenuComponent } from './context-menu.component';
 import { ContextMenuModule } from './context-menu.module';
 import { ContextMenuOverlayRef } from './context-menu-overlay';
@@ -42,6 +41,7 @@ import {
 
 import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
+import { AppExtensionService } from '@alfresco/aca-shared';
 
 describe('ContextMenuComponent', () => {
   let fixture: ComponentFixture<ContextMenuComponent>;

@@ -30,9 +30,9 @@ import {
   SetInfoDrawerStateAction,
   ToggleInfoDrawerAction
 } from '@alfresco/aca-shared/store';
-import { AppTestingModule } from '../../testing/app-testing.module';
-import { AppExtensionService } from '../../extensions/extension.service';
-import { ContentApiService } from '@alfresco/aca-shared';
+import { LibTestingModule } from '../../testing/lib-testing-module';
+import { AppExtensionService } from '../../services/app.extension.service';
+import { ContentApiService } from '../../services/content-api.service';
 import { of } from 'rxjs';
 
 describe('InfoDrawerComponent', () => {
@@ -50,7 +50,7 @@ describe('InfoDrawerComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule],
+      imports: [LibTestingModule],
       declarations: [InfoDrawerComponent],
       providers: [
         ContentApiService,

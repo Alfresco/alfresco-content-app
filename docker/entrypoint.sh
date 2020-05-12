@@ -59,10 +59,21 @@ if [ -n "${APP_CONFIG_OAUTH2_REDIRECT_LOGOUT}" ];then
   cat /tmp/app.config.json > ./app.config.json
 fi
 
-if [[ $ACS_URL ]]; then
+if [[ -n "${APP_CONFIG_BPM_HOST}" ]]
+then
   replace="\/"
-  encoded=${ACS_URL//\//$replace}
-  sed -i s%{protocol}//{hostname}{:port}%"$encoded"%g /tmp/app.config.json && \
+  encoded=${APP_CONFIG_BPM_HOST//\//$replace}
+  sed -e "s/\"bpmHost\": \".*\"/\"bpmHost\": \"${encoded}\"/g" \
+    -i /tmp/app.config.json && \
+  cat /tmp/app.config.json > ./app.config.json
+fi
+
+if [[ -n "${APP_CONFIG_ECM_HOST}" ]]
+then
+  replace="\/"
+  encoded=${APP_CONFIG_ECM_HOST//\//$replace}
+  sed -e "s/\"ecmHost\": \".*\"/\"ecmHost\": \"${encoded}\"/g" \
+    -i /tmp/app.config.json && \
   cat /tmp/app.config.json > ./app.config.json
 fi
 

@@ -23,20 +23,20 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export interface SettingsGroupRef {
-  id: string;
-  name: string;
-  parameters: Array<SettingsParameterRef>;
-  rules?: {
-    visible?: string;
-    [key: string]: string;
-  };
-}
+import { ExtensionRoute } from '@alfresco/aca-shared';
 
-export interface SettingsParameterRef {
-  id?: string;
-  name: string;
-  key: string;
-  type: 'string' | 'boolean';
-  value?: any;
-}
+export const mockRoutesWithoutParentRoute: Array<ExtensionRoute> = [
+  {
+    path: 'extension-path',
+    component: null,
+    canActivate: ['fake-guard'],
+    canActivateChild: ['fake-guard']
+  }
+];
+
+export const mockRoutesWithParentRoute: Array<ExtensionRoute> = [
+  {
+    ...mockRoutesWithoutParentRoute[0],
+    parentRoute: 'fake-path'
+  }
+];

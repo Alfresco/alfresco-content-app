@@ -28,8 +28,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { RepositoryInfo } from '@alfresco/js-api';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AppExtensionService } from '../../extensions/extension.service';
-import { ContentApiService } from '@alfresco/aca-shared';
+import { AppExtensionService, ContentApiService } from '@alfresco/aca-shared';
 import { dependencies } from '../../../../package.json';
 @Component({
   selector: 'app-about',

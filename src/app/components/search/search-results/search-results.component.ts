@@ -42,10 +42,10 @@ import {
   SnackbarErrorAction,
   showFacetFilter
 } from '@alfresco/aca-shared/store';
-import { AppExtensionService } from '../../../extensions/extension.service';
 import { ContentManagementService } from '../../../services/content-management.service';
 import { AppConfigService, TranslationService } from '@alfresco/adf-core';
 import { Observable } from 'rxjs';
+import { AppExtensionService } from '@alfresco/aca-shared';
 
 @Component({
   selector: 'aca-search-results',

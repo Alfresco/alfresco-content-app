@@ -23,43 +23,26 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, ViewEncapsulation } from '@angular/core';
-import { ContentActionRef } from '@alfresco/adf-extensions';
-import { AppExtensionService } from '../../../extensions/extension.service';
+import { Route } from '@angular/router';
 
-@Component({
-  selector: 'app-toolbar-menu-item',
-  templateUrl: 'toolbar-menu-item.component.html',
-  styles: [
-    `
-      .app-toolbar-menu-item:last-child > .mat-divider-horizontal {
-        display: none;
-      }
-    `
-  ],
-  encapsulation: ViewEncapsulation.None,
-  host: { class: 'app-toolbar-menu-item' }
-})
-export class ToolbarMenuItemComponent {
-  @Input()
-  actionRef: ContentActionRef;
+export interface SettingsGroupRef {
+  id: string;
+  name: string;
+  parameters: Array<SettingsParameterRef>;
+  rules?: {
+    visible?: string;
+    [key: string]: string;
+  };
+}
 
-  constructor(private extensions: AppExtensionService) {}
+export interface SettingsParameterRef {
+  id?: string;
+  name: string;
+  key: string;
+  type: 'string' | 'boolean';
+  value?: any;
+}
 
-  runAction() {
-    if (this.hasClickAction(this.actionRef)) {
-      this.extensions.runActionById(this.actionRef.actions.click);
-    }
-  }
-
-  private hasClickAction(actionRef: ContentActionRef): boolean {
-    if (actionRef && actionRef.actions && actionRef.actions.click) {
-      return true;
-    }
-    return false;
-  }
-
-  trackById(_: number, obj: { id: string }) {
-    return obj.id;
-  }
+export interface ExtensionRoute extends Route {
+  parentRoute?: string;
 }

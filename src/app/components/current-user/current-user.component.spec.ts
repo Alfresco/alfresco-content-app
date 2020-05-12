@@ -26,7 +26,6 @@
 import { CurrentUserComponent } from './current-user.component';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { AppExtensionService } from '../../extensions/extension.service';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
@@ -34,6 +33,7 @@ import {
   SetUserProfileAction,
   SetSettingsParameterAction
 } from '@alfresco/aca-shared/store';
+import { AppExtensionService } from '@alfresco/aca-shared';
 
 describe('CurrentUserComponent', () => {
   let fixture: ComponentFixture<CurrentUserComponent>;

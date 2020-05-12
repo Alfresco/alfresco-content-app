@@ -24,8 +24,8 @@
  */
 
 import { TestBed } from '@angular/core/testing';
-import { AppTestingModule } from '../testing/app-testing.module';
-import { AppExtensionService } from './extension.service';
+import { LibTestingModule } from '../testing/lib-testing-module';
+import { AppExtensionService } from './app.extension.service';
 import { Store, Action } from '@ngrx/store';
 import { AppStore } from '@alfresco/aca-shared/store';
 import {
@@ -51,7 +51,7 @@ describe('AppExtensionService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule]
+      imports: [LibTestingModule]
     });
 
     appConfigService = TestBed.get(AppConfigService);
