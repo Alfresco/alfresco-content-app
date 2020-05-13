@@ -38,6 +38,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { provideMockStore } from '@ngrx/store/testing';
 
 export const initialState = {
   app: {
@@ -79,7 +80,7 @@ export const initialState = {
     NoopAnimationsModule,
     HttpClientModule,
     RouterTestingModule,
-    StoreModule.forRoot({ app: param => param }, { initialState }),
+    StoreModule,
     EffectsModule.forRoot([]),
     TranslateModule.forRoot({
       loader: {
@@ -90,6 +91,7 @@ export const initialState = {
     PipeModule
   ],
   providers: [
+    provideMockStore({ initialState }),
     { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
     { provide: TranslationService, useClass: TranslationMock },
     AlfrescoApiService
