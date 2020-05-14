@@ -66,7 +66,7 @@ export class ToggleFavoriteComponent implements OnInit {
 
   ngOnInit() {
     if (this.data) {
-      this.reloadOnRoutes = ['/favorites', '/favorite/libraries'];
+      this.reloadOnRoutes = JSON.parse(this.data.replace(/'/g, '"'));
     }
   }
 
