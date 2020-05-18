@@ -22,18 +22,17 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
+import { ContentActionRef } from '@alfresco/adf-extensions';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { InfoDrawerComponent } from './info-drawer.component';
-import { TestBed, ComponentFixture, async } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
-import {
-  SetInfoDrawerStateAction,
-  ToggleInfoDrawerAction
-} from '@alfresco/aca-shared/store';
+import { SetInfoDrawerStateAction, ToggleInfoDrawerAction } from '@alfresco/aca-shared/store';
+import { of, Subject } from 'rxjs';
+import { InfoDrawerComponent } from './info-drawer.component';
 import { LibTestingModule } from '../../testing/lib-testing-module';
 import { AppExtensionService } from '../../services/app.extension.service';
 import { ContentApiService } from '../../services/content-api.service';
-import { of } from 'rxjs';
+import { SharedToolbarModule } from '../tool-bar/shared-toolbar.module';
 
 describe('InfoDrawerComponent', () => {
   let fixture: ComponentFixture<InfoDrawerComponent>;
@@ -41,16 +40,24 @@ describe('InfoDrawerComponent', () => {
   let contentApiService: ContentApiService;
   let tab;
   let appExtensionService: AppExtensionService;
+  const mockStream = new Subject();
   const storeMock = {
-    dispatch: jasmine.createSpy('dispatch')
+    dispatch: jasmine.createSpy('dispatch'),
+    select: () => mockStream,
   };
   const extensionServiceMock = {
-    getSidebarTabs: () => {}
+    getSidebarTabs: () => {},
+    getAllowedInfoDrawerActions: () => [{
+      "id": "app.sidebar.close",
+      "order": 100,
+      "title": "close",
+      "icon": "highlight_off"
+    }]
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [LibTestingModule],
+      imports: [LibTestingModule, SharedToolbarModule],
       declarations: [InfoDrawerComponent],
       providers: [
         ContentApiService,
@@ -165,5 +172,16 @@ describe('InfoDrawerComponent', () => {
     expect(storeMock.dispatch).toHaveBeenCalledWith(
       new ToggleInfoDrawerAction()
     );
+  });
+
+  it('should show the icons from extension', () => {
+    fixture.detectChanges();
+    mockStream.next();
+    expect(component.actions).toEqual([{
+      "id": "app.sidebar.close",
+      "order": 100,
+      "title": "close",
+      "icon": "highlight_off"
+    } as ContentActionRef]);
   });
 });
