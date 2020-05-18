@@ -841,27 +841,29 @@
         }
       ]
     },
-    "sidebar": [
-      {
-        "id": "app.sidebar.properties",
-        "order": 100,
-        "title": "APP.INFO_DRAWER.TABS.PROPERTIES",
-        "component": "app.components.tabs.metadata"
-      },
-      {
-        "id": "app.sidebar.comments",
-        "order": 200,
-        "title": "APP.INFO_DRAWER.TABS.COMMENTS",
-        "component": "app.components.tabs.comments"
-      },
-      {
-        "id": "app.sidebar.versions",
-        "order": 300,
-        "disabled": true,
-        "title": "APP.INFO_DRAWER.TABS.VERSIONS",
-        "component": "app.components.tabs.versions"
-      }
-    ],
+    "sidebar": {
+      "tabs": [
+        {
+          "id": "app.sidebar.properties",
+          "order": 100,
+          "title": "APP.INFO_DRAWER.TABS.PROPERTIES",
+          "component": "app.components.tabs.metadata"
+        },
+        {
+          "id": "app.sidebar.comments",
+          "order": 200,
+          "title": "APP.INFO_DRAWER.TABS.COMMENTS",
+          "component": "app.components.tabs.comments"
+        },
+        {
+          "id": "app.sidebar.versions",
+          "order": 300,
+          "disabled": true,
+          "title": "APP.INFO_DRAWER.TABS.VERSIONS",
+          "component": "app.components.tabs.versions"
+        }
+      ]
+    },
     "content-metadata-presets": [
       {
         "id": "app.content.metadata.custom",

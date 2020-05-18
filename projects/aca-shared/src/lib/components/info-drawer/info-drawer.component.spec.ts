@@ -26,7 +26,10 @@ import { ContentActionRef } from '@alfresco/adf-extensions';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
-import { SetInfoDrawerStateAction, ToggleInfoDrawerAction } from '@alfresco/aca-shared/store';
+import {
+  SetInfoDrawerStateAction,
+  ToggleInfoDrawerAction
+} from '@alfresco/aca-shared/store';
 import { of, Subject } from 'rxjs';
 import { InfoDrawerComponent } from './info-drawer.component';
 import { LibTestingModule } from '../../testing/lib-testing-module';
@@ -43,16 +46,18 @@ describe('InfoDrawerComponent', () => {
   const mockStream = new Subject();
   const storeMock = {
     dispatch: jasmine.createSpy('dispatch'),
-    select: () => mockStream,
+    select: () => mockStream
   };
   const extensionServiceMock = {
     getSidebarTabs: () => {},
-    getAllowedInfoDrawerActions: () => [{
-      "id": "app.sidebar.close",
-      "order": 100,
-      "title": "close",
-      "icon": "highlight_off"
-    }]
+    getAllowedInfoDrawerActions: () => [
+      {
+        id: 'app.sidebar.close',
+        order: 100,
+        title: 'close',
+        icon: 'highlight_off'
+      }
+    ]
   };
 
   beforeEach(() => {
@@ -177,11 +182,13 @@ describe('InfoDrawerComponent', () => {
   it('should show the icons from extension', () => {
     fixture.detectChanges();
     mockStream.next();
-    expect(component.actions).toEqual([{
-      "id": "app.sidebar.close",
-      "order": 100,
-      "title": "close",
-      "icon": "highlight_off"
-    } as ContentActionRef]);
+    expect(component.actions).toEqual([
+      {
+        id: 'app.sidebar.close',
+        order: 100,
+        title: 'close',
+        icon: 'highlight_off'
+      } as ContentActionRef
+    ]);
   });
 });

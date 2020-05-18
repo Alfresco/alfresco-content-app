@@ -1220,34 +1220,36 @@
         }
       ]
     },
-    "sidebar": [
-      {
+    "sidebar": {
+      "tabs": [
+        {
           "id": "app.sidebar.properties",
           "order": 1,
           "title": "MY PROPERTIES",
           "component": "app.components.tabs.metadata"
-      },
-      {
+        },
+        {
           "id": "app.sidebar.custom",
           "order": 2,
           "icon": "mood",
           "title": "MY CUSTOM TITLE",
           "component": "app.toolbar.toggleFavorite"
-      },
-      {
+        },
+        {
           "id": "app.sidebar.no_title",
           "order": 3,
           "icon": "check_circle",
           "component": "app.components.tabs.metadata"
-      },
-      {
+        },
+        {
           "id": "app.sidebar.comments",
           "order": 4,
           "disabled": true,
           "title": "APP.INFO_DRAWER.TABS.COMMENTS",
           "component": "app.components.tabs.comments"
-      }
-    ],
+        }
+      ]
+    },
     "content-metadata-presets": [
       {
         "id": "app.content.metadata.custom",
