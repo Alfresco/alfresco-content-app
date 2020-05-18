@@ -7,6 +7,10 @@
     cdkTrapFocus
     cdkTrapFocusAutoCapture
   >
+    <info-drawer-buttons>
+      <button mat-raised-button color="primary">Primary</button>
+    </info-drawer-buttons>
+
     <adf-info-drawer-tab
       *ngFor="let tab of tabs"
       [icon]="tab.icon"
