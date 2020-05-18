@@ -209,20 +209,22 @@ export interface NavBarLinkRef {
   "$name": "plugin1",
 
   "features": {
-    "sidebar": [
-      {
-        "id": "app.sidebar.properties",
-        "order": 100,
-        "title": "Properties",
-        "component": "app.components.tabs.metadata"
-      },
-      {
-        "id": "app.sidebar.comments",
-        "order": 200,
-        "title": "Comments",
-        "component": "app.components.tabs.comments"
-      }
-    ]
+    "sidebar": {
+      "tabs": [
+            {
+              "id": "app.sidebar.properties",
+              "order": 100,
+              "title": "Properties",
+              "component": "app.components.tabs.metadata"
+            },
+            {
+              "id": "app.sidebar.comments",
+              "order": 200,
+              "title": "Comments",
+              "component": "app.components.tabs.comments"
+            }
+      ]
+    }
   }
 }
 ```

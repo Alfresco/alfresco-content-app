@@ -83,7 +83,8 @@ export class AppExtensionService implements RuleContext {
   openWithActions: Array<ContentActionRef> = [];
   createActions: Array<ContentActionRef> = [];
   navbar: Array<NavBarGroupRef> = [];
-  sidebar: Array<SidebarTabRef> = [];
+  sidebarTabs: Array<SidebarTabRef> = [];
+  sidebarActions: Array<ContentActionRef> = [];
   contentMetadata: any;
   viewerRules: ViewerRules = {};
   userActions: Array<ContentActionRef> = [];
@@ -163,6 +164,10 @@ export class AppExtensionService implements RuleContext {
       config,
       'features.header'
     );
+    this.sidebarActions = this.loader.getContentActions(
+      config,
+      'features.sidebar.actions'
+    );
     this.toolbarActions = this.loader.getContentActions(
       config,
       'features.toolbar'
@@ -189,9 +194,9 @@ export class AppExtensionService implements RuleContext {
       'features.create'
     );
     this.navbar = this.loadNavBar(config);
-    this.sidebar = this.loader.getElements<SidebarTabRef>(
+    this.sidebarTabs = this.loader.getElements<SidebarTabRef>(
       config,
-      'features.sidebar'
+      'features.sidebar.tabs'
     );
     this.userActions = this.loader.getContentActions(
       config,
@@ -382,7 +387,7 @@ export class AppExtensionService implements RuleContext {
   }
 
   getSidebarTabs(): Array<SidebarTabRef> {
-    return this.sidebar.filter(action => this.filterVisible(action));
+    return this.sidebarTabs.filter(action => this.filterVisible(action));
   }
 
   getComponentById(id: string): Type<{}> {
@@ -484,6 +489,10 @@ export class AppExtensionService implements RuleContext {
       })
       .reduce(reduceEmptyMenus, [])
       .reduce(reduceSeparators, []);
+  }
+
+  getAllowedInfoDrawerActions(): Array<ContentActionRef> {
+    return this.getAllowedActions(this.sidebarActions);
   }
 
   getAllowedToolbarActions(): Array<ContentActionRef> {

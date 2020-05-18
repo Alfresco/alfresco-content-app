@@ -803,9 +803,18 @@
         },
         "sidebar": {
           "description": "Sidebar extensions",
-          "type": "array",
-          "items": { "$ref": "#/definitions/sidebarTabRef" },
-          "minItems": 1
+          "type": "object",
+          "properties": {
+            "actions": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/contentActionRef" }
+            },
+            "tabs": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/sidebarTabRef" },
+              "minItems": 1
+            }
+          }
         },
         "toolbar": {
           "description": "Toolbar entries",

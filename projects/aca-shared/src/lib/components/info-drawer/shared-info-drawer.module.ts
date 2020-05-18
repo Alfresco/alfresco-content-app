@@ -26,16 +26,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InfoDrawerComponent } from './info-drawer.component';
-import { InfoDrawerModule } from '@alfresco/adf-core';
+import { InfoDrawerModule, ToolbarModule } from '@alfresco/adf-core';
 import { ExtensionsModule } from '@alfresco/adf-extensions';
 import { MatProgressBarModule } from '@angular/material';
+import { SharedToolbarModule } from '../tool-bar/shared-toolbar.module';
 
 @NgModule({
   imports: [
     CommonModule,
     InfoDrawerModule,
     MatProgressBarModule,
-    ExtensionsModule
+    ExtensionsModule,
+    ToolbarModule,
+    SharedToolbarModule
   ],
   declarations: [InfoDrawerComponent],
   exports: [InfoDrawerComponent]

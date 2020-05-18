@@ -36,14 +36,17 @@ import {
   MinimalNodeEntryEntity,
   SiteEntry
 } from '@alfresco/js-api';
-import { SidebarTabRef } from '@alfresco/adf-extensions';
+import { ContentActionRef, SidebarTabRef } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
 import {
+  getAppSelection,
   SetInfoDrawerStateAction,
   ToggleInfoDrawerAction
 } from '@alfresco/aca-shared/store';
 import { AppExtensionService } from '../../services/app.extension.service';
 import { ContentApiService } from '../../services/content-api.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'aca-info-drawer',
@@ -58,6 +61,8 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
   isLoading = false;
   displayNode: MinimalNodeEntryEntity | SiteEntry;
   tabs: Array<SidebarTabRef> = [];
+  actions: Array<ContentActionRef> = [];
+  onDestroy$ = new Subject<boolean>();
 
   @HostListener('keydown.escape')
   onEscapeKeyboardEvent(): void {
@@ -72,9 +77,17 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
 
   ngOnInit() {
     this.tabs = this.extensions.getSidebarTabs();
+    this.store
+      .select(getAppSelection)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(() => {
+        this.actions = this.extensions.getAllowedInfoDrawerActions();
+      });
   }
 
   ngOnDestroy() {
+    this.onDestroy$.next(true);
+    this.onDestroy$.complete();
     this.store.dispatch(new SetInfoDrawerStateAction(false));
   }
 
@@ -89,6 +102,10 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
       const id = entry.nodeId || entry.id;
       return this.loadNodeInfo(id);
     }
+  }
+
+  trackByActionId(_: number, action: ContentActionRef) {
+    return action.id;
   }
 
   private close() {
