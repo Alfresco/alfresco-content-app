@@ -29,7 +29,7 @@ import { RepositoryInfo } from '@alfresco/js-api';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AppExtensionService, ContentApiService } from '@alfresco/aca-shared';
-import { dependencies } from '../../../../package.json';
+import { dependencies, version, name, commit } from '../../../../package.json';
 @Component({
   selector: 'app-about',
   templateUrl: './about.component.html',
@@ -43,6 +43,10 @@ export class AboutComponent implements OnInit {
   dependencyEntries: Array<{ name: string; version: string }>;
   statusEntries: Array<{ property: string; value: string }>;
   licenseEntries: Array<{ property: string; value: string }>;
+  adfRepoUrl = 'https://github.com/Alfresco/alfresco-ng2-components/commits';
+  appRepoUrl = `https://github.com/Alfresco/${name}/commits/${commit}`;
+  adfVersion = '';
+  appVersion = version;
 
   constructor(
     private contentApi: ContentApiService,
@@ -53,6 +57,11 @@ export class AboutComponent implements OnInit {
 
   ngOnInit() {
     this.dependencyEntries = Object.keys(dependencies).map(key => {
+      if (key === '@alfresco/adf-core') {
+        this.adfVersion = dependencies[key].split('-')[0];
+        const adfCurrentCommit = dependencies[key].split('-')[1] || '';
+        this.adfRepoUrl = this.adfRepoUrl.concat('/', adfCurrentCommit);
+      }
       return {
         name: key,
         version: dependencies[key]
