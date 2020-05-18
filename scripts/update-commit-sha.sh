@@ -1,14 +1,9 @@
 #!/usr/bin/env bash
 eval GNU=false
 
-set -e
-TEMP=".tmp"
-
 show_help() {
     echo "Usage: update-commit-sha.sh"
     echo ""
-    echo "-t or --token  Github ouath token"
-    echo "-v or --version version to bump"
     echo "-gnu for gnu"
 }
 
@@ -16,6 +11,14 @@ gnu_mode() {
     echo "====== GNU MODE ====="
     GNU=true
 }
+
+while [[ $1 == -* ]]; do
+    case "$1" in
+      -h|--help|-\?) show_help; exit 0;;
+      -gnu) gnu_mode; shift;;
+      -*) echo "invalid option: $1" 1>&2; show_help; exit 1;;
+    esac
+done
 
 npm install @alfresco/adf-cli@alpha
 if $GNU; then
