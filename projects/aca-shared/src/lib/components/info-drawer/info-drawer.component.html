@@ -7,6 +7,12 @@
     cdkTrapFocus
     cdkTrapFocusAutoCapture
   >
+    <adf-toolbar class="adf-toolbar--inline" info-drawer-buttons>
+      <ng-container *ngFor="let entry of actions; trackBy: trackByActionId">
+        <aca-toolbar-action [actionRef]="entry"></aca-toolbar-action>
+      </ng-container>
+    </adf-toolbar>
+
     <adf-info-drawer-tab
       *ngFor="let tab of tabs"
       [icon]="tab.icon"

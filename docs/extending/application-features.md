@@ -200,6 +200,7 @@ You can provide the following customizations for the Sidebar (aka Info Drawer) c
 - Add extra tabs with custom components
 - Disable tabs from the main application or extensions
 - Replace content or properties of existing tabs
+- Add toolbar buttons
 
 ```json
 {
@@ -208,25 +209,35 @@ You can provide the following customizations for the Sidebar (aka Info Drawer) c
   "$name": "plugin1",
 
   "features": {
-    "sidebar": [
-      {
-        "id": "app.sidebar.properties",
-        "order": 100,
-        "title": "Properties",
-        "component": "app.components.tabs.metadata"
-      },
-      {
-        "id": "app.sidebar.comments",
-        "order": 200,
-        "title": "Comments",
-        "component": "app.components.tabs.comments"
-      }
-    ]
+    "sidebar": {
+      "toolbar": [
+            {
+              "id": "app.sidebar.close",
+              "order": 100,
+              "title": "close",
+              "icon": "highlight_off"
+            }
+      ],
+      "tabs": [
+            {
+              "id": "app.sidebar.properties",
+              "order": 100,
+              "title": "Properties",
+              "component": "app.components.tabs.metadata"
+            },
+            {
+              "id": "app.sidebar.comments",
+              "order": 200,
+              "title": "Comments",
+              "component": "app.components.tabs.comments"
+            }
+      ]
+    }
   }
 }
 ```
 
-The example above renders two tabs:
+The example above renders two tabs with `close` icon:
 
 - `Properties` tab that references the `app.components.tabs.metadata` component
 - `Comments` tab that references the `app.components.tabs.comments` component

@@ -1244,45 +1244,47 @@
         }
       ]
     },
-    "sidebar": [
-      {
-        "id": "app.sidebar.properties",
-        "order": 100,
-        "title": "APP.INFO_DRAWER.TABS.PROPERTIES",
-        "component": "app.components.tabs.metadata",
-        "rules": {
-          "visible": "app.navigation.isNotLibraries"
+    "sidebar": {
+      "tabs": [
+        {
+          "id": "app.sidebar.properties",
+          "order": 100,
+          "title": "APP.INFO_DRAWER.TABS.PROPERTIES",
+          "component": "app.components.tabs.metadata",
+          "rules": {
+            "visible": "app.navigation.isNotLibraries"
+          }
+        },
+        {
+          "id": "app.sidebar.comments",
+          "order": 200,
+          "title": "APP.INFO_DRAWER.TABS.COMMENTS",
+          "component": "app.components.tabs.comments",
+          "rules": {
+            "visible": "app.navigation.isNotLibraries"
+          }
+        },
+        {
+          "id": "app.sidebar.versions",
+          "order": 300,
+          "disabled": true,
+          "title": "APP.INFO_DRAWER.TABS.VERSIONS",
+          "component": "app.components.tabs.versions",
+          "rules": {
+            "visible": "app.navigation.isNotLibraries"
+          }
+        },
+        {
+          "id": "app.sidebar.library.properties",
+          "order": 500,
+          "title": "APP.INFO_DRAWER.TABS.LIBRARY_PROPERTIES",
+          "component": "app.components.tabs.library.metadata",
+          "rules": {
+            "visible": "app.libraries.toolbar"
+          }
         }
-      },
-      {
-        "id": "app.sidebar.comments",
-        "order": 200,
-        "title": "APP.INFO_DRAWER.TABS.COMMENTS",
-        "component": "app.components.tabs.comments",
-        "rules": {
-          "visible": "app.navigation.isNotLibraries"
-        }
-      },
-      {
-        "id": "app.sidebar.versions",
-        "order": 300,
-        "disabled": true,
-        "title": "APP.INFO_DRAWER.TABS.VERSIONS",
-        "component": "app.components.tabs.versions",
-        "rules": {
-          "visible": "app.navigation.isNotLibraries"
-        }
-      },
-      {
-        "id": "app.sidebar.library.properties",
-        "order": 500,
-        "title": "APP.INFO_DRAWER.TABS.LIBRARY_PROPERTIES",
-        "component": "app.components.tabs.library.metadata",
-        "rules": {
-          "visible": "app.libraries.toolbar"
-        }
-      }
-    ],
+      ]
+    },
     "content-metadata-presets": [
       {
         "id": "app.content.metadata.custom",
