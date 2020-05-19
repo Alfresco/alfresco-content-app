@@ -805,11 +805,13 @@
           "description": "Sidebar extensions",
           "type": "object",
           "properties": {
-            "actions": {
+            "toolbar": {
+              "description": "Toolbar entries",
               "type": "array",
               "items": { "$ref": "#/definitions/contentActionRef" }
             },
             "tabs": {
+              "description": "Tabs entries",
               "type": "array",
               "items": { "$ref": "#/definitions/sidebarTabRef" },
               "minItems": 1
