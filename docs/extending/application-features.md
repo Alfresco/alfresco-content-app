@@ -200,7 +200,7 @@ You can provide the following customizations for the Sidebar (aka Info Drawer) c
 - Add extra tabs with custom components
 - Disable tabs from the main application or extensions
 - Replace content or properties of existing tabs
-- Also add toolbar
+- Add toolbar buttons
 
 ```json
 {
