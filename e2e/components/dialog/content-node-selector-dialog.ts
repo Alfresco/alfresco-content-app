@@ -52,7 +52,7 @@ export class ContentNodeSelectorDialog extends GenericDialog {
     await waitForStaleness(browser.$('.mat-option .mat-option-text'))
   }
 
-  async selectLocation(location: 'Personal Files' | 'File Libraries'): Promise<void> {
+  async selectLocation(location: string): Promise<void> {
     await this.locationDropDown.click();
     await waitForPresence(this.locationPersonalFiles);
 
