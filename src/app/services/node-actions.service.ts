@@ -60,12 +60,9 @@ export enum BatchOperationType {
   providedIn: 'root'
 })
 export class NodeActionsService {
-  static SNACK_MESSAGE_DURATION_WITH_UNDO = 10000;
-  static SNACK_MESSAGE_DURATION = 3000;
-
   contentCopied: Subject<MinimalNodeEntity[]> = new Subject<
     MinimalNodeEntity[]
-    >();
+  >();
   contentMoved: Subject<any> = new Subject<any>();
   moveDeletedEntries: any[] = [];
   isSitesDestinationAvailable = false;
