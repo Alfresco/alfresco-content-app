@@ -210,7 +210,7 @@ You can provide the following customizations for the Sidebar (aka Info Drawer) c
 
   "features": {
     "sidebar": {
-      "actions": [
+      "toolbar": [
             {
               "id": "app.sidebar.close",
               "order": 100,

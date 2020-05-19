@@ -166,7 +166,7 @@ export class AppExtensionService implements RuleContext {
     );
     this.sidebarActions = this.loader.getContentActions(
       config,
-      'features.sidebar.actions'
+      'features.sidebar.toolbar'
     );
     this.toolbarActions = this.loader.getContentActions(
       config,
@@ -491,7 +491,7 @@ export class AppExtensionService implements RuleContext {
       .reduce(reduceSeparators, []);
   }
 
-  getAllowedInfoDrawerActions(): Array<ContentActionRef> {
+  getAllowedSidebarActions(): Array<ContentActionRef> {
     return this.getAllowedActions(this.sidebarActions);
   }
 

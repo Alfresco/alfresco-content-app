@@ -81,7 +81,7 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
       .select(getAppSelection)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(() => {
-        this.actions = this.extensions.getAllowedInfoDrawerActions();
+        this.actions = this.extensions.getAllowedSidebarActions();
       });
   }
 

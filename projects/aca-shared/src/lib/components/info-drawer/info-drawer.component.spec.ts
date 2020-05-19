@@ -50,7 +50,7 @@ describe('InfoDrawerComponent', () => {
   };
   const extensionServiceMock = {
     getSidebarTabs: () => {},
-    getAllowedInfoDrawerActions: () => [
+    getAllowedSidebarActions: () => [
       {
         id: 'app.sidebar.close',
         order: 100,
