@@ -869,24 +869,118 @@ describe('AppExtensionService', () => {
         features: {
           userActions: [
             {
-              id: 'aca:toolbar/separator-2',
+              id: 'aca:toolbar/action-2',
               order: 2,
-              type: ContentActionType.separator,
+              type: ContentActionType.button,
               title: 'action2'
             },
             {
-              id: 'aca:toolbar/separator-1',
+              id: 'aca:toolbar/action-1',
               order: 1,
-              type: ContentActionType.separator,
+              type: ContentActionType.button,
               title: 'action1'
             }
           ]
         }
       });
 
-      expect(service.userActions.length).toBe(2);
-      expect(service.userActions[0].id).toBe('aca:toolbar/separator-1');
-      expect(service.userActions[1].id).toBe('aca:toolbar/separator-2');
+      const actions = service.getUserActions();
+      expect(actions[0].id).toBe('aca:toolbar/action-1');
+      expect(actions[1].id).toBe('aca:toolbar/action-2');
+    });
+  });
+
+  describe('getHeaderActions', () => {
+    it('should load user actions from the config', () => {
+      applyConfig({
+        $id: 'test',
+        $name: 'test',
+        $version: '1.0.0',
+        $license: 'MIT',
+        $vendor: 'Good company',
+        $runtime: '1.5.0',
+        features: {
+          header: [
+            {
+              id: 'header.action.separator.1',
+              order: 1,
+              type: ContentActionType.separator
+            },
+            {
+              id: 'header.action.separator.2',
+              order: 2,
+              type: ContentActionType.separator
+            }
+          ]
+        }
+      });
+
+      expect(service.headerActions.length).toBe(2);
+    });
+
+    it('should sort header actions by order', () => {
+      applyConfig({
+        $id: 'test',
+        $name: 'test',
+        $version: '1.0.0',
+        $license: 'MIT',
+        $vendor: 'Good company',
+        $runtime: '1.5.0',
+        features: {
+          header: [
+            {
+              id: 'header.action.1',
+              order: 2,
+              type: ContentActionType.button
+            },
+            {
+              id: 'header.action.2',
+              order: 1,
+              type: ContentActionType.button
+            }
+          ]
+        }
+      });
+
+      const actions = service.getHeaderActions();
+      expect(actions[0].id).toBe('header.action.2');
+      expect(actions[1].id).toBe('header.action.1');
+    });
+
+    it('should sort header menu children actions by order', () => {
+      applyConfig({
+        $id: 'test',
+        $name: 'test',
+        $version: '1.0.0',
+        $license: 'MIT',
+        $vendor: 'Good company',
+        $runtime: '1.5.0',
+        features: {
+          header: [
+            {
+              id: 'header.action.1',
+              order: 1,
+              type: ContentActionType.menu,
+              children: [
+                {
+                  id: 'header.action.1',
+                  order: 2,
+                  type: ContentActionType.button
+                },
+                {
+                  id: 'header.action.2',
+                  order: 1,
+                  type: ContentActionType.button
+                }
+              ]
+            }
+          ]
+        }
+      });
+
+      const actions = service.getHeaderActions()[0];
+      expect(actions.children[0].id).toBe('header.action.2');
+      expect(actions.children[1].id).toBe('header.action.1');
     });
   });
 });

@@ -51,6 +51,7 @@ import { LibrariesComponent } from './components/libraries/libraries.component';
 import { FavoriteLibrariesComponent } from './components/favorite-libraries/favorite-libraries.component';
 import { NodeVersionUploadDialogComponent } from './dialogs/node-version-upload/node-version-upload.dialog';
 import { NodeVersionsDialogComponent } from './dialogs/node-versions/node-versions.dialog';
+import { CurrentUserComponent } from './components/current-user/current-user.component';
 
 import { AppStoreModule } from './store/app-store.module';
 import { MaterialModule } from './material.module';
@@ -177,7 +178,8 @@ registerLocaleData(localeSv);
     NodeVersionsDialogComponent,
     NodeVersionUploadDialogComponent,
     LibraryDialogComponent,
-    CreateFromTemplateDialogComponent
+    CreateFromTemplateDialogComponent,
+    CurrentUserComponent
   ],
   bootstrap: [AppComponent]
 })
