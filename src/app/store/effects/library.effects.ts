@@ -107,7 +107,8 @@ export class LibraryEffects {
           .pipe(map(node => node.entry.id))
           .subscribe(
             id => {
-              this.store.dispatch(new NavigateRouteAction(['libraries', id]));
+              const route = action.route ? action.route : 'libraries';
+              this.store.dispatch(new NavigateRouteAction([route, id]));
             },
             () => {
               this.store.dispatch(

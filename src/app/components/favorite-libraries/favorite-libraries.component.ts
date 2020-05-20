@@ -82,7 +82,9 @@ export class FavoriteLibrariesComponent extends PageComponent
 
   navigateTo(node: SiteEntry) {
     if (node && node.entry && node.entry.guid) {
-      this.store.dispatch(new NavigateLibraryAction(node.entry.guid));
+      this.store.dispatch(
+        new NavigateLibraryAction(node.entry.guid, 'favorite/libraries')
+      );
     }
   }
 

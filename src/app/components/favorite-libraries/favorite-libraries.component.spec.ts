@@ -144,7 +144,10 @@ describe('FavoriteLibrariesComponent', () => {
       spyOn(router, 'navigate').and.stub();
       component.navigateTo({ entry: { guid: 'guid' } } as any);
 
-      expect(router.navigate).toHaveBeenCalledWith(['libraries', 'libraryId']);
+      expect(router.navigate).toHaveBeenCalledWith([
+        'favorite/libraries',
+        'libraryId'
+      ]);
     });
   });
 

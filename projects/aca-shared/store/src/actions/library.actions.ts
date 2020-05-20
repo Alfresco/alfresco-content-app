@@ -47,7 +47,7 @@ export class CreateLibraryAction implements Action {
 export class NavigateLibraryAction implements Action {
   readonly type = LibraryActionTypes.Navigate;
 
-  constructor(public payload?: string) {}
+  constructor(public payload?: string, public route?: string) {}
 }
 
 export class UpdateLibraryAction implements Action {

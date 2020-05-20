@@ -212,15 +212,47 @@ export const APP_ROUTES: Routes = [
         ]
       },
       {
-        path: 'favorite/libraries',
+        path: 'favorite',
         children: [
           {
             path: '',
+            pathMatch: 'full',
+            redirectTo: 'libraries'
+          },
+          {
+            path: 'libraries',
             component: FavoriteLibrariesComponent,
             data: {
               title: 'APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.TITLE',
               sortingPreferenceKey: 'favorite-libraries'
             }
+          }
+        ]
+      },
+      {
+        path: 'favorite/libraries/:folderId',
+        children: [
+          {
+            path: '',
+            component: FilesComponent,
+            data: {
+              title: 'APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.TITLE',
+              sortingPreferenceKey: 'libraries-files'
+            }
+          },
+          {
+            path: 'view/:nodeId',
+            outlet: 'viewer',
+            children: [
+              {
+                path: '',
+                data: {
+                  navigateSource: 'libraries'
+                },
+                loadChildren:
+                  './components/viewer/viewer.module#AppViewerModule'
+              }
+            ]
           }
         ]
       },
