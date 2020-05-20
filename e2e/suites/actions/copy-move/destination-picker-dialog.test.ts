@@ -168,7 +168,7 @@ describe('Destination picker dialog : ', () => {
     });
 
     it('[C263885] User can see his Libraries', async () => {
-      await dialog.selectLocation('File Libraries');
+      await dialog.selectLocation('My Libraries');
       expect(await dataTable.isItemPresent(site)).toBe(true, 'user site is not displayed');
     });
 
@@ -220,8 +220,8 @@ describe('Destination picker dialog : ', () => {
     });
 
     it('[C263891] File Libraries breadcrumb - main node', async () => {
-      await dialog.selectLocation('File Libraries');
-      expect(await breadcrumb.currentFolder.getText()).toEqual('File Libraries');
+      await dialog.selectLocation('My Libraries');
+      expect(await breadcrumb.currentFolder.getText()).toEqual('My Libraries');
     });
 
     it('[C263899] Search results breadcrumb', async () => {
@@ -251,7 +251,7 @@ describe('Destination picker dialog : ', () => {
     });
 
     it('[C263898] File Libraries breadcrumb - folder structure', async () => {
-      await dialog.selectLocation('File Libraries');
+      await dialog.selectLocation('My Libraries');
 
       await dataTable.doubleClickOnRowByName(site);
       expect(await breadcrumb.currentFolder.getText()).toEqual(site);
@@ -269,7 +269,7 @@ describe('Destination picker dialog : ', () => {
       expect(await breadcrumb.currentFolder.getText()).toEqual(searchSubFolder2);
 
       await breadcrumb.openPath();
-      expect(await breadcrumb.getPathItems()).toEqual([searchSubFolder1, searchFolder, site, 'File Libraries']);
+      expect(await breadcrumb.getPathItems()).toEqual([searchSubFolder1, searchFolder, site, 'My Libraries']);
     });
 
     it('[C263895] Select a node from the breadcrumb path', async () => {
@@ -294,7 +294,7 @@ describe('Destination picker dialog : ', () => {
       await page.toolbar.clickMoreActionsCopy();
       await dialog.waitForDialogToOpen();
 
-      await dialog.selectLocation('File Libraries');
+      await dialog.selectLocation('My Libraries');
       await dataTable.doubleClickOnRowByName(site);
       await dataTable.doubleClickOnRowByName('documentLibrary');
       await dataTable.selectItem(searchFolder);
@@ -308,7 +308,7 @@ describe('Destination picker dialog : ', () => {
       await page.toolbar.clickMoreActionsCopy();
       await dialog.waitForDialogToOpen();
 
-      await dialog.selectLocation('File Libraries');
+      await dialog.selectLocation('My Libraries');
       await dataTable.doubleClickOnRowByName(site);
       await dataTable.doubleClickOnRowByName('documentLibrary');
       await dataTable.selectItem(searchFolder);
@@ -322,7 +322,7 @@ describe('Destination picker dialog : ', () => {
       await page.toolbar.clickMoreActionsCopy();
       await dialog.waitForDialogToOpen();
 
-      await dialog.selectLocation('File Libraries');
+      await dialog.selectLocation('My Libraries');
       await dataTable.doubleClickOnRowByName(site);
       await dataTable.doubleClickOnRowByName('documentLibrary');
       await dataTable.selectItem(searchFolder);

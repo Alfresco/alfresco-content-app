@@ -22,17 +22,10 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
-
-export const BROWSER_RESOLUTION_WIDTH = 1200;
-export const BROWSER_RESOLUTION_HEIGHT = 800;
-
 export const BROWSER_WAIT_TIMEOUT = 10000;
 
 // Application configs
 export const USE_HASH_STRATEGY = true;
-
-// Repository configs
-export const REPO_API_TENANT = '-default-';
 
 export const E2E_ROOT_PATH = __dirname;
 
@@ -56,7 +49,7 @@ export const APP_ROUTES = {
 // Sidebar labels
 export const SIDEBAR_LABELS = {
   PERSONAL_FILES: 'Personal Files',
-  FILE_LIBRARIES: 'File Libraries',
+  FILE_LIBRARIES: 'My Libraries',
   MY_LIBRARIES: 'My Libraries',
   FAVORITE_LIBRARIES: 'Favorite Libraries',
   SHARED_FILES: 'Shared',

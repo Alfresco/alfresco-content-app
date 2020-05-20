@@ -28,7 +28,7 @@ import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 
-describe('File Libraries', () => {
+describe('My Libraries', () => {
   const username = `user-${Utils.random()}`;
   const password = username;
 

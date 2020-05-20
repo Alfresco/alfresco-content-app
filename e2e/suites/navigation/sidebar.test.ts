@@ -151,10 +151,10 @@ describe('Sidebar', () => {
 
   it('[C217152] File Libraries tooltip', async () => {
     await page.clickFileLibraries();
-    expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.FILE_LIBRARIES)).toContain('File Libraries');
+    expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.FILE_LIBRARIES)).toContain('My Libraries');
 
     await header.collapseSideNav();
-    expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.FILE_LIBRARIES)).toContain('File Libraries');
+    expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.FILE_LIBRARIES)).toContain('My Libraries');
   });
 
   it('[C289916] My Libraries tooltip', async () => {
