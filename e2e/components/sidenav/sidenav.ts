@@ -108,7 +108,7 @@ export class Sidenav extends Component {
   private getLinkLabel(name: string): ElementFinder {
     switch (name) {
       case 'Personal Files': return this.personalFiles;
-      case 'My Libraries': return this.fileLibraries;
+      case 'File Libraries': return this.fileLibraries;
       case 'My Libraries': return this.myLibraries;
       case 'Favorite Libraries': return this.favoriteLibraries;
       case 'Shared': return this.shared;

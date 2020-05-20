@@ -49,7 +49,7 @@ export const APP_ROUTES = {
 // Sidebar labels
 export const SIDEBAR_LABELS = {
   PERSONAL_FILES: 'Personal Files',
-  FILE_LIBRARIES: 'My Libraries',
+  FILE_LIBRARIES: 'File Libraries',
   MY_LIBRARIES: 'My Libraries',
   FAVORITE_LIBRARIES: 'Favorite Libraries',
   SHARED_FILES: 'Shared',
