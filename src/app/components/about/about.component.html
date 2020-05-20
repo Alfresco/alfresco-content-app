@@ -2,11 +2,21 @@
   <aca-page-layout-content [scrollable]="true">
     <div class="main-content">
       <article>
-        <header>{{ 'application.name' | adfAppConfig }}</header>
-        <p>
-          {{ 'APP.ABOUT.VERSION' | translate }}
-          {{ 'application.version' | adfAppConfig }}
-        </p>
+        <adf-about-github-link
+          [application]="'application.name' | adfAppConfig"
+          [url]="appRepoUrl"
+          [version]="'application.version' | adfAppConfig"
+        >
+        </adf-about-github-link>
+      </article>
+
+      <article>
+        <adf-about-github-link
+          [application]="'ADF'"
+          [url]="adfRepoUrl"
+          [version]="adfVersion"
+        >
+        </adf-about-github-link>
       </article>
 
       <ng-container *ngIf="extensions$ | async as extensions">
