@@ -6,6 +6,7 @@
     [node]="node"
     [showComments]="'adf-version-manager.allowComments' | adfAppConfig: true"
     [allowDownload]="'adf-version-manager.allowDownload' | adfAppConfig: true"
+    [newFileVersion]="file"
     (uploadError)="uploadError($event)"
   >
   </adf-version-manager>

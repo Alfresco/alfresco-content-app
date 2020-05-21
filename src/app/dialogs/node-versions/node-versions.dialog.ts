@@ -36,9 +36,11 @@ import { Store } from '@ngrx/store';
 })
 export class NodeVersionsDialogComponent {
   node: MinimalNodeEntryEntity;
+  file: File;
 
   constructor(@Inject(MAT_DIALOG_DATA) data: any, private store: Store<any>) {
     this.node = data.node;
+    this.file = data.file;
   }
 
   uploadError(errorMessage: string) {
