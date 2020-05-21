@@ -253,7 +253,7 @@ describe('Move content', () => {
     it('[C291969] Move items into a library', async () => {
       await dataTable.selectMultipleItems([file4, folder2]);
       await toolbar.clickMoreActionsMove();
-      await moveDialog.selectLocation('File Libraries');
+      await moveDialog.selectLocation('My Libraries');
       await moveDialog.dataTable.doubleClickOnRowByName(siteName);
       await moveDialog.dataTable.doubleClickOnRowByName('documentLibrary');
       await moveDialog.selectDestination(folderSitePF);
@@ -373,7 +373,7 @@ describe('Move content', () => {
     it('[C291971] Move items into a library', async () => {
       await dataTable.selectItem(file4, sourceRF);
       await toolbar.clickMoreActionsMove();
-      await moveDialog.selectLocation('File Libraries');
+      await moveDialog.selectLocation('My Libraries');
       await moveDialog.dataTable.doubleClickOnRowByName(siteName);
       await moveDialog.dataTable.doubleClickOnRowByName('documentLibrary');
       await moveDialog.selectDestination(folderSiteRF);
@@ -495,7 +495,7 @@ describe('Move content', () => {
     it('[C291978] Move items into a library', async () => {
       await dataTable.selectItem(file4, sourceSF);
       await toolbar.clickMoreActionsMove();
-      await moveDialog.selectLocation('File Libraries');
+      await moveDialog.selectLocation('My Libraries');
       await moveDialog.dataTable.doubleClickOnRowByName(siteName);
       await moveDialog.dataTable.doubleClickOnRowByName('documentLibrary');
       await moveDialog.selectDestination(folderSiteSF);
@@ -685,7 +685,7 @@ describe('Move content', () => {
     it('[C291979] Move items into a library', async () => {
       await dataTable.selectMultipleItems([file4, folder2], sourceFav);
       await toolbar.clickMoreActionsMove();
-      await moveDialog.selectLocation('File Libraries');
+      await moveDialog.selectLocation('My Libraries');
       await moveDialog.dataTable.doubleClickOnRowByName(siteName);
       await moveDialog.dataTable.doubleClickOnRowByName('documentLibrary');
       await moveDialog.selectDestination(folderSiteFav);

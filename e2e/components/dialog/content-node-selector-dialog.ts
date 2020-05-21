@@ -36,7 +36,7 @@ export class ContentNodeSelectorDialog extends GenericDialog {
 
   locationDropDown = this.rootElem.element(by.id('site-dropdown-container'));
   locationPersonalFiles = browser.element(by.cssContainingText('.mat-option .mat-option-text', 'Personal Files'));
-  locationFileLibraries = browser.element(by.cssContainingText('.mat-option .mat-option-text', 'File Libraries'));
+  locationFileLibraries = browser.element(by.cssContainingText('.mat-option .mat-option-text', 'My Libraries'));
 
   searchInput = this.rootElem.element(by.css('#searchInput'));
   toolbarTitle = this.rootElem.element(by.css('.adf-toolbar-title'));
@@ -52,7 +52,7 @@ export class ContentNodeSelectorDialog extends GenericDialog {
     await waitForStaleness(browser.$('.mat-option .mat-option-text'))
   }
 
-  async selectLocation(location: 'Personal Files' | 'File Libraries'): Promise<void> {
+  async selectLocation(location: string): Promise<void> {
     await this.locationDropDown.click();
     await waitForPresence(this.locationPersonalFiles);
 

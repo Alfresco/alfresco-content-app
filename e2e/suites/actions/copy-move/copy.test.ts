@@ -538,7 +538,7 @@ describe('Copy content', () => {
     const noOfItems = items.length;
     await dataTable.selectMultipleItems(items, location);
     await toolbar.clickMoreActionsCopy();
-    await copyDialog.selectLocation('File Libraries');
+    await copyDialog.selectLocation('My Libraries');
     await copyDialog.dataTable.doubleClickOnRowByName(siteName);
     await copyDialog.dataTable.doubleClickOnRowByName('documentLibrary');
     await copyDialog.selectDestination(destination);
