@@ -15,7 +15,8 @@ const BROWSER_RUN = process.env.BROWSER_RUN;
 const width = 1366;
 const height = 768;
 
-const API_HOST = process.env.API_HOST || 'http://localhost:8080';
+const API_HOST_CONTENT =
+  process.env.API_HOST_CONTENT || 'http://localhost:8080';
 
 function rmDir(dirPath) {
   try {
@@ -33,7 +34,7 @@ function rmDir(dirPath) {
 }
 
 const appConfig = {
-  hostEcm: API_HOST,
+  hostEcm: API_HOST_CONTENT,
   providers: 'ECM',
   authType: 'BASIC'
 };

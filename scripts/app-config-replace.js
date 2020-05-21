@@ -4,16 +4,16 @@ const program = require('commander');
 require('dotenv').config({ path: process.env.ENV_FILE });
 const fs = require('fs');
 
-const API_HOST = process.env.API_HOST || 'api';
+const API_HOST_CONTENT = process.env.API_HOST_CONTENT || 'api';
 const OAUTH_HOST = process.env.OAUTH_HOST || 'keycloak';
 
 const options = {
   apiHost: {
     flags: '-a, --api-host',
-    description: "set apiHost's and ecmHost's value with API_HOST",
+    description: "set apiHost's and ecmHost's value with API_HOST_CONTENT",
     set: appConfig => {
-      appConfig.ecmHost = API_HOST;
-      appConfig.aosHost = API_HOST + '/alfresco/aos';
+      appConfig.ecmHost = API_HOST_CONTENT;
+      appConfig.aosHost = API_HOST_CONTENT + '/alfresco/aos';
     }
   },
   oauthHost: {
