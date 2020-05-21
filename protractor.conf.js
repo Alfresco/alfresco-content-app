@@ -34,7 +34,7 @@ function rmDir(dirPath) {
 }
 
 const appConfig = {
-  hostEcm: API_HOST_CONTENT,
+  hostEcm: API_CONTENT_HOST,
   providers: 'ECM',
   authType: 'BASIC'
 };

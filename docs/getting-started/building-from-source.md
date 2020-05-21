@@ -32,7 +32,7 @@ The application runs at port `4200` by default, and should automatically open in
 You might need to set some environment variables to be able to run the local dev server. In the project's root folder, create a `.env` file (this is gitignored) with the following data:
 
 ```bash
-API_HOST_CONTENT="http://your-url-here"
+API_CONTENT_HOST="http://your-url-here"
 ```
 
 ## Proxy settings
