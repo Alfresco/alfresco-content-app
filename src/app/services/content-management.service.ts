@@ -102,7 +102,8 @@ export class ContentManagementService {
     private nodeActionsService: NodeActionsService,
     private translation: TranslationService,
     private snackBar: MatSnackBar
-  ) {}
+  ) {
+  }
 
   addFavorite(nodes: Array<MinimalNodeEntity>) {
     if (nodes && nodes.length > 0) {
@@ -147,7 +148,10 @@ export class ContentManagementService {
   }
 
   manageVersions(node: any) {
-    if (node && node.entry) {
+    // if receiving custom event for drag&drop a file over another
+    if (node.entry == undefined) {
+      this.openVersionManagerDialog(node);
+    } else if (node && node.entry) {
       // shared and favorite
       const id = node.entry.nodeId || (node as any).entry.guid;
 
@@ -162,10 +166,12 @@ export class ContentManagementService {
   }
 
   private openVersionManagerDialog(node: any) {
+    // if receiving a file that has been dropped and a node in the same object
+    const versionNode = node.data ? node.data.node.entry : node;
     // workaround Shared
-    if (node.isFile || node.nodeId) {
+    if (versionNode.isFile || versionNode.nodeId) {
       this.dialogRef.open(NodeVersionsDialogComponent, {
-        data: { node },
+        data: { node: versionNode, file: node.files ? node.files[0].file: undefined },
         panelClass: 'adf-version-manager-dialog-panel',
         width: '630px'
       });
@@ -490,7 +496,8 @@ export class ContentManagementService {
         if (statusCode === 403) {
           i18nMessageString = 'APP.MESSAGES.ERRORS.PERMISSION';
         }
-      } catch {}
+      } catch {
+      }
     }
 
     const undo =
@@ -531,7 +538,8 @@ export class ContentManagementService {
         let errorJson = null;
         try {
           errorJson = JSON.parse(error.message);
-        } catch {}
+        } catch {
+        }
 
         if (
           errorJson &&
@@ -620,7 +628,8 @@ export class ContentManagementService {
           let errorJson = null;
           try {
             errorJson = JSON.parse(error.message);
-          } catch {}
+          } catch {
+          }
 
           if (
             errorJson &&
@@ -1130,10 +1139,10 @@ export class ContentManagementService {
     this.snackBar
       .open(
         messages[successMessage] +
-          beforePartialSuccessMessage +
-          messages[partialSuccessMessage] +
-          beforeFailedMessage +
-          messages[failedMessage],
+        beforePartialSuccessMessage +
+        messages[partialSuccessMessage] +
+        beforeFailedMessage +
+        messages[failedMessage],
         undo,
         {
           panelClass: 'info-snackbar',
