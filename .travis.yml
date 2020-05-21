@@ -48,7 +48,7 @@ jobs:
 
     - stage: Quality and Unit tests
       name: 'Build (without animation)'
-      script: npm ci && npm run build.e2e
+      script: npm ci && npm run update-commit-sha -- -gnu && npm run build.e2e
       after_success: ./scripts/ci/utils/artifact-to-s3.sh -a ./dist/app -o "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2"
       cache: false
 
