@@ -27,8 +27,7 @@
     "e2e:docker": "./start.sh && npm run e2e && ./start.sh -d",
     "spellcheck": "cspell '{src,e2e,projects}/**/*.ts'",
     "inspect.bundle": "ng build app --prod --stats-json && npx webpack-bundle-analyzer dist/app/stats.json",
-    "validate-config": "ajv validate -s ./node_modules/@alfresco/adf-core/app.config.schema.json -d ./src/app.config.json --errors=text --verbose",
-    "update-commit-sha": "./scripts/update-commit-sha.sh"
+    "validate-config": "ajv validate -s ./node_modules/@alfresco/adf-core/app.config.schema.json -d ./src/app.config.json --errors=text --verbose"
   },
   "private": true,
   "dependencies": {
