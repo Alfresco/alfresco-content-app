@@ -1,10 +1,10 @@
 require('dotenv').config();
 
-const API_HOST_CONTENT = process.env.API_HOST_CONTENT || 'http://0.0.0.0:8080';
+const API_CONTENT_HOST = process.env.API_CONTENT_HOST || 'http://0.0.0.0:8080';
 
 module.exports = {
   '/alfresco': {
-    target: API_HOST_CONTENT,
+    target: API_CONTENT_HOST,
     secure: false,
     changeOrigin: true,
     // workaround for REPO-2260
@@ -16,7 +16,7 @@ module.exports = {
     }
   },
   '/auth': {
-    target: API_HOST_CONTENT,
+    target: API_CONTENT_HOST,
     secure: false,
     changeOrigin: true
   }
