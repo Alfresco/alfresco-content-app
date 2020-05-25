@@ -24,9 +24,15 @@
  */
 
 import { SnackbarErrorAction } from '@alfresco/aca-shared/store';
-import { MinimalNodeEntryEntity } from '@alfresco/js-api';
-import { Component, Inject, ViewEncapsulation } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MinimalNodeEntryEntity, Node } from '@alfresco/js-api';
+import {
+  Component,
+  EventEmitter,
+  Inject,
+  Output,
+  ViewEncapsulation
+} from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 
 @Component({
@@ -37,13 +43,31 @@ import { Store } from '@ngrx/store';
 export class NodeVersionsDialogComponent {
   node: MinimalNodeEntryEntity;
   file: File;
+  typeList = true;
 
-  constructor(@Inject(MAT_DIALOG_DATA) data: any, private store: Store<any>) {
-    this.node = data.node;
-    this.file = data.file;
+  /** Emitted when a version is restored or deleted. */
+  @Output()
+  refreshEvent: EventEmitter<Node> = new EventEmitter<Node>();
+
+  constructor(
+    @Inject(MAT_DIALOG_DATA) data: any,
+    private store: Store<any>,
+    private dialogRef: MatDialogRef<NodeVersionsDialogComponent>
+  ) {
+    this.node = data.node ? data.node : undefined;
+    this.file = data.file ? data.file : undefined;
+    this.typeList = data.typeList != undefined ? data.typelist : true;
   }
 
-  uploadError(errorMessage: string) {
+  onUploadError(errorMessage: string) {
     this.store.dispatch(new SnackbarErrorAction(errorMessage));
+  }
+
+  handleUpload() {
+    this.dialogRef.close();
+  }
+
+  refresh(node: Node) {
+    this.refreshEvent.emit(node);
   }
 }
