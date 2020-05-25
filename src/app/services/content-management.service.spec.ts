@@ -1,3 +1,11 @@
+/*
+ * Copyright (C) 2005 - 2020 Alfresco Software, Ltd. All rights reserved.
+ *
+ * License rights for this program may be obtained from Alfresco Software, Ltd.
+ * pursuant to a written agreement and any use of this program without such an
+ * agreement is prohibited.
+ */
+
 /*!
  * @license
  * Alfresco Example Content Application
@@ -51,7 +59,11 @@ import { ContentApiService } from '@alfresco/aca-shared';
 import { Store } from '@ngrx/store';
 import { ContentManagementService } from './content-management.service';
 import { NodeActionsService } from './node-actions.service';
-import { TranslationService, AlfrescoApiService } from '@alfresco/adf-core';
+import {
+  TranslationService,
+  AlfrescoApiService,
+  FileModel
+} from '@alfresco/adf-core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import {
   MatSnackBar,
@@ -1582,23 +1594,46 @@ describe('ContentManagementService', () => {
     }));
   });
 
-  describe('versionUploadDialog', () => {
+  describe('versionUpdateDialog', () => {
     it('should open dialog with NodeVersionUploadDialogComponent instance', () => {
       spyOn(dialog, 'open');
+      const fakeNode = {
+        name: 'lights.jpg',
+        id: 'f5e5cb54-200e-41a8-9c21-b5ee77da3992'
+      };
+      const fakeFile = new FileModel(
+        { name: 'file1.png', size: 10 } as File,
+        null,
+        'file1'
+      );
 
-      contentManagementService.versionUploadDialog();
+      contentManagementService.versionUpdateDialog(fakeNode, fakeFile);
 
       expect(dialog.open['calls'].argsFor(0)[0].name).toBe(
-        'NodeVersionUploadDialogComponent'
+        'NodeVersionsDialogComponent'
       );
     });
 
     it('should return dialog instance reference', () => {
-      const mockDialogInstance: any = { afterClose: () => {} };
+      const mockDialogInstance: any = {
+        afterClose: () => {}
+      };
+      const fakeNode = {
+        name: 'lights.jpg',
+        id: 'f5e5cb54-200e-41a8-9c21-b5ee77da3992'
+      };
+      const fakeFile = new FileModel(
+        { name: 'file1.png', size: 10 } as File,
+        null,
+        'file1'
+      );
 
       spyOn(dialog, 'open').and.returnValue(mockDialogInstance);
 
-      const dialogRef = contentManagementService.versionUploadDialog();
+      const dialogRef = contentManagementService.versionUpdateDialog(
+        fakeNode,
+        fakeFile
+      );
 
       expect(dialogRef).toBe(mockDialogInstance);
     });

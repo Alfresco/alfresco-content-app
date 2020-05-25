@@ -66,7 +66,6 @@ import { Store } from '@ngrx/store';
 import { forkJoin, Observable, of, Subject, zip } from 'rxjs';
 import { catchError, flatMap, map, mergeMap, take, tap } from 'rxjs/operators';
 import { NodePermissionsDialogComponent } from '../components/permissions/permission-dialog/node-permissions.dialog';
-import { NodeVersionUploadDialogComponent } from '../dialogs/node-version-upload/node-version-upload.dialog';
 import { NodeVersionsDialogComponent } from '../dialogs/node-versions/node-versions.dialog';
 import { NodeActionsService } from './node-actions.service';
 
@@ -102,8 +101,7 @@ export class ContentManagementService {
     private nodeActionsService: NodeActionsService,
     private translation: TranslationService,
     private snackBar: MatSnackBar
-  ) {
-  }
+  ) {}
 
   addFavorite(nodes: Array<MinimalNodeEntity>) {
     if (nodes && nodes.length > 0) {
@@ -148,10 +146,7 @@ export class ContentManagementService {
   }
 
   manageVersions(node: any) {
-    // if receiving custom event for drag&drop a file over another
-    if (node.entry == undefined) {
-      this.openVersionManagerDialog(node);
-    } else if (node && node.entry) {
+    if (node && node.entry) {
       // shared and favorite
       const id = node.entry.nodeId || (node as any).entry.guid;
 
@@ -166,14 +161,15 @@ export class ContentManagementService {
   }
 
   private openVersionManagerDialog(node: any) {
-    // if receiving a file that has been dropped and a node in the same object
-    const versionNode = node.data ? node.data.node.entry : node;
     // workaround Shared
-    if (versionNode.isFile || versionNode.nodeId) {
-      this.dialogRef.open(NodeVersionsDialogComponent, {
-        data: { node: versionNode, file: node.files ? node.files[0].file: undefined },
+    if (node.isFile || node.nodeId) {
+      const dialogRef = this.dialogRef.open(NodeVersionsDialogComponent, {
+        data: { node },
         panelClass: 'adf-version-manager-dialog-panel',
         width: '630px'
+      });
+      dialogRef.componentInstance.refreshEvent.subscribe(() => {
+        this.store.dispatch(new ReloadDocumentListAction());
       });
     } else {
       this.store.dispatch(
@@ -182,9 +178,11 @@ export class ContentManagementService {
     }
   }
 
-  versionUploadDialog() {
-    return this.dialogRef.open(NodeVersionUploadDialogComponent, {
-      panelClass: 'aca-node-version-dialog'
+  versionUpdateDialog(node, file) {
+    return this.dialogRef.open(NodeVersionsDialogComponent, {
+      data: { node, file, typeList: false },
+      panelClass: 'adf-version-manager-dialog-panel-upload',
+      width: '600px'
     });
   }
 
@@ -496,8 +494,7 @@ export class ContentManagementService {
         if (statusCode === 403) {
           i18nMessageString = 'APP.MESSAGES.ERRORS.PERMISSION';
         }
-      } catch {
-      }
+      } catch {}
     }
 
     const undo =
@@ -538,8 +535,7 @@ export class ContentManagementService {
         let errorJson = null;
         try {
           errorJson = JSON.parse(error.message);
-        } catch {
-        }
+        } catch {}
 
         if (
           errorJson &&
@@ -628,8 +624,7 @@ export class ContentManagementService {
           let errorJson = null;
           try {
             errorJson = JSON.parse(error.message);
-          } catch {
-          }
+          } catch {}
 
           if (
             errorJson &&
@@ -1139,10 +1134,10 @@ export class ContentManagementService {
     this.snackBar
       .open(
         messages[successMessage] +
-        beforePartialSuccessMessage +
-        messages[partialSuccessMessage] +
-        beforeFailedMessage +
-        messages[failedMessage],
+          beforePartialSuccessMessage +
+          messages[partialSuccessMessage] +
+          beforeFailedMessage +
+          messages[failedMessage],
         undo,
         {
           panelClass: 'info-snackbar',
