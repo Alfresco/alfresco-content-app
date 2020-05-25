@@ -34,15 +34,11 @@ import {
   FileUploadCompleteEvent,
   FileModel
 } from '@alfresco/adf-core';
-import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 import {
   UnlockWriteAction,
-  SnackbarErrorAction
+  UploadFileVersionAction
 } from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../services/content-management.service';
-import { of, throwError } from 'rxjs';
-import { MatDialogRef } from '@angular/material';
-import { NodeVersionUploadDialogComponent } from '../../dialogs/node-version-upload/node-version-upload.dialog';
 
 function createFileList(fileName, type = 'text/plain') {
   const data = new Blob([''], { type });
@@ -201,40 +197,38 @@ describe('UploadEffects', () => {
 
   describe('upload file version', () => {
     beforeEach(() => {
-      const dialog = { afterClosed: () => of({}) } as MatDialogRef<
-        NodeVersionUploadDialogComponent
-      >;
-      spyOn(contentManagementService, 'versionUploadDialog').and.returnValue(
-        dialog
-      );
-      spyOn(effects, 'uploadAndUnlock').and.stub();
+      spyOn(contentManagementService, 'versionUpdateDialog');
     });
 
-    it('should upload file', () => {
-      spyOn(contentManagementService, 'getNodeInfo').and.returnValue(
-        of({
-          id: 'file1',
-          properties: {}
-        } as MinimalNodeEntryEntity)
-      );
-
+    it('should upload file from context menu', () => {
       uploadVersionInput.files = createFileList('bogus.txt');
+      store.dispatch(new UploadFileVersionAction(null));
       uploadVersionInput.dispatchEvent(new CustomEvent('change'));
-      expect(effects.uploadAndUnlock).toHaveBeenCalled();
+      expect(contentManagementService.versionUpdateDialog).toHaveBeenCalled();
     });
 
-    it('should raise error when getNodeInfo fails', () => {
-      spyOn(store, 'dispatch').and.stub();
-      spyOn(contentManagementService, 'getNodeInfo').and.returnValue(
-        throwError('error')
-      );
-
-      uploadVersionInput.files = createFileList('bogus.txt');
-      uploadVersionInput.dispatchEvent(new CustomEvent('change'));
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new SnackbarErrorAction('VERSION.ERROR.GENERIC')
-      );
-      expect(effects.uploadAndUnlock).not.toHaveBeenCalled();
+    it('should upload file from dropping another file', () => {
+      const fakePayload = {
+        files: [
+          {
+            file: new FileModel(
+              { name: 'file1.png', size: 10 } as File,
+              null,
+              'file1'
+            )
+          }
+        ],
+        data: {
+          node: {
+            entry: {
+              name: 'lights.jpg',
+              id: 'f5e5cb54-200e-41a8-9c21-b5ee77da3992'
+            }
+          }
+        }
+      };
+      store.dispatch(new UploadFileVersionAction(fakePayload));
+      expect(contentManagementService.versionUpdateDialog).toHaveBeenCalled();
     });
   });
 });

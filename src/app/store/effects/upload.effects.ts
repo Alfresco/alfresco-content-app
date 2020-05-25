@@ -37,9 +37,10 @@ import { FileModel, FileUtils, UploadService } from '@alfresco/adf-core';
 import { Injectable, NgZone, RendererFactory2 } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { forkJoin, of } from 'rxjs';
-import { tap, filter, catchError, flatMap, map, take } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { catchError, map, take } from 'rxjs/operators';
 import { ContentManagementService } from '../../services/content-management.service';
+import { NodeEntry } from '@alfresco/js-api/src/api/content-rest-api/model/nodeEntry';
 
 @Injectable()
 export class UploadEffects {
@@ -69,9 +70,6 @@ export class UploadEffects {
     this.fileVersionInput.id = 'app-upload-file-version';
     this.fileVersionInput.type = 'file';
     this.fileVersionInput.style.display = 'none';
-    this.fileVersionInput.addEventListener('change', () =>
-      this.uploadVersion()
-    );
     renderer.appendChild(document.body, this.fileVersionInput);
 
     this.folderInput = renderer.createElement('input') as HTMLInputElement;
@@ -103,26 +101,18 @@ export class UploadEffects {
   @Effect({ dispatch: false })
   uploadVersion$ = this.actions$.pipe(
     ofType<UploadFileVersionAction>(UploadActionTypes.UploadFileVersion),
-    map(() => {
-      this.fileVersionInput.click();
-    })
-  );
-
-  private uploadVersion() {
-    this.contentService
-      .versionUploadDialog()
-      .afterClosed()
-      .pipe(
-        tap(form => {
-          if (!form) {
-            this.fileVersionInput.value = '';
-          }
-        }),
-        filter(form => !!form),
-        flatMap(form =>
-          forkJoin(
-            of(form),
-            this.contentService.getNodeInfo().pipe(
+    map(action => {
+      if (action && action.payload) {
+        const node = action.payload.data.node.entry;
+        const file: any = action.payload.files[0].file;
+        this.contentService.versionUpdateDialog(node, file);
+      } else if (!action.payload) {
+        this.fileVersionInput.click();
+        this.fileVersionInput.addEventListener('change', ev => {
+          let node: NodeEntry;
+          this.contentService
+            .getNodeInfo()
+            .pipe(
               catchError(_ => {
                 this.store.dispatch(
                   new SnackbarErrorAction('VERSION.ERROR.GENERIC')
@@ -130,30 +120,17 @@ export class UploadEffects {
                 return of(null);
               })
             )
-          )
-        )
-      )
-      .subscribe(([form, node]) => {
-        if (form && node) {
-          const file: any = this.fileVersionInput.files[0];
-          const fileModel = new FileModel(
-            file,
-            {
-              comment: form.comment,
-              majorVersion: form.version,
-              parentId: node.parentId,
-              path: (file.webkitRelativePath || '').replace(/\/[^\/]*$/, ''),
-              newVersion: true,
-              nodeType: 'cm:content'
-            },
-            node.id
+            .subscribe(nodeInfo => {
+              node = nodeInfo;
+            });
+          this.contentService.versionUpdateDialog(
+            node,
+            this.fileVersionInput.files[0]
           );
-          this.uploadAndUnlock(fileModel);
-        }
-
-        this.fileVersionInput.value = '';
-      });
-  }
+        });
+      }
+    })
+  );
 
   private upload(event: any): void {
     this.store
