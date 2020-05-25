@@ -40,7 +40,8 @@ import { AppExtensionService, ContentApiService } from '@alfresco/aca-shared';
 import {
   SetCurrentFolderAction,
   isAdmin,
-  AppStore, ManageVersionsAction
+  AppStore,
+  UploadFileVersionAction
 } from '@alfresco/aca-shared/store';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { debounceTime, takeUntil } from 'rxjs/operators';
@@ -145,8 +146,8 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     this.router.navigate(commands);
   }
 
-  onUploadNewVersion(ev) {
-    this.store.dispatch(new ManageVersionsAction(ev.detail))
+  onUploadNewVersion(ev: CustomEvent) {
+    this.store.dispatch(new UploadFileVersionAction(ev.detail));
   }
 
   navigateTo(node: MinimalNodeEntity) {
