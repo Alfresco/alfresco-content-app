@@ -49,7 +49,6 @@ import { APP_ROUTES } from './app.routes';
 import { FilesComponent } from './components/files/files.component';
 import { LibrariesComponent } from './components/libraries/libraries.component';
 import { FavoriteLibrariesComponent } from './components/favorite-libraries/favorite-libraries.component';
-import { NodeVersionUploadDialogComponent } from './dialogs/node-version-upload/node-version-upload.dialog';
 import { NodeVersionsDialogComponent } from './dialogs/node-versions/node-versions.dialog';
 import { CurrentUserComponent } from './components/current-user/current-user.component';
 
@@ -155,7 +154,6 @@ registerLocaleData(localeSv);
     FilesComponent,
     LibrariesComponent,
     FavoriteLibrariesComponent,
-    NodeVersionUploadDialogComponent,
     NodeVersionsDialogComponent,
     FavoritesComponent,
     RecentFilesComponent,
@@ -176,7 +174,6 @@ registerLocaleData(localeSv);
   ],
   entryComponents: [
     NodeVersionsDialogComponent,
-    NodeVersionUploadDialogComponent,
     LibraryDialogComponent,
     CreateFromTemplateDialogComponent,
     CurrentUserComponent
