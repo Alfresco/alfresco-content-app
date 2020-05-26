@@ -75,4 +75,8 @@ export class ExtensionsDataLoaderGuard implements CanActivate {
       })
     );
   }
+
+  canActivateChild(route: ActivatedRouteSnapshot): Observable<boolean> {
+    return this.canActivate(route);
+  }
 }
