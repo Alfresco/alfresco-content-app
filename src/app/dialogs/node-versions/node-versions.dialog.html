@@ -1,10 +1,10 @@
-<header mat-dialog-title *ngIf="typeList">
+<header mat-dialog-title *ngIf="isTypeList">
   {{ 'VERSION.DIALOG_ADF.TITLE' | translate }}
 </header>
-<header mat-dialog-title *ngIf="!typeList">
+<header mat-dialog-title *ngIf="!isTypeList">
   {{ 'VERSION.DIALOG_ADF.TITLE' | translate }}
 </header>
-<section mat-dialog-content *ngIf="!typeList">
+<section mat-dialog-content *ngIf="!isTypeList">
   <adf-version-upload
     id="adf-version-upload-button"
     [node]="node"
@@ -15,19 +15,17 @@
   >
   </adf-version-upload>
 </section>
-<ng-container *ngIf="typeList">
+<ng-container *ngIf="isTypeList">
   <section mat-dialog-content>
     <div class="adf-version-list-container">
       <div class="adf-version-list-table">
-        <div>
-          <adf-version-list
-            [node]="node"
-            [showComments]="'adf-version-manager.allowComments' | adfAppConfig: true"
-            [allowDownload]="'adf-version-manager.allowDownload' | adfAppConfig: true"
-            (deleted)="refresh($event)"
-            (restored)="refresh($event)"
-          ></adf-version-list>
-        </div>
+        <adf-version-list
+          [node]="node"
+          [showComments]="'adf-version-manager.allowComments' | adfAppConfig: true"
+          [allowDownload]="'adf-version-manager.allowDownload' | adfAppConfig: true"
+          (deleted)="refresh($event)"
+          (restored)="refresh($event)"
+        ></adf-version-list>
       </div>
     </div>
   </section>

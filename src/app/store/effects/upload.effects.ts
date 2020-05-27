@@ -108,7 +108,7 @@ export class UploadEffects {
         this.contentService.versionUpdateDialog(node, file);
       } else if (!action.payload) {
         this.fileVersionInput.click();
-        this.fileVersionInput.addEventListener('change', ev => {
+        this.fileVersionInput.addEventListener('change', () => {
           let node: NodeEntry;
           this.contentService
             .getNodeInfo()
