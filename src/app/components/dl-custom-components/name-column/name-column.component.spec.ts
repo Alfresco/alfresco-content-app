@@ -29,6 +29,7 @@ import { Actions } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { TestBed } from '@angular/core/testing';
 import { CoreModule } from '@alfresco/adf-core';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('CustomNameColumnComponent', () => {
   let fixture;
@@ -39,6 +40,7 @@ describe('CustomNameColumnComponent', () => {
       imports: [
         CoreModule.forRoot(),
         DocumentListCustomComponentsModule,
+        TranslateModule.forRoot(),
         StoreModule.forRoot({ app: () => {} }, { initialState: {} })
       ],
       providers: [Actions]

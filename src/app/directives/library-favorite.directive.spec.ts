@@ -32,6 +32,7 @@ import {
   CoreModule
 } from '@alfresco/adf-core';
 import { TestBed, async } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-test-component',
@@ -55,7 +56,7 @@ describe('LibraryFavoriteDirective', () => {
   let selection;
 
   setupTestBed({
-    imports: [CoreModule.forRoot()],
+    imports: [CoreModule.forRoot(), TranslateModule.forRoot()],
     declarations: [TestComponent, LibraryFavoriteDirective],
     providers: [
       {

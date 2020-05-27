@@ -32,6 +32,7 @@ import {
   CoreModule
 } from '@alfresco/adf-core';
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-test-component',
@@ -52,7 +53,7 @@ describe('LockNodeDirective', () => {
   let component;
 
   setupTestBed({
-    imports: [CoreModule.forRoot()],
+    imports: [CoreModule.forRoot(), TranslateModule.forRoot()],
     declarations: [TestComponent, LockNodeDirective],
     providers: [
       {

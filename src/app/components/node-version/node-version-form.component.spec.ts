@@ -27,13 +27,18 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AppNodeVersionFormComponent } from './node-version-form.component';
 import { setupTestBed, CoreModule } from '@alfresco/adf-core';
 import { TestBed } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('AppNodeVersionFormComponent', () => {
   let fixture;
   let component;
 
   setupTestBed({
-    imports: [CoreModule.forRoot(), NoopAnimationsModule],
+    imports: [
+      CoreModule.forRoot(),
+      NoopAnimationsModule,
+      TranslateModule.forRoot()
+    ],
     declarations: [AppNodeVersionFormComponent]
   });
 
