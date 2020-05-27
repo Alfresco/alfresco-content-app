@@ -37,6 +37,7 @@ import { AppTestingModule } from '../../../testing/app-testing.module';
 import { ContentManagementService } from '../../../services/content-management.service';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('ToggleFavoriteLibraryComponent', () => {
   let fixture;
@@ -49,7 +50,11 @@ describe('ToggleFavoriteLibraryComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreModule.forRoot(), AppTestingModule],
+      imports: [
+        TranslateModule.forRoot(),
+        CoreModule.forRoot(),
+        AppTestingModule
+      ],
       declarations: [ToggleFavoriteLibraryComponent, LibraryFavoriteDirective],
       providers: [
         {
