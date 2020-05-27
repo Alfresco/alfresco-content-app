@@ -66,10 +66,10 @@ describe('CreateFileFromTemplateDialogComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
+        TranslateModule.forRoot(),
         CoreModule.forRoot(),
         AppTestingModule,
-        MatDialogModule,
-        TranslateModule.forRoot()
+        MatDialogModule
       ],
       declarations: [CreateFromTemplateDialogComponent],
       providers: [

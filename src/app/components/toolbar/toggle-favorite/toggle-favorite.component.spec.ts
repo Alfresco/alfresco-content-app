@@ -50,7 +50,7 @@ describe('ToggleFavoriteComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreModule.forRoot(), TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), CoreModule.forRoot()],
       declarations: [ToggleFavoriteComponent],
       providers: [
         ExtensionService,

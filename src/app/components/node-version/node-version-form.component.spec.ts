@@ -35,9 +35,9 @@ describe('AppNodeVersionFormComponent', () => {
 
   setupTestBed({
     imports: [
+      TranslateModule.forRoot(),
       CoreModule.forRoot(),
-      NoopAnimationsModule,
-      TranslateModule.forRoot()
+      NoopAnimationsModule
     ],
     declarations: [AppNodeVersionFormComponent]
   });

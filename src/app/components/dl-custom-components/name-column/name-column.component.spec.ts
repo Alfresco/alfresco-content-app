@@ -38,9 +38,9 @@ describe('CustomNameColumnComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
+        TranslateModule.forRoot(),
         CoreModule.forRoot(),
         DocumentListCustomComponentsModule,
-        TranslateModule.forRoot(),
         StoreModule.forRoot({ app: () => {} }, { initialState: {} })
       ],
       providers: [Actions]

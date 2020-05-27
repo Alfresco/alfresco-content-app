@@ -53,7 +53,7 @@ describe('LockNodeDirective', () => {
   let component;
 
   setupTestBed({
-    imports: [CoreModule.forRoot(), TranslateModule.forRoot()],
+    imports: [TranslateModule.forRoot(), CoreModule.forRoot()],
     declarations: [TestComponent, LockNodeDirective],
     providers: [
       {

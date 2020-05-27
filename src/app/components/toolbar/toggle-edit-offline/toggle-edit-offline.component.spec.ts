@@ -44,7 +44,7 @@ describe('ToggleEditOfflineComponent', () => {
   let dispatchSpy;
 
   setupTestBed({
-    imports: [CoreModule.forRoot(), TranslateModule.forRoot()],
+    imports: [TranslateModule.forRoot(), CoreModule.forRoot()],
     declarations: [ToggleEditOfflineComponent, LockNodeDirective],
     providers: [
       {

@@ -56,7 +56,7 @@ describe('LibraryFavoriteDirective', () => {
   let selection;
 
   setupTestBed({
-    imports: [CoreModule.forRoot(), TranslateModule.forRoot()],
+    imports: [TranslateModule.forRoot(), CoreModule.forRoot()],
     declarations: [TestComponent, LibraryFavoriteDirective],
     providers: [
       {
