@@ -208,26 +208,28 @@ describe('UploadEffects', () => {
     });
 
     it('should upload file from dropping another file', () => {
-      const fakePayload = {
-        files: [
-          {
-            file: new FileModel(
-              { name: 'file1.png', size: 10 } as File,
-              null,
-              'file1'
-            )
-          }
-        ],
-        data: {
-          node: {
-            entry: {
-              name: 'lights.jpg',
-              id: 'f5e5cb54-200e-41a8-9c21-b5ee77da3992'
+      const fakeEvent = new CustomEvent('upload-files', {
+        detail: {
+          files: [
+            {
+              file: new FileModel(
+                { name: 'file1.png', size: 10 } as File,
+                null,
+                'file1'
+              )
+            }
+          ],
+          data: {
+            node: {
+              entry: {
+                name: 'lights.jpg',
+                id: 'f5e5cb54-200e-41a8-9c21-b5ee77da3992'
+              }
             }
           }
         }
-      };
-      store.dispatch(new UploadFileVersionAction(fakePayload));
+      });
+      store.dispatch(new UploadFileVersionAction(fakeEvent));
       expect(contentManagementService.versionUpdateDialog).toHaveBeenCalled();
     });
   });

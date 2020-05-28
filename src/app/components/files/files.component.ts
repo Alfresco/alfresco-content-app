@@ -147,7 +147,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   }
 
   onUploadNewVersion(ev: CustomEvent) {
-    this.store.dispatch(new UploadFileVersionAction(ev.detail));
+    this.store.dispatch(new UploadFileVersionAction(ev));
   }
 
   navigateTo(node: MinimalNodeEntity) {

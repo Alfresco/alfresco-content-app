@@ -40,7 +40,7 @@ import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, map, take } from 'rxjs/operators';
 import { ContentManagementService } from '../../services/content-management.service';
-import { NodeEntry } from '@alfresco/js-api/src/api/content-rest-api/model/nodeEntry';
+import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 
 @Injectable()
 export class UploadEffects {
@@ -103,13 +103,13 @@ export class UploadEffects {
     ofType<UploadFileVersionAction>(UploadActionTypes.UploadFileVersion),
     map(action => {
       if (action && action.payload) {
-        const node = action.payload.data.node.entry;
-        const file: any = action.payload.files[0].file;
+        const node = action.payload.detail.data.node.entry;
+        const file: any = action.payload.detail.files[0].file;
         this.contentService.versionUpdateDialog(node, file);
       } else if (!action.payload) {
         this.fileVersionInput.click();
         this.fileVersionInput.addEventListener('change', () => {
-          let node: NodeEntry;
+          let node: MinimalNodeEntryEntity;
           this.contentService
             .getNodeInfo()
             .pipe(
