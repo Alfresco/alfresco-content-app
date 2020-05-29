@@ -30,6 +30,7 @@ import { ExtensionService } from '@alfresco/adf-extensions';
 import { CoreModule } from '@alfresco/adf-core';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('ToggleFavoriteComponent', () => {
   let component: ToggleFavoriteComponent;
@@ -49,7 +50,7 @@ describe('ToggleFavoriteComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreModule.forRoot()],
+      imports: [TranslateModule.forRoot(), CoreModule.forRoot()],
       declarations: [ToggleFavoriteComponent],
       providers: [
         ExtensionService,
