@@ -29,6 +29,7 @@ import { Store } from '@ngrx/store';
 import { CoreModule } from '@alfresco/adf-core';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('ToggleFavoriteComponent', () => {
   let component: ViewNodeComponent;
@@ -51,7 +52,7 @@ describe('ToggleFavoriteComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreModule.forRoot()],
+      imports: [TranslateModule.forRoot(), CoreModule.forRoot()],
       declarations: [ViewNodeComponent],
       providers: [
         { provide: Store, useValue: mockStore },

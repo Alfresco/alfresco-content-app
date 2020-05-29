@@ -36,6 +36,7 @@ import { DirectivesModule } from './directives.module';
 import { LibraryMembershipDirective } from './library-membership.directive';
 import { NO_ERRORS_SCHEMA, SimpleChange } from '@angular/core';
 import { throwError } from 'rxjs';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('LibraryMembershipDirective', () => {
   let alfrescoApiService: AlfrescoApiService;
@@ -59,7 +60,12 @@ describe('LibraryMembershipDirective', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, DirectivesModule, CoreModule.forRoot()],
+      imports: [
+        TranslateModule.forRoot(),
+        AppTestingModule,
+        DirectivesModule,
+        CoreModule.forRoot()
+      ],
       schemas: [NO_ERRORS_SCHEMA]
     });
     alfrescoApiService = new AlfrescoApiServiceMock(

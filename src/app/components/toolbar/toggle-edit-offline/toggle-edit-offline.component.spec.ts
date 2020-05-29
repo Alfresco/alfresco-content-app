@@ -34,6 +34,7 @@ import {
   EditOfflineAction,
   SnackbarErrorAction
 } from '@alfresco/aca-shared/store';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('ToggleEditOfflineComponent', () => {
   let fixture;
@@ -43,7 +44,7 @@ describe('ToggleEditOfflineComponent', () => {
   let dispatchSpy;
 
   setupTestBed({
-    imports: [CoreModule.forRoot()],
+    imports: [TranslateModule.forRoot(), CoreModule.forRoot()],
     declarations: [ToggleEditOfflineComponent, LockNodeDirective],
     providers: [
       {

@@ -30,13 +30,19 @@ import { AppNodeVersionModule } from '../../components/node-version/node-version
 import { AppNodeVersionFormComponent } from '../../components/node-version/node-version-form.component';
 import { By } from '@angular/platform-browser';
 import { CoreModule } from '@alfresco/adf-core';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('NodeVersionsDialogComponent', () => {
   let fixture: ComponentFixture<NodeVersionUploadDialogComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreModule.forRoot(), AppTestingModule, AppNodeVersionModule],
+      imports: [
+        TranslateModule.forRoot(),
+        CoreModule.forRoot(),
+        AppTestingModule,
+        AppNodeVersionModule
+      ],
       declarations: [NodeVersionUploadDialogComponent]
     });
 

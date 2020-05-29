@@ -31,6 +31,7 @@ import { of } from 'rxjs';
 import { CoreModule, UserPreferencesService } from '@alfresco/adf-core';
 import { ContextMenuService } from './context-menu.service';
 import { ContextMenuModule } from './context-menu.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('ContextMenuService', () => {
   let contextMenuService;
@@ -49,7 +50,11 @@ describe('ContextMenuService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreModule.forRoot(), ContextMenuModule],
+      imports: [
+        TranslateModule.forRoot(),
+        CoreModule.forRoot(),
+        ContextMenuModule
+      ],
       providers: [
         Overlay,
         { provide: Store, useValue: { select: () => of() } },

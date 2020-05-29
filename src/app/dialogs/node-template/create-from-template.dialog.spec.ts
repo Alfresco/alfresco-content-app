@@ -35,6 +35,7 @@ import {
 import { Store } from '@ngrx/store';
 import { CreateFromTemplate } from '@alfresco/aca-shared/store';
 import { Node } from '@alfresco/js-api';
+import { TranslateModule } from '@ngx-translate/core';
 
 function text(length: number) {
   return new Array(length)
@@ -64,7 +65,12 @@ describe('CreateFileFromTemplateDialogComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreModule.forRoot(), AppTestingModule, MatDialogModule],
+      imports: [
+        TranslateModule.forRoot(),
+        CoreModule.forRoot(),
+        AppTestingModule,
+        MatDialogModule
+      ],
       declarations: [CreateFromTemplateDialogComponent],
       providers: [
         {

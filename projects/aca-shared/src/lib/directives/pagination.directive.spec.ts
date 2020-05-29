@@ -34,6 +34,7 @@ import {
 } from '@alfresco/adf-core';
 import { LibTestingModule } from '../testing/lib-testing-module';
 import { SharedDirectivesModule } from './shared.directives.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('PaginationDirective', () => {
   let preferences: UserPreferencesService;
@@ -44,7 +45,12 @@ describe('PaginationDirective', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [LibTestingModule, SharedDirectivesModule, CoreModule.forRoot()]
+      imports: [
+        TranslateModule.forRoot(),
+        LibTestingModule,
+        SharedDirectivesModule,
+        CoreModule.forRoot()
+      ]
     });
 
     preferences = TestBed.get(UserPreferencesService);
