@@ -45,7 +45,7 @@ export const EXTENSION_DATA_LOADERS = new InjectionToken<
 
 @Injectable({ providedIn: 'root' })
 export class ExtensionsDataLoaderGuard implements CanActivate {
-  involved = false;
+  private invoked = false;
 
   constructor(
     @Inject(EXTENSION_DATA_LOADERS)
@@ -53,8 +53,8 @@ export class ExtensionsDataLoaderGuard implements CanActivate {
   ) {}
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
-    if (!this.involved) {
-      this.involved = true;
+    if (!this.invoked) {
+      this.invoked = true;
 
       if (!this.extensionDataLoaders.length) {
         return of(true);

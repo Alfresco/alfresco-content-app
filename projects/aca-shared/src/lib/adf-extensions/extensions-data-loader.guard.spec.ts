@@ -143,19 +143,11 @@ describe('ExtensionsDataLoaderGuard', () => {
       const guard = new ExtensionsDataLoaderGuard([extensionLoaders.fct1]);
 
       subject1.next();
-      expect(guard.involved).toEqual(false);
       guard.canActivate(route).subscribe(emittedSpy, erroredSpy, completedSpy);
-      expect(guard.involved).toEqual(true);
-      expect(emittedSpy).toHaveBeenCalledWith(true);
-      expect(erroredSpy).not.toHaveBeenCalled();
-      expect(completedSpy).toHaveBeenCalled();
       expect(extensionLoaderSpy).toHaveBeenCalled();
 
       extensionLoaderSpy.calls.reset();
       guard.canActivate(route).subscribe(emittedSpy, erroredSpy, completedSpy);
-      expect(guard.involved).toEqual(true);
-      expect(emittedSpy).toHaveBeenCalledWith(true);
-      expect(completedSpy).toHaveBeenCalled();
       expect(extensionLoaderSpy).not.toHaveBeenCalled();
     });
   });
