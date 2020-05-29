@@ -142,7 +142,6 @@ describe('ExtensionsDataLoaderGuard', () => {
       const extensionLoaderSpy = spyOn(extensionLoaders, 'fct1');
       const guard = new ExtensionsDataLoaderGuard([extensionLoaders.fct1]);
 
-      subject1.next();
       guard.canActivate(route).subscribe(emittedSpy, erroredSpy, completedSpy);
       expect(extensionLoaderSpy).toHaveBeenCalled();
 
