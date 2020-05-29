@@ -131,5 +131,32 @@ describe('ExtensionsDataLoaderGuard', () => {
       expect(erroredSpy).not.toHaveBeenCalled();
       expect(completedSpy).toHaveBeenCalled();
     });
+
+    it('should call canActivate only once', () => {
+      const subject1 = new Subject<true>();
+      const extensionLoaders = {
+        fct1: function() {
+          return subject1.asObservable();
+        }
+      };
+      const extensionLoaderSpy = spyOn(extensionLoaders, 'fct1');
+      const guard = new ExtensionsDataLoaderGuard([extensionLoaders.fct1]);
+
+      subject1.next();
+      expect(guard.involved).toEqual(false);
+      guard.canActivate(route).subscribe(emittedSpy, erroredSpy, completedSpy);
+      expect(guard.involved).toEqual(true);
+      expect(emittedSpy).toHaveBeenCalledWith(true);
+      expect(erroredSpy).not.toHaveBeenCalled();
+      expect(completedSpy).toHaveBeenCalled();
+      expect(extensionLoaderSpy).toHaveBeenCalled();
+
+      extensionLoaderSpy.calls.reset();
+      guard.canActivate(route).subscribe(emittedSpy, erroredSpy, completedSpy);
+      expect(guard.involved).toEqual(true);
+      expect(emittedSpy).toHaveBeenCalledWith(true);
+      expect(completedSpy).toHaveBeenCalled();
+      expect(extensionLoaderSpy).not.toHaveBeenCalled();
+    });
   });
 });

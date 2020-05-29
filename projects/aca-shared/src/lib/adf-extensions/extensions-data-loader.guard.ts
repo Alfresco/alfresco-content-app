@@ -45,38 +45,46 @@ export const EXTENSION_DATA_LOADERS = new InjectionToken<
 
 @Injectable({ providedIn: 'root' })
 export class ExtensionsDataLoaderGuard implements CanActivate {
+  involved = false;
+
   constructor(
     @Inject(EXTENSION_DATA_LOADERS)
     private extensionDataLoaders: ExtensionLoaderCallback[]
   ) {}
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
-    if (!this.extensionDataLoaders.length) {
+    if (!this.involved) {
+      this.involved = true;
+
+      if (!this.extensionDataLoaders.length) {
+        return of(true);
+      }
+
+      const dataLoaderCallbacks = this.extensionDataLoaders.map(callback =>
+        callback(route)
+      );
+
+      // Undocumented forkJoin behaviour/bug:
+      // https://github.com/ReactiveX/rxjs/issues/3246
+      // So all callbacks need to emit before completion, otherwise forkJoin will short circuit
+      return forkJoin(...dataLoaderCallbacks).pipe(
+        map(() => true),
+        catchError(e => {
+          // tslint:disable-next-line
+          console.error(
+            'Some of the extension data loader guards has been errored.'
+          );
+          // tslint:disable-next-line
+          console.error(e);
+          return of(true);
+        })
+      );
+    } else {
       return of(true);
     }
-
-    const dataLoaderCallbacks = this.extensionDataLoaders.map(callback =>
-      callback(route)
-    );
-
-    // Undocumented forkJoin behaviour/bug:
-    // https://github.com/ReactiveX/rxjs/issues/3246
-    // So all callbacks need to emit before completion, otherwise forkJoin will short circuit
-    return forkJoin(...dataLoaderCallbacks).pipe(
-      map(() => true),
-      catchError(e => {
-        // tslint:disable-next-line
-        console.error(
-          'Some of the extension data loader guards has been errored.'
-        );
-        // tslint:disable-next-line
-        console.error(e);
-        return of(true);
-      })
-    );
   }
 
-  canActivateChild(route: ActivatedRouteSnapshot): Observable<boolean> {
-    return this.canActivate(route);
+  canActivateChild(): Observable<boolean> {
+    return of(true);
   }
 }
