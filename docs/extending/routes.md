@@ -74,6 +74,7 @@ Below is the list of the authentication guards main application registers on sta
 | Key      | Type         | Description                                                               |
 | -------- | ------------ | ------------------------------------------------------------------------- |
 | app.auth | AuthGuardEcm | ADF guard, validates ACS authentication and redirects to Login if needed. |
+| app.extensions.dataLoaderGuard | ExtensionsDataLoaderGuard | ACA guard, validates EXTENSION_DATA_LOADERS provider and redirects to Login if needed. |
 
 You can refer those guards from within your custom extensions,
 or [register](/extending/registration) your custom implementations.
