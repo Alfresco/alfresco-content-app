@@ -48,6 +48,7 @@ import {
 import { Pagination, SearchRequest } from '@alfresco/js-api';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('SearchComponent', () => {
   let component: SearchResultsComponent;
@@ -62,7 +63,12 @@ describe('SearchComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreModule.forRoot(), AppTestingModule, AppSearchResultsModule],
+      imports: [
+        TranslateModule.forRoot(),
+        CoreModule.forRoot(),
+        AppTestingModule,
+        AppSearchResultsModule
+      ],
       providers: [
         {
           provide: AlfrescoApiService,
