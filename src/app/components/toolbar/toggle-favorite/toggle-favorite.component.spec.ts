@@ -83,7 +83,7 @@ describe('ToggleFavoriteComponent', () => {
     fixture.detectChanges();
     component.onToggleEvent();
 
-    expect(mockStore.dispatch).not.toHaveBeenCalled();
+    expect(mockStore.dispatch).toHaveBeenCalled();
   });
 
   it('should dispatch reload if route is specified', () => {
