@@ -24,7 +24,7 @@
  */
 
 import { LoginPage } from '../../../pages/pages';
-import { FILES, SITE_ROLES } from '../../../configs';
+import { FILES, SITE_ROLES } from '../../../_configs';
 import { RepoClient } from '../../../utilities/repo-client/repo-client';
 import { Utils } from '../../../utilities/utils';
 import { AdminActions } from '../../../utilities/admin-actions';

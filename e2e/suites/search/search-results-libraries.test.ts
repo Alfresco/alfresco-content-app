@@ -26,7 +26,7 @@
 import { LoginPage, SearchResultsPage } from '../../pages/pages';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
-import { SITE_VISIBILITY, SITE_ROLES } from './../../configs';
+import { SITE_VISIBILITY, SITE_ROLES } from '../../_configs';
 
 describe('Search results - libraries', () => {
   const username = `user-${Utils.random()}`;

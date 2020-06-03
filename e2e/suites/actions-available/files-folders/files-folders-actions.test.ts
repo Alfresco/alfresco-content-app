@@ -27,7 +27,7 @@ import { RepoClient } from '../../../utilities/repo-client/repo-client';
 import { Utils } from '../../../utilities/utils';
 import { AdminActions } from '../../../utilities/admin-actions';
 import { LoginPage } from '../../../pages/pages';
-import { FILES } from '../../../configs';
+import { FILES } from '../../../_configs';
 import * as testData from './test-data';
 import { personalFilesTests } from './personal-files';
 import { recentFilesTests } from './recent-files';

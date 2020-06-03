@@ -24,7 +24,7 @@
  */
 
 import { browser } from 'protractor';
-import { PAGE_TITLES } from '../../configs';
+import { PAGE_TITLES } from '../../_configs';
 import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';

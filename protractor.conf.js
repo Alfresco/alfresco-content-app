@@ -9,6 +9,7 @@ const fs = require('fs');
 
 const projectRoot = path.resolve(__dirname);
 const downloadFolder = `${projectRoot}/e2e-downloads`;
+const e2eFolder = path.resolve(projectRoot, 'e2e');
 const E2E_HOST = process.env.E2E_HOST || 'http://localhost';
 const E2E_PORT = process.env.E2E_PORT || 4200;
 const BROWSER_RUN = process.env.BROWSER_RUN;
@@ -46,7 +47,8 @@ exports.config = {
     config: appConfig,
     downloadFolder: downloadFolder,
     ADMIN_USERNAME: process.env.ADMIN_EMAIL || 'admin',
-    ADMIN_PASSWORD: process.env.ADMIN_PASSWORD || 'admin'
+    ADMIN_PASSWORD: process.env.ADMIN_PASSWORD || 'admin',
+    e2eRootPath: e2eFolder
   },
 
   specs: [
@@ -154,8 +156,20 @@ exports.config = {
   ],
 
   onPrepare() {
+    const tsConfigPath = path.resolve(e2eFolder, 'tsconfig.e2e.json');
+    const tsConfig = require(tsConfigPath);
+
     require('ts-node').register({
-      project: `${projectRoot}/e2e/tsconfig.e2e.json`
+      project: tsConfigPath,
+      compilerOptions: {
+        paths: tsConfig.compilerOptions.paths
+      }
+    });
+
+    require('tsconfig-paths').register({
+      project: tsConfigPath,
+      baseUrl: e2eFolder,
+      paths: tsConfig.compilerOptions.paths
     });
 
     browser

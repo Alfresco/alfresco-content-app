@@ -24,7 +24,7 @@
  */
 
 import { LoginPage, BrowsingPage } from '../../pages/pages';
-import { EXTENSIBILITY_CONFIGS } from '../../configs';
+import { EXTENSIBILITY_CONFIGS } from '../../_configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 

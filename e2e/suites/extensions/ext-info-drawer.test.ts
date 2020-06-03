@@ -26,7 +26,7 @@
 import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { InfoDrawer } from './../../components/info-drawer/info-drawer';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
-import { EXTENSIBILITY_CONFIGS } from '../../configs';
+import { EXTENSIBILITY_CONFIGS } from '../../_configs';
 import { Utils } from '../../utilities/utils';
 
 describe('Extensions - Info Drawer', () => {

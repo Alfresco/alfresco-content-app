@@ -24,7 +24,7 @@
  */
 
 import { browser } from 'protractor';
-import { APP_ROUTES, SIDEBAR_LABELS } from '../../configs';
+import { APP_ROUTES, SIDEBAR_LABELS } from '../../_configs';
 import { LoginPage, BrowsingPage, SearchResultsPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 

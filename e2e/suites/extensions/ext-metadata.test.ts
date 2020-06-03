@@ -25,7 +25,7 @@
 
 import { BrowsingPage, LoginPage } from '../../pages/pages';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
-import { EXTENSIBILITY_CONFIGS } from '../../configs';
+import { EXTENSIBILITY_CONFIGS } from '../../_configs';
 import { Utils } from '../../utilities/utils';
 import { InfoDrawer } from '../../components/info-drawer/info-drawer';
 import { MetadataCard } from '../../components/metadata-card/metadata-card';

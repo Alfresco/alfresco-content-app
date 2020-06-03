@@ -25,7 +25,7 @@
 
 import { LoginPage } from '../../pages/pages';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
-import { EXTENSIBILITY_CONFIGS } from '../../configs';
+import { EXTENSIBILITY_CONFIGS } from '../../_configs';
 import { Utils } from '../../utilities/utils';
 import { Header } from '../../components/components';
 import { Menu } from './../../components/menu/menu';

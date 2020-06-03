@@ -26,7 +26,7 @@
 import { LoginPage, SearchResultsPage } from '../../pages/pages';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
-import { FILES } from '../../configs';
+import { FILES } from '../../_configs';
 
 describe('Search sorting', () => {
   const random = Utils.random();

@@ -25,7 +25,7 @@
 
 import { browser } from 'protractor';
 import { LoginPage, BrowsingPage } from '../../pages/pages';
-import { SITE_VISIBILITY, SITE_ROLES } from '../../configs';
+import { SITE_VISIBILITY, SITE_ROLES } from '../../_configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { ShareDialog } from '../../components/dialog/share-dialog';
 import { ConfirmDialog } from '../../components/dialog/confirm-dialog';

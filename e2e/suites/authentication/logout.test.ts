@@ -27,7 +27,7 @@ import { browser } from 'protractor';
 import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
-import { APP_ROUTES } from '../../configs';
+import { APP_ROUTES } from '../../_configs';
 
 describe('Logout', () => {
   const page = new BrowsingPage();

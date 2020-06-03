@@ -26,7 +26,7 @@
 import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { Viewer } from './../../components/components';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
-import { EXTENSIBILITY_CONFIGS, FILES } from '../../configs';
+import { EXTENSIBILITY_CONFIGS, FILES } from '../../_configs';
 import { Utils } from '../../utilities/utils';
 
 describe('Extensions - Viewer', () => {

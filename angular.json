@@ -337,7 +337,8 @@
               "projects/aca-shared/tsconfig.spec.json"
             ],
             "exclude": [
-              "**/node_modules/**"
+              "**/node_modules/**",
+              "projects/aca-shared/testing/**"
             ]
           }
         }

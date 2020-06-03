@@ -9,6 +9,10 @@
       "jasmine",
       "jasminewd2",
       "node"
-    ]
+    ],
+    "paths": {
+      "@alfresco/aca-shared/testing": ["../projects/aca-shared/testing"],
+      "@alfresco/aca-shared/testing/*": ["../projects/aca-shared/testing/*"]
+    }
   }
 }

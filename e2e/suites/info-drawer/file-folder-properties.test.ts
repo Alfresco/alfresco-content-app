@@ -27,7 +27,7 @@ import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { InfoDrawer } from './../../components/info-drawer/info-drawer';
 import { Utils } from '../../utilities/utils';
-import { FILES, DATE_TIME_FORMAT, DATE_FORMAT } from '../../configs';
+import { FILES, DATE_TIME_FORMAT, DATE_FORMAT } from '../../_configs';
 import * as moment from 'moment';
 
 describe('File / Folder properties', () => {

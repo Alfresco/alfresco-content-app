@@ -24,7 +24,7 @@
  */
 
 import { LoginPage, BrowsingPage } from '../../pages/pages';
-import { SITE_VISIBILITY } from '../../configs';
+import { SITE_VISIBILITY } from '../../_configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 

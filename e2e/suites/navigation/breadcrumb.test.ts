@@ -25,7 +25,7 @@
 
 import { browser } from 'protractor';
 
-import { SITE_VISIBILITY } from '../../configs';
+import { SITE_VISIBILITY } from '../../_configs';
 import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';

@@ -24,7 +24,7 @@
  */
 
 import { LoginPage, BrowsingPage } from '../../pages/pages';
-import { FILES } from '../../configs';
+import { FILES } from '../../_configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 
