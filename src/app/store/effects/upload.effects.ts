@@ -70,6 +70,9 @@ export class UploadEffects {
     this.fileVersionInput.id = 'app-upload-file-version';
     this.fileVersionInput.type = 'file';
     this.fileVersionInput.style.display = 'none';
+    this.fileVersionInput.addEventListener('change', () => {
+      this.uploadVersion();
+    });
     renderer.appendChild(document.body, this.fileVersionInput);
 
     this.folderInput = renderer.createElement('input') as HTMLInputElement;
@@ -108,29 +111,29 @@ export class UploadEffects {
         this.contentService.versionUpdateDialog(node, file);
       } else if (!action.payload) {
         this.fileVersionInput.click();
-        this.fileVersionInput.addEventListener('change', () => {
-          let node: MinimalNodeEntryEntity;
-          this.contentService
-            .getNodeInfo()
-            .pipe(
-              catchError(_ => {
-                this.store.dispatch(
-                  new SnackbarErrorAction('VERSION.ERROR.GENERIC')
-                );
-                return of(null);
-              })
-            )
-            .subscribe(nodeInfo => {
-              node = nodeInfo;
-            });
+      }
+    })
+  );
+
+  private uploadVersion() {
+    this.contentService
+      .getNodeInfo()
+      .pipe(
+        catchError(_ => {
+          this.store.dispatch(new SnackbarErrorAction('VERSION.ERROR.GENERIC'));
+          return of(null);
+        })
+      )
+      .subscribe((node: MinimalNodeEntryEntity) => {
+        if (node) {
           this.contentService.versionUpdateDialog(
             node,
             this.fileVersionInput.files[0]
           );
-        });
-      }
-    })
-  );
+          this.fileVersionInput.value = '';
+        }
+      });
+  }
 
   private upload(event: any): void {
     this.store
