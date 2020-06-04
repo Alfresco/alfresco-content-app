@@ -32,7 +32,7 @@ import {
   CreateOrEditFolderDialog,
   Utils,
   clearTextWithBackspace
-} from '@alfresco/aca-shared/testing';
+} from '@alfresco/aca-testing-shared';
 
 describe('Edit folder', () => {
   const username = `user-${Utils.random()}`;

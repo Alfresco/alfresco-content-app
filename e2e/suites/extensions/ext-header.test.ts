@@ -30,7 +30,7 @@ import {
   Utils,
   Header,
   Menu
-} from '@alfresco/aca-shared/testing';
+} from '@alfresco/aca-testing-shared';
 
 describe('Extensions - Info Drawer', () => {
     const username = `user-${Utils.random()}`;

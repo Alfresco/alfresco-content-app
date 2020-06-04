@@ -30,7 +30,7 @@ import {
   Utils,
   RepoClient,
   APP_ROUTES
-} from '@alfresco/aca-shared/testing';
+} from '@alfresco/aca-testing-shared';
 
 describe('Logout', () => {
   const page = new BrowsingPage();

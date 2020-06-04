@@ -30,7 +30,7 @@ import {
   BrowsingPage,
   Utils,
   RepoClient
-} from '@alfresco/aca-shared/testing';
+} from '@alfresco/aca-testing-shared';
 
 describe('Shared Files', () => {
   const username = `user-${Utils.random()}`;

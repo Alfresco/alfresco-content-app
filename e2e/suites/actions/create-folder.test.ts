@@ -30,7 +30,7 @@ import {
   Utils,
   clearTextWithBackspace,
   RepoClient
-} from '@alfresco/aca-shared/testing';
+} from '@alfresco/aca-testing-shared';
 
 describe('Create folder', () => {
   const username = `user-${Utils.random()}`;

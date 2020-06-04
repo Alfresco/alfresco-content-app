@@ -30,7 +30,7 @@ import {
   RepoClient,
   Utils,
   Viewer
-} from '@alfresco/aca-shared/testing';
+} from '@alfresco/aca-testing-shared';
 
 describe('Viewer general', () => {
     const username = `user-${Utils.random()}`;

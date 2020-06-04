@@ -29,7 +29,7 @@ import {
   RepoClient,
   EXTENSIBILITY_CONFIGS,
   Utils
-} from '@alfresco/aca-shared/testing';
+} from '@alfresco/aca-testing-shared';
 
 describe('Extensions - DocumentList presets', () => {
   const username = `user-${Utils.random()}`;

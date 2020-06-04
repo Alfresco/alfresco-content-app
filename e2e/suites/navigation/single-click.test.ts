@@ -29,7 +29,7 @@ import {
   Viewer,
   RepoClient,
   Utils
-} from '@alfresco/aca-shared/testing';
+} from '@alfresco/aca-testing-shared';
 
 describe('Single click on item name', () => {
   const username = `user-${Utils.random()}`;

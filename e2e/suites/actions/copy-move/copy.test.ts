@@ -29,7 +29,7 @@ import {
   ContentNodeSelectorDialog,
   RepoClient,
   Utils
-} from '@alfresco/aca-shared/testing';
+} from '@alfresco/aca-testing-shared';
 
 describe('Copy content', () => {
   const username = `user-${Utils.random()}`;

@@ -34,7 +34,7 @@ import {
   ConfirmDialog,
   Viewer,
   Utils
-} from '@alfresco/aca-shared/testing';
+} from '@alfresco/aca-testing-shared';
 
 describe('Unshare a file from Search Results', () => {
   const username = `user-${Utils.random()}`;

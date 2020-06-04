@@ -29,7 +29,7 @@ import {
   RepoClient,
   InfoDrawer,
   Utils
-} from '@alfresco/aca-shared/testing';
+} from '@alfresco/aca-testing-shared';
 
 import * as moment from 'moment';
 

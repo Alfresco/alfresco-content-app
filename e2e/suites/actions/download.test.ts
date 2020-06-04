@@ -29,7 +29,7 @@ import {
   SearchResultsPage,
   RepoClient,
   Utils
-} from '@alfresco/aca-shared/testing';
+} from '@alfresco/aca-testing-shared';
 
 describe('Download', () => {
   const username = `user-${Utils.random()}`;

@@ -31,7 +31,7 @@ import {
   FILES,
   SITE_VISIBILITY,
   SITE_ROLES
-} from '@alfresco/aca-shared/testing';
+} from '@alfresco/aca-testing-shared';
 
 import * as moment from 'moment';
 

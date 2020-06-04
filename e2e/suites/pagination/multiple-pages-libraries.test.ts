@@ -29,7 +29,7 @@ import {
   Utils,
   AdminActions,
   RepoClient
-} from '@alfresco/aca-shared/testing';
+} from '@alfresco/aca-testing-shared';
 
 describe('Pagination on multiple pages', () => {
   const random = Utils.random();

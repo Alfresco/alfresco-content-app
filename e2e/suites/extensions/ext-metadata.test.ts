@@ -31,7 +31,7 @@ import {
   Utils,
   InfoDrawer,
   MetadataCard
-} from '@alfresco/aca-shared/testing';
+} from '@alfresco/aca-testing-shared';
 
 describe('Extensions - Metadata presets', () => {
   const username = `user-${Utils.random()}`;

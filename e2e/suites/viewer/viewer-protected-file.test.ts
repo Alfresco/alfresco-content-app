@@ -31,7 +31,7 @@ import {
   Utils,
   Viewer,
   PasswordDialog
-} from '@alfresco/aca-shared/testing';
+} from '@alfresco/aca-testing-shared';
 
 describe('Viewer - password protected file', () => {
   const username = `user-${Utils.random()}`;

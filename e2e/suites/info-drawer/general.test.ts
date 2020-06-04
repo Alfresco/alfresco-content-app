@@ -29,7 +29,7 @@ import {
   RepoClient,
   InfoDrawer,
   Utils
-} from '@alfresco/aca-shared/testing';
+} from '@alfresco/aca-testing-shared';
 
 describe('General', () => {
   const username = `user1-${Utils.random()}`;

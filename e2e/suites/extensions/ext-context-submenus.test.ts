@@ -29,7 +29,7 @@ import {
   EXTENSIBILITY_CONFIGS,
   RepoClient,
   Utils
-} from '@alfresco/aca-shared/testing';
+} from '@alfresco/aca-testing-shared';
 
 describe('Extensions - Context submenu', () => {
   const username = `user-${Utils.random()}`;

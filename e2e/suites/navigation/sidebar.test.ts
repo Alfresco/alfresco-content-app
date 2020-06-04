@@ -31,7 +31,7 @@ import {
   BrowsingPage,
   SearchResultsPage,
   Utils
-} from '@alfresco/aca-shared/testing';
+} from '@alfresco/aca-testing-shared';
 
 describe('Sidebar', () => {
   const loginPage = new LoginPage();

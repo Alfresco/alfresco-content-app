@@ -30,7 +30,7 @@ import {
   Utils,
   SITE_VISIBILITY,
   SITE_ROLES
-} from '@alfresco/aca-shared/testing';
+} from '@alfresco/aca-testing-shared';
 
 describe('Search results - libraries', () => {
   const username = `user-${Utils.random()}`;

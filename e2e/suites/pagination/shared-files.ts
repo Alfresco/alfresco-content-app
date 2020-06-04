@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BrowsingPage, Utils } from '@alfresco/aca-shared/testing';
+import { BrowsingPage, Utils } from '@alfresco/aca-testing-shared';
 
 export function sharedFilesTests() {
   const page = new BrowsingPage();

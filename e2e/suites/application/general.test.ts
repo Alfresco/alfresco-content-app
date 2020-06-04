@@ -31,7 +31,7 @@ import {
   CreateOrEditFolderDialog,
   RepoClient,
   Utils
-} from '@alfresco/aca-shared/testing';
+} from '@alfresco/aca-testing-shared';
 
 describe('General', () => {
   const loginPage = new LoginPage();

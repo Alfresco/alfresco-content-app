@@ -337,12 +337,17 @@
               "projects/aca-shared/tsconfig.spec.json"
             ],
             "exclude": [
-              "**/node_modules/**",
-              "projects/aca-shared/testing/**"
+              "**/node_modules/**"
             ]
           }
         }
       }
+    },
+    "aca-testing-shared": {
+      "root": "projects/aca-testing-shared",
+      "sourceRoot": "projects/aca-testing-shared/src",
+      "projectType": "library",
+      "prefix": "lib"
     }
   },
   "defaultProject": "app",

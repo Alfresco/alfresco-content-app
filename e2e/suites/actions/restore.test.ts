@@ -30,7 +30,7 @@ import {
   APP_ROUTES,
   RepoClient,
   Utils
-} from '@alfresco/aca-shared/testing';
+} from '@alfresco/aca-testing-shared';
 
 describe('Restore from Trash', () => {
   const username = `user-${Utils.random()}`;

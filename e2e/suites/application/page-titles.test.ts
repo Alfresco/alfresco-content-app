@@ -30,7 +30,7 @@ import {
   BrowsingPage,
   RepoClient,
   Utils
-} from '@alfresco/aca-shared/testing';
+} from '@alfresco/aca-testing-shared';
 
 describe('Page titles', () => {
   const loginPage = new LoginPage();

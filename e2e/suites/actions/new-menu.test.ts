@@ -29,7 +29,7 @@ import {
   SITE_ROLES,
   RepoClient,
   Utils
-} from '@alfresco/aca-shared/testing';
+} from '@alfresco/aca-testing-shared';
 
 describe('New menu', () => {
   const username = `user-${Utils.random()}`;

@@ -28,7 +28,7 @@ import {
   BrowsingPage,
   RepoClient,
   Utils
-} from '@alfresco/aca-shared/testing';
+} from '@alfresco/aca-testing-shared';
 
 describe('Upload files', () => {
   const username = `user-${Utils.random()}`;

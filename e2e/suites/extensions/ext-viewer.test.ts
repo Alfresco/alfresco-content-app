@@ -31,7 +31,7 @@ import {
   EXTENSIBILITY_CONFIGS,
   FILES,
   Utils
- } from '@alfresco/aca-shared/testing';
+ } from '@alfresco/aca-testing-shared';
 
 describe('Extensions - Viewer', () => {
     const username = `user-${Utils.random()}`;

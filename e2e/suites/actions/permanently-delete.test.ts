@@ -29,7 +29,7 @@ import {
   ConfirmDialog,
   RepoClient,
   Utils
-} from '@alfresco/aca-shared/testing';
+} from '@alfresco/aca-testing-shared';
 
 describe('Permanently delete from Trash', () => {
     const username = `user-${Utils.random()}`;

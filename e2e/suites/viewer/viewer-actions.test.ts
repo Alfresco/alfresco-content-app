@@ -34,7 +34,7 @@ import {
   ShareDialog,
   ManageVersionsDialog,
   UploadNewVersionDialog
-} from '@alfresco/aca-shared/testing';
+} from '@alfresco/aca-testing-shared';
 
 describe('Viewer actions', () => {
   const username = `user-${Utils.random()}`;

@@ -31,7 +31,7 @@ import {
   BrowsingPage,
   Utils,
   RepoClient
-} from '@alfresco/aca-shared/testing';
+} from '@alfresco/aca-testing-shared';
 
 describe('Breadcrumb', () => {
   const username = `user-${Utils.random()}`;

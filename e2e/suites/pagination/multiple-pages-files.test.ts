@@ -28,7 +28,7 @@ import {
   Utils,
   AdminActions,
   RepoClient
-} from '@alfresco/aca-shared/testing';
+} from '@alfresco/aca-testing-shared';
 import { personalFilesTests } from './personal-files';
 import { recentFilesTests } from './recent-files';
 import { searchResultsTests } from './search-results';

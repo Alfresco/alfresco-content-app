@@ -30,7 +30,7 @@ import {
   AdminActions,
   FILES,
   SITE_ROLES
-} from '@alfresco/aca-shared/testing';
+} from '@alfresco/aca-testing-shared';
 import * as testData from './test-data-permissions';
 import { librariesTests } from './my-libraries';
 import { favoritesTests } from './favorites';

@@ -29,7 +29,7 @@ import {
   FILES,
   RepoClient,
   Utils
-} from '@alfresco/aca-shared/testing';
+} from '@alfresco/aca-testing-shared';
 
 describe('Edit offline', () => {
   const username = `user-${Utils.random()}`;

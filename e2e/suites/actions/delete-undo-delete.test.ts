@@ -28,7 +28,7 @@ import {
   BrowsingPage,
   RepoClient,
   Utils
-} from '@alfresco/aca-shared/testing';
+} from '@alfresco/aca-testing-shared';
 
 describe('Delete and undo delete', () => {
   const username = `user-${Utils.random()}`;

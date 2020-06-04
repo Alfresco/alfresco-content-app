@@ -30,7 +30,7 @@ import {
   RepoClient,
   Utils,
   AdminActions
-} from '@alfresco/aca-shared/testing';
+} from '@alfresco/aca-testing-shared';
 
 describe('Destination picker dialog : ', () => {
   const random = Utils.random();

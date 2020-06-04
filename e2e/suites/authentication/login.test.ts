@@ -31,7 +31,7 @@ import {
   Utils,
   RepoClient,
   navigate
-} from '@alfresco/aca-shared/testing';
+} from '@alfresco/aca-testing-shared';
 
 describe('Login', () => {
   const peopleApi = new RepoClient().people;

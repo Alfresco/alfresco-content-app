@@ -29,7 +29,7 @@ import {
   SITE_VISIBILITY,
   RepoClient,
   Utils
-} from '@alfresco/aca-shared/testing';
+} from '@alfresco/aca-testing-shared';
 
 describe('Mark items as favorites', () => {
   const username = `user-${Utils.random()}`;

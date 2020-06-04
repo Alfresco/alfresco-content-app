@@ -30,7 +30,7 @@ import {
   RepoClient,
   Utils,
   AdminActions
-} from '@alfresco/aca-shared/testing';
+} from '@alfresco/aca-testing-shared';
 import * as testData from './test-data-libraries';
 import * as testUtil from '../test-util';
 

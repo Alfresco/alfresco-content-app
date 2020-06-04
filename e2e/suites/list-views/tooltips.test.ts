@@ -28,7 +28,7 @@ import {
   BrowsingPage,
   Utils,
   RepoClient
-} from '@alfresco/aca-shared/testing';
+} from '@alfresco/aca-testing-shared';
 
 describe('File / folder tooltips', () => {
   const username = `user-${Utils.random()}`;

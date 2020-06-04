@@ -11,8 +11,7 @@
       "node"
     ],
     "paths": {
-      "@alfresco/aca-shared/testing": ["../projects/aca-shared/testing"],
-      "@alfresco/aca-shared/testing/*": ["../projects/aca-shared/testing/*"]
+      "@alfresco/aca-testing-shared": ["../projects/aca-testing-shared"]
     }
   }
 }

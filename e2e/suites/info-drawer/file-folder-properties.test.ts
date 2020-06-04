@@ -32,7 +32,7 @@ import {
   FILES,
   DATE_TIME_FORMAT,
   DATE_FORMAT
-} from '@alfresco/aca-shared/testing';
+} from '@alfresco/aca-testing-shared';
 
 import * as moment from 'moment';
 

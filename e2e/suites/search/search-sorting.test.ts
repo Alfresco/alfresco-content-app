@@ -29,7 +29,7 @@ import {
   RepoClient,
   Utils,
   FILES
-} from '@alfresco/aca-shared/testing';
+} from '@alfresco/aca-testing-shared';
 
 describe('Search sorting', () => {
   const random = Utils.random();

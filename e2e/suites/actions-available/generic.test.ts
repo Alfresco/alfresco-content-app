@@ -30,7 +30,7 @@ import {
   NodeContentTree,
   Utils,
   AdminActions
-} from '@alfresco/aca-shared/testing';
+} from '@alfresco/aca-testing-shared';
 
 describe('Generic tests : ', () => {
   const random = Utils.random();
