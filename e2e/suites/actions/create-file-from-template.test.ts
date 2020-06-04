@@ -23,12 +23,17 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage } from '../../pages/pages';
-import { SelectTemplateDialog } from '../../components/dialog/select-template-dialog';
-import { CreateFromTemplateDialog } from '../../components/dialog/create-from-template-dialog';
-import { Utils, clearTextWithBackspace } from '../../utilities/utils';
-import { AdminActions } from '../../utilities/admin-actions';
-import { RepoClient, NodeContentTree } from '../../utilities/repo-client/repo-client';
+import {
+  LoginPage,
+  BrowsingPage,
+  SelectTemplateDialog,
+  CreateFromTemplateDialog,
+  Utils,
+  clearTextWithBackspace,
+  AdminActions,
+  RepoClient,
+  NodeContentTree
+} from '@alfresco/aca-testing-shared';
 
 describe('Create file from template', () => {
   const random = Utils.random();

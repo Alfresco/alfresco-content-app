@@ -24,12 +24,15 @@
  */
 
 import { browser } from 'protractor';
-import { LoginPage, BrowsingPage } from '../../pages/pages';
-import { SITE_VISIBILITY } from '../../configs';
-import { RepoClient } from '../../utilities/repo-client/repo-client';
-import { ShareDialog } from '../../components/dialog/share-dialog';
-import { Viewer } from '../../components/viewer/viewer';
-import { Utils } from '../../utilities/utils';
+import {
+  LoginPage,
+  BrowsingPage,
+  SITE_VISIBILITY,
+  RepoClient,
+  ShareDialog,
+  Viewer,
+  Utils
+} from '@alfresco/aca-testing-shared';
 
 describe('Share a file', () => {
   const username = `user-${Utils.random()}`;

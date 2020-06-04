@@ -23,11 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { RepoClient } from '../../../utilities/repo-client/repo-client';
-import { Utils } from '../../../utilities/utils';
-import { AdminActions } from '../../../utilities/admin-actions';
-import { LoginPage } from '../../../pages/pages';
-import { FILES } from '../../../configs';
+import { RepoClient, Utils, AdminActions, LoginPage, FILES } from '@alfresco/aca-testing-shared';
 import * as testData from './test-data';
 import { personalFilesTests } from './personal-files';
 import { recentFilesTests } from './recent-files';

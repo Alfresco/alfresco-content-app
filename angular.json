@@ -342,6 +342,12 @@
           }
         }
       }
+    },
+    "aca-testing-shared": {
+      "root": "projects/aca-testing-shared",
+      "sourceRoot": "projects/aca-testing-shared/src",
+      "projectType": "library",
+      "prefix": "lib"
     }
   },
   "defaultProject": "app",
