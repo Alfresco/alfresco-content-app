@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Utils } from '../../../utilities/utils';
+import { Utils } from '@alfresco/aca-shared/testing';
 
 export const trashActions = ['Permanently Delete', 'Restore'];
 

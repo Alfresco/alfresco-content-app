@@ -23,10 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage } from '../../pages/pages';
-import { EXTENSIBILITY_CONFIGS } from '../../_configs';
-import { RepoClient } from '../../utilities/repo-client/repo-client';
-import { Utils } from '../../utilities/utils';
+import {
+  LoginPage,
+  BrowsingPage,
+  EXTENSIBILITY_CONFIGS,
+  RepoClient,
+  Utils
+} from '@alfresco/aca-shared/testing';
 
 describe('Extensions - Context submenu', () => {
   const username = `user-${Utils.random()}`;

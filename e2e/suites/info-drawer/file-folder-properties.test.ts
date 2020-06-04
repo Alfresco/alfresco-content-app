@@ -23,11 +23,17 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage } from '../../pages/pages';
-import { RepoClient } from '../../utilities/repo-client/repo-client';
-import { InfoDrawer } from './../../components/info-drawer/info-drawer';
-import { Utils } from '../../utilities/utils';
-import { FILES, DATE_TIME_FORMAT, DATE_FORMAT } from '../../_configs';
+import {
+  LoginPage,
+  BrowsingPage,
+  RepoClient,
+  InfoDrawer,
+  Utils,
+  FILES,
+  DATE_TIME_FORMAT,
+  DATE_FORMAT
+} from '@alfresco/aca-shared/testing';
+
 import * as moment from 'moment';
 
 describe('File / Folder properties', () => {

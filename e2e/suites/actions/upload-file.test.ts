@@ -23,17 +23,18 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage } from '@alfresco/aca-shared/testing';
-import { RepoClient } from '@alfresco/aca-shared/testing/utilities/repo-client/repo-client';
-import { Utils } from '@alfresco/aca-shared/testing/utilities/utils';
-
-// import { RepoClient } from '../../utilities/repo-client/repo-client';
-// import { Utils } from '../../utilities/utils';
+import {
+  LoginPage,
+  BrowsingPage,
+  RepoClient,
+  Utils
+} from '@alfresco/aca-shared/testing';
 
 describe('Upload files', () => {
   const username = `user-${Utils.random()}`;
 
-  const folder1 = `folder1-${Utils.random()}`; let folder1Id;
+  const folder1 = `folder1-${Utils.random()}`;
+  let folder1Id;
 
   const apis = {
     admin: new RepoClient(),

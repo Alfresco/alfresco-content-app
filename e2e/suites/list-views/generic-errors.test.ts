@@ -24,9 +24,13 @@
  */
 
 import { browser } from 'protractor';
-import { LoginPage, BrowsingPage } from '../../pages/pages';
-import { Utils } from '../../utilities/utils';
-import { RepoClient } from '../../utilities/repo-client/repo-client';
+import {
+  LoginPage,
+  BrowsingPage,
+  Utils,
+  RepoClient
+} from '@alfresco/aca-shared/testing';
+
 
 describe('Generic errors', () => {
   const username = `user-${Utils.random()}`;

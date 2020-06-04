@@ -24,10 +24,13 @@
  */
 
 import { browser } from 'protractor';
-import { LoginPage, BrowsingPage } from '../../pages/pages';
-import { Utils } from '../../utilities/utils';
-import { RepoClient } from '../../utilities/repo-client/repo-client';
-import { APP_ROUTES } from '../../_configs';
+import {
+  LoginPage,
+  BrowsingPage,
+  Utils,
+  RepoClient,
+  APP_ROUTES
+} from '@alfresco/aca-shared/testing';
 
 describe('Logout', () => {
   const page = new BrowsingPage();

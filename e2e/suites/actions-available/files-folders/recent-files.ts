@@ -23,10 +23,9 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Utils } from '../../../utilities/utils';
+import { Utils, BrowsingPage } from '@alfresco/aca-shared/testing';
 import * as testData from './test-data';
 import * as testUtil from '../test-util';
-import { BrowsingPage } from '../../../pages/pages';
 
 export function recentFilesTests() {
   const page = new BrowsingPage();

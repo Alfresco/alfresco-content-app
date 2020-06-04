@@ -23,10 +23,14 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage, SearchResultsPage } from '../../pages/pages';
-import { Utils } from '../../utilities/utils';
-import { AdminActions } from '../../utilities/admin-actions';
-import { RepoClient } from '../../utilities/repo-client/repo-client';
+import {
+  LoginPage,
+  BrowsingPage,
+  SearchResultsPage,
+  Utils,
+  AdminActions,
+  RepoClient
+} from '@alfresco/aca-shared/testing';
 
 describe('Pagination on single page', () => {
   const random = Utils.random();

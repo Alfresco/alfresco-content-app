@@ -23,8 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+export * from './components';
 export * from './pages';
-
-export * from './utilities/repo-client/apis/upload/upload-api';
-export * from './utilities/repo-client/repo-client';
-export * from './utilities/utils';
+export * from './utilities';
+export * from './configs';

@@ -24,9 +24,14 @@
  */
 
 import { browser } from 'protractor';
-import { APP_ROUTES, SIDEBAR_LABELS } from '../../_configs';
-import { LoginPage, BrowsingPage, SearchResultsPage } from '../../pages/pages';
-import { Utils } from '../../utilities/utils';
+import {
+  APP_ROUTES,
+  SIDEBAR_LABELS,
+  LoginPage,
+  BrowsingPage,
+  SearchResultsPage,
+  Utils
+} from '@alfresco/aca-shared/testing';
 
 describe('Sidebar', () => {
   const loginPage = new LoginPage();

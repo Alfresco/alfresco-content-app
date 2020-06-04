@@ -23,9 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage, SearchResultsPage } from '../../pages/pages';
-import { Utils } from '../../utilities/utils';
-import { RepoClient } from '../../utilities/repo-client/repo-client';
+import {
+  LoginPage,
+  BrowsingPage,
+  SearchResultsPage,
+  Utils,
+  RepoClient
+} from '@alfresco/aca-shared/testing';
 
 describe('Empty list views', () => {
   const username = `user-${Utils.random()}`;

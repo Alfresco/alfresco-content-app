@@ -23,15 +23,18 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage } from '../../pages/pages';
-import { FILES } from '../../_configs';
-import { RepoClient } from '../../utilities/repo-client/repo-client';
-import { Utils } from '../../utilities/utils';
-import { Viewer } from '../../components/viewer/viewer';
-import { ContentNodeSelectorDialog } from './../../components/dialog/content-node-selector-dialog';
-import { ShareDialog } from './../../components/dialog/share-dialog';
-import { ManageVersionsDialog } from './../../components/dialog/manage-versions-dialog';
-import { UploadNewVersionDialog } from './../../components/dialog/upload-new-version-dialog';
+import {
+  LoginPage,
+  BrowsingPage,
+  FILES,
+  RepoClient,
+  Utils,
+  Viewer,
+  ContentNodeSelectorDialog,
+  ShareDialog,
+  ManageVersionsDialog,
+  UploadNewVersionDialog
+} from '@alfresco/aca-shared/testing';
 
 describe('Viewer actions', () => {
   const username = `user-${Utils.random()}`;

@@ -24,10 +24,13 @@
  */
 
 import { browser } from 'protractor';
-import { LoginPage, BrowsingPage } from '../../pages/pages';
-import { APP_ROUTES } from '../../_configs';
-import { RepoClient } from '../../utilities/repo-client/repo-client';
-import { Utils } from '../../utilities/utils';
+import {
+  LoginPage,
+  BrowsingPage,
+  APP_ROUTES,
+  RepoClient,
+  Utils
+} from '@alfresco/aca-shared/testing';
 
 describe('Restore from Trash', () => {
   const username = `user-${Utils.random()}`;

@@ -23,6 +23,14 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './browsing-page';
-export * from './login-page';
-export * from './search-results-page';
+export * from './confirm-dialog';
+export * from './content-node-selector-dialog';
+export * from './create-edit-folder-dialog';
+export * from './create-from-template-dialog';
+export * from './create-library-dialog';
+export * from './generic-dialog';
+export * from './manage-versions-dialog';
+export * from './password-dialog';
+export * from './select-template-dialog';
+export * from './share-dialog';
+export * from './upload-new-version-dialog';

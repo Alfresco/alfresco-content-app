@@ -23,28 +23,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Menu } from '../menu/menu';
-import { Component } from '../component';
-
-export class UserInfo extends Component {
-  fullName = this.byCss('.current-user__full-name');
-  avatar = this.byCss('.current-user__avatar');
-
-  menu = new Menu();
-
-  constructor(ancestor?: string) {
-    super('aca-current-user', ancestor);
-  }
-
-  async openMenu(): Promise<Menu> {
-    await this.avatar.click();
-    await this.menu.wait();
-
-    return this.menu;
-  }
-
-  async signOut(): Promise<void> {
-    const menu = await this.openMenu();
-    await menu.clickMenuItem('Sign out');
-  }
-}
+export * from './filters/created-date-filter';
+export * from './filters/facet-filter';
+export * from './filters/generic-filter-panel';
+export * from './filters/size-filter';
+export * from './search-filters';
+export * from './search-input';
+export * from './search-sorting-picker';

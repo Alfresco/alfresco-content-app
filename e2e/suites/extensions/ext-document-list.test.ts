@@ -23,10 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BrowsingPage, LoginPage } from '../../pages/pages';
-import { RepoClient } from '../../utilities/repo-client/repo-client';
-import { EXTENSIBILITY_CONFIGS } from '../../_configs';
-import { Utils } from '../../utilities/utils';
+import {
+  BrowsingPage,
+  LoginPage,
+  RepoClient,
+  EXTENSIBILITY_CONFIGS,
+  Utils
+} from '@alfresco/aca-shared/testing';
 
 describe('Extensions - DocumentList presets', () => {
   const username = `user-${Utils.random()}`;

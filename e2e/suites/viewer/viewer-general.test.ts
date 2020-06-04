@@ -23,11 +23,14 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage } from '../../pages/pages';
-import { FILES, SITE_VISIBILITY } from '../../_configs';
-import { RepoClient } from '../../utilities/repo-client/repo-client';
-import { Utils } from '../../utilities/utils';
-import { Viewer } from '../../components/viewer/viewer';
+import {
+  LoginPage,
+  BrowsingPage,
+  FILES, SITE_VISIBILITY,
+  RepoClient,
+  Utils,
+  Viewer
+} from '@alfresco/aca-shared/testing';
 
 describe('Viewer general', () => {
     const username = `user-${Utils.random()}`;

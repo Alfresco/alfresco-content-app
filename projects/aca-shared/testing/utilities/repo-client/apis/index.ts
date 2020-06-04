@@ -23,30 +23,18 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { by, browser } from 'protractor';
-import { Component } from '../component';
-import { SizeFilter } from './filters/size-filter';
-import { CreatedDateFilter } from './filters/created-date-filter';
-import { FacetFilter } from './filters/facet-filter';
-import { isPresentAndDisplayed } from '../../utilities/utils';
-
-export class SearchFilters extends Component {
-  mainPanel = browser.element(by.css('adf-search-filter'));
-  resetAllButton = this.byCssText('.mat-button', 'Reset all');
-
-  size = new SizeFilter();
-  createdDate = new CreatedDateFilter();
-  fileType = new FacetFilter('File type');
-  creator = new FacetFilter('Creator');
-  modifier = new FacetFilter('Modifier');
-  location = new FacetFilter('Location');
-  modifiedDate = new FacetFilter('Modified date');
-
-  constructor(ancestor?: string) {
-    super('adf-search-filter', ancestor);
-  }
-
-  async isSearchFiltersPanelDisplayed(): Promise<boolean> {
-    return isPresentAndDisplayed(this.mainPanel);
-  }
-}
+export * from './authentication/authentication-api';
+export * from './comments/comments-api';
+export * from './favorites/favorites-api';
+export * from './nodes/node-body-create';
+export * from './nodes/node-content-tree';
+export * from './nodes/nodes-api';
+export * from './people/people-api-models';
+export * from './people/people-api';
+export * from './queries/queries-api';
+export * from './search/search-api';
+export * from './shared-links/shared-links-api';
+export * from './sites/sites-api';
+export * from './trashcan/trashcan-api';
+export * from './upload/upload-api';
+export * from './repo-api';

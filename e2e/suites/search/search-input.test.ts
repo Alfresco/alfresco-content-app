@@ -23,8 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BrowsingPage, LoginPage } from '../../pages/pages';
-import { Utils } from '../../utilities/utils';
+import { BrowsingPage, LoginPage, Utils } from '@alfresco/aca-shared/testing';
 
 describe('Search input', () => {
   const loginPage = new LoginPage();

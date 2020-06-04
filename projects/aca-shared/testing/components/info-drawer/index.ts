@@ -23,31 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export interface PersonModel {
-    username?: string;
-    password?: string;
-    firstName?: string;
-    lastName?: string;
-    email?: string;
-    enabled?: boolean;
-    properties?: any;
-}
-
-export class Person {
-    id: string;
-    password: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    enabled: boolean;
-    properties: any;
-
-    constructor(user: PersonModel) {
-        this.id = user.username;
-        this.password = user.password || user.username;
-        this.firstName = user.firstName || user.username;
-        this.lastName = user.lastName || user.username;
-        this.email = user.email || `${user.username}@alfresco.com`;
-        this.enabled = user.enabled || true;
-    }
-}
+export * from './info-drawer-comments-tab';
+export * from './info-drawer-metadata-content';
+export * from './info-drawer-metadata-library';
+export * from './info-drawer';

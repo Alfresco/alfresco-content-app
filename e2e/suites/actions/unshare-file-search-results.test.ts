@@ -24,13 +24,17 @@
  */
 
 import { browser } from 'protractor';
-import { LoginPage, BrowsingPage } from '../../pages/pages';
-import { SITE_VISIBILITY, SITE_ROLES } from '../../_configs';
-import { RepoClient } from '../../utilities/repo-client/repo-client';
-import { ShareDialog } from '../../components/dialog/share-dialog';
-import { ConfirmDialog } from '../../components/dialog/confirm-dialog';
-import { Viewer } from '../../components/viewer/viewer';
-import { Utils } from '../../utilities/utils';
+import {
+  LoginPage,
+  BrowsingPage,
+  SITE_VISIBILITY,
+  SITE_ROLES,
+  RepoClient,
+  ShareDialog,
+  ConfirmDialog,
+  Viewer,
+  Utils
+} from '@alfresco/aca-shared/testing';
 
 describe('Unshare a file from Search Results', () => {
   const username = `user-${Utils.random()}`;

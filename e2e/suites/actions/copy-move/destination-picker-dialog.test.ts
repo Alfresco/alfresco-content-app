@@ -23,11 +23,14 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage } from '../../../pages/pages';
-import { ContentNodeSelectorDialog } from '../../../components/dialog/content-node-selector-dialog';
-import { RepoClient } from '../../../utilities/repo-client/repo-client';
-import { Utils } from '../../../utilities/utils';
-import { AdminActions } from '../../../utilities/admin-actions';
+import {
+  LoginPage,
+  BrowsingPage,
+  ContentNodeSelectorDialog,
+  RepoClient,
+  Utils,
+  AdminActions
+} from '@alfresco/aca-shared/testing';
 
 describe('Destination picker dialog : ', () => {
   const random = Utils.random();

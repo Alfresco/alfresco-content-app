@@ -23,9 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, SearchResultsPage } from '../../pages/pages';
-import { RepoClient } from '../../utilities/repo-client/repo-client';
-import { Utils } from '../../utilities/utils';
+import {
+  LoginPage,
+  SearchResultsPage,
+  RepoClient,
+  Utils
+} from '@alfresco/aca-shared/testing';
+
 import { browser } from 'protractor';
 
 describe('Search results general', () => {

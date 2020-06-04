@@ -23,18 +23,21 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { by } from 'protractor';
-import { GenericDialog } from '../dialog/generic-dialog';
-
-export class ManageVersionsDialog extends GenericDialog {
-  closeButton = this.childElement(by.cssContainingText('.mat-button', 'Close'));
-
-  constructor() {
-    super('.aca-node-versions-dialog');
-  }
-
-  async clickClose(): Promise<void> {
-    await this.closeButton.click();
-    await this.waitForDialogToClose();
-  }
-}
+export * from './breadcrumb/breadcrumb';
+export * from './breadcrumb/dropdown-breadcrumb';
+export * from './data-table/data-table';
+export * from './datetime-picker/datetime-picker';
+export * from './dialog';
+export * from './header/header';
+export * from './header/user-info';
+export * from './info-drawer';
+export * from './login/login';
+export * from './menu/menu';
+export * from './metadata-card/metadata-card';
+export * from './pagination/pagination';
+export * from './search';
+export * from './sidenav/sidenav';
+export * from './toolbar/toolbar';
+export * from './viewer/viewer';
+export * from './component';
+export * from './components';

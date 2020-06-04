@@ -23,10 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage } from '../../pages/pages';
-import { SITE_VISIBILITY } from '../../_configs';
-import { RepoClient } from '../../utilities/repo-client/repo-client';
-import { Utils } from '../../utilities/utils';
+import {
+  LoginPage,
+  BrowsingPage,
+  SITE_VISIBILITY,
+  RepoClient,
+  Utils
+} from '@alfresco/aca-shared/testing';
 
 describe('Mark items as favorites', () => {
   const username = `user-${Utils.random()}`;

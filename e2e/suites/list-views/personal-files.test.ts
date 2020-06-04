@@ -25,10 +25,13 @@
 
 import { browser } from 'protractor';
 
-import { APP_ROUTES } from '../../_configs';
-import { LoginPage, BrowsingPage } from '../../pages/pages';
-import { Utils } from '../../utilities/utils';
-import { RepoClient } from '../../utilities/repo-client/repo-client';
+import {
+  APP_ROUTES,
+  LoginPage,
+  BrowsingPage,
+  Utils,
+  RepoClient
+} from '@alfresco/aca-shared/testing';
 
 describe('Personal Files', () => {
   const username = `user-${Utils.random()}`;

@@ -23,9 +23,12 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage } from '../../pages/pages';
-import { RepoClient } from '../../utilities/repo-client/repo-client';
-import { Utils } from '../../utilities/utils';
+import {
+  LoginPage,
+  BrowsingPage,
+  RepoClient,
+  Utils
+} from '@alfresco/aca-shared/testing';
 
 describe('Delete and undo delete', () => {
   const username = `user-${Utils.random()}`;

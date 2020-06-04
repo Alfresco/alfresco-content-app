@@ -23,10 +23,14 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage } from '../../pages/pages';
-import { CreateOrEditFolderDialog } from '../../components/dialog/create-edit-folder-dialog';
-import { Utils, clearTextWithBackspace } from '../../utilities/utils';
-import { RepoClient } from '../../utilities/repo-client/repo-client';
+import {
+  LoginPage,
+  BrowsingPage,
+  CreateOrEditFolderDialog,
+  Utils,
+  clearTextWithBackspace,
+  RepoClient
+} from '@alfresco/aca-shared/testing';
 
 describe('Create folder', () => {
   const username = `user-${Utils.random()}`;
