@@ -115,7 +115,7 @@ export class UploadEffects {
     })
   );
 
-  private uploadVersion() {
+  uploadVersion() {
     this.contentService
       .getNodeInfo()
       .pipe(

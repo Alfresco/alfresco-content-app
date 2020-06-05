@@ -35,10 +35,12 @@ import {
   FileModel
 } from '@alfresco/adf-core';
 import {
+  SetSelectedNodesAction,
   UnlockWriteAction,
   UploadFileVersionAction
 } from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../services/content-management.service';
+import { MinimalNodeEntity } from '@alfresco/js-api';
 
 function createFileList(fileName, type = 'text/plain') {
   const data = new Blob([''], { type });
@@ -201,10 +203,27 @@ describe('UploadEffects', () => {
     });
 
     it('should upload file from context menu', () => {
+      spyOn(effects, 'uploadVersion');
+      const node: MinimalNodeEntity = new MinimalNodeEntity({
+        id: '1234',
+        name: 'TEST-NODE',
+        nodeType: 'FAKE',
+        isFolder: false,
+        isFile: true,
+        modifiedAt: new Date(),
+        modifiedByUser: null,
+        createdAt: new Date(),
+        createdByUser: null,
+        content: {
+          mimeType: 'text/html',
+          mimeTypeName: 'HTML',
+          sizeInBytes: 13
+        }
+      });
       uploadVersionInput.files = createFileList('bogus.txt');
-      store.dispatch(new UploadFileVersionAction(null));
+      store.dispatch(new SetSelectedNodesAction([node]));
       uploadVersionInput.dispatchEvent(new CustomEvent('change'));
-      expect(contentManagementService.versionUpdateDialog).toHaveBeenCalled();
+      expect(effects.uploadVersion).toHaveBeenCalled();
     });
 
     it('should upload file from dropping another file', () => {
@@ -212,11 +231,13 @@ describe('UploadEffects', () => {
         detail: {
           files: [
             {
-              file: new FileModel(
-                { name: 'file1.png', size: 10 } as File,
-                null,
-                'file1'
-              )
+              file: new FileModel({
+                name: 'Fake New file',
+                type: 'image/png',
+                lastModified: 13,
+                size: 1351,
+                slice: null
+              })
             }
           ],
           data: {
