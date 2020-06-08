@@ -23,10 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage } from '../../pages/pages';
-import { FILES } from '../../configs';
-import { RepoClient } from '../../utilities/repo-client/repo-client';
-import { Utils } from '../../utilities/utils';
+import {
+  LoginPage,
+  BrowsingPage,
+  FILES,
+  RepoClient,
+  Utils
+} from '@alfresco/aca-testing-shared';
 
 describe('Edit offline', () => {
   const username = `user-${Utils.random()}`;

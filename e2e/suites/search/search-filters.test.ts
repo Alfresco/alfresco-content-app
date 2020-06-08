@@ -23,10 +23,16 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, SearchResultsPage } from '../../pages/pages';
-import { RepoClient } from '../../utilities/repo-client/repo-client';
-import { Utils } from '../../utilities/utils';
-import { FILES, SITE_VISIBILITY, SITE_ROLES } from '../../configs';
+import {
+  LoginPage,
+  SearchResultsPage,
+  RepoClient,
+  Utils,
+  FILES,
+  SITE_VISIBILITY,
+  SITE_ROLES
+} from '@alfresco/aca-testing-shared';
+
 import * as moment from 'moment';
 
 describe('Search filters', () => {

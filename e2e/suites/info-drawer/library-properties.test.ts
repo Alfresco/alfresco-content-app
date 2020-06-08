@@ -23,11 +23,15 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage } from '../../pages/pages';
-import { SITE_VISIBILITY, SITE_ROLES } from '../../configs';
-import { RepoClient } from '../../utilities/repo-client/repo-client';
-import { InfoDrawer } from './../../components/info-drawer/info-drawer';
-import { Utils } from '../../utilities/utils';
+import {
+  LoginPage,
+  BrowsingPage,
+  SITE_VISIBILITY,
+  SITE_ROLES,
+  RepoClient,
+  InfoDrawer,
+  Utils
+} from '@alfresco/aca-testing-shared';
 
 describe('Library properties', () => {
   const username = `user1-${Utils.random()}`;

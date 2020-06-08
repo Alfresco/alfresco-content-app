@@ -23,10 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage } from '../../../pages/pages';
-import { ContentNodeSelectorDialog } from '../../../components/dialog/content-node-selector-dialog';
-import { RepoClient } from '../../../utilities/repo-client/repo-client';
-import { Utils } from '../../../utilities/utils';
+import {
+  LoginPage,
+  BrowsingPage,
+  ContentNodeSelectorDialog,
+  RepoClient,
+  Utils
+} from '@alfresco/aca-testing-shared';
 
 describe('Move content', () => {
   const username = `user-${Utils.random()}`;

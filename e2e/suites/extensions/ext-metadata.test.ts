@@ -23,12 +23,15 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BrowsingPage, LoginPage } from '../../pages/pages';
-import { RepoClient } from '../../utilities/repo-client/repo-client';
-import { EXTENSIBILITY_CONFIGS } from '../../configs';
-import { Utils } from '../../utilities/utils';
-import { InfoDrawer } from '../../components/info-drawer/info-drawer';
-import { MetadataCard } from '../../components/metadata-card/metadata-card';
+import {
+  BrowsingPage,
+  LoginPage,
+  RepoClient,
+  EXTENSIBILITY_CONFIGS,
+  Utils,
+  InfoDrawer,
+  MetadataCard
+} from '@alfresco/aca-testing-shared';
 
 describe('Extensions - Metadata presets', () => {
   const username = `user-${Utils.random()}`;

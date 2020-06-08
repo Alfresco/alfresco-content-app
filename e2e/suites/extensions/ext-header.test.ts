@@ -23,12 +23,14 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage } from '../../pages/pages';
-import { RepoClient } from '../../utilities/repo-client/repo-client';
-import { EXTENSIBILITY_CONFIGS } from '../../configs';
-import { Utils } from '../../utilities/utils';
-import { Header } from '../../components/components';
-import { Menu } from './../../components/menu/menu';
+import {
+  LoginPage,
+  RepoClient,
+  EXTENSIBILITY_CONFIGS,
+  Utils,
+  Header,
+  Menu
+} from '@alfresco/aca-testing-shared';
 
 describe('Extensions - Info Drawer', () => {
     const username = `user-${Utils.random()}`;

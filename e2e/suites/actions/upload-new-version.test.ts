@@ -23,11 +23,14 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage } from '../../pages/pages';
-import { FILES } from '../../configs';
-import { RepoClient } from '../../utilities/repo-client/repo-client';
-import { Utils } from '../../utilities/utils';
-import { UploadNewVersionDialog } from '../../components/dialog/upload-new-version-dialog';
+import {
+  LoginPage,
+  BrowsingPage,
+  FILES,
+  RepoClient,
+  Utils,
+  UploadNewVersionDialog
+} from '@alfresco/aca-testing-shared';
 
 describe('Upload new version', () => {
   const username = `user-${Utils.random()}`;

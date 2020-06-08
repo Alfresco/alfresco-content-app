@@ -109,6 +109,8 @@
     "rxjs-tslint-rules": "^4.30.1",
     "selenium-webdriver": "4.0.0-alpha.1",
     "ts-node": "^8.0.3",
+    "tsconfig-paths": "3.9.0",
+    "tsickle": ">=0.34.0",
     "tslib": "^1.11.1",
     "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
