@@ -223,6 +223,7 @@ describe('Upload new version', () => {
       await uploadNewVersionDialog.waitForDialogToClose();
 
       expect(await dataTable.isItemPresent(fileToUpload4)).toBe(true, 'File name was not changed');
+      expect(await apis.user.nodes.isFileLockedWrite(fileLocked1Id)).toBe(false, `${fileLocked1} is still locked`);
       expect(await apis.user.nodes.getFileVersionType(fileLocked1Id)).toEqual('MINOR', 'File has incorrect version type');
       expect(await apis.user.nodes.getFileVersionLabel(fileLocked1Id)).toEqual('1.1', 'File has incorrect version label');
     });
@@ -372,6 +373,7 @@ describe('Upload new version', () => {
       await uploadNewVersionDialog.waitForDialogToClose();
 
       expect(await dataTable.isItemPresent(fileToUpload4)).toBe(true, 'File name was not changed');
+      expect(await apis.user.nodes.isFileLockedWrite(fileLocked1Id)).toBe(false, `${fileLocked1} is still locked`);
       expect(await apis.user.nodes.getFileVersionType(fileLocked1Id)).toEqual('MINOR', 'File has incorrect version type');
       expect(await apis.user.nodes.getFileVersionLabel(fileLocked1Id)).toEqual('1.1', 'File has incorrect version label');
     });
@@ -520,6 +522,7 @@ describe('Upload new version', () => {
       await uploadNewVersionDialog.waitForDialogToClose();
 
       expect(await dataTable.isItemPresent(fileToUpload4, parentRF)).toBe(true, 'File name was not changed');
+      expect(await apis.user.nodes.isFileLockedWrite(fileLocked1Id)).toBe(false, `${fileLocked1} is still locked`);
       expect(await apis.user.nodes.getFileVersionType(fileLocked1Id)).toEqual('MINOR', 'File has incorrect version type');
       expect(await apis.user.nodes.getFileVersionLabel(fileLocked1Id)).toEqual('1.1', 'File has incorrect version label');
     });
@@ -669,6 +672,7 @@ describe('Upload new version', () => {
       await uploadNewVersionDialog.waitForDialogToClose();
 
       expect(await dataTable.isItemPresent(fileToUpload4)).toBe(true, 'File name was not changed');
+      expect(await apis.user.nodes.isFileLockedWrite(fileLocked1Id)).toBe(false, `${fileLocked1} is still locked`);
       expect(await apis.user.nodes.getFileVersionType(fileLocked1Id)).toEqual('MINOR', 'File has incorrect version type');
       expect(await apis.user.nodes.getFileVersionLabel(fileLocked1Id)).toEqual('1.1', 'File has incorrect version label');
     });
@@ -841,6 +845,7 @@ describe('Upload new version', () => {
 
       // TODO: enable when ACA-2329 is fixed
       // expect(await dataTable.isItemPresent(fileToUpload4, parentSearch)).toBe(true, 'File name was not changed');
+      expect(await apis.user.nodes.isFileLockedWrite(fileLockedSearch1Id)).toBe(false, `${fileLockedSearch1} is still locked`);
       expect(await apis.user.nodes.getFileVersionType(fileLockedSearch1Id)).toEqual('MINOR', 'File has incorrect version type');
       expect(await apis.user.nodes.getFileVersionLabel(fileLockedSearch1Id)).toEqual('1.1', 'File has incorrect version label');
     });
