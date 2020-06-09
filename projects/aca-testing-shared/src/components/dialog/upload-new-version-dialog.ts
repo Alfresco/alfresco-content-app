@@ -29,21 +29,21 @@ import { isPresentAndEnabled, typeText } from '../../utilities/utils';
 
 export class UploadNewVersionDialog extends GenericDialog {
   cancelButton = this.childElement(
-    by.cssContainingText('.mat-button', 'Cancel')
+    by.cssContainingText('.mat-button-wrapper', 'Cancel')
   );
   uploadButton = this.childElement(
-    by.cssContainingText('.mat-button', 'Upload')
+    by.cssContainingText('.mat-button-wrapper', 'Upload')
   );
   majorOption = this.childElement(
-    by.cssContainingText(`.mat-radio-label`, 'Major')
+    by.cssContainingText(`.mat-radio-label`, 'major')
   );
   minorOption = this.childElement(
-    by.cssContainingText(`.mat-radio-label`, 'Minor')
+    by.cssContainingText(`.mat-radio-label`, 'minor')
   );
   description = this.childElement(by.css('textarea'));
 
   constructor() {
-    super('.aca-node-version-upload-dialog');
+    super('.adf-version-manager-dialog-panel-upload');
   }
 
   async isCancelButtonEnabled(): Promise<boolean> {

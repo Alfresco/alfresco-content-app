@@ -21,7 +21,7 @@
 
   <aca-page-layout-content>
     <div class="main-content">
-      <adf-upload-drag-area [rootFolderId]="node?.id" [disabled]="!canUpload">
+      <adf-upload-drag-area [rootFolderId]="node?.id" [disabled]="!canUpload"  (updateFileVersion)="onUploadNewVersion($event)">
         <adf-document-list
           #documentList
           acaDocumentList

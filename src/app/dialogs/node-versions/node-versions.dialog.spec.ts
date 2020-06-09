@@ -24,9 +24,122 @@
  */
 
 import { NodeVersionsDialogComponent } from './node-versions.dialog';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  AlfrescoApiService,
+  AlfrescoApiServiceMock,
+  CoreModule,
+  TranslationMock
+} from '@alfresco/adf-core';
+import { AppTestingModule } from '../../testing/app-testing.module';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef
+} from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
+import {
+  NodeEntityEvent,
+  UploadVersionButtonComponent,
+  VersionListComponent,
+  VersionUploadComponent
+} from '@alfresco/adf-content-services';
+import {
+  TranslateFakeLoader,
+  TranslateLoader,
+  TranslateModule
+} from '@ngx-translate/core';
+import { MinimalNodeEntryEntity } from '@alfresco/js-api';
+import { AppStore, UnlockWriteAction } from '@alfresco/aca-shared/store';
 
 describe('NodeVersionsDialogComponent', () => {
-  it('should be defined', () => {
-    expect(NodeVersionsDialogComponent).toBeDefined();
+  let fixture: ComponentFixture<NodeVersionsDialogComponent>;
+  let component: NodeVersionsDialogComponent;
+  let store: Store<AppStore>;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        CoreModule.forRoot(),
+        AppTestingModule,
+        MatDialogModule,
+        TranslateModule.forRoot({
+          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
+        })
+      ],
+      declarations: [
+        NodeVersionsDialogComponent,
+        VersionListComponent,
+        VersionUploadComponent,
+        UploadVersionButtonComponent
+      ],
+      providers: [
+        {
+          provide: AlfrescoApiService,
+          useClass: AlfrescoApiServiceMock
+        },
+        {
+          provide: MatDialogRef,
+          useValue: {
+            close: jasmine.createSpy('close'),
+            open: jasmine.createSpy('open')
+          }
+        },
+        {
+          provide: TranslationMock,
+          useValue: {
+            instant: jasmine.createSpy('instant')
+          }
+        },
+        {
+          provide: Store,
+          useValue: {
+            dispatch: jasmine.createSpy('dispatch')
+          }
+        },
+        { provide: MAT_DIALOG_DATA, useValue: {} }
+      ]
+    });
+
+    store = TestBed.get(Store);
+    fixture = TestBed.createComponent(NodeVersionsDialogComponent);
+    component = fixture.componentInstance;
+    component.node = {
+      id: 'file1',
+      properties: {}
+    } as MinimalNodeEntryEntity;
+  });
+
+  it('should display adf upload version if isTypeList is passed as false from parent component', () => {
+    component.isTypeList = false;
+    fixture.detectChanges();
+    const adfVersionComponent = document.querySelector(
+      '#adf-version-upload-button'
+    );
+    expect(adfVersionComponent).toBeDefined();
+  });
+
+  it('should unlock node if is locked when uploading a file', () => {
+    component.isTypeList = false;
+    const nodeEvent: NodeEntityEvent = new NodeEntityEvent({
+      entry: {
+        id: 'a8b2caff-a58c-40f1-8c47-0b8e63ceaa0e',
+        isFavorite: false,
+        isFile: true,
+        isFolder: false,
+        name: '84348838_3451105884918116_7819187244555567104_o.jpg',
+        nodeType: 'cm:content',
+        parentId: '72c65b52-b856-4a5c-b028-42ce03adb4fe',
+        modifiedAt: null,
+        createdByUser: null,
+        createdAt: null,
+        modifiedByUser: null,
+        properties: { 'cm:lockType': 'WRITE_LOCK' }
+      }
+    });
+    component.handleUpload(nodeEvent);
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new UnlockWriteAction(nodeEvent.value)
+    );
   });
 });

@@ -1,17 +1,37 @@
-<header mat-dialog-title>
+<header mat-dialog-title *ngIf="isTypeList">
   {{ 'VERSION.DIALOG_ADF.TITLE' | translate }}
 </header>
-<section mat-dialog-content>
-  <adf-version-manager
+<header mat-dialog-title *ngIf="!isTypeList">
+  {{ 'VERSION.DIALOG.TITLE' | translate }}
+</header>
+<section mat-dialog-content *ngIf="!isTypeList">
+  <adf-version-upload
+    id="adf-version-upload-button"
     [node]="node"
-    [showComments]="'adf-version-manager.allowComments' | adfAppConfig: true"
-    [allowDownload]="'adf-version-manager.allowDownload' | adfAppConfig: true"
-    (uploadError)="uploadError($event)"
+    [newFileVersion]="file"
+    (success)="handleUpload($event)"
+    (cancel)="handleCancel()"
+    (error)="onUploadError($event)"
   >
-  </adf-version-manager>
+  </adf-version-upload>
 </section>
-<footer mat-dialog-actions>
-  <button mat-button [mat-dialog-close]="true">
-    {{ 'VERSION.DIALOG_ADF.CLOSE' | translate }}
-  </button>
-</footer>
+<ng-container *ngIf="isTypeList">
+  <section mat-dialog-content>
+    <div class="adf-version-list-container">
+      <div class="adf-version-list-table">
+        <adf-version-list
+          [node]="node"
+          [showComments]="'adf-version-manager.allowComments' | adfAppConfig: true"
+          [allowDownload]="'adf-version-manager.allowDownload' | adfAppConfig: true"
+          (deleted)="refresh($event)"
+          (restored)="refresh($event)"
+        ></adf-version-list>
+      </div>
+    </div>
+  </section>
+  <footer mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="true">
+      {{ 'VERSION.DIALOG_ADF.CLOSE' | translate }}
+    </button>
+  </footer>
+</ng-container>

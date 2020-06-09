@@ -134,7 +134,6 @@ describe('Upload new version', () => {
       await page.waitForDialog();
 
       expect(await uploadNewVersionDialog.getTitle()).toEqual('Upload New Version');
-      expect(await uploadNewVersionDialog.getText()).toContain('What level of changes were made to this version?');
       expect(await uploadNewVersionDialog.description.isDisplayed()).toBe(true, 'Description not displayed');
       expect(await uploadNewVersionDialog.minorOption.isDisplayed()).toBe(true, 'Minor option not displayed');
       expect(await uploadNewVersionDialog.majorOption.isDisplayed()).toBe(true, 'Major option not displayed');
@@ -285,7 +284,6 @@ describe('Upload new version', () => {
       await page.waitForDialog();
 
       expect(await uploadNewVersionDialog.getTitle()).toEqual('Upload New Version');
-      expect(await uploadNewVersionDialog.getText()).toContain('What level of changes were made to this version?');
       expect(await uploadNewVersionDialog.description.isDisplayed()).toBe(true, 'Description not displayed');
       expect(await uploadNewVersionDialog.minorOption.isDisplayed()).toBe(true, 'Minor option not displayed');
       expect(await uploadNewVersionDialog.majorOption.isDisplayed()).toBe(true, 'Major option not displayed');
@@ -435,7 +433,6 @@ describe('Upload new version', () => {
       await page.waitForDialog();
 
       expect(await uploadNewVersionDialog.getTitle()).toEqual('Upload New Version');
-      expect(await uploadNewVersionDialog.getText()).toContain('What level of changes were made to this version?');
       expect(await uploadNewVersionDialog.description.isDisplayed()).toBe(true, 'Description not displayed');
       expect(await uploadNewVersionDialog.minorOption.isDisplayed()).toBe(true, 'Minor option not displayed');
       expect(await uploadNewVersionDialog.majorOption.isDisplayed()).toBe(true, 'Major option not displayed');
@@ -586,7 +583,6 @@ describe('Upload new version', () => {
       await page.waitForDialog();
 
       expect(await uploadNewVersionDialog.getTitle()).toEqual('Upload New Version');
-      expect(await uploadNewVersionDialog.getText()).toContain('What level of changes were made to this version?');
       expect(await uploadNewVersionDialog.description.isDisplayed()).toBe(true, 'Description not displayed');
       expect(await uploadNewVersionDialog.minorOption.isDisplayed()).toBe(true, 'Minor option not displayed');
       expect(await uploadNewVersionDialog.majorOption.isDisplayed()).toBe(true, 'Major option not displayed');
@@ -737,7 +733,6 @@ describe('Upload new version', () => {
       await page.waitForDialog();
 
       expect(await uploadNewVersionDialog.getTitle()).toEqual('Upload New Version');
-      expect(await uploadNewVersionDialog.getText()).toContain('What level of changes were made to this version?');
       expect(await uploadNewVersionDialog.description.isDisplayed()).toBe(true, 'Description not displayed');
       expect(await uploadNewVersionDialog.minorOption.isDisplayed()).toBe(true, 'Minor option not displayed');
       expect(await uploadNewVersionDialog.majorOption.isDisplayed()).toBe(true, 'Major option not displayed');

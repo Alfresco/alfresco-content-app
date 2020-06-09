@@ -2,8 +2,12 @@
   $foreground: map-get($theme, foreground);
   $accent: map-get($theme, accent);
 
-  .adf-version-manager-dialog-panel {
+  .adf-version-manager-dialog-panel-list {
     height: 400px;
+  }
+
+  .adf-version-manager-dialog-panel-upload {
+    height: 280px;
   }
 
   .aca-node-versions-dialog {
@@ -68,7 +72,7 @@
 
     .adf-version-list-container {
       .adf-version-list {
-        height: 180px;
+        height: 250px;
         overflow: hidden;
         padding: 0;
       }

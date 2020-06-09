@@ -66,7 +66,6 @@ import { Store } from '@ngrx/store';
 import { forkJoin, Observable, of, Subject, zip } from 'rxjs';
 import { catchError, flatMap, map, mergeMap, take, tap } from 'rxjs/operators';
 import { NodePermissionsDialogComponent } from '../components/permissions/permission-dialog/node-permissions.dialog';
-import { NodeVersionUploadDialogComponent } from '../dialogs/node-version-upload/node-version-upload.dialog';
 import { NodeVersionsDialogComponent } from '../dialogs/node-versions/node-versions.dialog';
 import { NodeActionsService } from './node-actions.service';
 
@@ -164,10 +163,13 @@ export class ContentManagementService {
   private openVersionManagerDialog(node: any) {
     // workaround Shared
     if (node.isFile || node.nodeId) {
-      this.dialogRef.open(NodeVersionsDialogComponent, {
+      const dialogRef = this.dialogRef.open(NodeVersionsDialogComponent, {
         data: { node },
         panelClass: 'adf-version-manager-dialog-panel',
         width: '630px'
+      });
+      dialogRef.componentInstance.refreshEvent.subscribe(() => {
+        this.store.dispatch(new ReloadDocumentListAction());
       });
     } else {
       this.store.dispatch(
@@ -176,9 +178,11 @@ export class ContentManagementService {
     }
   }
 
-  versionUploadDialog() {
-    return this.dialogRef.open(NodeVersionUploadDialogComponent, {
-      panelClass: 'aca-node-version-dialog'
+  versionUpdateDialog(node, file) {
+    return this.dialogRef.open(NodeVersionsDialogComponent, {
+      data: { node, file, isTypeList: false },
+      panelClass: 'adf-version-manager-dialog-panel-upload',
+      width: '600px'
     });
   }
 

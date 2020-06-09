@@ -31,6 +31,7 @@ import { CoreModule } from '@alfresco/adf-core';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
+import { AppTestingModule } from '../../../testing/app-testing.module';
 
 describe('ToggleFavoriteComponent', () => {
   let component: ToggleFavoriteComponent;
@@ -50,7 +51,11 @@ describe('ToggleFavoriteComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), CoreModule.forRoot()],
+      imports: [
+        TranslateModule.forRoot(),
+        CoreModule.forRoot(),
+        AppTestingModule
+      ],
       declarations: [ToggleFavoriteComponent],
       providers: [
         ExtensionService,
@@ -78,7 +83,7 @@ describe('ToggleFavoriteComponent', () => {
     fixture.detectChanges();
     component.onToggleEvent();
 
-    expect(mockStore.dispatch).not.toHaveBeenCalled();
+    expect(mockStore.dispatch).toHaveBeenCalled();
   });
 
   it('should dispatch reload if route is specified', () => {
