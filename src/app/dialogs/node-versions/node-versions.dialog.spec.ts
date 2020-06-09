@@ -49,10 +49,12 @@ import {
   TranslateModule
 } from '@ngx-translate/core';
 import { MinimalNodeEntryEntity } from '@alfresco/js-api';
+import { AppStore, UnlockWriteAction } from '@alfresco/aca-shared/store';
 
 describe('NodeVersionsDialogComponent', () => {
   let fixture: ComponentFixture<NodeVersionsDialogComponent>;
   let component: NodeVersionsDialogComponent;
+  let store: Store<AppStore>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -98,6 +100,7 @@ describe('NodeVersionsDialogComponent', () => {
       ]
     });
 
+    store = TestBed.get(Store);
     fixture = TestBed.createComponent(NodeVersionsDialogComponent);
     component = fixture.componentInstance;
     component.node = {
@@ -113,5 +116,31 @@ describe('NodeVersionsDialogComponent', () => {
       '#adf-version-upload-button'
     );
     expect(adfVersionComponent).toBeDefined();
+  });
+
+  it('should unlock node if is locked when uploading a file', () => {
+    component.isTypeList = false;
+    const node = {
+      value: {
+        entry: {
+          id: 'a8b2caff-a58c-40f1-8c47-0b8e63ceaa0e',
+          isFavorite: false,
+          isFile: true,
+          isFolder: false,
+          name: '84348838_3451105884918116_7819187244555567104_o.jpg',
+          nodeType: 'cm:content',
+          parentId: '72c65b52-b856-4a5c-b028-42ce03adb4fe',
+          modifiedAt: null,
+          createdByUser: null,
+          createdAt: null,
+          modifiedByUser: null,
+          properties: { 'cm:lockType': 'WRITE_LOCK' }
+        }
+      }
+    };
+    component.handleUpload(node);
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new UnlockWriteAction(node.value)
+    );
   });
 });
