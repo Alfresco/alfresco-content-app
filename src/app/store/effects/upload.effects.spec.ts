@@ -222,7 +222,6 @@ describe('UploadEffects', () => {
                   encoding: 'UTF-8'
                 },
                 parentId: 'dff2bc1e-d092-42ac-82d1-87c82f6e56cb',
-                aspectNames: ['rn:renditioned', 'qshare:shared'],
                 createdAt: '2020-05-14T08:52:03.868Z',
                 isFolder: false,
                 name: 'GoqZhm.jpg',
