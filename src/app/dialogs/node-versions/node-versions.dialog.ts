@@ -38,6 +38,7 @@ import {
 } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
+import { NodeEntityEvent } from '@alfresco/adf-content-services';
 
 @Component({
   templateUrl: './node-versions.dialog.html',
@@ -67,9 +68,9 @@ export class NodeVersionsDialogComponent {
     this.store.dispatch(new SnackbarErrorAction(errorMessage));
   }
 
-  handleUpload(ev) {
-    if (ev.value.entry.properties['cm:lockType'] === 'WRITE_LOCK') {
-      this.store.dispatch(new UnlockWriteAction(ev.value));
+  handleUpload(nodeEvent: NodeEntityEvent) {
+    if (nodeEvent.value.entry.properties['cm:lockType'] === 'WRITE_LOCK') {
+      this.store.dispatch(new UnlockWriteAction(nodeEvent.value));
     }
     this.dialogRef.close();
   }

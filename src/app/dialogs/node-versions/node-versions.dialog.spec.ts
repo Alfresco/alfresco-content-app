@@ -39,6 +39,7 @@ import {
 } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import {
+  NodeEntityEvent,
   UploadVersionButtonComponent,
   VersionListComponent,
   VersionUploadComponent
@@ -120,27 +121,25 @@ describe('NodeVersionsDialogComponent', () => {
 
   it('should unlock node if is locked when uploading a file', () => {
     component.isTypeList = false;
-    const node = {
-      value: {
-        entry: {
-          id: 'a8b2caff-a58c-40f1-8c47-0b8e63ceaa0e',
-          isFavorite: false,
-          isFile: true,
-          isFolder: false,
-          name: '84348838_3451105884918116_7819187244555567104_o.jpg',
-          nodeType: 'cm:content',
-          parentId: '72c65b52-b856-4a5c-b028-42ce03adb4fe',
-          modifiedAt: null,
-          createdByUser: null,
-          createdAt: null,
-          modifiedByUser: null,
-          properties: { 'cm:lockType': 'WRITE_LOCK' }
-        }
+    const nodeEvent: NodeEntityEvent = new NodeEntityEvent({
+      entry: {
+        id: 'a8b2caff-a58c-40f1-8c47-0b8e63ceaa0e',
+        isFavorite: false,
+        isFile: true,
+        isFolder: false,
+        name: '84348838_3451105884918116_7819187244555567104_o.jpg',
+        nodeType: 'cm:content',
+        parentId: '72c65b52-b856-4a5c-b028-42ce03adb4fe',
+        modifiedAt: null,
+        createdByUser: null,
+        createdAt: null,
+        modifiedByUser: null,
+        properties: { 'cm:lockType': 'WRITE_LOCK' }
       }
-    };
-    component.handleUpload(node);
+    });
+    component.handleUpload(nodeEvent);
     expect(store.dispatch).toHaveBeenCalledWith(
-      new UnlockWriteAction(node.value)
+      new UnlockWriteAction(nodeEvent.value)
     );
   });
 });
