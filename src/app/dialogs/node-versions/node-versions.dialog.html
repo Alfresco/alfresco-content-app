@@ -9,8 +9,8 @@
     id="adf-version-upload-button"
     [node]="node"
     [newFileVersion]="file"
-    (success)="handleUpload()"
-    (cancel)="handleUpload()"
+    (success)="handleUpload($event)"
+    (cancel)="handleCancel()"
     (error)="onUploadError($event)"
   >
   </adf-version-upload>

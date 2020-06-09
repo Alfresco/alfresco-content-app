@@ -23,7 +23,11 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AppStore, SnackbarErrorAction } from '@alfresco/aca-shared/store';
+import {
+  AppStore,
+  SnackbarErrorAction,
+  UnlockWriteAction
+} from '@alfresco/aca-shared/store';
 import { MinimalNodeEntryEntity, Node } from '@alfresco/js-api';
 import {
   Component,
@@ -63,7 +67,12 @@ export class NodeVersionsDialogComponent {
     this.store.dispatch(new SnackbarErrorAction(errorMessage));
   }
 
-  handleUpload() {
+  handleUpload(ev) {
+    this.store.dispatch(new UnlockWriteAction(ev.value));
+    this.dialogRef.close();
+  }
+
+  handleCancel() {
     this.dialogRef.close();
   }
 
