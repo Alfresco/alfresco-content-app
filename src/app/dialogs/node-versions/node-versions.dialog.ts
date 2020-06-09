@@ -68,11 +68,14 @@ export class NodeVersionsDialogComponent {
   }
 
   handleUpload(ev) {
-    this.store.dispatch(new UnlockWriteAction(ev.value));
+    if (ev.value.entry.properties['cm:lockType'] === 'WRITE_LOCK')
+      this.store.dispatch(new UnlockWriteAction(ev.value));
     this.dialogRef.close();
   }
 
   handleCancel() {
+    if (this.node.properties['cm:lockType'] === 'WRITE_LOCK')
+      this.store.dispatch(new UnlockWriteAction({ entry: this.node }));
     this.dialogRef.close();
   }
 
