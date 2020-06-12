@@ -17,7 +17,8 @@ To create a new route, populate the `routes` section with the corresponding entr
       "id": "plugin1.routes.bin",
       "path": "ext/bin",
       "layout": "app.layout.main",
-      "component": "your.component.id"
+      "component": "your.component.id",
+      "parentRoute": "your-parent-route"
     }
   ]
 }
@@ -33,6 +34,7 @@ To create a new route, populate the `routes` section with the corresponding entr
 | layout        | The layout [component](/extending/components) to use for the route.                              |
 | auth          | List of [authentication guards](#authentication-guards). Defaults to `[ "app.auth" ]`. |
 | data          | Custom property bag to carry with the route.                                           |
+| parentRoute   | The path that the route will become child of                                           |
 
 Use the `app.layout.main` value for the `layout` property to get the default application layout,
 with header, navigation sidebar and main content area.
@@ -58,7 +60,8 @@ You can define the full route schema like in the next example:
       "auth": ["app.auth"],
       "data": {
         "title": "Custom Trashcan"
-      }
+      },
+      "parentRoute": "your-parent-route"
     }
   ]
 }
