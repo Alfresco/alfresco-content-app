@@ -5,6 +5,11 @@
   {{ 'VERSION.DIALOG.TITLE' | translate }}
 </header>
 <section mat-dialog-content *ngIf="!isTypeList">
+  <adf-version-comparison
+    id="adf-version-comparison"
+    [newFileVersion]="file"
+    [node]="node"
+  ></adf-version-comparison>
   <adf-version-upload
     id="adf-version-upload-button"
     [node]="node"

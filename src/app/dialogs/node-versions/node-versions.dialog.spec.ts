@@ -41,6 +41,7 @@ import { Store } from '@ngrx/store';
 import {
   NodeEntityEvent,
   UploadVersionButtonComponent,
+  VersionComparisonComponent,
   VersionListComponent,
   VersionUploadComponent
 } from '@alfresco/adf-content-services';
@@ -49,7 +50,6 @@ import {
   TranslateLoader,
   TranslateModule
 } from '@ngx-translate/core';
-import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 import { AppStore, UnlockWriteAction } from '@alfresco/aca-shared/store';
 
 describe('NodeVersionsDialogComponent', () => {
@@ -71,7 +71,8 @@ describe('NodeVersionsDialogComponent', () => {
         NodeVersionsDialogComponent,
         VersionListComponent,
         VersionUploadComponent,
-        UploadVersionButtonComponent
+        UploadVersionButtonComponent,
+        VersionComparisonComponent
       ],
       providers: [
         {
@@ -105,9 +106,29 @@ describe('NodeVersionsDialogComponent', () => {
     fixture = TestBed.createComponent(NodeVersionsDialogComponent);
     component = fixture.componentInstance;
     component.node = {
-      id: 'file1',
-      properties: {}
-    } as MinimalNodeEntryEntity;
+      id: '1234',
+      name: 'TEST-NODE',
+      isFile: true,
+      nodeType: 'FAKE',
+      isFolder: false,
+      modifiedAt: new Date(),
+      modifiedByUser: null,
+      createdAt: new Date(),
+      createdByUser: null,
+      content: {
+        mimeType: 'text/html',
+        mimeTypeName: 'HTML',
+        sizeInBytes: 13
+      }
+    };
+    component.isTypeList = true;
+    component.file = {
+      name: 'Fake New file',
+      type: 'application/pdf',
+      lastModified: 13,
+      size: 1351,
+      slice: null
+    };
   });
 
   it('should display adf upload version if isTypeList is passed as false from parent component', () => {
@@ -116,7 +137,16 @@ describe('NodeVersionsDialogComponent', () => {
     const adfVersionComponent = document.querySelector(
       '#adf-version-upload-button'
     );
-    expect(adfVersionComponent).toBeDefined();
+    expect(adfVersionComponent).not.toEqual(null);
+  });
+
+  it('should display adf version comparison if isTypeList is passed as false from parent component', () => {
+    component.isTypeList = false;
+    fixture.detectChanges();
+    const adfVersionComparisonComponent = document.querySelector(
+      '#adf-version-comparison'
+    );
+    expect(adfVersionComparisonComponent).not.toEqual(null);
   });
 
   it('should unlock node if is locked when uploading a file', () => {

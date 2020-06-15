@@ -7,7 +7,7 @@
   }
 
   .adf-version-manager-dialog-panel-upload {
-    height: 280px;
+    height: 500px;
   }
 
   .aca-node-versions-dialog {
@@ -56,13 +56,10 @@
       }
     }
 
-    .adf-new-version-container {
-      height: 350px !important;
-    }
-
     .mat-dialog-content {
-      max-height: 36vh;
+      max-height: 100vh;
       overflow: hidden;
+      padding: 2px 26px;
     }
 
     .mat-list-item-content {
