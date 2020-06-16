@@ -24,6 +24,7 @@
  */
 
 import { Component, OnInit, OnDestroy, ViewEncapsulation, HostListener } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute, Router, UrlTree, UrlSegmentGroup, UrlSegment, PRIMARY_OUTLET } from '@angular/router';
 import { debounceTime, map, takeUntil } from 'rxjs/operators';
 import { UserPreferencesService, ObjectUtils, UploadService, AlfrescoApiService } from '@alfresco/adf-core';
@@ -57,6 +58,8 @@ export class PreviewComponent extends PageComponent implements OnInit, OnDestroy
   openWith: Array<ContentActionRef> = [];
   contentExtensions: Array<ViewerExtensionRef> = [];
   showRightSide = false;
+  navigateBackAsClose = false;
+  simplestMode = false;
 
   recentFileFilters = [
     'TYPE:"content"',
@@ -92,6 +95,7 @@ export class PreviewComponent extends PageComponent implements OnInit, OnDestroy
     private apiService: AlfrescoApiService,
     private uploadService: UploadService,
     private actions$: Actions,
+    private location: Location,
     store: Store<AppStore>,
     extensions: AppExtensionService,
     content: ContentManagementService
@@ -111,6 +115,8 @@ export class PreviewComponent extends PageComponent implements OnInit, OnDestroy
     this.previewLocation = this.router.url.substr(0, this.router.url.indexOf('/', 1)).replace(/\//g, '');
 
     const routeData = this.route.snapshot.data;
+    this.navigateBackAsClose = !!routeData.navigateBackAsClose;
+    this.simplestMode = !!routeData.simplestMode;
 
     if (routeData.navigateMultiple) {
       this.navigateMultiple = true;
@@ -202,16 +208,18 @@ export class PreviewComponent extends PageComponent implements OnInit, OnDestroy
   }
 
   navigateToFileLocation(shouldNavigate: boolean) {
-    const shouldSkipNavigation = this.routesSkipNavigation.includes(this.previewLocation);
-
     if (shouldNavigate) {
-      const route = this.getNavigationCommands(this.previewLocation);
+      if (this.navigateBackAsClose) {
+        this.location.back();
+      } else {
+        const shouldSkipNavigation = this.routesSkipNavigation.includes(this.previewLocation);
+        const route = this.getNavigationCommands(this.previewLocation);
 
-      if (!shouldSkipNavigation && this.folderId) {
-        route.push(this.folderId);
+        if (!shouldSkipNavigation && this.folderId) {
+          route.push(this.folderId);
+        }
+        this.router.navigate(route);
       }
-
-      this.router.navigate(route);
     }
   }
 

@@ -28,7 +28,6 @@ import { SetInitialStateAction } from '@alfresco/aca-shared/store';
 import { Router } from '@angular/router';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { mockRoutesWithoutParentRoute, mockRoutesWithParentRoute } from './mock/extension-routes.mock';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -103,33 +102,6 @@ describe('AppComponent', () => {
     it('should dispatch generic error message', () => {
       component.onFileUploadedError({ error: { status: 999 } } as any);
       expect(storeMock.dispatch['calls'].argsFor(0)[0].payload).toBe('APP.MESSAGES.UPLOAD.ERROR.GENERIC');
-    });
-  });
-
-  describe('Routing Configuration', () => {
-    it('Should extension route be included as child of the defined parent path', () => {
-      component.mapExtensionRoutes(mockRoutesWithParentRoute);
-
-      expect(router.config[0]).toEqual({
-        path: 'fake-path',
-        children: [
-          {
-            path: 'extension-path',
-            canActivate: ['fake-guard'],
-            canActivateChild: ['fake-guard']
-          }
-        ]
-      });
-    });
-
-    it('Should extension route be included as root entry when there is no parent path defined', () => {
-      component.mapExtensionRoutes(mockRoutesWithoutParentRoute);
-      expect(router.config[0]).toEqual({
-        component: null,
-        path: 'extension-path',
-        canActivate: ['fake-guard'],
-        canActivateChild: ['fake-guard']
-      });
     });
   });
 });

@@ -37,7 +37,6 @@ import {
   reduceEmptyMenus,
   ExtensionService,
   ExtensionConfig,
-  ComponentRegisterService,
   NavBarGroupRef
 } from '@alfresco/adf-extensions';
 import { AppConfigService } from '@alfresco/adf-core';
@@ -46,7 +45,6 @@ describe('AppExtensionService', () => {
   let service: AppExtensionService;
   let store: Store<AppStore>;
   let extensions: ExtensionService;
-  let components: ComponentRegisterService;
   let appConfigService: AppConfigService;
 
   beforeEach(() => {
@@ -58,7 +56,6 @@ describe('AppExtensionService', () => {
     store = TestBed.inject(Store);
     service = TestBed.inject(AppExtensionService);
     extensions = TestBed.inject(ExtensionService);
-    components = TestBed.inject(ComponentRegisterService);
   });
 
   const applyConfig = (config: ExtensionConfig) => {
@@ -224,97 +221,6 @@ describe('AppExtensionService', () => {
 
       expect(guards.length).toBe(1);
       expect(guards[0]).toEqual(guard1);
-    });
-  });
-
-  describe('components', () => {
-    let component1;
-
-    beforeEach(() => {
-      component1 = {};
-
-      components.setComponents({
-        'component-1': component1
-      });
-    });
-
-    it('should fetch registered component', () => {
-      const component = service.getComponentById('component-1');
-      expect(component).toEqual(component1);
-    });
-
-    it('should not fetch registered component', () => {
-      const component = service.getComponentById('missing');
-      expect(component).toBeFalsy();
-    });
-  });
-
-  describe('routes', () => {
-    let component1, component2;
-    let guard1;
-
-    beforeEach(() => {
-      applyConfig({
-        $id: 'test',
-        $name: 'test',
-        $version: '1.0.0',
-        $license: 'MIT',
-        $vendor: 'Good company',
-        $runtime: '1.5.0',
-        routes: [
-          {
-            id: 'aca:routes/about',
-            path: 'ext/about',
-            component: 'aca:components/about',
-            layout: 'aca:layouts/main',
-            auth: ['aca:auth'],
-            data: {
-              title: 'Custom About'
-            }
-          }
-        ]
-      });
-
-      component1 = {};
-      component2 = {};
-
-      components.setComponents({
-        'aca:components/about': component1,
-        'aca:layouts/main': component2
-      });
-
-      guard1 = {};
-      extensions.authGuards['aca:auth'] = guard1;
-    });
-
-    it('should load routes from the config', () => {
-      expect(extensions.routes.length).toBe(1);
-    });
-
-    it('should find a route by id', () => {
-      const route = extensions.getRouteById('aca:routes/about');
-      expect(route).toBeTruthy();
-      expect(route.path).toBe('ext/about');
-    });
-
-    it('should not find a route by id', () => {
-      const route = extensions.getRouteById('some-route');
-      expect(route).toBeFalsy();
-    });
-
-    it('should build application routes', () => {
-      const routes = service.getApplicationRoutes();
-
-      expect(routes.length).toBe(1);
-
-      const route = routes[0];
-      expect(route.path).toBe('ext/about');
-      expect(route.component).toEqual(component2);
-      expect(route.canActivateChild).toEqual([guard1]);
-      expect(route.canActivate).toEqual([guard1]);
-      expect(route.children.length).toBe(1);
-      expect(route.children[0].path).toBe('');
-      expect(route.children[0].component).toEqual(component1);
     });
   });
 

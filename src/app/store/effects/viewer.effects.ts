@@ -25,7 +25,7 @@
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
-import { map, take } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 import {
   AppStore,
   ViewerActionTypes,
@@ -35,6 +35,7 @@ import {
   getAppSelection,
   FullscreenViewerAction,
   ViewNodeVersionAction
+  PluginPreviewAction
 } from '@alfresco/aca-shared/store';
 import { Router, UrlTree, UrlSegmentGroup, PRIMARY_OUTLET, UrlSegment } from '@angular/router';
 import { Store, createSelector } from '@ngrx/store';
@@ -142,6 +143,20 @@ export class ViewerEffects {
       } else {
         this.router.navigate(['view', { outlets: { viewer: [action.nodeId, action.versionId] } }]);
       }
+    })
+  );
+
+  pluginPreview$ = this.actions$.pipe(
+    ofType<PluginPreviewAction>(ViewerActionTypes.PluginPreview),
+    tap((action) => {
+      this.router.navigate([
+        action.pluginRoute,
+        {
+          outlets: {
+            viewer: ['preview', action.nodeId]
+          }
+        }
+      ]);
     })
   );
 

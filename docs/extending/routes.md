@@ -18,6 +18,18 @@ To create a new route, populate the `routes` section with the corresponding entr
       "path": "ext/bin",
       "layout": "app.layout.main",
       "component": "your.component.id",
+      "children": [
+        {
+          "id": "plugin1.routes.bin.preview",
+          "path": "preview/:nodeId",
+          "component": "app.components.preview",
+          "data": {
+              "navigateBackAsClose": true,
+              "simplestMode": true
+          },
+          "outlet": "viewer"
+        }
+      ],
       "parentRoute": "your-parent-route"
     }
   ]
@@ -34,7 +46,8 @@ To create a new route, populate the `routes` section with the corresponding entr
 | layout        | The layout [component](/extending/components) to use for the route.                              |
 | auth          | List of [authentication guards](#authentication-guards). Defaults to `[ "app.auth" ]`. |
 | data          | Custom property bag to carry with the route.                                           |
-| parentRoute   | The path that the route will become child of                                           |
+| children      | List of child routes of the injected route. [More info](#dynamically-injected-routes-with-their-children) |
+| parentRoute   | The path that the route will become child of. See more info about and its limitations under the [Child routes](#child-routes) section |
 
 Use the `app.layout.main` value for the `layout` property to get the default application layout,
 with header, navigation sidebar and main content area.
@@ -72,6 +85,8 @@ Defaults to the `['app.auth']` value.
 
 ## Child Routes
 
+### Injecting child routes under top-level routes: `parentRoute`
+
 Extensions may register a routes that are children of some existing application routes.
 Imagine the situation when application has the following route structure:
 
@@ -108,6 +123,18 @@ That registers a new route `my-path` that is a child of the existing `files` rou
 so giving you an option for nested linking: `/files/my-path`.
 
 > For the time being, you can provide child entries only for the root (top-level) routes.
+
+### Dynamically injected routes with their children
+
+For a dynamically created route, we can define the children property as well, which contain the child routes of the mainly injected route. For the time being, for a child route, the following properties are supported and translated to Angular's Router configuration:
+
+| Property      | Description                                       |
+| -             | -                                                 |
+| **id**        | Unique identifier.                                |
+| **path**      | Runtime path of the route.                        |
+| **component** | The main [component](/extending/components) to use for the route. |
+| data          | Custom property bag to carry with the route. |
+| outlet        | Router outlet's name. Especially useful when using the PluginPreviewAction within a plugin |
 
 ## Authentication Guards
 
