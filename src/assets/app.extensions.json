@@ -1497,10 +1497,20 @@
           "key": "title",
           "title": "APP.DOCUMENT_LIST.COLUMNS.NAME",
           "type": "text",
-          "class": "adf-ellipsis-cell adf-expand-cell-5",
+          "class": "adf-ellipsis-cell adf-expand-cell-3",
           "sortable": true,
           "template": "app.columns.libraryName",
           "desktopOnly": false
+        },
+        {
+          "id": "app.favorite.libraries.description",
+          "key": "description",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.DESCRIPTION",
+          "type": "text",
+          "class": "adf-ellipsis-cell adf-expand-cell-5",
+          "sortable": true,
+          "template": "app.columns.libraryDescription",
+          "desktopOnly": true
         },
         {
           "id": "app.libraries.role",
