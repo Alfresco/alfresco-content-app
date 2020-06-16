@@ -236,6 +236,7 @@
             "COLUMNS": {
                 "ID": "ID",
                 "NAME": "Name",
+                "DESCRIPTION": "Description",
                 "SIZE": "Size",
                 "MODIFIED_ON": "Modified",
                 "MODIFIED_BY": "Modified by",

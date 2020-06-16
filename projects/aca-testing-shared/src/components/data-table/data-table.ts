@@ -438,7 +438,7 @@ export class DataTable extends Component {
   async getSitesNameAndVisibility(): Promise<{}> {
     const data = await this.getEntireDataTableText();
     return data.reduce((acc, cell) => {
-      acc[cell[1]] = cell[3].toUpperCase();
+      acc[cell[1]] = cell[4].toUpperCase();
       return acc;
     }, {});
   }
@@ -446,7 +446,7 @@ export class DataTable extends Component {
   async getSitesNameAndRole(): Promise<{}> {
     const data = await this.getEntireDataTableText();
     return data.reduce((acc, cell) => {
-      acc[cell[1]] = cell[2];
+      acc[cell[1]] = cell[3];
       return acc;
     }, {});
   }
