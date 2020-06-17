@@ -51,8 +51,7 @@ import { AppExtensionService } from '@alfresco/aca-shared';
   selector: 'aca-search-results',
   templateUrl: './search-results.component.html',
   encapsulation: ViewEncapsulation.None,
-  styleUrls: ['./search-results.component.scss'],
-  providers: [SearchQueryBuilderService]
+  styleUrls: ['./search-results.component.scss']
 })
 export class SearchResultsComponent extends PageComponent implements OnInit {
   @ViewChild('searchFilter')
