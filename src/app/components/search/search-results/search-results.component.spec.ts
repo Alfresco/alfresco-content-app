@@ -95,13 +95,13 @@ describe('SearchComponent', () => {
 
     config = TestBed.get(AppConfigService);
     store = TestBed.get(Store);
+    queryBuilder = TestBed.get(SearchQueryBuilderService);
     alfrescoApi = TestBed.get(AlfrescoApiService);
     translate = TestBed.get(TranslationService);
     router = TestBed.get(Router);
 
     fixture = TestBed.createComponent(SearchResultsComponent);
     component = fixture.componentInstance;
-    queryBuilder = fixture.debugElement.injector.get(SearchQueryBuilderService);
 
     spyOn(queryBuilder, 'update').and.stub();
 
