@@ -49,7 +49,16 @@ export const supportedExtensions = {
   ppam: 'ms-powerpoint',
   ppsm: 'ms-powerpoint',
   sldx: 'ms-powerpoint',
-  sldm: 'ms-powerpoint'
+  sldm: 'ms-powerpoint',
+  vsd: 'ms-visio',
+  vss: 'ms-visio',
+  vst: 'ms-visio',
+  vsdx: 'ms-visio',
+  vsdm: 'ms-visio',
+  vssx: 'ms-visio',
+  vssm: 'ms-visio',
+  vstx: 'ms-visio',
+  vstm: 'ms-visio'
 };
 /* cspell:enable */
 
