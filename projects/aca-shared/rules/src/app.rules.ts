@@ -546,3 +546,16 @@ export function canShowLanguagePicker(context: AcaRuleContext): boolean {
 export function canShowLogout(context: AcaRuleContext): boolean {
   return !context.withCredentials;
 }
+
+/**
+ * Checks if user is library man
+ * JSON ref: `isLibraryManager`
+ * @param context Rule execution context
+ */
+export function isLibraryManager(context: RuleContext): boolean {
+  return (
+    hasLibrarySelected(context) &&
+    context.selection.library.entry &&
+    context.selection.library.entry.role === 'SiteManager'
+  );
+}
