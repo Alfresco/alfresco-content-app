@@ -112,7 +112,7 @@ describe('Library properties', () => {
     await infoDrawer.waitForInfoDrawerToOpen();
 
     expect(await infoDrawer.getHeaderTitle()).toEqual('Details');
-    expect(await infoDrawer.isAboutTabDisplayed()).toBe(true, 'About tab is not displayed');
+    expect(await infoDrawer.isPropertiesTabDisplayed()).toBe(true, 'Properties tab is not displayed');
     expect(await aboutTab.isNameDisplayed()).toBe(true, 'Name field not displayed');
     expect(await aboutTab.isLibraryIdDisplayed()).toBe(true, 'Library ID field not displayed');
     expect(await aboutTab.isVisibilityDisplayed()).toBe(true, 'Visibility field not displayed');
@@ -236,14 +236,11 @@ describe('Library properties', () => {
       done();
     });
 
-    it('[C289337] Edit button is not displayed when user is not the library manager', async () => {
+    it('[C289337] Info drawer button is not displayed when user is not the library manager', async () => {
       await loginPage.loginWith(user2);
-
       await page.clickFileLibrariesAndWait();
       await dataTable.selectItem(site.name);
-      await page.toolbar.viewDetailsButton.click();
-      await infoDrawer.waitForInfoDrawerToOpen();
-      expect(await aboutTab.isEditLibraryPropertiesDisplayed()).toBe(false, 'Edit action is displayed');
+      expect(await page.toolbar.isButtonPresent('View Details')).toBe(false, 'View Details is present');
     });
 
     it('[C289344] Error notification', async () => {
