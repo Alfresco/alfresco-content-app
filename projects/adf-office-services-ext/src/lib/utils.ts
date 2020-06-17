@@ -31,6 +31,7 @@ export const supportedExtensions = {
   dot: 'ms-word',
   dotx: 'ms-word',
   dotm: 'ms-word',
+  rtf: 'ms-word',
   xls: 'ms-excel',
   xlsx: 'ms-excel',
   xlsb: 'ms-excel',
