@@ -475,4 +475,34 @@ describe('app.evaluators', () => {
       expect(app.canShowLogout(context)).toBe(true);
     });
   });
+
+  describe('isLibraryManager', () => {
+    it('should return true when role is SiteManager', () => {
+      const context: any = {
+        selection: {
+          library: {
+            entry: {
+              role: 'SiteManager'
+            }
+          }
+        }
+      };
+
+      expect(app.isLibraryManager(context)).toBe(true);
+    });
+
+    it('should return false when role is different than SiteManager', () => {
+      const context: any = {
+        selection: {
+          library: {
+            entry: {
+              role: 'SiteCollaborator'
+            }
+          }
+        }
+      };
+
+      expect(app.isLibraryManager(context)).toBe(false);
+    });
+  });
 });
