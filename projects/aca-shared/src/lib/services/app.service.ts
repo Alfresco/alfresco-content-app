@@ -28,6 +28,7 @@ import { AuthenticationService, AppConfigService } from '@alfresco/adf-core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { RouteReuseStrategy } from '@angular/router';
 import { AppRouteReuseStrategy } from '../routing/app.routes.strategy';
+import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 
 @Injectable({
   providedIn: 'root'
@@ -47,6 +48,7 @@ export class AppService {
   constructor(
     auth: AuthenticationService,
     private config: AppConfigService,
+    searchQueryBuilderService: SearchQueryBuilderService,
     @Inject(RouteReuseStrategy) routeStrategy: AppRouteReuseStrategy
   ) {
     this.ready = new BehaviorSubject(auth.isLoggedIn() || this.withCredentials);
@@ -58,6 +60,7 @@ export class AppService {
     });
 
     auth.onLogout.subscribe(() => {
+      searchQueryBuilderService.resetToDefaults();
       routeStrategy.resetCache();
     });
   }

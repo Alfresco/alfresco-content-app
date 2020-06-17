@@ -29,12 +29,14 @@ import { AuthenticationService, AppConfigService } from '@alfresco/adf-core';
 import { Subject } from 'rxjs';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRouteReuseStrategy } from '../routing/app.routes.strategy';
+import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 
 describe('AppService', () => {
   let service: AppService;
   let auth: AuthenticationService;
   let routeReuse: AppRouteReuseStrategy;
   let appConfig: AppConfigService;
+  let searchQueryBuilderService: SearchQueryBuilderService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -55,9 +57,16 @@ describe('AppService', () => {
     routeReuse = TestBed.get(AppRouteReuseStrategy);
     auth = TestBed.get(AuthenticationService);
     appConfig = TestBed.get(AppConfigService);
+    searchQueryBuilderService = TestBed.get(SearchQueryBuilderService);
+
     spyOn(routeReuse, 'resetCache').and.stub();
 
-    service = new AppService(auth, appConfig, routeReuse);
+    service = new AppService(
+      auth,
+      appConfig,
+      searchQueryBuilderService,
+      routeReuse
+    );
   });
 
   it('should be ready if [withCredentials] mode is used', done => {
@@ -67,7 +76,12 @@ describe('AppService', () => {
       }
     };
 
-    const instance = new AppService(auth, appConfig, routeReuse);
+    const instance = new AppService(
+      auth,
+      appConfig,
+      searchQueryBuilderService,
+      routeReuse
+    );
     expect(instance.withCredentials).toBeTruthy();
 
     instance.ready$.subscribe(() => {
