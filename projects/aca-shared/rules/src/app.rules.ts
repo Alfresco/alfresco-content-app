@@ -548,7 +548,7 @@ export function canShowLogout(context: AcaRuleContext): boolean {
 }
 
 /**
- * Checks if user is library man
+ * Checks if user is library manager
  * JSON ref: `isLibraryManager`
  * @param context Rule execution context
  */
