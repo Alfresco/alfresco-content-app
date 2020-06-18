@@ -168,6 +168,7 @@ The button will be visible only when the linked rule evaluates to `true`.
 | 1.8.0 | user.isAdmin                        | Checks if user is admin.                                                 |
 | 1.9.0 | app.canShowLanguagePicker           | Whether language picker menu should be present or not.                   |
 | 1.9.0 | app.canShowLogout                   | Whether logout action should be present or not.                          |
+| 1.12.0 | app.isLibraryManager               | Checks if user is library manager.                                       |
 
 ## Navigation Evaluators
 

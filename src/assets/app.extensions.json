@@ -46,6 +46,14 @@
         { "type": "rule", "value": "app.navigation.isNotSearchResults" },
         { "type": "rule", "value": "app.navigation.isNotFavorites" }
       ]
+    },
+    {
+      "id": "app.toolbar.favorite.canEditMetadata",
+      "type": "core.every",
+      "parameters": [
+        { "type": "rule", "value": "app.selection.library" },
+        { "type": "rule", "value": "isLibraryManager" }
+      ]
     }
   ],
 
@@ -345,7 +353,7 @@
         "order": 800,
         "component": "app.toolbar.toggleInfoDrawer",
         "rules": {
-          "visible": "app.selection.library"
+          "visible": "app.toolbar.favorite.canEditMetadata"
         }
       },
       {
@@ -1040,10 +1048,10 @@
         {
           "id": "app.sidebar.library.properties",
           "order": 500,
-          "title": "APP.INFO_DRAWER.TABS.LIBRARY_PROPERTIES",
+          "title": "APP.INFO_DRAWER.TABS.PROPERTIES",
           "component": "app.components.tabs.library.metadata",
           "rules": {
-            "visible": "app.selection.library"
+            "visible": "app.toolbar.favorite.canEditMetadata"
           }
         }
       ]

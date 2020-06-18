@@ -131,6 +131,7 @@ export class CoreExtensionsModule {
       canManagePermissions: rules.canManagePermissions,
       canToggleEditOffline: rules.canToggleEditOffline,
       canToggleFavorite: rules.canToggleFavorite,
+      isLibraryManager: rules.isLibraryManager,
 
       'app.selection.canDelete': rules.canDeleteSelection,
       'app.selection.file.canUnlock': rules.canUnlockFile,
