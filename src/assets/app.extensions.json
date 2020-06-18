@@ -1186,13 +1186,12 @@
           "desktopOnly": false
         },
         {
-          "id": "app.favorite.libraries.description",
+          "id": "app.libraries.description",
           "key": "description",
           "title": "APP.DOCUMENT_LIST.COLUMNS.DESCRIPTION",
           "type": "text",
           "class": "adf-ellipsis-cell adf-expand-cell-5",
           "sortable": true,
-          "template": "app.columns.libraryDescription",
           "desktopOnly": true
         },
         {
@@ -1241,7 +1240,6 @@
           "type": "text",
           "class": "adf-ellipsis-cell adf-expand-cell-5",
           "sortable": true,
-          "template": "app.columns.libraryDescription",
           "desktopOnly": true
         },
         {
