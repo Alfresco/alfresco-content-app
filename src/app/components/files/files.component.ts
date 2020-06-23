@@ -24,7 +24,7 @@
  */
 
 import { FileUploadEvent, UploadService } from '@alfresco/adf-core';
-import { Component, OnDestroy, OnInit, OnChanges } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import {
@@ -60,8 +60,7 @@ import {
     }
   ]
 })
-export class FilesComponent extends PageComponent
-  implements OnInit, OnDestroy, OnChanges {
+export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   isValidPath = true;
   isSmallScreen = false;
   isAdmin = false;
