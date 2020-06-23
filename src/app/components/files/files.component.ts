@@ -26,7 +26,6 @@
 import {
   FileUploadEvent,
   UploadService,
-  UserPreferencesService,
   ShowHeaderMode
 } from '@alfresco/adf-core';
 import {
@@ -96,8 +95,7 @@ export class FilesComponent extends PageComponent
     private uploadService: UploadService,
     content: ContentManagementService,
     extensions: AppExtensionService,
-    private breakpointObserver: BreakpointObserver,
-    private preference: UserPreferencesService
+    private breakpointObserver: BreakpointObserver
   ) {
     super(store, extensions, content);
   }
@@ -156,12 +154,9 @@ export class FilesComponent extends PageComponent
 
     this.columns = this.extensions.documentListPresets.files || [];
 
-    if (!this.pagination) {
-      this.pagination = <Pagination>{
-        maxItems: this.preference.paginationSize,
-        skipCount: 0
-      };
-    }
+    this.documentList.pagination.subscribe((newPagination: Pagination) => {
+      this.pagination = newPagination;
+    });
   }
 
   ngOnDestroy() {
@@ -350,20 +345,7 @@ export class FilesComponent extends PageComponent
   ngOnChanges(changes: SimpleChanges) {
     if (changes.nodeResult && changes.nodeResult.currentValue) {
       this.nodeResult = <NodePaging>changes.nodeResult.currentValue;
-      this.pagination = this.nodeResult.list.pagination;
     }
-    if (!this.pagination) {
-      this.giveDefaultPaginationWhenNotDefined();
-    }
-  }
-
-  giveDefaultPaginationWhenNotDefined() {
-    this.pagination = <Pagination>{
-      maxItems: this.preference.paginationSize,
-      skipCount: 0,
-      totalItems: 0,
-      hasMoreItems: false
-    };
   }
 
   onFilterUpdate(newNodePaging: NodePaging) {
@@ -373,25 +355,5 @@ export class FilesComponent extends PageComponent
   onAllFilterCleared() {
     this.documentList.node = null;
     this.documentList.reload();
-  }
-
-  onChangePageSize(event: Pagination): void {
-    this.preference.paginationSize = event.maxItems;
-    this.pagination.maxItems = event.maxItems;
-    this.pagination.skipCount = event.skipCount;
-  }
-
-  onChangePageNumber(event: Pagination): void {
-    this.pagination.maxItems = event.maxItems;
-    this.pagination.skipCount = event.skipCount;
-  }
-
-  onNextPage(event: Pagination): void {
-    this.pagination.maxItems = event.maxItems;
-    this.pagination.skipCount = event.skipCount;
-  }
-  onPrevPage(event: Pagination): void {
-    this.pagination.maxItems = event.maxItems;
-    this.pagination.skipCount = event.skipCount;
   }
 }

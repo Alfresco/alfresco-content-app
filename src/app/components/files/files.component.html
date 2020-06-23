@@ -99,15 +99,7 @@
           </data-columns>
         </adf-document-list>
 
-        <adf-pagination
-          acaPagination
-          [target]="documentList"
-          (changePageSize)="onChangePageSize($event)"
-          (changePageNumber)="onChangePageNumber($event)"
-          (nextPage)="onNextPage($event)"
-          (prevPage)="onPrevPage($event)"
-        >
-        </adf-pagination>
+        <adf-pagination acaPagination [target]="documentList"> </adf-pagination>
       </adf-upload-drag-area>
     </div>
 
