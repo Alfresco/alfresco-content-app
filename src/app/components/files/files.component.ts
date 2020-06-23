@@ -23,15 +23,28 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { FileUploadEvent, UploadService } from '@alfresco/adf-core';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  FileUploadEvent,
+  UploadService,
+  UserPreferencesService,
+  ShowHeaderMode
+} from '@alfresco/adf-core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  OnChanges,
+  SimpleChanges
+} from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import {
   MinimalNodeEntity,
   MinimalNodeEntryEntity,
   PathElement,
-  PathElementEntity
+  PathElementEntity,
+  NodePaging,
+  Pagination
 } from '@alfresco/js-api';
 import { ContentManagementService } from '../../services/content-management.service';
 import { NodeActionsService } from '../../services/node-actions.service';
@@ -45,16 +58,30 @@ import {
 } from '@alfresco/aca-shared/store';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { debounceTime, takeUntil } from 'rxjs/operators';
-import { ShareDataRow } from '@alfresco/adf-content-services';
+import {
+  ShareDataRow,
+  SEARCH_QUERY_SERVICE_TOKEN,
+  SearchHeaderQueryBuilderService
+} from '@alfresco/adf-content-services';
 
 @Component({
-  templateUrl: './files.component.html'
+  templateUrl: './files.component.html',
+  providers: [
+    {
+      provide: SEARCH_QUERY_SERVICE_TOKEN,
+      useClass: SearchHeaderQueryBuilderService
+    }
+  ]
 })
-export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
+export class FilesComponent extends PageComponent
+  implements OnInit, OnDestroy, OnChanges {
   isValidPath = true;
   isSmallScreen = false;
   isAdmin = false;
   selectedNode: MinimalNodeEntity;
+  nodeResult: NodePaging;
+  pagination: Pagination;
+  showHeader = ShowHeaderMode.Always;
 
   private nodePath: PathElement[];
 
@@ -69,7 +96,8 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     private uploadService: UploadService,
     content: ContentManagementService,
     extensions: AppExtensionService,
-    private breakpointObserver: BreakpointObserver
+    private breakpointObserver: BreakpointObserver,
+    private preference: UserPreferencesService
   ) {
     super(store, extensions, content);
   }
@@ -127,6 +155,13 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
       });
 
     this.columns = this.extensions.documentListPresets.files || [];
+
+    if (!this.pagination) {
+      this.pagination = <Pagination>{
+        maxItems: this.preference.paginationSize,
+        skipCount: 0
+      };
+    }
   }
 
   ngOnDestroy() {
@@ -310,5 +345,53 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
       return this.node.path.elements[0].id === nodeId;
     }
     return false;
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.nodeResult && changes.nodeResult.currentValue) {
+      this.nodeResult = <NodePaging>changes.nodeResult.currentValue;
+      this.pagination = this.nodeResult.list.pagination;
+    }
+    if (!this.pagination) {
+      this.giveDefaultPaginationWhenNotDefined();
+    }
+  }
+
+  giveDefaultPaginationWhenNotDefined() {
+    this.pagination = <Pagination>{
+      maxItems: this.preference.paginationSize,
+      skipCount: 0,
+      totalItems: 0,
+      hasMoreItems: false
+    };
+  }
+
+  onFilterUpdate(newNodePaging: NodePaging) {
+    this.nodeResult = newNodePaging;
+  }
+
+  onAllFilterCleared() {
+    this.documentList.node = null;
+    this.documentList.reload();
+  }
+
+  onChangePageSize(event: Pagination): void {
+    this.preference.paginationSize = event.maxItems;
+    this.pagination.maxItems = event.maxItems;
+    this.pagination.skipCount = event.skipCount;
+  }
+
+  onChangePageNumber(event: Pagination): void {
+    this.pagination.maxItems = event.maxItems;
+    this.pagination.skipCount = event.skipCount;
+  }
+
+  onNextPage(event: Pagination): void {
+    this.pagination.maxItems = event.maxItems;
+    this.pagination.skipCount = event.skipCount;
+  }
+  onPrevPage(event: Pagination): void {
+    this.pagination.maxItems = event.maxItems;
+    this.pagination.skipCount = event.skipCount;
   }
 }
