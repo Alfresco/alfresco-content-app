@@ -23,27 +23,15 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  FileUploadEvent,
-  UploadService,
-  ShowHeaderMode
-} from '@alfresco/adf-core';
-import {
-  Component,
-  OnDestroy,
-  OnInit,
-  OnChanges,
-  SimpleChanges
-} from '@angular/core';
+import { FileUploadEvent, UploadService } from '@alfresco/adf-core';
+import { Component, OnDestroy, OnInit, OnChanges } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import {
   MinimalNodeEntity,
   MinimalNodeEntryEntity,
   PathElement,
-  PathElementEntity,
-  NodePaging,
-  Pagination
+  PathElementEntity
 } from '@alfresco/js-api';
 import { ContentManagementService } from '../../services/content-management.service';
 import { NodeActionsService } from '../../services/node-actions.service';
@@ -78,9 +66,6 @@ export class FilesComponent extends PageComponent
   isSmallScreen = false;
   isAdmin = false;
   selectedNode: MinimalNodeEntity;
-  nodeResult: NodePaging;
-  pagination: Pagination;
-  showHeader = ShowHeaderMode.Always;
 
   private nodePath: PathElement[];
 
@@ -153,10 +138,6 @@ export class FilesComponent extends PageComponent
       });
 
     this.columns = this.extensions.documentListPresets.files || [];
-
-    this.documentList.pagination.subscribe((newPagination: Pagination) => {
-      this.pagination = newPagination;
-    });
   }
 
   ngOnDestroy() {
@@ -340,20 +321,5 @@ export class FilesComponent extends PageComponent
       return this.node.path.elements[0].id === nodeId;
     }
     return false;
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes.nodeResult && changes.nodeResult.currentValue) {
-      this.nodeResult = <NodePaging>changes.nodeResult.currentValue;
-    }
-  }
-
-  onFilterUpdate(newNodePaging: NodePaging) {
-    this.nodeResult = newNodePaging;
-  }
-
-  onAllFilterCleared() {
-    this.documentList.node = null;
-    this.documentList.reload();
   }
 }
