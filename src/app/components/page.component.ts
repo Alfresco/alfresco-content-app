@@ -126,7 +126,7 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.nodeResult && changes.nodeResult.currentValue) {
-      this.nodeResult = <NodePaging>changes.nodeResult.currentValue;
+      this.nodeResult = <NodePaging> changes.nodeResult.currentValue;
     }
   }
 
