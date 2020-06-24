@@ -117,16 +117,18 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
         this.canUpload = node && this.content.canUploadContent(node);
       });
 
-    this.documentList.pagination
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((newPagination: Pagination) => {
-        this.pagination = newPagination;
-      });
+    if (this.documentList && this.documentList.pagination) {
+      this.documentList.pagination
+        .pipe(takeUntil(this.onDestroy$))
+        .subscribe((newPagination: Pagination) => {
+          this.pagination = newPagination;
+        });
+    }
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.nodeResult && changes.nodeResult.currentValue) {
-      this.nodeResult = <NodePaging> changes.nodeResult.currentValue;
+      this.nodeResult = <NodePaging>changes.nodeResult.currentValue;
     }
   }
 
