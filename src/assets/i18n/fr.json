@@ -512,8 +512,8 @@
   "CORE": {
     "METADATA": {
       "ACTIONS": {
-        "SAVE": "Enregistrer les modifications",
-        "CANCEL": "Ignorer les modifications"
+        "SAVE": "Enregistrer les modif.",
+        "CANCEL": "Ignorer les modif."
       }
     }
   },
