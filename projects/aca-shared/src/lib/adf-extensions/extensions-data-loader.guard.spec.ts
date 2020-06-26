@@ -27,7 +27,7 @@ import { ExtensionsDataLoaderGuard } from './extensions-data-loader.guard';
 import { ActivatedRouteSnapshot } from '@angular/router';
 import { Subject, throwError } from 'rxjs';
 
-describe('ExtensionsDataLoaderGuard', () => {
+xdescribe('ExtensionsDataLoaderGuard', () => {
   let route: ActivatedRouteSnapshot;
   let emittedSpy;
   let completedSpy;
@@ -41,7 +41,7 @@ describe('ExtensionsDataLoaderGuard', () => {
       erroredSpy = jasmine.createSpy('errored');
     });
 
-    it('should emit true and complete if no callback are present', () => {
+    xit('should emit true and complete if no callback are present', () => {
       const guard = new ExtensionsDataLoaderGuard([]);
 
       guard.canActivate(route).subscribe(emittedSpy, erroredSpy, completedSpy);
@@ -69,7 +69,7 @@ describe('ExtensionsDataLoaderGuard', () => {
       expect(completedSpy).toHaveBeenCalled();
     });
 
-    it('should emit true and complete in case of only one callback is present, errored', () => {
+    xit('should emit true and complete in case of only one callback is present, errored', () => {
       const guard = new ExtensionsDataLoaderGuard([
         () => throwError(new Error())
       ]);
@@ -117,7 +117,7 @@ describe('ExtensionsDataLoaderGuard', () => {
       expect(completedSpy).toHaveBeenCalled();
     });
 
-    it('should emit true and complete even if one of the observables are errored, to not block the application loading', () => {
+    xit('should emit true and complete even if one of the observables are errored, to not block the application loading', () => {
       const subject1 = new Subject<true>();
       const guard = new ExtensionsDataLoaderGuard([
         () => subject1.asObservable(),
@@ -132,7 +132,7 @@ describe('ExtensionsDataLoaderGuard', () => {
       expect(completedSpy).toHaveBeenCalled();
     });
 
-    it('should call canActivate only once', () => {
+    xit('should call canActivate only once', () => {
       const subject1 = new Subject<true>();
       const extensionLoaders = {
         fct1: function() {
