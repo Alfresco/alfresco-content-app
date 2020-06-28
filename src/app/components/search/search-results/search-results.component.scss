@@ -77,4 +77,8 @@
   .adf-search-date-range .mat-form-field:not(:first-child) {
     margin-top: 20px;
   }
+
+  .adf-document-list {
+    overflow-y: auto;
+  }
 }
