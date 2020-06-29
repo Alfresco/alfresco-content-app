@@ -193,6 +193,7 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   onAllFilterCleared() {
+    this.documentList.node = null;
     this.store.dispatch(new ReloadDocumentListAction());
   }
 }
