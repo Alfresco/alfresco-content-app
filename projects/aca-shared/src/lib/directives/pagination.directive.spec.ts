@@ -63,7 +63,6 @@ describe('PaginationDirective', () => {
     fixture = TestBed.createComponent(PaginationComponent);
     pagination = fixture.componentInstance;
     directive = new PaginationDirective(pagination, preferences, config);
-    spyOn(config, 'load').and.returnValue(Promise.resolve());
   });
 
   afterEach(() => {
