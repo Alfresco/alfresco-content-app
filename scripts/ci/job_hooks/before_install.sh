@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Run the build on mergin to development with always the latest ADF
-if [ "${TRAVIS_BRANCH}" == "develop" ] && [ "${TRAVIS_EVENT_TYPE}" == "push" ]; then
+if [ "${TRAVIS_BRANCH}" == "develop" ] && [ "${TRAVIS_EVENT_TYPE}" == "api" ] || [ "${TRAVIS_EVENT_TYPE}" == "cron" ]  || [ "${TRAVIS_EVENT_TYPE}" == "push" ]; then
    ./scripts/update-version.sh -v --$ADF_RELEASE_VERSION
 fi
 
