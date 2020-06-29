@@ -27,10 +27,22 @@ import {
   DocumentListComponent,
   ShareDataRow
 } from '@alfresco/adf-content-services';
+import { ShowHeaderMode } from '@alfresco/adf-core';
 import { ContentActionRef, SelectionState } from '@alfresco/adf-extensions';
-import { OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  OnDestroy,
+  OnInit,
+  OnChanges,
+  ViewChild,
+  SimpleChanges
+} from '@angular/core';
 import { Store } from '@ngrx/store';
-import { MinimalNodeEntity, MinimalNodeEntryEntity } from '@alfresco/js-api';
+import {
+  MinimalNodeEntity,
+  MinimalNodeEntryEntity,
+  Pagination,
+  NodePaging
+} from '@alfresco/js-api';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { takeUntil, map } from 'rxjs/operators';
 import { ContentManagementService } from '../services/content-management.service';
@@ -48,7 +60,7 @@ import {
 } from '@alfresco/aca-shared/store';
 import { isLocked, isLibrary, AppExtensionService } from '@alfresco/aca-shared';
 
-export abstract class PageComponent implements OnInit, OnDestroy {
+export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   onDestroy$: Subject<boolean> = new Subject<boolean>();
 
   @ViewChild(DocumentListComponent)
@@ -64,6 +76,9 @@ export abstract class PageComponent implements OnInit, OnDestroy {
   viewerToolbarActions: Array<ContentActionRef> = [];
   canUpdateNode = false;
   canUpload = false;
+  nodeResult: NodePaging;
+  pagination: Pagination;
+  showHeader = ShowHeaderMode.Always;
 
   protected subscriptions: Subscription[] = [];
 
@@ -101,6 +116,20 @@ export abstract class PageComponent implements OnInit, OnDestroy {
       .subscribe(node => {
         this.canUpload = node && this.content.canUploadContent(node);
       });
+
+    if (this.documentList && this.documentList.pagination) {
+      this.documentList.pagination
+        .pipe(takeUntil(this.onDestroy$))
+        .subscribe((newPagination: Pagination) => {
+          this.pagination = newPagination;
+        });
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.nodeResult && changes.nodeResult.currentValue) {
+      this.nodeResult = changes.nodeResult.currentValue;
+    }
   }
 
   ngOnDestroy() {
@@ -157,5 +186,14 @@ export abstract class PageComponent implements OnInit, OnDestroy {
 
   private isOutletPreviewUrl(): boolean {
     return location.href.includes('viewer:view');
+  }
+
+  onFilterUpdate(newNodePaging: NodePaging) {
+    this.nodeResult = newNodePaging;
+  }
+
+  onAllFilterCleared() {
+    this.documentList.node = null;
+    this.store.dispatch(new ReloadDocumentListAction());
   }
 }

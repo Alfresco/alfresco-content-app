@@ -21,7 +21,11 @@
 
   <aca-page-layout-content>
     <div class="main-content">
-      <adf-upload-drag-area [rootFolderId]="node?.id" [disabled]="!canUpload"  (updateFileVersion)="onUploadNewVersion($event)">
+      <adf-upload-drag-area
+        [rootFolderId]="node?.id"
+        [disabled]="!canUpload"
+        (updateFileVersion)="onUploadNewVersion($event)"
+      >
         <adf-document-list
           #documentList
           acaDocumentList
@@ -30,12 +34,27 @@
           [sorting]="['modifiedAt', 'desc']"
           selectionMode="multiple"
           [currentFolderId]="node?.id"
+          [showHeader]="showHeader"
+          [node]="nodeResult"
           [allowDropFiles]="true"
           [navigate]="false"
           [imageResolver]="imageResolver"
           (node-dblclick)="navigateTo($event.detail?.node)"
           (name-click)="navigateTo($event.detail?.node)"
         >
+          <adf-custom-header-filter-template>
+            <ng-template let-col>
+              <adf-search-header
+                [col]="col"
+                [currentFolderNodeId]="node?.id"
+                [maxItems]="pagination?.maxItems"
+                [skipCount]="pagination?.skipCount"
+                (update)="onFilterUpdate($event)"
+                (clear)="onAllFilterCleared()"
+              >
+              </adf-search-header>
+            </ng-template>
+          </adf-custom-header-filter-template>
           <data-columns>
             <ng-container *ngFor="let column of columns; trackBy: trackById">
               <ng-container

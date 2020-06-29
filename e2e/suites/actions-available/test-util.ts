@@ -24,6 +24,7 @@
  */
 
 import { BrowsingPage, Viewer, Utils } from '@alfresco/aca-testing-shared';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 const page = new BrowsingPage();
 const { dataTable, toolbar } = page;
@@ -104,7 +105,7 @@ export async function checkMultipleSelToolbarActions(items: string[], expectedTo
 
 export async function checkViewerActions(item: string, expectedToolbarPrimary: string[], expectedToolbarMore: string[]): Promise<void> {
   await dataTable.selectItem(item);
-  await toolbar.viewButton.click();
+  await BrowserActions.click(toolbar.viewButton);
   await viewer.waitForViewerToOpen();
 
   let actualPrimaryActions = await viewerToolbar.getButtons();

@@ -24,6 +24,7 @@
  */
 
 import { ElementFinder, by, browser } from 'protractor';
+import { BrowserActions } from '@alfresco/adf-testing';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
 import { Utils } from '../../utilities/utils';
@@ -86,7 +87,7 @@ export class Toolbar extends Component {
     await this.isButtonPresent('More Actions');
 
     const moreMenu = this.getButtonByTitleAttribute('More Actions');
-    await moreMenu.click();
+    await BrowserActions.click(moreMenu);
 
     await this.menu.waitForMenuToOpen();
   }

@@ -29,8 +29,10 @@ import {
   UserPreferencesService,
   AppConfigService,
   PaginationComponent,
-  CoreModule,
-  PaginationModel
+  PaginationModel,
+  AlfrescoApiService,
+  AlfrescoApiServiceMock,
+  CoreTestingModule
 } from '@alfresco/adf-core';
 import { LibTestingModule } from '../testing/lib-testing-module';
 import { SharedDirectivesModule } from './shared.directives.module';
@@ -49,7 +51,10 @@ describe('PaginationDirective', () => {
         TranslateModule.forRoot(),
         LibTestingModule,
         SharedDirectivesModule,
-        CoreModule.forRoot()
+        CoreTestingModule
+      ],
+      providers: [
+        { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock }
       ]
     });
 
