@@ -44,7 +44,7 @@ describe('ActionDirective', () => {
   });
 
   it('should navigate if action is route', () => {
-    directive.action = { route: 'dummy' };
+    directive.action = { url: 'dummy' };
     directive.onClick();
     expect(routeMock.navigate).toHaveBeenCalled();
   });
