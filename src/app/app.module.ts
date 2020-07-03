@@ -130,7 +130,7 @@ registerLocaleData(localeSv);
     SharedModule.forRoot(),
     AppStoreModule,
     CoreExtensionsModule.forRoot(),
-    ExtensionsModule,
+    ExtensionsModule.forRoot(),
     AppExtensionsModule,
     AppLoginModule,
     AppCommonModule,

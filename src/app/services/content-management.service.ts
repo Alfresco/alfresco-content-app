@@ -106,10 +106,13 @@ export class ContentManagementService {
   addFavorite(nodes: Array<MinimalNodeEntity>) {
     if (nodes && nodes.length > 0) {
       this.contentApi.addFavorite(nodes).subscribe(() => {
-        nodes.forEach(node => {
-          node.entry.isFavorite = true;
+        const favoriteNodes = nodes.map(node => {
+          const newNode = JSON.parse(JSON.stringify(node));
+          newNode.entry.isFavorite = true;
+          return newNode;
         });
-        this.store.dispatch(new SetSelectedNodesAction(nodes));
+
+        this.store.dispatch(new SetSelectedNodesAction(favoriteNodes));
       });
     }
   }
@@ -117,10 +120,13 @@ export class ContentManagementService {
   removeFavorite(nodes: Array<MinimalNodeEntity>) {
     if (nodes && nodes.length > 0) {
       this.contentApi.removeFavorite(nodes).subscribe(() => {
-        nodes.forEach(node => {
-          node.entry.isFavorite = false;
+        const favoriteNodes = nodes.map(node => {
+          const newNode = JSON.parse(JSON.stringify(node));
+          newNode.entry.isFavorite = false;
+          return newNode;
         });
-        this.store.dispatch(new SetSelectedNodesAction(nodes));
+
+        this.store.dispatch(new SetSelectedNodesAction(favoriteNodes));
       });
     }
   }

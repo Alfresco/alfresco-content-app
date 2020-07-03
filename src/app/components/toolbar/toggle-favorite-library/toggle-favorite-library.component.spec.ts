@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { TestBed } from '@angular/core/testing';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
 import {
   CoreModule,
   AlfrescoApiService,
@@ -39,8 +39,9 @@ import { of } from 'rxjs';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
-describe('ToggleFavoriteLibraryComponent', () => {
-  let fixture;
+// tslint:disable-next-line: ban
+fdescribe('ToggleFavoriteLibraryComponent', () => {
+  let fixture: ComponentFixture<ToggleFavoriteLibraryComponent>;
   let component;
   let contentManagementService;
   const selection = { library: { entry: { id: 'libraryId' } } };
@@ -87,27 +88,26 @@ describe('ToggleFavoriteLibraryComponent', () => {
     spyOn(api.peopleApi, 'getFavoriteSite').and.returnValue(Promise.resolve());
   });
 
-  it('should get library selection from Store', done => {
+  it('should get library selection from Store', async () => {
     fixture.detectChanges();
-    component.selection$.subscribe(selected => {
-      expect(selected.library.entry.id).toEqual(selection.library.entry.id);
-      done();
-    });
+    await fixture.whenStable();
+
+    expect(component.library.entry.id).toEqual(selection.library.entry.id);
   });
 
-  it('should mark selection as favorite when on favorite libraries route', done => {
+  it('should mark selection as favorite when on favorite libraries route', async () => {
     mockRouter.url = '/favorite/libraries';
     fixture.detectChanges();
+    await fixture.whenStable();
 
-    component.selection$.subscribe(selected => {
-      expect(selected.library.isFavorite).toBe(true);
-      done();
-    });
+    expect(component.library.isFavorite).toBe(true);
   });
 
-  it('should emit onToggleEvent() event', () => {
-    fixture.detectChanges();
+  it('should emit onToggleEvent() event', async () => {
     spyOn(contentManagementService.favoriteLibraryToggle, 'next');
+
+    fixture.detectChanges();
+    await fixture.whenStable();
 
     component.onToggleEvent();
 

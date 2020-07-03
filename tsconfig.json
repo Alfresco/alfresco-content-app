@@ -42,6 +42,8 @@
     "node_modules"
   ],
   "angularCompilerOptions": {
-    "preserveWhitespaces": false
+    "preserveWhitespaces": false,
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true
   }
 }

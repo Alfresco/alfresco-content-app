@@ -32,6 +32,7 @@ import {
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import {
   AlfrescoApiService,
+  AlfrescoApiServiceMock,
   NodeFavoriteDirective,
   DataTableComponent,
   AppConfigPipe,
@@ -74,6 +75,7 @@ describe('SharedFilesComponent', () => {
         AppConfigPipe
       ],
       providers: [
+        { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
         {
           provide: Router,
           useValue: mockRouter

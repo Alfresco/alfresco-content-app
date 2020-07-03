@@ -60,6 +60,7 @@ import {
 } from '@alfresco/aca-shared/store';
 import { isLocked, isLibrary, AppExtensionService } from '@alfresco/aca-shared';
 
+/* tslint:disable:directive-class-suffix */
 export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   onDestroy$: Subject<boolean> = new Subject<boolean>();
 

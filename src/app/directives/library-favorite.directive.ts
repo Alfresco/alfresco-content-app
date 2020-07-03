@@ -34,7 +34,7 @@ import {
 import { SiteBody, FavoriteBody, FavoriteEntry, Site } from '@alfresco/js-api';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 
-interface LibraryEntity {
+export interface LibraryEntity {
   entry: Site;
   isLibrary: boolean;
   isFavorite: boolean;

@@ -35,7 +35,9 @@ import {
   NodeFavoriteDirective,
   DataTableComponent,
   UploadService,
-  AppConfigPipe
+  AppConfigPipe,
+  AlfrescoApiService,
+  AlfrescoApiServiceMock
 } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { NodeActionsService } from '../../services/node-actions.service';
@@ -51,7 +53,7 @@ describe('FilesComponent', () => {
   let uploadService: UploadService;
   let nodeActionsService: NodeActionsService;
   let contentApi: ContentApiService;
-  let router = {
+  let router: any = {
     url: '',
     navigate: jasmine.createSpy('navigate')
   };
@@ -67,6 +69,7 @@ describe('FilesComponent', () => {
         AppConfigPipe
       ],
       providers: [
+        { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
         {
           provide: Router,
           useValue: router
@@ -93,10 +96,14 @@ describe('FilesComponent', () => {
 
   beforeEach(() => {
     node = { id: 'node-id', isFolder: true };
-    spyOn(component.documentList, 'loadFolder').and.callFake(() => {});
   });
 
   describe('Current page is valid', () => {
+    beforeEach(() => {
+      fixture.detectChanges();
+      spyOn(component.documentList, 'loadFolder').and.callFake(() => {});
+    });
+
     it('should be a valid current page', fakeAsync(() => {
       spyOn(contentApi, 'getNode').and.returnValue(throwError(null));
 
@@ -111,24 +118,29 @@ describe('FilesComponent', () => {
       spyOn(contentApi, 'getNode').and.returnValue(of({ entry: node }));
 
       component.ngOnInit();
-      tick();
       fixture.detectChanges();
+      tick();
 
       expect(component.isValidPath).toBe(true);
     }));
   });
 
   describe('OnInit', () => {
+    beforeEach(() => {
+      router.navigate['calls'].reset();
+    });
+
     it('should set current node', () => {
       spyOn(contentApi, 'getNode').and.returnValue(of({ entry: node }));
       fixture.detectChanges();
       expect(component.node).toBe(node);
     });
 
-    it('if should navigate to parent if node is not a folder', () => {
-      node.isFolder = false;
-      node.parentId = 'parent-id';
-      spyOn(contentApi, 'getNode').and.returnValue(of({ entry: node }));
+    it('should navigate to parent if node is not a folder', () => {
+      const nodeEntry = { isFolder: false, parentId: 'parent-id' };
+      spyOn(contentApi, 'getNode').and.returnValue(
+        of({ entry: nodeEntry } as any)
+      );
 
       fixture.detectChanges();
 
