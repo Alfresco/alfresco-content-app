@@ -39,8 +39,7 @@ import { of } from 'rxjs';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
-// tslint:disable-next-line: ban
-fdescribe('ToggleFavoriteLibraryComponent', () => {
+describe('ToggleFavoriteLibraryComponent', () => {
   let fixture: ComponentFixture<ToggleFavoriteLibraryComponent>;
   let component;
   let contentManagementService;
