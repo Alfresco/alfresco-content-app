@@ -39,18 +39,6 @@ Angular CLI automatically configures Typescript path mappings for the project, s
 
 ### Register dynamic components
 
-Update `my-extension.module.ts` and put all the content you plan to use at runtime dynamically to the `entryComponents` section of the module.
-
-```typescript
-@NgModule({
-  imports: [],
-  declarations: [MyExtensionComponent],
-  exports: [MyExtensionComponent],
-  entryComponents: [MyExtensionComponent]
-})
-export class MyExtensionModule {}
-```
-
 Now we need to register `MyExtensionComponent` as an extension component.
 Update the code as in the next example:
 

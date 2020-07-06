@@ -50,7 +50,6 @@ import { NgModule } from '@angular/core';
     MatInputModule
   ],
   exports: [AppNodeVersionFormComponent],
-  declarations: [AppNodeVersionFormComponent],
-  entryComponents: [AppNodeVersionFormComponent]
+  declarations: [AppNodeVersionFormComponent]
 })
 export class AppNodeVersionModule {}

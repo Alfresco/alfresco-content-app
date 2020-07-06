@@ -54,7 +54,6 @@ import { EXTENSION_DATA_LOADERS } from '@alfresco/aca-shared';
 @NgModule({
     imports: [...],
     declarations: [...],
-    entryComponents: [...],
     providers: [
         ...
         {

@@ -62,7 +62,6 @@ export function components() {
     DirectivesModule
   ],
   declarations: components(),
-  exports: [components(), SharedToolbarModule],
-  entryComponents: components()
+  exports: [components(), SharedToolbarModule]
 })
 export class AppToolbarModule {}

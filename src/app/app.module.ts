@@ -173,12 +173,6 @@ registerLocaleData(localeSv);
       }
     }
   ],
-  entryComponents: [
-    NodeVersionsDialogComponent,
-    LibraryDialogComponent,
-    CreateFromTemplateDialogComponent,
-    CurrentUserComponent
-  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
