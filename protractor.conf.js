@@ -3,7 +3,6 @@
 
 const path = require('path');
 const { SpecReporter } = require('jasmine-spec-reporter');
-const jasmineReporters = require('jasmine-reporters');
 const CDP = require('chrome-remote-interface');
 const fs = require('fs');
 
@@ -183,17 +182,6 @@ exports.config = {
           displayStacktrace: true,
           displayDuration: true
         }
-      })
-    );
-
-    jasmine.getEnv().addReporter(
-      new jasmineReporters.JUnitXmlReporter({
-        consolidateAll: true,
-        savePath: `${projectRoot}/e2e-output/junit-report`,
-        filePrefix: 'results.xml',
-        useDotNotation: false,
-        useFullTestName: false,
-        reportFailedUrl: true
       })
     );
 
