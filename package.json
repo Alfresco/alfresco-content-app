@@ -30,6 +30,7 @@
     "inspect.bundle": "ng build app --prod --stats-json && npx webpack-bundle-analyzer dist/app/stats.json",
     "validate-config": "ajv validate -s ./node_modules/@alfresco/adf-core/app.config.schema.json -d ./src/app.config.json --errors=text --verbose"
   },
+  
   "private": true,
   "dependencies": {
     "@alfresco/adf-content-services": "3.10.0-6001ff801e211e8385966d2f2b773e59b4667dd9",
@@ -123,6 +124,6 @@
     }
   },
   "config": {
-    "chromeDriver": "80.0.3987.0"
+    "chromeDriver": "83.0.4103.116"
   }
 }

@@ -53,7 +53,7 @@ export abstract class Page {
   }
 
   async load(relativeUrl: string = '') {
-    const hash = USE_HASH_STRATEGY ? '/#' : '';
+    const hash = USE_HASH_STRATEGY ? '#' : '';
     const path = `${browser.baseUrl}${hash}${this.url}${relativeUrl}`;
     return browser.get(path);
   }
