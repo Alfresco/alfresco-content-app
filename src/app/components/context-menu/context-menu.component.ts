@@ -57,7 +57,7 @@ export class ContextMenuComponent implements OnInit, OnDestroy, AfterViewInit {
   private onDestroy$: Subject<boolean> = new Subject<boolean>();
   actions: Array<ContentActionRef> = [];
 
-  @ViewChild(MatMenuTrigger, { static: false })
+  @ViewChild(MatMenuTrigger)
   trigger: MatMenuTrigger;
 
   @HostListener('document:keydown.Escape', ['$event'])

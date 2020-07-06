@@ -34,7 +34,8 @@ import {
   OnInit,
   OnChanges,
   ViewChild,
-  SimpleChanges
+  SimpleChanges,
+  Directive
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
@@ -61,10 +62,11 @@ import {
 import { isLocked, isLibrary, AppExtensionService } from '@alfresco/aca-shared';
 
 /* tslint:disable:directive-class-suffix */
+@Directive()
 export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   onDestroy$: Subject<boolean> = new Subject<boolean>();
 
-  @ViewChild(DocumentListComponent, { static: false })
+  @ViewChild(DocumentListComponent)
   documentList: DocumentListComponent;
 
   title = 'Page';

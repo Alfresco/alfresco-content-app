@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, HammerModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, RouteReuseStrategy } from '@angular/router';
 import {
@@ -147,7 +147,8 @@ registerLocaleData(localeSv);
     AppSearchInputModule,
     AppSearchResultsModule,
     AppHeaderModule,
-    AppNodeVersionModule
+    AppNodeVersionModule,
+    HammerModule
   ],
   declarations: [
     AppComponent,
