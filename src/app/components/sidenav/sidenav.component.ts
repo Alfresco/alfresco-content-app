@@ -52,10 +52,13 @@ import { AppExtensionService } from '@alfresco/aca-shared';
 export class SidenavComponent implements OnInit, OnDestroy {
   @Input() mode: 'collapsed' | 'expanded' = 'expanded';
 
-  @ContentChild(ExpandedTemplateDirective, { read: TemplateRef })
+  @ContentChild(ExpandedTemplateDirective, { read: TemplateRef, static: false })
   expandedTemplate;
 
-  @ContentChild(CollapsedTemplateDirective, { read: TemplateRef })
+  @ContentChild(CollapsedTemplateDirective, {
+    read: TemplateRef,
+    static: false
+  })
   collapsedTemplate;
 
   groups: Array<NavBarGroupRef> = [];

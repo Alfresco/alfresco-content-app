@@ -41,7 +41,7 @@ import { TranslateModule } from '@ngx-translate/core';
   `
 })
 class TestComponent {
-  @ViewChild('lock')
+  @ViewChild('lock', { static: false })
   directive: LockNodeDirective;
 
   selection = null;

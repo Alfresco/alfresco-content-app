@@ -43,7 +43,7 @@ import { TranslateModule } from '@ngx-translate/core';
   `
 })
 class TestComponent {
-  @ViewChild('favoriteLibrary')
+  @ViewChild('favoriteLibrary', { static: false })
   directive: LibraryFavoriteDirective;
 
   selection = null;
