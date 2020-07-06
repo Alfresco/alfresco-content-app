@@ -64,11 +64,9 @@ describe('NodeEffects', () => {
         SharedStoreModule,
         EffectsModule.forRoot([NodeEffects, ViewerEffects])
       ],
-      declarations: [],
       providers: [ViewUtilService]
     });
 
-    // actions$ = TestBed.inject(Actions);
     store = TestBed.inject(Store);
     contentService = TestBed.inject(ContentManagementService);
     viewUtilService = TestBed.inject(ViewUtilService);
@@ -250,9 +248,11 @@ describe('NodeEffects', () => {
   });
 
   describe('createFolder$', () => {
-    it('should create folder from the payload', () => {
+    beforeEach(() => {
       spyOn(contentService, 'createFolder').and.stub();
+    });
 
+    it('should create folder from the payload', () => {
       const currentFolder = 'folder1';
       store.dispatch(new CreateFolderAction(currentFolder));
 
@@ -260,8 +260,6 @@ describe('NodeEffects', () => {
     });
 
     it('should create folder in the active selected one', fakeAsync(() => {
-      spyOn(contentService, 'createFolder').and.stub();
-
       const currentFolder: any = { isFolder: true, id: 'folder1' };
       store.dispatch(new SetCurrentFolderAction(currentFolder));
 
@@ -272,14 +270,6 @@ describe('NodeEffects', () => {
         currentFolder.id
       );
     }));
-
-    it('should do nothing if invoking delete with no data', () => {
-      spyOn(contentService, 'createFolder').and.stub();
-
-      store.dispatch(new CreateFolderAction(null));
-
-      expect(contentService.createFolder).not.toHaveBeenCalled();
-    });
   });
 
   describe('editFolder$', () => {

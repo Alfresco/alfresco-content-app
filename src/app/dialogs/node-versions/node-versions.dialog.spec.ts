@@ -128,7 +128,7 @@ describe('NodeVersionsDialogComponent', () => {
       lastModified: 13,
       size: 1351,
       slice: null
-    };
+    } as File;
   });
 
   it('should display adf upload version if isTypeList is passed as false from parent component', () => {

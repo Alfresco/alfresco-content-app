@@ -84,7 +84,9 @@ describe('ToggleFavoriteLibraryComponent', () => {
 
     contentManagementService = TestBed.inject(ContentManagementService);
     const api = TestBed.inject(AlfrescoApiService);
-    spyOn(api.peopleApi, 'getFavoriteSite').and.returnValue(Promise.resolve());
+    spyOn(api.peopleApi, 'getFavoriteSite').and.returnValue(
+      Promise.resolve(null)
+    );
   });
 
   it('should get library selection from Store', async () => {

@@ -63,7 +63,16 @@ import { TranslateServiceMock } from './translation.service';
     HttpClientModule,
     RouterTestingModule,
     MaterialModule,
-    StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE }),
+    StoreModule.forRoot(
+      { app: appReducer },
+      {
+        initialState: INITIAL_STATE,
+        runtimeChecks: {
+          strictStateImmutability: false,
+          strictActionImmutability: false
+        }
+      }
+    ),
     EffectsModule.forRoot([]),
     PipeModule
   ],

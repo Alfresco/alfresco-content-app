@@ -195,14 +195,14 @@ describe('UploadEffects', () => {
                 lastModified: 1589273450599,
                 size: 1351,
                 slice: null
-              }),
+              } as File),
               entry: new FileModel({
                 name: 'Fake New file',
                 type: 'image/png',
                 lastModified: 1589273450599,
                 size: 1351,
                 slice: null
-              })
+              } as File)
             }
           ],
           data: {

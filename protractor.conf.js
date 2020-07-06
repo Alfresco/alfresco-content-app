@@ -108,7 +108,7 @@ exports.config = {
   capabilities: {
     browserName: 'chrome',
     chromeOptions: {
-      binary: require('puppeteer').executablePath(),
+      // binary: require('puppeteer').executablePath(),
       prefs: {
         credentials_enable_service: false,
         download: {
