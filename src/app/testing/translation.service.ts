@@ -30,7 +30,7 @@ import { Observable, of } from 'rxjs';
 @Injectable()
 export class TranslateServiceMock extends TranslateService {
   constructor() {
-    super(null, null, null, null, null);
+    super(null, null, null, null, null, null, null, null, null);
   }
 
   get(
