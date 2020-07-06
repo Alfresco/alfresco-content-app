@@ -5,6 +5,7 @@ const path = require('path');
 const { SpecReporter } = require('jasmine-spec-reporter');
 const CDP = require('chrome-remote-interface');
 const fs = require('fs');
+require('dotenv').config();
 
 const projectRoot = path.resolve(__dirname);
 const downloadFolder = `${projectRoot}/e2e-downloads`;

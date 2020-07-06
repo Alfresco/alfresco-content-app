@@ -170,7 +170,7 @@
           "builder": "@angular-custom-builders/lite-serve:dist-serve",
           "options": {
             "publicHost": "http://localhost:4200",
-            "outputPath": "dist/app"
+            "browserTarget": "app:build"
           }
         },
         "extract-i18n": {

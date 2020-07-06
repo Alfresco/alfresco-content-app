@@ -49,6 +49,6 @@ fs.readFile(program.config, (err, appConfigString) => {
     }
   });
 
-  let appConfigReplacedJson = JSON.stringify(appConfig);
+  let appConfigReplacedJson = JSON.stringify(appConfig, null, 4);
   fs.writeFileSync(program.config, appConfigReplacedJson);
 });
