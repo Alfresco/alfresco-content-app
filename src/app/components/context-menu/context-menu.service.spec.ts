@@ -62,9 +62,9 @@ describe('ContextMenuService', () => {
       ]
     });
 
-    injector = TestBed.get(Injector);
-    overlay = TestBed.get(Overlay);
-    userPreferencesService = TestBed.get(UserPreferencesService);
+    injector = TestBed.inject(Injector);
+    overlay = TestBed.inject(Overlay);
+    userPreferencesService = TestBed.inject(UserPreferencesService);
   });
 
   it('should create a custom overlay', () => {

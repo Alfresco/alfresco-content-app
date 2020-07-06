@@ -57,10 +57,10 @@ describe('NodeTemplateService', () => {
       ]
     });
 
-    store = TestBed.get(Store);
-    alfrescoApiService = TestBed.get(AlfrescoApiService);
-    dialog = TestBed.get(MatDialog);
-    nodeTemplateService = TestBed.get(NodeTemplateService);
+    store = TestBed.inject(Store);
+    alfrescoApiService = TestBed.inject(AlfrescoApiService);
+    dialog = TestBed.inject(MatDialog);
+    nodeTemplateService = TestBed.inject(NodeTemplateService);
   });
 
   it('should open dialog with parent node `id` as data property', fakeAsync(() => {

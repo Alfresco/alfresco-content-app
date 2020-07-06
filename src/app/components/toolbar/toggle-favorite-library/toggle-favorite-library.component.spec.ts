@@ -82,8 +82,8 @@ describe('ToggleFavoriteLibraryComponent', () => {
     fixture = TestBed.createComponent(ToggleFavoriteLibraryComponent);
     component = fixture.componentInstance;
 
-    contentManagementService = TestBed.get(ContentManagementService);
-    const api = TestBed.get(AlfrescoApiService);
+    contentManagementService = TestBed.inject(ContentManagementService);
+    const api = TestBed.inject(AlfrescoApiService);
     spyOn(api.peopleApi, 'getFavoriteSite').and.returnValue(Promise.resolve());
   });
 

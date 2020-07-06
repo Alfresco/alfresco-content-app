@@ -43,8 +43,8 @@ describe('SearchEffects', () => {
       imports: [AppTestingModule, EffectsModule.forRoot([SearchEffects])]
     });
 
-    store = TestBed.get(Store);
-    router = TestBed.get(Router);
+    store = TestBed.inject(Store);
+    router = TestBed.inject(Router);
 
     spyOn(router, 'navigateByUrl').and.stub();
   });

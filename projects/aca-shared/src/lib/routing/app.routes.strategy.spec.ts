@@ -34,7 +34,7 @@ describe('AppRouteReuseStrategy', () => {
       providers: [AppRouteReuseStrategy]
     });
 
-    appRouteReuse = TestBed.get(AppRouteReuseStrategy);
+    appRouteReuse = TestBed.inject(AppRouteReuseStrategy);
   });
 
   it('should allow detach if route is configured to be reused', () => {

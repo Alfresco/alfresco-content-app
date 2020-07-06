@@ -133,11 +133,11 @@ describe('NodeActionsService', () => {
       imports: [AppTestingModule]
     });
 
-    contentApi = TestBed.get(ContentApiService);
+    contentApi = TestBed.inject(ContentApiService);
 
-    service = TestBed.get(NodeActionsService);
-    apiService = TestBed.get(AlfrescoApiService);
-    dialog = TestBed.get(MatDialog);
+    service = TestBed.inject(NodeActionsService);
+    apiService = TestBed.inject(AlfrescoApiService);
+    dialog = TestBed.inject(MatDialog);
     apiService.reset();
 
     nodesApi = apiService.getInstance().nodes;
@@ -400,7 +400,7 @@ describe('NodeActionsService', () => {
       fileToCopy = new TestNode(fileId, isFile, 'file-name');
       folderToCopy = new TestNode();
       destinationFolder = new TestNode(folderDestinationId);
-      translationService = TestBed.get(TranslationService);
+      translationService = TestBed.inject(TranslationService);
 
       spyOn(translationService, 'instant').and.callFake(key => {
         return key;
@@ -925,7 +925,7 @@ describe('NodeActionsService', () => {
       folderToMove = new TestNode('fid', !isFile, 'folder-name');
       destinationFolder = new TestNode(folderDestinationId);
 
-      documentListService = TestBed.get(DocumentListService);
+      documentListService = TestBed.inject(DocumentListService);
       spyOnBatchOperation = spyOn(
         service,
         'doBatchOperation'

@@ -73,10 +73,10 @@ describe('AppLayoutComponent', () => {
 
     fixture = TestBed.createComponent(AppLayoutComponent);
     component = fixture.componentInstance;
-    appConfig = TestBed.get(AppConfigService);
-    store = TestBed.get(Store);
-    router = TestBed.get(Router);
-    userPreference = TestBed.get(UserPreferencesService);
+    appConfig = TestBed.inject(AppConfigService);
+    store = TestBed.inject(Store);
+    router = TestBed.inject(Router);
+    userPreference = TestBed.inject(UserPreferencesService);
   });
 
   beforeEach(() => {

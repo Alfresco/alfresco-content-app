@@ -68,11 +68,11 @@ describe('NodeEffects', () => {
       providers: [ViewUtilService]
     });
 
-    // actions$ = TestBed.get(Actions);
-    store = TestBed.get(Store);
-    contentService = TestBed.get(ContentManagementService);
-    viewUtilService = TestBed.get(ViewUtilService);
-    viewerEffects = TestBed.get(ViewerEffects);
+    // actions$ = TestBed.inject(Actions);
+    store = TestBed.inject(Store);
+    contentService = TestBed.inject(ContentManagementService);
+    viewUtilService = TestBed.inject(ViewUtilService);
+    viewerEffects = TestBed.inject(ViewerEffects);
   });
 
   describe('shareNode$', () => {

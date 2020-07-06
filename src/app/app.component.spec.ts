@@ -63,7 +63,7 @@ describe('AppComponent', () => {
       ]
     });
 
-    router = TestBed.get(Router);
+    router = TestBed.inject(Router);
 
     component = new AppComponent(
       null,

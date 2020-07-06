@@ -88,10 +88,10 @@ describe('FilesComponent', () => {
     fixture = TestBed.createComponent(FilesComponent);
     component = fixture.componentInstance;
 
-    uploadService = TestBed.get(UploadService);
-    router = TestBed.get(Router);
-    nodeActionsService = TestBed.get(NodeActionsService);
-    contentApi = TestBed.get(ContentApiService);
+    uploadService = TestBed.inject(UploadService);
+    router = TestBed.inject(Router);
+    nodeActionsService = TestBed.inject(NodeActionsService);
+    contentApi = TestBed.inject(ContentApiService);
   });
 
   beforeEach(() => {

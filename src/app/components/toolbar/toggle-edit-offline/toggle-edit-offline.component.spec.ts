@@ -62,7 +62,7 @@ describe('ToggleEditOfflineComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ToggleEditOfflineComponent);
     component = fixture.componentInstance;
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     dispatchSpy = spyOn(store, 'dispatch');
     selectSpy = spyOn(store, 'select');

@@ -102,7 +102,7 @@ describe('NodeVersionsDialogComponent', () => {
       ]
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     fixture = TestBed.createComponent(NodeVersionsDialogComponent);
     component = fixture.componentInstance;
     component.node = {

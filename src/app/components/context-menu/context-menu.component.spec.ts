@@ -87,8 +87,8 @@ describe('ContextMenuComponent', () => {
     fixture = TestBed.createComponent(ContextMenuComponent);
     component = fixture.componentInstance;
 
-    contextMenuOverlayRef = TestBed.get(ContextMenuOverlayRef);
-    extensionsService = TestBed.get(AppExtensionService);
+    contextMenuOverlayRef = TestBed.inject(ContextMenuOverlayRef);
+    extensionsService = TestBed.inject(AppExtensionService);
 
     spyOn(extensionsService, 'getAllowedContextMenuActions').and.returnValue([
       contextItem

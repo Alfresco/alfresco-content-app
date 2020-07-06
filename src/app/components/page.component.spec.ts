@@ -69,7 +69,7 @@ describe('PageComponent', () => {
       providers: [ContentManagementService, AppExtensionService]
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     fixture = TestBed.createComponent(TestComponent);
     component = fixture.componentInstance;
   });

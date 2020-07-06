@@ -54,7 +54,7 @@ describe('ContextMenuComponent', () => {
 
     fixture = TestBed.createComponent(ContextMenuItemComponent);
     component = fixture.componentInstance;
-    extensionsService = TestBed.get(AppExtensionService);
+    extensionsService = TestBed.inject(AppExtensionService);
 
     contextItem = {
       type: 'button',

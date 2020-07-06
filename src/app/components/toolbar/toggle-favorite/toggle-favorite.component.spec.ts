@@ -66,7 +66,7 @@ describe('ToggleFavoriteComponent', () => {
 
     fixture = TestBed.createComponent(ToggleFavoriteComponent);
     component = fixture.componentInstance;
-    router = TestBed.get(Router);
+    router = TestBed.inject(Router);
   });
 
   afterEach(() => {

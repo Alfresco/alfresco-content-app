@@ -101,15 +101,15 @@ describe('FavoritesComponent', () => {
     fixture = TestBed.createComponent(FavoritesComponent);
     component = fixture.componentInstance;
 
-    alfrescoApi = TestBed.get(AlfrescoApiService);
+    alfrescoApi = TestBed.inject(AlfrescoApiService);
     alfrescoApi.reset();
     spyOn(alfrescoApi.favoritesApi, 'getFavorites').and.returnValue(
       Promise.resolve(page)
     );
 
-    contentApi = TestBed.get(ContentApiService);
-    uploadService = TestBed.get(UploadService);
-    router = TestBed.get(Router);
+    contentApi = TestBed.inject(ContentApiService);
+    uploadService = TestBed.inject(UploadService);
+    router = TestBed.inject(Router);
   });
 
   describe('Node navigation', () => {

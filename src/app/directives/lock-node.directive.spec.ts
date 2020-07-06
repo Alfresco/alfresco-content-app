@@ -67,7 +67,7 @@ describe('LockNodeDirective', () => {
     fixture = TestBed.createComponent(TestComponent);
     component = fixture.componentInstance;
     component.selection = null;
-    api = TestBed.get(AlfrescoApiService);
+    api = TestBed.inject(AlfrescoApiService);
   });
 
   it('should return false if selection is null', () => {

@@ -85,11 +85,11 @@ describe('SharedFilesComponent', () => {
     });
 
     fixture = TestBed.createComponent(SharedFilesComponent);
-    uploadService = TestBed.get(UploadService);
-    contentManagementService = TestBed.get(ContentManagementService);
+    uploadService = TestBed.inject(UploadService);
+    contentManagementService = TestBed.inject(ContentManagementService);
     component = fixture.componentInstance;
 
-    alfrescoApi = TestBed.get(AlfrescoApiService);
+    alfrescoApi = TestBed.inject(AlfrescoApiService);
     alfrescoApi.reset();
 
     spyOn(alfrescoApi.sharedLinksApi, 'findSharedLinks').and.returnValue(

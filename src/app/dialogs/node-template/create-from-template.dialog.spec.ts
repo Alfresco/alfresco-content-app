@@ -96,7 +96,7 @@ describe('CreateFileFromTemplateDialogComponent', () => {
     });
 
     fixture = TestBed.createComponent(CreateFromTemplateDialogComponent);
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     component = fixture.componentInstance;
     component.data = data as Node;
   });

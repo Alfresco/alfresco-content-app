@@ -62,8 +62,8 @@ describe('SettingsComponent', () => {
     fixture = TestBed.createComponent(SettingsComponent);
     component = fixture.componentInstance;
 
-    storage = TestBed.get(StorageService);
-    appExtensions = TestBed.get(AppExtensionService);
+    storage = TestBed.inject(StorageService);
+    appExtensions = TestBed.inject(AppExtensionService);
 
     stringParam = {
       key: 'key',

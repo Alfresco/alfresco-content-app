@@ -80,14 +80,14 @@ describe('PreviewComponent', () => {
     fixture = TestBed.createComponent(PreviewComponent);
     component = fixture.componentInstance;
 
-    router = TestBed.get(Router);
-    route = TestBed.get(ActivatedRoute);
-    preferences = TestBed.get(UserPreferencesService);
-    contentApi = TestBed.get(ContentApiService);
-    uploadService = TestBed.get(UploadService);
-    alfrescoApiService = TestBed.get(AlfrescoApiService);
-    contentManagementService = TestBed.get(ContentManagementService);
-    store = TestBed.get(Store);
+    router = TestBed.inject(Router);
+    route = TestBed.inject(ActivatedRoute);
+    preferences = TestBed.inject(UserPreferencesService);
+    contentApi = TestBed.inject(ContentApiService);
+    uploadService = TestBed.inject(UploadService);
+    alfrescoApiService = TestBed.inject(AlfrescoApiService);
+    contentManagementService = TestBed.inject(ContentManagementService);
+    store = TestBed.inject(Store);
   });
 
   it('should extract the property path root', () => {

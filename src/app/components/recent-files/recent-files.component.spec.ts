@@ -84,8 +84,8 @@ describe('RecentFilesComponent', () => {
     fixture = TestBed.createComponent(RecentFilesComponent);
     component = fixture.componentInstance;
 
-    alfrescoApi = TestBed.get(AlfrescoApiService);
-    uploadService = TestBed.get(UploadService);
+    alfrescoApi = TestBed.inject(AlfrescoApiService);
+    uploadService = TestBed.inject(UploadService);
     alfrescoApi.reset();
 
     spyOn(alfrescoApi.peopleApi, 'getPerson').and.returnValue(
