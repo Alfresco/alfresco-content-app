@@ -50,7 +50,8 @@ import { Subject } from 'rxjs';
       <span>{{
         (library.isFavorite
           ? 'APP.ACTIONS.REMOVE_FAVORITE'
-          : 'APP.ACTIONS.FAVORITE') | translate
+          : 'APP.ACTIONS.FAVORITE'
+        ) | translate
       }}</span>
     </button>
   `,
@@ -74,10 +75,7 @@ export class ToggleFavoriteLibraryComponent implements OnInit, OnDestroy {
 
     this.store
       .select(getAppSelection)
-      .pipe(
-        distinctUntilChanged(),
-        takeUntil(this.onDestroy$)
-      )
+      .pipe(distinctUntilChanged(), takeUntil(this.onDestroy$))
       .subscribe((selection: SelectionState) => {
         this.library = { ...selection.library };
 

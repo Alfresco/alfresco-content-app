@@ -472,7 +472,10 @@ describe('NodeActionsService', () => {
       );
       expect(translationService.instant).toHaveBeenCalledWith(
         'NODE_SELECTOR.COPY_ITEMS',
-        { name: '', number: 2 }
+        {
+          name: '',
+          number: 2
+        }
       );
 
       destinationFolder.entry['allowableOperations'] = ['update'];
@@ -508,7 +511,10 @@ describe('NodeActionsService', () => {
       );
       expect(translationService.instant).toHaveBeenCalledWith(
         'NODE_SELECTOR.COPY_ITEM',
-        { name: 'entry-name', number: 1 }
+        {
+          name: 'entry-name',
+          number: 1
+        }
       );
     });
 
@@ -537,7 +543,10 @@ describe('NodeActionsService', () => {
       );
       expect(translationService.instant).toHaveBeenCalledWith(
         'NODE_SELECTOR.COPY_ITEMS',
-        { name: '', number: 1 }
+        {
+          name: '',
+          number: 1
+        }
       );
     });
   });
@@ -768,9 +777,9 @@ describe('NodeActionsService', () => {
         spyOn(nodesApi, 'getNodeChildren').and.callFake(
           helper.fakeGetNodeChildren(testFamilyNodes)
         );
-        spyOn(service, 'getChildByName').and.returnValue(of(
-          existingFolder
-        ) as any);
+        spyOn(service, 'getChildByName').and.returnValue(
+          of(existingFolder) as any
+        );
 
         copyObservable
           .toPromise()
@@ -868,9 +877,9 @@ describe('NodeActionsService', () => {
         spyOn(nodesApi, 'getNodeChildren').and.callFake(
           helper.fakeGetNodeChildren(testFamilyNodes)
         );
-        spyOn(service, 'getChildByName').and.returnValue(of(
-          existingFolder
-        ) as any);
+        spyOn(service, 'getChildByName').and.returnValue(
+          of(existingFolder) as any
+        );
 
         copyObservable
           .toPromise()
@@ -1439,9 +1448,7 @@ describe('NodeActionsService', () => {
       }
     ];
     testData.forEach(data => {
-      it(`new name should be \'${data.expected}\' for given name: \'${
-        data.name
-      }\', and baseName: \'${data.baseName}\'`, () => {
+      it(`new name should be \'${data.expected}\' for given name: \'${data.name}\', and baseName: \'${data.baseName}\'`, () => {
         const result = service.getNewNameFrom(data.name, data.baseName);
         expect(result).toBe(data.expected);
       });
@@ -1468,9 +1475,7 @@ describe('NodeActionsService', () => {
     ];
 
     testData.forEach(data => {
-      it(`flattened array should be \'${data.expected}\' for given data: \'${
-        data.nDimArray
-      }\'`, () => {
+      it(`flattened array should be \'${data.expected}\' for given data: \'${data.nDimArray}\'`, () => {
         const result = service.flatten(data.nDimArray);
 
         expect(result.length).toBe(data.expected.length);
@@ -1562,9 +1567,7 @@ describe('NodeActionsService', () => {
     ];
 
     testData.forEach(response => {
-      it(`processed response should be \'${
-        response.expected
-      }\' for given input: \'${response.data}\'`, () => {
+      it(`processed response should be \'${response.expected}\' for given input: \'${response.data}\'`, () => {
         const result = service.processResponse(response.data);
 
         expect(JSON.stringify(result)).toEqual(

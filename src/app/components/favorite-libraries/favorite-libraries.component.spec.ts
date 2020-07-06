@@ -116,7 +116,9 @@ describe('FavoriteLibrariesComponent', () => {
 
       expect(contentApiService.getFavoriteLibraries).toHaveBeenCalledWith(
         '-me-',
-        { maxItems: userPreference.paginationSize }
+        {
+          maxItems: userPreference.paginationSize
+        }
       );
     });
 

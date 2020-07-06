@@ -69,14 +69,12 @@ export function flattenNodeContentTree(
 
   if (folders) {
     const foldersData: NodeBodyCreate[] = folders
-      .map(
-        (folder: string | NodeContentTree): NodeBodyCreate[] => {
-          const folderData: NodeContentTree =
-            typeof folder === 'string' ? { name: folder } : folder;
+      .map((folder: string | NodeContentTree): NodeBodyCreate[] => {
+        const folderData: NodeContentTree =
+          typeof folder === 'string' ? { name: folder } : folder;
 
-          return flattenNodeContentTree(folderData, relativePath);
-        }
-      )
+        return flattenNodeContentTree(folderData, relativePath);
+      })
       .reduce(
         (nodesData: NodeBodyCreate[], folderData: NodeBodyCreate[]) =>
           nodesData.concat(folderData),

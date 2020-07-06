@@ -48,7 +48,8 @@ import { Router } from '@angular/router';
       <span>{{
         (favorites.hasFavorites()
           ? 'APP.ACTIONS.REMOVE_FAVORITE'
-          : 'APP.ACTIONS.FAVORITE') | translate
+          : 'APP.ACTIONS.FAVORITE'
+        ) | translate
       }}</span>
     </button>
   `,

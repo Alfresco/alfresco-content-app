@@ -10,8 +10,12 @@
       "jasminewd2",
       "node"
     ],
+    "skipLibCheck": true,
     "paths": {
       "@alfresco/aca-testing-shared": ["../projects/aca-testing-shared"]
     }
-  }
+  },
+  "exclude": [
+    "node_modules"
+  ]
 }
