@@ -14,7 +14,6 @@ module.exports = function(config) {
       require('@angular-devkit/build-angular/plugins/karma')
     ],
     files: [
-      { pattern: './node_modules/hammerjs/hammer.js', watched: false },
       {
         pattern:
           './node_modules/@angular/material/prebuilt-themes/indigo-pink.css',
