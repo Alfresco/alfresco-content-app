@@ -162,7 +162,7 @@ describe('Mark items as favorites', () => {
       expect(await toolbar.menu.getItemIconText('Remove Favorite')).toEqual('star');
     });
 
-    it('[C217189] favorite a file', async () => {
+    xit('[C217189] favorite a file', async () => {
       await dataTable.selectItem(fileNotFav1);
       await toolbar.clickMoreActionsFavorite();
 
@@ -484,7 +484,7 @@ describe('Mark items as favorites', () => {
       done();
     });
 
-    it('[C280391] Favorite a folder', async  () => {
+    xit('[C280391] Favorite a folder', async  () => {
       await dataTable.selectItem(folderSite);
       await toolbar.clickMoreActionsFavorite();
 
