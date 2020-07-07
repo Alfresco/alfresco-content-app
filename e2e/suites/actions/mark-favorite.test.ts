@@ -169,7 +169,7 @@ describe('Mark items as favorites', () => {
       expect(await apis.user.favorites.isFavoriteWithRetry(fileNotFav1Id, { expect: true })).toBe(true, `${fileNotFav1} not marked as favorite`);
     });
 
-    it('[C280390] favorite a folder', async () => {
+    xit('[C280390] favorite a folder', async () => {
       await dataTable.selectItem(folder);
       await toolbar.clickMoreActionsFavorite();
 
@@ -491,7 +491,7 @@ describe('Mark items as favorites', () => {
       expect(await apis.user.favorites.isFavoriteWithRetry(folderSiteId, { expect: true })).toBe(true, `${folderSite} not marked as favorite`);
     });
 
-    it('[C280342] Favorite a file', async () => {
+    xit('[C280342] Favorite a file', async () => {
       await page.dataTable.doubleClickOnRowByName(folderSite);
       await dataTable.selectItem(fileSiteNotFav1);
       await toolbar.clickMoreActionsFavorite();
