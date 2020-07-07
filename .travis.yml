@@ -77,15 +77,6 @@ jobs:
         - ./start.sh
       script: ng run app-e2e:e2elite --suite "authentication,listViews,navigation,application,pagination,search"
       after_script: ./start.sh -d
-    - stage: e2e
-      name: Test Suite appNavigation&search remote
-      env:
-        - API_CONTENT_HOST=$API_CONTENT_HOST_REMOTE
-        - ADMIN_EMAIL=$ADMIN_EMAIL_REMOTE
-        - ADMIN_PASSWORD=$ADMIN_PASSWORD_REMOTE
-      before_script:
-        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a"
-      script: ng run app-e2e:e2elite --suite "authentication,listViews,navigation,application,pagination,search"
     - name: Test Suite actionsAvailable
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a"

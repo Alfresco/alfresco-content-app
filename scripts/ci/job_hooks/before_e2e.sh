@@ -13,4 +13,4 @@ node "./scripts/app-config-replace.js" --config="$TO/app.config.json" $PARAMS
 echo "Replace app.config done"
 
 echo "Update update-webdriver"
-./scripts/update-webdriver.sh
+npm run update-webdriver

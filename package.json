@@ -18,7 +18,7 @@
     "test": "ng test app --code-coverage",
     "test:ci": "npm run build.extensions && ng test adf-office-services-ext --watch=false && ng test app --code-coverage --watch=false",
     "lint": "ng lint && npm run spellcheck && npm run e2e.typecheck",
-    "update-webdriver": "webdriver-manager update --gecko=false",
+    "update-webdriver": "./scripts/update-webdriver.sh",
     "e2e.typecheck": "tsc -p ./e2e/tsconfig.e2e.typecheck.json",
     "e2e": "npm run update-webdriver && protractor --baseUrl=${TEST_BASE_URL:-http://localhost:8080/content-app} $SUITE",
     "e2e.local": "npm run update-webdriver && protractor --baseUrl=http://localhost:4200",
@@ -30,7 +30,6 @@
     "inspect.bundle": "ng build app --prod --stats-json && npx webpack-bundle-analyzer dist/app/stats.json",
     "validate-config": "ajv validate -s ./node_modules/@alfresco/adf-core/app.config.schema.json -d ./src/app.config.json --errors=text --verbose"
   },
-  
   "private": true,
   "dependencies": {
     "@alfresco/adf-content-services": "3.10.0-6001ff801e211e8385966d2f2b773e59b4667dd9",
