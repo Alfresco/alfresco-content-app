@@ -83,7 +83,7 @@ describe('New menu', () => {
     expect(await menu.isCreateFolderFromTemplateEnabled()).toBe(true, 'Create folder from template is not enabled');
   });
 
-  it('[C280393] Actions in File Libraries - user with enough permissions', async () => {
+  xit('[C280393] Actions in File Libraries - user with enough permissions', async () => {
     await page.goToMyLibrariesAndWait();
     await dataTable.doubleClickOnRowByName(siteUser);
     await sidenav.openNewMenu();
@@ -98,7 +98,7 @@ describe('New menu', () => {
     expect(await menu.isCreateFolderFromTemplateEnabled()).toBe(true, 'Create folder from template is not enabled');
   });
 
-  it('[C280397] Actions in File Libraries - user without enough permissions', async () => {
+  xit('[C280397] Actions in File Libraries - user without enough permissions', async () => {
     await page.goToMyLibrariesAndWait();
     await dataTable.doubleClickOnRowByName(siteAdmin);
     await sidenav.openNewMenu();
@@ -113,7 +113,7 @@ describe('New menu', () => {
     expect(await menu.isCreateFolderFromTemplateEnabled()).toBe(false, 'Create folder from template is not disabled');
   });
 
-  it('[C216342] Enabled actions tooltips', async () => {
+  xit('[C216342] Enabled actions tooltips', async () => {
     await page.clickPersonalFiles();
     await sidenav.openNewMenu();
 
@@ -135,7 +135,7 @@ describe('New menu', () => {
     expect(tooltip).toContain('Create file from template');
   });
 
-  it('[C280398] Disabled actions tooltips', async () => {
+  xit('[C280398] Disabled actions tooltips', async () => {
     await page.goToMyLibrariesAndWait();
     await dataTable.doubleClickOnRowByName(siteAdmin);
     await sidenav.openNewMenu();
