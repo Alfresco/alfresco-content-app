@@ -267,7 +267,10 @@ exports.config = {
         }
 
         for (const fileName of files) {
-          let pathFile = path.join(config.paths.screenShots, fileName);
+          let pathFile = path.join(
+            `${projectRoot}/e2e-output/report/screenshots/`,
+            fileName
+          );
           let file = fs.createReadStream(pathFile);
 
           let safeFileName = fileName.replace(new RegExp('"', 'g'), '');
