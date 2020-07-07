@@ -83,6 +83,7 @@ describe('Login', () => {
     });
 
     it('[C213089] login page layout', async () => {
+      expect(true).toEqual(false);
       expect(await login.usernameInput.isEnabled()).toBe(true, 'username input is not enabled');
       expect(await login.passwordInput.isEnabled()).toBe(true, 'password input is not enabled');
       expect(await login.submitButton.isEnabled()).toBe(false, 'SIGN IN button is enabled');
