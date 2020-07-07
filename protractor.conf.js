@@ -1,6 +1,7 @@
 // Protractor configuration file, see link for more information
 // https://github.com/angular/protractor/blob/master/lib/config.ts
 
+const AlfrescoApi = require('@alfresco/js-api').AlfrescoApiCompatibility;
 const path = require('path');
 const { SpecReporter } = require('jasmine-spec-reporter');
 const CDP = require('chrome-remote-interface');
@@ -198,5 +199,84 @@ exports.config = {
       .catch(err => {
         console.log(err);
       });
+  },
+
+  afterLaunch() {
+    console.log('Save screenshots: ');
+    try {
+      await uploadOutput(FOLDER);
+      console.log('Screenshots saved successfully.');
+    } catch (e) {
+      console.log('Error happened while trying to upload screenshots and test reports: ', e);
+    }
+  },
+
+  async saveScreenshots() {
+    let alfrescoJsApi = new AlfrescoApi({
+      provider: 'ECM',
+      hostEcm: process.env.SCREENSHOT_URL,
+    });
+    alfrescoJsApi.login(
+      process.env.SCREENSHOT_USERNAME,
+      process.env.SCREENSHOT_PASSWORD
+    );
+
+    let files = fs.readdirSync(path.join(`${projectRoot}/e2e-output/report/screenshots/`));
+    console.log('Files: ', files)
+
+    if (files && files.length > 0) {
+        let folder;
+
+        try {
+            folder = await alfrescoJsApi.nodes.addNode(
+                '-my-',
+                {
+                    name: `screenshot`,
+                    relativePath: `Builds/ACA-${buildNumber()}`,
+                    nodeType: 'cm:folder',
+                },
+                {},
+                {
+                    overwrite: true,
+                }
+            );
+        } catch (error) {
+            console.log('Error when creating folder: ', error);
+            folder = await alfrescoJsApi.nodes.getNode(
+                '-my-',
+                {
+                    relativePath: `Builds/ACA-${buildNumber()}/screenshot`,
+                    nodeType: 'cm:folder',
+                },
+                {},
+                {
+                    overwrite: true,
+                }
+            );
+        }
+
+        for (const fileName of files) {
+            let pathFile = path.join(config.paths.screenShots, fileName);
+            let file = fs.createReadStream(pathFile);
+
+            let safeFileName = fileName.replace(new RegExp('"', 'g'), '');
+
+            try {
+                await alfrescoJsApi.upload.uploadFile(
+                    file,
+                    '',
+                    folder.entry.id,
+                    null,
+                    {
+                        name: safeFileName,
+                        nodeType: 'cm:content',
+                        autoRename: true,
+                    }
+                );
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    }
   }
 };
