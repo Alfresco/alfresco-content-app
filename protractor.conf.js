@@ -203,6 +203,11 @@ exports.config = {
 
   async afterLaunch() {
     console.log('Save screenshots: ');
+    let buildNumber = process.env.TRAVIS_BUILD_NUMBER;
+    if (!buildNumber) {
+      buildNumber = Date.now();
+    }
+    console.log('Build nr: ', buildNumber);
 
     let alfrescoJsApi = new AlfrescoApi({
       provider: 'ECM',
@@ -235,7 +240,7 @@ exports.config = {
             '-my-',
             {
               name: `screenshot`,
-              relativePath: `Builds/ACA-${buildNumber()}`,
+              relativePath: `Builds/ACA-${buildNumber}`,
               nodeType: 'cm:folder'
             },
             {},
@@ -248,7 +253,7 @@ exports.config = {
           folder = await alfrescoJsApi.nodes.getNode(
             '-my-',
             {
-              relativePath: `Builds/ACA-${buildNumber()}/screenshot`,
+              relativePath: `Builds/ACA-${buildNumber}/screenshot`,
               nodeType: 'cm:folder'
             },
             {},
