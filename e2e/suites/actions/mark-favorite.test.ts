@@ -100,13 +100,15 @@ describe('Mark items as favorites', () => {
     fileSearchFav4Id = (await apis.user.nodes.createFile(fileSearchFav4, parentId)).entry.id;
     folderSearchId = (await apis.user.nodes.createFolder(folderSearch, parentId)).entry.id;
 
+    const currentFavoritesFiles = (await apis.user.favorites.getFavorites()).list.pagination.totalItems;
     await apis.user.favorites.addFavoritesByIds('file', [ fileFavUIId, fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id ]);
     await apis.user.favorites.addFavoritesByIds('file', [ fileSearchFav1Id, fileSearchFav2Id, fileSearchFav3Id, fileSearchFav4Id ]);
-    await apis.user.favorites.waitForApi({ expect: 9 });
+    await apis.user.favorites.waitForApi({ expect: currentFavoritesFiles + 9 });
 
+    const currentSharedFiles = (await apis.user.shared.getSharedLinks()).list.pagination.totalItems;
     await apis.user.shared.shareFilesByIds([ fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id ]);
     await apis.user.shared.shareFilesByIds([ fileNotFav1Id, fileNotFav2Id, fileNotFav3Id, fileNotFav4Id ]);
-    await apis.user.shared.waitForApi({ expect: 8 });
+    await apis.user.shared.waitForApi({ expect: currentSharedFiles + 8 });
 
     await loginPage.loginWith(username);
     done();
@@ -135,7 +137,6 @@ describe('Mark items as favorites', () => {
     });
 
     beforeEach(async (done) => {
-      await Utils.pressEscape();
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(parent);
       done();
@@ -146,6 +147,7 @@ describe('Mark items as favorites', () => {
       await toolbar.openMoreMenu();
 
       expect(await toolbar.menu.getItemIconText('Favorite')).toEqual('star_border');
+      await toolbar.closeMoreMenu();
     });
 
     it('[C217187] Favorite action has empty star icon for multiple selection of items when some are not favorite', async () => {
@@ -153,23 +155,25 @@ describe('Mark items as favorites', () => {
       await toolbar.openMoreMenu();
 
       expect(await toolbar.menu.getItemIconText('Favorite')).toEqual('star_border');
+      await toolbar.closeMoreMenu();
     });
 
-    xit('[C217188] Favorite action has full star icon for items marked as favorite', async () => {
+    it('[C217188] Favorite action has full star icon for items marked as favorite', async () => {
       await dataTable.selectItem(fileFavUI);
       await toolbar.openMoreMenu();
 
       expect(await toolbar.menu.getItemIconText('Remove Favorite')).toEqual('star');
+      await toolbar.closeMoreMenu();
     });
 
-    xit('[C217189] favorite a file', async () => {
+    it('[C217189] favorite a file', async () => {
       await dataTable.selectItem(fileNotFav1);
       await toolbar.clickMoreActionsFavorite();
 
       expect(await apis.user.favorites.isFavoriteWithRetry(fileNotFav1Id, { expect: true })).toBe(true, `${fileNotFav1} not marked as favorite`);
     });
 
-    xit('[C280390] favorite a folder', async () => {
+    it('[C280390] favorite a folder', async () => {
       await dataTable.selectItem(folder);
       await toolbar.clickMoreActionsFavorite();
 

@@ -97,6 +97,8 @@ export class Toolbar extends Component {
 
     const moreMenu = this.getButtonByTitleAttribute('More Actions');
     await BrowserActions.click(moreMenu);
+
+    await this.menu.waitForMenuToClose();
   }
 
   async closeMoreMenuEscape() {
