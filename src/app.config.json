@@ -372,6 +372,7 @@
     ]
   },
   "search-headers": {
+    "filterWithContains": true,
     "app:fields": [
       "cm:name",
       "cm:title",
@@ -386,10 +387,9 @@
     "categories": [
       {
         "id": "queryName",
-        "name": "Name",
+        "name": "SEARCH.SEARCH_HEADER.FILTERS.NAME.TITLE",
         "columnKey": "name",
         "enabled": true,
-        "expanded": true,
         "component": {
           "selector": "text",
           "settings": {
@@ -402,7 +402,7 @@
       },
       {
         "id": "checkList",
-        "name": "Check List",
+        "name": "SEARCH.SEARCH_HEADER.FILTERS.TYPE.TITLE",
         "columnKey":"$thumbnail",
         "enabled": true,
         "component": {
@@ -412,11 +412,11 @@
             "operator": "OR",
             "options": [
               {
-                "name": "Folder",
+                "name": "SEARCH.SEARCH_HEADER.FILTERS.TYPE.FOLDER",
                 "value": "TYPE:'cm:folder'"
               },
               {
-                "name": "Document",
+                "name": "SEARCH.SEARCH_HEADER.FILTERS.TYPE.DOCUMENT",
                 "value": "TYPE:'cm:content'"
               }
             ]
@@ -424,20 +424,8 @@
         }
       },
       {
-        "id": "contentSizeRange",
-        "name": "Content Size (range)",
-        "enabled": true,
-        "component": {
-          "selector": "number-range",
-          "settings": {
-            "field": "cm:content.size",
-            "format": "[{FROM} TO {TO}]"
-          }
-        }
-      },
-      {
         "id": "contentSize",
-        "name": "SEARCH.CATEGORIES.SIZE",
+        "name": "SEARCH.SEARCH_HEADER.FILTERS.SIZE.TITLE",
         "columnKey":"content.sizeInBytes",
         "enabled": true,
         "component": {
@@ -445,20 +433,20 @@
           "settings": {
             "options": [
               {
-                "name": "Small",
-                "value": "content.size:[0 TO 1048576>"
+                "name": "SEARCH.SEARCH_HEADER.FILTERS.SIZE.SMALL",
+                "value": "content.size:[0 TO 1048576> OR TYPE:'cm:folder'"
               },
               {
-                "name": "Medium",
-                "value": "content.size:[1048576 TO 52428800]"
+                "name": "SEARCH.SEARCH_HEADER.FILTERS.SIZE.MEDIUM",
+                "value": "content.size:[1048576 TO 52428800] OR TYPE:'cm:folder'"
               },
               {
-                "name": "Large",
-                "value": "content.size:<52428800 TO 524288000]"
+                "name": "SEARCH.SEARCH_HEADER.FILTERS.SIZE.LARGE",
+                "value": "content.size:<52428800 TO 524288000] OR TYPE:'cm:folder'"
               },
               {
-                "name": "Huge",
-                "value": "content.size:<524288000 TO MAX]"
+                "name": "SEARCH.SEARCH_HEADER.FILTERS.SIZE.HUGE",
+                "value": "content.size:<524288000 TO MAX] OR TYPE:'cm:folder'"
               }
             ]
           }
@@ -466,7 +454,7 @@
       },
       {
         "id": "createdDateRange",
-        "name": "Created Date (range)",
+        "name": "SEARCH.SEARCH_HEADER.FILTERS.DATE.TITLE",
         "columnKey": "createdAt",
         "enabled": true,
         "component": {
