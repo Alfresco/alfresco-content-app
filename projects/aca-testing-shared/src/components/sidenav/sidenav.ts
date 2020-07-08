@@ -29,6 +29,7 @@ import { SIDEBAR_LABELS, BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
 import { waitForClickable } from '../../utilities/utils';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 export class Sidenav extends Component {
   links = this.component.all(by.css('.item'));
@@ -77,6 +78,11 @@ export class Sidenav extends Component {
   async openNewMenu(): Promise<void> {
     await this.newButton.click();
     await this.menu.waitForMenuToOpen();
+  }
+
+  async closeNewMenu(): Promise<void> {
+    await BrowserActions.click(element(by.css('button[data-automation-id="create-button"] span span')));
+    await this.menu.waitForMenuToClose();
   }
 
   async openCreateFolderDialog(): Promise<void> {

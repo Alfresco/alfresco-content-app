@@ -65,7 +65,7 @@ describe('New menu', () => {
   });
 
   afterEach(async (done) => {
-    await Utils.pressEscape();
+    await sidenav.closeNewMenu();
     done();
   });
 
@@ -83,7 +83,7 @@ describe('New menu', () => {
     expect(await menu.isCreateFolderFromTemplateEnabled()).toBe(true, 'Create folder from template is not enabled');
   });
 
-  xit('[C280393] Actions in File Libraries - user with enough permissions', async () => {
+  it('[C280393] Actions in File Libraries - user with enough permissions', async () => {
     await page.goToMyLibrariesAndWait();
     await dataTable.doubleClickOnRowByName(siteUser);
     await sidenav.openNewMenu();
@@ -135,7 +135,7 @@ describe('New menu', () => {
     expect(tooltip).toContain('Create file from template');
   });
 
-  xit('[C280398] Disabled actions tooltips', async () => {
+  it('[C280398] Disabled actions tooltips', async () => {
     await page.goToMyLibrariesAndWait();
     await dataTable.doubleClickOnRowByName(siteAdmin);
     await sidenav.openNewMenu();
