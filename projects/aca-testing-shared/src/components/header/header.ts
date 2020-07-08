@@ -53,7 +53,7 @@ export class Header extends Component {
 
   async closeMoreMenu(): Promise<void> {
     await BrowserActions.click(this.moreActions);
-    await this.menu.waitForMenuToOpen();
+    await this.menu.waitForMenuToClose();
   }
 
   async isSignOutDisplayed(): Promise<boolean> {
