@@ -207,10 +207,6 @@ exports.config = {
     if (!buildNumber) {
       buildNumber = Date.now();
     }
-    console.log('Build nr: ', buildNumber);
-    console.log('U: ', process.env.SCREENSHOT_USERNAME);
-    console.log('P: ', process.env.SCREENSHOT_PASSWORD);
-    console.log('P: ', process.env.SCREENSHOT_URL);
 
     let alfrescoJsApi = new AlfrescoApi({
       provider: 'ECM',
@@ -233,7 +229,6 @@ exports.config = {
       let files = fs.readdirSync(
         path.join(`${projectRoot}/e2e-output/report/screenshots/`)
       );
-      console.log('Files: ', files);
 
       if (files && files.length > 0) {
         let folder;
