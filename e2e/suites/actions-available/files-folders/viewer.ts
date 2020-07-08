@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BrowsingPage, SearchResultsPage, Utils } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, SearchResultsPage } from '@alfresco/aca-testing-shared';
 import * as testData from './test-data';
 import * as testUtil from '../test-util';
 
@@ -37,14 +37,6 @@ export function viewerTests(parentName?: string) {
 
     beforeAll(async () => {
       await page.clickPersonalFiles();
-    });
-
-    beforeEach(async () => {
-      await Utils.pressEscape();
-    });
-
-    afterEach(async () => {
-      await page.closeOpenDialogs();
     });
 
     describe('file opened from Personal Files', () => {

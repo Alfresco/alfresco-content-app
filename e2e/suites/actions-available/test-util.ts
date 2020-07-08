@@ -117,7 +117,6 @@ export async function checkViewerActions(item: string, expectedToolbarPrimary: s
   const actualMoreActions = await viewerToolbar.menu.getMenuItems();
   expect(actualMoreActions).toEqual(expectedToolbarMore);
 
-  await toolbar.closeMoreMenu();
   await Utils.pressEscape();
 }
 
