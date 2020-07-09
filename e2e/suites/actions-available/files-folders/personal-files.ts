@@ -46,7 +46,6 @@ export function personalFilesTests(parentName?: string) {
     describe('on a file', () => {
 
       it('File Office - [C213122]', async () => {
-        expect(true).toEqual(false);
         await testUtil.checkToolbarActions(testData.fileDocx.name, testData.fileDocx.toolbarPrimary, testData.fileDocx.toolbarMore);
         await testUtil.checkContextMenu(testData.fileDocx.name, testData.fileDocx.contextMenu);
       });
