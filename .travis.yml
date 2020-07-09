@@ -1,7 +1,8 @@
-dist: trusty
+dist: bionic
 sudo: required
 services:
   - docker
+  - xvfb
 addons:
   chrome: stable
 language: node_js
@@ -21,8 +22,6 @@ branches:
 before_install:
   - sudo /etc/init.d/postgresql stop
   - npm install -g npm@latest
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
   - sleep 3
   - . ./scripts/ci/job_hooks/before_install.sh
 
@@ -74,37 +73,37 @@ jobs:
     - stage: e2e
       name: Test Suite appNavigation&search
       before_script:
-        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app"
+        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a"
         - ./start.sh
       script: ng run app-e2e:e2elite --suite "authentication,listViews,navigation,application,pagination,search"
       after_script: ./start.sh -d
     - name: Test Suite actionsAvailable
       before_script:
-        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app"
+        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a"
         - ./start.sh
       script: ng run app-e2e:e2elite --suite "actionsAvailable"
       after_script: ./start.sh -d
     - name: Test Suite addRemoveContent
       before_script:
-        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app"
+        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a"
         - ./start.sh
       script: ng run app-e2e:e2elite --suite "addRemoveContent"
       after_script: ./start.sh -d
     - name: Test Suite manageContent
       before_script:
-        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app"
+        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a"
         - ./start.sh
       script: ng run app-e2e:e2elite --suite "manageContent"
       after_script: ./start.sh -d
     - name: Test Suite sharingContent&markFavorite
       before_script:
-        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app"
+        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a"
         - ./start.sh
       script: ng run app-e2e:e2elite --suite "sharingContent"
       after_script: ./start.sh -d
     - name: Test Suite viewContent&metadata&extensions
       before_script:
-        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app"
+        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a"
         - ./start.sh
       script: ng run app-e2e:e2elite --suite "viewer,infoDrawer,extensions"
       after_script: ./start.sh -d

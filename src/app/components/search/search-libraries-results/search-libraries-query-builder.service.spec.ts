@@ -42,7 +42,7 @@ describe('SearchLibrariesQueryBuilderService', () => {
       imports: [AppTestingModule]
     });
 
-    apiService = TestBed.get(AlfrescoApiService);
+    apiService = TestBed.inject(AlfrescoApiService);
     apiService.reset();
     queriesApi = apiService.getInstance().core.queriesApi;
     builder = new SearchLibrariesQueryBuilderService(apiService);

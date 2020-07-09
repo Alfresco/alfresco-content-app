@@ -67,8 +67,8 @@ describe('Extensions - Info Drawer', () => {
       done();
     });
 
-    beforeEach(async (done) => {
-      await Utils.pressEscape();
+    afterEach(async (done) => {
+      await header.closeMoreMenu();
       done();
     });
 

@@ -30,6 +30,7 @@ import { Menu } from '../menu/menu';
 import { Toolbar } from './../toolbar/toolbar';
 import { SearchInput } from '../search/search-input';
 import { waitElement } from '../../utilities/utils';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 export class Header extends Component {
   logoLink = this.byCss('.app-menu__title');
@@ -48,6 +49,11 @@ export class Header extends Component {
   async openMoreMenu(): Promise<void> {
     await this.moreActions.click();
     await this.menu.waitForMenuToOpen();
+  }
+
+  async closeMoreMenu(): Promise<void> {
+    await BrowserActions.click(this.moreActions);
+    await this.menu.waitForMenuToClose();
   }
 
   async isSignOutDisplayed(): Promise<boolean> {

@@ -72,8 +72,8 @@ describe('ToggleJoinLibraryComponent', () => {
 
     fixture = TestBed.createComponent(ToggleJoinLibraryButtonComponent);
     component = fixture.componentInstance;
-    alfrescoApi = TestBed.get(AlfrescoApiService);
-    contentManagementService = TestBed.get(ContentManagementService);
+    alfrescoApi = TestBed.inject(AlfrescoApiService);
+    contentManagementService = TestBed.inject(ContentManagementService);
 
     spyOn(alfrescoApi.peopleApi, 'getSiteMembershipRequest').and.stub();
   });

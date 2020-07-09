@@ -1,6 +1,6 @@
 // Karma configuration file, see link for more information
 // https://karma-runner.github.io/1.0/config/configuration-file.html
-process.env.CHROME_BIN = require('puppeteer').executablePath();
+// process.env.CHROME_BIN = require('puppeteer').executablePath();
 
 module.exports = function(config) {
   config.set({
@@ -14,7 +14,6 @@ module.exports = function(config) {
       require('@angular-devkit/build-angular/plugins/karma')
     ],
     files: [
-      { pattern: './node_modules/hammerjs/hammer.js', watched: false },
       {
         pattern:
           './node_modules/@angular/material/prebuilt-themes/indigo-pink.css',
@@ -61,7 +60,7 @@ module.exports = function(config) {
         base: 'Chrome',
         flags: [
           '--no-sandbox',
-          '--headless',
+          // '--headless',
           '--disable-gpu',
           '--remote-debugging-port=9222'
         ]

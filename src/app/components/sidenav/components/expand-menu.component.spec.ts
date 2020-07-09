@@ -52,7 +52,7 @@ describe('ExpandMenuComponent', () => {
 
     fixture = TestBed.createComponent(ExpandMenuComponent);
     component = fixture.componentInstance;
-    router = TestBed.get(Router);
+    router = TestBed.inject(Router);
 
     spyOn(router, 'navigate');
   });

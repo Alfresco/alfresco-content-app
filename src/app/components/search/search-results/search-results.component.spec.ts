@@ -93,12 +93,12 @@ describe('SearchComponent', () => {
       ]
     });
 
-    config = TestBed.get(AppConfigService);
-    store = TestBed.get(Store);
-    queryBuilder = TestBed.get(SearchQueryBuilderService);
-    alfrescoApi = TestBed.get(AlfrescoApiService);
-    translate = TestBed.get(TranslationService);
-    router = TestBed.get(Router);
+    config = TestBed.inject(AppConfigService);
+    store = TestBed.inject(Store);
+    queryBuilder = TestBed.inject(SearchQueryBuilderService);
+    alfrescoApi = TestBed.inject(AlfrescoApiService);
+    translate = TestBed.inject(TranslationService);
+    router = TestBed.inject(Router);
 
     fixture = TestBed.createComponent(SearchResultsComponent);
     component = fixture.componentInstance;

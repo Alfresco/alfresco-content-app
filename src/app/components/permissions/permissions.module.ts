@@ -33,7 +33,6 @@ import { PermissionsManagerComponent } from './permission-manager/permission-man
 @NgModule({
   imports: [CommonModule, CoreModule.forChild(), ContentModule.forChild()],
   declarations: [PermissionsManagerComponent, NodePermissionsDialogComponent],
-  exports: [PermissionsManagerComponent, NodePermissionsDialogComponent],
-  entryComponents: [NodePermissionsDialogComponent]
+  exports: [PermissionsManagerComponent, NodePermissionsDialogComponent]
 })
 export class AppPermissionsModule {}

@@ -78,8 +78,8 @@ describe('SharedLinkViewComponent', () => {
 
     fixture = TestBed.createComponent(SharedLinkViewComponent);
     component = fixture.componentInstance;
-    alfrescoApiService = TestBed.get(AlfrescoApiService);
-    appExtensionService = TestBed.get(AppExtensionService);
+    alfrescoApiService = TestBed.inject(AlfrescoApiService);
+    appExtensionService = TestBed.inject(AppExtensionService);
 
     spyGetSharedLink = spyOn(
       alfrescoApiService.sharedLinksApi,

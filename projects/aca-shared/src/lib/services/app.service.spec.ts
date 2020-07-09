@@ -54,10 +54,10 @@ describe('AppService', () => {
       ]
     });
 
-    routeReuse = TestBed.get(AppRouteReuseStrategy);
-    auth = TestBed.get(AuthenticationService);
-    appConfig = TestBed.get(AppConfigService);
-    searchQueryBuilderService = TestBed.get(SearchQueryBuilderService);
+    routeReuse = TestBed.inject(AppRouteReuseStrategy);
+    auth = TestBed.inject(AuthenticationService);
+    appConfig = TestBed.inject(AppConfigService);
+    searchQueryBuilderService = TestBed.inject(SearchQueryBuilderService);
 
     spyOn(routeReuse, 'resetCache').and.stub();
 

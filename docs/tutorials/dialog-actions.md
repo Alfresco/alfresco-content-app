@@ -14,24 +14,6 @@ Please read more details on Dialog components here: [Dialog Overview](https://ma
 ng g component dialogs/my-extension-dialog --module=app
 ```
 
-According to Angular rules, the component needs to also be registered within the `entryComponents` section of the module.
-
-Update the `src/app/app.module.ts` file according to the example below:
-
-```ts
-@NgModule({
-  imports: [...],
-  declarations: [
-    ...,
-    MyExtensionDialogComponent
-  ],
-  entryComponents: [
-    ...,
-    MyExtensionDialogComponent
-  ]
-})
-```
-
 Update `my-extension-dialog.component.ts`:
 
 ```ts

@@ -65,7 +65,7 @@ describe('TrashcanComponent', () => {
     fixture = TestBed.createComponent(TrashcanComponent);
     component = fixture.componentInstance;
 
-    alfrescoApi = TestBed.get(AlfrescoApiService);
+    alfrescoApi = TestBed.inject(AlfrescoApiService);
     alfrescoApi.reset();
 
     component.documentList = {

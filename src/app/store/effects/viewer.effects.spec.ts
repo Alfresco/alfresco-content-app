@@ -45,8 +45,8 @@ describe('ViewerEffects', () => {
       imports: [AppTestingModule, EffectsModule.forRoot([ViewerEffects])]
     });
 
-    store = TestBed.get(Store);
-    router = TestBed.get(Router);
+    store = TestBed.inject(Store);
+    router = TestBed.inject(Router);
 
     spyOn(router, 'navigateByUrl').and.stub();
   });

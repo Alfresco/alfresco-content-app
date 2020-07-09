@@ -40,18 +40,6 @@ Angular CLI は、プロジェクトの Typescript パスマッピングを自�
 
 ### 動的コンポーネントを登録する
 
-`my-extension.module.ts` を更新し、実行時に動的に使用する予定のすべてのコンテンツをモジュールの `entryComponents` セクションに配置します。
-
-```typescript
-@NgModule({
-  imports: [],
-  declarations: [MyExtensionComponent],
-  exports: [MyExtensionComponent],
-  entryComponents: [MyExtensionComponent]
-})
-export class MyExtensionModule {}
-```
-
 ここで、`MyExtensionComponent` を拡張コンポーネントとして登録する必要があります。
 次の例のようにコードを更新します:
 

@@ -58,8 +58,8 @@ describe('PaginationDirective', () => {
       ]
     });
 
-    preferences = TestBed.get(UserPreferencesService);
-    config = TestBed.get(AppConfigService);
+    preferences = TestBed.inject(UserPreferencesService);
+    config = TestBed.inject(AppConfigService);
     fixture = TestBed.createComponent(PaginationComponent);
     pagination = fixture.componentInstance;
     directive = new PaginationDirective(pagination, preferences, config);

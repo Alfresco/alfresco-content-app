@@ -188,10 +188,7 @@ export class AppViewerComponent implements OnInit, OnDestroy {
       .subscribe(() => this.navigateToFileLocation());
 
     this.uploadService.fileUploadComplete
-      .pipe(
-        debounceTime(300),
-        takeUntil(this.onDestroy$)
-      )
+      .pipe(debounceTime(300), takeUntil(this.onDestroy$))
       .subscribe(file => {
         this.apiService.nodeUpdated.next(file.data.entry);
         this.displayNode(file.data.entry.id);

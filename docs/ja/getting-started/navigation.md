@@ -209,6 +209,4 @@ export class CustomPage {
 ]
 ```
 
-コンポーネントは app モジュールの下で entryComponents として宣言する必要があることに注意してください。
-
 カスタムページのコンテンツの詳細については、[ドキュメントリストのレイアウト](/ja/features/document-list-layout) セクションを参照してください。

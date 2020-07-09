@@ -52,15 +52,15 @@ describe('UploadEffects', () => {
       imports: [AppTestingModule, EffectsModule.forRoot([UploadEffects])]
     });
 
-    zone = TestBed.get(NgZone);
+    zone = TestBed.inject(NgZone);
     spyOn(zone, 'run').and.callFake((fn: () => any) => {
       return fn();
     });
 
-    contentManagementService = TestBed.get(ContentManagementService);
-    store = TestBed.get(Store);
-    uploadService = TestBed.get(UploadService);
-    effects = TestBed.get(UploadEffects);
+    contentManagementService = TestBed.inject(ContentManagementService);
+    store = TestBed.inject(Store);
+    uploadService = TestBed.inject(UploadService);
+    effects = TestBed.inject(UploadEffects);
   });
 
   beforeEach(() => {
@@ -195,14 +195,14 @@ describe('UploadEffects', () => {
                 lastModified: 1589273450599,
                 size: 1351,
                 slice: null
-              }),
+              } as File),
               entry: new FileModel({
                 name: 'Fake New file',
                 type: 'image/png',
                 lastModified: 1589273450599,
                 size: 1351,
                 slice: null
-              })
+              } as File)
             }
           ],
           data: {

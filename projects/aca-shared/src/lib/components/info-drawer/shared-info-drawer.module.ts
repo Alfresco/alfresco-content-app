@@ -28,7 +28,7 @@ import { CommonModule } from '@angular/common';
 import { InfoDrawerComponent } from './info-drawer.component';
 import { InfoDrawerModule, ToolbarModule } from '@alfresco/adf-core';
 import { ExtensionsModule } from '@alfresco/adf-extensions';
-import { MatProgressBarModule } from '@angular/material';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { SharedToolbarModule } from '../tool-bar/shared-toolbar.module';
 
 @NgModule({

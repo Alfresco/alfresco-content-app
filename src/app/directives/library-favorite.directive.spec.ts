@@ -69,7 +69,7 @@ describe('LibraryFavoriteDirective', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TestComponent);
     component = fixture.componentInstance;
-    api = TestBed.get(AlfrescoApiService);
+    api = TestBed.inject(AlfrescoApiService);
     selection = { entry: { guid: 'guid', id: 'id' } };
   });
 

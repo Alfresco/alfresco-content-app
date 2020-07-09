@@ -44,8 +44,8 @@ describe('ContextMenuEffects', () => {
       providers: [ContextMenuService]
     });
 
-    store = TestBed.get(Store);
-    contextMenuService = TestBed.get(ContextMenuService);
+    store = TestBed.inject(Store);
+    contextMenuService = TestBed.inject(ContextMenuService);
 
     spyOn(overlayRefMock, 'close').and.callFake(() => {});
     spyOn(contextMenuService, 'open').and.returnValue(overlayRefMock);

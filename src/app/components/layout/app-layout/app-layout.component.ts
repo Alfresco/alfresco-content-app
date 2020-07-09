@@ -55,7 +55,7 @@ import { Directionality } from '@angular/cdk/bidi';
   host: { class: 'app-layout' }
 })
 export class AppLayoutComponent implements OnInit, OnDestroy {
-  @ViewChild('layout')
+  @ViewChild('layout', { static: true })
   layout: SidenavLayoutComponent;
 
   onDestroy$: Subject<boolean> = new Subject<boolean>();

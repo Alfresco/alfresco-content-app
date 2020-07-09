@@ -26,6 +26,7 @@
 import { Directive, Input, HostListener } from '@angular/core';
 import { PRIMARY_OUTLET, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { AppStore } from '@alfresco/aca-shared/store';
 
 @Directive({
   /* tslint:disable-next-line */
@@ -47,7 +48,7 @@ export class ActionDirective {
     }
   }
 
-  constructor(private router: Router, private store: Store<any>) {}
+  constructor(private router: Router, private store: Store<AppStore>) {}
 
   private getNavigationCommands(url: string): any[] {
     const urlTree = this.router.parseUrl(url);

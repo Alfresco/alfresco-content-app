@@ -19,8 +19,7 @@ import { ExtensionsModule, ExtensionService } from '@alfresco/adf-extensions';
 
 @NgModule({
     imports: [ ExtensionsModule ]
-    declarations: [ MyComponent1, MyLayout ],
-    entryComponents: [ MyComponent1, MyLayout ]
+    declarations: [ MyComponent1, MyLayout ]
 })
 export class MyExtensionModule {
 
@@ -42,9 +41,6 @@ export class MyExtensionModule {
 
 }
 ```
-
-**注:** Angular のルールによれば、実行時に動的に作成されるすべてのコンポーネントは、
-NgModule の `entryComponents` セクション内に登録する必要があります。
 
 Registration API は、カスタムコンテンツのみに限定されません。
 モジュールの値を置き換えることにより、既存のエントリを置き換えることができます。

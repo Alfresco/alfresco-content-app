@@ -83,12 +83,12 @@ describe('FavoriteLibrariesComponent', () => {
     fixture = TestBed.createComponent(FavoriteLibrariesComponent);
     component = fixture.componentInstance;
 
-    alfrescoApi = TestBed.get(AlfrescoApiService);
-    contentApiService = TestBed.get(ContentApiService);
-    userPreference = TestBed.get(UserPreferencesService);
-    contentManagementService = TestBed.get(ContentManagementService);
+    alfrescoApi = TestBed.inject(AlfrescoApiService);
+    contentApiService = TestBed.inject(ContentApiService);
+    userPreference = TestBed.inject(UserPreferencesService);
+    contentManagementService = TestBed.inject(ContentManagementService);
     alfrescoApi.reset();
-    router = TestBed.get(Router);
+    router = TestBed.inject(Router);
 
     spyOn(contentApiService, 'getNode').and.returnValue(
       of({ entry: { id: 'libraryId' } } as NodeEntry)
@@ -116,7 +116,9 @@ describe('FavoriteLibrariesComponent', () => {
 
       expect(contentApiService.getFavoriteLibraries).toHaveBeenCalledWith(
         '-me-',
-        { maxItems: userPreference.paginationSize }
+        {
+          maxItems: userPreference.paginationSize
+        }
       );
     });
 

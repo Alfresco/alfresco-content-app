@@ -53,12 +53,6 @@ import { LogoutComponent } from './logout/logout.component';
     ToggleSharedComponent,
     LanguagePickerComponent,
     LogoutComponent
-  ],
-  entryComponents: [
-    LocationLinkComponent,
-    ToggleSharedComponent,
-    LanguagePickerComponent,
-    LogoutComponent
   ]
 })
 export class AppCommonModule {}

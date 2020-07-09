@@ -64,7 +64,6 @@ export function components() {
     SharedInfoDrawerModule
   ],
   declarations: [...components()],
-  exports: [...components(), SharedInfoDrawerModule],
-  entryComponents: [...components()]
+  exports: [...components(), SharedInfoDrawerModule]
 })
 export class AppInfoDrawerModule {}

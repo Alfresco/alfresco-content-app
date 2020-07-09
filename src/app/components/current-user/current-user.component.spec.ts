@@ -61,8 +61,8 @@ describe('CurrentUserComponent', () => {
     });
 
     fixture = TestBed.createComponent(CurrentUserComponent);
-    appExtensionService = TestBed.get(AppExtensionService);
-    store = TestBed.get(Store);
+    appExtensionService = TestBed.inject(AppExtensionService);
+    store = TestBed.inject(Store);
     component = fixture.componentInstance;
   });
 

@@ -33,15 +33,8 @@ export const getHeaderColor = createSelector(
   state => state.headerColor
 );
 
-export const getAppName = createSelector(
-  selectApp,
-  state => state.appName
-);
-
-export const getLogoPath = createSelector(
-  selectApp,
-  state => state.logoPath
-);
+export const getAppName = createSelector(selectApp, state => state.appName);
+export const getLogoPath = createSelector(selectApp, state => state.logoPath);
 
 export const getHeaderImagePath = createSelector(
   selectApp,
@@ -53,10 +46,7 @@ export const getLanguagePickerState = createSelector(
   state => state.languagePicker
 );
 
-export const getUserProfile = createSelector(
-  selectApp,
-  state => state.user
-);
+export const getUserProfile = createSelector(selectApp, state => state.user);
 
 export const getCurrentFolder = createSelector(
   selectApp,
@@ -68,10 +58,7 @@ export const getAppSelection = createSelector(
   state => state.selection
 );
 
-export const getSharedUrl = createSelector(
-  selectApp,
-  state => state.sharedUrl
-);
+export const getSharedUrl = createSelector(selectApp, state => state.sharedUrl);
 
 export const getNavigationState = createSelector(
   selectApp,
@@ -103,10 +90,7 @@ export const isQuickShareEnabled = createSelector(
   info => info.status.isQuickShareEnabled
 );
 
-export const isAdmin = createSelector(
-  selectApp,
-  state => state.user.isAdmin
-);
+export const isAdmin = createSelector(selectApp, state => state.user.isAdmin);
 
 export const getSideNavState = createSelector(
   getAppSelection,

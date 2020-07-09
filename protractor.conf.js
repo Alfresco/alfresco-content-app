@@ -3,9 +3,9 @@
 
 const path = require('path');
 const { SpecReporter } = require('jasmine-spec-reporter');
-const jasmineReporters = require('jasmine-reporters');
 const CDP = require('chrome-remote-interface');
 const fs = require('fs');
+require('dotenv').config();
 
 const projectRoot = path.resolve(__dirname);
 const downloadFolder = `${projectRoot}/e2e-downloads`;
@@ -108,7 +108,7 @@ exports.config = {
   capabilities: {
     browserName: 'chrome',
     chromeOptions: {
-      binary: require('puppeteer').executablePath(),
+      // binary: require('puppeteer').executablePath(),
       prefs: {
         credentials_enable_service: false,
         download: {
@@ -183,17 +183,6 @@ exports.config = {
           displayStacktrace: true,
           displayDuration: true
         }
-      })
-    );
-
-    jasmine.getEnv().addReporter(
-      new jasmineReporters.JUnitXmlReporter({
-        consolidateAll: true,
-        savePath: `${projectRoot}/e2e-output/junit-report`,
-        filePrefix: 'results.xml',
-        useDotNotation: false,
-        useFullTestName: false,
-        reportFailedUrl: true
       })
     );
 

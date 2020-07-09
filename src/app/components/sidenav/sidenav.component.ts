@@ -55,7 +55,9 @@ export class SidenavComponent implements OnInit, OnDestroy {
   @ContentChild(ExpandedTemplateDirective, { read: TemplateRef })
   expandedTemplate;
 
-  @ContentChild(CollapsedTemplateDirective, { read: TemplateRef })
+  @ContentChild(CollapsedTemplateDirective, {
+    read: TemplateRef
+  })
   collapsedTemplate;
 
   groups: Array<NavBarGroupRef> = [];

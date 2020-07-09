@@ -15,18 +15,12 @@ nav: ja
 ng g component dialogs/my-extension-dialog --module=app
 ```
 
-Angular ルールに従って、コンポーネントはモジュールの `entryComponents` セクション内にも登録する必要があります。
-
 以下の例に従って `src/app/app.module.ts` ファイルを更新します:
 
 ```ts
 @NgModule({
   imports: [...],
   declarations: [
-    ...,
-    MyExtensionDialogComponent
-  ],
-  entryComponents: [
     ...,
     MyExtensionDialogComponent
   ]

@@ -31,7 +31,7 @@ import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 
-describe('ToggleFavoriteComponent', () => {
+describe('ViewNodeComponent', () => {
   let component: ViewNodeComponent;
   let fixture;
   const mockRouter = {

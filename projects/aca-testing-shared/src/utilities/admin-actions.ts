@@ -147,9 +147,9 @@ export class AdminActions {
 
     // folder links are deleted automatically when original folder is deleted
     // Software Engineering Project is the default folder template coming from ACS, should not be deleted
-    const nodesToDelete = (await this.adminApi.nodes.getNodeChildren(
-      spaceTemplatesNodeId
-    )).list.entries
+    const nodesToDelete = (
+      await this.adminApi.nodes.getNodeChildren(spaceTemplatesNodeId)
+    ).list.entries
       .filter(
         node =>
           node.entry.nodeType !== 'app:folderlink' &&

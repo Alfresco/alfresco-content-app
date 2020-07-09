@@ -57,7 +57,7 @@ describe('LibraryMetadataFormComponent', () => {
 
     fixture = TestBed.createComponent(LibraryMetadataFormComponent);
     component = fixture.componentInstance;
-    alfrescoApiService = TestBed.get(AlfrescoApiService);
+    alfrescoApiService = TestBed.inject(AlfrescoApiService);
   });
 
   afterEach(() => {

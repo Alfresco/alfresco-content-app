@@ -31,7 +31,8 @@ import {
   Renderer2,
   ContentChildren,
   QueryList,
-  AfterContentInit
+  AfterContentInit,
+  Optional
 } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -53,7 +54,8 @@ export class ActiveLinkDirective implements OnInit, AfterContentInit {
   constructor(
     private router: Router,
     private element: ElementRef,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    @Optional() private action?: ActionDirective
   ) {}
 
   ngOnInit() {
@@ -68,19 +70,25 @@ export class ActiveLinkDirective implements OnInit, AfterContentInit {
   }
 
   private update(url: string) {
+    if (this.action) {
+      const itemUrl = this.resolveUrl(this.action);
+      this.render(url, itemUrl);
+    }
+
     this.links.map(item => {
       const itemUrl = this.resolveUrl(item);
-      if (url && url.substring(1).startsWith(itemUrl)) {
-        this.isLinkActive = true;
-        this.renderer.addClass(this.element.nativeElement, this.acaActiveLink);
-      } else {
-        this.isLinkActive = false;
-        this.renderer.removeClass(
-          this.element.nativeElement,
-          this.acaActiveLink
-        );
-      }
+      this.render(url, itemUrl);
     });
+  }
+
+  private render(routerUrl: string, actionUrl: string) {
+    if (routerUrl && routerUrl.substring(1).startsWith(actionUrl)) {
+      this.isLinkActive = true;
+      this.renderer.addClass(this.element.nativeElement, this.acaActiveLink);
+    } else {
+      this.isLinkActive = false;
+      this.renderer.removeClass(this.element.nativeElement, this.acaActiveLink);
+    }
   }
 
   ngAfterContentInit() {
@@ -90,7 +98,7 @@ export class ActiveLinkDirective implements OnInit, AfterContentInit {
 
   private resolveUrl(item): string {
     return (
-      (item.action && (item.action.click && item.action.click.payload)) ||
+      (item.action && item.action.click && item.action.click.payload) ||
       item.action.route
     );
   }

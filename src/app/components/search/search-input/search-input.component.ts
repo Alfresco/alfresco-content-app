@@ -91,10 +91,10 @@ export class SearchInputComponent implements OnInit, OnDestroy {
     }
   ];
 
-  @ViewChild('searchInputControl')
+  @ViewChild('searchInputControl', { static: true })
   searchInputControl: SearchInputControlComponent;
 
-  @ViewChild(MatMenuTrigger)
+  @ViewChild(MatMenuTrigger, { static: true })
   trigger: MatMenuTrigger;
 
   constructor(

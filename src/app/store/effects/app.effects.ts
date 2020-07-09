@@ -65,9 +65,10 @@ export class AppEffects {
   logout$ = this.actions$.pipe(
     ofType<LogoutAction>(AppActionTypes.Logout),
     map(() => {
-      this.auth
-        .logout()
-        .subscribe(() => this.redirectToLogin(), () => this.redirectToLogin());
+      this.auth.logout().subscribe(
+        () => this.redirectToLogin(),
+        () => this.redirectToLogin()
+      );
     })
   );
 

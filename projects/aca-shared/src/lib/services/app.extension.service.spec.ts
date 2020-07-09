@@ -54,11 +54,11 @@ describe('AppExtensionService', () => {
       imports: [LibTestingModule]
     });
 
-    appConfigService = TestBed.get(AppConfigService);
-    store = TestBed.get(Store);
-    service = TestBed.get(AppExtensionService);
-    extensions = TestBed.get(ExtensionService);
-    components = TestBed.get(ComponentRegisterService);
+    appConfigService = TestBed.inject(AppConfigService);
+    store = TestBed.inject(Store);
+    service = TestBed.inject(AppExtensionService);
+    extensions = TestBed.inject(ExtensionService);
+    components = TestBed.inject(ComponentRegisterService);
   });
 
   const applyConfig = (config: ExtensionConfig) => {

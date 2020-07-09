@@ -80,16 +80,16 @@ describe('ContentManagementService', () => {
       imports: [AppTestingModule, EffectsModule.forRoot([NodeEffects])]
     });
 
-    contentApi = TestBed.get(ContentApiService);
-    actions$ = TestBed.get(Actions);
-    store = TestBed.get(Store);
-    contentManagementService = TestBed.get(ContentManagementService);
-    snackBar = TestBed.get(MatSnackBar);
-    nodeActions = TestBed.get(NodeActionsService);
-    translationService = TestBed.get(TranslationService);
-    alfrescoApiService = TestBed.get(AlfrescoApiService);
+    contentApi = TestBed.inject(ContentApiService);
+    actions$ = TestBed.inject(Actions);
+    store = TestBed.inject(Store);
+    contentManagementService = TestBed.inject(ContentManagementService);
+    snackBar = TestBed.inject(MatSnackBar);
+    nodeActions = TestBed.inject(NodeActionsService);
+    translationService = TestBed.inject(TranslationService);
+    alfrescoApiService = TestBed.inject(AlfrescoApiService);
 
-    dialog = TestBed.get(MatDialog);
+    dialog = TestBed.inject(MatDialog);
   });
 
   describe('Copy node action', () => {

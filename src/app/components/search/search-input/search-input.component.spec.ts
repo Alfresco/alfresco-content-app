@@ -59,9 +59,9 @@ describe('SearchInputComponent', () => {
     })
       .compileComponents()
       .then(() => {
-        actions$ = TestBed.get(Actions);
+        actions$ = TestBed.inject(Actions);
         fixture = TestBed.createComponent(SearchInputComponent);
-        content = TestBed.get(ContentManagementService);
+        content = TestBed.inject(ContentManagementService);
         component = fixture.componentInstance;
         fixture.detectChanges();
       });

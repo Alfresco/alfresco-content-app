@@ -65,10 +65,7 @@ export class ContextActionsDirective implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.execute$
-      .pipe(
-        debounceTime(300),
-        takeUntil(this.onDestroy$)
-      )
+      .pipe(debounceTime(300), takeUntil(this.onDestroy$))
       .subscribe((event: MouseEvent) => {
         this.store.dispatch(new ContextMenu(event));
       });

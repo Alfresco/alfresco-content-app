@@ -40,7 +40,7 @@ import { NodePermissionsDialogComponent } from '../permission-dialog/node-permis
   templateUrl: './permission-manager.component.html'
 })
 export class PermissionsManagerComponent implements OnInit {
-  @ViewChild('permissionList')
+  @ViewChild('permissionList', { static: true })
   permissionList: PermissionListComponent;
 
   @Input()

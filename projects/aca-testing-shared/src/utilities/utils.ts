@@ -179,9 +179,7 @@ export class Utils {
   static async setSessionStorageFromConfig(
     configFileName: string
   ): Promise<void> {
-    const configFile = `${
-      browser.params.e2eRootPath
-    }/resources/extensibility-configs/${configFileName}`;
+    const configFile = `${browser.params.e2eRootPath}/resources/extensibility-configs/${configFileName}`;
     const fileContent = JSON.stringify(
       fs.readFileSync(configFile, { encoding: 'utf8' })
     );

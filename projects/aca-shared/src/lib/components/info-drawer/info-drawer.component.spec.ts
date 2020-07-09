@@ -74,8 +74,8 @@ describe('InfoDrawerComponent', () => {
 
     fixture = TestBed.createComponent(InfoDrawerComponent);
     component = fixture.componentInstance;
-    appExtensionService = TestBed.get(AppExtensionService);
-    contentApiService = TestBed.get(ContentApiService);
+    appExtensionService = TestBed.inject(AppExtensionService);
+    contentApiService = TestBed.inject(ContentApiService);
 
     tab = { title: 'tab1' };
     spyOn(appExtensionService, 'getSidebarTabs').and.returnValue([tab]);

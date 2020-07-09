@@ -74,7 +74,7 @@ describe('ActionDirective', () => {
     });
 
     fixture = TestBed.createComponent(TestComponent);
-    router = TestBed.get(Router);
+    router = TestBed.inject(Router);
   });
 
   it('should add active route class name', () => {

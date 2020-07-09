@@ -375,9 +375,9 @@ export function isWriteLocked(context: RuleContext): boolean {
 export function isUserWriteLockOwner(context: RuleContext): boolean {
   return (
     isWriteLocked(context) &&
-    (context.selection.file.entry.properties['cm:lockOwner'] &&
-      context.selection.file.entry.properties['cm:lockOwner'].id ===
-        context.profile.id)
+    context.selection.file.entry.properties['cm:lockOwner'] &&
+    context.selection.file.entry.properties['cm:lockOwner'].id ===
+      context.profile.id
   );
 }
 

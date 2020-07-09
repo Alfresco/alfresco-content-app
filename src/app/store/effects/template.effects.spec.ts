@@ -93,11 +93,11 @@ describe('TemplateEffects', () => {
       ]
     });
 
-    store = TestBed.get(Store);
-    nodeTemplateService = TestBed.get(NodeTemplateService);
-    alfrescoApiService = TestBed.get(AlfrescoApiService);
-    contentManagementService = TestBed.get(ContentManagementService);
-    matDialog = TestBed.get(MatDialog);
+    store = TestBed.inject(Store);
+    nodeTemplateService = TestBed.inject(NodeTemplateService);
+    alfrescoApiService = TestBed.inject(AlfrescoApiService);
+    contentManagementService = TestBed.inject(ContentManagementService);
+    matDialog = TestBed.inject(MatDialog);
     subject = new Subject<Node[]>();
 
     spyOn(store, 'dispatch').and.callThrough();

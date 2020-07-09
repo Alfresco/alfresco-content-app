@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, HammerModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, RouteReuseStrategy } from '@angular/router';
 import {
@@ -37,10 +37,7 @@ import {
   AppConfigService,
   DebugAppConfigService
 } from '@alfresco/adf-core';
-import {
-  LibraryDialogComponent,
-  ContentModule
-} from '@alfresco/adf-content-services';
+import { ContentModule } from '@alfresco/adf-content-services';
 import { AppRouteReuseStrategy, SharedModule } from '@alfresco/aca-shared';
 
 import { AppComponent } from './app.component';
@@ -50,7 +47,6 @@ import { FilesComponent } from './components/files/files.component';
 import { LibrariesComponent } from './components/libraries/libraries.component';
 import { FavoriteLibrariesComponent } from './components/favorite-libraries/favorite-libraries.component';
 import { NodeVersionsDialogComponent } from './dialogs/node-versions/node-versions.dialog';
-import { CurrentUserComponent } from './components/current-user/current-user.component';
 
 import { AppStoreModule } from './store/app-store.module';
 import { MaterialModule } from './material.module';
@@ -130,7 +126,7 @@ registerLocaleData(localeSv);
     SharedModule.forRoot(),
     AppStoreModule,
     CoreExtensionsModule.forRoot(),
-    ExtensionsModule,
+    ExtensionsModule.forRoot(),
     AppExtensionsModule,
     AppLoginModule,
     AppCommonModule,
@@ -147,7 +143,8 @@ registerLocaleData(localeSv);
     AppSearchInputModule,
     AppSearchResultsModule,
     AppHeaderModule,
-    AppNodeVersionModule
+    AppNodeVersionModule,
+    HammerModule
   ],
   declarations: [
     AppComponent,
@@ -171,12 +168,6 @@ registerLocaleData(localeSv);
         source: 'assets'
       }
     }
-  ],
-  entryComponents: [
-    NodeVersionsDialogComponent,
-    LibraryDialogComponent,
-    CreateFromTemplateDialogComponent,
-    CurrentUserComponent
   ],
   bootstrap: [AppComponent]
 })

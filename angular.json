@@ -11,6 +11,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/app",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -85,8 +86,7 @@
               "node_modules/pdfjs-dist/build/pdf.js",
               "node_modules/pdfjs-dist/web/pdf_viewer.js",
               "node_modules/moment/min/moment.min.js"
-            ],
-            "es5BrowserSupport": true
+            ]
           },
           "configurations": {
             "production": {
@@ -117,10 +117,20 @@
                   "name": "vendor",
                   "maximumWarning": "10mb",
                   "maximumError": "15mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
                 }
               ]
             },
             "e2e": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -160,7 +170,7 @@
           "builder": "@angular-custom-builders/lite-serve:dist-serve",
           "options": {
             "publicHost": "http://localhost:4200",
-            "outputPath": "dist/app"
+            "browserTarget": "app:build"
           }
         },
         "extract-i18n": {
@@ -285,7 +295,12 @@
             "tsConfig": "projects/adf-office-services-ext/tsconfig.lib.json",
             "project": "projects/adf-office-services-ext/ng-package.json"
           }
-        },
+        ,          "configurations": {
+            "production": {
+              "tsConfig": "projects/adf-office-services-ext/tsconfig.lib.prod.json"
+            }
+          }
+},
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -320,7 +335,12 @@
             "tsConfig": "projects/aca-shared/tsconfig.lib.json",
             "project": "projects/aca-shared/ng-package.json"
           }
-        },
+        ,          "configurations": {
+            "production": {
+              "tsConfig": "projects/aca-shared/tsconfig.lib.prod.json"
+            }
+          }
+},
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -354,7 +374,7 @@
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "aca",
-      "styleext": "scss"
+      "style": "scss"
     },
     "@schematics/angular:directive": {
       "prefix": "aca"

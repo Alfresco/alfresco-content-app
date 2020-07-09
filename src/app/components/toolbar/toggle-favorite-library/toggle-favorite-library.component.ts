@@ -23,43 +23,44 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewEncapsulation, OnInit } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppStore, getAppSelection } from '@alfresco/aca-shared/store';
-import { Observable } from 'rxjs';
 import { SelectionState } from '@alfresco/adf-extensions';
 import { ContentManagementService } from '../../../services/content-management.service';
-import { distinctUntilChanged, map } from 'rxjs/operators';
+import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-toggle-favorite-library',
   template: `
     <button
       mat-menu-item
-      #favoriteLibrary="favoriteLibrary"
       (toggle)="onToggleEvent()"
-      [acaFavoriteLibrary]="(selection$ | async).library"
+      [acaFavoriteLibrary]="library"
       [attr.title]="
-        favoriteLibrary.isFavorite()
+        library.isFavorite
           ? ('APP.ACTIONS.REMOVE_FAVORITE' | translate)
           : ('APP.ACTIONS.FAVORITE' | translate)
       "
     >
-      <mat-icon *ngIf="favoriteLibrary.isFavorite()">star</mat-icon>
-      <mat-icon *ngIf="!favoriteLibrary.isFavorite()">star_border</mat-icon>
+      <mat-icon *ngIf="library.isFavorite">star</mat-icon>
+      <mat-icon *ngIf="!library.isFavorite">star_border</mat-icon>
       <span>{{
-        (favoriteLibrary.isFavorite()
+        (library.isFavorite
           ? 'APP.ACTIONS.REMOVE_FAVORITE'
-          : 'APP.ACTIONS.FAVORITE') | translate
+          : 'APP.ACTIONS.FAVORITE'
+        ) | translate
       }}</span>
     </button>
   `,
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-toggle-favorite-library' }
 })
-export class ToggleFavoriteLibraryComponent implements OnInit {
-  selection$: Observable<SelectionState>;
+export class ToggleFavoriteLibraryComponent implements OnInit, OnDestroy {
+  library;
+  private onDestroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private store: Store<AppStore>,
@@ -72,17 +73,22 @@ export class ToggleFavoriteLibraryComponent implements OnInit {
       '/favorite/libraries'
     );
 
-    this.selection$ = this.store.select(getAppSelection).pipe(
-      distinctUntilChanged(),
-      map(selection => {
+    this.store
+      .select(getAppSelection)
+      .pipe(distinctUntilChanged(), takeUntil(this.onDestroy$))
+      .subscribe((selection: SelectionState) => {
+        this.library = { ...selection.library };
+
         // favorite libraries list should already be marked as favorite
         if (selection.library && isFavoriteLibraries) {
-          (selection.library as any).isFavorite = true;
-          return selection;
+          this.library.isFavorite = true;
         }
-        return selection;
-      })
-    );
+      });
+  }
+
+  ngOnDestroy() {
+    this.onDestroy$.next(true);
+    this.onDestroy$.complete();
   }
 
   onToggleEvent() {

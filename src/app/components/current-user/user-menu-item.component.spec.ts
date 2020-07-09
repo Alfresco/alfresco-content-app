@@ -54,7 +54,7 @@ describe('UserMenuItemComponent', () => {
     });
 
     fixture = TestBed.createComponent(UserMenuItemComponent);
-    appExtensionService = TestBed.get(AppExtensionService);
+    appExtensionService = TestBed.inject(AppExtensionService);
     component = fixture.componentInstance;
   });
 

@@ -70,9 +70,9 @@ describe('LibrariesComponent', () => {
     fixture = TestBed.createComponent(LibrariesComponent);
     component = fixture.componentInstance;
 
-    alfrescoApi = TestBed.get(AlfrescoApiService);
+    alfrescoApi = TestBed.inject(AlfrescoApiService);
     alfrescoApi.reset();
-    router = TestBed.get(Router);
+    router = TestBed.inject(Router);
 
     spyOn(alfrescoApi.sitesApi, 'getSites').and.returnValue(
       Promise.resolve(page)

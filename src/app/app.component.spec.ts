@@ -56,14 +56,14 @@ describe('AppComponent', () => {
     }
   };
 
-  beforeAll(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule.withRoutes([{ path: 'fake-path', children: [] }])
       ]
     });
 
-    router = TestBed.get(Router);
+    router = TestBed.inject(Router);
 
     component = new AppComponent(
       null,
@@ -80,9 +80,7 @@ describe('AppComponent', () => {
       null,
       storageMock
     );
-  });
 
-  beforeEach(() => {
     storeMock.dispatch = jasmine.createSpy('dispatch');
   });
 
@@ -144,6 +142,7 @@ describe('AppComponent', () => {
   describe('Routing Configuration', () => {
     it('Should extension route be included as child of the defined parent path', () => {
       component.mapExtensionRoutes(mockRoutesWithParentRoute);
+
       expect(router.config[0]).toEqual({
         path: 'fake-path',
         children: [

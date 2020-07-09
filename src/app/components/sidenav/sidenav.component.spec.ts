@@ -54,7 +54,7 @@ describe('SidenavComponent', () => {
       .then(() => {
         fixture = TestBed.createComponent(SidenavComponent);
         component = fixture.componentInstance;
-        extensionService = TestBed.get(AppExtensionService);
+        extensionService = TestBed.inject(AppExtensionService);
 
         extensionService.navbar = navbarMock;
 

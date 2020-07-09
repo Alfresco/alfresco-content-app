@@ -55,8 +55,8 @@ describe('MetadataTabComponent', () => {
 
   describe('content-metadata configuration', () => {
     beforeEach(() => {
-      appConfig = TestBed.get(AppConfigService);
-      extensions = TestBed.get(AppExtensionService);
+      appConfig = TestBed.inject(AppConfigService);
+      extensions = TestBed.inject(AppExtensionService);
     });
 
     it('should remain unchanged when metadata extension is missing', () => {
@@ -136,7 +136,7 @@ describe('MetadataTabComponent', () => {
   describe('displayAspect', () => {
     beforeEach(() => {
       fixture = TestBed.createComponent(MetadataTabComponent);
-      store = TestBed.get(Store);
+      store = TestBed.inject(Store);
       component = fixture.componentInstance;
     });
 

@@ -52,7 +52,7 @@ describe('ButtonMenuComponent', () => {
 
     fixture = TestBed.createComponent(ButtonMenuComponent);
     component = fixture.componentInstance;
-    router = TestBed.get(Router);
+    router = TestBed.inject(Router);
 
     spyOn(router, 'navigate');
   });
