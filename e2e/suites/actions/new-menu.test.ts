@@ -98,7 +98,7 @@ describe('New menu', () => {
     expect(await menu.isCreateFolderFromTemplateEnabled()).toBe(true, 'Create folder from template is not enabled');
   });
 
-  xit('[C280397] Actions in File Libraries - user without enough permissions', async () => {
+  it('[C280397] Actions in File Libraries - user without enough permissions', async () => {
     await page.goToMyLibrariesAndWait();
     await dataTable.doubleClickOnRowByName(siteAdmin);
     await sidenav.openNewMenu();
@@ -113,7 +113,7 @@ describe('New menu', () => {
     expect(await menu.isCreateFolderFromTemplateEnabled()).toBe(false, 'Create folder from template is not disabled');
   });
 
-  xit('[C216342] Enabled actions tooltips', async () => {
+  it('[C216342] Enabled actions tooltips', async () => {
     await page.clickPersonalFiles();
     await sidenav.openNewMenu();
 
