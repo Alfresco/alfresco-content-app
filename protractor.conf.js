@@ -5,6 +5,7 @@ const AlfrescoApi = require('@alfresco/js-api').AlfrescoApiCompatibility;
 const path = require('path');
 const { SpecReporter } = require('jasmine-spec-reporter');
 const CDP = require('chrome-remote-interface');
+const afterLaunch = require('./e2e/e2e-config/hooks/after-launch');
 const fs = require('fs');
 require('dotenv').config();
 
@@ -200,99 +201,5 @@ exports.config = {
         console.log(err);
       });
   },
-
-  async afterLaunch() {
-    console.log('Save screenshots: ');
-    let buildNumber = process.env.TRAVIS_BUILD_NUMBER;
-    if (!buildNumber) {
-      buildNumber = Date.now();
-    }
-
-    let alfrescoJsApi = new AlfrescoApi({
-      provider: 'ECM',
-      hostEcm: process.env.SCREENSHOT_URL
-    });
-
-    try {
-      await alfrescoJsApi.login(
-        process.env.SCREENSHOT_USERNAME,
-        process.env.SCREENSHOT_PASSWORD
-      );
-    } catch (e) {
-      console.log(
-        'Error happened while trying to login with screenshot user: ',
-        e
-      );
-    }
-
-    try {
-      let files = fs.readdirSync(
-        path.join(`${projectRoot}/e2e-output/report/screenshots/`)
-      );
-
-      if (files && files.length > 0) {
-        let folder;
-
-        try {
-          folder = await alfrescoJsApi.nodes.addNode(
-            '-my-',
-            {
-              name: `screenshot`,
-              relativePath: `Builds/ACA-${buildNumber}`,
-              nodeType: 'cm:folder'
-            },
-            {},
-            {
-              overwrite: true
-            }
-          );
-        } catch (error) {
-          console.log('Error when creating folder: ', error);
-          folder = await alfrescoJsApi.nodes.getNode(
-            '-my-',
-            {
-              relativePath: `Builds/ACA-${buildNumber}/screenshot`,
-              nodeType: 'cm:folder'
-            },
-            {},
-            {
-              overwrite: true
-            }
-          );
-        }
-
-        for (const fileName of files) {
-          let pathFile = path.join(
-            `${projectRoot}/e2e-output/report/screenshots/`,
-            fileName
-          );
-          let file = fs.createReadStream(pathFile);
-
-          let safeFileName = fileName.replace(new RegExp('"', 'g'), '');
-
-          try {
-            await alfrescoJsApi.upload.uploadFile(
-              file,
-              '',
-              folder.entry.id,
-              null,
-              {
-                name: safeFileName,
-                nodeType: 'cm:content',
-                autoRename: true
-              }
-            );
-          } catch (error) {
-            console.log(error);
-          }
-        }
-      }
-      console.log('Screenshots saved successfully.');
-    } catch (e) {
-      console.log(
-        'Error happened while trying to upload screenshots and test reports: ',
-        e
-      );
-    }
-  }
+  afterLaunch
 };

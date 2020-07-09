@@ -43,6 +43,7 @@ export function favoritesTests() {
     describe('on a file', () => {
 
       it('File Office, favorite - [C297618]', async () => {
+        expect(true).toEqual(false);
         await testUtil.checkToolbarActions(testData.fileDocxFav.name, testData.fileDocxFav.toolbarPrimary, testData.fileDocxFav.favoritesToolbarMore);
         await testUtil.checkContextMenu(testData.fileDocxFav.name, testData.fileDocxFav.favoritesContextMenu);
       });
