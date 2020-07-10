@@ -180,18 +180,18 @@
             "description": "APP.BROWSE.LIBRARIES.SIDENAV_LINK.TOOLTIP",
             "children": [
               {
-                "id": "app.navbar.libraries.files",
-                "order": 100,
-                "title": "APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.SIDENAV_LINK.LABEL",
-                "description": "APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.SIDENAV_LINK.TOOLTIP",
-                "route": "libraries"
-              },
-              {
                 "id": "app.navbar.libraries.favorite",
-                "order": 200,
+                "order": 100,
                 "title": "APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.SIDENAV_LINK.LABEL",
                 "description": "APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.SIDENAV_LINK.TOOLTIP",
                 "route": "favorite/libraries"
+              },
+              {
+                "id": "app.navbar.libraries.files",
+                "order": 200,
+                "title": "APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.SIDENAV_LINK.LABEL",
+                "description": "APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.SIDENAV_LINK.TOOLTIP",
+                "route": "libraries"
               }
             ]
           }
