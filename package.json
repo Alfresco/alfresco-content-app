@@ -79,7 +79,7 @@
     "@types/selenium-webdriver": "^4.0.9",
     "adf-tslint-rules": "0.0.7",
     "ajv-cli": "^3.1.0",
-    "chrome-remote-interface": "^0.26.1",
+    "chrome-remote-interface": "^0.28.2",
     "codelyzer": "^6.0.0",
     "commander": "^5.0.0",
     "cpr": "^3.0.1",
