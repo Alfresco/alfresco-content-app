@@ -75,7 +75,7 @@
     "@angular/language-service": "10.0.3",
     "@types/jasmine": "3.5.11",
     "@types/jasminewd2": "^2.0.8",
-    "@types/node": "^14.0.14",
+    "@types/node": "^14.0.22",
     "@types/selenium-webdriver": "^4.0.9",
     "adf-tslint-rules": "0.0.7",
     "ajv-cli": "^3.1.0",
