@@ -45,7 +45,7 @@ describe('Search filters', () => {
   let parentId: string;
 
   const site = `site-${Utils.random()}`;
-  let docLibId;
+  let docLibId: string;
 
   const fileJpgUser1 = {
     name: `search-filters-file-1-${random}.jpg`,
