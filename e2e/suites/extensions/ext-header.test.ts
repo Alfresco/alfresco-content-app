@@ -23,65 +23,63 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  LoginPage,
-  RepoClient,
-  EXTENSIBILITY_CONFIGS,
-  Utils,
-  Header,
-  Menu
-} from '@alfresco/aca-testing-shared';
+import { LoginPage, RepoClient, EXTENSIBILITY_CONFIGS, Utils, Header, Menu } from '@alfresco/aca-testing-shared';
 
 describe('Extensions - Info Drawer', () => {
-    const username = `user-${Utils.random()}`;
+  const username = `user-${Utils.random()}`;
 
-    const disabledMenu = {
-      id: 'settings',
-      title: 'App settings',
-      description: 'Application settings',
-      icon: 'settings'
-    };
+  const disabledMenu = {
+    id: 'settings',
+    title: 'App settings',
+    description: 'Application settings',
+    icon: 'settings'
+  };
 
-    const enabledMenu = {
-      id: 'button',
-      title: 'New Button',
-      description: 'new button description',
-      icon: 'alarm_on'
-    };
+  const enabledMenu = {
+    id: 'button',
+    title: 'New Button',
+    description: 'new button description',
+    icon: 'alarm_on'
+  };
 
-    const apis = {
-        admin: new RepoClient(),
-        user: new RepoClient(username, username)
-    };
+  const apis = {
+    admin: new RepoClient(),
+    user: new RepoClient(username, username)
+  };
 
-    const header = new Header();
-    const toolbarMenu = new Menu();
+  const header = new Header();
+  const toolbarMenu = new Menu();
 
-    const loginPage = new LoginPage();
+  const loginPage = new LoginPage();
 
-    beforeAll(async (done) => {
-      await apis.admin.people.createUser({ username });
-      await loginPage.load();
-      await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.HEADER);
-      await loginPage.loginWith(username);
-      done();
-    });
+  beforeAll(async (done) => {
+    await apis.admin.people.createUser({ username });
+    await loginPage.load();
+    await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.HEADER);
+    await loginPage.loginWith(username);
+    done();
+  });
 
-    afterEach(async (done) => {
-      await header.closeMoreMenu();
-      done();
-    });
+  afterEach(async (done) => {
+    await header.closeMoreMenu();
+    done();
+  });
 
-    it('[C286474] Add a new button in the header', async () => {
-      await header.openMoreMenu();
-      expect(await toolbarMenu.isMenuItemPresent(enabledMenu.title)).toBe(true, 'menu item not present');
-      expect(await toolbarMenu.getItemIconText(enabledMenu.title)).toEqual(enabledMenu.icon);
-    });
+  it('[C286474] Add a new button in the header', async () => {
+    await header.openMoreMenu();
+    expect(await toolbarMenu.isMenuItemPresent(enabledMenu.title)).toBe(true, 'menu item not present');
+    expect(await toolbarMenu.getItemIconText(enabledMenu.title)).toEqual(enabledMenu.icon);
+  });
 
-    it('[C286477] Disable a button from the header', async () => {
-      await header.openMoreMenu();
-      expect(await toolbarMenu.isMenuItemPresent(disabledMenu.title)).toBe(true, `${disabledMenu.title} menu item not present`);
-      expect(await toolbarMenu.isMenuItemDisabled(disabledMenu.title)).toEqual('true', `${disabledMenu.title} is not disabled`);
-    });
-
+  it('[C286477] Disable a button from the header', async () => {
+    await header.openMoreMenu();
+    expect(await toolbarMenu.isMenuItemPresent(disabledMenu.title)).toBe(
+      true,
+      `${disabledMenu.title} menu item not present`
+    );
+    expect(await toolbarMenu.isMenuItemDisabled(disabledMenu.title)).toEqual(
+      'true',
+      `${disabledMenu.title} is not disabled`
+    );
+  });
 });

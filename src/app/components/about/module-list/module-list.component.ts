@@ -23,12 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  Component,
-  ViewEncapsulation,
-  ChangeDetectionStrategy,
-  Input
-} from '@angular/core';
+import { Component, ViewEncapsulation, ChangeDetectionStrategy, Input } from '@angular/core';
 import { ModuleInfo } from '@alfresco/js-api';
 
 @Component({
@@ -56,7 +51,7 @@ export class ModuleListComponent {
     }
   ];
 
-  displayedColumns = this.columns.map(x => x.columnDef);
+  displayedColumns = this.columns.map((x) => x.columnDef);
 
   @Input()
   data: Array<ModuleInfo> = [];

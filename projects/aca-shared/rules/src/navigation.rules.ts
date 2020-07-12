@@ -31,12 +31,7 @@ import { RuleContext } from '@alfresco/adf-extensions';
  */
 export function isPreview(context: RuleContext): boolean {
   const { url } = context.navigation;
-  return (
-    url &&
-    (url.includes('/preview/') ||
-      url.includes('viewer:view') ||
-      url.includes('/view/'))
-  );
+  return url && (url.includes('/preview/') || url.includes('viewer:view') || url.includes('/view/'));
 }
 
 /**
@@ -114,9 +109,7 @@ export function isLibraryFiles(context: RuleContext): boolean {
  */
 export function isLibraries(context: RuleContext): boolean {
   const { url } = context.navigation;
-  return (
-    url && (url.endsWith('/libraries') || url.startsWith('/search-libraries'))
-  );
+  return url && (url.endsWith('/libraries') || url.startsWith('/search-libraries'));
 }
 
 /**
@@ -148,10 +141,8 @@ export function isNotRecentFiles(context: RuleContext): boolean {
  * Checks if a **Search Results** route is activated.
  * JSON ref: `app.navigation.isSearchResults`
  */
-export function isSearchResults(
-  context: RuleContext /*,
-  ...args: RuleParameter[]*/
-): boolean {
+export function isSearchResults(context: RuleContext /*,
+  ...args: RuleParameter[]*/): boolean {
   const { url } = context.navigation;
   return url && url.startsWith('/search');
 }
@@ -170,11 +161,7 @@ export function isNotSearchResults(context: RuleContext): boolean {
  */
 export function isSharedPreview(context: RuleContext): boolean {
   const { url } = context.navigation;
-  return (
-    url &&
-    (url.startsWith('/shared/preview/') ||
-      (url.startsWith('/shared') && url.includes('viewer:view')))
-  );
+  return url && (url.startsWith('/shared/preview/') || (url.startsWith('/shared') && url.includes('viewer:view')));
 }
 
 /**
@@ -184,9 +171,7 @@ export function isSharedPreview(context: RuleContext): boolean {
 export function isFavoritesPreview(context: RuleContext): boolean {
   const { url } = context.navigation;
   return (
-    url &&
-    (url.startsWith('/favorites/preview/') ||
-      (url.startsWith('/favorites') && url.includes('viewer:view')))
+    url && (url.startsWith('/favorites/preview/') || (url.startsWith('/favorites') && url.includes('viewer:view')))
   );
 }
 

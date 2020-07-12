@@ -60,7 +60,7 @@ export class ActionDirective {
 
     const urlSegments = urlSegmentGroup.segments;
 
-    return urlSegments.reduce(function(acc, item) {
+    return urlSegments.reduce(function (acc, item) {
       acc.push(item.path, item.parameters);
       return acc;
     }, []);

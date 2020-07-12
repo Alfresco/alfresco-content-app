@@ -28,17 +28,13 @@ import { CanActivate, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable, forkJoin, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
-export type ExtensionLoaderCallback = (
-  route: ActivatedRouteSnapshot
-) => Observable<boolean>;
+export type ExtensionLoaderCallback = (route: ActivatedRouteSnapshot) => Observable<boolean>;
 
 export function DefaultExtensionLoaderFactory() {
   return [];
 }
 
-export const EXTENSION_DATA_LOADERS = new InjectionToken<
-  ExtensionLoaderCallback[]
->('EXTENSION_DATA_LOADERS', {
+export const EXTENSION_DATA_LOADERS = new InjectionToken<ExtensionLoaderCallback[]>('EXTENSION_DATA_LOADERS', {
   providedIn: 'root',
   factory: DefaultExtensionLoaderFactory
 });
@@ -60,20 +56,16 @@ export class ExtensionsDataLoaderGuard implements CanActivate {
         return of(true);
       }
 
-      const dataLoaderCallbacks = this.extensionDataLoaders.map(callback =>
-        callback(route)
-      );
+      const dataLoaderCallbacks = this.extensionDataLoaders.map((callback) => callback(route));
 
       // Undocumented forkJoin behaviour/bug:
       // https://github.com/ReactiveX/rxjs/issues/3246
       // So all callbacks need to emit before completion, otherwise forkJoin will short circuit
       return forkJoin(...dataLoaderCallbacks).pipe(
         map(() => true),
-        catchError(e => {
+        catchError((e) => {
           // tslint:disable-next-line
-          console.error(
-            'Some of the extension data loader guards has been errored.'
-          );
+          console.error('Some of the extension data loader guards has been errored.');
           // tslint:disable-next-line
           console.error(e);
           return of(true);

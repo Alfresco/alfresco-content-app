@@ -23,28 +23,30 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  LoginPage,
-  BrowsingPage,
-  ContentNodeSelectorDialog,
-  RepoClient,
-  Utils
-} from '@alfresco/aca-testing-shared';
+import { LoginPage, BrowsingPage, ContentNodeSelectorDialog, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 
 describe('Move content', () => {
   const username = `user-${Utils.random()}`;
 
-  const sourcePF = `sourcePersonal-${Utils.random()}`; let sourceIdPF;
-  const destinationPF = `destinationPersonal-${Utils.random()}`; let destinationIdPF;
+  const sourcePF = `sourcePersonal-${Utils.random()}`;
+  let sourceIdPF;
+  const destinationPF = `destinationPersonal-${Utils.random()}`;
+  let destinationIdPF;
 
-  const sourceRF = `sourceRecent-${Utils.random()}`; let sourceIdRF;
-  const destinationRF = `destinationRecent-${Utils.random()}`; let destinationIdRF;
+  const sourceRF = `sourceRecent-${Utils.random()}`;
+  let sourceIdRF;
+  const destinationRF = `destinationRecent-${Utils.random()}`;
+  let destinationIdRF;
 
-  const sourceSF = `sourceShared-${Utils.random()}`; let sourceIdSF;
-  const destinationSF = `destinationShared-${Utils.random()}`; let destinationIdSF;
+  const sourceSF = `sourceShared-${Utils.random()}`;
+  let sourceIdSF;
+  const destinationSF = `destinationShared-${Utils.random()}`;
+  let destinationIdSF;
 
-  const sourceFav = `sourceFavorites-${Utils.random()}`; let sourceIdFav;
-  const destinationFav = `destinationFavorites-${Utils.random()}`; let destinationIdFav;
+  const sourceFav = `sourceFavorites-${Utils.random()}`;
+  let sourceIdFav;
+  const destinationFav = `destinationFavorites-${Utils.random()}`;
+  let destinationIdFav;
 
   const siteName = `site-${Utils.random()}`;
   const folderSitePF = `folderSitePersonal-${Utils.random()}`;
@@ -104,14 +106,16 @@ describe('Move content', () => {
   describe('from Personal Files', () => {
     const file1 = `file1-${Utils.random()}.txt`;
 
-    const folder1 = `folder1-${Utils.random()}`; let folder1Id;
+    const folder1 = `folder1-${Utils.random()}`;
+    let folder1Id;
     const fileInFolder = `fileInFolder-${Utils.random()}.txt`;
 
     const file2 = `file2-${Utils.random()}.txt`;
     const file3 = `file3-${Utils.random()}.txt`;
 
     const file4 = `file4-${Utils.random()}.txt`;
-    const folder2 = `folder2-${Utils.random()}`; let folder2Id;
+    const folder2 = `folder2-${Utils.random()}`;
+    let folder2Id;
     const fileInFolder2 = `fileInFolder2-${Utils.random()}.txt`;
 
     const existingFile = `existing-${Utils.random()}`;
@@ -187,7 +191,10 @@ describe('Move content', () => {
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(destinationPF);
       expect(await dataTable.isItemPresent(folder1)).toBe(true, `${folder1} not present in destination folder`);
-      expect(await dataTable.isItemPresent(fileInFolder)).toBe(false, `${fileInFolder} is present in destination folder`);
+      expect(await dataTable.isItemPresent(fileInFolder)).toBe(
+        false,
+        `${fileInFolder} is present in destination folder`
+      );
 
       await dataTable.doubleClickOnRowByName(folder1);
       expect(await dataTable.isItemPresent(fileInFolder)).toBe(true, `${fileInFolder} is not present in parent folder`);
@@ -224,12 +231,21 @@ describe('Move content', () => {
       expect(msg).not.toContain('Undo');
 
       await moveDialog.waitForDialogToClose();
-      expect(await dataTable.isItemPresent(`${existingFile}.txt`)).toBe(true, `${existingFile}.txt not present in source folder`);
+      expect(await dataTable.isItemPresent(`${existingFile}.txt`)).toBe(
+        true,
+        `${existingFile}.txt not present in source folder`
+      );
 
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(destinationPF);
-      expect(await dataTable.isItemPresent(`${existingFile}.txt`)).toBe(true, `${existingFile}.txt not present in destination folder`);
-      expect(await dataTable.isItemPresent(`${existingFile}-1.txt`)).toBe(false, `${existingFile}-1.txt is present in destination folder`);
+      expect(await dataTable.isItemPresent(`${existingFile}.txt`)).toBe(
+        true,
+        `${existingFile}.txt not present in destination folder`
+      );
+      expect(await dataTable.isItemPresent(`${existingFile}-1.txt`)).toBe(
+        false,
+        `${existingFile}-1.txt is present in destination folder`
+      );
     });
 
     it('[C217319] Move a folder with a name that already exists on the destination', async () => {
@@ -243,14 +259,26 @@ describe('Move content', () => {
       expect(msg).toContain('Undo');
 
       await moveDialog.waitForDialogToClose();
-      expect(await dataTable.isItemPresent(existingFolder)).toBe(false, `${existingFolder} still present in source folder`);
+      expect(await dataTable.isItemPresent(existingFolder)).toBe(
+        false,
+        `${existingFolder} still present in source folder`
+      );
 
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(destinationPF);
-      expect(await dataTable.isItemPresent(existingFolder)).toBe(true, `${existingFolder} not present in destination folder`);
+      expect(await dataTable.isItemPresent(existingFolder)).toBe(
+        true,
+        `${existingFolder} not present in destination folder`
+      );
       await dataTable.doubleClickOnRowByName(existingFolder);
-      expect(await dataTable.isItemPresent(file2InFolder)).toBe(true, `${file2InFolder} not present in destination folder`);
-      expect(await dataTable.isItemPresent(file3InFolder)).toBe(true, `${file3InFolder} not present in destination folder`);
+      expect(await dataTable.isItemPresent(file2InFolder)).toBe(
+        true,
+        `${file2InFolder} not present in destination folder`
+      );
+      expect(await dataTable.isItemPresent(file3InFolder)).toBe(
+        true,
+        `${file3InFolder} not present in destination folder`
+      );
     });
 
     it('[C291969] Move items into a library', async () => {
@@ -323,7 +351,10 @@ describe('Move content', () => {
       expect(msg).toContain('Undo');
 
       await moveDialog.waitForDialogToClose();
-      expect(await dataTable.isItemPresent(file1, destinationRF)).toBe(true, `${file1} from ${destinationRF} not present`);
+      expect(await dataTable.isItemPresent(file1, destinationRF)).toBe(
+        true,
+        `${file1} from ${destinationRF} not present`
+      );
       expect(await dataTable.isItemPresent(file1, sourceRF)).toBe(false, `${file1} from ${sourceRF} is present`);
 
       await page.clickPersonalFilesAndWait();
@@ -342,8 +373,14 @@ describe('Move content', () => {
       expect(msg).toContain('Undo');
 
       await moveDialog.waitForDialogToClose();
-      expect(await dataTable.isItemPresent(file2, destinationRF)).toBe(true, `${file2} from ${destinationRF} not present`);
-      expect(await dataTable.isItemPresent(file3, destinationRF)).toBe(true, `${file3} from ${destinationRF} not present`);
+      expect(await dataTable.isItemPresent(file2, destinationRF)).toBe(
+        true,
+        `${file2} from ${destinationRF} not present`
+      );
+      expect(await dataTable.isItemPresent(file3, destinationRF)).toBe(
+        true,
+        `${file3} from ${destinationRF} not present`
+      );
       expect(await dataTable.isItemPresent(file2, sourceRF)).toBe(false, `${file2} from ${sourceRF} is present`);
       expect(await dataTable.isItemPresent(file3, sourceRF)).toBe(false, `${file3} from ${sourceRF} is present`);
 
@@ -364,13 +401,25 @@ describe('Move content', () => {
       expect(msg).not.toContain('Undo');
 
       await moveDialog.waitForDialogToClose();
-      expect(await dataTable.isItemPresent(existingFile, sourceRF)).toBe(true, `${existingFile} from ${sourceRF} not present`);
-      expect(await dataTable.isItemPresent(existingFile, destinationRF)).toBe(true, `${existingFile} from ${destinationRF} not present`);
+      expect(await dataTable.isItemPresent(existingFile, sourceRF)).toBe(
+        true,
+        `${existingFile} from ${sourceRF} not present`
+      );
+      expect(await dataTable.isItemPresent(existingFile, destinationRF)).toBe(
+        true,
+        `${existingFile} from ${destinationRF} not present`
+      );
 
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(destinationRF);
-      expect(await dataTable.isItemPresent(`${existingFile}.txt`)).toBe(true, `${existingFile}.txt not present in destination folder`);
-      expect(await dataTable.isItemPresent(`${existingFile}-1.txt`)).toBe(false, `${existingFile}-1.txt is present in destination folder`);
+      expect(await dataTable.isItemPresent(`${existingFile}.txt`)).toBe(
+        true,
+        `${existingFile}.txt not present in destination folder`
+      );
+      expect(await dataTable.isItemPresent(`${existingFile}-1.txt`)).toBe(
+        false,
+        `${existingFile}-1.txt is present in destination folder`
+      );
     });
 
     it('[C291971] Move items into a library', async () => {
@@ -386,7 +435,10 @@ describe('Move content', () => {
       expect(msg).toContain('Undo');
 
       await moveDialog.waitForDialogToClose();
-      expect(await dataTable.isItemPresent(file4, folderSiteRF)).toBe(true, `${file4} from ${folderSiteRF} not present`);
+      expect(await dataTable.isItemPresent(file4, folderSiteRF)).toBe(
+        true,
+        `${file4} from ${folderSiteRF} not present`
+      );
       expect(await dataTable.isItemPresent(file4, sourceRF)).toBe(false, `${file4} from ${sourceRF} is present`);
 
       await page.goToMyLibraries();
@@ -398,14 +450,19 @@ describe('Move content', () => {
   });
 
   describe('from Shared Files', () => {
-    const file1 = `file1-${Utils.random()}.txt`; let file1Id;
+    const file1 = `file1-${Utils.random()}.txt`;
+    let file1Id;
 
-    const file2 = `file2-${Utils.random()}.txt`; let file2Id;
-    const file3 = `file3-${Utils.random()}.txt`; let file3Id;
+    const file2 = `file2-${Utils.random()}.txt`;
+    let file2Id;
+    const file3 = `file3-${Utils.random()}.txt`;
+    let file3Id;
 
-    const file4 = `file4-${Utils.random()}.txt`; let file4Id;
+    const file4 = `file4-${Utils.random()}.txt`;
+    let file4Id;
 
-    const existingFile = `existing-${Utils.random()}`; let existingFileId;
+    const existingFile = `existing-${Utils.random()}`;
+    let existingFileId;
 
     beforeAll(async (done) => {
       file1Id = (await apis.user.nodes.createFile(file1, sourceIdSF)).entry.id;
@@ -445,7 +502,10 @@ describe('Move content', () => {
       expect(msg).toContain('Undo');
 
       await moveDialog.waitForDialogToClose();
-      expect(await dataTable.isItemPresent(file1, destinationSF)).toBe(true, `${file1} from ${destinationSF} not present`);
+      expect(await dataTable.isItemPresent(file1, destinationSF)).toBe(
+        true,
+        `${file1} from ${destinationSF} not present`
+      );
       expect(await dataTable.isItemPresent(file1, sourceSF)).toBe(false, `${file1} from ${sourceSF} is present`);
 
       await page.clickPersonalFilesAndWait();
@@ -464,8 +524,14 @@ describe('Move content', () => {
       expect(msg).toContain('Undo');
 
       await moveDialog.waitForDialogToClose();
-      expect(await dataTable.isItemPresent(file2, destinationSF)).toBe(true, `${file2} from ${destinationSF} not present`);
-      expect(await dataTable.isItemPresent(file3, destinationSF)).toBe(true, `${file3} from ${destinationSF} not present`);
+      expect(await dataTable.isItemPresent(file2, destinationSF)).toBe(
+        true,
+        `${file2} from ${destinationSF} not present`
+      );
+      expect(await dataTable.isItemPresent(file3, destinationSF)).toBe(
+        true,
+        `${file3} from ${destinationSF} not present`
+      );
       expect(await dataTable.isItemPresent(file2, sourceSF)).toBe(false, `${file2} from ${sourceSF} is present`);
       expect(await dataTable.isItemPresent(file3, sourceSF)).toBe(false, `${file3} from ${sourceSF} is present`);
 
@@ -486,13 +552,25 @@ describe('Move content', () => {
       expect(msg).not.toContain('Undo');
 
       await moveDialog.waitForDialogToClose();
-      expect(await dataTable.isItemPresent(existingFile, sourceSF)).toBe(true, `${existingFile} from ${sourceSF} not present`);
-      expect(await dataTable.isItemPresent(existingFile, destinationSF)).toBe(false, `${existingFile} from ${destinationSF} is present`);
+      expect(await dataTable.isItemPresent(existingFile, sourceSF)).toBe(
+        true,
+        `${existingFile} from ${sourceSF} not present`
+      );
+      expect(await dataTable.isItemPresent(existingFile, destinationSF)).toBe(
+        false,
+        `${existingFile} from ${destinationSF} is present`
+      );
 
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(destinationSF);
-      expect(await dataTable.isItemPresent(`${existingFile}.txt`)).toBe(true, `${existingFile}.txt not present in destination folder`);
-      expect(await dataTable.isItemPresent(`${existingFile}-1.txt`)).toBe(false, `${existingFile}-1.txt not present in destination folder`);
+      expect(await dataTable.isItemPresent(`${existingFile}.txt`)).toBe(
+        true,
+        `${existingFile}.txt not present in destination folder`
+      );
+      expect(await dataTable.isItemPresent(`${existingFile}-1.txt`)).toBe(
+        false,
+        `${existingFile}-1.txt not present in destination folder`
+      );
     });
 
     it('[C291978] Move items into a library', async () => {
@@ -508,7 +586,10 @@ describe('Move content', () => {
       expect(msg).toContain('Undo');
 
       await moveDialog.waitForDialogToClose();
-      expect(await dataTable.isItemPresent(file4, folderSiteSF)).toBe(true, `${file4} from ${folderSiteSF} not present`);
+      expect(await dataTable.isItemPresent(file4, folderSiteSF)).toBe(
+        true,
+        `${file4} from ${folderSiteSF} not present`
+      );
       expect(await dataTable.isItemPresent(file4, sourceSF)).toBe(false, `${file4} from ${sourceSF} is present`);
 
       await page.goToMyLibraries();
@@ -520,19 +601,26 @@ describe('Move content', () => {
   });
 
   describe('from Favorites', () => {
-    const file1 = `file1-${Utils.random()}.txt`; let file1Id;
+    const file1 = `file1-${Utils.random()}.txt`;
+    let file1Id;
 
-    const folder1 = `folder1-${Utils.random()}`; let folder1Id;
+    const folder1 = `folder1-${Utils.random()}`;
+    let folder1Id;
     const fileInFolder = `fileInFolder-${Utils.random()}.txt`;
 
-    const file2 = `file2-${Utils.random()}.txt`; let file2Id;
-    const file3 = `file3-${Utils.random()}.txt`; let file3Id;
+    const file2 = `file2-${Utils.random()}.txt`;
+    let file2Id;
+    const file3 = `file3-${Utils.random()}.txt`;
+    let file3Id;
 
-    const file4 = `file4-${Utils.random()}.txt`; let file4Id;
-    const folder2 = `folder2-${Utils.random()}`; let folder2Id;
+    const file4 = `file4-${Utils.random()}.txt`;
+    let file4Id;
+    const folder2 = `folder2-${Utils.random()}`;
+    let folder2Id;
     const fileInFolder2 = `fileInFolder2-${Utils.random()}.txt`;
 
-    const existingFile = `existing-${Utils.random()}`; let existingFileId;
+    const existingFile = `existing-${Utils.random()}`;
+    let existingFileId;
 
     const existingFolder = `existing-${Utils.random()}`;
     let existingId1, existingId2;
@@ -590,7 +678,10 @@ describe('Move content', () => {
       expect(msg).toContain('Undo');
 
       await moveDialog.waitForDialogToClose();
-      expect(await dataTable.isItemPresent(file1, destinationFav)).toBe(true, `${file1} from ${destinationFav} not present`);
+      expect(await dataTable.isItemPresent(file1, destinationFav)).toBe(
+        true,
+        `${file1} from ${destinationFav} not present`
+      );
       expect(await dataTable.isItemPresent(file1, sourceFav)).toBe(false, `${file1} from ${sourceFav} is present`);
 
       await page.clickPersonalFilesAndWait();
@@ -610,7 +701,10 @@ describe('Move content', () => {
 
       await moveDialog.waitForDialogToClose();
       expect(await dataTable.isItemPresent(folder1, sourceFav)).toBe(false, `${folder1} from ${sourceFav} is present`);
-      expect(await dataTable.isItemPresent(folder1, destinationFav)).toBe(true, `${folder1} from ${destinationFav} not present`);
+      expect(await dataTable.isItemPresent(folder1, destinationFav)).toBe(
+        true,
+        `${folder1} from ${destinationFav} not present`
+      );
 
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(destinationFav);
@@ -632,8 +726,14 @@ describe('Move content', () => {
       expect(msg).toContain('Undo');
 
       await moveDialog.waitForDialogToClose();
-      expect(await dataTable.isItemPresent(file2, destinationFav)).toBe(true, `${file2} from ${destinationFav} not present`);
-      expect(await dataTable.isItemPresent(file3, destinationFav)).toBe(true, `${file3} from ${destinationFav} not present`);
+      expect(await dataTable.isItemPresent(file2, destinationFav)).toBe(
+        true,
+        `${file2} from ${destinationFav} not present`
+      );
+      expect(await dataTable.isItemPresent(file3, destinationFav)).toBe(
+        true,
+        `${file3} from ${destinationFav} not present`
+      );
       expect(await dataTable.isItemPresent(file2, sourceFav)).toBe(false, `${file2} from ${sourceFav} is present`);
       expect(await dataTable.isItemPresent(file3, sourceFav)).toBe(false, `${file3} from ${sourceFav} is present`);
 
@@ -654,13 +754,25 @@ describe('Move content', () => {
       expect(msg).not.toContain('Undo');
 
       await moveDialog.waitForDialogToClose();
-      expect(await dataTable.isItemPresent(existingFile, sourceFav)).toBe(true, `${existingFile} from ${sourceFav} not present`);
-      expect(await dataTable.isItemPresent(existingFile, destinationFav)).toBe(false, `${existingFile} from ${destinationFav} is present`);
+      expect(await dataTable.isItemPresent(existingFile, sourceFav)).toBe(
+        true,
+        `${existingFile} from ${sourceFav} not present`
+      );
+      expect(await dataTable.isItemPresent(existingFile, destinationFav)).toBe(
+        false,
+        `${existingFile} from ${destinationFav} is present`
+      );
 
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(destinationFav);
-      expect(await dataTable.isItemPresent(`${existingFile}.txt`)).toBe(true, `${existingFile}.txt not present in destination folder`);
-      expect(await dataTable.isItemPresent(`${existingFile}-1.txt`)).toBe(false, `${existingFile}-1.txt is present in destination folder`);
+      expect(await dataTable.isItemPresent(`${existingFile}.txt`)).toBe(
+        true,
+        `${existingFile}.txt not present in destination folder`
+      );
+      expect(await dataTable.isItemPresent(`${existingFile}-1.txt`)).toBe(
+        false,
+        `${existingFile}-1.txt is present in destination folder`
+      );
     });
 
     it('[C280259] Move a folder with a name that already exists on the destination', async () => {
@@ -674,15 +786,27 @@ describe('Move content', () => {
       expect(msg).toContain('Undo');
 
       await moveDialog.waitForDialogToClose();
-      expect(await dataTable.isItemPresent(existingFolder, sourceFav)).toBe(false, `${existingFolder} from ${sourceFav} is present`);
+      expect(await dataTable.isItemPresent(existingFolder, sourceFav)).toBe(
+        false,
+        `${existingFolder} from ${sourceFav} is present`
+      );
       // expect(await dataTable.isItemPresent(existingFolder, destinationFav)).toBe(true, `${existingFolder} from ${destinationFav} not present`);
 
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(destinationFav);
-      expect(await dataTable.isItemPresent(existingFolder)).toBe(true, `${existingFolder} not present in destination folder`);
+      expect(await dataTable.isItemPresent(existingFolder)).toBe(
+        true,
+        `${existingFolder} not present in destination folder`
+      );
       await dataTable.doubleClickOnRowByName(existingFolder);
-      expect(await dataTable.isItemPresent(file2InFolder)).toBe(true, `${file2InFolder} not present in destination folder`);
-      expect(await dataTable.isItemPresent(file3InFolder)).toBe(true, `${file3InFolder} not present in destination folder`);
+      expect(await dataTable.isItemPresent(file2InFolder)).toBe(
+        true,
+        `${file2InFolder} not present in destination folder`
+      );
+      expect(await dataTable.isItemPresent(file3InFolder)).toBe(
+        true,
+        `${file3InFolder} not present in destination folder`
+      );
     });
 
     it('[C291979] Move items into a library', async () => {
@@ -698,9 +822,15 @@ describe('Move content', () => {
       expect(msg).toContain('Undo');
 
       await moveDialog.waitForDialogToClose();
-      expect(await dataTable.isItemPresent(file4, folderSiteFav)).toBe(true, `${file4} from ${folderSiteFav} not present`);
+      expect(await dataTable.isItemPresent(file4, folderSiteFav)).toBe(
+        true,
+        `${file4} from ${folderSiteFav} not present`
+      );
       expect(await dataTable.isItemPresent(file4, sourceFav)).toBe(false, `${file4} from ${sourceFav} is present`);
-      expect(await dataTable.isItemPresent(folder2, folderSiteFav)).toBe(true, `${folder2} from ${folderSiteFav} not present`);
+      expect(await dataTable.isItemPresent(folder2, folderSiteFav)).toBe(
+        true,
+        `${folder2} from ${folderSiteFav} not present`
+      );
       expect(await dataTable.isItemPresent(folder2, sourceFav)).toBe(false, `${folder2} from ${sourceFav} is present`);
 
       await page.goToMyLibraries();
@@ -713,5 +843,4 @@ describe('Move content', () => {
       expect(await dataTable.isItemPresent(fileInFolder2)).toBe(true, `${fileInFolder2} not present in parent folder`);
     });
   });
-
 });

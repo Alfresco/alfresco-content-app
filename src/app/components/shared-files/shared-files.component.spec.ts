@@ -23,12 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  TestBed,
-  ComponentFixture,
-  fakeAsync,
-  tick
-} from '@angular/core/testing';
+import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import {
   AlfrescoApiService,
@@ -92,9 +87,7 @@ describe('SharedFilesComponent', () => {
     alfrescoApi = TestBed.inject(AlfrescoApiService);
     alfrescoApi.reset();
 
-    spyOn(alfrescoApi.sharedLinksApi, 'findSharedLinks').and.returnValue(
-      Promise.resolve(page)
-    );
+    spyOn(alfrescoApi.sharedLinksApi, 'findSharedLinks').and.returnValue(Promise.resolve(page));
   });
 
   it('should call document list reload on linksUnshared event', fakeAsync(() => {

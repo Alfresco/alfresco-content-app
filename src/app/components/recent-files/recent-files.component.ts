@@ -58,16 +58,12 @@ export class RecentFilesComponent extends PageComponent implements OnInit {
     super.ngOnInit();
 
     this.subscriptions = this.subscriptions.concat([
-      this.uploadService.fileUploadComplete
-        .pipe(debounceTime(300))
-        .subscribe(() => this.onFileUploadedEvent()),
-      this.uploadService.fileUploadDeleted
-        .pipe(debounceTime(300))
-        .subscribe(() => this.onFileUploadedEvent()),
+      this.uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe(() => this.onFileUploadedEvent()),
+      this.uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe(() => this.onFileUploadedEvent()),
 
       this.breakpointObserver
         .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
-        .subscribe(result => {
+        .subscribe((result) => {
           this.isSmallScreen = result.matches;
         })
     ]);

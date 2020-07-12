@@ -23,12 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  Component,
-  ViewEncapsulation,
-  ChangeDetectionStrategy,
-  Input
-} from '@angular/core';
+import { Component, ViewEncapsulation, ChangeDetectionStrategy, Input } from '@angular/core';
 
 @Component({
   selector: 'aca-generic-error',

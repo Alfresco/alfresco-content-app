@@ -108,9 +108,7 @@ describe('DocumentListDirective', () => {
     documentListDirective.ngOnInit();
     documentListMock.ready.next();
 
-    expect(storeMock.dispatch).toHaveBeenCalledWith(
-      new SetSelectedNodesAction([{ isLibrary: true } as any])
-    );
+    expect(storeMock.dispatch).toHaveBeenCalledWith(new SetSelectedNodesAction([{ isLibrary: true } as any]));
   });
 
   it('should update store selection on `node-unselect` event', () => {
@@ -141,9 +139,7 @@ describe('DocumentListDirective', () => {
     documentListDirective.ngOnInit();
     contentManagementServiceMock.reload.next();
 
-    expect(storeMock.dispatch).toHaveBeenCalledWith(
-      new SetSelectedNodesAction([])
-    );
+    expect(storeMock.dispatch).toHaveBeenCalledWith(new SetSelectedNodesAction([]));
   });
 
   it('should reset store selection and document list on `reset` event', () => {
@@ -151,8 +147,6 @@ describe('DocumentListDirective', () => {
     contentManagementServiceMock.reload.next();
 
     expect(documentListMock.resetSelection).toHaveBeenCalled();
-    expect(storeMock.dispatch).toHaveBeenCalledWith(
-      new SetSelectedNodesAction([])
-    );
+    expect(storeMock.dispatch).toHaveBeenCalledWith(new SetSelectedNodesAction([]));
   });
 });

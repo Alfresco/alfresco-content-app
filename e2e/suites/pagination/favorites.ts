@@ -30,7 +30,6 @@ export function favoritesTests() {
   const { dataTable, pagination } = page;
 
   describe('Pagination controls : ', () => {
-
     beforeAll(async () => {
       await page.clickFavoritesAndWait();
     });
@@ -57,7 +56,7 @@ export function favoritesTests() {
     });
 
     it('current page menu items - [C280115]', async () => {
-      await pagination.openMaxItemsMenu()
+      await pagination.openMaxItemsMenu();
       await pagination.menu.clickMenuItem('25');
       expect(await pagination.getMaxItems()).toContain('25');
       expect(await pagination.getTotalPages()).toContain('of 5');

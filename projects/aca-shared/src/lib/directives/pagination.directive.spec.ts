@@ -47,15 +47,8 @@ describe('PaginationDirective', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        TranslateModule.forRoot(),
-        LibTestingModule,
-        SharedDirectivesModule,
-        CoreTestingModule
-      ],
-      providers: [
-        { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock }
-      ]
+      imports: [TranslateModule.forRoot(), LibTestingModule, SharedDirectivesModule, CoreTestingModule],
+      providers: [{ provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock }]
     });
 
     preferences = TestBed.inject(UserPreferencesService);

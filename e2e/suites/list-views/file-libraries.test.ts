@@ -23,14 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  SITE_VISIBILITY,
-  SITE_ROLES,
-  LoginPage,
-  BrowsingPage,
-  Utils,
-  RepoClient
-} from '@alfresco/aca-testing-shared';
+import { SITE_VISIBILITY, SITE_ROLES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
 
 describe('File Libraries', () => {
   const username = `user-${Utils.random()}`;
@@ -95,8 +88,8 @@ describe('File Libraries', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.sites.deleteSites([ userSitePublic, userSiteModerated, userSitePrivate, siteId1, siteId2 ]);
-    await apis.admin.sites.deleteSites([ adminSite1, adminSite2, adminSite3, adminSite4, adminSite5, adminSite6 ]);
+    await apis.user.sites.deleteSites([userSitePublic, userSiteModerated, userSitePrivate, siteId1, siteId2]);
+    await apis.admin.sites.deleteSites([adminSite1, adminSite2, adminSite3, adminSite4, adminSite5, adminSite6]);
     done();
   });
 
@@ -107,7 +100,7 @@ describe('File Libraries', () => {
     });
 
     it('[C217095] has the correct columns', async () => {
-      const expectedColumns = [ 'Name', 'Description', 'My Role', 'Visibility' ];
+      const expectedColumns = ['Name', 'Description', 'My Role', 'Visibility'];
       const actualColumns = await dataTable.getColumnHeadersText();
 
       expect(actualColumns).toEqual(expectedColumns);
@@ -150,10 +143,7 @@ describe('File Libraries', () => {
     });
 
     it('[C217098] Site ID is displayed when two sites have the same name', async () => {
-      const expectedSites = [
-        `${siteName} (${siteId1})`,
-        `${siteName} (${siteId2})`
-      ];
+      const expectedSites = [`${siteName} (${siteId1})`, `${siteName} (${siteId2})`];
       const actualSites = await dataTable.getCellsContainingName(siteName);
       expect(actualSites.sort()).toEqual(expectedSites.sort());
     });
@@ -176,7 +166,7 @@ describe('File Libraries', () => {
     });
 
     it('[C289893] has the correct columns', async () => {
-      const expectedColumns = [ 'Name', 'Description', 'My Role', 'Visibility' ];
+      const expectedColumns = ['Name', 'Description', 'My Role', 'Visibility'];
       const actualColumns = await dataTable.getColumnHeadersText();
 
       expect(actualColumns).toEqual(expectedColumns);
@@ -219,10 +209,7 @@ describe('File Libraries', () => {
     });
 
     it('[C289896] Site ID is displayed when two sites have the same name', async () => {
-      const expectedSites = [
-        `${siteName} (${siteId1})`,
-        `${siteName} (${siteId2})`
-      ];
+      const expectedSites = [`${siteName} (${siteId1})`, `${siteName} (${siteId2})`];
       const actualSites = await dataTable.getCellsContainingName(siteName);
       expect(actualSites.sort()).toEqual(expectedSites.sort());
     });

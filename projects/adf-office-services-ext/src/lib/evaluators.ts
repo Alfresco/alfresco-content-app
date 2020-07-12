@@ -27,11 +27,7 @@ import { RuleContext } from '@alfresco/adf-extensions';
 import { getFileExtension, supportedExtensions } from './utils';
 
 export function canOpenWithOffice(context: RuleContext): boolean {
-  if (
-    context.navigation &&
-    context.navigation.url &&
-    context.navigation.url.startsWith('/trashcan')
-  ) {
+  if (context.navigation && context.navigation.url && context.navigation.url.startsWith('/trashcan')) {
     return false;
   }
 
@@ -85,18 +81,13 @@ export function canOpenWithOffice(context: RuleContext): boolean {
   // check if record
   if (
     file.entry.aspectNames &&
-    (file.entry.aspectNames.includes('rma:declaredRecord') ||
-      file.entry.aspectNames.includes('rma:record'))
+    (file.entry.aspectNames.includes('rma:declaredRecord') || file.entry.aspectNames.includes('rma:record'))
   ) {
     return false;
   }
 
   // workaround for Shared files
-  if (
-    context.navigation &&
-    context.navigation.url &&
-    context.navigation.url.startsWith('/shared')
-  ) {
+  if (context.navigation && context.navigation.url && context.navigation.url.startsWith('/shared')) {
     if (file.entry.hasOwnProperty('allowableOperationsOnTarget')) {
       return context.permissions.check(file, ['update'], {
         target: 'allowableOperationsOnTarget'

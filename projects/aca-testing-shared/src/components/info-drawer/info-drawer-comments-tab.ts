@@ -64,18 +64,12 @@ export class CommentsTab extends Component {
   }
 
   private async getCommentListItem() {
-    return browser.wait(
-      until.elementLocated(this.commentListItem),
-      BROWSER_WAIT_TIMEOUT / 2
-    );
+    return browser.wait(until.elementLocated(this.commentListItem), BROWSER_WAIT_TIMEOUT / 2);
   }
 
   async getCommentById(commentId?: string) {
     if (commentId) {
-      return browser.wait(
-        until.elementLocated(by.id(`adf-comment-${commentId}`)),
-        BROWSER_WAIT_TIMEOUT / 2
-      );
+      return browser.wait(until.elementLocated(by.id(`adf-comment-${commentId}`)), BROWSER_WAIT_TIMEOUT / 2);
     }
     return this.getCommentListItem();
   }
@@ -86,9 +80,7 @@ export class CommentsTab extends Component {
 
   async isCommentUserAvatarDisplayed(commentId?: string) {
     const commentElement = await this.getCommentById(commentId);
-    return browser.isElementPresent(
-      commentElement.findElement(this.commentUserAvatar)
-    );
+    return browser.isElementPresent(commentElement.findElement(this.commentUserAvatar));
   }
 
   async getCommentText(commentId?: string) {

@@ -140,9 +140,7 @@ describe('TemplateEffects', () => {
     store.dispatch(new FileFromTemplate());
     tick();
 
-    expect(nodeTemplateService.selectTemplateDialog).toHaveBeenCalledWith(
-      fileTemplateConfig
-    );
+    expect(nodeTemplateService.selectTemplateDialog).toHaveBeenCalledWith(fileTemplateConfig);
   }));
 
   it('should open dialog to select template folders', fakeAsync(() => {
@@ -153,23 +151,17 @@ describe('TemplateEffects', () => {
     store.dispatch(new FolderFromTemplate());
     tick();
 
-    expect(nodeTemplateService.selectTemplateDialog).toHaveBeenCalledWith(
-      folderTemplateConfig
-    );
+    expect(nodeTemplateService.selectTemplateDialog).toHaveBeenCalledWith(folderTemplateConfig);
   }));
 
   it('should create node from template successful', fakeAsync(() => {
-    copyNodeSpy.and.returnValue(
-      of({ entry: { id: 'node-id', properties: {} } })
-    );
+    copyNodeSpy.and.returnValue(of({ entry: { id: 'node-id', properties: {} } }));
     updateNodeSpy.and.returnValue(of({ entry: node }));
 
     store.dispatch(new CreateFromTemplate(node));
     tick();
 
-    expect(store.dispatch['calls'].mostRecent().args[0]).toEqual(
-      new CreateFromTemplateSuccess(node)
-    );
+    expect(store.dispatch['calls'].mostRecent().args[0]).toEqual(new CreateFromTemplateSuccess(node));
   }));
 
   it('should raise generic error when copyNode api fails', fakeAsync(() => {
@@ -182,12 +174,8 @@ describe('TemplateEffects', () => {
     store.dispatch(new CreateFromTemplate(node));
     tick();
 
-    expect(store.dispatch['calls'].mostRecent().args[0]).not.toEqual(
-      new CreateFromTemplateSuccess(node)
-    );
-    expect(store.dispatch['calls'].argsFor(1)[0]).toEqual(
-      new SnackbarErrorAction('APP.MESSAGES.ERRORS.GENERIC')
-    );
+    expect(store.dispatch['calls'].mostRecent().args[0]).not.toEqual(new CreateFromTemplateSuccess(node));
+    expect(store.dispatch['calls'].argsFor(1)[0]).toEqual(new SnackbarErrorAction('APP.MESSAGES.ERRORS.GENERIC'));
   }));
 
   it('should raise name conflict error when copyNode api returns 409', fakeAsync(() => {
@@ -200,12 +188,8 @@ describe('TemplateEffects', () => {
     store.dispatch(new CreateFromTemplate(node));
     tick();
 
-    expect(store.dispatch['calls'].mostRecent().args[0]).not.toEqual(
-      new CreateFromTemplateSuccess(node)
-    );
-    expect(store.dispatch['calls'].argsFor(1)[0]).toEqual(
-      new SnackbarErrorAction('APP.MESSAGES.ERRORS.CONFLICT')
-    );
+    expect(store.dispatch['calls'].mostRecent().args[0]).not.toEqual(new CreateFromTemplateSuccess(node));
+    expect(store.dispatch['calls'].argsFor(1)[0]).toEqual(new SnackbarErrorAction('APP.MESSAGES.ERRORS.CONFLICT'));
   }));
 
   it('should resolve error with current node value when updateNode api fails', fakeAsync(() => {
@@ -229,9 +213,7 @@ describe('TemplateEffects', () => {
     store.dispatch(new CreateFromTemplate(test_node.entry));
     tick();
 
-    expect(store.dispatch['calls'].mostRecent().args[0]).toEqual(
-      new CreateFromTemplateSuccess(test_node.entry)
-    );
+    expect(store.dispatch['calls'].mostRecent().args[0]).toEqual(new CreateFromTemplateSuccess(test_node.entry));
   }));
 
   it('should close dialog on create template success', fakeAsync(() => {
@@ -244,8 +226,6 @@ describe('TemplateEffects', () => {
     const test_node = { id: 'test-node-id' } as Node;
     store.dispatch(new CreateFromTemplateSuccess(test_node));
     tick();
-    expect(contentManagementService.reload.next).toHaveBeenCalledWith(
-      test_node
-    );
+    expect(contentManagementService.reload.next).toHaveBeenCalledWith(test_node);
   }));
 });

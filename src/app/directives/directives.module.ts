@@ -31,12 +31,7 @@ import { LockNodeDirective } from './lock-node.directive';
 import { SharedDirectivesModule } from '@alfresco/aca-shared';
 
 export function directives() {
-  return [
-    DocumentListDirective,
-    LibraryMembershipDirective,
-    LibraryFavoriteDirective,
-    LockNodeDirective
-  ];
+  return [DocumentListDirective, LibraryMembershipDirective, LibraryFavoriteDirective, LockNodeDirective];
 }
 
 @NgModule({

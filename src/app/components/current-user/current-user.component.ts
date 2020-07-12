@@ -27,11 +27,7 @@ import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { ProfileState, ContentActionRef } from '@alfresco/adf-extensions';
-import {
-  AppStore,
-  getUserProfile,
-  getLanguagePickerState
-} from '@alfresco/aca-shared/store';
+import { AppStore, getUserProfile, getLanguagePickerState } from '@alfresco/aca-shared/store';
 import { AppExtensionService } from '@alfresco/aca-shared';
 
 @Component({
@@ -45,10 +41,7 @@ export class CurrentUserComponent implements OnInit {
   languagePicker$: Observable<boolean>;
   actions: Array<ContentActionRef> = [];
 
-  constructor(
-    private store: Store<AppStore>,
-    private extensions: AppExtensionService
-  ) {}
+  constructor(private store: Store<AppStore>, private extensions: AppExtensionService) {}
 
   ngOnInit() {
     this.profile$ = this.store.select(getUserProfile);

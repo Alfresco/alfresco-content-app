@@ -38,23 +38,19 @@ import { ContentManagementService } from '../../services/content-management.serv
 
 @Injectable()
 export class FavoriteEffects {
-  constructor(
-    private store: Store<AppStore>,
-    private actions$: Actions,
-    private content: ContentManagementService
-  ) {}
+  constructor(private store: Store<AppStore>, private actions$: Actions, private content: ContentManagementService) {}
 
   @Effect({ dispatch: false })
   addFavorite$ = this.actions$.pipe(
     ofType<AddFavoriteAction>(NodeActionTypes.AddFavorite),
-    map(action => {
+    map((action) => {
       if (action.payload && action.payload.length > 0) {
         this.content.addFavorite(action.payload);
       } else {
         this.store
           .select(getAppSelection)
           .pipe(take(1))
-          .subscribe(selection => {
+          .subscribe((selection) => {
             if (selection && !selection.isEmpty) {
               this.content.addFavorite(selection.nodes);
             }
@@ -66,14 +62,14 @@ export class FavoriteEffects {
   @Effect({ dispatch: false })
   removeFavorite$ = this.actions$.pipe(
     ofType<RemoveFavoriteAction>(NodeActionTypes.RemoveFavorite),
-    map(action => {
+    map((action) => {
       if (action.payload && action.payload.length > 0) {
         this.content.removeFavorite(action.payload);
       } else {
         this.store
           .select(getAppSelection)
           .pipe(take(1))
-          .subscribe(selection => {
+          .subscribe((selection) => {
             if (selection && !selection.isEmpty) {
               this.content.removeFavorite(selection.nodes);
             }

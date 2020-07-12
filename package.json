@@ -96,7 +96,7 @@
     "lint-staged": "^10.2.11",
     "ng-packagr": "^10.0.1",
     "node-stream-zip": "^1.9.1",
-    "prettier": "^1.17.1",
+    "prettier": "^2.0.5",
     "protractor": "^7.0.0",
     "protractor-screenshoter-plugin": "0.10.3",
     "rxjs-tslint": "^0.1.8",

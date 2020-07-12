@@ -60,28 +60,17 @@ describe('LibraryMembershipDirective', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        TranslateModule.forRoot(),
-        AppTestingModule,
-        DirectivesModule,
-        CoreModule.forRoot()
-      ],
+      imports: [TranslateModule.forRoot(), AppTestingModule, DirectivesModule, CoreModule.forRoot()],
       schemas: [NO_ERRORS_SCHEMA]
     });
-    alfrescoApiService = new AlfrescoApiServiceMock(
-      new AppConfigService(null),
-      new StorageService()
-    );
+    alfrescoApiService = new AlfrescoApiServiceMock(new AppConfigService(null), new StorageService());
     peopleApi = alfrescoApiService.getInstance().core.peopleApi;
     directive = new LibraryMembershipDirective(alfrescoApiService);
   });
 
   describe('markMembershipRequest', () => {
     beforeEach(() => {
-      getMembershipSpy = spyOn(
-        peopleApi,
-        'getSiteMembershipRequest'
-      ).and.returnValue(
+      getMembershipSpy = spyOn(peopleApi, 'getSiteMembershipRequest').and.returnValue(
         Promise.resolve({ entry: requestedMembershipResponse })
       );
     });
@@ -123,22 +112,13 @@ describe('LibraryMembershipDirective', () => {
 
   describe('toggleMembershipRequest', () => {
     beforeEach(() => {
-      getMembershipSpy = spyOn(
-        peopleApi,
-        'getSiteMembershipRequest'
-      ).and.returnValue(
+      getMembershipSpy = spyOn(peopleApi, 'getSiteMembershipRequest').and.returnValue(
         Promise.resolve({ entry: requestedMembershipResponse })
       );
-      addMembershipSpy = spyOn(
-        peopleApi,
-        'addSiteMembershipRequest'
-      ).and.returnValue(
+      addMembershipSpy = spyOn(peopleApi, 'addSiteMembershipRequest').and.returnValue(
         Promise.resolve({ entry: requestedMembershipResponse })
       );
-      deleteMembershipSpy = spyOn(
-        peopleApi,
-        'removeSiteMembershipRequest'
-      ).and.returnValue(Promise.resolve({}));
+      deleteMembershipSpy = spyOn(peopleApi, 'removeSiteMembershipRequest').and.returnValue(Promise.resolve({}));
     });
 
     it('should do nothing if there is no selected library ', fakeAsync(() => {
@@ -204,7 +184,7 @@ describe('LibraryMembershipDirective', () => {
         }
       ];
 
-      testData.forEach(data => {
+      testData.forEach((data) => {
         addMembershipSpy.and.returnValue(throwError({ message: data.fixture }));
         emitErrorSpy.calls.reset();
         directive.toggleMembershipRequest();

@@ -23,24 +23,11 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  Component,
-  ViewEncapsulation,
-  Output,
-  EventEmitter,
-  OnInit,
-  Input
-} from '@angular/core';
+import { Component, ViewEncapsulation, Output, EventEmitter, OnInit, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { ContentActionRef } from '@alfresco/adf-extensions';
-import {
-  AppStore,
-  getHeaderColor,
-  getAppName,
-  getLogoPath,
-  getHeaderImagePath
-} from '@alfresco/aca-shared/store';
+import { AppStore, getHeaderColor, getAppName, getLogoPath, getHeaderImagePath } from '@alfresco/aca-shared/store';
 import { AppExtensionService } from '@alfresco/aca-shared';
 
 @Component({
@@ -62,19 +49,13 @@ export class AppHeaderComponent implements OnInit {
 
   actions: Array<ContentActionRef> = [];
 
-  constructor(
-    store: Store<AppStore>,
-    private appExtensions: AppExtensionService
-  ) {
+  constructor(store: Store<AppStore>, private appExtensions: AppExtensionService) {
     this.headerColor$ = store.select(getHeaderColor);
     this.appName$ = store.select(getAppName);
     this.logo$ = store.select(getLogoPath);
 
-    store.select(getHeaderImagePath).subscribe(path => {
-      document.body.style.setProperty(
-        '--header-background-image',
-        `url('${path}')`
-      );
+    store.select(getHeaderImagePath).subscribe((path) => {
+      document.body.style.setProperty('--header-background-image', `url('${path}')`);
     });
   }
 

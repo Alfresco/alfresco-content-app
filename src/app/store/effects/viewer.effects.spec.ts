@@ -61,9 +61,7 @@ describe('ViewerEffects', () => {
 
       store.dispatch(new ViewFileAction());
       tick(100);
-      expect(router.navigateByUrl).toHaveBeenCalledWith(
-        '/folder1/preview/someId'
-      );
+      expect(router.navigateByUrl).toHaveBeenCalledWith('/folder1/preview/someId');
     }));
     it('should preview file from payload', fakeAsync(() => {
       const node: any = { entry: { isFile: true, id: 'someId' } };
@@ -75,9 +73,7 @@ describe('ViewerEffects', () => {
 
   describe('ViewNode', () => {
     it('should open viewer from file location if', fakeAsync(() => {
-      store.dispatch(
-        new ViewNodeAction('nodeId', { location: 'some-location' })
-      );
+      store.dispatch(new ViewNodeAction('nodeId', { location: 'some-location' }));
       tick(100);
 
       expect(router.navigateByUrl['calls'].argsFor(0)[0].toString()).toEqual(
@@ -89,9 +85,7 @@ describe('ViewerEffects', () => {
       store.dispatch(new ViewNodeAction('nodeId'));
       tick(100);
 
-      expect(router.navigateByUrl['calls'].argsFor(0)[0].toString()).toEqual(
-        '/view/(viewer:nodeId)'
-      );
+      expect(router.navigateByUrl['calls'].argsFor(0)[0].toString()).toEqual('/view/(viewer:nodeId)');
     }));
 
     it('should navigate to viewer route with query param if path is passed', fakeAsync(() => {

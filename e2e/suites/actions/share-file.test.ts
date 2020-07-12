@@ -36,17 +36,27 @@ import {
 
 describe('Share a file', () => {
   const username = `user-${Utils.random()}`;
-  const parent = `parent-${Utils.random()}`; let parentId;
+  const parent = `parent-${Utils.random()}`;
+  let parentId;
 
-  const file1 = `file1-${Utils.random()}.txt`; let file1Id;
-  const file2 = `file2-${Utils.random()}.txt`; let file2Id;
-  let file3 = `file3-${Utils.random()}.txt`; let file3Id;
-  const file4 = `file4-${Utils.random()}.txt`; let file4Id;
-  let file5 = `file5-${Utils.random()}.txt`; let file5Id;
-  let file6 = `file6-${Utils.random()}.txt`; let file6Id;
-  let file7 = `file7-${Utils.random()}.txt`; let file7Id;
-  const file8 = `file8-${Utils.random()}.txt`; let file8Id;
-  let file9 = `file9-${Utils.random()}.txt`; let file9Id;
+  const file1 = `file1-${Utils.random()}.txt`;
+  let file1Id;
+  const file2 = `file2-${Utils.random()}.txt`;
+  let file2Id;
+  let file3 = `file3-${Utils.random()}.txt`;
+  let file3Id;
+  const file4 = `file4-${Utils.random()}.txt`;
+  let file4Id;
+  let file5 = `file5-${Utils.random()}.txt`;
+  let file5Id;
+  let file6 = `file6-${Utils.random()}.txt`;
+  let file6Id;
+  let file7 = `file7-${Utils.random()}.txt`;
+  let file7Id;
+  const file8 = `file8-${Utils.random()}.txt`;
+  let file8Id;
+  let file9 = `file9-${Utils.random()}.txt`;
+  let file9Id;
 
   const viewer = new Viewer();
   const page = new BrowsingPage();
@@ -94,7 +104,7 @@ describe('Share a file', () => {
       await toolbar.downloadButton.click();
       expect(await Utils.fileExistsOnOS(file6)).toBe(true, 'File not found in download location');
     });
-  })
+  });
 
   describe('when logged in', () => {
     const expiryDate: any = '2020-12-25T18:30:00.000+0000';
@@ -110,7 +120,6 @@ describe('Share a file', () => {
     });
 
     describe('from Personal Files', () => {
-
       beforeAll(async (done) => {
         file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
         file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
@@ -220,7 +229,7 @@ describe('Share a file', () => {
         const date = await shareDialog.dateTimePicker.setDefaultDay();
         await shareDialog.dateTimePicker.waitForDateTimePickerToClose();
 
-        const setDate = (`${date}`).replace(',', '');
+        const setDate = `${date}`.replace(',', '');
         const inputDate = await shareDialog.getExpireDate();
 
         expect(new Date(inputDate)).toEqual(new Date(setDate));
@@ -289,9 +298,9 @@ describe('Share a file', () => {
     });
 
     describe('from File Libraries', () => {
-
       const siteName = `site-${Utils.random()}`;
-      const parentInSite = `parent-site-${Utils.random()}`; let parentInSiteId;
+      const parentInSite = `parent-site-${Utils.random()}`;
+      let parentInSiteId;
 
       beforeAll(async (done) => {
         await apis.user.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
@@ -401,7 +410,7 @@ describe('Share a file', () => {
         const date = await shareDialog.dateTimePicker.setDefaultDay();
         await shareDialog.dateTimePicker.waitForDateTimePickerToClose();
 
-        const setDate = (`${date}`).replace(',', '');
+        const setDate = `${date}`.replace(',', '');
         const inputDate = await shareDialog.getExpireDate();
 
         expect(new Date(inputDate)).toEqual(new Date(setDate));
@@ -470,7 +479,6 @@ describe('Share a file', () => {
     });
 
     describe('from Recent Files', () => {
-
       beforeAll(async (done) => {
         file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
         file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
@@ -579,7 +587,7 @@ describe('Share a file', () => {
         const date = await shareDialog.dateTimePicker.setDefaultDay();
         await shareDialog.dateTimePicker.waitForDateTimePickerToClose();
 
-        const setDate = (`${date}`).replace(',', '');
+        const setDate = `${date}`.replace(',', '');
         const inputDate = await shareDialog.getExpireDate();
 
         expect(new Date(inputDate)).toEqual(new Date(setDate));
@@ -648,7 +656,6 @@ describe('Share a file', () => {
     });
 
     describe('from Shared Files', () => {
-
       beforeAll(async (done) => {
         file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
         file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
@@ -798,7 +805,6 @@ describe('Share a file', () => {
     });
 
     describe('from Favorites', () => {
-
       beforeAll(async (done) => {
         file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
         file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
@@ -919,7 +925,7 @@ describe('Share a file', () => {
         const date = await shareDialog.dateTimePicker.setDefaultDay();
         await shareDialog.dateTimePicker.waitForDateTimePickerToClose();
 
-        const setDate = (`${date}`).replace(',', '');
+        const setDate = `${date}`.replace(',', '');
         const inputDate = await shareDialog.getExpireDate();
 
         expect(new Date(inputDate)).toEqual(new Date(setDate));
@@ -988,7 +994,6 @@ describe('Share a file', () => {
     });
 
     describe('from Search Results', () => {
-
       file3 = `search-file3-${Utils.random()}.txt`;
       file5 = `search-file5-${Utils.random()}.txt`;
       file6 = `search-file6-${Utils.random()}.txt`;
@@ -1008,7 +1013,7 @@ describe('Share a file', () => {
         done();
       });
 
-      beforeEach(async done => {
+      beforeEach(async (done) => {
         await searchInput.clickSearchButton();
         await searchInput.checkFilesAndFolders();
         await searchInput.searchFor('search-f');
@@ -1056,7 +1061,7 @@ describe('Share a file', () => {
         const date = await shareDialog.dateTimePicker.setDefaultDay();
         await shareDialog.dateTimePicker.waitForDateTimePickerToClose();
 
-        const setDate = (`${date}`).replace(',', '');
+        const setDate = `${date}`.replace(',', '');
         const inputDate = await shareDialog.getExpireDate();
 
         expect(new Date(inputDate)).toEqual(new Date(setDate));
@@ -1106,5 +1111,5 @@ describe('Share a file', () => {
         expect(url).toContain(sharedId);
       });
     });
-  })
+  });
 });

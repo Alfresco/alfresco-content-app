@@ -28,11 +28,7 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Store } from '@ngrx/store';
-import {
-  AppState,
-  SetUserProfileAction,
-  SetSettingsParameterAction
-} from '@alfresco/aca-shared/store';
+import { AppState, SetUserProfileAction, SetSettingsParameterAction } from '@alfresco/aca-shared/store';
 import { AppExtensionService } from '@alfresco/aca-shared';
 
 describe('CurrentUserComponent', () => {
@@ -66,7 +62,7 @@ describe('CurrentUserComponent', () => {
     component = fixture.componentInstance;
   });
 
-  it('should get profile data', done => {
+  it('should get profile data', (done) => {
     const expectedProfile = {
       firstName: 'Test',
       lastName: 'User',
@@ -78,9 +74,7 @@ describe('CurrentUserComponent', () => {
 
     fixture.detectChanges();
 
-    store.dispatch(
-      new SetUserProfileAction({ person: person.entry, groups: [] })
-    );
+    store.dispatch(new SetUserProfileAction({ person: person.entry, groups: [] }));
 
     component.profile$.subscribe((profile: any) => {
       expect(profile).toEqual(jasmine.objectContaining(expectedProfile));
@@ -88,12 +82,10 @@ describe('CurrentUserComponent', () => {
     });
   });
 
-  it('should set language picker state', done => {
+  it('should set language picker state', (done) => {
     fixture.detectChanges();
 
-    store.dispatch(
-      new SetSettingsParameterAction({ name: 'languagePicker', value: true })
-    );
+    store.dispatch(new SetSettingsParameterAction({ name: 'languagePicker', value: true }));
 
     component.languagePicker$.subscribe((languagePicker: boolean) => {
       expect(languagePicker).toBe(true);

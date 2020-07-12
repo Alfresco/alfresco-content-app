@@ -23,14 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  SITE_VISIBILITY,
-  SITE_ROLES,
-  LoginPage,
-  BrowsingPage,
-  Utils,
-  RepoClient
-} from '@alfresco/aca-testing-shared';
+import { SITE_VISIBILITY, SITE_ROLES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
 
 describe('Favorites', () => {
   const username = `user-${Utils.random()}`;
@@ -86,13 +79,13 @@ describe('Favorites', () => {
 
   afterAll(async (done) => {
     await apis.admin.sites.deleteSite(siteName);
-    await apis.user.nodes.deleteNodes([ favFolderName, parentFolder ]);
+    await apis.user.nodes.deleteNodes([favFolderName, parentFolder]);
     await apis.user.trashcan.emptyTrash();
     done();
   });
 
   it('[C280482] has the correct columns', async () => {
-    const expectedColumns = [ 'Name', 'Location', 'Size', 'Modified', 'Modified by' ];
+    const expectedColumns = ['Name', 'Location', 'Size', 'Modified', 'Modified by'];
     const actualColumns = await dataTable.getColumnHeadersText();
 
     expect(actualColumns).toEqual(expectedColumns);
@@ -127,17 +120,17 @@ describe('Favorites', () => {
 
   it('[C213650] Location column redirect - item in user Home', async () => {
     await dataTable.clickItemLocation(favFolderName);
-    expect(await breadcrumb.getAllItems()).toEqual([ 'Personal Files' ]);
+    expect(await breadcrumb.getAllItems()).toEqual(['Personal Files']);
   });
 
   it('[C280484] Location column redirect - file in folder', async () => {
     await dataTable.clickItemLocation(fileName2);
-    expect(await breadcrumb.getAllItems()).toEqual([ 'Personal Files', parentFolder ]);
+    expect(await breadcrumb.getAllItems()).toEqual(['Personal Files', parentFolder]);
   });
 
   it('[C280485] Location column redirect - file in site', async () => {
     await dataTable.clickItemLocation(fileName1);
-    expect(await breadcrumb.getAllItems()).toEqual([ 'My Libraries', siteName ]);
+    expect(await breadcrumb.getAllItems()).toEqual(['My Libraries', siteName]);
   });
 
   it('[C213230] Navigate into folder from Favorites', async () => {

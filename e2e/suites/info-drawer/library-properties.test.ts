@@ -56,7 +56,7 @@ describe('Library properties', () => {
     name: `site-for-rename-${Utils.random()}`,
     visibility: SITE_VISIBILITY.PRIVATE,
     description: 'new description'
-  }
+  };
 
   const siteDup = `site3-${Utils.random()}`;
 
@@ -77,7 +77,12 @@ describe('Library properties', () => {
     await apis.admin.people.createUser({ username: user2 });
     await apis.admin.people.createUser({ username: user3 });
     await apis.user.sites.createSite(site.name, site.visibility, site.description, site.id);
-    await apis.user.sites.createSite(siteForUpdate.name, siteForUpdate.visibility, siteForUpdate.description, siteForUpdate.id);
+    await apis.user.sites.createSite(
+      siteForUpdate.name,
+      siteForUpdate.visibility,
+      siteForUpdate.description,
+      siteForUpdate.id
+    );
     await apis.user.sites.createSite(siteDup);
 
     await apis.user.sites.addSiteMember(site.id, user2, SITE_ROLES.SITE_COLLABORATOR.ROLE);
@@ -99,7 +104,7 @@ describe('Library properties', () => {
     done();
   });
 
-  afterEach(async done => {
+  afterEach(async (done) => {
     if (await infoDrawer.isOpen()) {
       await page.toolbar.viewDetailsButton.click();
     }
@@ -120,7 +125,7 @@ describe('Library properties', () => {
 
     expect(await aboutTab.getName()).toEqual(site.name);
     expect(await aboutTab.getLibraryId()).toEqual(site.id);
-    expect((await aboutTab.getVisibility()).toLowerCase()).toEqual((site.visibility).toLowerCase());
+    expect((await aboutTab.getVisibility()).toLowerCase()).toEqual(site.visibility.toLowerCase());
     expect(await aboutTab.getDescription()).toEqual(site.description);
 
     expect(await aboutTab.isEditLibraryPropertiesDisplayed()).toBe(true, 'Edit action is not displayed');
@@ -231,7 +236,7 @@ describe('Library properties', () => {
   });
 
   describe('Non manager', () => {
-    afterAll(async done => {
+    afterAll(async (done) => {
       await loginPage.loginWith(username);
       done();
     });
@@ -260,5 +265,4 @@ describe('Library properties', () => {
       expect(await page.getSnackBarMessage()).toEqual('There was an error updating library properties');
     });
   });
-
 });

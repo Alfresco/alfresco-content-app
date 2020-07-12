@@ -28,18 +28,10 @@ import { GenericDialog } from '../dialog/generic-dialog';
 import { isPresentAndEnabled, typeText } from '../../utilities/utils';
 
 export class UploadNewVersionDialog extends GenericDialog {
-  cancelButton = this.childElement(
-    by.cssContainingText('.mat-button-wrapper', 'Cancel')
-  );
-  uploadButton = this.childElement(
-    by.cssContainingText('.mat-button-wrapper', 'Upload')
-  );
-  majorOption = this.childElement(
-    by.cssContainingText(`.mat-radio-label`, 'major')
-  );
-  minorOption = this.childElement(
-    by.cssContainingText(`.mat-radio-label`, 'minor')
-  );
+  cancelButton = this.childElement(by.cssContainingText('.mat-button-wrapper', 'Cancel'));
+  uploadButton = this.childElement(by.cssContainingText('.mat-button-wrapper', 'Upload'));
+  majorOption = this.childElement(by.cssContainingText(`.mat-radio-label`, 'major'));
+  minorOption = this.childElement(by.cssContainingText(`.mat-radio-label`, 'minor'));
   description = this.childElement(by.css('textarea'));
 
   constructor() {

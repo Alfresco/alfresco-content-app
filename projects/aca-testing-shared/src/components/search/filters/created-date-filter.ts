@@ -35,21 +35,13 @@ export class CreatedDateFilter extends GenericFilterPanel {
   fromField: ElementFinder = this.panelExpanded.element(
     by.cssContainingText('.adf-search-date-range .mat-form-field', 'From')
   );
-  fromInput: ElementFinder = this.fromField.element(
-    by.css(`[data-automation-id='date-range-from-input']`)
-  );
-  fromFieldError: ElementFinder = this.fromField.element(
-    by.css(`[data-automation-id='date-range-from-error']`)
-  );
+  fromInput: ElementFinder = this.fromField.element(by.css(`[data-automation-id='date-range-from-input']`));
+  fromFieldError: ElementFinder = this.fromField.element(by.css(`[data-automation-id='date-range-from-error']`));
   toField: ElementFinder = this.panelExpanded.element(
     by.cssContainingText('.adf-search-date-range .mat-form-field', 'To')
   );
-  toInput: ElementFinder = this.toField.element(
-    by.css(`[data-automation-id='date-range-to-input']`)
-  );
-  toFieldError: ElementFinder = this.toField.element(
-    by.css(`[data-automation-id='date-range-to-error']`)
-  );
+  toInput: ElementFinder = this.toField.element(by.css(`[data-automation-id='date-range-to-input']`));
+  toFieldError: ElementFinder = this.toField.element(by.css(`[data-automation-id='date-range-to-error']`));
   clearButton: ElementFinder = this.panel.element(
     by.css('.adf-facet-buttons [data-automation-id="date-range-clear-btn"]')
   );

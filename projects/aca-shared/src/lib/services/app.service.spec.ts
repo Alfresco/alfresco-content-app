@@ -61,27 +61,17 @@ describe('AppService', () => {
 
     spyOn(routeReuse, 'resetCache').and.stub();
 
-    service = new AppService(
-      auth,
-      appConfig,
-      searchQueryBuilderService,
-      routeReuse
-    );
+    service = new AppService(auth, appConfig, searchQueryBuilderService, routeReuse);
   });
 
-  it('should be ready if [withCredentials] mode is used', done => {
+  it('should be ready if [withCredentials] mode is used', (done) => {
     appConfig.config = {
       auth: {
         withCredentials: true
       }
     };
 
-    const instance = new AppService(
-      auth,
-      appConfig,
-      searchQueryBuilderService,
-      routeReuse
-    );
+    const instance = new AppService(auth, appConfig, searchQueryBuilderService, routeReuse);
     expect(instance.withCredentials).toBeTruthy();
 
     instance.ready$.subscribe(() => {
@@ -101,7 +91,7 @@ describe('AppService', () => {
 
   it('should be ready after login', async () => {
     let isReady = false;
-    service.ready$.subscribe(value => {
+    service.ready$.subscribe((value) => {
       isReady = value;
     });
     auth.onLogin.next();

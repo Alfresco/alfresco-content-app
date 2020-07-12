@@ -25,14 +25,7 @@
 
 import { NameColumnComponent } from '@alfresco/adf-content-services';
 import { AlfrescoApiService } from '@alfresco/adf-core';
-import {
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  OnDestroy,
-  OnInit,
-  ViewEncapsulation
-} from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -48,8 +41,7 @@ import { isLocked } from '@alfresco/aca-shared';
     class: ' adf-datatable-content-cell adf-datatable-link adf-name-column'
   }
 })
-export class CustomNameColumnComponent extends NameColumnComponent
-  implements OnInit, OnDestroy {
+export class CustomNameColumnComponent extends NameColumnComponent implements OnInit, OnDestroy {
   private onDestroy$$ = new Subject<boolean>();
 
   constructor(
@@ -64,27 +56,25 @@ export class CustomNameColumnComponent extends NameColumnComponent
   ngOnInit() {
     this.updateValue();
 
-    this.apiService.nodeUpdated
-      .pipe(takeUntil(this.onDestroy$$))
-      .subscribe((node: any) => {
-        const row = this.context.row;
-        if (row) {
-          const { entry } = row.node;
-          const currentId = entry.nodeId || entry.id;
-          const updatedId = node.nodeId || node.id;
+    this.apiService.nodeUpdated.pipe(takeUntil(this.onDestroy$$)).subscribe((node: any) => {
+      const row = this.context.row;
+      if (row) {
+        const { entry } = row.node;
+        const currentId = entry.nodeId || entry.id;
+        const updatedId = node.nodeId || node.id;
 
-          if (currentId === updatedId) {
-            entry.name = node.name;
-            row.node = { entry };
-            this.updateValue();
-          }
+        if (currentId === updatedId) {
+          entry.name = node.name;
+          row.node = { entry };
+          this.updateValue();
         }
-      });
+      }
+    });
 
     this.actions$
       .pipe(
         ofType<any>(NodeActionTypes.EditOffline),
-        filter(val => {
+        filter((val) => {
           return this.node.entry.id === val.payload.entry.id;
         }),
         takeUntil(this.onDestroy$$)

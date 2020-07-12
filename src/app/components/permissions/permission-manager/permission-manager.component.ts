@@ -24,10 +24,7 @@
  */
 
 import { AppStore, SnackbarErrorAction } from '@alfresco/aca-shared/store';
-import {
-  NodePermissionDialogService,
-  PermissionListComponent
-} from '@alfresco/adf-content-services';
+import { NodePermissionDialogService, PermissionListComponent } from '@alfresco/adf-content-services';
 import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -77,19 +74,17 @@ export class PermissionsManagerComponent implements OnInit {
   }
 
   openAddPermissionDialog() {
-    this.nodePermissionDialogService
-      .updateNodePermissionByDialog(this.nodeId)
-      .subscribe(
-        () => {
-          this.dialog.open(NodePermissionsDialogComponent, {
-            data: { nodeId: this.nodeId },
-            panelClass: 'aca-permissions-dialog-panel',
-            width: '800px'
-          });
-        },
-        error => {
-          this.store.dispatch(new SnackbarErrorAction(error));
-        }
-      );
+    this.nodePermissionDialogService.updateNodePermissionByDialog(this.nodeId).subscribe(
+      () => {
+        this.dialog.open(NodePermissionsDialogComponent, {
+          data: { nodeId: this.nodeId },
+          panelClass: 'aca-permissions-dialog-panel',
+          width: '800px'
+        });
+      },
+      (error) => {
+        this.store.dispatch(new SnackbarErrorAction(error));
+      }
+    );
   }
 }

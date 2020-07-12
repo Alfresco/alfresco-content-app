@@ -61,7 +61,7 @@ export class ActiveLinkDirective implements OnInit, AfterContentInit {
   ngOnInit() {
     this.router.events
       .pipe(
-        filter(event => event instanceof NavigationEnd),
+        filter((event) => event instanceof NavigationEnd),
         takeUntil(this.onDestroy$)
       )
       .subscribe((event: NavigationEnd) => {
@@ -75,7 +75,7 @@ export class ActiveLinkDirective implements OnInit, AfterContentInit {
       this.render(url, itemUrl);
     }
 
-    this.links.map(item => {
+    this.links.map((item) => {
       const itemUrl = this.resolveUrl(item);
       this.render(url, itemUrl);
     });
@@ -97,9 +97,6 @@ export class ActiveLinkDirective implements OnInit, AfterContentInit {
   }
 
   private resolveUrl(item): string {
-    return (
-      (item.action && item.action.click && item.action.click.payload) ||
-      item.action.route
-    );
+    return (item.action && item.action.click && item.action.click.payload) || item.action.route;
   }
 }

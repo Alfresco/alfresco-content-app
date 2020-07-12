@@ -52,10 +52,7 @@ export class SearchApi extends RepoApi {
       await this.apiAuth();
       return this.searchApi.search(data);
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.queryRecentFiles.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.queryRecentFiles.name}`, error);
       return null;
     }
   }
@@ -73,10 +70,7 @@ export class SearchApi extends RepoApi {
       await this.apiAuth();
       return this.searchApi.search(data);
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.queryNodesNames.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.queryNodesNames.name}`, error);
       return null;
     }
   }
@@ -94,10 +88,7 @@ export class SearchApi extends RepoApi {
       await this.apiAuth();
       return this.searchApi.search(data);
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.queryNodesExactNames.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.queryNodesExactNames.name}`, error);
       return null;
     }
   }
@@ -105,8 +96,7 @@ export class SearchApi extends RepoApi {
   async waitForApi(username: string, data: { expect: number }) {
     try {
       const recentFiles = async () => {
-        const totalItems = (await this.queryRecentFiles(username)).list
-          .pagination.totalItems;
+        const totalItems = (await this.queryRecentFiles(username)).list.pagination.totalItems;
         if (totalItems !== data.expect) {
           return Promise.reject(totalItems);
         } else {
@@ -124,8 +114,7 @@ export class SearchApi extends RepoApi {
   async waitForNodes(searchTerm: string, data: { expect: number }) {
     try {
       const nodes = async () => {
-        const totalItems = (await this.queryNodesNames(searchTerm)).list
-          .pagination.totalItems;
+        const totalItems = (await this.queryNodesNames(searchTerm)).list.pagination.totalItems;
         if (totalItems !== data.expect) {
           return Promise.reject(totalItems);
         } else {
@@ -135,9 +124,7 @@ export class SearchApi extends RepoApi {
 
       return await Utils.retryCall(nodes);
     } catch (error) {
-      Logger.error(
-        `${this.constructor.name} ${this.waitForNodes.name} catch: `
-      );
+      Logger.error(`${this.constructor.name} ${this.waitForNodes.name} catch: `);
       Logger.error(`\tExpected: ${data.expect} items, but found ${error}`);
     }
   }

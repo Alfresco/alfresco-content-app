@@ -24,13 +24,7 @@
  */
 
 import { browser } from 'protractor';
-import {
-  LoginPage,
-  BrowsingPage,
-  APP_ROUTES,
-  RepoClient,
-  Utils
-} from '@alfresco/aca-testing-shared';
+import { LoginPage, BrowsingPage, APP_ROUTES, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 
 describe('Restore from Trash', () => {
   const username = `user-${Utils.random()}`;
@@ -56,8 +50,10 @@ describe('Restore from Trash', () => {
   });
 
   describe('successful restore', () => {
-    const file = `file-${Utils.random()}.txt`; let fileId;
-    const folder = `folder-${Utils.random()}`; let folderId;
+    const file = `file-${Utils.random()}.txt`;
+    let fileId;
+    const folder = `folder-${Utils.random()}`;
+    let folderId;
     const site = `site-${Utils.random()}`;
 
     beforeAll(async (done) => {
@@ -175,10 +171,7 @@ describe('Restore from Trash', () => {
     });
 
     afterAll(async (done) => {
-      await Promise.all([
-        apis.user.nodes.deleteNodeById(file1Id2),
-        apis.user.trashcan.emptyTrash()
-      ]);
+      await Promise.all([apis.user.nodes.deleteNodeById(file1Id2), apis.user.trashcan.emptyTrash()]);
       done();
     });
 
@@ -260,7 +253,9 @@ describe('Restore from Trash', () => {
     it('[C217184] multiple failures', async () => {
       await dataTable.selectMultipleItems([file3, file4, file5]);
       await toolbar.restoreButton.click();
-      expect(await page.getSnackBarMessage()).toEqual('2 items not restored because of issues with the restore location');
+      expect(await page.getSnackBarMessage()).toEqual(
+        '2 items not restored because of issues with the restore location'
+      );
     });
   });
 });

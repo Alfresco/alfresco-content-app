@@ -567,9 +567,7 @@ describe('AppExtensionService', () => {
     });
 
     it('should use implicit order', () => {
-      const sorted = [{ id: '3' }, { id: '2' }, { id: '1', order: 1 }].sort(
-        sortByOrder
-      );
+      const sorted = [{ id: '3' }, { id: '2' }, { id: '1', order: 1 }].sort(sortByOrder);
 
       expect(sorted[0].id).toBe('1');
       expect(sorted[1].id).toBe('3');
@@ -579,11 +577,7 @@ describe('AppExtensionService', () => {
 
   describe('filtering', () => {
     it('should filter out disabled items', () => {
-      const items = [
-        { id: 1, disabled: true },
-        { id: 2 },
-        { id: 3, disabled: true }
-      ].filter(filterEnabled);
+      const items = [{ id: 1, disabled: true }, { id: 2 }, { id: 3, disabled: true }].filter(filterEnabled);
 
       expect(items.length).toBe(1);
       expect(items[0].id).toBe(2);
@@ -594,11 +588,7 @@ describe('AppExtensionService', () => {
         { id: '1', disabled: true },
         {
           id: '2',
-          someItems: [
-            { id: '21', disabled: true },
-            { id: '22', disabled: false },
-            { id: '23' }
-          ],
+          someItems: [{ id: '21', disabled: true }, { id: '22', disabled: false }, { id: '23' }],
           someObjectProp: {
             innerItems: [{ id: '24' }, { id: '25', disabled: true }]
           }

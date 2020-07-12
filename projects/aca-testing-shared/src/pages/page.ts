@@ -26,12 +26,7 @@
 import { browser, by, ElementFinder } from 'protractor';
 import { Logger } from '@alfresco/adf-testing';
 import { USE_HASH_STRATEGY } from './../configs';
-import {
-  Utils,
-  waitElement,
-  waitForPresence,
-  waitForVisibility
-} from '../utilities/utils';
+import { Utils, waitElement, waitForPresence, waitForVisibility } from '../utilities/utils';
 
 export abstract class Page {
   appRoot = 'app-root';

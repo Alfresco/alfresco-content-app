@@ -26,11 +26,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import {
-  AppStore,
-  ToggleDocumentDisplayMode,
-  getDocumentDisplayMode
-} from '@alfresco/aca-shared/store';
+import { AppStore, ToggleDocumentDisplayMode, getDocumentDisplayMode } from '@alfresco/aca-shared/store';
 
 @Component({
   selector: 'app-document-display-mode',
@@ -59,9 +55,7 @@ export class DocumentDisplayModeComponent {
   }
 
   getTitle(displayMode: string): string {
-    return displayMode === 'list'
-      ? 'APP.ACTIONS.LIST_MODE'
-      : 'APP.ACTIONS.GALLERY_MODE';
+    return displayMode === 'list' ? 'APP.ACTIONS.LIST_MODE' : 'APP.ACTIONS.GALLERY_MODE';
   }
 
   onClick() {

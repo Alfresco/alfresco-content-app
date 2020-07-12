@@ -23,22 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  ElementFinder,
-  browser,
-  by,
-  ElementArrayFinder,
-  ProtractorBrowser
-} from 'protractor';
+import { ElementFinder, browser, by, ElementArrayFinder, ProtractorBrowser } from 'protractor';
 import { waitForPresence } from '../utilities/utils';
 
 export abstract class Component {
   component: ElementFinder;
 
-  protected byCss(
-    css: string,
-    root: ElementFinder | ProtractorBrowser = this.component
-  ): ElementFinder {
+  protected byCss(css: string, root: ElementFinder | ProtractorBrowser = this.component): ElementFinder {
     return root.element(by.css(css));
   }
 
@@ -50,30 +41,18 @@ export abstract class Component {
     return root.element(by.cssContainingText(css, text));
   }
 
-  protected byId(
-    css: string,
-    root: ElementFinder | ProtractorBrowser = this.component
-  ): ElementFinder {
+  protected byId(css: string, root: ElementFinder | ProtractorBrowser = this.component): ElementFinder {
     return root.element(by.id(css));
   }
 
-  protected allByCss(
-    css: string,
-    root: ElementFinder | ProtractorBrowser = this.component
-  ): ElementArrayFinder {
+  protected allByCss(css: string, root: ElementFinder | ProtractorBrowser = this.component): ElementArrayFinder {
     return root.all(by.css(css));
   }
 
   constructor(selector: string, ancestor?: string) {
     const locator = selector;
 
-    this.component = ancestor
-      ? browser
-          .$$(ancestor)
-          .first()
-          .$$(locator)
-          .first()
-      : browser.$$(locator).first();
+    this.component = ancestor ? browser.$$(ancestor).first().$$(locator).first() : browser.$$(locator).first();
   }
 
   async wait() {

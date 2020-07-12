@@ -25,19 +25,11 @@
 
 import { by, browser } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
-import {
-  waitForClickable,
-  isPresentAndEnabled,
-  typeText
-} from '../../utilities/utils';
+import { waitForClickable, isPresentAndEnabled, typeText } from '../../utilities/utils';
 
 export class PasswordDialog extends GenericDialog {
-  closeButton = this.childElement(
-    by.css('[data-automation-id="adf-password-dialog-close"]')
-  );
-  submitButton = this.childElement(
-    by.css('[data-automation-id="adf-password-dialog-submit"]')
-  );
+  closeButton = this.childElement(by.css('[data-automation-id="adf-password-dialog-close"]'));
+  submitButton = this.childElement(by.css('[data-automation-id="adf-password-dialog-submit"]'));
   passwordInput = this.childElement(by.css('input[type="Password"]'));
   errorMessage = this.childElement(by.css('.mat-error'));
 
@@ -79,10 +71,7 @@ export class PasswordDialog extends GenericDialog {
   async isErrorDisplayed(): Promise<boolean> {
     try {
       await this.waitForDialogToOpen();
-      return (
-        (await this.errorMessage.isPresent()) &&
-        (await this.errorMessage.isDisplayed())
-      );
+      return (await this.errorMessage.isPresent()) && (await this.errorMessage.isDisplayed());
     } catch (error) {
       return false;
     }

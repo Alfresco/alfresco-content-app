@@ -23,14 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  LoginPage,
-  RepoClient,
-  Utils,
-  AdminActions,
-  FILES,
-  SITE_ROLES
-} from '@alfresco/aca-testing-shared';
+import { LoginPage, RepoClient, Utils, AdminActions, FILES, SITE_ROLES } from '@alfresco/aca-testing-shared';
 import * as testData from './test-data-permissions';
 import { librariesTests } from './my-libraries';
 import { favoritesTests } from './favorites';
@@ -85,19 +78,27 @@ describe('Special permissions : ', () => {
     await userManagerApi.sites.addSiteCollaborator(sitePrivate, userCollaborator);
     await userManagerApi.sites.addSiteManager(sitePrivate, userDemoted);
 
-    await userManagerApi.upload.uploadFileWithRename(FILES.docxFile, docLibId, testData.fileDocx.name );
-    fileDocxFavId = (await userManagerApi.upload.uploadFileWithRename(FILES.docxFile, docLibId, testData.fileDocxFav.name)).entry.id;
+    await userManagerApi.upload.uploadFileWithRename(FILES.docxFile, docLibId, testData.fileDocx.name);
+    fileDocxFavId = (
+      await userManagerApi.upload.uploadFileWithRename(FILES.docxFile, docLibId, testData.fileDocxFav.name)
+    ).entry.id;
     await userManagerApi.nodes.createFile(testData.file.name, docLibId);
     fileFavId = (await userManagerApi.nodes.createFile(testData.fileFav.name, docLibId)).entry.id;
-    fileDocxSharedId = (await userManagerApi.upload.uploadFileWithRename(FILES.docxFile, docLibId, testData.fileDocxShared.name)).entry.id;
-    fileDocxSharedFavId = (await userManagerApi.upload.uploadFileWithRename(FILES.docxFile, docLibId, testData.fileDocxSharedFav.name)).entry.id;
+    fileDocxSharedId = (
+      await userManagerApi.upload.uploadFileWithRename(FILES.docxFile, docLibId, testData.fileDocxShared.name)
+    ).entry.id;
+    fileDocxSharedFavId = (
+      await userManagerApi.upload.uploadFileWithRename(FILES.docxFile, docLibId, testData.fileDocxSharedFav.name)
+    ).entry.id;
     fileSharedId = (await userManagerApi.nodes.createFile(testData.fileShared.name, docLibId)).entry.id;
     fileSharedFavId = (await userManagerApi.nodes.createFile(testData.fileSharedFav.name, docLibId)).entry.id;
     fileLockedId = (await userManagerApi.nodes.createFile(testData.fileLocked.name, docLibId)).entry.id;
     fileFavLockedId = (await userManagerApi.nodes.createFile(testData.fileFavLocked.name, docLibId)).entry.id;
     fileSharedLockedId = (await userManagerApi.nodes.createFile(testData.fileSharedLocked.name, docLibId)).entry.id;
-    fileSharedFavLockedId = (await userManagerApi.nodes.createFile(testData.fileSharedFavLocked.name, docLibId)).entry.id;
-    fileGranularPermissionId = (await userManagerApi.nodes.createFile(testData.fileGranularPermission, docLibId)).entry.id;
+    fileSharedFavLockedId = (await userManagerApi.nodes.createFile(testData.fileSharedFavLocked.name, docLibId)).entry
+      .id;
+    fileGranularPermissionId = (await userManagerApi.nodes.createFile(testData.fileGranularPermission, docLibId)).entry
+      .id;
 
     fileLockedByUserId = (await userManagerApi.nodes.createFile(testData.fileLockedByUser, docLibId)).entry.id;
     await userDemotedApi.nodes.lockFile(fileLockedByUserId);
@@ -137,7 +138,12 @@ describe('Special permissions : ', () => {
     await userManagerApi.nodes.lockFile(fileSharedLockedId);
     await userManagerApi.nodes.lockFile(fileSharedFavLockedId);
 
-    await userManagerApi.nodes.setGranularPermission(fileGranularPermissionId, false, userConsumer, SITE_ROLES.SITE_MANAGER.ROLE);
+    await userManagerApi.nodes.setGranularPermission(
+      fileGranularPermissionId,
+      false,
+      userConsumer,
+      SITE_ROLES.SITE_MANAGER.ROLE
+    );
 
     await userManagerApi.favorites.addFavoriteById('file', fileLockedByUserId);
 
@@ -158,7 +164,6 @@ describe('Special permissions : ', () => {
   });
 
   describe('Consumer', () => {
-
     beforeAll(async () => {
       await loginPage.loginWith(userConsumer);
     });

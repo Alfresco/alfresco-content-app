@@ -24,11 +24,7 @@
  */
 
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
-import {
-  AppConfigService,
-  StorageService,
-  OauthConfigModel
-} from '@alfresco/adf-core';
+import { AppConfigService, StorageService, OauthConfigModel } from '@alfresco/adf-core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -40,11 +36,7 @@ import {
   SetSettingsParameterAction
 } from '@alfresco/aca-shared/store';
 import { ProfileState } from '@alfresco/adf-extensions';
-import {
-  AppExtensionService,
-  SettingsGroupRef,
-  SettingsParameterRef
-} from '@alfresco/aca-shared';
+import { AppExtensionService, SettingsGroupRef, SettingsParameterRef } from '@alfresco/aca-shared';
 
 interface RepositoryConfig {
   ecmHost: string;
@@ -89,14 +81,8 @@ export class SettingsComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
-      ecmHost: [
-        '',
-        [Validators.required, Validators.pattern('^(http|https)://.*[^/]$')]
-      ],
-      aisHost: [
-        '',
-        [Validators.required, Validators.pattern('^(http|https)://.*[^/]$')]
-      ],
+      ecmHost: ['', [Validators.required, Validators.pattern('^(http|https)://.*[^/]$')]],
+      aisHost: ['', [Validators.required, Validators.pattern('^(http|https)://.*[^/]$')]],
       authType: ['']
     });
 
@@ -108,10 +94,7 @@ export class SettingsComponent implements OnInit {
       this.storage.setItem('ecmHost', model.ecmHost);
       this.storage.setItem('authType', model.authType);
 
-      const config: OauthConfigModel = this.appConfig.get<OauthConfigModel>(
-        'oauth2',
-        null
-      );
+      const config: OauthConfigModel = this.appConfig.get<OauthConfigModel>('oauth2', null);
       config.host = model.aisHost;
       this.storage.setItem('oauth2', JSON.stringify(config));
 
@@ -120,15 +103,10 @@ export class SettingsComponent implements OnInit {
   }
 
   reset() {
-    const config: OauthConfigModel = this.appConfig.get<OauthConfigModel>(
-      'oauth2',
-      null
-    );
+    const config: OauthConfigModel = this.appConfig.get<OauthConfigModel>('oauth2', null);
 
     this.form.reset({
-      ecmHost:
-        this.storage.getItem('ecmHost') ||
-        this.appConfig.get<string>('ecmHost'),
+      ecmHost: this.storage.getItem('ecmHost') || this.appConfig.get<string>('ecmHost'),
       aisHost: config.host,
       authType: this.appConfig.get<string>('authType')
     });
@@ -157,12 +135,7 @@ export class SettingsComponent implements OnInit {
   }
 
   private saveToStorage(param: SettingsParameterRef) {
-    this.storage.setItem(
-      param.key,
-      param.value ? param.value.toString() : param.value
-    );
-    this.store.dispatch(
-      new SetSettingsParameterAction({ name: param.key, value: param.value })
-    );
+    this.storage.setItem(param.key, param.value ? param.value.toString() : param.value);
+    this.store.dispatch(new SetSettingsParameterAction({ name: param.key, value: param.value }));
   }
 }

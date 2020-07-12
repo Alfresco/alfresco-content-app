@@ -122,7 +122,6 @@ describe('Generic tests : ', () => {
   });
 
   describe('Actions are not displayed when no item is selected', () => {
-
     it('[C213120] on Personal Files', async () => {
       await page.clickPersonalFilesAndWait();
       expect(await toolbar.isEmpty()).toBe(true, `actions displayed though nothing selected`);
@@ -175,14 +174,14 @@ describe('Generic tests : ', () => {
     });
 
     it('[C286268] Context menu appears on right click on a multiple selection of items', async () => {
-      await dataTable.selectMultipleItems([ file1, file2 ]);
+      await dataTable.selectMultipleItems([file1, file2]);
       await dataTable.rightClickOnMultipleSelection();
 
       expect(await dataTable.hasContextMenu()).toBe(true, 'Context menu is not displayed');
     });
 
     it('[C286269] Context menu appears when right clicking on a single item while having multiple items selected', async () => {
-      await dataTable.selectMultipleItems([ file2, folder1 ]);
+      await dataTable.selectMultipleItems([file2, folder1]);
       await dataTable.rightClickOnItem(file1);
 
       expect(await dataTable.hasContextMenu()).toBe(true, `Context menu is not displayed for ${file1}`);

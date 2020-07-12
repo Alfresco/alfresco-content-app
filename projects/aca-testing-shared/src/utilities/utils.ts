@@ -40,31 +40,17 @@ const path = require('path');
 const fs = require('fs');
 const StreamZip = require('node-stream-zip');
 
-export async function typeText(
-  element: ElementFinder,
-  text: string
-): Promise<void> {
+export async function typeText(element: ElementFinder, text: string): Promise<void> {
   await element.clear();
   await element.sendKeys(text);
 }
 
-export async function clearTextWithBackspace(
-  element: ElementFinder
-): Promise<void> {
+export async function clearTextWithBackspace(element: ElementFinder): Promise<void> {
   await element.clear();
-  await element.sendKeys(
-    ' ',
-    protractor.Key.CONTROL,
-    'a',
-    protractor.Key.NULL,
-    protractor.Key.BACK_SPACE
-  );
+  await element.sendKeys(' ', protractor.Key.CONTROL, 'a', protractor.Key.NULL, protractor.Key.BACK_SPACE);
 }
 
-export async function waitElement(
-  css: string,
-  errorMessage?: string
-): Promise<WebElement> {
+export async function waitElement(css: string, errorMessage?: string): Promise<WebElement> {
   return browser.wait(
     until.elementLocated(by.css(css)),
     BROWSER_WAIT_TIMEOUT,
@@ -72,46 +58,31 @@ export async function waitElement(
   );
 }
 
-export async function waitForClickable(
-  element: ElementFinder,
-  errorMessage?: string
-): Promise<void> {
+export async function waitForClickable(element: ElementFinder, errorMessage?: string): Promise<void> {
   await browser.wait(
     EC.elementToBeClickable(element),
     BROWSER_WAIT_TIMEOUT,
-    errorMessage ||
-      `Timeout waiting for element to be clickable: ${element.locator()}`
+    errorMessage || `Timeout waiting for element to be clickable: ${element.locator()}`
   );
 }
 
-export async function waitForVisibility(
-  element: ElementFinder,
-  errorMessage?: string
-): Promise<void> {
+export async function waitForVisibility(element: ElementFinder, errorMessage?: string): Promise<void> {
   await browser.wait(
     EC.visibilityOf(element),
     BROWSER_WAIT_TIMEOUT,
-    errorMessage ||
-      `Timeout waiting for element visibility: ${element.locator()}`
+    errorMessage || `Timeout waiting for element visibility: ${element.locator()}`
   );
 }
 
-export async function waitForInvisibility(
-  element: ElementFinder,
-  errorMessage?: string
-): Promise<void> {
+export async function waitForInvisibility(element: ElementFinder, errorMessage?: string): Promise<void> {
   await browser.wait(
     EC.invisibilityOf(element),
     BROWSER_WAIT_TIMEOUT,
-    errorMessage ||
-      `Timeout waiting for element visibility: ${element.locator()}`
+    errorMessage || `Timeout waiting for element visibility: ${element.locator()}`
   );
 }
 
-export async function waitForPresence(
-  element: ElementFinder,
-  errorMessage?: string
-): Promise<void> {
+export async function waitForPresence(element: ElementFinder, errorMessage?: string): Promise<void> {
   await browser.wait(
     EC.presenceOf(element),
     BROWSER_WAIT_TIMEOUT,
@@ -119,10 +90,7 @@ export async function waitForPresence(
   );
 }
 
-export async function waitForStaleness(
-  element: ElementFinder,
-  errorMessage?: string
-): Promise<void> {
+export async function waitForStaleness(element: ElementFinder, errorMessage?: string): Promise<void> {
   await browser.wait(
     EC.stalenessOf(element),
     BROWSER_WAIT_TIMEOUT,
@@ -130,9 +98,7 @@ export async function waitForStaleness(
   );
 }
 
-export const isPresentAndEnabled = async (
-  element: ElementFinder
-): Promise<boolean> => {
+export const isPresentAndEnabled = async (element: ElementFinder): Promise<boolean> => {
   const isPresent = await element.isPresent();
 
   if (isPresent) {
@@ -142,9 +108,7 @@ export const isPresentAndEnabled = async (
   return false;
 };
 
-export const isPresentAndDisplayed = async (
-  element: ElementFinder
-): Promise<boolean> => {
+export const isPresentAndDisplayed = async (element: ElementFinder): Promise<boolean> => {
   const isPresent = await element.isPresent();
 
   if (isPresent) {
@@ -166,42 +130,25 @@ export class Utils {
     lighter track cinema tread tick climate lend summit singer radical flower visual negotiation promises cooperative live';
 
   static random(): string {
-    return Math.random()
-      .toString(36)
-      .substring(5, 10)
-      .toLowerCase();
+    return Math.random().toString(36).substring(5, 10).toLowerCase();
   }
 
   static async clearLocalStorage(): Promise<void> {
     await browser.executeScript('window.localStorage.clear();');
   }
 
-  static async setSessionStorageFromConfig(
-    configFileName: string
-  ): Promise<void> {
+  static async setSessionStorageFromConfig(configFileName: string): Promise<void> {
     const configFile = `${browser.params.e2eRootPath}/resources/extensibility-configs/${configFileName}`;
-    const fileContent = JSON.stringify(
-      fs.readFileSync(configFile, { encoding: 'utf8' })
-    );
+    const fileContent = JSON.stringify(fs.readFileSync(configFile, { encoding: 'utf8' }));
 
-    await browser.executeScript(
-      `window.sessionStorage.setItem('app.extension.config', ${fileContent});`
-    );
+    await browser.executeScript(`window.sessionStorage.setItem('app.extension.config', ${fileContent});`);
   }
 
-  static retryCall(
-    fn: () => Promise<any>,
-    retry: number = 30,
-    delay: number = 1000
-  ): Promise<any> {
-    const pause = duration => new Promise(res => setTimeout(res, duration));
+  static retryCall(fn: () => Promise<any>, retry: number = 30, delay: number = 1000): Promise<any> {
+    const pause = (duration) => new Promise((res) => setTimeout(res, duration));
 
-    const run = retries => {
-      return fn().catch(err =>
-        retries > 1
-          ? pause(delay).then(() => run(retries - 1))
-          : Promise.reject(err)
-      );
+    const run = (retries) => {
+      return fn().catch((err) => (retries > 1 ? pause(delay).then(() => run(retries - 1)) : Promise.reject(err)));
     };
 
     return run(retry);
@@ -214,24 +161,15 @@ export class Utils {
     }
   }
 
-  static async fileExistsOnOS(
-    fileName: string,
-    folderName: string = '',
-    subFolderName: string = ''
-  ): Promise<any> {
+  static async fileExistsOnOS(fileName: string, folderName: string = '', subFolderName: string = ''): Promise<any> {
     const config = await browser.getProcessedConfig();
-    const filePath = path.join(
-      config.params.downloadFolder,
-      folderName,
-      subFolderName,
-      fileName
-    );
+    const filePath = path.join(config.params.downloadFolder, folderName, subFolderName, fileName);
 
     let tries = 15;
 
-    return new Promise(function(resolve) {
+    return new Promise(function (resolve) {
       const checkExist = setInterval(() => {
-        fs.access(filePath, function(error) {
+        fs.access(filePath, function (error) {
           tries--;
 
           if (error && tries === 0) {
@@ -256,7 +194,7 @@ export class Utils {
     const fileExists = await this.fileExistsOnOS(oldName);
 
     if (fileExists) {
-      fs.rename(oldFilePath, newFilePath, function(err) {
+      fs.rename(oldFilePath, newFilePath, function (err) {
         if (err) {
           Logger.error('==== rename err: ', err);
         }
@@ -264,23 +202,17 @@ export class Utils {
     }
   }
 
-  static async unzip(
-    filename: string,
-    unzippedName: string = ''
-  ): Promise<void> {
+  static async unzip(filename: string, unzippedName: string = ''): Promise<void> {
     const config = await browser.getProcessedConfig();
     const filePath = path.join(config.params.downloadFolder, filename);
-    const output = path.join(
-      config.params.downloadFolder,
-      unzippedName ? unzippedName : ''
-    );
+    const output = path.join(config.params.downloadFolder, unzippedName ? unzippedName : '');
 
     const zip = new StreamZip({
       file: filePath,
       storeEntries: true
     });
 
-    await zip.on('error', err => {
+    await zip.on('error', (err) => {
       Logger.error('=== unzip err: ', err);
     });
 
@@ -295,38 +227,23 @@ export class Utils {
   }
 
   static async pressEscape(): Promise<void> {
-    await browser
-      .actions()
-      .sendKeys(protractor.Key.ESCAPE)
-      .perform();
+    await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
   }
 
   static async pressTab(): Promise<void> {
-    await browser
-      .actions()
-      .sendKeys(protractor.Key.TAB)
-      .perform();
+    await browser.actions().sendKeys(protractor.Key.TAB).perform();
   }
 
   static async pressCmd(): Promise<void> {
-    await browser
-      .actions()
-      .sendKeys(protractor.Key.COMMAND)
-      .perform();
+    await browser.actions().sendKeys(protractor.Key.COMMAND).perform();
   }
 
   static async releaseKeyPressed(): Promise<void> {
-    await browser
-      .actions()
-      .sendKeys(protractor.Key.NULL)
-      .perform();
+    await browser.actions().sendKeys(protractor.Key.NULL).perform();
   }
 
   static async getBrowserLog(): Promise<logging.Entry[]> {
-    return browser
-      .manage()
-      .logs()
-      .get('browser');
+    return browser.manage().logs().get('browser');
   }
 
   static formatDate(date: string): string {
@@ -335,8 +252,6 @@ export class Utils {
 
   static async uploadFileNewVersion(fileFromOS: string): Promise<void> {
     const el = browser.element(by.id('app-upload-file-version'));
-    await el.sendKeys(
-      `${browser.params.e2eRootPath}/resources/test-files/${fileFromOS}`
-    );
+    await el.sendKeys(`${browser.params.e2eRootPath}/resources/test-files/${fileFromOS}`);
   }
 }

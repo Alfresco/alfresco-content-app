@@ -36,12 +36,8 @@ export class Pagination extends Component {
   totalPages = this.byCss('.adf-pagination__total-pages');
   previousButton = this.byCss('.adf-pagination__previous-button');
   nextButton = this.byCss('.adf-pagination__next-button');
-  maxItemsButton = this.byCss(
-    '.adf-pagination__max-items + button[mat-icon-button]'
-  );
-  pagesButton = this.byCss(
-    '.adf-pagination__current-page + button[mat-icon-button]'
-  );
+  maxItemsButton = this.byCss('.adf-pagination__max-items + button[mat-icon-button]');
+  pagesButton = this.byCss('.adf-pagination__current-page + button[mat-icon-button]');
 
   menu: Menu = new Menu();
 
@@ -51,10 +47,7 @@ export class Pagination extends Component {
 
   async openMaxItemsMenu() {
     try {
-      await waitForClickable(
-        this.maxItemsButton,
-        'timeout waiting for maxItemsButton to be clickable'
-      );
+      await waitForClickable(this.maxItemsButton, 'timeout waiting for maxItemsButton to be clickable');
       await this.maxItemsButton.click();
       await this.menu.waitForMenuToOpen();
     } catch (error) {
@@ -64,10 +57,7 @@ export class Pagination extends Component {
 
   async openCurrentPageMenu() {
     try {
-      await waitForClickable(
-        this.pagesButton,
-        'timeout waiting for pagesButton to be clickable'
-      );
+      await waitForClickable(this.pagesButton, 'timeout waiting for pagesButton to be clickable');
       await this.pagesButton.click();
       await this.menu.waitForMenuToOpen();
     } catch (error) {

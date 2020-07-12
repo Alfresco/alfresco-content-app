@@ -58,7 +58,11 @@ export async function checkToolbarMoreActions(item: string, expectedToolbarMore:
   await toolbar.closeMoreMenu();
 }
 
-export async function checkToolbarActions(item: string, expectedToolbarPrimary: string[], expectedToolbarMore: string[]): Promise<void> {
+export async function checkToolbarActions(
+  item: string,
+  expectedToolbarPrimary: string[],
+  expectedToolbarMore: string[]
+): Promise<void> {
   await dataTable.selectItem(item);
 
   const actualPrimaryActions = await toolbar.getButtons();
@@ -89,7 +93,11 @@ export async function checkMultipleSelToolbarPrimary(items: string[], expectedTo
   expect(actualPrimaryActions).toEqual(expectedToolbarPrimary);
 }
 
-export async function checkMultipleSelToolbarActions(items: string[], expectedToolbarPrimary: string[], expectedToolbarMore: string[]): Promise<void> {
+export async function checkMultipleSelToolbarActions(
+  items: string[],
+  expectedToolbarPrimary: string[],
+  expectedToolbarMore: string[]
+): Promise<void> {
   await dataTable.selectMultipleItems(items);
 
   const actualPrimaryActions = await toolbar.getButtons();
@@ -103,7 +111,11 @@ export async function checkMultipleSelToolbarActions(items: string[], expectedTo
   await toolbar.closeMoreMenu();
 }
 
-export async function checkViewerActions(item: string, expectedToolbarPrimary: string[], expectedToolbarMore: string[]): Promise<void> {
+export async function checkViewerActions(
+  item: string,
+  expectedToolbarPrimary: string[],
+  expectedToolbarMore: string[]
+): Promise<void> {
   await dataTable.selectItem(item);
   await BrowserActions.click(toolbar.viewButton);
   await viewer.waitForViewerToOpen();

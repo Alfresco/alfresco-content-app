@@ -32,15 +32,12 @@ import { AosEditOnlineService } from '../aos-extension.service';
 
 @Injectable()
 export class AosEffects {
-  constructor(
-    private actions$: Actions,
-    private aosEditOnlineService: AosEditOnlineService
-  ) {}
+  constructor(private actions$: Actions, private aosEditOnlineService: AosEditOnlineService) {}
 
   @Effect({ dispatch: false })
   openOffice$ = this.actions$.pipe(
     ofType<AosAction>(AOS_ACTION),
-    map(action => {
+    map((action) => {
       if (action.payload) {
         this.aosEditOnlineService.onActionEditOnlineAos(action.payload);
       }

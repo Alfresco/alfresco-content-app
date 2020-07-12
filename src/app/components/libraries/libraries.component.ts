@@ -59,7 +59,7 @@ export class LibrariesComponent extends PageComponent implements OnInit {
 
       this.breakpointObserver
         .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
-        .subscribe(result => {
+        .subscribe((result) => {
           this.isSmallScreen = result.matches;
         })
     );

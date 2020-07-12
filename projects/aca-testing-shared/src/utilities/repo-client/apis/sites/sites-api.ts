@@ -57,9 +57,7 @@ export class SitesApi extends RepoApi {
   async getSites() {
     try {
       await this.apiAuth();
-      return await this.sitesApi.listSiteMembershipsForPerson(
-        this.getUsername()
-      );
+      return await this.sitesApi.listSiteMembershipsForPerson(this.getUsername());
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.getSites.name}`, error);
       return null;
@@ -69,13 +67,9 @@ export class SitesApi extends RepoApi {
   async getDocLibId(siteId: string) {
     try {
       await this.apiAuth();
-      return (await this.sitesApi.listSiteContainers(siteId)).list.entries[0]
-        .entry.id;
+      return (await this.sitesApi.listSiteContainers(siteId)).list.entries[0].entry.id;
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.getDocLibId.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.getDocLibId.name}`, error);
       return null;
     }
   }
@@ -85,10 +79,7 @@ export class SitesApi extends RepoApi {
       const site = await this.getSite(siteId);
       return site.entry.visibility;
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.getVisibility.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.getVisibility.name}`, error);
       return null;
     }
   }
@@ -98,10 +89,7 @@ export class SitesApi extends RepoApi {
       const site = await this.getSite(siteId);
       return site.entry.description;
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.getDescription.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.getDescription.name}`, error);
       return null;
     }
   }
@@ -133,33 +121,17 @@ export class SitesApi extends RepoApi {
       await this.apiAuth();
       return await this.sitesApi.createSite(site);
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.createSite.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.createSite.name}`, error);
       return null;
     }
   }
 
-  async createSitePrivate(
-    title: string,
-    description?: string,
-    siteId?: string
-  ): Promise<SiteEntry> {
+  async createSitePrivate(title: string, description?: string, siteId?: string): Promise<SiteEntry> {
     return this.createSite(title, SITE_VISIBILITY.PRIVATE, description, siteId);
   }
 
-  async createSiteModerated(
-    title: string,
-    description?: string,
-    siteId?: string
-  ): Promise<SiteEntry> {
-    return this.createSite(
-      title,
-      SITE_VISIBILITY.MODERATED,
-      description,
-      siteId
-    );
+  async createSiteModerated(title: string, description?: string, siteId?: string): Promise<SiteEntry> {
+    return this.createSite(title, SITE_VISIBILITY.MODERATED, description, siteId);
   }
 
   async createSites(titles: string[], visibility?: string): Promise<any> {
@@ -169,10 +141,7 @@ export class SitesApi extends RepoApi {
         return this.createSite(current, visibility);
       }, Promise.resolve());
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.createSites.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.createSites.name}`, error);
     }
   }
 
@@ -185,10 +154,7 @@ export class SitesApi extends RepoApi {
       await this.apiAuth();
       return await this.sitesApi.deleteSite(siteId, { permanent });
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.deleteSite.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.deleteSite.name}`, error);
     }
   }
 
@@ -199,28 +165,20 @@ export class SitesApi extends RepoApi {
         return this.deleteSite(current, permanent);
       }, Promise.resolve());
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.deleteSites.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.deleteSites.name}`, error);
     }
   }
 
   async deleteAllUserSites(permanent: boolean = true) {
     try {
-      const siteIds = (await this.getSites()).list.entries.map(
-        entries => entries.entry.id
-      );
+      const siteIds = (await this.getSites()).list.entries.map((entries) => entries.entry.id);
 
       return await siteIds.reduce(async (previous, current) => {
         await previous;
         return this.deleteSite(current, permanent);
       }, Promise.resolve());
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.deleteAllUserSites.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.deleteAllUserSites.name}`, error);
     }
   }
 
@@ -233,10 +191,7 @@ export class SitesApi extends RepoApi {
       await this.apiAuth();
       return await this.sitesApi.updateSiteMembership(siteId, userId, siteRole);
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.updateSiteMember.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.updateSiteMember.name}`, error);
       return null;
     }
   }
@@ -251,43 +206,24 @@ export class SitesApi extends RepoApi {
       await this.apiAuth();
       return await this.sitesApi.createSiteMembership(siteId, memberBody);
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.addSiteMember.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.addSiteMember.name}`, error);
       return null;
     }
   }
 
-  async addSiteConsumer(
-    siteId: string,
-    userId: string
-  ): Promise<SiteMemberEntry> {
+  async addSiteConsumer(siteId: string, userId: string): Promise<SiteMemberEntry> {
     return this.addSiteMember(siteId, userId, SITE_ROLES.SITE_CONSUMER.ROLE);
   }
 
-  async addSiteContributor(
-    siteId: string,
-    userId: string
-  ): Promise<SiteMemberEntry> {
+  async addSiteContributor(siteId: string, userId: string): Promise<SiteMemberEntry> {
     return this.addSiteMember(siteId, userId, SITE_ROLES.SITE_CONTRIBUTOR.ROLE);
   }
 
-  async addSiteCollaborator(
-    siteId: string,
-    userId: string
-  ): Promise<SiteMemberEntry> {
-    return this.addSiteMember(
-      siteId,
-      userId,
-      SITE_ROLES.SITE_COLLABORATOR.ROLE
-    );
+  async addSiteCollaborator(siteId: string, userId: string): Promise<SiteMemberEntry> {
+    return this.addSiteMember(siteId, userId, SITE_ROLES.SITE_COLLABORATOR.ROLE);
   }
 
-  async addSiteManager(
-    siteId: string,
-    userId: string
-  ): Promise<SiteMemberEntry> {
+  async addSiteManager(siteId: string, userId: string): Promise<SiteMemberEntry> {
     return this.addSiteMember(siteId, userId, SITE_ROLES.SITE_MANAGER.ROLE);
   }
 
@@ -296,31 +232,20 @@ export class SitesApi extends RepoApi {
       await this.apiAuth();
       return await this.sitesApi.deleteSiteMembership(siteId, userId);
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.deleteSiteMember.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.deleteSiteMember.name}`, error);
     }
   }
 
-  async requestToJoin(
-    siteId: string
-  ): Promise<SiteMembershipRequestEntry | null> {
+  async requestToJoin(siteId: string): Promise<SiteMembershipRequestEntry | null> {
     const body = {
       id: siteId
     };
 
     try {
       await this.apiAuth();
-      return await this.sitesApi.createSiteMembershipRequestForPerson(
-        '-me-',
-        body
-      );
+      return await this.sitesApi.createSiteMembershipRequestForPerson('-me-', body);
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.requestToJoin.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.requestToJoin.name}`, error);
       return null;
     }
   }
@@ -328,15 +253,10 @@ export class SitesApi extends RepoApi {
   async hasMembershipRequest(siteId: string) {
     try {
       await this.apiAuth();
-      const requests = (
-        await this.sitesApi.getSiteMembershipRequests('-me-')
-      ).list.entries.map(e => e.entry.id);
+      const requests = (await this.sitesApi.getSiteMembershipRequests('-me-')).list.entries.map((e) => e.entry.id);
       return requests.includes(siteId);
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.hasMembershipRequest.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.hasMembershipRequest.name}`, error);
       return null;
     }
   }

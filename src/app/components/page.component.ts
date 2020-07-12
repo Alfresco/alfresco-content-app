@@ -23,27 +23,12 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  DocumentListComponent,
-  ShareDataRow
-} from '@alfresco/adf-content-services';
+import { DocumentListComponent, ShareDataRow } from '@alfresco/adf-content-services';
 import { ShowHeaderMode } from '@alfresco/adf-core';
 import { ContentActionRef, SelectionState } from '@alfresco/adf-extensions';
-import {
-  OnDestroy,
-  OnInit,
-  OnChanges,
-  ViewChild,
-  SimpleChanges,
-  Directive
-} from '@angular/core';
+import { OnDestroy, OnInit, OnChanges, ViewChild, SimpleChanges, Directive } from '@angular/core';
 import { Store } from '@ngrx/store';
-import {
-  MinimalNodeEntity,
-  MinimalNodeEntryEntity,
-  Pagination,
-  NodePaging
-} from '@alfresco/js-api';
+import { MinimalNodeEntity, MinimalNodeEntryEntity, Pagination, NodePaging } from '@alfresco/js-api';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { takeUntil, map } from 'rxjs/operators';
 import { ContentManagementService } from '../services/content-management.service';
@@ -94,7 +79,7 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   ngOnInit() {
     this.sharedPreviewUrl$ = this.store.select(getSharedUrl);
     this.infoDrawerOpened$ = this.store.select(isInfoDrawerOpened).pipe(
-      map(infoDrawerState => {
+      map((infoDrawerState) => {
         return !this.isOutletPreviewUrl() && infoDrawerState;
       })
     );
@@ -104,28 +89,24 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
     this.store
       .select(getAppSelection)
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe(selection => {
+      .subscribe((selection) => {
         this.selection = selection;
         this.actions = this.extensions.getAllowedToolbarActions();
         this.viewerToolbarActions = this.extensions.getViewerToolbarActions();
-        this.canUpdateNode =
-          this.selection.count === 1 &&
-          this.content.canUpdateNode(selection.first);
+        this.canUpdateNode = this.selection.count === 1 && this.content.canUpdateNode(selection.first);
       });
 
     this.store
       .select(getCurrentFolder)
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe(node => {
+      .subscribe((node) => {
         this.canUpload = node && this.content.canUploadContent(node);
       });
 
     if (this.documentList && this.documentList.pagination) {
-      this.documentList.pagination
-        .pipe(takeUntil(this.onDestroy$))
-        .subscribe((newPagination: Pagination) => {
-          this.pagination = newPagination;
-        });
+      this.documentList.pagination.pipe(takeUntil(this.onDestroy$)).subscribe((newPagination: Pagination) => {
+        this.pagination = newPagination;
+      });
     }
   }
 
@@ -136,7 +117,7 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
     this.subscriptions = [];
 
     this.onDestroy$.next(true);
@@ -145,8 +126,7 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
 
   showPreview(node: MinimalNodeEntity, extras?: ViewNodeExtras) {
     if (node && node.entry) {
-      const id =
-        (node as any).entry.nodeId || (node as any).entry.guid || node.entry.id;
+      const id = (node as any).entry.nodeId || (node as any).entry.guid || node.entry.id;
 
       this.store.dispatch(new ViewNodeAction(id, extras));
     }

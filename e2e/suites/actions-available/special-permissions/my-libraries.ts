@@ -32,7 +32,6 @@ export function librariesTests(siteName?: string) {
   const { dataTable } = page;
 
   describe('available actions : ', () => {
-
     beforeAll(async () => {
       await page.goToMyLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(siteName);
@@ -48,14 +47,21 @@ export function librariesTests(siteName?: string) {
     });
 
     describe('on a file', () => {
-
       it('File Office - [C280476]', async () => {
-        await testUtil.checkToolbarActions(testData.fileDocx.name, testData.fileDocx.toolbarPrimary, testData.fileDocx.toolbarMore);
+        await testUtil.checkToolbarActions(
+          testData.fileDocx.name,
+          testData.fileDocx.toolbarPrimary,
+          testData.fileDocx.toolbarMore
+        );
         await testUtil.checkContextMenu(testData.fileDocx.name, testData.fileDocx.contextMenu);
       });
 
       it('File Office, favorite - [C280455]', async () => {
-        await testUtil.checkToolbarActions(testData.fileDocxFav.name, testData.fileDocxFav.toolbarPrimary, testData.fileDocxFav.toolbarMore);
+        await testUtil.checkToolbarActions(
+          testData.fileDocxFav.name,
+          testData.fileDocxFav.toolbarPrimary,
+          testData.fileDocxFav.toolbarMore
+        );
         await testUtil.checkContextMenu(testData.fileDocxFav.name, testData.fileDocxFav.contextMenu);
       });
 
@@ -65,97 +71,179 @@ export function librariesTests(siteName?: string) {
       });
 
       it('File favorite - [C280464]', async () => {
-        await testUtil.checkToolbarActions(testData.fileFav.name, testData.fileFav.toolbarPrimary, testData.fileFav.toolbarMore);
+        await testUtil.checkToolbarActions(
+          testData.fileFav.name,
+          testData.fileFav.toolbarPrimary,
+          testData.fileFav.toolbarMore
+        );
         await testUtil.checkContextMenu(testData.fileFav.name, testData.fileFav.contextMenu);
       });
 
       it('File Office, shared - [C280465]', async () => {
-        await testUtil.checkToolbarActions(testData.fileDocxShared.name, testData.fileDocxShared.toolbarPrimary, testData.fileDocxShared.toolbarMore);
+        await testUtil.checkToolbarActions(
+          testData.fileDocxShared.name,
+          testData.fileDocxShared.toolbarPrimary,
+          testData.fileDocxShared.toolbarMore
+        );
         await testUtil.checkContextMenu(testData.fileDocxShared.name, testData.fileDocxShared.contextMenu);
       });
 
       it('File Office, shared, favorite - [C280466]', async () => {
-        await testUtil.checkToolbarActions(testData.fileDocxSharedFav.name, testData.fileDocxSharedFav.toolbarPrimary, testData.fileDocxSharedFav.toolbarMore);
+        await testUtil.checkToolbarActions(
+          testData.fileDocxSharedFav.name,
+          testData.fileDocxSharedFav.toolbarPrimary,
+          testData.fileDocxSharedFav.toolbarMore
+        );
         await testUtil.checkContextMenu(testData.fileDocxSharedFav.name, testData.fileDocxSharedFav.contextMenu);
       });
 
       it('File shared - [C280599]', async () => {
-        await testUtil.checkToolbarActions(testData.fileShared.name, testData.fileShared.toolbarPrimary, testData.fileShared.toolbarMore);
+        await testUtil.checkToolbarActions(
+          testData.fileShared.name,
+          testData.fileShared.toolbarPrimary,
+          testData.fileShared.toolbarMore
+        );
         await testUtil.checkContextMenu(testData.fileShared.name, testData.fileShared.contextMenu);
       });
 
       it('File shared, favorite - [C280600]', async () => {
-        await testUtil.checkToolbarActions(testData.fileSharedFav.name, testData.fileSharedFav.toolbarPrimary, testData.fileSharedFav.toolbarMore);
+        await testUtil.checkToolbarActions(
+          testData.fileSharedFav.name,
+          testData.fileSharedFav.toolbarPrimary,
+          testData.fileSharedFav.toolbarMore
+        );
         await testUtil.checkContextMenu(testData.fileSharedFav.name, testData.fileSharedFav.contextMenu);
       });
 
       it('File locked - [C280647]', async () => {
-        await testUtil.checkToolbarActions(testData.fileLocked.name, testData.fileLocked.toolbarPrimary, testData.fileLocked.toolbarMore);
+        await testUtil.checkToolbarActions(
+          testData.fileLocked.name,
+          testData.fileLocked.toolbarPrimary,
+          testData.fileLocked.toolbarMore
+        );
         await testUtil.checkContextMenu(testData.fileLocked.name, testData.fileLocked.contextMenu);
       });
 
       it('File favorite, locked - [C280477]', async () => {
-        await testUtil.checkToolbarActions(testData.fileFavLocked.name, testData.fileFavLocked.toolbarPrimary, testData.fileFavLocked.toolbarMore);
+        await testUtil.checkToolbarActions(
+          testData.fileFavLocked.name,
+          testData.fileFavLocked.toolbarPrimary,
+          testData.fileFavLocked.toolbarMore
+        );
         await testUtil.checkContextMenu(testData.fileFavLocked.name, testData.fileFavLocked.contextMenu);
       });
 
       it('File shared, locked - [C280666]', async () => {
-        await testUtil.checkToolbarActions(testData.fileSharedLocked.name, testData.fileSharedLocked.toolbarPrimary, testData.fileSharedLocked.toolbarMore);
+        await testUtil.checkToolbarActions(
+          testData.fileSharedLocked.name,
+          testData.fileSharedLocked.toolbarPrimary,
+          testData.fileSharedLocked.toolbarMore
+        );
         await testUtil.checkContextMenu(testData.fileSharedLocked.name, testData.fileSharedLocked.contextMenu);
       });
 
       it('File shared, favorite, locked - [C280669]', async () => {
-        await testUtil.checkToolbarActions(testData.fileSharedFavLocked.name, testData.fileSharedFavLocked.toolbarPrimary, testData.fileSharedFavLocked.toolbarMore);
+        await testUtil.checkToolbarActions(
+          testData.fileSharedFavLocked.name,
+          testData.fileSharedFavLocked.toolbarPrimary,
+          testData.fileSharedFavLocked.toolbarMore
+        );
         await testUtil.checkContextMenu(testData.fileSharedFavLocked.name, testData.fileSharedFavLocked.contextMenu);
       });
-
     });
 
     describe('on a folder', () => {
-
       it('Folder not favorite - [C280456]', async () => {
-        await testUtil.checkToolbarActions(testData.folder.name, testData.folder.toolbarPrimary, testData.folder.toolbarMore);
+        await testUtil.checkToolbarActions(
+          testData.folder.name,
+          testData.folder.toolbarPrimary,
+          testData.folder.toolbarMore
+        );
         await testUtil.checkContextMenu(testData.folder.name, testData.folder.contextMenu);
       });
 
       it('Folder favorite - [C286284]', async () => {
-        await testUtil.checkToolbarActions(testData.folderFav.name, testData.folderFav.toolbarPrimary, testData.folderFav.toolbarMore);
+        await testUtil.checkToolbarActions(
+          testData.folderFav.name,
+          testData.folderFav.toolbarPrimary,
+          testData.folderFav.toolbarMore
+        );
         await testUtil.checkContextMenu(testData.folderFav.name, testData.folderFav.contextMenu);
       });
     });
 
     describe('on multiple selection', () => {
-
       it('multiple files - [C286264]', async () => {
-        await testUtil.checkMultipleSelContextMenu([ testData.fileDocx.name, testData.fileDocxSharedFav.name ], testData.multipleSel.contextMenu);
-        await testUtil.checkMultipleSelToolbarActions([ testData.fileDocx.name, testData.fileDocxSharedFav.name ], testData.multipleSel.toolbarPrimary, testData.multipleSel.toolbarMore);
+        await testUtil.checkMultipleSelContextMenu(
+          [testData.fileDocx.name, testData.fileDocxSharedFav.name],
+          testData.multipleSel.contextMenu
+        );
+        await testUtil.checkMultipleSelToolbarActions(
+          [testData.fileDocx.name, testData.fileDocxSharedFav.name],
+          testData.multipleSel.toolbarPrimary,
+          testData.multipleSel.toolbarMore
+        );
       });
 
       it('multiple files - all favorite - [C286283]', async () => {
-        await testUtil.checkMultipleSelContextMenu([ testData.fileDocxFav.name, testData.fileDocxSharedFav.name ], testData.multipleSelAllFav.contextMenu);
-        await testUtil.checkMultipleSelToolbarActions([ testData.fileDocxFav.name, testData.fileDocxSharedFav.name ], testData.multipleSel.toolbarPrimary, testData.multipleSelAllFav.toolbarMore);
+        await testUtil.checkMultipleSelContextMenu(
+          [testData.fileDocxFav.name, testData.fileDocxSharedFav.name],
+          testData.multipleSelAllFav.contextMenu
+        );
+        await testUtil.checkMultipleSelToolbarActions(
+          [testData.fileDocxFav.name, testData.fileDocxSharedFav.name],
+          testData.multipleSel.toolbarPrimary,
+          testData.multipleSelAllFav.toolbarMore
+        );
       });
 
       it('multiple locked files - [C280478]', async () => {
-        await testUtil.checkMultipleSelContextMenu([ testData.fileLocked.name, testData.fileSharedFavLocked.name ], testData.multipleSel.contextMenu);
-        await testUtil.checkMultipleSelToolbarActions([ testData.fileLocked.name, testData.fileSharedFavLocked.name ], testData.multipleSel.toolbarPrimary, testData.multipleSel.toolbarMore);
+        await testUtil.checkMultipleSelContextMenu(
+          [testData.fileLocked.name, testData.fileSharedFavLocked.name],
+          testData.multipleSel.contextMenu
+        );
+        await testUtil.checkMultipleSelToolbarActions(
+          [testData.fileLocked.name, testData.fileSharedFavLocked.name],
+          testData.multipleSel.toolbarPrimary,
+          testData.multipleSel.toolbarMore
+        );
       });
 
       it('multiple folders - [C213121]', async () => {
-        await testUtil.checkMultipleSelContextMenu([ testData.folderFav.name, testData.folder.name ], testData.multipleSel.contextMenu);
-        await testUtil.checkMultipleSelToolbarActions([ testData.folderFav.name, testData.folder.name ], testData.multipleSel.toolbarPrimary, testData.multipleSel.toolbarMore);
+        await testUtil.checkMultipleSelContextMenu(
+          [testData.folderFav.name, testData.folder.name],
+          testData.multipleSel.contextMenu
+        );
+        await testUtil.checkMultipleSelToolbarActions(
+          [testData.folderFav.name, testData.folder.name],
+          testData.multipleSel.toolbarPrimary,
+          testData.multipleSel.toolbarMore
+        );
       });
 
       it('both files and folders - [C286266]', async () => {
-        await testUtil.checkMultipleSelContextMenu([ testData.file.name, testData.folder.name ], testData.multipleSel.contextMenu);
-        await testUtil.checkMultipleSelToolbarActions([ testData.file.name, testData.folder.name ], testData.multipleSel.toolbarPrimary, testData.multipleSel.toolbarMore);
+        await testUtil.checkMultipleSelContextMenu(
+          [testData.file.name, testData.folder.name],
+          testData.multipleSel.contextMenu
+        );
+        await testUtil.checkMultipleSelToolbarActions(
+          [testData.file.name, testData.folder.name],
+          testData.multipleSel.toolbarPrimary,
+          testData.multipleSel.toolbarMore
+        );
       });
 
       it('multiple files with different granular permissions - [C286285]', async () => {
-        await testUtil.checkMultipleSelContextMenu([ testData.fileDocxFav.name, testData.fileGranularPermission ], testData.multipleSelAllFav.contextMenu);
-        await testUtil.checkMultipleSelToolbarActions([ testData.fileDocxFav.name, testData.fileGranularPermission ], testData.multipleSel.toolbarPrimary, testData.multipleSelAllFav.toolbarMore);
+        await testUtil.checkMultipleSelContextMenu(
+          [testData.fileDocxFav.name, testData.fileGranularPermission],
+          testData.multipleSelAllFav.contextMenu
+        );
+        await testUtil.checkMultipleSelToolbarActions(
+          [testData.fileDocxFav.name, testData.fileGranularPermission],
+          testData.multipleSel.toolbarPrimary,
+          testData.multipleSelAllFav.toolbarMore
+        );
       });
-
     });
   });
 }

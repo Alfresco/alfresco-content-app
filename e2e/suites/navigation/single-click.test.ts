@@ -23,22 +23,20 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  LoginPage,
-  BrowsingPage,
-  Viewer,
-  RepoClient,
-  Utils
-} from '@alfresco/aca-testing-shared';
+import { LoginPage, BrowsingPage, Viewer, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 
 describe('Single click on item name', () => {
   const username = `user-${Utils.random()}`;
 
-  const file1 = `file1-${Utils.random()}.txt`; let file1Id;
-  const folder1 = `folder1-${Utils.random()}`; let folder1Id;
+  const file1 = `file1-${Utils.random()}.txt`;
+  let file1Id;
+  const folder1 = `folder1-${Utils.random()}`;
+  let folder1Id;
 
-  const deletedFile1 = `file1-${Utils.random()}.txt`; let deletedFile1Id;
-  const deletedFolder1 = `folder1-${Utils.random()}`; let deletedFolder1Id;
+  const deletedFile1 = `file1-${Utils.random()}.txt`;
+  let deletedFile1Id;
+  const deletedFolder1 = `folder1-${Utils.random()}`;
+  let deletedFolder1Id;
 
   const siteName = `site-${Utils.random()}`;
   const fileSite = `fileSite-${Utils.random()}.txt`;
@@ -65,7 +63,7 @@ describe('Single click on item name', () => {
     await apis.user.nodes.deleteNodeById(deletedFolder1Id, false);
 
     await apis.user.sites.createSite(siteName);
-    const docLibId = (await apis.user.sites.getDocLibId(siteName));
+    const docLibId = await apis.user.sites.getDocLibId(siteName);
     await apis.user.nodes.createFile(fileSite, docLibId);
 
     await apis.user.shared.shareFileById(file1Id);
@@ -201,7 +199,7 @@ describe('Single click on item name', () => {
   });
 
   describe('on Search Results', () => {
-    beforeEach(async done => {
+    beforeEach(async (done) => {
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
       done();
@@ -238,5 +236,4 @@ describe('Single click on item name', () => {
       expect(await breadcrumb.currentItem.getText()).toBe(folder1);
     });
   });
-
 });

@@ -31,7 +31,6 @@ export function trashTests() {
   const page = new BrowsingPage();
 
   describe('available actions : ', () => {
-
     beforeAll(async () => {
       await page.clickTrashAndWait();
     });
@@ -51,19 +50,36 @@ export function trashTests() {
     });
 
     it('multiple files - [C280472]', async () => {
-      await testUtil.checkMultipleSelContextMenu([ testData.fileInTrash.name, testData.file2InTrash.name ], testData.trashActions);
-      await testUtil.checkMultipleSelToolbarPrimary([ testData.fileInTrash.name, testData.file2InTrash.name ], testData.trashActions);
+      await testUtil.checkMultipleSelContextMenu(
+        [testData.fileInTrash.name, testData.file2InTrash.name],
+        testData.trashActions
+      );
+      await testUtil.checkMultipleSelToolbarPrimary(
+        [testData.fileInTrash.name, testData.file2InTrash.name],
+        testData.trashActions
+      );
     });
 
     it('multiple folders - [C280473]', async () => {
-      await testUtil.checkMultipleSelContextMenu([ testData.folderInTrash.name, testData.folder2InTrash.name ], testData.trashActions);
-      await testUtil.checkMultipleSelToolbarPrimary([ testData.folderInTrash.name, testData.folder2InTrash.name ], testData.trashActions);
+      await testUtil.checkMultipleSelContextMenu(
+        [testData.folderInTrash.name, testData.folder2InTrash.name],
+        testData.trashActions
+      );
+      await testUtil.checkMultipleSelToolbarPrimary(
+        [testData.folderInTrash.name, testData.folder2InTrash.name],
+        testData.trashActions
+      );
     });
 
     it('both files and folders - [C280474]', async () => {
-      await testUtil.checkMultipleSelContextMenu([ testData.fileInTrash.name, testData.folderInTrash.name ], testData.trashActions);
-      await testUtil.checkMultipleSelToolbarPrimary([ testData.fileInTrash.name, testData.folderInTrash.name ], testData.trashActions);
+      await testUtil.checkMultipleSelContextMenu(
+        [testData.fileInTrash.name, testData.folderInTrash.name],
+        testData.trashActions
+      );
+      await testUtil.checkMultipleSelToolbarPrimary(
+        [testData.fileInTrash.name, testData.folderInTrash.name],
+        testData.trashActions
+      );
     });
-
   });
 }

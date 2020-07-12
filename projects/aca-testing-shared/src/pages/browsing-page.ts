@@ -23,14 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  Header,
-  DataTable,
-  Pagination,
-  Toolbar,
-  Breadcrumb,
-  Sidenav
-} from '../components/components';
+import { Header, DataTable, Pagination, Toolbar, Breadcrumb, Sidenav } from '../components/components';
 import { SIDEBAR_LABELS } from './../configs';
 import { Page } from './page';
 

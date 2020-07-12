@@ -23,13 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  Component,
-  Input,
-  OnInit,
-  ChangeDetectionStrategy,
-  ViewEncapsulation
-} from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 
 import { NodeEntry } from '@alfresco/js-api';
 

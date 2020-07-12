@@ -23,13 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  Directive,
-  Output,
-  EventEmitter,
-  OnInit,
-  OnDestroy
-} from '@angular/core';
+import { Directive, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { fromEvent, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
@@ -47,13 +41,13 @@ export class OutsideEventDirective implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscriptions = this.subscriptions.concat([
       fromEvent(document.body, 'click')
-        .pipe(filter(event => !this.findAncestor(event.target as Element)))
+        .pipe(filter((event) => !this.findAncestor(event.target as Element)))
         .subscribe(() => this.clickOutside.next())
     ]);
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
     this.subscriptions = [];
   }
 

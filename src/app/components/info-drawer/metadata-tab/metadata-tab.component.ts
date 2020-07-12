@@ -23,19 +23,9 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  Component,
-  Input,
-  ViewEncapsulation,
-  OnInit,
-  OnDestroy
-} from '@angular/core';
+import { Component, Input, ViewEncapsulation, OnInit, OnDestroy } from '@angular/core';
 import { MinimalNodeEntryEntity } from '@alfresco/js-api';
-import {
-  NodePermissionService,
-  isLocked,
-  AppExtensionService
-} from '@alfresco/aca-shared';
+import { NodePermissionService, isLocked, AppExtensionService } from '@alfresco/aca-shared';
 import { AppStore, infoDrawerMetadataAspect } from '@alfresco/aca-shared/store';
 import { AppConfigService, NotificationService } from '@alfresco/adf-core';
 import { Observable, Subject } from 'rxjs';
@@ -74,9 +64,7 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
     private contentMetadataService: ContentMetadataService
   ) {
     if (this.extensions.contentMetadata) {
-      this.appConfig.config[
-        'content-metadata'
-      ] = this.extensions.contentMetadata;
+      this.appConfig.config['content-metadata'] = this.extensions.contentMetadata;
     }
     this.displayAspect$ = this.store.select(infoDrawerMetadataAspect);
   }
@@ -90,11 +78,9 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.contentMetadataService.error
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((err: { message: string }) => {
-        this.notificationService.showError(err.message);
-      });
+    this.contentMetadataService.error.pipe(takeUntil(this.onDestroy$)).subscribe((err: { message: string }) => {
+      this.notificationService.showError(err.message);
+    });
   }
 
   ngOnDestroy() {

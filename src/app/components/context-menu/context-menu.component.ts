@@ -95,7 +95,7 @@ export class ContextMenuComponent implements OnInit, OnDestroy, AfterViewInit {
     this.store
       .select(getAppSelection)
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe(selection => {
+      .subscribe((selection) => {
         if (selection.count) {
           this.actions = this.extensions.getAllowedContextMenuActions();
         }

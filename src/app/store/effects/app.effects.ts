@@ -48,7 +48,7 @@ export class AppEffects {
   @Effect({ dispatch: false })
   reload = this.actions$.pipe(
     ofType<ReloadDocumentListAction>(AppActionTypes.ReloadDocumentList),
-    map(action => {
+    map((action) => {
       this.content.reload.next(action);
     })
   );
@@ -56,7 +56,7 @@ export class AppEffects {
   @Effect({ dispatch: false })
   resetSelection = this.actions$.pipe(
     ofType<ResetSelectionAction>(AppActionTypes.ResetSelection),
-    map(action => {
+    map((action) => {
       this.content.reset.next(action);
     })
   );

@@ -35,7 +35,8 @@ import {
 describe('Create folder', () => {
   const username = `user-${Utils.random()}`;
 
-  const parent = `parent-${Utils.random()}`; let parentId;
+  const parent = `parent-${Utils.random()}`;
+  let parentId;
   const folderName1 = `folder-${Utils.random()}`;
   const folderName2 = `folder-${Utils.random()}`;
   const folderDescription = 'description of my folder';
@@ -150,7 +151,7 @@ describe('Create folder', () => {
     });
 
     it('[C216347] with folder name containing special characters', async () => {
-      const namesWithSpecialChars = [ 'a*a', 'a"a', 'a<a', 'a>a', `a\\a`, 'a/a', 'a?a', 'a:a', 'a|a' ];
+      const namesWithSpecialChars = ['a*a', 'a"a', 'a<a', 'a>a', `a\\a`, 'a/a', 'a?a', 'a:a', 'a|a'];
 
       await page.dataTable.doubleClickOnRowByName(parent);
       await page.sidenav.openCreateFolderDialog();
@@ -258,5 +259,4 @@ describe('Create folder', () => {
       expect(await createDialog.isDialogOpen()).toBe(true, 'dialog is not present');
     });
   });
-
 });

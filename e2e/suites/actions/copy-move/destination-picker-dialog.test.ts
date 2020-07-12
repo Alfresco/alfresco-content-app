@@ -161,12 +161,15 @@ describe('Destination picker dialog : ', () => {
       expect(await dataTable.isItemPresent(fileInDestination)).toBe(false, 'file is displayed');
     });
 
-    it('[C263881] Folder links are not displayed', async() => {
+    it('[C263881] Folder links are not displayed', async () => {
       await dialog.selectLocation('Personal Files');
       await dataTable.doubleClickOnRowByName(destination);
 
       expect(await dataTable.isItemPresent(folderInDestination)).toBe(true, `${folderInDestination} is not displayed`);
-      expect(await dataTable.isItemPresent(folder2InDestination)).toBe(true, `${folder2InDestination} is not displayed`);
+      expect(await dataTable.isItemPresent(folder2InDestination)).toBe(
+        true,
+        `${folder2InDestination} is not displayed`
+      );
       expect(await dataTable.isItemPresent(folderLink)).toBe(false, 'Link to folder is displayed');
     });
 
@@ -185,7 +188,10 @@ describe('Destination picker dialog : ', () => {
     it('[C263888] Search - results found', async () => {
       await dialog.searchFor(searchFolder);
 
-      expect(await dataTable.isItemPresent(searchFolder, username)).toBe(true, 'folder from Personal Files not displayed');
+      expect(await dataTable.isItemPresent(searchFolder, username)).toBe(
+        true,
+        'folder from Personal Files not displayed'
+      );
       expect(await dataTable.isItemPresent(searchFolder, site)).toBe(true, 'folder from site not displayed');
     });
   });
@@ -290,7 +296,6 @@ describe('Destination picker dialog : ', () => {
   });
 
   describe('Users with different permissions', () => {
-
     it('[C263876] Consumer user cannot select the folder as destination', async () => {
       await loginPage.loginWith(consumer);
       await page.dataTable.selectItem(file);

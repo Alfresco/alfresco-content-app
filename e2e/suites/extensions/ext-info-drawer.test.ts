@@ -24,7 +24,8 @@
  */
 
 import {
-  LoginPage, BrowsingPage,
+  LoginPage,
+  BrowsingPage,
   InfoDrawer,
   RepoClient,
   EXTENSIBILITY_CONFIGS,
@@ -32,131 +33,136 @@ import {
 } from '@alfresco/aca-testing-shared';
 
 describe('Extensions - Info Drawer', () => {
-    const username = `user-${Utils.random()}`;
+  const username = `user-${Utils.random()}`;
 
-    const file = `file-${Utils.random()}.txt`;
-    let fileId;
+  const file = `file-${Utils.random()}.txt`;
+  let fileId;
 
-    const properties_tab = {
-        order: 1,
-        title: 'MY PROPERTIES'
-    };
+  const properties_tab = {
+    order: 1,
+    title: 'MY PROPERTIES'
+  };
 
-    const custom_tab = {
-        order: 2,
-        icon: 'mood',
-        title: 'MY CUSTOM TITLE',
-        component: 'app.toolbar.toggleFavorite'
-    };
+  const custom_tab = {
+    order: 2,
+    icon: 'mood',
+    title: 'MY CUSTOM TITLE',
+    component: 'app.toolbar.toggleFavorite'
+  };
 
-    const no_title_tab = {
-        order: 3,
-        icon: 'check_circle',
-        title: ''
-    };
+  const no_title_tab = {
+    order: 3,
+    icon: 'check_circle',
+    title: ''
+  };
 
-    const comments_tab = {
-        title: 'COMMENTS'
-    };
+  const comments_tab = {
+    title: 'COMMENTS'
+  };
 
-    const apis = {
-        admin: new RepoClient(),
-        user: new RepoClient(username, username)
-    };
+  const apis = {
+    admin: new RepoClient(),
+    user: new RepoClient(username, username)
+  };
 
-    const infoDrawer = new InfoDrawer();
+  const infoDrawer = new InfoDrawer();
 
-    const loginPage = new LoginPage();
-    const page = new BrowsingPage();
+  const loginPage = new LoginPage();
+  const page = new BrowsingPage();
 
+  beforeAll(async (done) => {
+    await apis.admin.people.createUser({ username });
+    fileId = (await apis.user.nodes.createFile(file)).entry.id;
+    done();
+  });
+
+  afterAll(async (done) => {
+    await apis.user.nodes.deleteNodeById(fileId);
+    done();
+  });
+
+  describe('', () => {
     beforeAll(async (done) => {
-        await apis.admin.people.createUser({ username });
-        fileId = (await apis.user.nodes.createFile(file)).entry.id;
-        done();
+      await loginPage.load();
+      await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.INFO_DRAWER);
+      await loginPage.loginWith(username);
+      done();
     });
 
-    afterAll(async (done) => {
-        await apis.user.nodes.deleteNodeById(fileId);
-        done();
+    beforeEach(async (done) => {
+      await page.clickPersonalFilesAndWait();
+      await page.dataTable.clearSelection();
+      done();
     });
 
-    describe('', () => {
-        beforeAll(async (done) => {
-            await loginPage.load();
-            await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.INFO_DRAWER);
-            await loginPage.loginWith(username);
-            done();
-        });
+    it('[C284646] Add a new tab with icon and title', async () => {
+      await page.dataTable.selectItem(file);
+      await page.toolbar.viewDetailsButton.click();
+      await infoDrawer.waitForInfoDrawerToOpen();
 
-        beforeEach(async (done) => {
-            await page.clickPersonalFilesAndWait();
-            await page.dataTable.clearSelection();
-            done();
-        });
-
-        it('[C284646] Add a new tab with icon and title', async () => {
-            await page.dataTable.selectItem(file);
-            await page.toolbar.viewDetailsButton.click();
-            await infoDrawer.waitForInfoDrawerToOpen();
-
-            const val = await infoDrawer.getTabTitle(custom_tab.order);
-            expect(await infoDrawer.isTabPresent(custom_tab.title)).toBe(true, `${custom_tab.title} tab is not present`);
-            expect(val.trim()).toEqual(`${custom_tab.icon}\n${custom_tab.title}`.trim());
-        });
-
-        it('[C284647] Remove existing tab', async () => {
-            await page.dataTable.selectItem(file);
-            await page.toolbar.viewDetailsButton.click();
-            await infoDrawer.waitForInfoDrawerToOpen();
-
-            expect(await infoDrawer.isTabPresent(comments_tab.title)).toBe(false, `${comments_tab.title} tab should not be present!`);
-        });
-
-        it('[C284648] Change tab title', async () => {
-            await page.dataTable.selectItem(file);
-            await page.toolbar.viewDetailsButton.click();
-            await infoDrawer.waitForInfoDrawerToOpen();
-
-            expect(await infoDrawer.isTabPresent(properties_tab.title)).toBe(true, `${properties_tab.title} tab is not present`);
-            expect(await infoDrawer.getTabTitle(properties_tab.order)).toEqual(properties_tab.title);
-        });
-
-        it('[C284649] Tab with icon and no title', async () => {
-            await page.dataTable.selectItem(file);
-            await page.toolbar.viewDetailsButton.click();
-            await infoDrawer.waitForInfoDrawerToOpen();
-
-            expect(await infoDrawer.isTabPresent(no_title_tab.title)).toBe(true, `${no_title_tab.title} tab is not present`);
-            expect((await infoDrawer.getTabTitle(no_title_tab.order)).trim()).toEqual(`${no_title_tab.icon}`.trim());
-        });
-
-        it('[C284651] Insert new component in tab', async () => {
-            await page.dataTable.selectItem(file);
-            await page.toolbar.viewDetailsButton.click();
-            await infoDrawer.waitForInfoDrawerToOpen();
-
-            expect(await infoDrawer.isTabDisplayed(custom_tab.title)).toBe(true, `${custom_tab.title} tab is not displayed`);
-            await infoDrawer.clickTab(custom_tab.title);
-            expect(await infoDrawer.getComponentIdOfTab()).toEqual(custom_tab.component);
-        });
+      const val = await infoDrawer.getTabTitle(custom_tab.order);
+      expect(await infoDrawer.isTabPresent(custom_tab.title)).toBe(true, `${custom_tab.title} tab is not present`);
+      expect(val.trim()).toEqual(`${custom_tab.icon}\n${custom_tab.title}`.trim());
     });
 
-    describe('', () => {
-        beforeAll(async (done) => {
-            await loginPage.load();
-            await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.INFO_DRAWER_EMPTY);
-            await loginPage.loginWith(username);
-            await page.clickPersonalFilesAndWait();
-            done();
-        });
+    it('[C284647] Remove existing tab', async () => {
+      await page.dataTable.selectItem(file);
+      await page.toolbar.viewDetailsButton.click();
+      await infoDrawer.waitForInfoDrawerToOpen();
 
-        it('[C284650] Remove all tabs', async () => {
-            await page.dataTable.selectItem(file);
-            await page.toolbar.viewDetailsButton.click();
-            await infoDrawer.waitForInfoDrawerToOpen();
-
-            expect(await infoDrawer.isEmpty()).toBe(true, 'Info Drawer is not empty');
-        });
+      expect(await infoDrawer.isTabPresent(comments_tab.title)).toBe(
+        false,
+        `${comments_tab.title} tab should not be present!`
+      );
     });
 
+    it('[C284648] Change tab title', async () => {
+      await page.dataTable.selectItem(file);
+      await page.toolbar.viewDetailsButton.click();
+      await infoDrawer.waitForInfoDrawerToOpen();
+
+      expect(await infoDrawer.isTabPresent(properties_tab.title)).toBe(
+        true,
+        `${properties_tab.title} tab is not present`
+      );
+      expect(await infoDrawer.getTabTitle(properties_tab.order)).toEqual(properties_tab.title);
+    });
+
+    it('[C284649] Tab with icon and no title', async () => {
+      await page.dataTable.selectItem(file);
+      await page.toolbar.viewDetailsButton.click();
+      await infoDrawer.waitForInfoDrawerToOpen();
+
+      expect(await infoDrawer.isTabPresent(no_title_tab.title)).toBe(true, `${no_title_tab.title} tab is not present`);
+      expect((await infoDrawer.getTabTitle(no_title_tab.order)).trim()).toEqual(`${no_title_tab.icon}`.trim());
+    });
+
+    it('[C284651] Insert new component in tab', async () => {
+      await page.dataTable.selectItem(file);
+      await page.toolbar.viewDetailsButton.click();
+      await infoDrawer.waitForInfoDrawerToOpen();
+
+      expect(await infoDrawer.isTabDisplayed(custom_tab.title)).toBe(true, `${custom_tab.title} tab is not displayed`);
+      await infoDrawer.clickTab(custom_tab.title);
+      expect(await infoDrawer.getComponentIdOfTab()).toEqual(custom_tab.component);
+    });
+  });
+
+  describe('', () => {
+    beforeAll(async (done) => {
+      await loginPage.load();
+      await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.INFO_DRAWER_EMPTY);
+      await loginPage.loginWith(username);
+      await page.clickPersonalFilesAndWait();
+      done();
+    });
+
+    it('[C284650] Remove all tabs', async () => {
+      await page.dataTable.selectItem(file);
+      await page.toolbar.viewDetailsButton.click();
+      await infoDrawer.waitForInfoDrawerToOpen();
+
+      expect(await infoDrawer.isEmpty()).toBe(true, 'Info Drawer is not empty');
+    });
+  });
 });

@@ -23,30 +23,35 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  LoginPage,
-  BrowsingPage,
-  FILES,
-  RepoClient,
-  Utils
-} from '@alfresco/aca-testing-shared';
+import { LoginPage, BrowsingPage, FILES, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 
 describe('Edit offline', () => {
   const username = `user-${Utils.random()}`;
 
-  const file1 = `file1-${Utils.random()}.docx`; let file1Id;
-  const fileLocked = `file-locked-${Utils.random()}.docx`; let fileLockedId;
-  const fileLocked2 = `file-locked2-${Utils.random()}.docx`; let fileLocked2Id;
+  const file1 = `file1-${Utils.random()}.docx`;
+  let file1Id;
+  const fileLocked = `file-locked-${Utils.random()}.docx`;
+  let fileLockedId;
+  const fileLocked2 = `file-locked2-${Utils.random()}.docx`;
+  let fileLocked2Id;
 
-  const fileSearch1 = `file-search-1-${Utils.random()}.docx`; let fileSearch1Id;
-  const fileSearchLocked = `file-search-locked-${Utils.random()}.docx`; let fileSearchLockedId;
-  const fileSearchLocked2 = `file-search-locked2-${Utils.random()}.docx`; let fileSearchLocked2Id;
+  const fileSearch1 = `file-search-1-${Utils.random()}.docx`;
+  let fileSearch1Id;
+  const fileSearchLocked = `file-search-locked-${Utils.random()}.docx`;
+  let fileSearchLockedId;
+  const fileSearchLocked2 = `file-search-locked2-${Utils.random()}.docx`;
+  let fileSearchLocked2Id;
 
-  const parentPF = `parentPersonal-${Utils.random()}`; let parentPFId;
-  const parentSF = `parentShared-${Utils.random()}`; let parentSFId;
-  const parentRF = `parentRecent-${Utils.random()}`; let parentRFId;
-  const parentFav = `parentFav-${Utils.random()}`; let parentFavId;
-  const parentSearch = `parentSearch-${Utils.random()}`; let parentSearchId;
+  const parentPF = `parentPersonal-${Utils.random()}`;
+  let parentPFId;
+  const parentSF = `parentShared-${Utils.random()}`;
+  let parentSFId;
+  const parentRF = `parentRecent-${Utils.random()}`;
+  let parentRFId;
+  const parentFav = `parentFav-${Utils.random()}`;
+  let parentFavId;
+  const parentSearch = `parentSearch-${Utils.random()}`;
+  let parentSearchId;
 
   const apis = {
     admin: new RepoClient(),
@@ -100,7 +105,10 @@ describe('Edit offline', () => {
     it('[C297539] Lock information is displayed', async () => {
       expect(await dataTable.isItemPresent(fileLocked2)).toBe(true, `${fileLocked2} is not displayed`);
       expect(await dataTable.hasLockIcon(fileLocked2)).toBe(true, `${fileLocked2} does not have a lock icon`);
-      expect(await dataTable.getLockOwner(fileLocked2)).toContain(username, `${fileLocked2} does not have correct lock owner info`);
+      expect(await dataTable.getLockOwner(fileLocked2)).toContain(
+        username,
+        `${fileLocked2} does not have correct lock owner info`
+      );
     });
 
     it('[C297540] Cancel Editing unlocks the file', async () => {
@@ -153,7 +161,10 @@ describe('Edit offline', () => {
     it('[C306951] Lock information is displayed', async () => {
       expect(await dataTable.isItemPresent(fileLocked2, parentSF)).toBe(true, `${fileLocked2} is not displayed`);
       expect(await dataTable.hasLockIcon(fileLocked2, parentSF)).toBe(true, `${fileLocked2} does not have a lock icon`);
-      expect(await dataTable.getLockOwner(fileLocked2, parentSF)).toContain(username, `${fileLocked2} does not have correct lock owner info`);
+      expect(await dataTable.getLockOwner(fileLocked2, parentSF)).toContain(
+        username,
+        `${fileLocked2} does not have correct lock owner info`
+      );
     });
 
     it('[C306952] Cancel Editing unlocks the file', async () => {
@@ -207,7 +218,10 @@ describe('Edit offline', () => {
     it('[C297542] Lock information is displayed', async () => {
       expect(await dataTable.isItemPresent(fileLocked2, parentRF)).toBe(true, `${fileLocked2} is not displayed`);
       expect(await dataTable.hasLockIcon(fileLocked2, parentRF)).toBe(true, `${fileLocked2} does not have a lock icon`);
-      expect(await dataTable.getLockOwner(fileLocked2, parentRF)).toContain(username, `${fileLocked2} does not have correct lock owner info`);
+      expect(await dataTable.getLockOwner(fileLocked2, parentRF)).toContain(
+        username,
+        `${fileLocked2} does not have correct lock owner info`
+      );
     });
 
     it('[C297543] Cancel Editing unlocks the file', async () => {
@@ -261,7 +275,10 @@ describe('Edit offline', () => {
     it('[C306957] Lock information is displayed', async () => {
       expect(await dataTable.isItemPresent(fileLocked2)).toBe(true, `${fileLocked2} is not displayed`);
       expect(await dataTable.hasLockIcon(fileLocked2)).toBe(true, `${fileLocked2} does not have a lock icon`);
-      expect(await dataTable.getLockOwner(fileLocked2)).toContain(username, `${fileLocked2} does not have correct lock owner info`);
+      expect(await dataTable.getLockOwner(fileLocked2)).toContain(
+        username,
+        `${fileLocked2} does not have correct lock owner info`
+      );
     });
 
     it('[C306958] Cancel Editing unlocks the file', async () => {
@@ -278,9 +295,14 @@ describe('Edit offline', () => {
     beforeAll(async () => {
       parentSearchId = (await apis.user.nodes.createFolder(parentSearch)).entry.id;
 
-      fileSearch1Id = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentSearchId, fileSearch1)).entry.id;
-      fileSearchLockedId = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentSearchId, fileSearchLocked)).entry.id;
-      fileSearchLocked2Id = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentSearchId, fileSearchLocked2)).entry.id;
+      fileSearch1Id = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentSearchId, fileSearch1)).entry
+        .id;
+      fileSearchLockedId = (
+        await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentSearchId, fileSearchLocked)
+      ).entry.id;
+      fileSearchLocked2Id = (
+        await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentSearchId, fileSearchLocked2)
+      ).entry.id;
 
       await apis.user.nodes.lockFile(fileSearchLockedId);
       await apis.user.nodes.lockFile(fileSearchLocked2Id);
@@ -314,8 +336,14 @@ describe('Edit offline', () => {
     });
 
     it('[C306954] Lock information is displayed', async () => {
-      expect(await dataTable.isItemPresent(fileSearchLocked2, parentSearch)).toBe(true, `${fileSearchLocked2} is not displayed`);
-      expect(await dataTable.hasLockIcon(fileSearchLocked2, parentSearch)).toBe(true, `${fileSearchLocked2} does not have a lock icon`);
+      expect(await dataTable.isItemPresent(fileSearchLocked2, parentSearch)).toBe(
+        true,
+        `${fileSearchLocked2} is not displayed`
+      );
+      expect(await dataTable.hasLockIcon(fileSearchLocked2, parentSearch)).toBe(
+        true,
+        `${fileSearchLocked2} does not have a lock icon`
+      );
       // TODO: enable when ACA-2314 is fixed
       // expect(await dataTable.getLockOwner(fileSearchLocked2, parentSearch)).toContain(username, `${fileSearchLocked2} does not have correct lock owner info`);
     });
@@ -325,8 +353,14 @@ describe('Edit offline', () => {
       await toolbar.clickMoreActionsCancelEditing();
       await dataTable.unselectItem(fileSearchLocked);
 
-      expect(await apis.user.nodes.isFileLockedWrite(fileSearchLockedId)).toBe(false, `${fileSearchLocked} is still locked`);
-      expect(await dataTable.hasLockIcon(fileSearchLocked, parentSearch)).toBe(false, `${fileSearchLocked} has a lock icon`);
+      expect(await apis.user.nodes.isFileLockedWrite(fileSearchLockedId)).toBe(
+        false,
+        `${fileSearchLocked} is still locked`
+      );
+      expect(await dataTable.hasLockIcon(fileSearchLocked, parentSearch)).toBe(
+        false,
+        `${fileSearchLocked} has a lock icon`
+      );
     });
   });
 });

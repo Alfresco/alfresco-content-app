@@ -23,13 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  LoginPage,
-  SearchResultsPage,
-  RepoClient,
-  Utils
-} from '@alfresco/aca-testing-shared';
-
+import { LoginPage, SearchResultsPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 import * as moment from 'moment';
 
 describe('Search results - files and folders', () => {
@@ -61,7 +55,7 @@ describe('Search results - files and folders', () => {
   const { searchInput } = page.header;
   const { dataTable, breadcrumb } = page;
 
-  beforeAll(async done => {
+  beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
 
     fileId = (await apis.user.nodes.createFile(file, '-my-', fileTitle, fileDescription)).entry.id;
@@ -77,12 +71,12 @@ describe('Search results - files and folders', () => {
     done();
   });
 
-  beforeEach(async done => {
+  beforeEach(async (done) => {
     await page.refresh();
     done();
   });
 
-  afterAll(async done => {
+  afterAll(async (done) => {
     await Promise.all([
       apis.user.nodes.deleteNodeById(fileId),
       apis.user.nodes.deleteNodeById(fileRussianId),
@@ -117,7 +111,9 @@ describe('Search results - files and folders', () => {
     expect(await dataTable.getSearchResultLinesCount(file)).toEqual(4, 'incorrect number of lines for search result');
     expect(await dataTable.getSearchResultNameAndTitle(file)).toBe(`${file} ( ${fileTitle} )`);
     expect(await dataTable.getSearchResultDescription(file)).toBe(fileDescription);
-    expect(await dataTable.getSearchResultModified(file)).toBe(`Modified: ${modifiedDate} by ${modifiedBy} | Size: ${size} Bytes`);
+    expect(await dataTable.getSearchResultModified(file)).toBe(
+      `Modified: ${modifiedDate} by ${modifiedBy} | Size: ${size} Bytes`
+    );
     expect(await dataTable.getSearchResultLocation(file)).toMatch(/Location:\s+Personal Files/);
   });
 

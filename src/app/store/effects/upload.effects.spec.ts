@@ -29,15 +29,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { UploadEffects } from './upload.effects';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { NgZone } from '@angular/core';
-import {
-  UploadService,
-  FileUploadCompleteEvent,
-  FileModel
-} from '@alfresco/adf-core';
-import {
-  UnlockWriteAction,
-  UploadFileVersionAction
-} from '@alfresco/aca-shared/store';
+import { UploadService, FileUploadCompleteEvent, FileModel } from '@alfresco/adf-core';
+import { UnlockWriteAction, UploadFileVersionAction } from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../services/content-management.service';
 
 describe('UploadEffects', () => {
@@ -87,11 +80,7 @@ describe('UploadEffects', () => {
     });
 
     it('should dispatch the unlock write action for a locked file', () => {
-      const file: FileModel = new FileModel(
-        { name: 'file1.png', size: 10 } as File,
-        null,
-        'file1'
-      );
+      const file: FileModel = new FileModel({ name: 'file1.png', size: 10 } as File, null, 'file1');
 
       file.data = {
         entry: {
@@ -107,21 +96,13 @@ describe('UploadEffects', () => {
       spyOn(store, 'dispatch').and.stub();
 
       effects.uploadAndUnlock(file);
-      uploadService.fileUploadComplete.next(
-        new FileUploadCompleteEvent(file, 100, file.data)
-      );
+      uploadService.fileUploadComplete.next(new FileUploadCompleteEvent(file, 100, file.data));
 
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new UnlockWriteAction(file.data)
-      );
+      expect(store.dispatch).toHaveBeenCalledWith(new UnlockWriteAction(file.data));
     });
 
     it('should dispatch only one unlock action for a locked file', () => {
-      const file: FileModel = new FileModel(
-        { name: 'file1.png', size: 10 } as File,
-        null,
-        'file1'
-      );
+      const file: FileModel = new FileModel({ name: 'file1.png', size: 10 } as File, null, 'file1');
 
       file.data = {
         entry: {
@@ -143,19 +124,13 @@ describe('UploadEffects', () => {
       uploadService.fileUploadComplete.next(completeEvent);
       uploadService.fileUploadComplete.next(completeEvent);
 
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new UnlockWriteAction(file.data)
-      );
+      expect(store.dispatch).toHaveBeenCalledWith(new UnlockWriteAction(file.data));
 
       expect(store.dispatch).toHaveBeenCalledTimes(1);
     });
 
     it('should dispatch no actions if file is not locked', () => {
-      const file: FileModel = new FileModel(
-        { name: 'file1.png', size: 10 } as File,
-        null,
-        'file1'
-      );
+      const file: FileModel = new FileModel({ name: 'file1.png', size: 10 } as File, null, 'file1');
 
       file.data = {
         entry: {
@@ -169,9 +144,7 @@ describe('UploadEffects', () => {
       spyOn(store, 'dispatch').and.stub();
 
       effects.uploadAndUnlock(file);
-      uploadService.fileUploadComplete.next(
-        new FileUploadCompleteEvent(file, 100, file.data)
-      );
+      uploadService.fileUploadComplete.next(new FileUploadCompleteEvent(file, 100, file.data));
 
       expect(store.dispatch).not.toHaveBeenCalled();
     });

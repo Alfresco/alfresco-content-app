@@ -41,16 +41,12 @@ import { SnackbarErrorAction } from '../actions/snackbar.actions';
 
 @Injectable()
 export class RouterEffects {
-  constructor(
-    private store: Store<AppStore>,
-    private actions$: Actions,
-    private router: Router
-  ) {}
+  constructor(private store: Store<AppStore>, private actions$: Actions, private router: Router) {}
 
   @Effect({ dispatch: false })
   navigateUrl$ = this.actions$.pipe(
     ofType<NavigateUrlAction>(RouterActionTypes.NavigateUrl),
-    map(action => {
+    map((action) => {
       if (action.payload) {
         this.router.navigateByUrl(action.payload);
       }
@@ -60,7 +56,7 @@ export class RouterEffects {
   @Effect({ dispatch: false })
   navigateRoute$ = this.actions$.pipe(
     ofType<NavigateRouteAction>(RouterActionTypes.NavigateRoute),
-    map(action => {
+    map((action) => {
       this.router.navigate(action.payload);
     })
   );
@@ -68,7 +64,7 @@ export class RouterEffects {
   @Effect({ dispatch: false })
   navigateToFolder$ = this.actions$.pipe(
     ofType<NavigateToFolder>(RouterActionTypes.NavigateFolder),
-    map(action => {
+    map((action) => {
       if (action.payload && action.payload.entry) {
         this.navigateToFolder(action.payload.entry);
       }
@@ -78,7 +74,7 @@ export class RouterEffects {
   @Effect({ dispatch: false })
   navigateToParentFolder$ = this.actions$.pipe(
     ofType<NavigateToParentFolder>(RouterActionTypes.NavigateParentFolder),
-    map(action => {
+    map((action) => {
       if (action.payload && action.payload.entry) {
         this.navigateToParentFolder(action.payload.entry);
       }
@@ -131,18 +127,12 @@ export class RouterEffects {
         this.router.navigate(link);
       }, 10);
     } else {
-      this.store.dispatch(
-        new SnackbarErrorAction('APP.MESSAGES.ERRORS.CANNOT_NAVIGATE_LOCATION')
-      );
+      this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.ERRORS.CANNOT_NAVIGATE_LOCATION'));
     }
   }
 
   private isLibraryContent(path: PathInfoEntity): boolean {
-    if (
-      path &&
-      path.elements.length >= 2 &&
-      path.elements[1].name === 'Sites'
-    ) {
+    if (path && path.elements.length >= 2 && path.elements[1].name === 'Sites') {
       return true;
     }
 

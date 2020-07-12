@@ -31,7 +31,6 @@ export function searchResultsTests() {
   const { searchInput } = page.header;
 
   describe('Pagination controls : ', () => {
-
     beforeAll(async () => {
       await searchInput.clickSearchButton();
       await searchInput.searchFor('my-file-');

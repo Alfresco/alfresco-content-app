@@ -45,9 +45,7 @@ import { Store } from '@ngrx/store';
       (unlockError)="onUnlockLockError()"
       [acaLockNode]="selection"
       [attr.title]="
-        lock.isNodeLocked()
-          ? ('APP.ACTIONS.EDIT_OFFLINE_CANCEL' | translate)
-          : ('APP.ACTIONS.EDIT_OFFLINE' | translate)
+        lock.isNodeLocked() ? ('APP.ACTIONS.EDIT_OFFLINE_CANCEL' | translate) : ('APP.ACTIONS.EDIT_OFFLINE' | translate)
       "
     >
       <ng-container *ngIf="lock.isNodeLocked()">

@@ -23,24 +23,21 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  SITE_VISIBILITY,
-  LoginPage,
-  BrowsingPage,
-  Utils,
-  RepoClient
-} from '@alfresco/aca-testing-shared';
+import { SITE_VISIBILITY, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
 
 describe('Recent Files', () => {
   const username = `user-${Utils.random()}`;
 
-  const folderName = `folder-${Utils.random()}`; let folderId;
+  const folderName = `folder-${Utils.random()}`;
+  let folderId;
   const fileName1 = `file-${Utils.random()}.txt`;
-  const fileName2 = `file-${Utils.random()}.txt`; let file2Id;
+  const fileName2 = `file-${Utils.random()}.txt`;
+  let file2Id;
   const fileName3 = `file-${Utils.random()}.txt`;
 
   const siteName = `site-${Utils.random()}`;
-  const folderSite = `folder2-${Utils.random()}`; let folderSiteId;
+  const folderSite = `folder2-${Utils.random()}`;
+  let folderSiteId;
   const fileSite = `file-${Utils.random()}.txt`;
 
   const apis = {
@@ -54,10 +51,10 @@ describe('Recent Files', () => {
 
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
-    folderId = (await apis.user.nodes.createFolders([ folderName ])).entry.id;
-    await apis.user.nodes.createFiles([ fileName1 ], folderName);
-    file2Id = (await apis.user.nodes.createFiles([ fileName2 ])).entry.id;
-    const id = (await apis.user.nodes.createFiles([ fileName3 ])).entry.id;
+    folderId = (await apis.user.nodes.createFolders([folderName])).entry.id;
+    await apis.user.nodes.createFiles([fileName1], folderName);
+    file2Id = (await apis.user.nodes.createFiles([fileName2])).entry.id;
+    const id = (await apis.user.nodes.createFiles([fileName3])).entry.id;
     await apis.user.nodes.deleteNodeById(id, false);
 
     await apis.user.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
@@ -77,14 +74,14 @@ describe('Recent Files', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodesById([ folderId, file2Id ]);
+    await apis.user.nodes.deleteNodesById([folderId, file2Id]);
     await apis.user.sites.deleteSite(siteName);
     await apis.user.trashcan.emptyTrash();
     done();
   });
 
   it('[C213168] has the correct columns', async () => {
-    const expectedColumns = [ 'Name', 'Location', 'Size', 'Modified' ];
+    const expectedColumns = ['Name', 'Location', 'Size', 'Modified'];
     const actualColumns = await dataTable.getColumnHeadersText();
 
     expect(actualColumns).toEqual(expectedColumns);
@@ -120,16 +117,16 @@ describe('Recent Files', () => {
 
   it('[C213176] Location column redirect - file in user Home', async () => {
     await dataTable.clickItemLocation(fileName2);
-    expect(await breadcrumb.getAllItems()).toEqual([ 'Personal Files' ]);
+    expect(await breadcrumb.getAllItems()).toEqual(['Personal Files']);
   });
 
   it('[C280486] Location column redirect - file in folder', async () => {
     await dataTable.clickItemLocation(fileName1);
-    expect(await breadcrumb.getAllItems()).toEqual([ 'Personal Files', folderName ]);
+    expect(await breadcrumb.getAllItems()).toEqual(['Personal Files', folderName]);
   });
 
   it('[C280487] Location column redirect - file in site', async () => {
     await dataTable.clickItemLocation(fileSite);
-    expect(await breadcrumb.getAllItems()).toEqual([ 'My Libraries', siteName, folderSite ]);
+    expect(await breadcrumb.getAllItems()).toEqual(['My Libraries', siteName, folderSite]);
   });
 });

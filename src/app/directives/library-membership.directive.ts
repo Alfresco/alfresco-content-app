@@ -23,15 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  Directive,
-  EventEmitter,
-  HostListener,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges
-} from '@angular/core';
+import { Directive, EventEmitter, HostListener, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { SiteEntry, SiteMembershipRequestBody } from '@alfresco/js-api';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { BehaviorSubject, from } from 'rxjs';
@@ -54,9 +46,7 @@ export interface LibraryMembershipErrorEvent {
 export class LibraryMembershipDirective implements OnChanges {
   targetSite: any = null;
 
-  isJoinRequested: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
-    false
-  );
+  isJoinRequested: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   /** Site for which to toggle the membership request. */
   @Input('acaLibraryMembership')
@@ -77,10 +67,7 @@ export class LibraryMembershipDirective implements OnChanges {
   constructor(private alfrescoApiService: AlfrescoApiService) {}
 
   ngOnChanges(changes: SimpleChanges) {
-    if (
-      !changes.selection.currentValue ||
-      !changes.selection.currentValue.entry
-    ) {
+    if (!changes.selection.currentValue || !changes.selection.currentValue.entry) {
       this.targetSite = null;
 
       return;
@@ -106,7 +93,7 @@ export class LibraryMembershipDirective implements OnChanges {
           };
           this.toggle.emit(info);
         },
-        error => {
+        (error) => {
           const errWithMessage = {
             error,
             i18nKey: 'APP.MESSAGES.ERRORS.JOIN_CANCEL_FAILED'
@@ -118,15 +105,11 @@ export class LibraryMembershipDirective implements OnChanges {
 
     if (!this.targetSite.joinRequested) {
       this.joinLibraryRequest().subscribe(
-        createdMembership => {
+        (createdMembership) => {
           this.targetSite.joinRequested = true;
           this.isJoinRequested.next(true);
 
-          if (
-            createdMembership.entry &&
-            createdMembership.entry.site &&
-            createdMembership.entry.site.role
-          ) {
+          if (createdMembership.entry && createdMembership.entry.site && createdMembership.entry.site.role) {
             const info = {
               shouldReload: true,
               i18nKey: 'APP.MESSAGES.INFO.JOINED'
@@ -141,23 +124,20 @@ export class LibraryMembershipDirective implements OnChanges {
             this.toggle.emit(info);
           }
         },
-        error => {
+        (error) => {
           const errWithMessage = {
             error,
             i18nKey: 'APP.MESSAGES.ERRORS.JOIN_REQUEST_FAILED'
           };
 
           const senderEmailCheck = 'Failed to resolve sender mail address';
-          const receiverEmailCheck =
-            'All recipients for the mail action were invalid';
+          const receiverEmailCheck = 'All recipients for the mail action were invalid';
 
           if (error.message) {
             if (error.message.includes(senderEmailCheck)) {
-              errWithMessage.i18nKey =
-                'APP.MESSAGES.ERRORS.INVALID_SENDER_EMAIL';
+              errWithMessage.i18nKey = 'APP.MESSAGES.ERRORS.INVALID_SENDER_EMAIL';
             } else if (error.message.includes(receiverEmailCheck)) {
-              errWithMessage.i18nKey =
-                'APP.MESSAGES.ERRORS.INVALID_RECEIVER_EMAIL';
+              errWithMessage.i18nKey = 'APP.MESSAGES.ERRORS.INVALID_RECEIVER_EMAIL';
             }
           }
 
@@ -173,7 +153,7 @@ export class LibraryMembershipDirective implements OnChanges {
     }
 
     this.getMembershipRequest().subscribe(
-      data => {
+      (data) => {
         if (data.entry.id === this.targetSite.id) {
           this.targetSite.joinRequested = true;
           this.isJoinRequested.next(true);
@@ -191,29 +171,14 @@ export class LibraryMembershipDirective implements OnChanges {
       id: this.targetSite.id
     } as SiteMembershipRequestBody;
 
-    return from(
-      this.alfrescoApiService.peopleApi.addSiteMembershipRequest(
-        '-me-',
-        memberBody
-      )
-    );
+    return from(this.alfrescoApiService.peopleApi.addSiteMembershipRequest('-me-', memberBody));
   }
 
   private cancelJoinRequest() {
-    return from(
-      this.alfrescoApiService.peopleApi.removeSiteMembershipRequest(
-        '-me-',
-        this.targetSite.id
-      )
-    );
+    return from(this.alfrescoApiService.peopleApi.removeSiteMembershipRequest('-me-', this.targetSite.id));
   }
 
   private getMembershipRequest() {
-    return from(
-      this.alfrescoApiService.peopleApi.getSiteMembershipRequest(
-        '-me-',
-        this.targetSite.id
-      )
-    );
+    return from(this.alfrescoApiService.peopleApi.getSiteMembershipRequest('-me-', this.targetSite.id));
   }
 }

@@ -39,17 +39,24 @@ import {
 describe('Unshare a file from Search Results', () => {
   const username = `user-${Utils.random()}`;
 
-  const parent = `parent-${Utils.random()}`; let parentId;
+  const parent = `parent-${Utils.random()}`;
+  let parentId;
 
-  const file1 = `search-file1-${Utils.random()}.txt`; let file1Id;
-  const file2 = `search-file2-${Utils.random()}.txt`; let file2Id;
-  const file3 = `search-file3-${Utils.random()}.txt`; let file3Id;
-  const file4 = `search-file4-${Utils.random()}.txt`; let file4Id;
+  const file1 = `search-file1-${Utils.random()}.txt`;
+  let file1Id;
+  const file2 = `search-file2-${Utils.random()}.txt`;
+  let file2Id;
+  const file3 = `search-file3-${Utils.random()}.txt`;
+  let file3Id;
+  const file4 = `search-file4-${Utils.random()}.txt`;
+  let file4Id;
 
   const sitePrivate = `site-private-${Utils.random()}`;
 
-  const fileSite1 = `search-fileSite1-${Utils.random()}.txt`; let fileSite1Id;
-  const fileSite2 = `search-fileSite2-${Utils.random()}.txt`; let fileSite2Id;
+  const fileSite1 = `search-fileSite1-${Utils.random()}.txt`;
+  let fileSite1Id;
+  const fileSite2 = `search-fileSite2-${Utils.random()}.txt`;
+  let fileSite2Id;
 
   const apis = {
     admin: new RepoClient(),
@@ -124,7 +131,9 @@ describe('Unshare a file from Search Results', () => {
 
     expect(await confirmDialog.isDialogOpen()).toBe(true, 'Unshare dialog is not open');
     expect(await confirmDialog.getTitle()).toContain('Remove this shared link');
-    expect(await confirmDialog.getText()).toContain('This link will be deleted and a new link will be created next time this file is shared');
+    expect(await confirmDialog.getText()).toContain(
+      'This link will be deleted and a new link will be created next time this file is shared'
+    );
     expect(await confirmDialog.isRemoveEnabled()).toBe(true, 'REMOVE button is not enabled');
     expect(await confirmDialog.isCancelEnabled()).toBe(true, 'CANCEL button is not enabled');
   });
@@ -239,5 +248,4 @@ describe('Unshare a file from Search Results', () => {
     expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
     expect(await apis.user.nodes.isFileShared(fileSite2Id)).toBe(false, `${fileSite2} is shared`);
   });
-
 });

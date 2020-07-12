@@ -57,10 +57,7 @@ import { ContentManagementService } from '../../../services/content-management.s
       "
     >
       <mat-icon *ngIf="membership.isJoinRequested | async">cancel</mat-icon>
-      <mat-icon
-        *ngIf="!(membership.isJoinRequested | async)"
-        svgIcon="adf:join_library"
-      ></mat-icon>
+      <mat-icon *ngIf="!(membership.isJoinRequested | async)" svgIcon="adf:join_library"></mat-icon>
     </button>
   `,
   encapsulation: ViewEncapsulation.None,
@@ -69,10 +66,7 @@ import { ContentManagementService } from '../../../services/content-management.s
 export class ToggleJoinLibraryButtonComponent {
   selection$: Observable<SelectionState>;
 
-  constructor(
-    private store: Store<AppStore>,
-    private content: ContentManagementService
-  ) {
+  constructor(private store: Store<AppStore>, private content: ContentManagementService) {
     this.selection$ = this.store.select(getAppSelection);
   }
 
@@ -83,11 +77,7 @@ export class ToggleJoinLibraryButtonComponent {
       this.content.libraryJoined.next();
     } else {
       if (event.updatedEntry) {
-        this.store.dispatch(
-          new SetSelectedNodesAction([
-            { entry: event.updatedEntry, isLibrary: true } as any
-          ])
-        );
+        this.store.dispatch(new SetSelectedNodesAction([{ entry: event.updatedEntry, isLibrary: true } as any]));
       }
       this.content.joinLibraryToggle.next();
     }

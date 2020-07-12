@@ -71,7 +71,7 @@ describe('Extensions - Metadata presets', () => {
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
 
-  beforeAll(async done => {
+  beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
     fileId = (await apis.user.nodes.createImage(file)).entry.id;
 
@@ -82,7 +82,7 @@ describe('Extensions - Metadata presets', () => {
     done();
   });
 
-  beforeEach(async done => {
+  beforeEach(async (done) => {
     await page.refresh();
 
     await page.dataTable.selectItem(file);
@@ -96,7 +96,7 @@ describe('Extensions - Metadata presets', () => {
     done();
   });
 
-  afterAll(async done => {
+  afterAll(async (done) => {
     await apis.user.nodes.deleteNodeById(fileId);
     done();
   });

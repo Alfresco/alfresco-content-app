@@ -27,17 +27,13 @@ import { RepoApi } from '../repo-api';
 import { Logger } from '@alfresco/adf-testing';
 import { RepoClient } from './../../repo-client';
 import { Utils } from '../../../../utilities/utils';
-import {
-  FavoritesApi as AdfFavoritesApi,
-  SitesApi as AdfSiteApi,
-  FavoriteEntry
-} from '@alfresco/js-api';
+import { FavoritesApi as AdfFavoritesApi, SitesApi as AdfSiteApi, FavoriteEntry } from '@alfresco/js-api';
 
 export class FavoritesApi extends RepoApi {
   favoritesApi = new AdfFavoritesApi(this.alfrescoJsApi);
   sitesApi = new AdfSiteApi(this.alfrescoJsApi);
 
-  constructor(username?, password?) {
+  constructor(username?: string, password?: string) {
     super(username, password);
   }
 
@@ -53,18 +49,12 @@ export class FavoritesApi extends RepoApi {
       };
       return await this.favoritesApi.createFavorite('-me-', data);
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.addFavorite.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.addFavorite.name}`, error);
       return null;
     }
   }
 
-  async addFavoriteById(
-    nodeType: 'file' | 'folder' | 'site',
-    id: string
-  ): Promise<FavoriteEntry | null> {
+  async addFavoriteById(nodeType: 'file' | 'folder' | 'site', id: string): Promise<FavoriteEntry | null> {
     let guid;
     try {
       await this.apiAuth();
@@ -82,10 +72,7 @@ export class FavoritesApi extends RepoApi {
       };
       return await this.favoritesApi.createFavorite('-me-', data);
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.addFavoriteById.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.addFavoriteById.name}`, error);
       return null;
     }
   }
@@ -97,10 +84,7 @@ export class FavoritesApi extends RepoApi {
         await this.addFavoriteById(nodeType, current);
       }, Promise.resolve());
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.addFavoritesByIds.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.addFavoritesByIds.name}`, error);
     }
   }
 
@@ -109,10 +93,7 @@ export class FavoritesApi extends RepoApi {
       await this.apiAuth();
       return await this.favoritesApi.listFavorites(this.getUsername());
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.getFavorites.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.getFavorites.name}`, error);
       return null;
     }
   }
@@ -122,24 +103,16 @@ export class FavoritesApi extends RepoApi {
       await this.apiAuth();
       return await this.favoritesApi.getFavorite('-me-', nodeId);
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.getFavoriteById.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.getFavoriteById.name}`, error);
       return null;
     }
   }
 
   async isFavorite(nodeId: string) {
     try {
-      return JSON.stringify((await this.getFavorites()).list.entries).includes(
-        nodeId
-      );
+      return JSON.stringify((await this.getFavorites()).list.entries).includes(nodeId);
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.isFavorite.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.isFavorite.name}`, error);
       return null;
     }
   }
@@ -167,10 +140,7 @@ export class FavoritesApi extends RepoApi {
       await this.apiAuth();
       return await this.favoritesApi.deleteFavorite('-me-', nodeId);
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.removeFavoriteById.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.removeFavoriteById.name}`, error);
     }
   }
 
@@ -181,18 +151,14 @@ export class FavoritesApi extends RepoApi {
         await this.removeFavoriteById(current);
       }, Promise.resolve());
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.removeFavoritesByIds.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.removeFavoritesByIds.name}`, error);
     }
   }
 
   async waitForApi(data: { expect: number }) {
     try {
       const favoriteFiles = async () => {
-        const totalItems = (await this.getFavorites()).list.pagination
-          .totalItems;
+        const totalItems = (await this.getFavorites()).list.pagination.totalItems;
         if (totalItems !== data.expect) {
           return Promise.reject(totalItems);
         } else {

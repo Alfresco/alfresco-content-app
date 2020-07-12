@@ -54,14 +54,14 @@ export class LibraryEffects {
   @Effect({ dispatch: false })
   deleteLibrary$ = this.actions$.pipe(
     ofType<DeleteLibraryAction>(LibraryActionTypes.Delete),
-    map(action => {
+    map((action) => {
       if (action.payload) {
         this.content.deleteLibrary(action.payload);
       } else {
         this.store
           .select(getAppSelection)
           .pipe(take(1))
-          .subscribe(selection => {
+          .subscribe((selection) => {
             if (selection && selection.library) {
               this.content.deleteLibrary(selection.library.entry.id);
             }
@@ -73,14 +73,14 @@ export class LibraryEffects {
   @Effect({ dispatch: false })
   leaveLibrary$ = this.actions$.pipe(
     ofType<LeaveLibraryAction>(LibraryActionTypes.Leave),
-    map(action => {
+    map((action) => {
       if (action.payload) {
         this.content.leaveLibrary(action.payload);
       } else {
         this.store
           .select(getAppSelection)
           .pipe(take(1))
-          .subscribe(selection => {
+          .subscribe((selection) => {
             if (selection && selection.library) {
               this.content.leaveLibrary(selection.library.entry.id);
             }
@@ -93,27 +93,25 @@ export class LibraryEffects {
   createLibrary$ = this.actions$.pipe(
     ofType<CreateLibraryAction>(LibraryActionTypes.Create),
     mergeMap(() => this.content.createLibrary()),
-    map(libraryId => new NavigateLibraryAction(libraryId))
+    map((libraryId) => new NavigateLibraryAction(libraryId))
   );
 
   @Effect({ dispatch: false })
   navigateLibrary$ = this.actions$.pipe(
     ofType<NavigateLibraryAction>(LibraryActionTypes.Navigate),
-    map(action => {
+    map((action) => {
       const libraryId = action.payload;
       if (libraryId) {
         this.contentApi
           .getNode(libraryId, { relativePath: '/documentLibrary' })
-          .pipe(map(node => node.entry.id))
+          .pipe(map((node) => node.entry.id))
           .subscribe(
-            id => {
+            (id) => {
               const route = action.route ? action.route : 'libraries';
               this.store.dispatch(new NavigateRouteAction([route, id]));
             },
             () => {
-              this.store.dispatch(
-                new SnackbarErrorAction('APP.MESSAGES.ERRORS.MISSING_CONTENT')
-              );
+              this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.ERRORS.MISSING_CONTENT'));
             }
           );
       }
@@ -123,11 +121,11 @@ export class LibraryEffects {
   @Effect({ dispatch: false })
   updateLibrary$ = this.actions$.pipe(
     ofType<UpdateLibraryAction>(LibraryActionTypes.Update),
-    map(action => {
+    map((action) => {
       this.store
         .select(getAppSelection)
         .pipe(take(1))
-        .subscribe(selection => {
+        .subscribe((selection) => {
           if (selection && selection.library) {
             const { id } = selection.library.entry;
             const { title, description, visibility } = action.payload;

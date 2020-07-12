@@ -37,29 +37,17 @@ import { DropDownBreadcrumb } from '../breadcrumb/dropdown-breadcrumb';
 import { DataTable } from '../data-table/data-table';
 
 export class ContentNodeSelectorDialog extends GenericDialog {
-  cancelButton = this.childElement(
-    by.css('[data-automation-id="content-node-selector-actions-cancel"]')
-  );
+  cancelButton = this.childElement(by.css('[data-automation-id="content-node-selector-actions-cancel"]'));
   copyButton = this.childElement(
-    by.cssContainingText(
-      '[data-automation-id="content-node-selector-actions-choose"]',
-      'Copy'
-    )
+    by.cssContainingText('[data-automation-id="content-node-selector-actions-choose"]', 'Copy')
   );
   moveButton = this.childElement(
-    by.cssContainingText(
-      '[data-automation-id="content-node-selector-actions-choose"]',
-      'Move'
-    )
+    by.cssContainingText('[data-automation-id="content-node-selector-actions-choose"]', 'Move')
   );
 
   locationDropDown = this.rootElem.element(by.id('site-dropdown-container'));
-  locationPersonalFiles = browser.element(
-    by.cssContainingText('.mat-option .mat-option-text', 'Personal Files')
-  );
-  locationFileLibraries = browser.element(
-    by.cssContainingText('.mat-option .mat-option-text', 'My Libraries')
-  );
+  locationPersonalFiles = browser.element(by.cssContainingText('.mat-option .mat-option-text', 'Personal Files'));
+  locationFileLibraries = browser.element(by.cssContainingText('.mat-option .mat-option-text', 'My Libraries'));
 
   searchInput = this.rootElem.element(by.css('#searchInput'));
   toolbarTitle = this.rootElem.element(by.css('.adf-toolbar-title'));

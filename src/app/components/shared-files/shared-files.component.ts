@@ -57,20 +57,14 @@ export class SharedFilesComponent extends PageComponent implements OnInit {
     super.ngOnInit();
 
     this.subscriptions = this.subscriptions.concat([
-      this.content.linksUnshared
-        .pipe(debounceTime(300))
-        .subscribe(() => this.reload()),
+      this.content.linksUnshared.pipe(debounceTime(300)).subscribe(() => this.reload()),
 
-      this.uploadService.fileUploadComplete
-        .pipe(debounceTime(300))
-        .subscribe(_ => this.reload()),
-      this.uploadService.fileUploadDeleted
-        .pipe(debounceTime(300))
-        .subscribe(_ => this.reload()),
+      this.uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe((_) => this.reload()),
+      this.uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe((_) => this.reload()),
 
       this.breakpointObserver
         .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
-        .subscribe(result => {
+        .subscribe((result) => {
           this.isSmallScreen = result.matches;
         })
     ]);

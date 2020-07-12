@@ -29,11 +29,7 @@ import { Component } from '../component';
 import { CommentsTab } from './info-drawer-comments-tab';
 import { LibraryMetadata } from './info-drawer-metadata-library';
 import { ContentMetadata } from './info-drawer-metadata-content';
-import {
-  waitForVisibility,
-  waitForInvisibility,
-  waitForPresence
-} from '../../utilities/utils';
+import { waitForVisibility, waitForInvisibility, waitForPresence } from '../../utilities/utils';
 
 export class InfoDrawer extends Component {
   commentsTab = new CommentsTab('adf-info-drawer');
@@ -44,15 +40,9 @@ export class InfoDrawer extends Component {
   tabLabel = this.byCss('.mat-tab-label-content');
   tabLabelsList = this.allByCss('.mat-tab-label-content');
   tabActiveLabel = this.byCss('.mat-tab-label-active');
-  tabActiveContent = this.byCss(
-    '.mat-tab-body-active .mat-tab-body-content adf-dynamic-tab'
-  );
-  nextButton = this.byCss(
-    '.mat-tab-header-pagination-after .mat-tab-header-pagination-chevron'
-  );
-  previousButton = this.byCss(
-    '.mat-tab-header-pagination-before .mat-tab-header-pagination-chevron'
-  );
+  tabActiveContent = this.byCss('.mat-tab-body-active .mat-tab-body-content adf-dynamic-tab');
+  nextButton = this.byCss('.mat-tab-header-pagination-after .mat-tab-header-pagination-chevron');
+  previousButton = this.byCss('.mat-tab-header-pagination-before .mat-tab-header-pagination-chevron');
 
   constructor(ancestor?: string) {
     super('adf-info-drawer', ancestor);

@@ -46,7 +46,7 @@ export class SearchResultsPage extends BrowsingPage {
 
   async getResultsChipsValues(): Promise<string[]> {
     const chips = this.chipList.all(by.css('.mat-chip'));
-    const chipsValues: string[] = await chips.map(async elem => {
+    const chipsValues: string[] = await chips.map(async (elem) => {
       return (await elem.getText()).replace(`\ncancel`, '');
     });
     return chipsValues;

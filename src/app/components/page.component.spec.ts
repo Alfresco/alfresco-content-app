@@ -48,11 +48,7 @@ import { Component } from '@angular/core';
 class TestComponent extends PageComponent {
   node: any;
 
-  constructor(
-    store: Store<AppStore>,
-    extensions: AppExtensionService,
-    content: ContentManagementService
-  ) {
+  constructor(store: Store<AppStore>, extensions: AppExtensionService, content: ContentManagementService) {
     super(store, extensions, content);
   }
 }
@@ -95,12 +91,12 @@ describe('PageComponent', () => {
       window.history.pushState({}, null, locationHref);
     });
 
-    it('should open info drawer on action event', done => {
+    it('should open info drawer on action event', (done) => {
       window.history.pushState({}, null, `${locationHref}#test`);
       fixture.detectChanges();
 
       fixture.whenStable().then(() => {
-        component.infoDrawerOpened$.subscribe(state => {
+        component.infoDrawerOpened$.subscribe((state) => {
           expect(state).toBe(true);
           done();
         });
@@ -109,12 +105,12 @@ describe('PageComponent', () => {
       store.dispatch(new SetInfoDrawerStateAction(true));
     });
 
-    it('should not open info drawer if viewer outlet is active', done => {
+    it('should not open info drawer if viewer outlet is active', (done) => {
       window.history.pushState({}, null, `${locationHref}#test(viewer:view)`);
       fixture.detectChanges();
 
       fixture.whenStable().then(() => {
-        component.infoDrawerOpened$.subscribe(state => {
+        component.infoDrawerOpened$.subscribe((state) => {
           expect(state).toBe(false);
           done();
         });
@@ -143,9 +139,7 @@ describe('PageComponent', () => {
       spyOn(store, 'dispatch');
 
       component.reload();
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new ReloadDocumentListAction()
-      );
+      expect(store.dispatch).toHaveBeenCalledWith(new ReloadDocumentListAction());
     });
 
     it('should set selection after reload if node is passed', () => {
@@ -157,9 +151,7 @@ describe('PageComponent', () => {
       spyOn(store, 'dispatch');
 
       component.reload(node);
-      expect(store.dispatch['calls'].mostRecent().args[0]).toEqual(
-        new SetSelectedNodesAction([node])
-      );
+      expect(store.dispatch['calls'].mostRecent().args[0]).toEqual(new SetSelectedNodesAction([node]));
     });
   });
 });

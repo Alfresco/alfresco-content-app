@@ -65,11 +65,7 @@ describe('AcaExpansionPanel', () => {
       const item = {
         children: [{ url: 'dummy-route-1' }, { url: 'dummy-route-2' }]
       };
-      const directive = new ExpansionPanelDirective(
-        mockStore,
-        router,
-        mockMatExpansionPanel
-      );
+      const directive = new ExpansionPanelDirective(mockStore, router, mockMatExpansionPanel);
 
       directive.acaExpansionPanel = item;
 
@@ -80,11 +76,7 @@ describe('AcaExpansionPanel', () => {
       const item = {
         children: [{ url: 'dummy-route-1' }, { url: 'dummy-route-2' }]
       };
-      const directive = new ExpansionPanelDirective(
-        mockStore,
-        router,
-        mockMatExpansionPanel
-      );
+      const directive = new ExpansionPanelDirective(mockStore, router, mockMatExpansionPanel);
 
       directive.acaExpansionPanel = item;
 
@@ -102,11 +94,7 @@ describe('AcaExpansionPanel', () => {
 
       mockMatExpansionPanel.expanded = true;
 
-      const directive = new ExpansionPanelDirective(
-        mockStore,
-        router,
-        mockMatExpansionPanel
-      );
+      const directive = new ExpansionPanelDirective(mockStore, router, mockMatExpansionPanel);
 
       directive.acaExpansionPanel = item;
 
@@ -122,11 +110,7 @@ describe('AcaExpansionPanel', () => {
         children: [{ url: 'dummy-route-1' }, { url: 'dummy-route-2' }]
       };
 
-      const directive = new ExpansionPanelDirective(
-        mockStore,
-        router,
-        mockMatExpansionPanel
-      );
+      const directive = new ExpansionPanelDirective(mockStore, router, mockMatExpansionPanel);
 
       directive.acaExpansionPanel = item;
       mockMatExpansionPanel.expanded = true;

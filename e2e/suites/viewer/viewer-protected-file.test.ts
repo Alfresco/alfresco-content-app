@@ -36,7 +36,8 @@ import {
 describe('Viewer - password protected file', () => {
   const username = `user-${Utils.random()}`;
 
-  const parent = `parent-${Utils.random()}`; let parentId;
+  const parent = `parent-${Utils.random()}`;
+  let parentId;
 
   const protectedFile = FILES.protectedFile;
 

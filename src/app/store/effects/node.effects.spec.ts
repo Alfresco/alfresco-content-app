@@ -59,11 +59,7 @@ describe('NodeEffects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        AppTestingModule,
-        SharedStoreModule,
-        EffectsModule.forRoot([NodeEffects, ViewerEffects])
-      ],
+      imports: [AppTestingModule, SharedStoreModule, EffectsModule.forRoot([NodeEffects, ViewerEffects])],
       providers: [ViewUtilService]
     });
 
@@ -266,9 +262,7 @@ describe('NodeEffects', () => {
       tick(100);
 
       store.dispatch(new CreateFolderAction(null));
-      expect(contentService.createFolder).toHaveBeenCalledWith(
-        currentFolder.id
-      );
+      expect(contentService.createFolder).toHaveBeenCalledWith(currentFolder.id);
     }));
   });
 
@@ -410,10 +404,7 @@ describe('NodeEffects', () => {
 
       store.dispatch(new PrintFileAction(node));
 
-      expect(viewUtilService.printFileGeneric).toHaveBeenCalledWith(
-        'node-id',
-        'text/json'
-      );
+      expect(viewUtilService.printFileGeneric).toHaveBeenCalledWith('node-id', 'text/json');
     });
 
     it('it should print node content from store', fakeAsync(() => {
@@ -432,10 +423,7 @@ describe('NodeEffects', () => {
 
       store.dispatch(new PrintFileAction(null));
 
-      expect(viewUtilService.printFileGeneric).toHaveBeenCalledWith(
-        'node-id',
-        'text/json'
-      );
+      expect(viewUtilService.printFileGeneric).toHaveBeenCalledWith('node-id', 'text/json');
     }));
   });
 

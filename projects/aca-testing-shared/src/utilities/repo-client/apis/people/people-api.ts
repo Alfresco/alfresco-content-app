@@ -40,10 +40,7 @@ export class PeopleApi extends RepoApi {
       await this.apiAuth();
       return await this.peopleApi.createPerson(person);
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.createUser.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.createUser.name}`, error);
       return null;
     }
   }
@@ -63,10 +60,7 @@ export class PeopleApi extends RepoApi {
       await this.apiAuth();
       return this.peopleApi.updatePerson(username, userDetails);
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.updateUser.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.updateUser.name}`, error);
       return null;
     }
   }
@@ -75,10 +69,7 @@ export class PeopleApi extends RepoApi {
     try {
       return await this.updateUser(username, { enabled: false });
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.disableUser.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.disableUser.name}`, error);
       return null;
     }
   }
@@ -87,10 +78,7 @@ export class PeopleApi extends RepoApi {
     try {
       return await this.updateUser(username, { password: newPassword });
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.changePassword.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.changePassword.name}`, error);
       return null;
     }
   }

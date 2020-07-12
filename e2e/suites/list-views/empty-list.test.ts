@@ -23,13 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  LoginPage,
-  BrowsingPage,
-  SearchResultsPage,
-  Utils,
-  RepoClient
-} from '@alfresco/aca-testing-shared';
+import { LoginPage, BrowsingPage, SearchResultsPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
 
 describe('Empty list views', () => {
   const username = `user-${Utils.random()}`;
@@ -83,7 +77,9 @@ describe('Empty list views', () => {
     await page.clickRecentFiles();
     expect(await dataTable.isEmpty()).toBe(true, 'list is not empty');
     expect(await dataTable.getEmptyStateTitle()).toContain('No recent files');
-    expect(await dataTable.getEmptyStateSubtitle()).toContain('Items you uploaded or edited in the last 30 days are shown here.');
+    expect(await dataTable.getEmptyStateSubtitle()).toContain(
+      'Items you uploaded or edited in the last 30 days are shown here.'
+    );
   });
 
   it('[C280133] empty Favorites', async () => {
@@ -191,7 +187,10 @@ describe('Empty list views', () => {
     await searchInput.searchFor('qwertyuiop');
     await dataTable.waitForBody();
 
-    expect(await searchResultsPage.filters.isSearchFiltersPanelDisplayed()).toBe(false, 'Search filters panel is present');
+    expect(await searchResultsPage.filters.isSearchFiltersPanelDisplayed()).toBe(
+      false,
+      'Search filters panel is present'
+    );
   });
 
   it('[C290020] Empty Search results - Libraries', async () => {

@@ -39,7 +39,8 @@ import {
 describe('Unshare a file', () => {
   const username = `user-${Utils.random()}`;
 
-  const parent = `parent-${Utils.random()}`; let parentId;
+  const parent = `parent-${Utils.random()}`;
+  let parentId;
 
   const apis = {
     admin: new RepoClient(),
@@ -67,11 +68,14 @@ describe('Unshare a file', () => {
   });
 
   describe('from Personal Files', () => {
-
-    const file1 = `file1-${Utils.random()}.txt`; let file1Id;
-    const file2 = `file2-${Utils.random()}.txt`; let file2Id;
-    const file3 = `file3-${Utils.random()}.txt`; let file3Id;
-    const file4 = `file4-${Utils.random()}.txt`; let file4Id;
+    const file1 = `file1-${Utils.random()}.txt`;
+    let file1Id;
+    const file2 = `file2-${Utils.random()}.txt`;
+    let file2Id;
+    const file3 = `file3-${Utils.random()}.txt`;
+    let file3Id;
+    const file4 = `file4-${Utils.random()}.txt`;
+    let file4Id;
 
     beforeAll(async (done) => {
       file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
@@ -118,7 +122,9 @@ describe('Unshare a file', () => {
 
       expect(await confirmDialog.isDialogOpen()).toBe(true, 'Unshare dialog is not open');
       expect(await confirmDialog.getTitle()).toContain('Remove this shared link');
-      expect(await confirmDialog.getText()).toContain('This link will be deleted and a new link will be created next time this file is shared');
+      expect(await confirmDialog.getText()).toContain(
+        'This link will be deleted and a new link will be created next time this file is shared'
+      );
       expect(await confirmDialog.isRemoveEnabled()).toBe(true, 'REMOVE button is not enabled');
       expect(await confirmDialog.isCancelEnabled()).toBe(true, 'CANCEL button is not enabled');
     });
@@ -182,14 +188,18 @@ describe('Unshare a file', () => {
   });
 
   describe('from File Libraries', () => {
-
-    const file1 = `file1-${Utils.random()}.txt`; let file1Id;
-    const file2 = `file2-${Utils.random()}.txt`; let file2Id;
-    const file3 = `file3-${Utils.random()}.txt`; let file3Id;
-    const file4 = `file4-${Utils.random()}.txt`; let file4Id;
+    const file1 = `file1-${Utils.random()}.txt`;
+    let file1Id;
+    const file2 = `file2-${Utils.random()}.txt`;
+    let file2Id;
+    const file3 = `file3-${Utils.random()}.txt`;
+    let file3Id;
+    const file4 = `file4-${Utils.random()}.txt`;
+    let file4Id;
 
     const siteName = `site-${Utils.random()}`;
-    const parentInSite = `parent-site-${Utils.random()}`; let parentInSiteId;
+    const parentInSite = `parent-site-${Utils.random()}`;
+    let parentInSiteId;
 
     beforeAll(async (done) => {
       await apis.user.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
@@ -239,7 +249,9 @@ describe('Unshare a file', () => {
 
       expect(await confirmDialog.isDialogOpen()).toBe(true, 'Unshare dialog is not open');
       expect(await confirmDialog.getTitle()).toContain('Remove this shared link');
-      expect(await confirmDialog.getText()).toContain('This link will be deleted and a new link will be created next time this file is shared');
+      expect(await confirmDialog.getText()).toContain(
+        'This link will be deleted and a new link will be created next time this file is shared'
+      );
       expect(await confirmDialog.isRemoveEnabled()).toBe(true, 'REMOVE button is not enabled');
       expect(await confirmDialog.isCancelEnabled()).toBe(true, 'CANCEL button is not enabled');
     });
@@ -303,11 +315,14 @@ describe('Unshare a file', () => {
   });
 
   describe('from Recent Files', () => {
-
-    const file1 = `file1-${Utils.random()}.txt`; let file1Id;
-    const file2 = `file2-${Utils.random()}.txt`; let file2Id;
-    const file3 = `file3-${Utils.random()}.txt`; let file3Id;
-    const file4 = `file4-${Utils.random()}.txt`; let file4Id;
+    const file1 = `file1-${Utils.random()}.txt`;
+    let file1Id;
+    const file2 = `file2-${Utils.random()}.txt`;
+    let file2Id;
+    const file3 = `file3-${Utils.random()}.txt`;
+    let file3Id;
+    const file4 = `file4-${Utils.random()}.txt`;
+    let file4Id;
 
     beforeAll(async (done) => {
       file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
@@ -352,7 +367,9 @@ describe('Unshare a file', () => {
 
       expect(await confirmDialog.isDialogOpen()).toBe(true, 'Unshare dialog is not open');
       expect(await confirmDialog.getTitle()).toContain('Remove this shared link');
-      expect(await confirmDialog.getText()).toContain('This link will be deleted and a new link will be created next time this file is shared');
+      expect(await confirmDialog.getText()).toContain(
+        'This link will be deleted and a new link will be created next time this file is shared'
+      );
       expect(await confirmDialog.isRemoveEnabled()).toBe(true, 'REMOVE button is not enabled');
       expect(await confirmDialog.isCancelEnabled()).toBe(true, 'CANCEL button is not enabled');
     });
@@ -416,11 +433,14 @@ describe('Unshare a file', () => {
   });
 
   describe('from Shared Files', () => {
-
-    const file1 = `file1-${Utils.random()}.txt`; let file1Id;
-    const file2 = `file2-${Utils.random()}.txt`; let file2Id;
-    const file3 = `file3-${Utils.random()}.txt`; let file3Id;
-    const file4 = `file4-${Utils.random()}.txt`; let file4Id;
+    const file1 = `file1-${Utils.random()}.txt`;
+    let file1Id;
+    const file2 = `file2-${Utils.random()}.txt`;
+    let file2Id;
+    const file3 = `file3-${Utils.random()}.txt`;
+    let file3Id;
+    const file4 = `file4-${Utils.random()}.txt`;
+    let file4Id;
 
     beforeAll(async (done) => {
       file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
@@ -465,7 +485,9 @@ describe('Unshare a file', () => {
 
       expect(await confirmDialog.isDialogOpen()).toBe(true, 'Unshare dialog is not open');
       expect(await confirmDialog.getTitle()).toContain('Remove this shared link');
-      expect(await confirmDialog.getText()).toContain('This link will be deleted and a new link will be created next time this file is shared');
+      expect(await confirmDialog.getText()).toContain(
+        'This link will be deleted and a new link will be created next time this file is shared'
+      );
       expect(await confirmDialog.isRemoveEnabled()).toBe(true, 'REMOVE button is not enabled');
       expect(await confirmDialog.isCancelEnabled()).toBe(true, 'CANCEL button is not enabled');
     });
@@ -529,11 +551,14 @@ describe('Unshare a file', () => {
   });
 
   describe('from Favorites', () => {
-
-    const file1 = `file1-${Utils.random()}.txt`; let file1Id;
-    const file2 = `file2-${Utils.random()}.txt`; let file2Id;
-    const file3 = `file3-${Utils.random()}.txt`; let file3Id;
-    const file4 = `file4-${Utils.random()}.txt`; let file4Id;
+    const file1 = `file1-${Utils.random()}.txt`;
+    let file1Id;
+    const file2 = `file2-${Utils.random()}.txt`;
+    let file2Id;
+    const file3 = `file3-${Utils.random()}.txt`;
+    let file3Id;
+    const file4 = `file4-${Utils.random()}.txt`;
+    let file4Id;
 
     beforeAll(async (done) => {
       file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
@@ -585,7 +610,9 @@ describe('Unshare a file', () => {
 
       expect(await confirmDialog.isDialogOpen()).toBe(true, 'Unshare dialog is not open');
       expect(await confirmDialog.getTitle()).toContain('Remove this shared link');
-      expect(await confirmDialog.getText()).toContain('This link will be deleted and a new link will be created next time this file is shared');
+      expect(await confirmDialog.getText()).toContain(
+        'This link will be deleted and a new link will be created next time this file is shared'
+      );
       expect(await confirmDialog.isRemoveEnabled()).toBe(true, 'REMOVE button is not enabled');
       expect(await confirmDialog.isCancelEnabled()).toBe(true, 'CANCEL button is not enabled');
     });
@@ -649,15 +676,20 @@ describe('Unshare a file', () => {
   });
 
   describe('as Consumer', () => {
-
     const sitePrivate = `site-private-${Utils.random()}`;
 
-    const file1FileLib = `file1-FL-${Utils.random()}.txt`; let file1FileLibId;
-    const file2FileLib = `file2-FL-${Utils.random()}.txt`; let file2FileLibId;
-    const file1Shared = `file1-Shared-${Utils.random()}.txt`; let file1SharedId;
-    const file2Shared = `file2-Shared-${Utils.random()}.txt`; let file2SharedId;
-    const file1Fav = `file1-Fav-${Utils.random()}.txt`; let file1FavId;
-    const file2Fav = `file2-Fav-${Utils.random()}.txt`; let file2FavId;
+    const file1FileLib = `file1-FL-${Utils.random()}.txt`;
+    let file1FileLibId;
+    const file2FileLib = `file2-FL-${Utils.random()}.txt`;
+    let file2FileLibId;
+    const file1Shared = `file1-Shared-${Utils.random()}.txt`;
+    let file1SharedId;
+    const file2Shared = `file2-Shared-${Utils.random()}.txt`;
+    let file2SharedId;
+    const file1Fav = `file1-Fav-${Utils.random()}.txt`;
+    let file1FavId;
+    const file2Fav = `file2-Fav-${Utils.random()}.txt`;
+    let file2FavId;
 
     beforeAll(async (done) => {
       await apis.admin.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
@@ -799,5 +831,4 @@ describe('Unshare a file', () => {
       expect(await apis.user.nodes.isFileShared(file2FavId)).toBe(false, `${file2Fav} is shared`);
     });
   });
-
 });

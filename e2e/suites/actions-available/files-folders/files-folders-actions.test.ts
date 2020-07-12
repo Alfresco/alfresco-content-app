@@ -36,7 +36,7 @@ import { trashTests } from './trash';
 describe('Files / folders actions : ', () => {
   const random = Utils.random();
 
-  const username = `user-${random}`
+  const username = `user-${random}`;
 
   const parent = `parent-${random}`;
 
@@ -68,12 +68,17 @@ describe('Files / folders actions : ', () => {
 
     parentId = (await userApi.nodes.createFolder(parent)).entry.id;
 
-    await userApi.upload.uploadFileWithRename(FILES.docxFile, parentId, testData.fileDocx.name );
-    fileDocxFavId = (await userApi.upload.uploadFileWithRename(FILES.docxFile, parentId, testData.fileDocxFav.name)).entry.id;
+    await userApi.upload.uploadFileWithRename(FILES.docxFile, parentId, testData.fileDocx.name);
+    fileDocxFavId = (await userApi.upload.uploadFileWithRename(FILES.docxFile, parentId, testData.fileDocxFav.name))
+      .entry.id;
     await userApi.nodes.createFile(testData.file.name, parentId);
     fileFavId = (await userApi.nodes.createFile(testData.fileFav.name, parentId)).entry.id;
-    fileDocxSharedId = (await userApi.upload.uploadFileWithRename(FILES.docxFile, parentId, testData.fileDocxShared.name)).entry.id;
-    fileDocxSharedFavId = (await userApi.upload.uploadFileWithRename(FILES.docxFile, parentId, testData.fileDocxSharedFav.name)).entry.id;
+    fileDocxSharedId = (
+      await userApi.upload.uploadFileWithRename(FILES.docxFile, parentId, testData.fileDocxShared.name)
+    ).entry.id;
+    fileDocxSharedFavId = (
+      await userApi.upload.uploadFileWithRename(FILES.docxFile, parentId, testData.fileDocxSharedFav.name)
+    ).entry.id;
     fileSharedId = (await userApi.nodes.createFile(testData.fileShared.name, parentId)).entry.id;
     fileSharedFavId = (await userApi.nodes.createFile(testData.fileSharedFav.name, parentId)).entry.id;
     fileLockedId = (await userApi.nodes.createFile(testData.fileLocked.name, parentId)).entry.id;
@@ -166,5 +171,4 @@ describe('Files / folders actions : ', () => {
   describe('on Trash : ', () => {
     trashTests();
   });
-
 });

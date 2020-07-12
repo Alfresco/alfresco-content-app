@@ -39,7 +39,8 @@ import * as moment from 'moment';
 describe('File / Folder properties', () => {
   const username = `user1-${Utils.random()}`;
 
-  const parent = `parent-${Utils.random()}`; let parentId;
+  const parent = `parent-${Utils.random()}`;
+  let parentId;
 
   const file1 = {
     name: `file1-${Utils.random()}.txt`,
@@ -54,7 +55,7 @@ describe('File / Folder properties', () => {
     title: 'image title',
     description: 'image description',
     author: 'image author'
-  }
+  };
   let image1Id;
 
   const folder1 = {
@@ -80,8 +81,11 @@ describe('File / Folder properties', () => {
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
-    file1Id = (await apis.user.nodes.createFile(file1.name, parentId, file1.title, file1.description, file1.author)).entry.id;
-    folder1Id = (await apis.user.nodes.createFolder(folder1.name, parentId, folder1.title, folder1.description, folder1.author)).entry.id;
+    file1Id = (await apis.user.nodes.createFile(file1.name, parentId, file1.title, file1.description, file1.author))
+      .entry.id;
+    folder1Id = (
+      await apis.user.nodes.createFolder(folder1.name, parentId, folder1.title, folder1.description, folder1.author)
+    ).entry.id;
     image1Id = (await apis.user.upload.uploadFile(image1.name, parentId)).entry.id;
 
     await loginPage.loginWith(username);
@@ -143,8 +147,14 @@ describe('File / Folder properties', () => {
       await page.toolbar.viewDetailsButton.click();
       await infoDrawer.waitForInfoDrawerToOpen();
 
-      expect(await propertiesTab.getVisiblePropertiesLabels()).toEqual(expectedPropLabels, 'Incorrect properties displayed');
-      expect(await propertiesTab.getVisiblePropertiesValues()).toEqual(expectedPropValues, 'Incorrect properties values');
+      expect(await propertiesTab.getVisiblePropertiesLabels()).toEqual(
+        expectedPropLabels,
+        'Incorrect properties displayed'
+      );
+      expect(await propertiesTab.getVisiblePropertiesValues()).toEqual(
+        expectedPropValues,
+        'Incorrect properties values'
+      );
       expect(await propertiesTab.isEditPropertiesButtonEnabled()).toBe(true, 'Edit button not enabled');
       expect(await propertiesTab.isMoreInfoButtonEnabled()).toBe(true, 'More information button not enabled');
     });
@@ -177,8 +187,14 @@ describe('File / Folder properties', () => {
       await page.toolbar.viewDetailsButton.click();
       await infoDrawer.waitForInfoDrawerToOpen();
 
-      expect(await propertiesTab.getVisiblePropertiesLabels()).toEqual(expectedPropLabels, 'Incorrect properties displayed');
-      expect(await propertiesTab.getVisiblePropertiesValues()).toEqual(expectedPropValues, 'Incorrect properties values');
+      expect(await propertiesTab.getVisiblePropertiesLabels()).toEqual(
+        expectedPropLabels,
+        'Incorrect properties displayed'
+      );
+      expect(await propertiesTab.getVisiblePropertiesValues()).toEqual(
+        expectedPropValues,
+        'Incorrect properties values'
+      );
       expect(await propertiesTab.isEditPropertiesButtonEnabled()).toBe(true, 'Edit button not enabled');
       expect(await propertiesTab.isMoreInfoButtonEnabled()).toBe(true, 'More information button not enabled');
     });
@@ -231,7 +247,7 @@ describe('File / Folder properties', () => {
         properties['exif:flash'],
         properties['exif:focalLength'].toString(),
         properties['exif:isoSpeedRatings'],
-        (properties['exif:orientation']).toString(),
+        properties['exif:orientation'].toString(),
         properties['exif:manufacturer'],
         properties['exif:model'],
         properties['exif:software']
@@ -246,11 +262,16 @@ describe('File / Folder properties', () => {
       await propertiesTab.waitForImagePropertiesPanelToExpand();
 
       expect(await propertiesTab.isImagePropertiesPanelDisplayed()).toBe(true, 'Image properties panel not displayed');
-      expect(await propertiesTab.getVisiblePropertiesLabels()).toEqual(expectedPropLabels, 'Incorrect properties displayed');
-      expect(await propertiesTab.getVisiblePropertiesValues()).toEqual(expectedPropValues, 'Incorrect properties values');
+      expect(await propertiesTab.getVisiblePropertiesLabels()).toEqual(
+        expectedPropLabels,
+        'Incorrect properties displayed'
+      );
+      expect(await propertiesTab.getVisiblePropertiesValues()).toEqual(
+        expectedPropValues,
+        'Incorrect properties values'
+      );
       expect(await propertiesTab.isEditPropertiesButtonEnabled()).toBe(true, 'Edit button not enabled');
       expect(await propertiesTab.isLessInfoButtonEnabled()).toBe(true, 'Less information button not enabled');
     });
   });
-
 });

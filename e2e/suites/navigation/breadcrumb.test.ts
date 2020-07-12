@@ -25,26 +25,25 @@
 
 import { browser } from 'protractor';
 
-import {
-  SITE_VISIBILITY,
-  LoginPage,
-  BrowsingPage,
-  Utils,
-  RepoClient
-} from '@alfresco/aca-testing-shared';
+import { SITE_VISIBILITY, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
 
 describe('Breadcrumb', () => {
   const username = `user-${Utils.random()}`;
 
-  const parent = `parent-${Utils.random()}`; let parentId;
-  const subFolder1 = `subFolder1-${Utils.random()}`; let subFolder1Id;
-  const subFolder2 = `subFolder2-${Utils.random()}`; let subFolder2Id;
+  const parent = `parent-${Utils.random()}`;
+  let parentId;
+  const subFolder1 = `subFolder1-${Utils.random()}`;
+  let subFolder1Id;
+  const subFolder2 = `subFolder2-${Utils.random()}`;
+  let subFolder2Id;
   const fileName1 = `file1-${Utils.random()}.txt`;
 
   const siteName = `site-${Utils.random()}`;
 
-  const parent2 = `parent2-${Utils.random()}`; let parent2Id;
-  const folder1 = `folder1-${Utils.random()}`; let folder1Id;
+  const parent2 = `parent2-${Utils.random()}`;
+  let parent2Id;
+  const folder1 = `folder1-${Utils.random()}`;
+  let folder1Id;
   const folder1Renamed = `renamed-${Utils.random()}`;
 
   const loginPage = new LoginPage();
@@ -52,8 +51,8 @@ describe('Breadcrumb', () => {
   const { breadcrumb } = page;
 
   const apis = {
-      admin: new RepoClient(),
-      user: new RepoClient(username, username)
+    admin: new RepoClient(),
+    user: new RepoClient(username, username)
   };
 
   beforeAll(async (done) => {
@@ -133,7 +132,7 @@ describe('Breadcrumb', () => {
     await page.dataTable.doubleClickOnRowByName(parent);
     await page.dataTable.doubleClickOnRowByName(subFolder1);
     await page.dataTable.doubleClickOnRowByName(subFolder2);
-    const expectedBreadcrumb = [ 'Personal Files', parent, subFolder1, subFolder2 ];
+    const expectedBreadcrumb = ['Personal Files', parent, subFolder1, subFolder2];
     expect(await breadcrumb.getAllItems()).toEqual(expectedBreadcrumb);
   });
 
@@ -143,7 +142,7 @@ describe('Breadcrumb', () => {
     await page.dataTable.doubleClickOnRowByName(parent);
     await page.dataTable.doubleClickOnRowByName(subFolder1);
     await page.dataTable.doubleClickOnRowByName(subFolder2);
-    const expectedItems = [ 'My Libraries', siteName, parent, subFolder1, subFolder2 ];
+    const expectedItems = ['My Libraries', siteName, parent, subFolder1, subFolder2];
     expect(await breadcrumb.getAllItems()).toEqual(expectedItems);
   });
 
@@ -153,7 +152,7 @@ describe('Breadcrumb', () => {
     await page.dataTable.doubleClickOnRowByName(subFolder1);
     await page.dataTable.doubleClickOnRowByName(subFolder2);
     await breadcrumb.clickItem(subFolder1);
-    const expectedBreadcrumb = [ 'Personal Files', parent, subFolder1 ];
+    const expectedBreadcrumb = ['Personal Files', parent, subFolder1];
     expect(await breadcrumb.getAllItems()).toEqual(expectedBreadcrumb);
   });
 
@@ -174,7 +173,7 @@ describe('Breadcrumb', () => {
     await page.dataTable.doubleClickOnRowByName(parent2);
     await page.dataTable.doubleClickOnRowByName(folder1);
     await page.dataTable.wait();
-    await apis.user.nodes.renameNode(folder1Id, folder1Renamed)
+    await apis.user.nodes.renameNode(folder1Id, folder1Renamed);
     await page.refresh();
     await page.dataTable.wait();
     expect(await breadcrumb.currentItem.getText()).toEqual(folder1Renamed);
@@ -188,13 +187,14 @@ describe('Breadcrumb', () => {
     await page.clickTrash();
     await page.dataTable.waitForEmptyState();
     await browser.navigate().back();
-    const expectedBreadcrumb = [ 'Personal Files', parent, subFolder1, subFolder2 ];
+    const expectedBreadcrumb = ['Personal Files', parent, subFolder1, subFolder2];
     expect(await breadcrumb.getAllItems()).toEqual(expectedBreadcrumb);
   });
 
   describe('as admin', () => {
     const user2 = `user2-${Utils.random()}`;
-    const userFolder = `userFolder-${Utils.random()}`; let userFolderId;
+    const userFolder = `userFolder-${Utils.random()}`;
+    let userFolderId;
     const user2Api = new RepoClient(user2, user2);
 
     beforeAll(async (done) => {
@@ -212,9 +212,9 @@ describe('Breadcrumb', () => {
     it(`[C260970] Breadcrumb on navigation to a user's home`, async () => {
       await page.dataTable.doubleClickOnRowByName('User Homes');
       await page.dataTable.doubleClickOnRowByName(user2);
-      expect(await breadcrumb.getAllItems()).toEqual([ 'Personal Files', 'User Homes', user2 ]);
+      expect(await breadcrumb.getAllItems()).toEqual(['Personal Files', 'User Homes', user2]);
       await page.dataTable.doubleClickOnRowByName(userFolder);
-      expect(await breadcrumb.getAllItems()).toEqual([ 'Personal Files', 'User Homes', user2, userFolder ]);
+      expect(await breadcrumb.getAllItems()).toEqual(['Personal Files', 'User Homes', user2, userFolder]);
     });
   });
 });

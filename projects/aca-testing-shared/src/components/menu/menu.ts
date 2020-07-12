@@ -40,9 +40,7 @@ export class Menu extends Component {
   backdrop = this.byCss('.cdk-overlay-backdrop', browser);
 
   uploadFilesInput = this.byId('app-upload-files', browser);
-  submenus = browser.element.all(
-    by.css('app-context-menu-item .mat-menu-item')
-  );
+  submenus = browser.element.all(by.css('app-context-menu-item .mat-menu-item'));
 
   uploadFileAction = this.byId('app.create.uploadFile');
   uploadFolderAction = this.byId('app.create.uploadFolder');
@@ -61,23 +59,14 @@ export class Menu extends Component {
   favoriteAction = this.byCss(`.mat-menu-item[id$='favorite.add']`);
   removeFavoriteAction = this.byCss(`.mat-menu-item[id$='favorite.remove']`);
   toggleFavoriteAction = this.byCssText('.mat-menu-item', 'Favorite');
-  toggleRemoveFavoriteAction = this.byCssText(
-    '.mat-menu-item',
-    'Remove Favorite'
-  );
+  toggleRemoveFavoriteAction = this.byCssText('.mat-menu-item', 'Remove Favorite');
   joinAction = this.byCssText('.mat-menu-item', 'Join');
   leaveAction = this.byCssText('.mat-menu-item', 'Leave');
   managePermissionsAction = this.byCssText('.mat-menu-item', 'Permissions');
   manageVersionsAction = this.byCssText('.mat-menu-item', 'Manage Versions');
-  uploadNewVersionAction = this.byCssText(
-    '.mat-menu-item',
-    'Upload New Version'
-  );
+  uploadNewVersionAction = this.byCssText('.mat-menu-item', 'Upload New Version');
   moveAction = this.byCssText('.mat-menu-item', 'Move');
-  permanentDeleteAction = this.byCssText(
-    '.mat-menu-item',
-    'Permanently Delete'
-  );
+  permanentDeleteAction = this.byCssText('.mat-menu-item', 'Permanently Delete');
   restoreAction = this.byCssText('.mat-menu-item', 'Restore');
   shareAction = this.byCssText('.mat-menu-item', 'Share');
   shareEditAction = this.byCssText('.mat-menu-item', 'Shared Link Settings');
@@ -89,16 +78,12 @@ export class Menu extends Component {
   }
 
   async waitForMenuToOpen(): Promise<void> {
-    await waitForPresence(
-      browser.element(by.css('.cdk-overlay-container .mat-menu-panel'))
-    );
+    await waitForPresence(browser.element(by.css('.cdk-overlay-container .mat-menu-panel')));
     await waitForVisibility(this.items.get(0));
   }
 
   async waitForMenuToClose(): Promise<void> {
-    await waitForStaleness(
-      browser.element(by.css('.cdk-overlay-container .mat-menu-panel'))
-    );
+    await waitForStaleness(browser.element(by.css('.cdk-overlay-container .mat-menu-panel')));
   }
 
   async closeMenu(): Promise<void> {
@@ -127,9 +112,7 @@ export class Menu extends Component {
   }
 
   async getItemIconText(menuItem: string): Promise<string> {
-    return this.getItemByLabel(menuItem)
-      .element(by.css('.mat-icon'))
-      .getText();
+    return this.getItemByLabel(menuItem).element(by.css('.mat-icon')).getText();
   }
 
   async getItemIdAttribute(menuItem: string): Promise<string> {
@@ -141,7 +124,7 @@ export class Menu extends Component {
   }
 
   async getMenuItems(): Promise<string[]> {
-    const items: string[] = await this.items.map(async elem => {
+    const items: string[] = await this.items.map(async (elem) => {
       const span = elem.element(by.css('span'));
       return span.getText();
     });
@@ -152,14 +135,8 @@ export class Menu extends Component {
     try {
       const elem = this.getNthItem(nth);
       await waitForClickable(elem);
-      await browser
-        .actions()
-        .mouseMove(elem)
-        .perform();
-      await browser
-        .actions()
-        .click()
-        .perform();
+      await browser.actions().mouseMove(elem).perform();
+      await browser.actions().click().perform();
       await this.waitForMenuToClose();
     } catch (e) {
       Logger.error('____ click nth menu item catch ___', e);
@@ -180,10 +157,7 @@ export class Menu extends Component {
     try {
       const elem = this.getItemByLabel(menuItem);
       await waitForClickable(elem);
-      await browser
-        .actions()
-        .mouseMove(elem)
-        .perform();
+      await browser.actions().mouseMove(elem).perform();
       await browser.sleep(500);
     } catch (error) {
       Logger.error('----- mouse over error: ', error);
@@ -213,17 +187,11 @@ export class Menu extends Component {
   }
 
   async isMenuItemPresent(title: string): Promise<boolean> {
-    return browser
-      .element(by.cssContainingText('.mat-menu-item', title))
-      .isPresent();
+    return browser.element(by.cssContainingText('.mat-menu-item', title)).isPresent();
   }
 
   async isSubMenuItemPresent(title: string): Promise<boolean> {
-    return browser
-      .element(
-        by.cssContainingText('app-context-menu-item .mat-menu-item', title)
-      )
-      .isPresent();
+    return browser.element(by.cssContainingText('app-context-menu-item .mat-menu-item', title)).isPresent();
   }
 
   async getSubmenuItemsCount(): Promise<number> {

@@ -23,13 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  tick
-} from '@angular/core/testing';
-
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { SearchResultsComponent } from './search-results.component';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { AppSearchResultsModule } from '../search-results.module';
@@ -41,10 +35,7 @@ import {
   TranslationService
 } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
-import {
-  NavigateToFolder,
-  SnackbarErrorAction
-} from '@alfresco/aca-shared/store';
+import { NavigateToFolder, SnackbarErrorAction } from '@alfresco/aca-shared/store';
 import { Pagination, SearchRequest } from '@alfresco/js-api';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -63,12 +54,7 @@ describe('SearchComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        TranslateModule.forRoot(),
-        CoreModule.forRoot(),
-        AppTestingModule,
-        AppSearchResultsModule
-      ],
+      imports: [TranslateModule.forRoot(), CoreModule.forRoot(), AppTestingModule, AppSearchResultsModule],
       providers: [
         {
           provide: AlfrescoApiService,
@@ -84,8 +70,7 @@ describe('SearchComponent', () => {
             },
             params: [
               {
-                q:
-                  'TYPE: "cm:folder" AND %28=cm: name: email OR cm: name: budget%29'
+                q: 'TYPE: "cm:folder" AND %28=cm: name: email OR cm: name: budget%29'
               }
             ]
           }
@@ -121,9 +106,7 @@ describe('SearchComponent', () => {
     queryBuilder.execute();
     tick();
 
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new SnackbarErrorAction('APP.BROWSE.SEARCH.ERRORS.GENERIC')
-    );
+    expect(store.dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('APP.BROWSE.SEARCH.ERRORS.GENERIC'));
   }));
 
   it('should raise a known error if search fails', fakeAsync(() => {
@@ -146,9 +129,7 @@ describe('SearchComponent', () => {
     queryBuilder.execute();
     tick();
 
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new SnackbarErrorAction('Known Error')
-    );
+    expect(store.dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('Known Error'));
   }));
 
   it('should raise a generic error if search fails', fakeAsync(() => {
@@ -171,15 +152,11 @@ describe('SearchComponent', () => {
     queryBuilder.execute();
     tick();
 
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new SnackbarErrorAction('Generic Error')
-    );
+    expect(store.dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('Generic Error'));
   }));
 
   it('should decode encoded URI', () => {
-    expect(queryBuilder.userQuery).toEqual(
-      '(TYPE: "cm:folder" AND (=cm: name: email OR cm: name: budget))'
-    );
+    expect(queryBuilder.userQuery).toEqual('(TYPE: "cm:folder" AND (=cm: name: email OR cm: name: budget))');
   });
 
   it('should return null if formatting invalid query', () => {
@@ -228,9 +205,7 @@ describe('SearchComponent', () => {
 
     const query = component.formatSearchQuery('big yellow banana');
 
-    expect(query).toBe(
-      `(cm:name:"big*") AND (cm:name:"yellow*") AND (cm:name:"banana*")`
-    );
+    expect(query).toBe(`(cm:name:"big*") AND (cm:name:"yellow*") AND (cm:name:"banana*")`);
   });
 
   it('should support conjunctions with AND operator', () => {

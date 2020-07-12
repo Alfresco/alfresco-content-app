@@ -27,11 +27,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { SelectionState } from '@alfresco/adf-extensions';
-import {
-  AppStore,
-  ShareNodeAction,
-  getAppSelection
-} from '@alfresco/aca-shared/store';
+import { AppStore, ShareNodeAction, getAppSelection } from '@alfresco/aca-shared/store';
 
 @Component({
   selector: 'app-toggle-shared',
@@ -50,11 +46,7 @@ export class ToggleSharedComponent implements OnInit {
 
   isShared(selection: SelectionState) {
     // workaround for shared files
-    if (
-      selection.first &&
-      selection.first.entry &&
-      (selection.first.entry as any).sharedByUser
-    ) {
+    if (selection.first && selection.first.entry && (selection.first.entry as any).sharedByUser) {
       return true;
     }
 

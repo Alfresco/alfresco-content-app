@@ -23,12 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  TestBed,
-  ComponentFixture,
-  fakeAsync,
-  tick
-} from '@angular/core/testing';
+import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import {
   AlfrescoApiService,
@@ -94,9 +89,7 @@ describe('RecentFilesComponent', () => {
       } as PersonEntry)
     );
 
-    spyOn(alfrescoApi.searchApi, 'search').and.returnValue(
-      Promise.resolve(page)
-    );
+    spyOn(alfrescoApi.searchApi, 'search').and.returnValue(Promise.resolve(page));
   });
 
   it('should call document list reload on fileUploadComplete event', fakeAsync(() => {

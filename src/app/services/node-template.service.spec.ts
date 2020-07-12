@@ -51,10 +51,7 @@ describe('NodeTemplateService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule, EffectsModule.forRoot([TemplateEffects])],
-      providers: [
-        NodeTemplateService,
-        { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock }
-      ]
+      providers: [NodeTemplateService, { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock }]
     });
 
     store = TestBed.inject(Store);
@@ -105,18 +102,16 @@ describe('NodeTemplateService', () => {
     nodeTemplateService.selectTemplateDialog(fileTemplateConfig);
     tick();
 
-    const breadcrumb = dialog.open['calls']
-      .argsFor(0)[1]
-      .data.breadcrumbTransform({
-        name: 'Node Templates',
-        path: {
-          elements: [
-            { id: 'id1', name: 'Company Home' },
-            { id: 'id2', name: 'Data Dictionary' }
-          ],
-          name: '/Company Home/Data Dictionary'
-        }
-      });
+    const breadcrumb = dialog.open['calls'].argsFor(0)[1].data.breadcrumbTransform({
+      name: 'Node Templates',
+      path: {
+        elements: [
+          { id: 'id1', name: 'Company Home' },
+          { id: 'id2', name: 'Data Dictionary' }
+        ],
+        name: '/Company Home/Data Dictionary'
+      }
+    });
 
     expect(breadcrumb.path.elements).toEqual([]);
   }));
@@ -147,23 +142,19 @@ describe('NodeTemplateService', () => {
     nodeTemplateService.selectTemplateDialog(fileTemplateConfig);
     tick();
 
-    const breadcrumb = dialog.open['calls']
-      .argsFor(0)[1]
-      .data.breadcrumbTransform({
-        name: 'Node Templates',
-        path: {
-          elements: [
-            { id: 'id1', name: 'Company Home' },
-            { id: 'id2', name: 'Data Dictionary' },
-            { id: 'id3', name: 'Templates' }
-          ],
-          name: '/Company Home/Data Dictionary/Templates'
-        }
-      });
+    const breadcrumb = dialog.open['calls'].argsFor(0)[1].data.breadcrumbTransform({
+      name: 'Node Templates',
+      path: {
+        elements: [
+          { id: 'id1', name: 'Company Home' },
+          { id: 'id2', name: 'Data Dictionary' },
+          { id: 'id3', name: 'Templates' }
+        ],
+        name: '/Company Home/Data Dictionary/Templates'
+      }
+    });
 
-    expect(breadcrumb.path.elements).toEqual([
-      { id: 'id3', name: 'Templates' }
-    ]);
+    expect(breadcrumb.path.elements).toEqual([{ id: 'id3', name: 'Templates' }]);
   }));
 
   it('should raise an error when getNodeInfo fails', fakeAsync(() => {
@@ -177,9 +168,7 @@ describe('NodeTemplateService', () => {
     nodeTemplateService.selectTemplateDialog(fileTemplateConfig);
     tick();
 
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new SnackbarErrorAction('APP.MESSAGES.ERRORS.GENERIC')
-    );
+    expect(store.dispatch).toHaveBeenCalledWith(new SnackbarErrorAction('APP.MESSAGES.ERRORS.GENERIC'));
   }));
 
   it('should return true if row is not a `link` nodeType', fakeAsync(() => {
@@ -284,14 +273,12 @@ describe('NodeTemplateService', () => {
       nodeTemplateService.selectTemplateDialog(fileTemplateConfig);
       tick();
 
-      const isSelectionValid = dialog.open['calls']
-        .argsFor(0)[1]
-        .data.isSelectionValid({
-          name: 'some-folder-template',
-          isFile: false,
-          isFolder: true,
-          path: { elements: [{}, {}] }
-        });
+      const isSelectionValid = dialog.open['calls'].argsFor(0)[1].data.isSelectionValid({
+        name: 'some-folder-template',
+        isFile: false,
+        isFolder: true,
+        path: { elements: [{}, {}] }
+      });
 
       expect(isSelectionValid).toBe(false);
     }));
@@ -307,14 +294,12 @@ describe('NodeTemplateService', () => {
       nodeTemplateService.selectTemplateDialog(fileTemplateConfig);
       tick();
 
-      const isSelectionValid = dialog.open['calls']
-        .argsFor(0)[1]
-        .data.isSelectionValid({
-          name: 'some-file-template',
-          isFile: true,
-          isFolder: false,
-          path: { elements: [{}, {}] }
-        });
+      const isSelectionValid = dialog.open['calls'].argsFor(0)[1].data.isSelectionValid({
+        name: 'some-file-template',
+        isFile: true,
+        isFolder: false,
+        path: { elements: [{}, {}] }
+      });
 
       expect(isSelectionValid).toBe(true);
     }));
@@ -348,14 +333,12 @@ describe('NodeTemplateService', () => {
       nodeTemplateService.selectTemplateDialog(folderTemplateConfig);
       tick();
 
-      const isSelectionValid = dialog.open['calls']
-        .argsFor(0)[1]
-        .data.isSelectionValid({
-          name: 'some-file-template',
-          isFile: true,
-          isFolder: false,
-          path: { elements: [{}, {}] }
-        });
+      const isSelectionValid = dialog.open['calls'].argsFor(0)[1].data.isSelectionValid({
+        name: 'some-file-template',
+        isFile: true,
+        isFolder: false,
+        path: { elements: [{}, {}] }
+      });
 
       expect(isSelectionValid).toBe(false);
     }));
@@ -371,14 +354,12 @@ describe('NodeTemplateService', () => {
       nodeTemplateService.selectTemplateDialog(folderTemplateConfig);
       tick();
 
-      const isSelectionValid = dialog.open['calls']
-        .argsFor(0)[1]
-        .data.isSelectionValid({
-          name: 'parent-folder-templates',
-          isFile: false,
-          isFolder: true,
-          path: { elements: [] }
-        });
+      const isSelectionValid = dialog.open['calls'].argsFor(0)[1].data.isSelectionValid({
+        name: 'parent-folder-templates',
+        isFile: false,
+        isFolder: true,
+        path: { elements: [] }
+      });
 
       expect(isSelectionValid).toBe(false);
     }));
@@ -387,9 +368,7 @@ describe('NodeTemplateService', () => {
       spyOn(alfrescoApiService.searchApi, 'search').and.returnValue(
         Promise.resolve({
           list: {
-            entries: [
-              { entry: { id: 'templates-folder-id', path: { elements: [] } } }
-            ]
+            entries: [{ entry: { id: 'templates-folder-id', path: { elements: [] } } }]
           }
         } as ResultSetPaging)
       );
@@ -398,14 +377,12 @@ describe('NodeTemplateService', () => {
       nodeTemplateService.selectTemplateDialog(folderTemplateConfig);
       tick();
 
-      const isSelectionValid = dialog.open['calls']
-        .argsFor(0)[1]
-        .data.isSelectionValid({
-          name: 'some-folder-template',
-          isFile: false,
-          isFolder: true,
-          path: { elements: [{}, {}] }
-        });
+      const isSelectionValid = dialog.open['calls'].argsFor(0)[1].data.isSelectionValid({
+        name: 'some-folder-template',
+        isFile: false,
+        isFolder: true,
+        path: { elements: [{}, {}] }
+      });
 
       expect(isSelectionValid).toBe(true);
     }));

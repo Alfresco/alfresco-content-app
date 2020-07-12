@@ -51,10 +51,7 @@ export class LoginPage extends Page {
 
   async loginWithAdmin() {
     await this.load();
-    return this.loginWith(
-      browser.params.ADMIN_USERNAME,
-      browser.params.ADMIN_PASSWORD
-    );
+    return this.loginWith(browser.params.ADMIN_USERNAME, browser.params.ADMIN_PASSWORD);
   }
 
   async tryLoginWith(username: string, password?: string) {

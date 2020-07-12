@@ -34,17 +34,7 @@ import { ExtensionsModule } from '@alfresco/adf-extensions';
 
 @NgModule({
   imports: [CommonModule, CoreModule, ExtensionsModule],
-  declarations: [
-    ToolbarButtonComponent,
-    ToolbarActionComponent,
-    ToolbarMenuItemComponent,
-    ToolbarMenuComponent
-  ],
-  exports: [
-    ToolbarButtonComponent,
-    ToolbarActionComponent,
-    ToolbarMenuItemComponent,
-    ToolbarMenuComponent
-  ]
+  declarations: [ToolbarButtonComponent, ToolbarActionComponent, ToolbarMenuItemComponent, ToolbarMenuComponent],
+  exports: [ToolbarButtonComponent, ToolbarActionComponent, ToolbarMenuItemComponent, ToolbarMenuComponent]
 })
 export class SharedToolbarModule {}

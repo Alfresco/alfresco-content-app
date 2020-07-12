@@ -23,13 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  Component,
-  OnInit,
-  Input,
-  ViewEncapsulation,
-  ChangeDetectorRef
-} from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-expand-menu',

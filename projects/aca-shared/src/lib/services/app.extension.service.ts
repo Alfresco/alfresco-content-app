@@ -27,11 +27,7 @@ import { Injectable, Type } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
-import {
-  AppStore,
-  getRuleContext,
-  getLanguagePickerState
-} from '@alfresco/aca-shared/store';
+import { AppStore, getRuleContext, getLanguagePickerState } from '@alfresco/aca-shared/store';
 import {
   SelectionState,
   NavigationState,
@@ -53,11 +49,7 @@ import {
   DocumentListPresetRef,
   IconRef
 } from '@alfresco/adf-extensions';
-import {
-  AppConfigService,
-  AuthenticationService,
-  LogService
-} from '@alfresco/adf-core';
+import { AppConfigService, AuthenticationService, LogService } from '@alfresco/adf-core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { RepositoryInfo, NodeEntry } from '@alfresco/js-api';
 import { ViewerRules } from '../models/viewer.rules';
@@ -132,14 +124,14 @@ export class AppExtensionService implements RuleContext {
   ) {
     this.references$ = this._references.asObservable();
 
-    this.store.select(getRuleContext).subscribe(result => {
+    this.store.select(getRuleContext).subscribe((result) => {
       this.selection = result.selection;
       this.navigation = result.navigation;
       this.profile = result.profile;
       this.repository = result.repository;
     });
 
-    this.store.select(getLanguagePickerState).subscribe(result => {
+    this.store.select(getLanguagePickerState).subscribe((result) => {
       this.languagePicker = result;
     });
   }
@@ -155,62 +147,29 @@ export class AppExtensionService implements RuleContext {
       return;
     }
 
-    this.settingGroups = this.loader.getElements<SettingsGroupRef>(
-      config,
-      'settings'
-    );
+    this.settingGroups = this.loader.getElements<SettingsGroupRef>(config, 'settings');
 
-    this.headerActions = this.loader.getContentActions(
-      config,
-      'features.header'
-    );
-    this.sidebarActions = this.loader.getContentActions(
-      config,
-      'features.sidebar.toolbar'
-    );
-    this.toolbarActions = this.loader.getContentActions(
-      config,
-      'features.toolbar'
-    );
-    this.viewerToolbarActions = this.loader.getContentActions(
-      config,
-      'features.viewer.toolbarActions'
-    );
+    this.headerActions = this.loader.getContentActions(config, 'features.header');
+    this.sidebarActions = this.loader.getContentActions(config, 'features.sidebar.toolbar');
+    this.toolbarActions = this.loader.getContentActions(config, 'features.toolbar');
+    this.viewerToolbarActions = this.loader.getContentActions(config, 'features.viewer.toolbarActions');
     this.sharedLinkViewerToolbarActions = this.loader.getContentActions(
       config,
       'features.viewer.shared.toolbarActions'
     );
 
-    this.contextMenuActions = this.loader.getContentActions(
-      config,
-      'features.contextMenu'
-    );
-    this.openWithActions = this.loader.getContentActions(
-      config,
-      'features.viewer.openWith'
-    );
-    this.createActions = this.loader.getElements<ContentActionRef>(
-      config,
-      'features.create'
-    );
+    this.contextMenuActions = this.loader.getContentActions(config, 'features.contextMenu');
+    this.openWithActions = this.loader.getContentActions(config, 'features.viewer.openWith');
+    this.createActions = this.loader.getElements<ContentActionRef>(config, 'features.create');
     this.navbar = this.loadNavBar(config);
-    this.sidebarTabs = this.loader.getElements<SidebarTabRef>(
-      config,
-      'features.sidebar.tabs'
-    );
-    this.userActions = this.loader.getContentActions(
-      config,
-      'features.userActions'
-    );
+    this.sidebarTabs = this.loader.getElements<SidebarTabRef>(config, 'features.sidebar.tabs');
+    this.userActions = this.loader.getContentActions(config, 'features.userActions');
     this.contentMetadata = this.loadContentMetadata(config);
 
     this.documentListPresets = {
       files: this.getDocumentListPreset(config, 'files'),
       libraries: this.getDocumentListPreset(config, 'libraries'),
-      favoriteLibraries: this.getDocumentListPreset(
-        config,
-        'favoriteLibraries'
-      ),
+      favoriteLibraries: this.getDocumentListPreset(config, 'favoriteLibraries'),
       shared: this.getDocumentListPreset(config, 'shared'),
       recent: this.getDocumentListPreset(config, 'recent'),
       favorites: this.getDocumentListPreset(config, 'favorites'),
@@ -218,10 +177,7 @@ export class AppExtensionService implements RuleContext {
       searchLibraries: this.getDocumentListPreset(config, 'search-libraries')
     };
 
-    this.withCredentials = this.appConfig.get<boolean>(
-      'auth.withCredentials',
-      false
-    );
+    this.withCredentials = this.appConfig.get<boolean>('auth.withCredentials', false);
 
     if (config.features && config.features.viewer) {
       this.viewerRules = (config.features.viewer['rules'] as ViewerRules) || {};
@@ -230,15 +186,15 @@ export class AppExtensionService implements RuleContext {
     this.registerIcons(config);
 
     const references = (config.$references || [])
-      .filter(entry => typeof entry === 'object')
-      .map(entry => entry as ExtensionRef);
+      .filter((entry) => typeof entry === 'object')
+      .map((entry) => entry as ExtensionRef);
     this._references.next(references);
   }
 
   protected registerIcons(config: ExtensionConfig) {
     const icons: Array<IconRef> = this.loader
       .getElements<IconRef>(config, 'features.icons')
-      .filter(entry => !entry.disabled);
+      .filter((entry) => !entry.disabled);
 
     for (const icon of icons) {
       const [ns, id] = icon.id.split(':');
@@ -249,11 +205,7 @@ export class AppExtensionService implements RuleContext {
       } else if (!ns || !id) {
         console.warn(`Incorrect icon id format: "${icon.id}".`);
       } else {
-        this.matIconRegistry.addSvgIconInNamespace(
-          ns,
-          id,
-          this.sanitizer.bypassSecurityTrustResourceUrl(value)
-        );
+        this.matIconRegistry.addSvgIconInNamespace(ns, id, this.sanitizer.bypassSecurityTrustResourceUrl(value));
       }
     }
   }
@@ -264,30 +216,27 @@ export class AppExtensionService implements RuleContext {
 
   protected getDocumentListPreset(config: ExtensionConfig, key: string) {
     return this.loader
-      .getElements<DocumentListPresetRef>(
-        config,
-        `features.documentList.${key}`
-      )
-      .filter(entry => !entry.disabled);
+      .getElements<DocumentListPresetRef>(config, `features.documentList.${key}`)
+      .filter((entry) => !entry.disabled);
   }
 
   getApplicationNavigation(elements): Array<NavBarGroupRef> {
     return elements
-      .filter(group => this.filterVisible(group))
-      .map(group => {
+      .filter((group) => this.filterVisible(group))
+      .map((group) => {
         return {
           ...group,
           items: (group.items || [])
-            .filter(entry => !entry.disabled)
-            .filter(item => this.filterVisible(item))
+            .filter((entry) => !entry.disabled)
+            .filter((item) => this.filterVisible(item))
             .sort(sortByOrder)
-            .map(item => {
+            .map((item) => {
               if (item.children && item.children.length > 0) {
                 item.children = item.children
-                  .filter(entry => !entry.disabled)
-                  .filter(child => this.filterVisible(child))
+                  .filter((entry) => !entry.disabled)
+                  .filter((child) => this.filterVisible(child))
                   .sort(sortByOrder)
-                  .map(child => {
+                  .map((child) => {
                     if (child.component) {
                       return {
                         ...child
@@ -295,12 +244,8 @@ export class AppExtensionService implements RuleContext {
                     }
 
                     if (!child.click) {
-                      const childRouteRef = this.extensions.getRouteById(
-                        child.route
-                      );
-                      const childUrl = `/${
-                        childRouteRef ? childRouteRef.path : child.route
-                      }`;
+                      const childRouteRef = this.extensions.getRouteById(child.route);
+                      const childUrl = `/${childRouteRef ? childRouteRef.path : child.route}`;
                       return {
                         ...child,
                         url: childUrl
@@ -342,10 +287,7 @@ export class AppExtensionService implements RuleContext {
   }
 
   loadContentMetadata(config: ExtensionConfig): any {
-    const elements = this.loader.getElements<any>(
-      config,
-      'features.content-metadata-presets'
-    );
+    const elements = this.loader.getElements<any>(config, 'features.content-metadata-presets');
     if (!elements.length) {
       return null;
     }
@@ -356,10 +298,7 @@ export class AppExtensionService implements RuleContext {
     try {
       this.appConfig.config['content-metadata'] = { presets };
     } catch (error) {
-      this.logger.error(
-        error,
-        '- could not change content-metadata from app.config -'
-      );
+      this.logger.error(error, '- could not change content-metadata from app.config -');
     }
 
     return { presets };
@@ -367,12 +306,10 @@ export class AppExtensionService implements RuleContext {
 
   filterDisabled(object: Array<{ disabled: boolean }> | { disabled: boolean }) {
     if (Array.isArray(object)) {
-      return object
-        .filter(item => !item.disabled)
-        .map(item => this.filterDisabled(item));
+      return object.filter((item) => !item.disabled).map((item) => this.filterDisabled(item));
     } else if (typeof object === 'object') {
       if (!object.disabled) {
-        Object.keys(object).forEach(prop => {
+        Object.keys(object).forEach((prop) => {
           object[prop] = this.filterDisabled(object[prop]);
         });
         return object;
@@ -387,7 +324,7 @@ export class AppExtensionService implements RuleContext {
   }
 
   getSidebarTabs(): Array<SidebarTabRef> {
-    return this.sidebarTabs.filter(action => this.filterVisible(action));
+    return this.sidebarTabs.filter((action) => this.filterVisible(action));
   }
 
   getComponentById(id: string): Type<{}> {
@@ -395,7 +332,7 @@ export class AppExtensionService implements RuleContext {
   }
 
   getApplicationRoutes(): Array<ExtensionRoute> {
-    return this.extensions.routes.map(route => {
+    return this.extensions.routes.map((route) => {
       const guards = this.extensions.getAuthGuards(
         route.auth && route.auth.length > 0 ? route.auth : this.defaults.auth
       );
@@ -419,10 +356,10 @@ export class AppExtensionService implements RuleContext {
 
   getCreateActions(): Array<ContentActionRef> {
     return this.createActions
-      .filter(action => this.filterVisible(action))
-      .map(action => this.copyAction(action))
-      .map(action => this.buildMenu(action))
-      .map(action => {
+      .filter((action) => this.filterVisible(action))
+      .map((action) => this.copyAction(action))
+      .map((action) => this.buildMenu(action))
+      .map((action) => {
         let disabled = false;
 
         if (action.rules && action.rules.enabled) {
@@ -437,24 +374,17 @@ export class AppExtensionService implements RuleContext {
   }
 
   private buildMenu(actionRef: ContentActionRef): ContentActionRef {
-    if (
-      actionRef.type === ContentActionType.menu &&
-      actionRef.children &&
-      actionRef.children.length > 0
-    ) {
+    if (actionRef.type === ContentActionType.menu && actionRef.children && actionRef.children.length > 0) {
       const children = actionRef.children
-        .filter(action => this.filterVisible(action))
-        .map(action => this.buildMenu(action));
+        .filter((action) => this.filterVisible(action))
+        .map((action) => this.buildMenu(action));
 
       actionRef.children = children
-        .map(action => {
+        .map((action) => {
           let disabled = false;
 
           if (action.rules && action.rules.enabled) {
-            disabled = !this.extensions.evaluateRule(
-              action.rules.enabled,
-              this
-            );
+            disabled = !this.extensions.evaluateRule(action.rules.enabled, this);
           }
 
           return {
@@ -472,14 +402,14 @@ export class AppExtensionService implements RuleContext {
 
   private getAllowedActions(actions: ContentActionRef[]): ContentActionRef[] {
     return (actions || [])
-      .filter(action => this.filterVisible(action))
-      .map(action => {
+      .filter((action) => this.filterVisible(action))
+      .map((action) => {
         if (action.type === ContentActionType.menu) {
           const copy = this.copyAction(action);
           if (copy.children && copy.children.length > 0) {
             copy.children = copy.children
-              .filter(entry => !entry.disabled)
-              .filter(childAction => this.filterVisible(childAction))
+              .filter((entry) => !entry.disabled)
+              .filter((childAction) => this.filterVisible(childAction))
               .sort(sortByOrder)
               .reduce(reduceSeparators, []);
           }
@@ -509,13 +439,13 @@ export class AppExtensionService implements RuleContext {
 
   getHeaderActions(): Array<ContentActionRef> {
     return this.headerActions
-      .filter(action => this.filterVisible(action))
-      .map(action => {
+      .filter((action) => this.filterVisible(action))
+      .map((action) => {
         if (action.type === ContentActionType.menu) {
           const copy = this.copyAction(action);
           if (copy.children && copy.children.length > 0) {
             copy.children = copy.children
-              .filter(childAction => this.filterVisible(childAction))
+              .filter((childAction) => this.filterVisible(childAction))
               .sort(sortByOrder)
               .reduce(reduceEmptyMenus, [])
               .reduce(reduceSeparators, []);
@@ -535,25 +465,21 @@ export class AppExtensionService implements RuleContext {
   }
 
   getUserActions(): Array<ContentActionRef> {
-    return this.userActions
-      .filter(action => this.filterVisible(action))
-      .sort(sortByOrder);
+    return this.userActions.filter((action) => this.filterVisible(action)).sort(sortByOrder);
   }
 
   getSettingsGroups(): Array<SettingsGroupRef> {
-    return this.settingGroups.filter(group => this.filterVisible(group));
+    return this.settingGroups.filter((group) => this.filterVisible(group));
   }
 
   copyAction(action: ContentActionRef): ContentActionRef {
     return {
       ...action,
-      children: (action.children || []).map(child => this.copyAction(child))
+      children: (action.children || []).map((child) => this.copyAction(child))
     };
   }
 
-  filterVisible(
-    action: ContentActionRef | SettingsGroupRef | SidebarTabRef
-  ): boolean {
+  filterVisible(action: ContentActionRef | SettingsGroupRef | SidebarTabRef): boolean {
     if (action && action.rules && action.rules.visible) {
       return this.extensions.evaluateRule(action.rules.visible, this);
     }

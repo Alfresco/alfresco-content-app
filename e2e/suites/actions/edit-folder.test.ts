@@ -37,7 +37,8 @@ import {
 describe('Edit folder', () => {
   const username = `user-${Utils.random()}`;
 
-  const parent = `parent-${Utils.random()}`; let parentId;
+  const parent = `parent-${Utils.random()}`;
+  let parentId;
   const folderName = `folder-${Utils.random()}`;
   const folderDescription = 'my folder description';
 
@@ -52,16 +53,21 @@ describe('Edit folder', () => {
   const siteName = `site-${Utils.random()}`;
 
   const folderSite = `folder-site-${Utils.random()}`;
-  const folderSiteToEdit = `folder-site-${Utils.random()}`; let folderSiteToEditId;
+  const folderSiteToEdit = `folder-site-${Utils.random()}`;
+  let folderSiteToEditId;
   const duplicateFolderSite = `folder-${Utils.random()}`;
   let docLibUserSite;
 
-  const folderFavorite = `folder-fav-${Utils.random()}`; let folderFavoriteId;
-  const folderFavoriteToEdit = `folder-fav-${Utils.random()}`; let folderFavoriteToEditId;
-  const folderFavoriteDuplicate = `folder-fav-${Utils.random()}`; let folderFavoriteDuplicateId;
+  const folderFavorite = `folder-fav-${Utils.random()}`;
+  let folderFavoriteId;
+  const folderFavoriteToEdit = `folder-fav-${Utils.random()}`;
+  let folderFavoriteToEditId;
+  const folderFavoriteDuplicate = `folder-fav-${Utils.random()}`;
+  let folderFavoriteDuplicateId;
 
   const folderSearch = `folder-search-${Utils.random()}`;
-  const folderSearchToEdit = `folder-search-${Utils.random()}`; let folderSearchToEditId;
+  const folderSearchToEdit = `folder-search-${Utils.random()}`;
+  let folderSearchToEditId;
   const folderSearchDuplicate = `folder-search-${Utils.random()}`;
 
   const apis = {
@@ -113,7 +119,12 @@ describe('Edit folder', () => {
     await Promise.all([
       apis.admin.sites.deleteSite(sitePrivate),
       apis.user.sites.deleteSite(siteName),
-      apis.user.nodes.deleteNodesById([parentId, folderFavoriteToEditId, folderFavoriteDuplicateId, folderSearchToEditId])
+      apis.user.nodes.deleteNodesById([
+        parentId,
+        folderFavoriteToEditId,
+        folderFavoriteDuplicateId,
+        folderSearchToEditId
+      ])
     ]);
     done();
   });

@@ -55,11 +55,8 @@ export class DateTimePicker extends Component {
     const dayOfTomorrow = tomorrow.date();
     const date = await this.headerDate.getText();
     const year = await this.headerYear.getText();
-    const firstActiveDay =
-      '.mat-datetimepicker-calendar-body-active .mat-datetimepicker-calendar-body-cell-content';
-    const elem = this.dayPicker.element(
-      by.cssContainingText(firstActiveDay, `${dayOfTomorrow}`)
-    );
+    const firstActiveDay = '.mat-datetimepicker-calendar-body-active .mat-datetimepicker-calendar-body-cell-content';
+    const elem = this.dayPicker.element(by.cssContainingText(firstActiveDay, `${dayOfTomorrow}`));
     await elem.click();
     return `${date} ${year}`;
   }

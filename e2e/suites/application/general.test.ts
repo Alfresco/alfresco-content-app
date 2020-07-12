@@ -25,13 +25,7 @@
 
 import { browser } from 'protractor';
 import { Logger } from '@alfresco/adf-testing';
-import {
-  BrowsingPage,
-  LoginPage,
-  CreateOrEditFolderDialog,
-  RepoClient,
-  Utils
-} from '@alfresco/aca-testing-shared';
+import { BrowsingPage, LoginPage, CreateOrEditFolderDialog, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 
 describe('General', () => {
   const loginPage = new LoginPage();
@@ -64,7 +58,9 @@ describe('General', () => {
 
       await createDialog.createButton.click();
 
-      expect(await page.getSnackBarMessage()).toEqual('The action was unsuccessful. Try again or contact your IT Team.');
+      expect(await page.getSnackBarMessage()).toEqual(
+        'The action was unsuccessful. Try again or contact your IT Team.'
+      );
 
       expect(await browser.getTitle()).toContain('Sign in');
 

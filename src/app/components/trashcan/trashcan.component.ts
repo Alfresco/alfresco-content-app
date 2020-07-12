@@ -58,7 +58,7 @@ export class TrashcanComponent extends PageComponent implements OnInit {
     this.subscriptions.push(
       this.breakpointObserver
         .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
-        .subscribe(result => {
+        .subscribe((result) => {
           this.isSmallScreen = result.matches;
         })
     );

@@ -26,10 +26,7 @@ import { ContentActionRef } from '@alfresco/adf-extensions';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
-import {
-  SetInfoDrawerStateAction,
-  ToggleInfoDrawerAction
-} from '@alfresco/aca-shared/store';
+import { SetInfoDrawerStateAction, ToggleInfoDrawerAction } from '@alfresco/aca-shared/store';
 import { of, Subject } from 'rxjs';
 import { InfoDrawerComponent } from './info-drawer.component';
 import { LibTestingModule } from '../../testing/lib-testing-module';
@@ -95,9 +92,7 @@ describe('InfoDrawerComponent', () => {
     fixture.detectChanges();
     component.ngOnDestroy();
 
-    expect(storeMock.dispatch).toHaveBeenCalledWith(
-      new SetInfoDrawerStateAction(false)
-    );
+    expect(storeMock.dispatch).toHaveBeenCalledWith(new SetInfoDrawerStateAction(false));
   });
 
   it('should set displayNode when node is library', async(() => {
@@ -174,9 +169,7 @@ describe('InfoDrawerComponent', () => {
 
     fixture.debugElement.nativeElement.dispatchEvent(event);
 
-    expect(storeMock.dispatch).toHaveBeenCalledWith(
-      new ToggleInfoDrawerAction()
-    );
+    expect(storeMock.dispatch).toHaveBeenCalledWith(new ToggleInfoDrawerAction());
   });
 
   it('should show the icons from extension', () => {

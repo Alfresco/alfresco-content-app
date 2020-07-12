@@ -126,8 +126,7 @@ describe('Library actions', () => {
   });
 
   describe('Join a public library', () => {
-
-    beforeAll(async done => {
+    beforeAll(async (done) => {
       await apis.admin.sites.createSite(sitePublic1Admin);
       await apis.user.favorites.addFavoriteById('site', sitePublic1Admin);
       done();
@@ -152,12 +151,10 @@ describe('Library actions', () => {
 
       expect(await dataTable.getLibraryRole(siteSearchPublic1Admin)).toEqual('Consumer');
     });
-
   });
 
   describe('Join a moderated library', () => {
-
-    beforeAll(async done => {
+    beforeAll(async (done) => {
       await apis.admin.sites.createSite(siteModerated1Admin, SITE_VISIBILITY.MODERATED);
       await apis.user.favorites.addFavoriteById('site', siteModerated1Admin);
       await apis.user.queries.waitForSites(siteSearchModerated1Admin, { expect: 1 });
@@ -187,12 +184,10 @@ describe('Library actions', () => {
       const hasJoinRequest = await apis.user.sites.hasMembershipRequest(siteSearchModerated1Admin);
       expect(hasJoinRequest).toBe(true, `Join request does not exist on ${siteSearchModerated1Admin}`);
     });
-
   });
 
   describe('Leave a library', () => {
-
-    beforeAll(async done => {
+    beforeAll(async (done) => {
       await apis.admin.sites.createSite(sitePublic2Admin);
       await apis.admin.sites.createSite(sitePublic3Admin);
       await apis.admin.sites.createSite(sitePublic4Admin);
@@ -242,7 +237,10 @@ describe('Library actions', () => {
       await confirmDialog.okButton.click();
 
       expect(await page.getSnackBarMessage()).toEqual(`You have left the library`);
-      expect(await dataTable.isItemPresent(siteSearchPublic2Admin)).toBe(true, `${siteSearchPublic2Admin} is not displayed`);
+      expect(await dataTable.isItemPresent(siteSearchPublic2Admin)).toBe(
+        true,
+        `${siteSearchPublic2Admin} is not displayed`
+      );
     });
 
     it('[C290136] Confirmation dialog UI', async () => {
@@ -281,8 +279,7 @@ describe('Library actions', () => {
   });
 
   describe('Cancel join', () => {
-
-    beforeAll(async done => {
+    beforeAll(async (done) => {
       await apis.admin.sites.createSite(siteModerated2Admin, SITE_VISIBILITY.MODERATED);
       await apis.user.favorites.addFavoriteById('site', siteModerated2Admin);
       await apis.user.sites.requestToJoin(siteModerated2Admin);
@@ -316,12 +313,10 @@ describe('Library actions', () => {
       const hasJoinRequest = await apis.user.sites.hasMembershipRequest(siteSearchModerated2Admin);
       expect(hasJoinRequest).toBe(false, `Join request exists on ${siteSearchModerated2Admin}`);
     });
-
   });
 
   describe('Mark library as favorite', () => {
-
-    beforeAll(async done => {
+    beforeAll(async (done) => {
       await apis.admin.sites.createSite(sitePublic6Admin);
       await apis.admin.sites.addSiteMember(sitePublic6Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
       await apis.user.queries.waitForSites(siteSearchPublic3Admin, { expect: 1 });
@@ -333,7 +328,10 @@ describe('Library actions', () => {
       await dataTable.selectItem(sitePublic6Admin);
       await toolbar.clickMoreActionsFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(sitePublic6Admin, { expect: true })).toBe(true, `${sitePublic6Admin} not favorite`);
+      expect(await apis.user.favorites.isFavoriteWithRetry(sitePublic6Admin, { expect: true })).toBe(
+        true,
+        `${sitePublic6Admin} not favorite`
+      );
     });
 
     it('[C306963] from on Search Results', async () => {
@@ -345,14 +343,15 @@ describe('Library actions', () => {
       await dataTable.selectItem(siteSearchPublic3Admin);
       await toolbar.clickMoreActionsFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(siteSearchPublic3Admin, { expect: true })).toBe(true, `${siteSearchPublic3Admin} not favorite`);
+      expect(await apis.user.favorites.isFavoriteWithRetry(siteSearchPublic3Admin, { expect: true })).toBe(
+        true,
+        `${siteSearchPublic3Admin} not favorite`
+      );
     });
-
   });
 
   describe('Remove library from favorites', () => {
-
-    beforeAll(async done => {
+    beforeAll(async (done) => {
       await apis.admin.sites.createSite(sitePublic7Admin);
       await apis.admin.sites.createSite(sitePublic8Admin);
       await apis.user.favorites.addFavoriteById('site', sitePublic7Admin);
@@ -370,7 +369,10 @@ describe('Library actions', () => {
       await dataTable.selectItem(sitePublic7Admin);
       await toolbar.clickMoreActionsRemoveFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(sitePublic7Admin, { expect: false })).toBe(false, `${sitePublic7Admin} still favorite`);
+      expect(await apis.user.favorites.isFavoriteWithRetry(sitePublic7Admin, { expect: false })).toBe(
+        false,
+        `${sitePublic7Admin} still favorite`
+      );
     });
 
     it('[C289976] from Favorite Libraries', async () => {
@@ -379,7 +381,10 @@ describe('Library actions', () => {
       await toolbar.clickMoreActionsRemoveFavorite();
 
       expect(await dataTable.isItemPresent(sitePublic8Admin)).toBe(false, `${sitePublic8Admin} is displayed`);
-      expect(await apis.user.favorites.isFavoriteWithRetry(sitePublic8Admin, { expect: false })).toBe(false, `${sitePublic8Admin} still favorite`);
+      expect(await apis.user.favorites.isFavoriteWithRetry(sitePublic8Admin, { expect: false })).toBe(
+        false,
+        `${sitePublic8Admin} still favorite`
+      );
     });
 
     it('[C306964] from Search Results', async () => {
@@ -391,13 +396,15 @@ describe('Library actions', () => {
       await dataTable.selectItem(siteSearchPublic4Admin);
       await toolbar.clickMoreActionsRemoveFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(siteSearchPublic4Admin, { expect: false })).toBe(false, `${siteSearchPublic4Admin} still favorite`);
+      expect(await apis.user.favorites.isFavoriteWithRetry(siteSearchPublic4Admin, { expect: false })).toBe(
+        false,
+        `${siteSearchPublic4Admin} still favorite`
+      );
     });
   });
 
   describe('Delete a library', () => {
-
-    beforeAll(async done => {
+    beforeAll(async (done) => {
       await apis.user.sites.createSite(siteForDelete1);
       await apis.user.sites.createSite(siteForDelete2);
       await apis.user.queries.waitForSites(siteSearchForDelete, { expect: 1 });
@@ -435,5 +442,4 @@ describe('Library actions', () => {
       expect(await dataTable.isItemPresent(siteSearchForDelete)).toBe(false, `${siteSearchForDelete} still displayed`);
     });
   });
-
 });

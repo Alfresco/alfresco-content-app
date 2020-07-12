@@ -38,9 +38,7 @@ export class UploadApi extends RepoApi {
   }
 
   async uploadFile(fileName: string, parentFolderId: string = '-my-') {
-    const file = fs.createReadStream(
-      `${this.e2eRootPath}/resources/test-files/${fileName}`
-    );
+    const file = fs.createReadStream(`${this.e2eRootPath}/resources/test-files/${fileName}`);
     const opts = {
       name: file.name,
       nodeType: 'cm:content'
@@ -50,10 +48,7 @@ export class UploadApi extends RepoApi {
       await this.apiAuth();
       return await this.upload.uploadFile(file, '', parentFolderId, null, opts);
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.uploadFile.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.uploadFile.name}`, error);
     }
   }
 
@@ -64,9 +59,7 @@ export class UploadApi extends RepoApi {
     title: string = '',
     description: string = ''
   ) {
-    const file = fs.createReadStream(
-      `${this.e2eRootPath}/resources/test-files/${fileName}`
-    );
+    const file = fs.createReadStream(`${this.e2eRootPath}/resources/test-files/${fileName}`);
     const nodeProps = {
       properties: {
         'cm:title': title,
@@ -83,10 +76,7 @@ export class UploadApi extends RepoApi {
       await this.apiAuth();
       return await this.upload.uploadFile(file, '', parentId, nodeProps, opts);
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.uploadFileWithRename.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.uploadFileWithRename.name}`, error);
     }
   }
 }

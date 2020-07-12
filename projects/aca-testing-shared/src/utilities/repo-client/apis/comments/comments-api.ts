@@ -38,10 +38,7 @@ export class CommentsApi extends RepoApi {
       await this.apiAuth();
       return await this.commentsApi.listComments(nodeId);
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.getNodeComments.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.getNodeComments.name}`, error);
       return null;
     }
   }
@@ -51,10 +48,7 @@ export class CommentsApi extends RepoApi {
       await this.apiAuth();
       return await this.commentsApi.createComment(nodeId, { content: comment });
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.addComment.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.addComment.name}`, error);
       return null;
     }
   }
@@ -64,10 +58,7 @@ export class CommentsApi extends RepoApi {
       await this.apiAuth();
       return await this.commentsApi.createComment(nodeId, comment);
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.addComments.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.addComments.name}`, error);
       return null;
     }
   }

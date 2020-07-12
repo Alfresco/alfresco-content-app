@@ -112,9 +112,7 @@ describe('NodePermissionService', () => {
         }
       ];
 
-      expect(
-        permission.check(source, ['update', 'other'], { operation: 'AND' })
-      ).toBe(true);
+      expect(permission.check(source, ['update', 'other'], { operation: 'AND' })).toBe(true);
     });
 
     it('should return false when source has no `AND` allowableOperations permission', () => {
@@ -128,9 +126,7 @@ describe('NodePermissionService', () => {
         }
       ];
 
-      expect(
-        permission.check(source, ['update', 'bogus'], { operation: 'AND' })
-      ).toBe(false);
+      expect(permission.check(source, ['update', 'bogus'], { operation: 'AND' })).toBe(false);
     });
 
     it('should return false when source has no allowableOperations', () => {
@@ -144,11 +140,7 @@ describe('NodePermissionService', () => {
     });
 
     it('should return false when source has no allowableOperations property', () => {
-      const source = [
-        { entry: {} },
-        { entry: {} },
-        { entry: { allowableOperations: ['update'] } }
-      ];
+      const source = [{ entry: {} }, { entry: {} }, { entry: { allowableOperations: ['update'] } }];
 
       expect(permission.check(source, ['update'])).toBe(false);
     });
@@ -196,9 +188,7 @@ describe('NodePermissionService', () => {
     it('should return true when source has `AND` allowableOperations permission', () => {
       const source = { entry: { allowableOperations: ['update', 'other'] } };
 
-      expect(
-        permission.check(source, ['update', 'other'], { operation: 'AND' })
-      ).toBe(true);
+      expect(permission.check(source, ['update', 'other'], { operation: 'AND' })).toBe(true);
     });
 
     it('should return false when source has no `AND` allowableOperations permission', () => {
@@ -206,9 +196,7 @@ describe('NodePermissionService', () => {
         entry: { allowableOperations: ['update', 'updatePermissions', 'other'] }
       };
 
-      expect(
-        permission.check(source, ['update', 'bogus'], { operation: 'AND' })
-      ).toBe(false);
+      expect(permission.check(source, ['update', 'bogus'], { operation: 'AND' })).toBe(false);
     });
 
     it('should return false when source has no allowableOperations', () => {

@@ -60,7 +60,10 @@ describe('Sidebar', () => {
     await page.clickFileLibraries();
     expect(await sidenav.isFileLibrariesMenuExpanded()).toBe(true, 'File Libraries not expanded');
     expect(await sidenav.getLink(SIDEBAR_LABELS.MY_LIBRARIES).isPresent()).toBe(true, 'My Libraries link not present');
-    expect(await sidenav.getLink(SIDEBAR_LABELS.FAVORITE_LIBRARIES).isPresent()).toBe(true, 'Favorite Libraries link not present');
+    expect(await sidenav.getLink(SIDEBAR_LABELS.FAVORITE_LIBRARIES).isPresent()).toBe(
+      true,
+      'Favorite Libraries link not present'
+    );
   });
 
   it('[C289900] My Libraries is automatically selected on expanding File Libraries', async () => {

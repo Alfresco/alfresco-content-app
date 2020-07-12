@@ -40,10 +40,7 @@ export class TrashcanApi extends RepoApi {
       await this.apiAuth();
       return await this.trashcanApi.deleteDeletedNode(id);
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.permanentlyDelete.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.permanentlyDelete.name}`, error);
     }
   }
 
@@ -65,37 +62,28 @@ export class TrashcanApi extends RepoApi {
       await this.apiAuth();
       return await this.trashcanApi.listDeletedNodes(opts);
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.getDeletedNodes.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.getDeletedNodes.name}`, error);
       return null;
     }
   }
 
   async emptyTrash() {
     try {
-      const ids = (await this.getDeletedNodes()).list.entries.map(
-        entries => entries.entry.id
-      );
+      const ids = (await this.getDeletedNodes()).list.entries.map((entries) => entries.entry.id);
 
       return await ids.reduce(async (previous, current) => {
         await previous;
         return this.permanentlyDelete(current);
       }, Promise.resolve());
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.emptyTrash.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.emptyTrash.name}`, error);
     }
   }
 
   async waitForApi(data: { expect: number }) {
     try {
       const deletedFiles = async () => {
-        const totalItems = (await this.getDeletedNodes()).list.pagination
-          .totalItems;
+        const totalItems = (await this.getDeletedNodes()).list.pagination.totalItems;
         if (totalItems !== data.expect) {
           return Promise.reject(totalItems);
         } else {

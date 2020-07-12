@@ -42,10 +42,7 @@ import {
 } from '@alfresco/aca-shared/store';
 import { INITIAL_APP_STATE } from '../initial-state';
 
-export function appReducer(
-  state: AppState = INITIAL_APP_STATE,
-  action: Action
-): AppState {
+export function appReducer(state: AppState = INITIAL_APP_STATE, action: Action): AppState {
   let newState: AppState;
 
   switch (action.type) {
@@ -53,10 +50,7 @@ export function appReducer(
       newState = Object.assign({}, (action as SetInitialStateAction).payload);
       break;
     case AppActionTypes.SetSettingsParameter:
-      newState = handleSettingsUpdate(
-        state,
-        action as SetSettingsParameterAction
-      );
+      newState = handleSettingsUpdate(state, action as SetSettingsParameterAction);
       break;
     case AppActionTypes.SetHeaderColor:
       newState = {
@@ -83,19 +77,13 @@ export function appReducer(
       newState = setInfoDrawer(state, action as SetInfoDrawerStateAction);
       break;
     case AppActionTypes.SetInfoDrawerMetadataAspect:
-      newState = setInfoDrawerAspect(
-        state,
-        action as SetInfoDrawerMetadataAspectAction
-      );
+      newState = setInfoDrawerAspect(state, action as SetInfoDrawerMetadataAspectAction);
       break;
     case AppActionTypes.ToggleDocumentDisplayMode:
       newState = toggleDocumentDisplayMode(state);
       break;
     case AppActionTypes.SetRepositoryInfo:
-      newState = updateRepositoryStatus(
-        state,
-        action as SetRepositoryInfoAction
-      );
+      newState = updateRepositoryStatus(state, action as SetRepositoryInfoAction);
       break;
     case SearchActionTypes.ToggleFilter:
       newState = toggleSearchFilter(state);
@@ -191,15 +179,11 @@ function toggleInfoDrawer(state: AppState) {
 function toggleDocumentDisplayMode(state: AppState) {
   return {
     ...state,
-    documentDisplayMode:
-      state.documentDisplayMode === 'list' ? 'gallery' : 'list'
+    documentDisplayMode: state.documentDisplayMode === 'list' ? 'gallery' : 'list'
   };
 }
 
-function updateSelectedNodes(
-  state: AppState,
-  action: SetSelectedNodesAction
-): AppState {
+function updateSelectedNodes(state: AppState, action: SetSelectedNodesAction): AppState {
   const newState = { ...state };
   const nodes = [...action.payload];
   const count = nodes.length;
@@ -218,19 +202,13 @@ function updateSelectedNodes(
     if (nodes.length === 1) {
       file = nodes.find((entity: any) => {
         // workaround Shared
-        return entity.entry.isFile ||
-          entity.entry.nodeId ||
-          entity.entry.sharedByUser
-          ? true
-          : false;
+        return entity.entry.isFile || entity.entry.nodeId || entity.entry.sharedByUser ? true : false;
       });
       folder = nodes.find((entity: any) => entity.entry.isFolder);
     }
   }
 
-  const libraries: any[] = [...action.payload].filter(
-    (node: any) => node.isLibrary
-  );
+  const libraries: any[] = [...action.payload].filter((node: any) => node.isLibrary);
   if (libraries.length === 1) {
     library = libraries[0] as any;
   }
@@ -260,29 +238,20 @@ function setInfoDrawer(state: AppState, action: SetInfoDrawerStateAction) {
   };
 }
 
-function setInfoDrawerAspect(
-  state: AppState,
-  action: SetInfoDrawerMetadataAspectAction
-) {
+function setInfoDrawerAspect(state: AppState, action: SetInfoDrawerMetadataAspectAction) {
   return {
     ...state,
     infoDrawerMetadataAspect: action.payload
   };
 }
 
-function updateRepositoryStatus(
-  state: AppState,
-  action: SetRepositoryInfoAction
-) {
+function updateRepositoryStatus(state: AppState, action: SetRepositoryInfoAction) {
   const newState = { ...state };
   newState.repository = action.payload;
   return newState;
 }
 
-function handleSettingsUpdate(
-  state: AppState,
-  action: SetSettingsParameterAction
-): AppState {
+function handleSettingsUpdate(state: AppState, action: SetSettingsParameterAction): AppState {
   const newState = { ...state };
   const { payload } = action;
 

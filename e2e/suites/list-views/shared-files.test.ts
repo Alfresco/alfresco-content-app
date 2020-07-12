@@ -23,14 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  SITE_VISIBILITY,
-  SITE_ROLES,
-  LoginPage,
-  BrowsingPage,
-  Utils,
-  RepoClient
-} from '@alfresco/aca-testing-shared';
+import { SITE_VISIBILITY, SITE_ROLES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
 
 describe('Shared Files', () => {
   const username = `user-${Utils.random()}`;
@@ -39,11 +32,16 @@ describe('Shared Files', () => {
   const siteName = `site-${Utils.random()}`;
   const fileAdmin = `fileSite-${Utils.random()}.txt`;
 
-  const folderUser = `folder-${Utils.random()}`; let folderId;
-  const file1User = `file1-${Utils.random()}.txt`; let file1Id;
-  const file2User = `file2-${Utils.random()}.txt`; let file2Id;
-  const file3User = `file3-${Utils.random()}.txt`; let file3Id;
-  const file4User = `file4-${Utils.random()}.txt`; let file4Id;
+  const folderUser = `folder-${Utils.random()}`;
+  let folderId;
+  const file1User = `file1-${Utils.random()}.txt`;
+  let file1Id;
+  const file2User = `file2-${Utils.random()}.txt`;
+  let file2Id;
+  const file3User = `file3-${Utils.random()}.txt`;
+  let file3Id;
+  const file4User = `file4-${Utils.random()}.txt`;
+  let file4Id;
 
   const apis = {
     admin: new RepoClient(),
@@ -91,7 +89,7 @@ describe('Shared Files', () => {
   });
 
   it('[C213113] has the correct columns', async () => {
-    const expectedColumns = [ 'Name', 'Location', 'Size', 'Modified', 'Modified by', 'Shared by' ];
+    const expectedColumns = ['Name', 'Location', 'Size', 'Modified', 'Modified by', 'Shared by'];
     const actualColumns = await dataTable.getColumnHeadersText();
 
     expect(actualColumns).toEqual(expectedColumns);
@@ -123,17 +121,17 @@ describe('Shared Files', () => {
 
   it('[C213666] Location column redirect - file in user Home', async () => {
     await dataTable.clickItemLocation(file4User);
-    expect(await breadcrumb.getAllItems()).toEqual([ 'Personal Files' ]);
+    expect(await breadcrumb.getAllItems()).toEqual(['Personal Files']);
   });
 
   it('[C280490] Location column redirect - file in folder', async () => {
     await dataTable.clickItemLocation(file1User);
-    expect(await breadcrumb.getAllItems()).toEqual([ 'Personal Files', folderUser ]);
+    expect(await breadcrumb.getAllItems()).toEqual(['Personal Files', folderUser]);
   });
 
   it('[C280491] Location column redirect - file in site', async () => {
     await dataTable.clickItemLocation(fileAdmin);
-    expect(await breadcrumb.getAllItems()).toEqual([ 'My Libraries', siteName ]);
+    expect(await breadcrumb.getAllItems()).toEqual(['My Libraries', siteName]);
   });
 
   it('[C213667] Location column displays a tooltip with the entire path of the file', async () => {

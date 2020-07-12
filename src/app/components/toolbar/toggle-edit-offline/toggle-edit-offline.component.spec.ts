@@ -30,11 +30,7 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { NodeEntry } from '@alfresco/js-api';
-import {
-  DownloadNodesAction,
-  EditOfflineAction,
-  SnackbarErrorAction
-} from '@alfresco/aca-shared/store';
+import { DownloadNodesAction, EditOfflineAction, SnackbarErrorAction } from '@alfresco/aca-shared/store';
 import { TranslateModule } from '@ngx-translate/core';
 
 describe('ToggleEditOfflineComponent', () => {
@@ -89,9 +85,7 @@ describe('ToggleEditOfflineComponent', () => {
 
     fixture.detectChanges();
 
-    expect(dispatchSpy.calls.argsFor(0)).toEqual([
-      new DownloadNodesAction([selection.file as NodeEntry])
-    ]);
+    expect(dispatchSpy.calls.argsFor(0)).toEqual([new DownloadNodesAction([selection.file as NodeEntry])]);
   });
 
   it('should not download content if node is not locked', () => {
@@ -103,9 +97,7 @@ describe('ToggleEditOfflineComponent', () => {
 
     fixture.detectChanges();
 
-    expect(dispatchSpy.calls.argsFor(0)).not.toEqual([
-      new DownloadNodesAction([selection.file as NodeEntry])
-    ]);
+    expect(dispatchSpy.calls.argsFor(0)).not.toEqual([new DownloadNodesAction([selection.file as NodeEntry])]);
   });
 
   it('should dispatch EditOfflineAction action', () => {
@@ -117,9 +109,7 @@ describe('ToggleEditOfflineComponent', () => {
 
     fixture.detectChanges();
 
-    expect(dispatchSpy.calls.argsFor(0)).toEqual([
-      new EditOfflineAction(selection.file as NodeEntry)
-    ]);
+    expect(dispatchSpy.calls.argsFor(0)).toEqual([new EditOfflineAction(selection.file as NodeEntry)]);
   });
 
   it('should raise notification on lock error', () => {

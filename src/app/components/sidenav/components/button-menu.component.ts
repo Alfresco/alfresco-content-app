@@ -23,13 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  Component,
-  Input,
-  ViewEncapsulation,
-  OnInit,
-  ChangeDetectorRef
-} from '@angular/core';
+import { Component, Input, ViewEncapsulation, OnInit, ChangeDetectorRef } from '@angular/core';
 import { OverlayContainer } from '@angular/cdk/overlay';
 
 @Component({
@@ -41,10 +35,7 @@ import { OverlayContainer } from '@angular/cdk/overlay';
 export class ButtonMenuComponent implements OnInit {
   @Input() item;
 
-  constructor(
-    private cd: ChangeDetectorRef,
-    private overlayContainer: OverlayContainer
-  ) {
+  constructor(private cd: ChangeDetectorRef, private overlayContainer: OverlayContainer) {
     this.overlayContainer.getContainerElement().classList.add('aca-menu-panel');
   }
 

@@ -35,29 +35,47 @@ import {
 describe('Upload new version', () => {
   const username = `user-${Utils.random()}`;
 
-  const file1 = `file1-${Utils.random()}.docx`; let file1Id;
-  const file2 = `file2-${Utils.random()}.docx`; let file2Id;
-  const file3 = `file3-${Utils.random()}.docx`; let file3Id;
-  const file4 = `file4-${Utils.random()}.docx`; let file4Id;
-  const fileLocked1 = `file-locked1-${Utils.random()}.docx`; let fileLocked1Id;
-  const fileLocked2 = `file-locked2-${Utils.random()}.docx`; let fileLocked2Id;
+  const file1 = `file1-${Utils.random()}.docx`;
+  let file1Id;
+  const file2 = `file2-${Utils.random()}.docx`;
+  let file2Id;
+  const file3 = `file3-${Utils.random()}.docx`;
+  let file3Id;
+  const file4 = `file4-${Utils.random()}.docx`;
+  let file4Id;
+  const fileLocked1 = `file-locked1-${Utils.random()}.docx`;
+  let fileLocked1Id;
+  const fileLocked2 = `file-locked2-${Utils.random()}.docx`;
+  let fileLocked2Id;
 
-  const fileSearch1 = `search-file1-${Utils.random()}.docx`; let fileSearch1Id;
-  const fileSearch2 = `search-file2-${Utils.random()}.docx`; let fileSearch2Id;
-  const fileSearch3 = `search-file3-${Utils.random()}.docx`; let fileSearch3Id;
-  const fileSearch4 = `search-file4-${Utils.random()}.docx`; let fileSearch4Id;
-  const fileLockedSearch1 = `search-file-locked1-${Utils.random()}.docx`; let fileLockedSearch1Id;
-  const fileLockedSearch2 = `search-file-locked2-${Utils.random()}.docx`; let fileLockedSearch2Id;
+  const fileSearch1 = `search-file1-${Utils.random()}.docx`;
+  let fileSearch1Id;
+  const fileSearch2 = `search-file2-${Utils.random()}.docx`;
+  let fileSearch2Id;
+  const fileSearch3 = `search-file3-${Utils.random()}.docx`;
+  let fileSearch3Id;
+  const fileSearch4 = `search-file4-${Utils.random()}.docx`;
+  let fileSearch4Id;
+  const fileLockedSearch1 = `search-file-locked1-${Utils.random()}.docx`;
+  let fileLockedSearch1Id;
+  const fileLockedSearch2 = `search-file-locked2-${Utils.random()}.docx`;
+  let fileLockedSearch2Id;
 
-  const parentPF = `parentPersonal-${Utils.random()}`; let parentPFId;
-  const parentSF = `parentShared-${Utils.random()}`; let parentSFId;
-  const parentRF = `parentRecent-${Utils.random()}`; let parentRFId;
-  const parentFav = `parentFav-${Utils.random()}`; let parentFavId;
-  const parentSearch = `parentSearch-${Utils.random()}`; let parentSearchId;
+  const parentPF = `parentPersonal-${Utils.random()}`;
+  let parentPFId;
+  const parentSF = `parentShared-${Utils.random()}`;
+  let parentSFId;
+  const parentRF = `parentRecent-${Utils.random()}`;
+  let parentRFId;
+  const parentFav = `parentFav-${Utils.random()}`;
+  let parentFavId;
+  const parentSearch = `parentSearch-${Utils.random()}`;
+  let parentSearchId;
 
   const nameConflictMessage = 'New version not uploaded, another file with the same name already exists';
 
-  const file = FILES.pdfFile; let fileId;
+  const file = FILES.pdfFile;
+  let fileId;
   const fileToUpload1 = FILES.docxFile;
   const fileToUpload2 = FILES.xlsxFile;
   const fileToUpload3 = FILES.pdfFile;
@@ -224,8 +242,14 @@ describe('Upload new version', () => {
 
       expect(await dataTable.isItemPresent(fileToUpload4)).toBe(true, 'File name was not changed');
       expect(await apis.user.nodes.isFileLockedWrite(fileLocked1Id)).toBe(false, `${fileLocked1} is still locked`);
-      expect(await apis.user.nodes.getFileVersionType(fileLocked1Id)).toEqual('MINOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(fileLocked1Id)).toEqual('1.1', 'File has incorrect version label');
+      expect(await apis.user.nodes.getFileVersionType(fileLocked1Id)).toEqual(
+        'MINOR',
+        'File has incorrect version type'
+      );
+      expect(await apis.user.nodes.getFileVersionLabel(fileLocked1Id)).toEqual(
+        '1.1',
+        'File has incorrect version label'
+      );
     });
 
     it('[C297550] file remains locked after canceling of uploading a new version', async () => {
@@ -259,7 +283,15 @@ describe('Upload new version', () => {
       await apis.user.nodes.lockFile(fileLocked1Id);
       await apis.user.nodes.lockFile(fileLocked2Id);
 
-      await apis.user.shared.shareFilesByIds([fileId, file1Id, file2Id, file3Id, file4Id, fileLocked1Id, fileLocked2Id]);
+      await apis.user.shared.shareFilesByIds([
+        fileId,
+        file1Id,
+        file2Id,
+        file3Id,
+        file4Id,
+        fileLocked1Id,
+        fileLocked2Id
+      ]);
       await apis.user.shared.waitForApi({ expect: 7 });
 
       await loginPage.loginWith(username);
@@ -374,8 +406,14 @@ describe('Upload new version', () => {
 
       expect(await dataTable.isItemPresent(fileToUpload4)).toBe(true, 'File name was not changed');
       expect(await apis.user.nodes.isFileLockedWrite(fileLocked1Id)).toBe(false, `${fileLocked1} is still locked`);
-      expect(await apis.user.nodes.getFileVersionType(fileLocked1Id)).toEqual('MINOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(fileLocked1Id)).toEqual('1.1', 'File has incorrect version label');
+      expect(await apis.user.nodes.getFileVersionType(fileLocked1Id)).toEqual(
+        'MINOR',
+        'File has incorrect version type'
+      );
+      expect(await apis.user.nodes.getFileVersionLabel(fileLocked1Id)).toEqual(
+        '1.1',
+        'File has incorrect version label'
+      );
     });
 
     it('[C297557] file remains locked after canceling of uploading a new version', async () => {
@@ -523,8 +561,14 @@ describe('Upload new version', () => {
 
       expect(await dataTable.isItemPresent(fileToUpload4, parentRF)).toBe(true, 'File name was not changed');
       expect(await apis.user.nodes.isFileLockedWrite(fileLocked1Id)).toBe(false, `${fileLocked1} is still locked`);
-      expect(await apis.user.nodes.getFileVersionType(fileLocked1Id)).toEqual('MINOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(fileLocked1Id)).toEqual('1.1', 'File has incorrect version label');
+      expect(await apis.user.nodes.getFileVersionType(fileLocked1Id)).toEqual(
+        'MINOR',
+        'File has incorrect version type'
+      );
+      expect(await apis.user.nodes.getFileVersionLabel(fileLocked1Id)).toEqual(
+        '1.1',
+        'File has incorrect version label'
+      );
     });
 
     it('[C297564] file remains locked after canceling of uploading a new version', async () => {
@@ -558,7 +602,15 @@ describe('Upload new version', () => {
       await apis.user.nodes.lockFile(fileLocked1Id);
       await apis.user.nodes.lockFile(fileLocked2Id);
 
-      await apis.user.favorites.addFavoritesByIds('file', [fileId, file1Id, file2Id, file3Id, file4Id, fileLocked1Id, fileLocked2Id]);
+      await apis.user.favorites.addFavoritesByIds('file', [
+        fileId,
+        file1Id,
+        file2Id,
+        file3Id,
+        file4Id,
+        fileLocked1Id,
+        fileLocked2Id
+      ]);
       await apis.user.favorites.waitForApi({ expect: 7 });
 
       await loginPage.loginWith(username);
@@ -673,8 +725,14 @@ describe('Upload new version', () => {
 
       expect(await dataTable.isItemPresent(fileToUpload4)).toBe(true, 'File name was not changed');
       expect(await apis.user.nodes.isFileLockedWrite(fileLocked1Id)).toBe(false, `${fileLocked1} is still locked`);
-      expect(await apis.user.nodes.getFileVersionType(fileLocked1Id)).toEqual('MINOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(fileLocked1Id)).toEqual('1.1', 'File has incorrect version label');
+      expect(await apis.user.nodes.getFileVersionType(fileLocked1Id)).toEqual(
+        'MINOR',
+        'File has incorrect version type'
+      );
+      expect(await apis.user.nodes.getFileVersionLabel(fileLocked1Id)).toEqual(
+        '1.1',
+        'File has incorrect version label'
+      );
     });
 
     it('[C297571] file remains locked after canceling of uploading a new version', async () => {
@@ -708,7 +766,7 @@ describe('Upload new version', () => {
       await apis.user.nodes.lockFile(fileLockedSearch1Id);
       await apis.user.nodes.lockFile(fileLockedSearch2Id);
 
-      await apis.user.search.waitForNodes('search-f', { expect: 6 })
+      await apis.user.search.waitForNodes('search-f', { expect: 6 });
 
       await loginPage.loginWith(username);
       done();
@@ -758,8 +816,14 @@ describe('Upload new version', () => {
 
       // TODO: enable when ACA-2329 is fixed
       // expect(await dataTable.isItemPresent(fileToUpload1, parentSearch)).toBe(true, 'File not updated');
-      expect(await apis.user.nodes.getFileVersionType(fileSearch1Id)).toEqual('MAJOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(fileSearch1Id)).toEqual('2.0', 'File has incorrect version label');
+      expect(await apis.user.nodes.getFileVersionType(fileSearch1Id)).toEqual(
+        'MAJOR',
+        'File has incorrect version type'
+      );
+      expect(await apis.user.nodes.getFileVersionLabel(fileSearch1Id)).toEqual(
+        '2.0',
+        'File has incorrect version label'
+      );
     });
 
     it('[C307005] file is updated after uploading a new version - minor', async () => {
@@ -780,8 +844,14 @@ describe('Upload new version', () => {
 
       // TODO: enable when ACA-2329 is fixed
       // expect(await dataTable.isItemPresent(fileToUpload2, parentSearch)).toBe(true, 'File not updated');
-      expect(await apis.user.nodes.getFileVersionType(fileSearch2Id)).toEqual('MINOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(fileSearch2Id)).toEqual('1.1', 'File has incorrect version label');
+      expect(await apis.user.nodes.getFileVersionType(fileSearch2Id)).toEqual(
+        'MINOR',
+        'File has incorrect version type'
+      );
+      expect(await apis.user.nodes.getFileVersionLabel(fileSearch2Id)).toEqual(
+        '1.1',
+        'File has incorrect version label'
+      );
     });
 
     it('[C307006] file is not updated when clicking Cancel', async () => {
@@ -800,8 +870,14 @@ describe('Upload new version', () => {
       await uploadNewVersionDialog.clickCancel();
 
       expect(await dataTable.isItemPresent(fileSearch3, parentSearch)).toBe(true, 'File was updated');
-      expect(await apis.user.nodes.getFileVersionType(fileSearch3Id)).toEqual('MAJOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(fileSearch3Id)).toEqual('1.0', 'File has incorrect version label');
+      expect(await apis.user.nodes.getFileVersionType(fileSearch3Id)).toEqual(
+        'MAJOR',
+        'File has incorrect version type'
+      );
+      expect(await apis.user.nodes.getFileVersionLabel(fileSearch3Id)).toEqual(
+        '1.0',
+        'File has incorrect version label'
+      );
     });
 
     it('[C307007] upload new version fails when new file name already exists', async () => {
@@ -823,8 +899,14 @@ describe('Upload new version', () => {
       expect(message).toContain(nameConflictMessage);
 
       expect(await dataTable.isItemPresent(fileSearch4, parentSearch)).toBe(true, 'File was updated');
-      expect(await apis.user.nodes.getFileVersionType(fileSearch4Id)).toEqual('MAJOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(fileSearch4Id)).toEqual('1.0', 'File has incorrect version label');
+      expect(await apis.user.nodes.getFileVersionType(fileSearch4Id)).toEqual(
+        'MAJOR',
+        'File has incorrect version type'
+      );
+      expect(await apis.user.nodes.getFileVersionLabel(fileSearch4Id)).toEqual(
+        '1.0',
+        'File has incorrect version label'
+      );
     });
 
     it('[C307008] file is unlocked after uploading a new version', async () => {
@@ -845,9 +927,18 @@ describe('Upload new version', () => {
 
       // TODO: enable when ACA-2329 is fixed
       // expect(await dataTable.isItemPresent(fileToUpload4, parentSearch)).toBe(true, 'File name was not changed');
-      expect(await apis.user.nodes.isFileLockedWrite(fileLockedSearch1Id)).toBe(false, `${fileLockedSearch1} is still locked`);
-      expect(await apis.user.nodes.getFileVersionType(fileLockedSearch1Id)).toEqual('MINOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(fileLockedSearch1Id)).toEqual('1.1', 'File has incorrect version label');
+      expect(await apis.user.nodes.isFileLockedWrite(fileLockedSearch1Id)).toBe(
+        false,
+        `${fileLockedSearch1} is still locked`
+      );
+      expect(await apis.user.nodes.getFileVersionType(fileLockedSearch1Id)).toEqual(
+        'MINOR',
+        'File has incorrect version type'
+      );
+      expect(await apis.user.nodes.getFileVersionLabel(fileLockedSearch1Id)).toEqual(
+        '1.1',
+        'File has incorrect version label'
+      );
     });
 
     it('[C307009] file remains locked after canceling of uploading a new version', async () => {
@@ -867,8 +958,10 @@ describe('Upload new version', () => {
 
       expect(await dataTable.isItemPresent(fileToUpload5, parentSearch)).toBe(false, 'File was updated');
       expect(await dataTable.isItemPresent(fileLockedSearch2, parentSearch)).toBe(true, 'File not displayed');
-      expect(await apis.user.nodes.isFileLockedWrite(fileLockedSearch2Id)).toBe(true, `${fileLockedSearch2} was unlocked`);
+      expect(await apis.user.nodes.isFileLockedWrite(fileLockedSearch2Id)).toBe(
+        true,
+        `${fileLockedSearch2} was unlocked`
+      );
     });
   });
-
 });

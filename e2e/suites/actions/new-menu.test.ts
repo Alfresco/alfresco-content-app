@@ -23,13 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  LoginPage,
-  BrowsingPage,
-  SITE_ROLES,
-  RepoClient,
-  Utils
-} from '@alfresco/aca-testing-shared';
+import { LoginPage, BrowsingPage, SITE_ROLES, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 
 describe('New menu', () => {
   const username = `user-${Utils.random()}`;
@@ -154,5 +148,4 @@ describe('New menu', () => {
     tooltip = await menu.getItemTooltip('Create file from template');
     expect(tooltip).toContain('Files cannot be created whilst viewing the current items');
   });
-
 });

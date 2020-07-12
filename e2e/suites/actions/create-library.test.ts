@@ -43,17 +43,17 @@ describe('Create library', () => {
     name: `site4-${Utils.random()}`,
     id: `site4-id-${Utils.random()}`,
     description: 'site4 description'
-  }
+  };
 
   const duplicateSite = {
     name: `duplicate-${Utils.random()}`,
     id: `duplicate-${Utils.random()}`
-  }
+  };
 
   const siteInTrash = {
     name: `site-trash-${Utils.random()}`,
     id: `site-trash-id-${Utils.random()}`
-  }
+  };
 
   const apis = {
     admin: new RepoClient(),
@@ -166,7 +166,9 @@ describe('Create library', () => {
     await createDialog.enterLibraryId(duplicateSite.id);
 
     expect(await createDialog.isCreateEnabled()).toBe(false, 'Create button not disabled');
-    expect(await createDialog.getErrorMessage()).toEqual(`This Library ID isn't available. Try a different Library ID.`);
+    expect(await createDialog.getErrorMessage()).toEqual(
+      `This Library ID isn't available. Try a different Library ID.`
+    );
   });
 
   it('[C280028] Create library using the ID of a library from the Trashcan', async () => {
@@ -190,7 +192,7 @@ describe('Create library', () => {
   });
 
   it('[C280026] Library ID cannot contain special characters', async () => {
-    const idWithSpecialChars = [ 'a*a', 'a"a', 'a<a', 'a>a', `a\\a`, 'a/a', 'a?a', 'a:a', 'a|a' ];
+    const idWithSpecialChars = ['a*a', 'a"a', 'a<a', 'a>a', `a\\a`, 'a/a', 'a?a', 'a:a', 'a|a'];
 
     await page.sidenav.openCreateLibraryDialog();
     await createDialog.waitForDialogToOpen();
@@ -211,10 +213,15 @@ describe('Create library', () => {
     await createDialog.createButton.click();
     await createDialog.waitForDialogToClose();
 
-    expect(await page.breadcrumb.currentItem.getText()).toEqual(duplicateSite.name, `Not navigated into ${duplicateSite.name}`);
+    expect(await page.breadcrumb.currentItem.getText()).toEqual(
+      duplicateSite.name,
+      `Not navigated into ${duplicateSite.name}`
+    );
     await page.goToMyLibrariesAndWait();
-    expect(await dataTable.isItemPresent(`${duplicateSite.name} (${duplicateSite.id}-2)`)).toBe(true, `${duplicateSite.name} not in the list`);
+    expect(await dataTable.isItemPresent(`${duplicateSite.name} (${duplicateSite.id}-2)`)).toBe(
+      true,
+      `${duplicateSite.name} not in the list`
+    );
     expect(await apis.user.sites.getTitle(`${duplicateSite.id}-2`)).toEqual(duplicateSite.name);
   });
-
 });

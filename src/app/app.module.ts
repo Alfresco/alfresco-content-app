@@ -26,17 +26,9 @@
 import { BrowserModule, HammerModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, RouteReuseStrategy } from '@angular/router';
-import {
-  BrowserAnimationsModule,
-  NoopAnimationsModule
-} from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {
-  TRANSLATION_PROVIDER,
-  CoreModule,
-  AppConfigService,
-  DebugAppConfigService
-} from '@alfresco/adf-core';
+import { TRANSLATION_PROVIDER, CoreModule, AppConfigService, DebugAppConfigService } from '@alfresco/adf-core';
 import { ContentModule } from '@alfresco/adf-content-services';
 import { AppRouteReuseStrategy, SharedModule } from '@alfresco/aca-shared';
 

@@ -23,12 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  LoginPage,
-  BrowsingPage,
-  RepoClient,
-  Utils
-} from '@alfresco/aca-testing-shared';
+import { LoginPage, BrowsingPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 
 describe('Delete and undo delete', () => {
   const username = `user-${Utils.random()}`;
@@ -61,21 +56,32 @@ describe('Delete and undo delete', () => {
     const file6 = `file6-${Utils.random()}.txt`;
     const file7 = `file7-${Utils.random()}.txt`;
 
-    const folder1 = `folder1-${Utils.random()}`; let folder1Id;
-    const folder2 = `folder2-${Utils.random()}`; let folder2Id;
-    const folder3 = `folder3-${Utils.random()}`; let folder3Id;
-    const folder4 = `folder4-${Utils.random()}`; let folder4Id;
-    const folder5 = `folder5-${Utils.random()}`; let folder5Id;
-    const folder6 = `folder6-${Utils.random()}`; let folder6Id;
+    const folder1 = `folder1-${Utils.random()}`;
+    let folder1Id;
+    const folder2 = `folder2-${Utils.random()}`;
+    let folder2Id;
+    const folder3 = `folder3-${Utils.random()}`;
+    let folder3Id;
+    const folder4 = `folder4-${Utils.random()}`;
+    let folder4Id;
+    const folder5 = `folder5-${Utils.random()}`;
+    let folder5Id;
+    const folder6 = `folder6-${Utils.random()}`;
+    let folder6Id;
 
     const file1InFolder = `file1InFolder-${Utils.random()}.txt`;
     const file2InFolder = `file2InFolder-${Utils.random()}.txt`;
-    const fileLocked1 = `fileLocked1-${Utils.random()}.txt`; let fileLocked1Id;
-    const fileLocked2 = `fileLocked2-${Utils.random()}.txt`; let fileLocked2Id;
-    const fileLocked3 = `fileLocked3-${Utils.random()}.txt`; let fileLocked3Id;
-    const fileLocked4 = `fileLocked4-${Utils.random()}.txt`; let fileLocked4Id;
+    const fileLocked1 = `fileLocked1-${Utils.random()}.txt`;
+    let fileLocked1Id;
+    const fileLocked2 = `fileLocked2-${Utils.random()}.txt`;
+    let fileLocked2Id;
+    const fileLocked3 = `fileLocked3-${Utils.random()}.txt`;
+    let fileLocked3Id;
+    const fileLocked4 = `fileLocked4-${Utils.random()}.txt`;
+    let fileLocked4Id;
 
-    const parent = `parentPF-${Utils.random()}`; let parentId;
+    const parent = `parentPF-${Utils.random()}`;
+    let parentId;
 
     beforeAll(async (done) => {
       parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
@@ -233,14 +239,21 @@ describe('Delete and undo delete', () => {
   });
 
   describe('on Shared Files', () => {
-    const sharedFile1 = `sharedFile1-${Utils.random()}.txt`; let sharedFile1Id;
-    const sharedFile2 = `sharedFile2-${Utils.random()}.txt`; let sharedFile2Id;
-    const sharedFile3 = `sharedFile3-${Utils.random()}.txt`; let sharedFile3Id;
-    const sharedFile4 = `sharedFile4-${Utils.random()}.txt`; let sharedFile4Id;
-    const sharedFile5 = `sharedFile5-${Utils.random()}.txt`; let sharedFile5Id;
-    const sharedFile6 = `sharedFile6-${Utils.random()}.txt`; let sharedFile6Id;
+    const sharedFile1 = `sharedFile1-${Utils.random()}.txt`;
+    let sharedFile1Id;
+    const sharedFile2 = `sharedFile2-${Utils.random()}.txt`;
+    let sharedFile2Id;
+    const sharedFile3 = `sharedFile3-${Utils.random()}.txt`;
+    let sharedFile3Id;
+    const sharedFile4 = `sharedFile4-${Utils.random()}.txt`;
+    let sharedFile4Id;
+    const sharedFile5 = `sharedFile5-${Utils.random()}.txt`;
+    let sharedFile5Id;
+    const sharedFile6 = `sharedFile6-${Utils.random()}.txt`;
+    let sharedFile6Id;
 
-    const parent = `parentSF-${Utils.random()}`; let parentId;
+    const parent = `parentSF-${Utils.random()}`;
+    let parentId;
 
     beforeAll(async (done) => {
       parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
@@ -257,7 +270,8 @@ describe('Delete and undo delete', () => {
         sharedFile3Id,
         sharedFile4Id,
         sharedFile5Id,
-        sharedFile6Id]);
+        sharedFile6Id
+      ]);
       await apis.user.shared.waitForApi({ expect: 6 });
 
       await loginPage.loginWith(username);
@@ -318,29 +332,47 @@ describe('Delete and undo delete', () => {
   });
 
   describe('on Favorites', () => {
-    const parent = `parentF-${Utils.random()}`; let parentId;
+    const parent = `parentF-${Utils.random()}`;
+    let parentId;
 
-    const favFile1 = `favFile1-${Utils.random()}.txt`; let favFile1Id;
-    const favFile2 = `favFile2-${Utils.random()}.txt`; let favFile2Id;
-    const favFile3 = `favFile3-${Utils.random()}.txt`; let favFile3Id;
-    const favFile4 = `favFile4-${Utils.random()}.txt`; let favFile4Id;
-    const favFile5 = `favFile5-${Utils.random()}.txt`; let favFile5Id;
-    const favFile6 = `favFile6-${Utils.random()}.txt`; let favFile6Id;
-    const favFile7 = `favFile7-${Utils.random()}.txt`; let favFile7Id;
+    const favFile1 = `favFile1-${Utils.random()}.txt`;
+    let favFile1Id;
+    const favFile2 = `favFile2-${Utils.random()}.txt`;
+    let favFile2Id;
+    const favFile3 = `favFile3-${Utils.random()}.txt`;
+    let favFile3Id;
+    const favFile4 = `favFile4-${Utils.random()}.txt`;
+    let favFile4Id;
+    const favFile5 = `favFile5-${Utils.random()}.txt`;
+    let favFile5Id;
+    const favFile6 = `favFile6-${Utils.random()}.txt`;
+    let favFile6Id;
+    const favFile7 = `favFile7-${Utils.random()}.txt`;
+    let favFile7Id;
 
-    const favFolder1 = `favFolder1-${Utils.random()}`; let favFolder1Id;
-    const favFolder2 = `favFolder2-${Utils.random()}`; let favFolder2Id;
-    const favFolder3 = `favFolder3-${Utils.random()}`; let favFolder3Id;
-    const favFolder4 = `favFolder4-${Utils.random()}`; let favFolder4Id;
-    const favFolder5 = `favFolder5-${Utils.random()}`; let favFolder5Id;
-    const favFolder6 = `favFolder6-${Utils.random()}`; let favFolder6Id;
+    const favFolder1 = `favFolder1-${Utils.random()}`;
+    let favFolder1Id;
+    const favFolder2 = `favFolder2-${Utils.random()}`;
+    let favFolder2Id;
+    const favFolder3 = `favFolder3-${Utils.random()}`;
+    let favFolder3Id;
+    const favFolder4 = `favFolder4-${Utils.random()}`;
+    let favFolder4Id;
+    const favFolder5 = `favFolder5-${Utils.random()}`;
+    let favFolder5Id;
+    const favFolder6 = `favFolder6-${Utils.random()}`;
+    let favFolder6Id;
 
     const file1InFolder = `file1InFolder-${Utils.random()}.txt`;
     const file2InFolder = `file2InFolder-${Utils.random()}.txt`;
-    const fileLocked1 = `fileLocked1-${Utils.random()}.txt`; let fileLocked1Id;
-    const fileLocked2 = `fileLocked2-${Utils.random()}.txt`; let fileLocked2Id;
-    const fileLocked3 = `fileLocked3-${Utils.random()}.txt`; let fileLocked3Id;
-    const fileLocked4 = `fileLocked4-${Utils.random()}.txt`; let fileLocked4Id;
+    const fileLocked1 = `fileLocked1-${Utils.random()}.txt`;
+    let fileLocked1Id;
+    const fileLocked2 = `fileLocked2-${Utils.random()}.txt`;
+    let fileLocked2Id;
+    const fileLocked3 = `fileLocked3-${Utils.random()}.txt`;
+    let fileLocked3Id;
+    const fileLocked4 = `fileLocked4-${Utils.random()}.txt`;
+    let fileLocked4Id;
 
     beforeAll(async (done) => {
       parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
@@ -372,8 +404,23 @@ describe('Delete and undo delete', () => {
       await apis.user.nodes.lockFile(fileLocked3Id, 'FULL');
       await apis.user.nodes.lockFile(fileLocked4Id, 'FULL');
 
-      await apis.user.favorites.addFavoritesByIds('file', [ favFile1Id, favFile2Id, favFile3Id, favFile4Id, favFile5Id, favFile6Id, favFile7Id ]);
-      await apis.user.favorites.addFavoritesByIds('folder', [ favFolder1Id, favFolder2Id, favFolder3Id, favFolder4Id, favFolder5Id, favFolder6Id ]);
+      await apis.user.favorites.addFavoritesByIds('file', [
+        favFile1Id,
+        favFile2Id,
+        favFile3Id,
+        favFile4Id,
+        favFile5Id,
+        favFile6Id,
+        favFile7Id
+      ]);
+      await apis.user.favorites.addFavoritesByIds('folder', [
+        favFolder1Id,
+        favFolder2Id,
+        favFolder3Id,
+        favFolder4Id,
+        favFolder5Id,
+        favFolder6Id
+      ]);
       await apis.user.favorites.waitForApi({ expect: 13 });
 
       await loginPage.loginWith(username);
@@ -501,7 +548,8 @@ describe('Delete and undo delete', () => {
   });
 
   describe('on Recent Files', () => {
-    const parent = `parentRF-${Utils.random()}`; let parentId;
+    const parent = `parentRF-${Utils.random()}`;
+    let parentId;
 
     const recentFile1 = `recentFile1-${Utils.random()}.txt`;
     const recentFile2 = `recentFile2-${Utils.random()}.txt`;

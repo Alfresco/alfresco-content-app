@@ -23,18 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  LoginPage,
-  BrowsingPage,
-  RepoClient,
-  InfoDrawer,
-  Utils
-} from '@alfresco/aca-testing-shared';
+import { LoginPage, BrowsingPage, RepoClient, InfoDrawer, Utils } from '@alfresco/aca-testing-shared';
 
 describe('General', () => {
   const username = `user1-${Utils.random()}`;
 
-  const parent = `parent-${Utils.random()}`; let parentId;
+  const parent = `parent-${Utils.random()}`;
+  let parentId;
 
   const file1 = `file1-${Utils.random()}.txt`;
   const folder1 = `folder1-${Utils.random()}`;
@@ -89,5 +84,4 @@ describe('General', () => {
 
     expect(await infoDrawer.isOpen()).toBe(false, 'Info drawer open');
   });
-
 });

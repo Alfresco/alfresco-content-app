@@ -124,5 +124,4 @@ describe('Pagination on single page', () => {
     await searchResultsPage.waitForResults();
     expect(await pagination.isPagesButtonPresent()).toBe(false, 'page selector displayed');
   });
-
 });

@@ -23,19 +23,9 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  AppStore,
-  SnackbarErrorAction,
-  UnlockWriteAction
-} from '@alfresco/aca-shared/store';
+import { AppStore, SnackbarErrorAction, UnlockWriteAction } from '@alfresco/aca-shared/store';
 import { MinimalNodeEntryEntity, Node } from '@alfresco/js-api';
-import {
-  Component,
-  EventEmitter,
-  Inject,
-  Output,
-  ViewEncapsulation
-} from '@angular/core';
+import { Component, EventEmitter, Inject, Output, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { NodeEntityEvent } from '@alfresco/adf-content-services';

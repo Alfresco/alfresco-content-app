@@ -39,8 +39,7 @@ import { AppExtensionService } from '@alfresco/aca-shared';
   templateUrl: './search-libraries-results.component.html',
   styleUrls: ['./search-libraries-results.component.scss']
 })
-export class SearchLibrariesResultsComponent extends PageComponent
-  implements OnInit {
+export class SearchLibrariesResultsComponent extends PageComponent implements OnInit {
   isSmallScreen = false;
   searchedWord: string;
   queryParamName = 'q';
@@ -71,15 +70,9 @@ export class SearchLibrariesResultsComponent extends PageComponent
     this.columns = this.extensions.documentListPresets.searchLibraries || [];
 
     this.subscriptions.push(
-      this.content.libraryJoined.subscribe(() =>
-        this.librariesQueryBuilder.update()
-      ),
-      this.content.libraryDeleted.subscribe(() =>
-        this.librariesQueryBuilder.update()
-      ),
-      this.content.libraryLeft.subscribe(() =>
-        this.librariesQueryBuilder.update()
-      ),
+      this.content.libraryJoined.subscribe(() => this.librariesQueryBuilder.update()),
+      this.content.libraryDeleted.subscribe(() => this.librariesQueryBuilder.update()),
+      this.content.libraryLeft.subscribe(() => this.librariesQueryBuilder.update()),
 
       this.librariesQueryBuilder.updated.subscribe(() => {
         this.isLoading = true;
@@ -87,12 +80,12 @@ export class SearchLibrariesResultsComponent extends PageComponent
         this.librariesQueryBuilder.execute();
       }),
 
-      this.librariesQueryBuilder.executed.subscribe(data => {
+      this.librariesQueryBuilder.executed.subscribe((data) => {
         this.onSearchResultLoaded(data);
         this.isLoading = false;
       }),
 
-      this.librariesQueryBuilder.hadError.subscribe(err => {
+      this.librariesQueryBuilder.hadError.subscribe((err) => {
         try {
           const {
             error: { statusCode }
@@ -105,16 +98,14 @@ export class SearchLibrariesResultsComponent extends PageComponent
 
       this.breakpointObserver
         .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
-        .subscribe(result => {
+        .subscribe((result) => {
           this.isSmallScreen = result.matches;
         })
     );
 
     if (this.route) {
       this.route.params.forEach((params: Params) => {
-        this.searchedWord = params.hasOwnProperty(this.queryParamName)
-          ? params[this.queryParamName]
-          : null;
+        this.searchedWord = params.hasOwnProperty(this.queryParamName) ? params[this.queryParamName] : null;
         const query = this.formatSearchQuery(this.searchedWord);
 
         if (query && query.length > 1) {

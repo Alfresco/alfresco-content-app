@@ -23,14 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  Directive,
-  HostListener,
-  Input,
-  OnChanges,
-  Output,
-  EventEmitter
-} from '@angular/core';
+import { Directive, HostListener, Input, OnChanges, Output, EventEmitter } from '@angular/core';
 import { SiteBody, FavoriteBody, FavoriteEntry, Site } from '@alfresco/js-api';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 
@@ -116,7 +109,7 @@ export class LibraryFavoriteDirective implements OnChanges {
         this.targetLibrary.isFavorite = true;
         this.toggle.emit(libraryEntry);
       })
-      .catch(error => this.error.emit(error));
+      .catch((error) => this.error.emit(error));
   }
 
   private removeFavorite(favoriteId: string) {
@@ -126,6 +119,6 @@ export class LibraryFavoriteDirective implements OnChanges {
         this.targetLibrary.isFavorite = false;
         this.toggle.emit(libraryBody);
       })
-      .catch(error => this.error.emit(error));
+      .catch((error) => this.error.emit(error));
   }
 }

@@ -23,11 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  SelectionState,
-  ProfileState,
-  NavigationState
-} from '@alfresco/adf-extensions';
+import { SelectionState, ProfileState, NavigationState } from '@alfresco/adf-extensions';
 import { RepositoryInfo } from '@alfresco/js-api';
 
 export interface AppState {
