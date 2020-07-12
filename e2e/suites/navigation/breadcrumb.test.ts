@@ -31,19 +31,19 @@ describe('Breadcrumb', () => {
   const username = `user-${Utils.random()}`;
 
   const parent = `parent-${Utils.random()}`;
-  let parentId;
+  let parentId: string;
   const subFolder1 = `subFolder1-${Utils.random()}`;
-  let subFolder1Id;
+  let subFolder1Id: string;
   const subFolder2 = `subFolder2-${Utils.random()}`;
-  let subFolder2Id;
+  let subFolder2Id: string;
   const fileName1 = `file1-${Utils.random()}.txt`;
 
   const siteName = `site-${Utils.random()}`;
 
   const parent2 = `parent2-${Utils.random()}`;
-  let parent2Id;
+  let parent2Id: string;
   const folder1 = `folder1-${Utils.random()}`;
-  let folder1Id;
+  let folder1Id: string;
   const folder1Renamed = `renamed-${Utils.random()}`;
 
   const loginPage = new LoginPage();
@@ -194,7 +194,7 @@ describe('Breadcrumb', () => {
   describe('as admin', () => {
     const user2 = `user2-${Utils.random()}`;
     const userFolder = `userFolder-${Utils.random()}`;
-    let userFolderId;
+    let userFolderId: string;
     const user2Api = new RepoClient(user2, user2);
 
     beforeAll(async (done) => {

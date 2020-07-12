@@ -50,7 +50,7 @@ describe('Pagination on multiple pages : ', () => {
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
     parentId = (await userApi.nodes.createFolder(parent)).entry.id;
-    filesIds = (await userApi.nodes.createFiles(files, parent)).list.entries.map((entries) => entries.entry.id);
+    filesIds = (await userApi.nodes.createFiles(files, parent)).list.entries.map((entries: any) => entries.entry.id);
 
     await userApi.shared.shareFilesByIds(filesIds);
     await userApi.favorites.addFavoritesByIds('file', filesIds);

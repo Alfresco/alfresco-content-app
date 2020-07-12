@@ -57,31 +57,31 @@ describe('Delete and undo delete', () => {
     const file7 = `file7-${Utils.random()}.txt`;
 
     const folder1 = `folder1-${Utils.random()}`;
-    let folder1Id;
+    let folder1Id: string;
     const folder2 = `folder2-${Utils.random()}`;
-    let folder2Id;
+    let folder2Id: string;
     const folder3 = `folder3-${Utils.random()}`;
-    let folder3Id;
+    let folder3Id: string;
     const folder4 = `folder4-${Utils.random()}`;
-    let folder4Id;
+    let folder4Id: string;
     const folder5 = `folder5-${Utils.random()}`;
-    let folder5Id;
+    let folder5Id: string;
     const folder6 = `folder6-${Utils.random()}`;
-    let folder6Id;
+    let folder6Id: string;
 
     const file1InFolder = `file1InFolder-${Utils.random()}.txt`;
     const file2InFolder = `file2InFolder-${Utils.random()}.txt`;
     const fileLocked1 = `fileLocked1-${Utils.random()}.txt`;
-    let fileLocked1Id;
+    let fileLocked1Id: string;
     const fileLocked2 = `fileLocked2-${Utils.random()}.txt`;
-    let fileLocked2Id;
+    let fileLocked2Id: string;
     const fileLocked3 = `fileLocked3-${Utils.random()}.txt`;
-    let fileLocked3Id;
+    let fileLocked3Id: string;
     const fileLocked4 = `fileLocked4-${Utils.random()}.txt`;
-    let fileLocked4Id;
+    let fileLocked4Id: string;
 
     const parent = `parentPF-${Utils.random()}`;
-    let parentId;
+    let parentId: string;
 
     beforeAll(async (done) => {
       parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
@@ -240,20 +240,20 @@ describe('Delete and undo delete', () => {
 
   describe('on Shared Files', () => {
     const sharedFile1 = `sharedFile1-${Utils.random()}.txt`;
-    let sharedFile1Id;
+    let sharedFile1Id: string;
     const sharedFile2 = `sharedFile2-${Utils.random()}.txt`;
-    let sharedFile2Id;
+    let sharedFile2Id: string;
     const sharedFile3 = `sharedFile3-${Utils.random()}.txt`;
-    let sharedFile3Id;
+    let sharedFile3Id: string;
     const sharedFile4 = `sharedFile4-${Utils.random()}.txt`;
-    let sharedFile4Id;
+    let sharedFile4Id: string;
     const sharedFile5 = `sharedFile5-${Utils.random()}.txt`;
-    let sharedFile5Id;
+    let sharedFile5Id: string;
     const sharedFile6 = `sharedFile6-${Utils.random()}.txt`;
-    let sharedFile6Id;
+    let sharedFile6Id: string;
 
     const parent = `parentSF-${Utils.random()}`;
-    let parentId;
+    let parentId: string;
 
     beforeAll(async (done) => {
       parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
@@ -333,46 +333,46 @@ describe('Delete and undo delete', () => {
 
   describe('on Favorites', () => {
     const parent = `parentF-${Utils.random()}`;
-    let parentId;
+    let parentId: string;
 
     const favFile1 = `favFile1-${Utils.random()}.txt`;
-    let favFile1Id;
+    let favFile1Id: string;
     const favFile2 = `favFile2-${Utils.random()}.txt`;
-    let favFile2Id;
+    let favFile2Id: string;
     const favFile3 = `favFile3-${Utils.random()}.txt`;
-    let favFile3Id;
+    let favFile3Id: string;
     const favFile4 = `favFile4-${Utils.random()}.txt`;
-    let favFile4Id;
+    let favFile4Id: string;
     const favFile5 = `favFile5-${Utils.random()}.txt`;
-    let favFile5Id;
+    let favFile5Id: string;
     const favFile6 = `favFile6-${Utils.random()}.txt`;
-    let favFile6Id;
+    let favFile6Id: string;
     const favFile7 = `favFile7-${Utils.random()}.txt`;
-    let favFile7Id;
+    let favFile7Id: string;
 
     const favFolder1 = `favFolder1-${Utils.random()}`;
-    let favFolder1Id;
+    let favFolder1Id: string;
     const favFolder2 = `favFolder2-${Utils.random()}`;
-    let favFolder2Id;
+    let favFolder2Id: string;
     const favFolder3 = `favFolder3-${Utils.random()}`;
-    let favFolder3Id;
+    let favFolder3Id: string;
     const favFolder4 = `favFolder4-${Utils.random()}`;
-    let favFolder4Id;
+    let favFolder4Id: string;
     const favFolder5 = `favFolder5-${Utils.random()}`;
-    let favFolder5Id;
+    let favFolder5Id: string;
     const favFolder6 = `favFolder6-${Utils.random()}`;
-    let favFolder6Id;
+    let favFolder6Id: string;
 
     const file1InFolder = `file1InFolder-${Utils.random()}.txt`;
     const file2InFolder = `file2InFolder-${Utils.random()}.txt`;
     const fileLocked1 = `fileLocked1-${Utils.random()}.txt`;
-    let fileLocked1Id;
+    let fileLocked1Id: string;
     const fileLocked2 = `fileLocked2-${Utils.random()}.txt`;
-    let fileLocked2Id;
+    let fileLocked2Id: string;
     const fileLocked3 = `fileLocked3-${Utils.random()}.txt`;
-    let fileLocked3Id;
+    let fileLocked3Id: string;
     const fileLocked4 = `fileLocked4-${Utils.random()}.txt`;
-    let fileLocked4Id;
+    let fileLocked4Id: string;
 
     beforeAll(async (done) => {
       parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
@@ -549,7 +549,7 @@ describe('Delete and undo delete', () => {
 
   describe('on Recent Files', () => {
     const parent = `parentRF-${Utils.random()}`;
-    let parentId;
+    let parentId: string;
 
     const recentFile1 = `recentFile1-${Utils.random()}.txt`;
     const recentFile2 = `recentFile2-${Utils.random()}.txt`;

@@ -29,58 +29,62 @@ describe('Copy content', () => {
   const username = `user-${Utils.random()}`;
 
   const source = `source-${Utils.random()}`;
-  let sourceId;
+  let sourceId: string;
   const destinationPF = `destinationPersonal-${Utils.random()}`;
-  let destinationIdPF;
+  let destinationIdPF: string;
   const destinationRF = `destinationRecent-${Utils.random()}`;
-  let destinationIdRF;
+  let destinationIdRF: string;
   const destinationSF = `destinationShared-${Utils.random()}`;
-  let destinationIdSF;
+  let destinationIdSF: string;
   const destinationFav = `destinationFav-${Utils.random()}`;
-  let destinationIdFav;
+  let destinationIdFav: string;
   const destinationSearch = `destinationSearch-${Utils.random()}`;
-  let destinationIdSearch;
+  let destinationIdSearch: string;
 
   const file1 = `file1-${Utils.random()}.txt`;
-  let file1Id;
+  let file1Id: string;
 
   const folder1 = `folder1-${Utils.random()}`;
-  let folder1Id;
+  let folder1Id: string;
   const fileInFolder = `fileInFolder-${Utils.random()}.txt`;
-  let fileInFolderId;
+  let fileInFolderId: string;
 
   const folder2 = `folder2-${Utils.random()}`;
-  let folder2Id;
+  let folder2Id: string;
   const fileInFolder2 = fileInFolder;
 
   const folderExisting = `folder-existing-${Utils.random()}`;
-  let folderExistingId;
+  let folderExistingId: string;
   const file1InFolderExisting = `file1InFolderExisting-${Utils.random()}.txt`;
   const file2InFolderExisting = `file2InFolderExisting-${Utils.random()}.txt`;
 
   const file2 = `file2-${Utils.random()}.txt`;
-  let file2Id;
+  let file2Id: string;
   const file3 = `file3-${Utils.random()}.txt`;
-  let file3Id;
+  let file3Id: string;
   const file4 = `file4-${Utils.random()}.txt`;
-  let file4Id;
+  let file4Id: string;
 
   const fileLocked1 = `file-locked1-${Utils.random()}.txt`;
-  let fileLocked1Id;
+  let fileLocked1Id: string;
 
   const folderWithLockedFiles = `folder-locked1-${Utils.random()}`;
-  let folderWithLockedFilesId;
+  let folderWithLockedFilesId: string;
   const fileLockedInFolder = `file-locked-${Utils.random()}`;
-  let fileLockedInFolderId;
+  let fileLockedInFolderId: string;
 
   const existingFile = `existing-${Utils.random()}.txt`;
-  let existingFileToCopyId;
+  let existingFileToCopyId: string;
 
   const existingFolder = `existing-${Utils.random()}`;
-  let existingFolderToCopyId;
+  let existingFolderToCopyId: string;
 
-  let existingIdPF, existingIdFav, existingIdSearch;
-  let folderExistingPFId, folderExistingFavId, folderExistingSearchId;
+  let existingIdPF: string;
+  let existingIdFav: string;
+  let existingIdSearch: string;
+  let folderExistingPFId: string;
+  let folderExistingFavId: string;
+  let folderExistingSearchId: string;
 
   const file2InFolder = `file2InFolder-${Utils.random()}.txt`;
   const file3InFolder = `file3InFolder-${Utils.random()}.txt`;
@@ -92,7 +96,8 @@ describe('Copy content', () => {
   const folderSiteFav = `folderSiteFav-${Utils.random()}`;
   const folderSiteSearch = `folderSiteSearch-${Utils.random()}`;
 
-  let locationId, destinationId;
+  let locationId: string;
+  let destinationId: string;
 
   const apis = {
     admin: new RepoClient(),
@@ -463,7 +468,7 @@ describe('Copy content', () => {
       }));
   });
 
-  async function copyFile(fileName: string, location: string = '', destination: string, doBefore = null) {
+  async function copyFile(fileName: string, location: string = '', destination: string, doBefore?: Function) {
     if (doBefore) {
       await doBefore();
     }
@@ -487,7 +492,7 @@ describe('Copy content', () => {
     folderName: string,
     location: string = '',
     destination: string,
-    doBefore = null
+    doBefore?: Function
   ) {
     if (doBefore) {
       await doBefore();
@@ -515,7 +520,7 @@ describe('Copy content', () => {
     );
   }
 
-  async function copyMultipleItems(items: string[], location: string = '', destination: string, doBefore = null) {
+  async function copyMultipleItems(items: string[], location: string = '', destination: string, doBefore?: Function) {
     if (doBefore) {
       await doBefore();
     }
@@ -541,7 +546,7 @@ describe('Copy content', () => {
     fileName: string,
     location: string = '',
     destination: string,
-    doBefore = null
+    doBefore?: Function
   ) {
     if (doBefore) {
       await doBefore();
@@ -566,7 +571,7 @@ describe('Copy content', () => {
     folderName: string,
     location: string = '',
     destination: string,
-    doBefore = null
+    doBefore?: Function
   ) {
     if (doBefore) {
       await doBefore();
@@ -596,7 +601,12 @@ describe('Copy content', () => {
     );
   }
 
-  async function copyItemsIntoLibrary(items: string[], location: string = '', destination: string, doBefore = null) {
+  async function copyItemsIntoLibrary(
+    items: string[],
+    location: string = '',
+    destination: string,
+    doBefore?: Function
+  ) {
     if (doBefore) {
       await doBefore();
     }
@@ -626,7 +636,7 @@ describe('Copy content', () => {
     }
   }
 
-  async function copyLockedFile(fileName: string, location: string = '', destination: string, doBefore = null) {
+  async function copyLockedFile(fileName: string, location: string = '', destination: string, doBefore?: Function) {
     if (doBefore) {
       await doBefore();
     }
@@ -659,7 +669,7 @@ describe('Copy content', () => {
     folderName: string,
     location: string = '',
     destination: string,
-    doBefore = null
+    doBefore?: Function
   ) {
     if (doBefore) {
       await doBefore();
@@ -701,7 +711,7 @@ describe('Copy content', () => {
     ).toBe(false, `${fileLockedInFolder} is locked in ${destination}`);
   }
 
-  async function undoCopyFile(fileName: string, location: string = '', destination: string, doBefore = null) {
+  async function undoCopyFile(fileName: string, location: string = '', destination: string, doBefore?: Function) {
     if (doBefore) {
       await doBefore();
     }
@@ -724,7 +734,7 @@ describe('Copy content', () => {
     expect(await dataTable.isEmpty()).toBe(true, 'Trash is not empty');
   }
 
-  async function undoCopyFolder(folderName: string, location: string = '', destination: string, doBefore = null) {
+  async function undoCopyFolder(folderName: string, location: string = '', destination: string, doBefore?: Function) {
     if (doBefore) {
       await doBefore();
     }
@@ -751,7 +761,7 @@ describe('Copy content', () => {
     fileName: string,
     location: string = '',
     destination: string,
-    doBefore = null
+    doBefore?: Function
   ) {
     if (doBefore) {
       await doBefore();
@@ -789,7 +799,7 @@ describe('Copy content', () => {
     folderName: string,
     location: string = '',
     destination: string,
-    doBefore = null
+    doBefore?: Function
   ) {
     if (doBefore) {
       await doBefore();

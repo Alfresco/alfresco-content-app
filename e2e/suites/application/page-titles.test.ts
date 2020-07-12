@@ -32,7 +32,7 @@ describe('Page titles', () => {
   const adminApi = new RepoClient();
   const { nodes: nodesApi } = adminApi;
   const file = `file-${Utils.random()}.txt`;
-  let fileId;
+  let fileId: string;
   const { searchInput } = page.header;
 
   describe('on Login / Logout pages', () => {

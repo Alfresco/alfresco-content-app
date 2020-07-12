@@ -29,7 +29,7 @@ describe('Upload files', () => {
   const username = `user-${Utils.random()}`;
 
   const folder1 = `folder1-${Utils.random()}`;
-  let folder1Id;
+  let folder1Id: string;
 
   const apis = {
     admin: new RepoClient(),

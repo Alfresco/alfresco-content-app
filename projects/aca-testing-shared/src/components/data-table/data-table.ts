@@ -362,17 +362,17 @@ export class DataTable extends Component {
     return text;
   }
 
-  async getSitesNameAndVisibility(): Promise<{}> {
-    const data = await this.getEntireDataTableText();
-    return data.reduce((acc, cell) => {
+  async getSitesNameAndVisibility(): Promise<any> {
+    const data: string[] = await this.getEntireDataTableText();
+    return data.reduce((acc: any, cell) => {
       acc[cell[1]] = cell[4].toUpperCase();
       return acc;
     }, {});
   }
 
-  async getSitesNameAndRole(): Promise<{}> {
-    const data = await this.getEntireDataTableText();
-    return data.reduce((acc, cell) => {
+  async getSitesNameAndRole(): Promise<any> {
+    const data: string[] = await this.getEntireDataTableText();
+    return data.reduce((acc: any, cell) => {
       acc[cell[1]] = cell[3];
       return acc;
     }, {});

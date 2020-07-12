@@ -40,13 +40,13 @@ describe('Extensions - Viewer', () => {
     file_name: FILES.pdfFile,
     component: 'app.components.tabs.metadata'
   };
-  let pdfFileId;
+  let pdfFileId: string;
 
   const docxFile = {
     file_name: FILES.docxFile,
     component: 'app.components.tabs.comments'
   };
-  let docxFileId;
+  let docxFileId: string;
 
   const customAction = {
     id: 'app.viewer.my-action',

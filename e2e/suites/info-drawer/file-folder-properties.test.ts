@@ -34,13 +34,13 @@ import {
   DATE_FORMAT
 } from '@alfresco/aca-testing-shared';
 
-import * as moment from 'moment';
+const moment = require('moment');
 
 describe('File / Folder properties', () => {
   const username = `user1-${Utils.random()}`;
 
   const parent = `parent-${Utils.random()}`;
-  let parentId;
+  let parentId: string;
 
   const file1 = {
     name: `file1-${Utils.random()}.txt`,
@@ -48,7 +48,7 @@ describe('File / Folder properties', () => {
     description: 'file description',
     author: 'file author'
   };
-  let file1Id;
+  let file1Id: string;
 
   const image1 = {
     name: FILES.jpgFile,
@@ -56,7 +56,7 @@ describe('File / Folder properties', () => {
     description: 'image description',
     author: 'image author'
   };
-  let image1Id;
+  let image1Id: string;
 
   const folder1 = {
     name: `folder1-${Utils.random()}`,
@@ -64,7 +64,7 @@ describe('File / Folder properties', () => {
     description: 'folder description',
     author: 'folder author'
   };
-  let folder1Id;
+  let folder1Id: string;
 
   const apis = {
     admin: new RepoClient(),

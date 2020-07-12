@@ -48,7 +48,7 @@ describe('Trash', () => {
   let fileDeletedId;
 
   const folderNotDeleted = `folder-${Utils.random()}`;
-  let folderNotDeletedId;
+  let folderNotDeletedId: string;
   const fileInFolder = `file-${Utils.random()}.txt`;
   let fileInFolderId;
 

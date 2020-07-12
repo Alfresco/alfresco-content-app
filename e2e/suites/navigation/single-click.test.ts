@@ -29,14 +29,14 @@ describe('Single click on item name', () => {
   const username = `user-${Utils.random()}`;
 
   const file1 = `file1-${Utils.random()}.txt`;
-  let file1Id;
+  let file1Id: string;
   const folder1 = `folder1-${Utils.random()}`;
-  let folder1Id;
+  let folder1Id: string;
 
   const deletedFile1 = `file1-${Utils.random()}.txt`;
-  let deletedFile1Id;
+  let deletedFile1Id: string;
   const deletedFolder1 = `folder1-${Utils.random()}`;
-  let deletedFolder1Id;
+  let deletedFolder1Id: string;
 
   const siteName = `site-${Utils.random()}`;
   const fileSite = `fileSite-${Utils.random()}.txt`;

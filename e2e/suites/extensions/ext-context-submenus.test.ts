@@ -28,9 +28,9 @@ import { LoginPage, BrowsingPage, EXTENSIBILITY_CONFIGS, RepoClient, Utils } fro
 describe('Extensions - Context submenu', () => {
   const username = `user-${Utils.random()}`;
   const file = `file-${Utils.random()}.txt`;
-  let fileId;
+  let fileId: string;
   const folder = `folder-${Utils.random()}`;
-  let folderId;
+  let folderId: string;
 
   const restrictedPermissionsItem = 'Share';
 

@@ -29,15 +29,15 @@ describe('Recent Files', () => {
   const username = `user-${Utils.random()}`;
 
   const folderName = `folder-${Utils.random()}`;
-  let folderId;
+  let folderId: string;
   const fileName1 = `file-${Utils.random()}.txt`;
   const fileName2 = `file-${Utils.random()}.txt`;
-  let file2Id;
+  let file2Id: string;
   const fileName3 = `file-${Utils.random()}.txt`;
 
   const siteName = `site-${Utils.random()}`;
   const folderSite = `folder2-${Utils.random()}`;
-  let folderSiteId;
+  let folderSiteId: string;
   const fileSite = `file-${Utils.random()}.txt`;
 
   const apis = {

@@ -24,34 +24,34 @@
  */
 
 import { LoginPage, BrowsingPage, RepoClient, InfoDrawer, Utils } from '@alfresco/aca-testing-shared';
-
-import * as moment from 'moment';
+const moment = require('moment');
 
 describe('Comments', () => {
   const username = `user1-${Utils.random()}`;
 
   const parent = `parent-${Utils.random()}`;
-  let parentId;
+  let parentId: string;
 
   const file1 = `file1-${Utils.random()}.txt`;
   const folder1 = `folder1-${Utils.random()}`;
   const folder2 = `folder2-${Utils.random()}`;
-  let folder2Id;
+  let folder2Id: string;
 
   const fileWith1Comment = `file1Comment-${Utils.random()}.txt`;
-  let fileWith1CommentId;
+  let fileWith1CommentId: string;
   const fileWith2Comments = `file2Comments-${Utils.random()}.txt`;
-  let fileWith2CommentsId;
+  let fileWith2CommentsId: string;
 
   const file2Personal = `file2Personal-${Utils.random()}.txt`;
   const file2Shared = `file2Shared-${Utils.random()}.txt`;
-  let file2SharedId;
+  let file2SharedId: string;
   const file2Recent = `file2Recent-${Utils.random()}.txt`;
   const file2Favorites = `file2Favorites-${Utils.random()}.txt`;
-  let file2FavoritesId;
+  let file2FavoritesId: string;
 
-  let commentFile1Entry;
-  let comment1File2Entry, comment2File2Entry;
+  let commentFile1Entry: any;
+  let comment1File2Entry: any;
+  let comment2File2Entry: any;
 
   const apis = {
     admin: new RepoClient(),

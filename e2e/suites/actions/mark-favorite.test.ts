@@ -27,7 +27,6 @@ import { LoginPage, BrowsingPage, SITE_VISIBILITY, RepoClient, Utils } from '@al
 
 describe('Mark items as favorites', () => {
   const username = `user-${Utils.random()}`;
-
   const parent = `parent-${Utils.random()}`;
 
   const fileNotFavUI = `fileNotFavUI-${Utils.random()}.txt`;
@@ -42,17 +41,17 @@ describe('Mark items as favorites', () => {
   const fileFav4 = `fileFav4-${Utils.random()}.txt`;
   const folder = `folder-${Utils.random()}`;
 
-  let fileFavUIId,
-    fileNotFav1Id,
-    fileNotFav2Id,
-    fileNotFav3Id,
-    fileNotFav4Id,
-    fileFav1Id,
-    fileFav2Id,
-    fileFav3Id,
-    fileFav4Id,
-    folderId,
-    parentId;
+  let fileFavUIId: string;
+  let fileNotFav1Id: string;
+  let fileNotFav2Id: string;
+  let fileNotFav3Id: string;
+  let fileNotFav4Id: string;
+  let fileFav1Id: string;
+  let fileFav2Id: string;
+  let fileFav3Id: string;
+  let fileFav4Id: string;
+  let folderId: string;
+  let parentId: string;
 
   const fileSearchNotFav1 = `search-fileNotFav1-${Utils.random()}.txt`;
   const fileSearchNotFav2 = `search-fileNotFav2-${Utils.random()}.txt`;
@@ -64,8 +63,15 @@ describe('Mark items as favorites', () => {
   const fileSearchFav4 = `search-fileFav4-${Utils.random()}.txt`;
   const folderSearch = `search-folder-${Utils.random()}`;
 
-  let fileSearchNotFav1Id, fileSearchNotFav2Id, fileSearchNotFav3Id, fileSearchNotFav4Id;
-  let fileSearchFav1Id, fileSearchFav2Id, fileSearchFav3Id, fileSearchFav4Id, folderSearchId;
+  let fileSearchNotFav1Id: string;
+  let fileSearchNotFav2Id: string;
+  let fileSearchNotFav3Id: string;
+  let fileSearchNotFav4Id: string;
+  let fileSearchFav1Id: string;
+  let fileSearchFav2Id: string;
+  let fileSearchFav3Id: string;
+  let fileSearchFav4Id: string;
+  let folderSearchId: string;
 
   const apis = {
     admin: new RepoClient(),
@@ -567,8 +573,15 @@ describe('Mark items as favorites', () => {
     const fileSiteFav3 = `fileSiteFav3-${Utils.random()}.txt`;
     const fileSiteFav4 = `fileSiteFav4-${Utils.random()}.txt`;
 
-    let folderSiteId, fileSiteNotFav1Id, fileSiteNotFav2Id, fileSiteNotFav3Id, fileSiteNotFav4Id;
-    let fileSiteFav1Id, fileSiteFav2Id, fileSiteFav3Id, fileSiteFav4Id;
+    let folderSiteId: string;
+    let fileSiteNotFav1Id: string;
+    let fileSiteNotFav2Id: string;
+    let fileSiteNotFav3Id: string;
+    let fileSiteNotFav4Id: string;
+    let fileSiteFav1Id: string;
+    let fileSiteFav2Id: string;
+    let fileSiteFav3Id: string;
+    let fileSiteFav4Id: string;
 
     beforeAll(async (done) => {
       await apis.user.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);

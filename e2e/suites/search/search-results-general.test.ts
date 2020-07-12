@@ -30,9 +30,9 @@ describe('Search results general', () => {
   const username = `user-${Utils.random()}`;
 
   const file = `test-file-${Utils.random()}.txt`;
-  let fileId;
+  let fileId: string;
   const folder = `test-folder-${Utils.random()}`;
-  let folderId;
+  let folderId: string;
   const site = `test-site-${Utils.random()}`;
 
   const apis = {

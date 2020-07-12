@@ -31,7 +31,7 @@ import { SearchApi as AdfSearchApi } from '@alfresco/js-api';
 export class SearchApi extends RepoApi {
   searchApi = new AdfSearchApi(this.alfrescoJsApi);
 
-  constructor(username?, password?) {
+  constructor(username?: string, password?: string) {
     super(username, password);
   }
 

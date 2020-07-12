@@ -35,9 +35,9 @@ import {
 } from 'protractor';
 import { Logger } from '@alfresco/adf-testing';
 import { BROWSER_WAIT_TIMEOUT } from '../configs';
+import * as path from 'path';
+import * as fs from 'fs';
 
-const path = require('path');
-const fs = require('fs');
 const StreamZip = require('node-stream-zip');
 
 export async function typeText(element: ElementFinder, text: string): Promise<void> {
@@ -145,9 +145,9 @@ export class Utils {
   }
 
   static retryCall(fn: () => Promise<any>, retry: number = 30, delay: number = 1000): Promise<any> {
-    const pause = (duration) => new Promise((res) => setTimeout(res, duration));
+    const pause = (duration: number) => new Promise((res) => setTimeout(res, duration));
 
-    const run = (retries) => {
+    const run = (retries: number): Promise<any> => {
       return fn().catch((err) => (retries > 1 ? pause(delay).then(() => run(retries - 1)) : Promise.reject(err)));
     };
 
@@ -169,7 +169,7 @@ export class Utils {
 
     return new Promise(function (resolve) {
       const checkExist = setInterval(() => {
-        fs.access(filePath, function (error) {
+        fs.access(filePath, function (error: any) {
           tries--;
 
           if (error && tries === 0) {
@@ -194,7 +194,7 @@ export class Utils {
     const fileExists = await this.fileExistsOnOS(oldName);
 
     if (fileExists) {
-      fs.rename(oldFilePath, newFilePath, function (err) {
+      fs.rename(oldFilePath, newFilePath, function (err: any) {
         if (err) {
           Logger.error('==== rename err: ', err);
         }
@@ -212,7 +212,7 @@ export class Utils {
       storeEntries: true
     });
 
-    await zip.on('error', (err) => {
+    await zip.on('error', (err: any) => {
       Logger.error('=== unzip err: ', err);
     });
 

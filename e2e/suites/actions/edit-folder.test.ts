@@ -38,7 +38,7 @@ describe('Edit folder', () => {
   const username = `user-${Utils.random()}`;
 
   const parent = `parent-${Utils.random()}`;
-  let parentId;
+  let parentId: string;
   const folderName = `folder-${Utils.random()}`;
   const folderDescription = 'my folder description';
 
@@ -54,20 +54,20 @@ describe('Edit folder', () => {
 
   const folderSite = `folder-site-${Utils.random()}`;
   const folderSiteToEdit = `folder-site-${Utils.random()}`;
-  let folderSiteToEditId;
+  let folderSiteToEditId: string;
   const duplicateFolderSite = `folder-${Utils.random()}`;
-  let docLibUserSite;
+  let docLibUserSite: string;
 
   const folderFavorite = `folder-fav-${Utils.random()}`;
-  let folderFavoriteId;
+  let folderFavoriteId: string;
   const folderFavoriteToEdit = `folder-fav-${Utils.random()}`;
-  let folderFavoriteToEditId;
+  let folderFavoriteToEditId: string;
   const folderFavoriteDuplicate = `folder-fav-${Utils.random()}`;
-  let folderFavoriteDuplicateId;
+  let folderFavoriteDuplicateId: string;
 
   const folderSearch = `folder-search-${Utils.random()}`;
   const folderSearchToEdit = `folder-search-${Utils.random()}`;
-  let folderSearchToEditId;
+  let folderSearchToEditId: string;
   const folderSearchDuplicate = `folder-search-${Utils.random()}`;
 
   const apis = {

@@ -37,17 +37,17 @@ describe('Viewer general', () => {
   const username = `user-${Utils.random()}`;
 
   const parent = `parent-${Utils.random()}`;
-  let parentId;
+  let parentId: string;
 
   const xlsxFile = FILES.xlsxFile;
-  let xlsxFileId;
+  let xlsxFileId: string;
   const fileAdmin = FILES.docxFile;
-  let fileAdminId;
+  let fileAdminId: string;
 
   const siteAdmin = `siteAdmin-${Utils.random()}`;
-  let docLibId;
+  let docLibId: string;
   const siteUser = `siteUser-${Utils.random()}`;
-  let docLibSiteUserId;
+  let docLibSiteUserId: string;
 
   const fileInSite = FILES.docxFile;
 

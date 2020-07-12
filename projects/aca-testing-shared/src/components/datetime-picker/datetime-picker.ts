@@ -25,8 +25,8 @@
 
 import { by, browser } from 'protractor';
 import { Component } from '../component';
-import * as moment from 'moment';
 import { isPresentAndDisplayed, waitForStaleness } from '../../utilities/utils';
+const moment = require('moment');
 
 export class DateTimePicker extends Component {
   calendar = this.byCss('.mat-datetimepicker-popup', browser);

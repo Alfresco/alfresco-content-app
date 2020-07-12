@@ -40,7 +40,7 @@ describe('Unshare a file', () => {
   const username = `user-${Utils.random()}`;
 
   const parent = `parent-${Utils.random()}`;
-  let parentId;
+  let parentId: string;
 
   const apis = {
     admin: new RepoClient(),
@@ -69,13 +69,13 @@ describe('Unshare a file', () => {
 
   describe('from Personal Files', () => {
     const file1 = `file1-${Utils.random()}.txt`;
-    let file1Id;
+    let file1Id: string;
     const file2 = `file2-${Utils.random()}.txt`;
-    let file2Id;
+    let file2Id: string;
     const file3 = `file3-${Utils.random()}.txt`;
-    let file3Id;
+    let file3Id: string;
     const file4 = `file4-${Utils.random()}.txt`;
-    let file4Id;
+    let file4Id: string;
 
     beforeAll(async (done) => {
       file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
@@ -189,17 +189,17 @@ describe('Unshare a file', () => {
 
   describe('from File Libraries', () => {
     const file1 = `file1-${Utils.random()}.txt`;
-    let file1Id;
+    let file1Id: string;
     const file2 = `file2-${Utils.random()}.txt`;
-    let file2Id;
+    let file2Id: string;
     const file3 = `file3-${Utils.random()}.txt`;
-    let file3Id;
+    let file3Id: string;
     const file4 = `file4-${Utils.random()}.txt`;
-    let file4Id;
+    let file4Id: string;
 
     const siteName = `site-${Utils.random()}`;
     const parentInSite = `parent-site-${Utils.random()}`;
-    let parentInSiteId;
+    let parentInSiteId: string;
 
     beforeAll(async (done) => {
       await apis.user.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
@@ -316,13 +316,13 @@ describe('Unshare a file', () => {
 
   describe('from Recent Files', () => {
     const file1 = `file1-${Utils.random()}.txt`;
-    let file1Id;
+    let file1Id: string;
     const file2 = `file2-${Utils.random()}.txt`;
-    let file2Id;
+    let file2Id: string;
     const file3 = `file3-${Utils.random()}.txt`;
-    let file3Id;
+    let file3Id: string;
     const file4 = `file4-${Utils.random()}.txt`;
-    let file4Id;
+    let file4Id: string;
 
     beforeAll(async (done) => {
       file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
@@ -434,13 +434,13 @@ describe('Unshare a file', () => {
 
   describe('from Shared Files', () => {
     const file1 = `file1-${Utils.random()}.txt`;
-    let file1Id;
+    let file1Id: string;
     const file2 = `file2-${Utils.random()}.txt`;
-    let file2Id;
+    let file2Id: string;
     const file3 = `file3-${Utils.random()}.txt`;
-    let file3Id;
+    let file3Id: string;
     const file4 = `file4-${Utils.random()}.txt`;
-    let file4Id;
+    let file4Id: string;
 
     beforeAll(async (done) => {
       file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
@@ -552,13 +552,13 @@ describe('Unshare a file', () => {
 
   describe('from Favorites', () => {
     const file1 = `file1-${Utils.random()}.txt`;
-    let file1Id;
+    let file1Id: string;
     const file2 = `file2-${Utils.random()}.txt`;
-    let file2Id;
+    let file2Id: string;
     const file3 = `file3-${Utils.random()}.txt`;
-    let file3Id;
+    let file3Id: string;
     const file4 = `file4-${Utils.random()}.txt`;
-    let file4Id;
+    let file4Id: string;
 
     beforeAll(async (done) => {
       file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
@@ -679,17 +679,17 @@ describe('Unshare a file', () => {
     const sitePrivate = `site-private-${Utils.random()}`;
 
     const file1FileLib = `file1-FL-${Utils.random()}.txt`;
-    let file1FileLibId;
+    let file1FileLibId: string;
     const file2FileLib = `file2-FL-${Utils.random()}.txt`;
-    let file2FileLibId;
+    let file2FileLibId: string;
     const file1Shared = `file1-Shared-${Utils.random()}.txt`;
-    let file1SharedId;
+    let file1SharedId: string;
     const file2Shared = `file2-Shared-${Utils.random()}.txt`;
-    let file2SharedId;
+    let file2SharedId: string;
     const file1Fav = `file1-Fav-${Utils.random()}.txt`;
-    let file1FavId;
+    let file1FavId: string;
     const file2Fav = `file2-Fav-${Utils.random()}.txt`;
-    let file2FavId;
+    let file2FavId: string;
 
     beforeAll(async (done) => {
       await apis.admin.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);

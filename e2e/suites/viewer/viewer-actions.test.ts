@@ -66,26 +66,26 @@ describe('Viewer actions', () => {
 
   describe('from Personal Files', () => {
     const parent = `parentPF-${Utils.random()}`;
-    let parentId;
+    let parentId: string;
     const destination = `destPF-${Utils.random()}`;
-    let destinationId;
+    let destinationId: string;
 
     const docxPersonalFiles = `docxPF-${Utils.random()}.docx`;
-    let docxFileId;
+    let docxFileId: string;
 
     const xlsxPersonalFiles = `xlsxPF-${Utils.random()}.xlsx`;
     const pdfPersonalFiles = `pdfPF-${Utils.random()}.pdf`;
     const filePersonalFiles = docxFile2;
-    let filePersonalFilesId;
+    let filePersonalFilesId: string;
 
     const fileForEditOffline = `file1-${Utils.random()}.docx`;
-    let fileForEditOfflineId;
+    let fileForEditOfflineId: string;
     const fileForCancelEditing = `file2-${Utils.random()}.docx`;
-    let fileForCancelEditingId;
+    let fileForCancelEditingId: string;
     const fileForUploadNewVersion = `file3-${Utils.random()}.docx`;
-    let fileForUploadNewVersionId;
+    let fileForUploadNewVersionId: string;
     const fileForUploadNewVersion2 = `file4-${Utils.random()}.docx`;
-    let fileForUploadNewVersionId2;
+    let fileForUploadNewVersionId2: string;
 
     beforeAll(async (done) => {
       parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
@@ -320,22 +320,22 @@ describe('Viewer actions', () => {
   describe('from File Libraries', () => {
     const siteName = `site-${Utils.random()}`;
     const destination = `destFL-${Utils.random()}`;
-    let destinationId;
+    let destinationId: string;
 
     const docxLibraries = `docxFL-${Utils.random()}.docx`;
-    let docxFileId;
+    let docxFileId: string;
 
     const xlsxLibraries = `xlsxFL-${Utils.random()}.xlsx`;
     const pdfLibraries = `pdfFL-${Utils.random()}.pdf`;
     const fileLibraries = docxFile2;
-    let fileLibrariesId;
+    let fileLibrariesId: string;
 
     const fileForEditOffline = `file1-${Utils.random()}.docx`;
-    let fileForEditOfflineId;
+    let fileForEditOfflineId: string;
     const fileForCancelEditing = `file2-${Utils.random()}.docx`;
-    let fileForCancelEditingId;
+    let fileForCancelEditingId: string;
     const fileForUploadNewVersion = `file3-${Utils.random()}.docx`;
-    let fileForUploadNewVersionId;
+    let fileForUploadNewVersionId: string;
 
     beforeAll(async (done) => {
       await apis.user.sites.createSite(siteName);
@@ -523,24 +523,24 @@ describe('Viewer actions', () => {
 
   describe('from Recent Files', () => {
     const parent = `parentRF-${Utils.random()}`;
-    let parentId;
+    let parentId: string;
     const destination = `destRF-${Utils.random()}`;
-    let destinationId;
+    let destinationId: string;
 
     const docxRecentFiles = `docxRF-${Utils.random()}.docx`;
-    let docxFileId;
+    let docxFileId: string;
 
     const xlsxRecentFiles = `xlsxRF-${Utils.random()}.xlsx`;
     const pdfRecentFiles = `pdfRF-${Utils.random()}.pdf`;
     const fileRecent = docxFile2;
-    let fileRecentId;
+    let fileRecentId: string;
 
     const fileForEditOffline = `file1-${Utils.random()}.docx`;
-    let fileForEditOfflineId;
+    let fileForEditOfflineId: string;
     const fileForCancelEditing = `file2-${Utils.random()}.docx`;
-    let fileForCancelEditingId;
+    let fileForCancelEditingId: string;
     const fileForUploadNewVersion = `file3-${Utils.random()}.docx`;
-    let fileForUploadNewVersionId;
+    let fileForUploadNewVersionId: string;
 
     beforeAll(async (done) => {
       await apis.user.search.waitForApi(username, { expect: 0 });
@@ -727,24 +727,24 @@ describe('Viewer actions', () => {
 
   describe('from Shared Files', () => {
     const parent = `parentSF-${Utils.random()}`;
-    let parentId;
+    let parentId: string;
     const destination = `destSF-${Utils.random()}`;
-    let destinationId;
+    let destinationId: string;
 
     const docxSharedFiles = `docxSF-${Utils.random()}.docx`;
-    let docxFileId;
+    let docxFileId: string;
 
     const xlsxSharedFiles = `xlsxSF-${Utils.random()}.xlsx`;
-    let xlsxFileId;
+    let xlsxFileId: string;
     const pdfSharedFiles = `pdfSF-${Utils.random()}.pdf`;
-    let pdfFileId;
+    let pdfFileId: string;
     const fileShared = docxFile2;
-    let fileSharedId;
+    let fileSharedId: string;
 
     const fileForEditOffline = `file1-${Utils.random()}.docx`;
-    let fileForEditOfflineId;
+    let fileForEditOfflineId: string;
     const fileForCancelEditing = `file2-${Utils.random()}.docx`;
-    let fileForCancelEditingId;
+    let fileForCancelEditingId: string;
     const fileForUploadNewVersion = `file3-${Utils.random()}.docx`;
     let fileForUploadNewVersionId;
 
@@ -939,26 +939,26 @@ describe('Viewer actions', () => {
 
   describe('from Favorites', () => {
     const parent = `parentFav-${Utils.random()}`;
-    let parentId;
+    let parentId: string;
     const destination = `destFav-${Utils.random()}`;
-    let destinationId;
+    let destinationId: string;
 
     const docxFavorites = `docxFav-${Utils.random()}.docx`;
-    let docxFileId;
+    let docxFileId: string;
 
     const xlsxFavorites = `xlsxFav-${Utils.random()}.xlsx`;
-    let xlsxFileId;
+    let xlsxFileId: string;
     const pdfFavorites = `pdfFav-${Utils.random()}.pdf`;
-    let pdfFileId;
+    let pdfFileId: string;
     const fileFav = docxFile2;
-    let fileFavId;
+    let fileFavId: string;
 
     const fileForEditOffline = `file1-${Utils.random()}.docx`;
-    let fileForEditOfflineId;
+    let fileForEditOfflineId: string;
     const fileForCancelEditing = `file2-${Utils.random()}.docx`;
-    let fileForCancelEditingId;
+    let fileForCancelEditingId: string;
     const fileForUploadNewVersion = `file3-${Utils.random()}.docx`;
-    let fileForUploadNewVersionId;
+    let fileForUploadNewVersionId: string;
 
     beforeAll(async (done) => {
       parentId = (await apis.user.nodes.createFolder(parent)).entry.id;

@@ -40,7 +40,7 @@ import { Utils } from '../../../../utilities/utils';
 export class SitesApi extends RepoApi {
   sitesApi = new AdfSiteApi(this.alfrescoJsApi);
 
-  constructor(username?, password?) {
+  constructor(username?: string, password?: string) {
     super(username, password);
   }
 

@@ -36,7 +36,7 @@ describe('Create folder', () => {
   const username = `user-${Utils.random()}`;
 
   const parent = `parent-${Utils.random()}`;
-  let parentId;
+  let parentId: string;
   const folderName1 = `folder-${Utils.random()}`;
   const folderName2 = `folder-${Utils.random()}`;
   const folderDescription = 'description of my folder';
@@ -47,7 +47,7 @@ describe('Create folder', () => {
 
   const folderSite = `folder-site-${Utils.random()}`;
   const duplicateFolderSite = `folder-${Utils.random()}`;
-  let docLibUserSite;
+  let docLibUserSite: string;
 
   const apis = {
     admin: new RepoClient(),

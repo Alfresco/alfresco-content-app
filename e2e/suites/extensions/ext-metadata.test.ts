@@ -38,7 +38,7 @@ describe('Extensions - Metadata presets', () => {
 
   const file = `file-${Utils.random()}.png`;
 
-  let fileId;
+  let fileId: string;
 
   const properties_tab = {
     title: 'Properties',

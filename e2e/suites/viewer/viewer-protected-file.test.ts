@@ -37,7 +37,7 @@ describe('Viewer - password protected file', () => {
   const username = `user-${Utils.random()}`;
 
   const parent = `parent-${Utils.random()}`;
-  let parentId;
+  let parentId: string;
 
   const protectedFile = FILES.protectedFile;
 

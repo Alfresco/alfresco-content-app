@@ -29,7 +29,7 @@ import { CommentsApi as AdfCommentsApi } from '@alfresco/js-api';
 export class CommentsApi extends RepoApi {
   commentsApi = new AdfCommentsApi(this.alfrescoJsApi);
 
-  constructor(username?, password?) {
+  constructor(username?: string, password?: string) {
     super(username, password);
   }
 

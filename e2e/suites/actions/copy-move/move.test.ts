@@ -29,24 +29,24 @@ describe('Move content', () => {
   const username = `user-${Utils.random()}`;
 
   const sourcePF = `sourcePersonal-${Utils.random()}`;
-  let sourceIdPF;
+  let sourceIdPF: string;
   const destinationPF = `destinationPersonal-${Utils.random()}`;
-  let destinationIdPF;
+  let destinationIdPF: string;
 
   const sourceRF = `sourceRecent-${Utils.random()}`;
-  let sourceIdRF;
+  let sourceIdRF: string;
   const destinationRF = `destinationRecent-${Utils.random()}`;
-  let destinationIdRF;
+  let destinationIdRF: string;
 
   const sourceSF = `sourceShared-${Utils.random()}`;
-  let sourceIdSF;
+  let sourceIdSF: string;
   const destinationSF = `destinationShared-${Utils.random()}`;
-  let destinationIdSF;
+  let destinationIdSF: string;
 
   const sourceFav = `sourceFavorites-${Utils.random()}`;
-  let sourceIdFav;
+  let sourceIdFav: string;
   const destinationFav = `destinationFavorites-${Utils.random()}`;
-  let destinationIdFav;
+  let destinationIdFav: string;
 
   const siteName = `site-${Utils.random()}`;
   const folderSitePF = `folderSitePersonal-${Utils.random()}`;

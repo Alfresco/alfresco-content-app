@@ -29,7 +29,7 @@ describe('Download', () => {
   const username = `user-${Utils.random()}`;
 
   const parent = `parent-${Utils.random()}`;
-  let parentId;
+  let parentId: string;
 
   const filePersonal = `filePersonal-${Utils.random()}.txt`;
   const fileRecent1 = `fileRecent1-${Utils.random()}.txt`;
@@ -53,7 +53,12 @@ describe('Download', () => {
   const unzippedFavorites = `unzippedFavorites-${Utils.random()}`;
   const unzippedSearch = `unzippedSearch-${Utils.random()}`;
 
-  let fileShared1Id, fileShared2Id, fileFavoritesId, folderPersonalId, folderFavoritesId, folderSearchId;
+  let fileShared1Id: string;
+  let fileShared2Id: string;
+  let fileFavoritesId: string;
+  let folderPersonalId: string;
+  let folderFavoritesId: string;
+  let folderSearchId: string;
 
   const archiveZip = 'archive.zip';
 

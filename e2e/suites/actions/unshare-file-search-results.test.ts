@@ -40,23 +40,23 @@ describe('Unshare a file from Search Results', () => {
   const username = `user-${Utils.random()}`;
 
   const parent = `parent-${Utils.random()}`;
-  let parentId;
+  let parentId: string;
 
   const file1 = `search-file1-${Utils.random()}.txt`;
-  let file1Id;
+  let file1Id: string;
   const file2 = `search-file2-${Utils.random()}.txt`;
-  let file2Id;
+  let file2Id: string;
   const file3 = `search-file3-${Utils.random()}.txt`;
-  let file3Id;
+  let file3Id: string;
   const file4 = `search-file4-${Utils.random()}.txt`;
-  let file4Id;
+  let file4Id: string;
 
   const sitePrivate = `site-private-${Utils.random()}`;
 
   const fileSite1 = `search-fileSite1-${Utils.random()}.txt`;
-  let fileSite1Id;
+  let fileSite1Id: string;
   const fileSite2 = `search-fileSite2-${Utils.random()}.txt`;
-  let fileSite2Id;
+  let fileSite2Id: string;
 
   const apis = {
     admin: new RepoClient(),

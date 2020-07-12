@@ -34,7 +34,7 @@ describe('General', () => {
   const adminApi = new RepoClient();
   const { nodes: nodesApi, authentication: authApi } = adminApi;
   const folder = `folder-${Utils.random()}`;
-  let folderId;
+  let folderId: string;
 
   describe('on session expire', () => {
     beforeAll(async (done) => {

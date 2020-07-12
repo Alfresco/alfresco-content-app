@@ -36,7 +36,7 @@ describe('Extensions - Info Drawer', () => {
   const username = `user-${Utils.random()}`;
 
   const file = `file-${Utils.random()}.txt`;
-  let fileId;
+  let fileId: string;
 
   const properties_tab = {
     order: 1,

@@ -36,46 +36,46 @@ describe('Upload new version', () => {
   const username = `user-${Utils.random()}`;
 
   const file1 = `file1-${Utils.random()}.docx`;
-  let file1Id;
+  let file1Id: string;
   const file2 = `file2-${Utils.random()}.docx`;
-  let file2Id;
+  let file2Id: string;
   const file3 = `file3-${Utils.random()}.docx`;
-  let file3Id;
+  let file3Id: string;
   const file4 = `file4-${Utils.random()}.docx`;
-  let file4Id;
+  let file4Id: string;
   const fileLocked1 = `file-locked1-${Utils.random()}.docx`;
-  let fileLocked1Id;
+  let fileLocked1Id: string;
   const fileLocked2 = `file-locked2-${Utils.random()}.docx`;
-  let fileLocked2Id;
+  let fileLocked2Id: string;
 
   const fileSearch1 = `search-file1-${Utils.random()}.docx`;
-  let fileSearch1Id;
+  let fileSearch1Id: string;
   const fileSearch2 = `search-file2-${Utils.random()}.docx`;
-  let fileSearch2Id;
+  let fileSearch2Id: string;
   const fileSearch3 = `search-file3-${Utils.random()}.docx`;
-  let fileSearch3Id;
+  let fileSearch3Id: string;
   const fileSearch4 = `search-file4-${Utils.random()}.docx`;
-  let fileSearch4Id;
+  let fileSearch4Id: string;
   const fileLockedSearch1 = `search-file-locked1-${Utils.random()}.docx`;
-  let fileLockedSearch1Id;
+  let fileLockedSearch1Id: string;
   const fileLockedSearch2 = `search-file-locked2-${Utils.random()}.docx`;
-  let fileLockedSearch2Id;
+  let fileLockedSearch2Id: string;
 
   const parentPF = `parentPersonal-${Utils.random()}`;
-  let parentPFId;
+  let parentPFId: string;
   const parentSF = `parentShared-${Utils.random()}`;
-  let parentSFId;
+  let parentSFId: string;
   const parentRF = `parentRecent-${Utils.random()}`;
-  let parentRFId;
+  let parentRFId: string;
   const parentFav = `parentFav-${Utils.random()}`;
-  let parentFavId;
+  let parentFavId: string;
   const parentSearch = `parentSearch-${Utils.random()}`;
-  let parentSearchId;
+  let parentSearchId: string;
 
   const nameConflictMessage = 'New version not uploaded, another file with the same name already exists';
 
   const file = FILES.pdfFile;
-  let fileId;
+  let fileId: string;
   const fileToUpload1 = FILES.docxFile;
   const fileToUpload2 = FILES.xlsxFile;
   const fileToUpload3 = FILES.pdfFile;

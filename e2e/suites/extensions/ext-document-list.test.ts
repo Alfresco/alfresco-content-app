@@ -28,7 +28,7 @@ import { BrowsingPage, LoginPage, RepoClient, EXTENSIBILITY_CONFIGS, Utils } fro
 describe('Extensions - DocumentList presets', () => {
   const username = `user-${Utils.random()}`;
   const file = `file-${Utils.random()}.txt`;
-  let fileId;
+  let fileId: string;
 
   const testData = [
     {

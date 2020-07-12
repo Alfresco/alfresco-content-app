@@ -55,7 +55,7 @@ describe('Create file from template', () => {
   const template2InRootFolder = `template4-${random}.txt`;
 
   const parent = `parent-${random}`;
-  let parentId;
+  let parentId: string;
   const file1 = {
     name: `file1-${random}.txt`
   };

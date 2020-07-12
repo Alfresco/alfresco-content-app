@@ -26,21 +26,20 @@
 import { RepoApi } from '../repo-api';
 import { UploadApi as AdfUploadApi } from '@alfresco/js-api';
 import { browser } from 'protractor';
-
-const fs = require('fs');
+import * as fs from 'fs';
 
 export class UploadApi extends RepoApi {
   upload = new AdfUploadApi(this.alfrescoJsApi);
   e2eRootPath = browser.params.e2eRootPath;
 
-  constructor(username?, password?) {
+  constructor(username?: string, password?: string) {
     super(username, password);
   }
 
   async uploadFile(fileName: string, parentFolderId: string = '-my-') {
     const file = fs.createReadStream(`${this.e2eRootPath}/resources/test-files/${fileName}`);
     const opts = {
-      name: file.name,
+      name: fileName,
       nodeType: 'cm:content'
     };
 

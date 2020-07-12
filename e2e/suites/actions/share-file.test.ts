@@ -37,26 +37,26 @@ import {
 describe('Share a file', () => {
   const username = `user-${Utils.random()}`;
   const parent = `parent-${Utils.random()}`;
-  let parentId;
+  let parentId: string;
 
   const file1 = `file1-${Utils.random()}.txt`;
-  let file1Id;
+  let file1Id: string;
   const file2 = `file2-${Utils.random()}.txt`;
-  let file2Id;
+  let file2Id: string;
   let file3 = `file3-${Utils.random()}.txt`;
-  let file3Id;
+  let file3Id: string;
   const file4 = `file4-${Utils.random()}.txt`;
-  let file4Id;
+  let file4Id: string;
   let file5 = `file5-${Utils.random()}.txt`;
-  let file5Id;
+  let file5Id: string;
   let file6 = `file6-${Utils.random()}.txt`;
-  let file6Id;
+  let file6Id: string;
   let file7 = `file7-${Utils.random()}.txt`;
-  let file7Id;
+  let file7Id: string;
   const file8 = `file8-${Utils.random()}.txt`;
-  let file8Id;
+  let file8Id: string;
   let file9 = `file9-${Utils.random()}.txt`;
-  let file9Id;
+  let file9Id: string;
 
   const viewer = new Viewer();
   const page = new BrowsingPage();
@@ -80,7 +80,7 @@ describe('Share a file', () => {
   });
 
   describe('when logged out', () => {
-    let file6SharedLink;
+    let file6SharedLink: string;
 
     beforeAll(async (done) => {
       file6Id = (await apis.user.nodes.createFile(file6, parentId)).entry.id;
@@ -300,7 +300,7 @@ describe('Share a file', () => {
     describe('from File Libraries', () => {
       const siteName = `site-${Utils.random()}`;
       const parentInSite = `parent-site-${Utils.random()}`;
-      let parentInSiteId;
+      let parentInSiteId: string;
 
       beforeAll(async (done) => {
         await apis.user.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);

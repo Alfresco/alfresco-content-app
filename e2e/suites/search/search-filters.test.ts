@@ -33,7 +33,7 @@ import {
   SITE_ROLES
 } from '@alfresco/aca-testing-shared';
 
-import * as moment from 'moment';
+const moment = require('moment');
 
 describe('Search filters', () => {
   const random = Utils.random();

@@ -223,7 +223,7 @@ describe('Search results - libraries', () => {
       [adminSite4]: SITE_ROLES.SITE_MANAGER.LABEL
     };
 
-    const sitesList = await dataTable.getSitesNameAndRole();
+    const sitesList: any = await dataTable.getSitesNameAndRole();
 
     for (const site of Object.keys(expectedSitesRoles)) {
       expect(sitesList[site]).toEqual(expectedSitesRoles[site]);

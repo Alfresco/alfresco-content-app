@@ -32,9 +32,9 @@ describe('Generic errors', () => {
   const username2 = `user2-${Utils.random()}`;
 
   const parent = `folder-${Utils.random()}`;
-  let parentId;
+  let parentId: string;
   const file1 = `file1-${Utils.random()}.txt`;
-  let file1Id;
+  let file1Id: string;
   const file2 = `file2-${Utils.random()}.txt`;
 
   const apis = {

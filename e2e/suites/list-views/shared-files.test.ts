@@ -33,15 +33,15 @@ describe('Shared Files', () => {
   const fileAdmin = `fileSite-${Utils.random()}.txt`;
 
   const folderUser = `folder-${Utils.random()}`;
-  let folderId;
+  let folderId: string;
   const file1User = `file1-${Utils.random()}.txt`;
-  let file1Id;
+  let file1Id: string;
   const file2User = `file2-${Utils.random()}.txt`;
-  let file2Id;
+  let file2Id: string;
   const file3User = `file3-${Utils.random()}.txt`;
-  let file3Id;
+  let file3Id: string;
   const file4User = `file4-${Utils.random()}.txt`;
-  let file4Id;
+  let file4Id: string;
 
   const apis = {
     admin: new RepoClient(),

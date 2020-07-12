@@ -29,29 +29,29 @@ describe('Edit offline', () => {
   const username = `user-${Utils.random()}`;
 
   const file1 = `file1-${Utils.random()}.docx`;
-  let file1Id;
+  let file1Id: string;
   const fileLocked = `file-locked-${Utils.random()}.docx`;
-  let fileLockedId;
+  let fileLockedId: string;
   const fileLocked2 = `file-locked2-${Utils.random()}.docx`;
-  let fileLocked2Id;
+  let fileLocked2Id: string;
 
   const fileSearch1 = `file-search-1-${Utils.random()}.docx`;
-  let fileSearch1Id;
+  let fileSearch1Id: string;
   const fileSearchLocked = `file-search-locked-${Utils.random()}.docx`;
-  let fileSearchLockedId;
+  let fileSearchLockedId: string;
   const fileSearchLocked2 = `file-search-locked2-${Utils.random()}.docx`;
-  let fileSearchLocked2Id;
+  let fileSearchLocked2Id: string;
 
   const parentPF = `parentPersonal-${Utils.random()}`;
-  let parentPFId;
+  let parentPFId: string;
   const parentSF = `parentShared-${Utils.random()}`;
-  let parentSFId;
+  let parentSFId: string;
   const parentRF = `parentRecent-${Utils.random()}`;
-  let parentRFId;
+  let parentRFId: string;
   const parentFav = `parentFav-${Utils.random()}`;
-  let parentFavId;
+  let parentFavId: string;
   const parentSearch = `parentSearch-${Utils.random()}`;
-  let parentSearchId;
+  let parentSearchId: string;
 
   const apis = {
     admin: new RepoClient(),

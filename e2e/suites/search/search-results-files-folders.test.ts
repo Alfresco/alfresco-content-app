@@ -24,22 +24,22 @@
  */
 
 import { LoginPage, SearchResultsPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
-import * as moment from 'moment';
+const moment = require('moment');
 
 describe('Search results - files and folders', () => {
   const username = `user-${Utils.random()}`;
 
   const file = `test-file-${Utils.random()}.txt`;
-  let fileId;
+  let fileId: string;
   const fileTitle = 'file title';
   const fileDescription = 'file description';
 
   /* cspell:disable-next-line */
   const fileRussian = `любимый-сайт-${Utils.random()}`;
-  let fileRussianId;
+  let fileRussianId: string;
 
   const folder = `test-folder-${Utils.random()}`;
-  let folderId;
+  let folderId: string;
   const folderTitle = 'folder title';
   const folderDescription = 'folder description';
 
