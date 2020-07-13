@@ -63,11 +63,11 @@ describe('Sidebar', () => {
     expect(await sidenav.getLink(SIDEBAR_LABELS.FAVORITE_LIBRARIES).isPresent()).toBe(true, 'Favorite Libraries link not present');
   });
 
-  it('[C289900] My Libraries is automatically selected on expanding File Libraries', async () => {
+  it('[C289900] Favourite Libraries is automatically selected on expanding File Libraries', async () => {
     await sidenav.expandFileLibraries();
-    expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.MY_LIBRARIES);
+    expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.FAVORITE_LIBRARIES);
     expect(await sidenav.isActive(SIDEBAR_LABELS.FILE_LIBRARIES)).toBe(true, 'File Libraries is not active');
-    expect(await sidenav.isActive(SIDEBAR_LABELS.MY_LIBRARIES)).toBe(true, 'My Libraries link not active');
+    expect(await sidenav.isActive(SIDEBAR_LABELS.FAVORITE_LIBRARIES)).toBe(true, 'Favourite Libraries link is not active');
   });
 
   it('[C289902] navigate to Favorite Libraries', async () => {

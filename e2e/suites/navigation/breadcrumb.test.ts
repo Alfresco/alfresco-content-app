@@ -137,8 +137,8 @@ describe('Breadcrumb', () => {
     expect(await breadcrumb.getAllItems()).toEqual(expectedBreadcrumb);
   });
 
-  it('[C260967] File Libraries breadcrumb for a folder hierarchy', async () => {
-    await page.clickFileLibrariesAndWait();
+  it('[C260967] My Libraries breadcrumb for a folder hierarchy', async () => {
+    await page.goToMyLibraries();
     await page.dataTable.doubleClickOnRowByName(siteName);
     await page.dataTable.doubleClickOnRowByName(parent);
     await page.dataTable.doubleClickOnRowByName(subFolder1);
