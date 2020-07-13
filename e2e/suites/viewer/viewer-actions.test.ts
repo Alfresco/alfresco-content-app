@@ -97,16 +97,10 @@ describe('Viewer actions', () => {
       await apis.user.upload.uploadFileWithRename(xlsxFileForMove, parentId, xlsxPersonalFiles);
       await apis.user.upload.uploadFileWithRename(pdfFileForDelete, parentId, pdfPersonalFiles);
 
-      fileForEditOfflineId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForEditOffline)).entry
-        .id;
-      fileForCancelEditingId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForCancelEditing))
-        .entry.id;
-      fileForUploadNewVersionId = (
-        await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForUploadNewVersion)
-      ).entry.id;
-      fileForUploadNewVersionId2 = (
-        await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForUploadNewVersion2)
-      ).entry.id;
+      fileForEditOfflineId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForEditOffline)).entry.id;
+      fileForCancelEditingId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForCancelEditing)).entry.id;
+      fileForUploadNewVersionId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForUploadNewVersion)).entry.id;
+      fileForUploadNewVersionId2 = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForUploadNewVersion2)).entry.id;
 
       await apis.user.nodes.lockFile(fileForCancelEditingId);
       await apis.user.nodes.lockFile(fileForUploadNewVersionId);
@@ -209,10 +203,7 @@ describe('Viewer actions', () => {
       await toolbar.clickMoreActionsEditOffline();
 
       expect(await Utils.fileExistsOnOS(fileForEditOffline)).toBe(true, 'File not found in download location');
-      expect(await apis.user.nodes.isFileLockedWrite(fileForEditOfflineId)).toBe(
-        true,
-        `${fileForEditOffline} is not locked`
-      );
+      expect(await apis.user.nodes.isFileLockedWrite(fileForEditOfflineId)).toBe(true, `${fileForEditOffline} is not locked`);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
     });
 
@@ -221,10 +212,7 @@ describe('Viewer actions', () => {
       await viewer.waitForViewerToOpen();
       await toolbar.clickMoreActionsCancelEditing();
 
-      expect(await apis.user.nodes.isFileLockedWriteWithRetry(fileForCancelEditingId, false)).toBe(
-        false,
-        `${fileForCancelEditing} is still locked`
-      );
+      expect(await apis.user.nodes.isFileLockedWriteWithRetry(fileForCancelEditingId, false)).toBe(false, `${fileForCancelEditing} is still locked`);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
     });
 
@@ -242,14 +230,8 @@ describe('Viewer actions', () => {
 
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
       expect(await viewer.getFileTitle()).toContain(docxFile2);
-      expect(await apis.user.nodes.getFileVersionType(filePersonalFilesId)).toEqual(
-        'MAJOR',
-        'File has incorrect version type'
-      );
-      expect(await apis.user.nodes.getFileVersionLabel(filePersonalFilesId)).toEqual(
-        '2.0',
-        'File has incorrect version label'
-      );
+      expect(await apis.user.nodes.getFileVersionType(filePersonalFilesId)).toEqual('MAJOR', 'File has incorrect version type');
+      expect(await apis.user.nodes.getFileVersionLabel(filePersonalFilesId)).toEqual('2.0', 'File has incorrect version label');
     });
 
     it('[MNT-21058] Upload new version action when node is locked', async () => {
@@ -267,10 +249,7 @@ describe('Viewer actions', () => {
       await uploadNewVersionDialog.uploadButton.click();
 
       await toolbar.openMoreMenu();
-      expect(await toolbar.menu.cancelEditingAction.isPresent()).toBe(
-        false,
-        `'Cancel Editing' button shouldn't be shown`
-      );
+      expect(await toolbar.menu.cancelEditingAction.isPresent()).toBe(false, `'Cancel Editing' button shouldn't be shown`);
       expect(await toolbar.menu.editOfflineAction.isPresent()).toBe(true, `'Edit Offline' should be shown`);
     });
 
@@ -348,13 +327,9 @@ describe('Viewer actions', () => {
       await apis.user.upload.uploadFileWithRename(xlsxFileForMove, docLibId, xlsxLibraries);
       await apis.user.upload.uploadFileWithRename(pdfFileForDelete, docLibId, pdfLibraries);
 
-      fileForEditOfflineId = (await apis.user.upload.uploadFileWithRename(docxFile, docLibId, fileForEditOffline)).entry
-        .id;
-      fileForCancelEditingId = (await apis.user.upload.uploadFileWithRename(docxFile, docLibId, fileForCancelEditing))
-        .entry.id;
-      fileForUploadNewVersionId = (
-        await apis.user.upload.uploadFileWithRename(docxFile, docLibId, fileForUploadNewVersion)
-      ).entry.id;
+      fileForEditOfflineId = (await apis.user.upload.uploadFileWithRename(docxFile, docLibId, fileForEditOffline)).entry.id;
+      fileForCancelEditingId = (await apis.user.upload.uploadFileWithRename(docxFile, docLibId, fileForCancelEditing)).entry.id;
+      fileForUploadNewVersionId = (await apis.user.upload.uploadFileWithRename(docxFile, docLibId, fileForUploadNewVersion)).entry.id;
 
       await apis.user.nodes.lockFile(fileForCancelEditingId);
       await apis.user.nodes.lockFile(fileForUploadNewVersionId);
@@ -435,10 +410,7 @@ describe('Viewer actions', () => {
       await viewer.closeButton.click();
       await page.clickFavoritesAndWait();
       expect(await apis.user.favorites.isFavorite(docxFileId)).toBe(true, `${docxLibraries} is not favorite`);
-      expect(await dataTable.isItemPresent(docxLibraries)).toBe(
-        true,
-        `${docxLibraries} is not present in Favorites list`
-      );
+      expect(await dataTable.isItemPresent(docxLibraries)).toBe(true, `${docxLibraries} is not present in Favorites list`);
     });
 
     it('[C286373] Delete action', async () => {
@@ -459,10 +431,7 @@ describe('Viewer actions', () => {
       await toolbar.clickMoreActionsEditOffline();
 
       expect(await Utils.fileExistsOnOS(fileForEditOffline)).toBe(true, 'File not found in download location');
-      expect(await apis.user.nodes.isFileLockedWrite(fileForEditOfflineId)).toBe(
-        true,
-        `${fileForEditOffline} is not locked`
-      );
+      expect(await apis.user.nodes.isFileLockedWrite(fileForEditOfflineId)).toBe(true, `${fileForEditOffline} is not locked`);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
     });
 
@@ -471,10 +440,7 @@ describe('Viewer actions', () => {
       await viewer.waitForViewerToOpen();
       await toolbar.clickMoreActionsCancelEditing();
 
-      expect(await apis.user.nodes.isFileLockedWriteWithRetry(fileForCancelEditingId, false)).toBe(
-        false,
-        `${fileForCancelEditing} is still locked`
-      );
+      expect(await apis.user.nodes.isFileLockedWriteWithRetry(fileForCancelEditingId, false)).toBe(false, `${fileForCancelEditing} is still locked`);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
     });
 
@@ -492,14 +458,8 @@ describe('Viewer actions', () => {
 
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
       expect(await viewer.getFileTitle()).toContain(docxFile2);
-      expect(await apis.user.nodes.getFileVersionType(fileLibrariesId)).toEqual(
-        'MAJOR',
-        'File has incorrect version type'
-      );
-      expect(await apis.user.nodes.getFileVersionLabel(fileLibrariesId)).toEqual(
-        '2.0',
-        'File has incorrect version label'
-      );
+      expect(await apis.user.nodes.getFileVersionType(fileLibrariesId)).toEqual('MAJOR', 'File has incorrect version type');
+      expect(await apis.user.nodes.getFileVersionLabel(fileLibrariesId)).toEqual('2.0', 'File has incorrect version label');
     });
 
     it('[C286374] Share action', async () => {
@@ -551,13 +511,9 @@ describe('Viewer actions', () => {
 
       fileRecentId = (await apis.user.upload.uploadFile(docxFile2, parentId)).entry.id;
 
-      fileForEditOfflineId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForEditOffline)).entry
-        .id;
-      fileForCancelEditingId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForCancelEditing))
-        .entry.id;
-      fileForUploadNewVersionId = (
-        await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForUploadNewVersion)
-      ).entry.id;
+      fileForEditOfflineId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForEditOffline)).entry.id;
+      fileForCancelEditingId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForCancelEditing)).entry.id;
+      fileForUploadNewVersionId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForUploadNewVersion)).entry.id;
 
       await apis.user.nodes.lockFile(fileForCancelEditingId);
       await apis.user.nodes.lockFile(fileForUploadNewVersionId);
@@ -663,10 +619,7 @@ describe('Viewer actions', () => {
       await toolbar.clickMoreActionsEditOffline();
 
       expect(await Utils.fileExistsOnOS(fileForEditOffline)).toBe(true, 'File not found in download location');
-      expect(await apis.user.nodes.isFileLockedWrite(fileForEditOfflineId)).toBe(
-        true,
-        `${fileForEditOffline} is not locked`
-      );
+      expect(await apis.user.nodes.isFileLockedWrite(fileForEditOfflineId)).toBe(true, `${fileForEditOffline} is not locked`);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
     });
 
@@ -675,10 +628,7 @@ describe('Viewer actions', () => {
       await viewer.waitForViewerToOpen();
       await toolbar.clickMoreActionsCancelEditing();
 
-      expect(await apis.user.nodes.isFileLockedWriteWithRetry(fileForCancelEditingId, false)).toBe(
-        false,
-        `${fileForCancelEditing} is still locked`
-      );
+      expect(await apis.user.nodes.isFileLockedWriteWithRetry(fileForCancelEditingId, false)).toBe(false, `${fileForCancelEditing} is still locked`);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
     });
 
@@ -696,14 +646,8 @@ describe('Viewer actions', () => {
 
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
       expect(await viewer.getFileTitle()).toContain(docxFile2);
-      expect(await apis.user.nodes.getFileVersionType(fileRecentId)).toEqual(
-        'MAJOR',
-        'File has incorrect version type'
-      );
-      expect(await apis.user.nodes.getFileVersionLabel(fileRecentId)).toEqual(
-        '2.0',
-        'File has incorrect version label'
-      );
+      expect(await apis.user.nodes.getFileVersionType(fileRecentId)).toEqual('MAJOR', 'File has incorrect version type');
+      expect(await apis.user.nodes.getFileVersionLabel(fileRecentId)).toEqual('2.0', 'File has incorrect version label');
     });
 
     it('[C286388] Share action', async () => {
@@ -757,13 +701,9 @@ describe('Viewer actions', () => {
       pdfFileId = (await apis.user.upload.uploadFileWithRename(pdfFileForDelete, parentId, pdfSharedFiles)).entry.id;
       fileSharedId = (await apis.user.upload.uploadFile(docxFile2, parentId)).entry.id;
 
-      fileForEditOfflineId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForEditOffline)).entry
-        .id;
-      fileForCancelEditingId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForCancelEditing))
-        .entry.id;
-      fileForUploadNewVersionId = (
-        await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForUploadNewVersion)
-      ).entry.id;
+      fileForEditOfflineId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForEditOffline)).entry.id;
+      fileForCancelEditingId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForCancelEditing)).entry.id;
+      fileForUploadNewVersionId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForUploadNewVersion)).entry.id;
 
       await apis.user.nodes.lockFile(fileForCancelEditingId);
       await apis.user.nodes.lockFile(fileForUploadNewVersionId);
@@ -875,10 +815,7 @@ describe('Viewer actions', () => {
       await toolbar.clickMoreActionsEditOffline();
 
       expect(await Utils.fileExistsOnOS(fileForEditOffline)).toBe(true, 'File not found in download location');
-      expect(await apis.user.nodes.isFileLockedWrite(fileForEditOfflineId)).toBe(
-        true,
-        `${fileForEditOffline} is not locked`
-      );
+      expect(await apis.user.nodes.isFileLockedWrite(fileForEditOfflineId)).toBe(true, `${fileForEditOffline} is not locked`);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
     });
 
@@ -887,10 +824,7 @@ describe('Viewer actions', () => {
       await viewer.waitForViewerToOpen();
       await toolbar.clickMoreActionsCancelEditing();
 
-      expect(await apis.user.nodes.isFileLockedWriteWithRetry(fileForCancelEditingId, false)).toBe(
-        false,
-        `${fileForCancelEditing} is still locked`
-      );
+      expect(await apis.user.nodes.isFileLockedWriteWithRetry(fileForCancelEditingId, false)).toBe(false, `${fileForCancelEditing} is still locked`);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
     });
 
@@ -908,14 +842,8 @@ describe('Viewer actions', () => {
 
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
       expect(await viewer.getFileTitle()).toContain(docxFile2);
-      expect(await apis.user.nodes.getFileVersionType(fileSharedId)).toEqual(
-        'MAJOR',
-        'File has incorrect version type'
-      );
-      expect(await apis.user.nodes.getFileVersionLabel(fileSharedId)).toEqual(
-        '2.0',
-        'File has incorrect version label'
-      );
+      expect(await apis.user.nodes.getFileVersionType(fileSharedId)).toEqual('MAJOR', 'File has incorrect version type');
+      expect(await apis.user.nodes.getFileVersionLabel(fileSharedId)).toEqual('2.0', 'File has incorrect version label');
     });
 
     it('[C286381] Share action', async () => {
@@ -969,13 +897,9 @@ describe('Viewer actions', () => {
       pdfFileId = (await apis.user.upload.uploadFileWithRename(pdfFileForDelete, parentId, pdfFavorites)).entry.id;
       fileFavId = (await apis.user.upload.uploadFile(docxFile2, parentId)).entry.id;
 
-      fileForEditOfflineId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForEditOffline)).entry
-        .id;
-      fileForCancelEditingId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForCancelEditing))
-        .entry.id;
-      fileForUploadNewVersionId = (
-        await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForUploadNewVersion)
-      ).entry.id;
+      fileForEditOfflineId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForEditOffline)).entry.id;
+      fileForCancelEditingId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForCancelEditing)).entry.id;
+      fileForUploadNewVersionId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForUploadNewVersion)).entry.id;
 
       await apis.user.nodes.lockFile(fileForCancelEditingId);
       await apis.user.nodes.lockFile(fileForUploadNewVersionId);
@@ -1087,10 +1011,7 @@ describe('Viewer actions', () => {
       await toolbar.clickMoreActionsEditOffline();
 
       expect(await Utils.fileExistsOnOS(fileForEditOffline)).toBe(true, 'File not found in download location');
-      expect(await apis.user.nodes.isFileLockedWrite(fileForEditOfflineId)).toBe(
-        true,
-        `${fileForEditOffline} is not locked`
-      );
+      expect(await apis.user.nodes.isFileLockedWrite(fileForEditOfflineId)).toBe(true, `${fileForEditOffline} is not locked`);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
     });
 
@@ -1099,10 +1020,7 @@ describe('Viewer actions', () => {
       await viewer.waitForViewerToOpen();
       await toolbar.clickMoreActionsCancelEditing();
 
-      expect(await apis.user.nodes.isFileLockedWriteWithRetry(fileForCancelEditingId, false)).toBe(
-        false,
-        `${fileForCancelEditing} is still locked`
-      );
+      expect(await apis.user.nodes.isFileLockedWriteWithRetry(fileForCancelEditingId, false)).toBe(false, `${fileForCancelEditing} is still locked`);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
     });
 

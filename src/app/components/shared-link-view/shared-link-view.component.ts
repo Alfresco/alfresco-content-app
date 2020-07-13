@@ -56,9 +56,7 @@ export class SharedLinkViewComponent implements OnInit {
     this.route.params
       .pipe(
         flatMap((params) =>
-          forkJoin(from(this.alfrescoApiService.sharedLinksApi.getSharedLink(params.id)), of(params.id)).pipe(
-            catchError(() => of([null, params.id]))
-          )
+          forkJoin(from(this.alfrescoApiService.sharedLinksApi.getSharedLink(params.id)), of(params.id)).pipe(catchError(() => of([null, params.id])))
         )
       )
       .subscribe(([sharedEntry, sharedId]: [SharedLinkEntry, string]) => {

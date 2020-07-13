@@ -36,9 +36,7 @@ export class ContentMetadata extends Component {
   lessInfoButton = this.byCssText(`[data-automation-id='meta-data-card-toggle-expand']`, 'Less information');
   moreInfoButton = this.byCssText(`[data-automation-id='meta-data-card-toggle-expand']`, 'More information');
   imagePropertiesPanel = this.byCss(`[data-automation-id='adf-metadata-group-APP.CONTENT_METADATA.EXIF_GROUP_TITLE']`);
-  expandedImagePropertiesPanel = this.byCss(
-    `[data-automation-id='adf-metadata-group-APP.CONTENT_METADATA.EXIF_GROUP_TITLE'].mat-expanded`
-  );
+  expandedImagePropertiesPanel = this.byCss(`[data-automation-id='adf-metadata-group-APP.CONTENT_METADATA.EXIF_GROUP_TITLE'].mat-expanded`);
 
   constructor(ancestor?: string) {
     super('adf-content-metadata-card', ancestor);

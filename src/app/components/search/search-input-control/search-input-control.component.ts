@@ -23,16 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  Output,
-  ViewEncapsulation,
-  ViewChild,
-  ElementRef
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, Output, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
 import { Subject } from 'rxjs';
 
 @Component({

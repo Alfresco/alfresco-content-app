@@ -375,26 +375,14 @@ describe('Comments', () => {
       expect(await commentsTab.isCommentTextAreaDisplayed()).toBe(true, 'Comment field not present');
       expect(await commentsTab.isAddCommentButtonEnabled()).toBe(false, 'Add comment button not disabled');
 
-      expect(await commentsTab.isCommentDisplayed(commentFile1Entry.id)).toBe(
-        true,
-        `Comment with id: ${commentFile1Entry.id} not displayed`
-      );
-      expect(await commentsTab.getCommentText(commentFile1Entry.id)).toBe(
-        commentFile1Entry.content,
-        'Incorrect comment text'
-      );
-      expect(await commentsTab.getCommentUserName(commentFile1Entry.id)).toBe(
-        `${username} ${username}`,
-        'Incorrect comment user'
-      );
+      expect(await commentsTab.isCommentDisplayed(commentFile1Entry.id)).toBe(true, `Comment with id: ${commentFile1Entry.id} not displayed`);
+      expect(await commentsTab.getCommentText(commentFile1Entry.id)).toBe(commentFile1Entry.content, 'Incorrect comment text');
+      expect(await commentsTab.getCommentUserName(commentFile1Entry.id)).toBe(`${username} ${username}`, 'Incorrect comment user');
       expect(await commentsTab.getCommentTime(commentFile1Entry.id)).toBe(
         moment(commentFile1Entry.createdAt).fromNow(),
         'Incorrect comment created time'
       );
-      expect(await commentsTab.isCommentUserAvatarDisplayed(commentFile1Entry.id)).toBe(
-        true,
-        'User avatar not displayed'
-      );
+      expect(await commentsTab.isCommentUserAvatarDisplayed(commentFile1Entry.id)).toBe(true, 'User avatar not displayed');
     });
 
     it('[C299196] File from Favorites', async () => {
@@ -409,26 +397,14 @@ describe('Comments', () => {
       expect(await commentsTab.isCommentTextAreaDisplayed()).toBe(true, 'Comment field not present');
       expect(await commentsTab.isAddCommentButtonEnabled()).toBe(false, 'Add comment button not disabled');
 
-      expect(await commentsTab.isCommentDisplayed(commentFile1Entry.id)).toBe(
-        true,
-        `Comment with id: ${commentFile1Entry.id} not displayed`
-      );
-      expect(await commentsTab.getCommentText(commentFile1Entry.id)).toBe(
-        commentFile1Entry.content,
-        'Incorrect comment text'
-      );
-      expect(await commentsTab.getCommentUserName(commentFile1Entry.id)).toBe(
-        `${username} ${username}`,
-        'Incorrect comment user'
-      );
+      expect(await commentsTab.isCommentDisplayed(commentFile1Entry.id)).toBe(true, `Comment with id: ${commentFile1Entry.id} not displayed`);
+      expect(await commentsTab.getCommentText(commentFile1Entry.id)).toBe(commentFile1Entry.content, 'Incorrect comment text');
+      expect(await commentsTab.getCommentUserName(commentFile1Entry.id)).toBe(`${username} ${username}`, 'Incorrect comment user');
       expect(await commentsTab.getCommentTime(commentFile1Entry.id)).toBe(
         moment(commentFile1Entry.createdAt).fromNow(),
         'Incorrect comment created time'
       );
-      expect(await commentsTab.isCommentUserAvatarDisplayed(commentFile1Entry.id)).toBe(
-        true,
-        'User avatar not displayed'
-      );
+      expect(await commentsTab.isCommentUserAvatarDisplayed(commentFile1Entry.id)).toBe(true, 'User avatar not displayed');
     });
 
     it('[C299188] File from Shared Files', async () => {
@@ -443,26 +419,14 @@ describe('Comments', () => {
       expect(await commentsTab.isCommentTextAreaDisplayed()).toBe(true, 'Comment field not present');
       expect(await commentsTab.isAddCommentButtonEnabled()).toBe(false, 'Add comment button not disabled');
 
-      expect(await commentsTab.isCommentDisplayed(commentFile1Entry.id)).toBe(
-        true,
-        `Comment with id: ${commentFile1Entry.id} not displayed`
-      );
-      expect(await commentsTab.getCommentText(commentFile1Entry.id)).toBe(
-        commentFile1Entry.content,
-        'Incorrect comment text'
-      );
-      expect(await commentsTab.getCommentUserName(commentFile1Entry.id)).toBe(
-        `${username} ${username}`,
-        'Incorrect comment user'
-      );
+      expect(await commentsTab.isCommentDisplayed(commentFile1Entry.id)).toBe(true, `Comment with id: ${commentFile1Entry.id} not displayed`);
+      expect(await commentsTab.getCommentText(commentFile1Entry.id)).toBe(commentFile1Entry.content, 'Incorrect comment text');
+      expect(await commentsTab.getCommentUserName(commentFile1Entry.id)).toBe(`${username} ${username}`, 'Incorrect comment user');
       expect(await commentsTab.getCommentTime(commentFile1Entry.id)).toBe(
         moment(commentFile1Entry.createdAt).fromNow(),
         'Incorrect comment created time'
       );
-      expect(await commentsTab.isCommentUserAvatarDisplayed(commentFile1Entry.id)).toBe(
-        true,
-        'User avatar not displayed'
-      );
+      expect(await commentsTab.isCommentUserAvatarDisplayed(commentFile1Entry.id)).toBe(true, 'User avatar not displayed');
     });
 
     it('[C299192] File from Recent Files', async () => {
@@ -477,26 +441,14 @@ describe('Comments', () => {
       expect(await commentsTab.isCommentTextAreaDisplayed()).toBe(true, 'Comment field not present');
       expect(await commentsTab.isAddCommentButtonEnabled()).toBe(false, 'Add comment button not disabled');
 
-      expect(await commentsTab.isCommentDisplayed(commentFile1Entry.id)).toBe(
-        true,
-        `Comment with id: ${commentFile1Entry.id} not displayed`
-      );
-      expect(await commentsTab.getCommentText(commentFile1Entry.id)).toBe(
-        commentFile1Entry.content,
-        'Incorrect comment text'
-      );
-      expect(await commentsTab.getCommentUserName(commentFile1Entry.id)).toBe(
-        `${username} ${username}`,
-        'Incorrect comment user'
-      );
+      expect(await commentsTab.isCommentDisplayed(commentFile1Entry.id)).toBe(true, `Comment with id: ${commentFile1Entry.id} not displayed`);
+      expect(await commentsTab.getCommentText(commentFile1Entry.id)).toBe(commentFile1Entry.content, 'Incorrect comment text');
+      expect(await commentsTab.getCommentUserName(commentFile1Entry.id)).toBe(`${username} ${username}`, 'Incorrect comment user');
       expect(await commentsTab.getCommentTime(commentFile1Entry.id)).toBe(
         moment(commentFile1Entry.createdAt).fromNow(),
         'Incorrect comment created time'
       );
-      expect(await commentsTab.isCommentUserAvatarDisplayed(commentFile1Entry.id)).toBe(
-        true,
-        'User avatar not displayed'
-      );
+      expect(await commentsTab.isCommentUserAvatarDisplayed(commentFile1Entry.id)).toBe(true, 'User avatar not displayed');
     });
   });
 });

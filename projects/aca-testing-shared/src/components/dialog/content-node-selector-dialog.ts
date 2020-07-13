@@ -25,25 +25,14 @@
 
 import { by, browser, protractor } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
-import {
-  Utils,
-  isPresentAndDisplayed,
-  waitForStaleness,
-  waitForPresence,
-  isPresentAndEnabled,
-  waitForClickable
-} from '../../utilities/utils';
+import { Utils, isPresentAndDisplayed, waitForStaleness, waitForPresence, isPresentAndEnabled, waitForClickable } from '../../utilities/utils';
 import { DropDownBreadcrumb } from '../breadcrumb/dropdown-breadcrumb';
 import { DataTable } from '../data-table/data-table';
 
 export class ContentNodeSelectorDialog extends GenericDialog {
   cancelButton = this.childElement(by.css('[data-automation-id="content-node-selector-actions-cancel"]'));
-  copyButton = this.childElement(
-    by.cssContainingText('[data-automation-id="content-node-selector-actions-choose"]', 'Copy')
-  );
-  moveButton = this.childElement(
-    by.cssContainingText('[data-automation-id="content-node-selector-actions-choose"]', 'Move')
-  );
+  copyButton = this.childElement(by.cssContainingText('[data-automation-id="content-node-selector-actions-choose"]', 'Copy'));
+  moveButton = this.childElement(by.cssContainingText('[data-automation-id="content-node-selector-actions-choose"]', 'Move'));
 
   locationDropDown = this.rootElem.element(by.id('site-dropdown-container'));
   locationPersonalFiles = browser.element(by.cssContainingText('.mat-option .mat-option-text', 'Personal Files'));

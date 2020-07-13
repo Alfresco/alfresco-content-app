@@ -153,10 +153,7 @@ export class AppExtensionService implements RuleContext {
     this.sidebarActions = this.loader.getContentActions(config, 'features.sidebar.toolbar');
     this.toolbarActions = this.loader.getContentActions(config, 'features.toolbar');
     this.viewerToolbarActions = this.loader.getContentActions(config, 'features.viewer.toolbarActions');
-    this.sharedLinkViewerToolbarActions = this.loader.getContentActions(
-      config,
-      'features.viewer.shared.toolbarActions'
-    );
+    this.sharedLinkViewerToolbarActions = this.loader.getContentActions(config, 'features.viewer.shared.toolbarActions');
 
     this.contextMenuActions = this.loader.getContentActions(config, 'features.contextMenu');
     this.openWithActions = this.loader.getContentActions(config, 'features.viewer.openWith');
@@ -185,16 +182,12 @@ export class AppExtensionService implements RuleContext {
 
     this.registerIcons(config);
 
-    const references = (config.$references || [])
-      .filter((entry) => typeof entry === 'object')
-      .map((entry) => entry as ExtensionRef);
+    const references = (config.$references || []).filter((entry) => typeof entry === 'object').map((entry) => entry as ExtensionRef);
     this._references.next(references);
   }
 
   protected registerIcons(config: ExtensionConfig) {
-    const icons: Array<IconRef> = this.loader
-      .getElements<IconRef>(config, 'features.icons')
-      .filter((entry) => !entry.disabled);
+    const icons: Array<IconRef> = this.loader.getElements<IconRef>(config, 'features.icons').filter((entry) => !entry.disabled);
 
     for (const icon of icons) {
       const [ns, id] = icon.id.split(':');
@@ -215,9 +208,7 @@ export class AppExtensionService implements RuleContext {
   }
 
   protected getDocumentListPreset(config: ExtensionConfig, key: string) {
-    return this.loader
-      .getElements<DocumentListPresetRef>(config, `features.documentList.${key}`)
-      .filter((entry) => !entry.disabled);
+    return this.loader.getElements<DocumentListPresetRef>(config, `features.documentList.${key}`).filter((entry) => !entry.disabled);
   }
 
   getApplicationNavigation(elements): Array<NavBarGroupRef> {
@@ -333,9 +324,7 @@ export class AppExtensionService implements RuleContext {
 
   getApplicationRoutes(): Array<ExtensionRoute> {
     return this.extensions.routes.map((route) => {
-      const guards = this.extensions.getAuthGuards(
-        route.auth && route.auth.length > 0 ? route.auth : this.defaults.auth
-      );
+      const guards = this.extensions.getAuthGuards(route.auth && route.auth.length > 0 ? route.auth : this.defaults.auth);
 
       return {
         path: route.path,
@@ -375,9 +364,7 @@ export class AppExtensionService implements RuleContext {
 
   private buildMenu(actionRef: ContentActionRef): ContentActionRef {
     if (actionRef.type === ContentActionType.menu && actionRef.children && actionRef.children.length > 0) {
-      const children = actionRef.children
-        .filter((action) => this.filterVisible(action))
-        .map((action) => this.buildMenu(action));
+      const children = actionRef.children.filter((action) => this.filterVisible(action)).map((action) => this.buildMenu(action));
 
       actionRef.children = children
         .map((action) => {

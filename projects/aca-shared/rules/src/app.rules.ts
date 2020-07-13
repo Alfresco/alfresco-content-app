@@ -74,12 +74,7 @@ export function canRemoveFavorite(context: RuleContext): boolean {
  * JSON ref: `app.selection.file.canShare`
  */
 export function canShareFile(context: RuleContext): boolean {
-  return [
-    context.selection.file,
-    navigation.isNotTrashcan(context),
-    repository.hasQuickShareEnabled(context),
-    !isShared(context)
-  ].every(Boolean);
+  return [context.selection.file, navigation.isNotTrashcan(context), repository.hasQuickShareEnabled(context), !isShared(context)].every(Boolean);
 }
 
 /**
@@ -109,11 +104,7 @@ export function isShared(context: RuleContext): boolean {
   }
 
   if ((navigation.isNotTrashcan(context), !context.selection.isEmpty && context.selection.file)) {
-    return !!(
-      context.selection.file.entry &&
-      context.selection.file.entry.properties &&
-      context.selection.file.entry.properties['qshare:sharedId']
-    );
+    return !!(context.selection.file.entry && context.selection.file.entry.properties && context.selection.file.entry.properties['qshare:sharedId']);
   }
 
   return false;
@@ -311,9 +302,7 @@ export function hasLockedFiles(context: RuleContext): boolean {
         return false;
       }
 
-      return (
-        node.entry.isLocked || (node.entry.properties && node.entry.properties['cm:lockType'] === 'READ_ONLY_LOCK')
-      );
+      return node.entry.isLocked || (node.entry.properties && node.entry.properties['cm:lockType'] === 'READ_ONLY_LOCK');
     });
   }
 
@@ -451,11 +440,7 @@ export function canManagePermissions(context: RuleContext): boolean {
  * @param context Rule execution context
  */
 export function canToggleEditOffline(context: RuleContext): boolean {
-  return [
-    hasFileSelected(context),
-    navigation.isNotTrashcan(context),
-    canLockFile(context) || canUnlockFile(context)
-  ].every(Boolean);
+  return [hasFileSelected(context), navigation.isNotTrashcan(context), canLockFile(context) || canUnlockFile(context)].every(Boolean);
 }
 
 /**
@@ -466,12 +451,9 @@ export function canToggleEditOffline(context: RuleContext): boolean {
 export function canToggleFavorite(context: RuleContext): boolean {
   return [
     [canAddFavorite(context), canRemoveFavorite(context)].some(Boolean),
-    [
-      navigation.isRecentFiles(context),
-      navigation.isSharedFiles(context),
-      navigation.isSearchResults(context),
-      navigation.isFavorites(context)
-    ].some(Boolean)
+    [navigation.isRecentFiles(context), navigation.isSharedFiles(context), navigation.isSearchResults(context), navigation.isFavorites(context)].some(
+      Boolean
+    )
   ].every(Boolean);
 }
 
@@ -499,9 +481,5 @@ export function canShowLogout(context: AcaRuleContext): boolean {
  * @param context Rule execution context
  */
 export function isLibraryManager(context: RuleContext): boolean {
-  return (
-    hasLibrarySelected(context) &&
-    context.selection.library.entry &&
-    context.selection.library.entry.role === 'SiteManager'
-  );
+  return hasLibrarySelected(context) && context.selection.library.entry && context.selection.library.entry.role === 'SiteManager';
 }

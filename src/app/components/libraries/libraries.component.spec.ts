@@ -52,13 +52,7 @@ describe('LibrariesComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule, EffectsModule.forRoot([LibraryEffects])],
-      declarations: [
-        DataTableComponent,
-        NodeFavoriteDirective,
-        DocumentListComponent,
-        LibrariesComponent,
-        AppConfigPipe
-      ],
+      declarations: [DataTableComponent, NodeFavoriteDirective, DocumentListComponent, LibrariesComponent, AppConfigPipe],
       schemas: [NO_ERRORS_SCHEMA]
     });
 

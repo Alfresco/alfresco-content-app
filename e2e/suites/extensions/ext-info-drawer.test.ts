@@ -23,14 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  LoginPage,
-  BrowsingPage,
-  InfoDrawer,
-  RepoClient,
-  EXTENSIBILITY_CONFIGS,
-  Utils
-} from '@alfresco/aca-testing-shared';
+import { LoginPage, BrowsingPage, InfoDrawer, RepoClient, EXTENSIBILITY_CONFIGS, Utils } from '@alfresco/aca-testing-shared';
 
 describe('Extensions - Info Drawer', () => {
   const username = `user-${Utils.random()}`;
@@ -110,10 +103,7 @@ describe('Extensions - Info Drawer', () => {
       await page.toolbar.viewDetailsButton.click();
       await infoDrawer.waitForInfoDrawerToOpen();
 
-      expect(await infoDrawer.isTabPresent(comments_tab.title)).toBe(
-        false,
-        `${comments_tab.title} tab should not be present!`
-      );
+      expect(await infoDrawer.isTabPresent(comments_tab.title)).toBe(false, `${comments_tab.title} tab should not be present!`);
     });
 
     it('[C284648] Change tab title', async () => {
@@ -121,10 +111,7 @@ describe('Extensions - Info Drawer', () => {
       await page.toolbar.viewDetailsButton.click();
       await infoDrawer.waitForInfoDrawerToOpen();
 
-      expect(await infoDrawer.isTabPresent(properties_tab.title)).toBe(
-        true,
-        `${properties_tab.title} tab is not present`
-      );
+      expect(await infoDrawer.isTabPresent(properties_tab.title)).toBe(true, `${properties_tab.title} tab is not present`);
       expect(await infoDrawer.getTabTitle(properties_tab.order)).toEqual(properties_tab.title);
     });
 

@@ -25,13 +25,7 @@
 
 import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import {
-  AlfrescoApiService,
-  NodeFavoriteDirective,
-  DataTableComponent,
-  AppConfigPipe,
-  UploadService
-} from '@alfresco/adf-core';
+import { AlfrescoApiService, NodeFavoriteDirective, DataTableComponent, AppConfigPipe, UploadService } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { RecentFilesComponent } from './recent-files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
@@ -60,13 +54,7 @@ describe('RecentFilesComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule],
-      declarations: [
-        DataTableComponent,
-        NodeFavoriteDirective,
-        DocumentListComponent,
-        RecentFilesComponent,
-        AppConfigPipe
-      ],
+      declarations: [DataTableComponent, NodeFavoriteDirective, DocumentListComponent, RecentFilesComponent, AppConfigPipe],
       providers: [
         {
           provide: Router,

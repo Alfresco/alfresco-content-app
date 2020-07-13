@@ -23,14 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  Component,
-  ViewEncapsulation,
-  ChangeDetectionStrategy,
-  Input,
-  DoCheck,
-  ChangeDetectorRef
-} from '@angular/core';
+import { Component, ViewEncapsulation, ChangeDetectionStrategy, Input, DoCheck, ChangeDetectorRef } from '@angular/core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 
 @Component({

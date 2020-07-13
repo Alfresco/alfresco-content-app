@@ -23,14 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  LoginPage,
-  BrowsingPage,
-  RepoClient,
-  NodeContentTree,
-  Utils,
-  AdminActions
-} from '@alfresco/aca-testing-shared';
+import { LoginPage, BrowsingPage, RepoClient, NodeContentTree, Utils, AdminActions } from '@alfresco/aca-testing-shared';
 
 describe('Generic tests : ', () => {
   const random = Utils.random();

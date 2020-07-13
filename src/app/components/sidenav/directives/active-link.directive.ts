@@ -23,17 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  Directive,
-  OnInit,
-  Input,
-  ElementRef,
-  Renderer2,
-  ContentChildren,
-  QueryList,
-  AfterContentInit,
-  Optional
-} from '@angular/core';
+import { Directive, OnInit, Input, ElementRef, Renderer2, ContentChildren, QueryList, AfterContentInit, Optional } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -51,12 +41,7 @@ export class ActiveLinkDirective implements OnInit, AfterContentInit {
 
   private onDestroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(
-    private router: Router,
-    private element: ElementRef,
-    private renderer: Renderer2,
-    @Optional() private action?: ActionDirective
-  ) {}
+  constructor(private router: Router, private element: ElementRef, private renderer: Renderer2, @Optional() private action?: ActionDirective) {}
 
   ngOnInit() {
     this.router.events

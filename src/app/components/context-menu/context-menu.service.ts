@@ -39,11 +39,7 @@ import { CONTEXT_MENU_DIRECTION } from './direction.token';
 export class ContextMenuService {
   private direction: Directionality;
 
-  constructor(
-    private injector: Injector,
-    private overlay: Overlay,
-    private userPreferenceService: UserPreferencesService
-  ) {
+  constructor(private injector: Injector, private overlay: Overlay, private userPreferenceService: UserPreferencesService) {
     this.userPreferenceService.select('textOrientation').subscribe((textOrientation) => {
       this.direction = textOrientation;
     });
@@ -63,10 +59,7 @@ export class ContextMenuService {
     return this.overlay.create(overlayConfig);
   }
 
-  private attachDialogContainer(
-    overlay: OverlayRef,
-    contextmenuOverlayRef: ContextMenuOverlayRef
-  ): ContextMenuComponent {
+  private attachDialogContainer(overlay: OverlayRef, contextmenuOverlayRef: ContextMenuOverlayRef): ContextMenuComponent {
     const injector = this.createInjector(contextmenuOverlayRef);
 
     const containerPortal = new ComponentPortal(ContextMenuComponent, null, injector);

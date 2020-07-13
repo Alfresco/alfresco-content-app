@@ -33,11 +33,7 @@ export abstract class Component {
     return root.element(by.css(css));
   }
 
-  protected byCssText(
-    css: string,
-    text: string,
-    root: ElementFinder | ProtractorBrowser = this.component
-  ): ElementFinder {
+  protected byCssText(css: string, text: string, root: ElementFinder | ProtractorBrowser = this.component): ElementFinder {
     return root.element(by.cssContainingText(css, text));
   }
 

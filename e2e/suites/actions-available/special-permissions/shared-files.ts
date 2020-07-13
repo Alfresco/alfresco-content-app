@@ -63,11 +63,7 @@ export function sharedFilesTests() {
       });
 
       it('File shared - [C326628]', async () => {
-        await testUtil.checkToolbarActions(
-          testData.fileShared.name,
-          testData.fileShared.toolbarPrimary,
-          testData.fileShared.sharedToolbarMore
-        );
+        await testUtil.checkToolbarActions(testData.fileShared.name, testData.fileShared.toolbarPrimary, testData.fileShared.sharedToolbarMore);
         await testUtil.checkContextMenu(testData.fileShared.name, testData.fileShared.sharedContextMenu);
       });
 
@@ -95,19 +91,13 @@ export function sharedFilesTests() {
           testData.fileSharedFavLocked.toolbarPrimary,
           testData.fileSharedFavLocked.sharedToolbarMore
         );
-        await testUtil.checkContextMenu(
-          testData.fileSharedFavLocked.name,
-          testData.fileSharedFavLocked.sharedContextMenu
-        );
+        await testUtil.checkContextMenu(testData.fileSharedFavLocked.name, testData.fileSharedFavLocked.sharedContextMenu);
       });
     });
 
     describe('multiple selection', () => {
       it('multiple files - [C326634]', async () => {
-        await testUtil.checkMultipleSelContextMenu(
-          [testData.fileShared.name, testData.fileSharedFav.name],
-          testData.multipleSel.contextMenu
-        );
+        await testUtil.checkMultipleSelContextMenu([testData.fileShared.name, testData.fileSharedFav.name], testData.multipleSel.contextMenu);
         await testUtil.checkMultipleSelToolbarActions(
           [testData.fileShared.name, testData.fileSharedFav.name],
           testData.multipleSel.toolbarPrimary,

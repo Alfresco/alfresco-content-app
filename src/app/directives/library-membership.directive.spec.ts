@@ -24,13 +24,7 @@
  */
 
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
-import {
-  AlfrescoApiService,
-  AlfrescoApiServiceMock,
-  AppConfigService,
-  CoreModule,
-  StorageService
-} from '@alfresco/adf-core';
+import { AlfrescoApiService, AlfrescoApiServiceMock, AppConfigService, CoreModule, StorageService } from '@alfresco/adf-core';
 import { AppTestingModule } from '../testing/app-testing.module';
 import { DirectivesModule } from './directives.module';
 import { LibraryMembershipDirective } from './library-membership.directive';
@@ -70,9 +64,7 @@ describe('LibraryMembershipDirective', () => {
 
   describe('markMembershipRequest', () => {
     beforeEach(() => {
-      getMembershipSpy = spyOn(peopleApi, 'getSiteMembershipRequest').and.returnValue(
-        Promise.resolve({ entry: requestedMembershipResponse })
-      );
+      getMembershipSpy = spyOn(peopleApi, 'getSiteMembershipRequest').and.returnValue(Promise.resolve({ entry: requestedMembershipResponse }));
     });
 
     it('should not check membership requests if no entry is selected', fakeAsync(() => {
@@ -112,12 +104,8 @@ describe('LibraryMembershipDirective', () => {
 
   describe('toggleMembershipRequest', () => {
     beforeEach(() => {
-      getMembershipSpy = spyOn(peopleApi, 'getSiteMembershipRequest').and.returnValue(
-        Promise.resolve({ entry: requestedMembershipResponse })
-      );
-      addMembershipSpy = spyOn(peopleApi, 'addSiteMembershipRequest').and.returnValue(
-        Promise.resolve({ entry: requestedMembershipResponse })
-      );
+      getMembershipSpy = spyOn(peopleApi, 'getSiteMembershipRequest').and.returnValue(Promise.resolve({ entry: requestedMembershipResponse }));
+      addMembershipSpy = spyOn(peopleApi, 'addSiteMembershipRequest').and.returnValue(Promise.resolve({ entry: requestedMembershipResponse }));
       deleteMembershipSpy = spyOn(peopleApi, 'removeSiteMembershipRequest').and.returnValue(Promise.resolve({}));
     });
 

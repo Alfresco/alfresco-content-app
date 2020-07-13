@@ -23,14 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  LoginPage,
-  BrowsingPage,
-  CreateOrEditFolderDialog,
-  Utils,
-  clearTextWithBackspace,
-  RepoClient
-} from '@alfresco/aca-testing-shared';
+import { LoginPage, BrowsingPage, CreateOrEditFolderDialog, Utils, clearTextWithBackspace, RepoClient } from '@alfresco/aca-testing-shared';
 
 describe('Create folder', () => {
   const username = `user-${Utils.random()}`;

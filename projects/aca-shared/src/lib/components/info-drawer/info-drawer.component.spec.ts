@@ -61,11 +61,7 @@ describe('InfoDrawerComponent', () => {
     TestBed.configureTestingModule({
       imports: [LibTestingModule, SharedToolbarModule],
       declarations: [InfoDrawerComponent],
-      providers: [
-        ContentApiService,
-        { provide: AppExtensionService, useValue: extensionServiceMock },
-        { provide: Store, useValue: storeMock }
-      ],
+      providers: [ContentApiService, { provide: AppExtensionService, useValue: extensionServiceMock }, { provide: Store, useValue: storeMock }],
       schemas: [NO_ERRORS_SCHEMA]
     });
 

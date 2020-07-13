@@ -25,13 +25,7 @@
 
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { PageComponent } from './page.component';
-import {
-  ReloadDocumentListAction,
-  SetSelectedNodesAction,
-  SetInfoDrawerStateAction,
-  AppState,
-  AppStore
-} from '@alfresco/aca-shared/store';
+import { ReloadDocumentListAction, SetSelectedNodesAction, SetInfoDrawerStateAction, AppState, AppStore } from '@alfresco/aca-shared/store';
 import { AppExtensionService } from '@alfresco/aca-shared';
 import { MinimalNodeEntity } from '@alfresco/js-api';
 import { ContentManagementService } from '../services/content-management.service';

@@ -27,16 +27,7 @@ import { by, browser } from 'protractor';
 import { Component } from '../component';
 import { isPresentAndDisplayed, waitForVisibility } from '../../utilities/utils';
 
-export type SortByType =
-  | 'Relevance'
-  | 'Title'
-  | 'Filename'
-  | 'Modified date'
-  | 'Modifier'
-  | 'Created date'
-  | 'Size'
-  | 'Type';
-
+export type SortByType = 'Relevance' | 'Title' | 'Filename' | 'Modified date' | 'Modifier' | 'Created date' | 'Size' | 'Type';
 export type SortOrderType = 'ASC' | 'DESC' | '';
 
 export class SearchSortingPicker extends Component {

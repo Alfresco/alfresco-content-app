@@ -111,14 +111,8 @@ describe('ContentManagementService', () => {
     it('notifies successful copy of multiple nodes', () => {
       spyOn(nodeActions, 'copyNodes').and.returnValue(subject);
 
-      const selection: any[] = [
-        { entry: { id: 'node-to-copy-1', name: 'name1' } },
-        { entry: { id: 'node-to-copy-2', name: 'name2' } }
-      ];
-      const createdItems: any[] = [
-        { entry: { id: 'copy-of-node-1', name: 'name1' } },
-        { entry: { id: 'copy-of-node-2', name: 'name2' } }
-      ];
+      const selection: any[] = [{ entry: { id: 'node-to-copy-1', name: 'name1' } }, { entry: { id: 'node-to-copy-2', name: 'name2' } }];
+      const createdItems: any[] = [{ entry: { id: 'copy-of-node-1', name: 'name1' } }, { entry: { id: 'copy-of-node-2', name: 'name2' } }];
 
       store.dispatch(new CopyNodesAction(selection));
       nodeActions.contentCopied.next(createdItems);
@@ -131,10 +125,7 @@ describe('ContentManagementService', () => {
     it('notifies partially copy of one node out of a multiple selection of nodes', () => {
       spyOn(nodeActions, 'copyNodes').and.returnValue(subject);
 
-      const selection: any[] = [
-        { entry: { id: 'node-to-copy-1', name: 'name1' } },
-        { entry: { id: 'node-to-copy-2', name: 'name2' } }
-      ];
+      const selection: any[] = [{ entry: { id: 'node-to-copy-1', name: 'name1' } }, { entry: { id: 'node-to-copy-2', name: 'name2' } }];
       const createdItems: any[] = [{ entry: { id: 'copy-of-node-1', name: 'name1' } }];
 
       store.dispatch(new CopyNodesAction(selection));
@@ -153,10 +144,7 @@ describe('ContentManagementService', () => {
         { entry: { id: 'node-to-copy-1', name: 'name1' } },
         { entry: { id: 'node-to-copy-2', name: 'name2' } }
       ];
-      const createdItems: any[] = [
-        { entry: { id: 'copy-of-node-0', name: 'name0' } },
-        { entry: { id: 'copy-of-node-1', name: 'name1' } }
-      ];
+      const createdItems: any[] = [{ entry: { id: 'copy-of-node-0', name: 'name0' } }, { entry: { id: 'copy-of-node-1', name: 'name1' } }];
 
       store.dispatch(new CopyNodesAction(selection));
       nodeActions.contentCopied.next(createdItems);
@@ -335,9 +323,7 @@ describe('ContentManagementService', () => {
     });
 
     it('notifies permission error when it occurs on Undo action', () => {
-      spyOn(contentApi, 'deleteNode').and.returnValue(
-        throwError(new Error(JSON.stringify({ error: { statusCode: 403 } })))
-      );
+      spyOn(contentApi, 'deleteNode').and.returnValue(throwError(new Error(JSON.stringify({ error: { statusCode: 403 } }))));
 
       const selection: any[] = [{ entry: { id: 'node-to-copy-id', name: 'name' } }];
       const createdItems: any[] = [{ entry: { id: 'copy-id', name: 'name' } }];
@@ -475,9 +461,7 @@ describe('ContentManagementService', () => {
       nodeActions.contentMoved.next(moveResponse);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe(
-        'APP.MESSAGES.INFO.NODE_MOVE.SINGULAR APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.FAIL'
-      );
+      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.FAIL');
     });
 
     it('notifies successful move and the number of partially moved ones', () => {
@@ -496,9 +480,7 @@ describe('ContentManagementService', () => {
       nodeActions.contentMoved.next(moveResponse);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe(
-        'APP.MESSAGES.INFO.NODE_MOVE.SINGULAR APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.SINGULAR'
-      );
+      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.SINGULAR');
     });
 
     it('notifies error if success message was not emitted', () => {
@@ -618,10 +600,7 @@ describe('ContentManagementService', () => {
       };
       nodeActions.contentMoved.next(movedItems);
 
-      expect(nodeActions.moveNodeAction).toHaveBeenCalledWith(
-        movedItems.succeeded[0].itemMoved.entry,
-        movedItems.succeeded[0].initialParentId
-      );
+      expect(nodeActions.moveNodeAction).toHaveBeenCalledWith(movedItems.succeeded[0].itemMoved.entry, movedItems.succeeded[0].initialParentId);
       expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR');
     });
 
@@ -759,9 +738,7 @@ describe('ContentManagementService', () => {
     }));
 
     it('should notify permission error when it occurs on Undo Move action', fakeAsync((done) => {
-      spyOn(contentApi, 'restoreNode').and.returnValue(
-        throwError(new Error(JSON.stringify({ error: { statusCode: 403 } })))
-      );
+      spyOn(contentApi, 'restoreNode').and.returnValue(throwError(new Error(JSON.stringify({ error: { statusCode: 403 } }))));
 
       actions$.pipe(
         ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
@@ -890,11 +867,7 @@ describe('ContentManagementService', () => {
         map(() => done())
       );
 
-      const selection: any[] = [
-        { entry: { id: '1', name: 'name1' } },
-        { entry: { id: '2', name: 'name2' } },
-        { entry: { id: '3', name: 'name3' } }
-      ];
+      const selection: any[] = [{ entry: { id: '1', name: 'name1' } }, { entry: { id: '2', name: 'name2' } }, { entry: { id: '3', name: 'name3' } }];
 
       store.dispatch(new DeleteNodesAction(selection));
     }));
@@ -1302,10 +1275,7 @@ describe('ContentManagementService', () => {
           ]
         };
 
-        const selection: any[] = [
-          { entry: { id: '1', name: 'name1', path } },
-          { entry: { id: '2', name: 'name2', path } }
-        ];
+        const selection: any[] = [{ entry: { id: '1', name: 'name1', path } }, { entry: { id: '2', name: 'name2', path } }];
 
         store.dispatch(new RestoreDeletedNodesAction(selection));
       }));

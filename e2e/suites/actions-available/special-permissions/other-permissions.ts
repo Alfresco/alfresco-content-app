@@ -48,14 +48,7 @@ export function collaboratorTests(siteName?: string) {
       await dataTable.waitForHeader();
 
       const expectedToolbarPrimary = ['Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
-      const expectedToolbarMore = [
-        'Edit Offline',
-        'Upload New Version',
-        'Remove Favorite',
-        'Copy',
-        'Manage Versions',
-        'Permissions'
-      ];
+      const expectedToolbarMore = ['Edit Offline', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions', 'Permissions'];
 
       await testUtil.checkToolbarActions(testData.fileSharedFav.name, expectedToolbarPrimary, expectedToolbarMore);
     });
@@ -64,14 +57,7 @@ export function collaboratorTests(siteName?: string) {
       await page.clickSharedFilesAndWait();
 
       const expectedToolbarPrimary = ['Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
-      const expectedToolbarMore = [
-        'Edit Offline',
-        'Upload New Version',
-        'Remove Favorite',
-        'Copy',
-        'Manage Versions',
-        'Permissions'
-      ];
+      const expectedToolbarMore = ['Edit Offline', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions', 'Permissions'];
 
       await testUtil.checkToolbarActions(testData.fileSharedFav.name, expectedToolbarPrimary, expectedToolbarMore);
     });
@@ -82,14 +68,7 @@ export function collaboratorTests(siteName?: string) {
       const expectedToolbarPrimary = ['Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
       // TODO: investigate why 'Edit Offline' is not displayed and raise issue
       // TODO: remove 'Move' and 'Delete' when ACA-1737 is done
-      const expectedToolbarMore = [
-        'Upload New Version',
-        'Remove Favorite',
-        'Move',
-        'Copy',
-        'Delete',
-        'Manage Versions'
-      ];
+      const expectedToolbarMore = ['Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
 
       await testUtil.checkToolbarActions(testData.fileSharedFav.name, expectedToolbarPrimary, expectedToolbarMore);
     });
@@ -98,22 +77,8 @@ export function collaboratorTests(siteName?: string) {
       await searchInput.clickSearchButton();
       await searchInput.searchFor(testData.fileSharedFav.name);
 
-      const expectedToolbarPrimary = [
-        'Toggle search filter',
-        'Shared Link Settings',
-        'Download',
-        'View',
-        'View Details',
-        'More Actions'
-      ];
-      const expectedToolbarMore = [
-        'Edit Offline',
-        'Upload New Version',
-        'Remove Favorite',
-        'Copy',
-        'Manage Versions',
-        'Permissions'
-      ];
+      const expectedToolbarPrimary = ['Toggle search filter', 'Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
+      const expectedToolbarMore = ['Edit Offline', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions', 'Permissions'];
 
       await testUtil.checkToolbarActions(testData.fileSharedFav.name, expectedToolbarPrimary, expectedToolbarMore);
     });
@@ -124,14 +89,7 @@ export function collaboratorTests(siteName?: string) {
         await dataTable.doubleClickOnRowByName(siteName);
         await dataTable.waitForHeader();
 
-        const expectedToolbarPrimary = [
-          'Activate full-screen mode',
-          'Shared Link Settings',
-          'Download',
-          'Print',
-          'View Details',
-          'More Actions'
-        ];
+        const expectedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Download', 'Print', 'View Details', 'More Actions'];
         const expectedToolbarMore = [
           'Edit in Microsoft Office™',
           'Edit Offline',
@@ -148,14 +106,7 @@ export function collaboratorTests(siteName?: string) {
       it('file opened from Shared Files - [C297655]', async () => {
         await page.clickSharedFilesAndWait();
 
-        const expectedToolbarPrimary = [
-          'Activate full-screen mode',
-          'Shared Link Settings',
-          'Download',
-          'Print',
-          'View Details',
-          'More Actions'
-        ];
+        const expectedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Download', 'Print', 'View Details', 'More Actions'];
         const expectedToolbarMore = [
           'Edit in Microsoft Office™',
           'Edit Offline',
@@ -172,14 +123,7 @@ export function collaboratorTests(siteName?: string) {
       it('file opened from Favorites - [C297656]', async () => {
         await page.clickFavoritesAndWait();
 
-        const expectedToolbarPrimary = [
-          'Activate full-screen mode',
-          'Shared Link Settings',
-          'Download',
-          'Print',
-          'View Details',
-          'More Actions'
-        ];
+        const expectedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Download', 'Print', 'View Details', 'More Actions'];
         const expectedToolbarMore = [
           'Edit in Microsoft Office™',
           'Edit Offline',
@@ -198,14 +142,7 @@ export function collaboratorTests(siteName?: string) {
         await searchInput.searchFor(testData.fileDocxSharedFav.name);
         await searchResultsPage.waitForResults();
 
-        const expectedToolbarPrimary = [
-          'Activate full-screen mode',
-          'Shared Link Settings',
-          'Download',
-          'Print',
-          'View Details',
-          'More Actions'
-        ];
+        const expectedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Download', 'Print', 'View Details', 'More Actions'];
         const expectedToolbarMore = [
           'Edit in Microsoft Office™',
           'Edit Offline',
@@ -238,13 +175,7 @@ export function filesLockedByCurrentUser(siteName?: string) {
       await dataTable.waitForHeader();
 
       const expectedToolbarPrimary = ['Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
-      const expectedToolbarMore = [
-        'Cancel Editing',
-        'Upload New Version',
-        'Remove Favorite',
-        'Copy',
-        'Manage Versions'
-      ];
+      const expectedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions'];
 
       await testUtil.checkToolbarActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
     });
@@ -253,13 +184,7 @@ export function filesLockedByCurrentUser(siteName?: string) {
       await page.clickSharedFilesAndWait();
 
       const expectedToolbarPrimary = ['Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
-      const expectedToolbarMore = [
-        'Cancel Editing',
-        'Upload New Version',
-        'Remove Favorite',
-        'Copy',
-        'Manage Versions'
-      ];
+      const expectedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions'];
 
       await testUtil.checkToolbarActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
     });
@@ -269,15 +194,7 @@ export function filesLockedByCurrentUser(siteName?: string) {
 
       const expectedToolbarPrimary = ['Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
       // TODO: remove 'Move' and 'Delete' when ACA-1737 is fixed
-      const expectedToolbarMore = [
-        'Cancel Editing',
-        'Upload New Version',
-        'Remove Favorite',
-        'Move',
-        'Copy',
-        'Delete',
-        'Manage Versions'
-      ];
+      const expectedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
 
       await testUtil.checkToolbarActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
     });
@@ -287,21 +204,8 @@ export function filesLockedByCurrentUser(siteName?: string) {
       await searchInput.searchFor(testData.fileLockedByUser);
       await searchResultsPage.waitForResults();
 
-      const expectedToolbarPrimary = [
-        'Toggle search filter',
-        'Shared Link Settings',
-        'Download',
-        'View',
-        'View Details',
-        'More Actions'
-      ];
-      const expectedToolbarMore = [
-        'Cancel Editing',
-        'Upload New Version',
-        'Remove Favorite',
-        'Copy',
-        'Manage Versions'
-      ];
+      const expectedToolbarPrimary = ['Toggle search filter', 'Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
+      const expectedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions'];
 
       await testUtil.checkToolbarActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
     });
@@ -312,21 +216,8 @@ export function filesLockedByCurrentUser(siteName?: string) {
         await dataTable.doubleClickOnRowByName(siteName);
         await dataTable.waitForHeader();
 
-        const expectedToolbarPrimary = [
-          'Activate full-screen mode',
-          'Shared Link Settings',
-          'Download',
-          'Print',
-          'View Details',
-          'More Actions'
-        ];
-        const expectedToolbarMore = [
-          'Cancel Editing',
-          'Upload New Version',
-          'Remove Favorite',
-          'Copy',
-          'Manage Versions'
-        ];
+        const expectedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Download', 'Print', 'View Details', 'More Actions'];
+        const expectedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions'];
 
         await testUtil.checkViewerActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
       });
@@ -334,21 +225,8 @@ export function filesLockedByCurrentUser(siteName?: string) {
       it('file opened from Shared Files - [C297662]', async () => {
         await page.clickSharedFilesAndWait();
 
-        const expectedToolbarPrimary = [
-          'Activate full-screen mode',
-          'Shared Link Settings',
-          'Download',
-          'Print',
-          'View Details',
-          'More Actions'
-        ];
-        const expectedToolbarMore = [
-          'Cancel Editing',
-          'Upload New Version',
-          'Remove Favorite',
-          'Copy',
-          'Manage Versions'
-        ];
+        const expectedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Download', 'Print', 'View Details', 'More Actions'];
+        const expectedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions'];
 
         await testUtil.checkViewerActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
       });
@@ -356,21 +234,8 @@ export function filesLockedByCurrentUser(siteName?: string) {
       it('file opened from Favorites - [C297663]', async () => {
         await page.clickFavoritesAndWait();
 
-        const expectedToolbarPrimary = [
-          'Activate full-screen mode',
-          'Shared Link Settings',
-          'Download',
-          'Print',
-          'View Details',
-          'More Actions'
-        ];
-        const expectedToolbarMore = [
-          'Cancel Editing',
-          'Upload New Version',
-          'Remove Favorite',
-          'Copy',
-          'Manage Versions'
-        ];
+        const expectedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Download', 'Print', 'View Details', 'More Actions'];
+        const expectedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions'];
 
         await testUtil.checkViewerActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
       });
@@ -380,21 +245,8 @@ export function filesLockedByCurrentUser(siteName?: string) {
         await searchInput.searchFor(testData.fileLockedByUser);
         await searchResultsPage.waitForResults();
 
-        const expectedToolbarPrimary = [
-          'Activate full-screen mode',
-          'Shared Link Settings',
-          'Download',
-          'Print',
-          'View Details',
-          'More Actions'
-        ];
-        const expectedToolbarMore = [
-          'Cancel Editing',
-          'Upload New Version',
-          'Remove Favorite',
-          'Copy',
-          'Manage Versions'
-        ];
+        const expectedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Download', 'Print', 'View Details', 'More Actions'];
+        const expectedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions'];
 
         await testUtil.checkViewerActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
       });
@@ -418,15 +270,7 @@ export function filesLockedByOtherUser(siteName?: string) {
       await dataTable.waitForHeader();
 
       const expectedToolbarPrimary = ['Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
-      const expectedToolbarMore = [
-        'Cancel Editing',
-        'Remove Favorite',
-        'Move',
-        'Copy',
-        'Delete',
-        'Manage Versions',
-        'Permissions'
-      ];
+      const expectedToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Permissions'];
 
       await testUtil.checkToolbarActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
     });
@@ -456,14 +300,7 @@ export function filesLockedByOtherUser(siteName?: string) {
       const expectedToolbarPrimary = ['Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
       // TODO: investigate why 'Cancel Editing' doesn't appear and raise issue
       // TODO: remove 'Upload New Version' when ACA-1737 is done
-      const expectedToolbarMore = [
-        'Upload New Version',
-        'Remove Favorite',
-        'Move',
-        'Copy',
-        'Delete',
-        'Manage Versions'
-      ];
+      const expectedToolbarMore = ['Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
 
       await testUtil.checkToolbarActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
     });
@@ -473,14 +310,7 @@ export function filesLockedByOtherUser(siteName?: string) {
       await searchInput.searchFor(testData.fileLockedByUser);
       await searchResultsPage.waitForResults();
 
-      const expectedToolbarPrimary = [
-        'Toggle search filter',
-        'Shared Link Settings',
-        'Download',
-        'View',
-        'View Details',
-        'More Actions'
-      ];
+      const expectedToolbarPrimary = ['Toggle search filter', 'Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
       const expectedToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Copy', 'Manage Versions', 'Permissions'];
 
       await testUtil.checkToolbarActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
@@ -492,23 +322,8 @@ export function filesLockedByOtherUser(siteName?: string) {
         await dataTable.doubleClickOnRowByName(siteName);
         await dataTable.waitForHeader();
 
-        const expectedToolbarPrimary = [
-          'Activate full-screen mode',
-          'Shared Link Settings',
-          'Download',
-          'Print',
-          'View Details',
-          'More Actions'
-        ];
-        const expectedToolbarMore = [
-          'Cancel Editing',
-          'Remove Favorite',
-          'Move',
-          'Copy',
-          'Delete',
-          'Manage Versions',
-          'Permissions'
-        ];
+        const expectedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Download', 'Print', 'View Details', 'More Actions'];
+        const expectedToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Permissions'];
 
         await testUtil.checkViewerActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
       });
@@ -516,23 +331,8 @@ export function filesLockedByOtherUser(siteName?: string) {
       it('file opened from Shared Files - [C297672]', async () => {
         await page.clickSharedFilesAndWait();
 
-        const expectedToolbarPrimary = [
-          'Activate full-screen mode',
-          'Shared Link Settings',
-          'Download',
-          'Print',
-          'View Details',
-          'More Actions'
-        ];
-        const expectedToolbarMore = [
-          'Cancel Editing',
-          'Remove Favorite',
-          'Move',
-          'Copy',
-          'Delete',
-          'Manage Versions',
-          'Permissions'
-        ];
+        const expectedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Download', 'Print', 'View Details', 'More Actions'];
+        const expectedToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Permissions'];
 
         await testUtil.checkViewerActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
       });
@@ -540,23 +340,8 @@ export function filesLockedByOtherUser(siteName?: string) {
       it('file opened from Favorites - [C297673]', async () => {
         await page.clickFavoritesAndWait();
 
-        const expectedToolbarPrimary = [
-          'Activate full-screen mode',
-          'Shared Link Settings',
-          'Download',
-          'Print',
-          'View Details',
-          'More Actions'
-        ];
-        const expectedToolbarMore = [
-          'Cancel Editing',
-          'Remove Favorite',
-          'Move',
-          'Copy',
-          'Delete',
-          'Manage Versions',
-          'Permissions'
-        ];
+        const expectedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Download', 'Print', 'View Details', 'More Actions'];
+        const expectedToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Permissions'];
 
         await testUtil.checkViewerActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
       });
@@ -566,14 +351,7 @@ export function filesLockedByOtherUser(siteName?: string) {
         await searchInput.searchFor(testData.fileLockedByUser);
         await searchResultsPage.waitForResults();
 
-        const expectedToolbarPrimary = [
-          'Activate full-screen mode',
-          'Shared Link Settings',
-          'Download',
-          'Print',
-          'View Details',
-          'More Actions'
-        ];
+        const expectedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Download', 'Print', 'View Details', 'More Actions'];
         // TODO: add 'Move' and 'Delete' when ACA-2319 is fixed
         const expectedToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Copy', 'Manage Versions', 'Permissions'];
 

@@ -170,9 +170,7 @@ export function isSharedPreview(context: RuleContext): boolean {
  */
 export function isFavoritesPreview(context: RuleContext): boolean {
   const { url } = context.navigation;
-  return (
-    url && (url.startsWith('/favorites/preview/') || (url.startsWith('/favorites') && url.includes('viewer:view')))
-  );
+  return url && (url.startsWith('/favorites/preview/') || (url.startsWith('/favorites') && url.includes('viewer:view')));
 }
 
 /**

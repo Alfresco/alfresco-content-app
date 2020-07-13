@@ -50,11 +50,7 @@ export function searchResultsTests() {
       });
 
       it('File Office - [C297637]', async () => {
-        await testUtil.checkToolbarActions(
-          testData.fileDocx.name,
-          testData.fileDocx.searchToolbarPrimary,
-          testData.fileDocx.searchToolbarMore
-        );
+        await testUtil.checkToolbarActions(testData.fileDocx.name, testData.fileDocx.searchToolbarPrimary, testData.fileDocx.searchToolbarMore);
         await testUtil.checkContextMenu(testData.fileDocx.name, testData.fileDocx.searchContextMenu);
       });
 
@@ -68,20 +64,12 @@ export function searchResultsTests() {
       });
 
       it('File simple - [C297638]', async () => {
-        await testUtil.checkToolbarActions(
-          testData.file.name,
-          testData.file.searchToolbarPrimary,
-          testData.file.searchToolbarMore
-        );
+        await testUtil.checkToolbarActions(testData.file.name, testData.file.searchToolbarPrimary, testData.file.searchToolbarMore);
         await testUtil.checkContextMenu(testData.file.name, testData.file.searchContextMenu);
       });
 
       it('File favorite - [C280661]', async () => {
-        await testUtil.checkToolbarActions(
-          testData.fileFav.name,
-          testData.fileFav.searchToolbarPrimary,
-          testData.fileFav.searchToolbarMore
-        );
+        await testUtil.checkToolbarActions(testData.fileFav.name, testData.fileFav.searchToolbarPrimary, testData.fileFav.searchToolbarMore);
         await testUtil.checkContextMenu(testData.fileFav.name, testData.fileFav.searchContextMenu);
       });
 
@@ -104,11 +92,7 @@ export function searchResultsTests() {
       });
 
       it('File shared - [C280632]', async () => {
-        await testUtil.checkToolbarActions(
-          testData.fileShared.name,
-          testData.fileShared.searchToolbarPrimary,
-          testData.fileShared.searchToolbarMore
-        );
+        await testUtil.checkToolbarActions(testData.fileShared.name, testData.fileShared.searchToolbarPrimary, testData.fileShared.searchToolbarMore);
         await testUtil.checkContextMenu(testData.fileShared.name, testData.fileShared.searchContextMenu);
       });
 
@@ -122,11 +106,7 @@ export function searchResultsTests() {
       });
 
       it('File locked - [C297628]', async () => {
-        await testUtil.checkToolbarActions(
-          testData.fileLocked.name,
-          testData.fileLocked.searchToolbarPrimary,
-          testData.fileLocked.searchToolbarMore
-        );
+        await testUtil.checkToolbarActions(testData.fileLocked.name, testData.fileLocked.searchToolbarPrimary, testData.fileLocked.searchToolbarMore);
         await testUtil.checkContextMenu(testData.fileLocked.name, testData.fileLocked.searchContextMenu);
       });
 
@@ -154,10 +134,7 @@ export function searchResultsTests() {
           testData.fileSharedFavLocked.searchToolbarPrimary,
           testData.fileSharedFavLocked.searchToolbarMore
         );
-        await testUtil.checkContextMenu(
-          testData.fileSharedFavLocked.name,
-          testData.fileSharedFavLocked.searchContextMenu
-        );
+        await testUtil.checkContextMenu(testData.fileSharedFavLocked.name, testData.fileSharedFavLocked.searchContextMenu);
       });
     });
 
@@ -170,20 +147,12 @@ export function searchResultsTests() {
       });
 
       it('Folder not favorite  - [C280609]', async () => {
-        await testUtil.checkToolbarActions(
-          testData.folder.name,
-          testData.folder.searchToolbarPrimary,
-          testData.folder.searchToolbarMore
-        );
+        await testUtil.checkToolbarActions(testData.folder.name, testData.folder.searchToolbarPrimary, testData.folder.searchToolbarMore);
         await testUtil.checkContextMenu(testData.folder.name, testData.folder.searchContextMenu);
       });
 
       it('Folder favorite - [C291828]', async () => {
-        await testUtil.checkToolbarActions(
-          testData.folderFav.name,
-          testData.folderFav.searchToolbarPrimary,
-          testData.folderFav.searchToolbarMore
-        );
+        await testUtil.checkToolbarActions(testData.folderFav.name, testData.folderFav.searchToolbarPrimary, testData.folderFav.searchToolbarMore);
         await testUtil.checkContextMenu(testData.folderFav.name, testData.folderFav.searchContextMenu);
       });
     });
@@ -197,10 +166,7 @@ export function searchResultsTests() {
       });
 
       it('multiple files - [C291820]', async () => {
-        await testUtil.checkMultipleSelContextMenu(
-          [testData.file.name, testData.fileDocxShared.name],
-          testData.multipleSel.searchContextMenu
-        );
+        await testUtil.checkMultipleSelContextMenu([testData.file.name, testData.fileDocxShared.name], testData.multipleSel.searchContextMenu);
         await testUtil.checkMultipleSelToolbarActions(
           [testData.file.name, testData.fileDocxShared.name],
           testData.multipleSel.searchToolbarPrimary,
@@ -237,10 +203,7 @@ export function searchResultsTests() {
         await searchInput.searchFor('folder-');
         await searchResultsPage.waitForResults();
 
-        await testUtil.checkMultipleSelContextMenu(
-          [testData.folder.name, testData.folderFav.name],
-          testData.multipleSel.searchContextMenu
-        );
+        await testUtil.checkMultipleSelContextMenu([testData.folder.name, testData.folderFav.name], testData.multipleSel.searchContextMenu);
         await testUtil.checkMultipleSelToolbarActions(
           [testData.folder.name, testData.folderFav.name],
           testData.multipleSel.searchToolbarPrimary,
@@ -253,10 +216,7 @@ export function searchResultsTests() {
         await searchInput.searchFor(`=${testData.file.name} or =${testData.folderFav.name}`);
         await searchResultsPage.waitForResults();
 
-        await testUtil.checkMultipleSelContextMenu(
-          [testData.file.name, testData.folderFav.name],
-          testData.multipleSel.searchContextMenu
-        );
+        await testUtil.checkMultipleSelContextMenu([testData.file.name, testData.folderFav.name], testData.multipleSel.searchContextMenu);
         await testUtil.checkMultipleSelToolbarActions(
           [testData.file.name, testData.folderFav.name],
           testData.multipleSel.searchToolbarPrimary,

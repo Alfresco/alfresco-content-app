@@ -23,16 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  Component,
-  ViewEncapsulation,
-  OnInit,
-  OnDestroy,
-  HostListener,
-  ViewChild,
-  AfterViewInit,
-  Inject
-} from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, OnDestroy, HostListener, ViewChild, AfterViewInit, Inject } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { AppStore, getAppSelection } from '@alfresco/aca-shared/store';
 import { Store } from '@ngrx/store';

@@ -51,8 +51,7 @@ export const APP_ROUTES: Routes = [
   },
   {
     path: 'preview/s/:id',
-    loadChildren: () =>
-      import('./components/shared-link-view/shared-link-view.module').then((m) => m.AppSharedLinkViewModule)
+    loadChildren: () => import('./components/shared-link-view/shared-link-view.module').then((m) => m.AppSharedLinkViewModule)
   },
   {
     path: 'view',

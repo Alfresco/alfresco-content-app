@@ -124,12 +124,7 @@ describe('Create folder from template', () => {
 
     await adminApiActions.createSpaceTemplatesHierarchy(templates);
     await adminApiActions.removeUserAccessOnSpaceTemplate(restrictedTemplateFolder);
-    folderLink = (
-      await adminApiActions.createLinkToFolderName(
-        folderInRootFolder,
-        await adminApiActions.getSpaceTemplatesFolderId()
-      )
-    ).entry.name;
+    folderLink = (await adminApiActions.createLinkToFolderName(folderInRootFolder, await adminApiActions.getSpaceTemplatesFolderId())).entry.name;
 
     await loginPage.loginWith(username);
   });
@@ -153,14 +148,8 @@ describe('Create folder from template', () => {
     it('[C325147] Select template - dialog UI - with existing templates', async () => {
       expect(await selectTemplateDialog.getTitle()).toEqual('Select a folder template');
       expect(await selectTemplateDialog.dataTable.isEmpty()).toBe(false, 'Datatable is empty');
-      expect(await selectTemplateDialog.dataTable.isItemPresent(templateFolder1)).toBe(
-        true,
-        'template folder not displayed'
-      );
-      expect(await selectTemplateDialog.dataTable.isItemPresent(templateFolder2)).toBe(
-        true,
-        'template folder not displayed'
-      );
+      expect(await selectTemplateDialog.dataTable.isItemPresent(templateFolder1)).toBe(true, 'template folder not displayed');
+      expect(await selectTemplateDialog.dataTable.isItemPresent(templateFolder2)).toBe(true, 'template folder not displayed');
       expect(await selectTemplateDialog.dataTable.isItemPresent(fileInRootFolder)).toBe(true, 'file not displayed');
       expect(await selectTemplateDialog.breadcrumb.currentFolder.getText()).toEqual('Space Templates');
       expect(await selectTemplateDialog.isNextButtonEnabled()).toBe(false, 'Next button is not disabled');
@@ -168,29 +157,17 @@ describe('Create folder from template', () => {
     });
 
     it(`[C325148] Templates don't appear if user doesn't have permissions to see them`, async () => {
-      expect(await selectTemplateDialog.dataTable.isItemPresent(restrictedTemplateFolder)).toBe(
-        false,
-        'restricted template folder is displayed'
-      );
+      expect(await selectTemplateDialog.dataTable.isItemPresent(restrictedTemplateFolder)).toBe(false, 'restricted template folder is displayed');
     });
 
     it('[C325149] Navigate through the templates list with folder hierarchy', async () => {
-      expect(await selectTemplateDialog.dataTable.isItemPresent(templateFolder2)).toBe(
-        true,
-        'template folder not displayed'
-      );
+      expect(await selectTemplateDialog.dataTable.isItemPresent(templateFolder2)).toBe(true, 'template folder not displayed');
 
       await selectTemplateDialog.dataTable.doubleClickOnRowByName(templateFolder2);
 
-      expect(await selectTemplateDialog.dataTable.isItemPresent(templateSubFolder)).toBe(
-        true,
-        'template sub-folder not displayed'
-      );
+      expect(await selectTemplateDialog.dataTable.isItemPresent(templateSubFolder)).toBe(true, 'template sub-folder not displayed');
       expect(await selectTemplateDialog.dataTable.isItemPresent(fileInFolder2)).toBe(true, 'template not displayed');
-      expect(await selectTemplateDialog.dataTable.isItemPresent(templateFolder1)).toBe(
-        false,
-        'template folder is displayed'
-      );
+      expect(await selectTemplateDialog.dataTable.isItemPresent(templateFolder1)).toBe(false, 'template folder is displayed');
       expect(await selectTemplateDialog.breadcrumb.currentFolder.getText()).toEqual(templateFolder2);
 
       await selectTemplateDialog.dataTable.doubleClickOnRowByName(templateSubFolder);
@@ -204,33 +181,18 @@ describe('Create folder from template', () => {
     });
 
     it(`[C325150] Templates list doesn't allow multiple selection`, async () => {
-      expect(await selectTemplateDialog.dataTable.getSelectedRowsCount()).toEqual(
-        0,
-        'Incorrect number of selected rows'
-      );
+      expect(await selectTemplateDialog.dataTable.getSelectedRowsCount()).toEqual(0, 'Incorrect number of selected rows');
 
       await selectTemplateDialog.dataTable.selectItem(templateFolder1);
-      expect(await selectTemplateDialog.dataTable.getSelectedRowsCount()).toEqual(
-        1,
-        'Incorrect number of selected rows'
-      );
-      expect(await selectTemplateDialog.dataTable.getSelectedRowsNames()).toEqual(
-        [templateFolder1],
-        'Incorrect selected item'
-      );
+      expect(await selectTemplateDialog.dataTable.getSelectedRowsCount()).toEqual(1, 'Incorrect number of selected rows');
+      expect(await selectTemplateDialog.dataTable.getSelectedRowsNames()).toEqual([templateFolder1], 'Incorrect selected item');
 
       await Utils.pressCmd();
       await selectTemplateDialog.dataTable.selectItem(templateFolder2);
       await Utils.releaseKeyPressed();
 
-      expect(await selectTemplateDialog.dataTable.getSelectedRowsCount()).toEqual(
-        1,
-        'Incorrect number of selected rows'
-      );
-      expect(await selectTemplateDialog.dataTable.getSelectedRowsNames()).toEqual(
-        [templateFolder2],
-        'Incorrect selected item'
-      );
+      expect(await selectTemplateDialog.dataTable.getSelectedRowsCount()).toEqual(1, 'Incorrect number of selected rows');
+      expect(await selectTemplateDialog.dataTable.getSelectedRowsNames()).toEqual([templateFolder2], 'Incorrect selected item');
     });
 
     it('[C325153] Links to folders are not displayed', async () => {
@@ -267,10 +229,7 @@ describe('Create folder from template', () => {
       expect(await createFromTemplateDialog.getTitle()).toEqual(`Create new folder from '${templateFolder1}'`);
       expect(await createFromTemplateDialog.nameInput.isDisplayed()).toBe(true, 'Name field not displayed');
       expect(await createFromTemplateDialog.titleInput.isDisplayed()).toBe(true, 'Title field not displayed');
-      expect(await createFromTemplateDialog.descriptionTextArea.isDisplayed()).toBe(
-        true,
-        'Description field not displayed'
-      );
+      expect(await createFromTemplateDialog.descriptionTextArea.isDisplayed()).toBe(true, 'Description field not displayed');
       expect(await createFromTemplateDialog.isCancelButtonEnabled()).toBe(true, 'Cancel button is not enabled');
       expect(await createFromTemplateDialog.isCreateButtonEnabled()).toBe(true, 'Create button is not enabled');
     });
@@ -320,9 +279,7 @@ describe('Create folder from template', () => {
       await Utils.pressTab();
 
       expect(await createFromTemplateDialog.isCreateButtonEnabled()).toBe(false, 'Create button is not disabled');
-      expect(await createFromTemplateDialog.getValidationMessage()).toMatch(
-        `Use 512 characters or less for description`
-      );
+      expect(await createFromTemplateDialog.getValidationMessage()).toMatch(`Use 512 characters or less for description`);
     });
   });
 

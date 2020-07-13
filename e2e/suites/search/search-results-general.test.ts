@@ -60,11 +60,7 @@ describe('Search results general', () => {
   });
 
   afterAll(async (done) => {
-    await Promise.all([
-      apis.user.nodes.deleteNodeById(fileId),
-      apis.user.nodes.deleteNodeById(folderId),
-      apis.user.sites.deleteSite(site)
-    ]);
+    await Promise.all([apis.user.nodes.deleteNodeById(fileId), apis.user.nodes.deleteNodeById(folderId), apis.user.sites.deleteSite(site)]);
     done();
   });
 

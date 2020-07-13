@@ -61,10 +61,7 @@ export class ViewNodeComponent {
       .select(getAppSelection)
       .pipe(take(1))
       .subscribe((selection) => {
-        const id =
-          (selection.file as SharedLinkEntry).entry.nodeId ||
-          (selection.file as any).entry.guid ||
-          selection.file.entry.id;
+        const id = (selection.file as SharedLinkEntry).entry.nodeId || (selection.file as any).entry.guid || selection.file.entry.id;
 
         this.store.dispatch(new ViewNodeAction(id, { location: this.router.url }));
       });

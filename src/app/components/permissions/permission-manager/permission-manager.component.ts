@@ -53,11 +53,9 @@ export class PermissionsManagerComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.contentApi
-      .getNodeInfo(this.nodeId, { include: ['permissions'] })
-      .subscribe((currentNode: MinimalNodeEntryEntity) => {
-        this.toggleStatus = currentNode.permissions.isInheritanceEnabled;
-      });
+    this.contentApi.getNodeInfo(this.nodeId, { include: ['permissions'] }).subscribe((currentNode: MinimalNodeEntryEntity) => {
+      this.toggleStatus = currentNode.permissions.isInheritanceEnabled;
+    });
   }
 
   onError(errorMessage: string) {

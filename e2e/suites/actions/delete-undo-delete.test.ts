@@ -264,14 +264,7 @@ describe('Delete and undo delete', () => {
       sharedFile4Id = (await apis.user.nodes.createFile(sharedFile4, parentId)).entry.id;
       sharedFile5Id = (await apis.user.nodes.createFile(sharedFile5, parentId)).entry.id;
       sharedFile6Id = (await apis.user.nodes.createFile(sharedFile6, parentId)).entry.id;
-      await apis.user.shared.shareFilesByIds([
-        sharedFile1Id,
-        sharedFile2Id,
-        sharedFile3Id,
-        sharedFile4Id,
-        sharedFile5Id,
-        sharedFile6Id
-      ]);
+      await apis.user.shared.shareFilesByIds([sharedFile1Id, sharedFile2Id, sharedFile3Id, sharedFile4Id, sharedFile5Id, sharedFile6Id]);
       await apis.user.shared.waitForApi({ expect: 6 });
 
       await loginPage.loginWith(username);
@@ -404,23 +397,8 @@ describe('Delete and undo delete', () => {
       await apis.user.nodes.lockFile(fileLocked3Id, 'FULL');
       await apis.user.nodes.lockFile(fileLocked4Id, 'FULL');
 
-      await apis.user.favorites.addFavoritesByIds('file', [
-        favFile1Id,
-        favFile2Id,
-        favFile3Id,
-        favFile4Id,
-        favFile5Id,
-        favFile6Id,
-        favFile7Id
-      ]);
-      await apis.user.favorites.addFavoritesByIds('folder', [
-        favFolder1Id,
-        favFolder2Id,
-        favFolder3Id,
-        favFolder4Id,
-        favFolder5Id,
-        favFolder6Id
-      ]);
+      await apis.user.favorites.addFavoritesByIds('file', [favFile1Id, favFile2Id, favFile3Id, favFile4Id, favFile5Id, favFile6Id, favFile7Id]);
+      await apis.user.favorites.addFavoritesByIds('folder', [favFolder1Id, favFolder2Id, favFolder3Id, favFolder4Id, favFolder5Id, favFolder6Id]);
       await apis.user.favorites.waitForApi({ expect: 13 });
 
       await loginPage.loginWith(username);

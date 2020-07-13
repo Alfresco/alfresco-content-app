@@ -26,14 +26,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable, Subject, of, zip, from } from 'rxjs';
-
-import {
-  AlfrescoApiService,
-  ContentService,
-  DataColumn,
-  TranslationService,
-  ThumbnailService
-} from '@alfresco/adf-core';
+import { AlfrescoApiService, ContentService, DataColumn, TranslationService, ThumbnailService } from '@alfresco/adf-core';
 import {
   DocumentListService,
   ContentNodeSelectorComponent,
@@ -41,13 +34,7 @@ import {
   ContentNodeDialogService,
   ShareDataRow
 } from '@alfresco/adf-content-services';
-import {
-  MinimalNodeEntity,
-  MinimalNodeEntryEntity,
-  SitePaging,
-  NodeChildAssociationPaging,
-  NodeChildAssociationEntry
-} from '@alfresco/js-api';
+import { MinimalNodeEntity, MinimalNodeEntryEntity, SitePaging, NodeChildAssociationPaging, NodeChildAssociationEntry } from '@alfresco/js-api';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
@@ -150,9 +137,7 @@ export class NodeActionsService {
 
   isEntryEntitiesArray(contentEntities: any[]): boolean {
     if (contentEntities && contentEntities.length) {
-      const nonEntryNode = contentEntities.find(
-        (node) => !node || !node.entry || !(node.entry.nodeId || node.entry.id)
-      );
+      const nonEntryNode = contentEntities.find((node) => !node || !node.entry || !(node.entry.nodeId || node.entry.id));
       return !nonEntryNode;
     }
     return false;
@@ -667,9 +652,7 @@ export class NodeActionsService {
           const folderMoveResponseData = this.flatten(next);
           const foundError = folderMoveResponseData.find((node) => node instanceof Error);
           // data might contain also items of form: { itemMoved, initialParentId }
-          const foundEntry = folderMoveResponseData.find(
-            (node) => (node.itemMoved && node.itemMoved.entry) || (node && node.entry)
-          );
+          const foundEntry = folderMoveResponseData.find((node) => (node.itemMoved && node.itemMoved.entry) || (node && node.entry));
 
           if (!foundError) {
             // consider success if NONE of the items from the folder move response is an error

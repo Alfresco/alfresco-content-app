@@ -46,11 +46,7 @@ export function viewerTests(parentName?: string) {
       });
 
       it('File Office - [C282025]', async () => {
-        await testUtil.checkViewerActions(
-          testData.fileDocx.name,
-          testData.fileDocx.viewerToolbarPrimary,
-          testData.fileDocx.viewerToolbarMore
-        );
+        await testUtil.checkViewerActions(testData.fileDocx.name, testData.fileDocx.viewerToolbarPrimary, testData.fileDocx.viewerToolbarMore);
       });
 
       it('File Office, favorite - [C297583]', async () => {
@@ -62,19 +58,11 @@ export function viewerTests(parentName?: string) {
       });
 
       it('File simple - [C297587]', async () => {
-        await testUtil.checkViewerActions(
-          testData.file.name,
-          testData.file.viewerToolbarPrimary,
-          testData.file.viewerToolbarMore
-        );
+        await testUtil.checkViewerActions(testData.file.name, testData.file.viewerToolbarPrimary, testData.file.viewerToolbarMore);
       });
 
       it('File favorite - [C297588]', async () => {
-        await testUtil.checkViewerActions(
-          testData.fileFav.name,
-          testData.fileFav.viewerToolbarPrimary,
-          testData.fileFav.viewerToolbarMore
-        );
+        await testUtil.checkViewerActions(testData.fileFav.name, testData.fileFav.viewerToolbarPrimary, testData.fileFav.viewerToolbarMore);
       });
 
       it('File Office, shared - [C297597]', async () => {
@@ -94,11 +82,7 @@ export function viewerTests(parentName?: string) {
       });
 
       it('File shared - [C291831]', async () => {
-        await testUtil.checkViewerActions(
-          testData.fileShared.name,
-          testData.fileShared.viewerToolbarPrimary,
-          testData.fileShared.viewerToolbarMore
-        );
+        await testUtil.checkViewerActions(testData.fileShared.name, testData.fileShared.viewerToolbarPrimary, testData.fileShared.viewerToolbarMore);
       });
 
       it('File shared, favorite - [C297632]', async () => {
@@ -110,11 +94,7 @@ export function viewerTests(parentName?: string) {
       });
 
       it('File locked - [C291832]', async () => {
-        await testUtil.checkViewerActions(
-          testData.fileLocked.name,
-          testData.fileLocked.viewerToolbarPrimary,
-          testData.fileLocked.viewerToolbarMore
-        );
+        await testUtil.checkViewerActions(testData.fileLocked.name, testData.fileLocked.viewerToolbarPrimary, testData.fileLocked.viewerToolbarMore);
       });
 
       it('File favorite, locked - [C297593]', async () => {
@@ -148,11 +128,7 @@ export function viewerTests(parentName?: string) {
       });
 
       it('File Office - [C297599]', async () => {
-        await testUtil.checkViewerActions(
-          testData.fileDocx.name,
-          testData.fileDocx.viewerToolbarPrimary,
-          testData.fileDocx.viewerToolbarMore
-        );
+        await testUtil.checkViewerActions(testData.fileDocx.name, testData.fileDocx.viewerToolbarPrimary, testData.fileDocx.viewerToolbarMore);
       });
 
       it('File Office, favorite - [C297600]', async () => {
@@ -164,19 +140,11 @@ export function viewerTests(parentName?: string) {
       });
 
       it('File simple - [C326692]', async () => {
-        await testUtil.checkViewerActions(
-          testData.file.name,
-          testData.file.viewerToolbarPrimary,
-          testData.file.viewerToolbarMore
-        );
+        await testUtil.checkViewerActions(testData.file.name, testData.file.viewerToolbarPrimary, testData.file.viewerToolbarMore);
       });
 
       it('File favorite - [C326693]', async () => {
-        await testUtil.checkViewerActions(
-          testData.fileFav.name,
-          testData.fileFav.viewerToolbarPrimary,
-          testData.fileFav.viewerToolbarMore
-        );
+        await testUtil.checkViewerActions(testData.fileFav.name, testData.fileFav.viewerToolbarPrimary, testData.fileFav.viewerToolbarMore);
       });
 
       it('File Office, shared - [C326694]', async () => {
@@ -196,11 +164,7 @@ export function viewerTests(parentName?: string) {
       });
 
       it('File shared - [C326696]', async () => {
-        await testUtil.checkViewerActions(
-          testData.fileShared.name,
-          testData.fileShared.viewerToolbarPrimary,
-          testData.fileShared.viewerToolbarMore
-        );
+        await testUtil.checkViewerActions(testData.fileShared.name, testData.fileShared.viewerToolbarPrimary, testData.fileShared.viewerToolbarMore);
       });
 
       it('File shared, favorite - [C326697]', async () => {
@@ -212,11 +176,7 @@ export function viewerTests(parentName?: string) {
       });
 
       it('File locked - [C326698]', async () => {
-        await testUtil.checkViewerActions(
-          testData.fileLocked.name,
-          testData.fileLocked.viewerToolbarPrimary,
-          testData.fileLocked.viewerToolbarMore
-        );
+        await testUtil.checkViewerActions(testData.fileLocked.name, testData.fileLocked.viewerToolbarPrimary, testData.fileLocked.viewerToolbarMore);
       });
 
       it('File favorite, locked - [C326701]', async () => {
@@ -258,11 +218,7 @@ export function viewerTests(parentName?: string) {
       });
 
       it('File favorite - [C326703]', async () => {
-        await testUtil.checkViewerActions(
-          testData.fileFav.name,
-          testData.fileFav.viewerToolbarPrimary,
-          testData.fileFav.viewerToolbarMore
-        );
+        await testUtil.checkViewerActions(testData.fileFav.name, testData.fileFav.viewerToolbarPrimary, testData.fileFav.viewerToolbarMore);
       });
 
       it('File Office, shared, favorite - [C326704]', async () => {
@@ -320,11 +276,7 @@ export function viewerTests(parentName?: string) {
       });
 
       it('File shared - [C326710]', async () => {
-        await testUtil.checkViewerActions(
-          testData.fileShared.name,
-          testData.fileShared.viewerToolbarPrimary,
-          testData.fileShared.viewerToolbarMore
-        );
+        await testUtil.checkViewerActions(testData.fileShared.name, testData.fileShared.viewerToolbarPrimary, testData.fileShared.viewerToolbarMore);
       });
 
       it('File shared, favorite - [C326711]', async () => {
@@ -360,11 +312,7 @@ export function viewerTests(parentName?: string) {
       });
 
       it('File Office - [C326714]', async () => {
-        await testUtil.checkViewerActions(
-          testData.fileDocx.name,
-          testData.fileDocx.viewerToolbarPrimary,
-          testData.fileDocx.searchViewerToolbarMore
-        );
+        await testUtil.checkViewerActions(testData.fileDocx.name, testData.fileDocx.viewerToolbarPrimary, testData.fileDocx.searchViewerToolbarMore);
       });
 
       it('File Office, favorite - [C326715]', async () => {
@@ -376,19 +324,11 @@ export function viewerTests(parentName?: string) {
       });
 
       it('File simple - [C326716]', async () => {
-        await testUtil.checkViewerActions(
-          testData.file.name,
-          testData.file.viewerToolbarPrimary,
-          testData.file.searchViewerToolbarMore
-        );
+        await testUtil.checkViewerActions(testData.file.name, testData.file.viewerToolbarPrimary, testData.file.searchViewerToolbarMore);
       });
 
       it('File favorite - [C326717]', async () => {
-        await testUtil.checkViewerActions(
-          testData.fileFav.name,
-          testData.fileFav.viewerToolbarPrimary,
-          testData.fileFav.searchViewerToolbarMore
-        );
+        await testUtil.checkViewerActions(testData.fileFav.name, testData.fileFav.viewerToolbarPrimary, testData.fileFav.searchViewerToolbarMore);
       });
 
       it('File Office, shared - [C326718]', async () => {

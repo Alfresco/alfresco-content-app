@@ -51,13 +51,7 @@ export class UploadApi extends RepoApi {
     }
   }
 
-  async uploadFileWithRename(
-    fileName: string,
-    parentId: string = '-my-',
-    newName: string,
-    title: string = '',
-    description: string = ''
-  ) {
+  async uploadFileWithRename(fileName: string, parentId: string = '-my-', newName: string, title: string = '', description: string = '') {
     const file = fs.createReadStream(`${this.e2eRootPath}/resources/test-files/${fileName}`);
     const nodeProps = {
       properties: {

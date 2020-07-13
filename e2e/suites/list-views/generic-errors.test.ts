@@ -72,18 +72,14 @@ describe('Generic errors', () => {
     await browser.get(URL);
 
     expect(await page.genericError.isDisplayed()).toBe(true, 'Generic error page not displayed');
-    expect(await page.genericErrorTitle.getText()).toContain(
-      `This item no longer exists or you don't have permission to view it.`
-    );
+    expect(await page.genericErrorTitle.getText()).toContain(`This item no longer exists or you don't have permission to view it.`);
   });
 
   it('[C217315] Invalid URL', async () => {
     await page.load('/invalid page');
 
     expect(await page.genericError.isDisplayed()).toBe(true, 'Generic error page not displayed');
-    expect(await page.genericErrorTitle.getText()).toContain(
-      `This item no longer exists or you don't have permission to view it.`
-    );
+    expect(await page.genericErrorTitle.getText()).toContain(`This item no longer exists or you don't have permission to view it.`);
   });
 
   it('[C217314] Permission denied', async () => {
@@ -95,9 +91,7 @@ describe('Generic errors', () => {
     await browser.get(URL);
 
     expect(await page.genericError.isDisplayed()).toBe(true, 'Generic error page not displayed');
-    expect(await page.genericErrorTitle.getText()).toContain(
-      `This item no longer exists or you don't have permission to view it.`
-    );
+    expect(await page.genericErrorTitle.getText()).toContain(`This item no longer exists or you don't have permission to view it.`);
 
     await loginPage.loginWith(username);
   });

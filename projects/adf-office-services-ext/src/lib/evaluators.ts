@@ -66,10 +66,7 @@ export function canOpenWithOffice(context: RuleContext): boolean {
   }
   */
 
-  if (
-    file.entry.properties['cm:lockType'] === 'WRITE_LOCK' ||
-    file.entry.properties['cm:lockType'] === 'READ_ONLY_LOCK'
-  ) {
+  if (file.entry.properties['cm:lockType'] === 'WRITE_LOCK' || file.entry.properties['cm:lockType'] === 'READ_ONLY_LOCK') {
     return false;
   }
 
@@ -79,10 +76,7 @@ export function canOpenWithOffice(context: RuleContext): boolean {
   }
 
   // check if record
-  if (
-    file.entry.aspectNames &&
-    (file.entry.aspectNames.includes('rma:declaredRecord') || file.entry.aspectNames.includes('rma:record'))
-  ) {
+  if (file.entry.aspectNames && (file.entry.aspectNames.includes('rma:declaredRecord') || file.entry.aspectNames.includes('rma:record'))) {
     return false;
   }
 

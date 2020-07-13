@@ -104,12 +104,7 @@ export class SitesApi extends RepoApi {
     }
   }
 
-  async createSite(
-    title: string,
-    visibility?: string,
-    description?: string,
-    siteId?: string
-  ): Promise<SiteEntry | null> {
+  async createSite(title: string, visibility?: string, description?: string, siteId?: string): Promise<SiteEntry | null> {
     const site = {
       title,
       visibility: visibility || SITE_VISIBILITY.PUBLIC,

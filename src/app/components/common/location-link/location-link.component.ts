@@ -67,11 +67,7 @@ export class LocationLinkComponent implements OnInit {
     this.getTooltip(this._path);
   }
 
-  constructor(
-    private store: Store<AppStore>,
-    private contentApi: ContentApiService,
-    private translationService: TranslationService
-  ) {}
+  constructor(private store: Store<AppStore>, private contentApi: ContentApiService, private translationService: TranslationService) {}
 
   goToLocation() {
     if (this.context) {

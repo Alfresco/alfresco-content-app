@@ -62,13 +62,7 @@ describe('SharedFilesComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule],
-      declarations: [
-        DataTableComponent,
-        NodeFavoriteDirective,
-        DocumentListComponent,
-        SharedFilesComponent,
-        AppConfigPipe
-      ],
+      declarations: [DataTableComponent, NodeFavoriteDirective, DocumentListComponent, SharedFilesComponent, AppConfigPipe],
       providers: [
         { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
         {

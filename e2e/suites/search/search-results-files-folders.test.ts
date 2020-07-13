@@ -111,9 +111,7 @@ describe('Search results - files and folders', () => {
     expect(await dataTable.getSearchResultLinesCount(file)).toEqual(4, 'incorrect number of lines for search result');
     expect(await dataTable.getSearchResultNameAndTitle(file)).toBe(`${file} ( ${fileTitle} )`);
     expect(await dataTable.getSearchResultDescription(file)).toBe(fileDescription);
-    expect(await dataTable.getSearchResultModified(file)).toBe(
-      `Modified: ${modifiedDate} by ${modifiedBy} | Size: ${size} Bytes`
-    );
+    expect(await dataTable.getSearchResultModified(file)).toBe(`Modified: ${modifiedDate} by ${modifiedBy} | Size: ${size} Bytes`);
     expect(await dataTable.getSearchResultLocation(file)).toMatch(/Location:\s+Personal Files/);
   });
 

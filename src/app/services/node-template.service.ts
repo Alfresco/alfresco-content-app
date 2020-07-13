@@ -32,11 +32,7 @@ import { AlfrescoApiService, TranslationService } from '@alfresco/adf-core';
 import { switchMap, catchError } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { AppStore, SnackbarErrorAction } from '@alfresco/aca-shared/store';
-import {
-  ContentNodeSelectorComponent,
-  ContentNodeSelectorComponentData,
-  ShareDataRow
-} from '@alfresco/adf-content-services';
+import { ContentNodeSelectorComponent, ContentNodeSelectorComponentData, ShareDataRow } from '@alfresco/adf-content-services';
 
 export interface TemplateDialogConfig {
   primaryPathName: string;
@@ -157,8 +153,6 @@ export class NodeTemplateService {
   }
 
   private getPathElements(node: Node): PathElement[] {
-    return node.path.elements.filter(
-      (pathElement) => !this.rootNode.path.elements.some((rootPathElement) => pathElement.id === rootPathElement.id)
-    );
+    return node.path.elements.filter((pathElement) => !this.rootNode.path.elements.some((rootPathElement) => pathElement.id === rootPathElement.id));
   }
 }

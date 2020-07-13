@@ -38,19 +38,11 @@ import { ToggleJoinLibraryButtonComponent } from './toggle-join-library-button.c
       (toggle)="onToggleEvent($event)"
       (error)="onErrorEvent($event)"
       [acaLibraryMembership]="(selection$ | async).library"
-      [attr.title]="
-        (membership.isJoinRequested | async)
-          ? ('APP.ACTIONS.CANCEL_JOIN' | translate)
-          : ('APP.ACTIONS.JOIN' | translate)
-      "
+      [attr.title]="(membership.isJoinRequested | async) ? ('APP.ACTIONS.CANCEL_JOIN' | translate) : ('APP.ACTIONS.JOIN' | translate)"
     >
       <mat-icon *ngIf="membership.isJoinRequested | async">cancel</mat-icon>
       <mat-icon *ngIf="!(membership.isJoinRequested | async)" svgIcon="adf:join_library"></mat-icon>
-      <span>{{
-        (membership.isJoinRequested | async)
-          ? ('APP.ACTIONS.CANCEL_JOIN' | translate)
-          : ('APP.ACTIONS.JOIN' | translate)
-      }}</span>
+      <span>{{ (membership.isJoinRequested | async) ? ('APP.ACTIONS.CANCEL_JOIN' | translate) : ('APP.ACTIONS.JOIN' | translate) }}</span>
     </button>
   `,
   encapsulation: ViewEncapsulation.None,

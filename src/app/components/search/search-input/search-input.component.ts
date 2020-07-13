@@ -28,15 +28,7 @@ import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { AppConfigService } from '@alfresco/adf-core';
 import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
-import {
-  NavigationEnd,
-  PRIMARY_OUTLET,
-  Router,
-  RouterEvent,
-  UrlSegment,
-  UrlSegmentGroup,
-  UrlTree
-} from '@angular/router';
+import { NavigationEnd, PRIMARY_OUTLET, Router, RouterEvent, UrlSegment, UrlSegmentGroup, UrlTree } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';

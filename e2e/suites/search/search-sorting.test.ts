@@ -65,13 +65,7 @@ describe('Search sorting', () => {
     await apis.user1.nodes.setGranularPermission(parentId, true, user2, 'Collaborator');
 
     await apis.user1.upload.uploadFileWithRename(fileJpg.source, parentId, fileJpg.name);
-    await apis.user2.upload.uploadFileWithRename(
-      filePdf.source,
-      parentId,
-      filePdf.name,
-      filePdf.title,
-      filePdf.description
-    );
+    await apis.user2.upload.uploadFileWithRename(filePdf.source, parentId, filePdf.name, filePdf.title, filePdf.description);
 
     await apis.user1.search.waitForNodes('search-sort', { expect: 2 });
 
@@ -101,16 +95,7 @@ describe('Search sorting', () => {
 
     await page.sortingPicker.clickSortByDropdown();
 
-    const expectedOptions = [
-      'Relevance',
-      'Filename',
-      'Title',
-      'Modified date',
-      'Modifier',
-      'Created date',
-      'Size',
-      'Type'
-    ];
+    const expectedOptions = ['Relevance', 'Filename', 'Title', 'Modified date', 'Modifier', 'Created date', 'Size', 'Type'];
     expect(await page.sortingPicker.getSortByOptionsList()).toEqual(expectedOptions, 'Incorrect sort options list');
   });
 

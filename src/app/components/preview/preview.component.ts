@@ -136,9 +136,7 @@ export class PreviewComponent extends PageComponent implements OnInit, OnDestroy
 
       this.uploadService.fileUploadDeleted.subscribe(() => this.navigateToFileLocation(true)),
 
-      this.uploadService.fileUploadComplete
-        .pipe(debounceTime(300))
-        .subscribe((file) => this.apiService.nodeUpdated.next(file.data.entry)),
+      this.uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe((file) => this.apiService.nodeUpdated.next(file.data.entry)),
 
       this.actions$
         .pipe(
@@ -406,9 +404,7 @@ export class PreviewComponent extends PageComponent implements OnInit, OnDestroy
         right = '';
       }
 
-      return direction === 'asc'
-        ? left.localeCompare(right, undefined, options)
-        : right.localeCompare(left, undefined, options);
+      return direction === 'asc' ? left.localeCompare(right, undefined, options) : right.localeCompare(left, undefined, options);
     });
   }
 

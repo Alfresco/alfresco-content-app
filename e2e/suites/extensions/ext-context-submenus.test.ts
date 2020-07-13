@@ -80,45 +80,24 @@ describe('Extensions - Context submenu', () => {
 
   it('[C286717] Displays the submenu actions set from config', async () => {
     await dataTable.rightClickOnItem(file);
-    expect(await contextMenu.isMenuItemPresent(menuItem1.label)).toBe(
-      true,
-      `${menuItem1.label} is not displayed for ${file}`
-    );
+    expect(await contextMenu.isMenuItemPresent(menuItem1.label)).toBe(true, `${menuItem1.label} is not displayed for ${file}`);
     expect(await contextMenu.hasSubMenu(menuItem1.label)).toBe(true, 'Menu does not have submenu');
     await contextMenu.mouseOverMenuItem(menuItem1.label);
 
     expect(await contextMenu.getSubmenuItemsCount()).toBe(3, 'submenu has wrong number of items');
-    expect(await contextMenu.isSubMenuItemPresent(menuItem1.submenu[0])).toBe(
-      true,
-      `${menuItem1.submenu[0]} is not displayed for ${file}`
-    );
-    expect(await contextMenu.isSubMenuItemPresent(menuItem1.submenu[1])).toBe(
-      true,
-      `${menuItem1.submenu[1]} is not displayed for ${file}`
-    );
-    expect(await contextMenu.isSubMenuItemPresent(menuItem1.submenu[2])).toBe(
-      true,
-      `${restrictedPermissionsItem} is not displayed for ${file}`
-    );
+    expect(await contextMenu.isSubMenuItemPresent(menuItem1.submenu[0])).toBe(true, `${menuItem1.submenu[0]} is not displayed for ${file}`);
+    expect(await contextMenu.isSubMenuItemPresent(menuItem1.submenu[1])).toBe(true, `${menuItem1.submenu[1]} is not displayed for ${file}`);
+    expect(await contextMenu.isSubMenuItemPresent(menuItem1.submenu[2])).toBe(true, `${restrictedPermissionsItem} is not displayed for ${file}`);
   });
 
   it('[C286718] Does not display submenu actions without permissions', async () => {
     await dataTable.rightClickOnItem(folder);
-    expect(await contextMenu.isMenuItemPresent(menuItem1.label)).toBe(
-      true,
-      `${menuItem1.label} is not displayed for ${folder}`
-    );
+    expect(await contextMenu.isMenuItemPresent(menuItem1.label)).toBe(true, `${menuItem1.label} is not displayed for ${folder}`);
     await contextMenu.mouseOverMenuItem(menuItem1.label);
 
     expect(await contextMenu.getSubmenuItemsCount()).toBe(2, 'submenu has wrong number of items');
-    expect(await contextMenu.isSubMenuItemPresent(menuItem1.submenu[0])).toBe(
-      true,
-      `${menuItem1.submenu[0]} is not displayed for ${file}`
-    );
-    expect(await contextMenu.isSubMenuItemPresent(menuItem1.submenu[1])).toBe(
-      true,
-      `${menuItem1.submenu[1]} is not displayed for ${file}`
-    );
+    expect(await contextMenu.isSubMenuItemPresent(menuItem1.submenu[0])).toBe(true, `${menuItem1.submenu[0]} is not displayed for ${file}`);
+    expect(await contextMenu.isSubMenuItemPresent(menuItem1.submenu[1])).toBe(true, `${menuItem1.submenu[1]} is not displayed for ${file}`);
     expect(await contextMenu.isSubMenuItemPresent(menuItem1.submenu[2])).toBe(
       false,
       `no permission submenu ${restrictedPermissionsItem} is displayed`
@@ -127,9 +106,6 @@ describe('Extensions - Context submenu', () => {
 
   it('[C287784] The parent item is not displayed if all its children have no permission to be displayed', async () => {
     await dataTable.rightClickOnItem(folder);
-    expect(await contextMenu.isMenuItemPresent(menuItem2.label)).toBe(
-      false,
-      `${menuItem2.label} menu is displayed for ${folder}`
-    );
+    expect(await contextMenu.isMenuItemPresent(menuItem2.label)).toBe(false, `${menuItem2.label} menu is displayed for ${folder}`);
   });
 });

@@ -35,12 +35,7 @@ import { ContentApiService } from '@alfresco/aca-shared';
 
 @Injectable()
 export class DownloadEffects {
-  constructor(
-    private store: Store<AppStore>,
-    private actions$: Actions,
-    private contentApi: ContentApiService,
-    private dialog: MatDialog
-  ) {}
+  constructor(private store: Store<AppStore>, private actions$: Actions, private contentApi: ContentApiService, private dialog: MatDialog) {}
 
   @Effect({ dispatch: false })
   downloadNode$ = this.actions$.pipe(

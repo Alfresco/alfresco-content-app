@@ -39,13 +39,7 @@ import { A11yModule } from '@angular/cdk/a11y';
 import { SharedInfoDrawerModule } from '@alfresco/aca-shared';
 
 export function components() {
-  return [
-    MetadataTabComponent,
-    CommentsTabComponent,
-    VersionsTabComponent,
-    LibraryMetadataTabComponent,
-    LibraryMetadataFormComponent
-  ];
+  return [MetadataTabComponent, CommentsTabComponent, VersionsTabComponent, LibraryMetadataTabComponent, LibraryMetadataFormComponent];
 }
 
 @NgModule({

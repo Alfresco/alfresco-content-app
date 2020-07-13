@@ -23,21 +23,12 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  AppStore,
-  SetSelectedNodesAction,
-  SnackbarErrorAction,
-  SnackbarInfoAction,
-  getAppSelection
-} from '@alfresco/aca-shared/store';
+import { AppStore, SetSelectedNodesAction, SnackbarErrorAction, SnackbarInfoAction, getAppSelection } from '@alfresco/aca-shared/store';
 import { SelectionState } from '@alfresco/adf-extensions';
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import {
-  LibraryMembershipErrorEvent,
-  LibraryMembershipToggleEvent
-} from '../../../directives/library-membership.directive';
+import { LibraryMembershipErrorEvent, LibraryMembershipToggleEvent } from '../../../directives/library-membership.directive';
 import { ContentManagementService } from '../../../services/content-management.service';
 
 @Component({
@@ -50,11 +41,7 @@ import { ContentManagementService } from '../../../services/content-management.s
       (toggle)="onToggleEvent($event)"
       (error)="onErrorEvent($event)"
       [acaLibraryMembership]="(selection$ | async).library"
-      [attr.title]="
-        (membership.isJoinRequested | async)
-          ? ('APP.ACTIONS.CANCEL_JOIN' | translate)
-          : ('APP.ACTIONS.JOIN' | translate)
-      "
+      [attr.title]="(membership.isJoinRequested | async) ? ('APP.ACTIONS.CANCEL_JOIN' | translate) : ('APP.ACTIONS.JOIN' | translate)"
     >
       <mat-icon *ngIf="membership.isJoinRequested | async">cancel</mat-icon>
       <mat-icon *ngIf="!(membership.isJoinRequested | async)" svgIcon="adf:join_library"></mat-icon>

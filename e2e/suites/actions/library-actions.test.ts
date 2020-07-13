@@ -23,15 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  SITE_VISIBILITY,
-  SITE_ROLES,
-  LoginPage,
-  BrowsingPage,
-  Utils,
-  ConfirmDialog,
-  RepoClient
-} from '@alfresco/aca-testing-shared';
+import { SITE_VISIBILITY, SITE_ROLES, LoginPage, BrowsingPage, Utils, ConfirmDialog, RepoClient } from '@alfresco/aca-testing-shared';
 
 describe('Library actions', () => {
   const username = `user-${Utils.random()}`;
@@ -237,10 +229,7 @@ describe('Library actions', () => {
       await confirmDialog.okButton.click();
 
       expect(await page.getSnackBarMessage()).toEqual(`You have left the library`);
-      expect(await dataTable.isItemPresent(siteSearchPublic2Admin)).toBe(
-        true,
-        `${siteSearchPublic2Admin} is not displayed`
-      );
+      expect(await dataTable.isItemPresent(siteSearchPublic2Admin)).toBe(true, `${siteSearchPublic2Admin} is not displayed`);
     });
 
     it('[C290136] Confirmation dialog UI', async () => {
@@ -328,10 +317,7 @@ describe('Library actions', () => {
       await dataTable.selectItem(sitePublic6Admin);
       await toolbar.clickMoreActionsFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(sitePublic6Admin, { expect: true })).toBe(
-        true,
-        `${sitePublic6Admin} not favorite`
-      );
+      expect(await apis.user.favorites.isFavoriteWithRetry(sitePublic6Admin, { expect: true })).toBe(true, `${sitePublic6Admin} not favorite`);
     });
 
     it('[C306963] from on Search Results', async () => {
@@ -369,10 +355,7 @@ describe('Library actions', () => {
       await dataTable.selectItem(sitePublic7Admin);
       await toolbar.clickMoreActionsRemoveFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(sitePublic7Admin, { expect: false })).toBe(
-        false,
-        `${sitePublic7Admin} still favorite`
-      );
+      expect(await apis.user.favorites.isFavoriteWithRetry(sitePublic7Admin, { expect: false })).toBe(false, `${sitePublic7Admin} still favorite`);
     });
 
     it('[C289976] from Favorite Libraries', async () => {
@@ -381,10 +364,7 @@ describe('Library actions', () => {
       await toolbar.clickMoreActionsRemoveFavorite();
 
       expect(await dataTable.isItemPresent(sitePublic8Admin)).toBe(false, `${sitePublic8Admin} is displayed`);
-      expect(await apis.user.favorites.isFavoriteWithRetry(sitePublic8Admin, { expect: false })).toBe(
-        false,
-        `${sitePublic8Admin} still favorite`
-      );
+      expect(await apis.user.favorites.isFavoriteWithRetry(sitePublic8Admin, { expect: false })).toBe(false, `${sitePublic8Admin} still favorite`);
     });
 
     it('[C306964] from Search Results', async () => {

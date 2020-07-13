@@ -91,9 +91,7 @@ describe('SharedLinkViewComponent', () => {
     fixture.detectChanges();
     tick();
 
-    expect(storeMock.dispatch).toHaveBeenCalledWith(
-      new SetSelectedNodesAction([{ entry: { id: 'shared-id' } } as any])
-    );
+    expect(storeMock.dispatch).toHaveBeenCalledWith(new SetSelectedNodesAction([{ entry: { id: 'shared-id' } } as any]));
   }));
 
   it('should not update store on error', fakeAsync(() => {

@@ -150,14 +150,8 @@ describe('Download', () => {
 
       await Utils.unzip(archiveZip, unzippedPersonal);
 
-      expect(await Utils.fileExistsOnOS(filePersonal, unzippedPersonal)).toBe(
-        true,
-        `${filePersonal} not found in unzipped folder`
-      );
-      expect(await Utils.fileExistsOnOS(folderPersonal, unzippedPersonal)).toBe(
-        true,
-        `${folderPersonal} not found in unzipped folder`
-      );
+      expect(await Utils.fileExistsOnOS(filePersonal, unzippedPersonal)).toBe(true, `${filePersonal} not found in unzipped folder`);
+      expect(await Utils.fileExistsOnOS(folderPersonal, unzippedPersonal)).toBe(true, `${folderPersonal} not found in unzipped folder`);
       expect(await Utils.fileExistsOnOS(fileInFolderPersonal, unzippedPersonal, folderPersonal)).toBe(
         true,
         `${fileInFolderPersonal} not found in unzipped folder in ${folderPersonal}`
@@ -204,14 +198,8 @@ describe('Download', () => {
 
       await Utils.unzip(archiveZip, unzippedFavorites);
 
-      expect(await Utils.fileExistsOnOS(fileFavorites, unzippedFavorites)).toBe(
-        true,
-        `${fileFavorites} not found in unzipped folder`
-      );
-      expect(await Utils.fileExistsOnOS(folderFavorites, unzippedFavorites)).toBe(
-        true,
-        `${folderFavorites} not found in unzipped folder`
-      );
+      expect(await Utils.fileExistsOnOS(fileFavorites, unzippedFavorites)).toBe(true, `${fileFavorites} not found in unzipped folder`);
+      expect(await Utils.fileExistsOnOS(folderFavorites, unzippedFavorites)).toBe(true, `${folderFavorites} not found in unzipped folder`);
       expect(await Utils.fileExistsOnOS(fileInFolderFavorites, unzippedFavorites, folderFavorites)).toBe(
         true,
         `${fileInFolderFavorites} not found in unzipped folder in ${folderFavorites}`
@@ -245,14 +233,8 @@ describe('Download', () => {
 
       await Utils.unzip(archiveZip, unzippedShared);
 
-      expect(await Utils.fileExistsOnOS(fileShared1, unzippedShared)).toBe(
-        true,
-        `${fileShared1} not found in unzipped folder`
-      );
-      expect(await Utils.fileExistsOnOS(fileShared2, unzippedShared)).toBe(
-        true,
-        `${fileShared2} not found in unzipped folder`
-      );
+      expect(await Utils.fileExistsOnOS(fileShared1, unzippedShared)).toBe(true, `${fileShared1} not found in unzipped folder`);
+      expect(await Utils.fileExistsOnOS(fileShared2, unzippedShared)).toBe(true, `${fileShared2} not found in unzipped folder`);
     });
   });
 
@@ -282,14 +264,8 @@ describe('Download', () => {
 
       await Utils.unzip(archiveZip, unzippedRecent);
 
-      expect(await Utils.fileExistsOnOS(fileRecent1, unzippedRecent)).toBe(
-        true,
-        `${fileRecent1} not found in unzipped folder`
-      );
-      expect(await Utils.fileExistsOnOS(fileRecent2, unzippedRecent)).toBe(
-        true,
-        `${fileRecent2} not found in unzipped folder`
-      );
+      expect(await Utils.fileExistsOnOS(fileRecent1, unzippedRecent)).toBe(true, `${fileRecent1} not found in unzipped folder`);
+      expect(await Utils.fileExistsOnOS(fileRecent2, unzippedRecent)).toBe(true, `${fileRecent2} not found in unzipped folder`);
     });
   });
 
@@ -330,14 +306,8 @@ describe('Download', () => {
 
       await Utils.unzip(archiveZip, unzippedSearch);
 
-      expect(await Utils.fileExistsOnOS(fileSearch, unzippedSearch)).toBe(
-        true,
-        `${fileSearch} not found in unzipped folder`
-      );
-      expect(await Utils.fileExistsOnOS(folderSearch, unzippedSearch)).toBe(
-        true,
-        `${folderSearch} not found in unzipped folder`
-      );
+      expect(await Utils.fileExistsOnOS(fileSearch, unzippedSearch)).toBe(true, `${fileSearch} not found in unzipped folder`);
+      expect(await Utils.fileExistsOnOS(folderSearch, unzippedSearch)).toBe(true, `${folderSearch} not found in unzipped folder`);
       expect(await Utils.fileExistsOnOS(fileInFolderSearch, unzippedSearch, folderSearch)).toBe(
         true,
         `${fileInFolderSearch} not found in unzipped folder in ${folderSearch}`

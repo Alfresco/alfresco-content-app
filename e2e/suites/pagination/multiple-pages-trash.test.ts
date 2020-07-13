@@ -43,9 +43,7 @@ describe('Pagination on multiple pages on Trash', () => {
 
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
-    filesDeletedIds = (await userApi.nodes.createFiles(filesForDelete)).list.entries.map(
-      (entries: any) => entries.entry.id
-    );
+    filesDeletedIds = (await userApi.nodes.createFiles(filesForDelete)).list.entries.map((entries: any) => entries.entry.id);
 
     await userApi.nodes.deleteNodesById(filesDeletedIds, false);
     await userApi.trashcan.waitForApi({ expect: 101 });

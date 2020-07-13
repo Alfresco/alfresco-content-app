@@ -33,11 +33,7 @@ import { Subscription } from 'rxjs';
 export class PaginationDirective implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
 
-  constructor(
-    private pagination: PaginationComponent,
-    private preferences: UserPreferencesService,
-    private config: AppConfigService
-  ) {}
+  constructor(private pagination: PaginationComponent, private preferences: UserPreferencesService, private config: AppConfigService) {}
 
   ngOnInit() {
     this.pagination.supportedPageSizes = this.config.get('pagination.supportedPageSizes');

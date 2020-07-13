@@ -45,9 +45,7 @@ describe('AppNodeVersionFormComponent', () => {
   });
 
   it('should have minor version option selected', () => {
-    const isSelected = fixture.debugElement.nativeElement
-      .querySelectorAll('.form__version--option')[0]
-      .classList.contains('mat-radio-checked');
+    const isSelected = fixture.debugElement.nativeElement.querySelectorAll('.form__version--option')[0].classList.contains('mat-radio-checked');
 
     expect(isSelected).toBe(true);
   });

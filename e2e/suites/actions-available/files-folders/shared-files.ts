@@ -41,11 +41,7 @@ export function sharedFilesTests() {
 
     describe('single selection', () => {
       it('File Office, shared - [C297629]', async () => {
-        await testUtil.checkToolbarActions(
-          testData.fileDocxShared.name,
-          testData.fileDocxShared.toolbarPrimary,
-          testData.fileDocxShared.toolbarMore
-        );
+        await testUtil.checkToolbarActions(testData.fileDocxShared.name, testData.fileDocxShared.toolbarPrimary, testData.fileDocxShared.toolbarMore);
         await testUtil.checkContextMenu(testData.fileDocxShared.name, testData.fileDocxShared.contextMenu);
       });
 
@@ -59,20 +55,12 @@ export function sharedFilesTests() {
       });
 
       it('File shared - [C297630]', async () => {
-        await testUtil.checkToolbarActions(
-          testData.fileShared.name,
-          testData.fileShared.toolbarPrimary,
-          testData.fileShared.toolbarMore
-        );
+        await testUtil.checkToolbarActions(testData.fileShared.name, testData.fileShared.toolbarPrimary, testData.fileShared.toolbarMore);
         await testUtil.checkContextMenu(testData.fileShared.name, testData.fileShared.contextMenu);
       });
 
       it('File shared, favorite - [C286273]', async () => {
-        await testUtil.checkToolbarActions(
-          testData.fileSharedFav.name,
-          testData.fileSharedFav.toolbarPrimary,
-          testData.fileSharedFav.toolbarMore
-        );
+        await testUtil.checkToolbarActions(testData.fileSharedFav.name, testData.fileSharedFav.toolbarPrimary, testData.fileSharedFav.toolbarMore);
         await testUtil.checkContextMenu(testData.fileSharedFav.name, testData.fileSharedFav.contextMenu);
       });
 
@@ -97,10 +85,7 @@ export function sharedFilesTests() {
 
     describe('multiple selection', () => {
       it('multiple files - [C280467]', async () => {
-        await testUtil.checkMultipleSelContextMenu(
-          [testData.fileShared.name, testData.fileSharedFav.name],
-          testData.multipleSel.contextMenu
-        );
+        await testUtil.checkMultipleSelContextMenu([testData.fileShared.name, testData.fileSharedFav.name], testData.multipleSel.contextMenu);
         await testUtil.checkMultipleSelToolbarActions(
           [testData.fileShared.name, testData.fileSharedFav.name],
           testData.multipleSel.toolbarPrimary,

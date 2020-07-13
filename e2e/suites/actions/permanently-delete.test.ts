@@ -52,12 +52,8 @@ describe('Permanently delete from Trash', () => {
 
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
-    filesIds = (await apis.user.nodes.createFiles([file1, file2, file3])).list.entries.map(
-      (entries: any) => entries.entry.id
-    );
-    foldersIds = (await apis.user.nodes.createFolders([folder1, folder2])).list.entries.map(
-      (entries: any) => entries.entry.id
-    );
+    filesIds = (await apis.user.nodes.createFiles([file1, file2, file3])).list.entries.map((entries: any) => entries.entry.id);
+    foldersIds = (await apis.user.nodes.createFolders([folder1, folder2])).list.entries.map((entries: any) => entries.entry.id);
     await apis.user.sites.createSite(site);
 
     await apis.user.nodes.deleteNodesById(filesIds, false);

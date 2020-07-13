@@ -33,24 +33,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
-  imports: [
-    MatMenuModule,
-    MatIconModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatInputModule,
-    MatSnackBarModule,
-    MatProgressBarModule
-  ],
-  exports: [
-    MatMenuModule,
-    MatIconModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatInputModule,
-    MatSnackBarModule,
-    MatProgressBarModule
-  ],
+  imports: [MatMenuModule, MatIconModule, MatButtonModule, MatDialogModule, MatInputModule, MatSnackBarModule, MatProgressBarModule],
+  exports: [MatMenuModule, MatIconModule, MatButtonModule, MatDialogModule, MatInputModule, MatSnackBarModule, MatProgressBarModule],
   providers: [
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,

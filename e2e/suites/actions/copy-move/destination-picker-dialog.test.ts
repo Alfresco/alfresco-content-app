@@ -23,14 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  LoginPage,
-  BrowsingPage,
-  ContentNodeSelectorDialog,
-  RepoClient,
-  Utils,
-  AdminActions
-} from '@alfresco/aca-testing-shared';
+import { LoginPage, BrowsingPage, ContentNodeSelectorDialog, RepoClient, Utils, AdminActions } from '@alfresco/aca-testing-shared';
 
 describe('Destination picker dialog : ', () => {
   const random = Utils.random();
@@ -166,10 +159,7 @@ describe('Destination picker dialog : ', () => {
       await dataTable.doubleClickOnRowByName(destination);
 
       expect(await dataTable.isItemPresent(folderInDestination)).toBe(true, `${folderInDestination} is not displayed`);
-      expect(await dataTable.isItemPresent(folder2InDestination)).toBe(
-        true,
-        `${folder2InDestination} is not displayed`
-      );
+      expect(await dataTable.isItemPresent(folder2InDestination)).toBe(true, `${folder2InDestination} is not displayed`);
       expect(await dataTable.isItemPresent(folderLink)).toBe(false, 'Link to folder is displayed');
     });
 
@@ -188,10 +178,7 @@ describe('Destination picker dialog : ', () => {
     it('[C263888] Search - results found', async () => {
       await dialog.searchFor(searchFolder);
 
-      expect(await dataTable.isItemPresent(searchFolder, username)).toBe(
-        true,
-        'folder from Personal Files not displayed'
-      );
+      expect(await dataTable.isItemPresent(searchFolder, username)).toBe(true, 'folder from Personal Files not displayed');
       expect(await dataTable.isItemPresent(searchFolder, site)).toBe(true, 'folder from site not displayed');
     });
   });

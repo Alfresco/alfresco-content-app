@@ -30,56 +30,21 @@ import { Utils } from '@alfresco/aca-testing-shared';
 const consumerContextMenu = ['Share', 'Download', 'View', 'Favorite', 'Copy', 'Manage Versions'];
 const consumerFavContextMenu = ['Share', 'Download', 'View', 'Remove Favorite', 'Copy', 'Manage Versions'];
 const consumerSharedContextMenu = ['Shared Link Settings', 'Download', 'View', 'Favorite', 'Copy', 'Manage Versions'];
-const consumerSharedFavContextMenu = [
-  'Shared Link Settings',
-  'Download',
-  'View',
-  'Remove Favorite',
-  'Copy',
-  'Manage Versions'
-];
+const consumerSharedFavContextMenu = ['Shared Link Settings', 'Download', 'View', 'Remove Favorite', 'Copy', 'Manage Versions'];
 
 const consumerToolbarPrimary = ['Share', 'Download', 'View', 'View Details', 'More Actions'];
 const consumerSharedToolbarPrimary = ['Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
 
-const searchConsumerToolbarPrimary = [
-  'Toggle search filter',
-  'Share',
-  'Download',
-  'View',
-  'View Details',
-  'More Actions'
-];
-const searchConsumerSharedToolbarPrimary = [
-  'Toggle search filter',
-  'Shared Link Settings',
-  'Download',
-  'View',
-  'View Details',
-  'More Actions'
-];
+const searchConsumerToolbarPrimary = ['Toggle search filter', 'Share', 'Download', 'View', 'View Details', 'More Actions'];
+const searchConsumerSharedToolbarPrimary = ['Toggle search filter', 'Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
 
 const consumerToolbarMore = ['Favorite', 'Copy', 'Manage Versions'];
 const consumerFavToolbarMore = ['Remove Favorite', 'Copy', 'Manage Versions'];
 
 // ---- VIEWER ----
 
-const consumerViewerSharedToolbarPrimary = [
-  'Activate full-screen mode',
-  'Shared Link Settings',
-  'Download',
-  'Print',
-  'View Details',
-  'More Actions'
-];
-const consumerViewerToolbarPrimary = [
-  'Activate full-screen mode',
-  'Share',
-  'Download',
-  'Print',
-  'View Details',
-  'More Actions'
-];
+const consumerViewerSharedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Download', 'Print', 'View Details', 'More Actions'];
+const consumerViewerToolbarPrimary = ['Activate full-screen mode', 'Share', 'Download', 'Print', 'View Details', 'More Actions'];
 const consumerViewerFavToolbarMore = ['Remove Favorite', 'Copy', 'Manage Versions'];
 const consumerViewerToolbarMore = ['Favorite', 'Copy', 'Manage Versions'];
 
@@ -87,14 +52,7 @@ const consumerViewerToolbarMore = ['Favorite', 'Copy', 'Manage Versions'];
 
 // TODO: remove 'Move' and 'Delete' when ACA-1737 is done
 // TODO: investigate why 'Upload New Version' appears and raise issue
-const favoritesConsumerToolbarMore = [
-  'Upload New Version',
-  'Remove Favorite',
-  'Move',
-  'Copy',
-  'Delete',
-  'Manage Versions'
-];
+const favoritesConsumerToolbarMore = ['Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
 // TODO: remove 'Move' and 'Delete' when ACA-1737 is done
 // TODO: investigate why 'Upload New Version' appears and raise issue
 const favoritesConsumerContextMenu = [
@@ -133,23 +91,9 @@ const sharedConsumerLockedToolbarMore = ['Cancel Editing', 'Upload New Version',
 const sharedConsumerFavToolbarMore = ['Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions'];
 // TODO: investigate why 'Cancel Editing' appears and raise issue
 // TODO: investigate why 'Upload New Version' appears and raise issue
-const sharedConsumerFavLockedToolbarMore = [
-  'Cancel Editing',
-  'Upload New Version',
-  'Remove Favorite',
-  'Copy',
-  'Manage Versions'
-];
+const sharedConsumerFavLockedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions'];
 // TODO: investigate why 'Upload New Version' appears and raise issue
-const sharedConsumerContextMenu = [
-  'Shared Link Settings',
-  'Download',
-  'View',
-  'Upload New Version',
-  'Favorite',
-  'Copy',
-  'Manage Versions'
-];
+const sharedConsumerContextMenu = ['Shared Link Settings', 'Download', 'View', 'Upload New Version', 'Favorite', 'Copy', 'Manage Versions'];
 // TODO: investigate why 'Cancel Editing' appears and raise issue
 // TODO: investigate why 'Upload New Version' appears and raise issue
 const sharedConsumerLockedContextMenu = [
@@ -163,15 +107,7 @@ const sharedConsumerLockedContextMenu = [
   'Manage Versions'
 ];
 // TODO: investigate why 'Upload New Version' appears and raise issue
-const sharedConsumerFavContextMenu = [
-  'Shared Link Settings',
-  'Download',
-  'View',
-  'Upload New Version',
-  'Remove Favorite',
-  'Copy',
-  'Manage Versions'
-];
+const sharedConsumerFavContextMenu = ['Shared Link Settings', 'Download', 'View', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions'];
 // TODO: investigate why 'Cancel Editing' appears and raise issue
 // TODO: investigate why 'Upload New Version' appears and raise issue
 const sharedConsumerFavLockedContextMenu = [

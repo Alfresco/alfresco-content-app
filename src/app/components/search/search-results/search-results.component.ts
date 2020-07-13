@@ -203,9 +203,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   }
 
   hasCheckedCategories() {
-    const checkedCategory = this.queryBuilder.categories.find(
-      (category) => !!this.queryBuilder.queryFragments[category.id]
-    );
+    const checkedCategory = this.queryBuilder.categories.find((category) => !!this.queryBuilder.queryFragments[category.id]);
     return !!checkedCategory;
   }
 

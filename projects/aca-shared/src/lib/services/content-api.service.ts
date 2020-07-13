@@ -139,12 +139,7 @@ export class ContentApiService {
    * @param targetParentId The id of the folder-node where the node have to be copied to
    * @param name The new name for the copy that would be added on the destination folder
    */
-  copyNode(
-    nodeId: string,
-    targetParentId: string,
-    name?: string,
-    opts?: { include?: Array<string>; fields?: Array<string> }
-  ): Observable<NodeEntry> {
+  copyNode(nodeId: string, targetParentId: string, name?: string, opts?: { include?: Array<string>; fields?: Array<string> }): Observable<NodeEntry> {
     return from(this.api.nodesApi.copyNode(nodeId, { targetParentId, name }, opts));
   }
 

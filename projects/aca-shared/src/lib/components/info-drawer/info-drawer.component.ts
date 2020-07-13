@@ -54,11 +54,7 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
     this.close();
   }
 
-  constructor(
-    private store: Store<any>,
-    private contentApi: ContentApiService,
-    private extensions: AppExtensionService
-  ) {}
+  constructor(private store: Store<any>, private contentApi: ContentApiService, private extensions: AppExtensionService) {}
 
   ngOnInit() {
     this.tabs = this.extensions.getSidebarTabs();

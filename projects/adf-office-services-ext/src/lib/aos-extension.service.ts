@@ -45,8 +45,7 @@ export class AosEditOnlineService {
         // const checkedOut = node.aspectNames.find(
         //   (aspect: string) => aspect === 'cm:checkedOut'
         // );
-        const checkedOut =
-          node.properties['cm:lockType'] === 'WRITE_LOCK' || node.properties['cm:lockType'] === 'READ_ONLY_LOCK';
+        const checkedOut = node.properties['cm:lockType'] === 'WRITE_LOCK' || node.properties['cm:lockType'] === 'READ_ONLY_LOCK';
         const lockOwner = node.properties['cm:lockOwner'];
         const differentLockOwner = lockOwner.id !== this.alfrescoAuthenticationService.getEcmUsername();
 

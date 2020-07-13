@@ -62,12 +62,7 @@ export class AdminActions {
     return this.adminApi.people.createUser(user);
   }
 
-  async createNodeTemplate(
-    name: string,
-    title: string = '',
-    description: string = '',
-    author: string = ''
-  ): Promise<NodeEntry> {
+  async createNodeTemplate(name: string, title: string = '', description: string = '', author: string = ''): Promise<NodeEntry> {
     const templatesRootFolderId: string = await this.getNodeTemplatesFolderId();
 
     return this.adminApi.nodes.createFile(name, templatesRootFolderId, title, description, author);
@@ -120,11 +115,7 @@ export class AdminActions {
     return this.adminApi.nodes.createFileLink(originalFileId, destinationParentId);
   }
 
-  async createLinkToFileName(
-    originalFileName: string,
-    originalFileParentId: string,
-    destinationParentId?: string
-  ): Promise<NodeEntry> {
+  async createLinkToFileName(originalFileName: string, originalFileParentId: string, destinationParentId?: string): Promise<NodeEntry> {
     if (!destinationParentId) {
       destinationParentId = originalFileParentId;
     }
@@ -138,11 +129,7 @@ export class AdminActions {
     return this.adminApi.nodes.createFolderLink(originalFolderId, destinationParentId);
   }
 
-  async createLinkToFolderName(
-    originalFolderName: string,
-    originalFolderParentId: string,
-    destinationParentId?: string
-  ): Promise<NodeEntry> {
+  async createLinkToFolderName(originalFolderName: string, originalFolderParentId: string, destinationParentId?: string): Promise<NodeEntry> {
     if (!destinationParentId) {
       destinationParentId = originalFolderParentId;
     }

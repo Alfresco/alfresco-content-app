@@ -23,16 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  LoginPage,
-  BrowsingPage,
-  RepoClient,
-  InfoDrawer,
-  Utils,
-  FILES,
-  DATE_TIME_FORMAT,
-  DATE_FORMAT
-} from '@alfresco/aca-testing-shared';
+import { LoginPage, BrowsingPage, RepoClient, InfoDrawer, Utils, FILES, DATE_TIME_FORMAT, DATE_FORMAT } from '@alfresco/aca-testing-shared';
 
 const moment = require('moment');
 
@@ -81,11 +72,8 @@ describe('File / Folder properties', () => {
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
-    file1Id = (await apis.user.nodes.createFile(file1.name, parentId, file1.title, file1.description, file1.author))
-      .entry.id;
-    folder1Id = (
-      await apis.user.nodes.createFolder(folder1.name, parentId, folder1.title, folder1.description, folder1.author)
-    ).entry.id;
+    file1Id = (await apis.user.nodes.createFile(file1.name, parentId, file1.title, file1.description, file1.author)).entry.id;
+    folder1Id = (await apis.user.nodes.createFolder(folder1.name, parentId, folder1.title, folder1.description, folder1.author)).entry.id;
     image1Id = (await apis.user.upload.uploadFile(image1.name, parentId)).entry.id;
 
     await loginPage.loginWith(username);
@@ -147,14 +135,8 @@ describe('File / Folder properties', () => {
       await page.toolbar.viewDetailsButton.click();
       await infoDrawer.waitForInfoDrawerToOpen();
 
-      expect(await propertiesTab.getVisiblePropertiesLabels()).toEqual(
-        expectedPropLabels,
-        'Incorrect properties displayed'
-      );
-      expect(await propertiesTab.getVisiblePropertiesValues()).toEqual(
-        expectedPropValues,
-        'Incorrect properties values'
-      );
+      expect(await propertiesTab.getVisiblePropertiesLabels()).toEqual(expectedPropLabels, 'Incorrect properties displayed');
+      expect(await propertiesTab.getVisiblePropertiesValues()).toEqual(expectedPropValues, 'Incorrect properties values');
       expect(await propertiesTab.isEditPropertiesButtonEnabled()).toBe(true, 'Edit button not enabled');
       expect(await propertiesTab.isMoreInfoButtonEnabled()).toBe(true, 'More information button not enabled');
     });
@@ -162,16 +144,7 @@ describe('File / Folder properties', () => {
     it('[C307106] Folder properties', async () => {
       const apiProps = await apis.user.nodes.getNodeById(folder1Id);
 
-      const expectedPropLabels = [
-        'Name',
-        'Title',
-        'Creator',
-        'Created Date',
-        'Modifier',
-        'Modified Date',
-        'Author',
-        'Description'
-      ];
+      const expectedPropLabels = ['Name', 'Title', 'Creator', 'Created Date', 'Modifier', 'Modified Date', 'Author', 'Description'];
       const expectedPropValues = [
         folder1.name,
         folder1.title,
@@ -187,14 +160,8 @@ describe('File / Folder properties', () => {
       await page.toolbar.viewDetailsButton.click();
       await infoDrawer.waitForInfoDrawerToOpen();
 
-      expect(await propertiesTab.getVisiblePropertiesLabels()).toEqual(
-        expectedPropLabels,
-        'Incorrect properties displayed'
-      );
-      expect(await propertiesTab.getVisiblePropertiesValues()).toEqual(
-        expectedPropValues,
-        'Incorrect properties values'
-      );
+      expect(await propertiesTab.getVisiblePropertiesLabels()).toEqual(expectedPropLabels, 'Incorrect properties displayed');
+      expect(await propertiesTab.getVisiblePropertiesValues()).toEqual(expectedPropValues, 'Incorrect properties values');
       expect(await propertiesTab.isEditPropertiesButtonEnabled()).toBe(true, 'Edit button not enabled');
       expect(await propertiesTab.isMoreInfoButtonEnabled()).toBe(true, 'More information button not enabled');
     });
@@ -262,14 +229,8 @@ describe('File / Folder properties', () => {
       await propertiesTab.waitForImagePropertiesPanelToExpand();
 
       expect(await propertiesTab.isImagePropertiesPanelDisplayed()).toBe(true, 'Image properties panel not displayed');
-      expect(await propertiesTab.getVisiblePropertiesLabels()).toEqual(
-        expectedPropLabels,
-        'Incorrect properties displayed'
-      );
-      expect(await propertiesTab.getVisiblePropertiesValues()).toEqual(
-        expectedPropValues,
-        'Incorrect properties values'
-      );
+      expect(await propertiesTab.getVisiblePropertiesLabels()).toEqual(expectedPropLabels, 'Incorrect properties displayed');
+      expect(await propertiesTab.getVisiblePropertiesValues()).toEqual(expectedPropValues, 'Incorrect properties values');
       expect(await propertiesTab.isEditPropertiesButtonEnabled()).toBe(true, 'Edit button not enabled');
       expect(await propertiesTab.isLessInfoButtonEnabled()).toBe(true, 'Less information button not enabled');
     });

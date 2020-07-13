@@ -24,15 +24,7 @@
  */
 
 import { browser } from 'protractor';
-import {
-  LoginPage,
-  BrowsingPage,
-  SITE_VISIBILITY,
-  RepoClient,
-  ShareDialog,
-  Viewer,
-  Utils
-} from '@alfresco/aca-testing-shared';
+import { LoginPage, BrowsingPage, SITE_VISIBILITY, RepoClient, ShareDialog, Viewer, Utils } from '@alfresco/aca-testing-shared';
 
 describe('Share a file', () => {
   const username = `user-${Utils.random()}`;

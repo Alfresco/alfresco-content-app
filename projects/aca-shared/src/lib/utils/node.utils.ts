@@ -30,8 +30,7 @@ export function isLocked(node: { entry: Node }): boolean {
 
   return (
     (entry && entry.isLocked) ||
-    (entry.properties &&
-      (entry.properties['cm:lockType'] === 'READ_ONLY_LOCK' || entry.properties['cm:lockType'] === 'WRITE_LOCK'))
+    (entry.properties && (entry.properties['cm:lockType'] === 'READ_ONLY_LOCK' || entry.properties['cm:lockType'] === 'WRITE_LOCK'))
   );
 }
 

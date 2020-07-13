@@ -60,28 +60,14 @@ describe('File / folder tooltips', () => {
     file2Id = (await apis.user.nodes.createFile(fileWithDesc, parentId, '', fileDescription)).entry.id;
     file3Id = (await apis.user.nodes.createFile(fileWithTitle, parentId, fileTitle)).entry.id;
     file4Id = (await apis.user.nodes.createFile(fileWithTitleAndDesc, parentId, fileTitle, fileDescription)).entry.id;
-    file5Id = (
-      await apis.user.nodes.createFile(fileNameEqTitleEqDesc, parentId, fileNameEqTitleEqDesc, fileNameEqTitleEqDesc)
-    ).entry.id;
-    file6Id = (
-      await apis.user.nodes.createFile(fileNameEqTitleDiffDesc, parentId, fileNameEqTitleDiffDesc, fileDescription)
-    ).entry.id;
-    file7Id = (await apis.user.nodes.createFile(fileNameEqDescDiffTitle, parentId, fileTitle, fileNameEqDescDiffTitle))
-      .entry.id;
+    file5Id = (await apis.user.nodes.createFile(fileNameEqTitleEqDesc, parentId, fileNameEqTitleEqDesc, fileNameEqTitleEqDesc)).entry.id;
+    file6Id = (await apis.user.nodes.createFile(fileNameEqTitleDiffDesc, parentId, fileNameEqTitleDiffDesc, fileDescription)).entry.id;
+    file7Id = (await apis.user.nodes.createFile(fileNameEqDescDiffTitle, parentId, fileTitle, fileNameEqDescDiffTitle)).entry.id;
     file8Id = (await apis.user.nodes.createFile(fileTitleEqDesc, parentId, fileTitle, fileTitle)).entry.id;
 
     await apis.user.shared.shareFilesByIds([file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id]);
 
-    await apis.user.favorites.addFavoritesByIds('file', [
-      file1Id,
-      file2Id,
-      file3Id,
-      file4Id,
-      file5Id,
-      file6Id,
-      file7Id,
-      file8Id
-    ]);
+    await apis.user.favorites.addFavoritesByIds('file', [file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id]);
 
     await loginPage.loginWith(username);
     done();
@@ -120,15 +106,11 @@ describe('File / folder tooltips', () => {
     });
 
     it('[C255876] File with name = title, different description', async () => {
-      expect(await dataTable.getItemNameTooltip(fileNameEqTitleDiffDesc)).toEqual(
-        `${fileNameEqTitleDiffDesc}\n${fileDescription}`
-      );
+      expect(await dataTable.getItemNameTooltip(fileNameEqTitleDiffDesc)).toEqual(`${fileNameEqTitleDiffDesc}\n${fileDescription}`);
     });
 
     it('[C255877] File with name = description, different title', async () => {
-      expect(await dataTable.getItemNameTooltip(fileNameEqDescDiffTitle)).toEqual(
-        `${fileTitle}\n${fileNameEqDescDiffTitle}`
-      );
+      expect(await dataTable.getItemNameTooltip(fileNameEqDescDiffTitle)).toEqual(`${fileTitle}\n${fileNameEqDescDiffTitle}`);
     });
 
     it('[C255878] File with title = description, different name', async () => {
@@ -164,15 +146,11 @@ describe('File / folder tooltips', () => {
     });
 
     it('[C280140] File with name = title, different description', async () => {
-      expect(await dataTable.getItemNameTooltip(fileNameEqTitleDiffDesc)).toEqual(
-        `${fileNameEqTitleDiffDesc}\n${fileDescription}`
-      );
+      expect(await dataTable.getItemNameTooltip(fileNameEqTitleDiffDesc)).toEqual(`${fileNameEqTitleDiffDesc}\n${fileDescription}`);
     });
 
     it('[C280141] File with name = description, different title', async () => {
-      expect(await dataTable.getItemNameTooltip(fileNameEqDescDiffTitle)).toEqual(
-        `${fileTitle}\n${fileNameEqDescDiffTitle}`
-      );
+      expect(await dataTable.getItemNameTooltip(fileNameEqDescDiffTitle)).toEqual(`${fileTitle}\n${fileNameEqDescDiffTitle}`);
     });
 
     it('[C280142] File with title = description, different name', async () => {
@@ -209,15 +187,11 @@ describe('File / folder tooltips', () => {
     });
 
     xit('[C280148] File with name = title, different description', async () => {
-      expect(await dataTable.getItemNameTooltip(fileNameEqTitleDiffDesc)).toEqual(
-        `${fileNameEqTitleDiffDesc}\n${fileDescription}`
-      );
+      expect(await dataTable.getItemNameTooltip(fileNameEqTitleDiffDesc)).toEqual(`${fileNameEqTitleDiffDesc}\n${fileDescription}`);
     });
 
     xit('[C280149] File with name = description, different title', async () => {
-      expect(await dataTable.getItemNameTooltip(fileNameEqDescDiffTitle)).toEqual(
-        `${fileTitle}\n${fileNameEqDescDiffTitle}`
-      );
+      expect(await dataTable.getItemNameTooltip(fileNameEqDescDiffTitle)).toEqual(`${fileTitle}\n${fileNameEqDescDiffTitle}`);
     });
 
     xit('[C280150] File with title = description, different name', async () => {
@@ -252,15 +226,11 @@ describe('File / folder tooltips', () => {
     });
 
     it('[C280156] File with name = title, different description', async () => {
-      expect(await dataTable.getItemNameTooltip(fileNameEqTitleDiffDesc)).toEqual(
-        `${fileNameEqTitleDiffDesc}\n${fileDescription}`
-      );
+      expect(await dataTable.getItemNameTooltip(fileNameEqTitleDiffDesc)).toEqual(`${fileNameEqTitleDiffDesc}\n${fileDescription}`);
     });
 
     it('[C280157] File with name = description, different title', async () => {
-      expect(await dataTable.getItemNameTooltip(fileNameEqDescDiffTitle)).toEqual(
-        `${fileTitle}\n${fileNameEqDescDiffTitle}`
-      );
+      expect(await dataTable.getItemNameTooltip(fileNameEqDescDiffTitle)).toEqual(`${fileTitle}\n${fileNameEqDescDiffTitle}`);
     });
 
     it('[C280158] File with title = description, different name', async () => {
@@ -278,42 +248,15 @@ describe('File / folder tooltips', () => {
       file1TrashId = (await apis.user.nodes.createFile(file, parentForTrashId)).entry.id;
       file2TrashId = (await apis.user.nodes.createFile(fileWithDesc, parentForTrashId, '', fileDescription)).entry.id;
       file3TrashId = (await apis.user.nodes.createFile(fileWithTitle, parentForTrashId, fileTitle)).entry.id;
-      file4TrashId = (
-        await apis.user.nodes.createFile(fileWithTitleAndDesc, parentForTrashId, fileTitle, fileDescription)
-      ).entry.id;
-      file5TrashId = (
-        await apis.user.nodes.createFile(
-          fileNameEqTitleEqDesc,
-          parentForTrashId,
-          fileNameEqTitleEqDesc,
-          fileNameEqTitleEqDesc
-        )
-      ).entry.id;
-      file6TrashId = (
-        await apis.user.nodes.createFile(
-          fileNameEqTitleDiffDesc,
-          parentForTrashId,
-          fileNameEqTitleDiffDesc,
-          fileDescription
-        )
-      ).entry.id;
-      file7TrashId = (
-        await apis.user.nodes.createFile(fileNameEqDescDiffTitle, parentForTrashId, fileTitle, fileNameEqDescDiffTitle)
-      ).entry.id;
-      file8TrashId = (await apis.user.nodes.createFile(fileTitleEqDesc, parentForTrashId, fileTitle, fileTitle)).entry
+      file4TrashId = (await apis.user.nodes.createFile(fileWithTitleAndDesc, parentForTrashId, fileTitle, fileDescription)).entry.id;
+      file5TrashId = (await apis.user.nodes.createFile(fileNameEqTitleEqDesc, parentForTrashId, fileNameEqTitleEqDesc, fileNameEqTitleEqDesc)).entry
         .id;
+      file6TrashId = (await apis.user.nodes.createFile(fileNameEqTitleDiffDesc, parentForTrashId, fileNameEqTitleDiffDesc, fileDescription)).entry.id;
+      file7TrashId = (await apis.user.nodes.createFile(fileNameEqDescDiffTitle, parentForTrashId, fileTitle, fileNameEqDescDiffTitle)).entry.id;
+      file8TrashId = (await apis.user.nodes.createFile(fileTitleEqDesc, parentForTrashId, fileTitle, fileTitle)).entry.id;
 
       await apis.user.nodes.deleteNodesById(
-        [
-          file1TrashId,
-          file2TrashId,
-          file3TrashId,
-          file4TrashId,
-          file5TrashId,
-          file6TrashId,
-          file7TrashId,
-          file8TrashId
-        ],
+        [file1TrashId, file2TrashId, file3TrashId, file4TrashId, file5TrashId, file6TrashId, file7TrashId, file8TrashId],
         false
       );
 
@@ -348,15 +291,11 @@ describe('File / folder tooltips', () => {
     });
 
     it('[C280164] File with name = title, different description', async () => {
-      expect(await dataTable.getItemNameTooltip(fileNameEqTitleDiffDesc)).toEqual(
-        `${fileNameEqTitleDiffDesc}\n${fileDescription}`
-      );
+      expect(await dataTable.getItemNameTooltip(fileNameEqTitleDiffDesc)).toEqual(`${fileNameEqTitleDiffDesc}\n${fileDescription}`);
     });
 
     it('[C280165] File with name = description, different title', async () => {
-      expect(await dataTable.getItemNameTooltip(fileNameEqDescDiffTitle)).toEqual(
-        `${fileTitle}\n${fileNameEqDescDiffTitle}`
-      );
+      expect(await dataTable.getItemNameTooltip(fileNameEqDescDiffTitle)).toEqual(`${fileTitle}\n${fileNameEqDescDiffTitle}`);
     });
 
     it('[C280166] File with title = description, different name', async () => {

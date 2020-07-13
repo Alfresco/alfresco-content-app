@@ -44,12 +44,7 @@ import { isLocked } from '@alfresco/aca-shared';
 export class CustomNameColumnComponent extends NameColumnComponent implements OnInit, OnDestroy {
   private onDestroy$$ = new Subject<boolean>();
 
-  constructor(
-    element: ElementRef,
-    private cd: ChangeDetectorRef,
-    private actions$: Actions,
-    private apiService: AlfrescoApiService
-  ) {
+  constructor(element: ElementRef, private cd: ChangeDetectorRef, private actions$: Actions, private apiService: AlfrescoApiService) {
     super(element, apiService);
   }
 

@@ -77,9 +77,7 @@ describe('Empty list views', () => {
     await page.clickRecentFiles();
     expect(await dataTable.isEmpty()).toBe(true, 'list is not empty');
     expect(await dataTable.getEmptyStateTitle()).toContain('No recent files');
-    expect(await dataTable.getEmptyStateSubtitle()).toContain(
-      'Items you uploaded or edited in the last 30 days are shown here.'
-    );
+    expect(await dataTable.getEmptyStateSubtitle()).toContain('Items you uploaded or edited in the last 30 days are shown here.');
   });
 
   it('[C280133] empty Favorites', async () => {
@@ -187,10 +185,7 @@ describe('Empty list views', () => {
     await searchInput.searchFor('qwertyuiop');
     await dataTable.waitForBody();
 
-    expect(await searchResultsPage.filters.isSearchFiltersPanelDisplayed()).toBe(
-      false,
-      'Search filters panel is present'
-    );
+    expect(await searchResultsPage.filters.isSearchFiltersPanelDisplayed()).toBe(false, 'Search filters panel is present');
   });
 
   it('[C290020] Empty Search results - Libraries', async () => {

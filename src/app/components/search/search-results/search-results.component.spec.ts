@@ -27,13 +27,7 @@ import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testin
 import { SearchResultsComponent } from './search-results.component';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { AppSearchResultsModule } from '../search-results.module';
-import {
-  CoreModule,
-  AppConfigService,
-  AlfrescoApiService,
-  AlfrescoApiServiceMock,
-  TranslationService
-} from '@alfresco/adf-core';
+import { CoreModule, AppConfigService, AlfrescoApiService, AlfrescoApiServiceMock, TranslationService } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
 import { NavigateToFolder, SnackbarErrorAction } from '@alfresco/aca-shared/store';
 import { Pagination, SearchRequest } from '@alfresco/js-api';
@@ -257,9 +251,7 @@ describe('SearchComponent', () => {
 
     const query = component.formatSearchQuery('=test1.pdf or =test2.pdf');
 
-    expect(query).toBe(
-      `(=cm:name:"test1.pdf" OR =cm:title:"test1.pdf") or (=cm:name:"test2.pdf" OR =cm:title:"test2.pdf")`
-    );
+    expect(query).toBe(`(=cm:name:"test1.pdf" OR =cm:title:"test1.pdf") or (=cm:name:"test2.pdf" OR =cm:title:"test2.pdf")`);
   });
 
   it('should navigate to folder on double click', () => {

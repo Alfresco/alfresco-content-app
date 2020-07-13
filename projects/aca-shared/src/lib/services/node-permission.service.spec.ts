@@ -130,11 +130,7 @@ describe('NodePermissionService', () => {
     });
 
     it('should return false when source has no allowableOperations', () => {
-      const source = [
-        { entry: { allowableOperations: [] } },
-        { entry: { allowableOperations: [] } },
-        { entry: { allowableOperations: ['update'] } }
-      ];
+      const source = [{ entry: { allowableOperations: [] } }, { entry: { allowableOperations: [] } }, { entry: { allowableOperations: ['update'] } }];
 
       expect(permission.check(source, ['update'])).toBe(false);
     });

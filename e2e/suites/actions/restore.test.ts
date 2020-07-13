@@ -254,9 +254,7 @@ describe('Restore from Trash', () => {
     it('[C217184] multiple failures', async () => {
       await dataTable.selectMultipleItems([file3, file4, file5]);
       await toolbar.restoreButton.click();
-      expect(await page.getSnackBarMessage()).toEqual(
-        '2 items not restored because of issues with the restore location'
-      );
+      expect(await page.getSnackBarMessage()).toEqual('2 items not restored because of issues with the restore location');
     });
   });
 });

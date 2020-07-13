@@ -73,13 +73,7 @@ describe('Extensions - Info Drawer', () => {
 
   it('[C286477] Disable a button from the header', async () => {
     await header.openMoreMenu();
-    expect(await toolbarMenu.isMenuItemPresent(disabledMenu.title)).toBe(
-      true,
-      `${disabledMenu.title} menu item not present`
-    );
-    expect(await toolbarMenu.isMenuItemDisabled(disabledMenu.title)).toEqual(
-      'true',
-      `${disabledMenu.title} is not disabled`
-    );
+    expect(await toolbarMenu.isMenuItemPresent(disabledMenu.title)).toBe(true, `${disabledMenu.title} menu item not present`);
+    expect(await toolbarMenu.isMenuItemDisabled(disabledMenu.title)).toEqual('true', `${disabledMenu.title} is not disabled`);
   });
 });

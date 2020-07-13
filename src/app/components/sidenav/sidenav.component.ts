@@ -56,11 +56,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
   groups: Array<NavBarGroupRef> = [];
   private onDestroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(
-    private store: Store<AppStore>,
-    private extensions: AppExtensionService,
-    private authService: AuthenticationService
-  ) {}
+  constructor(private store: Store<AppStore>, private extensions: AppExtensionService, private authService: AuthenticationService) {}
 
   ngOnInit() {
     this.store

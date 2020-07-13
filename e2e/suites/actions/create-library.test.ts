@@ -23,14 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  SITE_VISIBILITY,
-  LoginPage,
-  BrowsingPage,
-  CreateLibraryDialog,
-  Utils,
-  RepoClient
-} from '@alfresco/aca-testing-shared';
+import { SITE_VISIBILITY, LoginPage, BrowsingPage, CreateLibraryDialog, Utils, RepoClient } from '@alfresco/aca-testing-shared';
 
 describe('Create library', () => {
   const username = `user-${Utils.random()}`;
@@ -166,9 +159,7 @@ describe('Create library', () => {
     await createDialog.enterLibraryId(duplicateSite.id);
 
     expect(await createDialog.isCreateEnabled()).toBe(false, 'Create button not disabled');
-    expect(await createDialog.getErrorMessage()).toEqual(
-      `This Library ID isn't available. Try a different Library ID.`
-    );
+    expect(await createDialog.getErrorMessage()).toEqual(`This Library ID isn't available. Try a different Library ID.`);
   });
 
   it('[C280028] Create library using the ID of a library from the Trashcan', async () => {
@@ -213,15 +204,9 @@ describe('Create library', () => {
     await createDialog.createButton.click();
     await createDialog.waitForDialogToClose();
 
-    expect(await page.breadcrumb.currentItem.getText()).toEqual(
-      duplicateSite.name,
-      `Not navigated into ${duplicateSite.name}`
-    );
+    expect(await page.breadcrumb.currentItem.getText()).toEqual(duplicateSite.name, `Not navigated into ${duplicateSite.name}`);
     await page.goToMyLibrariesAndWait();
-    expect(await dataTable.isItemPresent(`${duplicateSite.name} (${duplicateSite.id}-2)`)).toBe(
-      true,
-      `${duplicateSite.name} not in the list`
-    );
+    expect(await dataTable.isItemPresent(`${duplicateSite.name} (${duplicateSite.id}-2)`)).toBe(true, `${duplicateSite.name} not in the list`);
     expect(await apis.user.sites.getTitle(`${duplicateSite.id}-2`)).toEqual(duplicateSite.name);
   });
 });

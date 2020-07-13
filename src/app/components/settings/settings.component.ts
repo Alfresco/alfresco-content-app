@@ -28,13 +28,7 @@ import { AppConfigService, StorageService, OauthConfigModel } from '@alfresco/ad
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import {
-  AppStore,
-  getHeaderColor,
-  getAppName,
-  getUserProfile,
-  SetSettingsParameterAction
-} from '@alfresco/aca-shared/store';
+import { AppStore, getHeaderColor, getAppName, getUserProfile, SetSettingsParameterAction } from '@alfresco/aca-shared/store';
 import { ProfileState } from '@alfresco/adf-extensions';
 import { AppExtensionService, SettingsGroupRef, SettingsParameterRef } from '@alfresco/aca-shared';
 

@@ -119,12 +119,7 @@ describe('Edit folder', () => {
     await Promise.all([
       apis.admin.sites.deleteSite(sitePrivate),
       apis.user.sites.deleteSite(siteName),
-      apis.user.nodes.deleteNodesById([
-        parentId,
-        folderFavoriteToEditId,
-        folderFavoriteDuplicateId,
-        folderSearchToEditId
-      ])
+      apis.user.nodes.deleteNodesById([parentId, folderFavoriteToEditId, folderFavoriteDuplicateId, folderSearchToEditId])
     ]);
     done();
   });

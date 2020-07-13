@@ -26,13 +26,7 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TestBed, ComponentFixture, async, fakeAsync, tick } from '@angular/core/testing';
-import {
-  UserPreferencesService,
-  AppConfigPipe,
-  NodeFavoriteDirective,
-  UploadService,
-  AlfrescoApiService
-} from '@alfresco/adf-core';
+import { UserPreferencesService, AppConfigPipe, NodeFavoriteDirective, UploadService, AlfrescoApiService } from '@alfresco/adf-core';
 import { ClosePreviewAction } from '@alfresco/aca-shared/store';
 import { PreviewComponent } from './preview.component';
 import { of, throwError } from 'rxjs';

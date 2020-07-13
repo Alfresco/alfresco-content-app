@@ -44,11 +44,7 @@ export class NodeVersionsDialogComponent {
   @Output()
   refreshEvent: EventEmitter<Node> = new EventEmitter<Node>();
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) data: any,
-    private store: Store<AppStore>,
-    private dialogRef: MatDialogRef<NodeVersionsDialogComponent>
-  ) {
+  constructor(@Inject(MAT_DIALOG_DATA) data: any, private store: Store<AppStore>, private dialogRef: MatDialogRef<NodeVersionsDialogComponent>) {
     this.node = data.node;
     this.file = data.file;
     this.isTypeList = data.isTypeList !== undefined ? data.isTypeList : true;

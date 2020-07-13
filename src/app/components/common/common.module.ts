@@ -36,13 +36,6 @@ import { LogoutComponent } from './logout/logout.component';
 @NgModule({
   imports: [CommonModule, CoreModule.forChild(), ExtensionsModule, GenericErrorModule],
   declarations: [LocationLinkComponent, ToggleSharedComponent, LanguagePickerComponent, LogoutComponent],
-  exports: [
-    ExtensionsModule,
-    LocationLinkComponent,
-    GenericErrorModule,
-    ToggleSharedComponent,
-    LanguagePickerComponent,
-    LogoutComponent
-  ]
+  exports: [ExtensionsModule, LocationLinkComponent, GenericErrorModule, ToggleSharedComponent, LanguagePickerComponent, LogoutComponent]
 })
 export class AppCommonModule {}

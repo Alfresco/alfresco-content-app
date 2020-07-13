@@ -96,11 +96,9 @@ export class SearchLibrariesResultsComponent extends PageComponent implements On
         } catch (e) {}
       }),
 
-      this.breakpointObserver
-        .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
-        .subscribe((result) => {
-          this.isSmallScreen = result.matches;
-        })
+      this.breakpointObserver.observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape]).subscribe((result) => {
+        this.isSmallScreen = result.matches;
+      })
     );
 
     if (this.route) {

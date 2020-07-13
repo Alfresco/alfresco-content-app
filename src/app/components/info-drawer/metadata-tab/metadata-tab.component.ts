@@ -36,12 +36,7 @@ import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-metadata-tab',
   template: `
-    <adf-content-metadata-card
-      [readOnly]="!canUpdateNode"
-      [preset]="'custom'"
-      [node]="node"
-      [displayAspect]="displayAspect$ | async"
-    >
+    <adf-content-metadata-card [readOnly]="!canUpdateNode" [preset]="'custom'" [node]="node" [displayAspect]="displayAspect$ | async">
     </adf-content-metadata-card>
   `,
   encapsulation: ViewEncapsulation.None,

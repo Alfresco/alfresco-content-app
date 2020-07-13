@@ -54,10 +54,7 @@ export class LockedByComponent implements OnInit {
 
   writeLockedBy() {
     return (
-      this.node &&
-      this.node.entry.properties &&
-      this.node.entry.properties['cm:lockOwner'] &&
-      this.node.entry.properties['cm:lockOwner'].displayName
+      this.node && this.node.entry.properties && this.node.entry.properties['cm:lockOwner'] && this.node.entry.properties['cm:lockOwner'].displayName
     );
   }
 }

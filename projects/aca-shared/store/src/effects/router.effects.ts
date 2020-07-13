@@ -30,13 +30,7 @@ import { MinimalNodeEntryEntity, PathInfoEntity } from '@alfresco/js-api';
 import { map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../states/app.state';
-import {
-  NavigateUrlAction,
-  RouterActionTypes,
-  NavigateRouteAction,
-  NavigateToFolder,
-  NavigateToParentFolder
-} from '../actions/router.actions';
+import { NavigateUrlAction, RouterActionTypes, NavigateRouteAction, NavigateToFolder, NavigateToParentFolder } from '../actions/router.actions';
 import { SnackbarErrorAction } from '../actions/snackbar.actions';
 
 @Injectable()

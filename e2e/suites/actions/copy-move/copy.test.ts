@@ -352,8 +352,7 @@ describe('Copy content', () => {
     it('[C280221] Copy a folder with a name that already exists on the destination', async () =>
       copyFolderWithNameThatAlreadyExists(existingFolder, source, destinationFav));
 
-    it('[C291901] Copy items into a library', async () =>
-      copyItemsIntoLibrary([file1, folder1], source, folderSiteFav));
+    it('[C291901] Copy items into a library', async () => copyItemsIntoLibrary([file1, folder1], source, folderSiteFav));
 
     it('[C280222] Copy locked file', async () =>
       copyLockedFile(fileLocked1, source, destinationFav, () => {
@@ -488,12 +487,7 @@ describe('Copy content', () => {
     expect(await dataTable.isItemPresent(fileName)).toBe(true, `${fileName} not present in ${destination} folder`);
   }
 
-  async function copyFolderWithContent(
-    folderName: string,
-    location: string = '',
-    destination: string,
-    doBefore?: Function
-  ) {
+  async function copyFolderWithContent(folderName: string, location: string = '', destination: string, doBefore?: Function) {
     if (doBefore) {
       await doBefore();
     }
@@ -514,10 +508,7 @@ describe('Copy content', () => {
     expect(await dataTable.isItemPresent(fileInFolder)).toBe(false, `${fileInFolder} is present in ${destination}`);
 
     await dataTable.doubleClickOnRowByName(folderName);
-    expect(await dataTable.isItemPresent(fileInFolder)).toBe(
-      true,
-      `${fileInFolder} is not present in ${folderName} folder in ${destination}`
-    );
+    expect(await dataTable.isItemPresent(fileInFolder)).toBe(true, `${fileInFolder} is not present in ${folderName} folder in ${destination}`);
   }
 
   async function copyMultipleItems(items: string[], location: string = '', destination: string, doBefore?: Function) {
@@ -542,12 +533,7 @@ describe('Copy content', () => {
     expect(await dataTable.isItemPresent(items[1])).toBe(true, `${items[1]} not present in ${destination} folder`);
   }
 
-  async function copyFileWithNameThatAlreadyExists(
-    fileName: string,
-    location: string = '',
-    destination: string,
-    doBefore?: Function
-  ) {
+  async function copyFileWithNameThatAlreadyExists(fileName: string, location: string = '', destination: string, doBefore?: Function) {
     if (doBefore) {
       await doBefore();
     }
@@ -567,12 +553,7 @@ describe('Copy content', () => {
     expect(await dataTable.isItemPresent(fileName)).toBe(true, `${fileName}.txt not present in ${destination} folder`);
   }
 
-  async function copyFolderWithNameThatAlreadyExists(
-    folderName: string,
-    location: string = '',
-    destination: string,
-    doBefore?: Function
-  ) {
+  async function copyFolderWithNameThatAlreadyExists(folderName: string, location: string = '', destination: string, doBefore?: Function) {
     if (doBefore) {
       await doBefore();
     }
@@ -591,22 +572,11 @@ describe('Copy content', () => {
     await dataTable.doubleClickOnRowByName(destination);
     expect(await dataTable.isItemPresent(folderName)).toBe(true, `${folderName} not present in ${destination} folder`);
     await dataTable.doubleClickOnRowByName(folderName);
-    expect(await dataTable.isItemPresent(file2InFolder)).toBe(
-      true,
-      `${file2InFolder} not present in ${destination} folder in ${folderName}`
-    );
-    expect(await dataTable.isItemPresent(file3InFolder)).toBe(
-      true,
-      `${file3InFolder} not present in ${destination} folder in ${folderName}`
-    );
+    expect(await dataTable.isItemPresent(file2InFolder)).toBe(true, `${file2InFolder} not present in ${destination} folder in ${folderName}`);
+    expect(await dataTable.isItemPresent(file3InFolder)).toBe(true, `${file3InFolder} not present in ${destination} folder in ${folderName}`);
   }
 
-  async function copyItemsIntoLibrary(
-    items: string[],
-    location: string = '',
-    destination: string,
-    doBefore?: Function
-  ) {
+  async function copyItemsIntoLibrary(items: string[], location: string = '', destination: string, doBefore?: Function) {
     if (doBefore) {
       await doBefore();
     }
@@ -652,25 +622,14 @@ describe('Copy content', () => {
 
     await copyDialog.waitForDialogToClose();
     expect(await dataTable.isItemPresent(fileName)).toBe(true, `${fileName} not present in source folder`);
-    expect(await apis.user.nodes.isFileLockedByName(fileName, locationId)).toBe(
-      true,
-      `${fileName} not locked in ${location}`
-    );
+    expect(await apis.user.nodes.isFileLockedByName(fileName, locationId)).toBe(true, `${fileName} not locked in ${location}`);
     await page.clickPersonalFilesAndWait();
     await dataTable.doubleClickOnRowByName(destination);
     expect(await dataTable.isItemPresent(fileName)).toBe(true, `${fileName} not present in ${destination} folder`);
-    expect(await apis.user.nodes.isFileLockedByName(fileName, destinationId)).toBe(
-      false,
-      `${fileName} is locked in ${destination}`
-    );
+    expect(await apis.user.nodes.isFileLockedByName(fileName, destinationId)).toBe(false, `${fileName} is locked in ${destination}`);
   }
 
-  async function copyFolderThatContainsLockedFile(
-    folderName: string,
-    location: string = '',
-    destination: string,
-    doBefore?: Function
-  ) {
+  async function copyFolderThatContainsLockedFile(folderName: string, location: string = '', destination: string, doBefore?: Function) {
     if (doBefore) {
       await doBefore();
     }
@@ -689,14 +648,8 @@ describe('Copy content', () => {
     await page.clickPersonalFilesAndWait();
     await dataTable.doubleClickOnRowByName(destination);
     expect(await dataTable.isItemPresent(folderName)).toBe(true, `${folderName} not present in ${destination} folder`);
-    expect(await dataTable.isItemPresent(fileLockedInFolder)).toBe(
-      false,
-      `${fileLockedInFolder} is present in ${destination}`
-    );
-    expect(await apis.user.nodes.isFileLockedByName(fileLockedInFolder, locationId)).toBe(
-      true,
-      `${fileLockedInFolder} not locked in ${location}`
-    );
+    expect(await dataTable.isItemPresent(fileLockedInFolder)).toBe(false, `${fileLockedInFolder} is present in ${destination}`);
+    expect(await apis.user.nodes.isFileLockedByName(fileLockedInFolder, locationId)).toBe(true, `${fileLockedInFolder} not locked in ${location}`);
 
     await dataTable.doubleClickOnRowByName(folderName);
     expect(await dataTable.isItemPresent(fileLockedInFolder)).toBe(
@@ -704,10 +657,7 @@ describe('Copy content', () => {
       `${fileLockedInFolder} is not present in ${folderName} folder from ${destination}`
     );
     expect(
-      await apis.user.nodes.isFileLockedByName(
-        fileLockedInFolder,
-        await apis.user.nodes.getNodeIdFromParent(folderWithLockedFiles, destinationId)
-      )
+      await apis.user.nodes.isFileLockedByName(fileLockedInFolder, await apis.user.nodes.getNodeIdFromParent(folderWithLockedFiles, destinationId))
     ).toBe(false, `${fileLockedInFolder} is locked in ${destination}`);
   }
 
@@ -757,12 +707,7 @@ describe('Copy content', () => {
     expect(await dataTable.isEmpty()).toBe(true, 'Trash is not empty');
   }
 
-  async function undoCopyFileWithExistingName(
-    fileName: string,
-    location: string = '',
-    destination: string,
-    doBefore?: Function
-  ) {
+  async function undoCopyFileWithExistingName(fileName: string, location: string = '', destination: string, doBefore?: Function) {
     if (doBefore) {
       await doBefore();
     }
@@ -782,25 +727,14 @@ describe('Copy content', () => {
     await page.clickPersonalFilesAndWait();
     await dataTable.doubleClickOnRowByName(source);
     await dataTable.doubleClickOnRowByName(folder2);
-    expect(await dataTable.isItemPresent(fileInFolder2)).toBe(
-      true,
-      `${fileInFolder2} not present in ${destination} folder`
-    );
-    expect(await dataTable.isItemPresent(`${fileInFolder2}-1`)).toBe(
-      false,
-      `${fileInFolder2}-1 is present in ${destination} folder`
-    );
+    expect(await dataTable.isItemPresent(fileInFolder2)).toBe(true, `${fileInFolder2} not present in ${destination} folder`);
+    expect(await dataTable.isItemPresent(`${fileInFolder2}-1`)).toBe(false, `${fileInFolder2}-1 is present in ${destination} folder`);
 
     await page.clickTrash();
     expect(await dataTable.isEmpty()).toBe(true, 'Trash is not empty');
   }
 
-  async function undoCopyFolderWithExistingName(
-    folderName: string,
-    location: string = '',
-    destination: string,
-    doBefore?: Function
-  ) {
+  async function undoCopyFolderWithExistingName(folderName: string, location: string = '', destination: string, doBefore?: Function) {
     if (doBefore) {
       await doBefore();
     }

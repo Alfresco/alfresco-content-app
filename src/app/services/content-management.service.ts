@@ -42,12 +42,7 @@ import {
   SnackbarWarningAction,
   UndoDeleteNodesAction
 } from '@alfresco/aca-shared/store';
-import {
-  ConfirmDialogComponent,
-  FolderDialogComponent,
-  LibraryDialogComponent,
-  ShareDialogComponent
-} from '@alfresco/adf-content-services';
+import { ConfirmDialogComponent, FolderDialogComponent, LibraryDialogComponent, ShareDialogComponent } from '@alfresco/adf-content-services';
 import { TranslationService, AlfrescoApiService } from '@alfresco/adf-core';
 import {
   DeletedNodesPaging,
@@ -536,8 +531,7 @@ export class ContentManagementService {
 
   private undoMoveNodes(moveResponse, selectionParentId: string) {
     const movedNodes = moveResponse && moveResponse['succeeded'] ? moveResponse['succeeded'] : [];
-    const partiallyMovedNodes =
-      moveResponse && moveResponse['partiallySucceeded'] ? moveResponse['partiallySucceeded'] : [];
+    const partiallyMovedNodes = moveResponse && moveResponse['partiallySucceeded'] ? moveResponse['partiallySucceeded'] : [];
 
     const restoreDeletedNodesBatch = this.nodeActionsService.moveDeletedEntries.map((folderEntry) => {
       return this.contentApi.restoreNode(folderEntry.nodeId || folderEntry.id).pipe(map((node) => node.entry));
@@ -945,8 +939,7 @@ export class ContentManagementService {
 
   private showMoveMessage(nodes: Array<MinimalNodeEntity>, info: any, moveResponse?: any) {
     const succeeded = moveResponse && moveResponse['succeeded'] ? moveResponse['succeeded'].length : 0;
-    const partiallySucceeded =
-      moveResponse && moveResponse['partiallySucceeded'] ? moveResponse['partiallySucceeded'].length : 0;
+    const partiallySucceeded = moveResponse && moveResponse['partiallySucceeded'] ? moveResponse['partiallySucceeded'].length : 0;
     const failures = moveResponse && moveResponse['failed'] ? moveResponse['failed'].length : 0;
 
     let successMessage = '';
@@ -1004,11 +997,7 @@ export class ContentManagementService {
     // TODO: review in terms of i18n
     this.snackBar
       .open(
-        messages[successMessage] +
-          beforePartialSuccessMessage +
-          messages[partialSuccessMessage] +
-          beforeFailedMessage +
-          messages[failedMessage],
+        messages[successMessage] + beforePartialSuccessMessage + messages[partialSuccessMessage] + beforeFailedMessage + messages[failedMessage],
         undo,
         {
           panelClass: 'info-snackbar',

@@ -71,9 +71,7 @@ describe('NodeTemplateService', () => {
     nodeTemplateService.selectTemplateDialog(fileTemplateConfig);
     tick();
 
-    expect(dialog.open['calls'].argsFor(0)[1].data).toEqual(
-      jasmine.objectContaining({ currentFolderId: 'parent-node-id' })
-    );
+    expect(dialog.open['calls'].argsFor(0)[1].data).toEqual(jasmine.objectContaining({ currentFolderId: 'parent-node-id' }));
   }));
 
   it('should remove parents path for templates breadcrumb', fakeAsync(() => {

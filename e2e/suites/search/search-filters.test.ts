@@ -23,15 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  LoginPage,
-  SearchResultsPage,
-  RepoClient,
-  Utils,
-  FILES,
-  SITE_VISIBILITY,
-  SITE_ROLES
-} from '@alfresco/aca-testing-shared';
+import { LoginPage, SearchResultsPage, RepoClient, Utils, FILES, SITE_VISIBILITY, SITE_ROLES } from '@alfresco/aca-testing-shared';
 
 const moment = require('moment');
 
@@ -94,13 +86,7 @@ describe('Search filters', () => {
     await apis.user1.nodes.setGranularPermission(parentId, true, user2, 'Collaborator');
 
     await apis.user1.upload.uploadFileWithRename(fileJpgUser1.source, docLibId, fileJpgUser1.name);
-    await apis.user2.upload.uploadFileWithRename(
-      filePdfUser2.source,
-      parentId,
-      filePdfUser2.name,
-      filePdfUser2.title,
-      filePdfUser2.description
-    );
+    await apis.user2.upload.uploadFileWithRename(filePdfUser2.source, parentId, filePdfUser2.name, filePdfUser2.title, filePdfUser2.description);
 
     await apis.user1.search.waitForNodes('search-filters', { expect: 2 });
 
@@ -270,9 +256,7 @@ describe('Search filters', () => {
 
       expect(await createdDateFilter.isFromErrorDisplayed()).toBe(true, 'Error missing for From field');
       expect(await createdDateFilter.isToErrorDisplayed()).toBe(true, 'Error missing for To field');
-      expect(await createdDateFilter.getFromError()).toEqual(
-        `Invalid date. The date must be in the format 'DD-MMM-YY'`
-      );
+      expect(await createdDateFilter.getFromError()).toEqual(`Invalid date. The date must be in the format 'DD-MMM-YY'`);
       expect(await createdDateFilter.getToError()).toEqual(`Invalid date. The date must be in the format 'DD-MMM-YY'`);
     });
 
@@ -306,10 +290,7 @@ describe('Search filters', () => {
     it('[C279191] Expand / Collapse the File type filter panel', async () => {
       expect(await fileTypeFilter.isPanelExpanded()).toBe(true, 'File type filter panel not expanded');
       expect(await fileTypeFilter.getFiltersValues()).toEqual(expectedFileTypes, 'Incorrect File type filters facets');
-      expect(await fileTypeFilter.isFilterCategoryInputDisplayed()).toBe(
-        true,
-        'File type filter categories not displayed'
-      );
+      expect(await fileTypeFilter.isFilterCategoryInputDisplayed()).toBe(true, 'File type filter categories not displayed');
 
       await fileTypeFilter.collapsePanel();
       expect(await fileTypeFilter.isPanelExpanded()).toBe(false, 'File type filter panel is expanded');
@@ -350,10 +331,7 @@ describe('Search filters', () => {
       await fileTypeFilter.expandPanel();
       expect(await fileTypeFilter.getFiltersValues()).toEqual(expectedFileTypes, 'Incorrect File type filters facets');
       await fileTypeFilter.filterCategoriesBy('PDF');
-      expect(await fileTypeFilter.getFiltersValues()).toEqual(
-        ['Adobe PDF Document (1)'],
-        'Incorrect File type filters facets'
-      );
+      expect(await fileTypeFilter.getFiltersValues()).toEqual(['Adobe PDF Document (1)'], 'Incorrect File type filters facets');
     });
   });
 
@@ -367,10 +345,7 @@ describe('Search filters', () => {
       expect(await creatorFilter.isPanelExpanded()).toBe(true, 'Creator filter panel not expanded');
 
       expect(await creatorFilter.getFiltersValues()).toEqual(expectedCreators, 'Incorrect Creator filters facets');
-      expect(await creatorFilter.isFilterCategoryInputDisplayed()).toBe(
-        true,
-        'Creator filter categories not displayed'
-      );
+      expect(await creatorFilter.isFilterCategoryInputDisplayed()).toBe(true, 'Creator filter categories not displayed');
 
       await creatorFilter.collapsePanel();
       expect(await creatorFilter.isPanelExpanded()).toBe(false, 'Creator filter panel is expanded');
@@ -411,10 +386,7 @@ describe('Search filters', () => {
       await creatorFilter.expandPanel();
       expect(await creatorFilter.getFiltersValues()).toEqual(expectedCreators, 'Incorrect Creator filters facets');
       await creatorFilter.filterCategoriesBy(user1);
-      expect(await creatorFilter.getFiltersValues()).toEqual(
-        [`${user1} ${user1} (1)`],
-        'Incorrect Creator filters facets'
-      );
+      expect(await creatorFilter.getFiltersValues()).toEqual([`${user1} ${user1} (1)`], 'Incorrect Creator filters facets');
     });
   });
 
@@ -428,10 +400,7 @@ describe('Search filters', () => {
       expect(await modifierFilter.isPanelExpanded()).toBe(true, 'Modifier filter panel not expanded');
 
       expect(await modifierFilter.getFiltersValues()).toEqual(expectedModifiers, 'Incorrect Modifier filters facets');
-      expect(await modifierFilter.isFilterCategoryInputDisplayed()).toBe(
-        true,
-        'Modifier filter categories not displayed'
-      );
+      expect(await modifierFilter.isFilterCategoryInputDisplayed()).toBe(true, 'Modifier filter categories not displayed');
 
       await modifierFilter.collapsePanel();
       expect(await modifierFilter.isPanelExpanded()).toBe(false, 'Modifier filter panel is expanded');
@@ -472,10 +441,7 @@ describe('Search filters', () => {
       await modifierFilter.expandPanel();
       expect(await modifierFilter.getFiltersValues()).toEqual(expectedModifiers, 'Incorrect Modifier filters facets');
       await modifierFilter.filterCategoriesBy(user1);
-      expect(await modifierFilter.getFiltersValues()).toEqual(
-        [`${user1} ${user1} (1)`],
-        'Incorrect Modifier filters facets'
-      );
+      expect(await modifierFilter.getFiltersValues()).toEqual([`${user1} ${user1} (1)`], 'Incorrect Modifier filters facets');
     });
   });
 
@@ -489,10 +455,7 @@ describe('Search filters', () => {
       expect(await locationFilter.isPanelExpanded()).toBe(true, 'Location filter panel not expanded');
 
       expect(await locationFilter.getFiltersValues()).toEqual(expectedLocations, 'Incorrect Location filters facets');
-      expect(await locationFilter.isFilterCategoryInputDisplayed()).toBe(
-        true,
-        'Location filter categories not displayed'
-      );
+      expect(await locationFilter.isFilterCategoryInputDisplayed()).toBe(true, 'Location filter categories not displayed');
 
       await locationFilter.collapsePanel();
       expect(await locationFilter.isPanelExpanded()).toBe(false, 'Location filter panel is expanded');
@@ -538,13 +501,7 @@ describe('Search filters', () => {
   });
 
   describe('Filter by Modified date', () => {
-    const expectedDateFilters = [
-      'Today (2)',
-      'This week (2)',
-      'This month (2)',
-      'In the last 6 months (2)',
-      'This year (2)'
-    ];
+    const expectedDateFilters = ['Today (2)', 'This week (2)', 'This month (2)', 'In the last 6 months (2)', 'This year (2)'];
 
     afterEach(async (done) => {
       await filters.resetAllButton.click();
@@ -554,14 +511,8 @@ describe('Search filters', () => {
     it('[C279219] Expand / Collapse the Modified date filter panel', async () => {
       expect(await modifiedDateFilter.isPanelExpanded()).toBe(true, 'Modified Date filter panel not expanded');
 
-      expect(await modifiedDateFilter.getFiltersValues()).toEqual(
-        expectedDateFilters,
-        'Incorrect Modified Date filters facets'
-      );
-      expect(await modifiedDateFilter.isFilterCategoryInputDisplayed()).toBe(
-        true,
-        'Modified Date filter categories not displayed'
-      );
+      expect(await modifiedDateFilter.getFiltersValues()).toEqual(expectedDateFilters, 'Incorrect Modified Date filters facets');
+      expect(await modifiedDateFilter.isFilterCategoryInputDisplayed()).toBe(true, 'Modified Date filter categories not displayed');
 
       await modifiedDateFilter.collapsePanel();
       expect(await modifiedDateFilter.isPanelExpanded()).toBe(false, 'Modified Date filter panel is expanded');
@@ -571,10 +522,7 @@ describe('Search filters', () => {
       await modifiedDateFilter.expandPanel();
       await modifiedDateFilter.checkCategory('Today');
 
-      expect(await modifiedDateFilter.isClearButtonEnabled()).toBe(
-        true,
-        'Modified date filter Clear button not enabled'
-      );
+      expect(await modifiedDateFilter.isClearButtonEnabled()).toBe(true, 'Modified date filter Clear button not enabled');
       expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(true, 'PDF file not displayed');
       expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, 'JPG file not displayed');
       expect(await page.getResultsChipsValues()).toEqual(['Today']);
@@ -594,10 +542,7 @@ describe('Search filters', () => {
       await modifiedDateFilter.checkCategory('In the last 6 months');
       await modifiedDateFilter.checkCategory('This year');
 
-      expect(await modifiedDateFilter.getFiltersCheckedValues()).toEqual(
-        expectedDateFilters,
-        'Incorrect checked Modified date filters'
-      );
+      expect(await modifiedDateFilter.getFiltersCheckedValues()).toEqual(expectedDateFilters, 'Incorrect checked Modified date filters');
 
       await modifiedDateFilter.clickClearButton();
       expect(await modifiedDateFilter.getFiltersCheckedValues()).toEqual([], 'Modified date selection not cleared');
@@ -605,10 +550,7 @@ describe('Search filters', () => {
 
     it('[C325006] Search for a specific modified date option', async () => {
       await modifiedDateFilter.expandPanel();
-      expect(await modifiedDateFilter.getFiltersValues()).toEqual(
-        expectedDateFilters,
-        'Incorrect Modified date filters facets'
-      );
+      expect(await modifiedDateFilter.getFiltersValues()).toEqual(expectedDateFilters, 'Incorrect Modified date filters facets');
       await modifiedDateFilter.filterCategoriesBy('This');
       expect(await modifiedDateFilter.getFiltersValues()).toEqual(
         ['This week (2)', 'This month (2)', 'This year (2)'],

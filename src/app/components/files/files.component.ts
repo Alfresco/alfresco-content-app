@@ -35,11 +35,7 @@ import { AppExtensionService, ContentApiService } from '@alfresco/aca-shared';
 import { SetCurrentFolderAction, isAdmin, AppStore, UploadFileVersionAction } from '@alfresco/aca-shared/store';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { debounceTime, takeUntil } from 'rxjs/operators';
-import {
-  ShareDataRow,
-  SEARCH_QUERY_SERVICE_TOKEN,
-  SearchHeaderQueryBuilderService
-} from '@alfresco/adf-content-services';
+import { ShareDataRow, SEARCH_QUERY_SERVICE_TOKEN, SearchHeaderQueryBuilderService } from '@alfresco/adf-content-services';
 
 @Component({
   templateUrl: './files.component.html',
@@ -106,11 +102,9 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
       uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe((file) => this.onFileUploadedEvent(file)),
       uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe((file) => this.onFileUploadedEvent(file)),
 
-      this.breakpointObserver
-        .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
-        .subscribe((result) => {
-          this.isSmallScreen = result.matches;
-        })
+      this.breakpointObserver.observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape]).subscribe((result) => {
+        this.isSmallScreen = result.matches;
+      })
     ]);
 
     this.store
@@ -200,9 +194,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     const parentName = filePath.split('/')[index];
     const currentFoldersDisplayed = (this.documentList.data.getRows() as ShareDataRow[]) || [];
 
-    const alreadyDisplayedParentFolder = currentFoldersDisplayed.find(
-      (row) => row.node.entry.isFolder && row.node.entry.name === parentName
-    );
+    const alreadyDisplayedParentFolder = currentFoldersDisplayed.find((row) => row.node.entry.isFolder && row.node.entry.name === parentName);
 
     if (alreadyDisplayedParentFolder) {
       return;

@@ -47,13 +47,7 @@ describe('TrashcanComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule],
-      declarations: [
-        DataTableComponent,
-        NodeFavoriteDirective,
-        DocumentListComponent,
-        TrashcanComponent,
-        AppConfigPipe
-      ],
+      declarations: [DataTableComponent, NodeFavoriteDirective, DocumentListComponent, TrashcanComponent, AppConfigPipe],
       schemas: [NO_ERRORS_SCHEMA]
     });
 

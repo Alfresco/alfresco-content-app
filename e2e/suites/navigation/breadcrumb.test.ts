@@ -77,11 +77,7 @@ describe('Breadcrumb', () => {
   });
 
   afterAll(async (done) => {
-    await Promise.all([
-      apis.user.nodes.deleteNodeById(parentId),
-      apis.user.nodes.deleteNodeById(parent2Id),
-      apis.user.sites.deleteSite(siteName)
-    ]);
+    await Promise.all([apis.user.nodes.deleteNodeById(parentId), apis.user.nodes.deleteNodeById(parent2Id), apis.user.sites.deleteSite(siteName)]);
     done();
   });
 

@@ -50,11 +50,7 @@ export function viewerTests(siteName?: string) {
       });
 
       it('File Office - [C326622]', async () => {
-        await testUtil.checkViewerActions(
-          testData.fileDocx.name,
-          testData.fileDocx.viewerToolbarPrimary,
-          testData.fileDocx.viewerToolbarMore
-        );
+        await testUtil.checkViewerActions(testData.fileDocx.name, testData.fileDocx.viewerToolbarPrimary, testData.fileDocx.viewerToolbarMore);
       });
 
       it('File Office, favorite - [C326623]', async () => {
@@ -66,19 +62,11 @@ export function viewerTests(siteName?: string) {
       });
 
       it('File simple - [C326624]', async () => {
-        await testUtil.checkViewerActions(
-          testData.file.name,
-          testData.file.viewerToolbarPrimary,
-          testData.file.viewerToolbarMore
-        );
+        await testUtil.checkViewerActions(testData.file.name, testData.file.viewerToolbarPrimary, testData.file.viewerToolbarMore);
       });
 
       it('File favorite - [C326625]', async () => {
-        await testUtil.checkViewerActions(
-          testData.fileFav.name,
-          testData.fileFav.viewerToolbarPrimary,
-          testData.fileFav.viewerToolbarMore
-        );
+        await testUtil.checkViewerActions(testData.fileFav.name, testData.fileFav.viewerToolbarPrimary, testData.fileFav.viewerToolbarMore);
       });
 
       it('File Office, shared - [C326637]', async () => {
@@ -98,11 +86,7 @@ export function viewerTests(siteName?: string) {
       });
 
       it('File shared - [C326648]', async () => {
-        await testUtil.checkViewerActions(
-          testData.fileShared.name,
-          testData.fileShared.viewerToolbarPrimary,
-          testData.fileShared.viewerToolbarMore
-        );
+        await testUtil.checkViewerActions(testData.fileShared.name, testData.fileShared.viewerToolbarPrimary, testData.fileShared.viewerToolbarMore);
       });
 
       it('File shared, favorite - [C326649]', async () => {
@@ -114,11 +98,7 @@ export function viewerTests(siteName?: string) {
       });
 
       it('File locked - [C326630]', async () => {
-        await testUtil.checkViewerActions(
-          testData.fileLocked.name,
-          testData.fileLocked.viewerToolbarPrimary,
-          testData.fileLocked.viewerToolbarMore
-        );
+        await testUtil.checkViewerActions(testData.fileLocked.name, testData.fileLocked.viewerToolbarPrimary, testData.fileLocked.viewerToolbarMore);
       });
 
       it('File favorite, locked - [C326633]', async () => {
@@ -160,11 +140,7 @@ export function viewerTests(siteName?: string) {
       });
 
       it('File favorite - [C326653]', async () => {
-        await testUtil.checkViewerActions(
-          testData.fileFav.name,
-          testData.fileFav.viewerToolbarPrimary,
-          testData.fileFav.viewerToolbarMore
-        );
+        await testUtil.checkViewerActions(testData.fileFav.name, testData.fileFav.viewerToolbarPrimary, testData.fileFav.viewerToolbarMore);
       });
 
       it('File Office, shared, favorite - [C326655]', async () => {
@@ -222,11 +198,7 @@ export function viewerTests(siteName?: string) {
       });
 
       it('File shared - [C326660]', async () => {
-        await testUtil.checkViewerActions(
-          testData.fileShared.name,
-          testData.fileShared.viewerToolbarPrimary,
-          testData.fileShared.viewerToolbarMore
-        );
+        await testUtil.checkViewerActions(testData.fileShared.name, testData.fileShared.viewerToolbarPrimary, testData.fileShared.viewerToolbarMore);
       });
 
       it('File shared, favorite - [C326661]', async () => {
@@ -262,11 +234,7 @@ export function viewerTests(siteName?: string) {
       });
 
       it('File Office - [C326664]', async () => {
-        await testUtil.checkViewerActions(
-          testData.fileDocx.name,
-          testData.fileDocx.viewerToolbarPrimary,
-          testData.fileDocx.viewerToolbarMore
-        );
+        await testUtil.checkViewerActions(testData.fileDocx.name, testData.fileDocx.viewerToolbarPrimary, testData.fileDocx.viewerToolbarMore);
       });
 
       it('File Office, favorite - [C326665]', async () => {
@@ -278,19 +246,11 @@ export function viewerTests(siteName?: string) {
       });
 
       it('File simple - [C326666]', async () => {
-        await testUtil.checkViewerActions(
-          testData.file.name,
-          testData.file.viewerToolbarPrimary,
-          testData.file.viewerToolbarMore
-        );
+        await testUtil.checkViewerActions(testData.file.name, testData.file.viewerToolbarPrimary, testData.file.viewerToolbarMore);
       });
 
       it('File favorite - [C326667]', async () => {
-        await testUtil.checkViewerActions(
-          testData.fileFav.name,
-          testData.fileFav.viewerToolbarPrimary,
-          testData.fileFav.viewerToolbarMore
-        );
+        await testUtil.checkViewerActions(testData.fileFav.name, testData.fileFav.viewerToolbarPrimary, testData.fileFav.viewerToolbarMore);
       });
 
       it('File Office, shared - [C326670]', async () => {
@@ -310,11 +270,7 @@ export function viewerTests(siteName?: string) {
       });
 
       it('File shared - [C326672]', async () => {
-        await testUtil.checkViewerActions(
-          testData.fileShared.name,
-          testData.fileShared.viewerToolbarPrimary,
-          testData.fileShared.viewerToolbarMore
-        );
+        await testUtil.checkViewerActions(testData.fileShared.name, testData.fileShared.viewerToolbarPrimary, testData.fileShared.viewerToolbarMore);
       });
 
       it('File shared, favorite - [C326673]', async () => {
@@ -326,11 +282,7 @@ export function viewerTests(siteName?: string) {
       });
 
       it('File locked - [C326668]', async () => {
-        await testUtil.checkViewerActions(
-          testData.fileLocked.name,
-          testData.fileLocked.viewerToolbarPrimary,
-          testData.fileLocked.viewerToolbarMore
-        );
+        await testUtil.checkViewerActions(testData.fileLocked.name, testData.fileLocked.viewerToolbarPrimary, testData.fileLocked.viewerToolbarMore);
       });
 
       it('File favorite, locked - [C326669]', async () => {

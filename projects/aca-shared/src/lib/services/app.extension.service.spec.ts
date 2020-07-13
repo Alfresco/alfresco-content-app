@@ -690,10 +690,7 @@ describe('AppExtensionService', () => {
         { items: [{ children: [{ route: 'route3', disabled: true }] }] }
       ]);
 
-      expect(navigation).toEqual([
-        { items: [{ route: 'route1', url: '/route1' }] },
-        { items: [{ children: [] }] }
-      ] as NavBarGroupRef[]);
+      expect(navigation).toEqual([{ items: [{ route: 'route1', url: '/route1' }] }, { items: [{ children: [] }] }] as NavBarGroupRef[]);
     });
 
     it('should filter out items based on rule', () => {

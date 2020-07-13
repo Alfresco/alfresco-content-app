@@ -205,9 +205,7 @@ export class NodesApi extends RepoApi {
       const listEntries = (await this.getNodeChildren(parentId)).list.entries;
       let nodeIds: string[];
       if (exceptNodesNamed) {
-        nodeIds = listEntries
-          .filter((entries) => !exceptNodesNamed.includes(entries.entry.name))
-          .map((entries) => entries.entry.id);
+        nodeIds = listEntries.filter((entries) => !exceptNodesNamed.includes(entries.entry.name)).map((entries) => entries.entry.id);
       } else {
         nodeIds = listEntries.map((entries) => entries.entry.id);
       }
@@ -217,12 +215,7 @@ export class NodesApi extends RepoApi {
     }
   }
 
-  async createImageNode(
-    name: string,
-    parentId: string = '-my-',
-    title: string = '',
-    description: string = ''
-  ): Promise<NodeEntry | null> {
+  async createImageNode(name: string, parentId: string = '-my-', title: string = '', description: string = ''): Promise<NodeEntry | null> {
     const imageProps = {
       'exif:pixelXDimension': 1000,
       'exif:pixelYDimension': 1200
@@ -284,29 +277,14 @@ export class NodesApi extends RepoApi {
     aspectNames: string[] = null
   ): Promise<NodeEntry> {
     try {
-      return await this.createNode(
-        'cm:content',
-        name,
-        parentId,
-        title,
-        description,
-        null,
-        author,
-        majorVersion,
-        aspectNames
-      );
+      return await this.createNode('cm:content', name, parentId, title, description, null, author, majorVersion, aspectNames);
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.createFile.name}`, error);
       return null;
     }
   }
 
-  async createImage(
-    name: string,
-    parentId: string = '-my-',
-    title: string = '',
-    description: string = ''
-  ): Promise<NodeEntry | null> {
+  async createImage(name: string, parentId: string = '-my-', title: string = '', description: string = ''): Promise<NodeEntry | null> {
     try {
       return await this.createImageNode(name, parentId, title, description);
     } catch (error) {
@@ -466,12 +444,7 @@ export class NodesApi extends RepoApi {
     }
   }
 
-  async setGranularPermission(
-    nodeId: string,
-    inheritPermissions: boolean = false,
-    username: string,
-    role: string
-  ): Promise<NodeEntry | null> {
+  async setGranularPermission(nodeId: string, inheritPermissions: boolean = false, username: string, role: string): Promise<NodeEntry | null> {
     const data = {
       permissions: {
         isInheritanceEnabled: inheritPermissions,

@@ -70,11 +70,9 @@ export class FavoriteLibrariesComponent extends PageComponent implements OnInit 
       this.content.libraryLeft.subscribe(() => this.reloadList()),
       this.content.favoriteLibraryToggle.subscribe(() => this.reloadList()),
 
-      this.breakpointObserver
-        .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
-        .subscribe((result) => {
-          this.isSmallScreen = result.matches;
-        })
+      this.breakpointObserver.observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape]).subscribe((result) => {
+        this.isSmallScreen = result.matches;
+      })
     ]);
     this.columns = this.extensions.documentListPresets.favoriteLibraries || [];
   }

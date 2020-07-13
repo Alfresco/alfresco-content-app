@@ -48,12 +48,7 @@ export const fileToPreview = createSelector(getAppSelection, getCurrentFolder, (
 
 @Injectable()
 export class ViewerEffects {
-  constructor(
-    private store: Store<AppStore>,
-    private actions$: Actions,
-    private router: Router,
-    private extensions: AppExtensionService
-  ) {}
+  constructor(private store: Store<AppStore>, private actions$: Actions, private router: Router, private extensions: AppExtensionService) {}
 
   @Effect({ dispatch: false })
   fullscreenViewer$ = this.actions$.pipe(

@@ -49,10 +49,7 @@ export class CreateFromTemplateDialogComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.formBuilder.group({
-      name: [
-        this.data.name,
-        [Validators.required, this.forbidEndingDot, this.forbidOnlySpaces, this.forbidSpecialCharacters]
-      ],
+      name: [this.data.name, [Validators.required, this.forbidEndingDot, this.forbidOnlySpaces, this.forbidSpecialCharacters]],
       title: [this.data.properties ? this.data.properties['cm:title'] : '', Validators.maxLength(256)],
       description: [this.data.properties ? this.data.properties['cm:description'] : '', Validators.maxLength(512)]
     });

@@ -36,14 +36,7 @@ import { ContentApiService } from '@alfresco/aca-shared';
 class TestNode {
   entry?: MinimalNodeEntryEntity;
 
-  constructor(
-    id?: string,
-    isFile?: boolean,
-    name?: string,
-    permission?: string[],
-    nodeType?: string,
-    properties?: any
-  ) {
+  constructor(id?: string, isFile?: boolean, name?: string, permission?: string[], nodeType?: string, properties?: any) {
     this.entry = {} as any;
     this.entry.id = id || 'node-id';
     this.entry.isFile = isFile;
@@ -90,10 +83,7 @@ describe('NodeActionsService', () => {
         });
       };
     },
-    fakeGetNodeChildren: (
-      familyNodes: { parentNodeId: string; nodeChildren: any[] }[],
-      isForbidden: boolean = false
-    ) => {
+    fakeGetNodeChildren: (familyNodes: { parentNodeId: string; nodeChildren: any[] }[], isForbidden: boolean = false) => {
       return (parentId) => {
         return new Promise((resolve, reject) => {
           if (isForbidden) {
@@ -803,11 +793,7 @@ describe('NodeActionsService', () => {
       service.moveNodes([fileToMove, folderToMove], permissionToMove);
       subject.next([destinationFolder.entry]);
 
-      expect(spyOnBatchOperation).toHaveBeenCalledWith(
-        BatchOperationType.move,
-        [fileToMove, folderToMove],
-        permissionToMove
-      );
+      expect(spyOnBatchOperation).toHaveBeenCalledWith(BatchOperationType.move, [fileToMove, folderToMove], permissionToMove);
       expect(spyOnDestinationPicker).toHaveBeenCalled();
     });
 
@@ -820,11 +806,7 @@ describe('NodeActionsService', () => {
       service.moveNodes([fileToMove, folderToMove], permissionToMove);
       subject.next([destinationFolder.entry]);
 
-      expect(spyOnBatchOperation).toHaveBeenCalledWith(
-        BatchOperationType.move,
-        [fileToMove, folderToMove],
-        permissionToMove
-      );
+      expect(spyOnBatchOperation).toHaveBeenCalledWith(BatchOperationType.move, [fileToMove, folderToMove], permissionToMove);
       expect(spyOnDestinationPicker).not.toHaveBeenCalled();
     });
 
@@ -848,9 +830,7 @@ describe('NodeActionsService', () => {
       });
 
       it('should not throw error on conflict, to be able to show message in case of partial move of files', async(() => {
-        spyOnDocumentListServiceAction = spyOn(documentListService, 'moveNode').and.returnValue(
-          throwError(conflictError)
-        );
+        spyOnDocumentListServiceAction = spyOn(documentListService, 'moveNode').and.returnValue(throwError(conflictError));
 
         const moveContentActionObservable = service.moveContentAction(fileToMove.entry, folderDestinationId);
         moveContentActionObservable
@@ -872,9 +852,7 @@ describe('NodeActionsService', () => {
       }));
 
       it('should not throw permission error, to be able to show message in case of partial move of files', async(() => {
-        spyOnDocumentListServiceAction = spyOn(documentListService, 'moveNode').and.returnValue(
-          throwError(permissionError)
-        );
+        spyOnDocumentListServiceAction = spyOn(documentListService, 'moveNode').and.returnValue(throwError(permissionError));
 
         const moveContentActionObservable = service.moveContentAction(fileToMove.entry, folderDestinationId);
         moveContentActionObservable
@@ -935,9 +913,7 @@ describe('NodeActionsService', () => {
       afterEach(() => subject$.complete());
 
       it('should not throw permission error in case it occurs on folder move', async(() => {
-        spyOnDocumentListServiceAction = spyOn(documentListService, 'moveNode').and.returnValue(
-          throwError(permissionError)
-        );
+        spyOnDocumentListServiceAction = spyOn(documentListService, 'moveNode').and.returnValue(throwError(permissionError));
 
         const moveFolderActionObservable = service.moveFolderAction(folderToMove.entry, folderDestinationId);
         moveFolderActionObservable
@@ -959,15 +935,9 @@ describe('NodeActionsService', () => {
       }));
 
       it('should not throw error on conflict in case it occurs on folder move', async(() => {
-        const newDestination = new TestNode(
-          'new-destination',
-          !isFile,
-          folderToMove.entry.name
-        ) as NodeChildAssociationEntry;
+        const newDestination = new TestNode('new-destination', !isFile, folderToMove.entry.name) as NodeChildAssociationEntry;
 
-        spyOnDocumentListServiceAction = spyOn(documentListService, 'moveNode').and.returnValue(
-          throwError(conflictError)
-        );
+        spyOnDocumentListServiceAction = spyOn(documentListService, 'moveNode').and.returnValue(throwError(conflictError));
         spyOn(service, 'getChildByName').and.returnValue(subject$);
         spyOn(service, 'getNodeChildren').and.returnValue(of(emptyChildrenList));
 
@@ -989,11 +959,7 @@ describe('NodeActionsService', () => {
         });
         spyOn(service, 'moveContentAction').and.returnValue(of({}));
 
-        const newDestination = new TestNode(
-          'new-destination',
-          !isFile,
-          'conflicting-name'
-        ) as NodeChildAssociationEntry;
+        const newDestination = new TestNode('new-destination', !isFile, 'conflicting-name') as NodeChildAssociationEntry;
         spyOn(service, 'getChildByName').and.returnValue(subject$);
         const childrenNodes = [fileToMove, folderToMove];
         spyOn(service, 'getNodeChildren').and.returnValue(of({ list: { entries: childrenNodes } }));
@@ -1089,9 +1055,7 @@ describe('NodeActionsService', () => {
           spyOn(service, 'getChildByName').and.returnValue(subject$);
 
           parentFolderToMove.entry.parentId = `not-${folderDestinationId}`;
-          moveNodeActionPromise = service
-            .moveNodeAction(parentFolderToMove.entry, folderDestinationId)
-            .subscribe(spyOnSuccess, spyOnError);
+          moveNodeActionPromise = service.moveNodeAction(parentFolderToMove.entry, folderDestinationId).subscribe(spyOnSuccess, spyOnError);
           subject$.next(folderOnLocation);
 
           expect(spyOnDelete).toHaveBeenCalled();
@@ -1111,9 +1075,7 @@ describe('NodeActionsService', () => {
           spyOn(service, 'getChildByName').and.returnValue(subject$);
 
           parentFolderToMove.entry.parentId = `not-${folderDestinationId}`;
-          moveNodeActionPromise = service
-            .moveNodeAction(parentFolderToMove.entry, folderDestinationId)
-            .subscribe(spyOnSuccess, spyOnError);
+          moveNodeActionPromise = service.moveNodeAction(parentFolderToMove.entry, folderDestinationId).subscribe(spyOnSuccess, spyOnError);
           subject$.next(null);
 
           expect(spyOnDelete).not.toHaveBeenCalled();
