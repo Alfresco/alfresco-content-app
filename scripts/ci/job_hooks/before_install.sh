@@ -9,7 +9,7 @@ pip install --user awscli
 
 export NODE_OPTIONS="--max_old_space_size=30000"
 export GIT_HASH=`git rev-parse HEAD`
-S3_DBP_PATH="s3://alfresco-travis-builds/dbp"
+S3_DBP_PATH="s3://alfresco-travis-builds/aca"
 export BASE_HASH="$(git describe --tags `git rev-list --tags --max-count=1`)"
 export HEAD_HASH="HEAD"
 
