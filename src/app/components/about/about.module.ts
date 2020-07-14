@@ -47,20 +47,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    CoreModule.forChild(),
-    RouterModule.forChild(routes),
-    AppLayoutModule,
-    MatTableModule
-  ],
-  declarations: [
-    AboutComponent,
-    PackageListComponent,
-    ExtensionListComponent,
-    StatusListComponent,
-    ModuleListComponent,
-    LicenseListComponent
-  ]
+  imports: [CommonModule, CoreModule.forChild(), RouterModule.forChild(routes), AppLayoutModule, MatTableModule],
+  declarations: [AboutComponent, PackageListComponent, ExtensionListComponent, StatusListComponent, ModuleListComponent, LicenseListComponent]
 })
 export class AboutModule {}

@@ -24,13 +24,7 @@
  */
 
 import { browser } from 'protractor';
-import {
-  LoginPage,
-  BrowsingPage,
-  Utils,
-  RepoClient,
-  APP_ROUTES
-} from '@alfresco/aca-testing-shared';
+import { LoginPage, BrowsingPage, Utils, RepoClient, APP_ROUTES } from '@alfresco/aca-testing-shared';
 
 describe('Logout', () => {
   const page = new BrowsingPage();

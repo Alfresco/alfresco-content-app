@@ -52,9 +52,7 @@ describe('ExtensionsDataLoaderGuard', () => {
 
     it('should emit true and complete in case of only one callback is present, completed', () => {
       const subject = new Subject<true>();
-      const guard = new ExtensionsDataLoaderGuard([
-        () => subject.asObservable()
-      ]);
+      const guard = new ExtensionsDataLoaderGuard([() => subject.asObservable()]);
 
       guard.canActivate(route).subscribe(emittedSpy, erroredSpy, completedSpy);
 
@@ -70,9 +68,7 @@ describe('ExtensionsDataLoaderGuard', () => {
     });
 
     it('should emit true and complete in case of only one callback is present, errored', () => {
-      const guard = new ExtensionsDataLoaderGuard([
-        () => throwError(new Error())
-      ]);
+      const guard = new ExtensionsDataLoaderGuard([() => throwError(new Error())]);
 
       guard.canActivate(route).subscribe(emittedSpy, erroredSpy, completedSpy);
       expect(emittedSpy).toHaveBeenCalledWith(true);
@@ -83,10 +79,7 @@ describe('ExtensionsDataLoaderGuard', () => {
     it('should NOT complete in case of multiple callbacks are present and not all of them have been completed', () => {
       const subject1 = new Subject<true>();
       const subject2 = new Subject<true>();
-      const guard = new ExtensionsDataLoaderGuard([
-        () => subject1.asObservable(),
-        () => subject2.asObservable()
-      ]);
+      const guard = new ExtensionsDataLoaderGuard([() => subject1.asObservable(), () => subject2.asObservable()]);
 
       guard.canActivate(route).subscribe(emittedSpy, erroredSpy, completedSpy);
 
@@ -101,10 +94,7 @@ describe('ExtensionsDataLoaderGuard', () => {
     it('should emit true and complete in case of multiple callbacks are present and all of them have been completed', () => {
       const subject1 = new Subject<true>();
       const subject2 = new Subject<true>();
-      const guard = new ExtensionsDataLoaderGuard([
-        () => subject1.asObservable(),
-        () => subject2.asObservable()
-      ]);
+      const guard = new ExtensionsDataLoaderGuard([() => subject1.asObservable(), () => subject2.asObservable()]);
 
       guard.canActivate(route).subscribe(emittedSpy, erroredSpy, completedSpy);
 
@@ -119,10 +109,7 @@ describe('ExtensionsDataLoaderGuard', () => {
 
     it('should emit true and complete even if one of the observables are errored, to not block the application loading', () => {
       const subject1 = new Subject<true>();
-      const guard = new ExtensionsDataLoaderGuard([
-        () => subject1.asObservable(),
-        () => throwError(new Error())
-      ]);
+      const guard = new ExtensionsDataLoaderGuard([() => subject1.asObservable(), () => throwError(new Error())]);
 
       guard.canActivate(route).subscribe(emittedSpy, erroredSpy, completedSpy);
 
@@ -135,7 +122,7 @@ describe('ExtensionsDataLoaderGuard', () => {
     it('should call canActivate only once', () => {
       const subject1 = new Subject<true>();
       const extensionLoaders = {
-        fct1: function() {
+        fct1: function () {
           return subject1.asObservable();
         }
       };

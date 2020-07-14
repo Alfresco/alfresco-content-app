@@ -26,12 +26,7 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
-import {
-  AlfrescoApiService,
-  NodeFavoriteDirective,
-  DataTableComponent,
-  AppConfigPipe
-} from '@alfresco/adf-core';
+import { AlfrescoApiService, NodeFavoriteDirective, DataTableComponent, AppConfigPipe } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { LibrariesComponent } from './libraries.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
@@ -57,13 +52,7 @@ describe('LibrariesComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule, EffectsModule.forRoot([LibraryEffects])],
-      declarations: [
-        DataTableComponent,
-        NodeFavoriteDirective,
-        DocumentListComponent,
-        LibrariesComponent,
-        AppConfigPipe
-      ],
+      declarations: [DataTableComponent, NodeFavoriteDirective, DocumentListComponent, LibrariesComponent, AppConfigPipe],
       schemas: [NO_ERRORS_SCHEMA]
     });
 
@@ -74,12 +63,8 @@ describe('LibrariesComponent', () => {
     alfrescoApi.reset();
     router = TestBed.inject(Router);
 
-    spyOn(alfrescoApi.sitesApi, 'getSites').and.returnValue(
-      Promise.resolve(page)
-    );
-    spyOn(alfrescoApi.peopleApi, 'getSiteMembership').and.returnValue(
-      Promise.resolve({})
-    );
+    spyOn(alfrescoApi.sitesApi, 'getSites').and.returnValue(Promise.resolve(page));
+    spyOn(alfrescoApi.peopleApi, 'getSiteMembership').and.returnValue(Promise.resolve({}));
   });
 
   describe('Node navigation', () => {

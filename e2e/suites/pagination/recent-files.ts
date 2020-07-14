@@ -30,7 +30,6 @@ export function recentFilesTests() {
   const { dataTable, pagination } = page;
 
   describe('Pagination controls : ', () => {
-
     beforeAll(async () => {
       await page.clickRecentFilesAndWait();
     });

@@ -23,17 +23,9 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  LoginPage,
-  SearchResultsPage,
-  RepoClient,
-  Utils,
-  FILES,
-  SITE_VISIBILITY,
-  SITE_ROLES
-} from '@alfresco/aca-testing-shared';
+import { LoginPage, SearchResultsPage, RepoClient, Utils, FILES, SITE_VISIBILITY, SITE_ROLES } from '@alfresco/aca-testing-shared';
 
-import * as moment from 'moment';
+const moment = require('moment');
 
 describe('Search filters', () => {
   const random = Utils.random();
@@ -44,7 +36,8 @@ describe('Search filters', () => {
   const parent = `parent-${random}`;
   let parentId: string;
 
-  const site = `site-${Utils.random()}`; let docLibId;
+  const site = `site-${Utils.random()}`;
+  let docLibId: string;
 
   const fileJpgUser1 = {
     name: `search-filters-file-1-${random}.jpg`,
@@ -112,10 +105,7 @@ describe('Search filters', () => {
   });
 
   afterAll(async (done) => {
-    await Promise.all([
-      apis.user1.nodes.deleteNodeById(parentId),
-      apis.user1.sites.deleteSite(site)
-    ]);
+    await Promise.all([apis.user1.nodes.deleteNodeById(parentId), apis.user1.sites.deleteSite(site)]);
     done();
   });
 
@@ -562,7 +552,10 @@ describe('Search filters', () => {
       await modifiedDateFilter.expandPanel();
       expect(await modifiedDateFilter.getFiltersValues()).toEqual(expectedDateFilters, 'Incorrect Modified date filters facets');
       await modifiedDateFilter.filterCategoriesBy('This');
-      expect(await modifiedDateFilter.getFiltersValues()).toEqual(['This week (2)', 'This month (2)', 'This year (2)'], 'Incorrect Modified date filters facets');
+      expect(await modifiedDateFilter.getFiltersValues()).toEqual(
+        ['This week (2)', 'This month (2)', 'This year (2)'],
+        'Incorrect Modified date filters facets'
+      );
     });
   });
 

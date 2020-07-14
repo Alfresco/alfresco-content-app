@@ -35,17 +35,9 @@ export class Sidenav extends Component {
   activeLink = this.byCss('.action-button--active');
   newButton = this.allByCss('[data-automation-id="create-button"]');
   personalFiles = this.byCss(`[data-automation-id='app.navbar.personalFiles']`);
-  fileLibraries = this.byCss(
-    `[data-automation-id='app.navbar.libraries.menu']`
-  );
-  myLibraries = this.byCss(
-    `[data-automation-id='app.navbar.libraries.files']`,
-    browser
-  );
-  favoriteLibraries = this.byCss(
-    `[data-automation-id='app.navbar.libraries.favorite']`,
-    browser
-  );
+  fileLibraries = this.byCss(`[data-automation-id='app.navbar.libraries.menu']`);
+  myLibraries = this.byCss(`[data-automation-id='app.navbar.libraries.files']`, browser);
+  favoriteLibraries = this.byCss(`[data-automation-id='app.navbar.libraries.favorite']`, browser);
   shared = this.byCss(`[data-automation-id='app.navbar.shared']`);
   recentFiles = this.byCss(`[data-automation-id='app.navbar.recentFiles']`);
   favorites = this.byCss(`[data-automation-id='app.navbar.favorites']`);
@@ -59,9 +51,7 @@ export class Sidenav extends Component {
 
   private async expandMenu(name: string): Promise<void> {
     try {
-      if (
-        await element(by.cssContainingText('.mat-expanded', name)).isPresent()
-      ) {
+      if (await element(by.cssContainingText('.mat-expanded', name)).isPresent()) {
         return Promise.resolve();
       } else {
         const link = this.getLink(name);
@@ -80,9 +70,7 @@ export class Sidenav extends Component {
   }
 
   async closeNewMenu(): Promise<void> {
-    await BrowserActions.click(
-      element(by.css('button[data-automation-id="create-button"] span span'))
-    );
+    await BrowserActions.click(element(by.css('button[data-automation-id="create-button"] span span')));
     await this.menu.waitForMenuToClose();
   }
 
@@ -112,9 +100,7 @@ export class Sidenav extends Component {
   }
 
   async childIsActive(name: string): Promise<boolean> {
-    const childClass = await this.getLinkLabel(name)
-      .element(by.css('span'))
-      .getAttribute('class');
+    const childClass = await this.getLinkLabel(name).element(by.css('span')).getAttribute('class');
     return childClass.includes('action-button--active');
   }
 
@@ -147,13 +133,9 @@ export class Sidenav extends Component {
 
   async getLinkTooltip(name: string): Promise<string> {
     const link = this.getLinkLabel(name);
-    const condition = () =>
-      link.getAttribute('title').then(value => value && value.length > 0);
+    const condition = () => link.getAttribute('title').then((value) => value && value.length > 0);
 
-    await browser
-      .actions()
-      .mouseMove(link)
-      .perform();
+    await browser.actions().mouseMove(link).perform();
     await browser.wait(condition, BROWSER_WAIT_TIMEOUT);
 
     return link.getAttribute('title');
@@ -170,9 +152,7 @@ export class Sidenav extends Component {
   }
 
   async isFileLibrariesMenuExpanded(): Promise<boolean> {
-    return element(
-      by.cssContainingText('.mat-expanded', SIDEBAR_LABELS.FILE_LIBRARIES)
-    ).isPresent();
+    return element(by.cssContainingText('.mat-expanded', SIDEBAR_LABELS.FILE_LIBRARIES)).isPresent();
   }
 
   async expandFileLibraries(): Promise<void> {

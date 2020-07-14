@@ -45,10 +45,10 @@ describe('ToggleSharedComponent', () => {
     component = new ToggleSharedComponent(storeMock);
   });
 
-  it('should get Store selection entry on initialization', done => {
+  it('should get Store selection entry on initialization', (done) => {
     component.ngOnInit();
 
-    component.selection$.subscribe(selection => {
+    component.selection$.subscribe((selection) => {
       expect(selection.first.entry).toEqual(entry);
       done();
     });

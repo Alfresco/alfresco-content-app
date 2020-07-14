@@ -28,12 +28,7 @@ export interface LicenseData {
   value: string;
 }
 
-import {
-  Component,
-  ViewEncapsulation,
-  ChangeDetectionStrategy,
-  Input
-} from '@angular/core';
+import { Component, ViewEncapsulation, ChangeDetectionStrategy, Input } from '@angular/core';
 
 @Component({
   selector: 'app-license-list',
@@ -55,7 +50,7 @@ export class LicenseListComponent {
     }
   ];
 
-  displayedColumns = this.columns.map(x => x.columnDef);
+  displayedColumns = this.columns.map((x) => x.columnDef);
 
   @Input()
   data: Array<LicenseData> = [];

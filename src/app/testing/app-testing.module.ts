@@ -48,10 +48,7 @@ import { StoreModule } from '@ngrx/store';
 import { appReducer } from '../store/reducers/app.reducer';
 import { RouterTestingModule } from '@angular/router/testing';
 import { EffectsModule } from '@ngrx/effects';
-import {
-  CustomResourcesService,
-  DocumentListService
-} from '@alfresco/adf-content-services';
+import { CustomResourcesService, DocumentListService } from '@alfresco/adf-content-services';
 import { MaterialModule } from '../material.module';
 import { INITIAL_STATE } from '../store/initial-state';
 import { TranslatePipeMock } from './translate-pipe.directive';

@@ -23,32 +23,34 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  SITE_VISIBILITY,
-  SITE_ROLES,
-  LoginPage,
-  BrowsingPage,
-  Utils,
-  RepoClient
-} from '@alfresco/aca-testing-shared';
+import { SITE_VISIBILITY, SITE_ROLES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
 
 describe('Trash', () => {
   const username = `user-${Utils.random()}`;
 
   const siteName = `site-${Utils.random()}`;
-  const fileSite = `file-${Utils.random()}.txt`; let fileSiteId;
+  const fileSite = `file-${Utils.random()}.txt`;
+  let fileSiteId;
 
-  const folderAdmin = `folder-${Utils.random()}`; let folderAdminId;
-  const fileAdmin = `file-${Utils.random()}.txt`; let fileAdminId;
+  const folderAdmin = `folder-${Utils.random()}`;
+  let folderAdminId;
+  const fileAdmin = `file-${Utils.random()}.txt`;
+  let fileAdminId;
 
-  const folderUser = `folder-${Utils.random()}`; let folderUserId;
-  const fileUser = `file-${Utils.random()}.txt`; let fileUserId;
+  const folderUser = `folder-${Utils.random()}`;
+  let folderUserId;
+  const fileUser = `file-${Utils.random()}.txt`;
+  let fileUserId;
 
-  const folderDeleted = `folder-${Utils.random()}`; let folderDeletedId;
-  const fileDeleted = `file-${Utils.random()}.txt`; let fileDeletedId;
+  const folderDeleted = `folder-${Utils.random()}`;
+  let folderDeletedId;
+  const fileDeleted = `file-${Utils.random()}.txt`;
+  let fileDeletedId;
 
-  const folderNotDeleted = `folder-${Utils.random()}`; let folderNotDeletedId;
-  const fileInFolder = `file-${Utils.random()}.txt`; let fileInFolderId;
+  const folderNotDeleted = `folder-${Utils.random()}`;
+  let folderNotDeletedId: string;
+  const fileInFolder = `file-${Utils.random()}.txt`;
+  let fileInFolderId;
 
   const apis = {
     admin: new RepoClient(),
@@ -61,21 +63,21 @@ describe('Trash', () => {
 
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
-    fileAdminId = (await apis.admin.nodes.createFiles([ fileAdmin ])).entry.id;
-    folderAdminId = (await apis.admin.nodes.createFolders([ folderAdmin ])).entry.id;
+    fileAdminId = (await apis.admin.nodes.createFiles([fileAdmin])).entry.id;
+    folderAdminId = (await apis.admin.nodes.createFolders([folderAdmin])).entry.id;
     await apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
     await apis.admin.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_MANAGER.ROLE);
     const docLibId = await apis.admin.sites.getDocLibId(siteName);
     fileSiteId = (await apis.admin.nodes.createFile(fileSite, docLibId)).entry.id;
-    fileUserId = (await apis.user.nodes.createFiles([ fileUser ])).entry.id;
-    folderUserId = (await apis.user.nodes.createFolders([ folderUser ])).entry.id;
+    fileUserId = (await apis.user.nodes.createFiles([fileUser])).entry.id;
+    folderUserId = (await apis.user.nodes.createFolders([folderUser])).entry.id;
     folderDeletedId = (await apis.user.nodes.createFolder(folderDeleted)).entry.id;
-    fileDeletedId = (await apis.user.nodes.createFiles([ fileDeleted ], folderDeleted)).entry.id;
+    fileDeletedId = (await apis.user.nodes.createFiles([fileDeleted], folderDeleted)).entry.id;
     folderNotDeletedId = (await apis.user.nodes.createFolder(folderNotDeleted)).entry.id;
-    fileInFolderId = (await apis.user.nodes.createFiles([ fileInFolder ], folderNotDeleted)).entry.id;
+    fileInFolderId = (await apis.user.nodes.createFiles([fileInFolder], folderNotDeleted)).entry.id;
 
-    await apis.admin.nodes.deleteNodesById([ fileAdminId, folderAdminId ], false);
-    await apis.user.nodes.deleteNodesById([ fileSiteId, fileUserId, folderUserId, fileInFolderId ], false);
+    await apis.admin.nodes.deleteNodesById([fileAdminId, folderAdminId], false);
+    await apis.user.nodes.deleteNodesById([fileSiteId, fileUserId, folderUserId, fileInFolderId], false);
     await apis.user.nodes.deleteNodeById(fileDeletedId, false);
     await apis.user.nodes.deleteNodeById(folderDeletedId, false);
 
@@ -83,11 +85,7 @@ describe('Trash', () => {
   });
 
   afterAll(async (done) => {
-    await Promise.all([
-      apis.admin.sites.deleteSite(siteName),
-      apis.user.nodes.deleteNodeById(folderNotDeletedId),
-      apis.admin.trashcan.emptyTrash()
-    ]);
+    await Promise.all([apis.admin.sites.deleteSite(siteName), apis.user.nodes.deleteNodeById(folderNotDeletedId), apis.admin.trashcan.emptyTrash()]);
     done();
   });
 
@@ -103,7 +101,7 @@ describe('Trash', () => {
     });
 
     it('[C213217] has the correct columns', async () => {
-      const expectedColumns = [ 'Name', 'Location', 'Size', 'Deleted', 'Deleted by' ];
+      const expectedColumns = ['Name', 'Location', 'Size', 'Deleted', 'Deleted by'];
       const actualColumns = await dataTable.getColumnHeadersText();
 
       expect(actualColumns).toEqual(expectedColumns);
@@ -132,7 +130,7 @@ describe('Trash', () => {
     });
 
     it('[C280494] has the correct columns', async () => {
-      const expectedColumns = [ 'Name', 'Location', 'Size', 'Deleted'];
+      const expectedColumns = ['Name', 'Location', 'Size', 'Deleted'];
       const actualColumns = await dataTable.getColumnHeadersText();
 
       expect(actualColumns).toEqual(expectedColumns);
@@ -170,17 +168,17 @@ describe('Trash', () => {
 
     it('[C217144] Location column redirect - file in user Home', async () => {
       await dataTable.clickItemLocation(fileUser);
-      expect(await breadcrumb.getAllItems()).toEqual([ 'Personal Files' ]);
+      expect(await breadcrumb.getAllItems()).toEqual(['Personal Files']);
     });
 
     it('[C280496] Location column redirect - file in folder', async () => {
       await dataTable.clickItemLocation(fileInFolder);
-      expect(await breadcrumb.getAllItems()).toEqual([ 'Personal Files', folderNotDeleted ]);
+      expect(await breadcrumb.getAllItems()).toEqual(['Personal Files', folderNotDeleted]);
     });
 
     it('[C280497] Location column redirect - file in site', async () => {
       await dataTable.clickItemLocation(fileSite);
-      expect(await breadcrumb.getAllItems()).toEqual([ 'My Libraries', siteName ]);
+      expect(await breadcrumb.getAllItems()).toEqual(['My Libraries', siteName]);
     });
   });
 });

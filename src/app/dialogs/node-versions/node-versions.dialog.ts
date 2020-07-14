@@ -23,19 +23,9 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  AppStore,
-  SnackbarErrorAction,
-  UnlockWriteAction
-} from '@alfresco/aca-shared/store';
+import { AppStore, SnackbarErrorAction, UnlockWriteAction } from '@alfresco/aca-shared/store';
 import { MinimalNodeEntryEntity, Node } from '@alfresco/js-api';
-import {
-  Component,
-  EventEmitter,
-  Inject,
-  Output,
-  ViewEncapsulation
-} from '@angular/core';
+import { Component, EventEmitter, Inject, Output, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { NodeEntityEvent } from '@alfresco/adf-content-services';
@@ -54,11 +44,7 @@ export class NodeVersionsDialogComponent {
   @Output()
   refreshEvent: EventEmitter<Node> = new EventEmitter<Node>();
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) data: any,
-    private store: Store<AppStore>,
-    private dialogRef: MatDialogRef<NodeVersionsDialogComponent>
-  ) {
+  constructor(@Inject(MAT_DIALOG_DATA) data: any, private store: Store<AppStore>, private dialogRef: MatDialogRef<NodeVersionsDialogComponent>) {
     this.node = data.node;
     this.file = data.file;
     this.isTypeList = data.isTypeList !== undefined ? data.isTypeList : true;

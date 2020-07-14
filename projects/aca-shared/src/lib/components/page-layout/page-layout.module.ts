@@ -32,17 +32,7 @@ import { CommonModule } from '@angular/common';
 
 @NgModule({
   imports: [CommonModule],
-  declarations: [
-    PageLayoutContentComponent,
-    PageLayoutErrorComponent,
-    PageLayoutHeaderComponent,
-    PageLayoutComponent
-  ],
-  exports: [
-    PageLayoutContentComponent,
-    PageLayoutErrorComponent,
-    PageLayoutHeaderComponent,
-    PageLayoutComponent
-  ]
+  declarations: [PageLayoutContentComponent, PageLayoutErrorComponent, PageLayoutHeaderComponent, PageLayoutComponent],
+  exports: [PageLayoutContentComponent, PageLayoutErrorComponent, PageLayoutHeaderComponent, PageLayoutComponent]
 })
 export class PageLayoutModule {}

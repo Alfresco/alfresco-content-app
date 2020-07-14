@@ -26,11 +26,7 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { UserMenuItemComponent } from './user-menu-item.component';
-import {
-  TranslateModule,
-  TranslateLoader,
-  TranslateFakeLoader
-} from '@ngx-translate/core';
+import { TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { AppExtensionService } from '@alfresco/aca-shared';
@@ -99,9 +95,7 @@ describe('UserMenuItemComponent', () => {
     } as ContentActionRef;
     fixture.detectChanges();
 
-    const componentElement = fixture.nativeElement.querySelector(
-      '#custom-component'
-    );
+    const componentElement = fixture.nativeElement.querySelector('#custom-component');
     expect(componentElement).not.toBe(null);
   });
 
@@ -119,8 +113,6 @@ describe('UserMenuItemComponent', () => {
 
     const buttonElement = fixture.nativeElement.querySelector('#action-button');
     buttonElement.dispatchEvent(new MouseEvent('click'));
-    expect(appExtensionService.runActionById).toHaveBeenCalledWith(
-      'TEST_EVENT'
-    );
+    expect(appExtensionService.runActionById).toHaveBeenCalledWith('TEST_EVENT');
   });
 });

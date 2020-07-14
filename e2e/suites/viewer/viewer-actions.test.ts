@@ -59,25 +59,33 @@ describe('Viewer actions', () => {
   const manageVersionsDialog = new ManageVersionsDialog();
   const uploadNewVersionDialog = new UploadNewVersionDialog();
 
-  beforeAll(async done => {
+  beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
     done();
   });
 
   describe('from Personal Files', () => {
-    const parent = `parentPF-${Utils.random()}`; let parentId;
-    const destination = `destPF-${Utils.random()}`; let destinationId;
+    const parent = `parentPF-${Utils.random()}`;
+    let parentId: string;
+    const destination = `destPF-${Utils.random()}`;
+    let destinationId: string;
 
-    const docxPersonalFiles = `docxPF-${Utils.random()}.docx`; let docxFileId;
+    const docxPersonalFiles = `docxPF-${Utils.random()}.docx`;
+    let docxFileId: string;
 
     const xlsxPersonalFiles = `xlsxPF-${Utils.random()}.xlsx`;
     const pdfPersonalFiles = `pdfPF-${Utils.random()}.pdf`;
-    const filePersonalFiles = docxFile2; let filePersonalFilesId;
+    const filePersonalFiles = docxFile2;
+    let filePersonalFilesId: string;
 
-    const fileForEditOffline = `file1-${Utils.random()}.docx`; let fileForEditOfflineId;
-    const fileForCancelEditing = `file2-${Utils.random()}.docx`; let fileForCancelEditingId;
-    const fileForUploadNewVersion = `file3-${Utils.random()}.docx`; let fileForUploadNewVersionId;
-    const fileForUploadNewVersion2 = `file4-${Utils.random()}.docx`; let fileForUploadNewVersionId2;
+    const fileForEditOffline = `file1-${Utils.random()}.docx`;
+    let fileForEditOfflineId: string;
+    const fileForCancelEditing = `file2-${Utils.random()}.docx`;
+    let fileForCancelEditingId: string;
+    const fileForUploadNewVersion = `file3-${Utils.random()}.docx`;
+    let fileForUploadNewVersionId: string;
+    const fileForUploadNewVersion2 = `file4-${Utils.random()}.docx`;
+    let fileForUploadNewVersionId2: string;
 
     beforeAll(async (done) => {
       parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
@@ -97,7 +105,6 @@ describe('Viewer actions', () => {
       await apis.user.nodes.lockFile(fileForCancelEditingId);
       await apis.user.nodes.lockFile(fileForUploadNewVersionId);
       await apis.user.nodes.lockFile(fileForUploadNewVersionId2);
-
 
       await loginPage.loginWith(username);
       done();
@@ -291,17 +298,23 @@ describe('Viewer actions', () => {
 
   describe('from File Libraries', () => {
     const siteName = `site-${Utils.random()}`;
-    const destination = `destFL-${Utils.random()}`; let destinationId;
+    const destination = `destFL-${Utils.random()}`;
+    let destinationId: string;
 
-    const docxLibraries = `docxFL-${Utils.random()}.docx`; let docxFileId;
+    const docxLibraries = `docxFL-${Utils.random()}.docx`;
+    let docxFileId: string;
 
     const xlsxLibraries = `xlsxFL-${Utils.random()}.xlsx`;
     const pdfLibraries = `pdfFL-${Utils.random()}.pdf`;
-    const fileLibraries = docxFile2; let fileLibrariesId;
+    const fileLibraries = docxFile2;
+    let fileLibrariesId: string;
 
-    const fileForEditOffline = `file1-${Utils.random()}.docx`; let fileForEditOfflineId;
-    const fileForCancelEditing = `file2-${Utils.random()}.docx`; let fileForCancelEditingId;
-    const fileForUploadNewVersion = `file3-${Utils.random()}.docx`; let fileForUploadNewVersionId;
+    const fileForEditOffline = `file1-${Utils.random()}.docx`;
+    let fileForEditOfflineId: string;
+    const fileForCancelEditing = `file2-${Utils.random()}.docx`;
+    let fileForCancelEditingId: string;
+    const fileForUploadNewVersion = `file3-${Utils.random()}.docx`;
+    let fileForUploadNewVersionId: string;
 
     beforeAll(async (done) => {
       await apis.user.sites.createSite(siteName);
@@ -469,21 +482,28 @@ describe('Viewer actions', () => {
   });
 
   describe('from Recent Files', () => {
-    const parent = `parentRF-${Utils.random()}`; let parentId;
-    const destination = `destRF-${Utils.random()}`; let destinationId;
+    const parent = `parentRF-${Utils.random()}`;
+    let parentId: string;
+    const destination = `destRF-${Utils.random()}`;
+    let destinationId: string;
 
-    const docxRecentFiles = `docxRF-${Utils.random()}.docx`; let docxFileId;
+    const docxRecentFiles = `docxRF-${Utils.random()}.docx`;
+    let docxFileId: string;
 
     const xlsxRecentFiles = `xlsxRF-${Utils.random()}.xlsx`;
     const pdfRecentFiles = `pdfRF-${Utils.random()}.pdf`;
-    const fileRecent = docxFile2; let fileRecentId;
+    const fileRecent = docxFile2;
+    let fileRecentId: string;
 
-    const fileForEditOffline = `file1-${Utils.random()}.docx`; let fileForEditOfflineId;
-    const fileForCancelEditing = `file2-${Utils.random()}.docx`; let fileForCancelEditingId;
-    const fileForUploadNewVersion = `file3-${Utils.random()}.docx`; let fileForUploadNewVersionId;
+    const fileForEditOffline = `file1-${Utils.random()}.docx`;
+    let fileForEditOfflineId: string;
+    const fileForCancelEditing = `file2-${Utils.random()}.docx`;
+    let fileForCancelEditingId: string;
+    const fileForUploadNewVersion = `file3-${Utils.random()}.docx`;
+    let fileForUploadNewVersionId: string;
 
     beforeAll(async (done) => {
-      await apis.user.search.waitForApi(username, {expect: 0});
+      await apis.user.search.waitForApi(username, { expect: 0 });
 
       parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
       destinationId = (await apis.user.nodes.createFolder(destination)).entry.id;
@@ -498,11 +518,10 @@ describe('Viewer actions', () => {
       await apis.user.nodes.lockFile(fileForCancelEditingId);
       await apis.user.nodes.lockFile(fileForUploadNewVersionId);
 
-
       await apis.user.upload.uploadFileWithRename(xlsxFileForMove, parentId, xlsxRecentFiles);
       await apis.user.upload.uploadFileWithRename(pdfFileForDelete, parentId, pdfRecentFiles);
 
-      await apis.user.search.waitForApi(username, {expect: 7});
+      await apis.user.search.waitForApi(username, { expect: 7 });
 
       await loginPage.loginWith(username);
       done();
@@ -651,18 +670,27 @@ describe('Viewer actions', () => {
   });
 
   describe('from Shared Files', () => {
-    const parent = `parentSF-${Utils.random()}`; let parentId;
-    const destination = `destSF-${Utils.random()}`; let destinationId;
+    const parent = `parentSF-${Utils.random()}`;
+    let parentId: string;
+    const destination = `destSF-${Utils.random()}`;
+    let destinationId: string;
 
-    const docxSharedFiles = `docxSF-${Utils.random()}.docx`; let docxFileId;
+    const docxSharedFiles = `docxSF-${Utils.random()}.docx`;
+    let docxFileId: string;
 
-    const xlsxSharedFiles = `xlsxSF-${Utils.random()}.xlsx`; let xlsxFileId;
-    const pdfSharedFiles = `pdfSF-${Utils.random()}.pdf`; let pdfFileId;
-    const fileShared = docxFile2; let fileSharedId;
+    const xlsxSharedFiles = `xlsxSF-${Utils.random()}.xlsx`;
+    let xlsxFileId: string;
+    const pdfSharedFiles = `pdfSF-${Utils.random()}.pdf`;
+    let pdfFileId: string;
+    const fileShared = docxFile2;
+    let fileSharedId: string;
 
-    const fileForEditOffline = `file1-${Utils.random()}.docx`; let fileForEditOfflineId;
-    const fileForCancelEditing = `file2-${Utils.random()}.docx`; let fileForCancelEditingId;
-    const fileForUploadNewVersion = `file3-${Utils.random()}.docx`; let fileForUploadNewVersionId;
+    const fileForEditOffline = `file1-${Utils.random()}.docx`;
+    let fileForEditOfflineId: string;
+    const fileForCancelEditing = `file2-${Utils.random()}.docx`;
+    let fileForCancelEditingId: string;
+    const fileForUploadNewVersion = `file3-${Utils.random()}.docx`;
+    let fileForUploadNewVersionId;
 
     beforeAll(async (done) => {
       parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
@@ -680,8 +708,16 @@ describe('Viewer actions', () => {
       await apis.user.nodes.lockFile(fileForCancelEditingId);
       await apis.user.nodes.lockFile(fileForUploadNewVersionId);
 
-      await apis.user.shared.shareFilesByIds([docxFileId, xlsxFileId, pdfFileId, fileForCancelEditingId, fileForEditOfflineId, fileForUploadNewVersionId, fileSharedId])
-      await apis.user.shared.waitForApi({expect: 7});
+      await apis.user.shared.shareFilesByIds([
+        docxFileId,
+        xlsxFileId,
+        pdfFileId,
+        fileForCancelEditingId,
+        fileForEditOfflineId,
+        fileForUploadNewVersionId,
+        fileSharedId
+      ]);
+      await apis.user.shared.waitForApi({ expect: 7 });
 
       await loginPage.loginWith(username);
       done();
@@ -831,19 +867,26 @@ describe('Viewer actions', () => {
 
   describe('from Favorites', () => {
     const parent = `parentFav-${Utils.random()}`;
-    let parentId;
+    let parentId: string;
     const destination = `destFav-${Utils.random()}`;
-    let destinationId;
+    let destinationId: string;
 
-    const docxFavorites = `docxFav-${Utils.random()}.docx`; let docxFileId;
+    const docxFavorites = `docxFav-${Utils.random()}.docx`;
+    let docxFileId: string;
 
-    const xlsxFavorites = `xlsxFav-${Utils.random()}.xlsx`; let xlsxFileId;
-    const pdfFavorites = `pdfFav-${Utils.random()}.pdf`; let pdfFileId;
-    const fileFav = docxFile2; let fileFavId;
+    const xlsxFavorites = `xlsxFav-${Utils.random()}.xlsx`;
+    let xlsxFileId: string;
+    const pdfFavorites = `pdfFav-${Utils.random()}.pdf`;
+    let pdfFileId: string;
+    const fileFav = docxFile2;
+    let fileFavId: string;
 
-    const fileForEditOffline = `file1-${Utils.random()}.docx`; let fileForEditOfflineId;
-    const fileForCancelEditing = `file2-${Utils.random()}.docx`; let fileForCancelEditingId;
-    const fileForUploadNewVersion = `file3-${Utils.random()}.docx`; let fileForUploadNewVersionId;
+    const fileForEditOffline = `file1-${Utils.random()}.docx`;
+    let fileForEditOfflineId: string;
+    const fileForCancelEditing = `file2-${Utils.random()}.docx`;
+    let fileForCancelEditingId: string;
+    const fileForUploadNewVersion = `file3-${Utils.random()}.docx`;
+    let fileForUploadNewVersionId: string;
 
     beforeAll(async (done) => {
       parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
@@ -861,9 +904,16 @@ describe('Viewer actions', () => {
       await apis.user.nodes.lockFile(fileForCancelEditingId);
       await apis.user.nodes.lockFile(fileForUploadNewVersionId);
 
-
-      await apis.user.favorites.addFavoritesByIds('file', [docxFileId, xlsxFileId, pdfFileId, fileForEditOfflineId, fileForCancelEditingId, fileForUploadNewVersionId, fileFavId])
-      await apis.user.favorites.waitForApi({expect: 7});
+      await apis.user.favorites.addFavoritesByIds('file', [
+        docxFileId,
+        xlsxFileId,
+        pdfFileId,
+        fileForEditOfflineId,
+        fileForCancelEditingId,
+        fileForUploadNewVersionId,
+        fileFavId
+      ]);
+      await apis.user.favorites.waitForApi({ expect: 7 });
 
       await loginPage.loginWith(username);
       done();

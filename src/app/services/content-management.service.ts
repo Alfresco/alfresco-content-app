@@ -42,12 +42,7 @@ import {
   SnackbarWarningAction,
   UndoDeleteNodesAction
 } from '@alfresco/aca-shared/store';
-import {
-  ConfirmDialogComponent,
-  FolderDialogComponent,
-  LibraryDialogComponent,
-  ShareDialogComponent
-} from '@alfresco/adf-content-services';
+import { ConfirmDialogComponent, FolderDialogComponent, LibraryDialogComponent, ShareDialogComponent } from '@alfresco/adf-content-services';
 import { TranslationService, AlfrescoApiService } from '@alfresco/adf-core';
 import {
   DeletedNodesPaging,
@@ -106,7 +101,7 @@ export class ContentManagementService {
   addFavorite(nodes: Array<MinimalNodeEntity>) {
     if (nodes && nodes.length > 0) {
       this.contentApi.addFavorite(nodes).subscribe(() => {
-        const favoriteNodes = nodes.map(node => {
+        const favoriteNodes = nodes.map((node) => {
           const newNode = JSON.parse(JSON.stringify(node));
           newNode.entry.isFavorite = true;
           return newNode;
@@ -120,7 +115,7 @@ export class ContentManagementService {
   removeFavorite(nodes: Array<MinimalNodeEntity>) {
     if (nodes && nodes.length > 0) {
       this.contentApi.removeFavorite(nodes).subscribe(() => {
-        const favoriteNodes = nodes.map(node => {
+        const favoriteNodes = nodes.map((node) => {
           const newNode = JSON.parse(JSON.stringify(node));
           newNode.entry.isFavorite = false;
           return newNode;
@@ -144,9 +139,7 @@ export class ContentManagementService {
           width: '730px'
         });
       } else {
-        this.store.dispatch(
-          new SnackbarErrorAction('APP.MESSAGES.ERRORS.PERMISSION')
-        );
+        this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.ERRORS.PERMISSION'));
       }
     }
   }
@@ -157,7 +150,7 @@ export class ContentManagementService {
       const id = node.entry.nodeId || (node as any).entry.guid;
 
       if (id) {
-        this.contentApi.getNodeInfo(id).subscribe(entry => {
+        this.contentApi.getNodeInfo(id).subscribe((entry) => {
           this.openVersionManagerDialog(entry);
         });
       } else {
@@ -178,9 +171,7 @@ export class ContentManagementService {
         this.store.dispatch(new ReloadDocumentListAction());
       });
     } else {
-      this.store.dispatch(
-        new SnackbarErrorAction('APP.MESSAGES.ERRORS.PERMISSION')
-      );
+      this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.ERRORS.PERMISSION'));
     }
   }
 
@@ -198,7 +189,7 @@ export class ContentManagementService {
       const id = node.entry.nodeId || (node as any).entry.guid;
 
       if (id) {
-        this.contentApi.getNodeInfo(id).subscribe(entry => {
+        this.contentApi.getNodeInfo(id).subscribe((entry) => {
           this.openShareLinkDialog({ entry });
         });
       } else {
@@ -211,7 +202,7 @@ export class ContentManagementService {
     this.store
       .select(getSharedUrl)
       .pipe(take(1))
-      .subscribe(baseShareUrl => {
+      .subscribe((baseShareUrl) => {
         this.dialogRef
           .open(ShareDialogComponent, {
             restoreFocus: true,
@@ -223,7 +214,7 @@ export class ContentManagementService {
             }
           })
           .afterClosed()
-          .subscribe(deletedSharedLink => {
+          .subscribe((deletedSharedLink) => {
             this.store.dispatch(new SetSelectedNodesAction([node]));
             if (deletedSharedLink) {
               this.linksUnshared.next(deletedSharedLink);
@@ -246,7 +237,7 @@ export class ContentManagementService {
       this.store.dispatch(new SnackbarErrorAction(message));
     });
 
-    dialogInstance.afterClosed().subscribe(node => {
+    dialogInstance.afterClosed().subscribe((node) => {
       if (node) {
         this.store.dispatch(new ReloadDocumentListAction());
       }
@@ -269,7 +260,7 @@ export class ContentManagementService {
       this.store.dispatch(new SnackbarErrorAction(message));
     });
 
-    dialog.afterClosed().subscribe(node => {
+    dialog.afterClosed().subscribe((node) => {
       if (node) {
         this.alfrescoApiService.nodeUpdated.next(node);
       }
@@ -286,7 +277,7 @@ export class ContentManagementService {
     });
 
     return dialogInstance.afterClosed().pipe(
-      tap(node => {
+      tap((node) => {
         if (node) {
           this.libraryCreated.next(node);
         }
@@ -304,14 +295,10 @@ export class ContentManagementService {
     this.contentApi.deleteSite(id).subscribe(
       () => {
         this.libraryDeleted.next(id);
-        this.store.dispatch(
-          new SnackbarInfoAction('APP.MESSAGES.INFO.LIBRARY_DELETED')
-        );
+        this.store.dispatch(new SnackbarInfoAction('APP.MESSAGES.INFO.LIBRARY_DELETED'));
       },
       () => {
-        this.store.dispatch(
-          new SnackbarErrorAction('APP.MESSAGES.ERRORS.DELETE_LIBRARY_FAILED')
-        );
+        this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.ERRORS.DELETE_LIBRARY_FAILED'));
       }
     );
   }
@@ -327,21 +314,15 @@ export class ContentManagementService {
       minWidth: '250px'
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result === true) {
         this.contentApi.leaveSite(siteId).subscribe(
           () => {
             this.libraryLeft.next(siteId);
-            this.store.dispatch(
-              new SnackbarInfoAction('APP.MESSAGES.INFO.LEFT_LIBRARY')
-            );
+            this.store.dispatch(new SnackbarInfoAction('APP.MESSAGES.INFO.LEFT_LIBRARY'));
           },
           () => {
-            this.store.dispatch(
-              new SnackbarErrorAction(
-                'APP.MESSAGES.ERRORS.LEAVE_LIBRARY_FAILED'
-              )
-            );
+            this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.ERRORS.LEAVE_LIBRARY_FAILED'));
           }
         );
       }
@@ -352,22 +333,16 @@ export class ContentManagementService {
     this.contentApi.updateLibrary(siteId, siteBody).subscribe(
       (siteEntry: SiteEntry) => {
         this.libraryUpdated.next(siteEntry);
-        this.store.dispatch(
-          new SnackbarInfoAction('LIBRARY.SUCCESS.LIBRARY_UPDATED')
-        );
+        this.store.dispatch(new SnackbarInfoAction('LIBRARY.SUCCESS.LIBRARY_UPDATED'));
       },
       () => {
-        this.store.dispatch(
-          new SnackbarErrorAction('LIBRARY.ERRORS.LIBRARY_UPDATE_ERROR')
-        );
+        this.store.dispatch(new SnackbarErrorAction('LIBRARY.ERRORS.LIBRARY_UPDATE_ERROR'));
       }
     );
   }
 
   async unshareNodes(links: Array<MinimalNodeEntity>) {
-    const promises = links.map(link =>
-      this.contentApi.deleteSharedLink(link.entry.id).toPromise()
-    );
+    const promises = links.map((link) => this.contentApi.deleteSharedLink(link.entry.id).toPromise());
     await Promise.all(promises);
     this.linksUnshared.next();
   }
@@ -395,9 +370,9 @@ export class ContentManagementService {
       minWidth: '250px'
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result === true) {
-        const nodesToDelete: NodeInfo[] = nodes.map(node => {
+        const nodesToDelete: NodeInfo[] = nodes.map((node) => {
           const { name } = node.entry;
           const id = (node as any).entry.nodeId || node.entry.id;
 
@@ -416,7 +391,7 @@ export class ContentManagementService {
       return;
     }
 
-    const nodesWithPath = selection.filter(node => node.entry.path);
+    const nodesWithPath = selection.filter((node) => node.entry.path);
 
     if (selection.length && !nodesWithPath.length) {
       const failedStatus = this.processStatus([]);
@@ -428,9 +403,9 @@ export class ContentManagementService {
 
     let status: DeleteStatus;
 
-    forkJoin(nodesWithPath.map(node => this.restoreNode(node)))
+    forkJoin(nodesWithPath.map((node) => this.restoreNode(node)))
       .pipe(
-        tap(restoredNodes => {
+        tap((restoredNodes) => {
           status = this.processStatus(restoredNodes);
         }),
         mergeMap(() => this.contentApi.getDeletedNodes())
@@ -449,25 +424,18 @@ export class ContentManagementService {
   }
 
   copyNodes(nodes: Array<MinimalNodeEntity>) {
-    zip(
-      this.nodeActionsService.copyNodes(nodes),
-      this.nodeActionsService.contentCopied
-    ).subscribe(
-      result => {
+    zip(this.nodeActionsService.copyNodes(nodes), this.nodeActionsService.contentCopied).subscribe(
+      (result) => {
         const [operationResult, newItems] = result;
         this.showCopyMessage(operationResult, nodes, newItems);
       },
-      error => {
+      (error) => {
         this.showCopyMessage(error, nodes);
       }
     );
   }
 
-  private showCopyMessage(
-    info: any,
-    nodes: Array<MinimalNodeEntity>,
-    newItems?: Array<MinimalNodeEntity>
-  ) {
+  private showCopyMessage(info: any, nodes: Array<MinimalNodeEntity>, newItems?: Array<MinimalNodeEntity>) {
     const numberOfCopiedItems = newItems ? newItems.length : 0;
     const failedItems = nodes.length - numberOfCopiedItems;
 
@@ -479,11 +447,9 @@ export class ContentManagementService {
 
         if (failedItems) {
           if (numberOfCopiedItems) {
-            i18MessageSuffix =
-              numberOfCopiedItems === 1 ? 'PARTIAL_SINGULAR' : 'PARTIAL_PLURAL';
+            i18MessageSuffix = numberOfCopiedItems === 1 ? 'PARTIAL_SINGULAR' : 'PARTIAL_PLURAL';
           } else {
-            i18MessageSuffix =
-              failedItems === 1 ? 'FAIL_SINGULAR' : 'FAIL_PLURAL';
+            i18MessageSuffix = failedItems === 1 ? 'FAIL_SINGULAR' : 'FAIL_PLURAL';
           }
         } else {
           i18MessageSuffix = numberOfCopiedItems === 1 ? 'SINGULAR' : 'PLURAL';
@@ -503,10 +469,7 @@ export class ContentManagementService {
       } catch {}
     }
 
-    const undo =
-      numberOfCopiedItems > 0
-        ? this.translation.instant('APP.ACTIONS.UNDO')
-        : '';
+    const undo = numberOfCopiedItems > 0 ? this.translation.instant('APP.ACTIONS.UNDO') : '';
 
     const message = this.translation.instant(i18nMessageString, {
       success: numberOfCopiedItems,
@@ -525,17 +488,15 @@ export class ContentManagementService {
   private undoCopyNodes(nodes: MinimalNodeEntity[]) {
     const batch = this.nodeActionsService
       .flatten(nodes)
-      .filter(item => item.entry)
-      .map(item =>
-        this.contentApi.deleteNode(item.entry.id, { permanent: true })
-      );
+      .filter((item) => item.entry)
+      .map((item) => this.contentApi.deleteNode(item.entry.id, { permanent: true }));
 
     forkJoin(...batch).subscribe(
       () => {
         this.nodesDeleted.next(null);
         this.store.dispatch(new ReloadDocumentListAction());
       },
-      error => {
+      (error) => {
         let i18nMessageString = 'APP.MESSAGES.ERRORS.GENERIC';
 
         let errorJson = null;
@@ -543,11 +504,7 @@ export class ContentManagementService {
           errorJson = JSON.parse(error.message);
         } catch {}
 
-        if (
-          errorJson &&
-          errorJson.error &&
-          errorJson.error.statusCode === 403
-        ) {
+        if (errorJson && errorJson.error && errorJson.error.statusCode === 403) {
           i18nMessageString = 'APP.MESSAGES.ERRORS.PERMISSION';
         }
 
@@ -559,39 +516,26 @@ export class ContentManagementService {
   moveNodes(nodes: Array<MinimalNodeEntity>) {
     const permissionForMove = '!';
 
-    zip(
-      this.nodeActionsService.moveNodes(nodes, permissionForMove),
-      this.nodeActionsService.contentMoved
-    ).subscribe(
-      result => {
+    zip(this.nodeActionsService.moveNodes(nodes, permissionForMove), this.nodeActionsService.contentMoved).subscribe(
+      (result) => {
         const [operationResult, moveResponse] = result;
         this.showMoveMessage(nodes, operationResult, moveResponse);
 
         this.store.dispatch(new ReloadDocumentListAction());
       },
-      error => {
+      (error) => {
         this.showMoveMessage(nodes, error);
       }
     );
   }
 
   private undoMoveNodes(moveResponse, selectionParentId: string) {
-    const movedNodes =
-      moveResponse && moveResponse['succeeded']
-        ? moveResponse['succeeded']
-        : [];
-    const partiallyMovedNodes =
-      moveResponse && moveResponse['partiallySucceeded']
-        ? moveResponse['partiallySucceeded']
-        : [];
+    const movedNodes = moveResponse && moveResponse['succeeded'] ? moveResponse['succeeded'] : [];
+    const partiallyMovedNodes = moveResponse && moveResponse['partiallySucceeded'] ? moveResponse['partiallySucceeded'] : [];
 
-    const restoreDeletedNodesBatch = this.nodeActionsService.moveDeletedEntries.map(
-      folderEntry => {
-        return this.contentApi
-          .restoreNode(folderEntry.nodeId || folderEntry.id)
-          .pipe(map(node => node.entry));
-      }
-    );
+    const restoreDeletedNodesBatch = this.nodeActionsService.moveDeletedEntries.map((folderEntry) => {
+      return this.contentApi.restoreNode(folderEntry.nodeId || folderEntry.id).pipe(map((node) => node.entry));
+    });
 
     zip(...restoreDeletedNodesBatch, of(null))
       .pipe(
@@ -600,20 +544,12 @@ export class ContentManagementService {
 
           const revertMoveBatch = this.nodeActionsService
             .flatten(nodesToBeMovedBack)
-            .filter(
-              node => node.entry || (node.itemMoved && node.itemMoved.entry)
-            )
-            .map(node => {
+            .filter((node) => node.entry || (node.itemMoved && node.itemMoved.entry))
+            .map((node) => {
               if (node.itemMoved) {
-                return this.nodeActionsService.moveNodeAction(
-                  node.itemMoved.entry,
-                  node.initialParentId
-                );
+                return this.nodeActionsService.moveNodeAction(node.itemMoved.entry, node.initialParentId);
               } else {
-                return this.nodeActionsService.moveNodeAction(
-                  node.entry,
-                  selectionParentId
-                );
+                return this.nodeActionsService.moveNodeAction(node.entry, selectionParentId);
               }
             });
 
@@ -624,7 +560,7 @@ export class ContentManagementService {
         () => {
           this.store.dispatch(new ReloadDocumentListAction());
         },
-        error => {
+        (error) => {
           let message = 'APP.MESSAGES.ERRORS.GENERIC';
 
           let errorJson = null;
@@ -632,11 +568,7 @@ export class ContentManagementService {
             errorJson = JSON.parse(error.message);
           } catch {}
 
-          if (
-            errorJson &&
-            errorJson.error &&
-            errorJson.error.statusCode === 403
-          ) {
+          if (errorJson && errorJson.error && errorJson.error.statusCode === 403) {
             message = 'APP.MESSAGES.ERRORS.PERMISSION';
           }
 
@@ -648,7 +580,7 @@ export class ContentManagementService {
   deleteNodes(items: MinimalNodeEntity[]): void {
     const batch: Observable<DeletedNodeInfo>[] = [];
 
-    items.forEach(node => {
+    items.forEach((node) => {
       batch.push(this.deleteNode(node));
     });
 
@@ -658,10 +590,7 @@ export class ContentManagementService {
 
       if (message && status.someSucceeded) {
         message.duration = 10000;
-        message.userAction = new SnackbarUserAction(
-          'APP.ACTIONS.UNDO',
-          new UndoDeleteNodesAction([...status.success])
-        );
+        message.userAction = new SnackbarUserAction('APP.ACTIONS.UNDO', new UndoDeleteNodesAction([...status.success]));
       }
 
       this.store.dispatch(message);
@@ -676,11 +605,11 @@ export class ContentManagementService {
   undoDeleteNodes(items: DeletedNodeInfo[]): void {
     const batch: Observable<DeletedNodeInfo>[] = [];
 
-    items.forEach(item => {
+    items.forEach((item) => {
       batch.push(this.undoDeleteNode(item));
     });
 
-    forkJoin(...batch).subscribe(data => {
+    forkJoin(...batch).subscribe((data) => {
       const processedData = this.processStatus(data);
 
       if (processedData.fail.length) {
@@ -717,10 +646,7 @@ export class ContentManagementService {
 
   private getUndoDeleteMessage(status: DeleteStatus): SnackbarAction {
     if (status.someFailed && !status.oneFailed) {
-      return new SnackbarErrorAction(
-        'APP.MESSAGES.ERRORS.NODE_RESTORE_PLURAL',
-        { number: status.fail.length }
-      );
+      return new SnackbarErrorAction('APP.MESSAGES.ERRORS.NODE_RESTORE_PLURAL', { number: status.fail.length });
     }
 
     if (status.oneFailed) {
@@ -740,7 +666,7 @@ export class ContentManagementService {
         status: 1,
         entry
       })),
-      catchError(error => {
+      catchError((error) => {
         const { statusCode } = JSON.parse(error.message).error;
 
         return of({
@@ -757,9 +683,9 @@ export class ContentManagementService {
       return;
     }
 
-    const batch = selection.map(node => this.purgeDeletedNode(node));
+    const batch = selection.map((node) => this.purgeDeletedNode(node));
 
-    forkJoin(batch).subscribe(purgedNodes => {
+    forkJoin(batch).subscribe((purgedNodes) => {
       const status = this.processStatus(purgedNodes);
 
       if (status.success.length) {
@@ -832,51 +758,33 @@ export class ContentManagementService {
 
   private getPurgeMessage(status: DeleteStatus): SnackbarAction {
     if (status.oneSucceeded && status.someFailed && !status.oneFailed) {
-      return new SnackbarWarningAction(
-        'APP.MESSAGES.INFO.TRASH.NODES_PURGE.PARTIAL_SINGULAR',
-        {
-          name: status.success[0].name,
-          failed: status.fail.length
-        }
-      );
+      return new SnackbarWarningAction('APP.MESSAGES.INFO.TRASH.NODES_PURGE.PARTIAL_SINGULAR', {
+        name: status.success[0].name,
+        failed: status.fail.length
+      });
     }
 
     if (status.someSucceeded && !status.oneSucceeded && status.someFailed) {
-      return new SnackbarWarningAction(
-        'APP.MESSAGES.INFO.TRASH.NODES_PURGE.PARTIAL_PLURAL',
-        {
-          number: status.success.length,
-          failed: status.fail.length
-        }
-      );
+      return new SnackbarWarningAction('APP.MESSAGES.INFO.TRASH.NODES_PURGE.PARTIAL_PLURAL', {
+        number: status.success.length,
+        failed: status.fail.length
+      });
     }
 
     if (status.oneSucceeded) {
-      return new SnackbarInfoAction(
-        'APP.MESSAGES.INFO.TRASH.NODES_PURGE.SINGULAR',
-        { name: status.success[0].name }
-      );
+      return new SnackbarInfoAction('APP.MESSAGES.INFO.TRASH.NODES_PURGE.SINGULAR', { name: status.success[0].name });
     }
 
     if (status.oneFailed) {
-      return new SnackbarErrorAction(
-        'APP.MESSAGES.ERRORS.TRASH.NODES_PURGE.SINGULAR',
-        { name: status.fail[0].name }
-      );
+      return new SnackbarErrorAction('APP.MESSAGES.ERRORS.TRASH.NODES_PURGE.SINGULAR', { name: status.fail[0].name });
     }
 
     if (status.allSucceeded) {
-      return new SnackbarInfoAction(
-        'APP.MESSAGES.INFO.TRASH.NODES_PURGE.PLURAL',
-        { number: status.success.length }
-      );
+      return new SnackbarInfoAction('APP.MESSAGES.INFO.TRASH.NODES_PURGE.PLURAL', { number: status.success.length });
     }
 
     if (status.allFailed) {
-      return new SnackbarErrorAction(
-        'APP.MESSAGES.ERRORS.TRASH.NODES_PURGE.PLURAL',
-        { number: status.fail.length }
-      );
+      return new SnackbarErrorAction('APP.MESSAGES.ERRORS.TRASH.NODES_PURGE.PLURAL', { number: status.fail.length });
     }
 
     return null;
@@ -890,9 +798,7 @@ export class ContentManagementService {
         const isSite = this.isSite(status.success[0].entry);
         const path: PathInfoEntity = status.success[0].entry.path;
         const parent = path.elements[path.elements.length - 1];
-        const route = isSite
-          ? ['/libraries', parent.id]
-          : ['/personal-files', parent.id];
+        const route = isSite ? ['/libraries', parent.id] : ['/personal-files', parent.id];
 
         let navigate;
 
@@ -902,10 +808,7 @@ export class ContentManagementService {
           navigate = new NavigateRouteAction(route);
         }
 
-        message.userAction = new SnackbarUserAction(
-          'APP.ACTIONS.VIEW',
-          navigate
-        );
+        message.userAction = new SnackbarUserAction('APP.ACTIONS.VIEW', navigate);
       }
 
       this.store.dispatch(message);
@@ -917,11 +820,7 @@ export class ContentManagementService {
   }
 
   private isLibraryContent(path: PathInfoEntity): boolean {
-    if (
-      path &&
-      path.elements.length >= 2 &&
-      path.elements[1].name === 'Sites'
-    ) {
+    if (path && path.elements.length >= 2 && path.elements[1].name === 'Sites') {
       return true;
     }
 
@@ -930,53 +829,46 @@ export class ContentManagementService {
 
   private getRestoreMessage(status: DeleteStatus): SnackbarAction {
     if (status.someFailed && !status.oneFailed) {
-      return new SnackbarErrorAction(
-        'APP.MESSAGES.ERRORS.TRASH.NODES_RESTORE.PARTIAL_PLURAL',
-        { number: status.fail.length }
-      );
+      return new SnackbarErrorAction('APP.MESSAGES.ERRORS.TRASH.NODES_RESTORE.PARTIAL_PLURAL', {
+        number: status.fail.length
+      });
     }
 
     if (status.oneFailed && status.fail[0].statusCode) {
       if (status.fail[0].statusCode === 409) {
-        return new SnackbarErrorAction(
-          'APP.MESSAGES.ERRORS.TRASH.NODES_RESTORE.NODE_EXISTS',
-          { name: status.fail[0].entry.name }
-        );
+        return new SnackbarErrorAction('APP.MESSAGES.ERRORS.TRASH.NODES_RESTORE.NODE_EXISTS', {
+          name: status.fail[0].entry.name
+        });
       } else {
-        return new SnackbarErrorAction(
-          'APP.MESSAGES.ERRORS.TRASH.NODES_RESTORE.GENERIC',
-          { name: status.fail[0].entry.name }
-        );
+        return new SnackbarErrorAction('APP.MESSAGES.ERRORS.TRASH.NODES_RESTORE.GENERIC', {
+          name: status.fail[0].entry.name
+        });
       }
     }
 
     if (status.oneFailed && !status.fail[0].statusCode) {
-      return new SnackbarErrorAction(
-        'APP.MESSAGES.ERRORS.TRASH.NODES_RESTORE.LOCATION_MISSING',
-        { name: status.fail[0].entry.name }
-      );
+      return new SnackbarErrorAction('APP.MESSAGES.ERRORS.TRASH.NODES_RESTORE.LOCATION_MISSING', {
+        name: status.fail[0].entry.name
+      });
     }
 
     if (status.allSucceeded && !status.oneSucceeded) {
-      return new SnackbarInfoAction(
-        'APP.MESSAGES.INFO.TRASH.NODES_RESTORE.PLURAL'
-      );
+      return new SnackbarInfoAction('APP.MESSAGES.INFO.TRASH.NODES_RESTORE.PLURAL');
     }
 
     if (status.allSucceeded && status.oneSucceeded) {
-      return new SnackbarInfoAction(
-        'APP.MESSAGES.INFO.TRASH.NODES_RESTORE.SINGULAR',
-        { name: status.success[0].entry.name }
-      );
+      return new SnackbarInfoAction('APP.MESSAGES.INFO.TRASH.NODES_RESTORE.SINGULAR', {
+        name: status.success[0].entry.name
+      });
     }
 
     return null;
   }
 
   private diff(selection: any[], list: any[], fromList = true): any {
-    const ids = selection.map(item => item.entry.id);
+    const ids = selection.map((item) => item.entry.id);
 
-    return list.filter(item => {
+    return list.filter((item) => {
       if (fromList) {
         return ids.includes(item.entry.id) ? item : null;
       } else {
@@ -1009,10 +901,7 @@ export class ContentManagementService {
 
   private getDeleteMessage(status: DeleteStatus): SnackbarAction {
     if (status.allFailed && !status.oneFailed) {
-      return new SnackbarErrorAction(
-        'APP.MESSAGES.ERRORS.NODE_DELETION_PLURAL',
-        { number: status.fail.length }
-      );
+      return new SnackbarErrorAction('APP.MESSAGES.ERRORS.NODE_DELETION_PLURAL', { number: status.fail.length });
     }
 
     if (status.allSucceeded && !status.oneSucceeded) {
@@ -1022,23 +911,17 @@ export class ContentManagementService {
     }
 
     if (status.someFailed && status.someSucceeded && !status.oneSucceeded) {
-      return new SnackbarWarningAction(
-        'APP.MESSAGES.INFO.NODE_DELETION.PARTIAL_PLURAL',
-        {
-          success: status.success.length,
-          failed: status.fail.length
-        }
-      );
+      return new SnackbarWarningAction('APP.MESSAGES.INFO.NODE_DELETION.PARTIAL_PLURAL', {
+        success: status.success.length,
+        failed: status.fail.length
+      });
     }
 
     if (status.someFailed && status.oneSucceeded) {
-      return new SnackbarWarningAction(
-        'APP.MESSAGES.INFO.NODE_DELETION.PARTIAL_SINGULAR',
-        {
-          success: status.success.length,
-          failed: status.fail.length
-        }
-      );
+      return new SnackbarWarningAction('APP.MESSAGES.INFO.NODE_DELETION.PARTIAL_SINGULAR', {
+        success: status.success.length,
+        failed: status.fail.length
+      });
     }
 
     if (status.oneFailed && !status.someSucceeded) {
@@ -1048,32 +931,16 @@ export class ContentManagementService {
     }
 
     if (status.oneSucceeded && !status.someFailed) {
-      return new SnackbarInfoAction(
-        'APP.MESSAGES.INFO.NODE_DELETION.SINGULAR',
-        { name: status.success[0].name }
-      );
+      return new SnackbarInfoAction('APP.MESSAGES.INFO.NODE_DELETION.SINGULAR', { name: status.success[0].name });
     }
 
     return null;
   }
 
-  private showMoveMessage(
-    nodes: Array<MinimalNodeEntity>,
-    info: any,
-    moveResponse?: any
-  ) {
-    const succeeded =
-      moveResponse && moveResponse['succeeded']
-        ? moveResponse['succeeded'].length
-        : 0;
-    const partiallySucceeded =
-      moveResponse && moveResponse['partiallySucceeded']
-        ? moveResponse['partiallySucceeded'].length
-        : 0;
-    const failures =
-      moveResponse && moveResponse['failed']
-        ? moveResponse['failed'].length
-        : 0;
+  private showMoveMessage(nodes: Array<MinimalNodeEntity>, info: any, moveResponse?: any) {
+    const succeeded = moveResponse && moveResponse['succeeded'] ? moveResponse['succeeded'].length : 0;
+    const partiallySucceeded = moveResponse && moveResponse['partiallySucceeded'] ? moveResponse['partiallySucceeded'].length : 0;
+    const failures = moveResponse && moveResponse['failed'] ? moveResponse['failed'].length : 0;
 
     let successMessage = '';
     let partialSuccessMessage = '';
@@ -1092,17 +959,14 @@ export class ContentManagementService {
         }
 
         if (partiallySucceeded) {
-          i18MessageSuffix =
-            partiallySucceeded === 1 ? 'PARTIAL.SINGULAR' : 'PARTIAL.PLURAL';
+          i18MessageSuffix = partiallySucceeded === 1 ? 'PARTIAL.SINGULAR' : 'PARTIAL.PLURAL';
           partialSuccessMessage = `${i18nMessageString}${i18MessageSuffix}`;
         }
 
         if (failures) {
           // if moving failed for ALL nodes, emit error
           if (failures === nodes.length) {
-            const errors = this.nodeActionsService.flatten(
-              moveResponse['failed']
-            );
+            const errors = this.nodeActionsService.flatten(moveResponse['failed']);
             errorMessage = this.getErrorMessage(errors[0]);
           } else {
             i18MessageSuffix = 'PARTIAL.FAIL';
@@ -1116,34 +980,24 @@ export class ContentManagementService {
       errorMessage = this.getErrorMessage(info);
     }
 
-    const undo =
-      succeeded + partiallySucceeded > 0
-        ? this.translation.instant('APP.ACTIONS.UNDO')
-        : '';
+    const undo = succeeded + partiallySucceeded > 0 ? this.translation.instant('APP.ACTIONS.UNDO') : '';
     failedMessage = errorMessage ? errorMessage : failedMessage;
 
-    const beforePartialSuccessMessage =
-      successMessage && partialSuccessMessage ? ' ' : '';
-    const beforeFailedMessage =
-      (successMessage || partialSuccessMessage) && failedMessage ? ' ' : '';
+    const beforePartialSuccessMessage = successMessage && partialSuccessMessage ? ' ' : '';
+    const beforeFailedMessage = (successMessage || partialSuccessMessage) && failedMessage ? ' ' : '';
 
-    const initialParentId = this.nodeActionsService.getEntryParentId(
-      nodes[0].entry
-    );
+    const initialParentId = this.nodeActionsService.getEntryParentId(nodes[0].entry);
 
-    const messages = this.translation.instant(
-      [successMessage, partialSuccessMessage, failedMessage],
-      { success: succeeded, failed: failures, partially: partiallySucceeded }
-    );
+    const messages = this.translation.instant([successMessage, partialSuccessMessage, failedMessage], {
+      success: succeeded,
+      failed: failures,
+      partially: partiallySucceeded
+    });
 
     // TODO: review in terms of i18n
     this.snackBar
       .open(
-        messages[successMessage] +
-          beforePartialSuccessMessage +
-          messages[partialSuccessMessage] +
-          beforeFailedMessage +
-          messages[failedMessage],
+        messages[successMessage] + beforePartialSuccessMessage + messages[partialSuccessMessage] + beforeFailedMessage + messages[failedMessage],
         undo,
         {
           panelClass: 'info-snackbar',

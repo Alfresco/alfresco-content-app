@@ -23,20 +23,16 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  LoginPage,
-  SearchResultsPage,
-  RepoClient,
-  Utils
-} from '@alfresco/aca-testing-shared';
-
+import { LoginPage, SearchResultsPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 import { browser } from 'protractor';
 
 describe('Search results general', () => {
   const username = `user-${Utils.random()}`;
 
-  const file = `test-file-${Utils.random()}.txt`; let fileId;
-  const folder = `test-folder-${Utils.random()}`; let folderId;
+  const file = `test-file-${Utils.random()}.txt`;
+  let fileId: string;
+  const folder = `test-folder-${Utils.random()}`;
+  let folderId: string;
   const site = `test-site-${Utils.random()}`;
 
   const apis = {
@@ -64,11 +60,7 @@ describe('Search results general', () => {
   });
 
   afterAll(async (done) => {
-    await Promise.all([
-      apis.user.nodes.deleteNodeById(fileId),
-      apis.user.nodes.deleteNodeById(folderId),
-      apis.user.sites.deleteSite(site)
-    ]);
+    await Promise.all([apis.user.nodes.deleteNodeById(fileId), apis.user.nodes.deleteNodeById(folderId), apis.user.sites.deleteSite(site)]);
     done();
   });
 
@@ -152,5 +144,4 @@ describe('Search results general', () => {
 
     expect(await dataTable.isItemPresent(site)).toBe(true, `${site} not displayed`);
   });
-
 });

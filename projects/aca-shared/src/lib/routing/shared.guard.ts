@@ -39,15 +39,11 @@ export class AppSharedRuleGuard implements CanActivate {
     this.isQuickShareEnabled$ = store.select(isQuickShareEnabled);
   }
 
-  canActivate(
-    _: ActivatedRouteSnapshot
-  ): Observable<boolean> | Promise<boolean> | boolean {
+  canActivate(_: ActivatedRouteSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     return this.isQuickShareEnabled$;
   }
 
-  canActivateChild(
-    route: ActivatedRouteSnapshot
-  ): Observable<boolean> | Promise<boolean> | boolean {
+  canActivateChild(route: ActivatedRouteSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     return this.canActivate(route);
   }
 }

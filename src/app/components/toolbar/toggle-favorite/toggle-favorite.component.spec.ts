@@ -51,17 +51,9 @@ describe('ToggleFavoriteComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        TranslateModule.forRoot(),
-        CoreModule.forRoot(),
-        AppTestingModule
-      ],
+      imports: [TranslateModule.forRoot(), CoreModule.forRoot(), AppTestingModule],
       declarations: [ToggleFavoriteComponent],
-      providers: [
-        ExtensionService,
-        { provide: Store, useValue: mockStore },
-        { provide: Router, useValue: mockRouter }
-      ]
+      providers: [ExtensionService, { provide: Store, useValue: mockStore }, { provide: Router, useValue: mockRouter }]
     });
 
     fixture = TestBed.createComponent(ToggleFavoriteComponent);

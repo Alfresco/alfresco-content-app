@@ -48,8 +48,7 @@ describe('ContextActionsDirective', () => {
 
   it('should call service to render context menu', fakeAsync(() => {
     const el = document.createElement('div');
-    el.className =
-      'adf-datatable-cell adf-datatable-cell--text adf-datatable-row';
+    el.className = 'adf-datatable-cell adf-datatable-cell--text adf-datatable-row';
 
     const fragment = document.createDocumentFragment();
     fragment.appendChild(el);
@@ -62,8 +61,6 @@ describe('ContextActionsDirective', () => {
 
     tick(500);
 
-    expect(storeMock.dispatch).toHaveBeenCalledWith(
-      new ContextMenu(mouseEventMock)
-    );
+    expect(storeMock.dispatch).toHaveBeenCalledWith(new ContextMenu(mouseEventMock));
   }));
 });

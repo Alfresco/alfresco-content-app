@@ -30,8 +30,6 @@ import { DialogEffects } from './effects/dialog.effects';
 import { RouterEffects } from './effects/router.effects';
 
 @NgModule({
-  imports: [
-    EffectsModule.forFeature([SnackbarEffects, DialogEffects, RouterEffects])
-  ]
+  imports: [EffectsModule.forFeature([SnackbarEffects, DialogEffects, RouterEffects])]
 })
 export class SharedStoreModule {}

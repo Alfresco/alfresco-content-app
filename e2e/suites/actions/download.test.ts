@@ -23,18 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  LoginPage,
-  BrowsingPage,
-  SearchResultsPage,
-  RepoClient,
-  Utils
-} from '@alfresco/aca-testing-shared';
+import { LoginPage, BrowsingPage, SearchResultsPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 
 describe('Download', () => {
   const username = `user-${Utils.random()}`;
 
-  const parent = `parent-${Utils.random()}`; let parentId;
+  const parent = `parent-${Utils.random()}`;
+  let parentId: string;
 
   const filePersonal = `filePersonal-${Utils.random()}.txt`;
   const fileRecent1 = `fileRecent1-${Utils.random()}.txt`;
@@ -58,7 +53,12 @@ describe('Download', () => {
   const unzippedFavorites = `unzippedFavorites-${Utils.random()}`;
   const unzippedSearch = `unzippedSearch-${Utils.random()}`;
 
-  let fileShared1Id, fileShared2Id, fileFavoritesId, folderPersonalId, folderFavoritesId, folderSearchId;
+  let fileShared1Id: string;
+  let fileShared2Id: string;
+  let fileFavoritesId: string;
+  let folderPersonalId: string;
+  let folderFavoritesId: string;
+  let folderSearchId: string;
 
   const archiveZip = 'archive.zip';
 
@@ -73,7 +73,7 @@ describe('Download', () => {
   const searchResultsPage = new SearchResultsPage();
   const { searchInput } = searchResultsPage.header;
 
-  beforeAll(async done => {
+  beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
 
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
@@ -116,7 +116,6 @@ describe('Download', () => {
   });
 
   describe('on Personal Files', () => {
-
     beforeEach(async (done) => {
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(parent);
@@ -153,13 +152,14 @@ describe('Download', () => {
 
       expect(await Utils.fileExistsOnOS(filePersonal, unzippedPersonal)).toBe(true, `${filePersonal} not found in unzipped folder`);
       expect(await Utils.fileExistsOnOS(folderPersonal, unzippedPersonal)).toBe(true, `${folderPersonal} not found in unzipped folder`);
-      expect(await Utils.fileExistsOnOS(fileInFolderPersonal, unzippedPersonal, folderPersonal)).toBe(true, `${fileInFolderPersonal} not found in unzipped folder in ${folderPersonal}`)
+      expect(await Utils.fileExistsOnOS(fileInFolderPersonal, unzippedPersonal, folderPersonal)).toBe(
+        true,
+        `${fileInFolderPersonal} not found in unzipped folder in ${folderPersonal}`
+      );
     });
-
   });
 
   describe('on Favorites', () => {
-
     beforeAll(async (done) => {
       await apis.user.favorites.waitForApi({ expect: 2 });
       done();
@@ -200,13 +200,14 @@ describe('Download', () => {
 
       expect(await Utils.fileExistsOnOS(fileFavorites, unzippedFavorites)).toBe(true, `${fileFavorites} not found in unzipped folder`);
       expect(await Utils.fileExistsOnOS(folderFavorites, unzippedFavorites)).toBe(true, `${folderFavorites} not found in unzipped folder`);
-      expect(await Utils.fileExistsOnOS(fileInFolderFavorites, unzippedFavorites, folderFavorites)).toBe(true, `${fileInFolderFavorites} not found in unzipped folder in ${folderFavorites}`)
+      expect(await Utils.fileExistsOnOS(fileInFolderFavorites, unzippedFavorites, folderFavorites)).toBe(
+        true,
+        `${fileInFolderFavorites} not found in unzipped folder in ${folderFavorites}`
+      );
     });
-
   });
 
   describe('on Shared Files', () => {
-
     beforeAll(async (done) => {
       await apis.user.shared.waitForApi({ expect: 2 });
       done();
@@ -235,11 +236,9 @@ describe('Download', () => {
       expect(await Utils.fileExistsOnOS(fileShared1, unzippedShared)).toBe(true, `${fileShared1} not found in unzipped folder`);
       expect(await Utils.fileExistsOnOS(fileShared2, unzippedShared)).toBe(true, `${fileShared2} not found in unzipped folder`);
     });
-
   });
 
   describe('on Recent Files', () => {
-
     beforeAll(async (done) => {
       await apis.user.search.waitForApi(username, { expect: 10 });
       done();
@@ -268,11 +267,9 @@ describe('Download', () => {
       expect(await Utils.fileExistsOnOS(fileRecent1, unzippedRecent)).toBe(true, `${fileRecent1} not found in unzipped folder`);
       expect(await Utils.fileExistsOnOS(fileRecent2, unzippedRecent)).toBe(true, `${fileRecent2} not found in unzipped folder`);
     });
-
   });
 
   describe('on Search Results', () => {
-
     beforeEach(async (done) => {
       await page.clickPersonalFilesAndWait();
       await searchInput.clickSearchButton();
@@ -311,9 +308,10 @@ describe('Download', () => {
 
       expect(await Utils.fileExistsOnOS(fileSearch, unzippedSearch)).toBe(true, `${fileSearch} not found in unzipped folder`);
       expect(await Utils.fileExistsOnOS(folderSearch, unzippedSearch)).toBe(true, `${folderSearch} not found in unzipped folder`);
-      expect(await Utils.fileExistsOnOS(fileInFolderSearch, unzippedSearch, folderSearch)).toBe(true, `${fileInFolderSearch} not found in unzipped folder in ${folderSearch}`)
+      expect(await Utils.fileExistsOnOS(fileInFolderSearch, unzippedSearch, folderSearch)).toBe(
+        true,
+        `${fileInFolderSearch} not found in unzipped folder in ${folderSearch}`
+      );
     });
-
   });
-
 });

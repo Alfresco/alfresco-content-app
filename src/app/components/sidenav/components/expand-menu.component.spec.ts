@@ -27,11 +27,7 @@ import { ExpandMenuComponent } from './expand-menu.component';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { Router } from '@angular/router';
-import {
-  TranslateModule,
-  TranslateLoader,
-  TranslateFakeLoader
-} from '@ngx-translate/core';
+import { TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
 import { AppSidenavModule } from '../sidenav.module';
 
 describe('ExpandMenuComponent', () => {
@@ -88,9 +84,7 @@ describe('ExpandMenuComponent', () => {
 
     fixture.detectChanges();
 
-    const actionButton = document.body.querySelector(
-      '[id="test-action-button"]'
-    );
+    const actionButton = document.body.querySelector('[id="test-action-button"]');
     actionButton.dispatchEvent(new Event('click'));
 
     expect(document.querySelector('[id="child-1"]')).not.toBeNull();

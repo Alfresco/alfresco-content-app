@@ -25,19 +25,8 @@
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
-import {
-  TestBed,
-  ComponentFixture,
-  fakeAsync,
-  tick
-} from '@angular/core/testing';
-import {
-  AlfrescoApiService,
-  NodeFavoriteDirective,
-  DataTableComponent,
-  AppConfigPipe,
-  UploadService
-} from '@alfresco/adf-core';
+import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
+import { AlfrescoApiService, NodeFavoriteDirective, DataTableComponent, AppConfigPipe, UploadService } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { of } from 'rxjs';
 import { FavoritesComponent } from './favorites.component';
@@ -61,10 +50,7 @@ describe('FavoritesComponent', () => {
   beforeEach(() => {
     page = {
       list: {
-        entries: [
-          { entry: { id: 1, target: { file: {} } } },
-          { entry: { id: 2, target: { folder: {} } } }
-        ],
+        entries: [{ entry: { id: 1, target: { file: {} } } }, { entry: { id: 2, target: { folder: {} } } }],
         pagination: { data: 'data' }
       }
     };
@@ -82,13 +68,7 @@ describe('FavoritesComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule],
-      declarations: [
-        DataTableComponent,
-        NodeFavoriteDirective,
-        DocumentListComponent,
-        FavoritesComponent,
-        AppConfigPipe
-      ],
+      declarations: [DataTableComponent, NodeFavoriteDirective, DocumentListComponent, FavoritesComponent, AppConfigPipe],
       providers: [
         {
           provide: Router,
@@ -103,9 +83,7 @@ describe('FavoritesComponent', () => {
 
     alfrescoApi = TestBed.inject(AlfrescoApiService);
     alfrescoApi.reset();
-    spyOn(alfrescoApi.favoritesApi, 'getFavorites').and.returnValue(
-      Promise.resolve(page)
-    );
+    spyOn(alfrescoApi.favoritesApi, 'getFavorites').and.returnValue(Promise.resolve(page));
 
     contentApi = TestBed.inject(ContentApiService);
     uploadService = TestBed.inject(UploadService);
@@ -124,10 +102,7 @@ describe('FavoritesComponent', () => {
 
       component.navigate(node);
 
-      expect(router.navigate).toHaveBeenCalledWith([
-        '/libraries',
-        'folder-node'
-      ]);
+      expect(router.navigate).toHaveBeenCalledWith(['/libraries', 'folder-node']);
     });
 
     it('navigates to `/personal-files` if node path has no `Sites`', () => {
@@ -135,10 +110,7 @@ describe('FavoritesComponent', () => {
 
       component.navigate(node);
 
-      expect(router.navigate).toHaveBeenCalledWith([
-        '/personal-files',
-        'folder-node'
-      ]);
+      expect(router.navigate).toHaveBeenCalledWith(['/personal-files', 'folder-node']);
     });
 
     it('does not navigate when node is not folder', () => {

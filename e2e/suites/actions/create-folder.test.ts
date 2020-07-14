@@ -23,19 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  LoginPage,
-  BrowsingPage,
-  CreateOrEditFolderDialog,
-  Utils,
-  clearTextWithBackspace,
-  RepoClient
-} from '@alfresco/aca-testing-shared';
+import { LoginPage, BrowsingPage, CreateOrEditFolderDialog, Utils, clearTextWithBackspace, RepoClient } from '@alfresco/aca-testing-shared';
 
 describe('Create folder', () => {
   const username = `user-${Utils.random()}`;
 
-  const parent = `parent-${Utils.random()}`; let parentId;
+  const parent = `parent-${Utils.random()}`;
+  let parentId: string;
   const folderName1 = `folder-${Utils.random()}`;
   const folderName2 = `folder-${Utils.random()}`;
   const folderDescription = 'description of my folder';
@@ -46,7 +40,7 @@ describe('Create folder', () => {
 
   const folderSite = `folder-site-${Utils.random()}`;
   const duplicateFolderSite = `folder-${Utils.random()}`;
-  let docLibUserSite;
+  let docLibUserSite: string;
 
   const apis = {
     admin: new RepoClient(),
@@ -150,7 +144,7 @@ describe('Create folder', () => {
     });
 
     it('[C216347] with folder name containing special characters', async () => {
-      const namesWithSpecialChars = [ 'a*a', 'a"a', 'a<a', 'a>a', `a\\a`, 'a/a', 'a?a', 'a:a', 'a|a' ];
+      const namesWithSpecialChars = ['a*a', 'a"a', 'a<a', 'a>a', `a\\a`, 'a/a', 'a?a', 'a:a', 'a|a'];
 
       await page.dataTable.doubleClickOnRowByName(parent);
       await page.sidenav.openCreateFolderDialog();
@@ -258,5 +252,4 @@ describe('Create folder', () => {
       expect(await createDialog.isDialogOpen()).toBe(true, 'dialog is not present');
     });
   });
-
 });

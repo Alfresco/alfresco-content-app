@@ -40,14 +40,7 @@ import { ExpandMenuComponent } from './components/expand-menu.component';
 import { ButtonMenuComponent } from './components/button-menu.component';
 import { ActionDirective } from './directives/action.directive';
 @NgModule({
-  imports: [
-    CommonModule,
-    CoreModule.forChild(),
-    CoreExtensionsModule.forChild(),
-    ExtensionsModule.forChild(),
-    RouterModule,
-    AppCreateMenuModule
-  ],
+  imports: [CommonModule, CoreModule.forChild(), CoreExtensionsModule.forChild(), ExtensionsModule.forChild(), RouterModule, AppCreateMenuModule],
   declarations: [
     MenuPanelDirective,
     ExpansionPanelDirective,

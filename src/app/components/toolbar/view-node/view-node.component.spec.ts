@@ -75,9 +75,7 @@ describe('ViewNodeComponent', () => {
 
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.querySelector('.mat-menu-item')).not.toBe(
-      null
-    );
+    expect(fixture.nativeElement.querySelector('.mat-menu-item')).not.toBe(null);
   });
 
   it('should render as a icon button', () => {
@@ -87,9 +85,7 @@ describe('ViewNodeComponent', () => {
 
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.querySelector('.mat-icon-button')).not.toBe(
-      null
-    );
+    expect(fixture.nativeElement.querySelector('.mat-icon-button')).not.toBe(null);
   });
 
   it('should call ViewNodeAction onClick event', () => {

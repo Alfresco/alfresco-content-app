@@ -26,23 +26,20 @@
 import { RepoApi } from '../repo-api';
 import { UploadApi as AdfUploadApi } from '@alfresco/js-api';
 import { browser } from 'protractor';
-
-const fs = require('fs');
+import * as fs from 'fs';
 
 export class UploadApi extends RepoApi {
   upload = new AdfUploadApi(this.alfrescoJsApi);
   e2eRootPath = browser.params.e2eRootPath;
 
-  constructor(username?, password?) {
+  constructor(username?: string, password?: string) {
     super(username, password);
   }
 
   async uploadFile(fileName: string, parentFolderId: string = '-my-') {
-    const file = fs.createReadStream(
-      `${this.e2eRootPath}/resources/test-files/${fileName}`
-    );
+    const file = fs.createReadStream(`${this.e2eRootPath}/resources/test-files/${fileName}`);
     const opts = {
-      name: file.name,
+      name: fileName,
       nodeType: 'cm:content'
     };
 
@@ -50,23 +47,12 @@ export class UploadApi extends RepoApi {
       await this.apiAuth();
       return await this.upload.uploadFile(file, '', parentFolderId, null, opts);
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.uploadFile.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.uploadFile.name}`, error);
     }
   }
 
-  async uploadFileWithRename(
-    fileName: string,
-    parentId: string = '-my-',
-    newName: string,
-    title: string = '',
-    description: string = ''
-  ) {
-    const file = fs.createReadStream(
-      `${this.e2eRootPath}/resources/test-files/${fileName}`
-    );
+  async uploadFileWithRename(fileName: string, parentId: string = '-my-', newName: string, title: string = '', description: string = '') {
+    const file = fs.createReadStream(`${this.e2eRootPath}/resources/test-files/${fileName}`);
     const nodeProps = {
       properties: {
         'cm:title': title,
@@ -83,10 +69,7 @@ export class UploadApi extends RepoApi {
       await this.apiAuth();
       return await this.upload.uploadFile(file, '', parentId, nodeProps, opts);
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.uploadFileWithRename.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.uploadFileWithRename.name}`, error);
     }
   }
 }

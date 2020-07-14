@@ -23,29 +23,23 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  LoginPage,
-  SearchResultsPage,
-  RepoClient,
-  Utils
-} from '@alfresco/aca-testing-shared';
-
-import * as moment from 'moment';
+import { LoginPage, SearchResultsPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+const moment = require('moment');
 
 describe('Search results - files and folders', () => {
   const username = `user-${Utils.random()}`;
 
   const file = `test-file-${Utils.random()}.txt`;
-  let fileId;
+  let fileId: string;
   const fileTitle = 'file title';
   const fileDescription = 'file description';
 
   /* cspell:disable-next-line */
   const fileRussian = `любимый-сайт-${Utils.random()}`;
-  let fileRussianId;
+  let fileRussianId: string;
 
   const folder = `test-folder-${Utils.random()}`;
-  let folderId;
+  let folderId: string;
   const folderTitle = 'folder title';
   const folderDescription = 'folder description';
 
@@ -61,7 +55,7 @@ describe('Search results - files and folders', () => {
   const { searchInput } = page.header;
   const { dataTable, breadcrumb } = page;
 
-  beforeAll(async done => {
+  beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
 
     fileId = (await apis.user.nodes.createFile(file, '-my-', fileTitle, fileDescription)).entry.id;
@@ -77,12 +71,12 @@ describe('Search results - files and folders', () => {
     done();
   });
 
-  beforeEach(async done => {
+  beforeEach(async (done) => {
     await page.refresh();
     done();
   });
 
-  afterAll(async done => {
+  afterAll(async (done) => {
     await Promise.all([
       apis.user.nodes.deleteNodeById(fileId),
       apis.user.nodes.deleteNodeById(fileRussianId),

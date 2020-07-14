@@ -32,30 +32,14 @@ export class CreatedDateFilter extends GenericFilterPanel {
     super('Created date');
   }
 
-  fromField: ElementFinder = this.panelExpanded.element(
-    by.cssContainingText('.adf-search-date-range .mat-form-field', 'From')
-  );
-  fromInput: ElementFinder = this.fromField.element(
-    by.css(`[data-automation-id='date-range-from-input']`)
-  );
-  fromFieldError: ElementFinder = this.fromField.element(
-    by.css(`[data-automation-id='date-range-from-error']`)
-  );
-  toField: ElementFinder = this.panelExpanded.element(
-    by.cssContainingText('.adf-search-date-range .mat-form-field', 'To')
-  );
-  toInput: ElementFinder = this.toField.element(
-    by.css(`[data-automation-id='date-range-to-input']`)
-  );
-  toFieldError: ElementFinder = this.toField.element(
-    by.css(`[data-automation-id='date-range-to-error']`)
-  );
-  clearButton: ElementFinder = this.panel.element(
-    by.css('.adf-facet-buttons [data-automation-id="date-range-clear-btn"]')
-  );
-  applyButton: ElementFinder = this.panel.element(
-    by.css('.adf-facet-buttons [data-automation-id="date-range-apply-btn"]')
-  );
+  fromField: ElementFinder = this.panelExpanded.element(by.cssContainingText('.adf-search-date-range .mat-form-field', 'From'));
+  fromInput: ElementFinder = this.fromField.element(by.css(`[data-automation-id='date-range-from-input']`));
+  fromFieldError: ElementFinder = this.fromField.element(by.css(`[data-automation-id='date-range-from-error']`));
+  toField: ElementFinder = this.panelExpanded.element(by.cssContainingText('.adf-search-date-range .mat-form-field', 'To'));
+  toInput: ElementFinder = this.toField.element(by.css(`[data-automation-id='date-range-to-input']`));
+  toFieldError: ElementFinder = this.toField.element(by.css(`[data-automation-id='date-range-to-error']`));
+  clearButton: ElementFinder = this.panel.element(by.css('.adf-facet-buttons [data-automation-id="date-range-clear-btn"]'));
+  applyButton: ElementFinder = this.panel.element(by.css('.adf-facet-buttons [data-automation-id="date-range-apply-btn"]'));
 
   async isFromFieldDisplayed(): Promise<boolean> {
     return isPresentAndDisplayed(this.fromField);

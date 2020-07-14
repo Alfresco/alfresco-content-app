@@ -25,40 +25,23 @@
 
 import { by, browser } from 'protractor';
 import { Component } from '../component';
-import {
-  isPresentAndDisplayed,
-  waitForVisibility
-} from '../../utilities/utils';
+import { isPresentAndDisplayed, waitForVisibility } from '../../utilities/utils';
 
-export type SortByType =
-  | 'Relevance'
-  | 'Title'
-  | 'Filename'
-  | 'Modified date'
-  | 'Modifier'
-  | 'Created date'
-  | 'Size'
-  | 'Type';
-
+export type SortByType = 'Relevance' | 'Title' | 'Filename' | 'Modified date' | 'Modifier' | 'Created date' | 'Size' | 'Type';
 export type SortOrderType = 'ASC' | 'DESC' | '';
 
 export class SearchSortingPicker extends Component {
   sortOrderButton = this.byCss('button[mat-icon-button]');
   sortByDropdownCollapsed = this.byCss('.mat-select');
   sortByDropdownExpanded = browser.element(by.css('.mat-select-panel'));
-  sortByList = this.sortByDropdownExpanded.all(
-    by.css('.mat-option .mat-option-text')
-  );
+  sortByList = this.sortByDropdownExpanded.all(by.css('.mat-option .mat-option-text'));
 
   constructor(ancestor?: string) {
     super('adf-search-sorting-picker', ancestor);
   }
 
   async waitForSortByDropdownToExpand(): Promise<void> {
-    await waitForVisibility(
-      this.sortByDropdownExpanded,
-      'Timeout waiting for sortBy dropdown to expand'
-    );
+    await waitForVisibility(this.sortByDropdownExpanded, 'Timeout waiting for sortBy dropdown to expand');
   }
 
   async isSortOrderButtonDisplayed(): Promise<boolean> {
@@ -95,7 +78,7 @@ export class SearchSortingPicker extends Component {
   }
 
   async getSortByOptionsList(): Promise<string[]> {
-    const list: string[] = await this.sortByList.map(async option => {
+    const list: string[] = await this.sortByList.map(async (option) => {
       return option.getText();
     });
     return list;
@@ -105,9 +88,7 @@ export class SearchSortingPicker extends Component {
     if (!(await this.isSortByDropdownExpanded())) {
       await this.clickSortByDropdown();
     }
-    const elem = browser.element(
-      by.cssContainingText('.mat-option .mat-option-text', option)
-    );
+    const elem = browser.element(by.cssContainingText('.mat-option .mat-option-text', option));
     await elem.click();
   }
 

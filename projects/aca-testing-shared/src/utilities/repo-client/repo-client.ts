@@ -37,10 +37,7 @@ import { UploadApi } from './apis/upload/upload-api';
 import { AuthenticationApi } from './apis/authentication/authentication-api';
 
 export class RepoClient {
-  constructor(
-    private username: string = browser.params.ADMIN_USERNAME,
-    private password: string = browser.params.ADMIN_PASSWORD
-  ) {}
+  constructor(private username: string = browser.params.ADMIN_USERNAME, private password: string = browser.params.ADMIN_PASSWORD) {}
 
   private get auth() {
     const { username, password } = this;

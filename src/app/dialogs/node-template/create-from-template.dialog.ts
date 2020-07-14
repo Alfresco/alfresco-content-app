@@ -26,13 +26,7 @@
 import { Component, ViewEncapsulation, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Node } from '@alfresco/js-api';
-import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-  FormControl,
-  ValidationErrors
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl, ValidationErrors } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppStore, CreateFromTemplate } from '@alfresco/aca-shared/store';
 import { TranslationService } from '@alfresco/adf-core';
@@ -55,23 +49,9 @@ export class CreateFromTemplateDialogComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.formBuilder.group({
-      name: [
-        this.data.name,
-        [
-          Validators.required,
-          this.forbidEndingDot,
-          this.forbidOnlySpaces,
-          this.forbidSpecialCharacters
-        ]
-      ],
-      title: [
-        this.data.properties ? this.data.properties['cm:title'] : '',
-        Validators.maxLength(256)
-      ],
-      description: [
-        this.data.properties ? this.data.properties['cm:description'] : '',
-        Validators.maxLength(512)
-      ]
+      name: [this.data.name, [Validators.required, this.forbidEndingDot, this.forbidOnlySpaces, this.forbidSpecialCharacters]],
+      title: [this.data.properties ? this.data.properties['cm:title'] : '', Validators.maxLength(256)],
+      description: [this.data.properties ? this.data.properties['cm:description'] : '', Validators.maxLength(512)]
     });
   }
 
@@ -89,25 +69,17 @@ export class CreateFromTemplateDialogComponent implements OnInit {
 
   title(): string {
     if (this.data.isFolder) {
-      return this.translationService.instant(
-        'NODE_FROM_TEMPLATE.FOLDER_DIALOG_TITLE',
-        { template: this.data.name }
-      );
+      return this.translationService.instant('NODE_FROM_TEMPLATE.FOLDER_DIALOG_TITLE', { template: this.data.name });
     }
 
-    return this.translationService.instant(
-      'NODE_FROM_TEMPLATE.FILE_DIALOG_TITLE',
-      { template: this.data.name }
-    );
+    return this.translationService.instant('NODE_FROM_TEMPLATE.FILE_DIALOG_TITLE', { template: this.data.name });
   }
 
   close() {
     this.dialogRef.close();
   }
 
-  private forbidSpecialCharacters({
-    value
-  }: FormControl): ValidationErrors | null {
+  private forbidSpecialCharacters({ value }: FormControl): ValidationErrors | null {
     const specialCharacters: RegExp = /([\*\"\<\>\\\/\?\:\|])/;
     const isValid: boolean = !specialCharacters.test(value);
 
@@ -119,11 +91,7 @@ export class CreateFromTemplateDialogComponent implements OnInit {
   }
 
   private forbidEndingDot({ value }: FormControl): ValidationErrors | null {
-    const isValid: boolean =
-      (value || '')
-        .trim()
-        .split('')
-        .pop() !== '.';
+    const isValid: boolean = (value || '').trim().split('').pop() !== '.';
 
     return isValid
       ? null

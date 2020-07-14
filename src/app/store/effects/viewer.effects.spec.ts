@@ -29,12 +29,7 @@ import { ViewerEffects } from './viewer.effects';
 import { EffectsModule } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
-import {
-  ViewFileAction,
-  ViewNodeAction,
-  SetSelectedNodesAction,
-  SetCurrentFolderAction
-} from '@alfresco/aca-shared/store';
+import { ViewFileAction, ViewNodeAction, SetSelectedNodesAction, SetCurrentFolderAction } from '@alfresco/aca-shared/store';
 
 describe('ViewerEffects', () => {
   let store: Store<any>;
@@ -61,9 +56,7 @@ describe('ViewerEffects', () => {
 
       store.dispatch(new ViewFileAction());
       tick(100);
-      expect(router.navigateByUrl).toHaveBeenCalledWith(
-        '/folder1/preview/someId'
-      );
+      expect(router.navigateByUrl).toHaveBeenCalledWith('/folder1/preview/someId');
     }));
     it('should preview file from payload', fakeAsync(() => {
       const node: any = { entry: { isFile: true, id: 'someId' } };
@@ -75,32 +68,24 @@ describe('ViewerEffects', () => {
 
   describe('ViewNode', () => {
     it('should open viewer from file location if', fakeAsync(() => {
-      store.dispatch(
-        new ViewNodeAction('nodeId', { location: 'some-location' })
-      );
+      store.dispatch(new ViewNodeAction('nodeId', { location: 'some-location' }));
       tick(100);
 
-      expect(router.navigateByUrl['calls'].argsFor(0)[0].toString()).toEqual(
-        '/some-location/(viewer:view/nodeId)?location=some-location'
-      );
+      expect(router.navigateByUrl['calls'].argsFor(0)[0].toString()).toEqual('/some-location/(viewer:view/nodeId)?location=some-location');
     }));
 
     it('should navigate to viewer route if no location is passed', fakeAsync(() => {
       store.dispatch(new ViewNodeAction('nodeId'));
       tick(100);
 
-      expect(router.navigateByUrl['calls'].argsFor(0)[0].toString()).toEqual(
-        '/view/(viewer:nodeId)'
-      );
+      expect(router.navigateByUrl['calls'].argsFor(0)[0].toString()).toEqual('/view/(viewer:nodeId)');
     }));
 
     it('should navigate to viewer route with query param if path is passed', fakeAsync(() => {
       store.dispatch(new ViewNodeAction('nodeId', { path: 'absolute-path' }));
       tick(100);
 
-      expect(router.navigateByUrl['calls'].argsFor(0)[0].toString()).toEqual(
-        '/view/(viewer:nodeId)?path=absolute-path'
-      );
+      expect(router.navigateByUrl['calls'].argsFor(0)[0].toString()).toEqual('/view/(viewer:nodeId)?path=absolute-path');
     }));
   });
 });

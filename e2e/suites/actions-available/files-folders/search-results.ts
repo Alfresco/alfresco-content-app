@@ -33,7 +33,6 @@ export function searchResultsTests() {
   const searchResultsPage = new SearchResultsPage();
 
   describe('available actions : ', () => {
-
     beforeAll(async () => {
       await page.clickPersonalFiles();
     });
@@ -43,7 +42,6 @@ export function searchResultsTests() {
     });
 
     describe('on a file', () => {
-
       beforeAll(async () => {
         await page.clickPersonalFiles();
         await searchInput.clickSearchButton();
@@ -57,7 +55,11 @@ export function searchResultsTests() {
       });
 
       it('File Office, favorite - [C291827]', async () => {
-        await testUtil.checkToolbarActions(testData.fileDocxFav.name, testData.fileDocxFav.searchToolbarPrimary, testData.fileDocxFav.searchToolbarMore);
+        await testUtil.checkToolbarActions(
+          testData.fileDocxFav.name,
+          testData.fileDocxFav.searchToolbarPrimary,
+          testData.fileDocxFav.searchToolbarMore
+        );
         await testUtil.checkContextMenu(testData.fileDocxFav.name, testData.fileDocxFav.searchContextMenu);
       });
 
@@ -72,12 +74,20 @@ export function searchResultsTests() {
       });
 
       it('File Office, shared - [C297627]', async () => {
-        await testUtil.checkToolbarActions(testData.fileDocxShared.name, testData.fileDocxShared.searchToolbarPrimary, testData.fileDocxShared.searchToolbarMore);
+        await testUtil.checkToolbarActions(
+          testData.fileDocxShared.name,
+          testData.fileDocxShared.searchToolbarPrimary,
+          testData.fileDocxShared.searchToolbarMore
+        );
         await testUtil.checkContextMenu(testData.fileDocxShared.name, testData.fileDocxShared.searchContextMenu);
       });
 
       it('File Office, shared, favorite - [C280631]', async () => {
-        await testUtil.checkToolbarActions(testData.fileDocxSharedFav.name, testData.fileDocxSharedFav.searchToolbarPrimary, testData.fileDocxSharedFav.searchToolbarMore);
+        await testUtil.checkToolbarActions(
+          testData.fileDocxSharedFav.name,
+          testData.fileDocxSharedFav.searchToolbarPrimary,
+          testData.fileDocxSharedFav.searchToolbarMore
+        );
         await testUtil.checkContextMenu(testData.fileDocxSharedFav.name, testData.fileDocxSharedFav.searchContextMenu);
       });
 
@@ -87,7 +97,11 @@ export function searchResultsTests() {
       });
 
       it('File shared, favorite - [C280641]', async () => {
-        await testUtil.checkToolbarActions(testData.fileSharedFav.name, testData.fileSharedFav.searchToolbarPrimary, testData.fileSharedFav.searchToolbarMore);
+        await testUtil.checkToolbarActions(
+          testData.fileSharedFav.name,
+          testData.fileSharedFav.searchToolbarPrimary,
+          testData.fileSharedFav.searchToolbarMore
+        );
         await testUtil.checkContextMenu(testData.fileSharedFav.name, testData.fileSharedFav.searchContextMenu);
       });
 
@@ -97,23 +111,34 @@ export function searchResultsTests() {
       });
 
       it('File favorite, locked - [C280648]', async () => {
-        await testUtil.checkToolbarActions(testData.fileFavLocked.name, testData.fileFavLocked.searchToolbarPrimary, testData.fileFavLocked.searchToolbarMore);
+        await testUtil.checkToolbarActions(
+          testData.fileFavLocked.name,
+          testData.fileFavLocked.searchToolbarPrimary,
+          testData.fileFavLocked.searchToolbarMore
+        );
         await testUtil.checkContextMenu(testData.fileFavLocked.name, testData.fileFavLocked.searchContextMenu);
       });
 
       it('File shared, locked - [C280574]', async () => {
-        await testUtil.checkToolbarActions(testData.fileSharedLocked.name, testData.fileSharedLocked.searchToolbarPrimary, testData.fileSharedLocked.searchToolbarMore);
+        await testUtil.checkToolbarActions(
+          testData.fileSharedLocked.name,
+          testData.fileSharedLocked.searchToolbarPrimary,
+          testData.fileSharedLocked.searchToolbarMore
+        );
         await testUtil.checkContextMenu(testData.fileSharedLocked.name, testData.fileSharedLocked.searchContextMenu);
       });
 
       it('File shared, favorite, locked - [C280642]', async () => {
-        await testUtil.checkToolbarActions(testData.fileSharedFavLocked.name, testData.fileSharedFavLocked.searchToolbarPrimary, testData.fileSharedFavLocked.searchToolbarMore);
+        await testUtil.checkToolbarActions(
+          testData.fileSharedFavLocked.name,
+          testData.fileSharedFavLocked.searchToolbarPrimary,
+          testData.fileSharedFavLocked.searchToolbarMore
+        );
         await testUtil.checkContextMenu(testData.fileSharedFavLocked.name, testData.fileSharedFavLocked.searchContextMenu);
       });
     });
 
     describe('on a folder', () => {
-
       beforeAll(async () => {
         await page.clickPersonalFiles();
         await searchInput.clickSearchButton();
@@ -133,7 +158,6 @@ export function searchResultsTests() {
     });
 
     describe('on multiple selection', () => {
-
       beforeAll(async () => {
         await page.clickPersonalFiles();
         await searchInput.clickSearchButton();
@@ -142,18 +166,36 @@ export function searchResultsTests() {
       });
 
       it('multiple files - [C291820]', async () => {
-        await testUtil.checkMultipleSelContextMenu([ testData.file.name, testData.fileDocxShared.name ], testData.multipleSel.searchContextMenu);
-        await testUtil.checkMultipleSelToolbarActions([ testData.file.name, testData.fileDocxShared.name ], testData.multipleSel.searchToolbarPrimary, testData.multipleSel.searchToolbarMore);
+        await testUtil.checkMultipleSelContextMenu([testData.file.name, testData.fileDocxShared.name], testData.multipleSel.searchContextMenu);
+        await testUtil.checkMultipleSelToolbarActions(
+          [testData.file.name, testData.fileDocxShared.name],
+          testData.multipleSel.searchToolbarPrimary,
+          testData.multipleSel.searchToolbarMore
+        );
       });
 
       it('multiple files - all favorite - [C326690]', async () => {
-        await testUtil.checkMultipleSelContextMenu([ testData.fileDocxFav.name, testData.fileSharedFav.name ], testData.multipleSelAllFav.searchContextMenu);
-        await testUtil.checkMultipleSelToolbarActions([ testData.fileDocxFav.name, testData.fileSharedFav.name ], testData.multipleSelAllFav.searchToolbarPrimary, testData.multipleSelAllFav.searchToolbarMore);
+        await testUtil.checkMultipleSelContextMenu(
+          [testData.fileDocxFav.name, testData.fileSharedFav.name],
+          testData.multipleSelAllFav.searchContextMenu
+        );
+        await testUtil.checkMultipleSelToolbarActions(
+          [testData.fileDocxFav.name, testData.fileSharedFav.name],
+          testData.multipleSelAllFav.searchToolbarPrimary,
+          testData.multipleSelAllFav.searchToolbarMore
+        );
       });
 
       it('multiple locked files - [C297626]', async () => {
-        await testUtil.checkMultipleSelContextMenu([ testData.fileLocked.name, testData.fileSharedFavLocked.name ], testData.multipleSel.searchContextMenu);
-        await testUtil.checkMultipleSelToolbarActions([ testData.fileLocked.name, testData.fileSharedFavLocked.name ], testData.multipleSel.searchToolbarPrimary, testData.multipleSel.searchToolbarMore);
+        await testUtil.checkMultipleSelContextMenu(
+          [testData.fileLocked.name, testData.fileSharedFavLocked.name],
+          testData.multipleSel.searchContextMenu
+        );
+        await testUtil.checkMultipleSelToolbarActions(
+          [testData.fileLocked.name, testData.fileSharedFavLocked.name],
+          testData.multipleSel.searchToolbarPrimary,
+          testData.multipleSel.searchToolbarMore
+        );
       });
 
       it('multiple folders - [C291821]', async () => {
@@ -161,8 +203,12 @@ export function searchResultsTests() {
         await searchInput.searchFor('folder-');
         await searchResultsPage.waitForResults();
 
-        await testUtil.checkMultipleSelContextMenu([ testData.folder.name, testData.folderFav.name ], testData.multipleSel.searchContextMenu);
-        await testUtil.checkMultipleSelToolbarActions([ testData.folder.name, testData.folderFav.name ], testData.multipleSel.searchToolbarPrimary, testData.multipleSel.searchToolbarMore);
+        await testUtil.checkMultipleSelContextMenu([testData.folder.name, testData.folderFav.name], testData.multipleSel.searchContextMenu);
+        await testUtil.checkMultipleSelToolbarActions(
+          [testData.folder.name, testData.folderFav.name],
+          testData.multipleSel.searchToolbarPrimary,
+          testData.multipleSel.searchToolbarMore
+        );
       });
 
       it('both files and folders - [C291822]', async () => {
@@ -170,8 +216,12 @@ export function searchResultsTests() {
         await searchInput.searchFor(`=${testData.file.name} or =${testData.folderFav.name}`);
         await searchResultsPage.waitForResults();
 
-        await testUtil.checkMultipleSelContextMenu([ testData.file.name, testData.folderFav.name ], testData.multipleSel.searchContextMenu);
-        await testUtil.checkMultipleSelToolbarActions([ testData.file.name, testData.folderFav.name ], testData.multipleSel.searchToolbarPrimary, testData.multipleSel.searchToolbarMore);
+        await testUtil.checkMultipleSelContextMenu([testData.file.name, testData.folderFav.name], testData.multipleSel.searchContextMenu);
+        await testUtil.checkMultipleSelToolbarActions(
+          [testData.file.name, testData.folderFav.name],
+          testData.multipleSel.searchToolbarPrimary,
+          testData.multipleSel.searchToolbarMore
+        );
       });
     });
   });

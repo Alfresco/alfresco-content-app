@@ -37,10 +37,7 @@ import {
   AppStore,
   SnackbarErrorAction
 } from '@alfresco/aca-shared/store';
-import {
-  NodeTemplateService,
-  TemplateDialogConfig
-} from '../../services/node-template.service';
+import { NodeTemplateService, TemplateDialogConfig } from '../../services/node-template.service';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { ContentManagementService } from '../../services/content-management.service';
 import { from, Observable, of } from 'rxjs';
@@ -83,11 +80,11 @@ export class TemplateEffects {
   @Effect({ dispatch: false })
   createFromTemplate$ = this.actions$.pipe(
     ofType<CreateFromTemplate>(TemplateActionTypes.CreateFromTemplate),
-    map(action => {
+    map((action) => {
       this.store
         .select(getCurrentFolder)
         .pipe(
-          switchMap(folder => {
+          switchMap((folder) => {
             return this.copyNode(action.payload, folder.id);
           }),
           take(1)
@@ -102,10 +99,8 @@ export class TemplateEffects {
 
   @Effect({ dispatch: false })
   createFromTemplateSuccess$ = this.actions$.pipe(
-    ofType<CreateFromTemplateSuccess>(
-      TemplateActionTypes.CreateFromTemplateSuccess
-    ),
-    map(payload => {
+    ofType<CreateFromTemplateSuccess>(TemplateActionTypes.CreateFromTemplateSuccess),
+    map((payload) => {
       this.matDialog.closeAll();
       this.content.reload.next(payload.node);
     })
@@ -115,9 +110,7 @@ export class TemplateEffects {
     this.nodeTemplateService
       .selectTemplateDialog(config)
       .pipe(debounceTime(300))
-      .subscribe(([node]) =>
-        this.nodeTemplateService.createTemplateDialog(node)
-      );
+      .subscribe(([node]) => this.nodeTemplateService.createTemplateDialog(node));
   }
 
   private copyNode(source: Node, parentId: string): Observable<NodeEntry> {
@@ -127,7 +120,7 @@ export class TemplateEffects {
         name: source.name
       })
     ).pipe(
-      switchMap(node =>
+      switchMap((node) =>
         this.updateNode(node, {
           properties: {
             'cm:title': source.properties['cm:title'],
@@ -135,19 +128,14 @@ export class TemplateEffects {
           }
         })
       ),
-      catchError(error => {
+      catchError((error) => {
         return this.handleError(error);
       })
     );
   }
 
-  private updateNode(
-    node: NodeEntry,
-    update: NodeBodyUpdate
-  ): Observable<NodeEntry> {
-    return from(
-      this.apiService.getInstance().nodes.updateNode(node.entry.id, update)
-    ).pipe(catchError(() => of(node)));
+  private updateNode(node: NodeEntry, update: NodeBodyUpdate): Observable<NodeEntry> {
+    return from(this.apiService.getInstance().nodes.updateNode(node.entry.id, update)).pipe(catchError(() => of(node)));
   }
 
   private handleError(error: Error): Observable<null> {
@@ -160,13 +148,9 @@ export class TemplateEffects {
     }
 
     if (statusCode !== 409) {
-      this.store.dispatch(
-        new SnackbarErrorAction('APP.MESSAGES.ERRORS.GENERIC')
-      );
+      this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.ERRORS.GENERIC'));
     } else {
-      this.store.dispatch(
-        new SnackbarErrorAction('APP.MESSAGES.ERRORS.CONFLICT')
-      );
+      this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.ERRORS.CONFLICT'));
     }
 
     return of(null);

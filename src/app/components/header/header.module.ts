@@ -32,13 +32,7 @@ import { AppSearchInputModule } from '../search/search-input.module';
 import { AppToolbarModule } from '../toolbar/toolbar.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    CoreModule.forChild(),
-    AppCurrentUserModule,
-    AppSearchInputModule,
-    AppToolbarModule
-  ],
+  imports: [CommonModule, CoreModule.forChild(), AppCurrentUserModule, AppSearchInputModule, AppToolbarModule],
   declarations: [AppHeaderComponent],
   exports: [AppHeaderComponent]
 })

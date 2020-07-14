@@ -52,7 +52,7 @@ describe('AppHeaderComponent', () => {
   } as AppState;
 
   beforeEach(() => {
-    store.select.and.callFake(memoizeFn => {
+    store.select.and.callFake((memoizeFn) => {
       return of(memoizeFn({ app }));
     });
 
@@ -60,9 +60,9 @@ describe('AppHeaderComponent', () => {
   });
 
   it('should set header color, name and logo', async(() => {
-    component.appName$.subscribe(val => expect(val).toBe(app.appName));
-    component.logo$.subscribe(val => expect(val).toBe(app.logoPath));
-    component.headerColor$.subscribe(val => expect(val).toBe(app.headerColor));
+    component.appName$.subscribe((val) => expect(val).toBe(app.appName));
+    component.logo$.subscribe((val) => expect(val).toBe(app.logoPath));
+    component.headerColor$.subscribe((val) => expect(val).toBe(app.headerColor));
   }));
 
   it('should get header actions', () => {

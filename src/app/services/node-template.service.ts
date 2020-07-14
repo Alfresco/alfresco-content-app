@@ -27,22 +27,12 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CreateFromTemplateDialogComponent } from '../dialogs/node-template/create-from-template.dialog';
 import { Subject, from, of } from 'rxjs';
-import {
-  Node,
-  MinimalNode,
-  MinimalNodeEntryEntity,
-  ResultNode,
-  PathElement
-} from '@alfresco/js-api';
+import { Node, MinimalNode, MinimalNodeEntryEntity, ResultNode, PathElement } from '@alfresco/js-api';
 import { AlfrescoApiService, TranslationService } from '@alfresco/adf-core';
 import { switchMap, catchError } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { AppStore, SnackbarErrorAction } from '@alfresco/aca-shared/store';
-import {
-  ContentNodeSelectorComponent,
-  ContentNodeSelectorComponentData,
-  ShareDataRow
-} from '@alfresco/adf-content-services';
+import { ContentNodeSelectorComponent, ContentNodeSelectorComponentData, ShareDataRow } from '@alfresco/adf-content-services';
 
 export interface TemplateDialogConfig {
   primaryPathName: string;
@@ -95,7 +85,7 @@ export class NodeTemplateService {
 
     from(this.alfrescoApiService.searchApi.search(query))
       .pipe(
-        switchMap(response => {
+        switchMap((response) => {
           const entry = response.list.entries[0].entry;
           this.rootNode = entry;
           data.currentFolderId = entry.id;
@@ -103,18 +93,13 @@ export class NodeTemplateService {
           return this.dialog
             .open(ContentNodeSelectorComponent, {
               data,
-              panelClass: [
-                'adf-content-node-selector-dialog',
-                'aca-template-node-selector-dialog'
-              ],
+              panelClass: ['adf-content-node-selector-dialog', 'aca-template-node-selector-dialog'],
               width: '630px'
             })
             .afterClosed();
         }),
-        catchError(error => {
-          this.store.dispatch(
-            new SnackbarErrorAction('APP.MESSAGES.ERRORS.GENERIC')
-          );
+        catchError((error) => {
+          this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.ERRORS.GENERIC'));
           return of(error);
         })
       )
@@ -123,9 +108,7 @@ export class NodeTemplateService {
     return select;
   }
 
-  createTemplateDialog(
-    node: Node
-  ): MatDialogRef<CreateFromTemplateDialogComponent> {
+  createTemplateDialog(node: Node): MatDialogRef<CreateFromTemplateDialogComponent> {
     return this.dialog.open(CreateFromTemplateDialogComponent, {
       data: node,
       panelClass: 'aca-create-from-template-dialog',
@@ -158,29 +141,18 @@ export class NodeTemplateService {
 
   private title(selectionType: string) {
     if (selectionType === 'file') {
-      return this.translation.instant(
-        'NODE_SELECTOR.SELECT_FILE_TEMPLATE_TITLE'
-      );
+      return this.translation.instant('NODE_SELECTOR.SELECT_FILE_TEMPLATE_TITLE');
     }
 
-    return this.translation.instant(
-      'NODE_SELECTOR.SELECT_FOLDER_TEMPLATE_TITLE'
-    );
+    return this.translation.instant('NODE_SELECTOR.SELECT_FOLDER_TEMPLATE_TITLE');
   }
 
   private rowFilter(row: ShareDataRow): boolean {
     const node: MinimalNodeEntryEntity = row.node.entry;
-    return (
-      node.nodeType !== 'app:filelink' && node.nodeType !== 'app:folderlink'
-    );
+    return node.nodeType !== 'app:filelink' && node.nodeType !== 'app:folderlink';
   }
 
   private getPathElements(node: Node): PathElement[] {
-    return node.path.elements.filter(
-      pathElement =>
-        !this.rootNode.path.elements.some(
-          rootPathElement => pathElement.id === rootPathElement.id
-        )
-    );
+    return node.path.elements.filter((pathElement) => !this.rootNode.path.elements.some((rootPathElement) => pathElement.id === rootPathElement.id));
   }
 }

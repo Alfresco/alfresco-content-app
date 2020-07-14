@@ -30,13 +30,8 @@ import { DataTable } from '../data-table/data-table';
 import { isPresentAndEnabled } from '../../utilities/utils';
 
 export class SelectTemplateDialog extends GenericDialog {
-  nextButton = this.childElement(
-    by.css('[data-automation-id="content-node-selector-actions-choose"]')
-  );
-
-  cancelButton = this.childElement(
-    by.css('[data-automation-id="content-node-selector-actions-cancel"]')
-  );
+  nextButton = this.childElement(by.css('[data-automation-id="content-node-selector-actions-choose"]'));
+  cancelButton = this.childElement(by.css('[data-automation-id="content-node-selector-actions-cancel"]'));
 
   breadcrumb = new DropDownBreadcrumb();
   dataTable = new DataTable('.aca-template-node-selector-dialog');

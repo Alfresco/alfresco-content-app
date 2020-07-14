@@ -25,26 +25,15 @@
 
 import { by } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
-import {
-  isPresentAndDisplayed,
-  waitForClickable,
-  isPresentAndEnabled,
-  typeText
-} from '../../utilities/utils';
+import { isPresentAndDisplayed, waitForClickable, isPresentAndEnabled, typeText } from '../../utilities/utils';
 
 export class CreateOrEditFolderDialog extends GenericDialog {
-  createButton = this.childElement(
-    by.cssContainingText('.mat-dialog-actions button', 'Create')
-  );
+  createButton = this.childElement(by.cssContainingText('.mat-dialog-actions button', 'Create'));
   cancelButton = this.childElement(by.id('adf-folder-cancel-button'));
-  updateButton = this.childElement(
-    by.cssContainingText('.mat-dialog-actions button', 'Update')
-  );
+  updateButton = this.childElement(by.cssContainingText('.mat-dialog-actions button', 'Update'));
 
   nameInput = this.rootElem.element(by.css('input[placeholder="Name" i]'));
-  descriptionTextArea = this.rootElem.element(
-    by.css('textarea[placeholder="Description" i]')
-  );
+  descriptionTextArea = this.rootElem.element(by.css('textarea[placeholder="Description" i]'));
   validationMessage = this.rootElem.element(by.css('.mat-hint span'));
 
   constructor() {

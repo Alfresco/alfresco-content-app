@@ -50,7 +50,7 @@ describe('SearchInputControlComponent', () => {
     const keyboardEvent = { target: { value: 'a' } };
 
     let eventArgs = null;
-    component.submit.subscribe(args => (eventArgs = args));
+    component.submit.subscribe((args) => (eventArgs = args));
 
     await component.searchSubmit(keyboardEvent);
     expect(eventArgs).toBe(keyboardEvent);
@@ -60,7 +60,7 @@ describe('SearchInputControlComponent', () => {
     const searchTerm = 'b';
 
     let eventArgs = null;
-    component.searchChange.subscribe(args => (eventArgs = args));
+    component.searchChange.subscribe((args) => (eventArgs = args));
 
     await component.inputChange(searchTerm);
     expect(eventArgs).toBe(searchTerm);
@@ -68,7 +68,7 @@ describe('SearchInputControlComponent', () => {
 
   it('should emit searchChange event on clear', async () => {
     let eventArgs = null;
-    component.searchChange.subscribe(args => (eventArgs = args));
+    component.searchChange.subscribe((args) => (eventArgs = args));
 
     await component.clear();
     expect(eventArgs).toBe('');

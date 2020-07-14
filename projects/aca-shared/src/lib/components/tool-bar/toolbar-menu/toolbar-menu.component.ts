@@ -40,11 +40,7 @@ export class ToolbarMenuComponent {
   color = '';
 
   get hasChildren(): boolean {
-    return (
-      this.actionRef &&
-      this.actionRef.children &&
-      this.actionRef.children.length > 0
-    );
+    return this.actionRef && this.actionRef.children && this.actionRef.children.length > 0;
   }
 
   trackById(_: number, obj: { id: string }) {

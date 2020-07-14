@@ -23,14 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  Component,
-  Input,
-  ChangeDetectionStrategy,
-  OnInit,
-  ViewEncapsulation,
-  HostListener
-} from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, OnInit, ViewEncapsulation, HostListener } from '@angular/core';
 import { PathInfo, MinimalNodeEntity } from '@alfresco/js-api';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 
@@ -42,12 +35,7 @@ import { TranslationService } from '@alfresco/adf-core';
 @Component({
   selector: 'aca-location-link',
   template: `
-    <a
-      href=""
-      [title]="nodeLocation$ | async"
-      (click)="goToLocation()"
-      class="adf-datatable-cell-value"
-    >
+    <a href="" [title]="nodeLocation$ | async" (click)="goToLocation()" class="adf-datatable-cell-value">
       {{ displayText | async | translate }}
     </a>
   `,
@@ -79,11 +67,7 @@ export class LocationLinkComponent implements OnInit {
     this.getTooltip(this._path);
   }
 
-  constructor(
-    private store: Store<AppStore>,
-    private contentApi: ContentApiService,
-    private translationService: TranslationService
-  ) {}
+  constructor(private store: Store<AppStore>, private contentApi: ContentApiService, private translationService: TranslationService) {}
 
   goToLocation() {
     if (this.context) {
@@ -110,7 +94,7 @@ export class LocationLinkComponent implements OnInit {
 
   // todo: review once 5.2.3 is out
   private getDisplayText(path: PathInfo): Observable<string> {
-    const elements = path.elements.map(e => e.name);
+    const elements = path.elements.map((e) => e.name);
 
     // for admin users
     if (elements.length === 1 && elements[0] === 'Company Home') {
@@ -118,11 +102,7 @@ export class LocationLinkComponent implements OnInit {
     }
 
     // for non-admin users
-    if (
-      elements.length === 3 &&
-      elements[0] === 'Company Home' &&
-      elements[1] === 'User Homes'
-    ) {
+    if (elements.length === 3 && elements[0] === 'Company Home' && elements[1] === 'User Homes') {
       return of('APP.BROWSE.PERSONAL.TITLE');
     }
 
@@ -131,12 +111,10 @@ export class LocationLinkComponent implements OnInit {
     if (result === 'documentLibrary') {
       const fragment = path.elements[path.elements.length - 2];
 
-      return new Observable<string>(observer => {
+      return new Observable<string>((observer) => {
         this.contentApi.getNodeInfo(fragment.id).subscribe(
-          node => {
-            observer.next(
-              node.properties['cm:title'] || node.name || fragment.name
-            );
+          (node) => {
+            observer.next(node.properties['cm:title'] || node.name || fragment.name);
             observer.complete();
           },
           () => {
@@ -158,13 +136,9 @@ export class LocationLinkComponent implements OnInit {
 
     let result: string = null;
 
-    const elements = path.elements.map(e => Object.assign({}, e));
-    const personalFiles = this.translationService.instant(
-      'APP.BROWSE.PERSONAL.TITLE'
-    );
-    const fileLibraries = this.translationService.instant(
-      'APP.BROWSE.LIBRARIES.TITLE'
-    );
+    const elements = path.elements.map((e) => Object.assign({}, e));
+    const personalFiles = this.translationService.instant('APP.BROWSE.PERSONAL.TITLE');
+    const fileLibraries = this.translationService.instant('APP.BROWSE.LIBRARIES.TITLE');
 
     if (elements[0].name === 'Company Home') {
       elements[0].name = personalFiles;
@@ -173,14 +147,13 @@ export class LocationLinkComponent implements OnInit {
         if (elements[1].name === 'Sites') {
           const fragment = elements[2];
           this.contentApi.getNodeInfo(fragment.id).subscribe(
-            node => {
+            (node) => {
               elements.splice(0, 2);
-              elements[0].name =
-                node.properties['cm:title'] || node.name || fragment.name;
+              elements[0].name = node.properties['cm:title'] || node.name || fragment.name;
               elements.splice(1, 1);
               elements.unshift({ id: null, name: fileLibraries });
 
-              result = elements.map(e => e.name).join('/');
+              result = elements.map((e) => e.name).join('/');
               this.nodeLocation$.next(result);
             },
             () => {
@@ -188,7 +161,7 @@ export class LocationLinkComponent implements OnInit {
               elements.unshift({ id: null, name: fileLibraries });
               elements.splice(2, 1);
 
-              result = elements.map(e => e.name).join('/');
+              result = elements.map((e) => e.name).join('/');
               this.nodeLocation$.next(result);
             }
           );
@@ -201,7 +174,7 @@ export class LocationLinkComponent implements OnInit {
       }
     }
 
-    result = elements.map(e => e.name).join('/');
+    result = elements.map((e) => e.name).join('/');
     this.nodeLocation$.next(result);
   }
 }

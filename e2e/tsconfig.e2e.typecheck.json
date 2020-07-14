@@ -2,6 +2,10 @@
   "extends": "./tsconfig.e2e.json",
   "compilerOptions": {
     "noEmit": true,
-    "noUnusedLocals": true
+    "noUnusedLocals": true,
+    "noImplicitAny": true,
+    "esModuleInterop": true,
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true
   }
 }

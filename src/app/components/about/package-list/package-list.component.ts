@@ -23,12 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  Component,
-  ViewEncapsulation,
-  ChangeDetectionStrategy,
-  Input
-} from '@angular/core';
+import { Component, ViewEncapsulation, ChangeDetectionStrategy, Input } from '@angular/core';
 
 export interface PackageInfo {
   name: string;
@@ -55,7 +50,7 @@ export class PackageListComponent {
     }
   ];
 
-  displayedColumns = this.columns.map(x => x.columnDef);
+  displayedColumns = this.columns.map((x) => x.columnDef);
 
   @Input()
   data: Array<PackageInfo> = [];

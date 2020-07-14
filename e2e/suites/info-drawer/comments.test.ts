@@ -23,35 +23,35 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  LoginPage,
-  BrowsingPage,
-  RepoClient,
-  InfoDrawer,
-  Utils
-} from '@alfresco/aca-testing-shared';
-
-import * as moment from 'moment';
+import { LoginPage, BrowsingPage, RepoClient, InfoDrawer, Utils } from '@alfresco/aca-testing-shared';
+const moment = require('moment');
 
 describe('Comments', () => {
   const username = `user1-${Utils.random()}`;
 
-  const parent = `parent-${Utils.random()}`; let parentId;
+  const parent = `parent-${Utils.random()}`;
+  let parentId: string;
 
   const file1 = `file1-${Utils.random()}.txt`;
   const folder1 = `folder1-${Utils.random()}`;
-  const folder2 = `folder2-${Utils.random()}`; let folder2Id;
+  const folder2 = `folder2-${Utils.random()}`;
+  let folder2Id: string;
 
-  const fileWith1Comment = `file1Comment-${Utils.random()}.txt`; let fileWith1CommentId;
-  const fileWith2Comments = `file2Comments-${Utils.random()}.txt`; let fileWith2CommentsId;
+  const fileWith1Comment = `file1Comment-${Utils.random()}.txt`;
+  let fileWith1CommentId: string;
+  const fileWith2Comments = `file2Comments-${Utils.random()}.txt`;
+  let fileWith2CommentsId: string;
 
   const file2Personal = `file2Personal-${Utils.random()}.txt`;
-  const file2Shared = `file2Shared-${Utils.random()}.txt`; let file2SharedId;
+  const file2Shared = `file2Shared-${Utils.random()}.txt`;
+  let file2SharedId: string;
   const file2Recent = `file2Recent-${Utils.random()}.txt`;
-  const file2Favorites = `file2Favorites-${Utils.random()}.txt`; let file2FavoritesId;
+  const file2Favorites = `file2Favorites-${Utils.random()}.txt`;
+  let file2FavoritesId: string;
 
-  let commentFile1Entry;
-  let comment1File2Entry, comment2File2Entry;
+  let commentFile1Entry: any;
+  let comment1File2Entry: any;
+  let comment2File2Entry: any;
 
   const apis = {
     admin: new RepoClient(),
@@ -73,7 +73,7 @@ describe('Comments', () => {
     await apis.user.nodes.createFile(file1, parentId);
     await apis.user.nodes.createFile(file2Personal, parentId);
     await apis.user.nodes.createFile(file2Recent, parentId);
-    file2SharedId = (await apis.user.nodes.createFile(file2Shared, parentId)).entry.id
+    file2SharedId = (await apis.user.nodes.createFile(file2Shared, parentId)).entry.id;
     file2FavoritesId = (await apis.user.nodes.createFile(file2Favorites, parentId)).entry.id;
 
     fileWith1CommentId = (await apis.user.nodes.createFile(fileWith1Comment, parentId)).entry.id;
@@ -378,7 +378,10 @@ describe('Comments', () => {
       expect(await commentsTab.isCommentDisplayed(commentFile1Entry.id)).toBe(true, `Comment with id: ${commentFile1Entry.id} not displayed`);
       expect(await commentsTab.getCommentText(commentFile1Entry.id)).toBe(commentFile1Entry.content, 'Incorrect comment text');
       expect(await commentsTab.getCommentUserName(commentFile1Entry.id)).toBe(`${username} ${username}`, 'Incorrect comment user');
-      expect(await commentsTab.getCommentTime(commentFile1Entry.id)).toBe(moment(commentFile1Entry.createdAt).fromNow(), 'Incorrect comment created time');
+      expect(await commentsTab.getCommentTime(commentFile1Entry.id)).toBe(
+        moment(commentFile1Entry.createdAt).fromNow(),
+        'Incorrect comment created time'
+      );
       expect(await commentsTab.isCommentUserAvatarDisplayed(commentFile1Entry.id)).toBe(true, 'User avatar not displayed');
     });
 
@@ -397,7 +400,10 @@ describe('Comments', () => {
       expect(await commentsTab.isCommentDisplayed(commentFile1Entry.id)).toBe(true, `Comment with id: ${commentFile1Entry.id} not displayed`);
       expect(await commentsTab.getCommentText(commentFile1Entry.id)).toBe(commentFile1Entry.content, 'Incorrect comment text');
       expect(await commentsTab.getCommentUserName(commentFile1Entry.id)).toBe(`${username} ${username}`, 'Incorrect comment user');
-      expect(await commentsTab.getCommentTime(commentFile1Entry.id)).toBe(moment(commentFile1Entry.createdAt).fromNow(), 'Incorrect comment created time');
+      expect(await commentsTab.getCommentTime(commentFile1Entry.id)).toBe(
+        moment(commentFile1Entry.createdAt).fromNow(),
+        'Incorrect comment created time'
+      );
       expect(await commentsTab.isCommentUserAvatarDisplayed(commentFile1Entry.id)).toBe(true, 'User avatar not displayed');
     });
 
@@ -416,7 +422,10 @@ describe('Comments', () => {
       expect(await commentsTab.isCommentDisplayed(commentFile1Entry.id)).toBe(true, `Comment with id: ${commentFile1Entry.id} not displayed`);
       expect(await commentsTab.getCommentText(commentFile1Entry.id)).toBe(commentFile1Entry.content, 'Incorrect comment text');
       expect(await commentsTab.getCommentUserName(commentFile1Entry.id)).toBe(`${username} ${username}`, 'Incorrect comment user');
-      expect(await commentsTab.getCommentTime(commentFile1Entry.id)).toBe(moment(commentFile1Entry.createdAt).fromNow(), 'Incorrect comment created time');
+      expect(await commentsTab.getCommentTime(commentFile1Entry.id)).toBe(
+        moment(commentFile1Entry.createdAt).fromNow(),
+        'Incorrect comment created time'
+      );
       expect(await commentsTab.isCommentUserAvatarDisplayed(commentFile1Entry.id)).toBe(true, 'User avatar not displayed');
     });
 
@@ -435,10 +444,11 @@ describe('Comments', () => {
       expect(await commentsTab.isCommentDisplayed(commentFile1Entry.id)).toBe(true, `Comment with id: ${commentFile1Entry.id} not displayed`);
       expect(await commentsTab.getCommentText(commentFile1Entry.id)).toBe(commentFile1Entry.content, 'Incorrect comment text');
       expect(await commentsTab.getCommentUserName(commentFile1Entry.id)).toBe(`${username} ${username}`, 'Incorrect comment user');
-      expect(await commentsTab.getCommentTime(commentFile1Entry.id)).toBe(moment(commentFile1Entry.createdAt).fromNow(), 'Incorrect comment created time');
+      expect(await commentsTab.getCommentTime(commentFile1Entry.id)).toBe(
+        moment(commentFile1Entry.createdAt).fromNow(),
+        'Incorrect comment created time'
+      );
       expect(await commentsTab.isCommentUserAvatarDisplayed(commentFile1Entry.id)).toBe(true, 'User avatar not displayed');
     });
-
   });
-
 });

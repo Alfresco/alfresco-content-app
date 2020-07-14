@@ -25,13 +25,7 @@
 
 import { browser } from 'protractor';
 
-import {
-  APP_ROUTES,
-  LoginPage,
-  BrowsingPage,
-  Utils,
-  RepoClient
-} from '@alfresco/aca-testing-shared';
+import { APP_ROUTES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
 
 describe('Personal Files', () => {
   const username = `user-${Utils.random()}`;
@@ -51,20 +45,14 @@ describe('Personal Files', () => {
   const userFile = `file-${Utils.random()}.txt`;
 
   beforeAll(async (done) => {
-    await Promise.all([
-      apis.admin.people.createUser({ username }),
-      apis.admin.nodes.createFolders([ adminFolder ])
-    ]);
-    await apis.user.nodes.createFolders([ userFolder ]);
-    await apis.user.nodes.createFiles([ userFile ], userFolder);
+    await Promise.all([apis.admin.people.createUser({ username }), apis.admin.nodes.createFolders([adminFolder])]);
+    await apis.user.nodes.createFolders([userFolder]);
+    await apis.user.nodes.createFiles([userFile], userFolder);
     done();
   });
 
   afterAll(async (done) => {
-    await Promise.all([
-      apis.admin.nodes.deleteNodes([ adminFolder ]),
-      apis.user.nodes.deleteNodes([ userFolder ])
-    ]);
+    await Promise.all([apis.admin.nodes.deleteNodes([adminFolder]), apis.user.nodes.deleteNodes([userFolder])]);
     done();
   });
 
@@ -97,7 +85,7 @@ describe('Personal Files', () => {
     });
 
     it('[C217142] has the correct columns', async () => {
-      const expectedColumns = [ 'Name', 'Size', 'Modified', 'Modified by' ];
+      const expectedColumns = ['Name', 'Size', 'Modified', 'Modified by'];
       const actualColumns = await dataTable.getColumnHeadersText();
 
       expect(actualColumns).toEqual(expectedColumns);
@@ -114,7 +102,7 @@ describe('Personal Files', () => {
     it('[C213244] navigates to folder', async () => {
       const nodeId = (await apis.user.nodes.getNodeByPath(`/${userFolder}`)).entry.id;
 
-      await dataTable.doubleClickOnRowByName(userFolder)
+      await dataTable.doubleClickOnRowByName(userFolder);
       await dataTable.waitForHeader();
 
       expect(await browser.getCurrentUrl()).toContain(nodeId, 'Node ID is not in the URL');

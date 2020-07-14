@@ -25,20 +25,8 @@
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import {
-  TestBed,
-  ComponentFixture,
-  async,
-  fakeAsync,
-  tick
-} from '@angular/core/testing';
-import {
-  UserPreferencesService,
-  AppConfigPipe,
-  NodeFavoriteDirective,
-  UploadService,
-  AlfrescoApiService
-} from '@alfresco/adf-core';
+import { TestBed, ComponentFixture, async, fakeAsync, tick } from '@angular/core/testing';
+import { UserPreferencesService, AppConfigPipe, NodeFavoriteDirective, UploadService, AlfrescoApiService } from '@alfresco/adf-core';
 import { ClosePreviewAction } from '@alfresco/aca-shared/store';
 import { PreviewComponent } from './preview.component';
 import { of, throwError } from 'rxjs';
@@ -48,14 +36,7 @@ import { AppTestingModule } from '../../testing/app-testing.module';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { ContentManagementService } from '../../services/content-management.service';
 import { Store } from '@ngrx/store';
-import {
-  Node,
-  NodePaging,
-  FavoritePaging,
-  SharedLinkPaging,
-  PersonEntry,
-  ResultSetPaging
-} from '@alfresco/js-api';
+import { Node, NodePaging, FavoritePaging, SharedLinkPaging, PersonEntry, ResultSetPaging } from '@alfresco/js-api';
 
 describe('PreviewComponent', () => {
   let fixture: ComponentFixture<PreviewComponent>;
@@ -106,12 +87,7 @@ describe('PreviewComponent', () => {
     component.previousNodeId = 'previous1';
     component.onNavigateBefore(clickEvent);
 
-    expect(router.navigate).toHaveBeenCalledWith([
-      'personal-files',
-      'folder1',
-      'preview',
-      'previous1'
-    ]);
+    expect(router.navigate).toHaveBeenCalledWith(['personal-files', 'folder1', 'preview', 'previous1']);
   });
 
   it('should navigate back to previous node in the root path', () => {
@@ -123,11 +99,7 @@ describe('PreviewComponent', () => {
     component.previousNodeId = 'previous1';
     component.onNavigateBefore(clickEvent);
 
-    expect(router.navigate).toHaveBeenCalledWith([
-      'personal-files',
-      'preview',
-      'previous1'
-    ]);
+    expect(router.navigate).toHaveBeenCalledWith(['personal-files', 'preview', 'previous1']);
   });
 
   it('should not navigate back if node unset', () => {
@@ -149,12 +121,7 @@ describe('PreviewComponent', () => {
     component.nextNodeId = 'next1';
     component.onNavigateNext(clickEvent);
 
-    expect(router.navigate).toHaveBeenCalledWith([
-      'personal-files',
-      'folder1',
-      'preview',
-      'next1'
-    ]);
+    expect(router.navigate).toHaveBeenCalledWith(['personal-files', 'folder1', 'preview', 'next1']);
   });
 
   it('should navigate to next node in the root path', () => {
@@ -166,11 +133,7 @@ describe('PreviewComponent', () => {
     component.nextNodeId = 'next1';
     component.onNavigateNext(clickEvent);
 
-    expect(router.navigate).toHaveBeenCalledWith([
-      'personal-files',
-      'preview',
-      'next1'
-    ]);
+    expect(router.navigate).toHaveBeenCalledWith(['personal-files', 'preview', 'next1']);
   });
 
   it('should not navigate back if node unset', () => {
@@ -186,31 +149,19 @@ describe('PreviewComponent', () => {
   it('should generate preview path for a folder only', () => {
     component.previewLocation = 'personal-files';
 
-    expect(component.getPreviewPath('folder1', null)).toEqual([
-      'personal-files',
-      'folder1'
-    ]);
+    expect(component.getPreviewPath('folder1', null)).toEqual(['personal-files', 'folder1']);
   });
 
   it('should generate preview path for a folder and a node', () => {
     component.previewLocation = 'personal-files';
 
-    expect(component.getPreviewPath('folder1', 'node1')).toEqual([
-      'personal-files',
-      'folder1',
-      'preview',
-      'node1'
-    ]);
+    expect(component.getPreviewPath('folder1', 'node1')).toEqual(['personal-files', 'folder1', 'preview', 'node1']);
   });
 
   it('should generate preview path for a node only', () => {
     component.previewLocation = 'personal-files';
 
-    expect(component.getPreviewPath(null, 'node1')).toEqual([
-      'personal-files',
-      'preview',
-      'node1'
-    ]);
+    expect(component.getPreviewPath(null, 'node1')).toEqual(['personal-files', 'preview', 'node1']);
   });
 
   it('should generate preview for the location only', () => {
@@ -351,9 +302,7 @@ describe('PreviewComponent', () => {
   });
 
   it('should return nearest nodes', async () => {
-    spyOn(component, 'getFileIds').and.returnValue(
-      Promise.resolve(['node1', 'node2', 'node3', 'node4', 'node5'])
-    );
+    spyOn(component, 'getFileIds').and.returnValue(Promise.resolve(['node1', 'node2', 'node3', 'node4', 'node5']));
 
     let nearest = await component.getNearestNodes('node1', 'folder1');
     expect(nearest).toEqual({ left: null, right: 'node2' });
@@ -366,9 +315,7 @@ describe('PreviewComponent', () => {
   });
 
   it('should return empty nearest nodes if node is already deleted', async () => {
-    spyOn(component, 'getFileIds').and.returnValue(
-      Promise.resolve(['node1', 'node2', 'node3', 'node4', 'node5'])
-    );
+    spyOn(component, 'getFileIds').and.returnValue(Promise.resolve(['node1', 'node2', 'node3', 'node4', 'node5']));
 
     const nearest = await component.getNearestNodes('node9', 'folder1');
     expect(nearest).toEqual({ left: null, right: null });
@@ -429,9 +376,7 @@ describe('PreviewComponent', () => {
         isFile: true
       } as Node)
     );
-    spyOn(component, 'getNearestNodes').and.returnValue(
-      Promise.reject('error')
-    );
+    spyOn(component, 'getNearestNodes').and.returnValue(Promise.reject('error'));
 
     component.previewLocation = 'personal-files';
     await component.displayNode('folder1');
@@ -471,10 +416,7 @@ describe('PreviewComponent', () => {
     spyOn(contentApi, 'getNodeChildren').and.returnValue(
       of({
         list: {
-          entries: [
-            { entry: { id: 'node1', name: 'node 1' } },
-            { entry: { id: 'node2', name: 'node 2' } }
-          ]
+          entries: [{ entry: { id: 'node1', name: 'node 1' } }, { entry: { id: 'node2', name: 'node 2' } }]
         }
       } as NodePaging)
     );
@@ -490,10 +432,7 @@ describe('PreviewComponent', () => {
     spyOn(contentApi, 'getNodeChildren').and.returnValue(
       of({
         list: {
-          entries: [
-            { entry: { id: 'node1', name: 'node 1' } },
-            { entry: { id: 'node2', name: 'node 2' } }
-          ]
+          entries: [{ entry: { id: 'node1', name: 'node 1' } }, { entry: { id: 'node2', name: 'node 2' } }]
         }
       } as NodePaging)
     );
@@ -532,10 +471,7 @@ describe('PreviewComponent', () => {
     spyOn(contentApi, 'getNodeChildren').and.returnValue(
       of({
         list: {
-          entries: [
-            { entry: { id: 'node1', name: 'node 1' } },
-            { entry: { id: 'node2', name: 'node 2' } }
-          ]
+          entries: [{ entry: { id: 'node1', name: 'node 1' } }, { entry: { id: 'node2', name: 'node 2' } }]
         }
       } as NodePaging)
     );
@@ -776,7 +712,7 @@ describe('PreviewComponent', () => {
       parent.className = 'adf-viewer__sidebar';
 
       const child = document.createElement('button');
-      child.addEventListener('keyup', function(e) {
+      child.addEventListener('keyup', function (e) {
         component.onNavigateNext(e);
       });
       parent.appendChild(child);
@@ -792,7 +728,7 @@ describe('PreviewComponent', () => {
       parent.className = 'cdk-overlay-container';
 
       const child = document.createElement('button');
-      child.addEventListener('keyup', function(e) {
+      child.addEventListener('keyup', function (e) {
         component.onNavigateNext(e);
       });
       parent.appendChild(child);

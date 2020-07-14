@@ -25,18 +25,9 @@
 
 import { NodeVersionsDialogComponent } from './node-versions.dialog';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  AlfrescoApiService,
-  AlfrescoApiServiceMock,
-  CoreModule,
-  TranslationMock
-} from '@alfresco/adf-core';
+import { AlfrescoApiService, AlfrescoApiServiceMock, CoreModule, TranslationMock } from '@alfresco/adf-core';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogModule,
-  MatDialogRef
-} from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import {
   NodeEntityEvent,
@@ -45,11 +36,7 @@ import {
   VersionListComponent,
   VersionUploadComponent
 } from '@alfresco/adf-content-services';
-import {
-  TranslateFakeLoader,
-  TranslateLoader,
-  TranslateModule
-} from '@ngx-translate/core';
+import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { AppStore, UnlockWriteAction } from '@alfresco/aca-shared/store';
 
 describe('NodeVersionsDialogComponent', () => {
@@ -134,18 +121,14 @@ describe('NodeVersionsDialogComponent', () => {
   it('should display adf upload version if isTypeList is passed as false from parent component', () => {
     component.isTypeList = false;
     fixture.detectChanges();
-    const adfVersionComponent = document.querySelector(
-      '#adf-version-upload-button'
-    );
+    const adfVersionComponent = document.querySelector('#adf-version-upload-button');
     expect(adfVersionComponent).not.toEqual(null);
   });
 
   it('should display adf version comparison if isTypeList is passed as false from parent component', () => {
     component.isTypeList = false;
     fixture.detectChanges();
-    const adfVersionComparisonComponent = document.querySelector(
-      '#adf-version-comparison'
-    );
+    const adfVersionComparisonComponent = document.querySelector('#adf-version-comparison');
     expect(adfVersionComparisonComponent).not.toEqual(null);
   });
 
@@ -168,8 +151,6 @@ describe('NodeVersionsDialogComponent', () => {
       }
     });
     component.handleUpload(nodeEvent);
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new UnlockWriteAction(nodeEvent.value)
-    );
+    expect(store.dispatch).toHaveBeenCalledWith(new UnlockWriteAction(nodeEvent.value));
   });
 });

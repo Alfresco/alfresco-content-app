@@ -23,14 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  Component,
-  OnDestroy,
-  OnInit,
-  ViewEncapsulation,
-  Output,
-  EventEmitter
-} from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -67,11 +60,9 @@ export class AppNodeVersionFormComponent implements OnInit, OnDestroy {
       version: [this.versionOptions[0].value]
     });
 
-    this.form.valueChanges
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((values: VersionFormEntry) => {
-        this.update.emit(values);
-      });
+    this.form.valueChanges.pipe(takeUntil(this.onDestroy$)).subscribe((values: VersionFormEntry) => {
+      this.update.emit(values);
+    });
   }
 
   get versions() {

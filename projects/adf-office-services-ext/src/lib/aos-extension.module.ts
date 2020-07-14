@@ -39,10 +39,7 @@ import { TranslationService } from '@alfresco/adf-core';
 })
 export class AosExtensionModule {
   constructor(extensions: ExtensionService, translation: TranslationService) {
-    translation.addTranslationFolder(
-      'adf-office-services-ext',
-      'assets/adf-office-services-ext'
-    );
+    translation.addTranslationFolder('adf-office-services-ext', 'assets/adf-office-services-ext');
     extensions.setEvaluators({
       'aos.canOpenWithOffice': canOpenWithOffice
     });

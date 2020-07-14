@@ -23,11 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  AppStore,
-  SetSelectedNodesAction,
-  getAppSelection
-} from '@alfresco/aca-shared/store';
+import { AppStore, SetSelectedNodesAction, getAppSelection } from '@alfresco/aca-shared/store';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { SharedLinkEntry } from '@alfresco/js-api';
@@ -59,13 +55,8 @@ export class SharedLinkViewComponent implements OnInit {
   ngOnInit() {
     this.route.params
       .pipe(
-        flatMap(params =>
-          forkJoin(
-            from(
-              this.alfrescoApiService.sharedLinksApi.getSharedLink(params.id)
-            ),
-            of(params.id)
-          ).pipe(catchError(() => of([null, params.id])))
+        flatMap((params) =>
+          forkJoin(from(this.alfrescoApiService.sharedLinksApi.getSharedLink(params.id)), of(params.id)).pipe(catchError(() => of([null, params.id])))
         )
       )
       .subscribe(([sharedEntry, sharedId]: [SharedLinkEntry, string]) => {
@@ -75,9 +66,8 @@ export class SharedLinkViewComponent implements OnInit {
         this.sharedLinkId = sharedId;
       });
 
-    this.store.select(getAppSelection).subscribe(selection => {
-      if (!selection.isEmpty)
-        this.viewerToolbarActions = this.extensions.getSharedLinkViewerToolbarActions();
+    this.store.select(getAppSelection).subscribe((selection) => {
+      if (!selection.isEmpty) this.viewerToolbarActions = this.extensions.getSharedLinkViewerToolbarActions();
     });
   }
 

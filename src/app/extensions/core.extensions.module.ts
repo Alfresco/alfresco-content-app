@@ -53,10 +53,7 @@ import { ViewNodeComponent } from '../components/toolbar/view-node/view-node.com
 import { LanguagePickerComponent } from '../components/common/language-picker/language-picker.component';
 import { LogoutComponent } from '../components/common/logout/logout.component';
 import { CurrentUserComponent } from '../components/current-user/current-user.component';
-import {
-  AppExtensionService,
-  ExtensionsDataLoaderGuard
-} from '@alfresco/aca-shared';
+import { AppExtensionService, ExtensionsDataLoaderGuard } from '@alfresco/aca-shared';
 
 export function setupExtensions(service: AppExtensionService): Function {
   return () => service.load();

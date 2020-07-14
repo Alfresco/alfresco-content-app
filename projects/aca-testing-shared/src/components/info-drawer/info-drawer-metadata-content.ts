@@ -25,11 +25,7 @@
 
 import { by, browser, ElementFinder } from 'protractor';
 import { Component } from '../component';
-import {
-  isPresentAndEnabled,
-  isPresentAndDisplayed,
-  waitForVisibility
-} from '../../utilities/utils';
+import { isPresentAndEnabled, isPresentAndDisplayed, waitForVisibility } from '../../utilities/utils';
 
 export class ContentMetadata extends Component {
   expandedPanel = this.byCss('.mat-expansion-panel.mat-expanded');
@@ -37,20 +33,10 @@ export class ContentMetadata extends Component {
   propertyListElements = this.allByCss('.adf-property');
   propertyValue = this.byCss('.adf-property-value');
   editPropertiesButton = this.byCss(`button[title='Edit']`);
-  lessInfoButton = this.byCssText(
-    `[data-automation-id='meta-data-card-toggle-expand']`,
-    'Less information'
-  );
-  moreInfoButton = this.byCssText(
-    `[data-automation-id='meta-data-card-toggle-expand']`,
-    'More information'
-  );
-  imagePropertiesPanel = this.byCss(
-    `[data-automation-id='adf-metadata-group-APP.CONTENT_METADATA.EXIF_GROUP_TITLE']`
-  );
-  expandedImagePropertiesPanel = this.byCss(
-    `[data-automation-id='adf-metadata-group-APP.CONTENT_METADATA.EXIF_GROUP_TITLE'].mat-expanded`
-  );
+  lessInfoButton = this.byCssText(`[data-automation-id='meta-data-card-toggle-expand']`, 'Less information');
+  moreInfoButton = this.byCssText(`[data-automation-id='meta-data-card-toggle-expand']`, 'More information');
+  imagePropertiesPanel = this.byCss(`[data-automation-id='adf-metadata-group-APP.CONTENT_METADATA.EXIF_GROUP_TITLE']`);
+  expandedImagePropertiesPanel = this.byCss(`[data-automation-id='adf-metadata-group-APP.CONTENT_METADATA.EXIF_GROUP_TITLE'].mat-expanded`);
 
   constructor(ancestor?: string) {
     super('adf-content-metadata-card', ancestor);
@@ -66,14 +52,14 @@ export class ContentMetadata extends Component {
 
   async getVisiblePropertiesLabels(): Promise<string[]> {
     return this.allByCss('.adf-property-label')
-      .filter(async elem => elem.isDisplayed())
-      .map(async elem => elem.getText());
+      .filter(async (elem) => elem.isDisplayed())
+      .map(async (elem) => elem.getText());
   }
 
   async getVisiblePropertiesValues() {
     return this.allByCss('.adf-property-value')
-      .filter(async elem => elem.isDisplayed())
-      .map(async elem => {
+      .filter(async (elem) => elem.isDisplayed())
+      .map(async (elem) => {
         if (await elem.isElementPresent(by.css('.mat-checkbox'))) {
           if (await elem.isElementPresent(by.css('.mat-checkbox-checked'))) {
             return true;

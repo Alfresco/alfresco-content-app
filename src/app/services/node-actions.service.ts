@@ -26,14 +26,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable, Subject, of, zip, from } from 'rxjs';
-
-import {
-  AlfrescoApiService,
-  ContentService,
-  DataColumn,
-  TranslationService,
-  ThumbnailService
-} from '@alfresco/adf-core';
+import { AlfrescoApiService, ContentService, DataColumn, TranslationService, ThumbnailService } from '@alfresco/adf-core';
 import {
   DocumentListService,
   ContentNodeSelectorComponent,
@@ -41,13 +34,7 @@ import {
   ContentNodeDialogService,
   ShareDataRow
 } from '@alfresco/adf-content-services';
-import {
-  MinimalNodeEntity,
-  MinimalNodeEntryEntity,
-  SitePaging,
-  NodeChildAssociationPaging,
-  NodeChildAssociationEntry
-} from '@alfresco/js-api';
+import { MinimalNodeEntity, MinimalNodeEntryEntity, SitePaging, NodeChildAssociationPaging, NodeChildAssociationEntry } from '@alfresco/js-api';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
@@ -60,9 +47,7 @@ export enum BatchOperationType {
   providedIn: 'root'
 })
 export class NodeActionsService {
-  contentCopied: Subject<MinimalNodeEntity[]> = new Subject<
-    MinimalNodeEntity[]
-  >();
+  contentCopied: Subject<MinimalNodeEntity[]> = new Subject<MinimalNodeEntity[]>();
   contentMoved: Subject<any> = new Subject<any>();
   moveDeletedEntries: any[] = [];
   isSitesDestinationAvailable = false;
@@ -84,11 +69,7 @@ export class NodeActionsService {
    * @param permission permission which is needed to apply the action
    */
   copyNodes(contentEntities: any[], permission?: string): Subject<string> {
-    return this.doBatchOperation(
-      BatchOperationType.copy,
-      contentEntities,
-      permission
-    );
+    return this.doBatchOperation(BatchOperationType.copy, contentEntities, permission);
   }
 
   /**
@@ -98,11 +79,7 @@ export class NodeActionsService {
    * @param permission permission which is needed to apply the action
    */
   moveNodes(contentEntities: any[], permission?: string): Subject<string> {
-    return this.doBatchOperation(
-      BatchOperationType.move,
-      contentEntities,
-      permission
-    );
+    return this.doBatchOperation(BatchOperationType.move, contentEntities, permission);
   }
 
   /**
@@ -112,22 +89,13 @@ export class NodeActionsService {
    * @param contentEntities the contentEntities which have to have the action performed on
    * @param permission permission which is needed to apply the action
    */
-  doBatchOperation(
-    action: BatchOperationType,
-    contentEntities: any[],
-    permission?: string
-  ): Subject<string> {
+  doBatchOperation(action: BatchOperationType, contentEntities: any[], permission?: string): Subject<string> {
     const observable: Subject<string> = new Subject<string>();
 
     if (!this.isEntryEntitiesArray(contentEntities)) {
-      observable.error(
-        new Error(JSON.stringify({ error: { statusCode: 400 } }))
-      );
+      observable.error(new Error(JSON.stringify({ error: { statusCode: 400 } })));
     } else if (this.checkPermission(action, contentEntities, permission)) {
-      const destinationSelection = this.getContentNodeSelection(
-        action,
-        contentEntities
-      );
+      const destinationSelection = this.getContentNodeSelection(action, contentEntities);
       destinationSelection.subscribe((selections: MinimalNodeEntryEntity[]) => {
         const contentEntry = contentEntities[0].entry;
         // Check if there's nodeId for Shared Files
@@ -139,27 +107,18 @@ export class NodeActionsService {
         const selection = selections[0];
         let action$: Observable<any>;
 
-        if (
-          action === BatchOperationType.move &&
-          contentEntities.length === 1 &&
-          type === 'content'
-        ) {
-          action$ = this.documentListService.moveNode(
-            contentEntryId,
-            selection.id
-          );
+        if (action === BatchOperationType.move && contentEntities.length === 1 && type === 'content') {
+          action$ = this.documentListService.moveNode(contentEntryId, selection.id);
         } else {
-          contentEntities.forEach(node => {
+          contentEntities.forEach((node) => {
             // batch.push(this.copyNodeAction(node.entry, selection.id));
             batch.push(this[`${action}NodeAction`](node.entry, selection.id));
           });
           action$ = zip(...batch);
         }
 
-        action$.subscribe(newContent => {
-          observable.next(
-            `OPERATION.SUCCES.${type.toUpperCase()}.${action.toUpperCase()}`
-          );
+        action$.subscribe((newContent) => {
+          observable.next(`OPERATION.SUCCES.${type.toUpperCase()}.${action.toUpperCase()}`);
 
           const processedData = this.processResponse(newContent);
           if (action === BatchOperationType.copy) {
@@ -170,9 +129,7 @@ export class NodeActionsService {
         }, observable.error.bind(observable));
       });
     } else {
-      observable.error(
-        new Error(JSON.stringify({ error: { statusCode: 403 } }))
-      );
+      observable.error(new Error(JSON.stringify({ error: { statusCode: 403 } })));
     }
 
     return observable;
@@ -180,22 +137,14 @@ export class NodeActionsService {
 
   isEntryEntitiesArray(contentEntities: any[]): boolean {
     if (contentEntities && contentEntities.length) {
-      const nonEntryNode = contentEntities.find(
-        node => !node || !node.entry || !(node.entry.nodeId || node.entry.id)
-      );
+      const nonEntryNode = contentEntities.find((node) => !node || !node.entry || !(node.entry.nodeId || node.entry.id));
       return !nonEntryNode;
     }
     return false;
   }
 
-  checkPermission(
-    action: BatchOperationType,
-    contentEntities: any[],
-    permission?: string
-  ) {
-    const notAllowedNode = contentEntities.find(
-      node => !this.isActionAllowed(action, node.entry, permission)
-    );
+  checkPermission(action: BatchOperationType, contentEntities: any[], permission?: string) {
+    const notAllowedNode = contentEntities.find((node) => !this.isActionAllowed(action, node.entry, permission));
     return !notAllowedNode;
   }
 
@@ -204,25 +153,15 @@ export class NodeActionsService {
 
     if (nodeEntry.parentId) {
       entryParentId = nodeEntry.parentId;
-    } else if (
-      nodeEntry.path &&
-      nodeEntry.path.elements &&
-      nodeEntry.path.elements.length
-    ) {
-      entryParentId =
-        nodeEntry.path.elements[nodeEntry.path.elements.length - 1].id;
+    } else if (nodeEntry.path && nodeEntry.path.elements && nodeEntry.path.elements.length) {
+      entryParentId = nodeEntry.path.elements[nodeEntry.path.elements.length - 1].id;
     }
 
     return entryParentId;
   }
 
-  getContentNodeSelection(
-    action: string,
-    contentEntities: MinimalNodeEntity[]
-  ): Subject<MinimalNodeEntryEntity[]> {
-    const currentParentFolderId = this.getEntryParentId(
-      contentEntities[0].entry
-    );
+  getContentNodeSelection(action: string, contentEntities: MinimalNodeEntity[]): Subject<MinimalNodeEntryEntity[]> {
+    const currentParentFolderId = this.getEntryParentId(contentEntities[0].entry);
 
     const customDropdown = new SitePaging({
       list: {
@@ -230,17 +169,13 @@ export class NodeActionsService {
           {
             entry: {
               guid: '-my-',
-              title: this.translation.instant(
-                'APP.BROWSE.PERSONAL.SIDENAV_LINK.LABEL'
-              )
+              title: this.translation.instant('APP.BROWSE.PERSONAL.SIDENAV_LINK.LABEL')
             }
           },
           {
             entry: {
               guid: '-mysites-',
-              title: this.translation.instant(
-                'APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.SIDENAV_LINK.LABEL'
-              )
+              title: this.translation.instant('APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.SIDENAV_LINK.LABEL')
             }
           }
         ]
@@ -287,10 +222,7 @@ export class NodeActionsService {
     }
 
     const number = nodes.length;
-    return this.translation.instant(
-      `NODE_SELECTOR.${action.toUpperCase()}_${keyPrefix}`,
-      { name, number }
-    );
+    return this.translation.instant(`NODE_SELECTOR.${action.toUpperCase()}_${keyPrefix}`, { name, number });
   }
 
   private canCopyMoveInsideIt(entry: MinimalNodeEntryEntity): boolean {
@@ -302,11 +234,7 @@ export class NodeActionsService {
   }
 
   private isSite(entry) {
-    return (
-      !!entry.guid ||
-      entry.nodeType === 'st:site' ||
-      entry.nodeType === 'st:sites'
-    );
+    return !!entry.guid || entry.nodeType === 'st:site' || entry.nodeType === 'st:sites';
   }
 
   close() {
@@ -324,9 +252,7 @@ export class NodeActionsService {
 
           // make sure first item is 'Personal Files'
           if (elements[0]) {
-            elements[0].name = this.translation.instant(
-              'APP.BROWSE.PERSONAL.TITLE'
-            );
+            elements[0].name = this.translation.instant('APP.BROWSE.PERSONAL.TITLE');
             elements[0].id = '-my-';
           } else {
             node.name = this.translation.instant('APP.BROWSE.PERSONAL.TITLE');
@@ -336,17 +262,13 @@ export class NodeActionsService {
         }
       } else if (elements.length === 1) {
         if (node.name === 'Sites') {
-          node.name = this.translation.instant(
-            'APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.TITLE'
-          );
+          node.name = this.translation.instant('APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.TITLE');
           elements.splice(0, 1);
         }
       }
     } else if (node === null && this.isSitesDestinationAvailable) {
       node = {
-        name: this.translation.instant(
-          'APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.TITLE'
-        ),
+        name: this.translation.instant('APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.TITLE'),
         path: { elements: [] }
       } as any;
     }
@@ -362,9 +284,7 @@ export class NodeActionsService {
     elements.splice(0, 1);
 
     // replace first item with 'File Libraries'
-    elements[0].name = this.translation.instant(
-      'APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.TITLE'
-    );
+    elements[0].name = this.translation.instant('APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.TITLE');
     elements[0].id = '-mysites-';
 
     if (this.isSiteContainer(node)) {
@@ -376,7 +296,7 @@ export class NodeActionsService {
       elements.splice(1, 1);
     } else {
       // remove 'documentLibrary' in the middle of the path
-      const docLib = elements.findIndex(el => el.name === 'documentLibrary');
+      const docLib = elements.findIndex((el) => el.name === 'documentLibrary');
       if (docLib > -1) {
         elements.splice(docLib, 1);
       }
@@ -399,18 +319,14 @@ export class NodeActionsService {
     }
   }
 
-  copyContentAction(
-    contentEntry: any,
-    selectionId: string,
-    oldName?: string
-  ): Observable<any> {
+  copyContentAction(contentEntry: any, selectionId: string, oldName?: string): Observable<any> {
     const _oldName = oldName || contentEntry.name;
     // Check if there's nodeId for Shared Files
     const contentEntryId = contentEntry.nodeId || contentEntry.id;
 
     // use local method until new name parameter is added on ADF copyNode
     return this.copyNode(contentEntryId, selectionId, _oldName).pipe(
-      catchError(err => {
+      catchError((err) => {
         let errStatusCode;
         try {
           const {
@@ -422,11 +338,7 @@ export class NodeActionsService {
         }
 
         if (errStatusCode && errStatusCode === 409) {
-          return this.copyContentAction(
-            contentEntry,
-            selectionId,
-            this.getNewNameFrom(_oldName, contentEntry.name)
-          );
+          return this.copyContentAction(contentEntry, selectionId, this.getNewNameFrom(_oldName, contentEntry.name));
         } else {
           // do not throw error, to be able to show message in case of partial copy of files
           return of(err || 'Server error');
@@ -443,7 +355,7 @@ export class NodeActionsService {
     let newDestinationFolder;
 
     return this.copyNode(contentEntryId, selectionId, contentEntry.name).pipe(
-      catchError(err => {
+      catchError((err) => {
         let errStatusCode;
         try {
           const {
@@ -453,34 +365,21 @@ export class NodeActionsService {
         } catch {}
 
         if (errStatusCode && errStatusCode === 409) {
-          $destinationFolder = this.getChildByName(
-            selectionId,
-            contentEntry.name
-          );
+          $destinationFolder = this.getChildByName(selectionId, contentEntry.name);
           $childrenToCopy = this.getNodeChildren(contentEntryId);
 
           return $destinationFolder.pipe(
-            mergeMap(destination => {
+            mergeMap((destination) => {
               newDestinationFolder = destination;
               return $childrenToCopy;
             }),
-            mergeMap(nodesToCopy => {
+            mergeMap((nodesToCopy) => {
               const batch = [];
-              nodesToCopy.list.entries.forEach(node => {
+              nodesToCopy.list.entries.forEach((node) => {
                 if (node.entry.isFolder) {
-                  batch.push(
-                    this.copyFolderAction(
-                      node.entry,
-                      newDestinationFolder.entry.id
-                    )
-                  );
+                  batch.push(this.copyFolderAction(node.entry, newDestinationFolder.entry.id));
                 } else {
-                  batch.push(
-                    this.copyContentAction(
-                      node.entry,
-                      newDestinationFolder.entry.id
-                    )
-                  );
+                  batch.push(this.copyContentAction(node.entry, newDestinationFolder.entry.id));
                 }
               });
 
@@ -505,7 +404,7 @@ export class NodeActionsService {
       const initialParentId = nodeEntry.parentId;
 
       return this.moveFolderAction(nodeEntry, selectionId).pipe(
-        mergeMap(newContent => {
+        mergeMap((newContent) => {
           // take no extra action, if folder is moved to the same location
           if (initialParentId === selectionId) {
             return of(newContent);
@@ -518,7 +417,7 @@ export class NodeActionsService {
           if (processedData.failed.length === 0) {
             // check if folder still exists on location
             return this.getChildByName(initialParentId, nodeEntry.name).pipe(
-              mergeMap(folderOnInitialLocation => {
+              mergeMap((folderOnInitialLocation) => {
                 if (folderOnInitialLocation) {
                   // Check if there's nodeId for Shared Files
                   const nodeEntryId = nodeEntry.nodeId || nodeEntry.id;
@@ -552,10 +451,10 @@ export class NodeActionsService {
     let newDestinationFolder;
 
     return this.documentListService.moveNode(contentEntryId, selectionId).pipe(
-      map(itemMoved => {
+      map((itemMoved) => {
         return { itemMoved, initialParentId };
       }),
-      catchError(err => {
+      catchError((err) => {
         let errStatusCode;
         try {
           const {
@@ -567,34 +466,21 @@ export class NodeActionsService {
         }
 
         if (errStatusCode && errStatusCode === 409) {
-          $destinationFolder = this.getChildByName(
-            selectionId,
-            contentEntry.name
-          );
+          $destinationFolder = this.getChildByName(selectionId, contentEntry.name);
           $childrenToMove = this.getNodeChildren(contentEntryId);
 
           return $destinationFolder.pipe(
-            mergeMap(destination => {
+            mergeMap((destination) => {
               newDestinationFolder = destination;
               return $childrenToMove;
             }),
-            mergeMap(childrenToMove => {
+            mergeMap((childrenToMove) => {
               const batch: any[] = [];
-              childrenToMove.list.entries.forEach(node => {
+              childrenToMove.list.entries.forEach((node) => {
                 if (node.entry.isFolder) {
-                  batch.push(
-                    this.moveFolderAction(
-                      node.entry,
-                      newDestinationFolder.entry.id
-                    )
-                  );
+                  batch.push(this.moveFolderAction(node.entry, newDestinationFolder.entry.id));
                 } else {
-                  batch.push(
-                    this.moveContentAction(
-                      node.entry,
-                      newDestinationFolder.entry.id
-                    )
-                  );
+                  batch.push(this.moveContentAction(node.entry, newDestinationFolder.entry.id));
                 }
               });
 
@@ -618,27 +504,22 @@ export class NodeActionsService {
     const initialParentId = this.getEntryParentId(contentEntry);
 
     return this.documentListService.moveNode(contentEntryId, selectionId).pipe(
-      map(itemMoved => {
+      map((itemMoved) => {
         return { itemMoved, initialParentId };
       }),
-      catchError(err => {
+      catchError((err) => {
         // do not throw error, to be able to show message in case of partial move of files
         return of(err);
       })
     );
   }
 
-  getChildByName(
-    parentId: string,
-    name: string
-  ): Subject<NodeChildAssociationEntry> {
+  getChildByName(parentId: string, name: string): Subject<NodeChildAssociationEntry> {
     const matchedNodes = new Subject<any>();
 
     this.getNodeChildren(parentId).subscribe(
       (childrenNodes: NodeChildAssociationPaging) => {
-        const result = childrenNodes.list.entries.find(
-          node => node.entry.name === name
-        );
+        const result = childrenNodes.list.entries.find((node) => node.entry.name === name);
 
         if (result) {
           matchedNodes.next(result);
@@ -646,18 +527,14 @@ export class NodeActionsService {
           matchedNodes.next(null);
         }
       },
-      err => {
+      (err) => {
         return of(err || 'Server error');
       }
     );
     return matchedNodes;
   }
 
-  private isActionAllowed(
-    action: BatchOperationType,
-    node: MinimalNodeEntryEntity,
-    permission?: string
-  ): boolean {
+  private isActionAllowed(action: BatchOperationType, node: MinimalNodeEntryEntity, permission?: string): boolean {
     if (action === BatchOperationType.copy) {
       return true;
     }
@@ -685,9 +562,7 @@ export class NodeActionsService {
 
     // remove extension in case there is one
     const fileExtension = extensionMatch ? extensionMatch[0] : '';
-    let extensionFree = extensionMatch
-      ? name.slice(0, extensionMatch.index)
-      : name;
+    let extensionFree = extensionMatch ? name.slice(0, extensionMatch.index) : name;
 
     let prefixNumber = 1;
     let baseExtensionFree;
@@ -696,9 +571,7 @@ export class NodeActionsService {
       const baseExtensionMatch = baseName.match(/\.[^/.]+$/);
 
       // remove extension in case there is one
-      baseExtensionFree = baseExtensionMatch
-        ? baseName.slice(0, baseExtensionMatch.index)
-        : baseName;
+      baseExtensionFree = baseExtensionMatch ? baseName.slice(0, baseExtensionMatch.index) : baseName;
     }
 
     if (!baseExtensionFree || baseExtensionFree !== extensionFree) {
@@ -722,13 +595,8 @@ export class NodeActionsService {
    * @param nodeId The id of the parent node
    * @param params optional parameters
    */
-  getNodeChildren(
-    nodeId: string,
-    params?: any
-  ): Observable<NodeChildAssociationPaging> {
-    return from(
-      this.apiService.getInstance().nodes.getNodeChildren(nodeId, params)
-    );
+  getNodeChildren(nodeId: string, params?: any): Observable<NodeChildAssociationPaging> {
+    return from(this.apiService.getInstance().nodes.getNodeChildren(nodeId, params));
   }
 
   // Copied from ADF document-list.service, and added the name parameter
@@ -740,11 +608,7 @@ export class NodeActionsService {
    * @param name The new name for the copy that would be added on the destination folder
    */
   copyNode(nodeId: string, targetParentId: string, name?: string) {
-    return from(
-      this.apiService
-        .getInstance()
-        .nodes.copyNode(nodeId, { targetParentId, name })
-    );
+    return from(this.apiService.getInstance().nodes.copyNode(nodeId, { targetParentId, name }));
   }
 
   public flatten(nDimArray: any[]) {
@@ -756,7 +620,7 @@ export class NodeActionsService {
     const resultingArray: any[] = [];
 
     do {
-      nodeQueue.forEach(node => {
+      nodeQueue.forEach((node) => {
         if (Array.isArray(node)) {
           nodeQueue.push(...node);
         } else {
@@ -786,14 +650,9 @@ export class NodeActionsService {
           // if content of a folder was moved
 
           const folderMoveResponseData = this.flatten(next);
-          const foundError = folderMoveResponseData.find(
-            node => node instanceof Error
-          );
+          const foundError = folderMoveResponseData.find((node) => node instanceof Error);
           // data might contain also items of form: { itemMoved, initialParentId }
-          const foundEntry = folderMoveResponseData.find(
-            node =>
-              (node.itemMoved && node.itemMoved.entry) || (node && node.entry)
-          );
+          const foundEntry = folderMoveResponseData.find((node) => (node.itemMoved && node.itemMoved.entry) || (node && node.entry));
 
           if (!foundError) {
             // consider success if NONE of the items from the folder move response is an error

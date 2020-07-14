@@ -25,36 +25,18 @@
 
 import { by, ElementFinder } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
-import {
-  waitForClickable,
-  isPresentAndEnabled,
-  typeText
-} from '../../utilities/utils';
+import { waitForClickable, isPresentAndEnabled, typeText } from '../../utilities/utils';
 
 export class CreateLibraryDialog extends GenericDialog {
-  createButton = this.childElement(
-    by.cssContainingText('.mat-dialog-actions button', 'Create')
-  );
-  cancelButton = this.childElement(
-    by.cssContainingText('.mat-dialog-actions button', 'Cancel')
-  );
+  createButton = this.childElement(by.cssContainingText('.mat-dialog-actions button', 'Create'));
+  cancelButton = this.childElement(by.cssContainingText('.mat-dialog-actions button', 'Cancel'));
 
   nameInput = this.rootElem.element(by.css('input[placeholder="Name" i]'));
-  libraryIdInput = this.rootElem.element(
-    by.css('input[placeholder="Library ID" i]')
-  );
-  descriptionTextArea = this.rootElem.element(
-    by.css('textarea[placeholder="Description" i]')
-  );
-  visibilityPublic = this.rootElem.element(
-    by.cssContainingText('.mat-radio-label', 'Public')
-  );
-  visibilityModerated = this.rootElem.element(
-    by.cssContainingText('.mat-radio-label', 'Moderated')
-  );
-  visibilityPrivate = this.rootElem.element(
-    by.cssContainingText('.mat-radio-label', 'Private')
-  );
+  libraryIdInput = this.rootElem.element(by.css('input[placeholder="Library ID" i]'));
+  descriptionTextArea = this.rootElem.element(by.css('textarea[placeholder="Description" i]'));
+  visibilityPublic = this.rootElem.element(by.cssContainingText('.mat-radio-label', 'Public'));
+  visibilityModerated = this.rootElem.element(by.cssContainingText('.mat-radio-label', 'Moderated'));
+  visibilityPrivate = this.rootElem.element(by.cssContainingText('.mat-radio-label', 'Private'));
 
   errorMessage = this.rootElem.element(by.css('.mat-error'));
 
@@ -100,9 +82,7 @@ export class CreateLibraryDialog extends GenericDialog {
   }
 
   private async isChecked(target: ElementFinder): Promise<boolean> {
-    const elemClass = await target
-      .element(by.xpath('..'))
-      .getAttribute('class');
+    const elemClass = await target.element(by.xpath('..')).getAttribute('class');
     return elemClass.includes('mat-radio-checked');
   }
 

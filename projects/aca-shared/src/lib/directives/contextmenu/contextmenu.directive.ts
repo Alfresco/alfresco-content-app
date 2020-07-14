@@ -23,13 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  Directive,
-  HostListener,
-  Input,
-  OnInit,
-  OnDestroy
-} from '@angular/core';
+import { Directive, HostListener, Input, OnInit, OnDestroy } from '@angular/core';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -64,11 +58,9 @@ export class ContextActionsDirective implements OnInit, OnDestroy {
   constructor(private store: Store<AppStore>) {}
 
   ngOnInit() {
-    this.execute$
-      .pipe(debounceTime(300), takeUntil(this.onDestroy$))
-      .subscribe((event: MouseEvent) => {
-        this.store.dispatch(new ContextMenu(event));
-      });
+    this.execute$.pipe(debounceTime(300), takeUntil(this.onDestroy$)).subscribe((event: MouseEvent) => {
+      this.store.dispatch(new ContextMenu(event));
+    });
   }
 
   ngOnDestroy() {
@@ -94,9 +86,7 @@ export class ContextActionsDirective implements OnInit, OnDestroy {
       return false;
     }
 
-    return this.findAncestor(target, 'adf-datatable-row').classList.contains(
-      'adf-is-selected'
-    );
+    return this.findAncestor(target, 'adf-datatable-row').classList.contains('adf-is-selected');
   }
 
   private findAncestor(el: Element, className: string): Element {

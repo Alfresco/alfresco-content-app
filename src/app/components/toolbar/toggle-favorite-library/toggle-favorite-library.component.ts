@@ -39,20 +39,11 @@ import { Subject } from 'rxjs';
       mat-menu-item
       (toggle)="onToggleEvent()"
       [acaFavoriteLibrary]="library"
-      [attr.title]="
-        library.isFavorite
-          ? ('APP.ACTIONS.REMOVE_FAVORITE' | translate)
-          : ('APP.ACTIONS.FAVORITE' | translate)
-      "
+      [attr.title]="library.isFavorite ? ('APP.ACTIONS.REMOVE_FAVORITE' | translate) : ('APP.ACTIONS.FAVORITE' | translate)"
     >
       <mat-icon *ngIf="library.isFavorite">star</mat-icon>
       <mat-icon *ngIf="!library.isFavorite">star_border</mat-icon>
-      <span>{{
-        (library.isFavorite
-          ? 'APP.ACTIONS.REMOVE_FAVORITE'
-          : 'APP.ACTIONS.FAVORITE'
-        ) | translate
-      }}</span>
+      <span>{{ (library.isFavorite ? 'APP.ACTIONS.REMOVE_FAVORITE' : 'APP.ACTIONS.FAVORITE') | translate }}</span>
     </button>
   `,
   encapsulation: ViewEncapsulation.None,
@@ -62,16 +53,10 @@ export class ToggleFavoriteLibraryComponent implements OnInit, OnDestroy {
   library;
   private onDestroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(
-    private store: Store<AppStore>,
-    private content: ContentManagementService,
-    private router: Router
-  ) {}
+  constructor(private store: Store<AppStore>, private content: ContentManagementService, private router: Router) {}
 
   ngOnInit() {
-    const isFavoriteLibraries = this.router.url.startsWith(
-      '/favorite/libraries'
-    );
+    const isFavoriteLibraries = this.router.url.startsWith('/favorite/libraries');
 
     this.store
       .select(getAppSelection)

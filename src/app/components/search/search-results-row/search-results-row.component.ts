@@ -23,14 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  Component,
-  Input,
-  OnInit,
-  ViewEncapsulation,
-  ChangeDetectionStrategy,
-  OnDestroy
-} from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { MinimalNodeEntity } from '@alfresco/js-api';
 import { ViewNodeAction, NavigateToFolder } from '@alfresco/aca-shared/store';
 import { Store } from '@ngrx/store';
@@ -57,30 +50,24 @@ export class SearchResultsRowComponent implements OnInit, OnDestroy {
   name$ = new BehaviorSubject<string>('');
   title$ = new BehaviorSubject<string>('');
 
-  constructor(
-    private store: Store<any>,
-    private alfrescoApiService: AlfrescoApiService,
-    private router: Router
-  ) {}
+  constructor(private store: Store<any>, private alfrescoApiService: AlfrescoApiService, private router: Router) {}
 
   ngOnInit() {
     this.updateValues();
 
-    this.alfrescoApiService.nodeUpdated
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((node: any) => {
-        const row = this.context.row;
-        if (row) {
-          const { entry } = row.node;
+    this.alfrescoApiService.nodeUpdated.pipe(takeUntil(this.onDestroy$)).subscribe((node: any) => {
+      const row = this.context.row;
+      if (row) {
+        const { entry } = row.node;
 
-          if (entry.id === node.id) {
-            entry.name = node.name;
-            entry.properties = Object.assign({}, node.properties);
+        if (entry.id === node.id) {
+          entry.name = node.name;
+          entry.properties = Object.assign({}, node.properties);
 
-            this.updateValues();
-          }
+          this.updateValues();
         }
-      });
+      }
+    });
   }
 
   private updateValues() {
@@ -125,9 +112,7 @@ export class SearchResultsRowComponent implements OnInit, OnDestroy {
 
   showPreview(event: MouseEvent) {
     event.stopPropagation();
-    this.store.dispatch(
-      new ViewNodeAction(this.node.entry.id, { location: this.router.url })
-    );
+    this.store.dispatch(new ViewNodeAction(this.node.entry.id, { location: this.router.url }));
   }
 
   navigate(event: MouseEvent) {

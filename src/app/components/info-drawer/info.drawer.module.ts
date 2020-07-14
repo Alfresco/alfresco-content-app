@@ -23,10 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  ContentMetadataModule,
-  VersionManagerModule
-} from '@alfresco/adf-content-services';
+import { ContentMetadataModule, VersionManagerModule } from '@alfresco/adf-content-services';
 import { CoreModule } from '@alfresco/adf-core';
 import { ExtensionsModule } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
@@ -42,13 +39,7 @@ import { A11yModule } from '@angular/cdk/a11y';
 import { SharedInfoDrawerModule } from '@alfresco/aca-shared';
 
 export function components() {
-  return [
-    MetadataTabComponent,
-    CommentsTabComponent,
-    VersionsTabComponent,
-    LibraryMetadataTabComponent,
-    LibraryMetadataFormComponent
-  ];
+  return [MetadataTabComponent, CommentsTabComponent, VersionsTabComponent, LibraryMetadataTabComponent, LibraryMetadataFormComponent];
 }
 
 @NgModule({

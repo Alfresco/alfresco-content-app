@@ -24,21 +24,11 @@
  */
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import {
-  TestBed,
-  async,
-  ComponentFixture,
-  fakeAsync,
-  tick
-} from '@angular/core/testing';
-
+import { TestBed, async, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
 import { SearchInputComponent } from './search-input.component';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { Actions, ofType } from '@ngrx/effects';
-import {
-  SearchByTermAction,
-  SearchActionTypes
-} from '@alfresco/aca-shared/store';
+import { SearchByTermAction, SearchActionTypes } from '@alfresco/aca-shared/store';
 import { map } from 'rxjs/operators';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { SearchLibrariesQueryBuilderService } from '../search-libraries-results/search-libraries-query-builder.service';
@@ -79,9 +69,7 @@ describe('SearchInputComponent', () => {
   });
 
   it('should have library constraint on 400 error received', () => {
-    const libItem = component.searchOptions.find(
-      item => item.key.toLowerCase().indexOf('libraries') > 0
-    );
+    const libItem = component.searchOptions.find((item) => item.key.toLowerCase().indexOf('libraries') > 0);
     libItem.value = true;
     content.library400Error.next();
 
@@ -89,12 +77,12 @@ describe('SearchInputComponent', () => {
   });
 
   describe('onSearchSubmit()', () => {
-    it('should call search action with correct search options', fakeAsync(done => {
+    it('should call search action with correct search options', fakeAsync((done) => {
       const searchedTerm = 's';
       const currentSearchOptions = [{ key: 'test' }];
       actions$.pipe(
         ofType<SearchByTermAction>(SearchActionTypes.SearchByTerm),
-        map(action => {
+        map((action) => {
           expect(action.searchOptions[0].key).toBe(currentSearchOptions[0].key);
           done();
         })
@@ -103,11 +91,11 @@ describe('SearchInputComponent', () => {
       tick();
     }));
 
-    it('should call search action with correct searched term', fakeAsync(done => {
+    it('should call search action with correct searched term', fakeAsync((done) => {
       const searchedTerm = 's';
       actions$.pipe(
         ofType<SearchByTermAction>(SearchActionTypes.SearchByTerm),
-        map(action => {
+        map((action) => {
           expect(action.payload).toBe(searchedTerm);
           done();
         })
@@ -118,12 +106,12 @@ describe('SearchInputComponent', () => {
   });
 
   describe('onSearchChange()', () => {
-    it('should call search action with correct search options', fakeAsync(done => {
+    it('should call search action with correct search options', fakeAsync((done) => {
       const searchedTerm = 's';
       const currentSearchOptions = [{ key: 'test' }];
       actions$.pipe(
         ofType<SearchByTermAction>(SearchActionTypes.SearchByTerm),
-        map(action => {
+        map((action) => {
           expect(action.searchOptions[0].key).toBe(currentSearchOptions[0].key);
           done();
         })
@@ -132,11 +120,11 @@ describe('SearchInputComponent', () => {
       tick(1000);
     }));
 
-    it('should call search action with correct searched term', fakeAsync(done => {
+    it('should call search action with correct searched term', fakeAsync((done) => {
       const searchedTerm = 's';
       actions$.pipe(
         ofType<SearchByTermAction>(SearchActionTypes.SearchByTerm),
-        map(action => {
+        map((action) => {
           expect(action.payload).toBe(searchedTerm);
           done();
         })
@@ -152,9 +140,7 @@ describe('SearchInputComponent', () => {
     });
 
     it('should return true when libraries checked', () => {
-      const libItem = component.searchOptions.find(
-        item => item.key.toLowerCase().indexOf('libraries') > 0
-      );
+      const libItem = component.searchOptions.find((item) => item.key.toLowerCase().indexOf('libraries') > 0);
       libItem.value = true;
       expect(component.isLibrariesChecked()).toBe(true);
     });
@@ -166,29 +152,21 @@ describe('SearchInputComponent', () => {
     });
 
     it('should return true when files checked', () => {
-      const filesItem = component.searchOptions.find(
-        item => item.key.toLowerCase().indexOf('files') > 0
-      );
+      const filesItem = component.searchOptions.find((item) => item.key.toLowerCase().indexOf('files') > 0);
       filesItem.value = true;
       expect(component.isContentChecked()).toBe(true);
     });
 
     it('should return true when folders checked', () => {
-      const foldersItem = component.searchOptions.find(
-        item => item.key.toLowerCase().indexOf('folders') > 0
-      );
+      const foldersItem = component.searchOptions.find((item) => item.key.toLowerCase().indexOf('folders') > 0);
       foldersItem.value = true;
       expect(component.isContentChecked()).toBe(true);
     });
 
     it('should return true when both files and folders checked', () => {
-      const filesItem = component.searchOptions.find(
-        item => item.key.toLowerCase().indexOf('files') > 0
-      );
+      const filesItem = component.searchOptions.find((item) => item.key.toLowerCase().indexOf('files') > 0);
       filesItem.value = true;
-      const foldersItem = component.searchOptions.find(
-        item => item.key.toLowerCase().indexOf('folders') > 0
-      );
+      const foldersItem = component.searchOptions.find((item) => item.key.toLowerCase().indexOf('folders') > 0);
       foldersItem.value = true;
       expect(component.isContentChecked()).toBe(true);
     });

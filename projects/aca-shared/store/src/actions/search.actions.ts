@@ -35,10 +35,7 @@ export enum SearchActionTypes {
 
 export class SearchByTermAction implements Action {
   readonly type = SearchActionTypes.SearchByTerm;
-  constructor(
-    public payload: string,
-    public searchOptions?: SearchOptionModel[]
-  ) {}
+  constructor(public payload: string, public searchOptions?: SearchOptionModel[]) {}
 }
 
 export class ToggleSearchFilterAction implements Action {

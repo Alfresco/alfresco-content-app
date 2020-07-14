@@ -23,14 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  LoginPage,
-  SearchResultsPage,
-  RepoClient,
-  Utils,
-  SITE_VISIBILITY,
-  SITE_ROLES
-} from '@alfresco/aca-testing-shared';
+import { LoginPage, SearchResultsPage, RepoClient, Utils, SITE_VISIBILITY, SITE_ROLES } from '@alfresco/aca-testing-shared';
 
 describe('Search results - libraries', () => {
   const username = `user-${Utils.random()}`;
@@ -114,8 +107,8 @@ describe('Search results - libraries', () => {
 
   afterAll(async (done) => {
     await Promise.all([
-      apis.admin.sites.deleteSites([ adminSite1, adminSite2, adminSite3, adminSite4, adminPrivate ]),
-      apis.user.sites.deleteSites([ site1.id, site2.id, site3.id, site4.id, userSitePublic, userSiteModerated, userSitePrivate, siteRussian.id ])
+      apis.admin.sites.deleteSites([adminSite1, adminSite2, adminSite3, adminSite4, adminPrivate]),
+      apis.user.sites.deleteSites([site1.id, site2.id, site3.id, site4.id, userSitePublic, userSiteModerated, userSitePrivate, siteRussian.id])
     ]);
     done();
   });
@@ -176,7 +169,7 @@ describe('Search results - libraries', () => {
     await searchInput.searchFor(site1.name);
     await dataTable.waitForBody();
 
-    const expectedColumns = [ 'Name', 'Description', 'My Role', 'Visibility' ];
+    const expectedColumns = ['Name', 'Description', 'My Role', 'Visibility'];
     const actualColumns = await dataTable.getColumnHeadersText();
 
     expect(actualColumns).toEqual(expectedColumns);
@@ -214,7 +207,7 @@ describe('Search results - libraries', () => {
       [adminSite4]: SITE_ROLES.SITE_MANAGER.LABEL
     };
 
-    const sitesList = await dataTable.getSitesNameAndRole();
+    const sitesList: any = await dataTable.getSitesNameAndRole();
 
     for (const site of Object.keys(expectedSitesRoles)) {
       expect(sitesList[site]).toEqual(expectedSitesRoles[site]);
@@ -238,5 +231,4 @@ describe('Search results - libraries', () => {
 
     expect(await dataTable.isItemPresent(siteRussian.name)).toBe(true, `${siteRussian.name} not displayed`);
   });
-
 });

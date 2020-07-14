@@ -23,12 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 import { LibraryMetadataFormComponent } from './library-metadata-form.component';
-import {
-  TestBed,
-  ComponentFixture,
-  fakeAsync,
-  tick
-} from '@angular/core/testing';
+import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
 import { UpdateLibraryAction } from '@alfresco/aca-shared/store';
 import { AppTestingModule } from '../../../testing/app-testing.module';
@@ -135,9 +130,7 @@ describe('LibraryMetadataFormComponent', () => {
 
     component.update();
 
-    expect(storeMock.dispatch).toHaveBeenCalledWith(
-      new UpdateLibraryAction(siteEntryModel)
-    );
+    expect(storeMock.dispatch).toHaveBeenCalledWith(new UpdateLibraryAction(siteEntryModel));
   });
 
   it('should not update library node if it has no permission', () => {
@@ -158,9 +151,7 @@ describe('LibraryMetadataFormComponent', () => {
 
     component.update();
 
-    expect(storeMock.dispatch).not.toHaveBeenCalledWith(
-      new UpdateLibraryAction(siteEntryModel)
-    );
+    expect(storeMock.dispatch).not.toHaveBeenCalledWith(new UpdateLibraryAction(siteEntryModel));
   });
 
   it('should not update library node if form is invalid', () => {
@@ -183,9 +174,7 @@ describe('LibraryMetadataFormComponent', () => {
 
     component.update();
 
-    expect(storeMock.dispatch).not.toHaveBeenCalledWith(
-      new UpdateLibraryAction(siteEntryModel)
-    );
+    expect(storeMock.dispatch).not.toHaveBeenCalledWith(new UpdateLibraryAction(siteEntryModel));
   });
 
   it('should toggle edit mode', () => {
@@ -225,10 +214,7 @@ describe('LibraryMetadataFormComponent', () => {
 
   it('should warn if library name input is used by another library', fakeAsync(() => {
     const title = 'some-title';
-    spyOn(
-      alfrescoApiService.getInstance().core.queriesApi,
-      'findSites'
-    ).and.returnValue(
+    spyOn(alfrescoApiService.getInstance().core.queriesApi, 'findSites').and.returnValue(
       Promise.resolve({
         list: { entries: [{ entry: { title } }] }
       } as SitePaging)
@@ -256,10 +242,7 @@ describe('LibraryMetadataFormComponent', () => {
   }));
 
   it('should not warn if library name input is the same with library node data', fakeAsync(() => {
-    spyOn(
-      alfrescoApiService.getInstance().core.queriesApi,
-      'findSites'
-    ).and.returnValue(
+    spyOn(alfrescoApiService.getInstance().core.queriesApi, 'findSites').and.returnValue(
       Promise.resolve({
         list: { entries: [{ entry: { title: 'libraryTitle' } }] }
       } as SitePaging)
@@ -287,10 +270,7 @@ describe('LibraryMetadataFormComponent', () => {
   }));
 
   it('should not warn if library name is unique', fakeAsync(() => {
-    spyOn(
-      alfrescoApiService.getInstance().core.queriesApi,
-      'findSites'
-    ).and.returnValue(
+    spyOn(alfrescoApiService.getInstance().core.queriesApi, 'findSites').and.returnValue(
       Promise.resolve({
         list: { entries: [] }
       } as SitePaging)

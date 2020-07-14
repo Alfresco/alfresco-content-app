@@ -42,9 +42,7 @@ export class FacetFilter extends GenericFilterPanel {
     return this.panel.all(by.css(this.locators.checkboxChecked));
   }
   get clearButton(): ElementFinder {
-    return this.panel.element(
-      by.cssContainingText(this.locators.button, 'Clear all')
-    );
+    return this.panel.element(by.cssContainingText(this.locators.button, 'Clear all'));
   }
   get facetsFilter(): ElementFinder {
     return this.panelExpanded.element(by.css(this.locators.facetsFilter));
@@ -54,14 +52,14 @@ export class FacetFilter extends GenericFilterPanel {
   }
 
   async getFiltersValues(): Promise<string[]> {
-    const list: string[] = await this.facets.map(option => {
+    const list: string[] = await this.facets.map((option) => {
       return option.getText();
     });
     return list;
   }
 
   async getFiltersCheckedValues(): Promise<string[]> {
-    const list: string[] = await this.selectedFacets.map(option => {
+    const list: string[] = await this.selectedFacets.map((option) => {
       return option.getText();
     });
     return list;
@@ -70,7 +68,7 @@ export class FacetFilter extends GenericFilterPanel {
   async resetPanel(): Promise<void> {
     if ((await this.selectedFacets.count()) > 0) {
       await this.expandPanel();
-      await this.selectedFacets.each(async elem => {
+      await this.selectedFacets.each(async (elem) => {
         await elem.click();
       });
     }
@@ -96,18 +94,10 @@ export class FacetFilter extends GenericFilterPanel {
   }
 
   async checkCategory(name: string): Promise<void> {
-    const option = this.facets
-      .filter(async elem => (await elem.getText()).includes(name))
-      .first();
+    const option = this.facets.filter(async (elem) => (await elem.getText()).includes(name)).first();
     await browser.executeScript(`arguments[0].scrollIntoView();`, option);
-    await browser
-      .actions()
-      .mouseMove(option)
-      .perform();
-    await browser
-      .actions()
-      .click()
-      .perform();
+    await browser.actions().mouseMove(option).perform();
+    await browser.actions().click().perform();
   }
 
   async filterCategoriesBy(name: string): Promise<void> {

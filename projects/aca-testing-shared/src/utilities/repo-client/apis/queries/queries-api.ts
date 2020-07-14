@@ -45,10 +45,7 @@ export class QueriesApi extends RepoApi {
       await this.apiAuth();
       return this.queriesApi.findSites(searchTerm, data);
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.findSites.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.findSites.name}`, error);
       return null;
     }
   }
@@ -63,10 +60,7 @@ export class QueriesApi extends RepoApi {
       await this.apiAuth();
       return this.queriesApi.findNodes(searchTerm, data);
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.findNodes.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.findNodes.name}`, error);
       return null;
     }
   }
@@ -74,8 +68,7 @@ export class QueriesApi extends RepoApi {
   async waitForSites(searchTerm: string, data: { expect: number }) {
     try {
       const sites = async () => {
-        const totalItems = (await this.findSites(searchTerm)).list.pagination
-          .totalItems;
+        const totalItems = (await this.findSites(searchTerm)).list.pagination.totalItems;
         if (totalItems !== data.expect) {
           return Promise.reject(totalItems);
         } else {
@@ -85,9 +78,7 @@ export class QueriesApi extends RepoApi {
 
       return await Utils.retryCall(sites);
     } catch (error) {
-      Logger.error(
-        `${this.constructor.name} ${this.waitForSites.name} catch: `
-      );
+      Logger.error(`${this.constructor.name} ${this.waitForSites.name} catch: `);
       Logger.error(`\tExpected: ${data.expect} items, but found ${error}`);
     }
   }
@@ -95,8 +86,7 @@ export class QueriesApi extends RepoApi {
   async waitForFilesAndFolders(searchTerm: string, data: { expect: number }) {
     try {
       const nodes = async () => {
-        const totalItems = (await this.findNodes(searchTerm)).list.pagination
-          .totalItems;
+        const totalItems = (await this.findNodes(searchTerm)).list.pagination.totalItems;
         if (totalItems !== data.expect) {
           return Promise.reject(totalItems);
         } else {
@@ -106,9 +96,7 @@ export class QueriesApi extends RepoApi {
 
       return await Utils.retryCall(nodes);
     } catch (error) {
-      Logger.error(
-        `${this.constructor.name} ${this.waitForFilesAndFolders.name} catch: `
-      );
+      Logger.error(`${this.constructor.name} ${this.waitForFilesAndFolders.name} catch: `);
       Logger.error(`\tExpected: ${data.expect} items, but found ${error}`);
     }
   }

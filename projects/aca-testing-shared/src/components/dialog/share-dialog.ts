@@ -31,27 +31,17 @@ import { isPresentAndEnabled } from '../../utilities/utils';
 export class ShareDialog extends GenericDialog {
   dateTimePicker = new DateTimePicker();
 
-  dialogTitle = this.childElement(
-    by.css(`[data-automation-id='adf-share-dialog-title']`)
-  );
+  dialogTitle = this.childElement(by.css(`[data-automation-id='adf-share-dialog-title']`));
   infoText = this.childElement(by.css('.adf-share-link__info'));
   labels = this.rootElem.all(by.css('.adf-share-link__label'));
-  shareToggle = this.childElement(
-    by.css(`[data-automation-id='adf-share-toggle']`)
-  );
+  shareToggle = this.childElement(by.css(`[data-automation-id='adf-share-toggle']`));
   url = this.childElement(by.css(`[data-automation-id='adf-share-link']`));
   urlAction = this.childElement(by.css('.adf-input-action'));
-  expireToggle = this.childElement(
-    by.css(`[data-automation-id='adf-expire-toggle']`)
-  );
+  expireToggle = this.childElement(by.css(`[data-automation-id='adf-expire-toggle']`));
   expireInput = this.childElement(by.css('input[formcontrolname="time"]'));
-  datetimePickerButton = this.childElement(
-    by.css('.mat-datetimepicker-toggle')
-  );
+  datetimePickerButton = this.childElement(by.css('.mat-datetimepicker-toggle'));
 
-  closeButton = this.childElement(
-    by.css(`[data-automation-id='adf-share-dialog-close']`)
-  );
+  closeButton = this.childElement(by.css(`[data-automation-id='adf-share-dialog-close']`));
 
   constructor() {
     super('.adf-share-dialog');

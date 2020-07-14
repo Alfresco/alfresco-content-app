@@ -27,29 +27,15 @@ import { FileUploadEvent, UploadService } from '@alfresco/adf-core';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import {
-  MinimalNodeEntity,
-  MinimalNodeEntryEntity,
-  PathElement,
-  PathElementEntity
-} from '@alfresco/js-api';
+import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElement, PathElementEntity } from '@alfresco/js-api';
 import { ContentManagementService } from '../../services/content-management.service';
 import { NodeActionsService } from '../../services/node-actions.service';
 import { PageComponent } from '../page.component';
 import { AppExtensionService, ContentApiService } from '@alfresco/aca-shared';
-import {
-  SetCurrentFolderAction,
-  isAdmin,
-  AppStore,
-  UploadFileVersionAction
-} from '@alfresco/aca-shared/store';
+import { SetCurrentFolderAction, isAdmin, AppStore, UploadFileVersionAction } from '@alfresco/aca-shared/store';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { debounceTime, takeUntil } from 'rxjs/operators';
-import {
-  ShareDataRow,
-  SEARCH_QUERY_SERVICE_TOKEN,
-  SearchHeaderQueryBuilderService
-} from '@alfresco/adf-content-services';
+import { ShareDataRow, SEARCH_QUERY_SERVICE_TOKEN, SearchHeaderQueryBuilderService } from '@alfresco/adf-content-services';
 
 @Component({
   templateUrl: './files.component.html',
@@ -96,7 +82,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
       const nodeId = folderId || data.defaultNodeId;
 
       this.contentApi.getNode(nodeId).subscribe(
-        node => {
+        (node) => {
           this.isValidPath = true;
 
           if (node.entry && node.entry.isFolder) {
@@ -112,27 +98,19 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     });
 
     this.subscriptions = this.subscriptions.concat([
-      nodeActionsService.contentCopied.subscribe(nodes =>
-        this.onContentCopied(nodes)
-      ),
-      uploadService.fileUploadComplete
-        .pipe(debounceTime(300))
-        .subscribe(file => this.onFileUploadedEvent(file)),
-      uploadService.fileUploadDeleted
-        .pipe(debounceTime(300))
-        .subscribe(file => this.onFileUploadedEvent(file)),
+      nodeActionsService.contentCopied.subscribe((nodes) => this.onContentCopied(nodes)),
+      uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe((file) => this.onFileUploadedEvent(file)),
+      uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe((file) => this.onFileUploadedEvent(file)),
 
-      this.breakpointObserver
-        .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
-        .subscribe(result => {
-          this.isSmallScreen = result.matches;
-        })
+      this.breakpointObserver.observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape]).subscribe((result) => {
+        this.isSmallScreen = result.matches;
+      })
     ]);
 
     this.store
       .select(isAdmin)
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe(value => {
+      .subscribe((value) => {
         this.isAdmin = value;
       });
 
@@ -177,10 +155,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   onBreadcrumbNavigate(route: PathElementEntity) {
     // todo: review this approach once 5.2.3 is out
     if (this.nodePath && this.nodePath.length > 2) {
-      if (
-        this.nodePath[1].name === 'Sites' &&
-        this.nodePath[2].id === route.id
-      ) {
+      if (this.nodePath[1].name === 'Sites' && this.nodePath[2].id === route.id) {
         return this.navigate(this.nodePath[3].id);
       }
     }
@@ -204,14 +179,11 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
     if (event && event.file.options.parentId) {
       if (this.nodePath) {
-        const correspondingNodePath = this.nodePath.find(
-          pathItem => pathItem.id === event.file.options.parentId
-        );
+        const correspondingNodePath = this.nodePath.find((pathItem) => pathItem.id === event.file.options.parentId);
 
         // check if the current folder has the 'trigger-upload-folder' as one of its parents
         if (correspondingNodePath) {
-          const correspondingIndex =
-            this.nodePath.length - this.nodePath.indexOf(correspondingNodePath);
+          const correspondingIndex = this.nodePath.length - this.nodePath.indexOf(correspondingNodePath);
           this.displayFolderParent(event.file.options.path, correspondingIndex);
         }
       }
@@ -220,12 +192,9 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
   displayFolderParent(filePath = '', index: number) {
     const parentName = filePath.split('/')[index];
-    const currentFoldersDisplayed =
-      (this.documentList.data.getRows() as ShareDataRow[]) || [];
+    const currentFoldersDisplayed = (this.documentList.data.getRows() as ShareDataRow[]) || [];
 
-    const alreadyDisplayedParentFolder = currentFoldersDisplayed.find(
-      row => row.node.entry.isFolder && row.node.entry.name === parentName
-    );
+    const alreadyDisplayedParentFolder = currentFoldersDisplayed.find((row) => row.node.entry.isFolder && row.node.entry.name === parentName);
 
     if (alreadyDisplayedParentFolder) {
       return;
@@ -234,10 +203,8 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   }
 
   onContentCopied(nodes: MinimalNodeEntity[]) {
-    const newNode = nodes.find(node => {
-      return (
-        node && node.entry && node.entry.parentId === this.getParentNodeId()
-      );
+    const newNode = nodes.find((node) => {
+      return node && node.entry && node.entry.parentId === this.getParentNodeId();
     });
     if (newNode) {
       this.reload(this.selectedNode);
@@ -251,7 +218,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     if (node && node.path && node.path.elements) {
       const elements = node.path.elements;
 
-      this.nodePath = elements.map(pathElement => {
+      this.nodePath = elements.map((pathElement) => {
         return Object.assign({}, pathElement);
       });
 
@@ -280,21 +247,17 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     if (this.isSiteContainer(node)) {
       // rename 'documentLibrary' entry to the target site display name
       // clicking on the breadcrumb entry loads the site content
-      const parentNode = await this.contentApi
-        .getNodeInfo(node.parentId)
-        .toPromise();
+      const parentNode = await this.contentApi.getNodeInfo(node.parentId).toPromise();
       node.name = parentNode.properties['cm:title'] || parentNode.name;
 
       // remove the site entry
       elements.splice(1, 1);
     } else {
       // remove 'documentLibrary' in the middle of the path
-      const docLib = elements.findIndex(el => el.name === 'documentLibrary');
+      const docLib = elements.findIndex((el) => el.name === 'documentLibrary');
       if (docLib > -1) {
         const siteFragment = elements[docLib - 1];
-        const siteNode = await this.contentApi
-          .getNodeInfo(siteFragment.id)
-          .toPromise();
+        const siteNode = await this.contentApi.getNodeInfo(siteFragment.id).toPromise();
 
         // apply Site Name to the parent fragment
         siteFragment.name = siteNode.properties['cm:title'] || siteNode.name;
@@ -311,12 +274,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   }
 
   isRootNode(nodeId: string): boolean {
-    if (
-      this.node &&
-      this.node.path &&
-      this.node.path.elements &&
-      this.node.path.elements.length > 0
-    ) {
+    if (this.node && this.node.path && this.node.path.elements && this.node.path.elements.length > 0) {
       return this.node.path.elements[0].id === nodeId;
     }
     return false;

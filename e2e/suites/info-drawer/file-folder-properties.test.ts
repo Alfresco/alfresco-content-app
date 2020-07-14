@@ -23,23 +23,15 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  LoginPage,
-  BrowsingPage,
-  RepoClient,
-  InfoDrawer,
-  Utils,
-  FILES,
-  DATE_TIME_FORMAT,
-  DATE_FORMAT
-} from '@alfresco/aca-testing-shared';
+import { LoginPage, BrowsingPage, RepoClient, InfoDrawer, Utils, FILES, DATE_TIME_FORMAT, DATE_FORMAT } from '@alfresco/aca-testing-shared';
 
-import * as moment from 'moment';
+const moment = require('moment');
 
 describe('File / Folder properties', () => {
   const username = `user1-${Utils.random()}`;
 
-  const parent = `parent-${Utils.random()}`; let parentId;
+  const parent = `parent-${Utils.random()}`;
+  let parentId: string;
 
   const file1 = {
     name: `file1-${Utils.random()}.txt`,
@@ -47,15 +39,15 @@ describe('File / Folder properties', () => {
     description: 'file description',
     author: 'file author'
   };
-  let file1Id;
+  let file1Id: string;
 
   const image1 = {
     name: FILES.jpgFile,
     title: 'image title',
     description: 'image description',
     author: 'image author'
-  }
-  let image1Id;
+  };
+  let image1Id: string;
 
   const folder1 = {
     name: `folder1-${Utils.random()}`,
@@ -63,7 +55,7 @@ describe('File / Folder properties', () => {
     description: 'folder description',
     author: 'folder author'
   };
-  let folder1Id;
+  let folder1Id: string;
 
   const apis = {
     admin: new RepoClient(),
@@ -152,16 +144,7 @@ describe('File / Folder properties', () => {
     it('[C307106] Folder properties', async () => {
       const apiProps = await apis.user.nodes.getNodeById(folder1Id);
 
-      const expectedPropLabels = [
-        'Name',
-        'Title',
-        'Creator',
-        'Created Date',
-        'Modifier',
-        'Modified Date',
-        'Author',
-        'Description'
-      ];
+      const expectedPropLabels = ['Name', 'Title', 'Creator', 'Created Date', 'Modifier', 'Modified Date', 'Author', 'Description'];
       const expectedPropValues = [
         folder1.name,
         folder1.title,
@@ -231,7 +214,7 @@ describe('File / Folder properties', () => {
         properties['exif:flash'],
         properties['exif:focalLength'].toString(),
         properties['exif:isoSpeedRatings'],
-        (properties['exif:orientation']).toString(),
+        properties['exif:orientation'].toString(),
         properties['exif:manufacturer'],
         properties['exif:model'],
         properties['exif:software']
@@ -252,5 +235,4 @@ describe('File / Folder properties', () => {
       expect(await propertiesTab.isLessInfoButtonEnabled()).toBe(true, 'Less information button not enabled');
     });
   });
-
 });

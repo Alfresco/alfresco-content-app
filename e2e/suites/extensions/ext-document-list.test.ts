@@ -23,18 +23,12 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  BrowsingPage,
-  LoginPage,
-  RepoClient,
-  EXTENSIBILITY_CONFIGS,
-  Utils
-} from '@alfresco/aca-testing-shared';
+import { BrowsingPage, LoginPage, RepoClient, EXTENSIBILITY_CONFIGS, Utils } from '@alfresco/aca-testing-shared';
 
 describe('Extensions - DocumentList presets', () => {
   const username = `user-${Utils.random()}`;
   const file = `file-${Utils.random()}.txt`;
-  let fileId;
+  let fileId: string;
 
   const testData = [
     {
@@ -76,7 +70,7 @@ describe('Extensions - DocumentList presets', () => {
     done();
   });
 
-  beforeEach(async done => {
+  beforeEach(async (done) => {
     await page.clickPersonalFilesAndWait();
     done();
   });
@@ -87,16 +81,14 @@ describe('Extensions - DocumentList presets', () => {
   });
 
   it('[C286700] Sets the columns to display', async () => {
-    const expectedColumns = testData
-      .filter(item => !item.disabled)
-      .map(data => data.label);
+    const expectedColumns = testData.filter((item) => !item.disabled).map((data) => data.label);
     const actualColumns = await dataTable.getColumnHeadersText();
 
     expect(actualColumns).toEqual(expectedColumns);
   });
 
   it('[C286699] Disabled items are not shown', async () => {
-    const noColumnLabel = testData.find(item => item.disabled).label;
+    const noColumnLabel = testData.find((item) => item.disabled).label;
     const element = dataTable.getColumnHeaderByLabel(noColumnLabel);
 
     expect(await element.isPresent()).toBe(false, `"${noColumnLabel}" is displayed`);

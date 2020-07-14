@@ -39,17 +39,11 @@ export class DropDownBreadcrumb extends Component {
   }
 
   async waitForPathListDropdownToOpen(): Promise<void> {
-    return waitForPresence(
-      this.pathItemsContainer,
-      'Timeout waiting for breadcrumb dropdown to open'
-    );
+    return waitForPresence(this.pathItemsContainer, 'Timeout waiting for breadcrumb dropdown to open');
   }
 
   async waitForPathListDropdownToClose(): Promise<void> {
-    return waitForStaleness(
-      browser.$(this.pathOptionCss),
-      'Timeout waiting for breadcrumb dropdown to close'
-    );
+    return waitForStaleness(browser.$(this.pathOptionCss), 'Timeout waiting for breadcrumb dropdown to close');
   }
 
   async openPath(): Promise<void> {
@@ -58,14 +52,12 @@ export class DropDownBreadcrumb extends Component {
   }
 
   async clickPathItem(name: string): Promise<void> {
-    const elem = browser.element(
-      by.cssContainingText(this.pathOptionCss, name)
-    );
+    const elem = browser.element(by.cssContainingText(this.pathOptionCss, name));
     await elem.click();
   }
 
   async getPathItems(): Promise<string[]> {
-    const items: string[] = await this.pathItems.map(async elem => {
+    const items: string[] = await this.pathItems.map(async (elem) => {
       return elem.getText();
     });
     return items;
