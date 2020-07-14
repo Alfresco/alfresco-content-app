@@ -60,7 +60,7 @@ describe('AppComponent', () => {
 
     router = TestBed.inject(Router);
 
-    component = new AppComponent(null, router, null, storeMock, configMock, null, null, null, null, null, null, null, storageMock);
+    component = new AppComponent(null, router, null, storeMock, configMock, null, null, null, null, null, null, null, storageMock, null);
 
     storeMock.dispatch = jasmine.createSpy('dispatch');
   });
