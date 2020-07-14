@@ -2,7 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const AlfrescoApi = require('@alfresco/js-api').AlfrescoApiCompatibility;
 const buildNumber = require('./build-number');
-const configScreenshotsPath = path.join(`${path.resolve(__dirname)}/../../../e2e-output/report/screenshots/`);
+const configScreenshotsPath = path.join(`${path.resolve(__dirname)}/../../../e2e-output/screenshots/`);
 const rimraf = require('rimraf');
 
 uploadOutput = async function() {

@@ -4,7 +4,6 @@
 const AlfrescoApi = require('@alfresco/js-api').AlfrescoApiCompatibility;
 const path = require('path');
 const { SpecReporter } = require('jasmine-spec-reporter');
-const CDP = require('chrome-remote-interface');
 const afterLaunch = require('./e2e/e2e-config/hooks/after-launch');
 const fs = require('fs');
 require('dotenv').config();
@@ -110,7 +109,6 @@ exports.config = {
   capabilities: {
     browserName: 'chrome',
     chromeOptions: {
-      // binary: require('puppeteer').executablePath(),
       prefs: {
         credentials_enable_service: false,
         download: {
@@ -144,16 +142,12 @@ exports.config = {
 
   plugins: [
     {
-      package: 'protractor-screenshoter-plugin',
-      screenshotPath: `${projectRoot}/e2e-output/report`,
-      screenshotOnExpect: 'failure',
-      screenshotOnSpec: 'none',
-      withLogs: true,
-      writeReportFreq: 'end',
-      imageToAscii: 'none',
-      htmlOnExpect: 'none',
-      htmlOnSpec: 'none',
-      clearFoldersBeforeTest: true
+      package: 'jasmine2-protractor-utils',
+      disableScreenshot: false,
+      screenshotOnExpectFailure: true,
+      screenshotOnSpecFailure: false,
+      clearFoldersBeforeTest: true,
+      screenshotPath: path.resolve(__dirname, 'e2e-output/screenshots/')
     }
   ],
 
@@ -190,16 +184,11 @@ exports.config = {
 
     rmDir(downloadFolder);
 
-    CDP()
-      .then(client => {
-        client.send('Page.setDownloadBehavior', {
-          behavior: 'allow',
-          downloadPath: downloadFolder
-        });
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    browser.driver.sendChromiumCommand('Page.setDownloadBehavior', {
+      behavior: 'allow',
+      downloadPath: downloadFolder
+    });
+
   },
   afterLaunch
 };
