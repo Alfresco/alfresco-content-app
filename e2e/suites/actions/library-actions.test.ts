@@ -129,7 +129,7 @@ describe('Library actions', () => {
       await dataTable.selectItem(sitePublic1Admin);
       await toolbar.joinButton.click();
 
-      expect(await dataTable.getLibraryRole(sitePublic1Admin)).toEqual('Consumer');
+      expect(await dataTable.getLibraryRole(sitePublic1Admin)).toEqual(SITE_ROLES.SITE_CONSUMER.LABEL);
     });
 
     it('[C306959] from Search Results', async () => {
@@ -141,7 +141,7 @@ describe('Library actions', () => {
       await dataTable.selectItem(siteSearchPublic1Admin);
       await toolbar.joinButton.click();
 
-      expect(await dataTable.getLibraryRole(siteSearchPublic1Admin)).toEqual('Consumer');
+      expect(await dataTable.getLibraryRole(siteSearchPublic1Admin)).toEqual(SITE_ROLES.SITE_CONSUMER.LABEL);
     });
   });
 
@@ -158,7 +158,7 @@ describe('Library actions', () => {
       await dataTable.selectItem(siteModerated1Admin);
       await toolbar.joinButton.click();
 
-      expect(await dataTable.getLibraryRole(siteModerated1Admin)).toEqual('');
+      expect(await dataTable.getLibraryRole(siteModerated1Admin)).toEqual(SITE_ROLES.NONE.LABEL);
       const hasJoinRequest = await apis.user.sites.hasMembershipRequest(siteModerated1Admin);
       expect(hasJoinRequest).toBe(true, `Join request does not exist on ${siteModerated1Admin}`);
     });
@@ -172,7 +172,7 @@ describe('Library actions', () => {
       await dataTable.selectItem(siteSearchModerated1Admin);
       await toolbar.joinButton.click();
 
-      expect(await dataTable.getLibraryRole(siteSearchModerated1Admin)).toEqual('');
+      expect(await dataTable.getLibraryRole(siteSearchModerated1Admin)).toEqual(SITE_ROLES.NONE.LABEL);
       const hasJoinRequest = await apis.user.sites.hasMembershipRequest(siteSearchModerated1Admin);
       expect(hasJoinRequest).toBe(true, `Join request does not exist on ${siteSearchModerated1Admin}`);
     });
