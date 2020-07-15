@@ -1015,7 +1015,7 @@ describe('NodeActionsService', () => {
             });
         }));
 
-        it('should take no extra delete action, if its children were partially moved', async(() => {
+        it('should take no extra delete action, if its children were partially moved', (done) => {
           const movedChildrenNodes = [fileToMove, folderToMove];
           spyOn(service, 'moveFolderAction').and.returnValue(of(movedChildrenNodes));
           spyOn(service, 'processResponse').and.returnValue({
@@ -1040,8 +1040,9 @@ describe('NodeActionsService', () => {
 
               expect(spyOnSuccess).toHaveBeenCalled();
               expect(spyOnError).not.toHaveBeenCalled();
+              done();
             });
-        }));
+        });
 
         it('should take extra delete action, if children successfully moved and folder is still on location', async(() => {
           const movedChildrenNodes = [fileToMove, folderToMove];
