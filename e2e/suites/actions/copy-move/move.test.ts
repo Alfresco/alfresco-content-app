@@ -23,28 +23,30 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  LoginPage,
-  BrowsingPage,
-  ContentNodeSelectorDialog,
-  RepoClient,
-  Utils
-} from '@alfresco/aca-testing-shared';
+import { LoginPage, BrowsingPage, ContentNodeSelectorDialog, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 
 describe('Move content', () => {
   const username = `user-${Utils.random()}`;
 
-  const sourcePF = `sourcePersonal-${Utils.random()}`; let sourceIdPF;
-  const destinationPF = `destinationPersonal-${Utils.random()}`; let destinationIdPF;
+  const sourcePF = `sourcePersonal-${Utils.random()}`;
+  let sourceIdPF: string;
+  const destinationPF = `destinationPersonal-${Utils.random()}`;
+  let destinationIdPF: string;
 
-  const sourceRF = `sourceRecent-${Utils.random()}`; let sourceIdRF;
-  const destinationRF = `destinationRecent-${Utils.random()}`; let destinationIdRF;
+  const sourceRF = `sourceRecent-${Utils.random()}`;
+  let sourceIdRF: string;
+  const destinationRF = `destinationRecent-${Utils.random()}`;
+  let destinationIdRF: string;
 
-  const sourceSF = `sourceShared-${Utils.random()}`; let sourceIdSF;
-  const destinationSF = `destinationShared-${Utils.random()}`; let destinationIdSF;
+  const sourceSF = `sourceShared-${Utils.random()}`;
+  let sourceIdSF: string;
+  const destinationSF = `destinationShared-${Utils.random()}`;
+  let destinationIdSF: string;
 
-  const sourceFav = `sourceFavorites-${Utils.random()}`; let sourceIdFav;
-  const destinationFav = `destinationFavorites-${Utils.random()}`; let destinationIdFav;
+  const sourceFav = `sourceFavorites-${Utils.random()}`;
+  let sourceIdFav: string;
+  const destinationFav = `destinationFavorites-${Utils.random()}`;
+  let destinationIdFav: string;
 
   const siteName = `site-${Utils.random()}`;
   const folderSitePF = `folderSitePersonal-${Utils.random()}`;
@@ -104,14 +106,16 @@ describe('Move content', () => {
   describe('from Personal Files', () => {
     const file1 = `file1-${Utils.random()}.txt`;
 
-    const folder1 = `folder1-${Utils.random()}`; let folder1Id;
+    const folder1 = `folder1-${Utils.random()}`;
+    let folder1Id;
     const fileInFolder = `fileInFolder-${Utils.random()}.txt`;
 
     const file2 = `file2-${Utils.random()}.txt`;
     const file3 = `file3-${Utils.random()}.txt`;
 
     const file4 = `file4-${Utils.random()}.txt`;
-    const folder2 = `folder2-${Utils.random()}`; let folder2Id;
+    const folder2 = `folder2-${Utils.random()}`;
+    let folder2Id;
     const fileInFolder2 = `fileInFolder2-${Utils.random()}.txt`;
 
     const existingFile = `existing-${Utils.random()}`;
@@ -398,14 +402,19 @@ describe('Move content', () => {
   });
 
   describe('from Shared Files', () => {
-    const file1 = `file1-${Utils.random()}.txt`; let file1Id;
+    const file1 = `file1-${Utils.random()}.txt`;
+    let file1Id;
 
-    const file2 = `file2-${Utils.random()}.txt`; let file2Id;
-    const file3 = `file3-${Utils.random()}.txt`; let file3Id;
+    const file2 = `file2-${Utils.random()}.txt`;
+    let file2Id;
+    const file3 = `file3-${Utils.random()}.txt`;
+    let file3Id;
 
-    const file4 = `file4-${Utils.random()}.txt`; let file4Id;
+    const file4 = `file4-${Utils.random()}.txt`;
+    let file4Id;
 
-    const existingFile = `existing-${Utils.random()}`; let existingFileId;
+    const existingFile = `existing-${Utils.random()}`;
+    let existingFileId;
 
     beforeAll(async (done) => {
       file1Id = (await apis.user.nodes.createFile(file1, sourceIdSF)).entry.id;
@@ -520,19 +529,26 @@ describe('Move content', () => {
   });
 
   describe('from Favorites', () => {
-    const file1 = `file1-${Utils.random()}.txt`; let file1Id;
+    const file1 = `file1-${Utils.random()}.txt`;
+    let file1Id;
 
-    const folder1 = `folder1-${Utils.random()}`; let folder1Id;
+    const folder1 = `folder1-${Utils.random()}`;
+    let folder1Id;
     const fileInFolder = `fileInFolder-${Utils.random()}.txt`;
 
-    const file2 = `file2-${Utils.random()}.txt`; let file2Id;
-    const file3 = `file3-${Utils.random()}.txt`; let file3Id;
+    const file2 = `file2-${Utils.random()}.txt`;
+    let file2Id;
+    const file3 = `file3-${Utils.random()}.txt`;
+    let file3Id;
 
-    const file4 = `file4-${Utils.random()}.txt`; let file4Id;
-    const folder2 = `folder2-${Utils.random()}`; let folder2Id;
+    const file4 = `file4-${Utils.random()}.txt`;
+    let file4Id;
+    const folder2 = `folder2-${Utils.random()}`;
+    let folder2Id;
     const fileInFolder2 = `fileInFolder2-${Utils.random()}.txt`;
 
-    const existingFile = `existing-${Utils.random()}`; let existingFileId;
+    const existingFile = `existing-${Utils.random()}`;
+    let existingFileId;
 
     const existingFolder = `existing-${Utils.random()}`;
     let existingId1, existingId2;
@@ -713,5 +729,4 @@ describe('Move content', () => {
       expect(await dataTable.isItemPresent(fileInFolder2)).toBe(true, `${fileInFolder2} not present in parent folder`);
     });
   });
-
 });

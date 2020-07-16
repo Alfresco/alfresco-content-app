@@ -24,21 +24,17 @@
  */
 
 import { browser } from 'protractor';
-import {
-  LoginPage,
-  BrowsingPage,
-  Utils,
-  RepoClient
-} from '@alfresco/aca-testing-shared';
-
+import { LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
 
 describe('Generic errors', () => {
   const username = `user-${Utils.random()}`;
 
   const username2 = `user2-${Utils.random()}`;
 
-  const parent = `folder-${Utils.random()}`; let parentId;
-  const file1 = `file1-${Utils.random()}.txt`; let file1Id;
+  const parent = `folder-${Utils.random()}`;
+  let parentId: string;
+  const file1 = `file1-${Utils.random()}.txt`;
+  let file1Id: string;
   const file2 = `file2-${Utils.random()}.txt`;
 
   const apis = {
@@ -84,7 +80,6 @@ describe('Generic errors', () => {
 
     expect(await page.genericError.isDisplayed()).toBe(true, 'Generic error page not displayed');
     expect(await page.genericErrorTitle.getText()).toContain(`This item no longer exists or you don't have permission to view it.`);
-
   });
 
   it('[C217314] Permission denied', async () => {

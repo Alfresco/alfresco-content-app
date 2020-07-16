@@ -53,14 +53,7 @@ export function components() {
 }
 
 @NgModule({
-  imports: [
-    CommonModule,
-    CoreModule.forChild(),
-    AppCommonModule,
-    ExtensionsModule,
-    SharedToolbarModule,
-    DirectivesModule
-  ],
+  imports: [CommonModule, CoreModule.forChild(), AppCommonModule, ExtensionsModule, SharedToolbarModule, DirectivesModule],
   declarations: components(),
   exports: [components(), SharedToolbarModule]
 })

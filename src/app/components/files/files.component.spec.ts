@@ -23,12 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  TestBed,
-  fakeAsync,
-  tick,
-  ComponentFixture
-} from '@angular/core/testing';
+import { TestBed, fakeAsync, tick, ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
@@ -61,13 +56,7 @@ describe('FilesComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule],
-      declarations: [
-        FilesComponent,
-        DataTableComponent,
-        NodeFavoriteDirective,
-        DocumentListComponent,
-        AppConfigPipe
-      ],
+      declarations: [FilesComponent, DataTableComponent, NodeFavoriteDirective, DocumentListComponent, AppConfigPipe],
       providers: [
         { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
         {
@@ -138,16 +127,11 @@ describe('FilesComponent', () => {
 
     it('should navigate to parent if node is not a folder', () => {
       const nodeEntry = { isFolder: false, parentId: 'parent-id' };
-      spyOn(contentApi, 'getNode').and.returnValue(
-        of({ entry: nodeEntry } as any)
-      );
+      spyOn(contentApi, 'getNode').and.returnValue(of({ entry: nodeEntry } as any));
 
       fixture.detectChanges();
 
-      expect(router.navigate['calls'].argsFor(0)[0]).toEqual([
-        '/personal-files',
-        'parent-id'
-      ]);
+      expect(router.navigate['calls'].argsFor(0)[0]).toEqual(['/personal-files', 'parent-id']);
     });
   });
 
@@ -160,10 +144,7 @@ describe('FilesComponent', () => {
     });
 
     it('should call refresh onContentCopied event if parent is the same', () => {
-      const nodes: any[] = [
-        { entry: { parentId: '1' } },
-        { entry: { parentId: '2' } }
-      ];
+      const nodes: any[] = [{ entry: { parentId: '1' } }, { entry: { parentId: '2' } }];
 
       component.node = { id: '1' } as any;
 
@@ -173,10 +154,7 @@ describe('FilesComponent', () => {
     });
 
     it('should not call refresh onContentCopied event when parent mismatch', () => {
-      const nodes: any[] = [
-        { entry: { parentId: '1' } },
-        { entry: { parentId: '2' } }
-      ];
+      const nodes: any[] = [{ entry: { parentId: '1' } }, { entry: { parentId: '2' } }];
 
       component.node = { id: '3' } as any;
 
@@ -256,10 +234,7 @@ describe('FilesComponent', () => {
       router.url = '/personal-files';
       component.navigate(node.id);
 
-      expect(router.navigate).toHaveBeenCalledWith([
-        '/personal-files',
-        node.id
-      ]);
+      expect(router.navigate).toHaveBeenCalledWith(['/personal-files', node.id]);
     });
 
     it('should navigates to home when id not provided', () => {

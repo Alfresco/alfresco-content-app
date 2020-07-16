@@ -24,11 +24,7 @@
  */
 
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import {
-  CoreModule,
-  AlfrescoApiService,
-  AlfrescoApiServiceMock
-} from '@alfresco/adf-core';
+import { CoreModule, AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-core';
 import { ToggleFavoriteLibraryComponent } from './toggle-favorite-library.component';
 import { LibraryFavoriteDirective } from '../../../directives/library-favorite.directive';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
@@ -50,11 +46,7 @@ describe('ToggleFavoriteLibraryComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        TranslateModule.forRoot(),
-        CoreModule.forRoot(),
-        AppTestingModule
-      ],
+      imports: [TranslateModule.forRoot(), CoreModule.forRoot(), AppTestingModule],
       declarations: [ToggleFavoriteLibraryComponent, LibraryFavoriteDirective],
       providers: [
         {
@@ -84,9 +76,7 @@ describe('ToggleFavoriteLibraryComponent', () => {
 
     contentManagementService = TestBed.inject(ContentManagementService);
     const api = TestBed.inject(AlfrescoApiService);
-    spyOn(api.peopleApi, 'getFavoriteSite').and.returnValue(
-      Promise.resolve(null)
-    );
+    spyOn(api.peopleApi, 'getFavoriteSite').and.returnValue(Promise.resolve(null));
   });
 
   it('should get library selection from Store', async () => {
@@ -112,8 +102,6 @@ describe('ToggleFavoriteLibraryComponent', () => {
 
     component.onToggleEvent();
 
-    expect(
-      contentManagementService.favoriteLibraryToggle.next
-    ).toHaveBeenCalled();
+    expect(contentManagementService.favoriteLibraryToggle.next).toHaveBeenCalled();
   });
 });

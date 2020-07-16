@@ -29,11 +29,7 @@ import { AppConfigService, UserPreferencesService } from '@alfresco/adf-core';
 import { AppLayoutComponent } from './app-layout.component';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { Store } from '@ngrx/store';
-import {
-  AppStore,
-  SetSelectedNodesAction,
-  ResetSelectionAction
-} from '@alfresco/aca-shared/store';
+import { AppStore, SetSelectedNodesAction, ResetSelectionAction } from '@alfresco/aca-shared/store';
 import { Router, NavigationStart } from '@angular/router';
 import { Subject } from 'rxjs';
 
@@ -110,7 +106,7 @@ describe('AppLayoutComponent', () => {
         preserveState: true
       };
 
-      spyOn(userPreference, 'get').and.callFake(key => {
+      spyOn(userPreference, 'get').and.callFake((key) => {
         if (key === 'expandedSidenav') {
           return 'true';
         }
@@ -128,7 +124,7 @@ describe('AppLayoutComponent', () => {
         preserveState: true
       };
 
-      spyOn(userPreference, 'get').and.callFake(key => {
+      spyOn(userPreference, 'get').and.callFake((key) => {
         if (key === 'expandedSidenav') {
           return 'false';
         }
@@ -149,9 +145,7 @@ describe('AppLayoutComponent', () => {
     router.navigateByUrl('somewhere/over/the/rainbow');
     fixture.detectChanges();
 
-    expect(store.dispatch['calls'].mostRecent().args).toEqual([
-      new ResetSelectionAction()
-    ]);
+    expect(store.dispatch['calls'].mostRecent().args).toEqual([new ResetSelectionAction()]);
   });
 
   it('should close menu on mobile screen size', () => {

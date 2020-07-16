@@ -34,25 +34,17 @@ export class Toolbar extends Component {
 
   buttons = this.allByCss('button');
   shareButton = this.byCss(`.mat-icon-button[title='Share']`);
-  shareEditButton = this.byCss(
-    `.mat-icon-button[title='Shared Link Settings']`
-  );
+  shareEditButton = this.byCss(`.mat-icon-button[title='Shared Link Settings']`);
   viewButton = this.byCss(`.mat-icon-button[title='View']`);
-  searchFiltersToggleButton = this.byCss(
-    `.mat-icon-button[title='Toggle search filter']`
-  );
+  searchFiltersToggleButton = this.byCss(`.mat-icon-button[title='Toggle search filter']`);
   downloadButton = this.byCss(`.mat-icon-button[title='Download']`);
   editFolderButton = this.byId('app.toolbar.editFolder');
   viewDetailsButton = this.byCss(`.mat-icon-button[title='View Details']`);
   printButton = this.byCss(`.mat-icon-button[title='Print']`);
-  fullScreenButton = this.byCss(
-    `.mat-icon-button[title='Activate full-screen mode']`
-  );
+  fullScreenButton = this.byCss(`.mat-icon-button[title='Activate full-screen mode']`);
   joinButton = this.byCss(`.mat-icon-button[title='Join']`);
   leaveButton = this.byCss(`.mat-icon-button[title='Leave Library']`);
-  permanentlyDeleteButton = this.byCss(
-    `.mat-icon-button[title='Permanently Delete']`
-  );
+  permanentlyDeleteButton = this.byCss(`.mat-icon-button[title='Permanently Delete']`);
   restoreButton = this.byCss(`.mat-icon-button[title='Restore']`);
 
   constructor(ancestor?: string) {
@@ -65,7 +57,7 @@ export class Toolbar extends Component {
   }
 
   async getButtons(): Promise<string[]> {
-    return this.buttons.map(async elem => {
+    return this.buttons.map(async (elem) => {
       return elem.getAttribute('title');
     });
   }

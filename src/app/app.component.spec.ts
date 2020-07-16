@@ -28,10 +28,7 @@ import { SetInitialStateAction } from '@alfresco/aca-shared/store';
 import { Router } from '@angular/router';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  mockRoutesWithoutParentRoute,
-  mockRoutesWithParentRoute
-} from './mock/extension-routes.mock';
+import { mockRoutesWithoutParentRoute, mockRoutesWithParentRoute } from './mock/extension-routes.mock';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -58,37 +55,19 @@ describe('AppComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule.withRoutes([{ path: 'fake-path', children: [] }])
-      ]
+      imports: [RouterTestingModule.withRoutes([{ path: 'fake-path', children: [] }])]
     });
 
     router = TestBed.inject(Router);
 
-    component = new AppComponent(
-      null,
-      router,
-      null,
-      storeMock,
-      configMock,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      storageMock
-    );
+    component = new AppComponent(null, router, null, storeMock, configMock, null, null, null, null, null, null, null, storageMock);
 
     storeMock.dispatch = jasmine.createSpy('dispatch');
   });
 
-  it('should setup baseShareUrl as per config', done => {
+  it('should setup baseShareUrl as per config', (done) => {
     storeMock.dispatch.and.callFake((action: SetInitialStateAction) => {
-      expect(action.payload.sharedUrl).toBe(
-        'http://localhost:4200/#/preview/s/'
-      );
+      expect(action.payload.sharedUrl).toBe('http://localhost:4200/#/preview/s/');
       done();
     });
 
@@ -98,44 +77,32 @@ describe('AppComponent', () => {
   describe('onFileUploadedError', () => {
     it('should dispatch 403 error message', () => {
       component.onFileUploadedError({ error: { status: 403 } } as any);
-      expect(storeMock.dispatch['calls'].argsFor(0)[0].payload).toBe(
-        'APP.MESSAGES.UPLOAD.ERROR.403'
-      );
+      expect(storeMock.dispatch['calls'].argsFor(0)[0].payload).toBe('APP.MESSAGES.UPLOAD.ERROR.403');
     });
 
     it('should dispatch 404 error message', () => {
       component.onFileUploadedError({ error: { status: 404 } } as any);
-      expect(storeMock.dispatch['calls'].argsFor(0)[0].payload).toBe(
-        'APP.MESSAGES.UPLOAD.ERROR.404'
-      );
+      expect(storeMock.dispatch['calls'].argsFor(0)[0].payload).toBe('APP.MESSAGES.UPLOAD.ERROR.404');
     });
 
     it('should dispatch 409 error message', () => {
       component.onFileUploadedError({ error: { status: 409 } } as any);
-      expect(storeMock.dispatch['calls'].argsFor(0)[0].payload).toBe(
-        'APP.MESSAGES.UPLOAD.ERROR.CONFLICT'
-      );
+      expect(storeMock.dispatch['calls'].argsFor(0)[0].payload).toBe('APP.MESSAGES.UPLOAD.ERROR.CONFLICT');
     });
 
     it('should dispatch 500 error message', () => {
       component.onFileUploadedError({ error: { status: 500 } } as any);
-      expect(storeMock.dispatch['calls'].argsFor(0)[0].payload).toBe(
-        'APP.MESSAGES.UPLOAD.ERROR.500'
-      );
+      expect(storeMock.dispatch['calls'].argsFor(0)[0].payload).toBe('APP.MESSAGES.UPLOAD.ERROR.500');
     });
 
     it('should dispatch 504 error message', () => {
       component.onFileUploadedError({ error: { status: 504 } } as any);
-      expect(storeMock.dispatch['calls'].argsFor(0)[0].payload).toBe(
-        'APP.MESSAGES.UPLOAD.ERROR.504'
-      );
+      expect(storeMock.dispatch['calls'].argsFor(0)[0].payload).toBe('APP.MESSAGES.UPLOAD.ERROR.504');
     });
 
     it('should dispatch generic error message', () => {
       component.onFileUploadedError({ error: { status: 999 } } as any);
-      expect(storeMock.dispatch['calls'].argsFor(0)[0].payload).toBe(
-        'APP.MESSAGES.UPLOAD.ERROR.GENERIC'
-      );
+      expect(storeMock.dispatch['calls'].argsFor(0)[0].payload).toBe('APP.MESSAGES.UPLOAD.ERROR.GENERIC');
     });
   });
 

@@ -40,12 +40,7 @@ describe('SearchLibrariesResultsComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule],
-      declarations: [
-        DataTableComponent,
-        DocumentListComponent,
-        SearchLibrariesResultsComponent,
-        AppConfigPipe
-      ],
+      declarations: [DataTableComponent, DocumentListComponent, SearchLibrariesResultsComponent, AppConfigPipe],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [SearchLibrariesQueryBuilderService]
     });

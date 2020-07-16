@@ -23,14 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  LoginPage,
-  RepoClient,
-  Utils,
-  AdminActions,
-  FILES,
-  SITE_ROLES
-} from '@alfresco/aca-testing-shared';
+import { LoginPage, RepoClient, Utils, AdminActions, FILES, SITE_ROLES } from '@alfresco/aca-testing-shared';
 import * as testData from './test-data-permissions';
 import { librariesTests } from './my-libraries';
 import { favoritesTests } from './favorites';
@@ -85,7 +78,7 @@ describe('Special permissions : ', () => {
     await userManagerApi.sites.addSiteCollaborator(sitePrivate, userCollaborator);
     await userManagerApi.sites.addSiteManager(sitePrivate, userDemoted);
 
-    await userManagerApi.upload.uploadFileWithRename(FILES.docxFile, docLibId, testData.fileDocx.name );
+    await userManagerApi.upload.uploadFileWithRename(FILES.docxFile, docLibId, testData.fileDocx.name);
     fileDocxFavId = (await userManagerApi.upload.uploadFileWithRename(FILES.docxFile, docLibId, testData.fileDocxFav.name)).entry.id;
     await userManagerApi.nodes.createFile(testData.file.name, docLibId);
     fileFavId = (await userManagerApi.nodes.createFile(testData.fileFav.name, docLibId)).entry.id;
@@ -158,7 +151,6 @@ describe('Special permissions : ', () => {
   });
 
   describe('Consumer', () => {
-
     beforeAll(async () => {
       await loginPage.loginWith(userConsumer);
     });

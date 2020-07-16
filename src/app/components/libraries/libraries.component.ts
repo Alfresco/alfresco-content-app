@@ -57,11 +57,9 @@ export class LibrariesComponent extends PageComponent implements OnInit {
       this.content.libraryUpdated.subscribe(() => this.reload()),
       this.content.libraryLeft.subscribe(() => this.reload()),
 
-      this.breakpointObserver
-        .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
-        .subscribe(result => {
-          this.isSmallScreen = result.matches;
-        })
+      this.breakpointObserver.observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape]).subscribe((result) => {
+        this.isSmallScreen = result.matches;
+      })
     );
 
     this.columns = this.extensions.documentListPresets.libraries || [];

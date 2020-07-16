@@ -68,14 +68,8 @@ export class DocumentListDirective implements OnInit, OnDestroy {
     if (this.sortingPreferenceKey) {
       const current = this.documentList.sorting;
 
-      const key = this.preferences.get(
-        `${this.sortingPreferenceKey}.sorting.key`,
-        current[0]
-      );
-      const direction = this.preferences.get(
-        `${this.sortingPreferenceKey}.sorting.direction`,
-        current[1]
-      );
+      const key = this.preferences.get(`${this.sortingPreferenceKey}.sorting.key`, current[0]);
+      const direction = this.preferences.get(`${this.sortingPreferenceKey}.sorting.direction`, current[1]);
 
       this.documentList.sorting = [key, direction];
       // TODO: bug in ADF, the `sorting` binding is not updated when changed from code
@@ -106,14 +100,8 @@ export class DocumentListDirective implements OnInit, OnDestroy {
   @HostListener('sorting-changed', ['$event'])
   onSortingChanged(event: CustomEvent) {
     if (this.sortingPreferenceKey) {
-      this.preferences.set(
-        `${this.sortingPreferenceKey}.sorting.key`,
-        event.detail.key
-      );
-      this.preferences.set(
-        `${this.sortingPreferenceKey}.sorting.direction`,
-        event.detail.direction
-      );
+      this.preferences.set(`${this.sortingPreferenceKey}.sorting.key`, event.detail.key);
+      this.preferences.set(`${this.sortingPreferenceKey}.sorting.direction`, event.detail.direction);
     }
   }
 
@@ -135,7 +123,7 @@ export class DocumentListDirective implements OnInit, OnDestroy {
   }
 
   private updateSelection() {
-    const selection = this.documentList.selection.map(node => {
+    const selection = this.documentList.selection.map((node) => {
       node['isLibrary'] = this.isLibrary;
       return node;
     });

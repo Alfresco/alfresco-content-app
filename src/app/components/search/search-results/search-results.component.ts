@@ -24,24 +24,12 @@
  */
 
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import {
-  Pagination,
-  MinimalNodeEntity,
-  ResultSetPaging
-} from '@alfresco/js-api';
+import { Pagination, MinimalNodeEntity, ResultSetPaging } from '@alfresco/js-api';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import {
-  SearchQueryBuilderService,
-  SearchFilterComponent
-} from '@alfresco/adf-content-services';
+import { SearchQueryBuilderService, SearchFilterComponent } from '@alfresco/adf-content-services';
 import { PageComponent } from '../../page.component';
 import { Store } from '@ngrx/store';
-import {
-  AppStore,
-  NavigateToFolder,
-  SnackbarErrorAction,
-  showFacetFilter
-} from '@alfresco/aca-shared/store';
+import { AppStore, NavigateToFolder, SnackbarErrorAction, showFacetFilter } from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../../services/content-management.service';
 import { AppConfigService, TranslationService } from '@alfresco/adf-core';
 import { Observable } from 'rxjs';
@@ -93,14 +81,14 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     this.sorting = this.getSorting();
 
     this.subscriptions.push(
-      this.queryBuilder.updated.subscribe(query => {
+      this.queryBuilder.updated.subscribe((query) => {
         if (query) {
           this.sorting = this.getSorting();
           this.isLoading = true;
         }
       }),
 
-      this.queryBuilder.executed.subscribe(data => {
+      this.queryBuilder.executed.subscribe((data) => {
         this.queryBuilder.paging.skipCount = 0;
 
         this.onSearchResultLoaded(data);
@@ -114,9 +102,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
 
     if (this.route) {
       this.route.params.forEach((params: Params) => {
-        this.searchedWord = params.hasOwnProperty(this.queryParamName)
-          ? params[this.queryParamName]
-          : null;
+        this.searchedWord = params.hasOwnProperty(this.queryParamName) ? params[this.queryParamName] : null;
         const query = this.formatSearchQuery(this.searchedWord);
 
         if (query) {
@@ -139,9 +125,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     let translated = this.translationService.instant(messageKey);
 
     if (translated === messageKey) {
-      translated = this.translationService.instant(
-        `APP.BROWSE.SEARCH.ERRORS.GENERIC`
-      );
+      translated = this.translationService.instant(`APP.BROWSE.SEARCH.ERRORS.GENERIC`);
     }
 
     this.store.dispatch(new SnackbarErrorAction(translated));
@@ -167,11 +151,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
       term = term.substring(1);
     }
 
-    return (
-      '(' +
-      fields.map(field => `${prefix}${field}:"${term}${suffix}"`).join(' OR ') +
-      ')'
-    );
+    return '(' + fields.map((field) => `${prefix}${field}:"${term}${suffix}"`).join(' OR ') + ')';
   }
 
   formatSearchQuery(userInput: string) {
@@ -192,7 +172,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
       const separator = words.some(this.isOperator) ? ' ' : ' AND ';
 
       return words
-        .map(term => {
+        .map((term) => {
           if (this.isOperator(term)) {
             return term;
           }
@@ -219,16 +199,11 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   }
 
   isFiltered(): boolean {
-    return (
-      this.searchFilter.selectedBuckets.length > 0 ||
-      this.hasCheckedCategories()
-    );
+    return this.searchFilter.selectedBuckets.length > 0 || this.hasCheckedCategories();
   }
 
   hasCheckedCategories() {
-    const checkedCategory = this.queryBuilder.categories.find(
-      category => !!this.queryBuilder.queryFragments[category.id]
-    );
+    const checkedCategory = this.queryBuilder.categories.find((category) => !!this.queryBuilder.queryFragments[category.id]);
     return !!checkedCategory;
   }
 

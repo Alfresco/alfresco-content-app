@@ -93,6 +93,9 @@ export const SITE_ROLES = {
   SITE_MANAGER: {
     ROLE: 'SiteManager',
     LABEL: 'Manager'
+  },
+  NONE: {
+    LABEL: 'Not a member'
   }
 };
 

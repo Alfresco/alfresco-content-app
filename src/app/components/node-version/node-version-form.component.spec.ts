@@ -34,11 +34,7 @@ describe('AppNodeVersionFormComponent', () => {
   let component;
 
   setupTestBed({
-    imports: [
-      TranslateModule.forRoot(),
-      CoreModule.forRoot(),
-      NoopAnimationsModule
-    ],
+    imports: [TranslateModule.forRoot(), CoreModule.forRoot(), NoopAnimationsModule],
     declarations: [AppNodeVersionFormComponent]
   });
 
@@ -49,9 +45,7 @@ describe('AppNodeVersionFormComponent', () => {
   });
 
   it('should have minor version option selected', () => {
-    const isSelected = fixture.debugElement.nativeElement
-      .querySelectorAll('.form__version--option')[0]
-      .classList.contains('mat-radio-checked');
+    const isSelected = fixture.debugElement.nativeElement.querySelectorAll('.form__version--option')[0].classList.contains('mat-radio-checked');
 
     expect(isSelected).toBe(true);
   });

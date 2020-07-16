@@ -42,14 +42,10 @@ export class GenericFilterPanel {
   };
 
   get panel(): ElementFinder {
-    return browser.element(
-      by.cssContainingText(this.selectors.panel, this.filterName)
-    );
+    return browser.element(by.cssContainingText(this.selectors.panel, this.filterName));
   }
   get panelExpanded(): ElementFinder {
-    return browser.element(
-      by.cssContainingText(this.selectors.panelExpanded, this.filterName)
-    );
+    return browser.element(by.cssContainingText(this.selectors.panelExpanded, this.filterName));
   }
   get panelHeader(): ElementFinder {
     return this.panel.element(by.css(this.selectors.panelHeader));

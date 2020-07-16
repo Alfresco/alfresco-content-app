@@ -25,12 +25,7 @@
 
 import { Component, ViewChild } from '@angular/core';
 import { LibraryFavoriteDirective } from './library-favorite.directive';
-import {
-  AlfrescoApiService,
-  AlfrescoApiServiceMock,
-  setupTestBed,
-  CoreModule
-} from '@alfresco/adf-core';
+import { AlfrescoApiService, AlfrescoApiServiceMock, setupTestBed, CoreModule } from '@alfresco/adf-core';
 import { TestBed, async } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -111,9 +106,7 @@ describe('LibraryFavoriteDirective', () => {
     expect(component.directive.isFavorite()).toBeFalsy();
 
     fixture.whenStable().then(() => {
-      fixture.nativeElement
-        .querySelector('button')
-        .dispatchEvent(new MouseEvent('click'));
+      fixture.nativeElement.querySelector('button').dispatchEvent(new MouseEvent('click'));
 
       fixture.detectChanges();
 
@@ -123,18 +116,14 @@ describe('LibraryFavoriteDirective', () => {
 
   it('should call removeFavoriteSite() on click event when selection is not a favorite', async(() => {
     spyOn(api.peopleApi, 'getFavoriteSite').and.returnValue(Promise.resolve());
-    spyOn(api.favoritesApi, 'removeFavoriteSite').and.returnValue(
-      Promise.resolve()
-    );
+    spyOn(api.favoritesApi, 'removeFavoriteSite').and.returnValue(Promise.resolve());
     component.selection = selection;
     fixture.detectChanges();
 
     expect(component.directive.isFavorite()).toBeFalsy();
 
     fixture.whenStable().then(() => {
-      fixture.nativeElement
-        .querySelector('button')
-        .dispatchEvent(new MouseEvent('click'));
+      fixture.nativeElement.querySelector('button').dispatchEvent(new MouseEvent('click'));
 
       fixture.detectChanges();
 

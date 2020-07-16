@@ -23,13 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  Directive,
-  Input,
-  HostListener,
-  OnInit,
-  OnDestroy
-} from '@angular/core';
+import { Directive, Input, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { Router, NavigationEnd, PRIMARY_OUTLET } from '@angular/router';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -61,15 +55,11 @@ export class ExpansionPanelDirective implements OnInit, OnDestroy {
     }
   }
 
-  constructor(
-    private store: Store<any>,
-    private router: Router,
-    private expansionPanel: MatExpansionPanel
-  ) {}
+  constructor(private store: Store<any>, private router: Router, private expansionPanel: MatExpansionPanel) {}
 
   hasActiveLinks() {
     if (this.acaExpansionPanel && this.acaExpansionPanel.children) {
-      return this.acaExpansionPanel.children.some(child => {
+      return this.acaExpansionPanel.children.some((child) => {
         return this.router.url.startsWith(child.url || child.action.payload);
       });
     }
@@ -81,7 +71,7 @@ export class ExpansionPanelDirective implements OnInit, OnDestroy {
 
     this.router.events
       .pipe(
-        filter(event => event instanceof NavigationEnd),
+        filter((event) => event instanceof NavigationEnd),
         takeUntil(this.onDestroy$)
       )
       .subscribe(() => {
@@ -104,7 +94,7 @@ export class ExpansionPanelDirective implements OnInit, OnDestroy {
 
     const urlSegments = urlSegmentGroup.segments;
 
-    return urlSegments.reduce(function(acc, item) {
+    return urlSegments.reduce(function (acc, item) {
       acc.push(item.path, item.parameters);
       return acc;
     }, []);

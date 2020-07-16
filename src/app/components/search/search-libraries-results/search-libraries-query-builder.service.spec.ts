@@ -26,10 +26,7 @@
 import { TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { AlfrescoApiService } from '@alfresco/adf-core';
-import {
-  SearchLibrariesQueryBuilderService,
-  LibrarySearchQuery
-} from './search-libraries-query-builder.service';
+import { SearchLibrariesQueryBuilderService, LibrarySearchQuery } from './search-libraries-query-builder.service';
 
 describe('SearchLibrariesQueryBuilderService', () => {
   let apiService: AlfrescoApiService;
@@ -61,7 +58,7 @@ describe('SearchLibrariesQueryBuilderService', () => {
     spyOn(builder, 'buildQuery').and.returnValue(query);
 
     let eventArgs = null;
-    builder.updated.subscribe(args => (eventArgs = args));
+    builder.updated.subscribe((args) => (eventArgs = args));
 
     await builder.update();
     expect(eventArgs).toBe(query);
@@ -74,7 +71,7 @@ describe('SearchLibrariesQueryBuilderService', () => {
     spyOn(builder, 'buildQuery').and.returnValue(query);
 
     let eventArgs = null;
-    builder.executed.subscribe(args => (eventArgs = args));
+    builder.executed.subscribe((args) => (eventArgs = args));
 
     await builder.execute();
     expect(eventArgs).toBe(data);
@@ -111,7 +108,7 @@ describe('SearchLibrariesQueryBuilderService', () => {
     spyOn(builder, 'buildQuery').and.returnValue(query);
 
     let eventArgs = null;
-    builder.hadError.subscribe(args => (eventArgs = args));
+    builder.hadError.subscribe((args) => (eventArgs = args));
 
     await builder.execute();
     expect(eventArgs).toBe(err);

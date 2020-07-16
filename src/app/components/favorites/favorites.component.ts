@@ -26,12 +26,7 @@
 import { AppExtensionService, ContentApiService } from '@alfresco/aca-shared';
 import { AppStore } from '@alfresco/aca-shared/store';
 import { UploadService } from '@alfresco/adf-core';
-import {
-  MinimalNodeEntity,
-  MinimalNodeEntryEntity,
-  PathElementEntity,
-  PathInfo
-} from '@alfresco/js-api';
+import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElementEntity, PathInfo } from '@alfresco/js-api';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -64,18 +59,12 @@ export class FavoritesComponent extends PageComponent implements OnInit {
     super.ngOnInit();
 
     this.subscriptions = this.subscriptions.concat([
-      this.uploadService.fileUploadComplete
-        .pipe(debounceTime(300))
-        .subscribe(_ => this.reload()),
-      this.uploadService.fileUploadDeleted
-        .pipe(debounceTime(300))
-        .subscribe(_ => this.reload()),
+      this.uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe((_) => this.reload()),
+      this.uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe((_) => this.reload()),
 
-      this.breakpointObserver
-        .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
-        .subscribe(result => {
-          this.isSmallScreen = result.matches;
-        })
+      this.breakpointObserver.observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape]).subscribe((result) => {
+        this.isSmallScreen = result.matches;
+      })
     ]);
 
     this.columns = this.extensions.documentListPresets.favorites;
@@ -86,17 +75,13 @@ export class FavoritesComponent extends PageComponent implements OnInit {
 
     // TODO: rework as it will fail on non-English setups
     const isSitePath = (path: PathInfo): boolean => {
-      return (
-        path &&
-        path.elements &&
-        path.elements.some(({ name }: PathElementEntity) => name === 'Sites')
-      );
+      return path && path.elements && path.elements.some(({ name }: PathElementEntity) => name === 'Sites');
     };
 
     if (isFolder) {
       this.contentApi
         .getNode(id)
-        .pipe(map(node => node.entry))
+        .pipe(map((node) => node.entry))
         .subscribe(({ path }: MinimalNodeEntryEntity) => {
           const routeUrl = isSitePath(path) ? '/libraries' : '/personal-files';
           this.router.navigate([routeUrl, id]);

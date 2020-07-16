@@ -49,15 +49,7 @@ import { ContextMenuModule } from '../context-menu/context-menu.module';
     AppLayoutModule,
     ContextMenuModule
   ],
-  declarations: [
-    SearchResultsComponent,
-    SearchLibrariesResultsComponent,
-    SearchResultsRowComponent
-  ],
-  exports: [
-    SearchResultsComponent,
-    SearchLibrariesResultsComponent,
-    SearchResultsRowComponent
-  ]
+  declarations: [SearchResultsComponent, SearchLibrariesResultsComponent, SearchResultsRowComponent],
+  exports: [SearchResultsComponent, SearchLibrariesResultsComponent, SearchResultsRowComponent]
 })
 export class AppSearchResultsModule {}

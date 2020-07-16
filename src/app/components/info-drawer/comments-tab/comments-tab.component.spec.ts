@@ -41,9 +41,7 @@ describe('CommentsTabComponent', () => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule],
       declarations: [CommentsTabComponent],
-      providers: [
-        { provide: NodePermissionService, useValue: permissionsMock }
-      ],
+      providers: [{ provide: NodePermissionService, useValue: permissionsMock }],
       schemas: [NO_ERRORS_SCHEMA]
     });
 

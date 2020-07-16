@@ -24,12 +24,7 @@
  */
 
 import { ElementFinder, by, browser, Locator } from 'protractor';
-import {
-  isPresentAndDisplayed,
-  waitForPresence,
-  waitForVisibility,
-  waitForStaleness
-} from '../../utilities/utils';
+import { isPresentAndDisplayed, waitForPresence, waitForVisibility, waitForStaleness } from '../../utilities/utils';
 
 export abstract class GenericDialog {
   constructor(private rootCssSelector?: string) {}

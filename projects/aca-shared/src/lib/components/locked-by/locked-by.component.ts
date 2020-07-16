@@ -23,13 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  Component,
-  Input,
-  OnInit,
-  ChangeDetectionStrategy,
-  ViewEncapsulation
-} from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 
 import { NodeEntry } from '@alfresco/js-api';
 
@@ -60,10 +54,7 @@ export class LockedByComponent implements OnInit {
 
   writeLockedBy() {
     return (
-      this.node &&
-      this.node.entry.properties &&
-      this.node.entry.properties['cm:lockOwner'] &&
-      this.node.entry.properties['cm:lockOwner'].displayName
+      this.node && this.node.entry.properties && this.node.entry.properties['cm:lockOwner'] && this.node.entry.properties['cm:lockOwner'].displayName
     );
   }
 }

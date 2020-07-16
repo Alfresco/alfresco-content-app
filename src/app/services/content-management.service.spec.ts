@@ -51,17 +51,9 @@ import { ContentApiService } from '@alfresco/aca-shared';
 import { Store } from '@ngrx/store';
 import { ContentManagementService } from './content-management.service';
 import { NodeActionsService } from './node-actions.service';
-import {
-  TranslationService,
-  AlfrescoApiService,
-  FileModel
-} from '@alfresco/adf-core';
+import { TranslationService, AlfrescoApiService, FileModel } from '@alfresco/adf-core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import {
-  MatSnackBar,
-  MatSnackBarRef,
-  SimpleSnackBar
-} from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
 import { NodeEntry, Node } from '@alfresco/js-api';
 
 describe('ContentManagementService', () => {
@@ -105,9 +97,7 @@ describe('ContentManagementService', () => {
     it('notifies successful copy of a node', () => {
       spyOn(nodeActions, 'copyNodes').and.returnValue(subject);
 
-      const selection: any[] = [
-        { entry: { id: 'node-to-copy-id', name: 'name' } }
-      ];
+      const selection: any[] = [{ entry: { id: 'node-to-copy-id', name: 'name' } }];
       const createdItems: any[] = [{ entry: { id: 'copy-id', name: 'name' } }];
 
       store.dispatch(new CopyNodesAction(selection));
@@ -115,52 +105,35 @@ describe('ContentManagementService', () => {
       subject.next('OPERATION.SUCCES.CONTENT.COPY');
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe(
-        'APP.MESSAGES.INFO.NODE_COPY.SINGULAR'
-      );
+      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.SINGULAR');
     });
 
     it('notifies successful copy of multiple nodes', () => {
       spyOn(nodeActions, 'copyNodes').and.returnValue(subject);
 
-      const selection: any[] = [
-        { entry: { id: 'node-to-copy-1', name: 'name1' } },
-        { entry: { id: 'node-to-copy-2', name: 'name2' } }
-      ];
-      const createdItems: any[] = [
-        { entry: { id: 'copy-of-node-1', name: 'name1' } },
-        { entry: { id: 'copy-of-node-2', name: 'name2' } }
-      ];
+      const selection: any[] = [{ entry: { id: 'node-to-copy-1', name: 'name1' } }, { entry: { id: 'node-to-copy-2', name: 'name2' } }];
+      const createdItems: any[] = [{ entry: { id: 'copy-of-node-1', name: 'name1' } }, { entry: { id: 'copy-of-node-2', name: 'name2' } }];
 
       store.dispatch(new CopyNodesAction(selection));
       nodeActions.contentCopied.next(createdItems);
       subject.next('OPERATION.SUCCES.CONTENT.COPY');
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe(
-        'APP.MESSAGES.INFO.NODE_COPY.PLURAL'
-      );
+      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.PLURAL');
     });
 
     it('notifies partially copy of one node out of a multiple selection of nodes', () => {
       spyOn(nodeActions, 'copyNodes').and.returnValue(subject);
 
-      const selection: any[] = [
-        { entry: { id: 'node-to-copy-1', name: 'name1' } },
-        { entry: { id: 'node-to-copy-2', name: 'name2' } }
-      ];
-      const createdItems: any[] = [
-        { entry: { id: 'copy-of-node-1', name: 'name1' } }
-      ];
+      const selection: any[] = [{ entry: { id: 'node-to-copy-1', name: 'name1' } }, { entry: { id: 'node-to-copy-2', name: 'name2' } }];
+      const createdItems: any[] = [{ entry: { id: 'copy-of-node-1', name: 'name1' } }];
 
       store.dispatch(new CopyNodesAction(selection));
       nodeActions.contentCopied.next(createdItems);
       subject.next('OPERATION.SUCCES.CONTENT.COPY');
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe(
-        'APP.MESSAGES.INFO.NODE_COPY.PARTIAL_SINGULAR'
-      );
+      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.PARTIAL_SINGULAR');
     });
 
     it('notifies partially copy of more nodes out of a multiple selection of nodes', () => {
@@ -171,19 +144,14 @@ describe('ContentManagementService', () => {
         { entry: { id: 'node-to-copy-1', name: 'name1' } },
         { entry: { id: 'node-to-copy-2', name: 'name2' } }
       ];
-      const createdItems: any[] = [
-        { entry: { id: 'copy-of-node-0', name: 'name0' } },
-        { entry: { id: 'copy-of-node-1', name: 'name1' } }
-      ];
+      const createdItems: any[] = [{ entry: { id: 'copy-of-node-0', name: 'name0' } }, { entry: { id: 'copy-of-node-1', name: 'name1' } }];
 
       store.dispatch(new CopyNodesAction(selection));
       nodeActions.contentCopied.next(createdItems);
       subject.next('OPERATION.SUCCES.CONTENT.COPY');
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe(
-        'APP.MESSAGES.INFO.NODE_COPY.PARTIAL_PLURAL'
-      );
+      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.PARTIAL_PLURAL');
     });
 
     it('notifies of failed copy of multiple nodes', () => {
@@ -201,17 +169,13 @@ describe('ContentManagementService', () => {
       subject.next('OPERATION.SUCCES.CONTENT.COPY');
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe(
-        'APP.MESSAGES.INFO.NODE_COPY.FAIL_PLURAL'
-      );
+      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.FAIL_PLURAL');
     });
 
     it('notifies of failed copy of one node', () => {
       spyOn(nodeActions, 'copyNodes').and.returnValue(subject);
 
-      const selection: any[] = [
-        { entry: { id: 'node-to-copy', name: 'name' } }
-      ];
+      const selection: any[] = [{ entry: { id: 'node-to-copy', name: 'name' } }];
       const createdItems: any[] = [];
 
       store.dispatch(new CopyNodesAction(selection));
@@ -219,26 +183,20 @@ describe('ContentManagementService', () => {
       subject.next('OPERATION.SUCCES.CONTENT.COPY');
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe(
-        'APP.MESSAGES.INFO.NODE_COPY.FAIL_SINGULAR'
-      );
+      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.FAIL_SINGULAR');
     });
 
     it('notifies error if success message was not emitted', () => {
       spyOn(nodeActions, 'copyNodes').and.returnValue(subject);
 
-      const selection: any[] = [
-        { entry: { id: 'node-to-copy-id', name: 'name' } }
-      ];
+      const selection: any[] = [{ entry: { id: 'node-to-copy-id', name: 'name' } }];
 
       store.dispatch(new CopyNodesAction(selection));
       nodeActions.contentCopied.next();
       subject.next('');
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe(
-        'APP.MESSAGES.ERRORS.GENERIC'
-      );
+      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.GENERIC');
     });
 
     it('notifies permission error on copy of node', () => {
@@ -249,9 +207,7 @@ describe('ContentManagementService', () => {
       subject.error(new Error(JSON.stringify({ error: { statusCode: 403 } })));
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe(
-        'APP.MESSAGES.ERRORS.PERMISSION'
-      );
+      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.PERMISSION');
     });
 
     it('notifies generic error message on all errors, but 403', () => {
@@ -263,9 +219,7 @@ describe('ContentManagementService', () => {
       subject.error(new Error(JSON.stringify({ error: { statusCode: 404 } })));
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe(
-        'APP.MESSAGES.ERRORS.GENERIC'
-      );
+      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.GENERIC');
     });
   });
 
@@ -284,9 +238,7 @@ describe('ContentManagementService', () => {
     it('should delete the newly created node on Undo action', () => {
       spyOn(contentApi, 'deleteNode').and.returnValue(of(null));
 
-      const selection: any[] = [
-        { entry: { id: 'node-to-copy-id', name: 'name' } }
-      ];
+      const selection: any[] = [{ entry: { id: 'node-to-copy-id', name: 'name' } }];
       const createdItems: any[] = [{ entry: { id: 'copy-id', name: 'name' } }];
 
       store.dispatch(new CopyNodesAction(selection));
@@ -294,20 +246,13 @@ describe('ContentManagementService', () => {
       nodeActions.contentCopied.next(createdItems);
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe(
-        'APP.MESSAGES.INFO.NODE_COPY.SINGULAR'
-      );
+      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.SINGULAR');
 
-      expect(contentApi.deleteNode).toHaveBeenCalledWith(
-        createdItems[0].entry.id,
-        { permanent: true }
-      );
+      expect(contentApi.deleteNode).toHaveBeenCalledWith(createdItems[0].entry.id, { permanent: true });
     });
 
     it('should delete also the node created inside an already existing folder from destination', () => {
-      const spyOnDeleteNode = spyOn(contentApi, 'deleteNode').and.returnValue(
-        of(null)
-      );
+      const spyOnDeleteNode = spyOn(contentApi, 'deleteNode').and.returnValue(of(null));
 
       const selection: any[] = [
         { entry: { id: 'node-to-copy-1', name: 'name1' } },
@@ -338,9 +283,7 @@ describe('ContentManagementService', () => {
       nodeActions.contentCopied.next(createdItems);
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe(
-        'APP.MESSAGES.INFO.NODE_COPY.PLURAL'
-      );
+      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.PLURAL');
 
       expect(spyOnDeleteNode).toHaveBeenCalled();
       expect(spyOnDeleteNode.calls.allArgs()).toEqual([
@@ -352,9 +295,7 @@ describe('ContentManagementService', () => {
     it('notifies when error occurs on Undo action', () => {
       spyOn(contentApi, 'deleteNode').and.returnValue(throwError(null));
 
-      const selection: any[] = [
-        { entry: { id: 'node-to-copy-id', name: 'name' } }
-      ];
+      const selection: any[] = [{ entry: { id: 'node-to-copy-id', name: 'name' } }];
       const createdItems: any[] = [{ entry: { id: 'copy-id', name: 'name' } }];
 
       store.dispatch(new CopyNodesAction(selection));
@@ -363,19 +304,13 @@ describe('ContentManagementService', () => {
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
       expect(contentApi.deleteNode).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toEqual(
-        'APP.MESSAGES.INFO.NODE_COPY.SINGULAR'
-      );
+      expect(snackBar.open['calls'].argsFor(0)[0]).toEqual('APP.MESSAGES.INFO.NODE_COPY.SINGULAR');
     });
 
     it('notifies when some error of type Error occurs on Undo action', () => {
-      spyOn(contentApi, 'deleteNode').and.returnValue(
-        throwError(new Error('oops!'))
-      );
+      spyOn(contentApi, 'deleteNode').and.returnValue(throwError(new Error('oops!')));
 
-      const selection: any[] = [
-        { entry: { id: 'node-to-copy-id', name: 'name' } }
-      ];
+      const selection: any[] = [{ entry: { id: 'node-to-copy-id', name: 'name' } }];
       const createdItems: any[] = [{ entry: { id: 'copy-id', name: 'name' } }];
 
       store.dispatch(new CopyNodesAction(selection));
@@ -384,19 +319,13 @@ describe('ContentManagementService', () => {
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
       expect(contentApi.deleteNode).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toEqual(
-        'APP.MESSAGES.INFO.NODE_COPY.SINGULAR'
-      );
+      expect(snackBar.open['calls'].argsFor(0)[0]).toEqual('APP.MESSAGES.INFO.NODE_COPY.SINGULAR');
     });
 
     it('notifies permission error when it occurs on Undo action', () => {
-      spyOn(contentApi, 'deleteNode').and.returnValue(
-        throwError(new Error(JSON.stringify({ error: { statusCode: 403 } })))
-      );
+      spyOn(contentApi, 'deleteNode').and.returnValue(throwError(new Error(JSON.stringify({ error: { statusCode: 403 } }))));
 
-      const selection: any[] = [
-        { entry: { id: 'node-to-copy-id', name: 'name' } }
-      ];
+      const selection: any[] = [{ entry: { id: 'node-to-copy-id', name: 'name' } }];
       const createdItems: any[] = [{ entry: { id: 'copy-id', name: 'name' } }];
 
       store.dispatch(new CopyNodesAction(selection));
@@ -405,9 +334,7 @@ describe('ContentManagementService', () => {
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
       expect(contentApi.deleteNode).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toEqual(
-        'APP.MESSAGES.INFO.NODE_COPY.SINGULAR'
-      );
+      expect(snackBar.open['calls'].argsFor(0)[0]).toEqual('APP.MESSAGES.INFO.NODE_COPY.SINGULAR');
     });
   });
 
@@ -415,10 +342,10 @@ describe('ContentManagementService', () => {
     let subject: Subject<string>;
 
     beforeEach(() => {
-      spyOn(translationService, 'instant').and.callFake(keysArray => {
+      spyOn(translationService, 'instant').and.callFake((keysArray) => {
         if (Array.isArray(keysArray)) {
           const processedKeys = {};
-          keysArray.forEach(key => {
+          keysArray.forEach((key) => {
             processedKeys[key] = key;
           });
           return processedKeys;
@@ -452,16 +379,11 @@ describe('ContentManagementService', () => {
       nodeActions.contentMoved.next(moveResponse);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe(
-        'APP.MESSAGES.INFO.NODE_MOVE.SINGULAR'
-      );
+      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR');
     });
 
     it('notifies successful move of multiple nodes', () => {
-      const nodes = [
-        { entry: { id: '1', name: 'name1' } },
-        { entry: { id: '2', name: 'name2' } }
-      ];
+      const nodes = [{ entry: { id: '1', name: 'name1' } }, { entry: { id: '2', name: 'name2' } }];
       const moveResponse = {
         succeeded: nodes,
         failed: [],
@@ -478,9 +400,7 @@ describe('ContentManagementService', () => {
       nodeActions.contentMoved.next(moveResponse);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe(
-        'APP.MESSAGES.INFO.NODE_MOVE.PLURAL'
-      );
+      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.PLURAL');
     });
 
     it('notifies partial move of a node', () => {
@@ -501,16 +421,11 @@ describe('ContentManagementService', () => {
       nodeActions.contentMoved.next(moveResponse);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe(
-        'APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.SINGULAR'
-      );
+      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.SINGULAR');
     });
 
     it('notifies partial move of multiple nodes', () => {
-      const nodes: any[] = [
-        { entry: { id: '1', name: 'name' } },
-        { entry: { id: '2', name: 'name2' } }
-      ];
+      const nodes: any[] = [{ entry: { id: '1', name: 'name' } }, { entry: { id: '2', name: 'name2' } }];
       const moveResponse = {
         succeeded: [],
         failed: [],
@@ -527,16 +442,11 @@ describe('ContentManagementService', () => {
       nodeActions.contentMoved.next(moveResponse);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe(
-        'APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.PLURAL'
-      );
+      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.PLURAL');
     });
 
     it('notifies successful move and the number of nodes that could not be moved', () => {
-      const nodes: any[] = [
-        { entry: { id: '1', name: 'name' } },
-        { entry: { id: '2', name: 'name2' } }
-      ];
+      const nodes: any[] = [{ entry: { id: '1', name: 'name' } }, { entry: { id: '2', name: 'name2' } }];
       const moveResponse = {
         succeeded: [nodes[0]],
         failed: [nodes[1]],
@@ -551,16 +461,11 @@ describe('ContentManagementService', () => {
       nodeActions.contentMoved.next(moveResponse);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe(
-        'APP.MESSAGES.INFO.NODE_MOVE.SINGULAR APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.FAIL'
-      );
+      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.FAIL');
     });
 
     it('notifies successful move and the number of partially moved ones', () => {
-      const nodes: any[] = [
-        { entry: { id: '1', name: 'name' } },
-        { entry: { id: '2', name: 'name2' } }
-      ];
+      const nodes: any[] = [{ entry: { id: '1', name: 'name' } }, { entry: { id: '2', name: 'name2' } }];
       const moveResponse = {
         succeeded: [nodes[0]],
         failed: [],
@@ -575,9 +480,7 @@ describe('ContentManagementService', () => {
       nodeActions.contentMoved.next(moveResponse);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe(
-        'APP.MESSAGES.INFO.NODE_MOVE.SINGULAR APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.SINGULAR'
-      );
+      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.SINGULAR');
     });
 
     it('notifies error if success message was not emitted', () => {
@@ -595,9 +498,7 @@ describe('ContentManagementService', () => {
       nodeActions.contentMoved.next(moveResponse);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe(
-        'APP.MESSAGES.ERRORS.GENERIC'
-      );
+      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.GENERIC');
     });
 
     it('notifies permission error on move of node', () => {
@@ -605,14 +506,10 @@ describe('ContentManagementService', () => {
 
       const selection: any[] = [{ entry: { id: '1', name: 'name' } }];
       store.dispatch(new MoveNodesAction(selection));
-      nodeActions
-        .moveNodes(null)
-        .error(new Error(JSON.stringify({ error: { statusCode: 403 } })));
+      nodeActions.moveNodes(null).error(new Error(JSON.stringify({ error: { statusCode: 403 } })));
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe(
-        'APP.MESSAGES.ERRORS.PERMISSION'
-      );
+      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.PERMISSION');
     });
 
     it('notifies generic error message on all errors, but 403', () => {
@@ -620,14 +517,10 @@ describe('ContentManagementService', () => {
 
       const selection: any[] = [{ entry: { id: '1', name: 'name' } }];
       store.dispatch(new MoveNodesAction(selection));
-      nodeActions
-        .moveNodes(null)
-        .error(new Error(JSON.stringify({ error: { statusCode: 404 } })));
+      nodeActions.moveNodes(null).error(new Error(JSON.stringify({ error: { statusCode: 404 } })));
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe(
-        'APP.MESSAGES.ERRORS.GENERIC'
-      );
+      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.GENERIC');
     });
 
     it('notifies conflict error message on 409', () => {
@@ -635,14 +528,10 @@ describe('ContentManagementService', () => {
 
       const selection: any[] = [{ entry: { id: '1', name: 'name' } }];
       store.dispatch(new MoveNodesAction(selection));
-      nodeActions
-        .moveNodes(null)
-        .error(new Error(JSON.stringify({ error: { statusCode: 409 } })));
+      nodeActions.moveNodes(null).error(new Error(JSON.stringify({ error: { statusCode: 409 } })));
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe(
-        'APP.MESSAGES.ERRORS.NODE_MOVE'
-      );
+      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.NODE_MOVE');
     });
 
     it('notifies error if move response has only failed items', () => {
@@ -661,9 +550,7 @@ describe('ContentManagementService', () => {
       nodeActions.contentMoved.next(moveResponse);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe(
-        'APP.MESSAGES.ERRORS.GENERIC'
-      );
+      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.GENERIC');
     });
   });
 
@@ -671,10 +558,10 @@ describe('ContentManagementService', () => {
     let subject: Subject<string>;
 
     beforeEach(() => {
-      spyOn(translationService, 'instant').and.callFake(keysArray => {
+      spyOn(translationService, 'instant').and.callFake((keysArray) => {
         if (Array.isArray(keysArray)) {
           const processedKeys = {};
-          keysArray.forEach(key => {
+          keysArray.forEach((key) => {
             processedKeys[key] = key;
           });
           return processedKeys;
@@ -713,13 +600,8 @@ describe('ContentManagementService', () => {
       };
       nodeActions.contentMoved.next(movedItems);
 
-      expect(nodeActions.moveNodeAction).toHaveBeenCalledWith(
-        movedItems.succeeded[0].itemMoved.entry,
-        movedItems.succeeded[0].initialParentId
-      );
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe(
-        'APP.MESSAGES.INFO.NODE_MOVE.SINGULAR'
-      );
+      expect(nodeActions.moveNodeAction).toHaveBeenCalledWith(movedItems.succeeded[0].itemMoved.entry, movedItems.succeeded[0].initialParentId);
+      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR');
     });
 
     it('should move node back to initial parent, after succeeded move of a single file', () => {
@@ -746,13 +628,8 @@ describe('ContentManagementService', () => {
       nodeActions.moveNodes(null).next('OPERATION.SUCCES.CONTENT.MOVE');
       nodeActions.contentMoved.next(movedItems);
 
-      expect(nodeActions.moveNodeAction).toHaveBeenCalledWith(
-        node.entry,
-        initialParent
-      );
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe(
-        'APP.MESSAGES.INFO.NODE_MOVE.SINGULAR'
-      );
+      expect(nodeActions.moveNodeAction).toHaveBeenCalledWith(node.entry, initialParent);
+      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR');
     });
 
     it('should restore deleted folder back to initial parent, after succeeded moving all its files', () => {
@@ -784,12 +661,10 @@ describe('ContentManagementService', () => {
       nodeActions.contentMoved.next(movedItems);
 
       expect(contentApi.restoreNode).toHaveBeenCalled();
-      expect(snackBar.open['calls'].argsFor(0)[0]).toBe(
-        'APP.MESSAGES.INFO.NODE_MOVE.SINGULAR'
-      );
+      expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR');
     });
 
-    it('should notify when error occurs on Undo Move action', fakeAsync(done => {
+    it('should notify when error occurs on Undo Move action', fakeAsync((done) => {
       spyOn(contentApi, 'restoreNode').and.returnValue(throwError(null));
 
       actions$.pipe(
@@ -830,10 +705,8 @@ describe('ContentManagementService', () => {
       expect(contentApi.restoreNode).toHaveBeenCalled();
     }));
 
-    it('should notify when some error of type Error occurs on Undo Move action', fakeAsync(done => {
-      spyOn(contentApi, 'restoreNode').and.returnValue(
-        throwError(new Error('oops!'))
-      );
+    it('should notify when some error of type Error occurs on Undo Move action', fakeAsync((done) => {
+      spyOn(contentApi, 'restoreNode').and.returnValue(throwError(new Error('oops!')));
 
       actions$.pipe(
         ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
@@ -864,10 +737,8 @@ describe('ContentManagementService', () => {
       expect(contentApi.restoreNode).toHaveBeenCalled();
     }));
 
-    it('should notify permission error when it occurs on Undo Move action', fakeAsync(done => {
-      spyOn(contentApi, 'restoreNode').and.returnValue(
-        throwError(new Error(JSON.stringify({ error: { statusCode: 403 } })))
-      );
+    it('should notify permission error when it occurs on Undo Move action', fakeAsync((done) => {
+      spyOn(contentApi, 'restoreNode').and.returnValue(throwError(new Error(JSON.stringify({ error: { statusCode: 403 } }))));
 
       actions$.pipe(
         ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
@@ -901,7 +772,7 @@ describe('ContentManagementService', () => {
   });
 
   describe('Delete action', () => {
-    it('should raise info message on successful single file deletion', fakeAsync(done => {
+    it('should raise info message on successful single file deletion', fakeAsync((done) => {
       spyOn(contentApi, 'deleteNode').and.returnValue(of(null));
 
       actions$.pipe(
@@ -914,7 +785,7 @@ describe('ContentManagementService', () => {
       store.dispatch(new DeleteNodesAction(selection));
     }));
 
-    it('should raise error message on failed single file deletion', fakeAsync(done => {
+    it('should raise error message on failed single file deletion', fakeAsync((done) => {
       spyOn(contentApi, 'deleteNode').and.returnValue(throwError(null));
 
       actions$.pipe(
@@ -929,7 +800,7 @@ describe('ContentManagementService', () => {
       store.dispatch(new DeleteNodesAction(selection));
     }));
 
-    it('should raise info message on successful multiple files deletion', fakeAsync(done => {
+    it('should raise info message on successful multiple files deletion', fakeAsync((done) => {
       spyOn(contentApi, 'deleteNode').and.returnValue(of(null));
 
       actions$.pipe(
@@ -937,15 +808,12 @@ describe('ContentManagementService', () => {
         map(() => done())
       );
 
-      const selection: any[] = [
-        { entry: { id: '1', name: 'name1' } },
-        { entry: { id: '2', name: 'name2' } }
-      ];
+      const selection: any[] = [{ entry: { id: '1', name: 'name1' } }, { entry: { id: '2', name: 'name2' } }];
 
       store.dispatch(new DeleteNodesAction(selection));
     }));
 
-    it('should raise error message failed multiple files deletion', fakeAsync(done => {
+    it('should raise error message failed multiple files deletion', fakeAsync((done) => {
       spyOn(contentApi, 'deleteNode').and.returnValue(throwError(null));
 
       actions$.pipe(
@@ -953,16 +821,13 @@ describe('ContentManagementService', () => {
         map(() => done())
       );
 
-      const selection: any[] = [
-        { entry: { id: '1', name: 'name1' } },
-        { entry: { id: '2', name: 'name2' } }
-      ];
+      const selection: any[] = [{ entry: { id: '1', name: 'name1' } }, { entry: { id: '2', name: 'name2' } }];
 
       store.dispatch(new DeleteNodesAction(selection));
     }));
 
-    it('should raise warning message when only one file is successful', fakeAsync(done => {
-      spyOn(contentApi, 'deleteNode').and.callFake(id => {
+    it('should raise warning message when only one file is successful', fakeAsync((done) => {
+      spyOn(contentApi, 'deleteNode').and.callFake((id) => {
         if (id === '1') {
           return throwError(null);
         } else {
@@ -975,16 +840,13 @@ describe('ContentManagementService', () => {
         map(() => done())
       );
 
-      const selection: any[] = [
-        { entry: { id: '1', name: 'name1' } },
-        { entry: { id: '2', name: 'name2' } }
-      ];
+      const selection: any[] = [{ entry: { id: '1', name: 'name1' } }, { entry: { id: '2', name: 'name2' } }];
 
       store.dispatch(new DeleteNodesAction(selection));
     }));
 
-    it('should raise warning message when some files are successfully deleted', fakeAsync(done => {
-      spyOn(contentApi, 'deleteNode').and.callFake(id => {
+    it('should raise warning message when some files are successfully deleted', fakeAsync((done) => {
+      spyOn(contentApi, 'deleteNode').and.callFake((id) => {
         if (id === '1') {
           return throwError(null);
         }
@@ -1005,11 +867,7 @@ describe('ContentManagementService', () => {
         map(() => done())
       );
 
-      const selection: any[] = [
-        { entry: { id: '1', name: 'name1' } },
-        { entry: { id: '2', name: 'name2' } },
-        { entry: { id: '3', name: 'name3' } }
-      ];
+      const selection: any[] = [{ entry: { id: '1', name: 'name1' } }, { entry: { id: '2', name: 'name2' } }, { entry: { id: '3', name: 'name3' } }];
 
       store.dispatch(new DeleteNodesAction(selection));
     }));
@@ -1041,13 +899,13 @@ describe('ContentManagementService', () => {
     }));
 
     describe('notification', () => {
-      it('raises warning on multiple fail and one success', fakeAsync(done => {
+      it('raises warning on multiple fail and one success', fakeAsync((done) => {
         actions$.pipe(
           ofType<SnackbarWarningAction>(SnackbarActionTypes.Warning),
           map(() => done())
         );
 
-        spyOn(contentApi, 'purgeDeletedNode').and.callFake(id => {
+        spyOn(contentApi, 'purgeDeletedNode').and.callFake((id) => {
           if (id === '1') {
             return of({});
           }
@@ -1072,13 +930,13 @@ describe('ContentManagementService', () => {
         store.dispatch(new PurgeDeletedNodesAction(selection));
       }));
 
-      it('raises warning on multiple success and multiple fail', fakeAsync(done => {
+      it('raises warning on multiple success and multiple fail', fakeAsync((done) => {
         actions$.pipe(
           ofType<SnackbarWarningAction>(SnackbarActionTypes.Warning),
           map(() => done())
         );
 
-        spyOn(contentApi, 'purgeDeletedNode').and.callFake(id => {
+        spyOn(contentApi, 'purgeDeletedNode').and.callFake((id) => {
           if (id === '1') {
             return of({});
           }
@@ -1108,7 +966,7 @@ describe('ContentManagementService', () => {
         store.dispatch(new PurgeDeletedNodesAction(selection));
       }));
 
-      it('raises info on one selected node success', fakeAsync(done => {
+      it('raises info on one selected node success', fakeAsync((done) => {
         actions$.pipe(
           ofType<SnackbarInfoAction>(SnackbarActionTypes.Info),
           map(() => done())
@@ -1121,7 +979,7 @@ describe('ContentManagementService', () => {
         store.dispatch(new PurgeDeletedNodesAction(selection));
       }));
 
-      it('raises error on one selected node fail', fakeAsync(done => {
+      it('raises error on one selected node fail', fakeAsync((done) => {
         actions$.pipe(
           ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
           map(() => done())
@@ -1134,12 +992,12 @@ describe('ContentManagementService', () => {
         store.dispatch(new PurgeDeletedNodesAction(selection));
       }));
 
-      it('raises info on all nodes success', fakeAsync(done => {
+      it('raises info on all nodes success', fakeAsync((done) => {
         actions$.pipe(
           ofType<SnackbarInfoAction>(SnackbarActionTypes.Info),
           map(() => done())
         );
-        spyOn(contentApi, 'purgeDeletedNode').and.callFake(id => {
+        spyOn(contentApi, 'purgeDeletedNode').and.callFake((id) => {
           if (id === '1') {
             return of({});
           }
@@ -1151,20 +1009,17 @@ describe('ContentManagementService', () => {
           return of(null);
         });
 
-        const selection: any[] = [
-          { entry: { id: '1', name: 'name1' } },
-          { entry: { id: '2', name: 'name2' } }
-        ];
+        const selection: any[] = [{ entry: { id: '1', name: 'name1' } }, { entry: { id: '2', name: 'name2' } }];
 
         store.dispatch(new PurgeDeletedNodesAction(selection));
       }));
 
-      it('raises error on all nodes fail', fakeAsync(done => {
+      it('raises error on all nodes fail', fakeAsync((done) => {
         actions$.pipe(
           ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
           map(() => done())
         );
-        spyOn(contentApi, 'purgeDeletedNode').and.callFake(id => {
+        spyOn(contentApi, 'purgeDeletedNode').and.callFake((id) => {
           if (id === '1') {
             return throwError({});
           }
@@ -1176,10 +1031,7 @@ describe('ContentManagementService', () => {
           return of({});
         });
 
-        const selection: any[] = [
-          { entry: { id: '1', name: 'name1' } },
-          { entry: { id: '2', name: 'name2' } }
-        ];
+        const selection: any[] = [{ entry: { id: '1', name: 'name1' } }, { entry: { id: '2', name: 'name2' } }];
 
         store.dispatch(new PurgeDeletedNodesAction(selection));
       }));
@@ -1270,10 +1122,7 @@ describe('ContentManagementService', () => {
 
       store.dispatch(new RestoreDeletedNodesAction(selection));
 
-      expect(
-        store.dispatch['calls'].argsFor(1)[0].userAction.action instanceof
-          NavigateToParentFolder
-      ).toBe(true);
+      expect(store.dispatch['calls'].argsFor(1)[0].userAction.action instanceof NavigateToParentFolder).toBe(true);
     }));
 
     describe('notification', () => {
@@ -1285,7 +1134,7 @@ describe('ContentManagementService', () => {
         );
       });
 
-      it('should raise error message on partial multiple fail ', fakeAsync(done => {
+      it('should raise error message on partial multiple fail ', fakeAsync((done) => {
         const error = { message: '{ "error": {} }' };
 
         actions$.pipe(
@@ -1293,7 +1142,7 @@ describe('ContentManagementService', () => {
           map(() => done())
         );
 
-        spyOn(contentApi, 'restoreNode').and.callFake(id => {
+        spyOn(contentApi, 'restoreNode').and.callFake((id) => {
           if (id === '1') {
             return of({} as NodeEntry);
           }
@@ -1327,7 +1176,7 @@ describe('ContentManagementService', () => {
         store.dispatch(new RestoreDeletedNodesAction(selection));
       }));
 
-      it('should raise error message when restored node exist, error 409', fakeAsync(done => {
+      it('should raise error message when restored node exist, error 409', fakeAsync((done) => {
         const error = { message: '{ "error": { "statusCode": 409 } }' };
         spyOn(contentApi, 'restoreNode').and.returnValue(throwError(error));
 
@@ -1350,7 +1199,7 @@ describe('ContentManagementService', () => {
         store.dispatch(new RestoreDeletedNodesAction(selection));
       }));
 
-      it('should raise error message when restored node returns different statusCode', fakeAsync(done => {
+      it('should raise error message when restored node returns different statusCode', fakeAsync((done) => {
         const error = { message: '{ "error": { "statusCode": 404 } }' };
 
         spyOn(contentApi, 'restoreNode').and.returnValue(throwError(error));
@@ -1374,7 +1223,7 @@ describe('ContentManagementService', () => {
         store.dispatch(new RestoreDeletedNodesAction(selection));
       }));
 
-      it('should raise error message when restored node location is missing', fakeAsync(done => {
+      it('should raise error message when restored node location is missing', fakeAsync((done) => {
         const error = { message: '{ "error": { } }' };
 
         spyOn(contentApi, 'restoreNode').and.returnValue(throwError(error));
@@ -1398,8 +1247,8 @@ describe('ContentManagementService', () => {
         store.dispatch(new RestoreDeletedNodesAction(selection));
       }));
 
-      it('should raise info message when restore multiple nodes', fakeAsync(done => {
-        spyOn(contentApi, 'restoreNode').and.callFake(id => {
+      it('should raise info message when restore multiple nodes', fakeAsync((done) => {
+        spyOn(contentApi, 'restoreNode').and.callFake((id) => {
           const entry = {} as NodeEntry;
           if (id === '1') {
             return of(entry);
@@ -1426,15 +1275,12 @@ describe('ContentManagementService', () => {
           ]
         };
 
-        const selection: any[] = [
-          { entry: { id: '1', name: 'name1', path } },
-          { entry: { id: '2', name: 'name2', path } }
-        ];
+        const selection: any[] = [{ entry: { id: '1', name: 'name1', path } }, { entry: { id: '2', name: 'name2', path } }];
 
         store.dispatch(new RestoreDeletedNodesAction(selection));
       }));
 
-      it('should raise info message when restore selected node', fakeAsync(done => {
+      it('should raise info message when restore selected node', fakeAsync((done) => {
         spyOn(contentApi, 'restoreNode').and.returnValue(of({} as NodeEntry));
 
         actions$.pipe(
@@ -1456,7 +1302,7 @@ describe('ContentManagementService', () => {
         store.dispatch(new RestoreDeletedNodesAction(selection));
       }));
 
-      it('navigate to restore selected node location onAction', fakeAsync(done => {
+      it('navigate to restore selected node location onAction', fakeAsync((done) => {
         spyOn(contentApi, 'restoreNode').and.returnValue(of({} as NodeEntry));
 
         actions$.pipe(
@@ -1532,9 +1378,7 @@ describe('ContentManagementService', () => {
 
       store.dispatch(new ShareNodeAction(node));
 
-      expect(store.dispatch['calls'].argsFor(1)[0]).toEqual(
-        new SetSelectedNodesAction([node])
-      );
+      expect(store.dispatch['calls'].argsFor(1)[0]).toEqual(new SetSelectedNodesAction([node]));
     }));
 
     it('should emit event when node is un-shared', fakeAsync(() => {
@@ -1548,17 +1392,13 @@ describe('ContentManagementService', () => {
       tick();
       flush();
 
-      expect(contentManagementService.linksUnshared.next).toHaveBeenCalledWith(
-        jasmine.any(Object)
-      );
+      expect(contentManagementService.linksUnshared.next).toHaveBeenCalledWith(jasmine.any(Object));
     }));
   });
 
   describe('Unlock Node', () => {
     it('should unlock node', fakeAsync(() => {
-      spyOn(contentApi, 'unlockNode').and.returnValue(
-        Promise.resolve({} as NodeEntry)
-      );
+      spyOn(contentApi, 'unlockNode').and.returnValue(Promise.resolve({} as NodeEntry));
 
       store.dispatch(new UnlockWriteAction({ entry: { id: 'node-id' } }));
       tick();
@@ -1568,13 +1408,9 @@ describe('ContentManagementService', () => {
     }));
 
     it('should raise error when unlock node fails', fakeAsync(() => {
-      spyOn(contentApi, 'unlockNode').and.callFake(
-        () => new Promise((_resolve, reject) => reject('error'))
-      );
+      spyOn(contentApi, 'unlockNode').and.callFake(() => new Promise((_resolve, reject) => reject('error')));
       spyOn(store, 'dispatch').and.callThrough();
-      store.dispatch(
-        new UnlockWriteAction({ entry: { id: 'node-id', name: 'some-file' } })
-      );
+      store.dispatch(new UnlockWriteAction({ entry: { id: 'node-id', name: 'some-file' } }));
       tick();
       flush();
 
@@ -1593,17 +1429,11 @@ describe('ContentManagementService', () => {
         name: 'lights.jpg',
         id: 'f5e5cb54-200e-41a8-9c21-b5ee77da3992'
       };
-      const fakeFile = new FileModel(
-        { name: 'file1.png', size: 10 } as File,
-        null,
-        'file1'
-      );
+      const fakeFile = new FileModel({ name: 'file1.png', size: 10 } as File, null, 'file1');
 
       contentManagementService.versionUpdateDialog(fakeNode, fakeFile);
 
-      expect(dialog.open['calls'].argsFor(0)[0].name).toBe(
-        'NodeVersionsDialogComponent'
-      );
+      expect(dialog.open['calls'].argsFor(0)[0].name).toBe('NodeVersionsDialogComponent');
     });
 
     it('should return dialog instance reference', () => {
@@ -1614,18 +1444,11 @@ describe('ContentManagementService', () => {
         name: 'lights.jpg',
         id: 'f5e5cb54-200e-41a8-9c21-b5ee77da3992'
       };
-      const fakeFile = new FileModel(
-        { name: 'file1.png', size: 10 } as File,
-        null,
-        'file1'
-      );
+      const fakeFile = new FileModel({ name: 'file1.png', size: 10 } as File, null, 'file1');
 
       spyOn(dialog, 'open').and.returnValue(mockDialogInstance);
 
-      const dialogRef = contentManagementService.versionUpdateDialog(
-        fakeNode,
-        fakeFile
-      );
+      const dialogRef = contentManagementService.versionUpdateDialog(fakeNode, fakeFile);
 
       expect(dialogRef).toBe(mockDialogInstance);
     });
@@ -1642,9 +1465,7 @@ describe('ContentManagementService', () => {
 
       contentManagementService.editFolder(node);
 
-      expect(dialog.open['calls'].argsFor(0)[0].name).toBe(
-        'FolderDialogComponent'
-      );
+      expect(dialog.open['calls'].argsFor(0)[0].name).toBe('FolderDialogComponent');
     });
 
     it('should raise error when edit operation fails', fakeAsync(() => {
@@ -1660,9 +1481,7 @@ describe('ContentManagementService', () => {
 
       mockDialogInstance.componentInstance.error.next('edit folder error');
 
-      expect(store.dispatch['calls'].argsFor(0)[0]).toEqual(
-        new SnackbarErrorAction('edit folder error')
-      );
+      expect(store.dispatch['calls'].argsFor(0)[0]).toEqual(new SnackbarErrorAction('edit folder error'));
     }));
 
     it('should call nodeUpdated event with edited node data', fakeAsync(() => {

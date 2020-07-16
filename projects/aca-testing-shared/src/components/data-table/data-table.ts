@@ -23,27 +23,16 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  ElementFinder,
-  ElementArrayFinder,
-  by,
-  browser,
-  protractor
-} from 'protractor';
+import { ElementFinder, ElementArrayFinder, by, browser, protractor } from 'protractor';
 import { Logger } from '@alfresco/adf-testing';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
 import { Menu } from '../menu/menu';
-import {
-  Utils,
-  waitForPresence,
-  waitForClickable
-} from '../../utilities/utils';
+import { Utils, waitForPresence, waitForClickable } from '../../utilities/utils';
 
 export class DataTable extends Component {
   private static selectors = {
-    columnHeader:
-      '.adf-datatable-row .adf-datatable-cell-header .adf-datatable-cell-value',
+    columnHeader: '.adf-datatable-row .adf-datatable-cell-header .adf-datatable-cell-value',
     sortedColumnHeader: `
       .adf-datatable__header--sorted-asc .adf-datatable-cell-value,
       .adf-datatable__header--sorted-desc .adf-datatable-cell-value
@@ -58,9 +47,7 @@ export class DataTable extends Component {
   head = this.byCss('.adf-datatable-header');
   body = this.byCss('.adf-datatable-body');
   emptyList = this.byCss('div.adf-no-content-container');
-  emptyFolderDragAndDrop = this.byCss(
-    '.adf-empty-list_template .adf-empty-folder'
-  );
+  emptyFolderDragAndDrop = this.byCss('.adf-empty-list_template .adf-empty-folder');
   emptyListTitle = this.byCss('.adf-empty-content__title');
   emptyListSubtitle = this.byCss('.adf-empty-content__subtitle');
   emptySearchText = this.byCss('.empty-search__text');
@@ -94,10 +81,7 @@ export class DataTable extends Component {
   }
 
   getColumnHeaderByLabel(label: string): ElementFinder {
-    const locator = by.cssContainingText(
-      DataTable.selectors.columnHeader,
-      label
-    );
+    const locator = by.cssContainingText(DataTable.selectors.columnHeader, label);
     return this.head.element(locator);
   }
 
@@ -111,9 +95,7 @@ export class DataTable extends Component {
   }
 
   async getSortingOrder(): Promise<string> {
-    const str = await this.getSortedColumnHeader()
-      .element(by.xpath('..'))
-      .getAttribute('class');
+    const str = await this.getSortedColumnHeader().element(by.xpath('..')).getAttribute('class');
     if (str.includes('asc')) {
       return 'asc';
     }
@@ -138,7 +120,7 @@ export class DataTable extends Component {
   }
 
   async getSelectedRowsNames(): Promise<string[]> {
-    const rowsText: string[] = await this.getSelectedRows().map(row => {
+    const rowsText: string[] = await this.getSelectedRows().map((row) => {
       return row.element(by.css('.adf-datatable-cell[title="Name"]')).getText();
     });
     return rowsText;
@@ -152,24 +134,14 @@ export class DataTable extends Component {
     if (location) {
       return this.body
         .all(by.cssContainingText(DataTable.selectors.row, name))
-        .filter(async elem =>
-          browser.isElementPresent(
-            elem.element(
-              by.cssContainingText(DataTable.selectors.cell, location)
-            )
-          )
-        )
+        .filter(async (elem) => browser.isElementPresent(elem.element(by.cssContainingText(DataTable.selectors.cell, location))))
         .first();
     }
-    return this.body.element(
-      by.cssContainingText(DataTable.selectors.row, name)
-    );
+    return this.body.element(by.cssContainingText(DataTable.selectors.row, name));
   }
 
   getRowCells(name: string, location: string = ''): ElementArrayFinder {
-    return this.getRowByName(name, location).all(
-      by.css(DataTable.selectors.cell)
-    );
+    return this.getRowByName(name, location).all(by.css(DataTable.selectors.cell));
   }
 
   async getRowCellsCount(itemName: string): Promise<number> {
@@ -184,24 +156,15 @@ export class DataTable extends Component {
     return this.getRowCells(name, location).get(1);
   }
 
-  private getRowNameCellSpan(
-    name: string,
-    location: string = ''
-  ): ElementFinder {
+  private getRowNameCellSpan(name: string, location: string = ''): ElementFinder {
     return this.getRowNameCell(name, location).$('span');
   }
 
-  async getItemNameTooltip(
-    name: string,
-    location: string = ''
-  ): Promise<string> {
+  async getItemNameTooltip(name: string, location: string = ''): Promise<string> {
     return this.getRowNameCellSpan(name, location).getAttribute('title');
   }
 
-  async hasCheckMarkIcon(
-    itemName: string,
-    location: string = ''
-  ): Promise<boolean> {
+  async hasCheckMarkIcon(itemName: string, location: string = ''): Promise<boolean> {
     const row = this.getRowByName(itemName, location);
     return row.element(by.css('.mat-icon[class*="selected"]')).isPresent();
   }
@@ -211,10 +174,7 @@ export class DataTable extends Component {
     return row.element(by.css('img[src*="lock"]')).isPresent();
   }
 
-  private async hasLockOwnerInfo(
-    itemName: string,
-    location: string = ''
-  ): Promise<boolean> {
+  private async hasLockOwnerInfo(itemName: string, location: string = ''): Promise<boolean> {
     const row = this.getRowByName(itemName, location);
     return row.element(by.css(DataTable.selectors.lockOwner)).isPresent();
   }
@@ -222,10 +182,7 @@ export class DataTable extends Component {
   async getLockOwner(itemName: string, location: string = ''): Promise<string> {
     if (await this.hasLockOwnerInfo(itemName, location)) {
       const row = this.getRowByName(itemName, location);
-      return row
-        .$(DataTable.selectors.lockOwner)
-        .$('.locked_by--name')
-        .getText();
+      return row.$(DataTable.selectors.lockOwner).$('.locked_by--name').getText();
     }
     return '';
   }
@@ -238,21 +195,12 @@ export class DataTable extends Component {
     return this.getNameLink(itemName).isPresent();
   }
 
-  async doubleClickOnRowByName(
-    name: string,
-    location: string = ''
-  ): Promise<void> {
+  async doubleClickOnRowByName(name: string, location: string = ''): Promise<void> {
     try {
       const item = this.getRowFirstCell(name, location);
       await waitForClickable(item);
-      await browser
-        .actions()
-        .mouseMove(item)
-        .perform();
-      await browser
-        .actions()
-        .doubleClick()
-        .perform();
+      await browser.actions().mouseMove(item).perform();
+      await browser.actions().doubleClick().perform();
     } catch (error) {
       Logger.error('--- catch: doubleClickOnRowByName', error);
     }
@@ -291,10 +239,7 @@ export class DataTable extends Component {
     await this.getNameLink(itemName).click();
   }
 
-  async selectMultipleItems(
-    names: string[],
-    location: string = ''
-  ): Promise<void> {
+  async selectMultipleItems(names: string[], location: string = ''): Promise<void> {
     await this.clearSelection();
     await Utils.pressCmd();
     for (const name of names) {
@@ -317,26 +262,14 @@ export class DataTable extends Component {
 
   async rightClickOnItem(itemName: string): Promise<void> {
     const item = this.getRowFirstCell(itemName);
-    await browser
-      .actions()
-      .mouseMove(item)
-      .perform();
-    await browser
-      .actions()
-      .click(protractor.Button.RIGHT)
-      .perform();
+    await browser.actions().mouseMove(item).perform();
+    await browser.actions().click(protractor.Button.RIGHT).perform();
   }
 
   async rightClickOnMultipleSelection(): Promise<void> {
     const itemFromSelection = this.getSelectedRows().get(0);
-    await browser
-      .actions()
-      .mouseMove(itemFromSelection)
-      .perform();
-    await browser
-      .actions()
-      .click(protractor.Button.RIGHT)
-      .perform();
+    await browser.actions().mouseMove(itemFromSelection).perform();
+    await browser.actions().click(protractor.Button.RIGHT).perform();
   }
 
   private getItemLocationEl(name: string): ElementFinder {
@@ -349,13 +282,9 @@ export class DataTable extends Component {
 
   async getItemLocationTooltip(name: string): Promise<string> {
     const location = this.getItemLocationEl(name).$('a');
-    const condition = () =>
-      location.getAttribute('title').then(value => value && value.length > 0);
+    const condition = () => location.getAttribute('title').then((value) => value && value.length > 0);
 
-    await browser
-      .actions()
-      .mouseMove(location)
-      .perform();
+    await browser.actions().mouseMove(location).perform();
 
     await browser.wait(condition, BROWSER_WAIT_TIMEOUT);
     return location.getAttribute('title');
@@ -402,10 +331,8 @@ export class DataTable extends Component {
   }
 
   async getCellsContainingName(name: string): Promise<string[]> {
-    const rows = this.getRows().all(
-      by.cssContainingText(DataTable.selectors.cell, name)
-    );
-    const cellsText: string[] = await rows.map(async cell => {
+    const rows = this.getRows().all(by.cssContainingText(DataTable.selectors.cell, name));
+    const cellsText: string[] = await rows.map(async (cell) => {
       return cell.getText();
     });
     return cellsText;
@@ -417,9 +344,7 @@ export class DataTable extends Component {
   }
 
   async getLibraryRole(name: string): Promise<string> {
-    return this.getRowByName(name)
-      .element(by.css('adf-library-role-column'))
-      .getText();
+    return this.getRowByName(name).element(by.css('adf-library-role-column')).getText();
   }
 
   async isItemPresent(name: string, location?: string): Promise<boolean> {
@@ -427,25 +352,25 @@ export class DataTable extends Component {
   }
 
   private async getEntireDataTableText(): Promise<string[]> {
-    const text: string[] = await this.getRows().map(row => {
-      return row.all(by.css(DataTable.selectors.cell)).map(async cell => {
+    const text: string[] = await this.getRows().map((row) => {
+      return row.all(by.css(DataTable.selectors.cell)).map(async (cell) => {
         return cell.getText();
       });
     });
     return text;
   }
 
-  async getSitesNameAndVisibility(): Promise<{}> {
-    const data = await this.getEntireDataTableText();
-    return data.reduce((acc, cell) => {
+  async getSitesNameAndVisibility(): Promise<any> {
+    const data: string[] = await this.getEntireDataTableText();
+    return data.reduce((acc: any, cell) => {
       acc[cell[1]] = cell[4].toUpperCase();
       return acc;
     }, {});
   }
 
-  async getSitesNameAndRole(): Promise<{}> {
-    const data = await this.getEntireDataTableText();
-    return data.reduce((acc, cell) => {
+  async getSitesNameAndRole(): Promise<any> {
+    const data: string[] = await this.getEntireDataTableText();
+    return data.reduce((acc: any, cell) => {
       acc[cell[1]] = cell[3];
       return acc;
     }, {});
@@ -459,100 +384,53 @@ export class DataTable extends Component {
     return this.getSearchResultsRows().get(nth - 1);
   }
 
-  private getSearchResultsRowByName(
-    name: string,
-    location: string = ''
-  ): ElementFinder {
+  private getSearchResultsRowByName(name: string, location: string = ''): ElementFinder {
     if (location) {
       return this.body
         .all(by.cssContainingText(DataTable.selectors.searchResultsRow, name))
-        .filter(async elem =>
-          browser.isElementPresent(
-            elem.element(
-              by.cssContainingText(
-                DataTable.selectors.searchResultsRowLine,
-                location
-              )
-            )
-          )
-        )
+        .filter(async (elem) => browser.isElementPresent(elem.element(by.cssContainingText(DataTable.selectors.searchResultsRowLine, location))))
         .first();
     }
-    return this.body.element(
-      by.cssContainingText(DataTable.selectors.searchResultsRow, name)
-    );
+    return this.body.element(by.cssContainingText(DataTable.selectors.searchResultsRow, name));
   }
 
-  private getSearchResultRowLines(
-    name: string,
-    location: string = ''
-  ): ElementArrayFinder {
-    return this.getSearchResultsRowByName(name, location).all(
-      by.css(DataTable.selectors.searchResultsRowLine)
-    );
+  private getSearchResultRowLines(name: string, location: string = ''): ElementArrayFinder {
+    return this.getSearchResultsRowByName(name, location).all(by.css(DataTable.selectors.searchResultsRowLine));
   }
 
-  async getSearchResultLinesCount(
-    name: string,
-    location: string = ''
-  ): Promise<number> {
+  async getSearchResultLinesCount(name: string, location: string = ''): Promise<number> {
     return this.getSearchResultRowLines(name, location).count();
   }
 
-  private getSearchResultNthLine(
-    name: string,
-    location: string = '',
-    index: number
-  ): ElementFinder {
+  private getSearchResultNthLine(name: string, location: string = '', index: number): ElementFinder {
     return this.getSearchResultRowLines(name, location).get(index);
   }
 
-  async getSearchResultNameAndTitle(
-    name: string,
-    location: string = ''
-  ): Promise<string> {
+  async getSearchResultNameAndTitle(name: string, location: string = ''): Promise<string> {
     return this.getSearchResultNthLine(name, location, 0).getText();
   }
 
-  async getSearchResultDescription(
-    name: string,
-    location: string = ''
-  ): Promise<string> {
+  async getSearchResultDescription(name: string, location: string = ''): Promise<string> {
     return this.getSearchResultNthLine(name, location, 1).getText();
   }
 
-  async getSearchResultModified(
-    name: string,
-    location: string = ''
-  ): Promise<string> {
+  async getSearchResultModified(name: string, location: string = ''): Promise<string> {
     return this.getSearchResultNthLine(name, location, 2).getText();
   }
 
-  async getSearchResultLocation(
-    name: string,
-    location: string = ''
-  ): Promise<string> {
+  async getSearchResultLocation(name: string, location: string = ''): Promise<string> {
     return this.getSearchResultNthLine(name, location, 3).getText();
   }
 
-  private getSearchResultNameLink(
-    itemName: string,
-    location: string = ''
-  ): ElementFinder {
+  private getSearchResultNameLink(itemName: string, location: string = ''): ElementFinder {
     return this.getSearchResultsRowByName(itemName, location).$('.link');
   }
 
-  async hasLinkOnSearchResultName(
-    itemName: string,
-    location: string = ''
-  ): Promise<boolean> {
+  async hasLinkOnSearchResultName(itemName: string, location: string = ''): Promise<boolean> {
     return this.getSearchResultNameLink(itemName, location).isPresent();
   }
 
-  async clickSearchResultNameLink(
-    itemName: string,
-    location: string = ''
-  ): Promise<void> {
+  async clickSearchResultNameLink(itemName: string, location: string = ''): Promise<void> {
     await this.getSearchResultNameLink(itemName, location).click();
   }
 }

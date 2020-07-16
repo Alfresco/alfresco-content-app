@@ -23,12 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  LoginPage,
-  BrowsingPage,
-  Utils,
-  RepoClient
-} from '@alfresco/aca-testing-shared';
+import { LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
 
 describe('File / folder tooltips', () => {
   const username = `user-${Utils.random()}`;
@@ -59,7 +54,7 @@ describe('File / folder tooltips', () => {
 
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
-    parentId = (await apis.user.nodes.createFolder( parent )).entry.id;
+    parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
 
     file1Id = (await apis.user.nodes.createFile(file, parentId)).entry.id;
     file2Id = (await apis.user.nodes.createFile(fileWithDesc, parentId, '', fileDescription)).entry.id;
@@ -70,21 +65,16 @@ describe('File / folder tooltips', () => {
     file7Id = (await apis.user.nodes.createFile(fileNameEqDescDiffTitle, parentId, fileTitle, fileNameEqDescDiffTitle)).entry.id;
     file8Id = (await apis.user.nodes.createFile(fileTitleEqDesc, parentId, fileTitle, fileTitle)).entry.id;
 
-    await apis.user.shared.shareFilesByIds([ file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id ]);
+    await apis.user.shared.shareFilesByIds([file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id]);
 
-    await apis.user.favorites.addFavoritesByIds('file', [
-      file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id
-    ]);
+    await apis.user.favorites.addFavoritesByIds('file', [file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id]);
 
     await loginPage.loginWith(username);
     done();
   });
 
   afterAll(async (done) => {
-    await Promise.all([
-      apis.user.nodes.deleteNodes([ parent ]),
-      apis.user.trashcan.emptyTrash()
-    ]);
+    await Promise.all([apis.user.nodes.deleteNodes([parent]), apis.user.trashcan.emptyTrash()]);
     done();
   });
 
@@ -254,26 +244,28 @@ describe('File / folder tooltips', () => {
     let file5TrashId, file6TrashId, file7TrashId, file8TrashId;
 
     beforeAll(async (done) => {
-      parentForTrashId = (await apis.user.nodes.createFolder( parentForTrash )).entry.id;
+      parentForTrashId = (await apis.user.nodes.createFolder(parentForTrash)).entry.id;
       file1TrashId = (await apis.user.nodes.createFile(file, parentForTrashId)).entry.id;
       file2TrashId = (await apis.user.nodes.createFile(fileWithDesc, parentForTrashId, '', fileDescription)).entry.id;
       file3TrashId = (await apis.user.nodes.createFile(fileWithTitle, parentForTrashId, fileTitle)).entry.id;
       file4TrashId = (await apis.user.nodes.createFile(fileWithTitleAndDesc, parentForTrashId, fileTitle, fileDescription)).entry.id;
-      file5TrashId = (await apis.user.nodes.createFile(fileNameEqTitleEqDesc, parentForTrashId, fileNameEqTitleEqDesc, fileNameEqTitleEqDesc)).entry.id;
+      file5TrashId = (await apis.user.nodes.createFile(fileNameEqTitleEqDesc, parentForTrashId, fileNameEqTitleEqDesc, fileNameEqTitleEqDesc)).entry
+        .id;
       file6TrashId = (await apis.user.nodes.createFile(fileNameEqTitleDiffDesc, parentForTrashId, fileNameEqTitleDiffDesc, fileDescription)).entry.id;
       file7TrashId = (await apis.user.nodes.createFile(fileNameEqDescDiffTitle, parentForTrashId, fileTitle, fileNameEqDescDiffTitle)).entry.id;
       file8TrashId = (await apis.user.nodes.createFile(fileTitleEqDesc, parentForTrashId, fileTitle, fileTitle)).entry.id;
 
-      await apis.user.nodes.deleteNodesById([
-        file1TrashId, file2TrashId, file3TrashId, file4TrashId, file5TrashId, file6TrashId, file7TrashId, file8TrashId
-      ], false);
+      await apis.user.nodes.deleteNodesById(
+        [file1TrashId, file2TrashId, file3TrashId, file4TrashId, file5TrashId, file6TrashId, file7TrashId, file8TrashId],
+        false
+      );
 
       await page.clickTrashAndWait();
       done();
     });
 
     afterAll(async (done) => {
-      await apis.user.nodes.deleteNodes([ parentForTrash ]);
+      await apis.user.nodes.deleteNodes([parentForTrash]);
       await apis.user.trashcan.emptyTrash();
       done();
     });

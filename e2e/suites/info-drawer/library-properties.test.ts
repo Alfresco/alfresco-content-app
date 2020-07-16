@@ -23,15 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  LoginPage,
-  BrowsingPage,
-  SITE_VISIBILITY,
-  SITE_ROLES,
-  RepoClient,
-  InfoDrawer,
-  Utils
-} from '@alfresco/aca-testing-shared';
+import { LoginPage, BrowsingPage, SITE_VISIBILITY, SITE_ROLES, RepoClient, InfoDrawer, Utils } from '@alfresco/aca-testing-shared';
 
 describe('Library properties', () => {
   const username = `user1-${Utils.random()}`;
@@ -56,7 +48,7 @@ describe('Library properties', () => {
     name: `site-for-rename-${Utils.random()}`,
     visibility: SITE_VISIBILITY.PRIVATE,
     description: 'new description'
-  }
+  };
 
   const siteDup = `site3-${Utils.random()}`;
 
@@ -99,7 +91,7 @@ describe('Library properties', () => {
     done();
   });
 
-  afterEach(async done => {
+  afterEach(async (done) => {
     if (await infoDrawer.isOpen()) {
       await page.toolbar.viewDetailsButton.click();
     }
@@ -120,7 +112,7 @@ describe('Library properties', () => {
 
     expect(await aboutTab.getName()).toEqual(site.name);
     expect(await aboutTab.getLibraryId()).toEqual(site.id);
-    expect((await aboutTab.getVisibility()).toLowerCase()).toEqual((site.visibility).toLowerCase());
+    expect((await aboutTab.getVisibility()).toLowerCase()).toEqual(site.visibility.toLowerCase());
     expect(await aboutTab.getDescription()).toEqual(site.description);
 
     expect(await aboutTab.isEditLibraryPropertiesDisplayed()).toBe(true, 'Edit action is not displayed');
@@ -231,7 +223,7 @@ describe('Library properties', () => {
   });
 
   describe('Non manager', () => {
-    afterAll(async done => {
+    afterAll(async (done) => {
       await loginPage.loginWith(username);
       done();
     });
@@ -260,5 +252,4 @@ describe('Library properties', () => {
       expect(await page.getSnackBarMessage()).toEqual('There was an error updating library properties');
     });
   });
-
 });

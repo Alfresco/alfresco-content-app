@@ -45,11 +45,7 @@ export class NodePermissionService implements NodePermissions {
     target: null
   };
 
-  check(
-    source: PermissionSource | PermissionSource[],
-    permissions: string[],
-    options?: PermissionOptions
-  ): boolean {
+  check(source: PermissionSource | PermissionSource[], permissions: string[], options?: PermissionOptions): boolean {
     const opts = Object.assign({}, this.defaultOptions, options || {});
 
     if (!source) {
@@ -57,12 +53,10 @@ export class NodePermissionService implements NodePermissions {
     }
 
     if (Array.isArray(source)) {
-      source = source.filter(item => item);
+      source = source.filter((item) => item);
 
       if (source.length > 0) {
-        return source.every(node =>
-          this.isOperationAllowed(node, permissions, opts)
-        );
+        return source.every((node) => this.isOperationAllowed(node, permissions, opts));
       }
       return false;
     } else {
@@ -70,35 +64,21 @@ export class NodePermissionService implements NodePermissions {
     }
   }
 
-  private isOperationAllowed(
-    node: PermissionSource,
-    permissions: string[],
-    options: PermissionOptions
-  ): boolean {
-    const allowableOperations = this.getAllowableOperations(
-      node,
-      options.target
-    );
+  private isOperationAllowed(node: PermissionSource, permissions: string[], options: PermissionOptions): boolean {
+    const allowableOperations = this.getAllowableOperations(node, options.target);
 
     if (allowableOperations.length) {
       if (options.operation === NodePermissionService.DEFAULT_OPERATION) {
-        return permissions.some(permission =>
-          allowableOperations.includes(permission)
-        );
+        return permissions.some((permission) => allowableOperations.includes(permission));
       } else {
-        return permissions.every(permission =>
-          allowableOperations.includes(permission)
-        );
+        return permissions.every((permission) => allowableOperations.includes(permission));
       }
     }
 
     return false;
   }
 
-  private getAllowableOperations(
-    node: PermissionSource,
-    property?: string
-  ): string[] {
+  private getAllowableOperations(node: PermissionSource, property?: string): string[] {
     let entry: Node | SharedLink;
 
     if ('entry' in node) {

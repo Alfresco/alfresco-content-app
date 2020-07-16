@@ -26,11 +26,7 @@
 import { by, browser } from 'protractor';
 import { Logger } from '@alfresco/adf-testing';
 import { Component } from '../component';
-import {
-  waitForPresence,
-  waitForStaleness,
-  typeText
-} from '../../utilities/utils';
+import { waitForPresence, waitForStaleness, typeText } from '../../utilities/utils';
 
 export class LibraryMetadata extends Component {
   metadataTabContent = this.byCss('.mat-card-content');
@@ -38,21 +34,9 @@ export class LibraryMetadata extends Component {
   fieldLabelWrapper = this.byCss('.mat-form-field-label-wrapper');
   fieldInput = this.byCss('.mat-input-element');
   visibilityDropDown = this.component.element(by.css('.mat-select'));
-  visibilityPublic = this.byCssText(
-    '.mat-option .mat-option-text',
-    'Public',
-    browser
-  );
-  visibilityPrivate = this.byCssText(
-    '.mat-option .mat-option-text',
-    'Private',
-    browser
-  );
-  visibilityModerated = this.byCssText(
-    '.mat-option .mat-option-text',
-    'Moderated',
-    browser
-  );
+  visibilityPublic = this.byCssText('.mat-option .mat-option-text', 'Public', browser);
+  visibilityPrivate = this.byCssText('.mat-option .mat-option-text', 'Private', browser);
+  visibilityModerated = this.byCssText('.mat-option .mat-option-text', 'Moderated', browser);
   hint = this.byCss('.mat-hint');
   error = this.byCss('.mat-error');
 
@@ -66,9 +50,7 @@ export class LibraryMetadata extends Component {
 
   private getFieldByName(fieldName: string) {
     const wrapper = this.getLabelWrapper(fieldName);
-    return wrapper
-      .element(by.xpath('..'))
-      .element(by.css('.mat-input-element'));
+    return wrapper.element(by.xpath('..')).element(by.css('.mat-input-element'));
   }
 
   private async isFieldDisplayed(fieldName: string) {
@@ -158,9 +140,7 @@ export class LibraryMetadata extends Component {
 
   async isVisibilityEnabled() {
     const wrapper = this.getLabelWrapper('Visibility');
-    const field = wrapper
-      .element(by.xpath('..'))
-      .element(by.css('.mat-select'));
+    const field = wrapper.element(by.xpath('..')).element(by.css('.mat-select'));
     return field.isEnabled();
   }
 

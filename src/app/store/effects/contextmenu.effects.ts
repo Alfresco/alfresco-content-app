@@ -23,10 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  ContextMenuActionTypes,
-  ContextMenu
-} from '@alfresco/aca-shared/store';
+import { ContextMenuActionTypes, ContextMenu } from '@alfresco/aca-shared/store';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { map } from 'rxjs/operators';
@@ -37,15 +34,12 @@ import { ContextMenuService } from '../../components/context-menu/context-menu.s
 export class ContextMenuEffects {
   private overlayRef: ContextMenuOverlayRef = null;
 
-  constructor(
-    private contextMenuService: ContextMenuService,
-    private actions$: Actions
-  ) {}
+  constructor(private contextMenuService: ContextMenuService, private actions$: Actions) {}
 
   @Effect({ dispatch: false })
   contextMenu$ = this.actions$.pipe(
     ofType<ContextMenu>(ContextMenuActionTypes.ContextMenu),
-    map(action => {
+    map((action) => {
       if (this.overlayRef) {
         this.overlayRef.close();
       }

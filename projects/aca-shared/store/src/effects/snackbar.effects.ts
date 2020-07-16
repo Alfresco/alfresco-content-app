@@ -30,13 +30,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
 import { AppStore } from '../states/app.state';
-import {
-  SnackbarInfoAction,
-  SnackbarActionTypes,
-  SnackbarWarningAction,
-  SnackbarErrorAction,
-  SnackbarAction
-} from '../actions/snackbar.actions';
+import { SnackbarInfoAction, SnackbarActionTypes, SnackbarWarningAction, SnackbarErrorAction, SnackbarAction } from '../actions/snackbar.actions';
 
 @Injectable()
 export class SnackbarEffects {

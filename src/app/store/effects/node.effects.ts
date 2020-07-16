@@ -62,14 +62,14 @@ export class NodeEffects {
   @Effect({ dispatch: false })
   shareNode$ = this.actions$.pipe(
     ofType<ShareNodeAction>(NodeActionTypes.Share),
-    map(action => {
+    map((action) => {
       if (action.payload) {
         this.contentService.shareNode(action.payload);
       } else {
         this.store
           .select(getAppSelection)
           .pipe(take(1))
-          .subscribe(selection => {
+          .subscribe((selection) => {
             if (selection && selection.file) {
               this.contentService.shareNode(selection.file);
             }
@@ -81,14 +81,14 @@ export class NodeEffects {
   @Effect({ dispatch: false })
   unshareNodes$ = this.actions$.pipe(
     ofType<UnshareNodesAction>(NodeActionTypes.Unshare),
-    map(action => {
+    map((action) => {
       if (action && action.payload && action.payload.length > 0) {
         this.contentService.unshareNodes(action.payload);
       } else {
         this.store
           .select(getAppSelection)
           .pipe(take(1))
-          .subscribe(selection => {
+          .subscribe((selection) => {
             if (selection && !selection.isEmpty) {
               this.contentService.unshareNodes(selection.nodes);
             }
@@ -100,14 +100,14 @@ export class NodeEffects {
   @Effect({ dispatch: false })
   purgeDeletedNodes$ = this.actions$.pipe(
     ofType<PurgeDeletedNodesAction>(NodeActionTypes.PurgeDeleted),
-    map(action => {
+    map((action) => {
       if (action && action.payload && action.payload.length > 0) {
         this.contentService.purgeDeletedNodes(action.payload);
       } else {
         this.store
           .select(getAppSelection)
           .pipe(take(1))
-          .subscribe(selection => {
+          .subscribe((selection) => {
             if (selection && selection.count > 0) {
               this.contentService.purgeDeletedNodes(selection.nodes);
             }
@@ -119,14 +119,14 @@ export class NodeEffects {
   @Effect({ dispatch: false })
   restoreDeletedNodes$ = this.actions$.pipe(
     ofType<RestoreDeletedNodesAction>(NodeActionTypes.RestoreDeleted),
-    map(action => {
+    map((action) => {
       if (action && action.payload && action.payload.length > 0) {
         this.contentService.restoreDeletedNodes(action.payload);
       } else {
         this.store
           .select(getAppSelection)
           .pipe(take(1))
-          .subscribe(selection => {
+          .subscribe((selection) => {
             if (selection && selection.count > 0) {
               this.contentService.restoreDeletedNodes(selection.nodes);
             }
@@ -138,14 +138,14 @@ export class NodeEffects {
   @Effect({ dispatch: false })
   deleteNodes$ = this.actions$.pipe(
     ofType<DeleteNodesAction>(NodeActionTypes.Delete),
-    map(action => {
+    map((action) => {
       if (action && action.payload && action.payload.length > 0) {
         this.contentService.deleteNodes(action.payload);
       } else {
         this.store
           .select(getAppSelection)
           .pipe(take(1))
-          .subscribe(selection => {
+          .subscribe((selection) => {
             if (selection && selection.count > 0) {
               this.contentService.deleteNodes(selection.nodes);
             }
@@ -157,7 +157,7 @@ export class NodeEffects {
   @Effect({ dispatch: false })
   undoDeleteNodes$ = this.actions$.pipe(
     ofType<UndoDeleteNodesAction>(NodeActionTypes.UndoDelete),
-    map(action => {
+    map((action) => {
       if (action.payload.length > 0) {
         this.contentService.undoDeleteNodes(action.payload);
       }
@@ -167,14 +167,14 @@ export class NodeEffects {
   @Effect({ dispatch: false })
   createFolder$ = this.actions$.pipe(
     ofType<CreateFolderAction>(NodeActionTypes.CreateFolder),
-    map(action => {
+    map((action) => {
       if (action.payload) {
         this.contentService.createFolder(action.payload);
       } else {
         this.store
           .select(getCurrentFolder)
           .pipe(take(1))
-          .subscribe(node => {
+          .subscribe((node) => {
             if (node && node.id) {
               this.contentService.createFolder(node.id);
             }
@@ -186,14 +186,14 @@ export class NodeEffects {
   @Effect({ dispatch: false })
   editFolder$ = this.actions$.pipe(
     ofType<EditFolderAction>(NodeActionTypes.EditFolder),
-    map(action => {
+    map((action) => {
       if (action.payload) {
         this.contentService.editFolder(action.payload);
       } else {
         this.store
           .select(getAppSelection)
           .pipe(take(1))
-          .subscribe(selection => {
+          .subscribe((selection) => {
             if (selection && selection.folder) {
               this.contentService.editFolder(selection.folder);
             }
@@ -205,14 +205,14 @@ export class NodeEffects {
   @Effect({ dispatch: false })
   copyNodes$ = this.actions$.pipe(
     ofType<CopyNodesAction>(NodeActionTypes.Copy),
-    map(action => {
+    map((action) => {
       if (action.payload && action.payload.length > 0) {
         this.contentService.copyNodes(action.payload);
       } else {
         this.store
           .select(getAppSelection)
           .pipe(take(1))
-          .subscribe(selection => {
+          .subscribe((selection) => {
             if (selection && !selection.isEmpty) {
               this.contentService.copyNodes(selection.nodes);
             }
@@ -224,14 +224,14 @@ export class NodeEffects {
   @Effect({ dispatch: false })
   moveNodes$ = this.actions$.pipe(
     ofType<MoveNodesAction>(NodeActionTypes.Move),
-    map(action => {
+    map((action) => {
       if (action.payload && action.payload.length > 0) {
         this.contentService.moveNodes(action.payload);
       } else {
         this.store
           .select(getAppSelection)
           .pipe(take(1))
-          .subscribe(selection => {
+          .subscribe((selection) => {
             if (selection && !selection.isEmpty) {
               this.contentService.moveNodes(selection.nodes);
             }
@@ -243,14 +243,14 @@ export class NodeEffects {
   @Effect({ dispatch: false })
   managePermissions$ = this.actions$.pipe(
     ofType<ManagePermissionsAction>(NodeActionTypes.ManagePermissions),
-    map(action => {
+    map((action) => {
       if (action && action.payload) {
         this.contentService.managePermissions(action.payload);
       } else {
         this.store
           .select(getAppSelection)
           .pipe(take(1))
-          .subscribe(selection => {
+          .subscribe((selection) => {
             if (selection && !selection.isEmpty) {
               this.contentService.managePermissions(selection.first);
             }
@@ -262,14 +262,14 @@ export class NodeEffects {
   @Effect({ dispatch: false })
   manageVersions$ = this.actions$.pipe(
     ofType<ManageVersionsAction>(NodeActionTypes.ManageVersions),
-    map(action => {
+    map((action) => {
       if (action && action.payload) {
         this.contentService.manageVersions(action.payload);
       } else {
         this.store
           .select(getAppSelection)
           .pipe(take(1))
-          .subscribe(selection => {
+          .subscribe((selection) => {
             if (selection && selection.file) {
               this.contentService.manageVersions(selection.file);
             }
@@ -281,14 +281,14 @@ export class NodeEffects {
   @Effect({ dispatch: false })
   printFile$ = this.actions$.pipe(
     ofType<PrintFileAction>(NodeActionTypes.PrintFile),
-    map(action => {
+    map((action) => {
       if (action && action.payload) {
         this.printFile(action.payload);
       } else {
         this.store
           .select(getAppSelection)
           .pipe(take(1))
-          .subscribe(selection => {
+          .subscribe((selection) => {
             if (selection && selection.file) {
               this.printFile(selection.file);
             }
@@ -300,14 +300,14 @@ export class NodeEffects {
   @Effect({ dispatch: false })
   unlockWrite$ = this.actions$.pipe(
     ofType<UnlockWriteAction>(NodeActionTypes.UnlockForWriting),
-    map(action => {
+    map((action) => {
       if (action && action.payload) {
         this.contentService.unlockNode(action.payload);
       } else {
         this.store
           .select(getAppSelection)
           .pipe(take(1))
-          .subscribe(selection => {
+          .subscribe((selection) => {
             if (selection && selection.file) {
               this.contentService.unlockNode(selection.file);
             }

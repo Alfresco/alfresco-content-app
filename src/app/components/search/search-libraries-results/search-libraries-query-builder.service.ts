@@ -92,7 +92,7 @@ export class SearchLibrariesQueryBuilderService {
     return this.alfrescoApiService
       .getInstance()
       .core.queriesApi.findSites(libraryQuery.term, libraryQuery.opts)
-      .catch(err => {
+      .catch((err) => {
         this.hadError.next(err);
         return { list: { pagination: { totalItems: 0 }, entries: [] } };
       });

@@ -177,7 +177,7 @@ describe('Create folder from template', () => {
 
       await selectTemplateDialog.breadcrumb.openPath();
 
-      expect(await selectTemplateDialog.breadcrumb.getPathItems()).toEqual([ templateFolder2, 'Space Templates' ]);
+      expect(await selectTemplateDialog.breadcrumb.getPathItems()).toEqual([templateFolder2, 'Space Templates']);
     });
 
     it(`[C325150] Templates list doesn't allow multiple selection`, async () => {
@@ -185,14 +185,14 @@ describe('Create folder from template', () => {
 
       await selectTemplateDialog.dataTable.selectItem(templateFolder1);
       expect(await selectTemplateDialog.dataTable.getSelectedRowsCount()).toEqual(1, 'Incorrect number of selected rows');
-      expect(await selectTemplateDialog.dataTable.getSelectedRowsNames()).toEqual([ templateFolder1 ], 'Incorrect selected item');
+      expect(await selectTemplateDialog.dataTable.getSelectedRowsNames()).toEqual([templateFolder1], 'Incorrect selected item');
 
       await Utils.pressCmd();
       await selectTemplateDialog.dataTable.selectItem(templateFolder2);
       await Utils.releaseKeyPressed();
 
       expect(await selectTemplateDialog.dataTable.getSelectedRowsCount()).toEqual(1, 'Incorrect number of selected rows');
-      expect(await selectTemplateDialog.dataTable.getSelectedRowsNames()).toEqual([ templateFolder2 ], 'Incorrect selected item');
+      expect(await selectTemplateDialog.dataTable.getSelectedRowsNames()).toEqual([templateFolder2], 'Incorrect selected item');
     });
 
     it('[C325153] Links to folders are not displayed', async () => {
@@ -243,7 +243,7 @@ describe('Create folder from template', () => {
     });
 
     it('[C325144] Special characters in folder name', async () => {
-      const namesWithSpecialChars = [ 'a*a', 'a"a', 'a<a', 'a>a', `a\\a`, 'a/a', 'a?a', 'a:a', 'a|a' ];
+      const namesWithSpecialChars = ['a*a', 'a"a', 'a<a', 'a>a', `a\\a`, 'a/a', 'a?a', 'a:a', 'a|a'];
 
       for (const name of namesWithSpecialChars) {
         await createFromTemplateDialog.enterName(name);
@@ -388,5 +388,4 @@ describe('Create folder from template', () => {
       expect(await createFromTemplateDialog.isDialogOpen()).toBe(true, 'dialog is not present');
     });
   });
-
 });

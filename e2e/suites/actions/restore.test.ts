@@ -24,13 +24,7 @@
  */
 
 import { browser } from 'protractor';
-import {
-  LoginPage,
-  BrowsingPage,
-  APP_ROUTES,
-  RepoClient,
-  Utils
-} from '@alfresco/aca-testing-shared';
+import { LoginPage, BrowsingPage, APP_ROUTES, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 
 describe('Restore from Trash', () => {
   const username = `user-${Utils.random()}`;
@@ -56,8 +50,10 @@ describe('Restore from Trash', () => {
   });
 
   describe('successful restore', () => {
-    const file = `file-${Utils.random()}.txt`; let fileId;
-    const folder = `folder-${Utils.random()}`; let folderId;
+    const file = `file-${Utils.random()}.txt`;
+    let fileId: string;
+    const folder = `folder-${Utils.random()}`;
+    let folderId: string;
     const site = `site-${Utils.random()}`;
 
     beforeAll(async (done) => {
@@ -146,14 +142,15 @@ describe('Restore from Trash', () => {
 
   describe('failure to restore', () => {
     const file1 = `file-${Utils.random()}.txt`;
-    let file1Id1, file1Id2;
+    let file1Id1: string;
+    let file1Id2: string;
     const file2 = `file-${Utils.random()}.txt`;
-    let file2Id;
+    let file2Id: string;
 
     const folder1 = `folder-${Utils.random()}`;
-    let folder1Id;
+    let folder1Id: string;
     const folder2 = `folder-${Utils.random()}`;
-    let folder2Id;
+    let folder2Id: string;
 
     beforeAll(async (done) => {
       folder1Id = (await apis.user.nodes.createFolder(folder1)).entry.id;
@@ -175,10 +172,7 @@ describe('Restore from Trash', () => {
     });
 
     afterAll(async (done) => {
-      await Promise.all([
-        apis.user.nodes.deleteNodeById(file1Id2),
-        apis.user.trashcan.emptyTrash()
-      ]);
+      await Promise.all([apis.user.nodes.deleteNodeById(file1Id2), apis.user.trashcan.emptyTrash()]);
       done();
     });
 
@@ -199,24 +193,24 @@ describe('Restore from Trash', () => {
 
   describe('Notification on partial success', () => {
     const folder1 = `folder1-${Utils.random()}.txt`;
-    let folder1Id;
+    let folder1Id: string;
     const folder2 = `folder2-${Utils.random()}.txt`;
-    let folder2Id;
+    let folder2Id: string;
     const file1 = `file-${Utils.random()}.txt`;
-    let file1Id;
+    let file1Id: string;
     const file2 = `file-${Utils.random()}.txt`;
-    let file2Id;
+    let file2Id: string;
 
     const folder3 = `folder3-${Utils.random()}.txt`;
-    let folder3Id;
+    let folder3Id: string;
     const folder4 = `folder4-${Utils.random()}.txt`;
-    let folder4Id;
+    let folder4Id: string;
     const file3 = `file3-${Utils.random()}.txt`;
-    let file3Id;
+    let file3Id: string;
     const file4 = `file4-${Utils.random()}.txt`;
-    let file4Id;
+    let file4Id: string;
     const file5 = `file5-${Utils.random()}.txt`;
-    let file5Id;
+    let file5Id: string;
 
     beforeAll(async (done) => {
       folder1Id = (await apis.user.nodes.createFolder(folder1)).entry.id;

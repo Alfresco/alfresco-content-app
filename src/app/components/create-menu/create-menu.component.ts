@@ -23,13 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  Component,
-  Input,
-  OnInit,
-  OnDestroy,
-  ViewEncapsulation
-} from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { AppStore, getCurrentFolder } from '@alfresco/aca-shared/store';
 import { Store } from '@ngrx/store';
@@ -54,10 +48,7 @@ export class CreateMenuComponent implements OnInit, OnDestroy {
   @Input()
   expanded: boolean;
 
-  constructor(
-    private store: Store<AppStore>,
-    private extensions: AppExtensionService
-  ) {}
+  constructor(private store: Store<AppStore>, private extensions: AppExtensionService) {}
 
   ngOnInit() {
     this.store

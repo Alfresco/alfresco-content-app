@@ -23,13 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  Directive,
-  Input,
-  OnInit,
-  OnDestroy,
-  HostListener
-} from '@angular/core';
+import { Directive, Input, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { Router, NavigationEnd, PRIMARY_OUTLET } from '@angular/router';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -64,7 +58,7 @@ export class MenuPanelDirective implements OnInit, OnDestroy {
 
   hasActiveLinks() {
     if (this.acaMenuPanel && this.acaMenuPanel.children) {
-      return this.acaMenuPanel.children.some(child => {
+      return this.acaMenuPanel.children.some((child) => {
         return this.router.url.startsWith(child.url || child.action.payload);
       });
     }
@@ -76,7 +70,7 @@ export class MenuPanelDirective implements OnInit, OnDestroy {
 
     this.router.events
       .pipe(
-        filter(event => event instanceof NavigationEnd),
+        filter((event) => event instanceof NavigationEnd),
         takeUntil(this.onDestroy$)
       )
       .subscribe(() => {
@@ -99,7 +93,7 @@ export class MenuPanelDirective implements OnInit, OnDestroy {
 
     const urlSegments = urlSegmentGroup.segments;
 
-    return urlSegments.reduce(function(acc, item) {
+    return urlSegments.reduce(function (acc, item) {
       acc.push(item.path, item.parameters);
       return acc;
     }, []);

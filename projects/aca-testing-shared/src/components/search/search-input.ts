@@ -25,12 +25,7 @@
 
 import { browser, by, protractor } from 'protractor';
 import { Component } from '../component';
-import {
-  Utils,
-  waitForPresence,
-  waitForClickable,
-  waitElement
-} from '../../utilities/utils';
+import { Utils, waitForPresence, waitForClickable, waitElement } from '../../utilities/utils';
 
 export class SearchInput extends Component {
   searchButton = this.component.element(by.css('.app-search-button'));
@@ -38,15 +33,9 @@ export class SearchInput extends Component {
   searchControl = browser.element(by.css('.app-search-control'));
   searchInput = browser.element(by.css(`input[id='app-control-input']`));
   searchOptionsArea = browser.element(by.id('search-options'));
-  searchFilesOption = this.searchOptionsArea.element(
-    by.cssContainingText('.mat-checkbox', 'Files')
-  );
-  searchFoldersOption = this.searchOptionsArea.element(
-    by.cssContainingText('.mat-checkbox', 'Folders')
-  );
-  searchLibrariesOption = this.searchOptionsArea.element(
-    by.cssContainingText('.mat-checkbox', 'Libraries')
-  );
+  searchFilesOption = this.searchOptionsArea.element(by.cssContainingText('.mat-checkbox', 'Files'));
+  searchFoldersOption = this.searchOptionsArea.element(by.cssContainingText('.mat-checkbox', 'Folders'));
+  searchLibrariesOption = this.searchOptionsArea.element(by.cssContainingText('.mat-checkbox', 'Libraries'));
   clearSearchButton = this.searchContainer.$('.app-clear-icon');
 
   constructor(ancestor?: string) {

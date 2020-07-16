@@ -23,21 +23,12 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  TestBed,
-  ComponentFixture,
-  fakeAsync,
-  tick
-} from '@angular/core/testing';
+import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { ContextMenuComponent } from './context-menu.component';
 import { ContextMenuModule } from './context-menu.module';
 import { ContextMenuOverlayRef } from './context-menu-overlay';
-import {
-  TranslateModule,
-  TranslateLoader,
-  TranslateFakeLoader
-} from '@ngx-translate/core';
+import { TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
 
 import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -90,9 +81,7 @@ describe('ContextMenuComponent', () => {
     contextMenuOverlayRef = TestBed.inject(ContextMenuOverlayRef);
     extensionsService = TestBed.inject(AppExtensionService);
 
-    spyOn(extensionsService, 'getAllowedContextMenuActions').and.returnValue([
-      contextItem
-    ]);
+    spyOn(extensionsService, 'getAllowedContextMenuActions').and.returnValue([contextItem]);
 
     fixture.detectChanges();
   });
@@ -106,14 +95,10 @@ describe('ContextMenuComponent', () => {
     component.ngAfterViewInit();
     tick(500);
 
-    const contextMenuElements = document.body
-      .querySelector('.aca-context-menu')
-      .querySelectorAll('button');
+    const contextMenuElements = document.body.querySelector('.aca-context-menu').querySelectorAll('button');
 
     expect(contextMenuElements.length).toBe(1);
-    expect(contextMenuElements[0].querySelector('span').innerText).toBe(
-      contextItem.title
-    );
+    expect(contextMenuElements[0].querySelector('span').innerText).toBe(contextItem.title);
   }));
 
   it('should run action with provided action id', fakeAsync(() => {
@@ -121,8 +106,6 @@ describe('ContextMenuComponent', () => {
 
     component.runAction(contextItem.actions.click);
 
-    expect(extensionsService.runActionById).toHaveBeenCalledWith(
-      contextItem.actions.click
-    );
+    expect(extensionsService.runActionById).toHaveBeenCalledWith(contextItem.actions.click);
   }));
 });

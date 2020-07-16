@@ -26,22 +26,16 @@
 import { RepoApi } from '../repo-api';
 import { Logger } from '@alfresco/adf-testing';
 import { Utils } from '../../../../utilities/utils';
-import {
-  SharedlinksApi as AdfSharedlinksApi,
-  SharedLinkEntry
-} from '@alfresco/js-api';
+import { SharedlinksApi as AdfSharedlinksApi, SharedLinkEntry } from '@alfresco/js-api';
 
 export class SharedLinksApi extends RepoApi {
   sharedlinksApi = new AdfSharedlinksApi(this.alfrescoJsApi);
 
-  constructor(username?, password?) {
+  constructor(username?: string, password?: string) {
     super(username, password);
   }
 
-  async shareFileById(
-    id: string,
-    expireDate?: Date
-  ): Promise<SharedLinkEntry | null> {
+  async shareFileById(id: string, expireDate?: Date): Promise<SharedLinkEntry | null> {
     try {
       await this.apiAuth();
       const data = {
@@ -50,10 +44,7 @@ export class SharedLinksApi extends RepoApi {
       };
       return await this.sharedlinksApi.createSharedLink(data);
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.shareFileById.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.shareFileById.name}`, error);
       return null;
     }
   }
@@ -65,25 +56,17 @@ export class SharedLinksApi extends RepoApi {
         return this.shareFileById(current);
       }, Promise.resolve());
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.shareFilesByIds.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.shareFilesByIds.name}`, error);
     }
   }
 
   async getSharedIdOfNode(name: string) {
     try {
       const sharedLinks = (await this.getSharedLinks()).list.entries;
-      const found = sharedLinks.find(
-        sharedLink => sharedLink.entry.name === name
-      );
+      const found = sharedLinks.find((sharedLink) => sharedLink.entry.name === name);
       return (found || { entry: { id: null } }).entry.id;
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.getSharedIdOfNode.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.getSharedIdOfNode.name}`, error);
       return null;
     }
   }
@@ -93,10 +76,7 @@ export class SharedLinksApi extends RepoApi {
       const id = await this.getSharedIdOfNode(name);
       return await this.sharedlinksApi.deleteSharedLink(id);
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.unshareFile.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.unshareFile.name}`, error);
     }
   }
 
@@ -105,10 +85,7 @@ export class SharedLinksApi extends RepoApi {
       await this.apiAuth();
       return await this.sharedlinksApi.listSharedLinks();
     } catch (error) {
-      this.handleError(
-        `${this.constructor.name} ${this.getSharedLinks.name}`,
-        error
-      );
+      this.handleError(`${this.constructor.name} ${this.getSharedLinks.name}`, error);
       return null;
     }
   }
@@ -116,8 +93,7 @@ export class SharedLinksApi extends RepoApi {
   async waitForApi(data: { expect: number }) {
     try {
       const sharedFiles = async () => {
-        const totalItems = (await this.getSharedLinks()).list.pagination
-          .totalItems;
+        const totalItems = (await this.getSharedLinks()).list.pagination.totalItems;
         if (totalItems !== data.expect) {
           return Promise.reject(totalItems);
         } else {

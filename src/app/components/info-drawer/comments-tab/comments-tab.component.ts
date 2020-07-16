@@ -29,12 +29,7 @@ import { NodePermissionService, isLocked } from '@alfresco/aca-shared';
 
 @Component({
   selector: 'app-comments-tab',
-  template: `
-    <adf-comments
-      [readOnly]="!canUpdateNode"
-      [nodeId]="node?.id"
-    ></adf-comments>
-  `
+  template: `<adf-comments [readOnly]="!canUpdateNode" [nodeId]="node?.id"></adf-comments>`
 })
 export class CommentsTabComponent {
   @Input()
@@ -47,10 +42,7 @@ export class CommentsTabComponent {
       return false;
     }
 
-    if (
-      this.node.isFolder ||
-      (this.node.isFile && !isLocked({ entry: this.node }))
-    ) {
+    if (this.node.isFolder || (this.node.isFile && !isLocked({ entry: this.node }))) {
       return this.permission.check(this.node, ['update']);
     }
     return false;

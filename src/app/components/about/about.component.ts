@@ -48,15 +48,12 @@ export class AboutComponent implements OnInit {
   adfVersion = '';
   appVersion = version;
 
-  constructor(
-    private contentApi: ContentApiService,
-    appExtensions: AppExtensionService
-  ) {
+  constructor(private contentApi: ContentApiService, appExtensions: AppExtensionService) {
     this.extensions$ = appExtensions.references$;
   }
 
   ngOnInit() {
-    this.dependencyEntries = Object.keys(dependencies).map(key => {
+    this.dependencyEntries = Object.keys(dependencies).map((key) => {
       if (key === '@alfresco/adf-core') {
         this.adfVersion = dependencies[key].split('-')[0];
         const adfCurrentCommit = dependencies[key].split('-')[1] || '';
@@ -70,11 +67,11 @@ export class AboutComponent implements OnInit {
 
     this.contentApi
       .getRepositoryInformation()
-      .pipe(map(node => node.entry.repository))
-      .subscribe(repository => {
+      .pipe(map((node) => node.entry.repository))
+      .subscribe((repository) => {
         this.repository = repository;
 
-        this.statusEntries = Object.keys(repository.status).map(key => {
+        this.statusEntries = Object.keys(repository.status).map((key) => {
           return {
             property: key,
             value: repository.status[key]
@@ -82,7 +79,7 @@ export class AboutComponent implements OnInit {
         });
 
         if (repository.license) {
-          this.licenseEntries = Object.keys(repository.license).map(key => {
+          this.licenseEntries = Object.keys(repository.license).map((key) => {
             return {
               property: key,
               value: repository.license[key]

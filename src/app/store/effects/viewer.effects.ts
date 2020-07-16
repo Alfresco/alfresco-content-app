@@ -35,35 +35,20 @@ import {
   getAppSelection,
   FullscreenViewerAction
 } from '@alfresco/aca-shared/store';
-import {
-  Router,
-  UrlTree,
-  UrlSegmentGroup,
-  PRIMARY_OUTLET,
-  UrlSegment
-} from '@angular/router';
+import { Router, UrlTree, UrlSegmentGroup, PRIMARY_OUTLET, UrlSegment } from '@angular/router';
 import { Store, createSelector } from '@ngrx/store';
 import { AppExtensionService } from '@alfresco/aca-shared';
 
-export const fileToPreview = createSelector(
-  getAppSelection,
-  getCurrentFolder,
-  (selection, folder) => {
-    return {
-      selection,
-      folder
-    };
-  }
-);
+export const fileToPreview = createSelector(getAppSelection, getCurrentFolder, (selection, folder) => {
+  return {
+    selection,
+    folder
+  };
+});
 
 @Injectable()
 export class ViewerEffects {
-  constructor(
-    private store: Store<AppStore>,
-    private actions$: Actions,
-    private router: Router,
-    private extensions: AppExtensionService
-  ) {}
+  constructor(private store: Store<AppStore>, private actions$: Actions, private router: Router, private extensions: AppExtensionService) {}
 
   @Effect({ dispatch: false })
   fullscreenViewer$ = this.actions$.pipe(
@@ -76,34 +61,25 @@ export class ViewerEffects {
   @Effect({ dispatch: false })
   viewNode$ = this.actions$.pipe(
     ofType<ViewNodeAction>(ViewerActionTypes.ViewNode),
-    map(action => {
+    map((action) => {
       if (action.viewNodeExtras) {
         const { location, path } = action.viewNodeExtras;
 
         if (location) {
           const navigation = this.getNavigationCommands(location);
 
-          this.router.navigate(
-            [...navigation, { outlets: { viewer: ['view', action.nodeId] } }],
-            {
-              queryParams: { location }
-            }
-          );
+          this.router.navigate([...navigation, { outlets: { viewer: ['view', action.nodeId] } }], {
+            queryParams: { location }
+          });
         }
 
         if (path) {
-          this.router.navigate(
-            ['view', { outlets: { viewer: [action.nodeId] } }],
-            {
-              queryParams: { path }
-            }
-          );
+          this.router.navigate(['view', { outlets: { viewer: [action.nodeId] } }], {
+            queryParams: { path }
+          });
         }
       } else {
-        this.router.navigate([
-          'view',
-          { outlets: { viewer: [action.nodeId] } }
-        ]);
+        this.router.navigate(['view', { outlets: { viewer: [action.nodeId] } }]);
       }
     })
   );
@@ -111,28 +87,22 @@ export class ViewerEffects {
   @Effect({ dispatch: false })
   viewFile$ = this.actions$.pipe(
     ofType<ViewFileAction>(ViewerActionTypes.ViewFile),
-    map(action => {
+    map((action) => {
       if (action.payload && action.payload.entry) {
         const { id, nodeId, isFile } = action.payload.entry as any;
 
-        if (
-          this.extensions.canPreviewNode(action.payload) &&
-          (isFile || nodeId)
-        ) {
+        if (this.extensions.canPreviewNode(action.payload) && (isFile || nodeId)) {
           this.displayPreview(nodeId || id, action.parentId);
         }
       } else {
         this.store
           .select(fileToPreview)
           .pipe(take(1))
-          .subscribe(result => {
+          .subscribe((result) => {
             if (result.selection && result.selection.file) {
               const { id, nodeId, isFile } = result.selection.file.entry as any;
 
-              if (
-                this.extensions.canPreviewNode(action.payload) &&
-                (isFile || nodeId)
-              ) {
+              if (this.extensions.canPreviewNode(action.payload) && (isFile || nodeId)) {
                 const parentId = result.folder ? result.folder.id : null;
                 this.displayPreview(nodeId || id, parentId);
               }
@@ -149,10 +119,7 @@ export class ViewerEffects {
 
     let previewLocation = this.router.url;
     if (previewLocation.lastIndexOf('/') > 0) {
-      previewLocation = previewLocation.substr(
-        0,
-        this.router.url.indexOf('/', 1)
-      );
+      previewLocation = previewLocation.substr(0, this.router.url.indexOf('/', 1));
     }
     previewLocation = previewLocation.replace(/\//g, '');
 
@@ -165,9 +132,7 @@ export class ViewerEffects {
   }
 
   enterFullScreen() {
-    const container: any = document.documentElement.querySelector(
-      '.adf-viewer__fullscreen-container'
-    );
+    const container: any = document.documentElement.querySelector('.adf-viewer__fullscreen-container');
     if (container) {
       if (container.requestFullscreen) {
         container.requestFullscreen();
@@ -183,8 +148,7 @@ export class ViewerEffects {
 
   private getNavigationCommands(url: string): any[] {
     const urlTree: UrlTree = this.router.parseUrl(url);
-    const urlSegmentGroup: UrlSegmentGroup =
-      urlTree.root.children[PRIMARY_OUTLET];
+    const urlSegmentGroup: UrlSegmentGroup = urlTree.root.children[PRIMARY_OUTLET];
 
     if (!urlSegmentGroup) {
       return [url];
@@ -192,7 +156,7 @@ export class ViewerEffects {
 
     const urlSegments: UrlSegment[] = urlSegmentGroup.segments;
 
-    return urlSegments.reduce(function(acc, item) {
+    return urlSegments.reduce(function (acc, item) {
       acc.push(item.path, item.parameters);
       return acc;
     }, []);

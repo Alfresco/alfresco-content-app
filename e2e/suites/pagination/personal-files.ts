@@ -30,7 +30,6 @@ export function personalFilesTests(parentName: string) {
   const { dataTable, pagination } = page;
 
   describe('Pagination controls : ', () => {
-
     beforeAll(async () => {
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(parentName);

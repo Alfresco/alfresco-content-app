@@ -39,16 +39,10 @@ import { CONTEXT_MENU_DIRECTION } from './direction.token';
 export class ContextMenuService {
   private direction: Directionality;
 
-  constructor(
-    private injector: Injector,
-    private overlay: Overlay,
-    private userPreferenceService: UserPreferencesService
-  ) {
-    this.userPreferenceService
-      .select('textOrientation')
-      .subscribe(textOrientation => {
-        this.direction = textOrientation;
-      });
+  constructor(private injector: Injector, private overlay: Overlay, private userPreferenceService: UserPreferencesService) {
+    this.userPreferenceService.select('textOrientation').subscribe((textOrientation) => {
+      this.direction = textOrientation;
+    });
   }
 
   open(config: ContextmenuOverlayConfig): ContextMenuOverlayRef {
@@ -65,27 +59,16 @@ export class ContextMenuService {
     return this.overlay.create(overlayConfig);
   }
 
-  private attachDialogContainer(
-    overlay: OverlayRef,
-    contextmenuOverlayRef: ContextMenuOverlayRef
-  ): ContextMenuComponent {
+  private attachDialogContainer(overlay: OverlayRef, contextmenuOverlayRef: ContextMenuOverlayRef): ContextMenuComponent {
     const injector = this.createInjector(contextmenuOverlayRef);
 
-    const containerPortal = new ComponentPortal(
-      ContextMenuComponent,
-      null,
-      injector
-    );
-    const containerRef: ComponentRef<ContextMenuComponent> = overlay.attach(
-      containerPortal
-    );
+    const containerPortal = new ComponentPortal(ContextMenuComponent, null, injector);
+    const containerRef: ComponentRef<ContextMenuComponent> = overlay.attach(containerPortal);
 
     return containerRef.instance;
   }
 
-  private createInjector(
-    contextmenuOverlayRef: ContextMenuOverlayRef
-  ): PortalInjector {
+  private createInjector(contextmenuOverlayRef: ContextMenuOverlayRef): PortalInjector {
     const injectionTokens = new WeakMap();
 
     injectionTokens.set(ContextMenuOverlayRef, contextmenuOverlayRef);

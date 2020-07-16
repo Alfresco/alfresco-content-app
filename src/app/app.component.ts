@@ -47,12 +47,7 @@ import {
   SetRepositoryInfoAction
 } from '@alfresco/aca-shared/store';
 import { filter, takeUntil } from 'rxjs/operators';
-import {
-  AppExtensionService,
-  AppService,
-  ContentApiService,
-  ExtensionRoute
-} from '@alfresco/aca-shared';
+import { AppExtensionService, AppService, ContentApiService, ExtensionRoute } from '@alfresco/aca-shared';
 import { DiscoveryEntry, GroupsApi, Group } from '@alfresco/js-api';
 import { Subject } from 'rxjs';
 import { INITIAL_APP_STATE } from './store/initial-state';
@@ -83,37 +78,29 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.alfrescoApiService
-      .getInstance()
-      .on('error', (error: { status: number }) => {
-        if (error.status === 401) {
-          if (!this.authenticationService.isLoggedIn()) {
-            this.store.dispatch(new CloseModalDialogsAction());
+    this.alfrescoApiService.getInstance().on('error', (error: { status: number }) => {
+      if (error.status === 401) {
+        if (!this.authenticationService.isLoggedIn()) {
+          this.store.dispatch(new CloseModalDialogsAction());
 
-            let redirectUrl = this.route.snapshot.queryParams['redirectUrl'];
-            if (!redirectUrl) {
-              redirectUrl = this.router.url;
-            }
-
-            this.router.navigate(['/login'], {
-              queryParams: { redirectUrl: redirectUrl }
-            });
+          let redirectUrl = this.route.snapshot.queryParams['redirectUrl'];
+          if (!redirectUrl) {
+            redirectUrl = this.router.url;
           }
+
+          this.router.navigate(['/login'], {
+            queryParams: { redirectUrl: redirectUrl }
+          });
         }
-      });
+      }
+    });
 
     this.loadAppSettings();
 
     const { router, pageTitle } = this;
 
     this.router.events
-      .pipe(
-        filter(
-          event =>
-            event instanceof ActivationEnd &&
-            event.snapshot.children.length === 0
-        )
-      )
+      .pipe(filter((event) => event instanceof ActivationEnd && event.snapshot.children.length === 0))
       .subscribe((event: ActivationEnd) => {
         const snapshot: any = event.snapshot || {};
         const data: any = snapshot.data || {};
@@ -126,24 +113,18 @@ export class AppComponent implements OnInit, OnDestroy {
     const extensionRoutes = this.extensions.getApplicationRoutes();
     this.mapExtensionRoutes(extensionRoutes);
 
-    this.uploadService.fileUploadError.subscribe(error =>
-      this.onFileUploadedError(error)
-    );
+    this.uploadService.fileUploadError.subscribe((error) => this.onFileUploadedError(error));
 
-    this.sharedLinksApiService.error
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((err: { message: string }) => {
-        this.store.dispatch(new SnackbarErrorAction(err.message));
-      });
+    this.sharedLinksApiService.error.pipe(takeUntil(this.onDestroy$)).subscribe((err: { message: string }) => {
+      this.store.dispatch(new SnackbarErrorAction(err.message));
+    });
 
-    this.appService.ready$
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe(isReady => {
-        if (isReady) {
-          this.loadRepositoryStatus();
-          this.loadUserProfile();
-        }
-      });
+    this.appService.ready$.pipe(takeUntil(this.onDestroy$)).subscribe((isReady) => {
+      if (isReady) {
+        this.loadRepositoryStatus();
+        this.loadUserProfile();
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -152,13 +133,9 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private loadRepositoryStatus() {
-    this.contentApi
-      .getRepositoryInformation()
-      .subscribe((response: DiscoveryEntry) => {
-        this.store.dispatch(
-          new SetRepositoryInfoAction(response.entry.repository)
-        );
-      });
+    this.contentApi.getRepositoryInformation().subscribe((response: DiscoveryEntry) => {
+      this.store.dispatch(new SetRepositoryInfoAction(response.entry.repository));
+    });
   }
 
   private extensionRouteHasChild(route: ExtensionRoute): boolean {
@@ -174,9 +151,7 @@ export class AppComponent implements OnInit, OnDestroy {
     const routesWithoutParent = [];
     extensionRoutes.forEach((extensionRoute: ExtensionRoute) => {
       if (this.extensionRouteHasChild(extensionRoute)) {
-        const routeIndex = this.router.config.findIndex(
-          route => route.path === extensionRoute.parentRoute
-        );
+        const routeIndex = this.router.config.findIndex((route) => route.path === extensionRoute.parentRoute);
         this.convertExtensionRouteToRoute(extensionRoute);
         this.router.config[routeIndex].children.unshift(extensionRoute);
       } else {
@@ -193,13 +168,11 @@ export class AppComponent implements OnInit, OnDestroy {
     const groups: Group[] = [];
 
     if (paging && paging.list && paging.list.entries) {
-      groups.push(...paging.list.entries.map(obj => obj.entry));
+      groups.push(...paging.list.entries.map((obj) => obj.entry));
     }
 
-    this.contentApi.getPerson('-me-').subscribe(person => {
-      this.store.dispatch(
-        new SetUserProfileAction({ person: person.entry, groups })
-      );
+    this.contentApi.getPerson('-me-').subscribe((person) => {
+      this.store.dispatch(new SetUserProfileAction({ person: person.entry, groups }));
     });
   }
 

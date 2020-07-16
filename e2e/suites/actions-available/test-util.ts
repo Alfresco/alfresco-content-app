@@ -89,7 +89,11 @@ export async function checkMultipleSelToolbarPrimary(items: string[], expectedTo
   expect(actualPrimaryActions).toEqual(expectedToolbarPrimary);
 }
 
-export async function checkMultipleSelToolbarActions(items: string[], expectedToolbarPrimary: string[], expectedToolbarMore: string[]): Promise<void> {
+export async function checkMultipleSelToolbarActions(
+  items: string[],
+  expectedToolbarPrimary: string[],
+  expectedToolbarMore: string[]
+): Promise<void> {
   await dataTable.selectMultipleItems(items);
 
   const actualPrimaryActions = await toolbar.getButtons();

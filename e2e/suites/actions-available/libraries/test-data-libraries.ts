@@ -29,7 +29,6 @@ import { Utils } from '@alfresco/aca-testing-shared';
 
 export const trashActions = ['Permanently Delete', 'Restore'];
 
-
 // ---- single selection ----
 
 const memberFavContextMenu = ['Leave Library', 'Delete', 'Remove Favorite'];
@@ -46,7 +45,6 @@ const notMemberNotFavContextMenu = ['Join', 'Delete', 'Favorite'];
 const notMemberToolbarPrimary = ['Join', 'More Actions'];
 const reqJoinNotFavContextMenu = ['Cancel Join Request', 'Delete', 'Favorite'];
 const reqJoinFavContextMenu = ['Cancel Join Request', 'Delete', 'Remove Favorite'];
-
 
 export const publicUserMemberFav = {
   name: `site-public-member-fav-${Utils.random()}`,
@@ -177,4 +175,3 @@ export const site2InTrash = {
   name: `deleted-site2-${Utils.random()}`,
   trashActions
 };
-

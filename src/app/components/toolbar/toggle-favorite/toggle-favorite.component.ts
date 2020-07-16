@@ -27,30 +27,16 @@ import { Component, ViewEncapsulation, OnInit, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { SelectionState } from '@alfresco/adf-extensions';
-import {
-  AppStore,
-  ReloadDocumentListAction,
-  getAppSelection
-} from '@alfresco/aca-shared/store';
+import { AppStore, ReloadDocumentListAction, getAppSelection } from '@alfresco/aca-shared/store';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-toggle-favorite',
   template: `
-    <button
-      mat-menu-item
-      #favorites="adfFavorite"
-      (toggle)="onToggleEvent()"
-      [adf-node-favorite]="(selection$ | async).nodes"
-    >
+    <button mat-menu-item #favorites="adfFavorite" (toggle)="onToggleEvent()" [adf-node-favorite]="(selection$ | async).nodes">
       <mat-icon *ngIf="favorites.hasFavorites()">star</mat-icon>
       <mat-icon *ngIf="!favorites.hasFavorites()">star_border</mat-icon>
-      <span>{{
-        (favorites.hasFavorites()
-          ? 'APP.ACTIONS.REMOVE_FAVORITE'
-          : 'APP.ACTIONS.FAVORITE'
-        ) | translate
-      }}</span>
+      <span>{{ (favorites.hasFavorites() ? 'APP.ACTIONS.REMOVE_FAVORITE' : 'APP.ACTIONS.FAVORITE') | translate }}</span>
     </button>
   `,
   encapsulation: ViewEncapsulation.None,

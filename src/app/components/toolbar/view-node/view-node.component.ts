@@ -25,11 +25,7 @@
 
 import { Component, ViewEncapsulation, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
-import {
-  AppStore,
-  ViewNodeAction,
-  getAppSelection
-} from '@alfresco/aca-shared/store';
+import { AppStore, ViewNodeAction, getAppSelection } from '@alfresco/aca-shared/store';
 import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { SharedLinkEntry } from '@alfresco/js-api';
@@ -64,15 +60,10 @@ export class ViewNodeComponent {
     this.store
       .select(getAppSelection)
       .pipe(take(1))
-      .subscribe(selection => {
-        const id =
-          (selection.file as SharedLinkEntry).entry.nodeId ||
-          (selection.file as any).entry.guid ||
-          selection.file.entry.id;
+      .subscribe((selection) => {
+        const id = (selection.file as SharedLinkEntry).entry.nodeId || (selection.file as any).entry.guid || selection.file.entry.id;
 
-        this.store.dispatch(
-          new ViewNodeAction(id, { location: this.router.url })
-        );
+        this.store.dispatch(new ViewNodeAction(id, { location: this.router.url }));
       });
   }
 }

@@ -54,7 +54,8 @@ describe('Create file from template', () => {
   const template1InRootFolder = `template3-${random}.txt`;
   const template2InRootFolder = `template4-${random}.txt`;
 
-  const parent = `parent-${random}`; let parentId;
+  const parent = `parent-${random}`;
+  let parentId: string;
   const file1 = {
     name: `file1-${random}.txt`
   };
@@ -191,7 +192,7 @@ describe('Create file from template', () => {
 
         await selectTemplateDialog.breadcrumb.openPath();
 
-        expect(await selectTemplateDialog.breadcrumb.getPathItems()).toEqual([ templatesFolder2, 'Node Templates' ]);
+        expect(await selectTemplateDialog.breadcrumb.getPathItems()).toEqual([templatesFolder2, 'Node Templates']);
       });
 
       it(`[C325047] Templates list doesn't allow multiple selection`, async () => {
@@ -199,14 +200,14 @@ describe('Create file from template', () => {
 
         await selectTemplateDialog.dataTable.selectItem(template1InRootFolder);
         expect(await selectTemplateDialog.dataTable.getSelectedRowsCount()).toEqual(1, 'Incorrect number of selected rows');
-        expect(await selectTemplateDialog.dataTable.getSelectedRowsNames()).toEqual([ template1InRootFolder ], 'Incorrect selected item');
+        expect(await selectTemplateDialog.dataTable.getSelectedRowsNames()).toEqual([template1InRootFolder], 'Incorrect selected item');
 
         await Utils.pressCmd();
         await selectTemplateDialog.dataTable.selectItem(template2InRootFolder);
         await Utils.releaseKeyPressed();
 
         expect(await selectTemplateDialog.dataTable.getSelectedRowsCount()).toEqual(1, 'Incorrect number of selected rows');
-        expect(await selectTemplateDialog.dataTable.getSelectedRowsNames()).toEqual([ template2InRootFolder ], 'Incorrect selected item');
+        expect(await selectTemplateDialog.dataTable.getSelectedRowsNames()).toEqual([template2InRootFolder], 'Incorrect selected item');
       });
 
       it('[C325050] Links to files are not displayed', async () => {
@@ -257,7 +258,7 @@ describe('Create file from template', () => {
       });
 
       it('[C325032] Special characters in file name', async () => {
-        const namesWithSpecialChars = [ 'a*a', 'a"a', 'a<a', 'a>a', `a\\a`, 'a/a', 'a?a', 'a:a', 'a|a' ];
+        const namesWithSpecialChars = ['a*a', 'a"a', 'a<a', 'a>a', `a\\a`, 'a/a', 'a?a', 'a:a', 'a|a'];
 
         for (const name of namesWithSpecialChars) {
           await createFromTemplateDialog.enterName(name);
@@ -403,5 +404,4 @@ describe('Create file from template', () => {
       });
     });
   });
-
 });

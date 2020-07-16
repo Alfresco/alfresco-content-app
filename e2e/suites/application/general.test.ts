@@ -25,13 +25,7 @@
 
 import { browser } from 'protractor';
 import { Logger } from '@alfresco/adf-testing';
-import {
-  BrowsingPage,
-  LoginPage,
-  CreateOrEditFolderDialog,
-  RepoClient,
-  Utils
-} from '@alfresco/aca-testing-shared';
+import { BrowsingPage, LoginPage, CreateOrEditFolderDialog, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 
 describe('General', () => {
   const loginPage = new LoginPage();
@@ -40,7 +34,7 @@ describe('General', () => {
   const adminApi = new RepoClient();
   const { nodes: nodesApi, authentication: authApi } = adminApi;
   const folder = `folder-${Utils.random()}`;
-  let folderId;
+  let folderId: string;
 
   describe('on session expire', () => {
     beforeAll(async (done) => {

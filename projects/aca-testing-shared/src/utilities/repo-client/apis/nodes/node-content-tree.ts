@@ -23,13 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  NodeBodyCreate,
-  NODE_TYPE_FILE,
-  NODE_TYPE_FOLDER,
-  NODE_TITLE,
-  NODE_DESCRIPTION
-} from './node-body-create';
+import { NodeBodyCreate, NODE_TYPE_FILE, NODE_TYPE_FOLDER, NODE_TITLE, NODE_DESCRIPTION } from './node-body-create';
 
 export interface NodeContentTree {
   name?: string;
@@ -39,10 +33,7 @@ export interface NodeContentTree {
   description?: string;
 }
 
-export function flattenNodeContentTree(
-  content: NodeContentTree,
-  relativePath: string = '/'
-): NodeBodyCreate[] {
+export function flattenNodeContentTree(content: NodeContentTree, relativePath: string = '/'): NodeBodyCreate[] {
   const { name, files, folders, title, description } = content;
   const aspectNames: string[] = ['cm:versionable'];
   let data: NodeBodyCreate[] = [];
@@ -63,23 +54,17 @@ export function flattenNodeContentTree(
       }
     ]);
 
-    relativePath =
-      relativePath === '/' ? `/${name}` : `${relativePath}/${name}`;
+    relativePath = relativePath === '/' ? `/${name}` : `${relativePath}/${name}`;
   }
 
   if (folders) {
     const foldersData: NodeBodyCreate[] = folders
       .map((folder: string | NodeContentTree): NodeBodyCreate[] => {
-        const folderData: NodeContentTree =
-          typeof folder === 'string' ? { name: folder } : folder;
+        const folderData: NodeContentTree = typeof folder === 'string' ? { name: folder } : folder;
 
         return flattenNodeContentTree(folderData, relativePath);
       })
-      .reduce(
-        (nodesData: NodeBodyCreate[], folderData: NodeBodyCreate[]) =>
-          nodesData.concat(folderData),
-        []
-      );
+      .reduce((nodesData: NodeBodyCreate[], folderData: NodeBodyCreate[]) => nodesData.concat(folderData), []);
 
     data = data.concat(foldersData);
   }

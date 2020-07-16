@@ -50,16 +50,8 @@ describe('ContextMenuService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        TranslateModule.forRoot(),
-        CoreModule.forRoot(),
-        ContextMenuModule
-      ],
-      providers: [
-        Overlay,
-        { provide: Store, useValue: { select: () => of() } },
-        UserPreferencesService
-      ]
+      imports: [TranslateModule.forRoot(), CoreModule.forRoot(), ContextMenuModule],
+      providers: [Overlay, { provide: Store, useValue: { select: () => of() } }, UserPreferencesService]
     });
 
     injector = TestBed.inject(Injector);
@@ -68,11 +60,7 @@ describe('ContextMenuService', () => {
   });
 
   it('should create a custom overlay', () => {
-    contextMenuService = new ContextMenuService(
-      injector,
-      overlay,
-      userPreferencesService
-    );
+    contextMenuService = new ContextMenuService(injector, overlay, userPreferencesService);
 
     contextMenuService.open(overlayConfig);
 
@@ -80,11 +68,7 @@ describe('ContextMenuService', () => {
   });
 
   it('should render component', () => {
-    contextMenuService = new ContextMenuService(
-      injector,
-      overlay,
-      userPreferencesService
-    );
+    contextMenuService = new ContextMenuService(injector, overlay, userPreferencesService);
 
     contextMenuService.open(overlayConfig);
 
@@ -92,11 +76,7 @@ describe('ContextMenuService', () => {
   });
 
   it('should have default LTR direction value', () => {
-    contextMenuService = new ContextMenuService(
-      injector,
-      overlay,
-      userPreferencesService
-    );
+    contextMenuService = new ContextMenuService(injector, overlay, userPreferencesService);
 
     contextMenuService.open(overlayConfig);
 
@@ -106,11 +86,7 @@ describe('ContextMenuService', () => {
   it('should change direction on textOrientation event', () => {
     spyOn(userPreferencesService, 'select').and.returnValue(of('rtl'));
 
-    contextMenuService = new ContextMenuService(
-      injector,
-      overlay,
-      userPreferencesService
-    );
+    contextMenuService = new ContextMenuService(injector, overlay, userPreferencesService);
 
     contextMenuService.open(overlayConfig);
 

@@ -27,11 +27,7 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { ContextMenuItemComponent } from './context-menu-item.component';
 import { ContextMenuModule } from './context-menu.module';
-import {
-  TranslateModule,
-  TranslateLoader,
-  TranslateFakeLoader
-} from '@ngx-translate/core';
+import { TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
 import { AppExtensionService } from '@alfresco/aca-shared';
 
 describe('ContextMenuComponent', () => {
@@ -75,9 +71,7 @@ describe('ContextMenuComponent', () => {
     fixture.detectChanges();
 
     const buttonElement = fixture.nativeElement.querySelector('button');
-    expect(buttonElement.querySelector('span').innerText.trim()).toBe(
-      contextItem.title
-    );
+    expect(buttonElement.querySelector('span').innerText.trim()).toBe(contextItem.title);
   });
 
   it('should not run action when entry has no click attribute defined', () => {
@@ -86,9 +80,7 @@ describe('ContextMenuComponent', () => {
     component.actionRef = contextItem;
     fixture.detectChanges();
 
-    fixture.nativeElement
-      .querySelector('#action-button')
-      .dispatchEvent(new MouseEvent('click'));
+    fixture.nativeElement.querySelector('#action-button').dispatchEvent(new MouseEvent('click'));
 
     expect(extensionsService.runActionById).not.toHaveBeenCalled();
   });
@@ -98,12 +90,8 @@ describe('ContextMenuComponent', () => {
     component.actionRef = contextItem;
     fixture.detectChanges();
 
-    fixture.nativeElement
-      .querySelector('#action-button')
-      .dispatchEvent(new MouseEvent('click'));
+    fixture.nativeElement.querySelector('#action-button').dispatchEvent(new MouseEvent('click'));
 
-    expect(extensionsService.runActionById).toHaveBeenCalledWith(
-      contextItem.actions.click
-    );
+    expect(extensionsService.runActionById).toHaveBeenCalledWith(contextItem.actions.click);
   });
 });

@@ -32,12 +32,7 @@ import { UserMenuItemComponent } from './user-menu-item.component';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    CoreModule.forChild(),
-    RouterModule,
-    ExtensionsModule
-  ],
+  imports: [CommonModule, CoreModule.forChild(), RouterModule, ExtensionsModule],
   declarations: [CurrentUserComponent, UserMenuItemComponent],
   exports: [CurrentUserComponent, UserMenuItemComponent]
 })

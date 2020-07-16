@@ -27,24 +27,14 @@ import { CreateFromTemplateDialogComponent } from './create-from-template.dialog
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { CoreModule, TranslationMock } from '@alfresco/adf-core';
-import {
-  MatDialogModule,
-  MAT_DIALOG_DATA,
-  MatDialogRef
-} from '@angular/material/dialog';
+import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { CreateFromTemplate } from '@alfresco/aca-shared/store';
 import { Node } from '@alfresco/js-api';
 import { TranslateModule } from '@ngx-translate/core';
 
 function text(length: number) {
-  return new Array(length)
-    .fill(
-      Math.random()
-        .toString()
-        .substring(2, 3)
-    )
-    .join('');
+  return new Array(length).fill(Math.random().toString().substring(2, 3)).join('');
 }
 
 describe('CreateFileFromTemplateDialogComponent', () => {
@@ -65,12 +55,7 @@ describe('CreateFileFromTemplateDialogComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        TranslateModule.forRoot(),
-        CoreModule.forRoot(),
-        AppTestingModule,
-        MatDialogModule
-      ],
+      imports: [TranslateModule.forRoot(), CoreModule.forRoot(), AppTestingModule, MatDialogModule],
       declarations: [CreateFromTemplateDialogComponent],
       providers: [
         {
@@ -105,12 +90,8 @@ describe('CreateFileFromTemplateDialogComponent', () => {
     fixture.detectChanges();
 
     expect(component.form.controls.name.value).toBe(data.name);
-    expect(component.form.controls.title.value).toBe(
-      data.properties['cm:title']
-    );
-    expect(component.form.controls.description.value).toBe(
-      data.properties['cm:description']
-    );
+    expect(component.form.controls.title.value).toBe(data.properties['cm:title']);
+    expect(component.form.controls.description.value).toBe(data.properties['cm:description']);
   });
 
   it('should invalidate form if required `name` field is invalid', () => {
@@ -180,8 +161,6 @@ describe('CreateFileFromTemplateDialogComponent', () => {
 
     component.onSubmit();
 
-    expect(store.dispatch['calls'].mostRecent().args[0]).toEqual(
-      new CreateFromTemplate(newNode)
-    );
+    expect(store.dispatch['calls'].mostRecent().args[0]).toEqual(new CreateFromTemplate(newNode));
   });
 });

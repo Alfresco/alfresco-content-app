@@ -37,7 +37,8 @@ import {
 describe('Edit folder', () => {
   const username = `user-${Utils.random()}`;
 
-  const parent = `parent-${Utils.random()}`; let parentId;
+  const parent = `parent-${Utils.random()}`;
+  let parentId: string;
   const folderName = `folder-${Utils.random()}`;
   const folderDescription = 'my folder description';
 
@@ -52,16 +53,21 @@ describe('Edit folder', () => {
   const siteName = `site-${Utils.random()}`;
 
   const folderSite = `folder-site-${Utils.random()}`;
-  const folderSiteToEdit = `folder-site-${Utils.random()}`; let folderSiteToEditId;
+  const folderSiteToEdit = `folder-site-${Utils.random()}`;
+  let folderSiteToEditId: string;
   const duplicateFolderSite = `folder-${Utils.random()}`;
-  let docLibUserSite;
+  let docLibUserSite: string;
 
-  const folderFavorite = `folder-fav-${Utils.random()}`; let folderFavoriteId;
-  const folderFavoriteToEdit = `folder-fav-${Utils.random()}`; let folderFavoriteToEditId;
-  const folderFavoriteDuplicate = `folder-fav-${Utils.random()}`; let folderFavoriteDuplicateId;
+  const folderFavorite = `folder-fav-${Utils.random()}`;
+  let folderFavoriteId: string;
+  const folderFavoriteToEdit = `folder-fav-${Utils.random()}`;
+  let folderFavoriteToEditId: string;
+  const folderFavoriteDuplicate = `folder-fav-${Utils.random()}`;
+  let folderFavoriteDuplicateId: string;
 
   const folderSearch = `folder-search-${Utils.random()}`;
-  const folderSearchToEdit = `folder-search-${Utils.random()}`; let folderSearchToEditId;
+  const folderSearchToEdit = `folder-search-${Utils.random()}`;
+  let folderSearchToEditId: string;
   const folderSearchDuplicate = `folder-search-${Utils.random()}`;
 
   const apis = {

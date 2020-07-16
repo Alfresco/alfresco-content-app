@@ -23,30 +23,35 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  LoginPage,
-  BrowsingPage,
-  FILES,
-  RepoClient,
-  Utils
-} from '@alfresco/aca-testing-shared';
+import { LoginPage, BrowsingPage, FILES, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 
 describe('Edit offline', () => {
   const username = `user-${Utils.random()}`;
 
-  const file1 = `file1-${Utils.random()}.docx`; let file1Id;
-  const fileLocked = `file-locked-${Utils.random()}.docx`; let fileLockedId;
-  const fileLocked2 = `file-locked2-${Utils.random()}.docx`; let fileLocked2Id;
+  const file1 = `file1-${Utils.random()}.docx`;
+  let file1Id: string;
+  const fileLocked = `file-locked-${Utils.random()}.docx`;
+  let fileLockedId: string;
+  const fileLocked2 = `file-locked2-${Utils.random()}.docx`;
+  let fileLocked2Id: string;
 
-  const fileSearch1 = `file-search-1-${Utils.random()}.docx`; let fileSearch1Id;
-  const fileSearchLocked = `file-search-locked-${Utils.random()}.docx`; let fileSearchLockedId;
-  const fileSearchLocked2 = `file-search-locked2-${Utils.random()}.docx`; let fileSearchLocked2Id;
+  const fileSearch1 = `file-search-1-${Utils.random()}.docx`;
+  let fileSearch1Id: string;
+  const fileSearchLocked = `file-search-locked-${Utils.random()}.docx`;
+  let fileSearchLockedId: string;
+  const fileSearchLocked2 = `file-search-locked2-${Utils.random()}.docx`;
+  let fileSearchLocked2Id: string;
 
-  const parentPF = `parentPersonal-${Utils.random()}`; let parentPFId;
-  const parentSF = `parentShared-${Utils.random()}`; let parentSFId;
-  const parentRF = `parentRecent-${Utils.random()}`; let parentRFId;
-  const parentFav = `parentFav-${Utils.random()}`; let parentFavId;
-  const parentSearch = `parentSearch-${Utils.random()}`; let parentSearchId;
+  const parentPF = `parentPersonal-${Utils.random()}`;
+  let parentPFId: string;
+  const parentSF = `parentShared-${Utils.random()}`;
+  let parentSFId: string;
+  const parentRF = `parentRecent-${Utils.random()}`;
+  let parentRFId: string;
+  const parentFav = `parentFav-${Utils.random()}`;
+  let parentFavId: string;
+  const parentSearch = `parentSearch-${Utils.random()}`;
+  let parentSearchId: string;
 
   const apis = {
     admin: new RepoClient(),

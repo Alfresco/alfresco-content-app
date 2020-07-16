@@ -56,11 +56,9 @@ export class TrashcanComponent extends PageComponent implements OnInit {
     super.ngOnInit();
 
     this.subscriptions.push(
-      this.breakpointObserver
-        .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
-        .subscribe(result => {
-          this.isSmallScreen = result.matches;
-        })
+      this.breakpointObserver.observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape]).subscribe((result) => {
+        this.isSmallScreen = result.matches;
+      })
     );
 
     this.columns = this.extensions.documentListPresets.trashcan || [];

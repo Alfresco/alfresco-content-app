@@ -63,7 +63,7 @@ export class UploadEffects {
     this.fileInput.type = 'file';
     this.fileInput.style.display = 'none';
     this.fileInput.setAttribute('multiple', '');
-    this.fileInput.addEventListener('change', event => this.upload(event));
+    this.fileInput.addEventListener('change', (event) => this.upload(event));
     renderer.appendChild(document.body, this.fileInput);
 
     this.fileVersionInput = renderer.createElement('input') as HTMLInputElement;
@@ -81,7 +81,7 @@ export class UploadEffects {
     this.folderInput.style.display = 'none';
     this.folderInput.setAttribute('directory', '');
     this.folderInput.setAttribute('webkitdirectory', '');
-    this.folderInput.addEventListener('change', event => this.upload(event));
+    this.folderInput.addEventListener('change', (event) => this.upload(event));
     renderer.appendChild(document.body, this.folderInput);
   }
 
@@ -104,7 +104,7 @@ export class UploadEffects {
   @Effect({ dispatch: false })
   uploadVersion$ = this.actions$.pipe(
     ofType<UploadFileVersionAction>(UploadActionTypes.UploadFileVersion),
-    map(action => {
+    map((action) => {
       if (action && action.payload) {
         const node = action.payload.detail.data.node.entry;
         const file: any = action.payload.detail.files[0].file;
@@ -119,17 +119,14 @@ export class UploadEffects {
     this.contentService
       .getNodeInfo()
       .pipe(
-        catchError(_ => {
+        catchError((_) => {
           this.store.dispatch(new SnackbarErrorAction('VERSION.ERROR.GENERIC'));
           return of(null);
         })
       )
       .subscribe((node: MinimalNodeEntryEntity) => {
         if (node) {
-          this.contentService.versionUpdateDialog(
-            node,
-            this.fileVersionInput.files[0]
-          );
+          this.contentService.versionUpdateDialog(node, this.fileVersionInput.files[0]);
           this.fileVersionInput.value = '';
         }
       });
@@ -139,7 +136,7 @@ export class UploadEffects {
     this.store
       .select(getCurrentFolder)
       .pipe(take(1))
-      .subscribe(node => {
+      .subscribe((node) => {
         if (node && node.id) {
           const input = event.currentTarget as HTMLInputElement;
           const files = FileUtils.toFileArray(input.files).map((file: any) => {
@@ -174,21 +171,19 @@ export class UploadEffects {
       this.uploadService.addToQueue(file);
       this.uploadService.uploadFilesInTheQueue();
 
-      const subscription = this.uploadService.fileUploadComplete.subscribe(
-        completed => {
-          if (
-            file.data &&
-            file.data.entry &&
-            file.data.entry.properties &&
-            file.data.entry.properties['cm:lockType'] === 'WRITE_LOCK' &&
-            file.data.entry.id === completed.data.entry.id
-          ) {
-            this.store.dispatch(new UnlockWriteAction(completed.data));
-          }
-
-          subscription.unsubscribe();
+      const subscription = this.uploadService.fileUploadComplete.subscribe((completed) => {
+        if (
+          file.data &&
+          file.data.entry &&
+          file.data.entry.properties &&
+          file.data.entry.properties['cm:lockType'] === 'WRITE_LOCK' &&
+          file.data.entry.id === completed.data.entry.id
+        ) {
+          this.store.dispatch(new UnlockWriteAction(completed.data));
         }
-      );
+
+        subscription.unsubscribe();
+      });
     });
   }
 }

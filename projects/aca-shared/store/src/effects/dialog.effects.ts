@@ -27,10 +27,7 @@ import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
-import {
-  CloseModalDialogsAction,
-  AppActionTypes
-} from '../actions/app.actions';
+import { CloseModalDialogsAction, AppActionTypes } from '../actions/app.actions';
 
 @Injectable()
 export class DialogEffects {

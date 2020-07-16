@@ -35,8 +35,7 @@ import { UserPreferencesService } from '@alfresco/adf-core';
 @Component({
   templateUrl: './favorite-libraries.component.html'
 })
-export class FavoriteLibrariesComponent extends PageComponent
-  implements OnInit {
+export class FavoriteLibrariesComponent extends PageComponent implements OnInit {
   pagination: Pagination = new Pagination({
     skipCount: 0,
     maxItems: 25,
@@ -71,20 +70,16 @@ export class FavoriteLibrariesComponent extends PageComponent
       this.content.libraryLeft.subscribe(() => this.reloadList()),
       this.content.favoriteLibraryToggle.subscribe(() => this.reloadList()),
 
-      this.breakpointObserver
-        .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
-        .subscribe(result => {
-          this.isSmallScreen = result.matches;
-        })
+      this.breakpointObserver.observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape]).subscribe((result) => {
+        this.isSmallScreen = result.matches;
+      })
     ]);
     this.columns = this.extensions.documentListPresets.favoriteLibraries || [];
   }
 
   navigateTo(node: SiteEntry) {
     if (node && node.entry && node.entry.guid) {
-      this.store.dispatch(
-        new NavigateLibraryAction(node.entry.guid, 'favorite/libraries')
-      );
+      this.store.dispatch(new NavigateLibraryAction(node.entry.guid, 'favorite/libraries'));
     }
   }
 

@@ -32,14 +32,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { SharedToolbarModule } from '../tool-bar/shared-toolbar.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    InfoDrawerModule,
-    MatProgressBarModule,
-    ExtensionsModule,
-    ToolbarModule,
-    SharedToolbarModule
-  ],
+  imports: [CommonModule, InfoDrawerModule, MatProgressBarModule, ExtensionsModule, ToolbarModule, SharedToolbarModule],
   declarations: [InfoDrawerComponent],
   exports: [InfoDrawerComponent]
 })
