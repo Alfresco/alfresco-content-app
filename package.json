@@ -36,7 +36,7 @@
     "@alfresco/adf-core": "3.10.0-d1672596bad1cd90940de9499e24791801dc9011",
     "@alfresco/adf-extensions": "3.10.0-d1672596bad1cd90940de9499e24791801dc9011",
     "@alfresco/js-api": "3.10.0-1deb4e85760f96f550a7d6d894e4002ecd4a4c18",
-    "@angular-custom-builders/lite-serve": "0.2.0",
+    "@angular-custom-builders/lite-serve": "0.2.2",
     "@angular/animations": "10.0.4",
     "@angular/cdk": "^10.0.2",
     "@angular/common": "10.0.4",
