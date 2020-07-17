@@ -96,7 +96,7 @@
     "karma-jasmine": "^3.3.1",
     "karma-jasmine-html-reporter": "^1.5.4",
     "lint-staged": "^10.2.11",
-    "ng-packagr": "^10.0.1",
+    "ng-packagr": "^10.0.2",
     "node-stream-zip": "^1.9.1",
     "prettier": "^2.0.5",
     "protractor": "^7.0.0",
