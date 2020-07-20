@@ -33,6 +33,7 @@ import {
   SharedLinksApiService,
   StorageService
 } from '@alfresco/adf-core';
+import { GroupService } from '@alfresco/adf-content-services';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, ActivationEnd } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -48,7 +49,7 @@ import {
 } from '@alfresco/aca-shared/store';
 import { filter, takeUntil } from 'rxjs/operators';
 import { AppExtensionService, AppService, ContentApiService, ExtensionRoute } from '@alfresco/aca-shared';
-import { DiscoveryEntry, GroupsApi, Group } from '@alfresco/js-api';
+import { DiscoveryEntry, GroupEntry, Group } from '@alfresco/js-api';
 import { Subject } from 'rxjs';
 import { INITIAL_APP_STATE } from './store/initial-state';
 
@@ -74,7 +75,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private contentApi: ContentApiService,
     private appService: AppService,
     private sharedLinksApiService: SharedLinksApiService,
-    private storage: StorageService
+    private storage: StorageService,
+    private groupService: GroupService
   ) {}
 
   ngOnInit() {
@@ -163,12 +165,12 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private async loadUserProfile() {
-    const groupsApi = new GroupsApi(this.alfrescoApiService.getInstance());
-    const paging = await groupsApi.listGroupMembershipsForPerson('-me-');
+    const groupsEntries: GroupEntry[] = await this.groupService.listAllGroupMembershipsForPerson('-me-', { maxItems: 250 });
+
     const groups: Group[] = [];
 
-    if (paging && paging.list && paging.list.entries) {
-      groups.push(...paging.list.entries.map((obj) => obj.entry));
+    if (groupsEntries) {
+      groups.push(...groupsEntries.map((obj) => obj.entry));
     }
 
     this.contentApi.getPerson('-me-').subscribe((person) => {
