@@ -1,12 +1,6 @@
 <aca-page-layout [hasError]="!isValidPath">
   <aca-page-layout-header>
-    <adf-breadcrumb
-      [root]="title"
-      [folderNode]="node"
-      [maxItems]="isSmallScreen ? 1 : 0"
-      (navigate)="onBreadcrumbNavigate($event)"
-    >
-    </adf-breadcrumb>
+    <adf-breadcrumb [root]="title" [folderNode]="node" [maxItems]="isSmallScreen ? 1 : 0" (navigate)="onBreadcrumbNavigate($event)"> </adf-breadcrumb>
 
     <adf-toolbar class="adf-toolbar--inline">
       <ng-container *ngFor="let entry of actions; trackBy: trackByActionId">
@@ -21,11 +15,7 @@
 
   <aca-page-layout-content>
     <div class="main-content">
-      <adf-upload-drag-area
-        [rootFolderId]="node?.id"
-        [disabled]="!canUpload"
-        (updateFileVersion)="onUploadNewVersion($event)"
-      >
+      <adf-upload-drag-area [rootFolderId]="node?.id" [disabled]="!canUpload" (updateFileVersion)="onUploadNewVersion($event)">
         <adf-document-list
           #documentList
           acaDocumentList
@@ -47,8 +37,8 @@
               <adf-search-header
                 [col]="col"
                 [currentFolderNodeId]="node?.id"
-                [maxItems]="pagination?.maxItems"
-                [skipCount]="pagination?.skipCount"
+                [maxItems]="(documentList?.pagination | async)?.maxItems"
+                [skipCount]="(documentList?.pagination | async)?.skipCount"
                 (update)="onFilterUpdate($event)"
                 (clear)="onAllFilterCleared()"
               >
@@ -57,11 +47,7 @@
           </adf-custom-header-filter-template>
           <data-columns>
             <ng-container *ngFor="let column of columns; trackBy: trackById">
-              <ng-container
-                *ngIf="
-                  column.template && !(column.desktopOnly && isSmallScreen)
-                "
-              >
+              <ng-container *ngIf="column.template && !(column.desktopOnly && isSmallScreen)">
                 <data-column
                   [key]="column.key"
                   [title]="column.title"
@@ -71,20 +57,12 @@
                   [sortable]="column.sortable"
                 >
                   <ng-template let-context>
-                    <adf-dynamic-column
-                      [id]="column.template"
-                      [context]="context"
-                    >
-                    </adf-dynamic-column>
+                    <adf-dynamic-column [id]="column.template" [context]="context"> </adf-dynamic-column>
                   </ng-template>
                 </data-column>
               </ng-container>
 
-              <ng-container
-                *ngIf="
-                  !column.template && !(column.desktopOnly && isSmallScreen)
-                "
-              >
+              <ng-container *ngIf="!column.template && !(column.desktopOnly && isSmallScreen)">
                 <data-column
                   [key]="column.key"
                   [title]="column.title"
