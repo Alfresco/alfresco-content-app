@@ -28,7 +28,7 @@ import { ShowHeaderMode } from '@alfresco/adf-core';
 import { ContentActionRef, SelectionState } from '@alfresco/adf-extensions';
 import { OnDestroy, OnInit, OnChanges, ViewChild, SimpleChanges, Directive } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { MinimalNodeEntity, MinimalNodeEntryEntity, Pagination, NodePaging } from '@alfresco/js-api';
+import { MinimalNodeEntity, MinimalNodeEntryEntity, NodePaging } from '@alfresco/js-api';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { takeUntil, map } from 'rxjs/operators';
 import { ContentManagementService } from '../services/content-management.service';
@@ -65,7 +65,6 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   canUpdateNode = false;
   canUpload = false;
   nodeResult: NodePaging;
-  pagination: Pagination;
   showHeader = ShowHeaderMode.Always;
 
   protected subscriptions: Subscription[] = [];
@@ -98,12 +97,6 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
       .subscribe((node) => {
         this.canUpload = node && this.content.canUploadContent(node);
       });
-
-    if (this.documentList && this.documentList.pagination) {
-      this.documentList.pagination.pipe(takeUntil(this.onDestroy$)).subscribe((newPagination: Pagination) => {
-        this.pagination = newPagination;
-      });
-    }
   }
 
   ngOnChanges(changes: SimpleChanges) {
