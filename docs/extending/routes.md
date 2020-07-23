@@ -70,6 +70,45 @@ You can define the full route schema like in the next example:
 All application routes require at least one authentication guard.
 Defaults to the `['app.auth']` value.
 
+## Child Routes
+
+Extensions may register a routes that are children of some existing application routes.
+Imagine the situation when application has the following route structure:
+
+```ts
+{
+  path: 'files,
+  component: FilesComponent,
+  children: [
+    {
+      path: 'bin',
+      component: BinComponent,
+    },
+  ],
+}
+```
+
+Within the extension, you can declare a route like:
+
+```json
+{
+  "routes": [
+    {
+      "id": "custom.route",
+      "parentRoute": "files",
+      "path": "my-path",
+      "layout": "app.layout.main",
+      "component": "your.component.id",
+    }
+  ]
+}
+```
+
+That registers a new route `my-path` that is a child of the existing `files` route,
+so giving you an option for nested linking: `/files/my-path`.
+
+> For the time being, you can provide child entries only for the root (top-level) routes.
+
 ## Authentication Guards
 
 Below is the list of the authentication guards main application registers on startup.
