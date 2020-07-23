@@ -69,7 +69,7 @@
     "@alfresco/adf-cli": "3.10.0-44c5472fa25d6c22226c8a86a332c3ea5bcfa359",
     "@alfresco/adf-testing": "3.10.0-90820a08dfb7de57e3b071f36ce8713bea1178c9",
     "@angular-devkit/build-angular": "~0.1000.3",
-    "@angular-devkit/build-ng-packagr": "~0.1000.3",
+    "@angular-devkit/build-ng-packagr": "~0.1000.4",
     "@angular/cli": "^10.0.3",
     "@angular/compiler-cli": "10.0.4",
     "@angular/language-service": "10.0.4",
