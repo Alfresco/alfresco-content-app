@@ -12,5 +12,12 @@ echo "Replace app.config with options $PARAMS"
 node "./scripts/app-config-replace.js" --config="$TO/app.config.json" $PARAMS
 echo "Replace app.config done"
 
-echo "Update update-webdriver"
-npm run update-webdriver
+echo "====== Update webdriver-manager ====="
+if [ "$CI" = "true" ]; then
+    export chrome=$(google-chrome --product-version)
+    echo "Updating wedriver-manager with chromedriver: $chrome."
+    webdriver-manager update --gecko=false --versions.chrome=$chrome
+else
+    echo "Updating wedriver-manager with latest chromedriver, be sure to use evergreen Chrome."
+    webdriver-manager update --gecko=false
+fi
