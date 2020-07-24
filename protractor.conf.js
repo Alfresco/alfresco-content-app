@@ -176,7 +176,7 @@ exports.config = {
     jasmine.getEnv().addReporter(
       new SpecReporter({
         spec: {
-          displayStacktrace: true,
+          displayStacktrace: 'pretty',
           displayDuration: true
         }
       })
