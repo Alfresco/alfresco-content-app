@@ -62,6 +62,7 @@ export class NodeTemplateService {
     });
 
     const data: ContentNodeSelectorComponentData = {
+      selectionMode: 'single',
       title: this.title(config.selectionType),
       actionName: 'NEXT',
       dropdownHideMyFiles: true,
