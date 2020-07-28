@@ -125,6 +125,19 @@ export const APP_ROUTES: Routes = [
               sortingPreferenceKey: 'personal-files'
             }
           },
+          {
+            path: 'view/:nodeId/:versionId',
+            outlet: 'viewer',
+            children: [
+              {
+                path: '',
+                data: {
+                  navigateSource: 'personal-files'
+                },
+                loadChildren: () => import('./components/viewer/viewer.module').then((m) => m.AppViewerModule)
+              }
+            ]
+          },
           // deprecated, backwards compatibility with ACA 1.8
           {
             path: 'preview/:nodeId',
