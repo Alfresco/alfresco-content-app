@@ -69,6 +69,7 @@ export class NodeTemplateService {
       dropdownSiteList: null,
       breadcrumbTransform: this.transformNode.bind(this),
       select,
+      selectionMode: 'single',
       showSearch: false,
       showDropdownSiteList: false,
       isSelectionValid: this.isSelectionValid.bind(this),

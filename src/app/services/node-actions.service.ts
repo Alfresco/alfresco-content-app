@@ -196,6 +196,7 @@ export class NodeActionsService {
       isSelectionValid: this.canCopyMoveInsideIt.bind(this),
       breadcrumbTransform: this.customizeBreadcrumb.bind(this),
       select: new Subject<MinimalNodeEntryEntity[]>(),
+      selectionMode: 'single',
       excludeSiteContent: ContentNodeDialogService.nonDocumentSiteContent
     };
 
