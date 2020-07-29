@@ -111,6 +111,19 @@ export const APP_ROUTES: Routes = [
                 loadChildren: () => import('./components/viewer/viewer.module').then((m) => m.AppViewerModule)
               }
             ]
+          },
+          {
+            path: 'view/:nodeId/:versionId',
+            outlet: 'viewer',
+            children: [
+              {
+                path: '',
+                data: {
+                  navigateSource: 'personal-files'
+                },
+                loadChildren: () => import('./components/viewer/viewer.module').then((m) => m.AppViewerModule)
+              }
+            ]
           }
         ]
       },
@@ -296,6 +309,19 @@ export const APP_ROUTES: Routes = [
                 loadChildren: () => import('./components/viewer/viewer.module').then((m) => m.AppViewerModule)
               }
             ]
+          },
+          {
+            path: 'view/:nodeId/:versionId',
+            outlet: 'viewer',
+            children: [
+              {
+                path: '',
+                data: {
+                  navigateSource: 'favorites'
+                },
+                loadChildren: () => import('./components/viewer/viewer.module').then((m) => m.AppViewerModule)
+              }
+            ]
           }
         ]
       },
@@ -324,6 +350,19 @@ export const APP_ROUTES: Routes = [
           },
           {
             path: 'view/:nodeId',
+            outlet: 'viewer',
+            children: [
+              {
+                path: '',
+                data: {
+                  navigateSource: 'recent-files'
+                },
+                loadChildren: () => import('./components/viewer/viewer.module').then((m) => m.AppViewerModule)
+              }
+            ]
+          },
+          {
+            path: 'view/:nodeId/:versionId',
             outlet: 'viewer',
             children: [
               {
@@ -370,6 +409,19 @@ export const APP_ROUTES: Routes = [
                 loadChildren: () => import('./components/viewer/viewer.module').then((m) => m.AppViewerModule)
               }
             ]
+          },
+          {
+            path: 'view/:nodeId/:versionId',
+            outlet: 'viewer',
+            children: [
+              {
+                path: '',
+                data: {
+                  navigateSource: 'shared'
+                },
+                loadChildren: () => import('./components/viewer/viewer.module').then((m) => m.AppViewerModule)
+              }
+            ]
           }
         ],
         canActivateChild: [AppSharedRuleGuard],
@@ -403,6 +455,19 @@ export const APP_ROUTES: Routes = [
           },
           {
             path: 'view/:nodeId',
+            outlet: 'viewer',
+            children: [
+              {
+                path: '',
+                data: {
+                  navigateSource: 'search'
+                },
+                loadChildren: () => import('./components/viewer/viewer.module').then((m) => m.AppViewerModule)
+              }
+            ]
+          },
+          {
+            path: 'view/:nodeId/:versionId',
             outlet: 'viewer',
             children: [
               {
