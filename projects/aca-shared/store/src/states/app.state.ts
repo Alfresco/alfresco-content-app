@@ -24,7 +24,7 @@
  */
 
 import { SelectionState, ProfileState, NavigationState } from '@alfresco/adf-extensions';
-import { RepositoryInfo } from '@alfresco/js-api';
+import { RepositoryInfo, VersionEntry } from '@alfresco/js-api';
 
 export interface AppState {
   appName: string;
@@ -33,6 +33,7 @@ export interface AppState {
   headerImagePath: string;
   languagePicker: boolean;
   sharedUrl: string;
+  currentNodeVersion: VersionEntry;
   selection: SelectionState;
   user: ProfileState;
   navigation: NavigationState;

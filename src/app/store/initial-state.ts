@@ -47,6 +47,7 @@ export const INITIAL_APP_STATE: AppState = {
   navigation: {
     currentFolder: null
   },
+  currentNodeVersion: null,
   infoDrawerOpened: false,
   infoDrawerMetadataAspect: '',
   showFacetFilter: true,

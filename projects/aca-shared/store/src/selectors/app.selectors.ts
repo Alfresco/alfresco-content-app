@@ -35,6 +35,7 @@ export const getHeaderImagePath = createSelector(selectApp, (state) => state.hea
 export const getLanguagePickerState = createSelector(selectApp, (state) => state.languagePicker);
 export const getUserProfile = createSelector(selectApp, (state) => state.user);
 export const getCurrentFolder = createSelector(selectApp, (state) => state.navigation.currentFolder);
+export const getCurrentVersion = createSelector(selectApp, (state) => state.currentNodeVersion);
 export const getAppSelection = createSelector(selectApp, (state) => state.selection);
 export const getSharedUrl = createSelector(selectApp, (state) => state.sharedUrl);
 export const getNavigationState = createSelector(selectApp, (state) => state.navigation);
