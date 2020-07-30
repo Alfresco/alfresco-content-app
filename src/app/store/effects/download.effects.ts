@@ -119,7 +119,6 @@ export class DownloadEffects {
   private downloadFileVersion(node: NodeInfo, version: Version) {
     if (node && version) {
       this.download(this.contentApi.getVersionContentUrl(node.id, version.id, true), version.name);
-      this.store.dispatch(new SetCurrentNodeVersionAction(null));
     }
   }
 
