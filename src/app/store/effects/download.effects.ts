@@ -23,15 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  AppStore,
-  DownloadNodesAction,
-  NodeActionTypes,
-  NodeInfo,
-  getAppSelection,
-  getCurrentVersion,
-  SetCurrentNodeVersionAction
-} from '@alfresco/aca-shared/store';
+import { AppStore, DownloadNodesAction, NodeActionTypes, NodeInfo, getAppSelection, getCurrentVersion } from '@alfresco/aca-shared/store';
 import { DownloadZipDialogComponent } from '@alfresco/adf-core';
 import { MinimalNodeEntity, Version } from '@alfresco/js-api';
 import { Injectable } from '@angular/core';
