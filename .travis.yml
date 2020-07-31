@@ -12,6 +12,7 @@ node_js:
 cache:
   directories:
     - node_modules
+    - .protractor-smartrunner
 
 branches:
   only:
