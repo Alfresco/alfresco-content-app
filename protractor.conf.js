@@ -1,13 +1,13 @@
 // Protractor configuration file, see link for more information
 // https://github.com/angular/protractor/blob/master/lib/config.ts
 
-const AlfrescoApi = require('@alfresco/js-api').AlfrescoApiCompatibility;
 const path = require('path');
 const { SpecReporter } = require('jasmine-spec-reporter');
 const afterLaunch = require('./e2e/e2e-config/hooks/after-launch');
 const fs = require('fs');
 require('dotenv').config();
 
+const SmartRunner = require('protractor-smartrunner');
 const projectRoot = path.resolve(__dirname);
 const downloadFolder = `${projectRoot}/e2e-downloads`;
 const e2eFolder = path.resolve(projectRoot, 'e2e');
@@ -137,7 +137,10 @@ exports.config = {
   jasmineNodeOpts: {
     showColors: true,
     defaultTimeoutInterval: 100000,
-    print: function() {}
+    print: function() {},
+    ...SmartRunner.withOptionalExclusions(
+      resolve(__dirname, 'e2e/protractor.excludes.json')
+    ),
   },
 
   plugins: [
