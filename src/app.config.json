@@ -396,6 +396,7 @@
             "pattern": "cm:name:'(.*?)'",
             "field": "cm:name",
             "placeholder": "Enter the name",
+            "searchPrefix" : "*",
             "searchSuffix" : "*"
           }
         }
