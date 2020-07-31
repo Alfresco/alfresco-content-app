@@ -155,6 +155,8 @@ exports.config = {
   ],
 
   onPrepare() {
+    SmartRunner.apply({ repoHash: process.env.GIT_HASH || '' });
+
     const tsConfigPath = path.resolve(e2eFolder, 'tsconfig.e2e.json');
     const tsConfig = require(tsConfigPath);
 
