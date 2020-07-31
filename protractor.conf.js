@@ -141,8 +141,7 @@ exports.config = {
     print: function() {},
     ...SmartRunner.withOptionalExclusions(
       resolve(__dirname, './e2e/protractor.excludes.json'),
-    ),
-    invertGrep:false
+    )
   },
 
   plugins: [
