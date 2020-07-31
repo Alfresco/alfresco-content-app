@@ -156,8 +156,6 @@ exports.config = {
   ],
 
   onPrepare() {
-
-    browser.baseUrl=E2E_HOST;
     if (process.env.CI) {
       SmartRunner.apply({repoHash: process.env.GIT_HASH || ''});
     }
