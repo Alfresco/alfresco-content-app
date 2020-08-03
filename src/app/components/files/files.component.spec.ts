@@ -139,8 +139,8 @@ describe('FilesComponent', () => {
     beforeEach(() => {
       spyOn(contentApi, 'getNode').and.returnValue(of({ entry: node }));
       spyOn(component, 'reload');
-
       fixture.detectChanges();
+      spyOn(component.documentList, 'loadFolder').and.callFake(() => {});
     });
 
     it('should call refresh onContentCopied event if parent is the same', () => {
