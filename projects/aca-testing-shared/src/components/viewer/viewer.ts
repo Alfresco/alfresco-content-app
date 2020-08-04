@@ -23,11 +23,12 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { browser } from 'protractor';
-import { Logger } from '@alfresco/adf-testing';
+import { browser, by, element, ElementFinder } from 'protractor';
+import { BrowserActions, Logger } from '@alfresco/adf-testing';
 import { Component } from '../component';
 import { Toolbar } from '../toolbar/toolbar';
 import { waitForPresence } from '../../utilities/utils';
+import { protractor } from 'protractor/built/ptor';
 
 export class Viewer extends Component {
   root = browser.$('adf-viewer');
@@ -92,5 +93,25 @@ export class Viewer extends Component {
   async isPdfViewerContentDisplayed(): Promise<boolean> {
     const count = await this.pdfViewerContentPages.count();
     return count > 0;
+  }
+
+  async expectUrlToContain(text: string): Promise<void> {
+    await expect(browser.getCurrentUrl()).toContain(text);
+  }
+
+  async clickDownloadButton(): Promise<void> {
+    const downloadButton: ElementFinder = element(by.id(`app.viewer.download`));
+    await BrowserActions.click(downloadButton);
+  }
+
+  async clickCloseButton(): Promise<void> {
+    const closeButton: ElementFinder = element(by.css('button[data-automation-id="adf-toolbar-back"]'));
+    await BrowserActions.click(closeButton);
+  }
+
+  async viewFile(fileName: string): Promise<void> {
+    const fileView = element.all(by.css(`#document-list-container div[data-automation-id="${fileName}"]`)).first();
+    await BrowserActions.click(fileView);
+    await browser.actions().sendKeys(protractor.Key.ENTER).perform();
   }
 }
