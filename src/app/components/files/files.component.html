@@ -35,7 +35,7 @@
             <ng-template let-col>
               <adf-search-header
                 [col]="col"
-                [currentFolderNodeId]="node?.id"
+                [currentFolderNodeId]="nodeId"
                 [maxItems]="(documentList?.pagination | async)?.maxItems"
                 [skipCount]="(documentList?.pagination | async)?.skipCount"
                 (update)="onFilterUpdate($event)"
