@@ -1,6 +1,7 @@
 import { LoginPage, BrowsingPage, FILES, RepoClient, Utils, UploadNewVersionDialog } from '@alfresco/aca-testing-shared';
 import { VersionManagePage } from '../../../projects/aca-testing-shared/src/components/version-manage/version-manager';
 import { Viewer } from '../../../projects/aca-testing-shared/src/components';
+import { browser } from 'protractor';
 
 describe('Version component actions', () => {
   const versionManagePage = new VersionManagePage();
@@ -26,6 +27,7 @@ describe('Version component actions', () => {
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
     fileId = (await apis.user.upload.uploadFile(filesToUpload[0])).entry.id;
+    await apis.user.shared.shareFilesByIds([fileId]);
     done();
   });
 
@@ -36,7 +38,6 @@ describe('Version component actions', () => {
 
   describe('on Personal Files', () => {
     beforeAll(async (done) => {
-      await apis.user.shared.shareFilesByIds([fileId]);
       await loginPage.loginWith(username);
       await page.clickPersonalFilesAndWait();
 
@@ -52,6 +53,7 @@ describe('Version component actions', () => {
         await uploadNewVersionDialog.uploadButton.click();
         await uploadNewVersionDialog.waitForDialogToClose();
       }
+
       done();
     });
 
@@ -59,7 +61,8 @@ describe('Version component actions', () => {
       await dataTable.selectItem(filesToUpload[5]);
       await toolbar.clickMoreActionsManageVersions();
       await versionManagePage.viewFileVersion('1.0');
-      await viewerPage.expectUrlToContain('1.0');
+
+      expect(await browser.getCurrentUrl()).toContain('1.0');
     });
 
     it('[C586767] Previous document version title should be the same in Preview mode as the Uploaded File', async () => {
@@ -84,7 +87,8 @@ describe('Version component actions', () => {
       await dataTable.selectItem(filesToUpload[5]);
       await toolbar.clickMoreActionsManageVersions();
       await versionManagePage.viewFileVersion('2.0');
-      await viewerPage.expectUrlToContain('2.0');
+
+      expect(await browser.getCurrentUrl()).toContain('2.0');
     });
 
     it('[C586777] Previous document version title should be the same in Preview mode as the Uploaded File', async () => {
@@ -109,7 +113,8 @@ describe('Version component actions', () => {
       await dataTable.selectItem(filesToUpload[5]);
       await toolbar.clickMoreActionsManageVersions();
       await versionManagePage.viewFileVersion('3.0');
-      await viewerPage.expectUrlToContain('3.0');
+
+      expect(await browser.getCurrentUrl()).toContain('3.0');
     });
 
     it('[C586770] Previous document version title should be the same in Preview mode as the Uploaded File', async () => {
@@ -136,7 +141,8 @@ describe('Version component actions', () => {
       await dataTable.selectItem(filesToUpload[5]);
       await toolbar.clickMoreActionsManageVersions();
       await versionManagePage.viewFileVersion('4.0');
-      await viewerPage.expectUrlToContain('4.0');
+
+      expect(await browser.getCurrentUrl()).toContain('4.0');
     });
 
     it('[C586773] Previous document version title should be the same in Preview mode as the Uploaded File', async () => {
@@ -164,7 +170,8 @@ describe('Version component actions', () => {
       await dataTable.selectItem(filesToUpload[5], 'Personal Files');
       await toolbar.clickMoreActionsManageVersions();
       await versionManagePage.viewFileVersion('5.0');
-      await viewerPage.expectUrlToContain('5.0');
+
+      expect(await browser.getCurrentUrl()).toContain('5.0');
     });
 
     it('[C586780] Previous document version title should be the same in Preview mode as the Uploaded File', async () => {
