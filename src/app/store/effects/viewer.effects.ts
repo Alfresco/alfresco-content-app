@@ -34,7 +34,7 @@ import {
   getCurrentFolder,
   getAppSelection,
   FullscreenViewerAction,
-  ViewNodeVersionAction
+  ViewNodeVersionAction,
   PluginPreviewAction
 } from '@alfresco/aca-shared/store';
 import { Router, UrlTree, UrlSegmentGroup, PRIMARY_OUTLET, UrlSegment } from '@angular/router';
