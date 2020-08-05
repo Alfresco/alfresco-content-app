@@ -53,6 +53,20 @@ describe('Version component actions', () => {
     await apis.admin.people.createUser({ username });
     fileId = (await apis.user.upload.uploadFile(filesToUpload[0])).entry.id;
     await apis.user.shared.shareFilesByIds([fileId]);
+    await loginPage.loginWith(username);
+
+    for (let i = 0; i < filesToUpload.length - 1; i++) {
+      await dataTable.selectItem(filesToUpload[i]);
+      await toolbar.clickMoreActionsUploadNewVersion();
+      await Utils.uploadFileNewVersion(filesToUpload[i + 1]);
+
+      await page.waitForDialog();
+
+      await uploadNewVersionDialog.majorOption.click();
+      await uploadNewVersionDialog.enterDescription('new major version description');
+      await uploadNewVersionDialog.uploadButton.click();
+      await uploadNewVersionDialog.waitForDialogToClose();
+    }
     done();
   });
 
@@ -63,21 +77,7 @@ describe('Version component actions', () => {
 
   describe('on Personal Files', () => {
     beforeAll(async (done) => {
-      await loginPage.loginWith(username);
       await page.clickPersonalFilesAndWait();
-
-      for (let i = 0; i < filesToUpload.length - 1; i++) {
-        await dataTable.selectItem(filesToUpload[i]);
-        await toolbar.clickMoreActionsUploadNewVersion();
-        await Utils.uploadFileNewVersion(filesToUpload[i + 1]);
-
-        await page.waitForDialog();
-
-        await uploadNewVersionDialog.majorOption.click();
-        await uploadNewVersionDialog.enterDescription('new major version description');
-        await uploadNewVersionDialog.uploadButton.click();
-        await uploadNewVersionDialog.waitForDialogToClose();
-      }
       done();
     });
 
@@ -110,7 +110,6 @@ describe('Version component actions', () => {
 
   describe('on Shared Files', () => {
     beforeAll(async (done) => {
-      await loginPage.loginWith(username);
       await page.clickSharedFilesAndWait();
       done();
     });
@@ -144,7 +143,6 @@ describe('Version component actions', () => {
 
   describe('on Recent Files', () => {
     beforeAll(async (done) => {
-      await loginPage.loginWith(username);
       await page.clickRecentFilesAndWait();
       done();
     });
@@ -180,7 +178,6 @@ describe('Version component actions', () => {
     beforeAll(async (done) => {
       await apis.user.favorites.addFavoritesByIds('file', [fileId]);
       await apis.user.favorites.waitForApi({ expect: 1 });
-      await loginPage.loginWith(username);
       await page.clickFavoritesAndWait();
       done();
     });
@@ -214,7 +211,6 @@ describe('Version component actions', () => {
 
   describe('on Search Results', () => {
     beforeAll(async (done) => {
-      await loginPage.loginWith(username);
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
       await searchInput.searchFor(filesToUpload[4]);
