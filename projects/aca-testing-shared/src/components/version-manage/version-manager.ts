@@ -32,7 +32,7 @@ export class VersionManagePage {
     await BrowserVisibility.waitUntilElementIsVisible(element(by.css('.cdk-overlay-container .mat-menu-content')));
   }
 
-  async viewFileVersion(version): Promise<void> {
+  async viewFileVersion(version: string): Promise<void> {
     await this.clickActionButton(version);
     const viewButton: ElementFinder = element(by.id(`adf-version-list-action-view-${version}`));
     await BrowserActions.click(viewButton);
