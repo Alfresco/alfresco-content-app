@@ -200,6 +200,10 @@ export class ContentApiService {
     return this.api.contentApi.getContentUrl(nodeId, attachment);
   }
 
+  getVersionContentUrl(nodeId: string, versionId: string, attachment?: boolean): string {
+    return this.api.contentApi.getVersionContentUrl(nodeId, versionId, attachment);
+  }
+
   deleteSite(siteId?: string, opts?: { permanent?: boolean }): Observable<any> {
     return from(this.api.sitesApi.deleteSite(siteId, opts));
   }

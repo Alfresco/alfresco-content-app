@@ -32,10 +32,11 @@ import {
   ClosePreviewAction,
   ViewerActionTypes,
   ViewNodeAction,
-  ReloadDocumentListAction
+  ReloadDocumentListAction,
+  SetCurrentNodeVersionAction
 } from '@alfresco/aca-shared/store';
 import { ContentActionRef, SelectionState } from '@alfresco/adf-extensions';
-import { MinimalNodeEntryEntity, SearchRequest } from '@alfresco/js-api';
+import { MinimalNodeEntryEntity, SearchRequest, VersionEntry } from '@alfresco/js-api';
 import { Component, HostListener, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router, PRIMARY_OUTLET } from '@angular/router';
 import { UserPreferencesService, ObjectUtils, UploadService, AlfrescoApiService } from '@alfresco/adf-core';
@@ -58,6 +59,7 @@ export class AppViewerComponent implements OnInit, OnDestroy {
   fileName: string;
   folderId: string = null;
   nodeId: string = null;
+  versionId: string = null;
   node: MinimalNodeEntryEntity;
   selection: SelectionState;
   infoDrawerOpened$: Observable<boolean>;
@@ -135,6 +137,14 @@ export class AppViewerComponent implements OnInit, OnDestroy {
     this.route.params.subscribe((params) => {
       this.folderId = params.folderId;
       const { nodeId } = params;
+      this.versionId = params.versionId;
+      if (this.versionId) {
+        this.apiService.versionsApi.getVersion(nodeId, this.versionId).then((version: VersionEntry) => {
+          if (version) {
+            this.store.dispatch(new SetCurrentNodeVersionAction(version));
+          }
+        });
+      }
       if (nodeId) {
         this.displayNode(nodeId);
       }
@@ -151,9 +161,10 @@ export class AppViewerComponent implements OnInit, OnDestroy {
       }
     }
 
-    this.actions$
-      .pipe(ofType<ClosePreviewAction>(ViewerActionTypes.ClosePreview), takeUntil(this.onDestroy$))
-      .subscribe(() => this.navigateToFileLocation());
+    this.actions$.pipe(ofType<ClosePreviewAction>(ViewerActionTypes.ClosePreview), takeUntil(this.onDestroy$)).subscribe(() => {
+      this.store.dispatch(new SetCurrentNodeVersionAction(null));
+      this.navigateToFileLocation();
+    });
 
     this.content.nodesDeleted.pipe(takeUntil(this.onDestroy$)).subscribe(() => this.navigateToFileLocation());
 
@@ -173,6 +184,7 @@ export class AppViewerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.store.dispatch(new SetCurrentNodeVersionAction(null));
     this.onDestroy$.next(true);
     this.onDestroy$.complete();
   }

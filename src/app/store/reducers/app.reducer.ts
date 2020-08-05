@@ -38,7 +38,8 @@ import {
   SetInfoDrawerStateAction,
   SetInfoDrawerMetadataAspectAction,
   SetSettingsParameterAction,
-  SetHeaderColorAction
+  SetHeaderColorAction,
+  SetCurrentNodeVersionAction
 } from '@alfresco/aca-shared/store';
 import { INITIAL_APP_STATE } from '../initial-state';
 
@@ -66,6 +67,9 @@ export function appReducer(state: AppState = INITIAL_APP_STATE, action: Action):
       break;
     case AppActionTypes.SetCurrentFolder:
       newState = updateCurrentFolder(state, action as SetCurrentFolderAction);
+      break;
+    case AppActionTypes.SetCurrentVersion:
+      newState = updateCurrentNodeVersion(state, action as SetCurrentNodeVersionAction);
       break;
     case AppActionTypes.SetCurrentUrl:
       newState = updateCurrentUrl(state, action as SetCurrentUrlAction);
@@ -152,6 +156,12 @@ function updateUser(state: AppState, action: SetUserProfileAction): AppState {
 function updateCurrentFolder(state: AppState, action: SetCurrentFolderAction) {
   const newState = { ...state };
   newState.navigation.currentFolder = action.payload;
+  return newState;
+}
+
+function updateCurrentNodeVersion(state: AppState, action: SetCurrentNodeVersionAction) {
+  const newState = { ...state };
+  newState.currentNodeVersion = action.payload;
   return newState;
 }
 

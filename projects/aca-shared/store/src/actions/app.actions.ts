@@ -24,7 +24,7 @@
  */
 
 import { Action } from '@ngrx/store';
-import { Node, Person, Group, RepositoryInfo } from '@alfresco/js-api';
+import { Node, Person, Group, RepositoryInfo, VersionEntry } from '@alfresco/js-api';
 import { AppState } from '../states/app.state';
 
 export enum AppActionTypes {
@@ -32,6 +32,7 @@ export enum AppActionTypes {
   SetInitialState = 'SET_INITIAL_STATE',
   SetHeaderColor = 'SET_HEADER_COLOR',
   SetCurrentFolder = 'SET_CURRENT_FOLDER',
+  SetCurrentVersion = 'SET_CURRENT_VERSION',
   SetCurrentUrl = 'SET_CURRENT_URL',
   SetUserProfile = 'SET_USER_PROFILE',
   SetRepositoryInfo = 'SET_REPOSITORY_INFO',
@@ -67,6 +68,12 @@ export class SetCurrentFolderAction implements Action {
   readonly type = AppActionTypes.SetCurrentFolder;
 
   constructor(public payload: Node) {}
+}
+
+export class SetCurrentNodeVersionAction implements Action {
+  readonly type = AppActionTypes.SetCurrentVersion;
+
+  constructor(public payload: VersionEntry) {}
 }
 
 export class SetCurrentUrlAction implements Action {

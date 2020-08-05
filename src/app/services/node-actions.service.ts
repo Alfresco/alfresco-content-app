@@ -186,6 +186,7 @@ export class NodeActionsService {
 
     this.isSitesDestinationAvailable = false;
     const data: ContentNodeSelectorComponentData = {
+      selectionMode: 'single',
       title: title,
       currentFolderId: currentParentFolderId,
       actionName: action,

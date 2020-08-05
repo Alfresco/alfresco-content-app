@@ -23,9 +23,9 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AppStore, DownloadNodesAction, NodeActionTypes, NodeInfo, getAppSelection } from '@alfresco/aca-shared/store';
+import { AppStore, DownloadNodesAction, NodeActionTypes, NodeInfo, getAppSelection, getCurrentVersion } from '@alfresco/aca-shared/store';
 import { DownloadZipDialogComponent } from '@alfresco/adf-core';
-import { MinimalNodeEntity } from '@alfresco/js-api';
+import { MinimalNodeEntity, Version } from '@alfresco/js-api';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Actions, Effect, ofType } from '@ngrx/effects';
@@ -49,7 +49,16 @@ export class DownloadEffects {
           .pipe(take(1))
           .subscribe((selection) => {
             if (selection && !selection.isEmpty) {
-              this.downloadNodes(selection.nodes);
+              this.store
+                .select(getCurrentVersion)
+                .pipe(take(1))
+                .subscribe((version) => {
+                  if (version) {
+                    this.downloadFileVersion(selection.nodes[0].entry, version.entry);
+                  } else {
+                    this.downloadNodes(selection.nodes);
+                  }
+                });
             }
           });
       }
@@ -96,6 +105,12 @@ export class DownloadEffects {
 
     if (node && this.isSharedLinkPreview) {
       this.download(this.contentApi.getSharedLinkContent(node.id, false), node.name);
+    }
+  }
+
+  private downloadFileVersion(node: NodeInfo, version: Version) {
+    if (node && version) {
+      this.download(this.contentApi.getVersionContentUrl(node.id, version.id, true), version.name);
     }
   }
 

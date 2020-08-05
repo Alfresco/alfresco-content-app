@@ -29,6 +29,7 @@ import { MinimalNodeEntity } from '@alfresco/js-api';
 export enum ViewerActionTypes {
   ViewFile = 'VIEW_FILE',
   ViewNode = 'VIEW_NODE',
+  ViewNodeVersion = 'VIEW_NODE_VERSION',
   FullScreen = 'FULLSCREEN_VIEWER',
   ClosePreview = 'CLOSE_PREVIEW'
 }
@@ -48,6 +49,12 @@ export class ViewNodeAction implements Action {
   readonly type = ViewerActionTypes.ViewNode;
 
   constructor(public nodeId: string, public viewNodeExtras?: ViewNodeExtras) {}
+}
+
+export class ViewNodeVersionAction implements Action {
+  readonly type = ViewerActionTypes.ViewNodeVersion;
+
+  constructor(public nodeId: string, public versionId: string, public viewNodeExtras?: ViewNodeExtras) {}
 }
 
 export class FullscreenViewerAction implements Action {

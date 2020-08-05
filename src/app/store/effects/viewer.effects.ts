@@ -33,11 +33,13 @@ import {
   ViewNodeAction,
   getCurrentFolder,
   getAppSelection,
-  FullscreenViewerAction
+  FullscreenViewerAction,
+  ViewNodeVersionAction
 } from '@alfresco/aca-shared/store';
 import { Router, UrlTree, UrlSegmentGroup, PRIMARY_OUTLET, UrlSegment } from '@angular/router';
 import { Store, createSelector } from '@ngrx/store';
 import { AppExtensionService } from '@alfresco/aca-shared';
+import { MatDialog } from '@angular/material/dialog';
 
 export const fileToPreview = createSelector(getAppSelection, getCurrentFolder, (selection, folder) => {
   return {
@@ -48,7 +50,13 @@ export const fileToPreview = createSelector(getAppSelection, getCurrentFolder, (
 
 @Injectable()
 export class ViewerEffects {
-  constructor(private store: Store<AppStore>, private actions$: Actions, private router: Router, private extensions: AppExtensionService) {}
+  constructor(
+    private store: Store<AppStore>,
+    private actions$: Actions,
+    private router: Router,
+    private extensions: AppExtensionService,
+    private dialog: MatDialog
+  ) {}
 
   @Effect({ dispatch: false })
   fullscreenViewer$ = this.actions$.pipe(
@@ -108,6 +116,31 @@ export class ViewerEffects {
               }
             }
           });
+      }
+    })
+  );
+
+  @Effect({ dispatch: false })
+  viewNodeVersion$ = this.actions$.pipe(
+    ofType<ViewNodeVersionAction>(ViewerActionTypes.ViewNodeVersion),
+    map((action) => {
+      this.dialog.closeAll();
+      if (action.viewNodeExtras) {
+        const { location, path } = action.viewNodeExtras;
+        if (location) {
+          const navigation = this.getNavigationCommands(location);
+          this.router.navigate([...navigation, { outlets: { viewer: ['view', action.nodeId, action.versionId] } }], {
+            queryParams: { location }
+          });
+        }
+
+        if (path) {
+          this.router.navigate(['view', { outlets: { viewer: [action.nodeId, action.versionId] } }], {
+            queryParams: { path }
+          });
+        }
+      } else {
+        this.router.navigate(['view', { outlets: { viewer: [action.nodeId, action.versionId] } }]);
       }
     })
   );

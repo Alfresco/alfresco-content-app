@@ -111,6 +111,19 @@ export const APP_ROUTES: Routes = [
                 loadChildren: () => import('./components/viewer/viewer.module').then((m) => m.AppViewerModule)
               }
             ]
+          },
+          {
+            path: 'view/:nodeId/:versionId',
+            outlet: 'viewer',
+            children: [
+              {
+                path: '',
+                data: {
+                  navigateSource: 'personal-files'
+                },
+                loadChildren: () => import('./components/viewer/viewer.module').then((m) => m.AppViewerModule)
+              }
+            ]
           }
         ]
       },
@@ -124,6 +137,19 @@ export const APP_ROUTES: Routes = [
               title: 'APP.BROWSE.PERSONAL.TITLE',
               sortingPreferenceKey: 'personal-files'
             }
+          },
+          {
+            path: 'view/:nodeId/:versionId',
+            outlet: 'viewer',
+            children: [
+              {
+                path: '',
+                data: {
+                  navigateSource: 'personal-files'
+                },
+                loadChildren: () => import('./components/viewer/viewer.module').then((m) => m.AppViewerModule)
+              }
+            ]
           },
           // deprecated, backwards compatibility with ACA 1.8
           {
@@ -283,6 +309,19 @@ export const APP_ROUTES: Routes = [
                 loadChildren: () => import('./components/viewer/viewer.module').then((m) => m.AppViewerModule)
               }
             ]
+          },
+          {
+            path: 'view/:nodeId/:versionId',
+            outlet: 'viewer',
+            children: [
+              {
+                path: '',
+                data: {
+                  navigateSource: 'favorites'
+                },
+                loadChildren: () => import('./components/viewer/viewer.module').then((m) => m.AppViewerModule)
+              }
+            ]
           }
         ]
       },
@@ -311,6 +350,19 @@ export const APP_ROUTES: Routes = [
           },
           {
             path: 'view/:nodeId',
+            outlet: 'viewer',
+            children: [
+              {
+                path: '',
+                data: {
+                  navigateSource: 'recent-files'
+                },
+                loadChildren: () => import('./components/viewer/viewer.module').then((m) => m.AppViewerModule)
+              }
+            ]
+          },
+          {
+            path: 'view/:nodeId/:versionId',
             outlet: 'viewer',
             children: [
               {
@@ -357,6 +409,19 @@ export const APP_ROUTES: Routes = [
                 loadChildren: () => import('./components/viewer/viewer.module').then((m) => m.AppViewerModule)
               }
             ]
+          },
+          {
+            path: 'view/:nodeId/:versionId',
+            outlet: 'viewer',
+            children: [
+              {
+                path: '',
+                data: {
+                  navigateSource: 'shared'
+                },
+                loadChildren: () => import('./components/viewer/viewer.module').then((m) => m.AppViewerModule)
+              }
+            ]
           }
         ],
         canActivateChild: [AppSharedRuleGuard],
@@ -390,6 +455,19 @@ export const APP_ROUTES: Routes = [
           },
           {
             path: 'view/:nodeId',
+            outlet: 'viewer',
+            children: [
+              {
+                path: '',
+                data: {
+                  navigateSource: 'search'
+                },
+                loadChildren: () => import('./components/viewer/viewer.module').then((m) => m.AppViewerModule)
+              }
+            ]
+          },
+          {
+            path: 'view/:nodeId/:versionId',
             outlet: 'viewer',
             children: [
               {

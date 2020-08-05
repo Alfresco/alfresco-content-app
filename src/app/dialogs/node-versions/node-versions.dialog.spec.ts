@@ -37,19 +37,20 @@ import {
   VersionUploadComponent
 } from '@alfresco/adf-content-services';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { AppStore, UnlockWriteAction } from '@alfresco/aca-shared/store';
+import { AppStore, UnlockWriteAction, ViewNodeExtras, ViewNodeVersionAction } from '@alfresco/aca-shared/store';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('NodeVersionsDialogComponent', () => {
   let fixture: ComponentFixture<NodeVersionsDialogComponent>;
   let component: NodeVersionsDialogComponent;
   let store: Store<AppStore>;
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         CoreModule.forRoot(),
         AppTestingModule,
         MatDialogModule,
+        RouterTestingModule.withRoutes([]),
         TranslateModule.forRoot({
           loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
         })
@@ -152,5 +153,15 @@ describe('NodeVersionsDialogComponent', () => {
     });
     component.handleUpload(nodeEvent);
     expect(store.dispatch).toHaveBeenCalledWith(new UnlockWriteAction(nodeEvent.value));
+  });
+
+  it('should view a previous version of a node', () => {
+    component.isTypeList = false;
+    const versionId = '1.0';
+    const location: ViewNodeExtras = {
+      location: '/'
+    };
+    component.onViewingVersion(versionId);
+    expect(store.dispatch).toHaveBeenCalledWith(new ViewNodeVersionAction(component.node.id, versionId, location));
   });
 });
