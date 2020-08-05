@@ -11,7 +11,7 @@ describe('Version component actions', () => {
 
   let fileId: string;
 
-  const filesToUpload = [FILES.pdfFile, FILES.docxFile, FILES.xlsxFile, FILES.jpgFile, FILES.docxFile2, FILES.xlsxFile2];
+  const filesToUpload = [FILES.pdfFile, FILES.docxFile, FILES.xlsxFile, FILES.jpgFile, FILES.docxFile2];
 
   const apis = {
     admin: new RepoClient(),
@@ -53,15 +53,22 @@ describe('Version component actions', () => {
         await uploadNewVersionDialog.uploadButton.click();
         await uploadNewVersionDialog.waitForDialogToClose();
       }
+      done();
+    });
 
+    beforeEach(async (done) => {
+      await dataTable.selectItem(filesToUpload[4]);
+      await toolbar.clickMoreActionsManageVersions();
+      await versionManagePage.viewFileVersion('1.0');
+      done();
+    });
+
+    afterEach(async (done) => {
+      await viewerPage.clickCloseButton();
       done();
     });
 
     it('[C586766] Should be possible to view a previous document version', async () => {
-      await dataTable.selectItem(filesToUpload[5]);
-      await toolbar.clickMoreActionsManageVersions();
-      await versionManagePage.viewFileVersion('1.0');
-
       expect(await browser.getCurrentUrl()).toContain('1.0');
     });
 
@@ -83,11 +90,19 @@ describe('Version component actions', () => {
       done();
     });
 
-    it('[C586776] Should be possible to view a previous document version', async () => {
-      await dataTable.selectItem(filesToUpload[5]);
+    beforeEach(async (done) => {
+      await dataTable.selectItem(filesToUpload[4]);
       await toolbar.clickMoreActionsManageVersions();
       await versionManagePage.viewFileVersion('2.0');
+      done();
+    });
 
+    afterEach(async (done) => {
+      await viewerPage.clickCloseButton();
+      done();
+    });
+
+    it('[C586776] Should be possible to view a previous document version', async () => {
       expect(await browser.getCurrentUrl()).toContain('2.0');
     });
 
@@ -109,11 +124,19 @@ describe('Version component actions', () => {
       done();
     });
 
-    it('[C586769] Should be possible to view a previous document version', async () => {
-      await dataTable.selectItem(filesToUpload[5]);
+    beforeEach(async (done) => {
+      await dataTable.selectItem(filesToUpload[4]);
       await toolbar.clickMoreActionsManageVersions();
       await versionManagePage.viewFileVersion('3.0');
+      done();
+    });
 
+    afterEach(async (done) => {
+      await viewerPage.clickCloseButton();
+      done();
+    });
+
+    it('[C586769] Should be possible to view a previous document version', async () => {
       expect(await browser.getCurrentUrl()).toContain('3.0');
     });
 
@@ -137,11 +160,19 @@ describe('Version component actions', () => {
       done();
     });
 
-    it('[C586772] Should be possible to view a previous document version', async () => {
-      await dataTable.selectItem(filesToUpload[5]);
+    beforeEach(async (done) => {
+      await dataTable.selectItem(filesToUpload[4]);
       await toolbar.clickMoreActionsManageVersions();
       await versionManagePage.viewFileVersion('4.0');
+      done();
+    });
 
+    afterEach(async (done) => {
+      await viewerPage.clickCloseButton();
+      done();
+    });
+
+    it('[C586772] Should be possible to view a previous document version', async () => {
       expect(await browser.getCurrentUrl()).toContain('4.0');
     });
 
@@ -159,18 +190,26 @@ describe('Version component actions', () => {
   describe('on Search Results', () => {
     beforeAll(async (done) => {
       await loginPage.loginWith(username);
+      await searchInput.clickSearchButton();
+      await searchInput.checkFilesAndFolders();
+      await searchInput.searchFor(filesToUpload[4]);
+      await dataTable.waitForBody();
+      done();
+    });
+
+    beforeEach(async (done) => {
+      await dataTable.selectItem(filesToUpload[4], 'Personal Files');
+      await toolbar.clickMoreActionsManageVersions();
+      await versionManagePage.viewFileVersion('5.0');
+      done();
+    });
+
+    afterEach(async (done) => {
+      await viewerPage.clickCloseButton();
       done();
     });
 
     it('[C586779] Should be possible to view a previous document version', async () => {
-      await searchInput.clickSearchButton();
-      await searchInput.checkFilesAndFolders();
-      await searchInput.searchFor(filesToUpload[5]);
-      await dataTable.waitForBody();
-      await dataTable.selectItem(filesToUpload[5], 'Personal Files');
-      await toolbar.clickMoreActionsManageVersions();
-      await versionManagePage.viewFileVersion('5.0');
-
       expect(await browser.getCurrentUrl()).toContain('5.0');
     });
 
