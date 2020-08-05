@@ -5,14 +5,15 @@ const path = require('path');
 const { SpecReporter } = require('jasmine-spec-reporter');
 const afterLaunch = require('./e2e/e2e-config/hooks/after-launch');
 const fs = require('fs');
-require('dotenv').config();
+const resolve = require('path').resolve;
+
+require('dotenv').config({ path: process.env.ENV_FILE });
 
 const SmartRunner = require('protractor-smartrunner');
 const projectRoot = path.resolve(__dirname);
 const downloadFolder = `${projectRoot}/e2e-downloads`;
 const e2eFolder = path.resolve(projectRoot, 'e2e');
-const E2E_HOST = process.env.E2E_HOST || 'http://localhost';
-const E2E_PORT = process.env.E2E_PORT || 4200;
+const E2E_HOST = process.env.E2E_HOST || 'http://localhost:4200';
 const BROWSER_RUN = process.env.BROWSER_RUN;
 const width = 1366;
 const height = 768;
@@ -129,7 +130,7 @@ exports.config = {
 
   directConnect: true,
 
-  baseUrl: `${E2E_HOST}${E2E_PORT ? `:${E2E_PORT}` : ''}`,
+  baseUrl: E2E_HOST,
 
   getPageTimeout: 50000,
 
@@ -139,8 +140,8 @@ exports.config = {
     defaultTimeoutInterval: 100000,
     print: function() {},
     ...SmartRunner.withOptionalExclusions(
-      path.resolve(__dirname, 'e2e/protractor.excludes.json')
-    ),
+      resolve(__dirname, './e2e/protractor.excludes.json'),
+    )
   },
 
   plugins: [
@@ -155,6 +156,10 @@ exports.config = {
   ],
 
   onPrepare() {
+    if (process.env.CI) {
+      SmartRunner.apply({repoHash: process.env.GIT_HASH || ''});
+    }
+
     const tsConfigPath = path.resolve(e2eFolder, 'tsconfig.e2e.json');
     const tsConfig = require(tsConfigPath);
 

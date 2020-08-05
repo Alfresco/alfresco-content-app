@@ -2,7 +2,7 @@ const uploadOutput = require('../utils/upload-output');
 
 const SAVE_SCREENSHOT = process.env.SAVE_SCREENSHOT === 'true';
 
-async function afterLaunch(statusCode) {
+async function afterLaunch() {
 
     if (SAVE_SCREENSHOT) {
         console.log(`Save screenshot is ${SAVE_SCREENSHOT}, trying to save screenshots.`);
