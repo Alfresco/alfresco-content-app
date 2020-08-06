@@ -11,7 +11,7 @@ require('dotenv').config({ path: process.env.ENV_FILE });
 
 const SmartRunner = require('protractor-smartrunner');
 const projectRoot = path.resolve(__dirname);
-const downloadFolder = `${projectRoot}/e2e-downloads`;
+const downloadFolder = path.join(__dirname, '/e2e-downloads');
 const e2eFolder = path.resolve(projectRoot, 'e2e');
 const E2E_HOST = process.env.E2E_HOST || 'http://localhost:4200';
 const BROWSER_RUN = process.env.BROWSER_RUN;
