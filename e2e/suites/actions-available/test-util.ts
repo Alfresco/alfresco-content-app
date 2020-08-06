@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BrowsingPage, Viewer, Utils } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, Viewer, Utils, Menu } from '@alfresco/aca-testing-shared';
 import { BrowserActions } from '@alfresco/adf-testing';
 
 const page = new BrowsingPage();
@@ -31,6 +31,7 @@ const { dataTable, toolbar } = page;
 const contextMenu = dataTable.menu;
 const viewer = new Viewer();
 const viewerToolbar = viewer.toolbar;
+const menu = new Menu();
 
 export async function checkContextMenu(item: string, expectedContextMenu: string[]): Promise<void> {
   await dataTable.rightClickOnItem(item);
@@ -38,7 +39,8 @@ export async function checkContextMenu(item: string, expectedContextMenu: string
   const actualActions = await contextMenu.getMenuItems();
   expect(actualActions).toEqual(expectedContextMenu);
 
-  await toolbar.closeMoreMenuWithEscapeKey();
+  await Utils.pressEscape();
+  await menu.waitForMenuToClose();
 }
 
 export async function checkToolbarPrimary(item: string, expectedToolbarPrimary: string[]): Promise<void> {
@@ -80,6 +82,7 @@ export async function checkMultipleSelContextMenu(items: string[], expectedConte
   expect(actualActions).toEqual(expectedContextMenu);
 
   await Utils.pressEscape();
+  await menu.waitForMenuToClose();
 }
 
 export async function checkMultipleSelToolbarPrimary(items: string[], expectedToolbarPrimary: string[]): Promise<void> {
@@ -122,6 +125,7 @@ export async function checkViewerActions(item: string, expectedToolbarPrimary: s
   expect(actualMoreActions).toEqual(expectedToolbarMore);
 
   await Utils.pressEscape();
+  await menu.waitForMenuToClose();
 }
 
 const toRemove = ['Close', 'Previous File', 'Next File', 'View details'];

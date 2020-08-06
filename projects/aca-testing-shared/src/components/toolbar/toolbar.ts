@@ -93,11 +93,6 @@ export class Toolbar extends Component {
     await this.menu.waitForMenuToClose();
   }
 
-  async closeMoreMenuWithEscapeKey(): Promise<void> {
-    await Utils.pressEscape();
-    await this.menu.waitForMenuToClose();
-  }
-
   async closeMoreMenuEscape() {
     await Utils.pressEscape();
   }
