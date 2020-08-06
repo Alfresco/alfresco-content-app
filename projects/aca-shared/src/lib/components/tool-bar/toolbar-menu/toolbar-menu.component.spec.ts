@@ -24,9 +24,39 @@
  */
 
 import { ToolbarMenuComponent } from './toolbar-menu.component';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MaterialModule } from '@alfresco/adf-core';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
+import { ContentActionRef } from '@alfresco/adf-extensions';
 
 describe('ToolbarMenuComponent', () => {
-  it('should be defined', () => {
-    expect(ToolbarMenuComponent).toBeDefined();
+  let fixture: ComponentFixture<ToolbarMenuComponent>;
+  let component: ToolbarMenuComponent;
+
+  const actions = { id: 'action-1', type: 'button' } as ContentActionRef;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        MaterialModule,
+        OverlayModule,
+        TranslateModule.forRoot({
+          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
+        })
+      ]
+    });
+    fixture = TestBed.createComponent(ToolbarMenuComponent);
+    component = fixture.componentInstance;
+    component.matTrigger = jasmine.createSpyObj('MatMenuTrigger', ['closeMenu']);
+    component.actionRef = actions;
+    fixture.detectChanges();
+  });
+
+  it('should close toolbar context menu', () => {
+    spyOn(component.matTrigger, 'closeMenu');
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+    fixture.detectChanges();
+    expect(component.matTrigger.closeMenu).toHaveBeenCalled();
   });
 });

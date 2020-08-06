@@ -23,8 +23,9 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ViewEncapsulation, HostListener, ViewChild } from '@angular/core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
+import { MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
   selector: 'app-toolbar-menu',
@@ -38,6 +39,13 @@ export class ToolbarMenuComponent {
 
   @Input()
   color = '';
+
+  @ViewChild('matTrigger') matTrigger: MatMenuTrigger;
+
+  @HostListener('document:keydown.Escape')
+  handleKeydownEscape() {
+    this.matTrigger.closeMenu();
+  }
 
   get hasChildren(): boolean {
     return this.actionRef && this.actionRef.children && this.actionRef.children.length > 0;
