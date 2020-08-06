@@ -22,11 +22,12 @@
           acaContextActions
           [display]="documentDisplayMode$ | async"
           selectionMode="multiple"
-          [currentFolderId]="node?.id"
+          [currentFolderId]="nodeId"
           [showHeader]="showHeader"
           [node]="nodeResult"
           [allowDropFiles]="true"
           [navigate]="false"
+          [sorting]="['modifiedAt', 'DESC']"
           [imageResolver]="imageResolver"
           (node-dblclick)="navigateTo($event.detail?.node)"
           (name-click)="navigateTo($event.detail?.node)"
