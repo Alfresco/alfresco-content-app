@@ -38,7 +38,7 @@ export async function checkContextMenu(item: string, expectedContextMenu: string
   const actualActions = await contextMenu.getMenuItems();
   expect(actualActions).toEqual(expectedContextMenu);
 
-  await Utils.pressEscape();
+  await toolbar.closeMoreMenuWithEscapeKey();
 }
 
 export async function checkToolbarPrimary(item: string, expectedToolbarPrimary: string[]): Promise<void> {
