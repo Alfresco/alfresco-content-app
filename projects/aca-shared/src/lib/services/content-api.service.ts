@@ -69,7 +69,7 @@ export class ContentApiService {
    */
   getNode(nodeId: string, options: any = {}): Observable<MinimalNodeEntity> {
     const defaults = {
-      include: ['path', 'properties', 'allowableOperations', 'permissions']
+      include: ['path', 'properties', 'allowableOperations', 'permissions', 'definition']
     };
     const queryOptions = Object.assign(defaults, options);
 
@@ -78,7 +78,7 @@ export class ContentApiService {
 
   getNodeInfo(nodeId: string, options?: any): Observable<Node> {
     const defaults = {
-      include: ['isFavorite', 'allowableOperations', 'path']
+      include: ['isFavorite', 'allowableOperations', 'path', 'definition']
     };
     const queryOptions = Object.assign(defaults, options || {});
 
