@@ -53,11 +53,7 @@ describe('ToolbarMenuComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should be defined', () => {
-    expect(ToolbarMenuComponent).toBeDefined();
-  });
-
-  it('should close', () => {
+  it('should close toolbar context menu', () => {
     spyOn(component.matTrigger, 'closeMenu');
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
     fixture.detectChanges();

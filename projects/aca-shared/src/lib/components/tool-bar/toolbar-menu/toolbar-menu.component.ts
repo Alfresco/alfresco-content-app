@@ -42,11 +42,9 @@ export class ToolbarMenuComponent {
 
   @ViewChild('matTrigger') matTrigger: MatMenuTrigger;
 
-  @HostListener('document:keydown.Escape', ['$event'])
-  handleKeydownEscape(event: KeyboardEvent) {
-    if (event) {
-      this.matTrigger.closeMenu();
-    }
+  @HostListener('document:keydown.Escape')
+  handleKeydownEscape() {
+    this.matTrigger.closeMenu();
   }
 
   get hasChildren(): boolean {
