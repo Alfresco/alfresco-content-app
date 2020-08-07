@@ -58,7 +58,7 @@ export class DocumentListDirective implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.documentList.stickyHeader = true;
-    this.documentList.includeFields = ['isFavorite', 'aspectNames'];
+    this.documentList.includeFields = ['isFavorite', 'aspectNames', 'definition'];
     this.isLibrary =
       this.documentList.currentFolderId === '-mysites-' ||
       // workaround for custom node list
