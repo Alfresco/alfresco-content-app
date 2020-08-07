@@ -969,7 +969,6 @@
         {
           "id": "app.files.name",
           "key": "name",
-          "sortingKey": "name",
           "title": "APP.DOCUMENT_LIST.COLUMNS.NAME",
           "type": "text",
           "class": "adf-ellipsis-cell adf-expand-cell-5",
@@ -989,7 +988,6 @@
         {
           "id": "app.files.modifiedOn",
           "key": "modifiedAt",
-          "sortingKey": "modifiedAt",
           "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON",
           "type": "date",
           "format": "timeAgo",
@@ -1029,7 +1027,6 @@
         {
           "id": "app.libraries.visibility",
           "key": "visibility",
-          "sortingKey": "visibility",
           "title": "APP.DOCUMENT_LIST.COLUMNS.STATUS",
           "type": "text",
           "sortable": true,
@@ -1048,7 +1045,6 @@
         {
           "id": "app.shared.name",
           "key": "name",
-          "sortingKey": "visibility",
           "title": "APP.DOCUMENT_LIST.COLUMNS.NAME",
           "type": "text",
           "class": "adf-ellipsis-cell adf-expand-cell-5",
@@ -1059,7 +1055,6 @@
         {
           "id": "app.shared.location",
           "key": "path.name",
-          "sortingKey": "path",
           "title": "APP.DOCUMENT_LIST.COLUMNS.LOCATION",
           "type": "text",
           "sortable": true,
@@ -1078,7 +1073,6 @@
         {
           "id": "app.shared.modifiedOn",
           "key": "modifiedAt",
-          "sortingKey": "modifiedAt",
           "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON",
           "type": "date",
           "format": "timeAgo",
@@ -1117,7 +1111,6 @@
         {
           "id": "app.recent.name",
           "key": "name",
-          "sortingKey": "name",
           "title": "APP.DOCUMENT_LIST.COLUMNS.NAME",
           "type": "text",
           "class": "adf-ellipsis-cell adf-expand-cell-5",
@@ -1128,7 +1121,6 @@
         {
           "id": "app.recent.location",
           "key": "path.name",
-          "sortingKey": "path",
           "title": "APP.DOCUMENT_LIST.COLUMNS.LOCATION",
           "type": "text",
           "sortable": true,
@@ -1147,7 +1139,6 @@
         {
           "id": "app.recent.modifiedOn",
           "key": "modifiedAt",
-          "sortingKey": "modifiedAt",
           "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON",
           "type": "date",
           "format": "timeAgo",
@@ -1166,7 +1157,6 @@
         {
           "id": "app.favorites.name",
           "key": "name",
-          "sortingKey": "name",
           "title": "APP.DOCUMENT_LIST.COLUMNS.NAME",
           "type": "text",
           "class": "adf-ellipsis-cell adf-expand-cell-5",
@@ -1177,7 +1167,6 @@
         {
           "id": "app.favorites.location",
           "key": "path.name",
-          "sortingKey": "path",
           "title": "APP.DOCUMENT_LIST.COLUMNS.LOCATION",
           "type": "text",
           "sortable": true,
@@ -1187,7 +1176,6 @@
         {
           "id": "app.favorites.size",
           "key": "sizeInBytes",
-          "sortingKey": "sizeInBytes",
           "title": "APP.DOCUMENT_LIST.COLUMNS.SIZE",
           "type": "fileSize",
           "sortable": true,
@@ -1196,7 +1184,6 @@
         {
           "id": "app.favorites.modifiedOn",
           "key": "modifiedAt",
-          "sortingKey": "modifiedAt",
           "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON",
           "type": "date",
           "format": "timeAgo",
@@ -1225,7 +1212,6 @@
         {
           "id": "app.trashcan.name",
           "key": "name",
-          "sortingKey": "name",
           "title": "APP.DOCUMENT_LIST.COLUMNS.NAME",
           "type": "text",
           "class": "adf-ellipsis-cell adf-expand-cell-5",
@@ -1236,7 +1222,6 @@
         {
           "id": "app.trashcan.location",
           "key": "path.name",
-          "sortingKey": "path",
           "title": "APP.DOCUMENT_LIST.COLUMNS.LOCATION",
           "type": "text",
           "sortable": true,
