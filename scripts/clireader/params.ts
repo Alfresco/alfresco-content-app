@@ -9,5 +9,6 @@
 export enum ParamType {
   input = 'input',
   list = 'list',
+  checkbox = 'checkbox',
   confirm = 'confirm'
 }

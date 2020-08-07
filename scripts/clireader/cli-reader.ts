@@ -11,9 +11,10 @@ import * as inquirer from 'inquirer';
 import { BooleanParam } from './boolean-param';
 import { InputParam } from './input-param';
 import { ListParam } from './list-param';
+import { CheckboxParam } from './checkbox-param';
 import * as logger from '../../tools/helpers/logger';
 
-export type CliParam = ListParam | InputParam | BooleanParam;
+export type CliParam = ListParam | InputParam | BooleanParam | CheckboxParam;
 
 export class CliReader {
   private program: commander.Command;

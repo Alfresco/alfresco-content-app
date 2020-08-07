@@ -9,22 +9,22 @@
 import { ParamType } from './params';
 import { BaseParamOptions, CommanderOptionParams, BaseParam } from './base-param';
 
-export interface ComplexListChoice {
+export interface ComplexCheckboxChoice {
   name: string;
   value?: any;
-  disabled?: boolean;
+  checked?: boolean;
   short?: string;
 }
 
-export interface ListParamOptions extends BaseParamOptions {
-  choices: string[] | ComplexListChoice[];
-  pageSize?: number;
+export interface ChekboxParamOptions extends BaseParamOptions {
+  choices: string[] | ComplexCheckboxChoice[];
+  default?: any[];
 }
 
-export class ListParam extends BaseParam {
-  protected type = ParamType.list;
+export class CheckboxParam extends BaseParam {
+  protected type = ParamType.checkbox;
 
-  constructor(protected options: ListParamOptions) {
+  constructor(protected options: ChekboxParamOptions) {
     super(options);
   }
 
@@ -33,6 +33,10 @@ export class ListParam extends BaseParam {
 
     if (this.options.processor !== undefined) {
       optionParams.push(this.options.processor);
+    } else {
+      optionParams.push((value, previousValue) => {
+        return value !== undefined ? value.split(',') : previousValue;
+      });
     }
 
     if (this.options.default !== undefined) {
@@ -48,7 +52,7 @@ export class ListParam extends BaseParam {
       name: this.options.name,
       message: this.options.title,
       choices: this.options.choices,
-      pageSize: this.options.pageSize
+      default: this.options.default
     };
   }
 }

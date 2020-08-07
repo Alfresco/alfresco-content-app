@@ -4,9 +4,10 @@ const program = require('commander');
 require('dotenv').config({ path: process.env.ENV_FILE });
 const fs = require('fs');
 
-const API_HOST = process.env.API_CONTENT_HOST || 'api';
-const OAUTH_HOST = process.env.OAUTH_HOST || 'keycloak';
-const NOTIFICATION_LAST = process.env.NOTIFICATION_LAST || 2000;
+const API_HOST = process.env.API_HOST || 'bpm';
+const OAUTH_HOST = process.env.OAUTH_HOST || 'oauth-host';
+const IDENTITY_HOST = process.env.IDENTITY_HOST || 'identit-host';
+const NOTIFICATION_LAST = parseInt(process.env.NOTIFICATION_LAST, 10) || 2000;
 
 const options = {
   apiHost: {
@@ -16,7 +17,6 @@ const options = {
       appConfig.apiHost = API_HOST;
       appConfig.bpmHost = API_HOST;
       appConfig.ecmHost = API_HOST;
-      appConfig.aosHost = API_HOST + '/alfresco/aos';
     }
   },
   indentityHost: {
@@ -24,7 +24,7 @@ const options = {
     description: "set identityHost's value with IDENTITY_HOST",
     set: (appConfig) => {
       appConfig.authType = 'OAUTH';
-      appConfig.identityHost = OAUTH_HOST;
+      appConfig.identityHost = IDENTITY_HOST;
     }
   },
   oauthHost: {

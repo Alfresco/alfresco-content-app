@@ -11,15 +11,21 @@ import { existsSync } from 'fs';
 import { resolve } from 'path';
 import { spawn } from 'child_process';
 import { yellow, green, red } from 'chalk';
-import { ListParam } from 'clireader/list-param';
-import { BooleanParam } from 'clireader/boolean-param';
+import { ListParam, ComplexListChoice } from 'clireader/list-param';
+import { CheckboxParam } from '../clireader/checkbox-param';
 import { CliReader, CliParam } from 'clireader/cli-reader';
 import * as logger from '../../tools/helpers/logger';
 import * as ora from 'ora';
 
+require('dotenv').config({ path: process.env.ENV_FILE });
+const API_HOST = process.env.API_HOST;
+const OAUTH_HOST = process.env.OAUTH_HOST;
+const IDENTITY_HOST = process.env.IDENTITY_HOST;
+const NOTIFICATION_LAST = process.env.NOTIFICATION_LAST;
+
 interface LiteServeRunnerInputs {
   app: string;
-  'config-rewrite': string;
+  configRewrite: string[];
 }
 
 export default class LiteServeRunner {
@@ -38,12 +44,23 @@ export default class LiteServeRunner {
         choices: this.getAppList.bind(this),
         pageSize: 30
       }),
-      new BooleanParam({
-        name: 'config-rewrite',
+      new CheckboxParam({
+        name: 'configRewrite',
         alias: 'c',
-        title: 'Rewrite app.config.json using environment vars?',
+        title: 'Rewrite app.config.json with the following environment vars?',
         required: false,
-        default: false
+        choices: [
+          ...(API_HOST !== undefined ? [{ name: `API_HOST=${API_HOST}`, value: 'a', short: 'API_HOST', checked: true }] : []),
+          ...(OAUTH_HOST !== undefined
+            ? [{ name: `OAUTH_HOST=${OAUTH_HOST} ${red('+ authType=OAUTH also!!!')}`, value: 'o', short: 'OAUTH_HOST', checked: true }]
+            : []),
+          ...(IDENTITY_HOST !== undefined
+            ? [{ name: `IDENTITY_HOST=${IDENTITY_HOST} ${red('+ authType=OAUTH also!!!')}`, value: 'i', short: 'IDENTITY_HOST', checked: true }]
+            : []),
+          ...(NOTIFICATION_LAST !== undefined
+            ? [{ name: `NOTIFICATION_LAST=${NOTIFICATION_LAST}`, value: 'n', short: 'NOTIFICATION_LAST', checked: true }]
+            : [])
+        ]
       })
     ];
   }
@@ -65,7 +82,8 @@ export default class LiteServeRunner {
 
   private appConfigReplace(inputParams: LiteServeRunnerInputs) {
     return new Promise((resolvePromise, reject) => {
-      if (!inputParams['config-rewrite']) {
+      if (!inputParams['configRewrite'] || !inputParams['configRewrite'].length) {
+        logger.verbose(green('No rewrite has been made'));
         resolvePromise(inputParams);
         return;
       }
@@ -74,9 +92,10 @@ export default class LiteServeRunner {
         .filter((app) => app.name === inputParams.app)
         .map((project) => this.getOutputPath(project))[0];
       appPath = resolve(appPath, 'app.config.json');
+      const rewriteFlags = `-${inputParams['configRewrite'].join('')}`;
 
-      const spinner = ora(`Rewriting ${appPath}`).start();
-      const replace = spawn(process.cwd() + '/scripts/app-config-replace.js', [`--config=${appPath}`, '-na']);
+      const spinner = ora(`Rewriting ${appPath} with flags: ${rewriteFlags}`).start();
+      const replace = spawn(process.cwd() + '/scripts/app-config-replace.js', [`--config=${appPath}`, rewriteFlags]);
 
       replace.stdout.on('data', (data) => logger.verbose(data.toString()));
       replace.stderr.on('data', (data) => {
@@ -123,7 +142,7 @@ export default class LiteServeRunner {
     return resolve(process.cwd(), project.architect.build.options.outputPath);
   }
 
-  private getAppList() {
+  private getAppList(): ComplexListChoice[] {
     return getApps().map((project) => {
       if (existsSync(this.getOutputPath(project))) {
         return {
