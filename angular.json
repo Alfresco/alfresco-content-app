@@ -171,6 +171,11 @@
           "options": {
             "publicHost": "http://localhost:4200",
             "browserTarget": "app:build"
+          },
+          "configurations": {
+            "standalone": {
+                "watch": true
+            }
           }
         },
         "extract-i18n": {
@@ -380,5 +385,8 @@
     "@schematics/angular:directive": {
       "prefix": "aca"
     }
+  },
+  "cli": {
+    "analytics": "a5069b3a-642d-4d97-b810-0c24d7628413"
   }
 }
