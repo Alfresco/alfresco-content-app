@@ -146,6 +146,7 @@ export class ViewerEffects {
     })
   );
 
+  @Effect({ dispatch: false })
   pluginPreview$ = this.actions$.pipe(
     ofType<PluginPreviewAction>(ViewerActionTypes.PluginPreview),
     tap((action) => {
