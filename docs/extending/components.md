@@ -20,6 +20,7 @@ The components are used to create custom:
 | app.toolbar.toggleFavoriteLibrary | ToggleFavoriteLibraryComponent | The toolbar button component that toggles Favorite library state for the selection.                             |
 | app.toolbar.toggleJoinLibrary     | ToggleJoinLibraryComponent     | The toolbar button component that toggles Join/Cancel Join request for the selected library                     |
 | app.toolbar.viewNode              | ViewNodeComponent              | Action component to view files                                                                                  |
+| app.components.preview              | PreviewComponent              | Preview feature which can be used by plugins. For more info see the [tutorials](/extending/tutorials) about the Preview.  |
 
 See [Registration](/extending/registration) section for more details
 on how to register your own entries to be re-used at runtime.

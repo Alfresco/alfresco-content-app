@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Injectable, Type } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -53,7 +53,7 @@ import { AppConfigService, AuthenticationService, LogService } from '@alfresco/a
 import { BehaviorSubject, Observable } from 'rxjs';
 import { RepositoryInfo, NodeEntry } from '@alfresco/js-api';
 import { ViewerRules } from '../models/viewer.rules';
-import { SettingsGroupRef, ExtensionRoute } from '../models/types';
+import { SettingsGroupRef } from '../models/types';
 import { NodePermissionService } from '../services/node-permission.service';
 
 @Injectable({
@@ -61,11 +61,6 @@ import { NodePermissionService } from '../services/node-permission.service';
 })
 export class AppExtensionService implements RuleContext {
   private _references = new BehaviorSubject<ExtensionRef[]>([]);
-
-  defaults = {
-    layout: 'app.layout.main',
-    auth: ['app.auth']
-  };
 
   headerActions: Array<ContentActionRef> = [];
   toolbarActions: Array<ContentActionRef> = [];
@@ -316,31 +311,6 @@ export class AppExtensionService implements RuleContext {
 
   getSidebarTabs(): Array<SidebarTabRef> {
     return this.sidebarTabs.filter((action) => this.filterVisible(action));
-  }
-
-  getComponentById(id: string): Type<{}> {
-    return this.extensions.getComponentById(id);
-  }
-
-  getApplicationRoutes(): Array<ExtensionRoute> {
-    return this.extensions.routes.map((route) => {
-      const guards = this.extensions.getAuthGuards(route.auth && route.auth.length > 0 ? route.auth : this.defaults.auth);
-
-      return {
-        path: route.path,
-        component: this.getComponentById(route.layout || this.defaults.layout),
-        canActivateChild: guards,
-        canActivate: guards,
-        parentRoute: route.parentRoute,
-        children: [
-          {
-            path: '',
-            component: this.getComponentById(route.component),
-            data: route.data
-          }
-        ]
-      };
-    });
   }
 
   getCreateActions(): Array<ContentActionRef> {

@@ -27,10 +27,8 @@
       </ng-container>
     </adf-viewer-open-with>
 
-    <adf-viewer-toolbar-actions>
-      <ng-container
-        *ngFor="let action of viewerToolbarActions; trackBy: trackByActionId"
-      >
+    <adf-viewer-toolbar-actions *ngIf="!simplestMode">
+      <ng-container *ngFor="let action of viewerToolbarActions; trackBy: trackByActionId">
         <aca-toolbar-action [actionRef]="action"></aca-toolbar-action>
       </ng-container>
     </adf-viewer-toolbar-actions>
