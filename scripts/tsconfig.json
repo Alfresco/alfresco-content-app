@@ -1,0 +1,32 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist/scripts",
+        "module": "commonjs",
+        "target": "es5",
+        "baseUrl": ".",
+        "sourceMap": false,
+        "declaration": false,
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "skipLibCheck": true,
+        "noUnusedLocals": false,
+        "noUnusedParameters": false,
+        "noImplicitReturns": true,
+        "allowSyntheticDefaultImports": true,
+        "typeRoots": [
+            "node_modules/@types",
+            "node_modules/commander/typings/index.d.ts"
+        ],
+        "lib": ["es2018", "dom"],
+        "types": ["node", "jasmine", "jest"],
+        "paths": {
+            "angular.json": ["../angular.json"]
+        }
+    },
+    "exclude": ["node_modules"],
+    "angularCompilerOptions": {
+        "preserveWhitespaces": false
+    }
+}

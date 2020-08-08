@@ -19,6 +19,7 @@
 
 # IDE - VSCode
 .vscode/*
+!.vscode/closest-config-finder.sh
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
