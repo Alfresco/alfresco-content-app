@@ -35,9 +35,13 @@ module.exports = function(config) {
       }
     ],
     proxies: {
+      '/assets/adf-core/i18n/en-GB.json':
+        '/base/node_modules/@alfresco/adf-core/bundles/assets/adf-core/i18n/en.json',
       '/assets/adf-core/i18n/en.json':
         '/base/node_modules/@alfresco/adf-core/bundles/assets/adf-core/i18n/en.json',
       '/assets/adf-content-services/i18n/en.json':
+        '/base/node_modules/@alfresco/adf-content-services/bundles/assets/adf-content-services/i18n/en.json',
+      '/assets/adf-content-services/i18n/en-GB.json':
         '/base/node_modules/@alfresco/adf-content-services/bundles/assets/adf-content-services/i18n/en.json'
     },
     client: {
