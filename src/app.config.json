@@ -40,7 +40,7 @@
   "dateValues": {
     "defaultDateFormat": "mediumDate",
     "defaultDateTimeFormat": "MMM d, y, h:mm",
-    "defaultLocale": "en-US"
+    "defaultLocale": "en"
   },
   "adf-version-manager": {
     "allowComments": true,
