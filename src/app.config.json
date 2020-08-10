@@ -17,6 +17,7 @@
     "redirectUri": "/",
     "redirectUriLogout": "/logout"
   },
+  "locale": "en",
   "application": {
     "name": "Alfresco Content Application",
     "version": "1.11.0",
