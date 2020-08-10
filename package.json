@@ -34,9 +34,9 @@
   },
   "private": true,
   "dependencies": {
-    "@alfresco/adf-content-services": "3.10.0-61cac20ab3b1a76069dcfbfbe37619126d4b51ab",
-    "@alfresco/adf-core": "3.10.0-61cac20ab3b1a76069dcfbfbe37619126d4b51ab",
-    "@alfresco/adf-extensions": "3.10.0-61cac20ab3b1a76069dcfbfbe37619126d4b51ab",
+    "@alfresco/adf-content-services": "3.10.0-83786bf271c258bae09595811212e6df1141c0e8",
+    "@alfresco/adf-core": "3.10.0-83786bf271c258bae09595811212e6df1141c0e8",
+    "@alfresco/adf-extensions": "3.10.0-83786bf271c258bae09595811212e6df1141c0e8",
     "@alfresco/js-api": "3.10.0-23b97d354151ced90eb2fc68f9d57cad852376d7",
     "@angular-custom-builders/lite-serve": "^0.2.2",
     "@angular/animations": "10.0.4",
@@ -72,8 +72,8 @@
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
-    "@alfresco/adf-cli": "3.10.0-61cac20ab3b1a76069dcfbfbe37619126d4b51ab",
-    "@alfresco/adf-testing": "3.10.0-61cac20ab3b1a76069dcfbfbe37619126d4b51ab",
+    "@alfresco/adf-cli": "3.10.0-83786bf271c258bae09595811212e6df1141c0e8",
+    "@alfresco/adf-testing": "3.10.0-83786bf271c258bae09595811212e6df1141c0e8",
     "@angular-devkit/build-angular": "~0.1000.4",
     "@angular-devkit/build-ng-packagr": "~0.1000.5",
     "@angular/cli": "^10.0.5",
