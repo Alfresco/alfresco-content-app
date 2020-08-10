@@ -139,7 +139,6 @@ describe('FilesComponent', () => {
     beforeEach(() => {
       spyOn(contentApi, 'getNode').and.returnValue(of({ entry: node }));
       spyOn(component, 'reload');
-
       fixture.detectChanges();
 
       spyOn(component.documentList, 'loadFolder').and.callFake(() => {});

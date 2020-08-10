@@ -562,6 +562,10 @@
           "description": "Property key",
           "type": "string"
         },
+        "sortingKey": {
+          "description": "Property key for server sorting",
+          "type": "string"
+        },
         "type": {
           "description": "Column type",
           "type": "string",

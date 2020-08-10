@@ -21,13 +21,13 @@
           acaDocumentList
           acaContextActions
           [display]="documentDisplayMode$ | async"
-          [sorting]="['modifiedAt', 'desc']"
           selectionMode="multiple"
           [currentFolderId]="node?.id"
           [showHeader]="showHeader"
           [node]="nodeResult"
           [allowDropFiles]="true"
           [navigate]="false"
+          [sorting]="['modifiedAt', 'DESC']"
           [imageResolver]="imageResolver"
           (node-dblclick)="navigateTo($event.detail?.node)"
           (name-click)="navigateTo($event.detail?.node)"
@@ -55,6 +55,7 @@
                   [format]="column.format"
                   [class]="column.class"
                   [sortable]="column.sortable"
+                  [sortingKey]="column.sortingKey || column.key"
                 >
                   <ng-template let-context>
                     <adf-dynamic-column [id]="column.template" [context]="context"> </adf-dynamic-column>
@@ -70,6 +71,7 @@
                   [format]="column.format"
                   [class]="column.class"
                   [sortable]="column.sortable"
+                  [sortingKey]="column.sortingKey || column.key"
                 >
                 </data-column>
               </ng-container>
