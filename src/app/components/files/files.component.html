@@ -22,7 +22,7 @@
           acaContextActions
           [display]="documentDisplayMode$ | async"
           selectionMode="multiple"
-          [currentFolderId]="nodeId"
+          [currentFolderId]="node?.id"
           [showHeader]="showHeader"
           [node]="nodeResult"
           [allowDropFiles]="true"
@@ -36,7 +36,7 @@
             <ng-template let-col>
               <adf-search-header
                 [col]="col"
-                [currentFolderNodeId]="nodeId"
+                [currentFolderNodeId]="node?.id"
                 [maxItems]="(documentList?.pagination | async)?.maxItems"
                 [skipCount]="(documentList?.pagination | async)?.skipCount"
                 (update)="onFilterUpdate($event)"

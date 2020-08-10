@@ -51,7 +51,6 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   isSmallScreen = false;
   isAdmin = false;
   selectedNode: MinimalNodeEntity;
-  nodeId = null;
 
   private nodePath: PathElement[];
 
@@ -80,9 +79,9 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     this.title = data.title;
 
     route.params.subscribe(({ folderId }: Params) => {
-      this.nodeId = folderId || data.defaultNodeId;
+      const nodeId = folderId || data.defaultNodeId;
 
-      this.contentApi.getNode(this.nodeId).subscribe(
+      this.contentApi.getNode(nodeId).subscribe(
         (node) => {
           this.isValidPath = true;
 
