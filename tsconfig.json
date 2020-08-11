@@ -23,9 +23,6 @@
       "path": "./projects/aca-testing-shared/tsconfig.lib.json"
     },
     {
-      "path": "./projects/aca-testing-shared/tsconfig.spec.json"
-    },
-    {
       "path": "./projects/adf-office-services-ext/tsconfig.lib.json"
     },
     {
