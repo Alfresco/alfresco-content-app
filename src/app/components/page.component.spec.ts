@@ -27,13 +27,14 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { PageComponent } from './page.component';
 import { ReloadDocumentListAction, SetSelectedNodesAction, SetInfoDrawerStateAction, AppState, AppStore } from '@alfresco/aca-shared/store';
 import { AppExtensionService } from '@alfresco/aca-shared';
-import { MinimalNodeEntity } from '@alfresco/js-api';
+import { MinimalNodeEntity, NodePaging } from '@alfresco/js-api';
 import { ContentManagementService } from '../services/content-management.service';
 import { EffectsModule } from '@ngrx/effects';
 import { ViewerEffects } from '../store/effects';
 import { Store } from '@ngrx/store';
 import { AppTestingModule } from '../testing/app-testing.module';
 import { Component } from '@angular/core';
+import { DocumentListComponent } from '@alfresco/adf-content-services';
 
 @Component({
   selector: 'aca-test',
@@ -146,6 +147,51 @@ describe('PageComponent', () => {
 
       component.reload(node);
       expect(store.dispatch['calls'].mostRecent().args[0]).toEqual(new SetSelectedNodesAction([node]));
+    });
+
+    it('should update source on onFilterUpdate event', () => {
+      const nodePaging = {
+        list: {
+          pagination: {},
+          entries: [{ entry: { id: 'new-node-id' } }]
+        }
+      } as NodePaging;
+
+      component.onFilterUpdate(nodePaging);
+      expect(component.nodeResult).toEqual(nodePaging);
+    });
+
+    it('should clear results onAllFilterCleared event', () => {
+      component.documentList = {
+        node: {
+          list: {
+            pagination: {},
+            entries: [{ entry: { id: 'new-node-id' } }]
+          }
+        } as NodePaging
+      } as DocumentListComponent;
+      spyOn(store, 'dispatch');
+
+      component.onAllFilterCleared();
+      expect(component.documentList.node).toBe(null);
+      expect(store.dispatch['calls'].mostRecent().args[0]).toEqual(new ReloadDocumentListAction());
+    });
+
+    it('should call onAllFilterCleared event if page is viewer outlet', () => {
+      window.history.pushState({}, null, `${locationHref}#test(viewer:view)`);
+      const nodePaging = {
+        list: {
+          pagination: {},
+          entries: [{ entry: { id: 'new-node-id' } }]
+        }
+      } as NodePaging;
+
+      component.documentList = { node: nodePaging } as DocumentListComponent;
+      spyOn(store, 'dispatch');
+
+      component.onAllFilterCleared();
+      expect(component.documentList.node).toEqual(nodePaging);
+      expect(store.dispatch).not.toHaveBeenCalled();
     });
   });
 });
