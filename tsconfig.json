@@ -1,36 +1,35 @@
+/*
+  This is a "Solution Style" tsconfig.json file, and is used by editors and TypeScript’s language server to improve development experience.
+  It is not intended to be used to perform a compilation.
+
+  To learn more about this file see: https://angular.io/config/solution-tsconfig.
+*/
 {
-  "compileOnSave": false,
-  "compilerOptions": {
-    "baseUrl": "./",
-    "downlevelIteration": true,
-    "importHelpers": true,
-    "outDir": "./dist/out-tsc",
-    "sourceMap": true,
-    "declaration": false,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "target": "es2015",
-    "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true,
-    "typeRoots": ["node_modules/@types"],
-    "lib": ["es2018", "dom"],
-    "paths": {
-      "@alfresco/aca-shared": ["projects/aca-shared/src/public-api.ts"],
-      "@alfresco/aca-shared/store": ["projects/aca-shared/store/src/public-api.ts"],
-      "@alfresco/aca-shared/rules": ["projects/aca-shared/rules/src/public-api.ts"],
-      "@alfresco/adf-office-services-ext": ["projects/adf-office-services-ext/src/public-api.ts"],
-      "@alfresco/aca-testing-shared": ["projects/aca-testing-shared"]
+  "files": [],
+  "references": [
+    {
+      "path": "./src/tsconfig.app.json"
+    },
+    {
+      "path": "./src/tsconfig.spec.json"
+    },
+    {
+      "path": "./e2e/tsconfig.e2e.json"
+    },
+    {
+      "path": "./projects/aca-shared/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/aca-shared/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/aca-testing-shared/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/adf-office-services-ext/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/adf-office-services-ext/tsconfig.spec.json"
     }
-  },
-  "exclude": ["node_modules"],
-  "angularCompilerOptions": {
-    "preserveWhitespaces": false,
-    "fullTemplateTypeCheck": true,
-    "strictInjectionParameters": true
-  }
+  ]
 }
