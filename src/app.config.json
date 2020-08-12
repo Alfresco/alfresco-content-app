@@ -515,6 +515,20 @@
           "ascending": true
         },
         {
+          "key": "modifiedAt",
+          "label": "SEARCH.SORT.MODIFIED_DATE",
+          "type": "FIELD",
+          "field": "cm:modified",
+          "ascending": true
+        },
+        {
+          "key": "modifiedByUser.displayName",
+          "label": "SEARCH.SORT.MODIFIER",
+          "type": "FIELD",
+          "field": "cm:modifier",
+          "ascending": true
+        },        
+        {
           "key": "score",
           "label": "Relevance",
           "type": "FIELD",
