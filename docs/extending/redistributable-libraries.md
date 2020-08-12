@@ -65,9 +65,12 @@ Create a new `assets/my-extension.json` file in the library project root folder 
 ```json
 {
   "$schema": "../../../extension.schema.json",
+  "$id": "my-extension",
   "$version": "1.0.0",
+  "$vendor": "Your name or company name",
   "$name": "plugin1",
   "$description": "demo plugin",
+  "$license": "MIT",
 
   "routes": [
     {
@@ -186,7 +189,7 @@ export class AppExtensionsModule {}
 
 ### Register plugin
 
-Finally, update the `assets/app.extensions.json` file and add a reference to the new plugin:
+Finally, update the `src/assets/app.extensions.json` file and add a reference to the new plugin:
 
 ```json
 {
