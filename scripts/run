@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const path = require('path');
-const tsConfigPath = path.resolve(__dirname, 'tsconfig.base.json');
+const tsConfigPath = path.resolve(__dirname, 'tsconfig.json');
 const tsConfig = require(tsConfigPath);
 
 require('ts-node').register({ project: tsConfigPath });
