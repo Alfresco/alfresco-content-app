@@ -52,7 +52,7 @@
     },
     "NEW_MENU": {
       "LABEL": "Nuovo",
-      "TOOLTIP": "Aggiungi nuovi file o cartelle oppure crea una nuova raccolta di file",
+      "TOOLTIP": "Aggiungi nuovi file o cartelle oppure crea una nuova libreria di file",
       "MENU_ITEMS": {
         "CREATE_FOLDER": "Crea cartella",
         "UPLOAD_FILE": "Carica file",
@@ -94,7 +94,7 @@
           },
           "FAVORITE_LIBRARIES": {
             "TITLE": "Nessuna raccolta preferita",
-            "TEXT": "Imposta una raccolta come preferita per trovarla facilmente in seguito."
+            "TEXT": "Imposta una libreria come preferita per trovarla facilmente in seguito."
           }
         },
         "MENU": {
@@ -212,7 +212,7 @@
       "FULLSCREEN": "Attiva modalità schermo intero",
       "JOIN": "Partecipa",
       "CANCEL_JOIN": "Annulla richiesta di partecipazione",
-      "LEAVE": "Esci dalla raccolta",
+      "LEAVE": "Esci dalla libreria",
       "EDIT_OFFLINE": "Modifica offline",
       "EDIT_OFFLINE_CANCEL": "Annulla modifica",
       "LIST_MODE": "Visualizza elenco",
@@ -226,7 +226,7 @@
         "NO_LABEL": "Salvare"
       },
       "CONFIRM_LEAVE": {
-        "TITLE": "Uscire dalla raccolta?",
+        "TITLE": "Uscire dalla libreria?",
         "MESSAGE": "L'uscita comporta la rimozione dei dati di accesso.",
         "YES_LABEL": "OK",
         "NO_LABEL": "Annulla"
@@ -236,6 +236,7 @@
       "COLUMNS": {
         "ID": "ID",
         "NAME": "Nome",
+        "DESCRIPTION": "Descrizione",
         "SIZE": "Dimensione",
         "MODIFIED_ON": "Modificato",
         "MODIFIED_BY": "Modificato da",
@@ -279,10 +280,10 @@
             "GENERIC": "Si è verificato un problema durante il ripristino di {{ name }}"
           }
         },
-        "DELETE_LIBRARY_FAILED": "Impossibile eliminare la raccolta",
-        "JOIN_REQUEST_FAILED": "Impossibile partecipare alla raccolta",
+        "DELETE_LIBRARY_FAILED": "Impossibile eliminare la libreria",
+        "JOIN_REQUEST_FAILED": "Impossibile partecipare alla libreria",
         "JOIN_CANCEL_FAILED": "Impossibile annullare la richiesta di partecipazione",
-        "LEAVE_LIBRARY_FAILED": "Impossibile uscire dalla raccolta",
+        "LEAVE_LIBRARY_FAILED": "Impossibile uscire dalla libreria",
         "INVALID_SENDER_EMAIL": "L'indirizzo email deve essere valido prima della richiesta di accesso.",
         "INVALID_RECEIVER_EMAIL": "Indirizzo email del destinatario non valido. Contattare l'IT."
       },
@@ -332,11 +333,11 @@
             "FAIL": "Impossibile spostare {{ failed }}."
           }
         },
-        "LIBRARY_DELETED": "Raccolta eliminata",
-        "JOINED": "Partecipazione alla raccolta confermata",
-        "JOIN_REQUESTED": "Richiesta di partecipazione alla raccolta inviata",
-        "JOIN_CANCELED": "Richiesta di partecipazione alla raccolta annullata",
-        "LEFT_LIBRARY": "Sei uscito dalla raccolta"
+        "LIBRARY_DELETED": "Libreria eliminata",
+        "JOINED": "Partecipazione alla libreria confermata",
+        "JOIN_REQUESTED": "Richiesta di partecipazione alla libreria inviata",
+        "JOIN_CANCELED": "Richiesta di partecipazione alla libreria annullata",
+        "LEFT_LIBRARY": "Sei uscito dalla libreria"
       }
     },
     "CONTENT_METADATA": {
@@ -444,21 +445,21 @@
       "MODERATED": "Moderato"
     },
     "HINTS": {
-      "SITE_TITLE_EXISTS": "Nome raccolta già utilizzato"
+      "SITE_TITLE_EXISTS": "Nome libreria già utilizzato"
     },
     "ERRORS": {
       "GENERIC": "Si è verificato un problema",
-      "EXISTENT_SITE": "L'ID raccolta non è disponibile. Provare con un altro ID raccolta.",
+      "EXISTENT_SITE": "L'ID libreria non è disponibile. Provare con un altro ID libreria.",
       "CONFLICT": "L'ID libreria specificato è già in uso. Verificare il cestino.",
       "ID_TOO_LONG": "Utilizzare 72 caratteri o meno per il nome URL",
       "DESCRIPTION_TOO_LONG": "Utilizzare 512 o meno per la descrizione",
       "TITLE_TOO_LONG": "Utilizzare 256 caratteri o meno per il titolo",
       "ILLEGAL_CHARACTERS": "Utilizzare solo lettere e numeri",
-      "ONLY_SPACES": "Il nome della raccolta non può contenere solo spazi",
-      "LIBRARY_UPDATE_ERROR": "Si è verificato un errore di caricamento delle proprietà della raccolta"
+      "ONLY_SPACES": "Il nome della libreria non può contenere solo spazi",
+      "LIBRARY_UPDATE_ERROR": "Si è verificato un errore di caricamento delle proprietà della libreria"
     },
     "SUCCESS": {
-      "LIBRARY_UPDATED": "Proprietà della raccolta aggiornate"
+      "LIBRARY_UPDATED": "Proprietà della libreria aggiornate"
     }
   },
   "SEARCH": {
@@ -502,6 +503,34 @@
       "THIS_MONTH": "Questo mese",
       "LAST_6_MONTHS": "Negli ultimi 6 mesi",
       "THIS_YEAR": "Quest'anno"
+    },
+    "SEARCH_HEADER": {
+      "TITLE": "Filtra",
+      "TYPE": "Tipo",
+      "FILTER_BY": "Filtra per {{ category }}",
+      "CLEAR": "Cancella",
+      "APPLY": "Applica",
+      "FILTERS": {
+        "NAME": {
+          "TITLE": "Nome",
+          "PLACEHOLDER": "Immettere il nome"
+        },
+        "TYPE": {
+          "TITLE": "Selezionare il tipo",
+          "FOLDER": "Cartella",
+          "DOCUMENT": "Documento"
+        },
+        "SIZE": {
+          "TITLE": "Dimensione contenuto (intervallo)",
+          "SMALL": "Piccola",
+          "MEDIUM": "Media",
+          "LARGE": "Grande",
+          "HUGE": "Enorme"
+        },
+        "DATE": {
+          "TITLE": "Data di creazione (intervallo)"
+        }
+      }
     }
   },
   "AVATAR": {
@@ -542,7 +571,7 @@
   },
   "ADF-DATATABLE": {
     "FILE_TYPE": {
-      "BOOKS-24PX": "Raccolta di file",
+      "BOOKS-24PX": "Libreria di file",
       "BASELINE-LOCK-24PX": "File bloccato"
     }
   }

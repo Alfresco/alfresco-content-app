@@ -236,6 +236,7 @@
       "COLUMNS": {
         "ID": "ID",
         "NAME": "Namn",
+        "DESCRIPTION": "Beskrivning",
         "SIZE": "Storlek",
         "MODIFIED_ON": "Modifierad",
         "MODIFIED_BY": "Modifierad av",
@@ -502,6 +503,34 @@
       "THIS_MONTH": "Denna månad",
       "LAST_6_MONTHS": "Under de senaste 6 månaderna",
       "THIS_YEAR": "Detta år"
+    },
+    "SEARCH_HEADER": {
+      "TITLE": "Filtrera",
+      "TYPE": "Typ",
+      "FILTER_BY": "Filtrera efter {{ category }}",
+      "CLEAR": "Rensa",
+      "APPLY": "Tillämpa",
+      "FILTERS": {
+        "NAME": {
+          "TITLE": "Namn",
+          "PLACEHOLDER": "Ange namn"
+        },
+        "TYPE": {
+          "TITLE": "Kontrolltyp",
+          "FOLDER": "Mapp",
+          "DOCUMENT": "Dokument"
+        },
+        "SIZE": {
+          "TITLE": "Innehållsstorlek (intervall)",
+          "SMALL": "Litet",
+          "MEDIUM": "Medium",
+          "LARGE": "Stort",
+          "HUGE": "Jättestort"
+        },
+        "DATE": {
+          "TITLE": "Skapad datum (intervall)"
+        }
+      }
     }
   },
   "AVATAR": {

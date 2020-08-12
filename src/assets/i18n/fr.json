@@ -236,6 +236,7 @@
       "COLUMNS": {
         "ID": "ID",
         "NAME": "Nom",
+        "DESCRIPTION": "Description",
         "SIZE": "Taille",
         "MODIFIED_ON": "Modifié",
         "MODIFIED_BY": "Modifié par",
@@ -502,6 +503,34 @@
       "THIS_MONTH": "Ce mois",
       "LAST_6_MONTHS": "Au cours des 6 derniers mois",
       "THIS_YEAR": "Cette année"
+    },
+    "SEARCH_HEADER": {
+      "TITLE": "Filtrer",
+      "TYPE": "Type",
+      "FILTER_BY": "Filtrer par {{ category }}",
+      "CLEAR": "Supprimer",
+      "APPLY": "Appliquer",
+      "FILTERS": {
+        "NAME": {
+          "TITLE": "Nom",
+          "PLACEHOLDER": "Saisir le nom"
+        },
+        "TYPE": {
+          "TITLE": "Cocher le type",
+          "FOLDER": "Dossier",
+          "DOCUMENT": "Document"
+        },
+        "SIZE": {
+          "TITLE": "Taille du contenu (plage)",
+          "SMALL": "Petite",
+          "MEDIUM": "Moyenne",
+          "LARGE": "Grande",
+          "HUGE": "Énorme"
+        },
+        "DATE": {
+          "TITLE": "Date de création (plage)"
+        }
+      }
     }
   },
   "AVATAR": {

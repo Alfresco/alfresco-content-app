@@ -236,6 +236,7 @@
       "COLUMNS": {
         "ID": "ID",
         "NAME": "名前",
+        "DESCRIPTION": "説明",
         "SIZE": "サイズ",
         "MODIFIED_ON": "変更日",
         "MODIFIED_BY": "変更者",
@@ -502,6 +503,34 @@
       "THIS_MONTH": "今月",
       "LAST_6_MONTHS": "過去 6 か月",
       "THIS_YEAR": "今年"
+    },
+    "SEARCH_HEADER": {
+      "TITLE": "フィルタ",
+      "TYPE": "種類",
+      "FILTER_BY": "{{ category }} でフィルタ",
+      "CLEAR": "消去",
+      "APPLY": "適用",
+      "FILTERS": {
+        "NAME": {
+          "TITLE": "名前",
+          "PLACEHOLDER": "名前を入力してください"
+        },
+        "TYPE": {
+          "TITLE": "種類を選択してください",
+          "FOLDER": "フォルダ",
+          "DOCUMENT": "文書"
+        },
+        "SIZE": {
+          "TITLE": "コンテンツのサイズ (範囲)",
+          "SMALL": "小",
+          "MEDIUM": "中",
+          "LARGE": "大",
+          "HUGE": "特大"
+        },
+        "DATE": {
+          "TITLE": "作成日 (範囲)"
+        }
+      }
     }
   },
   "AVATAR": {

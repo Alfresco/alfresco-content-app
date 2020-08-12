@@ -236,6 +236,7 @@
       "COLUMNS": {
         "ID": "ID",
         "NAME": "名称",
+        "DESCRIPTION": "说明",
         "SIZE": "大小",
         "MODIFIED_ON": "已修改",
         "MODIFIED_BY": "修改人",
@@ -502,6 +503,34 @@
       "THIS_MONTH": "本月",
       "LAST_6_MONTHS": "最近 6 个月",
       "THIS_YEAR": "今年"
+    },
+    "SEARCH_HEADER": {
+      "TITLE": "筛选器",
+      "TYPE": "类型",
+      "FILTER_BY": "根据 {{ category }} 筛选",
+      "CLEAR": "清除",
+      "APPLY": "应用",
+      "FILTERS": {
+        "NAME": {
+          "TITLE": "名称",
+          "PLACEHOLDER": "输入名称"
+        },
+        "TYPE": {
+          "TITLE": "勾选类型",
+          "FOLDER": "文件夹",
+          "DOCUMENT": "文档"
+        },
+        "SIZE": {
+          "TITLE": "内容大小（范围）",
+          "SMALL": "小",
+          "MEDIUM": "中",
+          "LARGE": "大",
+          "HUGE": "特大"
+        },
+        "DATE": {
+          "TITLE": "创建日期（范围）"
+        }
+      }
     }
   },
   "AVATAR": {
@@ -543,7 +572,7 @@
   "ADF-DATATABLE": {
     "FILE_TYPE": {
       "BOOKS-24PX": "文件库",
-      "BASELINE-LOCK-24PX": "已锁定文件"
+      "BASELINE-LOCK-24PX": "无法完成该操作。将此信息告知您的 IT 团队：将 {{data}} 反序列化为 {{contentType}} 过程中出错"
     }
   }
 }

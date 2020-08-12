@@ -236,6 +236,7 @@
       "COLUMNS": {
         "ID": "Id",
         "NAME": "Navn",
+        "DESCRIPTION": "Beskrivelse",
         "SIZE": "Størrelse",
         "MODIFIED_ON": "Ændret",
         "MODIFIED_BY": "Ændret af",
@@ -502,6 +503,34 @@
       "THIS_MONTH": "I denne måned",
       "LAST_6_MONTHS": "I de sidste 6 måneder",
       "THIS_YEAR": "I år"
+    },
+    "SEARCH_HEADER": {
+      "TITLE": "Filter",
+      "TYPE": "Type",
+      "FILTER_BY": "Sorter efter {{ category }}",
+      "CLEAR": "Ryd",
+      "APPLY": "Anvend",
+      "FILTERS": {
+        "NAME": {
+          "TITLE": "Navn",
+          "PLACEHOLDER": "Angiv navnet"
+        },
+        "TYPE": {
+          "TITLE": "Kontrollér type",
+          "FOLDER": "Mappe",
+          "DOCUMENT": "Dokument"
+        },
+        "SIZE": {
+          "TITLE": "Indholdsstørrelse (interval)",
+          "SMALL": "Lille",
+          "MEDIUM": "Medium",
+          "LARGE": "Stor",
+          "HUGE": "Meget stor"
+        },
+        "DATE": {
+          "TITLE": "Oprettelsesdato (interval)"
+        }
+      }
     }
   },
   "AVATAR": {

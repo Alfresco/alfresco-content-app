@@ -236,6 +236,7 @@
       "COLUMNS": {
         "ID": "ID",
         "NAME": "Název",
+        "DESCRIPTION": "Popis",
         "SIZE": "Velikost",
         "MODIFIED_ON": "Změněno",
         "MODIFIED_BY": "Změnil(a)",
@@ -502,6 +503,34 @@
       "THIS_MONTH": "Tento měsíc",
       "LAST_6_MONTHS": "Za posledních 6 měsíců",
       "THIS_YEAR": "Letos"
+    },
+    "SEARCH_HEADER": {
+      "TITLE": "Filtr",
+      "TYPE": "Typ",
+      "FILTER_BY": "Filtrovat podle {{ category }}",
+      "CLEAR": "Vymazat",
+      "APPLY": "Použít",
+      "FILTERS": {
+        "NAME": {
+          "TITLE": "Název",
+          "PLACEHOLDER": "Zadejte název"
+        },
+        "TYPE": {
+          "TITLE": "Zkontrolujte typ",
+          "FOLDER": "Složka",
+          "DOCUMENT": "Dokument"
+        },
+        "SIZE": {
+          "TITLE": "Velikost obsahu (rozmezí)",
+          "SMALL": "Malá",
+          "MEDIUM": "Střední",
+          "LARGE": "Velká",
+          "HUGE": "Obrovská"
+        },
+        "DATE": {
+          "TITLE": "Datum vytvoření (rozmezí)"
+        }
+      }
     }
   },
   "AVATAR": {
