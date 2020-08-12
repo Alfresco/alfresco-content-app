@@ -1,6 +1,6 @@
 {
   "APP": {
-    "COPYRIGHT": "© 2017 - 2020 Alfresco Software, Inc. Alle Rechte vorbehalten.",
+    "COPYRIGHT": "© 2017–2020 Alfresco Software, Inc. Alle Rechte vorbehalten.",
     "ABOUT": {
       "VERSION": "Version:",
       "PLUGINS": {
@@ -236,6 +236,7 @@
       "COLUMNS": {
         "ID": "ID",
         "NAME": "Name",
+        "DESCRIPTION": "Beschreibung",
         "SIZE": "Größe",
         "MODIFIED_ON": "Bearbeitet",
         "MODIFIED_BY": "Bearbeitet von",
@@ -502,6 +503,34 @@
       "THIS_MONTH": "diesen Monat",
       "LAST_6_MONTHS": "in den letzten 6 Monaten",
       "THIS_YEAR": "dieses Jahr"
+    },
+    "SEARCH_HEADER": {
+      "TITLE": "Filter",
+      "TYPE": "Typ",
+      "FILTER_BY": "Filtern nach {{ category }}",
+      "CLEAR": "Löschen",
+      "APPLY": "Anwenden",
+      "FILTERS": {
+        "NAME": {
+          "TITLE": "Name",
+          "PLACEHOLDER": "Namen eingeben"
+        },
+        "TYPE": {
+          "TITLE": "Typ auswählen",
+          "FOLDER": "Ordner",
+          "DOCUMENT": "Dokument"
+        },
+        "SIZE": {
+          "TITLE": "Inhaltsgröße (Bereich)",
+          "SMALL": "Klein",
+          "MEDIUM": "Mittel",
+          "LARGE": "Groß",
+          "HUGE": "Riesig"
+        },
+        "DATE": {
+          "TITLE": "Erstellungsdatum (Bereich)"
+        }
+      }
     }
   },
   "AVATAR": {

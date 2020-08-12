@@ -236,6 +236,7 @@
       "COLUMNS": {
         "ID": "Tunnus",
         "NAME": "Nimi",
+        "DESCRIPTION": "Kuvaus",
         "SIZE": "Koko",
         "MODIFIED_ON": "Muokattu",
         "MODIFIED_BY": "Muokkaaja:",
@@ -502,6 +503,34 @@
       "THIS_MONTH": "Tässä kuussa",
       "LAST_6_MONTHS": "Viimeisen 6 kuukauden aikana",
       "THIS_YEAR": "Tänä vuonna"
+    },
+    "SEARCH_HEADER": {
+      "TITLE": "Suodatin",
+      "TYPE": "Tyyppi",
+      "FILTER_BY": "Suodata {{ category }}-luokan perusteella",
+      "CLEAR": "Tyhjennä",
+      "APPLY": "Käytä",
+      "FILTERS": {
+        "NAME": {
+          "TITLE": "Nimi",
+          "PLACEHOLDER": "Kirjoita nimi"
+        },
+        "TYPE": {
+          "TITLE": "Valitse tyyppi",
+          "FOLDER": "Kansio",
+          "DOCUMENT": "Asiakirja"
+        },
+        "SIZE": {
+          "TITLE": "Sisällön koko (vaihteluväli)",
+          "SMALL": "Pieni",
+          "MEDIUM": "Keskikokoinen",
+          "LARGE": "Suuri",
+          "HUGE": "Valtava"
+        },
+        "DATE": {
+          "TITLE": "Luontipäivämäärä (vaihteluväli)"
+        }
+      }
     }
   },
   "AVATAR": {

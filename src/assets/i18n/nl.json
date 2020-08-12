@@ -236,6 +236,7 @@
       "COLUMNS": {
         "ID": "Id",
         "NAME": "Naam",
+        "DESCRIPTION": "Beschrijving",
         "SIZE": "Grootte",
         "MODIFIED_ON": "Aangepast",
         "MODIFIED_BY": "Aangepast door",
@@ -502,6 +503,34 @@
       "THIS_MONTH": "Deze maand",
       "LAST_6_MONTHS": "In de afgelopen 6 maanden",
       "THIS_YEAR": "Dit jaar"
+    },
+    "SEARCH_HEADER": {
+      "TITLE": "Filteren",
+      "TYPE": "Type",
+      "FILTER_BY": "Filteren op {{ category }}",
+      "CLEAR": "Wissen",
+      "APPLY": "Toepassen",
+      "FILTERS": {
+        "NAME": {
+          "TITLE": "Naam",
+          "PLACEHOLDER": "Voer de naam in"
+        },
+        "TYPE": {
+          "TITLE": "Bevestig type",
+          "FOLDER": "Map",
+          "DOCUMENT": "Document"
+        },
+        "SIZE": {
+          "TITLE": "Contentgrootte (bereik)",
+          "SMALL": "Klein",
+          "MEDIUM": "Gemiddeld",
+          "LARGE": "Groot",
+          "HUGE": "Zeer groot"
+        },
+        "DATE": {
+          "TITLE": "Datum gemaakt (bereik)"
+        }
+      }
     }
   },
   "AVATAR": {

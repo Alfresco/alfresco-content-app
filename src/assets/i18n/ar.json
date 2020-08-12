@@ -236,6 +236,7 @@
       "COLUMNS": {
         "ID": "المعرف",
         "NAME": "الاسم",
+        "DESCRIPTION": "الوصف",
         "SIZE": "الحجم",
         "MODIFIED_ON": "تم التعديل",
         "MODIFIED_BY": "تم التعديل بواسطة",
@@ -502,6 +503,34 @@
       "THIS_MONTH": "هذا الشهر",
       "LAST_6_MONTHS": "في آخر 6 أشهر",
       "THIS_YEAR": "هذا العام"
+    },
+    "SEARCH_HEADER": {
+      "TITLE": "عامل التصفية",
+      "TYPE": "النوع",
+      "FILTER_BY": "تصفية حسب {{ category }}",
+      "CLEAR": "مسح",
+      "APPLY": "تطبيق",
+      "FILTERS": {
+        "NAME": {
+          "TITLE": "الاسم",
+          "PLACEHOLDER": "أدخل الاسم"
+        },
+        "TYPE": {
+          "TITLE": "تحديد النوع",
+          "FOLDER": "مجلد",
+          "DOCUMENT": "مستند"
+        },
+        "SIZE": {
+          "TITLE": "حجم المحتوى (نطاق)",
+          "SMALL": "صغير",
+          "MEDIUM": "متوسط",
+          "LARGE": "كبير",
+          "HUGE": "ضخم"
+        },
+        "DATE": {
+          "TITLE": "تاريخ الإنشاء (نطاق)"
+        }
+      }
     }
   },
   "AVATAR": {
