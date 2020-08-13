@@ -33,11 +33,12 @@ import {
   AppConfigPipe,
   UploadService
 } from '@alfresco/adf-core';
-import { DocumentListComponent } from '@alfresco/adf-content-services';
+import { CustomResourcesService, DocumentListComponent } from '@alfresco/adf-content-services';
 import { SharedFilesComponent } from './shared-files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { Router } from '@angular/router';
 import { ContentManagementService } from '../../services/content-management.service';
+import { of } from 'rxjs';
 
 describe('SharedFilesComponent', () => {
   let fixture: ComponentFixture<SharedFilesComponent>;
@@ -45,6 +46,7 @@ describe('SharedFilesComponent', () => {
   let alfrescoApi: AlfrescoApiService;
   let page;
   let uploadService: UploadService;
+  let customResourcesService: CustomResourcesService;
   let contentManagementService: ContentManagementService;
   const mockRouter = {
     url: 'shared-files'
@@ -76,12 +78,14 @@ describe('SharedFilesComponent', () => {
     fixture = TestBed.createComponent(SharedFilesComponent);
     uploadService = TestBed.inject(UploadService);
     contentManagementService = TestBed.inject(ContentManagementService);
+    customResourcesService = TestBed.inject(CustomResourcesService);
     component = fixture.componentInstance;
 
     alfrescoApi = TestBed.inject(AlfrescoApiService);
     alfrescoApi.reset();
 
     spyOn(alfrescoApi.sharedLinksApi, 'findSharedLinks').and.returnValue(Promise.resolve(page));
+    spyOn(customResourcesService, 'loadSharedLinks').and.returnValue(of(page));
   });
 
   it('should call document list reload on linksUnshared event', fakeAsync(() => {
