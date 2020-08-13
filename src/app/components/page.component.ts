@@ -66,6 +66,7 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   canUpload = false;
   nodeResult: NodePaging;
   showHeader = ShowHeaderMode.Always;
+  filterSorting = null;
 
   protected subscriptions: Subscription[] = [];
 
@@ -162,6 +163,10 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
 
   onFilterUpdate(newNodePaging: NodePaging) {
     this.nodeResult = newNodePaging;
+  }
+
+  onSortingChanged(event) {
+    this.filterSorting = event.detail.key + '-' + event.detail.direction;
   }
 
   onAllFilterCleared() {

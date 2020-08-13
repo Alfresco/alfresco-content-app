@@ -31,6 +31,7 @@
           [imageResolver]="imageResolver"
           (node-dblclick)="navigateTo($event.detail?.node)"
           (name-click)="navigateTo($event.detail?.node)"
+          (sorting-changed)="onSortingChanged($event)"
         >
           <adf-custom-header-filter-template>
             <ng-template let-col>
@@ -39,6 +40,7 @@
                 [currentFolderNodeId]="node?.id"
                 [maxItems]="(documentList?.pagination | async)?.maxItems"
                 [skipCount]="(documentList?.pagination | async)?.skipCount"
+                [sorting]="filterSorting"
                 (update)="onFilterUpdate($event)"
                 (clear)="onAllFilterCleared()"
               >
