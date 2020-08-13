@@ -39,10 +39,12 @@
                 [col]="col"
                 [currentFolderNodeId]="node?.id"
                 [maxItems]="(documentList?.pagination | async)?.maxItems"
+                [value]="queryParams ? queryParams[col.key] : null"
                 [skipCount]="(documentList?.pagination | async)?.skipCount"
                 [sorting]="filterSorting"
                 (update)="onFilterUpdate($event)"
                 (clear)="onAllFilterCleared()"
+                (selection)="onFilterSelected($event)"
               >
               </adf-search-header>
             </ng-template>
