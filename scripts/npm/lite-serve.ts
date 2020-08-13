@@ -19,6 +19,7 @@ import * as ora from 'ora';
 
 require('dotenv').config({ path: process.env.ENV_FILE });
 const API_HOST = process.env.API_HOST;
+const API_CONTENT_HOST = process.env.API_CONTENT_HOST;
 const OAUTH_HOST = process.env.OAUTH_HOST;
 const IDENTITY_HOST = process.env.IDENTITY_HOST;
 const NOTIFICATION_LAST = process.env.NOTIFICATION_LAST;
@@ -49,18 +50,7 @@ export default class LiteServeRunner {
         alias: 'c',
         title: 'Rewrite app.config.json with the following environment vars?',
         required: false,
-        choices: [
-          ...(API_HOST !== undefined ? [{ name: `API_HOST=${API_HOST}`, value: 'a', short: 'API_HOST', checked: true }] : []),
-          ...(OAUTH_HOST !== undefined
-            ? [{ name: `OAUTH_HOST=${OAUTH_HOST} ${red('+ authType=OAUTH also!!!')}`, value: 'o', short: 'OAUTH_HOST', checked: true }]
-            : []),
-          ...(IDENTITY_HOST !== undefined
-            ? [{ name: `IDENTITY_HOST=${IDENTITY_HOST} ${red('+ authType=OAUTH also!!!')}`, value: 'i', short: 'IDENTITY_HOST', checked: true }]
-            : []),
-          ...(NOTIFICATION_LAST !== undefined
-            ? [{ name: `NOTIFICATION_LAST=${NOTIFICATION_LAST}`, value: 'n', short: 'NOTIFICATION_LAST', checked: true }]
-            : [])
-        ]
+        choices: this.getEnvVarChoices.bind(this)
       })
     ];
   }
@@ -155,5 +145,47 @@ export default class LiteServeRunner {
         disabled: true
       };
     });
+  }
+
+  private getEnvVarChoices() {
+    const choices = [];
+
+    if (API_HOST !== undefined || API_CONTENT_HOST !== undefined) {
+      choices.push({
+        name: `API_HOST=${API_HOST} && API_CONTENT_HOST=${API_CONTENT_HOST || API_HOST}`,
+        value: 'a',
+        short: 'API_HOST',
+        checked: true
+      });
+    }
+
+    if (OAUTH_HOST !== undefined) {
+      choices.push({
+        name: `OAUTH_HOST=${OAUTH_HOST} ${red('+ authType=OAUTH also!!!')}`,
+        value: 'o',
+        short: 'OAUTH_HOST',
+        checked: true
+      });
+    }
+
+    if (IDENTITY_HOST !== undefined) {
+      choices.push({
+        name: `IDENTITY_HOST=${IDENTITY_HOST} ${red('+ authType=OAUTH also!!!')}`,
+        value: 'i',
+        short: 'IDENTITY_HOST',
+        checked: true
+      });
+    }
+
+    if (NOTIFICATION_LAST !== undefined) {
+      choices.push({
+        name: `NOTIFICATION_LAST=${NOTIFICATION_LAST}`,
+        value: 'n',
+        short: 'NOTIFICATION_LAST',
+        checked: true
+      });
+    }
+
+    return choices;
   }
 }

@@ -6,6 +6,7 @@ const { SpecReporter } = require('jasmine-spec-reporter');
 const afterLaunch = require('./e2e/e2e-config/hooks/after-launch');
 const fs = require('fs');
 const resolve = require('path').resolve;
+const logger = require('./tools/helpers/logger');
 
 require('dotenv').config({ path: process.env.ENV_FILE });
 
@@ -18,8 +19,7 @@ const BROWSER_RUN = process.env.BROWSER_RUN;
 const width = 1366;
 const height = 768;
 
-const API_CONTENT_HOST =
-  process.env.API_CONTENT_HOST || 'http://localhost:8080';
+const API_CONTENT_HOST = process.env.API_CONTENT_HOST || 'http://localhost:8080';
 
 function rmDir(dirPath) {
   try {
@@ -138,10 +138,8 @@ exports.config = {
   jasmineNodeOpts: {
     showColors: true,
     defaultTimeoutInterval: 100000,
-    print: function() {},
-    ...SmartRunner.withOptionalExclusions(
-      resolve(__dirname, './e2e/protractor.excludes.json'),
-    )
+    print: function () {},
+    ...SmartRunner.withOptionalExclusions(resolve(__dirname, './e2e/protractor.excludes.json'))
   },
 
   plugins: [
@@ -157,7 +155,11 @@ exports.config = {
 
   onPrepare() {
     if (process.env.CI) {
-      SmartRunner.apply({repoHash: process.env.GIT_HASH || ''});
+      const repoHash = process.env.GIT_HASH || '';
+      const outputDirectory = process.env.SMART_RUNNER_DIRECTORY;
+      logger.info(`SmartRunner's repoHash: "${repoHash}"`);
+      logger.info(`SmartRunner's outputDirectory: "${outputDirectory}"`);
+      SmartRunner.apply({ outputDirectory, repoHash });
     }
 
     const tsConfigPath = path.resolve(e2eFolder, 'tsconfig.e2e.json');
@@ -176,10 +178,7 @@ exports.config = {
       paths: tsConfig.compilerOptions.paths
     });
 
-    browser
-      .manage()
-      .window()
-      .setSize(width, height);
+    browser.manage().window().setSize(width, height);
 
     jasmine.getEnv().addReporter(
       new SpecReporter({
@@ -196,7 +195,6 @@ exports.config = {
       behavior: 'allow',
       downloadPath: downloadFolder
     });
-
   },
   afterLaunch
 };
