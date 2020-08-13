@@ -35,7 +35,11 @@ import { AppExtensionService, ContentApiService } from '@alfresco/aca-shared';
 import { SetCurrentFolderAction, isAdmin, AppStore, UploadFileVersionAction } from '@alfresco/aca-shared/store';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { debounceTime, takeUntil } from 'rxjs/operators';
-import { ShareDataRow, SEARCH_QUERY_SERVICE_TOKEN, SearchHeaderQueryBuilderService } from '@alfresco/adf-content-services';
+import {
+  ShareDataRow,
+  SEARCH_QUERY_SERVICE_TOKEN,
+  SearchHeaderQueryBuilderService
+} from '@alfresco/adf-content-services';
 
 @Component({
   templateUrl: './files.component.html',
@@ -123,15 +127,15 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   }
 
   navigate(nodeId: string = null) {
-    const location = this.router.url.match(/.*?(?=\/|$)/g)[1];
-
-    const commands = [`/${location}`];
+    let locationArray = this.router.url.split('/');
+    locationArray = locationArray.splice(1, locationArray.length - 2);
 
     if (nodeId && !this.isRootNode(nodeId)) {
-      commands.push(nodeId);
+      locationArray.push(nodeId);
     }
 
-    this.router.navigate(commands);
+
+    this.router.navigate(locationArray);
   }
 
   onUploadNewVersion(ev: CustomEvent) {
