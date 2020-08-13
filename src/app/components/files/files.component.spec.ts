@@ -90,8 +90,7 @@ describe('FilesComponent', () => {
   describe('Current page is valid', () => {
     beforeEach(() => {
       fixture.detectChanges();
-      spyOn(component.documentList, 'loadFolder').and.callFake(() => {
-      });
+      spyOn(component.documentList, 'loadFolder').and.callFake(() => {});
     });
 
     it('should be a valid current page', fakeAsync(() => {
@@ -142,8 +141,7 @@ describe('FilesComponent', () => {
       spyOn(component, 'reload');
       fixture.detectChanges();
 
-      spyOn(component.documentList, 'loadFolder').and.callFake(() => {
-      });
+      spyOn(component.documentList, 'loadFolder').and.callFake(() => {});
     });
 
     it('should call refresh onContentCopied event if parent is the same', () => {

@@ -84,9 +84,10 @@ import { Observable, of } from 'rxjs';
     { provide: TranslateService, useClass: TranslateServiceMock },
     { provide: TranslatePipe, useClass: TranslatePipeMock },
     {
-      provide: DiscoveryApiService, useValue: {
+      provide: DiscoveryApiService,
+      useValue: {
         getEcmProductInfo(): Observable<EcmProductVersionModel> {
-          return of(new EcmProductVersionModel({ version: '10.0.0' }))
+          return of(new EcmProductVersionModel({ version: '10.0.0' }));
         }
       }
     },
@@ -99,8 +100,7 @@ import { Observable, of } from 'rxjs';
         getRedirect(): string {
           return null;
         },
-        setRedirect() {
-        },
+        setRedirect() {},
         isOauth(): boolean {
           return false;
         },
@@ -123,5 +123,4 @@ import { Observable, of } from 'rxjs';
     DocumentListService
   ]
 })
-export class AppTestingModule {
-}
+export class AppTestingModule {}
