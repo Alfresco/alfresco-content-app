@@ -92,7 +92,7 @@ describe('Personal Files', () => {
     });
 
     it('[C217143] has default sorted column', async () => {
-      expect(await dataTable.getSortedColumnHeaderText()).toBe('Modified');
+      expect(await dataTable.getSortedColumnHeaderText()).toBe('Name');
     });
 
     it('[C213242] has user created content', async () => {
