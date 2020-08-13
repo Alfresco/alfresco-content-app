@@ -27,7 +27,7 @@
           [node]="nodeResult"
           [allowDropFiles]="true"
           [navigate]="false"
-          [sorting]="['modifiedAt', 'DESC']"
+          [sorting]="['name', 'ASC']"
           [imageResolver]="imageResolver"
           (node-dblclick)="navigateTo($event.detail?.node)"
           (name-click)="navigateTo($event.detail?.node)"
