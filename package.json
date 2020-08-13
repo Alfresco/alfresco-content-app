@@ -34,9 +34,9 @@
   },
   "private": true,
   "dependencies": {
-    "@alfresco/adf-content-services": "3.10.0-a0aaf0ea5844d89ba9038039e9bd9d3c919272db",
-    "@alfresco/adf-core": "3.10.0-a0aaf0ea5844d89ba9038039e9bd9d3c919272db",
-    "@alfresco/adf-extensions": "3.10.0-a0aaf0ea5844d89ba9038039e9bd9d3c919272db",
+    "@alfresco/adf-content-services": "3.10.0-5577e0e9be394d3504e3b04954055b6dc09d6170",
+    "@alfresco/adf-core": "3.10.0-5577e0e9be394d3504e3b04954055b6dc09d6170",
+    "@alfresco/adf-extensions": "3.10.0-5577e0e9be394d3504e3b04954055b6dc09d6170",
     "@alfresco/js-api": "3.10.0-52aeb4052b028b0ad95a388fa8c30e5394f20df0",
     "@angular-custom-builders/lite-serve": "^0.2.2",
     "@angular/animations": "10.0.4",
@@ -72,8 +72,8 @@
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
-    "@alfresco/adf-cli": "3.10.0-a0aaf0ea5844d89ba9038039e9bd9d3c919272db",
-    "@alfresco/adf-testing": "3.10.0-a0aaf0ea5844d89ba9038039e9bd9d3c919272db",
+    "@alfresco/adf-cli": "3.10.0-5577e0e9be394d3504e3b04954055b6dc09d6170",
+    "@alfresco/adf-testing": "3.10.0-5577e0e9be394d3504e3b04954055b6dc09d6170",
     "@angular-devkit/build-angular": "~0.1000.4",
     "@angular-devkit/build-ng-packagr": "~0.1000.5",
     "@angular/cli": "^10.0.5",
@@ -101,6 +101,7 @@
     "karma-coverage-istanbul-reporter": "^3.0.3",
     "karma-jasmine": "^3.3.1",
     "karma-jasmine-html-reporter": "^1.5.4",
+    "karma-mocha-reporter": "^2.2.5",
     "lint-staged": "^10.2.11",
     "ng-packagr": "^10.0.3",
     "node-stream-zip": "^1.9.1",

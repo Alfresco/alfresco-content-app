@@ -128,7 +128,8 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
   navigate(nodeId: string = null) {
     let locationArray = this.router.url.split('/');
-    locationArray = locationArray.splice(1, locationArray.length - 2);
+    const spliceEnd = locationArray.length > 1 ? locationArray.length - 1 : locationArray.length;
+    locationArray = locationArray.splice(1, spliceEnd);
 
     if (nodeId && !this.isRootNode(nodeId)) {
       locationArray.push(nodeId);

@@ -90,7 +90,8 @@ describe('FilesComponent', () => {
   describe('Current page is valid', () => {
     beforeEach(() => {
       fixture.detectChanges();
-      spyOn(component.documentList, 'loadFolder').and.callFake(() => {});
+      spyOn(component.documentList, 'loadFolder').and.callFake(() => {
+      });
     });
 
     it('should be a valid current page', fakeAsync(() => {
@@ -141,7 +142,8 @@ describe('FilesComponent', () => {
       spyOn(component, 'reload');
       fixture.detectChanges();
 
-      spyOn(component.documentList, 'loadFolder').and.callFake(() => {});
+      spyOn(component.documentList, 'loadFolder').and.callFake(() => {
+      });
     });
 
     it('should call refresh onContentCopied event if parent is the same', () => {
@@ -231,18 +233,25 @@ describe('FilesComponent', () => {
       fixture.detectChanges();
     });
 
+    it('should navigates to node when is more that one sub node', () => {
+      router.url = '/personal-files/favourites';
+      component.navigate(node.id);
+
+      expect(router.navigate).toHaveBeenCalledWith(['personal-files', 'favourites', node.id]);
+    });
+
     it('should navigates to node when id provided', () => {
       router.url = '/personal-files';
       component.navigate(node.id);
 
-      expect(router.navigate).toHaveBeenCalledWith(['/personal-files', node.id]);
+      expect(router.navigate).toHaveBeenCalledWith(['personal-files', node.id]);
     });
 
     it('should navigates to home when id not provided', () => {
       router.url = '/personal-files';
       component.navigate();
 
-      expect(router.navigate).toHaveBeenCalledWith(['/personal-files']);
+      expect(router.navigate).toHaveBeenCalledWith(['personal-files']);
     });
 
     it('should navigate home if node is root', () => {
@@ -255,7 +264,7 @@ describe('FilesComponent', () => {
       router.url = '/personal-files';
       component.navigate(node.id);
 
-      expect(router.navigate).toHaveBeenCalledWith(['/personal-files']);
+      expect(router.navigate).toHaveBeenCalledWith(['personal-files']);
     });
   });
 
