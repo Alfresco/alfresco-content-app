@@ -2,13 +2,14 @@
 // https://github.com/angular/protractor/blob/master/lib/config.ts
 
 const path = require('path');
-const { SpecReporter } = require('jasmine-spec-reporter');
-const afterLaunch = require('./e2e/e2e-config/hooks/after-launch');
+const {SpecReporter} = require('jasmine-spec-reporter');
 const fs = require('fs');
 const resolve = require('path').resolve;
 const logger = require('./tools/helpers/logger');
+const retry = require('protractor-retry').retry;
+const uploadOutput = require('./e2e/e2e-config/utils/upload-output');
 
-require('dotenv').config({ path: process.env.ENV_FILE });
+require('dotenv').config({path: process.env.ENV_FILE});
 
 const SmartRunner = require('protractor-smartrunner');
 const projectRoot = path.resolve(__dirname);
@@ -19,7 +20,10 @@ const BROWSER_RUN = process.env.BROWSER_RUN;
 const width = 1366;
 const height = 768;
 
+const SAVE_SCREENSHOT = process.env.SAVE_SCREENSHOT === 'true';
 const API_CONTENT_HOST = process.env.API_CONTENT_HOST || 'http://localhost:8080';
+const MAXINSTANCES = process.env.MAXINSTANCES || 1;
+const MAX_RETRIES = process.env.MAX_RETRIES || 1;
 
 function rmDir(dirPath) {
   try {
@@ -108,23 +112,39 @@ exports.config = {
   SELENIUM_PROMISE_MANAGER: false,
 
   capabilities: {
+
+    loggingPrefs: {
+      browser: 'ALL' // "OFF", "SEVERE", "WARNING", "INFO", "CONFIG", "FINE", "FINER", "FINEST", "ALL".
+    },
+
     browserName: 'chrome',
+
+    maxInstances: MAXINSTANCES,
+
+    shardTestFiles: true,
+
     chromeOptions: {
       prefs: {
-        credentials_enable_service: false,
-        download: {
-          prompt_for_download: false,
-          default_directory: downloadFolder
+        'credentials_enable_service': false,
+        'download': {
+          'prompt_for_download': false,
+          'directory_upgrade': true,
+          'default_directory': downloadFolder
+        },
+        'browser': {
+          'setDownloadBehavior': {
+            'behavior': 'allow',
+            'downloadPath': downloadFolder
+          }
         }
       },
-      args: [
-        '--incognito',
-        ...(BROWSER_RUN === 'true' ? [] : ['--headless']),
-        '--disable-web-security',
-        '--remote-debugging-port=9222',
+      args: ['--incognito',
+        `--window-size=${width},${height}`,
         '--disable-gpu',
-        '--no-sandbox'
-      ]
+        '--no-sandbox',
+        '--disable-web-security',
+        '--disable-browser-side-navigation',
+        ...(BROWSER_RUN === true ? [] : ['--headless'])]
     }
   },
 
@@ -138,8 +158,9 @@ exports.config = {
   jasmineNodeOpts: {
     showColors: true,
     defaultTimeoutInterval: 100000,
-    print: function () {},
-    ...SmartRunner.withOptionalExclusions(resolve(__dirname, './e2e/protractor.excludes.json'))
+    print: function () {
+    },
+    ...(process.env.CI ? SmartRunner.withOptionalExclusions(resolve(__dirname, './e2e/protractor.excludes.json')) : {})
   },
 
   plugins: [
@@ -153,13 +174,20 @@ exports.config = {
     }
   ],
 
+  onCleanUp(results) {
+    if (process.env.CI) {
+      retry.onCleanUp(results);
+    }
+  },
+
   onPrepare() {
     if (process.env.CI) {
       const repoHash = process.env.GIT_HASH || '';
       const outputDirectory = process.env.SMART_RUNNER_DIRECTORY;
       logger.info(`SmartRunner's repoHash: "${repoHash}"`);
       logger.info(`SmartRunner's outputDirectory: "${outputDirectory}"`);
-      SmartRunner.apply({ outputDirectory, repoHash });
+      SmartRunner.apply({outputDirectory, repoHash});
+      retry.onPrepare();
     }
 
     const tsConfigPath = path.resolve(e2eFolder, 'tsconfig.e2e.json');
@@ -196,5 +224,22 @@ exports.config = {
       downloadPath: downloadFolder
     });
   },
-  afterLaunch
+
+  afterLaunch: async function () {
+    if (SAVE_SCREENSHOT) {
+      console.log(`Save screenshot is ${SAVE_SCREENSHOT}, trying to save screenshots.`);
+
+      try {
+        await uploadOutput();
+        console.log('Screenshots saved successfully.');
+      } catch (e) {
+        console.log('Error happened while trying to upload screenshots and test reports: ', e);
+      }
+    } else {
+      console.log(`Save screenshot is ${SAVE_SCREENSHOT}, no need to save screenshots.`);
+    }
+    if (process.env.CI) {
+      return retry.afterLaunch(MAX_RETRIES);
+    }
+  }
 };
