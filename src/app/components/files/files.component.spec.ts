@@ -67,7 +67,8 @@ describe('FilesComponent', () => {
           provide: ActivatedRoute,
           useValue: {
             snapshot: { data: { preferencePrefix: 'prefix' } },
-            params: of({ folderId: 'someId' })
+            params: of({ folderId: 'someId' }),
+            queryParamMap: of({})
           }
         }
       ],
