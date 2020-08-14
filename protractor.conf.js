@@ -20,6 +20,7 @@ const width = 1366;
 const height = 768;
 
 const API_CONTENT_HOST = process.env.API_CONTENT_HOST || 'http://localhost:8080';
+const MAXINSTANCES = process.env.MAXINSTANCES || 1;
 
 function rmDir(dirPath) {
   try {
@@ -108,23 +109,39 @@ exports.config = {
   SELENIUM_PROMISE_MANAGER: false,
 
   capabilities: {
+
+    loggingPrefs: {
+      browser: 'ALL' // "OFF", "SEVERE", "WARNING", "INFO", "CONFIG", "FINE", "FINER", "FINEST", "ALL".
+    },
+
     browserName: 'chrome',
+
+    maxInstances: MAXINSTANCES,
+
+    shardTestFiles: true,
+
     chromeOptions: {
       prefs: {
-        credentials_enable_service: false,
-        download: {
-          prompt_for_download: false,
-          default_directory: downloadFolder
+        'credentials_enable_service': false,
+        'download': {
+          'prompt_for_download': false,
+          'directory_upgrade': true,
+          'default_directory': downloadFolder
+        },
+        'browser': {
+          'setDownloadBehavior': {
+            'behavior': 'allow',
+            'downloadPath': downloadFolder
+          }
         }
       },
-      args: [
-        '--incognito',
-        ...(BROWSER_RUN === 'true' ? [] : ['--headless']),
-        '--disable-web-security',
-        '--remote-debugging-port=9222',
+      args: ['--incognito',
+        `--window-size=${width},${height}`,
         '--disable-gpu',
-        '--no-sandbox'
-      ]
+        '--no-sandbox',
+        '--disable-web-security',
+        '--disable-browser-side-navigation',
+        ...(BROWSER_RUN === true ? [] : ['--headless'])]
     }
   },
 
@@ -139,7 +156,7 @@ exports.config = {
     showColors: true,
     defaultTimeoutInterval: 100000,
     print: function () {},
-    ...SmartRunner.withOptionalExclusions(resolve(__dirname, './e2e/protractor.excludes.json'))
+    ...(process.env.CI ? SmartRunner.withOptionalExclusions(resolve(__dirname, './e2e/protractor.excludes.json')) : {})
   },
 
   plugins: [
