@@ -19,14 +19,12 @@
         currentFolderId="-trashcan-"
         selectionMode="multiple"
         [navigate]="false"
+        sortingMode="client"
         [imageResolver]="imageResolver"
         [sorting]="['archivedAt', 'desc']"
       >
         <adf-custom-empty-content-template>
-          <adf-empty-content
-            icon="delete"
-            [title]="'APP.BROWSE.TRASHCAN.EMPTY_STATE.TITLE'"
-          >
+          <adf-empty-content icon="delete" [title]="'APP.BROWSE.TRASHCAN.EMPTY_STATE.TITLE'">
             <p class="adf-empty-content__text">
               {{ 'APP.BROWSE.TRASHCAN.EMPTY_STATE.FIRST_TEXT' | translate }}
             </p>
@@ -38,9 +36,7 @@
 
         <data-columns>
           <ng-container *ngFor="let column of columns; trackBy: trackById">
-            <ng-container
-              *ngIf="column.template && !(column.desktopOnly && isSmallScreen)"
-            >
+            <ng-container *ngIf="column.template && !(column.desktopOnly && isSmallScreen)">
               <data-column
                 [key]="column.key"
                 [title]="column.title"
@@ -50,18 +46,12 @@
                 [sortable]="column.sortable"
               >
                 <ng-template let-context>
-                  <adf-dynamic-column
-                    [id]="column.template"
-                    [context]="context"
-                  >
-                  </adf-dynamic-column>
+                  <adf-dynamic-column [id]="column.template" [context]="context"> </adf-dynamic-column>
                 </ng-template>
               </data-column>
             </ng-container>
 
-            <ng-container
-              *ngIf="!column.template && !(column.desktopOnly && isSmallScreen)"
-            >
+            <ng-container *ngIf="!column.template && !(column.desktopOnly && isSmallScreen)">
               <data-column
                 [key]="column.key"
                 [title]="column.title"
