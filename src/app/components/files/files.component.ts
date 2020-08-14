@@ -132,7 +132,13 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     let urlToNavigate;
 
     if (this.router.url.match(uuidRegEx)) {
-      urlToNavigate = this.router.url.replace(uuidRegEx, nodeId).split('/');
+
+      if (nodeId && !this.isRootNode(nodeId)) {
+        urlToNavigate = this.router.url.replace(uuidRegEx, nodeId).split('/');
+      } else {
+        urlToNavigate = this.router.url.replace(uuidRegEx, '').split('/');
+        urlToNavigate.pop();
+      }
       urlToNavigate.shift();
     } else {
       urlToNavigate = this.router.url.split('/');

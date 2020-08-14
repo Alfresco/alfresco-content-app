@@ -265,6 +265,19 @@ describe('FilesComponent', () => {
 
       expect(router.navigate).toHaveBeenCalledWith(['personal-files']);
     });
+
+    it('should navigate home if node is root also if it contain a uuid', () => {
+      component.node = {
+        path: {
+          elements: [{ id: 'node-id' }]
+        }
+      } as any;
+
+      router.url = '/personal-files/895de2b3-1b69-4cc7-bff2-a0d7c86b7bc7';
+      component.navigate(node.id);
+
+      expect(router.navigate).toHaveBeenCalledWith(['personal-files']);
+    });
   });
 
   describe('isSiteContainer', () => {
