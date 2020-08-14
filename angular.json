@@ -12,6 +12,15 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "aot": true,
+            "allowedCommonJsDependencies": [
+              "minimatch",
+              "minimatch-browser",
+              "moment-es6",
+              "superagent",
+              "event-emitter",
+              "brace-expansion",
+              "d"
+            ],
             "outputPath": "dist/app",
             "index": "src/index.html",
             "main": "src/main.ts",
