@@ -31,6 +31,8 @@ import {
   TranslationMock,
   AuthenticationService,
   UserPreferencesService,
+  DiscoveryApiService,
+  EcmProductVersionModel,
   AppConfigService,
   StorageService,
   AlfrescoApiService,
@@ -53,6 +55,7 @@ import { MaterialModule } from '../material.module';
 import { INITIAL_STATE } from '../store/initial-state';
 import { TranslatePipeMock } from './translate-pipe.directive';
 import { TranslateServiceMock } from './translation.service';
+import { Observable, of } from 'rxjs';
 
 @NgModule({
   imports: [
@@ -80,6 +83,14 @@ import { TranslateServiceMock } from './translation.service';
     { provide: TranslationService, useClass: TranslationMock },
     { provide: TranslateService, useClass: TranslateServiceMock },
     { provide: TranslatePipe, useClass: TranslatePipeMock },
+    {
+      provide: DiscoveryApiService,
+      useValue: {
+        getEcmProductInfo(): Observable<EcmProductVersionModel> {
+          return of(new EcmProductVersionModel({ version: '10.0.0' }));
+        }
+      }
+    },
     {
       provide: AuthenticationService,
       useValue: {
