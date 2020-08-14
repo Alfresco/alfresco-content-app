@@ -131,7 +131,9 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
       urlToNavigate.shift();
     } else {
       urlToNavigate = this.router.url.split('/');
-      urlToNavigate.push(nodeId);
+      if (nodeId && !this.isRootNode(nodeId)) {
+        urlToNavigate.push(nodeId);
+      }
       urlToNavigate.shift();
     }
 
