@@ -2,13 +2,14 @@
 // https://github.com/angular/protractor/blob/master/lib/config.ts
 
 const path = require('path');
-const { SpecReporter } = require('jasmine-spec-reporter');
-const afterLaunch = require('./e2e/e2e-config/hooks/after-launch');
+const {SpecReporter} = require('jasmine-spec-reporter');
 const fs = require('fs');
 const resolve = require('path').resolve;
 const logger = require('./tools/helpers/logger');
+const retry = require('protractor-retry').retry;
+const uploadOutput = require('./e2e/e2e-config/utils/upload-output');
 
-require('dotenv').config({ path: process.env.ENV_FILE });
+require('dotenv').config({path: process.env.ENV_FILE});
 
 const SmartRunner = require('protractor-smartrunner');
 const projectRoot = path.resolve(__dirname);
@@ -19,8 +20,10 @@ const BROWSER_RUN = process.env.BROWSER_RUN;
 const width = 1366;
 const height = 768;
 
+const SAVE_SCREENSHOT = process.env.SAVE_SCREENSHOT === 'true';
 const API_CONTENT_HOST = process.env.API_CONTENT_HOST || 'http://localhost:8080';
 const MAXINSTANCES = process.env.MAXINSTANCES || 1;
+const MAX_RETRIES = process.env.MAX_RETRIES || 1;
 
 function rmDir(dirPath) {
   try {
@@ -155,7 +158,8 @@ exports.config = {
   jasmineNodeOpts: {
     showColors: true,
     defaultTimeoutInterval: 100000,
-    print: function () {},
+    print: function () {
+    },
     ...(process.env.CI ? SmartRunner.withOptionalExclusions(resolve(__dirname, './e2e/protractor.excludes.json')) : {})
   },
 
@@ -170,14 +174,20 @@ exports.config = {
     }
   ],
 
+  onCleanUp(results) {
+    retry.onCleanUp(results);
+  },
+
   onPrepare() {
     if (process.env.CI) {
       const repoHash = process.env.GIT_HASH || '';
       const outputDirectory = process.env.SMART_RUNNER_DIRECTORY;
       logger.info(`SmartRunner's repoHash: "${repoHash}"`);
       logger.info(`SmartRunner's outputDirectory: "${outputDirectory}"`);
-      SmartRunner.apply({ outputDirectory, repoHash });
+      SmartRunner.apply({outputDirectory, repoHash});
     }
+
+    retry.onPrepare();
 
     const tsConfigPath = path.resolve(e2eFolder, 'tsconfig.e2e.json');
     const tsConfig = require(tsConfigPath);
@@ -213,5 +223,21 @@ exports.config = {
       downloadPath: downloadFolder
     });
   },
-  afterLaunch
+
+  afterLaunch: async function () {
+    if (SAVE_SCREENSHOT) {
+      console.log(`Save screenshot is ${SAVE_SCREENSHOT}, trying to save screenshots.`);
+
+      try {
+        await uploadOutput();
+        console.log('Screenshots saved successfully.');
+      } catch (e) {
+        console.log('Error happened while trying to upload screenshots and test reports: ', e);
+      }
+    } else {
+      console.log(`Save screenshot is ${SAVE_SCREENSHOT}, no need to save screenshots.`);
+    }
+
+    return retry.afterLaunch(MAX_RETRIES);
+  }
 };

@@ -107,6 +107,7 @@
     "node-stream-zip": "^1.9.1",
     "prettier": "^2.0.5",
     "protractor": "^7.0.0",
+    "protractor-retry": "^1.2.9",
     "protractor-smartrunner": "^0.1.1",
     "rxjs-tslint": "^0.1.8",
     "rxjs-tslint-rules": "^4.34.0",
