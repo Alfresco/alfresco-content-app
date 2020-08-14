@@ -93,7 +93,7 @@
     "cspell": "^4.0.63",
     "dotenv": "^8.2.0",
     "husky": "^4.2.5",
-    "jasmine-core": "~3.5.0",
+    "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.2",
     "jasmine2-protractor-utils": "1.1.3",
     "karma": "^5.1.1",
