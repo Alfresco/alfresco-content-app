@@ -175,7 +175,9 @@ exports.config = {
   ],
 
   onCleanUp(results) {
-    retry.onCleanUp(results);
+    if (process.env.CI) {
+      retry.onCleanUp(results);
+    }
   },
 
   onPrepare() {
@@ -185,9 +187,8 @@ exports.config = {
       logger.info(`SmartRunner's repoHash: "${repoHash}"`);
       logger.info(`SmartRunner's outputDirectory: "${outputDirectory}"`);
       SmartRunner.apply({outputDirectory, repoHash});
+      retry.onPrepare();
     }
-
-    retry.onPrepare();
 
     const tsConfigPath = path.resolve(e2eFolder, 'tsconfig.e2e.json');
     const tsConfig = require(tsConfigPath);
@@ -237,7 +238,8 @@ exports.config = {
     } else {
       console.log(`Save screenshot is ${SAVE_SCREENSHOT}, no need to save screenshots.`);
     }
-
-    return retry.afterLaunch(MAX_RETRIES);
+    if (process.env.CI) {
+      return retry.afterLaunch(MAX_RETRIES);
+    }
   }
 };
