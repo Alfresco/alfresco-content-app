@@ -1,7 +1,6 @@
 <aca-page-layout>
   <aca-page-layout-header>
-    <adf-breadcrumb root="APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.TITLE">
-    </adf-breadcrumb>
+    <adf-breadcrumb root="APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.TITLE"> </adf-breadcrumb>
 
     <adf-toolbar class="adf-toolbar--inline">
       <ng-container *ngFor="let entry of actions; trackBy: trackByActionId">
@@ -21,6 +20,7 @@
         selectionMode="single"
         [navigate]="false"
         [sorting]="['title', 'asc']"
+        sortingMode="client"
         [imageResolver]="imageResolver"
         (node-dblclick)="navigateTo($event.detail?.node)"
         (name-click)="navigateTo($event.detail?.node)"
@@ -36,9 +36,7 @@
 
         <data-columns>
           <ng-container *ngFor="let column of columns; trackBy: trackById">
-            <ng-container
-              *ngIf="column.template && !(column.desktopOnly && isSmallScreen)"
-            >
+            <ng-container *ngIf="column.template && !(column.desktopOnly && isSmallScreen)">
               <data-column
                 [key]="column.key"
                 [title]="column.title"
@@ -48,18 +46,12 @@
                 [sortable]="column.sortable"
               >
                 <ng-template let-context>
-                  <adf-dynamic-column
-                    [id]="column.template"
-                    [context]="context"
-                  >
-                  </adf-dynamic-column>
+                  <adf-dynamic-column [id]="column.template" [context]="context"> </adf-dynamic-column>
                 </ng-template>
               </data-column>
             </ng-container>
 
-            <ng-container
-              *ngIf="!column.template && !(column.desktopOnly && isSmallScreen)"
-            >
+            <ng-container *ngIf="!column.template && !(column.desktopOnly && isSmallScreen)">
               <data-column
                 [key]="column.key"
                 [title]="column.title"
