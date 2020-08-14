@@ -51,6 +51,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   isSmallScreen = false;
   isAdmin = false;
   selectedNode: MinimalNodeEntity;
+  queryParams = null;
 
   private nodePath: PathElement[];
 
@@ -77,6 +78,10 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     const { data } = route.snapshot;
 
     this.title = data.title;
+
+    route.queryParamMap.subscribe((queryMap: Params) => {
+      this.queryParams = queryMap.params;
+    });
 
     route.params.subscribe(({ folderId }: Params) => {
       const nodeId = folderId || data.defaultNodeId;
@@ -284,5 +289,20 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
       return this.node.path.elements[0].id === nodeId;
     }
     return false;
+  }
+
+  onFilterSelected(currentActiveFilters: Map<string, string>) {
+    const objectFromMap = {};
+    currentActiveFilters.forEach((value: any, key) => {
+      let paramValue = null;
+      if (value && value.from && value.to) {
+        paramValue = `${value.from}||${value.to}`;
+      } else {
+        paramValue = value;
+      }
+      objectFromMap[key] = paramValue;
+    });
+
+    this.router.navigate([], { relativeTo: this.route, queryParams: objectFromMap });
   }
 }
