@@ -64,7 +64,7 @@
     "minimatch-browser": "^1.0.0",
     "moment": "^2.27.0",
     "moment-es6": "1.0.0",
-    "ora": "^4.0.3",
+    "ora": "^5.0.0",
     "pdfjs-dist": "2.4.456",
     "rxjs": "^6.6.2",
     "tslib": "^2.0.1",
