@@ -84,7 +84,7 @@
     "@types/jasminewd2": "^2.0.8",
     "@types/node": "^14.0.27",
     "@types/selenium-webdriver": "^4.0.9",
-    "@types/superagent": "^4.1.8",
+    "@types/superagent": "^4.1.9",
     "adf-tslint-rules": "0.0.7",
     "ajv-cli": "^3.1.0",
     "codelyzer": "^6.0.0",
