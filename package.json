@@ -90,7 +90,7 @@
     "codelyzer": "^6.0.0",
     "commander": "^6.0.0",
     "cpr": "^3.0.1",
-    "cspell": "^4.0.63",
+    "cspell": "^4.1.0",
     "dotenv": "^8.2.0",
     "husky": "^4.2.5",
     "jasmine-core": "~3.6.0",
