@@ -64,8 +64,8 @@ describe('NodeActionsService', () => {
   let service: NodeActionsService;
   let apiService: AlfrescoApiService;
   let nodesApi;
-  const spyOnSuccess = jasmine.createSpy('spyOnSuccess');
-  const spyOnError = jasmine.createSpy('spyOnError');
+  let spyOnSuccess: jasmine.Spy;
+  let spyOnError: jasmine.Spy;
   let contentApi: ContentApiService;
   let dialog: MatDialog;
 
@@ -101,6 +101,9 @@ describe('NodeActionsService', () => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule]
     });
+
+    spyOnSuccess = jasmine.createSpy('spyOnSuccess');
+    spyOnError = jasmine.createSpy('spyOnError');
 
     contentApi = TestBed.inject(ContentApiService);
 
@@ -193,11 +196,6 @@ describe('NodeActionsService', () => {
   });
 
   describe('doBatchOperation', () => {
-    beforeEach(() => {
-      spyOnSuccess.calls.reset();
-      spyOnError.calls.reset();
-    });
-
     it("should throw error if 'contentEntities' required parameter is missing", async(() => {
       const contentEntities = undefined;
       const doCopyBatchOperation = service.copyNodes(contentEntities).asObservable();
@@ -489,8 +487,6 @@ describe('NodeActionsService', () => {
       const spyFolderAction = spyOn(service, 'copyFolderAction').and.callThrough();
       const copyObservable = service.copyNodeAction(folderToCopy.entry, folderDestination.entry.id);
 
-      spyOnSuccess.calls.reset();
-      spyOnError.calls.reset();
       copyObservable
         .toPromise()
         .then(
@@ -525,8 +521,6 @@ describe('NodeActionsService', () => {
       const folderDestination = new TestNode(folderDestinationId);
       const copyObservable = service.copyNodeAction(fileToCopy.entry, folderDestination.entry.id);
 
-      spyOnSuccess.calls.reset();
-      spyOnError.calls.reset();
       copyObservable
         .toPromise()
         .then(
@@ -560,8 +554,6 @@ describe('NodeActionsService', () => {
       const folderDestination = new TestNode(folderDestinationId);
       const copyObservable = service.copyNodeAction(fileToCopy.entry, folderDestination.entry.id);
 
-      spyOnSuccess.calls.reset();
-      spyOnError.calls.reset();
       copyObservable
         .toPromise()
         .then(
@@ -609,8 +601,6 @@ describe('NodeActionsService', () => {
         spyOnFolderAction = spyOn(service, 'copyFolderAction').and.callThrough();
 
         copyObservable = service.copyNodeAction(folderToCopy.entry, folderParentAndDestination.entry.id);
-        spyOnSuccess.calls.reset();
-        spyOnError.calls.reset();
       });
 
       afterEach(() => subject.complete());
@@ -824,11 +814,6 @@ describe('NodeActionsService', () => {
     });
 
     describe('moveContentAction', () => {
-      beforeEach(() => {
-        spyOnSuccess.calls.reset();
-        spyOnError.calls.reset();
-      });
-
       it('should not throw error on conflict, to be able to show message in case of partial move of files', async(() => {
         spyOnDocumentListServiceAction = spyOn(documentListService, 'moveNode').and.returnValue(throwError(conflictError));
 
@@ -904,10 +889,9 @@ describe('NodeActionsService', () => {
 
     describe('moveFolderAction', () => {
       let subject$: Subject<NodeChildAssociationEntry>;
+
       beforeEach(() => {
         subject$ = new Subject<NodeChildAssociationEntry>();
-        spyOnSuccess.calls.reset();
-        spyOnError.calls.reset();
       });
 
       afterEach(() => subject$.complete());
@@ -987,9 +971,6 @@ describe('NodeActionsService', () => {
         });
 
         afterEach(() => {
-          spyOnDelete.calls.reset();
-          spyOnSuccess.calls.reset();
-          spyOnError.calls.reset();
           subject$.complete();
         });
 
@@ -1067,6 +1048,7 @@ describe('NodeActionsService', () => {
 
         it('should take no extra delete action, if folder is no longer on location', async(() => {
           const movedChildrenNodes = [fileToMove, folderToMove];
+
           spyOn(service, 'moveFolderAction').and.returnValue(of(movedChildrenNodes));
           spyOn(service, 'processResponse').and.returnValue({
             succeeded: [movedChildrenNodes],
