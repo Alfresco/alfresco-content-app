@@ -52,7 +52,7 @@ class TestNode {
   }
 }
 
-fdescribe('NodeActionsService', () => {
+describe('NodeActionsService', () => {
   const actionIsForbidden = true;
   const isFile = true;
   const folderDestinationId = 'folder-destination-id';
