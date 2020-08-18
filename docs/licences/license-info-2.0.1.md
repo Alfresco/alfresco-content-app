@@ -1,8 +1,8 @@
 ---
-Title: License info, alfresco-content-app 2.0.0
+Title: License info, alfresco-content-app 2.0.1
 ---
 
-# License information for alfresco-content-app 2.0.0
+# License information for alfresco-content-app 2.0.1
 
 This page lists all third party libraries the project depends on.
 
@@ -10,10 +10,10 @@ This page lists all third party libraries the project depends on.
 
 | Name | Version | License |
 | --- | --- | --- |
-| [@alfresco/adf-content-services](https://github.com/Alfresco/alfresco-ng2-components) | 3.10.0-5f5867370c6d2ffea74d00323504e004f076dff1 | [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0) |
-| [@alfresco/adf-core](https://github.com/Alfresco/alfresco-ng2-components) | 3.10.0-5f5867370c6d2ffea74d00323504e004f076dff1 | [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0) |
-| [@alfresco/adf-extensions](https://github.com/Alfresco/alfresco-ng2-components) | 3.10.0-5f5867370c6d2ffea74d00323504e004f076dff1 | [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0) |
-| [@alfresco/js-api](https://github.com/Alfresco/alfresco-js-api) | 3.10.0-52aeb4052b028b0ad95a388fa8c30e5394f20df0 | [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0) |
+| [@alfresco/adf-content-services](https://github.com/Alfresco/alfresco-ng2-components) | 4.0.0 | [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0) |
+| [@alfresco/adf-core](https://github.com/Alfresco/alfresco-ng2-components) | 4.0.0 | [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0) |
+| [@alfresco/adf-extensions](https://github.com/Alfresco/alfresco-ng2-components) | 4.0.0 | [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0) |
+| [@alfresco/js-api](https://github.com/Alfresco/alfresco-js-api) | 4.0.0 | [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0) |
 | [@angular-custom-builders/lite-serve](https://github.com/mauriziovitale/angular-plugins) | 0.2.2 | [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0) |
 | [@angular/animations](https://github.com/angular/angular) | 10.0.4 | [MIT](http://www.opensource.org/licenses/MIT) |
 | [@angular/cdk](https://github.com/angular/components) | 10.0.2 | [MIT](http://www.opensource.org/licenses/MIT) |
@@ -22,7 +22,7 @@ This page lists all third party libraries the project depends on.
 | [@angular/core](https://github.com/angular/angular) | 10.0.4 | [MIT](http://www.opensource.org/licenses/MIT) |
 | [@angular/flex-layout](https://github.com/angular/flex-layout) | 10.0.0-beta.32 | [MIT](http://www.opensource.org/licenses/MIT) |
 | [@angular/forms](https://github.com/angular/angular) | 10.0.4 | [MIT](http://www.opensource.org/licenses/MIT) |
-| [@angular/material-moment-adapter](https://github.com/angular/components) | 10.1.2 | [MIT](http://www.opensource.org/licenses/MIT) |
+| [@angular/material-moment-adapter](https://github.com/angular/components) | 10.1.3 | [MIT](http://www.opensource.org/licenses/MIT) |
 | [@angular/material](https://github.com/angular/components) | 10.0.2 | [MIT](http://www.opensource.org/licenses/MIT) |
 | [@angular/platform-browser-dynamic](https://github.com/angular/angular) | 10.0.4 | [MIT](http://www.opensource.org/licenses/MIT) |
 | [@angular/platform-browser](https://github.com/angular/angular) | 10.0.4 | [MIT](http://www.opensource.org/licenses/MIT) |
