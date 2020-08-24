@@ -80,7 +80,7 @@
     "@angular/compiler-cli": "10.0.4",
     "@angular/language-service": "10.0.11",
     "@types/event-emitter": "^0.3.3",
-    "@types/jasmine": "3.5.12",
+    "@types/jasmine": "3.5.13",
     "@types/jasminewd2": "^2.0.8",
     "@types/node": "^14.6.0",
     "@types/selenium-webdriver": "^4.0.9",
