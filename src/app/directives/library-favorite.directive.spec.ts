@@ -26,16 +26,12 @@
 import { Component, ViewChild } from '@angular/core';
 import { LibraryFavoriteDirective } from './library-favorite.directive';
 import { AlfrescoApiService, AlfrescoApiServiceMock, setupTestBed, CoreModule } from '@alfresco/adf-core';
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-test-component',
-  template: `
-    <button #favoriteLibrary="favoriteLibrary" [acaFavoriteLibrary]="selection">
-      Favorite
-    </button>
-  `
+  template: ` <button #favoriteLibrary="favoriteLibrary" [acaFavoriteLibrary]="selection">Favorite</button> `
 })
 class TestComponent {
   @ViewChild('favoriteLibrary')
@@ -45,10 +41,10 @@ class TestComponent {
 }
 
 describe('LibraryFavoriteDirective', () => {
-  let fixture;
-  let api;
-  let component;
-  let selection;
+  let fixture: ComponentFixture<TestComponent>;
+  let api: AlfrescoApiService;
+  let component: TestComponent;
+  let selection: { entry: { guid: string; id: string } };
 
   setupTestBed({
     imports: [TranslateModule.forRoot(), CoreModule.forRoot()],
@@ -76,7 +72,7 @@ describe('LibraryFavoriteDirective', () => {
   });
 
   it('should mark selection as favorite when getFavoriteSite returns successfully', async(() => {
-    spyOn(api.peopleApi, 'getFavoriteSite').and.returnValue(Promise.resolve());
+    spyOn(api.peopleApi, 'getFavoriteSite').and.returnValue(Promise.resolve(null));
     component.selection = selection;
     fixture.detectChanges();
 
@@ -99,7 +95,7 @@ describe('LibraryFavoriteDirective', () => {
 
   it('should call addFavorite() on click event when selection is not a favorite', async(() => {
     spyOn(api.peopleApi, 'getFavoriteSite').and.returnValue(Promise.reject());
-    spyOn(api.peopleApi, 'addFavorite').and.returnValue(Promise.resolve());
+    spyOn(api.peopleApi, 'addFavorite').and.returnValue(Promise.resolve(null));
     component.selection = selection;
     fixture.detectChanges();
 
@@ -115,7 +111,7 @@ describe('LibraryFavoriteDirective', () => {
   }));
 
   it('should call removeFavoriteSite() on click event when selection is not a favorite', async(() => {
-    spyOn(api.peopleApi, 'getFavoriteSite').and.returnValue(Promise.resolve());
+    spyOn(api.peopleApi, 'getFavoriteSite').and.returnValue(Promise.resolve(null));
     spyOn(api.favoritesApi, 'removeFavoriteSite').and.returnValue(Promise.resolve());
     component.selection = selection;
     fixture.detectChanges();
