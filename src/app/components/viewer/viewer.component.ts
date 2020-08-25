@@ -26,7 +26,7 @@
 import { AppExtensionService, ContentApiService } from '@alfresco/aca-shared';
 import {
   AppStore,
-  getAppSelection,
+  getRuleContext,
   isInfoDrawerOpened,
   SetSelectedNodesAction,
   ClosePreviewAction,
@@ -125,10 +125,10 @@ export class AppViewerComponent implements OnInit, OnDestroy {
       });
 
     this.store
-      .select(getAppSelection)
+      .select(getRuleContext)
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe((selection) => {
-        this.selection = selection;
+      .subscribe((ruleContext) => {
+        this.selection = ruleContext.selection;
 
         this.toolbarActions = this.extensions.getViewerToolbarActions();
         this.openWith = this.extensions.openWithActions;
