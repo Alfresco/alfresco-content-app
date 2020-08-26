@@ -25,7 +25,7 @@
 
 import { Component, Input, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
-import { AppStore, getCurrentFolder } from '@alfresco/aca-shared/store';
+import { AppStore, getRuleContext } from '@alfresco/aca-shared/store';
 import { Store } from '@ngrx/store';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -52,7 +52,7 @@ export class CreateMenuComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.store
-      .select(getCurrentFolder)
+      .select(getRuleContext)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(() => {
         this.createActions = this.extensions.getCreateActions();

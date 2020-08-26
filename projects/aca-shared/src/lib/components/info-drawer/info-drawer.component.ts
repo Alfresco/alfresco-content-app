@@ -40,6 +40,7 @@ import { Subject } from 'rxjs';
 export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
   @Input()
   nodeId: string;
+
   @Input()
   node: MinimalNodeEntity;
 
