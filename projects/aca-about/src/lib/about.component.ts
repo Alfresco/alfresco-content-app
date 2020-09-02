@@ -29,7 +29,7 @@ import { RepositoryInfo } from '@alfresco/js-api';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AppExtensionService, ContentApiService } from '@alfresco/aca-shared';
-import { dependencies, version, name, commit } from '../../../../package.json';
+import { dependencies, version, name, commit } from 'package.json';
 @Component({
   selector: 'app-about',
   templateUrl: './about.component.html',
