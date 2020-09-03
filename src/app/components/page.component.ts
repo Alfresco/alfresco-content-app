@@ -65,7 +65,7 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   canUpdateNode = false;
   canUpload = false;
   nodeResult: NodePaging;
-  showHeader = ShowHeaderMode.Always;
+  showHeader = ShowHeaderMode.Data;
   filterSorting = 'name-asc';
 
   protected subscriptions: Subscription[] = [];
