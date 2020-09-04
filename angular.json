@@ -280,7 +280,8 @@
           "options": {
             "protractorConfig": "protractor.conf.js",
             "webdriverUpdate": false,
-            "devServerTarget": "app:lite-serve"
+            "devServerTarget": "app:lite-serve",
+            "invertGrep": true
           }
         },
         "lint": {
