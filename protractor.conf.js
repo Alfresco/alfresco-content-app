@@ -121,7 +121,7 @@ exports.config = {
 
     maxInstances: MAXINSTANCES,
 
-    shardTestFiles: true,
+    shardTestFiles: MAXINSTANCES > 1,
 
     chromeOptions: {
       prefs: {
@@ -165,12 +165,15 @@ exports.config = {
 
   plugins: [
     {
-      package: 'jasmine2-protractor-utils',
-      disableScreenshot: false,
-      screenshotOnExpectFailure: true,
-      screenshotOnSpecFailure: false,
-      clearFoldersBeforeTest: true,
-      screenshotPath: path.resolve(__dirname, 'e2e-output/screenshots/')
+      package: 'protractor-screenshoter-plugin',
+      screenshotPath: path.resolve(__dirname, 'e2e-output/report'),
+      screenshotOnExpect: 'failure',
+      withLogs: true,
+      writeReportFreq: 'end',
+      imageToAscii: 'none',
+      htmlOnExpect: 'none',
+      htmlOnSpec: 'none',
+      clearFoldersBeforeTest: true
     }
   ],
 
