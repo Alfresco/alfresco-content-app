@@ -2,10 +2,11 @@ version: '2'
 
 services:
   alfresco:
-    image: alfresco/alfresco-content-repository-community:6.2.2-A1
+    image: alfresco/alfresco-content-repository-community:latest
     mem_limit: 1500m
     depends_on:
       - auth
+      - postgres
     volumes:
       - ./docker/acs-cm:/usr/local/tomcat/shared/classes/alfresco/extension
     environment:
