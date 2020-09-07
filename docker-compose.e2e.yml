@@ -3,7 +3,7 @@ version: '2'
 services:
   alfresco:
     image: alfresco/alfresco-content-repository-community:latest
-    mem_limit: 2000m
+    mem_limit: 2g
     depends_on:
       - auth
       - postgres
@@ -43,8 +43,8 @@ services:
         -Didentity-service.auth-server-url=http://${HOST_IP}:8085/auth
         -Didentity-service.realm=alfresco
         -Didentity-service.resource=alfresco
+        -Xms2g -Xmx2g
         ${AIMS_PROPS}
-        -Xms2000m -Xmx2000m
         '
 
   alfresco-pdf-renderer:
@@ -88,7 +88,7 @@ services:
       - 8094:8090
 
   postgres:
-    image: postgres:11.4
+    image: postgres:11.7
     mem_limit: 512m
     environment:
       - POSTGRES_PASSWORD=alfresco

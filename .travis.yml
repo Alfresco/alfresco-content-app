@@ -72,7 +72,7 @@ jobs:
       cache: false
 
     - stage: e2e
-      name: Test Suite appNavigation&search
+      name: 'Test Suite appNavigation & search'
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a"
         - ./start.sh
@@ -81,7 +81,7 @@ jobs:
         - ./scripts/ci/job_hooks/after_e2e.sh
         - ./start.sh -d
 
-    - name: Test Suite actionsAvailable
+    - name: 'Test Suite actionsAvailable'
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a"
         - ./start.sh
@@ -90,7 +90,7 @@ jobs:
         - ./scripts/ci/job_hooks/after_e2e.sh
         - ./start.sh -d
 
-    - name: Test Suite addRemoveContent
+    - name: 'Test Suite addRemoveContent'
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a"
         - ./start.sh
@@ -99,7 +99,7 @@ jobs:
         - ./scripts/ci/job_hooks/after_e2e.sh
         - ./start.sh -d
 
-    - name: Test Suite manageContent
+    - name: 'Test Suite manageContent'
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a"
         - ./start.sh
@@ -108,16 +108,17 @@ jobs:
         - ./scripts/ci/job_hooks/after_e2e.sh
         - ./start.sh -d
 
-    - name: Test Suite sharingContent&markFavorite
+    - name: 'Test Suite sharingContent & markFavorite'
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a"
         - ./start.sh
+        - df -h
       script: ng run app-e2e:e2elite --suite "sharingContent"
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
         - ./start.sh -d
 
-    - name: Test Suite viewContent&metadata&extensions
+    - name: 'Test Suite viewContent&metadata & extensions'
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a"
         - ./start.sh

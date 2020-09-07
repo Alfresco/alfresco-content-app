@@ -14,6 +14,7 @@ require('dotenv').config({path: process.env.ENV_FILE});
 const SmartRunner = require('protractor-smartrunner');
 const projectRoot = path.resolve(__dirname);
 const downloadFolder = path.join(__dirname, 'e2e-downloads');
+const screenshotsFolder = path.resolve(__dirname, 'e2e-output')
 const e2eFolder = path.resolve(projectRoot, 'e2e');
 const E2E_HOST = process.env.E2E_HOST || 'http://localhost:4200';
 const BROWSER_RUN = process.env.BROWSER_RUN;
@@ -166,7 +167,7 @@ exports.config = {
   plugins: [
     {
       package: 'protractor-screenshoter-plugin',
-      screenshotPath: path.resolve(__dirname, 'e2e-output'),
+      screenshotPath: screenshotsFolder,
       screenshotOnExpect: 'failure',
       withLogs: true,
       writeReportFreq: 'end',
