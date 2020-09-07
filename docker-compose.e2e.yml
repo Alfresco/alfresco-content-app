@@ -2,7 +2,7 @@ version: '2'
 
 services:
   alfresco:
-    image: alfresco/alfresco-content-repository-community:6.2.1-A8
+    image: alfresco/alfresco-content-repository-community:latest
     mem_limit: 2g
     depends_on:
       - auth
