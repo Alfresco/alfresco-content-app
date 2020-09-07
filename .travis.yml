@@ -78,6 +78,10 @@ jobs:
         - ./start.sh
       script: ng run app-e2e:e2elite
       after_script:
+        - echo 'get docker logs after run'
+        - echo '--------------------------------'
+        - docker logs `docker ps | grep 'alfresco/alfresco-content-repository-community:latest' | awk '{ print $1 }'`
+        - echo '--------------------------------'
         - ./scripts/ci/job_hooks/after_e2e.sh
         - ./start.sh -d
 
