@@ -62,8 +62,9 @@ export class SharedLinksApi extends RepoApi {
 
   async getSharedIdOfNode(name: string) {
     try {
-      const sharedLinks = (await this.getSharedLinks()).list.entries;
-      const found = sharedLinks.find((sharedLink) => sharedLink.entry.name === name);
+      const allSharedLinks = await this.getSharedLinks();
+      const sharedLinksEntries = allSharedLinks && allSharedLinks.list.entries;
+      const found = sharedLinksEntries.find((sharedLink) => sharedLink.entry.name === name);
       return (found || { entry: { id: null } }).entry.id;
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.getSharedIdOfNode.name}`, error);
@@ -90,10 +91,20 @@ export class SharedLinksApi extends RepoApi {
     }
   }
 
+  async getSharedLinksTotalItems(): Promise<number> {
+    try {
+      const sharedLinks = await this.getSharedLinks();
+      return sharedLinks && sharedLinks.list.pagination.totalItems;
+    } catch (error) {
+      this.handleError(`${this.constructor.name} ${this.getSharedLinksTotalItems.name}`, error);
+      return -1;
+    }
+  }
+
   async waitForApi(data: { expect: number }) {
     try {
       const sharedFiles = async () => {
-        const totalItems = (await this.getSharedLinks()).list.pagination.totalItems;
+        const totalItems = await this.getSharedLinksTotalItems();
         if (totalItems !== data.expect) {
           return Promise.reject(totalItems);
         } else {

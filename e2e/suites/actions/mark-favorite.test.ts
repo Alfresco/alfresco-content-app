@@ -115,7 +115,7 @@ describe('Mark items as favorites', () => {
     await apis.user.favorites.addFavoritesByIds('file', [fileSearchFav1Id, fileSearchFav2Id, fileSearchFav3Id, fileSearchFav4Id]);
     await apis.user.favorites.waitForApi({ expect: currentFavoritesFiles + 9 });
 
-    const currentSharedFiles = (await apis.user.shared.getSharedLinks()).list.pagination.totalItems;
+    const currentSharedFiles = await apis.user.shared.getSharedLinksTotalItems();
     await apis.user.shared.shareFilesByIds([fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id]);
     await apis.user.shared.shareFilesByIds([fileNotFav1Id, fileNotFav2Id, fileNotFav3Id, fileNotFav4Id]);
     await apis.user.shared.waitForApi({ expect: currentSharedFiles + 8 });
