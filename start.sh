@@ -85,6 +85,6 @@ if [[ $WAIT == "true" ]]; then
   fi
   echo "Waiting done - backend is up"
   echo "get docker logs : "
-  docker logs `docker ps | grep 'alfresco/alfresco-content-repository-community:latest' | awk '{ print $1 }'
+  docker logs `docker ps | grep 'alfresco/alfresco-content-repository-community:latest' | awk '{ print $1 }'`
 fi
 
