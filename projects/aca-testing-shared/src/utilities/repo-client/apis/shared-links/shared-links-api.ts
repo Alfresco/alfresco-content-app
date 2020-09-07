@@ -83,13 +83,7 @@ export class SharedLinksApi extends RepoApi {
   async getSharedLinks() {
     try {
       await this.apiAuth();
-    } catch (err) {
-      Logger.error(`>>> getSharedLinks catch : apiAuth : ${err}`);
-    }
-    try {
-      const listSharedLinks = await this.sharedlinksApi.listSharedLinks();
-      Logger.log(`>>>> getSharedLinks -> adf listSharedLinks response : ${listSharedLinks}`);
-      return listSharedLinks;
+      return await this.sharedlinksApi.listSharedLinks();
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.getSharedLinks.name}`, error);
       Logger.error(`${this.constructor.name} ${this.getSharedLinks.name} catch : ${error}`);

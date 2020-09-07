@@ -3,7 +3,7 @@ version: '2'
 services:
   alfresco:
     image: alfresco/alfresco-content-repository-community:latest
-    mem_limit: 1500m
+    mem_limit: 2000m
     depends_on:
       - auth
       - postgres
@@ -44,7 +44,7 @@ services:
         -Didentity-service.realm=alfresco
         -Didentity-service.resource=alfresco
         ${AIMS_PROPS}
-        -Xms1500m -Xmx1500m
+        -Xms2000m -Xmx2000m
         '
 
   alfresco-pdf-renderer:
