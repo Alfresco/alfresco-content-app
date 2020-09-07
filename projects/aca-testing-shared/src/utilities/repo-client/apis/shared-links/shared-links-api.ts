@@ -86,7 +86,6 @@ export class SharedLinksApi extends RepoApi {
       return await this.sharedlinksApi.listSharedLinks();
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.getSharedLinks.name}`, error);
-      Logger.error(`${this.constructor.name} ${this.getSharedLinks.name} catch : ${error}`);
       return null;
     }
   }

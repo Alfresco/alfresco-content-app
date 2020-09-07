@@ -83,5 +83,6 @@ if [[ $WAIT == "true" ]]; then
     echo "Waiting failed -> exit 1"
     exit 1
   fi
+  echo "Waiting done - app is up"
 fi
 
