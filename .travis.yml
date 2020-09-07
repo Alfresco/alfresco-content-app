@@ -71,7 +71,7 @@ jobs:
         - bash <(curl -s https://codecov.io/bash) -X gcov
       cache: false
 
-    # - stage: e2e
+    - stage: e2e
     #   name: 'Test Suite appNavigation & search'
     #   before_script:
     #     - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a"
