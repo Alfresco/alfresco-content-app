@@ -26,11 +26,10 @@
 import { RepoApi } from '../repo-api';
 import { Logger } from '@alfresco/adf-testing';
 import { Utils } from '../../../../utilities/utils';
-import { SharedlinksApi as AdfSharedlinksApi, SharedLinkEntry, DiscoveryApi as AdfDiscoveryApi } from '@alfresco/js-api';
+import { SharedlinksApi as AdfSharedlinksApi, SharedLinkEntry } from '@alfresco/js-api';
 
 export class SharedLinksApi extends RepoApi {
   sharedlinksApi = new AdfSharedlinksApi(this.alfrescoJsApi);
-  discoveryApi = new AdfDiscoveryApi(this.alfrescoJsApi);
 
   constructor(username?: string, password?: string) {
     super(username, password);
@@ -85,16 +84,6 @@ export class SharedLinksApi extends RepoApi {
   async getSharedLinks() {
     try {
       await this.apiAuth();
-
-      const repo = await this.discoveryApi.getRepositoryInformation();
-      console.log(`>>>>>> repo entry info total : `, repo.entry.repository);
-
-      console.log(`>>>>>> repo entry info : EDITION : `, repo.entry.repository.edition);
-      console.log(`>>>>>> repo entry info : VERSION : `, repo.entry.repository.version);
-      console.log(`>>>>>> repo entry info : STATUS : `, repo.entry.repository.status);
-      console.log(`>>>>>> repo entry info : LICENSE : `, repo.entry.repository.license);
-      console.log(`>>>>>> repo entry info : MODULES : `, repo.entry.repository.modules);
-
       return await this.sharedlinksApi.listSharedLinks();
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.getSharedLinks.name}`, error);
