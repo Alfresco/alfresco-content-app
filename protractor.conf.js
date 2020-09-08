@@ -7,7 +7,7 @@ const fs = require('fs');
 const resolve = require('path').resolve;
 const logger = require('./tools/helpers/logger');
 const retry = require('protractor-retry').retry;
-const uploadOutput = require('./e2e/e2e-config/utils/upload-output');
+const { uploadScreenshot } = require('./e2e/e2e-config/utils/upload-output');
 
 require('dotenv').config({path: process.env.ENV_FILE});
 
@@ -230,7 +230,7 @@ exports.config = {
       console.log(`Save screenshot is ${SAVE_SCREENSHOT}, trying to save screenshots.`);
 
       try {
-        await uploadOutput();
+        await uploadScreenshot(1, 'ACA');
         console.log('Screenshots saved successfully.');
       } catch (e) {
         console.log('Error happened while trying to upload screenshots and test reports: ', e);
