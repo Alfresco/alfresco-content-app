@@ -60,8 +60,8 @@ exports.config = {
 
   specs: [
     './e2e/suites/authentication/*.test.ts',
-    './e2e/suites/list-views/*.test.ts',
-    './e2e/suites/application/*.test.ts',
+    // './e2e/suites/list-views/*.test.ts',
+    // './e2e/suites/application/*.test.ts',
     // './e2e/suites/navigation/*.test.ts',
     // './e2e/suites/pagination/*.test.ts',
     // './e2e/suites/search/*.test.ts',
