@@ -1,6 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-const TestConfig = require('../test.config');
 const AlfrescoApi = require('@alfresco/js-api').AlfrescoApiCompatibility;
 
 function buildNumber() {
@@ -17,10 +16,10 @@ async function uploadScreenshot(retryCount, suffixFileName) {
 
   let alfrescoJsApi = new AlfrescoApi({
     provider: 'ECM',
-    hostEcm: TestConfig.screenshot.url
+    hostEcm: process.env.SCREENSHOT_URL
   });
 
-  await alfrescoJsApi.login(TestConfig.screenshot.username, TestConfig.screenshot.password);
+  await alfrescoJsApi.login(process.env.SCREENSHOT_USERNAME, process.env.SCREENSHOT_PASSWORD);
 
   let folderNode;
 
