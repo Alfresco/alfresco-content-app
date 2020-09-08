@@ -163,16 +163,16 @@ exports.config = {
     ...(process.env.CI ? SmartRunner.withOptionalExclusions(resolve(__dirname, './e2e/protractor.excludes.json')) : {})
   },
 
-  plugins: [
-    {
-      package: 'jasmine2-protractor-utils',
-      disableScreenshot: false,
-      screenshotOnExpectFailure: true,
-      screenshotOnSpecFailure: false,
-      clearFoldersBeforeTest: true,
-      screenshotPath: path.resolve(__dirname, 'e2e-output/screenshots/')
-    }
-  ],
+  plugins: [{
+    package: 'protractor-screenshoter-plugin',
+    screenshotPath: path.resolve(__dirname, '../e2e-output/'),
+    screenshotOnExpect: 'failure',
+    withLogs: true,
+    writeReportFreq: 'end',
+    imageToAscii: 'none',
+    htmlOnExpect: 'none',
+    htmlOnSpec: 'none'
+  }],
 
   onCleanUp(results) {
     if (process.env.CI) {
