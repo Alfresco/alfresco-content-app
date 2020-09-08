@@ -1,5 +1,5 @@
-@import '~@angular/material/theming';
-@import '~@alfresco/adf-content-services/theming';
+@import '@angular/material/theming';
+@import '@alfresco/adf-content-services/theming';
 
 @import '../components/sidenav/sidenav.component.theme';
 @import '../components/search/search-input/search-input.component.theme';
@@ -25,11 +25,7 @@
 $custom-theme-primary: mat-palette($aca-primary-blue, A100);
 $custom-theme-accent: mat-palette($aca-accent-green, A200);
 $custom-theme-warn: mat-palette($aca-warn, A100);
-$custom-theme: mat-light-theme(
-  $custom-theme-primary,
-  $custom-theme-accent,
-  $custom-theme-warn
-);
+$custom-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent, $custom-theme-warn);
 $foreground: map-get($custom-theme, foreground);
 $warn: map-get($custom-theme, warn);
 
