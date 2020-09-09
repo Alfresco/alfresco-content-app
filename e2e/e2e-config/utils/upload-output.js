@@ -1,69 +1,67 @@
-const path = require('path');
 const fs = require('fs');
+const path = require('path');
 const AlfrescoApi = require('@alfresco/js-api').AlfrescoApiCompatibility;
-const buildNumber = require('./build-number');
-const configScreenshotsPath = path.join(`${path.resolve(__dirname)}/../../../e2e-output/screenshots/`);
-const rimraf = require('rimraf');
 
-uploadOutput = async function() {
+function buildNumber() {
+  let buildNumber = process.env.TRAVIS_BUILD_NUMBER;
+  if (!buildNumber) {
+    process.env.TRAVIS_BUILD_NUMBER = Date.now();
+  }
 
-    let alfrescoJsApi = new AlfrescoApi({ provider: 'ECM', hostEcm: process.env.SCREENSHOT_URL });
-    alfrescoJsApi.login(process.env.SCREENSHOT_USERNAME, process.env.SCREENSHOT_PASSWORD);
-
-    await saveScreenshots(alfrescoJsApi);
-
-    rimraf(configScreenshotsPath, function () {
-        console.log('done delete screenshot');
-    });
+  return process.env.TRAVIS_BUILD_NUMBER;
 }
 
-async function saveScreenshots(alfrescoJsApi) {
-    let files = fs.readdirSync(configScreenshotsPath);
+async function uploadScreenshot(retryCount, suffixFileName) {
+  console.log(`Start uploading report ${retryCount}`);
 
-    if (files && files.length > 0) {
+  let alfrescoJsApi = new AlfrescoApi({
+    provider: 'ECM',
+    hostEcm: process.env.SCREENSHOT_URL
+  });
 
-        let folder;
+  await alfrescoJsApi.login(process.env.SCREENSHOT_USERNAME, process.env.SCREENSHOT_PASSWORD);
 
-        try {
-            folder = await alfrescoJsApi.nodes.addNode('-my-', {
-                'name': `screenshot`,
-                'relativePath': `Builds/ACA-${buildNumber()}`,
-                'nodeType': 'cm:folder'
-            }, {}, {
-                'overwrite': true
-            });
-        } catch (error) {
-            folder = await alfrescoJsApi.nodes.getNode('-my-', {
-                'relativePath': `Builds/ACA-${buildNumber()}/screenshot`,
-                'nodeType': 'cm:folder'
-            }, {}, {
-                'overwrite': true
-            });
-        }
+  let folderNode;
 
-        for (const fileName of files) {
-            let pathFile = path.join(configScreenshotsPath, fileName);
-            let file = fs.createReadStream(pathFile);
+  try {
+    folderNode = await alfrescoJsApi.nodes.addNode('-my-', {
+      'name': `retry-${retryCount}`,
+      'relativePath': `Builds/ACA/${buildNumber()}/`,
+      'nodeType': 'cm:folder'
+    }, {}, {
+      'overwrite': true
+    });
+  } catch (error) {
+    folderNode = await alfrescoJsApi.nodes.getNode('-my-', {
+      'relativePath': `Builds/ACA/${buildNumber()}/retry-${retryCount}`,
+      'nodeType': 'cm:folder'
+    }, {}, {
+      'overwrite': true
+    });
+  }
 
-            let safeFileName = fileName.replace(new RegExp('"', 'g'), '');
+  fs.renameSync(path.resolve(__dirname, '../../e2e-output/'), path.resolve(__dirname, `../../e2e-output-${retryCount}/`))
 
-            try {
-                await alfrescoJsApi.upload.uploadFile(
-                    file,
-                    '',
-                    folder.entry.id,
-                    null,
-                    {
-                        'name': safeFileName,
-                        'nodeType': 'cm:content',
-                        'autoRename': true
-                    }
-                );
-            }catch(error){
-                console.log(error);
-            }
-        }
+  const child_process = require("child_process");
+  child_process.execSync(` tar -czvf ../e2e-result-${suffixFileName}-${retryCount}.tar .`, {
+    cwd: path.resolve(__dirname, `../../e2e-output-${retryCount}/`)
+  });
+
+  let pathFile = path.join(__dirname, `../../e2e-result-${suffixFileName}-${retryCount}.tar`);
+  let file = fs.createReadStream(pathFile);
+  await alfrescoJsApi.upload.uploadFile(
+    file,
+    '',
+    folderNode.entry.id,
+    null,
+    {
+      'name': `e2e-result-${suffixFileName}-${retryCount}.tar`,
+      'nodeType': 'cm:content',
+      'autoRename': true
     }
-};
+  );
+}
 
-module.exports = uploadOutput;
+module.exports = {
+  uploadScreenshot: uploadScreenshot
+};
