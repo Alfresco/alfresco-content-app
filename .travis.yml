@@ -40,6 +40,11 @@ stages:
   - name: Trigger DW
     if: (branch = master OR branch = develop OR (tag =~ .*beta.*)) AND (type = push OR type = api)
 
+env:
+  global:
+    - API_CONTENT_HOST=$API_CONTENT_HOST_REMOTE
+    - API_AOS_HOST=$API_CONTENT_HOST_REMOTE
+
 jobs:
   include:
     - stage: Quality and Unit tests
@@ -75,56 +80,44 @@ jobs:
       name: Test Suite appNavigation&search
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a"
-        - ./start.sh
       script: ng run app-e2e:e2elite --suite "authentication,listViews,navigation,application,pagination,search"
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
-        - ./start.sh -d
 
     - name: Test Suite actionsAvailable
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a"
-        - ./start.sh
       script: ng run app-e2e:e2elite --suite "actionsAvailable"
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
-        - ./start.sh -d
 
     - name: Test Suite addRemoveContent
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a"
-        - ./start.sh
       script: ng run app-e2e:e2elite --suite "addRemoveContent"
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
-        - ./start.sh -d
 
     - name: Test Suite manageContent
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a"
-        - ./start.sh
       script: ng run app-e2e:e2elite --suite "manageContent"
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
-        - ./start.sh -d
 
     - name: Test Suite sharingContent&markFavorite
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a"
-        - ./start.sh
       script: ng run app-e2e:e2elite --suite "sharingContent"
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
-        - ./start.sh -d
 
     - name: Test Suite viewContent&metadata&extensions
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a"
-        - ./start.sh
       script: ng run app-e2e:e2elite --suite "viewer,infoDrawer,extensions"
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
-        - ./start.sh -d
 
     - stage: Update Rancher
       name: Update Rancher
