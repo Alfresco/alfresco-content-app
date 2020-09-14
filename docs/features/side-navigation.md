@@ -4,13 +4,13 @@ Title: Side Navigation
 
 # Side Navigation
 
-The application [side navigation](../../src/app/components/sidenav) has two features: a button menu and navigation links.
+The application `Side Navigation` has two features: a button menu and navigation links.
 
 ![Side Navigation](../images/side-nav.png)
 
 ## New button
 
-The New button displays a menu which provides three actions:
+The `New button` displays a menu which provides three actions:
 
 - Create a new folder - provides a dialog which allows the creation of a new folder, the folder name is mandatory and the description is optional.
 - Upload a file - invokes the operating system file browser and allows a user to select file(s) to upload into their current location in the content repository.
@@ -25,6 +25,6 @@ and uploads can be canceled which will stop uploads in progress or permanently d
 
 ## Navigation
 
-The navigation links are configurable via the [app.config.json](../../src/app.config.json).
+The navigation links are configurable via the `app.config.json`.
 Default configuration creates two sections.
 See [Navigation](/getting-started/navigation) for more information about configuring the side navigation.

@@ -5,7 +5,7 @@ nav: ja
 
 # ユーザーインターフェイス - レイアウト
 
-[Layout component](../../src/app/components/layout) によって制御されるアプリケーションの3つの主要な領域があります:
+`Layout component` によって制御されるアプリケーションの3つの主要な領域があります:
 
 1. [アプリケーションヘッダー](/ja/features/header)
 2. [サイドナビゲーション](/ja/features/side-navigation)

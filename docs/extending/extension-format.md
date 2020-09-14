@@ -25,7 +25,7 @@ The format is represented by a JSON file with the structure similar to the follo
 
 ## Schema
 
-You can find the JSON schema at the project root folder: [extension.schema.json](../../extension.schema.json).
+You can find the JSON schema at the project root folder: `extension.schema.json`.
 
 **Tip:** The Schema allows you to validate extension files, provides code completion and documentation hints.
 
