@@ -44,7 +44,7 @@ export class SharedLinksApi extends RepoApi {
       };
       return await this.sharedlinksApi.createSharedLink(data);
     } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.shareFileById.name}`, error);
+      this.handleError(`SharedLinksApi shareFileById : catch : `, error);
       return null;
     }
   }
@@ -56,7 +56,7 @@ export class SharedLinksApi extends RepoApi {
         return this.shareFileById(current);
       }, Promise.resolve());
     } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.shareFilesByIds.name}`, error);
+      this.handleError(`SharedLinksApi shareFilesByIds : catch : `, error);
     }
   }
 
@@ -66,7 +66,7 @@ export class SharedLinksApi extends RepoApi {
       const found = sharedLinks.find((sharedLink) => sharedLink.entry.name === name);
       return (found || { entry: { id: null } }).entry.id;
     } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.getSharedIdOfNode.name}`, error);
+      this.handleError(`SharedLinksApi getSharedIdOfNode : catch : `, error);
       return null;
     }
   }
@@ -76,7 +76,7 @@ export class SharedLinksApi extends RepoApi {
       const id = await this.getSharedIdOfNode(name);
       return await this.sharedlinksApi.deleteSharedLink(id);
     } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.unshareFile.name}`, error);
+      this.handleError(`SharedLinksApi unshareFile : catch : `, error);
     }
   }
 
@@ -85,7 +85,17 @@ export class SharedLinksApi extends RepoApi {
       await this.apiAuth();
       return await this.sharedlinksApi.listSharedLinks();
     } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.getSharedLinks.name}`, error);
+      this.handleError(`SharedLinksApi getSharedLinks : catch : `, error);
+      return null;
+    }
+  }
+
+  async getSharedLinksTotalItems(): Promise<number> {
+    try {
+      await this.apiAuth();
+      return (await this.sharedlinksApi.listSharedLinks()).list.pagination.totalItems;
+    } catch (error) {
+      this.handleError(`SharedLinksApi getSharedLinks : catch : `, error);
       return null;
     }
   }
@@ -93,7 +103,7 @@ export class SharedLinksApi extends RepoApi {
   async waitForApi(data: { expect: number }) {
     try {
       const sharedFiles = async () => {
-        const totalItems = (await this.getSharedLinks()).list.pagination.totalItems;
+        const totalItems = await this.getSharedLinksTotalItems();
         if (totalItems !== data.expect) {
           return Promise.reject(totalItems);
         } else {
@@ -103,7 +113,7 @@ export class SharedLinksApi extends RepoApi {
 
       return await Utils.retryCall(sharedFiles);
     } catch (error) {
-      Logger.error(`${this.constructor.name} ${this.waitForApi.name} catch: `);
+      Logger.error(`SharedLinksApi waitForApi :  catch : `);
       Logger.error(`\tExpected: ${data.expect} items, but found ${error}`);
     }
   }

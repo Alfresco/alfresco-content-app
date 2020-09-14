@@ -49,7 +49,7 @@ export class FavoritesApi extends RepoApi {
       };
       return await this.favoritesApi.createFavorite('-me-', data);
     } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.addFavorite.name}`, error);
+      this.handleError(`FavoritesApi addFavorite : catch : `, error);
       return null;
     }
   }
@@ -72,7 +72,7 @@ export class FavoritesApi extends RepoApi {
       };
       return await this.favoritesApi.createFavorite('-me-', data);
     } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.addFavoriteById.name}`, error);
+      this.handleError(`FavoritesApi addFavoriteById : catch : `, error);
       return null;
     }
   }
@@ -84,7 +84,7 @@ export class FavoritesApi extends RepoApi {
         await this.addFavoriteById(nodeType, current);
       }, Promise.resolve());
     } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.addFavoritesByIds.name}`, error);
+      this.handleError(`FavoritesApi addFavoritesByIds : catch : `, error);
     }
   }
 
@@ -93,7 +93,17 @@ export class FavoritesApi extends RepoApi {
       await this.apiAuth();
       return await this.favoritesApi.listFavorites(this.getUsername());
     } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.getFavorites.name}`, error);
+      this.handleError(`FavoritesApi getFavorites : catch : `, error);
+      return null;
+    }
+  }
+
+  async getFavoritesTotalItems(): Promise<number> {
+    try {
+      await this.apiAuth();
+      return (await this.favoritesApi.listFavorites(this.getUsername())).list.pagination.totalItems;
+    } catch (error) {
+      this.handleError(`FavoritesApi getFavoritesTotalItems : catch : `, error);
       return null;
     }
   }
@@ -103,7 +113,7 @@ export class FavoritesApi extends RepoApi {
       await this.apiAuth();
       return await this.favoritesApi.getFavorite('-me-', nodeId);
     } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.getFavoriteById.name}`, error);
+      this.handleError(`FavoritesApi getFavoriteById : catch : `, error);
       return null;
     }
   }
@@ -112,7 +122,7 @@ export class FavoritesApi extends RepoApi {
     try {
       return JSON.stringify((await this.getFavorites()).list.entries).includes(nodeId);
     } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.isFavorite.name}`, error);
+      this.handleError(`FavoritesApi isFavorite : catch : `, error);
       return null;
     }
   }
@@ -130,7 +140,7 @@ export class FavoritesApi extends RepoApi {
       };
       return await Utils.retryCall(favorite);
     } catch (error) {
-      // this.handleError(`${this.constructor.name} ${this.isFavoriteWithRetry.name}`, error);
+      // this.handleError(`FavoritesApi isFavoriteWithRetry : catch : `, error);
     }
     return isFavorite;
   }
@@ -140,7 +150,7 @@ export class FavoritesApi extends RepoApi {
       await this.apiAuth();
       return await this.favoritesApi.deleteFavorite('-me-', nodeId);
     } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.removeFavoriteById.name}`, error);
+      this.handleError(`FavoritesApi removeFavoriteById : catch : `, error);
     }
   }
 
@@ -151,14 +161,14 @@ export class FavoritesApi extends RepoApi {
         await this.removeFavoriteById(current);
       }, Promise.resolve());
     } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.removeFavoritesByIds.name}`, error);
+      this.handleError(`FavoritesApi removeFavoritesByIds : catch : `, error);
     }
   }
 
   async waitForApi(data: { expect: number }) {
     try {
       const favoriteFiles = async () => {
-        const totalItems = (await this.getFavorites()).list.pagination.totalItems;
+        const totalItems = await this.getFavoritesTotalItems();
         if (totalItems !== data.expect) {
           return Promise.reject(totalItems);
         } else {
@@ -167,7 +177,7 @@ export class FavoritesApi extends RepoApi {
       };
       return await Utils.retryCall(favoriteFiles);
     } catch (error) {
-      Logger.error(`${this.constructor.name} ${this.waitForApi.name} catch: `);
+      Logger.error(`FavoritesApi waitForApi :  catch : `);
       Logger.error(`\tExpected: ${data.expect} items, but found ${error}`);
     }
   }

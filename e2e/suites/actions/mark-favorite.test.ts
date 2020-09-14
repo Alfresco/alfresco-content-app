@@ -110,15 +110,15 @@ describe('Mark items as favorites', () => {
     fileSearchFav4Id = (await apis.user.nodes.createFile(fileSearchFav4, parentId)).entry.id;
     folderSearchId = (await apis.user.nodes.createFolder(folderSearch, parentId)).entry.id;
 
-    const currentFavoritesFiles = (await apis.user.favorites.getFavorites()).list.pagination.totalItems;
+    const currentFavoritesTotalItems = await apis.user.favorites.getFavoritesTotalItems();
     await apis.user.favorites.addFavoritesByIds('file', [fileFavUIId, fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id]);
     await apis.user.favorites.addFavoritesByIds('file', [fileSearchFav1Id, fileSearchFav2Id, fileSearchFav3Id, fileSearchFav4Id]);
-    await apis.user.favorites.waitForApi({ expect: currentFavoritesFiles + 9 });
+    await apis.user.favorites.waitForApi({ expect: currentFavoritesTotalItems + 9 });
 
-    const currentSharedFiles = (await apis.user.shared.getSharedLinks()).list.pagination.totalItems;
+    const currentSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
     await apis.user.shared.shareFilesByIds([fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id]);
     await apis.user.shared.shareFilesByIds([fileNotFav1Id, fileNotFav2Id, fileNotFav3Id, fileNotFav4Id]);
-    await apis.user.shared.waitForApi({ expect: currentSharedFiles + 8 });
+    await apis.user.shared.waitForApi({ expect: currentSharedTotalItems + 8 });
 
     await loginPage.loginWith(username);
     done();
@@ -141,7 +141,7 @@ describe('Mark items as favorites', () => {
         await apis.user.favorites.addFavoriteById('folder', folderId);
         await apis.user.favorites.removeFavoritesByIds([fileNotFav1Id, fileNotFav2Id, fileNotFav3Id, fileNotFav4Id]);
         await apis.user.favorites.waitForApi({ expect: 10 });
-      } catch (error) {}
+      } catch (error) { }
       done();
     });
 
@@ -224,11 +224,11 @@ describe('Mark items as favorites', () => {
   describe('on Recent Files', () => {
     afterAll(async (done) => {
       try {
-        const currentFavoritesFiles = (await apis.user.favorites.getFavorites()).list.pagination.totalItems;
+        const currentFavoritesFiles = await apis.user.favorites.getFavoritesTotalItems();
         await apis.user.favorites.addFavoritesByIds('file', [fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id]);
         await apis.user.favorites.removeFavoritesByIds([fileNotFav1Id, fileNotFav2Id, fileNotFav3Id, fileNotFav4Id]);
         await apis.user.favorites.waitForApi({ expect: currentFavoritesFiles - 1 });
-      } catch (error) {}
+      } catch (error) { }
       done();
     });
 
@@ -283,7 +283,7 @@ describe('Mark items as favorites', () => {
         await apis.user.favorites.addFavoritesByIds('file', [fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id]);
         await apis.user.favorites.removeFavoritesByIds([fileNotFav1Id, fileNotFav2Id, fileNotFav3Id, fileNotFav4Id]);
         await apis.user.favorites.waitForApi({ expect: 10 });
-      } catch (error) {}
+      } catch (error) { }
       done();
     });
 
@@ -337,7 +337,7 @@ describe('Mark items as favorites', () => {
       try {
         await apis.user.favorites.addFavoritesByIds('file', [fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id]);
         await apis.user.favorites.waitForApi({ expect: 10 });
-      } catch (error) {}
+      } catch (error) { }
       done();
     });
 
