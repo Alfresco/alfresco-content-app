@@ -71,7 +71,7 @@ describe('Files / folders actions : ', () => {
     const initialFavoritesTotalItems = await userApi.favorites.getFavoritesTotalItems();
     const initialSharedTotalItems = await userApi.shared.getSharedLinksTotalItems();
     const initialDeletedTotalItems = await userApi.trashcan.getDeletedNodesTotalItems();
-    const initialSearchTotalItems = await userApi.search.getRecentFilesTotalItems(username);
+    const initialSearchTotalItems = await userApi.search.getTotalItems(username);
 
     await userApi.upload.uploadFileWithRename(FILES.docxFile, parentId, testData.fileDocx.name);
     fileDocxFavId = (await userApi.upload.uploadFileWithRename(FILES.docxFile, parentId, testData.fileDocxFav.name)).entry.id;

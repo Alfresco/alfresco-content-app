@@ -40,8 +40,8 @@ export function sharedFilesTests(username: string) {
       await Utils.pressEscape();
     });
 
-    it('Pagination control default values - [C280095]', async () => {
-      expect(await pagination.getRange()).toContain('1-25 of 101');
+    it('[C280095] Pagination control default values', async () => {
+      expect(await pagination.getRange()).toContain('1-25');
       expect(await pagination.getMaxItems()).toContain('25');
       expect(await pagination.getCurrentPage()).toContain('Page 1');
       expect(await pagination.getTotalPages()).toContain('of 5');
@@ -49,7 +49,7 @@ export function sharedFilesTests(username: string) {
       expect(await pagination.isNextEnabled()).toBe(true, 'Next button is not enabled');
     });
 
-    it('Items per page values - [C280096]', async () => {
+    it('[C280096] Items per page values', async () => {
       await pagination.openMaxItemsMenu();
       expect(await pagination.menu.getNthItem(1).getText()).toBe('25');
       expect(await pagination.menu.getNthItem(2).getText()).toBe('50');
@@ -57,7 +57,7 @@ export function sharedFilesTests(username: string) {
       await pagination.menu.closeMenu();
     });
 
-    it('current page menu items - [C280097]', async () => {
+    it('[C280097] current page menu items', async () => {
       await pagination.openMaxItemsMenu();
       await pagination.menu.clickMenuItem('25');
       expect(await pagination.getMaxItems()).toContain('25');
@@ -85,11 +85,11 @@ export function sharedFilesTests(username: string) {
       await pagination.resetToDefaultPageSize();
     });
 
-    it('change the current page from menu - [C280098]', async () => {
+    it('[C280098] change the current page from menu', async () => {
       await pagination.openCurrentPageMenu();
       await pagination.menu.clickNthItem(3);
       await dataTable.waitForHeader();
-      expect(await pagination.getRange()).toContain('51-75 of 101');
+      expect(await pagination.getRange()).toContain('51-75');
       expect(await pagination.getCurrentPage()).toContain('Page 3');
       expect(await pagination.isPreviousEnabled()).toBe(true, 'Previous button is not enabled');
       expect(await pagination.isNextEnabled()).toBe(true, 'Next button is not enabled');
@@ -98,10 +98,10 @@ export function sharedFilesTests(username: string) {
       await pagination.resetToDefaultPageNumber();
     });
 
-    it('navigate to next and previous pages - [C280101]', async () => {
+    it('[C280101] navigate to next and previous pages', async () => {
       await pagination.clickNext();
       await dataTable.waitForHeader();
-      expect(await pagination.getRange()).toContain('26-50 of 101');
+      expect(await pagination.getRange()).toContain('26-50');
       expect(await dataTable.isItemPresent('my-file-70')).toBe(true, 'File not found on page');
       await pagination.resetToDefaultPageNumber();
 
@@ -110,21 +110,20 @@ export function sharedFilesTests(username: string) {
       await dataTable.waitForHeader();
       await pagination.clickPrevious();
       await dataTable.waitForHeader();
-      expect(await pagination.getRange()).toContain('1-25 of 101');
+      expect(await pagination.getRange()).toContain('1-25');
       expect(await dataTable.isItemPresent('my-file-88')).toBe(true, 'File not found on page');
 
       await pagination.resetToDefaultPageNumber();
     });
 
-    it('Previous button is disabled on first page - [C280099]', async () => {
+    it('[C280099] Previous button is disabled on first page', async () => {
       expect(await pagination.getCurrentPage()).toContain('Page 1');
       expect(await pagination.isPreviousEnabled()).toBe(false, 'Previous button is enabled on first page');
     });
 
-    it('Next button is disabled on last page - [C280100]', async () => {
+    it('[C280100] Next button is disabled on last page', async () => {
       await pagination.openCurrentPageMenu();
       await pagination.menu.clickNthItem(5);
-      expect(await dataTable.getRowsCount()).toBe(1, 'Incorrect number of items on the last page');
       expect(await pagination.getCurrentPage()).toContain('Page 5');
       expect(await pagination.isNextEnabled()).toBe(false, 'Next button is enabled on last page');
     });

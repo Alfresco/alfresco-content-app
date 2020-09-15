@@ -82,7 +82,7 @@ describe('Download', () => {
 
     initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
     initialFavoritesTotalItems = await apis.user.favorites.getFavoritesTotalItems();
-    initialRecentTotalItems = await apis.user.search.getRecentFilesTotalItems(username);
+    initialRecentTotalItems = await apis.user.search.getTotalItems(username);
 
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
 

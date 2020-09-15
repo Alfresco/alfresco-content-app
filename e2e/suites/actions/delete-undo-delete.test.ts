@@ -543,7 +543,7 @@ describe('Delete and undo delete', () => {
     beforeAll(async (done) => {
       parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
 
-      const initialRecentTotalItems = await apis.user.search.getRecentFilesTotalItems(username);
+      const initialRecentTotalItems = await apis.user.search.getTotalItems(username);
 
       await apis.user.nodes.createFile(recentFile1, parentId);
       await apis.user.nodes.createFile(recentFile2, parentId);

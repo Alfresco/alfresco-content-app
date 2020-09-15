@@ -13,5 +13,7 @@
  "C586778" : "Include once ACA starts using ACS 7+, https://issues.alfresco.com/jira/browse/ACA-3601",
  "C586779" : "Include once ACA starts using ACS 7+, https://issues.alfresco.com/jira/browse/ACA-3601",
  "C586780" : "Include once ACA starts using ACS 7+, https://issues.alfresco.com/jira/browse/ACA-3601",
- "C586781" : "Include once ACA starts using ACS 7+, https://issues.alfresco.com/jira/browse/ACA-3601"
+ "C586781" : "Include once ACA starts using ACS 7+, https://issues.alfresco.com/jira/browse/ACA-3601",
+ "C280132" : "Shared files list is not empty on the live environment",
+ "C280094" : "Shared files list is not empty on the live environment"
 }

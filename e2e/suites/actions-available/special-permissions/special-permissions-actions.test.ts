@@ -74,7 +74,7 @@ describe('Special permissions : ', () => {
 
     const consumerFavoritesTotalItems = await userConsumerApi.favorites.getFavoritesTotalItems();
     const consumerSharedTotalItems = await userConsumerApi.shared.getSharedLinksTotalItems();
-    const managerSearchTotalItems = await userManagerApi.search.getRecentFilesTotalItems(userManager);
+    const managerSearchTotalItems = await userManagerApi.search.getTotalItems(userManager);
     const collaboratorFavoritesTotalItems = await userCollaboratorApi.favorites.getFavoritesTotalItems();
 
     await userManagerApi.sites.createSitePrivate(sitePrivate);

@@ -69,7 +69,7 @@ describe('Library actions : ', () => {
 
     await Promise.all([
       userApi.sites.waitForApi({ expect: initialUserSitesTotalItems + 8 }),
-      adminApiActions.sites.waitForApi({ expect: initialAdminSitesTotalItems + 6 + 1 })
+      adminApiActions.sites.waitForApi({ expect: initialAdminSitesTotalItems + 6 })
     ]);
 
     await userApi.favorites.removeFavoritesByIds([publicUserMemberNotFavId, privateUserMemberNotFavId, moderatedUserMemberNotFavId]);
@@ -83,7 +83,7 @@ describe('Library actions : ', () => {
     await userApi.sites.requestToJoin(testData.moderatedRequestedJoinFav.name);
     await userApi.sites.requestToJoin(testData.moderatedRequestedJoinNotFav.name);
 
-    await userApi.queries.waitForSites('site-', { expect: initialQuerySitesTotalItems + 14 + 1 });
+    await userApi.queries.waitForSites('site-', { expect: initialQuerySitesTotalItems + 14 });
 
     await userApi.sites.deleteSite(testData.siteInTrash.name, false);
     await userApi.sites.deleteSite(testData.site2InTrash.name, false);
