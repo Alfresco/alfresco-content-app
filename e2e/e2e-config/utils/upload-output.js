@@ -40,7 +40,7 @@ async function uploadScreenshot(retryCount, suffixFileName) {
     });
   }
 
-  fs.renameSync(path.resolve(__dirname, '../../e2e-output/'), path.resolve(__dirname, `../../e2e-output-${retryCount}/`))
+  fs.renameSync(path.resolve(__dirname, '../../../e2e-output/'), path.resolve(__dirname, `../../e2e-output-${retryCount}/`))
 
   const child_process = require("child_process");
   child_process.execSync(` tar -czvf ../e2e-result-${suffixFileName}-${retryCount}.tar .`, {
