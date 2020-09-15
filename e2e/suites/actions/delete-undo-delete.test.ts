@@ -258,6 +258,8 @@ describe('Delete and undo delete', () => {
     beforeAll(async (done) => {
       parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
 
+      const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
+
       sharedFile1Id = (await apis.user.nodes.createFile(sharedFile1, parentId)).entry.id;
       sharedFile2Id = (await apis.user.nodes.createFile(sharedFile2, parentId)).entry.id;
       sharedFile3Id = (await apis.user.nodes.createFile(sharedFile3, parentId)).entry.id;
@@ -265,7 +267,7 @@ describe('Delete and undo delete', () => {
       sharedFile5Id = (await apis.user.nodes.createFile(sharedFile5, parentId)).entry.id;
       sharedFile6Id = (await apis.user.nodes.createFile(sharedFile6, parentId)).entry.id;
       await apis.user.shared.shareFilesByIds([sharedFile1Id, sharedFile2Id, sharedFile3Id, sharedFile4Id, sharedFile5Id, sharedFile6Id]);
-      await apis.user.shared.waitForApi({ expect: 6 });
+      await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 6 });
 
       await loginPage.loginWith(username);
       done();
@@ -370,6 +372,8 @@ describe('Delete and undo delete', () => {
     beforeAll(async (done) => {
       parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
 
+      const initialFavoritesTotalItems = await apis.user.favorites.getFavoritesTotalItems();
+
       favFile1Id = (await apis.user.nodes.createFile(favFile1, parentId)).entry.id;
       favFile2Id = (await apis.user.nodes.createFile(favFile2, parentId)).entry.id;
       favFile3Id = (await apis.user.nodes.createFile(favFile3, parentId)).entry.id;
@@ -399,7 +403,7 @@ describe('Delete and undo delete', () => {
 
       await apis.user.favorites.addFavoritesByIds('file', [favFile1Id, favFile2Id, favFile3Id, favFile4Id, favFile5Id, favFile6Id, favFile7Id]);
       await apis.user.favorites.addFavoritesByIds('folder', [favFolder1Id, favFolder2Id, favFolder3Id, favFolder4Id, favFolder5Id, favFolder6Id]);
-      await apis.user.favorites.waitForApi({ expect: 13 });
+      await apis.user.favorites.waitForApi({ expect: initialFavoritesTotalItems + 13 });
 
       await loginPage.loginWith(username);
       done();
@@ -539,13 +543,15 @@ describe('Delete and undo delete', () => {
     beforeAll(async (done) => {
       parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
 
+      const initialRecentTotalItems = await apis.user.search.getRecentFilesTotalItems(username);
+
       await apis.user.nodes.createFile(recentFile1, parentId);
       await apis.user.nodes.createFile(recentFile2, parentId);
       await apis.user.nodes.createFile(recentFile3, parentId);
       await apis.user.nodes.createFile(recentFile4, parentId);
       await apis.user.nodes.createFile(recentFile5, parentId);
       await apis.user.nodes.createFile(recentFile6, parentId);
-      await apis.user.search.waitForApi(username, { expect: 6 });
+      await apis.user.search.waitForApi(username, { expect: initialRecentTotalItems + 6 });
 
       await loginPage.loginWith(username);
 

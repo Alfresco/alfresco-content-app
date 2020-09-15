@@ -14,6 +14,7 @@ require('dotenv').config({path: process.env.ENV_FILE});
 const SmartRunner = require('protractor-smartrunner');
 const projectRoot = path.resolve(__dirname);
 const downloadFolder = path.join(__dirname, 'e2e-downloads');
+const screenshotsFolder = path.resolve(__dirname, 'e2e-output')
 const e2eFolder = path.resolve(projectRoot, 'e2e');
 const E2E_HOST = process.env.E2E_HOST || 'http://localhost:4200';
 const BROWSER_RUN = process.env.BROWSER_RUN;
@@ -121,7 +122,7 @@ exports.config = {
 
     maxInstances: MAXINSTANCES,
 
-    shardTestFiles: true,
+    shardTestFiles: MAXINSTANCES > 1,
 
     chromeOptions: {
       prefs: {
@@ -138,13 +139,15 @@ exports.config = {
           }
         }
       },
-      args: ['--incognito',
+      args: [
+        '--incognito',
         `--window-size=${width},${height}`,
         '--disable-gpu',
         '--no-sandbox',
         '--disable-web-security',
         '--disable-browser-side-navigation',
-        ...(BROWSER_RUN === true ? [] : ['--headless'])]
+        ...(BROWSER_RUN === true ? [] : ['--headless'])
+      ]
     }
   },
 
@@ -165,13 +168,15 @@ exports.config = {
 
   plugins: [{
     package: 'protractor-screenshoter-plugin',
-    screenshotPath: path.resolve(__dirname, '../e2e-output/'),
+    screenshotPath: screenshotsFolder,
     screenshotOnExpect: 'failure',
+    screenshotOnSpec: 'none',
     withLogs: true,
     writeReportFreq: 'end',
     imageToAscii: 'none',
     htmlOnExpect: 'none',
-    htmlOnSpec: 'none'
+    htmlOnSpec: 'none',
+    clearFoldersBeforeTest: true
   }],
 
   onCleanUp(results) {

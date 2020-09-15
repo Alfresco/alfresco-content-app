@@ -45,8 +45,17 @@ export class QueriesApi extends RepoApi {
       await this.apiAuth();
       return this.queriesApi.findSites(searchTerm, data);
     } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.findSites.name}`, error);
+      this.handleError(`QueriesApi findSites : catch : `, error);
       return null;
+    }
+  }
+
+  async findSitesTotalItems(searchTerm: string): Promise<number> {
+    try {
+      return (await this.findSites(searchTerm)).list.pagination.totalItems;
+    } catch (error) {
+      this.handleError(`QueriesApi findSitesTotalItems : catch :`, error);
+      return -1;
     }
   }
 
@@ -60,7 +69,7 @@ export class QueriesApi extends RepoApi {
       await this.apiAuth();
       return this.queriesApi.findNodes(searchTerm, data);
     } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.findNodes.name}`, error);
+      this.handleError(`QueriesApi findNodes : catch : `, error);
       return null;
     }
   }
@@ -68,7 +77,7 @@ export class QueriesApi extends RepoApi {
   async waitForSites(searchTerm: string, data: { expect: number }) {
     try {
       const sites = async () => {
-        const totalItems = (await this.findSites(searchTerm)).list.pagination.totalItems;
+        const totalItems = await this.findSitesTotalItems(searchTerm);
         if (totalItems !== data.expect) {
           return Promise.reject(totalItems);
         } else {
@@ -78,7 +87,7 @@ export class QueriesApi extends RepoApi {
 
       return await Utils.retryCall(sites);
     } catch (error) {
-      Logger.error(`${this.constructor.name} ${this.waitForSites.name} catch: `);
+      Logger.error(`QueriesApi waitForSites : catch : `);
       Logger.error(`\tExpected: ${data.expect} items, but found ${error}`);
     }
   }
@@ -96,7 +105,7 @@ export class QueriesApi extends RepoApi {
 
       return await Utils.retryCall(nodes);
     } catch (error) {
-      Logger.error(`${this.constructor.name} ${this.waitForFilesAndFolders.name} catch: `);
+      Logger.error(`QueriesApi waitForFilesAndFolders : catch : `);
       Logger.error(`\tExpected: ${data.expect} items, but found ${error}`);
     }
   }

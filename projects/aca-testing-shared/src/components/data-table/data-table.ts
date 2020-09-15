@@ -53,6 +53,8 @@ export class DataTable extends Component {
   emptySearchText = this.byCss('.empty-search__text');
   selectedRow = this.byCss('.adf-datatable-row.adf-is-selected');
 
+  columnModified = this.byCss('.adf-datatable-header [data-automation-id="auto_id_modifiedAt"]');
+
   menu = new Menu();
 
   constructor(ancestor?: string) {
@@ -83,6 +85,30 @@ export class DataTable extends Component {
   getColumnHeaderByLabel(label: string): ElementFinder {
     const locator = by.cssContainingText(DataTable.selectors.columnHeader, label);
     return this.head.element(locator);
+  }
+
+  async sortBy(label: string, order: 'asc' | 'desc'): Promise<void> {
+    const sortColumn = await this.getSortedColumnHeaderText();
+    const sortOrder = await this.getSortingOrder();
+
+    if (sortColumn !== label) {
+      await this.getColumnHeaderByLabel(label).click();
+      if (sortOrder !== order) {
+        await this.getColumnHeaderByLabel(label).click();
+      }
+    }
+  }
+
+  async sortByModified(order: 'asc' | 'desc'): Promise<void> {
+    const sortOrder = await this.getSortingOrder();
+    const sortColumn = await this.getSortedColumnHeaderText();
+
+    if (sortColumn !== 'Modified') {
+      await this.columnModified.click();
+      if (sortOrder !== order) {
+        await this.columnModified.click();
+      }
+    }
   }
 
   private getSortedColumnHeader(): ElementFinder {

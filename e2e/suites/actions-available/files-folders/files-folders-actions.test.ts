@@ -68,6 +68,11 @@ describe('Files / folders actions : ', () => {
 
     parentId = (await userApi.nodes.createFolder(parent)).entry.id;
 
+    const initialFavoritesTotalItems = await userApi.favorites.getFavoritesTotalItems();
+    const initialSharedTotalItems = await userApi.shared.getSharedLinksTotalItems();
+    const initialDeletedTotalItems = await userApi.trashcan.getDeletedNodesTotalItems();
+    const initialSearchTotalItems = await userApi.search.getRecentFilesTotalItems(username);
+
     await userApi.upload.uploadFileWithRename(FILES.docxFile, parentId, testData.fileDocx.name);
     fileDocxFavId = (await userApi.upload.uploadFileWithRename(FILES.docxFile, parentId, testData.fileDocxFav.name)).entry.id;
     await userApi.nodes.createFile(testData.file.name, parentId);
@@ -121,10 +126,10 @@ describe('Files / folders actions : ', () => {
     await userApi.nodes.deleteNodeById(folder2InTrashId, false);
 
     await Promise.all([
-      userApi.favorites.waitForApi({ expect: 8 }),
-      userApi.shared.waitForApi({ expect: 6 }),
-      userApi.search.waitForApi(username, { expect: 12 }),
-      userApi.trashcan.waitForApi({ expect: 4 })
+      userApi.favorites.waitForApi({ expect: initialFavoritesTotalItems + 8 }),
+      userApi.shared.waitForApi({ expect: initialSharedTotalItems + 6 }),
+      userApi.search.waitForApi(username, { expect: initialSearchTotalItems + 12 }),
+      userApi.trashcan.waitForApi({ expect: initialDeletedTotalItems + 4 })
     ]);
 
     await loginPage.loginWith(username);

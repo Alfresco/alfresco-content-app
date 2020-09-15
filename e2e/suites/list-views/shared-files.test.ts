@@ -58,6 +58,9 @@ describe('Shared Files', () => {
     await apis.admin.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_CONSUMER.ROLE);
     const docLibId = await apis.admin.sites.getDocLibId(siteName);
     const nodeId = (await apis.admin.nodes.createFile(fileAdmin, docLibId)).entry.id;
+
+    const initialSharedTotalItems = await apis.admin.shared.getSharedLinksTotalItems();
+
     await apis.admin.shared.shareFileById(nodeId);
 
     folderId = (await apis.user.nodes.createFolder(folderUser)).entry.id;
@@ -67,10 +70,12 @@ describe('Shared Files', () => {
     file4Id = (await apis.user.nodes.createFile(file4User)).entry.id;
     await apis.user.shared.shareFilesByIds([file1Id, file2Id, file3Id, file4Id]);
 
-    await apis.admin.shared.waitForApi({ expect: 5 });
+    await apis.admin.shared.waitForApi({ expect: initialSharedTotalItems + 5 });
+
     await apis.user.nodes.deleteNodeById(file2Id);
     await apis.user.shared.unshareFile(file3User);
-    await apis.admin.shared.waitForApi({ expect: 3 });
+
+    await apis.admin.shared.waitForApi({ expect: initialSharedTotalItems + 3 });
 
     await loginPage.loginWith(username);
     done();

@@ -70,7 +70,7 @@ export class SitesApi extends RepoApi {
       return (await this.sitesApi.listSiteMembershipsForPerson(this.getUsername())).list.pagination.totalItems;
     } catch (error) {
       this.handleError(`SitesApi getSitesTotalItems : catch : `, error);
-      return null;
+      return -1;
     }
   }
 
@@ -279,7 +279,7 @@ export class SitesApi extends RepoApi {
 
       return await Utils.retryCall(sites);
     } catch (error) {
-      Logger.error(`SitesApi waitForApi catch : `);
+      Logger.error(`SitesApi waitForApi : catch : `);
       Logger.error(`\tExpected: ${data.expect} items, but found ${error}`);
     }
   }

@@ -52,17 +52,21 @@ describe('Pagination on multiple pages : ', () => {
     parentId = (await userApi.nodes.createFolder(parent)).entry.id;
     filesIds = (await userApi.nodes.createFiles(files, parent)).list.entries.map((entries: any) => entries.entry.id);
 
+    const initialSharedTotalItems = await userApi.shared.getSharedLinksTotalItems();
+    const initialFavoritesTotalItems = await userApi.favorites.getFavoritesTotalItems();
+    const initialSearchTotalItems = await userApi.search.getRecentFilesTotalItems(username);
+
     await userApi.shared.shareFilesByIds(filesIds);
     await userApi.favorites.addFavoritesByIds('file', filesIds);
 
     await Promise.all([
-      userApi.favorites.waitForApi({ expect: 101 }),
-      userApi.shared.waitForApi({ expect: 101 }),
-      userApi.search.waitForApi(username, { expect: 101 })
+      userApi.favorites.waitForApi({ expect: initialFavoritesTotalItems + 101 }),
+      userApi.shared.waitForApi({ expect: initialSharedTotalItems + 101 }),
+      userApi.search.waitForApi(username, { expect: initialSearchTotalItems + 101 })
     ]);
 
     await loginPage.loginWith(username);
-  });
+  }, 120000);
 
   afterAll(async () => {
     await userApi.nodes.deleteNodeById(parentId);

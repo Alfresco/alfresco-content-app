@@ -67,7 +67,7 @@ export class TrashcanApi extends RepoApi {
     }
   }
 
-  async getDeletedNodesTotalItems() {
+  async getDeletedNodesTotalItems(): Promise<number> {
     const opts = {
       maxItems: 1000
     };
@@ -75,8 +75,8 @@ export class TrashcanApi extends RepoApi {
       await this.apiAuth();
       return (await this.trashcanApi.listDeletedNodes(opts)).list.pagination.totalItems;
     } catch (error) {
-      this.handleError(`TrashcanApi getDeletedNodes : catch : `, error);
-      return null;
+      this.handleError(`TrashcanApi getDeletedNodesTotalItems : catch : `, error);
+      return -1;
     }
   }
 

@@ -46,7 +46,7 @@ describe('Pagination on multiple pages', () => {
     await userApi.sites.createSitesPrivate(sites);
     await userApi.sites.waitForApi({ expect: 101 });
     await loginPage.loginWith(username);
-  });
+  }, 120000);
 
   afterAll(async () => {
     await userApi.sites.deleteSites(sites);

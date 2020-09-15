@@ -104,7 +104,7 @@ export class FavoritesApi extends RepoApi {
       return (await this.favoritesApi.listFavorites(this.getUsername())).list.pagination.totalItems;
     } catch (error) {
       this.handleError(`FavoritesApi getFavoritesTotalItems : catch : `, error);
-      return null;
+      return -1;
     }
   }
 

@@ -61,6 +61,8 @@ describe('Trash', () => {
   const page = new BrowsingPage();
   const { dataTable, breadcrumb } = page;
 
+  let initialDeletedTotalItems: number;
+
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
     fileAdminId = (await apis.admin.nodes.createFiles([fileAdmin])).entry.id;
@@ -75,6 +77,8 @@ describe('Trash', () => {
     fileDeletedId = (await apis.user.nodes.createFiles([fileDeleted], folderDeleted)).entry.id;
     folderNotDeletedId = (await apis.user.nodes.createFolder(folderNotDeleted)).entry.id;
     fileInFolderId = (await apis.user.nodes.createFiles([fileInFolder], folderNotDeleted)).entry.id;
+
+    initialDeletedTotalItems = await apis.admin.trashcan.getDeletedNodesTotalItems();
 
     await apis.admin.nodes.deleteNodesById([fileAdminId, folderAdminId], false);
     await apis.user.nodes.deleteNodesById([fileSiteId, fileUserId, folderUserId, fileInFolderId], false);
@@ -108,7 +112,7 @@ describe('Trash', () => {
     });
 
     it('[C280493] displays the files and folders deleted by everyone', async () => {
-      expect(await dataTable.getRowsCount()).toEqual(8, 'Incorrect number of deleted items displayed');
+      expect(await dataTable.getRowsCount()).toEqual(initialDeletedTotalItems + 8, 'Incorrect number of deleted items displayed');
 
       expect(await dataTable.isItemPresent(fileAdmin)).toBe(true, `${fileAdmin} not displayed`);
       expect(await dataTable.isItemPresent(folderAdmin)).toBe(true, `${folderAdmin} not displayed`);

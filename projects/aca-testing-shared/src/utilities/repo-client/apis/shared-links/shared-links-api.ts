@@ -62,8 +62,8 @@ export class SharedLinksApi extends RepoApi {
 
   async getSharedIdOfNode(name: string) {
     try {
-      const sharedLinks = (await this.getSharedLinks()).list.entries;
-      const found = sharedLinks.find((sharedLink) => sharedLink.entry.name === name);
+      const sharedLinksEntries = (await this.getSharedLinks())?.list.entries;
+      const found = sharedLinksEntries.find((sharedLink) => sharedLink.entry.name === name);
       return (found || { entry: { id: null } }).entry.id;
     } catch (error) {
       this.handleError(`SharedLinksApi getSharedIdOfNode : catch : `, error);
@@ -95,8 +95,8 @@ export class SharedLinksApi extends RepoApi {
       await this.apiAuth();
       return (await this.sharedlinksApi.listSharedLinks()).list.pagination.totalItems;
     } catch (error) {
-      this.handleError(`SharedLinksApi getSharedLinks : catch : `, error);
-      return null;
+      this.handleError(`SharedLinksApi getSharedLinksTotalItems : catch : `, error);
+      return -1;
     }
   }
 

@@ -73,8 +73,16 @@ describe('Download', () => {
   const searchResultsPage = new SearchResultsPage();
   const { searchInput } = searchResultsPage.header;
 
+  let initialSharedTotalItems: number;
+  let initialFavoritesTotalItems: number;
+  let initialRecentTotalItems: number;
+
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
+
+    initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
+    initialFavoritesTotalItems = await apis.user.favorites.getFavoritesTotalItems();
+    initialRecentTotalItems = await apis.user.search.getRecentFilesTotalItems(username);
 
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
 
@@ -161,7 +169,7 @@ describe('Download', () => {
 
   describe('on Favorites', () => {
     beforeAll(async (done) => {
-      await apis.user.favorites.waitForApi({ expect: 2 });
+      await apis.user.favorites.waitForApi({ expect: initialFavoritesTotalItems + 2 });
       done();
     });
 
@@ -209,7 +217,7 @@ describe('Download', () => {
 
   describe('on Shared Files', () => {
     beforeAll(async (done) => {
-      await apis.user.shared.waitForApi({ expect: 2 });
+      await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 2 });
       done();
     });
 
@@ -240,7 +248,7 @@ describe('Download', () => {
 
   describe('on Recent Files', () => {
     beforeAll(async (done) => {
-      await apis.user.search.waitForApi(username, { expect: 10 });
+      await apis.user.search.waitForApi(username, { expect: initialRecentTotalItems + 10 });
       done();
     });
 
