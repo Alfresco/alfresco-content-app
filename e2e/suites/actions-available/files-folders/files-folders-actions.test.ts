@@ -68,9 +68,6 @@ describe('Files / folders actions : ', () => {
 
     parentId = (await userApi.nodes.createFolder(parent)).entry.id;
 
-    const initialFavoritesTotalItems = await userApi.favorites.getFavoritesTotalItems();
-    const initialSharedTotalItems = await userApi.shared.getSharedLinksTotalItems();
-    const initialDeletedTotalItems = await userApi.trashcan.getDeletedNodesTotalItems();
     const initialSearchTotalItems = await userApi.search.getTotalItems(username);
 
     await userApi.upload.uploadFileWithRename(FILES.docxFile, parentId, testData.fileDocx.name);
@@ -90,8 +87,8 @@ describe('Files / folders actions : ', () => {
     folderFavId = (await userApi.nodes.createFolder(testData.folderFav.name, parentId)).entry.id;
     folderFav2Id = (await userApi.nodes.createFolder(testData.folderFav2.name, parentId)).entry.id;
 
+    const initialFavoritesTotalItems = await userApi.favorites.getFavoritesTotalItems();
     await userApi.favorites.addFavoritesByIds('folder', [folderFavId, folderFav2Id]);
-
     await userApi.favorites.addFavoritesByIds('file', [
       fileDocxFavId,
       fileFavId,
@@ -100,7 +97,9 @@ describe('Files / folders actions : ', () => {
       fileFavLockedId,
       fileSharedFavLockedId
     ]);
+    await userApi.favorites.waitForApi({ expect: initialFavoritesTotalItems + 8 });
 
+    const initialSharedTotalItems = await userApi.shared.getSharedLinksTotalItems();
     await userApi.shared.shareFilesByIds([
       fileDocxSharedId,
       fileDocxSharedFavId,
@@ -109,6 +108,7 @@ describe('Files / folders actions : ', () => {
       fileSharedLockedId,
       fileSharedFavLockedId
     ]);
+    await userApi.shared.waitForApi({ expect: initialSharedTotalItems + 6 });
 
     await userApi.nodes.lockFile(fileLockedId);
     await userApi.nodes.lockFile(fileFavLockedId);
@@ -120,17 +120,14 @@ describe('Files / folders actions : ', () => {
     folderInTrashId = (await userApi.nodes.createFolder(testData.folderInTrash.name)).entry.id;
     folder2InTrashId = (await userApi.nodes.createFolder(testData.folder2InTrash.name)).entry.id;
 
+    const initialDeletedTotalItems = await userApi.trashcan.getDeletedNodesTotalItems();
     await userApi.nodes.deleteNodeById(fileInTrashId, false);
     await userApi.nodes.deleteNodeById(file2InTrashId, false);
     await userApi.nodes.deleteNodeById(folderInTrashId, false);
     await userApi.nodes.deleteNodeById(folder2InTrashId, false);
+    await userApi.trashcan.waitForApi({ expect: initialDeletedTotalItems + 4 });
 
-    await Promise.all([
-      userApi.favorites.waitForApi({ expect: initialFavoritesTotalItems + 8 }),
-      userApi.shared.waitForApi({ expect: initialSharedTotalItems + 6 }),
-      userApi.search.waitForApi(username, { expect: initialSearchTotalItems + 12 }),
-      userApi.trashcan.waitForApi({ expect: initialDeletedTotalItems + 4 })
-    ]);
+    await userApi.search.waitForApi(username, { expect: initialSearchTotalItems + 12 });
 
     await loginPage.loginWith(username);
   });

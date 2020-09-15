@@ -85,7 +85,13 @@ describe('Trash', () => {
   });
 
   afterAll(async (done) => {
-    await Promise.all([apis.admin.sites.deleteSite(siteName), apis.user.nodes.deleteNodeById(folderNotDeletedId), apis.admin.trashcan.emptyTrash()]);
+    await Promise.all([
+      apis.admin.sites.deleteSite(siteName),
+      apis.admin.trashcan.permanentlyDelete(fileAdminId),
+      apis.admin.trashcan.permanentlyDelete(folderAdminId),
+      apis.user.nodes.deleteNodeById(folderNotDeletedId),
+      apis.user.trashcan.emptyTrash()
+    ]);
     done();
   });
 
