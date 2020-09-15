@@ -40,27 +40,6 @@ async function uploadScreenshot(retryCount, suffixFileName) {
     });
   }
 
-  fs.renameSync(path.resolve(__dirname, '../../../e2e-output/'), path.resolve(__dirname, `../../e2e-output-${retryCount}/`))
-
-  const child_process = require("child_process");
-  child_process.execSync(` tar -czvf ../e2e-result-${suffixFileName}-${retryCount}.tar .`, {
-    cwd: path.resolve(__dirname, `../../e2e-output-${retryCount}/`)
-  });
-
-  let pathFile = path.join(__dirname, `../../e2e-result-${suffixFileName}-${retryCount}.tar`);
-  let file = fs.createReadStream(pathFile);
-  await alfrescoJsApi.upload.uploadFile(
-    file,
-    '',
-    folderNode.entry.id,
-    null,
-    {
-      'name': `e2e-result-${suffixFileName}-${retryCount}.tar`,
-      'nodeType': 'cm:content',
-      'autoRename': true
-    }
-  );
-
   const screenShotsPath = path.resolve(__dirname, '../../../e2e-output/screenshots/');
   let files = fs.readdirSync(screenShotsPath);
   for (const fileName of files) {
@@ -85,6 +64,28 @@ async function uploadScreenshot(retryCount, suffixFileName) {
       console.log(error);
     }
   }
+
+  fs.renameSync(path.resolve(__dirname, '../../../e2e-output/'), path.resolve(__dirname, `../../e2e-output-${retryCount}/`))
+
+  const child_process = require("child_process");
+  child_process.execSync(` tar -czvf ../e2e-result-${suffixFileName}-${retryCount}.tar .`, {
+    cwd: path.resolve(__dirname, `../../e2e-output-${retryCount}/`)
+  });
+
+  let pathFile = path.join(__dirname, `../../e2e-result-${suffixFileName}-${retryCount}.tar`);
+  let file = fs.createReadStream(pathFile);
+  await alfrescoJsApi.upload.uploadFile(
+    file,
+    '',
+    folderNode.entry.id,
+    null,
+    {
+      'name': `e2e-result-${suffixFileName}-${retryCount}.tar`,
+      'nodeType': 'cm:content',
+      'autoRename': true
+    }
+  );
+  fs.rmdirSync(path.resolve(__dirname, `../../e2e-output-${retryCount}/`), { recursive: true });
 }
 
 module.exports = {
