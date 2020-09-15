@@ -23,28 +23,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NgModule } from '@angular/core';
 import { AboutComponent } from './about.component';
-import { CommonModule } from '@angular/common';
-import { CoreModule } from '@alfresco/adf-core';
-import { MatTableModule } from '@angular/material/table';
-import { SharedModule, PageLayoutModule } from '@alfresco/aca-shared';
 
-import { PackageListComponent } from './package-list/package-list.component';
-import { ExtensionListComponent } from './extension-list/extension-list.component';
-import { StatusListComponent } from './status-list/status-list.component';
-import { ModuleListComponent } from './module-list/module-list.component';
-import { LicenseListComponent } from './license-list/license-list.component';
-import { ExtensionService } from '@alfresco/adf-extensions';
-
-@NgModule({
-  imports: [CommonModule, CoreModule.forChild(), MatTableModule, SharedModule, PageLayoutModule],
-  declarations: [AboutComponent, PackageListComponent, ExtensionListComponent, StatusListComponent, ModuleListComponent, LicenseListComponent]
-})
-export class AcaAboutModule {
-  constructor(extensions: ExtensionService) {
-    extensions.setComponents({
-      'app.about.component': AboutComponent
-    });
-  }
-}
+describe('AboutComponent', () => {
+  it('should be defined', () => {
+    expect(AboutComponent).toBeDefined();
+  });
+});
