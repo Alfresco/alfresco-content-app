@@ -431,10 +431,6 @@ export const APP_ROUTES: Routes = [
         path: 'trashcan',
         loadChildren: () => import('./components/trashcan/trashcan.module').then((m) => m.AppTrashcanModule)
       },
-      // {
-      //   path: 'about',
-      //   loadChildren: () => import('./components/about/about.module').then((m) => m.AboutModule)
-      // },
       {
         path: 'search',
         children: [
