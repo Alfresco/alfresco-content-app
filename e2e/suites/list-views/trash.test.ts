@@ -61,8 +61,6 @@ describe('Trash', () => {
   const page = new BrowsingPage();
   const { dataTable, breadcrumb } = page;
 
-  let initialDeletedTotalItems: number;
-
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
     fileAdminId = (await apis.admin.nodes.createFiles([fileAdmin])).entry.id;
@@ -77,8 +75,6 @@ describe('Trash', () => {
     fileDeletedId = (await apis.user.nodes.createFiles([fileDeleted], folderDeleted)).entry.id;
     folderNotDeletedId = (await apis.user.nodes.createFolder(folderNotDeleted)).entry.id;
     fileInFolderId = (await apis.user.nodes.createFiles([fileInFolder], folderNotDeleted)).entry.id;
-
-    initialDeletedTotalItems = await apis.admin.trashcan.getDeletedNodesTotalItems();
 
     await apis.admin.nodes.deleteNodesById([fileAdminId, folderAdminId], false);
     await apis.user.nodes.deleteNodesById([fileSiteId, fileUserId, folderUserId, fileInFolderId], false);
