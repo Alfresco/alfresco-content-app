@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, Utils, AdminActions, RepoClient } from '@alfresco/aca-testing-shared';
+import { Utils, AdminActions, RepoClient } from '@alfresco/aca-testing-shared';
 import { personalFilesTests } from './personal-files';
 import { recentFilesTests } from './recent-files';
 import { searchResultsTests } from './search-results';
@@ -45,50 +45,57 @@ describe('Pagination on multiple pages : ', () => {
   const userApi = new RepoClient(username, username);
   const adminApiActions = new AdminActions();
 
-  const loginPage = new LoginPage();
+  let initialSharedTotalItems: number;
+  let initialFavoritesTotalItems: number;
+  let initialSearchTotalItems: number;
 
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
+
+    initialSharedTotalItems = await userApi.shared.getSharedLinksTotalItems();
+    initialFavoritesTotalItems = await userApi.favorites.getFavoritesTotalItems();
+    initialSearchTotalItems = await userApi.search.getRecentFilesTotalItems(username);
+
     parentId = (await userApi.nodes.createFolder(parent)).entry.id;
     filesIds = (await userApi.nodes.createFiles(files, parent)).list.entries.map((entries: any) => entries.entry.id);
 
-    const initialSharedTotalItems = await userApi.shared.getSharedLinksTotalItems();
-    const initialFavoritesTotalItems = await userApi.favorites.getFavoritesTotalItems();
-    const initialSearchTotalItems = await userApi.search.getRecentFilesTotalItems(username);
-
     await userApi.shared.shareFilesByIds(filesIds);
     await userApi.favorites.addFavoritesByIds('file', filesIds);
-
-    await Promise.all([
-      userApi.favorites.waitForApi({ expect: initialFavoritesTotalItems + 101 }),
-      userApi.shared.waitForApi({ expect: initialSharedTotalItems + 101 }),
-      userApi.search.waitForApi(username, { expect: initialSearchTotalItems + 101 })
-    ]);
-
-    await loginPage.loginWith(username);
-  }, 120000);
+  }, 150000);
 
   afterAll(async () => {
     await userApi.nodes.deleteNodeById(parentId);
   });
 
   describe('on Personal Files', () => {
-    personalFilesTests(parent);
+    personalFilesTests(username, parent);
   });
 
   describe('on Recent Files', () => {
-    recentFilesTests();
+    beforeAll(async () => {
+      await userApi.search.waitForApi(username, { expect: initialSearchTotalItems + 101 });
+    }, 120000);
+    recentFilesTests(username);
   });
 
   describe('on Search Results', () => {
-    searchResultsTests();
+    beforeAll(async () => {
+      userApi.search.waitForApi(username, { expect: initialSearchTotalItems + 101 });
+    }, 120000);
+    searchResultsTests(username);
   });
 
   describe('on Shared Files', () => {
-    sharedFilesTests();
+    beforeAll(async () => {
+      await userApi.shared.waitForApi({ expect: initialSharedTotalItems + 101 });
+    }, 120000);
+    sharedFilesTests(username);
   });
 
   describe('on Favorites', () => {
-    favoritesTests();
+    beforeAll(async () => {
+      await userApi.favorites.waitForApi({ expect: initialFavoritesTotalItems + 101 });
+    }, 120000);
+    favoritesTests(username);
   });
 });

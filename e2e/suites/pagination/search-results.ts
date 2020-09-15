@@ -23,15 +23,17 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BrowsingPage, Utils } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, LoginPage, Utils } from '@alfresco/aca-testing-shared';
 
-export function searchResultsTests() {
+export function searchResultsTests(username: string) {
   const page = new BrowsingPage();
+  const loginPage = new LoginPage();
   const { dataTable, pagination } = page;
   const { searchInput } = page.header;
 
   describe('Pagination controls : ', () => {
     beforeAll(async () => {
+      await loginPage.loginWith(username);
       await searchInput.clickSearchButton();
       await searchInput.searchFor('my-file-');
       await dataTable.waitForBody();

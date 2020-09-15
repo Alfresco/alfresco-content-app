@@ -48,7 +48,7 @@ const appConfig = {
 };
 
 exports.config = {
-  allScriptsTimeout: 50000,
+  allScriptsTimeout: 150000,
 
   params: {
     config: appConfig,
@@ -155,12 +155,12 @@ exports.config = {
 
   baseUrl: E2E_HOST,
 
-  getPageTimeout: 50000,
+  getPageTimeout: 150000,
 
   framework: 'jasmine',
   jasmineNodeOpts: {
     showColors: true,
-    defaultTimeoutInterval: 100000,
+    defaultTimeoutInterval: 150000,
     print: function () {
     },
     ...(process.env.CI ? SmartRunner.withOptionalExclusions(resolve(__dirname, './e2e/protractor.excludes.json')) : {})

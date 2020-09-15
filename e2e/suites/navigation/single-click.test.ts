@@ -66,8 +66,9 @@ describe('Single click on item name', () => {
     const docLibId = await apis.user.sites.getDocLibId(siteName);
     await apis.user.nodes.createFile(fileSite, docLibId);
 
+    const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
     await apis.user.shared.shareFileById(file1Id);
-    await apis.user.shared.waitForApi({ expect: 1 });
+    await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 1 });
 
     await apis.user.favorites.addFavoriteById('file', file1Id);
     await apis.user.favorites.addFavoriteById('folder', folder1Id);
@@ -77,12 +78,11 @@ describe('Single click on item name', () => {
     done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await apis.user.sites.deleteSite(siteName);
     await apis.user.nodes.deleteNodeById(folder1Id);
     await apis.user.nodes.deleteNodeById(file1Id);
     await apis.user.trashcan.emptyTrash();
-    done();
   });
 
   it('[C284899] Hyperlink does not appear for items in the Trash', async () => {
