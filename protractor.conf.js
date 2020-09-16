@@ -212,7 +212,11 @@ exports.config = {
       paths: tsConfig.compilerOptions.paths
     });
 
-    browser.driver.manage().window().setSize(width, height);
+    if (process.env.CI) {
+      browser.driver.manage().window().maximize();
+    } else {
+      browser.driver.manage().window().setSize(width, height);
+    }
 
     jasmine.getEnv().addReporter(
       new SpecReporter({
