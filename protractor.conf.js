@@ -2,14 +2,14 @@
 // https://github.com/angular/protractor/blob/master/lib/config.ts
 
 const path = require('path');
-const {SpecReporter} = require('jasmine-spec-reporter');
+const { SpecReporter } = require('jasmine-spec-reporter');
 const fs = require('fs');
 const resolve = require('path').resolve;
 const logger = require('./tools/helpers/logger');
-const retry = require('protractor-retry').retry;
+const retry = require('protractor-retry-angular-cli').retry;
 const { uploadScreenshot } = require('./e2e/e2e-config/utils/upload-output');
 
-require('dotenv').config({path: process.env.ENV_FILE});
+require('dotenv').config({ path: process.env.ENV_FILE });
 
 const SmartRunner = require('protractor-smartrunner');
 const projectRoot = path.resolve(__dirname);
@@ -191,7 +191,7 @@ exports.config = {
       const outputDirectory = process.env.SMART_RUNNER_DIRECTORY;
       logger.info(`SmartRunner's repoHash: "${repoHash}"`);
       logger.info(`SmartRunner's outputDirectory: "${outputDirectory}"`);
-      SmartRunner.apply({outputDirectory, repoHash});
+      SmartRunner.apply({ outputDirectory, repoHash });
       retry.onPrepare();
     }
 
