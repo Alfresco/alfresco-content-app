@@ -26,6 +26,7 @@
       "@alfresco/adf-office-services-ext": ["projects/adf-office-services-ext/src/public-api.ts"],
       "@alfresco/aca-testing-shared": ["projects/aca-testing-shared"],
       "@alfresco/aca-about": ["projects/aca-about/src/public-api.ts"],
+      "@alfresco/aca-settings": ["projects/aca-settings/src/public-api.ts"],
       "package.json": ["package.json"]
     }
   },

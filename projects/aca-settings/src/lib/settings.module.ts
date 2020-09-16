@@ -24,23 +24,21 @@
  */
 
 import { NgModule } from '@angular/core';
-import { SettingsComponent } from './settings.component';
-import { Routes, RouterModule } from '@angular/router';
+import { ExtensionService } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
 
-const routes: Routes = [
-  {
-    path: '',
-    component: SettingsComponent,
-    data: {
-      title: 'Settings'
-    }
-  }
-];
+import { SettingsComponent } from './settings.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild(), RouterModule.forChild(routes)],
+  imports: [CommonModule, RouterModule, CoreModule.forChild()],
   declarations: [SettingsComponent]
 })
-export class AppSettingsModule {}
+export class AcaSettingsModule {
+  constructor(extensions: ExtensionService) {
+    extensions.setComponents({
+      'app.settings.component': SettingsComponent
+    });
+  }
+}

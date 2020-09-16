@@ -39,6 +39,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
+import { CommonModule } from '@angular/common';
 
 export const initialState = {
   app: {
@@ -78,6 +79,7 @@ export const initialState = {
 @NgModule({
   imports: [
     NoopAnimationsModule,
+    CommonModule,
     HttpClientModule,
     RouterTestingModule,
     StoreModule,
