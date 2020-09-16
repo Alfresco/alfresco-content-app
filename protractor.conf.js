@@ -213,9 +213,9 @@ exports.config = {
     });
 
     if (process.env.CI) {
-      browser.driver.manage().window().maximize();
+      browser.manage().window().maximize();
     } else {
-      browser.driver.manage().window().setSize(width, height);
+      browser.manage().window().setSize(width, height);
     }
 
     jasmine.getEnv().addReporter(
