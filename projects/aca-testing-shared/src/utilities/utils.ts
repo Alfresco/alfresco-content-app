@@ -119,7 +119,7 @@ export class Utils {
     await browser.executeScript(`window.sessionStorage.setItem('app.extension.config', ${fileContent});`);
   }
 
-  static retryCall(fn: () => Promise<any>, retry: number = 30, delay: number = 1000): Promise<any> {
+  static retryCall(fn: () => Promise<any>, retry: number = 30, delay: number = 1500): Promise<any> {
     const pause = (duration: number) => new Promise((res) => setTimeout(res, duration));
 
     const run = (retries: number): Promise<any> => {
