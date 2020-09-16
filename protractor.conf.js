@@ -161,9 +161,10 @@ exports.config = {
   jasmineNodeOpts: {
     showColors: true,
     defaultTimeoutInterval: 150000,
+    includeStackTrace: true,
     print: function () {
     },
-    ...(process.env.CI ? SmartRunner.withOptionalExclusions(resolve(__dirname, './e2e/protractor.excludes.json')) : {})
+    ...SmartRunner.withOptionalExclusions(resolve(__dirname, './e2e/protractor.excludes.json')),
   },
 
   plugins: [{
@@ -187,12 +188,12 @@ exports.config = {
 
   onPrepare() {
     if (process.env.CI) {
+      retry.onPrepare();
       const repoHash = process.env.GIT_HASH || '';
       const outputDirectory = process.env.SMART_RUNNER_DIRECTORY;
       logger.info(`SmartRunner's repoHash: "${repoHash}"`);
       logger.info(`SmartRunner's outputDirectory: "${outputDirectory}"`);
       SmartRunner.apply({ outputDirectory, repoHash });
-      retry.onPrepare();
     }
 
     const tsConfigPath = path.resolve(e2eFolder, 'tsconfig.e2e.json');
