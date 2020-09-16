@@ -45,6 +45,93 @@ describe('Delete and undo delete', () => {
     await apis.user.trashcan.emptyTrash();
   });
 
+  describe('on Recent Files', () => {
+    const parent = `parentRF-${Utils.random()}`;
+    let parentId: string;
+
+    const recentFile1 = `recentFile1-${Utils.random()}.txt`;
+    const recentFile2 = `recentFile2-${Utils.random()}.txt`;
+    const recentFile3 = `recentFile3-${Utils.random()}.txt`;
+    const recentFile4 = `recentFile4-${Utils.random()}.txt`;
+    const recentFile5 = `recentFile5-${Utils.random()}.txt`;
+    const recentFile6 = `recentFile6-${Utils.random()}.txt`;
+
+    beforeAll(async (done) => {
+      parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
+
+      const initialRecentTotalItems = await apis.user.search.getTotalItems(username);
+
+      await apis.user.nodes.createFile(recentFile1, parentId);
+      await apis.user.nodes.createFile(recentFile2, parentId);
+      await apis.user.nodes.createFile(recentFile3, parentId);
+      await apis.user.nodes.createFile(recentFile4, parentId);
+      await apis.user.nodes.createFile(recentFile5, parentId);
+      await apis.user.nodes.createFile(recentFile6, parentId);
+      await apis.user.search.waitForApi(username, { expect: initialRecentTotalItems + 6 });
+
+      await loginPage.loginWith(username);
+      done();
+    });
+
+    beforeEach(async () => {
+      await page.clickRecentFilesAndWait();
+    });
+
+    afterAll(async () => {
+      await apis.user.nodes.deleteNodeById(parentId);
+      await apis.user.trashcan.emptyTrash();
+    });
+
+    it('[C280528] delete a file and check notification', async () => {
+      await dataTable.selectItem(recentFile1);
+      await toolbar.clickMoreActionsDelete();
+      const message = await page.getSnackBarMessage();
+      expect(message).toContain(`${recentFile1} deleted`);
+      expect(message).toContain(`Undo`);
+      expect(await dataTable.isItemPresent(recentFile1)).toBe(false, 'Item was not removed from list');
+      await page.clickTrash();
+      expect(await dataTable.isItemPresent(recentFile1)).toBe(true, 'Item is not in trash');
+    });
+
+    it('[C280529] delete multiple files and check notification', async () => {
+      await dataTable.selectMultipleItems([recentFile2, recentFile3]);
+      await toolbar.clickMoreActionsDelete();
+      const message = await page.getSnackBarMessage();
+      expect(message).toContain(`Deleted 2 items`);
+      expect(message).toContain(`Undo`);
+      expect(await dataTable.isItemPresent(recentFile2)).toBe(false, `${recentFile2} was not removed from list`);
+      expect(await dataTable.isItemPresent(recentFile3)).toBe(false, `${recentFile3} was not removed from list`);
+      await page.clickTrash();
+      expect(await dataTable.isItemPresent(recentFile2)).toBe(true, `${recentFile2} is not in trash`);
+      expect(await dataTable.isItemPresent(recentFile3)).toBe(true, `${recentFile3} is not in trash`);
+    });
+
+    // due to the fact that the search api is slow to update,
+    // we cannot test that the restored file is displayed in the Recent Files list
+    // without adding a very big browser.sleep followed by a page.refresh
+    // so for the moment we're testing that the restored file is not displayed in the Trash
+    it('[C280536] undo delete of file', async () => {
+      await dataTable.selectItem(recentFile4);
+      await toolbar.clickMoreActionsDelete();
+      await page.clickSnackBarAction();
+      await page.clickTrash();
+      expect(await dataTable.isItemPresent(recentFile4)).toBe(false, 'Item is in Trash');
+    });
+
+    // due to the fact that the search api is slow to update,
+    // we cannot test that the restored file is displayed in the Recent Files list
+    // without adding a very big browser.sleep followed by a page.refresh
+    // so for the moment we're testing that the restored file is not displayed in the Trash
+    it('[C280537] undo delete of multiple files', async () => {
+      await dataTable.selectMultipleItems([recentFile5, recentFile6]);
+      await toolbar.clickMoreActionsDelete();
+      await page.clickSnackBarAction();
+      await page.clickTrash();
+      expect(await dataTable.isItemPresent(recentFile5)).toBe(false, `${recentFile5} is in Trash`);
+      expect(await dataTable.isItemPresent(recentFile6)).toBe(false, `${recentFile6} is in Trash`);
+    });
+  });
+
   describe('on Personal Files', () => {
     const file1 = `file1-${Utils.random()}.txt`;
     const file2 = `file2-${Utils.random()}.txt`;
@@ -522,93 +609,6 @@ describe('Delete and undo delete', () => {
       expect(await dataTable.isItemPresent(favFile6)).toBe(true, `${favFile6} was not removed from list`);
       expect(await dataTable.isItemPresent(favFile7)).toBe(true, `${favFile7} was not removed from list`);
       expect(await page.pagination.getRange()).toContain(`1-${items} of ${items}`);
-    });
-  });
-
-  describe('on Recent Files', () => {
-    const parent = `parentRF-${Utils.random()}`;
-    let parentId: string;
-
-    const recentFile1 = `recentFile1-${Utils.random()}.txt`;
-    const recentFile2 = `recentFile2-${Utils.random()}.txt`;
-    const recentFile3 = `recentFile3-${Utils.random()}.txt`;
-    const recentFile4 = `recentFile4-${Utils.random()}.txt`;
-    const recentFile5 = `recentFile5-${Utils.random()}.txt`;
-    const recentFile6 = `recentFile6-${Utils.random()}.txt`;
-
-    beforeAll(async (done) => {
-      parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
-
-      const initialRecentTotalItems = await apis.user.search.getTotalItems(username);
-
-      await apis.user.nodes.createFile(recentFile1, parentId);
-      await apis.user.nodes.createFile(recentFile2, parentId);
-      await apis.user.nodes.createFile(recentFile3, parentId);
-      await apis.user.nodes.createFile(recentFile4, parentId);
-      await apis.user.nodes.createFile(recentFile5, parentId);
-      await apis.user.nodes.createFile(recentFile6, parentId);
-      await apis.user.search.waitForApi(username, { expect: initialRecentTotalItems + 6 });
-
-      await loginPage.loginWith(username);
-      done();
-    });
-
-    beforeEach(async () => {
-      await page.clickRecentFilesAndWait();
-    });
-
-    afterAll(async () => {
-      await apis.user.nodes.deleteNodeById(parentId);
-      await apis.user.trashcan.emptyTrash();
-    });
-
-    it('[C280528] delete a file and check notification', async () => {
-      await dataTable.selectItem(recentFile1);
-      await toolbar.clickMoreActionsDelete();
-      const message = await page.getSnackBarMessage();
-      expect(message).toContain(`${recentFile1} deleted`);
-      expect(message).toContain(`Undo`);
-      expect(await dataTable.isItemPresent(recentFile1)).toBe(false, 'Item was not removed from list');
-      await page.clickTrash();
-      expect(await dataTable.isItemPresent(recentFile1)).toBe(true, 'Item is not in trash');
-    });
-
-    it('[C280529] delete multiple files and check notification', async () => {
-      await dataTable.selectMultipleItems([recentFile2, recentFile3]);
-      await toolbar.clickMoreActionsDelete();
-      const message = await page.getSnackBarMessage();
-      expect(message).toContain(`Deleted 2 items`);
-      expect(message).toContain(`Undo`);
-      expect(await dataTable.isItemPresent(recentFile2)).toBe(false, `${recentFile2} was not removed from list`);
-      expect(await dataTable.isItemPresent(recentFile3)).toBe(false, `${recentFile3} was not removed from list`);
-      await page.clickTrash();
-      expect(await dataTable.isItemPresent(recentFile2)).toBe(true, `${recentFile2} is not in trash`);
-      expect(await dataTable.isItemPresent(recentFile3)).toBe(true, `${recentFile3} is not in trash`);
-    });
-
-    // due to the fact that the search api is slow to update,
-    // we cannot test that the restored file is displayed in the Recent Files list
-    // without adding a very big browser.sleep followed by a page.refresh
-    // so for the moment we're testing that the restored file is not displayed in the Trash
-    it('[C280536] undo delete of file', async () => {
-      await dataTable.selectItem(recentFile4);
-      await toolbar.clickMoreActionsDelete();
-      await page.clickSnackBarAction();
-      await page.clickTrash();
-      expect(await dataTable.isItemPresent(recentFile4)).toBe(false, 'Item is in Trash');
-    });
-
-    // due to the fact that the search api is slow to update,
-    // we cannot test that the restored file is displayed in the Recent Files list
-    // without adding a very big browser.sleep followed by a page.refresh
-    // so for the moment we're testing that the restored file is not displayed in the Trash
-    it('[C280537] undo delete of multiple files', async () => {
-      await dataTable.selectMultipleItems([recentFile5, recentFile6]);
-      await toolbar.clickMoreActionsDelete();
-      await page.clickSnackBarAction();
-      await page.clickTrash();
-      expect(await dataTable.isItemPresent(recentFile5)).toBe(false, `${recentFile5} is in Trash`);
-      expect(await dataTable.isItemPresent(recentFile6)).toBe(false, `${recentFile6} is in Trash`);
     });
   });
 });
