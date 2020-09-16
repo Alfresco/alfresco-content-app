@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<list>
+<failedTest>
+<spec>/Users/mvitale/alfresco/alfresco-content-app/e2e/suites/authentication/login.test.ts,/Users/mvitale/alfresco/alfresco-content-app/e2e/suites/authentication/logout.test.ts,/Users/mvitale/alfresco/alfresco-content-app/node_modules/protractor/built/frameworks/__protractor_internal_afterEach_setup_spec.js</spec>
+</failedTest>
+</list>
