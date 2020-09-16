@@ -191,7 +191,7 @@ exports.config = {
       retry.onPrepare();
       const repoHash = process.env.GIT_HASH || '';
       const outputDirectory = process.env.SMART_RUNNER_DIRECTORY;
-      logger.info(`SmartRunner's repoHash: "${repoHash}"`);
+      logger.info(`SmartRunner's repoHash : "${repoHash}"`);
       logger.info(`SmartRunner's outputDirectory: "${outputDirectory}"`);
       SmartRunner.apply({ outputDirectory, repoHash });
     }
