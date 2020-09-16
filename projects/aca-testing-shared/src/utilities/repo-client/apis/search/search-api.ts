@@ -84,6 +84,15 @@ export class SearchApi extends RepoApi {
     }
   }
 
+  async getSearchByTermTotalItems(searchTerm: string): Promise<number> {
+    try {
+      return (await this.queryNodesNames(searchTerm)).list.pagination.totalItems;
+    } catch (error) {
+      this.handleError(`SearchApi getSearchByTermTotalItems : catch : `, error);
+      return -1;
+    }
+  }
+
   async queryNodesExactNames(searchTerm: string) {
     const data = {
       query: {
@@ -123,7 +132,7 @@ export class SearchApi extends RepoApi {
   async waitForNodes(searchTerm: string, data: { expect: number }) {
     try {
       const nodes = async () => {
-        const totalItems = (await this.queryNodesNames(searchTerm)).list.pagination.totalItems;
+        const totalItems = await this.getSearchByTermTotalItems(searchTerm);
         if (totalItems !== data.expect) {
           return Promise.reject(totalItems);
         } else {

@@ -63,12 +63,17 @@ describe('Files / folders actions : ', () => {
 
   const loginPage = new LoginPage();
 
+  let initialFilesTotalItems: number;
+  let initialFoldersTotalItems: number;
+
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
 
     parentId = (await userApi.nodes.createFolder(parent)).entry.id;
 
     const initialSearchTotalItems = await userApi.search.getTotalItems(username);
+    initialFilesTotalItems = await userApi.search.getSearchByTermTotalItems('file-');
+    initialFoldersTotalItems = await userApi.search.getSearchByTermTotalItems('folder-');
 
     await userApi.upload.uploadFileWithRename(FILES.docxFile, parentId, testData.fileDocx.name);
     fileDocxFavId = (await userApi.upload.uploadFileWithRename(FILES.docxFile, parentId, testData.fileDocxFav.name)).entry.id;
@@ -154,6 +159,10 @@ describe('Files / folders actions : ', () => {
   });
 
   describe('on Search Results : ', () => {
+    beforeAll(async () => {
+      await userApi.search.waitForNodes('file-', { expect: initialFilesTotalItems + 12 });
+      await userApi.search.waitForNodes('folder-', { expect: initialFoldersTotalItems + 3 });
+    });
     searchResultsTests();
   });
 
