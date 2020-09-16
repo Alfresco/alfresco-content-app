@@ -37,14 +37,12 @@ describe('Delete and undo delete', () => {
   const page = new BrowsingPage();
   const { dataTable, toolbar } = page;
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     await apis.admin.people.createUser({ username });
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await apis.user.trashcan.emptyTrash();
-    done();
   });
 
   describe('on Personal Files', () => {
@@ -118,20 +116,18 @@ describe('Delete and undo delete', () => {
       done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickPersonalFilesAndWait();
       await page.dataTable.doubleClickOnRowByName(parent);
-      done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       await apis.user.nodes.unlockFile(fileLocked1Id);
       await apis.user.nodes.unlockFile(fileLocked2Id);
       await apis.user.nodes.unlockFile(fileLocked3Id);
       await apis.user.nodes.unlockFile(fileLocked4Id);
       await apis.user.nodes.deleteNodeById(parentId);
       await apis.user.trashcan.emptyTrash();
-      done();
     });
 
     it('[C217125] delete a file and check notification', async () => {
@@ -554,20 +550,16 @@ describe('Delete and undo delete', () => {
       await apis.user.search.waitForApi(username, { expect: initialRecentTotalItems + 6 });
 
       await loginPage.loginWith(username);
-
-      await page.clickRecentFiles();
       done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickRecentFilesAndWait();
-      done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       await apis.user.nodes.deleteNodeById(parentId);
       await apis.user.trashcan.emptyTrash();
-      done();
     });
 
     it('[C280528] delete a file and check notification', async () => {

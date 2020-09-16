@@ -41,16 +41,22 @@ describe('Pagination on multiple pages', () => {
     .fill('site')
     .map((name, index): string => `${name}-${index + 1}-${random}`);
 
+  let initialSitesTotalItems: number;
+
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
+
+    initialSitesTotalItems = await userApi.sites.getSitesTotalItems();
     await userApi.sites.createSitesPrivate(sites);
-    await userApi.sites.waitForApi({ expect: 101 });
+    await userApi.sites.waitForApi({ expect: initialSitesTotalItems + 101 });
+
     await loginPage.loginWith(username);
-  }, 120000);
+  }, 150000);
 
   afterAll(async () => {
     await userApi.sites.deleteSites(sites);
-  });
+    await userApi.sites.waitForApi({ expect: initialSitesTotalItems });
+  }, 120000);
 
   describe('on My Libraries', () => {
     beforeAll(async () => {

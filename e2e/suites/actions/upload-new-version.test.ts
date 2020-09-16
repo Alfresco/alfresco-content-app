@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage, FILES, RepoClient, Utils, UploadNewVersionDialog } from '@alfresco/aca-testing-shared';
+import { LoginPage, BrowsingPage, SearchResultsPage, FILES, RepoClient, Utils, UploadNewVersionDialog } from '@alfresco/aca-testing-shared';
 
 describe('Upload new version', () => {
   const username = `user-${Utils.random()}`;
@@ -82,6 +82,7 @@ describe('Upload new version', () => {
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
+  const searchResultsPage = new SearchResultsPage();
   const { dataTable, toolbar } = page;
   const uploadNewVersionDialog = new UploadNewVersionDialog();
   const { searchInput } = page.header;
@@ -270,21 +271,20 @@ describe('Upload new version', () => {
       await apis.user.nodes.lockFile(fileLocked1Id);
       await apis.user.nodes.lockFile(fileLocked2Id);
 
+      const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
       await apis.user.shared.shareFilesByIds([fileId, file1Id, file2Id, file3Id, file4Id, fileLocked1Id, fileLocked2Id]);
-      await apis.user.shared.waitForApi({ expect: 7 });
+      await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 7 });
 
       await loginPage.loginWith(username);
       done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickSharedFilesAndWait();
-      done();
     });
 
-    afterEach(async (done) => {
+    afterEach(async () => {
       await page.refresh();
-      done();
     });
 
     it('[C297551] dialog UI defaults', async () => {
@@ -707,6 +707,8 @@ describe('Upload new version', () => {
 
   describe('on Search Results', () => {
     beforeAll(async (done) => {
+      const initialSearchTotalItems = await apis.user.search.getSearchByTermTotalItems('search-f');
+
       fileId = (await apis.user.upload.uploadFile(file, parentSearchId)).entry.id;
       fileSearch1Id = (await apis.user.nodes.createFile(fileSearch1, parentSearchId)).entry.id;
       fileSearch2Id = (await apis.user.nodes.createFile(fileSearch2, parentSearchId)).entry.id;
@@ -719,24 +721,23 @@ describe('Upload new version', () => {
       await apis.user.nodes.lockFile(fileLockedSearch1Id);
       await apis.user.nodes.lockFile(fileLockedSearch2Id);
 
-      await apis.user.search.waitForNodes('search-f', { expect: 6 });
+      await apis.user.search.waitForNodes('search-f', { expect: initialSearchTotalItems + 6 });
 
       await loginPage.loginWith(username);
       done();
     });
 
-    afterEach(async (done) => {
+    afterEach(async () => {
       await Utils.pressEscape();
       await page.header.expandSideNav();
       await page.clickPersonalFilesAndWait();
-      done();
     });
 
     it('[C307003] dialog UI defaults', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
       await searchInput.searchFor(file);
-      await dataTable.waitForBody();
+      await searchResultsPage.waitForResults();
       await dataTable.selectItem(file, parentSearch);
       await toolbar.clickMoreActionsUploadNewVersion();
 

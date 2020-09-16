@@ -64,6 +64,8 @@ describe('Library actions : ', () => {
     await adminApiActions.sites.createSiteModerated(testData.moderatedRequestedJoinFav.name);
     await adminApiActions.sites.createSiteModerated(testData.moderatedRequestedJoinNotFav.name);
 
+    await userApi.queries.waitForSites('site-', { expect: initialQuerySitesTotalItems + 12 });
+
     await userApi.sites.createSite(testData.siteInTrash.name);
     await userApi.sites.createSite(testData.site2InTrash.name);
 
@@ -82,8 +84,6 @@ describe('Library actions : ', () => {
 
     await userApi.sites.requestToJoin(testData.moderatedRequestedJoinFav.name);
     await userApi.sites.requestToJoin(testData.moderatedRequestedJoinNotFav.name);
-
-    await userApi.queries.waitForSites('site-', { expect: initialQuerySitesTotalItems + 14 });
 
     await userApi.sites.deleteSite(testData.siteInTrash.name, false);
     await userApi.sites.deleteSite(testData.site2InTrash.name, false);

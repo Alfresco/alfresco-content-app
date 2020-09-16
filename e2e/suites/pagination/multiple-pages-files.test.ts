@@ -52,13 +52,13 @@ describe('Pagination on multiple pages : ', () => {
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
 
-    initialSharedTotalItems = await userApi.shared.getSharedLinksTotalItems();
-    initialFavoritesTotalItems = await userApi.favorites.getFavoritesTotalItems();
     initialSearchTotalItems = await userApi.search.getTotalItems(username);
 
     parentId = (await userApi.nodes.createFolder(parent)).entry.id;
     filesIds = (await userApi.nodes.createFiles(files, parent)).list.entries.map((entries: any) => entries.entry.id);
 
+    initialSharedTotalItems = await userApi.shared.getSharedLinksTotalItems();
+    initialFavoritesTotalItems = await userApi.favorites.getFavoritesTotalItems();
     await userApi.shared.shareFilesByIds(filesIds);
     await userApi.favorites.addFavoritesByIds('file', filesIds);
   }, 150000);
