@@ -24,30 +24,27 @@
  */
 
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
 import { AboutComponent } from './about.component';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
-import { AppLayoutModule } from '../layout/layout.module';
 import { MatTableModule } from '@angular/material/table';
+import { SharedModule, PageLayoutModule } from '@alfresco/aca-shared';
+
 import { PackageListComponent } from './package-list/package-list.component';
 import { ExtensionListComponent } from './extension-list/extension-list.component';
 import { StatusListComponent } from './status-list/status-list.component';
 import { ModuleListComponent } from './module-list/module-list.component';
 import { LicenseListComponent } from './license-list/license-list.component';
-
-const routes: Routes = [
-  {
-    path: '',
-    component: AboutComponent,
-    data: {
-      title: 'APP.BROWSE.ABOUT.TITLE'
-    }
-  }
-];
+import { ExtensionService } from '@alfresco/adf-extensions';
 
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild(), RouterModule.forChild(routes), AppLayoutModule, MatTableModule],
+  imports: [CommonModule, CoreModule.forChild(), MatTableModule, SharedModule, PageLayoutModule],
   declarations: [AboutComponent, PackageListComponent, ExtensionListComponent, StatusListComponent, ModuleListComponent, LicenseListComponent]
 })
-export class AboutModule {}
+export class AcaAboutModule {
+  constructor(extensions: ExtensionService) {
+    extensions.setComponents({
+      'app.about.component': AboutComponent
+    });
+  }
+}

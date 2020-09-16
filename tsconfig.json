@@ -30,6 +30,12 @@
     },
     {
       "path": "./projects/adf-office-services-ext/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/aca-about/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/aca-about/tsconfig.spec.json"
     }
   ]
 }

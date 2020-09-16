@@ -1,8 +1,5 @@
 <mat-table [dataSource]="data">
-  <ng-container
-    *ngFor="let column of columns"
-    [matColumnDef]="column.columnDef"
-  >
+  <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef">
     <mat-header-cell *matHeaderCellDef>
       {{ column.header | translate }}
     </mat-header-cell>

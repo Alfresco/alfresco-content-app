@@ -23,14 +23,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NgModule } from '@angular/core';
-import { AosExtensionModule } from '@alfresco/adf-office-services-ext';
-import { AcaAboutModule } from '@alfresco/aca-about';
-
-// Main entry point for external extensions only.
-// For any application-specific code use CoreExtensionsModule instead.
-
-@NgModule({
-  imports: [AosExtensionModule, AcaAboutModule]
-})
-export class AppExtensionsModule {}
+export * from './lib/extension-list/extension-list.component';
+export * from './lib/license-list/license-list.component';
+export * from './lib/module-list/module-list.component';
+export * from './lib/package-list/package-list.component';
+export * from './lib/status-list/status-list.component';
+export * from './lib/about.component';
+export * from './lib/aca-about.module';
