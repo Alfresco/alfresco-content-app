@@ -258,7 +258,7 @@ describe('Library actions : ', () => {
       await Utils.pressEscape();
     });
 
-    it('[C290084] Public library, user is a member, favorite', async () => {
+    it('[C290084] Public library, user is a member, favorite ', async () => {
       await testUtil.checkToolbarActions(
         testData.publicUserMemberFav.name,
         testData.publicUserMemberFav.searchToolbarPrimary,
