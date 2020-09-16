@@ -66,14 +66,6 @@ describe('Single click on item name', () => {
     const docLibId = await apis.user.sites.getDocLibId(siteName);
     await apis.user.nodes.createFile(fileSite, docLibId);
 
-    const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
-    await apis.user.shared.shareFileById(file1Id);
-    await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 1 });
-
-    await apis.user.favorites.addFavoriteById('file', file1Id);
-    await apis.user.favorites.addFavoriteById('folder', folder1Id);
-    await apis.user.favorites.waitForApi({ expect: 2 + 1 });
-
     await loginPage.loginWith(username);
     done();
   });
@@ -93,9 +85,8 @@ describe('Single click on item name', () => {
   });
 
   describe('on Personal Files', () => {
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickPersonalFilesAndWait();
-      done();
     });
 
     it('[C280032] Hyperlink appears when mouse over a file/folder', async () => {
@@ -118,9 +109,8 @@ describe('Single click on item name', () => {
   });
 
   describe('on File Libraries', () => {
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickFileLibrariesAndWait();
-      done();
     });
 
     it('[C284901] Hyperlink appears when mouse over a library', async () => {
@@ -136,9 +126,14 @@ describe('Single click on item name', () => {
   });
 
   describe('on Shared Files', () => {
-    beforeEach(async (done) => {
+    beforeAll(async () => {
+      const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
+      await apis.user.shared.shareFileById(file1Id);
+      await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 1 });
+    });
+
+    beforeEach(async () => {
       await page.clickSharedFilesAndWait();
-      done();
     });
 
     it('[C284905] Hyperlink appears when mouse over a file', async () => {
@@ -155,9 +150,8 @@ describe('Single click on item name', () => {
   });
 
   describe('on Recent Files', () => {
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickRecentFilesAndWait();
-      done();
     });
 
     it('[C284907] Hyperlink appears when mouse over a file', async () => {
@@ -174,9 +168,15 @@ describe('Single click on item name', () => {
   });
 
   describe('on Favorites', () => {
-    beforeEach(async (done) => {
+    beforeAll(async () => {
+      const initialFavoriteTotalItems = await apis.user.favorites.getFavoritesTotalItems();
+      await apis.user.favorites.addFavoriteById('file', file1Id);
+      await apis.user.favorites.addFavoriteById('folder', folder1Id);
+      await apis.user.favorites.waitForApi({ expect: initialFavoriteTotalItems + 2 });
+    });
+
+    beforeEach(async () => {
       await page.clickFavoritesAndWait();
-      done();
     });
 
     it('[C284909] Hyperlink appears when mouse over a file/folder', async () => {
@@ -199,16 +199,14 @@ describe('Single click on item name', () => {
   });
 
   describe('on Search Results', () => {
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
-      done();
     });
 
-    afterEach(async (done) => {
+    afterEach(async () => {
       await Utils.pressEscape();
       await page.clickPersonalFilesAndWait();
-      done();
     });
 
     it('[C306988] Hyperlink appears when mouse over a file', async () => {

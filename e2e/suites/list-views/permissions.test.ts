@@ -70,14 +70,12 @@ describe('Special permissions', () => {
       done();
     });
 
-    afterEach(async (done) => {
+    afterEach(async () => {
       await apis.admin.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
-      done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       await apis.admin.sites.deleteSite(sitePrivate);
-      done();
     });
 
     it('[C213173] on Recent Files', async () => {

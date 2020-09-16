@@ -211,8 +211,12 @@ export class SitesApi extends RepoApi {
       await this.apiAuth();
       return await this.sitesApi.createSiteMembership(siteId, memberBody);
     } catch (error) {
-      this.handleError(`SitesApi addSiteMember : catch : `, error);
-      return null;
+      if (error.status === 409) {
+        return this.updateSiteMember(siteId, userId, role);
+      } else {
+        this.handleError(`SitesApi addSiteMember : catch : `, error);
+        return null;
+      }
     }
   }
 
