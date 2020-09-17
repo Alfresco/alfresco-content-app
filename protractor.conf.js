@@ -73,7 +73,6 @@ exports.config = {
   ],
 
   suites: {
-    litetest: './e2e/suites/authentication/liteserver.test.ts',
     authentication: './e2e/suites/authentication/*.test.ts',
     listViews: './e2e/suites/list-views/*.test.ts',
     application: './e2e/suites/application/*.test.ts',
