@@ -228,7 +228,7 @@ export class DataTable extends Component {
       await browser.actions().mouseMove(item).perform();
       await browser.actions().doubleClick().perform();
     } catch (error) {
-      Logger.error('--- catch: doubleClickOnRowByName', error);
+      Logger.error('--- catch: doubleClickOnRowByName : ', error);
     }
   }
 
@@ -239,7 +239,7 @@ export class DataTable extends Component {
         const item = this.getRowFirstCell(name, location);
         await item.click();
       } catch (e) {
-        Logger.error('--- select item catch : ', e);
+        Logger.error(`--- select item catch : failed to select ${name} from location : ${location} : `, e);
       }
     }
   }

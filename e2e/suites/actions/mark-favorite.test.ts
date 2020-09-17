@@ -100,20 +100,9 @@ describe('Mark items as favorites', () => {
     fileFav4Id = (await apis.user.nodes.createFile(fileFav4, parentId)).entry.id;
     folderId = (await apis.user.nodes.createFolder(folder, parentId)).entry.id;
 
-    fileSearchNotFav1Id = (await apis.user.nodes.createFile(fileSearchNotFav1, parentId)).entry.id;
-    fileSearchNotFav2Id = (await apis.user.nodes.createFile(fileSearchNotFav2, parentId)).entry.id;
-    fileSearchNotFav3Id = (await apis.user.nodes.createFile(fileSearchNotFav3, parentId)).entry.id;
-    fileSearchNotFav4Id = (await apis.user.nodes.createFile(fileSearchNotFav4, parentId)).entry.id;
-    fileSearchFav1Id = (await apis.user.nodes.createFile(fileSearchFav1, parentId)).entry.id;
-    fileSearchFav2Id = (await apis.user.nodes.createFile(fileSearchFav2, parentId)).entry.id;
-    fileSearchFav3Id = (await apis.user.nodes.createFile(fileSearchFav3, parentId)).entry.id;
-    fileSearchFav4Id = (await apis.user.nodes.createFile(fileSearchFav4, parentId)).entry.id;
-    folderSearchId = (await apis.user.nodes.createFolder(folderSearch, parentId)).entry.id;
-
     const currentFavoritesTotalItems = await apis.user.favorites.getFavoritesTotalItems();
     await apis.user.favorites.addFavoritesByIds('file', [fileFavUIId, fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id]);
-    await apis.user.favorites.addFavoritesByIds('file', [fileSearchFav1Id, fileSearchFav2Id, fileSearchFav3Id, fileSearchFav4Id]);
-    await apis.user.favorites.waitForApi({ expect: currentFavoritesTotalItems + 9 });
+    await apis.user.favorites.waitForApi({ expect: currentFavoritesTotalItems + 5 });
 
     const currentSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
     await apis.user.shared.shareFilesByIds([fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id]);
@@ -377,7 +366,22 @@ describe('Mark items as favorites', () => {
 
   describe('on Search Results', () => {
     beforeAll(async (done) => {
-      await apis.user.search.waitForNodes('search-f', { expect: 9 });
+      const initialSearchByTermTotalItems = await apis.user.search.getSearchByTermTotalItems('search-f');
+      fileSearchNotFav1Id = (await apis.user.nodes.createFile(fileSearchNotFav1, parentId)).entry.id;
+      fileSearchNotFav2Id = (await apis.user.nodes.createFile(fileSearchNotFav2, parentId)).entry.id;
+      fileSearchNotFav3Id = (await apis.user.nodes.createFile(fileSearchNotFav3, parentId)).entry.id;
+      fileSearchNotFav4Id = (await apis.user.nodes.createFile(fileSearchNotFav4, parentId)).entry.id;
+      fileSearchFav1Id = (await apis.user.nodes.createFile(fileSearchFav1, parentId)).entry.id;
+      fileSearchFav2Id = (await apis.user.nodes.createFile(fileSearchFav2, parentId)).entry.id;
+      fileSearchFav3Id = (await apis.user.nodes.createFile(fileSearchFav3, parentId)).entry.id;
+      fileSearchFav4Id = (await apis.user.nodes.createFile(fileSearchFav4, parentId)).entry.id;
+      folderSearchId = (await apis.user.nodes.createFolder(folderSearch, parentId)).entry.id;
+      await apis.user.search.waitForNodes('search-f', { expect: initialSearchByTermTotalItems + 9 });
+
+      const initialFavoritesTotalItems = await apis.user.favorites.getFavoritesTotalItems();
+      await apis.user.favorites.addFavoritesByIds('file', [fileSearchFav1Id, fileSearchFav2Id, fileSearchFav3Id, fileSearchFav4Id]);
+      await apis.user.favorites.waitForApi({ expect: initialFavoritesTotalItems + 4 });
+
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
       await searchInput.searchFor('search-f');
@@ -385,10 +389,9 @@ describe('Mark items as favorites', () => {
       done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       await page.header.expandSideNav();
       await page.clickPersonalFiles();
-      done();
     });
 
     it('[C306966] favorite a file', async () => {

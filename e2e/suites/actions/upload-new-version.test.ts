@@ -731,6 +731,7 @@ describe('Upload new version', () => {
 
   describe('on Favorite Files', () => {
     beforeAll(async (done) => {
+      const initialFavoritesTotalItems = await apis.user.favorites.getFavoritesTotalItems();
       fileId = (await apis.user.upload.uploadFile(file, parentFavId)).entry.id;
       file1Id = (await apis.user.nodes.createFile(file1, parentFavId)).entry.id;
       file2Id = (await apis.user.nodes.createFile(file2, parentFavId)).entry.id;
@@ -744,7 +745,7 @@ describe('Upload new version', () => {
       await apis.user.nodes.lockFile(fileLocked2Id);
 
       await apis.user.favorites.addFavoritesByIds('file', [fileId, file1Id, file2Id, file3Id, file4Id, fileLocked1Id, fileLocked2Id]);
-      await apis.user.favorites.waitForApi({ expect: 7 });
+      await apis.user.favorites.waitForApi({ expect: initialFavoritesTotalItems + 7 });
 
       await loginPage.loginWith(username);
       done();
