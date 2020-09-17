@@ -141,7 +141,7 @@ exports.config = {
       },
       args: [
         '--incognito',
-        `--window-size=${width},${height}`,
+        // `--window-size=${width},${height}`,
         '--disable-gpu',
         '--no-sandbox',
         '--disable-web-security',
@@ -212,11 +212,7 @@ exports.config = {
       paths: tsConfig.compilerOptions.paths
     });
 
-    if (process.env.CI) {
-      browser.manage().window().maximize();
-    } else {
-      browser.manage().window().setSize(width, height);
-    }
+    browser.manage().window().maximize();
 
     jasmine.getEnv().addReporter(
       new SpecReporter({
