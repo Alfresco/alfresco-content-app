@@ -63,17 +63,14 @@ describe('Files / folders actions : ', () => {
 
   const loginPage = new LoginPage();
 
-  let initialFilesTotalItems: number;
-  let initialFoldersTotalItems: number;
+  let initialSearchTotalItems: number;
 
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
 
     parentId = (await userApi.nodes.createFolder(parent)).entry.id;
 
-    const initialSearchTotalItems = await userApi.search.getTotalItems(username);
-    initialFilesTotalItems = await userApi.search.getSearchByTermTotalItems('file-');
-    initialFoldersTotalItems = await userApi.search.getSearchByTermTotalItems('folder-');
+    initialSearchTotalItems = await userApi.search.getTotalItems(username);
 
     await userApi.upload.uploadFileWithRename(FILES.docxFile, parentId, testData.fileDocx.name);
     fileDocxFavId = (await userApi.upload.uploadFileWithRename(FILES.docxFile, parentId, testData.fileDocxFav.name)).entry.id;
@@ -91,6 +88,8 @@ describe('Files / folders actions : ', () => {
     await userApi.nodes.createFolder(testData.folder.name, parentId);
     folderFavId = (await userApi.nodes.createFolder(testData.folderFav.name, parentId)).entry.id;
     folderFav2Id = (await userApi.nodes.createFolder(testData.folderFav2.name, parentId)).entry.id;
+
+    await userApi.search.waitForApi(username, { expect: initialSearchTotalItems + 12 });
 
     const initialFavoritesTotalItems = await userApi.favorites.getFavoritesTotalItems();
     await userApi.favorites.addFavoritesByIds('folder', [folderFavId, folderFav2Id]);
@@ -120,20 +119,6 @@ describe('Files / folders actions : ', () => {
     await userApi.nodes.lockFile(fileSharedLockedId);
     await userApi.nodes.lockFile(fileSharedFavLockedId);
 
-    fileInTrashId = (await userApi.nodes.createFile(testData.fileInTrash.name)).entry.id;
-    file2InTrashId = (await userApi.nodes.createFile(testData.file2InTrash.name)).entry.id;
-    folderInTrashId = (await userApi.nodes.createFolder(testData.folderInTrash.name)).entry.id;
-    folder2InTrashId = (await userApi.nodes.createFolder(testData.folder2InTrash.name)).entry.id;
-
-    const initialDeletedTotalItems = await userApi.trashcan.getDeletedNodesTotalItems();
-    await userApi.nodes.deleteNodeById(fileInTrashId, false);
-    await userApi.nodes.deleteNodeById(file2InTrashId, false);
-    await userApi.nodes.deleteNodeById(folderInTrashId, false);
-    await userApi.nodes.deleteNodeById(folder2InTrashId, false);
-    await userApi.trashcan.waitForApi({ expect: initialDeletedTotalItems + 4 });
-
-    await userApi.search.waitForApi(username, { expect: initialSearchTotalItems + 12 });
-
     await loginPage.loginWith(username);
   });
 
@@ -159,10 +144,6 @@ describe('Files / folders actions : ', () => {
   });
 
   describe('on Search Results : ', () => {
-    beforeAll(async () => {
-      await userApi.search.waitForNodes('file-', { expect: initialFilesTotalItems + 12 });
-      await userApi.search.waitForNodes('folder-', { expect: initialFoldersTotalItems + 3 });
-    });
     searchResultsTests();
   });
 
@@ -175,6 +156,19 @@ describe('Files / folders actions : ', () => {
   });
 
   describe('on Trash : ', () => {
+    beforeAll(async () => {
+      fileInTrashId = (await userApi.nodes.createFile(testData.fileInTrash.name)).entry.id;
+      file2InTrashId = (await userApi.nodes.createFile(testData.file2InTrash.name)).entry.id;
+      folderInTrashId = (await userApi.nodes.createFolder(testData.folderInTrash.name)).entry.id;
+      folder2InTrashId = (await userApi.nodes.createFolder(testData.folder2InTrash.name)).entry.id;
+
+      const initialDeletedTotalItems = await userApi.trashcan.getDeletedNodesTotalItems();
+      await userApi.nodes.deleteNodeById(fileInTrashId, false);
+      await userApi.nodes.deleteNodeById(file2InTrashId, false);
+      await userApi.nodes.deleteNodeById(folderInTrashId, false);
+      await userApi.nodes.deleteNodeById(folder2InTrashId, false);
+      await userApi.trashcan.waitForApi({ expect: initialDeletedTotalItems + 4 });
+    });
     trashTests();
   });
 });

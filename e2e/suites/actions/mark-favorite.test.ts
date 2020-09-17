@@ -213,10 +213,8 @@ describe('Mark items as favorites', () => {
   describe('on Recent Files', () => {
     afterAll(async (done) => {
       try {
-        const currentFavoritesFiles = await apis.user.favorites.getFavoritesTotalItems();
         await apis.user.favorites.addFavoritesByIds('file', [fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id]);
         await apis.user.favorites.removeFavoritesByIds([fileNotFav1Id, fileNotFav2Id, fileNotFav3Id, fileNotFav4Id]);
-        await apis.user.favorites.waitForApi({ expect: currentFavoritesFiles - 1 });
       } catch (error) {}
       done();
     });
@@ -325,16 +323,14 @@ describe('Mark items as favorites', () => {
     afterAll(async (done) => {
       try {
         await apis.user.favorites.addFavoritesByIds('file', [fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id]);
-        await apis.user.favorites.waitForApi({ expect: 10 });
       } catch (error) {}
       done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await Utils.pressEscape();
       await page.refresh();
       await page.clickFavoritesAndWait();
-      done();
     });
 
     it('[C280368] unfavorite an item', async () => {
@@ -378,9 +374,7 @@ describe('Mark items as favorites', () => {
       folderSearchId = (await apis.user.nodes.createFolder(folderSearch, parentId)).entry.id;
       await apis.user.search.waitForNodes('search-f', { expect: initialSearchByTermTotalItems + 9 });
 
-      const initialFavoritesTotalItems = await apis.user.favorites.getFavoritesTotalItems();
       await apis.user.favorites.addFavoritesByIds('file', [fileSearchFav1Id, fileSearchFav2Id, fileSearchFav3Id, fileSearchFav4Id]);
-      await apis.user.favorites.waitForApi({ expect: initialFavoritesTotalItems + 4 });
 
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
