@@ -87,7 +87,7 @@ describe('Upload new version', () => {
   const uploadNewVersionDialog = new UploadNewVersionDialog();
   const { searchInput } = page.header;
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     await apis.admin.people.createUser({ username });
 
     parentPFId = (await apis.user.nodes.createFolder(parentPF)).entry.id;
@@ -95,17 +95,14 @@ describe('Upload new version', () => {
     parentRFId = (await apis.user.nodes.createFolder(parentRF)).entry.id;
     parentFavId = (await apis.user.nodes.createFolder(parentFav)).entry.id;
     parentSearchId = (await apis.user.nodes.createFolder(parentSearch)).entry.id;
-
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await apis.user.nodes.deleteNodeById(parentPFId);
     await apis.user.nodes.deleteNodeById(parentSFId);
     await apis.user.nodes.deleteNodeById(parentRFId);
     await apis.user.nodes.deleteNodeById(parentFavId);
     await apis.user.nodes.deleteNodeById(parentSearchId);
-    done();
   });
 
   describe('on Search Results', () => {
@@ -586,6 +583,7 @@ describe('Upload new version', () => {
 
   describe('on Recent Files', () => {
     beforeAll(async (done) => {
+      const initialRecentTotalItems = await apis.user.search.getTotalItems(username);
       fileId = (await apis.user.upload.uploadFile(file, parentRFId)).entry.id;
       file1Id = (await apis.user.nodes.createFile(file1, parentRFId)).entry.id;
       file2Id = (await apis.user.nodes.createFile(file2, parentRFId)).entry.id;
@@ -598,20 +596,18 @@ describe('Upload new version', () => {
       await apis.user.nodes.lockFile(fileLocked1Id);
       await apis.user.nodes.lockFile(fileLocked2Id);
 
-      await apis.user.search.waitForApi(username, { expect: 21 });
+      await apis.user.search.waitForApi(username, { expect: initialRecentTotalItems + 7 });
 
       await loginPage.loginWith(username);
       done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickRecentFilesAndWait();
-      done();
     });
 
-    afterEach(async (done) => {
+    afterEach(async () => {
       await page.refresh();
-      done();
     });
 
     it('[C297558] dialog UI defaults', async () => {
