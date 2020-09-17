@@ -581,7 +581,7 @@ describe('Unshare a file', () => {
       await apis.user.favorites.addFavoriteById('file', file4Id);
 
       await apis.user.favorites.waitForApi({ expect: 4 });
-      await apis.user.shared.waitForApi({ expect: initialSharedTotalItems+ 4 });
+      await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 4 });
       done();
     });
 
