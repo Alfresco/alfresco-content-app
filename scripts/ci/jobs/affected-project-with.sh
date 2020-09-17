@@ -30,5 +30,6 @@ echo "Run alfresco-content-e2e protractor with options $OPTIONS"
 echo "./node_modules/.bin/protractor \"./protractor.conf.js\" $OPTIONS || exit 1"
 
 ./node_modules/.bin/tsc -p "./e2e/tsconfig.e2e.json" || exit 1;
-./node_modules/.bin/lite-server --baseDir="./dist/app" -c "./e2e/lite-server-proxy.js" > /dev/null &\
+ cat ./dist/app/app.config.json || exit 1;
+./node_modules/.bin/http-server -c-1 ./dist/app -p 4200 &\
 ./node_modules/.bin/protractor "./protractor.conf.js" $OPTIONS || exit 1
