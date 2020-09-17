@@ -18,8 +18,8 @@ const screenshotsFolder = path.resolve(__dirname, 'e2e-output')
 const e2eFolder = path.resolve(projectRoot, 'e2e');
 const E2E_HOST = process.env.E2E_HOST || 'http://localhost:4200';
 const BROWSER_RUN = process.env.BROWSER_RUN;
-const width = 1920;
-const height = 1080;
+const width = 1366;
+const height = 768;
 
 const SAVE_SCREENSHOT = process.env.SAVE_SCREENSHOT === 'true';
 const API_CONTENT_HOST = process.env.API_CONTENT_HOST || 'http://localhost:8080';
@@ -141,7 +141,7 @@ exports.config = {
       },
       args: [
         '--incognito',
-        // `--window-size=${width},${height}`,
+        `--window-size=${width},${height}`,
         '--disable-gpu',
         '--no-sandbox',
         '--disable-web-security',
@@ -212,7 +212,7 @@ exports.config = {
       paths: tsConfig.compilerOptions.paths
     });
 
-    browser.manage().window().maximize();
+    browser.manage().window().setSize(width, height);
 
     jasmine.getEnv().addReporter(
       new SpecReporter({
