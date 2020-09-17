@@ -47,7 +47,7 @@ const reqJoinNotFavContextMenu = ['Cancel Join Request', 'Delete', 'Favorite'];
 const reqJoinFavContextMenu = ['Cancel Join Request', 'Delete', 'Remove Favorite'];
 
 export const publicUserMemberFav = {
-  name: `site-public-member-fav-${Utils.random()}`,
+  name: `actionsSite-public-member-fav-${Utils.random()}`,
   description: 'public site, user member, user favorite',
   contextMenu: memberFavContextMenu,
   toolbarPrimary: memberToolbarPrimary,
@@ -57,7 +57,7 @@ export const publicUserMemberFav = {
 };
 
 export const privateUserMemberFav = {
-  name: `site-private-member-fav-${Utils.random()}`,
+  name: `actionsSite-private-member-fav-${Utils.random()}`,
   description: 'private site, user member, user favorite',
   contextMenu: memberFavContextMenu,
   toolbarPrimary: memberToolbarPrimary,
@@ -67,7 +67,7 @@ export const privateUserMemberFav = {
 };
 
 export const moderatedUserMemberFav = {
-  name: `site-moderated-member-fav-${Utils.random()}`,
+  name: `actionsSite-moderated-member-fav-${Utils.random()}`,
   description: 'moderated site, user member, user favorite',
   contextMenu: memberFavContextMenu,
   toolbarPrimary: memberToolbarPrimary,
@@ -77,7 +77,7 @@ export const moderatedUserMemberFav = {
 };
 
 export const publicUserMemberNotFav = {
-  name: `site-public-member-not-fav-${Utils.random()}`,
+  name: `actionsSite-public-member-not-fav-${Utils.random()}`,
   description: 'public site, user member, not favorite',
   contextMenu: memberNotFavContextMenu,
   toolbarPrimary: memberToolbarPrimary,
@@ -87,7 +87,7 @@ export const publicUserMemberNotFav = {
 };
 
 export const privateUserMemberNotFav = {
-  name: `site-private-member-not-fav-${Utils.random()}`,
+  name: `actionsSite-private-member-not-fav-${Utils.random()}`,
   description: 'private site, user member, not favorite',
   contextMenu: memberNotFavContextMenu,
   toolbarPrimary: memberToolbarPrimary,
@@ -97,7 +97,7 @@ export const privateUserMemberNotFav = {
 };
 
 export const moderatedUserMemberNotFav = {
-  name: `site-moderated-member-not-fav-${Utils.random()}`,
+  name: `actionsSite-moderated-member-not-fav-${Utils.random()}`,
   description: 'moderated site, user member, not favorite',
   contextMenu: memberNotFavContextMenu,
   toolbarPrimary: memberToolbarPrimary,
@@ -107,7 +107,7 @@ export const moderatedUserMemberNotFav = {
 };
 
 export const publicNotMemberFav = {
-  name: `site-public-not-member-fav-${Utils.random()}`,
+  name: `actionsSite-public-not-member-fav-${Utils.random()}`,
   description: 'public site, user not member, user favorite',
   contextMenu: notMemberFavContextMenu,
   toolbarPrimary: notMemberToolbarPrimary,
@@ -117,7 +117,7 @@ export const publicNotMemberFav = {
 };
 
 export const moderatedNotMemberFav = {
-  name: `site-moderated-not-member-fav-${Utils.random()}`,
+  name: `actionsSite-moderated-not-member-fav-${Utils.random()}`,
   description: 'moderated site, user not member, user favorite',
   contextMenu: notMemberFavContextMenu,
   toolbarPrimary: notMemberToolbarPrimary,
@@ -127,7 +127,7 @@ export const moderatedNotMemberFav = {
 };
 
 export const publicNotMemberNotFav = {
-  name: `site-public-not-member-not-fav-${Utils.random()}`,
+  name: `actionsSite-public-not-member-not-fav-${Utils.random()}`,
   description: 'public site, user not member, not favorite',
   contextMenu: notMemberNotFavContextMenu,
   toolbarPrimary: notMemberToolbarPrimary,
@@ -137,7 +137,7 @@ export const publicNotMemberNotFav = {
 };
 
 export const moderatedNotMemberNotFav = {
-  name: `site-moderated-not-member-not-fav-${Utils.random()}`,
+  name: `actionsSite-moderated-not-member-not-fav-${Utils.random()}`,
   description: 'moderated site, user not member, not favorite',
   contextMenu: notMemberNotFavContextMenu,
   toolbarPrimary: notMemberToolbarPrimary,
@@ -147,7 +147,7 @@ export const moderatedNotMemberNotFav = {
 };
 
 export const moderatedRequestedJoinFav = {
-  name: `site-moderated-req-join-fav-${Utils.random()}`,
+  name: `actionsSite-moderated-req-join-fav-${Utils.random()}`,
   description: 'moderated site, user requested join, user favorite',
   contextMenu: reqJoinFavContextMenu,
   toolbarPrimary: reqJoinToolbarMore,
@@ -157,7 +157,7 @@ export const moderatedRequestedJoinFav = {
 };
 
 export const moderatedRequestedJoinNotFav = {
-  name: `site-moderated-req-join-not-fav-${Utils.random()}`,
+  name: `actionsSite-moderated-req-join-not-fav-${Utils.random()}`,
   description: 'moderated site, user requested join, not favorite',
   contextMenu: reqJoinNotFavContextMenu,
   toolbarPrimary: reqJoinToolbarMore,

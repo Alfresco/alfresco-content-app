@@ -45,7 +45,7 @@ describe('Library actions : ', () => {
     const initialAdminSitesTotalItems = await adminApiActions.sites.getSitesTotalItems();
     const initialUserSitesTotalItems = await userApi.sites.getSitesTotalItems();
     const initialDeletedTotalItems = await userApi.trashcan.getDeletedNodesTotalItems();
-    const initialQuerySitesTotalItems = await userApi.queries.findSitesTotalItems('site-');
+    const initialQuerySitesTotalItems = await userApi.queries.findSitesTotalItems('actionsSite-');
 
     await userApi.sites.createSite(testData.publicUserMemberFav.name);
     await userApi.sites.createSitePrivate(testData.privateUserMemberFav.name);
@@ -73,7 +73,7 @@ describe('Library actions : ', () => {
 
     await userApi.sites.waitForApi({ expect: initialUserSitesTotalItems + 6 });
     await adminApiActions.sites.waitForApi({ expect: initialAdminSitesTotalItems + 6 });
-    await userApi.queries.waitForSites('site-', { expect: initialQuerySitesTotalItems + 12 });
+    await userApi.queries.waitForSites('actionsSite-', { expect: initialQuerySitesTotalItems + 12 });
 
     await userApi.sites.createSite(testData.siteInTrash.name);
     await userApi.sites.createSite(testData.site2InTrash.name);
@@ -243,7 +243,7 @@ describe('Library actions : ', () => {
       await page.clickPersonalFiles();
       await searchInput.clickSearchButton();
       await searchInput.checkLibraries();
-      await searchInput.searchFor('site-');
+      await searchInput.searchFor('actionsSite-');
     });
 
     beforeEach(async () => {
