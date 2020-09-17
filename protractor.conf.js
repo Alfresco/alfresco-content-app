@@ -236,7 +236,7 @@ exports.config = {
       console.log(`Save screenshot is ${SAVE_SCREENSHOT}, trying to save screenshots.`);
 
       try {
-        await uploadScreenshot(1, 'ACA');
+        await uploadScreenshot(1);
         console.log('Screenshots saved successfully.');
       } catch (e) {
         console.log('Error happened while trying to upload screenshots and test reports: ', e);
