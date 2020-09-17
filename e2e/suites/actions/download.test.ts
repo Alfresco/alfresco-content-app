@@ -80,8 +80,6 @@ describe('Download', () => {
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
 
-    initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
-    initialFavoritesTotalItems = await apis.user.favorites.getFavoritesTotalItems();
     initialRecentTotalItems = await apis.user.search.getTotalItems(username);
 
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
@@ -103,10 +101,17 @@ describe('Download', () => {
     folderSearchId = (await apis.user.nodes.createFolder(folderSearch, parentId)).entry.id;
     await apis.user.nodes.createFile(fileInFolderSearch, folderSearchId);
 
+    await apis.user.search.waitForApi(username, { expect: initialRecentTotalItems + 10 });
+
+    initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
     await apis.user.shared.shareFileById(fileShared1Id);
     await apis.user.shared.shareFileById(fileShared2Id);
+    await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 2 });
+
+    initialFavoritesTotalItems = await apis.user.favorites.getFavoritesTotalItems();
     await apis.user.favorites.addFavoriteById('file', fileFavoritesId);
     await apis.user.favorites.addFavoriteById('folder', folderFavoritesId);
+    await apis.user.favorites.waitForApi({ expect: initialFavoritesTotalItems + 2 });
 
     await loginPage.loginWith(username);
     done();
@@ -168,11 +173,6 @@ describe('Download', () => {
   });
 
   describe('on Favorites', () => {
-    beforeAll(async (done) => {
-      await apis.user.favorites.waitForApi({ expect: initialFavoritesTotalItems + 2 });
-      done();
-    });
-
     beforeEach(async (done) => {
       await page.clickFavoritesAndWait();
       done();
@@ -216,11 +216,6 @@ describe('Download', () => {
   });
 
   describe('on Shared Files', () => {
-    beforeAll(async (done) => {
-      await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 2 });
-      done();
-    });
-
     beforeEach(async (done) => {
       await page.clickSharedFilesAndWait();
       done();
@@ -247,11 +242,6 @@ describe('Download', () => {
   });
 
   describe('on Recent Files', () => {
-    beforeAll(async (done) => {
-      await apis.user.search.waitForApi(username, { expect: initialRecentTotalItems + 10 });
-      done();
-    });
-
     beforeEach(async (done) => {
       await page.clickRecentFilesAndWait();
       done();

@@ -63,14 +63,12 @@ describe('Files / folders actions : ', () => {
 
   const loginPage = new LoginPage();
 
-  let initialSearchTotalItems: number;
-
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
 
     parentId = (await userApi.nodes.createFolder(parent)).entry.id;
 
-    initialSearchTotalItems = await userApi.search.getTotalItems(username);
+    const initialSearchTotalItems = await userApi.search.getTotalItems(username);
 
     await userApi.upload.uploadFileWithRename(FILES.docxFile, parentId, testData.fileDocx.name);
     fileDocxFavId = (await userApi.upload.uploadFileWithRename(FILES.docxFile, parentId, testData.fileDocxFav.name)).entry.id;

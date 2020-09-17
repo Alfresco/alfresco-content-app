@@ -268,7 +268,7 @@ describe('Library actions : ', () => {
       await testUtil.checkContextMenu(testData.privateUserMemberFav.name, testData.privateUserMemberFav.contextMenu);
     });
 
-    it('[C290086] Moderated library, user is a member, favorite ', async () => {
+    it('[C290086] Moderated library, user is a member, favorite', async () => {
       await testUtil.checkToolbarActions(
         testData.moderatedUserMemberFav.name,
         testData.moderatedUserMemberFav.searchToolbarPrimary,
