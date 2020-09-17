@@ -26,7 +26,7 @@
 import { browser, by, ElementFinder } from 'protractor';
 import { Logger } from '@alfresco/adf-testing';
 import { USE_HASH_STRATEGY } from './../configs';
-import { Utils, waitElement, waitForPresence, waitForVisibility } from '../utilities/utils';
+import { Utils, waitElement, waitForPresence, waitForVisibility, isPresentAndDisplayed } from '../utilities/utils';
 
 export abstract class Page {
   appRoot = 'app-root';
@@ -40,6 +40,9 @@ export abstract class Page {
   genericError = this.byCss('aca-generic-error');
   genericErrorIcon = this.byCss('aca-generic-error .mat-icon');
   genericErrorTitle = this.byCss('.generic-error__title');
+
+  uploadDialog = this.byCss('.adf-upload-dialog');
+  closeUploadButton = this.byCss('.adf-upload-dialog [id="adf-upload-dialog-close"]');
 
   constructor(public url: string = '') {}
 
@@ -68,6 +71,16 @@ export abstract class Page {
   async closeOpenDialogs() {
     while (await this.isDialogOpen()) {
       await Utils.pressEscape();
+    }
+  }
+
+  async isUploadDialogOpen(): Promise<boolean> {
+    return isPresentAndDisplayed(this.uploadDialog);
+  }
+
+  async closeUploadDialog(): Promise<void> {
+    if (await this.isUploadDialogOpen()) {
+      await this.closeUploadButton.click();
     }
   }
 
