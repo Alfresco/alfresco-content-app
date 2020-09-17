@@ -14,7 +14,7 @@ require('dotenv').config({ path: process.env.ENV_FILE });
 const SmartRunner = require('protractor-smartrunner');
 const projectRoot = path.resolve(__dirname);
 const downloadFolder = path.join(__dirname, 'e2e-downloads');
-const screenshotsFolder = path.resolve(__dirname, 'e2e-output')
+const screenshotsFolder = path.resolve(__dirname, 'e2e-output');
 const e2eFolder = path.resolve(projectRoot, 'e2e');
 const E2E_HOST = process.env.E2E_HOST || 'http://localhost:4200';
 const BROWSER_RUN = process.env.BROWSER_RUN;
@@ -73,6 +73,7 @@ exports.config = {
   ],
 
   suites: {
+    litetest: './e2e/suites/authentication/liteserver.test.ts',
     authentication: './e2e/suites/authentication/*.test.ts',
     listViews: './e2e/suites/list-views/*.test.ts',
     application: './e2e/suites/application/*.test.ts',
@@ -113,7 +114,6 @@ exports.config = {
   SELENIUM_PROMISE_MANAGER: false,
 
   capabilities: {
-
     loggingPrefs: {
       browser: 'ALL' // "OFF", "SEVERE", "WARNING", "INFO", "CONFIG", "FINE", "FINER", "FINEST", "ALL".
     },
@@ -126,16 +126,16 @@ exports.config = {
 
     chromeOptions: {
       prefs: {
-        'credentials_enable_service': false,
-        'download': {
-          'prompt_for_download': false,
-          'directory_upgrade': true,
-          'default_directory': downloadFolder
+        credentials_enable_service: false,
+        download: {
+          prompt_for_download: false,
+          directory_upgrade: true,
+          default_directory: downloadFolder
         },
-        'browser': {
-          'setDownloadBehavior': {
-            'behavior': 'allow',
-            'downloadPath': downloadFolder
+        browser: {
+          setDownloadBehavior: {
+            behavior: 'allow',
+            downloadPath: downloadFolder
           }
         }
       },
@@ -162,23 +162,24 @@ exports.config = {
     showColors: true,
     defaultTimeoutInterval: 150000,
     includeStackTrace: true,
-    print: function () {
-    },
-    ...SmartRunner.withOptionalExclusions(resolve(__dirname, './e2e/protractor.excludes.json')),
+    print: function () {},
+    ...SmartRunner.withOptionalExclusions(resolve(__dirname, './e2e/protractor.excludes.json'))
   },
 
-  plugins: [{
-    package: 'protractor-screenshoter-plugin',
-    screenshotPath: screenshotsFolder,
-    screenshotOnExpect: 'failure',
-    screenshotOnSpec: 'none',
-    withLogs: true,
-    writeReportFreq: 'end',
-    imageToAscii: 'none',
-    htmlOnExpect: 'none',
-    htmlOnSpec: 'none',
-    clearFoldersBeforeTest: true
-  }],
+  plugins: [
+    {
+      package: 'protractor-screenshoter-plugin',
+      screenshotPath: screenshotsFolder,
+      screenshotOnExpect: 'failure',
+      screenshotOnSpec: 'none',
+      withLogs: true,
+      writeReportFreq: 'end',
+      imageToAscii: 'none',
+      htmlOnExpect: 'none',
+      htmlOnSpec: 'none',
+      clearFoldersBeforeTest: true
+    }
+  ],
 
   onCleanUp(results) {
     if (process.env.CI) {
