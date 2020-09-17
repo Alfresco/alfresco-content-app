@@ -60,6 +60,7 @@
     "@ngx-translate/core": "^13.0.0",
     "browser-sync": "^2.26.12",
     "chalk": "^4.1.0",
+    "http-server": "^0.12.3",
     "inquirer": "^7.3.3",
     "minimatch-browser": "^1.0.0",
     "moment": "^2.27.0",
