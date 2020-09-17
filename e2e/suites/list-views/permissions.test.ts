@@ -132,8 +132,11 @@ describe('Special permissions', () => {
       const docLibId = await apis.admin.sites.getDocLibId(sitePrivate);
       fileId = (await apis.user.nodes.createFile(fileName, docLibId)).entry.id;
       await apis.user.favorites.addFavoriteById('file', fileId);
+
+      initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
       await apis.user.shared.shareFileById(fileId);
-      await apis.user.shared.waitForApi({ expect: 1 });
+      await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 1 });
+
       await apis.user.search.waitForApi(username, { expect: 1 });
       await apis.admin.sites.deleteSiteMember(sitePrivate, username);
       await loginPage.loginWith(username);

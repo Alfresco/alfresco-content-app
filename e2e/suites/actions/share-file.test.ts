@@ -992,17 +992,18 @@ describe('Share a file', () => {
       let initialTotalItems: number;
 
       beforeAll(async () => {
+        const initialSearchByTermTotalItems = await apis.user.search.getSearchByTermTotalItems('search-f');
         file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
         file5Id = (await apis.user.nodes.createFile(file5, parentId)).entry.id;
         file6Id = (await apis.user.nodes.createFile(file6, parentId)).entry.id;
         file7Id = (await apis.user.nodes.createFile(file7, parentId)).entry.id;
         file9Id = (await apis.user.nodes.createFile(file9, parentId)).entry.id;
+        await apis.user.search.waitForNodes('search-f', { expect: initialSearchByTermTotalItems + 5 });
 
         initialTotalItems = await apis.user.shared.getSharedLinksTotalItems();
         await apis.user.shared.shareFileById(file6Id, expiryDate);
         await apis.user.shared.shareFileById(file7Id, expiryDate);
         await apis.user.shared.waitForApi({ expect: initialTotalItems + 2 });
-        await apis.user.search.waitForNodes('search-f', { expect: 5 });
       });
 
       beforeEach(async () => {

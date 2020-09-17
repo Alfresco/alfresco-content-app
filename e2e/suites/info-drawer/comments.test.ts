@@ -82,9 +82,11 @@ describe('Comments', () => {
     comment1File2Entry = (await apis.user.comments.addComment(fileWith2CommentsId, 'first comment')).entry;
     comment2File2Entry = (await apis.user.comments.addComment(fileWith2CommentsId, 'second comment')).entry;
 
+    const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
     await apis.user.shared.shareFilesByIds([file2SharedId, fileWith1CommentId, fileWith2CommentsId]);
     await apis.user.favorites.addFavoritesByIds('file', [file2FavoritesId, fileWith1CommentId, fileWith2CommentsId]);
 
+    await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 3 });
     await apis.user.nodes.createFolder(folder1, parentId);
     folder2Id = (await apis.user.nodes.createFolder(folder2, parentId)).entry.id;
     await apis.user.favorites.addFavoriteById('folder', folder2Id);
@@ -260,11 +262,6 @@ describe('Comments', () => {
   });
 
   describe('from Shared Files', () => {
-    beforeAll(async (done) => {
-      await apis.user.shared.waitForApi({ expect: 3 });
-      done();
-    });
-
     beforeEach(async (done) => {
       await page.clickSharedFilesAndWait();
       done();
@@ -356,7 +353,6 @@ describe('Comments', () => {
       commentFile1Entry = (await apis.user.comments.addComment(fileWith1CommentId, 'this is my comment')).entry;
 
       await apis.user.favorites.waitForApi({ expect: 4 });
-      await apis.user.shared.waitForApi({ expect: 3 });
       await apis.user.search.waitForApi(username, { expect: 7 });
 
       done();

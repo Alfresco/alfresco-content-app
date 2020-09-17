@@ -93,7 +93,8 @@ export class SharedLinksApi extends RepoApi {
   async getSharedLinksTotalItems(): Promise<number> {
     try {
       await this.apiAuth();
-      return (await this.sharedlinksApi.listSharedLinks()).list.pagination.totalItems;
+      const sharedList = await this.sharedlinksApi.listSharedLinks();
+      return sharedList.list.entries.length;
     } catch (error) {
       this.handleError(`SharedLinksApi getSharedLinksTotalItems : catch : `, error);
       return -1;
