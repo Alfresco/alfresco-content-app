@@ -41,6 +41,7 @@ interface RepositoryConfig {
 @Component({
   selector: 'aca-settings',
   templateUrl: './settings.component.html',
+  styleUrls: ['./settings.component.scss'],
   encapsulation: ViewEncapsulation.None,
   host: { class: 'aca-settings' }
 })

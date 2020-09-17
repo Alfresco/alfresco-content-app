@@ -25,12 +25,10 @@
 
 import { SettingsComponent } from './settings.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { setupTestBed, StorageService } from '@alfresco/adf-core';
-import { AppSettingsModule } from './settings.module';
-import { AppTestingModule } from '../../testing/app-testing.module';
+import { CoreModule, setupTestBed, StorageService } from '@alfresco/adf-core';
+import { AcaSettingsModule } from './settings.module';
 import { By } from '@angular/platform-browser';
-import { TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
-import { AppExtensionService, SettingsParameterRef } from '@alfresco/aca-shared';
+import { AppExtensionService, SettingsParameterRef, LibTestingModule } from '@alfresco/aca-shared';
 
 describe('SettingsComponent', () => {
   let fixture: ComponentFixture<SettingsComponent>;
@@ -42,13 +40,7 @@ describe('SettingsComponent', () => {
   let boolParam: SettingsParameterRef;
 
   setupTestBed({
-    imports: [
-      AppSettingsModule,
-      AppTestingModule,
-      TranslateModule.forRoot({
-        loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
-      })
-    ]
+    imports: [CoreModule.forRoot(), AcaSettingsModule, LibTestingModule]
   });
 
   beforeEach(() => {

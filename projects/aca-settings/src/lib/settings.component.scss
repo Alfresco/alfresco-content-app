@@ -1,0 +1,77 @@
+$app-menu-height: 64px;
+
+.aca-settings-parameter-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.aca-settings {
+  &-extensions-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .settings-input {
+    width: 50%;
+  }
+
+  .settings-buttons {
+    text-align: right;
+
+    .mat-button {
+      text-transform: uppercase;
+    }
+  }
+
+  .app-menu {
+    height: $app-menu-height;
+
+    &.adf-toolbar {
+      .mat-toolbar {
+        background-color: inherit;
+        font-family: inherit;
+        min-height: $app-menu-height;
+        height: $app-menu-height;
+
+        .mat-toolbar-layout {
+          height: $app-menu-height;
+
+          .mat-toolbar-row {
+            height: $app-menu-height;
+          }
+        }
+      }
+
+      .adf-toolbar-divider {
+        margin-left: 5px;
+        margin-right: 5px;
+
+        & > div {
+          background-color: var(--theme-card-background-color);
+        }
+      }
+
+      .adf-toolbar-title {
+        color: var(--theme-card-background-color);
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+
+    .app-menu__title {
+      width: 100px;
+      height: 50px;
+      margin-left: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+
+      & > img {
+        width: 100%;
+        object-fit: contain;
+      }
+    }
+  }
+}

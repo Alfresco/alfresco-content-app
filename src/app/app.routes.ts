@@ -46,10 +46,6 @@ export const APP_ROUTES: Routes = [
     }
   },
   {
-    path: 'settings',
-    loadChildren: () => import('./components/settings/settings.module').then((m) => m.AppSettingsModule)
-  },
-  {
     path: 'preview/s/:id',
     loadChildren: () => import('./components/shared-link-view/shared-link-view.module').then((m) => m.AppSharedLinkViewModule)
   },

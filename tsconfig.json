@@ -36,6 +36,12 @@
     },
     {
       "path": "./projects/aca-about/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/aca-settings/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/aca-settings/tsconfig.spec.json"
     }
   ]
 }

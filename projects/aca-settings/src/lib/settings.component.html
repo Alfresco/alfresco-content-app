@@ -1,10 +1,6 @@
 <adf-toolbar class="app-menu" [style.background-color]="headerColor$ | async">
   <adf-toolbar-title>
-    <a
-      class="app-menu__title"
-      title="{{ appName$ | async }}"
-      [routerLink]="['/']"
-    >
+    <a class="app-menu__title" title="{{ appName$ | async }}" [routerLink]="['/']">
       <img [src]="logo" alt="{{ appName$ | async }}" />
     </a>
   </adf-toolbar-title>
@@ -13,15 +9,9 @@
 <mat-accordion multi="true" displayMode="flat">
   <mat-expansion-panel>
     <mat-expansion-panel-header>
-      <mat-panel-title>{{
-        'APP.SETTINGS.REPOSITORY-SETTINGS' | translate
-      }}</mat-panel-title>
+      <mat-panel-title>{{ 'APP.SETTINGS.REPOSITORY-SETTINGS' | translate }}</mat-panel-title>
     </mat-expansion-panel-header>
-    <form
-      [formGroup]="form"
-      novalidate
-      (ngSubmit)="apply(form.value, form.valid)"
-    >
+    <form [formGroup]="form" novalidate (ngSubmit)="apply(form.value, form.valid)">
       <div>
         <mat-form-field class="settings-input" appearance="outline">
           <mat-label>ACS Repository URL</mat-label>
@@ -56,12 +46,7 @@
         <button mat-button (click)="reset()">
           {{ 'APP.SETTINGS.RESET' | translate }}
         </button>
-        <button
-          mat-button
-          color="primary"
-          type="submit"
-          [disabled]="!form.valid"
-        >
+        <button mat-button color="primary" type="submit" [disabled]="!form.valid">
           {{ 'APP.SETTINGS.APPLY' | translate }}
         </button>
       </div>
@@ -77,11 +62,9 @@
       <ng-container *ngFor="let param of group.parameters">
         <ng-container [ngSwitch]="param.type">
           <ng-container *ngSwitchCase="'boolean'">
-            <mat-checkbox
-              [checked]="getBooleanParamValue(param)"
-              (change)="setParamValue(param, $event.checked)"
-              >{{ param.name | translate }}</mat-checkbox
-            >
+            <mat-checkbox [checked]="getBooleanParamValue(param)" (change)="setParamValue(param, $event.checked)">{{
+              param.name | translate
+            }}</mat-checkbox>
           </ng-container>
 
           <ng-container *ngSwitchCase="'string'">

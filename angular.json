@@ -423,6 +423,46 @@
           }
         }
       }
+    },
+    "aca-settings": {
+      "projectType": "library",
+      "root": "projects/aca-settings",
+      "sourceRoot": "projects/aca-settings/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/aca-settings/tsconfig.lib.json",
+            "project": "projects/aca-settings/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/aca-settings/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/aca-settings/src/test.ts",
+            "tsConfig": "projects/aca-settings/tsconfig.spec.json",
+            "karmaConfig": "projects/aca-settings/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/aca-settings/tsconfig.lib.json",
+              "projects/aca-settings/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "app",

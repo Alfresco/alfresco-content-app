@@ -4,7 +4,6 @@
 @import '../components/sidenav/sidenav.component.theme';
 @import '../components/search/search-input/search-input.component.theme';
 @import '../components/search/search-results-row/search-results-row.component.scss';
-@import '../components/settings/settings.component.theme';
 @import '../components/current-user/current-user.component.theme';
 @import '../components/permissions/permission-manager/permission-manager.component.theme';
 @import '../components/context-menu/context-menu.component.theme';
@@ -25,12 +24,9 @@
 $custom-theme-primary: mat-palette($aca-primary-blue, A100);
 $custom-theme-accent: mat-palette($aca-accent-green, A200);
 $custom-theme-warn: mat-palette($aca-warn, A100);
-$custom-theme: mat-light-theme(
-  $custom-theme-primary,
-  $custom-theme-accent,
-  $custom-theme-warn
-);
+$custom-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent, $custom-theme-warn);
 $foreground: map-get($custom-theme, foreground);
+$background: map-get($custom-theme, background);
 $warn: map-get($custom-theme, warn);
 
 @mixin custom-theme($theme) {
@@ -43,7 +39,6 @@ $warn: map-get($custom-theme, warn);
   @include aca-result-row-theme($theme);
   @include app-permission-manager-theme($theme);
   @include aca-node-versions-dialog-theme($theme);
-  @include aca-settings-theme($theme);
   @include snackbar-theme($theme);
   @include sidenav-component-theme($theme);
   @include aca-current-user-theme($theme);
@@ -92,7 +87,8 @@ $defaults: (
   --theme-title-color: mat-color($foreground, text, 0.87),
   --theme-text-disabled-color: mat-color($foreground, text, 0.38),
   --theme-border-color: mat-color($foreground, text, 0.07),
-  --header-background-image: url('/assets/images/mastHead-bg-shapesPattern.svg')
+  --header-background-image: url('/assets/images/mastHead-bg-shapesPattern.svg'),
+  --theme-card-background-color: mat-color($background, card)
 );
 
 // propagates SCSS variables into the CSS variables scope
