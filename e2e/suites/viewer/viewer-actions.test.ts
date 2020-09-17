@@ -35,6 +35,7 @@ import {
   ManageVersionsDialog,
   UploadNewVersionDialog
 } from '@alfresco/aca-testing-shared';
+import { browser } from 'protractor';
 
 describe('Viewer actions', () => {
   const username = `user-${Utils.random()}`;
@@ -232,6 +233,8 @@ describe('Viewer actions', () => {
       expect(await viewer.getFileTitle()).toContain(docxFile2);
       expect(await apis.user.nodes.getFileVersionType(filePersonalFilesId)).toEqual('MAJOR', 'File has incorrect version type');
       expect(await apis.user.nodes.getFileVersionLabel(filePersonalFilesId)).toEqual('2.0', 'File has incorrect version label');
+
+      await browser.refresh();
     });
 
     it('[MNT-21058] Upload new version action when node is locked', async () => {
@@ -251,6 +254,8 @@ describe('Viewer actions', () => {
       await toolbar.openMoreMenu();
       expect(await toolbar.menu.cancelEditingAction.isPresent()).toBe(false, `'Cancel Editing' button shouldn't be shown`);
       expect(await toolbar.menu.editOfflineAction.isPresent()).toBe(true, `'Edit Offline' should be shown`);
+
+      await browser.refresh();
     });
 
     it('[C279282] Full screen action', async () => {
@@ -460,6 +465,8 @@ describe('Viewer actions', () => {
       expect(await viewer.getFileTitle()).toContain(docxFile2);
       expect(await apis.user.nodes.getFileVersionType(fileLibrariesId)).toEqual('MAJOR', 'File has incorrect version type');
       expect(await apis.user.nodes.getFileVersionLabel(fileLibrariesId)).toEqual('2.0', 'File has incorrect version label');
+
+      await browser.refresh();
     });
 
     it('[C286374] Share action', async () => {
@@ -648,6 +655,8 @@ describe('Viewer actions', () => {
       expect(await viewer.getFileTitle()).toContain(docxFile2);
       expect(await apis.user.nodes.getFileVersionType(fileRecentId)).toEqual('MAJOR', 'File has incorrect version type');
       expect(await apis.user.nodes.getFileVersionLabel(fileRecentId)).toEqual('2.0', 'File has incorrect version label');
+
+      await browser.refresh();
     });
 
     it('[C286388] Share action', async () => {
@@ -844,6 +853,8 @@ describe('Viewer actions', () => {
       expect(await viewer.getFileTitle()).toContain(docxFile2);
       expect(await apis.user.nodes.getFileVersionType(fileSharedId)).toEqual('MAJOR', 'File has incorrect version type');
       expect(await apis.user.nodes.getFileVersionLabel(fileSharedId)).toEqual('2.0', 'File has incorrect version label');
+
+      await browser.refresh();
     });
 
     it('[C286381] Share action', async () => {
@@ -1040,6 +1051,8 @@ describe('Viewer actions', () => {
       expect(await viewer.getFileTitle()).toContain(docxFile2);
       expect(await apis.user.nodes.getFileVersionType(fileFavId)).toEqual('MAJOR', 'File has incorrect version type');
       expect(await apis.user.nodes.getFileVersionLabel(fileFavId)).toEqual('2.0', 'File has incorrect version label');
+
+      await browser.refresh();
     });
 
     it('[C286395] Share action', async () => {
