@@ -49,7 +49,7 @@ export class SitesApi extends RepoApi {
       await this.apiAuth();
       return await this.sitesApi.getSite(siteId);
     } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.getSite.name}`, error);
+      this.handleError(`SitesApi getSite : catch : `, error);
       return null;
     }
   }
@@ -59,17 +59,27 @@ export class SitesApi extends RepoApi {
       await this.apiAuth();
       return await this.sitesApi.listSiteMembershipsForPerson(this.getUsername());
     } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.getSites.name}`, error);
+      this.handleError(`SitesApi getSites : catch : `, error);
       return null;
     }
   }
 
-  async getDocLibId(siteId: string) {
+  async getSitesTotalItems(): Promise<number> {
+    try {
+      await this.apiAuth();
+      return (await this.sitesApi.listSiteMembershipsForPerson(this.getUsername())).list.pagination.totalItems;
+    } catch (error) {
+      this.handleError(`SitesApi getSitesTotalItems : catch : `, error);
+      return -1;
+    }
+  }
+
+  async getDocLibId(siteId: string): Promise<string> {
     try {
       await this.apiAuth();
       return (await this.sitesApi.listSiteContainers(siteId)).list.entries[0].entry.id;
     } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.getDocLibId.name}`, error);
+      this.handleError(`SitesApi getDocLibId : catch : `, error);
       return null;
     }
   }
@@ -79,7 +89,7 @@ export class SitesApi extends RepoApi {
       const site = await this.getSite(siteId);
       return site.entry.visibility;
     } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.getVisibility.name}`, error);
+      this.handleError(`SitesApi getVisibility : catch : `, error);
       return null;
     }
   }
@@ -89,7 +99,7 @@ export class SitesApi extends RepoApi {
       const site = await this.getSite(siteId);
       return site.entry.description;
     } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.getDescription.name}`, error);
+      this.handleError(`SitesApi getDescription : catch : `, error);
       return null;
     }
   }
@@ -99,7 +109,7 @@ export class SitesApi extends RepoApi {
       const site = await this.getSite(siteId);
       return site.entry.title;
     } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.getTitle.name}`, error);
+      this.handleError(`SitesApi getTitle : catch : `, error);
       return null;
     }
   }
@@ -116,7 +126,7 @@ export class SitesApi extends RepoApi {
       await this.apiAuth();
       return await this.sitesApi.createSite(site);
     } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.createSite.name}`, error);
+      this.handleError(`SitesApi createSite : catch : `, error);
       return null;
     }
   }
@@ -136,7 +146,7 @@ export class SitesApi extends RepoApi {
         return this.createSite(current, visibility);
       }, Promise.resolve());
     } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.createSites.name}`, error);
+      this.handleError(`SitesApi createSites : catch : `, error);
     }
   }
 
@@ -149,7 +159,7 @@ export class SitesApi extends RepoApi {
       await this.apiAuth();
       return await this.sitesApi.deleteSite(siteId, { permanent });
     } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.deleteSite.name}`, error);
+      this.handleError(`SitesApi deleteSite : catch : `, error);
     }
   }
 
@@ -160,7 +170,7 @@ export class SitesApi extends RepoApi {
         return this.deleteSite(current, permanent);
       }, Promise.resolve());
     } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.deleteSites.name}`, error);
+      this.handleError(`SitesApi deleteSites : catch : `, error);
     }
   }
 
@@ -173,7 +183,7 @@ export class SitesApi extends RepoApi {
         return this.deleteSite(current, permanent);
       }, Promise.resolve());
     } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.deleteAllUserSites.name}`, error);
+      this.handleError(`SitesApi deleteAllUserSites : catch : `, error);
     }
   }
 
@@ -186,7 +196,7 @@ export class SitesApi extends RepoApi {
       await this.apiAuth();
       return await this.sitesApi.updateSiteMembership(siteId, userId, siteRole);
     } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.updateSiteMember.name}`, error);
+      this.handleError(`SitesApi updateSiteMember : catch : `, error);
       return null;
     }
   }
@@ -201,8 +211,12 @@ export class SitesApi extends RepoApi {
       await this.apiAuth();
       return await this.sitesApi.createSiteMembership(siteId, memberBody);
     } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.addSiteMember.name}`, error);
-      return null;
+      if (error.status === 409) {
+        return this.updateSiteMember(siteId, userId, role);
+      } else {
+        this.handleError(`SitesApi addSiteMember : catch : `, error);
+        return null;
+      }
     }
   }
 
@@ -227,7 +241,7 @@ export class SitesApi extends RepoApi {
       await this.apiAuth();
       return await this.sitesApi.deleteSiteMembership(siteId, userId);
     } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.deleteSiteMember.name}`, error);
+      this.handleError(`SitesApi deleteSiteMember : catch : `, error);
     }
   }
 
@@ -240,7 +254,7 @@ export class SitesApi extends RepoApi {
       await this.apiAuth();
       return await this.sitesApi.createSiteMembershipRequestForPerson('-me-', body);
     } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.requestToJoin.name}`, error);
+      this.handleError(`SitesApi requestToJoin : catch : `, error);
       return null;
     }
   }
@@ -251,7 +265,7 @@ export class SitesApi extends RepoApi {
       const requests = (await this.sitesApi.getSiteMembershipRequests('-me-')).list.entries.map((e) => e.entry.id);
       return requests.includes(siteId);
     } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.hasMembershipRequest.name}`, error);
+      this.handleError(`SitesApi hasMembershipRequest : catch : `, error);
       return null;
     }
   }
@@ -259,7 +273,7 @@ export class SitesApi extends RepoApi {
   async waitForApi(data: { expect: number }) {
     try {
       const sites = async () => {
-        const totalItems = (await this.getSites()).list.pagination.totalItems;
+        const totalItems = await this.getSitesTotalItems();
         if (totalItems !== data.expect) {
           return Promise.reject(totalItems);
         } else {
@@ -269,7 +283,7 @@ export class SitesApi extends RepoApi {
 
       return await Utils.retryCall(sites);
     } catch (error) {
-      Logger.error(`${this.constructor.name} ${this.waitForApi.name} catch: `);
+      Logger.error(`SitesApi waitForApi : catch : `);
       Logger.error(`\tExpected: ${data.expect} items, but found ${error}`);
     }
   }

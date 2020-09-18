@@ -7,7 +7,7 @@ const fs = require('fs');
 const API_HOST = process.env.API_HOST || null;
 const API_CONTENT_HOST = process.env.API_CONTENT_HOST || API_HOST;
 const API_PROCESS_HOST = process.env.API_PROCESS_HOST || API_HOST;
-const API_AOS_HOST = process.env.AOS_HOST || API_HOST;
+const API_AOS_HOST = process.env.API_AOS_HOST || API_HOST;
 const OAUTH_HOST = process.env.OAUTH_HOST || 'oauth-host-default-replaced-value';
 const IDENTITY_HOST = process.env.IDENTITY_HOST || 'identity-host-default-replaced-value';
 const NOTIFICATION_LAST = parseInt(process.env.NOTIFICATION_LAST, 10) || 2000;
@@ -21,6 +21,7 @@ const options = {
       appConfig.apiHost = API_HOST;
       appConfig.bpmHost = API_PROCESS_HOST;
       appConfig.ecmHost = API_CONTENT_HOST;
+      appConfig.baseShareUrl = API_CONTENT_HOST + '/#/preview/s';
       appConfig.aosHost = API_AOS_HOST;
     }
   },

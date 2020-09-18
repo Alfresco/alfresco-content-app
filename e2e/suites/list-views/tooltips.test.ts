@@ -65,9 +65,12 @@ describe('File / folder tooltips', () => {
     file7Id = (await apis.user.nodes.createFile(fileNameEqDescDiffTitle, parentId, fileTitle, fileNameEqDescDiffTitle)).entry.id;
     file8Id = (await apis.user.nodes.createFile(fileTitleEqDesc, parentId, fileTitle, fileTitle)).entry.id;
 
+    const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
     await apis.user.shared.shareFilesByIds([file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id]);
 
     await apis.user.favorites.addFavoritesByIds('file', [file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id]);
+
+    await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 8 });
 
     await loginPage.loginWith(username);
     done();
@@ -161,7 +164,6 @@ describe('File / folder tooltips', () => {
   // disabled until ACA-518 is done
   xdescribe('on Shared Files', () => {
     beforeAll(async (done) => {
-      await apis.user.shared.waitForApi({ expect: 8 });
       await page.clickSharedFilesAndWait();
       done();
     });

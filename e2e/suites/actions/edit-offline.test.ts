@@ -129,8 +129,9 @@ describe('Edit offline', () => {
       await apis.user.nodes.lockFile(fileLockedId);
       await apis.user.nodes.lockFile(fileLocked2Id);
 
+      const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
       await apis.user.shared.shareFilesByIds([file1Id, fileLockedId, fileLocked2Id]);
-      await apis.user.shared.waitForApi({ expect: 3 });
+      await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 3 });
 
       await loginPage.loginWith(username);
     });
@@ -283,6 +284,7 @@ describe('Edit offline', () => {
     beforeAll(async () => {
       parentSearchId = (await apis.user.nodes.createFolder(parentSearch)).entry.id;
 
+      const initialSearchByTermTotalItems = await apis.user.search.getSearchByTermTotalItems('file-search');
       fileSearch1Id = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentSearchId, fileSearch1)).entry.id;
       fileSearchLockedId = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentSearchId, fileSearchLocked)).entry.id;
       fileSearchLocked2Id = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentSearchId, fileSearchLocked2)).entry.id;
@@ -290,7 +292,7 @@ describe('Edit offline', () => {
       await apis.user.nodes.lockFile(fileSearchLockedId);
       await apis.user.nodes.lockFile(fileSearchLocked2Id);
 
-      await apis.user.search.waitForNodes('file-search', { expect: 3 });
+      await apis.user.search.waitForNodes('file-search', { expect: initialSearchByTermTotalItems + 3 });
 
       await loginPage.loginWith(username);
     });

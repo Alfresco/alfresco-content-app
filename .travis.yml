@@ -1,13 +1,12 @@
 dist: bionic
 sudo: required
 services:
-  - docker
   - xvfb
 addons:
   chrome: stable
 language: node_js
 node_js:
-  - '12.14.0'
+  - '12.18.1'
 
 cache:
   directories:
@@ -21,9 +20,6 @@ branches:
     - /.*beta.*/
 
 before_install:
-  - sudo /etc/init.d/postgresql stop
-  - npm install -g npm@latest
-  - sleep 3
   - . ./scripts/ci/job_hooks/before_install.sh
 
 install: echo "no install"
@@ -39,6 +35,13 @@ stages:
   - name: e2e
   - name: Trigger DW
     if: (branch = master OR branch = develop OR (tag =~ .*beta.*)) AND (type = push OR type = api)
+
+env:
+  global:
+    - API_CONTENT_HOST=$API_CONTENT_HOST_REMOTE
+    - API_AOS_HOST=$API_CONTENT_HOST_REMOTE
+    - ADMIN_EMAIL=$ADMIN_EMAIL_REMOTE
+    - ADMIN_PASSWORD=$ADMIN_PASSWORD_REMOTE
 
 jobs:
   include:
@@ -82,59 +85,47 @@ jobs:
       cache: false
 
     - stage: e2e
-      name: Test Suite appNavigation&search
+      name: 'Test Suite appNavigation & search'
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a"
-        - ./start.sh
-      script: ng run app-e2e:e2elite --suite "authentication,listViews,navigation,application,pagination,search"
+      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=authentication,listViews,navigation,application,pagination,search"
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
-        - ./start.sh -d
 
-    - name: Test Suite actionsAvailable
+    - name: 'Test Suite actionsAvailable'
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a"
-        - ./start.sh
-      script: ng run app-e2e:e2elite --suite "actionsAvailable"
+      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=actionsAvailable"
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
-        - ./start.sh -d
 
-    - name: Test Suite addRemoveContent
+    - name: 'Test Suite addRemoveContent'
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a"
-        - ./start.sh
-      script: ng run app-e2e:e2elite --suite "addRemoveContent"
+      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=addRemoveContent"
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
-        - ./start.sh -d
 
-    - name: Test Suite manageContent
+    - name: 'Test Suite manageContent'
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a"
-        - ./start.sh
-      script: ng run app-e2e:e2elite --suite "manageContent"
+      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=manageContent"
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
-        - ./start.sh -d
 
-    - name: Test Suite sharingContent&markFavorite
+    - name: 'Test Suite sharingContent & markFavorite'
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a"
-        - ./start.sh
-      script: ng run app-e2e:e2elite --suite "sharingContent"
+      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=sharingContent"
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
-        - ./start.sh -d
 
-    - name: Test Suite viewContent&metadata&extensions
+    - name: 'Test Suite viewContent & metadata & extensions'
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a"
-        - ./start.sh
-      script: ng run app-e2e:e2elite --suite "viewer,infoDrawer,extensions"
+      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=viewer,infoDrawer,extensions"
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
-        - ./start.sh -d
 
     - stage: Update Rancher
       name: Update Rancher
@@ -151,11 +142,6 @@ jobs:
 
     - stage: Trigger DW
       script: ./scripts/trigger-travis.sh --pro --branch $TRAVIS_BRANCH Alfresco alfresco-digital-workspace-app $TRAVIS_ACCESS_TOKEN
-
-after_failure:
-  - alfrescoContainerId=$(docker ps -a | grep 'alfresco-content-repository-community' | awk '{print $1}')
-  - docker logs $alfrescoContainerId > alfresco.log
-  - cat alfresco.log
 
 notifications:
   slack:

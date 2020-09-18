@@ -40,7 +40,7 @@ export class TrashcanApi extends RepoApi {
       await this.apiAuth();
       return await this.trashcanApi.deleteDeletedNode(id);
     } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.permanentlyDelete.name}`, error);
+      this.handleError(`TrashcanApi permanentlyDelete : catch : `, error);
     }
   }
 
@@ -49,7 +49,7 @@ export class TrashcanApi extends RepoApi {
       await this.apiAuth();
       return await this.trashcanApi.restoreDeletedNode(id);
     } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.restore.name}`, error);
+      this.handleError(`TrashcanApi restore : catch : `, error);
       return null;
     }
   }
@@ -62,8 +62,21 @@ export class TrashcanApi extends RepoApi {
       await this.apiAuth();
       return await this.trashcanApi.listDeletedNodes(opts);
     } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.getDeletedNodes.name}`, error);
+      this.handleError(`TrashcanApi getDeletedNodes : catch : `, error);
       return null;
+    }
+  }
+
+  async getDeletedNodesTotalItems(): Promise<number> {
+    const opts = {
+      maxItems: 1000
+    };
+    try {
+      await this.apiAuth();
+      return (await this.trashcanApi.listDeletedNodes(opts)).list.pagination.totalItems;
+    } catch (error) {
+      this.handleError(`TrashcanApi getDeletedNodesTotalItems : catch : `, error);
+      return -1;
     }
   }
 
@@ -76,14 +89,14 @@ export class TrashcanApi extends RepoApi {
         return this.permanentlyDelete(current);
       }, Promise.resolve());
     } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.emptyTrash.name}`, error);
+      this.handleError(`TrashcanApi emptyTrash : catch : `, error);
     }
   }
 
   async waitForApi(data: { expect: number }) {
     try {
       const deletedFiles = async () => {
-        const totalItems = (await this.getDeletedNodes()).list.pagination.totalItems;
+        const totalItems = await this.getDeletedNodesTotalItems();
         if (totalItems !== data.expect) {
           return Promise.reject(totalItems);
         } else {
@@ -93,7 +106,7 @@ export class TrashcanApi extends RepoApi {
 
       return await Utils.retryCall(deletedFiles);
     } catch (error) {
-      Logger.error(`${this.constructor.name} ${this.waitForApi.name} catch: `);
+      Logger.error(`TrashcanApi waitForApi :  catch : `);
       Logger.error(`\tExpected: ${data.expect} items, but found ${error}`);
     }
   }

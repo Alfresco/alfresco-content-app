@@ -72,6 +72,11 @@ describe('Special permissions : ', () => {
     await adminApiActions.createUser({ username: userCollaborator });
     await adminApiActions.createUser({ username: userDemoted });
 
+    const consumerFavoritesTotalItems = await userConsumerApi.favorites.getFavoritesTotalItems();
+    const consumerSharedTotalItems = await userConsumerApi.shared.getSharedLinksTotalItems();
+    const managerSearchTotalItems = await userManagerApi.search.getTotalItems(userManager);
+    const collaboratorFavoritesTotalItems = await userCollaboratorApi.favorites.getFavoritesTotalItems();
+
     await userManagerApi.sites.createSitePrivate(sitePrivate);
     const docLibId = await userManagerApi.sites.getDocLibId(sitePrivate);
     await userManagerApi.sites.addSiteConsumer(sitePrivate, userConsumer);
@@ -135,10 +140,10 @@ describe('Special permissions : ', () => {
     await userManagerApi.favorites.addFavoriteById('file', fileLockedByUserId);
 
     await Promise.all([
-      userConsumerApi.favorites.waitForApi({ expect: 9 }),
-      userConsumerApi.shared.waitForApi({ expect: 8 }),
-      userManagerApi.search.waitForApi(userManager, { expect: 14 }),
-      userCollaboratorApi.favorites.waitForApi({ expect: 2 })
+      userConsumerApi.favorites.waitForApi({ expect: consumerFavoritesTotalItems + 9 }),
+      userConsumerApi.shared.waitForApi({ expect: consumerSharedTotalItems + 8 }),
+      userManagerApi.search.waitForApi(userManager, { expect: managerSearchTotalItems + 14 }),
+      userCollaboratorApi.favorites.waitForApi({ expect: collaboratorFavoritesTotalItems + 2 })
     ]);
   });
 

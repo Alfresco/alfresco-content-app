@@ -197,6 +197,10 @@ describe('Breadcrumb', () => {
       await apis.admin.people.createUser({ username: user2 });
       userFolderId = (await user2Api.nodes.createFolder(userFolder)).entry.id;
       await loginPage.loginWithAdmin();
+      await page.dataTable.waitForBody();
+
+      await page.dataTable.sortByModified('desc');
+
       done();
     });
 

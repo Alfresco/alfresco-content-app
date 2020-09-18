@@ -42,45 +42,45 @@ describe('Library actions : ', () => {
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
 
+    const initialAdminSitesTotalItems = await adminApiActions.sites.getSitesTotalItems();
+    const initialUserSitesTotalItems = await userApi.sites.getSitesTotalItems();
+    const initialDeletedTotalItems = await userApi.trashcan.getDeletedNodesTotalItems();
+    const initialQuerySitesTotalItems = await userApi.queries.findSitesTotalItems('actionsSite-');
+
     await userApi.sites.createSite(testData.publicUserMemberFav.name);
     await userApi.sites.createSitePrivate(testData.privateUserMemberFav.name);
     await userApi.sites.createSiteModerated(testData.moderatedUserMemberFav.name);
-
     const publicUserMemberNotFavId = (await userApi.sites.createSite(testData.publicUserMemberNotFav.name)).entry.guid;
     const privateUserMemberNotFavId = (await userApi.sites.createSitePrivate(testData.privateUserMemberNotFav.name)).entry.guid;
     const moderatedUserMemberNotFavId = (await userApi.sites.createSiteModerated(testData.moderatedUserMemberNotFav.name)).entry.guid;
 
     await adminApiActions.sites.createSite(testData.publicNotMemberFav.name);
     await adminApiActions.sites.createSiteModerated(testData.moderatedNotMemberFav.name);
-
     await adminApiActions.sites.createSite(testData.publicNotMemberNotFav.name);
     await adminApiActions.sites.createSiteModerated(testData.moderatedNotMemberNotFav.name);
-
     await adminApiActions.sites.createSiteModerated(testData.moderatedRequestedJoinFav.name);
     await adminApiActions.sites.createSiteModerated(testData.moderatedRequestedJoinNotFav.name);
 
-    await userApi.sites.createSite(testData.siteInTrash.name);
-    await userApi.sites.createSite(testData.site2InTrash.name);
-
-    await Promise.all([userApi.sites.waitForApi({ expect: 8 }), adminApiActions.sites.waitForApi({ expect: 6 + 1 })]);
+    await userApi.sites.requestToJoin(testData.moderatedRequestedJoinFav.name);
+    await userApi.sites.requestToJoin(testData.moderatedRequestedJoinNotFav.name);
 
     await userApi.favorites.removeFavoritesByIds([publicUserMemberNotFavId, privateUserMemberNotFavId, moderatedUserMemberNotFavId]);
-
     await userApi.favorites.addFavoritesByIds('site', [
       testData.publicNotMemberFav.name,
       testData.moderatedNotMemberFav.name,
       testData.moderatedRequestedJoinFav.name
     ]);
 
-    await userApi.sites.requestToJoin(testData.moderatedRequestedJoinFav.name);
-    await userApi.sites.requestToJoin(testData.moderatedRequestedJoinNotFav.name);
+    await userApi.sites.waitForApi({ expect: initialUserSitesTotalItems + 6 });
+    await adminApiActions.sites.waitForApi({ expect: initialAdminSitesTotalItems + 6 });
+    await userApi.queries.waitForSites('actionsSite-', { expect: initialQuerySitesTotalItems + 12 });
 
-    await userApi.queries.waitForSites('site-', { expect: 14 + 1 });
+    await userApi.sites.createSite(testData.siteInTrash.name);
+    await userApi.sites.createSite(testData.site2InTrash.name);
 
     await userApi.sites.deleteSite(testData.siteInTrash.name, false);
     await userApi.sites.deleteSite(testData.site2InTrash.name, false);
-
-    await userApi.trashcan.waitForApi({ expect: 2 });
+    await userApi.trashcan.waitForApi({ expect: initialDeletedTotalItems + 2 });
 
     await loginPage.loginWith(username);
   });
@@ -243,7 +243,7 @@ describe('Library actions : ', () => {
       await page.clickPersonalFiles();
       await searchInput.clickSearchButton();
       await searchInput.checkLibraries();
-      await searchInput.searchFor('site-');
+      await searchInput.searchFor('actionsSite-');
     });
 
     beforeEach(async () => {

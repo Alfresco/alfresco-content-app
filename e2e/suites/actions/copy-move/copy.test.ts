@@ -41,42 +41,42 @@ describe('Copy content', () => {
   const destinationSearch = `destinationSearch-${Utils.random()}`;
   let destinationIdSearch: string;
 
-  const file1 = `file1-${Utils.random()}.txt`;
+  const file1 = `copy-file1-${Utils.random()}.txt`;
   let file1Id: string;
 
-  const folder1 = `folder1-${Utils.random()}`;
+  const folder1 = `copy-folder1-${Utils.random()}`;
   let folder1Id: string;
-  const fileInFolder = `fileInFolder-${Utils.random()}.txt`;
+  const fileInFolder = `copy-fileInFolder-${Utils.random()}.txt`;
   let fileInFolderId: string;
 
-  const folder2 = `folder2-${Utils.random()}`;
+  const folder2 = `copy-folder2-${Utils.random()}`;
   let folder2Id: string;
   const fileInFolder2 = fileInFolder;
 
-  const folderExisting = `folder-existing-${Utils.random()}`;
+  const folderExisting = `copy-folder-existing-${Utils.random()}`;
   let folderExistingId: string;
-  const file1InFolderExisting = `file1InFolderExisting-${Utils.random()}.txt`;
-  const file2InFolderExisting = `file2InFolderExisting-${Utils.random()}.txt`;
+  const file1InFolderExisting = `copy-file1InFolderExisting-${Utils.random()}.txt`;
+  const file2InFolderExisting = `copy-file2InFolderExisting-${Utils.random()}.txt`;
 
-  const file2 = `file2-${Utils.random()}.txt`;
+  const file2 = `copy-file2-${Utils.random()}.txt`;
   let file2Id: string;
-  const file3 = `file3-${Utils.random()}.txt`;
+  const file3 = `copy-file3-${Utils.random()}.txt`;
   let file3Id: string;
-  const file4 = `file4-${Utils.random()}.txt`;
+  const file4 = `copy-file4-${Utils.random()}.txt`;
   let file4Id: string;
 
-  const fileLocked1 = `file-locked1-${Utils.random()}.txt`;
+  const fileLocked1 = `copy-file-locked1-${Utils.random()}.txt`;
   let fileLocked1Id: string;
 
-  const folderWithLockedFiles = `folder-locked1-${Utils.random()}`;
+  const folderWithLockedFiles = `copy-folder-locked1-${Utils.random()}`;
   let folderWithLockedFilesId: string;
-  const fileLockedInFolder = `file-locked-${Utils.random()}`;
+  const fileLockedInFolder = `copy-file-locked-${Utils.random()}`;
   let fileLockedInFolderId: string;
 
-  const existingFile = `existing-${Utils.random()}.txt`;
+  const existingFile = `copy-existing-${Utils.random()}.txt`;
   let existingFileToCopyId: string;
 
-  const existingFolder = `existing-${Utils.random()}`;
+  const existingFolder = `copy-existing-${Utils.random()}`;
   let existingFolderToCopyId: string;
 
   let existingIdPF: string;
@@ -86,15 +86,15 @@ describe('Copy content', () => {
   let folderExistingFavId: string;
   let folderExistingSearchId: string;
 
-  const file2InFolder = `file2InFolder-${Utils.random()}.txt`;
-  const file3InFolder = `file3InFolder-${Utils.random()}.txt`;
+  const file2InFolder = `copy-file2InFolder-${Utils.random()}.txt`;
+  const file3InFolder = `copy-file3InFolder-${Utils.random()}.txt`;
 
-  const siteName = `site-${Utils.random()}`;
-  const folderSitePF = `folderSitePersonal-${Utils.random()}`;
-  const folderSiteRF = `folderSiteRecent-${Utils.random()}`;
-  const folderSiteSF = `folderSiteShared-${Utils.random()}`;
-  const folderSiteFav = `folderSiteFav-${Utils.random()}`;
-  const folderSiteSearch = `folderSiteSearch-${Utils.random()}`;
+  const siteName = `copy-site-${Utils.random()}`;
+  const folderSitePF = `copy-folderSitePersonal-${Utils.random()}`;
+  const folderSiteRF = `copy-folderSiteRecent-${Utils.random()}`;
+  const folderSiteSF = `copy-folderSiteShared-${Utils.random()}`;
+  const folderSiteFav = `copy-folderSiteFav-${Utils.random()}`;
+  const folderSiteSearch = `copy-folderSiteSearch-${Utils.random()}`;
 
   let locationId: string;
   let destinationId: string;
@@ -112,6 +112,9 @@ describe('Copy content', () => {
 
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
+
+    const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
+    const initialFavoritesTotalItems = await apis.user.favorites.getFavoritesTotalItems();
 
     sourceId = (await apis.user.nodes.createFolder(source)).entry.id;
     destinationIdPF = (await apis.user.nodes.createFolder(destinationPF)).entry.id;
@@ -202,8 +205,8 @@ describe('Copy content', () => {
     await apis.user.nodes.createFolder(folderSiteFav, docLibId);
     await apis.user.nodes.createFolder(folderSiteSearch, docLibId);
 
-    await apis.user.shared.waitForApi({ expect: 7 });
-    await apis.user.favorites.waitForApi({ expect: 13 });
+    await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 7 });
+    await apis.user.favorites.waitForApi({ expect: initialFavoritesTotalItems + 13 });
 
     await loginPage.loginWith(username);
     done();
@@ -404,7 +407,7 @@ describe('Copy content', () => {
 
     it('[C306944] Copy multiple items', async () =>
       copyMultipleItems([file2, file3], source, destinationSearch, async () => {
-        await searchInput.searchFor('file');
+        await searchInput.searchFor('copy-file');
         await dataTable.waitForBody();
       }));
 
@@ -422,7 +425,7 @@ describe('Copy content', () => {
 
     it('[C306942] Copy items into a library', async () =>
       copyItemsIntoLibrary([file1, file2], source, folderSiteSearch, async () => {
-        await searchInput.searchFor('file');
+        await searchInput.searchFor('copy-file');
         await dataTable.waitForBody();
       }));
 

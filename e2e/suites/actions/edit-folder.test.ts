@@ -83,6 +83,7 @@ describe('Edit folder', () => {
 
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
+
     await apis.admin.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
     const docLibId = await apis.admin.sites.getDocLibId(sitePrivate);
     await apis.admin.nodes.createFolder(folderName, docLibId);
@@ -103,6 +104,7 @@ describe('Edit folder', () => {
     folderFavoriteToEditId = (await apis.user.nodes.createFolder(folderFavoriteToEdit)).entry.id;
     folderFavoriteDuplicateId = (await apis.user.nodes.createFolder(folderFavoriteDuplicate)).entry.id;
 
+    const initialSearchByTermTotalItems = await apis.user.search.getSearchByTermTotalItems('folder-search');
     await apis.user.nodes.createFolder(folderSearch);
     folderSearchToEditId = (await apis.user.nodes.createFolder(folderSearchToEdit)).entry.id;
     await apis.user.nodes.createFolder(folderSearchDuplicate);
@@ -110,6 +112,8 @@ describe('Edit folder', () => {
     await apis.user.favorites.addFavoriteById('folder', folderFavoriteId);
     await apis.user.favorites.addFavoriteById('folder', folderFavoriteToEditId);
     await apis.user.favorites.addFavoriteById('folder', folderFavoriteDuplicateId);
+
+    await apis.user.search.waitForNodes('folder-search', { expect: initialSearchByTermTotalItems + 3 });
 
     await loginPage.loginWith(username);
     done();
@@ -314,11 +318,6 @@ describe('Edit folder', () => {
   });
 
   describe('on Search Results', () => {
-    beforeAll(async (done) => {
-      await apis.user.search.waitForNodes('folder-search', { expect: 3 });
-      done();
-    });
-
     it('[C306947] properties are modified when pressing OK', async () => {
       await page.clickPersonalFiles();
       await searchInput.clickSearchButton();

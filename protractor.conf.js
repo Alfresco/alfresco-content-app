@@ -2,18 +2,19 @@
 // https://github.com/angular/protractor/blob/master/lib/config.ts
 
 const path = require('path');
-const {SpecReporter} = require('jasmine-spec-reporter');
+const { SpecReporter } = require('jasmine-spec-reporter');
 const fs = require('fs');
 const resolve = require('path').resolve;
 const logger = require('./tools/helpers/logger');
-const retry = require('protractor-retry').retry;
+const retry = require('protractor-retry-angular-cli').retry;
 const { uploadScreenshot } = require('./e2e/e2e-config/utils/upload-output');
 
-require('dotenv').config({path: process.env.ENV_FILE});
+require('dotenv').config({ path: process.env.ENV_FILE });
 
 const SmartRunner = require('protractor-smartrunner');
 const projectRoot = path.resolve(__dirname);
 const downloadFolder = path.join(__dirname, 'e2e-downloads');
+const screenshotsFolder = path.resolve(__dirname, 'e2e-output');
 const e2eFolder = path.resolve(projectRoot, 'e2e');
 const E2E_HOST = process.env.E2E_HOST || 'http://localhost:4200';
 const BROWSER_RUN = process.env.BROWSER_RUN;
@@ -47,7 +48,7 @@ const appConfig = {
 };
 
 exports.config = {
-  allScriptsTimeout: 50000,
+  allScriptsTimeout: 150000,
 
   params: {
     config: appConfig,
@@ -112,7 +113,6 @@ exports.config = {
   SELENIUM_PROMISE_MANAGER: false,
 
   capabilities: {
-
     loggingPrefs: {
       browser: 'ALL' // "OFF", "SEVERE", "WARNING", "INFO", "CONFIG", "FINE", "FINER", "FINEST", "ALL".
     },
@@ -121,30 +121,32 @@ exports.config = {
 
     maxInstances: MAXINSTANCES,
 
-    shardTestFiles: true,
+    shardTestFiles: MAXINSTANCES > 1,
 
     chromeOptions: {
       prefs: {
-        'credentials_enable_service': false,
-        'download': {
-          'prompt_for_download': false,
-          'directory_upgrade': true,
-          'default_directory': downloadFolder
+        credentials_enable_service: false,
+        download: {
+          prompt_for_download: false,
+          directory_upgrade: true,
+          default_directory: downloadFolder
         },
-        'browser': {
-          'setDownloadBehavior': {
-            'behavior': 'allow',
-            'downloadPath': downloadFolder
+        browser: {
+          setDownloadBehavior: {
+            behavior: 'allow',
+            downloadPath: downloadFolder
           }
         }
       },
-      args: ['--incognito',
+      args: [
+        '--incognito',
         `--window-size=${width},${height}`,
         '--disable-gpu',
         '--no-sandbox',
         '--disable-web-security',
         '--disable-browser-side-navigation',
-        ...(BROWSER_RUN === true ? [] : ['--headless'])]
+        ...(BROWSER_RUN === true ? [] : ['--headless'])
+      ]
     }
   },
 
@@ -152,27 +154,31 @@ exports.config = {
 
   baseUrl: E2E_HOST,
 
-  getPageTimeout: 50000,
+  getPageTimeout: 150000,
 
   framework: 'jasmine',
   jasmineNodeOpts: {
     showColors: true,
-    defaultTimeoutInterval: 100000,
-    print: function () {
-    },
-    ...(process.env.CI ? SmartRunner.withOptionalExclusions(resolve(__dirname, './e2e/protractor.excludes.json')) : {})
+    defaultTimeoutInterval: 150000,
+    includeStackTrace: true,
+    print: function () {},
+    ...SmartRunner.withOptionalExclusions(resolve(__dirname, './e2e/protractor.excludes.json'))
   },
 
-  plugins: [{
-    package: 'protractor-screenshoter-plugin',
-    screenshotPath: path.resolve(__dirname, '../e2e-output/'),
-    screenshotOnExpect: 'failure',
-    withLogs: true,
-    writeReportFreq: 'end',
-    imageToAscii: 'none',
-    htmlOnExpect: 'none',
-    htmlOnSpec: 'none'
-  }],
+  plugins: [
+    {
+      package: 'protractor-screenshoter-plugin',
+      screenshotPath: screenshotsFolder,
+      screenshotOnExpect: 'failure',
+      screenshotOnSpec: 'none',
+      withLogs: true,
+      writeReportFreq: 'end',
+      imageToAscii: 'none',
+      htmlOnExpect: 'none',
+      htmlOnSpec: 'none',
+      clearFoldersBeforeTest: true
+    }
+  ],
 
   onCleanUp(results) {
     if (process.env.CI) {
@@ -182,12 +188,12 @@ exports.config = {
 
   onPrepare() {
     if (process.env.CI) {
+      retry.onPrepare();
       const repoHash = process.env.GIT_HASH || '';
       const outputDirectory = process.env.SMART_RUNNER_DIRECTORY;
-      logger.info(`SmartRunner's repoHash: "${repoHash}"`);
+      logger.info(`SmartRunner's repoHash : "${repoHash}"`);
       logger.info(`SmartRunner's outputDirectory: "${outputDirectory}"`);
-      SmartRunner.apply({outputDirectory, repoHash});
-      retry.onPrepare();
+      SmartRunner.apply({ outputDirectory, repoHash });
     }
 
     const tsConfigPath = path.resolve(e2eFolder, 'tsconfig.e2e.json');
@@ -230,7 +236,7 @@ exports.config = {
       console.log(`Save screenshot is ${SAVE_SCREENSHOT}, trying to save screenshots.`);
 
       try {
-        await uploadScreenshot(1, 'ACA');
+        await uploadScreenshot(1);
         console.log('Screenshots saved successfully.');
       } catch (e) {
         console.log('Error happened while trying to upload screenshots and test reports: ', e);

@@ -23,14 +23,16 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BrowsingPage, Utils } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, LoginPage, Utils } from '@alfresco/aca-testing-shared';
 
-export function personalFilesTests(parentName: string) {
+export function personalFilesTests(username: string, parentName: string) {
   const page = new BrowsingPage();
+  const loginPage = new LoginPage();
   const { dataTable, pagination } = page;
 
   describe('Pagination controls : ', () => {
     beforeAll(async () => {
+      await loginPage.loginWith(username);
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(parentName);
       await dataTable.waitForHeader();
@@ -40,7 +42,7 @@ export function personalFilesTests(parentName: string) {
       await Utils.pressEscape();
     });
 
-    it('Pagination control default values - [C280077]', async () => {
+    it('[C280077] Pagination control default values', async () => {
       expect(await pagination.getRange()).toContain('1-25 of 101');
       expect(await pagination.getMaxItems()).toContain('25');
       expect(await pagination.getCurrentPage()).toContain('Page 1');
@@ -49,7 +51,7 @@ export function personalFilesTests(parentName: string) {
       expect(await pagination.isNextEnabled()).toBe(true, 'Next button is not enabled');
     });
 
-    it('Items per page values - [C280078]', async () => {
+    it('[C280078] Items per page values', async () => {
       await pagination.openMaxItemsMenu();
       expect(await pagination.menu.getNthItem(1).getText()).toBe('25');
       expect(await pagination.menu.getNthItem(2).getText()).toBe('50');
@@ -57,7 +59,7 @@ export function personalFilesTests(parentName: string) {
       await pagination.menu.closeMenu();
     });
 
-    it('current page menu items - [C280079]', async () => {
+    it('[C280079] current page menu items', async () => {
       await pagination.openMaxItemsMenu();
       await pagination.menu.clickMenuItem('25');
       expect(await pagination.getMaxItems()).toContain('25');
@@ -85,7 +87,7 @@ export function personalFilesTests(parentName: string) {
       await pagination.resetToDefaultPageSize();
     });
 
-    it('change the current page from menu - [C280080]', async () => {
+    it('[C280080] change the current page from menu', async () => {
       await pagination.openCurrentPageMenu();
       await pagination.menu.clickNthItem(3);
       await dataTable.waitForHeader();
@@ -98,7 +100,7 @@ export function personalFilesTests(parentName: string) {
       await pagination.resetToDefaultPageNumber();
     });
 
-    it('navigate to next and previous pages - [C280083]', async () => {
+    it('[C280083] navigate to next and previous pages', async () => {
       await pagination.clickNext();
       await dataTable.waitForHeader();
       expect(await pagination.getRange()).toContain('26-50 of 101');
@@ -116,12 +118,12 @@ export function personalFilesTests(parentName: string) {
       await pagination.resetToDefaultPageNumber();
     });
 
-    it('Previous button is disabled on first page - [C280081]', async () => {
+    it('[C280081] Previous button is disabled on first page', async () => {
       expect(await pagination.getCurrentPage()).toContain('Page 1');
       expect(await pagination.isPreviousEnabled()).toBe(false, 'Previous button is enabled on first page');
     });
 
-    it('Next button is disabled on last page - [C280082]', async () => {
+    it('[C280082] Next button is disabled on last page', async () => {
       await pagination.openCurrentPageMenu();
       await pagination.menu.clickNthItem(5);
       expect(await dataTable.getRowsCount()).toBe(1, 'Incorrect number of items on the last page');

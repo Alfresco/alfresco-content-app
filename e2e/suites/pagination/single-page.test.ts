@@ -50,6 +50,11 @@ describe('Pagination on single page', () => {
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
 
+    const initialFavoriteTotalItems = await userApi.favorites.getFavoritesTotalItems();
+    const initialRecentFilesTotalItems = await userApi.search.getTotalItems(username);
+    const initialSharedTotalItems = await userApi.shared.getSharedLinksTotalItems();
+    const initialTrashTotalItems = await userApi.trashcan.getDeletedNodesTotalItems();
+
     fileId = (await userApi.nodes.createFile(file)).entry.id;
     fileInTrashId = (await userApi.nodes.createFile(fileInTrash)).entry.id;
     siteId = (await userApi.sites.createSite(siteName)).entry.id;
@@ -59,10 +64,10 @@ describe('Pagination on single page', () => {
     await userApi.shared.shareFileById(fileId);
 
     await Promise.all([
-      userApi.favorites.waitForApi({ expect: 2 }),
-      userApi.search.waitForApi(username, { expect: 1 }),
-      userApi.shared.waitForApi({ expect: 1 }),
-      userApi.trashcan.waitForApi({ expect: 1 })
+      userApi.favorites.waitForApi({ expect: initialFavoriteTotalItems + 2 }),
+      userApi.search.waitForApi(username, { expect: initialRecentFilesTotalItems + 1 }),
+      userApi.shared.waitForApi({ expect: initialSharedTotalItems + 1 }),
+      userApi.trashcan.waitForApi({ expect: initialTrashTotalItems + 1 })
     ]);
 
     await loginPage.loginWith(username);

@@ -100,25 +100,14 @@ describe('Mark items as favorites', () => {
     fileFav4Id = (await apis.user.nodes.createFile(fileFav4, parentId)).entry.id;
     folderId = (await apis.user.nodes.createFolder(folder, parentId)).entry.id;
 
-    fileSearchNotFav1Id = (await apis.user.nodes.createFile(fileSearchNotFav1, parentId)).entry.id;
-    fileSearchNotFav2Id = (await apis.user.nodes.createFile(fileSearchNotFav2, parentId)).entry.id;
-    fileSearchNotFav3Id = (await apis.user.nodes.createFile(fileSearchNotFav3, parentId)).entry.id;
-    fileSearchNotFav4Id = (await apis.user.nodes.createFile(fileSearchNotFav4, parentId)).entry.id;
-    fileSearchFav1Id = (await apis.user.nodes.createFile(fileSearchFav1, parentId)).entry.id;
-    fileSearchFav2Id = (await apis.user.nodes.createFile(fileSearchFav2, parentId)).entry.id;
-    fileSearchFav3Id = (await apis.user.nodes.createFile(fileSearchFav3, parentId)).entry.id;
-    fileSearchFav4Id = (await apis.user.nodes.createFile(fileSearchFav4, parentId)).entry.id;
-    folderSearchId = (await apis.user.nodes.createFolder(folderSearch, parentId)).entry.id;
-
-    const currentFavoritesFiles = (await apis.user.favorites.getFavorites()).list.pagination.totalItems;
+    const currentFavoritesTotalItems = await apis.user.favorites.getFavoritesTotalItems();
     await apis.user.favorites.addFavoritesByIds('file', [fileFavUIId, fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id]);
-    await apis.user.favorites.addFavoritesByIds('file', [fileSearchFav1Id, fileSearchFav2Id, fileSearchFav3Id, fileSearchFav4Id]);
-    await apis.user.favorites.waitForApi({ expect: currentFavoritesFiles + 9 });
+    await apis.user.favorites.waitForApi({ expect: currentFavoritesTotalItems + 5 });
 
-    const currentSharedFiles = (await apis.user.shared.getSharedLinks()).list.pagination.totalItems;
+    const currentSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
     await apis.user.shared.shareFilesByIds([fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id]);
     await apis.user.shared.shareFilesByIds([fileNotFav1Id, fileNotFav2Id, fileNotFav3Id, fileNotFav4Id]);
-    await apis.user.shared.waitForApi({ expect: currentSharedFiles + 8 });
+    await apis.user.shared.waitForApi({ expect: currentSharedTotalItems + 8 });
 
     await loginPage.loginWith(username);
     done();
@@ -140,7 +129,6 @@ describe('Mark items as favorites', () => {
         await apis.user.favorites.addFavoritesByIds('file', [fileFavUIId, fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id]);
         await apis.user.favorites.addFavoriteById('folder', folderId);
         await apis.user.favorites.removeFavoritesByIds([fileNotFav1Id, fileNotFav2Id, fileNotFav3Id, fileNotFav4Id]);
-        await apis.user.favorites.waitForApi({ expect: 10 });
       } catch (error) {}
       done();
     });
@@ -224,10 +212,8 @@ describe('Mark items as favorites', () => {
   describe('on Recent Files', () => {
     afterAll(async (done) => {
       try {
-        const currentFavoritesFiles = (await apis.user.favorites.getFavorites()).list.pagination.totalItems;
         await apis.user.favorites.addFavoritesByIds('file', [fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id]);
         await apis.user.favorites.removeFavoritesByIds([fileNotFav1Id, fileNotFav2Id, fileNotFav3Id, fileNotFav4Id]);
-        await apis.user.favorites.waitForApi({ expect: currentFavoritesFiles - 1 });
       } catch (error) {}
       done();
     });
@@ -282,7 +268,6 @@ describe('Mark items as favorites', () => {
       try {
         await apis.user.favorites.addFavoritesByIds('file', [fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id]);
         await apis.user.favorites.removeFavoritesByIds([fileNotFav1Id, fileNotFav2Id, fileNotFav3Id, fileNotFav4Id]);
-        await apis.user.favorites.waitForApi({ expect: 10 });
       } catch (error) {}
       done();
     });
@@ -336,16 +321,14 @@ describe('Mark items as favorites', () => {
     afterAll(async (done) => {
       try {
         await apis.user.favorites.addFavoritesByIds('file', [fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id]);
-        await apis.user.favorites.waitForApi({ expect: 10 });
       } catch (error) {}
       done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await Utils.pressEscape();
       await page.refresh();
       await page.clickFavoritesAndWait();
-      done();
     });
 
     it('[C280368] unfavorite an item', async () => {
@@ -377,7 +360,20 @@ describe('Mark items as favorites', () => {
 
   describe('on Search Results', () => {
     beforeAll(async (done) => {
-      await apis.user.search.waitForNodes('search-f', { expect: 9 });
+      const initialSearchByTermTotalItems = await apis.user.search.getSearchByTermTotalItems('search-f');
+      fileSearchNotFav1Id = (await apis.user.nodes.createFile(fileSearchNotFav1, parentId)).entry.id;
+      fileSearchNotFav2Id = (await apis.user.nodes.createFile(fileSearchNotFav2, parentId)).entry.id;
+      fileSearchNotFav3Id = (await apis.user.nodes.createFile(fileSearchNotFav3, parentId)).entry.id;
+      fileSearchNotFav4Id = (await apis.user.nodes.createFile(fileSearchNotFav4, parentId)).entry.id;
+      fileSearchFav1Id = (await apis.user.nodes.createFile(fileSearchFav1, parentId)).entry.id;
+      fileSearchFav2Id = (await apis.user.nodes.createFile(fileSearchFav2, parentId)).entry.id;
+      fileSearchFav3Id = (await apis.user.nodes.createFile(fileSearchFav3, parentId)).entry.id;
+      fileSearchFav4Id = (await apis.user.nodes.createFile(fileSearchFav4, parentId)).entry.id;
+      folderSearchId = (await apis.user.nodes.createFolder(folderSearch, parentId)).entry.id;
+      await apis.user.search.waitForNodes('search-f', { expect: initialSearchByTermTotalItems + 9 });
+
+      await apis.user.favorites.addFavoritesByIds('file', [fileSearchFav1Id, fileSearchFav2Id, fileSearchFav3Id, fileSearchFav4Id]);
+
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
       await searchInput.searchFor('search-f');
@@ -385,10 +381,9 @@ describe('Mark items as favorites', () => {
       done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       await page.header.expandSideNav();
       await page.clickPersonalFiles();
-      done();
     });
 
     it('[C306966] favorite a file', async () => {

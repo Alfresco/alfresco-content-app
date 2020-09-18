@@ -39,6 +39,8 @@ describe('Special permissions', () => {
   const { dataTable } = page;
   const { searchInput } = page.header;
 
+  let initialSharedTotalItems: number;
+
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
     done();
@@ -55,24 +57,25 @@ describe('Special permissions', () => {
       const docLibId = await apis.admin.sites.getDocLibId(sitePrivate);
       fileId = (await apis.admin.nodes.createFile(fileName, docLibId)).entry.id;
       await apis.user.favorites.addFavoriteById('file', fileId);
+
+      initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
+
       await apis.admin.shared.shareFileById(fileId);
       await apis.user.nodes.editNodeContent(fileId, 'edited by user');
 
       await apis.user.search.waitForApi(username, { expect: 1 });
-      await apis.user.shared.waitForApi({ expect: 1 });
+      await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 1 });
 
       await loginPage.loginWith(username);
       done();
     });
 
-    afterEach(async (done) => {
+    afterEach(async () => {
       await apis.admin.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
-      done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       await apis.admin.sites.deleteSite(sitePrivate);
-      done();
     });
 
     it('[C213173] on Recent Files', async () => {
@@ -93,10 +96,10 @@ describe('Special permissions', () => {
 
     it('[C213116] on Shared Files', async () => {
       await page.clickSharedFilesAndWait();
-      expect(await dataTable.getRowsCount()).toBe(1, 'Incorrect number of items');
+      expect(await dataTable.getRowsCount()).toBe(initialSharedTotalItems + 1, 'Incorrect number of items');
       await apis.admin.sites.deleteSiteMember(sitePrivate, username);
       await page.refresh();
-      expect(await dataTable.isEmpty()).toBe(true, 'Items are still displayed');
+      expect(await dataTable.getRowsCount()).toBe(initialSharedTotalItems, 'Incorrect number of items');
     });
 
     it('[C290122] on Search Results', async () => {
@@ -129,8 +132,11 @@ describe('Special permissions', () => {
       const docLibId = await apis.admin.sites.getDocLibId(sitePrivate);
       fileId = (await apis.user.nodes.createFile(fileName, docLibId)).entry.id;
       await apis.user.favorites.addFavoriteById('file', fileId);
+
+      initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
       await apis.user.shared.shareFileById(fileId);
-      await apis.user.shared.waitForApi({ expect: 1 });
+      await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 1 });
+
       await apis.user.search.waitForApi(username, { expect: 1 });
       await apis.admin.sites.deleteSiteMember(sitePrivate, username);
       await loginPage.loginWith(username);
@@ -156,7 +162,7 @@ describe('Special permissions', () => {
 
     it(`[C213668] on Shared Files`, async () => {
       await page.clickSharedFilesAndWait();
-      expect(await dataTable.getRowsCount()).toBe(1, 'Incorrect number of items');
+      expect(await dataTable.getRowsCount()).toBe(initialSharedTotalItems + 1, 'Incorrect number of items');
       expect(await dataTable.getItemLocation(fileName)).toEqual('Unknown');
     });
 

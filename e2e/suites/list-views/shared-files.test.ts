@@ -43,6 +43,8 @@ describe('Shared Files', () => {
   const file4User = `file4-${Utils.random()}.txt`;
   let file4Id: string;
 
+  let initialSharedTotalItems: number;
+
   const apis = {
     admin: new RepoClient(),
     user: new RepoClient(username, password)
@@ -58,19 +60,23 @@ describe('Shared Files', () => {
     await apis.admin.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_CONSUMER.ROLE);
     const docLibId = await apis.admin.sites.getDocLibId(siteName);
     const nodeId = (await apis.admin.nodes.createFile(fileAdmin, docLibId)).entry.id;
-    await apis.admin.shared.shareFileById(nodeId);
 
     folderId = (await apis.user.nodes.createFolder(folderUser)).entry.id;
     file1Id = (await apis.user.nodes.createFile(file1User, folderId)).entry.id;
     file2Id = (await apis.user.nodes.createFile(file2User)).entry.id;
     file3Id = (await apis.user.nodes.createFile(file3User)).entry.id;
     file4Id = (await apis.user.nodes.createFile(file4User)).entry.id;
-    await apis.user.shared.shareFilesByIds([file1Id, file2Id, file3Id, file4Id]);
 
-    await apis.admin.shared.waitForApi({ expect: 5 });
+    initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
+
+    await apis.user.shared.shareFilesByIds([file1Id, file2Id, file3Id, file4Id]);
+    await apis.admin.shared.shareFileById(nodeId);
+    await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 5 });
+
     await apis.user.nodes.deleteNodeById(file2Id);
     await apis.user.shared.unshareFile(file3User);
-    await apis.admin.shared.waitForApi({ expect: 3 });
+
+    await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 3 });
 
     await loginPage.loginWith(username);
     done();
@@ -81,11 +87,10 @@ describe('Shared Files', () => {
     done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await apis.admin.sites.deleteSite(siteName);
     await apis.user.nodes.deleteNodeById(folderId);
     await apis.user.nodes.deleteNodeById(file4Id);
-    done();
   });
 
   it('[C213113] has the correct columns', async () => {

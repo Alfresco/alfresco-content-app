@@ -43,8 +43,10 @@ testem.log
 /e2e/*.map
 /e2e-output
 /e2e-downloads
+.protractor-fail-fast
+.protractor-smartrunner
+/protractorFailuresReport
 
 # System Files
 .DS_Store
 Thumbs.db
-!/.protractor-smartrunner/

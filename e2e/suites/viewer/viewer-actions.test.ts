@@ -119,6 +119,7 @@ describe('Viewer actions', () => {
 
     afterEach(async (done) => {
       await Utils.pressEscape();
+      await page.closeUploadDialog();
       done();
     });
 
@@ -262,7 +263,7 @@ describe('Viewer actions', () => {
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is closed after pressing Full screen');
       const browserLogAfter = await Utils.getBrowserLog();
 
-      expect(browserLogAfter.length).toEqual(0);
+      expect(browserLogAfter.length).toEqual(0, browserLogAfter.entries);
     });
 
     it('[C286313] Share action', async () => {
@@ -347,6 +348,7 @@ describe('Viewer actions', () => {
 
     afterEach(async (done) => {
       await Utils.pressEscape();
+      await page.closeUploadDialog();
       done();
     });
 
@@ -534,6 +536,7 @@ describe('Viewer actions', () => {
 
     afterEach(async (done) => {
       await Utils.pressEscape();
+      await page.closeUploadDialog();
       done();
     });
 
@@ -708,6 +711,7 @@ describe('Viewer actions', () => {
       await apis.user.nodes.lockFile(fileForCancelEditingId);
       await apis.user.nodes.lockFile(fileForUploadNewVersionId);
 
+      const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
       await apis.user.shared.shareFilesByIds([
         docxFileId,
         xlsxFileId,
@@ -717,7 +721,7 @@ describe('Viewer actions', () => {
         fileForUploadNewVersionId,
         fileSharedId
       ]);
-      await apis.user.shared.waitForApi({ expect: 7 });
+      await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 7 });
 
       await loginPage.loginWith(username);
       done();
@@ -731,6 +735,7 @@ describe('Viewer actions', () => {
     afterEach(async (done) => {
       await page.closeOpenDialogs();
       await Utils.pressEscape();
+      await page.closeUploadDialog();
       done();
     });
 
@@ -926,6 +931,7 @@ describe('Viewer actions', () => {
 
     afterEach(async (done) => {
       await Utils.pressEscape();
+      await page.closeUploadDialog();
       done();
     });
 

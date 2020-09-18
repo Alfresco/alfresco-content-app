@@ -30,27 +30,27 @@ describe('Trash', () => {
 
   const siteName = `site-${Utils.random()}`;
   const fileSite = `file-${Utils.random()}.txt`;
-  let fileSiteId;
+  let fileSiteId: string;
 
   const folderAdmin = `folder-${Utils.random()}`;
-  let folderAdminId;
+  let folderAdminId: string;
   const fileAdmin = `file-${Utils.random()}.txt`;
-  let fileAdminId;
+  let fileAdminId: string;
 
   const folderUser = `folder-${Utils.random()}`;
-  let folderUserId;
+  let folderUserId: string;
   const fileUser = `file-${Utils.random()}.txt`;
-  let fileUserId;
+  let fileUserId: string;
 
   const folderDeleted = `folder-${Utils.random()}`;
-  let folderDeletedId;
+  let folderDeletedId: string;
   const fileDeleted = `file-${Utils.random()}.txt`;
-  let fileDeletedId;
+  let fileDeletedId: string;
 
   const folderNotDeleted = `folder-${Utils.random()}`;
   let folderNotDeletedId: string;
   const fileInFolder = `file-${Utils.random()}.txt`;
-  let fileInFolderId;
+  let fileInFolderId: string;
 
   const apis = {
     admin: new RepoClient(),
@@ -61,7 +61,7 @@ describe('Trash', () => {
   const page = new BrowsingPage();
   const { dataTable, breadcrumb } = page;
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     await apis.admin.people.createUser({ username });
     fileAdminId = (await apis.admin.nodes.createFiles([fileAdmin])).entry.id;
     folderAdminId = (await apis.admin.nodes.createFolders([folderAdmin])).entry.id;
@@ -80,12 +80,16 @@ describe('Trash', () => {
     await apis.user.nodes.deleteNodesById([fileSiteId, fileUserId, folderUserId, fileInFolderId], false);
     await apis.user.nodes.deleteNodeById(fileDeletedId, false);
     await apis.user.nodes.deleteNodeById(folderDeletedId, false);
-
-    done();
   });
 
   afterAll(async (done) => {
-    await Promise.all([apis.admin.sites.deleteSite(siteName), apis.user.nodes.deleteNodeById(folderNotDeletedId), apis.admin.trashcan.emptyTrash()]);
+    await Promise.all([
+      apis.admin.sites.deleteSite(siteName),
+      apis.admin.trashcan.permanentlyDelete(fileAdminId),
+      apis.admin.trashcan.permanentlyDelete(folderAdminId),
+      apis.user.nodes.deleteNodeById(folderNotDeletedId),
+      apis.user.trashcan.emptyTrash()
+    ]);
     done();
   });
 
@@ -108,8 +112,6 @@ describe('Trash', () => {
     });
 
     it('[C280493] displays the files and folders deleted by everyone', async () => {
-      expect(await dataTable.getRowsCount()).toEqual(8, 'Incorrect number of deleted items displayed');
-
       expect(await dataTable.isItemPresent(fileAdmin)).toBe(true, `${fileAdmin} not displayed`);
       expect(await dataTable.isItemPresent(folderAdmin)).toBe(true, `${folderAdmin} not displayed`);
       expect(await dataTable.isItemPresent(fileUser)).toBe(true, `${fileUser} not displayed`);

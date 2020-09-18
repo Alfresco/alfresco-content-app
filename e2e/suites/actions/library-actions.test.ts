@@ -94,27 +94,29 @@ describe('Library actions', () => {
     done();
   });
 
-  afterAll(async (done) => {
-    await apis.admin.sites.deleteSite(sitePublic1Admin);
-    await apis.admin.sites.deleteSite(siteSearchPublic1Admin);
-    await apis.admin.sites.deleteSite(sitePublic2Admin);
-    await apis.admin.sites.deleteSite(sitePublic3Admin);
-    await apis.admin.sites.deleteSite(sitePublic4Admin);
-    await apis.admin.sites.deleteSite(sitePublic5Admin);
-    await apis.admin.sites.deleteSite(sitePublic6Admin);
-    await apis.admin.sites.deleteSite(sitePublic7Admin);
-    await apis.admin.sites.deleteSite(sitePublic8Admin);
-
-    await apis.admin.sites.deleteSite(siteSearchPublic2Admin);
-    await apis.admin.sites.deleteSite(siteSearchPublic3Admin);
-    await apis.admin.sites.deleteSite(siteSearchPublic4Admin);
-    await apis.admin.sites.deleteSite(siteModerated1Admin);
-    await apis.admin.sites.deleteSite(siteModerated2Admin);
-    await apis.admin.sites.deleteSite(siteSearchModerated1Admin);
-    await apis.admin.sites.deleteSite(siteSearchModerated2Admin);
+  afterAll(async () => {
+    await apis.admin.sites.deleteSites([
+      sitePublic1Admin,
+      siteSearchPublic1Admin,
+      sitePublic2Admin,
+      sitePublic3Admin,
+      sitePublic4Admin,
+      sitePublic5Admin,
+      sitePublic6Admin,
+      sitePublic7Admin,
+      sitePublic8Admin
+    ]);
+    await apis.admin.sites.deleteSites([
+      siteSearchPublic2Admin,
+      siteSearchPublic3Admin,
+      siteSearchPublic4Admin,
+      siteModerated1Admin,
+      siteModerated2Admin,
+      siteSearchModerated1Admin,
+      siteSearchModerated2Admin
+    ]);
     await apis.user.sites.deleteSite(sitePublicUser);
-    await apis.admin.trashcan.emptyTrash();
-    done();
+    await apis.user.trashcan.emptyTrash();
   });
 
   describe('Join a public library', () => {
