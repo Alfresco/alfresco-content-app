@@ -139,8 +139,7 @@ export class FavoritesApi extends RepoApi {
         }
       };
       return await Utils.retryCall(favorite);
-    } catch (error) {
-    }
+    } catch (error) {}
     return isFavorite;
   }
 
