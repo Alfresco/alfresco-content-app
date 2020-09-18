@@ -20,7 +20,6 @@ branches:
     - /.*beta.*/
 
 before_install:
-  - sleep 3
   - . ./scripts/ci/job_hooks/before_install.sh
 
 install: echo "no install"
