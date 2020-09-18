@@ -83,7 +83,10 @@ export class SharedLinksApi extends RepoApi {
   async getSharedLinks() {
     try {
       await this.apiAuth();
-      return await this.sharedlinksApi.listSharedLinks();
+      const opts = {
+        maxItems: 250
+      };
+      return await this.sharedlinksApi.listSharedLinks(opts);
     } catch (error) {
       this.handleError(`SharedLinksApi getSharedLinks : catch : `, error);
       return null;
@@ -93,7 +96,10 @@ export class SharedLinksApi extends RepoApi {
   async getSharedLinksTotalItems(): Promise<number> {
     try {
       await this.apiAuth();
-      const sharedList = await this.sharedlinksApi.listSharedLinks();
+      const opts = {
+        maxItems: 250
+      };
+      const sharedList = await this.sharedlinksApi.listSharedLinks(opts);
       return sharedList.list.entries.length;
     } catch (error) {
       this.handleError(`SharedLinksApi getSharedLinksTotalItems : catch : `, error);

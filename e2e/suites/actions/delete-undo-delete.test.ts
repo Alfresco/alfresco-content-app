@@ -341,14 +341,14 @@ describe('Delete and undo delete', () => {
     beforeAll(async (done) => {
       parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
 
-      const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
-
       sharedFile1Id = (await apis.user.nodes.createFile(sharedFile1, parentId)).entry.id;
       sharedFile2Id = (await apis.user.nodes.createFile(sharedFile2, parentId)).entry.id;
       sharedFile3Id = (await apis.user.nodes.createFile(sharedFile3, parentId)).entry.id;
       sharedFile4Id = (await apis.user.nodes.createFile(sharedFile4, parentId)).entry.id;
       sharedFile5Id = (await apis.user.nodes.createFile(sharedFile5, parentId)).entry.id;
       sharedFile6Id = (await apis.user.nodes.createFile(sharedFile6, parentId)).entry.id;
+
+      const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
       await apis.user.shared.shareFilesByIds([sharedFile1Id, sharedFile2Id, sharedFile3Id, sharedFile4Id, sharedFile5Id, sharedFile6Id]);
       await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 6 });
 

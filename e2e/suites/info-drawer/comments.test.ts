@@ -84,9 +84,10 @@ describe('Comments', () => {
 
     const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
     await apis.user.shared.shareFilesByIds([file2SharedId, fileWith1CommentId, fileWith2CommentsId]);
+    await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 3 });
+
     await apis.user.favorites.addFavoritesByIds('file', [file2FavoritesId, fileWith1CommentId, fileWith2CommentsId]);
 
-    await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 3 });
     await apis.user.nodes.createFolder(folder1, parentId);
     folder2Id = (await apis.user.nodes.createFolder(folder2, parentId)).entry.id;
     await apis.user.favorites.addFavoriteById('folder', folder2Id);
