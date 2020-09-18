@@ -60,7 +60,7 @@ export class SharedLinksApi extends RepoApi {
     }
   }
 
-  async getSharedIdOfNode(name: string) {
+  async getSharedIdOfNode(name: string): Promise<string> {
     try {
       const sharedLinksEntries = (await this.getSharedLinks())?.list.entries;
       const found = sharedLinksEntries.find((sharedLink) => sharedLink.entry.name === name);

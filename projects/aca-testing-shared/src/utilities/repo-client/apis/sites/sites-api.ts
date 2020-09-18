@@ -74,7 +74,7 @@ export class SitesApi extends RepoApi {
     }
   }
 
-  async getDocLibId(siteId: string) {
+  async getDocLibId(siteId: string): Promise<string> {
     try {
       await this.apiAuth();
       return (await this.sitesApi.listSiteContainers(siteId)).list.entries[0].entry.id;
