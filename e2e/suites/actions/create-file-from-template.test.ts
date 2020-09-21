@@ -113,6 +113,7 @@ describe('Create file from template', () => {
     await sidenav.openCreateFileFromTemplateDialog();
     await selectTemplateDialog.waitForDialogToOpen();
 
+    expect(true).toEqual(false);
     expect(await selectTemplateDialog.getTitle()).toEqual('Select a document template');
     expect(await selectTemplateDialog.dataTable.isEmpty()).toBe(true, 'Datatable is not empty');
     expect(await selectTemplateDialog.dataTable.getEmptyListText()).toEqual('No results found');
