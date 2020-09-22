@@ -37,7 +37,7 @@ export class DataTable extends Component {
       .adf-datatable__header--sorted-asc .adf-datatable-cell-value,
       .adf-datatable__header--sorted-desc .adf-datatable-cell-value
     `,
-    row: '.adf-datatable-row[role]',
+    row: '.adf-datatable-row[data-automation-id^="datatable-row"]',
     cell: '.adf-datatable-cell-container',
     lockOwner: '.aca-locked-by',
     searchResultsRow: 'aca-search-results-row',
