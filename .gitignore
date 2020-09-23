@@ -39,7 +39,6 @@ testem.log
 .env
 
 # e2e
-/e2e/*.js
 /e2e/*.map
 /e2e-output
 /e2e-downloads
