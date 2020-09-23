@@ -36,8 +36,13 @@ import { AuthGuardEcm } from '@alfresco/adf-core';
 import { FavoritesComponent } from './components/favorites/favorites.component';
 import { RecentFilesComponent } from './components/recent-files/recent-files.component';
 import { SharedFilesComponent } from './components/shared-files/shared-files.component';
+import { BlankPageComponent } from './components/blank-page/blank-page.component';
 
 export const APP_ROUTES: Routes = [
+  {
+    path: 'blank',
+    component: BlankPageComponent
+  },
   {
     path: 'login',
     component: LoginComponent,

@@ -84,6 +84,7 @@ import localePl from '@angular/common/locales/pl';
 import localeFi from '@angular/common/locales/fi';
 import localeDa from '@angular/common/locales/da';
 import localeSv from '@angular/common/locales/sv';
+import { BlankPageComponent } from './components/blank-page/blank-page.component';
 
 registerLocaleData(localeFr);
 registerLocaleData(localeDe);
@@ -147,7 +148,8 @@ registerLocaleData(localeSv);
     FavoritesComponent,
     RecentFilesComponent,
     SharedFilesComponent,
-    CreateFromTemplateDialogComponent
+    CreateFromTemplateDialogComponent,
+    BlankPageComponent
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: AppRouteReuseStrategy },
