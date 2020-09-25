@@ -103,7 +103,7 @@
     "karma-jasmine": "^4.0.1",
     "karma-jasmine-html-reporter": "^1.5.4",
     "karma-mocha-reporter": "^2.2.5",
-    "lint-staged": "^10.2.13",
+    "lint-staged": "^10.4.0",
     "lite-server": "^2.4.0",
     "ng-packagr": "^10.0.4",
     "node-stream-zip": "^1.11.3",
