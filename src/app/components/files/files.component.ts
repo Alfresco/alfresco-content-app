@@ -36,6 +36,7 @@ import { SetCurrentFolderAction, isAdmin, AppStore, UploadFileVersionAction } fr
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { ShareDataRow } from '@alfresco/adf-content-services';
+import { FilterSearch } from '@alfresco/adf-content-services/lib/search/filter-search.interface';
 
 @Component({
   templateUrl: './files.component.html'
@@ -290,16 +291,16 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  onFilterSelected(currentActiveFilters: Map<string, string>) {
+  onFilterSelected(activeFilters: FilterSearch[]) {
     const objectFromMap = {};
-    currentActiveFilters.forEach((value: any, key) => {
+    activeFilters.forEach((filter: FilterSearch) => {
       let paramValue = null;
-      if (value && value.from && value.to) {
-        paramValue = `${value.from}||${value.to}`;
+      if (filter.value && filter.value.from && filter.value.to) {
+        paramValue = `${filter.value.from}||${filter.value.to}`;
       } else {
-        paramValue = value;
+        paramValue = filter.value;
       }
-      objectFromMap[key] = paramValue;
+      objectFromMap[filter.key] = paramValue;
     });
 
     this.router.navigate([], { relativeTo: this.route, queryParams: objectFromMap });
