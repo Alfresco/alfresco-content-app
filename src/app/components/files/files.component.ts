@@ -35,16 +35,10 @@ import { AppExtensionService, ContentApiService } from '@alfresco/aca-shared';
 import { SetCurrentFolderAction, isAdmin, AppStore, UploadFileVersionAction } from '@alfresco/aca-shared/store';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { debounceTime, takeUntil } from 'rxjs/operators';
-import { ShareDataRow, SEARCH_QUERY_SERVICE_TOKEN, SearchHeaderQueryBuilderService } from '@alfresco/adf-content-services';
+import { ShareDataRow } from '@alfresco/adf-content-services';
 
 @Component({
-  templateUrl: './files.component.html',
-  providers: [
-    {
-      provide: SEARCH_QUERY_SERVICE_TOKEN,
-      useClass: SearchHeaderQueryBuilderService
-    }
-  ]
+  templateUrl: './files.component.html'
 })
 export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   isValidPath = true;
