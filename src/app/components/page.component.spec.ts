@@ -149,18 +149,6 @@ describe('PageComponent', () => {
       expect(store.dispatch['calls'].mostRecent().args[0]).toEqual(new SetSelectedNodesAction([node]));
     });
 
-    it('should update source on onFilterUpdate event', () => {
-      const nodePaging = {
-        list: {
-          pagination: {},
-          entries: [{ entry: { id: 'new-node-id' } }]
-        }
-      } as NodePaging;
-
-      component.onFilterUpdate(nodePaging);
-      expect(component.nodeResult).toEqual(nodePaging);
-    });
-
     it('should clear results onAllFilterCleared event', () => {
       component.documentList = {
         node: {

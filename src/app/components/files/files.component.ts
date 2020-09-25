@@ -292,6 +292,14 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   }
 
   onFilterSelected(activeFilters: FilterSearch[]) {
+    if (activeFilters.length) {
+      this.navigateToFilter(activeFilters);
+    } else {
+      this.onAllFilterCleared();
+    }
+  }
+
+  navigateToFilter(activeFilters: FilterSearch[]) {
     const objectFromMap = {};
     activeFilters.forEach((filter: FilterSearch) => {
       let paramValue = null;
