@@ -17,10 +17,8 @@
       mat-icon-button
       data-automation-id="share-action-button"
       (click)="editSharedNode(selection)"
-      [attr.title]="
-        (isShared(selection) ? 'APP.ACTIONS.SHARE_EDIT' : 'APP.ACTIONS.SHARE')
-          | translate
-      "
+      [attr.aria-label]="getLabel(selection) | translate"
+      [attr.title]="getLabel(selection) | translate"
     >
       <mat-icon>link</mat-icon>
     </button>

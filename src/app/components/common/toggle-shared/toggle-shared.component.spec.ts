@@ -72,4 +72,19 @@ describe('ToggleSharedComponent', () => {
     component.editSharedNode({ first: { entry } });
     expect(storeMock.dispatch).toHaveBeenCalled();
   });
+
+  it('should get action label for unshared file', () => {
+    component.ngOnInit();
+    const label = component.getLabel({ first: { entry } });
+
+    expect(label).toBe('APP.ACTIONS.SHARE');
+  });
+
+  it('should get action label for shared file', () => {
+    entry.properties['qshare:sharedId'] = 'some-id';
+    component.ngOnInit();
+    const label = component.getLabel({ first: { entry } });
+
+    expect(label).toBe('APP.ACTIONS.SHARE_EDIT');
+  });
 });

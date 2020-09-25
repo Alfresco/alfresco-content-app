@@ -56,4 +56,8 @@ export class ToggleSharedComponent implements OnInit {
   editSharedNode(selection: SelectionState) {
     this.store.dispatch(new ShareNodeAction(selection.first));
   }
+
+  getLabel(selection: SelectionState): string {
+    return this.isShared(selection) ? 'APP.ACTIONS.SHARE_EDIT' : 'APP.ACTIONS.SHARE';
+  }
 }
