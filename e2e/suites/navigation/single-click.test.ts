@@ -200,6 +200,8 @@ describe('Single click on item name', () => {
 
   describe('on Search Results', () => {
     beforeEach(async () => {
+      const initialRecentTotalItems = await apis.user.search.getTotalItems(username);
+      await apis.user.search.waitForApi(username, { expect: initialRecentTotalItems + 2 });
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
     });

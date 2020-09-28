@@ -29,26 +29,13 @@
           [navigate]="false"
           [sorting]="['name', 'ASC']"
           [imageResolver]="imageResolver"
+          [headerFilters]="true"
+          [filterValue]="queryParams"
           (node-dblclick)="navigateTo($event.detail?.node)"
           (name-click)="navigateTo($event.detail?.node)"
           (sorting-changed)="onSortingChanged($event)"
+          (filterSelection)="onFilterSelected($event)"
         >
-          <adf-custom-header-filter-template>
-            <ng-template let-col>
-              <adf-search-header
-                [col]="col"
-                [currentFolderNodeId]="node?.id"
-                [maxItems]="(documentList?.pagination | async)?.maxItems"
-                [value]="queryParams ? queryParams[col.key] : null"
-                [skipCount]="(documentList?.pagination | async)?.skipCount"
-                [sorting]="filterSorting"
-                (update)="onFilterUpdate($event)"
-                (clear)="onAllFilterCleared()"
-                (selection)="onFilterSelected($event)"
-              >
-              </adf-search-header>
-            </ng-template>
-          </adf-custom-header-filter-template>
           <data-columns>
             <ng-container *ngFor="let column of columns; trackBy: trackById">
               <ng-container *ngIf="column.template && !(column.desktopOnly && isSmallScreen)">

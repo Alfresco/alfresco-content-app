@@ -161,10 +161,6 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
     return location.href.includes('viewer:view');
   }
 
-  onFilterUpdate(newNodePaging: NodePaging) {
-    this.nodeResult = newNodePaging;
-  }
-
   onSortingChanged(event) {
     this.filterSorting = event.detail.key + '-' + event.detail.direction;
   }
