@@ -12,7 +12,7 @@
     "secret": "",
     "implicitFlow": true,
     "silentLogin": true,
-    "publicUrls": ["**/preview/s/*", "**/settings"],
+    "publicUrls": ["**/preview/s/*", "**/settings", "**/blank"],
     "redirectSilentIframeUri": "./assets/silent-refresh.html",
     "redirectUri": "/",
     "redirectUriLogout": "/logout"
@@ -523,7 +523,7 @@
           "type": "FIELD",
           "field": "cm:modifier",
           "ascending": true
-        },        
+        },
         {
           "key": "score",
           "label": "Relevance",
