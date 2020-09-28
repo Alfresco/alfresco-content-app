@@ -35,8 +35,7 @@ import { AppExtensionService, ContentApiService } from '@alfresco/aca-shared';
 import { SetCurrentFolderAction, isAdmin, AppStore, UploadFileVersionAction } from '@alfresco/aca-shared/store';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { debounceTime, takeUntil } from 'rxjs/operators';
-import { ShareDataRow } from '@alfresco/adf-content-services';
-import { FilterSearch } from '@alfresco/adf-content-services/lib/search/filter-search.interface';
+import { FilterSearch, ShareDataRow } from '@alfresco/adf-content-services';
 
 @Component({
   templateUrl: './files.component.html'
