@@ -43,6 +43,7 @@ describe('AppService', () => {
       imports: [HttpClientModule],
       providers: [
         AppRouteReuseStrategy,
+        SearchQueryBuilderService,
         {
           provide: AuthenticationService,
           useValue: {
