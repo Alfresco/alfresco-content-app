@@ -23,12 +23,12 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, ElementArrayFinder, by, browser, protractor } from 'protractor';
+import { browser, by, ElementArrayFinder, ElementFinder, protractor } from 'protractor';
 import { Logger } from '@alfresco/adf-testing';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
 import { Menu } from '../menu/menu';
-import { Utils, waitForPresence, waitForClickable } from '../../utilities/utils';
+import { Utils, waitForClickable, waitForPresence } from '../../utilities/utils';
 
 export class DataTable extends Component {
   private static selectors = {
@@ -358,10 +358,9 @@ export class DataTable extends Component {
 
   async getCellsContainingName(name: string): Promise<string[]> {
     const rows = this.getRows().all(by.cssContainingText(DataTable.selectors.cell, name));
-    const cellsText: string[] = await rows.map(async (cell) => {
+    return rows.map(async (cell) => {
       return cell.getText();
     });
-    return cellsText;
   }
 
   async hasContextMenu(): Promise<boolean> {

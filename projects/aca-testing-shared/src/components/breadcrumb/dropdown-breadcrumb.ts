@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { by, browser } from 'protractor';
+import { browser, by } from 'protractor';
 import { Component } from '../component';
 import { waitForPresence, waitForStaleness } from '../../utilities/utils';
 
@@ -57,9 +57,8 @@ export class DropDownBreadcrumb extends Component {
   }
 
   async getPathItems(): Promise<string[]> {
-    const items: string[] = await this.pathItems.map(async (elem) => {
+    return this.pathItems.map(async (elem) => {
       return elem.getText();
     });
-    return items;
   }
 }

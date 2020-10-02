@@ -118,7 +118,7 @@ export class NodeActionsService {
         }
 
         action$.subscribe((newContent) => {
-          observable.next(`OPERATION.SUCCES.${type.toUpperCase()}.${action.toUpperCase()}`);
+          observable.next(`OPERATION.SUCCESS.${type.toUpperCase()}.${action.toUpperCase()}`);
 
           const processedData = this.processResponse(newContent);
           if (action === BatchOperationType.copy) {

@@ -36,6 +36,7 @@ import { SetCurrentFolderAction, isAdmin, AppStore, UploadFileVersionAction } fr
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { FilterSearch, ShareDataRow } from '@alfresco/adf-content-services';
+import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 
 @Component({
   templateUrl: './files.component.html'
@@ -49,7 +50,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
   private nodePath: PathElement[];
 
-  columns: any[] = [];
+  columns: DocumentListPresetRef[] = [];
 
   constructor(
     private router: Router,
