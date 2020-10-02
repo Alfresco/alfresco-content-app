@@ -88,7 +88,7 @@ describe('Search filters', () => {
     await apis.user1.upload.uploadFileWithRename(fileJpgUser1.source, docLibId, fileJpgUser1.name);
     await apis.user2.upload.uploadFileWithRename(filePdfUser2.source, parentId, filePdfUser2.name, filePdfUser2.title, filePdfUser2.description);
 
-    await apis.user1.search.waitForNodes('search-filters', { expect: 2 });
+    await apis.user1.search.waitForNodes(`search-filters-${random}`, { expect: 2 });
 
     await loginPage.loginWith(user1);
     done();
@@ -99,7 +99,7 @@ describe('Search filters', () => {
     await page.clickPersonalFilesAndWait();
 
     await searchInput.clickSearchButton();
-    await searchInput.searchFor('search filters');
+    await searchInput.searchFor(`search-filters-${random}`);
     await dataTable.waitForBody();
     done();
   });
