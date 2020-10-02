@@ -88,15 +88,15 @@ describe('Personal Files', () => {
       const expectedColumns = ['Name', 'Size', 'Modified', 'Modified by'];
       const actualColumns = await dataTable.getColumnHeadersText();
 
-      expect(actualColumns).toEqual(expectedColumns);
+      await expect(actualColumns).toEqual(expectedColumns);
     });
 
     it('[C217143] has default sorted column', async () => {
-      expect(await dataTable.getSortedColumnHeaderText()).toBe('Name');
+      await expect(await dataTable.getSortedColumnHeaderText()).toBe('Name');
     });
 
     it('[C213242] has user created content', async () => {
-      expect(await dataTable.isItemPresent(userFolder)).toBe(true, 'user folder not displayed');
+      await expect(await dataTable.isItemPresent(userFolder)).toBe(true, 'user folder not displayed');
     });
 
     it('[C213244] navigates to folder', async () => {

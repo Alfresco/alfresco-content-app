@@ -172,7 +172,7 @@ describe('Search results - libraries', () => {
     const expectedColumns = ['Name', 'Description', 'My Role', 'Visibility'];
     const actualColumns = await dataTable.getColumnHeadersText();
 
-    expect(actualColumns).toEqual(expectedColumns);
+    await expect(actualColumns).toEqual(expectedColumns);
   });
 
   it('[C290017] Library visibility is correctly displayed', async () => {

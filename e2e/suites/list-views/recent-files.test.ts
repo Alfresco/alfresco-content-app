@@ -84,7 +84,7 @@ describe('Recent Files', () => {
     const expectedColumns = ['Name', 'Location', 'Size', 'Modified'];
     const actualColumns = await dataTable.getColumnHeadersText();
 
-    expect(actualColumns).toEqual(expectedColumns);
+    await expect(actualColumns).toEqual(expectedColumns);
   });
 
   it('[C213171] default sorting column', async () => {
@@ -117,7 +117,7 @@ describe('Recent Files', () => {
 
   it('[C213176] Location column redirect - file in user Home', async () => {
     await dataTable.clickItemLocation(fileName2);
-    expect(await breadcrumb.getAllItems()).toEqual(['Personal Files']);
+    await expect(await breadcrumb.getAllItems()).toEqual(['Personal Files']);
   });
 
   it('[C280486] Location column redirect - file in folder', async () => {

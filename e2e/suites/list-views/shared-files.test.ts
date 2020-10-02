@@ -97,7 +97,7 @@ describe('Shared Files', () => {
     const expectedColumns = ['Name', 'Location', 'Size', 'Modified', 'Modified by', 'Shared by'];
     const actualColumns = await dataTable.getColumnHeadersText();
 
-    expect(actualColumns).toEqual(expectedColumns);
+    await expect(actualColumns).toEqual(expectedColumns);
   });
 
   it('[C213115] default sorting column', async () => {
@@ -126,7 +126,7 @@ describe('Shared Files', () => {
 
   it('[C213666] Location column redirect - file in user Home', async () => {
     await dataTable.clickItemLocation(file4User);
-    expect(await breadcrumb.getAllItems()).toEqual(['Personal Files']);
+    await expect(await breadcrumb.getAllItems()).toEqual(['Personal Files']);
   });
 
   it('[C280490] Location column redirect - file in folder', async () => {
