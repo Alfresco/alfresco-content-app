@@ -62,7 +62,7 @@ export class AppEffects {
     })
   );
 
-  private redirectToLogin() {
-    this.router.navigate(['login']);
+  private redirectToLogin(): Promise<boolean> {
+    return this.router.navigate(['login']);
   }
 }
