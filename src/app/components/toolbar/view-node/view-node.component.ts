@@ -52,7 +52,7 @@ import { SharedLinkEntry } from '@alfresco/js-api';
   host: { class: 'app-view-node' }
 })
 export class ViewNodeComponent {
-  @Input() data: any;
+  @Input() data: { title?: string; menuButton?: boolean; iconButton?: boolean };
 
   constructor(private store: Store<AppStore>, private router: Router) {}
 

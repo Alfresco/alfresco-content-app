@@ -128,7 +128,7 @@ export class FavoritesApi extends RepoApi {
   }
 
   async isFavoriteWithRetry(nodeId: string, data: { expect: boolean }) {
-    let isFavorite: boolean;
+    let isFavorite = false;
     try {
       const favorite = async () => {
         isFavorite = await this.isFavorite(nodeId);

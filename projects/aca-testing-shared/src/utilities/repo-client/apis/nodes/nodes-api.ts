@@ -524,7 +524,7 @@ export class NodesApi extends RepoApi {
       expect: expect,
       retry: 5
     };
-    let isLocked: boolean;
+    let isLocked = false;
     try {
       const locked = async () => {
         isLocked = (await this.getLockType(nodeId)) === 'WRITE_LOCK';
