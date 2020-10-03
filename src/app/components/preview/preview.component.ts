@@ -177,10 +177,10 @@ export class PreviewComponent extends PageComponent implements OnInit, OnDestroy
           this.nodeId = this.node.id;
           return;
         }
-        this.router.navigate([this.previewLocation, id]);
+        await this.router.navigate([this.previewLocation, id]);
       } catch (err) {
         if (!err || err.status !== 401) {
-          this.router.navigate([this.previewLocation, id]);
+          await this.router.navigate([this.previewLocation, id]);
         }
       }
     }

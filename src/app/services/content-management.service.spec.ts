@@ -414,9 +414,7 @@ describe('ContentManagementService', () => {
       spyOn(nodeActions, 'moveNodes').and.returnValue(subject);
       spyOn(nodeActions, 'processResponse').and.returnValue(moveResponse);
 
-      const selection = nodes;
-
-      store.dispatch(new MoveNodesAction(selection));
+      store.dispatch(new MoveNodesAction(nodes));
       nodeActions.moveNodes(null).next('OPERATION.SUCCESS.CONTENT.MOVE');
       nodeActions.contentMoved.next(moveResponse);
 
@@ -435,9 +433,7 @@ describe('ContentManagementService', () => {
       spyOn(nodeActions, 'moveNodes').and.returnValue(subject);
       spyOn(nodeActions, 'processResponse').and.returnValue(moveResponse);
 
-      const selection = nodes;
-
-      store.dispatch(new MoveNodesAction(selection));
+      store.dispatch(new MoveNodesAction(nodes));
       nodeActions.moveNodes(null).next('OPERATION.SUCCESS.CONTENT.MOVE');
       nodeActions.contentMoved.next(moveResponse);
 

@@ -31,7 +31,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { forkJoin, from, of } from 'rxjs';
-import { catchError, flatMap } from 'rxjs/operators';
+import { catchError, mergeMap } from 'rxjs/operators';
 import { AppExtensionService } from '@alfresco/aca-shared';
 
 @Component({
@@ -55,8 +55,10 @@ export class SharedLinkViewComponent implements OnInit {
   ngOnInit() {
     this.route.params
       .pipe(
-        flatMap((params) =>
-          forkJoin(from(this.alfrescoApiService.sharedLinksApi.getSharedLink(params.id)), of(params.id)).pipe(catchError(() => of([null, params.id])))
+        mergeMap((params) =>
+          forkJoin([from(this.alfrescoApiService.sharedLinksApi.getSharedLink(params.id)), of(params.id)]).pipe(
+            catchError(() => of([null, params.id]))
+          )
         )
       )
       .subscribe(([sharedEntry, sharedId]: [SharedLinkEntry, string]) => {

@@ -77,9 +77,9 @@ describe('RouterExtensionService', () => {
       ]
     });
 
-    extensionService = TestBed.get(ExtensionService);
-    service = TestBed.get(RouterExtensionService);
-    router = TestBed.get(Router);
+    extensionService = TestBed.inject(ExtensionService);
+    service = TestBed.inject(RouterExtensionService);
+    router = TestBed.inject(Router);
     router.config = [
       { path: 'login', component: {} as Type<any> },
       { path: 'settings', component: {} as Type<any> },
