@@ -49,8 +49,7 @@ export class NodesApi extends RepoApi {
   async getNodeById(id: string): Promise<NodeEntry | null> {
     try {
       await this.apiAuth();
-      const node = await this.nodesApi.getNode(id);
-      return node;
+      return await this.nodesApi.getNode(id);
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.getNodeById.name}`, error);
       return null;

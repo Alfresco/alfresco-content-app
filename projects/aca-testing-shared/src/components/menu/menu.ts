@@ -117,11 +117,10 @@ export class Menu extends Component {
   }
 
   async getMenuItems(): Promise<string[]> {
-    const items: string[] = await this.items.map(async (elem) => {
+    return this.items.map(async (elem) => {
       const span = elem.element(by.css('span'));
       return span.getText();
     });
-    return items;
   }
 
   async clickNthItem(nth: number): Promise<void> {
@@ -194,8 +193,7 @@ export class Menu extends Component {
   async isMenuItemDisabled(title: string): Promise<string | null> {
     try {
       const item = this.getItemByLabel(title);
-      const disabled = await item.getAttribute('disabled');
-      return disabled;
+      return await item.getAttribute('disabled');
     } catch (error) {
       Logger.error('----- isMenuItemDisabled catch: ', error);
       return null;

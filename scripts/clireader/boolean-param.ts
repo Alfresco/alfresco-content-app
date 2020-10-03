@@ -7,7 +7,7 @@
  */
 
 import { ParamType } from './params';
-import { BaseParamOptions, CommanderOptionParams, BaseParam } from './base-param';
+import { CommanderOptionParams, BaseParam } from './base-param';
 
 export class BooleanParam extends BaseParam {
   protected type = ParamType.confirm;

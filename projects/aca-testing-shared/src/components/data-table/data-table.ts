@@ -146,10 +146,9 @@ export class DataTable extends Component {
   }
 
   async getSelectedRowsNames(): Promise<string[]> {
-    const rowsText: string[] = await this.getSelectedRows().map((row) => {
+    return this.getSelectedRows().map((row) => {
       return row.element(by.css('.adf-datatable-cell[title="Name"]')).getText();
     });
-    return rowsText;
   }
 
   async getSelectedRowsCount(): Promise<number> {
@@ -377,12 +376,11 @@ export class DataTable extends Component {
   }
 
   private async getEntireDataTableText(): Promise<string[]> {
-    const text: string[] = await this.getRows().map((row) => {
+    return this.getRows().map((row) => {
       return row.all(by.css(DataTable.selectors.cell)).map(async (cell) => {
         return cell.getText();
       });
     });
-    return text;
   }
 
   async getSitesNameAndVisibility(): Promise<any> {

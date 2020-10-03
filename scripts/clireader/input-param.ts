@@ -7,7 +7,7 @@
  */
 
 import { ParamType } from './params';
-import { BaseParam, BaseParamOptions, CommanderOptionParams } from './base-param';
+import { BaseParam, CommanderOptionParams } from './base-param';
 
 export class InputParam extends BaseParam {
   protected type = ParamType.input;

@@ -27,7 +27,7 @@ import { ElementFinder, by, browser, Locator } from 'protractor';
 import { isPresentAndDisplayed, waitForPresence, waitForVisibility, waitForStaleness } from '../../utilities/utils';
 
 export abstract class GenericDialog {
-  constructor(private rootCssSelector?: string) {}
+  protected constructor(private rootCssSelector?: string) {}
 
   get rootElem(): ElementFinder {
     return browser.element(by.css(this.rootCssSelector));

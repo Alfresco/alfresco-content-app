@@ -52,17 +52,15 @@ export class FacetFilter extends GenericFilterPanel {
   }
 
   async getFiltersValues(): Promise<string[]> {
-    const list: string[] = await this.facets.map((option) => {
+    return this.facets.map((option) => {
       return option.getText();
     });
-    return list;
   }
 
   async getFiltersCheckedValues(): Promise<string[]> {
-    const list: string[] = await this.selectedFacets.map((option) => {
+    return this.selectedFacets.map((option) => {
       return option.getText();
     });
-    return list;
   }
 
   async resetPanel(): Promise<void> {

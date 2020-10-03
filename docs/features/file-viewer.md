@@ -106,7 +106,7 @@ import { Router } from '@angular/router';
 
 @Component({...})
 export class CustomComponent {
-    constructor(private store: Store<AppStore>, private router: Router)
+    constructor(private store: Store<AppStore>, private router: Router) {}
 
     viewNode(nodeId: string) {
         this.store.dispatch(new ViewNodeAction(nodeId, { location: this.router.url }));

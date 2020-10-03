@@ -79,8 +79,7 @@ export class CreatedDateFilter extends GenericFilterPanel {
 
   async getFromValue(): Promise<string> {
     try {
-      const value = await this.fromInput.getAttribute('value');
-      return value;
+      return await this.fromInput.getAttribute('value');
     } catch (error) {
       return '';
     }
@@ -88,8 +87,7 @@ export class CreatedDateFilter extends GenericFilterPanel {
 
   async getFromError(): Promise<string> {
     try {
-      const error = await this.fromFieldError.getText();
-      return error;
+      return await this.fromFieldError.getText();
     } catch (err) {
       return '';
     }
@@ -97,8 +95,7 @@ export class CreatedDateFilter extends GenericFilterPanel {
 
   async getToValue(): Promise<string> {
     try {
-      const value = await this.toInput.getAttribute('value');
-      return value;
+      return await this.toInput.getAttribute('value');
     } catch (err) {
       return '';
     }
@@ -106,8 +103,7 @@ export class CreatedDateFilter extends GenericFilterPanel {
 
   async getToError(): Promise<string> {
     try {
-      const error = await this.toFieldError.getText();
-      return error;
+      return await this.toFieldError.getText();
     } catch (err) {
       return '';
     }

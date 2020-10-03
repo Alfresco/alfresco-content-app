@@ -126,6 +126,7 @@ export class ContentApiService {
   /**
    * Gets information about a user identified by their username.
    * @param personId ID of the target user
+   * @param options Api options
    * @returns User information
    */
   getPerson(personId: string, options?: { fields?: Array<string> }): Observable<PersonEntry> {
@@ -138,6 +139,7 @@ export class ContentApiService {
    * @param nodeId The id of the node to be copied
    * @param targetParentId The id of the folder-node where the node have to be copied to
    * @param name The new name for the copy that would be added on the destination folder
+   * @param opts Api options
    */
   copyNode(nodeId: string, targetParentId: string, name?: string, opts?: { include?: Array<string>; fields?: Array<string> }): Observable<NodeEntry> {
     return from(this.api.nodesApi.copyNode(nodeId, { targetParentId, name }, opts));
