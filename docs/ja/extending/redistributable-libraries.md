@@ -101,8 +101,6 @@ JSON 定義で `my-extension.main.component` 識別子を使用できるよう�
 ```json
 {
     "scripts": {
-        ...,
-
         "build:my-extension":
             "ng build my-extension && cpr projects/my-extension/assets dist/my-extension/assets --deleteFirst"
     }
@@ -172,13 +170,10 @@ NPM から拡張機能をインストールする場合は、次のルールを�
 メインアプリケーションで、`src/app/extensions.module.ts` ファイルを編集し、次の例のようにモジュール宣言を追加します:
 
 ```typescript
-...
 import { MyExtensionModule } from 'my-extension';
 
 @NgModule({
-    ...
     imports: [
-        ...,
         MyExtensionModule
     ]
 })
@@ -192,7 +187,6 @@ export class AppExtensionsModule {}
 ```json
 {
     "$references": [
-        ...,
         "my-extension.json"
     ]
 }

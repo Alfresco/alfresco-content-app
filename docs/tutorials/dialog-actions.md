@@ -67,15 +67,11 @@ import { ShowMydDialogAction, SHOW_MY_DIALOG } from '../actions/app.actions';
 
 @Injectable()
 export class AppEffects {
-  constructor(...) {}
-
   @Effect({ dispatch: false })
   showMyDialog$ = this.actions$.pipe(
     ofType<ShowMydDialogAction>(SHOW_MY_DIALOG),
     map(() => {})
   );
-
-  // ...
 }
 ```
 
@@ -91,10 +87,7 @@ import { MyExtensionDialogComponent } from '../../dialogs/my-extension-dialog/my
 
 @Injectable()
 export class AppEffects {
-  constructor(
-    ...,
-    private dialog: MatDialog
-  ) {}
+  constructor(private dialog: MatDialog) {}
 
   @Effect({ dispatch: false })
   showMyDialog$ = this.actions$.pipe(
@@ -103,9 +96,6 @@ export class AppEffects {
       this.dialog.open(MyExtensionDialogComponent)
     })
   );
-
-  ...
-
 }
 ```
 

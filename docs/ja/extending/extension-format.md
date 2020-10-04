@@ -297,13 +297,11 @@ JSON 構造およびネストのレベルに制限はありません。
         "create": [
             {
                 "id": "app.create.folder",
-                "disabled": true,
-                ...
+                "disabled": true
             },
             {
                 "id": "plugin1.create.folder",
-                "title": "Create Folder",
-                ...
+                "title": "Create Folder"
             }
         ]
     }

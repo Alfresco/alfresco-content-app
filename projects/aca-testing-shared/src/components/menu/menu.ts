@@ -30,7 +30,6 @@ import { Utils, isPresentAndEnabled, waitForPresence, waitForStaleness } from '.
 
 export class Menu extends Component {
   items = this.allByCss('.mat-menu-item');
-  backdrop = this.byCss('.cdk-overlay-backdrop', browser);
 
   uploadFilesInput = this.byId('app-upload-files', browser);
   submenus = browser.element.all(by.css('app-context-menu-item .mat-menu-item'));
@@ -45,26 +44,15 @@ export class Menu extends Component {
   cancelEditingAction = this.byCss(`.mat-menu-item[title='Cancel Editing']`);
   cancelJoinAction = this.byCssText('.mat-menu-item', 'Cancel Join');
   copyAction = this.byCssText('.mat-menu-item', 'Copy');
-  deleteAction = this.byCssText('.mat-menu-item', 'Delete');
   downloadAction = this.byCssText('.mat-menu-item', 'Download');
   editFolderAction = this.byCss(`.mat-menu-item[id$='editFolder']`);
   editOfflineAction = this.byCss(`.mat-menu-item[title='Edit Offline']`);
-  favoriteAction = this.byCss(`.mat-menu-item[id$='favorite.add']`);
-  removeFavoriteAction = this.byCss(`.mat-menu-item[id$='favorite.remove']`);
-  toggleFavoriteAction = this.byCssText('.mat-menu-item', 'Favorite');
-  toggleRemoveFavoriteAction = this.byCssText('.mat-menu-item', 'Remove Favorite');
   joinAction = this.byCssText('.mat-menu-item', 'Join');
   leaveAction = this.byCssText('.mat-menu-item', 'Leave');
   managePermissionsAction = this.byCssText('.mat-menu-item', 'Permissions');
-  manageVersionsAction = this.byCssText('.mat-menu-item', 'Manage Versions');
-  uploadNewVersionAction = this.byCssText('.mat-menu-item', 'Upload New Version');
-  moveAction = this.byCssText('.mat-menu-item', 'Move');
-  permanentDeleteAction = this.byCssText('.mat-menu-item', 'Permanently Delete');
   restoreAction = this.byCssText('.mat-menu-item', 'Restore');
   shareAction = this.byCssText('.mat-menu-item', 'Share');
   shareEditAction = this.byCssText('.mat-menu-item', 'Shared Link Settings');
-  viewAction = this.byCssText('.mat-menu-item', 'View');
-  viewDetailsAction = this.byCssText('.mat-menu-item', 'View Details');
 
   constructor(ancestor?: string) {
     super('.mat-menu-panel', ancestor);

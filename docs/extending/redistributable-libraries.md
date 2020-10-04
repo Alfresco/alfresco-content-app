@@ -103,8 +103,6 @@ Update the root `package.json` file and append the following entry to the `scrip
 ```json
 {
     "scripts": {
-        ...,
-
         "build:my-extension":
             "ng build my-extension && cpr projects/my-extension/assets dist/my-extension/assets --deleteFirst"
     }
@@ -113,7 +111,7 @@ Update the root `package.json` file and append the following entry to the `scrip
 
 You can now use that script to build the library and copy assets to the output folder.
 
-**Tip:** It is good practice to provide installation instructions for your library in the `README.md` file.
+**Tip:** It is good practice providing installation instructions for your library in the `README.md` file.
 Be sure to mention that developers should have a build rule to copy your plugin definition file to the `assets/plugins` folder of the main application.
 
 ## Publishing library to NPM
@@ -174,13 +172,10 @@ Use the following rule if you are installing an extension from NPM:
 In the main application, edit the `src/app/extensions.module.ts` file and append the module declaration as in the next example:
 
 ```typescript
-...
 import { MyExtensionModule } from 'my-extension';
 
 @NgModule({
-    ...
     imports: [
-        ...,
         MyExtensionModule
     ]
 })
@@ -194,7 +189,6 @@ Finally, update the `src/assets/app.extensions.json` file and add a reference to
 ```json
 {
     "$references": [
-        ...,
         "my-extension.json"
     ]
 }

@@ -21,8 +21,7 @@ Content Application が起動したら、Alfresco Content Services サーバの�
 
 ```json
 {
-    "ecmHost": "http://{hostname}{:port}",
-    ...
+    "ecmHost": "http://{hostname}{:port}"
 }
 ```
 
@@ -41,8 +40,7 @@ ACS リポジトリの `localhost:4200/alfresco` のプロキシサーバです�
 
 ```json
 {
-    "ecmHost": "http://localhost:4200",
-    ...
+    "ecmHost": "http://localhost:4200"
 }
 ```
 
@@ -66,7 +64,6 @@ ACS リポジトリの `localhost:4200/alfresco` のプロキシサーバです�
 
 ```json
 {
-    ...,
     "application": {
         "name": "Alfresco Example Content Application"
     }
@@ -86,7 +83,6 @@ Alfresco コンテンツアプリケーションの左上隅に表示される�
 
 ```json
 {
-    ...,
     "application": {
         "logo": "/assets/images/alfresco-logo-white.svg"
     }
@@ -99,7 +95,6 @@ Alfresco コンテンツアプリケーションの左上隅に表示される�
 
 ```json
 {
-    ...,
     "headerColor": "#ffffff"
 }
 ```
@@ -112,7 +107,6 @@ Alfresco コンテンツアプリケーションの左上隅に表示される�
 
 ```json
 {
-    ...,
     "files": {
         "excluded": [
             ".DS_Store",
@@ -120,8 +114,7 @@ Alfresco コンテンツアプリケーションの左上隅に表示される�
             "thumbs.db",
             ".git"
         ]
-    },
-    ...
+    }
 }
 ```
 
@@ -133,15 +126,13 @@ Alfresco コンテンツアプリケーションの左上隅に表示される�
 
 ```json
 {
-    ...,
     "pagination": {
         "supportedPageSizes": [
             25,
             50,
             100
         ]
-    },
-    ...
+    }
 }
 ```
 

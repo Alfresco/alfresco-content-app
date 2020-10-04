@@ -22,12 +22,8 @@ Navigation configuration supports array and object like schema. Defining an obje
 ```json
 {
   "navigation": {
-     "main": [
-      ...
-     ],
-   "secondary": [
-     ...
-    ]
+    "main": [],
+    "secondary": []
   }
 }
 ```
@@ -37,9 +33,8 @@ Navigation configuration supports array and object like schema. Defining an obje
 ```json
 {
   "navigation": [
-    { ... },
-    { ... },
-    ...
+    { },
+    { }
   ]
 }
 ```
@@ -61,17 +56,17 @@ Navigation configuration supports array and object like schema. Defining an obje
 To change the `title` and `label` of navigation links edit the values under `BROWSE` entry found at `/src/assets/i18n/en.json`
 
 ```json
-"APP" : {
-  ...
-  "BROWSE": {
-    "PERSONAL": {
-    "TITLE": "Personal Files",
-    "SIDENAV_LINK": {
-        "LABEL": "Personal Files",
-        "TOOLTIP": "View your Personal Files"
+{
+  "APP": {
+    "BROWSE": {
+      "PERSONAL": {
+        "TITLE": "Personal Files",
+        "SIDENAV_LINK": {
+          "LABEL": "Personal Files",
+          "TOOLTIP": "View your Personal Files"
+        }
       }
-    },
-    ...
+    }
   }
 }
 ```
@@ -100,17 +95,12 @@ export class CustomPage {
 Register the component in ```app.module.ts```
 
 ```javascript
+import { CustomPage } from './components/custom-page/custom-page.component';
 
-  ...
-  import { CustomPage } from './components/custom-page/custom-page.component';
-
-  @NgModule({
-    ...
-    declarations: [
-        ...,
-        CustomPage
-    ],
-    ...
+@NgModule({
+  declarations: [
+    CustomPage
+  ]
 })
 
 ```
@@ -119,7 +109,6 @@ In the `app.config.json` define a link entry which will point to the custom page
 
 ```json
 {
-  ...,
   "navigation": [
       "main": [ ... ],
       "secondary": [ ... ],
@@ -135,14 +124,12 @@ In the `app.config.json` define a link entry which will point to the custom page
       ]
   ]
 }
-
 ```
 
 This can also be declared using ngrx store action:
 
 ```json
 {
-  ...,
   "navigation": [
       "main": [ ... ],
       "secondary": [ ... ],
@@ -159,29 +146,25 @@ This can also be declared using ngrx store action:
       ]
   ]
 }
-
 ```
 
 Map the `/custom-route` in `app.routes.ts` as a child of `LayoutComponent` definition.
 
 ```js
+import { CustomPage } from './components/custom-page/custom-page.component.ts';
 
-  import { CustomPage } from './components/custom-page/custom-page.component.ts';
-
-  ...
+export const APP_ROUTES: Routes = [
   {
     path: '',
     component: LayoutComponent,
     children: [
-     ...,
      {
         path: 'custom-route',
         component: CustomPage
       }
     ]
   }
-  ...,
-
+]
 ```
 
 ![](../images/navigation-03.png)
@@ -191,49 +174,48 @@ Map the `/custom-route` in `app.routes.ts` as a child of `LayoutComponent` defin
 Navigation definition also supports custom components to be dynamically render. The schema for this is as follows:
 
 ```json
-"navbar": [
-  {
+{
+  "navbar": [
+    {
       "id": "app.navbar.primary",
       "items": [
-            ...
-
-          {
-              "id": "custom-component",
-              "component": "custom-menu-item"
-          }
-
-          ...
+        {
+          "id": "custom-component",
+          "component": "custom-menu-item"
+        }
       ]
-  }
-]
+    }
+  ]
+}
 ```
 
 Navigation items or group of navigation items can be conditional render based on defined rules.
 
 ```json
-"navbar": [
-  {
-    "id": "custom-group-1",
-    "rules": {
-      "visible": "rule-reference-id"
+{
+  "navbar": [
+    {
+      "id": "custom-group-1",
+      "rules": {
+        "visible": "rule-reference-id"
+      },
+      "items": []
     },
-    "items": [ ... ]
-  },
-  {
-    "id": "custom-group-2",
-    "items": [
+    {
+      "id": "custom-group-2",
+      "items": [
         {
           "id": "itemId",
           "rules": {
             "visible": "rule-reference-id"
-          },
-          ...
+          }
         }
-    ]
-  }
-]
+      ]
+    }
+  ]
+}
 ```
 
-For more informations about rules checkout [Rules](../extending/rules.md) section.
+For more information about rules checkout [Rules](../extending/rules.md) section.
 
 For more information about the content of a custom page see [Document List Layout](/features/document-list-layout) section.

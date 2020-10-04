@@ -38,9 +38,8 @@ nav: ja
 ```json
 {
   "navigation": [
-    { ... },
-    { ... },
-    ...
+    {},
+    {}
   ]
 }
 ```
@@ -62,17 +61,17 @@ nav: ja
 ナビゲーションリンクの `title` と `label` を変更するには、`/src/assets/i18n/en.json` にある `BROWSE` エントリの下の値を編集します
 
 ```json
-"APP" : {
-  ...
-  "BROWSE": {
-    "PERSONAL": {
-    "TITLE": "Personal Files",
-    "SIDENAV_LINK": {
-        "LABEL": "Personal Files",
-        "TOOLTIP": "View your Personal Files"
+{
+  "APP": {
+    "BROWSE": {
+      "PERSONAL": {
+        "TITLE": "Personal Files",
+        "SIDENAV_LINK": {
+          "LABEL": "Personal Files",
+          "TOOLTIP": "View your Personal Files"
+        }
       }
-    },
-    ...
+    }
   }
 }
 ```
@@ -101,29 +100,22 @@ export class CustomPage {
 コンポーネントを ```app.module.ts``` に登録します
 
 ```javascript
+import { CustomPage } from './components/custom-page/custom-page.component';
 
-  ...
-  import { CustomPage } from './components/custom-page/custom-page.component';
-
-  @NgModule({
-    ...
-    declarations: [
-        ...,
-        CustomPage
-    ],
-    ...
+@NgModule({
+  declarations: [
+    CustomPage
+  ]
 })
-
 ```
 
 `app.config.json` で、カスタムページを指すリンクエントリを定義します
 
 ```json
 {
-  ...,
   "navigation": [
-      "main": [ ... ],
-      "secondary": [ ... ],
+      "main": [ ],
+      "secondary": [ ],
       "custom": [
         {
           "icon": "work",
@@ -167,21 +159,20 @@ export class CustomPage {
 
 ```js
 
-  import { CustomPage } from './components/custom-page/custom-page.component.ts';
+import { CustomPage } from './components/custom-page/custom-page.component.ts';
 
-  ...
+export const APP_ROUTES: Routes = [
   {
     path: '',
     component: LayoutComponent,
     children: [
-     ...,
      {
         path: 'custom-route',
         component: CustomPage
       }
     ]
   }
-  ...,
+]
 
 ```
 
@@ -192,21 +183,19 @@ export class CustomPage {
 ナビゲーション定義は、動的にレンダリングされるカスタムコンポーネントもサポートします。このスキーマは次のとおりです:
 
 ```json
-"navbar": [
-  {
+{
+  "navbar": [
+    {
       "id": "app.navbar.primary",
       "items": [
-            ...
-
-          {
-              "id": "custom-component",
-              "component": "custom-menu-item"
-          }
-
-          ...
+        {
+          "id": "custom-component",
+          "component": "custom-menu-item"
+        }
       ]
-  }
-]
+    }
+  ]
+}
 ```
 
 カスタムページのコンテンツの詳細については、[ドキュメントリストのレイアウト](/ja/features/document-list-layout) セクションを参照してください。

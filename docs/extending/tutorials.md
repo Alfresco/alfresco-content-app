@@ -192,15 +192,11 @@ import { ShowMydDialogAction, SHOW_MY_DIALOG } from '../actions/app.actions';
 
 @Injectable()
 export class AppEffects {
-  constructor(...) {}
-
   @Effect({ dispatch: false })
   showMyDialog$ = this.actions$.pipe(
     ofType<ShowMydDialogAction>(SHOW_MY_DIALOG),
     map(() => {})
   );
-
-  // ...
 }
 ```
 
@@ -216,10 +212,7 @@ import { MyExtensionDialogComponent } from '../../dialogs/my-extension-dialog/my
 
 @Injectable()
 export class AppEffects {
-  constructor(
-    ...,
-    private dialog: MatDialog
-  ) {}
+  constructor(private dialog: MatDialog) {}
 
   @Effect({ dispatch: false })
   showMyDialog$ = this.actions$.pipe(
@@ -228,9 +221,6 @@ export class AppEffects {
       this.dialog.open(MyExtensionDialogComponent)
     })
   );
-
-  ...
-
 }
 ```
 
@@ -240,8 +230,6 @@ Update the `src/assets/app.extensions.json` file, and insert a new entry to the 
 
 ```json
 {
-  ...,
-
   "features": {
     "toolbar": [
       {
@@ -280,34 +268,34 @@ We need to add the custom route with our entry component and its child route for
 
 ```json
 {
-  ...
-  "routes": [{
-    "id": "start-process",
-    "path": "start-process",
-    "parentRoute": "",
-    "layout": "app.layout.main",
-    // The component we register to be our entry point for this particular route
-    "component": "myplugin.components.start-process",
-    "children": [
+  "routes": [
+    {
+      "id": "start-process",
+      "path": "start-process",
+      "parentRoute": "",
+      "layout": "app.layout.main",
+      // The component we register to be our entry point for this particular route
+      "component": "myplugin.components.start-process",
+      "children": [
         {
-            "id": "start-process-preview",
-            // It can be accessed on the "/start-process(viewer:preview/nodeId)" route
-            "path": "preview/:nodeId",
-            "component": "app.components.preview",
-            "data": {
-                // Using history.back() when closing the preview
-                "navigateBackAsClose": true,
-                // Disabling complex action and buttons for the preview
-                "simplestMode": true
-            },
-            // We would like to target that named router outlet which is used for the viewer overlay
-            "outlet": "viewer"
+          "id": "start-process-preview",
+          // It can be accessed on the "/start-process(viewer:preview/nodeId)" route
+          "path": "preview/:nodeId",
+          "component": "app.components.preview",
+          "data": {
+            // Using history.back() when closing the preview
+            "navigateBackAsClose": true,
+            // Disabling complex action and buttons for the preview
+            "simplestMode": true
+          },
+          // We would like to target that named router outlet which is used for the viewer overlay
+          "outlet": "viewer"
         }
-    ]
-  }]
-  ...
+      ]
+    }
+  ]
+}
 ```
-
 
 ##### Dispatching the right action within our component to open the file preview
 
@@ -316,8 +304,6 @@ import { PluginPreviewAction } from '@alfresco/aca-shared/store';
 
 @Component({...})
 export class StartProcessComponent {
-  ...
-
   onFilePreview({ nodeId }) {
       this.store.dispatch(new PluginPreviewAction('start-process-cloud', nodeId));
   }
