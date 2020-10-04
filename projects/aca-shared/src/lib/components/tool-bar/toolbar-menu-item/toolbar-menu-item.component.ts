@@ -53,10 +53,7 @@ export class ToolbarMenuItemComponent {
   }
 
   private hasClickAction(actionRef: ContentActionRef): boolean {
-    if (actionRef && actionRef.actions && actionRef.actions.click) {
-      return true;
-    }
-    return false;
+    return !!(actionRef && actionRef.actions && actionRef.actions.click);
   }
 
   trackById(_: number, obj: { id: string }) {

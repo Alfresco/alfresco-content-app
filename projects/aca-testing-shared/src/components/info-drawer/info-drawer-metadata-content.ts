@@ -62,10 +62,7 @@ export class ContentMetadata extends Component {
       .filter(async (elem) => elem.isDisplayed())
       .map(async (elem) => {
         if (await elem.isElementPresent(by.css('.mat-checkbox'))) {
-          if (await elem.isElementPresent(by.css('.mat-checkbox-checked'))) {
-            return true;
-          }
-          return false;
+          return !!(await elem.isElementPresent(by.css('.mat-checkbox-checked')));
         }
 
         return this.getElementValue(elem);

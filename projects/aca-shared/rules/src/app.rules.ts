@@ -212,8 +212,7 @@ export function canDownloadSelection(context: RuleContext): boolean {
  * JSON ref: `app.selection.folder`
  */
 export function hasFolderSelected(context: RuleContext): boolean {
-  const folder = context.selection.folder;
-  return folder ? true : false;
+  return !!context.selection.folder;
 }
 
 /**
@@ -221,8 +220,7 @@ export function hasFolderSelected(context: RuleContext): boolean {
  * JSON ref: `app.selection.library`
  */
 export function hasLibrarySelected(context: RuleContext): boolean {
-  const library = context.selection.library;
-  return library ? true : false;
+  return !!context.selection.library;
 }
 
 /**
@@ -256,10 +254,7 @@ export function hasNoLibraryRole(context: RuleContext): boolean {
  * JSON ref: `app.selection.file`
  */
 export function hasFileSelected(context: RuleContext): boolean {
-  if (context && context.selection && context.selection.file) {
-    return true;
-  }
-  return false;
+  return !!(context && context.selection && context.selection.file);
 }
 
 /**

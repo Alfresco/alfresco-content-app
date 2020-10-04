@@ -466,7 +466,7 @@ export class AppExtensionService implements RuleContext {
 
   // todo: move to ADF/RuleService
   isRuleDefined(ruleId: string): boolean {
-    return ruleId && this.getEvaluator(ruleId) ? true : false;
+    return !!(ruleId && this.getEvaluator(ruleId));
   }
 
   // todo: move to ADF/RuleService

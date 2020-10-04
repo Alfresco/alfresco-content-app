@@ -125,7 +125,7 @@ export class SettingsComponent implements OnInit {
     if (result) {
       return result === 'true';
     } else {
-      return param.value ? true : false;
+      return !!param.value;
     }
   }
 

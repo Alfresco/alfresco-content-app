@@ -65,11 +65,11 @@ export class AosEditOnlineService {
   }
 
   private isWindows(): boolean {
-    return this.getUserAgent().indexOf('win') !== -1 ? true : false;
+    return this.getUserAgent().indexOf('win') !== -1;
   }
 
   private isMacOs(): boolean {
-    return this.getUserAgent().indexOf('mac') !== -1 ? true : false;
+    return this.getUserAgent().indexOf('mac') !== -1;
   }
 
   private onAlreadyLockedNotification(nodeId: string, lockOwner: string) {
