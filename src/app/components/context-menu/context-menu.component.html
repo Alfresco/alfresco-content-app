@@ -1,27 +1,10 @@
 <div [dir]="direction">
-  <div
-    style="visibility: hidden"
-    [matMenuTriggerFor]="rootMenu"
-    #rootTriggerEl
-  ></div>
+  <div style="visibility: hidden" [matMenuTriggerFor]="rootMenu"></div>
 
-  <mat-menu
-    #rootMenu="matMenu"
-    class="aca-context-menu"
-    hasBackdrop="false"
-    acaContextMenuOutsideEvent
-    (clickOutside)="onClickOutsideEvent()"
-  >
-    <ng-container
-      *ngFor="let entry of actions; trackBy: trackById"
-      [ngSwitch]="entry.type"
-    >
+  <mat-menu #rootMenu="matMenu" class="aca-context-menu" hasBackdrop="false" acaContextMenuOutsideEvent (clickOutside)="onClickOutsideEvent()">
+    <ng-container *ngFor="let entry of actions; trackBy: trackById" [ngSwitch]="entry.type">
       <ng-container *ngSwitchDefault>
-        <button
-          mat-menu-item
-          [id]="entry.id"
-          (click)="runAction(entry.actions.click)"
-        >
+        <button mat-menu-item [id]="entry.id" (click)="runAction(entry.actions.click)">
           <adf-icon [value]="entry.icon"></adf-icon>
           <span>{{ entry.title | translate }}</span>
         </button>
@@ -38,19 +21,14 @@
         </button>
 
         <mat-menu #childMenu="matMenu">
-          <ng-container
-            *ngFor="let child of entry.children; trackBy: trackById"
-          >
+          <ng-container *ngFor="let child of entry.children; trackBy: trackById">
             <app-context-menu-item [actionRef]="child"></app-context-menu-item>
           </ng-container>
         </mat-menu>
       </ng-container>
 
       <ng-container *ngSwitchCase="'custom'">
-        <adf-dynamic-component
-          [data]="entry.data"
-          [id]="entry.component"
-        ></adf-dynamic-component>
+        <adf-dynamic-component [data]="entry.data" [id]="entry.component"></adf-dynamic-component>
       </ng-container>
     </ng-container>
   </mat-menu>
