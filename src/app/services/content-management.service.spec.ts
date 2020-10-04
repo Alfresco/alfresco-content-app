@@ -102,7 +102,7 @@ describe('ContentManagementService', () => {
 
       store.dispatch(new CopyNodesAction(selection));
       nodeActions.contentCopied.next(createdItems);
-      subject.next('OPERATION.SUCCES.CONTENT.COPY');
+      subject.next('OPERATION.SUCCESS.CONTENT.COPY');
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
       expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.SINGULAR');
@@ -116,7 +116,7 @@ describe('ContentManagementService', () => {
 
       store.dispatch(new CopyNodesAction(selection));
       nodeActions.contentCopied.next(createdItems);
-      subject.next('OPERATION.SUCCES.CONTENT.COPY');
+      subject.next('OPERATION.SUCCESS.CONTENT.COPY');
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
       expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.PLURAL');
@@ -130,7 +130,7 @@ describe('ContentManagementService', () => {
 
       store.dispatch(new CopyNodesAction(selection));
       nodeActions.contentCopied.next(createdItems);
-      subject.next('OPERATION.SUCCES.CONTENT.COPY');
+      subject.next('OPERATION.SUCCESS.CONTENT.COPY');
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
       expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.PARTIAL_SINGULAR');
@@ -148,7 +148,7 @@ describe('ContentManagementService', () => {
 
       store.dispatch(new CopyNodesAction(selection));
       nodeActions.contentCopied.next(createdItems);
-      subject.next('OPERATION.SUCCES.CONTENT.COPY');
+      subject.next('OPERATION.SUCCESS.CONTENT.COPY');
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
       expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.PARTIAL_PLURAL');
@@ -166,7 +166,7 @@ describe('ContentManagementService', () => {
 
       store.dispatch(new CopyNodesAction(selection));
       nodeActions.contentCopied.next(createdItems);
-      subject.next('OPERATION.SUCCES.CONTENT.COPY');
+      subject.next('OPERATION.SUCCESS.CONTENT.COPY');
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
       expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.FAIL_PLURAL');
@@ -180,7 +180,7 @@ describe('ContentManagementService', () => {
 
       store.dispatch(new CopyNodesAction(selection));
       nodeActions.contentCopied.next(createdItems);
-      subject.next('OPERATION.SUCCES.CONTENT.COPY');
+      subject.next('OPERATION.SUCCESS.CONTENT.COPY');
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
       expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.FAIL_SINGULAR');
@@ -242,7 +242,7 @@ describe('ContentManagementService', () => {
       const createdItems: any[] = [{ entry: { id: 'copy-id', name: 'name' } }];
 
       store.dispatch(new CopyNodesAction(selection));
-      nodeActions.copyNodes(null).next('OPERATION.SUCCES.CONTENT.COPY');
+      nodeActions.copyNodes(null).next('OPERATION.SUCCESS.CONTENT.COPY');
       nodeActions.contentCopied.next(createdItems);
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
@@ -279,7 +279,7 @@ describe('ContentManagementService', () => {
       ];
 
       store.dispatch(new CopyNodesAction(selection));
-      nodeActions.copyNodes(null).next('OPERATION.SUCCES.CONTENT.COPY');
+      nodeActions.copyNodes(null).next('OPERATION.SUCCESS.CONTENT.COPY');
       nodeActions.contentCopied.next(createdItems);
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
@@ -299,7 +299,7 @@ describe('ContentManagementService', () => {
       const createdItems: any[] = [{ entry: { id: 'copy-id', name: 'name' } }];
 
       store.dispatch(new CopyNodesAction(selection));
-      nodeActions.copyNodes(null).next('OPERATION.SUCCES.CONTENT.COPY');
+      nodeActions.copyNodes(null).next('OPERATION.SUCCESS.CONTENT.COPY');
       nodeActions.contentCopied.next(createdItems);
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
@@ -314,7 +314,7 @@ describe('ContentManagementService', () => {
       const createdItems: any[] = [{ entry: { id: 'copy-id', name: 'name' } }];
 
       store.dispatch(new CopyNodesAction(selection));
-      nodeActions.copyNodes(null).next('OPERATION.SUCCES.CONTENT.COPY');
+      nodeActions.copyNodes(null).next('OPERATION.SUCCESS.CONTENT.COPY');
       nodeActions.contentCopied.next(createdItems);
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
@@ -329,7 +329,7 @@ describe('ContentManagementService', () => {
       const createdItems: any[] = [{ entry: { id: 'copy-id', name: 'name' } }];
 
       store.dispatch(new CopyNodesAction(selection));
-      nodeActions.copyNodes(null).next('OPERATION.SUCCES.CONTENT.COPY');
+      nodeActions.copyNodes(null).next('OPERATION.SUCCESS.CONTENT.COPY');
       nodeActions.contentCopied.next(createdItems);
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
@@ -375,7 +375,7 @@ describe('ContentManagementService', () => {
 
       const selection: any = node;
       store.dispatch(new MoveNodesAction(selection));
-      nodeActions.moveNodes(null).next('OPERATION.SUCCES.CONTENT.MOVE');
+      nodeActions.moveNodes(null).next('OPERATION.SUCCESS.CONTENT.MOVE');
       nodeActions.contentMoved.next(moveResponse);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
@@ -396,7 +396,7 @@ describe('ContentManagementService', () => {
       const selection: any = nodes;
 
       store.dispatch(new MoveNodesAction(selection));
-      nodeActions.moveNodes(null).next('OPERATION.SUCCES.CONTENT.MOVE');
+      nodeActions.moveNodes(null).next('OPERATION.SUCCESS.CONTENT.MOVE');
       nodeActions.contentMoved.next(moveResponse);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
@@ -414,10 +414,8 @@ describe('ContentManagementService', () => {
       spyOn(nodeActions, 'moveNodes').and.returnValue(subject);
       spyOn(nodeActions, 'processResponse').and.returnValue(moveResponse);
 
-      const selection = nodes;
-
-      store.dispatch(new MoveNodesAction(selection));
-      nodeActions.moveNodes(null).next('OPERATION.SUCCES.CONTENT.MOVE');
+      store.dispatch(new MoveNodesAction(nodes));
+      nodeActions.moveNodes(null).next('OPERATION.SUCCESS.CONTENT.MOVE');
       nodeActions.contentMoved.next(moveResponse);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
@@ -435,10 +433,8 @@ describe('ContentManagementService', () => {
       spyOn(nodeActions, 'moveNodes').and.returnValue(subject);
       spyOn(nodeActions, 'processResponse').and.returnValue(moveResponse);
 
-      const selection = nodes;
-
-      store.dispatch(new MoveNodesAction(selection));
-      nodeActions.moveNodes(null).next('OPERATION.SUCCES.CONTENT.MOVE');
+      store.dispatch(new MoveNodesAction(nodes));
+      nodeActions.moveNodes(null).next('OPERATION.SUCCESS.CONTENT.MOVE');
       nodeActions.contentMoved.next(moveResponse);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
@@ -457,7 +453,7 @@ describe('ContentManagementService', () => {
       spyOn(nodeActions, 'processResponse').and.returnValue(moveResponse);
 
       store.dispatch(new MoveNodesAction(nodes));
-      nodeActions.moveNodes(null).next('OPERATION.SUCCES.CONTENT.MOVE');
+      nodeActions.moveNodes(null).next('OPERATION.SUCCESS.CONTENT.MOVE');
       nodeActions.contentMoved.next(moveResponse);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
@@ -476,7 +472,7 @@ describe('ContentManagementService', () => {
       spyOn(nodeActions, 'processResponse').and.returnValue(moveResponse);
 
       store.dispatch(new MoveNodesAction(nodes));
-      nodeActions.moveNodes(null).next('OPERATION.SUCCES.CONTENT.MOVE');
+      nodeActions.moveNodes(null).next('OPERATION.SUCCESS.CONTENT.MOVE');
       nodeActions.contentMoved.next(moveResponse);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
@@ -546,7 +542,7 @@ describe('ContentManagementService', () => {
       spyOn(nodeActions, 'processResponse').and.returnValue(moveResponse);
 
       store.dispatch(new MoveNodesAction(nodes));
-      nodeActions.moveNodes(null).next('OPERATION.SUCCES.CONTENT.MOVE');
+      nodeActions.moveNodes(null).next('OPERATION.SUCCESS.CONTENT.MOVE');
       nodeActions.contentMoved.next(moveResponse);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
@@ -592,7 +588,7 @@ describe('ContentManagementService', () => {
       spyOn(nodeActions, 'moveNodeAction').and.returnValue(of({}));
 
       store.dispatch(new MoveNodesAction(selection));
-      nodeActions.moveNodes(null).next('OPERATION.SUCCES.CONTENT.MOVE');
+      nodeActions.moveNodes(null).next('OPERATION.SUCCESS.CONTENT.MOVE');
       const movedItems = {
         failed: [],
         partiallySucceeded: [],
@@ -625,7 +621,7 @@ describe('ContentManagementService', () => {
       };
 
       store.dispatch(new MoveNodesAction(selection));
-      nodeActions.moveNodes(null).next('OPERATION.SUCCES.CONTENT.MOVE');
+      nodeActions.moveNodes(null).next('OPERATION.SUCCESS.CONTENT.MOVE');
       nodeActions.contentMoved.next(movedItems);
 
       expect(nodeActions.moveNodeAction).toHaveBeenCalledWith(node.entry, initialParent);
@@ -657,7 +653,7 @@ describe('ContentManagementService', () => {
       };
 
       store.dispatch(new MoveNodesAction(selection));
-      nodeActions.moveNodes(null).next('OPERATION.SUCCES.CONTENT.MOVE');
+      nodeActions.moveNodes(null).next('OPERATION.SUCCESS.CONTENT.MOVE');
       nodeActions.contentMoved.next(movedItems);
 
       expect(contentApi.restoreNode).toHaveBeenCalled();
@@ -699,7 +695,7 @@ describe('ContentManagementService', () => {
       };
 
       store.dispatch(new MoveNodesAction(selection));
-      nodeActions.moveNodes(null).next('OPERATION.SUCCES.CONTENT.MOVE');
+      nodeActions.moveNodes(null).next('OPERATION.SUCCESS.CONTENT.MOVE');
       nodeActions.contentMoved.next(movedItems);
 
       expect(contentApi.restoreNode).toHaveBeenCalled();
@@ -731,7 +727,7 @@ describe('ContentManagementService', () => {
       };
 
       store.dispatch(new MoveNodesAction(selection));
-      nodeActions.moveNodes(null).next('OPERATION.SUCCES.CONTENT.MOVE');
+      nodeActions.moveNodes(null).next('OPERATION.SUCCESS.CONTENT.MOVE');
       nodeActions.contentMoved.next(movedItems);
 
       expect(contentApi.restoreNode).toHaveBeenCalled();
@@ -763,7 +759,7 @@ describe('ContentManagementService', () => {
       };
 
       store.dispatch(new MoveNodesAction(selection));
-      nodeActions.moveNodes(null).next('OPERATION.SUCCES.CONTENT.MOVE');
+      nodeActions.moveNodes(null).next('OPERATION.SUCCESS.CONTENT.MOVE');
       nodeActions.contentMoved.next(movedItems);
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();

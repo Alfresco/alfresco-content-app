@@ -78,10 +78,9 @@ export class SearchSortingPicker extends Component {
   }
 
   async getSortByOptionsList(): Promise<string[]> {
-    const list: string[] = await this.sortByList.map(async (option) => {
+    return this.sortByList.map(async (option) => {
       return option.getText();
     });
-    return list;
   }
 
   async sortBy(option: SortByType): Promise<void> {

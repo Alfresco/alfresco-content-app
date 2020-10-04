@@ -212,7 +212,7 @@ function updateSelectedNodes(state: AppState, action: SetSelectedNodesAction): A
     if (nodes.length === 1) {
       file = nodes.find((entity: any) => {
         // workaround Shared
-        return entity.entry.isFile || entity.entry.nodeId || entity.entry.sharedByUser ? true : false;
+        return !!(entity.entry.isFile || entity.entry.nodeId || entity.entry.sharedByUser);
       });
       folder = nodes.find((entity: any) => entity.entry.isFolder);
     }
@@ -266,7 +266,7 @@ function handleSettingsUpdate(state: AppState, action: SetSettingsParameterActio
   const { payload } = action;
 
   if (payload.name === 'languagePicker') {
-    newState.languagePicker = payload.value ? true : false;
+    newState.languagePicker = !!payload.value;
   }
   return newState;
 }

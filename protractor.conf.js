@@ -28,13 +28,13 @@ const MAX_RETRIES = process.env.MAX_RETRIES || 1;
 
 function rmDir(dirPath) {
   try {
-    var files = fs.readdirSync(dirPath);
+    const files = fs.readdirSync(dirPath);
   } catch (e) {
     return;
   }
   if (files.length > 0)
-    for (var i = 0; i < files.length; i++) {
-      var filePath = dirPath + '/' + files[i];
+    for (let i = 0; i < files.length; i++) {
+      const filePath = dirPath + '/' + files[i];
       if (fs.statSync(filePath).isFile()) fs.unlinkSync(filePath);
       else rmDir(filePath);
     }

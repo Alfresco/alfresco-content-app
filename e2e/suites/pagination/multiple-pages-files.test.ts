@@ -80,7 +80,7 @@ describe('Pagination on multiple pages : ', () => {
 
   describe('on Search Results', () => {
     beforeAll(async () => {
-      userApi.search.waitForApi(username, { expect: initialSearchTotalItems + 101 });
+      await userApi.search.waitForApi(username, { expect: initialSearchTotalItems + 101 });
     }, 120000);
     searchResultsTests(username);
   });

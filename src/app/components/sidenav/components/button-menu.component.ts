@@ -25,6 +25,7 @@
 
 import { Component, Input, ViewEncapsulation, OnInit, ChangeDetectorRef } from '@angular/core';
 import { OverlayContainer } from '@angular/cdk/overlay';
+import { NavBarLinkRef } from '@alfresco/adf-extensions';
 
 @Component({
   selector: 'app-button-menu',
@@ -33,7 +34,8 @@ import { OverlayContainer } from '@angular/cdk/overlay';
   encapsulation: ViewEncapsulation.None
 })
 export class ButtonMenuComponent implements OnInit {
-  @Input() item;
+  @Input()
+  item: NavBarLinkRef;
 
   constructor(private cd: ChangeDetectorRef, private overlayContainer: OverlayContainer) {
     this.overlayContainer.getContainerElement().classList.add('aca-menu-panel');

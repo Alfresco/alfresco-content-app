@@ -59,7 +59,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { forkJoin, Observable, of, Subject, zip } from 'rxjs';
-import { catchError, flatMap, map, mergeMap, take, tap } from 'rxjs/operators';
+import { catchError, map, mergeMap, take, tap } from 'rxjs/operators';
 import { NodePermissionsDialogComponent } from '../components/permissions/permission-dialog/node-permissions.dialog';
 import { NodeVersionsDialogComponent } from '../dialogs/node-versions/node-versions.dialog';
 import { NodeActionsService } from './node-actions.service';
@@ -1031,7 +1031,7 @@ export class ContentManagementService {
   getNodeInfo(): Observable<MinimalNodeEntryEntity> {
     return this.store.select(getAppSelection).pipe(
       take(1),
-      flatMap(({ file }) => {
+      mergeMap(({ file }) => {
         const id = (file as any).entry.nodeId || (file as any).entry.guid;
         if (!id) {
           return of(file.entry);

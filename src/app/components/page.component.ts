@@ -70,7 +70,7 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
 
   protected subscriptions: Subscription[] = [];
 
-  constructor(protected store: Store<AppStore>, protected extensions: AppExtensionService, protected content: ContentManagementService) {}
+  protected constructor(protected store: Store<AppStore>, protected extensions: AppExtensionService, protected content: ContentManagementService) {}
 
   ngOnInit() {
     this.sharedPreviewUrl$ = this.store.select(getSharedUrl);

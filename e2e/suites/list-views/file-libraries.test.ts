@@ -103,7 +103,7 @@ describe('File Libraries', () => {
       const expectedColumns = ['Name', 'Description', 'My Role', 'Visibility'];
       const actualColumns = await dataTable.getColumnHeadersText();
 
-      expect(actualColumns).toEqual(expectedColumns);
+      await expect(actualColumns).toEqual(expectedColumns);
     });
 
     it('[C280501] User can see only the sites he is a member of', async () => {
@@ -123,7 +123,7 @@ describe('File Libraries', () => {
       const sitesList = await dataTable.getSitesNameAndVisibility();
 
       for (const site of Object.keys(expectedSitesVisibility)) {
-        expect(sitesList[site]).toEqual(expectedSitesVisibility[site]);
+        await expect(sitesList[site]).toEqual(expectedSitesVisibility[site]);
       }
     });
 
@@ -138,14 +138,14 @@ describe('File Libraries', () => {
       const sitesList = await dataTable.getSitesNameAndRole();
 
       for (const site of Object.keys(expectedSitesRoles)) {
-        expect(sitesList[site]).toEqual(expectedSitesRoles[site]);
+        await expect(sitesList[site]).toEqual(expectedSitesRoles[site]);
       }
     });
 
     it('[C217098] Site ID is displayed when two sites have the same name', async () => {
       const expectedSites = [`${siteName} (${siteId1})`, `${siteName} (${siteId2})`];
       const actualSites = await dataTable.getCellsContainingName(siteName);
-      expect(actualSites.sort()).toEqual(expectedSites.sort());
+      await expect(actualSites.sort()).toEqual(expectedSites.sort());
     });
 
     it('[C217096] Tooltip for sites without description', async () => {
@@ -169,7 +169,7 @@ describe('File Libraries', () => {
       const expectedColumns = ['Name', 'Description', 'My Role', 'Visibility'];
       const actualColumns = await dataTable.getColumnHeadersText();
 
-      expect(actualColumns).toEqual(expectedColumns);
+      await expect(actualColumns).toEqual(expectedColumns);
     });
 
     it('[C289897] User can see only his favorite sites', async () => {

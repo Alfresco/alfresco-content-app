@@ -108,7 +108,7 @@ describe('Trash', () => {
       const expectedColumns = ['Name', 'Location', 'Size', 'Deleted', 'Deleted by'];
       const actualColumns = await dataTable.getColumnHeadersText();
 
-      expect(actualColumns).toEqual(expectedColumns);
+      await expect(actualColumns).toEqual(expectedColumns);
     });
 
     it('[C280493] displays the files and folders deleted by everyone', async () => {
@@ -135,7 +135,7 @@ describe('Trash', () => {
       const expectedColumns = ['Name', 'Location', 'Size', 'Deleted'];
       const actualColumns = await dataTable.getColumnHeadersText();
 
-      expect(actualColumns).toEqual(expectedColumns);
+      await expect(actualColumns).toEqual(expectedColumns);
     });
 
     it('[C213218] displays the files and folders deleted by the user', async () => {

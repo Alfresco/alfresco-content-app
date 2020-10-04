@@ -84,7 +84,7 @@ describe('Extensions - DocumentList presets', () => {
     const expectedColumns = testData.filter((item) => !item.disabled).map((data) => data.label);
     const actualColumns = await dataTable.getColumnHeadersText();
 
-    expect(actualColumns).toEqual(expectedColumns);
+    await expect(actualColumns).toEqual(expectedColumns);
   });
 
   it('[C286699] Disabled items are not shown', async () => {

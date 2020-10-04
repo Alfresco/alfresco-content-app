@@ -49,8 +49,7 @@ export class NodesApi extends RepoApi {
   async getNodeById(id: string): Promise<NodeEntry | null> {
     try {
       await this.apiAuth();
-      const node = await this.nodesApi.getNode(id);
-      return node;
+      return await this.nodesApi.getNode(id);
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.getNodeById.name}`, error);
       return null;
@@ -525,7 +524,7 @@ export class NodesApi extends RepoApi {
       expect: expect,
       retry: 5
     };
-    let isLocked: boolean;
+    let isLocked = false;
     try {
       const locked = async () => {
         isLocked = (await this.getLockType(nodeId)) === 'WRITE_LOCK';

@@ -45,7 +45,7 @@ export abstract class Component {
     return root.all(by.css(css));
   }
 
-  constructor(selector: string, ancestor?: string) {
+  protected constructor(selector: string, ancestor?: string) {
     const locator = selector;
 
     this.component = ancestor ? browser.$$(ancestor).first().$$(locator).first() : browser.$$(locator).first();

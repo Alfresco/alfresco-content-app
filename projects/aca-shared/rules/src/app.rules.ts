@@ -103,7 +103,7 @@ export function isShared(context: RuleContext): boolean {
     return true;
   }
 
-  if ((navigation.isNotTrashcan(context), !context.selection.isEmpty && context.selection.file)) {
+  if (navigation.isNotTrashcan(context) && !context.selection.isEmpty && context.selection.file) {
     return !!(context.selection.file.entry && context.selection.file.entry.properties && context.selection.file.entry.properties['qshare:sharedId']);
   }
 
