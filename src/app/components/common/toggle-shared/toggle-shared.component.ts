@@ -34,7 +34,7 @@ import { AppStore, ShareNodeAction, getAppSelection } from '@alfresco/aca-shared
   templateUrl: './toggle-shared.component.html'
 })
 export class ToggleSharedComponent implements OnInit {
-  @Input() data: any;
+  @Input() data: { iconButton?: string };
 
   selection$: Observable<SelectionState>;
 

@@ -408,7 +408,7 @@ describe('NodeActionsService', () => {
       spyOn(service, 'getContentNodeSelection').and.callThrough();
       spyOn(service, 'getEntryParentId').and.returnValue('parent-id');
 
-      let dialogData: any;
+      let dialogData = null;
       spyOn(dialog, 'open').and.callFake((_contentNodeSelectorComponent: any, data: any) => {
         dialogData = data;
         return { componentInstance: {} } as MatDialogRef<any>;

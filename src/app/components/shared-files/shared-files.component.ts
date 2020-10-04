@@ -33,6 +33,7 @@ import { UploadService } from '@alfresco/adf-core';
 import { Router } from '@angular/router';
 import { MinimalNodeEntity } from '@alfresco/js-api';
 import { AppExtensionService } from '@alfresco/aca-shared';
+import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 
 @Component({
   templateUrl: './shared-files.component.html'
@@ -40,7 +41,7 @@ import { AppExtensionService } from '@alfresco/aca-shared';
 export class SharedFilesComponent extends PageComponent implements OnInit {
   isSmallScreen = false;
 
-  columns: any[] = [];
+  columns: DocumentListPresetRef[] = [];
 
   constructor(
     store: Store<any>,

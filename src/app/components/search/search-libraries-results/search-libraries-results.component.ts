@@ -33,6 +33,7 @@ import { ContentManagementService } from '../../../services/content-management.s
 import { PageComponent } from '../../page.component';
 import { SearchLibrariesQueryBuilderService } from './search-libraries-query-builder.service';
 import { AppExtensionService } from '@alfresco/aca-shared';
+import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 
 @Component({
   selector: 'aca-search-results',
@@ -46,7 +47,7 @@ export class SearchLibrariesResultsComponent extends PageComponent implements On
   data: NodePaging;
   totalResults = 0;
   isLoading = false;
-  columns: any[] = [];
+  columns: DocumentListPresetRef[] = [];
 
   constructor(
     private breakpointObserver: BreakpointObserver,

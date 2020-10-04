@@ -57,7 +57,7 @@ export default class LiteServeRunner {
 
   run() {
     const readerGenerator = this.cliReader.getReader(this.inputParams, this.cliArgs);
-    const program: Object = readerGenerator.next().value;
+    readerGenerator.next();
 
     const builtApps = this.getAppList().filter((app) => !app.disabled);
     if (!builtApps.length) {
@@ -65,7 +65,7 @@ export default class LiteServeRunner {
       process.exit(0);
     }
 
-    const inputInquirer = <Promise<Object>>readerGenerator.next().value;
+    const inputInquirer = readerGenerator.next().value as Promise<Object>;
 
     return inputInquirer.then(this.appConfigReplace.bind(this)).then(this.spawnLiteServer.bind(this)).catch(logger.error.bind(logger));
   }
@@ -92,7 +92,7 @@ export default class LiteServeRunner {
         logger.error(data.toString());
         reject();
       });
-      replace.on('exit', (code) => {
+      replace.on('exit', () => {
         spinner.succeed();
         logger.verbose(green(`Rewrite ${appPath} succeeded!`));
         resolvePromise(inputParams);

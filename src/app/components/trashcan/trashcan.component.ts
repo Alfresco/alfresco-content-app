@@ -24,7 +24,7 @@
  */
 
 import { AppStore, getUserProfile } from '@alfresco/aca-shared/store';
-import { ProfileState } from '@alfresco/adf-extensions';
+import { DocumentListPresetRef, ProfileState } from '@alfresco/adf-extensions';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -40,7 +40,7 @@ export class TrashcanComponent extends PageComponent implements OnInit {
   isSmallScreen = false;
   user$: Observable<ProfileState>;
 
-  columns: any[] = [];
+  columns: DocumentListPresetRef[] = [];
 
   constructor(
     content: ContentManagementService,

@@ -31,6 +31,18 @@ import { ContentManagementService } from '../../../services/content-management.s
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
+import { SiteEntry } from '@alfresco/js-api';
+
+export class FavoriteSite extends SiteEntry {
+  isFavorite = false;
+
+  constructor(data: any) {
+    super(data);
+    if (data) {
+      this.isFavorite = !!data.isFavorite;
+    }
+  }
+}
 
 @Component({
   selector: 'app-toggle-favorite-library',
@@ -50,8 +62,8 @@ import { Subject } from 'rxjs';
   host: { class: 'app-toggle-favorite-library' }
 })
 export class ToggleFavoriteLibraryComponent implements OnInit, OnDestroy {
-  library;
-  private onDestroy$: Subject<boolean> = new Subject<boolean>();
+  library: FavoriteSite;
+  private onDestroy$ = new Subject<boolean>();
 
   constructor(private store: Store<AppStore>, private content: ContentManagementService, private router: Router) {}
 
@@ -62,7 +74,7 @@ export class ToggleFavoriteLibraryComponent implements OnInit, OnDestroy {
       .select(getAppSelection)
       .pipe(distinctUntilChanged(), takeUntil(this.onDestroy$))
       .subscribe((selection: SelectionState) => {
-        this.library = { ...selection.library };
+        this.library = new FavoriteSite(selection.library);
 
         // favorite libraries list should already be marked as favorite
         if (selection.library && isFavoriteLibraries) {
