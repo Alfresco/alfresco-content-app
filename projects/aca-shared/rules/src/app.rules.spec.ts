@@ -25,7 +25,7 @@
 
 import * as app from './app.rules';
 import { TestRuleContext } from './test-rule-context';
-import { NodeEntry } from '@alfresco/js-api/src/api/content-rest-api/model/nodeEntry';
+import { NodeEntry } from '@alfresco/js-api';
 
 describe('app.evaluators', () => {
   describe('canDownloadSelection', () => {
