@@ -29,6 +29,7 @@ import { ContextMenuComponent } from './context-menu.component';
 import { ContextMenuModule } from './context-menu.module';
 import { ContextMenuOverlayRef } from './context-menu-overlay';
 import { TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
+import { ContentActionType } from '@alfresco/adf-extensions';
 
 import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -37,10 +38,11 @@ import { AppExtensionService } from '@alfresco/aca-shared';
 describe('ContextMenuComponent', () => {
   let fixture: ComponentFixture<ContextMenuComponent>;
   let component: ContextMenuComponent;
-  let contextMenuOverlayRef;
-  let extensionsService;
+  let contextMenuOverlayRef: ContextMenuOverlayRef;
+  let extensionsService: AppExtensionService;
+
   const contextItem = {
-    type: 'button',
+    type: ContentActionType.button,
     id: 'action-button',
     title: 'Test Button',
     actions: {
