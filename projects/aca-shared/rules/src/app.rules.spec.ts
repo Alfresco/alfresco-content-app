@@ -166,32 +166,32 @@ describe('app.evaluators', () => {
 
       expect(app.hasLockedFiles(context)).toBe(true);
     });
-  });
 
-  it('should return [true] when one of files has readonly lock', () => {
-    const context: any = {
-      selection: {
-        nodes: [
-          {
-            entry: {
-              isFile: true,
-              isLocked: false
-            }
-          },
-          {
-            entry: {
-              isFile: true,
-              isLocked: false,
-              properties: {
-                'cm:lockType': 'READ_ONLY_LOCK'
+    it('should return [true] when one of files has readonly lock', () => {
+      const context: any = {
+        selection: {
+          nodes: [
+            {
+              entry: {
+                isFile: true,
+                isLocked: false
+              }
+            },
+            {
+              entry: {
+                isFile: true,
+                isLocked: false,
+                properties: {
+                  'cm:lockType': 'READ_ONLY_LOCK'
+                }
               }
             }
-          }
-        ]
-      }
-    };
+          ]
+        }
+      };
 
-    expect(app.hasLockedFiles(context)).toBe(true);
+      expect(app.hasLockedFiles(context)).toBe(true);
+    });
   });
 
   describe('canUpdateSelectedNode', () => {
