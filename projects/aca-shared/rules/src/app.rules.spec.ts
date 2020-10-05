@@ -24,8 +24,51 @@
  */
 
 import * as app from './app.rules';
+import { TestRuleContext } from './test-rule-context';
+import { NodeEntry } from '@alfresco/js-api/src/api/content-rest-api/model/nodeEntry';
 
 describe('app.evaluators', () => {
+  describe('canDownloadSelection', () => {
+    it('should return [false] if selection is empty', () => {
+      const context = new TestRuleContext();
+
+      expect(context.selection.isEmpty).toBe(true);
+      expect(app.canDownloadSelection(context)).toBe(false);
+    });
+
+    it('should return [false] for the trashcan entries', () => {
+      const context = new TestRuleContext();
+      context.selection.isEmpty = false;
+      context.navigation = { url: '/trashcan' };
+
+      expect(app.canDownloadSelection(context)).toBe(false);
+    });
+
+    it('should allow downloading files', () => {
+      const context = new TestRuleContext();
+      context.selection.isEmpty = false;
+      context.selection.nodes = [{ entry: { isFile: true } } as NodeEntry];
+
+      expect(app.canDownloadSelection(context)).toBe(true);
+    });
+
+    it('should allow downloading folders', () => {
+      const context = new TestRuleContext();
+      context.selection.isEmpty = false;
+      context.selection.nodes = [{ entry: { isFolder: true } } as NodeEntry];
+
+      expect(app.canDownloadSelection(context)).toBe(true);
+    });
+
+    it('should now allow downloading unknown selection', () => {
+      const context = new TestRuleContext();
+      context.selection.isEmpty = false;
+      context.selection.nodes = [{ entry: {} } as NodeEntry];
+
+      expect(app.canDownloadSelection(context)).toBe(false);
+    });
+  });
+
   describe('isWriteLocked', () => {
     it('should return [true] if lock type is set', () => {
       const context: any = {
