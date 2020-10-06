@@ -53,6 +53,7 @@ export class ExtensionsDataLoaderGuard implements CanActivate {
     if (!this.invoked) {
 
       if (!this.extensionDataLoaders.length) {
+        this.invoked = true;
         return of(true);
       }
 
