@@ -26,7 +26,7 @@
 import { Injectable, InjectionToken, Inject } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable, forkJoin, of } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { tap, map, catchError } from 'rxjs/operators';
 
 export type ExtensionLoaderCallback = (route: ActivatedRouteSnapshot) => Observable<boolean>;
 
@@ -46,11 +46,11 @@ export class ExtensionsDataLoaderGuard implements CanActivate {
   constructor(
     @Inject(EXTENSION_DATA_LOADERS)
     private extensionDataLoaders: ExtensionLoaderCallback[]
-  ) {}
+  ) {
+  }
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
     if (!this.invoked) {
-      this.invoked = true;
 
       if (!this.extensionDataLoaders.length) {
         return of(true);
@@ -63,6 +63,7 @@ export class ExtensionsDataLoaderGuard implements CanActivate {
       // So all callbacks need to emit before completion, otherwise forkJoin will short circuit
       return forkJoin(...dataLoaderCallbacks).pipe(
         map(() => true),
+        tap(() => this.invoked = true),
         catchError((e) => {
           // tslint:disable-next-line
           console.error('Some of the extension data loader guards has been errored.');

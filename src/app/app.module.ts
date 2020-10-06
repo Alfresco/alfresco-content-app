@@ -25,12 +25,12 @@
 
 import { BrowserModule, HammerModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { RouterModule, RouteReuseStrategy } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TRANSLATION_PROVIDER, CoreModule, AppConfigService, DebugAppConfigService } from '@alfresco/adf-core';
 import { ContentModule } from '@alfresco/adf-content-services';
-import { AppRouteReuseStrategy, SharedModule } from '@alfresco/aca-shared';
+import { SharedModule } from '@alfresco/aca-shared';
 
 import { AppComponent } from './app.component';
 import { APP_ROUTES } from './app.routes';
@@ -152,7 +152,6 @@ registerLocaleData(localeSv);
     BlankPageComponent
   ],
   providers: [
-    { provide: RouteReuseStrategy, useClass: AppRouteReuseStrategy },
     { provide: AppConfigService, useClass: DebugAppConfigService },
     {
       provide: TRANSLATION_PROVIDER,
