@@ -126,13 +126,15 @@ describe('ExtensionsDataLoaderGuard', () => {
           return subject1.asObservable();
         }
       };
-      const extensionLoaderSpy = spyOn(extensionLoaders, 'fct1');
+      const extensionLoaderSpy = spyOn(extensionLoaders, 'fct1').and.callThrough();
       const guard = new ExtensionsDataLoaderGuard([extensionLoaders.fct1]);
 
       guard.canActivate(route).subscribe(emittedSpy, erroredSpy, completedSpy);
       expect(extensionLoaderSpy).toHaveBeenCalled();
 
       extensionLoaderSpy.calls.reset();
+      subject1.next(true);
+      subject1.complete();
       guard.canActivate(route).subscribe(emittedSpy, erroredSpy, completedSpy);
       expect(extensionLoaderSpy).not.toHaveBeenCalled();
     });

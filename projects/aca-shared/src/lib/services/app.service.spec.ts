@@ -28,13 +28,11 @@ import { TestBed } from '@angular/core/testing';
 import { AuthenticationService, AppConfigService } from '@alfresco/adf-core';
 import { Subject } from 'rxjs';
 import { HttpClientModule } from '@angular/common/http';
-import { AppRouteReuseStrategy } from '../routing/app.routes.strategy';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 
 describe('AppService', () => {
   let service: AppService;
   let auth: AuthenticationService;
-  let routeReuse: AppRouteReuseStrategy;
   let appConfig: AppConfigService;
   let searchQueryBuilderService: SearchQueryBuilderService;
 
@@ -42,7 +40,6 @@ describe('AppService', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientModule],
       providers: [
-        AppRouteReuseStrategy,
         SearchQueryBuilderService,
         {
           provide: AuthenticationService,
@@ -55,14 +52,11 @@ describe('AppService', () => {
       ]
     });
 
-    routeReuse = TestBed.inject(AppRouteReuseStrategy);
     auth = TestBed.inject(AuthenticationService);
     appConfig = TestBed.inject(AppConfigService);
     searchQueryBuilderService = TestBed.inject(SearchQueryBuilderService);
 
-    spyOn(routeReuse, 'resetCache').and.stub();
-
-    service = new AppService(auth, appConfig, searchQueryBuilderService, routeReuse);
+    service = new AppService(auth, appConfig, searchQueryBuilderService);
   });
 
   it('should be ready if [withCredentials] mode is used', (done) => {
@@ -72,22 +66,12 @@ describe('AppService', () => {
       }
     };
 
-    const instance = new AppService(auth, appConfig, searchQueryBuilderService, routeReuse);
+    const instance = new AppService(auth, appConfig, searchQueryBuilderService);
     expect(instance.withCredentials).toBeTruthy();
 
     instance.ready$.subscribe(() => {
       done();
     });
-  });
-
-  it('should reset route cache on login', async () => {
-    auth.onLogin.next();
-    await expect(routeReuse.resetCache).toHaveBeenCalled();
-  });
-
-  it('should reset route cache on logout', async () => {
-    auth.onLogout.next();
-    await expect(routeReuse.resetCache).toHaveBeenCalled();
   });
 
   it('should be ready after login', async () => {

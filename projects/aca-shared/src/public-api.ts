@@ -49,7 +49,6 @@ export * from './lib/directives/shared.directives.module';
 export * from './lib/models/types';
 export * from './lib/models/viewer.rules';
 
-export * from './lib/routing/app.routes.strategy';
 export * from './lib/routing/shared.guard';
 
 export * from './lib/services/app.service';
