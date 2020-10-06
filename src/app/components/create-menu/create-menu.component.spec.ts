@@ -24,9 +24,107 @@
  */
 
 import { CreateMenuComponent } from './create-menu.component';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CoreModule } from '@alfresco/adf-core';
+import { AppCreateMenuModule } from './create-menu.module';
+import { OverlayContainer, OverlayModule } from '@angular/cdk/overlay';
+import { AppExtensionService } from '@alfresco/aca-shared';
+import { ContentActionType } from '@alfresco/adf-extensions';
+import { By } from '@angular/platform-browser';
+import { AppTestingModule } from '../../testing/app-testing.module';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
 
 describe('CreateMenuComponent', () => {
-  it('should be defined', () => {
-    expect(CreateMenuComponent).toBeDefined();
+  let fixture: ComponentFixture<CreateMenuComponent>;
+  let extensionService: AppExtensionService;
+  let getCreateActionsSpy: jasmine.Spy;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [AppTestingModule, CoreModule.forRoot(), AppCreateMenuModule, OverlayModule, MatMenuModule, MatButtonModule]
+    });
+
+    extensionService = TestBed.inject(AppExtensionService);
+    getCreateActionsSpy = spyOn(extensionService, 'getCreateActions');
+    getCreateActionsSpy.and.returnValue([
+      {
+        id: 'action1',
+        type: ContentActionType.button,
+        title: 'action one'
+      }
+    ]);
+
+    fixture = TestBed.createComponent(CreateMenuComponent);
+  });
+
+  async function clickMenu() {
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const button: HTMLButtonElement = fixture.debugElement.query(By.css('[data-automation-id="create-button"]')).nativeElement;
+    button.click();
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+  }
+
+  it('should render collapsed button', async () => {
+    fixture.componentInstance.expanded = false;
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const button: HTMLButtonElement = fixture.debugElement.query(By.css('[data-automation-id="create-button"]')).nativeElement;
+    const isCollapsed = button.classList.contains('app-create-menu--collapsed');
+
+    expect(isCollapsed).toBe(true);
+  });
+
+  it('should render expanded button', async () => {
+    fixture.componentInstance.expanded = true;
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const button: HTMLButtonElement = fixture.debugElement.query(By.css('[data-automation-id="create-button"]')).nativeElement;
+    const isCollapsed = button.classList.contains('app-create-menu--collapsed');
+
+    expect(isCollapsed).toBe(false);
+  });
+
+  it('should render custom actions', async () => {
+    await clickMenu();
+
+    const menuItems = fixture.debugElement.queryAll(By.css('.app-toolbar-menu-item'));
+    expect(menuItems.length).toBe(1);
+
+    const label: HTMLSpanElement = (menuItems[0].nativeElement as HTMLButtonElement).querySelector('[data-automation-id="menu-item-title"]');
+    expect(label.innerText).toBe('action one');
+  });
+
+  it('should render sub-menus', async () => {
+    getCreateActionsSpy.and.returnValue([
+      {
+        id: 'level1',
+        type: ContentActionType.menu,
+        title: 'level one',
+        children: [
+          {
+            id: 'level2',
+            type: ContentActionType.button,
+            title: 'level two'
+          }
+        ]
+      }
+    ]);
+
+    await clickMenu();
+
+    const level1 = fixture.debugElement.query(By.css('#level1')).nativeElement as HTMLButtonElement;
+    level1.click();
+
+    const overlayContainer = TestBed.inject(OverlayContainer);
+    const level2 = overlayContainer.getContainerElement().querySelector('#level2');
+
+    expect(level2).not.toBeNull();
   });
 });
