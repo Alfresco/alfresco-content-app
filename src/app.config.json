@@ -13,7 +13,7 @@
     "implicitFlow": true,
     "silentLogin": true,
     "publicUrls": ["**/preview/s/*", "**/settings", "**/blank"],
-    "redirectSilentIframeUri": "./assets/silent-refresh.html",
+    "redirectSilentIframeUri": "{protocol}//{hostname}{:port}/assets/silent-refresh.html",
     "redirectUri": "/",
     "redirectUriLogout": "/logout"
   },
