@@ -23,11 +23,9 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Injectable, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { AuthenticationService, AppConfigService } from '@alfresco/adf-core';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { RouteReuseStrategy } from '@angular/router';
-import { AppRouteReuseStrategy } from '../routing/app.routes.strategy';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 
 @Injectable({
@@ -45,23 +43,16 @@ export class AppService {
     return this.config.get<boolean>('auth.withCredentials', false);
   }
 
-  constructor(
-    auth: AuthenticationService,
-    private config: AppConfigService,
-    searchQueryBuilderService: SearchQueryBuilderService,
-    @Inject(RouteReuseStrategy) routeStrategy: AppRouteReuseStrategy
-  ) {
+  constructor(auth: AuthenticationService, private config: AppConfigService, searchQueryBuilderService: SearchQueryBuilderService) {
     this.ready = new BehaviorSubject(auth.isLoggedIn() || this.withCredentials);
     this.ready$ = this.ready.asObservable();
 
     auth.onLogin.subscribe(() => {
-      routeStrategy.resetCache();
       this.ready.next(true);
     });
 
     auth.onLogout.subscribe(() => {
       searchQueryBuilderService.resetToDefaults();
-      routeStrategy.resetCache();
     });
   }
 }
