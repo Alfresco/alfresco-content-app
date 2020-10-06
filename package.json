@@ -79,7 +79,7 @@
     "@types/event-emitter": "^0.3.3",
     "@types/jasmine": "3.5.14",
     "@types/jasminewd2": "^2.0.8",
-    "@types/node": "^14.11.2",
+    "@types/node": "^14.11.4",
     "@types/selenium-webdriver": "^4.0.9",
     "@types/superagent": "^4.1.10",
     "adf-tslint-rules": "0.0.7",
