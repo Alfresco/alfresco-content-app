@@ -1,8 +1,8 @@
 <ng-container [ngSwitch]="actionRef.type">
   <ng-container *ngSwitchCase="'menu'">
-    <button mat-menu-item role="menuitem" [disabled]="actionRef.disabled" [matMenuTriggerFor]="childMenu">
+    <button [id]="actionRef.id" mat-menu-item role="menuitem" [disabled]="actionRef.disabled" [matMenuTriggerFor]="childMenu">
       <adf-icon [value]="actionRef.icon"></adf-icon>
-      <span>{{ actionRef.title | translate }}</span>
+      <span data-automation-id="menu-item-title">{{ actionRef.title | translate }}</span>
     </button>
 
     <mat-menu #childMenu="matMenu" class="app-create-menu__sub-menu">
@@ -31,7 +31,7 @@
       (click)="runAction()"
     >
       <adf-icon [value]="actionRef.icon"></adf-icon>
-      <span data-automation-id="button-title">{{ actionRef.title | translate }}</span>
+      <span data-automation-id="menu-item-title">{{ actionRef.title | translate }}</span>
     </button>
   </ng-container>
 </ng-container>
