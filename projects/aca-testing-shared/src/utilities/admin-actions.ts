@@ -23,15 +23,9 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { RepoClient, NodeContentTree } from './repo-client/repo-client';
+import { RepoClient } from './repo-client/repo-client';
 import { PersonEntry, NodeEntry } from '@alfresco/js-api';
-import { PersonModel } from './repo-client/apis/people/people-api-models';
-
-import { SitesApi } from './repo-client/apis/sites/sites-api';
-import { UploadApi } from './repo-client/apis/upload/upload-api';
-import { NodesApi } from './repo-client/apis/nodes/nodes-api';
-import { FavoritesApi } from './repo-client/apis/favorites/favorites-api';
-import { SearchApi } from './repo-client/apis/search/search-api';
+import { PersonModel, SitesApi, UploadApi, NodesApi, FavoritesApi, SearchApi, NodeContentTree } from './repo-client/apis';
 
 export class AdminActions {
   private adminApi: RepoClient;
