@@ -89,4 +89,9 @@ export class RepoClient {
   get authentication(): AuthenticationApi {
     return new AuthenticationApi(this.username, this.password);
   }
+
+  async logout(): Promise<any> {
+    await this.apiAuth();
+    return this.alfrescoApi.logout();
+  }
 }
