@@ -51,7 +51,6 @@ describe('Create folder', () => {
   let docLibUserSite: string;
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, username)
   };
 

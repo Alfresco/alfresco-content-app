@@ -54,7 +54,6 @@ describe('Edit offline', () => {
   let parentSearchId: string;
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, username)
   };
 

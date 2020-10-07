@@ -54,7 +54,6 @@ describe('Extensions - Info Drawer', () => {
   };
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, username)
   };
 

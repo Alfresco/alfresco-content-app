@@ -44,7 +44,6 @@ describe('Extensions - Context submenu', () => {
   };
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, username)
   };
 

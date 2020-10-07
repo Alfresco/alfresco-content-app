@@ -46,7 +46,6 @@ describe('Search results - files and folders', () => {
   const site = `test-site-${Utils.random()}`;
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, username)
   };
 

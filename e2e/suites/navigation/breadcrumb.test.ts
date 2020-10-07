@@ -51,7 +51,6 @@ describe('Breadcrumb', () => {
   const { breadcrumb } = page;
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, username)
   };
   const adminApiActions = new AdminActions();

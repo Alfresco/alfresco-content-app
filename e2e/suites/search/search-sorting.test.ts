@@ -47,7 +47,6 @@ describe('Search sorting', () => {
   };
 
   const apis = {
-    admin: new RepoClient(),
     user1: new RepoClient(user1, user1),
     user2: new RepoClient(user2, user2)
   };

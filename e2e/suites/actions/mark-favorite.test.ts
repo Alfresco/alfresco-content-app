@@ -74,7 +74,6 @@ describe('Mark items as favorites', () => {
   let folderSearchId: string;
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, username)
   };
 

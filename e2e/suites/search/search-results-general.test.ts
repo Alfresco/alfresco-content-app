@@ -36,7 +36,6 @@ describe('Search results general', () => {
   const site = `test-site-${Utils.random()}`;
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, username)
   };
 

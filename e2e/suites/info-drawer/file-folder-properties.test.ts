@@ -68,7 +68,6 @@ describe('File / Folder properties', () => {
   let folder1Id: string;
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, username)
   };
 

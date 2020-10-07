@@ -46,7 +46,6 @@ describe('Viewer actions', () => {
   const pdfFileForDelete = FILES.pdfFile;
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, username)
   };
 

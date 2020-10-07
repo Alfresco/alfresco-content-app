@@ -29,7 +29,6 @@ describe('File / folder tooltips', () => {
   const username = `user-${Utils.random()}`;
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, username)
   };
 

@@ -62,7 +62,6 @@ describe('Extensions - Metadata presets', () => {
   };
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, username)
   };
 

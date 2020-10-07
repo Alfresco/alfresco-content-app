@@ -39,7 +39,6 @@ describe('Version component actions', () => {
   const filesToUpload = [FILES.pdfFile, FILES.docxFile, FILES.xlsxFile, FILES.jpgFile, FILES.docxFile2];
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, username)
   };
 

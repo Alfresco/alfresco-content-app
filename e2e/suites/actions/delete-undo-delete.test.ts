@@ -29,7 +29,6 @@ describe('Delete and undo delete', () => {
   const username = `user-${Utils.random()}`;
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, username)
   };
 

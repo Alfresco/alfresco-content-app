@@ -55,7 +55,6 @@ describe('Move content', () => {
   const folderSiteFav = `folderSiteFavorites-${Utils.random()}`;
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, username)
   };
 

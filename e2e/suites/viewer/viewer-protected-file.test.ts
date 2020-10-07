@@ -34,7 +34,6 @@ describe('Viewer - password protected file', () => {
   const protectedFile = FILES.protectedFile;
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, username)
   };
 

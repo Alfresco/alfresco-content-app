@@ -63,7 +63,6 @@ describe('Download', () => {
   const archiveZip = 'archive.zip';
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, username)
   };
 

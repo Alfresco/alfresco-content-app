@@ -41,7 +41,6 @@ describe('Recent Files', () => {
   const fileSite = `file-${Utils.random()}.txt`;
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, username)
   };
 

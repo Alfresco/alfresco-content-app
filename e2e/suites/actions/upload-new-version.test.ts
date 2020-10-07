@@ -85,7 +85,6 @@ describe('Upload new version', () => {
   const fileToUpload5 = FILES.xlsxFile2;
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, username)
   };
 

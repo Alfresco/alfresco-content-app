@@ -30,7 +30,6 @@ describe('Restore from Trash', () => {
   const username = `user-${Utils.random()}`;
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, username)
   };
 

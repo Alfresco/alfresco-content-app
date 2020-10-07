@@ -49,7 +49,6 @@ describe('Create library', () => {
   };
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, username)
   };
 

@@ -40,7 +40,6 @@ describe('Permanently delete from Trash', () => {
   const site = `site-${Utils.random()}`;
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, username)
   };
 

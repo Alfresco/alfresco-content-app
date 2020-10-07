@@ -100,7 +100,6 @@ describe('Copy content', () => {
   let destinationId: string;
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, username)
   };
 
