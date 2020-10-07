@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, ContentNodeSelectorDialog, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { AdminActions, UserActions, LoginPage, BrowsingPage, ContentNodeSelectorDialog, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 
 describe('Copy content', () => {
   const username = `user-${Utils.random()}`;
@@ -108,10 +108,14 @@ describe('Copy content', () => {
   const { dataTable, toolbar } = page;
   const copyDialog = new ContentNodeSelectorDialog();
   const { searchInput } = page.header;
+
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   beforeAll(async (done) => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
 
     const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
     const initialFavoritesTotalItems = await apis.user.favorites.getFavoritesTotalItems();
@@ -124,7 +128,7 @@ describe('Copy content', () => {
     destinationIdSearch = (await apis.user.nodes.createFolder(destinationSearch)).entry.id;
 
     existingFileToCopyId = (await apis.user.nodes.createFile(existingFile, sourceId)).entry.id;
-    await apis.user.shared.shareFileById(existingFileToCopyId);
+    await userActions.shareNodes([existingFileToCopyId]);
     await apis.user.favorites.addFavoriteById('file', existingFileToCopyId);
 
     await apis.user.nodes.createFile(existingFile, destinationIdPF);
@@ -152,7 +156,7 @@ describe('Copy content', () => {
     fileInFolderId = (await apis.user.nodes.createFile(fileInFolder, folder1Id)).entry.id;
     await apis.user.favorites.addFavoriteById('folder', folder1Id);
     await apis.user.favorites.addFavoriteById('file', fileInFolderId);
-    await apis.user.shared.shareFileById(fileInFolderId);
+    await userActions.shareNodes([fileInFolderId]);
 
     folderExistingId = (await apis.user.nodes.createFolder(folderExisting, sourceId)).entry.id;
     await apis.user.favorites.addFavoriteById('folder', folderExistingId);
@@ -184,11 +188,7 @@ describe('Copy content', () => {
     file3Id = (await apis.user.nodes.createFile(file3, sourceId)).entry.id;
     file4Id = (await apis.user.nodes.createFile(file4, sourceId)).entry.id;
 
-    await apis.user.shared.shareFileById(file1Id);
-    await apis.user.shared.shareFileById(file2Id);
-    await apis.user.shared.shareFileById(file3Id);
-    await apis.user.shared.shareFileById(file4Id);
-    await apis.user.shared.shareFileById(fileLocked1Id);
+    await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id, fileLocked1Id]);
 
     await apis.user.favorites.addFavoriteById('file', file1Id);
     await apis.user.favorites.addFavoriteById('file', file2Id);

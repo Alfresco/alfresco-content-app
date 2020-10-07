@@ -64,7 +64,7 @@ describe('Pagination on single page', () => {
 
     await userApi.nodes.deleteNodeById(fileInTrashId, false);
     await userApi.favorites.addFavoriteById('file', fileId);
-    await userApi.shared.shareFileById(fileId);
+    await userActions.shareNodes([fileId]);
 
     await userApi.favorites.waitForApi({ expect: initialFavoriteTotalItems + 2 });
     await userApi.search.waitForApi(username, { expect: initialRecentFilesTotalItems + 1 });

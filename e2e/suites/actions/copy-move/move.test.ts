@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, ContentNodeSelectorDialog, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { AdminActions, UserActions, LoginPage, BrowsingPage, ContentNodeSelectorDialog, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 
 describe('Move content', () => {
   const username = `user-${Utils.random()}`;
@@ -62,10 +62,14 @@ describe('Move content', () => {
   const page = new BrowsingPage();
   const { dataTable, toolbar } = page;
   const moveDialog = new ContentNodeSelectorDialog();
+
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   beforeAll(async (done) => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
 
     await apis.user.sites.createSite(siteName);
     const docLibId = await apis.user.sites.getDocLibId(siteName);
@@ -420,20 +424,18 @@ describe('Move content', () => {
       file1Id = (await apis.user.nodes.createFile(file1, sourceIdSF)).entry.id;
 
       const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
-      await apis.user.shared.shareFileById(file1Id);
+      await userActions.shareNodes([file1Id]);
 
       file2Id = (await apis.user.nodes.createFile(file2, sourceIdSF)).entry.id;
       file3Id = (await apis.user.nodes.createFile(file3, sourceIdSF)).entry.id;
-      await apis.user.shared.shareFileById(file2Id);
-      await apis.user.shared.shareFileById(file3Id);
+      await userActions.shareNodes([file2Id, file3Id]);
 
       existingFileId = (await apis.user.nodes.createFile(`${existingFile}.txt`, sourceIdSF)).entry.id;
-      await apis.user.shared.shareFileById(existingFileId);
+      await userActions.shareNodes([existingFileId]);
       await apis.user.nodes.createFile(`${existingFile}.txt`, destinationIdSF);
 
       file4Id = (await apis.user.nodes.createFile(file4, sourceIdSF)).entry.id;
-      await apis.user.shared.shareFileById(file4Id);
-
+      await userActions.shareNodes([file4Id]);
       await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 5 });
 
       done();

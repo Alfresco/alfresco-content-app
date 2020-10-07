@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AlfrescoApi, Comment, CommentsApi, NodesApi, TrashcanApi, SitesApi } from '@alfresco/js-api';
+import { AlfrescoApi, Comment, CommentsApi, NodesApi, TrashcanApi, SitesApi, SharedlinksApi } from '@alfresco/js-api';
 import { browser } from 'protractor';
 import { Utils } from './utils';
 
@@ -34,6 +34,7 @@ export class UserActions {
   readonly nodesApi: NodesApi;
   readonly trashcanApi: TrashcanApi;
   readonly sitesApi: SitesApi;
+  readonly sharedLinksApi: SharedlinksApi;
 
   protected username: string;
   protected password: string;
@@ -46,6 +47,7 @@ export class UserActions {
     this.nodesApi = new NodesApi(this.alfrescoApi);
     this.trashcanApi = new TrashcanApi(this.alfrescoApi);
     this.sitesApi = new SitesApi(this.alfrescoApi);
+    this.sharedLinksApi = new SharedlinksApi(this.alfrescoApi);
   }
 
   async login(username: string, password: string) {
@@ -144,6 +146,20 @@ export class UserActions {
       for (const siteId of siteIds) {
         await this.sitesApi.deleteSite(siteId, { permanent });
       }
+    }
+  }
+
+  /**
+   * Creates shared links for the given nodes.
+   * @param nodeIds The list of node IDs to share.
+   * @param expiresAt (optional) Expiration date.
+   */
+  async shareNodes(nodeIds: string[], expiresAt?: Date): Promise<any> {
+    for (const nodeId of nodeIds) {
+      await this.sharedLinksApi.createSharedLink({
+        nodeId,
+        expiresAt
+      });
     }
   }
 }

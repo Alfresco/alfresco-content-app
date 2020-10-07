@@ -132,7 +132,7 @@ describe('Single click on item name', () => {
   describe('on Shared Files', () => {
     beforeAll(async () => {
       const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
-      await apis.user.shared.shareFileById(file1Id);
+      await userActions.shareNodes([file1Id]);
       await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 1 });
     });
 

@@ -26,6 +26,7 @@
 import { browser } from 'protractor';
 import {
   AdminActions,
+  UserActions,
   LoginPage,
   BrowsingPage,
   SITE_VISIBILITY,
@@ -71,10 +72,15 @@ describe('Unshare a file from Search Results', () => {
   const contextMenu = dataTable.menu;
   const viewer = new Viewer();
   const { searchInput } = page.header;
+
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   beforeAll(async (done) => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
+
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
 
     const initialSearchByTermTotalItems = await apis.user.search.getSearchByTermTotalItems('search-file');
@@ -84,11 +90,7 @@ describe('Unshare a file from Search Results', () => {
     file4Id = (await apis.user.nodes.createFile(file4, parentId)).entry.id;
 
     const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
-    await apis.user.shared.shareFileById(file1Id);
-    await apis.user.shared.shareFileById(file2Id);
-    await apis.user.shared.shareFileById(file3Id);
-    await apis.user.shared.shareFileById(file4Id);
-
+    await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
     await adminApiActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
     const docLibId = await adminApiActions.sites.getDocLibId(sitePrivate);
 
@@ -97,8 +99,8 @@ describe('Unshare a file from Search Results', () => {
 
     await adminApiActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_CONSUMER.ROLE);
 
-    await adminApiActions.shared.shareFileById(fileSite1Id);
-    await apis.user.shared.shareFileById(fileSite2Id);
+    await adminApiActions.shareNodes([fileSite1Id]);
+    await userActions.shareNodes([fileSite2Id]);
 
     await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 6 });
     await apis.user.search.waitForNodes('search-file', { expect: initialSearchByTermTotalItems + 6 });

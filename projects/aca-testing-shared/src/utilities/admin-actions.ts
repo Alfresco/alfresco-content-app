@@ -24,18 +24,7 @@
  */
 
 import { PersonEntry, NodeEntry, PeopleApi } from '@alfresco/js-api';
-import {
-  PersonModel,
-  SitesApi,
-  UploadApi,
-  NodesApi,
-  FavoritesApi,
-  SearchApi,
-  NodeContentTree,
-  Person,
-  SharedLinksApi,
-  TrashcanApi
-} from './repo-client/apis';
+import { PersonModel, SitesApi, UploadApi, NodesApi, FavoritesApi, SearchApi, NodeContentTree, Person, SharedLinksApi } from './repo-client/apis';
 import { UserActions } from './user-actions';
 import { browser } from 'protractor';
 
@@ -50,7 +39,6 @@ export class AdminActions extends UserActions {
   favorites: FavoritesApi = new FavoritesApi();
   search: SearchApi = new SearchApi();
   shared: SharedLinksApi = new SharedLinksApi();
-  trashcan: TrashcanApi = new TrashcanApi();
 
   async login(username?: string, password?: string) {
     return super.login(username || browser.params.ADMIN_USERNAME, password || browser.params.ADMIN_PASSWORD);

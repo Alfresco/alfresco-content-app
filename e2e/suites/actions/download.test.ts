@@ -108,8 +108,7 @@ describe('Download', () => {
     await apis.user.search.waitForApi(username, { expect: initialRecentTotalItems + 10 });
 
     initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
-    await apis.user.shared.shareFileById(fileShared1Id);
-    await apis.user.shared.shareFileById(fileShared2Id);
+    await userActions.shareNodes([fileShared1Id, fileShared2Id]);
     await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 2 });
 
     initialFavoritesTotalItems = await apis.user.favorites.getFavoritesTotalItems();

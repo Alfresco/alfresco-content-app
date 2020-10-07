@@ -23,26 +23,29 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, SITE_VISIBILITY, SITE_ROLES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { AdminActions, UserActions, SITE_VISIBILITY, SITE_ROLES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
 
 describe('Special permissions', () => {
   const username = `user-${Utils.random()}`;
-  const password = username;
 
   const apis = {
-    user: new RepoClient(username, password)
+    user: new RepoClient(username, username)
   };
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable } = page;
   const { searchInput } = page.header;
+
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   let initialSharedTotalItems: number;
 
   beforeAll(async (done) => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
     done();
   });
 
@@ -60,7 +63,7 @@ describe('Special permissions', () => {
 
       initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
 
-      await adminApiActions.shared.shareFileById(fileId);
+      await adminApiActions.shareNodes([fileId]);
       await apis.user.nodes.editNodeContent(fileId, 'edited by user');
 
       await apis.user.search.waitForApi(username, { expect: 1 });
@@ -134,7 +137,7 @@ describe('Special permissions', () => {
       await apis.user.favorites.addFavoriteById('file', fileId);
 
       initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
-      await apis.user.shared.shareFileById(fileId);
+      await userActions.shareNodes([fileId]);
       await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 1 });
 
       await apis.user.search.waitForApi(username, { expect: 1 });

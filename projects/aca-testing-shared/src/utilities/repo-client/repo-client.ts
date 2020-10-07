@@ -24,7 +24,7 @@
  */
 
 import { browser } from 'protractor';
-import { NodesApi, SitesApi, FavoritesApi, QueriesApi, SharedLinksApi, TrashcanApi, SearchApi, UploadApi } from './apis';
+import { NodesApi, SitesApi, FavoritesApi, QueriesApi, SharedLinksApi, SearchApi, UploadApi } from './apis';
 import { AlfrescoApi } from '@alfresco/js-api';
 
 /**
@@ -56,10 +56,6 @@ export class RepoClient {
 
   get shared(): SharedLinksApi {
     return new SharedLinksApi(this.username, this.password);
-  }
-
-  get trashcan(): TrashcanApi {
-    return new TrashcanApi(this.username, this.password);
   }
 
   get search(): SearchApi {
