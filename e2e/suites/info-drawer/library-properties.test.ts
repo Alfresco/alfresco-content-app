@@ -230,7 +230,7 @@ describe('Library properties', () => {
 
     it('[C289337] Info drawer button is not displayed when user is not the library manager', async () => {
       await loginPage.loginWith(user2);
-      await page.clickFileLibrariesAndWait();
+      await page.goToMyLibrariesAndWait();
       await dataTable.selectItem(site.name);
       expect(await page.toolbar.isButtonPresent('View Details')).toBe(false, 'View Details is present');
     });
@@ -238,7 +238,7 @@ describe('Library properties', () => {
     it('[C289344] Error notification', async () => {
       await loginPage.loginWith(user3);
 
-      await page.clickFileLibrariesAndWait();
+      await page.goToMyLibrariesAndWait();
       await dataTable.selectItem(site.name);
       await page.toolbar.viewDetailsButton.click();
       await infoDrawer.waitForInfoDrawerToOpen();
