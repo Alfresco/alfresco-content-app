@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage, SearchResultsPage, RepoClient, Utils, AdminActions } from '@alfresco/aca-testing-shared';
+import { LoginPage, BrowsingPage, SearchResultsPage, RepoClient, Utils, AdminActions, UserActions } from '@alfresco/aca-testing-shared';
 import * as testData from './test-data-libraries';
 import * as testUtil from '../test-util';
 
@@ -31,8 +31,8 @@ describe('Library actions : ', () => {
   const username = `user-${Utils.random()}`;
 
   const userApi = new RepoClient(username, username);
-
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -40,7 +40,9 @@ describe('Library actions : ', () => {
   const { searchInput } = searchResultsPage.header;
 
   beforeAll(async () => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
 
     const initialAdminSitesTotalItems = await adminApiActions.sites.getSitesTotalItems();
     const initialUserSitesTotalItems = await userApi.sites.getSitesTotalItems();
@@ -78,33 +80,30 @@ describe('Library actions : ', () => {
     await userApi.sites.createSite(testData.siteInTrash.name);
     await userApi.sites.createSite(testData.site2InTrash.name);
 
-    await userApi.sites.deleteSite(testData.siteInTrash.name, false);
-    await userApi.sites.deleteSite(testData.site2InTrash.name, false);
+    await userActions.deleteSites([testData.siteInTrash.name, testData.site2InTrash.name], false);
     await userApi.trashcan.waitForApi({ expect: initialDeletedTotalItems + 2 });
 
     await loginPage.loginWith(username);
   });
 
   afterAll(async () => {
-    await Promise.all([
-      userApi.sites.deleteSites([
-        testData.publicUserMemberFav.name,
-        testData.privateUserMemberFav.name,
-        testData.moderatedUserMemberFav.name,
-        testData.publicUserMemberNotFav.name,
-        testData.privateUserMemberNotFav.name,
-        testData.moderatedUserMemberNotFav.name
-      ]),
-      adminApiActions.sites.deleteSites([
-        testData.publicNotMemberFav.name,
-        testData.moderatedNotMemberFav.name,
-        testData.publicNotMemberNotFav.name,
-        testData.moderatedNotMemberNotFav.name,
-        testData.moderatedRequestedJoinFav.name,
-        testData.moderatedRequestedJoinNotFav.name
-      ]),
-      userApi.trashcan.emptyTrash()
+    await userActions.deleteSites([
+      testData.publicUserMemberFav.name,
+      testData.privateUserMemberFav.name,
+      testData.moderatedUserMemberFav.name,
+      testData.publicUserMemberNotFav.name,
+      testData.privateUserMemberNotFav.name,
+      testData.moderatedUserMemberNotFav.name
     ]);
+    await adminApiActions.deleteSites([
+      testData.publicNotMemberFav.name,
+      testData.moderatedNotMemberFav.name,
+      testData.publicNotMemberNotFav.name,
+      testData.moderatedNotMemberNotFav.name,
+      testData.moderatedRequestedJoinFav.name,
+      testData.moderatedRequestedJoinNotFav.name
+    ]);
+    await userActions.emptyTrashcan();
   });
 
   describe('on My Libraries', () => {

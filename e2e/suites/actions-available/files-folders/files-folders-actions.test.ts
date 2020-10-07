@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { RepoClient, Utils, AdminActions, LoginPage, FILES } from '@alfresco/aca-testing-shared';
+import { RepoClient, Utils, AdminActions, UserActions, LoginPage, FILES } from '@alfresco/aca-testing-shared';
 import * as testData from './test-data';
 import { personalFilesTests } from './personal-files';
 import { recentFilesTests } from './recent-files';
@@ -35,9 +35,7 @@ import { trashTests } from './trash';
 
 describe('Files / folders actions : ', () => {
   const random = Utils.random();
-
   const username = `user-${random}`;
-
   const parent = `parent-${random}`;
 
   let parentId: string;
@@ -60,11 +58,14 @@ describe('Files / folders actions : ', () => {
 
   const userApi = new RepoClient(username, username);
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   const loginPage = new LoginPage();
 
   beforeAll(async () => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
 
     parentId = (await userApi.nodes.createFolder(parent)).entry.id;
 
@@ -121,8 +122,8 @@ describe('Files / folders actions : ', () => {
   });
 
   afterAll(async () => {
-    await userApi.nodes.deleteNodeById(parentId);
-    await userApi.trashcan.emptyTrash();
+    await userActions.deleteNodes([parentId]);
+    await userActions.emptyTrashcan();
   });
 
   beforeEach(async () => {
@@ -161,10 +162,7 @@ describe('Files / folders actions : ', () => {
       folder2InTrashId = (await userApi.nodes.createFolder(testData.folder2InTrash.name)).entry.id;
 
       const initialDeletedTotalItems = await userApi.trashcan.getDeletedNodesTotalItems();
-      await userApi.nodes.deleteNodeById(fileInTrashId, false);
-      await userApi.nodes.deleteNodeById(file2InTrashId, false);
-      await userApi.nodes.deleteNodeById(folderInTrashId, false);
-      await userApi.nodes.deleteNodeById(folder2InTrashId, false);
+      await userActions.deleteNodes([fileInTrashId, file2InTrashId, folderInTrashId, folder2InTrashId], false);
       await userApi.trashcan.waitForApi({ expect: initialDeletedTotalItems + 4 });
     });
     trashTests();
