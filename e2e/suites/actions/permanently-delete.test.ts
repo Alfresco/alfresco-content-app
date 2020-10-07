@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, ConfirmDialog, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { AdminActions, UserActions, LoginPage, BrowsingPage, ConfirmDialog, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 
 describe('Permanently delete from Trash', () => {
   const username = `user-${Utils.random()}`;
@@ -49,16 +49,19 @@ describe('Permanently delete from Trash', () => {
 
   const confirmDialog = new ConfirmDialog();
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   beforeAll(async (done) => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
+
     filesIds = (await apis.user.nodes.createFiles([file1, file2, file3])).list.entries.map((entries: any) => entries.entry.id);
     foldersIds = (await apis.user.nodes.createFolders([folder1, folder2])).list.entries.map((entries: any) => entries.entry.id);
     await apis.user.sites.createSite(site);
 
-    await apis.user.nodes.deleteNodesById(filesIds, false);
-    await apis.user.nodes.deleteNodesById(foldersIds, false);
-    await apis.user.sites.deleteSite(site, false);
+    await userActions.deleteNodes([...filesIds, ...foldersIds], false);
+    await userActions.deleteSites([site], false);
 
     await loginPage.loginWith(username);
     done();
@@ -70,7 +73,7 @@ describe('Permanently delete from Trash', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.trashcan.emptyTrash();
+    await userActions.emptyTrashcan();
     done();
   });
 
