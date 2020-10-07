@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, SearchResultsPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { AdminActions, UserActions, LoginPage, BrowsingPage, SearchResultsPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 
 describe('Download', () => {
   const username = `user-${Utils.random()}`;
@@ -77,8 +77,11 @@ describe('Download', () => {
   let initialRecentTotalItems: number;
 
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   beforeAll(async (done) => {
+    await userActions.login(username, username);
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
 
     initialRecentTotalItems = await apis.user.search.getTotalItems(username);
@@ -119,8 +122,8 @@ describe('Download', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(parentId);
-    await apis.user.trashcan.emptyTrash();
+    await userActions.deleteNodes([parentId]);
+    await userActions.emptyTrashcan();
     done();
   });
 

@@ -83,7 +83,7 @@ describe('Delete and undo delete', () => {
     });
 
     afterAll(async () => {
-      await userActions.deleteNodeById(parentId);
+      await userActions.deleteNodes([parentId]);
       await userActions.emptyTrashcan();
     });
 
@@ -215,7 +215,7 @@ describe('Delete and undo delete', () => {
 
     afterAll(async () => {
       await userActions.unlockNodes([fileLocked1Id, fileLocked2Id, fileLocked3Id, fileLocked4Id]);
-      await userActions.deleteNodeById(parentId);
+      await userActions.deleteNodes([parentId]);
       await userActions.emptyTrashcan();
     });
 
@@ -364,7 +364,7 @@ describe('Delete and undo delete', () => {
     });
 
     afterAll(async (done) => {
-      await userActions.deleteNodeById(parentId);
+      await userActions.deleteNodes([parentId]);
       await userActions.emptyTrashcan();
       done();
     });
@@ -501,7 +501,7 @@ describe('Delete and undo delete', () => {
 
     afterAll(async (done) => {
       await userActions.unlockNodes([fileLocked1Id, fileLocked2Id, fileLocked3Id, fileLocked4Id]);
-      await userActions.deleteNodeById(parentId);
+      await userActions.deleteNodes([parentId]);
       await userActions.emptyTrashcan();
       done();
     });

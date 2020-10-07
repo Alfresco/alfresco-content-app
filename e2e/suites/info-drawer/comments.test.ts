@@ -100,7 +100,7 @@ describe('Comments', () => {
   });
 
   afterAll(async (done) => {
-    await userActions.deleteNodeById(parentId);
+    await userActions.deleteNodes([parentId]);
     done();
   });
 

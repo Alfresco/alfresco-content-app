@@ -45,7 +45,7 @@ export class UserActions {
     this.trashcanApi = new TrashcanApi(this.alfrescoApi);
   }
 
-  async login(username?: string, password?: string) {
+  async login(username: string, password: string) {
     this.username = username || this.username;
     this.password = password || this.password;
 
@@ -62,8 +62,15 @@ export class UserActions {
     return comment?.entry;
   }
 
-  async deleteNodeById(id: string, permanent: boolean = true): Promise<any> {
-    return this.nodesApi.deleteNode(id, { permanent });
+  /**
+   * Delete multiple nodes.
+   * @param nodeIds The list of node IDs to delete.
+   * @param permanent Delete permanently, without moving to the trashcan? (default: true)
+   */
+  async deleteNodes(nodeIds: string[], permanent: boolean = true): Promise<any> {
+    for (const nodeId of nodeIds) {
+      await this.nodesApi.deleteNode(nodeId, { permanent });
+    }
   }
 
   /**
@@ -85,6 +92,10 @@ export class UserActions {
     }
   }
 
+  /**
+   * Unlock multiple nodes.
+   * @param nodeIds The list of node IDs to unlock.
+   */
   async unlockNodes(nodeIds: string[]): Promise<any> {
     for (const nodeId of nodeIds) {
       await this.nodesApi.unlockNode(nodeId);
