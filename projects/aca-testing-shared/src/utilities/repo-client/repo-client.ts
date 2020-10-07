@@ -24,7 +24,7 @@
  */
 
 import { browser } from 'protractor';
-import { NodesApi, CommentsApi, SitesApi, FavoritesApi, QueriesApi, SharedLinksApi, TrashcanApi, SearchApi, UploadApi } from './apis';
+import { NodesApi, SitesApi, FavoritesApi, QueriesApi, SharedLinksApi, TrashcanApi, SearchApi, UploadApi } from './apis';
 import { AlfrescoApi } from '@alfresco/js-api';
 
 export class RepoClient {
@@ -41,10 +41,6 @@ export class RepoClient {
 
   get nodes(): NodesApi {
     return new NodesApi(this.username, this.password);
-  }
-
-  get comments(): CommentsApi {
-    return new CommentsApi(this.username, this.password);
   }
 
   get sites(): SitesApi {

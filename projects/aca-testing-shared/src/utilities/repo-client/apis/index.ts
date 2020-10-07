@@ -23,7 +23,6 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './comments/comments-api';
 export * from './favorites/favorites-api';
 export * from './nodes/node-body-create';
 export * from './nodes/node-content-tree';
