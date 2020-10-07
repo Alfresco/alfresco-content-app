@@ -31,7 +31,6 @@ describe('Personal Files', () => {
   const username = `user-${Utils.random()}`;
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, username)
   };
 
@@ -46,14 +45,14 @@ describe('Personal Files', () => {
   const adminApiActions = new AdminActions();
 
   beforeAll(async (done) => {
-    await Promise.all([adminApiActions.createUser({ username }), apis.admin.nodes.createFolders([adminFolder])]);
+    await Promise.all([adminApiActions.createUser({ username }), adminApiActions.nodes.createFolders([adminFolder])]);
     await apis.user.nodes.createFolders([userFolder]);
     await apis.user.nodes.createFiles([userFile], userFolder);
     done();
   });
 
   afterAll(async (done) => {
-    await Promise.all([apis.admin.nodes.deleteNodes([adminFolder]), apis.user.nodes.deleteNodes([userFolder])]);
+    await Promise.all([adminApiActions.nodes.deleteNodes([adminFolder]), apis.user.nodes.deleteNodes([userFolder])]);
     done();
   });
 

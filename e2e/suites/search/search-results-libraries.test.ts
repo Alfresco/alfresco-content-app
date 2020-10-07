@@ -63,7 +63,6 @@ describe('Search results - libraries', () => {
   const adminPrivate = `admin-site-${Utils.random()}`;
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, username)
   };
 
@@ -87,16 +86,16 @@ describe('Search results - libraries', () => {
 
     await apis.user.sites.createSite(siteRussian.name, SITE_VISIBILITY.PUBLIC, '', siteRussian.id);
 
-    await apis.admin.sites.createSite(adminSite1, SITE_VISIBILITY.PUBLIC);
-    await apis.admin.sites.createSite(adminSite2, SITE_VISIBILITY.PUBLIC);
-    await apis.admin.sites.createSite(adminSite3, SITE_VISIBILITY.PUBLIC);
-    await apis.admin.sites.createSite(adminSite4, SITE_VISIBILITY.PUBLIC);
-    await apis.admin.sites.addSiteMember(adminSite1, username, SITE_ROLES.SITE_CONSUMER.ROLE);
-    await apis.admin.sites.addSiteMember(adminSite2, username, SITE_ROLES.SITE_CONTRIBUTOR.ROLE);
-    await apis.admin.sites.addSiteMember(adminSite3, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
-    await apis.admin.sites.addSiteMember(adminSite4, username, SITE_ROLES.SITE_MANAGER.ROLE);
+    await adminApiActions.sites.createSite(adminSite1, SITE_VISIBILITY.PUBLIC);
+    await adminApiActions.sites.createSite(adminSite2, SITE_VISIBILITY.PUBLIC);
+    await adminApiActions.sites.createSite(adminSite3, SITE_VISIBILITY.PUBLIC);
+    await adminApiActions.sites.createSite(adminSite4, SITE_VISIBILITY.PUBLIC);
+    await adminApiActions.sites.addSiteMember(adminSite1, username, SITE_ROLES.SITE_CONSUMER.ROLE);
+    await adminApiActions.sites.addSiteMember(adminSite2, username, SITE_ROLES.SITE_CONTRIBUTOR.ROLE);
+    await adminApiActions.sites.addSiteMember(adminSite3, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
+    await adminApiActions.sites.addSiteMember(adminSite4, username, SITE_ROLES.SITE_MANAGER.ROLE);
 
-    await apis.admin.sites.createSite(adminPrivate, SITE_VISIBILITY.PRIVATE);
+    await adminApiActions.sites.createSite(adminPrivate, SITE_VISIBILITY.PRIVATE);
 
     await apis.user.sites.waitForApi({ expect: 12 });
     await apis.user.queries.waitForSites('lib', { expect: 2 });
@@ -108,7 +107,7 @@ describe('Search results - libraries', () => {
 
   afterAll(async (done) => {
     await Promise.all([
-      apis.admin.sites.deleteSites([adminSite1, adminSite2, adminSite3, adminSite4, adminPrivate]),
+      adminApiActions.sites.deleteSites([adminSite1, adminSite2, adminSite3, adminSite4, adminPrivate]),
       apis.user.sites.deleteSites([site1.id, site2.id, site3.id, site4.id, userSitePublic, userSiteModerated, userSitePrivate, siteRussian.id])
     ]);
     done();

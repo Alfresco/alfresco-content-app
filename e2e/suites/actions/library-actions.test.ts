@@ -54,7 +54,6 @@ describe('Library actions', () => {
   const siteSearchForDelete = `site-public-search-5-${Utils.random()}`;
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, username)
   };
 
@@ -69,12 +68,12 @@ describe('Library actions', () => {
   beforeAll(async (done) => {
     await adminApiActions.createUser({ username });
 
-    await apis.admin.sites.createSite(siteSearchPublic1Admin);
-    await apis.admin.sites.createSite(siteSearchPublic2Admin);
-    await apis.admin.sites.createSite(siteSearchPublic3Admin);
-    await apis.admin.sites.createSite(siteSearchPublic4Admin);
-    await apis.admin.sites.createSite(siteSearchModerated1Admin, SITE_VISIBILITY.MODERATED);
-    await apis.admin.sites.createSite(siteSearchModerated2Admin, SITE_VISIBILITY.MODERATED);
+    await adminApiActions.sites.createSite(siteSearchPublic1Admin);
+    await adminApiActions.sites.createSite(siteSearchPublic2Admin);
+    await adminApiActions.sites.createSite(siteSearchPublic3Admin);
+    await adminApiActions.sites.createSite(siteSearchPublic4Admin);
+    await adminApiActions.sites.createSite(siteSearchModerated1Admin, SITE_VISIBILITY.MODERATED);
+    await adminApiActions.sites.createSite(siteSearchModerated2Admin, SITE_VISIBILITY.MODERATED);
     await apis.user.sites.createSite(siteSearchForDelete);
 
     await apis.user.queries.waitForSites('site-public-search', { expect: 5 });
@@ -96,7 +95,7 @@ describe('Library actions', () => {
   });
 
   afterAll(async () => {
-    await apis.admin.sites.deleteSites([
+    await adminApiActions.sites.deleteSites([
       sitePublic1Admin,
       siteSearchPublic1Admin,
       sitePublic2Admin,
@@ -107,7 +106,7 @@ describe('Library actions', () => {
       sitePublic7Admin,
       sitePublic8Admin
     ]);
-    await apis.admin.sites.deleteSites([
+    await adminApiActions.sites.deleteSites([
       siteSearchPublic2Admin,
       siteSearchPublic3Admin,
       siteSearchPublic4Admin,
@@ -122,7 +121,7 @@ describe('Library actions', () => {
 
   describe('Join a public library', () => {
     beforeAll(async (done) => {
-      await apis.admin.sites.createSite(sitePublic1Admin);
+      await adminApiActions.sites.createSite(sitePublic1Admin);
       await apis.user.favorites.addFavoriteById('site', sitePublic1Admin);
       done();
     });
@@ -150,7 +149,7 @@ describe('Library actions', () => {
 
   describe('Join a moderated library', () => {
     beforeAll(async (done) => {
-      await apis.admin.sites.createSite(siteModerated1Admin, SITE_VISIBILITY.MODERATED);
+      await adminApiActions.sites.createSite(siteModerated1Admin, SITE_VISIBILITY.MODERATED);
       await apis.user.favorites.addFavoriteById('site', siteModerated1Admin);
       await apis.user.queries.waitForSites(siteSearchModerated1Admin, { expect: 1 });
       done();
@@ -183,17 +182,17 @@ describe('Library actions', () => {
 
   describe('Leave a library', () => {
     beforeAll(async (done) => {
-      await apis.admin.sites.createSite(sitePublic2Admin);
-      await apis.admin.sites.createSite(sitePublic3Admin);
-      await apis.admin.sites.createSite(sitePublic4Admin);
-      await apis.admin.sites.createSite(sitePublic5Admin);
+      await adminApiActions.sites.createSite(sitePublic2Admin);
+      await adminApiActions.sites.createSite(sitePublic3Admin);
+      await adminApiActions.sites.createSite(sitePublic4Admin);
+      await adminApiActions.sites.createSite(sitePublic5Admin);
       await apis.user.sites.createSite(sitePublicUser);
       await apis.user.favorites.addFavoriteById('site', sitePublic3Admin);
-      await apis.admin.sites.addSiteMember(sitePublic2Admin, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
-      await apis.admin.sites.addSiteMember(sitePublic3Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
-      await apis.admin.sites.addSiteMember(siteSearchPublic2Admin, username, SITE_ROLES.SITE_CONTRIBUTOR.ROLE);
-      await apis.admin.sites.addSiteMember(sitePublic4Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
-      await apis.admin.sites.addSiteMember(sitePublic5Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
+      await adminApiActions.sites.addSiteMember(sitePublic2Admin, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
+      await adminApiActions.sites.addSiteMember(sitePublic3Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
+      await adminApiActions.sites.addSiteMember(siteSearchPublic2Admin, username, SITE_ROLES.SITE_CONTRIBUTOR.ROLE);
+      await adminApiActions.sites.addSiteMember(sitePublic4Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
+      await adminApiActions.sites.addSiteMember(sitePublic5Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
       await apis.user.queries.waitForSites(siteSearchPublic2Admin, { expect: 1 });
       done();
     });
@@ -272,7 +271,7 @@ describe('Library actions', () => {
 
   describe('Cancel join', () => {
     beforeAll(async (done) => {
-      await apis.admin.sites.createSite(siteModerated2Admin, SITE_VISIBILITY.MODERATED);
+      await adminApiActions.sites.createSite(siteModerated2Admin, SITE_VISIBILITY.MODERATED);
       await apis.user.favorites.addFavoriteById('site', siteModerated2Admin);
       await apis.user.sites.requestToJoin(siteModerated2Admin);
       await apis.user.sites.requestToJoin(siteSearchModerated2Admin);
@@ -309,8 +308,8 @@ describe('Library actions', () => {
 
   describe('Mark library as favorite', () => {
     beforeAll(async (done) => {
-      await apis.admin.sites.createSite(sitePublic6Admin);
-      await apis.admin.sites.addSiteMember(sitePublic6Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
+      await adminApiActions.sites.createSite(sitePublic6Admin);
+      await adminApiActions.sites.addSiteMember(sitePublic6Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
       await apis.user.queries.waitForSites(siteSearchPublic3Admin, { expect: 1 });
       done();
     });
@@ -341,14 +340,14 @@ describe('Library actions', () => {
 
   describe('Remove library from favorites', () => {
     beforeAll(async (done) => {
-      await apis.admin.sites.createSite(sitePublic7Admin);
-      await apis.admin.sites.createSite(sitePublic8Admin);
+      await adminApiActions.sites.createSite(sitePublic7Admin);
+      await adminApiActions.sites.createSite(sitePublic8Admin);
       await apis.user.favorites.addFavoriteById('site', sitePublic7Admin);
       await apis.user.favorites.addFavoriteById('site', sitePublic8Admin);
       await apis.user.favorites.addFavoriteById('site', siteSearchPublic4Admin);
-      await apis.admin.sites.addSiteMember(sitePublic7Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
-      await apis.admin.sites.addSiteMember(sitePublic8Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
-      await apis.admin.sites.addSiteMember(siteSearchPublic4Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
+      await adminApiActions.sites.addSiteMember(sitePublic7Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
+      await adminApiActions.sites.addSiteMember(sitePublic8Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
+      await adminApiActions.sites.addSiteMember(siteSearchPublic4Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
       await apis.user.queries.waitForSites(siteSearchPublic4Admin, { expect: 1 });
       done();
     });

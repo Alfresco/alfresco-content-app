@@ -72,7 +72,6 @@ describe('Edit folder', () => {
   const folderSearchDuplicate = `folder-search-${Utils.random()}`;
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, username)
   };
 
@@ -87,10 +86,10 @@ describe('Edit folder', () => {
   beforeAll(async (done) => {
     await adminApiActions.createUser({ username });
 
-    await apis.admin.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
-    const docLibId = await apis.admin.sites.getDocLibId(sitePrivate);
-    await apis.admin.nodes.createFolder(folderName, docLibId);
-    await apis.admin.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_CONSUMER.ROLE);
+    await adminApiActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
+    const docLibId = await adminApiActions.sites.getDocLibId(sitePrivate);
+    await adminApiActions.nodes.createFolder(folderName, docLibId);
+    await adminApiActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_CONSUMER.ROLE);
 
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
     await apis.user.nodes.createFolder(folderName, parentId, '', folderDescription);
@@ -124,7 +123,7 @@ describe('Edit folder', () => {
 
   afterAll(async (done) => {
     await Promise.all([
-      apis.admin.sites.deleteSite(sitePrivate),
+      adminApiActions.sites.deleteSite(sitePrivate),
       apis.user.sites.deleteSite(siteName),
       apis.user.nodes.deleteNodesById([parentId, folderFavoriteToEditId, folderFavoriteDuplicateId, folderSearchToEditId])
     ]);

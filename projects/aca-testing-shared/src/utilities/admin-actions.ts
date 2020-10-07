@@ -25,7 +25,18 @@
 
 import { RepoClient } from './repo-client/repo-client';
 import { PersonEntry, NodeEntry, PeopleApi } from '@alfresco/js-api';
-import { PersonModel, SitesApi, UploadApi, NodesApi, FavoritesApi, SearchApi, NodeContentTree, Person } from './repo-client/apis';
+import {
+  PersonModel,
+  SitesApi,
+  UploadApi,
+  NodesApi,
+  FavoritesApi,
+  SearchApi,
+  NodeContentTree,
+  Person,
+  SharedLinksApi,
+  TrashcanApi
+} from './repo-client/apis';
 
 export class AdminActions {
   private adminApi: RepoClient;
@@ -39,6 +50,8 @@ export class AdminActions {
   nodes: NodesApi = new NodesApi();
   favorites: FavoritesApi = new FavoritesApi();
   search: SearchApi = new SearchApi();
+  shared: SharedLinksApi = new SharedLinksApi();
+  trashcan: TrashcanApi = new TrashcanApi();
 
   async getDataDictionaryId(): Promise<string> {
     return this.adminApi.nodes.getNodeIdFromParent('Data Dictionary', '-root-');

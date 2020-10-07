@@ -37,7 +37,6 @@ describe('Favorites', () => {
   const fileName4 = `file4-${Utils.random()}.txt`;
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, username)
   };
 
@@ -49,11 +48,11 @@ describe('Favorites', () => {
   beforeAll(async (done) => {
     await adminApiActions.createUser({ username });
 
-    await apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
-    const docLibId = await apis.admin.sites.getDocLibId(siteName);
-    await apis.admin.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_MANAGER.ROLE);
+    await adminApiActions.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
+    const docLibId = await adminApiActions.sites.getDocLibId(siteName);
+    await adminApiActions.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_MANAGER.ROLE);
 
-    const file1Id = (await apis.admin.nodes.createFile(fileName1, docLibId)).entry.id;
+    const file1Id = (await adminApiActions.nodes.createFile(fileName1, docLibId)).entry.id;
     const folderId = (await apis.user.nodes.createFolder(favFolderName)).entry.id;
     const parentId = (await apis.user.nodes.createFolder(parentFolder)).entry.id;
     const file2Id = (await apis.user.nodes.createFile(fileName2, parentId)).entry.id;
@@ -79,7 +78,7 @@ describe('Favorites', () => {
   });
 
   afterAll(async (done) => {
-    await apis.admin.sites.deleteSite(siteName);
+    await adminApiActions.sites.deleteSite(siteName);
     await apis.user.nodes.deleteNodes([favFolderName, parentFolder]);
     await apis.user.trashcan.emptyTrash();
     done();

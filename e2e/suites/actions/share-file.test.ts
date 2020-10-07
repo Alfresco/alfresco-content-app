@@ -56,7 +56,6 @@ describe('Share a file', () => {
   const shareLinkPreUrl = `/#/preview/s/`;
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, username)
   };
 
@@ -332,7 +331,7 @@ describe('Share a file', () => {
       });
 
       afterAll(async () => {
-        await apis.admin.sites.deleteSite(siteName);
+        await adminApiActions.sites.deleteSite(siteName);
         await apis.user.shared.waitForApi({ expect: initialTotalItems });
       });
 

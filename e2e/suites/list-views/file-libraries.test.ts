@@ -48,7 +48,6 @@ describe('File Libraries', () => {
   const siteDescription = 'my site description';
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, password)
   };
 
@@ -64,17 +63,17 @@ describe('File Libraries', () => {
     await apis.user.sites.createSite(userSiteModerated, SITE_VISIBILITY.MODERATED, siteDescription);
     await apis.user.sites.createSite(userSitePrivate, SITE_VISIBILITY.PRIVATE, null);
 
-    await apis.admin.sites.createSite(adminSite1, SITE_VISIBILITY.PUBLIC);
-    await apis.admin.sites.createSite(adminSite2, SITE_VISIBILITY.PUBLIC);
-    await apis.admin.sites.createSite(adminSite3, SITE_VISIBILITY.PUBLIC);
-    await apis.admin.sites.createSite(adminSite4, SITE_VISIBILITY.PUBLIC);
-    await apis.admin.sites.createSite(adminSite5, SITE_VISIBILITY.PUBLIC);
-    await apis.admin.sites.createSite(adminSite6, SITE_VISIBILITY.PUBLIC);
-    await apis.admin.sites.addSiteMember(adminSite1, username, SITE_ROLES.SITE_CONSUMER.ROLE);
-    await apis.admin.sites.addSiteMember(adminSite2, username, SITE_ROLES.SITE_CONTRIBUTOR.ROLE);
-    await apis.admin.sites.addSiteMember(adminSite3, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
-    await apis.admin.sites.addSiteMember(adminSite4, username, SITE_ROLES.SITE_MANAGER.ROLE);
-    await apis.admin.sites.addSiteMember(adminSite6, username, SITE_ROLES.SITE_CONSUMER.ROLE);
+    await adminApiActions.sites.createSite(adminSite1, SITE_VISIBILITY.PUBLIC);
+    await adminApiActions.sites.createSite(adminSite2, SITE_VISIBILITY.PUBLIC);
+    await adminApiActions.sites.createSite(adminSite3, SITE_VISIBILITY.PUBLIC);
+    await adminApiActions.sites.createSite(adminSite4, SITE_VISIBILITY.PUBLIC);
+    await adminApiActions.sites.createSite(adminSite5, SITE_VISIBILITY.PUBLIC);
+    await adminApiActions.sites.createSite(adminSite6, SITE_VISIBILITY.PUBLIC);
+    await adminApiActions.sites.addSiteMember(adminSite1, username, SITE_ROLES.SITE_CONSUMER.ROLE);
+    await adminApiActions.sites.addSiteMember(adminSite2, username, SITE_ROLES.SITE_CONTRIBUTOR.ROLE);
+    await adminApiActions.sites.addSiteMember(adminSite3, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
+    await adminApiActions.sites.addSiteMember(adminSite4, username, SITE_ROLES.SITE_MANAGER.ROLE);
+    await adminApiActions.sites.addSiteMember(adminSite6, username, SITE_ROLES.SITE_CONSUMER.ROLE);
 
     await apis.user.favorites.addFavoriteById('site', adminSite1);
     await apis.user.favorites.addFavoriteById('site', adminSite2);
@@ -90,7 +89,7 @@ describe('File Libraries', () => {
 
   afterAll(async (done) => {
     await apis.user.sites.deleteSites([userSitePublic, userSiteModerated, userSitePrivate, siteId1, siteId2]);
-    await apis.admin.sites.deleteSites([adminSite1, adminSite2, adminSite3, adminSite4, adminSite5, adminSite6]);
+    await adminApiActions.sites.deleteSites([adminSite1, adminSite2, adminSite3, adminSite4, adminSite5, adminSite6]);
     done();
   });
 

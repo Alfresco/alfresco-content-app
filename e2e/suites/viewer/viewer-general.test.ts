@@ -44,7 +44,6 @@ describe('Viewer general', () => {
   const fileInSite = FILES.docxFile;
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, username)
   };
 
@@ -60,9 +59,9 @@ describe('Viewer general', () => {
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
     xlsxFileId = (await apis.user.upload.uploadFile(xlsxFile, parentId)).entry.id;
 
-    await apis.admin.sites.createSite(siteAdmin, SITE_VISIBILITY.PRIVATE);
-    docLibId = await apis.admin.sites.getDocLibId(siteAdmin);
-    fileAdminId = (await apis.admin.upload.uploadFile(fileAdmin, docLibId)).entry.id;
+    await adminApiActions.sites.createSite(siteAdmin, SITE_VISIBILITY.PRIVATE);
+    docLibId = await adminApiActions.sites.getDocLibId(siteAdmin);
+    fileAdminId = (await adminApiActions.upload.uploadFile(fileAdmin, docLibId)).entry.id;
 
     await apis.user.sites.createSite(siteUser, SITE_VISIBILITY.PUBLIC);
     docLibSiteUserId = await apis.user.sites.getDocLibId(siteUser);
@@ -95,7 +94,7 @@ describe('Viewer general', () => {
 
   afterAll(async (done) => {
     await apis.user.nodes.deleteNodeById(parentId);
-    await apis.admin.sites.deleteSite(siteAdmin);
+    await adminApiActions.sites.deleteSite(siteAdmin);
     await apis.user.sites.deleteSite(siteUser);
     done();
   });
