@@ -70,7 +70,7 @@ describe('Shared Files', () => {
     initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
 
     await apis.user.shared.shareFilesByIds([file1Id, file2Id, file3Id, file4Id]);
-    await adminApiActions.shared.shareFileById(nodeId);
+    await adminApiActions.shareNodes([nodeId]);
     await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 5 });
 
     await apis.user.nodes.deleteNodeById(file2Id);

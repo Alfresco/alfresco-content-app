@@ -26,6 +26,7 @@
 import { browser } from 'protractor';
 import {
   AdminActions,
+  UserActions,
   LoginPage,
   BrowsingPage,
   SITE_VISIBILITY,
@@ -54,10 +55,15 @@ describe('Unshare a file', () => {
   const confirmDialog = new ConfirmDialog();
   const contextMenu = dataTable.menu;
   const viewer = new Viewer();
+
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   beforeAll(async (done) => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
+
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
     await loginPage.loginWith(username);
     done();
@@ -85,10 +91,8 @@ describe('Unshare a file', () => {
       file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
       file4Id = (await apis.user.nodes.createFile(file4, parentId)).entry.id;
       initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
-      await apis.user.shared.shareFileById(file1Id);
-      await apis.user.shared.shareFileById(file2Id);
-      await apis.user.shared.shareFileById(file3Id);
-      await apis.user.shared.shareFileById(file4Id);
+
+      await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
       await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 4 });
       done();
     });
@@ -213,10 +217,8 @@ describe('Unshare a file', () => {
       file3Id = (await apis.user.nodes.createFile(file3, parentInSiteId)).entry.id;
       file4Id = (await apis.user.nodes.createFile(file4, parentInSiteId)).entry.id;
       initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
-      await apis.user.shared.shareFileById(file1Id);
-      await apis.user.shared.shareFileById(file2Id);
-      await apis.user.shared.shareFileById(file3Id);
-      await apis.user.shared.shareFileById(file4Id);
+
+      await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
       await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 4 });
       done();
     });
@@ -333,10 +335,8 @@ describe('Unshare a file', () => {
       file4Id = (await apis.user.nodes.createFile(file4, parentId)).entry.id;
 
       initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
-      await apis.user.shared.shareFileById(file1Id);
-      await apis.user.shared.shareFileById(file2Id);
-      await apis.user.shared.shareFileById(file3Id);
-      await apis.user.shared.shareFileById(file4Id);
+
+      await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
       await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 4 });
       done();
     });
@@ -452,10 +452,8 @@ describe('Unshare a file', () => {
       file4Id = (await apis.user.nodes.createFile(file4, parentId)).entry.id;
 
       initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
-      await apis.user.shared.shareFileById(file1Id);
-      await apis.user.shared.shareFileById(file2Id);
-      await apis.user.shared.shareFileById(file3Id);
-      await apis.user.shared.shareFileById(file4Id);
+
+      await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
       await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 4 });
       done();
     });
@@ -571,10 +569,8 @@ describe('Unshare a file', () => {
       file4Id = (await apis.user.nodes.createFile(file4, parentId)).entry.id;
 
       initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
-      await apis.user.shared.shareFileById(file1Id);
-      await apis.user.shared.shareFileById(file2Id);
-      await apis.user.shared.shareFileById(file3Id);
-      await apis.user.shared.shareFileById(file4Id);
+
+      await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
 
       await apis.user.favorites.addFavoriteById('file', file1Id);
       await apis.user.favorites.addFavoriteById('file', file2Id);
@@ -709,12 +705,8 @@ describe('Unshare a file', () => {
       await adminApiActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_CONSUMER.ROLE);
 
       const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
-      await adminApiActions.shared.shareFileById(file1FileLibId);
-      await apis.user.shared.shareFileById(file2FileLibId);
-      await adminApiActions.shared.shareFileById(file1SharedId);
-      await apis.user.shared.shareFileById(file2SharedId);
-      await adminApiActions.shared.shareFileById(file1FavId);
-      await apis.user.shared.shareFileById(file2FavId);
+      await adminApiActions.shareNodes([file1FileLibId, file1SharedId, file1FavId]);
+      await userActions.shareNodes([file2FileLibId, file2SharedId, file2FavId]);
 
       await apis.user.favorites.addFavoriteById('file', file1FavId);
       await apis.user.favorites.addFavoriteById('file', file2FavId);

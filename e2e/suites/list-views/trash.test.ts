@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, SITE_VISIBILITY, SITE_ROLES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { AdminActions, UserActions, SITE_VISIBILITY, SITE_ROLES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
 
 describe('Trash', () => {
   const username = `user-${Utils.random()}`;
@@ -59,10 +59,15 @@ describe('Trash', () => {
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable, breadcrumb } = page;
+
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   beforeAll(async () => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
+
     fileAdminId = (await adminApiActions.nodes.createFiles([fileAdmin])).entry.id;
     folderAdminId = (await adminApiActions.nodes.createFolders([folderAdmin])).entry.id;
     await adminApiActions.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
@@ -83,13 +88,11 @@ describe('Trash', () => {
   });
 
   afterAll(async (done) => {
-    await Promise.all([
-      adminApiActions.sites.deleteSite(siteName),
-      adminApiActions.trashcan.permanentlyDelete(fileAdminId),
-      adminApiActions.trashcan.permanentlyDelete(folderAdminId),
-      apis.user.nodes.deleteNodeById(folderNotDeletedId),
-      apis.user.trashcan.emptyTrash()
-    ]);
+    await adminApiActions.sites.deleteSite(siteName);
+    await adminApiActions.trashcanApi.deleteDeletedNode(fileAdminId);
+    await adminApiActions.trashcanApi.deleteDeletedNode(folderAdminId);
+    await apis.user.nodes.deleteNodeById(folderNotDeletedId);
+    await userActions.emptyTrashcan();
     done();
   });
 

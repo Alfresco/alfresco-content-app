@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { AdminActions, UserActions, LoginPage, BrowsingPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 
 describe('Delete and undo delete', () => {
   const username = `user-${Utils.random()}`;
@@ -35,14 +35,19 @@ describe('Delete and undo delete', () => {
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable, toolbar } = page;
+
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   beforeAll(async () => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+
+    await userActions.login(username, username);
   });
 
   afterAll(async () => {
-    await apis.user.trashcan.emptyTrash();
+    await userActions.emptyTrashcan();
   });
 
   describe('on Recent Files', () => {
@@ -78,8 +83,8 @@ describe('Delete and undo delete', () => {
     });
 
     afterAll(async () => {
-      await apis.user.nodes.deleteNodeById(parentId);
-      await apis.user.trashcan.emptyTrash();
+      await userActions.deleteNodes([parentId]);
+      await userActions.emptyTrashcan();
     });
 
     it('[C280528] delete a file and check notification', async () => {
@@ -209,12 +214,9 @@ describe('Delete and undo delete', () => {
     });
 
     afterAll(async () => {
-      await apis.user.nodes.unlockFile(fileLocked1Id);
-      await apis.user.nodes.unlockFile(fileLocked2Id);
-      await apis.user.nodes.unlockFile(fileLocked3Id);
-      await apis.user.nodes.unlockFile(fileLocked4Id);
-      await apis.user.nodes.deleteNodeById(parentId);
-      await apis.user.trashcan.emptyTrash();
+      await userActions.unlockNodes([fileLocked1Id, fileLocked2Id, fileLocked3Id, fileLocked4Id]);
+      await userActions.deleteNodes([parentId]);
+      await userActions.emptyTrashcan();
     });
 
     it('[C217125] delete a file and check notification', async () => {
@@ -362,8 +364,8 @@ describe('Delete and undo delete', () => {
     });
 
     afterAll(async (done) => {
-      await apis.user.nodes.deleteNodeById(parentId);
-      await apis.user.trashcan.emptyTrash();
+      await userActions.deleteNodes([parentId]);
+      await userActions.emptyTrashcan();
       done();
     });
 
@@ -498,12 +500,9 @@ describe('Delete and undo delete', () => {
     });
 
     afterAll(async (done) => {
-      await apis.user.nodes.unlockFile(fileLocked1Id);
-      await apis.user.nodes.unlockFile(fileLocked2Id);
-      await apis.user.nodes.unlockFile(fileLocked3Id);
-      await apis.user.nodes.unlockFile(fileLocked4Id);
-      await apis.user.nodes.deleteNodeById(parentId);
-      await apis.user.trashcan.emptyTrash();
+      await userActions.unlockNodes([fileLocked1Id, fileLocked2Id, fileLocked3Id, fileLocked4Id]);
+      await userActions.deleteNodes([parentId]);
+      await userActions.emptyTrashcan();
       done();
     });
 

@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, Viewer, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { AdminActions, UserActions, LoginPage, BrowsingPage, Viewer, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 
 describe('Single click on item name', () => {
   const username = `user-${Utils.random()}`;
@@ -50,17 +50,22 @@ describe('Single click on item name', () => {
   const { dataTable, breadcrumb } = page;
   const viewer = new Viewer();
   const { searchInput } = page.header;
+
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   beforeAll(async (done) => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
+
     file1Id = (await apis.user.nodes.createFile(file1)).entry.id;
     folder1Id = (await apis.user.nodes.createFolder(folder1)).entry.id;
 
     deletedFile1Id = (await apis.user.nodes.createFile(deletedFile1)).entry.id;
     deletedFolder1Id = (await apis.user.nodes.createFolder(deletedFolder1)).entry.id;
-    await apis.user.nodes.deleteNodeById(deletedFile1Id, false);
-    await apis.user.nodes.deleteNodeById(deletedFolder1Id, false);
+
+    await userActions.deleteNodes([deletedFile1Id, deletedFolder1Id], false);
 
     await apis.user.sites.createSite(siteName);
     const docLibId = await apis.user.sites.getDocLibId(siteName);
@@ -71,10 +76,9 @@ describe('Single click on item name', () => {
   });
 
   afterAll(async () => {
-    await apis.user.sites.deleteSite(siteName);
-    await apis.user.nodes.deleteNodeById(folder1Id);
-    await apis.user.nodes.deleteNodeById(file1Id);
-    await apis.user.trashcan.emptyTrash();
+    await userActions.deleteSites([siteName]);
+    await userActions.deleteNodes([folder1Id, file1Id]);
+    await userActions.emptyTrashcan();
   });
 
   it('[C284899] Hyperlink does not appear for items in the Trash', async () => {
@@ -128,7 +132,7 @@ describe('Single click on item name', () => {
   describe('on Shared Files', () => {
     beforeAll(async () => {
       const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
-      await apis.user.shared.shareFileById(file1Id);
+      await userActions.shareNodes([file1Id]);
       await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 1 });
     });
 

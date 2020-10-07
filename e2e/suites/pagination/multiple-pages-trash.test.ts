@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage, Utils, AdminActions, RepoClient } from '@alfresco/aca-testing-shared';
+import { LoginPage, BrowsingPage, Utils, AdminActions, UserActions, RepoClient } from '@alfresco/aca-testing-shared';
 
 describe('Pagination on multiple pages on Trash', () => {
   const random = Utils.random();
@@ -36,17 +36,21 @@ describe('Pagination on multiple pages on Trash', () => {
 
   const userApi = new RepoClient(username, username);
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable, pagination } = page;
 
   beforeAll(async () => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
+
     filesDeletedIds = (await userApi.nodes.createFiles(filesForDelete)).list.entries.map((entries: any) => entries.entry.id);
 
-    await userApi.nodes.deleteNodesById(filesDeletedIds, false);
-    await userApi.trashcan.waitForApi({ expect: 101 });
+    await userActions.deleteNodes(filesDeletedIds, false);
+    await userActions.waitForTrashcanSize(101);
 
     await loginPage.loginWith(username);
     await page.clickTrashAndWait();
@@ -57,7 +61,7 @@ describe('Pagination on multiple pages on Trash', () => {
   });
 
   afterAll(async () => {
-    await userApi.trashcan.emptyTrash();
+    await userActions.emptyTrashcan();
   });
 
   it('[C280122] Pagination control default values', async () => {

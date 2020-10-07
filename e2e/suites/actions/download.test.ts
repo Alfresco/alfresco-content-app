@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, SearchResultsPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { AdminActions, UserActions, LoginPage, BrowsingPage, SearchResultsPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 
 describe('Download', () => {
   const username = `user-${Utils.random()}`;
@@ -77,9 +77,12 @@ describe('Download', () => {
   let initialRecentTotalItems: number;
 
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   beforeAll(async (done) => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
 
     initialRecentTotalItems = await apis.user.search.getTotalItems(username);
 
@@ -105,8 +108,7 @@ describe('Download', () => {
     await apis.user.search.waitForApi(username, { expect: initialRecentTotalItems + 10 });
 
     initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
-    await apis.user.shared.shareFileById(fileShared1Id);
-    await apis.user.shared.shareFileById(fileShared2Id);
+    await userActions.shareNodes([fileShared1Id, fileShared2Id]);
     await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 2 });
 
     initialFavoritesTotalItems = await apis.user.favorites.getFavoritesTotalItems();
@@ -119,8 +121,8 @@ describe('Download', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(parentId);
-    await apis.user.trashcan.emptyTrash();
+    await userActions.deleteNodes([parentId]);
+    await userActions.emptyTrashcan();
     done();
   });
 

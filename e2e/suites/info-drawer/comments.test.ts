@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, RepoClient, InfoDrawer, Utils } from '@alfresco/aca-testing-shared';
+import { AdminActions, UserActions, LoginPage, BrowsingPage, RepoClient, InfoDrawer, Utils } from '@alfresco/aca-testing-shared';
 const moment = require('moment');
 
 describe('Comments', () => {
@@ -63,10 +63,14 @@ describe('Comments', () => {
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable } = page;
+
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   beforeAll(async (done) => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
 
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
 
@@ -79,8 +83,8 @@ describe('Comments', () => {
     fileWith1CommentId = (await apis.user.nodes.createFile(fileWith1Comment, parentId)).entry.id;
     fileWith2CommentsId = (await apis.user.nodes.createFile(fileWith2Comments, parentId)).entry.id;
 
-    comment1File2Entry = (await apis.user.comments.addComment(fileWith2CommentsId, 'first comment')).entry;
-    comment2File2Entry = (await apis.user.comments.addComment(fileWith2CommentsId, 'second comment')).entry;
+    comment1File2Entry = await userActions.createComment(fileWith2CommentsId, 'first comment');
+    comment2File2Entry = await userActions.createComment(fileWith2CommentsId, 'second comment');
 
     const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
     await apis.user.shared.shareFilesByIds([file2SharedId, fileWith1CommentId, fileWith2CommentsId]);
@@ -97,7 +101,7 @@ describe('Comments', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(parentId);
+    await userActions.deleteNodes([parentId]);
     done();
   });
 
@@ -351,7 +355,7 @@ describe('Comments', () => {
 
   describe('Comment info display', () => {
     beforeAll(async (done) => {
-      commentFile1Entry = (await apis.user.comments.addComment(fileWith1CommentId, 'this is my comment')).entry;
+      commentFile1Entry = await userActions.createComment(fileWith1CommentId, 'this is my comment');
 
       await apis.user.favorites.waitForApi({ expect: 4 });
       await apis.user.search.waitForApi(username, { expect: 7 });
