@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, RepoClient, EXTENSIBILITY_CONFIGS, Utils, Header, Menu } from '@alfresco/aca-testing-shared';
+import { AdminActions, LoginPage, EXTENSIBILITY_CONFIGS, Utils, Header, Menu } from '@alfresco/aca-testing-shared';
 
 describe('Extensions - Info Drawer', () => {
   const username = `user-${Utils.random()}`;
@@ -42,18 +42,14 @@ describe('Extensions - Info Drawer', () => {
     icon: 'alarm_on'
   };
 
-  const apis = {
-    admin: new RepoClient(),
-    user: new RepoClient(username, username)
-  };
-
   const header = new Header();
   const toolbarMenu = new Menu();
 
   const loginPage = new LoginPage();
+  const adminApiActions = new AdminActions();
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    await adminApiActions.createUser({ username });
     await loginPage.load();
     await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.HEADER);
     await loginPage.loginWith(username);

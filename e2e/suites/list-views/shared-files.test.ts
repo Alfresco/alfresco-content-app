@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { SITE_VISIBILITY, SITE_ROLES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { AdminActions, SITE_VISIBILITY, SITE_ROLES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
 
 describe('Shared Files', () => {
   const username = `user-${Utils.random()}`;
@@ -46,20 +46,20 @@ describe('Shared Files', () => {
   let initialSharedTotalItems: number;
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, password)
   };
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable, breadcrumb } = page;
+  const adminApiActions = new AdminActions();
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
-    await apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
-    await apis.admin.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_CONSUMER.ROLE);
-    const docLibId = await apis.admin.sites.getDocLibId(siteName);
-    const nodeId = (await apis.admin.nodes.createFile(fileAdmin, docLibId)).entry.id;
+    await adminApiActions.createUser({ username });
+    await adminApiActions.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
+    await adminApiActions.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_CONSUMER.ROLE);
+    const docLibId = await adminApiActions.sites.getDocLibId(siteName);
+    const nodeId = (await adminApiActions.nodes.createFile(fileAdmin, docLibId)).entry.id;
 
     folderId = (await apis.user.nodes.createFolder(folderUser)).entry.id;
     file1Id = (await apis.user.nodes.createFile(file1User, folderId)).entry.id;
@@ -70,7 +70,7 @@ describe('Shared Files', () => {
     initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
 
     await apis.user.shared.shareFilesByIds([file1Id, file2Id, file3Id, file4Id]);
-    await apis.admin.shared.shareFileById(nodeId);
+    await adminApiActions.shared.shareFileById(nodeId);
     await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 5 });
 
     await apis.user.nodes.deleteNodeById(file2Id);
@@ -88,7 +88,7 @@ describe('Shared Files', () => {
   });
 
   afterAll(async () => {
-    await apis.admin.sites.deleteSite(siteName);
+    await adminApiActions.sites.deleteSite(siteName);
     await apis.user.nodes.deleteNodeById(folderId);
     await apis.user.nodes.deleteNodeById(file4Id);
   });

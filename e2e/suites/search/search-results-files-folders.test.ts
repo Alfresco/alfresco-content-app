@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, SearchResultsPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { AdminActions, LoginPage, SearchResultsPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 const moment = require('moment');
 
 describe('Search results - files and folders', () => {
@@ -46,7 +46,6 @@ describe('Search results - files and folders', () => {
   const site = `test-site-${Utils.random()}`;
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, username)
   };
 
@@ -54,9 +53,10 @@ describe('Search results - files and folders', () => {
   const page = new SearchResultsPage();
   const { searchInput } = page.header;
   const { dataTable, breadcrumb } = page;
+  const adminApiActions = new AdminActions();
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    await adminApiActions.createUser({ username });
 
     fileId = (await apis.user.nodes.createFile(file, '-my-', fileTitle, fileDescription)).entry.id;
     await apis.user.nodes.editNodeContent(fileId, 'edited by user');

@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage, RepoClient, InfoDrawer, Utils } from '@alfresco/aca-testing-shared';
+import { AdminActions, LoginPage, BrowsingPage, RepoClient, InfoDrawer, Utils } from '@alfresco/aca-testing-shared';
 const moment = require('moment');
 
 describe('Comments', () => {
@@ -54,7 +54,6 @@ describe('Comments', () => {
   let comment2File2Entry: any;
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, username)
   };
 
@@ -64,9 +63,10 @@ describe('Comments', () => {
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable } = page;
+  const adminApiActions = new AdminActions();
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    await adminApiActions.createUser({ username });
 
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
 

@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage, Viewer, RepoClient, EXTENSIBILITY_CONFIGS, FILES, Utils } from '@alfresco/aca-testing-shared';
+import { AdminActions, LoginPage, BrowsingPage, Viewer, RepoClient, EXTENSIBILITY_CONFIGS, FILES, Utils } from '@alfresco/aca-testing-shared';
 
 describe('Extensions - Viewer', () => {
   const username = `user-${Utils.random()}`;
@@ -63,7 +63,6 @@ describe('Extensions - Viewer', () => {
   };
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, username)
   };
 
@@ -72,9 +71,10 @@ describe('Extensions - Viewer', () => {
 
   const viewer = new Viewer();
   const { toolbar } = viewer;
+  const adminApiActions = new AdminActions();
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    await adminApiActions.createUser({ username });
     pdfFileId = (await apis.user.upload.uploadFile(pdfFile.file_name)).entry.id;
     docxFileId = (await apis.user.upload.uploadFile(docxFile.file_name)).entry.id;
 

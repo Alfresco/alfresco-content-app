@@ -24,18 +24,16 @@
  */
 
 import { browser } from 'protractor';
-import { LoginPage, BrowsingPage, Utils, RepoClient, APP_ROUTES } from '@alfresco/aca-testing-shared';
+import { AdminActions, LoginPage, BrowsingPage, Utils, APP_ROUTES } from '@alfresco/aca-testing-shared';
 
 describe('Logout', () => {
   const page = new BrowsingPage();
   const loginPage = new LoginPage();
-
-  const peopleApi = new RepoClient().people;
-
   const johnDoe = `user-${Utils.random()}`;
+  const adminApiActions = new AdminActions();
 
   beforeAll(async (done) => {
-    await peopleApi.createUser({ username: johnDoe });
+    await adminApiActions.createUser({ username: johnDoe });
     done();
   });
 

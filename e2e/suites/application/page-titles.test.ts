@@ -30,7 +30,6 @@ describe('Page titles', () => {
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const adminApi = new RepoClient();
-  const { nodes: nodesApi } = adminApi;
   const file = `file-${Utils.random()}.txt`;
   let fileId: string;
   const { searchInput } = page.header;
@@ -57,7 +56,7 @@ describe('Page titles', () => {
 
   describe('on app pages', () => {
     beforeAll(async (done) => {
-      fileId = (await nodesApi.createFile(file)).entry.id;
+      fileId = (await adminApi.nodes.createFile(file)).entry.id;
       await loginPage.loginWithAdmin();
       done();
     });

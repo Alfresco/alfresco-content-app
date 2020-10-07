@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { SITE_VISIBILITY, LoginPage, BrowsingPage, CreateLibraryDialog, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { AdminActions, SITE_VISIBILITY, LoginPage, BrowsingPage, CreateLibraryDialog, Utils, RepoClient } from '@alfresco/aca-testing-shared';
 
 describe('Create library', () => {
   const username = `user-${Utils.random()}`;
@@ -49,7 +49,6 @@ describe('Create library', () => {
   };
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, username)
   };
 
@@ -57,9 +56,10 @@ describe('Create library', () => {
   const page = new BrowsingPage();
   const createDialog = new CreateLibraryDialog();
   const { dataTable } = page;
+  const adminApiActions = new AdminActions();
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    await adminApiActions.createUser({ username });
     await apis.user.sites.createSite(duplicateSite.name, SITE_VISIBILITY.PRIVATE, '', duplicateSite.id);
     await apis.user.sites.createSite(siteInTrash.name, SITE_VISIBILITY.PUBLIC, '', siteInTrash.id);
     await apis.user.sites.deleteSite(siteInTrash.id, false);

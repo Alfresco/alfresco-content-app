@@ -24,7 +24,7 @@
  */
 
 import { browser } from 'protractor';
-import { LoginPage, BrowsingPage, SITE_VISIBILITY, RepoClient, ShareDialog, Viewer, Utils } from '@alfresco/aca-testing-shared';
+import { AdminActions, LoginPage, BrowsingPage, SITE_VISIBILITY, RepoClient, ShareDialog, Viewer, Utils } from '@alfresco/aca-testing-shared';
 
 describe('Share a file', () => {
   const username = `user-${Utils.random()}`;
@@ -56,12 +56,13 @@ describe('Share a file', () => {
   const shareLinkPreUrl = `/#/preview/s/`;
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, username)
   };
 
+  const adminApiActions = new AdminActions();
+
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    await adminApiActions.createUser({ username });
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
     done();
   });
@@ -330,7 +331,7 @@ describe('Share a file', () => {
       });
 
       afterAll(async () => {
-        await apis.admin.sites.deleteSite(siteName);
+        await adminApiActions.sites.deleteSite(siteName);
         await apis.user.shared.waitForApi({ expect: initialTotalItems });
       });
 

@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage, FILES, RepoClient, Utils, Viewer, PasswordDialog } from '@alfresco/aca-testing-shared';
+import { AdminActions, LoginPage, BrowsingPage, FILES, RepoClient, Utils, Viewer, PasswordDialog } from '@alfresco/aca-testing-shared';
 
 describe('Viewer - password protected file', () => {
   const username = `user-${Utils.random()}`;
@@ -34,7 +34,6 @@ describe('Viewer - password protected file', () => {
   const protectedFile = FILES.protectedFile;
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, username)
   };
 
@@ -43,9 +42,10 @@ describe('Viewer - password protected file', () => {
   const { dataTable } = page;
   const viewer = new Viewer();
   const passwordDialog = new PasswordDialog();
+  const adminApiActions = new AdminActions();
 
   beforeAll(async () => {
-    await apis.admin.people.createUser({ username });
+    await adminApiActions.createUser({ username });
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
     await apis.user.upload.uploadFile(protectedFile.name, parentId);
 

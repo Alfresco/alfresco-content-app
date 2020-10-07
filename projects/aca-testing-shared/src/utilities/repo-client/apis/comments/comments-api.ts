@@ -33,32 +33,12 @@ export class CommentsApi extends RepoApi {
     super(username, password);
   }
 
-  async getNodeComments(nodeId: string) {
-    try {
-      await this.apiAuth();
-      return await this.commentsApi.listComments(nodeId);
-    } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.getNodeComments.name}`, error);
-      return null;
-    }
-  }
-
   async addComment(nodeId: string, comment: string) {
     try {
       await this.apiAuth();
       return await this.commentsApi.createComment(nodeId, { content: comment });
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.addComment.name}`, error);
-      return null;
-    }
-  }
-
-  async addComments(nodeId: string, comment: any) {
-    try {
-      await this.apiAuth();
-      return await this.commentsApi.createComment(nodeId, comment);
-    } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.addComments.name}`, error);
       return null;
     }
   }

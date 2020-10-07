@@ -32,18 +32,17 @@ describe('General', () => {
   const page = new BrowsingPage();
   const createDialog = new CreateOrEditFolderDialog();
   const adminApi = new RepoClient();
-  const { nodes: nodesApi, authentication: authApi } = adminApi;
   const folder = `folder-${Utils.random()}`;
   let folderId: string;
 
   describe('on session expire', () => {
     beforeAll(async (done) => {
-      folderId = (await nodesApi.createFolder(folder)).entry.id;
+      folderId = (await adminApi.nodes.createFolder(folder)).entry.id;
       done();
     });
 
     afterAll(async (done) => {
-      await nodesApi.deleteNodeById(folderId);
+      await adminApi.nodes.deleteNodeById(folderId);
       done();
     });
 
@@ -54,7 +53,7 @@ describe('General', () => {
       await createDialog.waitForDialogToOpen();
       await createDialog.enterName(folder);
 
-      await authApi.logout();
+      await adminApi.logout();
 
       await createDialog.createButton.click();
 

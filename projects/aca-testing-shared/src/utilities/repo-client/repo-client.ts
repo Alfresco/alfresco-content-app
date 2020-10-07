@@ -24,71 +24,59 @@
  */
 
 import { browser } from 'protractor';
-import { PeopleApi } from './apis/people/people-api';
-import { NodesApi } from './apis/nodes/nodes-api';
-import { CommentsApi } from './apis/comments/comments-api';
-import { SitesApi } from './apis/sites/sites-api';
-import { FavoritesApi } from './apis/favorites/favorites-api';
-import { QueriesApi } from './apis/queries/queries-api';
-import { SharedLinksApi } from './apis/shared-links/shared-links-api';
-import { TrashcanApi } from './apis/trashcan/trashcan-api';
-import { SearchApi } from './apis/search/search-api';
-import { UploadApi } from './apis/upload/upload-api';
-import { AuthenticationApi } from './apis/authentication/authentication-api';
+import { NodesApi, CommentsApi, SitesApi, FavoritesApi, QueriesApi, SharedLinksApi, TrashcanApi, SearchApi, UploadApi } from './apis';
+import { AlfrescoApi } from '@alfresco/js-api';
 
 export class RepoClient {
-  constructor(private username: string = browser.params.ADMIN_USERNAME, private password: string = browser.params.ADMIN_PASSWORD) {}
+  alfrescoApi: AlfrescoApi;
 
-  private get auth() {
-    const { username, password } = this;
-    return { username, password };
+  constructor(private username: string = browser.params.ADMIN_USERNAME, private password: string = browser.params.ADMIN_PASSWORD) {
+    this.alfrescoApi = new AlfrescoApi();
+    this.alfrescoApi.setConfig(browser.params.config);
   }
 
-  get people() {
-    return new PeopleApi(this.auth.username, this.auth.password);
+  apiAuth(): Promise<any> {
+    return this.alfrescoApi.login(this.username, this.password);
   }
 
-  get nodes() {
-    return new NodesApi(this.auth.username, this.auth.password);
+  get nodes(): NodesApi {
+    return new NodesApi(this.username, this.password);
   }
 
-  get comments() {
-    return new CommentsApi(this.auth.username, this.auth.password);
+  get comments(): CommentsApi {
+    return new CommentsApi(this.username, this.password);
   }
 
-  get sites() {
-    return new SitesApi(this.auth.username, this.auth.password);
+  get sites(): SitesApi {
+    return new SitesApi(this.username, this.password);
   }
 
-  get favorites() {
-    return new FavoritesApi(this.auth.username, this.auth.password);
+  get favorites(): FavoritesApi {
+    return new FavoritesApi(this.username, this.password);
   }
 
-  get shared() {
-    return new SharedLinksApi(this.auth.username, this.auth.password);
+  get shared(): SharedLinksApi {
+    return new SharedLinksApi(this.username, this.password);
   }
 
-  get trashcan() {
-    return new TrashcanApi(this.auth.username, this.auth.password);
+  get trashcan(): TrashcanApi {
+    return new TrashcanApi(this.username, this.password);
   }
 
-  get search() {
-    return new SearchApi(this.auth.username, this.auth.password);
+  get search(): SearchApi {
+    return new SearchApi(this.username, this.password);
   }
 
-  get queries() {
-    return new QueriesApi(this.auth.username, this.auth.password);
+  get queries(): QueriesApi {
+    return new QueriesApi(this.username, this.password);
   }
 
-  get upload() {
-    return new UploadApi(this.auth.username, this.auth.password);
+  get upload(): UploadApi {
+    return new UploadApi(this.username, this.password);
   }
 
-  get authentication() {
-    return new AuthenticationApi(this.auth.username, this.auth.password);
+  async logout(): Promise<any> {
+    await this.apiAuth();
+    return this.alfrescoApi.logout();
   }
 }
-
-export * from './apis/nodes/node-body-create';
-export * from './apis/nodes/node-content-tree';
-export * from './apis/nodes/nodes-api';

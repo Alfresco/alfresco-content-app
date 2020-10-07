@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { SITE_VISIBILITY, SITE_ROLES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { AdminActions, SITE_VISIBILITY, SITE_ROLES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
 
 describe('File Libraries', () => {
   const username = `user-${Utils.random()}`;
@@ -48,32 +48,32 @@ describe('File Libraries', () => {
   const siteDescription = 'my site description';
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, password)
   };
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable } = page;
+  const adminApiActions = new AdminActions();
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    await adminApiActions.createUser({ username });
 
     await apis.user.sites.createSite(userSitePublic, SITE_VISIBILITY.PUBLIC);
     await apis.user.sites.createSite(userSiteModerated, SITE_VISIBILITY.MODERATED, siteDescription);
     await apis.user.sites.createSite(userSitePrivate, SITE_VISIBILITY.PRIVATE, null);
 
-    await apis.admin.sites.createSite(adminSite1, SITE_VISIBILITY.PUBLIC);
-    await apis.admin.sites.createSite(adminSite2, SITE_VISIBILITY.PUBLIC);
-    await apis.admin.sites.createSite(adminSite3, SITE_VISIBILITY.PUBLIC);
-    await apis.admin.sites.createSite(adminSite4, SITE_VISIBILITY.PUBLIC);
-    await apis.admin.sites.createSite(adminSite5, SITE_VISIBILITY.PUBLIC);
-    await apis.admin.sites.createSite(adminSite6, SITE_VISIBILITY.PUBLIC);
-    await apis.admin.sites.addSiteMember(adminSite1, username, SITE_ROLES.SITE_CONSUMER.ROLE);
-    await apis.admin.sites.addSiteMember(adminSite2, username, SITE_ROLES.SITE_CONTRIBUTOR.ROLE);
-    await apis.admin.sites.addSiteMember(adminSite3, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
-    await apis.admin.sites.addSiteMember(adminSite4, username, SITE_ROLES.SITE_MANAGER.ROLE);
-    await apis.admin.sites.addSiteMember(adminSite6, username, SITE_ROLES.SITE_CONSUMER.ROLE);
+    await adminApiActions.sites.createSite(adminSite1, SITE_VISIBILITY.PUBLIC);
+    await adminApiActions.sites.createSite(adminSite2, SITE_VISIBILITY.PUBLIC);
+    await adminApiActions.sites.createSite(adminSite3, SITE_VISIBILITY.PUBLIC);
+    await adminApiActions.sites.createSite(adminSite4, SITE_VISIBILITY.PUBLIC);
+    await adminApiActions.sites.createSite(adminSite5, SITE_VISIBILITY.PUBLIC);
+    await adminApiActions.sites.createSite(adminSite6, SITE_VISIBILITY.PUBLIC);
+    await adminApiActions.sites.addSiteMember(adminSite1, username, SITE_ROLES.SITE_CONSUMER.ROLE);
+    await adminApiActions.sites.addSiteMember(adminSite2, username, SITE_ROLES.SITE_CONTRIBUTOR.ROLE);
+    await adminApiActions.sites.addSiteMember(adminSite3, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
+    await adminApiActions.sites.addSiteMember(adminSite4, username, SITE_ROLES.SITE_MANAGER.ROLE);
+    await adminApiActions.sites.addSiteMember(adminSite6, username, SITE_ROLES.SITE_CONSUMER.ROLE);
 
     await apis.user.favorites.addFavoriteById('site', adminSite1);
     await apis.user.favorites.addFavoriteById('site', adminSite2);
@@ -89,7 +89,7 @@ describe('File Libraries', () => {
 
   afterAll(async (done) => {
     await apis.user.sites.deleteSites([userSitePublic, userSiteModerated, userSitePrivate, siteId1, siteId2]);
-    await apis.admin.sites.deleteSites([adminSite1, adminSite2, adminSite3, adminSite4, adminSite5, adminSite6]);
+    await adminApiActions.sites.deleteSites([adminSite1, adminSite2, adminSite3, adminSite4, adminSite5, adminSite6]);
     done();
   });
 

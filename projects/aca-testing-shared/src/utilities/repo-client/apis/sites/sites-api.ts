@@ -57,7 +57,7 @@ export class SitesApi extends RepoApi {
   async getSites() {
     try {
       await this.apiAuth();
-      return await this.sitesApi.listSiteMembershipsForPerson(this.getUsername());
+      return await this.sitesApi.listSiteMembershipsForPerson(this.username);
     } catch (error) {
       this.handleError(`SitesApi getSites : catch : `, error);
       return null;
@@ -67,7 +67,7 @@ export class SitesApi extends RepoApi {
   async getSitesTotalItems(): Promise<number> {
     try {
       await this.apiAuth();
-      return (await this.sitesApi.listSiteMembershipsForPerson(this.getUsername())).list.pagination.totalItems;
+      return (await this.sitesApi.listSiteMembershipsForPerson(this.username)).list.pagination.totalItems;
     } catch (error) {
       this.handleError(`SitesApi getSitesTotalItems : catch : `, error);
       return -1;

@@ -23,14 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { SITE_VISIBILITY, SITE_ROLES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { AdminActions, SITE_VISIBILITY, SITE_ROLES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
 
 describe('Special permissions', () => {
   const username = `user-${Utils.random()}`;
   const password = username;
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, password)
   };
 
@@ -38,11 +37,12 @@ describe('Special permissions', () => {
   const page = new BrowsingPage();
   const { dataTable } = page;
   const { searchInput } = page.header;
+  const adminApiActions = new AdminActions();
 
   let initialSharedTotalItems: number;
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    await adminApiActions.createUser({ username });
     done();
   });
 
@@ -52,15 +52,15 @@ describe('Special permissions', () => {
     let fileId;
 
     beforeAll(async (done) => {
-      await apis.admin.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
-      await apis.admin.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
-      const docLibId = await apis.admin.sites.getDocLibId(sitePrivate);
-      fileId = (await apis.admin.nodes.createFile(fileName, docLibId)).entry.id;
+      await adminApiActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
+      await adminApiActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
+      const docLibId = await adminApiActions.sites.getDocLibId(sitePrivate);
+      fileId = (await adminApiActions.nodes.createFile(fileName, docLibId)).entry.id;
       await apis.user.favorites.addFavoriteById('file', fileId);
 
       initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
 
-      await apis.admin.shared.shareFileById(fileId);
+      await adminApiActions.shared.shareFileById(fileId);
       await apis.user.nodes.editNodeContent(fileId, 'edited by user');
 
       await apis.user.search.waitForApi(username, { expect: 1 });
@@ -71,17 +71,17 @@ describe('Special permissions', () => {
     });
 
     afterEach(async () => {
-      await apis.admin.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
+      await adminApiActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
     });
 
     afterAll(async () => {
-      await apis.admin.sites.deleteSite(sitePrivate);
+      await adminApiActions.sites.deleteSite(sitePrivate);
     });
 
     it('[C213173] on Recent Files', async () => {
       await page.clickRecentFilesAndWait();
       expect(await dataTable.getRowsCount()).toBe(1, 'Incorrect number of items');
-      await apis.admin.sites.deleteSiteMember(sitePrivate, username);
+      await adminApiActions.sites.deleteSiteMember(sitePrivate, username);
       await page.refresh();
       expect(await dataTable.isEmpty()).toBe(true, 'Items are still displayed');
     });
@@ -89,7 +89,7 @@ describe('Special permissions', () => {
     it('[C213227] on Favorites', async () => {
       await page.clickFavoritesAndWait();
       expect(await dataTable.getRowsCount()).toBe(1, 'Incorrect number of items');
-      await apis.admin.sites.deleteSiteMember(sitePrivate, username);
+      await adminApiActions.sites.deleteSiteMember(sitePrivate, username);
       await page.refresh();
       expect(await dataTable.isEmpty()).toBe(true, 'Items are still displayed');
     });
@@ -97,7 +97,7 @@ describe('Special permissions', () => {
     it('[C213116] on Shared Files', async () => {
       await page.clickSharedFilesAndWait();
       expect(await dataTable.getRowsCount()).toBe(initialSharedTotalItems + 1, 'Incorrect number of items');
-      await apis.admin.sites.deleteSiteMember(sitePrivate, username);
+      await adminApiActions.sites.deleteSiteMember(sitePrivate, username);
       await page.refresh();
       expect(await dataTable.getRowsCount()).toBe(initialSharedTotalItems, 'Incorrect number of items');
     });
@@ -110,7 +110,7 @@ describe('Special permissions', () => {
 
       expect(await dataTable.isItemPresent(fileName)).toBe(true, `${fileName} is not displayed`);
 
-      await apis.admin.sites.deleteSiteMember(sitePrivate, username);
+      await adminApiActions.sites.deleteSiteMember(sitePrivate, username);
 
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
@@ -127,9 +127,9 @@ describe('Special permissions', () => {
     let fileId;
 
     beforeAll(async (done) => {
-      await apis.admin.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
-      await apis.admin.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
-      const docLibId = await apis.admin.sites.getDocLibId(sitePrivate);
+      await adminApiActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
+      await adminApiActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
+      const docLibId = await adminApiActions.sites.getDocLibId(sitePrivate);
       fileId = (await apis.user.nodes.createFile(fileName, docLibId)).entry.id;
       await apis.user.favorites.addFavoriteById('file', fileId);
 
@@ -138,13 +138,13 @@ describe('Special permissions', () => {
       await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 1 });
 
       await apis.user.search.waitForApi(username, { expect: 1 });
-      await apis.admin.sites.deleteSiteMember(sitePrivate, username);
+      await adminApiActions.sites.deleteSiteMember(sitePrivate, username);
       await loginPage.loginWith(username);
       done();
     });
 
     afterAll(async (done) => {
-      await apis.admin.sites.deleteSite(sitePrivate);
+      await adminApiActions.sites.deleteSite(sitePrivate);
       done();
     });
 

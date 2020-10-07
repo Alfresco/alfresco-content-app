@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, SearchResultsPage, RepoClient, Utils, FILES, SITE_VISIBILITY, SITE_ROLES } from '@alfresco/aca-testing-shared';
+import { AdminActions, LoginPage, SearchResultsPage, RepoClient, Utils, FILES, SITE_VISIBILITY, SITE_ROLES } from '@alfresco/aca-testing-shared';
 
 const moment = require('moment');
 
@@ -57,7 +57,6 @@ describe('Search filters', () => {
   const expectedLocations = ['_REPOSITORY_ (1)', `${site} (1)`];
 
   const apis = {
-    admin: new RepoClient(),
     user1: new RepoClient(user1, user1),
     user2: new RepoClient(user2, user2)
   };
@@ -74,14 +73,15 @@ describe('Search filters', () => {
   const locationFilter = filters.location;
   const modifierFilter = filters.modifier;
   const modifiedDateFilter = filters.modifiedDate;
+  const adminApiActions = new AdminActions();
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username: user1 });
-    await apis.admin.people.createUser({ username: user2 });
+    await adminApiActions.createUser({ username: user1 });
+    await adminApiActions.createUser({ username: user2 });
     parentId = (await apis.user1.nodes.createFolder(parent)).entry.id;
     await apis.user1.sites.createSite(site, SITE_VISIBILITY.PUBLIC);
     await apis.user1.sites.addSiteMember(site, user2, SITE_ROLES.SITE_MANAGER.ROLE);
-    docLibId = await apis.admin.sites.getDocLibId(site);
+    docLibId = await adminApiActions.sites.getDocLibId(site);
 
     await apis.user1.nodes.setGranularPermission(parentId, true, user2, 'Collaborator');
 

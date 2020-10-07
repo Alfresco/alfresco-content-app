@@ -24,6 +24,7 @@
  */
 
 import {
+  AdminActions,
   LoginPage,
   BrowsingPage,
   FILES,
@@ -45,7 +46,6 @@ describe('Viewer actions', () => {
   const pdfFileForDelete = FILES.pdfFile;
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, username)
   };
 
@@ -58,9 +58,10 @@ describe('Viewer actions', () => {
   const shareDialog = new ShareDialog();
   const manageVersionsDialog = new ManageVersionsDialog();
   const uploadNewVersionDialog = new UploadNewVersionDialog();
+  const adminApiActions = new AdminActions();
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    await adminApiActions.createUser({ username });
     done();
   });
 

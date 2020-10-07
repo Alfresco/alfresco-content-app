@@ -23,22 +23,22 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { AdminActions, LoginPage, BrowsingPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 
 describe('Delete and undo delete', () => {
   const username = `user-${Utils.random()}`;
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, username)
   };
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable, toolbar } = page;
+  const adminApiActions = new AdminActions();
 
   beforeAll(async () => {
-    await apis.admin.people.createUser({ username });
+    await adminApiActions.createUser({ username });
   });
 
   afterAll(async () => {

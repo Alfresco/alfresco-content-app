@@ -23,7 +23,16 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage, SearchResultsPage, FILES, RepoClient, Utils, UploadNewVersionDialog } from '@alfresco/aca-testing-shared';
+import {
+  AdminActions,
+  LoginPage,
+  BrowsingPage,
+  SearchResultsPage,
+  FILES,
+  RepoClient,
+  Utils,
+  UploadNewVersionDialog
+} from '@alfresco/aca-testing-shared';
 
 describe('Upload new version', () => {
   const username = `user-${Utils.random()}`;
@@ -76,7 +85,6 @@ describe('Upload new version', () => {
   const fileToUpload5 = FILES.xlsxFile2;
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, username)
   };
 
@@ -86,9 +94,10 @@ describe('Upload new version', () => {
   const { dataTable, toolbar } = page;
   const uploadNewVersionDialog = new UploadNewVersionDialog();
   const { searchInput } = page.header;
+  const adminApiActions = new AdminActions();
 
   beforeAll(async () => {
-    await apis.admin.people.createUser({ username });
+    await adminApiActions.createUser({ username });
 
     parentPFId = (await apis.user.nodes.createFolder(parentPF)).entry.id;
     parentSFId = (await apis.user.nodes.createFolder(parentSF)).entry.id;

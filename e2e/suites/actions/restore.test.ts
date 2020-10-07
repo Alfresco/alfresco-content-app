@@ -24,22 +24,22 @@
  */
 
 import { browser } from 'protractor';
-import { LoginPage, BrowsingPage, APP_ROUTES, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { AdminActions, LoginPage, BrowsingPage, APP_ROUTES, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 
 describe('Restore from Trash', () => {
   const username = `user-${Utils.random()}`;
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, username)
   };
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable, toolbar } = page;
+  const adminApiActions = new AdminActions();
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    await adminApiActions.createUser({ username });
     await loginPage.loginWith(username);
     done();
   });

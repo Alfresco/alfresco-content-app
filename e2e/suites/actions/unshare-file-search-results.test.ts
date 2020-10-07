@@ -25,6 +25,7 @@
 
 import { browser } from 'protractor';
 import {
+  AdminActions,
   LoginPage,
   BrowsingPage,
   SITE_VISIBILITY,
@@ -59,7 +60,6 @@ describe('Unshare a file from Search Results', () => {
   let fileSite2Id: string;
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, username)
   };
 
@@ -71,9 +71,10 @@ describe('Unshare a file from Search Results', () => {
   const contextMenu = dataTable.menu;
   const viewer = new Viewer();
   const { searchInput } = page.header;
+  const adminApiActions = new AdminActions();
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    await adminApiActions.createUser({ username });
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
 
     const initialSearchByTermTotalItems = await apis.user.search.getSearchByTermTotalItems('search-file');
@@ -88,15 +89,15 @@ describe('Unshare a file from Search Results', () => {
     await apis.user.shared.shareFileById(file3Id);
     await apis.user.shared.shareFileById(file4Id);
 
-    await apis.admin.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
-    const docLibId = await apis.admin.sites.getDocLibId(sitePrivate);
+    await adminApiActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
+    const docLibId = await adminApiActions.sites.getDocLibId(sitePrivate);
 
-    fileSite1Id = (await apis.admin.nodes.createFile(fileSite1, docLibId)).entry.id;
-    fileSite2Id = (await apis.admin.nodes.createFile(fileSite2, docLibId)).entry.id;
+    fileSite1Id = (await adminApiActions.nodes.createFile(fileSite1, docLibId)).entry.id;
+    fileSite2Id = (await adminApiActions.nodes.createFile(fileSite2, docLibId)).entry.id;
 
-    await apis.admin.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_CONSUMER.ROLE);
+    await adminApiActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_CONSUMER.ROLE);
 
-    await apis.admin.shared.shareFileById(fileSite1Id);
+    await adminApiActions.shared.shareFileById(fileSite1Id);
     await apis.user.shared.shareFileById(fileSite2Id);
 
     await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 6 });
@@ -108,7 +109,7 @@ describe('Unshare a file from Search Results', () => {
 
   afterAll(async (done) => {
     await apis.user.nodes.deleteNodeById(parentId);
-    await apis.admin.sites.deleteSite(sitePrivate);
+    await adminApiActions.sites.deleteSite(sitePrivate);
     done();
   });
 

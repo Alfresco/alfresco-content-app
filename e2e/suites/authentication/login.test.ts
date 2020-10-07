@@ -24,12 +24,12 @@
  */
 
 import { browser } from 'protractor';
-import { APP_ROUTES, LoginPage, BrowsingPage, Utils, RepoClient, navigate } from '@alfresco/aca-testing-shared';
+import { AdminActions, APP_ROUTES, LoginPage, BrowsingPage, Utils, navigate } from '@alfresco/aca-testing-shared';
 
 describe('Login', () => {
-  const peopleApi = new RepoClient().people;
   const loginPage = new LoginPage();
   const { login } = loginPage;
+  const adminApiActions = new AdminActions();
 
   /* cspell:disable-next-line */
   const testUser = `user-${Utils.random()}@alfness`;
@@ -57,12 +57,12 @@ describe('Login', () => {
   const newPassword = 'new password';
 
   beforeAll(async (done) => {
-    await peopleApi.createUser({ username: testUser });
-    await peopleApi.createUser(russianUser);
-    await peopleApi.createUser(johnDoe);
-    await peopleApi.createUser({ username: disabledUser });
-    await peopleApi.createUser(testUser2);
-    await peopleApi.disableUser(disabledUser);
+    await adminApiActions.createUser({ username: testUser });
+    await adminApiActions.createUser(russianUser);
+    await adminApiActions.createUser(johnDoe);
+    await adminApiActions.createUser({ username: disabledUser });
+    await adminApiActions.createUser(testUser2);
+    await adminApiActions.disableUser(disabledUser);
     done();
   });
 
@@ -141,7 +141,7 @@ describe('Login', () => {
 
     it('[C213104] user is able to login after changing his password', async () => {
       await loginPage.loginWith(testUser2.username, testUser2.password);
-      await peopleApi.changePassword(testUser2.username, newPassword);
+      await adminApiActions.changePassword(testUser2.username, newPassword);
       await loginPage.loginWith(testUser2.username, newPassword);
       expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);
     });
