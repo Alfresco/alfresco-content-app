@@ -23,8 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, RepoClient, InfoDrawer, Utils } from '@alfresco/aca-testing-shared';
-import { CommentsApi, Comment } from '@alfresco/js-api';
+import { AdminActions, UserActions, LoginPage, BrowsingPage, RepoClient, InfoDrawer, Utils } from '@alfresco/aca-testing-shared';
 const moment = require('moment');
 
 describe('Comments', () => {
@@ -58,24 +57,18 @@ describe('Comments', () => {
     user: new RepoClient(username, username)
   };
 
-  const userApi = new RepoClient(username, username);
-  const commentsApi = new CommentsApi(userApi.alfrescoApi);
-
   const infoDrawer = new InfoDrawer();
   const { commentsTab } = infoDrawer;
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable } = page;
-  const adminApiActions = new AdminActions();
 
-  async function addComment(nodeId: string, content: string): Promise<Comment> {
-    const comment = await commentsApi.createComment(nodeId, { content });
-    return comment?.entry;
-  }
+  const adminApiActions = new AdminActions();
+  const userActions = new UserActions(username, username);
 
   beforeAll(async (done) => {
-    await userApi.apiAuth();
+    await userActions.login();
     await adminApiActions.createUser({ username });
 
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
@@ -89,8 +82,8 @@ describe('Comments', () => {
     fileWith1CommentId = (await apis.user.nodes.createFile(fileWith1Comment, parentId)).entry.id;
     fileWith2CommentsId = (await apis.user.nodes.createFile(fileWith2Comments, parentId)).entry.id;
 
-    comment1File2Entry = await addComment(fileWith2CommentsId, 'first comment');
-    comment2File2Entry = await addComment(fileWith2CommentsId, 'second comment');
+    comment1File2Entry = await userActions.createComment(fileWith2CommentsId, 'first comment');
+    comment2File2Entry = await userActions.createComment(fileWith2CommentsId, 'second comment');
 
     const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
     await apis.user.shared.shareFilesByIds([file2SharedId, fileWith1CommentId, fileWith2CommentsId]);
@@ -361,7 +354,7 @@ describe('Comments', () => {
 
   describe('Comment info display', () => {
     beforeAll(async (done) => {
-      commentFile1Entry = await addComment(fileWith1CommentId, 'this is my comment');
+      commentFile1Entry = await userActions.createComment(fileWith1CommentId, 'this is my comment');
 
       await apis.user.favorites.waitForApi({ expect: 4 });
       await apis.user.search.waitForApi(username, { expect: 7 });

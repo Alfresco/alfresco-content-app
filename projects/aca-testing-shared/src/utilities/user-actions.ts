@@ -23,9 +23,24 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './repo-client/apis';
-export * from './repo-client/repo-client';
-export * from './admin-actions';
-export * from './user-actions';
-export * from './browser-utils';
-export * from './utils';
+import { RepoClient } from './repo-client/repo-client';
+import { Comment, CommentsApi } from '@alfresco/js-api';
+
+export class UserActions {
+  private userApi: RepoClient;
+  private commentsApi: CommentsApi;
+
+  constructor(username: string, password: string) {
+    this.userApi = new RepoClient(username, password);
+    this.commentsApi = new CommentsApi(this.userApi.alfrescoApi);
+  }
+
+  async login() {
+    return this.userApi.apiAuth();
+  }
+
+  async createComment(nodeId: string, content: string): Promise<Comment> {
+    const comment = await this.commentsApi.createComment(nodeId, { content });
+    return comment?.entry;
+  }
+}
