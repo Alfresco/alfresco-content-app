@@ -24,23 +24,30 @@
  */
 
 import { browser } from 'protractor';
-import { PeopleApi } from './apis/people/people-api';
-import { NodesApi } from './apis/nodes/nodes-api';
-import { CommentsApi } from './apis/comments/comments-api';
-import { SitesApi } from './apis/sites/sites-api';
-import { FavoritesApi } from './apis/favorites/favorites-api';
-import { QueriesApi } from './apis/queries/queries-api';
-import { SharedLinksApi } from './apis/shared-links/shared-links-api';
-import { TrashcanApi } from './apis/trashcan/trashcan-api';
-import { SearchApi } from './apis/search/search-api';
-import { UploadApi } from './apis/upload/upload-api';
-import { AuthenticationApi } from './apis/authentication/authentication-api';
+import {
+  NodesApi,
+  CommentsApi,
+  SitesApi,
+  FavoritesApi,
+  QueriesApi,
+  SharedLinksApi,
+  TrashcanApi,
+  SearchApi,
+  UploadApi,
+  AuthenticationApi
+} from './apis';
+import { AlfrescoApi } from '@alfresco/js-api';
 
 export class RepoClient {
-  constructor(private username: string = browser.params.ADMIN_USERNAME, private password: string = browser.params.ADMIN_PASSWORD) {}
+  alfrescoApi: AlfrescoApi;
 
-  get people(): PeopleApi {
-    return new PeopleApi(this.username, this.password);
+  constructor(private username: string = browser.params.ADMIN_USERNAME, private password: string = browser.params.ADMIN_PASSWORD) {
+    this.alfrescoApi = new AlfrescoApi();
+    this.alfrescoApi.setConfig(browser.params.config);
+  }
+
+  apiAuth(): Promise<any> {
+    return this.alfrescoApi.login(this.username, this.password);
   }
 
   get nodes(): NodesApi {

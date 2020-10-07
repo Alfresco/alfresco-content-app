@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage, Viewer, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { AdminActions, LoginPage, BrowsingPage, Viewer, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 
 describe('Single click on item name', () => {
   const username = `user-${Utils.random()}`;
@@ -42,7 +42,6 @@ describe('Single click on item name', () => {
   const fileSite = `fileSite-${Utils.random()}.txt`;
 
   const apis = {
-    admin: new RepoClient(),
     user: new RepoClient(username, username)
   };
 
@@ -51,9 +50,10 @@ describe('Single click on item name', () => {
   const { dataTable, breadcrumb } = page;
   const viewer = new Viewer();
   const { searchInput } = page.header;
+  const adminApiActions = new AdminActions();
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    await adminApiActions.createUser({ username });
     file1Id = (await apis.user.nodes.createFile(file1)).entry.id;
     folder1Id = (await apis.user.nodes.createFolder(folder1)).entry.id;
 

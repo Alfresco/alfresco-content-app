@@ -30,7 +30,6 @@ export * from './nodes/node-body-create';
 export * from './nodes/node-content-tree';
 export * from './nodes/nodes-api';
 export * from './people/people-api-models';
-export * from './people/people-api';
 export * from './queries/queries-api';
 export * from './search/search-api';
 export * from './shared-links/shared-links-api';

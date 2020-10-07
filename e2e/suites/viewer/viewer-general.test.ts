@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage, FILES, SITE_VISIBILITY, RepoClient, Utils, Viewer } from '@alfresco/aca-testing-shared';
+import { AdminActions, LoginPage, BrowsingPage, FILES, SITE_VISIBILITY, RepoClient, Utils, Viewer } from '@alfresco/aca-testing-shared';
 
 describe('Viewer general', () => {
   const username = `user-${Utils.random()}`;
@@ -53,9 +53,10 @@ describe('Viewer general', () => {
   const { dataTable } = page;
   const viewer = new Viewer();
   const { searchInput } = page.header;
+  const adminApiActions = new AdminActions();
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    await adminApiActions.createUser({ username });
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
     xlsxFileId = (await apis.user.upload.uploadFile(xlsxFile, parentId)).entry.id;
 

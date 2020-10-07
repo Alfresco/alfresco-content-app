@@ -25,6 +25,7 @@
 
 import { browser } from 'protractor';
 import {
+  AdminActions,
   LoginPage,
   BrowsingPage,
   SITE_VISIBILITY,
@@ -71,9 +72,10 @@ describe('Unshare a file from Search Results', () => {
   const contextMenu = dataTable.menu;
   const viewer = new Viewer();
   const { searchInput } = page.header;
+  const adminApiActions = new AdminActions();
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    await adminApiActions.createUser({ username });
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
 
     const initialSearchByTermTotalItems = await apis.user.search.getSearchByTermTotalItems('search-file');

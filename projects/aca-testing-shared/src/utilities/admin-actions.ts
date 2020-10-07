@@ -24,8 +24,8 @@
  */
 
 import { RepoClient } from './repo-client/repo-client';
-import { PersonEntry, NodeEntry } from '@alfresco/js-api';
-import { PersonModel, SitesApi, UploadApi, NodesApi, FavoritesApi, SearchApi, NodeContentTree } from './repo-client/apis';
+import { PersonEntry, NodeEntry, PeopleApi } from '@alfresco/js-api';
+import { PersonModel, SitesApi, UploadApi, NodesApi, FavoritesApi, SearchApi, NodeContentTree, Person } from './repo-client/apis';
 
 export class AdminActions {
   private adminApi: RepoClient;
@@ -53,7 +53,25 @@ export class AdminActions {
   }
 
   async createUser(user: PersonModel): Promise<PersonEntry> {
-    return this.adminApi.people.createUser(user);
+    const person = new Person(user);
+    const peopleApi = new PeopleApi(this.adminApi.alfrescoApi);
+
+    await this.adminApi.apiAuth();
+    return peopleApi.createPerson(person);
+  }
+
+  async disableUser(username: string): Promise<PersonEntry> {
+    const peopleApi = new PeopleApi(this.adminApi.alfrescoApi);
+
+    await this.adminApi.apiAuth();
+    return peopleApi.updatePerson(username, { enabled: false });
+  }
+
+  async changePassword(username: string, newPassword: string): Promise<PersonEntry> {
+    const peopleApi = new PeopleApi(this.adminApi.alfrescoApi);
+
+    await this.adminApi.apiAuth();
+    return peopleApi.updatePerson(username, { password: newPassword });
   }
 
   async createNodeTemplate(name: string, title: string = '', description: string = '', author: string = ''): Promise<NodeEntry> {

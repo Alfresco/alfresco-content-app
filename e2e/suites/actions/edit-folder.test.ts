@@ -24,6 +24,7 @@
  */
 
 import {
+  AdminActions,
   LoginPage,
   BrowsingPage,
   SITE_VISIBILITY,
@@ -81,8 +82,10 @@ describe('Edit folder', () => {
   const { dataTable, toolbar } = page;
   const { searchInput } = page.header;
 
+  const adminApiActions = new AdminActions();
+
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    await adminApiActions.createUser({ username });
 
     await apis.admin.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
     const docLibId = await apis.admin.sites.getDocLibId(sitePrivate);

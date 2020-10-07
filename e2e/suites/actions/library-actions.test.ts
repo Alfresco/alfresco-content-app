@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { SITE_VISIBILITY, SITE_ROLES, LoginPage, BrowsingPage, Utils, ConfirmDialog, RepoClient } from '@alfresco/aca-testing-shared';
+import { AdminActions, SITE_VISIBILITY, SITE_ROLES, LoginPage, BrowsingPage, Utils, ConfirmDialog, RepoClient } from '@alfresco/aca-testing-shared';
 
 describe('Library actions', () => {
   const username = `user-${Utils.random()}`;
@@ -64,9 +64,10 @@ describe('Library actions', () => {
   const { searchInput } = page.header;
 
   const confirmDialog = new ConfirmDialog();
+  const adminApiActions = new AdminActions();
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    await adminApiActions.createUser({ username });
 
     await apis.admin.sites.createSite(siteSearchPublic1Admin);
     await apis.admin.sites.createSite(siteSearchPublic2Admin);

@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage, FILES, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { AdminActions, LoginPage, BrowsingPage, FILES, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 
 describe('Edit offline', () => {
   const username = `user-${Utils.random()}`;
@@ -63,8 +63,10 @@ describe('Edit offline', () => {
   const { dataTable, toolbar } = page;
   const { searchInput } = page.header;
 
+  const adminApiActions = new AdminActions();
+
   beforeAll(async () => {
-    await apis.admin.people.createUser({ username });
+    await adminApiActions.createUser({ username });
   });
 
   describe('on Personal Files', () => {

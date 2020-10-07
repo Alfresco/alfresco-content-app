@@ -23,7 +23,15 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage, CreateOrEditFolderDialog, Utils, clearTextWithBackspace, RepoClient } from '@alfresco/aca-testing-shared';
+import {
+  AdminActions,
+  LoginPage,
+  BrowsingPage,
+  CreateOrEditFolderDialog,
+  Utils,
+  clearTextWithBackspace,
+  RepoClient
+} from '@alfresco/aca-testing-shared';
 
 describe('Create folder', () => {
   const username = `user-${Utils.random()}`;
@@ -51,9 +59,10 @@ describe('Create folder', () => {
   const page = new BrowsingPage();
   const createDialog = new CreateOrEditFolderDialog();
   const { dataTable } = page;
+  const adminApiActions = new AdminActions();
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    await adminApiActions.createUser({ username });
 
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
     await apis.user.nodes.createFolder(duplicateFolderName, parentId);

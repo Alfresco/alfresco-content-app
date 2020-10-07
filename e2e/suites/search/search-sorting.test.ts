@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, SearchResultsPage, RepoClient, Utils, FILES } from '@alfresco/aca-testing-shared';
+import { AdminActions, LoginPage, SearchResultsPage, RepoClient, Utils, FILES } from '@alfresco/aca-testing-shared';
 
 describe('Search sorting', () => {
   const random = Utils.random();
@@ -56,10 +56,11 @@ describe('Search sorting', () => {
   const page = new SearchResultsPage();
   const { searchInput } = page.header;
   const { dataTable } = page;
+  const adminApiActions = new AdminActions();
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username: user1 });
-    await apis.admin.people.createUser({ username: user2 });
+    await adminApiActions.createUser({ username: user1 });
+    await adminApiActions.createUser({ username: user2 });
     parentId = (await apis.user1.nodes.createFolder(parent)).entry.id;
 
     await apis.user1.nodes.setGranularPermission(parentId, true, user2, 'Collaborator');

@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage, ContentNodeSelectorDialog, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { AdminActions, LoginPage, BrowsingPage, ContentNodeSelectorDialog, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 
 describe('Copy content', () => {
   const username = `user-${Utils.random()}`;
@@ -109,9 +109,10 @@ describe('Copy content', () => {
   const { dataTable, toolbar } = page;
   const copyDialog = new ContentNodeSelectorDialog();
   const { searchInput } = page.header;
+  const adminApiActions = new AdminActions();
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    await adminApiActions.createUser({ username });
 
     const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
     const initialFavoritesTotalItems = await apis.user.favorites.getFavoritesTotalItems();

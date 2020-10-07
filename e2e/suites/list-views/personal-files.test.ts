@@ -25,7 +25,7 @@
 
 import { browser } from 'protractor';
 
-import { APP_ROUTES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { AdminActions, APP_ROUTES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
 
 describe('Personal Files', () => {
   const username = `user-${Utils.random()}`;
@@ -43,9 +43,10 @@ describe('Personal Files', () => {
 
   const userFolder = `user-folder-${Utils.random()}`;
   const userFile = `file-${Utils.random()}.txt`;
+  const adminApiActions = new AdminActions();
 
   beforeAll(async (done) => {
-    await Promise.all([apis.admin.people.createUser({ username }), apis.admin.nodes.createFolders([adminFolder])]);
+    await Promise.all([adminApiActions.createUser({ username }), apis.admin.nodes.createFolders([adminFolder])]);
     await apis.user.nodes.createFolders([userFolder]);
     await apis.user.nodes.createFiles([userFile], userFolder);
     done();

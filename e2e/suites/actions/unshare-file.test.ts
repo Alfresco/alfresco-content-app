@@ -25,6 +25,7 @@
 
 import { browser } from 'protractor';
 import {
+  AdminActions,
   LoginPage,
   BrowsingPage,
   SITE_VISIBILITY,
@@ -54,9 +55,10 @@ describe('Unshare a file', () => {
   const confirmDialog = new ConfirmDialog();
   const contextMenu = dataTable.menu;
   const viewer = new Viewer();
+  const adminApiActions = new AdminActions();
 
   beforeAll(async (done) => {
-    await apis.admin.people.createUser({ username });
+    await adminApiActions.createUser({ username });
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
     await loginPage.loginWith(username);
     done();
