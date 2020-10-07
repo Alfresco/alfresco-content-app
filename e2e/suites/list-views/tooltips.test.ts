@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { AdminActions, UserActions, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
 
 describe('File / folder tooltips', () => {
   const username = `user-${Utils.random()}`;
@@ -50,10 +50,15 @@ describe('File / folder tooltips', () => {
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable } = page;
+
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   beforeAll(async (done) => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
+
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
 
     file1Id = (await apis.user.nodes.createFile(file, parentId)).entry.id;
@@ -77,7 +82,8 @@ describe('File / folder tooltips', () => {
   });
 
   afterAll(async (done) => {
-    await Promise.all([apis.user.nodes.deleteNodes([parent]), apis.user.trashcan.emptyTrash()]);
+    await userActions.deleteNodes([parent]);
+    await userActions.emptyTrashcan();
     done();
   });
 
@@ -267,8 +273,8 @@ describe('File / folder tooltips', () => {
     });
 
     afterAll(async (done) => {
-      await apis.user.nodes.deleteNodes([parentForTrash]);
-      await apis.user.trashcan.emptyTrash();
+      await userActions.deleteNodes([parentForTrash]);
+      await userActions.emptyTrashcan();
       done();
     });
 

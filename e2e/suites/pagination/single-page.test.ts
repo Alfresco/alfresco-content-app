@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage, SearchResultsPage, Utils, AdminActions, RepoClient } from '@alfresco/aca-testing-shared';
+import { LoginPage, BrowsingPage, SearchResultsPage, Utils, AdminActions, UserActions, RepoClient } from '@alfresco/aca-testing-shared';
 
 describe('Pagination on single page', () => {
   const random = Utils.random();
@@ -40,6 +40,7 @@ describe('Pagination on single page', () => {
 
   const userApi = new RepoClient(username, username);
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -48,12 +49,14 @@ describe('Pagination on single page', () => {
   const searchResultsPage = new SearchResultsPage();
 
   beforeAll(async () => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
 
     const initialFavoriteTotalItems = await userApi.favorites.getFavoritesTotalItems();
     const initialRecentFilesTotalItems = await userApi.search.getTotalItems(username);
     const initialSharedTotalItems = await userApi.shared.getSharedLinksTotalItems();
-    const initialTrashTotalItems = await userApi.trashcan.getDeletedNodesTotalItems();
+    const initialTrashTotalItems = await userActions.getTrashcanSize();
 
     fileId = (await userApi.nodes.createFile(file)).entry.id;
     fileInTrashId = (await userApi.nodes.createFile(fileInTrash)).entry.id;
@@ -63,18 +66,18 @@ describe('Pagination on single page', () => {
     await userApi.favorites.addFavoriteById('file', fileId);
     await userApi.shared.shareFileById(fileId);
 
-    await Promise.all([
-      userApi.favorites.waitForApi({ expect: initialFavoriteTotalItems + 2 }),
-      userApi.search.waitForApi(username, { expect: initialRecentFilesTotalItems + 1 }),
-      userApi.shared.waitForApi({ expect: initialSharedTotalItems + 1 }),
-      userApi.trashcan.waitForApi({ expect: initialTrashTotalItems + 1 })
-    ]);
+    await userApi.favorites.waitForApi({ expect: initialFavoriteTotalItems + 2 });
+    await userApi.search.waitForApi(username, { expect: initialRecentFilesTotalItems + 1 });
+    await userApi.shared.waitForApi({ expect: initialSharedTotalItems + 1 });
+    await userActions.waitForTrashcanSize(initialTrashTotalItems + 1);
 
     await loginPage.loginWith(username);
   });
 
   afterAll(async () => {
-    await Promise.all([userApi.nodes.deleteNodeById(fileId), userApi.sites.deleteSite(siteId), userApi.trashcan.emptyTrash()]);
+    await userActions.deleteNodes([fileId]);
+    await userActions.deleteSites([siteId]);
+    await userActions.emptyTrashcan();
   });
 
   it('[C280112] page selector not displayed on Favorites', async () => {

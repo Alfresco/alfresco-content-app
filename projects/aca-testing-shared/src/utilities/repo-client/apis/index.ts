@@ -32,6 +32,5 @@ export * from './queries/queries-api';
 export * from './search/search-api';
 export * from './shared-links/shared-links-api';
 export * from './sites/sites-api';
-export * from './trashcan/trashcan-api';
 export * from './upload/upload-api';
 export * from './repo-api';

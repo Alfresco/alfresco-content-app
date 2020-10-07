@@ -25,6 +25,7 @@
 
 import { AlfrescoApi, Comment, CommentsApi, NodesApi, TrashcanApi, SitesApi } from '@alfresco/js-api';
 import { browser } from 'protractor';
+import { Utils } from './utils';
 
 export class UserActions {
   protected readonly alfrescoApi: AlfrescoApi;
@@ -92,6 +93,35 @@ export class UserActions {
 
       await this.emptyTrashcan();
     }
+  }
+
+  /**
+   * Returns the amount of deleted nodes in the trashcan.
+   * TODO: limited to 1000 items only, needs improvements.
+   */
+  async getTrashcanSize(): Promise<number> {
+    const response = await this.trashcanApi.listDeletedNodes({
+      maxItems: 1000
+    });
+
+    return response?.list?.pagination?.totalItems || 0;
+  }
+
+  /**
+   * Performs multiple calls to retrieve the size of the trashcan until the expectedSize is reached.
+   * Used with eventual consistency calls.
+   * @param expectedSize Size of the trashcan to wait for.
+   */
+  async waitForTrashcanSize(expectedSize: number): Promise<number> {
+    return Utils.retryCall(async () => {
+      const totalItems = await this.getTrashcanSize();
+
+      if (totalItems !== expectedSize) {
+        return Promise.reject(totalItems);
+      } else {
+        return Promise.resolve(totalItems);
+      }
+    });
   }
 
   /**

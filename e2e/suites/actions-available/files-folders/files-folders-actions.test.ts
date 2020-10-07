@@ -161,9 +161,9 @@ describe('Files / folders actions : ', () => {
       folderInTrashId = (await userApi.nodes.createFolder(testData.folderInTrash.name)).entry.id;
       folder2InTrashId = (await userApi.nodes.createFolder(testData.folder2InTrash.name)).entry.id;
 
-      const initialDeletedTotalItems = await userApi.trashcan.getDeletedNodesTotalItems();
+      const initialDeletedTotalItems = await userActions.getTrashcanSize();
       await userActions.deleteNodes([fileInTrashId, file2InTrashId, folderInTrashId, folder2InTrashId], false);
-      await userApi.trashcan.waitForApi({ expect: initialDeletedTotalItems + 4 });
+      await userActions.waitForTrashcanSize(initialDeletedTotalItems + 4);
     });
     trashTests();
   });

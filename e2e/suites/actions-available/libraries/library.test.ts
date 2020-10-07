@@ -46,7 +46,7 @@ describe('Library actions : ', () => {
 
     const initialAdminSitesTotalItems = await adminApiActions.sites.getSitesTotalItems();
     const initialUserSitesTotalItems = await userApi.sites.getSitesTotalItems();
-    const initialDeletedTotalItems = await userApi.trashcan.getDeletedNodesTotalItems();
+    const initialDeletedTotalItems = await userActions.getTrashcanSize();
     const initialQuerySitesTotalItems = await userApi.queries.findSitesTotalItems('actionsSite-');
 
     await userApi.sites.createSite(testData.publicUserMemberFav.name);
@@ -81,7 +81,7 @@ describe('Library actions : ', () => {
     await userApi.sites.createSite(testData.site2InTrash.name);
 
     await userActions.deleteSites([testData.siteInTrash.name, testData.site2InTrash.name], false);
-    await userApi.trashcan.waitForApi({ expect: initialDeletedTotalItems + 2 });
+    await userActions.waitForTrashcanSize(initialDeletedTotalItems + 2);
 
     await loginPage.loginWith(username);
   });

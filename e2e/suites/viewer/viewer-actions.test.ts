@@ -25,6 +25,7 @@
 
 import {
   AdminActions,
+  UserActions,
   LoginPage,
   BrowsingPage,
   FILES,
@@ -59,9 +60,12 @@ describe('Viewer actions', () => {
   const manageVersionsDialog = new ManageVersionsDialog();
   const uploadNewVersionDialog = new UploadNewVersionDialog();
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   beforeAll(async (done) => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
     done();
   });
 
@@ -125,9 +129,8 @@ describe('Viewer actions', () => {
     });
 
     afterAll(async (done) => {
-      await apis.user.nodes.deleteNodeById(parentId);
-      await apis.user.nodes.deleteNodeById(destinationId);
-      await apis.user.trashcan.emptyTrash();
+      await userActions.deleteNodes([parentId, destinationId]);
+      await userActions.emptyTrashcan();
       done();
     });
 
@@ -354,9 +357,9 @@ describe('Viewer actions', () => {
     });
 
     afterAll(async (done) => {
-      await apis.user.sites.deleteSite(siteName);
-      await apis.user.nodes.deleteNodeById(destinationId);
-      await apis.user.trashcan.emptyTrash();
+      await userActions.deleteSites([siteName]);
+      await userActions.deleteNodes([destinationId]);
+      await userActions.emptyTrashcan();
       done();
     });
 
@@ -542,9 +545,8 @@ describe('Viewer actions', () => {
     });
 
     afterAll(async (done) => {
-      await apis.user.nodes.deleteNodeById(parentId);
-      await apis.user.nodes.deleteNodeById(destinationId);
-      await apis.user.trashcan.emptyTrash();
+      await userActions.deleteNodes([parentId, destinationId]);
+      await userActions.emptyTrashcan();
       done();
     });
 
@@ -741,9 +743,8 @@ describe('Viewer actions', () => {
     });
 
     afterAll(async (done) => {
-      await apis.user.nodes.deleteNodeById(parentId);
-      await apis.user.nodes.deleteNodeById(destinationId);
-      await apis.user.trashcan.emptyTrash();
+      await userActions.deleteNodes([parentId, destinationId]);
+      await userActions.emptyTrashcan();
       done();
     });
 
@@ -937,9 +938,8 @@ describe('Viewer actions', () => {
     });
 
     afterAll(async (done) => {
-      await apis.user.nodes.deleteNodeById(parentId);
-      await apis.user.nodes.deleteNodeById(destinationId);
-      await apis.user.trashcan.emptyTrash();
+      await userActions.deleteNodes([parentId, destinationId]);
+      await userActions.emptyTrashcan();
       done();
     });
 

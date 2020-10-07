@@ -24,7 +24,7 @@
  */
 
 import { browser } from 'protractor';
-import { AdminActions, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { AdminActions, UserActions, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
 
 describe('Generic errors', () => {
   const username = `user-${Utils.random()}`;
@@ -43,11 +43,16 @@ describe('Generic errors', () => {
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable } = page;
+
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   beforeAll(async (done) => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
     await adminApiActions.createUser({ username: username2 });
+    await userActions.login(username, username);
+
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
     file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
     await apis.user.nodes.createFile(file2, parentId);
@@ -57,8 +62,8 @@ describe('Generic errors', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(parentId);
-    await apis.user.trashcan.emptyTrash();
+    await userActions.deleteNodes([parentId]);
+    await userActions.emptyTrashcan();
     done();
   });
 

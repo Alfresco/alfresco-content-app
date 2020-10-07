@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, SITE_VISIBILITY, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { AdminActions, UserActions, SITE_VISIBILITY, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
 
 describe('Recent Files', () => {
   const username = `user-${Utils.random()}`;
@@ -47,15 +47,20 @@ describe('Recent Files', () => {
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable, breadcrumb } = page;
+
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   beforeAll(async (done) => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
+
     folderId = (await apis.user.nodes.createFolders([folderName])).entry.id;
     await apis.user.nodes.createFiles([fileName1], folderName);
     file2Id = (await apis.user.nodes.createFiles([fileName2])).entry.id;
     const id = (await apis.user.nodes.createFiles([fileName3])).entry.id;
-    await apis.user.nodes.deleteNodeById(id, false);
+    await userActions.deleteNodes([id], false);
 
     await apis.user.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
     const docLibId = await apis.user.sites.getDocLibId(siteName);
@@ -74,9 +79,9 @@ describe('Recent Files', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodesById([folderId, file2Id]);
-    await apis.user.sites.deleteSite(siteName);
-    await apis.user.trashcan.emptyTrash();
+    await userActions.deleteNodes([folderId, file2Id]);
+    await userActions.deleteSites([siteName]);
+    await userActions.emptyTrashcan();
     done();
   });
 

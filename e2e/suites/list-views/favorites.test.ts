@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, SITE_VISIBILITY, SITE_ROLES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { AdminActions, UserActions, SITE_VISIBILITY, SITE_ROLES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
 
 describe('Favorites', () => {
   const username = `user-${Utils.random()}`;
@@ -43,10 +43,14 @@ describe('Favorites', () => {
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable, breadcrumb } = page;
+
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   beforeAll(async (done) => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
 
     await adminApiActions.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
     const docLibId = await adminApiActions.sites.getDocLibId(siteName);
@@ -64,10 +68,9 @@ describe('Favorites', () => {
     await apis.user.favorites.addFavoriteById('file', file2Id);
     await apis.user.favorites.addFavoriteById('file', file3Id);
     await apis.user.favorites.addFavoriteById('file', file4Id);
-    await apis.user.nodes.deleteNodeById(file3Id, false);
-    await apis.user.nodes.deleteNodeById(file4Id, false);
-    await apis.user.trashcan.restore(file4Id);
 
+    await userActions.deleteNodes([file3Id, file4Id], false);
+    await userActions.trashcanApi.restoreDeletedNode(file4Id);
     await loginPage.loginWith(username);
     done();
   });
@@ -78,9 +81,9 @@ describe('Favorites', () => {
   });
 
   afterAll(async (done) => {
-    await adminApiActions.sites.deleteSite(siteName);
-    await apis.user.nodes.deleteNodes([favFolderName, parentFolder]);
-    await apis.user.trashcan.emptyTrash();
+    await adminApiActions.deleteSites([siteName]);
+    await userActions.deleteNodes([favFolderName, parentFolder]);
+    await userActions.emptyTrashcan();
     done();
   });
 
