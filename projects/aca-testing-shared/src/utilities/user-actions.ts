@@ -84,4 +84,10 @@ export class UserActions {
       await this.emptyTrashcan();
     }
   }
+
+  async unlockNodes(nodeIds: string[]): Promise<any> {
+    for (const nodeId of nodeIds) {
+      await this.nodesApi.unlockNode(nodeId);
+    }
+  }
 }

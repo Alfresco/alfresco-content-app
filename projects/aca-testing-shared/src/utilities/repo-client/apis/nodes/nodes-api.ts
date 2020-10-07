@@ -480,6 +480,7 @@ export class NodesApi extends RepoApi {
     }
   }
 
+  /* @deprecated check {UserActions.unlockNodes} instead. */
   async unlockFile(nodeId: string): Promise<NodeEntry | null> {
     try {
       await this.apiAuth();

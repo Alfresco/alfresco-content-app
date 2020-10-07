@@ -65,7 +65,7 @@ describe('Trash', () => {
 
   beforeAll(async () => {
     await adminApiActions.login();
-    await userActions.login();
+    await userActions.login(username);
 
     await adminApiActions.createUser({ username });
     fileAdminId = (await adminApiActions.nodes.createFiles([fileAdmin])).entry.id;
