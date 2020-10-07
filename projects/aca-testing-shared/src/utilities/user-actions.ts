@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AlfrescoApi, Comment, CommentsApi, NodesApi, TrashcanApi } from '@alfresco/js-api';
+import { AlfrescoApi, Comment, CommentsApi, NodesApi, TrashcanApi, SitesApi } from '@alfresco/js-api';
 import { browser } from 'protractor';
 
 export class UserActions {
@@ -32,6 +32,7 @@ export class UserActions {
   readonly commentsApi: CommentsApi;
   readonly nodesApi: NodesApi;
   readonly trashcanApi: TrashcanApi;
+  readonly sitesApi: SitesApi;
 
   protected username: string;
   protected password: string;
@@ -43,6 +44,7 @@ export class UserActions {
     this.commentsApi = new CommentsApi(this.alfrescoApi);
     this.nodesApi = new NodesApi(this.alfrescoApi);
     this.trashcanApi = new TrashcanApi(this.alfrescoApi);
+    this.sitesApi = new SitesApi(this.alfrescoApi);
   }
 
   async login(username: string, password: string) {
@@ -99,6 +101,19 @@ export class UserActions {
   async unlockNodes(nodeIds: string[]): Promise<any> {
     for (const nodeId of nodeIds) {
       await this.nodesApi.unlockNode(nodeId);
+    }
+  }
+
+  /**
+   * Delete multiple sites/libraries.
+   * @param siteIds The list of the site/library IDs to delete.
+   * @param permanent Delete permanently, without moving to the trashcan? (default: true)
+   */
+  async deleteSites(siteIds: string[], permanent: boolean = true) {
+    if (siteIds && siteIds.length > 0) {
+      for (const siteId of siteIds) {
+        await this.sitesApi.deleteSite(siteId, { permanent });
+      }
     }
   }
 }

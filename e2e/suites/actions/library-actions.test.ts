@@ -23,7 +23,17 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, SITE_VISIBILITY, SITE_ROLES, LoginPage, BrowsingPage, Utils, ConfirmDialog, RepoClient } from '@alfresco/aca-testing-shared';
+import {
+  AdminActions,
+  UserActions,
+  SITE_VISIBILITY,
+  SITE_ROLES,
+  LoginPage,
+  BrowsingPage,
+  Utils,
+  ConfirmDialog,
+  RepoClient
+} from '@alfresco/aca-testing-shared';
 
 describe('Library actions', () => {
   const username = `user-${Utils.random()}`;
@@ -64,9 +74,12 @@ describe('Library actions', () => {
 
   const confirmDialog = new ConfirmDialog();
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   beforeAll(async (done) => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
 
     await adminApiActions.sites.createSite(siteSearchPublic1Admin);
     await adminApiActions.sites.createSite(siteSearchPublic2Admin);
@@ -95,7 +108,7 @@ describe('Library actions', () => {
   });
 
   afterAll(async () => {
-    await adminApiActions.sites.deleteSites([
+    await adminApiActions.deleteSites([
       sitePublic1Admin,
       siteSearchPublic1Admin,
       sitePublic2Admin,
@@ -104,9 +117,7 @@ describe('Library actions', () => {
       sitePublic5Admin,
       sitePublic6Admin,
       sitePublic7Admin,
-      sitePublic8Admin
-    ]);
-    await adminApiActions.sites.deleteSites([
+      sitePublic8Admin,
       siteSearchPublic2Admin,
       siteSearchPublic3Admin,
       siteSearchPublic4Admin,
@@ -115,8 +126,9 @@ describe('Library actions', () => {
       siteSearchModerated1Admin,
       siteSearchModerated2Admin
     ]);
-    await apis.user.sites.deleteSite(sitePublicUser);
-    await apis.user.trashcan.emptyTrash();
+
+    await userActions.deleteSites([sitePublicUser]);
+    await userActions.emptyTrashcan();
   });
 
   describe('Join a public library', () => {

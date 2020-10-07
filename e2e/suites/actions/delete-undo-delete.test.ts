@@ -43,7 +43,7 @@ describe('Delete and undo delete', () => {
     await adminApiActions.login();
     await adminApiActions.createUser({ username });
 
-    await userActions.login();
+    await userActions.login(username, username);
   });
 
   afterAll(async () => {

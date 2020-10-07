@@ -68,8 +68,9 @@ describe('Comments', () => {
   const userActions = new UserActions();
 
   beforeAll(async (done) => {
-    await userActions.login(username, username);
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
 
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
 

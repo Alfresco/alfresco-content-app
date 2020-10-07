@@ -80,9 +80,9 @@ describe('Download', () => {
   const userActions = new UserActions();
 
   beforeAll(async (done) => {
-    await userActions.login(username, username);
     await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
 
     initialRecentTotalItems = await apis.user.search.getTotalItems(username);
 

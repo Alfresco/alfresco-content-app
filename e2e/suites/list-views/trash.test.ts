@@ -65,9 +65,9 @@ describe('Trash', () => {
 
   beforeAll(async () => {
     await adminApiActions.login();
+    await adminApiActions.createUser({ username });
     await userActions.login(username, username);
 
-    await adminApiActions.createUser({ username });
     fileAdminId = (await adminApiActions.nodes.createFiles([fileAdmin])).entry.id;
     folderAdminId = (await adminApiActions.nodes.createFolders([folderAdmin])).entry.id;
     await adminApiActions.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
