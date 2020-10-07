@@ -27,6 +27,9 @@ import { browser } from 'protractor';
 import { NodesApi, SitesApi, FavoritesApi, QueriesApi, SharedLinksApi, TrashcanApi, SearchApi, UploadApi } from './apis';
 import { AlfrescoApi } from '@alfresco/js-api';
 
+/**
+ * @deprecated Use {AdminActions} or {UserActions} instead.
+ */
 export class RepoClient {
   alfrescoApi: AlfrescoApi;
 

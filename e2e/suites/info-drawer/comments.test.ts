@@ -65,10 +65,10 @@ describe('Comments', () => {
   const { dataTable } = page;
 
   const adminApiActions = new AdminActions();
-  const userActions = new UserActions(username, username);
+  const userActions = new UserActions();
 
   beforeAll(async (done) => {
-    await userActions.login();
+    await userActions.login(username, username);
     await adminApiActions.createUser({ username });
 
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
@@ -100,7 +100,7 @@ describe('Comments', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(parentId);
+    await userActions.deleteNodeById(parentId);
     done();
   });
 

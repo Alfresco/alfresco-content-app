@@ -23,24 +23,65 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { RepoClient } from './repo-client/repo-client';
-import { Comment, CommentsApi } from '@alfresco/js-api';
+import { AlfrescoApi, Comment, CommentsApi, NodesApi, TrashcanApi } from '@alfresco/js-api';
+import { browser } from 'protractor';
 
 export class UserActions {
-  private userApi: RepoClient;
-  private commentsApi: CommentsApi;
+  protected readonly alfrescoApi: AlfrescoApi;
 
-  constructor(username: string, password: string) {
-    this.userApi = new RepoClient(username, password);
-    this.commentsApi = new CommentsApi(this.userApi.alfrescoApi);
+  readonly commentsApi: CommentsApi;
+  readonly nodesApi: NodesApi;
+  readonly trashcanApi: TrashcanApi;
+
+  protected username: string;
+  protected password: string;
+
+  constructor() {
+    this.alfrescoApi = new AlfrescoApi();
+    this.alfrescoApi.setConfig(browser.params.config);
+
+    this.commentsApi = new CommentsApi(this.alfrescoApi);
+    this.nodesApi = new NodesApi(this.alfrescoApi);
+    this.trashcanApi = new TrashcanApi(this.alfrescoApi);
   }
 
-  async login() {
-    return this.userApi.apiAuth();
+  async login(username?: string, password?: string) {
+    this.username = username || this.username;
+    this.password = password || this.password;
+
+    return this.alfrescoApi.login(this.username, this.password);
+  }
+
+  async logout(): Promise<any> {
+    await this.alfrescoApi.login(this.username, this.password);
+    return this.alfrescoApi.logout();
   }
 
   async createComment(nodeId: string, content: string): Promise<Comment> {
     const comment = await this.commentsApi.createComment(nodeId, { content });
     return comment?.entry;
+  }
+
+  async deleteNodeById(id: string, permanent: boolean = true): Promise<any> {
+    return this.nodesApi.deleteNode(id, { permanent });
+  }
+
+  /**
+   * Empties the trashcan. Uses multiple batches 1000 nodes each.
+   */
+  async emptyTrashcan(): Promise<any> {
+    const nodes = await this.trashcanApi.listDeletedNodes({
+      maxItems: 1000
+    });
+
+    if (nodes?.list?.entries && nodes?.list?.entries?.length > 0) {
+      const ids = nodes.list.entries.map((entries) => entries.entry.id);
+
+      for (const nodeId of ids) {
+        await this.trashcanApi.deleteDeletedNode(nodeId);
+      }
+
+      await this.emptyTrashcan();
+    }
   }
 }
