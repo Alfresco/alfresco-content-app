@@ -43,7 +43,7 @@ export function collaboratorTests(siteName?: string) {
     });
 
     it('on File Libraries - [C297647]', async () => {
-      await page.clickFileLibrariesAndWait();
+      await page.goToMyLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
 
@@ -85,7 +85,7 @@ export function collaboratorTests(siteName?: string) {
 
     describe('available actions in the viewer : ', () => {
       it('file opened from File Libraries - [C297654]', async () => {
-        await page.clickFileLibrariesAndWait();
+        await page.goToMyLibrariesAndWait();
         await dataTable.doubleClickOnRowByName(siteName);
         await dataTable.waitForHeader();
 
@@ -170,7 +170,7 @@ export function filesLockedByCurrentUser(siteName?: string) {
     });
 
     it('on File Libraries - [C297657]', async () => {
-      await page.clickFileLibrariesAndWait();
+      await page.goToMyLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
 
@@ -212,7 +212,7 @@ export function filesLockedByCurrentUser(siteName?: string) {
 
     describe('available actions in the viewer : ', () => {
       it('file opened from File Libraries - [C297661]', async () => {
-        await page.clickFileLibrariesAndWait();
+        await page.goToMyLibrariesAndWait();
         await dataTable.doubleClickOnRowByName(siteName);
         await dataTable.waitForHeader();
 
