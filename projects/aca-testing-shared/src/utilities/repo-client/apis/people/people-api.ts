@@ -25,7 +25,7 @@
 
 import { PersonModel, Person } from './people-api-models';
 import { RepoApi } from '../repo-api';
-import { PeopleApi as AdfPeopleApi } from '@alfresco/js-api';
+import { PeopleApi as AdfPeopleApi, PersonEntry } from '@alfresco/js-api';
 
 export class PeopleApi extends RepoApi {
   peopleApi = new AdfPeopleApi(this.alfrescoJsApi);
@@ -45,7 +45,7 @@ export class PeopleApi extends RepoApi {
     }
   }
 
-  async getUser(username: string) {
+  async getUser(username: string): Promise<PersonEntry> {
     try {
       await this.apiAuth();
       return await this.peopleApi.getPerson(username);

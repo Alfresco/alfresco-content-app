@@ -39,56 +39,47 @@ import { AuthenticationApi } from './apis/authentication/authentication-api';
 export class RepoClient {
   constructor(private username: string = browser.params.ADMIN_USERNAME, private password: string = browser.params.ADMIN_PASSWORD) {}
 
-  private get auth() {
-    const { username, password } = this;
-    return { username, password };
+  get people(): PeopleApi {
+    return new PeopleApi(this.username, this.password);
   }
 
-  get people() {
-    return new PeopleApi(this.auth.username, this.auth.password);
+  get nodes(): NodesApi {
+    return new NodesApi(this.username, this.password);
   }
 
-  get nodes() {
-    return new NodesApi(this.auth.username, this.auth.password);
+  get comments(): CommentsApi {
+    return new CommentsApi(this.username, this.password);
   }
 
-  get comments() {
-    return new CommentsApi(this.auth.username, this.auth.password);
+  get sites(): SitesApi {
+    return new SitesApi(this.username, this.password);
   }
 
-  get sites() {
-    return new SitesApi(this.auth.username, this.auth.password);
+  get favorites(): FavoritesApi {
+    return new FavoritesApi(this.username, this.password);
   }
 
-  get favorites() {
-    return new FavoritesApi(this.auth.username, this.auth.password);
+  get shared(): SharedLinksApi {
+    return new SharedLinksApi(this.username, this.password);
   }
 
-  get shared() {
-    return new SharedLinksApi(this.auth.username, this.auth.password);
+  get trashcan(): TrashcanApi {
+    return new TrashcanApi(this.username, this.password);
   }
 
-  get trashcan() {
-    return new TrashcanApi(this.auth.username, this.auth.password);
+  get search(): SearchApi {
+    return new SearchApi(this.username, this.password);
   }
 
-  get search() {
-    return new SearchApi(this.auth.username, this.auth.password);
+  get queries(): QueriesApi {
+    return new QueriesApi(this.username, this.password);
   }
 
-  get queries() {
-    return new QueriesApi(this.auth.username, this.auth.password);
+  get upload(): UploadApi {
+    return new UploadApi(this.username, this.password);
   }
 
-  get upload() {
-    return new UploadApi(this.auth.username, this.auth.password);
-  }
-
-  get authentication() {
-    return new AuthenticationApi(this.auth.username, this.auth.password);
+  get authentication(): AuthenticationApi {
+    return new AuthenticationApi(this.username, this.password);
   }
 }
-
-export * from './apis/nodes/node-body-create';
-export * from './apis/nodes/node-content-tree';
-export * from './apis/nodes/nodes-api';

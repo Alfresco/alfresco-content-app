@@ -91,7 +91,7 @@ export class FavoritesApi extends RepoApi {
   async getFavorites() {
     try {
       await this.apiAuth();
-      return await this.favoritesApi.listFavorites(this.getUsername());
+      return await this.favoritesApi.listFavorites(this.username);
     } catch (error) {
       this.handleError(`FavoritesApi getFavorites : catch : `, error);
       return null;
@@ -101,7 +101,7 @@ export class FavoritesApi extends RepoApi {
   async getFavoritesTotalItems(): Promise<number> {
     try {
       await this.apiAuth();
-      return (await this.favoritesApi.listFavorites(this.getUsername())).list.pagination.totalItems;
+      return (await this.favoritesApi.listFavorites(this.username)).list.pagination.totalItems;
     } catch (error) {
       this.handleError(`FavoritesApi getFavoritesTotalItems : catch : `, error);
       return -1;
