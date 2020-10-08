@@ -46,12 +46,6 @@ describe('AppComponent', () => {
     }
   };
 
-  const storageMock: any = {
-    getItem(): string {
-      return '';
-    }
-  };
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule.withRoutes([{ path: 'fake-path', children: [] }])]
@@ -59,7 +53,7 @@ describe('AppComponent', () => {
 
     router = TestBed.inject(Router);
 
-    component = new AppComponent(null, router, null, storeMock, configMock, null, null, null, null, null, null, null, storageMock, null);
+    component = new AppComponent(null, router, null, storeMock, configMock, null, null, null, null, null, null, null, null);
 
     storeMock.dispatch = jasmine.createSpy('dispatch');
   });
