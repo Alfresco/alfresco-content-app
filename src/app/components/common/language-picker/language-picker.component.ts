@@ -29,6 +29,7 @@ import { Component } from '@angular/core';
   selector: 'aca-language-picker',
   template: `
     <button mat-menu-item [matMenuTriggerFor]="langMenu">
+      <mat-icon>language</mat-icon>
       {{ 'APP.LANGUAGE' | translate }}
     </button>
     <mat-menu #langMenu="matMenu">

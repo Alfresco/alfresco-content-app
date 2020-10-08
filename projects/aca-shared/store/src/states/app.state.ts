@@ -31,7 +31,6 @@ export interface AppState {
   headerColor: string;
   logoPath: string;
   headerImagePath: string;
-  languagePicker: boolean;
   sharedUrl: string;
   currentNodeVersion: VersionEntry;
   selection: SelectionState;

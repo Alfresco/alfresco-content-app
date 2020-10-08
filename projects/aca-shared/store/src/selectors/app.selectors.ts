@@ -32,7 +32,6 @@ export const getHeaderColor = createSelector(selectApp, (state) => state.headerC
 export const getAppName = createSelector(selectApp, (state) => state.appName);
 export const getLogoPath = createSelector(selectApp, (state) => state.logoPath);
 export const getHeaderImagePath = createSelector(selectApp, (state) => state.headerImagePath);
-export const getLanguagePickerState = createSelector(selectApp, (state) => state.languagePicker);
 export const getUserProfile = createSelector(selectApp, (state) => state.user);
 export const getCurrentFolder = createSelector(selectApp, (state) => state.navigation.currentFolder);
 export const getCurrentVersion = createSelector(selectApp, (state) => state.currentNodeVersion);

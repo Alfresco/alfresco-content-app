@@ -483,24 +483,6 @@ describe('app.evaluators', () => {
     });
   });
 
-  describe('canShowLanguagePicker', () => {
-    it('should return true when property is true', () => {
-      const context: any = {
-        languagePicker: true
-      };
-
-      expect(app.canShowLanguagePicker(context)).toBe(true);
-    });
-
-    it('should return false when property is false', () => {
-      const context: any = {
-        languagePicker: false
-      };
-
-      expect(app.canShowLanguagePicker(context)).toBe(false);
-    });
-  });
-
   describe('canShowLogout', () => {
     it('should return false when `withCredentials` property is true', () => {
       const context: any = {
