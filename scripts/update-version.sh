@@ -6,7 +6,6 @@ eval libs=( "@alfresco/adf-core"
     "@alfresco/adf-content-services"
     "@alfresco/adf-extensions"
     "@alfresco/adf-testing"
-    "@alfresco/js-api"
     "@alfresco/adf-cli"
 )
 
@@ -16,10 +15,15 @@ show_help() {
     echo "Usage: update-version.sh -v latest"
     echo ""
     echo "-v or -version the new version of the libraries, can also be alpha|beta|latest"
+    echo "-vj or --versionjsapi  to use a different version of js-api"
 }
 
 set_version() {
     VERSION=$1
+}
+
+set_js_version() {
+    JS_VERSION=$1
 }
 
 update(){
@@ -35,10 +39,18 @@ update(){
     npm i --ignore-scripts -E ${libsWithVersions[*]}
 }
 
+update_js_api(){
+    eval jsWithVersions=();
+
+    echo "npm i --ignore-scripts -E @alfresco/js-api@${JS_VERSION}"
+    npm i --ignore-scripts -E @alfresco/js-api@${JS_VERSION}
+}
+
 while [[ $1  == -* ]]; do
     case "$1" in
       -h|--help|-\?) show_help; exit 0;;
       -v|version) set_version $2; shift 2;;
+      -vj|version) set_js_version $2; shift 2;;
       -*) shift;;
     esac
 done
@@ -53,3 +65,8 @@ libslength=${#libs[@]}
 
 echo "====== Updating dependencies ======"
 update
+
+if [[ "${JS_VERSION}" != "" ]]
+then
+update_js_api
+fi
