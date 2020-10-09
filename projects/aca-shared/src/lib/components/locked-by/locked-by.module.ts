@@ -27,9 +27,10 @@ import { NgModule } from '@angular/core';
 import { LockedByComponent } from './locked-by.component';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
-  imports: [CommonModule, MatIconModule],
+  imports: [CommonModule, MatIconModule, TranslateModule.forChild()],
   declarations: [LockedByComponent],
   exports: [LockedByComponent]
 })

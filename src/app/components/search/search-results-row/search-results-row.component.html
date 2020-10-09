@@ -1,22 +1,8 @@
 <div class="line">
-  <span
-    tabindex="0"
-    role="link"
-    *ngIf="isFile"
-    (click)="showPreview($event)"
-    (keyup.enter)="showPreview($event)"
-    class="link"
-  >
+  <span tabindex="0" role="link" *ngIf="isFile" (click)="showPreview($event)" (keyup.enter)="showPreview($event)" class="link">
     {{ name$ | async }}
   </span>
-  <span
-    tabindex="0"
-    role="link"
-    *ngIf="!isFile"
-    (click)="navigate($event)"
-    (keyup.enter)="navigate($event)"
-    class="bold link"
-  >
+  <span tabindex="0" role="link" *ngIf="!isFile" (click)="navigate($event)" (keyup.enter)="navigate($event)" class="bold link">
     {{ name$ | async }}
   </span>
   <span>{{ title$ | async }}</span>
@@ -33,6 +19,10 @@
     >| {{ 'APP.BROWSE.SEARCH.CUSTOM_ROW.SIZE' | translate }}:
     {{ size | adfFileSize }}
   </span>
+</div>
+
+<div class="line" *ngIf="isFile && isFileWriteLocked">
+  <aca-locked-by [node]="context.row.node"></aca-locked-by>
 </div>
 
 <div class="line">
