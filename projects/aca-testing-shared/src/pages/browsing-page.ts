@@ -36,7 +36,8 @@ export class BrowsingPage extends Page {
   pagination = new Pagination(this.appRoot);
 
   async signOut(): Promise<void> {
-    await this.header.userInfo.signOut();
+    await this.header.openMoreMenu();
+    await this.header.menu.clickMenuItem('Sign out');
   }
 
   async clickPersonalFiles(): Promise<void> {
