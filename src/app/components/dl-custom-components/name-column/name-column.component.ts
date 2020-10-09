@@ -91,11 +91,11 @@ export class CustomNameColumnComponent extends NameColumnComponent implements On
     this.onDestroy$$.complete();
   }
 
-  isFile(): boolean {
+  get isFile(): boolean {
     return this.node && this.node.entry && !this.node.entry.isFolder;
   }
 
-  isFileWriteLocked(): boolean {
+  get isFileWriteLocked(): boolean {
     return isLocked(this.node);
   }
 }

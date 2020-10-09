@@ -23,15 +23,15 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, OnInit, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
-
+import { Component, Input, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { NodeEntry } from '@alfresco/js-api';
 
 @Component({
   selector: 'aca-locked-by',
   template: `
     <mat-icon class="locked_by--icon">lock</mat-icon>
-    <span class="locked_by--name">{{ writeLockedBy() }}</span>
+    <span class="locked_by--label">{{ 'APP.LOCKED_BY' | translate }}</span>
+    <span class="locked_by--name">{{ text }}</span>
   `,
   styleUrls: ['./locked-by.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -40,19 +40,11 @@ import { NodeEntry } from '@alfresco/js-api';
     class: 'aca-locked-by'
   }
 })
-export class LockedByComponent implements OnInit {
+export class LockedByComponent {
   @Input()
-  context: any;
-
   node: NodeEntry;
 
-  constructor() {}
-
-  ngOnInit() {
-    this.node = this.context.row.node;
-  }
-
-  writeLockedBy() {
+  get text(): string {
     return (
       this.node && this.node.entry.properties && this.node.entry.properties['cm:lockOwner'] && this.node.entry.properties['cm:lockOwner'].displayName
     );

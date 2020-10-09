@@ -27,6 +27,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
 import { ContentModule } from '@alfresco/adf-content-services';
+import { LockedByModule } from '@alfresco/aca-shared';
 import { SearchResultsComponent } from './search-results/search-results.component';
 import { SearchResultsRowComponent } from './search-results-row/search-results-row.component';
 import { SearchLibrariesResultsComponent } from './search-libraries-results/search-libraries-results.component';
@@ -47,7 +48,8 @@ import { ContextMenuModule } from '../context-menu/context-menu.module';
     AppToolbarModule,
     DirectivesModule,
     AppLayoutModule,
-    ContextMenuModule
+    ContextMenuModule,
+    LockedByModule
   ],
   declarations: [SearchResultsComponent, SearchLibrariesResultsComponent, SearchResultsRowComponent],
   exports: [SearchResultsComponent, SearchLibrariesResultsComponent, SearchResultsRowComponent]

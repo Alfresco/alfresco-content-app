@@ -1,19 +1,14 @@
 <div
   class="aca-custom-name-column"
   [ngClass]="{
-    'aca-name-column-container': isFile() && isFileWriteLocked()
+    'aca-name-column-container': isFile && isFileWriteLocked
   }"
 >
   <span
     role="link"
     [attr.aria-label]="
-      (isFile()
-        ? 'CUSTOM_NAME_COLUMN.ACCESSIBILITY.FILE_LINK_ARIA_LABEL'
-        : 'CUSTOM_NAME_COLUMN.ACCESSIBILITY.FOLDER_LINK_ARIA_LABEL')
-        | translate
-          : {
-              name: displayText$ | async
-            }
+      (isFile ? 'CUSTOM_NAME_COLUMN.ACCESSIBILITY.FILE_LINK_ARIA_LABEL' : 'CUSTOM_NAME_COLUMN.ACCESSIBILITY.FOLDER_LINK_ARIA_LABEL')
+        | translate: { name: displayText$ | async }
     "
     class="adf-datatable-cell-value"
     title="{{ node | adfNodeNameTooltip }}"
@@ -23,7 +18,7 @@
     {{ displayText$ | async }}
   </span>
 
-  <ng-container *ngIf="isFile() && isFileWriteLocked()">
-    <aca-locked-by [context]="context"></aca-locked-by>
+  <ng-container *ngIf="isFile && isFileWriteLocked">
+    <aca-locked-by [node]="context.row.node"></aca-locked-by>
   </ng-container>
 </div>

@@ -47,6 +47,7 @@
             "RESET": "Reset",
             "APPLY": "Apply"
         },
+        "LOCKED_BY": "Locked by: ",
         "PREVIEW": {
             "TITLE": "Preview"
         },

@@ -31,6 +31,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { isLocked } from '@alfresco/aca-shared';
 
 @Component({
   selector: 'aca-search-results-row',
@@ -55,7 +56,7 @@ export class SearchResultsRowComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.updateValues();
 
-    this.alfrescoApiService.nodeUpdated.pipe(takeUntil(this.onDestroy$)).subscribe((node: any) => {
+    this.alfrescoApiService.nodeUpdated.pipe(takeUntil(this.onDestroy$)).subscribe((node) => {
       const row = this.context.row;
       if (row) {
         const { entry } = row.node;
@@ -108,6 +109,10 @@ export class SearchResultsRowComponent implements OnInit, OnDestroy {
 
   get isFile(): boolean {
     return this.node.entry.isFile;
+  }
+
+  get isFileWriteLocked(): boolean {
+    return isLocked(this.node);
   }
 
   showPreview(event: MouseEvent) {
