@@ -32,14 +32,16 @@ import {
   UploadService,
   AppConfigPipe,
   AlfrescoApiService,
-  AlfrescoApiServiceMock
+  AlfrescoApiServiceMock,
+  DataTableModule
 } from '@alfresco/adf-core';
-import { DocumentListComponent } from '@alfresco/adf-content-services';
+import { DocumentListComponent, FilterSearch } from '@alfresco/adf-content-services';
 import { NodeActionsService } from '../../services/node-actions.service';
 import { FilesComponent } from './files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { of, throwError } from 'rxjs';
+import { By } from '@angular/platform-browser';
 
 describe('FilesComponent', () => {
   let node;
@@ -55,7 +57,7 @@ describe('FilesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule],
+      imports: [AppTestingModule, DataTableModule],
       declarations: [FilesComponent, DataTableComponent, NodeFavoriteDirective, DocumentListComponent, AppConfigPipe],
       providers: [
         { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
@@ -297,6 +299,20 @@ describe('FilesComponent', () => {
       const mock: any = { aspectNames: ['st:siteContainer'] };
 
       expect(component.isSiteContainer(mock)).toBe(true);
+    });
+  });
+
+  fdescribe('filter header', () => {
+    it('should show custom empty template if filter headers are applied', async () => {
+      fixture.detectChanges();
+      spyOn(component.documentList, 'loadFolder').and.callFake(() => {});
+      component.onFilterSelected([{ key: 'name', value: 'aaa' } as FilterSearch]);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const emptyContentTemplate: HTMLElement = fixture.debugElement.query(By.css('.empty-search__block')).nativeElement;
+      expect(emptyContentTemplate).toBeDefined();
+      expect(emptyContentTemplate.innerText).toBe('APP.BROWSE.SEARCH.NO_FILTER_RESULTS');
     });
   });
 });

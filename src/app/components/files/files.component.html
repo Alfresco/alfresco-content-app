@@ -68,6 +68,16 @@
               </ng-container>
             </ng-container>
           </data-columns>
+
+          <adf-custom-empty-content-template *ngIf="isFilterHeaderActive()">
+            <ng-container>
+              <div class="empty-search__block">
+                <p class="empty-search__text">
+                  {{ 'APP.BROWSE.SEARCH.NO_FILTER_RESULTS' | translate }}
+                </p>
+              </div>
+            </ng-container>
+          </adf-custom-empty-content-template>
         </adf-document-list>
 
         <adf-pagination acaPagination [target]="documentList"> </adf-pagination>
