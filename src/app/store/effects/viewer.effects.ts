@@ -131,9 +131,8 @@ export class ViewerEffects {
         if (location) {
           const navigation = this.getNavigationCommands(location);
           this.router.navigate([...navigation, { outlets: { viewer: ['view', action.nodeId, action.versionId] } }], {
-            queryParams: { location },
-            queryParamsHandling: "merge"
-        });
+            queryParams: { location }
+          });
         }
 
         if (path) {
