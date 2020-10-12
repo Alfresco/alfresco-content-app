@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { FileUploadEvent, UploadService } from '@alfresco/adf-core';
+import { FileUploadEvent, ShowHeaderMode, UploadService } from '@alfresco/adf-core';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -294,9 +294,11 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
   onFilterSelected(activeFilters: FilterSearch[]) {
     if (activeFilters.length) {
+      this.showHeader = ShowHeaderMode.Always;
       this.navigateToFilter(activeFilters);
     } else {
       this.router.navigate(['.'], { relativeTo: this.route });
+      this.showHeader = ShowHeaderMode.Data;
       this.onAllFilterCleared();
     }
   }
@@ -314,5 +316,9 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     });
 
     this.router.navigate([], { relativeTo: this.route, queryParams: objectFromMap });
+  }
+
+  isFilterHeaderActive(): boolean {
+    return this.showHeader === ShowHeaderMode.Always;
   }
 }

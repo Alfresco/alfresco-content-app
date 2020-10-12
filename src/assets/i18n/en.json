@@ -175,6 +175,7 @@
                 },
                 "UNKNOWN_LOCATION": "Unknown",
                 "NO_RESULTS": "Your search returned 0 results",
+                "NO_FILTER_RESULTS": "Your filter returned 0 results",
                 "TOGGLE_SEARCH_FILTER": "Toggle search filter",
                 "ERRORS": {
                     "500": "There was an error processing the search query [500]",
