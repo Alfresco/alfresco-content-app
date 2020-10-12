@@ -239,6 +239,13 @@ describe('FilesComponent', () => {
       expect(router.navigate).toHaveBeenCalledWith(['personal-files', 'favourites', node.id]);
     });
 
+    // it('should navigates to node when is more that one sub node', () => {
+    //   router.url = '/personal-files?name=abc';
+    //   component.navigate(node.id);
+    //
+    //   expect(router.navigate).toHaveBeenCalledWith(['personal-files', node.id]);
+    // });
+
     it('should navigates to node when id provided', () => {
       router.url = '/personal-files';
       component.navigate(node.id);

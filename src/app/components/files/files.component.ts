@@ -126,16 +126,18 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     const uuidRegEx = /[0-9A-Za-z]{8}-[0-9A-Za-z]{4}-4[0-9A-Za-z]{3}-[89ABab][0-9A-Za-z]{3}-[0-9A-Za-z]{12}/gi;
     let urlToNavigate;
 
-    if (this.router.url.match(uuidRegEx)) {
+    const url = this.getUrlWithoutParams();
+
+    if (url.match(uuidRegEx)) {
       if (nodeId && !this.isRootNode(nodeId)) {
-        urlToNavigate = this.router.url.replace(uuidRegEx, nodeId).split('/');
+        urlToNavigate = url.replace(uuidRegEx, nodeId).split('/');
       } else {
-        urlToNavigate = this.router.url.replace(uuidRegEx, '').split('/');
+        urlToNavigate = url.replace(uuidRegEx, '').split('/');
         urlToNavigate.pop();
       }
       urlToNavigate.shift();
     } else {
-      urlToNavigate = this.router.url.split('/');
+      urlToNavigate = url.split('/');
       if (nodeId && !this.isRootNode(nodeId)) {
         urlToNavigate.push(nodeId);
       }
@@ -143,6 +145,12 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     }
 
     this.router.navigate(urlToNavigate);
+  }
+
+  getUrlWithoutParams(): String {
+    let urlTree = this.router.parseUrl(this.router.url);
+    urlTree.queryParams = {};
+    return urlTree.toString();
   }
 
   onUploadNewVersion(ev: CustomEvent) {
@@ -295,6 +303,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     if (activeFilters.length) {
       this.navigateToFilter(activeFilters);
     } else {
+      this.router.navigate(['.'], { relativeTo: this.route });
       this.onAllFilterCleared();
     }
   }
