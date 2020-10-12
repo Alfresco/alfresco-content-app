@@ -302,7 +302,7 @@ describe('FilesComponent', () => {
     });
   });
 
-  fdescribe('filter header', () => {
+  describe('filter header', () => {
     it('should show custom empty template if filter headers are applied', async () => {
       fixture.detectChanges();
       spyOn(component.documentList, 'loadFolder').and.callFake(() => {});
