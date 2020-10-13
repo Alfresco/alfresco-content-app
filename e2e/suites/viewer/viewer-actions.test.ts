@@ -46,6 +46,7 @@ describe('Viewer actions', () => {
   const xlsxFileForMove = FILES.xlsxFile;
   const pdfFileForDelete = FILES.pdfFile;
 
+  /* @deprecated use userActions instead */
   const apis = {
     user: new RepoClient(username, username)
   };
@@ -61,6 +62,14 @@ describe('Viewer actions', () => {
   const uploadNewVersionDialog = new UploadNewVersionDialog();
   const adminApiActions = new AdminActions();
   const userActions = new UserActions();
+
+  async function getFileVersionType(nodeId: string) {
+    return userActions.getNodeProperty(nodeId, 'cm:versionType');
+  }
+
+  async function getFileVersionLabel(nodeId: string) {
+    return userActions.getNodeProperty(nodeId, 'cm:versionLabel');
+  }
 
   beforeAll(async (done) => {
     await adminApiActions.login();
@@ -235,8 +244,8 @@ describe('Viewer actions', () => {
 
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
       expect(await viewer.getFileTitle()).toContain(docxFile2);
-      expect(await apis.user.nodes.getFileVersionType(filePersonalFilesId)).toEqual('MAJOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(filePersonalFilesId)).toEqual('2.0', 'File has incorrect version label');
+      expect(await getFileVersionType(filePersonalFilesId)).toEqual('MAJOR', 'File has incorrect version type');
+      expect(await getFileVersionLabel(filePersonalFilesId)).toEqual('2.0', 'File has incorrect version label');
     });
 
     it('[MNT-21058] Upload new version action when node is locked', async () => {
@@ -464,8 +473,8 @@ describe('Viewer actions', () => {
 
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
       expect(await viewer.getFileTitle()).toContain(docxFile2);
-      expect(await apis.user.nodes.getFileVersionType(fileLibrariesId)).toEqual('MAJOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(fileLibrariesId)).toEqual('2.0', 'File has incorrect version label');
+      expect(await getFileVersionType(fileLibrariesId)).toEqual('MAJOR', 'File has incorrect version type');
+      expect(await getFileVersionLabel(fileLibrariesId)).toEqual('2.0', 'File has incorrect version label');
     });
 
     it('[C286374] Share action', async () => {
@@ -652,8 +661,8 @@ describe('Viewer actions', () => {
 
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
       expect(await viewer.getFileTitle()).toContain(docxFile2);
-      expect(await apis.user.nodes.getFileVersionType(fileRecentId)).toEqual('MAJOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(fileRecentId)).toEqual('2.0', 'File has incorrect version label');
+      expect(await getFileVersionType(fileRecentId)).toEqual('MAJOR', 'File has incorrect version type');
+      expect(await getFileVersionLabel(fileRecentId)).toEqual('2.0', 'File has incorrect version label');
     });
 
     it('[C286388] Share action', async () => {
@@ -849,8 +858,8 @@ describe('Viewer actions', () => {
 
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
       expect(await viewer.getFileTitle()).toContain(docxFile2);
-      expect(await apis.user.nodes.getFileVersionType(fileSharedId)).toEqual('MAJOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(fileSharedId)).toEqual('2.0', 'File has incorrect version label');
+      expect(await getFileVersionType(fileSharedId)).toEqual('MAJOR', 'File has incorrect version type');
+      expect(await getFileVersionLabel(fileSharedId)).toEqual('2.0', 'File has incorrect version label');
     });
 
     it('[C286381] Share action', async () => {
@@ -1045,8 +1054,8 @@ describe('Viewer actions', () => {
 
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
       expect(await viewer.getFileTitle()).toContain(docxFile2);
-      expect(await apis.user.nodes.getFileVersionType(fileFavId)).toEqual('MAJOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(fileFavId)).toEqual('2.0', 'File has incorrect version label');
+      expect(await getFileVersionType(fileFavId)).toEqual('MAJOR', 'File has incorrect version type');
+      expect(await getFileVersionLabel(fileFavId)).toEqual('2.0', 'File has incorrect version label');
     });
 
     it('[C286395] Share action', async () => {

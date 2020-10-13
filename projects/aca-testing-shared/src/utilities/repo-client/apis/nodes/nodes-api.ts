@@ -86,42 +86,12 @@ export class NodesApi extends RepoApi {
     }
   }
 
-  async getFileVersionType(nodeId: string): Promise<string> {
-    try {
-      const prop = await this.getNodeProperty(nodeId, 'cm:versionType');
-      return prop || '';
-    } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.getFileVersionType.name}`, error);
-      return '';
-    }
-  }
-
-  async getFileVersionLabel(nodeId: string): Promise<string> {
-    try {
-      const prop = await this.getNodeProperty(nodeId, 'cm:versionLabel');
-      return prop || '';
-    } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.getFileVersionLabel.name}`, error);
-      return '';
-    }
-  }
-
   async getSharedId(nodeId: string): Promise<string> {
     try {
       const sharedId = await this.getNodeProperty(nodeId, 'qshare:sharedId');
       return sharedId || '';
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.getSharedId.name}`, error);
-      return '';
-    }
-  }
-
-  async getSharedExpiryDate(nodeId: string): Promise<string> {
-    try {
-      const expiryDate = await this.getNodeProperty(nodeId, 'qshare:expiryDate');
-      return expiryDate || '';
-    } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.getSharedExpiryDate.name}`, error);
       return '';
     }
   }

@@ -100,6 +100,14 @@ describe('Upload new version', () => {
   const adminApiActions = new AdminActions();
   const userActions = new UserActions();
 
+  async function getFileVersionType(nodeId: string) {
+    return userActions.getNodeProperty(nodeId, 'cm:versionType');
+  }
+
+  async function getFileVersionLabel(nodeId: string) {
+    return userActions.getNodeProperty(nodeId, 'cm:versionLabel');
+  }
+
   beforeAll(async () => {
     await adminApiActions.login();
     await adminApiActions.createUser({ username });
@@ -181,8 +189,8 @@ describe('Upload new version', () => {
 
       // TODO: enable when ACA-2329 is fixed
       // expect(await dataTable.isItemPresent(fileToUpload1, parentSearch)).toBe(true, 'File not updated');
-      expect(await apis.user.nodes.getFileVersionType(fileSearch1Id)).toEqual('MAJOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(fileSearch1Id)).toEqual('2.0', 'File has incorrect version label');
+      expect(await getFileVersionType(fileSearch1Id)).toEqual('MAJOR', 'File has incorrect version type');
+      expect(await getFileVersionLabel(fileSearch1Id)).toEqual('2.0', 'File has incorrect version label');
     });
 
     it('[C307005] file is updated after uploading a new version - minor', async () => {
@@ -203,8 +211,8 @@ describe('Upload new version', () => {
 
       // TODO: enable when ACA-2329 is fixed
       // expect(await dataTable.isItemPresent(fileToUpload2, parentSearch)).toBe(true, 'File not updated');
-      expect(await apis.user.nodes.getFileVersionType(fileSearch2Id)).toEqual('MINOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(fileSearch2Id)).toEqual('1.1', 'File has incorrect version label');
+      expect(await getFileVersionType(fileSearch2Id)).toEqual('MINOR', 'File has incorrect version type');
+      expect(await getFileVersionLabel(fileSearch2Id)).toEqual('1.1', 'File has incorrect version label');
     });
 
     it('[C307006] file is not updated when clicking Cancel', async () => {
@@ -223,8 +231,8 @@ describe('Upload new version', () => {
       await uploadNewVersionDialog.clickCancel();
 
       expect(await dataTable.isItemPresent(fileSearch3, parentSearch)).toBe(true, 'File was updated');
-      expect(await apis.user.nodes.getFileVersionType(fileSearch3Id)).toEqual('MAJOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(fileSearch3Id)).toEqual('1.0', 'File has incorrect version label');
+      expect(await getFileVersionType(fileSearch3Id)).toEqual('MAJOR', 'File has incorrect version type');
+      expect(await getFileVersionLabel(fileSearch3Id)).toEqual('1.0', 'File has incorrect version label');
     });
 
     it('[C307007] upload new version fails when new file name already exists', async () => {
@@ -246,8 +254,8 @@ describe('Upload new version', () => {
       expect(message).toContain(nameConflictMessage);
 
       expect(await dataTable.isItemPresent(fileSearch4, parentSearch)).toBe(true, 'File was updated');
-      expect(await apis.user.nodes.getFileVersionType(fileSearch4Id)).toEqual('MAJOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(fileSearch4Id)).toEqual('1.0', 'File has incorrect version label');
+      expect(await getFileVersionType(fileSearch4Id)).toEqual('MAJOR', 'File has incorrect version type');
+      expect(await getFileVersionLabel(fileSearch4Id)).toEqual('1.0', 'File has incorrect version label');
     });
 
     it('[C307008] file is unlocked after uploading a new version', async () => {
@@ -269,8 +277,8 @@ describe('Upload new version', () => {
       // TODO: enable when ACA-2329 is fixed
       // expect(await dataTable.isItemPresent(fileToUpload4, parentSearch)).toBe(true, 'File name was not changed');
       expect(await apis.user.nodes.isFileLockedWrite(fileLockedSearch1Id)).toBe(false, `${fileLockedSearch1} is still locked`);
-      expect(await apis.user.nodes.getFileVersionType(fileLockedSearch1Id)).toEqual('MINOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(fileLockedSearch1Id)).toEqual('1.1', 'File has incorrect version label');
+      expect(await getFileVersionType(fileLockedSearch1Id)).toEqual('MINOR', 'File has incorrect version type');
+      expect(await getFileVersionLabel(fileLockedSearch1Id)).toEqual('1.1', 'File has incorrect version label');
     });
 
     it('[C307009] file remains locked after canceling of uploading a new version', async () => {
@@ -352,8 +360,8 @@ describe('Upload new version', () => {
       await uploadNewVersionDialog.waitForDialogToClose();
 
       expect(await dataTable.isItemPresent(fileToUpload1)).toBe(true, 'File not updated');
-      expect(await apis.user.nodes.getFileVersionType(file1Id)).toEqual('MAJOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(file1Id)).toEqual('2.0', 'File has incorrect version label');
+      expect(await getFileVersionType(file1Id)).toEqual('MAJOR', 'File has incorrect version type');
+      expect(await getFileVersionLabel(file1Id)).toEqual('2.0', 'File has incorrect version label');
     });
 
     it('[C297546] file is updated after uploading a new version - minor', async () => {
@@ -369,8 +377,8 @@ describe('Upload new version', () => {
       await uploadNewVersionDialog.waitForDialogToClose();
 
       expect(await dataTable.isItemPresent(fileToUpload2)).toBe(true, 'File not updated');
-      expect(await apis.user.nodes.getFileVersionType(file2Id)).toEqual('MINOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(file2Id)).toEqual('1.1', 'File has incorrect version label');
+      expect(await getFileVersionType(file2Id)).toEqual('MINOR', 'File has incorrect version type');
+      expect(await getFileVersionLabel(file2Id)).toEqual('1.1', 'File has incorrect version label');
     });
 
     it('[C297547] file is not updated when clicking Cancel', async () => {
@@ -385,8 +393,8 @@ describe('Upload new version', () => {
       await uploadNewVersionDialog.clickCancel();
 
       expect(await dataTable.isItemPresent(file3)).toBe(true, 'File was updated');
-      expect(await apis.user.nodes.getFileVersionType(file3Id)).toEqual('MAJOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(file3Id)).toEqual('1.0', 'File has incorrect version label');
+      expect(await getFileVersionType(file3Id)).toEqual('MAJOR', 'File has incorrect version type');
+      expect(await getFileVersionLabel(file3Id)).toEqual('1.0', 'File has incorrect version label');
     });
 
     it('[C297548] upload new version fails when new file name already exists', async () => {
@@ -404,8 +412,8 @@ describe('Upload new version', () => {
       expect(message).toContain(nameConflictMessage);
 
       expect(await dataTable.isItemPresent(file4)).toBe(true, 'File was updated');
-      expect(await apis.user.nodes.getFileVersionType(file4Id)).toEqual('MAJOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(file4Id)).toEqual('1.0', 'File has incorrect version label');
+      expect(await getFileVersionType(file4Id)).toEqual('MAJOR', 'File has incorrect version type');
+      expect(await getFileVersionLabel(file4Id)).toEqual('1.0', 'File has incorrect version label');
     });
 
     it('[C297549] file is unlocked after uploading a new version', async () => {
@@ -422,8 +430,8 @@ describe('Upload new version', () => {
 
       expect(await dataTable.isItemPresent(fileToUpload4)).toBe(true, 'File name was not changed');
       expect(await apis.user.nodes.isFileLockedWrite(fileLocked1Id)).toBe(false, `${fileLocked1} is still locked`);
-      expect(await apis.user.nodes.getFileVersionType(fileLocked1Id)).toEqual('MINOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(fileLocked1Id)).toEqual('1.1', 'File has incorrect version label');
+      expect(await getFileVersionType(fileLocked1Id)).toEqual('MINOR', 'File has incorrect version type');
+      expect(await getFileVersionLabel(fileLocked1Id)).toEqual('1.1', 'File has incorrect version label');
     });
 
     it('[C297550] file remains locked after canceling of uploading a new version', async () => {
@@ -501,8 +509,8 @@ describe('Upload new version', () => {
       await uploadNewVersionDialog.waitForDialogToClose();
 
       expect(await dataTable.isItemPresent(fileToUpload1)).toBe(true, 'File not updated');
-      expect(await apis.user.nodes.getFileVersionType(file1Id)).toEqual('MAJOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(file1Id)).toEqual('2.0', 'File has incorrect version label');
+      expect(await getFileVersionType(file1Id)).toEqual('MAJOR', 'File has incorrect version type');
+      expect(await getFileVersionLabel(file1Id)).toEqual('2.0', 'File has incorrect version label');
     });
 
     it('[C297553] file is updated after uploading a new version - minor', async () => {
@@ -518,8 +526,8 @@ describe('Upload new version', () => {
       await uploadNewVersionDialog.waitForDialogToClose();
 
       expect(await dataTable.isItemPresent(fileToUpload2)).toBe(true, 'File not updated');
-      expect(await apis.user.nodes.getFileVersionType(file2Id)).toEqual('MINOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(file2Id)).toEqual('1.1', 'File has incorrect version label');
+      expect(await getFileVersionType(file2Id)).toEqual('MINOR', 'File has incorrect version type');
+      expect(await getFileVersionLabel(file2Id)).toEqual('1.1', 'File has incorrect version label');
     });
 
     it('[C297554] file is not updated when clicking Cancel', async () => {
@@ -534,8 +542,8 @@ describe('Upload new version', () => {
       await uploadNewVersionDialog.clickCancel();
 
       expect(await dataTable.isItemPresent(file3)).toBe(true, 'File was updated');
-      expect(await apis.user.nodes.getFileVersionType(file3Id)).toEqual('MAJOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(file3Id)).toEqual('1.0', 'File has incorrect version label');
+      expect(await getFileVersionType(file3Id)).toEqual('MAJOR', 'File has incorrect version type');
+      expect(await getFileVersionLabel(file3Id)).toEqual('1.0', 'File has incorrect version label');
     });
 
     it('[C297555] upload new version fails when new file name already exists', async () => {
@@ -553,8 +561,8 @@ describe('Upload new version', () => {
       expect(message).toContain(nameConflictMessage);
 
       expect(await dataTable.isItemPresent(file4)).toBe(true, 'File was updated');
-      expect(await apis.user.nodes.getFileVersionType(file4Id)).toEqual('MAJOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(file4Id)).toEqual('1.0', 'File has incorrect version label');
+      expect(await getFileVersionType(file4Id)).toEqual('MAJOR', 'File has incorrect version type');
+      expect(await getFileVersionLabel(file4Id)).toEqual('1.0', 'File has incorrect version label');
     });
 
     it('[C297556] file is unlocked after uploading a new version', async () => {
@@ -571,8 +579,8 @@ describe('Upload new version', () => {
 
       expect(await dataTable.isItemPresent(fileToUpload4)).toBe(true, 'File name was not changed');
       expect(await apis.user.nodes.isFileLockedWrite(fileLocked1Id)).toBe(false, `${fileLocked1} is still locked`);
-      expect(await apis.user.nodes.getFileVersionType(fileLocked1Id)).toEqual('MINOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(fileLocked1Id)).toEqual('1.1', 'File has incorrect version label');
+      expect(await getFileVersionType(fileLocked1Id)).toEqual('MINOR', 'File has incorrect version type');
+      expect(await getFileVersionLabel(fileLocked1Id)).toEqual('1.1', 'File has incorrect version label');
     });
 
     it('[C297557] file remains locked after canceling of uploading a new version', async () => {
@@ -649,8 +657,8 @@ describe('Upload new version', () => {
       await uploadNewVersionDialog.waitForDialogToClose();
 
       expect(await dataTable.isItemPresent(fileToUpload1, parentRF)).toBe(true, 'File not updated');
-      expect(await apis.user.nodes.getFileVersionType(file1Id)).toEqual('MAJOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(file1Id)).toEqual('2.0', 'File has incorrect version label');
+      expect(await getFileVersionType(file1Id)).toEqual('MAJOR', 'File has incorrect version type');
+      expect(await getFileVersionLabel(file1Id)).toEqual('2.0', 'File has incorrect version label');
     });
 
     it('[C297560] file is updated after uploading a new version - minor', async () => {
@@ -666,8 +674,8 @@ describe('Upload new version', () => {
       await uploadNewVersionDialog.waitForDialogToClose();
 
       expect(await dataTable.isItemPresent(fileToUpload2, parentRF)).toBe(true, 'File not updated');
-      expect(await apis.user.nodes.getFileVersionType(file2Id)).toEqual('MINOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(file2Id)).toEqual('1.1', 'File has incorrect version label');
+      expect(await getFileVersionType(file2Id)).toEqual('MINOR', 'File has incorrect version type');
+      expect(await getFileVersionLabel(file2Id)).toEqual('1.1', 'File has incorrect version label');
     });
 
     it('[C297561] file is not updated when clicking Cancel', async () => {
@@ -682,8 +690,8 @@ describe('Upload new version', () => {
       await uploadNewVersionDialog.clickCancel();
 
       expect(await dataTable.isItemPresent(file3, parentRF)).toBe(true, 'File was updated');
-      expect(await apis.user.nodes.getFileVersionType(file3Id)).toEqual('MAJOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(file3Id)).toEqual('1.0', 'File has incorrect version label');
+      expect(await getFileVersionType(file3Id)).toEqual('MAJOR', 'File has incorrect version type');
+      expect(await getFileVersionLabel(file3Id)).toEqual('1.0', 'File has incorrect version label');
     });
 
     it('[C297562] upload new version fails when new file name already exists', async () => {
@@ -701,8 +709,8 @@ describe('Upload new version', () => {
       expect(message).toContain(nameConflictMessage);
 
       expect(await dataTable.isItemPresent(file4, parentRF)).toBe(true, 'File was updated');
-      expect(await apis.user.nodes.getFileVersionType(file4Id)).toEqual('MAJOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(file4Id)).toEqual('1.0', 'File has incorrect version label');
+      expect(await getFileVersionType(file4Id)).toEqual('MAJOR', 'File has incorrect version type');
+      expect(await getFileVersionLabel(file4Id)).toEqual('1.0', 'File has incorrect version label');
     });
 
     it('[C297563] file is unlocked after uploading a new version', async () => {
@@ -719,8 +727,8 @@ describe('Upload new version', () => {
 
       expect(await dataTable.isItemPresent(fileToUpload4, parentRF)).toBe(true, 'File name was not changed');
       expect(await apis.user.nodes.isFileLockedWrite(fileLocked1Id)).toBe(false, `${fileLocked1} is still locked`);
-      expect(await apis.user.nodes.getFileVersionType(fileLocked1Id)).toEqual('MINOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(fileLocked1Id)).toEqual('1.1', 'File has incorrect version label');
+      expect(await getFileVersionType(fileLocked1Id)).toEqual('MINOR', 'File has incorrect version type');
+      expect(await getFileVersionLabel(fileLocked1Id)).toEqual('1.1', 'File has incorrect version label');
     });
 
     it('[C297564] file remains locked after canceling of uploading a new version', async () => {
@@ -800,8 +808,8 @@ describe('Upload new version', () => {
       await uploadNewVersionDialog.waitForDialogToClose();
 
       expect(await dataTable.isItemPresent(fileToUpload1)).toBe(true, 'File not updated');
-      expect(await apis.user.nodes.getFileVersionType(file1Id)).toEqual('MAJOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(file1Id)).toEqual('2.0', 'File has incorrect version label');
+      expect(await getFileVersionType(file1Id)).toEqual('MAJOR', 'File has incorrect version type');
+      expect(await getFileVersionLabel(file1Id)).toEqual('2.0', 'File has incorrect version label');
     });
 
     it('[C297567] file is updated after uploading a new version - minor', async () => {
@@ -817,8 +825,8 @@ describe('Upload new version', () => {
       await uploadNewVersionDialog.waitForDialogToClose();
 
       expect(await dataTable.isItemPresent(fileToUpload2)).toBe(true, 'File not updated');
-      expect(await apis.user.nodes.getFileVersionType(file2Id)).toEqual('MINOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(file2Id)).toEqual('1.1', 'File has incorrect version label');
+      expect(await getFileVersionType(file2Id)).toEqual('MINOR', 'File has incorrect version type');
+      expect(await getFileVersionLabel(file2Id)).toEqual('1.1', 'File has incorrect version label');
     });
 
     it('[C297568] file is not updated when clicking Cancel', async () => {
@@ -833,8 +841,8 @@ describe('Upload new version', () => {
       await uploadNewVersionDialog.clickCancel();
 
       expect(await dataTable.isItemPresent(file3)).toBe(true, 'File was updated');
-      expect(await apis.user.nodes.getFileVersionType(file3Id)).toEqual('MAJOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(file3Id)).toEqual('1.0', 'File has incorrect version label');
+      expect(await getFileVersionType(file3Id)).toEqual('MAJOR', 'File has incorrect version type');
+      expect(await getFileVersionLabel(file3Id)).toEqual('1.0', 'File has incorrect version label');
     });
 
     it('[C297569] upload new version fails when new file name already exists', async () => {
@@ -852,8 +860,8 @@ describe('Upload new version', () => {
       expect(message).toContain(nameConflictMessage);
 
       expect(await dataTable.isItemPresent(file4)).toBe(true, 'File was updated');
-      expect(await apis.user.nodes.getFileVersionType(file4Id)).toEqual('MAJOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(file4Id)).toEqual('1.0', 'File has incorrect version label');
+      expect(await getFileVersionType(file4Id)).toEqual('MAJOR', 'File has incorrect version type');
+      expect(await getFileVersionLabel(file4Id)).toEqual('1.0', 'File has incorrect version label');
     });
 
     it('[C297570] file is unlocked after uploading a new version', async () => {
@@ -870,8 +878,8 @@ describe('Upload new version', () => {
 
       expect(await dataTable.isItemPresent(fileToUpload4)).toBe(true, 'File name was not changed');
       expect(await apis.user.nodes.isFileLockedWrite(fileLocked1Id)).toBe(false, `${fileLocked1} is still locked`);
-      expect(await apis.user.nodes.getFileVersionType(fileLocked1Id)).toEqual('MINOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(fileLocked1Id)).toEqual('1.1', 'File has incorrect version label');
+      expect(await getFileVersionType(fileLocked1Id)).toEqual('MINOR', 'File has incorrect version type');
+      expect(await getFileVersionLabel(fileLocked1Id)).toEqual('1.1', 'File has incorrect version label');
     });
 
     it('[C297571] file remains locked after canceling of uploading a new version', async () => {

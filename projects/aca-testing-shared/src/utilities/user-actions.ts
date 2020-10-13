@@ -162,4 +162,14 @@ export class UserActions {
       });
     }
   }
+
+  /**
+   * Fetches the node and returns a property value by the property name.
+   * @param nodeId The node ID to fetch
+   * @param property The property value to return.
+   */
+  async getNodeProperty(nodeId: string, property: string): Promise<string> {
+    const node = await this.nodesApi.getNode(nodeId);
+    return node?.entry?.properties?.[property] || '';
+  }
 }
