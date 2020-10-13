@@ -103,7 +103,8 @@ describe('Share a file', () => {
       file6Id = (await apis.user.nodes.createFile(file6, parentId)).entry.id;
 
       initialTotalItems = await apis.user.shared.getSharedLinksTotalItems();
-      const sharedId = (await apis.user.shared.shareFileById(file6Id)).entry.id;
+      const sharedLink = await userActions.sharedLinksApi.createSharedLink({ nodeId: file6Id });
+      const sharedId = sharedLink.entry.id;
       file6SharedLink = `${shareLinkPreUrl}${sharedId}`;
       await apis.user.shared.waitForApi({ expect: initialTotalItems + 1 });
     });

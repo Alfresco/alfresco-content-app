@@ -36,10 +36,9 @@ export class FavoritesApi extends RepoApi {
     super(username, password);
   }
 
-  async addFavoriteById(nodeType: 'file' | 'folder' | 'site', id: string): Promise<FavoriteEntry | null> {
+  private async addFavoriteById(nodeType: 'file' | 'folder' | 'site', id: string): Promise<FavoriteEntry | null> {
     let guid;
     try {
-      await this.apiAuth();
       if (nodeType === 'site') {
         guid = (await this.sitesApi.getSite(id)).entry.guid;
       } else {
@@ -61,6 +60,7 @@ export class FavoritesApi extends RepoApi {
 
   async addFavoritesByIds(nodeType: 'file' | 'folder' | 'site', ids: string[]) {
     try {
+      await this.apiAuth();
       return await ids.reduce(async (previous, current) => {
         await previous;
         await this.addFavoriteById(nodeType, current);

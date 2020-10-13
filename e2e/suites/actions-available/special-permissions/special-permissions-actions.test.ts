@@ -67,6 +67,7 @@ describe('Special permissions : ', () => {
   const loginPage = new LoginPage();
 
   beforeAll(async () => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username: userManager });
     await adminApiActions.createUser({ username: userConsumer });
     await adminApiActions.createUser({ username: userCollaborator });
@@ -99,8 +100,8 @@ describe('Special permissions : ', () => {
 
     fileLockedByUserId = (await userManagerApi.nodes.createFile(testData.fileLockedByUser, docLibId)).entry.id;
     await userDemotedApi.nodes.lockFile(fileLockedByUserId);
-    await userDemotedApi.favorites.addFavoriteById('file', fileLockedByUserId);
-    await userDemotedApi.shared.shareFileById(fileLockedByUserId);
+    await userDemotedApi.favorites.addFavoritesByIds('file', [fileLockedByUserId]);
+    await userDemotedApi.shared.shareFilesByIds([fileLockedByUserId]);
     await userManagerApi.sites.updateSiteMember(sitePrivate, userDemoted, SITE_ROLES.SITE_CONSUMER.ROLE);
 
     await userManagerApi.nodes.createFolder(testData.folder.name, docLibId);
@@ -136,8 +137,7 @@ describe('Special permissions : ', () => {
     await userManagerApi.nodes.lockFile(fileSharedFavLockedId);
 
     await userManagerApi.nodes.setGranularPermission(fileGranularPermissionId, false, userConsumer, SITE_ROLES.SITE_MANAGER.ROLE);
-
-    await userManagerApi.favorites.addFavoriteById('file', fileLockedByUserId);
+    await userManagerApi.favorites.addFavoritesByIds('file', [fileLockedByUserId]);
 
     await Promise.all([
       userConsumerApi.favorites.waitForApi({ expect: consumerFavoritesTotalItems + 9 }),

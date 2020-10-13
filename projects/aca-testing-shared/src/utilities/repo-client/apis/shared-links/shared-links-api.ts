@@ -26,7 +26,7 @@
 import { RepoApi } from '../repo-api';
 import { Logger } from '@alfresco/adf-testing';
 import { Utils } from '../../../../utilities/utils';
-import { SharedlinksApi as AdfSharedlinksApi, SharedLinkEntry } from '@alfresco/js-api';
+import { SharedlinksApi as AdfSharedlinksApi } from '@alfresco/js-api';
 
 export class SharedLinksApi extends RepoApi {
   sharedlinksApi = new AdfSharedlinksApi(this.alfrescoJsApi);
@@ -35,61 +35,31 @@ export class SharedLinksApi extends RepoApi {
     super(username, password);
   }
 
-  async shareFileById(id: string, expireDate?: Date): Promise<SharedLinkEntry | null> {
-    try {
-      await this.apiAuth();
-      const data = {
-        nodeId: id,
-        expiresAt: expireDate
-      };
-      return await this.sharedlinksApi.createSharedLink(data);
-    } catch (error) {
-      this.handleError(`SharedLinksApi shareFileById : catch : `, error);
-      return null;
-    }
-  }
-
   async shareFilesByIds(ids: string[]) {
     try {
-      return await ids.reduce(async (previous: any, current: any) => {
-        await previous;
-        return this.shareFileById(current);
-      }, Promise.resolve());
+      await this.apiAuth();
+      for (const nodeId of ids) {
+        await this.sharedlinksApi.createSharedLink({ nodeId });
+      }
     } catch (error) {
       this.handleError(`SharedLinksApi shareFilesByIds : catch : `, error);
     }
   }
 
-  async getSharedIdOfNode(name: string): Promise<string> {
-    try {
-      const sharedLinksEntries = (await this.getSharedLinks())?.list.entries;
-      const found = sharedLinksEntries.find((sharedLink) => sharedLink.entry.name === name);
-      return (found || { entry: { id: null } }).entry.id;
-    } catch (error) {
-      this.handleError(`SharedLinksApi getSharedIdOfNode : catch : `, error);
-      return null;
-    }
+  private async findSharedNode(name: string): Promise<string> {
+    const sharedLinks = await this.sharedlinksApi.listSharedLinks({ maxItems: 250 });
+    const sharedLinksEntries = sharedLinks?.list?.entries || [];
+    const found = sharedLinksEntries.find((sharedLink) => sharedLink.entry.name === name);
+    return found?.entry?.id || null;
   }
 
   async unshareFile(name: string) {
     try {
-      const id = await this.getSharedIdOfNode(name);
+      await this.apiAuth();
+      const id = await this.findSharedNode(name);
       return await this.sharedlinksApi.deleteSharedLink(id);
     } catch (error) {
       this.handleError(`SharedLinksApi unshareFile : catch : `, error);
-    }
-  }
-
-  async getSharedLinks() {
-    try {
-      await this.apiAuth();
-      const opts = {
-        maxItems: 250
-      };
-      return await this.sharedlinksApi.listSharedLinks(opts);
-    } catch (error) {
-      this.handleError(`SharedLinksApi getSharedLinks : catch : `, error);
-      return null;
     }
   }
 
