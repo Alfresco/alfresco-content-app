@@ -78,7 +78,7 @@ describe('Extensions - Info Drawer', () => {
   beforeAll(async (done) => {
     await adminApiActions.login();
     await adminApiActions.createUser({ username });
-    await userActions(username, username);
+    await userActions.login(username, username);
 
     fileId = (await apis.user.nodes.createFile(file)).entry.id;
     done();

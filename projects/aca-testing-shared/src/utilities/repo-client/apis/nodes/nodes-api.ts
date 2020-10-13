@@ -283,15 +283,6 @@ export class NodesApi extends RepoApi {
     }
   }
 
-  async createImage(name: string, parentId: string = '-my-', title: string = '', description: string = ''): Promise<NodeEntry | null> {
-    try {
-      return await this.createImageNode(name, parentId, title, description);
-    } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.createImage.name}`, error);
-      return null;
-    }
-  }
-
   async createFolder(
     name: string,
     parentId: string = '-my-',

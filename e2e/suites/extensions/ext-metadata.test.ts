@@ -81,7 +81,7 @@ describe('Extensions - Metadata presets', () => {
     await adminApiActions.createUser({ username });
     await userActions.login(username, username);
 
-    fileId = (await apis.user.nodes.createImage(file)).entry.id;
+    fileId = (await apis.user.nodes.createImageNode(file)).entry.id;
 
     await loginPage.load();
     await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.METADATA_PRESETS);
