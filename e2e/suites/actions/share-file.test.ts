@@ -102,7 +102,7 @@ describe('Share a file', () => {
     beforeAll(async () => {
       file6Id = (await apis.user.nodes.createFile(file6, parentId)).entry.id;
 
-      initialTotalItems = await apis.user.shared.getSharedLinksTotalItems();
+      initialTotalItems = await userActions.getSharedLinksSize();
       const sharedLink = await userActions.sharedLinksApi.createSharedLink({ nodeId: file6Id });
       const sharedId = sharedLink.entry.id;
       file6SharedLink = `${shareLinkPreUrl}${sharedId}`;
@@ -150,7 +150,7 @@ describe('Share a file', () => {
         file8Id = (await apis.user.nodes.createFile(file8, parentId)).entry.id;
         file9Id = (await apis.user.nodes.createFile(file9, parentId)).entry.id;
 
-        initialTotalItems = await apis.user.shared.getSharedLinksTotalItems();
+        initialTotalItems = await userActions.getSharedLinksSize();
         await userActions.shareNodes([file6Id, file7Id], expiryDate);
         await apis.user.shared.waitForApi({ expect: initialTotalItems + 2 });
       });
@@ -326,7 +326,7 @@ describe('Share a file', () => {
         await apis.user.nodes.createFile(file8, parentInSiteId);
         file9Id = (await apis.user.nodes.createFile(file9, parentInSiteId)).entry.id;
 
-        initialTotalItems = await apis.user.shared.getSharedLinksTotalItems();
+        initialTotalItems = await userActions.getSharedLinksSize();
         await userActions.shareNodes([file6Id, file7Id], expiryDate);
         await apis.user.shared.waitForApi({ expect: initialTotalItems + 2 });
       });
@@ -498,7 +498,7 @@ describe('Share a file', () => {
         file8Id = (await apis.user.nodes.createFile(file8, parentId)).entry.id;
         file9Id = (await apis.user.nodes.createFile(file9, parentId)).entry.id;
 
-        initialTotalItems = await apis.user.shared.getSharedLinksTotalItems();
+        initialTotalItems = await userActions.getSharedLinksSize();
         await userActions.shareNodes([file6Id, file7Id], expiryDate);
         await apis.user.shared.waitForApi({ expect: initialTotalItems + 2 });
       });
@@ -664,7 +664,7 @@ describe('Share a file', () => {
         file6Id = (await apis.user.nodes.createFile(file6, parentId)).entry.id;
         file7Id = (await apis.user.nodes.createFile(file7, parentId)).entry.id;
 
-        initialTotalItems = await apis.user.shared.getSharedLinksTotalItems();
+        initialTotalItems = await userActions.getSharedLinksSize();
         await userActions.shareNodes([file1Id, file2Id, file3Id]);
         await userActions.shareNodes([file4Id, file5Id], expiryDate);
         await userActions.shareNodes([file6Id, file7Id]);
@@ -805,7 +805,7 @@ describe('Share a file', () => {
         file8Id = (await apis.user.nodes.createFile(file8, parentId)).entry.id;
         file9Id = (await apis.user.nodes.createFile(file9, parentId)).entry.id;
 
-        initialTotalItems = await apis.user.shared.getSharedLinksTotalItems();
+        initialTotalItems = await userActions.getSharedLinksSize();
         await userActions.createFavorites('file', [file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id, file9Id]);
         await userActions.shareNodes([file6Id, file7Id], expiryDate);
         await apis.user.favorites.waitForApi({ expect: 9 });
@@ -980,7 +980,7 @@ describe('Share a file', () => {
         file9Id = (await apis.user.nodes.createFile(file9, parentId)).entry.id;
         await apis.user.search.waitForNodes('search-f', { expect: initialSearchByTermTotalItems + 5 });
 
-        initialTotalItems = await apis.user.shared.getSharedLinksTotalItems();
+        initialTotalItems = await userActions.getSharedLinksSize();
         await userActions.shareNodes([file6Id, file7Id], expiryDate);
         await apis.user.shared.waitForApi({ expect: initialTotalItems + 2 });
       });

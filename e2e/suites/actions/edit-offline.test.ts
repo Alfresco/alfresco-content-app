@@ -134,8 +134,8 @@ describe('Edit offline', () => {
       await apis.user.nodes.lockFile(fileLockedId);
       await apis.user.nodes.lockFile(fileLocked2Id);
 
-      const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
-      await apis.user.shared.shareFilesByIds([file1Id, fileLockedId, fileLocked2Id]);
+      const initialSharedTotalItems = await userActions.getSharedLinksSize();
+      await userActions.shareNodes([file1Id, fileLockedId, fileLocked2Id]);
       await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 3 });
 
       await loginPage.loginWith(username);

@@ -72,7 +72,7 @@ describe('Viewer general', () => {
     docLibSiteUserId = await apis.user.sites.getDocLibId(siteUser);
     await apis.user.upload.uploadFile(fileInSite, docLibSiteUserId);
 
-    const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
+    const initialSharedTotalItems = await userActions.getSharedLinksSize();
     await userActions.shareNodes([xlsxFileId]);
     await userActions.createFavorites('file', [xlsxFileId]);
     await apis.user.favorites.waitForApi({ expect: 2 });

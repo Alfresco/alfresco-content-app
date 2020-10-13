@@ -71,11 +71,9 @@ describe('File / folder tooltips', () => {
     file7Id = (await apis.user.nodes.createFile(fileNameEqDescDiffTitle, parentId, fileTitle, fileNameEqDescDiffTitle)).entry.id;
     file8Id = (await apis.user.nodes.createFile(fileTitleEqDesc, parentId, fileTitle, fileTitle)).entry.id;
 
-    const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
-    await apis.user.shared.shareFilesByIds([file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id]);
-
+    const initialSharedTotalItems = await userActions.getSharedLinksSize();
+    await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id]);
     await userActions.createFavorites('file', [file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id]);
-
     await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 8 });
 
     await loginPage.loginWith(username);

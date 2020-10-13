@@ -73,9 +73,9 @@ describe('Shared Files', () => {
     file3Id = (await apis.user.nodes.createFile(file3User)).entry.id;
     file4Id = (await apis.user.nodes.createFile(file4User)).entry.id;
 
-    initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
+    initialSharedTotalItems = await userActions.getSharedLinksSize();
 
-    await apis.user.shared.shareFilesByIds([file1Id, file2Id, file3Id, file4Id]);
+    await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
     await adminApiActions.shareNodes([nodeId]);
     await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 5 });
 

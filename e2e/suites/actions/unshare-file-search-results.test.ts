@@ -95,7 +95,7 @@ describe('Unshare a file from Search Results', () => {
     file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
     file4Id = (await apis.user.nodes.createFile(file4, parentId)).entry.id;
 
-    const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
+    const initialSharedTotalItems = await userActions.getSharedLinksSize();
     await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
     await adminApiActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
     const docLibId = await adminApiActions.sites.getDocLibId(sitePrivate);

@@ -61,7 +61,7 @@ describe('Special permissions', () => {
       fileId = (await adminApiActions.nodes.createFile(fileName, docLibId)).entry.id;
       await userActions.createFavorites('file', [fileId]);
 
-      initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
+      initialSharedTotalItems = await userActions.getSharedLinksSize();
 
       await adminApiActions.shareNodes([fileId]);
       await apis.user.nodes.editNodeContent(fileId, 'edited by user');
@@ -136,7 +136,7 @@ describe('Special permissions', () => {
       fileId = (await apis.user.nodes.createFile(fileName, docLibId)).entry.id;
       await userActions.createFavorites('file', [fileId]);
 
-      initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
+      initialSharedTotalItems = await userActions.getSharedLinksSize();
       await userActions.shareNodes([fileId]);
       await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 1 });
 

@@ -723,8 +723,8 @@ describe('Viewer actions', () => {
       await apis.user.nodes.lockFile(fileForCancelEditingId);
       await apis.user.nodes.lockFile(fileForUploadNewVersionId);
 
-      const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
-      await apis.user.shared.shareFilesByIds([
+      const initialSharedTotalItems = await userActions.getSharedLinksSize();
+      await userActions.shareNodes([
         docxFileId,
         xlsxFileId,
         pdfFileId,

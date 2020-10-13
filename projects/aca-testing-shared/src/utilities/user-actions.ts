@@ -170,6 +170,14 @@ export class UserActions {
   }
 
   /**
+   * Returns the size of the Shared Links query response.
+   */
+  async getSharedLinksSize(): Promise<number> {
+    const sharedList = await this.sharedLinksApi.listSharedLinks({ maxItems: 250 });
+    return sharedList?.list?.entries?.length || 0;
+  }
+
+  /**
    * Fetches the node and returns a property value by the property name.
    * @param nodeId The node ID to fetch
    * @param property The property value to return.

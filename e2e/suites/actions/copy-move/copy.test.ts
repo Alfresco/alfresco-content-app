@@ -118,7 +118,7 @@ describe('Copy content', () => {
     await adminApiActions.createUser({ username });
     await userActions.login(username, username);
 
-    const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
+    const initialSharedTotalItems = await userActions.getSharedLinksSize();
     const initialFavoritesTotalItems = await apis.user.favorites.getFavoritesTotalItems();
 
     sourceId = (await apis.user.nodes.createFolder(source)).entry.id;

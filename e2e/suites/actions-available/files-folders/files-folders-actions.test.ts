@@ -103,15 +103,8 @@ describe('Files / folders actions : ', () => {
     ]);
     await userApi.favorites.waitForApi({ expect: initialFavoritesTotalItems + 8 });
 
-    const initialSharedTotalItems = await userApi.shared.getSharedLinksTotalItems();
-    await userApi.shared.shareFilesByIds([
-      fileDocxSharedId,
-      fileDocxSharedFavId,
-      fileSharedId,
-      fileSharedFavId,
-      fileSharedLockedId,
-      fileSharedFavLockedId
-    ]);
+    const initialSharedTotalItems = await userActions.getSharedLinksSize();
+    await userActions.shareNodes([fileDocxSharedId, fileDocxSharedFavId, fileSharedId, fileSharedFavId, fileSharedLockedId, fileSharedFavLockedId]);
     await userApi.shared.waitForApi({ expect: initialSharedTotalItems + 6 });
 
     await userApi.nodes.lockFile(fileLockedId);

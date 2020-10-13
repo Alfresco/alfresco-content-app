@@ -350,8 +350,8 @@ describe('Delete and undo delete', () => {
       sharedFile5Id = (await apis.user.nodes.createFile(sharedFile5, parentId)).entry.id;
       sharedFile6Id = (await apis.user.nodes.createFile(sharedFile6, parentId)).entry.id;
 
-      const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
-      await apis.user.shared.shareFilesByIds([sharedFile1Id, sharedFile2Id, sharedFile3Id, sharedFile4Id, sharedFile5Id, sharedFile6Id]);
+      const initialSharedTotalItems = await userActions.getSharedLinksSize();
+      await userActions.shareNodes([sharedFile1Id, sharedFile2Id, sharedFile3Id, sharedFile4Id, sharedFile5Id, sharedFile6Id]);
       await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 6 });
 
       await loginPage.loginWith(username);

@@ -56,7 +56,7 @@ describe('Pagination on single page', () => {
 
     const initialFavoriteTotalItems = await userApi.favorites.getFavoritesTotalItems();
     const initialRecentFilesTotalItems = await userApi.search.getTotalItems(username);
-    const initialSharedTotalItems = await userApi.shared.getSharedLinksTotalItems();
+    const initialSharedTotalItems = await userActions.getSharedLinksSize();
     const initialTrashTotalItems = await userActions.getTrashcanSize();
 
     fileId = (await userApi.nodes.createFile(file)).entry.id;
