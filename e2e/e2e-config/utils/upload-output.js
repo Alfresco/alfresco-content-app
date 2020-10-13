@@ -23,7 +23,7 @@ async function uploadScreenshot(retryCount) {
 
   let folderNode;
 
-  const screenshotSavePath = `Builds/ACA/${buildNumber()}/${process.env.TRAVIS_JOB_NAME}`;
+  const screenshotSavePath = `Builds/ACA/${buildNumber()}/${process.env.TRAVIS_JOB_NAME.replace(/[^a-z0-9]/gi, '_').toLowerCase()}`;
 
   try {
     folderNode = await alfrescoJsApi.nodes.addNode('-my-', {
