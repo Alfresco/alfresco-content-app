@@ -46,16 +46,6 @@ export class NodesApi extends RepoApi {
     }
   }
 
-  async getNodeById(id: string): Promise<NodeEntry | null> {
-    try {
-      await this.apiAuth();
-      return await this.nodesApi.getNode(id);
-    } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.getNodeById.name}`, error);
-      return null;
-    }
-  }
-
   async getNodeIdFromParent(name: string, parentId: string): Promise<string> {
     try {
       const children = (await this.getNodeChildren(parentId)).list.entries;
@@ -88,7 +78,7 @@ export class NodesApi extends RepoApi {
 
   async getNodeProperty(nodeId: string, property: string): Promise<string> {
     try {
-      const node = await this.getNodeById(nodeId);
+      const node = await this.nodesApi.getNode(nodeId);
       return (node.entry.properties && node.entry.properties[property]) || '';
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.getNodeProperty.name}`, error);
@@ -343,7 +333,7 @@ export class NodesApi extends RepoApi {
   }
 
   async createFileLink(originalNodeId: string, destinationId: string): Promise<NodeEntry | null> {
-    const name = (await this.getNodeById(originalNodeId)).entry.name;
+    const name = (await this.nodesApi.getNode(originalNodeId)).entry.name;
     const nodeBody = {
       name: `Link to ${name}.url`,
       nodeType: 'app:filelink',
@@ -364,7 +354,7 @@ export class NodesApi extends RepoApi {
   }
 
   async createFolderLink(originalNodeId: string, destinationId: string): Promise<NodeEntry | null> {
-    const name = (await this.getNodeById(originalNodeId)).entry.name;
+    const name = (await this.nodesApi.getNode(originalNodeId)).entry.name;
     const nodeBody = {
       name: `Link to ${name}.url`,
       nodeType: 'app:folderlink',
@@ -467,17 +457,6 @@ export class NodesApi extends RepoApi {
       return await this.nodesApi.lockNode(nodeId, data);
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.lockFile.name}`, error);
-      return null;
-    }
-  }
-
-  /* @deprecated check {UserActions.unlockNodes} instead. */
-  async unlockFile(nodeId: string): Promise<NodeEntry | null> {
-    try {
-      await this.apiAuth();
-      return await this.nodesApi.unlockNode(nodeId);
-    } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.unlockFile.name}`, error);
       return null;
     }
   }

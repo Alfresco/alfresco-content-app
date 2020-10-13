@@ -102,7 +102,7 @@ describe('Search results - files and folders', () => {
     await searchInput.searchFor('test-');
     await dataTable.waitForBody();
 
-    const fileEntry = await apis.user.nodes.getNodeById(fileId);
+    const fileEntry = await userActions.nodesApi.getNode(fileId);
     const modifiedDate = moment(fileEntry.entry.modifiedAt).format('MMM D, YYYY, h:mm:ss A');
     const modifiedBy = fileEntry.entry.modifiedByUser.displayName;
     const size = fileEntry.entry.content.sizeInBytes;
@@ -122,7 +122,7 @@ describe('Search results - files and folders', () => {
     await searchInput.searchFor('test-');
     await dataTable.waitForBody();
 
-    const folderEntry = await apis.user.nodes.getNodeById(folderId);
+    const folderEntry = await userActions.nodesApi.getNode(folderId);
     const modifiedDate = moment(folderEntry.entry.modifiedAt).format('MMM D, YYYY, h:mm:ss A');
     const modifiedBy = folderEntry.entry.modifiedByUser.displayName;
 

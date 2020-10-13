@@ -121,7 +121,7 @@ describe('File / Folder properties', () => {
     });
 
     it('[C269003] File properties', async () => {
-      const apiProps = await apis.user.nodes.getNodeById(file1Id);
+      const apiProps = await userActions.nodesApi.getNode(file1Id);
 
       const expectedPropLabels = [
         'Name',
@@ -159,7 +159,7 @@ describe('File / Folder properties', () => {
     });
 
     it('[C307106] Folder properties', async () => {
-      const apiProps = await apis.user.nodes.getNodeById(folder1Id);
+      const apiProps = await userActions.nodesApi.getNode(folder1Id);
 
       const expectedPropLabels = ['Name', 'Title', 'Creator', 'Created Date', 'Modifier', 'Modified Date', 'Author', 'Description'];
       const expectedPropValues = [
@@ -205,7 +205,7 @@ describe('File / Folder properties', () => {
     });
 
     it('[C269007] Image properties', async () => {
-      const apiProps = await apis.user.nodes.getNodeById(image1Id);
+      const apiProps = await userActions.nodesApi.getNode(image1Id);
       const properties = apiProps.entry.properties;
 
       const expectedPropLabels = [
