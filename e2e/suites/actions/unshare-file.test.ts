@@ -568,12 +568,7 @@ describe('Unshare a file', () => {
       initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
 
       await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
-
-      await apis.user.favorites.addFavoriteById('file', file1Id);
-      await apis.user.favorites.addFavoriteById('file', file2Id);
-      await apis.user.favorites.addFavoriteById('file', file3Id);
-      await apis.user.favorites.addFavoriteById('file', file4Id);
-
+      await userActions.createFavorites('file', [file1Id, file2Id, file3Id, file4Id]);
       await apis.user.favorites.waitForApi({ expect: 4 });
       await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 4 });
       done();
@@ -702,9 +697,7 @@ describe('Unshare a file', () => {
       await adminApiActions.shareNodes([file1FileLibId, file1SharedId, file1FavId]);
       await userActions.shareNodes([file2FileLibId, file2SharedId, file2FavId]);
 
-      await apis.user.favorites.addFavoriteById('file', file1FavId);
-      await apis.user.favorites.addFavoriteById('file', file2FavId);
-
+      await userActions.createFavorites('file', [file1FavId, file2FavId]);
       await apis.user.favorites.waitForApi({ expect: 2 });
       await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 6 });
 

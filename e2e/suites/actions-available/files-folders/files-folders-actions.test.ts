@@ -56,6 +56,7 @@ describe('Files / folders actions : ', () => {
   let folderInTrashId: string;
   let folder2InTrashId: string;
 
+  /* @deprecated use userActions instead */
   const userApi = new RepoClient(username, username);
   const adminApiActions = new AdminActions();
   const userActions = new UserActions();
@@ -91,8 +92,8 @@ describe('Files / folders actions : ', () => {
     await userApi.search.waitForApi(username, { expect: initialSearchTotalItems + 12 });
 
     const initialFavoritesTotalItems = await userApi.favorites.getFavoritesTotalItems();
-    await userApi.favorites.addFavoritesByIds('folder', [folderFavId, folderFav2Id]);
-    await userApi.favorites.addFavoritesByIds('file', [
+    await userActions.createFavorites('folder', [folderFavId, folderFav2Id]);
+    await userActions.createFavorites('file', [
       fileDocxFavId,
       fileFavId,
       fileDocxSharedFavId,

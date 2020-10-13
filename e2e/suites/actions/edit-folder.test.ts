@@ -116,12 +116,8 @@ describe('Edit folder', () => {
     folderSearchToEditId = (await apis.user.nodes.createFolder(folderSearchToEdit)).entry.id;
     await apis.user.nodes.createFolder(folderSearchDuplicate);
 
-    await apis.user.favorites.addFavoriteById('folder', folderFavoriteId);
-    await apis.user.favorites.addFavoriteById('folder', folderFavoriteToEditId);
-    await apis.user.favorites.addFavoriteById('folder', folderFavoriteDuplicateId);
-
+    await userActions.createFavorites('folder', [folderFavoriteId, folderFavoriteToEditId, folderFavoriteDuplicateId]);
     await apis.user.search.waitForNodes('folder-search', { expect: initialSearchByTermTotalItems + 3 });
-
     await loginPage.loginWith(username);
     done();
   });

@@ -28,6 +28,7 @@ import { AdminActions, UserActions, LoginPage, BrowsingPage, RepoClient, Utils }
 describe('Delete and undo delete', () => {
   const username = `user-${Utils.random()}`;
 
+  /* @deprecated use userActions instead */
   const apis = {
     user: new RepoClient(username, username)
   };
@@ -42,7 +43,6 @@ describe('Delete and undo delete', () => {
   beforeAll(async () => {
     await adminApiActions.login();
     await adminApiActions.createUser({ username });
-
     await userActions.login(username, username);
   });
 
@@ -486,8 +486,8 @@ describe('Delete and undo delete', () => {
       await apis.user.nodes.lockFile(fileLocked3Id, 'FULL');
       await apis.user.nodes.lockFile(fileLocked4Id, 'FULL');
 
-      await apis.user.favorites.addFavoritesByIds('file', [favFile1Id, favFile2Id, favFile3Id, favFile4Id, favFile5Id, favFile6Id, favFile7Id]);
-      await apis.user.favorites.addFavoritesByIds('folder', [favFolder1Id, favFolder2Id, favFolder3Id, favFolder4Id, favFolder5Id, favFolder6Id]);
+      await userActions.createFavorites('file', [favFile1Id, favFile2Id, favFile3Id, favFile4Id, favFile5Id, favFile6Id, favFile7Id]);
+      await userActions.createFavorites('folder', [favFolder1Id, favFolder2Id, favFolder3Id, favFolder4Id, favFolder5Id, favFolder6Id]);
       await apis.user.favorites.waitForApi({ expect: initialFavoritesTotalItems + 13 });
 
       await loginPage.loginWith(username);

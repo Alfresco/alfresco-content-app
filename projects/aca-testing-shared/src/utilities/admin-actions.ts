@@ -124,7 +124,7 @@ export class AdminActions extends UserActions {
     const nodesToDelete = (await this.nodes.getNodeChildren(spaceTemplatesNodeId)).list.entries
       .filter((node) => node.entry.nodeType !== 'app:folderlink' && node.entry.name !== 'Software Engineering Project')
       .map((node) => node.entry.id);
-    return this.nodes.deleteNodesById(nodesToDelete);
+    return this.deleteNodes(nodesToDelete);
   }
 
   async createLinkToFileId(originalFileId: string, destinationParentId: string): Promise<NodeEntry> {

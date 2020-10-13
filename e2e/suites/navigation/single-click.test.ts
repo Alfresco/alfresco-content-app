@@ -174,8 +174,8 @@ describe('Single click on item name', () => {
   describe('on Favorites', () => {
     beforeAll(async () => {
       const initialFavoriteTotalItems = await apis.user.favorites.getFavoritesTotalItems();
-      await apis.user.favorites.addFavoriteById('file', file1Id);
-      await apis.user.favorites.addFavoriteById('folder', folder1Id);
+      await userActions.createFavorites('file', [file1Id]);
+      await userActions.createFavorites('folder', [folder1Id]);
       await apis.user.favorites.waitForApi({ expect: initialFavoriteTotalItems + 2 });
     });
 

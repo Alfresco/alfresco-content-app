@@ -28,6 +28,7 @@ import { AdminActions, UserActions, LoginPage, BrowsingPage, Utils, RepoClient }
 describe('File / folder tooltips', () => {
   const username = `user-${Utils.random()}`;
 
+  /* @deprecated use userActions instead */
   const apis = {
     user: new RepoClient(username, username)
   };
@@ -73,7 +74,7 @@ describe('File / folder tooltips', () => {
     const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
     await apis.user.shared.shareFilesByIds([file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id]);
 
-    await apis.user.favorites.addFavoritesByIds('file', [file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id]);
+    await userActions.createFavorites('file', [file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id]);
 
     await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 8 });
 
@@ -263,7 +264,7 @@ describe('File / folder tooltips', () => {
       file7TrashId = (await apis.user.nodes.createFile(fileNameEqDescDiffTitle, parentForTrashId, fileTitle, fileNameEqDescDiffTitle)).entry.id;
       file8TrashId = (await apis.user.nodes.createFile(fileTitleEqDesc, parentForTrashId, fileTitle, fileTitle)).entry.id;
 
-      await apis.user.nodes.deleteNodesById(
+      await userActions.deleteNodes(
         [file1TrashId, file2TrashId, file3TrashId, file4TrashId, file5TrashId, file6TrashId, file7TrashId, file8TrashId],
         false
       );

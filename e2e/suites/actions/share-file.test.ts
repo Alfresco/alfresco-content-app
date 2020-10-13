@@ -805,16 +805,7 @@ describe('Share a file', () => {
         file9Id = (await apis.user.nodes.createFile(file9, parentId)).entry.id;
 
         initialTotalItems = await apis.user.shared.getSharedLinksTotalItems();
-        await apis.user.favorites.addFavoriteById('file', file1Id);
-        await apis.user.favorites.addFavoriteById('file', file2Id);
-        await apis.user.favorites.addFavoriteById('file', file3Id);
-        await apis.user.favorites.addFavoriteById('file', file4Id);
-        await apis.user.favorites.addFavoriteById('file', file5Id);
-        await apis.user.favorites.addFavoriteById('file', file6Id);
-        await apis.user.favorites.addFavoriteById('file', file7Id);
-        await apis.user.favorites.addFavoriteById('file', file8Id);
-        await apis.user.favorites.addFavoriteById('file', file9Id);
-
+        await userActions.createFavorites('file', [file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id, file9Id]);
         await userActions.shareNodes([file6Id, file7Id], expiryDate);
         await apis.user.favorites.waitForApi({ expect: 9 });
         await apis.user.shared.waitForApi({ expect: initialTotalItems + 2 });

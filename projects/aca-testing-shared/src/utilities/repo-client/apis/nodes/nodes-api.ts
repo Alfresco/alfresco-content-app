@@ -78,6 +78,7 @@ export class NodesApi extends RepoApi {
 
   async getNodeProperty(nodeId: string, property: string): Promise<string> {
     try {
+      await this.apiAuth();
       const node = await this.nodesApi.getNode(nodeId);
       return (node.entry.properties && node.entry.properties[property]) || '';
     } catch (error) {
@@ -86,40 +87,19 @@ export class NodesApi extends RepoApi {
     }
   }
 
-  async deleteNodeById(id: string, permanent: boolean = true): Promise<void> {
-    try {
-      await this.apiAuth();
-      await this.nodesApi.deleteNode(id, { permanent });
-    } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.deleteNodeById.name}`, error);
-    }
-  }
-
   async deleteNodeByPath(path: string, permanent: boolean = true): Promise<void> {
     try {
       const id = (await this.getNodeByPath(path)).entry.id;
-      await this.deleteNodeById(id, permanent);
+      await this.nodesApi.deleteNode(id, { permanent });
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.deleteNodeByPath.name}`, error);
-    }
-  }
-
-  async deleteNodes(names: string[], relativePath: string = '', permanent: boolean = true): Promise<void> {
-    try {
-      await names.reduce(async (previous, current) => {
-        await previous;
-        const req = await this.deleteNodeByPath(`${relativePath}/${current}`, permanent);
-        return req;
-      }, Promise.resolve());
-    } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.deleteNodes.name}`, error);
     }
   }
 
   async deleteNodesById(ids: string[], permanent: boolean = true): Promise<void> {
     try {
       for (const id of ids) {
-        await this.deleteNodeById(id, permanent);
+        await this.nodesApi.deleteNode(id, { permanent });
       }
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.deleteNodesById.name}`, error);
@@ -403,16 +383,6 @@ export class NodesApi extends RepoApi {
       return lockType || '';
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.getLockType.name}`, error);
-      return '';
-    }
-  }
-
-  async getLockOwner(nodeId: string): Promise<string> {
-    try {
-      const lockOwner = await this.getNodeProperty(nodeId, 'cm:lockOwner');
-      return lockOwner || '';
-    } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.getLockOwner.name}`, error);
       return '';
     }
   }

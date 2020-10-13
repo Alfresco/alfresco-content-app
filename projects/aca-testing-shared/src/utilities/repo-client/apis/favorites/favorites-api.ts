@@ -25,7 +25,6 @@
 
 import { RepoApi } from '../repo-api';
 import { Logger } from '@alfresco/adf-testing';
-import { RepoClient } from './../../repo-client';
 import { Utils } from '../../../../utilities/utils';
 import { FavoritesApi as AdfFavoritesApi, SitesApi as AdfSiteApi, FavoriteEntry } from '@alfresco/js-api';
 
@@ -35,23 +34,6 @@ export class FavoritesApi extends RepoApi {
 
   constructor(username?: string, password?: string) {
     super(username, password);
-  }
-
-  async addFavorite(api: RepoClient, nodeType: string, name: string) {
-    try {
-      const nodeId = (await api.nodes.getNodeByPath(name)).entry.id;
-      const data = {
-        target: {
-          [nodeType]: {
-            guid: nodeId
-          }
-        }
-      };
-      return await this.favoritesApi.createFavorite('-me-', data);
-    } catch (error) {
-      this.handleError(`FavoritesApi addFavorite : catch : `, error);
-      return null;
-    }
   }
 
   async addFavoriteById(nodeType: 'file' | 'folder' | 'site', id: string): Promise<FavoriteEntry | null> {
@@ -108,16 +90,6 @@ export class FavoritesApi extends RepoApi {
     }
   }
 
-  async getFavoriteById(nodeId: string) {
-    try {
-      await this.apiAuth();
-      return await this.favoritesApi.getFavorite('-me-', nodeId);
-    } catch (error) {
-      this.handleError(`FavoritesApi getFavoriteById : catch : `, error);
-      return null;
-    }
-  }
-
   async isFavorite(nodeId: string) {
     try {
       return JSON.stringify((await this.getFavorites()).list.entries).includes(nodeId);
@@ -141,26 +113,6 @@ export class FavoritesApi extends RepoApi {
       return await Utils.retryCall(favorite);
     } catch (error) {}
     return isFavorite;
-  }
-
-  async removeFavoriteById(nodeId: string) {
-    try {
-      await this.apiAuth();
-      return await this.favoritesApi.deleteFavorite('-me-', nodeId);
-    } catch (error) {
-      this.handleError(`FavoritesApi removeFavoriteById : catch : `, error);
-    }
-  }
-
-  async removeFavoritesByIds(ids: string[]) {
-    try {
-      return await ids.reduce(async (previous, current) => {
-        await previous;
-        await this.removeFavoriteById(current);
-      }, Promise.resolve());
-    } catch (error) {
-      this.handleError(`FavoritesApi removeFavoritesByIds : catch : `, error);
-    }
   }
 
   async waitForApi(data: { expect: number }) {

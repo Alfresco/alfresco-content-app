@@ -23,9 +23,11 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AlfrescoApi, Comment, CommentsApi, NodesApi, TrashcanApi, SitesApi, SharedlinksApi } from '@alfresco/js-api';
+import { AlfrescoApi, Comment, CommentsApi, NodesApi, TrashcanApi, SitesApi, SharedlinksApi, FavoritesApi } from '@alfresco/js-api';
 import { browser } from 'protractor';
 import { Utils } from './utils';
+
+export type NodeType = 'file' | 'folder' | 'site';
 
 export class UserActions {
   protected readonly alfrescoApi: AlfrescoApi;
@@ -35,6 +37,7 @@ export class UserActions {
   readonly trashcanApi: TrashcanApi;
   readonly sitesApi: SitesApi;
   readonly sharedLinksApi: SharedlinksApi;
+  readonly favoritesApi: FavoritesApi;
 
   protected username: string;
   protected password: string;
@@ -48,6 +51,7 @@ export class UserActions {
     this.trashcanApi = new TrashcanApi(this.alfrescoApi);
     this.sitesApi = new SitesApi(this.alfrescoApi);
     this.sharedLinksApi = new SharedlinksApi(this.alfrescoApi);
+    this.favoritesApi = new FavoritesApi(this.alfrescoApi);
   }
 
   async login(username: string, password: string) {
@@ -155,11 +159,13 @@ export class UserActions {
    * @param expiresAt (optional) Expiration date.
    */
   async shareNodes(nodeIds: string[], expiresAt?: Date): Promise<any> {
-    for (const nodeId of nodeIds) {
-      await this.sharedLinksApi.createSharedLink({
-        nodeId,
-        expiresAt
-      });
+    if (nodeIds && nodeIds.length > 0) {
+      for (const nodeId of nodeIds) {
+        await this.sharedLinksApi.createSharedLink({
+          nodeId,
+          expiresAt
+        });
+      }
     }
   }
 
@@ -171,5 +177,43 @@ export class UserActions {
   async getNodeProperty(nodeId: string, property: string): Promise<string> {
     const node = await this.nodesApi.getNode(nodeId);
     return node?.entry?.properties?.[property] || '';
+  }
+
+  /**
+   * Adds multiple nodes of a particular type to the favorites.
+   * @param nodeType Type of the node
+   * @param nodeIds The node IDs to add to favorites
+   */
+  async createFavorites(nodeType: NodeType, nodeIds: string[]) {
+    if (nodeIds && nodeIds.length > 0) {
+      for (const nodeId of nodeIds) {
+        let guid = nodeId;
+
+        if (nodeType === 'site') {
+          const site = await this.sitesApi.getSite(nodeId);
+          guid = site.entry.guid;
+        }
+
+        await this.favoritesApi.createFavorite('-me-', {
+          target: {
+            [nodeType]: {
+              guid
+            }
+          }
+        });
+      }
+    }
+  }
+
+  /**
+   * Removes multiple nodes from the favorites.
+   * @param nodeIds The list of the node IDs to remove from favorites.
+   */
+  async deleteFavorites(nodeIds: string[]) {
+    if (nodeIds && nodeIds.length > 0) {
+      for (const nodeId of nodeIds) {
+        await this.favoritesApi.deleteFavorite('-me-', nodeId);
+      }
+    }
   }
 }

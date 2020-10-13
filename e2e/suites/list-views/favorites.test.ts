@@ -63,12 +63,8 @@ describe('Favorites', () => {
     const file3Id = (await apis.user.nodes.createFile(fileName3, parentId)).entry.id;
     const file4Id = (await apis.user.nodes.createFile(fileName4, parentId)).entry.id;
 
-    await apis.user.favorites.addFavoriteById('file', file1Id);
-    await apis.user.favorites.addFavoriteById('folder', folderId);
-    await apis.user.favorites.addFavoriteById('file', file2Id);
-    await apis.user.favorites.addFavoriteById('file', file3Id);
-    await apis.user.favorites.addFavoriteById('file', file4Id);
-
+    await userActions.createFavorites('file', [file1Id, file2Id, file3Id, file4Id]);
+    await userActions.createFavorites('folder', [folderId]);
     await userActions.deleteNodes([file3Id, file4Id], false);
     await userActions.trashcanApi.restoreDeletedNode(file4Id);
     await loginPage.loginWith(username);

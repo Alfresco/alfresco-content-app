@@ -82,7 +82,7 @@ describe('Trash', () => {
     folderNotDeletedId = (await apis.user.nodes.createFolder(folderNotDeleted)).entry.id;
     fileInFolderId = (await apis.user.nodes.createFiles([fileInFolder], folderNotDeleted)).entry.id;
 
-    await adminApiActions.nodes.deleteNodesById([fileAdminId, folderAdminId], false);
+    await adminApiActions.deleteNodes([fileAdminId, folderAdminId], false);
     await userActions.deleteNodes([fileSiteId, fileUserId, folderUserId, fileInFolderId, fileDeletedId, folderDeletedId], false);
   });
 

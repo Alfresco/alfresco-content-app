@@ -108,7 +108,7 @@ describe('Search filters', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user1.nodes.deleteNodeById(parentId);
+    await apis.user1.nodes.deleteNodesById([parentId]);
     await apis.user1.sites.deleteSite(site);
     done();
   });

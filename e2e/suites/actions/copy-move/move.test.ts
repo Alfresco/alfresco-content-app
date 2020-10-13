@@ -563,32 +563,31 @@ describe('Move content', () => {
 
     beforeAll(async (done) => {
       file1Id = (await apis.user.nodes.createFile(file1, sourceIdFav)).entry.id;
-      await apis.user.favorites.addFavoriteById('file', file1Id);
+      await userActions.createFavorites('file', [file1Id]);
 
       folder1Id = (await apis.user.nodes.createFolder(folder1, sourceIdFav)).entry.id;
       await apis.user.nodes.createFile(fileInFolder, folder1Id);
-      await apis.user.favorites.addFavoriteById('folder', folder1Id);
+      await userActions.createFavorites('folder', [folder1Id]);
 
       file2Id = (await apis.user.nodes.createFile(file2, sourceIdFav)).entry.id;
       file3Id = (await apis.user.nodes.createFile(file3, sourceIdFav)).entry.id;
-      await apis.user.favorites.addFavoriteById('file', file2Id);
-      await apis.user.favorites.addFavoriteById('file', file3Id);
+      await userActions.createFavorites('file', [file2Id, file3Id]);
 
       existingFileId = (await apis.user.nodes.createFile(`${existingFile}.txt`, sourceIdFav)).entry.id;
-      await apis.user.favorites.addFavoriteById('file', existingFileId);
+      await userActions.createFavorites('file', [existingFileId]);
       await apis.user.nodes.createFile(`${existingFile}.txt`, destinationIdFav);
 
       existingId1 = (await apis.user.nodes.createFolder(existingFolder, sourceIdFav)).entry.id;
       existingId2 = (await apis.user.nodes.createFolder(existingFolder, destinationIdFav)).entry.id;
       await apis.user.nodes.createFile(file2InFolder, existingId1);
       await apis.user.nodes.createFile(file3InFolder, existingId2);
-      await apis.user.favorites.addFavoriteById('folder', existingId1);
+      await userActions.createFavorites('folder', [existingId1]);
 
       file4Id = (await apis.user.nodes.createFile(file4, sourceIdFav)).entry.id;
       folder2Id = (await apis.user.nodes.createFolder(folder2, sourceIdFav)).entry.id;
       await apis.user.nodes.createFile(fileInFolder2, folder2Id);
-      await apis.user.favorites.addFavoriteById('file', file4Id);
-      await apis.user.favorites.addFavoriteById('folder', folder2Id);
+      await userActions.createFavorites('file', [file4Id]);
+      await userActions.createFavorites('folder', [folder2Id]);
 
       await apis.user.favorites.waitForApi({ expect: 9 });
 

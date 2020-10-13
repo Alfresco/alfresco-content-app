@@ -182,7 +182,7 @@ describe('Version component actions', () => {
 
   describe('on Favorite Files', () => {
     beforeAll(async (done) => {
-      await apis.user.favorites.addFavoritesByIds('file', [fileId]);
+      await userActions.createFavorites('file', [fileId]);
       await apis.user.favorites.waitForApi({ expect: 1 });
       await page.clickFavoritesAndWait();
       done();

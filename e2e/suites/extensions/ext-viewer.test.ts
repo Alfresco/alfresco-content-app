@@ -23,7 +23,17 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, Viewer, RepoClient, EXTENSIBILITY_CONFIGS, FILES, Utils } from '@alfresco/aca-testing-shared';
+import {
+  AdminActions,
+  UserActions,
+  LoginPage,
+  BrowsingPage,
+  Viewer,
+  RepoClient,
+  EXTENSIBILITY_CONFIGS,
+  FILES,
+  Utils
+} from '@alfresco/aca-testing-shared';
 
 describe('Extensions - Viewer', () => {
   const username = `user-${Utils.random()}`;
@@ -62,6 +72,7 @@ describe('Extensions - Viewer', () => {
     title: 'My new title'
   };
 
+  /* @deprecated use userActions instead */
   const apis = {
     user: new RepoClient(username, username)
   };
@@ -71,10 +82,15 @@ describe('Extensions - Viewer', () => {
 
   const viewer = new Viewer();
   const { toolbar } = viewer;
+
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   beforeAll(async (done) => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
+
     pdfFileId = (await apis.user.upload.uploadFile(pdfFile.file_name)).entry.id;
     docxFileId = (await apis.user.upload.uploadFile(docxFile.file_name)).entry.id;
 
@@ -85,7 +101,7 @@ describe('Extensions - Viewer', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodesById([pdfFileId, docxFileId]);
+    await userActions.deleteNodes([pdfFileId, docxFileId]);
     done();
   });
 

@@ -79,10 +79,7 @@ describe('File Libraries', () => {
     await adminApiActions.sites.addSiteMember(adminSite4, username, SITE_ROLES.SITE_MANAGER.ROLE);
     await adminApiActions.sites.addSiteMember(adminSite6, username, SITE_ROLES.SITE_CONSUMER.ROLE);
 
-    await apis.user.favorites.addFavoriteById('site', adminSite1);
-    await apis.user.favorites.addFavoriteById('site', adminSite2);
-    await apis.user.favorites.addFavoriteById('site', adminSite3);
-    await apis.user.favorites.addFavoriteById('site', adminSite4);
+    await userActions.createFavorites('site', [adminSite1, adminSite2, adminSite3, adminSite4]);
 
     await apis.user.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC, null, siteId1);
     await apis.user.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC, null, siteId2);

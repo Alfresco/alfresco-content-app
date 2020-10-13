@@ -74,8 +74,7 @@ describe('Viewer general', () => {
 
     const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
     await userActions.shareNodes([xlsxFileId]);
-
-    await apis.user.favorites.addFavoriteById('file', xlsxFileId);
+    await userActions.createFavorites('file', [xlsxFileId]);
     await apis.user.favorites.waitForApi({ expect: 2 });
     await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 1 });
 

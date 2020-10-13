@@ -920,7 +920,7 @@ describe('Viewer actions', () => {
       await apis.user.nodes.lockFile(fileForCancelEditingId);
       await apis.user.nodes.lockFile(fileForUploadNewVersionId);
 
-      await apis.user.favorites.addFavoritesByIds('file', [
+      await userActions.createFavorites('file', [
         docxFileId,
         xlsxFileId,
         pdfFileId,

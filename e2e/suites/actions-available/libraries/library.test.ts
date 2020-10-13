@@ -30,6 +30,7 @@ import * as testUtil from '../test-util';
 describe('Library actions : ', () => {
   const username = `user-${Utils.random()}`;
 
+  /* @deprecated use userActions instead */
   const userApi = new RepoClient(username, username);
   const adminApiActions = new AdminActions();
   const userActions = new UserActions();
@@ -66,8 +67,8 @@ describe('Library actions : ', () => {
     await userApi.sites.requestToJoin(testData.moderatedRequestedJoinFav.name);
     await userApi.sites.requestToJoin(testData.moderatedRequestedJoinNotFav.name);
 
-    await userApi.favorites.removeFavoritesByIds([publicUserMemberNotFavId, privateUserMemberNotFavId, moderatedUserMemberNotFavId]);
-    await userApi.favorites.addFavoritesByIds('site', [
+    await userActions.deleteFavorites([publicUserMemberNotFavId, privateUserMemberNotFavId, moderatedUserMemberNotFavId]);
+    await userActions.createFavorites('site', [
       testData.publicNotMemberFav.name,
       testData.moderatedNotMemberFav.name,
       testData.moderatedRequestedJoinFav.name

@@ -763,7 +763,7 @@ describe('Upload new version', () => {
       await apis.user.nodes.lockFile(fileLocked1Id);
       await apis.user.nodes.lockFile(fileLocked2Id);
 
-      await apis.user.favorites.addFavoritesByIds('file', [fileId, file1Id, file2Id, file3Id, file4Id, fileLocked1Id, fileLocked2Id]);
+      await userActions.createFavorites('file', [fileId, file1Id, file2Id, file3Id, file4Id, fileLocked1Id, fileLocked2Id]);
       await apis.user.favorites.waitForApi({ expect: initialFavoritesTotalItems + 7 });
 
       await loginPage.loginWith(username);

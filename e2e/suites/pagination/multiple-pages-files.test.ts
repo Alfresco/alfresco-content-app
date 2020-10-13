@@ -64,7 +64,7 @@ describe('Pagination on multiple pages : ', () => {
     initialSharedTotalItems = await userApi.shared.getSharedLinksTotalItems();
     initialFavoritesTotalItems = await userApi.favorites.getFavoritesTotalItems();
     await userApi.shared.shareFilesByIds(filesIds);
-    await userApi.favorites.addFavoritesByIds('file', filesIds);
+    await userActions.createFavorites('file', filesIds);
   }, 150000);
 
   afterAll(async () => {

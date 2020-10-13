@@ -109,15 +109,14 @@ describe('Destination picker dialog : ', () => {
   });
 
   afterAll(async () => {
-    await userApi.nodes.deleteNodeById(fileId);
-    await userApi.nodes.deleteNodeById(destinationId);
+    await userApi.nodes.deleteNodesById([fileId, destinationId]);
     await userApi.sites.deleteSite(site);
 
-    await consumerApi.nodes.deleteNodeById(fileIdConsumer);
-    await contributorApi.nodes.deleteNodeById(fileIdContributor);
-    await collaboratorApi.nodes.deleteNodeById(fileIdCollaborator);
+    await consumerApi.nodes.deleteNodesById([fileIdConsumer]);
+    await contributorApi.nodes.deleteNodesById([fileIdContributor]);
+    await collaboratorApi.nodes.deleteNodesById([fileIdCollaborator]);
 
-    await adminApiActions.nodes.deleteNodeById(adminFolderId);
+    await adminApiActions.nodes.deleteNodesById([adminFolderId]);
   });
 
   afterEach(async () => {

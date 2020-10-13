@@ -242,7 +242,7 @@ describe('Edit offline', () => {
       await apis.user.nodes.lockFile(fileLockedId);
       await apis.user.nodes.lockFile(fileLocked2Id);
 
-      await apis.user.favorites.addFavoritesByIds('file', [file1Id, fileLockedId, fileLocked2Id]);
+      await userActions.createFavorites('file', [file1Id, fileLockedId, fileLocked2Id]);
       await apis.user.favorites.waitForApi({ expect: 3 });
 
       await loginPage.loginWith(username);

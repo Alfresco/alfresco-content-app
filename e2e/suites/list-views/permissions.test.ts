@@ -59,7 +59,7 @@ describe('Special permissions', () => {
       await adminApiActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
       const docLibId = await adminApiActions.sites.getDocLibId(sitePrivate);
       fileId = (await adminApiActions.nodes.createFile(fileName, docLibId)).entry.id;
-      await apis.user.favorites.addFavoriteById('file', fileId);
+      await userActions.createFavorites('file', [fileId]);
 
       initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
 
@@ -134,7 +134,7 @@ describe('Special permissions', () => {
       await adminApiActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
       const docLibId = await adminApiActions.sites.getDocLibId(sitePrivate);
       fileId = (await apis.user.nodes.createFile(fileName, docLibId)).entry.id;
-      await apis.user.favorites.addFavoriteById('file', fileId);
+      await userActions.createFavorites('file', [fileId]);
 
       initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
       await userActions.shareNodes([fileId]);

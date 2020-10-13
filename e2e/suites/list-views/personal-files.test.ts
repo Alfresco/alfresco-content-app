@@ -25,11 +25,12 @@
 
 import { browser } from 'protractor';
 
-import { AdminActions, APP_ROUTES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { AdminActions, UserActions, APP_ROUTES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
 
 describe('Personal Files', () => {
   const username = `user-${Utils.random()}`;
 
+  /* @deprecated use userActions instead */
   const apis = {
     user: new RepoClient(username, username)
   };
@@ -42,17 +43,24 @@ describe('Personal Files', () => {
 
   const userFolder = `user-folder-${Utils.random()}`;
   const userFile = `file-${Utils.random()}.txt`;
+
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   beforeAll(async (done) => {
-    await Promise.all([adminApiActions.createUser({ username }), adminApiActions.nodes.createFolders([adminFolder])]);
+    await adminApiActions.login();
+    await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
+
+    await adminApiActions.nodes.createFolders([adminFolder]);
     await apis.user.nodes.createFolders([userFolder]);
     await apis.user.nodes.createFiles([userFile], userFolder);
     done();
   });
 
   afterAll(async (done) => {
-    await Promise.all([adminApiActions.nodes.deleteNodes([adminFolder]), apis.user.nodes.deleteNodes([userFolder])]);
+    await adminApiActions.deleteNodes([adminFolder]);
+    await userActions.deleteNodes([userFolder]);
     done();
   });
 

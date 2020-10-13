@@ -84,7 +84,7 @@ describe('Search sorting', () => {
   });
 
   afterAll(async () => {
-    await apis.user1.nodes.deleteNodeById(parentId);
+    await apis.user1.nodes.deleteNodesById([parentId]);
   });
 
   it('[C277722] Sorting options are displayed', async () => {

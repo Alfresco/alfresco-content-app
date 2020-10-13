@@ -62,6 +62,7 @@ describe('Download', () => {
 
   const archiveZip = 'archive.zip';
 
+  /* @deprecated use userActions instead */
   const apis = {
     user: new RepoClient(username, username)
   };
@@ -112,8 +113,8 @@ describe('Download', () => {
     await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 2 });
 
     initialFavoritesTotalItems = await apis.user.favorites.getFavoritesTotalItems();
-    await apis.user.favorites.addFavoriteById('file', fileFavoritesId);
-    await apis.user.favorites.addFavoriteById('folder', folderFavoritesId);
+    await userActions.createFavorites('file', [fileFavoritesId]);
+    await userActions.createFavorites('folder', [folderFavoritesId]);
     await apis.user.favorites.waitForApi({ expect: initialFavoritesTotalItems + 2 });
 
     await loginPage.loginWith(username);
