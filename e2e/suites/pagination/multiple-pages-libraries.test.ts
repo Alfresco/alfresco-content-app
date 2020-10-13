@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage, Utils, AdminActions, RepoClient } from '@alfresco/aca-testing-shared';
+import { LoginPage, BrowsingPage, Utils, AdminActions, UserActions, RepoClient } from '@alfresco/aca-testing-shared';
 
 describe('Pagination on multiple pages', () => {
   const random = Utils.random();
@@ -32,6 +32,7 @@ describe('Pagination on multiple pages', () => {
 
   const userApi = new RepoClient(username, username);
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -44,7 +45,9 @@ describe('Pagination on multiple pages', () => {
   let initialSitesTotalItems: number;
 
   beforeAll(async () => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
 
     initialSitesTotalItems = await userApi.sites.getSitesTotalItems();
     await userApi.sites.createSitesPrivate(sites);
@@ -54,7 +57,7 @@ describe('Pagination on multiple pages', () => {
   }, 150000);
 
   afterAll(async () => {
-    await userApi.sites.deleteSites(sites);
+    await userActions.deleteSites(sites);
     await userApi.sites.waitForApi({ expect: initialSitesTotalItems });
   }, 120000);
 

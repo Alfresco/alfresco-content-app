@@ -23,7 +23,16 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, SearchResultsPage, RepoClient, Utils, SITE_VISIBILITY, SITE_ROLES } from '@alfresco/aca-testing-shared';
+import {
+  AdminActions,
+  UserActions,
+  LoginPage,
+  SearchResultsPage,
+  RepoClient,
+  Utils,
+  SITE_VISIBILITY,
+  SITE_ROLES
+} from '@alfresco/aca-testing-shared';
 
 describe('Search results - libraries', () => {
   const username = `user-${Utils.random()}`;
@@ -70,10 +79,14 @@ describe('Search results - libraries', () => {
   const page = new SearchResultsPage();
   const { searchInput } = page.header;
   const dataTable = page.dataTable;
+
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   beforeAll(async (done) => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
 
     await apis.user.sites.createSite(site1.name, SITE_VISIBILITY.PUBLIC, '', site1.id);
     await apis.user.sites.createSite(site2.name, SITE_VISIBILITY.PUBLIC, '', site2.id);
@@ -107,8 +120,8 @@ describe('Search results - libraries', () => {
 
   afterAll(async (done) => {
     await Promise.all([
-      adminApiActions.sites.deleteSites([adminSite1, adminSite2, adminSite3, adminSite4, adminPrivate]),
-      apis.user.sites.deleteSites([site1.id, site2.id, site3.id, site4.id, userSitePublic, userSiteModerated, userSitePrivate, siteRussian.id])
+      adminApiActions.deleteSites([adminSite1, adminSite2, adminSite3, adminSite4, adminPrivate]),
+      userActions.deleteSites([site1.id, site2.id, site3.id, site4.id, userSitePublic, userSiteModerated, userSitePrivate, siteRussian.id])
     ]);
     done();
   });

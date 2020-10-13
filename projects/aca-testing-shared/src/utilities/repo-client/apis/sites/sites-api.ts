@@ -163,16 +163,6 @@ export class SitesApi extends RepoApi {
     }
   }
 
-  async deleteSites(siteIds: string[], permanent: boolean = true) {
-    if (siteIds && siteIds.length > 0) {
-      await this.apiAuth();
-
-      for (const siteId of siteIds) {
-        await this.sitesApi.deleteSite(siteId, { permanent });
-      }
-    }
-  }
-
   async deleteAllUserSites(permanent: boolean = true) {
     try {
       const siteIds = (await this.getSites()).list.entries.map((entries) => entries.entry.id);
