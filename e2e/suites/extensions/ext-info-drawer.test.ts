@@ -23,7 +23,16 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, InfoDrawer, RepoClient, EXTENSIBILITY_CONFIGS, Utils } from '@alfresco/aca-testing-shared';
+import {
+  AdminActions,
+  UserActions,
+  LoginPage,
+  BrowsingPage,
+  InfoDrawer,
+  RepoClient,
+  EXTENSIBILITY_CONFIGS,
+  Utils
+} from '@alfresco/aca-testing-shared';
 
 describe('Extensions - Info Drawer', () => {
   const username = `user-${Utils.random()}`;
@@ -53,6 +62,7 @@ describe('Extensions - Info Drawer', () => {
     title: 'COMMENTS'
   };
 
+  /* @deprecated use userActions instead */
   const apis = {
     user: new RepoClient(username, username)
   };
@@ -61,16 +71,21 @@ describe('Extensions - Info Drawer', () => {
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
+
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   beforeAll(async (done) => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions(username, username);
+
     fileId = (await apis.user.nodes.createFile(file)).entry.id;
     done();
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(fileId);
+    await userActions.deleteNodes([fileId]);
     done();
   });
 

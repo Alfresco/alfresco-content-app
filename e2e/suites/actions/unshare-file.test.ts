@@ -44,6 +44,7 @@ describe('Unshare a file', () => {
   const parent = `parent-${Utils.random()}`;
   let parentId: string;
 
+  /* @deprecated use userActions instead */
   const apis = {
     user: new RepoClient(username, username)
   };
@@ -70,7 +71,7 @@ describe('Unshare a file', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(parentId);
+    await userActions.deleteNodes([parentId]);
     done();
   });
 
@@ -111,10 +112,7 @@ describe('Unshare a file', () => {
     });
 
     afterAll(async (done) => {
-      await apis.user.nodes.deleteNodeById(file1Id);
-      await apis.user.nodes.deleteNodeById(file2Id);
-      await apis.user.nodes.deleteNodeById(file3Id);
-      await apis.user.nodes.deleteNodeById(file4Id);
+      await userActions.deleteNodes([file1Id, file2Id, file3Id, file4Id]);
       await apis.user.shared.waitForApi({ expect: initialSharedTotalItems });
       done();
     });
@@ -353,10 +351,7 @@ describe('Unshare a file', () => {
     });
 
     afterAll(async (done) => {
-      await apis.user.nodes.deleteNodeById(file1Id);
-      await apis.user.nodes.deleteNodeById(file2Id);
-      await apis.user.nodes.deleteNodeById(file3Id);
-      await apis.user.nodes.deleteNodeById(file4Id);
+      await userActions.deleteNodes([file1Id, file2Id, file3Id, file4Id]);
       await apis.user.shared.waitForApi({ expect: initialSharedTotalItems });
       done();
     });
@@ -470,10 +465,7 @@ describe('Unshare a file', () => {
     });
 
     afterAll(async (done) => {
-      await apis.user.nodes.deleteNodeById(file1Id);
-      await apis.user.nodes.deleteNodeById(file2Id);
-      await apis.user.nodes.deleteNodeById(file3Id);
-      await apis.user.nodes.deleteNodeById(file4Id);
+      await userActions.deleteNodes([file1Id, file2Id, file3Id, file4Id]);
       await apis.user.shared.waitForApi({ expect: initialSharedTotalItems });
       done();
     });
@@ -594,10 +586,7 @@ describe('Unshare a file', () => {
     });
 
     afterAll(async (done) => {
-      await apis.user.nodes.deleteNodeById(file1Id);
-      await apis.user.nodes.deleteNodeById(file2Id);
-      await apis.user.nodes.deleteNodeById(file3Id);
-      await apis.user.nodes.deleteNodeById(file4Id);
+      await userActions.deleteNodes([file1Id, file2Id, file3Id, file4Id]);
       await apis.user.shared.waitForApi({ expect: initialSharedTotalItems });
       done();
     });

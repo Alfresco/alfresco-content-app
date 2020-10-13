@@ -65,6 +65,7 @@ describe('Share a file', () => {
   const { dataTable, toolbar } = page;
   const shareLinkPreUrl = `/#/preview/s/`;
 
+  /* @deprecated use userActions instead */
   const apis = {
     user: new RepoClient(username, username)
   };
@@ -82,7 +83,7 @@ describe('Share a file', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(parentId);
+    await userActions.deleteNodes([parentId]);
     done();
   });
 
@@ -100,7 +101,7 @@ describe('Share a file', () => {
     });
 
     afterAll(async () => {
-      await apis.user.nodes.deleteNodeById(file6Id);
+      await userActions.deleteNodes([file6Id]);
       await apis.user.shared.waitForApi({ expect: initialTotalItems });
     });
 
@@ -156,15 +157,7 @@ describe('Share a file', () => {
       });
 
       afterAll(async () => {
-        await apis.user.nodes.deleteNodeById(file1Id);
-        await apis.user.nodes.deleteNodeById(file2Id);
-        await apis.user.nodes.deleteNodeById(file3Id);
-        await apis.user.nodes.deleteNodeById(file4Id);
-        await apis.user.nodes.deleteNodeById(file5Id);
-        await apis.user.nodes.deleteNodeById(file6Id);
-        await apis.user.nodes.deleteNodeById(file7Id);
-        await apis.user.nodes.deleteNodeById(file8Id);
-        await apis.user.nodes.deleteNodeById(file9Id);
+        await userActions.deleteNodes([file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id, file9Id]);
         await apis.user.shared.waitForApi({ expect: initialTotalItems });
       });
 
@@ -511,15 +504,7 @@ describe('Share a file', () => {
       });
 
       afterAll(async () => {
-        await apis.user.nodes.deleteNodeById(file1Id);
-        await apis.user.nodes.deleteNodeById(file2Id);
-        await apis.user.nodes.deleteNodeById(file3Id);
-        await apis.user.nodes.deleteNodeById(file4Id);
-        await apis.user.nodes.deleteNodeById(file5Id);
-        await apis.user.nodes.deleteNodeById(file6Id);
-        await apis.user.nodes.deleteNodeById(file7Id);
-        await apis.user.nodes.deleteNodeById(file8Id);
-        await apis.user.nodes.deleteNodeById(file9Id);
+        await userActions.deleteNodes([file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id, file9Id]);
         await apis.user.shared.waitForApi({ expect: initialTotalItems });
       });
 
@@ -687,13 +672,8 @@ describe('Share a file', () => {
       });
 
       afterAll(async () => {
-        await apis.user.nodes.deleteNodeById(file1Id);
-        await apis.user.nodes.deleteNodeById(file2Id);
-        await apis.user.nodes.deleteNodeById(file3Id);
-        await apis.user.nodes.deleteNodeById(file4Id);
-        await apis.user.nodes.deleteNodeById(file5Id);
-        await apis.user.nodes.deleteNodeById(file6Id);
-        await apis.user.nodes.deleteNodeById(file7Id);
+        await userActions.deleteNodes([file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id]);
+
         await apis.user.shared.waitForApi({ expect: initialTotalItems });
       });
 
@@ -842,15 +822,8 @@ describe('Share a file', () => {
       });
 
       afterAll(async () => {
-        await apis.user.nodes.deleteNodeById(file1Id);
-        await apis.user.nodes.deleteNodeById(file2Id);
-        await apis.user.nodes.deleteNodeById(file3Id);
-        await apis.user.nodes.deleteNodeById(file4Id);
-        await apis.user.nodes.deleteNodeById(file5Id);
-        await apis.user.nodes.deleteNodeById(file6Id);
-        await apis.user.nodes.deleteNodeById(file7Id);
-        await apis.user.nodes.deleteNodeById(file8Id);
-        await apis.user.nodes.deleteNodeById(file9Id);
+        await userActions.deleteNodes([file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id, file9Id]);
+
         await apis.user.shared.waitForApi({ expect: initialTotalItems });
       });
 
@@ -1025,11 +998,8 @@ describe('Share a file', () => {
       });
 
       afterAll(async () => {
-        await apis.user.nodes.deleteNodeById(file3Id);
-        await apis.user.nodes.deleteNodeById(file5Id);
-        await apis.user.nodes.deleteNodeById(file6Id);
-        await apis.user.nodes.deleteNodeById(file7Id);
-        await apis.user.nodes.deleteNodeById(file9Id);
+        await userActions.deleteNodes([file3Id, file5Id, file6Id, file7Id, file9Id]);
+
         await apis.user.shared.waitForApi({ expect: initialTotalItems });
       });
 

@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Utils, AdminActions, RepoClient } from '@alfresco/aca-testing-shared';
+import { Utils, AdminActions, UserActions, RepoClient } from '@alfresco/aca-testing-shared';
 import { personalFilesTests } from './personal-files';
 import { recentFilesTests } from './recent-files';
 import { searchResultsTests } from './search-results';
@@ -42,15 +42,19 @@ describe('Pagination on multiple pages : ', () => {
     .map((name, index): string => `${name}-${index + 1}-${random}.txt`);
   let filesIds: string[];
 
+  /* @deprecated use userActions instead */
   const userApi = new RepoClient(username, username);
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   let initialSharedTotalItems: number;
   let initialFavoritesTotalItems: number;
   let initialSearchTotalItems: number;
 
   beforeAll(async () => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
 
     initialSearchTotalItems = await userApi.search.getTotalItems(username);
 
@@ -64,7 +68,7 @@ describe('Pagination on multiple pages : ', () => {
   }, 150000);
 
   afterAll(async () => {
-    await userApi.nodes.deleteNodeById(parentId);
+    await userActions.deleteNodes([parentId]);
   });
 
   describe('on Personal Files', () => {

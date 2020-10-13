@@ -310,7 +310,7 @@ describe('Copy content', () => {
     });
 
     afterAll(async (done) => {
-      await apis.user.nodes.deleteNodeById(destinationIdSF);
+      await userActions.deleteNodes([destinationIdSF]);
       done();
     });
 

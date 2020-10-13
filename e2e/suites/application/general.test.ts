@@ -25,24 +25,28 @@
 
 import { browser } from 'protractor';
 import { Logger } from '@alfresco/adf-testing';
-import { BrowsingPage, LoginPage, CreateOrEditFolderDialog, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { AdminActions, BrowsingPage, LoginPage, CreateOrEditFolderDialog, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 
 describe('General', () => {
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const createDialog = new CreateOrEditFolderDialog();
-  const adminApi = new RepoClient();
   const folder = `folder-${Utils.random()}`;
   let folderId: string;
 
+  /* @deprecated use adminActions instead */
+  const adminApi = new RepoClient();
+  const adminActions = new AdminActions();
+
   describe('on session expire', () => {
     beforeAll(async (done) => {
+      adminActions.login();
       folderId = (await adminApi.nodes.createFolder(folder)).entry.id;
       done();
     });
 
     afterAll(async (done) => {
-      await adminApi.nodes.deleteNodeById(folderId);
+      await adminActions.deleteNodes([folderId]);
       done();
     });
 
@@ -53,7 +57,7 @@ describe('General', () => {
       await createDialog.waitForDialogToOpen();
       await createDialog.enterName(folder);
 
-      await adminApi.logout();
+      await adminActions.logout();
 
       await createDialog.createButton.click();
 

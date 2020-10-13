@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, SITE_VISIBILITY, SITE_ROLES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { AdminActions, UserActions, SITE_VISIBILITY, SITE_ROLES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
 
 describe('Shared Files', () => {
   const username = `user-${Utils.random()}`;
@@ -45,6 +45,7 @@ describe('Shared Files', () => {
 
   let initialSharedTotalItems: number;
 
+  /* @deprecated use userActions instead */
   const apis = {
     user: new RepoClient(username, password)
   };
@@ -52,10 +53,15 @@ describe('Shared Files', () => {
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable, breadcrumb } = page;
+
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   beforeAll(async (done) => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
+
     await adminApiActions.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
     await adminApiActions.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_CONSUMER.ROLE);
     const docLibId = await adminApiActions.sites.getDocLibId(siteName);
@@ -73,7 +79,7 @@ describe('Shared Files', () => {
     await adminApiActions.shareNodes([nodeId]);
     await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 5 });
 
-    await apis.user.nodes.deleteNodeById(file2Id);
+    await userActions.deleteNodes([file2Id]);
     await apis.user.shared.unshareFile(file3User);
 
     await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 3 });
@@ -89,8 +95,7 @@ describe('Shared Files', () => {
 
   afterAll(async () => {
     await adminApiActions.deleteSites([siteName]);
-    await apis.user.nodes.deleteNodeById(folderId);
-    await apis.user.nodes.deleteNodeById(file4Id);
+    await userActions.deleteNodes([folderId, file4Id]);
   });
 
   it('[C213113] has the correct columns', async () => {

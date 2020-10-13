@@ -25,6 +25,7 @@
 
 import {
   AdminActions,
+  UserActions,
   LoginPage,
   BrowsingPage,
   SearchResultsPage,
@@ -84,6 +85,7 @@ describe('Upload new version', () => {
   const fileToUpload4 = FILES.docxFile2;
   const fileToUpload5 = FILES.xlsxFile2;
 
+  /* @deprecated use userActions instead */
   const apis = {
     user: new RepoClient(username, username)
   };
@@ -94,10 +96,14 @@ describe('Upload new version', () => {
   const { dataTable, toolbar } = page;
   const uploadNewVersionDialog = new UploadNewVersionDialog();
   const { searchInput } = page.header;
+
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   beforeAll(async () => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
 
     parentPFId = (await apis.user.nodes.createFolder(parentPF)).entry.id;
     parentSFId = (await apis.user.nodes.createFolder(parentSF)).entry.id;
@@ -107,11 +113,7 @@ describe('Upload new version', () => {
   });
 
   afterAll(async () => {
-    await apis.user.nodes.deleteNodeById(parentPFId);
-    await apis.user.nodes.deleteNodeById(parentSFId);
-    await apis.user.nodes.deleteNodeById(parentRFId);
-    await apis.user.nodes.deleteNodeById(parentFavId);
-    await apis.user.nodes.deleteNodeById(parentSearchId);
+    await userActions.deleteNodes([parentPFId, parentSFId, parentRFId, parentFavId, parentSearchId]);
   });
 
   describe('on Search Results', () => {

@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, EXTENSIBILITY_CONFIGS, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { AdminActions, UserActions, LoginPage, BrowsingPage, EXTENSIBILITY_CONFIGS, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 
 describe('Extensions - Context submenu', () => {
   const username = `user-${Utils.random()}`;
@@ -43,6 +43,7 @@ describe('Extensions - Context submenu', () => {
     submenu: [restrictedPermissionsItem]
   };
 
+  /* @deprecated use userActions instead */
   const apis = {
     user: new RepoClient(username, username)
   };
@@ -51,10 +52,15 @@ describe('Extensions - Context submenu', () => {
   const page = new BrowsingPage();
   const { dataTable } = page;
   const contextMenu = dataTable.menu;
+
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   beforeAll(async (done) => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
+
     fileId = (await apis.user.nodes.createFile(file)).entry.id;
     folderId = (await apis.user.nodes.createFolder(folder)).entry.id;
 
@@ -73,8 +79,7 @@ describe('Extensions - Context submenu', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(fileId, true);
-    await apis.user.nodes.deleteNodeById(folderId, true);
+    await userActions.deleteNodes([fileId, folderId], true);
     done();
   });
 

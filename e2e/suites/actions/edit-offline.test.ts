@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, FILES, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { AdminActions, UserActions, LoginPage, BrowsingPage, FILES, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 
 describe('Edit offline', () => {
   const username = `user-${Utils.random()}`;
@@ -53,6 +53,7 @@ describe('Edit offline', () => {
   const parentSearch = `parentSearch-${Utils.random()}`;
   let parentSearchId: string;
 
+  /* @deprecated use userActions instead */
   const apis = {
     user: new RepoClient(username, username)
   };
@@ -63,9 +64,12 @@ describe('Edit offline', () => {
   const { searchInput } = page.header;
 
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   beforeAll(async () => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
   });
 
   describe('on Personal Files', () => {
@@ -92,7 +96,7 @@ describe('Edit offline', () => {
     });
 
     afterAll(async () => {
-      await apis.user.nodes.deleteNodeById(parentPFId);
+      await userActions.deleteNodes([parentPFId]);
     });
 
     it('[C297538] File is locked and downloaded when clicking Edit Offline', async () => {
@@ -138,7 +142,7 @@ describe('Edit offline', () => {
     });
 
     afterAll(async () => {
-      await apis.user.nodes.deleteNodeById(parentSFId);
+      await userActions.deleteNodes([parentSFId]);
     });
 
     beforeEach(async () => {
@@ -192,7 +196,7 @@ describe('Edit offline', () => {
     });
 
     afterAll(async () => {
-      await apis.user.nodes.deleteNodeById(parentRFId);
+      await userActions.deleteNodes([parentRFId]);
     });
 
     beforeEach(async () => {
@@ -245,7 +249,7 @@ describe('Edit offline', () => {
     });
 
     afterAll(async () => {
-      await apis.user.nodes.deleteNodeById(parentFavId);
+      await userActions.deleteNodes([parentFavId]);
     });
 
     beforeEach(async () => {
@@ -299,7 +303,7 @@ describe('Edit offline', () => {
     });
 
     afterAll(async () => {
-      await apis.user.nodes.deleteNodeById(parentSearchId);
+      await userActions.deleteNodes([parentSearchId]);
     });
 
     beforeEach(async () => {

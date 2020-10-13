@@ -105,7 +105,7 @@ describe('Create file from template', () => {
   });
 
   afterAll(async () => {
-    await userApi.nodes.deleteNodeById(parentId);
+    await userActions.deleteNodes([parentId]);
     await userActions.deleteSites([siteName]);
     await adminApiActions.cleanupNodeTemplatesFolder();
   });

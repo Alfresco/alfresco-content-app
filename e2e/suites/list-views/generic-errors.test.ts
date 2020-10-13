@@ -36,6 +36,7 @@ describe('Generic errors', () => {
   let file1Id: string;
   const file2 = `file2-${Utils.random()}.txt`;
 
+  /* @deprecated use userActions instead */
   const apis = {
     user: new RepoClient(username, username)
   };
@@ -72,7 +73,7 @@ describe('Generic errors', () => {
     await dataTable.doubleClickOnRowByName(parent);
     await dataTable.doubleClickOnRowByName(file1);
     const URL = await browser.getCurrentUrl();
-    await apis.user.nodes.deleteNodeById(file1Id, false);
+    await userActions.deleteNodes([file1Id], false);
     await browser.get(URL);
 
     expect(await page.genericError.isDisplayed()).toBe(true, 'Generic error page not displayed');

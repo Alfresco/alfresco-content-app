@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, FILES, RepoClient, Utils, UploadNewVersionDialog } from '@alfresco/aca-testing-shared';
+import { AdminActions, UserActions, LoginPage, BrowsingPage, FILES, RepoClient, Utils, UploadNewVersionDialog } from '@alfresco/aca-testing-shared';
 import { VersionManagePage } from '../../../projects/aca-testing-shared/src/components/version-manage/version-manager';
 import { Viewer } from '../../../projects/aca-testing-shared/src/components';
 import { browser } from 'protractor';
@@ -38,6 +38,7 @@ describe('Version component actions', () => {
 
   const filesToUpload = [FILES.pdfFile, FILES.docxFile, FILES.xlsxFile, FILES.jpgFile, FILES.docxFile2];
 
+  /* @deprecated use userActions instead */
   const apis = {
     user: new RepoClient(username, username)
   };
@@ -47,10 +48,15 @@ describe('Version component actions', () => {
   const { dataTable, toolbar } = page;
   const uploadNewVersionDialog = new UploadNewVersionDialog();
   const { searchInput } = page.header;
+
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   beforeAll(async (done) => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
+
     fileId = (await apis.user.upload.uploadFile(filesToUpload[0])).entry.id;
     await apis.user.shared.shareFilesByIds([fileId]);
     await loginPage.loginWith(username);
@@ -71,7 +77,7 @@ describe('Version component actions', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(fileId);
+    await userActions.deleteNodes([fileId]);
     done();
   });
 

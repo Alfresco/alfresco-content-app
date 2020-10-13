@@ -25,6 +25,7 @@
 
 import {
   AdminActions,
+  UserActions,
   LoginPage,
   BrowsingPage,
   RepoClient,
@@ -67,6 +68,7 @@ describe('File / Folder properties', () => {
   };
   let folder1Id: string;
 
+  /* @deprecated use userActions instead */
   const apis = {
     user: new RepoClient(username, username)
   };
@@ -77,10 +79,15 @@ describe('File / Folder properties', () => {
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable } = page;
+
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   beforeAll(async (done) => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
+
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
     file1Id = (await apis.user.nodes.createFile(file1.name, parentId, file1.title, file1.description, file1.author)).entry.id;
     folder1Id = (await apis.user.nodes.createFolder(folder1.name, parentId, folder1.title, folder1.description, folder1.author)).entry.id;
@@ -91,7 +98,7 @@ describe('File / Folder properties', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(parentId);
+    await userActions.deleteNodes([parentId]);
     done();
   });
 

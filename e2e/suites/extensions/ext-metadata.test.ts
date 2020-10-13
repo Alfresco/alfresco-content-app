@@ -25,6 +25,7 @@
 
 import {
   AdminActions,
+  UserActions,
   BrowsingPage,
   LoginPage,
   RepoClient,
@@ -61,6 +62,7 @@ describe('Extensions - Metadata presets', () => {
     title: 'Hidden Group of Properties'
   };
 
+  /* @deprecated use userActions instead */
   const apis = {
     user: new RepoClient(username, username)
   };
@@ -70,10 +72,15 @@ describe('Extensions - Metadata presets', () => {
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
+
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   beforeAll(async (done) => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
+
     fileId = (await apis.user.nodes.createImage(file)).entry.id;
 
     await loginPage.load();
@@ -98,7 +105,7 @@ describe('Extensions - Metadata presets', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(fileId);
+    await userActions.deleteNodes([fileId]);
     done();
   });
 

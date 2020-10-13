@@ -38,6 +38,7 @@ describe('Pagination on single page', () => {
   const fileInTrash = `fileInTrash-${random}.txt`;
   let fileInTrashId: string;
 
+  /* @deprecated use userActions instead */
   const userApi = new RepoClient(username, username);
   const adminApiActions = new AdminActions();
   const userActions = new UserActions();
@@ -62,7 +63,7 @@ describe('Pagination on single page', () => {
     fileInTrashId = (await userApi.nodes.createFile(fileInTrash)).entry.id;
     siteId = (await userApi.sites.createSite(siteName)).entry.id;
 
-    await userApi.nodes.deleteNodeById(fileInTrashId, false);
+    await userActions.deleteNodes([fileInTrashId], false);
     await userApi.favorites.addFavoriteById('file', fileId);
     await userActions.shareNodes([fileId]);
 

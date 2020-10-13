@@ -52,6 +52,7 @@ describe('Trash', () => {
   const fileInFolder = `file-${Utils.random()}.txt`;
   let fileInFolderId: string;
 
+  /* @deprecated use userActions instead */
   const apis = {
     user: new RepoClient(username, username)
   };
@@ -82,16 +83,14 @@ describe('Trash', () => {
     fileInFolderId = (await apis.user.nodes.createFiles([fileInFolder], folderNotDeleted)).entry.id;
 
     await adminApiActions.nodes.deleteNodesById([fileAdminId, folderAdminId], false);
-    await apis.user.nodes.deleteNodesById([fileSiteId, fileUserId, folderUserId, fileInFolderId], false);
-    await apis.user.nodes.deleteNodeById(fileDeletedId, false);
-    await apis.user.nodes.deleteNodeById(folderDeletedId, false);
+    await userActions.deleteNodes([fileSiteId, fileUserId, folderUserId, fileInFolderId, fileDeletedId, folderDeletedId], false);
   });
 
   afterAll(async (done) => {
     await adminApiActions.deleteSites([siteName]);
     await adminApiActions.trashcanApi.deleteDeletedNode(fileAdminId);
     await adminApiActions.trashcanApi.deleteDeletedNode(folderAdminId);
-    await apis.user.nodes.deleteNodeById(folderNotDeletedId);
+    await userActions.deleteNodes([folderNotDeletedId]);
     await userActions.emptyTrashcan();
     done();
   });

@@ -82,7 +82,7 @@ describe('Create folder', () => {
 
   afterAll(async (done) => {
     await userActions.deleteSites([siteName]);
-    await apis.user.nodes.deleteNodeById(parentId);
+    await userActions.deleteNodes([parentId]);
     done();
   });
 

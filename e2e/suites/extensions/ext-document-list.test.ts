@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, BrowsingPage, LoginPage, RepoClient, EXTENSIBILITY_CONFIGS, Utils } from '@alfresco/aca-testing-shared';
+import { AdminActions, UserActions, BrowsingPage, LoginPage, RepoClient, EXTENSIBILITY_CONFIGS, Utils } from '@alfresco/aca-testing-shared';
 
 describe('Extensions - DocumentList presets', () => {
   const username = `user-${Utils.random()}`;
@@ -50,6 +50,7 @@ describe('Extensions - DocumentList presets', () => {
     }
   ];
 
+  /* @deprecated use userActions instead */
   const apis = {
     user: new RepoClient(username, username)
   };
@@ -57,10 +58,15 @@ describe('Extensions - DocumentList presets', () => {
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable } = page;
+
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   beforeAll(async (done) => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
+
     fileId = (await apis.user.nodes.createFile(file)).entry.id;
 
     await loginPage.load();
@@ -76,7 +82,7 @@ describe('Extensions - DocumentList presets', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(fileId);
+    await userActions.deleteNodes([fileId]);
     done();
   });
 

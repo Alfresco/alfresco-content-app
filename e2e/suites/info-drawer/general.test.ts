@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, RepoClient, InfoDrawer, Utils } from '@alfresco/aca-testing-shared';
+import { AdminActions, UserActions, LoginPage, BrowsingPage, RepoClient, InfoDrawer, Utils } from '@alfresco/aca-testing-shared';
 
 describe('General', () => {
   const username = `user1-${Utils.random()}`;
@@ -34,19 +34,23 @@ describe('General', () => {
   const file1 = `file1-${Utils.random()}.txt`;
   const folder1 = `folder1-${Utils.random()}`;
 
+  /* @deprecated use userActions instead */
   const apis = {
     user: new RepoClient(username, username)
   };
 
   const infoDrawer = new InfoDrawer();
-
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable } = page;
+
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   beforeAll(async (done) => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
 
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
     await apis.user.nodes.createFile(file1, parentId);
@@ -57,7 +61,7 @@ describe('General', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(parentId);
+    await userActions.deleteNodes([parentId]);
     done();
   });
 

@@ -60,6 +60,7 @@ describe('Unshare a file from Search Results', () => {
   const fileSite2 = `search-fileSite2-${Utils.random()}.txt`;
   let fileSite2Id: string;
 
+  /* @deprecated use userActions instead */
   const apis = {
     user: new RepoClient(username, username)
   };
@@ -110,7 +111,7 @@ describe('Unshare a file from Search Results', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(parentId);
+    await userActions.deleteNodes([parentId]);
     await adminApiActions.deleteSites([sitePrivate]);
     done();
   });
