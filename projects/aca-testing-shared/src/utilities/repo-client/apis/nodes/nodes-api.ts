@@ -26,7 +26,7 @@
 import { RepoApi } from '../repo-api';
 import { NodeBodyCreate } from './node-body-create';
 import { NodeContentTree, flattenNodeContentTree } from './node-content-tree';
-import { NodesApi as AdfNodeApi, NodeBodyLock, NodeEntry, NodeChildAssociationPaging } from '@alfresco/js-api';
+import { NodesApi as AdfNodeApi, NodeEntry, NodeChildAssociationPaging } from '@alfresco/js-api';
 import { Utils } from '../../../../utilities/utils';
 
 export class NodesApi extends RepoApi {
@@ -83,26 +83,6 @@ export class NodesApi extends RepoApi {
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.getNodeProperty.name}`, error);
       return '';
-    }
-  }
-
-  async getSharedId(nodeId: string): Promise<string> {
-    try {
-      const sharedId = await this.getNodeProperty(nodeId, 'qshare:sharedId');
-      return sharedId || '';
-    } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.getSharedId.name}`, error);
-      return '';
-    }
-  }
-
-  async isFileShared(nodeId: string): Promise<boolean> {
-    try {
-      const sharedId = await this.getSharedId(nodeId);
-      return sharedId !== '';
-    } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.isFileShared.name}`, error);
-      return null;
     }
   }
 
@@ -367,16 +347,6 @@ export class NodesApi extends RepoApi {
     }
   }
 
-  async renameNode(nodeId: string, newName: string): Promise<NodeEntry | null> {
-    try {
-      await this.apiAuth();
-      return this.nodesApi.updateNode(nodeId, { name: newName });
-    } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.renameNode.name}`, error);
-      return null;
-    }
-  }
-
   // node permissions
   async setInheritPermissions(nodeId: string, inheritPermissions: boolean): Promise<NodeEntry | null> {
     const data = {
@@ -418,13 +388,9 @@ export class NodesApi extends RepoApi {
 
   // lock node
   async lockFile(nodeId: string, lockType: string = 'ALLOW_OWNER_CHANGES'): Promise<NodeEntry | null> {
-    const data = {
-      type: lockType
-    } as NodeBodyLock;
-
     try {
       await this.apiAuth();
-      return await this.nodesApi.lockNode(nodeId, data);
+      return await this.nodesApi.lockNode(nodeId, { type: lockType });
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.lockFile.name}`, error);
       return null;

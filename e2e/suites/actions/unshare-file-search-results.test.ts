@@ -77,6 +77,11 @@ describe('Unshare a file from Search Results', () => {
   const adminApiActions = new AdminActions();
   const userActions = new UserActions();
 
+  async function isFileShared(nodeId: string) {
+    const sharedId = await this.userActions.getNodeProperty(nodeId, 'qshare:sharedId');
+    return sharedId !== '';
+  }
+
   beforeAll(async (done) => {
     await adminApiActions.login();
     await adminApiActions.createUser({ username });
@@ -158,7 +163,7 @@ describe('Unshare a file from Search Results', () => {
     await confirmDialog.waitForDialogToClose();
     await shareDialog.waitForDialogToClose();
     expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
-    expect(await apis.user.nodes.isFileShared(file2Id)).toBe(false, `${file2} is shared`);
+    expect(await isFileShared(file2Id)).toBe(false, `${file2} is shared`);
 
     await browser.get(url);
     expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
@@ -206,7 +211,7 @@ describe('Unshare a file from Search Results', () => {
     await confirmDialog.waitForDialogToClose();
     await shareDialog.waitForDialogToClose();
     expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
-    expect(await apis.user.nodes.isFileShared(file4Id)).toBe(false, `${file4} is shared`);
+    expect(await isFileShared(file4Id)).toBe(false, `${file4} is shared`);
 
     await browser.get(url);
     expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
@@ -250,6 +255,6 @@ describe('Unshare a file from Search Results', () => {
     await shareDialog.waitForDialogToClose();
 
     expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
-    expect(await apis.user.nodes.isFileShared(fileSite2Id)).toBe(false, `${fileSite2} is shared`);
+    expect(await isFileShared(fileSite2Id)).toBe(false, `${fileSite2} is shared`);
   });
 });

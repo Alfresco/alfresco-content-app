@@ -77,6 +77,10 @@ describe('Share a file', () => {
     return userActions.getNodeProperty(nodeId, 'qshare:expiryDate');
   }
 
+  async function getSharedId(nodeId: string) {
+    return userActions.getNodeProperty(nodeId, 'qshare:sharedId');
+  }
+
   beforeAll(async (done) => {
     await adminApiActions.login();
     await adminApiActions.createUser({ username });
@@ -198,8 +202,8 @@ describe('Share a file', () => {
 
         const url = await shareDialog.getLinkUrl();
         await Utils.pressEscape();
-        const sharedId = await apis.user.nodes.getSharedId(file3Id);
-        expect(await apis.user.nodes.isFileShared(file3Id)).toBe(true, `${file3} is not shared`);
+        const sharedId = await getSharedId(file3Id);
+        expect(file3Id).toBeTruthy(`${file3} is not shared`);
         expect(url).toContain(sharedId);
       });
 
@@ -294,8 +298,8 @@ describe('Share a file', () => {
 
         const url = await shareDialog.getLinkUrl();
         await Utils.pressEscape();
-        const sharedId = await apis.user.nodes.getSharedId(file9Id);
-        expect(await apis.user.nodes.isFileShared(file9Id)).toBe(true, `${file9} is not shared`);
+        const sharedId = await getSharedId(file9Id);
+        expect(file9Id).toBeTruthy(`${file9} is not shared`);
         expect(url).toContain(sharedId);
       });
     });
@@ -377,8 +381,8 @@ describe('Share a file', () => {
 
         const url = await shareDialog.getLinkUrl();
         await Utils.pressEscape();
-        const sharedId = await apis.user.nodes.getSharedId(file3Id);
-        expect(await apis.user.nodes.isFileShared(file3Id)).toBe(true, `${file3} is not shared`);
+        const sharedId = await getSharedId(file3Id);
+        expect(file3Id).toBeTruthy(`${file3} is not shared`);
         expect(url).toContain(sharedId);
       });
 
@@ -473,8 +477,8 @@ describe('Share a file', () => {
 
         const url = await shareDialog.getLinkUrl();
         await Utils.pressEscape();
-        const sharedId = await apis.user.nodes.getSharedId(file9Id);
-        expect(await apis.user.nodes.isFileShared(file9Id)).toBe(true, `${file9} is not shared`);
+        const sharedId = await getSharedId(file9Id);
+        expect(file9Id).toBeTruthy(`${file9} is not shared`);
         expect(url).toContain(sharedId);
       });
     });
@@ -545,8 +549,8 @@ describe('Share a file', () => {
 
         const url = await shareDialog.getLinkUrl();
         await Utils.pressEscape();
-        const sharedId = await apis.user.nodes.getSharedId(file3Id);
-        expect(await apis.user.nodes.isFileShared(file3Id)).toBe(true, `${file3} is not shared`);
+        const sharedId = await getSharedId(file3Id);
+        expect(file3Id).toBeTruthy(`${file3} is not shared`);
         expect(url).toContain(sharedId);
       });
 
@@ -641,8 +645,8 @@ describe('Share a file', () => {
 
         const url = await shareDialog.getLinkUrl();
         await Utils.pressEscape();
-        const sharedId = await apis.user.nodes.getSharedId(file9Id);
-        expect(await apis.user.nodes.isFileShared(file9Id)).toBe(true, `${file9} is not shared`);
+        const sharedId = await getSharedId(file9Id);
+        expect(file9Id).toBeTruthy(`${file9} is not shared`);
         expect(url).toContain(sharedId);
       });
     });
@@ -864,8 +868,8 @@ describe('Share a file', () => {
 
         const url = await shareDialog.getLinkUrl();
         await Utils.pressEscape();
-        const sharedId = await apis.user.nodes.getSharedId(file3Id);
-        expect(await apis.user.nodes.isFileShared(file3Id)).toBe(true, `${file3} is not shared`);
+        const sharedId = await getSharedId(file3Id);
+        expect(file3Id).toBeTruthy(`${file3} is not shared`);
         expect(url).toContain(sharedId);
       });
 
@@ -960,8 +964,8 @@ describe('Share a file', () => {
 
         const url = await shareDialog.getLinkUrl();
         await Utils.pressEscape();
-        const sharedId = await apis.user.nodes.getSharedId(file9Id);
-        expect(await apis.user.nodes.isFileShared(file9Id)).toBe(true, `${file9} is not shared`);
+        const sharedId = await getSharedId(file9Id);
+        expect(file9Id).toBeTruthy(`${file9} is not shared`);
         expect(url).toContain(sharedId);
       });
     });
@@ -1014,8 +1018,8 @@ describe('Share a file', () => {
 
         const url = await shareDialog.getLinkUrl();
         await Utils.pressEscape();
-        const sharedId = await apis.user.nodes.getSharedId(file3Id);
-        expect(await apis.user.nodes.isFileShared(file3Id)).toBe(true, `${file3} is not shared`);
+        const sharedId = await getSharedId(file3Id);
+        expect(file3Id).toBeTruthy(`${file3} is not shared`);
         expect(url).toContain(sharedId);
       });
 
@@ -1076,8 +1080,8 @@ describe('Share a file', () => {
 
         const url = await shareDialog.getLinkUrl();
         await Utils.pressEscape();
-        const sharedId = await apis.user.nodes.getSharedId(file9Id);
-        expect(await apis.user.nodes.isFileShared(file9Id)).toBe(true, `${file9} is not shared`);
+        const sharedId = await getSharedId(file9Id);
+        expect(file9Id).toBeTruthy(`${file9} is not shared`);
         expect(url).toContain(sharedId);
       });
     });

@@ -60,6 +60,11 @@ describe('Unshare a file', () => {
   const adminApiActions = new AdminActions();
   const userActions = new UserActions();
 
+  async function isFileShared(nodeId: string) {
+    const sharedId = await this.userActions.getNodeProperty(nodeId, 'qshare:sharedId');
+    return sharedId !== '';
+  }
+
   beforeAll(async (done) => {
     await adminApiActions.login();
     await adminApiActions.createUser({ username });
@@ -143,7 +148,7 @@ describe('Unshare a file', () => {
       await confirmDialog.waitForDialogToClose();
       await shareDialog.waitForDialogToClose();
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
-      expect(await apis.user.nodes.isFileShared(file2Id)).toBe(false, `${file2} is shared`);
+      expect(await isFileShared(file2Id)).toBe(false, `${file2} is shared`);
 
       await browser.get(url);
       expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
@@ -180,7 +185,7 @@ describe('Unshare a file', () => {
       await confirmDialog.waitForDialogToClose();
       await shareDialog.waitForDialogToClose();
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
-      expect(await apis.user.nodes.isFileShared(file4Id)).toBe(false, `${file4} is shared`);
+      expect(await isFileShared(file4Id)).toBe(false, `${file4} is shared`);
 
       await browser.get(url);
       expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
@@ -268,7 +273,7 @@ describe('Unshare a file', () => {
       await confirmDialog.waitForDialogToClose();
       await shareDialog.waitForDialogToClose();
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
-      expect(await apis.user.nodes.isFileShared(file2Id)).toBe(false, `${file2} is shared`);
+      expect(await isFileShared(file2Id)).toBe(false, `${file2} is shared`);
 
       await browser.get(url);
       expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
@@ -305,7 +310,7 @@ describe('Unshare a file', () => {
       await confirmDialog.waitForDialogToClose();
       await shareDialog.waitForDialogToClose();
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
-      expect(await apis.user.nodes.isFileShared(file4Id)).toBe(false, `${file4} is shared`);
+      expect(await isFileShared(file4Id)).toBe(false, `${file4} is shared`);
 
       await browser.get(url);
       expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
@@ -382,7 +387,7 @@ describe('Unshare a file', () => {
       await confirmDialog.waitForDialogToClose();
       await shareDialog.waitForDialogToClose();
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
-      expect(await apis.user.nodes.isFileShared(file2Id)).toBe(false, `${file2} is shared`);
+      expect(await isFileShared(file2Id)).toBe(false, `${file2} is shared`);
 
       await browser.get(url);
       expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
@@ -419,7 +424,7 @@ describe('Unshare a file', () => {
       await confirmDialog.waitForDialogToClose();
       await shareDialog.waitForDialogToClose();
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
-      expect(await apis.user.nodes.isFileShared(file4Id)).toBe(false, `${file4} is shared`);
+      expect(await isFileShared(file4Id)).toBe(false, `${file4} is shared`);
 
       await browser.get(url);
       expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
@@ -496,7 +501,7 @@ describe('Unshare a file', () => {
       await confirmDialog.waitForDialogToClose();
       await shareDialog.waitForDialogToClose();
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
-      expect(await apis.user.nodes.isFileShared(file2Id)).toBe(false, `${file2} is shared`);
+      expect(await isFileShared(file2Id)).toBe(false, `${file2} is shared`);
 
       await browser.get(url);
       expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
@@ -533,7 +538,7 @@ describe('Unshare a file', () => {
       await confirmDialog.waitForDialogToClose();
       await shareDialog.waitForDialogToClose();
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
-      expect(await apis.user.nodes.isFileShared(file4Id)).toBe(false, `${file4} is shared`);
+      expect(await isFileShared(file4Id)).toBe(false, `${file4} is shared`);
 
       await browser.get(url);
       expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
@@ -617,7 +622,7 @@ describe('Unshare a file', () => {
       await confirmDialog.waitForDialogToClose();
       await shareDialog.waitForDialogToClose();
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
-      expect(await apis.user.nodes.isFileShared(file2Id)).toBe(false, `${file2} is shared`);
+      expect(await isFileShared(file2Id)).toBe(false, `${file2} is shared`);
 
       await browser.get(url);
       expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
@@ -654,7 +659,7 @@ describe('Unshare a file', () => {
       await confirmDialog.waitForDialogToClose();
       await shareDialog.waitForDialogToClose();
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
-      expect(await apis.user.nodes.isFileShared(file4Id)).toBe(false, `${file4} is shared`);
+      expect(await isFileShared(file4Id)).toBe(false, `${file4} is shared`);
 
       await browser.get(url);
       expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
@@ -750,7 +755,7 @@ describe('Unshare a file', () => {
       await shareDialog.waitForDialogToClose();
 
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
-      expect(await apis.user.nodes.isFileShared(file2FileLibId)).toBe(false, `${file2FileLib} is shared`);
+      expect(await isFileShared(file2FileLibId)).toBe(false, `${file2FileLib} is shared`);
     });
 
     it('[C286687] on Shared Files - file shared by other user', async () => {
@@ -782,7 +787,7 @@ describe('Unshare a file', () => {
       await shareDialog.waitForDialogToClose();
 
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
-      expect(await apis.user.nodes.isFileShared(file2SharedId)).toBe(false, `${file2Shared} is shared`);
+      expect(await isFileShared(file2SharedId)).toBe(false, `${file2Shared} is shared`);
     });
 
     it('[C286697] on Favorites - file shared by other user', async () => {
@@ -814,7 +819,7 @@ describe('Unshare a file', () => {
       await shareDialog.waitForDialogToClose();
 
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
-      expect(await apis.user.nodes.isFileShared(file2FavId)).toBe(false, `${file2Fav} is shared`);
+      expect(await isFileShared(file2FavId)).toBe(false, `${file2Fav} is shared`);
     });
   });
 });
