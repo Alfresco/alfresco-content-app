@@ -124,18 +124,19 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
   navigate(nodeId: string = null) {
     const uuidRegEx = /[0-9A-Za-z]{8}-[0-9A-Za-z]{4}-4[0-9A-Za-z]{3}-[89ABab][0-9A-Za-z]{3}-[0-9A-Za-z]{12}/gi;
-    let urlToNavigate;
+    let urlToNavigate: string[];
+    const urlWithoutParams = this.router.url.split('?')[0];
 
-    if (this.router.url.match(uuidRegEx)) {
+    if (urlWithoutParams.match(uuidRegEx)) {
       if (nodeId && !this.isRootNode(nodeId)) {
-        urlToNavigate = this.router.url.replace(uuidRegEx, nodeId).split('/');
+        urlToNavigate = urlWithoutParams.replace(uuidRegEx, nodeId).split('/');
       } else {
-        urlToNavigate = this.router.url.replace(uuidRegEx, '').split('/');
+        urlToNavigate = urlWithoutParams.replace(uuidRegEx, '').split('/');
         urlToNavigate.pop();
       }
       urlToNavigate.shift();
     } else {
-      urlToNavigate = this.router.url.split('/');
+      urlToNavigate = urlWithoutParams.split('/');
       if (nodeId && !this.isRootNode(nodeId)) {
         urlToNavigate.push(nodeId);
       }
@@ -296,6 +297,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
       this.showHeader = ShowHeaderMode.Always;
       this.navigateToFilter(activeFilters);
     } else {
+      this.router.navigate(['.'], { relativeTo: this.route });
       this.showHeader = ShowHeaderMode.Data;
       this.onAllFilterCleared();
     }

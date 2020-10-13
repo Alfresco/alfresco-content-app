@@ -151,7 +151,7 @@ export class AppViewerComponent implements OnInit, OnDestroy {
     });
 
     this.route.queryParams.subscribe((params) => {
-      this.navigationPath = params.path;
+      this.navigationPath = params.path || params.location;
     });
 
     if (this.route.snapshot.data && this.route.snapshot.data.navigateSource) {
@@ -420,7 +420,7 @@ export class AppViewerComponent implements OnInit, OnDestroy {
   }
 
   private getFileLocation(): string {
-    return this.router.parseUrl(this.navigationPath || this.router.url).root.children[PRIMARY_OUTLET].toString();
+    return this.navigationPath || this.router.parseUrl(this.router.url).root.children[PRIMARY_OUTLET].toString();
   }
 
   private shouldNavigate(element: HTMLElement): boolean {
