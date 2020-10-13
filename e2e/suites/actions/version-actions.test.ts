@@ -58,7 +58,7 @@ describe('Version component actions', () => {
     await userActions.login(username, username);
 
     fileId = (await apis.user.upload.uploadFile(filesToUpload[0])).entry.id;
-    await apis.user.shared.shareFilesByIds([fileId]);
+    await userActions.shareNodes([fileId]);
     await loginPage.loginWith(username);
 
     for (let i = 0; i < filesToUpload.length - 1; i++) {

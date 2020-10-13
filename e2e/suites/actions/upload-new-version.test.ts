@@ -466,7 +466,7 @@ describe('Upload new version', () => {
       await apis.user.nodes.lockFile(fileLocked2Id);
 
       const initialSharedTotalItems = await userActions.getSharedLinksSize();
-      await apis.user.shared.shareFilesByIds([fileId, file1Id, file2Id, file3Id, file4Id, fileLocked1Id, fileLocked2Id]);
+      await userActions.shareNodes([fileId, file1Id, file2Id, file3Id, file4Id, fileLocked1Id, fileLocked2Id]);
       await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 7 });
 
       await loginPage.loginWith(username);
