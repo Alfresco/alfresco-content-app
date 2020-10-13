@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, SearchResultsPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { AdminActions, UserActions, LoginPage, SearchResultsPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 const moment = require('moment');
 
 describe('Search results - files and folders', () => {
@@ -45,6 +45,7 @@ describe('Search results - files and folders', () => {
 
   const site = `test-site-${Utils.random()}`;
 
+  /* @deprecated use userActions instead */
   const apis = {
     user: new RepoClient(username, username)
   };
@@ -53,10 +54,14 @@ describe('Search results - files and folders', () => {
   const page = new SearchResultsPage();
   const { searchInput } = page.header;
   const { dataTable, breadcrumb } = page;
+
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   beforeAll(async (done) => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
 
     fileId = (await apis.user.nodes.createFile(file, '-my-', fileTitle, fileDescription)).entry.id;
     await apis.user.nodes.editNodeContent(fileId, 'edited by user');
@@ -77,12 +82,8 @@ describe('Search results - files and folders', () => {
   });
 
   afterAll(async (done) => {
-    await Promise.all([
-      apis.user.nodes.deleteNodeById(fileId),
-      apis.user.nodes.deleteNodeById(fileRussianId),
-      apis.user.nodes.deleteNodeById(folderId),
-      apis.user.sites.deleteSite(site)
-    ]);
+    await userActions.deleteNodes([fileId, fileRussianId, folderId]);
+    await userActions.deleteSites([site]);
     done();
   });
 

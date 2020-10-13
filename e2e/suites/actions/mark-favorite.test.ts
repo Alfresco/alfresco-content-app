@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, SITE_VISIBILITY, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { AdminActions, UserActions, LoginPage, BrowsingPage, SITE_VISIBILITY, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 
 describe('Mark items as favorites', () => {
   const username = `user-${Utils.random()}`;
@@ -73,6 +73,7 @@ describe('Mark items as favorites', () => {
   let fileSearchFav4Id: string;
   let folderSearchId: string;
 
+  /* @deprecated use userActions instead */
   const apis = {
     user: new RepoClient(username, username)
   };
@@ -83,9 +84,12 @@ describe('Mark items as favorites', () => {
   const { searchInput } = page.header;
 
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   beforeAll(async (done) => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
 
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
 
@@ -500,7 +504,7 @@ describe('Mark items as favorites', () => {
     });
 
     afterAll(async (done) => {
-      await apis.user.sites.deleteSite(siteName);
+      await userActions.deleteSites([siteName]);
       done();
     });
 

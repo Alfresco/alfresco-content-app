@@ -78,7 +78,7 @@ describe('Special permissions', () => {
     });
 
     afterAll(async () => {
-      await adminApiActions.sites.deleteSite(sitePrivate);
+      await adminApiActions.deleteSites([sitePrivate]);
     });
 
     it('[C213173] on Recent Files', async () => {
@@ -147,7 +147,7 @@ describe('Special permissions', () => {
     });
 
     afterAll(async (done) => {
-      await adminApiActions.sites.deleteSite(sitePrivate);
+      await adminApiActions.deleteSites([sitePrivate]);
       done();
     });
 

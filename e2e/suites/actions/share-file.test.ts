@@ -343,7 +343,7 @@ describe('Share a file', () => {
       });
 
       afterAll(async () => {
-        await adminApiActions.sites.deleteSite(siteName);
+        await adminApiActions.deleteSites([siteName]);
         await apis.user.shared.waitForApi({ expect: initialTotalItems });
       });
 

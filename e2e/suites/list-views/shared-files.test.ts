@@ -88,7 +88,7 @@ describe('Shared Files', () => {
   });
 
   afterAll(async () => {
-    await adminApiActions.sites.deleteSite(siteName);
+    await adminApiActions.deleteSites([siteName]);
     await apis.user.nodes.deleteNodeById(folderId);
     await apis.user.nodes.deleteNodeById(file4Id);
   });

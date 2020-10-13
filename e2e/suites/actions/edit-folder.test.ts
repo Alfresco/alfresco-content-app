@@ -25,6 +25,7 @@
 
 import {
   AdminActions,
+  UserActions,
   LoginPage,
   BrowsingPage,
   SITE_VISIBILITY,
@@ -71,6 +72,7 @@ describe('Edit folder', () => {
   let folderSearchToEditId: string;
   const folderSearchDuplicate = `folder-search-${Utils.random()}`;
 
+  /* @deprecated use userActions instead */
   const apis = {
     user: new RepoClient(username, username)
   };
@@ -82,9 +84,12 @@ describe('Edit folder', () => {
   const { searchInput } = page.header;
 
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   beforeAll(async (done) => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
 
     await adminApiActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
     const docLibId = await adminApiActions.sites.getDocLibId(sitePrivate);
@@ -122,11 +127,9 @@ describe('Edit folder', () => {
   });
 
   afterAll(async (done) => {
-    await Promise.all([
-      adminApiActions.sites.deleteSite(sitePrivate),
-      apis.user.sites.deleteSite(siteName),
-      apis.user.nodes.deleteNodesById([parentId, folderFavoriteToEditId, folderFavoriteDuplicateId, folderSearchToEditId])
-    ]);
+    await adminApiActions.deleteSites([sitePrivate]);
+    await userActions.deleteSites([siteName]);
+    await userActions.deleteNodes([parentId, folderFavoriteToEditId, folderFavoriteDuplicateId, folderSearchToEditId]);
     done();
   });
 

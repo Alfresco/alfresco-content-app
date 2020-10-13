@@ -99,6 +99,7 @@ describe('Copy content', () => {
   let locationId: string;
   let destinationId: string;
 
+  /* @deprecated use userActions instead */
   const apis = {
     user: new RepoClient(username, username)
   };
@@ -213,8 +214,8 @@ describe('Copy content', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(sourceId);
-    await apis.user.sites.deleteSite(siteName);
+    await userActions.deleteNodes([sourceId]);
+    await userActions.deleteSites([siteName]);
     done();
   });
 
@@ -226,7 +227,7 @@ describe('Copy content', () => {
     });
 
     afterAll(async (done) => {
-      await apis.user.nodes.deleteNodeById(destinationIdRF);
+      await userActions.deleteNodes([destinationIdRF]);
       done();
     });
 
@@ -257,7 +258,7 @@ describe('Copy content', () => {
     });
 
     afterAll(async (done) => {
-      await apis.user.nodes.deleteNodeById(destinationIdPF);
+      await userActions.deleteNodes([destinationIdPF]);
       done();
     });
 
@@ -339,7 +340,7 @@ describe('Copy content', () => {
     });
 
     afterAll(async (done) => {
-      await apis.user.nodes.deleteNodeById(destinationIdFav);
+      await userActions.deleteNodes([destinationIdFav]);
       done();
     });
 
@@ -389,7 +390,7 @@ describe('Copy content', () => {
     });
 
     afterAll(async (done) => {
-      await apis.user.nodes.deleteNodeById(destinationIdSearch);
+      await userActions.deleteNodes([destinationIdSearch]);
       done();
     });
 

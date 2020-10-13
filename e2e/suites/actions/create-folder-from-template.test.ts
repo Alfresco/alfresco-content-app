@@ -31,6 +31,7 @@ import {
   Utils,
   clearTextWithBackspace,
   AdminActions,
+  UserActions,
   RepoClient,
   NodeContentTree
 } from '@alfresco/aca-testing-shared';
@@ -103,8 +104,10 @@ describe('Create folder from template', () => {
   };
   let folderLink: string;
 
+  /* @deprecated use userActions instead */
   const userApi = new RepoClient(username, username);
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -113,7 +116,9 @@ describe('Create folder from template', () => {
   const { sidenav } = page;
 
   beforeAll(async () => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
 
     parentId = (await userApi.nodes.createFolder(parent)).entry.id;
     await userApi.nodes.createFolder(duplicateFolderName, parentId);
@@ -131,7 +136,7 @@ describe('Create folder from template', () => {
 
   afterAll(async () => {
     await userApi.nodes.deleteNodeById(parentId);
-    await userApi.sites.deleteSite(siteName);
+    await userActions.deleteSites([siteName]);
     await adminApiActions.cleanupSpaceTemplatesFolder();
   });
 

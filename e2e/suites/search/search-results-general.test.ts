@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, SearchResultsPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { AdminActions, UserActions, LoginPage, SearchResultsPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 import { browser } from 'protractor';
 
 describe('Search results general', () => {
@@ -35,6 +35,7 @@ describe('Search results general', () => {
   let folderId: string;
   const site = `test-site-${Utils.random()}`;
 
+  /* @deprecated use userActions instead */
   const apis = {
     user: new RepoClient(username, username)
   };
@@ -43,10 +44,14 @@ describe('Search results general', () => {
   const page = new SearchResultsPage();
   const { searchInput } = page.header;
   const dataTable = page.dataTable;
+
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   beforeAll(async (done) => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
 
     fileId = (await apis.user.nodes.createFile(file)).entry.id;
     folderId = (await apis.user.nodes.createFolder(folder)).entry.id;
@@ -60,7 +65,8 @@ describe('Search results general', () => {
   });
 
   afterAll(async (done) => {
-    await Promise.all([apis.user.nodes.deleteNodeById(fileId), apis.user.nodes.deleteNodeById(folderId), apis.user.sites.deleteSite(site)]);
+    await userActions.deleteNodes([fileId, folderId]);
+    await userActions.deleteSites([site]);
     done();
   });
 

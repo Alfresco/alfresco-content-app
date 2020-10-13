@@ -56,6 +56,7 @@ describe('Search filters', () => {
   const expectedModifiers = [`${user1} ${user1} (1)`, `${user2} ${user2} (1)`];
   const expectedLocations = ['_REPOSITORY_ (1)', `${site} (1)`];
 
+  /* @deprecated use userActions instead */
   const apis = {
     user1: new RepoClient(user1, user1),
     user2: new RepoClient(user2, user2)
@@ -105,7 +106,8 @@ describe('Search filters', () => {
   });
 
   afterAll(async (done) => {
-    await Promise.all([apis.user1.nodes.deleteNodeById(parentId), apis.user1.sites.deleteSite(site)]);
+    await apis.user1.nodes.deleteNodeById(parentId);
+    await apis.user1.sites.deleteSite(site);
     done();
   });
 

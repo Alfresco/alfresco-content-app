@@ -111,7 +111,7 @@ describe('Unshare a file from Search Results', () => {
 
   afterAll(async (done) => {
     await apis.user.nodes.deleteNodeById(parentId);
-    await adminApiActions.sites.deleteSite(sitePrivate);
+    await adminApiActions.deleteSites([sitePrivate]);
     done();
   });
 

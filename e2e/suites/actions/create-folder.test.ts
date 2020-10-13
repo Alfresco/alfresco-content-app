@@ -25,6 +25,7 @@
 
 import {
   AdminActions,
+  UserActions,
   LoginPage,
   BrowsingPage,
   CreateOrEditFolderDialog,
@@ -50,6 +51,7 @@ describe('Create folder', () => {
   const duplicateFolderSite = `folder-${Utils.random()}`;
   let docLibUserSite: string;
 
+  /* @deprecated use userActions instead */
   const apis = {
     user: new RepoClient(username, username)
   };
@@ -58,10 +60,14 @@ describe('Create folder', () => {
   const page = new BrowsingPage();
   const createDialog = new CreateOrEditFolderDialog();
   const { dataTable } = page;
+
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   beforeAll(async (done) => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
 
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
     await apis.user.nodes.createFolder(duplicateFolderName, parentId);
@@ -75,7 +81,7 @@ describe('Create folder', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.sites.deleteSite(siteName);
+    await userActions.deleteSites([siteName]);
     await apis.user.nodes.deleteNodeById(parentId);
     done();
   });

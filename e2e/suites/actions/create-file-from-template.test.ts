@@ -31,6 +31,7 @@ import {
   Utils,
   clearTextWithBackspace,
   AdminActions,
+  UserActions,
   RepoClient,
   NodeContentTree
 } from '@alfresco/aca-testing-shared';
@@ -76,9 +77,11 @@ describe('Create file from template', () => {
   const duplicateFileSite = `duplicate-file-site-${random}.txt`;
   let docLibUserSite: string;
 
+  /* @deprecated use userActions instead */
   const userApi = new RepoClient(username, username);
 
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -87,7 +90,9 @@ describe('Create file from template', () => {
   const { sidenav } = page;
 
   beforeAll(async () => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
 
     parentId = (await userApi.nodes.createFolder(parent)).entry.id;
     await userApi.nodes.createFile(duplicateFileName, parentId);
@@ -101,7 +106,7 @@ describe('Create file from template', () => {
 
   afterAll(async () => {
     await userApi.nodes.deleteNodeById(parentId);
-    await userApi.sites.deleteSite(siteName);
+    await userActions.deleteSites([siteName]);
     await adminApiActions.cleanupNodeTemplatesFolder();
   });
 

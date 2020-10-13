@@ -54,6 +54,7 @@ describe('Move content', () => {
   const folderSiteSF = `folderSiteShared-${Utils.random()}`;
   const folderSiteFav = `folderSiteFavorites-${Utils.random()}`;
 
+  /* @deprecated use userActions instead */
   const apis = {
     user: new RepoClient(username, username)
   };
@@ -95,15 +96,17 @@ describe('Move content', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(sourceIdPF);
-    await apis.user.nodes.deleteNodeById(sourceIdRF);
-    await apis.user.nodes.deleteNodeById(sourceIdSF);
-    await apis.user.nodes.deleteNodeById(sourceIdFav);
-    await apis.user.nodes.deleteNodeById(destinationIdPF);
-    await apis.user.nodes.deleteNodeById(destinationIdRF);
-    await apis.user.nodes.deleteNodeById(destinationIdSF);
-    await apis.user.nodes.deleteNodeById(destinationIdFav);
-    await apis.user.sites.deleteSite(siteName);
+    await userActions.deleteNodes([
+      sourceIdPF,
+      sourceIdRF,
+      sourceIdSF,
+      sourceIdFav,
+      destinationIdPF,
+      destinationIdRF,
+      destinationIdSF,
+      destinationIdFav
+    ]);
+    await userActions.deleteSites([siteName]);
     done();
   });
 

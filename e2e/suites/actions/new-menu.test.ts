@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, SITE_ROLES, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { AdminActions, UserActions, LoginPage, BrowsingPage, SITE_ROLES, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 
 describe('New menu', () => {
   const username = `user-${Utils.random()}`;
@@ -31,6 +31,7 @@ describe('New menu', () => {
   const siteUser = `site-user-${Utils.random()}`;
   const siteAdmin = `site-admin-${Utils.random()}`;
 
+  /* @deprecated use userActions instead */
   const apis = {
     user: new RepoClient(username, username)
   };
@@ -41,9 +42,13 @@ describe('New menu', () => {
   const { menu } = sidenav;
 
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   beforeAll(async (done) => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
+
     await adminApiActions.sites.createSite(siteAdmin);
     await adminApiActions.sites.addSiteMember(siteAdmin, username, SITE_ROLES.SITE_CONSUMER.ROLE);
 
@@ -54,8 +59,8 @@ describe('New menu', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.sites.deleteSite(siteUser);
-    await adminApiActions.sites.deleteSite(siteAdmin);
+    await userActions.deleteSites([siteUser]);
+    await adminApiActions.deleteSites([siteAdmin]);
     done();
   });
 

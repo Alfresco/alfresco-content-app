@@ -25,7 +25,7 @@
 
 import { browser } from 'protractor';
 
-import { AdminActions, SITE_VISIBILITY, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { AdminActions, UserActions, SITE_VISIBILITY, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
 
 describe('Breadcrumb', () => {
   const username = `user-${Utils.random()}`;
@@ -50,13 +50,19 @@ describe('Breadcrumb', () => {
   const page = new BrowsingPage();
   const { breadcrumb } = page;
 
+  /* @deprecated use userActions instead */
   const apis = {
     user: new RepoClient(username, username)
   };
+
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   beforeAll(async (done) => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await userActions.login(username, username);
+
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
     subFolder1Id = (await apis.user.nodes.createFolder(subFolder1, parentId)).entry.id;
     subFolder2Id = (await apis.user.nodes.createFolder(subFolder2, subFolder1Id)).entry.id;
@@ -77,7 +83,8 @@ describe('Breadcrumb', () => {
   });
 
   afterAll(async (done) => {
-    await Promise.all([apis.user.nodes.deleteNodeById(parentId), apis.user.nodes.deleteNodeById(parent2Id), apis.user.sites.deleteSite(siteName)]);
+    await userActions.deleteNodes([parentId, parent2Id]);
+    await userActions.deleteSites([siteName]);
     done();
   });
 
@@ -191,10 +198,16 @@ describe('Breadcrumb', () => {
     const user2 = `user2-${Utils.random()}`;
     const userFolder = `userFolder-${Utils.random()}`;
     let userFolderId: string;
+
+    /* @deprecated use userActions instead */
     const user2Api = new RepoClient(user2, user2);
+    const user2Actions = new UserActions();
 
     beforeAll(async (done) => {
+      await adminApiActions.login();
       await adminApiActions.createUser({ username: user2 });
+      user2Actions.login(user2, user2);
+
       userFolderId = (await user2Api.nodes.createFolder(userFolder)).entry.id;
       await loginPage.loginWithAdmin();
       await page.dataTable.waitForBody();
@@ -205,7 +218,7 @@ describe('Breadcrumb', () => {
     });
 
     afterAll(async (done) => {
-      await user2Api.nodes.deleteNodeById(userFolderId);
+      await user2Actions.deleteNodes([userFolderId]);
       done();
     });
 

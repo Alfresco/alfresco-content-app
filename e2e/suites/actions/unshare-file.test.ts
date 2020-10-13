@@ -239,7 +239,7 @@ describe('Unshare a file', () => {
     });
 
     afterAll(async (done) => {
-      await adminApiActions.sites.deleteSite(siteName);
+      await adminApiActions.deleteSites([siteName]);
       await apis.user.shared.waitForApi({ expect: initialSharedTotalItems });
       done();
     });
@@ -718,7 +718,7 @@ describe('Unshare a file', () => {
     });
 
     afterAll(async (done) => {
-      await adminApiActions.sites.deleteSite(sitePrivate);
+      await adminApiActions.deleteSites([sitePrivate]);
       done();
     });
 

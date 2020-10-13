@@ -98,9 +98,9 @@ describe('Viewer general', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(parentId);
-    await adminApiActions.sites.deleteSite(siteAdmin);
-    await apis.user.sites.deleteSite(siteUser);
+    await userActions.deleteNodes([parentId]);
+    await adminApiActions.deleteSites([siteAdmin]);
+    await userActions.deleteSites([siteUser]);
     done();
   });
 

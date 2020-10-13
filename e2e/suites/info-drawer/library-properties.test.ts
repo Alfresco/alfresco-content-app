@@ -23,7 +23,17 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, SITE_VISIBILITY, SITE_ROLES, RepoClient, InfoDrawer, Utils } from '@alfresco/aca-testing-shared';
+import {
+  AdminActions,
+  UserActions,
+  LoginPage,
+  BrowsingPage,
+  SITE_VISIBILITY,
+  SITE_ROLES,
+  RepoClient,
+  InfoDrawer,
+  Utils
+} from '@alfresco/aca-testing-shared';
 
 describe('Library properties', () => {
   const username = `user1-${Utils.random()}`;
@@ -52,6 +62,7 @@ describe('Library properties', () => {
 
   const siteDup = `site3-${Utils.random()}`;
 
+  /* @deprecated use userActions instead */
   const apis = {
     user: new RepoClient(username, username)
   };
@@ -62,12 +73,17 @@ describe('Library properties', () => {
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable } = page;
+
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   beforeAll(async (done) => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
     await adminApiActions.createUser({ username: user2 });
     await adminApiActions.createUser({ username: user3 });
+    await userActions.login(username, username);
+
     await apis.user.sites.createSite(site.name, site.visibility, site.description, site.id);
     await apis.user.sites.createSite(siteForUpdate.name, siteForUpdate.visibility, siteForUpdate.description, siteForUpdate.id);
     await apis.user.sites.createSite(siteDup);
@@ -80,9 +96,7 @@ describe('Library properties', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.sites.deleteSite(site.id);
-    await apis.user.sites.deleteSite(siteForUpdate.id);
-    await apis.user.sites.deleteSite(siteDup);
+    await userActions.deleteSites([site.id, siteForUpdate.id, siteDup]);
     done();
   });
 
