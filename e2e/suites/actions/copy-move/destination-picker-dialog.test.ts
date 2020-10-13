@@ -73,6 +73,7 @@ describe('Destination picker dialog : ', () => {
   const dataTable = dialog.dataTable;
 
   beforeAll(async () => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
     await adminApiActions.createUser({ username: consumer });
     await adminApiActions.createUser({ username: contributor });

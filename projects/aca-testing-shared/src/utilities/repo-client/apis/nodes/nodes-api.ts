@@ -98,6 +98,7 @@ export class NodesApi extends RepoApi {
 
   async deleteNodesById(ids: string[], permanent: boolean = true): Promise<void> {
     try {
+      await this.apiAuth();
       for (const id of ids) {
         await this.nodesApi.deleteNode(id, { permanent });
       }
@@ -108,11 +109,10 @@ export class NodesApi extends RepoApi {
 
   async getNodeChildren(nodeId: string): Promise<NodeChildAssociationPaging | null> {
     try {
-      const opts = {
-        include: ['properties']
-      };
       await this.apiAuth();
-      return await this.nodesApi.listNodeChildren(nodeId, opts);
+      return await this.nodesApi.listNodeChildren(nodeId, {
+        include: ['properties']
+      });
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.getNodeChildren.name}`, error);
       return null;
