@@ -33,7 +33,7 @@
     "@alfresco/adf-content-services": "4.1.0",
     "@alfresco/adf-core": "4.1.0",
     "@alfresco/adf-extensions": "4.1.0",
-    "@alfresco/js-api": "4.1.0-44f2a9255656bf2ad23cd1faa5ecfd195fa0f9bd",
+    "@alfresco/js-api": "4.1.0",
     "@angular-custom-builders/lite-serve": "^0.2.2",
     "@angular/animations": "10.0.4",
     "@angular/cdk": "^10.0.2",
