@@ -66,7 +66,9 @@ libslength=${#libs[@]}
 echo "====== Updating dependencies ======"
 update
 
-if [[ "${JS_VERSION}" != "" ]]
+if [[ "${JS_VERSION}" == "" ]]
 then
-update_js_api
+  JS_VERSION=$VERSION
 fi
+
+update_js_api
