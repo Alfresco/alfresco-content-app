@@ -40,7 +40,7 @@ describe('General', () => {
 
   describe('on session expire', () => {
     beforeAll(async (done) => {
-      adminActions.login();
+      await adminActions.login();
       folderId = (await adminApi.nodes.createFolder(folder)).entry.id;
       done();
     });

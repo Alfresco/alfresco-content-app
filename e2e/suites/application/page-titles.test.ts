@@ -60,7 +60,7 @@ describe('Page titles', () => {
 
   describe('on app pages', () => {
     beforeAll(async (done) => {
-      adminActions.login();
+      await adminActions.login();
       fileId = (await adminApi.nodes.createFile(file)).entry.id;
       await loginPage.loginWithAdmin();
       done();
