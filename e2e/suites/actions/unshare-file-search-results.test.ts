@@ -78,7 +78,7 @@ describe('Unshare a file from Search Results', () => {
   const userActions = new UserActions();
 
   async function isFileShared(nodeId: string) {
-    const sharedId = await this.userActions.getNodeProperty(nodeId, 'qshare:sharedId');
+    const sharedId = await userActions.getNodeProperty(nodeId, 'qshare:sharedId');
     return sharedId !== '';
   }
 

@@ -28,6 +28,7 @@ import { AdminActions, UserActions, SITE_VISIBILITY, SITE_ROLES, LoginPage, Brow
 describe('Special permissions', () => {
   const username = `user-${Utils.random()}`;
 
+  /* @deprecated use userActions instead */
   const apis = {
     user: new RepoClient(username, username)
   };
