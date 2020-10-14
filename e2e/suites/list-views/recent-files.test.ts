@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, UserActions, SITE_VISIBILITY, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { AdminActions, UserActions, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
 
 describe('Recent Files', () => {
   const username = `user-${Utils.random()}`;
@@ -62,7 +62,7 @@ describe('Recent Files', () => {
     const id = (await apis.user.nodes.createFiles([fileName3])).entry.id;
     await userActions.deleteNodes([id], false);
 
-    await apis.user.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
+    await apis.user.sites.createSite(siteName);
     const docLibId = await apis.user.sites.getDocLibId(siteName);
     folderSiteId = (await apis.user.nodes.createFolder(folderSite, docLibId)).entry.id;
     await apis.user.nodes.createFile(fileSite, folderSiteId);

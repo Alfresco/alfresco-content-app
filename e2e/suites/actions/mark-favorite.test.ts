@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, UserActions, LoginPage, BrowsingPage, SITE_VISIBILITY, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { AdminActions, UserActions, LoginPage, BrowsingPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 
 describe('Mark items as favorites', () => {
   const username = `user-${Utils.random()}`;
@@ -480,7 +480,7 @@ describe('Mark items as favorites', () => {
     let fileSiteFav4Id: string;
 
     beforeAll(async (done) => {
-      await apis.user.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
+      await apis.user.sites.createSite(siteName);
       const docLibId = await apis.user.sites.getDocLibId(siteName);
 
       folderSiteId = (await apis.user.nodes.createFolder(folderSite, docLibId)).entry.id;

@@ -51,18 +51,18 @@ describe('Library actions : ', () => {
     const initialQuerySitesTotalItems = await userApi.queries.findSitesTotalItems('actionsSite-');
 
     await userApi.sites.createSite(testData.publicUserMemberFav.name);
-    await userApi.sites.createSitePrivate(testData.privateUserMemberFav.name);
-    await userApi.sites.createSiteModerated(testData.moderatedUserMemberFav.name);
+    await userApi.sites.createSite(testData.privateUserMemberFav.name, 'PRIVATE');
+    await userApi.sites.createSite(testData.moderatedUserMemberFav.name, 'MODERATED');
     const publicUserMemberNotFavId = (await userApi.sites.createSite(testData.publicUserMemberNotFav.name)).entry.guid;
-    const privateUserMemberNotFavId = (await userApi.sites.createSitePrivate(testData.privateUserMemberNotFav.name)).entry.guid;
-    const moderatedUserMemberNotFavId = (await userApi.sites.createSiteModerated(testData.moderatedUserMemberNotFav.name)).entry.guid;
+    const privateUserMemberNotFavId = (await userApi.sites.createSite(testData.privateUserMemberNotFav.name, 'PRIVATE')).entry.guid;
+    const moderatedUserMemberNotFavId = (await userApi.sites.createSite(testData.moderatedUserMemberNotFav.name, 'MODERATED')).entry.guid;
 
     await adminApiActions.sites.createSite(testData.publicNotMemberFav.name);
-    await adminApiActions.sites.createSiteModerated(testData.moderatedNotMemberFav.name);
+    await adminApiActions.sites.createSite(testData.moderatedNotMemberFav.name, 'MODERATED');
     await adminApiActions.sites.createSite(testData.publicNotMemberNotFav.name);
-    await adminApiActions.sites.createSiteModerated(testData.moderatedNotMemberNotFav.name);
-    await adminApiActions.sites.createSiteModerated(testData.moderatedRequestedJoinFav.name);
-    await adminApiActions.sites.createSiteModerated(testData.moderatedRequestedJoinNotFav.name);
+    await adminApiActions.sites.createSite(testData.moderatedNotMemberNotFav.name, 'MODERATED');
+    await adminApiActions.sites.createSite(testData.moderatedRequestedJoinFav.name, 'MODERATED');
+    await adminApiActions.sites.createSite(testData.moderatedRequestedJoinNotFav.name, 'MODERATED');
 
     await userApi.sites.requestToJoin(testData.moderatedRequestedJoinFav.name);
     await userApi.sites.requestToJoin(testData.moderatedRequestedJoinNotFav.name);

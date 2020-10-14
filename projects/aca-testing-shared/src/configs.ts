@@ -69,13 +69,6 @@ export const PAGE_TITLES = {
   SEARCH: 'Search Results'
 };
 
-// Site visibility
-export const SITE_VISIBILITY = {
-  PUBLIC: 'PUBLIC',
-  MODERATED: 'MODERATED',
-  PRIVATE: 'PRIVATE'
-};
-
 // Site roles
 export const SITE_ROLES = {
   SITE_CONSUMER: {

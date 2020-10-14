@@ -23,17 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  AdminActions,
-  UserActions,
-  SITE_VISIBILITY,
-  SITE_ROLES,
-  LoginPage,
-  BrowsingPage,
-  Utils,
-  ConfirmDialog,
-  RepoClient
-} from '@alfresco/aca-testing-shared';
+import { AdminActions, UserActions, SITE_ROLES, LoginPage, BrowsingPage, Utils, ConfirmDialog, RepoClient } from '@alfresco/aca-testing-shared';
 
 describe('Library actions', () => {
   const username = `user-${Utils.random()}`;
@@ -86,8 +76,8 @@ describe('Library actions', () => {
     await adminApiActions.sites.createSite(siteSearchPublic2Admin);
     await adminApiActions.sites.createSite(siteSearchPublic3Admin);
     await adminApiActions.sites.createSite(siteSearchPublic4Admin);
-    await adminApiActions.sites.createSite(siteSearchModerated1Admin, SITE_VISIBILITY.MODERATED);
-    await adminApiActions.sites.createSite(siteSearchModerated2Admin, SITE_VISIBILITY.MODERATED);
+    await adminApiActions.sites.createSite(siteSearchModerated1Admin, 'MODERATED');
+    await adminApiActions.sites.createSite(siteSearchModerated2Admin, 'MODERATED');
     await apis.user.sites.createSite(siteSearchForDelete);
 
     await apis.user.queries.waitForSites('site-public-search', { expect: 5 });
@@ -162,7 +152,7 @@ describe('Library actions', () => {
 
   describe('Join a moderated library', () => {
     beforeAll(async (done) => {
-      await adminApiActions.sites.createSite(siteModerated1Admin, SITE_VISIBILITY.MODERATED);
+      await adminApiActions.sites.createSite(siteModerated1Admin, 'MODERATED');
       await userActions.createFavorites('site', [siteModerated1Admin]);
       await apis.user.queries.waitForSites(siteSearchModerated1Admin, { expect: 1 });
       done();
@@ -284,7 +274,7 @@ describe('Library actions', () => {
 
   describe('Cancel join', () => {
     beforeAll(async (done) => {
-      await adminApiActions.sites.createSite(siteModerated2Admin, SITE_VISIBILITY.MODERATED);
+      await adminApiActions.sites.createSite(siteModerated2Admin, 'MODERATED');
       await userActions.createFavorites('site', [siteModerated2Admin]);
       await apis.user.sites.requestToJoin(siteModerated2Admin);
       await apis.user.sites.requestToJoin(siteSearchModerated2Admin);

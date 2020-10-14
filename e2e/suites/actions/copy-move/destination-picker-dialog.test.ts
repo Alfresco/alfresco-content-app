@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage, ContentNodeSelectorDialog, RepoClient, Utils, AdminActions } from '@alfresco/aca-testing-shared';
+import { LoginPage, BrowsingPage, ContentNodeSelectorDialog, RepoClient, Utils, AdminActions, UserActions } from '@alfresco/aca-testing-shared';
 
 describe('Destination picker dialog : ', () => {
   const random = Utils.random();
@@ -59,11 +59,14 @@ describe('Destination picker dialog : ', () => {
 
   const site = `site-${random}`;
 
+  /* @deprecated use userActions instead */
   const userApi = new RepoClient(username, username);
   const consumerApi = new RepoClient(consumer, consumer);
   const contributorApi = new RepoClient(contributor, contributor);
   const collaboratorApi = new RepoClient(collaborator, collaborator);
+
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -78,6 +81,7 @@ describe('Destination picker dialog : ', () => {
     await adminApiActions.createUser({ username: consumer });
     await adminApiActions.createUser({ username: contributor });
     await adminApiActions.createUser({ username: collaborator });
+    await userActions.login(username, username);
 
     fileId = (await userApi.nodes.createFile(file)).entry.id;
 
@@ -90,7 +94,7 @@ describe('Destination picker dialog : ', () => {
     searchSubFolder1Id = (await userApi.nodes.createFolder(searchSubFolder1, searchFolderId)).entry.id;
     await userApi.nodes.createFolder(searchSubFolder2, searchSubFolder1Id);
 
-    await userApi.sites.createSitePrivate(site);
+    await userApi.sites.createSite(site, 'PRIVATE');
     const docLibId = await userApi.sites.getDocLibId(site);
     searchFolderSiteId = (await userApi.nodes.createFolder(searchFolder, docLibId)).entry.id;
     searchSubFolder1SiteId = (await userApi.nodes.createFolder(searchSubFolder1, searchFolderSiteId)).entry.id;
@@ -110,8 +114,8 @@ describe('Destination picker dialog : ', () => {
   });
 
   afterAll(async () => {
-    await userApi.nodes.deleteNodesById([fileId, destinationId]);
-    await userApi.sites.deleteSite(site);
+    await userActions.deleteNodes([fileId, destinationId]);
+    await userActions.deleteSites([site]);
 
     await consumerApi.nodes.deleteNodesById([fileIdConsumer]);
     await contributorApi.nodes.deleteNodesById([fileIdContributor]);

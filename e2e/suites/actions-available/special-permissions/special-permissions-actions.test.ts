@@ -78,7 +78,7 @@ describe('Special permissions : ', () => {
     const managerSearchTotalItems = await userManagerApi.search.getTotalItems(userManager);
     const collaboratorFavoritesTotalItems = await userCollaboratorApi.favorites.getFavoritesTotalItems();
 
-    await userManagerApi.sites.createSitePrivate(sitePrivate);
+    await userManagerApi.sites.createSite(sitePrivate, 'PRIVATE');
     const docLibId = await userManagerApi.sites.getDocLibId(sitePrivate);
     await userManagerApi.sites.addSiteConsumer(sitePrivate, userConsumer);
     await userManagerApi.sites.addSiteCollaborator(sitePrivate, userCollaborator);

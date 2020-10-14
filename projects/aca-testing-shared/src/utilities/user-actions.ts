@@ -154,6 +154,17 @@ export class UserActions {
   }
 
   /**
+   * Delete all Sites/Libraries for the logged in user.
+   * @param permanent Delete permanently, without moving to the trashcan? (default: true)
+   */
+  async deleteAllSites(permanent: boolean = true) {
+    const sites = await this.sitesApi.listSiteMembershipsForPerson(this.username);
+    const siteIds = sites.list.entries.map((entries) => entries.entry.id);
+
+    await this.deleteSites(siteIds, permanent);
+  }
+
+  /**
    * Creates shared links for the given nodes.
    * @param nodeIds The list of node IDs to share.
    * @param expiresAt (optional) Expiration date.

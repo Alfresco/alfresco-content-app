@@ -29,7 +29,6 @@ import {
   UserActions,
   LoginPage,
   BrowsingPage,
-  SITE_VISIBILITY,
   SITE_ROLES,
   RepoClient,
   ShareDialog,
@@ -211,7 +210,7 @@ describe('Unshare a file', () => {
     let initialSharedTotalItems: number;
 
     beforeAll(async (done) => {
-      await apis.user.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
+      await apis.user.sites.createSite(siteName);
       const docLibId = await apis.user.sites.getDocLibId(siteName);
       parentInSiteId = (await apis.user.nodes.createFolder(parentInSite, docLibId)).entry.id;
 
@@ -681,7 +680,7 @@ describe('Unshare a file', () => {
     let file2FavId: string;
 
     beforeAll(async (done) => {
-      await adminApiActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
+      await adminApiActions.sites.createSite(sitePrivate, 'PRIVATE');
       const docLibId = await adminApiActions.sites.getDocLibId(sitePrivate);
 
       file1FileLibId = (await adminApiActions.nodes.createFile(file1FileLib, docLibId)).entry.id;

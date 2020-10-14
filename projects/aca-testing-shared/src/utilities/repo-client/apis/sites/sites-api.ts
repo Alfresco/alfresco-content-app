@@ -25,43 +25,17 @@
 
 import { RepoApi } from '../repo-api';
 import { Logger } from '@alfresco/adf-testing';
-import {
-  SiteBody,
-  SiteMemberRoleBody,
-  SiteMemberBody,
-  SiteEntry,
-  SiteMembershipRequestEntry,
-  SitesApi as AdfSiteApi,
-  SiteMemberEntry
-} from '@alfresco/js-api';
-import { SITE_VISIBILITY, SITE_ROLES } from '../../../../configs';
+import { SiteEntry, SiteMembershipRequestEntry, SitesApi as AdfSiteApi, SiteMemberEntry } from '@alfresco/js-api';
+import { SITE_ROLES } from '../../../../configs';
 import { Utils } from '../../../../utilities/utils';
+
+export type SiteVisibility = 'PUBLIC' | 'MODERATED' | 'PRIVATE';
 
 export class SitesApi extends RepoApi {
   sitesApi = new AdfSiteApi(this.alfrescoJsApi);
 
   constructor(username?: string, password?: string) {
     super(username, password);
-  }
-
-  async getSite(siteId: string) {
-    try {
-      await this.apiAuth();
-      return await this.sitesApi.getSite(siteId);
-    } catch (error) {
-      this.handleError(`SitesApi getSite : catch : `, error);
-      return null;
-    }
-  }
-
-  async getSites() {
-    try {
-      await this.apiAuth();
-      return await this.sitesApi.listSiteMembershipsForPerson(this.username);
-    } catch (error) {
-      this.handleError(`SitesApi getSites : catch : `, error);
-      return null;
-    }
   }
 
   async getSitesTotalItems(): Promise<number> {
@@ -84,44 +58,27 @@ export class SitesApi extends RepoApi {
     }
   }
 
-  async createSite(title: string, visibility?: string, description?: string, siteId?: string): Promise<SiteEntry | null> {
-    const site = {
-      title,
-      visibility: visibility || SITE_VISIBILITY.PUBLIC,
-      description: description,
-      id: siteId || title
-    } as SiteBody;
-
+  async createSite(title: string, visibility: SiteVisibility = 'PUBLIC', description?: string, siteId?: string): Promise<SiteEntry | null> {
     try {
       await this.apiAuth();
-      return await this.sitesApi.createSite(site);
+      return await this.sitesApi.createSite({
+        title,
+        visibility,
+        description,
+        id: siteId || title
+      });
     } catch (error) {
       this.handleError(`SitesApi createSite : catch : `, error);
       return null;
     }
   }
 
-  async createSitePrivate(title: string, description?: string, siteId?: string): Promise<SiteEntry> {
-    return this.createSite(title, SITE_VISIBILITY.PRIVATE, description, siteId);
-  }
-
-  async createSiteModerated(title: string, description?: string, siteId?: string): Promise<SiteEntry> {
-    return this.createSite(title, SITE_VISIBILITY.MODERATED, description, siteId);
-  }
-
-  async createSites(titles: string[], visibility?: string): Promise<any> {
-    try {
-      return titles.reduce(async (previous: any, current: any) => {
-        await previous;
-        return this.createSite(current, visibility);
-      }, Promise.resolve());
-    } catch (error) {
-      this.handleError(`SitesApi createSites : catch : `, error);
+  async createSites(titles: string[], visibility?: SiteVisibility): Promise<any> {
+    if (titles && titles.length > 0) {
+      for (const title of titles) {
+        await this.createSite(title, visibility);
+      }
     }
-  }
-
-  async createSitesPrivate(siteNames: string[]): Promise<any> {
-    return this.createSites(siteNames, SITE_VISIBILITY.PRIVATE);
   }
 
   async deleteSite(siteId: string, permanent: boolean = true) {
@@ -133,27 +90,10 @@ export class SitesApi extends RepoApi {
     }
   }
 
-  async deleteAllUserSites(permanent: boolean = true) {
-    try {
-      const siteIds = (await this.getSites()).list.entries.map((entries) => entries.entry.id);
-
-      return await siteIds.reduce(async (previous, current) => {
-        await previous;
-        return this.deleteSite(current, permanent);
-      }, Promise.resolve());
-    } catch (error) {
-      this.handleError(`SitesApi deleteAllUserSites : catch : `, error);
-    }
-  }
-
   async updateSiteMember(siteId: string, userId: string, role: string) {
-    const siteRole = {
-      role: role
-    } as SiteMemberRoleBody;
-
     try {
       await this.apiAuth();
-      return await this.sitesApi.updateSiteMembership(siteId, userId, siteRole);
+      return await this.sitesApi.updateSiteMembership(siteId, userId, { role });
     } catch (error) {
       this.handleError(`SitesApi updateSiteMember : catch : `, error);
       return null;
@@ -161,14 +101,12 @@ export class SitesApi extends RepoApi {
   }
 
   async addSiteMember(siteId: string, userId: string, role: string) {
-    const memberBody = {
-      id: userId,
-      role: role
-    } as SiteMemberBody;
-
     try {
       await this.apiAuth();
-      return await this.sitesApi.createSiteMembership(siteId, memberBody);
+      return await this.sitesApi.createSiteMembership(siteId, {
+        id: userId,
+        role
+      });
     } catch (error) {
       if (error.status === 409) {
         return this.updateSiteMember(siteId, userId, role);
@@ -205,13 +143,11 @@ export class SitesApi extends RepoApi {
   }
 
   async requestToJoin(siteId: string): Promise<SiteMembershipRequestEntry | null> {
-    const body = {
-      id: siteId
-    };
-
     try {
       await this.apiAuth();
-      return await this.sitesApi.createSiteMembershipRequestForPerson('-me-', body);
+      return await this.sitesApi.createSiteMembershipRequestForPerson('-me-', {
+        id: siteId
+      });
     } catch (error) {
       this.handleError(`SitesApi requestToJoin : catch : `, error);
       return null;

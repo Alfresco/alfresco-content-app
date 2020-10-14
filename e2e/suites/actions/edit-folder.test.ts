@@ -28,7 +28,6 @@ import {
   UserActions,
   LoginPage,
   BrowsingPage,
-  SITE_VISIBILITY,
   SITE_ROLES,
   RepoClient,
   CreateOrEditFolderDialog,
@@ -91,7 +90,7 @@ describe('Edit folder', () => {
     await adminApiActions.createUser({ username });
     await userActions.login(username, username);
 
-    await adminApiActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
+    await adminApiActions.sites.createSite(sitePrivate, 'PRIVATE');
     const docLibId = await adminApiActions.sites.getDocLibId(sitePrivate);
     await adminApiActions.nodes.createFolder(folderName, docLibId);
     await adminApiActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_CONSUMER.ROLE);

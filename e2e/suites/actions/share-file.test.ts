@@ -24,17 +24,7 @@
  */
 
 import { browser } from 'protractor';
-import {
-  AdminActions,
-  UserActions,
-  LoginPage,
-  BrowsingPage,
-  SITE_VISIBILITY,
-  RepoClient,
-  ShareDialog,
-  Viewer,
-  Utils
-} from '@alfresco/aca-testing-shared';
+import { AdminActions, UserActions, LoginPage, BrowsingPage, RepoClient, ShareDialog, Viewer, Utils } from '@alfresco/aca-testing-shared';
 
 describe('Share a file', () => {
   const username = `user-${Utils.random()}`;
@@ -312,7 +302,7 @@ describe('Share a file', () => {
       let initialTotalItems: number;
 
       beforeAll(async () => {
-        await apis.user.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
+        await apis.user.sites.createSite(siteName);
         const docLibId = await apis.user.sites.getDocLibId(siteName);
         parentInSiteId = (await apis.user.nodes.createFolder(parentInSite, docLibId)).entry.id;
 

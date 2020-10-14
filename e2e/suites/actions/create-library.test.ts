@@ -23,16 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  AdminActions,
-  UserActions,
-  SITE_VISIBILITY,
-  LoginPage,
-  BrowsingPage,
-  CreateLibraryDialog,
-  Utils,
-  RepoClient
-} from '@alfresco/aca-testing-shared';
+import { AdminActions, UserActions, LoginPage, BrowsingPage, CreateLibraryDialog, Utils, RepoClient } from '@alfresco/aca-testing-shared';
 
 describe('Create library', () => {
   const username = `user-${Utils.random()}`;
@@ -75,8 +66,8 @@ describe('Create library', () => {
     await adminApiActions.createUser({ username });
     await userActions.login(username, username);
 
-    await apis.user.sites.createSite(duplicateSite.name, SITE_VISIBILITY.PRIVATE, '', duplicateSite.id);
-    await apis.user.sites.createSite(siteInTrash.name, SITE_VISIBILITY.PUBLIC, '', siteInTrash.id);
+    await apis.user.sites.createSite(duplicateSite.name, 'PRIVATE', '', duplicateSite.id);
+    await apis.user.sites.createSite(siteInTrash.name, 'PUBLIC', '', siteInTrash.id);
     await userActions.deleteSites([siteInTrash.id], false);
 
     await loginPage.loginWith(username);
@@ -89,7 +80,7 @@ describe('Create library', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.sites.deleteAllUserSites();
+    await userActions.deleteAllSites();
     done();
   });
 
@@ -121,7 +112,7 @@ describe('Create library', () => {
     expect(await dataTable.isItemPresent(site1Name)).toBe(true, `${site1Name} not in the list`);
 
     const site = await userActions.sitesApi.getSite(site1Name);
-    expect(site.entry.visibility).toEqual(SITE_VISIBILITY.PUBLIC);
+    expect(site.entry.visibility).toEqual('PUBLIC');
   });
 
   it('[C289880] Create a moderated library', async () => {
@@ -137,7 +128,7 @@ describe('Create library', () => {
     expect(await dataTable.isItemPresent(site2Name)).toBe(true, `${site2Name} not in the list`);
 
     const site = await userActions.sitesApi.getSite(site2Name);
-    expect(site.entry.visibility).toEqual(SITE_VISIBILITY.MODERATED);
+    expect(site.entry.visibility).toEqual('MODERATED');
   });
 
   it('[C289881] Create a private library', async () => {
@@ -153,7 +144,7 @@ describe('Create library', () => {
     expect(await dataTable.isItemPresent(site3Name)).toBe(true, `${site3Name} not in the list`);
 
     const site = await userActions.sitesApi.getSite(site3Name);
-    expect(site.entry.visibility).toEqual(SITE_VISIBILITY.PRIVATE);
+    expect(site.entry.visibility).toEqual('PRIVATE');
   });
 
   it('[C289882] Create a library with a given ID and description', async () => {
@@ -171,7 +162,7 @@ describe('Create library', () => {
     expect(await dataTable.isItemPresent(site4.name)).toBe(true, `${site4.name} not in the list`);
 
     const site = await userActions.sitesApi.getSite(site4.id);
-    expect(site.entry.visibility).toEqual(SITE_VISIBILITY.PUBLIC);
+    expect(site.entry.visibility).toEqual('PUBLIC');
     expect(site.entry.description).toEqual(site4.description);
   });
 

@@ -29,7 +29,6 @@ import {
   UserActions,
   LoginPage,
   BrowsingPage,
-  SITE_VISIBILITY,
   SITE_ROLES,
   RepoClient,
   ShareDialog,
@@ -97,7 +96,7 @@ describe('Unshare a file from Search Results', () => {
 
     const initialSharedTotalItems = await userActions.getSharedLinksSize();
     await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
-    await adminApiActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
+    await adminApiActions.sites.createSite(sitePrivate, 'PRIVATE');
     const docLibId = await adminApiActions.sites.getDocLibId(sitePrivate);
 
     fileSite1Id = (await adminApiActions.nodes.createFile(fileSite1, docLibId)).entry.id;

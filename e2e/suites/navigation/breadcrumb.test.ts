@@ -25,7 +25,7 @@
 
 import { browser } from 'protractor';
 
-import { AdminActions, UserActions, SITE_VISIBILITY, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { AdminActions, UserActions, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
 
 describe('Breadcrumb', () => {
   const username = `user-${Utils.random()}`;
@@ -71,7 +71,7 @@ describe('Breadcrumb', () => {
     parent2Id = (await apis.user.nodes.createFolder(parent2)).entry.id;
     folder1Id = (await apis.user.nodes.createFolder(folder1, parent2Id)).entry.id;
 
-    await apis.user.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
+    await apis.user.sites.createSite(siteName);
     const docLibId = await apis.user.sites.getDocLibId(siteName);
     parentId = (await apis.user.nodes.createFolder(parent, docLibId)).entry.id;
     subFolder1Id = (await apis.user.nodes.createFolder(subFolder1, parentId)).entry.id;

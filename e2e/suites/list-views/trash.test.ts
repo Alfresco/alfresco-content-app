@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, UserActions, SITE_VISIBILITY, SITE_ROLES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { AdminActions, UserActions, SITE_ROLES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
 
 describe('Trash', () => {
   const username = `user-${Utils.random()}`;
@@ -71,7 +71,7 @@ describe('Trash', () => {
 
     fileAdminId = (await adminApiActions.nodes.createFiles([fileAdmin])).entry.id;
     folderAdminId = (await adminApiActions.nodes.createFolders([folderAdmin])).entry.id;
-    await adminApiActions.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
+    await adminApiActions.sites.createSite(siteName);
     await adminApiActions.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_MANAGER.ROLE);
     const docLibId = await adminApiActions.sites.getDocLibId(siteName);
     fileSiteId = (await adminApiActions.nodes.createFile(fileSite, docLibId)).entry.id;

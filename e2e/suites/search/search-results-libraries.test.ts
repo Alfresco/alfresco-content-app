@@ -23,16 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  AdminActions,
-  UserActions,
-  LoginPage,
-  SearchResultsPage,
-  RepoClient,
-  Utils,
-  SITE_VISIBILITY,
-  SITE_ROLES
-} from '@alfresco/aca-testing-shared';
+import { AdminActions, UserActions, LoginPage, SearchResultsPage, RepoClient, Utils, SITE_ROLES } from '@alfresco/aca-testing-shared';
 
 describe('Search results - libraries', () => {
   const username = `user-${Utils.random()}`;
@@ -88,27 +79,27 @@ describe('Search results - libraries', () => {
     await adminApiActions.createUser({ username });
     await userActions.login(username, username);
 
-    await apis.user.sites.createSite(site1.name, SITE_VISIBILITY.PUBLIC, '', site1.id);
-    await apis.user.sites.createSite(site2.name, SITE_VISIBILITY.PUBLIC, '', site2.id);
-    await apis.user.sites.createSite(site3.name, SITE_VISIBILITY.PUBLIC, '', site3.id);
-    await apis.user.sites.createSite(site4.name, SITE_VISIBILITY.PUBLIC, site4.description, site4.id);
+    await apis.user.sites.createSite(site1.name, 'PUBLIC', '', site1.id);
+    await apis.user.sites.createSite(site2.name, 'PUBLIC', '', site2.id);
+    await apis.user.sites.createSite(site3.name, 'PUBLIC', '', site3.id);
+    await apis.user.sites.createSite(site4.name, 'PUBLIC', site4.description, site4.id);
 
-    await apis.user.sites.createSite(userSitePublic, SITE_VISIBILITY.PUBLIC);
-    await apis.user.sites.createSite(userSiteModerated, SITE_VISIBILITY.MODERATED);
-    await apis.user.sites.createSite(userSitePrivate, SITE_VISIBILITY.PRIVATE);
+    await apis.user.sites.createSite(userSitePublic);
+    await apis.user.sites.createSite(userSiteModerated, 'MODERATED');
+    await apis.user.sites.createSite(userSitePrivate, 'PRIVATE');
 
-    await apis.user.sites.createSite(siteRussian.name, SITE_VISIBILITY.PUBLIC, '', siteRussian.id);
+    await apis.user.sites.createSite(siteRussian.name, 'PUBLIC', '', siteRussian.id);
 
-    await adminApiActions.sites.createSite(adminSite1, SITE_VISIBILITY.PUBLIC);
-    await adminApiActions.sites.createSite(adminSite2, SITE_VISIBILITY.PUBLIC);
-    await adminApiActions.sites.createSite(adminSite3, SITE_VISIBILITY.PUBLIC);
-    await adminApiActions.sites.createSite(adminSite4, SITE_VISIBILITY.PUBLIC);
+    await adminApiActions.sites.createSite(adminSite1);
+    await adminApiActions.sites.createSite(adminSite2);
+    await adminApiActions.sites.createSite(adminSite3);
+    await adminApiActions.sites.createSite(adminSite4);
     await adminApiActions.sites.addSiteMember(adminSite1, username, SITE_ROLES.SITE_CONSUMER.ROLE);
     await adminApiActions.sites.addSiteMember(adminSite2, username, SITE_ROLES.SITE_CONTRIBUTOR.ROLE);
     await adminApiActions.sites.addSiteMember(adminSite3, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
     await adminApiActions.sites.addSiteMember(adminSite4, username, SITE_ROLES.SITE_MANAGER.ROLE);
 
-    await adminApiActions.sites.createSite(adminPrivate, SITE_VISIBILITY.PRIVATE);
+    await adminApiActions.sites.createSite(adminPrivate, 'PRIVATE');
 
     await apis.user.sites.waitForApi({ expect: 12 });
     await apis.user.queries.waitForSites('lib', { expect: 2 });
@@ -195,9 +186,9 @@ describe('Search results - libraries', () => {
     await dataTable.waitForBody();
 
     const expectedSitesVisibility = {
-      [userSitePrivate]: SITE_VISIBILITY.PRIVATE,
-      [userSiteModerated]: SITE_VISIBILITY.MODERATED,
-      [userSitePublic]: SITE_VISIBILITY.PUBLIC
+      [userSitePrivate]: 'PRIVATE',
+      [userSiteModerated]: 'MODERATED',
+      [userSitePublic]: 'PUBLIC'
     };
 
     const sitesList = await dataTable.getSitesNameAndVisibility();

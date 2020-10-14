@@ -50,7 +50,7 @@ describe('Pagination on multiple pages', () => {
     await userActions.login(username, username);
 
     initialSitesTotalItems = await userApi.sites.getSitesTotalItems();
-    await userApi.sites.createSitesPrivate(sites);
+    await userApi.sites.createSites(sites, 'PRIVATE');
     await userApi.sites.waitForApi({ expect: initialSitesTotalItems + 101 });
 
     await loginPage.loginWith(username);

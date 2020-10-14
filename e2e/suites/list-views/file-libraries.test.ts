@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, UserActions, SITE_VISIBILITY, SITE_ROLES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { AdminActions, UserActions, SITE_ROLES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
 
 describe('File Libraries', () => {
   const username = `user-${Utils.random()}`;
@@ -63,16 +63,16 @@ describe('File Libraries', () => {
     await adminApiActions.createUser({ username });
     await userActions.login(username, username);
 
-    await apis.user.sites.createSite(userSitePublic, SITE_VISIBILITY.PUBLIC);
-    await apis.user.sites.createSite(userSiteModerated, SITE_VISIBILITY.MODERATED, siteDescription);
-    await apis.user.sites.createSite(userSitePrivate, SITE_VISIBILITY.PRIVATE, null);
+    await apis.user.sites.createSite(userSitePublic);
+    await apis.user.sites.createSite(userSiteModerated, 'MODERATED', siteDescription);
+    await apis.user.sites.createSite(userSitePrivate, 'PRIVATE', null);
 
-    await adminApiActions.sites.createSite(adminSite1, SITE_VISIBILITY.PUBLIC);
-    await adminApiActions.sites.createSite(adminSite2, SITE_VISIBILITY.PUBLIC);
-    await adminApiActions.sites.createSite(adminSite3, SITE_VISIBILITY.PUBLIC);
-    await adminApiActions.sites.createSite(adminSite4, SITE_VISIBILITY.PUBLIC);
-    await adminApiActions.sites.createSite(adminSite5, SITE_VISIBILITY.PUBLIC);
-    await adminApiActions.sites.createSite(adminSite6, SITE_VISIBILITY.PUBLIC);
+    await adminApiActions.sites.createSite(adminSite1);
+    await adminApiActions.sites.createSite(adminSite2);
+    await adminApiActions.sites.createSite(adminSite3);
+    await adminApiActions.sites.createSite(adminSite4);
+    await adminApiActions.sites.createSite(adminSite5);
+    await adminApiActions.sites.createSite(adminSite6);
     await adminApiActions.sites.addSiteMember(adminSite1, username, SITE_ROLES.SITE_CONSUMER.ROLE);
     await adminApiActions.sites.addSiteMember(adminSite2, username, SITE_ROLES.SITE_CONTRIBUTOR.ROLE);
     await adminApiActions.sites.addSiteMember(adminSite3, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
@@ -81,8 +81,8 @@ describe('File Libraries', () => {
 
     await userActions.createFavorites('site', [adminSite1, adminSite2, adminSite3, adminSite4]);
 
-    await apis.user.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC, null, siteId1);
-    await apis.user.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC, null, siteId2);
+    await apis.user.sites.createSite(siteName, 'PUBLIC', null, siteId1);
+    await apis.user.sites.createSite(siteName, 'PUBLIC', null, siteId2);
 
     await loginPage.loginWith(username);
     done();
@@ -116,9 +116,9 @@ describe('File Libraries', () => {
 
     it('[C289905] Library visibility is correctly displayed', async () => {
       const expectedSitesVisibility = {
-        [userSitePrivate]: SITE_VISIBILITY.PRIVATE,
-        [userSiteModerated]: SITE_VISIBILITY.MODERATED,
-        [userSitePublic]: SITE_VISIBILITY.PUBLIC
+        [userSitePrivate]: 'PRIVATE',
+        [userSiteModerated]: 'MODERATED',
+        [userSitePublic]: 'PUBLIC'
       };
 
       const sitesList = await dataTable.getSitesNameAndVisibility();
@@ -182,9 +182,9 @@ describe('File Libraries', () => {
 
     it('[C289906] Library visibility is correctly displayed', async () => {
       const expectedSitesVisibility = {
-        [userSitePrivate]: SITE_VISIBILITY.PRIVATE,
-        [userSiteModerated]: SITE_VISIBILITY.MODERATED,
-        [userSitePublic]: SITE_VISIBILITY.PUBLIC
+        [userSitePrivate]: 'PRIVATE',
+        [userSiteModerated]: 'MODERATED',
+        [userSitePublic]: 'PUBLIC'
       };
 
       const sitesList = await dataTable.getSitesNameAndVisibility();

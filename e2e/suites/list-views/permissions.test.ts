@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, UserActions, SITE_VISIBILITY, SITE_ROLES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { AdminActions, UserActions, SITE_ROLES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
 
 describe('Special permissions', () => {
   const username = `user-${Utils.random()}`;
@@ -56,7 +56,7 @@ describe('Special permissions', () => {
     let fileId;
 
     beforeAll(async (done) => {
-      await adminApiActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
+      await adminApiActions.sites.createSite(sitePrivate, 'PRIVATE');
       await adminApiActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
       const docLibId = await adminApiActions.sites.getDocLibId(sitePrivate);
       fileId = (await adminApiActions.nodes.createFile(fileName, docLibId)).entry.id;
@@ -131,7 +131,7 @@ describe('Special permissions', () => {
     let fileId;
 
     beforeAll(async (done) => {
-      await adminApiActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
+      await adminApiActions.sites.createSite(sitePrivate, 'PRIVATE');
       await adminApiActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
       const docLibId = await adminApiActions.sites.getDocLibId(sitePrivate);
       fileId = (await apis.user.nodes.createFile(fileName, docLibId)).entry.id;

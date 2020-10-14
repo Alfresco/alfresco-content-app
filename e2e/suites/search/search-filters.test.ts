@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, SearchResultsPage, RepoClient, Utils, FILES, SITE_VISIBILITY, SITE_ROLES } from '@alfresco/aca-testing-shared';
+import { AdminActions, LoginPage, SearchResultsPage, RepoClient, Utils, FILES, SITE_ROLES } from '@alfresco/aca-testing-shared';
 
 const moment = require('moment');
 
@@ -82,7 +82,7 @@ describe('Search filters', () => {
     await adminApiActions.createUser({ username: user2 });
 
     parentId = (await apis.user1.nodes.createFolder(parent)).entry.id;
-    await apis.user1.sites.createSite(site, SITE_VISIBILITY.PUBLIC);
+    await apis.user1.sites.createSite(site);
     await apis.user1.sites.addSiteMember(site, user2, SITE_ROLES.SITE_MANAGER.ROLE);
     docLibId = await adminApiActions.sites.getDocLibId(site);
 

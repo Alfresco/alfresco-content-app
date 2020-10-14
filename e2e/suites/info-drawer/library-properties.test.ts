@@ -23,17 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  AdminActions,
-  UserActions,
-  LoginPage,
-  BrowsingPage,
-  SITE_VISIBILITY,
-  SITE_ROLES,
-  RepoClient,
-  InfoDrawer,
-  Utils
-} from '@alfresco/aca-testing-shared';
+import { AdminActions, UserActions, LoginPage, BrowsingPage, SITE_ROLES, RepoClient, InfoDrawer, Utils } from '@alfresco/aca-testing-shared';
+import { SiteVisibility } from '../../../projects/aca-testing-shared/src/utilities/repo-client/apis';
 
 describe('Library properties', () => {
   const username = `user1-${Utils.random()}`;
@@ -43,20 +34,20 @@ describe('Library properties', () => {
   const site = {
     name: `site1-${Utils.random()}`,
     id: `site-id-${Utils.random()}`,
-    visibility: SITE_VISIBILITY.MODERATED,
+    visibility: 'MODERATED' as SiteVisibility,
     description: 'my site description'
   };
 
   const siteForUpdate = {
     name: `site2-${Utils.random()}`,
     id: `site-id-${Utils.random()}`,
-    visibility: SITE_VISIBILITY.MODERATED,
+    visibility: 'MODERATED' as SiteVisibility,
     description: 'my initial description'
   };
 
   const siteUpdated = {
     name: `site-for-rename-${Utils.random()}`,
-    visibility: SITE_VISIBILITY.PRIVATE,
+    visibility: 'PRIVATE' as SiteVisibility,
     description: 'new description'
   };
 
@@ -190,7 +181,7 @@ describe('Library properties', () => {
 
     await aboutTab.enterName(newName);
     await aboutTab.enterDescription(newDesc);
-    await aboutTab.setVisibility(SITE_VISIBILITY.MODERATED);
+    await aboutTab.setVisibility('MODERATED');
 
     await aboutTab.clickCancel();
 
