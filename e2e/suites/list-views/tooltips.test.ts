@@ -273,8 +273,12 @@ describe('File / folder tooltips', () => {
     });
 
     afterAll(async (done) => {
-      await userActions.deleteNodes([parentForTrash]);
-      await userActions.emptyTrashcan();
+      try {
+        await userActions.deleteNodes([parentForTrash]);
+        await userActions.emptyTrashcan();
+      } catch (err) {
+        console.log('Error during cleanup: ', err);
+      }
       done();
     });
 
