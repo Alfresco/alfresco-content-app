@@ -44,8 +44,8 @@ describe('Generic tests : ', () => {
     folders: [folder1, folder2]
   };
 
+  /* @deprecated use userActions instead */
   const userApi = new RepoClient(username, username);
-
   const adminApiActions = new AdminActions();
 
   const loginPage = new LoginPage();
@@ -55,6 +55,7 @@ describe('Generic tests : ', () => {
   const contextMenu = dataTable.menu;
 
   beforeAll(async () => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
 
     await userApi.nodes.createContent(content);

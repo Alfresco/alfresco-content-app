@@ -57,6 +57,7 @@ describe('Login', () => {
   const newPassword = 'new password';
 
   beforeAll(async (done) => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username: testUser });
     await adminApiActions.createUser(russianUser);
     await adminApiActions.createUser(johnDoe);

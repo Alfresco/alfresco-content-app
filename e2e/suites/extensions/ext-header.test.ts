@@ -49,6 +49,7 @@ describe('Extensions - Info Drawer', () => {
   const adminApiActions = new AdminActions();
 
   beforeAll(async (done) => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
     await loginPage.load();
     await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.HEADER);

@@ -58,6 +58,7 @@ describe('Search sorting', () => {
   const adminApiActions = new AdminActions();
 
   beforeAll(async (done) => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username: user1 });
     await adminApiActions.createUser({ username: user2 });
     parentId = (await apis.user1.nodes.createFolder(parent)).entry.id;

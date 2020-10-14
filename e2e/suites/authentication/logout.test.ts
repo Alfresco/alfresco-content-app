@@ -33,6 +33,7 @@ describe('Logout', () => {
   const adminApiActions = new AdminActions();
 
   beforeAll(async (done) => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username: johnDoe });
     done();
   });

@@ -35,6 +35,7 @@ describe('Empty list views', () => {
   const adminApiActions = new AdminActions();
 
   beforeAll(async (done) => {
+    await adminApiActions.login();
     await adminApiActions.createUser({ username });
     await loginPage.loginWith(username);
     done();

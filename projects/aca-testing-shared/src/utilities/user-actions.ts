@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AlfrescoApi, Comment, CommentsApi, NodesApi, TrashcanApi, SitesApi, SharedlinksApi, FavoritesApi } from '@alfresco/js-api';
+import { AlfrescoApi, Comment, CommentsApi, NodesApi, TrashcanApi, SitesApi, SharedlinksApi, FavoritesApi, PeopleApi } from '@alfresco/js-api';
 import { browser } from 'protractor';
 import { Utils } from './utils';
 
@@ -38,6 +38,7 @@ export class UserActions {
   readonly sitesApi: SitesApi;
   readonly sharedLinksApi: SharedlinksApi;
   readonly favoritesApi: FavoritesApi;
+  readonly peopleApi: PeopleApi;
 
   protected username: string;
   protected password: string;
@@ -52,6 +53,7 @@ export class UserActions {
     this.sitesApi = new SitesApi(this.alfrescoApi);
     this.sharedLinksApi = new SharedlinksApi(this.alfrescoApi);
     this.favoritesApi = new FavoritesApi(this.alfrescoApi);
+    this.peopleApi = new PeopleApi(this.alfrescoApi);
   }
 
   async login(username: string, password: string) {
