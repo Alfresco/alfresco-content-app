@@ -67,12 +67,7 @@ describe('File Libraries', () => {
     await apis.user.sites.createSite(userSiteModerated, 'MODERATED', siteDescription);
     await apis.user.sites.createSite(userSitePrivate, 'PRIVATE', null);
 
-    await adminApiActions.sites.createSite(adminSite1);
-    await adminApiActions.sites.createSite(adminSite2);
-    await adminApiActions.sites.createSite(adminSite3);
-    await adminApiActions.sites.createSite(adminSite4);
-    await adminApiActions.sites.createSite(adminSite5);
-    await adminApiActions.sites.createSite(adminSite6);
+    await adminApiActions.sites.createSites([adminSite1, adminSite2, adminSite3, adminSite4, adminSite5, adminSite6]);
     await adminApiActions.sites.addSiteMember(adminSite1, username, SITE_ROLES.SITE_CONSUMER.ROLE);
     await adminApiActions.sites.addSiteMember(adminSite2, username, SITE_ROLES.SITE_CONTRIBUTOR.ROLE);
     await adminApiActions.sites.addSiteMember(adminSite3, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
