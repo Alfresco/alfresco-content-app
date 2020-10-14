@@ -84,36 +84,6 @@ export class SitesApi extends RepoApi {
     }
   }
 
-  async getVisibility(siteId: string) {
-    try {
-      const site = await this.getSite(siteId);
-      return site.entry.visibility;
-    } catch (error) {
-      this.handleError(`SitesApi getVisibility : catch : `, error);
-      return null;
-    }
-  }
-
-  async getDescription(siteId: string) {
-    try {
-      const site = await this.getSite(siteId);
-      return site.entry.description;
-    } catch (error) {
-      this.handleError(`SitesApi getDescription : catch : `, error);
-      return null;
-    }
-  }
-
-  async getTitle(siteId: string) {
-    try {
-      const site = await this.getSite(siteId);
-      return site.entry.title;
-    } catch (error) {
-      this.handleError(`SitesApi getTitle : catch : `, error);
-      return null;
-    }
-  }
-
   async createSite(title: string, visibility?: string, description?: string, siteId?: string): Promise<SiteEntry | null> {
     const site = {
       title,

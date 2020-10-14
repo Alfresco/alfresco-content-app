@@ -170,9 +170,11 @@ describe('Library properties', () => {
     expect(await dataTable.isItemPresent(siteUpdated.name)).toBe(true, 'New site name not displayed in the list');
     expect(await infoDrawer.isOpen()).toBe(false, 'Info drawer still open');
 
-    expect((await apis.user.sites.getSite(siteForUpdate.id)).entry.title).toEqual(siteUpdated.name);
-    expect((await apis.user.sites.getSite(siteForUpdate.id)).entry.description).toEqual(siteUpdated.description);
-    expect((await apis.user.sites.getSite(siteForUpdate.id)).entry.visibility).toEqual(siteUpdated.visibility);
+    const updated = await userActions.sitesApi.getSite(siteForUpdate.id);
+
+    expect(updated.entry.title).toEqual(siteUpdated.name);
+    expect(updated.entry.description).toEqual(siteUpdated.description);
+    expect(updated.entry.visibility).toEqual(siteUpdated.visibility);
   });
 
   it('[C289340] Cancel editing a site', async () => {
