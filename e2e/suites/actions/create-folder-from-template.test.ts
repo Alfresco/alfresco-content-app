@@ -24,21 +24,20 @@
  */
 
 import {
-  LoginPage,
   BrowsingPage,
   SelectTemplateDialog,
   CreateFromTemplateDialog,
   Utils,
   clearTextWithBackspace,
-  AdminActions,
   RepoClient,
   NodeContentTree
 } from '@alfresco/aca-testing-shared';
+import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Create folder from template', () => {
   const random = Utils.random();
 
-  const username = `user-${random}`;
+  let username;
 
   const restrictedTemplateFolder = `restricted-folder-${random}`;
   const fileInRestrictedFolder = `restricted-file-${random}.txt`;
@@ -103,8 +102,9 @@ describe('Create folder from template', () => {
   };
   let folderLink: string;
 
-  const userApi = new RepoClient(username, username);
-  const adminApiActions = new AdminActions();
+  const apiService = new ApiService();
+  const usersActions = new UsersActions(apiService);
+  const repo = new RepoClient(apiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -113,25 +113,25 @@ describe('Create folder from template', () => {
   const { sidenav } = page;
 
   beforeAll(async () => {
-    await adminApiActions.createUser({ username });
+    username = await usersActions.createUser();
 
-    parentId = (await userApi.nodes.createFolder(parent)).entry.id;
-    await userApi.nodes.createFolder(duplicateFolderName, parentId);
+    parentId = (await repo.nodes.createFolder(parent)).entry.id;
+    await repo.nodes.createFolder(duplicateFolderName, parentId);
 
-    await userApi.sites.createSite(siteName);
-    docLibUserSite = await userApi.sites.getDocLibId(siteName);
-    await userApi.nodes.createFolder(duplicateFolderSite, docLibUserSite);
+    await repo.sites.createSite(siteName);
+    docLibUserSite = await repo.sites.getDocLibId(siteName);
+    await repo.nodes.createFolder(duplicateFolderSite, docLibUserSite);
 
     await adminApiActions.createSpaceTemplatesHierarchy(templates);
     await adminApiActions.removeUserAccessOnSpaceTemplate(restrictedTemplateFolder);
     folderLink = (await adminApiActions.createLinkToFolderName(folderInRootFolder, await adminApiActions.getSpaceTemplatesFolderId())).entry.name;
 
-    await loginPage.loginWith(username);
+    await loginPage.login(username.email, username.password);
   });
 
   afterAll(async () => {
-    await userApi.nodes.deleteNodeById(parentId);
-    await userApi.sites.deleteSite(siteName);
+    await repo.nodes.deleteNodeById(parentId);
+    await repo.sites.deleteSite(siteName);
     await adminApiActions.cleanupSpaceTemplatesFolder();
   });
 
@@ -312,9 +312,9 @@ describe('Create folder from template', () => {
       await page.dataTable.waitForHeader();
 
       expect(await page.dataTable.isItemPresent(folder2.name)).toBe(true, 'Folder not displayed in list view');
-      const desc = await userApi.nodes.getNodeDescription(folder2.name, parentId);
+      const desc = await repo.nodes.getNodeDescription(folder2.name, parentId);
       expect(desc).toEqual(folder2.description);
-      const title = await userApi.nodes.getNodeTitle(folder2.name, parentId);
+      const title = await repo.nodes.getNodeTitle(folder2.name, parentId);
       expect(title).toEqual(folder2.title);
     });
 
@@ -366,9 +366,9 @@ describe('Create folder from template', () => {
       await page.dataTable.waitForHeader();
 
       expect(await page.dataTable.isItemPresent(folderSite.name)).toBe(true, 'Folder not displayed in list view');
-      const desc = await userApi.nodes.getNodeDescription(folderSite.name, docLibUserSite);
+      const desc = await repo.nodes.getNodeDescription(folderSite.name, docLibUserSite);
       expect(desc).toEqual(folderSite.description);
-      const title = await userApi.nodes.getNodeTitle(folderSite.name, docLibUserSite);
+      const title = await repo.nodes.getNodeTitle(folderSite.name, docLibUserSite);
       expect(title).toEqual(folderSite.title);
     });
 

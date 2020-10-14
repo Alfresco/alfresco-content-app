@@ -23,12 +23,11 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, SITE_VISIBILITY, SITE_ROLES, RepoClient, InfoDrawer, Utils } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, SITE_VISIBILITY, SITE_ROLES, RepoClient, InfoDrawer, Utils } from '@alfresco/aca-testing-shared';
+import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Library properties', () => {
-  const username = `user1-${Utils.random()}`;
-  const user2 = `user2-${Utils.random()}`;
-  const user3 = `user3-${Utils.random()}`;
+  let username, user2 , user3;
 
   const site = {
     name: `site1-${Utils.random()}`,
@@ -52,37 +51,37 @@ describe('Library properties', () => {
 
   const siteDup = `site3-${Utils.random()}`;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
-
   const infoDrawer = new InfoDrawer();
   const { aboutTab } = infoDrawer;
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable } = page;
-  const adminApiActions = new AdminActions();
+
+  const apiService = new ApiService();
+  const usersActions = new UsersActions(apiService);
+  const repo = new RepoClient(apiService);
 
   beforeAll(async (done) => {
-    await adminApiActions.createUser({ username });
-    await adminApiActions.createUser({ username: user2 });
-    await adminApiActions.createUser({ username: user3 });
-    await apis.user.sites.createSite(site.name, site.visibility, site.description, site.id);
-    await apis.user.sites.createSite(siteForUpdate.name, siteForUpdate.visibility, siteForUpdate.description, siteForUpdate.id);
-    await apis.user.sites.createSite(siteDup);
+    username = await usersActions.createUser();
+    user2 = await usersActions.createUser();
+    user3 = await usersActions.createUser();
 
-    await apis.user.sites.addSiteMember(site.id, user2, SITE_ROLES.SITE_COLLABORATOR.ROLE);
-    await apis.user.sites.addSiteMember(site.id, user3, SITE_ROLES.SITE_MANAGER.ROLE);
+    await repo.sites.createSite(site.name, site.visibility, site.description, site.id);
+    await repo.sites.createSite(siteForUpdate.name, siteForUpdate.visibility, siteForUpdate.description, siteForUpdate.id);
+    await repo.sites.createSite(siteDup);
 
-    await loginPage.loginWith(username);
+    await repo.sites.addSiteMember(site.id, user2, SITE_ROLES.SITE_COLLABORATOR.ROLE);
+    await repo.sites.addSiteMember(site.id, user3, SITE_ROLES.SITE_MANAGER.ROLE);
+
+    await loginPage.login(username.email, username.password);
     done();
   });
 
   afterAll(async (done) => {
-    await apis.user.sites.deleteSite(site.id);
-    await apis.user.sites.deleteSite(siteForUpdate.id);
-    await apis.user.sites.deleteSite(siteDup);
+    await repo.sites.deleteSite(site.id);
+    await repo.sites.deleteSite(siteForUpdate.id);
+    await repo.sites.deleteSite(siteDup);
     done();
   });
 
@@ -156,9 +155,9 @@ describe('Library properties', () => {
     expect(await dataTable.isItemPresent(siteUpdated.name)).toBe(true, 'New site name not displayed in the list');
     expect(await infoDrawer.isOpen()).toBe(false, 'Info drawer still open');
 
-    expect((await apis.user.sites.getSite(siteForUpdate.id)).entry.title).toEqual(siteUpdated.name);
-    expect((await apis.user.sites.getSite(siteForUpdate.id)).entry.description).toEqual(siteUpdated.description);
-    expect((await apis.user.sites.getSite(siteForUpdate.id)).entry.visibility).toEqual(siteUpdated.visibility);
+    expect((await repo.sites.getSite(siteForUpdate.id)).entry.title).toEqual(siteUpdated.name);
+    expect((await repo.sites.getSite(siteForUpdate.id)).entry.description).toEqual(siteUpdated.description);
+    expect((await repo.sites.getSite(siteForUpdate.id)).entry.visibility).toEqual(siteUpdated.visibility);
   });
 
   it('[C289340] Cancel editing a site', async () => {
@@ -184,7 +183,7 @@ describe('Library properties', () => {
   });
 
   it('[C289341] Warning appears when editing the name of the library by entering an existing name', async () => {
-    await apis.user.queries.waitForSites(site.name, { expect: 1 });
+    await repo.queries.waitForSites(site.name, { expect: 1 });
 
     await dataTable.selectItem(siteDup);
     await page.toolbar.viewDetailsButton.click();
@@ -224,19 +223,19 @@ describe('Library properties', () => {
 
   describe('Non manager', () => {
     afterAll(async (done) => {
-      await loginPage.loginWith(username);
+      await loginPage.login(username.email, username.password);
       done();
     });
 
     it('[C289337] Info drawer button is not displayed when user is not the library manager', async () => {
-      await loginPage.loginWith(user2);
+      await loginPage.login(user2, user2);
       await page.goToMyLibrariesAndWait();
       await dataTable.selectItem(site.name);
       expect(await page.toolbar.isButtonPresent('View Details')).toBe(false, 'View Details is present');
     });
 
     it('[C289344] Error notification', async () => {
-      await loginPage.loginWith(user3);
+      await loginPage.login(user3, user3);
 
       await page.goToMyLibrariesAndWait();
       await dataTable.selectItem(site.name);
@@ -244,7 +243,7 @@ describe('Library properties', () => {
       await infoDrawer.waitForInfoDrawerToOpen();
       await aboutTab.clickEditLibraryProperties();
 
-      await apis.user.sites.updateSiteMember(site.id, user3, SITE_ROLES.SITE_CONSUMER.ROLE);
+      await repo.sites.updateSiteMember(site.id, user3, SITE_ROLES.SITE_CONSUMER.ROLE);
 
       await aboutTab.enterDescription('new description');
       await aboutTab.clickUpdate();

@@ -24,18 +24,17 @@
  */
 
 import {
-  AdminActions,
   BrowsingPage,
-  LoginPage,
   RepoClient,
   EXTENSIBILITY_CONFIGS,
   Utils,
   InfoDrawer,
   MetadataCard
 } from '@alfresco/aca-testing-shared';
+import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 describe('Extensions - Metadata presets', () => {
-  const username = `user-${Utils.random()}`;
+  let username;
 
   const file = `file-${Utils.random()}.png`;
 
@@ -61,24 +60,22 @@ describe('Extensions - Metadata presets', () => {
     title: 'Hidden Group of Properties'
   };
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
-
   const infoDrawer = new InfoDrawer();
   const metadataCard = new MetadataCard();
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
-  const adminApiActions = new AdminActions();
+
+  const apiService = new ApiService();
+  const usersActions = new UsersActions(apiService);
+  const repo = new RepoClient(apiService);
 
   beforeAll(async (done) => {
-    await adminApiActions.createUser({ username });
-    fileId = (await apis.user.nodes.createImage(file)).entry.id;
+    username = await usersActions.createUser();
+    fileId = (await repo.nodes.createImage(file)).entry.id;
 
-    await loginPage.load();
     await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.METADATA_PRESETS);
-    await loginPage.loginWith(username);
+    await loginPage.login(username.email, username.password);
 
     done();
   });
@@ -98,7 +95,7 @@ describe('Extensions - Metadata presets', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(fileId);
+    await repo.nodes.deleteNodeById(fileId);
     done();
   });
 

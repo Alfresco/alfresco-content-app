@@ -23,55 +23,46 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { browser } from 'protractor';
 import { NodesApi, SitesApi, FavoritesApi, QueriesApi, SharedLinksApi, SearchApi, UploadApi } from './apis';
-import { AlfrescoApi } from '@alfresco/js-api';
+import { ApiService } from '@alfresco/adf-testing';
 
 /**
  * @deprecated Use {AdminActions} or {UserActions} instead.
  */
 export class RepoClient {
-  alfrescoApi: AlfrescoApi;
 
-  constructor(private username: string = browser.params.ADMIN_USERNAME, private password: string = browser.params.ADMIN_PASSWORD) {
-    this.alfrescoApi = new AlfrescoApi();
-    this.alfrescoApi.setConfig(browser.params.config);
-  }
+  api: ApiService;
 
-  apiAuth(): Promise<any> {
-    return this.alfrescoApi.login(this.username, this.password);
+  constructor(alfrescoApi: ApiService) {
+    this.api = alfrescoApi;
   }
 
   get nodes(): NodesApi {
-    return new NodesApi(this.username, this.password);
+    return new NodesApi(this.api);
   }
 
   get sites(): SitesApi {
-    return new SitesApi(this.username, this.password);
+    return new SitesApi(this.api);
   }
 
   get favorites(): FavoritesApi {
-    return new FavoritesApi(this.username, this.password);
+    return new FavoritesApi(this.api);
   }
 
   get shared(): SharedLinksApi {
-    return new SharedLinksApi(this.username, this.password);
+    return new SharedLinksApi(this.api);
   }
 
   get search(): SearchApi {
-    return new SearchApi(this.username, this.password);
+    return new SearchApi(this.api);
   }
 
   get queries(): QueriesApi {
-    return new QueriesApi(this.username, this.password);
+    return new QueriesApi(this.api);
   }
 
   get upload(): UploadApi {
-    return new UploadApi(this.username, this.password);
+    return new UploadApi(this.api);
   }
 
-  async logout(): Promise<any> {
-    await this.apiAuth();
-    return this.alfrescoApi.logout();
-  }
 }

@@ -23,10 +23,11 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, EXTENSIBILITY_CONFIGS, Utils, Header, Menu } from '@alfresco/aca-testing-shared';
+import { EXTENSIBILITY_CONFIGS, Utils, Header, Menu } from '@alfresco/aca-testing-shared';
+import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 describe('Extensions - Info Drawer', () => {
-  const username = `user-${Utils.random()}`;
+  let username;
 
   const disabledMenu = {
     id: 'settings',
@@ -46,13 +47,13 @@ describe('Extensions - Info Drawer', () => {
   const toolbarMenu = new Menu();
 
   const loginPage = new LoginPage();
-  const adminApiActions = new AdminActions();
+  const apiService = new ApiService();
+  const usersActions = new UsersActions(apiService);
 
   beforeAll(async (done) => {
-    await adminApiActions.createUser({ username });
-    await loginPage.load();
+    username = await usersActions.createUser();
     await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.HEADER);
-    await loginPage.loginWith(username);
+    await loginPage.login(username.email, username.password);
     done();
   });
 

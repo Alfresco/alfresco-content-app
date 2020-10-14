@@ -25,7 +25,8 @@
 
 import { browser } from 'protractor';
 import { Logger } from '@alfresco/adf-testing';
-import { BrowsingPage, LoginPage, CreateOrEditFolderDialog, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, CreateOrEditFolderDialog, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { LoginPage } from '@alfresco/adf-testing';
 
 describe('General', () => {
   const loginPage = new LoginPage();
@@ -47,7 +48,7 @@ describe('General', () => {
     });
 
     it('[C286473] should close opened dialogs', async () => {
-      await loginPage.loginWithAdmin();
+      await loginPage.loginAdmin();
 
       await page.sidenav.openCreateFolderDialog();
       await createDialog.waitForDialogToOpen();

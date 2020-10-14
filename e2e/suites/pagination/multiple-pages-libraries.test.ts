@@ -23,15 +23,17 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage, Utils, AdminActions, RepoClient } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 describe('Pagination on multiple pages', () => {
   const random = Utils.random();
 
-  const username = `user-${random}`;
+  let username;
 
-  const userApi = new RepoClient(username, username);
-  const adminApiActions = new AdminActions();
+  const apiService = new ApiService();
+  const usersActions = new UsersActions(apiService);
+  const repo = new RepoClient(apiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -44,18 +46,18 @@ describe('Pagination on multiple pages', () => {
   let initialSitesTotalItems: number;
 
   beforeAll(async () => {
-    await adminApiActions.createUser({ username });
+    username = await usersActions.createUser();
 
-    initialSitesTotalItems = await userApi.sites.getSitesTotalItems();
-    await userApi.sites.createSitesPrivate(sites);
-    await userApi.sites.waitForApi({ expect: initialSitesTotalItems + 101 });
+    initialSitesTotalItems = await repo.sites.getSitesTotalItems();
+    await repo.sites.createSitesPrivate(sites);
+    await repo.sites.waitForApi({ expect: initialSitesTotalItems + 101 });
 
-    await loginPage.loginWith(username);
+    await loginPage.login(username.email, username.password);
   }, 150000);
 
   afterAll(async () => {
-    await userApi.sites.deleteSites(sites);
-    await userApi.sites.waitForApi({ expect: initialSitesTotalItems });
+    await repo.sites.deleteSites(sites);
+    await repo.sites.waitForApi({ expect: initialSitesTotalItems });
   }, 120000);
 
   describe('on My Libraries', () => {

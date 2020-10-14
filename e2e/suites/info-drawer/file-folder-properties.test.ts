@@ -24,8 +24,6 @@
  */
 
 import {
-  AdminActions,
-  LoginPage,
   BrowsingPage,
   RepoClient,
   InfoDrawer,
@@ -34,11 +32,12 @@ import {
   DATE_TIME_FORMAT,
   DATE_FORMAT
 } from '@alfresco/aca-testing-shared';
+import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 const moment = require('moment');
 
 describe('File / Folder properties', () => {
-  const username = `user1-${Utils.random()}`;
+  let username;
 
   const parent = `parent-${Utils.random()}`;
   let parentId: string;
@@ -67,31 +66,30 @@ describe('File / Folder properties', () => {
   };
   let folder1Id: string;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
-
   const infoDrawer = new InfoDrawer();
   const { propertiesTab } = infoDrawer;
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable } = page;
-  const adminApiActions = new AdminActions();
+
+  const apiService = new ApiService();
+  const usersActions = new UsersActions(apiService);
+  const repo = new RepoClient(apiService);
 
   beforeAll(async (done) => {
-    await adminApiActions.createUser({ username });
-    parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
-    file1Id = (await apis.user.nodes.createFile(file1.name, parentId, file1.title, file1.description, file1.author)).entry.id;
-    folder1Id = (await apis.user.nodes.createFolder(folder1.name, parentId, folder1.title, folder1.description, folder1.author)).entry.id;
-    image1Id = (await apis.user.upload.uploadFile(image1.name, parentId)).entry.id;
+    username = await usersActions.createUser();
+    parentId = (await repo.nodes.createFolder(parent)).entry.id;
+    file1Id = (await repo.nodes.createFile(file1.name, parentId, file1.title, file1.description, file1.author)).entry.id;
+    folder1Id = (await repo.nodes.createFolder(folder1.name, parentId, folder1.title, folder1.description, folder1.author)).entry.id;
+    image1Id = (await repo.upload.uploadFile(image1.name, parentId)).entry.id;
 
-    await loginPage.loginWith(username);
+    await loginPage.login(username.email, username.password);
     done();
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(parentId);
+    await repo.nodes.deleteNodeById(parentId);
     done();
   });
 
@@ -114,7 +112,7 @@ describe('File / Folder properties', () => {
     });
 
     it('[C269003] File properties', async () => {
-      const apiProps = await apis.user.nodes.getNodeById(file1Id);
+      const apiProps = await repo.nodes.getNodeById(file1Id);
 
       const expectedPropLabels = [
         'Name',
@@ -152,7 +150,7 @@ describe('File / Folder properties', () => {
     });
 
     it('[C307106] Folder properties', async () => {
-      const apiProps = await apis.user.nodes.getNodeById(folder1Id);
+      const apiProps = await repo.nodes.getNodeById(folder1Id);
 
       const expectedPropLabels = ['Name', 'Title', 'Creator', 'Created Date', 'Modifier', 'Modified Date', 'Author', 'Description'];
       const expectedPropValues = [
@@ -198,7 +196,7 @@ describe('File / Folder properties', () => {
     });
 
     it('[C269007] Image properties', async () => {
-      const apiProps = await apis.user.nodes.getNodeById(image1Id);
+      const apiProps = await repo.nodes.getNodeById(image1Id);
       const properties = apiProps.entry.properties;
 
       const expectedPropLabels = [

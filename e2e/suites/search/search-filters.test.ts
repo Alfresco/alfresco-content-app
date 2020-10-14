@@ -23,7 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, SearchResultsPage, RepoClient, Utils, FILES, SITE_VISIBILITY, SITE_ROLES } from '@alfresco/aca-testing-shared';
+import { SearchResultsPage, RepoClient, Utils, FILES, SITE_VISIBILITY, SITE_ROLES } from '@alfresco/aca-testing-shared';
+import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 const moment = require('moment');
 
@@ -73,11 +74,13 @@ describe('Search filters', () => {
   const locationFilter = filters.location;
   const modifierFilter = filters.modifier;
   const modifiedDateFilter = filters.modifiedDate;
-  const adminApiActions = new AdminActions();
+
+  const apiService = new ApiService();
+  const usersActions = new UsersActions(apiService);
 
   beforeAll(async (done) => {
-    await adminApiActions.createUser({ username: user1 });
-    await adminApiActions.createUser({ username: user2 });
+    user1 = await usersActions.createUser();
+    user2 = await usersActions.createUser();
     parentId = (await apis.user1.nodes.createFolder(parent)).entry.id;
     await apis.user1.sites.createSite(site, SITE_VISIBILITY.PUBLIC);
     await apis.user1.sites.addSiteMember(site, user2, SITE_ROLES.SITE_MANAGER.ROLE);
@@ -90,7 +93,7 @@ describe('Search filters', () => {
 
     await apis.user1.search.waitForNodes(`search-filters-${random}`, { expect: 2 });
 
-    await loginPage.loginWith(user1);
+    await loginPage.login(user1, user1);
     done();
   });
 

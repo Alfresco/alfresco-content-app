@@ -23,10 +23,12 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, UserActions, SITE_VISIBILITY, SITE_ROLES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { SITE_VISIBILITY, SITE_ROLES, BrowsingPage, Utils, RepoClient, CoreActions } from '@alfresco/aca-testing-shared';
+import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { browser } from 'protractor';
 
 describe('Favorites', () => {
-  const username = `user-${Utils.random()}`;
+  let username;
 
   const siteName = `site-${Utils.random()}`;
   const favFolderName = `favFolder-${Utils.random()}`;
@@ -36,42 +38,40 @@ describe('Favorites', () => {
   const fileName3 = `file3-${Utils.random()}.txt`;
   const fileName4 = `file4-${Utils.random()}.txt`;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
-
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable, breadcrumb } = page;
 
-  const adminApiActions = new AdminActions();
-  const userActions = new UserActions();
+  const apiService = new ApiService();
+  const usersActions = new UsersActions(apiService);
+  const repo = new RepoClient(apiService);
+  const coreActions = new CoreActions(apiService);
 
   beforeAll(async (done) => {
-    await adminApiActions.login();
-    await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
+    await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
+    username = await usersActions.createUser();
+    await apiService.getInstance().login(username.email, username.password);
 
     await adminApiActions.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
     const docLibId = await adminApiActions.sites.getDocLibId(siteName);
     await adminApiActions.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_MANAGER.ROLE);
 
     const file1Id = (await adminApiActions.nodes.createFile(fileName1, docLibId)).entry.id;
-    const folderId = (await apis.user.nodes.createFolder(favFolderName)).entry.id;
-    const parentId = (await apis.user.nodes.createFolder(parentFolder)).entry.id;
-    const file2Id = (await apis.user.nodes.createFile(fileName2, parentId)).entry.id;
-    const file3Id = (await apis.user.nodes.createFile(fileName3, parentId)).entry.id;
-    const file4Id = (await apis.user.nodes.createFile(fileName4, parentId)).entry.id;
+    const folderId = (await repo.nodes.createFolder(favFolderName)).entry.id;
+    const parentId = (await repo.nodes.createFolder(parentFolder)).entry.id;
+    const file2Id = (await repo.nodes.createFile(fileName2, parentId)).entry.id;
+    const file3Id = (await repo.nodes.createFile(fileName3, parentId)).entry.id;
+    const file4Id = (await repo.nodes.createFile(fileName4, parentId)).entry.id;
 
-    await apis.user.favorites.addFavoriteById('file', file1Id);
-    await apis.user.favorites.addFavoriteById('folder', folderId);
-    await apis.user.favorites.addFavoriteById('file', file2Id);
-    await apis.user.favorites.addFavoriteById('file', file3Id);
-    await apis.user.favorites.addFavoriteById('file', file4Id);
+    await repo.favorites.addFavoriteById('file', file1Id);
+    await repo.favorites.addFavoriteById('folder', folderId);
+    await repo.favorites.addFavoriteById('file', file2Id);
+    await repo.favorites.addFavoriteById('file', file3Id);
+    await repo.favorites.addFavoriteById('file', file4Id);
 
-    await userActions.deleteNodes([file3Id, file4Id], false);
-    await userActions.trashcanApi.restoreDeletedNode(file4Id);
-    await loginPage.loginWith(username);
+    await coreActions.deleteNodes([file3Id, file4Id], false);
+    await coreActions.trashcanApi.restoreDeletedNode(file4Id);
+    await loginPage.login(username.email, username.password);
     done();
   });
 
@@ -82,8 +82,8 @@ describe('Favorites', () => {
 
   afterAll(async (done) => {
     await adminApiActions.deleteSites([siteName]);
-    await userActions.deleteNodes([favFolderName, parentFolder]);
-    await userActions.emptyTrashcan();
+    await coreActions.deleteNodes([favFolderName, parentFolder]);
+    await coreActions.emptyTrashcan();
     done();
   });
 

@@ -23,29 +23,28 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, UserActions, SITE_VISIBILITY, SITE_ROLES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { SITE_VISIBILITY, SITE_ROLES, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { browser } from 'protractor';
 
 describe('Special permissions', () => {
-  const username = `user-${Utils.random()}`;
-
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  let username;
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable } = page;
   const { searchInput } = page.header;
 
-  const adminApiActions = new AdminActions();
-  const userActions = new UserActions();
+  const apiService = new ApiService();
+  const usersActions = new UsersActions(apiService);
+  const repo = new RepoClient(apiService);
 
   let initialSharedTotalItems: number;
 
   beforeAll(async (done) => {
-    await adminApiActions.login();
-    await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
+    await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
+    username = await usersActions.createUser();
+    await apiService.getInstance().login(username.email, username.password);
     done();
   });
 
@@ -59,17 +58,17 @@ describe('Special permissions', () => {
       await adminApiActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
       const docLibId = await adminApiActions.sites.getDocLibId(sitePrivate);
       fileId = (await adminApiActions.nodes.createFile(fileName, docLibId)).entry.id;
-      await apis.user.favorites.addFavoriteById('file', fileId);
+      await repo.favorites.addFavoriteById('file', fileId);
 
-      initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
+      initialSharedTotalItems = await repo.shared.getSharedLinksTotalItems();
 
       await adminApiActions.shareNodes([fileId]);
-      await apis.user.nodes.editNodeContent(fileId, 'edited by user');
+      await repo.nodes.editNodeContent(fileId, 'edited by user');
 
-      await apis.user.search.waitForApi(username, { expect: 1 });
-      await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 1 });
+      await repo.search.waitForApi(username, { expect: 1 });
+      await repo.shared.waitForApi({ expect: initialSharedTotalItems + 1 });
 
-      await loginPage.loginWith(username);
+      await loginPage.login(username.email, username.password);
       done();
     });
 
@@ -133,16 +132,16 @@ describe('Special permissions', () => {
       await adminApiActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
       await adminApiActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
       const docLibId = await adminApiActions.sites.getDocLibId(sitePrivate);
-      fileId = (await apis.user.nodes.createFile(fileName, docLibId)).entry.id;
-      await apis.user.favorites.addFavoriteById('file', fileId);
+      fileId = (await repo.nodes.createFile(fileName, docLibId)).entry.id;
+      await repo.favorites.addFavoriteById('file', fileId);
 
-      initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
-      await userActions.shareNodes([fileId]);
-      await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 1 });
+      initialSharedTotalItems = await repo.shared.getSharedLinksTotalItems();
+      await coreActions.shareNodes([fileId]);
+      await repo.shared.waitForApi({ expect: initialSharedTotalItems + 1 });
 
-      await apis.user.search.waitForApi(username, { expect: 1 });
+      await repo.search.waitForApi(username, { expect: 1 });
       await adminApiActions.sites.deleteSiteMember(sitePrivate, username);
-      await loginPage.loginWith(username);
+      await loginPage.login(username.email, username.password);
       done();
     });
 

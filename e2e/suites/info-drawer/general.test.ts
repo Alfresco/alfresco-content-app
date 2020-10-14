@@ -23,7 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, RepoClient, InfoDrawer, Utils } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, RepoClient, InfoDrawer, Utils } from '@alfresco/aca-testing-shared';
+import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 describe('General', () => {
   const username = `user1-${Utils.random()}`;
@@ -34,30 +35,29 @@ describe('General', () => {
   const file1 = `file1-${Utils.random()}.txt`;
   const folder1 = `folder1-${Utils.random()}`;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
-
   const infoDrawer = new InfoDrawer();
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable } = page;
-  const adminApiActions = new AdminActions();
+
+  const apiService = new ApiService();
+  const usersActions = new UsersActions(apiService);
+  const repo = new RepoClient(apiService);
 
   beforeAll(async (done) => {
-    await adminApiActions.createUser({ username });
+    username = await usersActions.createUser();
 
-    parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
-    await apis.user.nodes.createFile(file1, parentId);
-    await apis.user.nodes.createFolder(folder1, parentId);
+    parentId = (await repo.nodes.createFolder(parent)).entry.id;
+    await repo.nodes.createFile(file1, parentId);
+    await repo.nodes.createFolder(folder1, parentId);
 
-    await loginPage.loginWith(username);
+    await loginPage.login(username.email, username.password);
     done();
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(parentId);
+    await repo.nodes.deleteNodeById(parentId);
     done();
   });
 

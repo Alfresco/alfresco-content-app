@@ -25,10 +25,11 @@
 
 import { browser } from 'protractor';
 
-import { AdminActions, SITE_VISIBILITY, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { SITE_VISIBILITY, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Breadcrumb', () => {
-  const username = `user-${Utils.random()}`;
+  let username;
 
   const parent = `parent-${Utils.random()}`;
   let parentId: string;
@@ -50,34 +51,33 @@ describe('Breadcrumb', () => {
   const page = new BrowsingPage();
   const { breadcrumb } = page;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
-  const adminApiActions = new AdminActions();
+  const apiService = new ApiService();
+  const repo = new RepoClient(apiService);
+  const usersActions = new UsersActions(apiService);
 
   beforeAll(async (done) => {
-    await adminApiActions.createUser({ username });
-    parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
-    subFolder1Id = (await apis.user.nodes.createFolder(subFolder1, parentId)).entry.id;
-    subFolder2Id = (await apis.user.nodes.createFolder(subFolder2, subFolder1Id)).entry.id;
-    await apis.user.nodes.createFile(fileName1, subFolder2Id);
+    username = await usersActions.createUser();
+    parentId = (await repo.nodes.createFolder(parent)).entry.id;
+    subFolder1Id = (await repo.nodes.createFolder(subFolder1, parentId)).entry.id;
+    subFolder2Id = (await repo.nodes.createFolder(subFolder2, subFolder1Id)).entry.id;
+    await repo.nodes.createFile(fileName1, subFolder2Id);
 
-    parent2Id = (await apis.user.nodes.createFolder(parent2)).entry.id;
-    folder1Id = (await apis.user.nodes.createFolder(folder1, parent2Id)).entry.id;
+    parent2Id = (await repo.nodes.createFolder(parent2)).entry.id;
+    folder1Id = (await repo.nodes.createFolder(folder1, parent2Id)).entry.id;
 
-    await apis.user.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
-    const docLibId = await apis.user.sites.getDocLibId(siteName);
-    parentId = (await apis.user.nodes.createFolder(parent, docLibId)).entry.id;
-    subFolder1Id = (await apis.user.nodes.createFolder(subFolder1, parentId)).entry.id;
-    subFolder2Id = (await apis.user.nodes.createFolder(subFolder2, subFolder1Id)).entry.id;
-    await apis.user.nodes.createFile(fileName1, subFolder2Id);
+    await repo.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
+    const docLibId = await repo.sites.getDocLibId(siteName);
+    parentId = (await repo.nodes.createFolder(parent, docLibId)).entry.id;
+    subFolder1Id = (await repo.nodes.createFolder(subFolder1, parentId)).entry.id;
+    subFolder2Id = (await repo.nodes.createFolder(subFolder2, subFolder1Id)).entry.id;
+    await repo.nodes.createFile(fileName1, subFolder2Id);
 
-    await loginPage.loginWith(username);
+    await loginPage.login(username.email, username.password);
     done();
   });
 
   afterAll(async (done) => {
-    await Promise.all([apis.user.nodes.deleteNodeById(parentId), apis.user.nodes.deleteNodeById(parent2Id), apis.user.sites.deleteSite(siteName)]);
+    await Promise.all([repo.nodes.deleteNodeById(parentId), repo.nodes.deleteNodeById(parent2Id), repo.sites.deleteSite(siteName)]);
     done();
   });
 
@@ -169,7 +169,7 @@ describe('Breadcrumb', () => {
     await page.dataTable.doubleClickOnRowByName(parent2);
     await page.dataTable.doubleClickOnRowByName(folder1);
     await page.dataTable.wait();
-    await apis.user.nodes.renameNode(folder1Id, folder1Renamed);
+    await repo.nodes.renameNode(folder1Id, folder1Renamed);
     await page.refresh();
     await page.dataTable.wait();
     expect(await breadcrumb.currentItem.getText()).toEqual(folder1Renamed);
@@ -194,9 +194,9 @@ describe('Breadcrumb', () => {
     const user2Api = new RepoClient(user2, user2);
 
     beforeAll(async (done) => {
-      await adminApiActions.createUser({ username: user2 });
+      user2 = await usersActions.createUser();
       userFolderId = (await user2Api.nodes.createFolder(userFolder)).entry.id;
-      await loginPage.loginWithAdmin();
+      await loginPage.loginAdmin();
       await page.dataTable.waitForBody();
 
       await page.dataTable.sortByModified('desc');

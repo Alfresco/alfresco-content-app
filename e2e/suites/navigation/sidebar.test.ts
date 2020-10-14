@@ -24,7 +24,8 @@
  */
 
 import { browser } from 'protractor';
-import { APP_ROUTES, SIDEBAR_LABELS, LoginPage, BrowsingPage, SearchResultsPage, Utils } from '@alfresco/aca-testing-shared';
+import { APP_ROUTES, SIDEBAR_LABELS, BrowsingPage, SearchResultsPage, Utils } from '@alfresco/aca-testing-shared';
+import { LoginPage } from '@alfresco/adf-testing';
 
 describe('Sidebar', () => {
   const loginPage = new LoginPage();
@@ -34,7 +35,7 @@ describe('Sidebar', () => {
   const { searchInput } = searchResultsPage.header;
 
   beforeAll(async (done) => {
-    await loginPage.loginWithAdmin();
+    await loginPage.loginAdmin();
     done();
   });
 
@@ -199,7 +200,7 @@ describe('Sidebar', () => {
   it('[C269102] sidebar state is preserved after logout / login', async () => {
     await header.collapseSideNav();
     await page.signOut();
-    await loginPage.loginWithAdmin();
+    await loginPage.loginAdmin();
 
     expect(await header.isSidenavExpanded()).toBe(false, 'Sidebar not collapsed');
   });

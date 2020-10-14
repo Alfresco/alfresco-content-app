@@ -23,10 +23,12 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, UserActions, SITE_VISIBILITY, SITE_ROLES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { SITE_VISIBILITY, SITE_ROLES, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { ApiService, LoginPage, UsersActions} from '@alfresco/adf-testing';
+import { browser } from 'protractor';
 
 describe('Trash', () => {
-  const username = `user-${Utils.random()}`;
+  let username;
 
   const siteName = `site-${Utils.random()}`;
   const fileSite = `file-${Utils.random()}.txt`;
@@ -52,21 +54,18 @@ describe('Trash', () => {
   const fileInFolder = `file-${Utils.random()}.txt`;
   let fileInFolderId: string;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
-
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable, breadcrumb } = page;
 
-  const adminApiActions = new AdminActions();
-  const userActions = new UserActions();
+  const apiService = new ApiService();
+  const usersActions = new UsersActions(apiService);
+  const repo = new RepoClient(apiService);
 
   beforeAll(async () => {
-    await adminApiActions.login();
-    await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
+    await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
+    username = await usersActions.createUser();
+    await apiService.getInstance().login(username.email, username.password);
 
     fileAdminId = (await adminApiActions.nodes.createFiles([fileAdmin])).entry.id;
     folderAdminId = (await adminApiActions.nodes.createFolders([folderAdmin])).entry.id;
@@ -74,31 +73,31 @@ describe('Trash', () => {
     await adminApiActions.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_MANAGER.ROLE);
     const docLibId = await adminApiActions.sites.getDocLibId(siteName);
     fileSiteId = (await adminApiActions.nodes.createFile(fileSite, docLibId)).entry.id;
-    fileUserId = (await apis.user.nodes.createFiles([fileUser])).entry.id;
-    folderUserId = (await apis.user.nodes.createFolders([folderUser])).entry.id;
-    folderDeletedId = (await apis.user.nodes.createFolder(folderDeleted)).entry.id;
-    fileDeletedId = (await apis.user.nodes.createFiles([fileDeleted], folderDeleted)).entry.id;
-    folderNotDeletedId = (await apis.user.nodes.createFolder(folderNotDeleted)).entry.id;
-    fileInFolderId = (await apis.user.nodes.createFiles([fileInFolder], folderNotDeleted)).entry.id;
+    fileUserId = (await repo.nodes.createFiles([fileUser])).entry.id;
+    folderUserId = (await repo.nodes.createFolders([folderUser])).entry.id;
+    folderDeletedId = (await repo.nodes.createFolder(folderDeleted)).entry.id;
+    fileDeletedId = (await repo.nodes.createFiles([fileDeleted], folderDeleted)).entry.id;
+    folderNotDeletedId = (await repo.nodes.createFolder(folderNotDeleted)).entry.id;
+    fileInFolderId = (await repo.nodes.createFiles([fileInFolder], folderNotDeleted)).entry.id;
 
     await adminApiActions.nodes.deleteNodesById([fileAdminId, folderAdminId], false);
-    await apis.user.nodes.deleteNodesById([fileSiteId, fileUserId, folderUserId, fileInFolderId], false);
-    await apis.user.nodes.deleteNodeById(fileDeletedId, false);
-    await apis.user.nodes.deleteNodeById(folderDeletedId, false);
+    await repo.nodes.deleteNodesById([fileSiteId, fileUserId, folderUserId, fileInFolderId], false);
+    await repo.nodes.deleteNodeById(fileDeletedId, false);
+    await repo.nodes.deleteNodeById(folderDeletedId, false);
   });
 
   afterAll(async (done) => {
     await adminApiActions.sites.deleteSite(siteName);
     await adminApiActions.trashcanApi.deleteDeletedNode(fileAdminId);
     await adminApiActions.trashcanApi.deleteDeletedNode(folderAdminId);
-    await apis.user.nodes.deleteNodeById(folderNotDeletedId);
-    await userActions.emptyTrashcan();
+    await repo.nodes.deleteNodeById(folderNotDeletedId);
+    await coreActions.emptyTrashcan();
     done();
   });
 
   describe('as admin', () => {
     beforeAll(async (done) => {
-      await loginPage.loginWithAdmin();
+      await loginPage.loginAdmin();
       done();
     });
 
@@ -125,7 +124,7 @@ describe('Trash', () => {
 
   describe('as user', () => {
     beforeAll(async (done) => {
-      await loginPage.loginWith(username);
+      await loginPage.login(username.email, username.password);
       done();
     });
 

@@ -23,10 +23,12 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, UserActions, LoginPage, BrowsingPage, SearchResultsPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, SearchResultsPage, RepoClient, Utils, CoreActions } from '@alfresco/aca-testing-shared';
+import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { browser } from 'protractor';
 
 describe('Download', () => {
-  const username = `user-${Utils.random()}`;
+  let username;
 
   const parent = `parent-${Utils.random()}`;
   let parentId: string;
@@ -62,10 +64,6 @@ describe('Download', () => {
 
   const archiveZip = 'archive.zip';
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
-
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable, toolbar } = page;
@@ -76,53 +74,55 @@ describe('Download', () => {
   let initialFavoritesTotalItems: number;
   let initialRecentTotalItems: number;
 
-  const adminApiActions = new AdminActions();
-  const userActions = new UserActions();
+  const apiService = new ApiService();
+  const usersActions = new UsersActions(apiService);
+  const repo = new RepoClient(apiService);
+  const coreActions = new CoreActions(apiService);
 
   beforeAll(async (done) => {
-    await adminApiActions.login();
-    await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
+    await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
+    username = await usersActions.createUser();
+    await apiService.getInstance().login(username.email, username.password);
 
-    initialRecentTotalItems = await apis.user.search.getTotalItems(username);
+    initialRecentTotalItems = await repo.search.getTotalItems(username);
 
-    parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
+    parentId = (await repo.nodes.createFolder(parent)).entry.id;
 
-    await apis.user.nodes.createFile(filePersonal, parentId);
-    await apis.user.nodes.createFile(fileRecent1, parentId);
-    await apis.user.nodes.createFile(fileRecent2, parentId);
-    fileShared1Id = (await apis.user.nodes.createFile(fileShared1, parentId)).entry.id;
-    fileShared2Id = (await apis.user.nodes.createFile(fileShared2, parentId)).entry.id;
-    fileFavoritesId = (await apis.user.nodes.createFile(fileFavorites, parentId)).entry.id;
-    await apis.user.nodes.createFile(fileSearch, parentId);
+    await repo.nodes.createFile(filePersonal, parentId);
+    await repo.nodes.createFile(fileRecent1, parentId);
+    await repo.nodes.createFile(fileRecent2, parentId);
+    fileShared1Id = (await repo.nodes.createFile(fileShared1, parentId)).entry.id;
+    fileShared2Id = (await repo.nodes.createFile(fileShared2, parentId)).entry.id;
+    fileFavoritesId = (await repo.nodes.createFile(fileFavorites, parentId)).entry.id;
+    await repo.nodes.createFile(fileSearch, parentId);
 
-    folderPersonalId = (await apis.user.nodes.createFolder(folderPersonal, parentId)).entry.id;
-    await apis.user.nodes.createFile(fileInFolderPersonal, folderPersonalId);
+    folderPersonalId = (await repo.nodes.createFolder(folderPersonal, parentId)).entry.id;
+    await repo.nodes.createFile(fileInFolderPersonal, folderPersonalId);
 
-    folderFavoritesId = (await apis.user.nodes.createFolder(folderFavorites, parentId)).entry.id;
-    await apis.user.nodes.createFile(fileInFolderFavorites, folderFavoritesId);
+    folderFavoritesId = (await repo.nodes.createFolder(folderFavorites, parentId)).entry.id;
+    await repo.nodes.createFile(fileInFolderFavorites, folderFavoritesId);
 
-    folderSearchId = (await apis.user.nodes.createFolder(folderSearch, parentId)).entry.id;
-    await apis.user.nodes.createFile(fileInFolderSearch, folderSearchId);
+    folderSearchId = (await repo.nodes.createFolder(folderSearch, parentId)).entry.id;
+    await repo.nodes.createFile(fileInFolderSearch, folderSearchId);
 
-    await apis.user.search.waitForApi(username, { expect: initialRecentTotalItems + 10 });
+    await repo.search.waitForApi(username, { expect: initialRecentTotalItems + 10 });
 
-    initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
-    await userActions.shareNodes([fileShared1Id, fileShared2Id]);
-    await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 2 });
+    initialSharedTotalItems = await repo.shared.getSharedLinksTotalItems();
+    await coreActions.shareNodes([fileShared1Id, fileShared2Id]);
+    await repo.shared.waitForApi({ expect: initialSharedTotalItems + 2 });
 
-    initialFavoritesTotalItems = await apis.user.favorites.getFavoritesTotalItems();
-    await apis.user.favorites.addFavoriteById('file', fileFavoritesId);
-    await apis.user.favorites.addFavoriteById('folder', folderFavoritesId);
-    await apis.user.favorites.waitForApi({ expect: initialFavoritesTotalItems + 2 });
+    initialFavoritesTotalItems = await repo.favorites.getFavoritesTotalItems();
+    await repo.favorites.addFavoriteById('file', fileFavoritesId);
+    await repo.favorites.addFavoriteById('folder', folderFavoritesId);
+    await repo.favorites.waitForApi({ expect: initialFavoritesTotalItems + 2 });
 
-    await loginPage.loginWith(username);
+    await loginPage.login(username.email, username.password);
     done();
   });
 
   afterAll(async (done) => {
-    await userActions.deleteNodes([parentId]);
-    await userActions.emptyTrashcan();
+    await coreActions.deleteNodes([parentId]);
+    await coreActions.emptyTrashcan();
     done();
   });
 

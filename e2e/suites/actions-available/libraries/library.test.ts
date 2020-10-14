@@ -23,16 +23,18 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage, SearchResultsPage, RepoClient, Utils, AdminActions, UserActions } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, SearchResultsPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 import * as testData from './test-data-libraries';
 import * as testUtil from '../test-util';
+import { ApiService, LoginPage, UsersActions} from '@alfresco/adf-testing';
+import { browser } from 'protractor';
 
 describe('Library actions : ', () => {
-  const username = `user-${Utils.random()}`;
+  let username;
 
-  const userApi = new RepoClient(username, username);
-  const adminApiActions = new AdminActions();
-  const userActions = new UserActions();
+  const apiService = new ApiService();
+  const usersActions = new UsersActions(apiService);
+  const repo = new RepoClient(apiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -40,21 +42,21 @@ describe('Library actions : ', () => {
   const { searchInput } = searchResultsPage.header;
 
   beforeAll(async () => {
-    await adminApiActions.login();
-    await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
+    await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
+    username = await usersActions.createUser();
+    await apiService.getInstance().login(username.email, username.password);
 
     const initialAdminSitesTotalItems = await adminApiActions.sites.getSitesTotalItems();
-    const initialUserSitesTotalItems = await userApi.sites.getSitesTotalItems();
-    const initialDeletedTotalItems = await userActions.getTrashcanSize();
-    const initialQuerySitesTotalItems = await userApi.queries.findSitesTotalItems('actionsSite-');
+    const initialUserSitesTotalItems = await repo.sites.getSitesTotalItems();
+    const initialDeletedTotalItems = await coreActions.getTrashcanSize();
+    const initialQuerySitesTotalItems = await repo.queries.findSitesTotalItems('actionsSite-');
 
-    await userApi.sites.createSite(testData.publicUserMemberFav.name);
-    await userApi.sites.createSitePrivate(testData.privateUserMemberFav.name);
-    await userApi.sites.createSiteModerated(testData.moderatedUserMemberFav.name);
-    const publicUserMemberNotFavId = (await userApi.sites.createSite(testData.publicUserMemberNotFav.name)).entry.guid;
-    const privateUserMemberNotFavId = (await userApi.sites.createSitePrivate(testData.privateUserMemberNotFav.name)).entry.guid;
-    const moderatedUserMemberNotFavId = (await userApi.sites.createSiteModerated(testData.moderatedUserMemberNotFav.name)).entry.guid;
+    await repo.sites.createSite(testData.publicUserMemberFav.name);
+    await repo.sites.createSitePrivate(testData.privateUserMemberFav.name);
+    await repo.sites.createSiteModerated(testData.moderatedUserMemberFav.name);
+    const publicUserMemberNotFavId = (await repo.sites.createSite(testData.publicUserMemberNotFav.name)).entry.guid;
+    const privateUserMemberNotFavId = (await repo.sites.createSitePrivate(testData.privateUserMemberNotFav.name)).entry.guid;
+    const moderatedUserMemberNotFavId = (await repo.sites.createSiteModerated(testData.moderatedUserMemberNotFav.name)).entry.guid;
 
     await adminApiActions.sites.createSite(testData.publicNotMemberFav.name);
     await adminApiActions.sites.createSiteModerated(testData.moderatedNotMemberFav.name);
@@ -63,31 +65,31 @@ describe('Library actions : ', () => {
     await adminApiActions.sites.createSiteModerated(testData.moderatedRequestedJoinFav.name);
     await adminApiActions.sites.createSiteModerated(testData.moderatedRequestedJoinNotFav.name);
 
-    await userApi.sites.requestToJoin(testData.moderatedRequestedJoinFav.name);
-    await userApi.sites.requestToJoin(testData.moderatedRequestedJoinNotFav.name);
+    await repo.sites.requestToJoin(testData.moderatedRequestedJoinFav.name);
+    await repo.sites.requestToJoin(testData.moderatedRequestedJoinNotFav.name);
 
-    await userApi.favorites.removeFavoritesByIds([publicUserMemberNotFavId, privateUserMemberNotFavId, moderatedUserMemberNotFavId]);
-    await userApi.favorites.addFavoritesByIds('site', [
+    await repo.favorites.removeFavoritesByIds([publicUserMemberNotFavId, privateUserMemberNotFavId, moderatedUserMemberNotFavId]);
+    await repo.favorites.addFavoritesByIds('site', [
       testData.publicNotMemberFav.name,
       testData.moderatedNotMemberFav.name,
       testData.moderatedRequestedJoinFav.name
     ]);
 
-    await userApi.sites.waitForApi({ expect: initialUserSitesTotalItems + 6 });
+    await repo.sites.waitForApi({ expect: initialUserSitesTotalItems + 6 });
     await adminApiActions.sites.waitForApi({ expect: initialAdminSitesTotalItems + 6 });
-    await userApi.queries.waitForSites('actionsSite-', { expect: initialQuerySitesTotalItems + 12 });
+    await repo.queries.waitForSites('actionsSite-', { expect: initialQuerySitesTotalItems + 12 });
 
-    await userApi.sites.createSite(testData.siteInTrash.name);
-    await userApi.sites.createSite(testData.site2InTrash.name);
+    await repo.sites.createSite(testData.siteInTrash.name);
+    await repo.sites.createSite(testData.site2InTrash.name);
 
-    await userActions.deleteSites([testData.siteInTrash.name, testData.site2InTrash.name], false);
-    await userActions.waitForTrashcanSize(initialDeletedTotalItems + 2);
+    await coreActions.deleteSites([testData.siteInTrash.name, testData.site2InTrash.name], false);
+    await coreActions.waitForTrashcanSize(initialDeletedTotalItems + 2);
 
-    await loginPage.loginWith(username);
+    await loginPage.login(username.email, username.password);
   });
 
   afterAll(async () => {
-    await userActions.deleteSites([
+    await coreActions.deleteSites([
       testData.publicUserMemberFav.name,
       testData.privateUserMemberFav.name,
       testData.moderatedUserMemberFav.name,
@@ -103,7 +105,7 @@ describe('Library actions : ', () => {
       testData.moderatedRequestedJoinFav.name,
       testData.moderatedRequestedJoinNotFav.name
     ]);
-    await userActions.emptyTrashcan();
+    await coreActions.emptyTrashcan();
   });
 
   describe('on My Libraries', () => {

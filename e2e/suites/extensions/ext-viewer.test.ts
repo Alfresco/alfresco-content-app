@@ -23,10 +23,11 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, Viewer, RepoClient, EXTENSIBILITY_CONFIGS, FILES, Utils } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, Viewer, RepoClient, EXTENSIBILITY_CONFIGS, FILES, Utils } from '@alfresco/aca-testing-shared';
+import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 describe('Extensions - Viewer', () => {
-  const username = `user-${Utils.random()}`;
+  let username;
 
   const pdfFile = {
     file_name: FILES.pdfFile,
@@ -62,30 +63,28 @@ describe('Extensions - Viewer', () => {
     title: 'My new title'
   };
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
-
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
 
   const viewer = new Viewer();
   const { toolbar } = viewer;
-  const adminApiActions = new AdminActions();
+
+  const apiService = new ApiService();
+  const usersActions = new UsersActions(apiService);
+  const repo = new RepoClient(apiService);
 
   beforeAll(async (done) => {
-    await adminApiActions.createUser({ username });
-    pdfFileId = (await apis.user.upload.uploadFile(pdfFile.file_name)).entry.id;
-    docxFileId = (await apis.user.upload.uploadFile(docxFile.file_name)).entry.id;
+    username = await usersActions.createUser();
+    pdfFileId = (await repo.upload.uploadFile(pdfFile.file_name)).entry.id;
+    docxFileId = (await repo.upload.uploadFile(docxFile.file_name)).entry.id;
 
-    await loginPage.load();
     await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.VIEWER);
-    await loginPage.loginWith(username);
+    await loginPage.login(username.email, username.password);
     done();
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodesById([pdfFileId, docxFileId]);
+    await repo.nodes.deleteNodesById([pdfFileId, docxFileId]);
     done();
   });
 

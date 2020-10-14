@@ -23,10 +23,11 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, BrowsingPage, LoginPage, RepoClient, EXTENSIBILITY_CONFIGS, Utils } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, RepoClient, EXTENSIBILITY_CONFIGS, Utils } from '@alfresco/aca-testing-shared';
+import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 describe('Extensions - DocumentList presets', () => {
-  const username = `user-${Utils.random()}`;
+  let username;
   const file = `file-${Utils.random()}.txt`;
   let fileId: string;
 
@@ -50,22 +51,20 @@ describe('Extensions - DocumentList presets', () => {
     }
   ];
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
-
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable } = page;
-  const adminApiActions = new AdminActions();
+
+  const apiService = new ApiService();
+  const usersActions = new UsersActions(apiService);
+  const repo = new RepoClient(apiService);
 
   beforeAll(async (done) => {
-    await adminApiActions.createUser({ username });
-    fileId = (await apis.user.nodes.createFile(file)).entry.id;
+    username = await usersActions.createUser();
+    fileId = (await repo.nodes.createFile(file)).entry.id;
 
-    await loginPage.load();
     await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.DOCUMENT_LIST_PRESETS);
-    await loginPage.loginWith(username);
+    await loginPage.login(username.email, username.password);
 
     done();
   });
@@ -76,7 +75,7 @@ describe('Extensions - DocumentList presets', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(fileId);
+    await repo.nodes.deleteNodeById(fileId);
     done();
   });
 

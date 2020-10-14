@@ -24,21 +24,18 @@
  */
 
 import {
-  LoginPage,
   BrowsingPage,
   SelectTemplateDialog,
   CreateFromTemplateDialog,
   Utils,
   clearTextWithBackspace,
-  AdminActions,
   RepoClient,
   NodeContentTree
 } from '@alfresco/aca-testing-shared';
+import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Create file from template', () => {
   const random = Utils.random();
-
-  const username = `user-${random}`;
 
   const restrictedTemplateFolder = `restricted-templates-${random}`;
   const templateInRestrictedFolder = `template-restricted-${random}.txt`;
@@ -76,9 +73,9 @@ describe('Create file from template', () => {
   const duplicateFileSite = `duplicate-file-site-${random}.txt`;
   let docLibUserSite: string;
 
-  const userApi = new RepoClient(username, username);
-
-  const adminApiActions = new AdminActions();
+  const apiService = new ApiService();
+  const usersActions = new UsersActions(apiService);
+  const repo = new RepoClient(apiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -87,21 +84,21 @@ describe('Create file from template', () => {
   const { sidenav } = page;
 
   beforeAll(async () => {
-    await adminApiActions.createUser({ username });
+    const username = await usersActions.createUser();
 
-    parentId = (await userApi.nodes.createFolder(parent)).entry.id;
-    await userApi.nodes.createFile(duplicateFileName, parentId);
+    parentId = (await repo.nodes.createFolder(parent)).entry.id;
+    await repo.nodes.createFile(duplicateFileName, parentId);
 
-    await userApi.sites.createSite(siteName);
-    docLibUserSite = await userApi.sites.getDocLibId(siteName);
-    await userApi.nodes.createFile(duplicateFileSite, docLibUserSite);
+    await repo.sites.createSite(siteName);
+    docLibUserSite = await repo.sites.getDocLibId(siteName);
+    await repo.nodes.createFile(duplicateFileSite, docLibUserSite);
 
-    await loginPage.loginWith(username);
+    await loginPage.login(username.email, username.password);
   });
 
   afterAll(async () => {
-    await userApi.nodes.deleteNodeById(parentId);
-    await userApi.sites.deleteSite(siteName);
+    await repo.nodes.deleteNodeById(parentId);
+    await repo.sites.deleteSite(siteName);
     await adminApiActions.cleanupNodeTemplatesFolder();
   });
 
@@ -327,9 +324,9 @@ describe('Create file from template', () => {
         await page.dataTable.waitForHeader();
 
         expect(await page.dataTable.isItemPresent(file2.name)).toBe(true, 'File not displayed in list view');
-        const desc = await userApi.nodes.getNodeDescription(file2.name, parentId);
+        const desc = await repo.nodes.getNodeDescription(file2.name, parentId);
         expect(desc).toEqual(file2.description);
-        const title = await userApi.nodes.getNodeTitle(file2.name, parentId);
+        const title = await repo.nodes.getNodeTitle(file2.name, parentId);
         expect(title).toEqual(file2.title);
       });
 
@@ -381,9 +378,9 @@ describe('Create file from template', () => {
         await page.dataTable.waitForHeader();
 
         expect(await page.dataTable.isItemPresent(fileSite.name)).toBe(true, 'File not displayed in list view');
-        const desc = await userApi.nodes.getNodeDescription(fileSite.name, docLibUserSite);
+        const desc = await repo.nodes.getNodeDescription(fileSite.name, docLibUserSite);
         expect(desc).toEqual(fileSite.description);
-        const title = await userApi.nodes.getNodeTitle(fileSite.name, docLibUserSite);
+        const title = await repo.nodes.getNodeTitle(fileSite.name, docLibUserSite);
         expect(title).toEqual(fileSite.title);
       });
 

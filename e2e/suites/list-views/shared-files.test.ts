@@ -23,10 +23,11 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, SITE_VISIBILITY, SITE_ROLES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { SITE_VISIBILITY, SITE_ROLES, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 describe('Shared Files', () => {
-  const username = `user-${Utils.random()}`;
+  let username;
   const password = username;
 
   const siteName = `site-${Utils.random()}`;
@@ -45,40 +46,39 @@ describe('Shared Files', () => {
 
   let initialSharedTotalItems: number;
 
-  const apis = {
-    user: new RepoClient(username, password)
-  };
-
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable, breadcrumb } = page;
-  const adminApiActions = new AdminActions();
+
+  const apiService = new ApiService();
+  const usersActions = new UsersActions(apiService);
+  const repo = new RepoClient(apiService);
 
   beforeAll(async (done) => {
-    await adminApiActions.createUser({ username });
+    username = await usersActions.createUser();
     await adminApiActions.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
     await adminApiActions.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_CONSUMER.ROLE);
     const docLibId = await adminApiActions.sites.getDocLibId(siteName);
     const nodeId = (await adminApiActions.nodes.createFile(fileAdmin, docLibId)).entry.id;
 
-    folderId = (await apis.user.nodes.createFolder(folderUser)).entry.id;
-    file1Id = (await apis.user.nodes.createFile(file1User, folderId)).entry.id;
-    file2Id = (await apis.user.nodes.createFile(file2User)).entry.id;
-    file3Id = (await apis.user.nodes.createFile(file3User)).entry.id;
-    file4Id = (await apis.user.nodes.createFile(file4User)).entry.id;
+    folderId = (await repo.nodes.createFolder(folderUser)).entry.id;
+    file1Id = (await repo.nodes.createFile(file1User, folderId)).entry.id;
+    file2Id = (await repo.nodes.createFile(file2User)).entry.id;
+    file3Id = (await repo.nodes.createFile(file3User)).entry.id;
+    file4Id = (await repo.nodes.createFile(file4User)).entry.id;
 
-    initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
+    initialSharedTotalItems = await repo.shared.getSharedLinksTotalItems();
 
-    await apis.user.shared.shareFilesByIds([file1Id, file2Id, file3Id, file4Id]);
+    await repo.shared.shareFilesByIds([file1Id, file2Id, file3Id, file4Id]);
     await adminApiActions.shareNodes([nodeId]);
-    await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 5 });
+    await repo.shared.waitForApi({ expect: initialSharedTotalItems + 5 });
 
-    await apis.user.nodes.deleteNodeById(file2Id);
-    await apis.user.shared.unshareFile(file3User);
+    await repo.nodes.deleteNodeById(file2Id);
+    await repo.shared.unshareFile(file3User);
 
-    await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 3 });
+    await repo.shared.waitForApi({ expect: initialSharedTotalItems + 3 });
 
-    await loginPage.loginWith(username);
+    await loginPage.login(username.email, username.password);
     done();
   });
 
@@ -89,8 +89,8 @@ describe('Shared Files', () => {
 
   afterAll(async () => {
     await adminApiActions.sites.deleteSite(siteName);
-    await apis.user.nodes.deleteNodeById(folderId);
-    await apis.user.nodes.deleteNodeById(file4Id);
+    await repo.nodes.deleteNodeById(folderId);
+    await repo.nodes.deleteNodeById(file4Id);
   });
 
   it('[C213113] has the correct columns', async () => {

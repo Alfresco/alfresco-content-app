@@ -38,15 +38,10 @@ import { SITE_VISIBILITY, SITE_ROLES } from '../../../../configs';
 import { Utils } from '../../../../utilities/utils';
 
 export class SitesApi extends RepoApi {
-  sitesApi = new AdfSiteApi(this.alfrescoJsApi);
-
-  constructor(username?: string, password?: string) {
-    super(username, password);
-  }
+  sitesApi = new AdfSiteApi(this.api.getInstance());
 
   async getSite(siteId: string) {
     try {
-      await this.apiAuth();
       return await this.sitesApi.getSite(siteId);
     } catch (error) {
       this.handleError(`SitesApi getSite : catch : `, error);
@@ -56,8 +51,7 @@ export class SitesApi extends RepoApi {
 
   async getSites() {
     try {
-      await this.apiAuth();
-      return await this.sitesApi.listSiteMembershipsForPerson(this.username);
+      return await this.sitesApi.listSiteMembershipsForPerson(this.api.getInstance().getEcmUsername());
     } catch (error) {
       this.handleError(`SitesApi getSites : catch : `, error);
       return null;
@@ -66,8 +60,7 @@ export class SitesApi extends RepoApi {
 
   async getSitesTotalItems(): Promise<number> {
     try {
-      await this.apiAuth();
-      return (await this.sitesApi.listSiteMembershipsForPerson(this.username)).list.pagination.totalItems;
+      return (await this.sitesApi.listSiteMembershipsForPerson(this.api.getInstance().getEcmUsername())).list.pagination.totalItems;
     } catch (error) {
       this.handleError(`SitesApi getSitesTotalItems : catch : `, error);
       return -1;
@@ -76,7 +69,6 @@ export class SitesApi extends RepoApi {
 
   async getDocLibId(siteId: string): Promise<string> {
     try {
-      await this.apiAuth();
       return (await this.sitesApi.listSiteContainers(siteId)).list.entries[0].entry.id;
     } catch (error) {
       this.handleError(`SitesApi getDocLibId : catch : `, error);
@@ -123,7 +115,6 @@ export class SitesApi extends RepoApi {
     } as SiteBody;
 
     try {
-      await this.apiAuth();
       return await this.sitesApi.createSite(site);
     } catch (error) {
       this.handleError(`SitesApi createSite : catch : `, error);
@@ -156,7 +147,6 @@ export class SitesApi extends RepoApi {
 
   async deleteSite(siteId: string, permanent: boolean = true) {
     try {
-      await this.apiAuth();
       return await this.sitesApi.deleteSite(siteId, { permanent });
     } catch (error) {
       this.handleError(`SitesApi deleteSite : catch : `, error);
@@ -165,8 +155,6 @@ export class SitesApi extends RepoApi {
 
   async deleteSites(siteIds: string[], permanent: boolean = true) {
     if (siteIds && siteIds.length > 0) {
-      await this.apiAuth();
-
       for (const siteId of siteIds) {
         await this.sitesApi.deleteSite(siteId, { permanent });
       }
@@ -192,7 +180,6 @@ export class SitesApi extends RepoApi {
     } as SiteMemberRoleBody;
 
     try {
-      await this.apiAuth();
       return await this.sitesApi.updateSiteMembership(siteId, userId, siteRole);
     } catch (error) {
       this.handleError(`SitesApi updateSiteMember : catch : `, error);
@@ -207,7 +194,6 @@ export class SitesApi extends RepoApi {
     } as SiteMemberBody;
 
     try {
-      await this.apiAuth();
       return await this.sitesApi.createSiteMembership(siteId, memberBody);
     } catch (error) {
       if (error.status === 409) {
@@ -237,7 +223,6 @@ export class SitesApi extends RepoApi {
 
   async deleteSiteMember(siteId: string, userId: string) {
     try {
-      await this.apiAuth();
       return await this.sitesApi.deleteSiteMembership(siteId, userId);
     } catch (error) {
       this.handleError(`SitesApi deleteSiteMember : catch : `, error);
@@ -250,7 +235,6 @@ export class SitesApi extends RepoApi {
     };
 
     try {
-      await this.apiAuth();
       return await this.sitesApi.createSiteMembershipRequestForPerson('-me-', body);
     } catch (error) {
       this.handleError(`SitesApi requestToJoin : catch : `, error);
@@ -260,7 +244,6 @@ export class SitesApi extends RepoApi {
 
   async hasMembershipRequest(siteId: string) {
     try {
-      await this.apiAuth();
       const requests = (await this.sitesApi.getSiteMembershipRequests('-me-')).list.entries.map((e) => e.entry.id);
       return requests.includes(siteId);
     } catch (error) {

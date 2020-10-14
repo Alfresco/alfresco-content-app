@@ -144,8 +144,7 @@ exports.config = {
         '--disable-gpu',
         '--no-sandbox',
         '--disable-web-security',
-        '--disable-browser-side-navigation',
-        ...(BROWSER_RUN === true ? [] : ['--headless'])
+        '--disable-browser-side-navigation'
       ]
     }
   },

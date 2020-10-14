@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, RepoClient, Utils, AdminActions, FILES, SITE_ROLES } from '@alfresco/aca-testing-shared';
+import { RepoClient, Utils, FILES, SITE_ROLES } from '@alfresco/aca-testing-shared';
 import * as testData from './test-data-permissions';
 import { librariesTests } from './my-libraries';
 import { favoritesTests } from './favorites';
@@ -31,16 +31,14 @@ import { searchResultsTests } from './search-results';
 import { viewerTests } from './viewer';
 import { sharedFilesTests } from './shared-files';
 import { collaboratorTests, filesLockedByCurrentUser, filesLockedByOtherUser } from './other-permissions';
+import { LoginPage, ApiService, UsersActions } from '@alfresco/adf-testing';
 
 describe('Special permissions : ', () => {
   const random = Utils.random();
 
   const sitePrivate = `site-private-${random}`;
 
-  const userManager = `manager-${random}`;
-  const userConsumer = `consumer-${random}`;
-  const userCollaborator = `collaborator-${random}`;
-  const userDemoted = `demoted-${random}`;
+  let userManager, userConsumer, userCollaborator, userDemoted;
 
   let fileDocxFavId: string;
   let fileFavId: string;
@@ -57,7 +55,8 @@ describe('Special permissions : ', () => {
   let folderFavId: string;
   let folderFav2Id: string;
 
-  const adminApiActions = new AdminActions();
+  const apiService = new ApiService();
+  const usersActions = new UsersActions(apiService);
 
   const userManagerApi = new RepoClient(userManager, userManager);
   const userConsumerApi = new RepoClient(userConsumer, userConsumer);
@@ -67,10 +66,10 @@ describe('Special permissions : ', () => {
   const loginPage = new LoginPage();
 
   beforeAll(async () => {
-    await adminApiActions.createUser({ username: userManager });
-    await adminApiActions.createUser({ username: userConsumer });
-    await adminApiActions.createUser({ username: userCollaborator });
-    await adminApiActions.createUser({ username: userDemoted });
+    userManager = await usersActions.createUser();
+    userConsumer = await usersActions.createUser();
+    userCollaborator = await usersActions.createUser();
+    userDemoted = await usersActions.createUser();
 
     const consumerFavoritesTotalItems = await userConsumerApi.favorites.getFavoritesTotalItems();
     const consumerSharedTotalItems = await userConsumerApi.shared.getSharedLinksTotalItems();
@@ -157,7 +156,7 @@ describe('Special permissions : ', () => {
 
   describe('Consumer', () => {
     beforeAll(async () => {
-      await loginPage.loginWith(userConsumer);
+      await loginPage.login(userConsumer, userConsumer);
     });
 
     describe('on File Libraries', () => {
@@ -183,7 +182,7 @@ describe('Special permissions : ', () => {
 
   describe('Collaborator', () => {
     beforeAll(async () => {
-      await loginPage.loginWith(userCollaborator);
+      await loginPage.login(userCollaborator, userCollaborator);
     });
 
     collaboratorTests(sitePrivate);
@@ -191,7 +190,7 @@ describe('Special permissions : ', () => {
 
   describe('File locked - user is lock owner', () => {
     beforeAll(async () => {
-      await loginPage.loginWith(userDemoted);
+      await loginPage.login(userDemoted, userDemoted);
     });
 
     filesLockedByCurrentUser(sitePrivate);
@@ -199,7 +198,7 @@ describe('Special permissions : ', () => {
 
   describe('File locked by other user - user is manager', () => {
     beforeAll(async () => {
-      await loginPage.loginWith(userManager);
+      await loginPage.login(userManager, userManager);
     });
 
     filesLockedByOtherUser(sitePrivate);

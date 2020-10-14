@@ -24,21 +24,24 @@
  */
 
 import { browser } from 'protractor';
-import { AdminActions, LoginPage, BrowsingPage, Utils, APP_ROUTES } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, Utils, APP_ROUTES } from '@alfresco/aca-testing-shared';
+import { UsersActions, ApiService, LoginPage } from '@alfresco/adf-testing';
 
 describe('Logout', () => {
   const page = new BrowsingPage();
   const loginPage = new LoginPage();
-  const johnDoe = `user-${Utils.random()}`;
-  const adminApiActions = new AdminActions();
+  let johnDoe;
+
+  const apiService = new ApiService();
+  const usersActions = new UsersActions(apiService);
 
   beforeAll(async (done) => {
-    await adminApiActions.createUser({ username: johnDoe });
+    johnDoe = await usersActions.createUser();
     done();
   });
 
   beforeEach(async (done) => {
-    await loginPage.loginWith(johnDoe);
+    await loginPage.login(johnDoe.username, johnDoe.password);
     done();
   });
 

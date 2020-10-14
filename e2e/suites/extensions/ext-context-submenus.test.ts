@@ -23,10 +23,11 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, EXTENSIBILITY_CONFIGS, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, EXTENSIBILITY_CONFIGS, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 describe('Extensions - Context submenu', () => {
-  const username = `user-${Utils.random()}`;
+  let username;
   const file = `file-${Utils.random()}.txt`;
   let fileId: string;
   const folder = `folder-${Utils.random()}`;
@@ -43,24 +44,22 @@ describe('Extensions - Context submenu', () => {
     submenu: [restrictedPermissionsItem]
   };
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
-
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable } = page;
   const contextMenu = dataTable.menu;
-  const adminApiActions = new AdminActions();
+
+  const apiService = new ApiService();
+  const usersActions = new UsersActions(apiService);
+  const repo = new RepoClient(apiService);
 
   beforeAll(async (done) => {
-    await adminApiActions.createUser({ username });
-    fileId = (await apis.user.nodes.createFile(file)).entry.id;
-    folderId = (await apis.user.nodes.createFolder(folder)).entry.id;
+    username = await usersActions.createUser();
+    fileId = (await repo.nodes.createFile(file)).entry.id;
+    folderId = (await repo.nodes.createFolder(folder)).entry.id;
 
-    await loginPage.load();
     await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.CONTEXT_SUBMENUS);
-    await loginPage.loginWith(username);
+    await loginPage.login(username.email, username.password);
 
     done();
   });
@@ -73,8 +72,8 @@ describe('Extensions - Context submenu', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(fileId, true);
-    await apis.user.nodes.deleteNodeById(folderId, true);
+    await repo.nodes.deleteNodeById(fileId, true);
+    await repo.nodes.deleteNodeById(folderId, true);
     done();
   });
 

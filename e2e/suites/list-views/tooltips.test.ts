@@ -23,14 +23,12 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, UserActions, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, Utils, RepoClient, CoreActions } from '@alfresco/aca-testing-shared';
+import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { browser } from 'protractor';
 
 describe('File / folder tooltips', () => {
-  const username = `user-${Utils.random()}`;
-
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  let username;
 
   const parent = `parent-${Utils.random()}`;
 
@@ -51,39 +49,41 @@ describe('File / folder tooltips', () => {
   const page = new BrowsingPage();
   const { dataTable } = page;
 
-  const adminApiActions = new AdminActions();
-  const userActions = new UserActions();
+  const apiService = new ApiService();
+  const usersActions = new UsersActions(apiService);
+  const repo = new RepoClient(apiService);
+  const coreActions = new CoreActions(apiService);
 
   beforeAll(async (done) => {
-    await adminApiActions.login();
-    await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
+    await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
+    username = await usersActions.createUser();
+    await apiService.getInstance().login(username.email, username.password);
 
-    parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
+    parentId = (await repo.nodes.createFolder(parent)).entry.id;
 
-    file1Id = (await apis.user.nodes.createFile(file, parentId)).entry.id;
-    file2Id = (await apis.user.nodes.createFile(fileWithDesc, parentId, '', fileDescription)).entry.id;
-    file3Id = (await apis.user.nodes.createFile(fileWithTitle, parentId, fileTitle)).entry.id;
-    file4Id = (await apis.user.nodes.createFile(fileWithTitleAndDesc, parentId, fileTitle, fileDescription)).entry.id;
-    file5Id = (await apis.user.nodes.createFile(fileNameEqTitleEqDesc, parentId, fileNameEqTitleEqDesc, fileNameEqTitleEqDesc)).entry.id;
-    file6Id = (await apis.user.nodes.createFile(fileNameEqTitleDiffDesc, parentId, fileNameEqTitleDiffDesc, fileDescription)).entry.id;
-    file7Id = (await apis.user.nodes.createFile(fileNameEqDescDiffTitle, parentId, fileTitle, fileNameEqDescDiffTitle)).entry.id;
-    file8Id = (await apis.user.nodes.createFile(fileTitleEqDesc, parentId, fileTitle, fileTitle)).entry.id;
+    file1Id = (await repo.nodes.createFile(file, parentId)).entry.id;
+    file2Id = (await repo.nodes.createFile(fileWithDesc, parentId, '', fileDescription)).entry.id;
+    file3Id = (await repo.nodes.createFile(fileWithTitle, parentId, fileTitle)).entry.id;
+    file4Id = (await repo.nodes.createFile(fileWithTitleAndDesc, parentId, fileTitle, fileDescription)).entry.id;
+    file5Id = (await repo.nodes.createFile(fileNameEqTitleEqDesc, parentId, fileNameEqTitleEqDesc, fileNameEqTitleEqDesc)).entry.id;
+    file6Id = (await repo.nodes.createFile(fileNameEqTitleDiffDesc, parentId, fileNameEqTitleDiffDesc, fileDescription)).entry.id;
+    file7Id = (await repo.nodes.createFile(fileNameEqDescDiffTitle, parentId, fileTitle, fileNameEqDescDiffTitle)).entry.id;
+    file8Id = (await repo.nodes.createFile(fileTitleEqDesc, parentId, fileTitle, fileTitle)).entry.id;
 
-    const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
-    await apis.user.shared.shareFilesByIds([file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id]);
+    const initialSharedTotalItems = await repo.shared.getSharedLinksTotalItems();
+    await repo.shared.shareFilesByIds([file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id]);
 
-    await apis.user.favorites.addFavoritesByIds('file', [file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id]);
+    await repo.favorites.addFavoritesByIds('file', [file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id]);
 
-    await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 8 });
+    await repo.shared.waitForApi({ expect: initialSharedTotalItems + 8 });
 
-    await loginPage.loginWith(username);
+    await loginPage.login(username.email, username.password);
     done();
   });
 
   afterAll(async (done) => {
-    await userActions.deleteNodes([parent]);
-    await userActions.emptyTrashcan();
+    await coreActions.deleteNodes([parent]);
+    await coreActions.emptyTrashcan();
     done();
   });
 
@@ -129,7 +129,7 @@ describe('File / folder tooltips', () => {
 
   describe('on Recent Files', () => {
     beforeAll(async (done) => {
-      await apis.user.search.waitForApi(username, { expect: 8 });
+      await repo.search.waitForApi(username, { expect: 8 });
       await page.clickRecentFilesAndWait();
       done();
     });
@@ -252,18 +252,18 @@ describe('File / folder tooltips', () => {
     let file5TrashId, file6TrashId, file7TrashId, file8TrashId;
 
     beforeAll(async (done) => {
-      parentForTrashId = (await apis.user.nodes.createFolder(parentForTrash)).entry.id;
-      file1TrashId = (await apis.user.nodes.createFile(file, parentForTrashId)).entry.id;
-      file2TrashId = (await apis.user.nodes.createFile(fileWithDesc, parentForTrashId, '', fileDescription)).entry.id;
-      file3TrashId = (await apis.user.nodes.createFile(fileWithTitle, parentForTrashId, fileTitle)).entry.id;
-      file4TrashId = (await apis.user.nodes.createFile(fileWithTitleAndDesc, parentForTrashId, fileTitle, fileDescription)).entry.id;
-      file5TrashId = (await apis.user.nodes.createFile(fileNameEqTitleEqDesc, parentForTrashId, fileNameEqTitleEqDesc, fileNameEqTitleEqDesc)).entry
+      parentForTrashId = (await repo.nodes.createFolder(parentForTrash)).entry.id;
+      file1TrashId = (await repo.nodes.createFile(file, parentForTrashId)).entry.id;
+      file2TrashId = (await repo.nodes.createFile(fileWithDesc, parentForTrashId, '', fileDescription)).entry.id;
+      file3TrashId = (await repo.nodes.createFile(fileWithTitle, parentForTrashId, fileTitle)).entry.id;
+      file4TrashId = (await repo.nodes.createFile(fileWithTitleAndDesc, parentForTrashId, fileTitle, fileDescription)).entry.id;
+      file5TrashId = (await repo.nodes.createFile(fileNameEqTitleEqDesc, parentForTrashId, fileNameEqTitleEqDesc, fileNameEqTitleEqDesc)).entry
         .id;
-      file6TrashId = (await apis.user.nodes.createFile(fileNameEqTitleDiffDesc, parentForTrashId, fileNameEqTitleDiffDesc, fileDescription)).entry.id;
-      file7TrashId = (await apis.user.nodes.createFile(fileNameEqDescDiffTitle, parentForTrashId, fileTitle, fileNameEqDescDiffTitle)).entry.id;
-      file8TrashId = (await apis.user.nodes.createFile(fileTitleEqDesc, parentForTrashId, fileTitle, fileTitle)).entry.id;
+      file6TrashId = (await repo.nodes.createFile(fileNameEqTitleDiffDesc, parentForTrashId, fileNameEqTitleDiffDesc, fileDescription)).entry.id;
+      file7TrashId = (await repo.nodes.createFile(fileNameEqDescDiffTitle, parentForTrashId, fileTitle, fileNameEqDescDiffTitle)).entry.id;
+      file8TrashId = (await repo.nodes.createFile(fileTitleEqDesc, parentForTrashId, fileTitle, fileTitle)).entry.id;
 
-      await apis.user.nodes.deleteNodesById(
+      await repo.nodes.deleteNodesById(
         [file1TrashId, file2TrashId, file3TrashId, file4TrashId, file5TrashId, file6TrashId, file7TrashId, file8TrashId],
         false
       );
@@ -273,8 +273,8 @@ describe('File / folder tooltips', () => {
     });
 
     afterAll(async (done) => {
-      await userActions.deleteNodes([parentForTrash]);
-      await userActions.emptyTrashcan();
+      await coreActions.deleteNodes([parentForTrash]);
+      await coreActions.emptyTrashcan();
       done();
     });
 

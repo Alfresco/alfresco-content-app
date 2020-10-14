@@ -23,33 +23,32 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, FILES, RepoClient, Utils, Viewer, PasswordDialog } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, FILES, RepoClient, Utils, Viewer, PasswordDialog } from '@alfresco/aca-testing-shared';
+import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Viewer - password protected file', () => {
-  const username = `user-${Utils.random()}`;
+  let username;
 
   const parent = `parent-${Utils.random()}`;
   let parentId: string;
 
   const protectedFile = FILES.protectedFile;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
-
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable } = page;
   const viewer = new Viewer();
   const passwordDialog = new PasswordDialog();
-  const adminApiActions = new AdminActions();
+  const apiService = new ApiService();
+  const usersActions = new UsersActions(apiService);
+  const repo = new RepoClient(apiService);
 
   beforeAll(async () => {
-    await adminApiActions.createUser({ username });
-    parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
-    await apis.user.upload.uploadFile(protectedFile.name, parentId);
+    username = await usersActions.createUser();
+    parentId = (await repo.nodes.createFolder(parent)).entry.id;
+    await repo.upload.uploadFile(protectedFile.name, parentId);
 
-    await loginPage.loginWith(username);
+    await loginPage.login(username.email, username.password);
   });
 
   beforeEach(async () => {
@@ -68,7 +67,7 @@ describe('Viewer - password protected file', () => {
   });
 
   afterAll(async () => {
-    await apis.user.nodes.deleteNodeById(parentId);
+    await repo.nodes.deleteNodeById(parentId);
   });
 
   it('[C268958] Password dialog appears when opening a protected file', async () => {

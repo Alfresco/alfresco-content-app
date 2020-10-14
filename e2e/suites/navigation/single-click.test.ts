@@ -23,10 +23,12 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, UserActions, LoginPage, BrowsingPage, Viewer, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, Viewer, RepoClient, Utils, CoreActions } from '@alfresco/aca-testing-shared';
+import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { browser } from 'protractor';
 
 describe('Single click on item name', () => {
-  const username = `user-${Utils.random()}`;
+  let username;
 
   const file1 = `file1-${Utils.random()}.txt`;
   let file1Id: string;
@@ -41,44 +43,42 @@ describe('Single click on item name', () => {
   const siteName = `site-${Utils.random()}`;
   const fileSite = `fileSite-${Utils.random()}.txt`;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
-
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable, breadcrumb } = page;
   const viewer = new Viewer();
   const { searchInput } = page.header;
 
-  const adminApiActions = new AdminActions();
-  const userActions = new UserActions();
+  const apiService = new ApiService();
+  const usersActions = new UsersActions(apiService);
+  const repo = new RepoClient(apiService);
+  const coreActions = new CoreActions(apiService);
 
   beforeAll(async (done) => {
-    await adminApiActions.login();
-    await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
+    await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
+    username = await usersActions.createUser();
+    await apiService.getInstance().login(username.email, username.password);
 
-    file1Id = (await apis.user.nodes.createFile(file1)).entry.id;
-    folder1Id = (await apis.user.nodes.createFolder(folder1)).entry.id;
+    file1Id = (await repo.nodes.createFile(file1)).entry.id;
+    folder1Id = (await repo.nodes.createFolder(folder1)).entry.id;
 
-    deletedFile1Id = (await apis.user.nodes.createFile(deletedFile1)).entry.id;
-    deletedFolder1Id = (await apis.user.nodes.createFolder(deletedFolder1)).entry.id;
+    deletedFile1Id = (await repo.nodes.createFile(deletedFile1)).entry.id;
+    deletedFolder1Id = (await repo.nodes.createFolder(deletedFolder1)).entry.id;
 
-    await userActions.deleteNodes([deletedFile1Id, deletedFolder1Id], false);
+    await coreActions.deleteNodes([deletedFile1Id, deletedFolder1Id], false);
 
-    await apis.user.sites.createSite(siteName);
-    const docLibId = await apis.user.sites.getDocLibId(siteName);
-    await apis.user.nodes.createFile(fileSite, docLibId);
+    await repo.sites.createSite(siteName);
+    const docLibId = await repo.sites.getDocLibId(siteName);
+    await repo.nodes.createFile(fileSite, docLibId);
 
-    await loginPage.loginWith(username);
+    await loginPage.login(username.email, username.password);
     done();
   });
 
   afterAll(async () => {
-    await userActions.deleteSites([siteName]);
-    await userActions.deleteNodes([folder1Id, file1Id]);
-    await userActions.emptyTrashcan();
+    await coreActions.deleteSites([siteName]);
+    await coreActions.deleteNodes([folder1Id, file1Id]);
+    await coreActions.emptyTrashcan();
   });
 
   it('[C284899] Hyperlink does not appear for items in the Trash', async () => {
@@ -131,9 +131,9 @@ describe('Single click on item name', () => {
 
   describe('on Shared Files', () => {
     beforeAll(async () => {
-      const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
-      await userActions.shareNodes([file1Id]);
-      await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 1 });
+      const initialSharedTotalItems = await repo.shared.getSharedLinksTotalItems();
+      await coreActions.shareNodes([file1Id]);
+      await repo.shared.waitForApi({ expect: initialSharedTotalItems + 1 });
     });
 
     beforeEach(async () => {
@@ -173,10 +173,10 @@ describe('Single click on item name', () => {
 
   describe('on Favorites', () => {
     beforeAll(async () => {
-      const initialFavoriteTotalItems = await apis.user.favorites.getFavoritesTotalItems();
-      await apis.user.favorites.addFavoriteById('file', file1Id);
-      await apis.user.favorites.addFavoriteById('folder', folder1Id);
-      await apis.user.favorites.waitForApi({ expect: initialFavoriteTotalItems + 2 });
+      const initialFavoriteTotalItems = await repo.favorites.getFavoritesTotalItems();
+      await repo.favorites.addFavoriteById('file', file1Id);
+      await repo.favorites.addFavoriteById('folder', folder1Id);
+      await repo.favorites.waitForApi({ expect: initialFavoriteTotalItems + 2 });
     });
 
     beforeEach(async () => {
@@ -204,8 +204,8 @@ describe('Single click on item name', () => {
 
   describe('on Search Results', () => {
     beforeEach(async () => {
-      const initialRecentTotalItems = await apis.user.search.getTotalItems(username);
-      await apis.user.search.waitForApi(username, { expect: initialRecentTotalItems + 2 });
+      const initialRecentTotalItems = await repo.search.getTotalItems(username);
+      await repo.search.waitForApi(username, { expect: initialRecentTotalItems + 2 });
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
     });

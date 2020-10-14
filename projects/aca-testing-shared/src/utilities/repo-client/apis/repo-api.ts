@@ -24,23 +24,20 @@
  */
 
 import { browser } from 'protractor';
-import { AlfrescoApi } from '@alfresco/js-api';
-import { Logger } from '@alfresco/adf-testing';
+import { ApiService,  Logger } from '@alfresco/adf-testing';
 
 export abstract class RepoApi {
-  alfrescoJsApi = new AlfrescoApi();
 
-  protected constructor(public username: string = browser.params.ADMIN_USERNAME, private password: string = browser.params.ADMIN_PASSWORD) {
-    this.alfrescoJsApi.setConfig(browser.params.config);
-  }
+  api: ApiService;
 
-  apiAuth(): Promise<any> {
-    return this.alfrescoJsApi.login(this.username, this.password);
+  constructor(alfrescoApi: ApiService) {
+    this.api = alfrescoApi;
+    if (this.api.apiService.isOauthConfiguration()) {
+    }
   }
 
   protected handleError(message: string, response: any) {
     Logger.error(`\n--- ${message} error :`);
-    Logger.error('\t>>> username: ', this.username);
     Logger.error('\t>>> JSON: ', JSON.stringify(browser.params.config));
     if (response.status && response.response) {
       try {

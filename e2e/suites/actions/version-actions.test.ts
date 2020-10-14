@@ -23,37 +23,37 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, FILES, RepoClient, Utils, UploadNewVersionDialog } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, FILES, RepoClient, Utils, UploadNewVersionDialog } from '@alfresco/aca-testing-shared';
 import { VersionManagePage } from '../../../projects/aca-testing-shared/src/components/version-manage/version-manager';
 import { Viewer } from '../../../projects/aca-testing-shared/src/components';
 import { browser } from 'protractor';
+import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 describe('Version component actions', () => {
   const versionManagePage = new VersionManagePage();
   const viewerPage = new Viewer();
 
-  const username = `user-${Utils.random()}`;
+  let username;
 
   let fileId: string;
 
   const filesToUpload = [FILES.pdfFile, FILES.docxFile, FILES.xlsxFile, FILES.jpgFile, FILES.docxFile2];
-
-  const apis = {
-    user: new RepoClient(username, username)
-  };
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable, toolbar } = page;
   const uploadNewVersionDialog = new UploadNewVersionDialog();
   const { searchInput } = page.header;
-  const adminApiActions = new AdminActions();
+
+  const apiService = new ApiService();
+  const usersActions = new UsersActions(apiService);
+  const repo = new RepoClient(apiService);
 
   beforeAll(async (done) => {
-    await adminApiActions.createUser({ username });
-    fileId = (await apis.user.upload.uploadFile(filesToUpload[0])).entry.id;
-    await apis.user.shared.shareFilesByIds([fileId]);
-    await loginPage.loginWith(username);
+    username = await usersActions.createUser();
+    fileId = (await repo.upload.uploadFile(filesToUpload[0])).entry.id;
+    await repo.shared.shareFilesByIds([fileId]);
+    await loginPage.login(username.email, username.password);
 
     for (let i = 0; i < filesToUpload.length - 1; i++) {
       await dataTable.selectItem(filesToUpload[i]);
@@ -71,7 +71,7 @@ describe('Version component actions', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(fileId);
+    await repo.nodes.deleteNodeById(fileId);
     done();
   });
 
@@ -176,8 +176,8 @@ describe('Version component actions', () => {
 
   describe('on Favorite Files', () => {
     beforeAll(async (done) => {
-      await apis.user.favorites.addFavoritesByIds('file', [fileId]);
-      await apis.user.favorites.waitForApi({ expect: 1 });
+      await repo.favorites.addFavoritesByIds('file', [fileId]);
+      await repo.favorites.waitForApi({ expect: 1 });
       await page.clickFavoritesAndWait();
       done();
     });

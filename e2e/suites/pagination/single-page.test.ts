@@ -23,12 +23,14 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage, SearchResultsPage, Utils, AdminActions, UserActions, RepoClient } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, SearchResultsPage, Utils, RepoClient, CoreActions } from '@alfresco/aca-testing-shared';
+import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
+import { browser } from 'protractor';
 
 describe('Pagination on single page', () => {
   const random = Utils.random();
 
-  const username = `user-${random}`;
+  let username;
 
   const siteName = `site-${random}`;
   let siteId: string;
@@ -38,9 +40,10 @@ describe('Pagination on single page', () => {
   const fileInTrash = `fileInTrash-${random}.txt`;
   let fileInTrashId: string;
 
-  const userApi = new RepoClient(username, username);
-  const adminApiActions = new AdminActions();
-  const userActions = new UserActions();
+  const apiService = new ApiService();
+  const usersActions = new UsersActions(apiService);
+  const coreActions = new CoreActions(apiService);
+  const userApi = new RepoClient(apiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -49,14 +52,14 @@ describe('Pagination on single page', () => {
   const searchResultsPage = new SearchResultsPage();
 
   beforeAll(async () => {
-    await adminApiActions.login();
-    await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
+    await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
+    username = await usersActions.createUser();
+    await apiService.getInstance().login(username.email, username.password);
 
     const initialFavoriteTotalItems = await userApi.favorites.getFavoritesTotalItems();
     const initialRecentFilesTotalItems = await userApi.search.getTotalItems(username);
     const initialSharedTotalItems = await userApi.shared.getSharedLinksTotalItems();
-    const initialTrashTotalItems = await userActions.getTrashcanSize();
+    const initialTrashTotalItems = await coreActions.getTrashcanSize();
 
     fileId = (await userApi.nodes.createFile(file)).entry.id;
     fileInTrashId = (await userApi.nodes.createFile(fileInTrash)).entry.id;
@@ -64,20 +67,20 @@ describe('Pagination on single page', () => {
 
     await userApi.nodes.deleteNodeById(fileInTrashId, false);
     await userApi.favorites.addFavoriteById('file', fileId);
-    await userActions.shareNodes([fileId]);
+    await coreActions.shareNodes([fileId]);
 
     await userApi.favorites.waitForApi({ expect: initialFavoriteTotalItems + 2 });
     await userApi.search.waitForApi(username, { expect: initialRecentFilesTotalItems + 1 });
     await userApi.shared.waitForApi({ expect: initialSharedTotalItems + 1 });
-    await userActions.waitForTrashcanSize(initialTrashTotalItems + 1);
+    await coreActions.waitForTrashcanSize(initialTrashTotalItems + 1);
 
-    await loginPage.loginWith(username);
+    await loginPage.login(username.email, username.password);
   });
 
   afterAll(async () => {
-    await userActions.deleteNodes([fileId]);
-    await userActions.deleteSites([siteId]);
-    await userActions.emptyTrashcan();
+    await coreActions.deleteNodes([fileId]);
+    await coreActions.deleteSites([siteId]);
+    await coreActions.emptyTrashcan();
   });
 
   it('[C280112] page selector not displayed on Favorites', async () => {

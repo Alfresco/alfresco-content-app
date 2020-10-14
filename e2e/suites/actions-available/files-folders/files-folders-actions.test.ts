@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { RepoClient, Utils, AdminActions, UserActions, LoginPage, FILES } from '@alfresco/aca-testing-shared';
+import { RepoClient, Utils, FILES,  CoreActions } from '@alfresco/aca-testing-shared';
 import * as testData from './test-data';
 import { personalFilesTests } from './personal-files';
 import { recentFilesTests } from './recent-files';
@@ -32,10 +32,12 @@ import { searchResultsTests } from './search-results';
 import { sharedFilesTests } from './shared-files';
 import { viewerTests } from './viewer';
 import { trashTests } from './trash';
+import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { browser } from 'protractor';
 
 describe('Files / folders actions : ', () => {
   const random = Utils.random();
-  const username = `user-${random}`;
+  let username;
   const parent = `parent-${random}`;
 
   let parentId: string;
@@ -56,16 +58,17 @@ describe('Files / folders actions : ', () => {
   let folderInTrashId: string;
   let folder2InTrashId: string;
 
-  const userApi = new RepoClient(username, username);
-  const adminApiActions = new AdminActions();
-  const userActions = new UserActions();
+  const apiService = new ApiService();
+  const usersActions = new UsersActions(apiService);
+  const coreActions = new CoreActions(apiService);
+  const userApi = new RepoClient(apiService);
 
   const loginPage = new LoginPage();
 
   beforeAll(async () => {
-    await adminApiActions.login();
-    await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
+    await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
+    username = await usersActions.createUser();
+    await apiService.getInstance().login(username.email, username.password);
 
     parentId = (await userApi.nodes.createFolder(parent)).entry.id;
 
@@ -118,12 +121,12 @@ describe('Files / folders actions : ', () => {
     await userApi.nodes.lockFile(fileSharedLockedId);
     await userApi.nodes.lockFile(fileSharedFavLockedId);
 
-    await loginPage.loginWith(username);
+    await loginPage.login(username.email, username.password);
   });
 
   afterAll(async () => {
-    await userActions.deleteNodes([parentId]);
-    await userActions.emptyTrashcan();
+    await coreActions.deleteNodes([parentId]);
+    await coreActions.emptyTrashcan();
   });
 
   beforeEach(async () => {
@@ -161,9 +164,9 @@ describe('Files / folders actions : ', () => {
       folderInTrashId = (await userApi.nodes.createFolder(testData.folderInTrash.name)).entry.id;
       folder2InTrashId = (await userApi.nodes.createFolder(testData.folder2InTrash.name)).entry.id;
 
-      const initialDeletedTotalItems = await userActions.getTrashcanSize();
-      await userActions.deleteNodes([fileInTrashId, file2InTrashId, folderInTrashId, folder2InTrashId], false);
-      await userActions.waitForTrashcanSize(initialDeletedTotalItems + 4);
+      const initialDeletedTotalItems = await coreActions.getTrashcanSize();
+      await coreActions.deleteNodes([fileInTrashId, file2InTrashId, folderInTrashId, folder2InTrashId], false);
+      await coreActions.waitForTrashcanSize(initialDeletedTotalItems + 4);
     });
     trashTests();
   });

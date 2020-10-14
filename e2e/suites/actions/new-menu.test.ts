@@ -23,38 +23,37 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, SITE_ROLES, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, SITE_ROLES, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 describe('New menu', () => {
-  const username = `user-${Utils.random()}`;
+  let username;
 
   const siteUser = `site-user-${Utils.random()}`;
   const siteAdmin = `site-admin-${Utils.random()}`;
-
-  const apis = {
-    user: new RepoClient(username, username)
-  };
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable, sidenav } = page;
   const { menu } = sidenav;
 
-  const adminApiActions = new AdminActions();
+  const apiService = new ApiService();
+  const usersActions = new UsersActions(apiService);
+  const repo = new RepoClient(apiService);
 
   beforeAll(async (done) => {
-    await adminApiActions.createUser({ username });
+    username = await usersActions.createUser();
     await adminApiActions.sites.createSite(siteAdmin);
     await adminApiActions.sites.addSiteMember(siteAdmin, username, SITE_ROLES.SITE_CONSUMER.ROLE);
 
-    await apis.user.sites.createSite(siteUser);
+    await repo.sites.createSite(siteUser);
 
-    await loginPage.loginWith(username);
+    await loginPage.login(username.email, username.password);
     done();
   });
 
   afterAll(async (done) => {
-    await apis.user.sites.deleteSite(siteUser);
+    await repo.sites.deleteSite(siteUser);
     await adminApiActions.sites.deleteSite(siteAdmin);
     done();
   });

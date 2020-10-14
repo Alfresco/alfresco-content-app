@@ -23,28 +23,28 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 describe('Upload files', () => {
-  const username = `user-${Utils.random()}`;
+  let username;
 
   const folder1 = `folder1-${Utils.random()}`;
   let folder1Id: string;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
-
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable } = page;
-  const adminApiActions = new AdminActions();
+
+  const apiService = new ApiService();
+  const usersActions = new UsersActions(apiService);
+  const repo = new RepoClient(apiService);
 
   beforeAll(async (done) => {
-    await adminApiActions.createUser({ username });
-    folder1Id = (await apis.user.nodes.createFolder(folder1)).entry.id;
+    username = await usersActions.createUser();
+    folder1Id = (await repo.nodes.createFolder(folder1)).entry.id;
 
-    await loginPage.loginWith(username);
+    await loginPage.login(username.email, username.password);
     done();
   });
 
@@ -54,7 +54,7 @@ describe('Upload files', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(folder1Id);
+    await repo.nodes.deleteNodeById(folder1Id);
     done();
   });
 

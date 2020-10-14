@@ -24,11 +24,11 @@
  */
 
 import { browser } from 'protractor';
-import { AdminActions, UserActions, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, Utils, RepoClient, CoreActions } from '@alfresco/aca-testing-shared';
+import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 describe('Generic errors', () => {
-  const username = `user-${Utils.random()}`;
-  const username2 = `user2-${Utils.random()}`;
+  let username, username2;
 
   const parent = `folder-${Utils.random()}`;
   let parentId: string;
@@ -36,34 +36,32 @@ describe('Generic errors', () => {
   let file1Id: string;
   const file2 = `file2-${Utils.random()}.txt`;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
-
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable } = page;
 
-  const adminApiActions = new AdminActions();
-  const userActions = new UserActions();
+  const apiService = new ApiService();
+  const usersActions = new UsersActions(apiService);
+  const repo = new RepoClient(apiService);
+  const coreActions = new CoreActions(apiService);
 
   beforeAll(async (done) => {
-    await adminApiActions.login();
-    await adminApiActions.createUser({ username });
-    await adminApiActions.createUser({ username: username2 });
-    await userActions.login(username, username);
+    await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
+    username = await usersActions.createUser();
+    username2 = await usersActions.createUser();
+    await apiService.getInstance().login(username.email, username.password);
 
-    parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
-    file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
-    await apis.user.nodes.createFile(file2, parentId);
+    parentId = (await repo.nodes.createFolder(parent)).entry.id;
+    file1Id = (await repo.nodes.createFile(file1, parentId)).entry.id;
+    await repo.nodes.createFile(file2, parentId);
 
-    await loginPage.loginWith(username);
+    await loginPage.login(username.email, username.password);
     done();
   });
 
   afterAll(async (done) => {
-    await userActions.deleteNodes([parentId]);
-    await userActions.emptyTrashcan();
+    await coreActions.deleteNodes([parentId]);
+    await coreActions.emptyTrashcan();
     done();
   });
 
@@ -72,7 +70,7 @@ describe('Generic errors', () => {
     await dataTable.doubleClickOnRowByName(parent);
     await dataTable.doubleClickOnRowByName(file1);
     const URL = await browser.getCurrentUrl();
-    await apis.user.nodes.deleteNodeById(file1Id, false);
+    await repo.nodes.deleteNodeById(file1Id, false);
     await browser.get(URL);
 
     expect(await page.genericError.isDisplayed()).toBe(true, 'Generic error page not displayed');
@@ -91,12 +89,12 @@ describe('Generic errors', () => {
     await dataTable.doubleClickOnRowByName(parent);
     await dataTable.doubleClickOnRowByName(file2);
     const URL = await browser.getCurrentUrl();
-    await loginPage.loginWith(username2);
+    await loginPage.login(username2, username2);
     await browser.get(URL);
 
     expect(await page.genericError.isDisplayed()).toBe(true, 'Generic error page not displayed');
     expect(await page.genericErrorTitle.getText()).toContain(`This item no longer exists or you don't have permission to view it.`);
 
-    await loginPage.loginWith(username);
+    await loginPage.login(username.email, username.password);
   });
 });

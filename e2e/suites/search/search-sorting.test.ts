@@ -23,13 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, SearchResultsPage, RepoClient, Utils, FILES } from '@alfresco/aca-testing-shared';
+import { SearchResultsPage, RepoClient, Utils, FILES } from '@alfresco/aca-testing-shared';
+import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Search sorting', () => {
   const random = Utils.random();
 
-  const user1 = `user1-${random}`;
-  const user2 = `user2-${random}`;
+  let user1, user2;
 
   const parent = `parent-${random}`;
   let parentId: string;
@@ -55,11 +55,13 @@ describe('Search sorting', () => {
   const page = new SearchResultsPage();
   const { searchInput } = page.header;
   const { dataTable } = page;
-  const adminApiActions = new AdminActions();
+
+  const apiService = new ApiService();
+  const usersActions = new UsersActions(apiService);
 
   beforeAll(async (done) => {
-    await adminApiActions.createUser({ username: user1 });
-    await adminApiActions.createUser({ username: user2 });
+    user1 = await usersActions.createUser();
+    user2 =await usersActions.createUser();
     parentId = (await apis.user1.nodes.createFolder(parent)).entry.id;
 
     await apis.user1.nodes.setGranularPermission(parentId, true, user2, 'Collaborator');
@@ -69,7 +71,7 @@ describe('Search sorting', () => {
 
     await apis.user1.search.waitForNodes('search-sort', { expect: 2 });
 
-    await loginPage.loginWith(user1);
+    await loginPage.login(user1, user1);
     done();
   });
 
@@ -99,7 +101,7 @@ describe('Search sorting', () => {
     expect(await page.sortingPicker.getSortByOptionsList()).toEqual(expectedOptions, 'Incorrect sort options list');
   });
 
-  it('[C277728] Sort by Name', async () => {
+  fit('[C277728] Sort by Name', async () => {
     await page.sortingPicker.sortBy('Filename');
     await page.sortingPicker.setSortOrderASC();
 

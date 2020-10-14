@@ -24,10 +24,10 @@
  */
 
 import { AlfrescoApi, Comment, CommentsApi, NodesApi, TrashcanApi, SitesApi, SharedlinksApi } from '@alfresco/js-api';
-import { browser } from 'protractor';
 import { Utils } from './utils';
+import { ApiService } from '@alfresco/adf-testing';
 
-export class UserActions {
+export class CoreActions {
   protected readonly alfrescoApi: AlfrescoApi;
 
   readonly commentsApi: CommentsApi;
@@ -36,30 +36,18 @@ export class UserActions {
   readonly sitesApi: SitesApi;
   readonly sharedLinksApi: SharedlinksApi;
 
-  protected username: string;
-  protected password: string;
+  api: ApiService;
 
-  constructor() {
-    this.alfrescoApi = new AlfrescoApi();
-    this.alfrescoApi.setConfig(browser.params.config);
+  constructor(alfrescoApi: ApiService) {
+    this.api = alfrescoApi;
+
+    this.alfrescoApi = this.api.getInstance();
 
     this.commentsApi = new CommentsApi(this.alfrescoApi);
     this.nodesApi = new NodesApi(this.alfrescoApi);
     this.trashcanApi = new TrashcanApi(this.alfrescoApi);
     this.sitesApi = new SitesApi(this.alfrescoApi);
     this.sharedLinksApi = new SharedlinksApi(this.alfrescoApi);
-  }
-
-  async login(username: string, password: string) {
-    this.username = username || this.username;
-    this.password = password || this.password;
-
-    return this.alfrescoApi.login(this.username, this.password);
-  }
-
-  async logout(): Promise<any> {
-    await this.alfrescoApi.login(this.username, this.password);
-    return this.alfrescoApi.logout();
   }
 
   async createComment(nodeId: string, content: string): Promise<Comment> {

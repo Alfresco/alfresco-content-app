@@ -23,10 +23,12 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, UserActions, LoginPage, BrowsingPage, FILES, SITE_VISIBILITY, RepoClient, Utils, Viewer } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, FILES, SITE_VISIBILITY, RepoClient, Utils, Viewer } from '@alfresco/aca-testing-shared';
+import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { browser } from 'protractor';
 
 describe('Viewer general', () => {
-  const username = `user-${Utils.random()}`;
+  let username;
 
   const parent = `parent-${Utils.random()}`;
   let parentId: string;
@@ -43,43 +45,40 @@ describe('Viewer general', () => {
 
   const fileInSite = FILES.docxFile;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
-
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable } = page;
   const viewer = new Viewer();
   const { searchInput } = page.header;
 
-  const adminApiActions = new AdminActions();
-  const userActions = new UserActions();
+  const apiService = new ApiService();
+  const usersActions = new UsersActions(apiService);
+  const repo = new RepoClient(apiService);
 
   beforeAll(async (done) => {
-    await adminApiActions.login();
-    await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
+    await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
+    username = await usersActions.createUser();
+    await apiService.getInstance().login(username.email, username.password);
 
-    parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
-    xlsxFileId = (await apis.user.upload.uploadFile(xlsxFile, parentId)).entry.id;
+    parentId = (await repo.nodes.createFolder(parent)).entry.id;
+    xlsxFileId = (await repo.upload.uploadFile(xlsxFile, parentId)).entry.id;
 
     await adminApiActions.sites.createSite(siteAdmin, SITE_VISIBILITY.PRIVATE);
     docLibId = await adminApiActions.sites.getDocLibId(siteAdmin);
     fileAdminId = (await adminApiActions.upload.uploadFile(fileAdmin, docLibId)).entry.id;
 
-    await apis.user.sites.createSite(siteUser, SITE_VISIBILITY.PUBLIC);
-    docLibSiteUserId = await apis.user.sites.getDocLibId(siteUser);
-    await apis.user.upload.uploadFile(fileInSite, docLibSiteUserId);
+    await repo.sites.createSite(siteUser, SITE_VISIBILITY.PUBLIC);
+    docLibSiteUserId = await repo.sites.getDocLibId(siteUser);
+    await repo.upload.uploadFile(fileInSite, docLibSiteUserId);
 
-    const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
-    await userActions.shareNodes([xlsxFileId]);
+    const initialSharedTotalItems = await repo.shared.getSharedLinksTotalItems();
+    await coreActions.shareNodes([xlsxFileId]);
 
-    await apis.user.favorites.addFavoriteById('file', xlsxFileId);
-    await apis.user.favorites.waitForApi({ expect: 2 });
-    await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 1 });
+    await repo.favorites.addFavoriteById('file', xlsxFileId);
+    await repo.favorites.waitForApi({ expect: 2 });
+    await repo.shared.waitForApi({ expect: initialSharedTotalItems + 1 });
 
-    await loginPage.loginWith(username);
+    await loginPage.login(username.email, username.password);
     done();
   });
 
@@ -98,9 +97,9 @@ describe('Viewer general', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(parentId);
+    await repo.nodes.deleteNodeById(parentId);
     await adminApiActions.sites.deleteSite(siteAdmin);
-    await apis.user.sites.deleteSite(siteUser);
+    await repo.sites.deleteSite(siteUser);
     done();
   });
 

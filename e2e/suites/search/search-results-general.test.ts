@@ -23,11 +23,12 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, SearchResultsPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { SearchResultsPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 import { browser } from 'protractor';
+import { ApiService, LoginPage,UsersActions } from '@alfresco/adf-testing';
 
 describe('Search results general', () => {
-  const username = `user-${Utils.random()}`;
+  let username;
 
   const file = `test-file-${Utils.random()}.txt`;
   let fileId: string;
@@ -35,32 +36,31 @@ describe('Search results general', () => {
   let folderId: string;
   const site = `test-site-${Utils.random()}`;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
-
   const loginPage = new LoginPage();
   const page = new SearchResultsPage();
   const { searchInput } = page.header;
   const dataTable = page.dataTable;
-  const adminApiActions = new AdminActions();
+
+  const apiService = new ApiService();
+  const usersActions = new UsersActions(apiService);
+  const repo = new RepoClient(apiService);
 
   beforeAll(async (done) => {
-    await adminApiActions.createUser({ username });
+    username = await usersActions.createUser();
 
-    fileId = (await apis.user.nodes.createFile(file)).entry.id;
-    folderId = (await apis.user.nodes.createFolder(folder)).entry.id;
-    await apis.user.sites.createSite(site);
+    fileId = (await repo.nodes.createFile(file)).entry.id;
+    folderId = (await repo.nodes.createFolder(folder)).entry.id;
+    await repo.sites.createSite(site);
 
-    await apis.user.search.waitForApi(username, { expect: 1 });
-    await apis.user.queries.waitForSites(site, { expect: 1 });
+    await repo.search.waitForApi(username, { expect: 1 });
+    await repo.queries.waitForSites(site, { expect: 1 });
 
-    await loginPage.loginWith(username);
+    await loginPage.login(username.email, username.password);
     done();
   });
 
   afterAll(async (done) => {
-    await Promise.all([apis.user.nodes.deleteNodeById(fileId), apis.user.nodes.deleteNodeById(folderId), apis.user.sites.deleteSite(site)]);
+    await Promise.all([repo.nodes.deleteNodeById(fileId), repo.nodes.deleteNodeById(folderId), repo.sites.deleteSite(site)]);
     done();
   });
 

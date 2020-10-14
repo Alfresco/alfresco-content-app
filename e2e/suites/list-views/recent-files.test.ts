@@ -23,10 +23,12 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, UserActions, SITE_VISIBILITY, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { SITE_VISIBILITY, BrowsingPage, Utils, RepoClient, CoreActions } from '@alfresco/aca-testing-shared';
+import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { browser } from 'protractor';
 
 describe('Recent Files', () => {
-  const username = `user-${Utils.random()}`;
+  let username;
 
   const folderName = `folder-${Utils.random()}`;
   let folderId: string;
@@ -40,36 +42,34 @@ describe('Recent Files', () => {
   let folderSiteId: string;
   const fileSite = `file-${Utils.random()}.txt`;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
-
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable, breadcrumb } = page;
 
-  const adminApiActions = new AdminActions();
-  const userActions = new UserActions();
+  const apiService = new ApiService();
+  const usersActions = new UsersActions(apiService);
+  const repo = new RepoClient(apiService);
+  const coreActions = new CoreActions(apiService);
 
   beforeAll(async (done) => {
-    await adminApiActions.login();
-    await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
+    await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
+    username = await usersActions.createUser();
+    await apiService.getInstance().login(username.email, username.password);
 
-    folderId = (await apis.user.nodes.createFolders([folderName])).entry.id;
-    await apis.user.nodes.createFiles([fileName1], folderName);
-    file2Id = (await apis.user.nodes.createFiles([fileName2])).entry.id;
-    const id = (await apis.user.nodes.createFiles([fileName3])).entry.id;
-    await userActions.deleteNodes([id], false);
+    folderId = (await repo.nodes.createFolders([folderName])).entry.id;
+    await repo.nodes.createFiles([fileName1], folderName);
+    file2Id = (await repo.nodes.createFiles([fileName2])).entry.id;
+    const id = (await repo.nodes.createFiles([fileName3])).entry.id;
+    await coreActions.deleteNodes([id], false);
 
-    await apis.user.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
-    const docLibId = await apis.user.sites.getDocLibId(siteName);
-    folderSiteId = (await apis.user.nodes.createFolder(folderSite, docLibId)).entry.id;
-    await apis.user.nodes.createFile(fileSite, folderSiteId);
+    await repo.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
+    const docLibId = await repo.sites.getDocLibId(siteName);
+    folderSiteId = (await repo.nodes.createFolder(folderSite, docLibId)).entry.id;
+    await repo.nodes.createFile(fileSite, folderSiteId);
 
-    await apis.user.search.waitForApi(username, { expect: 3 });
+    await repo.search.waitForApi(username, { expect: 3 });
 
-    await loginPage.loginWith(username);
+    await loginPage.login(username.email, username.password);
     done();
   });
 
@@ -79,9 +79,9 @@ describe('Recent Files', () => {
   });
 
   afterAll(async (done) => {
-    await userActions.deleteNodes([folderId, file2Id]);
-    await userActions.deleteSites([siteName]);
-    await userActions.emptyTrashcan();
+    await coreActions.deleteNodes([folderId, file2Id]);
+    await coreActions.deleteSites([siteName]);
+    await coreActions.emptyTrashcan();
     done();
   });
 

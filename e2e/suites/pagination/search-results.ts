@@ -23,7 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BrowsingPage, LoginPage, Utils } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, Utils } from '@alfresco/aca-testing-shared';
+import { LoginPage } from '@alfresco/adf-testing';
 
 export function searchResultsTests(username: string) {
   const page = new BrowsingPage();
@@ -33,7 +34,7 @@ export function searchResultsTests(username: string) {
 
   describe('Pagination controls : ', () => {
     beforeAll(async () => {
-      await loginPage.loginWith(username);
+      await loginPage.login(username.email, username.password);
       await searchInput.clickSearchButton();
       await searchInput.searchFor('my-file-');
       await dataTable.waitForBody();

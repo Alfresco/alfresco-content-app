@@ -23,12 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage, RepoClient, NodeContentTree, Utils, AdminActions } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, RepoClient, NodeContentTree, Utils } from '@alfresco/aca-testing-shared';
+import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Generic tests : ', () => {
   const random = Utils.random();
 
-  const username = `user-${random}`;
+  let username;
 
   const parent = `parent-${random}`;
 
@@ -44,9 +45,9 @@ describe('Generic tests : ', () => {
     folders: [folder1, folder2]
   };
 
-  const userApi = new RepoClient(username, username);
-
-  const adminApiActions = new AdminActions();
+  const apiService = new ApiService();
+  const usersActions = new UsersActions(apiService);
+  const repo = new RepoClient(apiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -55,15 +56,15 @@ describe('Generic tests : ', () => {
   const contextMenu = dataTable.menu;
 
   beforeAll(async () => {
-    await adminApiActions.createUser({ username });
+    username = await usersActions.createUser();
 
-    await userApi.nodes.createContent(content);
+    await repo.nodes.createContent(content);
 
-    await loginPage.loginWith(username);
+    await loginPage.login(username.email, username.password);
   });
 
   afterAll(async () => {
-    await userApi.nodes.deleteNodeByPath(parent);
+    await repo.nodes.deleteNodeByPath(parent);
   });
 
   beforeEach(async () => {
@@ -131,7 +132,7 @@ describe('Generic tests : ', () => {
     });
 
     it('[C280447] on Recent Files', async () => {
-      await userApi.search.waitForApi(username, { expect: 2 });
+      await repo.search.waitForApi(username, { expect: 2 });
       await page.clickRecentFilesAndWait();
       expect(await toolbar.isEmpty()).toBe(true, `actions displayed though nothing selected`);
     });

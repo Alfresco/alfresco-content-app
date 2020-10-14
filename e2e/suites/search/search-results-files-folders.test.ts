@@ -23,11 +23,12 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, SearchResultsPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { SearchResultsPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 const moment = require('moment');
+import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 describe('Search results - files and folders', () => {
-  const username = `user-${Utils.random()}`;
+  let username;
 
   const file = `test-file-${Utils.random()}.txt`;
   let fileId: string;
@@ -45,29 +46,28 @@ describe('Search results - files and folders', () => {
 
   const site = `test-site-${Utils.random()}`;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
-
   const loginPage = new LoginPage();
   const page = new SearchResultsPage();
   const { searchInput } = page.header;
   const { dataTable, breadcrumb } = page;
-  const adminApiActions = new AdminActions();
+
+  const apiService = new ApiService();
+  const usersActions = new UsersActions(apiService);
+  const repo = new RepoClient(apiService);
 
   beforeAll(async (done) => {
-    await adminApiActions.createUser({ username });
+    username = await usersActions.createUser();
 
-    fileId = (await apis.user.nodes.createFile(file, '-my-', fileTitle, fileDescription)).entry.id;
-    await apis.user.nodes.editNodeContent(fileId, 'edited by user');
-    folderId = (await apis.user.nodes.createFolder(folder, '-my-', folderTitle, folderDescription)).entry.id;
-    fileRussianId = (await apis.user.nodes.createFile(fileRussian)).entry.id;
-    await apis.user.sites.createSite(site);
+    fileId = (await repo.nodes.createFile(file, '-my-', fileTitle, fileDescription)).entry.id;
+    await repo.nodes.editNodeContent(fileId, 'edited by user');
+    folderId = (await repo.nodes.createFolder(folder, '-my-', folderTitle, folderDescription)).entry.id;
+    fileRussianId = (await repo.nodes.createFile(fileRussian)).entry.id;
+    await repo.sites.createSite(site);
 
-    await apis.user.search.waitForApi(username, { expect: 2 });
-    await apis.user.queries.waitForSites(site, { expect: 1 });
+    await repo.search.waitForApi(username, { expect: 2 });
+    await repo.queries.waitForSites(site, { expect: 1 });
 
-    await loginPage.loginWith(username);
+    await loginPage.login(username.email, username.password);
     done();
   });
 
@@ -78,10 +78,10 @@ describe('Search results - files and folders', () => {
 
   afterAll(async (done) => {
     await Promise.all([
-      apis.user.nodes.deleteNodeById(fileId),
-      apis.user.nodes.deleteNodeById(fileRussianId),
-      apis.user.nodes.deleteNodeById(folderId),
-      apis.user.sites.deleteSite(site)
+      repo.nodes.deleteNodeById(fileId),
+      repo.nodes.deleteNodeById(fileRussianId),
+      repo.nodes.deleteNodeById(folderId),
+      repo.sites.deleteSite(site)
     ]);
     done();
   });
@@ -101,7 +101,7 @@ describe('Search results - files and folders', () => {
     await searchInput.searchFor('test-');
     await dataTable.waitForBody();
 
-    const fileEntry = await apis.user.nodes.getNodeById(fileId);
+    const fileEntry = await repo.nodes.getNodeById(fileId);
     const modifiedDate = moment(fileEntry.entry.modifiedAt).format('MMM D, YYYY, h:mm:ss A');
     const modifiedBy = fileEntry.entry.modifiedByUser.displayName;
     const size = fileEntry.entry.content.sizeInBytes;
@@ -121,7 +121,7 @@ describe('Search results - files and folders', () => {
     await searchInput.searchFor('test-');
     await dataTable.waitForBody();
 
-    const folderEntry = await apis.user.nodes.getNodeById(folderId);
+    const folderEntry = await repo.nodes.getNodeById(folderId);
     const modifiedDate = moment(folderEntry.entry.modifiedAt).format('MMM D, YYYY, h:mm:ss A');
     const modifiedBy = folderEntry.entry.modifiedByUser.displayName;
 
