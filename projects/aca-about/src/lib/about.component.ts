@@ -30,6 +30,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AppExtensionService, ContentApiService } from '@alfresco/aca-shared';
 import { dependencies, version, name, commit } from 'package.json';
+
 @Component({
   selector: 'app-about',
   templateUrl: './about.component.html',
@@ -44,7 +45,7 @@ export class AboutComponent implements OnInit {
   statusEntries: Array<{ property: string; value: string }>;
   licenseEntries: Array<{ property: string; value: string }>;
   adfRepoUrl = 'https://github.com/Alfresco/alfresco-ng2-components/commits';
-  appRepoUrl = `https://github.com/Alfresco/${name}/commits/${commit}`;
+  appRepoUrl = !!commit ? `https://github.com/Alfresco/${name}/commits/${commit}` : null;
   adfVersion = '';
   appVersion = version;
 
@@ -57,7 +58,12 @@ export class AboutComponent implements OnInit {
       if (key === '@alfresco/adf-core') {
         this.adfVersion = dependencies[key].split('-')[0];
         const adfCurrentCommit = dependencies[key].split('-')[1] || '';
-        this.adfRepoUrl = this.adfRepoUrl.concat('/', adfCurrentCommit);
+
+        if (adfCurrentCommit) {
+          this.adfRepoUrl = this.adfRepoUrl.concat('/', adfCurrentCommit);
+        } else {
+          this.adfRepoUrl = null;
+        }
       }
       return {
         name: key,
