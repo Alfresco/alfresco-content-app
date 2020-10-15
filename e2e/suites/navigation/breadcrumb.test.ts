@@ -26,7 +26,7 @@
 import { browser } from 'protractor';
 
 import { SITE_VISIBILITY, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
-import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, UsersActions, LoginPage, UserModel } from '@alfresco/adf-testing';
 
 describe('Breadcrumb', () => {
   let username;
@@ -188,13 +188,15 @@ describe('Breadcrumb', () => {
   });
 
   describe('as admin', () => {
-    const user2 = `user2-${Utils.random()}`;
+    let user2: UserModel;
+    const user2Api = new RepoClient(apiService);
+
     const userFolder = `userFolder-${Utils.random()}`;
     let userFolderId: string;
-    const user2Api = new RepoClient(user2, user2);
 
     beforeAll(async (done) => {
       user2 = await usersActions.createUser();
+
       userFolderId = (await user2Api.nodes.createFolder(userFolder)).entry.id;
       await loginPage.login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
       await page.dataTable.waitForBody();
@@ -211,10 +213,10 @@ describe('Breadcrumb', () => {
 
     it(`[C260970] Breadcrumb on navigation to a user's home`, async () => {
       await page.dataTable.doubleClickOnRowByName('User Homes');
-      await page.dataTable.doubleClickOnRowByName(user2);
-      expect(await breadcrumb.getAllItems()).toEqual(['Personal Files', 'User Homes', user2]);
+      await page.dataTable.doubleClickOnRowByName(user2.username);
+      expect(await breadcrumb.getAllItems()).toEqual(['Personal Files', 'User Homes', user2.username]);
       await page.dataTable.doubleClickOnRowByName(userFolder);
-      expect(await breadcrumb.getAllItems()).toEqual(['Personal Files', 'User Homes', user2, userFolder]);
+      expect(await breadcrumb.getAllItems()).toEqual(['Personal Files', 'User Homes', user2.username, userFolder]);
     });
   });
 });

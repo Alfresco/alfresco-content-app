@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { SITE_VISIBILITY, SITE_ROLES, BrowsingPage, Utils, RepoClient, AdminActions } from '@alfresco/aca-testing-shared';
+import { SITE_VISIBILITY, SITE_ROLES, BrowsingPage, Utils, RepoClient, AdminActions, CoreActions } from '@alfresco/aca-testing-shared';
 import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 import { browser } from 'protractor';
 
@@ -39,6 +39,7 @@ describe('Special permissions', () => {
   const usersActions = new UsersActions(apiService);
   const repo = new RepoClient(apiService);
   const adminActions = new AdminActions(apiService);
+  const coreActions = new CoreActions(apiService);
 
   let initialSharedTotalItems: number;
 

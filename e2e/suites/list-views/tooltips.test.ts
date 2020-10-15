@@ -257,8 +257,7 @@ describe('File / folder tooltips', () => {
       file2TrashId = (await repo.nodes.createFile(fileWithDesc, parentForTrashId, '', fileDescription)).entry.id;
       file3TrashId = (await repo.nodes.createFile(fileWithTitle, parentForTrashId, fileTitle)).entry.id;
       file4TrashId = (await repo.nodes.createFile(fileWithTitleAndDesc, parentForTrashId, fileTitle, fileDescription)).entry.id;
-      file5TrashId = (await repo.nodes.createFile(fileNameEqTitleEqDesc, parentForTrashId, fileNameEqTitleEqDesc, fileNameEqTitleEqDesc)).entry
-        .id;
+      file5TrashId = (await repo.nodes.createFile(fileNameEqTitleEqDesc, parentForTrashId, fileNameEqTitleEqDesc, fileNameEqTitleEqDesc)).entry.id;
       file6TrashId = (await repo.nodes.createFile(fileNameEqTitleDiffDesc, parentForTrashId, fileNameEqTitleDiffDesc, fileDescription)).entry.id;
       file7TrashId = (await repo.nodes.createFile(fileNameEqDescDiffTitle, parentForTrashId, fileTitle, fileNameEqDescDiffTitle)).entry.id;
       file8TrashId = (await repo.nodes.createFile(fileTitleEqDesc, parentForTrashId, fileTitle, fileTitle)).entry.id;

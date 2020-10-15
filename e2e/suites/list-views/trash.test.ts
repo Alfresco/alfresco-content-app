@@ -24,7 +24,7 @@
  */
 
 import { SITE_VISIBILITY, SITE_ROLES, BrowsingPage, Utils, RepoClient, AdminActions } from '@alfresco/aca-testing-shared';
-import { ApiService, LoginPage, UsersActions} from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 import { browser } from 'protractor';
 
 describe('Trash', () => {

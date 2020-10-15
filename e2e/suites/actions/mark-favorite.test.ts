@@ -407,10 +407,7 @@ describe('Mark items as favorites', () => {
       await dataTable.selectItem(fileSearchFav1);
       await toolbar.clickMoreActionsRemoveFavorite();
 
-      expect(await repo.favorites.isFavoriteWithRetry(fileSearchFav1Id, { expect: false })).toBe(
-        false,
-        `${fileSearchFav1} is marked as favorite`
-      );
+      expect(await repo.favorites.isFavoriteWithRetry(fileSearchFav1Id, { expect: false })).toBe(false, `${fileSearchFav1} is marked as favorite`);
     });
 
     it('[C306968] favorite multiple items - all unfavorite', async () => {
@@ -435,10 +432,7 @@ describe('Mark items as favorites', () => {
         true,
         `${fileSearchNotFav4} not marked as favorite`
       );
-      expect(await repo.favorites.isFavoriteWithRetry(fileSearchFav2Id, { expect: true })).toBe(
-        true,
-        `${fileSearchFav2} not marked as favorite`
-      );
+      expect(await repo.favorites.isFavoriteWithRetry(fileSearchFav2Id, { expect: true })).toBe(true, `${fileSearchFav2} not marked as favorite`);
     });
 
     it('[C306969] unfavorite multiple items', async () => {
@@ -523,10 +517,7 @@ describe('Mark items as favorites', () => {
       await dataTable.selectItem(fileSiteNotFav1);
       await toolbar.clickMoreActionsFavorite();
 
-      expect(await repo.favorites.isFavoriteWithRetry(fileSiteNotFav1Id, { expect: true })).toBe(
-        true,
-        `${fileSiteNotFav1} not marked as favorite`
-      );
+      expect(await repo.favorites.isFavoriteWithRetry(fileSiteNotFav1Id, { expect: true })).toBe(true, `${fileSiteNotFav1} not marked as favorite`);
     });
 
     it('[C280343] Unfavorite an item', async () => {

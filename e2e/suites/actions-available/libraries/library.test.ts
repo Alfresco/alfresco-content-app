@@ -26,7 +26,7 @@
 import { BrowsingPage, SearchResultsPage, RepoClient, Utils, AdminActions, CoreActions } from '@alfresco/aca-testing-shared';
 import * as testData from './test-data-libraries';
 import * as testUtil from '../test-util';
-import { ApiService, LoginPage, UsersActions} from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 import { browser } from 'protractor';
 
 describe('Library actions : ', () => {

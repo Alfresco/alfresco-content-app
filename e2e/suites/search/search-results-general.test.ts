@@ -25,7 +25,7 @@
 
 import { SearchResultsPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 import { browser } from 'protractor';
-import { ApiService, LoginPage,UsersActions } from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 describe('Search results general', () => {
   let username;

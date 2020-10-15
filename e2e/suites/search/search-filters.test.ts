@@ -31,8 +31,7 @@ const moment = require('moment');
 describe('Search filters', () => {
   const random = Utils.random();
 
-  const user1 = `user1-${random}`;
-  const user2 = `user2-${random}`;
+  let user1, user2;
 
   const parent = `parent-${random}`;
   let parentId: string;

@@ -24,15 +24,7 @@
  */
 
 import { browser } from 'protractor';
-import {
-  BrowsingPage,
-  SITE_VISIBILITY,
-  RepoClient,
-  ShareDialog,
-  Viewer,
-  Utils,
-  AdminActions
-} from '@alfresco/aca-testing-shared';
+import { BrowsingPage, SITE_VISIBILITY, RepoClient, ShareDialog, Viewer, Utils, AdminActions } from '@alfresco/aca-testing-shared';
 import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 describe('Share a file', () => {

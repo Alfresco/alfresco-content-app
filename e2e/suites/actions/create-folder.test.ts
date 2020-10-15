@@ -23,13 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  BrowsingPage,
-  CreateOrEditFolderDialog,
-  Utils,
-  clearTextWithBackspace,
-  RepoClient
-} from '@alfresco/aca-testing-shared';
+import { BrowsingPage, CreateOrEditFolderDialog, Utils, clearTextWithBackspace, RepoClient } from '@alfresco/aca-testing-shared';
 import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Create folder', () => {

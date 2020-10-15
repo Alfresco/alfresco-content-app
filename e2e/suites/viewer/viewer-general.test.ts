@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BrowsingPage, FILES, SITE_VISIBILITY, RepoClient, Utils, Viewer, AdminActions } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, FILES, SITE_VISIBILITY, RepoClient, Utils, Viewer, AdminActions, CoreActions } from '@alfresco/aca-testing-shared';
 import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 import { browser } from 'protractor';
 
@@ -55,6 +55,7 @@ describe('Viewer general', () => {
   const usersActions = new UsersActions(apiService);
   const repo = new RepoClient(apiService);
   const adminActions = new AdminActions(apiService);
+  const coreActions = new CoreActions(apiService);
 
   beforeAll(async (done) => {
     await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);

@@ -27,7 +27,7 @@ import { BrowsingPage, SITE_VISIBILITY, SITE_ROLES, RepoClient, InfoDrawer, Util
 import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Library properties', () => {
-  let username, user2 , user3;
+  let username, user2, user3;
 
   const site = {
     name: `site1-${Utils.random()}`,

@@ -61,7 +61,7 @@ describe('Search sorting', () => {
 
   beforeAll(async (done) => {
     user1 = await usersActions.createUser();
-    user2 =await usersActions.createUser();
+    user2 = await usersActions.createUser();
     parentId = (await apis.user1.nodes.createFolder(parent)).entry.id;
 
     await apis.user1.nodes.setGranularPermission(parentId, true, user2, 'Collaborator');

@@ -23,15 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  SITE_VISIBILITY,
-  SITE_ROLES,
-  BrowsingPage,
-  Utils,
-  ConfirmDialog,
-  RepoClient,
-  AdminActions
-} from '@alfresco/aca-testing-shared';
+import { SITE_VISIBILITY, SITE_ROLES, BrowsingPage, Utils, ConfirmDialog, RepoClient, AdminActions } from '@alfresco/aca-testing-shared';
 import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 import { browser } from 'protractor';
 import { CoreActions } from '../../../projects/aca-testing-shared/src/utilities';
@@ -344,10 +336,7 @@ describe('Library actions', () => {
       await dataTable.selectItem(siteSearchPublic3Admin);
       await toolbar.clickMoreActionsFavorite();
 
-      expect(await repo.favorites.isFavoriteWithRetry(siteSearchPublic3Admin, { expect: true })).toBe(
-        true,
-        `${siteSearchPublic3Admin} not favorite`
-      );
+      expect(await repo.favorites.isFavoriteWithRetry(siteSearchPublic3Admin, { expect: true })).toBe(true, `${siteSearchPublic3Admin} not favorite`);
     });
   });
 
