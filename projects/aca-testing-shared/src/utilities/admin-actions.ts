@@ -24,22 +24,11 @@
  */
 
 import { PersonEntry, NodeEntry, PeopleApi } from '@alfresco/js-api';
-import {
-  PersonModel,
-  SitesApi,
-  UploadApi,
-  NodesApi,
-  FavoritesApi,
-  SearchApi,
-  NodeContentTree,
-  Person,
-  SharedLinksApi
-} from './repo-client/apis';
+import { PersonModel, SitesApi, UploadApi, NodesApi, FavoritesApi, SearchApi, NodeContentTree, Person, SharedLinksApi } from './repo-client/apis';
 import { CoreActions } from './core-actions';
 import { ApiService } from '@alfresco/adf-testing';
 
 export class AdminActions extends CoreActions {
-
   sites: SitesApi;
   upload: UploadApi;
   nodes: NodesApi;

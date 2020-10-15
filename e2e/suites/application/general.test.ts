@@ -24,9 +24,8 @@
  */
 
 import { browser } from 'protractor';
-import { ApiService, Logger } from '@alfresco/adf-testing';
+import { LoginPage, ApiService, Logger } from '@alfresco/adf-testing';
 import { BrowsingPage, CreateOrEditFolderDialog, AdminActions, Utils } from '@alfresco/aca-testing-shared';
-import { LoginPage } from '@alfresco/adf-testing';
 
 describe('General', () => {
   const loginPage = new LoginPage();
