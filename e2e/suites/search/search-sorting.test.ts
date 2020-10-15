@@ -101,7 +101,7 @@ describe('Search sorting', () => {
     expect(await page.sortingPicker.getSortByOptionsList()).toEqual(expectedOptions, 'Incorrect sort options list');
   });
 
-  fit('[C277728] Sort by Name', async () => {
+  it('[C277728] Sort by Name', async () => {
     await page.sortingPicker.sortBy('Filename');
     await page.sortingPicker.setSortOrderASC();
 

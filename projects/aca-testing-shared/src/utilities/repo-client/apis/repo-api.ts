@@ -24,10 +24,9 @@
  */
 
 import { browser } from 'protractor';
-import { ApiService,  Logger } from '@alfresco/adf-testing';
+import { ApiService, Logger } from '@alfresco/adf-testing';
 
 export abstract class RepoApi {
-
   api: ApiService;
 
   constructor(alfrescoApi: ApiService) {

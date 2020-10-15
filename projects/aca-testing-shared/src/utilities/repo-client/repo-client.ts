@@ -30,7 +30,6 @@ import { ApiService } from '@alfresco/adf-testing';
  * @deprecated Use {AdminActions} or {UserActions} instead.
  */
 export class RepoClient {
-
   api: ApiService;
 
   constructor(alfrescoApi: ApiService) {
@@ -64,5 +63,4 @@ export class RepoClient {
   get upload(): UploadApi {
     return new UploadApi(this.api);
   }
-
 }

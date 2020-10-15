@@ -24,15 +24,18 @@
  */
 
 import { browser } from 'protractor';
-import { Logger } from '@alfresco/adf-testing';
-import { BrowsingPage, CreateOrEditFolderDialog, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { ApiService, Logger } from '@alfresco/adf-testing';
+import { BrowsingPage, CreateOrEditFolderDialog, AdminActions, Utils } from '@alfresco/aca-testing-shared';
 import { LoginPage } from '@alfresco/adf-testing';
 
 describe('General', () => {
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const createDialog = new CreateOrEditFolderDialog();
-  const adminApi = new RepoClient();
+
+  const apiService = new ApiService();
+  const adminApi = new AdminActions(apiService);
+
   const folder = `folder-${Utils.random()}`;
   let folderId: string;
 
@@ -53,8 +56,6 @@ describe('General', () => {
       await page.sidenav.openCreateFolderDialog();
       await createDialog.waitForDialogToOpen();
       await createDialog.enterName(folder);
-
-      await adminApi.logout();
 
       await createDialog.createButton.click();
 

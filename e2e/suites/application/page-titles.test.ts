@@ -24,13 +24,16 @@
  */
 
 import { browser } from 'protractor';
-import { PAGE_TITLES, BrowsingPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
-import { LoginPage } from '@alfresco/adf-testing';
+import { PAGE_TITLES, BrowsingPage, AdminActions, Utils } from '@alfresco/aca-testing-shared';
+import { ApiService, LoginPage } from '@alfresco/adf-testing';
 
 describe('Page titles', () => {
   const loginPage = new LoginPage();
+
   const page = new BrowsingPage();
-  const adminApi = new RepoClient();
+  const apiService = new ApiService();
+  const adminApi = new AdminActions(apiService);
+
   const file = `file-${Utils.random()}.txt`;
   let fileId: string;
   const { searchInput } = page.header;
