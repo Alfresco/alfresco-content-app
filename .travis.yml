@@ -130,12 +130,6 @@ jobs:
       name: Update Rancher
       script: ./scripts/travis/deploy/deploy.sh
 
-    - stage: Release Libraries
-      name: Release Libraries
-      script:
-        - npm run build.extensions || exit 1;
-        - ./scripts/travis/release/release-npm.sh || exit 1;
-
     - stage: Release Tag
       script: ./scripts/travis/release/git-tag.sh
 
