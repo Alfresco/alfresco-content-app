@@ -32,7 +32,8 @@ import {
   ShareDialog,
   ConfirmDialog,
   Viewer,
-  Utils
+  Utils,
+  AdminActions
 } from '@alfresco/aca-testing-shared';
 import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
@@ -70,6 +71,7 @@ describe('Unshare a file from Search Results', () => {
   const apiService = new ApiService();
   const usersActions = new UsersActions(apiService);
   const repo = new RepoClient(apiService);
+  const adminActions = new AdminActions(apiService);
 
   beforeAll(async (done) => {
     await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
@@ -86,15 +88,15 @@ describe('Unshare a file from Search Results', () => {
 
     const initialSharedTotalItems = await repo.shared.getSharedLinksTotalItems();
     await coreActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
-    await adminApiActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
-    const docLibId = await adminApiActions.sites.getDocLibId(sitePrivate);
+    await adminActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
+    const docLibId = await adminActions.sites.getDocLibId(sitePrivate);
 
-    fileSite1Id = (await adminApiActions.nodes.createFile(fileSite1, docLibId)).entry.id;
-    fileSite2Id = (await adminApiActions.nodes.createFile(fileSite2, docLibId)).entry.id;
+    fileSite1Id = (await adminActions.nodes.createFile(fileSite1, docLibId)).entry.id;
+    fileSite2Id = (await adminActions.nodes.createFile(fileSite2, docLibId)).entry.id;
 
-    await adminApiActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_CONSUMER.ROLE);
+    await adminActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_CONSUMER.ROLE);
 
-    await adminApiActions.shareNodes([fileSite1Id]);
+    await adminActions.shareNodes([fileSite1Id]);
     await coreActions.shareNodes([fileSite2Id]);
 
     await repo.shared.waitForApi({ expect: initialSharedTotalItems + 6 });
@@ -106,7 +108,7 @@ describe('Unshare a file from Search Results', () => {
 
   afterAll(async (done) => {
     await repo.nodes.deleteNodeById(parentId);
-    await adminApiActions.sites.deleteSite(sitePrivate);
+    await adminActions.sites.deleteSite(sitePrivate);
     done();
   });
 

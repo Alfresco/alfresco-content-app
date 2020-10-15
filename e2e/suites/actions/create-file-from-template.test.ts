@@ -30,7 +30,8 @@ import {
   Utils,
   clearTextWithBackspace,
   RepoClient,
-  NodeContentTree
+  NodeContentTree,
+  AdminActions
 } from '@alfresco/aca-testing-shared';
 import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
 
@@ -76,6 +77,7 @@ describe('Create file from template', () => {
   const apiService = new ApiService();
   const usersActions = new UsersActions(apiService);
   const repo = new RepoClient(apiService);
+  const adminActions = new AdminActions(apiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -99,7 +101,7 @@ describe('Create file from template', () => {
   afterAll(async () => {
     await repo.nodes.deleteNodeById(parentId);
     await repo.sites.deleteSite(siteName);
-    await adminApiActions.cleanupNodeTemplatesFolder();
+    await adminActions.cleanupNodeTemplatesFolder();
   });
 
   beforeEach(async () => {
@@ -144,9 +146,9 @@ describe('Create file from template', () => {
     let link: string;
 
     beforeAll(async () => {
-      await adminApiActions.createNodeTemplatesHierarchy(templates);
-      await adminApiActions.removeUserAccessOnNodeTemplate(restrictedTemplateFolder);
-      link = (await adminApiActions.createLinkToFileName(template2InRootFolder, await adminApiActions.getNodeTemplatesFolderId())).entry.name;
+      await adminActions.createNodeTemplatesHierarchy(templates);
+      await adminActions.removeUserAccessOnNodeTemplate(restrictedTemplateFolder);
+      link = (await adminActions.createLinkToFileName(template2InRootFolder, await adminActions.getNodeTemplatesFolderId())).entry.name;
     });
 
     describe('Select Template dialog', () => {

@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BrowsingPage, ContentNodeSelectorDialog, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, ContentNodeSelectorDialog, RepoClient, Utils, CoreActions } from '@alfresco/aca-testing-shared';
 import { UsersActions, LoginPage, ApiService } from '@alfresco/adf-testing';
 import { browser } from 'protractor';
 

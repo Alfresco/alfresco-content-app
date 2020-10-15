@@ -30,7 +30,8 @@ import {
   RepoClient,
   ShareDialog,
   Viewer,
-  Utils
+  Utils,
+  AdminActions
 } from '@alfresco/aca-testing-shared';
 import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
@@ -66,6 +67,7 @@ describe('Share a file', () => {
   const apiService = new ApiService();
   const usersActions = new UsersActions(apiService);
   const repo = new RepoClient(apiService);
+  const adminActions = new AdminActions(apiService);
 
   beforeAll(async (done) => {
     await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
@@ -338,7 +340,7 @@ describe('Share a file', () => {
       });
 
       afterAll(async () => {
-        await adminApiActions.sites.deleteSite(siteName);
+        await adminActions.sites.deleteSite(siteName);
         await repo.shared.waitForApi({ expect: initialTotalItems });
       });
 

@@ -23,8 +23,9 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BrowsingPage, ContentNodeSelectorDialog, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, ContentNodeSelectorDialog, RepoClient, Utils, AdminActions } from '@alfresco/aca-testing-shared';
 import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
+import { browser } from 'protractor';
 
 describe('Destination picker dialog : ', () => {
   const random = Utils.random();
@@ -60,8 +61,10 @@ describe('Destination picker dialog : ', () => {
   const consumerApi = new RepoClient(consumer, consumer);
   const contributorApi = new RepoClient(contributor, contributor);
   const collaboratorApi = new RepoClient(collaborator, collaborator);
+
   const apiService = new ApiService();
   const usersActions = new UsersActions(apiService);
+  const adminActions = new AdminActions(apiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -101,7 +104,7 @@ describe('Destination picker dialog : ', () => {
     fileIdContributor = (await contributorApi.nodes.createFile(file)).entry.id;
     fileIdCollaborator = (await collaboratorApi.nodes.createFile(file)).entry.id;
 
-    adminFolderId = (await adminApiActions.nodes.createFolder(adminFolder)).entry.id;
+    adminFolderId = (await adminActions.nodes.createFolder(adminFolder)).entry.id;
 
     await userApi.search.waitForNodes(searchFolder, { expect: 2 });
   });
@@ -115,7 +118,7 @@ describe('Destination picker dialog : ', () => {
     await contributorApi.nodes.deleteNodeById(fileIdContributor);
     await collaboratorApi.nodes.deleteNodeById(fileIdCollaborator);
 
-    await adminApiActions.nodes.deleteNodeById(adminFolderId);
+    await adminActions.nodes.deleteNodeById(adminFolderId);
   });
 
   afterEach(async () => {
@@ -324,7 +327,7 @@ describe('Destination picker dialog : ', () => {
     });
 
     it('[C263892] Admin user - Personal Files breadcrumb main node', async () => {
-      await loginPage.loginAdmin();
+      await loginPage.login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
       await page.dataTable.selectItem(adminFolder);
       await page.toolbar.clickMoreActionsCopy();
       await dialog.waitForDialogToOpen();

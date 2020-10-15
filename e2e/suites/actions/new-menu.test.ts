@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BrowsingPage, SITE_ROLES, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, SITE_ROLES, RepoClient, Utils, AdminActions } from '@alfresco/aca-testing-shared';
 import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 describe('New menu', () => {
@@ -40,11 +40,12 @@ describe('New menu', () => {
   const apiService = new ApiService();
   const usersActions = new UsersActions(apiService);
   const repo = new RepoClient(apiService);
+  const adminActions = new AdminActions(apiService);
 
   beforeAll(async (done) => {
     username = await usersActions.createUser();
-    await adminApiActions.sites.createSite(siteAdmin);
-    await adminApiActions.sites.addSiteMember(siteAdmin, username, SITE_ROLES.SITE_CONSUMER.ROLE);
+    await adminActions.sites.createSite(siteAdmin);
+    await adminActions.sites.addSiteMember(siteAdmin, username, SITE_ROLES.SITE_CONSUMER.ROLE);
 
     await repo.sites.createSite(siteUser);
 
@@ -54,7 +55,7 @@ describe('New menu', () => {
 
   afterAll(async (done) => {
     await repo.sites.deleteSite(siteUser);
-    await adminApiActions.sites.deleteSite(siteAdmin);
+    await adminActions.sites.deleteSite(siteAdmin);
     done();
   });
 

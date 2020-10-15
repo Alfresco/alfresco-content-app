@@ -25,7 +25,7 @@
 
 import { browser } from 'protractor';
 
-import { APP_ROUTES, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { APP_ROUTES, BrowsingPage, Utils, RepoClient, AdminActions } from '@alfresco/aca-testing-shared';
 import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Personal Files', () => {
@@ -43,23 +43,24 @@ describe('Personal Files', () => {
   const apiService = new ApiService();
   const usersActions = new UsersActions(apiService);
   const repo = new RepoClient(apiService);
+  const adminActions = new AdminActions(apiService);
 
   beforeAll(async (done) => {
     username = await usersActions.createUser();
-    await adminApiActions.nodes.createFolders([adminFolder]);
+    await adminActions.nodes.createFolders([adminFolder]);
     await repo.nodes.createFolders([userFolder]);
     await repo.nodes.createFiles([userFile], userFolder);
     done();
   });
 
   afterAll(async (done) => {
-    await Promise.all([adminApiActions.nodes.deleteNodes([adminFolder]), repo.nodes.deleteNodes([userFolder])]);
+    await Promise.all([adminActions.nodes.deleteNodes([adminFolder]), repo.nodes.deleteNodes([userFolder])]);
     done();
   });
 
   describe(`Admin user's personal files`, () => {
     beforeAll(async (done) => {
-      await loginPage.loginAdmin();
+      await loginPage.login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
       done();
     });
 

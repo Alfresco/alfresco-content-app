@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { SearchResultsPage, RepoClient, Utils, SITE_VISIBILITY, SITE_ROLES } from '@alfresco/aca-testing-shared';
+import { SearchResultsPage, RepoClient, Utils, SITE_VISIBILITY, SITE_ROLES, AdminActions } from '@alfresco/aca-testing-shared';
 import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 describe('Search results - libraries', () => {
@@ -71,6 +71,7 @@ describe('Search results - libraries', () => {
   const apiService = new ApiService();
   const usersActions = new UsersActions(apiService);
   const repo = new RepoClient(apiService);
+  const adminActions = new AdminActions(apiService);
 
   beforeAll(async (done) => {
     username = await usersActions.createUser();
@@ -86,16 +87,16 @@ describe('Search results - libraries', () => {
 
     await repo.sites.createSite(siteRussian.name, SITE_VISIBILITY.PUBLIC, '', siteRussian.id);
 
-    await adminApiActions.sites.createSite(adminSite1, SITE_VISIBILITY.PUBLIC);
-    await adminApiActions.sites.createSite(adminSite2, SITE_VISIBILITY.PUBLIC);
-    await adminApiActions.sites.createSite(adminSite3, SITE_VISIBILITY.PUBLIC);
-    await adminApiActions.sites.createSite(adminSite4, SITE_VISIBILITY.PUBLIC);
-    await adminApiActions.sites.addSiteMember(adminSite1, username, SITE_ROLES.SITE_CONSUMER.ROLE);
-    await adminApiActions.sites.addSiteMember(adminSite2, username, SITE_ROLES.SITE_CONTRIBUTOR.ROLE);
-    await adminApiActions.sites.addSiteMember(adminSite3, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
-    await adminApiActions.sites.addSiteMember(adminSite4, username, SITE_ROLES.SITE_MANAGER.ROLE);
+    await adminActions.sites.createSite(adminSite1, SITE_VISIBILITY.PUBLIC);
+    await adminActions.sites.createSite(adminSite2, SITE_VISIBILITY.PUBLIC);
+    await adminActions.sites.createSite(adminSite3, SITE_VISIBILITY.PUBLIC);
+    await adminActions.sites.createSite(adminSite4, SITE_VISIBILITY.PUBLIC);
+    await adminActions.sites.addSiteMember(adminSite1, username, SITE_ROLES.SITE_CONSUMER.ROLE);
+    await adminActions.sites.addSiteMember(adminSite2, username, SITE_ROLES.SITE_CONTRIBUTOR.ROLE);
+    await adminActions.sites.addSiteMember(adminSite3, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
+    await adminActions.sites.addSiteMember(adminSite4, username, SITE_ROLES.SITE_MANAGER.ROLE);
 
-    await adminApiActions.sites.createSite(adminPrivate, SITE_VISIBILITY.PRIVATE);
+    await adminActions.sites.createSite(adminPrivate, SITE_VISIBILITY.PRIVATE);
 
     await repo.sites.waitForApi({ expect: 12 });
     await repo.queries.waitForSites('lib', { expect: 2 });
@@ -107,7 +108,7 @@ describe('Search results - libraries', () => {
 
   afterAll(async (done) => {
     await Promise.all([
-      adminApiActions.sites.deleteSites([adminSite1, adminSite2, adminSite3, adminSite4, adminPrivate]),
+      adminActions.sites.deleteSites([adminSite1, adminSite2, adminSite3, adminSite4, adminPrivate]),
       repo.sites.deleteSites([site1.id, site2.id, site3.id, site4.id, userSitePublic, userSiteModerated, userSitePrivate, siteRussian.id])
     ]);
     done();

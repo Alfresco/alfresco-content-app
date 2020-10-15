@@ -48,7 +48,7 @@ describe('General', () => {
     });
 
     it('[C286473] should close opened dialogs', async () => {
-      await loginPage.loginAdmin();
+      await loginPage.login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
 
       await page.sidenav.openCreateFolderDialog();
       await createDialog.waitForDialogToOpen();

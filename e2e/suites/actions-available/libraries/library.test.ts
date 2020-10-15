@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BrowsingPage, SearchResultsPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, SearchResultsPage, RepoClient, Utils, AdminActions, CoreActions } from '@alfresco/aca-testing-shared';
 import * as testData from './test-data-libraries';
 import * as testUtil from '../test-util';
 import { ApiService, LoginPage, UsersActions} from '@alfresco/adf-testing';
@@ -35,6 +35,8 @@ describe('Library actions : ', () => {
   const apiService = new ApiService();
   const usersActions = new UsersActions(apiService);
   const repo = new RepoClient(apiService);
+  const adminActions = new AdminActions(apiService);
+  const coreActions = new CoreActions(apiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -46,7 +48,7 @@ describe('Library actions : ', () => {
     username = await usersActions.createUser();
     await apiService.getInstance().login(username.email, username.password);
 
-    const initialAdminSitesTotalItems = await adminApiActions.sites.getSitesTotalItems();
+    const initialAdminSitesTotalItems = await adminActions.sites.getSitesTotalItems();
     const initialUserSitesTotalItems = await repo.sites.getSitesTotalItems();
     const initialDeletedTotalItems = await coreActions.getTrashcanSize();
     const initialQuerySitesTotalItems = await repo.queries.findSitesTotalItems('actionsSite-');
@@ -58,12 +60,12 @@ describe('Library actions : ', () => {
     const privateUserMemberNotFavId = (await repo.sites.createSitePrivate(testData.privateUserMemberNotFav.name)).entry.guid;
     const moderatedUserMemberNotFavId = (await repo.sites.createSiteModerated(testData.moderatedUserMemberNotFav.name)).entry.guid;
 
-    await adminApiActions.sites.createSite(testData.publicNotMemberFav.name);
-    await adminApiActions.sites.createSiteModerated(testData.moderatedNotMemberFav.name);
-    await adminApiActions.sites.createSite(testData.publicNotMemberNotFav.name);
-    await adminApiActions.sites.createSiteModerated(testData.moderatedNotMemberNotFav.name);
-    await adminApiActions.sites.createSiteModerated(testData.moderatedRequestedJoinFav.name);
-    await adminApiActions.sites.createSiteModerated(testData.moderatedRequestedJoinNotFav.name);
+    await adminActions.sites.createSite(testData.publicNotMemberFav.name);
+    await adminActions.sites.createSiteModerated(testData.moderatedNotMemberFav.name);
+    await adminActions.sites.createSite(testData.publicNotMemberNotFav.name);
+    await adminActions.sites.createSiteModerated(testData.moderatedNotMemberNotFav.name);
+    await adminActions.sites.createSiteModerated(testData.moderatedRequestedJoinFav.name);
+    await adminActions.sites.createSiteModerated(testData.moderatedRequestedJoinNotFav.name);
 
     await repo.sites.requestToJoin(testData.moderatedRequestedJoinFav.name);
     await repo.sites.requestToJoin(testData.moderatedRequestedJoinNotFav.name);
@@ -76,7 +78,7 @@ describe('Library actions : ', () => {
     ]);
 
     await repo.sites.waitForApi({ expect: initialUserSitesTotalItems + 6 });
-    await adminApiActions.sites.waitForApi({ expect: initialAdminSitesTotalItems + 6 });
+    await adminActions.sites.waitForApi({ expect: initialAdminSitesTotalItems + 6 });
     await repo.queries.waitForSites('actionsSite-', { expect: initialQuerySitesTotalItems + 12 });
 
     await repo.sites.createSite(testData.siteInTrash.name);
@@ -97,7 +99,7 @@ describe('Library actions : ', () => {
       testData.privateUserMemberNotFav.name,
       testData.moderatedUserMemberNotFav.name
     ]);
-    await adminApiActions.deleteSites([
+    await adminActions.deleteSites([
       testData.publicNotMemberFav.name,
       testData.moderatedNotMemberFav.name,
       testData.publicNotMemberNotFav.name,

@@ -30,7 +30,8 @@ import {
   Utils,
   clearTextWithBackspace,
   RepoClient,
-  NodeContentTree
+  NodeContentTree,
+  AdminActions
 } from '@alfresco/aca-testing-shared';
 import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
 
@@ -105,6 +106,7 @@ describe('Create folder from template', () => {
   const apiService = new ApiService();
   const usersActions = new UsersActions(apiService);
   const repo = new RepoClient(apiService);
+  const adminActions = new AdminActions(apiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -122,9 +124,9 @@ describe('Create folder from template', () => {
     docLibUserSite = await repo.sites.getDocLibId(siteName);
     await repo.nodes.createFolder(duplicateFolderSite, docLibUserSite);
 
-    await adminApiActions.createSpaceTemplatesHierarchy(templates);
-    await adminApiActions.removeUserAccessOnSpaceTemplate(restrictedTemplateFolder);
-    folderLink = (await adminApiActions.createLinkToFolderName(folderInRootFolder, await adminApiActions.getSpaceTemplatesFolderId())).entry.name;
+    await adminActions.createSpaceTemplatesHierarchy(templates);
+    await adminActions.removeUserAccessOnSpaceTemplate(restrictedTemplateFolder);
+    folderLink = (await adminActions.createLinkToFolderName(folderInRootFolder, await adminActions.getSpaceTemplatesFolderId())).entry.name;
 
     await loginPage.login(username.email, username.password);
   });
@@ -132,7 +134,7 @@ describe('Create folder from template', () => {
   afterAll(async () => {
     await repo.nodes.deleteNodeById(parentId);
     await repo.sites.deleteSite(siteName);
-    await adminApiActions.cleanupSpaceTemplatesFolder();
+    await adminActions.cleanupSpaceTemplatesFolder();
   });
 
   beforeEach(async () => {

@@ -31,7 +31,8 @@ import {
   ShareDialog,
   ConfirmDialog,
   Viewer,
-  Utils
+  Utils,
+  AdminActions
 } from '@alfresco/aca-testing-shared';
 import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 import { browser } from 'protractor';
@@ -53,6 +54,7 @@ describe('Unshare a file', () => {
   const apiService = new ApiService();
   const usersActions = new UsersActions(apiService);
   const repo = new RepoClient(apiService);
+  const adminActions = new AdminActions(apiService);
 
   beforeAll(async (done) => {
     await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
@@ -234,7 +236,7 @@ describe('Unshare a file', () => {
     });
 
     afterAll(async (done) => {
-      await adminApiActions.sites.deleteSite(siteName);
+      await adminActions.sites.deleteSite(siteName);
       await repo.shared.waitForApi({ expect: initialSharedTotalItems });
       done();
     });
@@ -687,20 +689,20 @@ describe('Unshare a file', () => {
     let file2FavId: string;
 
     beforeAll(async (done) => {
-      await adminApiActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
-      const docLibId = await adminApiActions.sites.getDocLibId(sitePrivate);
+      await adminActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
+      const docLibId = await adminActions.sites.getDocLibId(sitePrivate);
 
-      file1FileLibId = (await adminApiActions.nodes.createFile(file1FileLib, docLibId)).entry.id;
-      file2FileLibId = (await adminApiActions.nodes.createFile(file2FileLib, docLibId)).entry.id;
-      file1SharedId = (await adminApiActions.nodes.createFile(file1Shared, docLibId)).entry.id;
-      file2SharedId = (await adminApiActions.nodes.createFile(file2Shared, docLibId)).entry.id;
-      file1FavId = (await adminApiActions.nodes.createFile(file1Fav, docLibId)).entry.id;
-      file2FavId = (await adminApiActions.nodes.createFile(file2Fav, docLibId)).entry.id;
+      file1FileLibId = (await adminActions.nodes.createFile(file1FileLib, docLibId)).entry.id;
+      file2FileLibId = (await adminActions.nodes.createFile(file2FileLib, docLibId)).entry.id;
+      file1SharedId = (await adminActions.nodes.createFile(file1Shared, docLibId)).entry.id;
+      file2SharedId = (await adminActions.nodes.createFile(file2Shared, docLibId)).entry.id;
+      file1FavId = (await adminActions.nodes.createFile(file1Fav, docLibId)).entry.id;
+      file2FavId = (await adminActions.nodes.createFile(file2Fav, docLibId)).entry.id;
 
-      await adminApiActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_CONSUMER.ROLE);
+      await adminActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_CONSUMER.ROLE);
 
       const initialSharedTotalItems = await repo.shared.getSharedLinksTotalItems();
-      await adminApiActions.shareNodes([file1FileLibId, file1SharedId, file1FavId]);
+      await adminActions.shareNodes([file1FileLibId, file1SharedId, file1FavId]);
       await coreActions.shareNodes([file2FileLibId, file2SharedId, file2FavId]);
 
       await repo.favorites.addFavoriteById('file', file1FavId);
@@ -713,7 +715,7 @@ describe('Unshare a file', () => {
     });
 
     afterAll(async (done) => {
-      await adminApiActions.sites.deleteSite(sitePrivate);
+      await adminActions.sites.deleteSite(sitePrivate);
       done();
     });
 

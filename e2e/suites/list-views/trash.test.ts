@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { SITE_VISIBILITY, SITE_ROLES, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { SITE_VISIBILITY, SITE_ROLES, BrowsingPage, Utils, RepoClient, AdminActions } from '@alfresco/aca-testing-shared';
 import { ApiService, LoginPage, UsersActions} from '@alfresco/adf-testing';
 import { browser } from 'protractor';
 
@@ -61,18 +61,19 @@ describe('Trash', () => {
   const apiService = new ApiService();
   const usersActions = new UsersActions(apiService);
   const repo = new RepoClient(apiService);
+  const adminActions = new AdminActions(apiService);
 
   beforeAll(async () => {
     await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
     username = await usersActions.createUser();
     await apiService.getInstance().login(username.email, username.password);
 
-    fileAdminId = (await adminApiActions.nodes.createFiles([fileAdmin])).entry.id;
-    folderAdminId = (await adminApiActions.nodes.createFolders([folderAdmin])).entry.id;
-    await adminApiActions.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
-    await adminApiActions.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_MANAGER.ROLE);
-    const docLibId = await adminApiActions.sites.getDocLibId(siteName);
-    fileSiteId = (await adminApiActions.nodes.createFile(fileSite, docLibId)).entry.id;
+    fileAdminId = (await adminActions.nodes.createFiles([fileAdmin])).entry.id;
+    folderAdminId = (await adminActions.nodes.createFolders([folderAdmin])).entry.id;
+    await adminActions.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
+    await adminActions.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_MANAGER.ROLE);
+    const docLibId = await adminActions.sites.getDocLibId(siteName);
+    fileSiteId = (await adminActions.nodes.createFile(fileSite, docLibId)).entry.id;
     fileUserId = (await repo.nodes.createFiles([fileUser])).entry.id;
     folderUserId = (await repo.nodes.createFolders([folderUser])).entry.id;
     folderDeletedId = (await repo.nodes.createFolder(folderDeleted)).entry.id;
@@ -80,16 +81,16 @@ describe('Trash', () => {
     folderNotDeletedId = (await repo.nodes.createFolder(folderNotDeleted)).entry.id;
     fileInFolderId = (await repo.nodes.createFiles([fileInFolder], folderNotDeleted)).entry.id;
 
-    await adminApiActions.nodes.deleteNodesById([fileAdminId, folderAdminId], false);
+    await adminActions.nodes.deleteNodesById([fileAdminId, folderAdminId], false);
     await repo.nodes.deleteNodesById([fileSiteId, fileUserId, folderUserId, fileInFolderId], false);
     await repo.nodes.deleteNodeById(fileDeletedId, false);
     await repo.nodes.deleteNodeById(folderDeletedId, false);
   });
 
   afterAll(async (done) => {
-    await adminApiActions.sites.deleteSite(siteName);
-    await adminApiActions.trashcanApi.deleteDeletedNode(fileAdminId);
-    await adminApiActions.trashcanApi.deleteDeletedNode(folderAdminId);
+    await adminActions.sites.deleteSite(siteName);
+    await adminActions.trashcanApi.deleteDeletedNode(fileAdminId);
+    await adminActions.trashcanApi.deleteDeletedNode(folderAdminId);
     await repo.nodes.deleteNodeById(folderNotDeletedId);
     await coreActions.emptyTrashcan();
     done();
@@ -97,7 +98,7 @@ describe('Trash', () => {
 
   describe('as admin', () => {
     beforeAll(async (done) => {
-      await loginPage.loginAdmin();
+      await loginPage.login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
       done();
     });
 

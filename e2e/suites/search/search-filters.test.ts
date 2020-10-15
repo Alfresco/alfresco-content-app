@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { SearchResultsPage, RepoClient, Utils, FILES, SITE_VISIBILITY, SITE_ROLES } from '@alfresco/aca-testing-shared';
+import { SearchResultsPage, RepoClient, Utils, FILES, SITE_VISIBILITY, SITE_ROLES, AdminActions } from '@alfresco/aca-testing-shared';
 import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 const moment = require('moment');
@@ -77,6 +77,7 @@ describe('Search filters', () => {
 
   const apiService = new ApiService();
   const usersActions = new UsersActions(apiService);
+  const adminActions = new AdminActions(apiService);
 
   beforeAll(async (done) => {
     user1 = await usersActions.createUser();
@@ -84,7 +85,7 @@ describe('Search filters', () => {
     parentId = (await apis.user1.nodes.createFolder(parent)).entry.id;
     await apis.user1.sites.createSite(site, SITE_VISIBILITY.PUBLIC);
     await apis.user1.sites.addSiteMember(site, user2, SITE_ROLES.SITE_MANAGER.ROLE);
-    docLibId = await adminApiActions.sites.getDocLibId(site);
+    docLibId = await adminActions.sites.getDocLibId(site);
 
     await apis.user1.nodes.setGranularPermission(parentId, true, user2, 'Collaborator');
 

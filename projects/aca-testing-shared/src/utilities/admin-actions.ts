@@ -24,24 +24,38 @@
  */
 
 import { PersonEntry, NodeEntry, PeopleApi } from '@alfresco/js-api';
-import { PersonModel, SitesApi, UploadApi, NodesApi, FavoritesApi, SearchApi, NodeContentTree, Person, SharedLinksApi } from './repo-client/apis';
-import { UserActions } from './user-actions';
-import { browser } from 'protractor';
+import {
+  PersonModel,
+  SitesApi,
+  UploadApi,
+  NodesApi,
+  FavoritesApi,
+  SearchApi,
+  NodeContentTree,
+  Person,
+  SharedLinksApi
+} from './repo-client/apis';
+import { CoreActions } from './core-actions';
+import { ApiService } from '@alfresco/adf-testing';
 
-export class AdminActions extends UserActions {
-  constructor() {
-    super();
-  }
+export class AdminActions extends CoreActions {
 
-  sites: SitesApi = new SitesApi();
-  upload: UploadApi = new UploadApi();
-  nodes: NodesApi = new NodesApi();
-  favorites: FavoritesApi = new FavoritesApi();
-  search: SearchApi = new SearchApi();
-  shared: SharedLinksApi = new SharedLinksApi();
+  sites: SitesApi;
+  upload: UploadApi;
+  nodes: NodesApi;
+  favorites: FavoritesApi;
+  search: SearchApi;
+  shared: SharedLinksApi;
 
-  async login(username?: string, password?: string) {
-    return super.login(username || browser.params.ADMIN_USERNAME, password || browser.params.ADMIN_PASSWORD);
+  constructor(alfrescoApi: ApiService) {
+    super(alfrescoApi);
+
+    this.sites = new SitesApi(this.api);
+    this.upload = new UploadApi(this.api);
+    this.nodes = new NodesApi(this.api);
+    this.favorites = new FavoritesApi(this.api);
+    this.search = new SearchApi(this.api);
+    this.shared = new SharedLinksApi(this.api);
   }
 
   async getDataDictionaryId(): Promise<string> {
@@ -60,21 +74,18 @@ export class AdminActions extends UserActions {
     const person = new Person(user);
     const peopleApi = new PeopleApi(this.alfrescoApi);
 
-    await this.login();
     return peopleApi.createPerson(person);
   }
 
   async disableUser(username: string): Promise<PersonEntry> {
     const peopleApi = new PeopleApi(this.alfrescoApi);
 
-    await this.login();
     return peopleApi.updatePerson(username, { enabled: false });
   }
 
   async changePassword(username: string, newPassword: string): Promise<PersonEntry> {
     const peopleApi = new PeopleApi(this.alfrescoApi);
 
-    await this.login();
     return peopleApi.updatePerson(username, { password: newPassword });
   }
 

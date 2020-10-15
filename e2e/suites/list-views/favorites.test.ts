@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { SITE_VISIBILITY, SITE_ROLES, BrowsingPage, Utils, RepoClient, CoreActions } from '@alfresco/aca-testing-shared';
+import { SITE_VISIBILITY, SITE_ROLES, BrowsingPage, Utils, RepoClient, CoreActions, AdminActions } from '@alfresco/aca-testing-shared';
 import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 import { browser } from 'protractor';
 
@@ -46,17 +46,18 @@ describe('Favorites', () => {
   const usersActions = new UsersActions(apiService);
   const repo = new RepoClient(apiService);
   const coreActions = new CoreActions(apiService);
+  const adminActions = new AdminActions(apiService);
 
   beforeAll(async (done) => {
     await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
     username = await usersActions.createUser();
     await apiService.getInstance().login(username.email, username.password);
 
-    await adminApiActions.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
-    const docLibId = await adminApiActions.sites.getDocLibId(siteName);
-    await adminApiActions.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_MANAGER.ROLE);
+    await adminActions.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
+    const docLibId = await adminActions.sites.getDocLibId(siteName);
+    await adminActions.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_MANAGER.ROLE);
 
-    const file1Id = (await adminApiActions.nodes.createFile(fileName1, docLibId)).entry.id;
+    const file1Id = (await adminActions.nodes.createFile(fileName1, docLibId)).entry.id;
     const folderId = (await repo.nodes.createFolder(favFolderName)).entry.id;
     const parentId = (await repo.nodes.createFolder(parentFolder)).entry.id;
     const file2Id = (await repo.nodes.createFile(fileName2, parentId)).entry.id;
@@ -81,7 +82,7 @@ describe('Favorites', () => {
   });
 
   afterAll(async (done) => {
-    await adminApiActions.deleteSites([siteName]);
+    await adminActions.deleteSites([siteName]);
     await coreActions.deleteNodes([favFolderName, parentFolder]);
     await coreActions.emptyTrashcan();
     done();

@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BrowsingPage, FILES, SITE_VISIBILITY, RepoClient, Utils, Viewer } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, FILES, SITE_VISIBILITY, RepoClient, Utils, Viewer, AdminActions } from '@alfresco/aca-testing-shared';
 import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 import { browser } from 'protractor';
 
@@ -54,6 +54,7 @@ describe('Viewer general', () => {
   const apiService = new ApiService();
   const usersActions = new UsersActions(apiService);
   const repo = new RepoClient(apiService);
+  const adminActions = new AdminActions(apiService);
 
   beforeAll(async (done) => {
     await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
@@ -63,9 +64,9 @@ describe('Viewer general', () => {
     parentId = (await repo.nodes.createFolder(parent)).entry.id;
     xlsxFileId = (await repo.upload.uploadFile(xlsxFile, parentId)).entry.id;
 
-    await adminApiActions.sites.createSite(siteAdmin, SITE_VISIBILITY.PRIVATE);
-    docLibId = await adminApiActions.sites.getDocLibId(siteAdmin);
-    fileAdminId = (await adminApiActions.upload.uploadFile(fileAdmin, docLibId)).entry.id;
+    await adminActions.sites.createSite(siteAdmin, SITE_VISIBILITY.PRIVATE);
+    docLibId = await adminActions.sites.getDocLibId(siteAdmin);
+    fileAdminId = (await adminActions.upload.uploadFile(fileAdmin, docLibId)).entry.id;
 
     await repo.sites.createSite(siteUser, SITE_VISIBILITY.PUBLIC);
     docLibSiteUserId = await repo.sites.getDocLibId(siteUser);
@@ -98,7 +99,7 @@ describe('Viewer general', () => {
 
   afterAll(async (done) => {
     await repo.nodes.deleteNodeById(parentId);
-    await adminApiActions.sites.deleteSite(siteAdmin);
+    await adminActions.sites.deleteSite(siteAdmin);
     await repo.sites.deleteSite(siteUser);
     done();
   });

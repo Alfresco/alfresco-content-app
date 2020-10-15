@@ -29,10 +29,12 @@ import {
   BrowsingPage,
   Utils,
   ConfirmDialog,
-  RepoClient
+  RepoClient,
+  AdminActions
 } from '@alfresco/aca-testing-shared';
 import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 import { browser } from 'protractor';
+import { CoreActions } from '../../../projects/aca-testing-shared/src/utilities';
 
 describe('Library actions', () => {
   let username;
@@ -68,21 +70,24 @@ describe('Library actions', () => {
   const { searchInput } = page.header;
 
   const confirmDialog = new ConfirmDialog();
+
   const apiService = new ApiService();
   const usersActions = new UsersActions(apiService);
   const repo = new RepoClient(apiService);
+  const adminActions = new AdminActions(apiService);
+  const coreActions = new CoreActions(apiService);
 
   beforeAll(async (done) => {
     await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
     username = await usersActions.createUser();
     await apiService.getInstance().login(username.email, username.password);
 
-    await adminApiActions.sites.createSite(siteSearchPublic1Admin);
-    await adminApiActions.sites.createSite(siteSearchPublic2Admin);
-    await adminApiActions.sites.createSite(siteSearchPublic3Admin);
-    await adminApiActions.sites.createSite(siteSearchPublic4Admin);
-    await adminApiActions.sites.createSite(siteSearchModerated1Admin, SITE_VISIBILITY.MODERATED);
-    await adminApiActions.sites.createSite(siteSearchModerated2Admin, SITE_VISIBILITY.MODERATED);
+    await adminActions.sites.createSite(siteSearchPublic1Admin);
+    await adminActions.sites.createSite(siteSearchPublic2Admin);
+    await adminActions.sites.createSite(siteSearchPublic3Admin);
+    await adminActions.sites.createSite(siteSearchPublic4Admin);
+    await adminActions.sites.createSite(siteSearchModerated1Admin, SITE_VISIBILITY.MODERATED);
+    await adminActions.sites.createSite(siteSearchModerated2Admin, SITE_VISIBILITY.MODERATED);
     await repo.sites.createSite(siteSearchForDelete);
 
     await repo.queries.waitForSites('site-public-search', { expect: 5 });
@@ -104,7 +109,7 @@ describe('Library actions', () => {
   });
 
   afterAll(async () => {
-    await adminApiActions.deleteSites([
+    await adminActions.deleteSites([
       sitePublic1Admin,
       siteSearchPublic1Admin,
       sitePublic2Admin,
@@ -129,7 +134,7 @@ describe('Library actions', () => {
 
   describe('Join a public library', () => {
     beforeAll(async (done) => {
-      await adminApiActions.sites.createSite(sitePublic1Admin);
+      await adminActions.sites.createSite(sitePublic1Admin);
       await repo.favorites.addFavoriteById('site', sitePublic1Admin);
       done();
     });
@@ -157,7 +162,7 @@ describe('Library actions', () => {
 
   describe('Join a moderated library', () => {
     beforeAll(async (done) => {
-      await adminApiActions.sites.createSite(siteModerated1Admin, SITE_VISIBILITY.MODERATED);
+      await adminActions.sites.createSite(siteModerated1Admin, SITE_VISIBILITY.MODERATED);
       await repo.favorites.addFavoriteById('site', siteModerated1Admin);
       await repo.queries.waitForSites(siteSearchModerated1Admin, { expect: 1 });
       done();
@@ -190,17 +195,17 @@ describe('Library actions', () => {
 
   describe('Leave a library', () => {
     beforeAll(async (done) => {
-      await adminApiActions.sites.createSite(sitePublic2Admin);
-      await adminApiActions.sites.createSite(sitePublic3Admin);
-      await adminApiActions.sites.createSite(sitePublic4Admin);
-      await adminApiActions.sites.createSite(sitePublic5Admin);
+      await adminActions.sites.createSite(sitePublic2Admin);
+      await adminActions.sites.createSite(sitePublic3Admin);
+      await adminActions.sites.createSite(sitePublic4Admin);
+      await adminActions.sites.createSite(sitePublic5Admin);
       await repo.sites.createSite(sitePublicUser);
       await repo.favorites.addFavoriteById('site', sitePublic3Admin);
-      await adminApiActions.sites.addSiteMember(sitePublic2Admin, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
-      await adminApiActions.sites.addSiteMember(sitePublic3Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
-      await adminApiActions.sites.addSiteMember(siteSearchPublic2Admin, username, SITE_ROLES.SITE_CONTRIBUTOR.ROLE);
-      await adminApiActions.sites.addSiteMember(sitePublic4Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
-      await adminApiActions.sites.addSiteMember(sitePublic5Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
+      await adminActions.sites.addSiteMember(sitePublic2Admin, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
+      await adminActions.sites.addSiteMember(sitePublic3Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
+      await adminActions.sites.addSiteMember(siteSearchPublic2Admin, username, SITE_ROLES.SITE_CONTRIBUTOR.ROLE);
+      await adminActions.sites.addSiteMember(sitePublic4Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
+      await adminActions.sites.addSiteMember(sitePublic5Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
       await repo.queries.waitForSites(siteSearchPublic2Admin, { expect: 1 });
       done();
     });
@@ -279,7 +284,7 @@ describe('Library actions', () => {
 
   describe('Cancel join', () => {
     beforeAll(async (done) => {
-      await adminApiActions.sites.createSite(siteModerated2Admin, SITE_VISIBILITY.MODERATED);
+      await adminActions.sites.createSite(siteModerated2Admin, SITE_VISIBILITY.MODERATED);
       await repo.favorites.addFavoriteById('site', siteModerated2Admin);
       await repo.sites.requestToJoin(siteModerated2Admin);
       await repo.sites.requestToJoin(siteSearchModerated2Admin);
@@ -316,8 +321,8 @@ describe('Library actions', () => {
 
   describe('Mark library as favorite', () => {
     beforeAll(async (done) => {
-      await adminApiActions.sites.createSite(sitePublic6Admin);
-      await adminApiActions.sites.addSiteMember(sitePublic6Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
+      await adminActions.sites.createSite(sitePublic6Admin);
+      await adminActions.sites.addSiteMember(sitePublic6Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
       await repo.queries.waitForSites(siteSearchPublic3Admin, { expect: 1 });
       done();
     });
@@ -348,14 +353,14 @@ describe('Library actions', () => {
 
   describe('Remove library from favorites', () => {
     beforeAll(async (done) => {
-      await adminApiActions.sites.createSite(sitePublic7Admin);
-      await adminApiActions.sites.createSite(sitePublic8Admin);
+      await adminActions.sites.createSite(sitePublic7Admin);
+      await adminActions.sites.createSite(sitePublic8Admin);
       await repo.favorites.addFavoriteById('site', sitePublic7Admin);
       await repo.favorites.addFavoriteById('site', sitePublic8Admin);
       await repo.favorites.addFavoriteById('site', siteSearchPublic4Admin);
-      await adminApiActions.sites.addSiteMember(sitePublic7Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
-      await adminApiActions.sites.addSiteMember(sitePublic8Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
-      await adminApiActions.sites.addSiteMember(siteSearchPublic4Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
+      await adminActions.sites.addSiteMember(sitePublic7Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
+      await adminActions.sites.addSiteMember(sitePublic8Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
+      await adminActions.sites.addSiteMember(siteSearchPublic4Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
       await repo.queries.waitForSites(siteSearchPublic4Admin, { expect: 1 });
       done();
     });

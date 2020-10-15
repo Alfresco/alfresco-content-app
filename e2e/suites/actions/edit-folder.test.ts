@@ -30,7 +30,8 @@ import {
   RepoClient,
   CreateOrEditFolderDialog,
   Utils,
-  clearTextWithBackspace
+  clearTextWithBackspace,
+  AdminActions
 } from '@alfresco/aca-testing-shared';
 import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
 
@@ -78,14 +79,15 @@ describe('Edit folder', () => {
   const apiService = new ApiService();
   const usersActions = new UsersActions(apiService);
   const repo = new RepoClient(apiService);
+  const adminActions = new AdminActions(apiService);
 
   beforeAll(async (done) => {
     username = await usersActions.createUser();
 
-    await adminApiActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
-    const docLibId = await adminApiActions.sites.getDocLibId(sitePrivate);
-    await adminApiActions.nodes.createFolder(folderName, docLibId);
-    await adminApiActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_CONSUMER.ROLE);
+    await adminActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
+    const docLibId = await adminActions.sites.getDocLibId(sitePrivate);
+    await adminActions.nodes.createFolder(folderName, docLibId);
+    await adminActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_CONSUMER.ROLE);
 
     parentId = (await repo.nodes.createFolder(parent)).entry.id;
     await repo.nodes.createFolder(folderName, parentId, '', folderDescription);
@@ -119,7 +121,7 @@ describe('Edit folder', () => {
 
   afterAll(async (done) => {
     await Promise.all([
-      adminApiActions.sites.deleteSite(sitePrivate),
+      adminActions.sites.deleteSite(sitePrivate),
       repo.sites.deleteSite(siteName),
       repo.nodes.deleteNodesById([parentId, folderFavoriteToEditId, folderFavoriteDuplicateId, folderSearchToEditId])
     ]);
