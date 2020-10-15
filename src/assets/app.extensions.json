@@ -9,24 +9,8 @@
   "$description": "Core application extensions and features",
   "$references": [
     "aos.plugin.json",
-    "app.header.json",
     "app.about.json",
     "app.settings.json"
-  ],
-
-  "settings": [
-    {
-      "id": "app.settings",
-      "name": "APP.SETTINGS.APPLICATION-SETTINGS",
-      "parameters": [
-        {
-          "name": "Language Picker",
-          "key": "languagePicker",
-          "type": "boolean",
-          "value": false
-        }
-      ]
-    }
   ],
 
   "rules": [
@@ -63,6 +47,43 @@
   ],
 
   "features": {
+    "header": [
+      {
+        "id": "app.header.user",
+        "type": "custom",
+        "component": "app.user",
+        "order": 100
+      },
+      {
+        "id": "app.header.more",
+        "type": "menu",
+        "order": 10000,
+        "icon": "more_vert",
+        "title": "APP.ACTIONS.MORE",
+        "children": [
+          {
+            "id": "app.languagePicker",
+            "order": 100,
+            "type": "custom",
+            "component": "app.languagePicker"
+          },
+          {
+            "id": "logout.separator",
+            "type": "separator",
+            "order": 199
+          },
+          {
+            "id": "app.logout",
+            "order": 200,
+            "type": "custom",
+            "component": "app.logout",
+            "rules": {
+              "visible": "app.canShowLogout"
+            }
+          }
+        ]
+      }
+    ],
     "icons": [
       {
         "id": "adf:join_library",

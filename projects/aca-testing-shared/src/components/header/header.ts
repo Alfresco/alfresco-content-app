@@ -56,10 +56,6 @@ export class Header extends Component {
     await this.menu.waitForMenuToClose();
   }
 
-  async isSignOutDisplayed(): Promise<boolean> {
-    return this.userInfo.menu.isMenuItemPresent('Sign out');
-  }
-
   async isSidenavExpanded(): Promise<boolean> {
     return browser.isElementPresent(by.css(`[data-automation-id='expanded']`));
   }

@@ -123,19 +123,3 @@ Now, if you run the application and click the "New > Create Folder" menu,
 the title of the dialog should look like the following:
 
 ![](../images/aca-i18n-01.png)
-
-## Language picker
-
-You can enable internal language picker in the `app.config.json` file:
-
-```json
-{
-    ...,
-
-    "languagePicker": true,
-
-    ...
-}
-```
-
-![](../images/aca-i18n-02.png)

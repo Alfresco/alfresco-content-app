@@ -30,8 +30,7 @@ import {
   FileUploadErrorEvent,
   PageTitleService,
   UploadService,
-  SharedLinksApiService,
-  StorageService
+  SharedLinksApiService
 } from '@alfresco/adf-core';
 import { GroupService } from '@alfresco/adf-content-services';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -75,7 +74,6 @@ export class AppComponent implements OnInit, OnDestroy {
     private contentApi: ContentApiService,
     private appService: AppService,
     private sharedLinksApiService: SharedLinksApiService,
-    private storage: StorageService,
     private groupService: GroupService
   ) {}
 
@@ -161,7 +159,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
     const state: AppState = {
       ...INITIAL_APP_STATE,
-      languagePicker: this.storage.getItem('languagePicker') === 'true',
       appName: this.config.get<string>('application.name'),
       headerColor: this.config.get<string>('headerColor'),
       logoPath: this.config.get<string>('application.logo'),

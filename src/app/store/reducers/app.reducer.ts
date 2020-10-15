@@ -37,7 +37,6 @@ import {
   SetRepositoryInfoAction,
   SetInfoDrawerStateAction,
   SetInfoDrawerMetadataAspectAction,
-  SetSettingsParameterAction,
   SetHeaderColorAction,
   SetCurrentNodeVersionAction
 } from '@alfresco/aca-shared/store';
@@ -49,9 +48,6 @@ export function appReducer(state: AppState = INITIAL_APP_STATE, action: Action):
   switch (action.type) {
     case AppActionTypes.SetInitialState:
       newState = Object.assign({}, (action as SetInitialStateAction).payload);
-      break;
-    case AppActionTypes.SetSettingsParameter:
-      newState = handleSettingsUpdate(state, action as SetSettingsParameterAction);
       break;
     case AppActionTypes.SetHeaderColor:
       newState = {
@@ -258,15 +254,5 @@ function setInfoDrawerAspect(state: AppState, action: SetInfoDrawerMetadataAspec
 function updateRepositoryStatus(state: AppState, action: SetRepositoryInfoAction) {
   const newState = { ...state };
   newState.repository = action.payload;
-  return newState;
-}
-
-function handleSettingsUpdate(state: AppState, action: SetSettingsParameterAction): AppState {
-  const newState = { ...state };
-  const { payload } = action;
-
-  if (payload.name === 'languagePicker') {
-    newState.languagePicker = !!payload.value;
-  }
   return newState;
 }

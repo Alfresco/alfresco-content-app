@@ -28,7 +28,6 @@ import * as navigation from './navigation.rules';
 import * as repository from './repository.rules';
 
 export interface AcaRuleContext extends RuleContext {
-  languagePicker: boolean;
   withCredentials: boolean;
 }
 
@@ -455,15 +454,6 @@ export function canToggleFavorite(context: RuleContext): boolean {
       Boolean
     )
   ].every(Boolean);
-}
-
-/**
- * Checks if application should render language picker menu.
- * JSON ref: `canShowLanguagePicker`
- * @param context Rule execution context
- */
-export function canShowLanguagePicker(context: AcaRuleContext): boolean {
-  return context.languagePicker;
 }
 
 /**

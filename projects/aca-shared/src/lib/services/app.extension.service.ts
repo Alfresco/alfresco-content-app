@@ -27,7 +27,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
-import { AppStore, getRuleContext, getLanguagePickerState } from '@alfresco/aca-shared/store';
+import { AppStore, getRuleContext } from '@alfresco/aca-shared/store';
 import {
   SelectionState,
   NavigationState,
@@ -102,7 +102,6 @@ export class AppExtensionService implements RuleContext {
   profile: ProfileState;
   repository: RepositoryInfo;
   withCredentials: boolean;
-  languagePicker: boolean;
 
   references$: Observable<ExtensionRef[]>;
 
@@ -124,10 +123,6 @@ export class AppExtensionService implements RuleContext {
       this.navigation = result.navigation;
       this.profile = result.profile;
       this.repository = result.repository;
-    });
-
-    this.store.select(getLanguagePickerState).subscribe((result) => {
-      this.languagePicker = result;
     });
   }
 

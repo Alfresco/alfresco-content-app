@@ -31,7 +31,8 @@ import { AppStore, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
   selector: 'aca-logout',
   template: `
     <button mat-menu-item (click)="onLogoutEvent()" adf-logout>
-      {{ 'APP.SIGN_OUT' | translate }}
+      <mat-icon>exit_to_app</mat-icon>
+      <span>{{ 'APP.SIGN_OUT' | translate }}</span>
     </button>
   `
 })
