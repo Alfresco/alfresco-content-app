@@ -9,8 +9,7 @@
   "$description": "Core application extensions and features",
   "$references": [
     "aos.plugin.json",
-    "app.about.json",
-    "app.settings.json"
+    "app.about.json"
   ],
 
   "rules": [

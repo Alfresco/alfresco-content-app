@@ -43,3 +43,66 @@ Each setting parameter object supports the following properties:
 | key      | The key to use when saving to the storage       |
 | type     | The type of the value (boolean / string)        |
 | value    | (optional) Default value to use for the setting |
+
+# Installing
+
+Import the module into the application:
+
+```ts
+// src/app/extensions.module.ts
+
+import { AcaSettingsModule } from '@alfresco/aca-settings';
+
+@NgModule({
+  imports: [
+    // other modules
+    AcaSettingsModule
+  ]
+})
+export class AppExtensionsModule {}
+```
+
+Update the extension configuration to enable extra routes and components:
+
+```json
+{
+  "actions": [
+    {
+      "id": "app.actions.settings",
+      "type": "NAVIGATE_URL",
+      "payload": "/settings"
+    }
+  ],
+
+  "routes": [
+    {
+      "id": "app.settings",
+      "path": "settings",
+      "layout": "blank",
+      "component": "app.settings.component"
+    }
+  ],
+
+  "features": {
+    "header": [
+      {
+        "id": "app.header.more",
+        "children": [
+          {
+            "id": "app.header.settings",
+            "order": 110,
+            "title": "APP.SETTINGS.TITLE",
+            "description": "APP.SETTINGS.TITLE",
+            "icon": "info",
+            "actions": {
+              "click": "app.actions.settings"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+Compile and distribute/run the application.
