@@ -33,7 +33,7 @@ export function sharedFilesTests(username: string) {
 
   describe('Pagination controls : ', () => {
     beforeAll(async () => {
-      await loginPage.login(username.email, username.password);
+      await loginPage.login(user.email, user.password);
       await page.clickSharedFilesAndWait();
     });
 

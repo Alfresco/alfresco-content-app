@@ -25,6 +25,7 @@
 
 import { BrowsingPage, Utils } from '@alfresco/aca-testing-shared';
 import { LoginPage } from '@alfresco/adf-testing';
+import { browser } from 'protractor';
 
 describe('Search input', () => {
   const loginPage = new LoginPage();

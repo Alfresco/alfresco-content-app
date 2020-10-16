@@ -24,10 +24,10 @@
  */
 
 import { SITE_VISIBILITY, SITE_ROLES, BrowsingPage, Utils, RepoClient, AdminActions } from '@alfresco/aca-testing-shared';
-import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UsersActions, UserModel } from '@alfresco/adf-testing';
 
 describe('File Libraries', () => {
-  let username;
+  let user: UserModel;
 
   const userSitePrivate = `user-private-${Utils.random()}`;
   const userSiteModerated = `user-moderated-${Utils.random()}`;
@@ -57,7 +57,7 @@ describe('File Libraries', () => {
   const adminActions = new AdminActions(apiService);
 
   beforeAll(async (done) => {
-    username = await usersActions.createUser();
+    user = await usersActions.createUser();
 
     await repo.sites.createSite(userSitePublic, SITE_VISIBILITY.PUBLIC);
     await repo.sites.createSite(userSiteModerated, SITE_VISIBILITY.MODERATED, siteDescription);
@@ -69,11 +69,11 @@ describe('File Libraries', () => {
     await adminActions.sites.createSite(adminSite4, SITE_VISIBILITY.PUBLIC);
     await adminActions.sites.createSite(adminSite5, SITE_VISIBILITY.PUBLIC);
     await adminActions.sites.createSite(adminSite6, SITE_VISIBILITY.PUBLIC);
-    await adminActions.sites.addSiteMember(adminSite1, username, SITE_ROLES.SITE_CONSUMER.ROLE);
-    await adminActions.sites.addSiteMember(adminSite2, username, SITE_ROLES.SITE_CONTRIBUTOR.ROLE);
-    await adminActions.sites.addSiteMember(adminSite3, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
-    await adminActions.sites.addSiteMember(adminSite4, username, SITE_ROLES.SITE_MANAGER.ROLE);
-    await adminActions.sites.addSiteMember(adminSite6, username, SITE_ROLES.SITE_CONSUMER.ROLE);
+    await adminActions.sites.addSiteMember(adminSite1, user.username, SITE_ROLES.SITE_CONSUMER.ROLE);
+    await adminActions.sites.addSiteMember(adminSite2, user.username, SITE_ROLES.SITE_CONTRIBUTOR.ROLE);
+    await adminActions.sites.addSiteMember(adminSite3, user.username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
+    await adminActions.sites.addSiteMember(adminSite4, user.username, SITE_ROLES.SITE_MANAGER.ROLE);
+    await adminActions.sites.addSiteMember(adminSite6, user.username, SITE_ROLES.SITE_CONSUMER.ROLE);
 
     await repo.favorites.addFavoriteById('site', adminSite1);
     await repo.favorites.addFavoriteById('site', adminSite2);
@@ -83,7 +83,7 @@ describe('File Libraries', () => {
     await repo.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC, null, siteId1);
     await repo.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC, null, siteId2);
 
-    await loginPage.login(username.email, username.password);
+    await loginPage.login(user.email, user.password);
     done();
   });
 

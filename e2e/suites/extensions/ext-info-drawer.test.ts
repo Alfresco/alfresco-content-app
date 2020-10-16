@@ -24,10 +24,10 @@
  */
 
 import { BrowsingPage, InfoDrawer, RepoClient, EXTENSIBILITY_CONFIGS, Utils } from '@alfresco/aca-testing-shared';
-import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UsersActions, UserModel } from '@alfresco/adf-testing';
 
 describe('Extensions - Info Drawer', () => {
-  let username;
+  let user: UserModel;
 
   const file = `file-${Utils.random()}.txt`;
   let fileId: string;
@@ -64,7 +64,7 @@ describe('Extensions - Info Drawer', () => {
   const repo = new RepoClient(apiService);
 
   beforeAll(async (done) => {
-    username = await usersActions.createUser();
+    user = await usersActions.createUser();
     fileId = (await repo.nodes.createFile(file)).entry.id;
     done();
   });
@@ -77,7 +77,7 @@ describe('Extensions - Info Drawer', () => {
   describe('', () => {
     beforeAll(async (done) => {
       await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.INFO_DRAWER);
-      await loginPage.login(username.email, username.password);
+      await loginPage.login(user.email, user.password);
       done();
     });
 
@@ -137,7 +137,7 @@ describe('Extensions - Info Drawer', () => {
   describe('', () => {
     beforeAll(async (done) => {
       await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.INFO_DRAWER_EMPTY);
-      await loginPage.login(username.email, username.password);
+      await loginPage.login(user.email, user.password);
       await page.clickPersonalFilesAndWait();
       done();
     });

@@ -86,7 +86,7 @@ describe('Create file from template', () => {
   const { sidenav } = page;
 
   beforeAll(async () => {
-    const username = await usersActions.createUser();
+    const user = await usersActions.createUser();
 
     parentId = (await repo.nodes.createFolder(parent)).entry.id;
     await repo.nodes.createFile(duplicateFileName, parentId);
@@ -95,7 +95,7 @@ describe('Create file from template', () => {
     docLibUserSite = await repo.sites.getDocLibId(siteName);
     await repo.nodes.createFile(duplicateFileSite, docLibUserSite);
 
-    await loginPage.login(username.email, username.password);
+    await loginPage.login(user.email, user.password);
   });
 
   afterAll(async () => {

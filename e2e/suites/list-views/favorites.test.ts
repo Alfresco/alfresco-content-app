@@ -24,11 +24,11 @@
  */
 
 import { SITE_VISIBILITY, SITE_ROLES, BrowsingPage, Utils, RepoClient, CoreActions, AdminActions } from '@alfresco/aca-testing-shared';
-import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UsersActions, UserModel } from '@alfresco/adf-testing';
 import { browser } from 'protractor';
 
 describe('Favorites', () => {
-  let username;
+  let user: UserModel;
 
   const siteName = `site-${Utils.random()}`;
   const favFolderName = `favFolder-${Utils.random()}`;
@@ -50,12 +50,12 @@ describe('Favorites', () => {
 
   beforeAll(async (done) => {
     await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
-    username = await usersActions.createUser();
-    await apiService.getInstance().login(username.email, username.password);
+    user = await usersActions.createUser();
+    await apiService.getInstance().login(user.email, user.password);
 
     await adminActions.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
     const docLibId = await adminActions.sites.getDocLibId(siteName);
-    await adminActions.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_MANAGER.ROLE);
+    await adminActions.sites.addSiteMember(siteName, user.username, SITE_ROLES.SITE_MANAGER.ROLE);
 
     const file1Id = (await adminActions.nodes.createFile(fileName1, docLibId)).entry.id;
     const folderId = (await repo.nodes.createFolder(favFolderName)).entry.id;
@@ -72,7 +72,7 @@ describe('Favorites', () => {
 
     await coreActions.deleteNodes([file3Id, file4Id], false);
     await coreActions.trashcanApi.restoreDeletedNode(file4Id);
-    await loginPage.login(username.email, username.password);
+    await loginPage.login(user.email, user.password);
     done();
   });
 

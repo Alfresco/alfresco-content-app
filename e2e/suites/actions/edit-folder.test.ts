@@ -33,10 +33,10 @@ import {
   clearTextWithBackspace,
   AdminActions
 } from '@alfresco/aca-testing-shared';
-import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, UsersActions, LoginPage, UserModel } from '@alfresco/adf-testing';
 
 describe('Edit folder', () => {
-  let username;
+  let user: UserModel;
 
   const parent = `parent-${Utils.random()}`;
   let parentId: string;
@@ -82,12 +82,12 @@ describe('Edit folder', () => {
   const adminActions = new AdminActions(apiService);
 
   beforeAll(async (done) => {
-    username = await usersActions.createUser();
+    user = await usersActions.createUser();
 
     await adminActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
     const docLibId = await adminActions.sites.getDocLibId(sitePrivate);
     await adminActions.nodes.createFolder(folderName, docLibId);
-    await adminActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_CONSUMER.ROLE);
+    await adminActions.sites.addSiteMember(sitePrivate, user.username, SITE_ROLES.SITE_CONSUMER.ROLE);
 
     parentId = (await repo.nodes.createFolder(parent)).entry.id;
     await repo.nodes.createFolder(folderName, parentId, '', folderDescription);
@@ -115,7 +115,7 @@ describe('Edit folder', () => {
 
     await repo.search.waitForNodes('folder-search', { expect: initialSearchByTermTotalItems + 3 });
 
-    await loginPage.login(username.email, username.password);
+    await loginPage.login(user.email, user.password);
     done();
   });
 

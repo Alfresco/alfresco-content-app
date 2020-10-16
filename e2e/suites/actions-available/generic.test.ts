@@ -24,12 +24,12 @@
  */
 
 import { BrowsingPage, RepoClient, NodeContentTree, Utils } from '@alfresco/aca-testing-shared';
-import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, UsersActions, LoginPage, UserModel } from '@alfresco/adf-testing';
 
 describe('Generic tests : ', () => {
   const random = Utils.random();
 
-  let username;
+  let user: UserModel;
 
   const parent = `parent-${random}`;
 
@@ -56,11 +56,11 @@ describe('Generic tests : ', () => {
   const contextMenu = dataTable.menu;
 
   beforeAll(async () => {
-    username = await usersActions.createUser();
+    user = await usersActions.createUser();
 
     await repo.nodes.createContent(content);
 
-    await loginPage.login(username.email, username.password);
+    await loginPage.login(user.email, user.password);
   });
 
   afterAll(async () => {
@@ -132,7 +132,7 @@ describe('Generic tests : ', () => {
     });
 
     it('[C280447] on Recent Files', async () => {
-      await repo.search.waitForApi(username, { expect: 2 });
+      await repo.search.waitForApi(user.username, { expect: 2 });
       await page.clickRecentFilesAndWait();
       expect(await toolbar.isEmpty()).toBe(true, `actions displayed though nothing selected`);
     });

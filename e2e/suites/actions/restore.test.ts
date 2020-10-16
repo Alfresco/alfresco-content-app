@@ -25,10 +25,10 @@
 
 import { browser } from 'protractor';
 import { BrowsingPage, APP_ROUTES, RepoClient, Utils, CoreActions } from '@alfresco/aca-testing-shared';
-import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UsersActions, UserModel } from '@alfresco/adf-testing';
 
 describe('Restore from Trash', () => {
-  let username;
+  let user: UserModel;
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -41,10 +41,10 @@ describe('Restore from Trash', () => {
 
   beforeAll(async (done) => {
     await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
-    username = await usersActions.createUser();
-    await apiService.getInstance().login(username.email, username.password);
+    user = await usersActions.createUser();
+    await apiService.getInstance().login(user.email, user.password);
 
-    await loginPage.login(username.email, username.password);
+    await loginPage.login(user.email, user.password);
     done();
   });
 
@@ -231,7 +231,7 @@ describe('Restore from Trash', () => {
       file5Id = (await repo.nodes.createFile(file5, folder4Id)).entry.id;
 
       await coreActions.deleteNodes([file3Id, file4Id, folder3Id, file5Id], false);
-      await loginPage.login(username.email, username.password);
+      await loginPage.login(user.email, user.password);
       done();
     });
 

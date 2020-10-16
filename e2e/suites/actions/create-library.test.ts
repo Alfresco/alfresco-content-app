@@ -24,10 +24,10 @@
  */
 
 import { SITE_VISIBILITY, BrowsingPage, CreateLibraryDialog, Utils, RepoClient } from '@alfresco/aca-testing-shared';
-import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, UsersActions, LoginPage, UserModel } from '@alfresco/adf-testing';
 
 describe('Create library', () => {
-  let username;
+  let user: UserModel;
 
   const site1Name = `site1-${Utils.random()}`;
   const site2Name = `site2-${Utils.random()}`;
@@ -58,12 +58,12 @@ describe('Create library', () => {
   const repo = new RepoClient(apiService);
 
   beforeAll(async (done) => {
-    username = await usersActions.createUser();
+    user = await usersActions.createUser();
     await repo.sites.createSite(duplicateSite.name, SITE_VISIBILITY.PRIVATE, '', duplicateSite.id);
     await repo.sites.createSite(siteInTrash.name, SITE_VISIBILITY.PUBLIC, '', siteInTrash.id);
     await repo.sites.deleteSite(siteInTrash.id, false);
 
-    await loginPage.login(username.email, username.password);
+    await loginPage.login(user.email, user.password);
     done();
   });
 

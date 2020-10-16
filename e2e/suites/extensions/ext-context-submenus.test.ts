@@ -24,10 +24,10 @@
  */
 
 import { BrowsingPage, EXTENSIBILITY_CONFIGS, RepoClient, Utils } from '@alfresco/aca-testing-shared';
-import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UsersActions, UserModel } from '@alfresco/adf-testing';
 
 describe('Extensions - Context submenu', () => {
-  let username;
+  let user: UserModel;
   const file = `file-${Utils.random()}.txt`;
   let fileId: string;
   const folder = `folder-${Utils.random()}`;
@@ -54,12 +54,12 @@ describe('Extensions - Context submenu', () => {
   const repo = new RepoClient(apiService);
 
   beforeAll(async (done) => {
-    username = await usersActions.createUser();
+    user = await usersActions.createUser();
     fileId = (await repo.nodes.createFile(file)).entry.id;
     folderId = (await repo.nodes.createFolder(folder)).entry.id;
 
     await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.CONTEXT_SUBMENUS);
-    await loginPage.login(username.email, username.password);
+    await loginPage.login(user.email, user.password);
 
     done();
   });

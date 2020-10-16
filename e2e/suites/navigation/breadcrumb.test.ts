@@ -29,7 +29,7 @@ import { SITE_VISIBILITY, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-
 import { ApiService, UsersActions, LoginPage, UserModel } from '@alfresco/adf-testing';
 
 describe('Breadcrumb', () => {
-  let username;
+  let user: UserModel;
 
   const parent = `parent-${Utils.random()}`;
   let parentId: string;
@@ -56,7 +56,7 @@ describe('Breadcrumb', () => {
   const usersActions = new UsersActions(apiService);
 
   beforeAll(async (done) => {
-    username = await usersActions.createUser();
+    user = await usersActions.createUser();
     parentId = (await repo.nodes.createFolder(parent)).entry.id;
     subFolder1Id = (await repo.nodes.createFolder(subFolder1, parentId)).entry.id;
     subFolder2Id = (await repo.nodes.createFolder(subFolder2, subFolder1Id)).entry.id;
@@ -72,7 +72,7 @@ describe('Breadcrumb', () => {
     subFolder2Id = (await repo.nodes.createFolder(subFolder2, subFolder1Id)).entry.id;
     await repo.nodes.createFile(fileName1, subFolder2Id);
 
-    await loginPage.login(username.email, username.password);
+    await loginPage.login(user.email, user.password);
     done();
   });
 

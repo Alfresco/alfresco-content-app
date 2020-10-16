@@ -24,10 +24,10 @@
  */
 
 import { BrowsingPage, FILES, RepoClient, Utils } from '@alfresco/aca-testing-shared';
-import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UsersActions, UserModel } from '@alfresco/adf-testing';
 
 describe('Edit offline', () => {
-  let username;
+  let user: UserModel;
 
   const file1 = `file1-${Utils.random()}.docx`;
   let file1Id: string;
@@ -64,7 +64,7 @@ describe('Edit offline', () => {
   const repo = new RepoClient(apiService);
 
   beforeAll(async () => {
-    username = await usersActions.createUser();
+    user = await usersActions.createUser();
   });
 
   describe('on Personal Files', () => {
@@ -78,7 +78,7 @@ describe('Edit offline', () => {
       await repo.nodes.lockFile(fileLockedId);
       await repo.nodes.lockFile(fileLocked2Id);
 
-      await loginPage.login(username.email, username.password);
+      await loginPage.login(user.email, user.password);
     });
 
     beforeEach(async () => {
@@ -105,7 +105,7 @@ describe('Edit offline', () => {
     it('[C297539] Lock information is displayed', async () => {
       expect(await dataTable.isItemPresent(fileLocked2)).toBe(true, `${fileLocked2} is not displayed`);
       expect(await dataTable.hasLockIcon(fileLocked2)).toBe(true, `${fileLocked2} does not have a lock icon`);
-      expect(await dataTable.getLockOwner(fileLocked2)).toContain(username, `${fileLocked2} does not have correct lock owner info`);
+      expect(await dataTable.getLockOwner(fileLocked2)).toContain(user.username, `${fileLocked2} does not have correct lock owner info`);
     });
 
     it('[C297540] Cancel Editing unlocks the file', async () => {
@@ -133,7 +133,7 @@ describe('Edit offline', () => {
       await repo.shared.shareFilesByIds([file1Id, fileLockedId, fileLocked2Id]);
       await repo.shared.waitForApi({ expect: initialSharedTotalItems + 3 });
 
-      await loginPage.login(username.email, username.password);
+      await loginPage.login(user.email, user.password);
     });
 
     afterAll(async () => {
@@ -159,7 +159,7 @@ describe('Edit offline', () => {
     it('[C306951] Lock information is displayed', async () => {
       expect(await dataTable.isItemPresent(fileLocked2, parentSF)).toBe(true, `${fileLocked2} is not displayed`);
       expect(await dataTable.hasLockIcon(fileLocked2, parentSF)).toBe(true, `${fileLocked2} does not have a lock icon`);
-      expect(await dataTable.getLockOwner(fileLocked2, parentSF)).toContain(username, `${fileLocked2} does not have correct lock owner info`);
+      expect(await dataTable.getLockOwner(fileLocked2, parentSF)).toContain(user.username, `${fileLocked2} does not have correct lock owner info`);
     });
 
     it('[C306952] Cancel Editing unlocks the file', async () => {
@@ -176,7 +176,7 @@ describe('Edit offline', () => {
     beforeAll(async () => {
       parentRFId = (await repo.nodes.createFolder(parentRF)).entry.id;
 
-      await repo.search.waitForApi(username, { expect: 0 });
+      await repo.search.waitForApi(user.username, { expect: 0 });
 
       file1Id = (await repo.upload.uploadFileWithRename(FILES.docxFile, parentRFId, file1)).entry.id;
       fileLockedId = (await repo.upload.uploadFileWithRename(FILES.docxFile, parentRFId, fileLocked)).entry.id;
@@ -185,9 +185,9 @@ describe('Edit offline', () => {
       await repo.nodes.lockFile(fileLockedId);
       await repo.nodes.lockFile(fileLocked2Id);
 
-      await repo.search.waitForApi(username, { expect: 3 });
+      await repo.search.waitForApi(user.username, { expect: 3 });
 
-      await loginPage.login(username.email, username.password);
+      await loginPage.login(user.email, user.password);
     });
 
     afterAll(async () => {
@@ -213,7 +213,7 @@ describe('Edit offline', () => {
     it('[C297542] Lock information is displayed', async () => {
       expect(await dataTable.isItemPresent(fileLocked2, parentRF)).toBe(true, `${fileLocked2} is not displayed`);
       expect(await dataTable.hasLockIcon(fileLocked2, parentRF)).toBe(true, `${fileLocked2} does not have a lock icon`);
-      expect(await dataTable.getLockOwner(fileLocked2, parentRF)).toContain(username, `${fileLocked2} does not have correct lock owner info`);
+      expect(await dataTable.getLockOwner(fileLocked2, parentRF)).toContain(user.username, `${fileLocked2} does not have correct lock owner info`);
     });
 
     it('[C297543] Cancel Editing unlocks the file', async () => {
@@ -240,7 +240,7 @@ describe('Edit offline', () => {
       await repo.favorites.addFavoritesByIds('file', [file1Id, fileLockedId, fileLocked2Id]);
       await repo.favorites.waitForApi({ expect: 3 });
 
-      await loginPage.login(username.email, username.password);
+      await loginPage.login(user.email, user.password);
     });
 
     afterAll(async () => {
@@ -267,7 +267,7 @@ describe('Edit offline', () => {
     it('[C306957] Lock information is displayed', async () => {
       expect(await dataTable.isItemPresent(fileLocked2)).toBe(true, `${fileLocked2} is not displayed`);
       expect(await dataTable.hasLockIcon(fileLocked2)).toBe(true, `${fileLocked2} does not have a lock icon`);
-      expect(await dataTable.getLockOwner(fileLocked2)).toContain(username, `${fileLocked2} does not have correct lock owner info`);
+      expect(await dataTable.getLockOwner(fileLocked2)).toContain(user.username, `${fileLocked2} does not have correct lock owner info`);
     });
 
     it('[C306958] Cancel Editing unlocks the file', async () => {
@@ -294,7 +294,7 @@ describe('Edit offline', () => {
 
       await repo.search.waitForNodes('file-search', { expect: initialSearchByTermTotalItems + 3 });
 
-      await loginPage.login(username.email, username.password);
+      await loginPage.login(user.email, user.password);
     });
 
     afterAll(async () => {
@@ -324,7 +324,7 @@ describe('Edit offline', () => {
       expect(await dataTable.isItemPresent(fileSearchLocked2, parentSearch)).toBe(true, `${fileSearchLocked2} is not displayed`);
       expect(await dataTable.hasLockIcon(fileSearchLocked2, parentSearch)).toBe(true, `${fileSearchLocked2} does not have a lock icon`);
       // TODO: enable when ACA-2314 is fixed
-      // expect(await dataTable.getLockOwner(fileSearchLocked2, parentSearch)).toContain(username, `${fileSearchLocked2} does not have correct lock owner info`);
+      // expect(await dataTable.getLockOwner(fileSearchLocked2, parentSearch)).toContain(user.username, `${fileSearchLocked2} does not have correct lock owner info`);
     });
 
     it('[C306955] Cancel Editing unlocks the file', async () => {

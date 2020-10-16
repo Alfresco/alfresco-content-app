@@ -24,10 +24,10 @@
  */
 
 import { BrowsingPage, SearchResultsPage, FILES, RepoClient, Utils, UploadNewVersionDialog } from '@alfresco/aca-testing-shared';
-import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UsersActions, UserModel } from '@alfresco/adf-testing';
 
 describe('Upload new version', () => {
-  let username;
+  let user: UserModel;
 
   const file1 = `file1-${Utils.random()}.docx`;
   let file1Id: string;
@@ -88,7 +88,7 @@ describe('Upload new version', () => {
   const repo = new RepoClient(apiService);
 
   beforeAll(async () => {
-    username = await usersActions.createUser();
+    user = await usersActions.createUser();
 
     parentPFId = (await repo.nodes.createFolder(parentPF)).entry.id;
     parentSFId = (await repo.nodes.createFolder(parentSF)).entry.id;
@@ -123,7 +123,7 @@ describe('Upload new version', () => {
 
       await repo.search.waitForNodes('search-f', { expect: initialSearchTotalItems + 6 });
 
-      await loginPage.login(username.email, username.password);
+      await loginPage.login(user.email, user.password);
       done();
     });
 
@@ -297,7 +297,7 @@ describe('Upload new version', () => {
       await repo.nodes.lockFile(fileLocked1Id);
       await repo.nodes.lockFile(fileLocked2Id);
 
-      await loginPage.login(username.email, username.password);
+      await loginPage.login(user.email, user.password);
       done();
     });
 
@@ -450,7 +450,7 @@ describe('Upload new version', () => {
       await repo.shared.shareFilesByIds([fileId, file1Id, file2Id, file3Id, file4Id, fileLocked1Id, fileLocked2Id]);
       await repo.shared.waitForApi({ expect: initialSharedTotalItems + 7 });
 
-      await loginPage.login(username.email, username.password);
+      await loginPage.login(user.email, user.password);
       done();
     });
 
@@ -583,7 +583,7 @@ describe('Upload new version', () => {
 
   describe('on Recent Files', () => {
     beforeAll(async (done) => {
-      const initialRecentTotalItems = await repo.search.getTotalItems(username);
+      const initialRecentTotalItems = await repo.search.getTotalItems(user.username);
       fileId = (await repo.upload.uploadFile(file, parentRFId)).entry.id;
       file1Id = (await repo.nodes.createFile(file1, parentRFId)).entry.id;
       file2Id = (await repo.nodes.createFile(file2, parentRFId)).entry.id;
@@ -596,9 +596,9 @@ describe('Upload new version', () => {
       await repo.nodes.lockFile(fileLocked1Id);
       await repo.nodes.lockFile(fileLocked2Id);
 
-      await repo.search.waitForApi(username, { expect: initialRecentTotalItems + 7 });
+      await repo.search.waitForApi(user.username, { expect: initialRecentTotalItems + 7 });
 
-      await loginPage.login(username.email, username.password);
+      await loginPage.login(user.email, user.password);
       done();
     });
 
@@ -747,7 +747,7 @@ describe('Upload new version', () => {
       await repo.favorites.addFavoritesByIds('file', [fileId, file1Id, file2Id, file3Id, file4Id, fileLocked1Id, fileLocked2Id]);
       await repo.favorites.waitForApi({ expect: initialFavoritesTotalItems + 7 });
 
-      await loginPage.login(username.email, username.password);
+      await loginPage.login(user.email, user.password);
       done();
     });
 

@@ -23,13 +23,12 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { SITE_VISIBILITY, SITE_ROLES, BrowsingPage, Utils, ConfirmDialog, RepoClient, AdminActions } from '@alfresco/aca-testing-shared';
-import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { SITE_VISIBILITY, SITE_ROLES, BrowsingPage, Utils, ConfirmDialog, RepoClient, AdminActions, CoreActions } from '@alfresco/aca-testing-shared';
+import { ApiService, LoginPage, UsersActions, UserModel } from '@alfresco/adf-testing';
 import { browser } from 'protractor';
-import { CoreActions } from '../../../projects/aca-testing-shared/src/utilities';
 
 describe('Library actions', () => {
-  let username;
+  let user: UserModel;
 
   const sitePublic1Admin = `admin-public1-${Utils.random()}`;
   const sitePublic2Admin = `admin-public2-${Utils.random()}`;
@@ -71,8 +70,8 @@ describe('Library actions', () => {
 
   beforeAll(async (done) => {
     await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
-    username = await usersActions.createUser();
-    await apiService.getInstance().login(username.email, username.password);
+    user = await usersActions.createUser();
+    await apiService.getInstance().login(user.email, user.password);
 
     await adminActions.sites.createSite(siteSearchPublic1Admin);
     await adminActions.sites.createSite(siteSearchPublic2Admin);
@@ -85,7 +84,7 @@ describe('Library actions', () => {
     await repo.queries.waitForSites('site-public-search', { expect: 5 });
     await repo.queries.waitForSites('site-moderated-search', { expect: 2 });
 
-    await loginPage.login(username.email, username.password);
+    await loginPage.login(user.email, user.password);
     done();
   });
 
@@ -193,11 +192,11 @@ describe('Library actions', () => {
       await adminActions.sites.createSite(sitePublic5Admin);
       await repo.sites.createSite(sitePublicUser);
       await repo.favorites.addFavoriteById('site', sitePublic3Admin);
-      await adminActions.sites.addSiteMember(sitePublic2Admin, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
-      await adminActions.sites.addSiteMember(sitePublic3Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
-      await adminActions.sites.addSiteMember(siteSearchPublic2Admin, username, SITE_ROLES.SITE_CONTRIBUTOR.ROLE);
-      await adminActions.sites.addSiteMember(sitePublic4Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
-      await adminActions.sites.addSiteMember(sitePublic5Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
+      await adminActions.sites.addSiteMember(sitePublic2Admin, user.username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
+      await adminActions.sites.addSiteMember(sitePublic3Admin, user.username, SITE_ROLES.SITE_MANAGER.ROLE);
+      await adminActions.sites.addSiteMember(siteSearchPublic2Admin, user.username, SITE_ROLES.SITE_CONTRIBUTOR.ROLE);
+      await adminActions.sites.addSiteMember(sitePublic4Admin, user.username, SITE_ROLES.SITE_MANAGER.ROLE);
+      await adminActions.sites.addSiteMember(sitePublic5Admin, user.username, SITE_ROLES.SITE_MANAGER.ROLE);
       await repo.queries.waitForSites(siteSearchPublic2Admin, { expect: 1 });
       done();
     });
@@ -314,7 +313,7 @@ describe('Library actions', () => {
   describe('Mark library as favorite', () => {
     beforeAll(async (done) => {
       await adminActions.sites.createSite(sitePublic6Admin);
-      await adminActions.sites.addSiteMember(sitePublic6Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
+      await adminActions.sites.addSiteMember(sitePublic6Admin, user.username, SITE_ROLES.SITE_MANAGER.ROLE);
       await repo.queries.waitForSites(siteSearchPublic3Admin, { expect: 1 });
       done();
     });
@@ -347,9 +346,9 @@ describe('Library actions', () => {
       await repo.favorites.addFavoriteById('site', sitePublic7Admin);
       await repo.favorites.addFavoriteById('site', sitePublic8Admin);
       await repo.favorites.addFavoriteById('site', siteSearchPublic4Admin);
-      await adminActions.sites.addSiteMember(sitePublic7Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
-      await adminActions.sites.addSiteMember(sitePublic8Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
-      await adminActions.sites.addSiteMember(siteSearchPublic4Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
+      await adminActions.sites.addSiteMember(sitePublic7Admin, user.username, SITE_ROLES.SITE_MANAGER.ROLE);
+      await adminActions.sites.addSiteMember(sitePublic8Admin, user.username, SITE_ROLES.SITE_MANAGER.ROLE);
+      await adminActions.sites.addSiteMember(siteSearchPublic4Admin, user.username, SITE_ROLES.SITE_MANAGER.ROLE);
       await repo.queries.waitForSites(siteSearchPublic4Admin, { expect: 1 });
       done();
     });

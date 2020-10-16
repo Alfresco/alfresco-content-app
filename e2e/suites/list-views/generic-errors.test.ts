@@ -28,7 +28,7 @@ import { BrowsingPage, Utils, RepoClient, CoreActions } from '@alfresco/aca-test
 import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 describe('Generic errors', () => {
-  let username, username2;
+  let user, username2;
 
   const parent = `folder-${Utils.random()}`;
   let parentId: string;
@@ -47,15 +47,15 @@ describe('Generic errors', () => {
 
   beforeAll(async (done) => {
     await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
-    username = await usersActions.createUser();
+    user = await usersActions.createUser();
     username2 = await usersActions.createUser();
-    await apiService.getInstance().login(username.email, username.password);
+    await apiService.getInstance().login(user.email, user.password);
 
     parentId = (await repo.nodes.createFolder(parent)).entry.id;
     file1Id = (await repo.nodes.createFile(file1, parentId)).entry.id;
     await repo.nodes.createFile(file2, parentId);
 
-    await loginPage.login(username.email, username.password);
+    await loginPage.login(user.email, user.password);
     done();
   });
 
@@ -95,6 +95,6 @@ describe('Generic errors', () => {
     expect(await page.genericError.isDisplayed()).toBe(true, 'Generic error page not displayed');
     expect(await page.genericErrorTitle.getText()).toContain(`This item no longer exists or you don't have permission to view it.`);
 
-    await loginPage.login(username.email, username.password);
+    await loginPage.login(user.email, user.password);
   });
 });

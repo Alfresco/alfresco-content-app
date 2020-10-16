@@ -38,7 +38,7 @@ import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
 describe('Create folder from template', () => {
   const random = Utils.random();
 
-  let username;
+  let user: UserModel;
 
   const restrictedTemplateFolder = `restricted-folder-${random}`;
   const fileInRestrictedFolder = `restricted-file-${random}.txt`;
@@ -115,7 +115,7 @@ describe('Create folder from template', () => {
   const { sidenav } = page;
 
   beforeAll(async () => {
-    username = await usersActions.createUser();
+    user = await usersActions.createUser();
 
     parentId = (await repo.nodes.createFolder(parent)).entry.id;
     await repo.nodes.createFolder(duplicateFolderName, parentId);
@@ -128,7 +128,7 @@ describe('Create folder from template', () => {
     await adminActions.removeUserAccessOnSpaceTemplate(restrictedTemplateFolder);
     folderLink = (await adminActions.createLinkToFolderName(folderInRootFolder, await adminActions.getSpaceTemplatesFolderId())).entry.name;
 
-    await loginPage.login(username.email, username.password);
+    await loginPage.login(user.email, user.password);
   });
 
   afterAll(async () => {

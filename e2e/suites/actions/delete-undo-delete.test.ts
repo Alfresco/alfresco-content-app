@@ -24,11 +24,11 @@
  */
 
 import { BrowsingPage, RepoClient, Utils, CoreActions } from '@alfresco/aca-testing-shared';
-import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UsersActions, UserModel } from '@alfresco/adf-testing';
 import { browser } from 'protractor';
 
 describe('Delete and undo delete', () => {
-  let username;
+  let user: UserModel;
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -41,9 +41,9 @@ describe('Delete and undo delete', () => {
 
   beforeAll(async () => {
     await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
-    username = await usersActions.createUser();
+    user = await usersActions.createUser();
 
-    await apiService.getInstance().login(username.email, username.password);
+    await apiService.getInstance().login(user.email, user.password);
   });
 
   afterAll(async () => {
@@ -64,7 +64,7 @@ describe('Delete and undo delete', () => {
     beforeAll(async (done) => {
       parentId = (await repo.nodes.createFolder(parent)).entry.id;
 
-      const initialRecentTotalItems = await repo.search.getTotalItems(username);
+      const initialRecentTotalItems = await repo.search.getTotalItems(user.username);
 
       await repo.nodes.createFile(recentFile1, parentId);
       await repo.nodes.createFile(recentFile2, parentId);
@@ -72,9 +72,9 @@ describe('Delete and undo delete', () => {
       await repo.nodes.createFile(recentFile4, parentId);
       await repo.nodes.createFile(recentFile5, parentId);
       await repo.nodes.createFile(recentFile6, parentId);
-      await repo.search.waitForApi(username, { expect: initialRecentTotalItems + 6 });
+      await repo.search.waitForApi(user.username, { expect: initialRecentTotalItems + 6 });
 
-      await loginPage.login(username.email, username.password);
+      await loginPage.login(user.email, user.password);
       done();
     });
 
@@ -203,7 +203,7 @@ describe('Delete and undo delete', () => {
       await repo.nodes.lockFile(fileLocked3Id, 'FULL');
       await repo.nodes.lockFile(fileLocked4Id, 'FULL');
 
-      await loginPage.login(username.email, username.password);
+      await loginPage.login(user.email, user.password);
 
       done();
     });
@@ -354,7 +354,7 @@ describe('Delete and undo delete', () => {
       await repo.shared.shareFilesByIds([sharedFile1Id, sharedFile2Id, sharedFile3Id, sharedFile4Id, sharedFile5Id, sharedFile6Id]);
       await repo.shared.waitForApi({ expect: initialSharedTotalItems + 6 });
 
-      await loginPage.login(username.email, username.password);
+      await loginPage.login(user.email, user.password);
       done();
     });
 
@@ -490,7 +490,7 @@ describe('Delete and undo delete', () => {
       await repo.favorites.addFavoritesByIds('folder', [favFolder1Id, favFolder2Id, favFolder3Id, favFolder4Id, favFolder5Id, favFolder6Id]);
       await repo.favorites.waitForApi({ expect: initialFavoritesTotalItems + 13 });
 
-      await loginPage.login(username.email, username.password);
+      await loginPage.login(user.email, user.password);
       done();
     });
 

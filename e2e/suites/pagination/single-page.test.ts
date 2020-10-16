@@ -24,13 +24,13 @@
  */
 
 import { BrowsingPage, SearchResultsPage, Utils, RepoClient, CoreActions } from '@alfresco/aca-testing-shared';
-import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, UsersActions, LoginPage, UserModel } from '@alfresco/adf-testing';
 import { browser } from 'protractor';
 
 describe('Pagination on single page', () => {
   const random = Utils.random();
 
-  let username;
+  let user: UserModel;
 
   const siteName = `site-${random}`;
   let siteId: string;
@@ -53,11 +53,11 @@ describe('Pagination on single page', () => {
 
   beforeAll(async () => {
     await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
-    username = await usersActions.createUser();
-    await apiService.getInstance().login(username.email, username.password);
+    user = await usersActions.createUser();
+    await apiService.getInstance().login(user.email, user.password);
 
     const initialFavoriteTotalItems = await userApi.favorites.getFavoritesTotalItems();
-    const initialRecentFilesTotalItems = await userApi.search.getTotalItems(username);
+    const initialRecentFilesTotalItems = await userApi.search.getTotalItems(user.username);
     const initialSharedTotalItems = await userApi.shared.getSharedLinksTotalItems();
     const initialTrashTotalItems = await coreActions.getTrashcanSize();
 
@@ -70,11 +70,11 @@ describe('Pagination on single page', () => {
     await coreActions.shareNodes([fileId]);
 
     await userApi.favorites.waitForApi({ expect: initialFavoriteTotalItems + 2 });
-    await userApi.search.waitForApi(username, { expect: initialRecentFilesTotalItems + 1 });
+    await userApi.search.waitForApi(user.username, { expect: initialRecentFilesTotalItems + 1 });
     await userApi.shared.waitForApi({ expect: initialSharedTotalItems + 1 });
     await coreActions.waitForTrashcanSize(initialTrashTotalItems + 1);
 
-    await loginPage.login(username.email, username.password);
+    await loginPage.login(user.email, user.password);
   });
 
   afterAll(async () => {

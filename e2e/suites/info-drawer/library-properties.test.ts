@@ -27,7 +27,7 @@ import { BrowsingPage, SITE_VISIBILITY, SITE_ROLES, RepoClient, InfoDrawer, Util
 import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Library properties', () => {
-  let username, user2, user3;
+  let user, user2, user3;
 
   const site = {
     name: `site1-${Utils.random()}`,
@@ -63,7 +63,7 @@ describe('Library properties', () => {
   const repo = new RepoClient(apiService);
 
   beforeAll(async (done) => {
-    username = await usersActions.createUser();
+    user = await usersActions.createUser();
     user2 = await usersActions.createUser();
     user3 = await usersActions.createUser();
 
@@ -74,7 +74,7 @@ describe('Library properties', () => {
     await repo.sites.addSiteMember(site.id, user2, SITE_ROLES.SITE_COLLABORATOR.ROLE);
     await repo.sites.addSiteMember(site.id, user3, SITE_ROLES.SITE_MANAGER.ROLE);
 
-    await loginPage.login(username.email, username.password);
+    await loginPage.login(user.email, user.password);
     done();
   });
 
@@ -223,7 +223,7 @@ describe('Library properties', () => {
 
   describe('Non manager', () => {
     afterAll(async (done) => {
-      await loginPage.login(username.email, username.password);
+      await loginPage.login(user.email, user.password);
       done();
     });
 

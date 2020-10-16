@@ -27,7 +27,7 @@ import { BrowsingPage, RepoClient, InfoDrawer, Utils } from '@alfresco/aca-testi
 import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 describe('General', () => {
-  const username = `user1-${Utils.random()}`;
+  const user = `user1-${Utils.random()}`;
 
   const parent = `parent-${Utils.random()}`;
   let parentId: string;
@@ -46,13 +46,13 @@ describe('General', () => {
   const repo = new RepoClient(apiService);
 
   beforeAll(async (done) => {
-    username = await usersActions.createUser();
+    user = await usersActions.createUser();
 
     parentId = (await repo.nodes.createFolder(parent)).entry.id;
     await repo.nodes.createFile(file1, parentId);
     await repo.nodes.createFolder(folder1, parentId);
 
-    await loginPage.login(username.email, username.password);
+    await loginPage.login(user.email, user.password);
     done();
   });
 

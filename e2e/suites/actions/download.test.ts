@@ -24,11 +24,11 @@
  */
 
 import { BrowsingPage, SearchResultsPage, RepoClient, Utils, CoreActions } from '@alfresco/aca-testing-shared';
-import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UsersActions, UserModel } from '@alfresco/adf-testing';
 import { browser } from 'protractor';
 
 describe('Download', () => {
-  let username;
+  let user: UserModel;
 
   const parent = `parent-${Utils.random()}`;
   let parentId: string;
@@ -81,10 +81,10 @@ describe('Download', () => {
 
   beforeAll(async (done) => {
     await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
-    username = await usersActions.createUser();
-    await apiService.getInstance().login(username.email, username.password);
+    user = await usersActions.createUser();
+    await apiService.getInstance().login(user.email, user.password);
 
-    initialRecentTotalItems = await repo.search.getTotalItems(username);
+    initialRecentTotalItems = await repo.search.getTotalItems(user.username);
 
     parentId = (await repo.nodes.createFolder(parent)).entry.id;
 
@@ -105,7 +105,7 @@ describe('Download', () => {
     folderSearchId = (await repo.nodes.createFolder(folderSearch, parentId)).entry.id;
     await repo.nodes.createFile(fileInFolderSearch, folderSearchId);
 
-    await repo.search.waitForApi(username, { expect: initialRecentTotalItems + 10 });
+    await repo.search.waitForApi(user.username, { expect: initialRecentTotalItems + 10 });
 
     initialSharedTotalItems = await repo.shared.getSharedLinksTotalItems();
     await coreActions.shareNodes([fileShared1Id, fileShared2Id]);
@@ -116,7 +116,7 @@ describe('Download', () => {
     await repo.favorites.addFavoriteById('folder', folderFavoritesId);
     await repo.favorites.waitForApi({ expect: initialFavoritesTotalItems + 2 });
 
-    await loginPage.login(username.email, username.password);
+    await loginPage.login(user.email, user.password);
     done();
   });
 

@@ -24,11 +24,11 @@
  */
 
 import { BrowsingPage, Viewer, RepoClient, Utils, CoreActions } from '@alfresco/aca-testing-shared';
-import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UsersActions, UserModel } from '@alfresco/adf-testing';
 import { browser } from 'protractor';
 
 describe('Single click on item name', () => {
-  let username;
+  let user: UserModel;
 
   const file1 = `file1-${Utils.random()}.txt`;
   let file1Id: string;
@@ -56,8 +56,8 @@ describe('Single click on item name', () => {
 
   beforeAll(async (done) => {
     await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
-    username = await usersActions.createUser();
-    await apiService.getInstance().login(username.email, username.password);
+    user = await usersActions.createUser();
+    await apiService.getInstance().login(user.email, user.password);
 
     file1Id = (await repo.nodes.createFile(file1)).entry.id;
     folder1Id = (await repo.nodes.createFolder(folder1)).entry.id;
@@ -71,7 +71,7 @@ describe('Single click on item name', () => {
     const docLibId = await repo.sites.getDocLibId(siteName);
     await repo.nodes.createFile(fileSite, docLibId);
 
-    await loginPage.login(username.email, username.password);
+    await loginPage.login(user.email, user.password);
     done();
   });
 
@@ -204,8 +204,8 @@ describe('Single click on item name', () => {
 
   describe('on Search Results', () => {
     beforeEach(async () => {
-      const initialRecentTotalItems = await repo.search.getTotalItems(username);
-      await repo.search.waitForApi(username, { expect: initialRecentTotalItems + 2 });
+      const initialRecentTotalItems = await repo.search.getTotalItems(user.username);
+      await repo.search.waitForApi(user.username, { expect: initialRecentTotalItems + 2 });
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
     });

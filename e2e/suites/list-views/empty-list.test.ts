@@ -24,10 +24,10 @@
  */
 
 import { BrowsingPage, SearchResultsPage } from '@alfresco/aca-testing-shared';
-import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UsersActions, UserModel } from '@alfresco/adf-testing';
 
 describe('Empty list views', () => {
-  let username;
+  let user: UserModel;
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const searchResultsPage = new SearchResultsPage();
@@ -38,8 +38,8 @@ describe('Empty list views', () => {
   const usersActions = new UsersActions(apiService);
 
   beforeAll(async (done) => {
-    username = await usersActions.createUser();
-    await loginPage.login(username.email, username.password);
+    user = await usersActions.createUser();
+    await loginPage.login(user.email, user.password);
     done();
   });
 

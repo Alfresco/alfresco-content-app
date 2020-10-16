@@ -46,32 +46,39 @@ describe('Search sorting', () => {
     source: FILES.pdfFile
   };
 
-  const apis = {
-    user1: new RepoClient(user1, user1),
-    user2: new RepoClient(user2, user2)
-  };
+  let repoUser1: RepoClient;
+  let repoUser2: RepoClient;
 
   const loginPage = new LoginPage();
   const page = new SearchResultsPage();
   const { searchInput } = page.header;
   const { dataTable } = page;
 
-  const apiService = new ApiService();
-  const usersActions = new UsersActions(apiService);
+  const usersActions = new UsersActions(new ApiService());
 
   beforeAll(async (done) => {
     user1 = await usersActions.createUser();
     user2 = await usersActions.createUser();
-    parentId = (await apis.user1.nodes.createFolder(parent)).entry.id;
 
-    await apis.user1.nodes.setGranularPermission(parentId, true, user2, 'Collaborator');
+    const apiServiceUser1 = new ApiService();
+    await apiServiceUser1.login(user1.username, user1.password);
 
-    await apis.user1.upload.uploadFileWithRename(fileJpg.source, parentId, fileJpg.name);
-    await apis.user2.upload.uploadFileWithRename(filePdf.source, parentId, filePdf.name, filePdf.title, filePdf.description);
+    const apiServiceUser2 = new ApiService();
+    await apiServiceUser2.login(user2.username, user2.password);
 
-    await apis.user1.search.waitForNodes('search-sort', { expect: 2 });
+    repoUser1 = new RepoClient(apiServiceUser1);
+    repoUser2 = new RepoClient(apiServiceUser2);
 
-    await loginPage.login(user1, user1);
+    parentId = (await repoUser1.nodes.createFolder(parent)).entry.id;
+
+    await repoUser1.nodes.setGranularPermission(parentId, true, user2.username, 'Collaborator');
+
+    await repoUser1.upload.uploadFileWithRename(fileJpg.source, parentId, fileJpg.name);
+    await repoUser2.upload.uploadFileWithRename(filePdf.source, parentId, filePdf.name, filePdf.title, filePdf.description);
+
+    await repoUser1.search.waitForNodes('search-sort', { expect: 2 });
+
+    await loginPage.login(user1.username, user1.password);
     done();
   });
 
@@ -86,7 +93,7 @@ describe('Search sorting', () => {
   });
 
   afterAll(async () => {
-    await apis.user1.nodes.deleteNodeById(parentId);
+    await repoUser1.nodes.deleteNodeById(parentId);
   });
 
   it('[C277722] Sorting options are displayed', async () => {

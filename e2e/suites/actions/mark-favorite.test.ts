@@ -24,10 +24,10 @@
  */
 
 import { BrowsingPage, SITE_VISIBILITY, RepoClient, Utils } from '@alfresco/aca-testing-shared';
-import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UsersActions, UserModel } from '@alfresco/adf-testing';
 
 describe('Mark items as favorites', () => {
-  let username;
+  let user: UserModel;
   const parent = `parent-${Utils.random()}`;
 
   const fileNotFavUI = `fileNotFavUI-${Utils.random()}.txt`;
@@ -84,7 +84,7 @@ describe('Mark items as favorites', () => {
   const repo = new RepoClient(apiService);
 
   beforeAll(async (done) => {
-    username = await usersActions.createUser();
+    user = await usersActions.createUser();
 
     parentId = (await repo.nodes.createFolder(parent)).entry.id;
 
@@ -109,7 +109,7 @@ describe('Mark items as favorites', () => {
     await repo.shared.shareFilesByIds([fileNotFav1Id, fileNotFav2Id, fileNotFav3Id, fileNotFav4Id]);
     await repo.shared.waitForApi({ expect: currentSharedTotalItems + 8 });
 
-    await loginPage.login(username.email, username.password);
+    await loginPage.login(user.email, user.password);
     done();
   });
 

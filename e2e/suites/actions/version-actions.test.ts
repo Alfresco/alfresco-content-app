@@ -27,13 +27,13 @@ import { BrowsingPage, FILES, RepoClient, Utils, UploadNewVersionDialog } from '
 import { VersionManagePage } from '../../../projects/aca-testing-shared/src/components/version-manage/version-manager';
 import { Viewer } from '../../../projects/aca-testing-shared/src/components';
 import { browser } from 'protractor';
-import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UsersActions, UserModel } from '@alfresco/adf-testing';
 
 describe('Version component actions', () => {
   const versionManagePage = new VersionManagePage();
   const viewerPage = new Viewer();
 
-  let username;
+  let user: UserModel;
 
   let fileId: string;
 
@@ -50,10 +50,10 @@ describe('Version component actions', () => {
   const repo = new RepoClient(apiService);
 
   beforeAll(async (done) => {
-    username = await usersActions.createUser();
+    user = await usersActions.createUser();
     fileId = (await repo.upload.uploadFile(filesToUpload[0])).entry.id;
     await repo.shared.shareFilesByIds([fileId]);
-    await loginPage.login(username.email, username.password);
+    await loginPage.login(user.email, user.password);
 
     for (let i = 0; i < filesToUpload.length - 1; i++) {
       await dataTable.selectItem(filesToUpload[i]);

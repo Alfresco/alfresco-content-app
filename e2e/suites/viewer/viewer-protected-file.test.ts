@@ -24,10 +24,10 @@
  */
 
 import { BrowsingPage, FILES, RepoClient, Utils, Viewer, PasswordDialog } from '@alfresco/aca-testing-shared';
-import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, UsersActions, LoginPage, UserModel } from '@alfresco/adf-testing';
 
 describe('Viewer - password protected file', () => {
-  let username;
+  let user: UserModel;
 
   const parent = `parent-${Utils.random()}`;
   let parentId: string;
@@ -44,11 +44,11 @@ describe('Viewer - password protected file', () => {
   const repo = new RepoClient(apiService);
 
   beforeAll(async () => {
-    username = await usersActions.createUser();
+    user = await usersActions.createUser();
     parentId = (await repo.nodes.createFolder(parent)).entry.id;
     await repo.upload.uploadFile(protectedFile.name, parentId);
 
-    await loginPage.login(username.email, username.password);
+    await loginPage.login(user.email, user.password);
   });
 
   beforeEach(async () => {

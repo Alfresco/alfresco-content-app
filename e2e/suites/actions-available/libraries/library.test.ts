@@ -26,11 +26,11 @@
 import { BrowsingPage, SearchResultsPage, RepoClient, Utils, AdminActions, CoreActions } from '@alfresco/aca-testing-shared';
 import * as testData from './test-data-libraries';
 import * as testUtil from '../test-util';
-import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UsersActions, UserModel } from '@alfresco/adf-testing';
 import { browser } from 'protractor';
 
 describe('Library actions : ', () => {
-  let username;
+  let user: UserModel;
 
   const apiService = new ApiService();
   const usersActions = new UsersActions(apiService);
@@ -45,8 +45,8 @@ describe('Library actions : ', () => {
 
   beforeAll(async () => {
     await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
-    username = await usersActions.createUser();
-    await apiService.getInstance().login(username.email, username.password);
+    user = await usersActions.createUser();
+    await apiService.getInstance().login(user.email, user.password);
 
     const initialAdminSitesTotalItems = await adminActions.sites.getSitesTotalItems();
     const initialUserSitesTotalItems = await repo.sites.getSitesTotalItems();
@@ -87,7 +87,7 @@ describe('Library actions : ', () => {
     await coreActions.deleteSites([testData.siteInTrash.name, testData.site2InTrash.name], false);
     await coreActions.waitForTrashcanSize(initialDeletedTotalItems + 2);
 
-    await loginPage.login(username.email, username.password);
+    await loginPage.login(user.email, user.password);
   });
 
   afterAll(async () => {

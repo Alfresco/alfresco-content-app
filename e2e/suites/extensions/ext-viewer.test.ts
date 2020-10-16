@@ -24,10 +24,10 @@
  */
 
 import { BrowsingPage, Viewer, RepoClient, EXTENSIBILITY_CONFIGS, FILES, Utils } from '@alfresco/aca-testing-shared';
-import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UsersActions, UserModel } from '@alfresco/adf-testing';
 
 describe('Extensions - Viewer', () => {
-  let username;
+  let user: UserModel;
 
   const pdfFile = {
     file_name: FILES.pdfFile,
@@ -74,12 +74,12 @@ describe('Extensions - Viewer', () => {
   const repo = new RepoClient(apiService);
 
   beforeAll(async (done) => {
-    username = await usersActions.createUser();
+    user = await usersActions.createUser();
     pdfFileId = (await repo.upload.uploadFile(pdfFile.file_name)).entry.id;
     docxFileId = (await repo.upload.uploadFile(docxFile.file_name)).entry.id;
 
     await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.VIEWER);
-    await loginPage.login(username.email, username.password);
+    await loginPage.login(user.email, user.password);
     done();
   });
 

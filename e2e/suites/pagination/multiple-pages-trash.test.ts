@@ -24,13 +24,13 @@
  */
 
 import { BrowsingPage, Utils, RepoClient, CoreActions } from '@alfresco/aca-testing-shared';
-import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UsersActions, UserModel } from '@alfresco/adf-testing';
 import { browser } from 'protractor';
 
 describe('Pagination on multiple pages on Trash', () => {
   const random = Utils.random();
 
-  let username;
+  let user: UserModel;
   const filesForDelete = Array(101)
     .fill('file')
     .map((name, index): string => `${name}-${index + 1}-${random}.txt`);
@@ -47,15 +47,15 @@ describe('Pagination on multiple pages on Trash', () => {
 
   beforeAll(async () => {
     await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
-    username = await usersActions.createUser();
-    await apiService.getInstance().login(username.email, username.password);
+    user = await usersActions.createUser();
+    await apiService.getInstance().login(user.email, user.password);
 
     filesDeletedIds = (await userApi.nodes.createFiles(filesForDelete)).list.entries.map((entries: any) => entries.entry.id);
 
     await coreActions.deleteNodes(filesDeletedIds, false);
     await coreActions.waitForTrashcanSize(101);
 
-    await loginPage.login(username.email, username.password);
+    await loginPage.login(user.email, user.password);
     await page.clickTrashAndWait();
   }, 120000);
 

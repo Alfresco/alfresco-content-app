@@ -24,10 +24,10 @@
  */
 
 import { BrowsingPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
-import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UsersActions, UserModel } from '@alfresco/adf-testing';
 
 describe('Upload files', () => {
-  let username;
+  let user: UserModel;
 
   const folder1 = `folder1-${Utils.random()}`;
   let folder1Id: string;
@@ -41,10 +41,10 @@ describe('Upload files', () => {
   const repo = new RepoClient(apiService);
 
   beforeAll(async (done) => {
-    username = await usersActions.createUser();
+    user = await usersActions.createUser();
     folder1Id = (await repo.nodes.createFolder(folder1)).entry.id;
 
-    await loginPage.login(username.email, username.password);
+    await loginPage.login(user.email, user.password);
     done();
   });
 

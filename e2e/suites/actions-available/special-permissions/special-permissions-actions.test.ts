@@ -31,14 +31,14 @@ import { searchResultsTests } from './search-results';
 import { viewerTests } from './viewer';
 import { sharedFilesTests } from './shared-files';
 import { collaboratorTests, filesLockedByCurrentUser, filesLockedByOtherUser } from './other-permissions';
-import { LoginPage, ApiService, UsersActions } from '@alfresco/adf-testing';
+import { LoginPage, ApiService, UsersActions, UserModel } from '@alfresco/adf-testing';
 
 describe('Special permissions : ', () => {
   const random = Utils.random();
 
   const sitePrivate = `site-private-${random}`;
 
-  let userManager, userConsumer, userCollaborator, userDemoted;
+  let userManager: UserModel, userConsumer: UserModel, userCollaborator: UserModel, userDemoted: UserModel;
 
   let fileDocxFavId: string;
   let fileFavId: string;
@@ -55,32 +55,48 @@ describe('Special permissions : ', () => {
   let folderFavId: string;
   let folderFav2Id: string;
 
-  const apiService = new ApiService();
-  const usersActions = new UsersActions(apiService);
+  const usersActions = new UsersActions(new ApiService());
 
-  const userManagerApi = new RepoClient(userManager, userManager);
-  const userConsumerApi = new RepoClient(userConsumer, userConsumer);
-  const userCollaboratorApi = new RepoClient(userCollaborator, userCollaborator);
-  const userDemotedApi = new RepoClient(userDemoted, userDemoted);
+  let userManagerApi: RepoClient;
+  let userConsumerApi: RepoClient;
+  let userCollaboratorApi: RepoClient;
+  let userDemotedApi: RepoClient;
 
   const loginPage = new LoginPage();
 
   beforeAll(async () => {
+
     userManager = await usersActions.createUser();
     userConsumer = await usersActions.createUser();
     userCollaborator = await usersActions.createUser();
     userDemoted = await usersActions.createUser();
 
+    const apiServiceUserManager = new ApiService();
+    await apiServiceUserManager.login(userManager.username, userManager.password);
+    userManagerApi = new RepoClient(apiServiceUserManager);
+
+    const apiServiceUserConsumer = new ApiService();
+    await apiServiceUserConsumer.login(userConsumer.username, userConsumer.password);
+    userConsumerApi = new RepoClient(apiServiceUserConsumer);
+
+    const apiServiceUserCollaborator = new ApiService();
+    await apiServiceUserCollaborator.login(userCollaborator.username, userCollaborator.password);
+    userCollaboratorApi = new RepoClient(apiServiceUserCollaborator);
+
+    const apiServiceUserDemoted = new ApiService();
+    await apiServiceUserDemoted.login(userDemoted.username, userDemoted.password);
+    userDemotedApi = new RepoClient(apiServiceUserDemoted);
+
     const consumerFavoritesTotalItems = await userConsumerApi.favorites.getFavoritesTotalItems();
     const consumerSharedTotalItems = await userConsumerApi.shared.getSharedLinksTotalItems();
-    const managerSearchTotalItems = await userManagerApi.search.getTotalItems(userManager);
+    const managerSearchTotalItems = await userManagerApi.search.getTotalItems(userManager.username);
     const collaboratorFavoritesTotalItems = await userCollaboratorApi.favorites.getFavoritesTotalItems();
 
     await userManagerApi.sites.createSitePrivate(sitePrivate);
     const docLibId = await userManagerApi.sites.getDocLibId(sitePrivate);
-    await userManagerApi.sites.addSiteConsumer(sitePrivate, userConsumer);
-    await userManagerApi.sites.addSiteCollaborator(sitePrivate, userCollaborator);
-    await userManagerApi.sites.addSiteManager(sitePrivate, userDemoted);
+    await userManagerApi.sites.addSiteConsumer(sitePrivate, userConsumer.username);
+    await userManagerApi.sites.addSiteCollaborator(sitePrivate, userCollaborator.username);
+    await userManagerApi.sites.addSiteManager(sitePrivate, userDemoted.username);
 
     await userManagerApi.upload.uploadFileWithRename(FILES.docxFile, docLibId, testData.fileDocx.name);
     fileDocxFavId = (await userManagerApi.upload.uploadFileWithRename(FILES.docxFile, docLibId, testData.fileDocxFav.name)).entry.id;
@@ -100,7 +116,7 @@ describe('Special permissions : ', () => {
     await userDemotedApi.nodes.lockFile(fileLockedByUserId);
     await userDemotedApi.favorites.addFavoriteById('file', fileLockedByUserId);
     await userDemotedApi.shared.shareFileById(fileLockedByUserId);
-    await userManagerApi.sites.updateSiteMember(sitePrivate, userDemoted, SITE_ROLES.SITE_CONSUMER.ROLE);
+    await userManagerApi.sites.updateSiteMember(sitePrivate, userDemoted.username, SITE_ROLES.SITE_CONSUMER.ROLE);
 
     await userManagerApi.nodes.createFolder(testData.folder.name, docLibId);
     folderFavId = (await userManagerApi.nodes.createFolder(testData.folderFav.name, docLibId)).entry.id;
@@ -141,7 +157,7 @@ describe('Special permissions : ', () => {
     await Promise.all([
       userConsumerApi.favorites.waitForApi({ expect: consumerFavoritesTotalItems + 9 }),
       userConsumerApi.shared.waitForApi({ expect: consumerSharedTotalItems + 8 }),
-      userManagerApi.search.waitForApi(userManager, { expect: managerSearchTotalItems + 14 }),
+      userManagerApi.search.waitForApi(userManager.username, { expect: managerSearchTotalItems + 14 }),
       userCollaboratorApi.favorites.waitForApi({ expect: collaboratorFavoritesTotalItems + 2 })
     ]);
   });
@@ -182,7 +198,7 @@ describe('Special permissions : ', () => {
 
   describe('Collaborator', () => {
     beforeAll(async () => {
-      await loginPage.login(userCollaborator, userCollaborator);
+      await loginPage.login(userCollaborator.username, userCollaborator.password);
     });
 
     collaboratorTests(sitePrivate);
@@ -190,7 +206,7 @@ describe('Special permissions : ', () => {
 
   describe('File locked - user is lock owner', () => {
     beforeAll(async () => {
-      await loginPage.login(userDemoted, userDemoted);
+      await loginPage.login(userDemoted.username, userDemoted.password);
     });
 
     filesLockedByCurrentUser(sitePrivate);
@@ -198,7 +214,7 @@ describe('Special permissions : ', () => {
 
   describe('File locked by other user - user is manager', () => {
     beforeAll(async () => {
-      await loginPage.login(userManager, userManager);
+      await loginPage.login(userManager.username, userManager.password);
     });
 
     filesLockedByOtherUser(sitePrivate);

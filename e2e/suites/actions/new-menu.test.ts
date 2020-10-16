@@ -24,10 +24,10 @@
  */
 
 import { BrowsingPage, SITE_ROLES, RepoClient, Utils, AdminActions } from '@alfresco/aca-testing-shared';
-import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UsersActions, UserModel } from '@alfresco/adf-testing';
 
 describe('New menu', () => {
-  let username;
+  let user: UserModel;
 
   const siteUser = `site-user-${Utils.random()}`;
   const siteAdmin = `site-admin-${Utils.random()}`;
@@ -43,13 +43,13 @@ describe('New menu', () => {
   const adminActions = new AdminActions(apiService);
 
   beforeAll(async (done) => {
-    username = await usersActions.createUser();
+    user = await usersActions.createUser();
     await adminActions.sites.createSite(siteAdmin);
-    await adminActions.sites.addSiteMember(siteAdmin, username, SITE_ROLES.SITE_CONSUMER.ROLE);
+    await adminActions.sites.addSiteMember(siteAdmin, user.username, SITE_ROLES.SITE_CONSUMER.ROLE);
 
     await repo.sites.createSite(siteUser);
 
-    await loginPage.login(username.email, username.password);
+    await loginPage.login(user.email, user.password);
     done();
   });
 

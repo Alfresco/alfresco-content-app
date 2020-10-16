@@ -24,11 +24,11 @@
  */
 
 import { BrowsingPage, ContentNodeSelectorDialog, RepoClient, Utils, CoreActions } from '@alfresco/aca-testing-shared';
-import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UsersActions, UserModel } from '@alfresco/adf-testing';
 import { browser } from 'protractor';
 
 describe('Move content', () => {
-  let username;
+  let user: UserModel;
 
   const sourcePF = `sourcePersonal-${Utils.random()}`;
   let sourceIdPF: string;
@@ -68,8 +68,8 @@ describe('Move content', () => {
 
   beforeAll(async (done) => {
     await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
-    username = await usersActions.createUser();
-    await apiService.getInstance().login(username.email, username.password);
+    user = await usersActions.createUser();
+    await apiService.getInstance().login(user.email, user.password);
 
     await repo.sites.createSite(siteName);
     const docLibId = await repo.sites.getDocLibId(siteName);
@@ -90,7 +90,7 @@ describe('Move content', () => {
     sourceIdFav = (await repo.nodes.createFolder(sourceFav)).entry.id;
     destinationIdFav = (await repo.nodes.createFolder(destinationFav)).entry.id;
 
-    await loginPage.login(username.email, username.password);
+    await loginPage.login(user.email, user.password);
     done();
   });
 
@@ -309,7 +309,7 @@ describe('Move content', () => {
 
       await repo.nodes.createFile(file4, sourceIdRF);
 
-      await repo.search.waitForApi(username, { expect: 16 });
+      await repo.search.waitForApi(user.username, { expect: 16 });
 
       done();
     });

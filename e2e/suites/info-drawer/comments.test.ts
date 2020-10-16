@@ -24,13 +24,13 @@
  */
 
 import { BrowsingPage, RepoClient, CoreActions, InfoDrawer, Utils } from '@alfresco/aca-testing-shared';
-import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, UsersActions, LoginPage, UserModel  } from '@alfresco/adf-testing';
 import { browser } from 'protractor';
 
 const moment = require('moment');
 
 describe('Comments', () => {
-  let username;
+  let user: UserModel;
 
   const parent = `parent-${Utils.random()}`;
   let parentId: string;
@@ -70,8 +70,8 @@ describe('Comments', () => {
 
   beforeAll(async (done) => {
     await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
-    username = await usersActions.createUser();
-    await apiService.getInstance().login(username.email, username.password);
+    user = await usersActions.createUser();
+    await apiService.getInstance().login(user.email, user.password);
 
     parentId = (await repo.nodes.createFolder(parent)).entry.id;
 
@@ -97,7 +97,7 @@ describe('Comments', () => {
     folder2Id = (await repo.nodes.createFolder(folder2, parentId)).entry.id;
     await repo.favorites.addFavoriteById('folder', folder2Id);
 
-    await loginPage.login(username.email, username.password);
+    await loginPage.login(user.email, user.password);
     done();
   });
 
@@ -310,7 +310,7 @@ describe('Comments', () => {
 
   describe('from Recent Files', () => {
     beforeAll(async (done) => {
-      await repo.search.waitForApi(username, { expect: 7 });
+      await repo.search.waitForApi(user.username, { expect: 7 });
       done();
     });
 
@@ -359,7 +359,7 @@ describe('Comments', () => {
       commentFile1Entry = await coreActions.createComment(fileWith1CommentId, 'this is my comment');
 
       await repo.favorites.waitForApi({ expect: 4 });
-      await repo.search.waitForApi(username, { expect: 7 });
+      await repo.search.waitForApi(user.username, { expect: 7 });
 
       done();
     });

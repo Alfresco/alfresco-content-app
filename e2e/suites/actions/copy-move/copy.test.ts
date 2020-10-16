@@ -24,11 +24,11 @@
  */
 
 import { BrowsingPage, ContentNodeSelectorDialog, RepoClient, Utils, CoreActions } from '@alfresco/aca-testing-shared';
-import { UsersActions, LoginPage, ApiService } from '@alfresco/adf-testing';
+import { UsersActions, LoginPage, ApiService, UserModel } from '@alfresco/adf-testing';
 import { browser } from 'protractor';
 
 describe('Copy content', () => {
-  let username;
+  let user: UserModel;
 
   const source = `source-${Utils.random()}`;
   let sourceId: string;
@@ -114,8 +114,8 @@ describe('Copy content', () => {
 
   beforeAll(async (done) => {
     await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
-    username = await usersActions.createUser();
-    await apiService.getInstance().login(username.email, username.password);
+    user = await usersActions.createUser();
+    await apiService.getInstance().login(user.email, user.password);
 
     const initialSharedTotalItems = await repo.shared.getSharedLinksTotalItems();
     const initialFavoritesTotalItems = await repo.favorites.getFavoritesTotalItems();
@@ -208,7 +208,7 @@ describe('Copy content', () => {
     await repo.shared.waitForApi({ expect: initialSharedTotalItems + 7 });
     await repo.favorites.waitForApi({ expect: initialFavoritesTotalItems + 13 });
 
-    await loginPage.login(username.email, username.password);
+    await loginPage.login(user.email, user.password);
     done();
   });
 

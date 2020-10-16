@@ -35,11 +35,11 @@ import {
   UploadNewVersionDialog,
   CoreActions
 } from '@alfresco/aca-testing-shared';
-import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UsersActions, UserModel } from '@alfresco/adf-testing';
 import { browser } from 'protractor';
 
 describe('Viewer actions', () => {
-  let username;
+  let user: UserModel;
 
   const docxFile = FILES.docxFile;
   const docxFile2 = FILES.docxFile2;
@@ -63,8 +63,8 @@ describe('Viewer actions', () => {
 
   beforeAll(async (done) => {
     await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
-    username = await usersActions.createUser();
-    await apiService.getInstance().login(username.email, username.password);
+    user = await usersActions.createUser();
+    await apiService.getInstance().login(user.email, user.password);
     done();
   });
 
@@ -110,7 +110,7 @@ describe('Viewer actions', () => {
       await repo.nodes.lockFile(fileForUploadNewVersionId);
       await repo.nodes.lockFile(fileForUploadNewVersionId2);
 
-      await loginPage.login(username.email, username.password);
+      await loginPage.login(user.email, user.password);
       done();
     });
 
@@ -338,7 +338,7 @@ describe('Viewer actions', () => {
       await repo.nodes.lockFile(fileForCancelEditingId);
       await repo.nodes.lockFile(fileForUploadNewVersionId);
 
-      await loginPage.login(username.email, username.password);
+      await loginPage.login(user.email, user.password);
       done();
     });
 
@@ -508,7 +508,7 @@ describe('Viewer actions', () => {
     let fileForUploadNewVersionId: string;
 
     beforeAll(async (done) => {
-      await repo.search.waitForApi(username, { expect: 0 });
+      await repo.search.waitForApi(user.username, { expect: 0 });
 
       parentId = (await repo.nodes.createFolder(parent)).entry.id;
       destinationId = (await repo.nodes.createFolder(destination)).entry.id;
@@ -526,9 +526,9 @@ describe('Viewer actions', () => {
       await repo.upload.uploadFileWithRename(xlsxFileForMove, parentId, xlsxRecentFiles);
       await repo.upload.uploadFileWithRename(pdfFileForDelete, parentId, pdfRecentFiles);
 
-      await repo.search.waitForApi(username, { expect: 7 });
+      await repo.search.waitForApi(user.username, { expect: 7 });
 
-      await loginPage.login(username.email, username.password);
+      await loginPage.login(user.email, user.password);
       done();
     });
 
@@ -725,7 +725,7 @@ describe('Viewer actions', () => {
       ]);
       await repo.shared.waitForApi({ expect: initialSharedTotalItems + 7 });
 
-      await loginPage.login(username.email, username.password);
+      await loginPage.login(user.email, user.password);
       done();
     });
 
@@ -921,7 +921,7 @@ describe('Viewer actions', () => {
       ]);
       await repo.favorites.waitForApi({ expect: 7 });
 
-      await loginPage.login(username.email, username.password);
+      await loginPage.login(user.email, user.password);
       done();
     });
 

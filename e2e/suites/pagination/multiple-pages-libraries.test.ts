@@ -24,12 +24,12 @@
  */
 
 import { BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
-import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UsersActions, UserModel } from '@alfresco/adf-testing';
 
 describe('Pagination on multiple pages', () => {
   const random = Utils.random();
 
-  let username;
+  let user: UserModel;
 
   const apiService = new ApiService();
   const usersActions = new UsersActions(apiService);
@@ -46,13 +46,13 @@ describe('Pagination on multiple pages', () => {
   let initialSitesTotalItems: number;
 
   beforeAll(async () => {
-    username = await usersActions.createUser();
+    user = await usersActions.createUser();
 
     initialSitesTotalItems = await repo.sites.getSitesTotalItems();
     await repo.sites.createSitesPrivate(sites);
     await repo.sites.waitForApi({ expect: initialSitesTotalItems + 101 });
 
-    await loginPage.login(username.email, username.password);
+    await loginPage.login(user.email, user.password);
   }, 150000);
 
   afterAll(async () => {

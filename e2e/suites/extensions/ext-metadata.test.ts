@@ -24,10 +24,10 @@
  */
 
 import { BrowsingPage, RepoClient, EXTENSIBILITY_CONFIGS, Utils, InfoDrawer, MetadataCard } from '@alfresco/aca-testing-shared';
-import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UsersActions, UserModel } from '@alfresco/adf-testing';
 
 describe('Extensions - Metadata presets', () => {
-  let username;
+  let user: UserModel;
 
   const file = `file-${Utils.random()}.png`;
 
@@ -64,11 +64,11 @@ describe('Extensions - Metadata presets', () => {
   const repo = new RepoClient(apiService);
 
   beforeAll(async (done) => {
-    username = await usersActions.createUser();
+    user = await usersActions.createUser();
     fileId = (await repo.nodes.createImage(file)).entry.id;
 
     await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.METADATA_PRESETS);
-    await loginPage.login(username.email, username.password);
+    await loginPage.login(user.email, user.password);
 
     done();
   });

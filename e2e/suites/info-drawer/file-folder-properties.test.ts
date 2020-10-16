@@ -24,12 +24,12 @@
  */
 
 import { BrowsingPage, RepoClient, InfoDrawer, Utils, FILES, DATE_TIME_FORMAT, DATE_FORMAT } from '@alfresco/aca-testing-shared';
-import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UsersActions, UserModel } from '@alfresco/adf-testing';
 
 const moment = require('moment');
 
 describe('File / Folder properties', () => {
-  let username;
+  let user: UserModel;
 
   const parent = `parent-${Utils.random()}`;
   let parentId: string;
@@ -70,13 +70,13 @@ describe('File / Folder properties', () => {
   const repo = new RepoClient(apiService);
 
   beforeAll(async (done) => {
-    username = await usersActions.createUser();
+    user = await usersActions.createUser();
     parentId = (await repo.nodes.createFolder(parent)).entry.id;
     file1Id = (await repo.nodes.createFile(file1.name, parentId, file1.title, file1.description, file1.author)).entry.id;
     folder1Id = (await repo.nodes.createFolder(folder1.name, parentId, folder1.title, folder1.description, folder1.author)).entry.id;
     image1Id = (await repo.upload.uploadFile(image1.name, parentId)).entry.id;
 
-    await loginPage.login(username.email, username.password);
+    await loginPage.login(user.email, user.password);
     done();
   });
 

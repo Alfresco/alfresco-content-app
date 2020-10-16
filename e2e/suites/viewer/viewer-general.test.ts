@@ -24,11 +24,11 @@
  */
 
 import { BrowsingPage, FILES, SITE_VISIBILITY, RepoClient, Utils, Viewer, AdminActions, CoreActions } from '@alfresco/aca-testing-shared';
-import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UsersActions, UserModel } from '@alfresco/adf-testing';
 import { browser } from 'protractor';
 
 describe('Viewer general', () => {
-  let username;
+  let user: UserModel;
 
   const parent = `parent-${Utils.random()}`;
   let parentId: string;
@@ -59,8 +59,8 @@ describe('Viewer general', () => {
 
   beforeAll(async (done) => {
     await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
-    username = await usersActions.createUser();
-    await apiService.getInstance().login(username.email, username.password);
+    user = await usersActions.createUser();
+    await apiService.getInstance().login(user.email, user.password);
 
     parentId = (await repo.nodes.createFolder(parent)).entry.id;
     xlsxFileId = (await repo.upload.uploadFile(xlsxFile, parentId)).entry.id;
@@ -80,7 +80,7 @@ describe('Viewer general', () => {
     await repo.favorites.waitForApi({ expect: 2 });
     await repo.shared.waitForApi({ expect: initialSharedTotalItems + 1 });
 
-    await loginPage.login(username.email, username.password);
+    await loginPage.login(user.email, user.password);
     done();
   });
 

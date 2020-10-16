@@ -24,11 +24,11 @@
  */
 
 import { BrowsingPage, Utils, RepoClient, CoreActions } from '@alfresco/aca-testing-shared';
-import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UsersActions, UserModel } from '@alfresco/adf-testing';
 import { browser } from 'protractor';
 
 describe('File / folder tooltips', () => {
-  let username;
+  let user: UserModel;
 
   const parent = `parent-${Utils.random()}`;
 
@@ -56,8 +56,8 @@ describe('File / folder tooltips', () => {
 
   beforeAll(async (done) => {
     await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
-    username = await usersActions.createUser();
-    await apiService.getInstance().login(username.email, username.password);
+    user = await usersActions.createUser();
+    await apiService.getInstance().login(user.email, user.password);
 
     parentId = (await repo.nodes.createFolder(parent)).entry.id;
 
@@ -77,7 +77,7 @@ describe('File / folder tooltips', () => {
 
     await repo.shared.waitForApi({ expect: initialSharedTotalItems + 8 });
 
-    await loginPage.login(username.email, username.password);
+    await loginPage.login(user.email, user.password);
     done();
   });
 
@@ -129,7 +129,7 @@ describe('File / folder tooltips', () => {
 
   describe('on Recent Files', () => {
     beforeAll(async (done) => {
-      await repo.search.waitForApi(username, { expect: 8 });
+      await repo.search.waitForApi(user.username, { expect: 8 });
       await page.clickRecentFilesAndWait();
       done();
     });

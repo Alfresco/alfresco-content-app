@@ -34,11 +34,11 @@ import {
   Utils,
   AdminActions
 } from '@alfresco/aca-testing-shared';
-import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UsersActions, UserModel } from '@alfresco/adf-testing';
 import { browser } from 'protractor';
 
 describe('Unshare a file', () => {
-  let username;
+  let user: UserModel;
 
   const parent = `parent-${Utils.random()}`;
   let parentId: string;
@@ -58,11 +58,11 @@ describe('Unshare a file', () => {
 
   beforeAll(async (done) => {
     await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
-    username = await usersActions.createUser();
-    await apiService.getInstance().login(username.email, username.password);
+    user = await usersActions.createUser();
+    await apiService.getInstance().login(user.email, user.password);
 
     parentId = (await repo.nodes.createFolder(parent)).entry.id;
-    await loginPage.login(username.email, username.password);
+    await loginPage.login(user.email, user.password);
     done();
   });
 
@@ -699,7 +699,7 @@ describe('Unshare a file', () => {
       file1FavId = (await adminActions.nodes.createFile(file1Fav, docLibId)).entry.id;
       file2FavId = (await adminActions.nodes.createFile(file2Fav, docLibId)).entry.id;
 
-      await adminActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_CONSUMER.ROLE);
+      await adminActions.sites.addSiteMember(sitePrivate, user.username, SITE_ROLES.SITE_CONSUMER.ROLE);
 
       const initialSharedTotalItems = await repo.shared.getSharedLinksTotalItems();
       await adminActions.shareNodes([file1FileLibId, file1SharedId, file1FavId]);

@@ -24,10 +24,10 @@
  */
 
 import { BrowsingPage, CreateOrEditFolderDialog, Utils, clearTextWithBackspace, RepoClient } from '@alfresco/aca-testing-shared';
-import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, UsersActions, LoginPage, UserModel } from '@alfresco/adf-testing';
 
 describe('Create folder', () => {
-  let username;
+  let user: UserModel;
 
   const parent = `parent-${Utils.random()}`;
   let parentId: string;
@@ -52,7 +52,7 @@ describe('Create folder', () => {
   const repo = new RepoClient(apiService);
 
   beforeAll(async (done) => {
-    username = await usersActions.createUser();
+    user = await usersActions.createUser();
 
     parentId = (await repo.nodes.createFolder(parent)).entry.id;
     await repo.nodes.createFolder(duplicateFolderName, parentId);
@@ -61,7 +61,7 @@ describe('Create folder', () => {
     docLibUserSite = await repo.sites.getDocLibId(siteName);
     await repo.nodes.createFolder(duplicateFolderSite, docLibUserSite);
 
-    await loginPage.login(username.email, username.password);
+    await loginPage.login(user.email, user.password);
     done();
   });
 

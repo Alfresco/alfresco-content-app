@@ -32,12 +32,12 @@ import { searchResultsTests } from './search-results';
 import { sharedFilesTests } from './shared-files';
 import { viewerTests } from './viewer';
 import { trashTests } from './trash';
-import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UsersActions, UserModel } from '@alfresco/adf-testing';
 import { browser } from 'protractor';
 
 describe('Files / folders actions : ', () => {
   const random = Utils.random();
-  let username;
+  let user: UserModel;
   const parent = `parent-${random}`;
 
   let parentId: string;
@@ -67,12 +67,12 @@ describe('Files / folders actions : ', () => {
 
   beforeAll(async () => {
     await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
-    username = await usersActions.createUser();
-    await apiService.getInstance().login(username.email, username.password);
+    user = await usersActions.createUser();
+    await apiService.getInstance().login(user.email, user.password);
 
     parentId = (await userApi.nodes.createFolder(parent)).entry.id;
 
-    const initialSearchTotalItems = await userApi.search.getTotalItems(username);
+    const initialSearchTotalItems = await userApi.search.getTotalItems(user.username);
 
     await userApi.upload.uploadFileWithRename(FILES.docxFile, parentId, testData.fileDocx.name);
     fileDocxFavId = (await userApi.upload.uploadFileWithRename(FILES.docxFile, parentId, testData.fileDocxFav.name)).entry.id;
@@ -91,7 +91,7 @@ describe('Files / folders actions : ', () => {
     folderFavId = (await userApi.nodes.createFolder(testData.folderFav.name, parentId)).entry.id;
     folderFav2Id = (await userApi.nodes.createFolder(testData.folderFav2.name, parentId)).entry.id;
 
-    await userApi.search.waitForApi(username, { expect: initialSearchTotalItems + 12 });
+    await userApi.search.waitForApi(user.username, { expect: initialSearchTotalItems + 12 });
 
     const initialFavoritesTotalItems = await userApi.favorites.getFavoritesTotalItems();
     await userApi.favorites.addFavoritesByIds('folder', [folderFavId, folderFav2Id]);
@@ -121,7 +121,7 @@ describe('Files / folders actions : ', () => {
     await userApi.nodes.lockFile(fileSharedLockedId);
     await userApi.nodes.lockFile(fileSharedFavLockedId);
 
-    await loginPage.login(username.email, username.password);
+    await loginPage.login(user.email, user.password);
   });
 
   afterAll(async () => {

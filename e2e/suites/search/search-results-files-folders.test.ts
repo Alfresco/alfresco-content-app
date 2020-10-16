@@ -25,10 +25,10 @@
 
 import { SearchResultsPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 const moment = require('moment');
-import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UsersActions, UserModel } from '@alfresco/adf-testing';
 
 describe('Search results - files and folders', () => {
-  let username;
+  let user: UserModel;
 
   const file = `test-file-${Utils.random()}.txt`;
   let fileId: string;
@@ -56,7 +56,7 @@ describe('Search results - files and folders', () => {
   const repo = new RepoClient(apiService);
 
   beforeAll(async (done) => {
-    username = await usersActions.createUser();
+    user = await usersActions.createUser();
 
     fileId = (await repo.nodes.createFile(file, '-my-', fileTitle, fileDescription)).entry.id;
     await repo.nodes.editNodeContent(fileId, 'edited by user');
@@ -64,10 +64,10 @@ describe('Search results - files and folders', () => {
     fileRussianId = (await repo.nodes.createFile(fileRussian)).entry.id;
     await repo.sites.createSite(site);
 
-    await repo.search.waitForApi(username, { expect: 2 });
+    await repo.search.waitForApi(user.username, { expect: 2 });
     await repo.queries.waitForSites(site, { expect: 1 });
 
-    await loginPage.login(username.email, username.password);
+    await loginPage.login(user.email, user.password);
     done();
   });
 

@@ -24,11 +24,11 @@
  */
 
 import { browser } from 'protractor';
-import { BrowsingPage, SITE_VISIBILITY, RepoClient, ShareDialog, Viewer, Utils, AdminActions } from '@alfresco/aca-testing-shared';
-import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { BrowsingPage, SITE_VISIBILITY, RepoClient, ShareDialog, Viewer, Utils, AdminActions, CoreActions } from '@alfresco/aca-testing-shared';
+import { ApiService, LoginPage, UsersActions, UserModel } from '@alfresco/adf-testing';
 
 describe('Share a file', () => {
-  let username;
+  let user: UserModel;
   const parent = `parent-${Utils.random()}`;
   let parentId: string;
 
@@ -58,13 +58,14 @@ describe('Share a file', () => {
 
   const apiService = new ApiService();
   const usersActions = new UsersActions(apiService);
+  const coreActions = new CoreActions(apiService);
   const repo = new RepoClient(apiService);
   const adminActions = new AdminActions(apiService);
 
   beforeAll(async (done) => {
     await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
-    username = await usersActions.createUser();
-    await apiService.getInstance().login(username.email, username.password);
+    user = await usersActions.createUser();
+    await apiService.getInstance().login(user.email, user.password);
 
     parentId = (await repo.nodes.createFolder(parent)).entry.id;
     done();
@@ -112,7 +113,7 @@ describe('Share a file', () => {
     const { searchInput } = page.header;
 
     beforeAll(async () => {
-      await loginPage.login(username.email, username.password);
+      await loginPage.login(user.email, user.password);
     });
 
     describe('from Personal Files', () => {

@@ -24,11 +24,11 @@
  */
 
 import { BrowsingPage, ConfirmDialog, RepoClient, Utils, CoreActions } from '@alfresco/aca-testing-shared';
-import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UsersActions, UserModel } from '@alfresco/adf-testing';
 import { browser } from 'protractor';
 
 describe('Permanently delete from Trash', () => {
-  let username;
+  let user: UserModel;
 
   const file1 = `file1-${Utils.random()}.txt`;
   const file2 = `file2-${Utils.random()}.txt`;
@@ -53,8 +53,8 @@ describe('Permanently delete from Trash', () => {
 
   beforeAll(async (done) => {
     await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
-    username = await usersActions.createUser();
-    await apiService.getInstance().login(username.email, username.password);
+    user = await usersActions.createUser();
+    await apiService.getInstance().login(user.email, user.password);
 
     filesIds = (await repo.nodes.createFiles([file1, file2, file3])).list.entries.map((entries: any) => entries.entry.id);
     foldersIds = (await repo.nodes.createFolders([folder1, folder2])).list.entries.map((entries: any) => entries.entry.id);
@@ -63,7 +63,7 @@ describe('Permanently delete from Trash', () => {
     await coreActions.deleteNodes([...filesIds, ...foldersIds], false);
     await coreActions.deleteSites([site], false);
 
-    await loginPage.login(username.email, username.password);
+    await loginPage.login(user.email, user.password);
     done();
   });
 

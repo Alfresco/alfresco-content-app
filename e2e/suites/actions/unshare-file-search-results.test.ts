@@ -33,12 +33,13 @@ import {
   ConfirmDialog,
   Viewer,
   Utils,
-  AdminActions
+  AdminActions,
+  CoreActions
 } from '@alfresco/aca-testing-shared';
-import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UsersActions, UserModel } from '@alfresco/adf-testing';
 
 describe('Unshare a file from Search Results', () => {
-  let username;
+  let user: UserModel;
 
   const parent = `parent-${Utils.random()}`;
   let parentId: string;
@@ -72,11 +73,12 @@ describe('Unshare a file from Search Results', () => {
   const usersActions = new UsersActions(apiService);
   const repo = new RepoClient(apiService);
   const adminActions = new AdminActions(apiService);
+  const coreActions = new CoreActions(apiService);
 
   beforeAll(async (done) => {
     await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
-    username = await usersActions.createUser();
-    await apiService.getInstance().login(username.email, username.password);
+    user = await usersActions.createUser();
+    await apiService.getInstance().login(user.email, user.password);
 
     parentId = (await repo.nodes.createFolder(parent)).entry.id;
 
@@ -94,7 +96,7 @@ describe('Unshare a file from Search Results', () => {
     fileSite1Id = (await adminActions.nodes.createFile(fileSite1, docLibId)).entry.id;
     fileSite2Id = (await adminActions.nodes.createFile(fileSite2, docLibId)).entry.id;
 
-    await adminActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_CONSUMER.ROLE);
+    await adminActions.sites.addSiteMember(sitePrivate, user.username, SITE_ROLES.SITE_CONSUMER.ROLE);
 
     await adminActions.shareNodes([fileSite1Id]);
     await coreActions.shareNodes([fileSite2Id]);
@@ -102,7 +104,7 @@ describe('Unshare a file from Search Results', () => {
     await repo.shared.waitForApi({ expect: initialSharedTotalItems + 6 });
     await repo.search.waitForNodes('search-file', { expect: initialSearchByTermTotalItems + 6 });
 
-    await loginPage.login(username.email, username.password);
+    await loginPage.login(user.email, user.password);
     done();
   });
 

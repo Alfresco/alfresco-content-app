@@ -26,14 +26,14 @@
 import { BrowsingPage, Utils } from '@alfresco/aca-testing-shared';
 import { LoginPage, UserModel } from '@alfresco/adf-testing';
 
-export function favoritesTests(username: UserModel) {
+export function favoritesTests(user: UserModel) {
   const page = new BrowsingPage();
   const loginPage = new LoginPage();
   const { dataTable, pagination } = page;
 
   describe('Pagination controls : ', () => {
     beforeAll(async () => {
-      await loginPage.login(username.email, username.password);
+      await loginPage.login(user.email, user.password);
       await page.clickFavoritesAndWait();
     });
 

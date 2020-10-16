@@ -24,11 +24,11 @@
  */
 
 import { SITE_VISIBILITY, BrowsingPage, Utils, RepoClient, CoreActions } from '@alfresco/aca-testing-shared';
-import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UsersActions, UserModel } from '@alfresco/adf-testing';
 import { browser } from 'protractor';
 
 describe('Recent Files', () => {
-  let username;
+  let user: UserModel;
 
   const folderName = `folder-${Utils.random()}`;
   let folderId: string;
@@ -53,8 +53,8 @@ describe('Recent Files', () => {
 
   beforeAll(async (done) => {
     await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
-    username = await usersActions.createUser();
-    await apiService.getInstance().login(username.email, username.password);
+    user = await usersActions.createUser();
+    await apiService.getInstance().login(user.email, user.password);
 
     folderId = (await repo.nodes.createFolders([folderName])).entry.id;
     await repo.nodes.createFiles([fileName1], folderName);
@@ -67,9 +67,9 @@ describe('Recent Files', () => {
     folderSiteId = (await repo.nodes.createFolder(folderSite, docLibId)).entry.id;
     await repo.nodes.createFile(fileSite, folderSiteId);
 
-    await repo.search.waitForApi(username, { expect: 3 });
+    await repo.search.waitForApi(user.username, { expect: 3 });
 
-    await loginPage.login(username.email, username.password);
+    await loginPage.login(user.email, user.password);
     done();
   });
 

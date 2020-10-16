@@ -29,11 +29,11 @@ import { recentFilesTests } from './recent-files';
 import { searchResultsTests } from './search-results';
 import { sharedFilesTests } from './shared-files';
 import { favoritesTests } from './favorites';
-import { ApiService, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, UsersActions, UserModel } from '@alfresco/adf-testing';
 
 describe('Pagination on multiple pages : ', () => {
   const random = Utils.random();
-  let username;
+  let user: UserModel;
 
   const parent = `parent-${random}`;
   let parentId: string;
@@ -52,9 +52,9 @@ describe('Pagination on multiple pages : ', () => {
   let initialSearchTotalItems: number;
 
   beforeAll(async () => {
-    username = await usersActions.createUser();
+    user = await usersActions.createUser();
 
-    initialSearchTotalItems = await repo.search.getTotalItems(username);
+    initialSearchTotalItems = await repo.search.getTotalItems(user.username);
 
     parentId = (await repo.nodes.createFolder(parent)).entry.id;
     filesIds = (await repo.nodes.createFiles(files, parent)).list.entries.map((entries: any) => entries.entry.id);
@@ -70,34 +70,34 @@ describe('Pagination on multiple pages : ', () => {
   });
 
   describe('on Personal Files', () => {
-    personalFilesTests(username, parent);
+    personalFilesTests(user.username, parent);
   });
 
   describe('on Recent Files', () => {
     beforeAll(async () => {
-      await repo.search.waitForApi(username, { expect: initialSearchTotalItems + 101 });
+      await repo.search.waitForApi(user.username, { expect: initialSearchTotalItems + 101 });
     }, 120000);
-    recentFilesTests(username);
+    recentFilesTests(user.username);
   });
 
   describe('on Search Results', () => {
     beforeAll(async () => {
-      await repo.search.waitForApi(username, { expect: initialSearchTotalItems + 101 });
+      await repo.search.waitForApi(user.username, { expect: initialSearchTotalItems + 101 });
     }, 120000);
-    searchResultsTests(username);
+    searchResultsTests(user.username);
   });
 
   describe('on Shared Files', () => {
     beforeAll(async () => {
       await repo.shared.waitForApi({ expect: initialSharedTotalItems + 101 });
     }, 120000);
-    sharedFilesTests(username);
+    sharedFilesTests(user.username);
   });
 
   describe('on Favorites', () => {
     beforeAll(async () => {
       await repo.favorites.waitForApi({ expect: initialFavoritesTotalItems + 101 });
     }, 120000);
-    favoritesTests(username);
+    favoritesTests(user.username);
   });
 });

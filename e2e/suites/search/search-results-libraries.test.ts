@@ -24,10 +24,10 @@
  */
 
 import { SearchResultsPage, RepoClient, Utils, SITE_VISIBILITY, SITE_ROLES, AdminActions } from '@alfresco/aca-testing-shared';
-import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UsersActions, UserModel } from '@alfresco/adf-testing';
 
 describe('Search results - libraries', () => {
-  let username;
+  let user: UserModel;
 
   const site1 = {
     name: `lib-1-${Utils.random()}`,
@@ -74,7 +74,7 @@ describe('Search results - libraries', () => {
   const adminActions = new AdminActions(apiService);
 
   beforeAll(async (done) => {
-    username = await usersActions.createUser();
+    user = await usersActions.createUser();
 
     await repo.sites.createSite(site1.name, SITE_VISIBILITY.PUBLIC, '', site1.id);
     await repo.sites.createSite(site2.name, SITE_VISIBILITY.PUBLIC, '', site2.id);
@@ -91,10 +91,10 @@ describe('Search results - libraries', () => {
     await adminActions.sites.createSite(adminSite2, SITE_VISIBILITY.PUBLIC);
     await adminActions.sites.createSite(adminSite3, SITE_VISIBILITY.PUBLIC);
     await adminActions.sites.createSite(adminSite4, SITE_VISIBILITY.PUBLIC);
-    await adminActions.sites.addSiteMember(adminSite1, username, SITE_ROLES.SITE_CONSUMER.ROLE);
-    await adminActions.sites.addSiteMember(adminSite2, username, SITE_ROLES.SITE_CONTRIBUTOR.ROLE);
-    await adminActions.sites.addSiteMember(adminSite3, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
-    await adminActions.sites.addSiteMember(adminSite4, username, SITE_ROLES.SITE_MANAGER.ROLE);
+    await adminActions.sites.addSiteMember(adminSite1, user.username, SITE_ROLES.SITE_CONSUMER.ROLE);
+    await adminActions.sites.addSiteMember(adminSite2, user.username, SITE_ROLES.SITE_CONTRIBUTOR.ROLE);
+    await adminActions.sites.addSiteMember(adminSite3, user.username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
+    await adminActions.sites.addSiteMember(adminSite4, user.username, SITE_ROLES.SITE_MANAGER.ROLE);
 
     await adminActions.sites.createSite(adminPrivate, SITE_VISIBILITY.PRIVATE);
 
@@ -102,7 +102,7 @@ describe('Search results - libraries', () => {
     await repo.queries.waitForSites('lib', { expect: 2 });
     await repo.queries.waitForSites('my-site', { expect: 1 });
 
-    await loginPage.login(username.email, username.password);
+    await loginPage.login(user.email, user.password);
     done();
   });
 

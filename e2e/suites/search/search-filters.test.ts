@@ -23,15 +23,23 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { SearchResultsPage, RepoClient, Utils, FILES, SITE_VISIBILITY, SITE_ROLES, AdminActions } from '@alfresco/aca-testing-shared';
-import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import {
+  SearchResultsPage,
+  RepoClient,
+  Utils,
+  FILES,
+  SITE_VISIBILITY,
+  SITE_ROLES,
+  AdminActions
+} from '@alfresco/aca-testing-shared';
+import { ApiService, LoginPage, UsersActions, UserModel } from '@alfresco/adf-testing';
 
 const moment = require('moment');
 
 describe('Search filters', () => {
   const random = Utils.random();
 
-  let user1, user2;
+  let user1, user2: UserModel;
 
   const parent = `parent-${random}`;
   let parentId: string;
@@ -52,14 +60,10 @@ describe('Search filters', () => {
   };
 
   const expectedFileTypes = ['Adobe PDF Document (1)', 'JPEG Image (1)'];
-  const expectedCreators = [`${user1} ${user1} (1)`, `${user2} ${user2} (1)`];
-  const expectedModifiers = [`${user1} ${user1} (1)`, `${user2} ${user2} (1)`];
   const expectedLocations = ['_REPOSITORY_ (1)', `${site} (1)`];
+  let expectedCreators, expectedModifiers;
 
-  const apis = {
-    user1: new RepoClient(user1, user1),
-    user2: new RepoClient(user2, user2)
-  };
+  let repoUser1, repoUser2: RepoClient;
 
   const loginPage = new LoginPage();
   const page = new SearchResultsPage();
@@ -81,17 +85,21 @@ describe('Search filters', () => {
   beforeAll(async (done) => {
     user1 = await usersActions.createUser();
     user2 = await usersActions.createUser();
-    parentId = (await apis.user1.nodes.createFolder(parent)).entry.id;
-    await apis.user1.sites.createSite(site, SITE_VISIBILITY.PUBLIC);
-    await apis.user1.sites.addSiteMember(site, user2, SITE_ROLES.SITE_MANAGER.ROLE);
+
+    expectedCreators = [`${user1.username} ${user1.username} (1)`, `${user2.username} ${user2.username} (1)`];
+    expectedModifiers = [`${user1.username} ${user1.username} (1)`, `${user2.username} ${user2.username} (1)`];
+
+    parentId = (await repoUser1.nodes.createFolder(parent)).entry.id;
+    await repoUser1.sites.createSite(site, SITE_VISIBILITY.PUBLIC);
+    await repoUser1.sites.addSiteMember(site, user2, SITE_ROLES.SITE_MANAGER.ROLE);
     docLibId = await adminActions.sites.getDocLibId(site);
 
-    await apis.user1.nodes.setGranularPermission(parentId, true, user2, 'Collaborator');
+    await repoUser1.nodes.setGranularPermission(parentId, true, user2, 'Collaborator');
 
-    await apis.user1.upload.uploadFileWithRename(fileJpgUser1.source, docLibId, fileJpgUser1.name);
-    await apis.user2.upload.uploadFileWithRename(filePdfUser2.source, parentId, filePdfUser2.name, filePdfUser2.title, filePdfUser2.description);
+    await repoUser1.upload.uploadFileWithRename(fileJpgUser1.source, docLibId, fileJpgUser1.name);
+    await repoUser2.upload.uploadFileWithRename(filePdfUser2.source, parentId, filePdfUser2.name, filePdfUser2.title, filePdfUser2.description);
 
-    await apis.user1.search.waitForNodes(`search-filters-${random}`, { expect: 2 });
+    await repoUser1.search.waitForNodes(`search-filters-${random}`, { expect: 2 });
 
     await loginPage.login(user1, user1);
     done();
@@ -108,7 +116,7 @@ describe('Search filters', () => {
   });
 
   afterAll(async (done) => {
-    await Promise.all([apis.user1.nodes.deleteNodeById(parentId), apis.user1.sites.deleteSite(site)]);
+    await Promise.all([repoUser1.nodes.deleteNodeById(parentId), repoUser1.sites.deleteSite(site)]);
     done();
   });
 
@@ -361,20 +369,20 @@ describe('Search filters', () => {
       expect(await creatorFilter.isClearButtonEnabled()).toBe(true, 'Creator filter Clear button not enabled');
       expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(false, 'PDF file is displayed');
       expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, 'JPG file not displayed');
-      expect(await page.getResultsChipsValues()).toEqual([`${user1} ${user1}`]);
+      expect(await page.getResultsChipsValues()).toEqual([`${user1.username} ${user1}`]);
 
-      await creatorFilter.checkCategory(user2);
+      await creatorFilter.checkCategory(user2.username);
 
       expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(true, 'PDF file not displayed');
       expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, 'JPG file not displayed');
-      expect(await page.getResultsChipsValues()).toEqual([`${user1} ${user1}`, `${user2} ${user2}`]);
+      expect(await page.getResultsChipsValues()).toEqual([`${user1.username} ${user1}`, `${user2.username} ${user2}`]);
     });
 
     it('[C279207] Clear the Creator filter options', async () => {
       await creatorFilter.expandPanel();
-      await creatorFilter.checkCategory(user1);
+      await creatorFilter.checkCategory(user1.username);
 
-      expect(await creatorFilter.getFiltersCheckedValues()).toEqual([`${user1} ${user1} (1)`]);
+      expect(await creatorFilter.getFiltersCheckedValues()).toEqual([`${user1.username} ${user1.username} (1)`]);
       expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(false, 'PDF file is displayed');
       expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, 'JPG file not displayed');
 
@@ -389,7 +397,7 @@ describe('Search filters', () => {
       await creatorFilter.expandPanel();
       expect(await creatorFilter.getFiltersValues()).toEqual(expectedCreators, 'Incorrect Creator filters facets');
       await creatorFilter.filterCategoriesBy(user1);
-      expect(await creatorFilter.getFiltersValues()).toEqual([`${user1} ${user1} (1)`], 'Incorrect Creator filters facets');
+      expect(await creatorFilter.getFiltersValues()).toEqual([`${user1.username} ${user1.username} (1)`], 'Incorrect Creator filters facets');
     });
   });
 
@@ -411,25 +419,25 @@ describe('Search filters', () => {
 
     it('[C279225] Results are filtered by Modifier', async () => {
       await modifierFilter.expandPanel();
-      await modifierFilter.checkCategory(user1);
+      await modifierFilter.checkCategory(user1.username);
 
       expect(await modifierFilter.isClearButtonEnabled()).toBe(true, 'Modifier filter Clear button not enabled');
       expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(false, 'PDF file is displayed');
       expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, 'JPG file not displayed');
-      expect(await page.getResultsChipsValues()).toEqual([`${user1} ${user1}`]);
+      expect(await page.getResultsChipsValues()).toEqual([`${user1.username} ${user1}`]);
 
-      await modifierFilter.checkCategory(user2);
+      await modifierFilter.checkCategory(user2.username);
 
       expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(true, 'PDF file not displayed');
       expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, 'JPG file not displayed');
-      expect(await page.getResultsChipsValues()).toEqual([`${user1} ${user1}`, `${user2} ${user2}`]);
+      expect(await page.getResultsChipsValues()).toEqual([`${user1.username} ${user1}`, `${user2.username} ${user2}`]);
     });
 
     it('[C279226] Clear the Modifier filter options', async () => {
       await modifierFilter.expandPanel();
-      await modifierFilter.checkCategory(user1);
+      await modifierFilter.checkCategory(user1.username);
 
-      expect(await modifierFilter.getFiltersCheckedValues()).toEqual([`${user1} ${user1} (1)`]);
+      expect(await modifierFilter.getFiltersCheckedValues()).toEqual([`${user1.username} ${user1.username} (1)`]);
       expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(false, 'PDF file is displayed');
       expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, 'JPG file not displayed');
 
@@ -444,7 +452,7 @@ describe('Search filters', () => {
       await modifierFilter.expandPanel();
       expect(await modifierFilter.getFiltersValues()).toEqual(expectedModifiers, 'Incorrect Modifier filters facets');
       await modifierFilter.filterCategoriesBy(user1);
-      expect(await modifierFilter.getFiltersValues()).toEqual([`${user1} ${user1} (1)`], 'Incorrect Modifier filters facets');
+      expect(await modifierFilter.getFiltersValues()).toEqual([`${user1.username} ${user1.username} (1)`], 'Incorrect Modifier filters facets');
     });
   });
 
@@ -581,10 +589,10 @@ describe('Search filters', () => {
 
       expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(false, 'PDF file is displayed');
       expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, 'JPG file not displayed');
-      expect(await page.getResultsChipsValues()).toEqual(['JPEG Image', `${user1} ${user1}`, site]);
+      expect(await page.getResultsChipsValues()).toEqual(['JPEG Image', `${user1.username} ${user1}`, site]);
 
       await page.removeChip('JPEG Image');
-      await page.removeChip(`${user1} ${user1}`);
+      await page.removeChip(`${user1.username} ${user1}`);
       await page.removeChip(site);
 
       expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(true, 'PDF file not displayed');
@@ -600,7 +608,7 @@ describe('Search filters', () => {
       expect(await page.getResultsFoundText()).toEqual('1 result found');
 
       await page.removeChip('JPEG Image');
-      await page.removeChip(`${user1} ${user1}`);
+      await page.removeChip(`${user1.username} ${user1}`);
 
       expect(await page.getResultsFoundText()).toEqual('2 results found');
     });
@@ -613,7 +621,7 @@ describe('Search filters', () => {
       expect(await page.pagination.getRange()).toEqual('Showing 1-1 of 1');
 
       await page.removeChip('JPEG Image');
-      await page.removeChip(`${user1} ${user1}`);
+      await page.removeChip(`${user1.username} ${user1}`);
 
       expect(await page.pagination.getRange()).toEqual('Showing 1-2 of 2');
     });
@@ -629,8 +637,8 @@ describe('Search filters', () => {
       await dataTable.waitForBody();
 
       expect(await fileTypeFilter.getFiltersValues()).toEqual(['JPEG Image (1)']);
-      expect(await creatorFilter.getFiltersValues()).toEqual([`${user1} ${user1} (1)`]);
-      expect(await modifierFilter.getFiltersValues()).toEqual([`${user1} ${user1} (1)`]);
+      expect(await creatorFilter.getFiltersValues()).toEqual([`${user1.username} ${user1.username} (1)`]);
+      expect(await modifierFilter.getFiltersValues()).toEqual([`${user1.username} ${user1.username} (1)`]);
       expect(await locationFilter.getFiltersValues()).toEqual([`${site} (1)`]);
     });
   });

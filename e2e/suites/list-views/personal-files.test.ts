@@ -26,10 +26,10 @@
 import { browser } from 'protractor';
 
 import { APP_ROUTES, BrowsingPage, Utils, RepoClient, AdminActions } from '@alfresco/aca-testing-shared';
-import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, UsersActions, LoginPage, UserModel } from '@alfresco/adf-testing';
 
 describe('Personal Files', () => {
-  let username;
+  let user: UserModel;
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -46,7 +46,7 @@ describe('Personal Files', () => {
   const adminActions = new AdminActions(apiService);
 
   beforeAll(async (done) => {
-    username = await usersActions.createUser();
+    user = await usersActions.createUser();
     await adminActions.nodes.createFolders([adminFolder]);
     await repo.nodes.createFolders([userFolder]);
     await repo.nodes.createFiles([userFile], userFolder);
@@ -77,7 +77,7 @@ describe('Personal Files', () => {
 
   describe(`Regular user's personal files`, () => {
     beforeAll(async (done) => {
-      await loginPage.login(username.email, username.password);
+      await loginPage.login(user.email, user.password);
       done();
     });
 

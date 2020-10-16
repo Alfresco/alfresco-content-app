@@ -34,7 +34,7 @@ export function searchResultsTests(username: string) {
 
   describe('Pagination controls : ', () => {
     beforeAll(async () => {
-      await loginPage.login(username.email, username.password);
+      await loginPage.login(user.email, user.password);
       await searchInput.clickSearchButton();
       await searchInput.searchFor('my-file-');
       await dataTable.waitForBody();
