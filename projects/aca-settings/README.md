@@ -62,7 +62,7 @@ import { AcaSettingsModule } from '@alfresco/aca-settings';
 export class AppExtensionsModule {}
 ```
 
-Update the extension configuration to enable extra routes and components:
+Update the `app.extensions.json` extension configuration to enable extra routes and components:
 
 ```json
 {

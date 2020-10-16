@@ -1,24 +1,66 @@
-# AcaAbout
+# About Plugin for Alfresco Content App
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.14.
+Provides the "About" page for ACA and ACA-based apps.
 
-## Code scaffolding
+## Installing
 
-Run `ng generate component component-name --project aca-about` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project aca-about`.
-> Note: Don't forget to add `--project aca-about` or else it will be added to the default project in your `angular.json` file. 
+Import the module into the application:
 
-## Build
+```ts
+// src/app/extensions.module.ts
 
-Run `ng build aca-about` to build the project. The build artifacts will be stored in the `dist/` directory.
+import { AcaAboutModule } from '@alfresco/aca-about';
 
-## Publishing
+@NgModule({
+  imports: [
+    // other modules
+    AcaAboutModule
+  ]
+})
+export class AcaAboutModule {}
+```
 
-After building your library with `ng build aca-about`, go to the dist folder `cd dist/aca-about` and run `npm publish`.
+Update the `app.extensions.json` extension configuration to enable extra routes and components:
 
-## Running unit tests
+```json
+{
+  "actions": [
+    {
+      "id": "app.actions.about",
+      "type": "NAVIGATE_URL",
+      "payload": "/about"
+    }
+  ],
 
-Run `ng test aca-about` to execute the unit tests via [Karma](https://karma-runner.github.io).
+  "routes": [
+    {
+      "id": "app.about",
+      "path": "about",
+      "layout": "app.layout.main",
+      "component": "app.about.component"
+    }
+  ],
 
-## Further help
+  "features": {
+    "header": [
+      {
+        "id": "app.header.more",
+        "children": [
+          {
+            "id": "app.header.about",
+            "order": 100,
+            "title": "APP.BROWSE.ABOUT.TITLE",
+            "description": "APP.BROWSE.ABOUT.TITLE",
+            "icon": "info",
+            "actions": {
+              "click": "app.actions.about"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Compile and distribute/run the application.
