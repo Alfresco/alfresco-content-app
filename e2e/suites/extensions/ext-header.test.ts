@@ -50,16 +50,14 @@ describe('Extensions - Info Drawer', () => {
   const apiService = new ApiService();
   const usersActions = new UsersActions(apiService);
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     user = await usersActions.createUser();
     await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.HEADER);
     await loginPage.login(user.email, user.password);
-    done();
   });
 
-  afterEach(async (done) => {
+  afterEach(async () => {
     await header.closeMoreMenu();
-    done();
   });
 
   it('[C286474] Add a new button in the header', async () => {

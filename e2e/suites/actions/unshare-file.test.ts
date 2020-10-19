@@ -58,19 +58,17 @@ describe('Unshare a file', () => {
   const adminActions = new AdminActions(apiService);
   const coreActions = new CoreActions(apiService);
 
-  beforeAll(async (done) => {
-    await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
+  beforeAll(async () => {
+    await apiService.getInstance().login(browser.params.testConfig.users.admin.username, browser.params.testConfig.users.admin.password);
     user = await usersActions.createUser();
     await apiService.getInstance().login(user.email, user.password);
 
     parentId = (await repo.nodes.createFolder(parent)).entry.id;
     await loginPage.login(user.email, user.password);
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await repo.nodes.deleteNodeById(parentId);
-    done();
   });
 
   describe('from Personal Files', () => {
@@ -84,7 +82,7 @@ describe('Unshare a file', () => {
     let file4Id: string;
     let initialSharedTotalItems: number;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       file1Id = (await repo.nodes.createFile(file1, parentId)).entry.id;
       file2Id = (await repo.nodes.createFile(file2, parentId)).entry.id;
       file3Id = (await repo.nodes.createFile(file3, parentId)).entry.id;
@@ -93,29 +91,25 @@ describe('Unshare a file', () => {
 
       await coreActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
       await repo.shared.waitForApi({ expect: initialSharedTotalItems + 4 });
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.closeOpenDialogs();
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(parent);
       await dataTable.waitForHeader();
-      done();
     });
 
-    afterEach(async (done) => {
+    afterEach(async () => {
       await page.closeOpenDialogs();
-      done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       await repo.nodes.deleteNodeById(file1Id);
       await repo.nodes.deleteNodeById(file2Id);
       await repo.nodes.deleteNodeById(file3Id);
       await repo.nodes.deleteNodeById(file4Id);
       await repo.shared.waitForApi({ expect: initialSharedTotalItems });
-      done();
     });
 
     it('[C286339] Unshare dialog UI', async () => {
@@ -206,7 +200,7 @@ describe('Unshare a file', () => {
     let parentInSiteId: string;
     let initialSharedTotalItems: number;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await repo.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
       const docLibId = await repo.sites.getDocLibId(siteName);
       parentInSiteId = (await repo.nodes.createFolder(parentInSite, docLibId)).entry.id;
@@ -219,28 +213,24 @@ describe('Unshare a file', () => {
 
       await coreActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
       await repo.shared.waitForApi({ expect: initialSharedTotalItems + 4 });
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.closeOpenDialogs();
       await page.goToMyLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
       await dataTable.doubleClickOnRowByName(parentInSite);
       await dataTable.waitForHeader();
-      done();
     });
 
-    afterEach(async (done) => {
+    afterEach(async () => {
       await page.closeOpenDialogs();
-      done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       await adminActions.sites.deleteSite(siteName);
       await repo.shared.waitForApi({ expect: initialSharedTotalItems });
-      done();
     });
 
     it('[C286679] Unshare dialog UI', async () => {
@@ -327,7 +317,7 @@ describe('Unshare a file', () => {
     let file4Id: string;
     let initialSharedTotalItems: number;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       file1Id = (await repo.nodes.createFile(file1, parentId)).entry.id;
       file2Id = (await repo.nodes.createFile(file2, parentId)).entry.id;
       file3Id = (await repo.nodes.createFile(file3, parentId)).entry.id;
@@ -337,27 +327,23 @@ describe('Unshare a file', () => {
 
       await coreActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
       await repo.shared.waitForApi({ expect: initialSharedTotalItems + 4 });
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.closeOpenDialogs();
       await page.clickRecentFilesAndWait();
-      done();
     });
 
-    afterEach(async (done) => {
+    afterEach(async () => {
       await page.closeOpenDialogs();
-      done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       await repo.nodes.deleteNodeById(file1Id);
       await repo.nodes.deleteNodeById(file2Id);
       await repo.nodes.deleteNodeById(file3Id);
       await repo.nodes.deleteNodeById(file4Id);
       await repo.shared.waitForApi({ expect: initialSharedTotalItems });
-      done();
     });
 
     it('[C286689] Unshare dialog UI', async () => {
@@ -444,7 +430,7 @@ describe('Unshare a file', () => {
     let file4Id: string;
     let initialSharedTotalItems: number;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       file1Id = (await repo.nodes.createFile(file1, parentId)).entry.id;
       file2Id = (await repo.nodes.createFile(file2, parentId)).entry.id;
       file3Id = (await repo.nodes.createFile(file3, parentId)).entry.id;
@@ -454,27 +440,23 @@ describe('Unshare a file', () => {
 
       await coreActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
       await repo.shared.waitForApi({ expect: initialSharedTotalItems + 4 });
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.closeOpenDialogs();
       await page.clickSharedFilesAndWait();
-      done();
     });
 
-    afterEach(async (done) => {
+    afterEach(async () => {
       await page.closeOpenDialogs();
-      done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       await repo.nodes.deleteNodeById(file1Id);
       await repo.nodes.deleteNodeById(file2Id);
       await repo.nodes.deleteNodeById(file3Id);
       await repo.nodes.deleteNodeById(file4Id);
       await repo.shared.waitForApi({ expect: initialSharedTotalItems });
-      done();
     });
 
     it('[C286684] Unshare dialog UI', async () => {
@@ -561,7 +543,7 @@ describe('Unshare a file', () => {
     let file4Id: string;
     let initialSharedTotalItems: number;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       file1Id = (await repo.nodes.createFile(file1, parentId)).entry.id;
       file2Id = (await repo.nodes.createFile(file2, parentId)).entry.id;
       file3Id = (await repo.nodes.createFile(file3, parentId)).entry.id;
@@ -578,27 +560,23 @@ describe('Unshare a file', () => {
 
       await repo.favorites.waitForApi({ expect: 4 });
       await repo.shared.waitForApi({ expect: initialSharedTotalItems + 4 });
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.closeOpenDialogs();
       await page.clickFavoritesAndWait();
-      done();
     });
 
-    afterEach(async (done) => {
+    afterEach(async () => {
       await page.closeOpenDialogs();
-      done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       await repo.nodes.deleteNodeById(file1Id);
       await repo.nodes.deleteNodeById(file2Id);
       await repo.nodes.deleteNodeById(file3Id);
       await repo.nodes.deleteNodeById(file4Id);
       await repo.shared.waitForApi({ expect: initialSharedTotalItems });
-      done();
     });
 
     it('[C286694] Unshare dialog UI', async () => {
@@ -690,7 +668,7 @@ describe('Unshare a file', () => {
     const file2Fav = `file2-Fav-${Utils.random()}.txt`;
     let file2FavId: string;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await adminActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
       const docLibId = await adminActions.sites.getDocLibId(sitePrivate);
 
@@ -712,19 +690,15 @@ describe('Unshare a file', () => {
 
       await repo.favorites.waitForApi({ expect: 2 });
       await repo.shared.waitForApi({ expect: initialSharedTotalItems + 6 });
-
-      done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       await adminActions.sites.deleteSite(sitePrivate);
-      done();
     });
 
-    afterEach(async (done) => {
+    afterEach(async () => {
       await page.closeOpenDialogs();
       await page.clickPersonalFilesAndWait();
-      done();
     });
 
     it('[C286682] on File Libraries - file shared by other user', async () => {

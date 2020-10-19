@@ -49,7 +49,7 @@ describe('Version component actions', () => {
   const usersActions = new UsersActions(apiService);
   const repo = new RepoClient(apiService);
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     user = await usersActions.createUser();
     fileId = (await repo.upload.uploadFile(filesToUpload[0])).entry.id;
     await repo.shared.shareFilesByIds([fileId]);
@@ -67,30 +67,25 @@ describe('Version component actions', () => {
       await uploadNewVersionDialog.uploadButton.click();
       await uploadNewVersionDialog.waitForDialogToClose();
     }
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await repo.nodes.deleteNodeById(fileId);
-    done();
   });
 
   describe('on Personal Files', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await page.clickPersonalFilesAndWait();
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await dataTable.selectItem(filesToUpload[4]);
       await toolbar.clickMoreActionsManageVersions();
       await versionManagePage.viewFileVersion('1.0');
-      done();
     });
 
-    afterEach(async (done) => {
+    afterEach(async () => {
       await viewerPage.clickCloseButton();
-      done();
     });
 
     it('[C586766] Should be possible to view a previous document version', async () => {
@@ -109,21 +104,18 @@ describe('Version component actions', () => {
   });
 
   describe('on Shared Files', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await page.clickSharedFilesAndWait();
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await dataTable.selectItem(filesToUpload[4]);
       await toolbar.clickMoreActionsManageVersions();
       await versionManagePage.viewFileVersion('2.0');
-      done();
     });
 
-    afterEach(async (done) => {
+    afterEach(async () => {
       await viewerPage.clickCloseButton();
-      done();
     });
 
     it('[C586776] Should be possible to view a previous document version', async () => {
@@ -142,21 +134,18 @@ describe('Version component actions', () => {
   });
 
   describe('on Recent Files', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await page.clickRecentFilesAndWait();
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await dataTable.selectItem(filesToUpload[4]);
       await toolbar.clickMoreActionsManageVersions();
       await versionManagePage.viewFileVersion('3.0');
-      done();
     });
 
-    afterEach(async (done) => {
+    afterEach(async () => {
       await viewerPage.clickCloseButton();
-      done();
     });
 
     it('[C586769] Should be possible to view a previous document version', async () => {
@@ -175,23 +164,20 @@ describe('Version component actions', () => {
   });
 
   describe('on Favorite Files', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await repo.favorites.addFavoritesByIds('file', [fileId]);
       await repo.favorites.waitForApi({ expect: 1 });
       await page.clickFavoritesAndWait();
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await dataTable.selectItem(filesToUpload[4]);
       await toolbar.clickMoreActionsManageVersions();
       await versionManagePage.viewFileVersion('4.0');
-      done();
     });
 
-    afterEach(async (done) => {
+    afterEach(async () => {
       await viewerPage.clickCloseButton();
-      done();
     });
 
     it('[C586772] Should be possible to view a previous document version', async () => {
@@ -210,24 +196,21 @@ describe('Version component actions', () => {
   });
 
   describe('on Search Results', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
       await searchInput.searchFor(filesToUpload[4]);
       await dataTable.waitForBody();
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await dataTable.selectItem(filesToUpload[4], 'Personal Files');
       await toolbar.clickMoreActionsManageVersions();
       await versionManagePage.viewFileVersion('5.0');
-      done();
     });
 
-    afterEach(async (done) => {
+    afterEach(async () => {
       await viewerPage.clickCloseButton();
-      done();
     });
 
     it('[C586779] Should be possible to view a previous document version', async () => {

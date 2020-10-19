@@ -39,18 +39,16 @@ describe('Restore from Trash', () => {
   const repo = new RepoClient(apiService);
   const coreActions = new CoreActions(apiService);
 
-  beforeAll(async (done) => {
-    await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
+  beforeAll(async () => {
+    await apiService.getInstance().login(browser.params.testConfig.users.admin.username, browser.params.testConfig.users.admin.password);
     user = await usersActions.createUser();
     await apiService.getInstance().login(user.email, user.password);
 
     await loginPage.login(user.email, user.password);
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await coreActions.emptyTrashcan();
-    done();
   });
 
   describe('successful restore', () => {
@@ -60,24 +58,21 @@ describe('Restore from Trash', () => {
     let folderId: string;
     const site = `site-${Utils.random()}`;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       fileId = (await repo.nodes.createFile(file)).entry.id;
       folderId = (await repo.nodes.createFolder(folder)).entry.id;
       await repo.sites.createSite(site);
 
       await coreActions.deleteNodes([fileId, folderId], false);
       await coreActions.deleteSites([site], false);
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickTrashAndWait();
-      done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       await coreActions.emptyTrashcan();
-      done();
     });
 
     it('[C217177] restore file', async () => {
@@ -156,7 +151,7 @@ describe('Restore from Trash', () => {
     const folder2 = `folder-${Utils.random()}`;
     let folder2Id: string;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       folder1Id = (await repo.nodes.createFolder(folder1)).entry.id;
       file1Id1 = (await repo.nodes.createFile(file1, folder1Id)).entry.id;
       await coreActions.deleteNodes([file1Id1], false);
@@ -166,18 +161,15 @@ describe('Restore from Trash', () => {
       file2Id = (await repo.nodes.createFile(file2, folder2Id)).entry.id;
 
       await coreActions.deleteNodes([file2Id, folder2Id], false);
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickTrashAndWait();
-      done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       await coreActions.deleteNodes([file1Id2]);
       await coreActions.emptyTrashcan();
-      done();
     });
 
     it('[C217178] Restore a file when another file with same name exists on the restore location', async () => {
@@ -216,7 +208,7 @@ describe('Restore from Trash', () => {
     const file5 = `file5-${Utils.random()}.txt`;
     let file5Id: string;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       folder1Id = (await repo.nodes.createFolder(folder1)).entry.id;
       file1Id = (await repo.nodes.createFile(file1, folder1Id)).entry.id;
       folder2Id = (await repo.nodes.createFolder(folder2)).entry.id;
@@ -232,17 +224,14 @@ describe('Restore from Trash', () => {
 
       await coreActions.deleteNodes([file3Id, file4Id, folder3Id, file5Id], false);
       await loginPage.login(user.email, user.password);
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickTrashAndWait();
-      done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       await coreActions.emptyTrashcan();
-      done();
     });
 
     it('[C217183] one failure', async () => {

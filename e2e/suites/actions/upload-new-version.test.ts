@@ -106,7 +106,7 @@ describe('Upload new version', () => {
   });
 
   describe('on Search Results', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       const initialSearchTotalItems = await repo.search.getSearchByTermTotalItems('search-f');
 
       fileId = (await repo.upload.uploadFile(file, parentSearchId)).entry.id;
@@ -124,7 +124,6 @@ describe('Upload new version', () => {
       await repo.search.waitForNodes('search-f', { expect: initialSearchTotalItems + 6 });
 
       await loginPage.login(user.email, user.password);
-      done();
     });
 
     afterEach(async () => {
@@ -284,7 +283,7 @@ describe('Upload new version', () => {
   });
 
   describe('on Personal Files', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       fileId = (await repo.upload.uploadFile(file, parentPFId)).entry.id;
       file1Id = (await repo.nodes.createFile(file1, parentPFId)).entry.id;
       file2Id = (await repo.nodes.createFile(file2, parentPFId)).entry.id;
@@ -298,19 +297,16 @@ describe('Upload new version', () => {
       await repo.nodes.lockFile(fileLocked2Id);
 
       await loginPage.login(user.email, user.password);
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(parentPF);
-      done();
     });
 
-    afterEach(async (done) => {
+    afterEach(async () => {
       await Utils.pressEscape();
       await page.refresh();
-      done();
     });
 
     it('[C297544] dialog UI defaults', async () => {
@@ -433,7 +429,7 @@ describe('Upload new version', () => {
   });
 
   describe('on Shared Files', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       fileId = (await repo.upload.uploadFile(file, parentSFId)).entry.id;
       file1Id = (await repo.nodes.createFile(file1, parentSFId)).entry.id;
       file2Id = (await repo.nodes.createFile(file2, parentSFId)).entry.id;
@@ -451,7 +447,6 @@ describe('Upload new version', () => {
       await repo.shared.waitForApi({ expect: initialSharedTotalItems + 7 });
 
       await loginPage.login(user.email, user.password);
-      done();
     });
 
     beforeEach(async () => {
@@ -582,7 +577,7 @@ describe('Upload new version', () => {
   });
 
   describe('on Recent Files', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       const initialRecentTotalItems = await repo.search.getTotalItems(user.username);
       fileId = (await repo.upload.uploadFile(file, parentRFId)).entry.id;
       file1Id = (await repo.nodes.createFile(file1, parentRFId)).entry.id;
@@ -599,7 +594,6 @@ describe('Upload new version', () => {
       await repo.search.waitForApi(user.username, { expect: initialRecentTotalItems + 7 });
 
       await loginPage.login(user.email, user.password);
-      done();
     });
 
     beforeEach(async () => {
@@ -730,7 +724,7 @@ describe('Upload new version', () => {
   });
 
   describe('on Favorite Files', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       const initialFavoritesTotalItems = await repo.favorites.getFavoritesTotalItems();
       fileId = (await repo.upload.uploadFile(file, parentFavId)).entry.id;
       file1Id = (await repo.nodes.createFile(file1, parentFavId)).entry.id;
@@ -748,17 +742,14 @@ describe('Upload new version', () => {
       await repo.favorites.waitForApi({ expect: initialFavoritesTotalItems + 7 });
 
       await loginPage.login(user.email, user.password);
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickFavoritesAndWait();
-      done();
     });
 
-    afterEach(async (done) => {
+    afterEach(async () => {
       await page.refresh();
-      done();
     });
 
     it('[C297565] dialog UI defaults', async () => {

@@ -63,17 +63,15 @@ describe('Extensions - Metadata presets', () => {
   const usersActions = new UsersActions(apiService);
   const repo = new RepoClient(apiService);
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     user = await usersActions.createUser();
     fileId = (await repo.nodes.createImage(file)).entry.id;
 
     await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.METADATA_PRESETS);
     await loginPage.login(user.email, user.password);
-
-    done();
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     await page.refresh();
 
     await page.dataTable.selectItem(file);
@@ -83,13 +81,10 @@ describe('Extensions - Metadata presets', () => {
     await infoDrawer.clickTab(properties_tab.title);
     await metadataCard.expandButton.click();
     await metadataCard.waitForFirstExpansionPanel();
-
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await repo.nodes.deleteNodeById(fileId);
-    done();
   });
 
   it('[C286636] Set groups of properties to display', async () => {

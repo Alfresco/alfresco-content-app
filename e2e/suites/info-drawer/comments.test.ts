@@ -68,8 +68,8 @@ describe('Comments', () => {
   const coreActions = new CoreActions(apiService);
   const repo = new RepoClient(apiService);
 
-  beforeAll(async (done) => {
-    await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
+  beforeAll(async () => {
+    await apiService.getInstance().login(browser.params.testConfig.users.admin.username, browser.params.testConfig.users.admin.password);
     user = await usersActions.createUser();
     await apiService.getInstance().login(user.email, user.password);
 
@@ -98,24 +98,20 @@ describe('Comments', () => {
     await repo.favorites.addFavoriteById('folder', folder2Id);
 
     await loginPage.login(user.email, user.password);
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await coreActions.deleteNodes([parentId]);
-    done();
   });
 
-  afterEach(async (done) => {
+  afterEach(async () => {
     await page.clickPersonalFiles();
-    done();
   });
 
   describe('from Personal Files', () => {
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(parent);
-      done();
     });
 
     it('[C299173] Comments tab default fields', async () => {
@@ -207,14 +203,12 @@ describe('Comments', () => {
   });
 
   describe('from Favorites', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await repo.favorites.waitForApi({ expect: 4 });
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickFavoritesAndWait();
-      done();
     });
 
     it('[C299197] Comments are displayed ordered by created date in descending order', async () => {
@@ -268,9 +262,8 @@ describe('Comments', () => {
   });
 
   describe('from Shared Files', () => {
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickSharedFilesAndWait();
-      done();
     });
 
     it('[C299189] Comments are displayed ordered by created date in descending order', async () => {
@@ -309,14 +302,12 @@ describe('Comments', () => {
   });
 
   describe('from Recent Files', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await repo.search.waitForApi(user.username, { expect: 7 });
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickRecentFilesAndWait();
-      done();
     });
 
     it('[C299193] Comments are displayed ordered by created date in descending order', async () => {
@@ -355,13 +346,11 @@ describe('Comments', () => {
   });
 
   describe('Comment info display', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       commentFile1Entry = await coreActions.createComment(fileWith1CommentId, 'this is my comment');
 
       await repo.favorites.waitForApi({ expect: 4 });
       await repo.search.waitForApi(user.username, { expect: 7 });
-
-      done();
     });
 
     it('[C280582] File from Personal files', async () => {

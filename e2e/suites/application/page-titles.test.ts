@@ -44,13 +44,13 @@ describe('Page titles', () => {
     });
 
     it('[C217156] after logout', async () => {
-      await loginPage.login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
+      await loginPage.login(browser.params.testConfig.users.admin.username, browser.params.testConfig.users.admin.password);
       await page.signOut();
       expect(await browser.getTitle()).toContain('Sign in');
     });
 
     it('[C280414] when pressing Back after Logout', async () => {
-      await loginPage.login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
+      await loginPage.login(browser.params.testConfig.users.admin.username, browser.params.testConfig.users.admin.password);
       await page.signOut();
       await browser.navigate().back();
       expect(await browser.getTitle()).toContain('Sign in');
@@ -58,15 +58,13 @@ describe('Page titles', () => {
   });
 
   describe('on app pages', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       fileId = (await adminApi.nodes.createFile(file)).entry.id;
-      await loginPage.login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
-      done();
+      await loginPage.login(browser.params.testConfig.users.admin.username, browser.params.testConfig.users.admin.password);
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       await adminApi.nodes.deleteNodeById(fileId);
-      done();
     });
 
     it('[C217157] Personal Files page', async () => {

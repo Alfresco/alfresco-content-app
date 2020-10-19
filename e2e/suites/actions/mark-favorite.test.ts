@@ -83,8 +83,9 @@ describe('Mark items as favorites', () => {
   const usersActions = new UsersActions(apiService);
   const repo = new RepoClient(apiService);
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     user = await usersActions.createUser();
+    await apiService.login(user.username, user.password);
 
     parentId = (await repo.nodes.createFolder(parent)).entry.id;
 
@@ -110,33 +111,28 @@ describe('Mark items as favorites', () => {
     await repo.shared.waitForApi({ expect: currentSharedTotalItems + 8 });
 
     await loginPage.login(user.email, user.password);
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await repo.nodes.deleteNodeById(parentId);
-    done();
   });
 
-  afterEach(async (done) => {
+  afterEach(async () => {
     await Utils.pressEscape();
-    done();
   });
 
   describe('on Personal Files', () => {
-    afterAll(async (done) => {
+    afterAll(async () => {
       try {
         await repo.favorites.addFavoritesByIds('file', [fileFavUIId, fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id]);
         await repo.favorites.addFavoriteById('folder', folderId);
         await repo.favorites.removeFavoritesByIds([fileNotFav1Id, fileNotFav2Id, fileNotFav3Id, fileNotFav4Id]);
       } catch (error) {}
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(parent);
-      done();
     });
 
     it('[C217186] Favorite action has empty star icon for an item not marked as favorite', async () => {
@@ -210,18 +206,16 @@ describe('Mark items as favorites', () => {
   });
 
   describe('on Recent Files', () => {
-    afterAll(async (done) => {
+    afterAll(async () => {
       try {
         await repo.favorites.addFavoritesByIds('file', [fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id]);
         await repo.favorites.removeFavoritesByIds([fileNotFav1Id, fileNotFav2Id, fileNotFav3Id, fileNotFav4Id]);
       } catch (error) {}
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await Utils.pressEscape();
       await page.clickRecentFilesAndWait();
-      done();
     });
 
     it('[C280352] favorite a file', async () => {
@@ -264,18 +258,16 @@ describe('Mark items as favorites', () => {
   });
 
   describe('on Shared Files', () => {
-    afterAll(async (done) => {
+    afterAll(async () => {
       try {
         await repo.favorites.addFavoritesByIds('file', [fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id]);
         await repo.favorites.removeFavoritesByIds([fileNotFav1Id, fileNotFav2Id, fileNotFav3Id, fileNotFav4Id]);
       } catch (error) {}
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await Utils.pressEscape();
       await page.clickSharedFilesAndWait();
-      done();
     });
 
     it('[C280362] favorite a file', async () => {
@@ -318,11 +310,10 @@ describe('Mark items as favorites', () => {
   });
 
   describe('on Favorites', () => {
-    afterAll(async (done) => {
+    afterAll(async () => {
       try {
         await repo.favorites.addFavoritesByIds('file', [fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id]);
       } catch (error) {}
-      done();
     });
 
     beforeEach(async () => {
@@ -359,7 +350,7 @@ describe('Mark items as favorites', () => {
   });
 
   describe('on Search Results', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       const initialSearchByTermTotalItems = await repo.search.getSearchByTermTotalItems('search-f');
       fileSearchNotFav1Id = (await repo.nodes.createFile(fileSearchNotFav1, parentId)).entry.id;
       fileSearchNotFav2Id = (await repo.nodes.createFile(fileSearchNotFav2, parentId)).entry.id;
@@ -378,7 +369,6 @@ describe('Mark items as favorites', () => {
       await searchInput.checkFilesAndFolders();
       await searchInput.searchFor('search-f');
       await dataTable.waitForBody();
-      done();
     });
 
     afterAll(async () => {
@@ -468,7 +458,7 @@ describe('Mark items as favorites', () => {
     let fileSiteFav3Id: string;
     let fileSiteFav4Id: string;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await repo.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
       const docLibId = await repo.sites.getDocLibId(siteName);
 
@@ -488,21 +478,17 @@ describe('Mark items as favorites', () => {
       await repo.favorites.isFavoriteWithRetry(fileSiteFav2Id, { expect: true });
       await repo.favorites.isFavoriteWithRetry(fileSiteFav3Id, { expect: true });
       await repo.favorites.isFavoriteWithRetry(fileSiteFav4Id, { expect: true });
-
-      done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       await repo.sites.deleteSite(siteName);
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await Utils.pressEscape();
       await page.goToMyLibrariesAndWait();
       await page.dataTable.doubleClickOnRowByName(siteName);
       await page.dataTable.waitForHeader();
-      done();
     });
 
     it('[C280391] Favorite a folder', async () => {

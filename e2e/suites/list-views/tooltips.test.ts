@@ -54,8 +54,8 @@ describe('File / folder tooltips', () => {
   const repo = new RepoClient(apiService);
   const coreActions = new CoreActions(apiService);
 
-  beforeAll(async (done) => {
-    await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
+  beforeAll(async () => {
+    await apiService.getInstance().login(browser.params.testConfig.users.admin.username, browser.params.testConfig.users.admin.password);
     user = await usersActions.createUser();
     await apiService.getInstance().login(user.email, user.password);
 
@@ -78,20 +78,17 @@ describe('File / folder tooltips', () => {
     await repo.shared.waitForApi({ expect: initialSharedTotalItems + 8 });
 
     await loginPage.login(user.email, user.password);
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await coreActions.deleteNodes([parent]);
     await coreActions.emptyTrashcan();
-    done();
   });
 
   describe('on Personal Files', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(parent);
-      done();
     });
 
     it('[C255871] File with name, no title, no description', async () => {
@@ -128,10 +125,9 @@ describe('File / folder tooltips', () => {
   });
 
   describe('on Recent Files', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await repo.search.waitForApi(user.username, { expect: 8 });
       await page.clickRecentFilesAndWait();
-      done();
     });
 
     it('[C280135] File with name, no title, no description', async () => {
@@ -169,9 +165,8 @@ describe('File / folder tooltips', () => {
 
   // disabled until ACA-518 is done
   xdescribe('on Shared Files', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await page.clickSharedFilesAndWait();
-      done();
     });
 
     xit('[C280143] File with name, no title, no description', async () => {
@@ -208,9 +203,8 @@ describe('File / folder tooltips', () => {
   });
 
   describe('on Favorites', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await page.clickFavoritesAndWait();
-      done();
     });
 
     it('[C280151] File with name, no title, no description', async () => {
@@ -251,7 +245,7 @@ describe('File / folder tooltips', () => {
     let parentForTrashId, file1TrashId, file2TrashId, file3TrashId, file4TrashId;
     let file5TrashId, file6TrashId, file7TrashId, file8TrashId;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       parentForTrashId = (await repo.nodes.createFolder(parentForTrash)).entry.id;
       file1TrashId = (await repo.nodes.createFile(file, parentForTrashId)).entry.id;
       file2TrashId = (await repo.nodes.createFile(fileWithDesc, parentForTrashId, '', fileDescription)).entry.id;
@@ -268,13 +262,11 @@ describe('File / folder tooltips', () => {
       );
 
       await page.clickTrashAndWait();
-      done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       await coreActions.deleteNodes([parentForTrash]);
       await coreActions.emptyTrashcan();
-      done();
     });
 
     it('[C280159] File with name, no title, no description', async () => {

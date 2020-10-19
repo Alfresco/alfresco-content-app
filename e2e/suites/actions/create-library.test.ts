@@ -57,24 +57,21 @@ describe('Create library', () => {
   const usersActions = new UsersActions(apiService);
   const repo = new RepoClient(apiService);
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     user = await usersActions.createUser();
     await repo.sites.createSite(duplicateSite.name, SITE_VISIBILITY.PRIVATE, '', duplicateSite.id);
     await repo.sites.createSite(siteInTrash.name, SITE_VISIBILITY.PUBLIC, '', siteInTrash.id);
     await repo.sites.deleteSite(siteInTrash.id, false);
 
     await loginPage.login(user.email, user.password);
-    done();
   });
 
-  afterEach(async (done) => {
+  afterEach(async () => {
     await Utils.pressEscape();
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await repo.sites.deleteAllUserSites();
-    done();
   });
 
   it('[C280024] Create Library dialog UI', async () => {

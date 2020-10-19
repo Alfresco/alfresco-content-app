@@ -45,28 +45,24 @@ describe('Personal Files', () => {
   const repo = new RepoClient(apiService);
   const adminActions = new AdminActions(apiService);
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     user = await usersActions.createUser();
     await adminActions.nodes.createFolders([adminFolder]);
     await repo.nodes.createFolders([userFolder]);
     await repo.nodes.createFiles([userFile], userFolder);
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await Promise.all([adminActions.nodes.deleteNodes([adminFolder]), repo.nodes.deleteNodes([userFolder])]);
-    done();
   });
 
   describe(`Admin user's personal files`, () => {
-    beforeAll(async (done) => {
-      await loginPage.login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
-      done();
+    beforeAll(async () => {
+      await loginPage.login(browser.params.testConfig.users.admin.username, browser.params.testConfig.users.admin.password);
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickPersonalFilesAndWait();
-      done();
     });
 
     it('[C213241] has Data Dictionary and created content', async () => {
@@ -76,14 +72,12 @@ describe('Personal Files', () => {
   });
 
   describe(`Regular user's personal files`, () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await loginPage.login(user.email, user.password);
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickPersonalFilesAndWait();
-      done();
     });
 
     it('[C217142] has the correct columns', async () => {

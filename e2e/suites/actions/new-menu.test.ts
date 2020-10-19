@@ -42,7 +42,7 @@ describe('New menu', () => {
   const repo = new RepoClient(apiService);
   const adminActions = new AdminActions(apiService);
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     user = await usersActions.createUser();
     await adminActions.sites.createSite(siteAdmin);
     await adminActions.sites.addSiteMember(siteAdmin, user.username, SITE_ROLES.SITE_CONSUMER.ROLE);
@@ -50,18 +50,15 @@ describe('New menu', () => {
     await repo.sites.createSite(siteUser);
 
     await loginPage.login(user.email, user.password);
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await repo.sites.deleteSite(siteUser);
     await adminActions.sites.deleteSite(siteAdmin);
-    done();
   });
 
-  afterEach(async (done) => {
+  afterEach(async () => {
     await sidenav.closeNewMenu();
-    done();
   });
 
   it('[C286524] Actions in Personal Files', async () => {

@@ -55,7 +55,7 @@ describe('Breadcrumb', () => {
   const repo = new RepoClient(apiService);
   const usersActions = new UsersActions(apiService);
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     user = await usersActions.createUser();
     parentId = (await repo.nodes.createFolder(parent)).entry.id;
     subFolder1Id = (await repo.nodes.createFolder(subFolder1, parentId)).entry.id;
@@ -73,12 +73,10 @@ describe('Breadcrumb', () => {
     await repo.nodes.createFile(fileName1, subFolder2Id);
 
     await loginPage.login(user.email, user.password);
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await Promise.all([repo.nodes.deleteNodeById(parentId), repo.nodes.deleteNodeById(parent2Id), repo.sites.deleteSite(siteName)]);
-    done();
   });
 
   it('[C260964] Personal Files breadcrumb main node', async () => {
@@ -194,21 +192,18 @@ describe('Breadcrumb', () => {
     const userFolder = `userFolder-${Utils.random()}`;
     let userFolderId: string;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       user2 = await usersActions.createUser();
 
       userFolderId = (await user2Api.nodes.createFolder(userFolder)).entry.id;
-      await loginPage.login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
+      await loginPage.login(browser.params.testConfig.users.admin.username, browser.params.testConfig.users.admin.password);
       await page.dataTable.waitForBody();
 
       await page.dataTable.sortByModified('desc');
-
-      done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       await user2Api.nodes.deleteNodeById(userFolderId);
-      done();
     });
 
     it(`[C260970] Breadcrumb on navigation to a user's home`, async () => {

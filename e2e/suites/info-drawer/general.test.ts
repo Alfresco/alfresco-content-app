@@ -45,7 +45,7 @@ describe('General', () => {
   const usersActions = new UsersActions(apiService);
   const repo = new RepoClient(apiService);
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     user = await usersActions.createUser();
 
     parentId = (await repo.nodes.createFolder(parent)).entry.id;
@@ -53,25 +53,21 @@ describe('General', () => {
     await repo.nodes.createFolder(folder1, parentId);
 
     await loginPage.login(user.email, user.password);
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await repo.nodes.deleteNodeById(parentId);
-    done();
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     await page.clickPersonalFilesAndWait();
     await dataTable.doubleClickOnRowByName(parent);
-    done();
   });
 
-  afterEach(async (done) => {
+  afterEach(async () => {
     if (await infoDrawer.isOpen()) {
       await page.toolbar.viewDetailsButton.click();
     }
-    done();
   });
 
   it('[C268999] Info drawer closes on page refresh', async () => {

@@ -75,8 +75,8 @@ describe('Unshare a file from Search Results', () => {
   const adminActions = new AdminActions(apiService);
   const coreActions = new CoreActions(apiService);
 
-  beforeAll(async (done) => {
-    await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
+  beforeAll(async () => {
+    await apiService.getInstance().login(browser.params.testConfig.users.admin.username, browser.params.testConfig.users.admin.password);
     user = await usersActions.createUser();
     await apiService.getInstance().login(user.email, user.password);
 
@@ -105,19 +105,16 @@ describe('Unshare a file from Search Results', () => {
     await repo.search.waitForNodes('search-file', { expect: initialSearchByTermTotalItems + 6 });
 
     await loginPage.login(user.email, user.password);
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await repo.nodes.deleteNodeById(parentId);
     await adminActions.sites.deleteSite(sitePrivate);
-    done();
   });
 
-  afterEach(async (done) => {
+  afterEach(async () => {
     await page.closeOpenDialogs();
     await page.clickPersonalFilesAndWait();
-    done();
   });
 
   it('[C306995] Unshare dialog UI', async () => {

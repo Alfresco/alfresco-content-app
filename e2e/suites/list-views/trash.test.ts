@@ -65,7 +65,7 @@ describe('Trash', () => {
   const coreActions = new CoreActions(apiService);
 
   beforeAll(async () => {
-    await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
+    await apiService.getInstance().login(browser.params.testConfig.users.admin.username, browser.params.testConfig.users.admin.password);
     user = await usersActions.createUser();
     await apiService.getInstance().login(user.email, user.password);
 
@@ -88,24 +88,21 @@ describe('Trash', () => {
     await repo.nodes.deleteNodeById(folderDeletedId, false);
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await adminActions.sites.deleteSite(siteName);
     await adminActions.trashcanApi.deleteDeletedNode(fileAdminId);
     await adminActions.trashcanApi.deleteDeletedNode(folderAdminId);
     await repo.nodes.deleteNodeById(folderNotDeletedId);
     await coreActions.emptyTrashcan();
-    done();
   });
 
   describe('as admin', () => {
-    beforeAll(async (done) => {
-      await loginPage.login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
-      done();
+    beforeAll(async () => {
+      await loginPage.login(browser.params.testConfig.users.admin.username, browser.params.testConfig.users.admin.password);
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickTrashAndWait();
-      done();
     });
 
     it('[C213217] has the correct columns', async () => {
@@ -125,14 +122,12 @@ describe('Trash', () => {
   });
 
   describe('as user', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await loginPage.login(user.email, user.password);
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickTrashAndWait();
-      done();
     });
 
     it('[C280494] has the correct columns', async () => {

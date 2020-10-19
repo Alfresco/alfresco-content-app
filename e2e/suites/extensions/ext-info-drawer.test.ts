@@ -63,28 +63,24 @@ describe('Extensions - Info Drawer', () => {
   const usersActions = new UsersActions(apiService);
   const repo = new RepoClient(apiService);
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     user = await usersActions.createUser();
     fileId = (await repo.nodes.createFile(file)).entry.id;
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await repo.nodes.deleteNodeById(fileId);
-    done();
   });
 
   describe('', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.INFO_DRAWER);
       await loginPage.login(user.email, user.password);
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickPersonalFilesAndWait();
       await page.dataTable.clearSelection();
-      done();
     });
 
     it('[C284646] Add a new tab with icon and title', async () => {
@@ -135,11 +131,10 @@ describe('Extensions - Info Drawer', () => {
   });
 
   describe('', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.INFO_DRAWER_EMPTY);
       await loginPage.login(user.email, user.password);
       await page.clickPersonalFilesAndWait();
-      done();
     });
 
     it('[C284650] Remove all tabs', async () => {

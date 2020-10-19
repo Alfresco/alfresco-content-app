@@ -34,15 +34,13 @@ describe('Sidebar', () => {
   const searchResultsPage = new SearchResultsPage();
   const { searchInput } = searchResultsPage.header;
 
-  beforeAll(async (done) => {
-    await loginPage.login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
-    done();
+  beforeAll(async () => {
+    await loginPage.login(browser.params.testConfig.users.admin.username, browser.params.testConfig.users.admin.password);
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     await Utils.pressEscape();
     await header.expandSideNav();
-    done();
   });
 
   it('[C217149] has "Personal Files" as default', async () => {
@@ -200,7 +198,7 @@ describe('Sidebar', () => {
   it('[C269102] sidebar state is preserved after logout / login', async () => {
     await header.collapseSideNav();
     await page.signOut();
-    await loginPage.login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
+    await loginPage.login(browser.params.testConfig.users.admin.username, browser.params.testConfig.users.admin.password);
 
     expect(await header.isSidenavExpanded()).toBe(false, 'Sidebar not collapsed');
   });

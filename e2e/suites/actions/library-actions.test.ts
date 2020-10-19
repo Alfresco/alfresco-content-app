@@ -68,8 +68,8 @@ describe('Library actions', () => {
   const adminActions = new AdminActions(apiService);
   const coreActions = new CoreActions(apiService);
 
-  beforeAll(async (done) => {
-    await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
+  beforeAll(async () => {
+    await apiService.getInstance().login(browser.params.testConfig.users.admin.username, browser.params.testConfig.users.admin.password);
     user = await usersActions.createUser();
     await apiService.getInstance().login(user.email, user.password);
 
@@ -85,18 +85,16 @@ describe('Library actions', () => {
     await repo.queries.waitForSites('site-moderated-search', { expect: 2 });
 
     await loginPage.login(user.email, user.password);
-    done();
   });
 
   beforeEach(async () => {
     await Utils.pressEscape();
   });
 
-  afterEach(async (done) => {
+  afterEach(async () => {
     await Utils.pressEscape();
     await page.header.expandSideNav();
     await page.clickPersonalFiles();
-    done();
   });
 
   afterAll(async () => {
@@ -124,10 +122,9 @@ describe('Library actions', () => {
   });
 
   describe('Join a public library', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await adminActions.sites.createSite(sitePublic1Admin);
       await repo.favorites.addFavoriteById('site', sitePublic1Admin);
-      done();
     });
 
     it('[C290105] from Favorite Libraries', async () => {
@@ -152,11 +149,10 @@ describe('Library actions', () => {
   });
 
   describe('Join a moderated library', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await adminActions.sites.createSite(siteModerated1Admin, SITE_VISIBILITY.MODERATED);
       await repo.favorites.addFavoriteById('site', siteModerated1Admin);
       await repo.queries.waitForSites(siteSearchModerated1Admin, { expect: 1 });
-      done();
     });
 
     it('[C290109] from Favorite Libraries', async () => {
@@ -185,7 +181,7 @@ describe('Library actions', () => {
   });
 
   describe('Leave a library', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await adminActions.sites.createSite(sitePublic2Admin);
       await adminActions.sites.createSite(sitePublic3Admin);
       await adminActions.sites.createSite(sitePublic4Admin);
@@ -198,7 +194,6 @@ describe('Library actions', () => {
       await adminActions.sites.addSiteMember(sitePublic4Admin, user.username, SITE_ROLES.SITE_MANAGER.ROLE);
       await adminActions.sites.addSiteMember(sitePublic5Admin, user.username, SITE_ROLES.SITE_MANAGER.ROLE);
       await repo.queries.waitForSites(siteSearchPublic2Admin, { expect: 1 });
-      done();
     });
 
     it('[C290106] from My Libraries', async () => {
@@ -274,13 +269,12 @@ describe('Library actions', () => {
   });
 
   describe('Cancel join', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await adminActions.sites.createSite(siteModerated2Admin, SITE_VISIBILITY.MODERATED);
       await repo.favorites.addFavoriteById('site', siteModerated2Admin);
       await repo.sites.requestToJoin(siteModerated2Admin);
       await repo.sites.requestToJoin(siteSearchModerated2Admin);
       await repo.queries.waitForSites(siteSearchModerated2Admin, { expect: 1 });
-      done();
     });
 
     it('[C290108] from Favorite Libraries', async () => {
@@ -311,11 +305,10 @@ describe('Library actions', () => {
   });
 
   describe('Mark library as favorite', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await adminActions.sites.createSite(sitePublic6Admin);
       await adminActions.sites.addSiteMember(sitePublic6Admin, user.username, SITE_ROLES.SITE_MANAGER.ROLE);
       await repo.queries.waitForSites(siteSearchPublic3Admin, { expect: 1 });
-      done();
     });
 
     it('[C289974] from My Libraries', async () => {
@@ -340,7 +333,7 @@ describe('Library actions', () => {
   });
 
   describe('Remove library from favorites', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await adminActions.sites.createSite(sitePublic7Admin);
       await adminActions.sites.createSite(sitePublic8Admin);
       await repo.favorites.addFavoriteById('site', sitePublic7Admin);
@@ -350,7 +343,6 @@ describe('Library actions', () => {
       await adminActions.sites.addSiteMember(sitePublic8Admin, user.username, SITE_ROLES.SITE_MANAGER.ROLE);
       await adminActions.sites.addSiteMember(siteSearchPublic4Admin, user.username, SITE_ROLES.SITE_MANAGER.ROLE);
       await repo.queries.waitForSites(siteSearchPublic4Admin, { expect: 1 });
-      done();
     });
 
     it('[C289975] from My Libraries', async () => {
@@ -387,11 +379,10 @@ describe('Library actions', () => {
   });
 
   describe('Delete a library', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await repo.sites.createSite(siteForDelete1);
       await repo.sites.createSite(siteForDelete2);
       await repo.queries.waitForSites(siteSearchForDelete, { expect: 1 });
-      done();
     });
 
     it('[C289988] from My Libraries', async () => {

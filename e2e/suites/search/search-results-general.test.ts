@@ -45,7 +45,7 @@ describe('Search results general', () => {
   const usersActions = new UsersActions(apiService);
   const repo = new RepoClient(apiService);
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     user = await usersActions.createUser();
 
     fileId = (await repo.nodes.createFile(file)).entry.id;
@@ -56,17 +56,14 @@ describe('Search results general', () => {
     await repo.queries.waitForSites(site, { expect: 1 });
 
     await loginPage.login(user.email, user.password);
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await Promise.all([repo.nodes.deleteNodeById(fileId), repo.nodes.deleteNodeById(folderId), repo.sites.deleteSite(site)]);
-    done();
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     await page.refresh();
-    done();
   });
 
   it('[C290005] Only files are returned when Files option is the only one checked', async () => {

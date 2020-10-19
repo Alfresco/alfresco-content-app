@@ -8,6 +8,7 @@ const resolve = require('path').resolve;
 const logger = require('./tools/helpers/logger');
 const retry = require('protractor-retry-angular-cli').retry;
 const { uploadScreenshot } = require('./e2e/e2e-config/utils/upload-output');
+const testConfig = require('./e2e/test.config');
 
 require('dotenv').config({ path: process.env.ENV_FILE });
 
@@ -17,45 +18,20 @@ const downloadFolder = path.join(__dirname, 'e2e-downloads');
 const screenshotsFolder = path.resolve(__dirname, 'e2e-output');
 const e2eFolder = path.resolve(projectRoot, 'e2e');
 const E2E_HOST = process.env.E2E_HOST || 'http://localhost:4200';
-const BROWSER_RUN = process.env.BROWSER_RUN;
 const width = 1366;
 const height = 768;
 
 const SAVE_SCREENSHOT = process.env.SAVE_SCREENSHOT === 'true';
-const API_CONTENT_HOST = process.env.API_CONTENT_HOST || 'http://localhost:8080';
 const MAXINSTANCES = process.env.MAXINSTANCES || 1;
 const MAX_RETRIES = process.env.MAX_RETRIES || 1;
-
-function rmDir(dirPath) {
-  try {
-    const files = fs.readdirSync(dirPath);
-  } catch (e) {
-    return;
-  }
-  if (files.length > 0)
-    for (let i = 0; i < files.length; i++) {
-      const filePath = dirPath + '/' + files[i];
-      if (fs.statSync(filePath).isFile()) fs.unlinkSync(filePath);
-      else rmDir(filePath);
-    }
-  fs.rmdirSync(dirPath);
-}
-
-const appConfig = {
-  hostEcm: API_CONTENT_HOST,
-  providers: 'ECM',
-  authType: 'BASIC'
-};
 
 exports.config = {
   allScriptsTimeout: 150000,
 
   params: {
-    config: appConfig,
+    testConfig: testConfig,
     downloadFolder: downloadFolder,
-    ADMIN_USERNAME: process.env.ADMIN_EMAIL || 'admin',
-    ADMIN_PASSWORD: process.env.ADMIN_PASSWORD || 'admin',
-    e2eRootPath: e2eFolder
+    e2eRootPath: e2eFolder,
   },
 
   specs: [
@@ -113,6 +89,7 @@ exports.config = {
   SELENIUM_PROMISE_MANAGER: false,
 
   capabilities: {
+
     loggingPrefs: {
       browser: 'ALL' // "OFF", "SEVERE", "WARNING", "INFO", "CONFIG", "FINE", "FINER", "FINEST", "ALL".
     },
@@ -221,8 +198,6 @@ exports.config = {
         }
       })
     );
-
-    rmDir(downloadFolder);
 
     browser.driver.sendChromiumCommand('Page.setDownloadBehavior', {
       behavior: 'allow',

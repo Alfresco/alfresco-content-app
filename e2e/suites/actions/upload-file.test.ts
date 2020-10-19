@@ -40,22 +40,19 @@ describe('Upload files', () => {
   const usersActions = new UsersActions(apiService);
   const repo = new RepoClient(apiService);
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     user = await usersActions.createUser();
     folder1Id = (await repo.nodes.createFolder(folder1)).entry.id;
 
     await loginPage.login(user.email, user.password);
-    done();
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     await page.clickPersonalFilesAndWait();
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await repo.nodes.deleteNodeById(folder1Id);
-    done();
   });
 
   it('Upload a file', async () => {

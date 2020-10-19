@@ -54,8 +54,8 @@ describe('Single click on item name', () => {
   const repo = new RepoClient(apiService);
   const coreActions = new CoreActions(apiService);
 
-  beforeAll(async (done) => {
-    await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
+  beforeAll(async () => {
+    await apiService.getInstance().login(browser.params.testConfig.users.admin.username, browser.params.testConfig.users.admin.password);
     user = await usersActions.createUser();
     await apiService.getInstance().login(user.email, user.password);
 
@@ -72,7 +72,6 @@ describe('Single click on item name', () => {
     await repo.nodes.createFile(fileSite, docLibId);
 
     await loginPage.login(user.email, user.password);
-    done();
   });
 
   afterAll(async () => {

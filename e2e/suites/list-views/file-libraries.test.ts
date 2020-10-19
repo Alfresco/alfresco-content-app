@@ -56,7 +56,7 @@ describe('File Libraries', () => {
   const repo = new RepoClient(apiService);
   const adminActions = new AdminActions(apiService);
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     user = await usersActions.createUser();
 
     await repo.sites.createSite(userSitePublic, SITE_VISIBILITY.PUBLIC);
@@ -84,19 +84,16 @@ describe('File Libraries', () => {
     await repo.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC, null, siteId2);
 
     await loginPage.login(user.email, user.password);
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await repo.sites.deleteSites([userSitePublic, userSiteModerated, userSitePrivate, siteId1, siteId2]);
     await adminActions.sites.deleteSites([adminSite1, adminSite2, adminSite3, adminSite4, adminSite5, adminSite6]);
-    done();
   });
 
   describe('My Libraries', () => {
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.goToMyLibrariesAndWait();
-      done();
     });
 
     it('[C217095] has the correct columns', async () => {
@@ -160,9 +157,8 @@ describe('File Libraries', () => {
   });
 
   describe('Favorite Libraries', () => {
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.goToFavoriteLibrariesAndWait();
-      done();
     });
 
     it('[C289893] has the correct columns', async () => {

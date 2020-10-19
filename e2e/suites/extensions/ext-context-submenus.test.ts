@@ -53,28 +53,24 @@ describe('Extensions - Context submenu', () => {
   const usersActions = new UsersActions(apiService);
   const repo = new RepoClient(apiService);
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     user = await usersActions.createUser();
     fileId = (await repo.nodes.createFile(file)).entry.id;
     folderId = (await repo.nodes.createFolder(folder)).entry.id;
 
     await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.CONTEXT_SUBMENUS);
     await loginPage.login(user.email, user.password);
-
-    done();
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     await Utils.pressEscape();
     await dataTable.clearSelection();
     await page.clickPersonalFilesAndWait();
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await repo.nodes.deleteNodeById(fileId, true);
     await repo.nodes.deleteNodeById(folderId, true);
-    done();
   });
 
   it('[C286717] Displays the submenu actions set from config', async () => {

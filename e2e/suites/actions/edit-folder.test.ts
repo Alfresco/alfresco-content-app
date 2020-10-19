@@ -81,7 +81,7 @@ describe('Edit folder', () => {
   const repo = new RepoClient(apiService);
   const adminActions = new AdminActions(apiService);
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     user = await usersActions.createUser();
 
     await adminActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
@@ -116,16 +116,14 @@ describe('Edit folder', () => {
     await repo.search.waitForNodes('folder-search', { expect: initialSearchByTermTotalItems + 3 });
 
     await loginPage.login(user.email, user.password);
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await Promise.all([
       adminActions.sites.deleteSite(sitePrivate),
       repo.sites.deleteSite(siteName),
       repo.nodes.deleteNodesById([parentId, folderFavoriteToEditId, folderFavoriteDuplicateId, folderSearchToEditId])
     ]);
-    done();
   });
 
   beforeEach(async () => {
@@ -150,14 +148,13 @@ describe('Edit folder', () => {
   });
 
   describe('on Personal Files', () => {
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(parent);
       await dataTable.waitForHeader();
-      done();
     });
 
-    it('[C216335] properties are modified when pressing OK', async (done) => {
+    it('[C216335] properties are modified when pressing OK', async () => {
       await dataTable.selectItem(folderNameToEdit);
       await toolbar.openMoreMenu();
       await toolbar.menu.editFolderAction.click();
@@ -171,7 +168,6 @@ describe('Edit folder', () => {
       expect(await dataTable.isItemPresent(folderNameEdited)).toBe(true, 'Folder not displayed');
       const desc = await repo.nodes.getNodeDescription(folderNameEdited, parentId);
       expect(desc).toEqual(folderDescriptionEdited);
-      done();
     });
 
     it('[C216332] with empty folder name', async () => {
@@ -245,12 +241,11 @@ describe('Edit folder', () => {
   });
 
   describe('on Favorites', () => {
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickFavoritesAndWait();
-      done();
     });
 
-    it('[C280384] properties are modified when pressing OK', async (done) => {
+    it('[C280384] properties are modified when pressing OK', async () => {
       await dataTable.selectItem(folderFavoriteToEdit);
       await toolbar.openMoreMenu();
       await toolbar.menu.editFolderAction.click();
@@ -264,7 +259,6 @@ describe('Edit folder', () => {
       expect(await dataTable.isItemPresent(folderNameEdited)).toBe(true, 'Folder not displayed');
       const desc = await repo.nodes.getNodeProperty(folderFavoriteToEditId, 'cm:description');
       expect(desc).toEqual(folderDescriptionEdited);
-      done();
     });
 
     it('[C280386] with duplicate folder name', async () => {
@@ -281,13 +275,12 @@ describe('Edit folder', () => {
   });
 
   describe('on My Libraries', () => {
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.goToMyLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(siteName);
-      done();
     });
 
-    it('[C280509] properties are modified when pressing OK', async (done) => {
+    it('[C280509] properties are modified when pressing OK', async () => {
       await dataTable.selectItem(folderSiteToEdit);
       await toolbar.openMoreMenu();
       await toolbar.menu.editFolderAction.click();
@@ -301,7 +294,6 @@ describe('Edit folder', () => {
       expect(await dataTable.isItemPresent(folderNameEdited)).toBe(true, 'Folder not displayed');
       const desc = await repo.nodes.getNodeProperty(folderSiteToEditId, 'cm:description');
       expect(desc).toEqual(folderDescriptionEdited);
-      done();
     });
 
     it('[C280511] with duplicate folder name', async () => {

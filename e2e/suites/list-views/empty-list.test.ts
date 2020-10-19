@@ -37,10 +37,9 @@ describe('Empty list views', () => {
   const apiService = new ApiService();
   const usersActions = new UsersActions(apiService);
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     user = await usersActions.createUser();
     await loginPage.login(user.email, user.password);
-    done();
   });
 
   it('[C280131] empty Personal Files', async () => {

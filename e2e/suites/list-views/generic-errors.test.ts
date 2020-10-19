@@ -45,8 +45,8 @@ describe('Generic errors', () => {
   const repo = new RepoClient(apiService);
   const coreActions = new CoreActions(apiService);
 
-  beforeAll(async (done) => {
-    await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
+  beforeAll(async () => {
+    await apiService.getInstance().login(browser.params.testConfig.users.admin.username, browser.params.testConfig.users.admin.password);
     user = await usersActions.createUser();
     username2 = await usersActions.createUser();
     await apiService.getInstance().login(user.email, user.password);
@@ -56,13 +56,11 @@ describe('Generic errors', () => {
     await repo.nodes.createFile(file2, parentId);
 
     await loginPage.login(user.email, user.password);
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await coreActions.deleteNodes([parentId]);
     await coreActions.emptyTrashcan();
-    done();
   });
 
   it('[C217313] File / folder not found', async () => {

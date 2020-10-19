@@ -51,8 +51,8 @@ describe('Recent Files', () => {
   const repo = new RepoClient(apiService);
   const coreActions = new CoreActions(apiService);
 
-  beforeAll(async (done) => {
-    await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
+  beforeAll(async () => {
+    await apiService.getInstance().login(browser.params.testConfig.users.admin.username, browser.params.testConfig.users.admin.password);
     user = await usersActions.createUser();
     await apiService.getInstance().login(user.email, user.password);
 
@@ -70,19 +70,16 @@ describe('Recent Files', () => {
     await repo.search.waitForApi(user.username, { expect: 3 });
 
     await loginPage.login(user.email, user.password);
-    done();
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     await page.clickRecentFilesAndWait();
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await coreActions.deleteNodes([folderId, file2Id]);
     await coreActions.deleteSites([siteName]);
     await coreActions.emptyTrashcan();
-    done();
   });
 
   it('[C213168] has the correct columns', async () => {

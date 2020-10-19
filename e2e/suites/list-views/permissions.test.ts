@@ -43,11 +43,10 @@ describe('Special permissions', () => {
 
   let initialSharedTotalItems: number;
 
-  beforeAll(async (done) => {
-    await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
+  beforeAll(async () => {
+    await apiService.getInstance().login(browser.params.testConfig.users.admin.username, browser.params.testConfig.users.admin.password);
     user = await usersActions.createUser();
     await apiService.getInstance().login(user.email, user.password);
-    done();
   });
 
   describe('file not displayed if user no longer has permissions on it', () => {
@@ -55,7 +54,7 @@ describe('Special permissions', () => {
     const fileName = `file-${Utils.random()}.txt`;
     let fileId;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await adminActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
       await adminActions.sites.addSiteMember(sitePrivate, user.username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
       const docLibId = await adminActions.sites.getDocLibId(sitePrivate);
@@ -71,7 +70,6 @@ describe('Special permissions', () => {
       await repo.shared.waitForApi({ expect: initialSharedTotalItems + 1 });
 
       await loginPage.login(user.email, user.password);
-      done();
     });
 
     afterEach(async () => {
@@ -130,7 +128,7 @@ describe('Special permissions', () => {
     const fileName = `file-${Utils.random()}.txt`;
     let fileId;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await adminActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
       await adminActions.sites.addSiteMember(sitePrivate, user.username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
       const docLibId = await adminActions.sites.getDocLibId(sitePrivate);
@@ -144,12 +142,10 @@ describe('Special permissions', () => {
       await repo.search.waitForApi(user.username, { expect: 1 });
       await adminActions.sites.deleteSiteMember(sitePrivate, user.username);
       await loginPage.login(user.email, user.password);
-      done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       await adminActions.sites.deleteSite(sitePrivate);
-      done();
     });
 
     it('[C213178] on Recent Files', async () => {

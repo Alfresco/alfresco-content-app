@@ -73,7 +73,7 @@ describe('Search results - libraries', () => {
   const repo = new RepoClient(apiService);
   const adminActions = new AdminActions(apiService);
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     user = await usersActions.createUser();
 
     await repo.sites.createSite(site1.name, SITE_VISIBILITY.PUBLIC, '', site1.id);
@@ -103,20 +103,17 @@ describe('Search results - libraries', () => {
     await repo.queries.waitForSites('my-site', { expect: 1 });
 
     await loginPage.login(user.email, user.password);
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await Promise.all([
       adminActions.sites.deleteSites([adminSite1, adminSite2, adminSite3, adminSite4, adminPrivate]),
       repo.sites.deleteSites([site1.id, site2.id, site3.id, site4.id, userSitePublic, userSiteModerated, userSitePrivate, siteRussian.id])
     ]);
-    done();
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     await Utils.pressEscape();
-    done();
   });
 
   it('[C290012] Search library - full name match', async () => {

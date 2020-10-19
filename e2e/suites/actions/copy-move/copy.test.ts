@@ -112,8 +112,8 @@ describe('Copy content', () => {
   const repo = new RepoClient(apiService);
   const coreActions = new CoreActions(apiService);
 
-  beforeAll(async (done) => {
-    await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
+  beforeAll(async () => {
+    await apiService.getInstance().login(browser.params.testConfig.users.admin.username, browser.params.testConfig.users.admin.password);
     user = await usersActions.createUser();
     await apiService.getInstance().login(user.email, user.password);
 
@@ -209,25 +209,21 @@ describe('Copy content', () => {
     await repo.favorites.waitForApi({ expect: initialFavoritesTotalItems + 13 });
 
     await loginPage.login(user.email, user.password);
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await repo.nodes.deleteNodeById(sourceId);
     await repo.sites.deleteSite(siteName);
-    done();
   });
 
   describe('from Recent Files', () => {
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await Utils.pressEscape();
       await page.clickRecentFilesAndWait();
-      done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       await repo.nodes.deleteNodeById(destinationIdRF);
-      done();
     });
 
     it('[C280194] Copy a file', async () => copyFile(file1, source, destinationRF));
@@ -249,16 +245,14 @@ describe('Copy content', () => {
   });
 
   describe('from Personal Files', () => {
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await Utils.pressEscape();
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(source);
-      done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       await repo.nodes.deleteNodeById(destinationIdPF);
-      done();
     });
 
     it('[C217135] Copy a file', async () => copyFile(file1, '', destinationPF));
@@ -302,15 +296,13 @@ describe('Copy content', () => {
   });
 
   describe('from Shared Files', () => {
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await Utils.pressEscape();
       await page.clickSharedFilesAndWait();
-      done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       await repo.nodes.deleteNodeById(destinationIdSF);
-      done();
     });
 
     it('[C280206] Copy a file', async () => copyFile(file1, source, destinationSF));
@@ -332,15 +324,13 @@ describe('Copy content', () => {
   });
 
   describe('from Favorites', () => {
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await Utils.pressEscape();
       await page.clickFavoritesAndWait();
-      done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       await repo.nodes.deleteNodeById(destinationIdFav);
-      done();
     });
 
     it('[C280218] Copy a file', async () => copyFile(file1, source, destinationFav));
@@ -381,16 +371,14 @@ describe('Copy content', () => {
   });
 
   describe('from Search Results', () => {
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await Utils.pressEscape();
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
-      done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       await repo.nodes.deleteNodeById(destinationIdSearch);
-      done();
     });
 
     it('[C306932] Copy a file', async () =>

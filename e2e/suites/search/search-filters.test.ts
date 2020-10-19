@@ -77,7 +77,7 @@ describe('Search filters', () => {
   const usersActions = new UsersActions(apiService);
   const adminActions = new AdminActions(apiService);
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     user1 = await usersActions.createUser();
     user2 = await usersActions.createUser();
 
@@ -105,22 +105,19 @@ describe('Search filters', () => {
     await repoUser1.search.waitForNodes(`search-filters-${random}`, { expect: 2 });
 
     await loginPage.login(user1.username, user1.password);
-    done();
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     await Utils.pressEscape();
     await page.clickPersonalFilesAndWait();
 
     await searchInput.clickSearchButton();
     await searchInput.searchFor(`search-filters-${random}`);
     await dataTable.waitForBody();
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await Promise.all([repoUser1.nodes.deleteNodeById(parentId), repoUser1.sites.deleteSite(site)]);
-    done();
   });
 
   it('[C279186] Filters are displayed', async () => {
@@ -134,9 +131,8 @@ describe('Search filters', () => {
   });
 
   describe('Filter by Size', () => {
-    afterEach(async (done) => {
+    afterEach(async () => {
       await sizeFilter.resetPanel();
-      done();
     });
 
     it('[C279197] Expand / Collapse the Size filter panel', async () => {
@@ -194,9 +190,8 @@ describe('Search filters', () => {
     const today = moment().format('DD-MMM-YY');
     const future = moment().add(1, 'month').format('DD-MMM-YY');
 
-    afterEach(async (done) => {
+    afterEach(async () => {
       await createdDateFilter.resetPanel();
-      done();
     });
 
     it('[C279211] Expand / Collapse the Created date filter panel', async () => {
@@ -296,9 +291,8 @@ describe('Search filters', () => {
   });
 
   describe('Filter by File type', () => {
-    afterEach(async (done) => {
+    afterEach(async () => {
       await filters.resetAllButton.click();
-      done();
     });
 
     it('[C279191] Expand / Collapse the File type filter panel', async () => {
@@ -350,9 +344,8 @@ describe('Search filters', () => {
   });
 
   describe('Filter by Creator', () => {
-    afterEach(async (done) => {
+    afterEach(async () => {
       await filters.resetAllButton.click();
-      done();
     });
 
     it('[C279205] Expand / Collapse the Creator filter panel', async () => {
@@ -405,9 +398,8 @@ describe('Search filters', () => {
   });
 
   describe('Filter by Modifier', () => {
-    afterEach(async (done) => {
+    afterEach(async () => {
       await filters.resetAllButton.click();
-      done();
     });
 
     it('[C279224] Expand / Collapse the Modifier filter panel', async () => {
@@ -460,9 +452,8 @@ describe('Search filters', () => {
   });
 
   describe('Filter by Location', () => {
-    afterEach(async (done) => {
+    afterEach(async () => {
       await filters.resetAllButton.click();
-      done();
     });
 
     it('[C279230] Expand / Collapse the Location filter panel', async () => {
@@ -517,9 +508,8 @@ describe('Search filters', () => {
   describe('Filter by Modified date', () => {
     const expectedDateFilters = ['Today (2)', 'This week (2)', 'This month (2)', 'In the last 6 months (2)', 'This year (2)'];
 
-    afterEach(async (done) => {
+    afterEach(async () => {
       await filters.resetAllButton.click();
-      done();
     });
 
     it('[C279219] Expand / Collapse the Modified date filter panel', async () => {
@@ -574,11 +564,10 @@ describe('Search filters', () => {
   });
 
   describe('Multiple filters', () => {
-    afterEach(async (done) => {
+    afterEach(async () => {
       await filters.resetAllButton.click();
       await sizeFilter.resetPanel();
       await createdDateFilter.resetPanel();
-      done();
     });
 
     it('[C280051] Multiple filters can be applied', async () => {

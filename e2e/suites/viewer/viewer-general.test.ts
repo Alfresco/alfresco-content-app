@@ -57,8 +57,8 @@ describe('Viewer general', () => {
   const adminActions = new AdminActions(apiService);
   const coreActions = new CoreActions(apiService);
 
-  beforeAll(async (done) => {
-    await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
+  beforeAll(async () => {
+    await apiService.getInstance().login(browser.params.testConfig.users.admin.username, browser.params.testConfig.users.admin.password);
     user = await usersActions.createUser();
     await apiService.getInstance().login(user.email, user.password);
 
@@ -81,28 +81,24 @@ describe('Viewer general', () => {
     await repo.shared.waitForApi({ expect: initialSharedTotalItems + 1 });
 
     await loginPage.login(user.email, user.password);
-    done();
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     await page.header.expandSideNav();
     await page.clickPersonalFilesAndWait();
     await dataTable.doubleClickOnRowByName(parent);
     await dataTable.waitForHeader();
-    done();
   });
 
-  afterEach(async (done) => {
+  afterEach(async () => {
     await Utils.pressEscape();
     await page.header.expandSideNav();
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await repo.nodes.deleteNodeById(parentId);
     await adminActions.sites.deleteSite(siteAdmin);
     await repo.sites.deleteSite(siteUser);
-    done();
   });
 
   it('[C279269] Viewer opens on double clicking on a file from Personal Files', async () => {

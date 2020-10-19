@@ -54,7 +54,7 @@ describe('Shared Files', () => {
   const repo = new RepoClient(apiService);
   const adminActions = new AdminActions(apiService);
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     user = await usersActions.createUser();
     await adminActions.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
     await adminActions.sites.addSiteMember(siteName, user.username, SITE_ROLES.SITE_CONSUMER.ROLE);
@@ -79,12 +79,10 @@ describe('Shared Files', () => {
     await repo.shared.waitForApi({ expect: initialSharedTotalItems + 3 });
 
     await loginPage.login(user.email, user.password);
-    done();
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     await page.clickSharedFilesAndWait();
-    done();
   });
 
   afterAll(async () => {

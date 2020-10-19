@@ -40,7 +40,7 @@ describe('Delete and undo delete', () => {
   const coreActions = new CoreActions(apiService);
 
   beforeAll(async () => {
-    await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
+    await apiService.getInstance().login(browser.params.testConfig.users.admin.username, browser.params.testConfig.users.admin.password);
     user = await usersActions.createUser();
 
     await apiService.getInstance().login(user.email, user.password);
@@ -61,7 +61,7 @@ describe('Delete and undo delete', () => {
     const recentFile5 = `recentFile5-${Utils.random()}.txt`;
     const recentFile6 = `recentFile6-${Utils.random()}.txt`;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       parentId = (await repo.nodes.createFolder(parent)).entry.id;
 
       const initialRecentTotalItems = await repo.search.getTotalItems(user.username);
@@ -75,7 +75,6 @@ describe('Delete and undo delete', () => {
       await repo.search.waitForApi(user.username, { expect: initialRecentTotalItems + 6 });
 
       await loginPage.login(user.email, user.password);
-      done();
     });
 
     beforeEach(async () => {
@@ -173,7 +172,7 @@ describe('Delete and undo delete', () => {
     const parent = `parentPF-${Utils.random()}`;
     let parentId: string;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       parentId = (await repo.nodes.createFolder(parent)).entry.id;
 
       await repo.nodes.createFile(file1, parentId);
@@ -204,8 +203,6 @@ describe('Delete and undo delete', () => {
       await repo.nodes.lockFile(fileLocked4Id, 'FULL');
 
       await loginPage.login(user.email, user.password);
-
-      done();
     });
 
     beforeEach(async () => {
@@ -340,7 +337,7 @@ describe('Delete and undo delete', () => {
     const parent = `parentSF-${Utils.random()}`;
     let parentId: string;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       parentId = (await repo.nodes.createFolder(parent)).entry.id;
 
       sharedFile1Id = (await repo.nodes.createFile(sharedFile1, parentId)).entry.id;
@@ -355,18 +352,15 @@ describe('Delete and undo delete', () => {
       await repo.shared.waitForApi({ expect: initialSharedTotalItems + 6 });
 
       await loginPage.login(user.email, user.password);
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickSharedFilesAndWait();
-      done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       await coreActions.deleteNodes([parentId]);
       await coreActions.emptyTrashcan();
-      done();
     });
 
     it('[C280316] delete a file and check notification', async () => {
@@ -454,7 +448,7 @@ describe('Delete and undo delete', () => {
     const fileLocked4 = `fileLocked4-${Utils.random()}.txt`;
     let fileLocked4Id: string;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       parentId = (await repo.nodes.createFolder(parent)).entry.id;
 
       const initialFavoritesTotalItems = await repo.favorites.getFavoritesTotalItems();
@@ -491,19 +485,16 @@ describe('Delete and undo delete', () => {
       await repo.favorites.waitForApi({ expect: initialFavoritesTotalItems + 13 });
 
       await loginPage.login(user.email, user.password);
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickFavoritesAndWait();
-      done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       await coreActions.unlockNodes([fileLocked1Id, fileLocked2Id, fileLocked3Id, fileLocked4Id]);
       await coreActions.deleteNodes([parentId]);
       await coreActions.emptyTrashcan();
-      done();
     });
 
     it('[C280516] delete a file and check notification', async () => {

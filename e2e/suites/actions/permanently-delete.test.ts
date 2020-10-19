@@ -51,8 +51,8 @@ describe('Permanently delete from Trash', () => {
   const repo = new RepoClient(apiService);
   const coreActions = new CoreActions(apiService);
 
-  beforeAll(async (done) => {
-    await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
+  beforeAll(async () => {
+    await apiService.getInstance().login(browser.params.testConfig.users.admin.username, browser.params.testConfig.users.admin.password);
     user = await usersActions.createUser();
     await apiService.getInstance().login(user.email, user.password);
 
@@ -64,17 +64,14 @@ describe('Permanently delete from Trash', () => {
     await coreActions.deleteSites([site], false);
 
     await loginPage.login(user.email, user.password);
-    done();
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     await page.clickTrashAndWait();
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await coreActions.emptyTrashcan();
-    done();
   });
 
   it('[C217091] delete a file', async () => {

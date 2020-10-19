@@ -66,8 +66,8 @@ describe('Move content', () => {
   const repo = new RepoClient(apiService);
   const coreActions = new CoreActions(apiService);
 
-  beforeAll(async (done) => {
-    await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
+  beforeAll(async () => {
+    await apiService.getInstance().login(browser.params.testConfig.users.admin.username, browser.params.testConfig.users.admin.password);
     user = await usersActions.createUser();
     await apiService.getInstance().login(user.email, user.password);
 
@@ -91,10 +91,9 @@ describe('Move content', () => {
     destinationIdFav = (await repo.nodes.createFolder(destinationFav)).entry.id;
 
     await loginPage.login(user.email, user.password);
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await repo.nodes.deleteNodeById(sourceIdPF);
     await repo.nodes.deleteNodeById(sourceIdRF);
     await repo.nodes.deleteNodeById(sourceIdSF);
@@ -104,7 +103,6 @@ describe('Move content', () => {
     await repo.nodes.deleteNodeById(destinationIdSF);
     await repo.nodes.deleteNodeById(destinationIdFav);
     await repo.sites.deleteSite(siteName);
-    done();
   });
 
   describe('from Personal Files', () => {
@@ -130,7 +128,7 @@ describe('Move content', () => {
     const file2InFolder = `file2InFolder-${Utils.random()}.txt`;
     const file3InFolder = `file3InFolder-${Utils.random()}.txt`;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await repo.nodes.createFile(file1, sourceIdPF);
 
       folder1Id = (await repo.nodes.createFolder(folder1, sourceIdPF)).entry.id;
@@ -150,15 +148,12 @@ describe('Move content', () => {
       await repo.nodes.createFile(file4, sourceIdPF);
       folder2Id = (await repo.nodes.createFolder(folder2, sourceIdPF)).entry.id;
       await repo.nodes.createFile(fileInFolder2, folder2Id);
-
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await Utils.pressEscape();
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(sourcePF);
-      done();
     });
 
     it('[C217316] Move a file', async () => {
@@ -298,7 +293,7 @@ describe('Move content', () => {
 
     const existingFile = `existing-${Utils.random()}`;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await repo.nodes.createFile(file1, sourceIdRF);
 
       await repo.nodes.createFile(file2, sourceIdRF);
@@ -310,14 +305,11 @@ describe('Move content', () => {
       await repo.nodes.createFile(file4, sourceIdRF);
 
       await repo.search.waitForApi(user.username, { expect: 16 });
-
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await Utils.pressEscape();
       await page.clickRecentFilesAndWait();
-      done();
     });
 
     it('[C280230] Move a file', async () => {
@@ -420,7 +412,7 @@ describe('Move content', () => {
     const existingFile = `existing-${Utils.random()}`;
     let existingFileId;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       file1Id = (await repo.nodes.createFile(file1, sourceIdSF)).entry.id;
 
       const initialSharedTotalItems = await repo.shared.getSharedLinksTotalItems();
@@ -437,8 +429,6 @@ describe('Move content', () => {
       file4Id = (await repo.nodes.createFile(file4, sourceIdSF)).entry.id;
       await coreActions.shareNodes([file4Id]);
       await repo.shared.waitForApi({ expect: initialSharedTotalItems + 5 });
-
-      done();
     });
 
     beforeEach(async () => {
@@ -558,7 +548,7 @@ describe('Move content', () => {
     const file2InFolder = `file2InFolder-${Utils.random()}.txt`;
     const file3InFolder = `file3InFolder-${Utils.random()}.txt`;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       file1Id = (await repo.nodes.createFile(file1, sourceIdFav)).entry.id;
       await repo.favorites.addFavoriteById('file', file1Id);
 
@@ -588,14 +578,11 @@ describe('Move content', () => {
       await repo.favorites.addFavoriteById('folder', folder2Id);
 
       await repo.favorites.waitForApi({ expect: 9 });
-
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await Utils.pressEscape();
       await page.clickFavoritesAndWait();
-      done();
     });
 
     it('[C280256] Move a file', async () => {

@@ -64,7 +64,7 @@ describe('Library properties', () => {
   const usersActions = new UsersActions(apiService);
   const repo = new RepoClient(apiService);
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     user = await usersActions.createUser();
     user2 = await usersActions.createUser();
     user3 = await usersActions.createUser();
@@ -77,26 +77,22 @@ describe('Library properties', () => {
     await repo.sites.addSiteMember(site.id, user3.username, SITE_ROLES.SITE_MANAGER.ROLE);
 
     await loginPage.login(user.email, user.password);
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await repo.sites.deleteSite(site.id);
     await repo.sites.deleteSite(siteForUpdate.id);
     await repo.sites.deleteSite(siteDup);
-    done();
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     await page.clickFileLibrariesAndWait();
-    done();
   });
 
-  afterEach(async (done) => {
+  afterEach(async () => {
     if (await infoDrawer.isOpen()) {
       await page.toolbar.viewDetailsButton.click();
     }
-    done();
   });
 
   it('[C289336] Info drawer opens for a library', async () => {
@@ -224,9 +220,8 @@ describe('Library properties', () => {
   });
 
   describe('Non manager', () => {
-    afterAll(async (done) => {
+    afterAll(async () => {
       await loginPage.login(user.email, user.password);
-      done();
     });
 
     it('[C289337] Info drawer button is not displayed when user is not the library manager', async () => {

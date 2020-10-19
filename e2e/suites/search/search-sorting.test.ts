@@ -56,7 +56,7 @@ describe('Search sorting', () => {
 
   const usersActions = new UsersActions(new ApiService());
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     user1 = await usersActions.createUser();
     user2 = await usersActions.createUser();
 
@@ -79,17 +79,15 @@ describe('Search sorting', () => {
     await repoUser1.search.waitForNodes('search-sort', { expect: 2 });
 
     await loginPage.login(user1.username, user1.password);
-    done();
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     await Utils.pressEscape();
     await page.clickPersonalFilesAndWait();
 
     await searchInput.clickSearchButton();
     await searchInput.searchFor('search sort');
     await dataTable.waitForBody();
-    done();
   });
 
   afterAll(async () => {

@@ -61,11 +61,10 @@ describe('Viewer actions', () => {
   const repo = new RepoClient(apiService);
   const coreActions = new CoreActions(apiService);
 
-  beforeAll(async (done) => {
-    await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
+  beforeAll(async () => {
+    await apiService.getInstance().login(browser.params.testConfig.users.admin.username, browser.params.testConfig.users.admin.password);
     user = await usersActions.createUser();
     await apiService.getInstance().login(user.email, user.password);
-    done();
   });
 
   describe('from Personal Files', () => {
@@ -91,7 +90,7 @@ describe('Viewer actions', () => {
     const fileForUploadNewVersion2 = `file4-${Utils.random()}.docx`;
     let fileForUploadNewVersionId2: string;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       parentId = (await repo.nodes.createFolder(parent)).entry.id;
       destinationId = (await repo.nodes.createFolder(destination)).entry.id;
 
@@ -111,26 +110,22 @@ describe('Viewer actions', () => {
       await repo.nodes.lockFile(fileForUploadNewVersionId2);
 
       await loginPage.login(user.email, user.password);
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(parent);
       await dataTable.waitForHeader();
-      done();
     });
 
-    afterEach(async (done) => {
+    afterEach(async () => {
       await Utils.pressEscape();
       await page.closeUploadDialog();
-      done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       await coreActions.deleteNodes([parentId, destinationId]);
       await coreActions.emptyTrashcan();
-      done();
     });
 
     it('[C268129] Download action', async () => {
@@ -320,7 +315,7 @@ describe('Viewer actions', () => {
     const fileForUploadNewVersion = `file3-${Utils.random()}.docx`;
     let fileForUploadNewVersionId: string;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await repo.sites.createSite(siteName);
       const docLibId = await repo.sites.getDocLibId(siteName);
       destinationId = (await repo.nodes.createFolder(destination)).entry.id;
@@ -339,27 +334,23 @@ describe('Viewer actions', () => {
       await repo.nodes.lockFile(fileForUploadNewVersionId);
 
       await loginPage.login(user.email, user.password);
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.goToMyLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
-      done();
     });
 
-    afterEach(async (done) => {
+    afterEach(async () => {
       await Utils.pressEscape();
       await page.closeUploadDialog();
-      done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       await coreActions.deleteSites([siteName]);
       await coreActions.deleteNodes([destinationId]);
       await coreActions.emptyTrashcan();
-      done();
     });
 
     it('[C286369] Download action', async () => {
@@ -370,7 +361,7 @@ describe('Viewer actions', () => {
       expect(await Utils.fileExistsOnOS(docxLibraries)).toBe(true, 'File not found in download location');
     });
 
-    it('[C286370] Copy action', async (done) => {
+    it('[C286370] Copy action', async () => {
       await dataTable.doubleClickOnRowByName(docxLibraries);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
@@ -387,7 +378,6 @@ describe('Viewer actions', () => {
       expect(await dataTable.isItemPresent(docxLibraries)).toBe(true, 'Item is not present in destination');
 
       await repo.nodes.deleteNodeChildren(destinationId);
-      done();
     });
 
     it('[C286371] Move action', async () => {
@@ -507,7 +497,7 @@ describe('Viewer actions', () => {
     const fileForUploadNewVersion = `file3-${Utils.random()}.docx`;
     let fileForUploadNewVersionId: string;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await repo.search.waitForApi(user.username, { expect: 0 });
 
       parentId = (await repo.nodes.createFolder(parent)).entry.id;
@@ -529,24 +519,20 @@ describe('Viewer actions', () => {
       await repo.search.waitForApi(user.username, { expect: 7 });
 
       await loginPage.login(user.email, user.password);
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickRecentFilesAndWait();
-      done();
     });
 
-    afterEach(async (done) => {
+    afterEach(async () => {
       await Utils.pressEscape();
       await page.closeUploadDialog();
-      done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       await coreActions.deleteNodes([parentId, destinationId]);
       await coreActions.emptyTrashcan();
-      done();
     });
 
     it('[C286383] Download action', async () => {
@@ -557,7 +543,7 @@ describe('Viewer actions', () => {
       expect(await Utils.fileExistsOnOS(docxRecentFiles)).toBe(true, 'File not found in download location');
     });
 
-    it('[C286384] Copy action', async (done) => {
+    it('[C286384] Copy action', async () => {
       await dataTable.doubleClickOnRowByName(docxRecentFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
@@ -574,7 +560,6 @@ describe('Viewer actions', () => {
       expect(await dataTable.isItemPresent(docxRecentFiles)).toBe(true, 'Item is not present in destination');
 
       await repo.nodes.deleteNodeChildren(destinationId);
-      done();
     });
 
     it('[C286385] Move action', async () => {
@@ -697,7 +682,7 @@ describe('Viewer actions', () => {
     const fileForUploadNewVersion = `file3-${Utils.random()}.docx`;
     let fileForUploadNewVersionId;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       parentId = (await repo.nodes.createFolder(parent)).entry.id;
       destinationId = (await repo.nodes.createFolder(destination)).entry.id;
       docxFileId = (await repo.upload.uploadFileWithRename(docxFile, parentId, docxSharedFiles)).entry.id;
@@ -726,25 +711,21 @@ describe('Viewer actions', () => {
       await repo.shared.waitForApi({ expect: initialSharedTotalItems + 7 });
 
       await loginPage.login(user.email, user.password);
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickSharedFilesAndWait();
-      done();
     });
 
-    afterEach(async (done) => {
+    afterEach(async () => {
       await page.closeOpenDialogs();
       await Utils.pressEscape();
       await page.closeUploadDialog();
-      done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       await coreActions.deleteNodes([parentId, destinationId]);
       await coreActions.emptyTrashcan();
-      done();
     });
 
     it('[C286376] Download action', async () => {
@@ -894,7 +875,7 @@ describe('Viewer actions', () => {
     const fileForUploadNewVersion = `file3-${Utils.random()}.docx`;
     let fileForUploadNewVersionId: string;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       parentId = (await repo.nodes.createFolder(parent)).entry.id;
       destinationId = (await repo.nodes.createFolder(destination)).entry.id;
       docxFileId = (await repo.upload.uploadFileWithRename(docxFile, parentId, docxFavorites)).entry.id;
@@ -922,24 +903,20 @@ describe('Viewer actions', () => {
       await repo.favorites.waitForApi({ expect: 7 });
 
       await loginPage.login(user.email, user.password);
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickFavoritesAndWait();
-      done();
     });
 
-    afterEach(async (done) => {
+    afterEach(async () => {
       await Utils.pressEscape();
       await page.closeUploadDialog();
-      done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       await coreActions.deleteNodes([parentId, destinationId]);
       await coreActions.emptyTrashcan();
-      done();
     });
 
     it('[C286390] Download action', async () => {
@@ -950,7 +927,7 @@ describe('Viewer actions', () => {
       expect(await Utils.fileExistsOnOS(docxFavorites)).toBe(true, 'File not found in download location');
     });
 
-    it('[C286391] Copy action', async (done) => {
+    it('[C286391] Copy action', async () => {
       await dataTable.doubleClickOnRowByName(docxFavorites);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
@@ -967,7 +944,6 @@ describe('Viewer actions', () => {
       expect(await dataTable.isItemPresent(docxFavorites)).toBe(true, 'Item is not present in destination');
 
       await repo.nodes.deleteNodeChildren(destinationId);
-      done();
     });
 
     it('[C286392] Move action', async () => {

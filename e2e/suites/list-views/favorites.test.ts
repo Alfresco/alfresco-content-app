@@ -48,8 +48,8 @@ describe('Favorites', () => {
   const coreActions = new CoreActions(apiService);
   const adminActions = new AdminActions(apiService);
 
-  beforeAll(async (done) => {
-    await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
+  beforeAll(async () => {
+    await apiService.getInstance().login(browser.params.testConfig.users.admin.username, browser.params.testConfig.users.admin.password);
     user = await usersActions.createUser();
     await apiService.getInstance().login(user.email, user.password);
 
@@ -73,19 +73,16 @@ describe('Favorites', () => {
     await coreActions.deleteNodes([file3Id, file4Id], false);
     await coreActions.trashcanApi.restoreDeletedNode(file4Id);
     await loginPage.login(user.email, user.password);
-    done();
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     await page.clickFavoritesAndWait();
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await adminActions.deleteSites([siteName]);
     await coreActions.deleteNodes([favFolderName, parentFolder]);
     await coreActions.emptyTrashcan();
-    done();
   });
 
   it('[C280482] has the correct columns', async () => {

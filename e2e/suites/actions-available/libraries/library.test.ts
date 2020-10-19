@@ -44,7 +44,7 @@ describe('Library actions : ', () => {
   const { searchInput } = searchResultsPage.header;
 
   beforeAll(async () => {
-    await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);
+    await apiService.getInstance().login(browser.params.testConfig.users.admin.username, browser.params.testConfig.users.admin.password);
     user = await usersActions.createUser();
     await apiService.getInstance().login(user.email, user.password);
 

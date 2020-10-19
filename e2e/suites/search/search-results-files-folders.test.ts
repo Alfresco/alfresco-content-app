@@ -55,7 +55,7 @@ describe('Search results - files and folders', () => {
   const usersActions = new UsersActions(apiService);
   const repo = new RepoClient(apiService);
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     user = await usersActions.createUser();
 
     fileId = (await repo.nodes.createFile(file, '-my-', fileTitle, fileDescription)).entry.id;
@@ -68,22 +68,19 @@ describe('Search results - files and folders', () => {
     await repo.queries.waitForSites(site, { expect: 1 });
 
     await loginPage.login(user.email, user.password);
-    done();
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     await page.refresh();
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await Promise.all([
       repo.nodes.deleteNodeById(fileId),
       repo.nodes.deleteNodeById(fileRussianId),
       repo.nodes.deleteNodeById(folderId),
       repo.sites.deleteSite(site)
     ]);
-    done();
   });
 
   it('[C307002] Results page title', async () => {

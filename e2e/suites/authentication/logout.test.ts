@@ -35,14 +35,12 @@ describe('Logout', () => {
   const apiService = new ApiService();
   const usersActions = new UsersActions(apiService);
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     johnDoe = await usersActions.createUser();
-    done();
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     await loginPage.login(johnDoe.username, johnDoe.password);
-    done();
   });
 
   it('[C213143] Sign out option is available', async () => {

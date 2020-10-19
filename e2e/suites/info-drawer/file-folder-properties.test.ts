@@ -69,7 +69,7 @@ describe('File / Folder properties', () => {
   const usersActions = new UsersActions(apiService);
   const repo = new RepoClient(apiService);
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     user = await usersActions.createUser();
     parentId = (await repo.nodes.createFolder(parent)).entry.id;
     file1Id = (await repo.nodes.createFile(file1.name, parentId, file1.title, file1.description, file1.author)).entry.id;
@@ -77,18 +77,15 @@ describe('File / Folder properties', () => {
     image1Id = (await repo.upload.uploadFile(image1.name, parentId)).entry.id;
 
     await loginPage.login(user.email, user.password);
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await repo.nodes.deleteNodeById(parentId);
-    done();
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     await page.clickPersonalFilesAndWait();
     await dataTable.doubleClickOnRowByName(parent);
-    done();
   });
 
   describe('View properties', () => {
