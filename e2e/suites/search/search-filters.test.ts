@@ -23,7 +23,15 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { SearchResultsPage, RepoClient, Utils, FILES, SITE_VISIBILITY, SITE_ROLES, AdminActions } from '@alfresco/aca-testing-shared';
+import {
+  SearchResultsPage,
+  RepoClient,
+  Utils,
+  FILES,
+  SITE_VISIBILITY,
+  SITE_ROLES,
+  AdminActions
+} from '@alfresco/aca-testing-shared';
 import { ApiService, LoginPage, UsersActions, UserModel } from '@alfresco/adf-testing';
 
 const moment = require('moment');
@@ -80,6 +88,14 @@ describe('Search filters', () => {
   beforeAll(async (done) => {
     user1 = await usersActions.createUser();
     user2 = await usersActions.createUser();
+
+    const apiServiceUser1 = new ApiService();
+    apiServiceUser1.login(user1.username, user1.password);
+    repoUser1 = new RepoClient(apiServiceUser1);
+
+    const apiServiceUser2 = new ApiService();
+    apiServiceUser2.login(user2.username, user2.password);
+    repoUser2 = new RepoClient(apiServiceUser2);
 
     expectedCreators = [`${user1.username} ${user1.username} (1)`, `${user2.username} ${user2.username} (1)`];
     expectedModifiers = [`${user1.username} ${user1.username} (1)`, `${user2.username} ${user2.username} (1)`];
