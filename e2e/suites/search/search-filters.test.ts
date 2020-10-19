@@ -23,15 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  SearchResultsPage,
-  RepoClient,
-  Utils,
-  FILES,
-  SITE_VISIBILITY,
-  SITE_ROLES,
-  AdminActions
-} from '@alfresco/aca-testing-shared';
+import { SearchResultsPage, RepoClient, Utils, FILES, SITE_VISIBILITY, SITE_ROLES, AdminActions } from '@alfresco/aca-testing-shared';
 import { ApiService, LoginPage, UsersActions, UserModel } from '@alfresco/adf-testing';
 
 const moment = require('moment');
@@ -62,8 +54,8 @@ describe('Search filters', () => {
 
   const expectedFileTypes = ['Adobe PDF Document (1)', 'JPEG Image (1)'];
   const expectedLocations = ['_REPOSITORY_ (1)', `${site} (1)`];
-  let expectedCreators:string[];
-  let  expectedModifiers:string[];
+  let expectedCreators: string[];
+  let expectedModifiers: string[];
 
   let repoUser1: RepoClient;
   let repoUser2: RepoClient;

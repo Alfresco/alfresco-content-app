@@ -65,7 +65,6 @@ describe('Special permissions : ', () => {
   const loginPage = new LoginPage();
 
   beforeAll(async () => {
-
     userManager = await usersActions.createUser();
     userConsumer = await usersActions.createUser();
     userCollaborator = await usersActions.createUser();

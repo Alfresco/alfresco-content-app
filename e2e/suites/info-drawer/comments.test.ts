@@ -24,7 +24,7 @@
  */
 
 import { BrowsingPage, RepoClient, CoreActions, InfoDrawer, Utils } from '@alfresco/aca-testing-shared';
-import { ApiService, UsersActions, LoginPage, UserModel  } from '@alfresco/adf-testing';
+import { ApiService, UsersActions, LoginPage, UserModel } from '@alfresco/adf-testing';
 import { browser } from 'protractor';
 
 const moment = require('moment');
