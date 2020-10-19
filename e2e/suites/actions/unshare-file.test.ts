@@ -32,7 +32,8 @@ import {
   ConfirmDialog,
   Viewer,
   Utils,
-  AdminActions
+  AdminActions,
+  CoreActions
 } from '@alfresco/aca-testing-shared';
 import { ApiService, LoginPage, UsersActions, UserModel } from '@alfresco/adf-testing';
 import { browser } from 'protractor';
@@ -55,6 +56,7 @@ describe('Unshare a file', () => {
   const usersActions = new UsersActions(apiService);
   const repo = new RepoClient(apiService);
   const adminActions = new AdminActions(apiService);
+  const coreActions = new CoreActions(apiService);
 
   beforeAll(async (done) => {
     await apiService.getInstance().login(browser.params.testConfig.admin.email, browser.params.testConfig.admin.password);

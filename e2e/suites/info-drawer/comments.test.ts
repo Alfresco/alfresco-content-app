@@ -379,7 +379,7 @@ describe('Comments', () => {
 
       expect(await commentsTab.isCommentDisplayed(commentFile1Entry.id)).toBe(true, `Comment with id: ${commentFile1Entry.id} not displayed`);
       expect(await commentsTab.getCommentText(commentFile1Entry.id)).toBe(commentFile1Entry.content, 'Incorrect comment text');
-      expect(await commentsTab.getCommentUserName(commentFile1Entry.id)).toBe(`${username} ${username}`, 'Incorrect comment user');
+      expect(await commentsTab.getCommentUserName(commentFile1Entry.id)).toBe(`${user.username} ${user.username}`, 'Incorrect comment user');
       expect(await commentsTab.getCommentTime(commentFile1Entry.id)).toBe(
         moment(commentFile1Entry.createdAt).fromNow(),
         'Incorrect comment created time'
@@ -401,7 +401,7 @@ describe('Comments', () => {
 
       expect(await commentsTab.isCommentDisplayed(commentFile1Entry.id)).toBe(true, `Comment with id: ${commentFile1Entry.id} not displayed`);
       expect(await commentsTab.getCommentText(commentFile1Entry.id)).toBe(commentFile1Entry.content, 'Incorrect comment text');
-      expect(await commentsTab.getCommentUserName(commentFile1Entry.id)).toBe(`${username} ${username}`, 'Incorrect comment user');
+      expect(await commentsTab.getCommentUserName(commentFile1Entry.id)).toBe(`${user.username} ${user.username}`, 'Incorrect comment user');
       expect(await commentsTab.getCommentTime(commentFile1Entry.id)).toBe(
         moment(commentFile1Entry.createdAt).fromNow(),
         'Incorrect comment created time'
@@ -423,7 +423,7 @@ describe('Comments', () => {
 
       expect(await commentsTab.isCommentDisplayed(commentFile1Entry.id)).toBe(true, `Comment with id: ${commentFile1Entry.id} not displayed`);
       expect(await commentsTab.getCommentText(commentFile1Entry.id)).toBe(commentFile1Entry.content, 'Incorrect comment text');
-      expect(await commentsTab.getCommentUserName(commentFile1Entry.id)).toBe(`${username} ${username}`, 'Incorrect comment user');
+      expect(await commentsTab.getCommentUserName(commentFile1Entry.id)).toBe(`${user.username} ${user.username}`, 'Incorrect comment user');
       expect(await commentsTab.getCommentTime(commentFile1Entry.id)).toBe(
         moment(commentFile1Entry.createdAt).fromNow(),
         'Incorrect comment created time'
@@ -445,7 +445,7 @@ describe('Comments', () => {
 
       expect(await commentsTab.isCommentDisplayed(commentFile1Entry.id)).toBe(true, `Comment with id: ${commentFile1Entry.id} not displayed`);
       expect(await commentsTab.getCommentText(commentFile1Entry.id)).toBe(commentFile1Entry.content, 'Incorrect comment text');
-      expect(await commentsTab.getCommentUserName(commentFile1Entry.id)).toBe(`${username} ${username}`, 'Incorrect comment user');
+      expect(await commentsTab.getCommentUserName(commentFile1Entry.id)).toBe(`${user.username} ${user.username}`, 'Incorrect comment user');
       expect(await commentsTab.getCommentTime(commentFile1Entry.id)).toBe(
         moment(commentFile1Entry.createdAt).fromNow(),
         'Incorrect comment created time'

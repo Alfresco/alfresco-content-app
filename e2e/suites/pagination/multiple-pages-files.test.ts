@@ -70,34 +70,34 @@ describe('Pagination on multiple pages : ', () => {
   });
 
   describe('on Personal Files', () => {
-    personalFilesTests(user.username, parent);
+    personalFilesTests(user, parent);
   });
 
   describe('on Recent Files', () => {
     beforeAll(async () => {
       await repo.search.waitForApi(user.username, { expect: initialSearchTotalItems + 101 });
     }, 120000);
-    recentFilesTests(user.username);
+    recentFilesTests(user);
   });
 
   describe('on Search Results', () => {
     beforeAll(async () => {
       await repo.search.waitForApi(user.username, { expect: initialSearchTotalItems + 101 });
     }, 120000);
-    searchResultsTests(user.username);
+    searchResultsTests(user);
   });
 
   describe('on Shared Files', () => {
     beforeAll(async () => {
       await repo.shared.waitForApi({ expect: initialSharedTotalItems + 101 });
     }, 120000);
-    sharedFilesTests(user.username);
+    sharedFilesTests(user);
   });
 
   describe('on Favorites', () => {
     beforeAll(async () => {
       await repo.favorites.waitForApi({ expect: initialFavoritesTotalItems + 101 });
     }, 120000);
-    favoritesTests(user.username);
+    favoritesTests(user);
   });
 });

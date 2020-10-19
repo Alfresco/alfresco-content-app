@@ -24,9 +24,9 @@
  */
 
 import { BrowsingPage, Utils } from '@alfresco/aca-testing-shared';
-import { LoginPage } from '@alfresco/adf-testing';
+import { LoginPage, UserModel } from '@alfresco/adf-testing';
 
-export function personalFilesTests(username: string, parentName: string) {
+export function personalFilesTests(user: UserModel, parentName: string) {
   const page = new BrowsingPage();
   const loginPage = new LoginPage();
   const { dataTable, pagination } = page;

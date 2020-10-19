@@ -24,16 +24,16 @@
  */
 
 import { BrowsingPage, Utils } from '@alfresco/aca-testing-shared';
-import { LoginPage } from '@alfresco/adf-testing';
+import { LoginPage, UserModel } from '@alfresco/adf-testing';
 
-export function recentFilesTests(username: string) {
+export function recentFilesTests(user: UserModel) {
   const page = new BrowsingPage();
   const loginPage = new LoginPage();
   const { dataTable, pagination } = page;
 
   describe('Pagination controls : ', () => {
     beforeAll(async () => {
-      await loginPage(user.email, user.password);
+      await loginPage.login(user.email, user.password);
       await page.clickRecentFilesAndWait();
     });
 

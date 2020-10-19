@@ -25,10 +25,10 @@
 
 import { browser } from 'protractor';
 import { BrowsingPage, Utils, RepoClient, CoreActions } from '@alfresco/aca-testing-shared';
-import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UserModel, UsersActions } from '@alfresco/adf-testing';
 
 describe('Generic errors', () => {
-  let user, username2;
+  let user: UserModel, username2: UserModel;
 
   const parent = `folder-${Utils.random()}`;
   let parentId: string;
@@ -89,7 +89,7 @@ describe('Generic errors', () => {
     await dataTable.doubleClickOnRowByName(parent);
     await dataTable.doubleClickOnRowByName(file2);
     const URL = await browser.getCurrentUrl();
-    await loginPage.login(username2, username2);
+    await loginPage.login(username2.username, username2.password);
     await browser.get(URL);
 
     expect(await page.genericError.isDisplayed()).toBe(true, 'Generic error page not displayed');

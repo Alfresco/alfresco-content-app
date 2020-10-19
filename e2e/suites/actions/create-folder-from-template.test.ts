@@ -33,7 +33,7 @@ import {
   NodeContentTree,
   AdminActions
 } from '@alfresco/aca-testing-shared';
-import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, UsersActions, LoginPage, UserModel } from '@alfresco/adf-testing';
 
 describe('Create folder from template', () => {
   const random = Utils.random();

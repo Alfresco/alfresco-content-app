@@ -24,10 +24,10 @@
  */
 
 import { BrowsingPage, RepoClient, InfoDrawer, Utils } from '@alfresco/aca-testing-shared';
-import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UserModel, UsersActions } from '@alfresco/adf-testing';
 
 describe('General', () => {
-  const user = `user1-${Utils.random()}`;
+  let user: UserModel;
 
   const parent = `parent-${Utils.random()}`;
   let parentId: string;

@@ -24,13 +24,13 @@
  */
 
 import { browser } from 'protractor';
-import { BrowsingPage, Utils, APP_ROUTES } from '@alfresco/aca-testing-shared';
-import { UsersActions, ApiService, LoginPage } from '@alfresco/adf-testing';
+import { BrowsingPage, APP_ROUTES } from '@alfresco/aca-testing-shared';
+import { UsersActions, ApiService, LoginPage, UserModel } from '@alfresco/adf-testing';
 
 describe('Logout', () => {
   const page = new BrowsingPage();
   const loginPage = new LoginPage();
-  let johnDoe;
+  let johnDoe: UserModel;
 
   const apiService = new ApiService();
   const usersActions = new UsersActions(apiService);

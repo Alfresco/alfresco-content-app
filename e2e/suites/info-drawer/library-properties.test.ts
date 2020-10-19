@@ -24,10 +24,12 @@
  */
 
 import { BrowsingPage, SITE_VISIBILITY, SITE_ROLES, RepoClient, InfoDrawer, Utils } from '@alfresco/aca-testing-shared';
-import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, UsersActions, LoginPage, UserModel } from '@alfresco/adf-testing';
 
 describe('Library properties', () => {
-  let user, user2, user3;
+  let user: UserModel;
+  let user2: UserModel;
+  let user3: UserModel;
 
   const site = {
     name: `site1-${Utils.random()}`,
@@ -71,8 +73,8 @@ describe('Library properties', () => {
     await repo.sites.createSite(siteForUpdate.name, siteForUpdate.visibility, siteForUpdate.description, siteForUpdate.id);
     await repo.sites.createSite(siteDup);
 
-    await repo.sites.addSiteMember(site.id, user2, SITE_ROLES.SITE_COLLABORATOR.ROLE);
-    await repo.sites.addSiteMember(site.id, user3, SITE_ROLES.SITE_MANAGER.ROLE);
+    await repo.sites.addSiteMember(site.id, user2.username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
+    await repo.sites.addSiteMember(site.id, user3.username, SITE_ROLES.SITE_MANAGER.ROLE);
 
     await loginPage.login(user.email, user.password);
     done();
@@ -228,14 +230,14 @@ describe('Library properties', () => {
     });
 
     it('[C289337] Info drawer button is not displayed when user is not the library manager', async () => {
-      await loginPage.login(user2, user2);
+      await loginPage.login(user2.username, user2.password);
       await page.goToMyLibrariesAndWait();
       await dataTable.selectItem(site.name);
       expect(await page.toolbar.isButtonPresent('View Details')).toBe(false, 'View Details is present');
     });
 
     it('[C289344] Error notification', async () => {
-      await loginPage.login(user3, user3);
+      await loginPage.login(user3.username, user3.password);
 
       await page.goToMyLibrariesAndWait();
       await dataTable.selectItem(site.name);
@@ -243,7 +245,7 @@ describe('Library properties', () => {
       await infoDrawer.waitForInfoDrawerToOpen();
       await aboutTab.clickEditLibraryProperties();
 
-      await repo.sites.updateSiteMember(site.id, user3, SITE_ROLES.SITE_CONSUMER.ROLE);
+      await repo.sites.updateSiteMember(site.id, user3.username, SITE_ROLES.SITE_CONSUMER.ROLE);
 
       await aboutTab.enterDescription('new description');
       await aboutTab.clickUpdate();

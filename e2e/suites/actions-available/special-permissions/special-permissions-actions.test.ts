@@ -150,7 +150,7 @@ describe('Special permissions : ', () => {
     await userManagerApi.nodes.lockFile(fileSharedLockedId);
     await userManagerApi.nodes.lockFile(fileSharedFavLockedId);
 
-    await userManagerApi.nodes.setGranularPermission(fileGranularPermissionId, false, userConsumer, SITE_ROLES.SITE_MANAGER.ROLE);
+    await userManagerApi.nodes.setGranularPermission(fileGranularPermissionId, false, userConsumer.username, SITE_ROLES.SITE_MANAGER.ROLE);
 
     await userManagerApi.favorites.addFavoriteById('file', fileLockedByUserId);
 
@@ -172,7 +172,7 @@ describe('Special permissions : ', () => {
 
   describe('Consumer', () => {
     beforeAll(async () => {
-      await loginPage.login(userConsumer, userConsumer);
+      await loginPage.login(userConsumer.username, userConsumer.password);
     });
 
     describe('on File Libraries', () => {

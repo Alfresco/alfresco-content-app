@@ -29,7 +29,10 @@ import { browser } from 'protractor';
 
 describe('Destination picker dialog : ', () => {
   const random = Utils.random();
-  let user, consumer, contributor, collaborator : UserModel;
+  let user: UserModel;
+  let consumer: UserModel;
+  let contributor: UserModel;
+  let collaborator: UserModel;
 
   const file = `file-${random}.txt`;
   let fileId: string;
@@ -300,7 +303,7 @@ describe('Destination picker dialog : ', () => {
 
   describe('Users with different permissions', () => {
     it('[C263876] Consumer user cannot select the folder as destination', async () => {
-      await loginPage.login(consumer, consumer);
+      await loginPage.login(consumer.username, consumer.password);
       await page.dataTable.selectItem(file);
       await page.toolbar.clickMoreActionsCopy();
       await dialog.waitForDialogToOpen();
@@ -314,7 +317,7 @@ describe('Destination picker dialog : ', () => {
     });
 
     it('[C263877] Contributor user can select the folder as destination', async () => {
-      await loginPage.login(contributor, contributor);
+      await loginPage.login(contributor.username, contributor.password);
       await page.dataTable.selectItem(file);
       await page.toolbar.clickMoreActionsCopy();
       await dialog.waitForDialogToOpen();
