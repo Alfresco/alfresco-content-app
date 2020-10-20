@@ -35,7 +35,7 @@ describe('Sidebar', () => {
   const { searchInput } = searchResultsPage.header;
 
   beforeAll(async () => {
-    await loginPage.login(browser.params.testConfig.users.admin.username, browser.params.testConfig.users.admin.password);
+    await loginPage.loginWithProfile('admin');
   });
 
   beforeEach(async () => {
@@ -198,7 +198,7 @@ describe('Sidebar', () => {
   it('[C269102] sidebar state is preserved after logout / login', async () => {
     await header.collapseSideNav();
     await page.signOut();
-    await loginPage.login(browser.params.testConfig.users.admin.username, browser.params.testConfig.users.admin.password);
+    await loginPage.loginWithProfile('admin');
 
     expect(await header.isSidenavExpanded()).toBe(false, 'Sidebar not collapsed');
   });

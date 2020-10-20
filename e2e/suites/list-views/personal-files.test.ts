@@ -58,7 +58,7 @@ describe('Personal Files', () => {
 
   describe(`Admin user's personal files`, () => {
     beforeAll(async () => {
-      await loginPage.login(browser.params.testConfig.users.admin.username, browser.params.testConfig.users.admin.password);
+      await loginPage.loginWithProfile('admin');
     });
 
     beforeEach(async () => {

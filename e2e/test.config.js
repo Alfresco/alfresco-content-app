@@ -9,12 +9,14 @@ const HOST = process.env.E2E_HOST;
 
 const LOG = process.env.LOG;
 
-const HOST_ECM = process.env.PROXY_HOST_ADF || HOST || 'ecm';
-const HOST_BPM = process.env.PROXY_HOST_ADF || HOST || 'bpm';
+const API_CONTENT_HOST = process.env.API_CONTENT_HOST || 'api';
+const API_PROCESS_HOST = process.env.API_PROCESS_HOST || 'api';
+const OAUTH_HOST = process.env.OAUTH_HOST || 'keycloak';
+const IDENTITY_HOST = process.env.IDENTITY_HOST || 'identity-host-default-replaced-value';
+const PROVIDER = process.env.PROVIDER || 'ECM';
 
 const AUTH_TYPE = process.env.AUTH_TYPE ? process.env.AUTH_TYPE : 'BASIC';
 
-const HOST_SSO = process.env.HOST_SSO || process.env.PROXY_HOST_ADF || HOST || 'oauth';
 const OAUTH_CLIENT_ID = process.env.OAUTH_CLIENDID || 'alfresco';
 
 const REDIRECT_URI = process.env.REDIRECT_URI || "/";
@@ -25,13 +27,13 @@ const LOG_LEVEL = process.env.LOG_LEVEL || 'ERROR';
 
 const appConfig = {
     "log": LOG_LEVEL,
-    "ecmHost": HOST_ECM,
-    "bpmHost": HOST_BPM,
-    "identityHost": `${HOST_SSO}/auth/admin/realms/alfresco`,
-    "provider": "ECM",
+    "ecmHost": API_CONTENT_HOST,
+    "bpmHost": API_PROCESS_HOST,
+    "identityHost": `${IDENTITY_HOST}/auth/admin/realms/alfresco`,
+    "provider": PROVIDER,
     "authType": AUTH_TYPE,
     "oauth2": {
-        "host": `${HOST_SSO}/auth/realms/alfresco`,
+        "host": `${OAUTH_HOST}/auth/realms/alfresco`,
         "clientId": OAUTH_CLIENT_ID,
         "scope": "openid",
         "secret": "",
@@ -48,15 +50,6 @@ const appConfig = {
     }
 };
 
-if (LOG) {
-    console.log('======= test.config.js hostBPM ====== ');
-    console.log('hostBPM : ' + HOST_ECM);
-    console.log('hostECM : ' + HOST_BPM);
-    console.log('HOST : ' + HOST);
-    console.log('ADMIN : ' + ADMIN_USERNAME + ' PASSWORD_ADF : ' + ADMIN_PASSWORD);
-    console.log('IDENTITY_ADMIN_EMAIL : ' + IDENTITY_USERNAME+ ' IDENTITY_ADMIN_PASSWORD : ' + IDENTITY_ADMIN_PASSWORD);
-}
-
 module.exports = {
 
     projectName: 'ACA',
@@ -69,16 +62,12 @@ module.exports = {
         rootPath: __dirname
     },
 
-  admin: {
-    email: process.env.ADMIN_USERNAME,
-    password: process.env.ADMIN_PASSWORD
-  },
-
     users: {
       admin: {
         username: process.env.ADMIN_USERNAME,
         password: process.env.ADMIN_PASSWORD
       },
+
       identityAdmin: {
         username: process.env.IDENTITY_ADMIN_USERNAME,
         password: process.env.IDENTITY_ADMIN_PASSWORD

@@ -63,7 +63,7 @@ describe('Share a file', () => {
   const adminActions = new AdminActions(apiService);
 
   beforeAll(async () => {
-    await apiService.getInstance().login(browser.params.testConfig.users.admin.username, browser.params.testConfig.users.admin.password);
+    await apiService.getInstance().loginWithProfile('admin')
     user = await usersActions.createUser();
     await apiService.getInstance().login(user.email, user.password);
 
