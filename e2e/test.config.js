@@ -6,7 +6,6 @@
 require('dotenv').config({path: process.env.ENV_FILE});
 
 const HOST = process.env.E2E_HOST;
-
 const LOG = process.env.LOG;
 
 const API_CONTENT_HOST = process.env.API_CONTENT_HOST || 'api';

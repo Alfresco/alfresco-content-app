@@ -25,7 +25,6 @@
 
 import { SITE_VISIBILITY, SITE_ROLES, BrowsingPage, Utils, RepoClient, CoreActions, AdminActions } from '@alfresco/aca-testing-shared';
 import { ApiService, LoginPage, UsersActions, UserModel } from '@alfresco/adf-testing';
-import { browser } from 'protractor';
 
 describe('Favorites', () => {
   let user: UserModel;
@@ -49,7 +48,7 @@ describe('Favorites', () => {
   const adminActions = new AdminActions(apiService);
 
   beforeAll(async () => {
-    await apiService.getInstance().loginWithProfile('admin')
+    await apiService.loginWithProfile('admin');
     user = await usersActions.createUser();
     await apiService.getInstance().login(user.email, user.password);
 

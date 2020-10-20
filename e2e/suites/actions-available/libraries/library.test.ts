@@ -27,7 +27,6 @@ import { BrowsingPage, SearchResultsPage, RepoClient, Utils, AdminActions, CoreA
 import * as testData from './test-data-libraries';
 import * as testUtil from '../test-util';
 import { ApiService, LoginPage, UsersActions, UserModel } from '@alfresco/adf-testing';
-import { browser } from 'protractor';
 
 describe('Library actions : ', () => {
   let user: UserModel;
@@ -44,7 +43,7 @@ describe('Library actions : ', () => {
   const { searchInput } = searchResultsPage.header;
 
   beforeAll(async () => {
-    await apiService.getInstance().loginWithProfile('admin')
+    await apiService.loginWithProfile('admin');
     user = await usersActions.createUser();
     await apiService.getInstance().login(user.email, user.password);
 

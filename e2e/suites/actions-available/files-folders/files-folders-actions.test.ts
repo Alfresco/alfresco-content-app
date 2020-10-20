@@ -33,7 +33,6 @@ import { sharedFilesTests } from './shared-files';
 import { viewerTests } from './viewer';
 import { trashTests } from './trash';
 import { ApiService, LoginPage, UsersActions, UserModel } from '@alfresco/adf-testing';
-import { browser } from 'protractor';
 
 describe('Files / folders actions : ', () => {
   const random = Utils.random();
@@ -66,7 +65,7 @@ describe('Files / folders actions : ', () => {
   const loginPage = new LoginPage();
 
   beforeAll(async () => {
-    await apiService.getInstance().loginWithProfile('admin')
+    await apiService.loginWithProfile('admin');
     user = await usersActions.createUser();
     await apiService.getInstance().login(user.email, user.password);
 

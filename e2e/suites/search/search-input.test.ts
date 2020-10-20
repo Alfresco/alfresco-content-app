@@ -33,7 +33,7 @@ describe('Search input', () => {
   const { searchInput } = page.header;
 
   beforeAll(async () => {
-    await loginPage.loginWithProfile('admin');
+    await loginPage.login(browser.params.testConfig.users.admin.username, browser.params.testConfig.users.admin.password);
   });
 
   beforeEach(async () => {

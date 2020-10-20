@@ -65,7 +65,7 @@ describe('Trash', () => {
   const coreActions = new CoreActions(apiService);
 
   beforeAll(async () => {
-    await apiService.getInstance().loginWithProfile('admin')
+    await apiService.loginWithProfile('admin');
     user = await usersActions.createUser();
     await apiService.getInstance().login(user.email, user.password);
 
@@ -98,7 +98,7 @@ describe('Trash', () => {
 
   describe('as admin', () => {
     beforeAll(async () => {
-      await loginPage.loginWithProfile('admin');
+      await loginPage.login(browser.params.testConfig.users.admin.username, browser.params.testConfig.users.admin.password);
     });
 
     beforeEach(async () => {

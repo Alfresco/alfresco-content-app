@@ -25,7 +25,6 @@
 
 import { BrowsingPage, Utils, RepoClient, CoreActions } from '@alfresco/aca-testing-shared';
 import { ApiService, LoginPage, UsersActions, UserModel } from '@alfresco/adf-testing';
-import { browser } from 'protractor';
 
 describe('Pagination on multiple pages on Trash', () => {
   const random = Utils.random();
@@ -46,7 +45,7 @@ describe('Pagination on multiple pages on Trash', () => {
   const { dataTable, pagination } = page;
 
   beforeAll(async () => {
-    await apiService.getInstance().loginWithProfile('admin')
+    await apiService.loginWithProfile('admin');
     user = await usersActions.createUser();
     await apiService.getInstance().login(user.email, user.password);
 

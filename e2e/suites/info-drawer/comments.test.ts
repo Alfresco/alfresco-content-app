@@ -25,7 +25,6 @@
 
 import { BrowsingPage, RepoClient, CoreActions, InfoDrawer, Utils } from '@alfresco/aca-testing-shared';
 import { ApiService, UsersActions, LoginPage, UserModel } from '@alfresco/adf-testing';
-import { browser } from 'protractor';
 
 const moment = require('moment');
 
@@ -69,7 +68,7 @@ describe('Comments', () => {
   const repo = new RepoClient(apiService);
 
   beforeAll(async () => {
-    await apiService.getInstance().loginWithProfile('admin')
+    await apiService.loginWithProfile('admin');
     user = await usersActions.createUser();
     await apiService.getInstance().login(user.email, user.password);
 

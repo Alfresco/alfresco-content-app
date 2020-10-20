@@ -25,7 +25,6 @@
 
 import { BrowsingPage, Viewer, RepoClient, Utils, CoreActions } from '@alfresco/aca-testing-shared';
 import { ApiService, LoginPage, UsersActions, UserModel } from '@alfresco/adf-testing';
-import { browser } from 'protractor';
 
 describe('Single click on item name', () => {
   let user: UserModel;
@@ -55,7 +54,7 @@ describe('Single click on item name', () => {
   const coreActions = new CoreActions(apiService);
 
   beforeAll(async () => {
-    await apiService.getInstance().loginWithProfile('admin')
+    await apiService.loginWithProfile('admin');
     user = await usersActions.createUser();
     await apiService.getInstance().login(user.email, user.password);
 

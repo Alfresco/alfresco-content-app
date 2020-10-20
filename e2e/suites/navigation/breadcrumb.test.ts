@@ -196,7 +196,7 @@ describe('Breadcrumb', () => {
       user2 = await usersActions.createUser();
 
       userFolderId = (await user2Api.nodes.createFolder(userFolder)).entry.id;
-      await loginPage.loginWithProfile('admin');
+      await loginPage.login(browser.params.testConfig.users.admin.username, browser.params.testConfig.users.admin.password);
       await page.dataTable.waitForBody();
 
       await page.dataTable.sortByModified('desc');

@@ -46,7 +46,7 @@ describe('Generic errors', () => {
   const coreActions = new CoreActions(apiService);
 
   beforeAll(async () => {
-    await apiService.getInstance().loginWithProfile('admin')
+    await apiService.loginWithProfile('admin');
     user = await usersActions.createUser();
     username2 = await usersActions.createUser();
     await apiService.getInstance().login(user.email, user.password);

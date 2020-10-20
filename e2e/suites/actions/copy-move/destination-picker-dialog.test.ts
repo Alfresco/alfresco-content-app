@@ -345,7 +345,7 @@ describe('Destination picker dialog : ', () => {
     });
 
     it('[C263892] Admin user - Personal Files breadcrumb main node', async () => {
-      await loginPage.loginWithProfile('admin');
+      await loginPage.login(browser.params.testConfig.users.admin.username, browser.params.testConfig.users.admin.password);
       await page.dataTable.selectItem(adminFolder);
       await page.toolbar.clickMoreActionsCopy();
       await dialog.waitForDialogToOpen();

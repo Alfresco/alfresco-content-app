@@ -25,7 +25,6 @@
 
 import { BrowsingPage, ContentNodeSelectorDialog, RepoClient, Utils, CoreActions } from '@alfresco/aca-testing-shared';
 import { UsersActions, LoginPage, ApiService, UserModel } from '@alfresco/adf-testing';
-import { browser } from 'protractor';
 
 describe('Copy content', () => {
   let user: UserModel;
@@ -113,7 +112,7 @@ describe('Copy content', () => {
   const coreActions = new CoreActions(apiService);
 
   beforeAll(async () => {
-    await apiService.getInstance().loginWithProfile('admin')
+    await apiService.loginWithProfile('admin');
     user = await usersActions.createUser();
     await apiService.getInstance().login(user.email, user.password);
 
