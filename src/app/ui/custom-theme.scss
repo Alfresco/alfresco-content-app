@@ -3,7 +3,6 @@
 
 @import '../components/sidenav/sidenav.component.theme';
 @import '../components/search/search-input/search-input.component.theme';
-@import '../dialogs/node-versions/node-versions.dialog.theme';
 @import '../components/create-menu/create-menu.component.scss';
 @import '../dialogs/node-template/create-from-template.dialog.scss';
 @import '../components/toolbar/toolbar-action/toolbar-actions.component.scss';
@@ -30,7 +29,6 @@ $primary: map-get($custom-theme, primary);
   @include adf-core-theme($theme);
 
   @include aca-search-input-theme($theme);
-  @include aca-node-versions-dialog-theme($theme);
   @include sidenav-component-theme($theme);
   @include app-create-from-template-theme($theme);
   @include app-create-menu-theme($theme);
