@@ -29,6 +29,7 @@ import { ContentActionRef } from '@alfresco/adf-extensions';
 @Component({
   selector: 'aca-toolbar-action',
   templateUrl: './toolbar-action.component.html',
+  styleUrls: ['./toolbar-action.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'aca-toolbar-action' }
