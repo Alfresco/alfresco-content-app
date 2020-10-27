@@ -750,37 +750,6 @@ describe('AppExtensionService', () => {
 
       expect(service.userActions.length).toBe(2);
     });
-
-    it('should sort user actions by order', () => {
-      applyConfig({
-        $id: 'test',
-        $name: 'test',
-        $version: '1.0.0',
-        $license: 'MIT',
-        $vendor: 'Good company',
-        $runtime: '1.5.0',
-        features: {
-          userActions: [
-            {
-              id: 'aca:toolbar/action-2',
-              order: 2,
-              type: ContentActionType.button,
-              title: 'action2'
-            },
-            {
-              id: 'aca:toolbar/action-1',
-              order: 1,
-              type: ContentActionType.button,
-              title: 'action1'
-            }
-          ]
-        }
-      });
-
-      const actions = service.getUserActions();
-      expect(actions[0].id).toBe('aca:toolbar/action-1');
-      expect(actions[1].id).toBe('aca:toolbar/action-2');
-    });
   });
 
   describe('getHeaderActions', () => {

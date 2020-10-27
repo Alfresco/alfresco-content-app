@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { CoreModule, AuthGuardEcm } from '@alfresco/adf-core';
+import { CoreModule, AuthGuardEcm, UserInfoComponent } from '@alfresco/adf-core';
 import { CommonModule } from '@angular/common';
 import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 import { AppLayoutComponent } from '../components/layout/app-layout/app-layout.component';
@@ -52,7 +52,6 @@ import { ToggleSharedComponent } from '../components/common/toggle-shared/toggle
 import { ViewNodeComponent } from '../components/toolbar/view-node/view-node.component';
 import { LanguagePickerComponent } from '../components/common/language-picker/language-picker.component';
 import { LogoutComponent } from '../components/common/logout/logout.component';
-import { CurrentUserComponent } from '../components/current-user/current-user.component';
 import { AppExtensionService, ExtensionsDataLoaderGuard } from '@alfresco/aca-shared';
 import { PreviewComponent } from '../components/preview/preview.component';
 
@@ -109,7 +108,7 @@ export class CoreExtensionsModule {
       'app.toolbar.viewNode': ViewNodeComponent,
       'app.languagePicker': LanguagePickerComponent,
       'app.logout': LogoutComponent,
-      'app.user': CurrentUserComponent
+      'app.user': UserInfoComponent
     });
 
     extensions.setAuthGuards({

@@ -27,12 +27,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
 import { AppHeaderComponent } from './header.component';
-import { AppCurrentUserModule } from '../current-user/current-user.module';
 import { AppSearchInputModule } from '../search/search-input.module';
 import { AppToolbarModule } from '../toolbar/toolbar.module';
 
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild(), AppCurrentUserModule, AppSearchInputModule, AppToolbarModule],
+  imports: [CommonModule, CoreModule.forChild(), AppSearchInputModule, AppToolbarModule],
   declarations: [AppHeaderComponent],
   exports: [AppHeaderComponent]
 })
