@@ -1,35 +1,29 @@
-@import '~@angular/material/theming';
+.app-header {
+  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.02), 0px 6px 10px 0px rgba(0, 0, 0, 0.014), 0px 1px 18px 0px rgba(0, 0, 0, 0.012);
+  z-index: 2;
 
-@mixin app-header-theme($theme) {
-  $foreground: map-get($theme, foreground);
+  .mat-toolbar {
+    background-image: var(--header-background-image) !important;
+    background-repeat: no-repeat !important;
 
-  .app-header {
-    @include mat-elevation(6, #000000, 0.1);
-    z-index: 2;
+    .adf-app-title {
+      color: var(--theme-foreground-text-color);
+    }
 
-    .mat-toolbar {
-      background-image: var(--header-background-image) !important;
-      background-repeat: no-repeat !important;
+    .adf-menu-icon {
+      color: var(--theme-foreground-text-color) !important;
+    }
 
-      .adf-app-title {
-        color: mat-color($foreground, text, 0.72);
-      }
+    .aca-current-user {
+      color: var(--theme-foreground-text-color) !important;
+    }
 
-      .adf-menu-icon {
-        color: mat-color($foreground, text, 0.72) !important;
-      }
+    .adf-toolbar-divider div {
+      background-color: var(--theme-foreground-text-color) !important;
+    }
 
-      .aca-current-user {
-        color: mat-color($foreground, text, 0.72) !important;
-      }
-
-      .adf-toolbar-divider div {
-        background-color: mat-color($foreground, text, 0.72) !important;
-      }
-
-      .app-toolbar-menu {
-        color: mat-color($foreground, text, 0.72) !important;
-      }
+    .app-toolbar-menu {
+      color: var(--theme-foreground-text-color) !important;
     }
   }
 }

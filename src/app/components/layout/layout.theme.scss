@@ -1,7 +1,0 @@
-@import './app-layout/app-layout.theme.scss';
-@import '../header/header.component.scss';
-
-@mixin layout-theme($theme) {
-  @include app-layout-theme($theme);
-  @include app-header-theme($theme);
-}

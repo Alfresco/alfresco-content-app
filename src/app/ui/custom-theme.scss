@@ -8,7 +8,6 @@
 @import '../components/dl-custom-components/name-column/name-column.component.scss';
 @import '../dialogs/node-versions/node-versions.dialog.theme';
 @import '../components/create-menu/create-menu.component.scss';
-@import '../components/layout/layout.theme.scss';
 @import '../dialogs/node-template/create-from-template.dialog.scss';
 @import '../components/toolbar/toolbar-action/toolbar-actions.component.scss';
 
@@ -32,7 +31,6 @@ $warn: map-get($custom-theme, warn);
   @include adf-content-services-theme($theme);
   @include adf-core-theme($theme);
 
-  @include layout-theme($theme);
   @include aca-search-input-theme($theme);
   @include aca-result-row-theme($theme);
   @include app-permission-manager-theme($theme);
@@ -84,7 +82,8 @@ $defaults: (
   --theme-text-disabled-color: mat-color($foreground, text, 0.38),
   --theme-border-color: mat-color($foreground, text, 0.07),
   --header-background-image: url('/assets/images/mastHead-bg-shapesPattern.svg'),
-  --theme-card-background-color: mat-color($background, card)
+  --theme-card-background-color: mat-color($background, card),
+  --theme-foreground-text-color: mat-color($foreground, text, 0.72)
 );
 
 // propagates SCSS variables into the CSS variables scope

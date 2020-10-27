@@ -37,6 +37,7 @@ import { Directionality } from '@angular/cdk/bidi';
 @Component({
   selector: 'app-layout',
   templateUrl: './app-layout.component.html',
+  styleUrls: ['./app-layout.component.scss'],
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-layout' }
 })
