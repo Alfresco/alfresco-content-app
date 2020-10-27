@@ -1,0 +1,40 @@
+aca-permissions-dialog-panel {
+  height: 400px;
+}
+
+.aca-node-permissions-dialog {
+  .mat-dialog-title {
+    font-size: 20px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.6;
+    margin: 0;
+    letter-spacing: -0.5px;
+    color: var(--theme-foreground-text-bold-color);
+  }
+
+  .mat-dialog-content {
+    flex: 1 1 auto;
+    position: relative;
+    overflow: auto;
+
+    adf-permission-list {
+      display: flex;
+    }
+  }
+
+  .mat-dialog-actions {
+    flex: 0 0 auto;
+
+    padding: 8px 8px 24px 8px;
+    display: flex;
+    justify-content: flex-end;
+    color: var(--theme-text-color);
+
+    button {
+      text-transform: uppercase;
+      font-weight: normal;
+    }
+  }
+}

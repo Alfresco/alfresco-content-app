@@ -3,8 +3,6 @@
 
 @import '../components/sidenav/sidenav.component.theme';
 @import '../components/search/search-input/search-input.component.theme';
-@import '../components/search/search-results-row/search-results-row.component.scss';
-@import '../components/permissions/permission-manager/permission-manager.component.theme';
 @import '../dialogs/node-versions/node-versions.dialog.theme';
 @import '../components/create-menu/create-menu.component.scss';
 @import '../dialogs/node-template/create-from-template.dialog.scss';
@@ -32,8 +30,6 @@ $primary: map-get($custom-theme, primary);
   @include adf-core-theme($theme);
 
   @include aca-search-input-theme($theme);
-  @include aca-result-row-theme($theme);
-  @include app-permission-manager-theme($theme);
   @include aca-node-versions-dialog-theme($theme);
   @include sidenav-component-theme($theme);
   @include app-create-from-template-theme($theme);
@@ -78,12 +74,14 @@ $defaults: (
   --theme-warn-color: mat-color($warn),
   --theme-accent-color: mat-color($accent),
   --theme-text-color: mat-color($foreground, text, 0.54),
+  --theme-text-bold-color: mat-color($foreground, text, 0.87),
   --theme-title-color: mat-color($foreground, text, 0.87),
   --theme-text-disabled-color: mat-color($foreground, text, 0.38),
   --theme-border-color: mat-color($foreground, text, 0.07),
   --header-background-image: url('/assets/images/mastHead-bg-shapesPattern.svg'),
   --theme-card-background-color: mat-color($background, card),
-  --theme-foreground-text-color: mat-color($foreground, text, 0.72)
+  --theme-foreground-text-color: mat-color($foreground, text, 0.72),
+  --theme-foreground-text-bold-color: mat-color($foreground, text, 0.87)
 );
 
 // propagates SCSS variables into the CSS variables scope

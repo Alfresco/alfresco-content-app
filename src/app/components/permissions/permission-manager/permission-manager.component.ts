@@ -26,7 +26,7 @@
 import { AppStore, SnackbarErrorAction } from '@alfresco/aca-shared/store';
 import { NodePermissionDialogService, PermissionListComponent } from '@alfresco/adf-content-services';
 import { MinimalNodeEntryEntity } from '@alfresco/js-api';
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { ContentApiService } from '@alfresco/aca-shared';
@@ -34,7 +34,9 @@ import { NodePermissionsDialogComponent } from '../permission-dialog/node-permis
 
 @Component({
   selector: 'app-permission-manager',
-  templateUrl: './permission-manager.component.html'
+  templateUrl: './permission-manager.component.html',
+  styleUrls: ['permission-manager.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class PermissionsManagerComponent implements OnInit {
   @ViewChild('permissionList', { static: true })
