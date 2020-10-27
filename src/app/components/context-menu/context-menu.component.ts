@@ -38,7 +38,6 @@ import { AppExtensionService } from '@alfresco/aca-shared';
 @Component({
   selector: 'aca-context-menu',
   templateUrl: './context-menu.component.html',
-  styleUrls: ['./context-menu.component.theme.scss'],
   host: {
     class: 'aca-context-menu-holder'
   },
