@@ -45,7 +45,7 @@ export class SnackbarEffects {
   infoEffect = this.actions$.pipe(
     ofType<SnackbarInfoAction>(SnackbarActionTypes.Info),
     map((action: SnackbarInfoAction) => {
-      this.showSnackBar(action, 'info-snackbar');
+      this.showSnackBar(action, 'adf-info-snackbar');
     })
   );
 
@@ -53,7 +53,7 @@ export class SnackbarEffects {
   warningEffect = this.actions$.pipe(
     ofType<SnackbarWarningAction>(SnackbarActionTypes.Warning),
     map((action: SnackbarWarningAction) => {
-      this.showSnackBar(action, 'warning-snackbar');
+      this.showSnackBar(action, 'adf-warning-snackbar');
     })
   );
 
@@ -61,7 +61,7 @@ export class SnackbarEffects {
   errorEffect = this.actions$.pipe(
     ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
     map((action: SnackbarErrorAction) => {
-      this.showSnackBar(action, 'error-snackbar');
+      this.showSnackBar(action, 'adf-error-snackbar');
     })
   );
 

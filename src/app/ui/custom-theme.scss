@@ -12,7 +12,6 @@
 
 @import './overrides/adf-style-fixes.theme';
 
-@import 'snackbar';
 @import 'colors';
 
 @include mat-core();
@@ -24,6 +23,8 @@ $custom-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent, $cus
 $foreground: map-get($custom-theme, foreground);
 $background: map-get($custom-theme, background);
 $warn: map-get($custom-theme, warn);
+$accent: map-get($custom-theme, accent);
+$primary: map-get($custom-theme, primary);
 
 @mixin custom-theme($theme) {
   @include angular-material-theme($theme);
@@ -34,7 +35,6 @@ $warn: map-get($custom-theme, warn);
   @include aca-result-row-theme($theme);
   @include app-permission-manager-theme($theme);
   @include aca-node-versions-dialog-theme($theme);
-  @include snackbar-theme($theme);
   @include sidenav-component-theme($theme);
   @include app-create-from-template-theme($theme);
   @include app-create-menu-theme($theme);
@@ -74,7 +74,9 @@ $adf-upload-dragging-level1-border: none;
 $adf-permission-list-width: 100%;
 
 $defaults: (
+  --theme-primary-color: mat-color($primary),
   --theme-warn-color: mat-color($warn),
+  --theme-accent-color: mat-color($accent),
   --theme-text-color: mat-color($foreground, text, 0.54),
   --theme-title-color: mat-color($foreground, text, 0.87),
   --theme-text-disabled-color: mat-color($foreground, text, 0.38),

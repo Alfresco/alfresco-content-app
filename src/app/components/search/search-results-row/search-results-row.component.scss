@@ -1,11 +1,14 @@
-@import 'mixins';
-
 @mixin aca-result-row-theme($theme) {
   $primary: map-get($theme, primary);
   $foreground: map-get($theme, foreground);
 
   .aca-search-results-row {
-    @include flex-column;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100%;
+    overflow: hidden;
+    min-height: 0;
   }
 
   .line {
