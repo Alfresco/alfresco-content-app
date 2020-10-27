@@ -721,37 +721,6 @@ describe('AppExtensionService', () => {
     });
   });
 
-  describe('userActions', () => {
-    it('should load user actions from the config', () => {
-      applyConfig({
-        $id: 'test',
-        $name: 'test',
-        $version: '1.0.0',
-        $license: 'MIT',
-        $vendor: 'Good company',
-        $runtime: '1.5.0',
-        features: {
-          userActions: [
-            {
-              id: 'aca:toolbar/separator-1',
-              order: 1,
-              type: ContentActionType.separator,
-              title: 'action1'
-            },
-            {
-              id: 'aca:toolbar/separator-2',
-              order: 2,
-              type: ContentActionType.separator,
-              title: 'action2'
-            }
-          ]
-        }
-      });
-
-      expect(service.userActions.length).toBe(2);
-    });
-  });
-
   describe('getHeaderActions', () => {
     it('should load user actions from the config', () => {
       applyConfig({
