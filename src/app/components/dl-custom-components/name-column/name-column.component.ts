@@ -38,7 +38,7 @@ import { isLocked } from '@alfresco/aca-shared';
   styleUrls: ['name-column.component.scss'],
   encapsulation: ViewEncapsulation.None,
   host: {
-    class: ' adf-datatable-content-cell adf-datatable-link adf-name-column'
+    class: 'adf-datatable-content-cell adf-datatable-link adf-name-column aca-custom-name-column'
   }
 })
 export class CustomNameColumnComponent extends NameColumnComponent implements OnInit, OnDestroy {
