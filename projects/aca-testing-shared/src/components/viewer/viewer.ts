@@ -24,10 +24,9 @@
  */
 
 import { browser, by, element, ElementFinder } from 'protractor';
-import { BrowserActions, Logger } from '@alfresco/adf-testing';
+import { BrowserActions, BrowserVisibility, Logger } from '@alfresco/adf-testing';
 import { Component } from '../component';
 import { Toolbar } from '../toolbar/toolbar';
-import { waitForPresence } from '../../utilities/utils';
 
 export class Viewer extends Component {
   root = browser.$('adf-viewer');
@@ -46,8 +45,8 @@ export class Viewer extends Component {
 
   async waitForViewerToOpen() {
     try {
-      await waitForPresence(this.viewerContainer);
-      await waitForPresence(this.viewerLayout);
+      await BrowserVisibility.waitUntilElementIsPresent(this.viewerContainer);
+      await BrowserVisibility.waitUntilElementIsPresent(this.viewerLayout);
     } catch (error) {
       Logger.error('\n-----> catch waitForViewerToOpen <-----\n', error);
     }

@@ -26,7 +26,8 @@
 import { ElementFinder, by, browser } from 'protractor';
 import { Logger } from '@alfresco/adf-testing';
 import { Component } from '../component';
-import { Utils, isPresentAndEnabled, waitForPresence, waitForVisibility, waitForStaleness, waitForClickable } from '../../utilities/utils';
+import { Utils, isPresentAndEnabled, waitForStaleness } from '../../utilities/utils';
+import { BrowserVisibility } from '@alfresco/adf-testing';
 
 export class Menu extends Component {
   items = this.allByCss('.mat-menu-item');
@@ -71,8 +72,8 @@ export class Menu extends Component {
   }
 
   async waitForMenuToOpen(): Promise<void> {
-    await waitForPresence(browser.element(by.css('.cdk-overlay-container .mat-menu-panel')));
-    await waitForVisibility(this.items.get(0));
+    await BrowserVisibility.waitUntilElementIsPresent(browser.element(by.css('.cdk-overlay-container .mat-menu-panel')));
+    await BrowserVisibility.waitUntilElementIsVisible(this.items.get(0));
   }
 
   async waitForMenuToClose(): Promise<void> {
@@ -126,7 +127,7 @@ export class Menu extends Component {
   async clickNthItem(nth: number): Promise<void> {
     try {
       const elem = this.getNthItem(nth);
-      await waitForClickable(elem);
+      await BrowserVisibility.waitUntilElementIsClickable(elem);
       await browser.actions().mouseMove(elem).perform();
       await browser.actions().click().perform();
       await this.waitForMenuToClose();
@@ -138,7 +139,7 @@ export class Menu extends Component {
   async clickMenuItem(menuItem: string): Promise<void> {
     try {
       const elem = this.getItemByLabel(menuItem);
-      await waitForClickable(elem);
+      await BrowserVisibility.waitUntilElementIsClickable(elem);
       await elem.click();
     } catch (e) {
       Logger.error('___click menu item catch___', e);
@@ -148,7 +149,7 @@ export class Menu extends Component {
   async mouseOverMenuItem(menuItem: string): Promise<void> {
     try {
       const elem = this.getItemByLabel(menuItem);
-      await waitForClickable(elem);
+      await BrowserVisibility.waitUntilElementIsClickable(elem);
       await browser.actions().mouseMove(elem).perform();
       await browser.sleep(500);
     } catch (error) {
@@ -159,7 +160,7 @@ export class Menu extends Component {
   async hasSubMenu(menuItem: string): Promise<boolean> {
     try {
       const elem = this.getItemByLabel(menuItem);
-      await waitForClickable(elem);
+      await BrowserVisibility.waitUntilElementIsClickable(elem);
       const elemClass = await elem.getAttribute('class');
       return elemClass.includes('mat-menu-item-submenu-trigger');
     } catch (error) {
@@ -171,7 +172,7 @@ export class Menu extends Component {
   async clickSubMenuItem(subMenuItem: string): Promise<void> {
     try {
       const elem = this.getSubItemByLabel(subMenuItem);
-      await waitForClickable(elem);
+      await BrowserVisibility.waitUntilElementIsClickable(elem);
       await elem.click();
     } catch (e) {
       Logger.error('___click submenu item catch___', e);

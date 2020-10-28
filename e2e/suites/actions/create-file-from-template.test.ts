@@ -33,7 +33,7 @@ import {
   NodeContentTree,
   AdminActions
 } from '@alfresco/aca-testing-shared';
-import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, UsersActions, LoginPage, DataTableComponentPage } from '@alfresco/adf-testing';
 
 describe('Create file from template', () => {
   const random = Utils.random();
@@ -96,6 +96,8 @@ describe('Create file from template', () => {
     await repo.nodes.createFile(duplicateFileSite, docLibUserSite);
 
     await loginPage.login(user.email, user.password);
+    const dataTable = new DataTableComponentPage();
+    await dataTable.waitTillContentLoaded();
   });
 
   afterAll(async () => {

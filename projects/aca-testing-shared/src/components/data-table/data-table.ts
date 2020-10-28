@@ -28,7 +28,8 @@ import { Logger } from '@alfresco/adf-testing';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
 import { Menu } from '../menu/menu';
-import { Utils, waitForClickable, waitForPresence } from '../../utilities/utils';
+import { Utils } from '../../utilities/utils';
+import { BrowserVisibility } from '@alfresco/adf-testing';
 
 export class DataTable extends Component {
   private static selectors = {
@@ -62,15 +63,15 @@ export class DataTable extends Component {
   }
 
   async waitForHeader(): Promise<void> {
-    return waitForPresence(this.head, '--- timeout waitForHeader ---');
+    return BrowserVisibility.waitUntilElementIsPresent(this.head);
   }
 
   async waitForBody(): Promise<void> {
-    return waitForPresence(this.body, '--- timeout waitForBody ---');
+    return BrowserVisibility.waitUntilElementIsPresent(this.body);
   }
 
   async waitForEmptyState(): Promise<void> {
-    return waitForPresence(this.emptyList);
+    return BrowserVisibility.waitUntilElementIsPresent(this.emptyList);
   }
 
   private getColumnHeaders(): ElementArrayFinder {
@@ -223,7 +224,7 @@ export class DataTable extends Component {
   async doubleClickOnRowByName(name: string, location: string = ''): Promise<void> {
     try {
       const item = this.getRowFirstCell(name, location);
-      await waitForClickable(item);
+      await BrowserVisibility.waitUntilElementIsClickable(item);
       await browser.actions().mouseMove(item).perform();
       await browser.actions().doubleClick().perform();
     } catch (error) {

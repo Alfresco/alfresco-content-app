@@ -25,7 +25,8 @@
 
 import { by, ElementFinder } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
-import { waitForClickable, isPresentAndEnabled, typeText } from '../../utilities/utils';
+import { isPresentAndEnabled, typeText } from '../../utilities/utils';
+import { BrowserVisibility } from '@alfresco/adf-testing';
 
 export class CreateLibraryDialog extends GenericDialog {
   createButton = this.childElement(by.cssContainingText('.mat-dialog-actions button', 'Create'));
@@ -46,7 +47,7 @@ export class CreateLibraryDialog extends GenericDialog {
 
   async waitForDialogToOpen(): Promise<void> {
     await super.waitForDialogToOpen();
-    await waitForClickable(this.nameInput);
+    await BrowserVisibility.waitUntilElementIsClickable(this.nameInput);
   }
 
   async getErrorMessage(): Promise<string> {

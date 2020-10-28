@@ -25,7 +25,8 @@
 
 import { by, browser } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
-import { waitForClickable, isPresentAndEnabled, typeText } from '../../utilities/utils';
+import { isPresentAndEnabled, typeText } from '../../utilities/utils';
+import { BrowserVisibility } from '@alfresco/adf-testing';
 
 export class PasswordDialog extends GenericDialog {
   closeButton = this.childElement(by.css('[data-automation-id="adf-password-dialog-close"]'));
@@ -39,7 +40,7 @@ export class PasswordDialog extends GenericDialog {
 
   async waitForDialogToOpen(): Promise<void> {
     await super.waitForDialogToOpen();
-    await waitForClickable(this.passwordInput);
+    await BrowserVisibility.waitUntilElementIsClickable(this.passwordInput);
   }
 
   async isDialogOpen(): Promise<boolean> {

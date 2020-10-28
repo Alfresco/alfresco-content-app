@@ -24,6 +24,7 @@ const height = 768;
 const SAVE_SCREENSHOT = process.env.SAVE_SCREENSHOT === 'true';
 const MAXINSTANCES = process.env.MAXINSTANCES || 1;
 const MAX_RETRIES = process.env.MAX_RETRIES || 1;
+const BROWSER_RUN = !!process.env.BROWSER_RUN;
 
 exports.config = {
   allScriptsTimeout: 150000,
@@ -116,13 +117,13 @@ exports.config = {
         }
       },
       args: [
-        '--incognito',
         `--window-size=${width},${height}`,
         '--disable-gpu',
         '--no-sandbox',
         '--disable-web-security',
-        '--disable-browser-side-navigation'
-      ]
+        '--disable-browser-side-navigation',
+        '--allow-running-insecure-content',
+        ...(BROWSER_RUN === true ? [] : ['--headless'])]
     }
   },
 

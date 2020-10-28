@@ -25,9 +25,10 @@
 
 import { by, browser, protractor } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
-import { Utils, isPresentAndDisplayed, waitForStaleness, waitForPresence, isPresentAndEnabled, waitForClickable } from '../../utilities/utils';
+import { Utils, isPresentAndDisplayed, waitForStaleness, isPresentAndEnabled } from '../../utilities/utils';
 import { DropDownBreadcrumb } from '../breadcrumb/dropdown-breadcrumb';
 import { DataTable } from '../data-table/data-table';
+import { BrowserVisibility } from '@alfresco/adf-testing';
 
 export class ContentNodeSelectorDialog extends GenericDialog {
   cancelButton = this.childElement(by.css('[data-automation-id="content-node-selector-actions-cancel"]'));
@@ -54,7 +55,7 @@ export class ContentNodeSelectorDialog extends GenericDialog {
 
   async selectLocation(location: string): Promise<void> {
     await this.locationDropDown.click();
-    await waitForPresence(this.locationPersonalFiles);
+    await BrowserVisibility.waitUntilElementIsPresent(this.locationPersonalFiles);
 
     if (location === 'Personal Files') {
       await this.locationPersonalFiles.click();
@@ -67,9 +68,9 @@ export class ContentNodeSelectorDialog extends GenericDialog {
 
   async selectDestination(folderName: string): Promise<void> {
     const row = this.dataTable.getRowByName(folderName);
-    await waitForClickable(row);
+    await BrowserVisibility.waitUntilElementIsClickable(row);
     await row.click();
-    await waitForPresence(browser.element(by.css('.adf-is-selected')));
+    await BrowserVisibility.waitUntilElementIsPresent(browser.element(by.css('.adf-is-selected')));
   }
 
   async isSelectLocationDropdownDisplayed(): Promise<boolean> {

@@ -25,7 +25,8 @@
 
 import { by, browser, ElementFinder } from 'protractor';
 import { Component } from '../component';
-import { isPresentAndEnabled, isPresentAndDisplayed, waitForVisibility } from '../../utilities/utils';
+import { isPresentAndEnabled, isPresentAndDisplayed } from '../../utilities/utils';
+import { BrowserVisibility } from '@alfresco/adf-testing';
 
 export class ContentMetadata extends Component {
   expandedPanel = this.byCss('.mat-expansion-panel.mat-expanded');
@@ -47,7 +48,7 @@ export class ContentMetadata extends Component {
   }
 
   async waitForImagePropertiesPanelToExpand(): Promise<void> {
-    await waitForVisibility(this.expandedImagePropertiesPanel);
+    await BrowserVisibility.waitUntilElementIsVisible(this.expandedImagePropertiesPanel);
   }
 
   async getVisiblePropertiesLabels(): Promise<string[]> {

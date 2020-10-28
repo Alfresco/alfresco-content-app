@@ -25,7 +25,8 @@
 
 import { browser, by, protractor } from 'protractor';
 import { Component } from '../component';
-import { Utils, waitForPresence, waitForClickable, waitElement } from '../../utilities/utils';
+import { Utils, waitElement } from '../../utilities/utils';
+import { BrowserVisibility } from '@alfresco/adf-testing';
 
 export class SearchInput extends Component {
   searchButton = this.component.element(by.css('.app-search-button'));
@@ -43,11 +44,11 @@ export class SearchInput extends Component {
   }
 
   async waitForSearchControl() {
-    await waitForPresence(this.searchControl);
+    await BrowserVisibility.waitUntilElementIsPresent(this.searchControl);
   }
 
   async waitForSearchInputToBeInteractive() {
-    await waitForClickable(this.searchControl);
+    await BrowserVisibility.waitUntilElementIsClickable(this.searchControl);
   }
 
   async isSearchContainerDisplayed() {
@@ -58,7 +59,7 @@ export class SearchInput extends Component {
   }
 
   async clickSearchButton() {
-    await waitForClickable(this.searchButton);
+    await BrowserVisibility.waitUntilElementIsClickable(this.searchButton);
     await this.searchButton.click();
     await this.waitForSearchControl();
   }
@@ -69,17 +70,17 @@ export class SearchInput extends Component {
   }
 
   async clickFilesOption() {
-    await waitForClickable(this.searchFilesOption);
+    await BrowserVisibility.waitUntilElementIsClickable(this.searchFilesOption);
     await this.searchFilesOption.click();
   }
 
   async clickFoldersOption() {
-    await waitForClickable(this.searchFoldersOption);
+    await BrowserVisibility.waitUntilElementIsClickable(this.searchFoldersOption);
     await this.searchFoldersOption.click();
   }
 
   async clickLibrariesOption() {
-    await waitForClickable(this.searchLibrariesOption);
+    await BrowserVisibility.waitUntilElementIsClickable(this.searchLibrariesOption);
     await this.searchLibrariesOption.click();
   }
 
