@@ -74,7 +74,6 @@ export class AppExtensionService implements RuleContext {
   sidebarActions: Array<ContentActionRef> = [];
   contentMetadata: any;
   viewerRules: ViewerRules = {};
-  userActions: Array<ContentActionRef> = [];
   settingGroups: Array<SettingsGroupRef> = [];
 
   documentListPresets: {
@@ -150,7 +149,6 @@ export class AppExtensionService implements RuleContext {
     this.createActions = this.loader.getElements<ContentActionRef>(config, 'features.create');
     this.navbar = this.loadNavBar(config);
     this.sidebarTabs = this.loader.getElements<SidebarTabRef>(config, 'features.sidebar.tabs');
-    this.userActions = this.loader.getContentActions(config, 'features.userActions');
     this.contentMetadata = this.loadContentMetadata(config);
 
     this.documentListPresets = {
@@ -414,10 +412,6 @@ export class AppExtensionService implements RuleContext {
 
   getAllowedContextMenuActions(): Array<ContentActionRef> {
     return this.getAllowedActions(this.contextMenuActions);
-  }
-
-  getUserActions(): Array<ContentActionRef> {
-    return this.userActions.filter((action) => this.filterVisible(action)).sort(sortByOrder);
   }
 
   getSettingsGroups(): Array<SettingsGroupRef> {

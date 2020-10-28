@@ -54,7 +54,6 @@ import { AppSidenavModule } from './components/sidenav/sidenav.module';
 import { AppPermissionsModule } from './components/permissions/permissions.module';
 import { AppCommonModule } from './components/common/common.module';
 import { AppLayoutModule } from './components/layout/layout.module';
-import { AppCurrentUserModule } from './components/current-user/current-user.module';
 import { AppSearchInputModule } from './components/search/search-input.module';
 import { DocumentListCustomComponentsModule } from './components/dl-custom-components/document-list-custom-components.module';
 import { AppSearchResultsModule } from './components/search/search-results.module';
@@ -124,7 +123,6 @@ registerLocaleData(localeSv);
     AppLoginModule,
     AppCommonModule,
     AppLayoutModule,
-    AppCurrentUserModule,
     DirectivesModule,
     ContextMenuModule,
     AppInfoDrawerModule,

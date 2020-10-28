@@ -4,7 +4,6 @@
 @import '../components/sidenav/sidenav.component.theme';
 @import '../components/search/search-input/search-input.component.theme';
 @import '../components/search/search-results-row/search-results-row.component.scss';
-@import '../components/current-user/current-user.component.theme';
 @import '../components/permissions/permission-manager/permission-manager.component.theme';
 @import '../components/context-menu/context-menu.component.theme';
 @import '../components/dl-custom-components/name-column/name-column.component.scss';
@@ -41,7 +40,6 @@ $warn: map-get($custom-theme, warn);
   @include aca-node-versions-dialog-theme($theme);
   @include snackbar-theme($theme);
   @include sidenav-component-theme($theme);
-  @include aca-current-user-theme($theme);
   @include aca-context-menu-theme($theme);
   @include aca-custom-name-column-theme($theme);
   @include app-create-from-template-theme($theme);

@@ -24,7 +24,7 @@
  */
 
 import { browser } from 'protractor';
-import { AdminActions, APP_ROUTES, LoginPage, BrowsingPage, Utils, navigate } from '@alfresco/aca-testing-shared';
+import { AdminActions, APP_ROUTES, LoginPage, Utils, navigate } from '@alfresco/aca-testing-shared';
 
 describe('Login', () => {
   const loginPage = new LoginPage();
@@ -99,14 +99,6 @@ describe('Login', () => {
 
       await loginPage.loginWith(username);
       expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);
-    });
-
-    it(`[C213108] displays user's name in header`, async () => {
-      const { userInfo } = new BrowsingPage(APP_ROUTES.PERSONAL_FILES).header;
-      const { username, firstName, lastName } = johnDoe;
-
-      await loginPage.loginWith(username);
-      expect(await userInfo.fullName.getText()).toEqual(`${firstName} ${lastName}`);
     });
 
     it(`[C213096] logs in with user having username containing "@"`, async () => {
