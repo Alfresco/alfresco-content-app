@@ -24,7 +24,7 @@
  */
 
 import { browser } from 'protractor';
-import { AdminActions, APP_ROUTES, LoginPage, BrowsingPage, Utils, navigate } from '@alfresco/aca-testing-shared';
+import { AdminActions, APP_ROUTES, LoginPage, Utils, navigate } from '@alfresco/aca-testing-shared';
 
 describe('Login', () => {
   const loginPage = new LoginPage();
