@@ -16,6 +16,7 @@ branches:
   only:
     - master
     - develop
+    - dev-eromano-login-ssso
     - /.*beta.*/
 
 before_install:
