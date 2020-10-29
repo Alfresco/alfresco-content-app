@@ -24,12 +24,11 @@
  */
 
 import { browser, by, ElementArrayFinder, ElementFinder, protractor } from 'protractor';
-import { Logger } from '@alfresco/adf-testing';
+import { BrowserVisibility, Logger } from '@alfresco/adf-testing';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
 import { Menu } from '../menu/menu';
 import { Utils } from '../../utilities/utils';
-import { BrowserVisibility } from '@alfresco/adf-testing';
 
 export class DataTable extends Component {
   private static selectors = {

@@ -24,10 +24,9 @@
  */
 
 import { browser } from 'protractor';
-import { Logger } from '@alfresco/adf-testing';
+import { BrowserVisibility, Logger } from '@alfresco/adf-testing';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
-import { BrowserVisibility } from '@alfresco/adf-testing';
 
 export class Pagination extends Component {
   range = this.byCss('.adf-pagination__range');

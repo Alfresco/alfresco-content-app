@@ -24,11 +24,10 @@
  */
 
 import { ElementFinder, by, element, browser } from 'protractor';
-import { Logger, BrowserActions } from '@alfresco/adf-testing';
+import { BrowserVisibility, Logger, BrowserActions } from '@alfresco/adf-testing';
 import { SIDEBAR_LABELS, BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
-import { BrowserVisibility } from '@alfresco/adf-testing';
 
 export class Sidenav extends Component {
   links = this.component.all(by.css('.item'));

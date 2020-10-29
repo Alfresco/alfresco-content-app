@@ -24,10 +24,9 @@
  */
 
 import { ElementFinder, by, browser } from 'protractor';
-import { Logger } from '@alfresco/adf-testing';
+import { BrowserVisibility, Logger } from '@alfresco/adf-testing';
 import { Component } from '../component';
 import { Utils, isPresentAndEnabled, waitForStaleness } from '../../utilities/utils';
-import { BrowserVisibility } from '@alfresco/adf-testing';
 
 export class Menu extends Component {
   items = this.allByCss('.mat-menu-item');
