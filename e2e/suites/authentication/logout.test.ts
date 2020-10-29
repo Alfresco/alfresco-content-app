@@ -28,6 +28,7 @@ import { BrowsingPage, APP_ROUTES } from '@alfresco/aca-testing-shared';
 import { UsersActions, ApiService, LoginPage, UserModel } from '@alfresco/adf-testing';
 
 describe('Logout', () => {
+  
   const page = new BrowsingPage();
   const loginPage = new LoginPage();
   let johnDoe: UserModel;
