@@ -33,6 +33,7 @@ import { Router } from '@angular/router';
 
 @Component({
   templateUrl: './node-versions.dialog.html',
+  styleUrls: ['./node-versions.dialog.scss'],
   encapsulation: ViewEncapsulation.None,
   host: { class: 'aca-node-versions-dialog' }
 })
