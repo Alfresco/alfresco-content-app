@@ -25,10 +25,9 @@
 
 import { browser } from 'protractor';
 import { BrowsingPage, APP_ROUTES } from '@alfresco/aca-testing-shared';
-import { UsersActions, ApiService, LoginPage, UserModel } from '@alfresco/adf-testing';
+import { UsersActions, ApiService, LoginPage, UserModel, BrowserActions } from '@alfresco/adf-testing';
 
 describe('Logout', () => {
-  
   const page = new BrowsingPage();
   const loginPage = new LoginPage();
   let johnDoe: UserModel;
@@ -47,6 +46,8 @@ describe('Logout', () => {
   it('[C213143] Sign out option is available', async () => {
     await page.header.openMoreMenu();
     expect(await page.header.menu.isMenuItemPresent('Sign out')).toBe(true, 'Sign out option not displayed');
+    await BrowserActions.closeMenuAndDialogs();
+    await page.signOut();
   });
 
   it('[C213144] redirects to Login page on sign out', async () => {

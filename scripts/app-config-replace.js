@@ -30,7 +30,7 @@ const options = {
     description: "set identityHost's value with IDENTITY_HOST",
     set: (appConfig) => {
       appConfig.authType = 'OAUTH';
-      appConfig.identityHost = IDENTITY_HOST;
+      appConfig.identityHost = `${IDENTITY_HOST}/auth/admin/realms/alfresco`;
     }
   },
   oauthHost: {
@@ -38,7 +38,7 @@ const options = {
     description: "set oauth2.host's value with OAUTH_HOST",
     set: (appConfig) => {
       appConfig.authType = 'OAUTH';
-      appConfig.oauth2.host = OAUTH_HOST;
+      appConfig.oauth2.host = `${OAUTH_HOST}/auth/realms/alfresco`;
     }
   },
   notification: {

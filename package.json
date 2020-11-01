@@ -28,7 +28,7 @@
     "@alfresco/adf-content-services": "4.2.0-fca378a12b97fdf59966a568ce6eba02d53d1459",
     "@alfresco/adf-core": "4.2.0-fca378a12b97fdf59966a568ce6eba02d53d1459",
     "@alfresco/adf-extensions": "4.2.0-fca378a12b97fdf59966a568ce6eba02d53d1459",
-    "@alfresco/js-api": "4.2.0-4122a22fc90b7b489d518eb015ae51376cc51cdc",
+    "@alfresco/js-api": "4.2.0-88119f919467d5b28ee7e55b8ff3f2bae6c00fd1",
     "@angular/animations": "10.0.4",
     "@angular/cdk": "^10.0.2",
     "@angular/common": "10.0.4",
