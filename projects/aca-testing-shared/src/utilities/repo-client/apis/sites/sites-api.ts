@@ -51,7 +51,7 @@ export class SitesApi extends RepoApi {
 
   async getSites() {
     try {
-      return await this.sitesApi.listSiteMembershipsForPerson(this.api.getInstance().getEcmUsername());
+      return await this.sitesApi.listSiteMembershipsForPerson('-me-');
     } catch (error) {
       this.handleError(`SitesApi getSites : catch : `, error);
       return null;
@@ -60,7 +60,7 @@ export class SitesApi extends RepoApi {
 
   async getSitesTotalItems(): Promise<number> {
     try {
-      return (await this.sitesApi.listSiteMembershipsForPerson(this.api.getInstance().getEcmUsername())).list.pagination.totalItems;
+      return (await this.sitesApi.listSiteMembershipsForPerson('-me-')).list.pagination.totalItems;
     } catch (error) {
       this.handleError(`SitesApi getSitesTotalItems : catch : `, error);
       return -1;

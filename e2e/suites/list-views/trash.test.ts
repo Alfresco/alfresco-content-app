@@ -67,7 +67,7 @@ describe('Trash', () => {
   beforeAll(async () => {
     await apiService.loginWithProfile('admin');
     user = await usersActions.createUser();
-    await apiService.getInstance().login(user.email, user.password);
+    await apiService.login(user.email, user.password);
 
     fileAdminId = (await adminActions.nodes.createFiles([fileAdmin])).entry.id;
     folderAdminId = (await adminActions.nodes.createFolders([folderAdmin])).entry.id;

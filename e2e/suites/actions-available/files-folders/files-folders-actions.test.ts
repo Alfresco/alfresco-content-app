@@ -67,7 +67,7 @@ describe('Files / folders actions : ', () => {
   beforeAll(async () => {
     await apiService.loginWithProfile('admin');
     user = await usersActions.createUser();
-    await apiService.getInstance().login(user.email, user.password);
+    await apiService.login(user.email, user.password);
 
     parentId = (await userApi.nodes.createFolder(parent)).entry.id;
 

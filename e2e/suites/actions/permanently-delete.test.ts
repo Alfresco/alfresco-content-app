@@ -53,7 +53,7 @@ describe('Permanently delete from Trash', () => {
   beforeAll(async () => {
     await apiService.loginWithProfile('admin');
     user = await usersActions.createUser();
-    await apiService.getInstance().login(user.email, user.password);
+    await apiService.login(user.email, user.password);
 
     filesIds = (await repo.nodes.createFiles([file1, file2, file3])).list.entries.map((entries: any) => entries.entry.id);
     foldersIds = (await repo.nodes.createFolders([folder1, folder2])).list.entries.map((entries: any) => entries.entry.id);

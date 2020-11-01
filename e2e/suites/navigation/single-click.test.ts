@@ -56,7 +56,7 @@ describe('Single click on item name', () => {
   beforeAll(async () => {
     await apiService.loginWithProfile('admin');
     user = await usersActions.createUser();
-    await apiService.getInstance().login(user.email, user.password);
+    await apiService.login(user.email, user.password);
 
     file1Id = (await repo.nodes.createFile(file1)).entry.id;
     folder1Id = (await repo.nodes.createFolder(folder1)).entry.id;

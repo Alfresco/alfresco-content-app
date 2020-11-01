@@ -53,7 +53,7 @@ describe('Recent Files', () => {
   beforeAll(async () => {
     await apiService.loginWithProfile('admin');
     user = await usersActions.createUser();
-    await apiService.getInstance().login(user.email, user.password);
+    await apiService.login(user.email, user.password);
 
     folderId = (await repo.nodes.createFolders([folderName])).entry.id;
     await repo.nodes.createFiles([fileName1], folderName);

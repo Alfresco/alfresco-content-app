@@ -42,7 +42,7 @@ describe('Delete and undo delete', () => {
     await apiService.loginWithProfile('admin');
     user = await usersActions.createUser();
 
-    await apiService.getInstance().login(user.email, user.password);
+    await apiService.login(user.email, user.password);
   });
 
   afterAll(async () => {

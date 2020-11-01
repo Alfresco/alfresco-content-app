@@ -50,7 +50,7 @@ const appConfig = {
 
 module.exports = {
 
-  projectName: 'ACA',
+  projectName: 'aca',
 
   appConfig: appConfig,
 

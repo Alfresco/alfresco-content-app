@@ -70,7 +70,7 @@ describe('Library actions', () => {
   beforeAll(async () => {
     await apiService.loginWithProfile('admin');
     user = await usersActions.createUser();
-    await apiService.getInstance().login(user.email, user.password);
+    await apiService.login(user.email, user.password);
 
     await adminActions.sites.createSite(siteSearchPublic1Admin);
     await adminActions.sites.createSite(siteSearchPublic2Admin);

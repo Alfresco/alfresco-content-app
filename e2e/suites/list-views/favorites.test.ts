@@ -50,7 +50,7 @@ describe('Favorites', () => {
   beforeAll(async () => {
     await apiService.loginWithProfile('admin');
     user = await usersActions.createUser();
-    await apiService.getInstance().login(user.email, user.password);
+    await apiService.login(user.email, user.password);
 
     await adminActions.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
     const docLibId = await adminActions.sites.getDocLibId(siteName);

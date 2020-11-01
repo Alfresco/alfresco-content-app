@@ -42,7 +42,7 @@ describe('Restore from Trash', () => {
   beforeAll(async () => {
     await apiService.loginWithProfile('admin');
     user = await usersActions.createUser();
-    await apiService.getInstance().login(user.email, user.password);
+    await apiService.login(user.email, user.password);
 
     await loginPage.login(user.email, user.password);
   });

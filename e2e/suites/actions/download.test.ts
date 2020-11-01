@@ -81,7 +81,7 @@ describe('Download', () => {
   beforeAll(async () => {
     await apiService.loginWithProfile('admin');
     user = await usersActions.createUser();
-    await apiService.getInstance().login(user.email, user.password);
+    await apiService.login(user.email, user.password);
 
     initialRecentTotalItems = await repo.search.getTotalItems(user.username);
 

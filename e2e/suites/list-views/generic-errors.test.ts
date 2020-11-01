@@ -49,7 +49,7 @@ describe('Generic errors', () => {
     await apiService.loginWithProfile('admin');
     user = await usersActions.createUser();
     username2 = await usersActions.createUser();
-    await apiService.getInstance().login(user.email, user.password);
+    await apiService.login(user.email, user.password);
 
     parentId = (await repo.nodes.createFolder(parent)).entry.id;
     file1Id = (await repo.nodes.createFile(file1, parentId)).entry.id;
