@@ -27,7 +27,14 @@
       "@alfresco-dbp/content-ce/settings": ["projects/aca-settings/src/public-api.ts"],
       "@alfresco-dbp/content-ce/testing": [ "projects/aca-testing-shared/src/index.ts" ],
       "@alfresco-dbp/content-ce/office-services": [ "projects/adf-office-services-ext/src/public-api.ts" ],
-      "package.json": ["package.json"]
+      "package.json": ["package.json"],
+      "@alfresco/aca-shared": ["projects/aca-shared/src/public-api.ts"],
+      "@alfresco/aca-shared/rules": ["projects/aca-shared/rules/src/public-api.ts"],
+      "@alfresco/aca-shared/store": ["projects/aca-shared/store/src/public-api.ts"],
+      "@alfresco/aca-about": ["projects/aca-about/src/public-api.ts"],
+      "@alfresco/aca-settings": ["projects/aca-settings/src/public-api.ts"],
+      "@alfresco/aca-testing-shared": ["projects/aca-testing-shared"],
+      "@alfresco/adf-office-services-ext": ["projects/adf-office-services-ext/src/public-api.ts"]
     }
   },
   "exclude": ["node_modules"],
