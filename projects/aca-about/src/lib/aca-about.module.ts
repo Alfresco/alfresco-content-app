@@ -28,7 +28,7 @@ import { AboutComponent } from './about.component';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
 import { MatTableModule } from '@angular/material/table';
-import { SharedModule, PageLayoutModule } from '@alfresco/aca-shared';
+import { SharedModule, PageLayoutModule } from '@alfresco-dbp/content-ce/shared';
 
 import { PackageListComponent } from './package-list/package-list.component';
 import { ExtensionListComponent } from './extension-list/extension-list.component';

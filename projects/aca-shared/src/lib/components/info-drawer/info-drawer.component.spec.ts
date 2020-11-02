@@ -26,7 +26,7 @@ import { ContentActionRef } from '@alfresco/adf-extensions';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
-import { SetInfoDrawerStateAction, ToggleInfoDrawerAction } from '@alfresco/aca-shared/store';
+import { SetInfoDrawerStateAction, ToggleInfoDrawerAction } from '@alfresco-dbp/content-ce/shared/store';
 import { of, Subject } from 'rxjs';
 import { InfoDrawerComponent } from './info-drawer.component';
 import { LibTestingModule } from '../../testing/lib-testing-module';

@@ -28,7 +28,7 @@ import { TestBed, async, ComponentFixture, fakeAsync, tick } from '@angular/core
 import { SearchInputComponent } from './search-input.component';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { Actions, ofType } from '@ngrx/effects';
-import { SearchByTermAction, SearchActionTypes } from '@alfresco/aca-shared/store';
+import { SearchByTermAction, SearchActionTypes } from '@alfresco-dbp/content-ce/shared/store';
 import { map } from 'rxjs/operators';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { SearchLibrariesQueryBuilderService } from '../search-libraries-results/search-libraries-query-builder.service';

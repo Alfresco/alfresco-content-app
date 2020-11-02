@@ -31,7 +31,7 @@ import { Node, MinimalNode, MinimalNodeEntryEntity, ResultNode, PathElement } fr
 import { AlfrescoApiService, TranslationService } from '@alfresco/adf-core';
 import { switchMap, catchError } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-import { AppStore, SnackbarErrorAction } from '@alfresco/aca-shared/store';
+import { AppStore, SnackbarErrorAction } from '@alfresco-dbp/content-ce/shared/store';
 import { ContentNodeSelectorComponent, ContentNodeSelectorComponentData, ShareDataRow } from '@alfresco/adf-content-services';
 
 export interface TemplateDialogConfig {

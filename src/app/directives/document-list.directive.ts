@@ -29,7 +29,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserPreferencesService } from '@alfresco/adf-core';
 import { Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { SetSelectedNodesAction } from '@alfresco/aca-shared/store';
+import { SetSelectedNodesAction } from '@alfresco-dbp/content-ce/shared/store';
 import { takeUntil, filter } from 'rxjs/operators';
 import { ContentManagementService } from '../services/content-management.service';
 import { MinimalNodeEntity } from '@alfresco/js-api';

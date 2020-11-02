@@ -43,11 +43,11 @@ import {
   UnlockWriteAction,
   SnackbarActionTypes,
   RouterActionTypes
-} from '@alfresco/aca-shared/store';
+} from '@alfresco-dbp/content-ce/shared/store';
 import { map } from 'rxjs/operators';
 import { NodeEffects } from '../store/effects/node.effects';
 import { AppTestingModule } from '../testing/app-testing.module';
-import { ContentApiService } from '@alfresco/aca-shared';
+import { ContentApiService } from '@alfresco-dbp/content-ce/shared';
 import { Store } from '@ngrx/store';
 import { ContentManagementService } from './content-management.service';
 import { NodeActionsService } from './node-actions.service';

@@ -23,14 +23,14 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AppStore, NavigateLibraryAction } from '@alfresco/aca-shared/store';
+import { AppStore, NavigateLibraryAction } from '@alfresco-dbp/content-ce/shared/store';
 import { SiteEntry } from '@alfresco/js-api';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ContentManagementService } from '../../services/content-management.service';
 import { PageComponent } from '../page.component';
-import { AppExtensionService } from '@alfresco/aca-shared';
+import { AppExtensionService } from '@alfresco-dbp/content-ce/shared';
 
 @Component({
   templateUrl: './libraries.component.html'

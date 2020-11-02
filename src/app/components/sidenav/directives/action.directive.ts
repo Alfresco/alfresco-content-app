@@ -26,7 +26,7 @@
 import { Directive, Input, HostListener } from '@angular/core';
 import { PRIMARY_OUTLET, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AppStore } from '@alfresco/aca-shared/store';
+import { AppStore } from '@alfresco-dbp/content-ce/shared/store';
 
 @Directive({
   /* tslint:disable-next-line */

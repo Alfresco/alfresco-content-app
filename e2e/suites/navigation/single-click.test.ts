@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, UserActions, LoginPage, BrowsingPage, Viewer, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { AdminActions, UserActions, LoginPage, BrowsingPage, Viewer, RepoClient, Utils } from '@alfresco-dbp/content-ce/testing';
 
 describe('Single click on item name', () => {
   const username = `user-${Utils.random()}`;

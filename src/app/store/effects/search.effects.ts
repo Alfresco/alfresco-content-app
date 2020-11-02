@@ -26,7 +26,7 @@
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { SearchActionTypes, SearchByTermAction, SearchOptionIds } from '@alfresco/aca-shared/store';
+import { SearchActionTypes, SearchByTermAction, SearchOptionIds } from '@alfresco-dbp/content-ce/shared/store';
 import { Router } from '@angular/router';
 
 @Injectable()

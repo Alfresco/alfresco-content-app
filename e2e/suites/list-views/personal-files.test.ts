@@ -25,7 +25,7 @@
 
 import { browser } from 'protractor';
 
-import { AdminActions, APP_ROUTES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { AdminActions, APP_ROUTES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco-dbp/content-ce/testing';
 
 describe('Personal Files', () => {
   const username = `user-${Utils.random()}`;

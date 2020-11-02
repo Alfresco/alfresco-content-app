@@ -30,10 +30,10 @@ import { AlfrescoApiService, NodeFavoriteDirective, DataTableComponent, AppConfi
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { FavoriteLibrariesComponent } from './favorite-libraries.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { ContentApiService } from '@alfresco/aca-shared';
+import { ContentApiService } from '@alfresco-dbp/content-ce/shared';
 import { ContentManagementService } from '../../services/content-management.service';
 import { EffectsModule } from '@ngrx/effects';
-import { RouterEffects } from '@alfresco/aca-shared/store';
+import { RouterEffects } from '@alfresco-dbp/content-ce/shared/store';
 import { of, throwError } from 'rxjs';
 import { LibraryEffects } from '../../store/effects';
 import { NodeEntry } from '@alfresco/js-api';

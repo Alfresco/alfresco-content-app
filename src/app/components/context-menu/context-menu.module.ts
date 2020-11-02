@@ -35,7 +35,7 @@ import { AppCommonModule } from '../common/common.module';
 import { ContextMenuItemComponent } from './context-menu-item.component';
 import { OutsideEventDirective } from './context-menu-outside-event.directive';
 import { ContextMenuComponent } from './context-menu.component';
-import { ContextActionsModule } from '@alfresco/aca-shared';
+import { ContextActionsModule } from '@alfresco-dbp/content-ce/shared';
 
 @NgModule({
   imports: [

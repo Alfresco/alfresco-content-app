@@ -27,7 +27,7 @@ import { TestBed } from '@angular/core/testing';
 import { LibTestingModule } from '../testing/lib-testing-module';
 import { AppExtensionService } from './app.extension.service';
 import { Store, Action } from '@ngrx/store';
-import { AppStore } from '@alfresco/aca-shared/store';
+import { AppStore } from '@alfresco-dbp/content-ce/shared/store';
 import {
   ContentActionType,
   mergeArrays,

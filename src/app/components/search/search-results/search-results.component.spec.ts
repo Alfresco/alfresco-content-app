@@ -29,7 +29,7 @@ import { AppTestingModule } from '../../../testing/app-testing.module';
 import { AppSearchResultsModule } from '../search-results.module';
 import { CoreModule, AppConfigService, AlfrescoApiService, AlfrescoApiServiceMock, TranslationService } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
-import { NavigateToFolder, SnackbarErrorAction } from '@alfresco/aca-shared/store';
+import { NavigateToFolder, SnackbarErrorAction } from '@alfresco-dbp/content-ce/shared/store';
 import { Pagination, SearchRequest } from '@alfresco/js-api';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { ActivatedRoute, Router } from '@angular/router';

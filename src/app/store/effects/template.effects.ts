@@ -36,7 +36,7 @@ import {
   getCurrentFolder,
   AppStore,
   SnackbarErrorAction
-} from '@alfresco/aca-shared/store';
+} from '@alfresco-dbp/content-ce/shared/store';
 import { NodeTemplateService, TemplateDialogConfig } from '../../services/node-template.service';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { ContentManagementService } from '../../services/content-management.service';

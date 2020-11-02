@@ -25,7 +25,7 @@
 
 import { Component, Input } from '@angular/core';
 import { MinimalNodeEntryEntity } from '@alfresco/js-api';
-import { NodePermissionService, isLocked } from '@alfresco/aca-shared';
+import { NodePermissionService, isLocked } from '@alfresco-dbp/content-ce/shared';
 
 @Component({
   selector: 'app-comments-tab',

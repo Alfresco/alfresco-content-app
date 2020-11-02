@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, SearchResultsPage, RepoClient, Utils, FILES } from '@alfresco/aca-testing-shared';
+import { AdminActions, LoginPage, SearchResultsPage, RepoClient, Utils, FILES } from '@alfresco-dbp/content-ce/testing';
 
 describe('Search sorting', () => {
   const random = Utils.random();

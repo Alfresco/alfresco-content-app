@@ -25,7 +25,7 @@
 
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
-import { AppExtensionService } from '@alfresco/aca-shared';
+import { AppExtensionService } from '@alfresco-dbp/content-ce/shared';
 
 @Component({
   selector: 'app-context-menu-item',

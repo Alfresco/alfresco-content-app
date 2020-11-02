@@ -25,7 +25,7 @@
 
 import { browser } from 'protractor';
 
-import { AdminActions, SITE_VISIBILITY, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { AdminActions, SITE_VISIBILITY, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco-dbp/content-ce/testing';
 
 describe('Breadcrumb', () => {
   const username = `user-${Utils.random()}`;

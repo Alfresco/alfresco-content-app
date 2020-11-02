@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BrowsingPage, LoginPage, Utils } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, LoginPage, Utils } from '@alfresco-dbp/content-ce/testing';
 
 export function favoritesTests(username: string) {
   const page = new BrowsingPage();

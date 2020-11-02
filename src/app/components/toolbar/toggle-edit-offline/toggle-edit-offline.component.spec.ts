@@ -30,7 +30,7 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { NodeEntry } from '@alfresco/js-api';
-import { DownloadNodesAction, EditOfflineAction, SnackbarErrorAction } from '@alfresco/aca-shared/store';
+import { DownloadNodesAction, EditOfflineAction, SnackbarErrorAction } from '@alfresco-dbp/content-ce/shared/store';
 import { TranslateModule } from '@ngx-translate/core';
 
 describe('ToggleEditOfflineComponent', () => {

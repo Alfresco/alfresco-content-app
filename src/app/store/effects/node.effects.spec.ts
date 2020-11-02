@@ -47,7 +47,7 @@ import {
   FullscreenViewerAction,
   PrintFileAction,
   SetCurrentFolderAction
-} from '@alfresco/aca-shared/store';
+} from '@alfresco-dbp/content-ce/shared/store';
 import { ViewUtilService } from '@alfresco/adf-core';
 import { ViewerEffects } from './viewer.effects';
 

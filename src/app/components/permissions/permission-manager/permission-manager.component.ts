@@ -23,13 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AppStore, SnackbarErrorAction } from '@alfresco/aca-shared/store';
+import { AppStore, SnackbarErrorAction } from '@alfresco-dbp/content-ce/shared/store';
 import { NodePermissionDialogService, PermissionListComponent } from '@alfresco/adf-content-services';
 import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 import { Component, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { ContentApiService } from '@alfresco/aca-shared';
+import { ContentApiService } from '@alfresco-dbp/content-ce/shared';
 import { NodePermissionsDialogComponent } from '../permission-dialog/node-permissions.dialog';
 
 @Component({

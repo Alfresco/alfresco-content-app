@@ -29,11 +29,11 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { SearchQueryBuilderService, SearchFilterComponent } from '@alfresco/adf-content-services';
 import { PageComponent } from '../../page.component';
 import { Store } from '@ngrx/store';
-import { AppStore, NavigateToFolder, SnackbarErrorAction, showFacetFilter } from '@alfresco/aca-shared/store';
+import { AppStore, NavigateToFolder, SnackbarErrorAction, showFacetFilter } from '@alfresco-dbp/content-ce/shared/store';
 import { ContentManagementService } from '../../../services/content-management.service';
 import { AppConfigService, TranslationService } from '@alfresco/adf-core';
 import { Observable } from 'rxjs';
-import { AppExtensionService } from '@alfresco/aca-shared';
+import { AppExtensionService } from '@alfresco-dbp/content-ce/shared';
 
 @Component({
   selector: 'aca-search-results',

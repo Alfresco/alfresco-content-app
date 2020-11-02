@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, FILES, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { AdminActions, LoginPage, BrowsingPage, FILES, RepoClient, Utils } from '@alfresco-dbp/content-ce/testing';
 
 describe('Edit offline', () => {
   const username = `user-${Utils.random()}`;

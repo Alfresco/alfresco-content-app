@@ -33,7 +33,7 @@ import {
   AdminActions,
   RepoClient,
   NodeContentTree
-} from '@alfresco/aca-testing-shared';
+} from '@alfresco-dbp/content-ce/testing';
 
 describe('Create file from template', () => {
   const random = Utils.random();

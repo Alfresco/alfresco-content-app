@@ -25,7 +25,7 @@
 
 import { Component, ViewEncapsulation, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppStore, getAppSelection } from '@alfresco/aca-shared/store';
+import { AppStore, getAppSelection } from '@alfresco-dbp/content-ce/shared/store';
 import { SelectionState } from '@alfresco/adf-extensions';
 import { ContentManagementService } from '../../../services/content-management.service';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';

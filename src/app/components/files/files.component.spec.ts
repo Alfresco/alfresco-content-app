@@ -39,7 +39,7 @@ import { DocumentListComponent, FilterSearch } from '@alfresco/adf-content-servi
 import { NodeActionsService } from '../../services/node-actions.service';
 import { FilesComponent } from './files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { ContentApiService } from '@alfresco/aca-shared';
+import { ContentApiService } from '@alfresco-dbp/content-ce/shared';
 import { of, throwError } from 'rxjs';
 import { By } from '@angular/platform-browser';
 

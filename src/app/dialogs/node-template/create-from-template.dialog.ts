@@ -28,7 +28,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Node } from '@alfresco/js-api';
 import { FormBuilder, FormGroup, Validators, FormControl, ValidationErrors } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { AppStore, CreateFromTemplate } from '@alfresco/aca-shared/store';
+import { AppStore, CreateFromTemplate } from '@alfresco-dbp/content-ce/shared/store';
 import { TranslationService } from '@alfresco/adf-core';
 
 @Component({

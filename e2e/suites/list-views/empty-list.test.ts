@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, SearchResultsPage, Utils } from '@alfresco/aca-testing-shared';
+import { AdminActions, LoginPage, BrowsingPage, SearchResultsPage, Utils } from '@alfresco-dbp/content-ce/testing';
 
 describe('Empty list views', () => {
   const username = `user-${Utils.random()}`;

@@ -28,8 +28,8 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { SiteEntry, FavoritePaging, Pagination } from '@alfresco/js-api';
 import { ContentManagementService } from '../../services/content-management.service';
-import { AppExtensionService, ContentApiService } from '@alfresco/aca-shared';
-import { NavigateLibraryAction } from '@alfresco/aca-shared/store';
+import { AppExtensionService, ContentApiService } from '@alfresco-dbp/content-ce/shared';
+import { NavigateLibraryAction } from '@alfresco-dbp/content-ce/shared/store';
 import { PageComponent } from '../page.component';
 import { UserPreferencesService } from '@alfresco/adf-core';
 @Component({

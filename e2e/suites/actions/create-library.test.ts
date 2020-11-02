@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, SITE_VISIBILITY, LoginPage, BrowsingPage, CreateLibraryDialog, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { AdminActions, SITE_VISIBILITY, LoginPage, BrowsingPage, CreateLibraryDialog, Utils, RepoClient } from '@alfresco-dbp/content-ce/testing';
 
 describe('Create library', () => {
   const username = `user-${Utils.random()}`;

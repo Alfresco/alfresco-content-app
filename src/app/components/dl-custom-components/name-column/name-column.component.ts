@@ -29,8 +29,8 @@ import { ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewEncaps
 import { Actions, ofType } from '@ngrx/effects';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { NodeActionTypes } from '@alfresco/aca-shared/store';
-import { isLocked } from '@alfresco/aca-shared';
+import { NodeActionTypes } from '@alfresco-dbp/content-ce/shared/store';
+import { isLocked } from '@alfresco-dbp/content-ce/shared';
 
 @Component({
   selector: 'aca-custom-name-column',

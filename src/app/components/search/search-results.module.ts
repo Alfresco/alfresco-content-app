@@ -27,7 +27,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
 import { ContentModule } from '@alfresco/adf-content-services';
-import { LockedByModule } from '@alfresco/aca-shared';
+import { LockedByModule } from '@alfresco-dbp/content-ce/shared';
 import { SearchResultsComponent } from './search-results/search-results.component';
 import { SearchResultsRowComponent } from './search-results-row/search-results-row.component';
 import { SearchLibrariesResultsComponent } from './search-libraries-results/search-libraries-results.component';

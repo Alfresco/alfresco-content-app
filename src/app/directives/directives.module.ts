@@ -28,7 +28,7 @@ import { DocumentListDirective } from './document-list.directive';
 import { LibraryMembershipDirective } from './library-membership.directive';
 import { LibraryFavoriteDirective } from './library-favorite.directive';
 import { LockNodeDirective } from './lock-node.directive';
-import { SharedDirectivesModule } from '@alfresco/aca-shared';
+import { SharedDirectivesModule } from '@alfresco-dbp/content-ce/shared';
 
 export function directives() {
   return [DocumentListDirective, LibraryMembershipDirective, LibraryFavoriteDirective, LockNodeDirective];

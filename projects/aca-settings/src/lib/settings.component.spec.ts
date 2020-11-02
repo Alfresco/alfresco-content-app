@@ -28,7 +28,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CoreModule, setupTestBed, StorageService } from '@alfresco/adf-core';
 import { AcaSettingsModule } from './settings.module';
 import { By } from '@angular/platform-browser';
-import { AppExtensionService, SettingsParameterRef, LibTestingModule } from '@alfresco/aca-shared';
+import { AppExtensionService, SettingsParameterRef, LibTestingModule } from '@alfresco-dbp/content-ce/shared';
 
 describe('SettingsComponent', () => {
   let fixture: ComponentFixture<SettingsComponent>;

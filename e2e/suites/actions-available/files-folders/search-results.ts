@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BrowsingPage, SearchResultsPage, Utils } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, SearchResultsPage, Utils } from '@alfresco-dbp/content-ce/testing';
 import * as testData from './test-data';
 import * as testUtil from '../test-util';
 

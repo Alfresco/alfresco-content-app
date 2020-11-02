@@ -28,7 +28,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CoreModule } from '@alfresco/adf-core';
 import { AppCreateMenuModule } from './create-menu.module';
 import { OverlayContainer, OverlayModule } from '@angular/cdk/overlay';
-import { AppExtensionService } from '@alfresco/aca-shared';
+import { AppExtensionService } from '@alfresco-dbp/content-ce/shared';
 import { ContentActionType } from '@alfresco/adf-extensions';
 import { By } from '@angular/platform-browser';
 import { AppTestingModule } from '../../testing/app-testing.module';

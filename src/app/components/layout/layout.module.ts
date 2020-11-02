@@ -33,7 +33,7 @@ import { AppSidenavModule } from '../sidenav/sidenav.module';
 import { AppCommonModule } from '../common/common.module';
 import { AppHeaderModule } from '../header/header.module';
 import { HttpClientModule } from '@angular/common/http';
-import { PageLayoutModule } from '@alfresco/aca-shared';
+import { PageLayoutModule } from '@alfresco-dbp/content-ce/shared';
 
 @NgModule({
   imports: [

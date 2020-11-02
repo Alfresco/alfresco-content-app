@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, EXTENSIBILITY_CONFIGS, Utils, Header, Menu } from '@alfresco/aca-testing-shared';
+import { AdminActions, LoginPage, EXTENSIBILITY_CONFIGS, Utils, Header, Menu } from '@alfresco-dbp/content-ce/testing';
 
 describe('Extensions - Info Drawer', () => {
   const username = `user-${Utils.random()}`;

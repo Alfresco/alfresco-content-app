@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, FILES, RepoClient, Utils, Viewer, PasswordDialog } from '@alfresco/aca-testing-shared';
+import { AdminActions, LoginPage, BrowsingPage, FILES, RepoClient, Utils, Viewer, PasswordDialog } from '@alfresco-dbp/content-ce/testing';
 
 describe('Viewer - password protected file', () => {
   const username = `user-${Utils.random()}`;

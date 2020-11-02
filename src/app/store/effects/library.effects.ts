@@ -34,12 +34,12 @@ import {
   SnackbarErrorAction,
   UpdateLibraryAction,
   getAppSelection
-} from '@alfresco/aca-shared/store';
+} from '@alfresco-dbp/content-ce/shared/store';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { map, mergeMap, take } from 'rxjs/operators';
-import { ContentApiService } from '@alfresco/aca-shared';
+import { ContentApiService } from '@alfresco-dbp/content-ce/shared';
 import { ContentManagementService } from '../../services/content-management.service';
 
 @Injectable()

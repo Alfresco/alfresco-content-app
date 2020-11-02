@@ -26,7 +26,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { AppStore, ToggleDocumentDisplayMode, getDocumentDisplayMode } from '@alfresco/aca-shared/store';
+import { AppStore, ToggleDocumentDisplayMode, getDocumentDisplayMode } from '@alfresco-dbp/content-ce/shared/store';
 
 @Component({
   selector: 'app-document-display-mode',

@@ -27,7 +27,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
-import { AppStore, getRuleContext } from '@alfresco/aca-shared/store';
+import { AppStore, getRuleContext } from '@alfresco-dbp/content-ce/shared/store';
 import {
   SelectionState,
   NavigationState,

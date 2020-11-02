@@ -27,7 +27,7 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
 import { LogoutComponent } from './logout.component';
 import { Store } from '@ngrx/store';
-import { SetSelectedNodesAction } from '@alfresco/aca-shared/store';
+import { SetSelectedNodesAction } from '@alfresco-dbp/content-ce/shared/store';
 
 describe('LogoutComponent', () => {
   let fixture: ComponentFixture<LogoutComponent>;

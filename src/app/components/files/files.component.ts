@@ -31,8 +31,8 @@ import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElement, PathElementEnti
 import { ContentManagementService } from '../../services/content-management.service';
 import { NodeActionsService } from '../../services/node-actions.service';
 import { PageComponent } from '../page.component';
-import { AppExtensionService, ContentApiService } from '@alfresco/aca-shared';
-import { SetCurrentFolderAction, isAdmin, AppStore, UploadFileVersionAction } from '@alfresco/aca-shared/store';
+import { AppExtensionService, ContentApiService } from '@alfresco-dbp/content-ce/shared';
+import { SetCurrentFolderAction, isAdmin, AppStore, UploadFileVersionAction } from '@alfresco-dbp/content-ce/shared/store';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { FilterSearch, ShareDataRow } from '@alfresco/adf-content-services';

@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AppStore, DownloadNodesAction, EditOfflineAction, SnackbarErrorAction, getAppSelection } from '@alfresco/aca-shared/store';
+import { AppStore, DownloadNodesAction, EditOfflineAction, SnackbarErrorAction, getAppSelection } from '@alfresco-dbp/content-ce/shared/store';
 import { MinimalNodeEntity } from '@alfresco/js-api';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';

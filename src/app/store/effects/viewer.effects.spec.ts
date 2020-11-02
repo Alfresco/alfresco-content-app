@@ -29,7 +29,7 @@ import { ViewerEffects } from './viewer.effects';
 import { EffectsModule } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
-import { ViewFileAction, ViewNodeAction, SetSelectedNodesAction, SetCurrentFolderAction } from '@alfresco/aca-shared/store';
+import { ViewFileAction, ViewNodeAction, SetSelectedNodesAction, SetCurrentFolderAction } from '@alfresco-dbp/content-ce/shared/store';
 
 describe('ViewerEffects', () => {
   let store: Store<any>;

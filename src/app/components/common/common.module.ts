@@ -27,7 +27,7 @@ import { CoreModule } from '@alfresco/adf-core';
 import { ExtensionsModule } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { GenericErrorModule } from '@alfresco/aca-shared';
+import { GenericErrorModule } from '@alfresco-dbp/content-ce/shared';
 import { LocationLinkComponent } from './location-link/location-link.component';
 import { ToggleSharedComponent } from './toggle-shared/toggle-shared.component';
 import { LanguagePickerComponent } from './language-picker/language-picker.component';

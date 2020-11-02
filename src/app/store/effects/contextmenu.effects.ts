@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ContextMenuActionTypes, ContextMenu } from '@alfresco/aca-shared/store';
+import { ContextMenuActionTypes, ContextMenu } from '@alfresco-dbp/content-ce/shared/store';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { map } from 'rxjs/operators';

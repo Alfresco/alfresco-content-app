@@ -25,7 +25,7 @@
 
 import { Component, ViewEncapsulation, OnInit, OnDestroy, HostListener, ViewChild, AfterViewInit, Inject } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
-import { AppStore, getAppSelection } from '@alfresco/aca-shared/store';
+import { AppStore, getAppSelection } from '@alfresco-dbp/content-ce/shared/store';
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -33,7 +33,7 @@ import { ContentActionRef } from '@alfresco/adf-extensions';
 import { ContextMenuOverlayRef } from './context-menu-overlay';
 import { CONTEXT_MENU_DIRECTION } from './direction.token';
 import { Directionality } from '@angular/cdk/bidi';
-import { AppExtensionService } from '@alfresco/aca-shared';
+import { AppExtensionService } from '@alfresco-dbp/content-ce/shared';
 
 @Component({
   selector: 'aca-context-menu',

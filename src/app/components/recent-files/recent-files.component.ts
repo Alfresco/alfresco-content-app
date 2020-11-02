@@ -29,11 +29,11 @@ import { MinimalNodeEntity } from '@alfresco/js-api';
 import { ContentManagementService } from '../../services/content-management.service';
 import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
-import { AppStore } from '@alfresco/aca-shared/store';
+import { AppStore } from '@alfresco-dbp/content-ce/shared/store';
 import { UploadService } from '@alfresco/adf-core';
 import { debounceTime } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { AppExtensionService } from '@alfresco/aca-shared';
+import { AppExtensionService } from '@alfresco-dbp/content-ce/shared';
 
 @Component({
   templateUrl: './recent-files.component.html'

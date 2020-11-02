@@ -43,8 +43,8 @@ import {
   ViewNodeAction,
   ViewNodeExtras,
   SetSelectedNodesAction
-} from '@alfresco/aca-shared/store';
-import { isLocked, isLibrary, AppExtensionService } from '@alfresco/aca-shared';
+} from '@alfresco-dbp/content-ce/shared/store';
+import { isLocked, isLibrary, AppExtensionService } from '@alfresco-dbp/content-ce/shared';
 
 /* tslint:disable:directive-class-suffix */
 @Directive()

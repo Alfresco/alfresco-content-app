@@ -45,9 +45,9 @@ import {
   SnackbarErrorAction,
   CloseModalDialogsAction,
   SetRepositoryInfoAction
-} from '@alfresco/aca-shared/store';
+} from '@alfresco-dbp/content-ce/shared/store';
 import { filter, takeUntil } from 'rxjs/operators';
-import { RouterExtensionService, AppService, ContentApiService } from '@alfresco/aca-shared';
+import { RouterExtensionService, AppService, ContentApiService } from '@alfresco-dbp/content-ce/shared';
 import { DiscoveryEntry, GroupEntry, Group } from '@alfresco/js-api';
 import { Subject } from 'rxjs';
 import { INITIAL_APP_STATE } from './store/initial-state';

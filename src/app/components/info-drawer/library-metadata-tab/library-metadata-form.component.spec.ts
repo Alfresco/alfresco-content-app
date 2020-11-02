@@ -25,7 +25,7 @@
 import { LibraryMetadataFormComponent } from './library-metadata-form.component';
 import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
-import { UpdateLibraryAction } from '@alfresco/aca-shared/store';
+import { UpdateLibraryAction } from '@alfresco-dbp/content-ce/shared/store';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Site, SitePaging } from '@alfresco/js-api';

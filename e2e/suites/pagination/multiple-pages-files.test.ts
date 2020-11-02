@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Utils, AdminActions, RepoClient } from '@alfresco/aca-testing-shared';
+import { Utils, AdminActions, RepoClient } from '@alfresco-dbp/content-ce/testing';
 import { personalFilesTests } from './personal-files';
 import { recentFilesTests } from './recent-files';
 import { searchResultsTests } from './search-results';

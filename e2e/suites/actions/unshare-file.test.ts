@@ -36,7 +36,7 @@ import {
   ConfirmDialog,
   Viewer,
   Utils
-} from '@alfresco/aca-testing-shared';
+} from '@alfresco-dbp/content-ce/testing';
 
 describe('Unshare a file', () => {
   const username = `user-${Utils.random()}`;

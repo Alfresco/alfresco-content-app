@@ -28,8 +28,8 @@ import { PathInfo, MinimalNodeEntity } from '@alfresco/js-api';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 
 import { Store } from '@ngrx/store';
-import { AppStore, NavigateToParentFolder } from '@alfresco/aca-shared/store';
-import { ContentApiService } from '@alfresco/aca-shared';
+import { AppStore, NavigateToParentFolder } from '@alfresco-dbp/content-ce/shared/store';
+import { ContentApiService } from '@alfresco-dbp/content-ce/shared';
 import { TranslationService } from '@alfresco/adf-core';
 
 @Component({

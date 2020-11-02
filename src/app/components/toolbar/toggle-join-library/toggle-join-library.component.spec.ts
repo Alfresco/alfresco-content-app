@@ -29,7 +29,7 @@ import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-core';
 import { LibraryMembershipDirective } from '../../../directives/library-membership.directive';
 import { Store } from '@ngrx/store';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { SnackbarErrorAction, SnackbarInfoAction } from '@alfresco/aca-shared/store';
+import { SnackbarErrorAction, SnackbarInfoAction } from '@alfresco-dbp/content-ce/shared/store';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { ContentManagementService } from '../../../services/content-management.service';
 import { ToggleJoinLibraryButtonComponent } from './toggle-join-library-button.component';

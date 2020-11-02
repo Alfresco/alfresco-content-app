@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ExtensionRoute } from '@alfresco/aca-shared';
+import { ExtensionRoute } from '@alfresco-dbp/content-ce/shared';
 
 export const mockRoutesWithoutParentRoute: Array<ExtensionRoute> = [
   {

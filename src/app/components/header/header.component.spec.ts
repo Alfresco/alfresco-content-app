@@ -24,7 +24,7 @@
  */
 
 import { AppHeaderComponent } from './header.component';
-import { AppState } from '@alfresco/aca-shared/store';
+import { AppState } from '@alfresco-dbp/content-ce/shared/store';
 import { of } from 'rxjs';
 import { async } from '@angular/core/testing';
 import { ContentActionRef } from '@alfresco/adf-extensions';

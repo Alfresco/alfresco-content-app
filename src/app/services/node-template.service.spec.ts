@@ -25,7 +25,7 @@
 
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { EffectsModule } from '@ngrx/effects';
-import { AppStore, SnackbarErrorAction } from '@alfresco/aca-shared/store';
+import { AppStore, SnackbarErrorAction } from '@alfresco-dbp/content-ce/shared/store';
 import { TemplateEffects } from '../store/effects/template.effects';
 import { AppTestingModule } from '../testing/app-testing.module';
 import { Store } from '@ngrx/store';

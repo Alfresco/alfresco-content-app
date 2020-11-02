@@ -101,7 +101,7 @@ export interface ViewNodeExtras {
 ```typescript
 // custom-component.component.ts
 
-import { ViewNodeAction } from '@alfresco/aca-shared/store';
+import { ViewNodeAction } from '@alfresco-dbp/content-ce/shared/store';
 import { Router } from '@angular/router';
 
 @Component({...})

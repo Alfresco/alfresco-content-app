@@ -27,7 +27,7 @@ import { CommentsTabComponent } from './comments-tab.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { NodePermissionService } from '@alfresco/aca-shared';
+import { NodePermissionService } from '@alfresco-dbp/content-ce/shared';
 import { Node } from '@alfresco/js-api';
 
 describe('CommentsTabComponent', () => {

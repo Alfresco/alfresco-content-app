@@ -27,7 +27,7 @@ import { Directive, HostListener, Input, OnInit, OnDestroy } from '@angular/core
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { AppStore, ContextMenu } from '@alfresco/aca-shared/store';
+import { AppStore, ContextMenu } from '@alfresco-dbp/content-ce/shared/store';
 
 @Directive({
   selector: '[acaContextActions]',

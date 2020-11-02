@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BrowsingPage, Viewer, Utils, Menu } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, Viewer, Utils, Menu } from '@alfresco-dbp/content-ce/testing';
 import { BrowserActions } from '@alfresco/adf-testing';
 
 const page = new BrowsingPage();

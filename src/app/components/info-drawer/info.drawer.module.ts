@@ -36,7 +36,7 @@ import { LibraryMetadataTabComponent } from './library-metadata-tab/library-meta
 import { LibraryMetadataFormComponent } from './library-metadata-tab/library-metadata-form.component';
 import { VersionsTabComponent } from './versions-tab/versions-tab.component';
 import { A11yModule } from '@angular/cdk/a11y';
-import { SharedInfoDrawerModule } from '@alfresco/aca-shared';
+import { SharedInfoDrawerModule } from '@alfresco-dbp/content-ce/shared';
 
 export function components() {
   return [MetadataTabComponent, CommentsTabComponent, VersionsTabComponent, LibraryMetadataTabComponent, LibraryMetadataFormComponent];

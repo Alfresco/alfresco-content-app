@@ -26,7 +26,7 @@
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { map, take } from 'rxjs/operators';
-import { AppStore, NodeActionTypes, AddFavoriteAction, RemoveFavoriteAction, getAppSelection } from '@alfresco/aca-shared/store';
+import { AppStore, NodeActionTypes, AddFavoriteAction, RemoveFavoriteAction, getAppSelection } from '@alfresco-dbp/content-ce/shared/store';
 import { Store } from '@ngrx/store';
 import { ContentManagementService } from '../../services/content-management.service';
 

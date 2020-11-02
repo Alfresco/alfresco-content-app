@@ -29,7 +29,7 @@ import { SearchEffects } from './search.effects';
 import { EffectsModule } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
-import { SearchOptionIds, SearchByTermAction } from '@alfresco/aca-shared/store';
+import { SearchOptionIds, SearchByTermAction } from '@alfresco-dbp/content-ce/shared/store';
 
 describe('SearchEffects', () => {
   let store: Store<any>;

@@ -26,7 +26,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { CustomNameColumnComponent } from './name-column/name-column.component';
-import { LockedByModule } from '@alfresco/aca-shared';
+import { LockedByModule } from '@alfresco-dbp/content-ce/shared';
 import { ContentModule } from '@alfresco/adf-content-services';
 import { MaterialModule } from '../../material.module';
 import { CoreModule } from '@alfresco/adf-core';

@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NavigateLibraryAction, AppStore } from '@alfresco/aca-shared/store';
+import { NavigateLibraryAction, AppStore } from '@alfresco-dbp/content-ce/shared/store';
 import { NodePaging, Pagination, SiteEntry } from '@alfresco/js-api';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
@@ -32,7 +32,7 @@ import { Store } from '@ngrx/store';
 import { ContentManagementService } from '../../../services/content-management.service';
 import { PageComponent } from '../../page.component';
 import { SearchLibrariesQueryBuilderService } from './search-libraries-query-builder.service';
-import { AppExtensionService } from '@alfresco/aca-shared';
+import { AppExtensionService } from '@alfresco-dbp/content-ce/shared';
 
 @Component({
   selector: 'aca-search-results',

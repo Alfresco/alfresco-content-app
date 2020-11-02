@@ -33,7 +33,7 @@ import {
   Utils,
   ConfirmDialog,
   RepoClient
-} from '@alfresco/aca-testing-shared';
+} from '@alfresco-dbp/content-ce/testing';
 
 describe('Library actions', () => {
   const username = `user-${Utils.random()}`;

@@ -27,7 +27,7 @@ import { Component, ViewEncapsulation, OnInit, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { SelectionState } from '@alfresco/adf-extensions';
-import { AppStore, ReloadDocumentListAction, getAppSelection } from '@alfresco/aca-shared/store';
+import { AppStore, ReloadDocumentListAction, getAppSelection } from '@alfresco-dbp/content-ce/shared/store';
 import { Router } from '@angular/router';
 
 @Component({

@@ -29,10 +29,10 @@ import { ExpandedTemplateDirective } from './directives/expanded-template.direct
 import { NavBarGroupRef } from '@alfresco/adf-extensions';
 import { AuthenticationService } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
-import { AppStore, getSideNavState } from '@alfresco/aca-shared/store';
+import { AppStore, getSideNavState } from '@alfresco-dbp/content-ce/shared/store';
 import { Subject } from 'rxjs';
 import { takeUntil, distinctUntilChanged, debounceTime } from 'rxjs/operators';
-import { AppExtensionService } from '@alfresco/aca-shared';
+import { AppExtensionService } from '@alfresco-dbp/content-ce/shared';
 
 @Component({
   selector: 'app-sidenav',

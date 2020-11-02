@@ -27,7 +27,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { AppStore, isQuickShareEnabled } from '@alfresco/aca-shared/store';
+import { AppStore, isQuickShareEnabled } from '@alfresco-dbp/content-ce/shared/store';
 
 @Injectable({
   providedIn: 'root'

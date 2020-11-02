@@ -33,7 +33,7 @@ import { ContentActionType } from '@alfresco/adf-extensions';
 
 import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { AppExtensionService } from '@alfresco/aca-shared';
+import { AppExtensionService } from '@alfresco-dbp/content-ce/shared';
 
 describe('ContextMenuComponent', () => {
   let fixture: ComponentFixture<ContextMenuComponent>;

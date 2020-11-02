@@ -29,7 +29,7 @@ import { AppTestingModule } from '../../testing/app-testing.module';
 import { CoreModule, TranslationMock } from '@alfresco/adf-core';
 import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { CreateFromTemplate } from '@alfresco/aca-shared/store';
+import { CreateFromTemplate } from '@alfresco-dbp/content-ce/shared/store';
 import { Node } from '@alfresco/js-api';
 import { TranslateModule } from '@ngx-translate/core';
 

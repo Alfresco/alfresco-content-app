@@ -312,7 +312,7 @@ We need to add the custom route with our entry component and its child route for
 ##### Dispatching the right action within our component to open the file preview
 
 ```ts
-import { PluginPreviewAction } from '@alfresco/aca-shared/store';
+import { PluginPreviewAction } from '@alfresco-dbp/content-ce/shared/store';
 
 @Component({...})
 export class StartProcessComponent {

@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage, Utils, AdminActions, UserActions, RepoClient } from '@alfresco/aca-testing-shared';
+import { LoginPage, BrowsingPage, Utils, AdminActions, UserActions, RepoClient } from '@alfresco-dbp/content-ce/testing';
 
 describe('Pagination on multiple pages on Trash', () => {
   const random = Utils.random();

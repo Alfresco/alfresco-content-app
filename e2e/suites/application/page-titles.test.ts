@@ -24,7 +24,7 @@
  */
 
 import { browser } from 'protractor';
-import { PAGE_TITLES, LoginPage, BrowsingPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { PAGE_TITLES, LoginPage, BrowsingPage, RepoClient, Utils } from '@alfresco-dbp/content-ce/testing';
 
 describe('Page titles', () => {
   const loginPage = new LoginPage();

@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AppState, AppStore } from '@alfresco/aca-shared/store';
+import { AppState, AppStore } from '@alfresco-dbp/content-ce/shared/store';
 
 export const INITIAL_APP_STATE: AppState = {
   appName: 'Alfresco Content Application',

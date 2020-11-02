@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Utils } from '@alfresco/aca-testing-shared';
+import { Utils } from '@alfresco-dbp/content-ce/testing';
 
 // ---- multiple selection ---
 

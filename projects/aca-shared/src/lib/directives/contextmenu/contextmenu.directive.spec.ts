@@ -24,7 +24,7 @@
  */
 
 import { ContextActionsDirective } from './contextmenu.directive';
-import { ContextMenu } from '@alfresco/aca-shared/store';
+import { ContextMenu } from '@alfresco-dbp/content-ce/shared/store';
 import { fakeAsync, tick } from '@angular/core/testing';
 
 describe('ContextActionsDirective', () => {

@@ -23,8 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AppExtensionService, ContentApiService } from '@alfresco/aca-shared';
-import { AppStore } from '@alfresco/aca-shared/store';
+import { AppExtensionService, ContentApiService } from '@alfresco-dbp/content-ce/shared';
+import { AppStore } from '@alfresco-dbp/content-ce/shared/store';
 import { UploadService } from '@alfresco/adf-core';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElementEntity, PathInfo } from '@alfresco/js-api';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';

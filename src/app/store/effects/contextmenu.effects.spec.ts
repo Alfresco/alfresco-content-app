@@ -28,7 +28,7 @@ import { AppTestingModule } from '../../testing/app-testing.module';
 import { ContextMenuEffects } from './contextmenu.effects';
 import { EffectsModule } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { ContextMenu } from '@alfresco/aca-shared/store';
+import { ContextMenu } from '@alfresco-dbp/content-ce/shared/store';
 import { ContextMenuService } from '../../components/context-menu/context-menu.service';
 import { OverlayRef } from '@angular/cdk/overlay';
 import { ContextMenuOverlayRef } from '../../components/context-menu/context-menu-overlay';

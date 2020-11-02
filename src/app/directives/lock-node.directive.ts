@@ -26,7 +26,7 @@
 import { Directive, EventEmitter, HostListener, Input, Output } from '@angular/core';
 import { NodeEntry, SharedLinkEntry } from '@alfresco/js-api';
 import { AlfrescoApiService } from '@alfresco/adf-core';
-import { isLocked } from '@alfresco/aca-shared';
+import { isLocked } from '@alfresco-dbp/content-ce/shared';
 
 @Directive({
   selector: '[acaLockNode]',

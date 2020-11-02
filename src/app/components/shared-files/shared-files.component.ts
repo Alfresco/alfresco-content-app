@@ -32,7 +32,7 @@ import { debounceTime } from 'rxjs/operators';
 import { UploadService } from '@alfresco/adf-core';
 import { Router } from '@angular/router';
 import { MinimalNodeEntity } from '@alfresco/js-api';
-import { AppExtensionService } from '@alfresco/aca-shared';
+import { AppExtensionService } from '@alfresco-dbp/content-ce/shared';
 
 @Component({
   templateUrl: './shared-files.component.html'

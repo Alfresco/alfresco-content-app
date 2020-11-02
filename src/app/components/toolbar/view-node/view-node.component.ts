@@ -25,7 +25,7 @@
 
 import { Component, ViewEncapsulation, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppStore, ViewNodeAction, getAppSelection } from '@alfresco/aca-shared/store';
+import { AppStore, ViewNodeAction, getAppSelection } from '@alfresco-dbp/content-ce/shared/store';
 import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { SharedLinkEntry } from '@alfresco/js-api';

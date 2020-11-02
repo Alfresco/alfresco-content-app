@@ -49,7 +49,7 @@ For this each extension can register its own loader, which can be either synchro
 This registering can be done, using Angular's multi-provider capabilities:
 
 ```ts
-import { EXTENSION_DATA_LOADERS } from '@alfresco/aca-shared';
+import { EXTENSION_DATA_LOADERS } from '@alfresco-dbp/content-ce/shared';
 
 @NgModule({
     imports: [...],

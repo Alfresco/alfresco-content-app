@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AppStore, SetSelectedNodesAction, getAppSelection } from '@alfresco/aca-shared/store';
+import { AppStore, SetSelectedNodesAction, getAppSelection } from '@alfresco-dbp/content-ce/shared/store';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { SharedLinkEntry } from '@alfresco/js-api';
@@ -32,7 +32,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { forkJoin, from, of } from 'rxjs';
 import { catchError, mergeMap } from 'rxjs/operators';
-import { AppExtensionService } from '@alfresco/aca-shared';
+import { AppExtensionService } from '@alfresco-dbp/content-ce/shared';
 
 @Component({
   selector: 'app-shared-link-view',

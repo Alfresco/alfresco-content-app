@@ -30,7 +30,7 @@ import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TRANSLATION_PROVIDER, CoreModule, AppConfigService, DebugAppConfigService } from '@alfresco/adf-core';
 import { ContentModule } from '@alfresco/adf-content-services';
-import { SharedModule } from '@alfresco/aca-shared';
+import { SharedModule } from '@alfresco-dbp/content-ce/shared';
 
 import { AppComponent } from './app.component';
 import { APP_ROUTES } from './app.routes';

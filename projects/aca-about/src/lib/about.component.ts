@@ -28,7 +28,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { RepositoryInfo } from '@alfresco/js-api';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AppExtensionService, ContentApiService } from '@alfresco/aca-shared';
+import { AppExtensionService, ContentApiService } from '@alfresco-dbp/content-ce/shared';
 import { dependencies, version, name, commit } from 'package.json';
 
 @Component({

@@ -30,7 +30,7 @@ import { UploadEffects } from './upload.effects';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { NgZone } from '@angular/core';
 import { UploadService, FileUploadCompleteEvent, FileModel } from '@alfresco/adf-core';
-import { UnlockWriteAction, UploadFileVersionAction } from '@alfresco/aca-shared/store';
+import { UnlockWriteAction, UploadFileVersionAction } from '@alfresco-dbp/content-ce/shared/store';
 import { ContentManagementService } from '../../services/content-management.service';
 
 describe('UploadEffects', () => {

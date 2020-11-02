@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AppStore, getUserProfile } from '@alfresco/aca-shared/store';
+import { AppStore, getUserProfile } from '@alfresco-dbp/content-ce/shared/store';
 import { ProfileState } from '@alfresco/adf-extensions';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
@@ -31,7 +31,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { ContentManagementService } from '../../services/content-management.service';
 import { PageComponent } from '../page.component';
-import { AppExtensionService } from '@alfresco/aca-shared';
+import { AppExtensionService } from '@alfresco-dbp/content-ce/shared';
 
 @Component({
   templateUrl: './trashcan.component.html'

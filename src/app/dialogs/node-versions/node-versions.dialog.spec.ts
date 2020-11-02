@@ -37,7 +37,7 @@ import {
   VersionUploadComponent
 } from '@alfresco/adf-content-services';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { AppStore, UnlockWriteAction, ViewNodeExtras, ViewNodeVersionAction } from '@alfresco/aca-shared/store';
+import { AppStore, UnlockWriteAction, ViewNodeExtras, ViewNodeVersionAction } from '@alfresco-dbp/content-ce/shared/store';
 import { RouterTestingModule } from '@angular/router/testing';
 
 describe('NodeVersionsDialogComponent', () => {

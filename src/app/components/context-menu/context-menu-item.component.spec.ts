@@ -28,7 +28,7 @@ import { AppTestingModule } from '../../testing/app-testing.module';
 import { ContextMenuItemComponent } from './context-menu-item.component';
 import { ContextMenuModule } from './context-menu.module';
 import { TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
-import { AppExtensionService } from '@alfresco/aca-shared';
+import { AppExtensionService } from '@alfresco-dbp/content-ce/shared';
 
 describe('ContextMenuComponent', () => {
   let fixture: ComponentFixture<ContextMenuItemComponent>;

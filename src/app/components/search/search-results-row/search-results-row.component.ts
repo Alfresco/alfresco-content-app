@@ -25,13 +25,13 @@
 
 import { Component, Input, OnInit, ViewEncapsulation, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { MinimalNodeEntity } from '@alfresco/js-api';
-import { ViewNodeAction, NavigateToFolder } from '@alfresco/aca-shared/store';
+import { ViewNodeAction, NavigateToFolder } from '@alfresco-dbp/content-ce/shared/store';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { isLocked } from '@alfresco/aca-shared';
+import { isLocked } from '@alfresco-dbp/content-ce/shared';
 
 @Component({
   selector: 'aca-search-results-row',

@@ -46,7 +46,7 @@ import {
   PrintFileAction,
   getCurrentFolder,
   getAppSelection
-} from '@alfresco/aca-shared/store';
+} from '@alfresco-dbp/content-ce/shared/store';
 import { ContentManagementService } from '../../services/content-management.service';
 import { ViewUtilService } from '@alfresco/adf-core';
 

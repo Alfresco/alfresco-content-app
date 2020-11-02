@@ -25,7 +25,7 @@
 
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppStore, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
+import { AppStore, SetSelectedNodesAction } from '@alfresco-dbp/content-ce/shared/store';
 
 @Component({
   selector: 'aca-logout',

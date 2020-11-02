@@ -27,7 +27,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { SelectionState } from '@alfresco/adf-extensions';
-import { AppStore, ShareNodeAction, getAppSelection } from '@alfresco/aca-shared/store';
+import { AppStore, ShareNodeAction, getAppSelection } from '@alfresco-dbp/content-ce/shared/store';
 
 @Component({
   selector: 'app-toggle-shared',

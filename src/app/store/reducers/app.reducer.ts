@@ -39,7 +39,7 @@ import {
   SetInfoDrawerMetadataAspectAction,
   SetHeaderColorAction,
   SetCurrentNodeVersionAction
-} from '@alfresco/aca-shared/store';
+} from '@alfresco-dbp/content-ce/shared/store';
 import { INITIAL_APP_STATE } from '../initial-state';
 
 export function appReducer(state: AppState = INITIAL_APP_STATE, action: Action): AppState {

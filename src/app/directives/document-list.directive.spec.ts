@@ -25,7 +25,7 @@
 
 import { DocumentListDirective } from './document-list.directive';
 import { Subject } from 'rxjs';
-import { SetSelectedNodesAction } from '@alfresco/aca-shared/store';
+import { SetSelectedNodesAction } from '@alfresco-dbp/content-ce/shared/store';
 
 describe('DocumentListDirective', () => {
   let documentListDirective;

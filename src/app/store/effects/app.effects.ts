@@ -26,7 +26,7 @@
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { AppActionTypes, LogoutAction, ReloadDocumentListAction, ResetSelectionAction } from '@alfresco/aca-shared/store';
+import { AppActionTypes, LogoutAction, ReloadDocumentListAction, ResetSelectionAction } from '@alfresco-dbp/content-ce/shared/store';
 import { AuthenticationService } from '@alfresco/adf-core';
 import { Router } from '@angular/router';
 import { ContentManagementService } from '../../services/content-management.service';

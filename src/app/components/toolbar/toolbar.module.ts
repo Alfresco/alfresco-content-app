@@ -37,7 +37,7 @@ import { ToggleFavoriteLibraryComponent } from './toggle-favorite-library/toggle
 import { ToggleEditOfflineComponent } from './toggle-edit-offline/toggle-edit-offline.component';
 import { ViewNodeComponent } from './view-node/view-node.component';
 import { AppCommonModule } from '../common/common.module';
-import { SharedToolbarModule } from '@alfresco/aca-shared';
+import { SharedToolbarModule } from '@alfresco-dbp/content-ce/shared';
 
 export function components() {
   return [

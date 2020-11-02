@@ -35,7 +35,7 @@ import {
   ShareDataRow
 } from '@alfresco/adf-content-services';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, SitePaging, NodeChildAssociationPaging, NodeChildAssociationEntry } from '@alfresco/js-api';
-import { ContentApiService } from '@alfresco/aca-shared';
+import { ContentApiService } from '@alfresco-dbp/content-ce/shared';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
 export enum BatchOperationType {

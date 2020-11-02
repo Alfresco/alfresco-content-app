@@ -30,9 +30,9 @@ import { AppTestingModule } from '../../../testing/app-testing.module';
 import { AppConfigService, setupTestBed, CoreModule } from '@alfresco/adf-core';
 import { ContentMetadataModule } from '@alfresco/adf-content-services';
 import { Store } from '@ngrx/store';
-import { SetInfoDrawerMetadataAspectAction, AppState } from '@alfresco/aca-shared/store';
+import { SetInfoDrawerMetadataAspectAction, AppState } from '@alfresco-dbp/content-ce/shared/store';
 import { By } from '@angular/platform-browser';
-import { AppExtensionService } from '@alfresco/aca-shared';
+import { AppExtensionService } from '@alfresco-dbp/content-ce/shared';
 
 describe('MetadataTabComponent', () => {
   let fixture: ComponentFixture<MetadataTabComponent>;

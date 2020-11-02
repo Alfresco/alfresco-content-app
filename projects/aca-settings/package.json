@@ -1,5 +1,5 @@
 {
-  "name": "@alfresco/aca-settings",
+  "name": "@alfresco-dbp/content-ce/settings",
   "version": "2.1.0",
   "peerDependencies": {
     "@angular/common": "^10.0.14",

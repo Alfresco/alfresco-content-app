@@ -31,7 +31,7 @@ import {
   Utils,
   clearTextWithBackspace,
   RepoClient
-} from '@alfresco/aca-testing-shared';
+} from '@alfresco-dbp/content-ce/testing';
 
 describe('Create folder', () => {
   const username = `user-${Utils.random()}`;

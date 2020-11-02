@@ -33,7 +33,7 @@ import {
   FILES,
   DATE_TIME_FORMAT,
   DATE_FORMAT
-} from '@alfresco/aca-testing-shared';
+} from '@alfresco-dbp/content-ce/testing';
 
 const moment = require('moment');
 

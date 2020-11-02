@@ -31,7 +31,7 @@ import { DocumentListService } from '@alfresco/adf-content-services';
 import { NodeActionsService, BatchOperationType } from './node-actions.service';
 import { MinimalNodeEntryEntity, NodeChildAssociationEntry, NodeEntry } from '@alfresco/js-api';
 import { AppTestingModule } from '../testing/app-testing.module';
-import { ContentApiService } from '@alfresco/aca-shared';
+import { ContentApiService } from '@alfresco-dbp/content-ce/shared';
 
 class TestNode {
   entry: MinimalNodeEntryEntity;

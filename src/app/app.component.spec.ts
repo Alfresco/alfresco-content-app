@@ -24,7 +24,7 @@
  */
 
 import { AppComponent } from './app.component';
-import { SetInitialStateAction } from '@alfresco/aca-shared/store';
+import { SetInitialStateAction } from '@alfresco-dbp/content-ce/shared/store';
 import { Router } from '@angular/router';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';

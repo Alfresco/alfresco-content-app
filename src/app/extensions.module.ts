@@ -24,9 +24,9 @@
  */
 
 import { NgModule } from '@angular/core';
-import { AosExtensionModule } from '@alfresco/adf-office-services-ext';
-import { AcaAboutModule } from '@alfresco/aca-about';
-import { AcaSettingsModule } from '@alfresco/aca-settings';
+import { AosExtensionModule } from '@alfresco-dbp/content-ce/office-services';
+import { AcaAboutModule } from '@alfresco-dbp/content-ce/about';
+import { AcaSettingsModule } from '@alfresco-dbp/content-ce/settings';
 
 // Main entry point for external extensions only.
 // For any application-specific code use CoreExtensionsModule instead.

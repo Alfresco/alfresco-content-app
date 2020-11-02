@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { AdminActions, LoginPage, BrowsingPage, RepoClient, Utils } from '@alfresco-dbp/content-ce/testing';
 
 describe('Upload files', () => {
   const username = `user-${Utils.random()}`;

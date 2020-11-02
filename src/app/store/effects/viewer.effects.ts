@@ -36,10 +36,10 @@ import {
   FullscreenViewerAction,
   ViewNodeVersionAction,
   PluginPreviewAction
-} from '@alfresco/aca-shared/store';
+} from '@alfresco-dbp/content-ce/shared/store';
 import { Router, UrlTree, UrlSegmentGroup, PRIMARY_OUTLET, UrlSegment } from '@angular/router';
 import { Store, createSelector } from '@ngrx/store';
-import { AppExtensionService } from '@alfresco/aca-shared';
+import { AppExtensionService } from '@alfresco-dbp/content-ce/shared';
 import { MatDialog } from '@angular/material/dialog';
 
 export const fileToPreview = createSelector(getAppSelection, getCurrentFolder, (selection, folder) => {

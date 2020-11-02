@@ -32,7 +32,7 @@ import {
   RepoClient,
   Utils,
   UploadNewVersionDialog
-} from '@alfresco/aca-testing-shared';
+} from '@alfresco-dbp/content-ce/testing';
 
 describe('Upload new version', () => {
   const username = `user-${Utils.random()}`;

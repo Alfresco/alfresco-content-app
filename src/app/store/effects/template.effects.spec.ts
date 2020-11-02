@@ -28,7 +28,13 @@ import { AppTestingModule } from '../../testing/app-testing.module';
 import { TemplateEffects } from './template.effects';
 import { EffectsModule } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { CreateFromTemplate, CreateFromTemplateSuccess, FileFromTemplate, FolderFromTemplate, SnackbarErrorAction } from '@alfresco/aca-shared/store';
+import {
+  CreateFromTemplate,
+  CreateFromTemplateSuccess,
+  FileFromTemplate,
+  FolderFromTemplate,
+  SnackbarErrorAction
+} from '@alfresco-dbp/content-ce/shared/store';
 import { NodeTemplateService } from '../../services/node-template.service';
 import { of, Subject } from 'rxjs';
 import { AlfrescoApiServiceMock, AlfrescoApiService } from '@alfresco/adf-core';

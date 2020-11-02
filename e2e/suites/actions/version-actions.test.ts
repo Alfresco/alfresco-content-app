@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, FILES, RepoClient, Utils, UploadNewVersionDialog } from '@alfresco/aca-testing-shared';
+import { AdminActions, LoginPage, BrowsingPage, FILES, RepoClient, Utils, UploadNewVersionDialog } from '@alfresco-dbp/content-ce/testing';
 import { VersionManagePage } from '../../../projects/aca-testing-shared/src/components/version-manage/version-manager';
 import { Viewer } from '../../../projects/aca-testing-shared/src/components';
 import { browser } from 'protractor';
