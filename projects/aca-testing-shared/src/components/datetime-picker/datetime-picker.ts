@@ -26,6 +26,7 @@
 import { by, browser } from 'protractor';
 import { Component } from '../component';
 import { isPresentAndDisplayed, waitForStaleness } from '../../utilities/utils';
+import { BrowserActions } from '@alfresco/adf-testing';
 const moment = require('moment');
 
 export class DateTimePicker extends Component {
@@ -57,7 +58,7 @@ export class DateTimePicker extends Component {
     const year = await this.headerYear.getText();
     const firstActiveDay = '.mat-datetimepicker-calendar-body-active .mat-datetimepicker-calendar-body-cell-content';
     const elem = this.dayPicker.element(by.cssContainingText(firstActiveDay, `${dayOfTomorrow}`));
-    await elem.click();
+    await BrowserActions.click(elem);
     return `${date} ${year}`;
   }
 }

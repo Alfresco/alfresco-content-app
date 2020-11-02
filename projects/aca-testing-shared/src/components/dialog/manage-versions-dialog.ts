@@ -25,6 +25,7 @@
 
 import { by } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 export class ManageVersionsDialog extends GenericDialog {
   closeButton = this.childElement(by.cssContainingText('.mat-button', 'Close'));
@@ -34,7 +35,7 @@ export class ManageVersionsDialog extends GenericDialog {
   }
 
   async clickClose(): Promise<void> {
-    await this.closeButton.click();
+    await BrowserActions.click(this.closeButton);
     await this.waitForDialogToClose();
   }
 }

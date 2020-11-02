@@ -26,7 +26,7 @@
 import { by } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
 import { isPresentAndDisplayed, isPresentAndEnabled, typeText } from '../../utilities/utils';
-import { BrowserVisibility } from '@alfresco/adf-testing';
+import { BrowserActions, BrowserVisibility } from '@alfresco/adf-testing';
 
 export class CreateOrEditFolderDialog extends GenericDialog {
   createButton = this.childElement(by.cssContainingText('.mat-dialog-actions button', 'Create'));
@@ -83,7 +83,7 @@ export class CreateOrEditFolderDialog extends GenericDialog {
   }
 
   async clickCancel(): Promise<void> {
-    await this.cancelButton.click();
+    await BrowserActions.click(this.cancelButton);
     await this.waitForDialogToClose();
   }
 }

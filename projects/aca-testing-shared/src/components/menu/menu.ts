@@ -24,7 +24,7 @@
  */
 
 import { ElementFinder, by, browser } from 'protractor';
-import { BrowserVisibility, Logger } from '@alfresco/adf-testing';
+import { BrowserActions, BrowserVisibility, Logger } from '@alfresco/adf-testing';
 import { Component } from '../component';
 import { Utils, isPresentAndEnabled, waitForStaleness } from '../../utilities/utils';
 
@@ -138,8 +138,7 @@ export class Menu extends Component {
   async clickMenuItem(menuItem: string): Promise<void> {
     try {
       const elem = this.getItemByLabel(menuItem);
-      await BrowserVisibility.waitUntilElementIsClickable(elem);
-      await elem.click();
+      await BrowserActions.click(elem);
     } catch (e) {
       Logger.error('___click menu item catch___', e);
     }
@@ -171,8 +170,7 @@ export class Menu extends Component {
   async clickSubMenuItem(subMenuItem: string): Promise<void> {
     try {
       const elem = this.getSubItemByLabel(subMenuItem);
-      await BrowserVisibility.waitUntilElementIsClickable(elem);
-      await elem.click();
+      await BrowserActions.click(elem);
     } catch (e) {
       Logger.error('___click submenu item catch___', e);
     }

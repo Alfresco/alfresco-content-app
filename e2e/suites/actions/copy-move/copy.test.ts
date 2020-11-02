@@ -215,7 +215,7 @@ describe('Copy content', () => {
     await repo.sites.deleteSite(siteName);
   });
 
-  describe('from Recent Files', () => {
+   describe('from Recent Files', () => {
     beforeEach(async () => {
       await Utils.pressEscape();
       await page.clickRecentFilesAndWait();

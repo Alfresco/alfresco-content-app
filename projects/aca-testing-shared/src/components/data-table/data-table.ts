@@ -24,7 +24,7 @@
  */
 
 import { browser, by, ElementArrayFinder, ElementFinder, protractor } from 'protractor';
-import { BrowserVisibility, Logger } from '@alfresco/adf-testing';
+import { BrowserActions, BrowserVisibility, Logger } from '@alfresco/adf-testing';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
 import { Menu } from '../menu/menu';
@@ -104,9 +104,9 @@ export class DataTable extends Component {
     const sortColumn = await this.getSortedColumnHeaderText();
 
     if (sortColumn !== 'Modified') {
-      await this.columnModified.click();
+      await BrowserActions.click(this.columnModified);
       if (sortOrder !== order) {
-        await this.columnModified.click();
+        await BrowserActions.click(this.columnModified);
       }
     }
   }
@@ -236,7 +236,7 @@ export class DataTable extends Component {
     if (!isSelected) {
       try {
         const item = this.getRowFirstCell(name, location);
-        await item.click();
+        await BrowserActions.click(item);
       } catch (e) {
         Logger.error(`--- select item catch : failed to select ${name} from location : ${location} : `, e);
       }
@@ -248,7 +248,7 @@ export class DataTable extends Component {
     if (isSelected) {
       try {
         const item = this.getRowFirstCell(name, location);
-        await item.click();
+        await BrowserActions.click(item);
       } catch (e) {
         Logger.error('--- unselect item catch : ', e);
       }
@@ -257,7 +257,7 @@ export class DataTable extends Component {
 
   async clickItem(name: string, location: string = ''): Promise<void> {
     const item = this.getRowFirstCell(name, location);
-    await item.click();
+    await BrowserActions.click(item);
   }
 
   async clickNameLink(itemName: string): Promise<void> {

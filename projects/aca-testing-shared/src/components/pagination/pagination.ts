@@ -24,7 +24,7 @@
  */
 
 import { browser } from 'protractor';
-import { BrowserVisibility, Logger } from '@alfresco/adf-testing';
+import { BrowserActions, Logger } from '@alfresco/adf-testing';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
 
@@ -46,8 +46,7 @@ export class Pagination extends Component {
 
   async openMaxItemsMenu() {
     try {
-      await BrowserVisibility.waitUntilElementIsClickable(this.maxItemsButton);
-      await this.maxItemsButton.click();
+      await BrowserActions.click(this.maxItemsButton);
       await this.menu.waitForMenuToOpen();
     } catch (error) {
       Logger.error('____ open max items catch ___', error);
@@ -56,8 +55,7 @@ export class Pagination extends Component {
 
   async openCurrentPageMenu() {
     try {
-      await BrowserVisibility.waitUntilElementIsClickable(this.pagesButton);
-      await this.pagesButton.click();
+      await BrowserActions.click(this.pagesButton);
       await this.menu.waitForMenuToOpen();
     } catch (error) {
       Logger.error('____ open current page menu ___', error);
@@ -85,11 +83,11 @@ export class Pagination extends Component {
   }
 
   async clickNext() {
-    await this.nextButton.click();
+    await BrowserActions.click(this.nextButton);
   }
 
   async clickPrevious() {
-    await this.previousButton.click();
+    await BrowserActions.click(this.previousButton);
   }
 
   async isNextEnabled() {

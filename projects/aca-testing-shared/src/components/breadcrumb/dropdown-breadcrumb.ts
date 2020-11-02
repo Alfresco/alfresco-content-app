@@ -26,7 +26,7 @@
 import { browser, by } from 'protractor';
 import { Component } from '../component';
 import { waitForStaleness } from '../../utilities/utils';
-import { BrowserVisibility } from '@alfresco/adf-testing';
+import { BrowserActions, BrowserVisibility } from '@alfresco/adf-testing';
 
 export class DropDownBreadcrumb extends Component {
   pathOptionCss = '.adf-dropdown-breadcrumb-path-option .mat-option-text';
@@ -48,13 +48,13 @@ export class DropDownBreadcrumb extends Component {
   }
 
   async openPath(): Promise<void> {
-    await this.trigger.click();
+    await BrowserActions.click(this.trigger);
     await this.waitForPathListDropdownToOpen();
   }
 
   async clickPathItem(name: string): Promise<void> {
     const elem = browser.element(by.cssContainingText(this.pathOptionCss, name));
-    await elem.click();
+    await BrowserActions.click(elem);
   }
 
   async getPathItems(): Promise<string[]> {

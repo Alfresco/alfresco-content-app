@@ -26,6 +26,7 @@
 import { by } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
 import { isPresentAndEnabled, typeText } from '../../utilities/utils';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 export class UploadNewVersionDialog extends GenericDialog {
   cancelButton = this.childElement(by.cssContainingText('.mat-button-wrapper', 'Cancel'));
@@ -47,7 +48,7 @@ export class UploadNewVersionDialog extends GenericDialog {
   }
 
   async clickCancel(): Promise<void> {
-    await this.cancelButton.click();
+    await BrowserActions.click(this.cancelButton);
     await this.waitForDialogToClose();
   }
 

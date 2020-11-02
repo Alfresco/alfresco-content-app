@@ -24,7 +24,7 @@
  */
 
 import { browser, by, ElementFinder } from 'protractor';
-import { BrowserVisibility, Logger } from '@alfresco/adf-testing';
+import { BrowserActions, BrowserVisibility, Logger } from '@alfresco/adf-testing';
 import { USE_HASH_STRATEGY } from './../configs';
 import { Utils, waitElement, isPresentAndDisplayed } from '../utilities/utils';
 
@@ -80,7 +80,7 @@ export abstract class Page {
 
   async closeUploadDialog(): Promise<void> {
     if (await this.isUploadDialogOpen()) {
-      await this.closeUploadButton.click();
+      await BrowserActions.click(this.closeUploadButton);
     }
   }
 

@@ -47,7 +47,7 @@ export class Header extends Component {
   }
 
   async openMoreMenu(): Promise<void> {
-    await this.moreActions.click();
+    await BrowserActions.click(this.moreActions);
     await this.menu.waitForMenuToOpen();
   }
 
@@ -63,7 +63,7 @@ export class Header extends Component {
   async expandSideNav(): Promise<void> {
     const expanded = await this.isSidenavExpanded();
     if (!expanded) {
-      await this.sidenavToggle.click();
+      await BrowserActions.click(this.sidenavToggle);
       await waitElement(`[data-automation-id='expanded']`);
     }
   }
@@ -71,7 +71,7 @@ export class Header extends Component {
   async collapseSideNav(): Promise<void> {
     const expanded = await this.isSidenavExpanded();
     if (expanded) {
-      await this.sidenavToggle.click();
+      await BrowserActions.click(this.sidenavToggle);
       await waitElement(`[data-automation-id='collapsed']`);
     }
   }

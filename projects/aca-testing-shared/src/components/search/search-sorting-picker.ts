@@ -26,7 +26,7 @@
 import { by, browser } from 'protractor';
 import { Component } from '../component';
 import { isPresentAndDisplayed } from '../../utilities/utils';
-import { BrowserVisibility } from '@alfresco/adf-testing';
+import { BrowserActions, BrowserVisibility } from '@alfresco/adf-testing';
 
 export type SortByType = 'Relevance' | 'Title' | 'Filename' | 'Modified date' | 'Modifier' | 'Created date' | 'Size' | 'Type';
 export type SortOrderType = 'ASC' | 'DESC' | '';
@@ -74,7 +74,7 @@ export class SearchSortingPicker extends Component {
   }
 
   async clickSortByDropdown(): Promise<void> {
-    await this.sortByDropdownCollapsed.click();
+    await BrowserActions.click(this.sortByDropdownCollapsed);
     await this.waitForSortByDropdownToExpand();
   }
 
@@ -89,18 +89,18 @@ export class SearchSortingPicker extends Component {
       await this.clickSortByDropdown();
     }
     const elem = browser.element(by.cssContainingText('.mat-option .mat-option-text', option));
-    await elem.click();
+    await BrowserActions.click(elem);
   }
 
   async setSortOrderASC(): Promise<void> {
     if ((await this.getSortOrder()) !== 'ASC') {
-      await this.sortOrderButton.click();
+      await BrowserActions.click(this.sortOrderButton);
     }
   }
 
   async setSortOrderDESC(): Promise<void> {
     if ((await this.getSortOrder()) !== 'DESC') {
-      await this.sortOrderButton.click();
+      await BrowserActions.click(this.sortOrderButton);
     }
   }
 }

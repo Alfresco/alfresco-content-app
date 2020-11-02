@@ -24,6 +24,7 @@
  */
 
 import { Component } from '../component';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 export class Breadcrumb extends Component {
   items = this.allByCss('.adf-breadcrumb-item');
@@ -42,6 +43,6 @@ export class Breadcrumb extends Component {
 
   async clickItem(name: string): Promise<void> {
     const elem = this.byCss(`.adf-breadcrumb-item[title=${name}]`);
-    await elem.click();
+    await BrowserActions.click(elem);
   }
 }

@@ -26,6 +26,7 @@
 import { by } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
 import { isPresentAndDisplayed, isPresentAndEnabled, typeText } from '../../utilities/utils';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 export class CreateFromTemplateDialog extends GenericDialog {
   createButton = this.childElement(by.cssContainingText('.mat-dialog-actions button', 'Create'));
@@ -81,7 +82,7 @@ export class CreateFromTemplateDialog extends GenericDialog {
   }
 
   async clickCancel(): Promise<void> {
-    await this.cancelButton.click();
+    await BrowserActions.click(this.cancelButton);
     await this.waitForDialogToClose();
   }
 }

@@ -27,6 +27,7 @@ import { by } from 'protractor';
 import { DateTimePicker } from '../../components/datetime-picker/datetime-picker';
 import { GenericDialog } from '../dialog/generic-dialog';
 import { isPresentAndEnabled } from '../../utilities/utils';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 export class ShareDialog extends GenericDialog {
   dateTimePicker = new DateTimePicker();
@@ -69,7 +70,7 @@ export class ShareDialog extends GenericDialog {
   }
 
   async clickClose(): Promise<void> {
-    await this.closeButton.click();
+    await BrowserActions.click(this.closeButton);
     await this.waitForDialogToClose();
   }
 
@@ -90,7 +91,7 @@ export class ShareDialog extends GenericDialog {
 
   async closeDatetimePicker(): Promise<void> {
     if (await this.dateTimePicker.isCalendarOpen()) {
-      await this.datetimePickerButton.click();
+      await BrowserActions.click(this.datetimePickerButton);
     }
   }
 

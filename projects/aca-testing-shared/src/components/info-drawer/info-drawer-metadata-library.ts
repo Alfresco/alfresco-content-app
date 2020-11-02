@@ -24,7 +24,7 @@
  */
 
 import { by, browser } from 'protractor';
-import { BrowserVisibility, Logger } from '@alfresco/adf-testing';
+import { BrowserActions, BrowserVisibility, Logger } from '@alfresco/adf-testing';
 import { Component } from '../component';
 import { waitForStaleness, typeText } from '../../utilities/utils';
 
@@ -155,15 +155,15 @@ export class LibraryMetadata extends Component {
   async setVisibility(visibility: string) {
     const val = visibility.toLowerCase();
 
-    await this.visibilityDropDown.click();
+    await BrowserActions.click(this.visibilityDropDown);
     await BrowserVisibility.waitUntilElementIsPresent(this.visibilityDropDown);
 
     if (val === 'public') {
-      await this.visibilityPublic.click();
+      await BrowserActions.click(this.visibilityPublic);
     } else if (val === 'private') {
-      await this.visibilityPrivate.click();
+      await BrowserActions.click(this.visibilityPrivate);
     } else if (val === 'moderated') {
-      await this.visibilityModerated.click();
+      await BrowserActions.click(this.visibilityModerated);
     } else {
       Logger.error('----- invalid visibility', val);
     }

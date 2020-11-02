@@ -28,6 +28,7 @@ import { GenericDialog } from '../dialog/generic-dialog';
 import { DropDownBreadcrumb } from '../breadcrumb/dropdown-breadcrumb';
 import { DataTable } from '../data-table/data-table';
 import { isPresentAndEnabled } from '../../utilities/utils';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 export class SelectTemplateDialog extends GenericDialog {
   nextButton = this.childElement(by.css('[data-automation-id="content-node-selector-actions-choose"]'));
@@ -49,12 +50,12 @@ export class SelectTemplateDialog extends GenericDialog {
   }
 
   async clickCancel(): Promise<void> {
-    await this.cancelButton.click();
+    await BrowserActions.click(this.cancelButton);
     await this.waitForDialogToClose();
   }
 
   async clickNext(): Promise<void> {
-    await this.nextButton.click();
+    await BrowserActions.click(this.nextButton);
     await this.waitForDialogToClose();
   }
 }
