@@ -24,13 +24,21 @@
  */
 
 import { Component, Input, OnInit, OnChanges, OnDestroy } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormGroupDirective, NgForm } from '@angular/forms';
 import { SiteEntry, SitePaging } from '@alfresco/js-api';
 import { Store } from '@ngrx/store';
 import { AppStore, UpdateLibraryAction } from '@alfresco/aca-shared/store';
 import { debounceTime, mergeMap, takeUntil } from 'rxjs/operators';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { Observable, from, Subject } from 'rxjs';
+import { ErrorStateMatcher } from '@angular/material/core';
+
+export class InstantErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
 
 @Component({
   selector: 'app-library-metadata-form',
@@ -55,6 +63,8 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
     description: new FormControl({ value: '' }, [Validators.maxLength(512)]),
     visibility: new FormControl(this.libraryType[0].value)
   });
+
+  matcher = new InstantErrorStateMatcher();
 
   onDestroy$: Subject<boolean> = new Subject<boolean>();
 

@@ -1,8 +1,6 @@
 <mat-card *ngIf="node">
   <mat-card-content *ngIf="!edit">
-    <div
-      class="mat-form-field mat-form-field-type-mat-input mat-form-field-can-float mat-form-field-should-float adf-full-width"
-    >
+    <div class="mat-form-field mat-form-field-type-mat-input mat-form-field-can-float mat-form-field-should-float adf-full-width">
       <div class="mat-form-field-wrapper">
         <div class="mat-form-field-flex">
           <div class="mat-form-field-infix">
@@ -20,9 +18,7 @@
       </div>
     </div>
 
-    <div
-      class="mat-form-field mat-primary mat-form-field-type-mat-input mat-form-field-can-float mat-form-field-should-float adf-full-width"
-    >
+    <div class="mat-form-field mat-primary mat-form-field-type-mat-input mat-form-field-can-float mat-form-field-should-float adf-full-width">
       <div class="mat-form-field-wrapper">
         <div class="mat-form-field-flex">
           <div class="mat-form-field-infix">
@@ -40,9 +36,7 @@
       </div>
     </div>
 
-    <div
-      class="mat-form-field mat-primary mat-form-field-type-mat-input mat-form-field-can-float mat-form-field-should-float adf-full-width"
-    >
+    <div class="mat-form-field mat-primary mat-form-field-type-mat-input mat-form-field-can-float mat-form-field-should-float adf-full-width">
       <div class="mat-form-field-wrapper">
         <div class="mat-form-field-flex">
           <div class="mat-form-field-infix">
@@ -53,18 +47,14 @@
             </span>
 
             <span class="mat-input-element">
-              {{
-                getVisibilityLabel(form.controls.visibility.value) | translate
-              }}
+              {{ getVisibilityLabel(form.controls.visibility.value) | translate }}
             </span>
           </div>
         </div>
       </div>
     </div>
 
-    <div
-      class="mat-form-field mat-primary mat-form-field-type-mat-input mat-form-field-can-float mat-form-field-should-float adf-full-width"
-    >
+    <div class="mat-form-field mat-primary mat-form-field-type-mat-input mat-form-field-can-float mat-form-field-should-float adf-full-width">
       <div class="mat-form-field-wrapper">
         <div class="mat-form-field-flex">
           <div class="mat-form-field-infix">
@@ -98,29 +88,20 @@
           required
           placeholder="{{ 'LIBRARY.DIALOG.FORM.NAME' | translate }}"
           formControlName="title"
+          [errorStateMatcher]="matcher"
         />
-
-        <mat-hint *ngIf="libraryTitleExists">{{
-          'LIBRARY.HINTS.SITE_TITLE_EXISTS' | translate
-        }}</mat-hint>
-        <mat-error *ngIf="form.controls['title'].hasError('maxlength')">
+        <mat-hint *ngIf="libraryTitleExists">{{ 'LIBRARY.HINTS.SITE_TITLE_EXISTS' | translate }}</mat-hint>
+        <mat-error>
           {{ 'LIBRARY.ERRORS.TITLE_TOO_LONG' | translate }}
         </mat-error>
       </mat-form-field>
 
       <mat-form-field class="adf-full-width">
-        <input
-          matInput
-          placeholder="{{ 'LIBRARY.DIALOG.FORM.SITE_ID' | translate }}"
-          formControlName="id"
-        />
+        <input matInput placeholder="{{ 'LIBRARY.DIALOG.FORM.SITE_ID' | translate }}" formControlName="id" />
       </mat-form-field>
 
       <mat-form-field class="adf-full-width">
-        <mat-select
-          placeholder="{{ 'LIBRARY.DIALOG.FORM.VISIBILITY' | translate }}"
-          formControlName="visibility"
-        >
+        <mat-select placeholder="{{ 'LIBRARY.DIALOG.FORM.VISIBILITY' | translate }}" formControlName="visibility">
           <mat-option [value]="type.value" *ngFor="let type of libraryType">
             {{ type.label | translate }}
           </mat-option>
@@ -133,9 +114,9 @@
           placeholder="{{ 'LIBRARY.DIALOG.FORM.DESCRIPTION' | translate }}"
           rows="3"
           formControlName="description"
+          [errorStateMatcher]="matcher"
         ></textarea>
-
-        <mat-error *ngIf="form.controls['description'].hasError('maxlength')">
+        <mat-error>
           {{ 'LIBRARY.ERRORS.DESCRIPTION_TOO_LONG' | translate }}
         </mat-error>
       </mat-form-field>
@@ -146,12 +127,7 @@
     <button mat-button color="secondary" (click)="cancel()">
       {{ 'LIBRARY.DIALOG.CANCEL' | translate }}
     </button>
-    <button
-      mat-button
-      color="primary"
-      [disabled]="form.invalid || form.pristine"
-      (click)="update()"
-    >
+    <button mat-button color="primary" [disabled]="form.invalid || form.pristine" (click)="update()">
       {{ 'LIBRARY.DIALOG.UPDATE' | translate }}
     </button>
   </mat-card-actions>
