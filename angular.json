@@ -476,6 +476,6 @@
     }
   },
   "cli": {
-    "analytics": "a5069b3a-642d-4d97-b810-0c24d7628413"
+    "packageManager": "npm"
   }
 }
