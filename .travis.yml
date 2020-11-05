@@ -25,7 +25,7 @@ install: echo "no install"
 
 stages:
   - name: Quality and Unit tests
-  - name: Update Rancher
+  - name: Publish Docker Registry
     if: (type = push AND tag IS blank)  OR type = api
   - name: Release Libraries
     if: branch = master AND type = push
@@ -126,9 +126,9 @@ jobs:
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
 
-    - stage: Update Rancher
-      name: Update Rancher
-      script: ./scripts/travis/deploy/deploy.sh
+    - stage: Publish Docker Registry
+      name: Publish Docker Registry
+      script: ./scripts/travis/deploy/publish.sh
 
     - stage: Release Tag
       script: ./scripts/travis/release/git-tag.sh
