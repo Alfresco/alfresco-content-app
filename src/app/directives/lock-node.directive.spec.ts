@@ -25,10 +25,9 @@
 
 import { Component, ViewChild } from '@angular/core';
 import { LockNodeDirective } from './lock-node.directive';
-import { AlfrescoApiService, setupTestBed, CoreModule } from '@alfresco/adf-core';
+import { AlfrescoApiService, AlfrescoApiServiceMock, setupTestBed, CoreModule } from '@alfresco/adf-core';
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { AppTestingModule } from '../testing/app-testing.module';
 
 @Component({
   selector: 'app-test-component',
@@ -47,8 +46,14 @@ describe('LockNodeDirective', () => {
   let component;
 
   setupTestBed({
-    imports: [TranslateModule.forRoot(), CoreModule.forRoot(), AppTestingModule],
-    declarations: [TestComponent, LockNodeDirective]
+    imports: [TranslateModule.forRoot(), CoreModule.forRoot()],
+    declarations: [TestComponent, LockNodeDirective],
+    providers: [
+      {
+        provide: AlfrescoApiService,
+        useClass: AlfrescoApiServiceMock
+      }
+    ]
   });
 
   beforeEach(() => {
