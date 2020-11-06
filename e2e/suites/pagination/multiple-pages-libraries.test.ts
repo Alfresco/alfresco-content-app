@@ -51,12 +51,12 @@ describe('Pagination on multiple pages', () => {
     await userApi.sites.waitForApi({ expect: initialSitesTotalItems + 101 });
 
     await loginPage.loginWith(username);
-  }, 150000);
+  }, 450000);
 
   afterAll(async () => {
     await userApi.sites.deleteSites(sites);
     await userApi.sites.waitForApi({ expect: initialSitesTotalItems });
-  }, 120000);
+  }, 420000);
 
   describe('on My Libraries', () => {
     beforeAll(async () => {
