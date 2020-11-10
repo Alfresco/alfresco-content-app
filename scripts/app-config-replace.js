@@ -21,8 +21,8 @@ const options = {
       appConfig.apiHost = API_HOST;
       appConfig.bpmHost = API_PROCESS_HOST;
       appConfig.ecmHost = API_CONTENT_HOST;
-      appConfig.baseShareUrl = API_CONTENT_HOST + '/#/preview/s';
-      appConfig.aosHost = API_AOS_HOST;
+      appConfig.baseShareUrl = appConfig.baseShareUrl.replace('{protocol}//{hostname}{:port}', API_CONTENT_HOST);
+      appConfig.aosHost = appConfig.aosHost.replace('{protocol}//{hostname}{:port}', API_AOS_HOST);
     }
   },
   indentityHost: {
