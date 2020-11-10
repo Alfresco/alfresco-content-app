@@ -17,7 +17,7 @@ const downloadFolder = path.join(__dirname, 'e2e-downloads');
 const screenshotsFolder = path.resolve(__dirname, 'e2e-output');
 const e2eFolder = path.resolve(projectRoot, 'e2e');
 const E2E_HOST = process.env.E2E_HOST || 'http://localhost:4200';
-const BROWSER_RUN = process.env.BROWSER_RUN;
+const BROWSER_RUN = !!process.env.BROWSER_RUN;
 const width = 1366;
 const height = 768;
 
@@ -25,21 +25,6 @@ const SAVE_SCREENSHOT = process.env.SAVE_SCREENSHOT === 'true';
 const API_CONTENT_HOST = process.env.API_CONTENT_HOST || 'http://localhost:8080';
 const MAXINSTANCES = process.env.MAXINSTANCES || 1;
 const MAX_RETRIES = process.env.MAX_RETRIES || 1;
-
-function rmDir(dirPath) {
-  try {
-    const files = fs.readdirSync(dirPath);
-  } catch (e) {
-    return;
-  }
-  if (files.length > 0)
-    for (let i = 0; i < files.length; i++) {
-      const filePath = dirPath + '/' + files[i];
-      if (fs.statSync(filePath).isFile()) fs.unlinkSync(filePath);
-      else rmDir(filePath);
-    }
-  fs.rmdirSync(dirPath);
-}
 
 const appConfig = {
   hostEcm: API_CONTENT_HOST,
@@ -139,12 +124,12 @@ exports.config = {
         }
       },
       args: [
-        '--incognito',
         `--window-size=${width},${height}`,
         '--disable-gpu',
         '--no-sandbox',
         '--disable-web-security',
         '--disable-browser-side-navigation',
+        '--allow-running-insecure-content',
         ...(BROWSER_RUN === true ? [] : ['--headless'])
       ]
     }
@@ -222,8 +207,6 @@ exports.config = {
         }
       })
     );
-
-    rmDir(downloadFolder);
 
     browser.driver.sendChromiumCommand('Page.setDownloadBehavior', {
       behavior: 'allow',

@@ -28,6 +28,7 @@ import { Logger } from '@alfresco/adf-testing';
 import { BROWSER_WAIT_TIMEOUT } from '../configs';
 import * as path from 'path';
 import * as fs from 'fs';
+import { BrowserVisibility } from '../../../../../alfresco-ng2-components/lib/testing';
 
 const StreamZip = require('node-stream-zip');
 
@@ -74,23 +75,21 @@ export async function waitForStaleness(element: ElementFinder, errorMessage?: st
 }
 
 export const isPresentAndEnabled = async (element: ElementFinder): Promise<boolean> => {
-  const isPresent = await element.isPresent();
-
-  if (isPresent) {
+  try {
+    await BrowserVisibility.waitUntilElementIsPresent(element);
     return element.isEnabled();
+  } catch (error) {
+    return false;
   }
-
-  return false;
 };
 
 export const isPresentAndDisplayed = async (element: ElementFinder): Promise<boolean> => {
-  const isPresent = await element.isPresent();
-
-  if (isPresent) {
-    return element.isDisplayed();
+  try {
+    await BrowserVisibility.waitUntilElementIsVisible(element);
+    return true;
+  } catch (error) {
+    return false;
   }
-
-  return false;
 };
 
 export class Utils {
