@@ -24,11 +24,10 @@
  */
 
 import { browser, protractor, ElementFinder, ExpectedConditions as EC, by, logging, until, WebElement } from 'protractor';
-import { Logger } from '@alfresco/adf-testing';
+import { BrowserVisibility, Logger } from '@alfresco/adf-testing';
 import { BROWSER_WAIT_TIMEOUT } from '../configs';
 import * as path from 'path';
 import * as fs from 'fs';
-import { BrowserVisibility } from '../../../../../alfresco-ng2-components/lib/testing';
 
 const StreamZip = require('node-stream-zip');
 
