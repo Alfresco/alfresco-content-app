@@ -31,7 +31,7 @@ export class FacetFilter extends GenericFilterPanel {
     checkbox: '.mat-checkbox',
     checkboxChecked: '.mat-checkbox.mat-checkbox-checked',
     button: '.adf-facet-buttons button',
-    categoryInput: 'input[placeholder="Filter category"',
+    categoryInput: 'input[data-placeholder="Filter category"',
     facetsFilter: '.adf-facet-result-filter'
   };
 
