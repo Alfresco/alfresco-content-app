@@ -33,7 +33,7 @@ export class CreateLibraryDialog extends GenericDialog {
 
   nameInput = this.rootElem.element(by.css('input[data-placeholder="Name" i]'));
   libraryIdInput = this.rootElem.element(by.css('input[data-placeholder="Library ID" i]'));
-  descriptionTextArea = this.rootElem.element(by.css('textarea[placeholder="Description" i]'));
+  descriptionTextArea = this.rootElem.element(by.css('textarea[data-placeholder="Description" i]'));
   visibilityPublic = this.rootElem.element(by.cssContainingText('.mat-radio-label', 'Public'));
   visibilityModerated = this.rootElem.element(by.cssContainingText('.mat-radio-label', 'Moderated'));
   visibilityPrivate = this.rootElem.element(by.cssContainingText('.mat-radio-label', 'Private'));
