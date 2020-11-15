@@ -23,15 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  LoginPage,
-  BrowsingPage,
-  SearchResultsPage,
-  RepoClient,
-  Utils,
-  AdminActions,
-  UserActions
-} from '@alfresco/aca-testing-shared';
+import { LoginPage, BrowsingPage, SearchResultsPage, RepoClient, Utils, AdminActions, UserActions } from '@alfresco/aca-testing-shared';
 import * as testData from './test-data-libraries';
 import * as testUtil from '../test-util';
 
