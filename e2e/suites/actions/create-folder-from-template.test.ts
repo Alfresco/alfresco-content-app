@@ -34,6 +34,7 @@ import {
   RepoClient,
   NodeContentTree
 } from '@alfresco/aca-testing-shared';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 describe('Create folder from template', () => {
   const random = Utils.random();
@@ -296,7 +297,7 @@ describe('Create folder from template', () => {
 
     it('[C325157] Create a folder from a template - with a new Name', async () => {
       await createFromTemplateDialog.enterName(folder1.name);
-      await createFromTemplateDialog.createButton.click();
+      await BrowserActions.click(createFromTemplateDialog.createButton);
       await createFromTemplateDialog.waitForDialogToClose();
       await page.dataTable.waitForHeader();
 
@@ -307,7 +308,7 @@ describe('Create folder from template', () => {
       await createFromTemplateDialog.enterName(folder2.name);
       await createFromTemplateDialog.enterTitle(folder2.title);
       await createFromTemplateDialog.enterDescription(folder2.description);
-      await createFromTemplateDialog.createButton.click();
+      await BrowserActions.click(createFromTemplateDialog.createButton);
       await createFromTemplateDialog.waitForDialogToClose();
       await page.dataTable.waitForHeader();
 
@@ -320,7 +321,7 @@ describe('Create folder from template', () => {
 
     it('[C325156] Create a folder with a duplicate name', async () => {
       await createFromTemplateDialog.enterName(duplicateFolderName);
-      await createFromTemplateDialog.createButton.click();
+      await BrowserActions.click(createFromTemplateDialog.createButton);
 
       expect(await page.getSnackBarMessage()).toEqual(`This name is already in use, try a different name.`);
       expect(await createFromTemplateDialog.isDialogOpen()).toBe(true, 'dialog is not present');
@@ -336,7 +337,7 @@ describe('Create folder from template', () => {
 
     it('[C325158] Trim spaces from folder Name', async () => {
       await createFromTemplateDialog.enterName(nameWithSpaces);
-      await createFromTemplateDialog.createButton.click();
+      await BrowserActions.click(createFromTemplateDialog.createButton);
       await createFromTemplateDialog.waitForDialogToClose();
       await page.dataTable.waitForHeader();
 
@@ -361,7 +362,7 @@ describe('Create folder from template', () => {
       await createFromTemplateDialog.enterName(folderSite.name);
       await createFromTemplateDialog.enterTitle(folderSite.title);
       await createFromTemplateDialog.enterDescription(folderSite.description);
-      await createFromTemplateDialog.createButton.click();
+      await BrowserActions.click(createFromTemplateDialog.createButton);
       await createFromTemplateDialog.waitForDialogToClose();
       await page.dataTable.waitForHeader();
 
@@ -382,7 +383,7 @@ describe('Create folder from template', () => {
 
     it('[C325163] Create a folder with a duplicate name', async () => {
       await createFromTemplateDialog.enterName(duplicateFolderSite);
-      await createFromTemplateDialog.createButton.click();
+      await BrowserActions.click(createFromTemplateDialog.createButton);
 
       expect(await page.getSnackBarMessage()).toEqual(`This name is already in use, try a different name.`);
       expect(await createFromTemplateDialog.isDialogOpen()).toBe(true, 'dialog is not present');

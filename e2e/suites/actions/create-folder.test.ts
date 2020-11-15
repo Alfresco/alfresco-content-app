@@ -32,6 +32,7 @@ import {
   clearTextWithBackspace,
   RepoClient
 } from '@alfresco/aca-testing-shared';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 describe('Create folder', () => {
   const username = `user-${Utils.random()}`;
@@ -96,7 +97,7 @@ describe('Create folder', () => {
       await page.sidenav.openCreateFolderDialog();
       await createDialog.waitForDialogToOpen();
       await createDialog.enterName(folderName1);
-      await createDialog.createButton.click();
+      await BrowserActions.click(createDialog.createButton);
       await createDialog.waitForDialogToClose();
       await dataTable.waitForHeader();
 
@@ -109,7 +110,7 @@ describe('Create folder', () => {
       await createDialog.waitForDialogToOpen();
       await createDialog.enterName(folderName2);
       await createDialog.enterDescription(folderDescription);
-      await createDialog.createButton.click();
+      await BrowserActions.click(createDialog.createButton);
       await createDialog.waitForDialogToClose();
       await dataTable.waitForHeader();
 
@@ -191,7 +192,7 @@ describe('Create folder', () => {
       await page.sidenav.openCreateFolderDialog();
       await createDialog.waitForDialogToOpen();
       await createDialog.enterName(duplicateFolderName);
-      await createDialog.createButton.click();
+      await BrowserActions.click(createDialog.createButton);
 
       expect(await page.getSnackBarMessage()).toEqual(`There's already a folder with this name. Try a different name.`);
       expect(await createDialog.isDialogOpen()).toBe(true, 'dialog is not present');
@@ -202,7 +203,7 @@ describe('Create folder', () => {
       await page.sidenav.openCreateFolderDialog();
       await createDialog.waitForDialogToOpen();
       await createDialog.enterName(nameWithSpaces);
-      await createDialog.createButton.click();
+      await BrowserActions.click(createDialog.createButton);
       await createDialog.waitForDialogToClose();
       await dataTable.waitForHeader();
 
@@ -229,7 +230,7 @@ describe('Create folder', () => {
       await createDialog.waitForDialogToOpen();
       await createDialog.enterName(folderSite);
       await createDialog.enterDescription(folderDescription);
-      await createDialog.createButton.click();
+      await BrowserActions.click(createDialog.createButton);
       await createDialog.waitForDialogToClose();
       await dataTable.waitForHeader();
 
@@ -254,7 +255,7 @@ describe('Create folder', () => {
       await page.sidenav.openCreateFolderDialog();
       await createDialog.waitForDialogToOpen();
       await createDialog.enterName(duplicateFolderSite);
-      await createDialog.createButton.click();
+      await BrowserActions.click(createDialog.createButton);
 
       expect(await page.getSnackBarMessage()).toEqual(`There's already a folder with this name. Try a different name.`);
       expect(await createDialog.isDialogOpen()).toBe(true, 'dialog is not present');

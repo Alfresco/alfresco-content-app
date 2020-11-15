@@ -34,6 +34,7 @@ import {
   RepoClient,
   NodeContentTree
 } from '@alfresco/aca-testing-shared';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 describe('Create file from template', () => {
   const random = Utils.random();
@@ -311,7 +312,7 @@ describe('Create file from template', () => {
 
       it('[C325030] Create a file from a template - with a new Name', async () => {
         await createFromTemplateDialog.enterName(file1.name);
-        await createFromTemplateDialog.createButton.click();
+        await BrowserActions.click(createFromTemplateDialog.createButton);
         await createFromTemplateDialog.waitForDialogToClose();
         await page.dataTable.waitForHeader();
 
@@ -322,7 +323,7 @@ describe('Create file from template', () => {
         await createFromTemplateDialog.enterName(file2.name);
         await createFromTemplateDialog.enterTitle(file2.title);
         await createFromTemplateDialog.enterDescription(file2.description);
-        await createFromTemplateDialog.createButton.click();
+        await BrowserActions.click(createFromTemplateDialog.createButton);
         await createFromTemplateDialog.waitForDialogToClose();
         await page.dataTable.waitForHeader();
 
@@ -335,7 +336,7 @@ describe('Create file from template', () => {
 
       it('[C325028] Create a file with a duplicate name', async () => {
         await createFromTemplateDialog.enterName(duplicateFileName);
-        await createFromTemplateDialog.createButton.click();
+        await BrowserActions.click(createFromTemplateDialog.createButton);
 
         expect(await page.getSnackBarMessage()).toEqual(`This name is already in use, try a different name.`);
         expect(await createFromTemplateDialog.isDialogOpen()).toBe(true, 'dialog is not present');
@@ -351,7 +352,7 @@ describe('Create file from template', () => {
 
       it('[C325042] Trim spaces from file Name', async () => {
         await createFromTemplateDialog.enterName(nameWithSpaces);
-        await createFromTemplateDialog.createButton.click();
+        await BrowserActions.click(createFromTemplateDialog.createButton);
         await createFromTemplateDialog.waitForDialogToClose();
         await page.dataTable.waitForHeader();
 
@@ -376,7 +377,7 @@ describe('Create file from template', () => {
         await createFromTemplateDialog.enterName(fileSite.name);
         await createFromTemplateDialog.enterTitle(fileSite.title);
         await createFromTemplateDialog.enterDescription(fileSite.description);
-        await createFromTemplateDialog.createButton.click();
+        await BrowserActions.click(createFromTemplateDialog.createButton);
         await createFromTemplateDialog.waitForDialogToClose();
         await page.dataTable.waitForHeader();
 
@@ -397,7 +398,7 @@ describe('Create file from template', () => {
 
       it('[C325025] Create a file with a duplicate name', async () => {
         await createFromTemplateDialog.enterName(duplicateFileSite);
-        await createFromTemplateDialog.createButton.click();
+        await BrowserActions.click(createFromTemplateDialog.createButton);
 
         expect(await page.getSnackBarMessage()).toEqual(`This name is already in use, try a different name.`);
         expect(await createFromTemplateDialog.isDialogOpen()).toBe(true, 'dialog is not present');

@@ -23,7 +23,15 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage, SearchResultsPage, RepoClient, Utils, AdminActions, UserActions } from '@alfresco/aca-testing-shared';
+import {
+  LoginPage,
+  BrowsingPage,
+  SearchResultsPage,
+  RepoClient,
+  Utils,
+  AdminActions,
+  UserActions
+} from '@alfresco/aca-testing-shared';
 import * as testData from './test-data-libraries';
 import * as testUtil from '../test-util';
 
@@ -84,7 +92,7 @@ describe('Library actions : ', () => {
     await userActions.waitForTrashcanSize(initialDeletedTotalItems + 2);
 
     await loginPage.loginWith(username);
-  });
+  }, 300000);
 
   afterAll(async () => {
     await userActions.deleteSites([
