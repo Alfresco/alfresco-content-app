@@ -89,12 +89,9 @@ describe('Library actions', () => {
     await adminApiActions.sites.createSite(siteSearchModerated2Admin, SITE_VISIBILITY.MODERATED);
     await apis.user.sites.createSite(siteSearchForDelete);
 
-    await apis.user.queries.waitForSites('site-public-search', { expect: 5 });
-    await apis.user.queries.waitForSites('site-moderated-search', { expect: 2 });
-
     await loginPage.loginWith(username);
     done();
-  });
+  }, 300000);
 
   beforeEach(async () => {
     await Utils.pressEscape();
