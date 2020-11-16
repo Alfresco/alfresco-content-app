@@ -24,9 +24,10 @@
  */
 
 import { Directive, EventEmitter, HostListener, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-import { SiteEntry, SiteMemberEntry, SiteMembershipRequestBody } from '@alfresco/js-api';
-import { AlfrescoApiService, SitesService } from '@alfresco/adf-core';
-import { BehaviorSubject, from } from 'rxjs';
+import { SiteEntry, SiteMembershipRequestBody, SiteMemberEntry, SiteMembershipRequestBodyCreate, SiteMembershipRequestEntry } from '@alfresco/js-api';
+import { AlfrescoApiService, SitesService, VersionCompatibilityService } from '@alfresco/adf-core';
+import { BehaviorSubject, from, Observable } from 'rxjs';
+import { filter, switchMap, take } from 'rxjs/operators';
 
 export interface LibraryMembershipToggleEvent {
   updatedEntry?: any;
@@ -68,7 +69,9 @@ export class LibraryMembershipDirective implements OnChanges {
     this.toggleMembershipRequest();
   }
 
-  constructor(private alfrescoApiService: AlfrescoApiService, private sitesService: SitesService) {}
+  constructor(private alfrescoApiService: AlfrescoApiService,
+              private sitesService: SitesService,
+              private versionCompatibilityService: VersionCompatibilityService) {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (!changes.selection.currentValue || !changes.selection.currentValue.entry) {
@@ -203,11 +206,26 @@ export class LibraryMembershipDirective implements OnChanges {
     );
   }
 
-  private joinLibraryRequest() {
+  private joinLibraryRequest(): Observable<SiteMembershipRequestEntry> {
     const memberBody = {
       id: this.targetSite.id
     } as SiteMembershipRequestBody;
 
+    if (!this.versionCompatibilityService.getAcsVersion()) {
+      return this.JoinSite(memberBody);
+    } else {
+      return this.versionCompatibilityService.acsVersionInitialized$.pipe(
+        filter((info) => !!info),
+        take(1),
+        switchMap(() => this.JoinSite(memberBody))
+      );
+    }
+  }
+
+  private JoinSite(memberBody: SiteMembershipRequestBodyCreate) {
+    if (this.versionCompatibilityService.isVersionSupported('7.0.0')) {
+      memberBody.client = 'workspace';
+    }
     return from(this.alfrescoApiService.peopleApi.addSiteMembershipRequest('-me-', memberBody));
   }
 
