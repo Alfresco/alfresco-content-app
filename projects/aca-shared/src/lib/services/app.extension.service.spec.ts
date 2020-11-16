@@ -111,6 +111,63 @@ describe('AppExtensionService', () => {
     });
   });
 
+  describe('documentList', () => {
+    it('should support column orders', () => {
+      applyConfig({
+        $id: 'test',
+        $name: 'test',
+        $version: '1.0.0',
+        $license: 'MIT',
+        $vendor: 'Good company',
+        $runtime: '1.5.0',
+        features: {
+          documentList: {
+            files: [
+              {
+                id: 'app.files.thumbnail',
+                key: '$thumbnail',
+                type: 'image',
+                order: 10
+              },
+              {
+                id: 'app.files.name',
+                key: 'name',
+                title: 'APP.DOCUMENT_LIST.COLUMNS.NAME',
+                type: 'text',
+                order: 20
+              }
+            ],
+            libraries: [
+              {
+                id: 'app.libraries.thumbnail',
+                key: '$thumbnail',
+                type: 'image',
+                order: 20
+              },
+              {
+                id: 'app.libraries.name',
+                key: 'title',
+                title: 'APP.DOCUMENT_LIST.COLUMNS.NAME',
+                type: 'text',
+                order: 10
+              }
+            ]
+          }
+        }
+      });
+
+      const { files, libraries } = service.documentListPresets;
+
+      expect(files.length).toBe(2);
+      expect(files[0].id).toBe('app.files.thumbnail');
+      expect(files[1].id).toBe('app.files.name');
+
+      expect(libraries.length).toBe(2);
+      expect(libraries[0].id).toBe('app.libraries.name');
+      expect(libraries[1].id).toBe('app.libraries.thumbnail');
+    });
+  });
+
   describe('actions', () => {
     beforeEach(() => {
       applyConfig({

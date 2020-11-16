@@ -1158,7 +1158,8 @@
           "key": "$thumbnail",
           "type": "image",
           "sortable": false,
-          "desktopOnly": false
+          "desktopOnly": false,
+          "order": 10
         },
         {
           "id": "app.files.name",
@@ -1168,7 +1169,8 @@
           "class": "adf-ellipsis-cell adf-expand-cell-5",
           "sortable": true,
           "template": "app.columns.name",
-          "desktopOnly": false
+          "desktopOnly": false,
+          "order": 20
         },
         {
           "id": "app.files.size",
@@ -1178,7 +1180,8 @@
           "type": "fileSize",
           "class": "adf-no-grow-cell adf-ellipsis-cell",
           "sortable": true,
-          "desktopOnly": true
+          "desktopOnly": true,
+          "order": 30
         },
         {
           "id": "app.files.modifiedOn",
@@ -1188,7 +1191,8 @@
           "format": "timeAgo",
           "class": "adf-ellipsis-cell",
           "sortable": true,
-          "desktopOnly": true
+          "desktopOnly": true,
+          "order": 40
         },
         {
           "id": "app.files.modifiedBy",
@@ -1198,7 +1202,8 @@
           "type": "text",
           "class": "adf-ellipsis-cell adf-no-grow-cell",
           "sortable": true,
-          "desktopOnly": true
+          "desktopOnly": true,
+          "order": 50
         }
       ],
       "libraries": [
@@ -1207,7 +1212,8 @@
           "key": "$thumbnail",
           "type": "image",
           "sortable": false,
-          "desktopOnly": false
+          "desktopOnly": false,
+          "order": 10
         },
         {
           "id": "app.libraries.name",
@@ -1218,7 +1224,8 @@
           "class": "adf-ellipsis-cell adf-expand-cell-3",
           "sortable": true,
           "template": "app.columns.libraryName",
-          "desktopOnly": false
+          "desktopOnly": false,
+          "order": 20
         },
         {
           "id": "app.libraries.description",
@@ -1227,7 +1234,8 @@
           "type": "text",
           "class": "adf-ellipsis-cell adf-expand-cell-5",
           "sortable": true,
-          "desktopOnly": true
+          "desktopOnly": true,
+          "order": 30
         },
         {
           "id": "app.libraries.role",
@@ -1237,7 +1245,8 @@
           "class": "adf-no-grow-cell",
           "sortable": true,
           "template": "app.columns.libraryRole",
-          "desktopOnly": false
+          "desktopOnly": false,
+          "order": 40
         },
         {
           "id": "app.libraries.visibility",
@@ -1247,7 +1256,8 @@
           "class": "adf-no-grow-cell",
           "sortable": true,
           "template": "app.columns.libraryStatus",
-          "desktopOnly": true
+          "desktopOnly": true,
+          "order": 50
         }
       ],
       "favoriteLibraries": [
@@ -1256,7 +1266,8 @@
           "key": "$thumbnail",
           "type": "image",
           "sortable": false,
-          "desktopOnly": false
+          "desktopOnly": false,
+          "order": 10
         },
         {
           "id": "app.favorite.libraries.name",
@@ -1267,7 +1278,8 @@
           "class": "adf-ellipsis-cell adf-expand-cell-3",
           "sortable": true,
           "template": "app.columns.libraryName",
-          "desktopOnly": false
+          "desktopOnly": false,
+          "order": 20
         },
         {
           "id": "app.favorite.libraries.description",
@@ -1276,7 +1288,8 @@
           "type": "text",
           "class": "adf-ellipsis-cell adf-expand-cell-5",
           "sortable": true,
-          "desktopOnly": true
+          "desktopOnly": true,
+          "order": 30
         },
         {
           "id": "app.favorite.libraries.role",
@@ -1286,7 +1299,8 @@
           "class": "adf-no-grow-cell",
           "sortable": true,
           "template": "app.columns.libraryRole",
-          "desktopOnly": false
+          "desktopOnly": false,
+          "order": 40
         },
         {
           "id": "app.favorite.libraries.visibility",
@@ -1296,7 +1310,8 @@
           "class": "adf-no-grow-cell",
           "sortable": true,
           "template": "app.columns.libraryStatus",
-          "desktopOnly": true
+          "desktopOnly": true,
+          "order": 50
         }
       ],
       "shared": [
@@ -1305,7 +1320,8 @@
           "key": "$thumbnail",
           "type": "image",
           "sortable": false,
-          "desktopOnly": false
+          "desktopOnly": false,
+          "order": 10
         },
         {
           "id": "app.shared.name",
@@ -1315,7 +1331,8 @@
           "class": "adf-ellipsis-cell adf-expand-cell-5",
           "sortable": true,
           "template": "app.columns.name",
-          "desktopOnly": false
+          "desktopOnly": false,
+          "order": 20
         },
         {
           "id": "app.shared.location",
@@ -1326,7 +1343,8 @@
           "class": "adf-ellipsis-cell adf-no-grow-cell",
           "sortable": true,
           "template": "app.columns.location",
-          "desktopOnly": true
+          "desktopOnly": true,
+          "order": 30
         },
         {
           "id": "app.shared.size",
@@ -1336,7 +1354,8 @@
           "type": "fileSize",
           "class": "adf-no-grow-cell adf-ellipsis-cell",
           "sortable": true,
-          "desktopOnly": true
+          "desktopOnly": true,
+          "order": 40
         },
         {
           "id": "app.shared.modifiedOn",
@@ -1347,7 +1366,8 @@
           "class": "adf-ellipsis-cell",
           "format": "timeAgo",
           "sortable": true,
-          "desktopOnly": true
+          "desktopOnly": true,
+          "order": 50
         },
         {
           "id": "app.shared.modifiedBy",
@@ -1357,7 +1377,8 @@
           "type": "text",
           "class": "adf-ellipsis-cell adf-no-grow-cell",
           "sortable": true,
-          "desktopOnly": true
+          "desktopOnly": true,
+          "order": 60
         },
         {
           "id": "app.shared.sharedBy",
@@ -1367,7 +1388,8 @@
           "type": "text",
           "class": "adf-ellipsis-cell adf-no-grow-cell",
           "sortable": true,
-          "desktopOnly": true
+          "desktopOnly": true,
+          "order": 70
         }
       ],
       "recent": [
@@ -1376,7 +1398,8 @@
           "key": "$thumbnail",
           "type": "image",
           "sortable": false,
-          "desktopOnly": false
+          "desktopOnly": false,
+          "order": 10
         },
         {
           "id": "app.recent.name",
@@ -1386,7 +1409,8 @@
           "class": "adf-ellipsis-cell adf-expand-cell-5",
           "sortable": true,
           "template": "app.columns.name",
-          "desktopOnly": false
+          "desktopOnly": false,
+          "order": 20
         },
         {
           "id": "app.recent.location",
@@ -1396,7 +1420,8 @@
           "class": "adf-ellipsis-cell adf-no-grow-cell",
           "sortable": true,
           "template": "app.columns.location",
-          "desktopOnly": true
+          "desktopOnly": true,
+          "order": 30
         },
         {
           "id": "app.recent.size",
@@ -1406,7 +1431,8 @@
           "type": "fileSize",
           "class": "adf-no-grow-cell adf-ellipsis-cell",
           "sortable": true,
-          "desktopOnly": true
+          "desktopOnly": true,
+          "order": 40
         },
         {
           "id": "app.recent.modifiedOn",
@@ -1416,7 +1442,8 @@
           "format": "timeAgo",
           "class": "adf-ellipsis-cell",
           "sortable": true,
-          "desktopOnly": true
+          "desktopOnly": true,
+          "order": 50
         }
       ],
       "favorites": [
@@ -1425,7 +1452,8 @@
           "key": "$thumbnail",
           "type": "image",
           "sortable": false,
-          "desktopOnly": false
+          "desktopOnly": false,
+          "order": 10
         },
         {
           "id": "app.favorites.name",
@@ -1435,7 +1463,8 @@
           "class": "adf-ellipsis-cell adf-expand-cell-5",
           "sortable": true,
           "template": "app.columns.name",
-          "desktopOnly": false
+          "desktopOnly": false,
+          "order": 20
         },
         {
           "id": "app.favorites.location",
@@ -1445,7 +1474,8 @@
           "class": "adf-ellipsis-cell adf-no-grow-cell",
           "sortable": true,
           "template": "app.columns.location",
-          "desktopOnly": true
+          "desktopOnly": true,
+          "order": 30
         },
         {
           "id": "app.favorites.size",
@@ -1454,7 +1484,8 @@
           "type": "fileSize",
           "class": "adf-no-grow-cell adf-ellipsis-cell",
           "sortable": true,
-          "desktopOnly": true
+          "desktopOnly": true,
+          "order": 40
         },
         {
           "id": "app.favorites.modifiedOn",
@@ -1464,7 +1495,8 @@
           "format": "timeAgo",
           "class": "adf-ellipsis-cell",
           "sortable": true,
-          "desktopOnly": true
+          "desktopOnly": true,
+          "order": 50
         },
         {
           "id": "app.favorites.modifiedBy",
@@ -1474,7 +1506,8 @@
           "type": "text",
           "class": "adf-ellipsis-cell adf-no-grow-cell",
           "sortable": true,
-          "desktopOnly": true
+          "desktopOnly": true,
+          "order": 60
         }
       ],
       "trashcan": [
@@ -1483,7 +1516,8 @@
           "key": "$thumbnail",
           "type": "image",
           "sortable": false,
-          "desktopOnly": false
+          "desktopOnly": false,
+          "order": 10
         },
         {
           "id": "app.trashcan.name",
@@ -1493,7 +1527,8 @@
           "class": "adf-ellipsis-cell adf-expand-cell-5",
           "sortable": true,
           "template": "app.columns.trashcanName",
-          "desktopOnly": false
+          "desktopOnly": false,
+          "order": 20
         },
         {
           "id": "app.trashcan.location",
@@ -1503,7 +1538,8 @@
           "class": "adf-ellipsis-cell adf-no-grow-cell",
           "sortable": true,
           "template": "app.columns.location",
-          "desktopOnly": true
+          "desktopOnly": true,
+          "order": 30
         },
         {
           "id": "app.trashcan.size",
@@ -1513,7 +1549,8 @@
           "type": "fileSize",
           "class": "adf-no-grow-cell adf-ellipsis-cell",
           "sortable": true,
-          "desktopOnly": true
+          "desktopOnly": true,
+          "order": 40
         },
         {
           "id": "app.trashcan.deletedOn",
@@ -1523,7 +1560,8 @@
           "format": "timeAgo",
           "class": "adf-ellipsis-cell",
           "sortable": true,
-          "desktopOnly": true
+          "desktopOnly": true,
+          "order": 50
         }
       ],
       "search-libraries": [
@@ -1532,7 +1570,8 @@
           "key": "$thumbnail",
           "type": "image",
           "sortable": false,
-          "desktopOnly": false
+          "desktopOnly": false,
+          "order": 10
         },
         {
           "id": "app.libraries.name",
@@ -1543,7 +1582,8 @@
           "class": "adf-ellipsis-cell adf-expand-cell-3",
           "sortable": true,
           "template": "app.columns.libraryName",
-          "desktopOnly": false
+          "desktopOnly": false,
+          "order": 20
         },
         {
           "id": "app.favorite.libraries.description",
@@ -1553,7 +1593,8 @@
           "class": "adf-ellipsis-cell adf-expand-cell-5",
           "sortable": true,
           "template": "app.columns.libraryDescription",
-          "desktopOnly": true
+          "desktopOnly": true,
+          "order": 30
         },
         {
           "id": "app.libraries.role",
@@ -1563,7 +1604,8 @@
           "class": "adf-no-grow-cell",
           "sortable": true,
           "template": "app.columns.libraryRole",
-          "desktopOnly": false
+          "desktopOnly": false,
+          "order": 40
         },
         {
           "id": "app.libraries.visibility",
@@ -1573,7 +1615,8 @@
           "class": "adf-no-grow-cell",
           "sortable": true,
           "template": "app.columns.libraryStatus",
-          "desktopOnly": true
+          "desktopOnly": true,
+          "order": 50
         }
       ]
     }
