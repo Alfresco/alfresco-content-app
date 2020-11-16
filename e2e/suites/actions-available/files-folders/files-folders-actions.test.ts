@@ -90,7 +90,7 @@ describe('Files / folders actions : ', () => {
 
     await userApi.search.waitForApi(username, { expect: initialSearchTotalItems + 12 });
 
-    const initialFavoritesTotalItems = await userApi.favorites.getFavoritesTotalItems() || 0;
+    const initialFavoritesTotalItems = (await userApi.favorites.getFavoritesTotalItems()) || 0;
     await userApi.favorites.addFavoritesByIds('folder', [folderFavId, folderFav2Id]);
     await userApi.favorites.addFavoritesByIds('file', [
       fileDocxFavId,
