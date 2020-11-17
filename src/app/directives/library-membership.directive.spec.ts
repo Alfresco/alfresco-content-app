@@ -29,7 +29,7 @@ import { AppTestingModule } from '../testing/app-testing.module';
 import { DirectivesModule } from './directives.module';
 import { LibraryMembershipDirective } from './library-membership.directive';
 import { NO_ERRORS_SCHEMA, SimpleChange } from '@angular/core';
-import { of, throwError } from 'rxjs';
+import { of, throwError, Subject } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 
 describe('LibraryMembershipDirective', () => {
@@ -61,7 +61,7 @@ describe('LibraryMembershipDirective', () => {
     alfrescoApiService = new AlfrescoApiServiceMock(new AppConfigService(null), new StorageService());
     sitesService = new SitesService(alfrescoApiService);
     peopleApi = alfrescoApiService.getInstance().core.peopleApi;
-    directive = new LibraryMembershipDirective(alfrescoApiService, sitesService);
+    directive = new LibraryMembershipDirective(alfrescoApiService, { ecmProductInfo$: new Subject(), isVersionSupported: () => false } as any);
   });
 
   describe('markMembershipRequest', () => {

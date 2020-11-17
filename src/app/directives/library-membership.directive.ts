@@ -24,10 +24,9 @@
  */
 
 import { Directive, EventEmitter, HostListener, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-import { SiteEntry, SiteMembershipRequestBody, SiteMemberEntry, SiteMembershipRequestBodyCreate, SiteMembershipRequestEntry } from '@alfresco/js-api';
+import { SiteEntry, SiteMembershipRequestBody, SiteMemberEntry, SiteMembershipRequestBodyCreate, SiteMembershipRequestBody, SiteMembershipRequestEntry } from '@alfresco/js-api';
 import { AlfrescoApiService, SitesService, VersionCompatibilityService } from '@alfresco/adf-core';
 import { BehaviorSubject, from, Observable } from 'rxjs';
-import { filter, switchMap, take } from 'rxjs/operators';
 
 export interface LibraryMembershipToggleEvent {
   updatedEntry?: any;
@@ -211,18 +210,6 @@ export class LibraryMembershipDirective implements OnChanges {
       id: this.targetSite.id
     } as SiteMembershipRequestBody;
 
-    if (!this.versionCompatibilityService.getAcsVersion()) {
-      return this.JoinSite(memberBody);
-    } else {
-      return this.versionCompatibilityService.acsVersionInitialized$.pipe(
-        filter((info) => !!info),
-        take(1),
-        switchMap(() => this.JoinSite(memberBody))
-      );
-    }
-  }
-
-  private JoinSite(memberBody: SiteMembershipRequestBodyCreate) {
     if (this.versionCompatibilityService.isVersionSupported('7.0.0')) {
       memberBody.client = 'workspace';
     }
