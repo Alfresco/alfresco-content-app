@@ -24,12 +24,12 @@
  */
 
 import { by, browser } from 'protractor';
-import { Logger } from '@alfresco/adf-testing';
+import { BrowserVisibility, Logger } from '@alfresco/adf-testing';
 import { Component } from '../component';
 import { CommentsTab } from './info-drawer-comments-tab';
 import { LibraryMetadata } from './info-drawer-metadata-library';
 import { ContentMetadata } from './info-drawer-metadata-content';
-import { waitForVisibility, waitForInvisibility, waitForPresence } from '../../utilities/utils';
+import { waitForPresence } from '../../utilities/utils';
 
 export class InfoDrawer extends Component {
   commentsTab = new CommentsTab('adf-info-drawer');
@@ -120,7 +120,7 @@ export class InfoDrawer extends Component {
     try {
       await this.getTabByTitle('Comments').click();
       await this.commentsTab.waitForCommentsContainer();
-      await Promise.all([waitForVisibility(this.commentsTab.component), waitForInvisibility(this.propertiesTab.component)]);
+      await Promise.all([BrowserVisibility.waitUntilElementIsVisible(this.commentsTab.component), BrowserVisibility.waitUntilElementIsNotVisible(this.propertiesTab.component)]);
     } catch (error) {
       Logger.error('--- info-drawer clickCommentsTab catch error: ', error);
     }

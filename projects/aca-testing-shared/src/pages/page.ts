@@ -24,9 +24,9 @@
  */
 
 import { browser, by, ElementFinder } from 'protractor';
-import { Logger } from '@alfresco/adf-testing';
+import { BrowserVisibility, Logger } from '@alfresco/adf-testing';
 import { USE_HASH_STRATEGY } from './../configs';
-import { Utils, waitElement, waitForPresence, waitForVisibility, isPresentAndDisplayed } from '../utilities/utils';
+import { Utils, waitElement, waitForPresence, isPresentAndDisplayed } from '../utilities/utils';
 
 export abstract class Page {
   appRoot = 'app-root';
@@ -61,7 +61,7 @@ export abstract class Page {
   }
 
   async waitForDialog() {
-    await waitForVisibility(this.dialogContainer);
+    await BrowserVisibility.waitUntilElementIsVisible(this.dialogContainer);
   }
 
   async isDialogOpen() {

@@ -24,7 +24,8 @@
  */
 
 import { ElementFinder, by, browser, Locator } from 'protractor';
-import { isPresentAndDisplayed, waitForPresence, waitForVisibility, waitForStaleness } from '../../utilities/utils';
+import { isPresentAndDisplayed, waitForPresence, waitForStaleness } from '../../utilities/utils';
+import { BrowserVisibility } from '@alfresco/adf-testing';
 
 export abstract class GenericDialog {
   protected constructor(private rootCssSelector?: string) {}
@@ -47,7 +48,7 @@ export abstract class GenericDialog {
 
   async waitForDialogToOpen(): Promise<void> {
     await waitForPresence(this.rootElem);
-    await waitForVisibility(this.content);
+    await BrowserVisibility.waitUntilElementIsVisible(this.content);
     await waitForPresence(browser.element(by.css('.cdk-overlay-backdrop')));
   }
 

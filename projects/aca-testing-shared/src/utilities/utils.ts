@@ -53,18 +53,6 @@ export async function waitForClickable(element: ElementFinder, errorMessage?: st
   );
 }
 
-export async function waitForVisibility(element: ElementFinder, errorMessage?: string): Promise<void> {
-  await browser.wait(EC.visibilityOf(element), BROWSER_WAIT_TIMEOUT, errorMessage || `Timeout waiting for element visibility: ${element.locator()}`);
-}
-
-export async function waitForInvisibility(element: ElementFinder, errorMessage?: string): Promise<void> {
-  await browser.wait(
-    EC.invisibilityOf(element),
-    BROWSER_WAIT_TIMEOUT,
-    errorMessage || `Timeout waiting for element visibility: ${element.locator()}`
-  );
-}
-
 export async function waitForPresence(element: ElementFinder, errorMessage?: string): Promise<void> {
   await browser.wait(EC.presenceOf(element), BROWSER_WAIT_TIMEOUT, errorMessage || `Timeout waiting for element presence: ${element.locator()}`);
 }
