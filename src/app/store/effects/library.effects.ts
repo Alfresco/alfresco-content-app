@@ -33,7 +33,8 @@ import {
   NavigateRouteAction,
   SnackbarErrorAction,
   UpdateLibraryAction,
-  getAppSelection
+  getAppSelection,
+  ReloadLibraryAction
 } from '@alfresco/aca-shared/store';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
@@ -86,6 +87,7 @@ export class LibraryEffects {
             }
           });
       }
+      this.store.dispatch(new ReloadLibraryAction());
     })
   );
 

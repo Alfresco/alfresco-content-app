@@ -26,6 +26,7 @@
 import { RuleContext } from '@alfresco/adf-extensions';
 import * as navigation from './navigation.rules';
 import * as repository from './repository.rules';
+import { isAdmin } from './user.rules';
 
 export interface AcaRuleContext extends RuleContext {
   withCredentials: boolean;
@@ -81,7 +82,10 @@ export function canShareFile(context: RuleContext): boolean {
  * JSON ref: `canToggleJoinLibrary`
  */
 export function canToggleJoinLibrary(context: RuleContext): boolean {
-  return [hasLibrarySelected(context), !isPrivateLibrary(context), hasNoLibraryRole(context)].every(Boolean);
+  return (
+    [hasLibrarySelected(context), !isPrivateLibrary(context), hasNoLibraryRole(context)].every(Boolean) ||
+    [hasLibrarySelected(context), isPrivateLibrary(context), hasNoLibraryRole(context), isAdmin(context)].every(Boolean)
+  );
 }
 
 /**

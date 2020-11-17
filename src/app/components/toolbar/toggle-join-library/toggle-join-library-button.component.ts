@@ -23,8 +23,16 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AppStore, SetSelectedNodesAction, SnackbarErrorAction, SnackbarInfoAction, getAppSelection } from '@alfresco/aca-shared/store';
-import { SelectionState } from '@alfresco/adf-extensions';
+import {
+  AppStore,
+  SetSelectedNodesAction,
+  SnackbarErrorAction,
+  SnackbarInfoAction,
+  getAppSelection,
+  getUserProfile,
+  ReloadLibraryAction
+} from '@alfresco/aca-shared/store';
+import { ProfileState, SelectionState } from '@alfresco/adf-extensions';
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -41,6 +49,7 @@ import { ContentManagementService } from '../../../services/content-management.s
       (toggle)="onToggleEvent($event)"
       (error)="onErrorEvent($event)"
       [acaLibraryMembership]="(selection$ | async).library"
+      [isAdmin]="(profile$ | async).isAdmin"
       [attr.title]="(membership.isJoinRequested | async) ? ('APP.ACTIONS.CANCEL_JOIN' | translate) : ('APP.ACTIONS.JOIN' | translate)"
     >
       <mat-icon *ngIf="membership.isJoinRequested | async">cancel</mat-icon>
@@ -52,9 +61,11 @@ import { ContentManagementService } from '../../../services/content-management.s
 })
 export class ToggleJoinLibraryButtonComponent {
   selection$: Observable<SelectionState>;
+  profile$: Observable<ProfileState>;
 
   constructor(private store: Store<AppStore>, private content: ContentManagementService) {
     this.selection$ = this.store.select(getAppSelection);
+    this.profile$ = this.store.select(getUserProfile);
   }
 
   onToggleEvent(event: LibraryMembershipToggleEvent) {
@@ -62,6 +73,7 @@ export class ToggleJoinLibraryButtonComponent {
 
     if (event.shouldReload) {
       this.content.libraryJoined.next();
+      this.store.dispatch(new ReloadLibraryAction());
     } else {
       if (event.updatedEntry) {
         this.store.dispatch(new SetSelectedNodesAction([{ entry: event.updatedEntry, isLibrary: true } as any]));
