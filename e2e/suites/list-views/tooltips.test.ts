@@ -42,7 +42,15 @@ describe('File / folder tooltips', () => {
   const fileNameEqTitleDiffDesc = `file6-${Utils.random()}`;
   const fileNameEqDescDiffTitle = `file7-${Utils.random()}`;
   const fileTitleEqDesc = `file8-${Utils.random()}`;
-  let parentId, file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id;
+  let parentId: string;
+  let file1Id: string;
+  let file2Id: string;
+  let file3Id: string;
+  let file4Id: string;
+  let file5Id: string;
+  let file6Id: string;
+  let file7Id: string;
+  let file8Id: string;
 
   const fileTitle = 'file title';
   const fileDescription = 'file description';
@@ -82,7 +90,7 @@ describe('File / folder tooltips', () => {
   });
 
   afterAll(async (done) => {
-    await userActions.deleteNodes([parent]);
+    await userActions.deleteNodes([parentId]);
     await userActions.emptyTrashcan();
     done();
   });
@@ -248,8 +256,15 @@ describe('File / folder tooltips', () => {
 
   describe('on Trash', () => {
     const parentForTrash = `parent-${Utils.random()}`;
-    let parentForTrashId, file1TrashId, file2TrashId, file3TrashId, file4TrashId;
-    let file5TrashId, file6TrashId, file7TrashId, file8TrashId;
+    let parentForTrashId: string;
+    let file1TrashId: string;
+    let file2TrashId: string;
+    let file3TrashId: string;
+    let file4TrashId: string;
+    let file5TrashId: string;
+    let file6TrashId: string;
+    let file7TrashId: string;
+    let file8TrashId: string;
 
     beforeAll(async (done) => {
       parentForTrashId = (await apis.user.nodes.createFolder(parentForTrash)).entry.id;
@@ -273,7 +288,7 @@ describe('File / folder tooltips', () => {
     });
 
     afterAll(async (done) => {
-      await userActions.deleteNodes([parentForTrash]);
+      await userActions.deleteNodes([parentForTrashId]);
       await userActions.emptyTrashcan();
       done();
     });

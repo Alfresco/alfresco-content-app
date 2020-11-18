@@ -47,6 +47,9 @@ describe('Favorites', () => {
   const adminApiActions = new AdminActions();
   const userActions = new UserActions();
 
+  let parentId: string;
+  let folderId: string;
+
   beforeAll(async (done) => {
     await adminApiActions.login();
     await adminApiActions.createUser({ username });
@@ -57,8 +60,8 @@ describe('Favorites', () => {
     await adminApiActions.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_MANAGER.ROLE);
 
     const file1Id = (await adminApiActions.nodes.createFile(fileName1, docLibId)).entry.id;
-    const folderId = (await apis.user.nodes.createFolder(favFolderName)).entry.id;
-    const parentId = (await apis.user.nodes.createFolder(parentFolder)).entry.id;
+    folderId = (await apis.user.nodes.createFolder(favFolderName)).entry.id;
+    parentId = (await apis.user.nodes.createFolder(parentFolder)).entry.id;
     const file2Id = (await apis.user.nodes.createFile(fileName2, parentId)).entry.id;
     const file3Id = (await apis.user.nodes.createFile(fileName3, parentId)).entry.id;
     const file4Id = (await apis.user.nodes.createFile(fileName4, parentId)).entry.id;
@@ -82,7 +85,7 @@ describe('Favorites', () => {
 
   afterAll(async (done) => {
     await adminApiActions.deleteSites([siteName]);
-    await userActions.deleteNodes([favFolderName, parentFolder]);
+    await userActions.deleteNodes([folderId, parentId]);
     await userActions.emptyTrashcan();
     done();
   });
