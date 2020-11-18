@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ExtensionService } from '@alfresco/adf-extensions';
+import { ExtensionService, provideExtensionConfig } from '@alfresco/adf-extensions';
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 
@@ -35,7 +35,7 @@ import { TranslationService } from '@alfresco/adf-core';
 
 @NgModule({
   imports: [EffectsModule.forFeature([AosEffects])],
-  providers: [AosEditOnlineService]
+  providers: [AosEditOnlineService, provideExtensionConfig(['aos.plugin.json'])]
 })
 export class AosExtensionModule {
   constructor(extensions: ExtensionService, translation: TranslationService) {
