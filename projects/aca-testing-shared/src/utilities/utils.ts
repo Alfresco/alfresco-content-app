@@ -24,7 +24,7 @@
  */
 
 import { browser, protractor, ElementFinder, ExpectedConditions as EC, by, logging, until, WebElement } from 'protractor';
-import { BrowserVisibility, Logger } from '@alfresco/adf-testing';
+import { BrowserActions, BrowserVisibility, Logger } from '@alfresco/adf-testing';
 import { BROWSER_WAIT_TIMEOUT } from '../configs';
 import * as path from 'path';
 import * as fs from 'fs';
@@ -113,13 +113,6 @@ export class Utils {
     };
 
     return run(retry);
-  }
-
-  static async clearFieldWithBackspace(elem: ElementFinder): Promise<void> {
-    const text = await elem.getAttribute('value');
-    for (let i = 0; i < text.length; i++) {
-      await elem.sendKeys(protractor.Key.BACK_SPACE);
-    }
   }
 
   static async fileExistsOnOS(fileName: string, folderName: string = '', subFolderName: string = ''): Promise<any> {

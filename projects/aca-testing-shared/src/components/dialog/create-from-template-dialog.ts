@@ -26,6 +26,7 @@
 import { by } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
 import { isPresentAndDisplayed, isPresentAndEnabled, typeText } from '../../utilities/utils';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 export class CreateFromTemplateDialog extends GenericDialog {
   createButton = this.childElement(by.cssContainingText('.mat-dialog-actions button', 'Create'));
@@ -61,11 +62,11 @@ export class CreateFromTemplateDialog extends GenericDialog {
   }
 
   async getName(): Promise<string> {
-    return this.nameInput.getAttribute('value');
+    return BrowserActions.getInputValue(this.nameInput);
   }
 
   async getDescription(): Promise<string> {
-    return this.descriptionTextArea.getAttribute('value');
+    return BrowserActions.getInputValue(this.descriptionTextArea);
   }
 
   async enterName(name: string): Promise<void> {

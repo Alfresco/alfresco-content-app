@@ -26,7 +26,7 @@
 import { by, browser, ElementFinder } from 'protractor';
 import { Component } from '../component';
 import { isPresentAndEnabled, isPresentAndDisplayed } from '../../utilities/utils';
-import { BrowserVisibility } from '@alfresco/adf-testing';
+import { BrowserActions, BrowserVisibility } from '@alfresco/adf-testing';
 
 export class ContentMetadata extends Component {
   expandedPanel = this.byCss('.mat-expansion-panel.mat-expanded');
@@ -96,7 +96,7 @@ export class ContentMetadata extends Component {
     const tagName = await elem.getTagName();
 
     if (tagName === 'input' || tagName === 'textarea') {
-      return elem.getAttribute('value');
+      return BrowserActions.getInputValue(elem);
     }
 
     return elem.getText();

@@ -25,7 +25,8 @@
 
 import { browser, by, protractor } from 'protractor';
 import { Component } from '../component';
-import { Utils, waitForPresence, waitForClickable, waitElement } from '../../utilities/utils';
+import { waitForPresence, waitForClickable, waitElement } from '../../utilities/utils';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 export class SearchInput extends Component {
   searchButton = this.component.element(by.css('.app-search-button'));
@@ -158,7 +159,7 @@ export class SearchInput extends Component {
 
   async searchFor(text: string) {
     await this.waitForSearchInputToBeInteractive();
-    await Utils.clearFieldWithBackspace(this.searchInput);
+    await BrowserActions.clearWithBackSpace(this.searchInput);
     await this.searchInput.sendKeys(text);
     await this.searchInput.sendKeys(protractor.Key.ENTER);
   }

@@ -25,7 +25,8 @@
 
 import { ElementFinder, by, protractor } from 'protractor';
 import { GenericFilterPanel } from './generic-filter-panel';
-import { Utils, isPresentAndDisplayed } from '../../../utilities/utils';
+import { isPresentAndDisplayed } from '../../../utilities/utils';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 export class CreatedDateFilter extends GenericFilterPanel {
   constructor() {
@@ -78,11 +79,7 @@ export class CreatedDateFilter extends GenericFilterPanel {
   }
 
   async getFromValue(): Promise<string> {
-    try {
-      return await this.fromInput.getAttribute('value');
-    } catch (error) {
-      return '';
-    }
+    return BrowserActions.getInputValue(this.fromInput);
   }
 
   async getFromError(): Promise<string> {
@@ -94,11 +91,7 @@ export class CreatedDateFilter extends GenericFilterPanel {
   }
 
   async getToValue(): Promise<string> {
-    try {
-      return await this.toInput.getAttribute('value');
-    } catch (err) {
-      return '';
-    }
+    return BrowserActions.getInputValue(this.fromInput);
   }
 
   async getToError(): Promise<string> {
@@ -121,13 +114,13 @@ export class CreatedDateFilter extends GenericFilterPanel {
 
   async enterFromDate(date: string): Promise<void> {
     await this.expandPanel();
-    await Utils.clearFieldWithBackspace(this.fromInput);
+    await BrowserActions.clearWithBackSpace(this.fromInput);
     await this.fromInput.sendKeys(date, protractor.Key.TAB);
   }
 
   async enterToDate(date: string): Promise<void> {
     await this.expandPanel();
-    await Utils.clearFieldWithBackspace(this.toInput);
+    await BrowserActions.clearWithBackSpace(this.toInput);
     await this.toInput.sendKeys(date, protractor.Key.TAB);
   }
 }

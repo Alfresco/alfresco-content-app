@@ -27,6 +27,7 @@ import { by } from 'protractor';
 import { DateTimePicker } from '../../components/datetime-picker/datetime-picker';
 import { GenericDialog } from '../dialog/generic-dialog';
 import { isPresentAndEnabled } from '../../utilities/utils';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 export class ShareDialog extends GenericDialog {
   dateTimePicker = new DateTimePicker();
@@ -56,7 +57,7 @@ export class ShareDialog extends GenericDialog {
   }
 
   async getLinkUrl(): Promise<string> {
-    return this.url.getAttribute('value');
+    return BrowserActions.getInputValue(this.url);
   }
 
   async isUrlReadOnly(): Promise<boolean> {
@@ -95,6 +96,6 @@ export class ShareDialog extends GenericDialog {
   }
 
   async getExpireDate(): Promise<string> {
-    return this.expireInput.getAttribute('value');
+    return BrowserActions.getInputValue(this.expireInput);
   }
 }
