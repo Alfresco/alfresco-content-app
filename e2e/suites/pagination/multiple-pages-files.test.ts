@@ -37,7 +37,7 @@ describe('Pagination on multiple pages : ', () => {
   const parent = `parent-${random}`;
   let parentId: string;
 
-  const files = Array(101)
+  const files = Array(51)
     .fill('my-file')
     .map((name, index): string => `${name}-${index + 1}-${random}.txt`);
   let filesIds: string[];
@@ -61,7 +61,7 @@ describe('Pagination on multiple pages : ', () => {
     initialFavoritesTotalItems = await userApi.favorites.getFavoritesTotalItems();
     await userApi.shared.shareFilesByIds(filesIds);
     await userApi.favorites.addFavoritesByIds('file', filesIds);
-  }, 150000);
+  }, 300000);
 
   afterAll(async () => {
     await userApi.nodes.deleteNodeById(parentId);
@@ -73,29 +73,29 @@ describe('Pagination on multiple pages : ', () => {
 
   describe('on Recent Files', () => {
     beforeAll(async () => {
-      await userApi.search.waitForApi(username, { expect: initialSearchTotalItems + 101 });
-    }, 120000);
+      await userApi.search.waitForApi(username, { expect: initialSearchTotalItems + 51 });
+    }, 300000);
     recentFilesTests(username);
   });
 
   describe('on Search Results', () => {
     beforeAll(async () => {
-      await userApi.search.waitForApi(username, { expect: initialSearchTotalItems + 101 });
-    }, 120000);
+      await userApi.search.waitForApi(username, { expect: initialSearchTotalItems + 51 });
+    }, 300000);
     searchResultsTests(username);
   });
 
   describe('on Shared Files', () => {
     beforeAll(async () => {
-      await userApi.shared.waitForApi({ expect: initialSharedTotalItems + 101 });
-    }, 120000);
+      await userApi.shared.waitForApi({ expect: initialSharedTotalItems + 51 });
+    }, 300000);
     sharedFilesTests(username);
   });
 
   describe('on Favorites', () => {
     beforeAll(async () => {
-      await userApi.favorites.waitForApi({ expect: initialFavoritesTotalItems + 101 });
-    }, 120000);
+      await userApi.favorites.waitForApi({ expect: initialFavoritesTotalItems + 51 });
+    }, 300000);
     favoritesTests(username);
   });
 });

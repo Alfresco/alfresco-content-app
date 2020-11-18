@@ -139,15 +139,19 @@ export class SitesApi extends RepoApi {
     return this.createSite(title, SITE_VISIBILITY.MODERATED, description, siteId);
   }
 
-  async createSites(titles: string[], visibility?: string): Promise<any> {
+  async createSites(siteNames: string[], visibility?: string): Promise<SiteEntry[]> {
+    const sites: SiteEntry[] = [];
     try {
-      return titles.reduce(async (previous: any, current: any) => {
-        await previous;
-        return this.createSite(current, visibility);
-      }, Promise.resolve());
+      if (siteNames && siteNames.length > 0) {
+        for (const siteName of siteNames) {
+          const site = await this.createSite(siteName, visibility);
+          sites.push(site);
+        }
+      }
     } catch (error) {
       this.handleError(`SitesApi createSites : catch : `, error);
     }
+    return sites;
   }
 
   async createSitesPrivate(siteNames: string[]): Promise<any> {

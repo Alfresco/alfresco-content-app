@@ -49,15 +49,19 @@ export class SharedLinksApi extends RepoApi {
     }
   }
 
-  async shareFilesByIds(ids: string[]) {
+  async shareFilesByIds(ids: string[]): Promise<SharedLinkEntry[]> {
+    const sharedLinks: SharedLinkEntry[] = [];
     try {
-      return await ids.reduce(async (previous: any, current: any) => {
-        await previous;
-        return this.shareFileById(current);
-      }, Promise.resolve());
+      if (ids && ids.length > 0) {
+        for (const id of ids) {
+          const sharedLink = await this.shareFileById(id);
+          sharedLinks.push(sharedLink);
+        }
+      }
     } catch (error) {
       this.handleError(`SharedLinksApi shareFilesByIds : catch : `, error);
     }
+    return sharedLinks;
   }
 
   async getSharedIdOfNode(name: string): Promise<string> {
