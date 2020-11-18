@@ -59,17 +59,21 @@ describe('Single click on item name', () => {
     await adminApiActions.createUser({ username });
     await userActions.login(username, username);
 
+    const initialRecentTotalItems = await apis.user.search.getTotalItems(username);
+
     file1Id = (await apis.user.nodes.createFile(file1)).entry.id;
     folder1Id = (await apis.user.nodes.createFolder(folder1)).entry.id;
+
+    await apis.user.sites.createSite(siteName);
+    const docLibId = await apis.user.sites.getDocLibId(siteName);
+    await apis.user.nodes.createFile(fileSite, docLibId);
+
+    await apis.user.search.waitForApi(username, { expect: initialRecentTotalItems + 2 });
 
     deletedFile1Id = (await apis.user.nodes.createFile(deletedFile1)).entry.id;
     deletedFolder1Id = (await apis.user.nodes.createFolder(deletedFolder1)).entry.id;
 
     await userActions.deleteNodes([deletedFile1Id, deletedFolder1Id], false);
-
-    await apis.user.sites.createSite(siteName);
-    const docLibId = await apis.user.sites.getDocLibId(siteName);
-    await apis.user.nodes.createFile(fileSite, docLibId);
 
     await loginPage.loginWith(username);
     done();
@@ -204,8 +208,6 @@ describe('Single click on item name', () => {
 
   describe('on Search Results', () => {
     beforeEach(async () => {
-      const initialRecentTotalItems = await apis.user.search.getTotalItems(username);
-      await apis.user.search.waitForApi(username, { expect: initialRecentTotalItems + 2 });
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
     });
