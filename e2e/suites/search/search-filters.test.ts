@@ -182,6 +182,7 @@ describe('Search filters', () => {
     const future = moment().add(1, 'month').format('DD-MMM-YY');
 
     afterEach(async (done) => {
+      await createdDateFilter.expandPanel();
       await createdDateFilter.resetPanel();
       done();
     });
@@ -564,7 +565,6 @@ describe('Search filters', () => {
     afterEach(async (done) => {
       await BrowserActions.click(filters.resetAllButton);
       await sizeFilter.resetPanel();
-      await createdDateFilter.resetPanel();
       done();
     });
 

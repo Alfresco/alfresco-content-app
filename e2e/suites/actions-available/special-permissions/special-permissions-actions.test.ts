@@ -145,7 +145,7 @@ describe('Special permissions : ', () => {
       userManagerApi.search.waitForApi(userManager, { expect: managerSearchTotalItems + 14 }),
       userCollaboratorApi.favorites.waitForApi({ expect: collaboratorFavoritesTotalItems + 2 })
     ]);
-  });
+  }, 300000);
 
   afterAll(async () => {
     await userManagerApi.sites.deleteSite(sitePrivate);
