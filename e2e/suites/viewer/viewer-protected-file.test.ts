@@ -24,6 +24,7 @@
  */
 
 import { AdminActions, LoginPage, BrowsingPage, FILES, RepoClient, Utils, Viewer, PasswordDialog } from '@alfresco/aca-testing-shared';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 describe('Viewer - password protected file', () => {
   const username = `user-${Utils.random()}`;
@@ -83,7 +84,7 @@ describe('Viewer - password protected file', () => {
     await passwordDialog.enterPassword(protectedFile.password);
     expect(await passwordDialog.isSubmitEnabled()).toBe(true, 'Submit button not enabled');
 
-    await passwordDialog.submitButton.click();
+    await BrowserActions.click(passwordDialog.submitButton);
     await passwordDialog.waitForDialogToClose();
 
     expect(await viewer.isPdfViewerContentDisplayed()).toBe(true, 'file content not displayed');
@@ -92,7 +93,7 @@ describe('Viewer - password protected file', () => {
   it('[C268960] Error appears when entering an incorrect password', async () => {
     await passwordDialog.enterPassword('incorrect');
     expect(await passwordDialog.isSubmitEnabled()).toBe(true, 'Submit button not enabled');
-    await passwordDialog.submitButton.click();
+    await BrowserActions.click(passwordDialog.submitButton);
 
     expect(await passwordDialog.getErrorMessage()).toBe('Password is wrong');
     expect(await viewer.isPdfViewerContentDisplayed()).toBe(false, 'file content is displayed');

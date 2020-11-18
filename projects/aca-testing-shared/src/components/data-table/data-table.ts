@@ -24,11 +24,11 @@
  */
 
 import { browser, by, ElementArrayFinder, ElementFinder, protractor } from 'protractor';
-import { Logger } from '@alfresco/adf-testing';
+import { BrowserVisibility, Logger } from '@alfresco/adf-testing';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
 import { Menu } from '../menu/menu';
-import { Utils, waitForClickable, waitForPresence } from '../../utilities/utils';
+import { Utils, waitForPresence } from '../../utilities/utils';
 
 export class DataTable extends Component {
   private static selectors = {
@@ -223,7 +223,7 @@ export class DataTable extends Component {
   async doubleClickOnRowByName(name: string, location: string = ''): Promise<void> {
     try {
       const item = this.getRowFirstCell(name, location);
-      await waitForClickable(item);
+      await BrowserVisibility.waitUntilElementIsClickable(item);
       await browser.actions().mouseMove(item).perform();
       await browser.actions().doubleClick().perform();
     } catch (error) {

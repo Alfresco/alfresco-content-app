@@ -68,13 +68,13 @@ export class CreatedDateFilter extends GenericFilterPanel {
 
   async clickClearButton(): Promise<void> {
     if (await this.isClearButtonEnabled()) {
-      await this.clearButton.click();
+      await BrowserActions.click(this.clearButton);
     }
   }
 
   async clickApplyButton(): Promise<void> {
     if (await this.isApplyButtonEnabled()) {
-      await this.applyButton.click();
+      await BrowserActions.click(this.applyButton);
     }
   }
 

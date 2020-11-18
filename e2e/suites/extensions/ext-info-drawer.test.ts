@@ -24,6 +24,7 @@
  */
 
 import { AdminActions, LoginPage, BrowsingPage, InfoDrawer, RepoClient, EXTENSIBILITY_CONFIGS, Utils } from '@alfresco/aca-testing-shared';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 describe('Extensions - Info Drawer', () => {
   const username = `user-${Utils.random()}`;
@@ -90,7 +91,7 @@ describe('Extensions - Info Drawer', () => {
 
     it('[C284646] Add a new tab with icon and title', async () => {
       await page.dataTable.selectItem(file);
-      await page.toolbar.viewDetailsButton.click();
+      await BrowserActions.click(page.toolbar.viewDetailsButton);
       await infoDrawer.waitForInfoDrawerToOpen();
 
       const val = await infoDrawer.getTabTitle(custom_tab.order);
@@ -100,7 +101,7 @@ describe('Extensions - Info Drawer', () => {
 
     it('[C284647] Remove existing tab', async () => {
       await page.dataTable.selectItem(file);
-      await page.toolbar.viewDetailsButton.click();
+      await BrowserActions.click(page.toolbar.viewDetailsButton);
       await infoDrawer.waitForInfoDrawerToOpen();
 
       expect(await infoDrawer.isTabPresent(comments_tab.title)).toBe(false, `${comments_tab.title} tab should not be present!`);
@@ -108,7 +109,7 @@ describe('Extensions - Info Drawer', () => {
 
     it('[C284648] Change tab title', async () => {
       await page.dataTable.selectItem(file);
-      await page.toolbar.viewDetailsButton.click();
+      await BrowserActions.click(page.toolbar.viewDetailsButton);
       await infoDrawer.waitForInfoDrawerToOpen();
 
       expect(await infoDrawer.isTabPresent(properties_tab.title)).toBe(true, `${properties_tab.title} tab is not present`);
@@ -117,7 +118,7 @@ describe('Extensions - Info Drawer', () => {
 
     it('[C284649] Tab with icon and no title', async () => {
       await page.dataTable.selectItem(file);
-      await page.toolbar.viewDetailsButton.click();
+      await BrowserActions.click(page.toolbar.viewDetailsButton);
       await infoDrawer.waitForInfoDrawerToOpen();
 
       expect(await infoDrawer.isTabPresent(no_title_tab.title)).toBe(true, `${no_title_tab.title} tab is not present`);
@@ -126,7 +127,7 @@ describe('Extensions - Info Drawer', () => {
 
     it('[C284651] Insert new component in tab', async () => {
       await page.dataTable.selectItem(file);
-      await page.toolbar.viewDetailsButton.click();
+      await BrowserActions.click(page.toolbar.viewDetailsButton);
       await infoDrawer.waitForInfoDrawerToOpen();
 
       expect(await infoDrawer.isTabDisplayed(custom_tab.title)).toBe(true, `${custom_tab.title} tab is not displayed`);
@@ -146,7 +147,7 @@ describe('Extensions - Info Drawer', () => {
 
     it('[C284650] Remove all tabs', async () => {
       await page.dataTable.selectItem(file);
-      await page.toolbar.viewDetailsButton.click();
+      await BrowserActions.click(page.toolbar.viewDetailsButton);
       await infoDrawer.waitForInfoDrawerToOpen();
 
       expect(await infoDrawer.isEmpty()).toBe(true, 'Info Drawer is not empty');

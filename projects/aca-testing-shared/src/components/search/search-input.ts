@@ -25,8 +25,8 @@
 
 import { browser, by, protractor } from 'protractor';
 import { Component } from '../component';
-import { waitForPresence, waitForClickable, waitElement } from '../../utilities/utils';
-import { BrowserActions } from '@alfresco/adf-testing';
+import { waitForPresence, waitElement } from '../../utilities/utils';
+import { BrowserActions, BrowserVisibility } from '@alfresco/adf-testing';
 
 export class SearchInput extends Component {
   searchButton = this.component.element(by.css('.app-search-button'));
@@ -48,7 +48,7 @@ export class SearchInput extends Component {
   }
 
   async waitForSearchInputToBeInteractive() {
-    await waitForClickable(this.searchControl);
+    await BrowserVisibility.waitUntilElementIsClickable(this.searchControl);
   }
 
   async isSearchContainerDisplayed() {
@@ -59,8 +59,7 @@ export class SearchInput extends Component {
   }
 
   async clickSearchButton() {
-    await waitForClickable(this.searchButton);
-    await this.searchButton.click();
+    await BrowserActions.click(this.searchButton);
     await this.waitForSearchControl();
   }
 
@@ -70,18 +69,15 @@ export class SearchInput extends Component {
   }
 
   async clickFilesOption() {
-    await waitForClickable(this.searchFilesOption);
-    await this.searchFilesOption.click();
+    await BrowserActions.click(this.searchFilesOption);
   }
 
   async clickFoldersOption() {
-    await waitForClickable(this.searchFoldersOption);
-    await this.searchFoldersOption.click();
+    await BrowserActions.click(this.searchFoldersOption);
   }
 
   async clickLibrariesOption() {
-    await waitForClickable(this.searchLibrariesOption);
-    await this.searchLibrariesOption.click();
+    await BrowserActions.click(this.searchLibrariesOption);
   }
 
   async isFilesOptionEnabled() {
@@ -132,7 +128,7 @@ export class SearchInput extends Component {
 
   async clickClearSearchButton() {
     if (await this.isClearSearchButtonPresent()) {
-      await this.clearSearchButton.click();
+      await BrowserActions.click(this.clearSearchButton);
     }
   }
 

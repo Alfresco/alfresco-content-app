@@ -28,7 +28,6 @@ import { Logger, BrowserActions } from '@alfresco/adf-testing';
 import { SIDEBAR_LABELS, BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
-import { waitForClickable } from '../../utilities/utils';
 
 export class Sidenav extends Component {
   links = this.component.all(by.css('.item'));
@@ -55,8 +54,7 @@ export class Sidenav extends Component {
         return Promise.resolve();
       } else {
         const link = this.getLink(name);
-        await waitForClickable(link);
-        await link.click();
+        await BrowserActions.click(link);
         await element(by.css('.mat-expansion-panel-body')).isPresent();
       }
     } catch (e) {
@@ -65,7 +63,7 @@ export class Sidenav extends Component {
   }
 
   async openNewMenu(): Promise<void> {
-    await this.newButton.click();
+    await BrowserActions.click(this.newButton.first());
     await this.menu.waitForMenuToOpen();
   }
 
@@ -76,22 +74,22 @@ export class Sidenav extends Component {
 
   async openCreateFolderDialog(): Promise<void> {
     await this.openNewMenu();
-    await this.menu.createFolderAction.click();
+    await BrowserActions.click(this.menu.createFolderAction);
   }
 
   async openCreateLibraryDialog(): Promise<void> {
     await this.openNewMenu();
-    await this.menu.createLibraryAction.click();
+    await BrowserActions.click(this.menu.createLibraryAction);
   }
 
   async openCreateFileFromTemplateDialog(): Promise<void> {
     await this.openNewMenu();
-    await this.menu.createFileFromTemplateAction.click();
+    await BrowserActions.click(this.menu.createFileFromTemplateAction);
   }
 
   async openCreateFolderFromTemplateDialog(): Promise<void> {
     await this.openNewMenu();
-    await this.menu.createFolderFromTemplateAction.click();
+    await BrowserActions.click(this.menu.createFolderFromTemplateAction);
   }
 
   async isActive(name: string): Promise<boolean> {
@@ -144,8 +142,7 @@ export class Sidenav extends Component {
   async clickLink(name: string): Promise<void> {
     try {
       const link = this.getLinkLabel(name);
-      await waitForClickable(link);
-      await link.click();
+      await BrowserActions.click(link);
     } catch (error) {
       Logger.error('---- sidebar navigation clickLink catch error: ', error);
     }

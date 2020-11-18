@@ -28,6 +28,7 @@ import { Page } from './page';
 
 import { APP_ROUTES } from '../configs';
 import { waitForPresence } from '../utilities/utils';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 export class LoginPage extends Page {
   login = new LoginComponent(this.appRoot);
@@ -45,7 +46,7 @@ export class LoginPage extends Page {
     const pass = password || username;
     await this.load();
     await this.login.enterCredentials(username, pass);
-    await this.login.submitButton.click();
+    await BrowserActions.click(this.login.submitButton);
     return super.waitForApp();
   }
 
@@ -58,7 +59,7 @@ export class LoginPage extends Page {
     const pass = password || username;
     await this.load();
     await this.login.enterCredentials(username, pass);
-    await this.login.submitButton.click();
+    await BrowserActions.click(this.login.submitButton);
     await waitForPresence(this.login.errorMessage);
   }
 }

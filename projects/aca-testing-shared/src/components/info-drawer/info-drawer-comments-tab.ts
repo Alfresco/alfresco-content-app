@@ -112,7 +112,7 @@ export class CommentsTab extends Component {
   }
 
   async clickAddButton(): Promise<void> {
-    await this.addCommentButton.click();
+    await BrowserActions.click(this.addCommentButton);
   }
 
   async getCommentTextFromTextArea(): Promise<string> {

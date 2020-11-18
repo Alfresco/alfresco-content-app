@@ -24,6 +24,7 @@
  */
 
 import { LoginPage, BrowsingPage, RepoClient, NodeContentTree, Utils, AdminActions } from '@alfresco/aca-testing-shared';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 describe('Generic tests : ', () => {
   const random = Utils.random();
@@ -109,7 +110,7 @@ describe('Generic tests : ', () => {
     it('[C280619] Context menu closes when clicking away from it', async () => {
       await dataTable.rightClickOnItem(file1);
       expect(await dataTable.hasContextMenu()).toBe(true, 'Context menu is not displayed');
-      await page.breadcrumb.currentItem.click();
+      await BrowserActions.click(page.breadcrumb.currentItem);
       expect(await dataTable.hasContextMenu()).toBe(false, 'Context menu is displayed');
     });
   });

@@ -34,6 +34,7 @@ import {
   DATE_TIME_FORMAT,
   DATE_FORMAT
 } from '@alfresco/aca-testing-shared';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 const moment = require('moment');
 
@@ -104,7 +105,7 @@ describe('File / Folder properties', () => {
   describe('View properties', () => {
     it('[C299162] Default tabs', async () => {
       await dataTable.selectItem(file1.name);
-      await page.toolbar.viewDetailsButton.click();
+      await BrowserActions.click(page.toolbar.viewDetailsButton);
       await infoDrawer.waitForInfoDrawerToOpen();
 
       expect(await infoDrawer.getHeaderTitle()).toEqual('Details');
@@ -142,7 +143,7 @@ describe('File / Folder properties', () => {
       ];
 
       await dataTable.selectItem(file1.name);
-      await page.toolbar.viewDetailsButton.click();
+      await BrowserActions.click(page.toolbar.viewDetailsButton);
       await infoDrawer.waitForInfoDrawerToOpen();
 
       expect(await propertiesTab.getVisiblePropertiesLabels()).toEqual(expectedPropLabels, 'Incorrect properties displayed');
@@ -167,7 +168,7 @@ describe('File / Folder properties', () => {
       ];
 
       await dataTable.selectItem(folder1.name);
-      await page.toolbar.viewDetailsButton.click();
+      await BrowserActions.click(page.toolbar.viewDetailsButton);
       await infoDrawer.waitForInfoDrawerToOpen();
 
       expect(await propertiesTab.getVisiblePropertiesLabels()).toEqual(expectedPropLabels, 'Incorrect properties displayed');
@@ -178,19 +179,19 @@ describe('File / Folder properties', () => {
 
     it('[C269004] Less / More information buttons', async () => {
       await dataTable.selectItem(file1.name);
-      await page.toolbar.viewDetailsButton.click();
+      await BrowserActions.click(page.toolbar.viewDetailsButton);
       await infoDrawer.waitForInfoDrawerToOpen();
 
       expect(await propertiesTab.isMoreInfoButtonEnabled()).toBe(true, 'More information button not enabled');
       expect(await propertiesTab.isPropertiesListExpanded()).toBe(true, 'Properties list not expanded');
 
-      await propertiesTab.moreInfoButton.click();
+      await BrowserActions.click(propertiesTab.moreInfoButton);
 
       expect(await propertiesTab.isMoreInfoButtonDisplayed()).toBe(false, 'More information button displayed');
       expect(await propertiesTab.isLessInfoButtonEnabled()).toBe(true, 'Less information button not enabled');
       expect(await propertiesTab.isPropertiesListExpanded()).toBe(false, 'Properties list expanded');
 
-      await propertiesTab.lessInfoButton.click();
+      await BrowserActions.click(propertiesTab.lessInfoButton);
 
       expect(await propertiesTab.isMoreInfoButtonDisplayed()).toBe(true, 'More information button not displayed');
       expect(await propertiesTab.isLessInfoButtonEnabled()).toBe(false, 'Less information button enabled');
@@ -231,11 +232,12 @@ describe('File / Folder properties', () => {
       ];
 
       await dataTable.selectItem(image1.name);
-      await page.toolbar.viewDetailsButton.click();
+      await BrowserActions.click(page.toolbar.viewDetailsButton);
       await infoDrawer.waitForInfoDrawerToOpen();
 
-      await propertiesTab.moreInfoButton.click();
-      await propertiesTab.imagePropertiesPanel.click();
+      await BrowserActions.click(propertiesTab.moreInfoButton);
+      await BrowserActions.click(propertiesTab.imagePropertiesPanel);
+
       await propertiesTab.waitForImagePropertiesPanelToExpand();
 
       expect(await propertiesTab.isImagePropertiesPanelDisplayed()).toBe(true, 'Image properties panel not displayed');

@@ -45,14 +45,6 @@ export async function waitElement(css: string, errorMessage?: string): Promise<W
   return browser.wait(until.elementLocated(by.css(css)), BROWSER_WAIT_TIMEOUT, errorMessage || `Timeout waiting for element: ${css}`);
 }
 
-export async function waitForClickable(element: ElementFinder, errorMessage?: string): Promise<void> {
-  await browser.wait(
-    EC.elementToBeClickable(element),
-    BROWSER_WAIT_TIMEOUT,
-    errorMessage || `Timeout waiting for element to be clickable: ${element.locator()}`
-  );
-}
-
 export async function waitForPresence(element: ElementFinder, errorMessage?: string): Promise<void> {
   await browser.wait(EC.presenceOf(element), BROWSER_WAIT_TIMEOUT, errorMessage || `Timeout waiting for element presence: ${element.locator()}`);
 }

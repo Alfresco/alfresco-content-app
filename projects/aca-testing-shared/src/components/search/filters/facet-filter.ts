@@ -25,6 +25,7 @@
 
 import { ElementFinder, ElementArrayFinder, by, browser } from 'protractor';
 import { GenericFilterPanel } from './generic-filter-panel';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 export class FacetFilter extends GenericFilterPanel {
   private readonly locators = {
@@ -67,7 +68,7 @@ export class FacetFilter extends GenericFilterPanel {
     if ((await this.selectedFacets.count()) > 0) {
       await this.expandPanel();
       await this.selectedFacets.each(async (elem) => {
-        await elem.click();
+        await BrowserActions.click(elem);
       });
     }
     await this.expandPanel();
@@ -83,7 +84,7 @@ export class FacetFilter extends GenericFilterPanel {
 
   async clickClearButton(): Promise<void> {
     if (await this.isClearButtonEnabled()) {
-      await this.clearButton.click();
+      await BrowserActions.click(this.clearButton);
     }
   }
 

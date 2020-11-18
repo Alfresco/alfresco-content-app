@@ -24,7 +24,7 @@
  */
 
 import { by, browser } from 'protractor';
-import { BrowserVisibility, Logger } from '@alfresco/adf-testing';
+import { BrowserActions, BrowserVisibility, Logger } from '@alfresco/adf-testing';
 import { Component } from '../component';
 import { CommentsTab } from './info-drawer-comments-tab';
 import { LibraryMetadata } from './info-drawer-metadata-library';
@@ -89,7 +89,7 @@ export class InfoDrawer extends Component {
   }
 
   async clickTab(title: string) {
-    await this.getTabByTitle(title).click();
+    await BrowserActions.click(this.getTabByTitle(title));
   }
 
   async getComponentIdOfTab(): Promise<string> {
@@ -118,7 +118,7 @@ export class InfoDrawer extends Component {
 
   async clickCommentsTab() {
     try {
-      await this.getTabByTitle('Comments').click();
+      await BrowserActions.click(this.getTabByTitle('Comments'));
       await this.commentsTab.waitForCommentsContainer();
       await Promise.all([
         BrowserVisibility.waitUntilElementIsVisible(this.commentsTab.component),

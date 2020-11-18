@@ -27,6 +27,7 @@ import { browser, by, By } from 'protractor';
 import { BrowsingPage } from './browsing-page';
 import { SearchSortingPicker } from '../components/search/search-sorting-picker';
 import { SearchFilters } from '../components/search/search-filters';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 export class SearchResultsPage extends BrowsingPage {
   root = this.byCss('aca-search-results');
@@ -54,6 +55,6 @@ export class SearchResultsPage extends BrowsingPage {
   async removeChip(chipName: string): Promise<void> {
     const chip = browser.element(By.cssContainingText('.mat-chip', chipName));
     const closeChip = chip.element(by.css('.mat-chip-remove'));
-    await closeChip.click();
+    await BrowserActions.click(closeChip);
   }
 }

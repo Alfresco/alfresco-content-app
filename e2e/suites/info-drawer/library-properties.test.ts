@@ -24,6 +24,7 @@
  */
 
 import { AdminActions, LoginPage, BrowsingPage, SITE_VISIBILITY, SITE_ROLES, RepoClient, InfoDrawer, Utils } from '@alfresco/aca-testing-shared';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 describe('Library properties', () => {
   const username = `user1-${Utils.random()}`;
@@ -93,14 +94,14 @@ describe('Library properties', () => {
 
   afterEach(async (done) => {
     if (await infoDrawer.isOpen()) {
-      await page.toolbar.viewDetailsButton.click();
+      await BrowserActions.click(page.toolbar.viewDetailsButton);
     }
     done();
   });
 
   it('[C289336] Info drawer opens for a library', async () => {
     await dataTable.selectItem(site.name);
-    await page.toolbar.viewDetailsButton.click();
+    await BrowserActions.click(page.toolbar.viewDetailsButton);
     await infoDrawer.waitForInfoDrawerToOpen();
 
     expect(await infoDrawer.getHeaderTitle()).toEqual('Details');
@@ -120,7 +121,7 @@ describe('Library properties', () => {
 
   it('[C289338] Editable properties', async () => {
     await dataTable.selectItem(site.name);
-    await page.toolbar.viewDetailsButton.click();
+    await BrowserActions.click(page.toolbar.viewDetailsButton);
     await infoDrawer.waitForInfoDrawerToOpen();
 
     expect(await aboutTab.isEditLibraryPropertiesEnabled()).toBe(true, 'Edit action is not enabled');
@@ -139,7 +140,7 @@ describe('Library properties', () => {
 
   it('[C289339] Edit site details', async () => {
     await dataTable.selectItem(siteForUpdate.name);
-    await page.toolbar.viewDetailsButton.click();
+    await BrowserActions.click(page.toolbar.viewDetailsButton);
     await infoDrawer.waitForInfoDrawerToOpen();
 
     expect(await aboutTab.isEditLibraryPropertiesEnabled()).toBe(true, 'Edit action is not enabled');
@@ -166,7 +167,7 @@ describe('Library properties', () => {
     const newDesc = `new desc ${Utils.random}`;
 
     await dataTable.selectItem(site.name);
-    await page.toolbar.viewDetailsButton.click();
+    await BrowserActions.click(page.toolbar.viewDetailsButton);
     await infoDrawer.waitForInfoDrawerToOpen();
 
     expect(await aboutTab.isEditLibraryPropertiesEnabled()).toBe(true, 'Edit action is not enabled');
@@ -187,7 +188,7 @@ describe('Library properties', () => {
     await apis.user.queries.waitForSites(site.name, { expect: 1 });
 
     await dataTable.selectItem(siteDup);
-    await page.toolbar.viewDetailsButton.click();
+    await BrowserActions.click(page.toolbar.viewDetailsButton);
     await infoDrawer.waitForInfoDrawerToOpen();
     await aboutTab.clickEditLibraryProperties();
 
@@ -198,7 +199,7 @@ describe('Library properties', () => {
 
   it('[C289342] Site name too long', async () => {
     await dataTable.selectItem(site.name);
-    await page.toolbar.viewDetailsButton.click();
+    await BrowserActions.click(page.toolbar.viewDetailsButton);
     await infoDrawer.waitForInfoDrawerToOpen();
     await aboutTab.clickEditLibraryProperties();
 
@@ -211,7 +212,7 @@ describe('Library properties', () => {
 
   it('[C289343] Site description too long', async () => {
     await dataTable.selectItem(site.name);
-    await page.toolbar.viewDetailsButton.click();
+    await BrowserActions.click(page.toolbar.viewDetailsButton);
     await infoDrawer.waitForInfoDrawerToOpen();
     await aboutTab.clickEditLibraryProperties();
 
@@ -240,7 +241,7 @@ describe('Library properties', () => {
 
       await page.goToMyLibrariesAndWait();
       await dataTable.selectItem(site.name);
-      await page.toolbar.viewDetailsButton.click();
+      await BrowserActions.click(page.toolbar.viewDetailsButton);
       await infoDrawer.waitForInfoDrawerToOpen();
       await aboutTab.clickEditLibraryProperties();
 

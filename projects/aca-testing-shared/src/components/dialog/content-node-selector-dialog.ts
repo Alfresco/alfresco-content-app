@@ -25,7 +25,7 @@
 
 import { by, browser, protractor } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
-import { isPresentAndDisplayed, waitForStaleness, waitForPresence, isPresentAndEnabled, waitForClickable } from '../../utilities/utils';
+import { isPresentAndDisplayed, waitForStaleness, waitForPresence, isPresentAndEnabled } from '../../utilities/utils';
 import { DropDownBreadcrumb } from '../breadcrumb/dropdown-breadcrumb';
 import { DataTable } from '../data-table/data-table';
 import { BrowserActions } from '@alfresco/adf-testing';
@@ -54,13 +54,12 @@ export class ContentNodeSelectorDialog extends GenericDialog {
   }
 
   async selectLocation(location: string): Promise<void> {
-    await this.locationDropDown.click();
-    await waitForPresence(this.locationPersonalFiles);
+    await BrowserActions.click(this.locationDropDown);
 
     if (location === 'Personal Files') {
-      await this.locationPersonalFiles.click();
+      await BrowserActions.click(this.locationPersonalFiles);
     } else {
-      await this.locationFileLibraries.click();
+      await BrowserActions.click(this.locationFileLibraries);
     }
 
     await this.waitForDropDownToClose();
@@ -68,8 +67,7 @@ export class ContentNodeSelectorDialog extends GenericDialog {
 
   async selectDestination(folderName: string): Promise<void> {
     const row = this.dataTable.getRowByName(folderName);
-    await waitForClickable(row);
-    await row.click();
+    await BrowserActions.click(row);
     await waitForPresence(browser.element(by.css('.adf-is-selected')));
   }
 

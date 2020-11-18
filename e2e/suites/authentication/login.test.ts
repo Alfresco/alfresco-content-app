@@ -25,6 +25,7 @@
 
 import { browser } from 'protractor';
 import { AdminActions, APP_ROUTES, LoginPage, Utils, navigate } from '@alfresco/aca-testing-shared';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 describe('Login', () => {
   const loginPage = new LoginPage();
@@ -87,7 +88,8 @@ describe('Login', () => {
     it('[C213091] change password visibility', async () => {
       await login.enterPassword('some password');
       expect(await login.isPasswordDisplayed()).toBe(false, 'password is visible');
-      await login.passwordVisibility.click();
+      await BrowserActions.click(login.passwordVisibility);
+
       expect(await login.isPasswordHidden()).toBe(false, 'Password visibility not changed');
       expect(await login.isPasswordDisplayed()).toBe(true, 'password is not visible');
     });

@@ -33,6 +33,7 @@ import {
   InfoDrawer,
   MetadataCard
 } from '@alfresco/aca-testing-shared';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 describe('Extensions - Metadata presets', () => {
   const username = `user-${Utils.random()}`;
@@ -87,11 +88,11 @@ describe('Extensions - Metadata presets', () => {
     await page.refresh();
 
     await page.dataTable.selectItem(file);
-    await page.toolbar.viewDetailsButton.click();
+    await BrowserActions.click(page.toolbar.viewDetailsButton);
     await infoDrawer.waitForInfoDrawerToOpen();
 
     await infoDrawer.clickTab(properties_tab.title);
-    await metadataCard.expandButton.click();
+    await BrowserActions.click(metadataCard.expandButton);
     await metadataCard.waitForFirstExpansionPanel();
 
     done();

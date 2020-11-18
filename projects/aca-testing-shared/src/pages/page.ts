@@ -24,7 +24,7 @@
  */
 
 import { browser, by, ElementFinder } from 'protractor';
-import { BrowserVisibility, Logger } from '@alfresco/adf-testing';
+import { BrowserActions, BrowserVisibility, Logger } from '@alfresco/adf-testing';
 import { USE_HASH_STRATEGY } from './../configs';
 import { Utils, waitElement, waitForPresence, isPresentAndDisplayed } from '../utilities/utils';
 
@@ -80,7 +80,7 @@ export abstract class Page {
 
   async closeUploadDialog(): Promise<void> {
     if (await this.isUploadDialogOpen()) {
-      await this.closeUploadButton.click();
+      await BrowserActions.click(this.closeUploadButton);
     }
   }
 
@@ -96,8 +96,7 @@ export abstract class Page {
 
   async clickSnackBarAction(): Promise<void> {
     try {
-      const action = await waitElement('.mat-simple-snackbar-action button');
-      await action.click();
+      await BrowserActions.click(this.byCss('.mat-simple-snackbar-action button'));
     } catch (e) {
       Logger.error(e, '.......failed on click snack bar action.........');
     }

@@ -70,7 +70,7 @@ export class ShareDialog extends GenericDialog {
   }
 
   async clickClose(): Promise<void> {
-    await this.closeButton.click();
+    await BrowserActions.click(this.closeButton);
     await this.waitForDialogToClose();
   }
 
@@ -91,7 +91,7 @@ export class ShareDialog extends GenericDialog {
 
   async closeDatetimePicker(): Promise<void> {
     if (await this.dateTimePicker.isCalendarOpen()) {
-      await this.datetimePickerButton.click();
+      await BrowserActions.click(this.datetimePickerButton);
     }
   }
 
