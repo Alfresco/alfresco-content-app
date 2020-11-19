@@ -24,6 +24,7 @@
  */
 
 import { AdminActions, UserActions, LoginPage, BrowsingPage, ContentNodeSelectorDialog, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 describe('Copy content', () => {
   const username = `user-${Utils.random()}`;
@@ -478,7 +479,7 @@ describe('Copy content', () => {
     await toolbar.clickMoreActionsCopy();
     await copyDialog.selectLocation('Personal Files');
     await copyDialog.selectDestination(destination);
-    await copyDialog.copyButton.click();
+    await BrowserActions.click(copyDialog.copyButton);
     const msg = await page.getSnackBarMessage();
     expect(msg).toContain('Copied 1 item');
     expect(msg).toContain('Undo');
@@ -498,7 +499,7 @@ describe('Copy content', () => {
     await toolbar.clickMoreActionsCopy();
     await copyDialog.selectLocation('Personal Files');
     await copyDialog.selectDestination(destination);
-    await copyDialog.copyButton.click();
+    await BrowserActions.click(copyDialog.copyButton);
     const msg = await page.getSnackBarMessage();
     expect(msg).toContain('Copied 1 item');
     expect(msg).toContain('Undo');
@@ -522,7 +523,7 @@ describe('Copy content', () => {
     await toolbar.clickMoreActionsCopy();
     await copyDialog.selectLocation('Personal Files');
     await copyDialog.selectDestination(destination);
-    await copyDialog.copyButton.click();
+    await BrowserActions.click(copyDialog.copyButton);
     const msg = await page.getSnackBarMessage();
     expect(msg).toContain('Copied 2 items');
     expect(msg).toContain('Undo');
@@ -544,7 +545,7 @@ describe('Copy content', () => {
     await toolbar.clickMoreActionsCopy();
     await copyDialog.selectLocation('Personal Files');
     await copyDialog.selectDestination(destination);
-    await copyDialog.copyButton.click();
+    await BrowserActions.click(copyDialog.copyButton);
     const msg = await page.getSnackBarMessage();
     expect(msg).toContain('Copied 1 item');
     expect(msg).toContain('Undo');
@@ -564,7 +565,7 @@ describe('Copy content', () => {
     await toolbar.clickMoreActionsCopy();
     await copyDialog.selectLocation('Personal Files');
     await copyDialog.selectDestination(destination);
-    await copyDialog.copyButton.click();
+    await BrowserActions.click(copyDialog.copyButton);
     const msg = await page.getSnackBarMessage();
     expect(msg).toContain('Copied 1 item');
     expect(msg).toContain('Undo');
@@ -590,7 +591,7 @@ describe('Copy content', () => {
     await copyDialog.dataTable.doubleClickOnRowByName(siteName);
     await copyDialog.dataTable.doubleClickOnRowByName('documentLibrary');
     await copyDialog.selectDestination(destination);
-    await copyDialog.copyButton.click();
+    await BrowserActions.click(copyDialog.copyButton);
     const msg = await page.getSnackBarMessage();
     expect(msg).toContain(`Copied ${noOfItems} ${noOfItems === 1 ? 'item' : 'items'}`);
     expect(msg).toContain('Undo');
@@ -618,7 +619,7 @@ describe('Copy content', () => {
     await toolbar.clickMoreActionsCopy();
     await copyDialog.selectLocation('Personal Files');
     await copyDialog.selectDestination(destination);
-    await copyDialog.copyButton.click();
+    await BrowserActions.click(copyDialog.copyButton);
     const msg = await page.getSnackBarMessage();
     expect(msg).toContain('Copied 1 item');
     expect(msg).toContain('Undo');
@@ -641,7 +642,7 @@ describe('Copy content', () => {
     await toolbar.clickMoreActionsCopy();
     await copyDialog.selectLocation('Personal Files');
     await copyDialog.selectDestination(destination);
-    await copyDialog.copyButton.click();
+    await BrowserActions.click(copyDialog.copyButton);
     const msg = await page.getSnackBarMessage();
     expect(msg).toContain('Copied 1 item');
     expect(msg).toContain('Undo');
@@ -672,7 +673,7 @@ describe('Copy content', () => {
     await toolbar.clickMoreActionsCopy();
     await copyDialog.selectLocation('Personal Files');
     await copyDialog.selectDestination(destination);
-    await copyDialog.copyButton.click();
+    await BrowserActions.click(copyDialog.copyButton);
     const msg = await page.getSnackBarMessage();
     expect(msg).toContain('Copied 1 item');
     expect(msg).toContain('Undo');
@@ -695,7 +696,7 @@ describe('Copy content', () => {
     await toolbar.clickMoreActionsCopy();
     await copyDialog.selectLocation('Personal Files');
     await copyDialog.selectDestination(destination);
-    await copyDialog.copyButton.click();
+    await BrowserActions.click(copyDialog.copyButton);
     const msg = await page.getSnackBarMessage();
     expect(msg).toContain('Copied 1 item');
     expect(msg).toContain('Undo');
@@ -720,7 +721,7 @@ describe('Copy content', () => {
     await copyDialog.selectLocation('Personal Files');
     await copyDialog.dataTable.doubleClickOnRowByName(source);
     await copyDialog.selectDestination(destination);
-    await copyDialog.copyButton.click();
+    await BrowserActions.click(copyDialog.copyButton);
     const msg = await page.getSnackBarMessage();
     expect(msg).toContain('Copied 1 item');
     expect(msg).toContain('Undo');
@@ -746,7 +747,7 @@ describe('Copy content', () => {
     await toolbar.clickMoreActionsCopy();
     await copyDialog.selectLocation('Personal Files');
     await copyDialog.dataTable.doubleClickOnRowByName(destination);
-    await copyDialog.copyButton.click();
+    await BrowserActions.click(copyDialog.copyButton);
     const msg = await page.getSnackBarMessage();
     expect(msg).toContain('Copied 1 item');
     expect(msg).toContain('Undo');

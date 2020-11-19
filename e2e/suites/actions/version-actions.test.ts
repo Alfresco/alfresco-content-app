@@ -27,6 +27,7 @@ import { AdminActions, LoginPage, BrowsingPage, FILES, RepoClient, Utils, Upload
 import { VersionManagePage } from '../../../projects/aca-testing-shared/src/components/version-manage/version-manager';
 import { Viewer } from '../../../projects/aca-testing-shared/src/components';
 import { browser } from 'protractor';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 describe('Version component actions', () => {
   const versionManagePage = new VersionManagePage();
@@ -62,9 +63,11 @@ describe('Version component actions', () => {
 
       await page.waitForDialog();
 
-      await uploadNewVersionDialog.majorOption.click();
+      await BrowserActions.click(uploadNewVersionDialog.majorOption);
+
       await uploadNewVersionDialog.enterDescription('new major version description');
-      await uploadNewVersionDialog.uploadButton.click();
+      await BrowserActions.click(uploadNewVersionDialog.uploadButton);
+
       await uploadNewVersionDialog.waitForDialogToClose();
     }
     done();

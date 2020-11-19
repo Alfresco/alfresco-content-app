@@ -24,6 +24,7 @@
  */
 
 import { AdminActions, LoginPage, BrowsingPage, Viewer, RepoClient, EXTENSIBILITY_CONFIGS, FILES, Utils } from '@alfresco/aca-testing-shared';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 describe('Extensions - Viewer', () => {
   const username = `user-${Utils.random()}`;
@@ -105,7 +106,7 @@ describe('Extensions - Viewer', () => {
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
       expect(await viewer.isCustomContentPresent()).toBe(true, 'Custom content is not present');
       expect(await viewer.getComponentIdOfView()).toEqual(pdfFile.component);
-      await viewer.closeButton.click();
+      await BrowserActions.click(viewer.closeButton);
 
       await page.dataTable.doubleClickOnRowByName(docxFile.file_name);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');

@@ -24,6 +24,7 @@
  */
 
 import { AdminActions, LoginPage, SearchResultsPage, RepoClient, Utils, FILES, SITE_VISIBILITY, SITE_ROLES } from '@alfresco/aca-testing-shared';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 const moment = require('moment');
 
@@ -181,6 +182,7 @@ describe('Search filters', () => {
     const future = moment().add(1, 'month').format('DD-MMM-YY');
 
     afterEach(async (done) => {
+      await createdDateFilter.expandPanel();
       await createdDateFilter.resetPanel();
       done();
     });
@@ -283,7 +285,7 @@ describe('Search filters', () => {
 
   describe('Filter by File type', () => {
     afterEach(async (done) => {
-      await filters.resetAllButton.click();
+      await BrowserActions.click(filters.resetAllButton);
       done();
     });
 
@@ -337,7 +339,7 @@ describe('Search filters', () => {
 
   describe('Filter by Creator', () => {
     afterEach(async (done) => {
-      await filters.resetAllButton.click();
+      await BrowserActions.click(filters.resetAllButton);
       done();
     });
 
@@ -392,7 +394,7 @@ describe('Search filters', () => {
 
   describe('Filter by Modifier', () => {
     afterEach(async (done) => {
-      await filters.resetAllButton.click();
+      await BrowserActions.click(filters.resetAllButton);
       done();
     });
 
@@ -447,7 +449,7 @@ describe('Search filters', () => {
 
   describe('Filter by Location', () => {
     afterEach(async (done) => {
-      await filters.resetAllButton.click();
+      await BrowserActions.click(filters.resetAllButton);
       done();
     });
 
@@ -504,7 +506,7 @@ describe('Search filters', () => {
     const expectedDateFilters = ['Today (2)', 'This week (2)', 'This month (2)', 'In the last 6 months (2)', 'This year (2)'];
 
     afterEach(async (done) => {
-      await filters.resetAllButton.click();
+      await BrowserActions.click(filters.resetAllButton);
       done();
     });
 
@@ -561,9 +563,8 @@ describe('Search filters', () => {
 
   describe('Multiple filters', () => {
     afterEach(async (done) => {
-      await filters.resetAllButton.click();
+      await BrowserActions.click(filters.resetAllButton);
       await sizeFilter.resetPanel();
-      await createdDateFilter.resetPanel();
       done();
     });
 

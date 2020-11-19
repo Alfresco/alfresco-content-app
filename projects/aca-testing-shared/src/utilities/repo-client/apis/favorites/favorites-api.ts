@@ -77,15 +77,19 @@ export class FavoritesApi extends RepoApi {
     }
   }
 
-  async addFavoritesByIds(nodeType: 'file' | 'folder' | 'site', ids: string[]) {
+  async addFavoritesByIds(nodeType: 'file' | 'folder' | 'site', ids: string[]): Promise<FavoriteEntry[]> {
+    const favorites: FavoriteEntry[] = [];
     try {
-      return await ids.reduce(async (previous, current) => {
-        await previous;
-        await this.addFavoriteById(nodeType, current);
-      }, Promise.resolve());
+      if (ids && ids.length > 0) {
+        for (const id of ids) {
+          const favorite = await this.addFavoriteById(nodeType, id);
+          favorites.push(favorite);
+        }
+      }
     } catch (error) {
       this.handleError(`FavoritesApi addFavoritesByIds : catch : `, error);
     }
+    return favorites;
   }
 
   async getFavorites() {

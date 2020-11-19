@@ -102,7 +102,7 @@ export class Toolbar extends Component {
   }
 
   async clickButton(title: string): Promise<void> {
-    await this.getButtonByTitleAttribute(title).click();
+    await BrowserActions.click(this.getButtonByTitleAttribute(title));
   }
 
   async isPrintPresent() {

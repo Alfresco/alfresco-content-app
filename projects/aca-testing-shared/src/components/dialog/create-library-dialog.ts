@@ -25,15 +25,16 @@
 
 import { by, ElementFinder } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
-import { waitForClickable, isPresentAndEnabled, typeText } from '../../utilities/utils';
+import { isPresentAndEnabled, typeText } from '../../utilities/utils';
+import { BrowserActions, BrowserVisibility } from '@alfresco/adf-testing';
 
 export class CreateLibraryDialog extends GenericDialog {
   createButton = this.childElement(by.cssContainingText('.mat-dialog-actions button', 'Create'));
   cancelButton = this.childElement(by.cssContainingText('.mat-dialog-actions button', 'Cancel'));
 
-  nameInput = this.rootElem.element(by.css('input[placeholder="Name" i]'));
-  libraryIdInput = this.rootElem.element(by.css('input[placeholder="Library ID" i]'));
-  descriptionTextArea = this.rootElem.element(by.css('textarea[placeholder="Description" i]'));
+  nameInput = this.rootElem.element(by.css('input[data-placeholder="Name" i]'));
+  libraryIdInput = this.rootElem.element(by.css('input[data-placeholder="Library ID" i]'));
+  descriptionTextArea = this.rootElem.element(by.css('textarea[data-placeholder="Description" i]'));
   visibilityPublic = this.rootElem.element(by.cssContainingText('.mat-radio-label', 'Public'));
   visibilityModerated = this.rootElem.element(by.cssContainingText('.mat-radio-label', 'Moderated'));
   visibilityPrivate = this.rootElem.element(by.cssContainingText('.mat-radio-label', 'Private'));
@@ -46,7 +47,7 @@ export class CreateLibraryDialog extends GenericDialog {
 
   async waitForDialogToOpen(): Promise<void> {
     await super.waitForDialogToOpen();
-    await waitForClickable(this.nameInput);
+    await BrowserVisibility.waitUntilElementIsClickable(this.nameInput);
   }
 
   async getErrorMessage(): Promise<string> {
@@ -77,7 +78,7 @@ export class CreateLibraryDialog extends GenericDialog {
   }
 
   async clickCancel(): Promise<void> {
-    await this.cancelButton.click();
+    await BrowserActions.click(this.cancelButton);
     await this.waitForDialogToClose();
   }
 

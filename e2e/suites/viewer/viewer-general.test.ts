@@ -24,6 +24,7 @@
  */
 
 import { AdminActions, UserActions, LoginPage, BrowsingPage, FILES, SITE_VISIBILITY, RepoClient, Utils, Viewer } from '@alfresco/aca-testing-shared';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 describe('Viewer general', () => {
   const username = `user-${Utils.random()}`;
@@ -111,7 +112,8 @@ describe('Viewer general', () => {
 
   it('[C279270] Viewer opens when clicking the View action for a file', async () => {
     await dataTable.selectItem(xlsxFile);
-    await page.toolbar.viewButton.click();
+    await BrowserActions.click(page.toolbar.viewButton);
+
     expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
   });
 
@@ -126,7 +128,7 @@ describe('Viewer general', () => {
   it('[C279271] Close the viewer', async () => {
     await dataTable.doubleClickOnRowByName(xlsxFile);
     expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
-    await viewer.closeButton.click();
+    await BrowserActions.click(viewer.closeButton);
     expect(await viewer.isViewerOpened()).toBe(false, 'Viewer did not close');
   });
 

@@ -25,6 +25,7 @@
 
 import { browser } from 'protractor';
 import { AdminActions, UserActions, LoginPage, BrowsingPage, APP_ROUTES, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 describe('Restore from Trash', () => {
   const username = `user-${Utils.random()}`;
@@ -82,7 +83,7 @@ describe('Restore from Trash', () => {
 
     it('[C217177] restore file', async () => {
       await dataTable.selectItem(file);
-      await toolbar.restoreButton.click();
+      await BrowserActions.click(toolbar.restoreButton);
       const text = await page.getSnackBarMessage();
       expect(text).toContain(`${file} restored`);
       expect(text).toContain(`View`);
@@ -95,7 +96,7 @@ describe('Restore from Trash', () => {
 
     it('[C280438] restore folder', async () => {
       await dataTable.selectItem(folder);
-      await toolbar.restoreButton.click();
+      await BrowserActions.click(toolbar.restoreButton);
       const text = await page.getSnackBarMessage();
       expect(text).toContain(`${folder} restored`);
       expect(text).toContain(`View`);
@@ -108,7 +109,7 @@ describe('Restore from Trash', () => {
 
     it('[C290104] restore library', async () => {
       await dataTable.selectItem(site);
-      await toolbar.restoreButton.click();
+      await BrowserActions.click(toolbar.restoreButton);
       const text = await page.getSnackBarMessage();
       expect(text).toContain(`${site} restored`);
       expect(text).toContain(`View`);
@@ -119,7 +120,7 @@ describe('Restore from Trash', () => {
 
     it('[C217182] restore multiple items', async () => {
       await dataTable.selectMultipleItems([file, folder]);
-      await toolbar.restoreButton.click();
+      await BrowserActions.click(toolbar.restoreButton);
       const text = await page.getSnackBarMessage();
       expect(text).toContain(`Restore successful`);
       expect(text).not.toContain(`View`);
@@ -134,7 +135,7 @@ describe('Restore from Trash', () => {
 
     it('[C217181] View from notification', async () => {
       await dataTable.selectItem(file);
-      await toolbar.restoreButton.click();
+      await BrowserActions.click(toolbar.restoreButton);
       await page.clickSnackBarAction();
       await page.dataTable.waitForHeader();
       expect(await page.sidenav.isActive('Personal Files')).toBe(true, 'Personal Files sidebar link not active');
@@ -183,14 +184,14 @@ describe('Restore from Trash', () => {
     it('[C217178] Restore a file when another file with same name exists on the restore location', async () => {
       await page.clickTrashAndWait();
       await dataTable.selectItem(file1);
-      await toolbar.restoreButton.click();
+      await BrowserActions.click(toolbar.restoreButton);
       expect(await page.getSnackBarMessage()).toEqual(`Can't restore, ${file1} already exists`);
     });
 
     it('[C217179] Restore a file when original location no longer exists', async () => {
       await page.clickTrashAndWait();
       await dataTable.selectItem(file2);
-      await toolbar.restoreButton.click();
+      await BrowserActions.click(toolbar.restoreButton);
       expect(await page.getSnackBarMessage()).toEqual(`Can't restore ${file2}, the original location no longer exists`);
     });
   });
@@ -247,13 +248,13 @@ describe('Restore from Trash', () => {
 
     it('[C217183] one failure', async () => {
       await dataTable.selectMultipleItems([file1, file2]);
-      await toolbar.restoreButton.click();
+      await BrowserActions.click(toolbar.restoreButton);
       expect(await page.getSnackBarMessage()).toEqual(`Can't restore ${file1}, the original location no longer exists`);
     });
 
     it('[C217184] multiple failures', async () => {
       await dataTable.selectMultipleItems([file3, file4, file5]);
-      await toolbar.restoreButton.click();
+      await BrowserActions.click(toolbar.restoreButton);
       expect(await page.getSnackBarMessage()).toEqual('2 items not restored because of issues with the restore location');
     });
   });

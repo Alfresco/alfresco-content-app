@@ -24,7 +24,7 @@
  */
 
 import { browser, protractor, ElementFinder, ExpectedConditions as EC, by, logging, until, WebElement } from 'protractor';
-import { Logger } from '@alfresco/adf-testing';
+import { BrowserVisibility, Logger } from '@alfresco/adf-testing';
 import { BROWSER_WAIT_TIMEOUT } from '../configs';
 import * as path from 'path';
 import * as fs from 'fs';
@@ -45,26 +45,6 @@ export async function waitElement(css: string, errorMessage?: string): Promise<W
   return browser.wait(until.elementLocated(by.css(css)), BROWSER_WAIT_TIMEOUT, errorMessage || `Timeout waiting for element: ${css}`);
 }
 
-export async function waitForClickable(element: ElementFinder, errorMessage?: string): Promise<void> {
-  await browser.wait(
-    EC.elementToBeClickable(element),
-    BROWSER_WAIT_TIMEOUT,
-    errorMessage || `Timeout waiting for element to be clickable: ${element.locator()}`
-  );
-}
-
-export async function waitForVisibility(element: ElementFinder, errorMessage?: string): Promise<void> {
-  await browser.wait(EC.visibilityOf(element), BROWSER_WAIT_TIMEOUT, errorMessage || `Timeout waiting for element visibility: ${element.locator()}`);
-}
-
-export async function waitForInvisibility(element: ElementFinder, errorMessage?: string): Promise<void> {
-  await browser.wait(
-    EC.invisibilityOf(element),
-    BROWSER_WAIT_TIMEOUT,
-    errorMessage || `Timeout waiting for element visibility: ${element.locator()}`
-  );
-}
-
 export async function waitForPresence(element: ElementFinder, errorMessage?: string): Promise<void> {
   await browser.wait(EC.presenceOf(element), BROWSER_WAIT_TIMEOUT, errorMessage || `Timeout waiting for element presence: ${element.locator()}`);
 }
@@ -74,23 +54,21 @@ export async function waitForStaleness(element: ElementFinder, errorMessage?: st
 }
 
 export const isPresentAndEnabled = async (element: ElementFinder): Promise<boolean> => {
-  const isPresent = await element.isPresent();
-
-  if (isPresent) {
+  try {
+    await BrowserVisibility.waitUntilElementIsPresent(element);
     return element.isEnabled();
+  } catch (error) {
+    return false;
   }
-
-  return false;
 };
 
 export const isPresentAndDisplayed = async (element: ElementFinder): Promise<boolean> => {
-  const isPresent = await element.isPresent();
-
-  if (isPresent) {
-    return element.isDisplayed();
+  try {
+    await BrowserVisibility.waitUntilElementIsVisible(element);
+    return true;
+  } catch (error) {
+    return false;
   }
-
-  return false;
 };
 
 export class Utils {
@@ -127,13 +105,6 @@ export class Utils {
     };
 
     return run(retry);
-  }
-
-  static async clearFieldWithBackspace(elem: ElementFinder): Promise<void> {
-    const text = await elem.getAttribute('value');
-    for (let i = 0; i < text.length; i++) {
-      await elem.sendKeys(protractor.Key.BACK_SPACE);
-    }
   }
 
   static async fileExistsOnOS(fileName: string, folderName: string = '', subFolderName: string = ''): Promise<any> {

@@ -84,7 +84,7 @@ describe('Library actions : ', () => {
     await userActions.waitForTrashcanSize(initialDeletedTotalItems + 2);
 
     await loginPage.loginWith(username);
-  });
+  }, 300000);
 
   afterAll(async () => {
     await userActions.deleteSites([

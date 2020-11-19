@@ -25,6 +25,7 @@
 
 import { ElementFinder, by, ElementArrayFinder } from 'protractor';
 import { GenericFilterPanel } from './generic-filter-panel';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 export class SizeFilter extends GenericFilterPanel {
   constructor() {
@@ -51,7 +52,7 @@ export class SizeFilter extends GenericFilterPanel {
     if ((await this.selectedFacets.count()) > 0) {
       await this.expandPanel();
       await this.selectedFacets.each(async (elem) => {
-        await elem.click();
+        await BrowserActions.click(elem);
       });
     }
     await this.collapsePanel();
@@ -63,27 +64,27 @@ export class SizeFilter extends GenericFilterPanel {
 
   async clickClearButton(): Promise<void> {
     if (await this.isClearButtonEnabled()) {
-      await this.clearButton.click();
+      await BrowserActions.click(this.clearButton);
     }
   }
 
   async checkSizeSmall(): Promise<void> {
     const small = this.facets.filter(async (elem) => (await elem.getText()) === 'Small').first();
-    await small.click();
+    await BrowserActions.click(small);
   }
 
   async checkSizeMedium(): Promise<void> {
     const medium = this.facets.filter(async (elem) => (await elem.getText()) === 'Medium').first();
-    await medium.click();
+    await BrowserActions.click(medium);
   }
 
   async checkSizeLarge(): Promise<void> {
     const large = this.facets.filter(async (elem) => (await elem.getText()) === 'Large').first();
-    await large.click();
+    await BrowserActions.click(large);
   }
 
   async checkSizeHuge(): Promise<void> {
     const huge = this.facets.filter(async (elem) => (await elem.getText()) === 'Huge').first();
-    await huge.click();
+    await BrowserActions.click(huge);
   }
 }

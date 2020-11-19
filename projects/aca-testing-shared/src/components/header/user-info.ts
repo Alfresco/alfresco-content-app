@@ -25,6 +25,7 @@
 
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 export class UserInfo extends Component {
   fullName = this.byCss('.current-user__full-name');
@@ -37,7 +38,7 @@ export class UserInfo extends Component {
   }
 
   async openMenu(): Promise<Menu> {
-    await this.avatar.click();
+    await BrowserActions.click(this.avatar);
     await this.menu.wait();
 
     return this.menu;

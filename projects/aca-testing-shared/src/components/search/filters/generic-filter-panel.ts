@@ -25,6 +25,7 @@
 
 import { ElementFinder, by, browser } from 'protractor';
 import { isPresentAndDisplayed } from '../../../utilities/utils';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 export class GenericFilterPanel {
   private filterName: string;
@@ -52,7 +53,7 @@ export class GenericFilterPanel {
   }
 
   async clickPanelHeader(): Promise<void> {
-    await this.panelHeader.click();
+    await BrowserActions.click(this.panelHeader);
   }
 
   async isPanelDisplayed(): Promise<boolean> {

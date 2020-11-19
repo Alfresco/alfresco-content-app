@@ -24,6 +24,7 @@
  */
 
 import { AdminActions, LoginPage, BrowsingPage, RepoClient, InfoDrawer, Utils } from '@alfresco/aca-testing-shared';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 describe('General', () => {
   const username = `user1-${Utils.random()}`;
@@ -69,14 +70,14 @@ describe('General', () => {
 
   afterEach(async (done) => {
     if (await infoDrawer.isOpen()) {
-      await page.toolbar.viewDetailsButton.click();
+      await BrowserActions.click(page.toolbar.viewDetailsButton);
     }
     done();
   });
 
   it('[C268999] Info drawer closes on page refresh', async () => {
     await dataTable.selectItem(file1);
-    await page.toolbar.viewDetailsButton.click();
+    await BrowserActions.click(page.toolbar.viewDetailsButton);
     expect(await infoDrawer.isOpen()).toBe(true, 'Info drawer not open');
 
     await page.refresh();

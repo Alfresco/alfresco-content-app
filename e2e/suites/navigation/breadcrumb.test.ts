@@ -39,6 +39,13 @@ describe('Breadcrumb', () => {
   const fileName1 = `file1-${Utils.random()}.txt`;
 
   const siteName = `site-${Utils.random()}`;
+  const parentFromSite = `parent-in-site-${Utils.random()}`;
+  let parentFromSiteId: string;
+  const subFolder1FromSite = `subFolder1-in-site-${Utils.random()}`;
+  let subFolder1FromSiteId: string;
+  const subFolder2FromSite = `subFolder2-in-site-${Utils.random()}`;
+  let subFolder2FromSiteId: string;
+  const fileName1FromSite = `file1-in-site-${Utils.random()}.txt`;
 
   const parent2 = `parent2-${Utils.random()}`;
   let parent2Id: string;
@@ -67,10 +74,10 @@ describe('Breadcrumb', () => {
 
     await apis.user.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
     const docLibId = await apis.user.sites.getDocLibId(siteName);
-    parentId = (await apis.user.nodes.createFolder(parent, docLibId)).entry.id;
-    subFolder1Id = (await apis.user.nodes.createFolder(subFolder1, parentId)).entry.id;
-    subFolder2Id = (await apis.user.nodes.createFolder(subFolder2, subFolder1Id)).entry.id;
-    await apis.user.nodes.createFile(fileName1, subFolder2Id);
+    parentFromSiteId = (await apis.user.nodes.createFolder(parentFromSite, docLibId)).entry.id;
+    subFolder1FromSiteId = (await apis.user.nodes.createFolder(subFolder1FromSite, parentFromSiteId)).entry.id;
+    subFolder2FromSiteId = (await apis.user.nodes.createFolder(subFolder2FromSite, subFolder1FromSiteId)).entry.id;
+    await apis.user.nodes.createFile(fileName1FromSite, subFolder2FromSiteId);
 
     await loginPage.loginWith(username);
     done();
@@ -135,10 +142,10 @@ describe('Breadcrumb', () => {
   it('[C260967] File Libraries breadcrumb for a folder hierarchy', async () => {
     await page.clickFileLibrariesAndWait();
     await page.dataTable.doubleClickOnRowByName(siteName);
-    await page.dataTable.doubleClickOnRowByName(parent);
-    await page.dataTable.doubleClickOnRowByName(subFolder1);
-    await page.dataTable.doubleClickOnRowByName(subFolder2);
-    const expectedItems = ['Favorite Libraries', siteName, parent, subFolder1, subFolder2];
+    await page.dataTable.doubleClickOnRowByName(parentFromSite);
+    await page.dataTable.doubleClickOnRowByName(subFolder1FromSite);
+    await page.dataTable.doubleClickOnRowByName(subFolder2FromSite);
+    const expectedItems = ['Favorite Libraries', siteName, parentFromSite, subFolder1FromSite, subFolder2FromSite];
     expect(await breadcrumb.getAllItems()).toEqual(expectedItems);
   });
 

@@ -26,14 +26,15 @@
 import { by } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
 import { isPresentAndDisplayed, isPresentAndEnabled, typeText } from '../../utilities/utils';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 export class CreateFromTemplateDialog extends GenericDialog {
   createButton = this.childElement(by.cssContainingText('.mat-dialog-actions button', 'Create'));
   cancelButton = this.childElement(by.cssContainingText('.mat-dialog-actions button', 'CANCEL'));
 
-  nameInput = this.childElement(by.css('input[placeholder="Name" i]'));
-  titleInput = this.childElement(by.css('input[placeholder="Title" i]'));
-  descriptionTextArea = this.childElement(by.css('textarea[placeholder="Description" i]'));
+  nameInput = this.childElement(by.css('input[data-placeholder="Name" i]'));
+  titleInput = this.childElement(by.css('input[data-placeholder="Title" i]'));
+  descriptionTextArea = this.childElement(by.css('textarea[data-placeholder="Description" i]'));
   validationMessage = this.childElement(by.css('.mat-error'));
 
   constructor() {
@@ -61,11 +62,11 @@ export class CreateFromTemplateDialog extends GenericDialog {
   }
 
   async getName(): Promise<string> {
-    return this.nameInput.getAttribute('value');
+    return BrowserActions.getInputValue(this.nameInput);
   }
 
   async getDescription(): Promise<string> {
-    return this.descriptionTextArea.getAttribute('value');
+    return BrowserActions.getInputValue(this.descriptionTextArea);
   }
 
   async enterName(name: string): Promise<void> {
@@ -81,7 +82,7 @@ export class CreateFromTemplateDialog extends GenericDialog {
   }
 
   async clickCancel(): Promise<void> {
-    await this.cancelButton.click();
+    await BrowserActions.click(this.cancelButton);
     await this.waitForDialogToClose();
   }
 }

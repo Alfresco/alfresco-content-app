@@ -37,8 +37,7 @@ stages:
 
 env:
   global:
-    - API_CONTENT_HOST=$API_CONTENT_HOST_REMOTE
-    - API_AOS_HOST=$API_CONTENT_HOST_REMOTE
+    - API_AOS_HOST=$API_CONTENT_HOST
     - ADMIN_EMAIL=$ADMIN_EMAIL_REMOTE
     - ADMIN_PASSWORD=$ADMIN_PASSWORD_REMOTE
 
@@ -84,44 +83,52 @@ jobs:
       cache: false
 
     - stage: e2e
-      name: 'Test Suites: authentication,listViews,navigation,application,pagination,search'
+      name: 'Test Suites: authentication,listViews,navigation,application,search'
       before_script:
-        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a"
-      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=authentication,listViews,navigation,application,pagination,search"
+        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a" || travis_terminate 1
+      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=authentication,listViews,navigation,application,search"
+      after_script:
+        - ./scripts/ci/job_hooks/after_e2e.sh
+
+    - stage: e2e
+      name: 'Test Suites: pagination'
+      before_script:
+        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a" || travis_terminate 1
+      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=pagination"
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
 
     - name: 'Test Suites: actionsAvailable'
       before_script:
-        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a"
+        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a" || travis_terminate 1
       script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=actionsAvailable"
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
 
     - name: 'Test Suites: addRemoveContent'
       before_script:
-        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a"
+        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a" || travis_terminate 1
       script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=addRemoveContent"
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
 
     - name: 'Test Suites: manageContent'
       before_script:
-        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a"
+        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a" || travis_terminate 1
       script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=manageContent"
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
 
     - name: 'Test Suite: sharingContent'
       before_script:
-        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a"
+        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a" || travis_terminate 1
       script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=sharingContent"
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
 
     - name: 'Test Suites: viewer,infoDrawer,extensions'
       before_script:
-        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a"
+        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a" || travis_terminate 1
       script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=viewer,infoDrawer,extensions"
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
