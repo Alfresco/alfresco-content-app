@@ -6,7 +6,7 @@ PARAMS=$3;
 
 echo "====== Check content UP ====="
 
-adf-cli check-cs-env --host "$API_CONTENT_HOST" -u "$ADMIN_EMAIL" -p "$ADMIN_PASSWORD" || exit 1
+./node_modules/@alfresco/adf-cli/bin/adf-cli check-cs-env --host "$API_CONTENT_HOST" -u "$ADMIN_EMAIL" -p "$ADMIN_PASSWORD" || exit 1
 
 echo "====== Download artifacts  ====="
 # Download built application artifact from S3
