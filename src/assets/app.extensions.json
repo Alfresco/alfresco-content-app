@@ -8,9 +8,7 @@
   "$runtime": "1.7.0",
   "$description": "Core application extensions and features",
   "$references": [
-    "aos.plugin.json",
-    "app.about.json",
-    "app.settings.json"
+    "aos.plugin.json"
   ],
 
   "rules": [

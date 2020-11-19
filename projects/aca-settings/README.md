@@ -1,24 +1,108 @@
-# AcaSettings
+---
+Title: Settings
+---
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.14.
+# Settings
 
-## Code scaffolding
+The application settings can be accessed via the `/settings` route.
 
-Run `ng generate component component-name --project aca-settings` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project aca-settings`.
-> Note: Don't forget to add `--project aca-settings` or else it will be added to the default project in your `angular.json` file. 
+You can project custom configuration groups via the `settings` section:
 
-## Build
+```json
+{
+  "settings": [
+    {
+      "id": "extensions.ps.settings",
+      "name": "Extensions: Process Services",
+      "parameters": [
+        {
+          "name": "Enable Process Services Extensions",
+          "key": "processServices",
+          "type": "boolean",
+          "value": false
+        }
+      ]
+    }
+  ]
+}
+```
 
-Run `ng build aca-settings` to build the project. The build artifacts will be stored in the `dist/` directory.
+At runtime, you are going to get an extra group called "Extensions: Process Services"
+with a custom boolean setting "Enable Process Services Extensions".
 
-## Publishing
+![Custom settings group](assets/aca-settings-custom-group.png)
 
-After building your library with `ng build aca-settings`, go to the dist folder `cd dist/aca-settings` and run `npm publish`.
+## Parameters
 
-## Running unit tests
+Each setting parameter object supports the following properties:
 
-Run `ng test aca-settings` to execute the unit tests via [Karma](https://karma-runner.github.io).
+| Property | Description                                     |
+| -------- | ----------------------------------------------- |
+| id       | (optional) Unique identifier                    |
+| name     | Public name, can be translation key             |
+| key      | The key to use when saving to the storage       |
+| type     | The type of the value (boolean / string)        |
+| value    | (optional) Default value to use for the setting |
 
-## Further help
+# Installing
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Import the module into the application:
+
+```ts
+// src/app/extensions.module.ts
+
+import { AcaSettingsModule } from '@alfresco/aca-settings';
+
+@NgModule({
+  imports: [
+    // other modules
+    AcaSettingsModule
+  ]
+})
+export class AppExtensionsModule {}
+```
+
+Update the `app.extensions.json` extension configuration to enable extra routes and components:
+
+```json
+{
+  "actions": [
+    {
+      "id": "app.actions.settings",
+      "type": "NAVIGATE_URL",
+      "payload": "/settings"
+    }
+  ],
+
+  "routes": [
+    {
+      "id": "app.settings",
+      "path": "settings",
+      "layout": "blank",
+      "component": "app.settings.component"
+    }
+  ],
+
+  "features": {
+    "header": [
+      {
+        "id": "app.header.more",
+        "children": [
+          {
+            "id": "app.header.settings",
+            "order": 110,
+            "title": "APP.SETTINGS.TITLE",
+            "description": "APP.SETTINGS.TITLE",
+            "icon": "info",
+            "actions": {
+              "click": "app.actions.settings"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+Compile and distribute/run the application.

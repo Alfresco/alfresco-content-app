@@ -56,7 +56,7 @@ describe('Pagination on multiple pages', () => {
     } catch (error) {
       Logger.error(`----- beforeAll failed : ${error}`);
     }
-  }, 300000);
+  }, 450000);
 
   afterAll(async () => {
     try {
@@ -65,7 +65,7 @@ describe('Pagination on multiple pages', () => {
     } catch (error) {
       Logger.error(`----- afterAll failed : ${error}`);
     }
-  }, 300000);
+  }, 420000);
 
   describe('on My Libraries', () => {
     beforeAll(async () => {
