@@ -29,7 +29,7 @@ describe('Pagination on multiple pages on Trash', () => {
   const random = Utils.random();
 
   const username = `user-${random}`;
-  const filesForDelete = Array(101)
+  const filesForDelete = Array(51)
     .fill('file')
     .map((name, index): string => `${name}-${index + 1}-${random}.txt`);
   let filesDeletedIds: string[];
@@ -50,7 +50,7 @@ describe('Pagination on multiple pages on Trash', () => {
     filesDeletedIds = (await userApi.nodes.createFiles(filesForDelete)).list.entries.map((entries: any) => entries.entry.id);
 
     await userActions.deleteNodes(filesDeletedIds, false);
-    await userActions.waitForTrashcanSize(101);
+    await userActions.waitForTrashcanSize(51);
 
     await loginPage.loginWith(username);
     await page.clickTrashAndWait();
@@ -65,10 +65,10 @@ describe('Pagination on multiple pages on Trash', () => {
   });
 
   it('[C280122] Pagination control default values', async () => {
-    expect(await pagination.getRange()).toContain('1-25 of 101');
+    expect(await pagination.getRange()).toContain('1-25 of 51');
     expect(await pagination.getMaxItems()).toContain('25');
     expect(await pagination.getCurrentPage()).toContain('Page 1');
-    expect(await pagination.getTotalPages()).toContain('of 5');
+    expect(await pagination.getTotalPages()).toContain('of 3');
     expect(await pagination.isPreviousEnabled()).toBe(false, 'Previous button is enabled');
     expect(await pagination.isNextEnabled()).toBe(true, 'Next button is not enabled');
   });
@@ -85,26 +85,23 @@ describe('Pagination on multiple pages on Trash', () => {
     await pagination.openMaxItemsMenu();
     await pagination.menu.clickMenuItem('25');
     expect(await pagination.getMaxItems()).toContain('25');
-    expect(await pagination.getTotalPages()).toContain('of 5');
-    await pagination.openCurrentPageMenu();
-    expect(await pagination.menu.getItemsCount()).toBe(5);
-    await pagination.menu.closeMenu();
-
-    await pagination.openMaxItemsMenu();
-    await pagination.menu.clickMenuItem('50');
-    expect(await pagination.getMaxItems()).toContain('50');
     expect(await pagination.getTotalPages()).toContain('of 3');
     await pagination.openCurrentPageMenu();
     expect(await pagination.menu.getItemsCount()).toBe(3);
     await pagination.menu.closeMenu();
 
     await pagination.openMaxItemsMenu();
-    await pagination.menu.clickMenuItem('100');
-    expect(await pagination.getMaxItems()).toContain('100');
+    await pagination.menu.clickMenuItem('50');
+    expect(await pagination.getMaxItems()).toContain('50');
     expect(await pagination.getTotalPages()).toContain('of 2');
     await pagination.openCurrentPageMenu();
     expect(await pagination.menu.getItemsCount()).toBe(2);
     await pagination.menu.closeMenu();
+
+    await pagination.openMaxItemsMenu();
+    await pagination.menu.clickMenuItem('100');
+    expect(await pagination.getMaxItems()).toContain('100');
+    expect(await pagination.getTotalPages()).toContain('of 1');
 
     await pagination.resetToDefaultPageSize();
   });
@@ -113,11 +110,11 @@ describe('Pagination on multiple pages on Trash', () => {
     await pagination.openCurrentPageMenu();
     await pagination.menu.clickNthItem(3);
     await dataTable.waitForHeader();
-    expect(await pagination.getRange()).toContain('51-75 of 101');
+    expect(await pagination.getRange()).toContain('51-51 of 51');
     expect(await pagination.getCurrentPage()).toContain('Page 3');
     expect(await pagination.isPreviousEnabled()).toBe(true, 'Previous button is not enabled');
-    expect(await pagination.isNextEnabled()).toBe(true, 'Next button is not enabled');
-    expect(await dataTable.isItemPresent('file-40')).toBe(true, 'File not found on page');
+    expect(await pagination.isNextEnabled()).toBe(false, 'Next button is enabled');
+    expect(await dataTable.isItemPresent('file-1')).toBe(true, 'File not found on page');
 
     await pagination.resetToDefaultPageNumber();
   });
@@ -125,8 +122,8 @@ describe('Pagination on multiple pages on Trash', () => {
   it('[C280128] navigate to next and previous pages', async () => {
     await pagination.clickNext();
     await dataTable.waitForHeader();
-    expect(await pagination.getRange()).toContain('26-50 of 101');
-    expect(await dataTable.isItemPresent('file-70')).toBe(true, 'File not found on page');
+    expect(await pagination.getRange()).toContain('26-50 of 51');
+    expect(await dataTable.isItemPresent('file-26')).toBe(true, 'File not found on page');
     await pagination.resetToDefaultPageNumber();
 
     await pagination.openCurrentPageMenu();
@@ -134,8 +131,8 @@ describe('Pagination on multiple pages on Trash', () => {
     await dataTable.waitForHeader();
     await pagination.clickPrevious();
     await dataTable.waitForHeader();
-    expect(await pagination.getRange()).toContain('1-25 of 101');
-    expect(await dataTable.isItemPresent('file-88')).toBe(true, 'File not found on page');
+    expect(await pagination.getRange()).toContain('1-25 of 51');
+    expect(await dataTable.isItemPresent('file-50')).toBe(true, 'File not found on page');
 
     await pagination.resetToDefaultPageNumber();
   });
@@ -147,9 +144,9 @@ describe('Pagination on multiple pages on Trash', () => {
 
   it('[C280127] Next button is disabled on last page', async () => {
     await pagination.openCurrentPageMenu();
-    await pagination.menu.clickNthItem(5);
+    await pagination.menu.clickNthItem(3);
     expect(await dataTable.getRowsCount()).toBe(1, 'Incorrect number of items on the last page');
-    expect(await pagination.getCurrentPage()).toContain('Page 5');
+    expect(await pagination.getCurrentPage()).toContain('Page 3');
     expect(await pagination.isNextEnabled()).toBe(false, 'Next button is enabled on last page');
   });
 });
