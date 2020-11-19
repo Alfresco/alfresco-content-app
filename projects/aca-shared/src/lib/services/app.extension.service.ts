@@ -195,8 +195,11 @@ export class AppExtensionService implements RuleContext {
     return this.loader.getElements<NavBarGroupRef>(config, 'features.navbar');
   }
 
-  protected getDocumentListPreset(config: ExtensionConfig, key: string) {
-    return this.loader.getElements<DocumentListPresetRef>(config, `features.documentList.${key}`).filter((entry) => !entry.disabled);
+  protected getDocumentListPreset(config: ExtensionConfig, key: string): DocumentListPresetRef[] {
+    return this.loader
+      .getElements<DocumentListPresetRef>(config, `features.documentList.${key}`)
+      .filter((entry) => !entry.disabled)
+      .sort(sortByOrder);
   }
 
   getApplicationNavigation(elements): Array<NavBarGroupRef> {
