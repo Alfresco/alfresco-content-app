@@ -222,19 +222,17 @@ describe('Library actions : ', () => {
   });
 
   describe('on Search Results', () => {
-    beforeAll(async () => {
+    beforeEach(async () => {
       await Utils.pressEscape();
       await page.clickPersonalFiles();
       await searchInput.clickSearchButton();
       await searchInput.checkLibraries();
-      await searchInput.searchFor('actionsSite-');
-    });
-
-    beforeEach(async () => {
-      await Utils.pressEscape();
     });
 
     it('[C290084] Public library, user is a member, favorite', async () => {
+      console.log(testData.publicUserMemberFav.name);
+      await searchInput.searchFor(testData.publicUserMemberFav.name);
+
       await testUtil.checkToolbarActions(
         testData.publicUserMemberFav.name,
         testData.publicUserMemberFav.searchToolbarPrimary,
@@ -244,6 +242,8 @@ describe('Library actions : ', () => {
     });
 
     it('[C290085] Private library, user is a member, favorite', async () => {
+      await searchInput.searchFor(testData.privateUserMemberFav.name);
+
       await testUtil.checkToolbarActions(
         testData.privateUserMemberFav.name,
         testData.privateUserMemberFav.searchToolbarPrimary,
@@ -253,6 +253,8 @@ describe('Library actions : ', () => {
     });
 
     it('[C290086] Moderated library, user is a member, favorite', async () => {
+      await searchInput.searchFor(testData.moderatedUserMemberFav.name);
+
       await testUtil.checkToolbarActions(
         testData.moderatedUserMemberFav.name,
         testData.moderatedUserMemberFav.searchToolbarPrimary,
@@ -262,6 +264,8 @@ describe('Library actions : ', () => {
     });
 
     it('[C291812] Public library, user is a member, not favorite', async () => {
+      await searchInput.searchFor(testData.publicUserMemberNotFav.name);
+
       await testUtil.checkToolbarActions(
         testData.publicUserMemberNotFav.name,
         testData.publicUserMemberNotFav.searchToolbarPrimary,
@@ -271,6 +275,8 @@ describe('Library actions : ', () => {
     });
 
     it('[C291813] Private library, user is a member, not favorite', async () => {
+      await searchInput.searchFor(testData.privateUserMemberNotFav.name);
+
       await testUtil.checkToolbarActions(
         testData.privateUserMemberNotFav.name,
         testData.privateUserMemberNotFav.searchToolbarPrimary,
@@ -280,6 +286,8 @@ describe('Library actions : ', () => {
     });
 
     it('[C291814] Moderated library, user is a member, not favorite', async () => {
+      await searchInput.searchFor(testData.moderatedUserMemberNotFav.name);
+
       await testUtil.checkToolbarActions(
         testData.moderatedUserMemberNotFav.name,
         testData.moderatedUserMemberNotFav.searchToolbarPrimary,
@@ -289,6 +297,8 @@ describe('Library actions : ', () => {
     });
 
     it('[C326680] Public library, user not a member, favorite', async () => {
+      await searchInput.searchFor(testData.publicNotMemberFav.name);
+
       await testUtil.checkToolbarActions(
         testData.publicNotMemberFav.name,
         testData.publicNotMemberFav.searchToolbarPrimary,
@@ -298,6 +308,8 @@ describe('Library actions : ', () => {
     });
 
     it('[C326681] Moderated library, user not a member, favorite', async () => {
+      await searchInput.searchFor(testData.moderatedNotMemberFav.name);
+
       await testUtil.checkToolbarActions(
         testData.moderatedNotMemberFav.name,
         testData.moderatedNotMemberFav.searchToolbarPrimary,
@@ -307,6 +319,8 @@ describe('Library actions : ', () => {
     });
 
     it('[C326682] Public library, user not a member, not favorite', async () => {
+      await searchInput.searchFor(testData.publicNotMemberNotFav.name);
+
       await testUtil.checkToolbarActions(
         testData.publicNotMemberNotFav.name,
         testData.publicNotMemberNotFav.searchToolbarPrimary,
@@ -316,6 +330,8 @@ describe('Library actions : ', () => {
     });
 
     it('[C326683] Moderated library, user not a member, not favorite', async () => {
+      await searchInput.searchFor(testData.moderatedNotMemberNotFav.name);
+
       await testUtil.checkToolbarActions(
         testData.moderatedNotMemberNotFav.name,
         testData.moderatedNotMemberNotFav.searchToolbarPrimary,
@@ -325,6 +341,8 @@ describe('Library actions : ', () => {
     });
 
     it('[C326685] Moderated library, user requested to join, favorite', async () => {
+      await searchInput.searchFor(testData.moderatedRequestedJoinFav.name);
+
       await testUtil.checkToolbarActions(
         testData.moderatedRequestedJoinFav.name,
         testData.moderatedRequestedJoinFav.searchToolbarPrimary,
@@ -334,6 +352,8 @@ describe('Library actions : ', () => {
     });
 
     it('[C326684] Moderated library, user requested to join, not favorite', async () => {
+      await searchInput.searchFor(testData.moderatedRequestedJoinNotFav.name);
+
       await testUtil.checkToolbarActions(
         testData.moderatedRequestedJoinNotFav.name,
         testData.moderatedRequestedJoinNotFav.searchToolbarPrimary,
