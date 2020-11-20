@@ -92,7 +92,7 @@ describe('Library actions', () => {
 
     await loginPage.loginWith(username);
     done();
-  }, 300000);
+  });
 
   beforeEach(async () => {
     await Utils.pressEscape();

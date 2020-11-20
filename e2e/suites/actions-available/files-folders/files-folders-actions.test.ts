@@ -119,7 +119,7 @@ describe('Files / folders actions : ', () => {
     await userApi.nodes.lockFile(fileSharedFavLockedId);
 
     await loginPage.loginWith(username);
-  }, 300000);
+  });
 
   afterAll(async () => {
     await userActions.deleteNodes([parentId]);

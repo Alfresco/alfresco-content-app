@@ -54,7 +54,7 @@ describe('Pagination on multiple pages on Trash', () => {
 
     await loginPage.loginWith(username);
     await page.clickTrashAndWait();
-  }, 300000);
+  });
 
   afterEach(async () => {
     await Utils.pressEscape();
