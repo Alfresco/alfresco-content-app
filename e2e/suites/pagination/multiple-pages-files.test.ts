@@ -42,7 +42,7 @@ describe('Pagination on multiple pages : ', () => {
     .map((name, index): string => `${name}-${index + 1}-${random}.txt`);
   let filesIds: string[];
 
-  const userApi = new RepoClient(username, username);
+  const repoClient = new RepoClient(username, username);
   const adminApiActions = new AdminActions();
 
   let initialSharedTotalItems: number;
@@ -51,20 +51,21 @@ describe('Pagination on multiple pages : ', () => {
 
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
+    await repoClient.login();
 
-    initialSearchTotalItems = await userApi.search.getTotalItems(username);
+    initialSearchTotalItems = await repoClient.search.getTotalItems(username);
 
-    parentId = (await userApi.nodes.createFolder(parent)).entry.id;
-    filesIds = (await userApi.nodes.createFiles(files, parent)).list.entries.map((entries: any) => entries.entry.id);
+    parentId = (await repoClient.nodes.createFolder(parent)).entry.id;
+    filesIds = (await repoClient.nodes.createFiles(files, parent)).list.entries.map((entries: any) => entries.entry.id);
 
-    initialSharedTotalItems = await userApi.shared.getSharedLinksTotalItems();
-    initialFavoritesTotalItems = await userApi.favorites.getFavoritesTotalItems();
-    await userApi.shared.shareFilesByIds(filesIds);
-    await userApi.favorites.addFavoritesByIds('file', filesIds);
+    initialSharedTotalItems = await repoClient.shared.getSharedLinksTotalItems();
+    initialFavoritesTotalItems = await repoClient.favorites.getFavoritesTotalItems();
+    await repoClient.shared.shareFilesByIds(filesIds);
+    await repoClient.favorites.addFavoritesByIds('file', filesIds);
   });
 
   afterAll(async () => {
-    await userApi.nodes.deleteNodeById(parentId);
+    await repoClient.nodes.deleteNodeById(parentId);
   });
 
   describe('on Personal Files', () => {
@@ -73,28 +74,28 @@ describe('Pagination on multiple pages : ', () => {
 
   describe('on Recent Files', () => {
     beforeAll(async () => {
-      await userApi.search.waitForApi(username, { expect: initialSearchTotalItems + 51 });
+      await repoClient.search.waitForApi(username, { expect: initialSearchTotalItems + 51 });
     });
     recentFilesTests(username);
   });
 
   describe('on Search Results', () => {
     beforeAll(async () => {
-      await userApi.search.waitForApi(username, { expect: initialSearchTotalItems + 51 });
+      await repoClient.search.waitForApi(username, { expect: initialSearchTotalItems + 51 });
     });
     searchResultsTests(username);
   });
 
   describe('on Shared Files', () => {
     beforeAll(async () => {
-      await userApi.shared.waitForApi({ expect: initialSharedTotalItems + 51 });
+      await repoClient.shared.waitForApi({ expect: initialSharedTotalItems + 51 });
     });
     sharedFilesTests(username);
   });
 
   describe('on Favorites', () => {
     beforeAll(async () => {
-      await userApi.favorites.waitForApi({ expect: initialFavoritesTotalItems + 51 });
+      await repoClient.favorites.waitForApi({ expect: initialFavoritesTotalItems + 51 });
     });
     favoritesTests(username);
   });

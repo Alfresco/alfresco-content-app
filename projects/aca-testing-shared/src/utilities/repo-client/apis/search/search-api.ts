@@ -26,13 +26,13 @@
 import { RepoApi } from '../repo-api';
 import { Logger } from '@alfresco/adf-testing';
 import { Utils } from '../../../../utilities/utils';
-import { SearchApi as AdfSearchApi } from '@alfresco/js-api';
+import { AlfrescoApi, SearchApi as AdfSearchApi } from '@alfresco/js-api';
 
 export class SearchApi extends RepoApi {
   searchApi = new AdfSearchApi(this.alfrescoJsApi);
 
-  constructor(username?: string, password?: string) {
-    super(username, password);
+  constructor(alfrescoApi: AlfrescoApi) {
+    super(alfrescoApi);
   }
 
   async queryRecentFiles(username: string) {
@@ -49,7 +49,6 @@ export class SearchApi extends RepoApi {
     };
 
     try {
-      await this.apiAuth();
       return this.searchApi.search(data);
     } catch (error) {
       this.handleError(`SearchApi queryRecentFiles : catch : `, error);
@@ -76,7 +75,6 @@ export class SearchApi extends RepoApi {
     };
 
     try {
-      await this.apiAuth();
       return this.searchApi.search(data);
     } catch (error) {
       this.handleError(`SearchApi queryNodesNames : catch : `, error);
@@ -103,7 +101,6 @@ export class SearchApi extends RepoApi {
     };
 
     try {
-      await this.apiAuth();
       return this.searchApi.search(data);
     } catch (error) {
       this.handleError(`SearchApi queryNodesExactNames : catch : `, error);

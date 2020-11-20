@@ -30,7 +30,7 @@ import * as testUtil from '../test-util';
 describe('Library actions : ', () => {
   const username = `user-${Utils.random()}`;
 
-  const userApi = new RepoClient(username, username);
+  const repoClient = new RepoClient(username, username);
   const adminApiActions = new AdminActions();
   const userActions = new UserActions();
 
@@ -41,9 +41,10 @@ describe('Library actions : ', () => {
     await adminApiActions.login();
     await adminApiActions.createUser({ username });
     await userActions.login(username, username);
+    await repoClient.login();
 
-    await userApi.sites.createSite(testData.siteInTrash.name);
-    await userApi.sites.createSite(testData.site2InTrash.name);
+    await repoClient.sites.createSite(testData.siteInTrash.name);
+    await repoClient.sites.createSite(testData.site2InTrash.name);
 
     await userActions.deleteSites([testData.siteInTrash.name, testData.site2InTrash.name], false);
 

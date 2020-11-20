@@ -28,14 +28,12 @@ import { AlfrescoApi } from '@alfresco/js-api';
 import { Logger } from '@alfresco/adf-testing';
 
 export abstract class RepoApi {
-  alfrescoJsApi = new AlfrescoApi();
+  alfrescoJsApi;
+  username: string;
 
-  protected constructor(public username: string = browser.params.ADMIN_USERNAME, private password: string = browser.params.ADMIN_PASSWORD) {
+  protected constructor(alfrescoApi: AlfrescoApi) {
+    this.alfrescoJsApi = alfrescoApi;
     this.alfrescoJsApi.setConfig(browser.params.config);
-  }
-
-  apiAuth(): Promise<any> {
-    return this.alfrescoJsApi.login(this.username, this.password);
   }
 
   protected handleError(message: string, response: any) {

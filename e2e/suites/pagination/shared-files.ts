@@ -30,14 +30,15 @@ export function sharedFilesTests(username: string) {
   const loginPage = new LoginPage();
   const { dataTable, pagination } = page;
 
-  const userApi = new RepoClient(username, username);
+  const repoClient = new RepoClient(username, username);
   let sharedTotalItems: number;
 
   describe('Pagination controls : ', () => {
     beforeAll(async () => {
+      await repoClient.login();
       await loginPage.loginWith(username);
       await page.clickSharedFilesAndWait();
-      sharedTotalItems = await userApi.shared.getSharedLinksTotalItems();
+      sharedTotalItems = await repoClient.shared.getSharedLinksTotalItems();
     });
 
     afterEach(async () => {

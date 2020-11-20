@@ -78,6 +78,12 @@ describe('Destination picker dialog : ', () => {
     await adminApiActions.createUser({ username: contributor });
     await adminApiActions.createUser({ username: collaborator });
 
+    await userApi.login();
+    await consumerApi.login();
+    await contributorApi.login();
+    await collaboratorApi.login();
+    await adminApiActions.login();
+
     fileId = (await userApi.nodes.createFile(file)).entry.id;
 
     destinationId = (await userApi.nodes.createFolder(destination)).entry.id;

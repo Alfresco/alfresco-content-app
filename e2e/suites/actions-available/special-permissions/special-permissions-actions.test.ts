@@ -72,6 +72,11 @@ describe('Special permissions : ', () => {
     await adminApiActions.createUser({ username: userCollaborator });
     await adminApiActions.createUser({ username: userDemoted });
 
+    await userManagerApi.login();
+    await userConsumerApi.login();
+    await userCollaboratorApi.login();
+    await userDemotedApi.login();
+
     const consumerFavoritesTotalItems = await userConsumerApi.favorites.getFavoritesTotalItems();
     const consumerSharedTotalItems = await userConsumerApi.shared.getSharedLinksTotalItems();
     const managerSearchTotalItems = await userManagerApi.search.getTotalItems(userManager);

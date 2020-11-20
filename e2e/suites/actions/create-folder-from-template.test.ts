@@ -104,7 +104,7 @@ describe('Create folder from template', () => {
   };
   let folderLink: string;
 
-  const userApi = new RepoClient(username, username);
+  const repoClient = new RepoClient(username, username);
   const adminApiActions = new AdminActions();
 
   const loginPage = new LoginPage();
@@ -115,13 +115,14 @@ describe('Create folder from template', () => {
 
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
+    await repoClient.login();
 
-    parentId = (await userApi.nodes.createFolder(parent)).entry.id;
-    await userApi.nodes.createFolder(duplicateFolderName, parentId);
+    parentId = (await repoClient.nodes.createFolder(parent)).entry.id;
+    await repoClient.nodes.createFolder(duplicateFolderName, parentId);
 
-    await userApi.sites.createSite(siteName);
-    docLibUserSite = await userApi.sites.getDocLibId(siteName);
-    await userApi.nodes.createFolder(duplicateFolderSite, docLibUserSite);
+    await repoClient.sites.createSite(siteName);
+    docLibUserSite = await repoClient.sites.getDocLibId(siteName);
+    await repoClient.nodes.createFolder(duplicateFolderSite, docLibUserSite);
 
     await adminApiActions.createSpaceTemplatesHierarchy(templates);
     await adminApiActions.removeUserAccessOnSpaceTemplate(restrictedTemplateFolder);
@@ -131,8 +132,8 @@ describe('Create folder from template', () => {
   });
 
   afterAll(async () => {
-    await userApi.nodes.deleteNodeById(parentId);
-    await userApi.sites.deleteSite(siteName);
+    await repoClient.nodes.deleteNodeById(parentId);
+    await repoClient.sites.deleteSite(siteName);
     await adminApiActions.cleanupSpaceTemplatesFolder();
   });
 
@@ -313,9 +314,9 @@ describe('Create folder from template', () => {
       await page.dataTable.waitForHeader();
 
       expect(await page.dataTable.isItemPresent(folder2.name)).toBe(true, 'Folder not displayed in list view');
-      const desc = await userApi.nodes.getNodeDescription(folder2.name, parentId);
+      const desc = await repoClient.nodes.getNodeDescription(folder2.name, parentId);
       expect(desc).toEqual(folder2.description);
-      const title = await userApi.nodes.getNodeTitle(folder2.name, parentId);
+      const title = await repoClient.nodes.getNodeTitle(folder2.name, parentId);
       expect(title).toEqual(folder2.title);
     });
 
@@ -367,9 +368,9 @@ describe('Create folder from template', () => {
       await page.dataTable.waitForHeader();
 
       expect(await page.dataTable.isItemPresent(folderSite.name)).toBe(true, 'Folder not displayed in list view');
-      const desc = await userApi.nodes.getNodeDescription(folderSite.name, docLibUserSite);
+      const desc = await repoClient.nodes.getNodeDescription(folderSite.name, docLibUserSite);
       expect(desc).toEqual(folderSite.description);
-      const title = await userApi.nodes.getNodeTitle(folderSite.name, docLibUserSite);
+      const title = await repoClient.nodes.getNodeTitle(folderSite.name, docLibUserSite);
       expect(title).toEqual(folderSite.title);
     });
 

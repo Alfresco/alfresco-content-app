@@ -45,7 +45,7 @@ describe('Generic tests : ', () => {
     folders: [folder1, folder2]
   };
 
-  const userApi = new RepoClient(username, username);
+  const repoClient = new RepoClient(username, username);
 
   const adminApiActions = new AdminActions();
 
@@ -57,14 +57,15 @@ describe('Generic tests : ', () => {
 
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
+    await repoClient.login();
 
-    await userApi.nodes.createContent(content);
+    await repoClient.nodes.createContent(content);
 
     await loginPage.loginWith(username);
   });
 
   afterAll(async () => {
-    await userApi.nodes.deleteNodeByPath(parent);
+    await repoClient.nodes.deleteNodeByPath(parent);
   });
 
   beforeEach(async () => {
@@ -132,7 +133,7 @@ describe('Generic tests : ', () => {
     });
 
     it('[C280447] on Recent Files', async () => {
-      await userApi.search.waitForApi(username, { expect: 2 });
+      await repoClient.search.waitForApi(username, { expect: 2 });
       await page.clickRecentFilesAndWait();
       expect(await toolbar.isEmpty()).toBe(true, `actions displayed though nothing selected`);
     });

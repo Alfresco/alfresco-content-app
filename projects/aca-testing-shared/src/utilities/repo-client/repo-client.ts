@@ -38,40 +38,39 @@ export class RepoClient {
     this.alfrescoApi.setConfig(browser.params.config);
   }
 
-  apiAuth(): Promise<any> {
+  login(): Promise<any> {
     return this.alfrescoApi.login(this.username, this.password);
   }
 
   get nodes(): NodesApi {
-    return new NodesApi(this.username, this.password);
+    return new NodesApi(this.alfrescoApi);
   }
 
   get sites(): SitesApi {
-    return new SitesApi(this.username, this.password);
+    return new SitesApi(this.alfrescoApi);
   }
 
   get favorites(): FavoritesApi {
-    return new FavoritesApi(this.username, this.password);
+    return new FavoritesApi(this.alfrescoApi);
   }
 
   get shared(): SharedLinksApi {
-    return new SharedLinksApi(this.username, this.password);
+    return new SharedLinksApi(this.alfrescoApi);
   }
 
   get search(): SearchApi {
-    return new SearchApi(this.username, this.password);
+    return new SearchApi(this.alfrescoApi);
   }
 
   get queries(): QueriesApi {
-    return new QueriesApi(this.username, this.password);
+    return new QueriesApi(this.alfrescoApi);
   }
 
   get upload(): UploadApi {
-    return new UploadApi(this.username, this.password);
+    return new UploadApi(this.alfrescoApi);
   }
 
   async logout(): Promise<any> {
-    await this.apiAuth();
     return this.alfrescoApi.logout();
   }
 }

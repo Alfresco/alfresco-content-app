@@ -3,7 +3,6 @@
 
 const path = require('path');
 const { SpecReporter } = require('jasmine-spec-reporter');
-const fs = require('fs');
 const resolve = require('path').resolve;
 const logger = require('./tools/helpers/logger');
 const retry = require('protractor-retry-angular-cli').retry;

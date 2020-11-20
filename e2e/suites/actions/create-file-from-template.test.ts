@@ -77,7 +77,7 @@ describe('Create file from template', () => {
   const duplicateFileSite = `duplicate-file-site-${random}.txt`;
   let docLibUserSite: string;
 
-  const userApi = new RepoClient(username, username);
+  const repoClient = new RepoClient(username, username);
 
   const adminApiActions = new AdminActions();
 
@@ -89,20 +89,21 @@ describe('Create file from template', () => {
 
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
+    await repoClient.login();
 
-    parentId = (await userApi.nodes.createFolder(parent)).entry.id;
-    await userApi.nodes.createFile(duplicateFileName, parentId);
+    parentId = (await repoClient.nodes.createFolder(parent)).entry.id;
+    await repoClient.nodes.createFile(duplicateFileName, parentId);
 
-    await userApi.sites.createSite(siteName);
-    docLibUserSite = await userApi.sites.getDocLibId(siteName);
-    await userApi.nodes.createFile(duplicateFileSite, docLibUserSite);
+    await repoClient.sites.createSite(siteName);
+    docLibUserSite = await repoClient.sites.getDocLibId(siteName);
+    await repoClient.nodes.createFile(duplicateFileSite, docLibUserSite);
 
     await loginPage.loginWith(username);
   });
 
   afterAll(async () => {
-    await userApi.nodes.deleteNodeById(parentId);
-    await userApi.sites.deleteSite(siteName);
+    await repoClient.nodes.deleteNodeById(parentId);
+    await repoClient.sites.deleteSite(siteName);
     await adminApiActions.cleanupNodeTemplatesFolder();
   });
 
@@ -328,9 +329,9 @@ describe('Create file from template', () => {
         await page.dataTable.waitForHeader();
 
         expect(await page.dataTable.isItemPresent(file2.name)).toBe(true, 'File not displayed in list view');
-        const desc = await userApi.nodes.getNodeDescription(file2.name, parentId);
+        const desc = await repoClient.nodes.getNodeDescription(file2.name, parentId);
         expect(desc).toEqual(file2.description);
-        const title = await userApi.nodes.getNodeTitle(file2.name, parentId);
+        const title = await repoClient.nodes.getNodeTitle(file2.name, parentId);
         expect(title).toEqual(file2.title);
       });
 
@@ -382,9 +383,9 @@ describe('Create file from template', () => {
         await page.dataTable.waitForHeader();
 
         expect(await page.dataTable.isItemPresent(fileSite.name)).toBe(true, 'File not displayed in list view');
-        const desc = await userApi.nodes.getNodeDescription(fileSite.name, docLibUserSite);
+        const desc = await repoClient.nodes.getNodeDescription(fileSite.name, docLibUserSite);
         expect(desc).toEqual(fileSite.description);
-        const title = await userApi.nodes.getNodeTitle(fileSite.name, docLibUserSite);
+        const title = await repoClient.nodes.getNodeTitle(fileSite.name, docLibUserSite);
         expect(title).toEqual(fileSite.title);
       });
 

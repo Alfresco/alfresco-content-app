@@ -30,7 +30,7 @@ import * as testUtil from '../test-util';
 describe('Library actions : ', () => {
   const username = `user-${Utils.random()}`;
 
-  const userApi = new RepoClient(username, username);
+  const repoClient = new RepoClient(username, username);
   const adminApiActions = new AdminActions();
   const userActions = new UserActions();
 
@@ -43,13 +43,14 @@ describe('Library actions : ', () => {
     await adminApiActions.login();
     await adminApiActions.createUser({ username });
     await userActions.login(username, username);
+    await repoClient.login();
 
-    await userApi.sites.createSite(testData.publicUserMemberFav.name);
-    await userApi.sites.createSitePrivate(testData.privateUserMemberFav.name);
-    await userApi.sites.createSiteModerated(testData.moderatedUserMemberFav.name);
-    const publicUserMemberNotFavId = (await userApi.sites.createSite(testData.publicUserMemberNotFav.name)).entry.guid;
-    const privateUserMemberNotFavId = (await userApi.sites.createSitePrivate(testData.privateUserMemberNotFav.name)).entry.guid;
-    const moderatedUserMemberNotFavId = (await userApi.sites.createSiteModerated(testData.moderatedUserMemberNotFav.name)).entry.guid;
+    await repoClient.sites.createSite(testData.publicUserMemberFav.name);
+    await repoClient.sites.createSitePrivate(testData.privateUserMemberFav.name);
+    await repoClient.sites.createSiteModerated(testData.moderatedUserMemberFav.name);
+    const publicUserMemberNotFavId = (await repoClient.sites.createSite(testData.publicUserMemberNotFav.name)).entry.guid;
+    const privateUserMemberNotFavId = (await repoClient.sites.createSitePrivate(testData.privateUserMemberNotFav.name)).entry.guid;
+    const moderatedUserMemberNotFavId = (await repoClient.sites.createSiteModerated(testData.moderatedUserMemberNotFav.name)).entry.guid;
 
     await adminApiActions.sites.createSite(testData.publicNotMemberFav.name);
     await adminApiActions.sites.createSiteModerated(testData.moderatedNotMemberFav.name);
@@ -58,11 +59,11 @@ describe('Library actions : ', () => {
     await adminApiActions.sites.createSiteModerated(testData.moderatedRequestedJoinFav.name);
     await adminApiActions.sites.createSiteModerated(testData.moderatedRequestedJoinNotFav.name);
 
-    await userApi.sites.requestToJoin(testData.moderatedRequestedJoinFav.name);
-    await userApi.sites.requestToJoin(testData.moderatedRequestedJoinNotFav.name);
+    await repoClient.sites.requestToJoin(testData.moderatedRequestedJoinFav.name);
+    await repoClient.sites.requestToJoin(testData.moderatedRequestedJoinNotFav.name);
 
-    await userApi.favorites.removeFavoritesByIds([publicUserMemberNotFavId, privateUserMemberNotFavId, moderatedUserMemberNotFavId]);
-    await userApi.favorites.addFavoritesByIds('site', [
+    await repoClient.favorites.removeFavoritesByIds([publicUserMemberNotFavId, privateUserMemberNotFavId, moderatedUserMemberNotFavId]);
+    await repoClient.favorites.addFavoritesByIds('site', [
       testData.publicNotMemberFav.name,
       testData.moderatedNotMemberFav.name,
       testData.moderatedRequestedJoinFav.name

@@ -33,12 +33,12 @@ export class AdminActions extends UserActions {
     super();
   }
 
-  sites: SitesApi = new SitesApi();
-  upload: UploadApi = new UploadApi();
-  nodes: NodesApi = new NodesApi();
-  favorites: FavoritesApi = new FavoritesApi();
-  search: SearchApi = new SearchApi();
-  shared: SharedLinksApi = new SharedLinksApi();
+  sites: SitesApi = new SitesApi(this.alfrescoApi);
+  upload: UploadApi = new UploadApi(this.alfrescoApi);
+  nodes: NodesApi = new NodesApi(this.alfrescoApi);
+  favorites: FavoritesApi = new FavoritesApi(this.alfrescoApi);
+  search: SearchApi = new SearchApi(this.alfrescoApi);
+  shared: SharedLinksApi = new SharedLinksApi(this.alfrescoApi);
 
   async login(username?: string, password?: string) {
     return super.login(username || browser.params.ADMIN_USERNAME, password || browser.params.ADMIN_PASSWORD);

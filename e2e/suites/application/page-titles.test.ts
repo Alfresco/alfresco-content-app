@@ -29,10 +29,14 @@ import { PAGE_TITLES, LoginPage, BrowsingPage, RepoClient, Utils } from '@alfres
 describe('Page titles', () => {
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
-  const adminApi = new RepoClient();
+  const repoClient = new RepoClient();
   const file = `file-${Utils.random()}.txt`;
   let fileId: string;
   const { searchInput } = page.header;
+
+  beforeAll(async () => {
+    await repoClient.login();
+  });
 
   describe('on Login / Logout pages', () => {
     it('[C217155] on Login page', async () => {
@@ -56,13 +60,13 @@ describe('Page titles', () => {
 
   describe('on app pages', () => {
     beforeAll(async (done) => {
-      fileId = (await adminApi.nodes.createFile(file)).entry.id;
+      fileId = (await repoClient.nodes.createFile(file)).entry.id;
       await loginPage.loginWithAdmin();
       done();
     });
 
     afterAll(async (done) => {
-      await adminApi.nodes.deleteNodeById(fileId);
+      await repoClient.nodes.deleteNodeById(fileId);
       done();
     });
 

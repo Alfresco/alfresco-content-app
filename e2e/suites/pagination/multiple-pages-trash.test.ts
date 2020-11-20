@@ -34,7 +34,7 @@ describe('Pagination on multiple pages on Trash', () => {
     .map((name, index): string => `${name}-${index + 1}-${random}.txt`);
   let filesDeletedIds: string[];
 
-  const userApi = new RepoClient(username, username);
+  const repoClient = new RepoClient(username, username);
   const adminApiActions = new AdminActions();
   const userActions = new UserActions();
 
@@ -46,8 +46,9 @@ describe('Pagination on multiple pages on Trash', () => {
     await adminApiActions.login();
     await adminApiActions.createUser({ username });
     await userActions.login(username, username);
+    await repoClient.login();
 
-    filesDeletedIds = (await userApi.nodes.createFiles(filesForDelete)).list.entries.map((entries: any) => entries.entry.id);
+    filesDeletedIds = (await repoClient.nodes.createFiles(filesForDelete)).list.entries.map((entries: any) => entries.entry.id);
 
     await userActions.deleteNodes(filesDeletedIds, false);
     await userActions.waitForTrashcanSize(51);

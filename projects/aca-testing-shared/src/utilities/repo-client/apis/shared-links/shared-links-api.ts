@@ -26,18 +26,17 @@
 import { RepoApi } from '../repo-api';
 import { Logger } from '@alfresco/adf-testing';
 import { Utils } from '../../../../utilities/utils';
-import { SharedlinksApi as AdfSharedlinksApi, SharedLinkEntry } from '@alfresco/js-api';
+import { AlfrescoApi, SharedlinksApi as AdfSharedlinksApi, SharedLinkEntry } from '@alfresco/js-api';
 
 export class SharedLinksApi extends RepoApi {
   sharedlinksApi = new AdfSharedlinksApi(this.alfrescoJsApi);
 
-  constructor(username?: string, password?: string) {
-    super(username, password);
+  constructor(alfrescoApi: AlfrescoApi) {
+    super(alfrescoApi);
   }
 
   async shareFileById(id: string, expireDate?: Date): Promise<SharedLinkEntry | null> {
     try {
-      await this.apiAuth();
       const data = {
         nodeId: id,
         expiresAt: expireDate
@@ -86,7 +85,6 @@ export class SharedLinksApi extends RepoApi {
 
   async getSharedLinks() {
     try {
-      await this.apiAuth();
       const opts = {
         maxItems: 250
       };
@@ -99,7 +97,6 @@ export class SharedLinksApi extends RepoApi {
 
   async getSharedLinksTotalItems(): Promise<number> {
     try {
-      await this.apiAuth();
       const opts = {
         maxItems: 250
       };

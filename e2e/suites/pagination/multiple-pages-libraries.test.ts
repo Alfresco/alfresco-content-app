@@ -31,7 +31,7 @@ describe('Pagination on multiple pages', () => {
 
   const username = `user-${random}`;
 
-  const userApi = new RepoClient(username, username);
+  const repoClient = new RepoClient(username, username);
   const adminApiActions = new AdminActions();
 
   const loginPage = new LoginPage();
@@ -47,10 +47,11 @@ describe('Pagination on multiple pages', () => {
   beforeAll(async () => {
     try {
       await adminApiActions.createUser({ username });
+      await repoClient.login();
 
-      initialSitesTotalItems = await userApi.sites.getSitesTotalItems();
-      await userApi.sites.createSitesPrivate(sites);
-      await userApi.sites.waitForApi({ expect: initialSitesTotalItems + 51 });
+      initialSitesTotalItems = await repoClient.sites.getSitesTotalItems();
+      await repoClient.sites.createSitesPrivate(sites);
+      await repoClient.sites.waitForApi({ expect: initialSitesTotalItems + 51 });
 
       await loginPage.loginWith(username);
     } catch (error) {
@@ -60,8 +61,8 @@ describe('Pagination on multiple pages', () => {
 
   afterAll(async () => {
     try {
-      await userApi.sites.deleteSites(sites);
-      await userApi.sites.waitForApi({ expect: initialSitesTotalItems });
+      await repoClient.sites.deleteSites(sites);
+      await repoClient.sites.waitForApi({ expect: initialSitesTotalItems });
     } catch (error) {
       Logger.error(`----- afterAll failed : ${error}`);
     }
