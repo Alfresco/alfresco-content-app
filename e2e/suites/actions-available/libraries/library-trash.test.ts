@@ -44,6 +44,8 @@ describe('Library actions : ', () => {
     await adminApiActions.createUser({ username });
     await userActions.login(username, username);
 
+    const initialDeletedTotalItems = await userActions.getTrashcanSize();
+
     await userApi.sites.createSite(testData.publicUserMemberFav.name);
     await userApi.sites.createSitePrivate(testData.privateUserMemberFav.name);
     await userApi.sites.createSiteModerated(testData.moderatedUserMemberFav.name);
@@ -72,6 +74,7 @@ describe('Library actions : ', () => {
     await userApi.sites.createSite(testData.site2InTrash.name);
 
     await userActions.deleteSites([testData.siteInTrash.name, testData.site2InTrash.name], false);
+    await userActions.waitForTrashcanSize(initialDeletedTotalItems + 2);
 
     await loginPage.loginWith(username);
   });
