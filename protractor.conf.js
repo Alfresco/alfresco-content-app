@@ -73,6 +73,7 @@ exports.config = {
       './e2e/suites/actions/create-file-from-template.test.ts',
       './e2e/suites/actions/upload-file.test.ts',
       './e2e/suites/actions/upload-new-version.test.ts',
+      './e2e/suites/actions/version-actions.test.ts',
       './e2e/suites/actions/delete-undo-delete.test.ts',
       './e2e/suites/actions/permanently-delete.test.ts',
       './e2e/suites/actions/restore.test.ts',
