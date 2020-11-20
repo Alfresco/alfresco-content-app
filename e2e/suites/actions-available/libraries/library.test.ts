@@ -68,11 +68,6 @@ describe('Library actions : ', () => {
       testData.moderatedRequestedJoinFav.name
     ]);
 
-    await userApi.sites.createSite(testData.siteInTrash.name);
-    await userApi.sites.createSite(testData.site2InTrash.name);
-
-    await userActions.deleteSites([testData.siteInTrash.name, testData.site2InTrash.name], false);
-
     await loginPage.loginWith(username);
   });
 
@@ -345,27 +340,6 @@ describe('Library actions : ', () => {
         testData.moderatedRequestedJoinNotFav.toolbarMore
       );
       await testUtil.checkContextMenu(testData.moderatedRequestedJoinNotFav.name, testData.moderatedRequestedJoinNotFav.contextMenu);
-    });
-  });
-
-  describe('on Trash', () => {
-    beforeAll(async () => {
-      await Utils.pressEscape();
-      await page.clickTrashAndWait();
-    });
-
-    beforeEach(async () => {
-      await Utils.pressEscape();
-    });
-
-    it('[C326686] single library', async () => {
-      await testUtil.checkToolbarPrimary(testData.siteInTrash.name, testData.siteInTrash.trashActions);
-      await testUtil.checkContextMenu(testData.siteInTrash.name, testData.siteInTrash.trashActions);
-    });
-
-    it('[C326687] multiple libraries', async () => {
-      await testUtil.checkMultipleSelContextMenu([testData.siteInTrash.name, testData.site2InTrash.name], testData.trashActions);
-      await testUtil.checkMultipleSelToolbarPrimary([testData.siteInTrash.name, testData.site2InTrash.name], testData.trashActions);
     });
   });
 });
