@@ -44,10 +44,7 @@ describe('Library actions : ', () => {
     await adminApiActions.createUser({ username });
     await userActions.login(username, username);
 
-    const initialAdminSitesTotalItems = await adminApiActions.sites.getSitesTotalItems();
-    const initialUserSitesTotalItems = await userApi.sites.getSitesTotalItems();
     const initialDeletedTotalItems = await userActions.getTrashcanSize();
-    const initialQuerySitesTotalItems = await userApi.queries.findSitesTotalItems('actionsSite-');
 
     await userApi.sites.createSite(testData.publicUserMemberFav.name);
     await userApi.sites.createSitePrivate(testData.privateUserMemberFav.name);
