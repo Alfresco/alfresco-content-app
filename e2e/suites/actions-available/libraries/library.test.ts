@@ -230,7 +230,6 @@ describe('Library actions : ', () => {
     });
 
     it('[C290084] Public library, user is a member, favorite', async () => {
-      console.log(testData.publicUserMemberFav.name);
       await searchInput.searchFor(testData.publicUserMemberFav.name);
 
       await testUtil.checkToolbarActions(
