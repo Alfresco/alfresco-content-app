@@ -73,10 +73,6 @@ describe('Library actions : ', () => {
       testData.moderatedRequestedJoinFav.name
     ]);
 
-    await userApi.sites.waitForApi({ expect: initialUserSitesTotalItems + 6 });
-    await adminApiActions.sites.waitForApi({ expect: initialAdminSitesTotalItems + 6 });
-    await userApi.queries.waitForSites('actionsSite-', { expect: initialQuerySitesTotalItems + 12 });
-
     await userApi.sites.createSite(testData.siteInTrash.name);
     await userApi.sites.createSite(testData.site2InTrash.name);
 
