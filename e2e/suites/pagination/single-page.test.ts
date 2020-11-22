@@ -38,7 +38,7 @@ describe('Pagination on single page', () => {
   const fileInTrash = `fileInTrash-${random}.txt`;
   let fileInTrashId: string;
 
-  const userApi = new RepoClient(username, username);
+  const repoClient = new RepoClient(username, username);
   const adminApiActions = new AdminActions();
   const userActions = new UserActions();
 
@@ -54,22 +54,22 @@ describe('Pagination on single page', () => {
     await userActions.login(username, username);
     await repoClient.login();
 
-    const initialFavoriteTotalItems = await userApi.favorites.getFavoritesTotalItems();
-    const initialRecentFilesTotalItems = await userApi.search.getTotalItems(username);
-    const initialSharedTotalItems = await userApi.shared.getSharedLinksTotalItems();
+    const initialFavoriteTotalItems = await repoClient.favorites.getFavoritesTotalItems();
+    const initialRecentFilesTotalItems = await repoClient.search.getTotalItems(username);
+    const initialSharedTotalItems = await repoClient.shared.getSharedLinksTotalItems();
     const initialTrashTotalItems = await userActions.getTrashcanSize();
 
-    fileId = (await userApi.nodes.createFile(file)).entry.id;
-    fileInTrashId = (await userApi.nodes.createFile(fileInTrash)).entry.id;
-    siteId = (await userApi.sites.createSite(siteName)).entry.id;
+    fileId = (await repoClient.nodes.createFile(file)).entry.id;
+    fileInTrashId = (await repoClient.nodes.createFile(fileInTrash)).entry.id;
+    siteId = (await repoClient.sites.createSite(siteName)).entry.id;
 
-    await userApi.nodes.deleteNodeById(fileInTrashId, false);
-    await userApi.favorites.addFavoriteById('file', fileId);
+    await repoClient.nodes.deleteNodeById(fileInTrashId, false);
+    await repoClient.favorites.addFavoriteById('file', fileId);
     await userActions.shareNodes([fileId]);
 
-    await userApi.favorites.waitForApi({ expect: initialFavoriteTotalItems + 2 });
-    await userApi.search.waitForApi(username, { expect: initialRecentFilesTotalItems + 1 });
-    await userApi.shared.waitForApi({ expect: initialSharedTotalItems + 1 });
+    await repoClient.favorites.waitForApi({ expect: initialFavoriteTotalItems + 2 });
+    await repoClient.search.waitForApi(username, { expect: initialRecentFilesTotalItems + 1 });
+    await repoClient.shared.waitForApi({ expect: initialSharedTotalItems + 1 });
     await userActions.waitForTrashcanSize(initialTrashTotalItems + 1);
 
     await loginPage.loginWith(username);

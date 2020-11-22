@@ -28,7 +28,7 @@ import { AlfrescoApi } from '@alfresco/js-api';
 import { Logger } from '@alfresco/adf-testing';
 
 export abstract class RepoApi {
-  alfrescoJsApi;
+  alfrescoJsApi: AlfrescoApi;
   username: string;
 
   protected constructor(alfrescoApi: AlfrescoApi) {
