@@ -276,7 +276,7 @@ export class DataTable extends Component {
   async clearSelection(): Promise<void> {
     try {
       const count = await this.getSelectedRowsCount();
-      if (count !== 0) {
+      if (count > 0) {
         await browser.refresh();
         await this.wait();
       }
