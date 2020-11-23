@@ -171,6 +171,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
         return this.navigate(this.nodePath[3].id);
       }
     }
+    this.documentList.resetNewFolderPagination();
     this.navigate(route.id);
   }
 
