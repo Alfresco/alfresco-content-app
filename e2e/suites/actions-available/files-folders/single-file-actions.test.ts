@@ -268,10 +268,6 @@ describe('Files - available actions : ', () => {
     });
 
     describe('Viewer - file opened from Search Results : ', () => {
-      beforeEach(async () => {
-        await searchInput.clickSearchButton();
-      });
-
       it('File simple - [C326716]', async () => {
         await searchInput.searchFor(testData.file.name);
         await searchResultsPage.waitForResults();
