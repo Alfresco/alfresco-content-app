@@ -28,7 +28,7 @@ import { GenericDialog } from '../dialog/generic-dialog';
 import { isPresentAndDisplayed, isPresentAndEnabled } from '../../utilities/utils';
 import { DropDownBreadcrumb } from '../breadcrumb/dropdown-breadcrumb';
 import { DataTable } from '../data-table/data-table';
-import { BrowserActions } from '@alfresco/adf-testing';
+import { BrowserActions, BrowserVisibility } from '@alfresco/adf-testing';
 
 export class ContentNodeSelectorDialog extends GenericDialog {
   cancelButton = this.childElement(by.css('[data-automation-id="content-node-selector-actions-cancel"]'));
@@ -68,7 +68,7 @@ export class ContentNodeSelectorDialog extends GenericDialog {
   async selectDestination(folderName: string): Promise<void> {
     const row = this.dataTable.getRowByName(folderName);
     await BrowserActions.click(row);
-    await BrowserVidibility.waitUntilElementIsPresent(browser.element(by.css('.adf-is-selected')));
+    await BrowserVisibility.waitUntilElementIsPresent(browser.element(by.css('.adf-is-selected')));
   }
 
   async isSelectLocationDropdownDisplayed(): Promise<boolean> {

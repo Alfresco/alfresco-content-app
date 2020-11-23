@@ -30,9 +30,7 @@ import { BrowserActions } from '@alfresco/adf-testing';
 describe('Restore from Trash', () => {
   const username = `user-${Utils.random()}`;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const repoClient = new RepoClient(username, username);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -43,6 +41,8 @@ describe('Restore from Trash', () => {
   beforeAll(async (done) => {
     await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await repoClient.login()
+
     await userActions.login(username, username);
 
     await loginPage.loginWith(username);
@@ -62,9 +62,9 @@ describe('Restore from Trash', () => {
     const site = `site-${Utils.random()}`;
 
     beforeAll(async (done) => {
-      fileId = (await apis.user.nodes.createFile(file)).entry.id;
-      folderId = (await apis.user.nodes.createFolder(folder)).entry.id;
-      await apis.user.sites.createSite(site);
+      fileId = (await repoClient.nodes.createFile(file)).entry.id;
+      folderId = (await repoClient.nodes.createFolder(folder)).entry.id;
+      await repoClient.sites.createSite(site);
 
       await userActions.deleteNodes([fileId, folderId], false);
       await userActions.deleteSites([site], false);
@@ -158,13 +158,13 @@ describe('Restore from Trash', () => {
     let folder2Id: string;
 
     beforeAll(async (done) => {
-      folder1Id = (await apis.user.nodes.createFolder(folder1)).entry.id;
-      file1Id1 = (await apis.user.nodes.createFile(file1, folder1Id)).entry.id;
+      folder1Id = (await repoClient.nodes.createFolder(folder1)).entry.id;
+      file1Id1 = (await repoClient.nodes.createFile(file1, folder1Id)).entry.id;
       await userActions.deleteNodes([file1Id1], false);
-      file1Id2 = (await apis.user.nodes.createFile(file1, folder1Id)).entry.id;
+      file1Id2 = (await repoClient.nodes.createFile(file1, folder1Id)).entry.id;
 
-      folder2Id = (await apis.user.nodes.createFolder(folder2)).entry.id;
-      file2Id = (await apis.user.nodes.createFile(file2, folder2Id)).entry.id;
+      folder2Id = (await repoClient.nodes.createFolder(folder2)).entry.id;
+      file2Id = (await repoClient.nodes.createFile(file2, folder2Id)).entry.id;
 
       await userActions.deleteNodes([file2Id, folder2Id], false);
       done();
@@ -218,18 +218,18 @@ describe('Restore from Trash', () => {
     let file5Id: string;
 
     beforeAll(async (done) => {
-      folder1Id = (await apis.user.nodes.createFolder(folder1)).entry.id;
-      file1Id = (await apis.user.nodes.createFile(file1, folder1Id)).entry.id;
-      folder2Id = (await apis.user.nodes.createFolder(folder2)).entry.id;
-      file2Id = (await apis.user.nodes.createFile(file2, folder2Id)).entry.id;
+      folder1Id = (await repoClient.nodes.createFolder(folder1)).entry.id;
+      file1Id = (await repoClient.nodes.createFile(file1, folder1Id)).entry.id;
+      folder2Id = (await repoClient.nodes.createFolder(folder2)).entry.id;
+      file2Id = (await repoClient.nodes.createFile(file2, folder2Id)).entry.id;
 
       await userActions.deleteNodes([file1Id, folder1Id, file2Id], false);
 
-      folder3Id = (await apis.user.nodes.createFolder(folder3)).entry.id;
-      file3Id = (await apis.user.nodes.createFile(file3, folder3Id)).entry.id;
-      file4Id = (await apis.user.nodes.createFile(file4, folder3Id)).entry.id;
-      folder4Id = (await apis.user.nodes.createFolder(folder4)).entry.id;
-      file5Id = (await apis.user.nodes.createFile(file5, folder4Id)).entry.id;
+      folder3Id = (await repoClient.nodes.createFolder(folder3)).entry.id;
+      file3Id = (await repoClient.nodes.createFile(file3, folder3Id)).entry.id;
+      file4Id = (await repoClient.nodes.createFile(file4, folder3Id)).entry.id;
+      folder4Id = (await repoClient.nodes.createFolder(folder4)).entry.id;
+      file5Id = (await repoClient.nodes.createFile(file5, folder4Id)).entry.id;
 
       await userActions.deleteNodes([file3Id, file4Id, folder3Id, file5Id], false);
       await loginPage.loginWith(username);

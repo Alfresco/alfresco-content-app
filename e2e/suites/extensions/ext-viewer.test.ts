@@ -63,9 +63,7 @@ describe('Extensions - Viewer', () => {
     title: 'My new title'
   };
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const repoClient = new RepoClient(username, username);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -76,8 +74,10 @@ describe('Extensions - Viewer', () => {
 
   beforeAll(async (done) => {
     await adminApiActions.createUser({ username });
-    pdfFileId = (await apis.user.upload.uploadFile(pdfFile.file_name)).entry.id;
-    docxFileId = (await apis.user.upload.uploadFile(docxFile.file_name)).entry.id;
+    await repoClient.login();
+
+    pdfFileId = (await repoClient.upload.uploadFile(pdfFile.file_name)).entry.id;
+    docxFileId = (await repoClient.upload.uploadFile(docxFile.file_name)).entry.id;
 
     await loginPage.load();
     await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.VIEWER);
@@ -86,7 +86,7 @@ describe('Extensions - Viewer', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodesById([pdfFileId, docxFileId]);
+    await repoClient.nodes.deleteNodesById([pdfFileId, docxFileId]);
     done();
   });
 

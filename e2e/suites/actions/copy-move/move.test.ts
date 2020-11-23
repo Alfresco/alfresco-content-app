@@ -55,9 +55,7 @@ describe('Move content', () => {
   const folderSiteSF = `folderSiteShared-${Utils.random()}`;
   const folderSiteFav = `folderSiteFavorites-${Utils.random()}`;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const repoClient = new RepoClient(username, username);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -70,41 +68,42 @@ describe('Move content', () => {
   beforeAll(async (done) => {
     await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await repoClient.login();
     await userActions.login(username, username);
 
-    await apis.user.sites.createSite(siteName);
-    const docLibId = await apis.user.sites.getDocLibId(siteName);
-    await apis.user.nodes.createFolder(folderSitePF, docLibId);
-    await apis.user.nodes.createFolder(folderSiteRF, docLibId);
-    await apis.user.nodes.createFolder(folderSiteSF, docLibId);
-    await apis.user.nodes.createFolder(folderSiteFav, docLibId);
+    await repoClient.sites.createSite(siteName);
+    const docLibId = await repoClient.sites.getDocLibId(siteName);
+    await repoClient.nodes.createFolder(folderSitePF, docLibId);
+    await repoClient.nodes.createFolder(folderSiteRF, docLibId);
+    await repoClient.nodes.createFolder(folderSiteSF, docLibId);
+    await repoClient.nodes.createFolder(folderSiteFav, docLibId);
 
-    sourceIdPF = (await apis.user.nodes.createFolder(sourcePF)).entry.id;
-    destinationIdPF = (await apis.user.nodes.createFolder(destinationPF)).entry.id;
+    sourceIdPF = (await repoClient.nodes.createFolder(sourcePF)).entry.id;
+    destinationIdPF = (await repoClient.nodes.createFolder(destinationPF)).entry.id;
 
-    sourceIdRF = (await apis.user.nodes.createFolder(sourceRF)).entry.id;
-    destinationIdRF = (await apis.user.nodes.createFolder(destinationRF)).entry.id;
+    sourceIdRF = (await repoClient.nodes.createFolder(sourceRF)).entry.id;
+    destinationIdRF = (await repoClient.nodes.createFolder(destinationRF)).entry.id;
 
-    sourceIdSF = (await apis.user.nodes.createFolder(sourceSF)).entry.id;
-    destinationIdSF = (await apis.user.nodes.createFolder(destinationSF)).entry.id;
+    sourceIdSF = (await repoClient.nodes.createFolder(sourceSF)).entry.id;
+    destinationIdSF = (await repoClient.nodes.createFolder(destinationSF)).entry.id;
 
-    sourceIdFav = (await apis.user.nodes.createFolder(sourceFav)).entry.id;
-    destinationIdFav = (await apis.user.nodes.createFolder(destinationFav)).entry.id;
+    sourceIdFav = (await repoClient.nodes.createFolder(sourceFav)).entry.id;
+    destinationIdFav = (await repoClient.nodes.createFolder(destinationFav)).entry.id;
 
     await loginPage.loginWith(username);
     done();
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(sourceIdPF);
-    await apis.user.nodes.deleteNodeById(sourceIdRF);
-    await apis.user.nodes.deleteNodeById(sourceIdSF);
-    await apis.user.nodes.deleteNodeById(sourceIdFav);
-    await apis.user.nodes.deleteNodeById(destinationIdPF);
-    await apis.user.nodes.deleteNodeById(destinationIdRF);
-    await apis.user.nodes.deleteNodeById(destinationIdSF);
-    await apis.user.nodes.deleteNodeById(destinationIdFav);
-    await apis.user.sites.deleteSite(siteName);
+    await repoClient.nodes.deleteNodeById(sourceIdPF);
+    await repoClient.nodes.deleteNodeById(sourceIdRF);
+    await repoClient.nodes.deleteNodeById(sourceIdSF);
+    await repoClient.nodes.deleteNodeById(sourceIdFav);
+    await repoClient.nodes.deleteNodeById(destinationIdPF);
+    await repoClient.nodes.deleteNodeById(destinationIdRF);
+    await repoClient.nodes.deleteNodeById(destinationIdSF);
+    await repoClient.nodes.deleteNodeById(destinationIdFav);
+    await repoClient.sites.deleteSite(siteName);
     done();
   });
 
@@ -132,25 +131,25 @@ describe('Move content', () => {
     const file3InFolder = `file3InFolder-${Utils.random()}.txt`;
 
     beforeAll(async (done) => {
-      await apis.user.nodes.createFile(file1, sourceIdPF);
+      await repoClient.nodes.createFile(file1, sourceIdPF);
 
-      folder1Id = (await apis.user.nodes.createFolder(folder1, sourceIdPF)).entry.id;
-      await apis.user.nodes.createFile(fileInFolder, folder1Id);
+      folder1Id = (await repoClient.nodes.createFolder(folder1, sourceIdPF)).entry.id;
+      await repoClient.nodes.createFile(fileInFolder, folder1Id);
 
-      await apis.user.nodes.createFile(file2, sourceIdPF);
-      await apis.user.nodes.createFile(file3, sourceIdPF);
+      await repoClient.nodes.createFile(file2, sourceIdPF);
+      await repoClient.nodes.createFile(file3, sourceIdPF);
 
-      await apis.user.nodes.createFile(`${existingFile}.txt`, sourceIdPF);
-      await apis.user.nodes.createFile(`${existingFile}.txt`, destinationIdPF);
+      await repoClient.nodes.createFile(`${existingFile}.txt`, sourceIdPF);
+      await repoClient.nodes.createFile(`${existingFile}.txt`, destinationIdPF);
 
-      existingId1 = (await apis.user.nodes.createFolder(existingFolder, sourceIdPF)).entry.id;
-      existingId2 = (await apis.user.nodes.createFolder(existingFolder, destinationIdPF)).entry.id;
-      await apis.user.nodes.createFile(file2InFolder, existingId1);
-      await apis.user.nodes.createFile(file3InFolder, existingId2);
+      existingId1 = (await repoClient.nodes.createFolder(existingFolder, sourceIdPF)).entry.id;
+      existingId2 = (await repoClient.nodes.createFolder(existingFolder, destinationIdPF)).entry.id;
+      await repoClient.nodes.createFile(file2InFolder, existingId1);
+      await repoClient.nodes.createFile(file3InFolder, existingId2);
 
-      await apis.user.nodes.createFile(file4, sourceIdPF);
-      folder2Id = (await apis.user.nodes.createFolder(folder2, sourceIdPF)).entry.id;
-      await apis.user.nodes.createFile(fileInFolder2, folder2Id);
+      await repoClient.nodes.createFile(file4, sourceIdPF);
+      folder2Id = (await repoClient.nodes.createFolder(folder2, sourceIdPF)).entry.id;
+      await repoClient.nodes.createFile(fileInFolder2, folder2Id);
 
       done();
     });
@@ -300,17 +299,17 @@ describe('Move content', () => {
     const existingFile = `existing-${Utils.random()}`;
 
     beforeAll(async (done) => {
-      await apis.user.nodes.createFile(file1, sourceIdRF);
+      await repoClient.nodes.createFile(file1, sourceIdRF);
 
-      await apis.user.nodes.createFile(file2, sourceIdRF);
-      await apis.user.nodes.createFile(file3, sourceIdRF);
+      await repoClient.nodes.createFile(file2, sourceIdRF);
+      await repoClient.nodes.createFile(file3, sourceIdRF);
 
-      await apis.user.nodes.createFile(`${existingFile}.txt`, sourceIdRF);
-      await apis.user.nodes.createFile(`${existingFile}.txt`, destinationIdRF);
+      await repoClient.nodes.createFile(`${existingFile}.txt`, sourceIdRF);
+      await repoClient.nodes.createFile(`${existingFile}.txt`, destinationIdRF);
 
-      await apis.user.nodes.createFile(file4, sourceIdRF);
+      await repoClient.nodes.createFile(file4, sourceIdRF);
 
-      await apis.user.search.waitForApi(username, { expect: 16 });
+      await repoClient.search.waitForApi(username, { expect: 16 });
 
       done();
     });
@@ -422,22 +421,22 @@ describe('Move content', () => {
     let existingFileId;
 
     beforeAll(async (done) => {
-      file1Id = (await apis.user.nodes.createFile(file1, sourceIdSF)).entry.id;
+      file1Id = (await repoClient.nodes.createFile(file1, sourceIdSF)).entry.id;
 
-      const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
+      const initialSharedTotalItems = await repoClient.shared.getSharedLinksTotalItems();
       await userActions.shareNodes([file1Id]);
 
-      file2Id = (await apis.user.nodes.createFile(file2, sourceIdSF)).entry.id;
-      file3Id = (await apis.user.nodes.createFile(file3, sourceIdSF)).entry.id;
+      file2Id = (await repoClient.nodes.createFile(file2, sourceIdSF)).entry.id;
+      file3Id = (await repoClient.nodes.createFile(file3, sourceIdSF)).entry.id;
       await userActions.shareNodes([file2Id, file3Id]);
 
-      existingFileId = (await apis.user.nodes.createFile(`${existingFile}.txt`, sourceIdSF)).entry.id;
+      existingFileId = (await repoClient.nodes.createFile(`${existingFile}.txt`, sourceIdSF)).entry.id;
       await userActions.shareNodes([existingFileId]);
-      await apis.user.nodes.createFile(`${existingFile}.txt`, destinationIdSF);
+      await repoClient.nodes.createFile(`${existingFile}.txt`, destinationIdSF);
 
-      file4Id = (await apis.user.nodes.createFile(file4, sourceIdSF)).entry.id;
+      file4Id = (await repoClient.nodes.createFile(file4, sourceIdSF)).entry.id;
       await userActions.shareNodes([file4Id]);
-      await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 5 });
+      await repoClient.shared.waitForApi({ expect: initialSharedTotalItems + 5 });
 
       done();
     });
@@ -560,35 +559,35 @@ describe('Move content', () => {
     const file3InFolder = `file3InFolder-${Utils.random()}.txt`;
 
     beforeAll(async (done) => {
-      file1Id = (await apis.user.nodes.createFile(file1, sourceIdFav)).entry.id;
-      await apis.user.favorites.addFavoriteById('file', file1Id);
+      file1Id = (await repoClient.nodes.createFile(file1, sourceIdFav)).entry.id;
+      await repoClient.favorites.addFavoriteById('file', file1Id);
 
-      folder1Id = (await apis.user.nodes.createFolder(folder1, sourceIdFav)).entry.id;
-      await apis.user.nodes.createFile(fileInFolder, folder1Id);
-      await apis.user.favorites.addFavoriteById('folder', folder1Id);
+      folder1Id = (await repoClient.nodes.createFolder(folder1, sourceIdFav)).entry.id;
+      await repoClient.nodes.createFile(fileInFolder, folder1Id);
+      await repoClient.favorites.addFavoriteById('folder', folder1Id);
 
-      file2Id = (await apis.user.nodes.createFile(file2, sourceIdFav)).entry.id;
-      file3Id = (await apis.user.nodes.createFile(file3, sourceIdFav)).entry.id;
-      await apis.user.favorites.addFavoriteById('file', file2Id);
-      await apis.user.favorites.addFavoriteById('file', file3Id);
+      file2Id = (await repoClient.nodes.createFile(file2, sourceIdFav)).entry.id;
+      file3Id = (await repoClient.nodes.createFile(file3, sourceIdFav)).entry.id;
+      await repoClient.favorites.addFavoriteById('file', file2Id);
+      await repoClient.favorites.addFavoriteById('file', file3Id);
 
-      existingFileId = (await apis.user.nodes.createFile(`${existingFile}.txt`, sourceIdFav)).entry.id;
-      await apis.user.favorites.addFavoriteById('file', existingFileId);
-      await apis.user.nodes.createFile(`${existingFile}.txt`, destinationIdFav);
+      existingFileId = (await repoClient.nodes.createFile(`${existingFile}.txt`, sourceIdFav)).entry.id;
+      await repoClient.favorites.addFavoriteById('file', existingFileId);
+      await repoClient.nodes.createFile(`${existingFile}.txt`, destinationIdFav);
 
-      existingId1 = (await apis.user.nodes.createFolder(existingFolder, sourceIdFav)).entry.id;
-      existingId2 = (await apis.user.nodes.createFolder(existingFolder, destinationIdFav)).entry.id;
-      await apis.user.nodes.createFile(file2InFolder, existingId1);
-      await apis.user.nodes.createFile(file3InFolder, existingId2);
-      await apis.user.favorites.addFavoriteById('folder', existingId1);
+      existingId1 = (await repoClient.nodes.createFolder(existingFolder, sourceIdFav)).entry.id;
+      existingId2 = (await repoClient.nodes.createFolder(existingFolder, destinationIdFav)).entry.id;
+      await repoClient.nodes.createFile(file2InFolder, existingId1);
+      await repoClient.nodes.createFile(file3InFolder, existingId2);
+      await repoClient.favorites.addFavoriteById('folder', existingId1);
 
-      file4Id = (await apis.user.nodes.createFile(file4, sourceIdFav)).entry.id;
-      folder2Id = (await apis.user.nodes.createFolder(folder2, sourceIdFav)).entry.id;
-      await apis.user.nodes.createFile(fileInFolder2, folder2Id);
-      await apis.user.favorites.addFavoriteById('file', file4Id);
-      await apis.user.favorites.addFavoriteById('folder', folder2Id);
+      file4Id = (await repoClient.nodes.createFile(file4, sourceIdFav)).entry.id;
+      folder2Id = (await repoClient.nodes.createFolder(folder2, sourceIdFav)).entry.id;
+      await repoClient.nodes.createFile(fileInFolder2, folder2Id);
+      await repoClient.favorites.addFavoriteById('file', file4Id);
+      await repoClient.favorites.addFavoriteById('folder', folder2Id);
 
-      await apis.user.favorites.waitForApi({ expect: 9 });
+      await repoClient.favorites.waitForApi({ expect: 9 });
 
       done();
     });

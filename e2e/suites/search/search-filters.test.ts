@@ -79,6 +79,9 @@ describe('Search filters', () => {
   beforeAll(async (done) => {
     await adminApiActions.createUser({ username: user1 });
     await adminApiActions.createUser({ username: user2 });
+    await apis.user2.login();
+    await apis.user1.login();
+
     parentId = (await apis.user1.nodes.createFolder(parent)).entry.id;
     await apis.user1.sites.createSite(site, SITE_VISIBILITY.PUBLIC);
     await apis.user1.sites.addSiteMember(site, user2, SITE_ROLES.SITE_MANAGER.ROLE);

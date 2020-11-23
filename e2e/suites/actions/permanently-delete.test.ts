@@ -40,9 +40,7 @@ describe('Permanently delete from Trash', () => {
 
   const site = `site-${Utils.random()}`;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const repoClient = new RepoClient(username, username);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -55,11 +53,12 @@ describe('Permanently delete from Trash', () => {
   beforeAll(async (done) => {
     await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await repoClient.login();
     await userActions.login(username, username);
 
-    filesIds = (await apis.user.nodes.createFiles([file1, file2, file3])).list.entries.map((entries: any) => entries.entry.id);
-    foldersIds = (await apis.user.nodes.createFolders([folder1, folder2])).list.entries.map((entries: any) => entries.entry.id);
-    await apis.user.sites.createSite(site);
+    filesIds = (await repoClient.nodes.createFiles([file1, file2, file3])).list.entries.map((entries: any) => entries.entry.id);
+    foldersIds = (await repoClient.nodes.createFolders([folder1, folder2])).list.entries.map((entries: any) => entries.entry.id);
+    await repoClient.sites.createSite(site);
 
     await userActions.deleteNodes([...filesIds, ...foldersIds], false);
     await userActions.deleteSites([site], false);

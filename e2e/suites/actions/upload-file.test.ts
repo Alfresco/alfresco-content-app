@@ -31,9 +31,7 @@ describe('Upload files', () => {
   const folder1 = `folder1-${Utils.random()}`;
   let folder1Id: string;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const repoClient = new RepoClient(username, username);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -42,7 +40,9 @@ describe('Upload files', () => {
 
   beforeAll(async (done) => {
     await adminApiActions.createUser({ username });
-    folder1Id = (await apis.user.nodes.createFolder(folder1)).entry.id;
+    await repoClient.login();
+
+    folder1Id = (await repoClient.nodes.createFolder(folder1)).entry.id;
 
     await loginPage.loginWith(username);
     done();
@@ -54,7 +54,7 @@ describe('Upload files', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(folder1Id);
+    await repoClient.nodes.deleteNodeById(folder1Id);
     done();
   });
 

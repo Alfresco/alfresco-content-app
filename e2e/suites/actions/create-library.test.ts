@@ -49,9 +49,7 @@ describe('Create library', () => {
     id: `site-trash-id-${Utils.random()}`
   };
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const repoClient = new RepoClient(username, username);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -61,9 +59,11 @@ describe('Create library', () => {
 
   beforeAll(async (done) => {
     await adminApiActions.createUser({ username });
-    await apis.user.sites.createSite(duplicateSite.name, SITE_VISIBILITY.PRIVATE, '', duplicateSite.id);
-    await apis.user.sites.createSite(siteInTrash.name, SITE_VISIBILITY.PUBLIC, '', siteInTrash.id);
-    await apis.user.sites.deleteSite(siteInTrash.id, false);
+    await repoClient.login();
+
+    await repoClient.sites.createSite(duplicateSite.name, SITE_VISIBILITY.PRIVATE, '', duplicateSite.id);
+    await repoClient.sites.createSite(siteInTrash.name, SITE_VISIBILITY.PUBLIC, '', siteInTrash.id);
+    await repoClient.sites.deleteSite(siteInTrash.id, false);
 
     await loginPage.loginWith(username);
     done();
@@ -75,7 +75,7 @@ describe('Create library', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.sites.deleteAllUserSites();
+    await repoClient.sites.deleteAllUserSites();
     done();
   });
 
@@ -105,7 +105,7 @@ describe('Create library', () => {
     expect(await page.breadcrumb.currentItem.getText()).toEqual(site1Name, `Not navigated into ${site1Name}`);
     await page.goToMyLibrariesAndWait();
     expect(await dataTable.isItemPresent(site1Name)).toBe(true, `${site1Name} not in the list`);
-    expect(await apis.user.sites.getVisibility(site1Name)).toEqual(SITE_VISIBILITY.PUBLIC);
+    expect(await repoClient.sites.getVisibility(site1Name)).toEqual(SITE_VISIBILITY.PUBLIC);
   });
 
   it('[C289880] Create a moderated library', async () => {
@@ -119,7 +119,7 @@ describe('Create library', () => {
     expect(await page.breadcrumb.currentItem.getText()).toEqual(site2Name, `Not navigated into ${site2Name}`);
     await page.goToMyLibrariesAndWait();
     expect(await dataTable.isItemPresent(site2Name)).toBe(true, `${site2Name} not in the list`);
-    expect(await apis.user.sites.getVisibility(site2Name)).toEqual(SITE_VISIBILITY.MODERATED);
+    expect(await repoClient.sites.getVisibility(site2Name)).toEqual(SITE_VISIBILITY.MODERATED);
   });
 
   it('[C289881] Create a private library', async () => {
@@ -133,7 +133,7 @@ describe('Create library', () => {
     expect(await page.breadcrumb.currentItem.getText()).toEqual(site3Name, `Not navigated into ${site3Name}`);
     await page.goToMyLibrariesAndWait();
     expect(await dataTable.isItemPresent(site3Name)).toBe(true, `${site3Name} not in the list`);
-    expect(await apis.user.sites.getVisibility(site3Name)).toEqual(SITE_VISIBILITY.PRIVATE);
+    expect(await repoClient.sites.getVisibility(site3Name)).toEqual(SITE_VISIBILITY.PRIVATE);
   });
 
   it('[C289882] Create a library with a given ID and description', async () => {
@@ -149,8 +149,8 @@ describe('Create library', () => {
     expect(await page.breadcrumb.currentItem.getText()).toEqual(site4.name, `Not navigated into ${site4.name}`);
     await page.goToMyLibrariesAndWait();
     expect(await dataTable.isItemPresent(site4.name)).toBe(true, `${site4.name} not in the list`);
-    expect(await apis.user.sites.getVisibility(site4.id)).toEqual(SITE_VISIBILITY.PUBLIC);
-    expect(await apis.user.sites.getDescription(site4.id)).toEqual(site4.description);
+    expect(await repoClient.sites.getVisibility(site4.id)).toEqual(SITE_VISIBILITY.PUBLIC);
+    expect(await repoClient.sites.getDescription(site4.id)).toEqual(site4.description);
   });
 
   it('[C280027] Duplicate library ID', async () => {
@@ -208,6 +208,6 @@ describe('Create library', () => {
     expect(await page.breadcrumb.currentItem.getText()).toEqual(duplicateSite.name, `Not navigated into ${duplicateSite.name}`);
     await page.goToMyLibrariesAndWait();
     expect(await dataTable.isItemPresent(`${duplicateSite.name} (${duplicateSite.id}-2)`)).toBe(true, `${duplicateSite.name} not in the list`);
-    expect(await apis.user.sites.getTitle(`${duplicateSite.id}-2`)).toEqual(duplicateSite.name);
+    expect(await repoClient.sites.getTitle(`${duplicateSite.id}-2`)).toEqual(duplicateSite.name);
   });
 });

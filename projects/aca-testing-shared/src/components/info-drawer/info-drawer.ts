@@ -48,7 +48,7 @@ export class InfoDrawer extends Component {
   }
 
   async waitForInfoDrawerToOpen() {
-    await BrowserVidibility.waitUntilElementIsPresent(this.header);
+    await BrowserVisibility.waitUntilElementIsPresent(this.header);
   }
 
   async isOpen() {

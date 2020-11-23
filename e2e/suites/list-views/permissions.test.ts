@@ -28,9 +28,7 @@ import { AdminActions, UserActions, SITE_VISIBILITY, SITE_ROLES, LoginPage, Brow
 describe('Special permissions', () => {
   const username = `user-${Utils.random()}`;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const repoClient = new RepoClient(username, username);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -45,6 +43,7 @@ describe('Special permissions', () => {
   beforeAll(async (done) => {
     await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await repoClient.login();
     await userActions.login(username, username);
     done();
   });
@@ -59,15 +58,15 @@ describe('Special permissions', () => {
       await adminApiActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
       const docLibId = await adminApiActions.sites.getDocLibId(sitePrivate);
       fileId = (await adminApiActions.nodes.createFile(fileName, docLibId)).entry.id;
-      await apis.user.favorites.addFavoriteById('file', fileId);
+      await repoClient.favorites.addFavoriteById('file', fileId);
 
-      initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
+      initialSharedTotalItems = await repoClient.shared.getSharedLinksTotalItems();
 
       await adminApiActions.shareNodes([fileId]);
-      await apis.user.nodes.editNodeContent(fileId, 'edited by user');
+      await repoClient.nodes.editNodeContent(fileId, 'edited by user');
 
-      await apis.user.search.waitForApi(username, { expect: 1 });
-      await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 1 });
+      await repoClient.search.waitForApi(username, { expect: 1 });
+      await repoClient.shared.waitForApi({ expect: initialSharedTotalItems + 1 });
 
       await loginPage.loginWith(username);
       done();
@@ -133,14 +132,14 @@ describe('Special permissions', () => {
       await adminApiActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
       await adminApiActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
       const docLibId = await adminApiActions.sites.getDocLibId(sitePrivate);
-      fileId = (await apis.user.nodes.createFile(fileName, docLibId)).entry.id;
-      await apis.user.favorites.addFavoriteById('file', fileId);
+      fileId = (await repoClient.nodes.createFile(fileName, docLibId)).entry.id;
+      await repoClient.favorites.addFavoriteById('file', fileId);
 
-      initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
+      initialSharedTotalItems = await repoClient.shared.getSharedLinksTotalItems();
       await userActions.shareNodes([fileId]);
-      await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 1 });
+      await repoClient.shared.waitForApi({ expect: initialSharedTotalItems + 1 });
 
-      await apis.user.search.waitForApi(username, { expect: 1 });
+      await repoClient.search.waitForApi(username, { expect: 1 });
       await adminApiActions.sites.deleteSiteMember(sitePrivate, username);
       await loginPage.loginWith(username);
       done();

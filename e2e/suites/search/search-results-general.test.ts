@@ -35,9 +35,7 @@ describe('Search results general', () => {
   let folderId: string;
   const site = `test-site-${Utils.random()}`;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const repoClient = new RepoClient(username, username);
 
   const loginPage = new LoginPage();
   const page = new SearchResultsPage();
@@ -47,20 +45,21 @@ describe('Search results general', () => {
 
   beforeAll(async (done) => {
     await adminApiActions.createUser({ username });
+    await repoClient.login();
 
-    fileId = (await apis.user.nodes.createFile(file)).entry.id;
-    folderId = (await apis.user.nodes.createFolder(folder)).entry.id;
-    await apis.user.sites.createSite(site);
+    fileId = (await repoClient.nodes.createFile(file)).entry.id;
+    folderId = (await repoClient.nodes.createFolder(folder)).entry.id;
+    await repoClient.sites.createSite(site);
 
-    await apis.user.search.waitForApi(username, { expect: 1 });
-    await apis.user.queries.waitForSites(site, { expect: 1 });
+    await repoClient.search.waitForApi(username, { expect: 1 });
+    await repoClient.queries.waitForSites(site, { expect: 1 });
 
     await loginPage.loginWith(username);
     done();
   });
 
   afterAll(async (done) => {
-    await Promise.all([apis.user.nodes.deleteNodeById(fileId), apis.user.nodes.deleteNodeById(folderId), apis.user.sites.deleteSite(site)]);
+    await Promise.all([repoClient.nodes.deleteNodeById(fileId), repoClient.nodes.deleteNodeById(folderId), repoClient.sites.deleteSite(site)]);
     done();
   });
 

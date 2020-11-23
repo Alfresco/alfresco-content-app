@@ -57,34 +57,35 @@ describe('Breadcrumb', () => {
   const page = new BrowsingPage();
   const { breadcrumb } = page;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const repoClient = new RepoClient(username, username);
+
   const adminApiActions = new AdminActions();
 
   beforeAll(async (done) => {
     await adminApiActions.createUser({ username });
-    parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
-    subFolder1Id = (await apis.user.nodes.createFolder(subFolder1, parentId)).entry.id;
-    subFolder2Id = (await apis.user.nodes.createFolder(subFolder2, subFolder1Id)).entry.id;
-    await apis.user.nodes.createFile(fileName1, subFolder2Id);
+    await repoClient.login();
 
-    parent2Id = (await apis.user.nodes.createFolder(parent2)).entry.id;
-    folder1Id = (await apis.user.nodes.createFolder(folder1, parent2Id)).entry.id;
+    parentId = (await repoClient.nodes.createFolder(parent)).entry.id;
+    subFolder1Id = (await repoClient.nodes.createFolder(subFolder1, parentId)).entry.id;
+    subFolder2Id = (await repoClient.nodes.createFolder(subFolder2, subFolder1Id)).entry.id;
+    await repoClient.nodes.createFile(fileName1, subFolder2Id);
 
-    await apis.user.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
-    const docLibId = await apis.user.sites.getDocLibId(siteName);
-    parentFromSiteId = (await apis.user.nodes.createFolder(parentFromSite, docLibId)).entry.id;
-    subFolder1FromSiteId = (await apis.user.nodes.createFolder(subFolder1FromSite, parentFromSiteId)).entry.id;
-    subFolder2FromSiteId = (await apis.user.nodes.createFolder(subFolder2FromSite, subFolder1FromSiteId)).entry.id;
-    await apis.user.nodes.createFile(fileName1FromSite, subFolder2FromSiteId);
+    parent2Id = (await repoClient.nodes.createFolder(parent2)).entry.id;
+    folder1Id = (await repoClient.nodes.createFolder(folder1, parent2Id)).entry.id;
+
+    await repoClient.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
+    const docLibId = await repoClient.sites.getDocLibId(siteName);
+    parentFromSiteId = (await repoClient.nodes.createFolder(parentFromSite, docLibId)).entry.id;
+    subFolder1FromSiteId = (await repoClient.nodes.createFolder(subFolder1FromSite, parentFromSiteId)).entry.id;
+    subFolder2FromSiteId = (await repoClient.nodes.createFolder(subFolder2FromSite, subFolder1FromSiteId)).entry.id;
+    await repoClient.nodes.createFile(fileName1FromSite, subFolder2FromSiteId);
 
     await loginPage.loginWith(username);
     done();
   });
 
   afterAll(async (done) => {
-    await Promise.all([apis.user.nodes.deleteNodeById(parentId), apis.user.nodes.deleteNodeById(parent2Id), apis.user.sites.deleteSite(siteName)]);
+    await Promise.all([repoClient.nodes.deleteNodeById(parentId), repoClient.nodes.deleteNodeById(parent2Id), repoClient.sites.deleteSite(siteName)]);
     done();
   });
 
@@ -176,7 +177,7 @@ describe('Breadcrumb', () => {
     await page.dataTable.doubleClickOnRowByName(parent2);
     await page.dataTable.doubleClickOnRowByName(folder1);
     await page.dataTable.wait();
-    await apis.user.nodes.renameNode(folder1Id, folder1Renamed);
+    await repoClient.nodes.renameNode(folder1Id, folder1Renamed);
     await page.refresh();
     await page.dataTable.wait();
     expect(await breadcrumb.currentItem.getText()).toEqual(folder1Renamed);

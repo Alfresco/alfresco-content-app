@@ -71,7 +71,7 @@ export class Menu extends Component {
   }
 
   async waitForMenuToOpen(): Promise<void> {
-    await BrowserVidibility.waitUntilElementIsPresent(browser.element(by.css('.cdk-overlay-container .mat-menu-panel')));
+    await BrowserVisibility.waitUntilElementIsPresent(browser.element(by.css('.cdk-overlay-container .mat-menu-panel')));
     await BrowserVisibility.waitUntilElementIsVisible(this.items.get(0));
   }
 

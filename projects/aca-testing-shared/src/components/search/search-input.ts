@@ -43,7 +43,7 @@ export class SearchInput extends Component {
   }
 
   async waitForSearchControl() {
-    await BrowserVidibility.waitUntilElementIsPresent(this.searchControl);
+    await BrowserVisibility.waitUntilElementIsPresent(this.searchControl);
   }
 
   async isSearchContainerDisplayed() {

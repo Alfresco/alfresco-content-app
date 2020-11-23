@@ -24,7 +24,7 @@
  */
 
 import { by, browser } from 'protractor';
-import { BrowserActions, Logger } from '@alfresco/adf-testing';
+import { BrowserActions, Logger, BrowserVisibility } from '@alfresco/adf-testing';
 import { Component } from '../component';
 
 export class LibraryMetadata extends Component {
@@ -155,7 +155,7 @@ export class LibraryMetadata extends Component {
     const val = visibility.toLowerCase();
 
     await BrowserActions.click(this.visibilityDropDown);
-    await BrowserVidibility.waitUntilElementIsPresent(this.visibilityDropDown);
+    await BrowserVisibility.waitUntilElementIsPresent(this.visibilityDropDown);
 
     if (val === 'public') {
       await BrowserActions.click(this.visibilityPublic);

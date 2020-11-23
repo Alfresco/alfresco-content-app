@@ -45,9 +45,7 @@ describe('Shared Files', () => {
 
   let initialSharedTotalItems: number;
 
-  const apis = {
-    user: new RepoClient(username, password)
-  };
+  const repoClient = new RepoClient(username, username);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -56,27 +54,28 @@ describe('Shared Files', () => {
 
   beforeAll(async (done) => {
     await adminApiActions.createUser({ username });
+    await repoClient.login();
     await adminApiActions.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
     await adminApiActions.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_CONSUMER.ROLE);
     const docLibId = await adminApiActions.sites.getDocLibId(siteName);
     const nodeId = (await adminApiActions.nodes.createFile(fileAdmin, docLibId)).entry.id;
 
-    folderId = (await apis.user.nodes.createFolder(folderUser)).entry.id;
-    file1Id = (await apis.user.nodes.createFile(file1User, folderId)).entry.id;
-    file2Id = (await apis.user.nodes.createFile(file2User)).entry.id;
-    file3Id = (await apis.user.nodes.createFile(file3User)).entry.id;
-    file4Id = (await apis.user.nodes.createFile(file4User)).entry.id;
+    folderId = (await repoClient.nodes.createFolder(folderUser)).entry.id;
+    file1Id = (await repoClient.nodes.createFile(file1User, folderId)).entry.id;
+    file2Id = (await repoClient.nodes.createFile(file2User)).entry.id;
+    file3Id = (await repoClient.nodes.createFile(file3User)).entry.id;
+    file4Id = (await repoClient.nodes.createFile(file4User)).entry.id;
 
-    initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
+    initialSharedTotalItems = await repoClient.shared.getSharedLinksTotalItems();
 
-    await apis.user.shared.shareFilesByIds([file1Id, file2Id, file3Id, file4Id]);
+    await repoClient.shared.shareFilesByIds([file1Id, file2Id, file3Id, file4Id]);
     await adminApiActions.shareNodes([nodeId]);
-    await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 5 });
+    await repoClient.shared.waitForApi({ expect: initialSharedTotalItems + 5 });
 
-    await apis.user.nodes.deleteNodeById(file2Id);
-    await apis.user.shared.unshareFile(file3User);
+    await repoClient.nodes.deleteNodeById(file2Id);
+    await repoClient.shared.unshareFile(file3User);
 
-    await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 3 });
+    await repoClient.shared.waitForApi({ expect: initialSharedTotalItems + 3 });
 
     await loginPage.loginWith(username);
     done();
@@ -89,8 +88,8 @@ describe('Shared Files', () => {
 
   afterAll(async () => {
     await adminApiActions.sites.deleteSite(siteName);
-    await apis.user.nodes.deleteNodeById(folderId);
-    await apis.user.nodes.deleteNodeById(file4Id);
+    await repoClient.nodes.deleteNodeById(folderId);
+    await repoClient.nodes.deleteNodeById(file4Id);
   });
 
   it('[C213113] has the correct columns', async () => {

@@ -71,9 +71,7 @@ describe('Edit folder', () => {
   let folderSearchToEditId: string;
   const folderSearchDuplicate = `folder-search-${Utils.random()}`;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const repoClient = new RepoClient(username, username);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -85,37 +83,38 @@ describe('Edit folder', () => {
 
   beforeAll(async (done) => {
     await adminApiActions.createUser({ username });
+    await repoClient.login();
 
     await adminApiActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
     const docLibId = await adminApiActions.sites.getDocLibId(sitePrivate);
     await adminApiActions.nodes.createFolder(folderName, docLibId);
     await adminApiActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_CONSUMER.ROLE);
 
-    parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
-    await apis.user.nodes.createFolder(folderName, parentId, '', folderDescription);
-    await apis.user.nodes.createFolder(folderNameToEdit, parentId);
-    await apis.user.nodes.createFolder(duplicateFolderName, parentId);
+    parentId = (await repoClient.nodes.createFolder(parent)).entry.id;
+    await repoClient.nodes.createFolder(folderName, parentId, '', folderDescription);
+    await repoClient.nodes.createFolder(folderNameToEdit, parentId);
+    await repoClient.nodes.createFolder(duplicateFolderName, parentId);
 
-    await apis.user.sites.createSite(siteName);
-    docLibUserSite = await apis.user.sites.getDocLibId(siteName);
-    await apis.user.nodes.createFolder(folderSite, docLibUserSite);
-    folderSiteToEditId = (await apis.user.nodes.createFolder(folderSiteToEdit, docLibUserSite)).entry.id;
-    await apis.user.nodes.createFolder(duplicateFolderSite, docLibUserSite);
+    await repoClient.sites.createSite(siteName);
+    docLibUserSite = await repoClient.sites.getDocLibId(siteName);
+    await repoClient.nodes.createFolder(folderSite, docLibUserSite);
+    folderSiteToEditId = (await repoClient.nodes.createFolder(folderSiteToEdit, docLibUserSite)).entry.id;
+    await repoClient.nodes.createFolder(duplicateFolderSite, docLibUserSite);
 
-    folderFavoriteId = (await apis.user.nodes.createFolder(folderFavorite)).entry.id;
-    folderFavoriteToEditId = (await apis.user.nodes.createFolder(folderFavoriteToEdit)).entry.id;
-    folderFavoriteDuplicateId = (await apis.user.nodes.createFolder(folderFavoriteDuplicate)).entry.id;
+    folderFavoriteId = (await repoClient.nodes.createFolder(folderFavorite)).entry.id;
+    folderFavoriteToEditId = (await repoClient.nodes.createFolder(folderFavoriteToEdit)).entry.id;
+    folderFavoriteDuplicateId = (await repoClient.nodes.createFolder(folderFavoriteDuplicate)).entry.id;
 
-    const initialSearchByTermTotalItems = await apis.user.search.getSearchByTermTotalItems('folder-search');
-    await apis.user.nodes.createFolder(folderSearch);
-    folderSearchToEditId = (await apis.user.nodes.createFolder(folderSearchToEdit)).entry.id;
-    await apis.user.nodes.createFolder(folderSearchDuplicate);
+    const initialSearchByTermTotalItems = await repoClient.search.getSearchByTermTotalItems('folder-search');
+    await repoClient.nodes.createFolder(folderSearch);
+    folderSearchToEditId = (await repoClient.nodes.createFolder(folderSearchToEdit)).entry.id;
+    await repoClient.nodes.createFolder(folderSearchDuplicate);
 
-    await apis.user.favorites.addFavoriteById('folder', folderFavoriteId);
-    await apis.user.favorites.addFavoriteById('folder', folderFavoriteToEditId);
-    await apis.user.favorites.addFavoriteById('folder', folderFavoriteDuplicateId);
+    await repoClient.favorites.addFavoriteById('folder', folderFavoriteId);
+    await repoClient.favorites.addFavoriteById('folder', folderFavoriteToEditId);
+    await repoClient.favorites.addFavoriteById('folder', folderFavoriteDuplicateId);
 
-    await apis.user.search.waitForNodes('folder-search', { expect: initialSearchByTermTotalItems + 3 });
+    await repoClient.search.waitForNodes('folder-search', { expect: initialSearchByTermTotalItems + 3 });
 
     await loginPage.loginWith(username);
     done();
@@ -124,8 +123,8 @@ describe('Edit folder', () => {
   afterAll(async (done) => {
     await Promise.all([
       adminApiActions.sites.deleteSite(sitePrivate),
-      apis.user.sites.deleteSite(siteName),
-      apis.user.nodes.deleteNodesById([parentId, folderFavoriteToEditId, folderFavoriteDuplicateId, folderSearchToEditId])
+      repoClient.sites.deleteSite(siteName),
+      repoClient.nodes.deleteNodesById([parentId, folderFavoriteToEditId, folderFavoriteDuplicateId, folderSearchToEditId])
     ]);
     done();
   });
@@ -171,7 +170,7 @@ describe('Edit folder', () => {
       await dataTable.waitForHeader();
 
       expect(await dataTable.isItemPresent(folderNameEdited)).toBe(true, 'Folder not displayed');
-      const desc = await apis.user.nodes.getNodeDescription(folderNameEdited, parentId);
+      const desc = await repoClient.nodes.getNodeDescription(folderNameEdited, parentId);
       expect(desc).toEqual(folderDescriptionEdited);
       done();
     });
@@ -264,7 +263,7 @@ describe('Edit folder', () => {
       await dataTable.waitForHeader();
 
       expect(await dataTable.isItemPresent(folderNameEdited)).toBe(true, 'Folder not displayed');
-      const desc = await apis.user.nodes.getNodeProperty(folderFavoriteToEditId, 'cm:description');
+      const desc = await repoClient.nodes.getNodeProperty(folderFavoriteToEditId, 'cm:description');
       expect(desc).toEqual(folderDescriptionEdited);
       done();
     });
@@ -301,7 +300,7 @@ describe('Edit folder', () => {
       await dataTable.waitForHeader();
 
       expect(await dataTable.isItemPresent(folderNameEdited)).toBe(true, 'Folder not displayed');
-      const desc = await apis.user.nodes.getNodeProperty(folderSiteToEditId, 'cm:description');
+      const desc = await repoClient.nodes.getNodeProperty(folderSiteToEditId, 'cm:description');
       expect(desc).toEqual(folderDescriptionEdited);
       done();
     });
@@ -338,7 +337,7 @@ describe('Edit folder', () => {
 
       await page.refresh();
       expect(await dataTable.isItemPresent(folderNameEdited2)).toBe(true, 'Folder not displayed');
-      const desc = await apis.user.nodes.getNodeProperty(folderSearchToEditId, 'cm:description');
+      const desc = await repoClient.nodes.getNodeProperty(folderSearchToEditId, 'cm:description');
       expect(desc).toEqual(folderDescriptionEdited);
     });
 

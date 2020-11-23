@@ -36,9 +36,7 @@ describe('Generic errors', () => {
   let file1Id: string;
   const file2 = `file2-${Utils.random()}.txt`;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const repoClient = new RepoClient(username, username);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -52,10 +50,11 @@ describe('Generic errors', () => {
     await adminApiActions.createUser({ username });
     await adminApiActions.createUser({ username: username2 });
     await userActions.login(username, username);
+    await repoClient.login();
 
-    parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
-    file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
-    await apis.user.nodes.createFile(file2, parentId);
+    parentId = (await repoClient.nodes.createFolder(parent)).entry.id;
+    file1Id = (await repoClient.nodes.createFile(file1, parentId)).entry.id;
+    await repoClient.nodes.createFile(file2, parentId);
 
     await loginPage.loginWith(username);
     done();
@@ -72,7 +71,7 @@ describe('Generic errors', () => {
     await dataTable.doubleClickOnRowByName(parent);
     await dataTable.doubleClickOnRowByName(file1);
     const URL = await browser.getCurrentUrl();
-    await apis.user.nodes.deleteNodeById(file1Id, false);
+    await repoClient.nodes.deleteNodeById(file1Id, false);
     await browser.get(URL);
 
     expect(await page.genericError.isDisplayed()).toBe(true, 'Generic error page not displayed');

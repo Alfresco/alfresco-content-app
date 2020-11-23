@@ -47,9 +47,9 @@ export abstract class GenericDialog {
   }
 
   async waitForDialogToOpen(): Promise<void> {
-    await BrowserVidibility.waitUntilElementIsPresent(this.rootElem);
+    await BrowserVisibility.waitUntilElementIsPresent(this.rootElem);
     await BrowserVisibility.waitUntilElementIsVisible(this.content);
-    await BrowserVidibility.waitUntilElementIsPresent(browser.element(by.css('.cdk-overlay-backdrop')));
+    await BrowserVisibility.waitUntilElementIsPresent(browser.element(by.css('.cdk-overlay-backdrop')));
   }
 
   async waitForDialogToClose(): Promise<void> {

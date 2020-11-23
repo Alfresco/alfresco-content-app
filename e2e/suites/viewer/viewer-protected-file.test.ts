@@ -34,9 +34,7 @@ describe('Viewer - password protected file', () => {
 
   const protectedFile = FILES.protectedFile;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const repoClient = new RepoClient(username, username);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -47,8 +45,10 @@ describe('Viewer - password protected file', () => {
 
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
-    parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
-    await apis.user.upload.uploadFile(protectedFile.name, parentId);
+    await repoClient.login();
+
+    parentId = (await repoClient.nodes.createFolder(parent)).entry.id;
+    await repoClient.upload.uploadFile(protectedFile.name, parentId);
 
     await loginPage.loginWith(username);
   });
@@ -69,7 +69,7 @@ describe('Viewer - password protected file', () => {
   });
 
   afterAll(async () => {
-    await apis.user.nodes.deleteNodeById(parentId);
+    await repoClient.nodes.deleteNodeById(parentId);
   });
 
   it('[C268958] Password dialog appears when opening a protected file', async () => {

@@ -31,9 +31,7 @@ describe('New menu', () => {
   const siteUser = `site-user-${Utils.random()}`;
   const siteAdmin = `site-admin-${Utils.random()}`;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const repoClient = new RepoClient(username, username);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -44,17 +42,18 @@ describe('New menu', () => {
 
   beforeAll(async (done) => {
     await adminApiActions.createUser({ username });
+    await repoClient.login();
     await adminApiActions.sites.createSite(siteAdmin);
     await adminApiActions.sites.addSiteMember(siteAdmin, username, SITE_ROLES.SITE_CONSUMER.ROLE);
 
-    await apis.user.sites.createSite(siteUser);
+    await repoClient.sites.createSite(siteUser);
 
     await loginPage.loginWith(username);
     done();
   });
 
   afterAll(async (done) => {
-    await apis.user.sites.deleteSite(siteUser);
+    await repoClient.sites.deleteSite(siteUser);
     await adminApiActions.sites.deleteSite(siteAdmin);
     done();
   });

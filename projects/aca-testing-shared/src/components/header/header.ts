@@ -29,7 +29,7 @@ import { UserInfo } from './user-info';
 import { Menu } from '../menu/menu';
 import { Toolbar } from './../toolbar/toolbar';
 import { SearchInput } from '../search/search-input';
-import { BrowserActions } from '@alfresco/adf-testing';
+import { BrowserActions, BrowserVisibility } from '@alfresco/adf-testing';
 
 export class Header extends Component {
   logoLink = this.byCss('.app-menu__title');

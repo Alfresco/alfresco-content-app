@@ -27,7 +27,7 @@ import { LoginComponent } from '../components/components';
 import { Page } from './page';
 
 import { APP_ROUTES } from '../configs';
-import { BrowserActions } from '@alfresco/adf-testing';
+import { BrowserActions, BrowserVisibility } from '@alfresco/adf-testing';
 
 export class LoginPage extends Page {
   login = new LoginComponent(this.appRoot);
@@ -38,7 +38,7 @@ export class LoginPage extends Page {
 
   async load() {
     await super.load();
-    await BrowserVidibility.waitUntilElementIsPresent(this.login.submitButton);
+    await BrowserVisibility.waitUntilElementIsPresent(this.login.submitButton);
   }
 
   async loginWith(username: string, password?: string) {
@@ -59,6 +59,6 @@ export class LoginPage extends Page {
     await this.load();
     await this.login.enterCredentials(username, pass);
     await BrowserActions.click(this.login.submitButton);
-    await BrowserVidibility.waitUntilElementIsPresent(this.login.errorMessage);
+    await BrowserVisibility.waitUntilElementIsPresent(this.login.errorMessage);
   }
 }

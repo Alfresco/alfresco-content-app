@@ -47,9 +47,7 @@ describe('Viewer actions', () => {
   const xlsxFileForMove = FILES.xlsxFile;
   const pdfFileForDelete = FILES.pdfFile;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const repoClient = new RepoClient(username, username);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -67,6 +65,8 @@ describe('Viewer actions', () => {
     await adminApiActions.login();
     await adminApiActions.createUser({ username });
     await userActions.login(username, username);
+    await repoClient.login();
+
     done();
   });
 
@@ -94,23 +94,23 @@ describe('Viewer actions', () => {
     let fileForUploadNewVersionId2: string;
 
     beforeAll(async (done) => {
-      parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
-      destinationId = (await apis.user.nodes.createFolder(destination)).entry.id;
+      parentId = (await repoClient.nodes.createFolder(parent)).entry.id;
+      destinationId = (await repoClient.nodes.createFolder(destination)).entry.id;
 
-      docxFileId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, docxPersonalFiles)).entry.id;
+      docxFileId = (await repoClient.upload.uploadFileWithRename(docxFile, parentId, docxPersonalFiles)).entry.id;
 
-      filePersonalFilesId = (await apis.user.upload.uploadFile(docxFile2, parentId)).entry.id;
-      await apis.user.upload.uploadFileWithRename(xlsxFileForMove, parentId, xlsxPersonalFiles);
-      await apis.user.upload.uploadFileWithRename(pdfFileForDelete, parentId, pdfPersonalFiles);
+      filePersonalFilesId = (await repoClient.upload.uploadFile(docxFile2, parentId)).entry.id;
+      await repoClient.upload.uploadFileWithRename(xlsxFileForMove, parentId, xlsxPersonalFiles);
+      await repoClient.upload.uploadFileWithRename(pdfFileForDelete, parentId, pdfPersonalFiles);
 
-      fileForEditOfflineId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForEditOffline)).entry.id;
-      fileForCancelEditingId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForCancelEditing)).entry.id;
-      fileForUploadNewVersionId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForUploadNewVersion)).entry.id;
-      fileForUploadNewVersionId2 = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForUploadNewVersion2)).entry.id;
+      fileForEditOfflineId = (await repoClient.upload.uploadFileWithRename(docxFile, parentId, fileForEditOffline)).entry.id;
+      fileForCancelEditingId = (await repoClient.upload.uploadFileWithRename(docxFile, parentId, fileForCancelEditing)).entry.id;
+      fileForUploadNewVersionId = (await repoClient.upload.uploadFileWithRename(docxFile, parentId, fileForUploadNewVersion)).entry.id;
+      fileForUploadNewVersionId2 = (await repoClient.upload.uploadFileWithRename(docxFile, parentId, fileForUploadNewVersion2)).entry.id;
 
-      await apis.user.nodes.lockFile(fileForCancelEditingId);
-      await apis.user.nodes.lockFile(fileForUploadNewVersionId);
-      await apis.user.nodes.lockFile(fileForUploadNewVersionId2);
+      await repoClient.nodes.lockFile(fileForCancelEditingId);
+      await repoClient.nodes.lockFile(fileForUploadNewVersionId);
+      await repoClient.nodes.lockFile(fileForUploadNewVersionId2);
 
       await loginPage.loginWith(username);
       done();
@@ -160,7 +160,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(destination);
       expect(await dataTable.isItemPresent(docxPersonalFiles)).toBe(true, 'Item is not present in destination');
 
-      await apis.user.nodes.deleteNodeChildren(destinationId);
+      await repoClient.nodes.deleteNodeChildren(destinationId);
     });
 
     it('[C268131] Move action', async () => {
@@ -187,7 +187,7 @@ describe('Viewer actions', () => {
       await toolbar.clickMoreActionsFavorite();
       await viewer.closeButton.click();
       await page.clickFavoritesAndWait();
-      expect(await apis.user.favorites.isFavorite(docxFileId)).toBe(true, 'Item is not favorite');
+      expect(await repoClient.favorites.isFavorite(docxFileId)).toBe(true, 'Item is not favorite');
       expect(await dataTable.isItemPresent(docxPersonalFiles)).toBe(true, 'Item is not present in Favorites list');
     });
 
@@ -209,7 +209,7 @@ describe('Viewer actions', () => {
       await toolbar.clickMoreActionsEditOffline();
 
       expect(await Utils.fileExistsOnOS(fileForEditOffline)).toBe(true, 'File not found in download location');
-      expect(await apis.user.nodes.isFileLockedWrite(fileForEditOfflineId)).toBe(true, `${fileForEditOffline} is not locked`);
+      expect(await repoClient.nodes.isFileLockedWrite(fileForEditOfflineId)).toBe(true, `${fileForEditOffline} is not locked`);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
     });
 
@@ -218,7 +218,7 @@ describe('Viewer actions', () => {
       await viewer.waitForViewerToOpen();
       await toolbar.clickMoreActionsCancelEditing();
 
-      expect(await apis.user.nodes.isFileLockedWriteWithRetry(fileForCancelEditingId, false)).toBe(false, `${fileForCancelEditing} is still locked`);
+      expect(await repoClient.nodes.isFileLockedWriteWithRetry(fileForCancelEditingId, false)).toBe(false, `${fileForCancelEditing} is still locked`);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
     });
 
@@ -236,8 +236,8 @@ describe('Viewer actions', () => {
 
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
       expect(await viewer.getFileTitle()).toContain(docxFile2);
-      expect(await apis.user.nodes.getFileVersionType(filePersonalFilesId)).toEqual('MAJOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(filePersonalFilesId)).toEqual('2.0', 'File has incorrect version label');
+      expect(await repoClient.nodes.getFileVersionType(filePersonalFilesId)).toEqual('MAJOR', 'File has incorrect version type');
+      expect(await repoClient.nodes.getFileVersionLabel(filePersonalFilesId)).toEqual('2.0', 'File has incorrect version label');
     });
 
     it('[MNT-21058] Upload new version action when node is locked', async () => {
@@ -339,22 +339,22 @@ describe('Viewer actions', () => {
     let fileForUploadNewVersionId: string;
 
     beforeAll(async (done) => {
-      await apis.user.sites.createSite(siteName);
-      const docLibId = await apis.user.sites.getDocLibId(siteName);
-      destinationId = (await apis.user.nodes.createFolder(destination)).entry.id;
-      docxFileId = (await apis.user.upload.uploadFileWithRename(docxFile, docLibId, docxLibraries)).entry.id;
+      await repoClient.sites.createSite(siteName);
+      const docLibId = await repoClient.sites.getDocLibId(siteName);
+      destinationId = (await repoClient.nodes.createFolder(destination)).entry.id;
+      docxFileId = (await repoClient.upload.uploadFileWithRename(docxFile, docLibId, docxLibraries)).entry.id;
 
-      fileLibrariesId = (await apis.user.upload.uploadFile(docxFile2, docLibId)).entry.id;
+      fileLibrariesId = (await repoClient.upload.uploadFile(docxFile2, docLibId)).entry.id;
 
-      await apis.user.upload.uploadFileWithRename(xlsxFileForMove, docLibId, xlsxLibraries);
-      await apis.user.upload.uploadFileWithRename(pdfFileForDelete, docLibId, pdfLibraries);
+      await repoClient.upload.uploadFileWithRename(xlsxFileForMove, docLibId, xlsxLibraries);
+      await repoClient.upload.uploadFileWithRename(pdfFileForDelete, docLibId, pdfLibraries);
 
-      fileForEditOfflineId = (await apis.user.upload.uploadFileWithRename(docxFile, docLibId, fileForEditOffline)).entry.id;
-      fileForCancelEditingId = (await apis.user.upload.uploadFileWithRename(docxFile, docLibId, fileForCancelEditing)).entry.id;
-      fileForUploadNewVersionId = (await apis.user.upload.uploadFileWithRename(docxFile, docLibId, fileForUploadNewVersion)).entry.id;
+      fileForEditOfflineId = (await repoClient.upload.uploadFileWithRename(docxFile, docLibId, fileForEditOffline)).entry.id;
+      fileForCancelEditingId = (await repoClient.upload.uploadFileWithRename(docxFile, docLibId, fileForCancelEditing)).entry.id;
+      fileForUploadNewVersionId = (await repoClient.upload.uploadFileWithRename(docxFile, docLibId, fileForUploadNewVersion)).entry.id;
 
-      await apis.user.nodes.lockFile(fileForCancelEditingId);
-      await apis.user.nodes.lockFile(fileForUploadNewVersionId);
+      await repoClient.nodes.lockFile(fileForCancelEditingId);
+      await repoClient.nodes.lockFile(fileForUploadNewVersionId);
 
       await loginPage.loginWith(username);
       done();
@@ -404,7 +404,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(destination);
       expect(await dataTable.isItemPresent(docxLibraries)).toBe(true, 'Item is not present in destination');
 
-      await apis.user.nodes.deleteNodeChildren(destinationId);
+      await repoClient.nodes.deleteNodeChildren(destinationId);
       done();
     });
 
@@ -432,7 +432,7 @@ describe('Viewer actions', () => {
       await toolbar.clickMoreActionsFavorite();
       await viewer.closeButton.click();
       await page.clickFavoritesAndWait();
-      expect(await apis.user.favorites.isFavorite(docxFileId)).toBe(true, `${docxLibraries} is not favorite`);
+      expect(await repoClient.favorites.isFavorite(docxFileId)).toBe(true, `${docxLibraries} is not favorite`);
       expect(await dataTable.isItemPresent(docxLibraries)).toBe(true, `${docxLibraries} is not present in Favorites list`);
     });
 
@@ -454,7 +454,7 @@ describe('Viewer actions', () => {
       await toolbar.clickMoreActionsEditOffline();
 
       expect(await Utils.fileExistsOnOS(fileForEditOffline)).toBe(true, 'File not found in download location');
-      expect(await apis.user.nodes.isFileLockedWrite(fileForEditOfflineId)).toBe(true, `${fileForEditOffline} is not locked`);
+      expect(await repoClient.nodes.isFileLockedWrite(fileForEditOfflineId)).toBe(true, `${fileForEditOffline} is not locked`);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
     });
 
@@ -463,7 +463,7 @@ describe('Viewer actions', () => {
       await viewer.waitForViewerToOpen();
       await toolbar.clickMoreActionsCancelEditing();
 
-      expect(await apis.user.nodes.isFileLockedWriteWithRetry(fileForCancelEditingId, false)).toBe(false, `${fileForCancelEditing} is still locked`);
+      expect(await repoClient.nodes.isFileLockedWriteWithRetry(fileForCancelEditingId, false)).toBe(false, `${fileForCancelEditing} is still locked`);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
     });
 
@@ -481,8 +481,8 @@ describe('Viewer actions', () => {
 
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
       expect(await viewer.getFileTitle()).toContain(docxFile2);
-      expect(await apis.user.nodes.getFileVersionType(fileLibrariesId)).toEqual('MAJOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(fileLibrariesId)).toEqual('2.0', 'File has incorrect version label');
+      expect(await repoClient.nodes.getFileVersionType(fileLibrariesId)).toEqual('MAJOR', 'File has incorrect version type');
+      expect(await repoClient.nodes.getFileVersionLabel(fileLibrariesId)).toEqual('2.0', 'File has incorrect version label');
     });
 
     it('[C286374] Share action', async () => {
@@ -526,25 +526,25 @@ describe('Viewer actions', () => {
     let fileForUploadNewVersionId: string;
 
     beforeAll(async (done) => {
-      await apis.user.search.waitForApi(username, { expect: 0 });
+      await repoClient.search.waitForApi(username, { expect: 0 });
 
-      parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
-      destinationId = (await apis.user.nodes.createFolder(destination)).entry.id;
-      docxFileId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, docxRecentFiles)).entry.id;
+      parentId = (await repoClient.nodes.createFolder(parent)).entry.id;
+      destinationId = (await repoClient.nodes.createFolder(destination)).entry.id;
+      docxFileId = (await repoClient.upload.uploadFileWithRename(docxFile, parentId, docxRecentFiles)).entry.id;
 
-      fileRecentId = (await apis.user.upload.uploadFile(docxFile2, parentId)).entry.id;
+      fileRecentId = (await repoClient.upload.uploadFile(docxFile2, parentId)).entry.id;
 
-      fileForEditOfflineId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForEditOffline)).entry.id;
-      fileForCancelEditingId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForCancelEditing)).entry.id;
-      fileForUploadNewVersionId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForUploadNewVersion)).entry.id;
+      fileForEditOfflineId = (await repoClient.upload.uploadFileWithRename(docxFile, parentId, fileForEditOffline)).entry.id;
+      fileForCancelEditingId = (await repoClient.upload.uploadFileWithRename(docxFile, parentId, fileForCancelEditing)).entry.id;
+      fileForUploadNewVersionId = (await repoClient.upload.uploadFileWithRename(docxFile, parentId, fileForUploadNewVersion)).entry.id;
 
-      await apis.user.nodes.lockFile(fileForCancelEditingId);
-      await apis.user.nodes.lockFile(fileForUploadNewVersionId);
+      await repoClient.nodes.lockFile(fileForCancelEditingId);
+      await repoClient.nodes.lockFile(fileForUploadNewVersionId);
 
-      await apis.user.upload.uploadFileWithRename(xlsxFileForMove, parentId, xlsxRecentFiles);
-      await apis.user.upload.uploadFileWithRename(pdfFileForDelete, parentId, pdfRecentFiles);
+      await repoClient.upload.uploadFileWithRename(xlsxFileForMove, parentId, xlsxRecentFiles);
+      await repoClient.upload.uploadFileWithRename(pdfFileForDelete, parentId, pdfRecentFiles);
 
-      await apis.user.search.waitForApi(username, { expect: 7 });
+      await repoClient.search.waitForApi(username, { expect: 7 });
 
       await loginPage.loginWith(username);
       done();
@@ -591,7 +591,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(destination);
       expect(await dataTable.isItemPresent(docxRecentFiles)).toBe(true, 'Item is not present in destination');
 
-      await apis.user.nodes.deleteNodeChildren(destinationId);
+      await repoClient.nodes.deleteNodeChildren(destinationId);
       done();
     });
 
@@ -620,7 +620,7 @@ describe('Viewer actions', () => {
       await toolbar.clickMoreActionsFavorite();
       await viewer.closeButton.click();
       await page.clickFavoritesAndWait();
-      expect(await apis.user.favorites.isFavorite(docxFileId)).toBe(true, 'Item is not favorite');
+      expect(await repoClient.favorites.isFavorite(docxFileId)).toBe(true, 'Item is not favorite');
       expect(await dataTable.isItemPresent(docxRecentFiles)).toBe(true, 'Item is not present in Favorites list');
     });
 
@@ -642,7 +642,7 @@ describe('Viewer actions', () => {
       await toolbar.clickMoreActionsEditOffline();
 
       expect(await Utils.fileExistsOnOS(fileForEditOffline)).toBe(true, 'File not found in download location');
-      expect(await apis.user.nodes.isFileLockedWrite(fileForEditOfflineId)).toBe(true, `${fileForEditOffline} is not locked`);
+      expect(await repoClient.nodes.isFileLockedWrite(fileForEditOfflineId)).toBe(true, `${fileForEditOffline} is not locked`);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
     });
 
@@ -651,7 +651,7 @@ describe('Viewer actions', () => {
       await viewer.waitForViewerToOpen();
       await toolbar.clickMoreActionsCancelEditing();
 
-      expect(await apis.user.nodes.isFileLockedWriteWithRetry(fileForCancelEditingId, false)).toBe(false, `${fileForCancelEditing} is still locked`);
+      expect(await repoClient.nodes.isFileLockedWriteWithRetry(fileForCancelEditingId, false)).toBe(false, `${fileForCancelEditing} is still locked`);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
     });
 
@@ -669,8 +669,8 @@ describe('Viewer actions', () => {
 
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
       expect(await viewer.getFileTitle()).toContain(docxFile2);
-      expect(await apis.user.nodes.getFileVersionType(fileRecentId)).toEqual('MAJOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(fileRecentId)).toEqual('2.0', 'File has incorrect version label');
+      expect(await repoClient.nodes.getFileVersionType(fileRecentId)).toEqual('MAJOR', 'File has incorrect version type');
+      expect(await repoClient.nodes.getFileVersionLabel(fileRecentId)).toEqual('2.0', 'File has incorrect version label');
     });
 
     it('[C286388] Share action', async () => {
@@ -716,23 +716,23 @@ describe('Viewer actions', () => {
     let fileForUploadNewVersionId;
 
     beforeAll(async (done) => {
-      parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
-      destinationId = (await apis.user.nodes.createFolder(destination)).entry.id;
-      docxFileId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, docxSharedFiles)).entry.id;
+      parentId = (await repoClient.nodes.createFolder(parent)).entry.id;
+      destinationId = (await repoClient.nodes.createFolder(destination)).entry.id;
+      docxFileId = (await repoClient.upload.uploadFileWithRename(docxFile, parentId, docxSharedFiles)).entry.id;
 
-      xlsxFileId = (await apis.user.upload.uploadFileWithRename(xlsxFileForMove, parentId, xlsxSharedFiles)).entry.id;
-      pdfFileId = (await apis.user.upload.uploadFileWithRename(pdfFileForDelete, parentId, pdfSharedFiles)).entry.id;
-      fileSharedId = (await apis.user.upload.uploadFile(docxFile2, parentId)).entry.id;
+      xlsxFileId = (await repoClient.upload.uploadFileWithRename(xlsxFileForMove, parentId, xlsxSharedFiles)).entry.id;
+      pdfFileId = (await repoClient.upload.uploadFileWithRename(pdfFileForDelete, parentId, pdfSharedFiles)).entry.id;
+      fileSharedId = (await repoClient.upload.uploadFile(docxFile2, parentId)).entry.id;
 
-      fileForEditOfflineId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForEditOffline)).entry.id;
-      fileForCancelEditingId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForCancelEditing)).entry.id;
-      fileForUploadNewVersionId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForUploadNewVersion)).entry.id;
+      fileForEditOfflineId = (await repoClient.upload.uploadFileWithRename(docxFile, parentId, fileForEditOffline)).entry.id;
+      fileForCancelEditingId = (await repoClient.upload.uploadFileWithRename(docxFile, parentId, fileForCancelEditing)).entry.id;
+      fileForUploadNewVersionId = (await repoClient.upload.uploadFileWithRename(docxFile, parentId, fileForUploadNewVersion)).entry.id;
 
-      await apis.user.nodes.lockFile(fileForCancelEditingId);
-      await apis.user.nodes.lockFile(fileForUploadNewVersionId);
+      await repoClient.nodes.lockFile(fileForCancelEditingId);
+      await repoClient.nodes.lockFile(fileForUploadNewVersionId);
 
-      const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
-      await apis.user.shared.shareFilesByIds([
+      const initialSharedTotalItems = await repoClient.shared.getSharedLinksTotalItems();
+      await repoClient.shared.shareFilesByIds([
         docxFileId,
         xlsxFileId,
         pdfFileId,
@@ -741,7 +741,7 @@ describe('Viewer actions', () => {
         fileForUploadNewVersionId,
         fileSharedId
       ]);
-      await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 7 });
+      await repoClient.shared.waitForApi({ expect: initialSharedTotalItems + 7 });
 
       await loginPage.loginWith(username);
       done();
@@ -789,7 +789,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(destination);
       expect(await dataTable.isItemPresent(docxSharedFiles)).toBe(true, 'Item is not present in destination');
 
-      await apis.user.nodes.deleteNodeChildren(destinationId);
+      await repoClient.nodes.deleteNodeChildren(destinationId);
     });
 
     it('[C286378] Move action', async () => {
@@ -817,7 +817,7 @@ describe('Viewer actions', () => {
       await toolbar.clickMoreActionsFavorite();
       await viewer.closeButton.click();
       await page.clickFavoritesAndWait();
-      expect(await apis.user.favorites.isFavorite(docxFileId)).toBe(true, 'Item is not favorite');
+      expect(await repoClient.favorites.isFavorite(docxFileId)).toBe(true, 'Item is not favorite');
       expect(await dataTable.isItemPresent(docxSharedFiles)).toBe(true, 'Item is not present in Favorites list');
     });
 
@@ -839,7 +839,7 @@ describe('Viewer actions', () => {
       await toolbar.clickMoreActionsEditOffline();
 
       expect(await Utils.fileExistsOnOS(fileForEditOffline)).toBe(true, 'File not found in download location');
-      expect(await apis.user.nodes.isFileLockedWrite(fileForEditOfflineId)).toBe(true, `${fileForEditOffline} is not locked`);
+      expect(await repoClient.nodes.isFileLockedWrite(fileForEditOfflineId)).toBe(true, `${fileForEditOffline} is not locked`);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
     });
 
@@ -848,7 +848,7 @@ describe('Viewer actions', () => {
       await viewer.waitForViewerToOpen();
       await toolbar.clickMoreActionsCancelEditing();
 
-      expect(await apis.user.nodes.isFileLockedWriteWithRetry(fileForCancelEditingId, false)).toBe(false, `${fileForCancelEditing} is still locked`);
+      expect(await repoClient.nodes.isFileLockedWriteWithRetry(fileForCancelEditingId, false)).toBe(false, `${fileForCancelEditing} is still locked`);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
     });
 
@@ -866,8 +866,8 @@ describe('Viewer actions', () => {
 
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
       expect(await viewer.getFileTitle()).toContain(docxFile2);
-      expect(await apis.user.nodes.getFileVersionType(fileSharedId)).toEqual('MAJOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(fileSharedId)).toEqual('2.0', 'File has incorrect version label');
+      expect(await repoClient.nodes.getFileVersionType(fileSharedId)).toEqual('MAJOR', 'File has incorrect version type');
+      expect(await repoClient.nodes.getFileVersionLabel(fileSharedId)).toEqual('2.0', 'File has incorrect version label');
     });
 
     it('[C286381] Share action', async () => {
@@ -913,22 +913,22 @@ describe('Viewer actions', () => {
     let fileForUploadNewVersionId: string;
 
     beforeAll(async (done) => {
-      parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
-      destinationId = (await apis.user.nodes.createFolder(destination)).entry.id;
-      docxFileId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, docxFavorites)).entry.id;
+      parentId = (await repoClient.nodes.createFolder(parent)).entry.id;
+      destinationId = (await repoClient.nodes.createFolder(destination)).entry.id;
+      docxFileId = (await repoClient.upload.uploadFileWithRename(docxFile, parentId, docxFavorites)).entry.id;
 
-      xlsxFileId = (await apis.user.upload.uploadFileWithRename(xlsxFileForMove, parentId, xlsxFavorites)).entry.id;
-      pdfFileId = (await apis.user.upload.uploadFileWithRename(pdfFileForDelete, parentId, pdfFavorites)).entry.id;
-      fileFavId = (await apis.user.upload.uploadFile(docxFile2, parentId)).entry.id;
+      xlsxFileId = (await repoClient.upload.uploadFileWithRename(xlsxFileForMove, parentId, xlsxFavorites)).entry.id;
+      pdfFileId = (await repoClient.upload.uploadFileWithRename(pdfFileForDelete, parentId, pdfFavorites)).entry.id;
+      fileFavId = (await repoClient.upload.uploadFile(docxFile2, parentId)).entry.id;
 
-      fileForEditOfflineId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForEditOffline)).entry.id;
-      fileForCancelEditingId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForCancelEditing)).entry.id;
-      fileForUploadNewVersionId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForUploadNewVersion)).entry.id;
+      fileForEditOfflineId = (await repoClient.upload.uploadFileWithRename(docxFile, parentId, fileForEditOffline)).entry.id;
+      fileForCancelEditingId = (await repoClient.upload.uploadFileWithRename(docxFile, parentId, fileForCancelEditing)).entry.id;
+      fileForUploadNewVersionId = (await repoClient.upload.uploadFileWithRename(docxFile, parentId, fileForUploadNewVersion)).entry.id;
 
-      await apis.user.nodes.lockFile(fileForCancelEditingId);
-      await apis.user.nodes.lockFile(fileForUploadNewVersionId);
+      await repoClient.nodes.lockFile(fileForCancelEditingId);
+      await repoClient.nodes.lockFile(fileForUploadNewVersionId);
 
-      await apis.user.favorites.addFavoritesByIds('file', [
+      await repoClient.favorites.addFavoritesByIds('file', [
         docxFileId,
         xlsxFileId,
         pdfFileId,
@@ -937,7 +937,7 @@ describe('Viewer actions', () => {
         fileForUploadNewVersionId,
         fileFavId
       ]);
-      await apis.user.favorites.waitForApi({ expect: 7 });
+      await repoClient.favorites.waitForApi({ expect: 7 });
 
       await loginPage.loginWith(username);
       done();
@@ -984,7 +984,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(destination);
       expect(await dataTable.isItemPresent(docxFavorites)).toBe(true, 'Item is not present in destination');
 
-      await apis.user.nodes.deleteNodeChildren(destinationId);
+      await repoClient.nodes.deleteNodeChildren(destinationId);
       done();
     });
 
@@ -1013,7 +1013,7 @@ describe('Viewer actions', () => {
       await toolbar.clickMoreActionsRemoveFavorite();
       await viewer.closeButton.click();
       await page.clickFavoritesAndWait();
-      expect(await apis.user.favorites.isFavorite(xlsxFileId)).toBe(false, 'Item is still favorite');
+      expect(await repoClient.favorites.isFavorite(xlsxFileId)).toBe(false, 'Item is still favorite');
       expect(await dataTable.isItemPresent(xlsxFavorites)).toBe(false, 'Item is still present in Favorites list');
     });
 
@@ -1035,7 +1035,7 @@ describe('Viewer actions', () => {
       await toolbar.clickMoreActionsEditOffline();
 
       expect(await Utils.fileExistsOnOS(fileForEditOffline)).toBe(true, 'File not found in download location');
-      expect(await apis.user.nodes.isFileLockedWrite(fileForEditOfflineId)).toBe(true, `${fileForEditOffline} is not locked`);
+      expect(await repoClient.nodes.isFileLockedWrite(fileForEditOfflineId)).toBe(true, `${fileForEditOffline} is not locked`);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
     });
 
@@ -1044,7 +1044,7 @@ describe('Viewer actions', () => {
       await viewer.waitForViewerToOpen();
       await toolbar.clickMoreActionsCancelEditing();
 
-      expect(await apis.user.nodes.isFileLockedWriteWithRetry(fileForCancelEditingId, false)).toBe(false, `${fileForCancelEditing} is still locked`);
+      expect(await repoClient.nodes.isFileLockedWriteWithRetry(fileForCancelEditingId, false)).toBe(false, `${fileForCancelEditing} is still locked`);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
     });
 
@@ -1062,8 +1062,8 @@ describe('Viewer actions', () => {
 
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not open');
       expect(await viewer.getFileTitle()).toContain(docxFile2);
-      expect(await apis.user.nodes.getFileVersionType(fileFavId)).toEqual('MAJOR', 'File has incorrect version type');
-      expect(await apis.user.nodes.getFileVersionLabel(fileFavId)).toEqual('2.0', 'File has incorrect version label');
+      expect(await repoClient.nodes.getFileVersionType(fileFavId)).toEqual('MAJOR', 'File has incorrect version type');
+      expect(await repoClient.nodes.getFileVersionLabel(fileFavId)).toEqual('2.0', 'File has incorrect version label');
     });
 
     it('[C286395] Share action', async () => {

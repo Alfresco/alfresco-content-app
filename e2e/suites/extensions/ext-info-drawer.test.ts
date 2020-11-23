@@ -54,9 +54,7 @@ describe('Extensions - Info Drawer', () => {
     title: 'COMMENTS'
   };
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const repoClient = new RepoClient(username, username);
 
   const infoDrawer = new InfoDrawer();
 
@@ -66,12 +64,14 @@ describe('Extensions - Info Drawer', () => {
 
   beforeAll(async (done) => {
     await adminApiActions.createUser({ username });
-    fileId = (await apis.user.nodes.createFile(file)).entry.id;
+    await repoClient.login();
+
+    fileId = (await repoClient.nodes.createFile(file)).entry.id;
     done();
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(fileId);
+    await repoClient.nodes.deleteNodeById(fileId);
     done();
   });
 

@@ -25,7 +25,7 @@
 
 import { browser, by } from 'protractor';
 import { Component } from '../component';
-import { BrowserActions } from '@alfresco/adf-testing';
+import { BrowserActions, BrowserVisibility } from '@alfresco/adf-testing';
 
 export class DropDownBreadcrumb extends Component {
   pathOptionCss = '.adf-dropdown-breadcrumb-path-option .mat-option-text';
@@ -39,11 +39,11 @@ export class DropDownBreadcrumb extends Component {
   }
 
   async waitForPathListDropdownToOpen(): Promise<void> {
-    return BrowserVidibility.waitUntilElementIsPresent(this.pathItemsContainer, 'Timeout waiting for breadcrumb dropdown to open');
+    return BrowserVisibility.waitUntilElementIsPresent(this.pathItemsContainer);
   }
 
   async waitForPathListDropdownToClose(): Promise<void> {
-    return BrowserVidibility.waitUntilElementIsNotPresent(browser.$(this.pathOptionCss), 'Timeout waiting for breadcrumb dropdown to close');
+    return BrowserVisibility.waitUntilElementIsNotPresent(browser.$(this.pathOptionCss));
   }
 
   async openPath(): Promise<void> {

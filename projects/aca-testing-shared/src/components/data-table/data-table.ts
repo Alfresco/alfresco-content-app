@@ -62,15 +62,15 @@ export class DataTable extends Component {
   }
 
   async waitForHeader(): Promise<void> {
-    return BrowserVidibility.waitUntilElementIsPresent(this.head, '--- timeout waitForHeader ---');
+    return BrowserVisibility.waitUntilElementIsPresent(this.head);
   }
 
   async waitForBody(): Promise<void> {
-    return BrowserVidibility.waitUntilElementIsPresent(this.body, '--- timeout waitForBody ---');
+    return BrowserVisibility.waitUntilElementIsPresent(this.body);
   }
 
   async waitForEmptyState(): Promise<void> {
-    return BrowserVidibility.waitUntilElementIsPresent(this.emptyList);
+    return BrowserVisibility.waitUntilElementIsPresent(this.emptyList);
   }
 
   private getColumnHeaders(): ElementArrayFinder {

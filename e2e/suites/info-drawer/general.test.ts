@@ -35,9 +35,7 @@ describe('General', () => {
   const file1 = `file1-${Utils.random()}.txt`;
   const folder1 = `folder1-${Utils.random()}`;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const repoClient = new RepoClient(username, username);
 
   const infoDrawer = new InfoDrawer();
 
@@ -48,17 +46,18 @@ describe('General', () => {
 
   beforeAll(async (done) => {
     await adminApiActions.createUser({ username });
+    await repoClient.login();
 
-    parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
-    await apis.user.nodes.createFile(file1, parentId);
-    await apis.user.nodes.createFolder(folder1, parentId);
+    parentId = (await repoClient.nodes.createFolder(parent)).entry.id;
+    await repoClient.nodes.createFile(file1, parentId);
+    await repoClient.nodes.createFolder(folder1, parentId);
 
     await loginPage.loginWith(username);
     done();
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(parentId);
+    await repoClient.nodes.deleteNodeById(parentId);
     done();
   });
 

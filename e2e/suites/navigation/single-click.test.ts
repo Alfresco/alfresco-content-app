@@ -41,9 +41,7 @@ describe('Single click on item name', () => {
   const siteName = `site-${Utils.random()}`;
   const fileSite = `fileSite-${Utils.random()}.txt`;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const repoClient = new RepoClient(username, username);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -58,20 +56,21 @@ describe('Single click on item name', () => {
     await adminApiActions.login();
     await adminApiActions.createUser({ username });
     await userActions.login(username, username);
+    await repoClient.login();
 
-    const initialRecentTotalItems = await apis.user.search.getTotalItems(username);
+    const initialRecentTotalItems = await repoClient.search.getTotalItems(username);
 
-    file1Id = (await apis.user.nodes.createFile(file1)).entry.id;
-    folder1Id = (await apis.user.nodes.createFolder(folder1)).entry.id;
+    file1Id = (await repoClient.nodes.createFile(file1)).entry.id;
+    folder1Id = (await repoClient.nodes.createFolder(folder1)).entry.id;
 
-    await apis.user.sites.createSite(siteName);
-    const docLibId = await apis.user.sites.getDocLibId(siteName);
-    await apis.user.nodes.createFile(fileSite, docLibId);
+    await repoClient.sites.createSite(siteName);
+    const docLibId = await repoClient.sites.getDocLibId(siteName);
+    await repoClient.nodes.createFile(fileSite, docLibId);
 
-    await apis.user.search.waitForApi(username, { expect: initialRecentTotalItems + 2 });
+    await repoClient.search.waitForApi(username, { expect: initialRecentTotalItems + 2 });
 
-    deletedFile1Id = (await apis.user.nodes.createFile(deletedFile1)).entry.id;
-    deletedFolder1Id = (await apis.user.nodes.createFolder(deletedFolder1)).entry.id;
+    deletedFile1Id = (await repoClient.nodes.createFile(deletedFile1)).entry.id;
+    deletedFolder1Id = (await repoClient.nodes.createFolder(deletedFolder1)).entry.id;
 
     await userActions.deleteNodes([deletedFile1Id, deletedFolder1Id], false);
 
@@ -135,9 +134,9 @@ describe('Single click on item name', () => {
 
   describe('on Shared Files', () => {
     beforeAll(async () => {
-      const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
+      const initialSharedTotalItems = await repoClient.shared.getSharedLinksTotalItems();
       await userActions.shareNodes([file1Id]);
-      await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 1 });
+      await repoClient.shared.waitForApi({ expect: initialSharedTotalItems + 1 });
     });
 
     beforeEach(async () => {
@@ -177,10 +176,10 @@ describe('Single click on item name', () => {
 
   describe('on Favorites', () => {
     beforeAll(async () => {
-      const initialFavoriteTotalItems = await apis.user.favorites.getFavoritesTotalItems();
-      await apis.user.favorites.addFavoriteById('file', file1Id);
-      await apis.user.favorites.addFavoriteById('folder', folder1Id);
-      await apis.user.favorites.waitForApi({ expect: initialFavoriteTotalItems + 2 });
+      const initialFavoriteTotalItems = await repoClient.favorites.getFavoritesTotalItems();
+      await repoClient.favorites.addFavoriteById('file', file1Id);
+      await repoClient.favorites.addFavoriteById('folder', folder1Id);
+      await repoClient.favorites.waitForApi({ expect: initialFavoriteTotalItems + 2 });
     });
 
     beforeEach(async () => {

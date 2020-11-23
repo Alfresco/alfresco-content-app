@@ -62,9 +62,7 @@ describe('Search results - libraries', () => {
   const adminSite4 = `admin-site-${Utils.random()}`;
   const adminPrivate = `admin-site-${Utils.random()}`;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const repoClient = new RepoClient(username, username);
 
   const loginPage = new LoginPage();
   const page = new SearchResultsPage();
@@ -74,17 +72,18 @@ describe('Search results - libraries', () => {
 
   beforeAll(async (done) => {
     await adminApiActions.createUser({ username });
+    await repoClient.login();
 
-    await apis.user.sites.createSite(site1.name, SITE_VISIBILITY.PUBLIC, '', site1.id);
-    await apis.user.sites.createSite(site2.name, SITE_VISIBILITY.PUBLIC, '', site2.id);
-    await apis.user.sites.createSite(site3.name, SITE_VISIBILITY.PUBLIC, '', site3.id);
-    await apis.user.sites.createSite(site4.name, SITE_VISIBILITY.PUBLIC, site4.description, site4.id);
+    await repoClient.sites.createSite(site1.name, SITE_VISIBILITY.PUBLIC, '', site1.id);
+    await repoClient.sites.createSite(site2.name, SITE_VISIBILITY.PUBLIC, '', site2.id);
+    await repoClient.sites.createSite(site3.name, SITE_VISIBILITY.PUBLIC, '', site3.id);
+    await repoClient.sites.createSite(site4.name, SITE_VISIBILITY.PUBLIC, site4.description, site4.id);
 
-    await apis.user.sites.createSite(userSitePublic, SITE_VISIBILITY.PUBLIC);
-    await apis.user.sites.createSite(userSiteModerated, SITE_VISIBILITY.MODERATED);
-    await apis.user.sites.createSite(userSitePrivate, SITE_VISIBILITY.PRIVATE);
+    await repoClient.sites.createSite(userSitePublic, SITE_VISIBILITY.PUBLIC);
+    await repoClient.sites.createSite(userSiteModerated, SITE_VISIBILITY.MODERATED);
+    await repoClient.sites.createSite(userSitePrivate, SITE_VISIBILITY.PRIVATE);
 
-    await apis.user.sites.createSite(siteRussian.name, SITE_VISIBILITY.PUBLIC, '', siteRussian.id);
+    await repoClient.sites.createSite(siteRussian.name, SITE_VISIBILITY.PUBLIC, '', siteRussian.id);
 
     await adminApiActions.sites.createSite(adminSite1, SITE_VISIBILITY.PUBLIC);
     await adminApiActions.sites.createSite(adminSite2, SITE_VISIBILITY.PUBLIC);
@@ -97,9 +96,9 @@ describe('Search results - libraries', () => {
 
     await adminApiActions.sites.createSite(adminPrivate, SITE_VISIBILITY.PRIVATE);
 
-    await apis.user.sites.waitForApi({ expect: 12 });
-    await apis.user.queries.waitForSites('lib', { expect: 2 });
-    await apis.user.queries.waitForSites('my-site', { expect: 1 });
+    await repoClient.sites.waitForApi({ expect: 12 });
+    await repoClient.queries.waitForSites('lib', { expect: 2 });
+    await repoClient.queries.waitForSites('my-site', { expect: 1 });
 
     await loginPage.loginWith(username);
     done();
@@ -108,7 +107,7 @@ describe('Search results - libraries', () => {
   afterAll(async (done) => {
     await Promise.all([
       adminApiActions.sites.deleteSites([adminSite1, adminSite2, adminSite3, adminSite4, adminPrivate]),
-      apis.user.sites.deleteSites([site1.id, site2.id, site3.id, site4.id, userSitePublic, userSiteModerated, userSitePrivate, siteRussian.id])
+      repoClient.sites.deleteSites([site1.id, site2.id, site3.id, site4.id, userSitePublic, userSiteModerated, userSitePrivate, siteRussian.id])
     ]);
     done();
   });

@@ -27,7 +27,7 @@ import { by, browser } from 'protractor';
 import { Component } from '../component';
 import { isPresentAndDisplayed } from '../../utilities/utils';
 const moment = require('moment');
-import { BrowserActions } from '@alfresco/adf-testing';
+import { BrowserActions, BrowserVisibility } from '@alfresco/adf-testing';
 
 export class DateTimePicker extends Component {
   calendar = this.byCss('.mat-datetimepicker-popup', browser);

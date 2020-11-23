@@ -43,9 +43,7 @@ describe('Extensions - Context submenu', () => {
     submenu: [restrictedPermissionsItem]
   };
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const repoClient = new RepoClient(username, username);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -55,8 +53,10 @@ describe('Extensions - Context submenu', () => {
 
   beforeAll(async (done) => {
     await adminApiActions.createUser({ username });
-    fileId = (await apis.user.nodes.createFile(file)).entry.id;
-    folderId = (await apis.user.nodes.createFolder(folder)).entry.id;
+    await repoClient.login();
+
+    fileId = (await repoClient.nodes.createFile(file)).entry.id;
+    folderId = (await repoClient.nodes.createFolder(folder)).entry.id;
 
     await loginPage.load();
     await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.CONTEXT_SUBMENUS);
@@ -73,8 +73,8 @@ describe('Extensions - Context submenu', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(fileId, true);
-    await apis.user.nodes.deleteNodeById(folderId, true);
+    await repoClient.nodes.deleteNodeById(fileId, true);
+    await repoClient.nodes.deleteNodeById(folderId, true);
     done();
   });
 

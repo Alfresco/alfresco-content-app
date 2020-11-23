@@ -44,9 +44,7 @@ describe('Viewer general', () => {
 
   const fileInSite = FILES.docxFile;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const repoClient = new RepoClient(username, username);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -61,24 +59,25 @@ describe('Viewer general', () => {
     await adminApiActions.login();
     await adminApiActions.createUser({ username });
     await userActions.login(username, username);
+    await repoClient.login();
 
-    parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
-    xlsxFileId = (await apis.user.upload.uploadFile(xlsxFile, parentId)).entry.id;
+    parentId = (await repoClient.nodes.createFolder(parent)).entry.id;
+    xlsxFileId = (await repoClient.upload.uploadFile(xlsxFile, parentId)).entry.id;
 
     await adminApiActions.sites.createSite(siteAdmin, SITE_VISIBILITY.PRIVATE);
     docLibId = await adminApiActions.sites.getDocLibId(siteAdmin);
     fileAdminId = (await adminApiActions.upload.uploadFile(fileAdmin, docLibId)).entry.id;
 
-    await apis.user.sites.createSite(siteUser, SITE_VISIBILITY.PUBLIC);
-    docLibSiteUserId = await apis.user.sites.getDocLibId(siteUser);
-    await apis.user.upload.uploadFile(fileInSite, docLibSiteUserId);
+    await repoClient.sites.createSite(siteUser, SITE_VISIBILITY.PUBLIC);
+    docLibSiteUserId = await repoClient.sites.getDocLibId(siteUser);
+    await repoClient.upload.uploadFile(fileInSite, docLibSiteUserId);
 
-    const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
+    const initialSharedTotalItems = await repoClient.shared.getSharedLinksTotalItems();
     await userActions.shareNodes([xlsxFileId]);
 
-    await apis.user.favorites.addFavoriteById('file', xlsxFileId);
-    await apis.user.favorites.waitForApi({ expect: 2 });
-    await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 1 });
+    await repoClient.favorites.addFavoriteById('file', xlsxFileId);
+    await repoClient.favorites.waitForApi({ expect: 2 });
+    await repoClient.shared.waitForApi({ expect: initialSharedTotalItems + 1 });
 
     await loginPage.loginWith(username);
     done();
@@ -99,9 +98,9 @@ describe('Viewer general', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(parentId);
+    await repoClient.nodes.deleteNodeById(parentId);
     await adminApiActions.sites.deleteSite(siteAdmin);
-    await apis.user.sites.deleteSite(siteUser);
+    await repoClient.sites.deleteSite(siteUser);
     done();
   });
 

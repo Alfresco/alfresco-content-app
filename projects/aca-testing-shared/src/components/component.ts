@@ -24,6 +24,7 @@
  */
 
 import { ElementFinder, browser, by, ElementArrayFinder, ProtractorBrowser } from 'protractor';
+import { BrowserVisibility } from '@alfresco/adf-testing';
 
 export abstract class Component {
   component: ElementFinder;
@@ -51,6 +52,6 @@ export abstract class Component {
   }
 
   async wait() {
-    await BrowserVidibility.waitUntilElementIsPresent(this.component);
+    await BrowserVisibility.waitUntilElementIsPresent(this.component);
   }
 }

@@ -44,7 +44,8 @@ export abstract class Page {
   uploadDialog = this.byCss('.adf-upload-dialog');
   closeUploadButton = this.byCss('.adf-upload-dialog [id="adf-upload-dialog-close"]');
 
-  constructor(public url: string = '') {}
+  constructor(public url: string = '') {
+  }
 
   protected byCss(css: string): ElementFinder {
     return browser.element(by.css(css));
@@ -57,7 +58,7 @@ export abstract class Page {
   }
 
   async waitForApp() {
-    await BrowserVidibility.waitUntilElementIsPresent(this.layout);
+    await BrowserVisibility.waitUntilElementIsPresent(this.layout);
   }
 
   async waitForDialog() {
@@ -90,13 +91,15 @@ export abstract class Page {
   }
 
   async getSnackBarMessage(): Promise<string> {
-    await BrowserVisibility.waitUntilElementIsLocated(this.byCss(`.mat-snack-bar-container`));
+    const elem = this.byCss(`.mat-snack-bar-container`);
+    await BrowserVisibility.waitUntilElementIsLocated(elem);
     return elem.getAttribute('innerText');
   }
 
   async clickSnackBarAction(): Promise<void> {
     try {
-      await BrowserVisibility.waitUntilElementIsLocated(this.byCss(`.mat-simple-snackbar-action button`));
+      const action = this.byCss(`.mat-simple-snackbar-action button`);
+      await BrowserVisibility.waitUntilElementIsLocated(action);
       await action.click();
     } catch (e) {
       Logger.error(e, '.......failed on click snack bar action.........');

@@ -40,9 +40,7 @@ describe('Recent Files', () => {
   let folderSiteId: string;
   const fileSite = `file-${Utils.random()}.txt`;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const repoClient = new RepoClient(username, username);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -54,20 +52,22 @@ describe('Recent Files', () => {
   beforeAll(async (done) => {
     await adminApiActions.login();
     await adminApiActions.createUser({ username });
+    await repoClient.login()
+
     await userActions.login(username, username);
 
-    folderId = (await apis.user.nodes.createFolders([folderName])).entry.id;
-    await apis.user.nodes.createFiles([fileName1], folderName);
-    file2Id = (await apis.user.nodes.createFiles([fileName2])).entry.id;
-    const id = (await apis.user.nodes.createFiles([fileName3])).entry.id;
+    folderId = (await repoClient.nodes.createFolders([folderName])).entry.id;
+    await repoClient.nodes.createFiles([fileName1], folderName);
+    file2Id = (await repoClient.nodes.createFiles([fileName2])).entry.id;
+    const id = (await repoClient.nodes.createFiles([fileName3])).entry.id;
     await userActions.deleteNodes([id], false);
 
-    await apis.user.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
-    const docLibId = await apis.user.sites.getDocLibId(siteName);
-    folderSiteId = (await apis.user.nodes.createFolder(folderSite, docLibId)).entry.id;
-    await apis.user.nodes.createFile(fileSite, folderSiteId);
+    await repoClient.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
+    const docLibId = await repoClient.sites.getDocLibId(siteName);
+    folderSiteId = (await repoClient.nodes.createFolder(folderSite, docLibId)).entry.id;
+    await repoClient.nodes.createFile(fileSite, folderSiteId);
 
-    await apis.user.search.waitForApi(username, { expect: 3 });
+    await repoClient.search.waitForApi(username, { expect: 3 });
 
     await loginPage.loginWith(username);
     done();

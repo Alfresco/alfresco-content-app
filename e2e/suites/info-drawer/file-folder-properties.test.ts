@@ -68,9 +68,7 @@ describe('File / Folder properties', () => {
   };
   let folder1Id: string;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const repoClient = new RepoClient(username, username);
 
   const infoDrawer = new InfoDrawer();
   const { propertiesTab } = infoDrawer;
@@ -82,17 +80,19 @@ describe('File / Folder properties', () => {
 
   beforeAll(async (done) => {
     await adminApiActions.createUser({ username });
-    parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
-    file1Id = (await apis.user.nodes.createFile(file1.name, parentId, file1.title, file1.description, file1.author)).entry.id;
-    folder1Id = (await apis.user.nodes.createFolder(folder1.name, parentId, folder1.title, folder1.description, folder1.author)).entry.id;
-    image1Id = (await apis.user.upload.uploadFile(image1.name, parentId)).entry.id;
+    await repoClient.login();
+
+    parentId = (await repoClient.nodes.createFolder(parent)).entry.id;
+    file1Id = (await repoClient.nodes.createFile(file1.name, parentId, file1.title, file1.description, file1.author)).entry.id;
+    folder1Id = (await repoClient.nodes.createFolder(folder1.name, parentId, folder1.title, folder1.description, folder1.author)).entry.id;
+    image1Id = (await repoClient.upload.uploadFile(image1.name, parentId)).entry.id;
 
     await loginPage.loginWith(username);
     done();
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(parentId);
+    await repoClient.nodes.deleteNodeById(parentId);
     done();
   });
 
@@ -115,7 +115,7 @@ describe('File / Folder properties', () => {
     });
 
     it('[C269003] File properties', async () => {
-      const apiProps = await apis.user.nodes.getNodeById(file1Id);
+      const apiProps = await repoClient.nodes.getNodeById(file1Id);
 
       const expectedPropLabels = [
         'Name',
@@ -153,7 +153,7 @@ describe('File / Folder properties', () => {
     });
 
     it('[C307106] Folder properties', async () => {
-      const apiProps = await apis.user.nodes.getNodeById(folder1Id);
+      const apiProps = await repoClient.nodes.getNodeById(folder1Id);
 
       const expectedPropLabels = ['Name', 'Title', 'Creator', 'Created Date', 'Modifier', 'Modified Date', 'Author', 'Description'];
       const expectedPropValues = [
@@ -199,7 +199,7 @@ describe('File / Folder properties', () => {
     });
 
     it('[C269007] Image properties', async () => {
-      const apiProps = await apis.user.nodes.getNodeById(image1Id);
+      const apiProps = await repoClient.nodes.getNodeById(image1Id);
       const properties = apiProps.entry.properties;
 
       const expectedPropLabels = [

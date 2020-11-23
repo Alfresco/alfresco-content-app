@@ -45,9 +45,7 @@ describe('Search results - files and folders', () => {
 
   const site = `test-site-${Utils.random()}`;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const repoClient = new RepoClient(username, username);
 
   const loginPage = new LoginPage();
   const page = new SearchResultsPage();
@@ -57,15 +55,16 @@ describe('Search results - files and folders', () => {
 
   beforeAll(async (done) => {
     await adminApiActions.createUser({ username });
+    await repoClient.login();
 
-    fileId = (await apis.user.nodes.createFile(file, '-my-', fileTitle, fileDescription)).entry.id;
-    await apis.user.nodes.editNodeContent(fileId, 'edited by user');
-    folderId = (await apis.user.nodes.createFolder(folder, '-my-', folderTitle, folderDescription)).entry.id;
-    fileRussianId = (await apis.user.nodes.createFile(fileRussian)).entry.id;
-    await apis.user.sites.createSite(site);
+    fileId = (await repoClient.nodes.createFile(file, '-my-', fileTitle, fileDescription)).entry.id;
+    await repoClient.nodes.editNodeContent(fileId, 'edited by user');
+    folderId = (await repoClient.nodes.createFolder(folder, '-my-', folderTitle, folderDescription)).entry.id;
+    fileRussianId = (await repoClient.nodes.createFile(fileRussian)).entry.id;
+    await repoClient.sites.createSite(site);
 
-    await apis.user.search.waitForApi(username, { expect: 2 });
-    await apis.user.queries.waitForSites(site, { expect: 1 });
+    await repoClient.search.waitForApi(username, { expect: 2 });
+    await repoClient.queries.waitForSites(site, { expect: 1 });
 
     await loginPage.loginWith(username);
     done();
@@ -78,10 +77,10 @@ describe('Search results - files and folders', () => {
 
   afterAll(async (done) => {
     await Promise.all([
-      apis.user.nodes.deleteNodeById(fileId),
-      apis.user.nodes.deleteNodeById(fileRussianId),
-      apis.user.nodes.deleteNodeById(folderId),
-      apis.user.sites.deleteSite(site)
+      repoClient.nodes.deleteNodeById(fileId),
+      repoClient.nodes.deleteNodeById(fileRussianId),
+      repoClient.nodes.deleteNodeById(folderId),
+      repoClient.sites.deleteSite(site)
     ]);
     done();
   });
@@ -101,7 +100,7 @@ describe('Search results - files and folders', () => {
     await searchInput.searchFor('test-');
     await dataTable.waitForBody();
 
-    const fileEntry = await apis.user.nodes.getNodeById(fileId);
+    const fileEntry = await repoClient.nodes.getNodeById(fileId);
     const modifiedDate = moment(fileEntry.entry.modifiedAt).format('MMM D, YYYY, h:mm:ss A');
     const modifiedBy = fileEntry.entry.modifiedByUser.displayName;
     const size = fileEntry.entry.content.sizeInBytes;
@@ -121,7 +120,7 @@ describe('Search results - files and folders', () => {
     await searchInput.searchFor('test-');
     await dataTable.waitForBody();
 
-    const folderEntry = await apis.user.nodes.getNodeById(folderId);
+    const folderEntry = await repoClient.nodes.getNodeById(folderId);
     const modifiedDate = moment(folderEntry.entry.modifiedAt).format('MMM D, YYYY, h:mm:ss A');
     const modifiedBy = folderEntry.entry.modifiedByUser.displayName;
 

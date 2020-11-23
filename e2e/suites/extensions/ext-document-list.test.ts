@@ -50,9 +50,7 @@ describe('Extensions - DocumentList presets', () => {
     }
   ];
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const repoClient = new RepoClient(username, username);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -61,7 +59,9 @@ describe('Extensions - DocumentList presets', () => {
 
   beforeAll(async (done) => {
     await adminApiActions.createUser({ username });
-    fileId = (await apis.user.nodes.createFile(file)).entry.id;
+    await repoClient.login();
+
+    fileId = (await repoClient.nodes.createFile(file)).entry.id;
 
     await loginPage.load();
     await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.DOCUMENT_LIST_PRESETS);
@@ -76,7 +76,7 @@ describe('Extensions - DocumentList presets', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(fileId);
+    await repoClient.nodes.deleteNodeById(fileId);
     done();
   });
 

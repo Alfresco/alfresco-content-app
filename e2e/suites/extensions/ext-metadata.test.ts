@@ -62,9 +62,7 @@ describe('Extensions - Metadata presets', () => {
     title: 'Hidden Group of Properties'
   };
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const repoClient = new RepoClient(username, username);
 
   const infoDrawer = new InfoDrawer();
   const metadataCard = new MetadataCard();
@@ -75,7 +73,9 @@ describe('Extensions - Metadata presets', () => {
 
   beforeAll(async (done) => {
     await adminApiActions.createUser({ username });
-    fileId = (await apis.user.nodes.createImage(file)).entry.id;
+    await repoClient.login();
+
+    fileId = (await repoClient.nodes.createImage(file)).entry.id;
 
     await loginPage.load();
     await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.METADATA_PRESETS);
@@ -99,7 +99,7 @@ describe('Extensions - Metadata presets', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(fileId);
+    await repoClient.nodes.deleteNodeById(fileId);
     done();
   });
 

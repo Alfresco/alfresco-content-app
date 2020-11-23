@@ -53,9 +53,7 @@ describe('Library properties', () => {
 
   const siteDup = `site3-${Utils.random()}`;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const repoClient = new RepoClient(username, username);
 
   const infoDrawer = new InfoDrawer();
   const { aboutTab } = infoDrawer;
@@ -69,21 +67,23 @@ describe('Library properties', () => {
     await adminApiActions.createUser({ username });
     await adminApiActions.createUser({ username: user2 });
     await adminApiActions.createUser({ username: user3 });
-    await apis.user.sites.createSite(site.name, site.visibility, site.description, site.id);
-    await apis.user.sites.createSite(siteForUpdate.name, siteForUpdate.visibility, siteForUpdate.description, siteForUpdate.id);
-    await apis.user.sites.createSite(siteDup);
+    await repoClient.login();
 
-    await apis.user.sites.addSiteMember(site.id, user2, SITE_ROLES.SITE_COLLABORATOR.ROLE);
-    await apis.user.sites.addSiteMember(site.id, user3, SITE_ROLES.SITE_MANAGER.ROLE);
+    await repoClient.sites.createSite(site.name, site.visibility, site.description, site.id);
+    await repoClient.sites.createSite(siteForUpdate.name, siteForUpdate.visibility, siteForUpdate.description, siteForUpdate.id);
+    await repoClient.sites.createSite(siteDup);
+
+    await repoClient.sites.addSiteMember(site.id, user2, SITE_ROLES.SITE_COLLABORATOR.ROLE);
+    await repoClient.sites.addSiteMember(site.id, user3, SITE_ROLES.SITE_MANAGER.ROLE);
 
     await loginPage.loginWith(username);
     done();
   });
 
   afterAll(async (done) => {
-    await apis.user.sites.deleteSite(site.id);
-    await apis.user.sites.deleteSite(siteForUpdate.id);
-    await apis.user.sites.deleteSite(siteDup);
+    await repoClient.sites.deleteSite(site.id);
+    await repoClient.sites.deleteSite(siteForUpdate.id);
+    await repoClient.sites.deleteSite(siteDup);
     done();
   });
 
@@ -157,9 +157,9 @@ describe('Library properties', () => {
     expect(await dataTable.isItemPresent(siteUpdated.name)).toBe(true, 'New site name not displayed in the list');
     expect(await infoDrawer.isOpen()).toBe(false, 'Info drawer still open');
 
-    expect((await apis.user.sites.getSite(siteForUpdate.id)).entry.title).toEqual(siteUpdated.name);
-    expect((await apis.user.sites.getSite(siteForUpdate.id)).entry.description).toEqual(siteUpdated.description);
-    expect((await apis.user.sites.getSite(siteForUpdate.id)).entry.visibility).toEqual(siteUpdated.visibility);
+    expect((await repoClient.sites.getSite(siteForUpdate.id)).entry.title).toEqual(siteUpdated.name);
+    expect((await repoClient.sites.getSite(siteForUpdate.id)).entry.description).toEqual(siteUpdated.description);
+    expect((await repoClient.sites.getSite(siteForUpdate.id)).entry.visibility).toEqual(siteUpdated.visibility);
   });
 
   it('[C289340] Cancel editing a site', async () => {
@@ -185,7 +185,7 @@ describe('Library properties', () => {
   });
 
   it('[C289341] Warning appears when editing the name of the library by entering an existing name', async () => {
-    await apis.user.queries.waitForSites(site.name, { expect: 1 });
+    await repoClient.queries.waitForSites(site.name, { expect: 1 });
 
     await dataTable.selectItem(siteDup);
     await BrowserActions.click(page.toolbar.viewDetailsButton);
@@ -245,7 +245,7 @@ describe('Library properties', () => {
       await infoDrawer.waitForInfoDrawerToOpen();
       await aboutTab.clickEditLibraryProperties();
 
-      await apis.user.sites.updateSiteMember(site.id, user3, SITE_ROLES.SITE_CONSUMER.ROLE);
+      await repoClient.sites.updateSiteMember(site.id, user3, SITE_ROLES.SITE_CONSUMER.ROLE);
 
       await aboutTab.enterDescription('new description');
       await aboutTab.clickUpdate();

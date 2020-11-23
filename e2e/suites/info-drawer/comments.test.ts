@@ -23,7 +23,16 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, UserActions, LoginPage, BrowsingPage, RepoClient, InfoDrawer, Utils } from '@alfresco/aca-testing-shared';
+import {
+  AdminActions,
+  UserActions,
+  LoginPage,
+  BrowsingPage,
+  RepoClient,
+  InfoDrawer,
+  Utils
+} from '@alfresco/aca-testing-shared';
+
 const moment = require('moment');
 import { BrowserActions } from '@alfresco/adf-testing';
 
@@ -54,9 +63,7 @@ describe('Comments', () => {
   let comment1File2Entry: any;
   let comment2File2Entry: any;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const repoClient = new RepoClient(username, username);
 
   const infoDrawer = new InfoDrawer();
   const { commentsTab } = infoDrawer;
@@ -72,30 +79,31 @@ describe('Comments', () => {
     await adminApiActions.login();
     await adminApiActions.createUser({ username });
     await userActions.login(username, username);
+    await repoClient.login();
 
-    parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
+    parentId = (await repoClient.nodes.createFolder(parent)).entry.id;
 
-    await apis.user.nodes.createFile(file1, parentId);
-    await apis.user.nodes.createFile(file2Personal, parentId);
-    await apis.user.nodes.createFile(file2Recent, parentId);
-    file2SharedId = (await apis.user.nodes.createFile(file2Shared, parentId)).entry.id;
-    file2FavoritesId = (await apis.user.nodes.createFile(file2Favorites, parentId)).entry.id;
+    await repoClient.nodes.createFile(file1, parentId);
+    await repoClient.nodes.createFile(file2Personal, parentId);
+    await repoClient.nodes.createFile(file2Recent, parentId);
+    file2SharedId = (await repoClient.nodes.createFile(file2Shared, parentId)).entry.id;
+    file2FavoritesId = (await repoClient.nodes.createFile(file2Favorites, parentId)).entry.id;
 
-    fileWith1CommentId = (await apis.user.nodes.createFile(fileWith1Comment, parentId)).entry.id;
-    fileWith2CommentsId = (await apis.user.nodes.createFile(fileWith2Comments, parentId)).entry.id;
+    fileWith1CommentId = (await repoClient.nodes.createFile(fileWith1Comment, parentId)).entry.id;
+    fileWith2CommentsId = (await repoClient.nodes.createFile(fileWith2Comments, parentId)).entry.id;
 
     comment1File2Entry = await userActions.createComment(fileWith2CommentsId, 'first comment');
     comment2File2Entry = await userActions.createComment(fileWith2CommentsId, 'second comment');
 
-    const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
-    await apis.user.shared.shareFilesByIds([file2SharedId, fileWith1CommentId, fileWith2CommentsId]);
-    await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 3 });
+    const initialSharedTotalItems = await repoClient.shared.getSharedLinksTotalItems();
+    await repoClient.shared.shareFilesByIds([file2SharedId, fileWith1CommentId, fileWith2CommentsId]);
+    await repoClient.shared.waitForApi({ expect: initialSharedTotalItems + 3 });
 
-    await apis.user.favorites.addFavoritesByIds('file', [file2FavoritesId, fileWith1CommentId, fileWith2CommentsId]);
+    await repoClient.favorites.addFavoritesByIds('file', [file2FavoritesId, fileWith1CommentId, fileWith2CommentsId]);
 
-    await apis.user.nodes.createFolder(folder1, parentId);
-    folder2Id = (await apis.user.nodes.createFolder(folder2, parentId)).entry.id;
-    await apis.user.favorites.addFavoriteById('folder', folder2Id);
+    await repoClient.nodes.createFolder(folder1, parentId);
+    folder2Id = (await repoClient.nodes.createFolder(folder2, parentId)).entry.id;
+    await repoClient.favorites.addFavoriteById('folder', folder2Id);
 
     await loginPage.loginWith(username);
     done();
@@ -208,7 +216,7 @@ describe('Comments', () => {
 
   describe('from Favorites', () => {
     beforeAll(async (done) => {
-      await apis.user.favorites.waitForApi({ expect: 4 });
+      await repoClient.favorites.waitForApi({ expect: 4 });
       done();
     });
 
@@ -310,7 +318,7 @@ describe('Comments', () => {
 
   describe('from Recent Files', () => {
     beforeAll(async (done) => {
-      await apis.user.search.waitForApi(username, { expect: 7 });
+      await repoClient.search.waitForApi(username, { expect: 7 });
       done();
     });
 
@@ -358,8 +366,8 @@ describe('Comments', () => {
     beforeAll(async (done) => {
       commentFile1Entry = await userActions.createComment(fileWith1CommentId, 'this is my comment');
 
-      await apis.user.favorites.waitForApi({ expect: 4 });
-      await apis.user.search.waitForApi(username, { expect: 7 });
+      await repoClient.favorites.waitForApi({ expect: 4 });
+      await repoClient.search.waitForApi(username, { expect: 7 });
 
       done();
     });

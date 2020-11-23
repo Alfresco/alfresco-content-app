@@ -52,9 +52,7 @@ describe('Trash', () => {
   const fileInFolder = `file-${Utils.random()}.txt`;
   let fileInFolderId: string;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const repoClient = new RepoClient(username, username);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -67,6 +65,7 @@ describe('Trash', () => {
     await adminApiActions.login();
     await adminApiActions.createUser({ username });
     await userActions.login(username, username);
+    await repoClient.login();
 
     fileAdminId = (await adminApiActions.nodes.createFiles([fileAdmin])).entry.id;
     folderAdminId = (await adminApiActions.nodes.createFolders([folderAdmin])).entry.id;
@@ -74,24 +73,24 @@ describe('Trash', () => {
     await adminApiActions.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_MANAGER.ROLE);
     const docLibId = await adminApiActions.sites.getDocLibId(siteName);
     fileSiteId = (await adminApiActions.nodes.createFile(fileSite, docLibId)).entry.id;
-    fileUserId = (await apis.user.nodes.createFiles([fileUser])).entry.id;
-    folderUserId = (await apis.user.nodes.createFolders([folderUser])).entry.id;
-    folderDeletedId = (await apis.user.nodes.createFolder(folderDeleted)).entry.id;
-    fileDeletedId = (await apis.user.nodes.createFiles([fileDeleted], folderDeleted)).entry.id;
-    folderNotDeletedId = (await apis.user.nodes.createFolder(folderNotDeleted)).entry.id;
-    fileInFolderId = (await apis.user.nodes.createFiles([fileInFolder], folderNotDeleted)).entry.id;
+    fileUserId = (await repoClient.nodes.createFiles([fileUser])).entry.id;
+    folderUserId = (await repoClient.nodes.createFolders([folderUser])).entry.id;
+    folderDeletedId = (await repoClient.nodes.createFolder(folderDeleted)).entry.id;
+    fileDeletedId = (await repoClient.nodes.createFiles([fileDeleted], folderDeleted)).entry.id;
+    folderNotDeletedId = (await repoClient.nodes.createFolder(folderNotDeleted)).entry.id;
+    fileInFolderId = (await repoClient.nodes.createFiles([fileInFolder], folderNotDeleted)).entry.id;
 
     await adminApiActions.nodes.deleteNodesById([fileAdminId, folderAdminId], false);
-    await apis.user.nodes.deleteNodesById([fileSiteId, fileUserId, folderUserId, fileInFolderId], false);
-    await apis.user.nodes.deleteNodeById(fileDeletedId, false);
-    await apis.user.nodes.deleteNodeById(folderDeletedId, false);
+    await repoClient.nodes.deleteNodesById([fileSiteId, fileUserId, folderUserId, fileInFolderId], false);
+    await repoClient.nodes.deleteNodeById(fileDeletedId, false);
+    await repoClient.nodes.deleteNodeById(folderDeletedId, false);
   });
 
   afterAll(async (done) => {
     await adminApiActions.sites.deleteSite(siteName);
     await adminApiActions.trashcanApi.deleteDeletedNode(fileAdminId);
     await adminApiActions.trashcanApi.deleteDeletedNode(folderAdminId);
-    await apis.user.nodes.deleteNodeById(folderNotDeletedId);
+    await repoClient.nodes.deleteNodeById(folderNotDeletedId);
     await userActions.emptyTrashcan();
     done();
   });

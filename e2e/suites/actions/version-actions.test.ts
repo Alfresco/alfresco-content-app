@@ -39,9 +39,7 @@ describe('Version component actions', () => {
 
   const filesToUpload = [FILES.pdfFile, FILES.docxFile, FILES.xlsxFile, FILES.jpgFile, FILES.docxFile2];
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const repoClient = new RepoClient(username, username);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -52,8 +50,10 @@ describe('Version component actions', () => {
 
   beforeAll(async (done) => {
     await adminApiActions.createUser({ username });
-    fileId = (await apis.user.upload.uploadFile(filesToUpload[0])).entry.id;
-    await apis.user.shared.shareFilesByIds([fileId]);
+    await repoClient.login();
+
+    fileId = (await repoClient.upload.uploadFile(filesToUpload[0])).entry.id;
+    await repoClient.shared.shareFilesByIds([fileId]);
     await loginPage.loginWith(username);
 
     for (let i = 0; i < filesToUpload.length - 1; i++) {
@@ -74,7 +74,7 @@ describe('Version component actions', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(fileId);
+    await repoClient.nodes.deleteNodeById(fileId);
     done();
   });
 
@@ -179,8 +179,8 @@ describe('Version component actions', () => {
 
   describe('on Favorite Files', () => {
     beforeAll(async (done) => {
-      await apis.user.favorites.addFavoritesByIds('file', [fileId]);
-      await apis.user.favorites.waitForApi({ expect: 1 });
+      await repoClient.favorites.addFavoritesByIds('file', [fileId]);
+      await repoClient.favorites.waitForApi({ expect: 1 });
       await page.clickFavoritesAndWait();
       done();
     });
