@@ -61,7 +61,7 @@ describe('Pagination on multiple pages : ', () => {
     initialFavoritesTotalItems = await userApi.favorites.getFavoritesTotalItems();
     await userApi.shared.shareFilesByIds(filesIds);
     await userApi.favorites.addFavoritesByIds('file', filesIds);
-  }, 300000);
+  });
 
   afterAll(async () => {
     await userApi.nodes.deleteNodeById(parentId);
@@ -74,28 +74,28 @@ describe('Pagination on multiple pages : ', () => {
   describe('on Recent Files', () => {
     beforeAll(async () => {
       await userApi.search.waitForApi(username, { expect: initialSearchTotalItems + 51 });
-    }, 300000);
+    });
     recentFilesTests(username);
   });
 
   describe('on Search Results', () => {
     beforeAll(async () => {
       await userApi.search.waitForApi(username, { expect: initialSearchTotalItems + 51 });
-    }, 300000);
+    });
     searchResultsTests(username);
   });
 
   describe('on Shared Files', () => {
     beforeAll(async () => {
       await userApi.shared.waitForApi({ expect: initialSharedTotalItems + 51 });
-    }, 300000);
+    });
     sharedFilesTests(username);
   });
 
   describe('on Favorites', () => {
     beforeAll(async () => {
       await userApi.favorites.waitForApi({ expect: initialFavoritesTotalItems + 51 });
-    }, 300000);
+    });
     favoritesTests(username);
   });
 });

@@ -96,7 +96,8 @@ export abstract class Page {
 
   async clickSnackBarAction(): Promise<void> {
     try {
-      await BrowserActions.click(this.byCss('.mat-simple-snackbar-action button'));
+      const action = await waitElement('.mat-simple-snackbar-action button');
+      await action.click();
     } catch (e) {
       Logger.error(e, '.......failed on click snack bar action.........');
     }

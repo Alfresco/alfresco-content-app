@@ -26,7 +26,7 @@
 import { browser, by, protractor } from 'protractor';
 import { Component } from '../component';
 import { waitForPresence, waitElement } from '../../utilities/utils';
-import { BrowserActions, BrowserVisibility } from '@alfresco/adf-testing';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 export class SearchInput extends Component {
   searchButton = this.component.element(by.css('.app-search-button'));
@@ -45,10 +45,6 @@ export class SearchInput extends Component {
 
   async waitForSearchControl() {
     await waitForPresence(this.searchControl);
-  }
-
-  async waitForSearchInputToBeInteractive() {
-    await BrowserVisibility.waitUntilElementIsClickable(this.searchControl);
   }
 
   async isSearchContainerDisplayed() {
@@ -154,7 +150,6 @@ export class SearchInput extends Component {
   }
 
   async searchFor(text: string) {
-    await this.waitForSearchInputToBeInteractive();
     await BrowserActions.clearWithBackSpace(this.searchInput);
     await this.searchInput.sendKeys(text);
     await this.searchInput.sendKeys(protractor.Key.ENTER);

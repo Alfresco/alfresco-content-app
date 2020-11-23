@@ -144,7 +144,7 @@ exports.config = {
   framework: 'jasmine',
   jasmineNodeOpts: {
     showColors: true,
-    defaultTimeoutInterval: 150000,
+    defaultTimeoutInterval: 600000,
     includeStackTrace: true,
     print: function () {},
     ...SmartRunner.withOptionalExclusions(resolve(__dirname, './e2e/protractor.excludes.json'))

@@ -269,7 +269,7 @@ describe('Share a file', () => {
         expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expiration is not checked');
         expect(await shareDialog.getExpireDate()).not.toBe('', 'Expire date input is empty');
 
-        await shareDialog.expireToggle.click();
+        await BrowserActions.click(shareDialog.expireToggle);
         expect(await shareDialog.isExpireToggleEnabled()).toBe(false, 'Expiration is checked');
         expect(await shareDialog.getExpireDate()).toBe('', 'Expire date input is not empty');
 
@@ -297,7 +297,7 @@ describe('Share a file', () => {
       it('[C286345] Share a file from the context menu', async () => {
         await dataTable.rightClickOnItem(file9);
         await contextMenu.waitForMenuToOpen();
-        await contextMenu.shareAction.click();
+        await BrowserActions.click(contextMenu.shareAction);
         await shareDialog.waitForDialogToOpen();
 
         const url = await shareDialog.getLinkUrl();
@@ -397,7 +397,7 @@ describe('Share a file', () => {
         const url = await shareDialog.getLinkUrl();
         expect(url).toContain(shareLinkPreUrl);
 
-        await shareDialog.urlAction.click();
+        await BrowserActions.click(shareDialog.urlAction);
         expect(await page.getSnackBarMessage()).toBe('Link copied to the clipboard');
 
         await browser.get(url);
@@ -412,9 +412,9 @@ describe('Share a file', () => {
         await BrowserActions.click(toolbar.shareButton);
         await shareDialog.waitForDialogToOpen();
 
-        await shareDialog.expireToggle.click();
+        await BrowserActions.click(shareDialog.expireToggle);
         expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expire toggle not checked');
-        await shareDialog.datetimePickerButton.click();
+        await BrowserActions.click(shareDialog.datetimePickerButton);
         expect(await shareDialog.dateTimePicker.isCalendarOpen()).toBe(true, 'Calendar not opened');
         const date = await shareDialog.dateTimePicker.setDefaultDay();
         await shareDialog.dateTimePicker.waitForDateTimePickerToClose();
@@ -448,7 +448,7 @@ describe('Share a file', () => {
         expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expiration is not checked');
         expect(await shareDialog.getExpireDate()).not.toBe('', 'Expire date input is empty');
 
-        await shareDialog.expireToggle.click();
+        await BrowserActions.click(shareDialog.expireToggle);
         expect(await shareDialog.isExpireToggleEnabled()).toBe(false, 'Expiration is checked');
         expect(await shareDialog.getExpireDate()).toBe('', 'Expire date input is not empty');
 
@@ -476,7 +476,7 @@ describe('Share a file', () => {
       it('[C286647] Share a file from the context menu', async () => {
         await dataTable.rightClickOnItem(file9);
         await contextMenu.waitForMenuToOpen();
-        await contextMenu.shareAction.click();
+        await BrowserActions.click(contextMenu.shareAction);
         await shareDialog.waitForDialogToOpen();
 
         const url = await shareDialog.getLinkUrl();
@@ -573,7 +573,7 @@ describe('Share a file', () => {
         const url = await shareDialog.getLinkUrl();
         expect(url).toContain(shareLinkPreUrl);
 
-        await shareDialog.urlAction.click();
+        await BrowserActions.click(shareDialog.urlAction);
         expect(await page.getSnackBarMessage()).toBe('Link copied to the clipboard');
 
         await browser.get(url);
@@ -588,9 +588,9 @@ describe('Share a file', () => {
         await BrowserActions.click(toolbar.shareButton);
         await shareDialog.waitForDialogToOpen();
 
-        await shareDialog.expireToggle.click();
+        await BrowserActions.click(shareDialog.expireToggle);
         expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expire toggle not checked');
-        await shareDialog.datetimePickerButton.click();
+        await BrowserActions.click(shareDialog.datetimePickerButton);
         expect(await shareDialog.dateTimePicker.isCalendarOpen()).toBe(true, 'Calendar not opened');
         const date = await shareDialog.dateTimePicker.setDefaultDay();
         await shareDialog.dateTimePicker.waitForDateTimePickerToClose();
@@ -624,7 +624,7 @@ describe('Share a file', () => {
         expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expiration is not checked');
         expect(await shareDialog.getExpireDate()).not.toBe('', 'Expire date input is empty');
 
-        await shareDialog.expireToggle.click();
+        await BrowserActions.click(shareDialog.expireToggle);
         expect(await shareDialog.isExpireToggleEnabled()).toBe(false, 'Expiration is checked');
         expect(await shareDialog.getExpireDate()).toBe('', 'Expire date input is not empty');
 
@@ -652,7 +652,7 @@ describe('Share a file', () => {
       it('[C286665] Share a file from the context menu', async () => {
         await dataTable.rightClickOnItem(file9);
         await contextMenu.waitForMenuToOpen();
-        await contextMenu.shareAction.click();
+        await BrowserActions.click(contextMenu.shareAction);
         await shareDialog.waitForDialogToOpen();
 
         const url = await shareDialog.getLinkUrl();
@@ -735,7 +735,7 @@ describe('Share a file', () => {
         const url = await shareDialog.getLinkUrl();
         expect(url).toContain(shareLinkPreUrl);
 
-        await shareDialog.urlAction.click();
+        await BrowserActions.click(shareDialog.urlAction);
         expect(await page.getSnackBarMessage()).toBe('Link copied to the clipboard');
 
         await browser.get(url);
@@ -764,7 +764,7 @@ describe('Share a file', () => {
         expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expiration is not checked');
         expect(await shareDialog.getExpireDate()).not.toBe('', 'Expire date input is empty');
 
-        await shareDialog.expireToggle.click();
+        await BrowserActions.click(shareDialog.expireToggle);
         expect(await shareDialog.isExpireToggleEnabled()).toBe(false, 'Expiration is checked');
         expect(await shareDialog.getExpireDate()).toBe('', 'Expire date input is not empty');
 
@@ -792,7 +792,8 @@ describe('Share a file', () => {
       it('[C286656] Open Share dialog from context menu', async () => {
         await dataTable.rightClickOnItem(file7);
         await contextMenu.waitForMenuToOpen();
-        await contextMenu.shareEditAction.click();
+        await BrowserActions.click(contextMenu.shareEditAction);
+
         await shareDialog.waitForDialogToOpen();
 
         expect(await shareDialog.getTitle()).toEqual(`Share ${file7}`);
@@ -904,7 +905,7 @@ describe('Share a file', () => {
         const url = await shareDialog.getLinkUrl();
         expect(url).toContain(shareLinkPreUrl);
 
-        await shareDialog.urlAction.click();
+        await BrowserActions.click(shareDialog.urlAction);
         expect(await page.getSnackBarMessage()).toBe('Link copied to the clipboard');
 
         await browser.get(url);
@@ -919,9 +920,9 @@ describe('Share a file', () => {
         await BrowserActions.click(toolbar.shareButton);
         await shareDialog.waitForDialogToOpen();
 
-        await shareDialog.expireToggle.click();
+        await BrowserActions.click(shareDialog.expireToggle);
         expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expire toggle not checked');
-        await shareDialog.datetimePickerButton.click();
+        await BrowserActions.click(shareDialog.datetimePickerButton);
         expect(await shareDialog.dateTimePicker.isCalendarOpen()).toBe(true, 'Calendar not opened');
         const date = await shareDialog.dateTimePicker.setDefaultDay();
         await shareDialog.dateTimePicker.waitForDateTimePickerToClose();
@@ -955,7 +956,7 @@ describe('Share a file', () => {
         expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expiration is not checked');
         expect(await shareDialog.getExpireDate()).not.toBe('', 'Expire date input is empty');
 
-        await shareDialog.expireToggle.click();
+        await BrowserActions.click(shareDialog.expireToggle);
         expect(await shareDialog.isExpireToggleEnabled()).toBe(false, 'Expiration is checked');
         expect(await shareDialog.getExpireDate()).toBe('', 'Expire date input is not empty');
 
@@ -983,7 +984,7 @@ describe('Share a file', () => {
       it('[C286674] Share a file from the context menu', async () => {
         await dataTable.rightClickOnItem(file9);
         await contextMenu.waitForMenuToOpen();
-        await contextMenu.shareAction.click();
+        await BrowserActions.click(contextMenu.shareAction);
         await shareDialog.waitForDialogToOpen();
 
         const url = await shareDialog.getLinkUrl();
@@ -1055,9 +1056,9 @@ describe('Share a file', () => {
         await BrowserActions.click(toolbar.shareButton);
         await shareDialog.waitForDialogToOpen();
 
-        await shareDialog.expireToggle.click();
+        await BrowserActions.click(shareDialog.expireToggle);
         expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expire toggle not checked');
-        await shareDialog.datetimePickerButton.click();
+        await BrowserActions.click(shareDialog.datetimePickerButton);
         expect(await shareDialog.dateTimePicker.isCalendarOpen()).toBe(true, 'Calendar not opened');
         const date = await shareDialog.dateTimePicker.setDefaultDay();
         await shareDialog.dateTimePicker.waitForDateTimePickerToClose();
