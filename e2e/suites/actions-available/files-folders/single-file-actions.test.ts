@@ -268,7 +268,7 @@ describe('Files - available actions : ', () => {
     });
 
     describe('Viewer - file opened from Search Results : ', () => {
-      beforeAll(async () => {
+      beforeEach(async () => {
         await searchInput.clickSearchButton();
       });
 
