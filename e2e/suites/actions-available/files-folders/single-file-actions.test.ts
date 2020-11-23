@@ -226,7 +226,7 @@ describe('Files - available actions : ', () => {
   });
 
   describe('on Search Results : ', () => {
-    beforeAll(async () => {
+    beforeEach(async () => {
       await page.clickPersonalFiles();
       await searchInput.clickSearchButton();
     });
