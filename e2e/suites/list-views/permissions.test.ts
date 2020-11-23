@@ -99,10 +99,10 @@ describe('Special permissions', () => {
 
     it('[C213116] on Shared Files', async () => {
       await page.clickSharedFilesAndWait();
-      expect(await dataTable.getRowsCount()).toBe(initialSharedTotalItems + 1, 'Incorrect number of items');
+      expect(await dataTable.isItemPresent(fileName)).toBe(true, `${fileName} not displayed`);
       await adminApiActions.sites.deleteSiteMember(sitePrivate, username);
       await page.refresh();
-      expect(await dataTable.getRowsCount()).toBe(initialSharedTotalItems, 'Incorrect number of items');
+      expect(await dataTable.isItemPresent(fileName)).toBe(false, `${fileName} is displayed`);
     });
 
     it('[C290122] on Search Results', async () => {
@@ -165,7 +165,7 @@ describe('Special permissions', () => {
 
     it(`[C213668] on Shared Files`, async () => {
       await page.clickSharedFilesAndWait();
-      expect(await dataTable.getRowsCount()).toBe(initialSharedTotalItems + 1, 'Incorrect number of items');
+      expect(await dataTable.isItemPresent(fileName)).toBe(true, `${fileName} not displayed`);
       expect(await dataTable.getItemLocation(fileName)).toEqual('Unknown');
     });
 

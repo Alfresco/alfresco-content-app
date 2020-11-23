@@ -25,7 +25,7 @@
 
 import { BrowsingPage, LoginPage, Utils } from '@alfresco/aca-testing-shared';
 
-export function searchResultsTests(username: string) {
+export function searchResultsTests(username: string, random: string) {
   const page = new BrowsingPage();
   const loginPage = new LoginPage();
   const { dataTable, pagination } = page;
@@ -35,7 +35,7 @@ export function searchResultsTests(username: string) {
     beforeAll(async () => {
       await loginPage.loginWith(username);
       await searchInput.clickSearchButton();
-      await searchInput.searchFor('my-file-');
+      await searchInput.searchFor(random);
       await dataTable.waitForBody();
     });
 
