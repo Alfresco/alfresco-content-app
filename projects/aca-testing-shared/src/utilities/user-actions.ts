@@ -23,6 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { Logger } from '@alfresco/adf-testing';
 import { AlfrescoApi, Comment, CommentsApi, NodesApi, TrashcanApi, SitesApi, SharedlinksApi } from '@alfresco/js-api';
 import { browser } from 'protractor';
 import { Utils } from './utils';
@@ -54,17 +55,30 @@ export class UserActions {
     this.username = username || this.username;
     this.password = password || this.password;
 
-    return this.alfrescoApi.login(this.username, this.password);
+    try {
+      return this.alfrescoApi.login(this.username, this.password);
+    } catch (error) {
+      this.handleError('User Actions - login failed : ', error);
+    }
   }
 
   async logout(): Promise<any> {
-    await this.alfrescoApi.login(this.username, this.password);
-    return this.alfrescoApi.logout();
+    try {
+      await this.alfrescoApi.login(this.username, this.password);
+      return this.alfrescoApi.logout();
+    } catch (error) {
+      this.handleError('User Actions - logout failed : ', error);
+    }
   }
 
-  async createComment(nodeId: string, content: string): Promise<Comment> {
-    const comment = await this.commentsApi.createComment(nodeId, { content });
-    return comment?.entry;
+  async createComment(nodeId: string, content: string): Promise<Comment | null> {
+    try {
+      const comment = await this.commentsApi.createComment(nodeId, { content });
+      return comment?.entry;
+    } catch (error) {
+      this.handleError('User Actions - createComment failed : ', error);
+      return null;
+    }
   }
 
   /**
@@ -73,8 +87,12 @@ export class UserActions {
    * @param permanent Delete permanently, without moving to the trashcan? (default: true)
    */
   async deleteNodes(nodeIds: string[], permanent: boolean = true): Promise<any> {
-    for (const nodeId of nodeIds) {
-      await this.nodesApi.deleteNode(nodeId, { permanent });
+    try {
+      for (const nodeId of nodeIds) {
+        await this.nodesApi.deleteNode(nodeId, { permanent });
+      }
+    } catch (error) {
+      this.handleError('User Actions - deleteNodes failed : ', error);
     }
   }
 
@@ -82,18 +100,22 @@ export class UserActions {
    * Empties the trashcan. Uses multiple batches 1000 nodes each.
    */
   async emptyTrashcan(): Promise<any> {
-    const nodes = await this.trashcanApi.listDeletedNodes({
-      maxItems: 1000
-    });
+    try {
+      const nodes = await this.trashcanApi.listDeletedNodes({
+        maxItems: 1000
+      });
 
-    if (nodes?.list?.entries && nodes?.list?.entries?.length > 0) {
-      const ids = nodes.list.entries.map((entries) => entries.entry.id);
+      if (nodes?.list?.entries && nodes?.list?.entries?.length > 0) {
+        const ids = nodes.list.entries.map((entries) => entries.entry.id);
 
-      for (const nodeId of ids) {
-        await this.trashcanApi.deleteDeletedNode(nodeId);
+        for (const nodeId of ids) {
+          await this.trashcanApi.deleteDeletedNode(nodeId);
+        }
+
+        await this.emptyTrashcan();
       }
-
-      await this.emptyTrashcan();
+    } catch (error) {
+      this.handleError('User Actions - emptyTrashcan failed : ', error);
     }
   }
 
@@ -102,11 +124,16 @@ export class UserActions {
    * TODO: limited to 1000 items only, needs improvements.
    */
   async getTrashcanSize(): Promise<number> {
-    const response = await this.trashcanApi.listDeletedNodes({
-      maxItems: 1000
-    });
+    try {
+      const response = await this.trashcanApi.listDeletedNodes({
+        maxItems: 1000
+      });
 
-    return response?.list?.pagination?.totalItems || 0;
+      return response?.list?.pagination?.totalItems || 0;
+    } catch (error) {
+      this.handleError('User Actions - getTrashcanSize failed : ', error);
+      return -1;
+    }
   }
 
   /**
@@ -115,15 +142,20 @@ export class UserActions {
    * @param expectedSize Size of the trashcan to wait for.
    */
   async waitForTrashcanSize(expectedSize: number): Promise<number> {
-    return Utils.retryCall(async () => {
-      const totalItems = await this.getTrashcanSize();
+    try {
+      return Utils.retryCall(async () => {
+        const totalItems = await this.getTrashcanSize();
 
-      if (totalItems !== expectedSize) {
-        return Promise.reject(totalItems);
-      } else {
-        return Promise.resolve(totalItems);
-      }
-    });
+        if (totalItems !== expectedSize) {
+          return Promise.reject(totalItems);
+        } else {
+          return Promise.resolve(totalItems);
+        }
+      });
+    } catch (error) {
+      this.handleError('User Actions - waitForTrashcanSize failed : ', error);
+      return -1;
+    }
   }
 
   /**
@@ -131,8 +163,12 @@ export class UserActions {
    * @param nodeIds The list of node IDs to unlock.
    */
   async unlockNodes(nodeIds: string[]): Promise<any> {
-    for (const nodeId of nodeIds) {
-      await this.nodesApi.unlockNode(nodeId);
+    try {
+      for (const nodeId of nodeIds) {
+        await this.nodesApi.unlockNode(nodeId);
+      }
+    } catch (error) {
+      this.handleError('User Actions - unlockNodes failed : ', error);
     }
   }
 
@@ -142,10 +178,14 @@ export class UserActions {
    * @param permanent Delete permanently, without moving to the trashcan? (default: true)
    */
   async deleteSites(siteIds: string[], permanent: boolean = true) {
-    if (siteIds && siteIds.length > 0) {
-      for (const siteId of siteIds) {
-        await this.sitesApi.deleteSite(siteId, { permanent });
+    try {
+      if (siteIds && siteIds.length > 0) {
+        for (const siteId of siteIds) {
+          await this.sitesApi.deleteSite(siteId, { permanent });
+        }
       }
+    } catch (error) {
+      this.handleError('User Actions - deleteSites failed : ', error);
     }
   }
 
@@ -155,11 +195,31 @@ export class UserActions {
    * @param expiresAt (optional) Expiration date.
    */
   async shareNodes(nodeIds: string[], expiresAt?: Date): Promise<any> {
-    for (const nodeId of nodeIds) {
-      await this.sharedLinksApi.createSharedLink({
-        nodeId,
-        expiresAt
-      });
+    try {
+      for (const nodeId of nodeIds) {
+        await this.sharedLinksApi.createSharedLink({
+          nodeId,
+          expiresAt
+        });
+      }
+    } catch (error) {
+      this.handleError('User Actions - shareNodes failed : ', error);
     }
+  }
+
+  protected handleError(message: string, response: any) {
+    Logger.error(`\n--- ${message} error :`);
+    Logger.error('\t>>> username: ', this.username);
+    Logger.error('\t>>> JSON: ', JSON.stringify(browser.params.config));
+    if (response.status && response.response) {
+      try {
+        Logger.error('\t>>> Status: ', response.status);
+        Logger.error('\t>>> Text: ', response.response.text);
+        Logger.error('\t>>> Method: ', response.response.error.method);
+        Logger.error('\t>>> Path: ', response.response.error.path);
+      } catch {
+        Logger.error('\t>>> ', response);
+      }
+    } else Logger.error('\t>>> ', response);
   }
 }
