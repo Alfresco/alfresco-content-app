@@ -517,7 +517,7 @@ describe('Delete and undo delete', () => {
         await userActions.deleteNodes([parentId]);
         await userActions.emptyTrashcan();
       } catch (error) {
-        console.log(`----- afterAll failed : ${error}`);
+        Logger.error(`----- afterAll failed : ${error}`);
       }
     });
 
