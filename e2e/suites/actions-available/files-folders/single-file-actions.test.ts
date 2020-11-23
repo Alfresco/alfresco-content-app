@@ -229,7 +229,7 @@ describe('Files - available actions : ', () => {
     beforeAll(async () => {
       await page.clickPersonalFiles();
       await searchInput.clickSearchButton();
-      await searchInput.searchFor('fileActions-');
+      await searchInput.searchFor(testData.file.name);
       await searchResultsPage.waitForResults();
     });
 
@@ -260,7 +260,7 @@ describe('Files - available actions : ', () => {
     describe('Viewer - file opened from Search Results : ', () => {
       beforeAll(async () => {
         await searchInput.clickSearchButton();
-        await searchInput.searchFor('fileActions-');
+        await searchInput.searchFor(testData.file.name);
         await searchResultsPage.waitForResults();
       });
 
