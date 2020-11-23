@@ -44,7 +44,7 @@ export function searchResultsTests(username: string) {
     });
 
     it('[C290125] Pagination control default values', async () => {
-      expect(await pagination.getRange()).toContain('1-25 of 51');
+      expect(await pagination.getRange()).toContain('1-25 of');
       expect(await pagination.getMaxItems()).toContain('25');
       expect(await pagination.getCurrentPage()).toContain('Page 1');
       expect(await pagination.getTotalPages()).toContain('of 3');
