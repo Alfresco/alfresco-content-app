@@ -41,7 +41,7 @@ export class DateTimePicker extends Component {
   }
 
   async waitForDateTimePickerToClose(): Promise<void> {
-    return await BrowserVisibility.waitUntilElementIsNotPresent(this.calendar);
+    return BrowserVisibility.waitUntilElementIsNotPresent(this.calendar);
   }
 
   async isCalendarOpen(): Promise<boolean> {

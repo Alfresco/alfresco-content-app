@@ -199,12 +199,12 @@ describe('Breadcrumb', () => {
     const user2 = `user2-${Utils.random()}`;
     const userFolder = `userFolder-${Utils.random()}`;
     let userFolderId: string;
-    const repoClient = new RepoClient(user2, user2);
+    const repoClient2 = new RepoClient(user2, user2);
 
     beforeAll(async (done) => {
       await adminApiActions.createUser({ username: user2 });
-      await repoClient.login();
-      userFolderId = (await repoClient.nodes.createFolder(userFolder)).entry.id;
+      await repoClient2.login();
+      userFolderId = (await repoClient2.nodes.createFolder(userFolder)).entry.id;
       await loginPage.loginWithAdmin();
       await page.dataTable.waitForBody();
 
@@ -214,7 +214,7 @@ describe('Breadcrumb', () => {
     });
 
     afterAll(async (done) => {
-      await repoClient.nodes.deleteNodeById(userFolderId);
+      await repoClient2.nodes.deleteNodeById(userFolderId);
       done();
     });
 

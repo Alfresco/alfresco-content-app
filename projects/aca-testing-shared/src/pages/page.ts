@@ -44,8 +44,7 @@ export abstract class Page {
   uploadDialog = this.byCss('.adf-upload-dialog');
   closeUploadButton = this.byCss('.adf-upload-dialog [id="adf-upload-dialog-close"]');
 
-  constructor(public url: string = '') {
-  }
+  constructor(public url: string = '') {}
 
   protected byCss(css: string): ElementFinder {
     return browser.element(by.css(css));
