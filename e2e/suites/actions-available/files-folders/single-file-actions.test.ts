@@ -229,26 +229,36 @@ describe('Files - available actions : ', () => {
     beforeAll(async () => {
       await page.clickPersonalFiles();
       await searchInput.clickSearchButton();
-      await searchInput.searchFor(testData.file.name);
-      await searchResultsPage.waitForResults();
     });
 
     it('[C297638] File simple', async () => {
+      await searchInput.searchFor(testData.file.name);
+      await searchResultsPage.waitForResults();
+
       await testUtil.checkToolbarActions(testData.file.name, testData.file.searchToolbarPrimary, testData.file.searchToolbarMore);
       await testUtil.checkContextMenu(testData.file.name, testData.file.searchContextMenu);
     });
 
     it('[C280661] File favorite', async () => {
+      await searchInput.searchFor(testData.fileFav.name);
+      await searchResultsPage.waitForResults();
+
       await testUtil.checkToolbarActions(testData.fileFav.name, testData.fileFav.searchToolbarPrimary, testData.fileFav.searchToolbarMore);
       await testUtil.checkContextMenu(testData.fileFav.name, testData.fileFav.searchContextMenu);
     });
 
     it('[C280632] File shared', async () => {
+      await searchInput.searchFor(testData.fileShared.name);
+      await searchResultsPage.waitForResults();
+
       await testUtil.checkToolbarActions(testData.fileShared.name, testData.fileShared.searchToolbarPrimary, testData.fileShared.searchToolbarMore);
       await testUtil.checkContextMenu(testData.fileShared.name, testData.fileShared.searchContextMenu);
     });
 
     it('[C280641] File shared, favorite', async () => {
+      await searchInput.searchFor(testData.fileSharedFav.name);
+      await searchResultsPage.waitForResults();
+
       await testUtil.checkToolbarActions(
         testData.fileSharedFav.name,
         testData.fileSharedFav.searchToolbarPrimary,
@@ -260,19 +270,24 @@ describe('Files - available actions : ', () => {
     describe('Viewer - file opened from Search Results : ', () => {
       beforeAll(async () => {
         await searchInput.clickSearchButton();
-        await searchInput.searchFor(testData.file.name);
-        await searchResultsPage.waitForResults();
       });
 
       it('File simple - [C326716]', async () => {
+        await searchInput.searchFor(testData.file.name);
+        await searchResultsPage.waitForResults();
         await testUtil.checkViewerActions(testData.file.name, testData.file.viewerToolbarPrimary, testData.file.searchViewerToolbarMore);
       });
 
       it('File favorite - [C326717]', async () => {
+        await searchInput.searchFor(testData.fileFav.name);
+        await searchResultsPage.waitForResults();
         await testUtil.checkViewerActions(testData.fileFav.name, testData.fileFav.viewerToolbarPrimary, testData.fileFav.searchViewerToolbarMore);
       });
 
       it('File shared - [C326720]', async () => {
+        await searchInput.searchFor(testData.fileShared.name);
+        await searchResultsPage.waitForResults();
+
         await testUtil.checkViewerActions(
           testData.fileShared.name,
           testData.fileShared.viewerToolbarPrimary,
@@ -281,6 +296,9 @@ describe('Files - available actions : ', () => {
       });
 
       it('File shared, favorite - [C326721]', async () => {
+        await searchInput.searchFor(testData.fileSharedFav.name);
+        await searchResultsPage.waitForResults();
+
         await testUtil.checkViewerActions(
           testData.fileSharedFav.name,
           testData.fileSharedFav.viewerToolbarPrimary,
