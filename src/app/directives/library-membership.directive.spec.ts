@@ -24,18 +24,19 @@
  */
 
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { AlfrescoApiService, AlfrescoApiServiceMock, AppConfigService, CoreModule, StorageService } from '@alfresco/adf-core';
+import { AlfrescoApiService, AlfrescoApiServiceMock, AppConfigService, CoreModule, SitesService, StorageService } from '@alfresco/adf-core';
 import { AppTestingModule } from '../testing/app-testing.module';
 import { DirectivesModule } from './directives.module';
 import { LibraryMembershipDirective } from './library-membership.directive';
 import { NO_ERRORS_SCHEMA, SimpleChange } from '@angular/core';
-import { throwError } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 
 describe('LibraryMembershipDirective', () => {
   let alfrescoApiService: AlfrescoApiService;
   let directive: LibraryMembershipDirective;
   let peopleApi;
+  let sitesService;
   let addMembershipSpy;
   let getMembershipSpy;
   let deleteMembershipSpy;
@@ -58,8 +59,9 @@ describe('LibraryMembershipDirective', () => {
       schemas: [NO_ERRORS_SCHEMA]
     });
     alfrescoApiService = new AlfrescoApiServiceMock(new AppConfigService(null), new StorageService());
+    sitesService = new SitesService(alfrescoApiService);
     peopleApi = alfrescoApiService.getInstance().core.peopleApi;
-    directive = new LibraryMembershipDirective(alfrescoApiService);
+    directive = new LibraryMembershipDirective(alfrescoApiService, sitesService);
   });
 
   describe('markMembershipRequest', () => {
@@ -139,6 +141,19 @@ describe('LibraryMembershipDirective', () => {
       tick();
       expect(addMembershipSpy).toHaveBeenCalled();
       expect(deleteMembershipSpy).not.toHaveBeenCalled();
+    }));
+
+    it('should call API to add user to library if admin user', fakeAsync(() => {
+      const createSiteMembershipSpy = spyOn(sitesService, 'createSiteMembership').and.returnValue(of({}));
+      const selection = { entry: { id: 'no-membership-requested' } };
+      const selectionChange = new SimpleChange(null, selection, true);
+      directive.isAdmin = true;
+      directive.ngOnChanges({ selection: selectionChange });
+      tick();
+      directive.toggleMembershipRequest();
+      tick();
+      expect(createSiteMembershipSpy).toHaveBeenCalled();
+      expect(addMembershipSpy).not.toHaveBeenCalled();
     }));
 
     it('should emit error when the request to join a library fails', fakeAsync(() => {

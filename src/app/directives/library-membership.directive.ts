@@ -24,8 +24,8 @@
  */
 
 import { Directive, EventEmitter, HostListener, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-import { SiteEntry, SiteMembershipRequestBody } from '@alfresco/js-api';
-import { AlfrescoApiService } from '@alfresco/adf-core';
+import { SiteEntry, SiteMemberEntry, SiteMembershipRequestBody } from '@alfresco/js-api';
+import { AlfrescoApiService, SitesService } from '@alfresco/adf-core';
 import { BehaviorSubject, from } from 'rxjs';
 
 export interface LibraryMembershipToggleEvent {
@@ -52,6 +52,10 @@ export class LibraryMembershipDirective implements OnChanges {
   @Input('acaLibraryMembership')
   selection: SiteEntry = null;
 
+  /** Site for which to toggle the membership request. */
+  @Input()
+  isAdmin = false;
+
   @Output()
   toggle = new EventEmitter<LibraryMembershipToggleEvent>();
 
@@ -64,7 +68,7 @@ export class LibraryMembershipDirective implements OnChanges {
     this.toggleMembershipRequest();
   }
 
-  constructor(private alfrescoApiService: AlfrescoApiService) {}
+  constructor(private alfrescoApiService: AlfrescoApiService, private sitesService: SitesService) {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (!changes.selection.currentValue || !changes.selection.currentValue.entry) {
@@ -103,7 +107,7 @@ export class LibraryMembershipDirective implements OnChanges {
       );
     }
 
-    if (!this.targetSite.joinRequested) {
+    if (!this.targetSite.joinRequested && !this.isAdmin) {
       this.joinLibraryRequest().subscribe(
         (createdMembership) => {
           this.targetSite.joinRequested = true;
@@ -120,6 +124,39 @@ export class LibraryMembershipDirective implements OnChanges {
               updatedEntry: this.targetSite,
               shouldReload: false,
               i18nKey: 'APP.MESSAGES.INFO.JOIN_REQUESTED'
+            };
+            this.toggle.emit(info);
+          }
+        },
+        (error) => {
+          const errWithMessage = {
+            error,
+            i18nKey: 'APP.MESSAGES.ERRORS.JOIN_REQUEST_FAILED'
+          };
+
+          const senderEmailCheck = 'Failed to resolve sender mail address';
+          const receiverEmailCheck = 'All recipients for the mail action were invalid';
+
+          if (error.message) {
+            if (error.message.includes(senderEmailCheck)) {
+              errWithMessage.i18nKey = 'APP.MESSAGES.ERRORS.INVALID_SENDER_EMAIL';
+            } else if (error.message.includes(receiverEmailCheck)) {
+              errWithMessage.i18nKey = 'APP.MESSAGES.ERRORS.INVALID_RECEIVER_EMAIL';
+            }
+          }
+
+          this.error.emit(errWithMessage);
+        }
+      );
+    }
+
+    if (this.isAdmin) {
+      this.joinLibrary().subscribe(
+        (createdMembership: SiteMemberEntry) => {
+          if (createdMembership.entry && createdMembership.entry.role) {
+            const info = {
+              shouldReload: true,
+              i18nKey: 'APP.MESSAGES.INFO.JOINED'
             };
             this.toggle.emit(info);
           }
@@ -172,6 +209,13 @@ export class LibraryMembershipDirective implements OnChanges {
     } as SiteMembershipRequestBody;
 
     return from(this.alfrescoApiService.peopleApi.addSiteMembershipRequest('-me-', memberBody));
+  }
+
+  private joinLibrary() {
+    return this.sitesService.createSiteMembership(this.targetSite.id, {
+      role: 'SiteConsumer',
+      id: '-me-'
+    });
   }
 
   private cancelJoinRequest() {

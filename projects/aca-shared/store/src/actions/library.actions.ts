@@ -31,7 +31,8 @@ export enum LibraryActionTypes {
   Create = 'CREATE_LIBRARY',
   Navigate = 'NAVIGATE_LIBRARY',
   Update = 'UPDATE_LIBRARY',
-  Leave = 'LEAVE_LIBRARY'
+  Leave = 'LEAVE_LIBRARY',
+  Reload = 'RELOAD_LIBRARY'
 }
 
 export class DeleteLibraryAction implements Action {
@@ -60,4 +61,7 @@ export class LeaveLibraryAction implements Action {
   readonly type = LibraryActionTypes.Leave;
 
   constructor(public payload?: string) {}
+}
+export class ReloadLibraryAction implements Action {
+  readonly type = LibraryActionTypes.Reload;
 }
