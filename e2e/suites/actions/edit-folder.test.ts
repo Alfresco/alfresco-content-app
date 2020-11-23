@@ -31,8 +31,7 @@ import {
   SITE_ROLES,
   RepoClient,
   CreateOrEditFolderDialog,
-  Utils,
-  clearTextWithBackspace
+  Utils
 } from '@alfresco/aca-testing-shared';
 import { BrowserActions } from '@alfresco/adf-testing';
 
@@ -181,7 +180,7 @@ describe('Edit folder', () => {
       await dataTable.selectItem(folderName);
       await toolbar.openMoreMenu();
       await BrowserActions.click(toolbar.menu.editFolderAction);
-      await clearTextWithBackspace(editDialog.nameInput);
+      await BrowserActions.clearWithBackSpace(editDialog.nameInput);
 
       expect(await editDialog.isUpdateButtonEnabled()).toBe(false, 'upload button is not enabled');
       expect(await editDialog.getValidationMessage()).toMatch('Folder name is required');

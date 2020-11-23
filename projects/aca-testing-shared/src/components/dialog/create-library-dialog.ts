@@ -25,7 +25,7 @@
 
 import { by, ElementFinder } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
-import { isPresentAndEnabled, typeText } from '../../utilities/utils';
+import { isPresentAndEnabled } from '../../utilities/utils';
 import { BrowserActions, BrowserVisibility } from '@alfresco/adf-testing';
 
 export class CreateLibraryDialog extends GenericDialog {
@@ -58,15 +58,15 @@ export class CreateLibraryDialog extends GenericDialog {
   }
 
   async enterName(name: string): Promise<void> {
-    await typeText(this.nameInput, name);
+    await BrowserActions.clearSendKeys(this.nameInput, name);
   }
 
   async enterLibraryId(id: string): Promise<void> {
-    await typeText(this.libraryIdInput, id);
+    await BrowserActions.clearSendKeys(this.libraryIdInput, id);
   }
 
   async enterDescription(description: string): Promise<void> {
-    await typeText(this.descriptionTextArea, description);
+    await BrowserActions.clearSendKeys(this.descriptionTextArea, description);
   }
 
   async isCreateEnabled(): Promise<boolean> {

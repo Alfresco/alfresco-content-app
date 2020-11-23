@@ -25,7 +25,7 @@
 
 import { by, browser } from 'protractor';
 import { Component } from '../component';
-import { isPresentAndDisplayed, waitForStaleness } from '../../utilities/utils';
+import { isPresentAndDisplayed } from '../../utilities/utils';
 const moment = require('moment');
 import { BrowserActions } from '@alfresco/adf-testing';
 
@@ -41,7 +41,7 @@ export class DateTimePicker extends Component {
   }
 
   async waitForDateTimePickerToClose(): Promise<void> {
-    return waitForStaleness(this.calendar);
+    return await BrowserVisibility.waitUntilElementIsNotPresent(this.calendar);
   }
 
   async isCalendarOpen(): Promise<boolean> {

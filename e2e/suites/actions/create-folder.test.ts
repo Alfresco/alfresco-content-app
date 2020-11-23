@@ -29,7 +29,6 @@ import {
   BrowsingPage,
   CreateOrEditFolderDialog,
   Utils,
-  clearTextWithBackspace,
   RepoClient
 } from '@alfresco/aca-testing-shared';
 import { BrowserActions } from '@alfresco/adf-testing';
@@ -136,7 +135,7 @@ describe('Create folder', () => {
       await page.dataTable.doubleClickOnRowByName(parent);
       await page.sidenav.openCreateFolderDialog();
       await createDialog.waitForDialogToOpen();
-      await clearTextWithBackspace(createDialog.nameInput);
+      await BrowserActions.clearWithBackSpace(createDialog.nameInput);
 
       expect(await createDialog.isCreateButtonEnabled()).toBe(false, 'Create button is enabled');
       expect(await createDialog.getValidationMessage()).toMatch('Folder name is required');

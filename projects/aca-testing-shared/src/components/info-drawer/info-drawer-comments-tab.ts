@@ -26,7 +26,6 @@
 import { by, browser, until } from 'protractor';
 import { Component } from '../component';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
-import { typeText } from '../../utilities/utils';
 import { BrowserActions, BrowserVisibility } from '@alfresco/adf-testing';
 
 export class CommentsTab extends Component {
@@ -108,7 +107,7 @@ export class CommentsTab extends Component {
   }
 
   async typeComment(text: string): Promise<void> {
-    await typeText(this.commentTextarea, text);
+    await BrowserActions.clearSendKeys(this.commentTextarea, text);
   }
 
   async clickAddButton(): Promise<void> {

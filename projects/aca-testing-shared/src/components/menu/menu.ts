@@ -26,7 +26,7 @@
 import { ElementFinder, by, browser } from 'protractor';
 import { Logger, BrowserVisibility, BrowserActions } from '@alfresco/adf-testing';
 import { Component } from '../component';
-import { Utils, isPresentAndEnabled, waitForPresence, waitForStaleness } from '../../utilities/utils';
+import { Utils, isPresentAndEnabled } from '../../utilities/utils';
 
 export class Menu extends Component {
   items = this.allByCss('.mat-menu-item');
@@ -71,12 +71,12 @@ export class Menu extends Component {
   }
 
   async waitForMenuToOpen(): Promise<void> {
-    await waitForPresence(browser.element(by.css('.cdk-overlay-container .mat-menu-panel')));
+    await BrowserVidibility.waitUntilElementIsPresent(browser.element(by.css('.cdk-overlay-container .mat-menu-panel')));
     await BrowserVisibility.waitUntilElementIsVisible(this.items.get(0));
   }
 
   async waitForMenuToClose(): Promise<void> {
-    await waitForStaleness(browser.element(by.css('.cdk-overlay-container .mat-menu-panel')));
+    await BrowserVisibility.waitUntilElementIsNotPresent(browser.element(by.css('.cdk-overlay-container .mat-menu-panel')));
   }
 
   async closeMenu(): Promise<void> {

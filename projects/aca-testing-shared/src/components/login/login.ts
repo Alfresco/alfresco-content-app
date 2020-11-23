@@ -24,7 +24,7 @@
  */
 
 import { Component } from '../component';
-import { typeText } from '../../utilities/utils';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 export class LoginComponent extends Component {
   usernameInput = this.byCss('input#username');
@@ -39,11 +39,11 @@ export class LoginComponent extends Component {
   }
 
   async enterUsername(username: string): Promise<void> {
-    await typeText(this.usernameInput, username);
+    await BrowserActions.clearSendKeys(this.usernameInput, username);
   }
 
   async enterPassword(password: string): Promise<void> {
-    await typeText(this.passwordInput, password);
+    await BrowserActions.clearSendKeys(this.passwordInput, password);
   }
 
   async enterCredentials(username: string, password: string): Promise<void> {

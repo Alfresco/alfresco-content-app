@@ -25,7 +25,7 @@
 
 import { by } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
-import { isPresentAndDisplayed, isPresentAndEnabled, typeText } from '../../utilities/utils';
+import { isPresentAndDisplayed, isPresentAndEnabled } from '../../utilities/utils';
 import { BrowserActions, BrowserVisibility } from '@alfresco/adf-testing';
 
 export class CreateOrEditFolderDialog extends GenericDialog {
@@ -75,11 +75,11 @@ export class CreateOrEditFolderDialog extends GenericDialog {
   }
 
   async enterName(name: string): Promise<void> {
-    await typeText(this.nameInput, name);
+    await BrowserActions.clearSendKeys(this.nameInput, name);
   }
 
   async enterDescription(description: string): Promise<void> {
-    await typeText(this.descriptionTextArea, description);
+    await BrowserActions.clearSendKeys(this.descriptionTextArea, description);
   }
 
   async clickCancel(): Promise<void> {

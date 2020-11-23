@@ -29,7 +29,6 @@ import { UserInfo } from './user-info';
 import { Menu } from '../menu/menu';
 import { Toolbar } from './../toolbar/toolbar';
 import { SearchInput } from '../search/search-input';
-import { waitElement } from '../../utilities/utils';
 import { BrowserActions } from '@alfresco/adf-testing';
 
 export class Header extends Component {
@@ -64,7 +63,7 @@ export class Header extends Component {
     const expanded = await this.isSidenavExpanded();
     if (!expanded) {
       await BrowserActions.click(this.sidenavToggle);
-      await waitElement(`[data-automation-id='expanded']`);
+      await BrowserVisibility.waitUntilElementIsLocated(this.byCss(`[data-automation-id='expanded']`));
     }
   }
 
@@ -72,7 +71,7 @@ export class Header extends Component {
     const expanded = await this.isSidenavExpanded();
     if (expanded) {
       await BrowserActions.click(this.sidenavToggle);
-      await waitElement(`[data-automation-id='collapsed']`);
+      await BrowserVisibility.waitUntilElementIsLocated(this.byCss(`[data-automation-id='collapsed']`));
     }
   }
 }

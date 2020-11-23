@@ -29,7 +29,6 @@ import { Component } from '../component';
 import { CommentsTab } from './info-drawer-comments-tab';
 import { LibraryMetadata } from './info-drawer-metadata-library';
 import { ContentMetadata } from './info-drawer-metadata-content';
-import { waitForPresence } from '../../utilities/utils';
 
 export class InfoDrawer extends Component {
   commentsTab = new CommentsTab('adf-info-drawer');
@@ -49,7 +48,7 @@ export class InfoDrawer extends Component {
   }
 
   async waitForInfoDrawerToOpen() {
-    await waitForPresence(this.header);
+    await BrowserVidibility.waitUntilElementIsPresent(this.header);
   }
 
   async isOpen() {

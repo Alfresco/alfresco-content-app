@@ -24,7 +24,6 @@
  */
 
 import { ElementFinder, browser, by, ElementArrayFinder, ProtractorBrowser } from 'protractor';
-import { waitForPresence } from '../utilities/utils';
 
 export abstract class Component {
   component: ElementFinder;
@@ -52,6 +51,6 @@ export abstract class Component {
   }
 
   async wait() {
-    await waitForPresence(this.component);
+    await BrowserVidibility.waitUntilElementIsPresent(this.component);
   }
 }

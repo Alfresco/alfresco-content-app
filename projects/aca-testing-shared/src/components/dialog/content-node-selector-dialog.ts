@@ -25,7 +25,7 @@
 
 import { by, browser, protractor } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
-import { isPresentAndDisplayed, waitForStaleness, waitForPresence, isPresentAndEnabled } from '../../utilities/utils';
+import { isPresentAndDisplayed, isPresentAndEnabled } from '../../utilities/utils';
 import { DropDownBreadcrumb } from '../breadcrumb/dropdown-breadcrumb';
 import { DataTable } from '../data-table/data-table';
 import { BrowserActions } from '@alfresco/adf-testing';
@@ -50,7 +50,7 @@ export class ContentNodeSelectorDialog extends GenericDialog {
   }
 
   async waitForDropDownToClose(): Promise<void> {
-    await waitForStaleness(browser.$('.mat-option .mat-option-text'));
+    await BrowserVisibility.waitUntilElementIsNotPresent(browser.$('.mat-option .mat-option-text'));
   }
 
   async selectLocation(location: string): Promise<void> {
@@ -68,7 +68,7 @@ export class ContentNodeSelectorDialog extends GenericDialog {
   async selectDestination(folderName: string): Promise<void> {
     const row = this.dataTable.getRowByName(folderName);
     await BrowserActions.click(row);
-    await waitForPresence(browser.element(by.css('.adf-is-selected')));
+    await BrowserVidibility.waitUntilElementIsPresent(browser.element(by.css('.adf-is-selected')));
   }
 
   async isSelectLocationDropdownDisplayed(): Promise<boolean> {

@@ -29,7 +29,6 @@ import {
   SelectTemplateDialog,
   CreateFromTemplateDialog,
   Utils,
-  clearTextWithBackspace,
   AdminActions,
   RepoClient,
   NodeContentTree
@@ -253,7 +252,7 @@ describe('Create file from template', () => {
 
       it('[C325031] File name is required', async () => {
         expect(await createFromTemplateDialog.getName()).toEqual(template1InRootFolder);
-        await clearTextWithBackspace(createFromTemplateDialog.nameInput);
+        await BrowserActions.clearWithBackSpace(createFromTemplateDialog.nameInput);
 
         expect(await createFromTemplateDialog.getValidationMessage()).toEqual('Name is required');
         expect(await createFromTemplateDialog.isCreateButtonEnabled()).toBe(false, 'Create button is not disabled');

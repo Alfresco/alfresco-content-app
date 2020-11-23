@@ -25,7 +25,6 @@
 
 import { browser, by } from 'protractor';
 import { Component } from '../component';
-import { waitForPresence, waitForStaleness } from '../../utilities/utils';
 import { BrowserActions } from '@alfresco/adf-testing';
 
 export class DropDownBreadcrumb extends Component {
@@ -40,11 +39,11 @@ export class DropDownBreadcrumb extends Component {
   }
 
   async waitForPathListDropdownToOpen(): Promise<void> {
-    return waitForPresence(this.pathItemsContainer, 'Timeout waiting for breadcrumb dropdown to open');
+    return BrowserVidibility.waitUntilElementIsPresent(this.pathItemsContainer, 'Timeout waiting for breadcrumb dropdown to open');
   }
 
   async waitForPathListDropdownToClose(): Promise<void> {
-    return waitForStaleness(browser.$(this.pathOptionCss), 'Timeout waiting for breadcrumb dropdown to close');
+    return BrowserVidibility.waitUntilElementIsNotPresent(browser.$(this.pathOptionCss), 'Timeout waiting for breadcrumb dropdown to close');
   }
 
   async openPath(): Promise<void> {

@@ -24,7 +24,6 @@
  */
 
 import { Component } from '../component';
-import { waitForPresence } from '../../utilities/utils';
 
 export class MetadataCard extends Component {
   footer = this.byCss('.adf-content-metadata-card-footer');
@@ -40,7 +39,7 @@ export class MetadataCard extends Component {
   }
 
   async waitForFirstExpansionPanel() {
-    await waitForPresence(this.expansionPanels.get(0));
+    await BrowserVidibility.waitUntilElementIsPresent(this.expansionPanels.get(0));
   }
 
   async isExpansionPanelPresent(index: number) {

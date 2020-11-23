@@ -29,7 +29,6 @@ import {
   SelectTemplateDialog,
   CreateFromTemplateDialog,
   Utils,
-  clearTextWithBackspace,
   AdminActions,
   RepoClient,
   NodeContentTree
@@ -238,7 +237,7 @@ describe('Create folder from template', () => {
 
     it('[C325143] Folder name is required', async () => {
       expect(await createFromTemplateDialog.getName()).toEqual(templateFolder1);
-      await clearTextWithBackspace(createFromTemplateDialog.nameInput);
+      await BrowserActions.clearWithBackSpace(createFromTemplateDialog.nameInput);
 
       expect(await createFromTemplateDialog.getValidationMessage()).toEqual('Name is required');
       expect(await createFromTemplateDialog.isCreateButtonEnabled()).toBe(false, 'Create button is not disabled');

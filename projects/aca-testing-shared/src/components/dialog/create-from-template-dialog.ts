@@ -25,7 +25,7 @@
 
 import { by } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
-import { isPresentAndDisplayed, isPresentAndEnabled, typeText } from '../../utilities/utils';
+import { isPresentAndDisplayed, isPresentAndEnabled } from '../../utilities/utils';
 import { BrowserActions } from '@alfresco/adf-testing';
 
 export class CreateFromTemplateDialog extends GenericDialog {
@@ -70,15 +70,15 @@ export class CreateFromTemplateDialog extends GenericDialog {
   }
 
   async enterName(name: string): Promise<void> {
-    await typeText(this.nameInput, name);
+    await BrowserActions.clearSendKeys(this.nameInput, name);
   }
 
   async enterTitle(title: string): Promise<void> {
-    await typeText(this.titleInput, title);
+    await BrowserActions.clearSendKeys(this.titleInput, title);
   }
 
   async enterDescription(description: string): Promise<void> {
-    await typeText(this.descriptionTextArea, description);
+    await BrowserActions.clearSendKeys(this.descriptionTextArea, description);
   }
 
   async clickCancel(): Promise<void> {

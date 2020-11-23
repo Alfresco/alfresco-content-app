@@ -23,35 +23,12 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { browser, protractor, ElementFinder, ExpectedConditions as EC, by, logging, until, WebElement } from 'protractor';
+import { browser, protractor, ElementFinder, by, logging } from 'protractor';
 import { BrowserVisibility, Logger } from '@alfresco/adf-testing';
-import { BROWSER_WAIT_TIMEOUT } from '../configs';
 import * as path from 'path';
 import * as fs from 'fs';
 
 const StreamZip = require('node-stream-zip');
-
-export async function typeText(element: ElementFinder, text: string): Promise<void> {
-  await element.clear();
-  await element.sendKeys(text);
-}
-
-export async function clearTextWithBackspace(element: ElementFinder): Promise<void> {
-  await element.clear();
-  await element.sendKeys(' ', protractor.Key.CONTROL, 'a', protractor.Key.NULL, protractor.Key.BACK_SPACE);
-}
-
-export async function waitElement(css: string, errorMessage?: string): Promise<WebElement> {
-  return browser.wait(until.elementLocated(by.css(css)), BROWSER_WAIT_TIMEOUT, errorMessage || `Timeout waiting for element: ${css}`);
-}
-
-export async function waitForPresence(element: ElementFinder, errorMessage?: string): Promise<void> {
-  await browser.wait(EC.presenceOf(element), BROWSER_WAIT_TIMEOUT, errorMessage || `Timeout waiting for element presence: ${element.locator()}`);
-}
-
-export async function waitForStaleness(element: ElementFinder, errorMessage?: string): Promise<void> {
-  await browser.wait(EC.stalenessOf(element), BROWSER_WAIT_TIMEOUT, errorMessage || `Timeout waiting element staleness: ${element.locator()}`);
-}
 
 export const isPresentAndEnabled = async (element: ElementFinder): Promise<boolean> => {
   try {
