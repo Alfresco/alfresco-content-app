@@ -41,7 +41,7 @@ describe('Restore from Trash', () => {
   beforeAll(async (done) => {
     await adminApiActions.login();
     await adminApiActions.createUser({ username });
-    await repoClient.login()
+    await repoClient.login();
 
     await userActions.login(username, username);
 

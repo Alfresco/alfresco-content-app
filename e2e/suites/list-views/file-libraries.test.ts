@@ -27,7 +27,6 @@ import { AdminActions, SITE_VISIBILITY, SITE_ROLES, LoginPage, BrowsingPage, Uti
 
 describe('File Libraries', () => {
   const username = `user-${Utils.random()}`;
-  const password = username;
 
   const userSitePrivate = `user-private-${Utils.random()}`;
   const userSiteModerated = `user-moderated-${Utils.random()}`;

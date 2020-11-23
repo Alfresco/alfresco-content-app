@@ -23,14 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  AdminActions,
-  LoginPage,
-  BrowsingPage,
-  CreateOrEditFolderDialog,
-  Utils,
-  RepoClient
-} from '@alfresco/aca-testing-shared';
+import { AdminActions, LoginPage, BrowsingPage, CreateOrEditFolderDialog, Utils, RepoClient } from '@alfresco/aca-testing-shared';
 import { BrowserActions } from '@alfresco/adf-testing';
 
 describe('Create folder', () => {

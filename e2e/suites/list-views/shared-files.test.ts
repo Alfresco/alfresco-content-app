@@ -27,7 +27,6 @@ import { AdminActions, SITE_VISIBILITY, SITE_ROLES, LoginPage, BrowsingPage, Uti
 
 describe('Shared Files', () => {
   const username = `user-${Utils.random()}`;
-  const password = username;
 
   const siteName = `site-${Utils.random()}`;
   const fileAdmin = `fileSite-${Utils.random()}.txt`;
