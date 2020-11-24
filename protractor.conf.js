@@ -36,6 +36,7 @@ exports.config = {
   allScriptsTimeout: 150000,
 
   params: {
+    index_search: 25000,
     config: appConfig,
     downloadFolder: downloadFolder,
     ADMIN_USERNAME: process.env.ADMIN_EMAIL || 'admin',
@@ -70,7 +71,8 @@ exports.config = {
     share: './e2e/suites/share/**/*test.ts',
     viewer: './e2e/suites/viewer/**/*test.ts',
     infoDrawer: './e2e/suites/info-drawer/**/*test.ts',
-    extensions: './e2e/suites/extensions/**/*test.ts'
+    extensions: './e2e/suites/extensions/**/*test.ts',
+    favorite: './e2e/suites/favorite/**/*test.ts'
   },
 
   SELENIUM_PROMISE_MANAGER: false,

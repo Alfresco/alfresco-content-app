@@ -126,6 +126,13 @@ jobs:
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
 
+    - name: 'Test Suites: favorite'
+      before_script:
+        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a" || travis_terminate 1
+      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=favorite"
+      after_script:
+        - ./scripts/ci/job_hooks/after_e2e.sh
+
     - name: 'Test Suites: viewer,infoDrawer,extensions'
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a" || travis_terminate 1
