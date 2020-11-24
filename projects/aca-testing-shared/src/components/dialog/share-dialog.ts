@@ -70,7 +70,7 @@ export class ShareDialog extends GenericDialog {
   }
 
   async clickClose(): Promise<void> {
-    await BrowserActions.click(this.closeButton);
+    await this.closeButton.click();
     await this.waitForDialogToClose();
   }
 
