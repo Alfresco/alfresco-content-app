@@ -122,7 +122,7 @@ jobs:
     - name: 'Test Suites: create-actions'
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a" || travis_terminate 1
-      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=create-actions"
+      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=createActions"
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
 
