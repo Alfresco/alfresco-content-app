@@ -62,7 +62,7 @@ describe('LibraryMembershipDirective', () => {
     alfrescoApiService = new AlfrescoApiServiceMock(new AppConfigService(null), new StorageService());
     sitesService = new SitesService(alfrescoApiService);
     peopleApi = alfrescoApiService.getInstance().core.peopleApi;
-    directive = new LibraryMembershipDirective(alfrescoApiService, {
+    directive = new LibraryMembershipDirective(alfrescoApiService, sitesService, {
       ecmProductInfo$: new Subject(),
       isVersionSupported: () => mockSupportedVersion
     } as any);

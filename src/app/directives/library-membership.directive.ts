@@ -24,7 +24,7 @@
  */
 
 import { Directive, EventEmitter, HostListener, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-import { SiteEntry, SiteMembershipRequestBody, SiteMemberEntry, SiteMembershipRequestBodyCreate, SiteMembershipRequestBody, SiteMembershipRequestEntry } from '@alfresco/js-api';
+import { SiteEntry, SiteMembershipRequestBody, SiteMemberEntry, SiteMembershipRequestEntry } from '@alfresco/js-api';
 import { AlfrescoApiService, SitesService, VersionCompatibilityService } from '@alfresco/adf-core';
 import { BehaviorSubject, from, Observable } from 'rxjs';
 
@@ -68,9 +68,10 @@ export class LibraryMembershipDirective implements OnChanges {
     this.toggleMembershipRequest();
   }
 
-  constructor(private alfrescoApiService: AlfrescoApiService,
-              private sitesService: SitesService,
-              private versionCompatibilityService: VersionCompatibilityService) {}
+  constructor(
+    private alfrescoApiService: AlfrescoApiService,
+    private sitesService: SitesService,
+    private versionCompatibilityService: VersionCompatibilityService) {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (!changes.selection.currentValue || !changes.selection.currentValue.entry) {
