@@ -125,7 +125,6 @@ describe('Share a file', () => {
     });
 
     describe('from Personal Files', () => {
-
       beforeAll(async () => {
         file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
         file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
@@ -479,7 +478,6 @@ describe('Share a file', () => {
     });
 
     describe('from Recent Files', () => {
-
       beforeAll(async () => {
         file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
         file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
@@ -652,7 +650,6 @@ describe('Share a file', () => {
     });
 
     describe('from Shared Files', () => {
-
       beforeAll(async () => {
         file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
         file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
@@ -794,7 +791,6 @@ describe('Share a file', () => {
     });
 
     describe('from Favorites', () => {
-
       beforeAll(async () => {
         file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
         file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
