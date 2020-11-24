@@ -36,7 +36,7 @@ exports.config = {
   allScriptsTimeout: 150000,
 
   params: {
-    index_search: 25000,
+    index_search: 15000,
     config: appConfig,
     downloadFolder: downloadFolder,
     ADMIN_USERNAME: process.env.ADMIN_EMAIL || 'admin',

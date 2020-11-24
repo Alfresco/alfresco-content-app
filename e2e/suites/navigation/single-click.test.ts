@@ -24,6 +24,7 @@
  */
 
 import { AdminActions, UserActions, LoginPage, BrowsingPage, Viewer, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { browser } from 'protractor';
 
 describe('Single click on item name', () => {
   const username = `user-${Utils.random()}`;
@@ -58,9 +59,7 @@ describe('Single click on item name', () => {
     await adminApiActions.login();
     await adminApiActions.createUser({ username });
     await userActions.login(username, username);
-
-    const initialRecentTotalItems = await apis.user.search.getTotalItems(username);
-
+    
     file1Id = (await apis.user.nodes.createFile(file1)).entry.id;
     folder1Id = (await apis.user.nodes.createFolder(folder1)).entry.id;
 
@@ -68,7 +67,7 @@ describe('Single click on item name', () => {
     const docLibId = await apis.user.sites.getDocLibId(siteName);
     await apis.user.nodes.createFile(fileSite, docLibId);
 
-    await apis.user.search.waitForApi(username, { expect: initialRecentTotalItems + 2 });
+    await browser.sleep(browser.params.index_search);
 
     deletedFile1Id = (await apis.user.nodes.createFile(deletedFile1)).entry.id;
     deletedFolder1Id = (await apis.user.nodes.createFolder(deletedFolder1)).entry.id;
@@ -135,9 +134,8 @@ describe('Single click on item name', () => {
 
   describe('on Shared Files', () => {
     beforeAll(async () => {
-      const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
       await userActions.shareNodes([file1Id]);
-      await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 1 });
+      await browser.sleep(browser.params.index_search);
     });
 
     beforeEach(async () => {
@@ -177,10 +175,10 @@ describe('Single click on item name', () => {
 
   describe('on Favorites', () => {
     beforeAll(async () => {
-      const initialFavoriteTotalItems = await apis.user.favorites.getFavoritesTotalItems();
       await apis.user.favorites.addFavoriteById('file', file1Id);
       await apis.user.favorites.addFavoriteById('folder', folder1Id);
-      await apis.user.favorites.waitForApi({ expect: initialFavoriteTotalItems + 2 });
+
+      await browser.sleep(browser.params.index_search);
     });
 
     beforeEach(async () => {
