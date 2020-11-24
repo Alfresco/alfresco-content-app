@@ -35,11 +35,12 @@ import { ExtensionListComponent } from './extension-list/extension-list.componen
 import { StatusListComponent } from './status-list/status-list.component';
 import { ModuleListComponent } from './module-list/module-list.component';
 import { LicenseListComponent } from './license-list/license-list.component';
-import { ExtensionService } from '@alfresco/adf-extensions';
+import { ExtensionService, provideExtensionConfig } from '@alfresco/adf-extensions';
 
 @NgModule({
   imports: [CommonModule, CoreModule.forChild(), MatTableModule, SharedModule, PageLayoutModule],
-  declarations: [AboutComponent, PackageListComponent, ExtensionListComponent, StatusListComponent, ModuleListComponent, LicenseListComponent]
+  declarations: [AboutComponent, PackageListComponent, ExtensionListComponent, StatusListComponent, ModuleListComponent, LicenseListComponent],
+  providers: [provideExtensionConfig(['about.plugin.json'])]
 })
 export class AcaAboutModule {
   constructor(extensions: ExtensionService) {
