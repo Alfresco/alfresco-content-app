@@ -219,6 +219,9 @@ describe('Breadcrumb', () => {
     it(`[C260970] Breadcrumb on navigation to a user's home`, async () => {
       await page.dataTable.doubleClickOnRowByName('User Homes');
       await page.dataTable.doubleClickOnRowByName(user2);
+
+      await browser.slep(4000);
+
       expect(await breadcrumb.getAllItems()).toEqual(['Personal Files', 'User Homes', user2]);
       await page.dataTable.doubleClickOnRowByName(userFolder);
       expect(await breadcrumb.getAllItems()).toEqual(['Personal Files', 'User Homes', user2, userFolder]);

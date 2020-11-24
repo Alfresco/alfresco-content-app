@@ -59,7 +59,7 @@ describe('Single click on item name', () => {
     await adminApiActions.login();
     await adminApiActions.createUser({ username });
     await userActions.login(username, username);
-    
+
     file1Id = (await apis.user.nodes.createFile(file1)).entry.id;
     folder1Id = (await apis.user.nodes.createFolder(folder1)).entry.id;
 

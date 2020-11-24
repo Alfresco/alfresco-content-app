@@ -98,10 +98,24 @@ jobs:
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
 
-    - name: 'Test Suites: actionsAvailable'
+    - name: 'Test Suites: actionsAvailableFileFolder'
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a" || travis_terminate 1
-      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=actionsAvailable"
+      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=actionsAvailableFileFolder"
+      after_script:
+        - ./scripts/ci/job_hooks/after_e2e.sh
+
+    - name: 'Test Suites: actionsAvailableLibraries'
+      before_script:
+        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a" || travis_terminate 1
+      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=actionsAvailableLibraries"
+      after_script:
+        - ./scripts/ci/job_hooks/after_e2e.sh
+
+    - name: 'Test Suites: actionsAvailableSpecialPermissions'
+      before_script:
+        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a" || travis_terminate 1
+      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=actionsAvailableSpecialPermissions"
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
 

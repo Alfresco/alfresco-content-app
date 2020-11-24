@@ -65,7 +65,11 @@ exports.config = {
     navigation: './e2e/suites/navigation/**/*test.ts',
     pagination: './e2e/suites/pagination/**/*test.ts',
     search: './e2e/suites/search/**/*test.ts',
-    actionsAvailable: './e2e/suites/actions-available/**/**/*test.ts',
+
+    actionsAvailableFileFolder: './e2e/suites/actions-available/files-folder/**/**/*test.ts',
+    actionsAvailableLibraries: './e2e/suites/actions-available/libraries/**/**/*test.ts',
+    actionsAvailableSpecialPermissions: './e2e/suites/actions-available/special-permissions/**/**/*test.ts',
+
     actions: './e2e/suites/actions/**/*test.ts',
     createActions: './e2e/suites/create-actions/**/*test.ts',
     share: './e2e/suites/share/**/*test.ts',
@@ -73,7 +77,7 @@ exports.config = {
     infoDrawer: './e2e/suites/info-drawer/**/*test.ts',
     extensions: './e2e/suites/extensions/**/*test.ts',
     favorite: './e2e/suites/favorite/**/*test.ts',
-    delete: './e2e/suites/delete/**/*test.ts'
+    delete: './e2e/suites/delete/**/*test.ts',
   },
 
   SELENIUM_PROMISE_MANAGER: false,
@@ -196,8 +200,8 @@ exports.config = {
     });
   },
 
-  afterLaunch: async function () {
-    if (SAVE_SCREENSHOT) {
+  afterLaunch: async function (statusCode) {
+    if (SAVE_SCREENSHOT && statusCode !== 0) {
       console.log(`Save screenshot is ${SAVE_SCREENSHOT}, trying to save screenshots.`);
 
       try {
