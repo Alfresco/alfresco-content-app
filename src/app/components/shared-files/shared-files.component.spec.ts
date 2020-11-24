@@ -88,36 +88,6 @@ describe('SharedFilesComponent', () => {
     spyOn(customResourcesService, 'loadSharedLinks').and.returnValue(of(page));
   });
 
-  it('should call document list reload on linksUnshared event', fakeAsync(() => {
-    spyOn(component, 'reload');
-
-    fixture.detectChanges();
-    contentManagementService.linksUnshared.next();
-    tick(500);
-
-    expect(component.reload).toHaveBeenCalled();
-  }));
-
-  it('should call document list reload on fileUploadComplete event', fakeAsync(() => {
-    spyOn(component, 'reload');
-
-    fixture.detectChanges();
-    uploadService.fileUploadComplete.next();
-    tick(500);
-
-    expect(component.reload).toHaveBeenCalled();
-  }));
-
-  it('should call document list reload on fileUploadDeleted event', fakeAsync(() => {
-    spyOn(component, 'reload');
-
-    fixture.detectChanges();
-    uploadService.fileUploadDeleted.next();
-    tick(500);
-
-    expect(component.reload).toHaveBeenCalled();
-  }));
-
   it('should call showPreview method', () => {
     const node: any = { entry: {} };
     spyOn(component, 'showPreview');
