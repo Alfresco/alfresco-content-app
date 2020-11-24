@@ -24,7 +24,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { ExtensionService } from '@alfresco/adf-extensions';
+import { ExtensionService, provideExtensionConfig } from '@alfresco/adf-extensions';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
 
@@ -33,7 +33,8 @@ import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [CommonModule, RouterModule, CoreModule.forChild()],
-  declarations: [SettingsComponent]
+  declarations: [SettingsComponent],
+  providers: [provideExtensionConfig(['settings.plugin.json'])]
 })
 export class AcaSettingsModule {
   constructor(extensions: ExtensionService) {

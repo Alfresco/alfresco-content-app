@@ -1,0 +1,45 @@
+{
+  "$schema": "../../../extension.schema.json",
+  "$id": "b1eac381-0268-450f-b1dc-8f041fba575d",
+  "$name": "Settings Plugin",
+  "$version": "0.0.1",
+  "$vendor": "Alfresco Software, Ltd.",
+  "$license": "LGPL-3.0",
+
+  "actions": [
+    {
+      "id": "app.actions.settings",
+      "type": "NAVIGATE_URL",
+      "payload": "/settings"
+    }
+  ],
+
+  "routes": [
+    {
+      "id": "app.settings",
+      "path": "settings",
+      "layout": "blank",
+      "component": "app.settings.component"
+    }
+  ],
+
+  "features": {
+    "header": [
+      {
+        "id": "app.header.more",
+        "children": [
+          {
+            "id": "app.header.settings",
+            "order": 110,
+            "title": "APP.SETTINGS.TITLE",
+            "description": "APP.SETTINGS.TITLE",
+            "icon": "info",
+            "actions": {
+              "click": "app.actions.settings"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,29 +1,11 @@
-# About Plugin for Alfresco Content App
-
-Provides the "About" page for ACA and ACA-based apps.
-
-## Installing
-
-Import the module into the application:
-
-```ts
-// src/app/extensions.module.ts
-
-import { AcaAboutModule } from '@alfresco/aca-about';
-
-@NgModule({
-  imports: [
-    // other modules
-    AcaAboutModule
-  ]
-})
-export class AcaAboutModule {}
-```
-
-Update the `app.extensions.json` extension configuration to enable extra routes and components:
-
-```json
 {
+  "$schema": "../../../extension.schema.json",
+  "$id": "14157f82-6489-4187-9b68-1a5e38fadeca",
+  "$name": "About Plugin",
+  "$version": "0.0.1",
+  "$vendor": "Alfresco Software, Ltd.",
+  "$license": "LGPL-3.0",
+
   "actions": [
     {
       "id": "app.actions.about",
@@ -61,8 +43,3 @@ Update the `app.extensions.json` extension configuration to enable extra routes 
     ]
   }
 }
-```
-
-Alternatively, you can use the `assets/about.plugin.json` file.
-
-Compile and distribute/run the application.

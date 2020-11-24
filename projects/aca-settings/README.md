@@ -105,4 +105,6 @@ Update the `app.extensions.json` extension configuration to enable extra routes 
 }
 ```
 
+Alternatively, you can use the `assets/settings.plugin.json` file.
+
 Compile and distribute/run the application.
