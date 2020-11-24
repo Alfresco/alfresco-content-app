@@ -25,13 +25,7 @@
 
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import {
-  AlfrescoApiService,
-  AlfrescoApiServiceMock,
-  NodeFavoriteDirective,
-  DataTableComponent,
-  AppConfigPipe
-} from '@alfresco/adf-core';
+import { AlfrescoApiService, AlfrescoApiServiceMock, NodeFavoriteDirective, DataTableComponent, AppConfigPipe } from '@alfresco/adf-core';
 import { CustomResourcesService, DocumentListComponent } from '@alfresco/adf-content-services';
 import { SharedFilesComponent } from './shared-files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
