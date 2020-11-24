@@ -29,7 +29,7 @@ import { AppTestingModule } from '../testing/app-testing.module';
 import { DirectivesModule } from './directives.module';
 import { LibraryMembershipDirective } from './library-membership.directive';
 import { NO_ERRORS_SCHEMA, SimpleChange } from '@angular/core';
-import { of, throwError } from 'rxjs';
+import { of, throwError, Subject } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 
 describe('LibraryMembershipDirective', () => {
@@ -40,6 +40,7 @@ describe('LibraryMembershipDirective', () => {
   let addMembershipSpy;
   let getMembershipSpy;
   let deleteMembershipSpy;
+  let mockSupportedVersion = false;
 
   const testSiteEntry = {
     id: 'id-1',
@@ -61,7 +62,10 @@ describe('LibraryMembershipDirective', () => {
     alfrescoApiService = new AlfrescoApiServiceMock(new AppConfigService(null), new StorageService());
     sitesService = new SitesService(alfrescoApiService);
     peopleApi = alfrescoApiService.getInstance().core.peopleApi;
-    directive = new LibraryMembershipDirective(alfrescoApiService, sitesService);
+    directive = new LibraryMembershipDirective(alfrescoApiService, sitesService, {
+      ecmProductInfo$: new Subject(),
+      isVersionSupported: () => mockSupportedVersion
+    } as any);
   });
 
   describe('markMembershipRequest', () => {
@@ -106,6 +110,7 @@ describe('LibraryMembershipDirective', () => {
 
   describe('toggleMembershipRequest', () => {
     beforeEach(() => {
+      mockSupportedVersion = false;
       getMembershipSpy = spyOn(peopleApi, 'getSiteMembershipRequest').and.returnValue(Promise.resolve({ entry: requestedMembershipResponse }));
       addMembershipSpy = spyOn(peopleApi, 'addSiteMembershipRequest').and.returnValue(Promise.resolve({ entry: requestedMembershipResponse }));
       deleteMembershipSpy = spyOn(peopleApi, 'removeSiteMembershipRequest').and.returnValue(Promise.resolve({}));
@@ -139,7 +144,19 @@ describe('LibraryMembershipDirective', () => {
       tick();
       directive.toggleMembershipRequest();
       tick();
-      expect(addMembershipSpy).toHaveBeenCalled();
+      expect(addMembershipSpy).toHaveBeenCalledWith('-me-', { id: 'no-membership-requested' });
+      expect(deleteMembershipSpy).not.toHaveBeenCalled();
+    }));
+
+    it("should add 'workspace' to send appropriate email", fakeAsync(() => {
+      mockSupportedVersion = true;
+      const selection = { entry: { id: 'no-membership-requested' } };
+      const change = new SimpleChange(null, selection, true);
+      directive.ngOnChanges({ selection: change });
+      tick();
+      directive.toggleMembershipRequest();
+      tick();
+      expect(addMembershipSpy).toHaveBeenCalledWith('-me-', { id: 'no-membership-requested', client: 'workspace' });
       expect(deleteMembershipSpy).not.toHaveBeenCalled();
     }));
 
