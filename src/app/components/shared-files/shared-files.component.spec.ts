@@ -88,8 +88,7 @@ describe('SharedFilesComponent', () => {
     spyOn(customResourcesService, 'loadSharedLinks').and.returnValue(of(page));
   });
 
-  // TODO: fix with ADF 4.1
-  xit('should call document list reload on linksUnshared event', fakeAsync(() => {
+  it('should call document list reload on linksUnshared event', fakeAsync(() => {
     spyOn(component, 'reload');
 
     fixture.detectChanges();
@@ -99,7 +98,7 @@ describe('SharedFilesComponent', () => {
     expect(component.reload).toHaveBeenCalled();
   }));
 
-  xit('should call document list reload on fileUploadComplete event', fakeAsync(() => {
+  it('should call document list reload on fileUploadComplete event', fakeAsync(() => {
     spyOn(component, 'reload');
 
     fixture.detectChanges();
