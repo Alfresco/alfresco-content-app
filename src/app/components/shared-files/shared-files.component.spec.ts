@@ -23,21 +23,19 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import {
   AlfrescoApiService,
   AlfrescoApiServiceMock,
   NodeFavoriteDirective,
   DataTableComponent,
-  AppConfigPipe,
-  UploadService
+  AppConfigPipe
 } from '@alfresco/adf-core';
 import { CustomResourcesService, DocumentListComponent } from '@alfresco/adf-content-services';
 import { SharedFilesComponent } from './shared-files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { Router } from '@angular/router';
-import { ContentManagementService } from '../../services/content-management.service';
 import { of } from 'rxjs';
 
 describe('SharedFilesComponent', () => {
@@ -45,9 +43,7 @@ describe('SharedFilesComponent', () => {
   let component: SharedFilesComponent;
   let alfrescoApi: AlfrescoApiService;
   let page;
-  let uploadService: UploadService;
   let customResourcesService: CustomResourcesService;
-  let contentManagementService: ContentManagementService;
   const mockRouter = {
     url: 'shared-files'
   };
@@ -76,8 +72,6 @@ describe('SharedFilesComponent', () => {
     });
 
     fixture = TestBed.createComponent(SharedFilesComponent);
-    uploadService = TestBed.inject(UploadService);
-    contentManagementService = TestBed.inject(ContentManagementService);
     customResourcesService = TestBed.inject(CustomResourcesService);
     component = fixture.componentInstance;
 
