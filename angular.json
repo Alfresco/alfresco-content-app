@@ -77,12 +77,17 @@
               },
               {
                 "glob": "aos.plugin.json",
-                "input": "node_modules/@alfresco/adf-office-services-ext/assets",
+                "input": "projects/adf-office-services-ext/assets",
                 "output": "./assets/plugins"
               },
               {
-                "glob": "aos.plugin.json",
-                "input": "projects/adf-office-services-ext/assets",
+                "glob": "about.plugin.json",
+                "input": "projects/aca-about/assets",
+                "output": "./assets/plugins"
+              },
+              {
+                "glob": "settings.plugin.json",
+                "input": "projects/aca-settings/assets",
                 "output": "./assets/plugins"
               }
             ],
