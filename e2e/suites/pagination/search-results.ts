@@ -35,6 +35,7 @@ export function searchResultsTests(username: string, random: string) {
     beforeAll(async () => {
       await loginPage.loginWith(username);
       await searchInput.clickSearchButton();
+      await searchInput.checkOnlyFiles();
       await searchInput.searchFor(random);
       await dataTable.waitForBody();
     });
