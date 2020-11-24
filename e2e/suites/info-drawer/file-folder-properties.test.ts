@@ -217,15 +217,15 @@ describe('File / Folder properties', () => {
         'Camera Software'
       ];
       const expectedPropValues = [
-        properties['exif:pixelXDimension'].toString(),
-        properties['exif:pixelYDimension'].toString(),
+        properties['exif:pixelXDimension']?.toString(),
+        properties['exif:pixelYDimension']?.toString(),
         moment(properties['exif:dateTimeOriginal']).format(DATE_TIME_FORMAT),
-        properties['exif:exposureTime'].toString(),
-        properties['exif:fNumber'].toString(),
+        properties['exif:exposureTime']?.toString(),
+        properties['exif:fNumber']?.toString(),
         properties['exif:flash'],
-        properties['exif:focalLength'].toString(),
+        properties['exif:focalLength']?.toString(),
         properties['exif:isoSpeedRatings'],
-        properties['exif:orientation'].toString(),
+        properties['exif:orientation']?.toString(),
         properties['exif:manufacturer'],
         properties['exif:model'],
         properties['exif:software']
