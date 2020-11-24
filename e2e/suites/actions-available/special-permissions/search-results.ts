@@ -42,34 +42,47 @@ export function searchResultsTests() {
     });
 
     describe('on a file', () => {
-      beforeAll(async () => {
+      beforeEach(async () => {
         await page.clickPersonalFiles();
         await searchInput.clickSearchButton();
-        await searchInput.searchFor('file-');
-        await searchResultsPage.waitForResults();
       });
 
       it('File Office - [C286286]', async () => {
+        await searchInput.searchFor(testData.fileDocx.name);
+        await searchResultsPage.waitForResults();
+
         await testUtil.checkToolbarActions(testData.fileDocx.name, testData.fileDocx.searchToolbarPrimary, testData.fileDocx.toolbarMore);
         await testUtil.checkContextMenu(testData.fileDocx.name, testData.fileDocx.contextMenu);
       });
 
       it('File Office, favorite - [C286287]', async () => {
+        await searchInput.searchFor(testData.fileDocxFav.name);
+        await searchResultsPage.waitForResults();
+
         await testUtil.checkToolbarActions(testData.fileDocxFav.name, testData.fileDocxFav.searchToolbarPrimary, testData.fileDocxFav.toolbarMore);
         await testUtil.checkContextMenu(testData.fileDocxFav.name, testData.fileDocxFav.contextMenu);
       });
 
       it('File simple - [C286262]', async () => {
+        await searchInput.searchFor(testData.file.name);
+        await searchResultsPage.waitForResults();
+
         await testUtil.checkToolbarActions(testData.file.name, testData.file.searchToolbarPrimary, testData.file.toolbarMore);
         await testUtil.checkContextMenu(testData.file.name, testData.file.contextMenu);
       });
 
       it('File favorite - [C286263]', async () => {
+        await searchInput.searchFor(testData.fileFav.name);
+        await searchResultsPage.waitForResults();
+
         await testUtil.checkToolbarActions(testData.fileFav.name, testData.fileFav.searchToolbarPrimary, testData.fileFav.toolbarMore);
         await testUtil.checkContextMenu(testData.fileFav.name, testData.fileFav.contextMenu);
       });
 
       it('File Office, shared - [C286280]', async () => {
+        await searchInput.searchFor(testData.fileDocxShared.name);
+        await searchResultsPage.waitForResults();
+
         await testUtil.checkToolbarActions(
           testData.fileDocxShared.name,
           testData.fileDocxShared.searchToolbarPrimary,
@@ -79,6 +92,9 @@ export function searchResultsTests() {
       });
 
       it('File Office, shared, favorite - [C286281]', async () => {
+        await searchInput.searchFor(testData.fileDocxSharedFav.name);
+        await searchResultsPage.waitForResults();
+
         await testUtil.checkToolbarActions(
           testData.fileDocxSharedFav.name,
           testData.fileDocxSharedFav.searchToolbarPrimary,
@@ -87,12 +103,18 @@ export function searchResultsTests() {
         await testUtil.checkContextMenu(testData.fileDocxSharedFav.name, testData.fileDocxSharedFav.contextMenu);
       });
 
-      xit('File shared - [C286282]', async () => {
+      it('File shared - [C286282]', async () => {
+        await searchInput.searchFor(testData.fileShared.name);
+        await searchResultsPage.waitForResults();
+
         await testUtil.checkToolbarActions(testData.fileShared.name, testData.fileShared.searchToolbarPrimary, testData.fileShared.toolbarMore);
         await testUtil.checkContextMenu(testData.fileShared.name, testData.fileShared.contextMenu);
       });
 
       it('File shared, favorite - [C291823]', async () => {
+        await searchInput.searchFor(testData.fileSharedFav.name);
+        await searchResultsPage.waitForResults();
+
         await testUtil.checkToolbarActions(
           testData.fileSharedFav.name,
           testData.fileSharedFav.searchToolbarPrimary,
@@ -102,11 +124,17 @@ export function searchResultsTests() {
       });
 
       it('File locked - [C291818]', async () => {
+        await searchInput.searchFor(testData.fileLocked.name);
+        await searchResultsPage.waitForResults();
+
         await testUtil.checkToolbarActions(testData.fileLocked.name, testData.fileLocked.searchToolbarPrimary, testData.fileLocked.toolbarMore);
         await testUtil.checkContextMenu(testData.fileLocked.name, testData.fileLocked.contextMenu);
       });
 
       it('File favorite, locked - [C291819]', async () => {
+        await searchInput.searchFor(testData.fileFavLocked.name);
+        await searchResultsPage.waitForResults();
+
         await testUtil.checkToolbarActions(
           testData.fileFavLocked.name,
           testData.fileFavLocked.searchToolbarPrimary,
@@ -116,6 +144,9 @@ export function searchResultsTests() {
       });
 
       it('File shared, locked - [C291824]', async () => {
+        await searchInput.searchFor(testData.fileSharedLocked.name);
+        await searchResultsPage.waitForResults();
+
         await testUtil.checkToolbarActions(
           testData.fileSharedLocked.name,
           testData.fileSharedLocked.searchToolbarPrimary,
@@ -125,6 +156,9 @@ export function searchResultsTests() {
       });
 
       it('File shared, favorite, locked - [C291825]', async () => {
+        await searchInput.searchFor(testData.fileSharedFavLocked.name);
+        await searchResultsPage.waitForResults();
+
         await testUtil.checkToolbarActions(
           testData.fileSharedFavLocked.name,
           testData.fileSharedFavLocked.searchToolbarPrimary,

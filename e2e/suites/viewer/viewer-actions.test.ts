@@ -288,8 +288,7 @@ describe('Viewer actions', () => {
       await manageVersionsDialog.clickClose();
     });
 
-    // TODO: disabled until ACA-2176 is done
-    xit('[C286314] Pressing ESC in the viewer closes only the action dialog', async () => {
+    it('[C286314] Pressing ESC in the viewer closes only the action dialog', async () => {
       await dataTable.doubleClickOnRowByName(docxPersonalFiles);
       await viewer.waitForViewerToOpen();
 

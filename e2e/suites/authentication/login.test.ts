@@ -115,8 +115,7 @@ describe('Login', () => {
       expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);
     });
 
-    // TODO: ACA-245
-    xit('[C213107] redirects to Home Page when navigating to the Login page while already logged in', async () => {
+    it('[C213107] redirects to Home Page when navigating to the Login page while already logged in', async () => {
       const { username } = johnDoe;
 
       await loginPage.loginWith(username);

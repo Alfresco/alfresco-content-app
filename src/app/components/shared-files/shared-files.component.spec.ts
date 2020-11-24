@@ -99,7 +99,6 @@ describe('SharedFilesComponent', () => {
     expect(component.reload).toHaveBeenCalled();
   }));
 
-  // TODO: fix with ADF 4.1
   xit('should call document list reload on fileUploadComplete event', fakeAsync(() => {
     spyOn(component, 'reload');
 
@@ -110,8 +109,7 @@ describe('SharedFilesComponent', () => {
     expect(component.reload).toHaveBeenCalled();
   }));
 
-  // TODO: fix with ADF 4.1
-  xit('should call document list reload on fileUploadDeleted event', fakeAsync(() => {
+  it('should call document list reload on fileUploadDeleted event', fakeAsync(() => {
     spyOn(component, 'reload');
 
     fixture.detectChanges();
@@ -121,8 +119,7 @@ describe('SharedFilesComponent', () => {
     expect(component.reload).toHaveBeenCalled();
   }));
 
-  // TODO: fix with ADF 4.1
-  xit('should call showPreview method', () => {
+  it('should call showPreview method', () => {
     const node: any = { entry: {} };
     spyOn(component, 'showPreview');
     fixture.detectChanges();

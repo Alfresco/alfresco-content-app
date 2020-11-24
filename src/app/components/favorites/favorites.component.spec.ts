@@ -25,8 +25,8 @@
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
-import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
-import { AlfrescoApiService, NodeFavoriteDirective, DataTableComponent, AppConfigPipe, UploadService } from '@alfresco/adf-core';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { AlfrescoApiService, NodeFavoriteDirective, DataTableComponent, AppConfigPipe } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { of } from 'rxjs';
 import { FavoritesComponent } from './favorites.component';
@@ -45,7 +45,6 @@ describe('FavoritesComponent', () => {
   };
   let page;
   let node;
-  let uploadService: UploadService;
 
   beforeEach(() => {
     page = {
@@ -86,7 +85,6 @@ describe('FavoritesComponent', () => {
     spyOn(alfrescoApi.favoritesApi, 'getFavorites').and.returnValue(Promise.resolve(page));
 
     contentApi = TestBed.inject(ContentApiService);
-    uploadService = TestBed.inject(UploadService);
     router = TestBed.inject(Router);
   });
 
@@ -121,28 +119,6 @@ describe('FavoritesComponent', () => {
       expect(router.navigate).not.toHaveBeenCalled();
     });
   });
-
-  // TODO: fix with ADF 4.1
-  xit('should call document list reload on fileUploadComplete event', fakeAsync(() => {
-    spyOn(component, 'reload');
-
-    fixture.detectChanges();
-    uploadService.fileUploadComplete.next();
-    tick(500);
-
-    expect(component.reload).toHaveBeenCalled();
-  }));
-
-  // TODO: fix with ADF 4.1
-  xit('should call document list reload on fileUploadDeleted event', fakeAsync(() => {
-    spyOn(component, 'reload');
-
-    fixture.detectChanges();
-    uploadService.fileUploadDeleted.next();
-    tick(500);
-
-    expect(component.reload).toHaveBeenCalled();
-  }));
 
   it('should navigate if node is folder', () => {
     const nodeEntity: any = { entry: { isFolder: true } };
