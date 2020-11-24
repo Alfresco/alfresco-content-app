@@ -178,6 +178,18 @@ export class AdminActions extends UserActions {
     }
   }
 
+  async cleanupNodeTemplatesItems(nodeNames: string[]): Promise<void> {
+    try {
+      const templatesFolderId = await this.getNodeTemplatesFolderId();
+      for (const nodeName of nodeNames) {
+        const nodeId = await this.nodes.getNodeIdFromParent(nodeName, templatesFolderId);
+        await this.nodes.deleteNodeById(nodeId);
+      }
+    } catch (error) {
+      super.handleError('Admin Actions - cleanupNodeTemplatesItems failed : ', error);
+    }
+  }
+
   async cleanupSpaceTemplatesFolder(): Promise<void> {
     try {
       const spaceTemplatesNodeId = await this.getSpaceTemplatesFolderId();
@@ -188,6 +200,18 @@ export class AdminActions extends UserActions {
         .filter((node) => node.entry.nodeType !== 'app:folderlink' && node.entry.name !== 'Software Engineering Project')
         .map((node) => node.entry.id);
       return this.nodes.deleteNodesById(nodesToDelete);
+    } catch (error) {
+      super.handleError('Admin Actions - cleanupSpaceTemplatesFolder failed : ', error);
+    }
+  }
+
+  async cleanupSpaceTemplatesItems(nodeNames: string[]): Promise<void> {
+    try {
+      const spaceTemplatesNodeId = await this.getSpaceTemplatesFolderId();
+      for (const nodeName of nodeNames) {
+        const nodeId = await this.nodes.getNodeIdFromParent(nodeName, spaceTemplatesNodeId);
+        await this.nodes.deleteNodeById(nodeId);
+      }
     } catch (error) {
       super.handleError('Admin Actions - cleanupSpaceTemplatesFolder failed : ', error);
     }

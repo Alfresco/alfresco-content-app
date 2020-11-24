@@ -87,6 +87,30 @@ describe('Create file from template', () => {
   const createFromTemplateDialog = new CreateFromTemplateDialog();
   const { sidenav } = page;
 
+  const templates: NodeContentTree = {
+    folders: [
+      {
+        name: templatesFolder1,
+        files: [template1InFolder1, template2InFolder1]
+      },
+      {
+        name: templatesFolder2,
+        folders: [
+          {
+            name: templatesSubFolder
+          }
+        ],
+        files: [template1InFolder2]
+      },
+      {
+        name: restrictedTemplateFolder,
+        files: [templateInRestrictedFolder]
+      }
+    ],
+    files: [template1InRootFolder, template2InRootFolder]
+  };
+  let link: string;
+
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
 
@@ -103,7 +127,14 @@ describe('Create file from template', () => {
   afterAll(async () => {
     await userApi.nodes.deleteNodeById(parentId);
     await userApi.sites.deleteSite(siteName);
-    await adminApiActions.cleanupNodeTemplatesFolder();
+
+    await adminApiActions.cleanupNodeTemplatesItems([
+      templatesFolder1,
+      templatesFolder2,
+      restrictedTemplateFolder,
+      template1InRootFolder,
+      template2InRootFolder
+    ]);
   });
 
   beforeEach(async () => {
@@ -123,30 +154,6 @@ describe('Create file from template', () => {
   });
 
   describe('with existing templates', () => {
-    const templates: NodeContentTree = {
-      folders: [
-        {
-          name: templatesFolder1,
-          files: [template1InFolder1, template2InFolder1]
-        },
-        {
-          name: templatesFolder2,
-          folders: [
-            {
-              name: templatesSubFolder
-            }
-          ],
-          files: [template1InFolder2]
-        },
-        {
-          name: restrictedTemplateFolder,
-          files: [templateInRestrictedFolder]
-        }
-      ],
-      files: [template1InRootFolder, template2InRootFolder]
-    };
-    let link: string;
-
     beforeAll(async () => {
       await adminApiActions.createNodeTemplatesHierarchy(templates);
       await adminApiActions.removeUserAccessOnNodeTemplate(restrictedTemplateFolder);

@@ -133,7 +133,15 @@ describe('Create folder from template', () => {
   afterAll(async () => {
     await userApi.nodes.deleteNodeById(parentId);
     await userApi.sites.deleteSite(siteName);
-    await adminApiActions.cleanupSpaceTemplatesFolder();
+
+    await adminApiActions.login();
+    await adminApiActions.cleanupSpaceTemplatesItems([
+      folderInRootFolder,
+      templateFolder1,
+      templateFolder2,
+      restrictedTemplateFolder,
+      fileInRootFolder
+    ]);
   });
 
   beforeEach(async () => {

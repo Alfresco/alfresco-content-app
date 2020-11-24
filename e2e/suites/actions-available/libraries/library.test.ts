@@ -72,6 +72,7 @@ describe('Library actions : ', () => {
   });
 
   afterAll(async () => {
+    await userActions.login(username, username);
     await userActions.deleteSites([
       testData.publicUserMemberFav.name,
       testData.privateUserMemberFav.name,
@@ -80,6 +81,9 @@ describe('Library actions : ', () => {
       testData.privateUserMemberNotFav.name,
       testData.moderatedUserMemberNotFav.name
     ]);
+    await userActions.emptyTrashcan();
+
+    await adminApiActions.login();
     await adminApiActions.deleteSites([
       testData.publicNotMemberFav.name,
       testData.moderatedNotMemberFav.name,
@@ -88,7 +92,6 @@ describe('Library actions : ', () => {
       testData.moderatedRequestedJoinFav.name,
       testData.moderatedRequestedJoinNotFav.name
     ]);
-    await userActions.emptyTrashcan();
   });
 
   describe('on My Libraries', () => {

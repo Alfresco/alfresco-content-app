@@ -54,13 +54,14 @@ async function uploadScreenshot(retryCount) {
 
   const screenShotsPath = path.resolve(__dirname, '../../../e2e-output/screenshots/');
   let files = fs.readdirSync(screenShotsPath);
-  for (const fileName of files) {
-    let pathFile = path.join(screenShotsPath, fileName);
-    let file = fs.createReadStream(pathFile);
 
-    let safeFileName = fileName.replace(new RegExp('"', 'g'), '');
+  try {
+    for (const fileName of files) {
+      let pathFile = path.join(screenShotsPath, fileName);
+      let file = fs.createReadStream(pathFile);
 
-    try {
+      let safeFileName = fileName.replace(new RegExp('"', 'g'), '');
+
       await alfrescoJsApi.upload.uploadFile(
         file,
         '',
@@ -72,9 +73,9 @@ async function uploadScreenshot(retryCount) {
           autoRename: true,
         }
       );
-    } catch (error) {
-      console.log(`Upload failed: ${error}`);
     }
+  } catch (error) {
+    console.log(`Upload failed: ${error}`);
   }
 
   fs.renameSync(path.resolve(__dirname, '../../../e2e-output/'), path.resolve(__dirname, `../../e2e-output-${retryCount}/`))
