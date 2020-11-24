@@ -105,24 +105,24 @@ jobs:
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
 
-    - name: 'Test Suites: addRemoveContent'
+    - name: 'Test Suites: share'
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a" || travis_terminate 1
-      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=addRemoveContent"
+      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=share"
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
 
-    - name: 'Test Suites: manageContent'
+    - name: 'Test Suites: actions'
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a" || travis_terminate 1
-      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=manageContent"
+      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=actions"
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
 
-    - name: 'Test Suite: sharingContent'
+    - name: 'Test Suites: create-actions'
       before_script:
         - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a" || travis_terminate 1
-      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=sharingContent"
+      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=create-actions"
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
 

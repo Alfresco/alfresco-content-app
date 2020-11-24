@@ -2,14 +2,14 @@
 // https://github.com/angular/protractor/blob/master/lib/config.ts
 
 const path = require('path');
-const { SpecReporter } = require('jasmine-spec-reporter');
+const {SpecReporter} = require('jasmine-spec-reporter');
 const fs = require('fs');
 const resolve = require('path').resolve;
 const logger = require('./tools/helpers/logger');
 const retry = require('protractor-retry-angular-cli').retry;
-const { uploadScreenshot } = require('./e2e/e2e-config/utils/upload-output');
+const {uploadScreenshot} = require('./e2e/e2e-config/utils/upload-output');
 
-require('dotenv').config({ path: process.env.ENV_FILE });
+require('dotenv').config({path: process.env.ENV_FILE});
 
 const SmartRunner = require('protractor-smartrunner');
 const projectRoot = path.resolve(__dirname);
@@ -44,56 +44,33 @@ exports.config = {
   },
 
   specs: [
-    './e2e/suites/authentication/*.test.ts',
-    './e2e/suites/list-views/*.test.ts',
-    './e2e/suites/application/*.test.ts',
-    './e2e/suites/navigation/*.test.ts',
-    './e2e/suites/pagination/*.test.ts',
-    './e2e/suites/search/*.test.ts',
-    './e2e/suites/actions-available/**/*.test.ts',
-    './e2e/suites/actions/**/*.test.ts',
-    './e2e/suites/viewer/*.test.ts',
-    './e2e/suites/info-drawer/*.test.ts',
-    './e2e/suites/extensions/*.test.ts'
+    './e2e/suites/authentication/**/*test.ts',
+    './e2e/suites/list-views/**/*test.ts',
+    './e2e/suites/application/**/*test.ts',
+    './e2e/suites/navigation/**/*test.ts',
+    './e2e/suites/pagination/**/*test.ts',
+    './e2e/suites/search/**/*test.ts',
+    './e2e/suites/actions-available/**/**/*test.ts',
+    './e2e/suites/actions/**/**/*test.ts',
+    './e2e/suites/viewer/**/*test.ts',
+    './e2e/suites/info-drawer/**/*test.ts',
+    './e2e/suites/extensions/**/*test.ts'
   ],
 
   suites: {
-    authentication: './e2e/suites/authentication/*.test.ts',
-    listViews: './e2e/suites/list-views/*.test.ts',
-    application: './e2e/suites/application/*.test.ts',
-    navigation: './e2e/suites/navigation/*.test.ts',
-    pagination: './e2e/suites/pagination/*.test.ts',
-    search: './e2e/suites/search/*.test.ts',
-    actionsAvailable: './e2e/suites/actions-available/**/*.test.ts',
-    addRemoveContent: [
-      './e2e/suites/actions/new-menu.test.ts',
-      './e2e/suites/actions/create-folder.test.ts',
-      './e2e/suites/actions/create-folder-from-template.test.ts',
-      './e2e/suites/actions/create-library.test.ts',
-      './e2e/suites/actions/create-file-from-template.test.ts',
-      './e2e/suites/actions/upload-file.test.ts',
-      './e2e/suites/actions/upload-new-version.test.ts',
-      './e2e/suites/actions/version-actions.test.ts',
-      './e2e/suites/actions/delete-undo-delete.test.ts',
-      './e2e/suites/actions/permanently-delete.test.ts',
-      './e2e/suites/actions/restore.test.ts',
-      './e2e/suites/actions/download.test.ts'
-    ],
-    manageContent: [
-      './e2e/suites/actions/copy-move/*.test.ts',
-      './e2e/suites/actions/library-actions.test.ts',
-      './e2e/suites/actions/edit-folder.test.ts',
-      './e2e/suites/actions/edit-offline.test.ts'
-    ],
-    sharingContent: [
-      './e2e/suites/actions/mark-favorite.test.ts',
-      './e2e/suites/actions/share-file.test.ts',
-      './e2e/suites/actions/unshare-file-search-results.test.ts',
-      './e2e/suites/actions/unshare-file.test.ts'
-    ],
-    viewer: './e2e/suites/viewer/*.test.ts',
-    infoDrawer: './e2e/suites/info-drawer/*.test.ts',
-    extensions: './e2e/suites/extensions/*.test.ts'
+    authentication: './e2e/suites/authentication/**/*test.ts',
+    listViews: './e2e/suites/list-views/**/*test.ts',
+    application: './e2e/suites/application/**/*test.ts',
+    navigation: './e2e/suites/navigation/**/*test.ts',
+    pagination: './e2e/suites/pagination/**/*test.ts',
+    search: './e2e/suites/search/**/*test.ts',
+    actionsAvailable: './e2e/suites/actions-available/**/**/*test.ts',
+    actions: './e2e/suites/actions/**/*test.ts',
+    createActions: './e2e/suites/create-actions/**/*test.ts',
+    share: './e2e/suites/share/**/*test.ts',
+    viewer: './e2e/suites/viewer/**/*test.ts',
+    infoDrawer: './e2e/suites/info-drawer/**/*test.ts',
+    extensions: './e2e/suites/extensions/**/*test.ts'
   },
 
   SELENIUM_PROMISE_MANAGER: false,
@@ -147,7 +124,8 @@ exports.config = {
     showColors: true,
     defaultTimeoutInterval: 600000,
     includeStackTrace: true,
-    print: function () {},
+    print: function () {
+    },
     ...SmartRunner.withOptionalExclusions(resolve(__dirname, './e2e/protractor.excludes.json'))
   },
 
@@ -179,7 +157,7 @@ exports.config = {
       const outputDirectory = process.env.SMART_RUNNER_DIRECTORY;
       logger.info(`SmartRunner's repoHash : "${repoHash}"`);
       logger.info(`SmartRunner's outputDirectory: "${outputDirectory}"`);
-      SmartRunner.apply({ outputDirectory, repoHash });
+      SmartRunner.apply({outputDirectory, repoHash});
     }
 
     const tsConfigPath = path.resolve(e2eFolder, 'tsconfig.e2e.json');
