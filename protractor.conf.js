@@ -66,7 +66,7 @@ exports.config = {
     pagination: './e2e/suites/pagination/**/*test.ts',
     search: './e2e/suites/search/**/*test.ts',
 
-    actionsAvailableFileFolder: './e2e/suites/actions-available/files-folder/**/**/*test.ts',
+    actionsAvailableFileFolder: './e2e/suites/actions-available/files-folders/**/**/*test.ts',
     actionsAvailableLibraries: './e2e/suites/actions-available/libraries/**/**/*test.ts',
     actionsAvailableSpecialPermissions: './e2e/suites/actions-available/special-permissions/**/**/*test.ts',
 
