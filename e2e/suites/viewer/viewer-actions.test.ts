@@ -245,16 +245,8 @@ describe('Viewer actions', () => {
       await viewer.waitForViewerToOpen();
 
       await toolbar.openMoreMenu();
-      await BrowserVisibility.waitUntilElementIsVisible(
-        toolbar.menu.cancelEditingAction,
-        BrowserVisibility.DEFAULT_TIMEOUT,
-        `'Cancel Editing' button should be shown`
-      );
-      await BrowserVisibility.waitUntilElementIsVisible(
-        toolbar.menu.editOfflineAction,
-        BrowserVisibility.DEFAULT_TIMEOUT,
-        `'Edit Offline' shouldn't be shown`
-      );
+      expect(await toolbar.menu.cancelEditingAction.isPresent()).toBe(true, `'Cancel Editing' button should be shown`);
+      expect(await toolbar.menu.editOfflineAction.isPresent()).toBe(false, `'Edit Offline' shouldn't be shown`);
 
       await toolbar.menu.clickMenuItem('Upload New Version');
       await Utils.uploadFileNewVersion(docxFile);
@@ -263,16 +255,8 @@ describe('Viewer actions', () => {
       await uploadNewVersionDialog.uploadButton.click();
 
       await toolbar.openMoreMenu();
-      await BrowserVisibility.waitUntilElementIsVisible(
-        toolbar.menu.cancelEditingAction,
-        BrowserVisibility.DEFAULT_TIMEOUT,
-        `'Cancel Editing' button shouldn't be shown`
-      );
-      await BrowserVisibility.waitUntilElementIsVisible(
-        toolbar.menu.editOfflineAction,
-        BrowserVisibility.DEFAULT_TIMEOUT,
-        `'Edit Offline' should be shown`
-      );
+      expect(await toolbar.menu.cancelEditingAction.isPresent()).toBe(false, `'Cancel Editing' button shouldn't be shown`);
+      expect(await toolbar.menu.editOfflineAction.isPresent()).toBe(true, `'Edit Offline' should be shown`);
     });
 
     it('[C279282] Full screen action', async () => {
