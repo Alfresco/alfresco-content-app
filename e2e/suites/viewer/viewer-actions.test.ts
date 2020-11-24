@@ -37,7 +37,6 @@ import {
   ManageVersionsDialog,
   UploadNewVersionDialog
 } from '@alfresco/aca-testing-shared';
-import { BrowserVisibility } from '@alfresco/adf-testing';
 
 describe('Viewer actions', () => {
   const username = `user-${Utils.random()}`;
