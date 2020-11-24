@@ -159,11 +159,9 @@ describe('Login', () => {
       expect(await submitButton.isEnabled()).toBe(false, 'submit button is enabled');
     });
 
-
     it('[C213106] unauthenticated user is redirected to Login page', async () => {
       await navigate(APP_ROUTES.PERSONAL_FILES);
       expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.LOGIN);
     });
-
   });
 });
