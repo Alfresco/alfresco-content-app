@@ -15,5 +15,6 @@
  "C586780" : "Include once ACA starts using ACS 7+, https://alfresco.atlassian.net/browse/ACA-3601",
  "C586781" : "Include once ACA starts using ACS 7+, https://alfresco.atlassian.net/browse/ACA-3601",
  "C280132" : "https://alfresco.atlassian.net/browse/ACA-4167",
- "C280093" : "https://alfresco.atlassian.net/browse/ACA-4167"
+ "C280093" : "https://alfresco.atlassian.net/browse/ACA-4167",
+ "C269007" : "EXIF aspect missing on latest ACS"
 }
