@@ -139,7 +139,7 @@ describe('Empty list views', () => {
     expect(await pagination.isNextButtonPresent()).toBe(false, 'Next button is present');
   });
 
-  it('[C280094] Shared Files - pagination controls not displayed', async () => {
+  it('[C280093] Shared Files - pagination controls not displayed', async () => {
     await page.clickSharedFiles();
     expect(await pagination.isRangePresent()).toBe(false, 'Range is present');
     expect(await pagination.isMaxItemsPresent()).toBe(false, 'Max items is present');

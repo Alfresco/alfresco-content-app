@@ -25,7 +25,7 @@
 
 import { BrowsingPage, LoginPage, Utils } from '@alfresco/aca-testing-shared';
 
-export function searchResultsTests(username: string) {
+export function searchResultsTests(username: string, random: string) {
   const page = new BrowsingPage();
   const loginPage = new LoginPage();
   const { dataTable, pagination } = page;
@@ -35,7 +35,8 @@ export function searchResultsTests(username: string) {
     beforeAll(async () => {
       await loginPage.loginWith(username);
       await searchInput.clickSearchButton();
-      await searchInput.searchFor('my-file-');
+      await searchInput.checkOnlyFiles();
+      await searchInput.searchFor(random);
       await dataTable.waitForBody();
     });
 
@@ -44,7 +45,7 @@ export function searchResultsTests(username: string) {
     });
 
     it('[C290125] Pagination control default values', async () => {
-      expect(await pagination.getRange()).toContain('1-25 of 51');
+      expect(await pagination.getRange()).toContain('1-25 of');
       expect(await pagination.getMaxItems()).toContain('25');
       expect(await pagination.getCurrentPage()).toContain('Page 1');
       expect(await pagination.getTotalPages()).toContain('of 3');
@@ -89,7 +90,7 @@ export function searchResultsTests(username: string) {
       await pagination.openCurrentPageMenu();
       await pagination.menu.clickNthItem(3);
       await dataTable.waitForBody();
-      expect(await pagination.getRange()).toContain('51-51 of 51');
+      expect(await pagination.getRange()).toContain('51-');
       expect(await pagination.getCurrentPage()).toContain('Page 3');
       expect(await pagination.isPreviousEnabled()).toBe(true, 'Previous button is not enabled');
       expect(await pagination.isNextEnabled()).toBe(false, 'Next button is enabled');
@@ -100,7 +101,7 @@ export function searchResultsTests(username: string) {
     it('[C290131] navigate to next and previous pages', async () => {
       await pagination.clickNext();
       await dataTable.waitForBody();
-      expect(await pagination.getRange()).toContain('26-50 of 51');
+      expect(await pagination.getRange()).toContain('26-50 of');
       await pagination.resetToDefaultPageNumber();
 
       await pagination.openCurrentPageMenu();
@@ -108,7 +109,7 @@ export function searchResultsTests(username: string) {
       await dataTable.waitForBody();
       await pagination.clickPrevious();
       await dataTable.waitForBody();
-      expect(await pagination.getRange()).toContain('1-25 of 51');
+      expect(await pagination.getRange()).toContain('1-25 of');
 
       await pagination.resetToDefaultPageNumber();
     });

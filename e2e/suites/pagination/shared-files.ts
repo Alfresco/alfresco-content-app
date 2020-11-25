@@ -23,21 +23,17 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BrowsingPage, LoginPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, LoginPage, Utils } from '@alfresco/aca-testing-shared';
 
 export function sharedFilesTests(username: string) {
   const page = new BrowsingPage();
   const loginPage = new LoginPage();
   const { dataTable, pagination } = page;
 
-  const userApi = new RepoClient(username, username);
-  let sharedTotalItems: number;
-
   describe('Pagination controls : ', () => {
     beforeAll(async () => {
       await loginPage.loginWith(username);
       await page.clickSharedFilesAndWait();
-      sharedTotalItems = await userApi.shared.getSharedLinksTotalItems();
     });
 
     afterEach(async () => {
@@ -90,7 +86,7 @@ export function sharedFilesTests(username: string) {
       await pagination.openCurrentPageMenu();
       await pagination.menu.clickNthItem(3);
       await dataTable.waitForHeader();
-      expect(await pagination.getRange()).toContain(`51-${sharedTotalItems}`);
+      expect(await pagination.getRange()).toContain(`51-`);
       expect(await pagination.getCurrentPage()).toContain('Page 3');
       expect(await pagination.isPreviousEnabled()).toBe(true, 'Previous button is not enabled');
       expect(await pagination.isNextEnabled()).toBe(false, 'Next button is enabled');

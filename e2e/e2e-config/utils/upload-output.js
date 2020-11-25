@@ -19,7 +19,11 @@ async function uploadScreenshot(retryCount) {
     hostEcm: process.env.SCREENSHOT_URL
   });
 
-  await alfrescoJsApi.login(process.env.SCREENSHOT_USERNAME, process.env.SCREENSHOT_PASSWORD);
+  try {
+    await alfrescoJsApi.login(process.env.SCREENSHOT_USERNAME, process.env.SCREENSHOT_PASSWORD);
+  } catch (error) {
+    console.log(` ---- Upload output - login failed : ${error}`);
+  }
 
   let folderNode;
 
@@ -34,23 +38,30 @@ async function uploadScreenshot(retryCount) {
       'overwrite': true
     });
   } catch (error) {
-    folderNode = await alfrescoJsApi.nodes.getNode('-my-', {
-      'relativePath': `${screenshotSavePath}/retry-${retryCount}`,
-      'nodeType': 'cm:folder'
-    }, {}, {
-      'overwrite': true
-    });
+    console.log(`--- Upload output - add node failed. Maybe already exists. ${error}`);
+    try {
+      console.log('--- trying to get the Builds folder ');
+      folderNode = await alfrescoJsApi.nodes.getNode('-my-', {
+        'relativePath': `${screenshotSavePath}/retry-${retryCount}`,
+        'nodeType': 'cm:folder'
+      }, {}, {
+        'overwrite': true
+      });
+    } catch (error) {
+      console.log(`--- Upload out - get node failed. ${error}`);
+    }
   }
 
   const screenShotsPath = path.resolve(__dirname, '../../../e2e-output/screenshots/');
   let files = fs.readdirSync(screenShotsPath);
-  for (const fileName of files) {
-    let pathFile = path.join(screenShotsPath, fileName);
-    let file = fs.createReadStream(pathFile);
 
-    let safeFileName = fileName.replace(new RegExp('"', 'g'), '');
+  try {
+    for (const fileName of files) {
+      let pathFile = path.join(screenShotsPath, fileName);
+      let file = fs.createReadStream(pathFile);
 
-    try {
+      let safeFileName = fileName.replace(new RegExp('"', 'g'), '');
+
       await alfrescoJsApi.upload.uploadFile(
         file,
         '',
@@ -62,9 +73,9 @@ async function uploadScreenshot(retryCount) {
           autoRename: true,
         }
       );
-    } catch (error) {
-      console.log(error);
     }
+  } catch (error) {
+    console.log(`Upload failed: ${error}`);
   }
 
   fs.renameSync(path.resolve(__dirname, '../../../e2e-output/'), path.resolve(__dirname, `../../e2e-output-${retryCount}/`))
@@ -76,17 +87,23 @@ async function uploadScreenshot(retryCount) {
 
   let pathFile = path.join(__dirname, `../../e2e-result-${process.env.TRAVIS_JOB_NUMBER}-${retryCount}.tar`);
   let file = fs.createReadStream(pathFile);
-  await alfrescoJsApi.upload.uploadFile(
-    file,
-    '',
-    folderNode.entry.id,
-    null,
-    {
-      'name': `e2e-result-${process.env.TRAVIS_JOB_NUMBER}-${retryCount}.tar`,
-      'nodeType': 'cm:content',
-      'autoRename': true
-    }
-  );
+
+  try {
+    await alfrescoJsApi.upload.uploadFile(
+      file,
+      '',
+      folderNode.entry.id,
+      null,
+      {
+        'name': `e2e-result-${process.env.TRAVIS_JOB_NUMBER}-${retryCount}.tar`,
+        'nodeType': 'cm:content',
+        'autoRename': true
+      }
+    );
+  } catch (error) {
+    console.log(`--- Upload output failed. ${error}`);
+  }
+
   fs.rmdirSync(path.resolve(__dirname, `../../e2e-output-${retryCount}/`), { recursive: true });
 }
 

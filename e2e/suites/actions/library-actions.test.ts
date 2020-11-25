@@ -106,6 +106,7 @@ describe('Library actions', () => {
   });
 
   afterAll(async () => {
+    await adminApiActions.login();
     await adminApiActions.deleteSites([
       sitePublic1Admin,
       siteSearchPublic1Admin,
