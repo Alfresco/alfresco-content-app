@@ -26,7 +26,6 @@
 import { RepoClient, Utils, AdminActions, UserActions, LoginPage, BrowsingPage, SearchResultsPage } from '@alfresco/aca-testing-shared';
 import * as testData from './test-data';
 import * as testUtil from '../test-util';
-import { browser } from 'protractor';
 
 describe('Locked Files - available actions : ', () => {
   const random = Utils.random();
@@ -61,17 +60,18 @@ describe('Locked Files - available actions : ', () => {
     fileSharedLockedId = (await userApi.nodes.createFile(testData.fileSharedLocked.name, parentId)).entry.id;
     fileSharedFavLockedId = (await userApi.nodes.createFile(testData.fileSharedFavLocked.name, parentId)).entry.id;
 
+    const initialFavoritesTotalItems = (await userApi.favorites.getFavoritesTotalItems()) || 0;
     await userApi.favorites.addFavoritesByIds('file', [fileFavLockedId, fileSharedFavLockedId]);
+    await userApi.favorites.waitForApi({ expect: initialFavoritesTotalItems + 2 });
 
+    const initialSharedTotalItems = await userApi.shared.getSharedLinksTotalItems();
     await userApi.shared.shareFilesByIds([fileSharedLockedId, fileSharedFavLockedId]);
+    await userApi.shared.waitForApi({ expect: initialSharedTotalItems + 2 });
 
     await userApi.nodes.lockFile(fileLockedId);
     await userApi.nodes.lockFile(fileFavLockedId);
     await userApi.nodes.lockFile(fileSharedLockedId);
     await userApi.nodes.lockFile(fileSharedFavLockedId);
-
-    // wait eventual consistency
-    await browser.sleep(browser.params.index_search);
 
     await loginPage.loginWith(username);
   });
