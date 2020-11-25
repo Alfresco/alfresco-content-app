@@ -490,6 +490,7 @@ describe('Share a file', () => {
         file9Id = (await apis.user.nodes.createFile(file9, parentId)).entry.id;
 
         await userActions.shareNodes([file6Id, file7Id], expiryDate);
+
         await browser.sleep(browser.params.index_search);
       });
 
@@ -995,8 +996,6 @@ describe('Share a file', () => {
       beforeEach(async () => {
         await searchInput.clickSearchButton();
         await searchInput.checkFilesAndFolders();
-        await searchInput.searchFor('search-f');
-        await dataTable.waitForBody();
       });
 
       afterEach(async () => {
@@ -1013,6 +1012,9 @@ describe('Share a file', () => {
       });
 
       it('[C306975] Share a file', async () => {
+        await searchInput.searchFor(file3);
+        await dataTable.waitForBody();
+
         await dataTable.selectItem(file3);
         await BrowserActions.click(toolbar.shareButton);
         await shareDialog.waitForDialogToOpen();
@@ -1025,6 +1027,9 @@ describe('Share a file', () => {
       });
 
       it('[C306977] Share a file with expiration date', async () => {
+        await searchInput.searchFor(file5);
+        await dataTable.waitForBody();
+
         await dataTable.selectItem(file5);
         await BrowserActions.click(toolbar.shareButton);
         await shareDialog.waitForDialogToOpen();
@@ -1047,6 +1052,9 @@ describe('Share a file', () => {
       });
 
       it('[C306978] Expire date is displayed correctly', async () => {
+        await searchInput.searchFor(file6);
+        await dataTable.waitForBody();
+
         await dataTable.selectItem(file6);
         await BrowserActions.click(toolbar.shareEditButton);
         await shareDialog.waitForDialogToOpen();
@@ -1058,6 +1066,9 @@ describe('Share a file', () => {
       });
 
       it('[C306979] Disable the share link expiration', async () => {
+        await searchInput.searchFor(file7);
+        await dataTable.waitForBody();
+
         await dataTable.selectItem(file7);
         await BrowserActions.click(toolbar.shareEditButton);
         await shareDialog.waitForDialogToOpen();
@@ -1075,6 +1086,9 @@ describe('Share a file', () => {
       });
 
       it('[C306981] Share a file from the context menu', async () => {
+        await searchInput.searchFor(file9);
+        await dataTable.waitForBody();
+
         await dataTable.rightClickOnItem(file9);
         await contextMenu.waitForMenuToOpen();
         await BrowserActions.click(contextMenu.shareAction);
