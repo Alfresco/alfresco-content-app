@@ -256,7 +256,6 @@ describe('Edit offline', () => {
       await Utils.pressEscape();
     });
 
-    // TODO: raise REPO issue: permissions not returned in /people/${personId}/favorites api
     it('[C306956] File is locked and downloaded when clicking Edit Offline', async () => {
       await dataTable.selectItem(file1);
       await toolbar.clickMoreActionsEditOffline();
