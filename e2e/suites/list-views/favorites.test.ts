@@ -84,9 +84,11 @@ describe('Favorites', () => {
   });
 
   afterAll(async (done) => {
-    await adminApiActions.deleteSites([siteName]);
     await userActions.deleteNodes([folderId, parentId]);
     await userActions.emptyTrashcan();
+
+    await adminApiActions.login();
+    await adminApiActions.deleteSites([siteName]);
     done();
   });
 
