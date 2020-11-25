@@ -61,7 +61,7 @@ describe('Upload files', () => {
   it('Upload a file', async () => {
     await dataTable.doubleClickOnRowByName(folder1);
     await page.sidenav.openNewMenu();
-    await page.sidenav.menu.uploadFilesInput.sendKeys(`${__dirname}/upload-fil.test.ts`);
+    await page.sidenav.menu.uploadFilesInput.sendKeys(`${__dirname}/upload-file.test.ts`);
 
     expect(await dataTable.isItemPresent('create-folder.test.ts')).toBe(true, 'file not uploaded');
   });
