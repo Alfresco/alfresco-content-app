@@ -537,15 +537,12 @@ describe('Unshare a file', () => {
     let file3Id: string;
     const file4 = `file4-${Utils.random()}.txt`;
     let file4Id: string;
-    let initialSharedTotalItems: number;
 
     beforeAll(async (done) => {
       file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
       file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
       file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
       file4Id = (await apis.user.nodes.createFile(file4, parentId)).entry.id;
-
-      initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
 
       await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
 
@@ -676,8 +673,6 @@ describe('Unshare a file', () => {
       file2FavId = (await adminApiActions.nodes.createFile(file2Fav, docLibId)).entry.id;
 
       await adminApiActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_CONSUMER.ROLE);
-
-      const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
 
       await adminApiActions.login();
       await adminApiActions.shareNodes([file1FileLibId, file1SharedId, file1FavId]);
