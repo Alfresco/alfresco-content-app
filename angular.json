@@ -188,7 +188,7 @@
           },
           "configurations": {
             "standalone": {
-                "watch": true
+              "watch": true
             }
           }
         },
@@ -481,6 +481,7 @@
     }
   },
   "cli": {
-    "packageManager": "npm"
+    "packageManager": "npm",
+    "analytics": false
   }
 }

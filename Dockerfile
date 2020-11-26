@@ -1,6 +1,6 @@
 # 1. Generate licenses
 
-FROM node:11.9-alpine AS builder
+FROM node:12.16.2-alpine3.9 AS builder
 WORKDIR /usr/src/alfresco
 COPY package.json package.json
 
@@ -10,31 +10,19 @@ RUN mkdir -p ./licenses && \
 
 # 2. Generate image
 
-FROM nginx:stable-alpine
-LABEL version="1.7"
-LABEL maintainer="Denys Vuika <denys.vuika@alfresco.com>"
+FROM nginxinc/nginx-unprivileged:1.19.3-alpine
 
-ARG GROUPNAME=Alfresco
-ARG GROUPID=1000
-ARG USERNAME=aca
-ARG USERID=33009
+ARG PROJECT_NAME
 
-COPY ./docker/nginx.conf /etc/nginx/nginx.conf
-COPY ./docker/entrypoint.sh /
+COPY docker/default.conf.template /etc/nginx/templates/
+COPY docker/docker-entrypoint.d/* /docker-entrypoint.d/
 
-WORKDIR /usr/share/nginx/html
-COPY dist/app/ .
-COPY --from=builder /usr/src/alfresco/licenses ./licenses
+COPY dist/$PROJECT_NAME /usr/share/nginx/html/
+COPY dist/$PROJECT_NAME/app.config.json /etc/nginx/templates/app.config.json.template
 
-RUN addgroup -g ${GROUPID} ${GROUPNAME} && \
-  adduser -S -u ${USERID} -G ${GROUPNAME} -s "/bin/bash" ${USERNAME} && \
-  chown -R ${USERNAME}:${GROUPNAME} /usr/share/nginx/html && \
-  chown -R ${USERNAME}:${GROUPNAME} /var/cache/nginx && \
-  touch /var/run/nginx.pid && \
-  chown -R ${USERNAME}:${GROUPNAME} /var/run/nginx.pid && \
-  chmod +x /entrypoint.sh && \
-  chown -R ${USERNAME}:${GROUPNAME} /entrypoint.sh
+USER root
+RUN chmod a+w -R /etc/nginx/conf.d
+USER 101
 
-EXPOSE 8080
-USER ${USERNAME}
-ENTRYPOINT [ "sh", "/entrypoint.sh" ]
+ENV BASE_PATH=/$PROJECT_NAME
+ENV NGINX_ENVSUBST_OUTPUT_DIR=/etc/nginx/conf.d
