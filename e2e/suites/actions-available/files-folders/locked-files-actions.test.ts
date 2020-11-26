@@ -64,14 +64,14 @@ describe('Locked Files - available actions : ', () => {
     await userApi.favorites.addFavoritesByIds('file', [fileFavLockedId, fileSharedFavLockedId]);
     await userApi.favorites.waitForApi({ expect: initialFavoritesTotalItems + 2 });
 
-    const initialSharedTotalItems = await userApi.shared.getSharedLinksTotalItems();
     await userApi.shared.shareFilesByIds([fileSharedLockedId, fileSharedFavLockedId]);
-    await userApi.shared.waitForApi({ expect: initialSharedTotalItems + 2 });
 
     await userApi.nodes.lockFile(fileLockedId);
     await userApi.nodes.lockFile(fileFavLockedId);
     await userApi.nodes.lockFile(fileSharedLockedId);
     await userApi.nodes.lockFile(fileSharedFavLockedId);
+
+    await userApi.shared.waitForFilesToBeShared([fileSharedLockedId, fileSharedFavLockedId]);
 
     await loginPage.loginWith(username);
   });

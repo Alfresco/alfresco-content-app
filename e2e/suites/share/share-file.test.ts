@@ -89,20 +89,17 @@ describe('Share a file', () => {
 
   describe('when logged out', () => {
     let file6SharedLink: string;
-    let initialTotalItems: number;
 
     beforeAll(async () => {
       file6Id = (await apis.user.nodes.createFile(file6, parentId)).entry.id;
 
-      initialTotalItems = await apis.user.shared.getSharedLinksTotalItems();
       const sharedId = (await apis.user.shared.shareFileById(file6Id)).entry.id;
       file6SharedLink = `${shareLinkPreUrl}${sharedId}`;
-      await apis.user.shared.waitForApi({ expect: initialTotalItems + 1 });
+      await apis.user.shared.waitForFilesToBeShared([file6Id]);
     });
 
     afterAll(async () => {
       await apis.user.nodes.deleteNodeById(file6Id);
-      await apis.user.shared.waitForApi({ expect: initialTotalItems });
     });
 
     it('[C286326] A non-logged user can download the shared file from the viewer', async () => {
@@ -128,8 +125,6 @@ describe('Share a file', () => {
     });
 
     describe('from Personal Files', () => {
-      let initialTotalItems: number;
-
       beforeAll(async () => {
         file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
         file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
@@ -141,9 +136,8 @@ describe('Share a file', () => {
         file8Id = (await apis.user.nodes.createFile(file8, parentId)).entry.id;
         file9Id = (await apis.user.nodes.createFile(file9, parentId)).entry.id;
 
-        initialTotalItems = await apis.user.shared.getSharedLinksTotalItems();
         await userActions.shareNodes([file6Id, file7Id], expiryDate);
-        await apis.user.shared.waitForApi({ expect: initialTotalItems + 2 });
+        await apis.user.shared.waitForFilesToBeShared([file6Id, file7Id]);
       });
 
       beforeEach(async () => {
@@ -157,16 +151,7 @@ describe('Share a file', () => {
       });
 
       afterAll(async () => {
-        await apis.user.nodes.deleteNodeById(file1Id);
-        await apis.user.nodes.deleteNodeById(file2Id);
-        await apis.user.nodes.deleteNodeById(file3Id);
-        await apis.user.nodes.deleteNodeById(file4Id);
-        await apis.user.nodes.deleteNodeById(file5Id);
-        await apis.user.nodes.deleteNodeById(file6Id);
-        await apis.user.nodes.deleteNodeById(file7Id);
-        await apis.user.nodes.deleteNodeById(file8Id);
-        await apis.user.nodes.deleteNodeById(file9Id);
-        await apis.user.shared.waitForApi({ expect: initialTotalItems });
+        await apis.user.nodes.deleteNodesById([file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id, file9Id]);
       });
 
       it('[C286327] Share dialog default values', async () => {
@@ -312,7 +297,6 @@ describe('Share a file', () => {
       const siteName = `site-${Utils.random()}`;
       const parentInSite = `parent-site-${Utils.random()}`;
       let parentInSiteId: string;
-      let initialTotalItems: number;
 
       beforeAll(async () => {
         await apis.user.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
@@ -329,9 +313,8 @@ describe('Share a file', () => {
         await apis.user.nodes.createFile(file8, parentInSiteId);
         file9Id = (await apis.user.nodes.createFile(file9, parentInSiteId)).entry.id;
 
-        initialTotalItems = await apis.user.shared.getSharedLinksTotalItems();
         await userActions.shareNodes([file6Id, file7Id], expiryDate);
-        await apis.user.shared.waitForApi({ expect: initialTotalItems + 2 });
+        await apis.user.shared.waitForFilesToBeShared([file6Id, file7Id]);
       });
 
       beforeEach(async () => {
@@ -349,7 +332,6 @@ describe('Share a file', () => {
 
       afterAll(async () => {
         await adminApiActions.sites.deleteSite(siteName);
-        await apis.user.shared.waitForApi({ expect: initialTotalItems });
       });
 
       it('[C286639] Share dialog default values', async () => {
@@ -488,8 +470,6 @@ describe('Share a file', () => {
     });
 
     describe('from Recent Files', () => {
-      let initialTotalItems: number;
-
       beforeAll(async () => {
         file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
         file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
@@ -501,9 +481,8 @@ describe('Share a file', () => {
         file8Id = (await apis.user.nodes.createFile(file8, parentId)).entry.id;
         file9Id = (await apis.user.nodes.createFile(file9, parentId)).entry.id;
 
-        initialTotalItems = await apis.user.shared.getSharedLinksTotalItems();
         await userActions.shareNodes([file6Id, file7Id], expiryDate);
-        await apis.user.shared.waitForApi({ expect: initialTotalItems + 2 });
+        await apis.user.shared.waitForFilesToBeShared([file6Id, file7Id]);
       });
 
       beforeEach(async () => {
@@ -516,16 +495,7 @@ describe('Share a file', () => {
       });
 
       afterAll(async () => {
-        await apis.user.nodes.deleteNodeById(file1Id);
-        await apis.user.nodes.deleteNodeById(file2Id);
-        await apis.user.nodes.deleteNodeById(file3Id);
-        await apis.user.nodes.deleteNodeById(file4Id);
-        await apis.user.nodes.deleteNodeById(file5Id);
-        await apis.user.nodes.deleteNodeById(file6Id);
-        await apis.user.nodes.deleteNodeById(file7Id);
-        await apis.user.nodes.deleteNodeById(file8Id);
-        await apis.user.nodes.deleteNodeById(file9Id);
-        await apis.user.shared.waitForApi({ expect: initialTotalItems });
+        await apis.user.nodes.deleteNodesById([file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id, file9Id]);
       });
 
       it('[C286657] Share dialog default values', async () => {
@@ -664,8 +634,6 @@ describe('Share a file', () => {
     });
 
     describe('from Shared Files', () => {
-      let initialTotalItems: number;
-
       beforeAll(async () => {
         file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
         file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
@@ -675,11 +643,10 @@ describe('Share a file', () => {
         file6Id = (await apis.user.nodes.createFile(file6, parentId)).entry.id;
         file7Id = (await apis.user.nodes.createFile(file7, parentId)).entry.id;
 
-        initialTotalItems = await apis.user.shared.getSharedLinksTotalItems();
         await userActions.shareNodes([file1Id, file2Id, file3Id]);
         await userActions.shareNodes([file4Id, file5Id], expiryDate);
         await userActions.shareNodes([file6Id, file7Id]);
-        await apis.user.shared.waitForApi({ expect: initialTotalItems + 7 });
+        await apis.user.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id]);
       });
 
       beforeEach(async () => {
@@ -692,14 +659,7 @@ describe('Share a file', () => {
       });
 
       afterAll(async () => {
-        await apis.user.nodes.deleteNodeById(file1Id);
-        await apis.user.nodes.deleteNodeById(file2Id);
-        await apis.user.nodes.deleteNodeById(file3Id);
-        await apis.user.nodes.deleteNodeById(file4Id);
-        await apis.user.nodes.deleteNodeById(file5Id);
-        await apis.user.nodes.deleteNodeById(file6Id);
-        await apis.user.nodes.deleteNodeById(file7Id);
-        await apis.user.shared.waitForApi({ expect: initialTotalItems });
+        await apis.user.nodes.deleteNodesById([file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id]);
       });
 
       it('[C286648] Share dialog default values', async () => {
@@ -809,8 +769,6 @@ describe('Share a file', () => {
     });
 
     describe('from Favorites', () => {
-      let initialTotalItems: number;
-
       beforeAll(async () => {
         file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
         file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
@@ -822,20 +780,11 @@ describe('Share a file', () => {
         file8Id = (await apis.user.nodes.createFile(file8, parentId)).entry.id;
         file9Id = (await apis.user.nodes.createFile(file9, parentId)).entry.id;
 
-        initialTotalItems = await apis.user.shared.getSharedLinksTotalItems();
-        await apis.user.favorites.addFavoriteById('file', file1Id);
-        await apis.user.favorites.addFavoriteById('file', file2Id);
-        await apis.user.favorites.addFavoriteById('file', file3Id);
-        await apis.user.favorites.addFavoriteById('file', file4Id);
-        await apis.user.favorites.addFavoriteById('file', file5Id);
-        await apis.user.favorites.addFavoriteById('file', file6Id);
-        await apis.user.favorites.addFavoriteById('file', file7Id);
-        await apis.user.favorites.addFavoriteById('file', file8Id);
-        await apis.user.favorites.addFavoriteById('file', file9Id);
-
+        await apis.user.favorites.addFavoritesByIds('file', [file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id, file9Id]);
         await userActions.shareNodes([file6Id, file7Id], expiryDate);
+
         await apis.user.favorites.waitForApi({ expect: 9 });
-        await apis.user.shared.waitForApi({ expect: initialTotalItems + 2 });
+        await apis.user.shared.waitForFilesToBeShared([file6Id, file7Id]);
       });
 
       beforeEach(async () => {
@@ -848,16 +797,7 @@ describe('Share a file', () => {
       });
 
       afterAll(async () => {
-        await apis.user.nodes.deleteNodeById(file1Id);
-        await apis.user.nodes.deleteNodeById(file2Id);
-        await apis.user.nodes.deleteNodeById(file3Id);
-        await apis.user.nodes.deleteNodeById(file4Id);
-        await apis.user.nodes.deleteNodeById(file5Id);
-        await apis.user.nodes.deleteNodeById(file6Id);
-        await apis.user.nodes.deleteNodeById(file7Id);
-        await apis.user.nodes.deleteNodeById(file8Id);
-        await apis.user.nodes.deleteNodeById(file9Id);
-        await apis.user.shared.waitForApi({ expect: initialTotalItems });
+        await apis.user.nodes.deleteNodesById([file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id, file9Id]);
       });
 
       it('[C286666] Share dialog default values', async () => {
@@ -1002,8 +942,6 @@ describe('Share a file', () => {
       file7 = `search-file7-${Utils.random()}.txt`;
       file9 = `search-file9-${Utils.random()}.txt`;
 
-      let initialTotalItems: number;
-
       beforeAll(async () => {
         const initialSearchByTermTotalItems = await apis.user.search.getSearchByTermTotalItems('search-f');
         file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
@@ -1013,9 +951,8 @@ describe('Share a file', () => {
         file9Id = (await apis.user.nodes.createFile(file9, parentId)).entry.id;
         await apis.user.search.waitForNodes('search-f', { expect: initialSearchByTermTotalItems + 5 });
 
-        initialTotalItems = await apis.user.shared.getSharedLinksTotalItems();
         await userActions.shareNodes([file6Id, file7Id], expiryDate);
-        await apis.user.shared.waitForApi({ expect: initialTotalItems + 2 });
+        await apis.user.shared.waitForFilesToBeShared([file6Id, file7Id]);
       });
 
       beforeEach(async () => {
@@ -1031,12 +968,7 @@ describe('Share a file', () => {
       });
 
       afterAll(async () => {
-        await apis.user.nodes.deleteNodeById(file3Id);
-        await apis.user.nodes.deleteNodeById(file5Id);
-        await apis.user.nodes.deleteNodeById(file6Id);
-        await apis.user.nodes.deleteNodeById(file7Id);
-        await apis.user.nodes.deleteNodeById(file9Id);
-        await apis.user.shared.waitForApi({ expect: initialTotalItems });
+        await apis.user.nodes.deleteNodesById([file3Id, file5Id, file6Id, file7Id, file9Id]);
       });
 
       it('[C306975] Share a file', async () => {

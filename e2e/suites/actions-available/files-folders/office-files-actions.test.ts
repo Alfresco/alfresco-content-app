@@ -63,9 +63,8 @@ describe('Office Files - available actions : ', () => {
     await userApi.favorites.addFavoritesByIds('file', [fileDocxFavId, fileDocxSharedFavId]);
     await userApi.favorites.waitForApi({ expect: initialFavoritesTotalItems + 2 });
 
-    const initialSharedTotalItems = await userApi.shared.getSharedLinksTotalItems();
     await userApi.shared.shareFilesByIds([fileDocxSharedId, fileDocxSharedFavId]);
-    await userApi.shared.waitForApi({ expect: initialSharedTotalItems + 2 });
+    await userApi.shared.waitForFilesToBeShared([fileDocxSharedId, fileDocxSharedFavId]);
 
     await loginPage.loginWith(username);
   });

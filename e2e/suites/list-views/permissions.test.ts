@@ -40,8 +40,6 @@ describe('Special permissions', () => {
   const adminApiActions = new AdminActions();
   const userActions = new UserActions();
 
-  let initialSharedTotalItems: number;
-
   beforeAll(async (done) => {
     await adminApiActions.login();
     await adminApiActions.createUser({ username });
@@ -52,7 +50,7 @@ describe('Special permissions', () => {
   describe('file not displayed if user no longer has permissions on it', () => {
     const sitePrivate = `private-${Utils.random()}`;
     const fileName = `file-${Utils.random()}.txt`;
-    let fileId;
+    let fileId: string;
 
     beforeAll(async (done) => {
       await adminApiActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
@@ -61,13 +59,11 @@ describe('Special permissions', () => {
       fileId = (await adminApiActions.nodes.createFile(fileName, docLibId)).entry.id;
       await apis.user.favorites.addFavoriteById('file', fileId);
 
-      initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
-
       await adminApiActions.shareNodes([fileId]);
       await apis.user.nodes.editNodeContent(fileId, 'edited by user');
 
       await apis.user.search.waitForApi(username, { expect: 1 });
-      await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 1 });
+      await adminApiActions.shared.waitForFilesToBeShared([fileId]);
 
       await loginPage.loginWith(username);
       done();
@@ -136,9 +132,8 @@ describe('Special permissions', () => {
       fileId = (await apis.user.nodes.createFile(fileName, docLibId)).entry.id;
       await apis.user.favorites.addFavoriteById('file', fileId);
 
-      initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
       await userActions.shareNodes([fileId]);
-      await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 1 });
+      await apis.user.shared.waitForFilesToBeShared([fileId]);
 
       await apis.user.search.waitForApi(username, { expect: 1 });
       await adminApiActions.sites.deleteSiteMember(sitePrivate, username);

@@ -89,7 +89,6 @@ describe('Unshare a file from Search Results', () => {
     file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
     file4Id = (await apis.user.nodes.createFile(file4, parentId)).entry.id;
 
-    const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
     await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
     await adminApiActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
     const docLibId = await adminApiActions.sites.getDocLibId(sitePrivate);
@@ -102,7 +101,8 @@ describe('Unshare a file from Search Results', () => {
     await adminApiActions.shareNodes([fileSite1Id]);
     await userActions.shareNodes([fileSite2Id]);
 
-    await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 6 });
+    await apis.user.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id, fileSite2Id]);
+    await adminApiActions.shared.waitForFilesToBeShared([fileSite1Id]);
     await apis.user.search.waitForNodes('search-file', { expect: initialSearchByTermTotalItems + 6 });
 
     await loginPage.loginWith(username);

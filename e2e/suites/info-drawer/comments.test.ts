@@ -87,9 +87,8 @@ describe('Comments', () => {
     comment1File2Entry = await userActions.createComment(fileWith2CommentsId, 'first comment');
     comment2File2Entry = await userActions.createComment(fileWith2CommentsId, 'second comment');
 
-    const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
     await apis.user.shared.shareFilesByIds([file2SharedId, fileWith1CommentId, fileWith2CommentsId]);
-    await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 3 });
+    await apis.user.shared.waitForFilesToBeShared([file2SharedId, fileWith1CommentId, fileWith2CommentsId]);
 
     await apis.user.favorites.addFavoritesByIds('file', [file2FavoritesId, fileWith1CommentId, fileWith2CommentsId]);
 

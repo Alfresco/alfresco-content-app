@@ -424,7 +424,6 @@ describe('Move content', () => {
     beforeAll(async (done) => {
       file1Id = (await apis.user.nodes.createFile(file1, sourceIdSF)).entry.id;
 
-      const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
       await userActions.shareNodes([file1Id]);
 
       file2Id = (await apis.user.nodes.createFile(file2, sourceIdSF)).entry.id;
@@ -437,7 +436,7 @@ describe('Move content', () => {
 
       file4Id = (await apis.user.nodes.createFile(file4, sourceIdSF)).entry.id;
       await userActions.shareNodes([file4Id]);
-      await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 5 });
+      await apis.user.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, existingFileId, file4Id]);
 
       done();
     });

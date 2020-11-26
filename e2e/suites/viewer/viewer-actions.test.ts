@@ -713,7 +713,6 @@ describe('Viewer actions', () => {
       await apis.user.nodes.lockFile(fileForCancelEditingId);
       await apis.user.nodes.lockFile(fileForUploadNewVersionId);
 
-      const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
       await apis.user.shared.shareFilesByIds([
         docxFileId,
         xlsxFileId,
@@ -723,7 +722,15 @@ describe('Viewer actions', () => {
         fileForUploadNewVersionId,
         fileSharedId
       ]);
-      await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 7 });
+      await apis.user.shared.waitForFilesToBeShared([
+        docxFileId,
+        xlsxFileId,
+        pdfFileId,
+        fileForCancelEditingId,
+        fileForEditOfflineId,
+        fileForUploadNewVersionId,
+        fileSharedId
+      ]);
 
       await loginPage.loginWith(username);
       done();

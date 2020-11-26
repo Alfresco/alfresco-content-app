@@ -72,9 +72,8 @@ describe('Multiple Files - available actions : ', () => {
     await userApi.favorites.addFavoritesByIds('file', [file1LockedFavId, file2LockedFavId]);
     await userApi.favorites.waitForApi({ expect: initialFavoritesTotalItems + 2 });
 
-    const initialSharedTotalItems = await userApi.shared.getSharedLinksTotalItems();
     await userApi.shared.shareFilesByIds([file1Id, file2Id, file1LockedFavId, file2LockedFavId]);
-    await userApi.shared.waitForApi({ expect: initialSharedTotalItems + 4 });
+    await userApi.shared.waitForFilesToBeShared([file1Id, file2Id, file1LockedFavId, file2LockedFavId]);
 
     await loginPage.loginWith(username);
   });

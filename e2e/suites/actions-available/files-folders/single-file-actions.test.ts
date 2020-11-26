@@ -63,9 +63,8 @@ describe('Files - available actions : ', () => {
     await userApi.favorites.addFavoritesByIds('file', [fileFavId, fileSharedFavId]);
     await userApi.favorites.waitForApi({ expect: initialFavoritesTotalItems + 2 });
 
-    const initialSharedTotalItems = await userApi.shared.getSharedLinksTotalItems();
     await userApi.shared.shareFilesByIds([fileSharedId, fileSharedFavId]);
-    await userApi.shared.waitForApi({ expect: initialSharedTotalItems + 2 });
+    await userApi.shared.waitForFilesToBeShared([fileSharedId, fileSharedFavId]);
 
     await loginPage.loginWith(username);
   });

@@ -73,7 +73,6 @@ describe('Download', () => {
   const searchResultsPage = new SearchResultsPage();
   const { searchInput } = searchResultsPage.header;
 
-  let initialSharedTotalItems: number;
   let initialFavoritesTotalItems: number;
   let initialRecentTotalItems: number;
 
@@ -108,9 +107,8 @@ describe('Download', () => {
 
     await apis.user.search.waitForApi(username, { expect: initialRecentTotalItems + 10 });
 
-    initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
     await userActions.shareNodes([fileShared1Id, fileShared2Id]);
-    await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 2 });
+    await apis.user.shared.waitForFilesToBeShared([fileShared1Id, fileShared2Id]);
 
     initialFavoritesTotalItems = await apis.user.favorites.getFavoritesTotalItems();
     await apis.user.favorites.addFavoriteById('file', fileFavoritesId);

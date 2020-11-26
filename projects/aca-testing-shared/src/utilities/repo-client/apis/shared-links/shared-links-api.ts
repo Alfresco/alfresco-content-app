@@ -84,11 +84,11 @@ export class SharedLinksApi extends RepoApi {
     }
   }
 
-  async getSharedLinks() {
+  async getSharedLinks(maxItems: number = 250) {
     try {
       await this.apiAuth();
       const opts = {
-        maxItems: 250
+        maxItems
       };
       return await this.sharedlinksApi.listSharedLinks(opts);
     } catch (error) {
@@ -126,6 +126,48 @@ export class SharedLinksApi extends RepoApi {
     } catch (error) {
       Logger.error(`SharedLinksApi waitForApi :  catch : `);
       Logger.error(`\tExpected: ${data.expect} items, but found ${error}`);
+    }
+  }
+
+  async waitForFilesToBeShared(filesIds: string[]) {
+    try {
+      const sharedFile = async () => {
+        const sharedFiles = (await this.getSharedLinks()).list.entries.map((link) => {
+          return link.entry.nodeId;
+        });
+        const foundItems = filesIds.every((id) => sharedFiles.includes(id));
+        if (foundItems) {
+          return Promise.resolve(foundItems);
+        } else {
+          return Promise.reject(foundItems);
+        }
+      };
+
+      return await Utils.retryCall(sharedFile);
+    } catch (error) {
+      Logger.error(`SharedLinksApi waitForFilesToBeShared :  catch : `);
+      Logger.error(`\tWait timeout reached waiting for files to be shared`);
+    }
+  }
+
+  async waitForFilesToNotBeShared(filesIds: string[]) {
+    try {
+      const sharedFile = async () => {
+        const sharedFiles = (await this.getSharedLinks()).list.entries.map((link) => {
+          return link.entry.nodeId;
+        });
+        const foundItems = filesIds.every((id) => sharedFiles.includes(id));
+        if (foundItems) {
+          return Promise.reject(foundItems);
+        } else {
+          return Promise.resolve(foundItems);
+        }
+      };
+
+      return await Utils.retryCall(sharedFile);
+    } catch (error) {
+      Logger.error(`SharedLinksApi waitForFilesToNotBeShared :  catch : `);
+      Logger.error(`\tWait timeout reached waiting for files to no longer be shared`);
     }
   }
 }

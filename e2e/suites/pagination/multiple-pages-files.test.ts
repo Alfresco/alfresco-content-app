@@ -45,7 +45,6 @@ describe('Pagination on multiple pages : ', () => {
   const userApi = new RepoClient(username, username);
   const adminApiActions = new AdminActions();
 
-  let initialSharedTotalItems: number;
   let initialFavoritesTotalItems: number;
   let initialSearchTotalItems: number;
 
@@ -57,7 +56,6 @@ describe('Pagination on multiple pages : ', () => {
     parentId = (await userApi.nodes.createFolder(parent)).entry.id;
     filesIds = (await userApi.nodes.createFiles(files, parent)).list.entries.map((entries: any) => entries.entry.id);
 
-    initialSharedTotalItems = await userApi.shared.getSharedLinksTotalItems();
     initialFavoritesTotalItems = await userApi.favorites.getFavoritesTotalItems();
     await userApi.shared.shareFilesByIds(filesIds);
     await userApi.favorites.addFavoritesByIds('file', filesIds);
@@ -87,7 +85,7 @@ describe('Pagination on multiple pages : ', () => {
 
   describe('on Shared Files', () => {
     beforeAll(async () => {
-      await userApi.shared.waitForApi({ expect: initialSharedTotalItems + 51 });
+      await userApi.shared.waitForFilesToBeShared(filesIds);
     });
     sharedFilesTests(username);
   });

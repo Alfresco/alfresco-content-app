@@ -118,7 +118,6 @@ describe('Copy content', () => {
     await adminApiActions.createUser({ username });
     await userActions.login(username, username);
 
-    const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
     const initialFavoritesTotalItems = await apis.user.favorites.getFavoritesTotalItems();
 
     sourceId = (await apis.user.nodes.createFolder(source)).entry.id;
@@ -206,7 +205,7 @@ describe('Copy content', () => {
     await apis.user.nodes.createFolder(folderSiteFav, docLibId);
     await apis.user.nodes.createFolder(folderSiteSearch, docLibId);
 
-    await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 7 });
+    await apis.user.shared.waitForFilesToBeShared([existingFileToCopyId, fileInFolderId, file1Id, file2Id, file3Id, file4Id, fileLocked1Id]);
     await apis.user.favorites.waitForApi({ expect: initialFavoritesTotalItems + 13 });
 
     await loginPage.loginWith(username);
