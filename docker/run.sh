@@ -2,11 +2,6 @@
 
 set -e
 
-if [[ "$BUILD_ENABLED" == "true" ]]
-then
-  npm clean-install
-  npm run build
-fi
 docker rmi -f $DOCKER_IMAGE_REPO
 docker build --build-arg PROJECT_NAME=$PROJECT_NAME -t $DOCKER_IMAGE_REPO .
 echo http://localhost:8080$BASE_PATH
