@@ -24,7 +24,6 @@
  */
 
 import { AdminActions, LoginPage, BrowsingPage, SITE_VISIBILITY, RepoClient, Utils } from '@alfresco/aca-testing-shared';
-import { browser } from 'protractor';
 
 describe('Mark items as favorites', () => {
   const username = `user-${Utils.random()}`;
@@ -102,12 +101,14 @@ describe('Mark items as favorites', () => {
     fileFav4Id = (await apis.user.nodes.createFile(fileFav4, parentId)).entry.id;
     folderId = (await apis.user.nodes.createFolder(folder, parentId)).entry.id;
 
+    const currentFavoritesTotalItems = await apis.user.favorites.getFavoritesTotalItems();
     await apis.user.favorites.addFavoritesByIds('file', [fileFavUIId, fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id]);
+    await apis.user.favorites.waitForApi({ expect: currentFavoritesTotalItems + 5 });
 
+    const currentSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
     await apis.user.shared.shareFilesByIds([fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id]);
     await apis.user.shared.shareFilesByIds([fileNotFav1Id, fileNotFav2Id, fileNotFav3Id, fileNotFav4Id]);
-
-    await browser.sleep(browser.params.index_search);
+    await apis.user.shared.waitForApi({ expect: currentSharedTotalItems + 8 });
 
     await loginPage.loginWith(username);
     done();

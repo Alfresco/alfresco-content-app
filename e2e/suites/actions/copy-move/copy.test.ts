@@ -25,7 +25,6 @@
 
 import { AdminActions, UserActions, LoginPage, BrowsingPage, ContentNodeSelectorDialog, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 import { BrowserActions } from '@alfresco/adf-testing';
-import { browser } from 'protractor';
 
 describe('Copy content', () => {
   const username = `user-${Utils.random()}`;
@@ -119,6 +118,9 @@ describe('Copy content', () => {
     await adminApiActions.createUser({ username });
     await userActions.login(username, username);
 
+    const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
+    const initialFavoritesTotalItems = await apis.user.favorites.getFavoritesTotalItems();
+
     sourceId = (await apis.user.nodes.createFolder(source)).entry.id;
     destinationIdPF = (await apis.user.nodes.createFolder(destinationPF)).entry.id;
     destinationIdRF = (await apis.user.nodes.createFolder(destinationRF)).entry.id;
@@ -204,7 +206,8 @@ describe('Copy content', () => {
     await apis.user.nodes.createFolder(folderSiteFav, docLibId);
     await apis.user.nodes.createFolder(folderSiteSearch, docLibId);
 
-    await browser.sleep(browser.params.index_search);
+    await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 7 });
+    await apis.user.favorites.waitForApi({ expect: initialFavoritesTotalItems + 13 });
 
     await loginPage.loginWith(username);
     done();
