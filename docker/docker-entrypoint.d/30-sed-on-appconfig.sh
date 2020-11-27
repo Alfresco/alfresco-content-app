@@ -93,10 +93,9 @@ fi
 
 # application specific ce replacements
 
-if [ -n "${APP_BASE_SHARE_URL}" ];then
+if [ -n "${APP_BASE_SHARE_URL}" ]; then
   replace="\/"
   encoded=${APP_BASE_SHARE_URL//\//$replace}
   sed -e "s/\"baseShareUrl\": \".*\"/\"baseShareUrl\": \"${encoded}\"/g" \
-    -i /tmp/app.config.json && \
-  cat /tmp/app.config.json > ./app.config.json
+    -i "${NGINX_ENVSUBST_OUTPUT_DIR}/app.config.json"
 fi
