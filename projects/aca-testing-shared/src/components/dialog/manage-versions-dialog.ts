@@ -30,7 +30,6 @@ import { BrowserActions } from '@alfresco/adf-testing';
 export class ManageVersionsDialog extends GenericDialog {
   closeButton = this.childElement(by.cssContainingText('.mat-button', 'Close'));
 
-
   constructor() {
     super('.aca-node-versions-dialog');
   }
