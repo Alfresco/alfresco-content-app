@@ -60,13 +60,6 @@ describe('Empty list views', () => {
     expect(await dataTable.getEmptyStateSubtitle()).toContain('Favorite a library that you want to find easily later.');
   });
 
-  it('[C280132] empty Shared Files', async () => {
-    await page.clickSharedFiles();
-    expect(await dataTable.isEmpty()).toBe(true, 'list is not empty');
-    expect(await dataTable.getEmptyStateTitle()).toContain('No shared files or folders');
-    expect(await dataTable.getEmptyStateSubtitle()).toContain('Items you share using the Share option are shown here.');
-  });
-
   it('[C213169] empty Recent Files', async () => {
     await page.clickRecentFiles();
     expect(await dataTable.isEmpty()).toBe(true, 'list is not empty');
@@ -131,16 +124,6 @@ describe('Empty list views', () => {
 
   it('[C280102] Recent Files - pagination controls not displayed', async () => {
     await page.clickRecentFiles();
-    expect(await pagination.isRangePresent()).toBe(false, 'Range is present');
-    expect(await pagination.isMaxItemsPresent()).toBe(false, 'Max items is present');
-    expect(await pagination.isCurrentPagePresent()).toBe(false, 'Current page is present');
-    expect(await pagination.isTotalPagesPresent()).toBe(false, 'Total pages is present');
-    expect(await pagination.isPreviousButtonPresent()).toBe(false, 'Previous button is present');
-    expect(await pagination.isNextButtonPresent()).toBe(false, 'Next button is present');
-  });
-
-  it('[C280093] Shared Files - pagination controls not displayed', async () => {
-    await page.clickSharedFiles();
     expect(await pagination.isRangePresent()).toBe(false, 'Range is present');
     expect(await pagination.isMaxItemsPresent()).toBe(false, 'Max items is present');
     expect(await pagination.isCurrentPagePresent()).toBe(false, 'Current page is present');
