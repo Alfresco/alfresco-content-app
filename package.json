@@ -1,7 +1,6 @@
 {
   "name": "alfresco-content-app",
   "version": "2.1.0",
-  "author": "Alfresco Software, Ltd.",
   "commit": "",
   "license": "LGPL-3.0",
   "scripts": {
@@ -57,8 +56,8 @@
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
-    "@alfresco/adf-cli": "4.2.0-418cd0e2d38c1e10b372ec44ae85a80f292c23d6",
-    "@alfresco/adf-testing": "4.2.0-418cd0e2d38c1e10b372ec44ae85a80f292c23d6",
+    "@alfresco/adf-cli": "4.1.0",
+    "@alfresco/adf-testing": "4.2.0-6ca8f53bab727b80dfd6fe0d5645187cdcb6082e",
     "@angular-custom-builders/lite-serve": "^0.2.2",
     "@angular-devkit/build-angular": "~0.1001.4",
     "@angular-devkit/build-ng-packagr": "~0.1001.3",

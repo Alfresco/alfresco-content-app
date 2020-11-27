@@ -163,7 +163,7 @@ jobs:
 
     - stage: Publish Docker Registry
       name: Publish Docker Registry
-      script: ./scripts/travis/deploy/publish.sh
+      script: ./scripts/travis/deploy/publish.sh "app"
 
     - stage: Release Tag
       script: ./scripts/travis/release/git-tag.sh
