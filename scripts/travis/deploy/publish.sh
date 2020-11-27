@@ -13,4 +13,4 @@ DOCKER_PROJECT_ARGS="PROJECT_NAME=$PROJECT_AFFECTED"
 
 # Publish Image to docker
 echo "npx @lfresco/adf-cli docker-publish --loginCheck --loginUsername '$DOCKER_REPOSITORY_USER' --loginPassword '$DOCKER_REPOSITORY_PASSWORD' --loginRepo '$DOCKER_REPOSITORY_DOMAIN' --dockerRepo '$DOCKER_REPOSITORY' --buildArgs $DOCKER_PROJECT_ARGS --dockerTags '$TAG_VERSION,$TRAVIS_BRANCH' "
-npx docker-publish --loginCheck --loginUsername "$DOCKER_REPOSITORY_USER" --loginPassword "$DOCKER_REPOSITORY_PASSWORD" --loginRepo "$DOCKER_REPOSITORY_DOMAIN" --dockerRepo "$DOCKER_REPOSITORY" --buildArgs "$DOCKER_PROJECT_ARGS" --dockerTags "$TAG_VERSION,$TRAVIS_BRANCH" --pathProject "$(pwd)"
+npx @lfresco/adf-cli docker-publish --loginCheck --loginUsername "$DOCKER_REPOSITORY_USER" --loginPassword "$DOCKER_REPOSITORY_PASSWORD" --loginRepo "$DOCKER_REPOSITORY_DOMAIN" --dockerRepo "$DOCKER_REPOSITORY" --buildArgs "$DOCKER_PROJECT_ARGS" --dockerTags "$TAG_VERSION,$TRAVIS_BRANCH" --pathProject "$(pwd)"
