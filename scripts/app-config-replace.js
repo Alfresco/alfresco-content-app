@@ -25,8 +25,8 @@ const options = {
       appConfig.aosHost = appConfig.aosHost.replace('{protocol}//{hostname}{:port}', API_AOS_HOST);
     }
   },
-  indentityHost: {
-    flags: '-i, --indentity-host',
+  identityHost: {
+    flags: '-i, --identity-host',
     description: "set identityHost's value with IDENTITY_HOST",
     set: (appConfig) => {
       appConfig.authType = 'OAUTH';
