@@ -23,17 +23,26 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, FILES, RepoClient, Utils, UploadNewVersionDialog } from '@alfresco/aca-testing-shared';
-import { VersionManagePage } from '../../../projects/aca-testing-shared/src/components/version-manage/version-manager';
-import { Viewer } from '../../../projects/aca-testing-shared/src/components';
+import {
+  AdminActions,
+  LoginPage,
+  BrowsingPage,
+  FILES,
+  RepoClient,
+  Utils,
+  UploadNewVersionDialog,
+  ManageVersionsDialog,
+  Viewer
+} from '@alfresco/aca-testing-shared';
 import { browser } from 'protractor';
-import { BrowserActions } from '@alfresco/adf-testing';
+import { BrowserActions, Logger } from '@alfresco/adf-testing';
 
 describe('Version component actions', () => {
-  const versionManagePage = new VersionManagePage();
-  const viewerPage = new Viewer();
+  const random = Utils.random();
 
-  const username = `user-${Utils.random()}`;
+  const username = `user-${random}`;
+  const parentFolder = `parent-${random}`;
+  let parentFolderId: string;
 
   let fileId: string;
 
@@ -47,53 +56,61 @@ describe('Version component actions', () => {
   const page = new BrowsingPage();
   const { dataTable, toolbar } = page;
   const uploadNewVersionDialog = new UploadNewVersionDialog();
+  const versionManagePage = new ManageVersionsDialog();
+  const viewerPage = new Viewer();
   const { searchInput } = page.header;
   const adminApiActions = new AdminActions();
 
   beforeAll(async (done) => {
-    await adminApiActions.createUser({ username });
-    fileId = (await apis.user.upload.uploadFile(filesToUpload[0])).entry.id;
-    await apis.user.shared.shareFilesByIds([fileId]);
-    await loginPage.loginWith(username);
+    try {
+      await adminApiActions.createUser({ username });
+      parentFolderId = (await apis.user.nodes.createFolder(parentFolder)).entry.id;
 
-    for (let i = 0; i < filesToUpload.length - 1; i++) {
-      await dataTable.selectItem(filesToUpload[i]);
-      await toolbar.clickMoreActionsUploadNewVersion();
-      await Utils.uploadFileNewVersion(filesToUpload[i + 1]);
+      fileId = (await apis.user.upload.uploadFile(filesToUpload[0], parentFolderId)).entry.id;
 
-      await page.waitForDialog();
+      await apis.user.shared.shareFilesByIds([fileId]);
+      await apis.user.favorites.addFavoritesByIds('file', [fileId]);
 
-      await BrowserActions.click(uploadNewVersionDialog.majorOption);
+      await loginPage.loginWith(username);
+      await dataTable.doubleClickOnRowByName(parentFolder);
+      await dataTable.waitForHeader();
 
-      await uploadNewVersionDialog.enterDescription('new major version description');
-      await BrowserActions.click(uploadNewVersionDialog.uploadButton);
+      for (let i = 0; i < filesToUpload.length - 1; i++) {
+        await dataTable.selectItem(filesToUpload[i]);
+        await toolbar.clickMoreActionsUploadNewVersion();
+        await Utils.uploadFileNewVersion(filesToUpload[i + 1]);
 
-      await uploadNewVersionDialog.waitForDialogToClose();
+        await uploadNewVersionDialog.waitForDialogToOpen();
+        await BrowserActions.click(uploadNewVersionDialog.majorOption);
+        await uploadNewVersionDialog.enterDescription('new major version description');
+        await BrowserActions.click(uploadNewVersionDialog.uploadButton);
+        await uploadNewVersionDialog.waitForDialogToClose();
+      }
+
+      await page.closeUploadDialog();
+      done();
+    } catch (error) {
+      Logger.error(`--- beforeAll failed : ${error}`);
     }
-    done();
   });
 
-  afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(fileId);
-    done();
+  afterAll(async () => {
+    await apis.user.nodes.deleteNodeById(parentFolderId);
   });
 
   describe('on Personal Files', () => {
-    beforeAll(async (done) => {
+    beforeEach(async () => {
       await page.clickPersonalFilesAndWait();
-      done();
-    });
-
-    beforeEach(async (done) => {
+      await dataTable.doubleClickOnRowByName(parentFolder);
+      await dataTable.waitForHeader();
       await dataTable.selectItem(filesToUpload[4]);
       await toolbar.clickMoreActionsManageVersions();
       await versionManagePage.viewFileVersion('1.0');
-      done();
     });
 
-    afterEach(async (done) => {
-      await viewerPage.clickCloseButton();
-      done();
+    afterEach(async () => {
+      await page.closeOpenDialogs();
+      await Utils.pressEscape();
     });
 
     it('[C586766] Should be possible to view a previous document version', async () => {
@@ -112,13 +129,9 @@ describe('Version component actions', () => {
   });
 
   describe('on Shared Files', () => {
-    beforeAll(async (done) => {
-      await page.clickSharedFilesAndWait();
-      done();
-    });
-
     beforeEach(async (done) => {
-      await dataTable.selectItem(filesToUpload[4]);
+      await page.clickSharedFilesAndWait();
+      await dataTable.selectItem(filesToUpload[4], parentFolder);
       await toolbar.clickMoreActionsManageVersions();
       await versionManagePage.viewFileVersion('2.0');
       done();
@@ -145,13 +158,9 @@ describe('Version component actions', () => {
   });
 
   describe('on Recent Files', () => {
-    beforeAll(async (done) => {
-      await page.clickRecentFilesAndWait();
-      done();
-    });
-
     beforeEach(async (done) => {
-      await dataTable.selectItem(filesToUpload[4]);
+      await page.clickRecentFilesAndWait();
+      await dataTable.selectItem(filesToUpload[4], parentFolder);
       await toolbar.clickMoreActionsManageVersions();
       await versionManagePage.viewFileVersion('3.0');
       done();
@@ -178,15 +187,9 @@ describe('Version component actions', () => {
   });
 
   describe('on Favorite Files', () => {
-    beforeAll(async (done) => {
-      await apis.user.favorites.addFavoritesByIds('file', [fileId]);
-      await apis.user.favorites.waitForApi({ expect: 1 });
-      await page.clickFavoritesAndWait();
-      done();
-    });
-
     beforeEach(async (done) => {
-      await dataTable.selectItem(filesToUpload[4]);
+      await page.clickFavoritesAndWait();
+      await dataTable.selectItem(filesToUpload[4], parentFolder);
       await toolbar.clickMoreActionsManageVersions();
       await versionManagePage.viewFileVersion('4.0');
       done();
@@ -213,16 +216,14 @@ describe('Version component actions', () => {
   });
 
   describe('on Search Results', () => {
-    beforeAll(async (done) => {
+    beforeEach(async (done) => {
+      await page.clickPersonalFiles();
       await searchInput.clickSearchButton();
-      await searchInput.checkFilesAndFolders();
+      await searchInput.checkOnlyFiles();
       await searchInput.searchFor(filesToUpload[4]);
       await dataTable.waitForBody();
-      done();
-    });
 
-    beforeEach(async (done) => {
-      await dataTable.selectItem(filesToUpload[4], 'Personal Files');
+      await dataTable.selectItem(filesToUpload[4], parentFolder);
       await toolbar.clickMoreActionsManageVersions();
       await versionManagePage.viewFileVersion('5.0');
       done();

@@ -23,12 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { by } from 'protractor';
+import { by, ElementFinder, browser } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
 import { BrowserActions } from '@alfresco/adf-testing';
 
 export class ManageVersionsDialog extends GenericDialog {
   closeButton = this.childElement(by.cssContainingText('.mat-button', 'Close'));
+
 
   constructor() {
     super('.aca-node-versions-dialog');
@@ -37,5 +38,15 @@ export class ManageVersionsDialog extends GenericDialog {
   async clickClose(): Promise<void> {
     await BrowserActions.click(this.closeButton);
     await this.waitForDialogToClose();
+  }
+
+  async clickActionButton(version: string): Promise<void> {
+    await BrowserActions.click(this.childElement(by.id(`adf-version-list-action-menu-button-${version}`)));
+  }
+
+  async viewFileVersion(version: string): Promise<void> {
+    await this.clickActionButton(version);
+    const viewButton: ElementFinder = browser.element(by.id(`adf-version-list-action-view-${version}`));
+    await BrowserActions.click(viewButton);
   }
 }

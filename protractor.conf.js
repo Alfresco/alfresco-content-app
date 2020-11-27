@@ -53,6 +53,10 @@ exports.config = {
     './e2e/suites/search/**/*test.ts',
     './e2e/suites/actions-available/**/**/*test.ts',
     './e2e/suites/actions/**/**/*test.ts',
+    './e2e/suites/delete/**/*test.ts',
+    './e2e/suites/create-actions/**/*test.ts',
+    './e2e/suites/favorite/**/*test.ts',
+    './e2e/suites/share/**/*test.ts',
     './e2e/suites/viewer/**/*test.ts',
     './e2e/suites/info-drawer/**/*test.ts',
     './e2e/suites/extensions/**/*test.ts'
