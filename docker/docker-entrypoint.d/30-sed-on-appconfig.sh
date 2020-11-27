@@ -76,21 +76,6 @@ else
     -i "${NGINX_ENVSUBST_OUTPUT_DIR}/app.config.json"
 fi
 
-if [ -n "${APP_ALLOW_CUSTOM_RESOURCES}" ]; then
-  sed -e "s/\"allowCustomResources\": [^,]*/\"allowCustomResources\": ${APP_ALLOW_CUSTOM_RESOURCES}/g" \
-    -i "${NGINX_ENVSUBST_OUTPUT_DIR}/app.config.json"
-fi
-
-if [ -n "${APP_CONFIG_APPS_DEPLOYED}" ]; then
-  sed -e "s/\"alfresco-deployed-apps\": \[.*\]/\"alfresco-deployed-apps\": ${APP_CONFIG_APPS_DEPLOYED}/g" \
-    -i "${NGINX_ENVSUBST_OUTPUT_DIR}/app.config.json"
-fi
-
-if [ -n "${ENABLE_CUSTOM_CONNECTORS}" ]; then
-   sed -e "s/\"enableCustomConnectors\": [^,]*/\"enableCustomConnectors\": ${ENABLE_CUSTOM_CONNECTORS}/g" \
-    -i "${NGINX_ENVSUBST_OUTPUT_DIR}/app.config.json"
-fi
-
 # application specific ce replacements
 
 if [ -n "${APP_BASE_SHARE_URL}" ]; then
