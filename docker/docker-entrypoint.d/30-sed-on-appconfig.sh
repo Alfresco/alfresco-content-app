@@ -91,9 +91,6 @@ echo "replace APP_CONFIG_ECM_HOST"
   encoded=${APP_CONFIG_ECM_HOST//\//$replace}
   sed -e "s/\"ecmHost\": \".*\"/\"ecmHost\": \"${encoded}\"/g" \
     -i "${NGINX_ENVSUBST_OUTPUT_DIR}/app.config.json"
-else
-  sed -e "s/\"ecmHost\": \".*\"/\"ecmHost\": \"\"/g" \
-    -i "${NGINX_ENVSUBST_OUTPUT_DIR}/app.config.json"
 fi
 
 # application specific ce replacements
