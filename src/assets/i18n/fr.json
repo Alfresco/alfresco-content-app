@@ -43,10 +43,11 @@
       "APPLICATION-SETTINGS": "Paramètres de l'application",
       "REPOSITORY-SETTINGS": "Paramètres de l'entrepôt",
       "INVALID-VALUE-FORMAT": "Format de valeur non valide",
-      "REQUIRED-FIELD": "Ce champ doit être renseigné",
+      "REQUIRED-FIELD": "Ce champ est obligatoire",
       "RESET": "Réinitialiser",
       "APPLY": "Appliquer"
     },
+    "LOCKED_BY": "Verrouillé par: ",
     "PREVIEW": {
       "TITLE": "Aperçu"
     },
@@ -62,7 +63,7 @@
         "FOLDER_TEMPLATE": "Nouveau dossier à partir d'un modèle"
       },
       "TOOLTIPS": {
-        "CREATE_FOLDER": "Créer un nouveau filtre",
+        "CREATE_FOLDER": "Créer un nouveau dossier",
         "CREATE_FOLDER_NOT_ALLOWED": "Impossible de créer des dossiers pendant l'affichage des éléments actuels.",
         "CREATE_FILE_NOT_ALLOWED": "Impossible de créer des fichiers tout en visualisant les éléments actuels",
         "UPLOAD_FILES": "Sélectionner les fichiers à ajouter",
@@ -155,8 +156,8 @@
         },
         "EMPTY_STATE": {
           "TITLE": "La corbeille est vide",
-          "FIRST_TEXT": "Les éléments que vous supprimez sont placés dans la corbeille.",
-          "SECOND_TEXT": "Videz la corbeille pour supprimer définitivement les éléments qu'elle contient."
+          "FIRST_TEXT": "Les éléments supprimés sont placés dans la corbeille.",
+          "SECOND_TEXT": "Videz la corbeille pour supprimer définitivement les éléments."
         }
       },
       "ABOUT": {
@@ -174,6 +175,7 @@
         },
         "UNKNOWN_LOCATION": "Inconnu",
         "NO_RESULTS": "Votre recherche a renvoyé 0 résultat",
+        "NO_FILTER_RESULTS": "Votre filtre a renvoyé 0 résultat",
         "TOGGLE_SEARCH_FILTER": "Activer/désactiver le filtre de recherche",
         "ERRORS": {
           "500": "Une erreur s'est produite lors du traitement de la requête [500]",
@@ -243,9 +245,9 @@
         "VISIBILITY": "Visibilité",
         "TITLE": "Titre",
         "LOCATION": "Emplacement",
-        "SHARED_BY": "Partagé(s) par",
+        "SHARED_BY": "Partagé par",
         "DELETED_ON": "Supprimé",
-        "DELETED_BY": "Supprimé(s) par",
+        "DELETED_BY": "Supprimé par",
         "ROLE": "Mon rôle"
       },
       "TOOLBAR": {
@@ -258,7 +260,7 @@
         "CANNOT_NAVIGATE_LOCATION": "Impossible d'ouvrir cet emplacement",
         "MISSING_CONTENT": "Cet élément n'existe plus ou vous n'avez pas les droits pour le consulter.",
         "GENERIC": "L'action a échoué. Réessayez ou contactez le service informatique.",
-        "CONFLICT": "Ce nom est déjà utilisé, essayez avec un nom différent.",
+        "CONFLICT": "Ce nom est déjà utilisé, choisissez-en un autre.",
         "NODE_MOVE": "Echec du déplacement, un fichier du même nom existe déjà.",
         "EXISTENT_FOLDER": "Un dossier du même nom existe déjà. Essayez avec un nom différent.",
         "NODE_DELETION": "{{ name }} n'a pas pu être supprimé",
@@ -429,7 +431,7 @@
     "DIALOG": {
       "CREATE_TITLE": "Créer une Bibliothèque",
       "CREATE": "Créer",
-      "UPDATE": "Mis à jour",
+      "UPDATE": "Mettre à jour",
       "EDIT": "Modifier",
       "CANCEL": "Annuler",
       "FORM": {
@@ -487,7 +489,7 @@
       "LOCATION": "Emplacement"
     },
     "CATEGORIES": {
-      "MODIFIED_DATE": "Date de Modification",
+      "MODIFIED_DATE": "Date de modification",
       "SIZE": "Taille",
       "SIZE_OPTIONS": {
         "SMALL": "Petite",
@@ -505,7 +507,7 @@
       "THIS_YEAR": "Cette année"
     },
     "SEARCH_HEADER": {
-      "TITLE": "Filtrer",
+      "TITLE": "Filtre",
       "TYPE": "Type",
       "FILTER_BY": "Filtrer par {{ category }}",
       "CLEAR": "Supprimer",

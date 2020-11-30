@@ -1,6 +1,6 @@
 {
   "APP": {
-    "COPYRIGHT": "© 2017 - 2020 Alfresco Software, Inc. Wszelkie prawa zastrzeżone.",
+    "COPYRIGHT": "© 2017–2020 Alfresco Software, Inc. Wszelkie prawa zastrzeżone.",
     "ABOUT": {
       "VERSION": "Wersja:",
       "PLUGINS": {
@@ -47,6 +47,7 @@
       "RESET": "Resetuj",
       "APPLY": "Zastosuj"
     },
+    "LOCKED_BY": "Zablokowane przez: ",
     "PREVIEW": {
       "TITLE": "Podgląd"
     },
@@ -174,6 +175,7 @@
         },
         "UNKNOWN_LOCATION": "Nieznane",
         "NO_RESULTS": "Wyszukiwanie nie zwróciło żadnych wyników",
+        "NO_FILTER_RESULTS": "Filtr nie zwróciło żadnych wyników",
         "TOGGLE_SEARCH_FILTER": "Przełącz filtr wyszukiwania",
         "ERRORS": {
           "500": "Podczas przetwarzania zapytania wyszukiwania wystąpił błąd [500]",
@@ -210,7 +212,7 @@
       "SHARE_EDIT": "Udostępnione ustawienia łącza",
       "PRINT": "Drukuj",
       "FULLSCREEN": "Uaktywnij tryb pełnoekranowy",
-      "JOIN": "Dołącz do",
+      "JOIN": "Dołącz",
       "CANCEL_JOIN": "Anuluj żądanie dołączenia",
       "LEAVE": "Opuść bibliotekę",
       "EDIT_OFFLINE": "Edytuj w trybie offline",
