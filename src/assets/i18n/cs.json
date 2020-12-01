@@ -47,6 +47,7 @@
       "RESET": "Reset",
       "APPLY": "Použít"
     },
+    "LOCKED_BY": "Uzamčen(a) od: ",
     "PREVIEW": {
       "TITLE": "Náhled"
     },
@@ -173,7 +174,8 @@
           "SIZE": "Velikost"
         },
         "UNKNOWN_LOCATION": "Neznámé",
-        "NO_RESULTS": "Parametrům hledání odpovídá 0 výsledků",
+        "NO_RESULTS": "Parametrům hledání odpovídá 0 výsledků",
+        "NO_FILTER_RESULTS": "K vašemu filtru je 0 výsledků",
         "TOGGLE_SEARCH_FILTER": "Přepnout filtr hledání",
         "ERRORS": {
           "500": "Při pokusu o zpracování dotazu hledání došlo k chybě [500]",
@@ -258,7 +260,7 @@
         "CANNOT_NAVIGATE_LOCATION": "Toto umístění nelze otevřít",
         "MISSING_CONTENT": "Tato položka již neexistuje nebo nemáte dostatečná oprávnění pro její zobrazení.",
         "GENERIC": "Akce se nezdařila. Zkuste to znovu nebo se obraťte na oddělení IT.",
-        "CONFLICT": "Tento název se již používá. Zvolte jiný název.",
+        "CONFLICT": "Tento název se již používá. Zvolte jiný.",
         "NODE_MOVE": "Přesunutí se nezdařilo, protože soubor se stejným názvem již existuje.",
         "EXISTENT_FOLDER": "Složka s tímto názvem již existuje. Zadejte jiný název.",
         "NODE_DELETION": "„{{ name }}“ nebylo možné odstranit",

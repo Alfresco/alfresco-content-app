@@ -47,6 +47,7 @@
       "RESET": "重置",
       "APPLY": "应用"
     },
+    "LOCKED_BY": "锁定者： ",
     "PREVIEW": {
       "TITLE": "预览"
     },
@@ -174,6 +175,7 @@
         },
         "UNKNOWN_LOCATION": "未知",
         "NO_RESULTS": "您的搜索返回了 0 个结果",
+        "NO_FILTER_RESULTS": "您的筛选返回了 0 个结果",
         "TOGGLE_SEARCH_FILTER": "切换搜索过滤器",
         "ERRORS": {
           "500": "处理搜索查询时发生错误 [500]",
@@ -380,7 +382,7 @@
         "TITLE_TOO_LONG": "对标题使用 256 个字符或更少字符",
         "REQUIRED": "需要名称",
         "SPECIAL_CHARACTERS": "名称不能包含字符 * \" < > \\ / ? : |",
-        "ENDING_DOT": "名称不能以句号 . 结尾",
+        "ENDING_DOT": "名称不能以句号 。 结尾",
         "ONLY_SPACES": "名称不能仅包含空格"
       }
     }
@@ -505,7 +507,7 @@
       "THIS_YEAR": "今年"
     },
     "SEARCH_HEADER": {
-      "TITLE": "筛选器",
+      "TITLE": "筛选",
       "TYPE": "类型",
       "FILTER_BY": "根据 {{ category }} 筛选",
       "CLEAR": "清除",
@@ -572,7 +574,7 @@
   "ADF-DATATABLE": {
     "FILE_TYPE": {
       "BOOKS-24PX": "文件库",
-      "BASELINE-LOCK-24PX": "无法完成该操作。将此信息告知您的 IT 团队：将 {{data}} 反序列化为 {{contentType}} 过程中出错"
+      "BASELINE-LOCK-24PX": "锁定的文件"
     }
   }
 }

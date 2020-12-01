@@ -47,6 +47,7 @@
       "RESET": "Reiniciar",
       "APPLY": "Aplicar"
     },
+    "LOCKED_BY": "Bloqueado por: ",
     "PREVIEW": {
       "TITLE": "Vista previa"
     },
@@ -151,7 +152,7 @@
         "TITLE": "Papelera",
         "SIDENAV_LINK": {
           "LABEL": "Papelera",
-          "TOOLTIP": "Ver ficheros eliminados en la papelera"
+          "TOOLTIP": "Vea ficheros eliminados en la papelera"
         },
         "EMPTY_STATE": {
           "TITLE": "La papelera está vacía",
@@ -174,6 +175,7 @@
         },
         "UNKNOWN_LOCATION": "Desconocido",
         "NO_RESULTS": "Su búsqueda arrojó 0 resultados",
+        "NO_FILTER_RESULTS": "Su filtro arrojó 0 resultados",
         "TOGGLE_SEARCH_FILTER": "Alternar filtro de búsqueda",
         "ERRORS": {
           "500": "Error al procesar la consulta de búsqueda [500]",
@@ -521,7 +523,7 @@
           "DOCUMENT": "Documento"
         },
         "SIZE": {
-          "TITLE": "Tamaño del contenido (rango)",
+          "TITLE": "Tamaño de contenido (rango)",
           "SMALL": "Pequeño",
           "MEDIUM": "Mediano",
           "LARGE": "Grande",

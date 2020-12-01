@@ -47,6 +47,7 @@
       "RESET": "Nulstil",
       "APPLY": "Anvend"
     },
+    "LOCKED_BY": "Låst af: ",
     "PREVIEW": {
       "TITLE": "Forhåndsvis"
     },
@@ -174,6 +175,7 @@
         },
         "UNKNOWN_LOCATION": "Ukendt",
         "NO_RESULTS": "Der blev ikke fundet nogen søgeresultater",
+        "NO_FILTER_RESULTS": "Der blev ikke fundet nogen filterresultater",
         "TOGGLE_SEARCH_FILTER": "Slå søgefilter til/fra",
         "ERRORS": {
           "500": "Der opstod en fejl under behandling af søgeforespørgslen [500]",

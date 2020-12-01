@@ -43,10 +43,11 @@
       "APPLICATION-SETTINGS": "Programinnstillinger",
       "REPOSITORY-SETTINGS": "Databaseinnstillinger",
       "INVALID-VALUE-FORMAT": "Ugyldig verdiformat",
-      "REQUIRED-FIELD": "Dette feltet er obligatorisk",
+      "REQUIRED-FIELD": "Dette feltet er påkrevd",
       "RESET": "Tilbakestill",
       "APPLY": "Bruk"
     },
+    "LOCKED_BY": "Låst av: ",
     "PREVIEW": {
       "TITLE": "Forhåndsvis"
     },
@@ -126,9 +127,9 @@
         }
       },
       "RECENT": {
-        "TITLE": "Nyere filer",
+        "TITLE": "Nylige filer",
         "SIDENAV_LINK": {
-          "LABEL": "Nyere filer",
+          "LABEL": "Nylige filer",
           "TOOLTIP": "Vis filer som nylig er redigert"
         },
         "EMPTY_STATE": {
@@ -154,9 +155,9 @@
           "TOOLTIP": "Vis slettede filer i søppelen"
         },
         "EMPTY_STATE": {
-          "TITLE": "Søppel er tomt",
-          "FIRST_TEXT": "Elementer du sletter, flyttes til Søppel.",
-          "SECOND_TEXT": "Tøm Søppel for å slette elementer permanent."
+          "TITLE": "Søppelkurven er tom",
+          "FIRST_TEXT": "Elementer du sletter, flyttes til søppelkurven.",
+          "SECOND_TEXT": "Tøm søppelkurven for å slette elementer for godt."
         }
       },
       "ABOUT": {
@@ -174,6 +175,7 @@
         },
         "UNKNOWN_LOCATION": "Ukjent",
         "NO_RESULTS": "Søket ditt ga 0 resultater",
+        "NO_FILTER_RESULTS": "Filter ditt ga 0 resultater",
         "TOGGLE_SEARCH_FILTER": "Aktiver/deaktiver søkefilter",
         "ERRORS": {
           "500": "Det oppstod en feil med behandling av søkespørringen [500]",
@@ -202,8 +204,8 @@
       "ADD_FAVORITE": "Legg til favoritt",
       "REMOVE_FAVORITE": "Fjern favoritt",
       "UNSHARE": "Opphev deling",
-      "DETAILS": "Visningsdetaljer",
-      "VERSIONS": "Administrer versjoner",
+      "DETAILS": "Vis detaljer",
+      "VERSIONS": "Håndtere versjoner",
       "UPLOAD_VERSION": "Last opp ny versjon",
       "TOGGLE-SIDENAV": "Aktiver/deaktiver sidenavigasjonsfelt",
       "SHARE": "Del",
@@ -271,7 +273,7 @@
         "TRASH": {
           "NODES_PURGE": {
             "PLURAL": "{{ number }} elementer kan ikke slettes",
-            "SINGULAR": "{{ name }} kunne ikke slettes"
+            "SINGULAR": "{{ name }} kan ikke slettes"
           },
           "NODES_RESTORE": {
             "PARTIAL_PLURAL": "{{ number }} elementer kan ikke gjenopprettes fordi det finnes problemer med gjenoppretingsstedet",
@@ -301,7 +303,7 @@
         "TRASH": {
           "NODES_PURGE": {
             "PLURAL": "{{ number }} elementer slettet",
-            "SINGULAR": "{{ name }} slettet",
+            "SINGULAR": "Element {{ name }} slettet",
             "PARTIAL_SINGULAR": "{{ name }} slettet, {{ failed }} kunne ikke slettes",
             "PARTIAL_PLURAL": "{{ number }} elementer slettet, {{ failed }} kan ikke slettes"
           },
@@ -399,7 +401,7 @@
   },
   "VERSION": {
     "DIALOG_ADF": {
-      "TITLE": "Administrer versjoner",
+      "TITLE": "Håndtere versjoner",
       "CLOSE": "Lukk"
     },
     "DIALOG": {
