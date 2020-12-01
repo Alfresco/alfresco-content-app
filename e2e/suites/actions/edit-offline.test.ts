@@ -280,7 +280,7 @@ describe('Edit offline', () => {
     });
   });
 
-  fdescribe('on Search Results', () => {
+  describe('on Search Results', () => {
     beforeAll(async () => {
       parentSearchId = (await apis.user.nodes.createFolder(parentSearch)).entry.id;
 

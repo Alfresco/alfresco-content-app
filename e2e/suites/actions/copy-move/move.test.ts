@@ -301,17 +301,13 @@ describe('Move content', () => {
 
     beforeAll(async (done) => {
       await apis.user.nodes.createFile(file1, sourceIdRF);
-
       await apis.user.nodes.createFile(file2, sourceIdRF);
       await apis.user.nodes.createFile(file3, sourceIdRF);
-
       await apis.user.nodes.createFile(`${existingFile}.txt`, sourceIdRF);
       await apis.user.nodes.createFile(`${existingFile}.txt`, destinationIdRF);
-
       await apis.user.nodes.createFile(file4, sourceIdRF);
 
       await apis.user.search.waitForApi(username, { expect: 16 });
-
       done();
     });
 
