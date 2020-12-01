@@ -35,12 +35,12 @@ describe('Search sorting', () => {
   let parentId: string;
 
   const fileJpg = {
-    name: `search-sort-file-1-${random}.jpg`,
+    name: `search-sort-${random}-file-1.jpg`,
     source: FILES.jpgFile
   };
 
   const filePdf = {
-    name: `search-sort-file-2-${random}.pdf`,
+    name: `search-sort-${random}-file-2.pdf`,
     title: 'search sort title',
     description: 'search sort',
     source: FILES.pdfFile
@@ -67,7 +67,7 @@ describe('Search sorting', () => {
     await apis.user1.upload.uploadFileWithRename(fileJpg.source, parentId, fileJpg.name);
     await apis.user2.upload.uploadFileWithRename(filePdf.source, parentId, filePdf.name, filePdf.title, filePdf.description);
 
-    await apis.user1.search.waitForNodes('search-sort', { expect: 2 });
+    await apis.user1.search.waitForNodes(`search-sort-${random}`, { expect: 2 });
 
     await loginPage.loginWith(user1);
     done();
@@ -78,7 +78,7 @@ describe('Search sorting', () => {
     await page.clickPersonalFilesAndWait();
 
     await searchInput.clickSearchButton();
-    await searchInput.searchFor('search sort');
+    await searchInput.searchFor(`search sort ${random}`);
     await dataTable.waitForBody();
     done();
   });

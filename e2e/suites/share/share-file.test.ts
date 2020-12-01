@@ -936,20 +936,20 @@ describe('Share a file', () => {
     });
 
     describe('from Search Results', () => {
-      file3 = `search-file3-${Utils.random()}.txt`;
-      file5 = `search-file5-${Utils.random()}.txt`;
-      file6 = `search-file6-${Utils.random()}.txt`;
-      file7 = `search-file7-${Utils.random()}.txt`;
-      file9 = `search-file9-${Utils.random()}.txt`;
+      const searchRandom = Utils.random();
+      file3 = `search-file3-${searchRandom}.txt`;
+      file5 = `search-file5-${searchRandom}.txt`;
+      file6 = `search-file6-${searchRandom}.txt`;
+      file7 = `search-file7-${searchRandom}.txt`;
+      file9 = `search-file9-${searchRandom}.txt`;
 
       beforeAll(async () => {
-        const initialSearchByTermTotalItems = await apis.user.search.getSearchByTermTotalItems('search-f');
         file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
         file5Id = (await apis.user.nodes.createFile(file5, parentId)).entry.id;
         file6Id = (await apis.user.nodes.createFile(file6, parentId)).entry.id;
         file7Id = (await apis.user.nodes.createFile(file7, parentId)).entry.id;
         file9Id = (await apis.user.nodes.createFile(file9, parentId)).entry.id;
-        await apis.user.search.waitForNodes('search-f', { expect: initialSearchByTermTotalItems + 5 });
+        await apis.user.search.waitForNodes(searchRandom, { expect: 5 });
 
         await userActions.shareNodes([file6Id, file7Id], expiryDate);
         await apis.user.shared.waitForFilesToBeShared([file6Id, file7Id]);
@@ -958,7 +958,7 @@ describe('Share a file', () => {
       beforeEach(async () => {
         await searchInput.clickSearchButton();
         await searchInput.checkFilesAndFolders();
-        await searchInput.searchFor('search-f');
+        await searchInput.searchFor(searchRandom);
         await dataTable.waitForBody();
       });
 

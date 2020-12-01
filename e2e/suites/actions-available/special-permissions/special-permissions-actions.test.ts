@@ -33,7 +33,7 @@ import { sharedFilesTests } from './shared-files';
 import { collaboratorTests, filesLockedByCurrentUser, filesLockedByOtherUser } from './other-permissions';
 
 describe('Special permissions : ', () => {
-  const random = Utils.random();
+  const random = testData.random;
 
   const sitePrivate = `site-private-${random}`;
 
