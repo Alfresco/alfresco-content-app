@@ -66,12 +66,15 @@ describe('Shared Files', () => {
     file4Id = (await apis.user.nodes.createFile(file4User)).entry.id;
 
     await apis.user.shared.shareFilesByIds([file1Id, file2Id, file3Id, file4Id]);
+
+    await adminApiActions.login();
     await adminApiActions.shareNodes([nodeId]);
+
     await apis.user.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id]);
     await adminApiActions.shared.waitForFilesToBeShared([nodeId]);
 
     await apis.user.nodes.deleteNodeById(file2Id);
-    await apis.user.shared.unshareFile(file3User);
+    await apis.user.shared.unshareFileById(file3Id);
 
     await apis.user.shared.waitForFilesToNotBeShared([file2Id, file3Id]);
 
