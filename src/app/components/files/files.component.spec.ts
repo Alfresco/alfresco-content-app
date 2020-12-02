@@ -33,15 +33,17 @@ import {
   AppConfigPipe,
   AlfrescoApiService,
   AlfrescoApiServiceMock,
-  DataTableModule
+  DataTableModule,
+  PaginationModule
 } from '@alfresco/adf-core';
 import { DocumentListComponent, FilterSearch } from '@alfresco/adf-content-services';
 import { NodeActionsService } from '../../services/node-actions.service';
 import { FilesComponent } from './files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { ContentApiService } from '@alfresco/aca-shared';
+import { ContentApiService, SharedDirectivesModule } from '@alfresco/aca-shared';
 import { of, throwError } from 'rxjs';
 import { By } from '@angular/platform-browser';
+import { DirectivesModule } from '../../directives/directives.module';
 
 describe('FilesComponent', () => {
   let node;
@@ -57,7 +59,7 @@ describe('FilesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, DataTableModule],
+      imports: [AppTestingModule, DataTableModule, PaginationModule, SharedDirectivesModule, DirectivesModule],
       declarations: [FilesComponent, DataTableComponent, NodeFavoriteDirective, DocumentListComponent, AppConfigPipe],
       providers: [
         { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
@@ -321,5 +323,26 @@ describe('FilesComponent', () => {
       expect(emptyContentTemplate).toBeDefined();
       expect(emptyContentTemplate.innerText).toBe('APP.BROWSE.SEARCH.NO_FILTER_RESULTS');
     });
+  });
+
+  it('[C308041] should have sticky headers', async () => {
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    spyOn(component.documentList, 'loadFolder').and.callFake(() => {});
+    spyOn(contentApi, 'getNode').and.returnValue(of({ entry: node }));
+
+    fixture.componentInstance.nodeResult = {
+      list: {
+        entries: [{ entry: { id: '1', isFile: true } } as any, { entry: { id: '2', isFile: true } } as any],
+        pagination: { count: 2 }
+      }
+    };
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const header = fixture.nativeElement.querySelector('.adf-sticky-header');
+    expect(header).not.toBeNull();
   });
 });
