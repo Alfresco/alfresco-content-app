@@ -69,9 +69,9 @@ describe('Edit folder', () => {
 
   const searchRandom = Utils.random();
   const folderSearch = `folder-search-${searchRandom}`;
-  const folderSearchToEdit = `folder-search-${searchRandom}-to-edit`;
+  const folderSearchToEdit = `folder-search-to-edit-${searchRandom}`;
   let folderSearchToEditId: string;
-  const folderSearchDuplicate = `folder-search-${searchRandom}-duplicate`;
+  const folderSearchDuplicate = `folder-search-duplicate-${searchRandom}`;
 
   const apis = {
     user: new RepoClient(username, username)
@@ -122,13 +122,11 @@ describe('Edit folder', () => {
     done();
   });
 
-  afterAll(async (done) => {
-    await Promise.all([
-      adminApiActions.sites.deleteSite(sitePrivate),
-      apis.user.sites.deleteSite(siteName),
-      apis.user.nodes.deleteNodesById([parentId, folderFavoriteToEditId, folderFavoriteDuplicateId, folderSearchToEditId])
-    ]);
-    done();
+  afterAll(async () => {
+    await adminApiActions.login();
+    await adminApiActions.sites.deleteSite(sitePrivate);
+    await apis.user.sites.deleteSite(siteName);
+    await apis.user.nodes.deleteNodesById([parentId, folderFavoriteToEditId, folderFavoriteDuplicateId, folderSearchToEditId]);
   });
 
   beforeEach(async () => {

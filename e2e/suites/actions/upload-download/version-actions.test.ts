@@ -23,21 +23,11 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  AdminActions,
-  LoginPage,
-  BrowsingPage,
-  FILES,
-  RepoClient,
-  Utils,
-  UploadNewVersionDialog,
-  ManageVersionsDialog,
-  Viewer
-} from '@alfresco/aca-testing-shared';
+import { AdminActions, LoginPage, BrowsingPage, FILES, RepoClient, Utils, ManageVersionsDialog, Viewer } from '@alfresco/aca-testing-shared';
 import { browser } from 'protractor';
-import { BrowserActions, Logger } from '@alfresco/adf-testing';
+import { Logger } from '@alfresco/adf-testing';
 
-describe('Version component actions', () => {
+describe('Version actions', () => {
   const random = Utils.random();
 
   const username = `user-${random}`;
@@ -55,7 +45,6 @@ describe('Version component actions', () => {
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable, toolbar } = page;
-  const uploadNewVersionDialog = new UploadNewVersionDialog();
   const versionManagePage = new ManageVersionsDialog();
   const viewerPage = new Viewer();
   const { searchInput } = page.header;
@@ -71,23 +60,19 @@ describe('Version component actions', () => {
       await apis.user.shared.shareFilesByIds([fileId]);
       await apis.user.favorites.addFavoritesByIds('file', [fileId]);
 
+      for (let i = 0; i < filesToUpload.length - 1; i++) {
+        await apis.user.nodes.updateNodeContent(
+          fileId,
+          `${browser.params.e2eRootPath}/resources/test-files/${filesToUpload[i + 1]}`,
+          true,
+          'new major version description',
+          filesToUpload[i + 1]
+        );
+      }
+
       await loginPage.loginWith(username);
       await dataTable.doubleClickOnRowByName(parentFolder);
       await dataTable.waitForHeader();
-
-      for (let i = 0; i < filesToUpload.length - 1; i++) {
-        await dataTable.selectItem(filesToUpload[i]);
-        await toolbar.clickMoreActionsUploadNewVersion();
-        await Utils.uploadFileNewVersion(filesToUpload[i + 1]);
-
-        await uploadNewVersionDialog.waitForDialogToOpen();
-        await BrowserActions.click(uploadNewVersionDialog.majorOption);
-        await uploadNewVersionDialog.enterDescription('new major version description');
-        await BrowserActions.click(uploadNewVersionDialog.uploadButton);
-        await uploadNewVersionDialog.waitForDialogToClose();
-      }
-
-      await page.closeUploadDialog();
       done();
     } catch (error) {
       Logger.error(`--- beforeAll failed : ${error}`);

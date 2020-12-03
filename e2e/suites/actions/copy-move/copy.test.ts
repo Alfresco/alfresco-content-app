@@ -24,7 +24,7 @@
  */
 
 import { AdminActions, UserActions, LoginPage, BrowsingPage, ContentNodeSelectorDialog, RepoClient, Utils } from '@alfresco/aca-testing-shared';
-import { BrowserActions } from '@alfresco/adf-testing';
+import { BrowserActions, Logger } from '@alfresco/adf-testing';
 
 describe('Copy content', () => {
   const username = `user-${Utils.random()}`;
@@ -212,21 +212,26 @@ describe('Copy content', () => {
     done();
   });
 
-  afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(sourceId);
-    await apis.user.sites.deleteSite(siteName);
-    done();
+  afterAll(async () => {
+    try {
+      await apis.user.nodes.unlockFile(fileLocked1Id);
+      await apis.user.nodes.unlockFile(fileLockedInFolderId);
+      await apis.user.nodes.deleteNodeById(sourceId);
+      await apis.user.nodes.deleteNodeById(destinationIdRF);
+      await apis.user.nodes.deleteNodeById(destinationIdPF);
+      await apis.user.nodes.deleteNodeById(destinationIdSF);
+      await apis.user.nodes.deleteNodeById(destinationIdFav);
+      await apis.user.nodes.deleteNodeById(destinationIdSearch);
+      await apis.user.sites.deleteSite(siteName);
+    } catch (error) {
+      Logger.error(`---- afterAll failed : ${error}`);
+    }
   });
 
   describe('from Recent Files', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
       await page.clickRecentFilesAndWait();
-      done();
-    });
-
-    afterAll(async (done) => {
-      await apis.user.nodes.deleteNodeById(destinationIdRF);
       done();
     });
 
@@ -253,11 +258,6 @@ describe('Copy content', () => {
       await Utils.pressEscape();
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(source);
-      done();
-    });
-
-    afterAll(async (done) => {
-      await apis.user.nodes.deleteNodeById(destinationIdPF);
       done();
     });
 
@@ -308,11 +308,6 @@ describe('Copy content', () => {
       done();
     });
 
-    afterAll(async (done) => {
-      await apis.user.nodes.deleteNodeById(destinationIdSF);
-      done();
-    });
-
     it('[C280206] Copy a file', async () => copyFile(file1, source, destinationSF));
 
     it('[C280213] Copy multiple items', async () => copyMultipleItems([file2, file3], source, destinationSF));
@@ -335,11 +330,6 @@ describe('Copy content', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
       await page.clickFavoritesAndWait();
-      done();
-    });
-
-    afterAll(async (done) => {
-      await apis.user.nodes.deleteNodeById(destinationIdFav);
       done();
     });
 
@@ -385,11 +375,6 @@ describe('Copy content', () => {
       await Utils.pressEscape();
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
-      done();
-    });
-
-    afterAll(async (done) => {
-      await apis.user.nodes.deleteNodeById(destinationIdSearch);
       done();
     });
 

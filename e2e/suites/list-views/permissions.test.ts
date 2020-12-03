@@ -60,7 +60,7 @@ describe('Special permissions', () => {
       await apis.user.favorites.addFavoriteById('file', fileId);
 
       await adminApiActions.shareNodes([fileId]);
-      await apis.user.nodes.editNodeContent(fileId, 'edited by user');
+      await apis.user.nodes.updateNodeContent(fileId, 'edited by user');
 
       await apis.user.search.waitForApi(username, { expect: 1 });
       await adminApiActions.shared.waitForFilesToBeShared([fileId]);

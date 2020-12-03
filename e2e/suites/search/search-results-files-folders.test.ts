@@ -59,7 +59,7 @@ describe('Search results - files and folders', () => {
     await adminApiActions.createUser({ username });
 
     fileId = (await apis.user.nodes.createFile(file, '-my-', fileTitle, fileDescription)).entry.id;
-    await apis.user.nodes.editNodeContent(fileId, 'edited by user');
+    await apis.user.nodes.updateNodeContent(fileId, 'edited by user');
     folderId = (await apis.user.nodes.createFolder(folder, '-my-', folderTitle, folderDescription)).entry.id;
     fileRussianId = (await apis.user.nodes.createFile(fileRussian)).entry.id;
     await apis.user.sites.createSite(site);

@@ -406,12 +406,23 @@ export class NodesApi extends RepoApi {
     }
   }
 
-  async editNodeContent(nodeId: string, content: string): Promise<NodeEntry | null> {
+  async updateNodeContent(
+    nodeId: string,
+    content: string,
+    majorVersion: boolean = true,
+    comment?: string,
+    newName?: string
+  ): Promise<NodeEntry | null> {
     try {
+      const opts = {
+        majorVersion,
+        comment,
+        name: newName
+      };
       await this.apiAuth();
-      return await this.nodesApi.updateNodeContent(nodeId, content);
+      return await this.nodesApi.updateNodeContent(nodeId, content, opts);
     } catch (error) {
-      this.handleError(`${this.constructor.name} ${this.editNodeContent.name}`, error);
+      this.handleError(`${this.constructor.name} ${this.updateNodeContent.name}`, error);
       return null;
     }
   }

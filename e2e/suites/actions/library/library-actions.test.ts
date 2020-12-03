@@ -334,7 +334,7 @@ describe('Library actions', () => {
       expect(await apis.user.favorites.isFavoriteWithRetry(sitePublic6Admin, { expect: true })).toBe(true, `${sitePublic6Admin} not favorite`);
     });
 
-    it('[C306963] from on Search Results', async () => {
+    it('[C306963] from Search Results', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkLibraries();
       await searchInput.searchFor(siteSearchPublic3Admin);

@@ -117,6 +117,7 @@ describe('Destination picker dialog : ', () => {
     await contributorApi.nodes.deleteNodeById(fileIdContributor);
     await collaboratorApi.nodes.deleteNodeById(fileIdCollaborator);
 
+    await adminApiActions.login();
     await adminApiActions.nodes.deleteNodeById(adminFolderId);
   });
 
