@@ -28,7 +28,7 @@ import * as testData from './test-data';
 import * as testUtil from '../test-util';
 
 describe('Locked Files - available actions : ', () => {
-  const random = Utils.random();
+  const random = testData.random;
   const username = `user-${random}`;
   const parentName = `parent-${random}`;
 
@@ -315,7 +315,8 @@ describe('Locked Files - available actions : ', () => {
     beforeEach(async () => {
       await page.clickPersonalFiles();
       await searchInput.clickSearchButton();
-      await searchInput.searchFor('fileActions-');
+      await searchInput.checkOnlyFiles();
+      await searchInput.searchFor(random);
       await searchResultsPage.waitForResults();
     });
 

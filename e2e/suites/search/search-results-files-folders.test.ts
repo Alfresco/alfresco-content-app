@@ -27,23 +27,24 @@ import { AdminActions, LoginPage, SearchResultsPage, RepoClient, Utils } from '@
 const moment = require('moment');
 
 describe('Search results - files and folders', () => {
-  const username = `user-${Utils.random()}`;
+  const random = Utils.random();
+  const username = `user-${random}`;
 
-  const file = `test-file-${Utils.random()}.txt`;
+  const file = `test-file-${random}.txt`;
   let fileId: string;
   const fileTitle = 'file title';
   const fileDescription = 'file description';
 
   /* cspell:disable-next-line */
-  const fileRussian = `любимый-сайт-${Utils.random()}`;
+  const fileRussian = `любимый-сайт-${random}`;
   let fileRussianId: string;
 
-  const folder = `test-folder-${Utils.random()}`;
+  const folder = `test-folder-${random}`;
   let folderId: string;
   const folderTitle = 'folder title';
   const folderDescription = 'folder description';
 
-  const site = `test-site-${Utils.random()}`;
+  const site = `test-site-${random}`;
 
   const apis = {
     user: new RepoClient(username, username)
@@ -89,7 +90,7 @@ describe('Search results - files and folders', () => {
   it('[C307002] Results page title', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkFilesAndFolders();
-    await searchInput.searchFor('test-');
+    await searchInput.searchFor(random);
     await dataTable.waitForBody();
 
     expect(await page.breadcrumb.currentItem.getText()).toEqual('Search Results');
@@ -98,7 +99,7 @@ describe('Search results - files and folders', () => {
   it('[C279183] File information', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkFilesAndFolders();
-    await searchInput.searchFor('test-');
+    await searchInput.searchFor(random);
     await dataTable.waitForBody();
 
     const fileEntry = await apis.user.nodes.getNodeById(fileId);
@@ -118,7 +119,7 @@ describe('Search results - files and folders', () => {
   it('[C306867] Folder information', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkFilesAndFolders();
-    await searchInput.searchFor('test-');
+    await searchInput.searchFor(random);
     await dataTable.waitForBody();
 
     const folderEntry = await apis.user.nodes.getNodeById(folderId);

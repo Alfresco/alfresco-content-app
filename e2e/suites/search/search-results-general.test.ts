@@ -27,13 +27,14 @@ import { AdminActions, LoginPage, SearchResultsPage, RepoClient, Utils } from '@
 import { browser } from 'protractor';
 
 describe('Search results general', () => {
-  const username = `user-${Utils.random()}`;
+  const random = Utils.random();
+  const username = `user-${random}`;
 
-  const file = `test-file-${Utils.random()}.txt`;
+  const file = `test-file-${random}.txt`;
   let fileId: string;
-  const folder = `test-folder-${Utils.random()}`;
+  const folder = `test-folder-${random}`;
   let folderId: string;
-  const site = `test-site-${Utils.random()}`;
+  const site = `test-site-${random}`;
 
   const apis = {
     user: new RepoClient(username, username)
@@ -72,7 +73,7 @@ describe('Search results general', () => {
   it('[C290005] Only files are returned when Files option is the only one checked', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkOnlyFiles();
-    await searchInput.searchFor('test');
+    await searchInput.searchFor(random);
     await dataTable.waitForBody();
 
     expect(await dataTable.isItemPresent(file)).toBe(true, `${file} not displayed`);
@@ -83,7 +84,7 @@ describe('Search results general', () => {
   it('[C290006] Only folders are returned when Folders option is the only one checked', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkOnlyFolders();
-    await searchInput.searchFor('test');
+    await searchInput.searchFor(random);
     await page.waitForResults();
 
     expect(await dataTable.isItemPresent(file)).toBe(false, `${file} is displayed`);
@@ -94,7 +95,7 @@ describe('Search results general', () => {
   it('[C290007] Files and folders are returned when both Files and Folders options are checked', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkFilesAndFolders();
-    await searchInput.searchFor('test');
+    await searchInput.searchFor(random);
     await page.waitForResults();
 
     expect(await dataTable.isItemPresent(file)).toBe(true, `${file} not displayed`);
@@ -105,7 +106,7 @@ describe('Search results general', () => {
   it('[C290008] Only libraries are returned when Libraries option is checked', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkLibraries();
-    await searchInput.searchFor('test');
+    await searchInput.searchFor(random);
     await page.waitForResults();
 
     expect(await dataTable.isItemPresent(file)).toBe(false, `${file} is displayed`);

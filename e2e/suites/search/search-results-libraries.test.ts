@@ -26,41 +26,42 @@
 import { AdminActions, LoginPage, SearchResultsPage, RepoClient, Utils, SITE_VISIBILITY, SITE_ROLES } from '@alfresco/aca-testing-shared';
 
 describe('Search results - libraries', () => {
-  const username = `user-${Utils.random()}`;
+  const random = Utils.random();
+  const username = `user-${random}`;
 
   const site1 = {
-    name: `lib-1-${Utils.random()}`,
-    id: `site1-${Utils.random()}`
+    name: `lib-1-${random}`,
+    id: `site1-${random}`
   };
   const site2 = {
-    name: `site-2-${Utils.random()}`,
-    id: `site1-${Utils.random()}`
+    name: `site-2-${random}`,
+    id: `site1-${random}`
   };
   const site3 = {
-    name: `my-lib-${Utils.random()}`,
-    id: `site3-${Utils.random()}`
+    name: `my-lib-${random}`,
+    id: `site3-${random}`
   };
   const site4 = {
-    name: `my-site-${Utils.random()}`,
-    id: `site4-${Utils.random()}`,
+    name: `my-site-${random}`,
+    id: `site4-${random}`,
     description: 'site description'
   };
 
-  const userSitePrivate = `user-site-private-${Utils.random()}`;
-  const userSiteModerated = `user-site-moderated-${Utils.random()}`;
-  const userSitePublic = `user-site-public-${Utils.random()}`;
+  const userSitePrivate = `user-site-${random}-private`;
+  const userSiteModerated = `user-site-${random}-moderated`;
+  const userSitePublic = `user-site-${random}-public`;
 
   const siteRussian = {
     /* cspell:disable-next-line */
-    name: `любимый-сайт-${Utils.random()}`,
-    id: `site-russian-id-${Utils.random()}`
+    name: `любимый-сайт-${random}`,
+    id: `site-russian-id-${random}`
   };
 
-  const adminSite1 = `admin-site-${Utils.random()}`;
-  const adminSite2 = `admin-site-${Utils.random()}`;
-  const adminSite3 = `admin-site-${Utils.random()}`;
-  const adminSite4 = `admin-site-${Utils.random()}`;
-  const adminPrivate = `admin-site-${Utils.random()}`;
+  const adminSite1 = `admin-${random}-site1`;
+  const adminSite2 = `admin-${random}-site2`;
+  const adminSite3 = `admin-${random}-site3`;
+  const adminSite4 = `admin-${random}-site4`;
+  const adminPrivate = `admin-${random}-sitePrivate`;
 
   const apis = {
     user: new RepoClient(username, username)
@@ -133,7 +134,7 @@ describe('Search results - libraries', () => {
   it('[C290013] Search library - partial name match', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkLibraries();
-    await searchInput.searchFor('lib');
+    await searchInput.searchFor(random);
     await dataTable.waitForBody();
 
     expect(await dataTable.isItemPresent(site1.name)).toBe(true, `${site1.name} not displayed`);
@@ -157,7 +158,7 @@ describe('Search results - libraries', () => {
   it('[C290015] Results page title', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkLibraries();
-    await searchInput.searchFor('lib');
+    await searchInput.searchFor(random);
     await dataTable.waitForBody();
 
     expect(await page.breadcrumb.currentItem.getText()).toEqual('Libraries found...');
@@ -178,7 +179,7 @@ describe('Search results - libraries', () => {
   it('[C290017] Library visibility is correctly displayed', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkLibraries();
-    await searchInput.searchFor('user-site');
+    await searchInput.searchFor(`user-site-${random}`);
     await dataTable.waitForBody();
 
     const expectedSitesVisibility = {
@@ -197,7 +198,7 @@ describe('Search results - libraries', () => {
   it('[C290018] User role is correctly displayed', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkLibraries();
-    await searchInput.searchFor('admin-site');
+    await searchInput.searchFor(`admin-${random}-site`);
     await dataTable.waitForBody();
 
     const expectedSitesRoles = {
@@ -217,7 +218,7 @@ describe('Search results - libraries', () => {
   it('[C290019] Private sites are not displayed when user is not a member', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkLibraries();
-    await searchInput.searchFor('admin-site');
+    await searchInput.searchFor(`admin-${random}-site`);
     await dataTable.waitForBody();
 
     expect(await dataTable.isItemPresent(adminPrivate)).toBe(false, `${adminPrivate} is displayed`);
