@@ -42,7 +42,7 @@ env:
     - ADMIN_EMAIL=$ADMIN_EMAIL_REMOTE
     - ADMIN_PASSWORD=$ADMIN_PASSWORD_REMOTE
 
-jobs:     
+jobs:      
   include:
     - stage: Quality and Unit tests
       name: 'Code quality checks'
