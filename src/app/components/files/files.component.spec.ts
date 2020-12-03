@@ -57,6 +57,17 @@ describe('FilesComponent', () => {
     navigate: jasmine.createSpy('navigate')
   };
 
+  function verifyEmptyFilterTemplate() {
+    const template = fixture.debugElement.query(By.css('.empty-search__block')).nativeElement as HTMLElement;
+    expect(template).toBeDefined();
+    expect(template.innerText).toBe('APP.BROWSE.SEARCH.NO_FILTER_RESULTS');
+  }
+
+  function verifyEmptyTemplate() {
+    const template = fixture.debugElement.query(By.css('.adf-empty-list_template'));
+    expect(template).not.toBeNull();
+  }
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule, DataTableModule, PaginationModule, SharedDirectivesModule, DirectivesModule],
@@ -311,22 +322,31 @@ describe('FilesComponent', () => {
     });
   });
 
-  describe('filter header', () => {
-    it('should show custom empty template if filter headers are applied', async () => {
+  describe('empty template', () => {
+    beforeEach(() => {
       fixture.detectChanges();
       spyOn(component.documentList, 'loadFolder').and.callFake(() => {});
+    });
+
+    it('should show custom empty template if filter headers are applied', async () => {
       component.onFilterSelected([{ key: 'name', value: 'aaa' } as FilterSearch]);
       fixture.detectChanges();
       await fixture.whenStable();
 
-      const emptyContentTemplate: HTMLElement = fixture.debugElement.query(By.css('.empty-search__block')).nativeElement;
-      expect(emptyContentTemplate).toBeDefined();
-      expect(emptyContentTemplate.innerText).toBe('APP.BROWSE.SEARCH.NO_FILTER_RESULTS');
+      verifyEmptyFilterTemplate();
+    });
+
+    it('should display custom empty template when no data available', async () => {
+      spyOn(contentApi, 'getNode').and.returnValue(of({ entry: node }));
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      verifyEmptyTemplate();
     });
   });
 
   it('[C308041] should have sticky headers', async () => {
-    component.ngOnInit();
     fixture.detectChanges();
 
     spyOn(component.documentList, 'loadFolder').and.callFake(() => {});

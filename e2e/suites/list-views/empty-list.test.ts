@@ -40,12 +40,6 @@ describe('Empty list views', () => {
     done();
   });
 
-  it('[C280131] empty Personal Files', async () => {
-    await page.clickPersonalFiles();
-    expect(await dataTable.isEmpty()).toBe(true, 'list is not empty');
-    expect(await dataTable.getEmptyDragAndDropText()).toContain('Drag and drop');
-  });
-
   it('[C217099] empty My Libraries', async () => {
     await page.goToMyLibraries();
     expect(await dataTable.isEmpty()).toBe(true, 'list is not empty');
