@@ -43,10 +43,11 @@
       "APPLICATION-SETTINGS": "Toepassingsinstellingen",
       "REPOSITORY-SETTINGS": "Opslagplaatsinstellingen",
       "INVALID-VALUE-FORMAT": "Ongeldige indeling van waarde",
-      "REQUIRED-FIELD": "Dit veld is verplicht",
+      "REQUIRED-FIELD": "Dit veld is vereist",
       "RESET": "Opnieuw instellen",
       "APPLY": "Toepassen"
     },
+    "LOCKED_BY": "Vergrendeld door: ",
     "PREVIEW": {
       "TITLE": "Preview"
     },
@@ -155,8 +156,8 @@
         },
         "EMPTY_STATE": {
           "TITLE": "Prullenbak is leeg",
-          "FIRST_TEXT": "Items die u verwijdert worden verplaatst naar de prullenbak.",
-          "SECOND_TEXT": "Maak de prullenmand leeg om items definitief te verwijderen."
+          "FIRST_TEXT": "Items die u verwijdert, worden verplaatst naar de prullenbak.",
+          "SECOND_TEXT": "Leeg de prullenmand om items definitief te verwijderen."
         }
       },
       "ABOUT": {
@@ -174,6 +175,7 @@
         },
         "UNKNOWN_LOCATION": "Onbekend",
         "NO_RESULTS": "Uw zoekopdracht heeft 0 resultaten opgeleverd",
+        "NO_FILTER_RESULTS": "Uw filter heeft 0 resultaten opgeleverd",
         "TOGGLE_SEARCH_FILTER": "Zoekfilter in- of uitschakelen",
         "ERRORS": {
           "500": "Er is een fout opgetreden bij het verwerken van de zoekquery [500]",
@@ -378,7 +380,7 @@
       "ERRORS": {
         "DESCRIPTION_TOO_LONG": "Gebruik 512 tekens of minder voor de beschrijving",
         "TITLE_TOO_LONG": "Gebruik 256 tekens of minder voor de titel",
-        "REQUIRED": "Naam is verplicht",
+        "REQUIRED": "Naam is vereist",
         "SPECIAL_CHARACTERS": "Naam mag de volgende tekens niet bevatten: * \" < > \\ / ? : |",
         "ENDING_DOT": "Naam mag niet eindigen met een punt.",
         "ONLY_SPACES": "Naam mag niet alleen uit spaties bestaan"
@@ -450,7 +452,7 @@
     "ERRORS": {
       "GENERIC": "Er is een probleem opgetreden",
       "EXISTENT_SITE": "Deze bibliotheek-id is niet beschikbaar. Probeer een andere bibliotheek-id.",
-      "CONFLICT": "Deze bibliotheek wordt al gebruikt. Controleer de prullenbak.",
+      "CONFLICT": "Deze bibliotheek-id wordt al gebruikt. Controleer de prullenbak.",
       "ID_TOO_LONG": "Gebruik 72 tekens of minder voor de URL-naam",
       "DESCRIPTION_TOO_LONG": "Gebruik 512 tekens of minder voor de beschrijving",
       "TITLE_TOO_LONG": "Gebruik 256 tekens of minder voor de titel",

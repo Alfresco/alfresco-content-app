@@ -47,6 +47,7 @@
       "RESET": "Redefinir",
       "APPLY": "Aplicar"
     },
+    "LOCKED_BY": "Bloqueado por: ",
     "PREVIEW": {
       "TITLE": "Visualizar"
     },
@@ -155,8 +156,8 @@
         },
         "EMPTY_STATE": {
           "TITLE": "A lixeira está vazia",
-          "FIRST_TEXT": "Os itens que você excluir são movidos para a lixeira.",
-          "SECOND_TEXT": "Esvazie a lixeira para excluir itens permanentemente."
+          "FIRST_TEXT": "Itens apagados são movidos para a Lixeira.",
+          "SECOND_TEXT": "Esvazie a Lixeira para apagar os itens permanentemente."
         }
       },
       "ABOUT": {
@@ -174,6 +175,7 @@
         },
         "UNKNOWN_LOCATION": "Desconhecido",
         "NO_RESULTS": "Sua pesquisa retornou 0 resultados",
+        "NO_FILTER_RESULTS": "Seu filtro retornou 0 resultados",
         "TOGGLE_SEARCH_FILTER": "Alternar filtro de pesquisa",
         "ERRORS": {
           "500": "Houve um erro ao processar a consulta da pesquisa [500]",
@@ -427,7 +429,7 @@
   },
   "LIBRARY": {
     "DIALOG": {
-      "CREATE_TITLE": "Criar Biblioteca",
+      "CREATE_TITLE": "Criar biblioteca",
       "CREATE": "Criar",
       "UPDATE": "Atualizar",
       "EDIT": "Editar",

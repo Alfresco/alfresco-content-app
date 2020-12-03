@@ -32,8 +32,6 @@ import { ExtensionsModule } from '@alfresco/adf-extensions';
 import { CoreExtensionsModule } from '../../extensions/core.extensions.module';
 import { ExpansionPanelDirective } from './directives/expansion-panel.directive';
 import { MenuPanelDirective } from './directives/menu-panel.directive';
-import { CollapsedTemplateDirective } from './directives/collapsed-template.directive';
-import { ExpandedTemplateDirective } from './directives/expanded-template.directive';
 import { SidenavComponent } from './sidenav.component';
 import { ActiveLinkDirective } from './directives/active-link.directive';
 import { ExpandMenuComponent } from './components/expand-menu.component';
@@ -44,8 +42,6 @@ import { ActionDirective } from './directives/action.directive';
   declarations: [
     MenuPanelDirective,
     ExpansionPanelDirective,
-    ExpandedTemplateDirective,
-    CollapsedTemplateDirective,
     ActiveLinkDirective,
     ActionDirective,
     ExpandMenuComponent,
@@ -55,8 +51,6 @@ import { ActionDirective } from './directives/action.directive';
   exports: [
     MenuPanelDirective,
     ExpansionPanelDirective,
-    ExpandedTemplateDirective,
-    CollapsedTemplateDirective,
     ActiveLinkDirective,
     ActionDirective,
     ExpandMenuComponent,

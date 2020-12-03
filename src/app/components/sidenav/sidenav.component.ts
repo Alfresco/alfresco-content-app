@@ -23,9 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ContentChild, Input, TemplateRef, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
-import { CollapsedTemplateDirective } from './directives/collapsed-template.directive';
-import { ExpandedTemplateDirective } from './directives/expanded-template.directive';
+import { Component, Input, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { NavBarGroupRef } from '@alfresco/adf-extensions';
 import { AuthenticationService } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
@@ -45,16 +43,8 @@ export class SidenavComponent implements OnInit, OnDestroy {
   @Input()
   mode: 'collapsed' | 'expanded' = 'expanded';
 
-  @ContentChild(ExpandedTemplateDirective, { read: TemplateRef })
-  expandedTemplate;
-
-  @ContentChild(CollapsedTemplateDirective, {
-    read: TemplateRef
-  })
-  collapsedTemplate;
-
   groups: Array<NavBarGroupRef> = [];
-  private onDestroy$: Subject<boolean> = new Subject<boolean>();
+  private onDestroy$ = new Subject<boolean>();
 
   constructor(private store: Store<AppStore>, private extensions: AppExtensionService, private authService: AuthenticationService) {}
 

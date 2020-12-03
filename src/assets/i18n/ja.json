@@ -47,6 +47,7 @@
       "RESET": "リセット",
       "APPLY": "適用"
     },
+    "LOCKED_BY": "ロックしているユーザー: ",
     "PREVIEW": {
       "TITLE": "プレビュー"
     },
@@ -126,9 +127,9 @@
         }
       },
       "RECENT": {
-        "TITLE": "最近使用したファイル",
+        "TITLE": "最近使ったファイル",
         "SIDENAV_LINK": {
-          "LABEL": "最近使用したファイル",
+          "LABEL": "最近使ったファイル",
           "TOOLTIP": "最近編集したファイルを表示します"
         },
         "EMPTY_STATE": {
@@ -155,8 +156,8 @@
         },
         "EMPTY_STATE": {
           "TITLE": "ごみ箱は空です",
-          "FIRST_TEXT": "削除したアイテムはごみ箱に移動されます。",
-          "SECOND_TEXT": "アイテムを完全に削除するには、ごみ箱を空にします。"
+          "FIRST_TEXT": "削除するアイテムはごみ箱に移動されます。",
+          "SECOND_TEXT": "ごみ箱を空にするとアイテムが完全に削除されます。"
         }
       },
       "ABOUT": {
@@ -174,6 +175,7 @@
         },
         "UNKNOWN_LOCATION": "不明",
         "NO_RESULTS": "検索結果は 0 件です",
+        "NO_FILTER_RESULTS": "フィルタによる検索結果は 0 件です",
         "TOGGLE_SEARCH_FILTER": "検索フィルタを切り替えます",
         "ERRORS": {
           "500": "検索クエリの処理中にエラーが発生しました [500]",
@@ -244,7 +246,7 @@
         "TITLE": "タイトル",
         "LOCATION": "場所",
         "SHARED_BY": "共有者",
-        "DELETED_ON": "削除日",
+        "DELETED_ON": "削除済み",
         "DELETED_BY": "削除者",
         "ROLE": "あなたの役割"
       },
@@ -260,7 +262,7 @@
         "GENERIC": "処理が失敗しました。もう一度操作をやり直すか、IT 担当者に連絡してください。",
         "CONFLICT": "この名前は既に使用されています。別の名前を使用してください。",
         "NODE_MOVE": "移動できません。同じ名前のファイルが既に存在します。",
-        "EXISTENT_FOLDER": "この名前のフォルダが既に存在します。別の名前を使用してください。",
+        "EXISTENT_FOLDER": "この名前のフォルダは既に存在します。別の名前を使用してください。",
         "NODE_DELETION": "{{ name }} を削除できませんでした",
         "NODE_DELETION_PLURAL": "{{ number }} 件のアイテムを削除できませんでした",
         "NODE_RESTORE": "{{ name }} を復元できませんでした",
@@ -301,7 +303,7 @@
         "TRASH": {
           "NODES_PURGE": {
             "PLURAL": "{{ number }} 件のアイテムを削除しました",
-            "SINGULAR": "{{ name }} を削除しました",
+            "SINGULAR": "''{{ name }}'' アイテムを削除しました",
             "PARTIAL_SINGULAR": "{{ name }} を削除しましたが、{{ failed }} 件は削除できませんでした",
             "PARTIAL_PLURAL": "{{ number }} 件のアイテムを削除しましたが、{{ failed }} 件は削除できませんでした"
           },

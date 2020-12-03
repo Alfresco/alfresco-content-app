@@ -6,6 +6,6 @@ set -e
 
 env \
   PROJECT_NAME=app \
-  BASE_PATH=/workspace \
+  BASE_PATH=${BASE_PATH:-/workspace} \
   DOCKER_IMAGE_REPO=alfresco/alfresco-content-app \
   $(dirname $0)/run.sh
