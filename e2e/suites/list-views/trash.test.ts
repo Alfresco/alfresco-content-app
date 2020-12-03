@@ -24,6 +24,7 @@
  */
 
 import { AdminActions, UserActions, SITE_VISIBILITY, SITE_ROLES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { Logger } from '@alfresco/adf-testing';
 
 describe('Trash', () => {
   const username = `user-${Utils.random()}`;
@@ -64,54 +65,59 @@ describe('Trash', () => {
   const userActions = new UserActions();
 
   beforeAll(async () => {
-    await adminApiActions.login();
-    await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
+    try {
+      await adminApiActions.login();
+      await adminApiActions.createUser({ username });
 
-    fileAdminId = (await adminApiActions.nodes.createFiles([fileAdmin])).entry.id;
-    folderAdminId = (await adminApiActions.nodes.createFolders([folderAdmin])).entry.id;
-    await adminApiActions.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
-    await adminApiActions.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_MANAGER.ROLE);
-    const docLibId = await adminApiActions.sites.getDocLibId(siteName);
-    fileSiteId = (await adminApiActions.nodes.createFile(fileSite, docLibId)).entry.id;
-    fileUserId = (await apis.user.nodes.createFiles([fileUser])).entry.id;
-    folderUserId = (await apis.user.nodes.createFolders([folderUser])).entry.id;
-    folderDeletedId = (await apis.user.nodes.createFolder(folderDeleted)).entry.id;
-    fileDeletedId = (await apis.user.nodes.createFiles([fileDeleted], folderDeleted)).entry.id;
-    folderNotDeletedId = (await apis.user.nodes.createFolder(folderNotDeleted)).entry.id;
-    fileInFolderId = (await apis.user.nodes.createFiles([fileInFolder], folderNotDeleted)).entry.id;
+      fileAdminId = (await adminApiActions.nodes.createFiles([fileAdmin])).entry.id;
+      folderAdminId = (await adminApiActions.nodes.createFolders([folderAdmin])).entry.id;
+      await adminApiActions.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
+      await adminApiActions.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_MANAGER.ROLE);
+      const docLibId = await adminApiActions.sites.getDocLibId(siteName);
+      fileSiteId = (await adminApiActions.nodes.createFile(fileSite, docLibId)).entry.id;
 
-    await adminApiActions.nodes.deleteNodesById([fileAdminId, folderAdminId], false);
-    await apis.user.nodes.deleteNodesById([fileSiteId, fileUserId, folderUserId, fileInFolderId], false);
-    await apis.user.nodes.deleteNodeById(fileDeletedId, false);
-    await apis.user.nodes.deleteNodeById(folderDeletedId, false);
+      await adminApiActions.nodes.deleteNodesById([fileAdminId, folderAdminId], false);
+
+      fileUserId = (await apis.user.nodes.createFiles([fileUser])).entry.id;
+      folderUserId = (await apis.user.nodes.createFolders([folderUser])).entry.id;
+      folderDeletedId = (await apis.user.nodes.createFolder(folderDeleted)).entry.id;
+      fileDeletedId = (await apis.user.nodes.createFiles([fileDeleted], folderDeleted)).entry.id;
+      folderNotDeletedId = (await apis.user.nodes.createFolder(folderNotDeleted)).entry.id;
+      fileInFolderId = (await apis.user.nodes.createFiles([fileInFolder], folderNotDeleted)).entry.id;
+
+      await apis.user.nodes.deleteNodesById([fileSiteId, fileUserId, folderUserId, fileInFolderId, fileDeletedId, folderDeletedId], false);
+    } catch (error) {
+      Logger.error(`----- beforeAll failed : ${error}`);
+    }
   });
 
-  afterAll(async (done) => {
-    await adminApiActions.sites.deleteSite(siteName);
-    await adminApiActions.trashcanApi.deleteDeletedNode(fileAdminId);
-    await adminApiActions.trashcanApi.deleteDeletedNode(folderAdminId);
-    await apis.user.nodes.deleteNodeById(folderNotDeletedId);
-    await userActions.emptyTrashcan();
-    done();
+  afterAll(async () => {
+    try {
+      await adminApiActions.sites.deleteSite(siteName);
+      await adminApiActions.trashcanApi.deleteDeletedNode(fileAdminId);
+      await adminApiActions.trashcanApi.deleteDeletedNode(folderAdminId);
+      await apis.user.nodes.deleteNodeById(folderNotDeletedId);
+      await userActions.login(username, username);
+      await userActions.emptyTrashcan();
+    } catch (error) {
+      Logger.error(`----- afterAll failed : ${error}`);
+    }
   });
 
   describe('as admin', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await loginPage.loginWithAdmin();
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickTrashAndWait();
-      done();
     });
 
     it('[C213217] has the correct columns', async () => {
       const expectedColumns = ['Name', 'Location', 'Size', 'Deleted', 'Deleted by'];
       const actualColumns = await dataTable.getColumnHeadersText();
 
-      await expect(actualColumns).toEqual(expectedColumns);
+      expect(actualColumns).toEqual(expectedColumns);
     });
 
     it('[C280493] displays the files and folders deleted by everyone', async () => {
@@ -124,21 +130,19 @@ describe('Trash', () => {
   });
 
   describe('as user', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await loginPage.loginWith(username);
-      done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickTrashAndWait();
-      done();
     });
 
     it('[C280494] has the correct columns', async () => {
       const expectedColumns = ['Name', 'Location', 'Size', 'Deleted'];
       const actualColumns = await dataTable.getColumnHeadersText();
 
-      await expect(actualColumns).toEqual(expectedColumns);
+      expect(actualColumns).toEqual(expectedColumns);
     });
 
     it('[C213218] displays the files and folders deleted by the user', async () => {
