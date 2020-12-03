@@ -37,6 +37,7 @@ stages:
 
 env:
   global:
+    - API_AOS_HOST=$API_CONTENT_EXTERNAL
     - API_AOS_HOST=$API_CONTENT_HOST
     - ADMIN_EMAIL=$ADMIN_EMAIL_REMOTE
     - ADMIN_PASSWORD=$ADMIN_PASSWORD_REMOTE
@@ -52,34 +53,6 @@ jobs:
       before_script: npx @alfresco/adf-cli update-commit-sha --pointer "HEAD" --pathPackage "$(pwd)"
       script: npm ci && npm run build.e2e
       after_success: ./scripts/ci/utils/artifact-to-s3.sh -a ./dist/app -o "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2"
-      cache: false
-
-    - stage: Quality and Unit tests
-      name: 'Unit tests: aos'
-      script: npm ci && ng test adf-office-services-ext --watch=false
-      cache: false
-
-    - stage: Quality and Unit tests
-      name: 'Unit tests: aca-shared'
-      script: npm ci && ng test aca-shared --watch=false
-      cache: false
-
-    - stage: Quality and Unit tests
-      name: 'Unit tests: aca-about'
-      script: npm ci && ng test aca-about --watch=false
-      cache: false
-
-    - stage: Quality and Unit tests
-      name: 'Unit tests: aca-settings'
-      script: npm ci && ng test aca-settings --watch=false
-      cache: false
-
-    - stage: Quality and Unit tests
-      name: 'Unit tests: ACA'
-      script:
-        - npm ci
-        - ng test app --code-coverage --watch=false
-        - bash <(curl -s https://codecov.io/bash) -X gcov
       cache: false
 
     - stage: e2e
