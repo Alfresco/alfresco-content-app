@@ -29,6 +29,7 @@ import * as testUtil from '../test-util';
 
 describe('Files - available actions : ', () => {
   const random = Utils.random();
+
   const username = `user-${random}`;
   const parentName = `parent-${random}`;
 

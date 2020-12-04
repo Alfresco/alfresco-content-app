@@ -29,8 +29,9 @@ import * as testUtil from '../test-util';
 
 describe('Folders - available actions : ', () => {
   const random = testData.random;
-  const username = `user-${random}`;
-  const parentName = `parent-${random}`;
+
+  const username = `user-${Utils.random()}`;
+  const parentName = `parent-${Utils.random()}`;
 
   let parentId: string;
   let folderFavId: string;

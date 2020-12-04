@@ -31,6 +31,7 @@ const page = new BrowsingPage();
 
 describe('Trash - available actions : ', () => {
   const random = Utils.random();
+
   const username = `user-${random}`;
 
   let fileInTrashId: string;

@@ -29,20 +29,21 @@ import * as testUtil from '../test-util';
 
 describe('Multiple Files - available actions : ', () => {
   const random = Utils.random();
+
   const username = `user-${random}`;
 
   const parentName = `parent-${random}`;
   let parentId: string;
 
-  const file1 = `fileActions-1-${random}.txt`;
+  const file1 = `file-1-${random}.txt`;
   let file1Id: string;
-  const file2 = `fileActions-2-${random}.txt`;
+  const file2 = `file-2-${random}.txt`;
   let file2Id: string;
-  const file3Locked = `fileActions-3-locked-${random}.txt`;
+  const file3Locked = `file-3-locked-${random}.txt`;
   let file3LockedId: string;
-  const file1LockedFav = `fileActions-lockedFav1-${random}.txt`;
+  const file1LockedFav = `file-lockedFav1-${random}.txt`;
   let file1LockedFavId: string;
-  const file2LockedFav = `fileActions-lockedFav2-${random}.txt`;
+  const file2LockedFav = `file-lockedFav2-${random}.txt`;
   let file2LockedFavId: string;
 
   const userApi = new RepoClient(username, username);
