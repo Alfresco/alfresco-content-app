@@ -122,21 +122,6 @@ describe('Locked Files - available actions : ', () => {
       });
     });
 
-    // describe('multiple selection : ', () => {
-    //   afterAll(async () => {
-    //     await dataTable.clearSelection();
-    //   });
-
-    //   it('multiple locked files - [C326688]', async () => {
-    //     await testUtil.checkMultipleSelContextMenu([testData.fileLocked.name, testData.fileSharedFavLocked.name], testData.multipleSel.contextMenu);
-    //     await testUtil.checkMultipleSelToolbarActions(
-    //       [testData.fileLocked.name, testData.fileSharedFavLocked.name],
-    //       testData.multipleSel.toolbarPrimary,
-    //       testData.multipleSel.toolbarMore
-    //     );
-    //   });
-    // });
-
     describe('Viewer - file opened from Personal Files : ', () => {
       it('File locked - [C291832]', async () => {
         await testUtil.checkViewerActions(testData.fileLocked.name, testData.fileLocked.viewerToolbarPrimary, testData.fileLocked.viewerToolbarMore);
@@ -193,24 +178,6 @@ describe('Locked Files - available actions : ', () => {
       });
     });
 
-    // describe('multiple selection : ', () => {
-    //   afterAll(async () => {
-    //     await dataTable.clearSelection();
-    //   });
-
-    //   it('multiple locked files - [C297631]', async () => {
-    //     await testUtil.checkMultipleSelContextMenu(
-    //       [testData.fileFavLocked.name, testData.fileSharedFavLocked.name],
-    //       testData.multipleSelAllFav.favoritesContextMenu
-    //     );
-    //     await testUtil.checkMultipleSelToolbarActions(
-    //       [testData.fileFavLocked.name, testData.fileSharedFavLocked.name],
-    //       testData.multipleSelAllFav.toolbarPrimary,
-    //       testData.multipleSelAllFav.favoritesToolbarMore
-    //     );
-    //   });
-    // });
-
     describe('Viewer - file opened from Favorites : ', () => {
       it('File favorite, locked - [C326707]', async () => {
         await testUtil.checkViewerActions(
@@ -264,21 +231,6 @@ describe('Locked Files - available actions : ', () => {
         await testUtil.checkContextMenu(testData.fileSharedFavLocked.name, testData.fileSharedFavLocked.contextMenu);
       });
     });
-
-    // describe('multiple selection : ', () => {
-    //   afterAll(async () => {
-    //     await dataTable.clearSelection();
-    //   });
-
-    //   it('multiple locked files - [C297624]', async () => {
-    //     await testUtil.checkMultipleSelContextMenu([testData.fileLocked.name, testData.fileSharedFavLocked.name], testData.multipleSel.contextMenu);
-    //     await testUtil.checkMultipleSelToolbarActions(
-    //       [testData.fileLocked.name, testData.fileSharedFavLocked.name],
-    //       testData.multipleSel.toolbarPrimary,
-    //       testData.multipleSel.toolbarMore
-    //     );
-    //   });
-    // });
 
     describe('Viewer - file opened from Recent Files : ', () => {
       it('File locked - [C326698]', async () => {
@@ -354,24 +306,6 @@ describe('Locked Files - available actions : ', () => {
       });
     });
 
-    // describe('multiple selection : ', () => {
-    //   afterAll(async () => {
-    //     await dataTable.clearSelection();
-    //   });
-
-    //   it('[C297626] multiple locked files', async () => {
-    //     await testUtil.checkMultipleSelContextMenu(
-    //       [testData.fileLocked.name, testData.fileSharedFavLocked.name],
-    //       testData.multipleSel.searchContextMenu
-    //     );
-    //     await testUtil.checkMultipleSelToolbarActions(
-    //       [testData.fileLocked.name, testData.fileSharedFavLocked.name],
-    //       testData.multipleSel.searchToolbarPrimary,
-    //       testData.multipleSel.searchToolbarMore
-    //     );
-    //   });
-    // });
-
     describe('Viewer - file opened from Search Results : ', () => {
       it('File locked - [C326722]', async () => {
         await testUtil.checkViewerActions(
@@ -431,24 +365,6 @@ describe('Locked Files - available actions : ', () => {
         await testUtil.checkContextMenu(testData.fileSharedFavLocked.name, testData.fileSharedFavLocked.contextMenu);
       });
     });
-
-    // describe('multiple selection : ', () => {
-    //   afterAll(async () => {
-    //     await dataTable.clearSelection();
-    //   });
-
-    //   it('multiple locked files - [C297623]', async () => {
-    //     await testUtil.checkMultipleSelContextMenu(
-    //       [testData.fileSharedLocked.name, testData.fileSharedFavLocked.name],
-    //       testData.multipleSel.contextMenu
-    //     );
-    //     await testUtil.checkMultipleSelToolbarActions(
-    //       [testData.fileSharedLocked.name, testData.fileSharedFavLocked.name],
-    //       testData.multipleSel.toolbarPrimary,
-    //       testData.multipleSel.toolbarMore
-    //     );
-    //   });
-    // });
 
     describe('Viewer - file opened from Shared Files : ', () => {
       it('File shared, locked - [C326712]', async () => {
