@@ -28,7 +28,7 @@ import { Subject } from 'rxjs';
 import { SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 
 describe('DocumentListDirective', () => {
-  let documentListDirective;
+  let documentListDirective: DocumentListDirective;
 
   const documentListMock: any = {
     currentFolderId: '',
@@ -101,6 +101,15 @@ describe('DocumentListDirective', () => {
     expect(storeMock.dispatch).toHaveBeenCalled();
   });
 
+  it('should enable sticky headers', () => {
+    mockRouter.url = '/some-route';
+    documentListMock.currentFolderId = '-mysites-';
+    documentListDirective.ngOnInit();
+    documentListMock.ready.next();
+
+    expect(documentListMock.stickyHeader).toBeTruthy();
+  });
+
   it('should set `isLibrary` to true if selected node is a library', () => {
     mockRouter.url = '/some-route';
     documentListMock.currentFolderId = '-mysites-';
@@ -122,7 +131,7 @@ describe('DocumentListDirective', () => {
   it('should update store selection on `node-select` event', () => {
     mockRouter.url = '/some-route';
     documentListDirective.ngOnInit();
-    documentListDirective.onNodeSelect({ detail: { node: {} } });
+    documentListDirective.onNodeSelect({ detail: { node: {} } } as any);
 
     expect(storeMock.dispatch).toHaveBeenCalled();
   });
