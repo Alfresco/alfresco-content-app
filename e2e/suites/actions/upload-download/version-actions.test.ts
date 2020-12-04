@@ -50,9 +50,10 @@ describe('Version actions', () => {
   const { searchInput } = page.header;
   const adminApiActions = new AdminActions();
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     try {
       await adminApiActions.createUser({ username });
+
       parentFolderId = (await apis.user.nodes.createFolder(parentFolder)).entry.id;
 
       fileId = (await apis.user.upload.uploadFile(filesToUpload[0], parentFolderId)).entry.id;
@@ -73,7 +74,6 @@ describe('Version actions', () => {
       await loginPage.loginWith(username);
       await dataTable.doubleClickOnRowByName(parentFolder);
       await dataTable.waitForHeader();
-      done();
     } catch (error) {
       Logger.error(`--- beforeAll failed : ${error}`);
     }
@@ -205,7 +205,7 @@ describe('Version actions', () => {
       await page.clickPersonalFiles();
       await searchInput.clickSearchButton();
       await searchInput.checkOnlyFiles();
-      await searchInput.searchFor(filesToUpload[4]);
+      await searchInput.searchFor(`${filesToUpload[4]} AND PARENT:"workspace://SpacesStore/${parentFolderId}"`);
       await dataTable.waitForBody();
 
       await dataTable.selectItem(filesToUpload[4], parentFolder);

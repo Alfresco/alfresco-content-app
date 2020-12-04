@@ -30,12 +30,12 @@ describe('Search results - libraries', () => {
   const username = `user-${random}`;
 
   const site1 = {
-    name: `lib-1-${random}`,
-    id: `site1-${random}`
+    name: `lib-${random}-1`,
+    id: `site-${random}-1`
   };
   const site2 = {
     name: `site-2-${random}`,
-    id: `site1-${random}`
+    id: `site-${random}-2`
   };
   const site3 = {
     name: `my-lib-${random}`,
@@ -98,25 +98,35 @@ describe('Search results - libraries', () => {
 
     await adminApiActions.sites.createSite(adminPrivate, SITE_VISIBILITY.PRIVATE);
 
-    await apis.user.sites.waitForApi({ expect: 12 });
-    await apis.user.queries.waitForSites('lib', { expect: 2 });
-    await apis.user.queries.waitForSites('my-site', { expect: 1 });
+    await adminApiActions.login();
+    await adminApiActions.sites.waitForSitesToBeCreated([adminSite1, adminSite2, adminSite3, adminSite4]);
+
+    await apis.user.sites.waitForSitesToBeCreated([
+      site1.id,
+      site2.id,
+      site3.id,
+      site4.id,
+      userSitePublic,
+      userSiteModerated,
+      userSitePrivate,
+      siteRussian.id
+    ]);
+
+    await apis.user.queries.waitForSites(random, { expect: 12 });
 
     await loginPage.loginWith(username);
     done();
   });
 
-  afterAll(async (done) => {
-    await Promise.all([
-      adminApiActions.sites.deleteSites([adminSite1, adminSite2, adminSite3, adminSite4, adminPrivate]),
-      apis.user.sites.deleteSites([site1.id, site2.id, site3.id, site4.id, userSitePublic, userSiteModerated, userSitePrivate, siteRussian.id])
-    ]);
-    done();
+  afterAll(async () => {
+    await adminApiActions.login();
+    await adminApiActions.sites.deleteSites([adminSite1, adminSite2, adminSite3, adminSite4, adminPrivate]);
+    await apis.user.sites.deleteSites([site1.id, site2.id, site3.id, site4.id, userSitePublic, userSiteModerated, userSitePrivate, siteRussian.id]);
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     await Utils.pressEscape();
-    done();
+    await page.clickPersonalFiles();
   });
 
   it('[C290012] Search library - full name match', async () => {
@@ -134,7 +144,7 @@ describe('Search results - libraries', () => {
   it('[C290013] Search library - partial name match', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkLibraries();
-    await searchInput.searchFor(random);
+    await searchInput.searchFor(`lib-${random}`);
     await dataTable.waitForBody();
 
     expect(await dataTable.isItemPresent(site1.name)).toBe(true, `${site1.name} not displayed`);
