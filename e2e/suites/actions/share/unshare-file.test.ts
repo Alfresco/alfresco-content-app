@@ -83,17 +83,15 @@ describe('Unshare a file', () => {
     let file3Id: string;
     const file4 = `file4-${Utils.random()}.txt`;
     let file4Id: string;
-    let initialSharedTotalItems: number;
 
     beforeAll(async (done) => {
       file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
       file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
       file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
       file4Id = (await apis.user.nodes.createFile(file4, parentId)).entry.id;
-      initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
 
       await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
-      await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 4 });
+      await apis.user.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id]);
       done();
     });
 
@@ -111,11 +109,7 @@ describe('Unshare a file', () => {
     });
 
     afterAll(async (done) => {
-      await apis.user.nodes.deleteNodeById(file1Id);
-      await apis.user.nodes.deleteNodeById(file2Id);
-      await apis.user.nodes.deleteNodeById(file3Id);
-      await apis.user.nodes.deleteNodeById(file4Id);
-      await apis.user.shared.waitForApi({ expect: initialSharedTotalItems });
+      await apis.user.nodes.deleteNodesById([file1Id, file2Id, file3Id, file4Id]);
       done();
     });
 
@@ -205,7 +199,6 @@ describe('Unshare a file', () => {
     const siteName = `site-${Utils.random()}`;
     const parentInSite = `parent-site-${Utils.random()}`;
     let parentInSiteId: string;
-    let initialSharedTotalItems: number;
 
     beforeAll(async (done) => {
       await apis.user.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
@@ -216,10 +209,9 @@ describe('Unshare a file', () => {
       file2Id = (await apis.user.nodes.createFile(file2, parentInSiteId)).entry.id;
       file3Id = (await apis.user.nodes.createFile(file3, parentInSiteId)).entry.id;
       file4Id = (await apis.user.nodes.createFile(file4, parentInSiteId)).entry.id;
-      initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
 
       await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
-      await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 4 });
+      await apis.user.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id]);
       done();
     });
 
@@ -240,7 +232,6 @@ describe('Unshare a file', () => {
 
     afterAll(async (done) => {
       await adminApiActions.sites.deleteSite(siteName);
-      await apis.user.shared.waitForApi({ expect: initialSharedTotalItems });
       done();
     });
 
@@ -326,7 +317,6 @@ describe('Unshare a file', () => {
     let file3Id: string;
     const file4 = `file4-${Utils.random()}.txt`;
     let file4Id: string;
-    let initialSharedTotalItems: number;
 
     beforeAll(async (done) => {
       file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
@@ -334,10 +324,8 @@ describe('Unshare a file', () => {
       file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
       file4Id = (await apis.user.nodes.createFile(file4, parentId)).entry.id;
 
-      initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
-
       await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
-      await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 4 });
+      await apis.user.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id]);
       done();
     });
 
@@ -353,11 +341,7 @@ describe('Unshare a file', () => {
     });
 
     afterAll(async (done) => {
-      await apis.user.nodes.deleteNodeById(file1Id);
-      await apis.user.nodes.deleteNodeById(file2Id);
-      await apis.user.nodes.deleteNodeById(file3Id);
-      await apis.user.nodes.deleteNodeById(file4Id);
-      await apis.user.shared.waitForApi({ expect: initialSharedTotalItems });
+      await apis.user.nodes.deleteNodesById([file1Id, file2Id, file3Id, file4Id]);
       done();
     });
 
@@ -443,7 +427,6 @@ describe('Unshare a file', () => {
     let file3Id: string;
     const file4 = `file4-${Utils.random()}.txt`;
     let file4Id: string;
-    let initialSharedTotalItems: number;
 
     beforeAll(async (done) => {
       file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
@@ -451,10 +434,8 @@ describe('Unshare a file', () => {
       file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
       file4Id = (await apis.user.nodes.createFile(file4, parentId)).entry.id;
 
-      initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
-
       await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
-      await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 4 });
+      await apis.user.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id]);
       done();
     });
 
@@ -470,11 +451,7 @@ describe('Unshare a file', () => {
     });
 
     afterAll(async (done) => {
-      await apis.user.nodes.deleteNodeById(file1Id);
-      await apis.user.nodes.deleteNodeById(file2Id);
-      await apis.user.nodes.deleteNodeById(file3Id);
-      await apis.user.nodes.deleteNodeById(file4Id);
-      await apis.user.shared.waitForApi({ expect: initialSharedTotalItems });
+      await apis.user.nodes.deleteNodesById([file1Id, file2Id, file3Id, file4Id]);
       done();
     });
 
@@ -560,15 +537,12 @@ describe('Unshare a file', () => {
     let file3Id: string;
     const file4 = `file4-${Utils.random()}.txt`;
     let file4Id: string;
-    let initialSharedTotalItems: number;
 
     beforeAll(async (done) => {
       file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
       file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
       file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
       file4Id = (await apis.user.nodes.createFile(file4, parentId)).entry.id;
-
-      initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
 
       await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
 
@@ -578,7 +552,7 @@ describe('Unshare a file', () => {
       await apis.user.favorites.addFavoriteById('file', file4Id);
 
       await apis.user.favorites.waitForApi({ expect: 4 });
-      await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 4 });
+      await apis.user.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id]);
       done();
     });
 
@@ -594,11 +568,7 @@ describe('Unshare a file', () => {
     });
 
     afterAll(async (done) => {
-      await apis.user.nodes.deleteNodeById(file1Id);
-      await apis.user.nodes.deleteNodeById(file2Id);
-      await apis.user.nodes.deleteNodeById(file3Id);
-      await apis.user.nodes.deleteNodeById(file4Id);
-      await apis.user.shared.waitForApi({ expect: initialSharedTotalItems });
+      await apis.user.nodes.deleteNodesById([file1Id, file2Id, file3Id, file4Id]);
       done();
     });
 
@@ -704,15 +674,18 @@ describe('Unshare a file', () => {
 
       await adminApiActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_CONSUMER.ROLE);
 
-      const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
+      await adminApiActions.login();
       await adminApiActions.shareNodes([file1FileLibId, file1SharedId, file1FavId]);
+
+      await userActions.login(username, username);
       await userActions.shareNodes([file2FileLibId, file2SharedId, file2FavId]);
 
       await apis.user.favorites.addFavoriteById('file', file1FavId);
       await apis.user.favorites.addFavoriteById('file', file2FavId);
 
       await apis.user.favorites.waitForApi({ expect: 2 });
-      await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 6 });
+      await adminApiActions.shared.waitForFilesToBeShared([file1FileLibId, file1SharedId, file1FavId]);
+      await apis.user.shared.waitForFilesToBeShared([file2FileLibId, file2SharedId, file2FavId]);
 
       done();
     });

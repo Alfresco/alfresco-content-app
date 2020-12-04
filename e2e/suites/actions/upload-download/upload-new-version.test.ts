@@ -50,17 +50,18 @@ describe('Upload new version', () => {
   const fileLocked2 = `file-locked2-${Utils.random()}.docx`;
   let fileLocked2Id: string;
 
-  const fileSearch1 = `search-file1-${Utils.random()}.docx`;
+  const searchRandom = Utils.random();
+  const fileSearch1 = `search-${searchRandom}-file1.docx`;
   let fileSearch1Id: string;
-  const fileSearch2 = `search-file2-${Utils.random()}.docx`;
+  const fileSearch2 = `search-${searchRandom}-file2.docx`;
   let fileSearch2Id: string;
-  const fileSearch3 = `search-file3-${Utils.random()}.docx`;
+  const fileSearch3 = `search-${searchRandom}-file3.docx`;
   let fileSearch3Id: string;
-  const fileSearch4 = `search-file4-${Utils.random()}.docx`;
+  const fileSearch4 = `search-${searchRandom}-file4.docx`;
   let fileSearch4Id: string;
-  const fileLockedSearch1 = `search-file-locked1-${Utils.random()}.docx`;
+  const fileLockedSearch1 = `search-${searchRandom}-file-locked1.docx`;
   let fileLockedSearch1Id: string;
-  const fileLockedSearch2 = `search-file-locked2-${Utils.random()}.docx`;
+  const fileLockedSearch2 = `search-${searchRandom}-file-locked2.docx`;
   let fileLockedSearch2Id: string;
 
   const parentPF = `parentPersonal-${Utils.random()}`;
@@ -116,8 +117,6 @@ describe('Upload new version', () => {
 
   describe('on Search Results', () => {
     beforeAll(async (done) => {
-      const initialSearchTotalItems = await apis.user.search.getSearchByTermTotalItems('search-f');
-
       fileId = (await apis.user.upload.uploadFile(file, parentSearchId)).entry.id;
       fileSearch1Id = (await apis.user.nodes.createFile(fileSearch1, parentSearchId)).entry.id;
       fileSearch2Id = (await apis.user.nodes.createFile(fileSearch2, parentSearchId)).entry.id;
@@ -130,7 +129,7 @@ describe('Upload new version', () => {
       await apis.user.nodes.lockFile(fileLockedSearch1Id);
       await apis.user.nodes.lockFile(fileLockedSearch2Id);
 
-      await apis.user.search.waitForNodes('search-f', { expect: initialSearchTotalItems + 6 });
+      await apis.user.search.waitForNodes(searchRandom, { expect: 6 });
 
       await loginPage.loginWith(username);
       done();
@@ -455,9 +454,8 @@ describe('Upload new version', () => {
       await apis.user.nodes.lockFile(fileLocked1Id);
       await apis.user.nodes.lockFile(fileLocked2Id);
 
-      const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
       await apis.user.shared.shareFilesByIds([fileId, file1Id, file2Id, file3Id, file4Id, fileLocked1Id, fileLocked2Id]);
-      await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 7 });
+      await apis.user.shared.waitForFilesToBeShared([fileId, file1Id, file2Id, file3Id, file4Id, fileLocked1Id, fileLocked2Id]);
 
       await loginPage.loginWith(username);
       done();

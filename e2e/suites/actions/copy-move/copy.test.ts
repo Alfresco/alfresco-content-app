@@ -24,60 +24,62 @@
  */
 
 import { AdminActions, UserActions, LoginPage, BrowsingPage, ContentNodeSelectorDialog, RepoClient, Utils } from '@alfresco/aca-testing-shared';
-import { BrowserActions } from '@alfresco/adf-testing';
+import { BrowserActions, Logger } from '@alfresco/adf-testing';
 
 describe('Copy content', () => {
-  const username = `user-${Utils.random()}`;
+  const random = Utils.random();
 
-  const source = `source-${Utils.random()}`;
+  const username = `user-${random}`;
+
+  const source = `source-${random}`;
   let sourceId: string;
-  const destinationPF = `destinationPersonal-${Utils.random()}`;
+  const destinationPF = `destinationPersonal-${random}`;
   let destinationIdPF: string;
-  const destinationRF = `destinationRecent-${Utils.random()}`;
+  const destinationRF = `destinationRecent-${random}`;
   let destinationIdRF: string;
-  const destinationSF = `destinationShared-${Utils.random()}`;
+  const destinationSF = `destinationShared-${random}`;
   let destinationIdSF: string;
-  const destinationFav = `destinationFav-${Utils.random()}`;
+  const destinationFav = `destinationFav-${random}`;
   let destinationIdFav: string;
-  const destinationSearch = `destinationSearch-${Utils.random()}`;
+  const destinationSearch = `destinationSearch-${random}`;
   let destinationIdSearch: string;
 
-  const file1 = `copy-file1-${Utils.random()}.txt`;
+  const file1 = `copy-file1-${random}.txt`;
   let file1Id: string;
 
-  const folder1 = `copy-folder1-${Utils.random()}`;
+  const folder1 = `copy-folder1-${random}`;
   let folder1Id: string;
-  const fileInFolder = `copy-fileInFolder-${Utils.random()}.txt`;
+  const fileInFolder = `copy-fileInFolder-${random}.txt`;
   let fileInFolderId: string;
 
-  const folder2 = `copy-folder2-${Utils.random()}`;
+  const folder2 = `copy-folder2-${random}`;
   let folder2Id: string;
   const fileInFolder2 = fileInFolder;
 
-  const folderExisting = `copy-folder-existing-${Utils.random()}`;
+  const folderExisting = `copy-folder-existing-${random}`;
   let folderExistingId: string;
-  const file1InFolderExisting = `copy-file1InFolderExisting-${Utils.random()}.txt`;
-  const file2InFolderExisting = `copy-file2InFolderExisting-${Utils.random()}.txt`;
+  const file1InFolderExisting = `copy-file1InFolderExisting-${random}.txt`;
+  const file2InFolderExisting = `copy-file2InFolderExisting-${random}.txt`;
 
-  const file2 = `copy-file2-${Utils.random()}.txt`;
+  const file2 = `copy-file2-${random}.txt`;
   let file2Id: string;
-  const file3 = `copy-file3-${Utils.random()}.txt`;
+  const file3 = `copy-file3-${random}.txt`;
   let file3Id: string;
-  const file4 = `copy-file4-${Utils.random()}.txt`;
+  const file4 = `copy-file4-${random}.txt`;
   let file4Id: string;
 
-  const fileLocked1 = `copy-file-locked1-${Utils.random()}.txt`;
+  const fileLocked1 = `copy-file-locked1-${random}.txt`;
   let fileLocked1Id: string;
 
-  const folderWithLockedFiles = `copy-folder-locked1-${Utils.random()}`;
+  const folderWithLockedFiles = `copy-folder-locked1-${random}`;
   let folderWithLockedFilesId: string;
-  const fileLockedInFolder = `copy-file-locked-${Utils.random()}`;
+  const fileLockedInFolder = `copy-file-locked-${random}`;
   let fileLockedInFolderId: string;
 
-  const existingFile = `copy-existing-${Utils.random()}.txt`;
+  const existingFile = `copy-existing-${random}-file.txt`;
   let existingFileToCopyId: string;
 
-  const existingFolder = `copy-existing-${Utils.random()}`;
+  const existingFolder = `copy-existing-${random}-folder`;
   let existingFolderToCopyId: string;
 
   let existingIdPF: string;
@@ -87,15 +89,15 @@ describe('Copy content', () => {
   let folderExistingFavId: string;
   let folderExistingSearchId: string;
 
-  const file2InFolder = `copy-file2InFolder-${Utils.random()}.txt`;
-  const file3InFolder = `copy-file3InFolder-${Utils.random()}.txt`;
+  const file2InFolder = `copy-file2InFolder-${random}.txt`;
+  const file3InFolder = `copy-file3InFolder-${random}.txt`;
 
-  const siteName = `copy-site-${Utils.random()}`;
-  const folderSitePF = `copy-folderSitePersonal-${Utils.random()}`;
-  const folderSiteRF = `copy-folderSiteRecent-${Utils.random()}`;
-  const folderSiteSF = `copy-folderSiteShared-${Utils.random()}`;
-  const folderSiteFav = `copy-folderSiteFav-${Utils.random()}`;
-  const folderSiteSearch = `copy-folderSiteSearch-${Utils.random()}`;
+  const siteName = `copy-site-${random}`;
+  const folderSitePF = `copy-folderSitePersonal-${random}`;
+  const folderSiteRF = `copy-folderSiteRecent-${random}`;
+  const folderSiteSF = `copy-folderSiteShared-${random}`;
+  const folderSiteFav = `copy-folderSiteFav-${random}`;
+  const folderSiteSearch = `copy-folderSiteSearch-${random}`;
 
   let locationId: string;
   let destinationId: string;
@@ -118,7 +120,6 @@ describe('Copy content', () => {
     await adminApiActions.createUser({ username });
     await userActions.login(username, username);
 
-    const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
     const initialFavoritesTotalItems = await apis.user.favorites.getFavoritesTotalItems();
 
     sourceId = (await apis.user.nodes.createFolder(source)).entry.id;
@@ -206,28 +207,32 @@ describe('Copy content', () => {
     await apis.user.nodes.createFolder(folderSiteFav, docLibId);
     await apis.user.nodes.createFolder(folderSiteSearch, docLibId);
 
-    await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 7 });
+    await apis.user.shared.waitForFilesToBeShared([existingFileToCopyId, fileInFolderId, file1Id, file2Id, file3Id, file4Id, fileLocked1Id]);
     await apis.user.favorites.waitForApi({ expect: initialFavoritesTotalItems + 13 });
 
     await loginPage.loginWith(username);
     done();
   });
 
-  afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(sourceId);
-    await apis.user.sites.deleteSite(siteName);
-    done();
+  beforeEach(async () => {
+    await page.closeOpenDialogs();
+  });
+
+  afterAll(async () => {
+    try {
+      await apis.user.nodes.unlockFile(fileLocked1Id);
+      await apis.user.nodes.unlockFile(fileLockedInFolderId);
+      await apis.user.nodes.deleteNodesById([sourceId, destinationIdRF, destinationIdPF, destinationIdSF, destinationIdFav, destinationIdSearch]);
+      await apis.user.sites.deleteSite(siteName);
+    } catch (error) {
+      Logger.error(`---- afterAll failed : ${error}`);
+    }
   });
 
   describe('from Recent Files', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
       await page.clickRecentFilesAndWait();
-      done();
-    });
-
-    afterAll(async (done) => {
-      await apis.user.nodes.deleteNodeById(destinationIdRF);
       done();
     });
 
@@ -254,11 +259,6 @@ describe('Copy content', () => {
       await Utils.pressEscape();
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(source);
-      done();
-    });
-
-    afterAll(async (done) => {
-      await apis.user.nodes.deleteNodeById(destinationIdPF);
       done();
     });
 
@@ -303,15 +303,9 @@ describe('Copy content', () => {
   });
 
   describe('from Shared Files', () => {
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await Utils.pressEscape();
       await page.clickSharedFilesAndWait();
-      done();
-    });
-
-    afterAll(async (done) => {
-      await apis.user.nodes.deleteNodeById(destinationIdSF);
-      done();
     });
 
     it('[C280206] Copy a file', async () => copyFile(file1, source, destinationSF));
@@ -336,11 +330,6 @@ describe('Copy content', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
       await page.clickFavoritesAndWait();
-      done();
-    });
-
-    afterAll(async (done) => {
-      await apis.user.nodes.deleteNodeById(destinationIdFav);
       done();
     });
 
@@ -382,51 +371,51 @@ describe('Copy content', () => {
   });
 
   describe('from Search Results', () => {
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await Utils.pressEscape();
+      await page.clickPersonalFiles();
       await searchInput.clickSearchButton();
-      await searchInput.checkFilesAndFolders();
-      done();
-    });
-
-    afterAll(async (done) => {
-      await apis.user.nodes.deleteNodeById(destinationIdSearch);
-      done();
     });
 
     it('[C306932] Copy a file', async () =>
       copyFile(file1, source, destinationSearch, async () => {
+        await searchInput.checkOnlyFiles();
         await searchInput.searchFor(file1);
         await dataTable.waitForBody();
       }));
 
     it('[C306943] Copy a folder with content', async () =>
       copyFolderWithContent(folder1, source, destinationSearch, async () => {
+        await searchInput.checkOnlyFolders();
         await searchInput.searchFor(folder1);
         await dataTable.waitForBody();
       }));
 
     it('[C306944] Copy multiple items', async () =>
       copyMultipleItems([file2, file3], source, destinationSearch, async () => {
-        await searchInput.searchFor('copy-file');
+        await searchInput.checkOnlyFiles();
+        await searchInput.searchFor(random);
         await dataTable.waitForBody();
       }));
 
     it('[C306933] Copy a file with a name that already exists on the destination', async () =>
       copyFileWithNameThatAlreadyExists(existingFile, source, destinationSearch, async () => {
+        await searchInput.checkOnlyFiles();
         await searchInput.searchFor(existingFile);
         await dataTable.waitForBody();
       }));
 
     it('[C306934] Copy a folder with a name that already exists on the destination', async () =>
       copyFolderWithNameThatAlreadyExists(existingFolder, source, destinationSearch, async () => {
+        await searchInput.checkOnlyFolders();
         await searchInput.searchFor(existingFolder);
         await dataTable.waitForBody();
       }));
 
     it('[C306942] Copy items into a library', async () =>
       copyItemsIntoLibrary([file1, file2], source, folderSiteSearch, async () => {
-        await searchInput.searchFor('copy-file');
+        await searchInput.checkOnlyFiles();
+        await searchInput.searchFor(random);
         await dataTable.waitForBody();
       }));
 
@@ -434,6 +423,7 @@ describe('Copy content', () => {
       copyLockedFile(fileLocked1, source, destinationSearch, async () => {
         locationId = sourceId;
         destinationId = destinationIdSearch;
+        await searchInput.checkOnlyFiles();
         await searchInput.searchFor(fileLocked1);
         await dataTable.waitForBody();
       }));
@@ -442,30 +432,35 @@ describe('Copy content', () => {
       copyFolderThatContainsLockedFile(folderWithLockedFiles, source, destinationSearch, async () => {
         locationId = folderWithLockedFilesId;
         destinationId = destinationIdSearch;
+        await searchInput.checkOnlyFolders();
         await searchInput.searchFor(folderWithLockedFiles);
         await dataTable.waitForBody();
       }));
 
     it('[C306938] Undo copy of files', async () =>
       undoCopyFile(file4, source, destinationSearch, async () => {
+        await searchInput.checkOnlyFiles();
         await searchInput.searchFor(file4);
         await dataTable.waitForBody();
       }));
 
     it('[C306939] Undo copy of folders', async () =>
       undoCopyFolder(folder2, source, destinationSearch, async () => {
+        await searchInput.checkOnlyFolders();
         await searchInput.searchFor(folder2);
         await dataTable.waitForBody();
       }));
 
     it('[C306940] Undo copy of a file when a file with same name already exists on the destination', async () =>
       undoCopyFileWithExistingName(fileInFolder, folder1, folder2, async () => {
+        await searchInput.checkOnlyFiles();
         await searchInput.searchFor(fileInFolder);
         await dataTable.waitForBody();
       }));
 
     it('[C306941] Undo copy of a folder when a folder with same name already exists on the destination', async () =>
       undoCopyFolderWithExistingName(folderExisting, source, destinationSearch, async () => {
+        await searchInput.checkOnlyFolders();
         await searchInput.searchFor(folderExisting);
         await dataTable.waitForBody();
       }));

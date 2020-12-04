@@ -273,6 +273,25 @@ export class SitesApi extends RepoApi {
     }
   }
 
+  async waitForSitesToBeCreated(sitesIds: string[]) {
+    try {
+      const site = async () => {
+        const sitesList = (await this.getSites()).list.entries.map((link) => link.entry.id);
+        const foundItems = sitesIds.every((id) => sitesList.includes(id));
+        if (foundItems) {
+          return Promise.resolve(foundItems);
+        } else {
+          return Promise.reject(foundItems);
+        }
+      };
+
+      return await Utils.retryCall(site);
+    } catch (error) {
+      Logger.error(`SitesApi waitForSitesToBeCreated :  catch : `);
+      Logger.error(`\tWait timeout reached waiting for sites to be created`);
+    }
+  }
+
   async waitForApi(data: { expect: number }) {
     try {
       const sites = async () => {

@@ -28,9 +28,10 @@ import * as testData from './test-data';
 import * as testUtil from '../test-util';
 
 describe('Office Files - available actions : ', () => {
-  const random = Utils.random();
-  const username = `user-${random}`;
-  const parentName = `parent-${random}`;
+  const random = testData.random;
+
+  const username = `user-${Utils.random()}`;
+  const parentName = `parent-${Utils.random()}`;
 
   let parentId: string;
   let fileDocxFavId: string;
@@ -63,9 +64,8 @@ describe('Office Files - available actions : ', () => {
     await userApi.favorites.addFavoritesByIds('file', [fileDocxFavId, fileDocxSharedFavId]);
     await userApi.favorites.waitForApi({ expect: initialFavoritesTotalItems + 2 });
 
-    const initialSharedTotalItems = await userApi.shared.getSharedLinksTotalItems();
     await userApi.shared.shareFilesByIds([fileDocxSharedId, fileDocxSharedFavId]);
-    await userApi.shared.waitForApi({ expect: initialSharedTotalItems + 2 });
+    await userApi.shared.waitForFilesToBeShared([fileDocxSharedId, fileDocxSharedFavId]);
 
     await loginPage.loginWith(username);
   });
@@ -141,33 +141,6 @@ describe('Office Files - available actions : ', () => {
         );
       });
     });
-
-    // describe('on multiple selection', () => {
-    //   afterAll(async () => {
-    //     await dataTable.clearSelection();
-    //   });
-
-    //   it('multiple files - [C217112]', async () => {
-    //     await testUtil.checkMultipleSelContextMenu([testData.fileDocx.name, testData.fileDocxSharedFav.name], testData.multipleSel.contextMenu);
-    //     await testUtil.checkMultipleSelToolbarActions(
-    //       [testData.fileDocx.name, testData.fileDocxSharedFav.name],
-    //       testData.multipleSel.toolbarPrimary,
-    //       testData.multipleSel.toolbarMore
-    //     );
-    //   });
-
-    //   it('multiple files - all favorite - [C297619]', async () => {
-    //     await testUtil.checkMultipleSelContextMenu(
-    //       [testData.fileDocxFav.name, testData.fileDocxSharedFav.name],
-    //       testData.multipleSelAllFav.contextMenu
-    //     );
-    //     await testUtil.checkMultipleSelToolbarActions(
-    //       [testData.fileDocxFav.name, testData.fileDocxSharedFav.name],
-    //       testData.multipleSel.toolbarPrimary,
-    //       testData.multipleSelAllFav.toolbarMore
-    //     );
-    //   });
-    // });
   });
 
   describe('on Favorites : ', () => {
@@ -190,24 +163,6 @@ describe('Office Files - available actions : ', () => {
         await testUtil.checkContextMenu(testData.fileDocxSharedFav.name, testData.fileDocxSharedFav.favoritesContextMenu);
       });
     });
-
-    // describe('multiple selection : ', () => {
-    //   afterAll(async () => {
-    //     await dataTable.clearSelection();
-    //   });
-
-    //   it('multiple files - [C280656]', async () => {
-    //     await testUtil.checkMultipleSelContextMenu(
-    //       [testData.fileDocxFav.name, testData.fileDocxSharedFav.name],
-    //       testData.multipleSelAllFav.favoritesContextMenu
-    //     );
-    //     await testUtil.checkMultipleSelToolbarActions(
-    //       [testData.fileDocxFav.name, testData.fileDocxSharedFav.name],
-    //       testData.multipleSelAllFav.toolbarPrimary,
-    //       testData.multipleSelAllFav.favoritesToolbarMore
-    //     );
-    //   });
-    // });
 
     describe('Viewer - file opened from Favorites : ', () => {
       it('File Office, favorite - [C326702]', async () => {
@@ -259,33 +214,6 @@ describe('Office Files - available actions : ', () => {
       });
     });
 
-    // describe('on multiple selection', () => {
-    //   afterAll(async () => {
-    //     await dataTable.clearSelection();
-    //   });
-
-    //   it('multiple files - [C280468]', async () => {
-    //     await testUtil.checkMultipleSelContextMenu([testData.fileDocxFav.name, testData.fileDocxShared.name], testData.multipleSel.contextMenu);
-    //     await testUtil.checkMultipleSelToolbarActions(
-    //       [testData.fileDocxFav.name, testData.fileDocxShared.name],
-    //       testData.multipleSel.toolbarPrimary,
-    //       testData.multipleSel.toolbarMore
-    //     );
-    //   });
-
-    //   it('multiple files - all favorite - [C326689]', async () => {
-    //     await testUtil.checkMultipleSelContextMenu(
-    //       [testData.fileDocxFav.name, testData.fileDocxSharedFav.name],
-    //       testData.multipleSelAllFav.contextMenu
-    //     );
-    //     await testUtil.checkMultipleSelToolbarActions(
-    //       [testData.fileDocxFav.name, testData.fileDocxSharedFav.name],
-    //       testData.multipleSel.toolbarPrimary,
-    //       testData.multipleSelAllFav.toolbarMore
-    //     );
-    //   });
-    // });
-
     describe('Viewer - file opened from Recent Files : ', () => {
       it('File Office - [C297599]', async () => {
         await testUtil.checkViewerActions(testData.fileDocx.name, testData.fileDocx.viewerToolbarPrimary, testData.fileDocx.viewerToolbarMore);
@@ -321,7 +249,7 @@ describe('Office Files - available actions : ', () => {
     beforeEach(async () => {
       await page.clickPersonalFiles();
       await searchInput.clickSearchButton();
-      await searchInput.searchFor('fileActions-');
+      await searchInput.searchFor(random);
       await searchResultsPage.waitForResults();
     });
 
@@ -358,33 +286,6 @@ describe('Office Files - available actions : ', () => {
         await testUtil.checkContextMenu(testData.fileDocxSharedFav.name, testData.fileDocxSharedFav.searchContextMenu);
       });
     });
-
-    // describe('on multiple selection', () => {
-    //   afterAll(async () => {
-    //     await dataTable.clearSelection();
-    //   });
-
-    //   it('[C291820] multiple files', async () => {
-    //     await testUtil.checkMultipleSelContextMenu([testData.fileDocx.name, testData.fileDocxShared.name], testData.multipleSel.searchContextMenu);
-    //     await testUtil.checkMultipleSelToolbarActions(
-    //       [testData.fileDocx.name, testData.fileDocxShared.name],
-    //       testData.multipleSel.searchToolbarPrimary,
-    //       testData.multipleSel.searchToolbarMore
-    //     );
-    //   });
-
-    //   it('[C326690] multiple files - all favorite', async () => {
-    //     await testUtil.checkMultipleSelContextMenu(
-    //       [testData.fileDocxFav.name, testData.fileDocxSharedFav.name],
-    //       testData.multipleSelAllFav.searchContextMenu
-    //     );
-    //     await testUtil.checkMultipleSelToolbarActions(
-    //       [testData.fileDocxFav.name, testData.fileDocxSharedFav.name],
-    //       testData.multipleSelAllFav.searchToolbarPrimary,
-    //       testData.multipleSelAllFav.searchToolbarMore
-    //     );
-    //   });
-    // });
 
     describe('Viewer - file opened from Search Results : ', () => {
       it('File Office - [C326714]', async () => {
@@ -437,33 +338,6 @@ describe('Office Files - available actions : ', () => {
         await testUtil.checkContextMenu(testData.fileDocxSharedFav.name, testData.fileDocxSharedFav.contextMenu);
       });
     });
-
-    // describe('multiple selection', () => {
-    //   afterAll(async () => {
-    //     await dataTable.clearSelection();
-    //   });
-
-    //   it('multiple files - [C280467]', async () => {
-    //     await testUtil.checkMultipleSelContextMenu([testData.fileDocxShared.name, testData.fileDocxSharedFav.name], testData.multipleSel.contextMenu);
-    //     await testUtil.checkMultipleSelToolbarActions(
-    //       [testData.fileDocxShared.name, testData.fileDocxSharedFav.name],
-    //       testData.multipleSel.toolbarPrimary,
-    //       testData.multipleSel.toolbarMore
-    //     );
-    //   });
-
-    //   it('multiple files - all favorite - [C326691]', async () => {
-    //     await testUtil.checkMultipleSelContextMenu(
-    //       [testData.fileSharedFav.name, testData.fileSharedFavLocked.name],
-    //       testData.multipleSelAllFav.contextMenu
-    //     );
-    //     await testUtil.checkMultipleSelToolbarActions(
-    //       [testData.fileSharedFav.name, testData.fileSharedFavLocked.name],
-    //       testData.multipleSelAllFav.toolbarPrimary,
-    //       testData.multipleSelAllFav.toolbarMore
-    //     );
-    //   });
-    // });
 
     describe('Viewer - file opened from Shared Files', () => {
       it('File Office, shared - [C326708]', async () => {

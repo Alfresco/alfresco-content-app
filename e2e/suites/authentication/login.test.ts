@@ -115,8 +115,7 @@ describe('Login', () => {
       expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);
     });
 
-    // TODO: ACA-245
-    xit('[C213107] redirects to Home Page when navigating to the Login page while already logged in', async () => {
+    it('[C213107] redirects to Home Page when navigating to the Login page while already logged in', async () => {
       const { username } = johnDoe;
 
       await loginPage.loginWith(username);
@@ -143,7 +142,7 @@ describe('Login', () => {
 
   describe('with invalid credentials', () => {
     const { login: loginComponent } = loginPage;
-    const { submitButton, errorMessage } = loginComponent;
+    const { submitButton } = loginComponent;
 
     beforeEach(async (done) => {
       await loginPage.load();
@@ -160,32 +159,9 @@ describe('Login', () => {
       expect(await submitButton.isEnabled()).toBe(false, 'submit button is enabled');
     });
 
-    it('[C213093] shows error when entering nonexistent user', async () => {
-      await loginPage.tryLoginWith('nonexistent-user', 'any-password');
-      expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.LOGIN);
-      expect(await errorMessage.isDisplayed()).toBe(true, 'error message is not displayed');
-      expect(await errorMessage.getText()).toBe(`You've entered an unknown username or password`);
-    });
-
-    it('[C280071] shows error when entering invalid password', async () => {
-      const { username } = johnDoe;
-
-      await loginPage.tryLoginWith(username, 'incorrect-password');
-      expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.LOGIN);
-      expect(await errorMessage.isDisplayed()).toBe(true, 'error message is not displayed');
-      expect(await errorMessage.getText()).toBe(`You've entered an unknown username or password`);
-    });
-
     it('[C213106] unauthenticated user is redirected to Login page', async () => {
       await navigate(APP_ROUTES.PERSONAL_FILES);
       expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.LOGIN);
-    });
-
-    it('[C213100] disabled user is not logged in', async () => {
-      await loginPage.tryLoginWith(disabledUser);
-      expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.LOGIN);
-      expect(await errorMessage.isDisplayed()).toBe(true, 'error message is not displayed');
-      expect(await errorMessage.getText()).toBe(`You've entered an unknown username or password`);
     });
   });
 });

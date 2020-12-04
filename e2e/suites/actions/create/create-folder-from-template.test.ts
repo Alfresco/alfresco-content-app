@@ -321,6 +321,7 @@ describe('Create folder from template', () => {
       await page.dataTable.waitForHeader();
 
       expect(await page.dataTable.isItemPresent(folder2.name)).toBe(true, 'Folder not displayed in list view');
+
       const desc = await userApi.nodes.getNodeDescription(folder2.name, parentId);
       expect(desc).toEqual(folder2.description);
       const title = await userApi.nodes.getNodeTitle(folder2.name, parentId);

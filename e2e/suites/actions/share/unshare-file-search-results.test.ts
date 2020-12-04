@@ -44,20 +44,21 @@ describe('Unshare a file from Search Results', () => {
   const parent = `parent-${Utils.random()}`;
   let parentId: string;
 
-  const file1 = `search-file1-${Utils.random()}.txt`;
+  const searchRandom = Utils.random();
+  const file1 = `search-file-${searchRandom}-1.txt`;
   let file1Id: string;
-  const file2 = `search-file2-${Utils.random()}.txt`;
+  const file2 = `search-file-${searchRandom}-2.txt`;
   let file2Id: string;
-  const file3 = `search-file3-${Utils.random()}.txt`;
+  const file3 = `search-file-${searchRandom}-3.txt`;
   let file3Id: string;
-  const file4 = `search-file4-${Utils.random()}.txt`;
+  const file4 = `search-file-${searchRandom}-4.txt`;
   let file4Id: string;
 
   const sitePrivate = `site-private-${Utils.random()}`;
 
-  const fileSite1 = `search-fileSite1-${Utils.random()}.txt`;
+  const fileSite1 = `search-file-${searchRandom}-Site1.txt`;
   let fileSite1Id: string;
-  const fileSite2 = `search-fileSite2-${Utils.random()}.txt`;
+  const fileSite2 = `search-file-${searchRandom}-Site2.txt`;
   let fileSite2Id: string;
 
   const apis = {
@@ -83,13 +84,11 @@ describe('Unshare a file from Search Results', () => {
 
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
 
-    const initialSearchByTermTotalItems = await apis.user.search.getSearchByTermTotalItems('search-file');
     file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
     file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
     file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
     file4Id = (await apis.user.nodes.createFile(file4, parentId)).entry.id;
 
-    const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
     await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
     await adminApiActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
     const docLibId = await adminApiActions.sites.getDocLibId(sitePrivate);
@@ -102,8 +101,9 @@ describe('Unshare a file from Search Results', () => {
     await adminApiActions.shareNodes([fileSite1Id]);
     await userActions.shareNodes([fileSite2Id]);
 
-    await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 6 });
-    await apis.user.search.waitForNodes('search-file', { expect: initialSearchByTermTotalItems + 6 });
+    await apis.user.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id, fileSite2Id]);
+    await adminApiActions.shared.waitForFilesToBeShared([fileSite1Id]);
+    await apis.user.search.waitForNodes(`search-file-${searchRandom}`, { expect: 6 });
 
     await loginPage.loginWith(username);
     done();

@@ -55,7 +55,6 @@ describe('Pagination on single page', () => {
 
     const initialFavoriteTotalItems = await userApi.favorites.getFavoritesTotalItems();
     const initialRecentFilesTotalItems = await userApi.search.getTotalItems(username);
-    const initialSharedTotalItems = await userApi.shared.getSharedLinksTotalItems();
     const initialTrashTotalItems = await userActions.getTrashcanSize();
 
     fileId = (await userApi.nodes.createFile(file)).entry.id;
@@ -68,7 +67,7 @@ describe('Pagination on single page', () => {
 
     await userApi.favorites.waitForApi({ expect: initialFavoriteTotalItems + 2 });
     await userApi.search.waitForApi(username, { expect: initialRecentFilesTotalItems + 1 });
-    await userApi.shared.waitForApi({ expect: initialSharedTotalItems + 1 });
+    await userApi.shared.waitForFilesToBeShared([fileId]);
     await userActions.waitForTrashcanSize(initialTrashTotalItems + 1);
 
     await loginPage.loginWith(username);

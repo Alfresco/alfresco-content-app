@@ -29,18 +29,21 @@ import * as testUtil from '../test-util';
 
 describe('Multiple Files - available actions : ', () => {
   const random = Utils.random();
+
   const username = `user-${random}`;
 
   const parentName = `parent-${random}`;
   let parentId: string;
 
-  const file1 = `fileActions-1-${random}.txt`;
+  const file1 = `file-1-${random}.txt`;
   let file1Id: string;
-  const file2 = `fileActions-2-${random}.txt`;
+  const file2 = `file-2-${random}.txt`;
   let file2Id: string;
-  const file1LockedFav = `fileActions-lockedFav1-${random}.txt`;
+  const file3Locked = `file-3-locked-${random}.txt`;
+  let file3LockedId: string;
+  const file1LockedFav = `file-lockedFav1-${random}.txt`;
   let file1LockedFavId: string;
-  const file2LockedFav = `fileActions-lockedFav2-${random}.txt`;
+  const file2LockedFav = `file-lockedFav2-${random}.txt`;
   let file2LockedFavId: string;
 
   const userApi = new RepoClient(username, username);
@@ -62,25 +65,26 @@ describe('Multiple Files - available actions : ', () => {
 
     file1Id = (await userApi.nodes.createFile(file1, parentId)).entry.id;
     file2Id = (await userApi.nodes.createFile(file2, parentId)).entry.id;
+    file3LockedId = (await userApi.nodes.createFile(file3Locked, parentId)).entry.id;
     file1LockedFavId = (await userApi.nodes.createFile(file1LockedFav, parentId)).entry.id;
     file2LockedFavId = (await userApi.nodes.createFile(file2LockedFav, parentId)).entry.id;
 
     await userApi.nodes.lockFile(file1LockedFavId);
     await userApi.nodes.lockFile(file2LockedFavId);
+    await userApi.nodes.lockFile(file3LockedId);
 
     const initialFavoritesTotalItems = (await userApi.favorites.getFavoritesTotalItems()) || 0;
     await userApi.favorites.addFavoritesByIds('file', [file1LockedFavId, file2LockedFavId]);
     await userApi.favorites.waitForApi({ expect: initialFavoritesTotalItems + 2 });
 
-    const initialSharedTotalItems = await userApi.shared.getSharedLinksTotalItems();
-    await userApi.shared.shareFilesByIds([file1Id, file2Id, file1LockedFavId, file2LockedFavId]);
-    await userApi.shared.waitForApi({ expect: initialSharedTotalItems + 4 });
+    await userApi.shared.shareFilesByIds([file1Id, file2Id, file3LockedId, file1LockedFavId, file2LockedFavId]);
+    await userApi.shared.waitForFilesToBeShared([file1Id, file2Id, file3LockedId, file1LockedFavId, file2LockedFavId]);
 
     await loginPage.loginWith(username);
   });
 
   afterAll(async () => {
-    await userActions.unlockNodes([file1LockedFavId, file2LockedFavId]);
+    await userActions.unlockNodes([file1LockedFavId, file2LockedFavId, file3LockedId]);
     await userActions.deleteNodes([parentId]);
   });
 
@@ -106,6 +110,15 @@ describe('Multiple Files - available actions : ', () => {
         [file1LockedFav, file2LockedFav],
         testData.multipleSel.toolbarPrimary,
         testData.multipleSelAllFav.toolbarMore
+      );
+    });
+
+    it('multiple locked files - [C326688]', async () => {
+      await testUtil.checkMultipleSelContextMenu([file3Locked, file1LockedFav], testData.multipleSel.contextMenu);
+      await testUtil.checkMultipleSelToolbarActions(
+        [file3Locked, file1LockedFav],
+        testData.multipleSel.toolbarPrimary,
+        testData.multipleSel.toolbarMore
       );
     });
   });
@@ -151,7 +164,8 @@ describe('Multiple Files - available actions : ', () => {
     beforeEach(async () => {
       await page.clickPersonalFiles();
       await searchInput.clickSearchButton();
-      await searchInput.searchFor('fileActions-');
+      await searchInput.checkOnlyFiles();
+      await searchInput.searchFor(random);
       await searchResultsPage.waitForResults();
     });
 
@@ -170,6 +184,15 @@ describe('Multiple Files - available actions : ', () => {
         [file1LockedFav, file2LockedFav],
         testData.multipleSelAllFav.searchToolbarPrimary,
         testData.multipleSelAllFav.searchToolbarMore
+      );
+    });
+
+    it('[C297626] multiple locked files', async () => {
+      await testUtil.checkMultipleSelContextMenu([file3Locked, file1LockedFav], testData.multipleSel.searchContextMenu);
+      await testUtil.checkMultipleSelToolbarActions(
+        [file3Locked, file1LockedFav],
+        testData.multipleSel.searchToolbarPrimary,
+        testData.multipleSel.searchToolbarMore
       );
     });
   });
@@ -191,6 +214,15 @@ describe('Multiple Files - available actions : ', () => {
         [file1LockedFav, file2LockedFav],
         testData.multipleSelAllFav.toolbarPrimary,
         testData.multipleSelAllFav.toolbarMore
+      );
+    });
+
+    it('multiple locked files - [C297623]', async () => {
+      await testUtil.checkMultipleSelContextMenu([file3Locked, file1LockedFav], testData.multipleSel.contextMenu);
+      await testUtil.checkMultipleSelToolbarActions(
+        [file3Locked, file1LockedFav],
+        testData.multipleSel.toolbarPrimary,
+        testData.multipleSel.toolbarMore
       );
     });
   });

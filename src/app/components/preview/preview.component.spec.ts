@@ -368,47 +368,6 @@ describe('PreviewComponent', () => {
     expect(router.navigate).toHaveBeenCalledWith(['personal-files', 'folder1']);
   });
 
-  // todo: Fix after Angular6 migration
-  xit('should navigate to original location in case of internal errors', async () => {
-    spyOn(router, 'navigate').and.stub();
-    spyOn(contentApi, 'getNodeInfo').and.returnValue(
-      of({
-        isFile: true
-      } as Node)
-    );
-    spyOn(component, 'getNearestNodes').and.returnValue(Promise.reject('error'));
-
-    component.previewLocation = 'personal-files';
-    await component.displayNode('folder1');
-
-    expect(contentApi.getNodeInfo).toHaveBeenCalledWith('folder1');
-    expect(router.navigate).toHaveBeenCalledWith(['personal-files', 'folder1']);
-  });
-
-  xit('should setup node for displaying', async () => {
-    spyOn(router, 'navigate').and.stub();
-    spyOn(component, 'getNearestNodes').and.returnValue(
-      Promise.resolve({
-        left: 'node1',
-        right: 'node3'
-      })
-    );
-    spyOn(contentApi, 'getNodeInfo').and.returnValue(
-      of({
-        id: 'node2',
-        parentId: 'parent1',
-        isFile: true
-      } as Node)
-    );
-
-    await component.displayNode('node2');
-
-    expect(component.previousNodeId).toBe('node1');
-    expect(component.nextNodeId).toBe('node3');
-    expect(component.nodeId).toBe('node2');
-    expect(router.navigate).not.toHaveBeenCalled();
-  });
-
   it('should fetch and sort file ids for personal-files', async () => {
     preferences.set('personal-files.sorting.key', 'name');
     preferences.set('personal-files.sorting.direction', 'desc');
@@ -439,11 +398,6 @@ describe('PreviewComponent', () => {
 
     const ids = await component.getFileIds('personal-files', 'folder1');
     expect(ids).toEqual(['node1', 'node2']);
-  });
-
-  xit('should require folder id to fetch ids for personal-files', async () => {
-    const ids = await component.getFileIds('personal-files', null);
-    expect(ids).toEqual([]);
   });
 
   it('should sort file ids for personal-files with [modifiedAt desc]', async () => {

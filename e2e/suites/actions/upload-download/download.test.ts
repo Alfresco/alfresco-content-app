@@ -27,32 +27,33 @@ import { AdminActions, UserActions, LoginPage, BrowsingPage, SearchResultsPage, 
 import { BrowserActions } from '@alfresco/adf-testing';
 
 describe('Download', () => {
-  const username = `user-${Utils.random()}`;
+  const random = Utils.random();
+  const username = `user-${random}`;
 
-  const parent = `parent-${Utils.random()}`;
+  const parent = `parent-${random}`;
   let parentId: string;
 
-  const filePersonal = `filePersonal-${Utils.random()}.txt`;
-  const fileRecent1 = `fileRecent1-${Utils.random()}.txt`;
-  const fileRecent2 = `fileRecent2-${Utils.random()}.txt`;
-  const fileShared1 = `fileShared1-${Utils.random()}.txt`;
-  const fileShared2 = `fileShared2-${Utils.random()}.txt`;
-  const fileFavorites = `fileFavorites-${Utils.random()}.txt`;
-  const fileSearch = `fileSearch-${Utils.random()}.txt`;
+  const filePersonal = `filePersonal-${random}.txt`;
+  const fileRecent1 = `fileRecent1-${random}.txt`;
+  const fileRecent2 = `fileRecent2-${random}.txt`;
+  const fileShared1 = `fileShared1-${random}.txt`;
+  const fileShared2 = `fileShared2-${random}.txt`;
+  const fileFavorites = `fileFavorites-${random}.txt`;
+  const fileSearch = `fileSearch-${random}.txt`;
 
-  const folderPersonal = `folderPersonal-${Utils.random()}`;
-  const folderFavorites = `folderFavorites-${Utils.random()}`;
-  const folderSearch = `folderSearch-${Utils.random()}`;
+  const folderPersonal = `folderPersonal-${random}`;
+  const folderFavorites = `folderFavorites-${random}`;
+  const folderSearch = `folderSearch-${random}`;
 
-  const fileInFolderPersonal = `fileInFolderPersonal-${Utils.random()}.txt`;
-  const fileInFolderFavorites = `fileInFolderFavorites-${Utils.random()}.txt`;
-  const fileInFolderSearch = `fileInFolderSearch-${Utils.random()}.txt`;
+  const fileInFolderPersonal = `fileInFolderPersonal-${random}.txt`;
+  const fileInFolderFavorites = `fileInFolderFavorites-${random}.txt`;
+  const fileInFolderSearch = `fileInFolderSearch-${random}.txt`;
 
-  const unzippedPersonal = `unzippedPersonal-${Utils.random()}`;
-  const unzippedRecent = `unzippedRecent-${Utils.random()}`;
-  const unzippedShared = `unzippedShared-${Utils.random()}`;
-  const unzippedFavorites = `unzippedFavorites-${Utils.random()}`;
-  const unzippedSearch = `unzippedSearch-${Utils.random()}`;
+  const unzippedPersonal = `unzippedPersonal-${random}`;
+  const unzippedRecent = `unzippedRecent-${random}`;
+  const unzippedShared = `unzippedShared-${random}`;
+  const unzippedFavorites = `unzippedFavorites-${random}`;
+  const unzippedSearch = `unzippedSearch-${random}`;
 
   let fileShared1Id: string;
   let fileShared2Id: string;
@@ -73,7 +74,6 @@ describe('Download', () => {
   const searchResultsPage = new SearchResultsPage();
   const { searchInput } = searchResultsPage.header;
 
-  let initialSharedTotalItems: number;
   let initialFavoritesTotalItems: number;
   let initialRecentTotalItems: number;
 
@@ -108,9 +108,8 @@ describe('Download', () => {
 
     await apis.user.search.waitForApi(username, { expect: initialRecentTotalItems + 10 });
 
-    initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
     await userActions.shareNodes([fileShared1Id, fileShared2Id]);
-    await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 2 });
+    await apis.user.shared.waitForFilesToBeShared([fileShared1Id, fileShared2Id]);
 
     initialFavoritesTotalItems = await apis.user.favorites.getFavoritesTotalItems();
     await apis.user.favorites.addFavoriteById('file', fileFavoritesId);
@@ -128,7 +127,7 @@ describe('Download', () => {
   });
 
   afterEach(async (done) => {
-    await Utils.renameFile(archiveZip, `${Utils.random()}.zip`);
+    await Utils.renameFile(archiveZip, `${random}.zip`);
     done();
   });
 
@@ -276,7 +275,7 @@ describe('Download', () => {
       await page.clickPersonalFilesAndWait();
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
-      await searchInput.searchFor('*Search*');
+      await searchInput.searchFor(random);
       done();
     });
 

@@ -67,10 +67,11 @@ describe('Edit folder', () => {
   const folderFavoriteDuplicate = `folder-fav-${Utils.random()}`;
   let folderFavoriteDuplicateId: string;
 
-  const folderSearch = `folder-search-${Utils.random()}`;
-  const folderSearchToEdit = `folder-search-${Utils.random()}`;
+  const searchRandom = Utils.random();
+  const folderSearch = `folder-search-${searchRandom}`;
+  const folderSearchToEdit = `folder-search-to-edit-${searchRandom}`;
   let folderSearchToEditId: string;
-  const folderSearchDuplicate = `folder-search-${Utils.random()}`;
+  const folderSearchDuplicate = `folder-search-duplicate-${searchRandom}`;
 
   const apis = {
     user: new RepoClient(username, username)
@@ -107,7 +108,6 @@ describe('Edit folder', () => {
     folderFavoriteToEditId = (await apis.user.nodes.createFolder(folderFavoriteToEdit)).entry.id;
     folderFavoriteDuplicateId = (await apis.user.nodes.createFolder(folderFavoriteDuplicate)).entry.id;
 
-    const initialSearchByTermTotalItems = await apis.user.search.getSearchByTermTotalItems('folder-search');
     await apis.user.nodes.createFolder(folderSearch);
     folderSearchToEditId = (await apis.user.nodes.createFolder(folderSearchToEdit)).entry.id;
     await apis.user.nodes.createFolder(folderSearchDuplicate);
@@ -116,19 +116,17 @@ describe('Edit folder', () => {
     await apis.user.favorites.addFavoriteById('folder', folderFavoriteToEditId);
     await apis.user.favorites.addFavoriteById('folder', folderFavoriteDuplicateId);
 
-    await apis.user.search.waitForNodes('folder-search', { expect: initialSearchByTermTotalItems + 3 });
+    await apis.user.search.waitForNodes(searchRandom, { expect: 3 });
 
     await loginPage.loginWith(username);
     done();
   });
 
-  afterAll(async (done) => {
-    await Promise.all([
-      adminApiActions.sites.deleteSite(sitePrivate),
-      apis.user.sites.deleteSite(siteName),
-      apis.user.nodes.deleteNodesById([parentId, folderFavoriteToEditId, folderFavoriteDuplicateId, folderSearchToEditId])
-    ]);
-    done();
+  afterAll(async () => {
+    await adminApiActions.login();
+    await adminApiActions.sites.deleteSite(sitePrivate);
+    await apis.user.sites.deleteSite(siteName);
+    await apis.user.nodes.deleteNodesById([parentId, folderFavoriteToEditId, folderFavoriteDuplicateId, folderSearchToEditId]);
   });
 
   beforeEach(async () => {

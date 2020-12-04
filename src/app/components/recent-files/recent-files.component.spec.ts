@@ -23,9 +23,9 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { AlfrescoApiService, NodeFavoriteDirective, DataTableComponent, AppConfigPipe, UploadService } from '@alfresco/adf-core';
+import { AlfrescoApiService, NodeFavoriteDirective, DataTableComponent, AppConfigPipe } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { RecentFilesComponent } from './recent-files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
@@ -37,7 +37,6 @@ describe('RecentFilesComponent', () => {
   let component: RecentFilesComponent;
   let alfrescoApi: AlfrescoApiService;
   let page;
-  let uploadService: UploadService;
   const mockRouter = {
     url: 'recent-files'
   };
@@ -68,7 +67,6 @@ describe('RecentFilesComponent', () => {
     component = fixture.componentInstance;
 
     alfrescoApi = TestBed.inject(AlfrescoApiService);
-    uploadService = TestBed.inject(UploadService);
     alfrescoApi.reset();
 
     spyOn(alfrescoApi.peopleApi, 'getPerson').and.returnValue(
@@ -79,28 +77,6 @@ describe('RecentFilesComponent', () => {
 
     spyOn(alfrescoApi.searchApi, 'search').and.returnValue(Promise.resolve(page));
   });
-
-  // TODO: fix with ADF 4.1
-  xit('should call document list reload on fileUploadComplete event', fakeAsync(() => {
-    spyOn(component, 'reload');
-
-    fixture.detectChanges();
-    uploadService.fileUploadComplete.next();
-    tick(500);
-
-    expect(component.reload).toHaveBeenCalled();
-  }));
-
-  // TODO: fix with ADF 4.1
-  xit('should call document list reload on fileUploadDeleted event', fakeAsync(() => {
-    spyOn(component, 'reload');
-
-    fixture.detectChanges();
-    uploadService.fileUploadDeleted.next();
-    tick(500);
-
-    expect(component.reload).toHaveBeenCalled();
-  }));
 
   it('should call showPreview method', () => {
     const node: any = { entry: {} };

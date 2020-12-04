@@ -26,9 +26,12 @@
 import { by } from 'protractor';
 import { GenericDialog } from '../dialog/generic-dialog';
 import { BrowserActions } from '@alfresco/adf-testing';
+import { Menu } from '../menu/menu';
 
 export class ManageVersionsDialog extends GenericDialog {
   closeButton = this.childElement(by.cssContainingText('.mat-button', 'Close'));
+
+  menu = new Menu();
 
   constructor() {
     super('.aca-node-versions-dialog');
@@ -37,5 +40,15 @@ export class ManageVersionsDialog extends GenericDialog {
   async clickClose(): Promise<void> {
     await BrowserActions.click(this.closeButton);
     await this.waitForDialogToClose();
+  }
+
+  async clickActionButton(version: string): Promise<void> {
+    await BrowserActions.click(this.childElement(by.id(`adf-version-list-action-menu-button-${version}`)));
+    await this.menu.waitForMenuToOpen();
+  }
+
+  async viewFileVersion(version: string): Promise<void> {
+    await this.clickActionButton(version);
+    await this.menu.clickMenuItem('View');
   }
 }

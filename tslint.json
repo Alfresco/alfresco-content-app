@@ -16,7 +16,9 @@
       true,
       "eval",
       "fdescribe",
-      "fit"
+      "fit",
+      "xit",
+      "xdescribe"
     ],
     "arrow-return-shorthand": true,
     "callable-types": true,

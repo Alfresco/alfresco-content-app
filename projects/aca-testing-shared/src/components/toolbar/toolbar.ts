@@ -84,16 +84,7 @@ export class Toolbar extends Component {
     await this.menu.waitForMenuToOpen();
   }
 
-  async closeMoreMenu(): Promise<void> {
-    await this.isButtonPresent('More Actions');
-
-    const moreMenu = this.getButtonByTitleAttribute('More Actions');
-    await BrowserActions.click(moreMenu);
-
-    await this.menu.waitForMenuToClose();
-  }
-
-  async closeMoreMenuEscape() {
+  async closeMoreMenu() {
     await Utils.pressEscape();
   }
 

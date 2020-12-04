@@ -33,8 +33,8 @@ describe('Generic tests : ', () => {
 
   const parent = `parent-${random}`;
 
-  const file1 = `file1-${random}.txt`;
-  const file2 = `file2-${random}.txt`;
+  const file1 = `file-${random}-1.txt`;
+  const file2 = `file-${random}-2.txt`;
 
   const folder1 = `my-folder1-${random}`;
   const folder2 = `my-folder2-${random}`;
@@ -57,9 +57,7 @@ describe('Generic tests : ', () => {
 
   beforeAll(async () => {
     await adminApiActions.createUser({ username });
-
     await userApi.nodes.createContent(content);
-
     await loginPage.loginWith(username);
   });
 
@@ -132,7 +130,8 @@ describe('Generic tests : ', () => {
     });
 
     it('[C280447] on Recent Files', async () => {
-      await userApi.search.waitForApi(username, { expect: 2 });
+      await userApi.search.waitForNodes(`file-${random}`, { expect: 2 });
+
       await page.clickRecentFilesAndWait();
       expect(await toolbar.isEmpty()).toBe(true, `actions displayed though nothing selected`);
     });

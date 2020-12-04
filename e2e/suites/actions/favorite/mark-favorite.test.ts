@@ -53,15 +53,16 @@ describe('Mark items as favorites', () => {
   let folderId: string;
   let parentId: string;
 
-  const fileSearchNotFav1 = `search-fileNotFav1-${Utils.random()}.txt`;
-  const fileSearchNotFav2 = `search-fileNotFav2-${Utils.random()}.txt`;
-  const fileSearchNotFav3 = `search-fileNotFav3-${Utils.random()}.txt`;
-  const fileSearchNotFav4 = `search-fileNotFav4-${Utils.random()}.txt`;
-  const fileSearchFav1 = `search-fileFav1-${Utils.random()}.txt`;
-  const fileSearchFav2 = `search-fileFav2-${Utils.random()}.txt`;
-  const fileSearchFav3 = `search-fileFav3-${Utils.random()}.txt`;
-  const fileSearchFav4 = `search-fileFav4-${Utils.random()}.txt`;
-  const folderSearch = `search-folder-${Utils.random()}`;
+  const searchRandom = Utils.random();
+  const fileSearchNotFav1 = `search-${searchRandom}-fileNotFav1.txt`;
+  const fileSearchNotFav2 = `search-${searchRandom}-fileNotFav2.txt`;
+  const fileSearchNotFav3 = `search-${searchRandom}-fileNotFav3.txt`;
+  const fileSearchNotFav4 = `search-${searchRandom}-fileNotFav4.txt`;
+  const fileSearchFav1 = `search-${searchRandom}-fileFav1.txt`;
+  const fileSearchFav2 = `search-${searchRandom}-fileFav2.txt`;
+  const fileSearchFav3 = `search-${searchRandom}-fileFav3.txt`;
+  const fileSearchFav4 = `search-${searchRandom}-fileFav4.txt`;
+  const folderSearch = `search-${searchRandom}-folder`;
 
   let fileSearchNotFav1Id: string;
   let fileSearchNotFav2Id: string;
@@ -105,10 +106,18 @@ describe('Mark items as favorites', () => {
     await apis.user.favorites.addFavoritesByIds('file', [fileFavUIId, fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id]);
     await apis.user.favorites.waitForApi({ expect: currentFavoritesTotalItems + 5 });
 
-    const currentSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
     await apis.user.shared.shareFilesByIds([fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id]);
     await apis.user.shared.shareFilesByIds([fileNotFav1Id, fileNotFav2Id, fileNotFav3Id, fileNotFav4Id]);
-    await apis.user.shared.waitForApi({ expect: currentSharedTotalItems + 8 });
+    await apis.user.shared.waitForFilesToBeShared([
+      fileFav1Id,
+      fileFav2Id,
+      fileFav3Id,
+      fileFav4Id,
+      fileNotFav1Id,
+      fileNotFav2Id,
+      fileNotFav3Id,
+      fileNotFav4Id
+    ]);
 
     await loginPage.loginWith(username);
     done();
@@ -361,7 +370,6 @@ describe('Mark items as favorites', () => {
 
   describe('on Search Results', () => {
     beforeAll(async (done) => {
-      const initialSearchByTermTotalItems = await apis.user.search.getSearchByTermTotalItems('search-f');
       fileSearchNotFav1Id = (await apis.user.nodes.createFile(fileSearchNotFav1, parentId)).entry.id;
       fileSearchNotFav2Id = (await apis.user.nodes.createFile(fileSearchNotFav2, parentId)).entry.id;
       fileSearchNotFav3Id = (await apis.user.nodes.createFile(fileSearchNotFav3, parentId)).entry.id;
@@ -371,13 +379,13 @@ describe('Mark items as favorites', () => {
       fileSearchFav3Id = (await apis.user.nodes.createFile(fileSearchFav3, parentId)).entry.id;
       fileSearchFav4Id = (await apis.user.nodes.createFile(fileSearchFav4, parentId)).entry.id;
       folderSearchId = (await apis.user.nodes.createFolder(folderSearch, parentId)).entry.id;
-      await apis.user.search.waitForNodes('search-f', { expect: initialSearchByTermTotalItems + 9 });
+      await apis.user.search.waitForNodes(searchRandom, { expect: 9 });
 
       await apis.user.favorites.addFavoritesByIds('file', [fileSearchFav1Id, fileSearchFav2Id, fileSearchFav3Id, fileSearchFav4Id]);
 
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
-      await searchInput.searchFor('search-f');
+      await searchInput.searchFor(searchRandom);
       await dataTable.waitForBody();
       done();
     });

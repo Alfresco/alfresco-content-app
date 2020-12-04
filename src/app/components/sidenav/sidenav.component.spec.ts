@@ -63,7 +63,7 @@ describe('SidenavComponent', () => {
   }));
 
   // TODO: fix with ADF 4.1
-  xit('should set the sidenav data', async(() => {
+  it('should set the sidenav data', async(() => {
     expect(component.groups).toEqual([
       {
         items: [

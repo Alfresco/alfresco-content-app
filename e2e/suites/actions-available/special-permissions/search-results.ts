@@ -42,10 +42,11 @@ export function searchResultsTests() {
     });
 
     describe('on a file', () => {
-      beforeAll(async () => {
+      beforeEach(async () => {
         await page.clickPersonalFiles();
         await searchInput.clickSearchButton();
-        await searchInput.searchFor('file-');
+        await searchInput.checkOnlyFiles();
+        await searchInput.searchFor(testData.random);
         await searchResultsPage.waitForResults();
       });
 
@@ -87,7 +88,7 @@ export function searchResultsTests() {
         await testUtil.checkContextMenu(testData.fileDocxSharedFav.name, testData.fileDocxSharedFav.contextMenu);
       });
 
-      xit('File shared - [C286282]', async () => {
+      it('File shared - [C286282]', async () => {
         await testUtil.checkToolbarActions(testData.fileShared.name, testData.fileShared.searchToolbarPrimary, testData.fileShared.toolbarMore);
         await testUtil.checkContextMenu(testData.fileShared.name, testData.fileShared.contextMenu);
       });
@@ -138,7 +139,8 @@ export function searchResultsTests() {
       beforeAll(async () => {
         await page.clickPersonalFiles();
         await searchInput.clickSearchButton();
-        await searchInput.searchFor('folder-');
+        await searchInput.checkOnlyFolders();
+        await searchInput.searchFor(testData.random);
         await searchResultsPage.waitForResults();
       });
 
@@ -158,7 +160,8 @@ export function searchResultsTests() {
         beforeAll(async () => {
           await page.clickPersonalFiles();
           await searchInput.clickSearchButton();
-          await searchInput.searchFor('file-');
+          await searchInput.checkOnlyFiles();
+          await searchInput.searchFor(testData.random);
           await searchResultsPage.waitForResults();
         });
 
@@ -208,7 +211,8 @@ export function searchResultsTests() {
       it('multiple folders - [C291836]', async () => {
         await page.clickPersonalFiles();
         await searchInput.clickSearchButton();
-        await searchInput.searchFor('folder-');
+        await searchInput.checkOnlyFolders();
+        await searchInput.searchFor(testData.random);
 
         await testUtil.checkMultipleSelContextMenu([testData.folder.name, testData.folderFav.name], testData.multipleSel.contextMenu);
         await testUtil.checkMultipleSelToolbarActions(

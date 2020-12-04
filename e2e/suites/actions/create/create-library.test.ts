@@ -23,7 +23,16 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, SITE_VISIBILITY, LoginPage, BrowsingPage, CreateLibraryDialog, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import {
+  AdminActions,
+  SITE_VISIBILITY,
+  LoginPage,
+  BrowsingPage,
+  CreateLibraryDialog,
+  Utils,
+  RepoClient,
+  UserActions
+} from '@alfresco/aca-testing-shared';
 import { BrowserActions } from '@alfresco/adf-testing';
 
 describe('Create library', () => {
@@ -58,6 +67,7 @@ describe('Create library', () => {
   const createDialog = new CreateLibraryDialog();
   const { dataTable } = page;
   const adminApiActions = new AdminActions();
+  const userActions = new UserActions();
 
   beforeAll(async (done) => {
     await adminApiActions.createUser({ username });
@@ -76,6 +86,8 @@ describe('Create library', () => {
 
   afterAll(async (done) => {
     await apis.user.sites.deleteAllUserSites();
+    await userActions.login(username, username);
+    await userActions.emptyTrashcan();
     done();
   });
 

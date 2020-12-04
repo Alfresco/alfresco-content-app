@@ -28,9 +28,10 @@ import * as testData from './test-data';
 import * as testUtil from '../test-util';
 
 describe('Folders - available actions : ', () => {
-  const random = Utils.random();
-  const username = `user-${random}`;
-  const parentName = `parent-${random}`;
+  const random = testData.random;
+
+  const username = `user-${Utils.random()}`;
+  const parentName = `parent-${Utils.random()}`;
 
   let parentId: string;
   let folderFavId: string;
@@ -151,7 +152,7 @@ describe('Folders - available actions : ', () => {
       beforeAll(async () => {
         await page.clickPersonalFiles();
         await searchInput.clickSearchButton();
-        await searchInput.searchFor('folderActions-');
+        await searchInput.searchFor(random);
         await searchResultsPage.waitForResults();
       });
 
@@ -169,7 +170,7 @@ describe('Folders - available actions : ', () => {
     describe('on multiple selection', () => {
       it('[C291821] multiple folders', async () => {
         await searchInput.clickSearchButton();
-        await searchInput.searchFor('folderActions-');
+        await searchInput.searchFor(random);
         await searchResultsPage.waitForResults();
 
         await testUtil.checkMultipleSelContextMenu([testData.folder.name, testData.folderFav.name], testData.multipleSel.searchContextMenu);

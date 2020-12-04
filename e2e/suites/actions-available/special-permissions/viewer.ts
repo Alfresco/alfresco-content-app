@@ -229,7 +229,8 @@ export function viewerTests(siteName?: string) {
     describe('file opened from Search Results', () => {
       beforeAll(async () => {
         await searchInput.clickSearchButton();
-        await searchInput.searchFor('file-');
+        await searchInput.checkOnlyFiles();
+        await searchInput.searchFor(testData.random);
         await searchResultsPage.waitForResults();
       });
 

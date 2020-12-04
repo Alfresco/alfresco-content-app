@@ -43,8 +43,6 @@ describe('Shared Files', () => {
   const file4User = `file4-${Utils.random()}.txt`;
   let file4Id: string;
 
-  let initialSharedTotalItems: number;
-
   const apis = {
     user: new RepoClient(username, password)
   };
@@ -67,16 +65,18 @@ describe('Shared Files', () => {
     file3Id = (await apis.user.nodes.createFile(file3User)).entry.id;
     file4Id = (await apis.user.nodes.createFile(file4User)).entry.id;
 
-    initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
-
     await apis.user.shared.shareFilesByIds([file1Id, file2Id, file3Id, file4Id]);
+
+    await adminApiActions.login();
     await adminApiActions.shareNodes([nodeId]);
-    await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 5 });
+
+    await apis.user.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id]);
+    await adminApiActions.shared.waitForFilesToBeShared([nodeId]);
 
     await apis.user.nodes.deleteNodeById(file2Id);
-    await apis.user.shared.unshareFile(file3User);
+    await apis.user.shared.unshareFileById(file3Id);
 
-    await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 3 });
+    await apis.user.shared.waitForFilesToNotBeShared([file2Id, file3Id]);
 
     await loginPage.loginWith(username);
     done();

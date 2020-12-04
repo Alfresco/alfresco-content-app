@@ -25,6 +25,8 @@
 
 import { Utils } from '@alfresco/aca-testing-shared';
 
+export const random = Utils.random();
+
 export const trashActions = ['Permanently Delete', 'Restore'];
 
 // ----- files -----
@@ -491,7 +493,7 @@ const searchViewerDocxFavToolbarMore = [
 const searchViewerLockedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Favorite', 'Copy', 'Manage Versions', 'Permissions'];
 
 export const fileDocx = {
-  name: `fileActions-docx-${Utils.random()}.docx`,
+  name: `fileActions-docx-${random}.docx`,
   description: 'file not shared, not fav, office, not locked',
 
   contextMenu: fileDocxContextMenu,
@@ -507,7 +509,7 @@ export const fileDocx = {
 };
 
 export const fileDocxFav = {
-  name: `fileActions-docx-fav-${Utils.random()}.docx`,
+  name: `fileActions-docx-fav-${random}.docx`,
   description: 'file not shared, fav, office, not locked',
 
   contextMenu: fileDocxFavContextMenu,
@@ -526,7 +528,7 @@ export const fileDocxFav = {
 };
 
 export const file = {
-  name: `fileActions-${Utils.random()}.txt`,
+  name: `fileActions-${random}.txt`,
   description: 'file not shared, not fav, not office, not locked',
 
   contextMenu: fileContextMenu,
@@ -542,7 +544,7 @@ export const file = {
 };
 
 export const fileFav = {
-  name: `fileActions-fav-${Utils.random()}.txt`,
+  name: `fileActions-fav-${random}.txt`,
   description: 'file not shared, fav, not office, not locked',
 
   contextMenu: fileFavContextMenu,
@@ -561,7 +563,7 @@ export const fileFav = {
 };
 
 export const fileDocxShared = {
-  name: `fileActions-docx-shared-${Utils.random()}.docx`,
+  name: `fileActions-docx-shared-${random}.docx`,
   description: 'file shared, not fav, office, not locked',
 
   contextMenu: fileDocxSharedContextMenu,
@@ -577,7 +579,7 @@ export const fileDocxShared = {
 };
 
 export const fileDocxSharedFav = {
-  name: `fileActions-docx-shared-fav-${Utils.random()}.docx`,
+  name: `fileActions-docx-shared-fav-${random}.docx`,
   description: 'file shared, fav, office, not locked',
 
   contextMenu: fileDocxSharedFavContextMenu,
@@ -597,7 +599,7 @@ export const fileDocxSharedFav = {
 };
 
 export const fileShared = {
-  name: `fileActions-shared-${Utils.random()}.txt`,
+  name: `fileActions-shared-${random}.txt`,
   description: 'file shared, not fav, not office, not locked',
 
   contextMenu: fileSharedContextMenu,
@@ -613,7 +615,7 @@ export const fileShared = {
 };
 
 export const fileSharedFav = {
-  name: `fileActions-shared-fav-${Utils.random()}.txt`,
+  name: `fileActions-shared-fav-${random}.txt`,
   description: 'file shared, fav, not office, not locked',
 
   contextMenu: fileSharedFavContextMenu,
@@ -633,7 +635,7 @@ export const fileSharedFav = {
 };
 
 export const fileLocked = {
-  name: `fileActions-locked-${Utils.random()}.txt`,
+  name: `fileActions-locked-${random}.txt`,
   description: 'file not shared, not fav, not office, locked',
 
   contextMenu: fileLockedContextMenu,
@@ -649,7 +651,7 @@ export const fileLocked = {
 };
 
 export const fileFavLocked = {
-  name: `fileActions-fav-locked-${Utils.random()}.txt`,
+  name: `fileActions-fav-locked-${random}.txt`,
   description: 'file not shared, fav, not office, locked',
 
   contextMenu: fileFavLockedContextMenu,
@@ -668,7 +670,7 @@ export const fileFavLocked = {
 };
 
 export const fileSharedLocked = {
-  name: `fileActions-shared-locked-${Utils.random()}.txt`,
+  name: `fileActions-shared-locked-${random}.txt`,
   description: 'file shared, not fav, not office, locked',
 
   contextMenu: fileSharedLockedContextMenu,
@@ -684,7 +686,7 @@ export const fileSharedLocked = {
 };
 
 export const fileSharedFavLocked = {
-  name: `fileActions-shared-fav-locked-${Utils.random()}.txt`,
+  name: `fileActions-shared-fav-locked-${random}.txt`,
   description: 'file shared, fav, not office, locked',
 
   contextMenu: fileSharedFavLockedContextMenu,
@@ -704,22 +706,22 @@ export const fileSharedFavLocked = {
 };
 
 export const fileInTrash = {
-  name: `deleted-file-${Utils.random()}.txt`,
+  name: `deleted-file-${random}.txt`,
   trashActions
 };
 
 export const file2InTrash = {
-  name: `deleted-file2-${Utils.random()}.txt`,
+  name: `deleted-file2-${random}.txt`,
   trashActions
 };
 
 export const folderInTrash = {
-  name: `deleted-folder-${Utils.random()}`,
+  name: `deleted-folder-${random}`,
   trashActions
 };
 
 export const folder2InTrash = {
-  name: `deleted-folder2-${Utils.random()}`,
+  name: `deleted-folder2-${random}`,
   trashActions
 };
 
@@ -741,7 +743,7 @@ const searchFolderFavContextMenu = ['Download', 'Edit', 'Remove Favorite', 'Copy
 const searchFolderFavToolbarMore = ['Edit', 'Remove Favorite', 'Copy', 'Permissions'];
 
 export const folder = {
-  name: `folderActions-${Utils.random()}`,
+  name: `folderActions-${random}`,
   description: 'folder not favorite',
 
   contextMenu: folderContextMenu,
@@ -754,7 +756,7 @@ export const folder = {
 };
 
 export const folderFav = {
-  name: `folderActions-fav-${Utils.random()}`,
+  name: `folderActions-fav-${random}`,
   description: 'folder favorite',
 
   contextMenu: folderFavContextMenu,
@@ -770,7 +772,7 @@ export const folderFav = {
 };
 
 export const folderFav2 = {
-  name: `folderActions-fav-2-${Utils.random()}`,
+  name: `folderActions-fav-2-${random}`,
   description: 'folder favorite',
 
   contextMenu: folderFavContextMenu,

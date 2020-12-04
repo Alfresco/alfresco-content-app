@@ -78,12 +78,10 @@ describe('File / folder tooltips', () => {
     file7Id = (await apis.user.nodes.createFile(fileNameEqDescDiffTitle, parentId, fileTitle, fileNameEqDescDiffTitle)).entry.id;
     file8Id = (await apis.user.nodes.createFile(fileTitleEqDesc, parentId, fileTitle, fileTitle)).entry.id;
 
-    const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
     await apis.user.shared.shareFilesByIds([file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id]);
-
     await apis.user.favorites.addFavoritesByIds('file', [file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id]);
 
-    await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 8 });
+    await apis.user.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id]);
 
     await loginPage.loginWith(username);
     done();
@@ -171,46 +169,6 @@ describe('File / folder tooltips', () => {
     });
 
     it('[C280142] File with title = description, different name', async () => {
-      expect(await dataTable.getItemNameTooltip(fileTitleEqDesc)).toEqual(`${fileTitle}`);
-    });
-  });
-
-  // disabled until ACA-518 is done
-  xdescribe('on Shared Files', () => {
-    beforeAll(async (done) => {
-      await page.clickSharedFilesAndWait();
-      done();
-    });
-
-    xit('[C280143] File with name, no title, no description', async () => {
-      expect(await dataTable.getItemNameTooltip(file)).toEqual(`${file}`);
-    });
-
-    xit('[C280144] File with name and description, no title', async () => {
-      expect(await dataTable.getItemNameTooltip(fileWithDesc)).toEqual(`${fileWithDesc}\n${fileDescription}`);
-    });
-
-    xit('[C280145] File with name and title, no description', async () => {
-      expect(await dataTable.getItemNameTooltip(fileWithTitle)).toEqual(`${fileWithTitle}\n${fileTitle}`);
-    });
-
-    xit('[C280146] File with name and title and description, all different', async () => {
-      expect(await dataTable.getItemNameTooltip(fileWithTitleAndDesc)).toEqual(`${fileTitle}\n${fileDescription}`);
-    });
-
-    xit('[C280147] File with name and title and description, all equal', async () => {
-      expect(await dataTable.getItemNameTooltip(fileNameEqTitleEqDesc)).toEqual(`${fileNameEqTitleEqDesc}`);
-    });
-
-    xit('[C280148] File with name = title, different description', async () => {
-      expect(await dataTable.getItemNameTooltip(fileNameEqTitleDiffDesc)).toEqual(`${fileNameEqTitleDiffDesc}\n${fileDescription}`);
-    });
-
-    xit('[C280149] File with name = description, different title', async () => {
-      expect(await dataTable.getItemNameTooltip(fileNameEqDescDiffTitle)).toEqual(`${fileTitle}\n${fileNameEqDescDiffTitle}`);
-    });
-
-    xit('[C280150] File with title = description, different name', async () => {
       expect(await dataTable.getItemNameTooltip(fileTitleEqDesc)).toEqual(`${fileTitle}`);
     });
   });

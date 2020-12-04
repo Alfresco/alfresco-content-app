@@ -35,11 +35,12 @@ describe('Edit offline', () => {
   const fileLocked2 = `file-locked2-${Utils.random()}.docx`;
   let fileLocked2Id: string;
 
-  const fileSearch1 = `file-search-1-${Utils.random()}.docx`;
+  const searchRandom = Utils.random();
+  const fileSearch1 = `file-search-1-${searchRandom}.docx`;
   let fileSearch1Id: string;
-  const fileSearchLocked = `file-search-locked-${Utils.random()}.docx`;
+  const fileSearchLocked = `file-search-locked-${searchRandom}.docx`;
   let fileSearchLockedId: string;
-  const fileSearchLocked2 = `file-search-locked2-${Utils.random()}.docx`;
+  const fileSearchLocked2 = `file-search-locked2-${searchRandom}.docx`;
   let fileSearchLocked2Id: string;
 
   const parentPF = `parentPersonal-${Utils.random()}`;
@@ -130,9 +131,8 @@ describe('Edit offline', () => {
       await apis.user.nodes.lockFile(fileLockedId);
       await apis.user.nodes.lockFile(fileLocked2Id);
 
-      const initialSharedTotalItems = await apis.user.shared.getSharedLinksTotalItems();
       await apis.user.shared.shareFilesByIds([file1Id, fileLockedId, fileLocked2Id]);
-      await apis.user.shared.waitForApi({ expect: initialSharedTotalItems + 3 });
+      await apis.user.shared.waitForFilesToBeShared([file1Id, fileLockedId, fileLocked2Id]);
 
       await loginPage.loginWith(username);
     });
@@ -256,8 +256,7 @@ describe('Edit offline', () => {
       await Utils.pressEscape();
     });
 
-    // TODO: raise REPO issue: permissions not returned in /people/${personId}/favorites api
-    xit('[C306956] File is locked and downloaded when clicking Edit Offline', async () => {
+    it('[C306956] File is locked and downloaded when clicking Edit Offline', async () => {
       await dataTable.selectItem(file1);
       await toolbar.clickMoreActionsEditOffline();
 
@@ -285,7 +284,6 @@ describe('Edit offline', () => {
     beforeAll(async () => {
       parentSearchId = (await apis.user.nodes.createFolder(parentSearch)).entry.id;
 
-      const initialSearchByTermTotalItems = await apis.user.search.getSearchByTermTotalItems('file-search');
       fileSearch1Id = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentSearchId, fileSearch1)).entry.id;
       fileSearchLockedId = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentSearchId, fileSearchLocked)).entry.id;
       fileSearchLocked2Id = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentSearchId, fileSearchLocked2)).entry.id;
@@ -293,7 +291,7 @@ describe('Edit offline', () => {
       await apis.user.nodes.lockFile(fileSearchLockedId);
       await apis.user.nodes.lockFile(fileSearchLocked2Id);
 
-      await apis.user.search.waitForNodes('file-search', { expect: initialSearchByTermTotalItems + 3 });
+      await apis.user.search.waitForNodes(searchRandom, { expect: 3 });
 
       await loginPage.loginWith(username);
     });
@@ -305,7 +303,7 @@ describe('Edit offline', () => {
     beforeEach(async () => {
       await page.clickPersonalFilesAndWait();
       await searchInput.clickSearchButton();
-      await searchInput.searchFor('file-search');
+      await searchInput.searchFor(searchRandom);
       await dataTable.waitForBody();
     });
 
@@ -324,8 +322,10 @@ describe('Edit offline', () => {
     it('[C306954] Lock information is displayed', async () => {
       expect(await dataTable.isItemPresent(fileSearchLocked2, parentSearch)).toBe(true, `${fileSearchLocked2} is not displayed`);
       expect(await dataTable.hasLockIcon(fileSearchLocked2, parentSearch)).toBe(true, `${fileSearchLocked2} does not have a lock icon`);
-      // TODO: enable when ACA-2314 is fixed
-      // expect(await dataTable.getLockOwner(fileSearchLocked2, parentSearch)).toContain(username, `${fileSearchLocked2} does not have correct lock owner info`);
+      expect(await dataTable.getLockOwner(fileSearchLocked2, parentSearch)).toContain(
+        username,
+        `${fileSearchLocked2} does not have correct lock owner info`
+      );
     });
 
     it('[C306955] Cancel Editing unlocks the file', async () => {

@@ -1,3 +1,6 @@
 {
- "C269007" : "EXIF aspect missing on latest ACS"
+  "C306956": "https://alfresco.atlassian.net/browse/ACA-4196",
+  "C286314": "https://alfresco.atlassian.net/browse/ACA-2176",
+  "C213107": "https://alfresco.atlassian.net/browse/ACA-4197",
+  "C269007": "ACS-938 - EXIF aspect missing on latest ACS"
 }
