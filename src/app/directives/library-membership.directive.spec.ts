@@ -24,7 +24,7 @@
  */
 
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { AlfrescoApiService, AlfrescoApiServiceMock, AppConfigService, CoreModule, SitesService, StorageService } from '@alfresco/adf-core';
+import { AlfrescoApiService, CoreModule, SitesService } from '@alfresco/adf-core';
 import { AppTestingModule } from '../testing/app-testing.module';
 import { DirectivesModule } from './directives.module';
 import { LibraryMembershipDirective } from './library-membership.directive';
@@ -35,32 +35,37 @@ import { TranslateModule } from '@ngx-translate/core';
 describe('LibraryMembershipDirective', () => {
   let alfrescoApiService: AlfrescoApiService;
   let directive: LibraryMembershipDirective;
-  let peopleApi;
-  let sitesService;
-  let addMembershipSpy;
-  let getMembershipSpy;
-  let deleteMembershipSpy;
+  let peopleApi: any;
+  let sitesService: SitesService;
+  let addMembershipSpy: jasmine.Spy;
+  let getMembershipSpy: jasmine.Spy;
+  let deleteMembershipSpy: jasmine.Spy;
   let mockSupportedVersion = false;
 
-  const testSiteEntry = {
-    id: 'id-1',
-    guid: 'site-1',
-    title: 'aa t m',
-    visibility: 'MODERATED'
-  };
-  const requestedMembershipResponse = {
-    id: testSiteEntry.id,
-    createdAt: '2018-11-14',
-    site: testSiteEntry
-  };
+  let testSiteEntry: any;
+  let requestedMembershipResponse: any;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), AppTestingModule, DirectivesModule, CoreModule.forRoot()],
+      imports: [TranslateModule.forRoot(), DirectivesModule, CoreModule.forRoot(), AppTestingModule],
       schemas: [NO_ERRORS_SCHEMA]
     });
-    alfrescoApiService = new AlfrescoApiServiceMock(new AppConfigService(null), new StorageService());
-    sitesService = new SitesService(alfrescoApiService);
+
+    testSiteEntry = {
+      id: 'id-1',
+      guid: 'site-1',
+      title: 'aa t m',
+      visibility: 'MODERATED'
+    };
+
+    requestedMembershipResponse = {
+      id: testSiteEntry.id,
+      createdAt: '2018-11-14',
+      site: testSiteEntry
+    };
+
+    alfrescoApiService = TestBed.inject(AlfrescoApiService);
+    sitesService = TestBed.inject(SitesService);
     peopleApi = alfrescoApiService.getInstance().core.peopleApi;
     directive = new LibraryMembershipDirective(alfrescoApiService, sitesService, {
       ecmProductInfo$: new Subject(),
@@ -161,7 +166,7 @@ describe('LibraryMembershipDirective', () => {
     }));
 
     it('should call API to add user to library if admin user', fakeAsync(() => {
-      const createSiteMembershipSpy = spyOn(sitesService, 'createSiteMembership').and.returnValue(of({}));
+      const createSiteMembershipSpy = spyOn(sitesService, 'createSiteMembership').and.returnValue(of({} as any));
       const selection = { entry: { id: 'no-membership-requested' } };
       const selectionChange = new SimpleChange(null, selection, true);
       directive.isAdmin = true;
