@@ -36,21 +36,7 @@ import { SharedLinkPaging } from '@alfresco/js-api';
 
 describe('SharedFilesComponent', () => {
   let fixture: ComponentFixture<SharedFilesComponent>;
-  let alfrescoApi: AlfrescoApiService;
   let page: SharedLinkPaging;
-  let customResourcesService: CustomResourcesService;
-  const mockRouter = {
-    url: 'shared-files'
-  };
-
-  beforeEach(() => {
-    page = {
-      list: {
-        entries: [{ entry: { id: '1' } }, { entry: { id: '2' } }],
-        pagination: { count: 2 }
-      }
-    };
-  });
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -60,18 +46,22 @@ describe('SharedFilesComponent', () => {
         { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
         {
           provide: Router,
-          useValue: mockRouter
+          useValue: {
+            url: 'shared-files'
+          }
         }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });
 
-    customResourcesService = TestBed.inject(CustomResourcesService);
+    page = {
+      list: {
+        entries: [{ entry: { id: '1' } }, { entry: { id: '2' } }],
+        pagination: { count: 2 }
+      }
+    };
 
-    alfrescoApi = TestBed.inject(AlfrescoApiService);
-    alfrescoApi.reset();
-
-    spyOn(alfrescoApi.sharedLinksApi, 'findSharedLinks').and.returnValue(Promise.resolve(page));
+    const customResourcesService = TestBed.inject(CustomResourcesService);
     spyOn(customResourcesService, 'loadSharedLinks').and.returnValue(of(page));
 
     fixture = TestBed.createComponent(SharedFilesComponent);
