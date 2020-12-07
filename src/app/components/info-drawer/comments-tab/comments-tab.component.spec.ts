@@ -26,31 +26,28 @@
 import { CommentsTabComponent } from './comments-tab.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../../../testing/app-testing.module';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { NodePermissionService } from '@alfresco/aca-shared';
 import { Node } from '@alfresco/js-api';
 
 describe('CommentsTabComponent', () => {
   let component: CommentsTabComponent;
   let fixture: ComponentFixture<CommentsTabComponent>;
-  const permissionsMock = {
-    check: jasmine.createSpy('check')
-  };
-  let checked;
+  let nodePermissionService: NodePermissionService;
+  let checked: string[];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule],
-      declarations: [CommentsTabComponent],
-      providers: [{ provide: NodePermissionService, useValue: permissionsMock }],
-      schemas: [NO_ERRORS_SCHEMA]
+      declarations: [CommentsTabComponent]
     });
+
+    nodePermissionService = TestBed.inject(NodePermissionService);
 
     fixture = TestBed.createComponent(CommentsTabComponent);
     component = fixture.componentInstance;
 
     checked = null;
-    permissionsMock.check.and.callFake((_source, permissions) => {
+    spyOn(nodePermissionService, 'check').and.callFake((_source, permissions) => {
       checked = permissions;
       return true;
     });
