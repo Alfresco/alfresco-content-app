@@ -94,8 +94,7 @@ export const initialState = {
   providers: [
     provideMockStore({ initialState }),
     { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
-    { provide: TranslationService, useClass: TranslationMock },
-    AlfrescoApiService
+    { provide: TranslationService, useClass: TranslationMock }
   ]
 })
 export class LibTestingModule {}

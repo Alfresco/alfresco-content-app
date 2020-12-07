@@ -25,7 +25,7 @@
 
 import { NodeVersionsDialogComponent } from './node-versions.dialog';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AlfrescoApiService, AlfrescoApiServiceMock, CoreModule, TranslationMock } from '@alfresco/adf-core';
+import { CoreModule } from '@alfresco/adf-core';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
@@ -36,9 +36,9 @@ import {
   VersionListComponent,
   VersionUploadComponent
 } from '@alfresco/adf-content-services';
-import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { AppStore, UnlockWriteAction, ViewNodeExtras, ViewNodeVersionAction } from '@alfresco/aca-shared/store';
 import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('NodeVersionsDialogComponent', () => {
   let fixture: ComponentFixture<NodeVersionsDialogComponent>;
@@ -46,15 +46,7 @@ describe('NodeVersionsDialogComponent', () => {
   let store: Store<AppStore>;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        CoreModule.forRoot(),
-        AppTestingModule,
-        MatDialogModule,
-        RouterTestingModule.withRoutes([]),
-        TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
-        })
-      ],
+      imports: [CoreModule.forRoot(), TranslateModule.forRoot(), MatDialogModule, RouterTestingModule.withRoutes([]), AppTestingModule],
       declarations: [
         NodeVersionsDialogComponent,
         VersionListComponent,
@@ -64,20 +56,10 @@ describe('NodeVersionsDialogComponent', () => {
       ],
       providers: [
         {
-          provide: AlfrescoApiService,
-          useClass: AlfrescoApiServiceMock
-        },
-        {
           provide: MatDialogRef,
           useValue: {
             close: jasmine.createSpy('close'),
             open: jasmine.createSpy('open')
-          }
-        },
-        {
-          provide: TranslationMock,
-          useValue: {
-            instant: jasmine.createSpy('instant')
           }
         },
         {

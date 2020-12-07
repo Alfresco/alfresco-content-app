@@ -29,34 +29,34 @@ import { UpdateLibraryAction } from '@alfresco/aca-shared/store';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Site, SitePaging } from '@alfresco/js-api';
-import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-core';
+import { AlfrescoApiService } from '@alfresco/adf-core';
 
 describe('LibraryMetadataFormComponent', () => {
   let fixture: ComponentFixture<LibraryMetadataFormComponent>;
   let component: LibraryMetadataFormComponent;
   let alfrescoApiService: AlfrescoApiService;
-  const storeMock = {
-    dispatch: jasmine.createSpy('dispatch')
-  };
+  let store: Store<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule],
       declarations: [LibraryMetadataFormComponent],
       providers: [
-        { provide: Store, useValue: storeMock },
-        { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock }
+        {
+          provide: Store,
+          useValue: {
+            dispatch: jasmine.createSpy('dispatch')
+          }
+        }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });
 
+    store = TestBed.inject(Store);
+    alfrescoApiService = TestBed.inject(AlfrescoApiService);
+
     fixture = TestBed.createComponent(LibraryMetadataFormComponent);
     component = fixture.componentInstance;
-    alfrescoApiService = TestBed.inject(AlfrescoApiService);
-  });
-
-  afterEach(() => {
-    storeMock.dispatch.calls.reset();
   });
 
   it('should initialize form with node data', () => {
@@ -130,7 +130,7 @@ describe('LibraryMetadataFormComponent', () => {
 
     component.update();
 
-    expect(storeMock.dispatch).toHaveBeenCalledWith(new UpdateLibraryAction(siteEntryModel));
+    expect(store.dispatch).toHaveBeenCalledWith(new UpdateLibraryAction(siteEntryModel));
   });
 
   it('should not update library node if it has no permission', () => {
@@ -151,7 +151,7 @@ describe('LibraryMetadataFormComponent', () => {
 
     component.update();
 
-    expect(storeMock.dispatch).not.toHaveBeenCalledWith(new UpdateLibraryAction(siteEntryModel));
+    expect(store.dispatch).not.toHaveBeenCalledWith(new UpdateLibraryAction(siteEntryModel));
   });
 
   it('should not update library node if form is invalid', () => {
@@ -174,7 +174,7 @@ describe('LibraryMetadataFormComponent', () => {
 
     component.update();
 
-    expect(storeMock.dispatch).not.toHaveBeenCalledWith(new UpdateLibraryAction(siteEntryModel));
+    expect(store.dispatch).not.toHaveBeenCalledWith(new UpdateLibraryAction(siteEntryModel));
   });
 
   it('should toggle edit mode', () => {

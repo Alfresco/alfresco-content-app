@@ -25,9 +25,10 @@
 
 import { Component, ViewChild } from '@angular/core';
 import { LibraryFavoriteDirective } from './library-favorite.directive';
-import { AlfrescoApiService, AlfrescoApiServiceMock, setupTestBed, CoreModule } from '@alfresco/adf-core';
+import { AlfrescoApiService, CoreModule } from '@alfresco/adf-core';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
+import { AppTestingModule } from '../testing/app-testing.module';
 
 @Component({
   selector: 'app-test-component',
@@ -46,18 +47,11 @@ describe('LibraryFavoriteDirective', () => {
   let component: TestComponent;
   let selection: { entry: { guid: string; id: string } };
 
-  setupTestBed({
-    imports: [TranslateModule.forRoot(), CoreModule.forRoot()],
-    declarations: [TestComponent, LibraryFavoriteDirective],
-    providers: [
-      {
-        provide: AlfrescoApiService,
-        useClass: AlfrescoApiServiceMock
-      }
-    ]
-  });
-
   beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [TranslateModule.forRoot(), CoreModule.forRoot(), AppTestingModule],
+      declarations: [TestComponent, LibraryFavoriteDirective]
+    });
     fixture = TestBed.createComponent(TestComponent);
     component = fixture.componentInstance;
     api = TestBed.inject(AlfrescoApiService);

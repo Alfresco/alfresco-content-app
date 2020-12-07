@@ -26,8 +26,8 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { AlfrescoApiService, NodeFavoriteDirective, DataTableComponent, AppConfigPipe } from '@alfresco/adf-core';
-import { DocumentListComponent } from '@alfresco/adf-content-services';
+import { NodeFavoriteDirective, DataTableComponent, AppConfigModule } from '@alfresco/adf-core';
+import { CustomResourcesService, DocumentListComponent } from '@alfresco/adf-content-services';
 import { of } from 'rxjs';
 import { FavoritesComponent } from './favorites.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
@@ -36,18 +36,27 @@ import { ContentApiService } from '@alfresco/aca-shared';
 describe('FavoritesComponent', () => {
   let fixture: ComponentFixture<FavoritesComponent>;
   let component: FavoritesComponent;
-  let alfrescoApi: AlfrescoApiService;
   let contentApi: ContentApiService;
   let router: Router;
-  const mockRouter = {
-    url: 'favorites',
-    navigate: () => {}
-  };
-  let page;
   let node;
 
   beforeEach(() => {
-    page = {
+    TestBed.configureTestingModule({
+      imports: [AppTestingModule, AppConfigModule],
+      declarations: [DataTableComponent, NodeFavoriteDirective, DocumentListComponent, FavoritesComponent],
+      providers: [
+        {
+          provide: Router,
+          useValue: {
+            url: 'favorites',
+            navigate: () => {}
+          }
+        }
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
+    });
+
+    const page: any = {
       list: {
         entries: [{ entry: { id: 1, target: { file: {} } } }, { entry: { id: 2, target: { folder: {} } } }],
         pagination: { data: 'data' }
@@ -62,27 +71,12 @@ describe('FavoritesComponent', () => {
         elements: []
       }
     };
-  });
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [AppTestingModule],
-      declarations: [DataTableComponent, NodeFavoriteDirective, DocumentListComponent, FavoritesComponent, AppConfigPipe],
-      providers: [
-        {
-          provide: Router,
-          useValue: mockRouter
-        }
-      ],
-      schemas: [NO_ERRORS_SCHEMA]
-    });
 
     fixture = TestBed.createComponent(FavoritesComponent);
     component = fixture.componentInstance;
 
-    alfrescoApi = TestBed.inject(AlfrescoApiService);
-    alfrescoApi.reset();
-    spyOn(alfrescoApi.favoritesApi, 'getFavorites').and.returnValue(Promise.resolve(page));
+    const customResourcesService = TestBed.inject(CustomResourcesService);
+    spyOn(customResourcesService, 'loadFavorites').and.returnValue(of(page));
 
     contentApi = TestBed.inject(ContentApiService);
     router = TestBed.inject(Router);
@@ -91,7 +85,7 @@ describe('FavoritesComponent', () => {
   describe('Node navigation', () => {
     beforeEach(() => {
       spyOn(contentApi, 'getNode').and.returnValue(of({ entry: node }));
-      spyOn(router, 'navigate');
+      spyOn(router, 'navigate').and.stub();
       fixture.detectChanges();
     });
 
@@ -136,7 +130,7 @@ describe('FavoritesComponent', () => {
 
     component.onNodeDoubleClick(nodeEntity);
     expect(component.showPreview).toHaveBeenCalledWith(nodeEntity, {
-      location: mockRouter.url
+      location: 'favorites'
     });
   });
 });

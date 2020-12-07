@@ -27,7 +27,7 @@ import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testin
 import { SearchResultsComponent } from './search-results.component';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { AppSearchResultsModule } from '../search-results.module';
-import { CoreModule, AppConfigService, AlfrescoApiService, AlfrescoApiServiceMock, TranslationService } from '@alfresco/adf-core';
+import { CoreModule, AppConfigService, AlfrescoApiService, TranslationService } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
 import { NavigateToFolder, SnackbarErrorAction } from '@alfresco/aca-shared/store';
 import { Pagination, SearchRequest } from '@alfresco/js-api';
@@ -50,10 +50,6 @@ describe('SearchComponent', () => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), CoreModule.forRoot(), AppTestingModule, AppSearchResultsModule],
       providers: [
-        {
-          provide: AlfrescoApiService,
-          useClass: AlfrescoApiServiceMock
-        },
         {
           provide: ActivatedRoute,
           useValue: {

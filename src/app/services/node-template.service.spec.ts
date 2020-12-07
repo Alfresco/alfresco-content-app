@@ -30,7 +30,7 @@ import { TemplateEffects } from '../store/effects/template.effects';
 import { AppTestingModule } from '../testing/app-testing.module';
 import { Store } from '@ngrx/store';
 import { MatDialog } from '@angular/material/dialog';
-import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-core';
+import { AlfrescoApiService } from '@alfresco/adf-core';
 import { NodeTemplateService } from './node-template.service';
 import { ResultSetPaging } from '@alfresco/js-api';
 
@@ -51,7 +51,7 @@ describe('NodeTemplateService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule, EffectsModule.forRoot([TemplateEffects])],
-      providers: [NodeTemplateService, { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock }]
+      providers: [NodeTemplateService]
     });
 
     store = TestBed.inject(Store);

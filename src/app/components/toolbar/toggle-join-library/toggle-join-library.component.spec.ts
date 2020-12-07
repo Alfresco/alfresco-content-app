@@ -25,7 +25,7 @@
 
 import { of } from 'rxjs';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-core';
+import { AlfrescoApiService } from '@alfresco/adf-core';
 import { LibraryMembershipDirective } from '../../../directives/library-membership.directive';
 import { Store } from '@ngrx/store';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
@@ -39,12 +39,8 @@ describe('ToggleJoinLibraryComponent', () => {
   let fixture: ComponentFixture<ToggleJoinLibraryButtonComponent>;
   let alfrescoApi: AlfrescoApiService;
   let contentManagementService: ContentManagementService;
+  let store: Store<any>;
   let entry;
-
-  const storeMock = {
-    select: () => of({ library: { entry, isLibrary: true } }),
-    dispatch: jasmine.createSpy('dispatch')
-  };
 
   beforeEach(() => {
     entry = {
@@ -58,23 +54,29 @@ describe('ToggleJoinLibraryComponent', () => {
       imports: [AppTestingModule],
       declarations: [ToggleJoinLibraryButtonComponent, LibraryMembershipDirective],
       providers: [
-        { provide: Store, useValue: storeMock },
-        { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock }
+        {
+          provide: Store,
+          useValue: {
+            select: () => of({ library: { entry, isLibrary: true } }),
+            dispatch: jasmine.createSpy('dispatch')
+          }
+        }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });
 
-    fixture = TestBed.createComponent(ToggleJoinLibraryButtonComponent);
-    component = fixture.componentInstance;
+    store = TestBed.inject(Store);
     alfrescoApi = TestBed.inject(AlfrescoApiService);
     contentManagementService = TestBed.inject(ContentManagementService);
 
     spyOn(alfrescoApi.peopleApi, 'getSiteMembershipRequest').and.stub();
+
+    fixture = TestBed.createComponent(ToggleJoinLibraryButtonComponent);
+    component = fixture.componentInstance;
   });
 
   afterEach(() => {
     fixture.destroy();
-    storeMock.dispatch.calls.reset();
   });
 
   it('should get Store selection entry on initialization', (done) => {
@@ -88,21 +90,21 @@ describe('ToggleJoinLibraryComponent', () => {
     const event = { error: {}, i18nKey: 'ERROR_i18nKey' };
     component.onErrorEvent(event);
 
-    expect(storeMock.dispatch).toHaveBeenCalledWith(new SnackbarErrorAction(event.i18nKey));
+    expect(store.dispatch).toHaveBeenCalledWith(new SnackbarErrorAction(event.i18nKey));
   });
 
   it('should dispatch `SnackbarInfoAction` action on onToggleEvent', () => {
     const event = { shouldReload: true, i18nKey: 'SOME_i18nKey' };
     component.onToggleEvent(event);
 
-    expect(storeMock.dispatch).toHaveBeenCalledWith(new SnackbarInfoAction(event.i18nKey));
+    expect(store.dispatch).toHaveBeenCalledWith(new SnackbarInfoAction(event.i18nKey));
   });
 
   it('should dispatch `ReloadLibraryAction` action on onToggleEvent', () => {
     const event = { shouldReload: true, i18nKey: 'SOME_i18nKey' };
     component.onToggleEvent(event);
 
-    expect(storeMock.dispatch).toHaveBeenCalledWith(new ReloadLibraryAction());
+    expect(store.dispatch).toHaveBeenCalledWith(new ReloadLibraryAction());
   });
 
   it('should call libraryJoined.next on contentManagementService onToggleEvent', (done) => {
