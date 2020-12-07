@@ -26,7 +26,7 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { NodeFavoriteDirective, DataTableComponent, AppConfigPipe } from '@alfresco/adf-core';
+import { NodeFavoriteDirective, DataTableComponent, AppConfigModule } from '@alfresco/adf-core';
 import { CustomResourcesService, DocumentListComponent } from '@alfresco/adf-content-services';
 import { of } from 'rxjs';
 import { FavoritesComponent } from './favorites.component';
@@ -42,8 +42,8 @@ describe('FavoritesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule],
-      declarations: [DataTableComponent, NodeFavoriteDirective, DocumentListComponent, FavoritesComponent, AppConfigPipe],
+      imports: [AppTestingModule, AppConfigModule],
+      declarations: [DataTableComponent, NodeFavoriteDirective, DocumentListComponent, FavoritesComponent],
       providers: [
         {
           provide: Router,

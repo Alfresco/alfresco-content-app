@@ -25,7 +25,7 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../../../testing/app-testing.module';
-import { AppConfigPipe, DataTableComponent } from '@alfresco/adf-core';
+import { AppConfigModule, DataTableComponent } from '@alfresco/adf-core';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { SearchLibrariesResultsComponent } from './search-libraries-results.component';
 import { SearchLibrariesQueryBuilderService } from './search-libraries-query-builder.service';
@@ -39,8 +39,8 @@ describe('SearchLibrariesResultsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule],
-      declarations: [DataTableComponent, DocumentListComponent, SearchLibrariesResultsComponent, AppConfigPipe],
+      imports: [AppTestingModule, AppConfigModule],
+      declarations: [DataTableComponent, DocumentListComponent, SearchLibrariesResultsComponent],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [SearchLibrariesQueryBuilderService]
     });

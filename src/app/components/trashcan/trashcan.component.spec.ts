@@ -24,7 +24,7 @@
  */
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { AlfrescoApiService, NodeFavoriteDirective, DataTableComponent, AppConfigPipe } from '@alfresco/adf-core';
+import { AlfrescoApiService, NodeFavoriteDirective, DataTableComponent, AppConfigModule } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { TrashcanComponent } from './trashcan.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
@@ -46,8 +46,8 @@ describe('TrashcanComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule],
-      declarations: [DataTableComponent, NodeFavoriteDirective, DocumentListComponent, TrashcanComponent, AppConfigPipe],
+      imports: [AppTestingModule, AppConfigModule],
+      declarations: [DataTableComponent, NodeFavoriteDirective, DocumentListComponent, TrashcanComponent],
       schemas: [NO_ERRORS_SCHEMA]
     });
 

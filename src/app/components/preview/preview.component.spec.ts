@@ -23,10 +23,9 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TestBed, ComponentFixture, async, fakeAsync, tick } from '@angular/core/testing';
-import { UserPreferencesService, AppConfigPipe, NodeFavoriteDirective, UploadService, AlfrescoApiService } from '@alfresco/adf-core';
+import { UserPreferencesService, UploadService, AlfrescoApiService } from '@alfresco/adf-core';
 import { ClosePreviewAction } from '@alfresco/aca-shared/store';
 import { PreviewComponent } from './preview.component';
 import { of, throwError } from 'rxjs';
@@ -37,6 +36,7 @@ import { ContentApiService } from '@alfresco/aca-shared';
 import { ContentManagementService } from '../../services/content-management.service';
 import { Store } from '@ngrx/store';
 import { Node, NodePaging, FavoritePaging, SharedLinkPaging, PersonEntry, ResultSetPaging } from '@alfresco/js-api';
+import { PreviewModule } from './preview.module';
 
 describe('PreviewComponent', () => {
   let fixture: ComponentFixture<PreviewComponent>;
@@ -52,10 +52,7 @@ describe('PreviewComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, EffectsModule.forRoot([NodeEffects])],
-      providers: [AlfrescoApiService, ContentManagementService],
-      declarations: [AppConfigPipe, PreviewComponent, NodeFavoriteDirective],
-      schemas: [NO_ERRORS_SCHEMA]
+      imports: [EffectsModule.forRoot([NodeEffects]), PreviewModule, AppTestingModule]
     });
 
     fixture = TestBed.createComponent(PreviewComponent);

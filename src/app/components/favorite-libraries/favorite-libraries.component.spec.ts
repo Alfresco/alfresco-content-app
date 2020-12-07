@@ -26,7 +26,7 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlfrescoApiService, NodeFavoriteDirective, DataTableComponent, AppConfigPipe, UserPreferencesService } from '@alfresco/adf-core';
+import { AlfrescoApiService, NodeFavoriteDirective, DataTableComponent, AppConfigModule, UserPreferencesService } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { FavoriteLibrariesComponent } from './favorite-libraries.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
@@ -59,9 +59,8 @@ describe('FavoriteLibrariesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, EffectsModule.forRoot([RouterEffects, LibraryEffects])],
-      declarations: [DataTableComponent, NodeFavoriteDirective, DocumentListComponent, FavoriteLibrariesComponent, AppConfigPipe],
-      providers: [ContentManagementService, UserPreferencesService],
+      imports: [AppTestingModule, EffectsModule.forRoot([RouterEffects, LibraryEffects]), AppConfigModule],
+      declarations: [DataTableComponent, NodeFavoriteDirective, DocumentListComponent, FavoriteLibrariesComponent],
       schemas: [NO_ERRORS_SCHEMA]
     });
 
