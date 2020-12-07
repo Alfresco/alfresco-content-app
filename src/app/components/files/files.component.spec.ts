@@ -26,16 +26,7 @@
 import { TestBed, fakeAsync, tick, ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import {
-  NodeFavoriteDirective,
-  DataTableComponent,
-  UploadService,
-  AppConfigPipe,
-  AlfrescoApiService,
-  AlfrescoApiServiceMock,
-  DataTableModule,
-  PaginationModule
-} from '@alfresco/adf-core';
+import { NodeFavoriteDirective, DataTableComponent, UploadService, AppConfigPipe, DataTableModule, PaginationModule } from '@alfresco/adf-core';
 import { DocumentListComponent, FilterSearch } from '@alfresco/adf-content-services';
 import { NodeActionsService } from '../../services/node-actions.service';
 import { FilesComponent } from './files.component';
@@ -73,7 +64,6 @@ describe('FilesComponent', () => {
       imports: [AppTestingModule, DataTableModule, PaginationModule, SharedDirectivesModule, DirectivesModule],
       declarations: [FilesComponent, DataTableComponent, NodeFavoriteDirective, DocumentListComponent, AppConfigPipe],
       providers: [
-        { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
         {
           provide: Router,
           useValue: router

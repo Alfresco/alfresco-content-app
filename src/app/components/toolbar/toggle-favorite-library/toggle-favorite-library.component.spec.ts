@@ -24,7 +24,7 @@
  */
 
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { CoreModule, AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-core';
+import { CoreModule, AlfrescoApiService } from '@alfresco/adf-core';
 import { ToggleFavoriteLibraryComponent } from './toggle-favorite-library.component';
 import { LibraryFavoriteDirective } from '../../../directives/library-favorite.directive';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
@@ -37,8 +37,9 @@ import { TranslateModule } from '@ngx-translate/core';
 
 describe('ToggleFavoriteLibraryComponent', () => {
   let fixture: ComponentFixture<ToggleFavoriteLibraryComponent>;
-  let component;
-  let contentManagementService;
+  let component: ToggleFavoriteLibraryComponent;
+  let contentManagementService: ContentManagementService;
+
   const selection = { library: { entry: { id: 'libraryId' } } };
   const mockRouter = {
     url: ''
@@ -52,10 +53,6 @@ describe('ToggleFavoriteLibraryComponent', () => {
         {
           provide: Router,
           useValue: mockRouter
-        },
-        {
-          provide: AlfrescoApiService,
-          useClass: AlfrescoApiServiceMock
         },
         {
           provide: Store,

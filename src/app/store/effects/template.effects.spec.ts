@@ -31,7 +31,7 @@ import { Store } from '@ngrx/store';
 import { CreateFromTemplate, CreateFromTemplateSuccess, FileFromTemplate, FolderFromTemplate, SnackbarErrorAction } from '@alfresco/aca-shared/store';
 import { NodeTemplateService } from '../../services/node-template.service';
 import { of, Subject } from 'rxjs';
-import { AlfrescoApiServiceMock, AlfrescoApiService } from '@alfresco/adf-core';
+import { AlfrescoApiService } from '@alfresco/adf-core';
 import { ContentManagementService } from '../../services/content-management.service';
 import { Node, NodeEntry } from '@alfresco/js-api';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -77,7 +77,6 @@ describe('TemplateEffects', () => {
       imports: [AppTestingModule, EffectsModule.forRoot([TemplateEffects])],
       providers: [
         NodeTemplateService,
-        { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
         {
           provide: MatDialog,
           useValue: {

@@ -25,30 +25,16 @@
 
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { AlfrescoApiService, NodeFavoriteDirective, DataTableComponent, AppConfigPipe } from '@alfresco/adf-core';
-import { DocumentListComponent } from '@alfresco/adf-content-services';
+import { NodeFavoriteDirective, DataTableComponent, AppConfigPipe } from '@alfresco/adf-core';
+import { CustomResourcesService, DocumentListComponent } from '@alfresco/adf-content-services';
 import { RecentFilesComponent } from './recent-files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { Router } from '@angular/router';
-import { PersonEntry } from '@alfresco/js-api';
+import { PersonEntry, ResultSetPaging } from '@alfresco/js-api';
 
 describe('RecentFilesComponent', () => {
   let fixture: ComponentFixture<RecentFilesComponent>;
   let component: RecentFilesComponent;
-  let alfrescoApi: AlfrescoApiService;
-  let page;
-  const mockRouter = {
-    url: 'recent-files'
-  };
-
-  beforeEach(() => {
-    page = {
-      list: {
-        entries: [{ entry: { id: 1 } }, { entry: { id: 2 } }],
-        pagination: { data: 'data' }
-      }
-    };
-  });
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -57,7 +43,9 @@ describe('RecentFilesComponent', () => {
       providers: [
         {
           provide: Router,
-          useValue: mockRouter
+          useValue: {
+            url: 'recent-files'
+          }
         }
       ],
       schemas: [NO_ERRORS_SCHEMA]
@@ -66,16 +54,24 @@ describe('RecentFilesComponent', () => {
     fixture = TestBed.createComponent(RecentFilesComponent);
     component = fixture.componentInstance;
 
-    alfrescoApi = TestBed.inject(AlfrescoApiService);
-    alfrescoApi.reset();
-
-    spyOn(alfrescoApi.peopleApi, 'getPerson').and.returnValue(
+    const customResourcesService = TestBed.inject(CustomResourcesService);
+    spyOn(customResourcesService.peopleApi, 'getPerson').and.returnValue(
       Promise.resolve({
         entry: { id: 'personId' }
       } as PersonEntry)
     );
 
-    spyOn(alfrescoApi.searchApi, 'search').and.returnValue(Promise.resolve(page));
+    const page: ResultSetPaging = {
+      list: {
+        entries: [
+          { entry: { id: '1', name: 'node1', nodeType: 'cm:file', isFile: true, isFolder: false } },
+          { entry: { id: '2', name: 'node2', nodeType: 'cm:file', isFile: true, isFolder: false } }
+        ],
+        pagination: { count: 2, totalItems: 2 }
+      }
+    };
+
+    spyOn(customResourcesService.searchApi, 'search').and.returnValue(Promise.resolve(page));
   });
 
   it('should call showPreview method', () => {
@@ -85,7 +81,7 @@ describe('RecentFilesComponent', () => {
 
     component.onNodeDoubleClick(node);
     expect(component.showPreview).toHaveBeenCalledWith(node, {
-      location: mockRouter.url
+      location: 'recent-files'
     });
   });
 });

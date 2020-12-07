@@ -30,27 +30,17 @@ import {
   TranslationService,
   TranslationMock,
   AuthenticationService,
-  UserPreferencesService,
   DiscoveryApiService,
   EcmProductVersionModel,
-  AppConfigService,
-  StorageService,
   AlfrescoApiService,
-  LogService,
-  NotificationService,
-  NodesApiService,
-  ContentService,
-  ThumbnailService,
-  UploadService,
-  AlfrescoApiMock,
-  PipeModule
+  PipeModule,
+  AlfrescoApiServiceMock
 } from '@alfresco/adf-core';
 import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { appReducer } from '../store/reducers/app.reducer';
 import { RouterTestingModule } from '@angular/router/testing';
 import { EffectsModule } from '@ngrx/effects';
-import { CustomResourcesService, DocumentListService } from '@alfresco/adf-content-services';
 import { MaterialModule } from '../material.module';
 import { INITIAL_STATE } from '../store/initial-state';
 import { TranslatePipeMock } from './translate-pipe.directive';
@@ -79,7 +69,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
   declarations: [TranslatePipeMock],
   exports: [TranslatePipeMock, RouterTestingModule, MaterialModule, PipeModule],
   providers: [
-    { provide: AlfrescoApiService, useClass: AlfrescoApiMock },
+    { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
     { provide: TranslationService, useClass: TranslationMock },
     { provide: TranslateService, useClass: TranslateServiceMock },
     { provide: TranslatePipe, useClass: TranslatePipeMock },
@@ -109,19 +99,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
           return false;
         }
       }
-    },
-    UserPreferencesService,
-    AppConfigService,
-    StorageService,
-    AlfrescoApiService,
-    LogService,
-    NotificationService,
-    NodesApiService,
-    ContentService,
-    ThumbnailService,
-    UploadService,
-    CustomResourcesService,
-    DocumentListService
+    }
   ]
 })
 export class AppTestingModule {}
