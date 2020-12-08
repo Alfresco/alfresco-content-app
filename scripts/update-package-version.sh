@@ -18,5 +18,5 @@ do
     PACKAGE_PATH="${packages[$j]}"
     echo "====== UPDATE PACKAGE VERSION of ${packages[$j]} to ${VERSION} ======"
     cd $PACKAGE_PATH;
-    npm version --no-git-tag-version --force $VERSION
+    npm version --no-git-tag-version $VERSION
 done
