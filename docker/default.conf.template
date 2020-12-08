@@ -23,6 +23,10 @@ server {
         alias  ${NGINX_ENVSUBST_OUTPUT_DIR}/app.config.json;
     }
 
+    location ~ /assets/app.extensions.json {
+        alias  ${NGINX_ENVSUBST_OUTPUT_DIR}/app.extensions.json;
+    }
+
     #error_page  404              /404.html;
 
     # redirect server error pages to the static page /50x.html
