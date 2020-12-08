@@ -41,7 +41,12 @@ exports.config = {
     downloadFolder: downloadFolder,
     ADMIN_USERNAME: process.env.ADMIN_EMAIL || 'admin',
     ADMIN_PASSWORD: process.env.ADMIN_PASSWORD || 'admin',
-    e2eRootPath: e2eFolder
+    e2eRootPath: e2eFolder,
+    testConfig: {
+      appConfig: {
+        log: 'TRACE'
+      }
+    }
   },
 
   specs: [
