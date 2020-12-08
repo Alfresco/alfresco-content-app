@@ -81,7 +81,7 @@
     "cspell": "^4.1.0",
     "dotenv": "^8.2.0",
     "http-server": "^0.12.3",
-    "husky": "^4.3.0",
+    "husky": "^4.3.5",
     "inquirer": "^7.3.3",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~6.0.0",
