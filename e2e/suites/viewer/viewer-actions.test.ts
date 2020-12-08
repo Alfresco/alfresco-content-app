@@ -252,6 +252,7 @@ describe('Viewer actions', () => {
       await page.waitForDialog();
 
       await uploadNewVersionDialog.uploadButton.click();
+      await uploadNewVersionDialog.waitForDialogToClose();
 
       await toolbar.openMoreMenu();
       expect(await toolbar.menu.cancelEditingAction.isPresent()).toBe(false, `'Cancel Editing' button shouldn't be shown`);
@@ -267,7 +268,7 @@ describe('Viewer actions', () => {
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is closed after pressing Full screen');
       const browserLogAfter = await Utils.getBrowserLog();
 
-      expect(browserLogAfter.length).toEqual(0, browserLogAfter.entries);
+      expect(browserLogAfter.length).toBe(0, browserLogAfter.entries);
     });
 
     it('[C286313] Share action', async () => {

@@ -94,11 +94,6 @@ export class Viewer extends Component {
     return count > 0;
   }
 
-  async clickDownloadButton(): Promise<void> {
-    const downloadButton: ElementFinder = element(by.id(`app.viewer.download`));
-    await BrowserActions.click(downloadButton);
-  }
-
   async clickCloseButton(): Promise<void> {
     const closeButton: ElementFinder = element(by.css('button[data-automation-id="adf-toolbar-back"]'));
     await BrowserActions.click(closeButton);
