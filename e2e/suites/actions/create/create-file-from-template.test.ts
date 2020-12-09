@@ -34,7 +34,7 @@ import {
   RepoClient,
   NodeContentTree
 } from '@alfresco/aca-testing-shared';
-import { BrowserActions } from '@alfresco/adf-testing';
+import { BrowserActions, Logger } from '@alfresco/adf-testing';
 
 describe('Create file from template', () => {
   const random = Utils.random();
@@ -330,6 +330,15 @@ describe('Create file from template', () => {
         await createFromTemplateDialog.enterName(file2.name);
         await createFromTemplateDialog.enterTitle(file2.title);
         await createFromTemplateDialog.enterDescription(file2.description);
+
+        const nameInput = await createFromTemplateDialog.getName();
+        const titleInput = await createFromTemplateDialog.getTitle();
+        const descriptionText = await createFromTemplateDialog.getDescription();
+
+        Logger.info(`---- Name input value : ${nameInput}`);
+        Logger.info(`---- Title input value : ${titleInput}`);
+        Logger.info(`---- Description textarea value : ${descriptionText}`);
+
         await BrowserActions.click(createFromTemplateDialog.createButton);
         await createFromTemplateDialog.waitForDialogToClose();
         await page.dataTable.waitForHeader();

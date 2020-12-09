@@ -511,6 +511,7 @@ describe('Unshare a file', () => {
       await dataTable.rightClickOnItem(file4);
       await contextMenu.shareEditAction.click();
       await shareDialog.waitForDialogToOpen();
+
       const url = await shareDialog.getLinkUrl();
       await shareDialog.shareToggle.click();
 
@@ -521,7 +522,8 @@ describe('Unshare a file', () => {
       expect(await apis.user.nodes.isFileShared(file4Id)).toBe(false, `${file4} is shared`);
 
       await browser.get(url);
-      expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
+      await viewer.waitForViewerToOpen();
+
       expect(await viewer.getFileTitle()).not.toEqual(file4);
 
       await page.load();

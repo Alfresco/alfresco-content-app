@@ -73,18 +73,16 @@ describe('Share a file', () => {
   const adminApiActions = new AdminActions();
   const userActions = new UserActions();
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     await adminApiActions.login();
     await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
 
+    await userActions.login(username, username);
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await apis.user.nodes.deleteNodeById(parentId);
-    done();
   });
 
   describe('when logged out', () => {
@@ -104,10 +102,11 @@ describe('Share a file', () => {
 
     it('[C286326] A non-logged user can download the shared file from the viewer', async () => {
       await browser.get(file6SharedLink);
-      expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
+      await viewer.waitForViewerToOpen();
+
       expect(await viewer.getFileTitle()).toEqual(file6);
 
-      await BrowserActions.click(toolbar.downloadButton);
+      await BrowserActions.click(viewer.toolbar.downloadButton);
       expect(await Utils.fileExistsOnOS(file6)).toBe(true, 'File not found in download location');
     });
   });

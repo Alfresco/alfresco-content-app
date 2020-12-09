@@ -34,7 +34,7 @@ import {
   RepoClient,
   NodeContentTree
 } from '@alfresco/aca-testing-shared';
-import { BrowserActions } from '@alfresco/adf-testing';
+import { BrowserActions, Logger } from '@alfresco/adf-testing';
 
 describe('Create folder from template', () => {
   const random = Utils.random();
@@ -316,6 +316,15 @@ describe('Create folder from template', () => {
       await createFromTemplateDialog.enterName(folder2.name);
       await createFromTemplateDialog.enterTitle(folder2.title);
       await createFromTemplateDialog.enterDescription(folder2.description);
+
+      const nameInput = await createFromTemplateDialog.getName();
+      const titleInput = await createFromTemplateDialog.getTitle();
+      const descriptionText = await createFromTemplateDialog.getDescription();
+
+      Logger.info(`---- Name input value : ${nameInput}`);
+      Logger.info(`---- Title input value : ${titleInput}`);
+      Logger.info(`---- Description textarea value : ${descriptionText}`);
+
       await BrowserActions.click(createFromTemplateDialog.createButton);
       await createFromTemplateDialog.waitForDialogToClose();
       await page.dataTable.waitForHeader();
@@ -371,6 +380,15 @@ describe('Create folder from template', () => {
       await createFromTemplateDialog.enterName(folderSite.name);
       await createFromTemplateDialog.enterTitle(folderSite.title);
       await createFromTemplateDialog.enterDescription(folderSite.description);
+
+      const nameInput = await createFromTemplateDialog.getName();
+      const titleInput = await createFromTemplateDialog.getTitle();
+      const descriptionText = await createFromTemplateDialog.getDescription();
+
+      Logger.info(`---- Name input value : ${nameInput}`);
+      Logger.info(`---- Title input value : ${titleInput}`);
+      Logger.info(`---- Description textarea value : ${descriptionText}`);
+
       await BrowserActions.click(createFromTemplateDialog.createButton);
       await createFromTemplateDialog.waitForDialogToClose();
       await page.dataTable.waitForHeader();

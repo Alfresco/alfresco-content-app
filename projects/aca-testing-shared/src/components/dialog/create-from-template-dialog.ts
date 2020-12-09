@@ -69,6 +69,10 @@ export class CreateFromTemplateDialog extends GenericDialog {
     return BrowserActions.getInputValue(this.descriptionTextArea);
   }
 
+  async getTitle(): Promise<string> {
+    return BrowserActions.getInputValue(this.titleInput);
+  }
+
   async enterName(name: string): Promise<void> {
     await typeText(this.nameInput, name);
   }
