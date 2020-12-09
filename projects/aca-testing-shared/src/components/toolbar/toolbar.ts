@@ -82,6 +82,7 @@ export class Toolbar extends Component {
     await BrowserActions.click(moreMenu);
 
     await this.menu.waitForMenuToOpen();
+    await browser.sleep(500);
   }
 
   async closeMoreMenu() {
