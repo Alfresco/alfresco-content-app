@@ -220,7 +220,12 @@ describe('Delete and undo delete', () => {
 
     afterAll(async () => {
       try {
-        await userActions.unlockNodes([fileLocked1Id, fileLocked2Id, fileLocked3Id, fileLocked4Id]);
+        // await userActions.unlockNodes([fileLocked1Id, fileLocked2Id, fileLocked3Id, fileLocked4Id]);
+        await apis.user.nodes.unlockFile(fileLocked1Id);
+        await apis.user.nodes.unlockFile(fileLocked2Id);
+        await apis.user.nodes.unlockFile(fileLocked3Id);
+        await apis.user.nodes.unlockFile(fileLocked4Id);
+
         await userActions.deleteNodes([parentId]);
         await userActions.emptyTrashcan();
       } catch (error) {
@@ -309,26 +314,22 @@ describe('Delete and undo delete', () => {
     });
 
     it('[C280503] undo delete of folder with content', async () => {
-      const items = await page.dataTable.getRowsCount();
-
       await dataTable.selectItem(folder6);
       await toolbar.clickMoreActionsDelete();
       await page.clickSnackBarAction();
+
       expect(await dataTable.isItemPresent(folder6)).toBe(true, 'Item was not restored');
-      expect(await page.pagination.getRange()).toContain(`1-${items} of ${items}`);
       await dataTable.doubleClickOnRowByName(folder6);
+      await dataTable.waitForBody();
       expect(await dataTable.isItemPresent(file2InFolder)).toBe(true, 'file from folder not restored');
     });
 
     it('[C280504] undo delete of multiple files', async () => {
-      const items = await page.dataTable.getRowsCount();
-
       await dataTable.selectMultipleItems([file6, file7]);
       await toolbar.clickMoreActionsDelete();
       await page.clickSnackBarAction();
       expect(await dataTable.isItemPresent(file6)).toBe(true, `${file6} was not removed from list`);
       expect(await dataTable.isItemPresent(file7)).toBe(true, `${file7} was not removed from list`);
-      expect(await page.pagination.getRange()).toContain(`1-${items} of ${items}`);
     });
   });
 
@@ -512,7 +513,12 @@ describe('Delete and undo delete', () => {
 
     afterAll(async () => {
       try {
-        await userActions.unlockNodes([fileLocked1Id, fileLocked2Id, fileLocked3Id, fileLocked4Id]);
+        // await userActions.unlockNodes([fileLocked1Id, fileLocked2Id, fileLocked3Id, fileLocked4Id]);
+        await apis.user.nodes.unlockFile(fileLocked1Id);
+        await apis.user.nodes.unlockFile(fileLocked2Id);
+        await apis.user.nodes.unlockFile(fileLocked3Id);
+        await apis.user.nodes.unlockFile(fileLocked4Id);
+
         await userActions.deleteNodes([parentId]);
         await userActions.emptyTrashcan();
       } catch (error) {
@@ -610,6 +616,7 @@ describe('Delete and undo delete', () => {
       expect(await dataTable.isItemPresent(favFolder6)).toBe(true, 'Item was not restored');
       expect(await page.pagination.getRange()).toContain(`1-${items} of ${items}`);
       await dataTable.doubleClickOnRowByName(favFolder6);
+      await dataTable.waitForBody();
       expect(await dataTable.isItemPresent(file2InFolder)).toBe(true, 'file from folder not restored');
     });
 
