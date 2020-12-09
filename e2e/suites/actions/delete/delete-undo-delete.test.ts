@@ -220,7 +220,6 @@ describe('Delete and undo delete', () => {
 
     afterAll(async () => {
       try {
-        // await userActions.unlockNodes([fileLocked1Id, fileLocked2Id, fileLocked3Id, fileLocked4Id]);
         await apis.user.nodes.unlockFile(fileLocked1Id);
         await apis.user.nodes.unlockFile(fileLocked2Id);
         await apis.user.nodes.unlockFile(fileLocked3Id);
@@ -513,7 +512,6 @@ describe('Delete and undo delete', () => {
 
     afterAll(async () => {
       try {
-        // await userActions.unlockNodes([fileLocked1Id, fileLocked2Id, fileLocked3Id, fileLocked4Id]);
         await apis.user.nodes.unlockFile(fileLocked1Id);
         await apis.user.nodes.unlockFile(fileLocked2Id);
         await apis.user.nodes.unlockFile(fileLocked3Id);
