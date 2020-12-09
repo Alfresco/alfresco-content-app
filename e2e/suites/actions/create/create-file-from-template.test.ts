@@ -393,6 +393,15 @@ describe('Create file from template', () => {
         await createFromTemplateDialog.enterName(fileSite.name);
         await createFromTemplateDialog.enterTitle(fileSite.title);
         await createFromTemplateDialog.enterDescription(fileSite.description);
+
+        const nameInput = await createFromTemplateDialog.getName();
+        const titleInput = await createFromTemplateDialog.getTitle();
+        const descriptionText = await createFromTemplateDialog.getDescription();
+
+        Logger.info(`---- Name input value : ${nameInput}`);
+        Logger.info(`---- Title input value : ${titleInput}`);
+        Logger.info(`---- Description textarea value : ${descriptionText}`);
+
         await BrowserActions.click(createFromTemplateDialog.createButton);
         await createFromTemplateDialog.waitForDialogToClose();
         await page.dataTable.waitForHeader();
