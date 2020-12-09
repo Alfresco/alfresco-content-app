@@ -205,7 +205,7 @@ export class AppViewerComponent implements OnInit, OnDestroy {
           this.previousNodeId = nearest.left;
           this.nextNodeId = nearest.right;
           this.nodeId = this.node.id;
-          this.fileName = this.node.name;
+          this.fileName = this.node.name + this.node?.properties?.['cm:versionLabel'];
           return;
         }
       } catch (error) {
