@@ -43,23 +43,14 @@ describe('Share a file', () => {
   let parentId: string;
 
   const file1 = `file1-${Utils.random()}.txt`;
-  let file1Id: string;
   const file2 = `file2-${Utils.random()}.txt`;
-  let file2Id: string;
-  let file3 = `file3-${Utils.random()}.txt`;
-  let file3Id: string;
+  const file3 = `file3-${Utils.random()}.txt`;
   const file4 = `file4-${Utils.random()}.txt`;
-  let file4Id: string;
-  let file5 = `file5-${Utils.random()}.txt`;
-  let file5Id: string;
-  let file6 = `file6-${Utils.random()}.txt`;
-  let file6Id: string;
-  let file7 = `file7-${Utils.random()}.txt`;
-  let file7Id: string;
+  const file5 = `file5-${Utils.random()}.txt`;
+  const file6 = `file6-${Utils.random()}.txt`;
+  const file7 = `file7-${Utils.random()}.txt`;
   const file8 = `file8-${Utils.random()}.txt`;
-  let file8Id: string;
-  let file9 = `file9-${Utils.random()}.txt`;
-  let file9Id: string;
+  const file9 = `file9-${Utils.random()}.txt`;
 
   const viewer = new Viewer();
   const page = new BrowsingPage();
@@ -87,6 +78,7 @@ describe('Share a file', () => {
 
   describe('when logged out', () => {
     let file6SharedLink: string;
+    let file6Id: string;
 
     beforeAll(async () => {
       file6Id = (await apis.user.nodes.createFile(file6, parentId)).entry.id;
@@ -124,6 +116,16 @@ describe('Share a file', () => {
     });
 
     describe('from Personal Files', () => {
+      let file1Id: string;
+      let file2Id: string;
+      let file3Id: string;
+      let file4Id: string;
+      let file5Id: string;
+      let file6Id: string;
+      let file7Id: string;
+      let file8Id: string;
+      let file9Id: string;
+
       beforeAll(async () => {
         file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
         file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
@@ -314,20 +316,29 @@ describe('Share a file', () => {
       const siteName = `site-${Utils.random()}`;
       const parentInSite = `parent-site-${Utils.random()}`;
       let parentInSiteId: string;
+      let file1Id: string;
+      let file2Id: string;
+      let file3Id: string;
+      let file4Id: string;
+      let file5Id: string;
+      let file6Id: string;
+      let file7Id: string;
+      let file8Id: string;
+      let file9Id: string;
 
       beforeAll(async () => {
         await apis.user.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
         const docLibId = await apis.user.sites.getDocLibId(siteName);
         parentInSiteId = (await apis.user.nodes.createFolder(parentInSite, docLibId)).entry.id;
 
-        await apis.user.nodes.createFile(file1, parentInSiteId);
-        await apis.user.nodes.createFile(file2, parentInSiteId);
+        file1Id = (await apis.user.nodes.createFile(file1, parentInSiteId)).entry.id;
+        file2Id = (await apis.user.nodes.createFile(file2, parentInSiteId)).entry.id;
         file3Id = (await apis.user.nodes.createFile(file3, parentInSiteId)).entry.id;
-        await apis.user.nodes.createFile(file4, parentInSiteId);
+        file4Id = (await apis.user.nodes.createFile(file4, parentInSiteId)).entry.id;
         file5Id = (await apis.user.nodes.createFile(file5, parentInSiteId)).entry.id;
         file6Id = (await apis.user.nodes.createFile(file6, parentInSiteId)).entry.id;
         file7Id = (await apis.user.nodes.createFile(file7, parentInSiteId)).entry.id;
-        await apis.user.nodes.createFile(file8, parentInSiteId);
+        file8Id = (await apis.user.nodes.createFile(file8, parentInSiteId)).entry.id;
         file9Id = (await apis.user.nodes.createFile(file9, parentInSiteId)).entry.id;
 
         await userActions.shareNodes([file6Id, file7Id], expiryDate);
@@ -510,6 +521,16 @@ describe('Share a file', () => {
     });
 
     describe('from Recent Files', () => {
+      let file1Id: string;
+      let file2Id: string;
+      let file3Id: string;
+      let file4Id: string;
+      let file5Id: string;
+      let file6Id: string;
+      let file7Id: string;
+      let file8Id: string;
+      let file9Id: string;
+
       beforeAll(async () => {
         file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
         file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
@@ -696,6 +717,14 @@ describe('Share a file', () => {
     });
 
     describe('from Shared Files', () => {
+      let file1Id: string;
+      let file2Id: string;
+      let file3Id: string;
+      let file4Id: string;
+      let file5Id: string;
+      let file6Id: string;
+      let file7Id: string;
+
       beforeAll(async () => {
         file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
         file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
@@ -830,6 +859,16 @@ describe('Share a file', () => {
     });
 
     describe('from Favorites', () => {
+      let file1Id: string;
+      let file2Id: string;
+      let file3Id: string;
+      let file4Id: string;
+      let file5Id: string;
+      let file6Id: string;
+      let file7Id: string;
+      let file8Id: string;
+      let file9Id: string;
+
       beforeAll(async () => {
         file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
         file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
@@ -1018,22 +1057,29 @@ describe('Share a file', () => {
 
     describe('from Search Results', () => {
       const searchRandom = Utils.random();
-      file3 = `search-file3-${searchRandom}.txt`;
-      file5 = `search-file5-${searchRandom}.txt`;
-      file6 = `search-file6-${searchRandom}.txt`;
-      file7 = `search-file7-${searchRandom}.txt`;
-      file9 = `search-file9-${searchRandom}.txt`;
+
+      const fileSearch3 = `search-file3-${searchRandom}.txt`;
+      const fileSearch5 = `search-file5-${searchRandom}.txt`;
+      const fileSearch6 = `search-file6-${searchRandom}.txt`;
+      const fileSearch7 = `search-file7-${searchRandom}.txt`;
+      const fileSearch9 = `search-file9-${searchRandom}.txt`;
+
+      let fileSearch3Id: string;
+      let fileSearch5Id: string;
+      let fileSearch6Id: string;
+      let fileSearch7Id: string;
+      let fileSearch9Id: string;
 
       beforeAll(async () => {
-        file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
-        file5Id = (await apis.user.nodes.createFile(file5, parentId)).entry.id;
-        file6Id = (await apis.user.nodes.createFile(file6, parentId)).entry.id;
-        file7Id = (await apis.user.nodes.createFile(file7, parentId)).entry.id;
-        file9Id = (await apis.user.nodes.createFile(file9, parentId)).entry.id;
+        fileSearch3Id = (await apis.user.nodes.createFile(fileSearch3, parentId)).entry.id;
+        fileSearch5Id = (await apis.user.nodes.createFile(fileSearch5, parentId)).entry.id;
+        fileSearch6Id = (await apis.user.nodes.createFile(fileSearch6, parentId)).entry.id;
+        fileSearch7Id = (await apis.user.nodes.createFile(fileSearch7, parentId)).entry.id;
+        fileSearch9Id = (await apis.user.nodes.createFile(fileSearch9, parentId)).entry.id;
         await apis.user.search.waitForNodes(searchRandom, { expect: 5 });
 
-        await userActions.shareNodes([file6Id, file7Id], expiryDate);
-        await apis.user.shared.waitForFilesToBeShared([file6Id, file7Id]);
+        await userActions.shareNodes([fileSearch6Id, fileSearch7Id], expiryDate);
+        await apis.user.shared.waitForFilesToBeShared([fileSearch6Id, fileSearch7Id]);
       });
 
       beforeEach(async () => {
@@ -1049,7 +1095,7 @@ describe('Share a file', () => {
       });
 
       afterAll(async () => {
-        await apis.user.nodes.deleteNodesById([file3Id, file5Id, file6Id, file7Id, file9Id]);
+        await apis.user.nodes.deleteNodesById([fileSearch3Id, fileSearch5Id, fileSearch6Id, fileSearch7Id, fileSearch9Id]);
       });
 
       it('[C306975] Share a file', async () => {
@@ -1057,13 +1103,13 @@ describe('Share a file', () => {
         await toolbar.shareButton.click();
 
         await shareDialog.waitForDialogToOpen();
-        await apis.user.shared.waitForFilesToBeShared([file3Id]);
+        await apis.user.shared.waitForFilesToBeShared([fileSearch3Id]);
 
         const url = await shareDialog.getLinkUrl();
         await shareDialog.clickClose();
 
-        const sharedId = await apis.user.nodes.getSharedId(file3Id);
-        expect(await apis.user.nodes.isFileShared(file3Id)).toBe(true, `${file3} is not shared`);
+        const sharedId = await apis.user.nodes.getSharedId(fileSearch3Id);
+        expect(await apis.user.nodes.isFileShared(fileSearch3Id)).toBe(true, `${file3} is not shared`);
         expect(url).toContain(sharedId);
       });
 
@@ -1072,7 +1118,7 @@ describe('Share a file', () => {
         await toolbar.shareButton.click();
 
         await shareDialog.waitForDialogToOpen();
-        await apis.user.shared.waitForFilesToBeShared([file5Id]);
+        await apis.user.shared.waitForFilesToBeShared([fileSearch5Id]);
 
         await BrowserActions.click(shareDialog.expireToggle);
         expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expire toggle not checked');
@@ -1088,7 +1134,7 @@ describe('Share a file', () => {
 
         expect(new Date(inputDate)).toEqual(new Date(setDate));
 
-        const expireDateProperty = await apis.user.nodes.getSharedExpiryDate(file5Id);
+        const expireDateProperty = await apis.user.nodes.getSharedExpiryDate(fileSearch5Id);
 
         Logger.info(`---- expire date property : ${expireDateProperty}`);
         Logger.info(`---- expire date property - formatted : ${Utils.formatDate(expireDateProperty)}`);
@@ -1101,7 +1147,7 @@ describe('Share a file', () => {
         await toolbar.shareEditButton.click();
         await shareDialog.waitForDialogToOpen();
 
-        const expireProperty = await apis.user.nodes.getSharedExpiryDate(file6Id);
+        const expireProperty = await apis.user.nodes.getSharedExpiryDate(fileSearch6Id);
         expect(expireProperty).toEqual(expiryDate);
         expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expiration is not checked');
         expect(Utils.formatDate(await shareDialog.getExpireDate())).toEqual(Utils.formatDate(expiryDate));
@@ -1121,7 +1167,7 @@ describe('Share a file', () => {
         expect(await shareDialog.getExpireDate()).toBe('', 'Expire date input is not empty');
 
         await shareDialog.clickClose();
-        expect(await apis.user.nodes.getSharedExpiryDate(file7Id)).toBe('', `${file7} link still has expiration`);
+        expect(await apis.user.nodes.getSharedExpiryDate(fileSearch7Id)).toBe('', `${file7} link still has expiration`);
       });
 
       it('[C306981] Share a file from the context menu', async () => {
@@ -1130,13 +1176,13 @@ describe('Share a file', () => {
         await contextMenu.shareAction.click();
 
         await shareDialog.waitForDialogToOpen();
-        await apis.user.shared.waitForFilesToBeShared([file9Id]);
+        await apis.user.shared.waitForFilesToBeShared([fileSearch9Id]);
 
         const url = await shareDialog.getLinkUrl();
         await shareDialog.clickClose();
 
-        const sharedId = await apis.user.nodes.getSharedId(file9Id);
-        expect(await apis.user.nodes.isFileShared(file9Id)).toBe(true, `${file9} is not shared`);
+        const sharedId = await apis.user.nodes.getSharedId(fileSearch9Id);
+        expect(await apis.user.nodes.isFileShared(fileSearch9Id)).toBe(true, `${file9} is not shared`);
         expect(url).toContain(sharedId);
       });
     });

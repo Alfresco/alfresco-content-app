@@ -101,7 +101,7 @@ async function uploadScreenshot(retryCount) {
       }
     );
   } catch (error) {
-    console.log(`--- Upload output failed. ${error}`);
+    throw new Error(`--- Upload output failed. ${error}`);
   }
 
   fs.rmdirSync(path.resolve(__dirname, `../../e2e-output-${retryCount}/`), { recursive: true });
