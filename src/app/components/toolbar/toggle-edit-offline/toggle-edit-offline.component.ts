@@ -79,7 +79,6 @@ export class ToggleEditOfflineComponent implements OnInit {
         const response = await this.unlockNode(id);
 
         this.update(response?.entry);
-        this.store.dispatch(new DownloadNodesAction([this.selection]));
         this.store.dispatch(new EditOfflineAction(this.selection));
       } catch {
         this.onUnlockError();
@@ -89,6 +88,7 @@ export class ToggleEditOfflineComponent implements OnInit {
         const response = await this.lockNode(id);
 
         this.update(response?.entry);
+        this.store.dispatch(new DownloadNodesAction([this.selection]));
         this.store.dispatch(new EditOfflineAction(this.selection));
       } catch {
         this.onLockError();

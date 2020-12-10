@@ -24,7 +24,7 @@
  */
 
 import { ToggleEditOfflineComponent } from './toggle-edit-offline.component';
-import { setupTestBed, CoreModule } from '@alfresco/adf-core';
+import { CoreModule } from '@alfresco/adf-core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -40,21 +40,21 @@ describe('ToggleEditOfflineComponent', () => {
   let selectSpy: jasmine.Spy;
   let selection: any;
 
-  setupTestBed({
-    imports: [TranslateModule.forRoot(), CoreModule.forRoot()],
-    declarations: [ToggleEditOfflineComponent],
-    providers: [
-      {
-        provide: Store,
-        useValue: {
-          select: () => {},
-          dispatch: () => {}
-        }
-      }
-    ]
-  });
-
   beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [TranslateModule.forRoot(), CoreModule.forRoot()],
+      declarations: [ToggleEditOfflineComponent],
+      providers: [
+        {
+          provide: Store,
+          useValue: {
+            select: () => {},
+            dispatch: () => {}
+          }
+        }
+      ]
+    });
+
     fixture = TestBed.createComponent(ToggleEditOfflineComponent);
     component = fixture.componentInstance;
     spyOn(component, 'unlockNode').and.returnValue(Promise.resolve(null));
@@ -67,10 +67,6 @@ describe('ToggleEditOfflineComponent', () => {
     selection = { file: { entry: { name: 'test', properties: {}, isLocked: false } } };
   });
 
-  afterEach(() => {
-    dispatchSpy.calls.reset();
-  });
-
   it('should initialized with data from store', () => {
     selectSpy.and.returnValue(of(selection));
 
@@ -79,11 +75,11 @@ describe('ToggleEditOfflineComponent', () => {
     expect(component.selection).toEqual(selection.file as any);
   });
 
-  it('should download content if node is locked', async () => {
+  it('should download content when node is locked', async () => {
     selectSpy.and.returnValue(of(selection));
     fixture.detectChanges();
 
-    selection.file.entry.isLocked = true;
+    selection.file.entry.isLocked = false;
     await component.onClick();
 
     fixture.detectChanges();
@@ -103,6 +99,8 @@ describe('ToggleEditOfflineComponent', () => {
 
   it('should dispatch EditOfflineAction action', async () => {
     selectSpy.and.returnValue(of(selection));
+
+    selection.file.entry.isLocked = true;
 
     fixture.detectChanges();
     await component.onClick();
