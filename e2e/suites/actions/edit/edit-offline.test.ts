@@ -29,30 +29,19 @@ describe('Edit offline', () => {
   const username = `user-${Utils.random()}`;
 
   const file1 = `file1-${Utils.random()}.docx`;
-  let file1Id: string;
   const fileLocked = `file-locked-${Utils.random()}.docx`;
-  let fileLockedId: string;
   const fileLocked2 = `file-locked2-${Utils.random()}.docx`;
-  let fileLocked2Id: string;
 
   const searchRandom = Utils.random();
   const fileSearch1 = `file-search-1-${searchRandom}.docx`;
-  let fileSearch1Id: string;
   const fileSearchLocked = `file-search-locked-${searchRandom}.docx`;
-  let fileSearchLockedId: string;
   const fileSearchLocked2 = `file-search-locked2-${searchRandom}.docx`;
-  let fileSearchLocked2Id: string;
 
   const parentPF = `parentPersonal-${Utils.random()}`;
-  let parentPFId: string;
   const parentSF = `parentShared-${Utils.random()}`;
-  let parentSFId: string;
   const parentRF = `parentRecent-${Utils.random()}`;
-  let parentRFId: string;
   const parentFav = `parentFav-${Utils.random()}`;
-  let parentFavId: string;
   const parentSearch = `parentSearch-${Utils.random()}`;
-  let parentSearchId: string;
 
   const apis = {
     user: new RepoClient(username, username)
@@ -70,6 +59,11 @@ describe('Edit offline', () => {
   });
 
   describe('on Personal Files', () => {
+    let parentPFId: string;
+    let file1Id: string;
+    let fileLockedId: string;
+    let fileLocked2Id: string;
+
     beforeAll(async () => {
       parentPFId = (await apis.user.nodes.createFolder(parentPF)).entry.id;
 
@@ -121,6 +115,11 @@ describe('Edit offline', () => {
   });
 
   describe('on Shared Files', () => {
+    let parentSFId: string;
+    let file1Id: string;
+    let fileLockedId: string;
+    let fileLocked2Id: string;
+
     beforeAll(async () => {
       parentSFId = (await apis.user.nodes.createFolder(parentSF)).entry.id;
 
@@ -174,6 +173,11 @@ describe('Edit offline', () => {
   });
 
   describe('on Recent Files', () => {
+    let parentRFId: string;
+    let file1Id: string;
+    let fileLockedId: string;
+    let fileLocked2Id: string;
+
     beforeAll(async () => {
       parentRFId = (await apis.user.nodes.createFolder(parentRF)).entry.id;
 
@@ -228,6 +232,11 @@ describe('Edit offline', () => {
   });
 
   describe('on Favorite Files', () => {
+    let parentFavId: string;
+    let file1Id: string;
+    let fileLockedId: string;
+    let fileLocked2Id: string;
+
     beforeAll(async () => {
       parentFavId = (await apis.user.nodes.createFolder(parentFav)).entry.id;
 
@@ -281,6 +290,11 @@ describe('Edit offline', () => {
   });
 
   describe('on Search Results', () => {
+    let parentSearchId: string;
+    let fileSearch1Id: string;
+    let fileSearchLockedId: string;
+    let fileSearchLocked2Id: string;
+
     beforeAll(async () => {
       parentSearchId = (await apis.user.nodes.createFolder(parentSearch)).entry.id;
 
@@ -312,7 +326,7 @@ describe('Edit offline', () => {
     });
 
     it('[C306953] File is locked and downloaded when clicking Edit Offline', async () => {
-      await dataTable.selectItem(fileSearch1);
+      await dataTable.selectItem(fileSearch1, parentSearch);
       await toolbar.clickMoreActionsEditOffline();
 
       expect(await Utils.fileExistsOnOS(fileSearch1)).toBe(true, 'File not found in download location');
@@ -329,7 +343,7 @@ describe('Edit offline', () => {
     });
 
     it('[C306955] Cancel Editing unlocks the file', async () => {
-      await dataTable.selectItem(fileSearchLocked);
+      await dataTable.selectItem(fileSearchLocked, parentSearch);
       await toolbar.clickMoreActionsCancelEditing();
       await dataTable.unselectItem(fileSearchLocked);
 
