@@ -12,7 +12,7 @@ function buildNumber() {
 }
 
 async function uploadScreenshot(retryCount) {
-  console.log(`Start uploading report ${retryCount}`);
+  console.log(`Start uploading report ${retryCount} on ${process.env.SCREENSHOT_URL}`);
 
   let alfrescoJsApi = new AlfrescoApi({
     provider: 'ECM',
