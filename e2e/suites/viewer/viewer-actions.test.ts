@@ -37,6 +37,7 @@ import {
   ManageVersionsDialog,
   UploadNewVersionDialog
 } from '@alfresco/aca-testing-shared';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 describe('Viewer actions', () => {
   const username = `user-${Utils.random()}`;
@@ -864,7 +865,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxSharedFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.shareEditButton.click();
+      await BrowserActions.click(toolbar.shareEditButton);
       expect(await shareDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await shareDialog.clickClose();
     });
