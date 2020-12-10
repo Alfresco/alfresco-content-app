@@ -24,28 +24,26 @@
  */
 
 import { AppStore, DownloadNodesAction, EditOfflineAction, SnackbarErrorAction, getAppSelection } from '@alfresco/aca-shared/store';
-import { MinimalNodeEntity } from '@alfresco/js-api';
+import { MinimalNodeEntity, NodeEntry, SharedLinkEntry, Node } from '@alfresco/js-api';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { isLocked } from '@alfresco/aca-shared';
+import { AlfrescoApiService } from '@alfresco/adf-core';
 
 @Component({
   selector: 'app-toggle-edit-offline',
   template: `
     <button
-      #lock="lockNode"
       mat-menu-item
-      (toggle)="onToggleEvent($event)"
-      (lockError)="onLockError()"
-      (unlockError)="onUnlockLockError()"
-      [acaLockNode]="selection"
-      [attr.title]="lock.isNodeLocked() ? ('APP.ACTIONS.EDIT_OFFLINE_CANCEL' | translate) : ('APP.ACTIONS.EDIT_OFFLINE' | translate)"
+      [attr.title]="(isNodeLocked ? 'APP.ACTIONS.EDIT_OFFLINE_CANCEL' : 'APP.ACTIONS.EDIT_OFFLINE') | translate"
+      (click)="onClick()"
     >
-      <ng-container *ngIf="lock.isNodeLocked()">
+      <ng-container *ngIf="isNodeLocked">
         <mat-icon>cancel</mat-icon>
         <span>{{ 'APP.ACTIONS.EDIT_OFFLINE_CANCEL' | translate }}</span>
       </ng-container>
 
-      <ng-container *ngIf="!lock.isNodeLocked()">
+      <ng-container *ngIf="!isNodeLocked">
         <mat-icon>edit</mat-icon>
         <span>{{ 'APP.ACTIONS.EDIT_OFFLINE' | translate }}</span>
       </ng-container>
@@ -57,7 +55,7 @@ import { Store } from '@ngrx/store';
 export class ToggleEditOfflineComponent implements OnInit {
   selection: MinimalNodeEntity;
 
-  constructor(private store: Store<AppStore>) {}
+  constructor(private store: Store<AppStore>, private alfrescoApiService: AlfrescoApiService) {}
 
   ngOnInit() {
     this.store.select(getAppSelection).subscribe(({ file }) => {
@@ -65,11 +63,37 @@ export class ToggleEditOfflineComponent implements OnInit {
     });
   }
 
-  onToggleEvent(isNodeLocked: boolean) {
-    if (isNodeLocked) {
-      this.store.dispatch(new DownloadNodesAction([this.selection]));
+  get isNodeLocked(): boolean {
+    return !!(this.selection && isLocked(this.selection));
+  }
+
+  async onClick() {
+    await this.toggleLock(this.selection);
+  }
+
+  private async toggleLock(node: NodeEntry | SharedLinkEntry) {
+    const id = (node as SharedLinkEntry).entry.nodeId || node.entry.id;
+
+    if (isLocked(this.selection)) {
+      try {
+        const response = await this.unlockNode(id);
+
+        this.update(response?.entry);
+        this.store.dispatch(new EditOfflineAction(this.selection));
+      } catch {
+        this.onUnlockError();
+      }
+    } else {
+      try {
+        const response = await this.lockNode(id);
+
+        this.update(response?.entry);
+        this.store.dispatch(new DownloadNodesAction([this.selection]));
+        this.store.dispatch(new EditOfflineAction(this.selection));
+      } catch {
+        this.onLockError();
+      }
     }
-    this.store.dispatch(new EditOfflineAction(this.selection));
   }
 
   onLockError() {
@@ -80,11 +104,34 @@ export class ToggleEditOfflineComponent implements OnInit {
     );
   }
 
-  onUnlockLockError() {
+  onUnlockError() {
     this.store.dispatch(
       new SnackbarErrorAction('APP.MESSAGES.ERRORS.UNLOCK_NODE', {
         fileName: this.selection.entry.name
       })
     );
+  }
+
+  lockNode(nodeId: string) {
+    return this.alfrescoApiService.nodesApi.lockNode(nodeId, {
+      type: 'ALLOW_OWNER_CHANGES',
+      lifetime: 'PERSISTENT'
+    });
+  }
+
+  unlockNode(nodeId: string) {
+    return this.alfrescoApiService.nodesApi.unlockNode(nodeId);
+  }
+
+  private update(data: Node) {
+    if (data && data.properties) {
+      const properties = this.selection.entry.properties || {};
+
+      properties['cm:lockLifetime'] = data.properties['cm:lockLifetime'];
+      properties['cm:lockOwner'] = data.properties['cm:lockOwner'];
+      properties['cm:lockType'] = data.properties['cm:lockType'];
+
+      this.selection.entry.properties = properties;
+    }
   }
 }
