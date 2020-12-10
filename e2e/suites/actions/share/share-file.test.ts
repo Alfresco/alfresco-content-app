@@ -161,7 +161,7 @@ describe('Share a file', () => {
         await shareDialog.waitForDialogToOpen();
         await apis.user.shared.waitForFilesToBeShared([file1Id]);
 
-        expect(await shareDialog.getTitle()).toEqual(`Share ${file1}`);
+        expect(await shareDialog.getDialogTitle()).toEqual(`Share ${file1}`);
         expect(await shareDialog.getInfoText()).toEqual('Click the link below to copy it to the clipboard.');
         expect(await shareDialog.labels.get(0).getText()).toEqual('Link to share');
         expect(await shareDialog.getLinkUrl()).toContain(shareLinkPreUrl);
@@ -358,7 +358,7 @@ describe('Share a file', () => {
         await shareDialog.waitForDialogToOpen();
         await apis.user.shared.waitForFilesToBeShared([file1Id]);
 
-        expect(await shareDialog.getTitle()).toEqual(`Share ${file1}`);
+        expect(await shareDialog.getDialogTitle()).toEqual(`Share ${file1}`);
         expect(await shareDialog.getInfoText()).toEqual('Click the link below to copy it to the clipboard.');
         expect(await shareDialog.labels.get(0).getText()).toEqual('Link to share');
         expect(await shareDialog.getLinkUrl()).toContain(shareLinkPreUrl);
@@ -545,7 +545,7 @@ describe('Share a file', () => {
         await shareDialog.waitForDialogToOpen();
         await apis.user.shared.waitForFilesToBeShared([file1Id]);
 
-        expect(await shareDialog.getTitle()).toEqual(`Share ${file1}`);
+        expect(await shareDialog.getDialogTitle()).toEqual(`Share ${file1}`);
         expect(await shareDialog.getInfoText()).toEqual('Click the link below to copy it to the clipboard.');
         expect(await shareDialog.labels.get(0).getText()).toEqual('Link to share');
         expect(await shareDialog.getLinkUrl()).toContain(shareLinkPreUrl);
@@ -729,7 +729,7 @@ describe('Share a file', () => {
         await toolbar.shareEditButton.click();
         await shareDialog.waitForDialogToOpen();
 
-        expect(await shareDialog.getTitle()).toEqual(`Share ${file1}`);
+        expect(await shareDialog.getDialogTitle()).toEqual(`Share ${file1}`);
         expect(await shareDialog.getInfoText()).toEqual('Click the link below to copy it to the clipboard.');
         expect(await shareDialog.labels.get(0).getText()).toEqual('Link to share');
         expect(await shareDialog.getLinkUrl()).toContain(shareLinkPreUrl);
@@ -817,7 +817,7 @@ describe('Share a file', () => {
 
         await shareDialog.waitForDialogToOpen();
 
-        expect(await shareDialog.getTitle()).toEqual(`Share ${file7}`);
+        expect(await shareDialog.getDialogTitle()).toEqual(`Share ${file7}`);
         expect(await shareDialog.getInfoText()).toEqual('Click the link below to copy it to the clipboard.');
         expect(await shareDialog.labels.get(0).getText()).toEqual('Link to share');
         expect(await shareDialog.getLinkUrl()).toContain(shareLinkPreUrl);
@@ -868,7 +868,7 @@ describe('Share a file', () => {
         await shareDialog.waitForDialogToOpen();
         await apis.user.shared.waitForFilesToBeShared([file1Id]);
 
-        expect(await shareDialog.getTitle()).toEqual(`Share ${file1}`);
+        expect(await shareDialog.getDialogTitle()).toEqual(`Share ${file1}`);
         expect(await shareDialog.getInfoText()).toEqual('Click the link below to copy it to the clipboard.');
         expect(await shareDialog.labels.get(0).getText()).toEqual('Link to share');
         expect(await shareDialog.getLinkUrl()).toContain(shareLinkPreUrl);

@@ -135,7 +135,7 @@ describe('Unshare a file from Search Results', () => {
     await shareDialog.shareToggle.click();
 
     expect(await confirmDialog.isDialogOpen()).toBe(true, 'Unshare dialog is not open');
-    expect(await confirmDialog.getTitle()).toContain('Remove this shared link');
+    expect(await confirmDialog.getDialogTitle()).toContain('Remove this shared link');
     expect(await confirmDialog.getText()).toContain('This link will be deleted and a new link will be created next time this file is shared');
     expect(await confirmDialog.isRemoveEnabled()).toBe(true, 'REMOVE button is not enabled');
     expect(await confirmDialog.isCancelEnabled()).toBe(true, 'CANCEL button is not enabled');

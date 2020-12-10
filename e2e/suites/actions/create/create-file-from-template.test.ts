@@ -145,7 +145,7 @@ describe('Create file from template', () => {
     await sidenav.openCreateFileFromTemplateDialog();
     await selectTemplateDialog.waitForDialogToOpen();
 
-    expect(await selectTemplateDialog.getTitle()).toEqual('Select a document template');
+    expect(await selectTemplateDialog.getDialogTitle()).toEqual('Select a document template');
     expect(await selectTemplateDialog.dataTable.isEmpty()).toBe(true, 'Datatable is not empty');
     expect(await selectTemplateDialog.dataTable.getEmptyListText()).toEqual('No results found');
     expect(await selectTemplateDialog.breadcrumb.currentFolder.getText()).toEqual('Node Templates');
@@ -167,7 +167,7 @@ describe('Create file from template', () => {
       });
 
       it('[C325043] Select template - dialog UI - with existing templates', async () => {
-        expect(await selectTemplateDialog.getTitle()).toEqual('Select a document template');
+        expect(await selectTemplateDialog.getDialogTitle()).toEqual('Select a document template');
         expect(await selectTemplateDialog.dataTable.isEmpty()).toBe(false, 'Datatable is empty');
         expect(await selectTemplateDialog.dataTable.isItemPresent(templatesFolder1)).toBe(true, 'template folder not displayed');
         expect(await selectTemplateDialog.dataTable.isItemPresent(templatesFolder2)).toBe(true, 'template folder not displayed');
@@ -249,7 +249,7 @@ describe('Create file from template', () => {
       });
 
       it('[C325020] Create file from template - dialog UI', async () => {
-        expect(await createFromTemplateDialog.getTitle()).toEqual(`Create new document from '${template1InRootFolder}'`);
+        expect(await createFromTemplateDialog.getDialogTitle()).toEqual(`Create new document from '${template1InRootFolder}'`);
         expect(await createFromTemplateDialog.nameInput.isDisplayed()).toBe(true, 'Name field not displayed');
         expect(await createFromTemplateDialog.titleInput.isDisplayed()).toBe(true, 'Title field not displayed');
         expect(await createFromTemplateDialog.descriptionTextArea.isDisplayed()).toBe(true, 'Description field not displayed');
@@ -258,7 +258,7 @@ describe('Create file from template', () => {
       });
 
       it('[C325031] File name is required', async () => {
-        expect(await createFromTemplateDialog.getName()).toEqual(template1InRootFolder);
+        expect(await createFromTemplateDialog.getNameInputValue()).toEqual(template1InRootFolder);
         await clearTextWithBackspace(createFromTemplateDialog.nameInput);
 
         expect(await createFromTemplateDialog.getValidationMessage()).toEqual('Name is required');
@@ -331,9 +331,9 @@ describe('Create file from template', () => {
         await createFromTemplateDialog.enterTitle(file2.title);
         await createFromTemplateDialog.enterDescription(file2.description);
 
-        const nameInput = await createFromTemplateDialog.getName();
-        const titleInput = await createFromTemplateDialog.getTitle();
-        const descriptionText = await createFromTemplateDialog.getDescription();
+        const nameInput = await createFromTemplateDialog.getNameInputValue();
+        const titleInput = await createFromTemplateDialog.getTitleInputValue();
+        const descriptionText = await createFromTemplateDialog.getDescriptionValue();
 
         Logger.info(`---- Name input value : ${nameInput}`);
         Logger.info(`---- Title input value : ${titleInput}`);
@@ -394,9 +394,9 @@ describe('Create file from template', () => {
         await createFromTemplateDialog.enterTitle(fileSite.title);
         await createFromTemplateDialog.enterDescription(fileSite.description);
 
-        const nameInput = await createFromTemplateDialog.getName();
-        const titleInput = await createFromTemplateDialog.getTitle();
-        const descriptionText = await createFromTemplateDialog.getDescription();
+        const nameInput = await createFromTemplateDialog.getNameInputValue();
+        const titleInput = await createFromTemplateDialog.getTitleInputValue();
+        const descriptionText = await createFromTemplateDialog.getDescriptionValue();
 
         Logger.info(`---- Name input value : ${nameInput}`);
         Logger.info(`---- Title input value : ${titleInput}`);

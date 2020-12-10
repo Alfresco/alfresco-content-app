@@ -252,7 +252,7 @@ describe('Library actions', () => {
       await page.waitForDialog();
 
       expect(await confirmDialog.isDialogOpen()).toBe(true, 'Confirm delete dialog not open');
-      expect(await confirmDialog.getTitle()).toContain('Leave this library?');
+      expect(await confirmDialog.getDialogTitle()).toContain('Leave this library?');
       expect(await confirmDialog.getText()).toContain('Leaving will remove your access.');
       expect(await confirmDialog.isOkEnabled()).toBe(true, 'OK button is not enabled');
       expect(await confirmDialog.isCancelEnabled()).toBe(true, 'Cancel button is not enabled');

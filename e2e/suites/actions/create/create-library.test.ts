@@ -95,7 +95,7 @@ describe('Create library', () => {
     await page.sidenav.openCreateLibraryDialog();
     await createDialog.waitForDialogToOpen();
 
-    expect(await createDialog.getTitle()).toMatch('Create Library');
+    expect(await createDialog.getDialogTitle()).toMatch('Create Library');
     expect(await createDialog.nameInput.isDisplayed()).toBe(true, 'Name input is not displayed');
     expect(await createDialog.libraryIdInput.isDisplayed()).toBe(true, 'Library ID input is not displayed');
     expect(await createDialog.descriptionTextArea.isDisplayed()).toBe(true, 'Description field is not displayed');

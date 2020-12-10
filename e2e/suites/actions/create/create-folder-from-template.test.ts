@@ -155,7 +155,7 @@ describe('Create folder from template', () => {
     });
 
     it('[C325147] Select template - dialog UI - with existing templates', async () => {
-      expect(await selectTemplateDialog.getTitle()).toEqual('Select a folder template');
+      expect(await selectTemplateDialog.getDialogTitle()).toEqual('Select a folder template');
       expect(await selectTemplateDialog.dataTable.isEmpty()).toBe(false, 'Datatable is empty');
       expect(await selectTemplateDialog.dataTable.isItemPresent(templateFolder1)).toBe(true, 'template folder not displayed');
       expect(await selectTemplateDialog.dataTable.isItemPresent(templateFolder2)).toBe(true, 'template folder not displayed');
@@ -235,7 +235,7 @@ describe('Create folder from template', () => {
     });
 
     it('[C325142] Create folder from template - dialog UI', async () => {
-      expect(await createFromTemplateDialog.getTitle()).toEqual(`Create new folder from '${templateFolder1}'`);
+      expect(await createFromTemplateDialog.getDialogTitle()).toEqual(`Create new folder from '${templateFolder1}'`);
       expect(await createFromTemplateDialog.nameInput.isDisplayed()).toBe(true, 'Name field not displayed');
       expect(await createFromTemplateDialog.titleInput.isDisplayed()).toBe(true, 'Title field not displayed');
       expect(await createFromTemplateDialog.descriptionTextArea.isDisplayed()).toBe(true, 'Description field not displayed');
@@ -244,7 +244,7 @@ describe('Create folder from template', () => {
     });
 
     it('[C325143] Folder name is required', async () => {
-      expect(await createFromTemplateDialog.getName()).toEqual(templateFolder1);
+      expect(await createFromTemplateDialog.getNameInputValue()).toEqual(templateFolder1);
       await clearTextWithBackspace(createFromTemplateDialog.nameInput);
 
       expect(await createFromTemplateDialog.getValidationMessage()).toEqual('Name is required');
@@ -317,9 +317,9 @@ describe('Create folder from template', () => {
       await createFromTemplateDialog.enterTitle(folder2.title);
       await createFromTemplateDialog.enterDescription(folder2.description);
 
-      const nameInput = await createFromTemplateDialog.getName();
-      const titleInput = await createFromTemplateDialog.getTitle();
-      const descriptionText = await createFromTemplateDialog.getDescription();
+      const nameInput = await createFromTemplateDialog.getNameInputValue();
+      const titleInput = await createFromTemplateDialog.getTitleInputValue();
+      const descriptionText = await createFromTemplateDialog.getDescriptionValue();
 
       Logger.info(`---- Name input value : ${nameInput}`);
       Logger.info(`---- Title input value : ${titleInput}`);
@@ -381,9 +381,9 @@ describe('Create folder from template', () => {
       await createFromTemplateDialog.enterTitle(folderSite.title);
       await createFromTemplateDialog.enterDescription(folderSite.description);
 
-      const nameInput = await createFromTemplateDialog.getName();
-      const titleInput = await createFromTemplateDialog.getTitle();
-      const descriptionText = await createFromTemplateDialog.getDescription();
+      const nameInput = await createFromTemplateDialog.getNameInputValue();
+      const titleInput = await createFromTemplateDialog.getTitleInputValue();
+      const descriptionText = await createFromTemplateDialog.getDescriptionValue();
 
       Logger.info(`---- Name input value : ${nameInput}`);
       Logger.info(`---- Title input value : ${titleInput}`);

@@ -125,7 +125,7 @@ describe('Permanently delete from Trash', () => {
     await page.waitForDialog();
 
     expect(await confirmDialog.isDialogOpen()).toBe(true, 'Confirm delete dialog not open');
-    expect(await confirmDialog.getTitle()).toContain('Delete from trash');
+    expect(await confirmDialog.getDialogTitle()).toContain('Delete from trash');
     expect(await confirmDialog.getText()).toContain('This will permanently remove the selected item(s)');
     expect(await confirmDialog.isDeleteEnabled()).toBe(true, 'DELETE button is not enabled');
     expect(await confirmDialog.isKeepEnabled()).toBe(true, 'KEEP button is not enabled');
