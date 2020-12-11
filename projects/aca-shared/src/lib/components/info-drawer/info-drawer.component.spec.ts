@@ -22,9 +22,9 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
-import { ContentActionRef } from '@alfresco/adf-extensions';
+import { ContentActionRef, SidebarTabRef } from '@alfresco/adf-extensions';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
 import { SetInfoDrawerStateAction, ToggleInfoDrawerAction } from '@alfresco/aca-shared/store';
 import { of, Subject } from 'rxjs';
@@ -38,7 +38,7 @@ describe('InfoDrawerComponent', () => {
   let fixture: ComponentFixture<InfoDrawerComponent>;
   let component: InfoDrawerComponent;
   let contentApiService: ContentApiService;
-  let tab;
+  let tab: SidebarTabRef;
   let appExtensionService: AppExtensionService;
   const mockStream = new Subject();
   const storeMock = {
@@ -61,7 +61,10 @@ describe('InfoDrawerComponent', () => {
     TestBed.configureTestingModule({
       imports: [LibTestingModule, SharedToolbarModule],
       declarations: [InfoDrawerComponent],
-      providers: [ContentApiService, { provide: AppExtensionService, useValue: extensionServiceMock }, { provide: Store, useValue: storeMock }],
+      providers: [
+        { provide: AppExtensionService, useValue: extensionServiceMock },
+        { provide: Store, useValue: storeMock }
+      ],
       schemas: [NO_ERRORS_SCHEMA]
     });
 
@@ -70,7 +73,7 @@ describe('InfoDrawerComponent', () => {
     appExtensionService = TestBed.inject(AppExtensionService);
     contentApiService = TestBed.inject(ContentApiService);
 
-    tab = { title: 'tab1' };
+    tab = { title: 'tab1', id: 'tab1', component: '' };
     spyOn(appExtensionService, 'getSidebarTabs').and.returnValue([tab]);
   });
 
@@ -91,7 +94,7 @@ describe('InfoDrawerComponent', () => {
     expect(storeMock.dispatch).toHaveBeenCalledWith(new SetInfoDrawerStateAction(false));
   });
 
-  it('should set displayNode when node is library', async(() => {
+  it('should set displayNode when node is library', () => {
     spyOn(contentApiService, 'getNodeInfo');
     const nodeMock: any = {
       entry: { id: 'nodeId' },
@@ -104,9 +107,9 @@ describe('InfoDrawerComponent', () => {
 
     expect(component.displayNode).toBe(nodeMock);
     expect(contentApiService.getNodeInfo).not.toHaveBeenCalled();
-  }));
+  });
 
-  it('should call getNodeInfo() when node is a shared file', async(() => {
+  it('should call getNodeInfo() when node is a shared file', () => {
     const response: any = { entry: { id: 'nodeId' } };
     spyOn(contentApiService, 'getNodeInfo').and.returnValue(of(response));
     const nodeMock: any = { entry: { nodeId: 'nodeId' }, isLibrary: false };
@@ -117,9 +120,9 @@ describe('InfoDrawerComponent', () => {
 
     expect(component.displayNode).toBe(response);
     expect(contentApiService.getNodeInfo).toHaveBeenCalled();
-  }));
+  });
 
-  it('should call getNodeInfo() when node is a favorite file', async(() => {
+  it('should call getNodeInfo() when node is a favorite file', () => {
     const response: any = { entry: { id: 'nodeId' } };
     spyOn(contentApiService, 'getNodeInfo').and.returnValue(of(response));
     const nodeMock: any = {
@@ -133,9 +136,9 @@ describe('InfoDrawerComponent', () => {
 
     expect(component.displayNode).toBe(response);
     expect(contentApiService.getNodeInfo).toHaveBeenCalled();
-  }));
+  });
 
-  it('should call getNodeInfo() when node is a recent file', async(() => {
+  it('should call getNodeInfo() when node is a recent file', () => {
     const response: any = { entry: { id: 'nodeId' } };
     spyOn(contentApiService, 'getNodeInfo').and.returnValue(of(response));
     const nodeMock: any = {
@@ -152,7 +155,7 @@ describe('InfoDrawerComponent', () => {
 
     expect(component.displayNode).toBe(response);
     expect(contentApiService.getNodeInfo).toHaveBeenCalled();
-  }));
+  });
 
   it('should dispatch close panel on Esc keyboard event', () => {
     const event = new KeyboardEvent('keydown', {

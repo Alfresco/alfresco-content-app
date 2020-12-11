@@ -39,7 +39,7 @@ export interface LibraryEntity {
 })
 export class LibraryFavoriteDirective implements OnChanges {
   @Input('acaFavoriteLibrary')
-  library: any = null;
+  library: LibraryEntity = null;
 
   @Output() toggle = new EventEmitter<any>();
   // tslint:disable-next-line: no-output-native
@@ -49,7 +49,19 @@ export class LibraryFavoriteDirective implements OnChanges {
 
   @HostListener('click')
   onClick() {
-    this.toggleFavorite();
+    const guid = this.targetLibrary.entry.guid;
+
+    if (this.targetLibrary.isFavorite) {
+      this.removeFavorite(guid);
+    } else {
+      this.addFavorite({
+        target: {
+          site: {
+            guid
+          }
+        }
+      });
+    }
   }
 
   constructor(private alfrescoApiService: AlfrescoApiService) {}
@@ -64,42 +76,21 @@ export class LibraryFavoriteDirective implements OnChanges {
     this.markFavoriteLibrary(changes.library.currentValue);
   }
 
-  isFavorite() {
+  isFavorite(): boolean {
     return this.targetLibrary && this.targetLibrary.isFavorite;
-  }
-
-  toggleFavorite() {
-    if (this.targetLibrary.isFavorite) {
-      this.removeFavorite(this.targetLibrary.entry.guid);
-    } else {
-      const favoriteBody = this.createFavoriteBody(this.targetLibrary);
-      this.addFavorite(favoriteBody);
-    }
   }
 
   private async markFavoriteLibrary(library: LibraryEntity) {
     if (this.targetLibrary.isFavorite === undefined) {
-      await this.getFavoriteSite(library);
+      try {
+        await this.alfrescoApiService.peopleApi.getFavoriteSite('-me-', library.entry.id);
+        this.targetLibrary.isFavorite = true;
+      } catch {
+        this.targetLibrary.isFavorite = false;
+      }
     } else {
       this.targetLibrary = library;
     }
-  }
-
-  private getFavoriteSite(library: LibraryEntity) {
-    this.alfrescoApiService.peopleApi
-      .getFavoriteSite('-me-', library.entry.id)
-      .then(() => (this.targetLibrary.isFavorite = true))
-      .catch(() => (this.targetLibrary.isFavorite = false));
-  }
-
-  private createFavoriteBody(library: LibraryEntity): FavoriteBody {
-    return {
-      target: {
-        site: {
-          guid: library.entry.guid
-        }
-      }
-    };
   }
 
   private addFavorite(favoriteBody: FavoriteBody) {

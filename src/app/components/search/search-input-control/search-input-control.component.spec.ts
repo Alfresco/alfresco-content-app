@@ -24,7 +24,7 @@
  */
 
 import { SearchInputControlComponent } from './search-input-control.component';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
@@ -32,19 +32,17 @@ describe('SearchInputControlComponent', () => {
   let fixture: ComponentFixture<SearchInputControlComponent>;
   let component: SearchInputControlComponent;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule],
       declarations: [SearchInputControlComponent],
       schemas: [NO_ERRORS_SCHEMA]
-    })
-      .compileComponents()
-      .then(() => {
-        fixture = TestBed.createComponent(SearchInputControlComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
-      });
-  }));
+    });
+
+    fixture = TestBed.createComponent(SearchInputControlComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
 
   it('should emit submit event on searchSubmit', async () => {
     const keyboardEvent = { target: { value: 'a' } };

@@ -28,7 +28,6 @@ import { AppTestingModule } from '../../testing/app-testing.module';
 import { ContextMenuComponent } from './context-menu.component';
 import { ContextMenuModule } from './context-menu.module';
 import { ContextMenuOverlayRef } from './context-menu-overlay';
-import { TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
 import { ContentActionType } from '@alfresco/adf-extensions';
 
 import { of } from 'rxjs';
@@ -52,15 +51,8 @@ describe('ContextMenuComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        AppTestingModule,
-        ContextMenuModule,
-        TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
-        })
-      ],
+      imports: [ContextMenuModule, AppTestingModule],
       providers: [
-        AppExtensionService,
         {
           provide: ContextMenuOverlayRef,
           useValue: {
@@ -103,11 +95,11 @@ describe('ContextMenuComponent', () => {
     expect(contextMenuElements[0].querySelector('span').innerText).toBe(contextItem.title);
   }));
 
-  it('should run action with provided action id', fakeAsync(() => {
+  it('should run action with provided action id', () => {
     spyOn(extensionsService, 'runActionById');
 
     component.runAction(contextItem.actions.click);
 
     expect(extensionsService.runActionById).toHaveBeenCalledWith(contextItem.actions.click);
-  }));
+  });
 });

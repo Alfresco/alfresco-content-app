@@ -116,13 +116,10 @@ describe('NodeActionsService', () => {
   });
 
   describe('ContentNodeSelector configuration', () => {
-    it('should validate selection when allowableOperation has `create`', async(() => {
+    it('should validate selection when allowableOperation has `create`', () => {
       spyOn(dialog, 'open');
       const contentEntities = [new TestNode(), { entry: { nodeId: '1234' } }];
-      const subject = new Subject<MinimalNodeEntryEntity[]>();
-
       service.getContentNodeSelection('', contentEntities as NodeEntry[]);
-      subject.next([new TestNode().entry]);
 
       const isSelectionValid = dialog.open['calls'].argsFor(0)[1].data.isSelectionValid({
         name: 'some-folder-template',
@@ -133,15 +130,12 @@ describe('NodeActionsService', () => {
       });
 
       expect(isSelectionValid).toBe(true);
-    }));
+    });
 
-    it('should invalidate selection when allowableOperation does not have `create`', async(() => {
+    it('should invalidate selection when allowableOperation does not have `create`', () => {
       spyOn(dialog, 'open');
       const contentEntities = [new TestNode(), { entry: { nodeId: '1234' } }];
-      const subject = new Subject<MinimalNodeEntryEntity[]>();
-
       service.getContentNodeSelection('', contentEntities as NodeEntry[]);
-      subject.next([new TestNode().entry]);
 
       const isSelectionValid = dialog.open['calls'].argsFor(0)[1].data.isSelectionValid({
         name: 'some-folder-template',
@@ -152,15 +146,12 @@ describe('NodeActionsService', () => {
       });
 
       expect(isSelectionValid).toBe(false);
-    }));
+    });
 
-    it('should invalidate selection if isSite', async(() => {
+    it('should invalidate selection if isSite', () => {
       spyOn(dialog, 'open');
       const contentEntities = [new TestNode(), { entry: { nodeId: '1234' } }];
-      const subject = new Subject<MinimalNodeEntryEntity[]>();
-
       service.getContentNodeSelection('', contentEntities as NodeEntry[]);
-      subject.next([new TestNode().entry]);
 
       const isSelectionValid = dialog.open['calls'].argsFor(0)[1].data.isSelectionValid({
         name: 'some-folder-template',
@@ -172,15 +163,12 @@ describe('NodeActionsService', () => {
       });
 
       expect(isSelectionValid).toBe(false);
-    }));
+    });
 
-    it('should validate selection if not a Site', async(() => {
+    it('should validate selection if not a Site', () => {
       spyOn(dialog, 'open');
       const contentEntities = [new TestNode(), { entry: { nodeId: '1234' } }];
-      const subject = new Subject<MinimalNodeEntryEntity[]>();
-
       service.getContentNodeSelection('', contentEntities as NodeEntry[]);
-      subject.next([new TestNode().entry]);
 
       const isSelectionValid = dialog.open['calls'].argsFor(0)[1].data.isSelectionValid({
         name: 'some-folder-template',
@@ -192,7 +180,7 @@ describe('NodeActionsService', () => {
       });
 
       expect(isSelectionValid).toBe(true);
-    }));
+    });
   });
 
   describe('doBatchOperation', () => {
@@ -244,7 +232,7 @@ describe('NodeActionsService', () => {
         });
     }));
 
-    it("should not throw error if entry in 'contentEntities' does not have id, but has nodeId property", async(() => {
+    it("should not throw error if entry in 'contentEntities' does not have id, but has nodeId property", () => {
       const contentEntities = [new TestNode(), { entry: { nodeId: '1234' } }];
       const subject = new Subject<MinimalNodeEntryEntity[]>();
 
@@ -256,7 +244,7 @@ describe('NodeActionsService', () => {
 
       expect(spyOnSuccess).toHaveBeenCalled();
       expect(spyOnError).not.toHaveBeenCalledWith(badRequestError);
-    }));
+    });
   });
 
   describe('getEntryParentId', () => {
@@ -579,8 +567,6 @@ describe('NodeActionsService', () => {
 
         copyObservable = service.copyNodeAction(folderToCopy.entry, folderParentAndDestination.entry.id);
       });
-
-      afterEach(() => subject.complete());
 
       it('when folder to copy has a file as content', async(() => {
         const testFamilyNodes = [

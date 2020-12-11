@@ -24,7 +24,7 @@
  */
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { SidenavComponent } from './sidenav.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { AppExtensionService } from '@alfresco/aca-shared';
@@ -33,46 +33,44 @@ describe('SidenavComponent', () => {
   let fixture: ComponentFixture<SidenavComponent>;
   let component: SidenavComponent;
   let extensionService: AppExtensionService;
-  const navbarMock: any = [
-    {
-      items: [
-        {
-          route: 'route'
-        }
-      ]
-    }
-  ];
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule],
-      providers: [AppExtensionService],
       declarations: [SidenavComponent],
       schemas: [NO_ERRORS_SCHEMA]
-    })
-      .compileComponents()
-      .then(() => {
-        fixture = TestBed.createComponent(SidenavComponent);
-        component = fixture.componentInstance;
-        extensionService = TestBed.inject(AppExtensionService);
+    });
 
-        extensionService.navbar = navbarMock;
-
-        fixture.detectChanges();
-      });
-  }));
-
-  // TODO: fix with ADF 4.1
-  it('should set the sidenav data', async(() => {
-    expect(component.groups).toEqual([
+    fixture = TestBed.createComponent(SidenavComponent);
+    component = fixture.componentInstance;
+    extensionService = TestBed.inject(AppExtensionService);
+    extensionService.navbar = [
       {
+        id: 'route',
         items: [
           {
+            id: 'item-1',
+            icon: 'item',
             route: 'route',
-            url: '/route'
+            title: 'item-1'
           }
         ]
-      } as any
-    ]);
-  }));
+      }
+    ];
+  });
+
+  it('should set the sidenav data', async () => {
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(component.groups.length).toBe(1);
+    expect(component.groups[0].items.length).toBe(1);
+    expect(component.groups[0].items[0]).toEqual({
+      id: 'item-1',
+      icon: 'item',
+      url: '/route',
+      route: 'route',
+      title: 'item-1'
+    });
+  });
 });
