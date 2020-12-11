@@ -38,13 +38,13 @@ describe('ContextActionsDirective', () => {
     directive = new ContextActionsDirective(storeMock);
   });
 
-  it('should not render context menu when `enabled` property is false', fakeAsync(() => {
+  it('should not render context menu when `enabled` property is false', () => {
     spyOn(directive, 'execute').and.stub();
     directive.enabled = false;
     directive.onContextMenuEvent(new MouseEvent('contextmenu'));
 
     expect(directive.execute).not.toHaveBeenCalled();
-  }));
+  });
 
   it('should call service to render context menu', fakeAsync(() => {
     const el = document.createElement('div');
