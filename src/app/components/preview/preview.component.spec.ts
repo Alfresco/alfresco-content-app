@@ -24,7 +24,7 @@
  */
 
 import { Router, ActivatedRoute } from '@angular/router';
-import { TestBed, ComponentFixture, async, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
 import { UserPreferencesService, UploadService, AlfrescoApiService } from '@alfresco/adf-core';
 import { ClosePreviewAction } from '@alfresco/aca-shared/store';
 import { PreviewComponent } from './preview.component';
@@ -615,21 +615,23 @@ describe('PreviewComponent', () => {
     expect(ids).toEqual(['node2', 'node1']);
   });
 
-  it('should return to parent folder on nodesDeleted event', async(() => {
+  it('should return to parent folder on nodesDeleted event', async () => {
     spyOn(component, 'navigateToFileLocation');
     fixture.detectChanges();
+    await fixture.whenStable();
     contentManagementService.nodesDeleted.next();
 
     expect(component.navigateToFileLocation).toHaveBeenCalled();
-  }));
+  });
 
-  it('should return to parent folder on fileUploadDeleted event', async(() => {
+  it('should return to parent folder on fileUploadDeleted event', async () => {
     spyOn(component, 'navigateToFileLocation');
     fixture.detectChanges();
+    await fixture.whenStable();
     uploadService.fileUploadDeleted.next();
 
     expect(component.navigateToFileLocation).toHaveBeenCalled();
-  }));
+  });
 
   it('should emit nodeUpdated event on fileUploadComplete event', fakeAsync(() => {
     spyOn(alfrescoApiService.nodeUpdated, 'next');
@@ -640,12 +642,13 @@ describe('PreviewComponent', () => {
     expect(alfrescoApiService.nodeUpdated.next).toHaveBeenCalled();
   }));
 
-  it('should return to parent folder when event emitted from extension', async(() => {
+  it('should return to parent folder when event emitted from extension', async () => {
     spyOn(component, 'navigateToFileLocation');
     fixture.detectChanges();
+    await fixture.whenStable();
     store.dispatch(new ClosePreviewAction());
     expect(component.navigateToFileLocation).toHaveBeenCalled();
-  }));
+  });
 
   describe('Keyboard navigation', () => {
     beforeEach(() => {

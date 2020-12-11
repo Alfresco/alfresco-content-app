@@ -24,15 +24,14 @@
  */
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { TestBed, async, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
 import { SearchInputComponent } from './search-input.component';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { Actions, ofType } from '@ngrx/effects';
 import { SearchByTermAction, SearchActionTypes } from '@alfresco/aca-shared/store';
 import { map } from 'rxjs/operators';
-import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
-import { SearchLibrariesQueryBuilderService } from '../search-libraries-results/search-libraries-query-builder.service';
 import { ContentManagementService } from '../../../services/content-management.service';
+import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 
 describe('SearchInputComponent', () => {
   let fixture: ComponentFixture<SearchInputComponent>;
@@ -40,22 +39,20 @@ describe('SearchInputComponent', () => {
   let actions$: Actions;
   let content: ContentManagementService;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule],
       declarations: [SearchInputComponent],
-      schemas: [NO_ERRORS_SCHEMA],
-      providers: [SearchQueryBuilderService, SearchLibrariesQueryBuilderService]
-    })
-      .compileComponents()
-      .then(() => {
-        actions$ = TestBed.inject(Actions);
-        fixture = TestBed.createComponent(SearchInputComponent);
-        content = TestBed.inject(ContentManagementService);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
-      });
-  }));
+      providers: [SearchQueryBuilderService],
+      schemas: [NO_ERRORS_SCHEMA]
+    });
+
+    actions$ = TestBed.inject(Actions);
+    fixture = TestBed.createComponent(SearchInputComponent);
+    content = TestBed.inject(ContentManagementService);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
 
   it('should change flag on library400Error event', () => {
     expect(component.has400LibraryError).toBe(false);
