@@ -94,7 +94,7 @@ describe('Share a file', () => {
 
     it('[C286326] A non-logged user can download the shared file from the viewer', async () => {
       await browser.get(file6SharedLink);
-      await viewer.waitForViewerToOpen();
+      await viewer.waitForTxtViewerToLoad();
 
       expect(await viewer.getFileTitle()).toEqual(file6);
 
@@ -842,7 +842,7 @@ describe('Share a file', () => {
       it('[C286656] Open Share dialog from context menu', async () => {
         await dataTable.rightClickOnItem(file7);
         await contextMenu.waitForMenuToOpen();
-        await contextMenu.shareEditAction.click();
+        await BrowserActions.click(contextMenu.shareEditAction);
 
         await shareDialog.waitForDialogToOpen();
 

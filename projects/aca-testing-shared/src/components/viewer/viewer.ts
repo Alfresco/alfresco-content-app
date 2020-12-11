@@ -37,6 +37,7 @@ export class Viewer extends Component {
   fileTitle = this.byCss('.adf-viewer__file-title');
   viewerExtensionContent = this.byCss('adf-preview-extension');
   pdfViewerContentPages = this.allByCss('.adf-pdf-viewer__content .page');
+  txtViewerContent = this.byCss('.adf-txt-viewer-content');
 
   toolbar = new Toolbar('adf-viewer');
 
@@ -44,12 +45,21 @@ export class Viewer extends Component {
     super('adf-viewer', ancestor);
   }
 
-  async waitForViewerToOpen() {
+  async waitForViewerToOpen(): Promise<void> {
     try {
       await waitForPresence(this.viewerContainer);
       await waitForPresence(this.viewerLayout);
     } catch (error) {
       Logger.error('\n-----> catch waitForViewerToOpen <-----\n', error);
+    }
+  }
+
+  async waitForTxtViewerToLoad(): Promise<void> {
+    try {
+      await this.waitForViewerToOpen();
+      await waitForPresence(this.txtViewerContent);
+    } catch (error) {
+      Logger.error('\n-----> catch waitForTxtViewerToLoad <-----\n', error);
     }
   }
 

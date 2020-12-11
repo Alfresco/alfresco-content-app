@@ -42,26 +42,22 @@ describe('Pagination on multiple pages', () => {
     .fill('site')
     .map((name, index): string => `${name}-${index + 1}-${random}`);
 
-  let initialSitesTotalItems: number;
-
   beforeAll(async () => {
     try {
       await adminApiActions.createUser({ username });
 
-      initialSitesTotalItems = await userApi.sites.getSitesTotalItems();
       await userApi.sites.createSitesPrivate(sites);
-      await userApi.sites.waitForApi({ expect: initialSitesTotalItems + 51 });
+      await userApi.sites.waitForSitesToBeCreated(sites);
 
       await loginPage.loginWith(username);
     } catch (error) {
       Logger.error(`----- beforeAll failed : ${error}`);
     }
-  });
+  }, 400000);
 
   afterAll(async () => {
     try {
       await userApi.sites.deleteSites(sites);
-      await userApi.sites.waitForApi({ expect: initialSitesTotalItems });
     } catch (error) {
       Logger.error(`----- afterAll failed : ${error}`);
     }
