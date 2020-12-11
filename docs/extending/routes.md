@@ -91,16 +91,18 @@ Extensions may register a routes that are children of some existing application 
 Imagine the situation when application has the following route structure:
 
 ```ts
-{
-  path: 'files,
-  component: FilesComponent,
-  children: [
-    {
-      path: 'bin',
-      component: BinComponent,
-    },
-  ],
-}
+export const APP_ROUTES: Routes = [
+  {
+    path: 'files',
+    component: FilesComponent,
+    children: [
+      {
+        path: 'bin',
+        component: BinComponent,
+      },
+    ],
+  }
+]
 ```
 
 Within the extension, you can declare a route like:
@@ -113,7 +115,7 @@ Within the extension, you can declare a route like:
       "parentRoute": "files",
       "path": "my-path",
       "layout": "app.layout.main",
-      "component": "your.component.id",
+      "component": "your.component.id"
     }
   ]
 }

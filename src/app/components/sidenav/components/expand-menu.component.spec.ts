@@ -56,7 +56,10 @@ describe('ExpandMenuComponent', () => {
   it('should render action item', () => {
     component.item = {
       id: 'test-action-button',
-      url: 'dummy'
+      url: 'dummy',
+      title: null,
+      icon: null,
+      route: null
     };
 
     fixture.detectChanges();
@@ -68,16 +71,23 @@ describe('ExpandMenuComponent', () => {
   it('should render action item with children', () => {
     component.item = {
       id: 'test-action-button',
+      icon: null,
+      title: null,
+      route: null,
       children: [
         {
           id: 'child-1',
           title: 'child-1',
-          url: 'dummy'
+          url: 'dummy',
+          icon: null,
+          route: null
         },
         {
           id: 'child-2',
           title: 'child-2',
-          url: 'dummy'
+          url: 'dummy',
+          icon: null,
+          route: null
         }
       ]
     };

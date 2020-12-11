@@ -657,40 +657,39 @@ This external plugin disables the initial `exif:exif` aspect already defined in 
 Here is the initial setting from `app.extension.json`:
 
 ```json
-...
-    "content-metadata-presets": [
-      {
-        "id": "app.content.metadata.custom",
-        "custom": [
-          {
-            "id": "app.content.metadata.customGroup",
-            "title": "APP.CONTENT_METADATA.EXIF_GROUP_TITLE",
-            "items": [
-              {
-                "id": "app.content.metadata.exifAspect",
-                "aspect": "exif:exif",
-                "properties": [
-                  "exif:pixelXDimension",
-                  "exif:pixelYDimension",
-                  "exif:dateTimeOriginal",
-                  "exif:exposureTime",
-                  "exif:fNumber",
-                  "exif:flash",
-                  "exif:focalLength",
-                  "exif:isoSpeedRatings",
-                  "exif:orientation",
-                  "exif:manufacturer",
-                  "exif:model",
-                  "exif:software"
-                ]
-              }
-            ]
-          }
-        ]
-      }
-    ]
-...
-
+{
+  "content-metadata-presets": [
+    {
+      "id": "app.content.metadata.custom",
+      "custom": [
+        {
+          "id": "app.content.metadata.customGroup",
+          "title": "APP.CONTENT_METADATA.EXIF_GROUP_TITLE",
+          "items": [
+            {
+              "id": "app.content.metadata.exifAspect",
+              "aspect": "exif:exif",
+              "properties": [
+                "exif:pixelXDimension",
+                "exif:pixelYDimension",
+                "exif:dateTimeOriginal",
+                "exif:exposureTime",
+                "exif:fNumber",
+                "exif:flash",
+                "exif:focalLength",
+                "exif:isoSpeedRatings",
+                "exif:orientation",
+                "exif:manufacturer",
+                "exif:model",
+                "exif:software"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
 ```
 
 **Tip:** In order to allow the content-metadata presets to be extended, the settings from `app.config.json` must be copied to the `app.extensions.json` file and its ids must be added to all the items.

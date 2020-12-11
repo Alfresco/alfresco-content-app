@@ -35,7 +35,6 @@ To change the default language set edit the `app.config.json` file and add or re
 
 ```json
 {
-    ...,
     "languages": [
         {
             "key": "de",
@@ -48,8 +47,7 @@ To change the default language set edit the `app.config.json` file and add or re
         {
             "key": "es",
             "label": "Spanish"
-        },
-        ...
+        }
     ]
 }
 ```
@@ -75,11 +73,9 @@ You can copy the content over to your newly created file and replace the English
         "CREATE_FOLDER": "Ordner erstellen",
         "UPLOAD_FILE": "Datei hochladen",
         "UPLOAD_FOLDER": "Ordner hochladen"
-      },
-      ...
+      }
     }
-  },
-  ...
+  }
 }
 ```
 
@@ -109,7 +105,6 @@ Modify the `/src/assets/i18n/en.json` file and append the "CORE" section like in
 ```json
 {
     "APP": {
-        ...
     },
     "CORE": {
         "FOLDER_DIALOG": {

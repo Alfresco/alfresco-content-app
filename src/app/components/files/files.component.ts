@@ -307,7 +307,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   navigateToFilter(activeFilters: FilterSearch[]) {
     const objectFromMap = {};
     activeFilters.forEach((filter: FilterSearch) => {
-      let paramValue = null;
+      let paramValue;
       if (filter.value && filter.value.from && filter.value.to) {
         paramValue = `${filter.value.from}||${filter.value.to}`;
       } else {

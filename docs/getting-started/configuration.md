@@ -20,8 +20,7 @@ The example below demonstrates the most common dynamic format for a development 
 
 ```json
 {
-    "ecmHost": "http://{hostname}{:port}",
-    ...
+    "ecmHost": "http://{hostname}{:port}"
 }
 ```
 
@@ -40,8 +39,7 @@ Alternatively, you can provide a static address for the ACS server if necessary:
 
 ```json
 {
-    "ecmHost": "http://localhost:4200",
-    ...
+    "ecmHost": "http://localhost:4200"
 }
 ```
 
@@ -65,7 +63,6 @@ The following block allows you to change the name of the application.
 
 ```json
 {
-    ...,
     "application": {
         "name": "Alfresco Example Content Application"
     }
@@ -111,7 +108,7 @@ You can change the header background image by specifying the path to the corresp
 ```json
 {
     "application": {
-      "headerImagePath": "assets/images/mastHead-bg-shapesPattern.svg",
+      "headerImagePath": "assets/images/mastHead-bg-shapesPattern.svg"
     }
 }
 ```
@@ -124,7 +121,6 @@ By default, the application ships with the following rules already predefined:
 
 ```json
 {
-    ...,
     "files": {
         "excluded": [
             ".DS_Store",
@@ -132,8 +128,7 @@ By default, the application ships with the following rules already predefined:
             "thumbs.db",
             ".git"
         ]
-    },
-    ...
+    }
 }
 ```
 
@@ -145,15 +140,13 @@ You can change the default settings of the pagination that gets applied to all t
 
 ```json
 {
-    ...,
     "pagination": {
         "supportedPageSizes": [
             25,
             50,
             100
         ]
-    },
-    ...
+    }
 }
 ```
 

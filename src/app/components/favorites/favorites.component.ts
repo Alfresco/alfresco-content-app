@@ -34,6 +34,7 @@ import { Store } from '@ngrx/store';
 import { debounceTime, map } from 'rxjs/operators';
 import { ContentManagementService } from '../../services/content-management.service';
 import { PageComponent } from '../page.component';
+import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 
 @Component({
   templateUrl: './favorites.component.html'
@@ -41,7 +42,7 @@ import { PageComponent } from '../page.component';
 export class FavoritesComponent extends PageComponent implements OnInit {
   isSmallScreen = false;
 
-  columns: any[] = [];
+  columns: DocumentListPresetRef[] = [];
 
   constructor(
     private router: Router,

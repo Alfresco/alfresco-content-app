@@ -36,7 +36,6 @@ nav: ja
 
 ```json
 {
-    ...,
     "languages": [
         {
             "key": "de",
@@ -49,8 +48,7 @@ nav: ja
         {
             "key": "es",
             "label": "スペイン語"
-        },
-        ...
+        }
     ]
 }
 ```
@@ -76,11 +74,9 @@ nav: ja
         "CREATE_FOLDER": "Ordner erstellen",
         "UPLOAD_FILE": "Datei hochladen",
         "UPLOAD_FOLDER": "Ordner hochladen"
-      },
-      ...
+      }
     }
-  },
-  ...
+  }
 }
 ```
 
@@ -110,7 +106,6 @@ ADF リソースの翻訳を提供することもできます。
 ```json
 {
     "APP": {
-        ...
     },
     "CORE": {
         "FOLDER_DIALOG": {

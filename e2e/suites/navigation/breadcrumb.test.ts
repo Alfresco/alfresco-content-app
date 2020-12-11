@@ -88,46 +88,44 @@ describe('Breadcrumb', () => {
     done();
   });
 
+  async function verifyBreadcrumb(expectedCount: number, expectedText: string) {
+    expect(await breadcrumb.items.count()).toEqual(expectedCount, 'Breadcrumb has incorrect number of items');
+    expect(await breadcrumb.currentItem.getText()).toBe(expectedText);
+  }
+
   it('[C260964] Personal Files breadcrumb main node', async () => {
     await page.clickPersonalFiles();
-    expect(await breadcrumb.items.count()).toEqual(1, 'Breadcrumb has incorrect number of items');
-    expect(await breadcrumb.currentItem.getText()).toBe('Personal Files');
+    await verifyBreadcrumb(1, 'Personal Files');
   });
 
   it('[C260966] My Libraries breadcrumb main node', async () => {
     await page.goToMyLibrariesAndWait();
-    expect(await breadcrumb.items.count()).toEqual(1, 'Breadcrumb has incorrect number of items');
-    expect(await breadcrumb.currentItem.getText()).toBe('My Libraries');
+    await verifyBreadcrumb(1, 'My Libraries');
   });
 
   it('[C289891] Favorite Libraries breadcrumb main node', async () => {
     await page.goToFavoriteLibrariesAndWait();
-    expect(await breadcrumb.items.count()).toEqual(1, 'Breadcrumb has incorrect number of items');
-    expect(await breadcrumb.currentItem.getText()).toBe('Favorite Libraries');
+    await verifyBreadcrumb(1, 'Favorite Libraries');
   });
 
   it('[C260971] Recent Files breadcrumb main node', async () => {
     await page.clickRecentFiles();
-    expect(await breadcrumb.items.count()).toEqual(1, 'Breadcrumb has incorrect number of items');
-    expect(await breadcrumb.currentItem.getText()).toBe('Recent Files');
+    await verifyBreadcrumb(1, 'Recent Files');
   });
 
   it('[C260972] Shared Files breadcrumb main node', async () => {
     await page.clickSharedFiles();
-    expect(await breadcrumb.items.count()).toEqual(1, 'Breadcrumb has incorrect number of items');
-    expect(await breadcrumb.currentItem.getText()).toBe('Shared Files');
+    await verifyBreadcrumb(1, 'Shared Files');
   });
 
   it('[C260973] Favorites breadcrumb main node', async () => {
     await page.clickFavorites();
-    expect(await breadcrumb.items.count()).toEqual(1, 'Breadcrumb has incorrect number of items');
-    expect(await breadcrumb.currentItem.getText()).toBe('Favorites');
+    await verifyBreadcrumb(1, 'Favorites');
   });
 
   it('[C260974] Trash breadcrumb main node', async () => {
     await page.clickTrash();
-    expect(await breadcrumb.items.count()).toEqual(1, 'Breadcrumb has incorrect number of items');
-    expect(await breadcrumb.currentItem.getText()).toBe('Trash');
+    await verifyBreadcrumb(1, 'Trash');
   });
 
   it('[C260965] Personal Files breadcrumb for a folder hierarchy', async () => {

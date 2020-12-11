@@ -24,6 +24,7 @@
  */
 
 import { Component, OnInit, Input, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
+import { NavBarLinkRef } from '@alfresco/adf-extensions';
 
 @Component({
   selector: 'app-expand-menu',
@@ -32,7 +33,8 @@ import { Component, OnInit, Input, ViewEncapsulation, ChangeDetectorRef } from '
   host: { class: 'app-expand-menu' }
 })
 export class ExpandMenuComponent implements OnInit {
-  @Input() item;
+  @Input()
+  item: NavBarLinkRef;
 
   constructor(private cd: ChangeDetectorRef) {}
 

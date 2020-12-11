@@ -34,6 +34,7 @@ import { UploadService } from '@alfresco/adf-core';
 import { debounceTime } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { AppExtensionService } from '@alfresco/aca-shared';
+import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 
 @Component({
   templateUrl: './recent-files.component.html'
@@ -41,7 +42,7 @@ import { AppExtensionService } from '@alfresco/aca-shared';
 export class RecentFilesComponent extends PageComponent implements OnInit {
   isSmallScreen = false;
 
-  columns: any[] = [];
+  columns: DocumentListPresetRef[] = [];
 
   constructor(
     store: Store<AppStore>,

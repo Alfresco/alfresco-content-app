@@ -35,8 +35,7 @@
       box-shadow: none !important;
     }
 
-    .mat-expansion-panel:not(.mat-expanded)
-      .mat-expansion-panel-header:not([aria-disabled='true']):hover {
+    .mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled='true']):hover {
       background: none !important;
     }
 

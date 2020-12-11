@@ -31,6 +31,7 @@ import { Store } from '@ngrx/store';
 import { ContentManagementService } from '../../services/content-management.service';
 import { PageComponent } from '../page.component';
 import { AppExtensionService } from '@alfresco/aca-shared';
+import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 
 @Component({
   templateUrl: './libraries.component.html'
@@ -38,7 +39,7 @@ import { AppExtensionService } from '@alfresco/aca-shared';
 export class LibrariesComponent extends PageComponent implements OnInit {
   isSmallScreen = false;
 
-  columns: any[] = [];
+  columns: DocumentListPresetRef[] = [];
 
   constructor(
     content: ContentManagementService,

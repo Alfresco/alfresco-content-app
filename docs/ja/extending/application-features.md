@@ -649,40 +649,39 @@ export interface ViewerRules {
 `app.extension.json` の初期設定は次のとおりです:
 
 ```json
-...
-    "content-metadata-presets": [
-      {
-        "id": "app.content.metadata.custom",
-        "custom": [
-          {
-            "id": "app.content.metadata.customGroup",
-            "title": "APP.CONTENT_METADATA.EXIF_GROUP_TITLE",
-            "items": [
-              {
-                "id": "app.content.metadata.exifAspect",
-                "aspect": "exif:exif",
-                "properties": [
-                  "exif:pixelXDimension",
-                  "exif:pixelYDimension",
-                  "exif:dateTimeOriginal",
-                  "exif:exposureTime",
-                  "exif:fNumber",
-                  "exif:flash",
-                  "exif:focalLength",
-                  "exif:isoSpeedRatings",
-                  "exif:orientation",
-                  "exif:manufacturer",
-                  "exif:model",
-                  "exif:software"
-                ]
-              }
-            ]
-          }
-        ]
-      }
-    ]
-...
-
+{
+  "content-metadata-presets": [
+    {
+      "id": "app.content.metadata.custom",
+      "custom": [
+        {
+          "id": "app.content.metadata.customGroup",
+          "title": "APP.CONTENT_METADATA.EXIF_GROUP_TITLE",
+          "items": [
+            {
+              "id": "app.content.metadata.exifAspect",
+              "aspect": "exif:exif",
+              "properties": [
+                "exif:pixelXDimension",
+                "exif:pixelYDimension",
+                "exif:dateTimeOriginal",
+                "exif:exposureTime",
+                "exif:fNumber",
+                "exif:flash",
+                "exif:focalLength",
+                "exif:isoSpeedRatings",
+                "exif:orientation",
+                "exif:manufacturer",
+                "exif:model",
+                "exif:software"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
 ```
 
 **Tip:** content-metadata プリセットを拡張できるようにするには、 `app.config.json` の設定を `app.extensions.json` ファイルにコピーし、その ID をすべてのアイテムに追加する必要があります。

@@ -32,6 +32,8 @@ import { AppExtensionService, ContentApiService } from '@alfresco/aca-shared';
 import { NavigateLibraryAction } from '@alfresco/aca-shared/store';
 import { PageComponent } from '../page.component';
 import { UserPreferencesService } from '@alfresco/adf-core';
+import { DocumentListPresetRef } from '@alfresco/adf-extensions';
+
 @Component({
   templateUrl: './favorite-libraries.component.html'
 })
@@ -44,7 +46,7 @@ export class FavoriteLibrariesComponent extends PageComponent implements OnInit 
   isLoading = false;
   list: FavoritePaging;
   isSmallScreen = false;
-  columns: any[] = [];
+  columns: DocumentListPresetRef[] = [];
 
   constructor(
     content: ContentManagementService,

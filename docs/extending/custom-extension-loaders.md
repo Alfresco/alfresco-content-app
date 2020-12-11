@@ -52,19 +52,15 @@ This registering can be done, using Angular's multi-provider capabilities:
 import { EXTENSION_DATA_LOADERS } from '@alfresco/aca-shared';
 
 @NgModule({
-    imports: [...],
-    declarations: [...],
     providers: [
-        ...
         {
             provide: EXTENSION_DATA_LOADERS,
             multi: true,
             useValue: myExtensionLoader
-        },
-        ...
-    ],
+        }
+    ]
 })
-export class MyExtensionModule {
+export class MyExtensionModule {}
 ```
 
 1. `MyExtensionModule` is the extension's entry module, which needs to be imported by the extensions.module.ts.

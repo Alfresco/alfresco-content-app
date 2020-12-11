@@ -126,10 +126,6 @@ export class RouterEffects {
   }
 
   private isLibraryContent(path: PathInfoEntity): boolean {
-    if (path && path.elements.length >= 2 && path.elements[1].name === 'Sites') {
-      return true;
-    }
-
-    return false;
+    return path && path.elements.length >= 2 && path.elements[1].name === 'Sites';
   }
 }

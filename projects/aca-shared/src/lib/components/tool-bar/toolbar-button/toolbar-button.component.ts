@@ -57,9 +57,6 @@ export class ToolbarButtonComponent {
   }
 
   private hasClickAction(actionRef: ContentActionRef): boolean {
-    if (actionRef && actionRef.actions && actionRef.actions.click) {
-      return true;
-    }
-    return false;
+    return !!(actionRef && actionRef.actions && actionRef.actions.click);
   }
 }

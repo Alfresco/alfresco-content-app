@@ -18,7 +18,7 @@ nav: ja
 import { ExtensionsModule, ExtensionService } from '@alfresco/adf-extensions';
 
 @NgModule({
-    imports: [ ExtensionsModule ]
+    imports: [ ExtensionsModule ],
     declarations: [ MyComponent1, MyLayout ]
 })
 export class MyExtensionModule {

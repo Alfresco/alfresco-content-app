@@ -75,27 +75,27 @@ export interface ViewNodeExtras {
 
 ```typescript
 // app.routes.ts
-...
-{
-    path: 'custom-path',
-    children: [
-        {
-            path: '',
-            component: CustomComponent
-        },
-        {
-            path: 'view/:nodeId',
-            outlet: 'viewer',
-            children: [
-                {
-                    path: '',
-                    loadChildren: './components/viewer/viewer.module#AppViewerModule'
-                }
-            ]
-        }
-    ]
-}
-...
+export const APP_ROUTES: Routes = [
+  {
+      path: 'custom-path',
+      children: [
+          {
+              path: '',
+              component: CustomComponent
+          },
+          {
+              path: 'view/:nodeId',
+              outlet: 'viewer',
+              children: [
+                  {
+                      path: '',
+                      loadChildren: './components/viewer/viewer.module#AppViewerModule'
+                  }
+              ]
+          }
+      ]
+  }
+]
 ```
 
 ```typescript

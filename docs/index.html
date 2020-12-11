@@ -3,10 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
     <title>Alfresco Content App</title>
     <link rel="stylesheet" href="https://unpkg.com/docute@3/dist/docute.css" />
     <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
@@ -16,20 +13,19 @@
     <script src="https://unpkg.com/docute@3/dist/docute.js"></script>
     <script src="https://unpkg.com/prismjs/components/prism-typescript.js"></script>
     <script>
-      var langs = [
+      const langs = [
         { title: 'English', path: '/' },
         { title: '日本語', path: '/ja/', matchPath: /^\/ja[\/$]/ }
       ];
 
       docute.init({
         url: '.',
-        toc: $route => {
+        toc: ($route) => {
           const isJapaneseLang = $route.path.split('/')[1] === 'ja';
           const wasJapaneseLang = $route.from.path.split('/')[1] === 'ja';
 
           if (wasJapaneseLang !== isJapaneseLang) {
-            const isFirstPageLoad =
-              $route.from.path === '/' && $route.from.meta.name !== 'home';
+            const isFirstPageLoad = $route.from.path === '/' && $route.from.meta.name !== 'home';
             if (!isFirstPageLoad) {
               document.location.reload();
             }
