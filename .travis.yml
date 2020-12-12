@@ -17,6 +17,7 @@ branches:
     - master
     - develop
     - /.*beta.*/
+    - adina-check-e2e
 
 before_install:
   - . ./scripts/ci/job_hooks/before_install.sh
