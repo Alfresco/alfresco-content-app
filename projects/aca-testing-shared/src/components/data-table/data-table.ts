@@ -190,6 +190,7 @@ export class DataTable extends Component {
   }
 
   async hasCheckMarkIcon(itemName: string, location: string = ''): Promise<boolean> {
+    Logger.info(`--- check if item already selected : ${itemName} ${location}`);
     const row = this.getRowByName(itemName, location);
     return row.element(by.css('.mat-icon[class*="selected"]')).isPresent();
   }
@@ -235,6 +236,7 @@ export class DataTable extends Component {
     const isSelected = await this.hasCheckMarkIcon(name, location);
     if (!isSelected) {
       try {
+        Logger.info(`--- selecting item : ${name} ${location}`);
         const item = this.getRowFirstCell(name, location);
         await item.click();
       } catch (e) {

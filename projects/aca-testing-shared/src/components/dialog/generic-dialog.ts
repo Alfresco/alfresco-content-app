@@ -60,7 +60,7 @@ export abstract class GenericDialog {
     return isPresentAndDisplayed(this.rootElem);
   }
 
-  async getTitle(): Promise<string> {
+  async getDialogTitle(): Promise<string> {
     return this.title.getText();
   }
 

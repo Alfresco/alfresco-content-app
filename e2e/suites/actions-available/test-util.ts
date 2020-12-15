@@ -35,6 +35,7 @@ const menu = new Menu();
 
 export async function checkContextMenu(item: string, expectedContextMenu: string[]): Promise<void> {
   await dataTable.rightClickOnItem(item);
+  await contextMenu.waitForMenuToOpen();
 
   const actualActions = await contextMenu.getMenuItems();
   expect(actualActions).toEqual(expectedContextMenu);
@@ -77,6 +78,7 @@ export async function checkToolbarActions(item: string, expectedToolbarPrimary: 
 export async function checkMultipleSelContextMenu(items: string[], expectedContextMenu: string[]): Promise<void> {
   await dataTable.selectMultipleItems(items);
   await dataTable.rightClickOnMultipleSelection();
+  await contextMenu.waitForMenuToOpen();
 
   const actualActions = await contextMenu.getMenuItems();
   expect(actualActions).toEqual(expectedContextMenu);

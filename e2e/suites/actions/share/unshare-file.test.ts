@@ -37,6 +37,7 @@ import {
   Viewer,
   Utils
 } from '@alfresco/aca-testing-shared';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 describe('Unshare a file', () => {
   const username = `user-${Utils.random()}`;
@@ -115,14 +116,14 @@ describe('Unshare a file', () => {
 
     it('[C286339] Unshare dialog UI', async () => {
       await dataTable.selectItem(file1);
-      await toolbar.shareEditButton.click();
+      await BrowserActions.click(toolbar.shareEditButton);
       await shareDialog.waitForDialogToOpen();
 
       expect(await shareDialog.isShareToggleChecked()).toBe(true, 'Share toggle not checked');
-      await shareDialog.shareToggle.click();
+      await BrowserActions.click(shareDialog.shareToggle);
 
       expect(await confirmDialog.isDialogOpen()).toBe(true, 'Unshare dialog is not open');
-      expect(await confirmDialog.getTitle()).toContain('Remove this shared link');
+      expect(await confirmDialog.getDialogTitle()).toContain('Remove this shared link');
       expect(await confirmDialog.getText()).toContain('This link will be deleted and a new link will be created next time this file is shared');
       expect(await confirmDialog.isRemoveEnabled()).toBe(true, 'REMOVE button is not enabled');
       expect(await confirmDialog.isCancelEnabled()).toBe(true, 'CANCEL button is not enabled');
@@ -130,10 +131,11 @@ describe('Unshare a file', () => {
 
     it('[C286340] Unshare a file', async () => {
       await dataTable.selectItem(file2);
-      await toolbar.shareEditButton.click();
+      await BrowserActions.click(toolbar.shareEditButton);
       await shareDialog.waitForDialogToOpen();
       const url = await shareDialog.getLinkUrl();
-      await shareDialog.shareToggle.click();
+      await BrowserActions.click(shareDialog.shareToggle);
+      await confirmDialog.waitForDialogToOpen();
 
       await confirmDialog.removeButton.click();
       await confirmDialog.waitForDialogToClose();
@@ -150,11 +152,12 @@ describe('Unshare a file', () => {
 
     it('[C286341] Cancel the Unshare action', async () => {
       await dataTable.selectItem(file3);
-      await toolbar.shareEditButton.click();
+      await BrowserActions.click(toolbar.shareEditButton);
       await shareDialog.waitForDialogToOpen();
 
       const urlBefore = await shareDialog.getLinkUrl();
-      await shareDialog.shareToggle.click();
+      await BrowserActions.click(shareDialog.shareToggle);
+      await confirmDialog.waitForDialogToOpen();
 
       await confirmDialog.cancelButton.click();
       await confirmDialog.waitForDialogToClose();
@@ -167,10 +170,11 @@ describe('Unshare a file', () => {
 
     it('[C286359] Unshare a file from the context menu', async () => {
       await dataTable.rightClickOnItem(file4);
-      await contextMenu.shareEditAction.click();
+      await BrowserActions.click(contextMenu.shareEditAction);
       await shareDialog.waitForDialogToOpen();
       const url = await shareDialog.getLinkUrl();
-      await shareDialog.shareToggle.click();
+      await BrowserActions.click(shareDialog.shareToggle);
+      await confirmDialog.waitForDialogToOpen();
 
       await confirmDialog.removeButton.click();
       await confirmDialog.waitForDialogToClose();
@@ -237,14 +241,14 @@ describe('Unshare a file', () => {
 
     it('[C286679] Unshare dialog UI', async () => {
       await dataTable.selectItem(file1);
-      await toolbar.shareEditButton.click();
+      await BrowserActions.click(toolbar.shareEditButton);
       await shareDialog.waitForDialogToOpen();
 
       expect(await shareDialog.isShareToggleChecked()).toBe(true, 'Share toggle not checked');
-      await shareDialog.shareToggle.click();
+      await BrowserActions.click(shareDialog.shareToggle);
 
       expect(await confirmDialog.isDialogOpen()).toBe(true, 'Unshare dialog is not open');
-      expect(await confirmDialog.getTitle()).toContain('Remove this shared link');
+      expect(await confirmDialog.getDialogTitle()).toContain('Remove this shared link');
       expect(await confirmDialog.getText()).toContain('This link will be deleted and a new link will be created next time this file is shared');
       expect(await confirmDialog.isRemoveEnabled()).toBe(true, 'REMOVE button is not enabled');
       expect(await confirmDialog.isCancelEnabled()).toBe(true, 'CANCEL button is not enabled');
@@ -252,10 +256,11 @@ describe('Unshare a file', () => {
 
     it('[C286680] Unshare a file', async () => {
       await dataTable.selectItem(file2);
-      await toolbar.shareEditButton.click();
+      await BrowserActions.click(toolbar.shareEditButton);
       await shareDialog.waitForDialogToOpen();
       const url = await shareDialog.getLinkUrl();
-      await shareDialog.shareToggle.click();
+      await BrowserActions.click(shareDialog.shareToggle);
+      await confirmDialog.waitForDialogToOpen();
 
       await confirmDialog.removeButton.click();
       await confirmDialog.waitForDialogToClose();
@@ -272,11 +277,12 @@ describe('Unshare a file', () => {
 
     it('[C286681] Cancel the Unshare action', async () => {
       await dataTable.selectItem(file3);
-      await toolbar.shareEditButton.click();
+      await BrowserActions.click(toolbar.shareEditButton);
       await shareDialog.waitForDialogToOpen();
 
       const urlBefore = await shareDialog.getLinkUrl();
-      await shareDialog.shareToggle.click();
+      await BrowserActions.click(shareDialog.shareToggle);
+      await confirmDialog.waitForDialogToOpen();
 
       await confirmDialog.cancelButton.click();
       await confirmDialog.waitForDialogToClose();
@@ -289,10 +295,11 @@ describe('Unshare a file', () => {
 
     it('[C286683] Unshare a file from the context menu', async () => {
       await dataTable.rightClickOnItem(file4);
-      await contextMenu.shareEditAction.click();
+      await BrowserActions.click(contextMenu.shareEditAction);
       await shareDialog.waitForDialogToOpen();
       const url = await shareDialog.getLinkUrl();
-      await shareDialog.shareToggle.click();
+      await BrowserActions.click(shareDialog.shareToggle);
+      await confirmDialog.waitForDialogToOpen();
 
       await confirmDialog.removeButton.click();
       await confirmDialog.waitForDialogToClose();
@@ -347,14 +354,14 @@ describe('Unshare a file', () => {
 
     it('[C286689] Unshare dialog UI', async () => {
       await dataTable.selectItem(file1);
-      await toolbar.shareEditButton.click();
+      await BrowserActions.click(toolbar.shareEditButton);
       await shareDialog.waitForDialogToOpen();
 
       expect(await shareDialog.isShareToggleChecked()).toBe(true, 'Share toggle not checked');
-      await shareDialog.shareToggle.click();
+      await BrowserActions.click(shareDialog.shareToggle);
 
       expect(await confirmDialog.isDialogOpen()).toBe(true, 'Unshare dialog is not open');
-      expect(await confirmDialog.getTitle()).toContain('Remove this shared link');
+      expect(await confirmDialog.getDialogTitle()).toContain('Remove this shared link');
       expect(await confirmDialog.getText()).toContain('This link will be deleted and a new link will be created next time this file is shared');
       expect(await confirmDialog.isRemoveEnabled()).toBe(true, 'REMOVE button is not enabled');
       expect(await confirmDialog.isCancelEnabled()).toBe(true, 'CANCEL button is not enabled');
@@ -362,10 +369,11 @@ describe('Unshare a file', () => {
 
     it('[C286690] Unshare a file', async () => {
       await dataTable.selectItem(file2);
-      await toolbar.shareEditButton.click();
+      await BrowserActions.click(toolbar.shareEditButton);
       await shareDialog.waitForDialogToOpen();
       const url = await shareDialog.getLinkUrl();
-      await shareDialog.shareToggle.click();
+      await BrowserActions.click(shareDialog.shareToggle);
+      await confirmDialog.waitForDialogToOpen();
 
       await confirmDialog.removeButton.click();
       await confirmDialog.waitForDialogToClose();
@@ -382,11 +390,12 @@ describe('Unshare a file', () => {
 
     it('[C286691] Cancel the Unshare action', async () => {
       await dataTable.selectItem(file3);
-      await toolbar.shareEditButton.click();
+      await BrowserActions.click(toolbar.shareEditButton);
       await shareDialog.waitForDialogToOpen();
 
       const urlBefore = await shareDialog.getLinkUrl();
-      await shareDialog.shareToggle.click();
+      await BrowserActions.click(shareDialog.shareToggle);
+      await confirmDialog.waitForDialogToOpen();
 
       await confirmDialog.cancelButton.click();
       await confirmDialog.waitForDialogToClose();
@@ -399,10 +408,11 @@ describe('Unshare a file', () => {
 
     it('[C286693] Unshare a file from the context menu', async () => {
       await dataTable.rightClickOnItem(file4);
-      await contextMenu.shareEditAction.click();
+      await BrowserActions.click(contextMenu.shareEditAction);
       await shareDialog.waitForDialogToOpen();
       const url = await shareDialog.getLinkUrl();
-      await shareDialog.shareToggle.click();
+      await BrowserActions.click(shareDialog.shareToggle);
+      await confirmDialog.waitForDialogToOpen();
 
       await confirmDialog.removeButton.click();
       await confirmDialog.waitForDialogToClose();
@@ -457,14 +467,14 @@ describe('Unshare a file', () => {
 
     it('[C286684] Unshare dialog UI', async () => {
       await dataTable.selectItem(file1);
-      await toolbar.shareEditButton.click();
+      await BrowserActions.click(toolbar.shareEditButton);
       await shareDialog.waitForDialogToOpen();
 
       expect(await shareDialog.isShareToggleChecked()).toBe(true, 'Share toggle not checked');
-      await shareDialog.shareToggle.click();
+      await BrowserActions.click(shareDialog.shareToggle);
 
       expect(await confirmDialog.isDialogOpen()).toBe(true, 'Unshare dialog is not open');
-      expect(await confirmDialog.getTitle()).toContain('Remove this shared link');
+      expect(await confirmDialog.getDialogTitle()).toContain('Remove this shared link');
       expect(await confirmDialog.getText()).toContain('This link will be deleted and a new link will be created next time this file is shared');
       expect(await confirmDialog.isRemoveEnabled()).toBe(true, 'REMOVE button is not enabled');
       expect(await confirmDialog.isCancelEnabled()).toBe(true, 'CANCEL button is not enabled');
@@ -472,10 +482,11 @@ describe('Unshare a file', () => {
 
     it('[C286685] Unshare a file', async () => {
       await dataTable.selectItem(file2);
-      await toolbar.shareEditButton.click();
+      await BrowserActions.click(toolbar.shareEditButton);
       await shareDialog.waitForDialogToOpen();
       const url = await shareDialog.getLinkUrl();
-      await shareDialog.shareToggle.click();
+      await BrowserActions.click(shareDialog.shareToggle);
+      await confirmDialog.waitForDialogToOpen();
 
       await confirmDialog.removeButton.click();
       await confirmDialog.waitForDialogToClose();
@@ -492,11 +503,12 @@ describe('Unshare a file', () => {
 
     it('[C286686] Cancel the Unshare action', async () => {
       await dataTable.selectItem(file3);
-      await toolbar.shareEditButton.click();
+      await BrowserActions.click(toolbar.shareEditButton);
       await shareDialog.waitForDialogToOpen();
 
       const urlBefore = await shareDialog.getLinkUrl();
-      await shareDialog.shareToggle.click();
+      await BrowserActions.click(shareDialog.shareToggle);
+      await confirmDialog.waitForDialogToOpen();
 
       await confirmDialog.cancelButton.click();
       await confirmDialog.waitForDialogToClose();
@@ -509,10 +521,12 @@ describe('Unshare a file', () => {
 
     it('[C286688] Unshare a file from the context menu', async () => {
       await dataTable.rightClickOnItem(file4);
-      await contextMenu.shareEditAction.click();
+      await BrowserActions.click(contextMenu.shareEditAction);
       await shareDialog.waitForDialogToOpen();
+
       const url = await shareDialog.getLinkUrl();
-      await shareDialog.shareToggle.click();
+      await BrowserActions.click(shareDialog.shareToggle);
+      await confirmDialog.waitForDialogToOpen();
 
       await confirmDialog.removeButton.click();
       await confirmDialog.waitForDialogToClose();
@@ -521,7 +535,8 @@ describe('Unshare a file', () => {
       expect(await apis.user.nodes.isFileShared(file4Id)).toBe(false, `${file4} is shared`);
 
       await browser.get(url);
-      expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
+      await viewer.waitForViewerToOpen();
+
       expect(await viewer.getFileTitle()).not.toEqual(file4);
 
       await page.load();
@@ -574,14 +589,14 @@ describe('Unshare a file', () => {
 
     it('[C286694] Unshare dialog UI', async () => {
       await dataTable.selectItem(file1);
-      await toolbar.shareEditButton.click();
+      await BrowserActions.click(toolbar.shareEditButton);
       await shareDialog.waitForDialogToOpen();
 
       expect(await shareDialog.isShareToggleChecked()).toBe(true, 'Share toggle not checked');
-      await shareDialog.shareToggle.click();
+      await BrowserActions.click(shareDialog.shareToggle);
 
       expect(await confirmDialog.isDialogOpen()).toBe(true, 'Unshare dialog is not open');
-      expect(await confirmDialog.getTitle()).toContain('Remove this shared link');
+      expect(await confirmDialog.getDialogTitle()).toContain('Remove this shared link');
       expect(await confirmDialog.getText()).toContain('This link will be deleted and a new link will be created next time this file is shared');
       expect(await confirmDialog.isRemoveEnabled()).toBe(true, 'REMOVE button is not enabled');
       expect(await confirmDialog.isCancelEnabled()).toBe(true, 'CANCEL button is not enabled');
@@ -589,10 +604,11 @@ describe('Unshare a file', () => {
 
     it('[C286695] Unshare a file', async () => {
       await dataTable.selectItem(file2);
-      await toolbar.shareEditButton.click();
+      await BrowserActions.click(toolbar.shareEditButton);
       await shareDialog.waitForDialogToOpen();
       const url = await shareDialog.getLinkUrl();
-      await shareDialog.shareToggle.click();
+      await BrowserActions.click(shareDialog.shareToggle);
+      await confirmDialog.waitForDialogToOpen();
 
       await confirmDialog.removeButton.click();
       await confirmDialog.waitForDialogToClose();
@@ -609,11 +625,12 @@ describe('Unshare a file', () => {
 
     it('[C286696] Cancel the Unshare action', async () => {
       await dataTable.selectItem(file3);
-      await toolbar.shareEditButton.click();
+      await BrowserActions.click(toolbar.shareEditButton);
       await shareDialog.waitForDialogToOpen();
 
       const urlBefore = await shareDialog.getLinkUrl();
-      await shareDialog.shareToggle.click();
+      await BrowserActions.click(shareDialog.shareToggle);
+      await confirmDialog.waitForDialogToOpen();
 
       await confirmDialog.cancelButton.click();
       await confirmDialog.waitForDialogToClose();
@@ -626,10 +643,11 @@ describe('Unshare a file', () => {
 
     it('[C286698] Unshare a file from the context menu', async () => {
       await dataTable.rightClickOnItem(file4);
-      await contextMenu.shareEditAction.click();
+      await BrowserActions.click(contextMenu.shareEditAction);
       await shareDialog.waitForDialogToOpen();
       const url = await shareDialog.getLinkUrl();
-      await shareDialog.shareToggle.click();
+      await BrowserActions.click(shareDialog.shareToggle);
+      await confirmDialog.waitForDialogToOpen();
 
       await confirmDialog.removeButton.click();
       await confirmDialog.waitForDialogToClose();
@@ -706,12 +724,13 @@ describe('Unshare a file', () => {
       await dataTable.doubleClickOnRowByName(sitePrivate);
       await dataTable.waitForHeader();
       await dataTable.selectItem(file1FileLib);
-      await toolbar.shareEditButton.click();
+      await BrowserActions.click(toolbar.shareEditButton);
       await shareDialog.waitForDialogToOpen();
 
       expect(await shareDialog.isShareToggleDisabled()).toBe(false, 'Share toggle disabled for consumer');
 
-      await shareDialog.shareToggle.click();
+      await BrowserActions.click(shareDialog.shareToggle);
+      await confirmDialog.waitForDialogToOpen();
       await confirmDialog.removeButton.click();
 
       const msg = await page.getSnackBarMessage();
@@ -723,12 +742,13 @@ describe('Unshare a file', () => {
       await dataTable.doubleClickOnRowByName(sitePrivate);
       await dataTable.waitForHeader();
       await dataTable.selectItem(file2FileLib);
-      await toolbar.shareEditButton.click();
+      await BrowserActions.click(toolbar.shareEditButton);
       await shareDialog.waitForDialogToOpen();
 
       expect(await shareDialog.isShareToggleDisabled()).toBe(false, 'Share toggle disabled for consumer');
 
-      await shareDialog.shareToggle.click();
+      await BrowserActions.click(shareDialog.shareToggle);
+      await confirmDialog.waitForDialogToOpen();
       await confirmDialog.removeButton.click();
       await confirmDialog.waitForDialogToClose();
       await shareDialog.waitForDialogToClose();
@@ -740,12 +760,13 @@ describe('Unshare a file', () => {
     it('[C286687] on Shared Files - file shared by other user', async () => {
       await page.clickSharedFilesAndWait();
       await dataTable.selectItem(file1Shared);
-      await toolbar.shareEditButton.click();
+      await BrowserActions.click(toolbar.shareEditButton);
       await shareDialog.waitForDialogToOpen();
 
       expect(await shareDialog.isShareToggleDisabled()).toBe(false, 'Share toggle disabled for consumer');
 
-      await shareDialog.shareToggle.click();
+      await BrowserActions.click(shareDialog.shareToggle);
+      await confirmDialog.waitForDialogToOpen();
       await confirmDialog.removeButton.click();
 
       const msg = await page.getSnackBarMessage();
@@ -755,12 +776,13 @@ describe('Unshare a file', () => {
     it('[C286702] on Shared Files - file shared by the user', async () => {
       await page.clickSharedFilesAndWait();
       await dataTable.selectItem(file2Shared);
-      await toolbar.shareEditButton.click();
+      await BrowserActions.click(toolbar.shareEditButton);
       await shareDialog.waitForDialogToOpen();
 
       expect(await shareDialog.isShareToggleDisabled()).toBe(false, 'Share toggle disabled for consumer');
 
-      await shareDialog.shareToggle.click();
+      await BrowserActions.click(shareDialog.shareToggle);
+      await confirmDialog.waitForDialogToOpen();
       await confirmDialog.removeButton.click();
       await confirmDialog.waitForDialogToClose();
       await shareDialog.waitForDialogToClose();
@@ -772,12 +794,13 @@ describe('Unshare a file', () => {
     it('[C286697] on Favorites - file shared by other user', async () => {
       await page.clickFavoritesAndWait();
       await dataTable.selectItem(file1Fav);
-      await toolbar.shareEditButton.click();
+      await BrowserActions.click(toolbar.shareEditButton);
       await shareDialog.waitForDialogToOpen();
 
       expect(await shareDialog.isShareToggleDisabled()).toBe(false, 'Share toggle disabled for consumer');
 
-      await shareDialog.shareToggle.click();
+      await BrowserActions.click(shareDialog.shareToggle);
+      await confirmDialog.waitForDialogToOpen();
       await confirmDialog.removeButton.click();
 
       const msg = await page.getSnackBarMessage();
@@ -787,12 +810,13 @@ describe('Unshare a file', () => {
     it('[C286703] on Favorites - file shared by the user', async () => {
       await page.clickFavoritesAndWait();
       await dataTable.selectItem(file2Fav);
-      await toolbar.shareEditButton.click();
+      await BrowserActions.click(toolbar.shareEditButton);
       await shareDialog.waitForDialogToOpen();
 
       expect(await shareDialog.isShareToggleDisabled()).toBe(false, 'Share toggle disabled for consumer');
 
-      await shareDialog.shareToggle.click();
+      await BrowserActions.click(shareDialog.shareToggle);
+      await confirmDialog.waitForDialogToOpen();
       await confirmDialog.removeButton.click();
       await confirmDialog.waitForDialogToClose();
       await shareDialog.waitForDialogToClose();

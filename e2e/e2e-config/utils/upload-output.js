@@ -12,7 +12,7 @@ function buildNumber() {
 }
 
 async function uploadScreenshot(retryCount) {
-  console.log(`Start uploading report ${retryCount}`);
+  console.log(`Start uploading report ${retryCount} on ${process.env.SCREENSHOT_URL}`);
 
   let alfrescoJsApi = new AlfrescoApi({
     provider: 'ECM',
@@ -101,7 +101,7 @@ async function uploadScreenshot(retryCount) {
       }
     );
   } catch (error) {
-    console.log(`--- Upload output failed. ${error}`);
+    throw new Error(`--- Upload output failed. ${error}`);
   }
 
   fs.rmdirSync(path.resolve(__dirname, `../../e2e-output-${retryCount}/`), { recursive: true });

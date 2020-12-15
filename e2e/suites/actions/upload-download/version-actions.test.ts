@@ -71,6 +71,8 @@ describe('Version actions', () => {
         );
       }
 
+      await apis.user.shared.waitForFilesToBeShared([fileId]);
+
       await loginPage.loginWith(username);
       await dataTable.doubleClickOnRowByName(parentFolder);
       await dataTable.waitForHeader();
@@ -107,24 +109,23 @@ describe('Version actions', () => {
     });
 
     it('[C586768] Should be possible to download a previous document version', async () => {
-      await viewerPage.clickDownloadButton();
+      await viewerPage.toolbar.downloadButton.click();
 
       expect(await Utils.fileExistsOnOS(filesToUpload[0])).toBe(true, 'File not found in download location');
     });
   });
 
   describe('on Shared Files', () => {
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickSharedFilesAndWait();
       await dataTable.selectItem(filesToUpload[4], parentFolder);
       await toolbar.clickMoreActionsManageVersions();
       await versionManagePage.viewFileVersion('2.0');
-      done();
     });
 
-    afterEach(async (done) => {
-      await viewerPage.clickCloseButton();
-      done();
+    afterEach(async () => {
+      await page.closeOpenDialogs();
+      await Utils.pressEscape();
     });
 
     it('[C586776] Should be possible to view a previous document version', async () => {
@@ -136,24 +137,23 @@ describe('Version actions', () => {
     });
 
     it('[C586778] Should be possible to download a previous document version', async () => {
-      await viewerPage.clickDownloadButton();
+      await viewerPage.toolbar.downloadButton.click();
 
       expect(await Utils.fileExistsOnOS(filesToUpload[1])).toBe(true, 'File not found in download location');
     });
   });
 
   describe('on Recent Files', () => {
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickRecentFilesAndWait();
       await dataTable.selectItem(filesToUpload[4], parentFolder);
       await toolbar.clickMoreActionsManageVersions();
       await versionManagePage.viewFileVersion('3.0');
-      done();
     });
 
-    afterEach(async (done) => {
-      await viewerPage.clickCloseButton();
-      done();
+    afterEach(async () => {
+      await page.closeOpenDialogs();
+      await Utils.pressEscape();
     });
 
     it('[C586769] Should be possible to view a previous document version', async () => {
@@ -165,24 +165,23 @@ describe('Version actions', () => {
     });
 
     it('[C586771] Should be possible to download a previous document version', async () => {
-      await viewerPage.clickDownloadButton();
+      await viewerPage.toolbar.downloadButton.click();
 
       expect(await Utils.fileExistsOnOS(filesToUpload[2])).toBe(true, 'File not found in download location');
     });
   });
 
   describe('on Favorite Files', () => {
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickFavoritesAndWait();
       await dataTable.selectItem(filesToUpload[4], parentFolder);
       await toolbar.clickMoreActionsManageVersions();
       await versionManagePage.viewFileVersion('4.0');
-      done();
     });
 
-    afterEach(async (done) => {
-      await viewerPage.clickCloseButton();
-      done();
+    afterEach(async () => {
+      await page.closeOpenDialogs();
+      await Utils.pressEscape();
     });
 
     it('[C586772] Should be possible to view a previous document version', async () => {
@@ -194,14 +193,14 @@ describe('Version actions', () => {
     });
 
     it('[C586774] Should be possible to download a previous document version', async () => {
-      await viewerPage.clickDownloadButton();
+      await viewerPage.toolbar.downloadButton.click();
 
       expect(await Utils.fileExistsOnOS(filesToUpload[3])).toBe(true, 'File not found in download location');
     });
   });
 
   describe('on Search Results', () => {
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickPersonalFiles();
       await searchInput.clickSearchButton();
       await searchInput.checkOnlyFiles();
@@ -211,12 +210,11 @@ describe('Version actions', () => {
       await dataTable.selectItem(filesToUpload[4], parentFolder);
       await toolbar.clickMoreActionsManageVersions();
       await versionManagePage.viewFileVersion('5.0');
-      done();
     });
 
-    afterEach(async (done) => {
-      await viewerPage.clickCloseButton();
-      done();
+    afterEach(async () => {
+      await page.closeOpenDialogs();
+      await Utils.pressEscape();
     });
 
     it('[C586779] Should be possible to view a previous document version', async () => {
@@ -228,7 +226,7 @@ describe('Version actions', () => {
     });
 
     it('[C586781] Should be possible to download a previous document version', async () => {
-      await viewerPage.clickDownloadButton();
+      await viewerPage.toolbar.downloadButton.click();
 
       expect(await Utils.fileExistsOnOS(filesToUpload[4])).toBe(true, 'File not found in download location');
     });

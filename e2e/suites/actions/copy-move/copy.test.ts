@@ -23,7 +23,16 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, UserActions, LoginPage, BrowsingPage, ContentNodeSelectorDialog, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import {
+  AdminActions,
+  UserActions,
+  LoginPage,
+  BrowsingPage,
+  ContentNodeSelectorDialog,
+  RepoClient,
+  Utils,
+  SearchResultsPage
+} from '@alfresco/aca-testing-shared';
 import { BrowserActions, Logger } from '@alfresco/adf-testing';
 
 describe('Copy content', () => {
@@ -110,6 +119,7 @@ describe('Copy content', () => {
   const page = new BrowsingPage();
   const { dataTable, toolbar } = page;
   const copyDialog = new ContentNodeSelectorDialog();
+  const searchResultsPage = new SearchResultsPage();
   const { searchInput } = page.header;
 
   const adminApiActions = new AdminActions();
@@ -416,7 +426,7 @@ describe('Copy content', () => {
       copyItemsIntoLibrary([file1, file2], source, folderSiteSearch, async () => {
         await searchInput.checkOnlyFiles();
         await searchInput.searchFor(random);
-        await dataTable.waitForBody();
+        await searchResultsPage.waitForResults();
       }));
 
     it('[C306935] Copy locked file', async () =>

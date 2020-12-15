@@ -48,7 +48,7 @@ export class ShareDialog extends GenericDialog {
     super('.adf-share-dialog');
   }
 
-  async getTitle(): Promise<string> {
+  async getDialogTitle(): Promise<string> {
     return this.dialogTitle.getText();
   }
 

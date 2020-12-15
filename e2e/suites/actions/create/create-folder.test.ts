@@ -125,7 +125,7 @@ describe('Create folder', () => {
     it('[C216345] dialog UI elements', async () => {
       await openCreateFolderDialog(parent);
 
-      expect(await createDialog.getTitle()).toMatch('Create new folder');
+      expect(await createDialog.getDialogTitle()).toMatch('Create new folder');
       expect(await createDialog.nameInput.isDisplayed()).toBe(true, 'Name input is not displayed');
       expect(await createDialog.descriptionTextArea.isDisplayed()).toBe(true, 'Description field is not displayed');
       expect(await createDialog.isCreateButtonEnabled()).toBe(false, 'Create button is not disabled');

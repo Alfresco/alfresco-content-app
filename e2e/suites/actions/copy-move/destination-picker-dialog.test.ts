@@ -137,7 +137,7 @@ describe('Destination picker dialog : ', () => {
     });
 
     it('[C263875] Dialog UI', async () => {
-      expect(await dialog.getTitle()).toEqual(`Copy '${file}' to...`);
+      expect(await dialog.getDialogTitle()).toEqual(`Copy '${file}' to...`);
       expect(await dialog.searchInput.isPresent()).toBe(true, 'Search input is not displayed');
       expect(await dialog.isSelectLocationDropdownDisplayed()).toBe(true, 'Select Location dropdown not displayed');
       expect(await breadcrumb.currentFolder.getText()).toEqual('Personal Files');
@@ -196,7 +196,7 @@ describe('Destination picker dialog : ', () => {
     });
 
     it('[C263879] Dialog title - multiple selection', async () => {
-      expect(await dialog.getTitle()).toEqual(`Copy 2 items to...`);
+      expect(await dialog.getDialogTitle()).toEqual(`Copy 2 items to...`);
     });
   });
 

@@ -143,7 +143,7 @@ describe('Edit folder', () => {
     await toolbar.openMoreMenu();
     await BrowserActions.click(toolbar.menu.editFolderAction);
 
-    expect(await editDialog.getTitle()).toEqual('Edit folder');
+    expect(await editDialog.getDialogTitle()).toEqual('Edit folder');
     expect(await editDialog.getName()).toBe(folderName);
     expect(await editDialog.getDescription()).toBe(folderDescription);
     expect(await editDialog.isUpdateButtonEnabled()).toBe(true, 'upload button is not enabled');

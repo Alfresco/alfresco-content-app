@@ -257,7 +257,9 @@ describe('Move content', () => {
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(destinationPF);
       expect(await dataTable.isItemPresent(existingFolder)).toBe(true, `${existingFolder} not present in destination folder`);
+
       await dataTable.doubleClickOnRowByName(existingFolder);
+      await dataTable.waitForBody();
       expect(await dataTable.isItemPresent(file2InFolder)).toBe(true, `${file2InFolder} not present in destination folder`);
       expect(await dataTable.isItemPresent(file3InFolder)).toBe(true, `${file3InFolder} not present in destination folder`);
     });

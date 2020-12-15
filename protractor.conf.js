@@ -25,6 +25,7 @@ const SAVE_SCREENSHOT = process.env.SAVE_SCREENSHOT === 'true';
 const API_CONTENT_HOST = process.env.API_CONTENT_HOST || 'http://localhost:8080';
 const MAXINSTANCES = process.env.MAXINSTANCES || 1;
 const MAX_RETRIES = process.env.MAX_RETRIES || 1;
+const LOG_LEVEL = process.env.LOG_LEVEL || 'ERROR';
 
 const appConfig = {
   hostEcm: API_CONTENT_HOST,
@@ -41,7 +42,12 @@ exports.config = {
     downloadFolder: downloadFolder,
     ADMIN_USERNAME: process.env.ADMIN_EMAIL || 'admin',
     ADMIN_PASSWORD: process.env.ADMIN_PASSWORD || 'admin',
-    e2eRootPath: e2eFolder
+    e2eRootPath: e2eFolder,
+    testConfig: {
+      appConfig: {
+        log: LOG_LEVEL
+      }
+    }
   },
 
   specs: [

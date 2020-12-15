@@ -37,6 +37,7 @@ import {
   ManageVersionsDialog,
   UploadNewVersionDialog
 } from '@alfresco/aca-testing-shared';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 describe('Viewer actions', () => {
   const username = `user-${Utils.random()}`;
@@ -252,6 +253,7 @@ describe('Viewer actions', () => {
       await page.waitForDialog();
 
       await uploadNewVersionDialog.uploadButton.click();
+      await uploadNewVersionDialog.waitForDialogToClose();
 
       await toolbar.openMoreMenu();
       expect(await toolbar.menu.cancelEditingAction.isPresent()).toBe(false, `'Cancel Editing' button shouldn't be shown`);
@@ -267,7 +269,7 @@ describe('Viewer actions', () => {
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is closed after pressing Full screen');
       const browserLogAfter = await Utils.getBrowserLog();
 
-      expect(browserLogAfter.length).toEqual(0, browserLogAfter.entries);
+      expect(browserLogAfter.length).toBe(0, browserLogAfter.entries);
     });
 
     it('[C286313] Share action', async () => {
@@ -863,7 +865,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxSharedFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.shareEditButton.click();
+      await BrowserActions.click(toolbar.shareEditButton);
       expect(await shareDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await shareDialog.clickClose();
     });
