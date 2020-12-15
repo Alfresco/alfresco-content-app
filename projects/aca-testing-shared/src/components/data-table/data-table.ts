@@ -233,10 +233,10 @@ export class DataTable extends Component {
   }
 
   async selectItem(name: string, location: string = ''): Promise<void> {
-    Logger.info(`--- selecting item : ${name} ${location}`);
     const isSelected = await this.hasCheckMarkIcon(name, location);
     if (!isSelected) {
       try {
+        Logger.info(`--- selecting item : ${name} ${location}`);
         const item = this.getRowFirstCell(name, location);
         await item.click();
       } catch (e) {

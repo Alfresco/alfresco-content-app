@@ -35,7 +35,7 @@ import {
   Viewer,
   Utils
 } from '@alfresco/aca-testing-shared';
-import { BrowserActions, Logger } from '@alfresco/adf-testing';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 describe('Share a file', () => {
   const username = `user-${Utils.random()}`;
@@ -238,14 +238,10 @@ describe('Share a file', () => {
         const setDate = `${date}`.replace(',', '');
         const inputDate = await shareDialog.getExpireDate();
 
-        Logger.info(`---- input date : ${inputDate}`);
-        Logger.info(`---- set date : ${setDate}`);
         expect(new Date(inputDate)).toEqual(new Date(setDate));
 
         const expireDateProperty = await apis.user.nodes.getSharedExpiryDate(file5Id);
 
-        Logger.info(`---- expire date property : ${expireDateProperty}`);
-        Logger.info(`---- expire date property - formatted : ${Utils.formatDate(expireDateProperty)}`);
         expect(Utils.formatDate(expireDateProperty)).toEqual(Utils.formatDate(inputDate));
       });
 
@@ -444,15 +440,9 @@ describe('Share a file', () => {
         const setDate = `${date}`.replace(',', '');
         const inputDate = await shareDialog.getExpireDate();
 
-        Logger.info(`---- set date : ${setDate}`);
-        Logger.info(`---- input date : ${Utils.formatDate(inputDate)}`);
-
         expect(new Date(inputDate)).toEqual(new Date(setDate));
 
         const expireDateProperty = await apis.user.nodes.getSharedExpiryDate(file5Id);
-
-        Logger.info(`---- expire date property : ${expireDateProperty}`);
-        Logger.info(`---- expire date property formatted : ${Utils.formatDate(expireDateProperty)}`);
 
         expect(Utils.formatDate(expireDateProperty)).toEqual(Utils.formatDate(inputDate));
       });
@@ -640,15 +630,10 @@ describe('Share a file', () => {
 
         const setDate = `${date}`.replace(',', '');
         const inputDate = await shareDialog.getExpireDate();
-        Logger.info(`---- input date : ${inputDate}`);
-        Logger.info(`---- set date : ${setDate}`);
 
         expect(new Date(inputDate)).toEqual(new Date(setDate));
 
         const expireDateProperty = await apis.user.nodes.getSharedExpiryDate(file5Id);
-
-        Logger.info(`---- expire date property : ${expireDateProperty}`);
-        Logger.info(`---- expire date property - formatted : ${Utils.formatDate(expireDateProperty)}`);
 
         expect(Utils.formatDate(expireDateProperty)).toEqual(Utils.formatDate(inputDate));
       });
@@ -981,13 +966,10 @@ describe('Share a file', () => {
 
         const setDate = `${date}`.replace(',', '');
         const inputDate = await shareDialog.getExpireDate();
-        Logger.info(`----- date from the input : ${inputDate}`);
 
         expect(new Date(inputDate)).toEqual(new Date(setDate));
 
         const expireDateProperty = await apis.user.nodes.getSharedExpiryDate(file5Id);
-        Logger.info(`---- expire date property : ${expireDateProperty}`);
-        Logger.info(`---- expire date property formatted : ${Utils.formatDate(expireDateProperty)}`);
 
         expect(Utils.formatDate(expireDateProperty)).toEqual(Utils.formatDate(inputDate));
       });
@@ -1130,14 +1112,9 @@ describe('Share a file', () => {
         const setDate = `${date}`.replace(',', '');
         const inputDate = await shareDialog.getExpireDate();
 
-        Logger.info(`---- input date : ${inputDate}`);
-
         expect(new Date(inputDate)).toEqual(new Date(setDate));
 
         const expireDateProperty = await apis.user.nodes.getSharedExpiryDate(fileSearch5Id);
-
-        Logger.info(`---- expire date property : ${expireDateProperty}`);
-        Logger.info(`---- expire date property - formatted : ${Utils.formatDate(expireDateProperty)}`);
 
         expect(Utils.formatDate(expireDateProperty)).toEqual(Utils.formatDate(inputDate));
       });
