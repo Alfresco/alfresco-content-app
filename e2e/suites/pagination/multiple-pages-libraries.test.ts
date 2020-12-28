@@ -51,7 +51,7 @@ describe('Pagination on multiple pages', () => {
       await userApi.sites.createSitesPrivate(sites);
       await userApi.sites.waitForSitesToBeCreated(sites);
 
-      await loginPage.loginWith(user.username, user.password);
+      await loginPage.login(user.username, user.password);
     } catch (error) {
       Logger.error(`----- beforeAll failed : ${error}`);
     }

@@ -69,7 +69,7 @@ describe('Office Files - available actions : ', () => {
     await userApi.shared.shareFilesByIds([fileDocxSharedId, fileDocxSharedFavId]);
     await userApi.shared.waitForFilesToBeShared([fileDocxSharedId, fileDocxSharedFavId]);
 
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
   });
 
   afterAll(async () => {

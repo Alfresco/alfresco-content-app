@@ -53,7 +53,7 @@ describe('Generic errors', () => {
     file1Id = (await repoClient.nodes.createFile(file1, parentId)).entry.id;
     await repoClient.nodes.createFile(file2, parentId);
 
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
     done();
   });
 
@@ -90,12 +90,12 @@ describe('Generic errors', () => {
     await dataTable.doubleClickOnRowByName(parent);
     await dataTable.doubleClickOnRowByName(file2);
     const URL = await browser.getCurrentUrl();
-    await loginPage.loginWith(user2.username, user2.password);
+    await loginPage.login(user2.username, user2.password);
     await browser.get(URL);
 
     expect(await page.genericError.isDisplayed()).toBe(true, 'Generic error page not displayed');
     expect(await page.genericErrorTitle.getText()).toContain(`This item no longer exists or you don't have permission to view it.`);
 
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
   });
 });

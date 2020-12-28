@@ -79,7 +79,7 @@ describe('Library properties', () => {
     await repoClient.sites.addSiteMember(site.id, user2.username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
     await repoClient.sites.addSiteMember(site.id, user3.username, SITE_ROLES.SITE_MANAGER.ROLE);
 
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
     done();
   });
 
@@ -228,19 +228,19 @@ describe('Library properties', () => {
 
   describe('Non manager', () => {
     afterAll(async (done) => {
-      await loginPage.loginWith(user.username, user.password);
+      await loginPage.login(user.username, user.password);
       done();
     });
 
     it('[C289337] Info drawer button is not displayed when user is not the library manager', async () => {
-      await loginPage.loginWith(user2.username, user2.password);
+      await loginPage.login(user2.username, user2.password);
       await page.goToMyLibrariesAndWait();
       await dataTable.selectItem(site.name);
       expect(await page.toolbar.isButtonPresent('View Details')).toBe(false, 'View Details is present');
     });
 
     it('[C289344] Error notification', async () => {
-      await loginPage.loginWith(user3.username, user3.password);
+      await loginPage.login(user3.username, user3.password);
 
       await page.goToMyLibrariesAndWait();
       await dataTable.selectItem(site.name);

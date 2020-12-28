@@ -74,7 +74,7 @@ describe('Version actions', () => {
 
       await repoClient.shared.waitForFilesToBeShared([fileId]);
 
-      await loginPage.loginWith(user.username, user.password);
+      await loginPage.login(user.username, user.password);
       await dataTable.doubleClickOnRowByName(parentFolder);
       await dataTable.waitForHeader();
     } catch (error) {

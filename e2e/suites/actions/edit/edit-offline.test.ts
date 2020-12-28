@@ -77,7 +77,7 @@ describe('Edit offline', () => {
       await repoClient.nodes.lockFile(fileLockedId);
       await repoClient.nodes.lockFile(fileLocked2Id);
 
-      await loginPage.loginWith(user.username, user.password);
+      await loginPage.login(user.username, user.password);
     });
 
     beforeEach(async () => {
@@ -136,7 +136,7 @@ describe('Edit offline', () => {
       await repoClient.shared.shareFilesByIds([file1Id, fileLockedId, fileLocked2Id]);
       await repoClient.shared.waitForFilesToBeShared([file1Id, fileLockedId, fileLocked2Id]);
 
-      await loginPage.loginWith(user.username, user.password);
+      await loginPage.login(user.username, user.password);
     });
 
     afterAll(async () => {
@@ -195,7 +195,7 @@ describe('Edit offline', () => {
 
       await repoClient.search.waitForApi(user.username, { expect: 3 });
 
-      await loginPage.loginWith(user.username, user.password);
+      await loginPage.login(user.username, user.password);
     });
 
     afterAll(async () => {
@@ -253,7 +253,7 @@ describe('Edit offline', () => {
       await repoClient.favorites.addFavoritesByIds('file', [file1Id, fileLockedId, fileLocked2Id]);
       await repoClient.favorites.waitForApi({ expect: 3 });
 
-      await loginPage.loginWith(user.username, user.password);
+      await loginPage.login(user.username, user.password);
     });
 
     afterAll(async () => {
@@ -310,7 +310,7 @@ describe('Edit offline', () => {
 
       await repoClient.search.waitForNodes(searchRandom, { expect: 3 });
 
-      await loginPage.loginWith(user.username, user.password);
+      await loginPage.login(user.username, user.password);
     });
 
     afterAll(async () => {

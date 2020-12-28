@@ -75,7 +75,7 @@ describe('Create folder', () => {
     docLibUserSite = await repoClient.sites.getDocLibId(siteName);
     await repoClient.nodes.createFolder(duplicateFolderSite, docLibUserSite);
 
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
     done();
   });
 

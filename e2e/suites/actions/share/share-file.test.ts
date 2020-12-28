@@ -108,7 +108,7 @@ describe('Share a file', () => {
     const { searchInput } = page.header;
 
     beforeAll(async () => {
-      await loginPage.loginWith(user.username, user.password);
+      await loginPage.login(user.username, user.password);
     });
 
     describe('from Personal Files', () => {

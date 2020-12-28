@@ -71,7 +71,7 @@ describe('Pagination on single page', () => {
     await repoClient.shared.waitForFilesToBeShared([fileId]);
     await apiActions.waitForTrashcanSize(initialTrashTotalItems + 1);
 
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
   });
 
   afterAll(async () => {

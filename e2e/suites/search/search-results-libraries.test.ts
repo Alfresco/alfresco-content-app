@@ -117,7 +117,7 @@ describe('Search results - libraries', () => {
 
     await repoClient.queries.waitForSites(random, { expect: 12 });
 
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
     done();
   });
 

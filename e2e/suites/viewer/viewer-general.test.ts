@@ -77,7 +77,7 @@ describe('Viewer general', () => {
     await repoClient.favorites.waitForApi({ expect: 2 });
     await repoClient.shared.waitForFilesToBeShared([xlsxFileId]);
 
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
     done();
   });
 

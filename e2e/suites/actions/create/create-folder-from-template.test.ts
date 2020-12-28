@@ -128,7 +128,7 @@ describe('Create folder from template', () => {
     await adminApiActions.removeUserAccessOnSpaceTemplate(restrictedTemplateFolder);
     folderLink = (await adminApiActions.createLinkToFolderName(folderInRootFolder, await adminApiActions.getSpaceTemplatesFolderId())).entry.name;
 
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
   });
 
   afterAll(async () => {

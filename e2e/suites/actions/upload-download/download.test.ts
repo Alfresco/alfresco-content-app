@@ -114,7 +114,7 @@ describe('Download', () => {
     await repoClient.favorites.addFavoriteById('folder', folderFavoritesId);
     await repoClient.favorites.waitForApi({ expect: initialFavoritesTotalItems + 2 });
 
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
     done();
   });
 

@@ -33,7 +33,7 @@ export function personalFilesTests(user: UserModel, parentName: string) {
 
   describe('Pagination controls : ', () => {
     beforeAll(async () => {
-      await loginPage.loginWith(user.username, user.password);
+      await loginPage.login(user.username, user.password);
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(parentName);
       await dataTable.waitForHeader();

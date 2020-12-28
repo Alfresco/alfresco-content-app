@@ -53,7 +53,7 @@ describe('General', () => {
     await repoClient.nodes.createFile(file1, parentId);
     await repoClient.nodes.createFolder(folder1, parentId);
 
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
     done();
   });
 

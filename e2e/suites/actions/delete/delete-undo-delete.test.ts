@@ -71,7 +71,7 @@ describe('Delete and undo delete', () => {
       await repoClient.nodes.createFile(recentFile6, parentId);
       await repoClient.search.waitForNodes(random, { expect: 6 });
 
-      await loginPage.loginWith(user.username, user.password);
+      await loginPage.login(user.username, user.password);
       done();
     });
 
@@ -204,7 +204,7 @@ describe('Delete and undo delete', () => {
       await repoClient.nodes.lockFile(fileLocked3Id, 'FULL');
       await repoClient.nodes.lockFile(fileLocked4Id, 'FULL');
 
-      await loginPage.loginWith(user.username, user.password);
+      await loginPage.login(user.username, user.password);
 
       done();
     });
@@ -360,7 +360,7 @@ describe('Delete and undo delete', () => {
       await repoClient.shared.shareFilesByIds([sharedFile1Id, sharedFile2Id, sharedFile3Id, sharedFile4Id, sharedFile5Id, sharedFile6Id]);
       await repoClient.shared.waitForFilesToBeShared([sharedFile1Id, sharedFile2Id, sharedFile3Id, sharedFile4Id, sharedFile5Id, sharedFile6Id]);
 
-      await loginPage.loginWith(user.username, user.password);
+      await loginPage.login(user.username, user.password);
       done();
     });
 
@@ -497,7 +497,7 @@ describe('Delete and undo delete', () => {
       await repoClient.favorites.addFavoritesByIds('folder', [favFolder1Id, favFolder2Id, favFolder3Id, favFolder4Id, favFolder5Id, favFolder6Id]);
       await repoClient.favorites.waitForApi({ expect: initialFavoritesTotalItems + 13 });
 
-      await loginPage.loginWith(user.username, user.password);
+      await loginPage.login(user.username, user.password);
       done();
     });
 

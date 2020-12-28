@@ -62,7 +62,7 @@ describe('Extensions - Context submenu', () => {
     folderId = (await repoClient.nodes.createFolder(folder)).entry.id;
 
     await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.CONTEXT_SUBMENUS);
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
 
     done();
   });

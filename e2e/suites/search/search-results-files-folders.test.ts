@@ -70,7 +70,7 @@ describe('Search results - files and folders', () => {
     await repoClient.search.waitForApi(user.username, { expect: 2 });
     await repoClient.queries.waitForSites(site, { expect: 1 });
 
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
     done();
   });
 

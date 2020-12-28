@@ -70,7 +70,7 @@ describe('Library actions : ', () => {
       testData.moderatedRequestedJoinFav.name
     ]);
 
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
   });
 
   afterAll(async () => {

@@ -64,7 +64,7 @@ describe('Special permissions', () => {
       await repoClient.search.waitForApi(user.username, { expect: 1 });
       await adminApiActions.shared.waitForFilesToBeShared([fileId]);
 
-      await loginPage.loginWith(user.username, user.password);
+      await loginPage.login(user.username, user.password);
       done();
     });
 
@@ -136,7 +136,7 @@ describe('Special permissions', () => {
 
       await repoClient.search.waitForApi(user.username, { expect: 1 });
       await adminApiActions.sites.deleteSiteMember(sitePrivate, user.username);
-      await loginPage.loginWith(user.username, user.password);
+      await loginPage.login(user.username, user.password);
       done();
     });
 

@@ -98,7 +98,7 @@ describe('Search filters', () => {
 
     await repoClient1.search.waitForNodes(`search-filters-${random}`, { expect: 2 });
 
-    await loginPage.loginWith(user1.username, user1.password);
+    await loginPage.login(user1.username, user1.password);
     done();
   });
 

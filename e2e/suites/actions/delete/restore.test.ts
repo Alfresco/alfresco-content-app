@@ -44,7 +44,7 @@ describe('Restore from Trash', () => {
 
     await apiService.login(user.username, user.password);
 
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
     done();
   });
 
@@ -231,7 +231,7 @@ describe('Restore from Trash', () => {
       file5Id = (await repoClient.nodes.createFile(file5, folder4Id)).entry.id;
 
       await apiActions.deleteNodes([file3Id, file4Id, folder3Id, file5Id], false);
-      await loginPage.loginWith(user.username, user.password);
+      await loginPage.login(user.username, user.password);
       done();
     });
 

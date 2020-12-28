@@ -73,7 +73,7 @@ describe('Single click on item name', () => {
 
     await apiActions.deleteNodes([deletedFile1Id, deletedFolder1Id], false);
 
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
     done();
   });
 

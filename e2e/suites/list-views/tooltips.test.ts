@@ -81,7 +81,7 @@ describe('File / folder tooltips', () => {
 
     await repoClient.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id]);
 
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
     done();
   });
 

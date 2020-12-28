@@ -102,7 +102,7 @@ describe('Unshare a file from Search Results', () => {
     await adminApiActions.shared.waitForFilesToBeShared([fileSite1Id]);
     await repoClient.search.waitForNodes(`search-file-${searchRandom}`, { expect: 6 });
 
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
     done();
   });
 

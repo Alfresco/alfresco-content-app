@@ -67,7 +67,7 @@ describe('Extensions - DocumentList presets', () => {
     fileId = (await repoClient.nodes.createFile(file)).entry.id;
 
     await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.DOCUMENT_LIST_PRESETS);
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
 
     done();
   });

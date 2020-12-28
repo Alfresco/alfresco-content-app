@@ -102,26 +102,26 @@ describe('Login', () => {
     it('[C213092] navigate to "Personal Files"', async () => {
       const { username } = johnDoe;
 
-      await loginPage.loginWith(user.username, user.password);
+      await loginPage.login(user.username, user.password);
       expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);
     });
 
     it(`[C213096] logs in with user having username containing "@"`, async () => {
-      await loginPage.loginWith(testUser);
+      await loginPage.login(testUser);
       expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);
     });
 
     it('[C213097] logs in with user with non-latin characters', async () => {
       const { username, password } = russianUser;
 
-      await loginPage.loginWith(user.username, password);
+      await loginPage.login(user.username, password);
       expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);
     });
 
     it('[C213107] redirects to Home Page when navigating to the Login page while already logged in', async () => {
       const { username } = johnDoe;
 
-      await loginPage.loginWith(user.username, user.password);
+      await loginPage.login(user.username, user.password);
 
       await navigate(APP_ROUTES.LOGIN);
       expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);
@@ -130,20 +130,15 @@ describe('Login', () => {
     it('[C213109] redirects to Personal Files when pressing browser Back while already logged in', async () => {
       const { username } = johnDoe;
 
-      await loginPage.loginWith(user.username, user.password);
+      await loginPage.login(user.username, user.password);
       await browser.navigate().back();
       expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);
     });
 
     it('[C213104] user is able to login after changing his password', async () => {
-      await loginPage.loginWith(testUser2.username, testUser2.password);
-      const page = new BrowsingPage();
-      await page.signOut();
-
-      await adminApiActions.login();
+      await loginPage.login(testUser2.username, testUser2.password);
       await adminApiActions.changePassword(testUser2.username, newPassword);
-
-      await loginPage.loginWith(testUser2.username, newPassword);
+      await loginPage.login(testUser2.username, newPassword);
       expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);
     });
   });

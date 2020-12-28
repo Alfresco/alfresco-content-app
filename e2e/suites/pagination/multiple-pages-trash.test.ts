@@ -54,7 +54,7 @@ describe('Pagination on multiple pages on Trash', () => {
     await apiActions.deleteNodes(filesDeletedIds, false);
     await apiActions.waitForTrashcanSize(51);
 
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
     await page.clickTrashAndWait();
   });
 

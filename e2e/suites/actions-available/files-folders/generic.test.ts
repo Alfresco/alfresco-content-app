@@ -60,7 +60,7 @@ describe('Generic tests : ', () => {
     await apiService.login(user.username, user.password);
 
     await userApi.nodes.createContent(content);
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
   });
 
   afterAll(async () => {

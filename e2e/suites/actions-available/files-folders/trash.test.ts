@@ -60,7 +60,7 @@ describe('Trash - available actions : ', () => {
     await apiActions.deleteNodes([fileInTrashId, file2InTrashId, folderInTrashId, folder2InTrashId], false);
     await apiActions.waitForTrashcanSize(initialDeletedTotalItems + 4);
 
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
     await page.clickTrashAndWait();
   });
 

@@ -41,7 +41,7 @@ describe('Empty list views', () => {
     const user = await usersActions.createUser();
     await apiService.login(user.username, user.password);
 
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
     done();
   });
 

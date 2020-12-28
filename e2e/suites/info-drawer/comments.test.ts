@@ -92,7 +92,7 @@ describe('Comments', () => {
     folder2Id = (await repoClient.nodes.createFolder(folder2, parentId)).entry.id;
     await repoClient.favorites.addFavoriteById('folder', folder2Id);
 
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
     done();
   });
 

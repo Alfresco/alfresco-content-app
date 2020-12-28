@@ -81,7 +81,7 @@ describe('Extensions - Viewer', () => {
     docxFileId = (await repoClient.upload.uploadFile(docxFile.file_name)).entry.id;
 
     await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.VIEWER);
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
     done();
   });
 

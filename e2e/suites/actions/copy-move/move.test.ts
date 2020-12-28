@@ -88,7 +88,7 @@ describe('Move content', () => {
     sourceIdFav = (await repoClient.nodes.createFolder(sourceFav)).entry.id;
     destinationIdFav = (await repoClient.nodes.createFolder(destinationFav)).entry.id;
 
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
     done();
   });
 

@@ -74,7 +74,7 @@ describe('Create library', () => {
     await repoClient.sites.createSite(siteInTrash.name, SITE_VISIBILITY.PUBLIC, '', siteInTrash.id);
     await repoClient.sites.deleteSite(siteInTrash.id, false);
 
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
     done();
   });
 

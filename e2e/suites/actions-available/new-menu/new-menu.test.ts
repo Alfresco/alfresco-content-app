@@ -51,7 +51,7 @@ describe('New menu', () => {
 
     await repoClient.sites.createSite(siteUser);
 
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
     done();
   });
 

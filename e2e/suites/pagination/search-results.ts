@@ -34,7 +34,7 @@ export function searchResultsTests(user: UserModel, random: string) {
 
   describe('Pagination controls : ', () => {
     beforeAll(async () => {
-      await loginPage.loginWith(user.username, user.password);
+      await loginPage.login(user.username, user.password);
       await searchInput.clickSearchButton();
       await searchInput.checkOnlyFiles();
       await searchInput.searchFor(random);

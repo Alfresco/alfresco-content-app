@@ -76,7 +76,7 @@ describe('Locked Files - available actions : ', () => {
 
     await userApi.shared.waitForFilesToBeShared([fileSharedLockedId, fileSharedFavLockedId]);
 
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
   });
 
   afterAll(async () => {

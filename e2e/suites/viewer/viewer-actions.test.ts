@@ -108,7 +108,7 @@ describe('Viewer actions', () => {
       await repoClient.nodes.lockFile(fileForUploadNewVersionId);
       await repoClient.nodes.lockFile(fileForUploadNewVersionId2);
 
-      await loginPage.loginWith(user.username, user.password);
+      await loginPage.login(user.username, user.password);
       done();
     });
 
@@ -336,7 +336,7 @@ describe('Viewer actions', () => {
       await repoClient.nodes.lockFile(fileForCancelEditingId);
       await repoClient.nodes.lockFile(fileForUploadNewVersionId);
 
-      await loginPage.loginWith(user.username, user.password);
+      await loginPage.login(user.username, user.password);
       done();
     });
 
@@ -526,7 +526,7 @@ describe('Viewer actions', () => {
 
       await repoClient.search.waitForApi(user.username, { expect: 7 });
 
-      await loginPage.loginWith(user.username, user.password);
+      await loginPage.login(user.username, user.password);
       done();
     });
 
@@ -730,7 +730,7 @@ describe('Viewer actions', () => {
         fileSharedId
       ]);
 
-      await loginPage.loginWith(user.username, user.password);
+      await loginPage.login(user.username, user.password);
       done();
     });
 
@@ -926,7 +926,7 @@ describe('Viewer actions', () => {
       ]);
       await repoClient.favorites.waitForApi({ expect: 7 });
 
-      await loginPage.loginWith(user.username, user.password);
+      await loginPage.login(user.username, user.password);
       done();
     });
 

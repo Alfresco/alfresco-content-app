@@ -120,7 +120,7 @@ describe('Mark items as favorites', () => {
       fileNotFav4Id
     ]);
 
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
     done();
   });
 

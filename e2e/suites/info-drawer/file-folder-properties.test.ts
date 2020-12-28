@@ -88,7 +88,7 @@ describe('File / Folder properties', () => {
     folder1Id = (await repoClient.nodes.createFolder(folder1.name, parentId, folder1.title, folder1.description, folder1.author)).entry.id;
     image1Id = (await repoClient.upload.uploadFile(image1.name, parentId)).entry.id;
 
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
     done();
   });
 

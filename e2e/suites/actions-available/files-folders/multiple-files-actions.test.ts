@@ -81,7 +81,7 @@ describe('Multiple Files - available actions : ', () => {
     await userApi.shared.shareFilesByIds([file1Id, file2Id, file3LockedId, file1LockedFavId, file2LockedFavId]);
     await userApi.shared.waitForFilesToBeShared([file1Id, file2Id, file3LockedId, file1LockedFavId, file2LockedFavId]);
 
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
   });
 
   afterAll(async () => {

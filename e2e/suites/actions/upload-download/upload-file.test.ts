@@ -46,7 +46,7 @@ describe('Upload files', () => {
 
     folder1Id = (await repoClient.nodes.createFolder(folder1)).entry.id;
 
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
     done();
   });
 

@@ -148,7 +148,7 @@ describe('Destination picker dialog : ', () => {
 
   describe('general', () => {
     beforeAll(async () => {
-      await loginPage.loginWith(user.username, user.password);
+      await loginPage.login(user.username, user.password);
     });
 
     beforeEach(async () => {
@@ -207,7 +207,7 @@ describe('Destination picker dialog : ', () => {
 
   describe('multiple selection', () => {
     beforeAll(async () => {
-      await loginPage.loginWith(user.username, user.password);
+      await loginPage.login(user.username, user.password);
     });
 
     beforeEach(async () => {
@@ -223,7 +223,7 @@ describe('Destination picker dialog : ', () => {
 
   describe('breadcrumb', () => {
     beforeAll(async () => {
-      await loginPage.loginWith(user.username, user.password);
+      await loginPage.login(user.username, user.password);
     });
 
     beforeEach(async () => {
@@ -306,7 +306,7 @@ describe('Destination picker dialog : ', () => {
 
   describe('Users with different permissions', () => {
     it('[C263876] Consumer user cannot select the folder as destination', async () => {
-      await loginPage.loginWith(consumer.username, consumer.password);
+      await loginPage.login(consumer.username, consumer.password);
       await page.dataTable.selectItem(file);
       await page.toolbar.clickMoreActionsCopy();
       await dialog.waitForDialogToOpen();
@@ -320,7 +320,7 @@ describe('Destination picker dialog : ', () => {
     });
 
     it('[C263877] Contributor user can select the folder as destination', async () => {
-      await loginPage.loginWith(contributor.username, contributor.password);
+      await loginPage.login(contributor.username, contributor.password);
       await page.dataTable.selectItem(file);
       await page.toolbar.clickMoreActionsCopy();
       await dialog.waitForDialogToOpen();
@@ -334,7 +334,7 @@ describe('Destination picker dialog : ', () => {
     });
 
     it('[C263878] Collaborator user can select the folder as destination', async () => {
-      await loginPage.loginWith(collaborator.username, collaborator.password);
+      await loginPage.login(collaborator.username, collaborator.password);
       await page.dataTable.selectItem(file);
       await page.toolbar.clickMoreActionsCopy();
       await dialog.waitForDialogToOpen();

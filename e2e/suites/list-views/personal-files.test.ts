@@ -82,7 +82,7 @@ describe('Personal Files', () => {
 
   describe(`Regular user's personal files`, () => {
     beforeAll(async (done) => {
-      await loginPage.loginWith(user.username, user.password);
+      await loginPage.login(user.username, user.password);
       done();
     });
 

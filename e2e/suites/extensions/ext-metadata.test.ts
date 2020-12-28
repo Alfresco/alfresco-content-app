@@ -77,7 +77,7 @@ describe('Extensions - Metadata presets', () => {
     fileId = (await repoClient.nodes.createImage(file)).entry.id;
 
     await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.METADATA_PRESETS);
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
 
     done();
   });

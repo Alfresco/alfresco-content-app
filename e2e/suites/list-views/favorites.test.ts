@@ -73,7 +73,7 @@ describe('Favorites', () => {
 
     await apiActions.deleteNodes([file3Id, file4Id], false);
     await apiActions.trashcanApi.restoreDeletedNode(file4Id);
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
     done();
   });
 

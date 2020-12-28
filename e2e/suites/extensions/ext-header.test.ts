@@ -54,7 +54,7 @@ describe('Extensions - Info Drawer', () => {
     await apiService.login(user.username, user.password);
 
     await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.HEADER);
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
     done();
   });
 

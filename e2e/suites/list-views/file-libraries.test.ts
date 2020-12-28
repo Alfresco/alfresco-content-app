@@ -84,7 +84,7 @@ describe('File Libraries', () => {
     await repoClient.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC, null, siteId1);
     await repoClient.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC, null, siteId2);
 
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
     done();
   });
 

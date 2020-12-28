@@ -80,7 +80,7 @@ describe('Shared Files', () => {
 
     await repoClient.shared.waitForFilesToNotBeShared([file2Id, file3Id]);
 
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
     done();
   });
 

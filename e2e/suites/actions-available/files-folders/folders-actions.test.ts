@@ -69,7 +69,7 @@ describe('Folders - available actions : ', () => {
     await userApi.favorites.addFavoritesByIds('file', [fileFavId]);
     await userApi.favorites.waitForApi({ expect: initialFavoritesTotalItems + 3 });
 
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
   });
 
   afterAll(async () => {

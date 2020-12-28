@@ -131,7 +131,7 @@ describe('Upload new version', () => {
 
       await repoClient.search.waitForNodes(searchRandom, { expect: 6 });
 
-      await loginPage.loginWith(user.username, user.password);
+      await loginPage.login(user.username, user.password);
       done();
     });
 
@@ -305,7 +305,7 @@ describe('Upload new version', () => {
       await repoClient.nodes.lockFile(fileLocked1Id);
       await repoClient.nodes.lockFile(fileLocked2Id);
 
-      await loginPage.loginWith(user.username, user.password);
+      await loginPage.login(user.username, user.password);
       done();
     });
 
@@ -457,7 +457,7 @@ describe('Upload new version', () => {
       await repoClient.shared.shareFilesByIds([fileId, file1Id, file2Id, file3Id, file4Id, fileLocked1Id, fileLocked2Id]);
       await repoClient.shared.waitForFilesToBeShared([fileId, file1Id, file2Id, file3Id, file4Id, fileLocked1Id, fileLocked2Id]);
 
-      await loginPage.loginWith(user.username, user.password);
+      await loginPage.login(user.username, user.password);
       done();
     });
 
@@ -605,7 +605,7 @@ describe('Upload new version', () => {
 
       await repoClient.search.waitForApi(user.username, { expect: initialRecentTotalItems + 7 });
 
-      await loginPage.loginWith(user.username, user.password);
+      await loginPage.login(user.username, user.password);
       done();
     });
 
@@ -754,7 +754,7 @@ describe('Upload new version', () => {
       await repoClient.favorites.addFavoritesByIds('file', [fileId, file1Id, file2Id, file3Id, file4Id, fileLocked1Id, fileLocked2Id]);
       await repoClient.favorites.waitForApi({ expect: initialFavoritesTotalItems + 7 });
 
-      await loginPage.loginWith(user.username, user.password);
+      await loginPage.login(user.username, user.password);
       done();
     });
 

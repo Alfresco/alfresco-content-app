@@ -80,7 +80,7 @@ describe('Extensions - Info Drawer', () => {
   describe('', () => {
     beforeAll(async (done) => {
       await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.INFO_DRAWER);
-      await loginPage.loginWith(user.username, user.password);
+      await loginPage.login(user.username, user.password);
       done();
     });
 
@@ -140,7 +140,7 @@ describe('Extensions - Info Drawer', () => {
   describe('', () => {
     beforeAll(async (done) => {
       await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.INFO_DRAWER_EMPTY);
-      await loginPage.loginWith(user.username, user.password);
+      await loginPage.login(user.username, user.password);
       await page.clickPersonalFilesAndWait();
       done();
     });

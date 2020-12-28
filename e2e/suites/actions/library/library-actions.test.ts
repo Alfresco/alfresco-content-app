@@ -87,7 +87,7 @@ describe('Library actions', () => {
     await adminApiActions.sites.createSite(siteSearchModerated2Admin, SITE_VISIBILITY.MODERATED);
     await repoClient.sites.createSite(siteSearchForDelete);
 
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
     done();
   });
 

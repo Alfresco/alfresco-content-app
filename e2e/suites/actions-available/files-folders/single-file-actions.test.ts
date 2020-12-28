@@ -69,7 +69,7 @@ describe('Files - available actions : ', () => {
     await userApi.shared.shareFilesByIds([fileSharedId, fileSharedFavId]);
     await userApi.shared.waitForFilesToBeShared([fileSharedId, fileSharedFavId]);
 
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
   });
 
   afterAll(async () => {

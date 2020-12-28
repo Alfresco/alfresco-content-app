@@ -215,7 +215,7 @@ describe('Copy content', () => {
     await repoClient.shared.waitForFilesToBeShared([existingFileToCopyId, fileInFolderId, file1Id, file2Id, file3Id, file4Id, fileLocked1Id]);
     await repoClient.favorites.waitForApi({ expect: initialFavoritesTotalItems + 13 });
 
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
     done();
   });
 

@@ -62,7 +62,7 @@ describe('Permanently delete from Trash', () => {
     await apiActions.deleteNodes([...filesIds, ...foldersIds], false);
     await apiActions.deleteSites([site], false);
 
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
     done();
   });
 

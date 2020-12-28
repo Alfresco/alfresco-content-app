@@ -191,7 +191,7 @@ describe('Special permissions : ', () => {
 
   describe('Consumer', () => {
     beforeAll(async () => {
-      await loginPage.loginWith(userConsumer.username, userConsumer.password);
+      await loginPage.login(userConsumer.username, userConsumer.password);
     });
 
     describe('on File Libraries', () => {
@@ -217,7 +217,7 @@ describe('Special permissions : ', () => {
 
   describe('Collaborator', () => {
     beforeAll(async () => {
-      await loginPage.loginWith(userCollaborator.username, userCollaborator.password);
+      await loginPage.login(userCollaborator.username, userCollaborator.password);
     });
 
     collaboratorTests(sitePrivate);
@@ -225,7 +225,7 @@ describe('Special permissions : ', () => {
 
   describe('File locked - user is lock owner', () => {
     beforeAll(async () => {
-      await loginPage.loginWith(userDemoted.username, userDemoted.password);
+      await loginPage.login(userDemoted.username, userDemoted.password);
     });
 
     filesLockedByCurrentUser(sitePrivate);
@@ -233,7 +233,7 @@ describe('Special permissions : ', () => {
 
   describe('File locked by other user - user is manager', () => {
     beforeAll(async () => {
-      await loginPage.loginWith(userManager.username, userManager.password);
+      await loginPage.login(userManager.username, userManager.password);
     });
 
     filesLockedByOtherUser(sitePrivate);

@@ -81,7 +81,7 @@ describe('Breadcrumb', () => {
     subFolder2FromSiteId = (await repoClient.nodes.createFolder(subFolder2FromSite, subFolder1FromSiteId)).entry.id;
     await repoClient.nodes.createFile(fileName1FromSite, subFolder2FromSiteId);
 
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
     done();
   });
 

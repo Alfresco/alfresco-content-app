@@ -48,7 +48,7 @@ describe('Library actions : ', () => {
 
     await apiActions.deleteSites([testData.siteInTrash.name, testData.site2InTrash.name], false);
 
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
   });
 
   afterAll(async () => {

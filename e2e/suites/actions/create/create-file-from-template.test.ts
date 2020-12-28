@@ -121,7 +121,7 @@ describe('Create file from template', () => {
     docLibUserSite = await repoClient.sites.getDocLibId(siteName);
     await repoClient.nodes.createFile(duplicateFileSite, docLibUserSite);
 
-    await loginPage.loginWith(user.username, user.password);
+    await loginPage.login(user.username, user.password);
   });
 
   afterAll(async () => {
