@@ -23,15 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  ApiActions,
-  SITE_VISIBILITY,
-  SITE_ROLES,
-  BrowsingPage,
-  Utils,
-  ConfirmDialog,
-  RepoClient
-} from '@alfresco/aca-testing-shared';
+import { ApiActions, SITE_VISIBILITY, SITE_ROLES, BrowsingPage, Utils, ConfirmDialog, RepoClient } from '@alfresco/aca-testing-shared';
 import { ApiService, BrowserActions, UsersActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Library actions', () => {

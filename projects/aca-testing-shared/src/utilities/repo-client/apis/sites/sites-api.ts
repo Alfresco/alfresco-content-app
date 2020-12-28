@@ -42,7 +42,7 @@ export class SitesApi extends RepoApi {
 
   async getSite(siteId: string) {
     try {
-return await this.sitesApi.getSite(siteId);
+      return await this.sitesApi.getSite(siteId);
     } catch (error) {
       this.handleError(`SitesApi getSite : catch : `, error);
       return null;
@@ -51,7 +51,7 @@ return await this.sitesApi.getSite(siteId);
 
   async getSites() {
     try {
-return await this.sitesApi.listSiteMembershipsForPerson(this.username);
+      return await this.sitesApi.listSiteMembershipsForPerson(this.username);
     } catch (error) {
       this.handleError(`SitesApi getSites : catch : `, error);
       return null;
@@ -60,7 +60,7 @@ return await this.sitesApi.listSiteMembershipsForPerson(this.username);
 
   async getSitesTotalItems(): Promise<number> {
     try {
-return (await this.sitesApi.listSiteMembershipsForPerson(this.username)).list.pagination.totalItems;
+      return (await this.sitesApi.listSiteMembershipsForPerson(this.username)).list.pagination.totalItems;
     } catch (error) {
       this.handleError(`SitesApi getSitesTotalItems : catch : `, error);
       return -1;
@@ -69,7 +69,7 @@ return (await this.sitesApi.listSiteMembershipsForPerson(this.username)).list.pa
 
   async getDocLibId(siteId: string): Promise<string> {
     try {
-return (await this.sitesApi.listSiteContainers(siteId)).list.entries[0].entry.id;
+      return (await this.sitesApi.listSiteContainers(siteId)).list.entries[0].entry.id;
     } catch (error) {
       this.handleError(`SitesApi getDocLibId : catch : `, error);
       return null;
@@ -115,7 +115,7 @@ return (await this.sitesApi.listSiteContainers(siteId)).list.entries[0].entry.id
     } as SiteBody;
 
     try {
-return await this.sitesApi.createSite(site);
+      return await this.sitesApi.createSite(site);
     } catch (error) {
       this.handleError(`SitesApi createSite : catch : `, error);
       return null;
@@ -151,7 +151,7 @@ return await this.sitesApi.createSite(site);
 
   async deleteSite(siteId: string, permanent: boolean = true) {
     try {
-return await this.sitesApi.deleteSite(siteId, { permanent });
+      return await this.sitesApi.deleteSite(siteId, { permanent });
     } catch (error) {
       this.handleError(`SitesApi deleteSite : catch : `, error);
     }
@@ -159,7 +159,7 @@ return await this.sitesApi.deleteSite(siteId, { permanent });
 
   async deleteSites(siteIds: string[], permanent: boolean = true) {
     if (siteIds && siteIds.length > 0) {
-for (const siteId of siteIds) {
+      for (const siteId of siteIds) {
         await this.sitesApi.deleteSite(siteId, { permanent });
       }
     }
@@ -184,7 +184,7 @@ for (const siteId of siteIds) {
     } as SiteMemberRoleBody;
 
     try {
-return await this.sitesApi.updateSiteMembership(siteId, userId, siteRole);
+      return await this.sitesApi.updateSiteMembership(siteId, userId, siteRole);
     } catch (error) {
       this.handleError(`SitesApi updateSiteMember : catch : `, error);
       return null;
@@ -198,7 +198,7 @@ return await this.sitesApi.updateSiteMembership(siteId, userId, siteRole);
     } as SiteMemberBody;
 
     try {
-return await this.sitesApi.createSiteMembership(siteId, memberBody);
+      return await this.sitesApi.createSiteMembership(siteId, memberBody);
     } catch (error) {
       if (error.status === 409) {
         return this.updateSiteMember(siteId, userId, role);
@@ -227,7 +227,7 @@ return await this.sitesApi.createSiteMembership(siteId, memberBody);
 
   async deleteSiteMember(siteId: string, userId: string) {
     try {
-return await this.sitesApi.deleteSiteMembership(siteId, userId);
+      return await this.sitesApi.deleteSiteMembership(siteId, userId);
     } catch (error) {
       this.handleError(`SitesApi deleteSiteMember : catch : `, error);
     }
@@ -239,7 +239,7 @@ return await this.sitesApi.deleteSiteMembership(siteId, userId);
     };
 
     try {
-return await this.sitesApi.createSiteMembershipRequestForPerson('-me-', body);
+      return await this.sitesApi.createSiteMembershipRequestForPerson('-me-', body);
     } catch (error) {
       this.handleError(`SitesApi requestToJoin : catch : `, error);
       return null;
@@ -248,7 +248,7 @@ return await this.sitesApi.createSiteMembershipRequestForPerson('-me-', body);
 
   async hasMembershipRequest(siteId: string) {
     try {
-const requests = (await this.sitesApi.getSiteMembershipRequests('-me-')).list.entries.map((e) => e.entry.id);
+      const requests = (await this.sitesApi.getSiteMembershipRequests('-me-')).list.entries.map((e) => e.entry.id);
       return requests.includes(siteId);
     } catch (error) {
       this.handleError(`SitesApi hasMembershipRequest : catch : `, error);

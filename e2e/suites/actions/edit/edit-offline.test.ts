@@ -58,7 +58,6 @@ describe('Edit offline', () => {
     await adminApiService.loginWithProfile('admin');
     user = await usersActions.createUser();
     await apiService.login(user.username, user.password);
-
   });
 
   describe('on Personal Files', () => {

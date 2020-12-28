@@ -37,15 +37,7 @@ import {
 } from '@alfresco/js-api';
 import { browser } from 'protractor';
 import { Utils } from './utils';
-import {
-  FavoritesApi,
-  NodeContentTree,
-  SearchApi,
-  SharedLinksApi,
-  UploadApi,
-  SitesApi,
-  NodesApi
-} from './repo-client/apis';
+import { FavoritesApi, NodeContentTree, SearchApi, SharedLinksApi, UploadApi, SitesApi, NodesApi } from './repo-client/apis';
 
 export class ApiActions {
   protected readonly apiService: ApiService;
@@ -245,7 +237,6 @@ export class ApiActions {
   }
 
   async disableUser(username: string): Promise<PersonEntry> {
-
     try {
       return this.peopleApi.updatePerson(username, { enabled: false });
     } catch (error) {
@@ -255,7 +246,6 @@ export class ApiActions {
   }
 
   async changePassword(username: string, newPassword: string): Promise<PersonEntry> {
-
     try {
       return this.peopleApi.updatePerson(username, { password: newPassword });
     } catch (error) {

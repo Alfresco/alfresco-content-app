@@ -23,14 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  BrowsingPage,
-  SearchResultsPage,
-  FILES,
-  RepoClient,
-  Utils,
-  UploadNewVersionDialog
-} from '@alfresco/aca-testing-shared';
+import { BrowsingPage, SearchResultsPage, FILES, RepoClient, Utils, UploadNewVersionDialog } from '@alfresco/aca-testing-shared';
 import { ApiService, UserModel, LoginPage } from '@alfresco/adf-testing';
 
 describe('Upload new version', () => {

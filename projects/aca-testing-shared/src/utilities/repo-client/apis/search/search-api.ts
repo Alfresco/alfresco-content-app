@@ -97,7 +97,7 @@ export class SearchApi extends RepoApi {
     };
 
     try {
-return this.searchApi.search(data);
+      return this.searchApi.search(data);
     } catch (error) {
       this.handleError(`SearchApi queryNodesExactNames : catch : `, error);
       return null;

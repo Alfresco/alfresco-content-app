@@ -33,7 +33,7 @@ import { ApiService, UserModel, UsersActions } from '@alfresco/adf-testing';
 
 describe('Pagination on multiple pages : ', () => {
   const random = Utils.random();
-  let user: UserModel;
+  const user: UserModel;
 
   const parent = `parent-${random}`;
   let parentId: string;

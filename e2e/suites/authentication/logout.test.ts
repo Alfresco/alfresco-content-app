@@ -30,7 +30,7 @@ import { ApiService, UserModel, UsersActions, LoginPage } from '@alfresco/adf-te
 describe('Logout', () => {
   const page = new BrowsingPage();
   const loginPage = new LoginPage();
-  let user: UserModel;
+  const user: UserModel;
   const adminApiService = new ApiService();
   const usersActions = new UsersActions(adminApiService);
 

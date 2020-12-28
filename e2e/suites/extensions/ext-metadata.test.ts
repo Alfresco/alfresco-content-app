@@ -23,14 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  BrowsingPage,
-  RepoClient,
-  EXTENSIBILITY_CONFIGS,
-  Utils,
-  InfoDrawer,
-  MetadataCard
-} from '@alfresco/aca-testing-shared';
+import { BrowsingPage, RepoClient, EXTENSIBILITY_CONFIGS, Utils, InfoDrawer, MetadataCard } from '@alfresco/aca-testing-shared';
 import { ApiService, BrowserActions, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 describe('Extensions - Metadata presets', () => {

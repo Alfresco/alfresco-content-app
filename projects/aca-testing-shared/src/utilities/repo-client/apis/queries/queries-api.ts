@@ -61,7 +61,7 @@ export class QueriesApi extends RepoApi {
     };
 
     try {
-return this.queriesApi.findNodes(searchTerm, data);
+      return this.queriesApi.findNodes(searchTerm, data);
     } catch (error) {
       this.handleError(`QueriesApi findNodes : catch : `, error);
       return null;

@@ -26,7 +26,7 @@
 import { RepoClient, Utils, ApiActions, BrowsingPage, SearchResultsPage } from '@alfresco/aca-testing-shared';
 import * as testData from './test-data';
 import * as testUtil from '../test-util';
-import { ApiService, UsersActions, LoginPage  } from '@alfresco/adf-testing';
+import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Locked Files - available actions : ', () => {
   const random = testData.random;

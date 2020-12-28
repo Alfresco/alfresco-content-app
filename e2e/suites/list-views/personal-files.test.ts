@@ -29,7 +29,6 @@ import { APP_ROUTES, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testi
 import { ApiService, UserModel, UsersActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Personal Files', () => {
-
   let user: UserModel;
 
   const apiService = new ApiService();

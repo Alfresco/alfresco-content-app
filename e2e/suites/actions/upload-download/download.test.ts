@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {  ApiActions, BrowsingPage, SearchResultsPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { ApiActions, BrowsingPage, SearchResultsPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 import { ApiService, BrowserActions, UsersActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Download', () => {

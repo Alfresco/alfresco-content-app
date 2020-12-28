@@ -86,17 +86,16 @@ describe('Special permissions : ', () => {
     await adminApiService.loginWithProfile('admin');
 
     userManager = await usersActions.createUser(new UserModel({ username: usernameManager }));
-    await apiServiceManager.login(user.username, user.password);
+    await apiServiceManager.login(userManager.username, userManager.password);
 
     userConsumer = await usersActions.createUser(new UserModel({ username: usernameConsumer }));
-    await apiServiceConsumer.login(user.username, user.password);
+    await apiServiceConsumer.login(userConsumer.username, userConsumer.password);
 
     userCollaborator = await usersActions.createUser(new UserModel({ username: usernameCollaborator }));
-    await apiServiceCollaborator.login(user.username, user.password);
+    await apiServiceCollaborator.login(userCollaborator.username, userCollaborator.password);
 
     userDemoted = await usersActions.createUser(new UserModel({ username: usernameDemoted }));
-    await apiServiceDemoted.login(user.username, user.password);
-
+    await apiServiceDemoted.login(userDemoted.username, userDemoted.password);
 
     const consumerFavoritesTotalItems = await userConsumerApi.favorites.getFavoritesTotalItems();
     const managerSearchTotalItems = await userManagerApi.search.getTotalItems(userManager);
