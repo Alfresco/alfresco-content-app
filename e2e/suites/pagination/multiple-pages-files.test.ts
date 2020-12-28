@@ -23,17 +23,17 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Utils, AdminActions, RepoClient } from '@alfresco/aca-testing-shared';
+import { Utils, RepoClient } from '@alfresco/aca-testing-shared';
 import { personalFilesTests } from './personal-files';
 import { recentFilesTests } from './recent-files';
 import { searchResultsTests } from './search-results';
 import { sharedFilesTests } from './shared-files';
 import { favoritesTests } from './favorites';
-import { ApiService } from '@alfresco/adf-testing';
+import { ApiService, UserModel } from '@alfresco/adf-testing';
 
 describe('Pagination on multiple pages : ', () => {
   const random = Utils.random();
-  let user;
+  let user: UserModel;
 
   const parent = `parent-${random}`;
   let parentId: string;
@@ -46,13 +46,12 @@ describe('Pagination on multiple pages : ', () => {
   const apiService = new ApiService();
   const userApi = new RepoClient(apiService);
   const adminApiService = new ApiService();
-  const adminApiActions = new AdminActions(adminApiService);
 
   let initialFavoritesTotalItems: number;
   let initialSearchTotalItems: number;
 
   beforeAll(async () => {
-    await adminApiActions.loginWithProfile('admin');
+    await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
 
     initialSearchTotalItems = await userApi.search.getTotalItems(user.username);
@@ -70,34 +69,34 @@ describe('Pagination on multiple pages : ', () => {
   });
 
   describe('on Personal Files', () => {
-    personalFilesTests(user.username, parent);
+    personalFilesTests(user, parent);
   });
 
   describe('on Recent Files', () => {
     beforeAll(async () => {
       await userApi.search.waitForApi(user.username, { expect: initialSearchTotalItems + 51 });
     });
-    recentFilesTests(user.username);
+    recentFilesTests(user);
   });
 
   describe('on Search Results', () => {
     beforeAll(async () => {
       await userApi.search.waitForApi(user.username, { expect: initialSearchTotalItems + 51 });
     });
-    searchResultsTests(user.username, random);
+    searchResultsTests(user, random);
   });
 
   describe('on Shared Files', () => {
     beforeAll(async () => {
       await userApi.shared.waitForFilesToBeShared(filesIds);
     });
-    sharedFilesTests(user.username);
+    sharedFilesTests(user);
   });
 
   describe('on Favorites', () => {
     beforeAll(async () => {
       await userApi.favorites.waitForApi({ expect: initialFavoritesTotalItems + 51 });
     });
-    favoritesTests(user.username);
+    favoritesTests(user);
   });
 });

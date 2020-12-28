@@ -23,11 +23,11 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, InfoDrawer, RepoClient, EXTENSIBILITY_CONFIGS, Utils } from '@alfresco/aca-testing-shared';
-import { ApiService, BrowserActions } from '@alfresco/adf-testing';
+import { BrowsingPage, InfoDrawer, RepoClient, EXTENSIBILITY_CONFIGS, Utils } from '@alfresco/aca-testing-shared';
+import { ApiService, BrowserActions, UserModel, LoginPage } from '@alfresco/adf-testing';
 
 describe('Extensions - Info Drawer', () => {
-  let user;
+  let user: UserModel;
   const file = `file-${Utils.random()}.txt`;
   let fileId: string;
 
@@ -56,7 +56,6 @@ describe('Extensions - Info Drawer', () => {
   const apiService = new ApiService();
   const adminApiService = new ApiService();
   const repoClient = new RepoClient(apiService);
-  const adminApiActions = new AdminActions(adminApiService);
 
   const infoDrawer = new InfoDrawer();
 
@@ -64,7 +63,7 @@ describe('Extensions - Info Drawer', () => {
   const page = new BrowsingPage();
 
   beforeAll(async (done) => {
-    await adminApiActions.loginWithProfile('admin');
+    await adminApiService.loginWithProfile('admin');
     user = await usersActions.createUser();
     fileId = (await repoClient.nodes.createFile(file)).entry.id;
     done();

@@ -23,16 +23,16 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage, SearchResultsPage, RepoClient, Utils, AdminActions, ApiActions } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, SearchResultsPage, RepoClient, Utils, ApiActions } from '@alfresco/aca-testing-shared';
 import * as testData from './test-data-libraries';
 import * as testUtil from '../test-util';
-import { ApiService, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Library actions : ', () => {
   const apiService = new ApiService();
   const adminApiService = new ApiService();
   const userApi = new RepoClient(apiService);
-  const adminApiActions = new AdminActions(adminApiService);
+  const adminApiActions = new ApiActions(adminApiService);
   const apiActions = new ApiActions(apiService);
   const usersActions = new UsersActions(adminApiService);
 
@@ -42,7 +42,7 @@ describe('Library actions : ', () => {
   const { searchInput } = searchResultsPage.header;
 
   beforeAll(async () => {
-    await adminApiActions.loginWithProfile('admin');
+    await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
     await apiService.login(user.username, user.password);
 
@@ -85,7 +85,7 @@ describe('Library actions : ', () => {
     ]);
     await apiActions.emptyTrashcan();
 
-    await adminApiActions.loginWithProfile('admin');
+    await adminApiService.loginWithProfile('admin');
     await adminApiActions.deleteSites([
       testData.publicNotMemberFav.name,
       testData.moderatedNotMemberFav.name,

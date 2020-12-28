@@ -23,9 +23,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BrowsingPage, LoginPage, Utils } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, Utils } from '@alfresco/aca-testing-shared';
+import { LoginPage, UserModel } from '@alfresco/adf-testing';
 
-export function recentFilesTests(username: string) {
+export function recentFilesTests(user: UserModel) {
   const page = new BrowsingPage();
   const loginPage = new LoginPage();
   const { dataTable, pagination } = page;

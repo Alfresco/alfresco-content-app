@@ -23,8 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, SITE_VISIBILITY, SITE_ROLES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
-import { ApiService } from '@alfresco/adf-testing';
+import { SITE_VISIBILITY, SITE_ROLES, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { ApiService, LoginPage } from '@alfresco/adf-testing';
 
 describe('Shared Files', () => {
   const siteName = `site-${Utils.random()}`;
@@ -44,14 +44,14 @@ describe('Shared Files', () => {
   const apiService = new ApiService();
   const repoClient = new RepoClient(apiService);
   const adminApiService = new ApiService();
-  const adminApiActions = new AdminActions(adminApiService);
+  const adminApiActions = new ApiActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable, breadcrumb } = page;
 
   beforeAll(async (done) => {
-    await adminApiActions.loginWithProfile('admin');
+    await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
     await adminApiActions.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
     await adminApiActions.sites.addSiteMember(siteName, user.username, SITE_ROLES.SITE_CONSUMER.ROLE);
@@ -66,7 +66,7 @@ describe('Shared Files', () => {
 
     await repoClient.shared.shareFilesByIds([file1Id, file2Id, file3Id, file4Id]);
 
-    await adminApiActions.loginWithProfile('admin');
+    await adminApiService.loginWithProfile('admin');
     await adminApiActions.shareNodes([nodeId]);
 
     await repoClient.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id]);

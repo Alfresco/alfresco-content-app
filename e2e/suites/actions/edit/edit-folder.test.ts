@@ -24,8 +24,6 @@
  */
 
 import {
-  AdminActions,
-  LoginPage,
   BrowsingPage,
   SITE_VISIBILITY,
   SITE_ROLES,
@@ -34,7 +32,7 @@ import {
   Utils,
   clearTextWithBackspace
 } from '@alfresco/aca-testing-shared';
-import { ApiService, BrowserActions } from '@alfresco/adf-testing';
+import { ApiService, BrowserActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Edit folder', () => {
   const parent = `parent-${Utils.random()}`;
@@ -74,7 +72,7 @@ describe('Edit folder', () => {
   const apiService = new ApiService();
   const adminApiService = new ApiService();
   const repoClient = new RepoClient(apiService);
-  const adminApiActions = new AdminActions(adminApiService);
+  const adminApiActions = new ApiActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -83,7 +81,7 @@ describe('Edit folder', () => {
   const { searchInput } = page.header;
 
   beforeAll(async (done) => {
-    await adminApiActions.loginWithProfile('admin');
+    await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
 
     await adminApiActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
@@ -121,7 +119,7 @@ describe('Edit folder', () => {
   });
 
   afterAll(async () => {
-    await adminApiActions.loginWithProfile('admin');
+    await adminApiService.loginWithProfile('admin');
     await adminApiActions.sites.deleteSite(sitePrivate);
     await repoClient.sites.deleteSite(siteName);
     await repoClient.nodes.deleteNodesById([parentId, folderFavoriteToEditId, folderFavoriteDuplicateId, folderSearchToEditId]);

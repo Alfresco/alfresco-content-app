@@ -23,9 +23,9 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, SearchResultsPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { SearchResultsPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 import { browser } from 'protractor';
-import { ApiService } from '@alfresco/adf-testing';
+import { ApiService, LoginPage } from '@alfresco/adf-testing';
 
 describe('Search results general', () => {
   const random = Utils.random();
@@ -39,7 +39,6 @@ describe('Search results general', () => {
   const apiService = new ApiService();
   const repoClient = new RepoClient(apiService);
   const adminApiService = new ApiService();
-  const adminApiActions = new AdminActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new SearchResultsPage();
@@ -47,7 +46,7 @@ describe('Search results general', () => {
   const dataTable = page.dataTable;
 
   beforeAll(async (done) => {
-    await adminApiActions.loginWithProfile('admin');
+    await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
 
     fileId = (await repoClient.nodes.createFile(file)).entry.id;

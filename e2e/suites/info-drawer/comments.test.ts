@@ -23,9 +23,9 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, ApiActions, LoginPage, BrowsingPage, RepoClient, InfoDrawer, Utils } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, RepoClient, InfoDrawer, Utils } from '@alfresco/aca-testing-shared';
 const moment = require('moment');
-import { ApiService, BrowserActions, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, BrowserActions, UsersActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Comments', () => {
   const parent = `parent-${Utils.random()}`;
@@ -55,7 +55,6 @@ describe('Comments', () => {
   const apiService = new ApiService();
   const repoClient = new RepoClient(apiService);
   const adminApiService = new ApiService();
-  const adminApiActions = new AdminActions(adminApiService);
   const usersActions = new UsersActions(adminApiService);
 
   const infoDrawer = new InfoDrawer();
@@ -66,7 +65,7 @@ describe('Comments', () => {
   const { dataTable } = page;
 
   beforeAll(async (done) => {
-    await adminApiActions.loginWithProfile('admin');
+    await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
     await apiService.login(user.username, user.password);
 

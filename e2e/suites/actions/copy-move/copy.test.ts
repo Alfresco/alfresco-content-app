@@ -24,16 +24,14 @@
  */
 
 import {
-  AdminActions,
   ApiActions,
-  LoginPage,
   BrowsingPage,
   ContentNodeSelectorDialog,
   RepoClient,
   Utils,
   SearchResultsPage
 } from '@alfresco/aca-testing-shared';
-import { ApiService, BrowserActions, Logger, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, BrowserActions, Logger, UsersActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Copy content', () => {
   const random = Utils.random();
@@ -112,7 +110,6 @@ describe('Copy content', () => {
   const apiService = new ApiService();
   const adminApiService = new ApiService();
   const repoClient = new RepoClient(apiService);
-  const adminApiActions = new AdminActions(adminApiService);
   const apiActions = new ApiActions(apiService);
   const usersActions = new UsersActions(adminApiService);
 
@@ -124,7 +121,7 @@ describe('Copy content', () => {
   const { searchInput } = page.header;
 
   beforeAll(async (done) => {
-    await adminApiActions.loginWithProfile('admin');
+    await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
     await apiService.login(user.username, user.password);
 

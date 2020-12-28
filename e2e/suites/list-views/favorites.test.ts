@@ -23,8 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, ApiActions, SITE_VISIBILITY, SITE_ROLES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
-import { ApiService, UsersActions } from '@alfresco/adf-testing';
+import { ApiActions, SITE_VISIBILITY, SITE_ROLES, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Favorites', () => {
   const siteName = `site-${Utils.random()}`;
@@ -38,7 +38,7 @@ describe('Favorites', () => {
   const apiService = new ApiService();
   const repoClient = new RepoClient(apiService);
   const adminApiService = new ApiService();
-  const adminApiActions = new AdminActions(adminApiService);
+  const adminApiActions = new ApiActions(adminApiService);
   const apiActions = new ApiActions(apiService);
   const usersActions = new UsersActions(adminApiService);
 
@@ -50,7 +50,7 @@ describe('Favorites', () => {
   let folderId: string;
 
   beforeAll(async (done) => {
-    await adminApiActions.loginWithProfile('admin');
+    await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
     await apiService.login(user.username, user.password);
 
@@ -86,7 +86,7 @@ describe('Favorites', () => {
     await apiActions.deleteNodes([folderId, parentId]);
     await apiActions.emptyTrashcan();
 
-    await adminApiActions.loginWithProfile('admin');
+    await adminApiService.loginWithProfile('admin');
     await adminApiActions.deleteSites([siteName]);
     done();
   });

@@ -23,8 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, Viewer, RepoClient, EXTENSIBILITY_CONFIGS, FILES, Utils } from '@alfresco/aca-testing-shared';
-import { ApiService, BrowserActions } from '@alfresco/adf-testing';
+import { BrowsingPage, Viewer, RepoClient, EXTENSIBILITY_CONFIGS, FILES, Utils } from '@alfresco/aca-testing-shared';
+import { ApiService, BrowserActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Extensions - Viewer', () => {
   const pdfFile = {
@@ -64,7 +64,6 @@ describe('Extensions - Viewer', () => {
   const apiService = new ApiService();
   const repoClient = new RepoClient(apiService);
   const adminApiService = new ApiService();
-  const adminApiActions = new AdminActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -73,7 +72,7 @@ describe('Extensions - Viewer', () => {
   const { toolbar } = viewer;
 
   beforeAll(async (done) => {
-    await adminApiActions.loginWithProfile('admin');
+    await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
     pdfFileId = (await repoClient.upload.uploadFile(pdfFile.file_name)).entry.id;
     docxFileId = (await repoClient.upload.uploadFile(docxFile.file_name)).entry.id;

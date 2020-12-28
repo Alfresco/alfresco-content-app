@@ -23,8 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, FILES, RepoClient, Utils, Viewer, PasswordDialog } from '@alfresco/aca-testing-shared';
-import { ApiService, BrowserActions } from '@alfresco/adf-testing';
+import { BrowsingPage, FILES, RepoClient, Utils, Viewer, PasswordDialog } from '@alfresco/aca-testing-shared';
+import { ApiService, BrowserActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Viewer - password protected file', () => {
   const parent = `parent-${Utils.random()}`;
@@ -35,7 +35,6 @@ describe('Viewer - password protected file', () => {
   const apiService = new ApiService();
   const repoClient = new RepoClient(apiService);
   const adminApiService = new ApiService();
-  const adminApiActions = new AdminActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();

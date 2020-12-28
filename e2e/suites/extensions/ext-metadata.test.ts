@@ -24,16 +24,14 @@
  */
 
 import {
-  AdminActions,
   BrowsingPage,
-  LoginPage,
   RepoClient,
   EXTENSIBILITY_CONFIGS,
   Utils,
   InfoDrawer,
   MetadataCard
 } from '@alfresco/aca-testing-shared';
-import { ApiService, BrowserActions } from '@alfresco/adf-testing';
+import { ApiService, BrowserActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Extensions - Metadata presets', () => {
   const file = `file-${Utils.random()}.png`;
@@ -63,7 +61,6 @@ describe('Extensions - Metadata presets', () => {
   const apiService = new ApiService();
   const repoClient = new RepoClient(apiService);
   const adminApiService = new ApiService();
-  const adminApiActions = new AdminActions(adminApiService);
 
   const infoDrawer = new InfoDrawer();
   const metadataCard = new MetadataCard();
@@ -72,7 +69,7 @@ describe('Extensions - Metadata presets', () => {
   const page = new BrowsingPage();
 
   beforeAll(async (done) => {
-    await adminApiActions.loginWithProfile('admin');
+    await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
     fileId = (await repoClient.nodes.createImage(file)).entry.id;
 

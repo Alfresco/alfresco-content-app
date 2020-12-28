@@ -23,8 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage, RepoClient, NodeContentTree, Utils, AdminActions } from '@alfresco/aca-testing-shared';
-import { ApiService, BrowserActions } from '@alfresco/adf-testing';
+import { BrowsingPage, RepoClient, NodeContentTree, Utils } from '@alfresco/aca-testing-shared';
+import { ApiService, BrowserActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Generic tests : ', () => {
   const random = Utils.random();
@@ -46,7 +46,6 @@ describe('Generic tests : ', () => {
   const apiService = new ApiService();
   const adminApiService = new ApiService();
   const userApi = new RepoClient(apiService);
-  const adminApiActions = new AdminActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -55,7 +54,7 @@ describe('Generic tests : ', () => {
   const contextMenu = dataTable.menu;
 
   beforeAll(async () => {
-    await adminApiActions.loginWithProfile('admin');
+    await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
     await userApi.nodes.createContent(content);
     await loginPage.loginWith(user.username, user.password);

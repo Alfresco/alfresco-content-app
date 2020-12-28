@@ -23,8 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, SearchResultsPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
-import { ApiService } from '@alfresco/adf-testing';
+import { SearchResultsPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { ApiService, LoginPage } from '@alfresco/adf-testing';
 const moment = require('moment');
 
 describe('Search results - files and folders', () => {
@@ -49,7 +49,6 @@ describe('Search results - files and folders', () => {
   const apiService = new ApiService();
   const repoClient = new RepoClient(apiService);
   const adminApiService = new ApiService();
-  const adminApiActions = new AdminActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new SearchResultsPage();
@@ -57,7 +56,7 @@ describe('Search results - files and folders', () => {
   const { dataTable, breadcrumb } = page;
 
   beforeAll(async (done) => {
-    await adminApiActions.loginWithProfile('admin');
+    await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
 
     fileId = (await repoClient.nodes.createFile(file, '-my-', fileTitle, fileDescription)).entry.id;

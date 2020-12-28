@@ -23,8 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage, Utils, AdminActions, ApiActions, RepoClient } from '@alfresco/aca-testing-shared';
-import { ApiService, UsersActions } from '@alfresco/adf-testing';
+import { BrowsingPage, Utils, ApiActions, RepoClient } from '@alfresco/aca-testing-shared';
+import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Pagination on multiple pages on Trash', () => {
   const random = Utils.random();
@@ -37,7 +37,6 @@ describe('Pagination on multiple pages on Trash', () => {
   const apiService = new ApiService();
   const userApi = new RepoClient(apiService);
   const adminApiService = new ApiService();
-  const adminApiActions = new AdminActions(adminApiService);
   const apiActions = new ApiActions(apiService);
   const usersActions = new UsersActions(adminApiService);
 
@@ -46,7 +45,7 @@ describe('Pagination on multiple pages on Trash', () => {
   const { dataTable, pagination } = page;
 
   beforeAll(async () => {
-    await adminApiActions.loginWithProfile('admin');
+    await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
     await apiService.login(user.username, user.password);
 

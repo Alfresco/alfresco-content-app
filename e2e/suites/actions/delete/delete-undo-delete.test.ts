@@ -23,14 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, ApiActions, LoginPage, BrowsingPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
-import { ApiService, Logger, UsersActions } from '@alfresco/adf-testing';
+import { ApiActions, BrowsingPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { ApiService, Logger, UsersActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Delete and undo delete', () => {
   const apiService = new ApiService();
   const adminApiService = new ApiService();
   const repoClient = new RepoClient(apiService);
-  const adminApiActions = new AdminActions(adminApiService);
   const apiActions = new ApiActions(apiService);
   const usersActions = new UsersActions(adminApiService);
 
@@ -39,7 +38,7 @@ describe('Delete and undo delete', () => {
   const { dataTable, toolbar } = page;
 
   beforeAll(async () => {
-    await adminApiActions.loginWithProfile('admin');
+    await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
 
     await apiService.login(user.username, user.password);

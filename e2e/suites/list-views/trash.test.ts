@@ -23,8 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, ApiActions, SITE_VISIBILITY, SITE_ROLES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
-import { ApiService, Logger, UsersActions } from '@alfresco/adf-testing';
+import { ApiActions, SITE_VISIBILITY, SITE_ROLES, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { ApiService, Logger, UsersActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Trash', () => {
   const siteName = `site-${Utils.random()}`;
@@ -54,7 +54,7 @@ describe('Trash', () => {
   const apiService = new ApiService();
   const repoClient = new RepoClient(apiService);
   const adminApiService = new ApiService();
-  const adminApiActions = new AdminActions(adminApiService);
+  const adminApiActions = new ApiActions(adminApiService);
   const apiActions = new ApiActions(apiService);
   const usersActions = new UsersActions(adminApiService);
 
@@ -64,7 +64,7 @@ describe('Trash', () => {
 
   beforeAll(async () => {
     try {
-      await adminApiActions.loginWithProfile('admin');
+      await adminApiService.loginWithProfile('admin');
       user = await usersActions.createUser();
 
       fileAdminId = (await adminApiActions.nodes.createFiles([fileAdmin])).entry.id;

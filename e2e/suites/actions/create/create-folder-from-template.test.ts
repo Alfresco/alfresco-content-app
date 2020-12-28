@@ -24,17 +24,15 @@
  */
 
 import {
-  LoginPage,
   BrowsingPage,
   SelectTemplateDialog,
   CreateFromTemplateDialog,
   Utils,
   clearTextWithBackspace,
-  AdminActions,
   RepoClient,
   NodeContentTree
 } from '@alfresco/aca-testing-shared';
-import { ApiService, BrowserActions } from '@alfresco/adf-testing';
+import { ApiService, BrowserActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Create folder from template', () => {
   const random = Utils.random();
@@ -105,7 +103,7 @@ describe('Create folder from template', () => {
   const apiService = new ApiService();
   const adminApiService = new ApiService();
   const repoClient = new RepoClient(apiService);
-  const adminApiActions = new AdminActions(adminApiService);
+  const adminApiActions = new ApiActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -114,7 +112,7 @@ describe('Create folder from template', () => {
   const { sidenav } = page;
 
   beforeAll(async () => {
-    await adminApiActions.loginWithProfile('admin');
+    await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
 
     parentId = (await repoClient.nodes.createFolder(parent)).entry.id;
@@ -135,7 +133,7 @@ describe('Create folder from template', () => {
     await repoClient.nodes.deleteNodeById(parentId);
     await repoClient.sites.deleteSite(siteName);
 
-    await adminApiActions.loginWithProfile('admin');
+    await adminApiService.loginWithProfile('admin');
     await adminApiActions.cleanupSpaceTemplatesItems([
       folderInRootFolder,
       templateFolder1,

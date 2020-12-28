@@ -23,11 +23,11 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, FILES, RepoClient, Utils } from '@alfresco/aca-testing-shared';
-import { ApiService } from '@alfresco/adf-testing';
+import { BrowsingPage, FILES, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { ApiService, UserModel, LoginPage } from '@alfresco/adf-testing';
 
 describe('Edit offline', () => {
-  let user;
+  let user: UserModel;
 
   const file1 = `file1-${Utils.random()}.docx`;
   const fileLocked = `file-locked-${Utils.random()}.docx`;
@@ -47,7 +47,6 @@ describe('Edit offline', () => {
   const apiService = new ApiService();
   const adminApiService = new ApiService();
   const repoClient = new RepoClient(apiService);
-  const adminApiActions = new AdminActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -55,7 +54,7 @@ describe('Edit offline', () => {
   const { searchInput } = page.header;
 
   beforeAll(async () => {
-    await adminApiActions.loginWithProfile('admin');
+    await adminApiService.loginWithProfile('admin');
     user = await usersActions.createUser();
   });
 

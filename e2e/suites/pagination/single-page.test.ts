@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage, SearchResultsPage, Utils, AdminActions, ApiActions, RepoClient } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, SearchResultsPage, Utils, ApiActions, RepoClient } from '@alfresco/aca-testing-shared';
 import { ApiService, UsersActions } from '@alfresco/adf-testing';
 
 describe('Pagination on single page', () => {
@@ -40,7 +40,6 @@ describe('Pagination on single page', () => {
   const apiService = new ApiService();
   const repoClient = new RepoClient(apiService);
   const adminApiService = new ApiService();
-  const adminApiActions = new AdminActions(adminApiService);
   const apiActions = new ApiActions(apiService);
   const usersActions = new UsersActions(adminApiService);
 
@@ -51,7 +50,7 @@ describe('Pagination on single page', () => {
   const searchResultsPage = new SearchResultsPage();
 
   beforeAll(async () => {
-    await adminApiActions.loginWithProfile('admin');
+    await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
     await apiService.login(user.username, user.password);
 

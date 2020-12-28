@@ -24,8 +24,6 @@
  */
 
 import {
-  AdminActions,
-  LoginPage,
   BrowsingPage,
   SearchResultsPage,
   FILES,
@@ -33,10 +31,10 @@ import {
   Utils,
   UploadNewVersionDialog
 } from '@alfresco/aca-testing-shared';
-import { ApiService } from '@alfresco/adf-testing';
+import { ApiService, UserModel, LoginPage } from '@alfresco/adf-testing';
 
 describe('Upload new version', () => {
-  let user;
+  let user: UserModel;
 
   const file1 = `file1-${Utils.random()}.docx`;
   let file1Id: string;
@@ -89,7 +87,6 @@ describe('Upload new version', () => {
   const apiService = new ApiService();
   const adminApiService = new ApiService();
   const repoClient = new RepoClient(apiService);
-  const adminApiActions = new AdminActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -99,7 +96,7 @@ describe('Upload new version', () => {
   const { searchInput } = page.header;
 
   beforeAll(async () => {
-    await adminApiActions.loginWithProfile('admin');
+    await adminApiService.loginWithProfile('admin');
     user = await usersActions.createUser();
 
     parentPFId = (await repoClient.nodes.createFolder(parentPF)).entry.id;

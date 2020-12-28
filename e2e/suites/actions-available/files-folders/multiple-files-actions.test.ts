@@ -23,10 +23,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { RepoClient, Utils, AdminActions, ApiActions, LoginPage, BrowsingPage, SearchResultsPage } from '@alfresco/aca-testing-shared';
+import { RepoClient, Utils, ApiActions, BrowsingPage, SearchResultsPage } from '@alfresco/aca-testing-shared';
 import * as testData from './test-data';
 import * as testUtil from '../test-util';
-import { ApiService, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Multiple Files - available actions : ', () => {
   const random = Utils.random();
@@ -48,7 +48,6 @@ describe('Multiple Files - available actions : ', () => {
   const apiService = new ApiService();
   const userApi = new RepoClient(apiService);
   const adminApiService = new ApiService();
-  const adminApiActions = new AdminActions(adminApiService);
   const apiActions = new ApiActions(apiService);
   const usersActions = new UsersActions(adminApiService);
 
@@ -59,7 +58,7 @@ describe('Multiple Files - available actions : ', () => {
   const searchResultsPage = new SearchResultsPage();
 
   beforeAll(async () => {
-    await adminApiActions.loginWithProfile('admin');
+    await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
     await apiService.login(user.username, user.password);
 

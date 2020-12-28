@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, SearchResultsPage, RepoClient, Utils, SITE_VISIBILITY, SITE_ROLES } from '@alfresco/aca-testing-shared';
+import { AdminActions, SearchResultsPage, RepoClient, Utils, SITE_VISIBILITY, SITE_ROLES } from '@alfresco/aca-testing-shared';
 import { ApiService } from '@alfresco/adf-testing';
 
 describe('Search results - libraries', () => {
@@ -66,7 +66,7 @@ describe('Search results - libraries', () => {
   const apiService = new ApiService();
   const repoClient = new RepoClient(apiService);
   const adminApiService = new ApiService();
-  const adminApiActions = new AdminActions(adminApiService);
+  const adminApiActions = new ApiActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new SearchResultsPage();
@@ -74,7 +74,7 @@ describe('Search results - libraries', () => {
   const dataTable = page.dataTable;
 
   beforeAll(async (done) => {
-    await adminApiActions.loginWithProfile('admin');
+    await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
 
     await repoClient.sites.createSite(site1.name, SITE_VISIBILITY.PUBLIC, '', site1.id);
@@ -99,7 +99,7 @@ describe('Search results - libraries', () => {
 
     await adminApiActions.sites.createSite(adminPrivate, SITE_VISIBILITY.PRIVATE);
 
-    await adminApiActions.loginWithProfile('admin');
+    await adminApiService.loginWithProfile('admin');
     await adminApiActions.sites.waitForSitesToBeCreated([adminSite1, adminSite2, adminSite3, adminSite4]);
 
     await repoClient.sites.waitForSitesToBeCreated([
@@ -120,7 +120,7 @@ describe('Search results - libraries', () => {
   });
 
   afterAll(async () => {
-    await adminApiActions.loginWithProfile('admin');
+    await adminApiService.loginWithProfile('admin');
     await adminApiActions.sites.deleteSites([adminSite1, adminSite2, adminSite3, adminSite4, adminPrivate]);
     await repoClient.sites.deleteSites([site1.id, site2.id, site3.id, site4.id, userSitePublic, userSiteModerated, userSitePrivate, siteRussian.id]);
   });

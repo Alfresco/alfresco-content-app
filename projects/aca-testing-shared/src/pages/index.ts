@@ -24,5 +24,4 @@
  */
 
 export * from './browsing-page';
-export * from './login-page';
 export * from './search-results-page';

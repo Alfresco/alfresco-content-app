@@ -23,15 +23,18 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage, ContentNodeSelectorDialog, RepoClient, Utils, AdminActions } from '@alfresco/aca-testing-shared';
-import { ApiService } from '@alfresco/adf-testing';
+import {
+  BrowsingPage,
+  ContentNodeSelectorDialog,
+  RepoClient,
+  Utils
+} from '@alfresco/aca-testing-shared';
+import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Destination picker dialog : ', () => {
   const random = Utils.random();
 
-  const consumer = `consumer-${random}`;
-  const contributor = `contributor-${random}`;
-  const collaborator = `collaborator-${random}`;
+  let user, consumer, contributor, collaborator;
 
   const file = `file-${random}.txt`;
   let fileId: string;
@@ -65,7 +68,8 @@ describe('Destination picker dialog : ', () => {
   const consumerApi = new RepoClient(consumer, consumer);
   const contributorApi = new RepoClient(contributor, contributor);
   const collaboratorApi = new RepoClient(collaborator, collaborator);
-  const adminApiActions = new AdminActions(adminApiService);
+  const adminApiActions = new ApiActions(adminApiService);
+  const usersActions = new UsersActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -75,11 +79,11 @@ describe('Destination picker dialog : ', () => {
   const dataTable = dialog.dataTable;
 
   beforeAll(async () => {
-    await adminApiActions.loginWithProfile('admin');
-    const user = await usersActions.createUser();
-    await adminApiActions.createUser({ username: consumer });
-    await adminApiActions.createUser({ username: contributor });
-    await adminApiActions.createUser({ username: collaborator });
+    await adminApiService.loginWithProfile('admin');
+    user = await usersActions.createUser();
+    consumer = await usersActions.createUser();
+    contributor = await usersActions.createUser();
+    collaborator = await usersActions.createUser();
 
     fileId = (await userApi.nodes.createFile(file)).entry.id;
 
@@ -98,9 +102,9 @@ describe('Destination picker dialog : ', () => {
     searchSubFolder1SiteId = (await userApi.nodes.createFolder(searchSubFolder1, searchFolderSiteId)).entry.id;
     await userApi.nodes.createFolder(searchSubFolder2, searchSubFolder1SiteId);
 
-    await userApi.sites.addSiteConsumer(site, consumer);
-    await userApi.sites.addSiteContributor(site, contributor);
-    await userApi.sites.addSiteCollaborator(site, collaborator);
+    await userApi.sites.addSiteConsumer(site, consumer.username);
+    await userApi.sites.addSiteContributor(site, contributor.username);
+    await userApi.sites.addSiteCollaborator(site, collaborator.username);
 
     fileIdConsumer = (await consumerApi.nodes.createFile(file)).entry.id;
     fileIdContributor = (await contributorApi.nodes.createFile(file)).entry.id;
@@ -120,7 +124,7 @@ describe('Destination picker dialog : ', () => {
     await contributorApi.nodes.deleteNodeById(fileIdContributor);
     await collaboratorApi.nodes.deleteNodeById(fileIdCollaborator);
 
-    await adminApiActions.loginWithProfile('admin');
+    await adminApiService.loginWithProfile('admin');
     await adminApiActions.nodes.deleteNodeById(adminFolderId);
   });
 
@@ -288,7 +292,7 @@ describe('Destination picker dialog : ', () => {
 
   describe('Users with different permissions', () => {
     it('[C263876] Consumer user cannot select the folder as destination', async () => {
-      await loginPage.loginWith(consumer);
+      await loginPage.loginWith(consumer.username, consumer.password);
       await page.dataTable.selectItem(file);
       await page.toolbar.clickMoreActionsCopy();
       await dialog.waitForDialogToOpen();
@@ -302,7 +306,7 @@ describe('Destination picker dialog : ', () => {
     });
 
     it('[C263877] Contributor user can select the folder as destination', async () => {
-      await loginPage.loginWith(contributor);
+      await loginPage.loginWith(contributor.username, contributor.password);
       await page.dataTable.selectItem(file);
       await page.toolbar.clickMoreActionsCopy();
       await dialog.waitForDialogToOpen();
@@ -316,7 +320,7 @@ describe('Destination picker dialog : ', () => {
     });
 
     it('[C263878] Collaborator user can select the folder as destination', async () => {
-      await loginPage.loginWith(collaborator);
+      await loginPage.loginWith(collaborator.username, collaborator.password);
       await page.dataTable.selectItem(file);
       await page.toolbar.clickMoreActionsCopy();
       await dialog.waitForDialogToOpen();

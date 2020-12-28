@@ -25,9 +25,7 @@
 
 import { browser } from 'protractor';
 import {
-  AdminActions,
   ApiActions,
-  LoginPage,
   BrowsingPage,
   SITE_VISIBILITY,
   RepoClient,
@@ -35,7 +33,7 @@ import {
   Viewer,
   Utils
 } from '@alfresco/aca-testing-shared';
-import { ApiService, BrowserActions, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, BrowserActions, UsersActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Share a file', () => {
   const parent = `parent-${Utils.random()}`;
@@ -59,12 +57,12 @@ describe('Share a file', () => {
   const apiService = new ApiService();
   const adminApiService = new ApiService();
   const repoClient = new RepoClient(apiService);
-  const adminApiActions = new AdminActions(adminApiService);
+  const adminApiActions = new ApiActions(adminApiService);
   const apiActions = new ApiActions(apiService);
   const usersActions = new UsersActions(adminApiService);
 
   beforeAll(async () => {
-    await adminApiActions.loginWithProfile('admin');
+    await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
 
     await apiService.login(user.username, user.password);

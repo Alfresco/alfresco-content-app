@@ -24,16 +24,14 @@
  */
 
 import {
-  AdminActions,
   SITE_VISIBILITY,
-  LoginPage,
   BrowsingPage,
   CreateLibraryDialog,
   Utils,
   RepoClient,
   ApiActions
 } from '@alfresco/aca-testing-shared';
-import { ApiService, BrowserActions, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, BrowserActions, UsersActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Create library', () => {
   const site1Name = `site1-${Utils.random()}`;
@@ -59,7 +57,6 @@ describe('Create library', () => {
   const apiService = new ApiService();
   const adminApiService = new ApiService();
   const repoClient = new RepoClient(apiService);
-  const adminApiActions = new AdminActions(adminApiService);
   const apiActions = new ApiActions(apiService);
   const usersActions = new UsersActions(adminApiService);
 
@@ -69,7 +66,7 @@ describe('Create library', () => {
   const { dataTable } = page;
 
   beforeAll(async (done) => {
-    await adminApiActions.loginWithProfile('admin');
+    await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
     await repoClient.sites.createSite(duplicateSite.name, SITE_VISIBILITY.PRIVATE, '', duplicateSite.id);
     await repoClient.sites.createSite(siteInTrash.name, SITE_VISIBILITY.PUBLIC, '', siteInTrash.id);

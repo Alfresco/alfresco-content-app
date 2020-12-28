@@ -25,9 +25,7 @@
 
 import { browser } from 'protractor';
 import {
-  AdminActions,
   ApiActions,
-  LoginPage,
   BrowsingPage,
   SITE_VISIBILITY,
   SITE_ROLES,
@@ -37,7 +35,7 @@ import {
   Viewer,
   Utils
 } from '@alfresco/aca-testing-shared';
-import { ApiService, BrowserActions, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, BrowserActions, UsersActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Unshare a file from Search Results', () => {
   const parent = `parent-${Utils.random()}`;
@@ -63,7 +61,7 @@ describe('Unshare a file from Search Results', () => {
   const apiService = new ApiService();
   const adminApiService = new ApiService();
   const repoClient = new RepoClient(apiService);
-  const adminApiActions = new AdminActions(adminApiService);
+  const adminApiActions = new ApiActions(adminApiService);
   const apiActions = new ApiActions(apiService);
   const usersActions = new UsersActions(adminApiService);
 
@@ -77,7 +75,7 @@ describe('Unshare a file from Search Results', () => {
   const { searchInput } = page.header;
 
   beforeAll(async (done) => {
-    await adminApiActions.loginWithProfile('admin');
+    await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
     await apiService.login(user.username, user.password);
 

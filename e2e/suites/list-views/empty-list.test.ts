@@ -23,8 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, SearchResultsPage, Utils } from '@alfresco/aca-testing-shared';
-import { ApiService } from '@alfresco/adf-testing';
+import { BrowsingPage, SearchResultsPage, Utils } from '@alfresco/aca-testing-shared';
+import { ApiService, LoginPage } from '@alfresco/adf-testing';
 
 describe('Empty list views', () => {
   const loginPage = new LoginPage();
@@ -34,10 +34,9 @@ describe('Empty list views', () => {
   const { searchInput } = page.header;
 
   const adminApiService = new ApiService();
-  const adminApiActions = new AdminActions(adminApiService);
 
   beforeAll(async (done) => {
-    await adminApiActions.loginWithProfile('admin');
+    await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
     await loginPage.loginWith(user.username, user.password);
     done();

@@ -23,12 +23,11 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, SITE_VISIBILITY, SITE_ROLES, RepoClient, InfoDrawer, Utils } from '@alfresco/aca-testing-shared';
-import { ApiService, BrowserActions } from '@alfresco/adf-testing';
+import { BrowsingPage, SITE_VISIBILITY, SITE_ROLES, RepoClient, InfoDrawer, Utils } from '@alfresco/aca-testing-shared';
+import { ApiService, BrowserActions, UsersActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Library properties', () => {
-  const user2 = `user2-${Utils.random()}`;
-  const user3 = `user3-${Utils.random()}`;
+  let user2, user3;
 
   const site = {
     name: `site1-${Utils.random()}`,
@@ -55,7 +54,7 @@ describe('Library properties', () => {
   const apiService = new ApiService();
   const repoClient = new RepoClient(apiService);
   const adminApiService = new ApiService();
-  const adminApiActions = new AdminActions(adminApiService);
+  const usersActions = new UsersActions(adminApiService);
 
   const infoDrawer = new InfoDrawer();
   const { aboutTab } = infoDrawer;
@@ -65,16 +64,17 @@ describe('Library properties', () => {
   const { dataTable } = page;
 
   beforeAll(async (done) => {
-    await adminApiActions.loginWithProfile('admin');
+    await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
-    await adminApiActions.createUser({ username: user2 });
-    await adminApiActions.createUser({ username: user3 });
+    user2 = await usersActions.createUser();
+    user3 = await usersActions.createUser();
+
     await repoClient.sites.createSite(site.name, site.visibility, site.description, site.id);
     await repoClient.sites.createSite(siteForUpdate.name, siteForUpdate.visibility, siteForUpdate.description, siteForUpdate.id);
     await repoClient.sites.createSite(siteDup);
 
-    await repoClient.sites.addSiteMember(site.id, user2, SITE_ROLES.SITE_COLLABORATOR.ROLE);
-    await repoClient.sites.addSiteMember(site.id, user3, SITE_ROLES.SITE_MANAGER.ROLE);
+    await repoClient.sites.addSiteMember(site.id, user2.username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
+    await repoClient.sites.addSiteMember(site.id, user3.username, SITE_ROLES.SITE_MANAGER.ROLE);
 
     await loginPage.loginWith(user.username, user.password);
     done();
@@ -237,7 +237,7 @@ describe('Library properties', () => {
     });
 
     it('[C289344] Error notification', async () => {
-      await loginPage.loginWith(user3);
+      await loginPage.loginWith(user3.username, user3.password);
 
       await page.goToMyLibrariesAndWait();
       await dataTable.selectItem(site.name);
@@ -245,7 +245,7 @@ describe('Library properties', () => {
       await infoDrawer.waitForInfoDrawerToOpen();
       await aboutTab.clickEditLibraryProperties();
 
-      await repoClient.sites.updateSiteMember(site.id, user3, SITE_ROLES.SITE_CONSUMER.ROLE);
+      await repoClient.sites.updateSiteMember(site.id, user3.username, SITE_ROLES.SITE_CONSUMER.ROLE);
 
       await aboutTab.enterDescription('new description');
       await aboutTab.clickUpdate();

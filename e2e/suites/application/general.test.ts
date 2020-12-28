@@ -25,7 +25,7 @@
 
 import { browser } from 'protractor';
 import { BrowserActions, Logger } from '@alfresco/adf-testing';
-import { BrowsingPage, LoginPage, CreateOrEditFolderDialog, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, CreateOrEditFolderDialog, RepoClient, Utils, LoginPage } from '@alfresco/aca-testing-shared';
 
 describe('General', () => {
   const loginPage = new LoginPage();

@@ -24,17 +24,15 @@
  */
 
 import {
-  AdminActions,
   ApiActions,
   SITE_VISIBILITY,
   SITE_ROLES,
-  LoginPage,
   BrowsingPage,
   Utils,
   ConfirmDialog,
   RepoClient
 } from '@alfresco/aca-testing-shared';
-import { ApiService, BrowserActions, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, BrowserActions, UsersActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Library actions', () => {
   const sitePublic1Admin = `admin-public1-${Utils.random()}`;
@@ -65,7 +63,7 @@ describe('Library actions', () => {
   const apiService = new ApiService();
   const adminApiService = new ApiService();
   const repoClient = new RepoClient(apiService);
-  const adminApiActions = new AdminActions(adminApiService);
+  const adminApiActions = new ApiActions(adminApiService);
   const apiActions = new ApiActions(apiService);
   const usersActions = new UsersActions(adminApiService);
 
@@ -77,7 +75,7 @@ describe('Library actions', () => {
   const confirmDialog = new ConfirmDialog();
 
   beforeAll(async (done) => {
-    await adminApiActions.loginWithProfile('admin');
+    await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
     await apiService.login(user.username, user.password);
 
@@ -105,7 +103,7 @@ describe('Library actions', () => {
   });
 
   afterAll(async () => {
-    await adminApiActions.loginWithProfile('admin');
+    await adminApiService.loginWithProfile('admin');
     await adminApiActions.deleteSites([
       sitePublic1Admin,
       siteSearchPublic1Admin,

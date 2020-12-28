@@ -23,14 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, SearchResultsPage, RepoClient, Utils, FILES } from '@alfresco/aca-testing-shared';
-import { ApiService } from '@alfresco/adf-testing';
+import { SearchResultsPage, RepoClient, Utils, FILES } from '@alfresco/aca-testing-shared';
+import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Search sorting', () => {
   const random = Utils.random();
 
-  const user1 = `user1-${random}`;
-  const user2 = `user2-${random}`;
+  let user1, user2;
 
   const parent = `parent-${random}`;
   let parentId: string;
@@ -52,8 +51,7 @@ describe('Search sorting', () => {
   const apiService2 = new ApiService();
   const repoClient2 = new RepoClient(apiService2);
   const adminApiService = new ApiService();
-  const adminApiActions = new AdminActions(adminApiService);
-
+  const usersActions = new UsersActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new SearchResultsPage();
@@ -61,18 +59,20 @@ describe('Search sorting', () => {
   const { dataTable } = page;
 
   beforeAll(async (done) => {
-    await adminApiActions.createUser({ username: user1 });
-    await adminApiActions.createUser({ username: user2 });
+    await adminApiService.loginWithProfile('admin');
+
+    user1 = await usersActions.createUser();
+    user2 = await usersActions.createUser();
     parentId = (await repoClient1.nodes.createFolder(parent)).entry.id;
 
-    await repoClient1.nodes.setGranularPermission(parentId, true, user2, 'Collaborator');
+    await repoClient1.nodes.setGranularPermission(parentId, true, user2.username, 'Collaborator');
 
     await repoClient1.upload.uploadFileWithRename(fileJpg.source, parentId, fileJpg.name);
     await repoClient2.upload.uploadFileWithRename(filePdf.source, parentId, filePdf.name, filePdf.title, filePdf.description);
 
     await repoClient1.search.waitForNodes(`search-sort-${random}`, { expect: 2 });
 
-    await loginPage.loginWith(user1);
+    await loginPage.loginWith(user1.username, user1.password);
     done();
   });
 

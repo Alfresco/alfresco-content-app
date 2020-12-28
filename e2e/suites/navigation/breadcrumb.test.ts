@@ -25,8 +25,8 @@
 
 import { browser } from 'protractor';
 
-import { AdminActions, SITE_VISIBILITY, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
-import { ApiService, UsersActions } from '@alfresco/adf-testing';
+import { SITE_VISIBILITY, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Breadcrumb', () => {
   const parent = `parent-${Utils.random()}`;
@@ -59,11 +59,10 @@ describe('Breadcrumb', () => {
   const apiService = new ApiService();
   const repoClient = new RepoClient(apiService);
   const adminApiService = new ApiService();
-  const adminApiActions = new AdminActions(adminApiService);
   const usersActions = new UsersActions(adminApiService);
 
   beforeAll(async (done) => {
-    await adminApiActions.loginWithProfile('admin');
+    await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
     parentId = (await repoClient.nodes.createFolder(parent)).entry.id;
     subFolder1Id = (await repoClient.nodes.createFolder(subFolder1, parentId)).entry.id;
@@ -202,7 +201,7 @@ describe('Breadcrumb', () => {
     const user2Api = new RepoClient(apiService2);
 
     beforeAll(async (done) => {
-      await adminApiActions.loginWithProfile('admin');
+      await adminApiService.loginWithProfile('admin');
       user2 = await usersActions.createUser();
       userFolderId = (await user2Api.nodes.createFolder(userFolder)).entry.id;
       await loginPage.loginWithAdmin();
@@ -224,9 +223,9 @@ describe('Breadcrumb', () => {
       await page.dataTable.doubleClickOnRowByName(user2);
       await page.dataTable.waitForBody();
 
-      expect(await breadcrumb.getAllItems()).toEqual(['Personal Files', 'User Homes', user2]);
+      expect(await breadcrumb.getAllItems()).toEqual(['Personal Files', 'User Homes', user2.username]);
       await page.dataTable.doubleClickOnRowByName(userFolder);
-      expect(await breadcrumb.getAllItems()).toEqual(['Personal Files', 'User Homes', user2, userFolder]);
+      expect(await breadcrumb.getAllItems()).toEqual(['Personal Files', 'User Homes', user2.username, userFolder]);
     });
   });
 });

@@ -24,14 +24,15 @@
  */
 
 import { browser } from 'protractor';
-import { AdminActions, APP_ROUTES, LoginPage, Utils, navigate } from '@alfresco/aca-testing-shared';
-import { ApiService, BrowserActions } from '@alfresco/adf-testing';
+import { APP_ROUTES, Utils, navigate } from '@alfresco/aca-testing-shared';
+import { ApiService, BrowserActions, UserModel, UsersActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Login', () => {
   const loginPage = new LoginPage();
   const { login } = loginPage;
   const adminApiService = new ApiService();
-  const adminApiActions = new AdminActions(adminApiService);
+  const adminApiActions = new ApiActions(adminApiService);
+  const usersActions = new UsersActions(adminApiService);
 
   /* cspell:disable-next-line */
   const testUser = `user-${Utils.random()}@alfness`;
@@ -59,11 +60,13 @@ describe('Login', () => {
   const newPassword = 'new password';
 
   beforeAll(async (done) => {
-    await adminApiActions.createUser({ username: testUser });
-    await adminApiActions.createUser(russianUser);
-    await adminApiActions.createUser(johnDoe);
-    await adminApiActions.createUser({ username: disabledUser });
-    await adminApiActions.createUser(testUser2);
+    await adminApiService.loginWithProfile('admin');
+    await usersActions.createUser(new UserModel({ username: testUser }));
+    await usersActions.createUser(new UserModel(russianUser));
+    await usersActions.createUser(new UserModel(johnDoe));
+    await usersActions.createUser(new UserModel({ username: disabledUser }));
+    await usersActions.createUser(new UserModel(testUser2));
+
     await adminApiActions.disableUser(disabledUser);
     done();
   });

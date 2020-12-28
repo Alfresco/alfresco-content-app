@@ -24,9 +24,28 @@
  */
 
 import { ApiService, Logger } from '@alfresco/adf-testing';
-import { Comment, CommentsApi, NodesApi, TrashcanApi, SitesApi, SharedlinksApi } from '@alfresco/js-api';
+import {
+  Comment,
+  CommentsApi,
+  TrashcanApi,
+  SharedlinksApi,
+  PersonEntry,
+  NodeEntry,
+  NodesApi as JsNodesApi,
+  SitesApi as JsSitesApi,
+  PeopleApi
+} from '@alfresco/js-api';
 import { browser } from 'protractor';
 import { Utils } from './utils';
+import {
+  FavoritesApi,
+  NodeContentTree,
+  SearchApi,
+  SharedLinksApi,
+  UploadApi,
+  SitesApi,
+  NodesApi
+} from './repo-client/apis';
 
 export class ApiActions {
   protected readonly apiService: ApiService;
@@ -36,18 +55,30 @@ export class ApiActions {
   readonly trashcanApi: TrashcanApi;
   readonly sitesApi: SitesApi;
   readonly sharedLinksApi: SharedlinksApi;
-
-  // protected username: string;
-  // protected password: string;
+  readonly sites: SitesApi;
+  readonly upload: UploadApi;
+  readonly nodes: NodesApi;
+  readonly favorites: FavoritesApi;
+  readonly search: SearchApi;
+  readonly shared: SharedLinksApi;
+  readonly peopleApi: PeopleApi;
 
   protected constructor(alfrescoApi?: ApiService) {
     this.apiService = alfrescoApi;
 
     this.commentsApi = new CommentsApi(this.apiService.getInstance());
-    this.nodesApi = new NodesApi(this.apiService.getInstance());
+    this.nodesApi = new JsNodesApi(this.apiService.getInstance());
     this.trashcanApi = new TrashcanApi(this.apiService.getInstance());
-    this.sitesApi = new SitesApi(this.apiService.getInstance());
+    this.sitesApi = new JsSitesApi(this.apiService.getInstance());
     this.sharedLinksApi = new SharedlinksApi(this.apiService.getInstance());
+    this.peopleApi = new PeopleApi(this.apiService.getInstance());
+
+    this.sites = new SitesApi(this.apiService);
+    this.upload = new UploadApi(this.apiService);
+    this.nodes = new NodesApi(this.apiService);
+    this.favorites = new FavoritesApi(this.apiService);
+    this.search = new SearchApi(this.apiService);
+    this.shared = new SharedLinksApi(this.apiService);
   }
 
   async createComment(nodeId: string, content: string): Promise<Comment | null> {
@@ -183,6 +214,210 @@ export class ApiActions {
       }
     } catch (error) {
       this.handleError('User Actions - shareNodes failed : ', error);
+    }
+  }
+
+  async getDataDictionaryId(): Promise<string> {
+    try {
+      return this.nodes.getNodeIdFromParent('Data Dictionary', '-root-');
+    } catch (error) {
+      super.handleError('Admin Actions - getDataDictionaryId failed : ', error);
+      return '';
+    }
+  }
+
+  async getNodeTemplatesFolderId(): Promise<string> {
+    try {
+      return this.nodes.getNodeIdFromParent('Node Templates', await this.getDataDictionaryId());
+    } catch (error) {
+      super.handleError('Admin Actions - getNodeTemplatesFolderId failed : ', error);
+      return '';
+    }
+  }
+
+  async getSpaceTemplatesFolderId(): Promise<string> {
+    try {
+      return this.nodes.getNodeIdFromParent('Space Templates', await this.getDataDictionaryId());
+    } catch (error) {
+      super.handleError('Admin Actions - getSpaceTemplatesFolderId failed : ', error);
+      return '';
+    }
+  }
+
+  async disableUser(username: string): Promise<PersonEntry> {
+
+    try {
+      return this.peopleApi.updatePerson(username, { enabled: false });
+    } catch (error) {
+      super.handleError('Admin Actions - createUser failed : ', error);
+      return null;
+    }
+  }
+
+  async changePassword(username: string, newPassword: string): Promise<PersonEntry> {
+
+    try {
+      return this.peopleApi.updatePerson(username, { password: newPassword });
+    } catch (error) {
+      super.handleError('Admin Actions - changePassword failed : ', error);
+      return null;
+    }
+  }
+
+  async createNodeTemplate(name: string, title: string = '', description: string = '', author: string = ''): Promise<NodeEntry> {
+    try {
+      const templatesRootFolderId: string = await this.getNodeTemplatesFolderId();
+
+      return this.nodes.createFile(name, templatesRootFolderId, title, description, author);
+    } catch (error) {
+      super.handleError('Admin Actions - createNodeTemplate failed : ', error);
+      return null;
+    }
+  }
+
+  async createNodeTemplatesHierarchy(hierarchy: NodeContentTree): Promise<any> {
+    try {
+      return this.nodes.createContent(hierarchy, `Data Dictionary/Node Templates`);
+    } catch (error) {
+      super.handleError('Admin Actions - createNodeTemplatesHierarchy failed : ', error);
+    }
+  }
+
+  async createSpaceTemplate(name: string, title: string = '', description: string = ''): Promise<NodeEntry> {
+    try {
+      const templatesRootFolderId: string = await this.getSpaceTemplatesFolderId();
+
+      return this.nodes.createFolder(name, templatesRootFolderId, title, description);
+    } catch (error) {
+      super.handleError('Admin Actions - createSpaceTemplate failed : ', error);
+      return null;
+    }
+  }
+
+  async createSpaceTemplatesHierarchy(hierarchy: NodeContentTree): Promise<any> {
+    try {
+      return this.nodes.createContent(hierarchy, `Data Dictionary/Space Templates`);
+    } catch (error) {
+      super.handleError('Admin Actions - createSpaceTemplatesHierarchy failed : ', error);
+    }
+  }
+
+  async removeUserAccessOnNodeTemplate(nodeName: string): Promise<NodeEntry> {
+    try {
+      const templatesRootFolderId = await this.getNodeTemplatesFolderId();
+      const nodeId: string = await this.nodes.getNodeIdFromParent(nodeName, templatesRootFolderId);
+
+      return this.nodes.setInheritPermissions(nodeId, false);
+    } catch (error) {
+      super.handleError('Admin Actions - removeUserAccessOnNodeTemplate failed : ', error);
+      return null;
+    }
+  }
+
+  async removeUserAccessOnSpaceTemplate(nodeName: string): Promise<NodeEntry> {
+    try {
+      const templatesRootFolderId = await this.getSpaceTemplatesFolderId();
+      const nodeId: string = await this.nodes.getNodeIdFromParent(nodeName, templatesRootFolderId);
+
+      return this.nodes.setInheritPermissions(nodeId, false);
+    } catch (error) {
+      super.handleError('Admin Actions - removeUserAccessOnSpaceTemplate failed : ', error);
+      return null;
+    }
+  }
+
+  async cleanupNodeTemplatesFolder(): Promise<void> {
+    try {
+      return this.nodes.deleteNodeChildren(await this.getNodeTemplatesFolderId());
+    } catch (error) {
+      super.handleError('Admin Actions - cleanupNodeTemplatesFolder failed : ', error);
+    }
+  }
+
+  async cleanupNodeTemplatesItems(nodeNames: string[]): Promise<void> {
+    try {
+      const templatesFolderId = await this.getNodeTemplatesFolderId();
+      for (const nodeName of nodeNames) {
+        const nodeId = await this.nodes.getNodeIdFromParent(nodeName, templatesFolderId);
+        await this.nodes.deleteNodeById(nodeId);
+      }
+    } catch (error) {
+      super.handleError('Admin Actions - cleanupNodeTemplatesItems failed : ', error);
+    }
+  }
+
+  async cleanupSpaceTemplatesFolder(): Promise<void> {
+    try {
+      const spaceTemplatesNodeId = await this.getSpaceTemplatesFolderId();
+
+      // folder links are deleted automatically when original folder is deleted
+      // Software Engineering Project is the default folder template coming from ACS, should not be deleted
+      const nodesToDelete = (await this.nodes.getNodeChildren(spaceTemplatesNodeId)).list.entries
+        .filter((node) => node.entry.nodeType !== 'app:folderlink' && node.entry.name !== 'Software Engineering Project')
+        .map((node) => node.entry.id);
+      return this.nodes.deleteNodesById(nodesToDelete);
+    } catch (error) {
+      super.handleError('Admin Actions - cleanupSpaceTemplatesFolder failed : ', error);
+    }
+  }
+
+  async cleanupSpaceTemplatesItems(nodeNames: string[]): Promise<void> {
+    try {
+      const spaceTemplatesNodeId = await this.getSpaceTemplatesFolderId();
+      for (const nodeName of nodeNames) {
+        const nodeId = await this.nodes.getNodeIdFromParent(nodeName, spaceTemplatesNodeId);
+        await this.nodes.deleteNodeById(nodeId);
+      }
+    } catch (error) {
+      super.handleError('Admin Actions - cleanupSpaceTemplatesFolder failed : ', error);
+    }
+  }
+
+  async createLinkToFileId(originalFileId: string, destinationParentId: string): Promise<NodeEntry> {
+    try {
+      return this.nodes.createFileLink(originalFileId, destinationParentId);
+    } catch (error) {
+      super.handleError('Admin Actions - createLinkToFileId failed : ', error);
+      return null;
+    }
+  }
+
+  async createLinkToFileName(originalFileName: string, originalFileParentId: string, destinationParentId?: string): Promise<NodeEntry> {
+    if (!destinationParentId) {
+      destinationParentId = originalFileParentId;
+    }
+
+    try {
+      const nodeId = await this.nodes.getNodeIdFromParent(originalFileName, originalFileParentId);
+
+      return this.createLinkToFileId(nodeId, destinationParentId);
+    } catch (error) {
+      super.handleError('Admin Actions - createLinkToFileName failed : ', error);
+      return null;
+    }
+  }
+
+  async createLinkToFolderId(originalFolderId: string, destinationParentId: string): Promise<NodeEntry> {
+    try {
+      return this.nodes.createFolderLink(originalFolderId, destinationParentId);
+    } catch (error) {
+      super.handleError('Admin Actions - createLinkToFolderId failed : ', error);
+      return null;
+    }
+  }
+
+  async createLinkToFolderName(originalFolderName: string, originalFolderParentId: string, destinationParentId?: string): Promise<NodeEntry> {
+    if (!destinationParentId) {
+      destinationParentId = originalFolderParentId;
+    }
+
+    try {
+      const nodeId = await this.nodes.getNodeIdFromParent(originalFolderName, originalFolderParentId);
+
+      return this.createLinkToFolderId(nodeId, destinationParentId);
+    } catch (error) {
+      super.handleError('Admin Actions - createLinkToFolderName failed : ', error);
+      return null;
     }
   }
 

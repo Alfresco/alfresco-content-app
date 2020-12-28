@@ -23,9 +23,9 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, FILES, RepoClient, Utils, ManageVersionsDialog, Viewer } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, FILES, RepoClient, Utils, ManageVersionsDialog, Viewer } from '@alfresco/aca-testing-shared';
 import { browser } from 'protractor';
-import { ApiService, Logger } from '@alfresco/adf-testing';
+import { ApiService, Logger, LoginPage } from '@alfresco/adf-testing';
 
 describe('Version actions', () => {
   const random = Utils.random();
@@ -40,7 +40,6 @@ describe('Version actions', () => {
   const apiService = new ApiService();
   const adminApiService = new ApiService();
   const repoClient = new RepoClient(apiService);
-  const adminApiActions = new AdminActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -51,7 +50,7 @@ describe('Version actions', () => {
 
   beforeAll(async () => {
     try {
-      await adminApiActions.loginWithProfile('admin');
+      await adminApiService.loginWithProfile('admin');
       const user = await usersActions.createUser();
 
       parentFolderId = (await repoClient.nodes.createFolder(parentFolder)).entry.id;

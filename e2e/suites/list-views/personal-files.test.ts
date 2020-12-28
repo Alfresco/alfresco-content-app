@@ -25,16 +25,18 @@
 
 import { browser } from 'protractor';
 
-import { AdminActions, APP_ROUTES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
-import { ApiService } from '@alfresco/adf-testing';
+import { APP_ROUTES, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { ApiService, UserModel, UsersActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Personal Files', () => {
-  const username = `user-${Utils.random()}`;
+
+  let user: UserModel;
 
   const apiService = new ApiService();
   const repoClient = new RepoClient(apiService);
   const adminApiService = new ApiService();
-  const adminApiActions = new AdminActions(adminApiService);
+  const adminApiActions = new ApiActions(adminApiService);
+  const usersActions = new UsersActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -46,7 +48,10 @@ describe('Personal Files', () => {
   const userFile = `file-${Utils.random()}.txt`;
 
   beforeAll(async (done) => {
-    await Promise.all([adminApiActions.createUser({ username }), adminApiActions.nodes.createFolders([adminFolder])]);
+    await adminApiService.loginWithProfile('admin');
+    user = await usersActions.createUser();
+
+    await repoClient.nodes.createFolders([adminFolder]);
     await repoClient.nodes.createFolders([userFolder]);
     await repoClient.nodes.createFiles([userFile], userFolder);
     done();
