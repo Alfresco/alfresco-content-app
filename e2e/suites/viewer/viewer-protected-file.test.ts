@@ -24,7 +24,7 @@
  */
 
 import { BrowsingPage, FILES, RepoClient, Utils, Viewer, PasswordDialog } from '@alfresco/aca-testing-shared';
-import { ApiService, BrowserActions, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, BrowserActions, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 describe('Viewer - password protected file', () => {
   const parent = `parent-${Utils.random()}`;
@@ -35,6 +35,7 @@ describe('Viewer - password protected file', () => {
   const apiService = new ApiService();
   const repoClient = new RepoClient(apiService);
   const adminApiService = new ApiService();
+  const usersActions = new UsersActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -45,6 +46,8 @@ describe('Viewer - password protected file', () => {
   beforeAll(async () => {
     await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
+    await apiService.login(user.username, user.password);
+
     parentId = (await repoClient.nodes.createFolder(parent)).entry.id;
     await repoClient.upload.uploadFile(protectedFile.name, parentId);
 

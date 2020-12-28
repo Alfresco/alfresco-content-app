@@ -24,7 +24,7 @@
  */
 
 import { BrowsingPage, InfoDrawer, RepoClient, EXTENSIBILITY_CONFIGS, Utils } from '@alfresco/aca-testing-shared';
-import { ApiService, BrowserActions, UserModel, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, BrowserActions, UserModel, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 describe('Extensions - Info Drawer', () => {
   let user: UserModel;
@@ -56,6 +56,7 @@ describe('Extensions - Info Drawer', () => {
   const apiService = new ApiService();
   const adminApiService = new ApiService();
   const repoClient = new RepoClient(apiService);
+  const usersActions = new UsersActions(adminApiService);
 
   const infoDrawer = new InfoDrawer();
 
@@ -65,6 +66,8 @@ describe('Extensions - Info Drawer', () => {
   beforeAll(async (done) => {
     await adminApiService.loginWithProfile('admin');
     user = await usersActions.createUser();
+    await apiService.login(user.username, user.password);
+
     fileId = (await repoClient.nodes.createFile(file)).entry.id;
     done();
   });
@@ -76,7 +79,6 @@ describe('Extensions - Info Drawer', () => {
 
   describe('', () => {
     beforeAll(async (done) => {
-      await loginPage.load();
       await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.INFO_DRAWER);
       await loginPage.loginWith(user.username, user.password);
       done();
@@ -137,7 +139,6 @@ describe('Extensions - Info Drawer', () => {
 
   describe('', () => {
     beforeAll(async (done) => {
-      await loginPage.load();
       await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.INFO_DRAWER_EMPTY);
       await loginPage.loginWith(user.username, user.password);
       await page.clickPersonalFilesAndWait();

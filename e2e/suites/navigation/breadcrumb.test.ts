@@ -64,6 +64,8 @@ describe('Breadcrumb', () => {
   beforeAll(async (done) => {
     await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
+    await apiService.login(user.username, user.password);
+
     parentId = (await repoClient.nodes.createFolder(parent)).entry.id;
     subFolder1Id = (await repoClient.nodes.createFolder(subFolder1, parentId)).entry.id;
     subFolder2Id = (await repoClient.nodes.createFolder(subFolder2, subFolder1Id)).entry.id;
@@ -203,6 +205,8 @@ describe('Breadcrumb', () => {
     beforeAll(async (done) => {
       await adminApiService.loginWithProfile('admin');
       user2 = await usersActions.createUser();
+      await apiService.login(user2.username, user2.password);
+
       userFolderId = (await user2Api.nodes.createFolder(userFolder)).entry.id;
       await loginPage.loginWithAdmin();
       await page.dataTable.waitForBody();

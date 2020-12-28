@@ -64,7 +64,6 @@ describe('Share a file', () => {
   beforeAll(async () => {
     await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
-
     await apiService.login(user.username, user.password);
     parentId = (await repoClient.nodes.createFolder(parent)).entry.id;
   });

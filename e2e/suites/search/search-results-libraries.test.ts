@@ -24,7 +24,7 @@
  */
 
 import { AdminActions, SearchResultsPage, RepoClient, Utils, SITE_VISIBILITY, SITE_ROLES } from '@alfresco/aca-testing-shared';
-import { ApiService } from '@alfresco/adf-testing';
+import { ApiService, UsersActions } from '@alfresco/adf-testing';
 
 describe('Search results - libraries', () => {
   const random = Utils.random();
@@ -67,6 +67,7 @@ describe('Search results - libraries', () => {
   const repoClient = new RepoClient(apiService);
   const adminApiService = new ApiService();
   const adminApiActions = new ApiActions(adminApiService);
+  const usersActions = new UsersActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new SearchResultsPage();
@@ -76,6 +77,7 @@ describe('Search results - libraries', () => {
   beforeAll(async (done) => {
     await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
+    await apiService.login(user.username, user.password);
 
     await repoClient.sites.createSite(site1.name, SITE_VISIBILITY.PUBLIC, '', site1.id);
     await repoClient.sites.createSite(site2.name, SITE_VISIBILITY.PUBLIC, '', site2.id);

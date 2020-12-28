@@ -24,7 +24,7 @@
  */
 
 import { SearchResultsPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
-import { ApiService, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 const moment = require('moment');
 
 describe('Search results - files and folders', () => {
@@ -49,6 +49,7 @@ describe('Search results - files and folders', () => {
   const apiService = new ApiService();
   const repoClient = new RepoClient(apiService);
   const adminApiService = new ApiService();
+  const usersActions = new UsersActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new SearchResultsPage();
@@ -58,6 +59,7 @@ describe('Search results - files and folders', () => {
   beforeAll(async (done) => {
     await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
+    await apiService.login(user.username, user.password);
 
     fileId = (await repoClient.nodes.createFile(file, '-my-', fileTitle, fileDescription)).entry.id;
     await repoClient.nodes.updateNodeContent(fileId, 'edited by user');

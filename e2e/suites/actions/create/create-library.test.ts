@@ -68,6 +68,8 @@ describe('Create library', () => {
   beforeAll(async (done) => {
     await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
+    await apiService.login(user.username, user.password);
+
     await repoClient.sites.createSite(duplicateSite.name, SITE_VISIBILITY.PRIVATE, '', duplicateSite.id);
     await repoClient.sites.createSite(siteInTrash.name, SITE_VISIBILITY.PUBLIC, '', siteInTrash.id);
     await repoClient.sites.deleteSite(siteInTrash.id, false);

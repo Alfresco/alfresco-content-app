@@ -24,7 +24,7 @@
  */
 
 import { EXTENSIBILITY_CONFIGS, Utils, Header, Menu } from '@alfresco/aca-testing-shared';
-import { ApiService, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 describe('Extensions - Info Drawer', () => {
   const disabledMenu = {
@@ -46,11 +46,13 @@ describe('Extensions - Info Drawer', () => {
 
   const loginPage = new LoginPage();
   const adminApiService = new ApiService();
+  const usersActions = new UsersActions(adminApiService);
 
   beforeAll(async (done) => {
     await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
-    await loginPage.load();
+    await apiService.login(user.username, user.password);
+
     await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.HEADER);
     await loginPage.loginWith(user.username, user.password);
     done();

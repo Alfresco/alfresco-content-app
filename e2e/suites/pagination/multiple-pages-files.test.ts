@@ -29,7 +29,7 @@ import { recentFilesTests } from './recent-files';
 import { searchResultsTests } from './search-results';
 import { sharedFilesTests } from './shared-files';
 import { favoritesTests } from './favorites';
-import { ApiService, UserModel } from '@alfresco/adf-testing';
+import { ApiService, UserModel, UsersActions } from '@alfresco/adf-testing';
 
 describe('Pagination on multiple pages : ', () => {
   const random = Utils.random();
@@ -46,6 +46,7 @@ describe('Pagination on multiple pages : ', () => {
   const apiService = new ApiService();
   const userApi = new RepoClient(apiService);
   const adminApiService = new ApiService();
+  const usersActions = new UsersActions(adminApiService);
 
   let initialFavoritesTotalItems: number;
   let initialSearchTotalItems: number;
@@ -53,6 +54,7 @@ describe('Pagination on multiple pages : ', () => {
   beforeAll(async () => {
     await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
+    await apiService.login(user.username, user.password);
 
     initialSearchTotalItems = await userApi.search.getTotalItems(user.username);
 

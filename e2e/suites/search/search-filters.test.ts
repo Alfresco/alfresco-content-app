@@ -81,7 +81,10 @@ describe('Search filters', () => {
   beforeAll(async (done) => {
     await adminApiService.loginWithProfile('admin');
     user1 = await usersActions.createUser();
+    await apiService1.login(user1.username, user1.password);
+
     user2 = await usersActions.createUser();
+    await apiService2.login(user2.username, user2.password);
 
     parentId = (await repoClient1.nodes.createFolder(parent)).entry.id;
     await repoClient1.sites.createSite(site, SITE_VISIBILITY.PUBLIC);

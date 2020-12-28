@@ -25,7 +25,7 @@
 
 import { BrowsingPage, FILES, RepoClient, Utils, ManageVersionsDialog, Viewer } from '@alfresco/aca-testing-shared';
 import { browser } from 'protractor';
-import { ApiService, Logger, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, Logger, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 describe('Version actions', () => {
   const random = Utils.random();
@@ -40,6 +40,7 @@ describe('Version actions', () => {
   const apiService = new ApiService();
   const adminApiService = new ApiService();
   const repoClient = new RepoClient(apiService);
+  const usersActions = new UsersActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -52,6 +53,7 @@ describe('Version actions', () => {
     try {
       await adminApiService.loginWithProfile('admin');
       const user = await usersActions.createUser();
+      await apiService.login(user.username, user.password);
 
       parentFolderId = (await repoClient.nodes.createFolder(parentFolder)).entry.id;
 

@@ -32,7 +32,7 @@ import {
   DATE_TIME_FORMAT,
   DATE_FORMAT
 } from '@alfresco/aca-testing-shared';
-import { ApiService, BrowserActions, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, BrowserActions, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 const moment = require('moment');
 
@@ -69,6 +69,7 @@ describe('File / Folder properties', () => {
   const apiService = new ApiService();
   const repoClient = new RepoClient(apiService);
   const adminApiService = new ApiService();
+  const usersActions = new UsersActions(adminApiService);
 
   const infoDrawer = new InfoDrawer();
   const { propertiesTab } = infoDrawer;
@@ -80,6 +81,8 @@ describe('File / Folder properties', () => {
   beforeAll(async (done) => {
     await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
+    await apiService.login(user.username, user.password);
+
     parentId = (await repoClient.nodes.createFolder(parent)).entry.id;
     file1Id = (await repoClient.nodes.createFile(file1.name, parentId, file1.title, file1.description, file1.author)).entry.id;
     folder1Id = (await repoClient.nodes.createFolder(folder1.name, parentId, folder1.title, folder1.description, folder1.author)).entry.id;

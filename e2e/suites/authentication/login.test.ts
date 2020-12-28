@@ -78,7 +78,6 @@ describe('Login', () => {
 
   describe('general tests', () => {
     beforeEach(async (done) => {
-      await loginPage.load();
       done();
     });
 
@@ -154,7 +153,6 @@ describe('Login', () => {
     const { submitButton } = loginComponent;
 
     beforeEach(async (done) => {
-      await loginPage.load();
       done();
     });
 

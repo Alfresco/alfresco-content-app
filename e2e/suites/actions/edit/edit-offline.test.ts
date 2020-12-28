@@ -24,7 +24,7 @@
  */
 
 import { BrowsingPage, FILES, RepoClient, Utils } from '@alfresco/aca-testing-shared';
-import { ApiService, UserModel, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, UserModel, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 describe('Edit offline', () => {
   let user: UserModel;
@@ -47,6 +47,7 @@ describe('Edit offline', () => {
   const apiService = new ApiService();
   const adminApiService = new ApiService();
   const repoClient = new RepoClient(apiService);
+  const usersActions = new UsersActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -56,6 +57,8 @@ describe('Edit offline', () => {
   beforeAll(async () => {
     await adminApiService.loginWithProfile('admin');
     user = await usersActions.createUser();
+    await apiService.login(user.username, user.password);
+
   });
 
   describe('on Personal Files', () => {

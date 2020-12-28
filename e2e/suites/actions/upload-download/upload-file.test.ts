@@ -24,7 +24,7 @@
  */
 
 import { BrowsingPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
-import { ApiService, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 describe('Upload files', () => {
   const folder1 = `folder1-${Utils.random()}`;
@@ -33,6 +33,7 @@ describe('Upload files', () => {
   const apiService = new ApiService();
   const adminApiService = new ApiService();
   const repoClient = new RepoClient(apiService);
+  const usersActions = new UsersActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -41,6 +42,8 @@ describe('Upload files', () => {
   beforeAll(async (done) => {
     await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
+    await apiService.login(user.username, user.password);
+
     folder1Id = (await repoClient.nodes.createFolder(folder1)).entry.id;
 
     await loginPage.loginWith(user.username, user.password);

@@ -37,6 +37,7 @@ describe('Logout', () => {
   beforeAll(async (done) => {
     await adminApiService.loginWithProfile('admin');
     await usersActions.createUser();
+    await apiService.login(user.username, user.password);
     done();
   });
 

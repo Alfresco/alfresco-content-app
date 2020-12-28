@@ -25,7 +25,7 @@
 
 import { SearchResultsPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 import { browser } from 'protractor';
-import { ApiService, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 describe('Search results general', () => {
   const random = Utils.random();
@@ -39,6 +39,7 @@ describe('Search results general', () => {
   const apiService = new ApiService();
   const repoClient = new RepoClient(apiService);
   const adminApiService = new ApiService();
+  const usersActions = new UsersActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new SearchResultsPage();
@@ -48,6 +49,7 @@ describe('Search results general', () => {
   beforeAll(async (done) => {
     await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
+    await apiService.login(user.username, user.password);
 
     fileId = (await repoClient.nodes.createFile(file)).entry.id;
     folderId = (await repoClient.nodes.createFolder(folder)).entry.id;

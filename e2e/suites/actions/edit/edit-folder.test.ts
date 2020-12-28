@@ -32,7 +32,7 @@ import {
   Utils,
   clearTextWithBackspace
 } from '@alfresco/aca-testing-shared';
-import { ApiService, BrowserActions, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, BrowserActions, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 describe('Edit folder', () => {
   const parent = `parent-${Utils.random()}`;
@@ -73,6 +73,7 @@ describe('Edit folder', () => {
   const adminApiService = new ApiService();
   const repoClient = new RepoClient(apiService);
   const adminApiActions = new ApiActions(adminApiService);
+  const usersActions = new UsersActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -83,6 +84,7 @@ describe('Edit folder', () => {
   beforeAll(async (done) => {
     await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
+    await apiService.login(user.username, user.password);
 
     await adminApiActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
     const docLibId = await adminApiActions.sites.getDocLibId(sitePrivate);

@@ -50,6 +50,7 @@ describe('Personal Files', () => {
   beforeAll(async (done) => {
     await adminApiService.loginWithProfile('admin');
     user = await usersActions.createUser();
+    await apiService.login(user.username, user.password);
 
     await repoClient.nodes.createFolders([adminFolder]);
     await repoClient.nodes.createFolders([userFolder]);

@@ -62,7 +62,11 @@ describe('Search sorting', () => {
     await adminApiService.loginWithProfile('admin');
 
     user1 = await usersActions.createUser();
+    await apiService1.login(user.username, user.password);
+
     user2 = await usersActions.createUser();
+    await apiService2.login(user.username, user.password);
+
     parentId = (await repoClient1.nodes.createFolder(parent)).entry.id;
 
     await repoClient1.nodes.setGranularPermission(parentId, true, user2.username, 'Collaborator');

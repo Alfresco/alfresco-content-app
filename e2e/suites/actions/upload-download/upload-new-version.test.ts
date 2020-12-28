@@ -98,6 +98,7 @@ describe('Upload new version', () => {
   beforeAll(async () => {
     await adminApiService.loginWithProfile('admin');
     user = await usersActions.createUser();
+    await apiService.login(user.username, user.password);
 
     parentPFId = (await repoClient.nodes.createFolder(parentPF)).entry.id;
     parentSFId = (await repoClient.nodes.createFolder(parentSF)).entry.id;

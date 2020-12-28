@@ -24,7 +24,7 @@
  */
 
 import { BrowsingPage, RepoClient, InfoDrawer, Utils } from '@alfresco/aca-testing-shared';
-import { ApiService, BrowserActions, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, BrowserActions, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 describe('General', () => {
   const parent = `parent-${Utils.random()}`;
@@ -36,6 +36,7 @@ describe('General', () => {
   const apiService = new ApiService();
   const repoClient = new RepoClient(apiService);
   const adminApiService = new ApiService();
+  const usersActions = new UsersActions(adminApiService);
 
   const infoDrawer = new InfoDrawer();
 
@@ -46,6 +47,7 @@ describe('General', () => {
   beforeAll(async (done) => {
     await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
+    await apiService.login(user.username, user.password);
 
     parentId = (await repoClient.nodes.createFolder(parent)).entry.id;
     await repoClient.nodes.createFile(file1, parentId);

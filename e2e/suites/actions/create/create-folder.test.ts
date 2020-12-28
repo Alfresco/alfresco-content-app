@@ -30,7 +30,7 @@ import {
   clearTextWithBackspace,
   RepoClient
 } from '@alfresco/aca-testing-shared';
-import { ApiService, BrowserActions, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, BrowserActions, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 describe('Create folder', () => {
   const parent = `parent-${Utils.random()}`;
@@ -50,6 +50,7 @@ describe('Create folder', () => {
   const apiService = new ApiService();
   const adminApiService = new ApiService();
   const repoClient = new RepoClient(apiService);
+  const usersActions = new UsersActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -65,6 +66,7 @@ describe('Create folder', () => {
   beforeAll(async (done) => {
     await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
+    await apiService.login(user.username, user.password);
 
     parentId = (await repoClient.nodes.createFolder(parent)).entry.id;
     await repoClient.nodes.createFolder(duplicateFolderName, parentId);

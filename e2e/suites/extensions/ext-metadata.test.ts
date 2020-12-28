@@ -31,7 +31,7 @@ import {
   InfoDrawer,
   MetadataCard
 } from '@alfresco/aca-testing-shared';
-import { ApiService, BrowserActions, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, BrowserActions, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 describe('Extensions - Metadata presets', () => {
   const file = `file-${Utils.random()}.png`;
@@ -61,6 +61,7 @@ describe('Extensions - Metadata presets', () => {
   const apiService = new ApiService();
   const repoClient = new RepoClient(apiService);
   const adminApiService = new ApiService();
+  const usersActions = new UsersActions(adminApiService);
 
   const infoDrawer = new InfoDrawer();
   const metadataCard = new MetadataCard();
@@ -71,9 +72,10 @@ describe('Extensions - Metadata presets', () => {
   beforeAll(async (done) => {
     await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
+    await apiService.login(user.username, user.password);
+
     fileId = (await repoClient.nodes.createImage(file)).entry.id;
 
-    await loginPage.load();
     await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.METADATA_PRESETS);
     await loginPage.loginWith(user.username, user.password);
 

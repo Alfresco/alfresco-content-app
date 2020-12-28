@@ -63,13 +63,20 @@ describe('Destination picker dialog : ', () => {
   const site = `site-${random}`;
 
   const adminApiService = new ApiService();
-  const apiService = new ApiService();
-  const userApi = new RepoClient(apiService);
-  const consumerApi = new RepoClient(consumer, consumer);
-  const contributorApi = new RepoClient(contributor, contributor);
-  const collaboratorApi = new RepoClient(collaborator, collaborator);
   const adminApiActions = new ApiActions(adminApiService);
   const usersActions = new UsersActions(adminApiService);
+
+  const apiService = new ApiService();
+  const userApi = new RepoClient(apiService);
+
+  const apiServiceConsumer = new ApiService();
+  const consumerApi = new RepoClient(apiServiceConsumer);
+
+  const apiServiceContributor = new ApiService();
+  const contributorApi = new RepoClient(apiServiceContributor);
+
+  const apiServiceCollaborator = new ApiService();
+  const collaboratorApi = new RepoClient(apiServiceCollaborator);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -81,9 +88,16 @@ describe('Destination picker dialog : ', () => {
   beforeAll(async () => {
     await adminApiService.loginWithProfile('admin');
     user = await usersActions.createUser();
+    await apiService.login(user.username, user.password);
+
     consumer = await usersActions.createUser();
+    await apiServiceConsumer.login(consumer.username, consumer.password);
+
     contributor = await usersActions.createUser();
+    await apiServiceContributor.login(contributor.username, contributor.password);
+
     collaborator = await usersActions.createUser();
+    await apiServiceCollaborator.login(collaborator.username, collaborator.password);
 
     fileId = (await userApi.nodes.createFile(file)).entry.id;
 

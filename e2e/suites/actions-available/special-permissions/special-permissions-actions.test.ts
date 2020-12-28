@@ -78,15 +78,25 @@ describe('Special permissions : ', () => {
   const apiServiceDemoted = new ApiService();
   const userDemotedApi = new RepoClient(apiServiceDemoted);
 
+  const usersActions = new UsersActions(adminApiService);
+
   const loginPage = new LoginPage();
 
   beforeAll(async () => {
     await adminApiService.loginWithProfile('admin');
 
     userManager = await usersActions.createUser(new UserModel({ username: usernameManager }));
+    await apiServiceManager.login(user.username, user.password);
+
     userConsumer = await usersActions.createUser(new UserModel({ username: usernameConsumer }));
+    await apiServiceConsumer.login(user.username, user.password);
+
     userCollaborator = await usersActions.createUser(new UserModel({ username: usernameCollaborator }));
+    await apiServiceCollaborator.login(user.username, user.password);
+
     userDemoted = await usersActions.createUser(new UserModel({ username: usernameDemoted }));
+    await apiServiceDemoted.login(user.username, user.password);
+
 
     const consumerFavoritesTotalItems = await userConsumerApi.favorites.getFavoritesTotalItems();
     const managerSearchTotalItems = await userManagerApi.search.getTotalItems(userManager);

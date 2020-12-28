@@ -36,7 +36,6 @@ describe('Page titles', () => {
 
   describe('on Login / Logout pages', () => {
     it('[C217155] on Login page', async () => {
-      await loginPage.load();
       expect(await browser.getTitle()).toContain('Sign in');
     });
 

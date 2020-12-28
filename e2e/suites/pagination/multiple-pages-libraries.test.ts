@@ -24,7 +24,7 @@
  */
 
 import { BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
-import { ApiService, Logger, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, Logger, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 describe('Pagination on multiple pages', () => {
   const random = Utils.random();
@@ -32,6 +32,7 @@ describe('Pagination on multiple pages', () => {
   const apiService = new ApiService();
   const userApi = new RepoClient(apiService);
   const adminApiService = new ApiService();
+  const usersActions = new UsersActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -45,6 +46,7 @@ describe('Pagination on multiple pages', () => {
     try {
       await adminApiService.loginWithProfile('admin');
       const user = await usersActions.createUser();
+      await apiService.login(user.username, user.password);
 
       await userApi.sites.createSitesPrivate(sites);
       await userApi.sites.waitForSitesToBeCreated(sites);

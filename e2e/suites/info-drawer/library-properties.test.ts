@@ -65,7 +65,10 @@ describe('Library properties', () => {
 
   beforeAll(async (done) => {
     await adminApiService.loginWithProfile('admin');
+
     const user = await usersActions.createUser();
+    await apiService.login(user.username, user.password);
+
     user2 = await usersActions.createUser();
     user3 = await usersActions.createUser();
 

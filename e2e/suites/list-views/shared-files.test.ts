@@ -24,7 +24,7 @@
  */
 
 import { SITE_VISIBILITY, SITE_ROLES, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
-import { ApiService, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 describe('Shared Files', () => {
   const siteName = `site-${Utils.random()}`;
@@ -45,6 +45,7 @@ describe('Shared Files', () => {
   const repoClient = new RepoClient(apiService);
   const adminApiService = new ApiService();
   const adminApiActions = new ApiActions(adminApiService);
+  const usersActions = new UsersActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -53,6 +54,8 @@ describe('Shared Files', () => {
   beforeAll(async (done) => {
     await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
+    await apiService.login(user.username, user.password);
+
     await adminApiActions.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
     await adminApiActions.sites.addSiteMember(siteName, user.username, SITE_ROLES.SITE_CONSUMER.ROLE);
     const docLibId = await adminApiActions.sites.getDocLibId(siteName);

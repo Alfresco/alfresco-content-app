@@ -32,7 +32,7 @@ import {
   RepoClient,
   NodeContentTree
 } from '@alfresco/aca-testing-shared';
-import { ApiService, BrowserActions, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, BrowserActions, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 describe('Create folder from template', () => {
   const random = Utils.random();
@@ -104,6 +104,7 @@ describe('Create folder from template', () => {
   const adminApiService = new ApiService();
   const repoClient = new RepoClient(apiService);
   const adminApiActions = new ApiActions(adminApiService);
+  const usersActions = new UsersActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -114,6 +115,7 @@ describe('Create folder from template', () => {
   beforeAll(async () => {
     await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
+    await apiService.login(user.username, user.password);
 
     parentId = (await repoClient.nodes.createFolder(parent)).entry.id;
     await repoClient.nodes.createFolder(duplicateFolderName, parentId);

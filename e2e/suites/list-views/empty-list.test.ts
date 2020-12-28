@@ -24,7 +24,7 @@
  */
 
 import { BrowsingPage, SearchResultsPage, Utils } from '@alfresco/aca-testing-shared';
-import { ApiService, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 describe('Empty list views', () => {
   const loginPage = new LoginPage();
@@ -34,10 +34,13 @@ describe('Empty list views', () => {
   const { searchInput } = page.header;
 
   const adminApiService = new ApiService();
+  const usersActions = new UsersActions(adminApiService);
 
   beforeAll(async (done) => {
     await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
+    await apiService.login(user.username, user.password);
+
     await loginPage.loginWith(user.username, user.password);
     done();
   });

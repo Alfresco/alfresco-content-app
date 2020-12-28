@@ -24,7 +24,7 @@
  */
 
 import { BrowsingPage, RepoClient, EXTENSIBILITY_CONFIGS, Utils } from '@alfresco/aca-testing-shared';
-import { ApiService, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 describe('Extensions - DocumentList presets', () => {
   const file = `file-${Utils.random()}.txt`;
@@ -53,6 +53,7 @@ describe('Extensions - DocumentList presets', () => {
   const apiService = new ApiService();
   const repoClient = new RepoClient(apiService);
   const adminApiService = new ApiService();
+  const usersActions = new UsersActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -61,9 +62,10 @@ describe('Extensions - DocumentList presets', () => {
   beforeAll(async (done) => {
     await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
+    await apiService.login(user.username, user.password);
+
     fileId = (await repoClient.nodes.createFile(file)).entry.id;
 
-    await loginPage.load();
     await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.DOCUMENT_LIST_PRESETS);
     await loginPage.loginWith(user.username, user.password);
 

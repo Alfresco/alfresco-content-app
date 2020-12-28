@@ -24,7 +24,7 @@
  */
 
 import { BrowsingPage, SITE_VISIBILITY, RepoClient, Utils } from '@alfresco/aca-testing-shared';
-import { ApiService, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 describe('Mark items as favorites', () => {
   const parent = `parent-${Utils.random()}`;
@@ -77,6 +77,7 @@ describe('Mark items as favorites', () => {
   const apiService = new ApiService();
   const adminApiService = new ApiService();
   const repoClient = new RepoClient(apiService);
+  const usersActions = new UsersActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -86,6 +87,7 @@ describe('Mark items as favorites', () => {
   beforeAll(async (done) => {
     await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
+    await apiService.login(user.username, user.password);
 
     parentId = (await repoClient.nodes.createFolder(parent)).entry.id;
 
