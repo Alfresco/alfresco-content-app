@@ -89,7 +89,7 @@ export class FavoritesApi extends RepoApi {
 
   async getFavorites() {
     try {
-      return await this.favoritesApi.listFavorites(this.username);
+      return await this.favoritesApi.listFavorites('-me-');
     } catch (error) {
       this.handleError(`FavoritesApi getFavorites : catch : `, error);
       return null;
@@ -98,7 +98,7 @@ export class FavoritesApi extends RepoApi {
 
   async getFavoritesTotalItems(): Promise<number> {
     try {
-      return (await this.favoritesApi.listFavorites(this.username)).list.pagination.totalItems;
+      return (await this.favoritesApi.listFavorites('-me-')).list.pagination.totalItems;
     } catch (error) {
       this.handleError(`FavoritesApi getFavoritesTotalItems : catch : `, error);
       return -1;

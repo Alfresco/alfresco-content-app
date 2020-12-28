@@ -31,8 +31,6 @@ import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
 const page = new BrowsingPage();
 
 describe('Trash - available actions : ', () => {
-  const random = Utils.random();
-
   let fileInTrashId: string;
   let file2InTrashId: string;
   let folderInTrashId: string;

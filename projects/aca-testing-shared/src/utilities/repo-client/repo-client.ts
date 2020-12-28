@@ -32,7 +32,7 @@ import { ApiService } from '@alfresco/adf-testing';
 export class RepoClient {
   alfrescoApi: ApiService;
 
-  protected constructor(alfrescoApi: ApiService) {
+  constructor(alfrescoApi: ApiService) {
     this.alfrescoApi = alfrescoApi;
   }
 

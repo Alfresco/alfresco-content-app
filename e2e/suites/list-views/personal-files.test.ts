@@ -64,7 +64,7 @@ describe('Personal Files', () => {
 
   describe(`Admin user's personal files`, () => {
     beforeAll(async (done) => {
-      await loginPage.loginWithAdmin();
+      await loginPage.loginWithProfile('admin');
       done();
     });
 

@@ -208,7 +208,7 @@ describe('Breadcrumb', () => {
       await apiService.login(user2.username, user2.password);
 
       userFolderId = (await user2Api.nodes.createFolder(userFolder)).entry.id;
-      await loginPage.loginWithAdmin();
+      await loginPage.loginWithProfile('admin');
       await page.dataTable.waitForBody();
 
       await page.dataTable.sortByModified('desc');

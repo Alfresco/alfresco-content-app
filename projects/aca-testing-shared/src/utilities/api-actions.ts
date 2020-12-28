@@ -213,7 +213,7 @@ export class ApiActions {
     try {
       return this.nodes.getNodeIdFromParent('Data Dictionary', '-root-');
     } catch (error) {
-      super.handleError('Admin Actions - getDataDictionaryId failed : ', error);
+      this.handleError('Admin Actions - getDataDictionaryId failed : ', error);
       return '';
     }
   }
@@ -222,7 +222,7 @@ export class ApiActions {
     try {
       return this.nodes.getNodeIdFromParent('Node Templates', await this.getDataDictionaryId());
     } catch (error) {
-      super.handleError('Admin Actions - getNodeTemplatesFolderId failed : ', error);
+      this.handleError('Admin Actions - getNodeTemplatesFolderId failed : ', error);
       return '';
     }
   }
@@ -231,7 +231,7 @@ export class ApiActions {
     try {
       return this.nodes.getNodeIdFromParent('Space Templates', await this.getDataDictionaryId());
     } catch (error) {
-      super.handleError('Admin Actions - getSpaceTemplatesFolderId failed : ', error);
+      this.handleError('Admin Actions - getSpaceTemplatesFolderId failed : ', error);
       return '';
     }
   }
@@ -240,7 +240,7 @@ export class ApiActions {
     try {
       return this.peopleApi.updatePerson(username, { enabled: false });
     } catch (error) {
-      super.handleError('Admin Actions - createUser failed : ', error);
+      this.handleError('Admin Actions - createUser failed : ', error);
       return null;
     }
   }
@@ -249,7 +249,7 @@ export class ApiActions {
     try {
       return this.peopleApi.updatePerson(username, { password: newPassword });
     } catch (error) {
-      super.handleError('Admin Actions - changePassword failed : ', error);
+      this.handleError('Admin Actions - changePassword failed : ', error);
       return null;
     }
   }
@@ -260,7 +260,7 @@ export class ApiActions {
 
       return this.nodes.createFile(name, templatesRootFolderId, title, description, author);
     } catch (error) {
-      super.handleError('Admin Actions - createNodeTemplate failed : ', error);
+      this.handleError('Admin Actions - createNodeTemplate failed : ', error);
       return null;
     }
   }
@@ -269,7 +269,7 @@ export class ApiActions {
     try {
       return this.nodes.createContent(hierarchy, `Data Dictionary/Node Templates`);
     } catch (error) {
-      super.handleError('Admin Actions - createNodeTemplatesHierarchy failed : ', error);
+      this.handleError('Admin Actions - createNodeTemplatesHierarchy failed : ', error);
     }
   }
 
@@ -279,7 +279,7 @@ export class ApiActions {
 
       return this.nodes.createFolder(name, templatesRootFolderId, title, description);
     } catch (error) {
-      super.handleError('Admin Actions - createSpaceTemplate failed : ', error);
+      this.handleError('Admin Actions - createSpaceTemplate failed : ', error);
       return null;
     }
   }
@@ -288,7 +288,7 @@ export class ApiActions {
     try {
       return this.nodes.createContent(hierarchy, `Data Dictionary/Space Templates`);
     } catch (error) {
-      super.handleError('Admin Actions - createSpaceTemplatesHierarchy failed : ', error);
+      this.handleError('Admin Actions - createSpaceTemplatesHierarchy failed : ', error);
     }
   }
 
@@ -299,7 +299,7 @@ export class ApiActions {
 
       return this.nodes.setInheritPermissions(nodeId, false);
     } catch (error) {
-      super.handleError('Admin Actions - removeUserAccessOnNodeTemplate failed : ', error);
+      this.handleError('Admin Actions - removeUserAccessOnNodeTemplate failed : ', error);
       return null;
     }
   }
@@ -311,7 +311,7 @@ export class ApiActions {
 
       return this.nodes.setInheritPermissions(nodeId, false);
     } catch (error) {
-      super.handleError('Admin Actions - removeUserAccessOnSpaceTemplate failed : ', error);
+      this.handleError('Admin Actions - removeUserAccessOnSpaceTemplate failed : ', error);
       return null;
     }
   }
@@ -320,7 +320,7 @@ export class ApiActions {
     try {
       return this.nodes.deleteNodeChildren(await this.getNodeTemplatesFolderId());
     } catch (error) {
-      super.handleError('Admin Actions - cleanupNodeTemplatesFolder failed : ', error);
+      this.handleError('Admin Actions - cleanupNodeTemplatesFolder failed : ', error);
     }
   }
 
@@ -332,7 +332,7 @@ export class ApiActions {
         await this.nodes.deleteNodeById(nodeId);
       }
     } catch (error) {
-      super.handleError('Admin Actions - cleanupNodeTemplatesItems failed : ', error);
+      this.handleError('Admin Actions - cleanupNodeTemplatesItems failed : ', error);
     }
   }
 
@@ -347,7 +347,7 @@ export class ApiActions {
         .map((node) => node.entry.id);
       return this.nodes.deleteNodesById(nodesToDelete);
     } catch (error) {
-      super.handleError('Admin Actions - cleanupSpaceTemplatesFolder failed : ', error);
+      this.handleError('Admin Actions - cleanupSpaceTemplatesFolder failed : ', error);
     }
   }
 
@@ -359,7 +359,7 @@ export class ApiActions {
         await this.nodes.deleteNodeById(nodeId);
       }
     } catch (error) {
-      super.handleError('Admin Actions - cleanupSpaceTemplatesFolder failed : ', error);
+      this.handleError('Admin Actions - cleanupSpaceTemplatesFolder failed : ', error);
     }
   }
 
@@ -367,7 +367,7 @@ export class ApiActions {
     try {
       return this.nodes.createFileLink(originalFileId, destinationParentId);
     } catch (error) {
-      super.handleError('Admin Actions - createLinkToFileId failed : ', error);
+      this.handleError('Admin Actions - createLinkToFileId failed : ', error);
       return null;
     }
   }
@@ -382,7 +382,7 @@ export class ApiActions {
 
       return this.createLinkToFileId(nodeId, destinationParentId);
     } catch (error) {
-      super.handleError('Admin Actions - createLinkToFileName failed : ', error);
+      this.handleError('Admin Actions - createLinkToFileName failed : ', error);
       return null;
     }
   }
@@ -391,7 +391,7 @@ export class ApiActions {
     try {
       return this.nodes.createFolderLink(originalFolderId, destinationParentId);
     } catch (error) {
-      super.handleError('Admin Actions - createLinkToFolderId failed : ', error);
+      this.handleError('Admin Actions - createLinkToFolderId failed : ', error);
       return null;
     }
   }
@@ -406,14 +406,14 @@ export class ApiActions {
 
       return this.createLinkToFolderId(nodeId, destinationParentId);
     } catch (error) {
-      super.handleError('Admin Actions - createLinkToFolderName failed : ', error);
+      this.handleError('Admin Actions - createLinkToFolderName failed : ', error);
       return null;
     }
   }
 
   protected handleError(message: string, response: any) {
     Logger.error(`\n--- ${message} error :`);
-    Logger.error('\t>>> username: ', this.username);
+    Logger.error('\t>>> username: ', this.apiService.getInstance().username);
     Logger.error('\t>>> JSON: ', JSON.stringify(browser.params.config));
     if (response.status && response.response) {
       try {

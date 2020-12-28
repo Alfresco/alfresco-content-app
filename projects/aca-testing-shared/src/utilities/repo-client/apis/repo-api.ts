@@ -29,13 +29,13 @@ import { ApiService, Logger } from '@alfresco/adf-testing';
 export abstract class RepoApi {
   apiService: ApiService;
 
-  protected constructor(apiService: ApiService) {
+  constructor(apiService: ApiService) {
     this.apiService = apiService;
   }
 
   protected handleError(message: string, response: any) {
     Logger.error(`\n--- ${message} error :`);
-    Logger.error('\t>>> username: ', this.username);
+    Logger.error('\t>>> username: ', this.apiService.getInstance().username);
     Logger.error('\t>>> JSON: ', JSON.stringify(browser.params.config));
     if (response.status && response.response) {
       try {

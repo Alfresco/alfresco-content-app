@@ -105,7 +105,7 @@ describe('Trash', () => {
 
   describe('as admin', () => {
     beforeAll(async () => {
-      await loginPage.loginWithAdmin();
+      await loginPage.loginWithProfile('admin');
     });
 
     beforeEach(async () => {

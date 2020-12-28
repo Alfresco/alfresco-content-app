@@ -35,9 +35,12 @@ import {
   ManageVersionsDialog,
   UploadNewVersionDialog
 } from '@alfresco/aca-testing-shared';
-import { ApiService, BrowserActions, UsersActions, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, BrowserActions, UsersActions, LoginPage, UserModel } from '@alfresco/adf-testing';
 
 describe('Viewer actions', () => {
+
+  let user: UserModel;
+
   const docxFile = FILES.docxFile;
   const docxFile2 = FILES.docxFile2;
   const xlsxFileForMove = FILES.xlsxFile;
@@ -61,7 +64,7 @@ describe('Viewer actions', () => {
 
   beforeAll(async (done) => {
     await adminApiService.loginWithProfile('admin');
-    const user = await usersActions.createUser();
+    user = await usersActions.createUser();
     await apiService.login(user.username, user.password);
     done();
   });

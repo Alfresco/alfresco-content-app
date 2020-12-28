@@ -26,9 +26,11 @@
 import { BrowsingPage, SearchResultsPage, RepoClient, Utils, ApiActions } from '@alfresco/aca-testing-shared';
 import * as testData from './test-data-libraries';
 import * as testUtil from '../test-util';
-import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, UsersActions, LoginPage, UserModel } from '@alfresco/adf-testing';
 
 describe('Library actions : ', () => {
+  let user: UserModel;
+
   const apiService = new ApiService();
   const adminApiService = new ApiService();
   const userApi = new RepoClient(apiService);
@@ -43,7 +45,7 @@ describe('Library actions : ', () => {
 
   beforeAll(async () => {
     await adminApiService.loginWithProfile('admin');
-    const user = await usersActions.createUser();
+    user = await usersActions.createUser();
     await apiService.login(user.username, user.password);
 
     await userApi.sites.createSite(testData.publicUserMemberFav.name);

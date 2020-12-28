@@ -40,13 +40,13 @@ describe('Page titles', () => {
     });
 
     it('[C217156] after logout', async () => {
-      await loginPage.loginWithAdmin();
+      await loginPage.loginWithProfile('admin');
       await page.signOut();
       expect(await browser.getTitle()).toContain('Sign in');
     });
 
     it('[C280414] when pressing Back after Logout', async () => {
-      await loginPage.loginWithAdmin();
+      await loginPage.loginWithProfile('admin');
       await page.signOut();
       await browser.navigate().back();
       expect(await browser.getTitle()).toContain('Sign in');
@@ -56,7 +56,7 @@ describe('Page titles', () => {
   describe('on app pages', () => {
     beforeAll(async (done) => {
       fileId = (await adminApi.nodes.createFile(file)).entry.id;
-      await loginPage.loginWithAdmin();
+      await loginPage.loginWithProfile('admin');
       done();
     });
 

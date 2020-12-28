@@ -31,7 +31,7 @@ describe('Search input', () => {
   const { searchInput } = page.header;
 
   beforeAll(async (done) => {
-    await loginPage.loginWithAdmin();
+    await loginPage.loginWithProfile('admin');
     done();
   });
 

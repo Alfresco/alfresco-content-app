@@ -78,8 +78,6 @@ describe('Special permissions : ', () => {
   const apiServiceDemoted = new ApiService();
   const userDemotedApi = new RepoClient(apiServiceDemoted);
 
-  const usersActions = new UsersActions(adminApiService);
-
   const loginPage = new LoginPage();
 
   beforeAll(async () => {
