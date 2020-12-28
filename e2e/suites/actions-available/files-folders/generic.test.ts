@@ -24,12 +24,10 @@
  */
 
 import { LoginPage, BrowsingPage, RepoClient, NodeContentTree, Utils, AdminActions } from '@alfresco/aca-testing-shared';
-import { BrowserActions } from '@alfresco/adf-testing';
+import { ApiService, BrowserActions } from '@alfresco/adf-testing';
 
 describe('Generic tests : ', () => {
   const random = Utils.random();
-
-  const username = `user-${random}`;
 
   const parent = `parent-${random}`;
 
@@ -45,9 +43,10 @@ describe('Generic tests : ', () => {
     folders: [folder1, folder2]
   };
 
-  const userApi = new RepoClient(username, username);
-
-  const adminApiActions = new AdminActions();
+  const apiService = new ApiService();
+  const adminApiService = new ApiService();
+  const userApi = new RepoClient(apiService);
+  const adminApiActions = new AdminActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -56,9 +55,10 @@ describe('Generic tests : ', () => {
   const contextMenu = dataTable.menu;
 
   beforeAll(async () => {
-    await adminApiActions.createUser({ username });
+    await adminApiActions.loginWithProfile('admin');
+    const user = await usersActions.createUser();
     await userApi.nodes.createContent(content);
-    await loginPage.loginWith(username);
+    await loginPage.loginWith(user.username, user.password);
   });
 
   afterAll(async () => {

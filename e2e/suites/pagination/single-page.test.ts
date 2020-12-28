@@ -23,12 +23,11 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage, SearchResultsPage, Utils, AdminActions, UserActions, RepoClient } from '@alfresco/aca-testing-shared';
+import { LoginPage, BrowsingPage, SearchResultsPage, Utils, AdminActions, ApiActions, RepoClient } from '@alfresco/aca-testing-shared';
+import { ApiService, UsersActions } from '@alfresco/adf-testing';
 
 describe('Pagination on single page', () => {
   const random = Utils.random();
-
-  const username = `user-${random}`;
 
   const siteName = `site-${random}`;
   let siteId: string;
@@ -38,9 +37,12 @@ describe('Pagination on single page', () => {
   const fileInTrash = `fileInTrash-${random}.txt`;
   let fileInTrashId: string;
 
-  const userApi = new RepoClient(username, username);
-  const adminApiActions = new AdminActions();
-  const userActions = new UserActions();
+  const apiService = new ApiService();
+  const repoClient = new RepoClient(apiService);
+  const adminApiService = new ApiService();
+  const adminApiActions = new AdminActions(adminApiService);
+  const apiActions = new ApiActions(apiService);
+  const usersActions = new UsersActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -49,34 +51,34 @@ describe('Pagination on single page', () => {
   const searchResultsPage = new SearchResultsPage();
 
   beforeAll(async () => {
-    await adminApiActions.login();
-    await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
+    await adminApiActions.loginWithProfile('admin');
+    const user = await usersActions.createUser();
+    await apiService.login(user.username, user.password);
 
-    const initialFavoriteTotalItems = await userApi.favorites.getFavoritesTotalItems();
-    const initialRecentFilesTotalItems = await userApi.search.getTotalItems(username);
-    const initialTrashTotalItems = await userActions.getTrashcanSize();
+    const initialFavoriteTotalItems = await repoClient.favorites.getFavoritesTotalItems();
+    const initialRecentFilesTotalItems = await repoClient.search.getTotalItems(user.username);
+    const initialTrashTotalItems = await apiActions.getTrashcanSize();
 
-    fileId = (await userApi.nodes.createFile(file)).entry.id;
-    fileInTrashId = (await userApi.nodes.createFile(fileInTrash)).entry.id;
-    siteId = (await userApi.sites.createSite(siteName)).entry.id;
+    fileId = (await repoClient.nodes.createFile(file)).entry.id;
+    fileInTrashId = (await repoClient.nodes.createFile(fileInTrash)).entry.id;
+    siteId = (await repoClient.sites.createSite(siteName)).entry.id;
 
-    await userApi.nodes.deleteNodeById(fileInTrashId, false);
-    await userApi.favorites.addFavoriteById('file', fileId);
-    await userActions.shareNodes([fileId]);
+    await repoClient.nodes.deleteNodeById(fileInTrashId, false);
+    await repoClient.favorites.addFavoriteById('file', fileId);
+    await apiActions.shareNodes([fileId]);
 
-    await userApi.favorites.waitForApi({ expect: initialFavoriteTotalItems + 2 });
-    await userApi.search.waitForApi(username, { expect: initialRecentFilesTotalItems + 1 });
-    await userApi.shared.waitForFilesToBeShared([fileId]);
-    await userActions.waitForTrashcanSize(initialTrashTotalItems + 1);
+    await repoClient.favorites.waitForApi({ expect: initialFavoriteTotalItems + 2 });
+    await repoClient.search.waitForApi(user.username, { expect: initialRecentFilesTotalItems + 1 });
+    await repoClient.shared.waitForFilesToBeShared([fileId]);
+    await apiActions.waitForTrashcanSize(initialTrashTotalItems + 1);
 
-    await loginPage.loginWith(username);
+    await loginPage.loginWith(user.username, user.password);
   });
 
   afterAll(async () => {
-    await userActions.deleteNodes([fileId]);
-    await userActions.deleteSites([siteId]);
-    await userActions.emptyTrashcan();
+    await apiActions.deleteNodes([fileId]);
+    await apiActions.deleteSites([siteId]);
+    await apiActions.emptyTrashcan();
   });
 
   it('[C280112] page selector not displayed on Favorites', async () => {

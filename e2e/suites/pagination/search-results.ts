@@ -33,7 +33,7 @@ export function searchResultsTests(username: string, random: string) {
 
   describe('Pagination controls : ', () => {
     beforeAll(async () => {
-      await loginPage.loginWith(username);
+      await loginPage.loginWith(user.username, user.password);
       await searchInput.clickSearchButton();
       await searchInput.checkOnlyFiles();
       await searchInput.searchFor(random);

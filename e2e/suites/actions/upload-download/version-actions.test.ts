@@ -25,12 +25,11 @@
 
 import { AdminActions, LoginPage, BrowsingPage, FILES, RepoClient, Utils, ManageVersionsDialog, Viewer } from '@alfresco/aca-testing-shared';
 import { browser } from 'protractor';
-import { Logger } from '@alfresco/adf-testing';
+import { ApiService, Logger } from '@alfresco/adf-testing';
 
 describe('Version actions', () => {
   const random = Utils.random();
 
-  const username = `user-${random}`;
   const parentFolder = `parent-${random}`;
   let parentFolderId: string;
 
@@ -38,9 +37,10 @@ describe('Version actions', () => {
 
   const filesToUpload = [FILES.pdfFile, FILES.docxFile, FILES.xlsxFile, FILES.jpgFile, FILES.docxFile2];
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const apiService = new ApiService();
+  const adminApiService = new ApiService();
+  const repoClient = new RepoClient(apiService);
+  const adminApiActions = new AdminActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -48,21 +48,21 @@ describe('Version actions', () => {
   const versionManagePage = new ManageVersionsDialog();
   const viewerPage = new Viewer();
   const { searchInput } = page.header;
-  const adminApiActions = new AdminActions();
 
   beforeAll(async () => {
     try {
-      await adminApiActions.createUser({ username });
+      await adminApiActions.loginWithProfile('admin');
+      const user = await usersActions.createUser();
 
-      parentFolderId = (await apis.user.nodes.createFolder(parentFolder)).entry.id;
+      parentFolderId = (await repoClient.nodes.createFolder(parentFolder)).entry.id;
 
-      fileId = (await apis.user.upload.uploadFile(filesToUpload[0], parentFolderId)).entry.id;
+      fileId = (await repoClient.upload.uploadFile(filesToUpload[0], parentFolderId)).entry.id;
 
-      await apis.user.shared.shareFilesByIds([fileId]);
-      await apis.user.favorites.addFavoritesByIds('file', [fileId]);
+      await repoClient.shared.shareFilesByIds([fileId]);
+      await repoClient.favorites.addFavoritesByIds('file', [fileId]);
 
       for (let i = 0; i < filesToUpload.length - 1; i++) {
-        await apis.user.nodes.updateNodeContent(
+        await repoClient.nodes.updateNodeContent(
           fileId,
           `${browser.params.e2eRootPath}/resources/test-files/${filesToUpload[i + 1]}`,
           true,
@@ -71,9 +71,9 @@ describe('Version actions', () => {
         );
       }
 
-      await apis.user.shared.waitForFilesToBeShared([fileId]);
+      await repoClient.shared.waitForFilesToBeShared([fileId]);
 
-      await loginPage.loginWith(username);
+      await loginPage.loginWith(user.username, user.password);
       await dataTable.doubleClickOnRowByName(parentFolder);
       await dataTable.waitForHeader();
     } catch (error) {
@@ -82,7 +82,7 @@ describe('Version actions', () => {
   });
 
   afterAll(async () => {
-    await apis.user.nodes.deleteNodeById(parentFolderId);
+    await repoClient.nodes.deleteNodeById(parentFolderId);
   });
 
   describe('on Personal Files', () => {

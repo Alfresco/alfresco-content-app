@@ -24,9 +24,9 @@
  */
 
 import { AdminActions, BrowsingPage, LoginPage, RepoClient, EXTENSIBILITY_CONFIGS, Utils } from '@alfresco/aca-testing-shared';
+import { ApiService } from '@alfresco/adf-testing';
 
 describe('Extensions - DocumentList presets', () => {
-  const username = `user-${Utils.random()}`;
   const file = `file-${Utils.random()}.txt`;
   let fileId: string;
 
@@ -50,22 +50,23 @@ describe('Extensions - DocumentList presets', () => {
     }
   ];
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const apiService = new ApiService();
+  const repoClient = new RepoClient(apiService);
+  const adminApiService = new ApiService();
+  const adminApiActions = new AdminActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable } = page;
-  const adminApiActions = new AdminActions();
 
   beforeAll(async (done) => {
-    await adminApiActions.createUser({ username });
-    fileId = (await apis.user.nodes.createFile(file)).entry.id;
+    await adminApiActions.loginWithProfile('admin');
+    const user = await usersActions.createUser();
+    fileId = (await repoClient.nodes.createFile(file)).entry.id;
 
     await loginPage.load();
     await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.DOCUMENT_LIST_PRESETS);
-    await loginPage.loginWith(username);
+    await loginPage.loginWith(user.username, user.password);
 
     done();
   });
@@ -76,7 +77,7 @@ describe('Extensions - DocumentList presets', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(fileId);
+    await repoClient.nodes.deleteNodeById(fileId);
     done();
   });
 

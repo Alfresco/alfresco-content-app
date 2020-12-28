@@ -29,11 +29,7 @@ import { Utils } from '../../../../utilities/utils';
 import { QueriesApi as AdfQueriesApi } from '@alfresco/js-api';
 
 export class QueriesApi extends RepoApi {
-  queriesApi = new AdfQueriesApi(this.alfrescoJsApi);
-
-  constructor(username?: string, password?: string) {
-    super(username, password);
-  }
+  queriesApi = new AdfQueriesApi(this.apiService.getInstance());
 
   async findSites(searchTerm: string) {
     const data = {
@@ -42,7 +38,6 @@ export class QueriesApi extends RepoApi {
     };
 
     try {
-      await this.apiAuth();
       return this.queriesApi.findSites(searchTerm, data);
     } catch (error) {
       this.handleError(`QueriesApi findSites : catch : `, error);
@@ -66,8 +61,7 @@ export class QueriesApi extends RepoApi {
     };
 
     try {
-      await this.apiAuth();
-      return this.queriesApi.findNodes(searchTerm, data);
+return this.queriesApi.findNodes(searchTerm, data);
     } catch (error) {
       this.handleError(`QueriesApi findNodes : catch : `, error);
       return null;

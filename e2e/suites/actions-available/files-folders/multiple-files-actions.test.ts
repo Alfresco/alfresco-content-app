@@ -23,14 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { RepoClient, Utils, AdminActions, UserActions, LoginPage, BrowsingPage, SearchResultsPage } from '@alfresco/aca-testing-shared';
+import { RepoClient, Utils, AdminActions, ApiActions, LoginPage, BrowsingPage, SearchResultsPage } from '@alfresco/aca-testing-shared';
 import * as testData from './test-data';
 import * as testUtil from '../test-util';
+import { ApiService, UsersActions } from '@alfresco/adf-testing';
 
 describe('Multiple Files - available actions : ', () => {
   const random = Utils.random();
-
-  const username = `user-${random}`;
 
   const parentName = `parent-${random}`;
   let parentId: string;
@@ -46,9 +45,12 @@ describe('Multiple Files - available actions : ', () => {
   const file2LockedFav = `file-lockedFav2-${random}.txt`;
   let file2LockedFavId: string;
 
-  const userApi = new RepoClient(username, username);
-  const adminApiActions = new AdminActions();
-  const userActions = new UserActions();
+  const apiService = new ApiService();
+  const userApi = new RepoClient(apiService);
+  const adminApiService = new ApiService();
+  const adminApiActions = new AdminActions(adminApiService);
+  const apiActions = new ApiActions(apiService);
+  const usersActions = new UsersActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -57,9 +59,9 @@ describe('Multiple Files - available actions : ', () => {
   const searchResultsPage = new SearchResultsPage();
 
   beforeAll(async () => {
-    await adminApiActions.login();
-    await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
+    await adminApiActions.loginWithProfile('admin');
+    const user = await usersActions.createUser();
+    await apiService.login(user.username, user.password);
 
     parentId = (await userApi.nodes.createFolder(parentName)).entry.id;
 
@@ -80,12 +82,12 @@ describe('Multiple Files - available actions : ', () => {
     await userApi.shared.shareFilesByIds([file1Id, file2Id, file3LockedId, file1LockedFavId, file2LockedFavId]);
     await userApi.shared.waitForFilesToBeShared([file1Id, file2Id, file3LockedId, file1LockedFavId, file2LockedFavId]);
 
-    await loginPage.loginWith(username);
+    await loginPage.loginWith(user.username, user.password);
   });
 
   afterAll(async () => {
-    await userActions.unlockNodes([file1LockedFavId, file2LockedFavId, file3LockedId]);
-    await userActions.deleteNodes([parentId]);
+    await apiActions.unlockNodes([file1LockedFavId, file2LockedFavId, file3LockedId]);
+    await apiActions.deleteNodes([parentId]);
   });
 
   beforeEach(async () => {

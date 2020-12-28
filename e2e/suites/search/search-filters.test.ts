@@ -24,7 +24,7 @@
  */
 
 import { AdminActions, LoginPage, SearchResultsPage, RepoClient, Utils, FILES, SITE_VISIBILITY, SITE_ROLES } from '@alfresco/aca-testing-shared';
-import { BrowserActions } from '@alfresco/adf-testing';
+import { ApiService, BrowserActions } from '@alfresco/adf-testing';
 
 const moment = require('moment');
 
@@ -57,10 +57,10 @@ describe('Search filters', () => {
   const expectedModifiers = [`${user1} ${user1} (1)`, `${user2} ${user2} (1)`];
   const expectedLocations = ['_REPOSITORY_ (1)', `${site} (1)`];
 
-  const apis = {
-    user1: new RepoClient(user1, user1),
-    user2: new RepoClient(user2, user2)
-  };
+  const apiService1 = new ApiService();
+  const repoClient1 = new RepoClient(apiService1);
+  const apiService2 = new ApiService();
+  const repoClient2 = new RepoClient(apiService2);
 
   const loginPage = new LoginPage();
   const page = new SearchResultsPage();
@@ -74,22 +74,24 @@ describe('Search filters', () => {
   const locationFilter = filters.location;
   const modifierFilter = filters.modifier;
   const modifiedDateFilter = filters.modifiedDate;
-  const adminApiActions = new AdminActions();
+
+  const adminApiService = new ApiService();
+  const adminApiActions = new AdminActions(adminApiService);
 
   beforeAll(async (done) => {
     await adminApiActions.createUser({ username: user1 });
     await adminApiActions.createUser({ username: user2 });
-    parentId = (await apis.user1.nodes.createFolder(parent)).entry.id;
-    await apis.user1.sites.createSite(site, SITE_VISIBILITY.PUBLIC);
-    await apis.user1.sites.addSiteMember(site, user2, SITE_ROLES.SITE_MANAGER.ROLE);
+    parentId = (await repoClient1.nodes.createFolder(parent)).entry.id;
+    await repoClient1.sites.createSite(site, SITE_VISIBILITY.PUBLIC);
+    await repoClient1.sites.addSiteMember(site, user2, SITE_ROLES.SITE_MANAGER.ROLE);
     docLibId = await adminApiActions.sites.getDocLibId(site);
 
-    await apis.user1.nodes.setGranularPermission(parentId, true, user2, 'Collaborator');
+    await repoClient1.nodes.setGranularPermission(parentId, true, user2, 'Collaborator');
 
-    await apis.user1.upload.uploadFileWithRename(fileJpgUser1.source, docLibId, fileJpgUser1.name);
-    await apis.user2.upload.uploadFileWithRename(filePdfUser2.source, parentId, filePdfUser2.name, filePdfUser2.title, filePdfUser2.description);
+    await repoClient1.upload.uploadFileWithRename(fileJpgUser1.source, docLibId, fileJpgUser1.name);
+    await repoClient2.upload.uploadFileWithRename(filePdfUser2.source, parentId, filePdfUser2.name, filePdfUser2.title, filePdfUser2.description);
 
-    await apis.user1.search.waitForNodes(`search-filters-${random}`, { expect: 2 });
+    await repoClient1.search.waitForNodes(`search-filters-${random}`, { expect: 2 });
 
     await loginPage.loginWith(user1);
     done();
@@ -106,7 +108,7 @@ describe('Search filters', () => {
   });
 
   afterAll(async (done) => {
-    await Promise.all([apis.user1.nodes.deleteNodeById(parentId), apis.user1.sites.deleteSite(site)]);
+    await Promise.all([repoClient1.nodes.deleteNodeById(parentId), repoClient1.sites.deleteSite(site)]);
     done();
   });
 
@@ -362,7 +364,7 @@ describe('Search filters', () => {
       expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, 'JPG file not displayed');
       expect(await page.getResultsChipsValues()).toEqual([`${user1} ${user1}`]);
 
-      await creatorFilter.checkCategory(user2);
+      await creatorFilter.checkCategory(user2.username);
 
       expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(true, 'PDF file not displayed');
       expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, 'JPG file not displayed');
@@ -417,7 +419,7 @@ describe('Search filters', () => {
       expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, 'JPG file not displayed');
       expect(await page.getResultsChipsValues()).toEqual([`${user1} ${user1}`]);
 
-      await modifierFilter.checkCategory(user2);
+      await modifierFilter.checkCategory(user2.username);
 
       expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(true, 'PDF file not displayed');
       expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, 'JPG file not displayed');

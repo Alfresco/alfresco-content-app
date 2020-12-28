@@ -23,16 +23,18 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage, SearchResultsPage, RepoClient, Utils, AdminActions, UserActions } from '@alfresco/aca-testing-shared';
+import { LoginPage, BrowsingPage, SearchResultsPage, RepoClient, Utils, AdminActions, ApiActions } from '@alfresco/aca-testing-shared';
 import * as testData from './test-data-libraries';
 import * as testUtil from '../test-util';
+import { ApiService, UsersActions } from '@alfresco/adf-testing';
 
 describe('Library actions : ', () => {
-  const username = `user-${Utils.random()}`;
-
-  const userApi = new RepoClient(username, username);
-  const adminApiActions = new AdminActions();
-  const userActions = new UserActions();
+  const apiService = new ApiService();
+  const adminApiService = new ApiService();
+  const userApi = new RepoClient(apiService);
+  const adminApiActions = new AdminActions(adminApiService);
+  const apiActions = new ApiActions(apiService);
+  const usersActions = new UsersActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -40,9 +42,9 @@ describe('Library actions : ', () => {
   const { searchInput } = searchResultsPage.header;
 
   beforeAll(async () => {
-    await adminApiActions.login();
-    await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
+    await adminApiActions.loginWithProfile('admin');
+    const user = await usersActions.createUser();
+    await apiService.login(user.username, user.password);
 
     await userApi.sites.createSite(testData.publicUserMemberFav.name);
     await userApi.sites.createSitePrivate(testData.privateUserMemberFav.name);
@@ -68,12 +70,12 @@ describe('Library actions : ', () => {
       testData.moderatedRequestedJoinFav.name
     ]);
 
-    await loginPage.loginWith(username);
+    await loginPage.loginWith(user.username, user.password);
   });
 
   afterAll(async () => {
-    await userActions.login(username, username);
-    await userActions.deleteSites([
+    await apiService.login(user.username, user.password);
+    await apiActions.deleteSites([
       testData.publicUserMemberFav.name,
       testData.privateUserMemberFav.name,
       testData.moderatedUserMemberFav.name,
@@ -81,9 +83,9 @@ describe('Library actions : ', () => {
       testData.privateUserMemberNotFav.name,
       testData.moderatedUserMemberNotFav.name
     ]);
-    await userActions.emptyTrashcan();
+    await apiActions.emptyTrashcan();
 
-    await adminApiActions.login();
+    await adminApiActions.loginWithProfile('admin');
     await adminApiActions.deleteSites([
       testData.publicNotMemberFav.name,
       testData.moderatedNotMemberFav.name,

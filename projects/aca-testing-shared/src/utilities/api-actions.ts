@@ -23,13 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Logger } from '@alfresco/adf-testing';
-import { AlfrescoApi, Comment, CommentsApi, NodesApi, TrashcanApi, SitesApi, SharedlinksApi } from '@alfresco/js-api';
+import { ApiService, Logger } from '@alfresco/adf-testing';
+import { Comment, CommentsApi, NodesApi, TrashcanApi, SitesApi, SharedlinksApi } from '@alfresco/js-api';
 import { browser } from 'protractor';
 import { Utils } from './utils';
 
-export class UserActions {
-  protected readonly alfrescoApi: AlfrescoApi;
+export class ApiActions {
+  protected readonly apiService: ApiService;
 
   readonly commentsApi: CommentsApi;
   readonly nodesApi: NodesApi;
@@ -37,38 +37,17 @@ export class UserActions {
   readonly sitesApi: SitesApi;
   readonly sharedLinksApi: SharedlinksApi;
 
-  protected username: string;
-  protected password: string;
+  // protected username: string;
+  // protected password: string;
 
-  constructor() {
-    this.alfrescoApi = new AlfrescoApi();
-    this.alfrescoApi.setConfig(browser.params.config);
+  protected constructor(alfrescoApi?: ApiService) {
+    this.apiService = alfrescoApi;
 
-    this.commentsApi = new CommentsApi(this.alfrescoApi);
-    this.nodesApi = new NodesApi(this.alfrescoApi);
-    this.trashcanApi = new TrashcanApi(this.alfrescoApi);
-    this.sitesApi = new SitesApi(this.alfrescoApi);
-    this.sharedLinksApi = new SharedlinksApi(this.alfrescoApi);
-  }
-
-  async login(username: string, password: string) {
-    this.username = username || this.username;
-    this.password = password || this.password;
-
-    try {
-      return this.alfrescoApi.login(this.username, this.password);
-    } catch (error) {
-      this.handleError('User Actions - login failed : ', error);
-    }
-  }
-
-  async logout(): Promise<any> {
-    try {
-      await this.alfrescoApi.login(this.username, this.password);
-      return this.alfrescoApi.logout();
-    } catch (error) {
-      this.handleError('User Actions - logout failed : ', error);
-    }
+    this.commentsApi = new CommentsApi(this.apiService.getInstance());
+    this.nodesApi = new NodesApi(this.apiService.getInstance());
+    this.trashcanApi = new TrashcanApi(this.apiService.getInstance());
+    this.sitesApi = new SitesApi(this.apiService.getInstance());
+    this.sharedLinksApi = new SharedlinksApi(this.apiService.getInstance());
   }
 
   async createComment(nodeId: string, content: string): Promise<Comment | null> {

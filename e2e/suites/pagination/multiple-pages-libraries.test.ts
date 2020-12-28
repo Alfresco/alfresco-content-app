@@ -24,15 +24,15 @@
  */
 
 import { LoginPage, BrowsingPage, Utils, AdminActions, RepoClient } from '@alfresco/aca-testing-shared';
-import { Logger } from '@alfresco/adf-testing';
+import { ApiService, Logger } from '@alfresco/adf-testing';
 
 describe('Pagination on multiple pages', () => {
   const random = Utils.random();
 
-  const username = `user-${random}`;
-
-  const userApi = new RepoClient(username, username);
-  const adminApiActions = new AdminActions();
+  const apiService = new ApiService();
+  const userApi = new RepoClient(apiService);
+  const adminApiService = new ApiService();
+  const adminApiActions = new AdminActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -44,12 +44,13 @@ describe('Pagination on multiple pages', () => {
 
   beforeAll(async () => {
     try {
-      await adminApiActions.createUser({ username });
+      await adminApiActions.loginWithProfile('admin');
+      const user = await usersActions.createUser();
 
       await userApi.sites.createSitesPrivate(sites);
       await userApi.sites.waitForSitesToBeCreated(sites);
 
-      await loginPage.loginWith(username);
+      await loginPage.loginWith(user.username, user.password);
     } catch (error) {
       Logger.error(`----- beforeAll failed : ${error}`);
     }

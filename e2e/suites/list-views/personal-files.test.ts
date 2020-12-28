@@ -26,13 +26,15 @@
 import { browser } from 'protractor';
 
 import { AdminActions, APP_ROUTES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { ApiService } from '@alfresco/adf-testing';
 
 describe('Personal Files', () => {
   const username = `user-${Utils.random()}`;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const apiService = new ApiService();
+  const repoClient = new RepoClient(apiService);
+  const adminApiService = new ApiService();
+  const adminApiActions = new AdminActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -42,17 +44,16 @@ describe('Personal Files', () => {
 
   const userFolder = `user-folder-${Utils.random()}`;
   const userFile = `file-${Utils.random()}.txt`;
-  const adminApiActions = new AdminActions();
 
   beforeAll(async (done) => {
     await Promise.all([adminApiActions.createUser({ username }), adminApiActions.nodes.createFolders([adminFolder])]);
-    await apis.user.nodes.createFolders([userFolder]);
-    await apis.user.nodes.createFiles([userFile], userFolder);
+    await repoClient.nodes.createFolders([userFolder]);
+    await repoClient.nodes.createFiles([userFile], userFolder);
     done();
   });
 
   afterAll(async (done) => {
-    await Promise.all([adminApiActions.nodes.deleteNodes([adminFolder]), apis.user.nodes.deleteNodes([userFolder])]);
+    await Promise.all([adminApiActions.nodes.deleteNodes([adminFolder]), repoClient.nodes.deleteNodes([userFolder])]);
     done();
   });
 
@@ -75,7 +76,7 @@ describe('Personal Files', () => {
 
   describe(`Regular user's personal files`, () => {
     beforeAll(async (done) => {
-      await loginPage.loginWith(username);
+      await loginPage.loginWith(user.username, user.password);
       done();
     });
 
@@ -100,7 +101,7 @@ describe('Personal Files', () => {
     });
 
     it('[C213244] navigates to folder', async () => {
-      const nodeId = (await apis.user.nodes.getNodeByPath(`/${userFolder}`)).entry.id;
+      const nodeId = (await repoClient.nodes.getNodeByPath(`/${userFolder}`)).entry.id;
 
       await dataTable.doubleClickOnRowByName(userFolder);
       await dataTable.waitForHeader();

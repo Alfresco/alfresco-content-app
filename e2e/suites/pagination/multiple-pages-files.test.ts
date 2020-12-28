@@ -29,10 +29,11 @@ import { recentFilesTests } from './recent-files';
 import { searchResultsTests } from './search-results';
 import { sharedFilesTests } from './shared-files';
 import { favoritesTests } from './favorites';
+import { ApiService } from '@alfresco/adf-testing';
 
 describe('Pagination on multiple pages : ', () => {
   const random = Utils.random();
-  const username = `user-${random}`;
+  let user;
 
   const parent = `parent-${random}`;
   let parentId: string;
@@ -42,16 +43,19 @@ describe('Pagination on multiple pages : ', () => {
     .map((name, index): string => `${name}-${index + 1}-${random}.txt`);
   let filesIds: string[];
 
-  const userApi = new RepoClient(username, username);
-  const adminApiActions = new AdminActions();
+  const apiService = new ApiService();
+  const userApi = new RepoClient(apiService);
+  const adminApiService = new ApiService();
+  const adminApiActions = new AdminActions(adminApiService);
 
   let initialFavoritesTotalItems: number;
   let initialSearchTotalItems: number;
 
   beforeAll(async () => {
-    await adminApiActions.createUser({ username });
+    await adminApiActions.loginWithProfile('admin');
+    const user = await usersActions.createUser();
 
-    initialSearchTotalItems = await userApi.search.getTotalItems(username);
+    initialSearchTotalItems = await userApi.search.getTotalItems(user.username);
 
     parentId = (await userApi.nodes.createFolder(parent)).entry.id;
     filesIds = (await userApi.nodes.createFiles(files, parent)).list.entries.map((entries: any) => entries.entry.id);
@@ -66,34 +70,34 @@ describe('Pagination on multiple pages : ', () => {
   });
 
   describe('on Personal Files', () => {
-    personalFilesTests(username, parent);
+    personalFilesTests(user.username, parent);
   });
 
   describe('on Recent Files', () => {
     beforeAll(async () => {
-      await userApi.search.waitForApi(username, { expect: initialSearchTotalItems + 51 });
+      await userApi.search.waitForApi(user.username, { expect: initialSearchTotalItems + 51 });
     });
-    recentFilesTests(username);
+    recentFilesTests(user.username);
   });
 
   describe('on Search Results', () => {
     beforeAll(async () => {
-      await userApi.search.waitForApi(username, { expect: initialSearchTotalItems + 51 });
+      await userApi.search.waitForApi(user.username, { expect: initialSearchTotalItems + 51 });
     });
-    searchResultsTests(username, random);
+    searchResultsTests(user.username, random);
   });
 
   describe('on Shared Files', () => {
     beforeAll(async () => {
       await userApi.shared.waitForFilesToBeShared(filesIds);
     });
-    sharedFilesTests(username);
+    sharedFilesTests(user.username);
   });
 
   describe('on Favorites', () => {
     beforeAll(async () => {
       await userApi.favorites.waitForApi({ expect: initialFavoritesTotalItems + 51 });
     });
-    favoritesTests(username);
+    favoritesTests(user.username);
   });
 });

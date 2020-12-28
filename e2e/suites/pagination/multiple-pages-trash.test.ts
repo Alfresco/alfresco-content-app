@@ -23,36 +23,39 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage, Utils, AdminActions, UserActions, RepoClient } from '@alfresco/aca-testing-shared';
+import { LoginPage, BrowsingPage, Utils, AdminActions, ApiActions, RepoClient } from '@alfresco/aca-testing-shared';
+import { ApiService, UsersActions } from '@alfresco/adf-testing';
 
 describe('Pagination on multiple pages on Trash', () => {
   const random = Utils.random();
 
-  const username = `user-${random}`;
   const filesForDelete = Array(51)
     .fill('file')
     .map((name, index): string => `${name}-${index + 1}-${random}.txt`);
   let filesDeletedIds: string[];
 
-  const userApi = new RepoClient(username, username);
-  const adminApiActions = new AdminActions();
-  const userActions = new UserActions();
+  const apiService = new ApiService();
+  const userApi = new RepoClient(apiService);
+  const adminApiService = new ApiService();
+  const adminApiActions = new AdminActions(adminApiService);
+  const apiActions = new ApiActions(apiService);
+  const usersActions = new UsersActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable, pagination } = page;
 
   beforeAll(async () => {
-    await adminApiActions.login();
-    await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
+    await adminApiActions.loginWithProfile('admin');
+    const user = await usersActions.createUser();
+    await apiService.login(user.username, user.password);
 
     filesDeletedIds = (await userApi.nodes.createFiles(filesForDelete)).list.entries.map((entries: any) => entries.entry.id);
 
-    await userActions.deleteNodes(filesDeletedIds, false);
-    await userActions.waitForTrashcanSize(51);
+    await apiActions.deleteNodes(filesDeletedIds, false);
+    await apiActions.waitForTrashcanSize(51);
 
-    await loginPage.loginWith(username);
+    await loginPage.loginWith(user.username, user.password);
     await page.clickTrashAndWait();
   });
 
@@ -61,7 +64,7 @@ describe('Pagination on multiple pages on Trash', () => {
   });
 
   afterAll(async () => {
-    await userActions.emptyTrashcan();
+    await apiActions.emptyTrashcan();
   });
 
   it('[C280122] Pagination control default values', async () => {

@@ -23,12 +23,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, UserActions, LoginPage, BrowsingPage, ConfirmDialog, RepoClient, Utils } from '@alfresco/aca-testing-shared';
-import { BrowserActions } from '@alfresco/adf-testing';
+import { AdminActions, ApiActions, LoginPage, BrowsingPage, ConfirmDialog, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { ApiService, BrowserActions, UsersActions } from '@alfresco/adf-testing';
 
 describe('Permanently delete from Trash', () => {
-  const username = `user-${Utils.random()}`;
-
   const file1 = `file1-${Utils.random()}.txt`;
   const file2 = `file2-${Utils.random()}.txt`;
   const file3 = `file3-${Utils.random()}.txt`;
@@ -40,31 +38,32 @@ describe('Permanently delete from Trash', () => {
 
   const site = `site-${Utils.random()}`;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const apiService = new ApiService();
+  const adminApiService = new ApiService();
+  const repoClient = new RepoClient(apiService);
+  const adminApiActions = new AdminActions(adminApiService);
+  const apiActions = new ApiActions(apiService);
+  const usersActions = new UsersActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable, toolbar } = page;
 
   const confirmDialog = new ConfirmDialog();
-  const adminApiActions = new AdminActions();
-  const userActions = new UserActions();
 
   beforeAll(async (done) => {
-    await adminApiActions.login();
-    await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
+    await adminApiActions.loginWithProfile('admin');
+    const user = await usersActions.createUser();
+    await apiService.login(user.username, user.password);
 
-    filesIds = (await apis.user.nodes.createFiles([file1, file2, file3])).list.entries.map((entries: any) => entries.entry.id);
-    foldersIds = (await apis.user.nodes.createFolders([folder1, folder2])).list.entries.map((entries: any) => entries.entry.id);
-    await apis.user.sites.createSite(site);
+    filesIds = (await repoClient.nodes.createFiles([file1, file2, file3])).list.entries.map((entries: any) => entries.entry.id);
+    foldersIds = (await repoClient.nodes.createFolders([folder1, folder2])).list.entries.map((entries: any) => entries.entry.id);
+    await repoClient.sites.createSite(site);
 
-    await userActions.deleteNodes([...filesIds, ...foldersIds], false);
-    await userActions.deleteSites([site], false);
+    await apiActions.deleteNodes([...filesIds, ...foldersIds], false);
+    await apiActions.deleteSites([site], false);
 
-    await loginPage.loginWith(username);
+    await loginPage.loginWith(user.username, user.password);
     done();
   });
 
@@ -74,7 +73,7 @@ describe('Permanently delete from Trash', () => {
   });
 
   afterAll(async (done) => {
-    await userActions.emptyTrashcan();
+    await apiActions.emptyTrashcan();
     done();
   });
 

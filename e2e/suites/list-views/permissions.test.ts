@@ -23,27 +23,26 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, UserActions, SITE_VISIBILITY, SITE_ROLES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { AdminActions, ApiActions, SITE_VISIBILITY, SITE_ROLES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { ApiService, UsersActions } from '@alfresco/adf-testing';
 
 describe('Special permissions', () => {
-  const username = `user-${Utils.random()}`;
-
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const apiService = new ApiService();
+  const repoClient = new RepoClient(apiService);
+  const adminApiService = new ApiService();
+  const adminApiActions = new AdminActions(adminApiService);
+  const apiActions = new ApiActions(apiService);
+  const usersActions = new UsersActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable } = page;
   const { searchInput } = page.header;
 
-  const adminApiActions = new AdminActions();
-  const userActions = new UserActions();
-
   beforeAll(async (done) => {
-    await adminApiActions.login();
-    await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
+    await adminApiActions.loginWithProfile('admin');
+    const user = await usersActions.createUser();
+    await apiService.login(user.username, user.password);
     done();
   });
 
@@ -54,23 +53,23 @@ describe('Special permissions', () => {
 
     beforeAll(async (done) => {
       await adminApiActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
-      await adminApiActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
+      await adminApiActions.sites.addSiteMember(sitePrivate, user.username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
       const docLibId = await adminApiActions.sites.getDocLibId(sitePrivate);
       fileId = (await adminApiActions.nodes.createFile(fileName, docLibId)).entry.id;
-      await apis.user.favorites.addFavoriteById('file', fileId);
+      await repoClient.favorites.addFavoriteById('file', fileId);
 
       await adminApiActions.shareNodes([fileId]);
-      await apis.user.nodes.updateNodeContent(fileId, 'edited by user');
+      await repoClient.nodes.updateNodeContent(fileId, 'edited by user');
 
-      await apis.user.search.waitForApi(username, { expect: 1 });
+      await repoClient.search.waitForApi(user.username, { expect: 1 });
       await adminApiActions.shared.waitForFilesToBeShared([fileId]);
 
-      await loginPage.loginWith(username);
+      await loginPage.loginWith(user.username, user.password);
       done();
     });
 
     afterEach(async () => {
-      await adminApiActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
+      await adminApiActions.sites.addSiteMember(sitePrivate, user.username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
     });
 
     afterAll(async () => {
@@ -80,7 +79,7 @@ describe('Special permissions', () => {
     it('[C213173] on Recent Files', async () => {
       await page.clickRecentFilesAndWait();
       expect(await dataTable.getRowsCount()).toBe(1, 'Incorrect number of items');
-      await adminApiActions.sites.deleteSiteMember(sitePrivate, username);
+      await adminApiActions.sites.deleteSiteMember(sitePrivate, user.username);
       await page.refresh();
       expect(await dataTable.isEmpty()).toBe(true, 'Items are still displayed');
     });
@@ -88,7 +87,7 @@ describe('Special permissions', () => {
     it('[C213227] on Favorites', async () => {
       await page.clickFavoritesAndWait();
       expect(await dataTable.getRowsCount()).toBe(1, 'Incorrect number of items');
-      await adminApiActions.sites.deleteSiteMember(sitePrivate, username);
+      await adminApiActions.sites.deleteSiteMember(sitePrivate, user.username);
       await page.refresh();
       expect(await dataTable.isEmpty()).toBe(true, 'Items are still displayed');
     });
@@ -96,7 +95,7 @@ describe('Special permissions', () => {
     it('[C213116] on Shared Files', async () => {
       await page.clickSharedFilesAndWait();
       expect(await dataTable.isItemPresent(fileName)).toBe(true, `${fileName} not displayed`);
-      await adminApiActions.sites.deleteSiteMember(sitePrivate, username);
+      await adminApiActions.sites.deleteSiteMember(sitePrivate, user.username);
       await page.refresh();
       expect(await dataTable.isItemPresent(fileName)).toBe(false, `${fileName} is displayed`);
     });
@@ -109,7 +108,7 @@ describe('Special permissions', () => {
 
       expect(await dataTable.isItemPresent(fileName)).toBe(true, `${fileName} is not displayed`);
 
-      await adminApiActions.sites.deleteSiteMember(sitePrivate, username);
+      await adminApiActions.sites.deleteSiteMember(sitePrivate, user.username);
 
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
@@ -127,17 +126,17 @@ describe('Special permissions', () => {
 
     beforeAll(async (done) => {
       await adminApiActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
-      await adminApiActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
+      await adminApiActions.sites.addSiteMember(sitePrivate, user.username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
       const docLibId = await adminApiActions.sites.getDocLibId(sitePrivate);
-      fileId = (await apis.user.nodes.createFile(fileName, docLibId)).entry.id;
-      await apis.user.favorites.addFavoriteById('file', fileId);
+      fileId = (await repoClient.nodes.createFile(fileName, docLibId)).entry.id;
+      await repoClient.favorites.addFavoriteById('file', fileId);
 
-      await userActions.shareNodes([fileId]);
-      await apis.user.shared.waitForFilesToBeShared([fileId]);
+      await apiActions.shareNodes([fileId]);
+      await repoClient.shared.waitForFilesToBeShared([fileId]);
 
-      await apis.user.search.waitForApi(username, { expect: 1 });
-      await adminApiActions.sites.deleteSiteMember(sitePrivate, username);
-      await loginPage.loginWith(username);
+      await repoClient.search.waitForApi(user.username, { expect: 1 });
+      await adminApiActions.sites.deleteSiteMember(sitePrivate, user.username);
+      await loginPage.loginWith(user.username, user.password);
       done();
     });
 

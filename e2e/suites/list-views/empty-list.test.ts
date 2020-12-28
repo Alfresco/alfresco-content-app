@@ -24,19 +24,22 @@
  */
 
 import { AdminActions, LoginPage, BrowsingPage, SearchResultsPage, Utils } from '@alfresco/aca-testing-shared';
+import { ApiService } from '@alfresco/adf-testing';
 
 describe('Empty list views', () => {
-  const username = `user-${Utils.random()}`;
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const searchResultsPage = new SearchResultsPage();
   const { dataTable, pagination } = page;
   const { searchInput } = page.header;
-  const adminApiActions = new AdminActions();
+
+  const adminApiService = new ApiService();
+  const adminApiActions = new AdminActions(adminApiService);
 
   beforeAll(async (done) => {
-    await adminApiActions.createUser({ username });
-    await loginPage.loginWith(username);
+    await adminApiActions.loginWithProfile('admin');
+    const user = await usersActions.createUser();
+    await loginPage.loginWith(user.username, user.password);
     done();
   });
 

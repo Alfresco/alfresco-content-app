@@ -25,12 +25,14 @@
 
 import { browser } from 'protractor';
 import { AdminActions, LoginPage, BrowsingPage, Utils, APP_ROUTES } from '@alfresco/aca-testing-shared';
+import { ApiService } from '@alfresco/adf-testing';
 
 describe('Logout', () => {
   const page = new BrowsingPage();
   const loginPage = new LoginPage();
   const johnDoe = `user-${Utils.random()}`;
-  const adminApiActions = new AdminActions();
+  const adminApiService = new ApiService();
+  const adminApiActions = new AdminActions(adminApiService);
 
   beforeAll(async (done) => {
     await adminApiActions.createUser({ username: johnDoe });

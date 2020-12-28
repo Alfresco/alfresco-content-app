@@ -24,37 +24,36 @@
  */
 
 import { AdminActions, LoginPage, BrowsingPage, SITE_ROLES, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { ApiService } from '@alfresco/adf-testing';
 
 describe('New menu', () => {
-  const username = `user-${Utils.random()}`;
-
   const siteUser = `site-user-${Utils.random()}`;
   const siteAdmin = `site-admin-${Utils.random()}`;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const apiService = new ApiService();
+  const adminApiService = new ApiService();
+  const repoClient = new RepoClient(apiService);
+  const adminApiActions = new AdminActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable, sidenav } = page;
   const { menu } = sidenav;
 
-  const adminApiActions = new AdminActions();
-
   beforeAll(async (done) => {
-    await adminApiActions.createUser({ username });
+    await adminApiActions.loginWithProfile('admin');
+    const user = await usersActions.createUser();
     await adminApiActions.sites.createSite(siteAdmin);
-    await adminApiActions.sites.addSiteMember(siteAdmin, username, SITE_ROLES.SITE_CONSUMER.ROLE);
+    await adminApiActions.sites.addSiteMember(siteAdmin, user.username, SITE_ROLES.SITE_CONSUMER.ROLE);
 
-    await apis.user.sites.createSite(siteUser);
+    await repoClient.sites.createSite(siteUser);
 
-    await loginPage.loginWith(username);
+    await loginPage.loginWith(user.username, user.password);
     done();
   });
 
   afterAll(async (done) => {
-    await apis.user.sites.deleteSite(siteUser);
+    await repoClient.sites.deleteSite(siteUser);
     await adminApiActions.sites.deleteSite(siteAdmin);
     done();
   });

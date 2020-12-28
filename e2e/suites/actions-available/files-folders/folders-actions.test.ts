@@ -23,14 +23,14 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { RepoClient, Utils, AdminActions, UserActions, LoginPage, SearchResultsPage, BrowsingPage } from '@alfresco/aca-testing-shared';
+import { RepoClient, Utils, AdminActions, ApiActions, LoginPage, SearchResultsPage, BrowsingPage } from '@alfresco/aca-testing-shared';
 import * as testData from './test-data';
 import * as testUtil from '../test-util';
+import { ApiService, UsersActions } from '@alfresco/adf-testing';
 
 describe('Folders - available actions : ', () => {
   const random = testData.random;
 
-  const username = `user-${Utils.random()}`;
   const parentName = `parent-${Utils.random()}`;
 
   let parentId: string;
@@ -38,9 +38,12 @@ describe('Folders - available actions : ', () => {
   let folderFav2Id: string;
   let fileFavId: string;
 
-  const userApi = new RepoClient(username, username);
-  const adminApiActions = new AdminActions();
-  const userActions = new UserActions();
+  const apiService = new ApiService();
+  const adminApiService = new ApiService();
+  const userApi = new RepoClient(apiService);
+  const adminApiActions = new AdminActions(adminApiService);
+  const apiActions = new ApiActions(apiService);
+  const usersActions = new UsersActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -49,9 +52,9 @@ describe('Folders - available actions : ', () => {
   const searchResultsPage = new SearchResultsPage();
 
   beforeAll(async () => {
-    await adminApiActions.login();
-    await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
+    await adminApiActions.loginWithProfile('admin');
+    const user = await usersActions.createUser();
+    await apiService.login(user.username, user.password);
 
     parentId = (await userApi.nodes.createFolder(parentName)).entry.id;
 
@@ -67,12 +70,12 @@ describe('Folders - available actions : ', () => {
     await userApi.favorites.addFavoritesByIds('file', [fileFavId]);
     await userApi.favorites.waitForApi({ expect: initialFavoritesTotalItems + 3 });
 
-    await loginPage.loginWith(username);
+    await loginPage.loginWith(user.username, user.password);
   });
 
   afterAll(async () => {
-    await userActions.deleteNodes([parentId]);
-    await userActions.emptyTrashcan();
+    await apiActions.deleteNodes([parentId]);
+    await apiActions.emptyTrashcan();
   });
 
   beforeEach(async () => {

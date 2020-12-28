@@ -23,32 +23,30 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, UserActions, LoginPage, BrowsingPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
-import { Logger } from '@alfresco/adf-testing';
+import { AdminActions, ApiActions, LoginPage, BrowsingPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { ApiService, Logger, UsersActions } from '@alfresco/adf-testing';
 
 describe('Delete and undo delete', () => {
-  const username = `user-${Utils.random()}`;
-
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const apiService = new ApiService();
+  const adminApiService = new ApiService();
+  const repoClient = new RepoClient(apiService);
+  const adminApiActions = new AdminActions(adminApiService);
+  const apiActions = new ApiActions(apiService);
+  const usersActions = new UsersActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable, toolbar } = page;
 
-  const adminApiActions = new AdminActions();
-  const userActions = new UserActions();
-
   beforeAll(async () => {
-    await adminApiActions.login();
-    await adminApiActions.createUser({ username });
+    await adminApiActions.loginWithProfile('admin');
+    const user = await usersActions.createUser();
 
-    await userActions.login(username, username);
+    await apiService.login(user.username, user.password);
   });
 
   afterAll(async () => {
-    await userActions.emptyTrashcan();
+    await apiActions.emptyTrashcan();
   });
 
   describe('on Recent Files', () => {
@@ -64,17 +62,17 @@ describe('Delete and undo delete', () => {
     const recentFile6 = `recentFile6-${random}.txt`;
 
     beforeAll(async (done) => {
-      parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
+      parentId = (await repoClient.nodes.createFolder(parent)).entry.id;
 
-      await apis.user.nodes.createFile(recentFile1, parentId);
-      await apis.user.nodes.createFile(recentFile2, parentId);
-      await apis.user.nodes.createFile(recentFile3, parentId);
-      await apis.user.nodes.createFile(recentFile4, parentId);
-      await apis.user.nodes.createFile(recentFile5, parentId);
-      await apis.user.nodes.createFile(recentFile6, parentId);
-      await apis.user.search.waitForNodes(random, { expect: 6 });
+      await repoClient.nodes.createFile(recentFile1, parentId);
+      await repoClient.nodes.createFile(recentFile2, parentId);
+      await repoClient.nodes.createFile(recentFile3, parentId);
+      await repoClient.nodes.createFile(recentFile4, parentId);
+      await repoClient.nodes.createFile(recentFile5, parentId);
+      await repoClient.nodes.createFile(recentFile6, parentId);
+      await repoClient.search.waitForNodes(random, { expect: 6 });
 
-      await loginPage.loginWith(username);
+      await loginPage.loginWith(user.username, user.password);
       done();
     });
 
@@ -84,8 +82,8 @@ describe('Delete and undo delete', () => {
 
     afterAll(async () => {
       try {
-        await userActions.deleteNodes([parentId]);
-        await userActions.emptyTrashcan();
+        await apiActions.deleteNodes([parentId]);
+        await apiActions.emptyTrashcan();
       } catch (error) {
         Logger.error(`----- afterAll failed : ${error}`);
       }
@@ -178,36 +176,36 @@ describe('Delete and undo delete', () => {
     let parentId: string;
 
     beforeAll(async (done) => {
-      parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
+      parentId = (await repoClient.nodes.createFolder(parent)).entry.id;
 
-      await apis.user.nodes.createFile(file1, parentId);
-      await apis.user.nodes.createFile(file2, parentId);
-      await apis.user.nodes.createFile(file3, parentId);
-      await apis.user.nodes.createFile(file4, parentId);
-      await apis.user.nodes.createFile(file5, parentId);
-      await apis.user.nodes.createFile(file6, parentId);
-      await apis.user.nodes.createFile(file7, parentId);
+      await repoClient.nodes.createFile(file1, parentId);
+      await repoClient.nodes.createFile(file2, parentId);
+      await repoClient.nodes.createFile(file3, parentId);
+      await repoClient.nodes.createFile(file4, parentId);
+      await repoClient.nodes.createFile(file5, parentId);
+      await repoClient.nodes.createFile(file6, parentId);
+      await repoClient.nodes.createFile(file7, parentId);
 
-      folder1Id = (await apis.user.nodes.createFolder(folder1, parentId)).entry.id;
-      folder2Id = (await apis.user.nodes.createFolder(folder2, parentId)).entry.id;
-      folder3Id = (await apis.user.nodes.createFolder(folder3, parentId)).entry.id;
-      folder4Id = (await apis.user.nodes.createFolder(folder4, parentId)).entry.id;
-      folder5Id = (await apis.user.nodes.createFolder(folder5, parentId)).entry.id;
-      folder6Id = (await apis.user.nodes.createFolder(folder6, parentId)).entry.id;
+      folder1Id = (await repoClient.nodes.createFolder(folder1, parentId)).entry.id;
+      folder2Id = (await repoClient.nodes.createFolder(folder2, parentId)).entry.id;
+      folder3Id = (await repoClient.nodes.createFolder(folder3, parentId)).entry.id;
+      folder4Id = (await repoClient.nodes.createFolder(folder4, parentId)).entry.id;
+      folder5Id = (await repoClient.nodes.createFolder(folder5, parentId)).entry.id;
+      folder6Id = (await repoClient.nodes.createFolder(folder6, parentId)).entry.id;
 
-      await apis.user.nodes.createFile(file1InFolder, folder1Id);
-      fileLocked1Id = (await apis.user.nodes.createFile(fileLocked1, folder2Id)).entry.id;
-      fileLocked2Id = (await apis.user.nodes.createFile(fileLocked2, folder3Id)).entry.id;
-      fileLocked3Id = (await apis.user.nodes.createFile(fileLocked3, folder4Id)).entry.id;
-      fileLocked4Id = (await apis.user.nodes.createFile(fileLocked4, folder5Id)).entry.id;
-      await apis.user.nodes.createFile(file2InFolder, folder6Id);
+      await repoClient.nodes.createFile(file1InFolder, folder1Id);
+      fileLocked1Id = (await repoClient.nodes.createFile(fileLocked1, folder2Id)).entry.id;
+      fileLocked2Id = (await repoClient.nodes.createFile(fileLocked2, folder3Id)).entry.id;
+      fileLocked3Id = (await repoClient.nodes.createFile(fileLocked3, folder4Id)).entry.id;
+      fileLocked4Id = (await repoClient.nodes.createFile(fileLocked4, folder5Id)).entry.id;
+      await repoClient.nodes.createFile(file2InFolder, folder6Id);
 
-      await apis.user.nodes.lockFile(fileLocked1Id, 'FULL');
-      await apis.user.nodes.lockFile(fileLocked2Id, 'FULL');
-      await apis.user.nodes.lockFile(fileLocked3Id, 'FULL');
-      await apis.user.nodes.lockFile(fileLocked4Id, 'FULL');
+      await repoClient.nodes.lockFile(fileLocked1Id, 'FULL');
+      await repoClient.nodes.lockFile(fileLocked2Id, 'FULL');
+      await repoClient.nodes.lockFile(fileLocked3Id, 'FULL');
+      await repoClient.nodes.lockFile(fileLocked4Id, 'FULL');
 
-      await loginPage.loginWith(username);
+      await loginPage.loginWith(user.username, user.password);
 
       done();
     });
@@ -219,13 +217,13 @@ describe('Delete and undo delete', () => {
 
     afterAll(async () => {
       try {
-        await apis.user.nodes.unlockFile(fileLocked1Id);
-        await apis.user.nodes.unlockFile(fileLocked2Id);
-        await apis.user.nodes.unlockFile(fileLocked3Id);
-        await apis.user.nodes.unlockFile(fileLocked4Id);
+        await repoClient.nodes.unlockFile(fileLocked1Id);
+        await repoClient.nodes.unlockFile(fileLocked2Id);
+        await repoClient.nodes.unlockFile(fileLocked3Id);
+        await repoClient.nodes.unlockFile(fileLocked4Id);
 
-        await userActions.deleteNodes([parentId]);
-        await userActions.emptyTrashcan();
+        await apiActions.deleteNodes([parentId]);
+        await apiActions.emptyTrashcan();
       } catch (error) {
         Logger.error(`----- afterAll failed : ${error}`);
       }
@@ -351,19 +349,19 @@ describe('Delete and undo delete', () => {
     let parentId: string;
 
     beforeAll(async (done) => {
-      parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
+      parentId = (await repoClient.nodes.createFolder(parent)).entry.id;
 
-      sharedFile1Id = (await apis.user.nodes.createFile(sharedFile1, parentId)).entry.id;
-      sharedFile2Id = (await apis.user.nodes.createFile(sharedFile2, parentId)).entry.id;
-      sharedFile3Id = (await apis.user.nodes.createFile(sharedFile3, parentId)).entry.id;
-      sharedFile4Id = (await apis.user.nodes.createFile(sharedFile4, parentId)).entry.id;
-      sharedFile5Id = (await apis.user.nodes.createFile(sharedFile5, parentId)).entry.id;
-      sharedFile6Id = (await apis.user.nodes.createFile(sharedFile6, parentId)).entry.id;
+      sharedFile1Id = (await repoClient.nodes.createFile(sharedFile1, parentId)).entry.id;
+      sharedFile2Id = (await repoClient.nodes.createFile(sharedFile2, parentId)).entry.id;
+      sharedFile3Id = (await repoClient.nodes.createFile(sharedFile3, parentId)).entry.id;
+      sharedFile4Id = (await repoClient.nodes.createFile(sharedFile4, parentId)).entry.id;
+      sharedFile5Id = (await repoClient.nodes.createFile(sharedFile5, parentId)).entry.id;
+      sharedFile6Id = (await repoClient.nodes.createFile(sharedFile6, parentId)).entry.id;
 
-      await apis.user.shared.shareFilesByIds([sharedFile1Id, sharedFile2Id, sharedFile3Id, sharedFile4Id, sharedFile5Id, sharedFile6Id]);
-      await apis.user.shared.waitForFilesToBeShared([sharedFile1Id, sharedFile2Id, sharedFile3Id, sharedFile4Id, sharedFile5Id, sharedFile6Id]);
+      await repoClient.shared.shareFilesByIds([sharedFile1Id, sharedFile2Id, sharedFile3Id, sharedFile4Id, sharedFile5Id, sharedFile6Id]);
+      await repoClient.shared.waitForFilesToBeShared([sharedFile1Id, sharedFile2Id, sharedFile3Id, sharedFile4Id, sharedFile5Id, sharedFile6Id]);
 
-      await loginPage.loginWith(username);
+      await loginPage.loginWith(user.username, user.password);
       done();
     });
 
@@ -373,8 +371,8 @@ describe('Delete and undo delete', () => {
 
     afterAll(async () => {
       try {
-        await userActions.deleteNodes([parentId]);
-        await userActions.emptyTrashcan();
+        await apiActions.deleteNodes([parentId]);
+        await apiActions.emptyTrashcan();
       } catch (error) {
         Logger.error(`----- afterAll failed : ${error}`);
       }
@@ -466,41 +464,41 @@ describe('Delete and undo delete', () => {
     let fileLocked4Id: string;
 
     beforeAll(async (done) => {
-      parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
+      parentId = (await repoClient.nodes.createFolder(parent)).entry.id;
 
-      favFile1Id = (await apis.user.nodes.createFile(favFile1, parentId)).entry.id;
-      favFile2Id = (await apis.user.nodes.createFile(favFile2, parentId)).entry.id;
-      favFile3Id = (await apis.user.nodes.createFile(favFile3, parentId)).entry.id;
-      favFile4Id = (await apis.user.nodes.createFile(favFile4, parentId)).entry.id;
-      favFile5Id = (await apis.user.nodes.createFile(favFile5, parentId)).entry.id;
-      favFile6Id = (await apis.user.nodes.createFile(favFile6, parentId)).entry.id;
-      favFile7Id = (await apis.user.nodes.createFile(favFile7, parentId)).entry.id;
+      favFile1Id = (await repoClient.nodes.createFile(favFile1, parentId)).entry.id;
+      favFile2Id = (await repoClient.nodes.createFile(favFile2, parentId)).entry.id;
+      favFile3Id = (await repoClient.nodes.createFile(favFile3, parentId)).entry.id;
+      favFile4Id = (await repoClient.nodes.createFile(favFile4, parentId)).entry.id;
+      favFile5Id = (await repoClient.nodes.createFile(favFile5, parentId)).entry.id;
+      favFile6Id = (await repoClient.nodes.createFile(favFile6, parentId)).entry.id;
+      favFile7Id = (await repoClient.nodes.createFile(favFile7, parentId)).entry.id;
 
-      favFolder1Id = (await apis.user.nodes.createFolder(favFolder1, parentId)).entry.id;
-      favFolder2Id = (await apis.user.nodes.createFolder(favFolder2, parentId)).entry.id;
-      favFolder3Id = (await apis.user.nodes.createFolder(favFolder3, parentId)).entry.id;
-      favFolder4Id = (await apis.user.nodes.createFolder(favFolder4, parentId)).entry.id;
-      favFolder5Id = (await apis.user.nodes.createFolder(favFolder5, parentId)).entry.id;
-      favFolder6Id = (await apis.user.nodes.createFolder(favFolder6, parentId)).entry.id;
+      favFolder1Id = (await repoClient.nodes.createFolder(favFolder1, parentId)).entry.id;
+      favFolder2Id = (await repoClient.nodes.createFolder(favFolder2, parentId)).entry.id;
+      favFolder3Id = (await repoClient.nodes.createFolder(favFolder3, parentId)).entry.id;
+      favFolder4Id = (await repoClient.nodes.createFolder(favFolder4, parentId)).entry.id;
+      favFolder5Id = (await repoClient.nodes.createFolder(favFolder5, parentId)).entry.id;
+      favFolder6Id = (await repoClient.nodes.createFolder(favFolder6, parentId)).entry.id;
 
-      await apis.user.nodes.createFile(file1InFolder, favFolder1Id);
-      fileLocked1Id = (await apis.user.nodes.createFile(fileLocked1, favFolder2Id)).entry.id;
-      fileLocked2Id = (await apis.user.nodes.createFile(fileLocked2, favFolder3Id)).entry.id;
-      fileLocked3Id = (await apis.user.nodes.createFile(fileLocked3, favFolder4Id)).entry.id;
-      fileLocked4Id = (await apis.user.nodes.createFile(fileLocked4, favFolder5Id)).entry.id;
-      await apis.user.nodes.createFile(file2InFolder, favFolder6Id);
+      await repoClient.nodes.createFile(file1InFolder, favFolder1Id);
+      fileLocked1Id = (await repoClient.nodes.createFile(fileLocked1, favFolder2Id)).entry.id;
+      fileLocked2Id = (await repoClient.nodes.createFile(fileLocked2, favFolder3Id)).entry.id;
+      fileLocked3Id = (await repoClient.nodes.createFile(fileLocked3, favFolder4Id)).entry.id;
+      fileLocked4Id = (await repoClient.nodes.createFile(fileLocked4, favFolder5Id)).entry.id;
+      await repoClient.nodes.createFile(file2InFolder, favFolder6Id);
 
-      await apis.user.nodes.lockFile(fileLocked1Id, 'FULL');
-      await apis.user.nodes.lockFile(fileLocked2Id, 'FULL');
-      await apis.user.nodes.lockFile(fileLocked3Id, 'FULL');
-      await apis.user.nodes.lockFile(fileLocked4Id, 'FULL');
+      await repoClient.nodes.lockFile(fileLocked1Id, 'FULL');
+      await repoClient.nodes.lockFile(fileLocked2Id, 'FULL');
+      await repoClient.nodes.lockFile(fileLocked3Id, 'FULL');
+      await repoClient.nodes.lockFile(fileLocked4Id, 'FULL');
 
-      const initialFavoritesTotalItems = await apis.user.favorites.getFavoritesTotalItems();
-      await apis.user.favorites.addFavoritesByIds('file', [favFile1Id, favFile2Id, favFile3Id, favFile4Id, favFile5Id, favFile6Id, favFile7Id]);
-      await apis.user.favorites.addFavoritesByIds('folder', [favFolder1Id, favFolder2Id, favFolder3Id, favFolder4Id, favFolder5Id, favFolder6Id]);
-      await apis.user.favorites.waitForApi({ expect: initialFavoritesTotalItems + 13 });
+      const initialFavoritesTotalItems = await repoClient.favorites.getFavoritesTotalItems();
+      await repoClient.favorites.addFavoritesByIds('file', [favFile1Id, favFile2Id, favFile3Id, favFile4Id, favFile5Id, favFile6Id, favFile7Id]);
+      await repoClient.favorites.addFavoritesByIds('folder', [favFolder1Id, favFolder2Id, favFolder3Id, favFolder4Id, favFolder5Id, favFolder6Id]);
+      await repoClient.favorites.waitForApi({ expect: initialFavoritesTotalItems + 13 });
 
-      await loginPage.loginWith(username);
+      await loginPage.loginWith(user.username, user.password);
       done();
     });
 
@@ -511,13 +509,13 @@ describe('Delete and undo delete', () => {
 
     afterAll(async () => {
       try {
-        await apis.user.nodes.unlockFile(fileLocked1Id);
-        await apis.user.nodes.unlockFile(fileLocked2Id);
-        await apis.user.nodes.unlockFile(fileLocked3Id);
-        await apis.user.nodes.unlockFile(fileLocked4Id);
+        await repoClient.nodes.unlockFile(fileLocked1Id);
+        await repoClient.nodes.unlockFile(fileLocked2Id);
+        await repoClient.nodes.unlockFile(fileLocked3Id);
+        await repoClient.nodes.unlockFile(fileLocked4Id);
 
-        await userActions.deleteNodes([parentId]);
-        await userActions.emptyTrashcan();
+        await apiActions.deleteNodes([parentId]);
+        await apiActions.emptyTrashcan();
       } catch (error) {
         Logger.error(`----- afterAll failed : ${error}`);
       }

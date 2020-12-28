@@ -26,7 +26,7 @@
 import { browser } from 'protractor';
 import {
   AdminActions,
-  UserActions,
+  ApiActions,
   LoginPage,
   BrowsingPage,
   SITE_VISIBILITY,
@@ -37,17 +37,18 @@ import {
   Viewer,
   Utils
 } from '@alfresco/aca-testing-shared';
-import { BrowserActions } from '@alfresco/adf-testing';
+import { ApiService, BrowserActions, UsersActions } from '@alfresco/adf-testing';
 
 describe('Unshare a file', () => {
-  const username = `user-${Utils.random()}`;
-
   const parent = `parent-${Utils.random()}`;
   let parentId: string;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const apiService = new ApiService();
+  const adminApiService = new ApiService();
+  const repoClient = new RepoClient(apiService);
+  const adminApiActions = new AdminActions(adminApiService);
+  const apiActions = new ApiActions(apiService);
+  const usersActions = new UsersActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -57,21 +58,18 @@ describe('Unshare a file', () => {
   const contextMenu = dataTable.menu;
   const viewer = new Viewer();
 
-  const adminApiActions = new AdminActions();
-  const userActions = new UserActions();
-
   beforeAll(async (done) => {
-    await adminApiActions.login();
-    await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
+    await adminApiActions.loginWithProfile('admin');
+    const user = await usersActions.createUser();
+    await apiService.login(user.username, user.password);
 
-    parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
-    await loginPage.loginWith(username);
+    parentId = (await repoClient.nodes.createFolder(parent)).entry.id;
+    await loginPage.loginWith(user.username, user.password);
     done();
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(parentId);
+    await repoClient.nodes.deleteNodeById(parentId);
     done();
   });
 
@@ -86,13 +84,13 @@ describe('Unshare a file', () => {
     let file4Id: string;
 
     beforeAll(async (done) => {
-      file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
-      file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
-      file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
-      file4Id = (await apis.user.nodes.createFile(file4, parentId)).entry.id;
+      file1Id = (await repoClient.nodes.createFile(file1, parentId)).entry.id;
+      file2Id = (await repoClient.nodes.createFile(file2, parentId)).entry.id;
+      file3Id = (await repoClient.nodes.createFile(file3, parentId)).entry.id;
+      file4Id = (await repoClient.nodes.createFile(file4, parentId)).entry.id;
 
-      await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
-      await apis.user.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id]);
+      await apiActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
+      await repoClient.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id]);
       done();
     });
 
@@ -110,7 +108,7 @@ describe('Unshare a file', () => {
     });
 
     afterAll(async (done) => {
-      await apis.user.nodes.deleteNodesById([file1Id, file2Id, file3Id, file4Id]);
+      await repoClient.nodes.deleteNodesById([file1Id, file2Id, file3Id, file4Id]);
       done();
     });
 
@@ -141,7 +139,7 @@ describe('Unshare a file', () => {
       await confirmDialog.waitForDialogToClose();
       await shareDialog.waitForDialogToClose();
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
-      expect(await apis.user.nodes.isFileShared(file2Id)).toBe(false, `${file2} is shared`);
+      expect(await repoClient.nodes.isFileShared(file2Id)).toBe(false, `${file2} is shared`);
 
       await browser.get(url);
       expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
@@ -180,7 +178,7 @@ describe('Unshare a file', () => {
       await confirmDialog.waitForDialogToClose();
       await shareDialog.waitForDialogToClose();
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
-      expect(await apis.user.nodes.isFileShared(file4Id)).toBe(false, `${file4} is shared`);
+      expect(await repoClient.nodes.isFileShared(file4Id)).toBe(false, `${file4} is shared`);
 
       await browser.get(url);
       expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
@@ -205,17 +203,17 @@ describe('Unshare a file', () => {
     let parentInSiteId: string;
 
     beforeAll(async (done) => {
-      await apis.user.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
-      const docLibId = await apis.user.sites.getDocLibId(siteName);
-      parentInSiteId = (await apis.user.nodes.createFolder(parentInSite, docLibId)).entry.id;
+      await repoClient.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
+      const docLibId = await repoClient.sites.getDocLibId(siteName);
+      parentInSiteId = (await repoClient.nodes.createFolder(parentInSite, docLibId)).entry.id;
 
-      file1Id = (await apis.user.nodes.createFile(file1, parentInSiteId)).entry.id;
-      file2Id = (await apis.user.nodes.createFile(file2, parentInSiteId)).entry.id;
-      file3Id = (await apis.user.nodes.createFile(file3, parentInSiteId)).entry.id;
-      file4Id = (await apis.user.nodes.createFile(file4, parentInSiteId)).entry.id;
+      file1Id = (await repoClient.nodes.createFile(file1, parentInSiteId)).entry.id;
+      file2Id = (await repoClient.nodes.createFile(file2, parentInSiteId)).entry.id;
+      file3Id = (await repoClient.nodes.createFile(file3, parentInSiteId)).entry.id;
+      file4Id = (await repoClient.nodes.createFile(file4, parentInSiteId)).entry.id;
 
-      await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
-      await apis.user.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id]);
+      await apiActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
+      await repoClient.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id]);
       done();
     });
 
@@ -266,7 +264,7 @@ describe('Unshare a file', () => {
       await confirmDialog.waitForDialogToClose();
       await shareDialog.waitForDialogToClose();
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
-      expect(await apis.user.nodes.isFileShared(file2Id)).toBe(false, `${file2} is shared`);
+      expect(await repoClient.nodes.isFileShared(file2Id)).toBe(false, `${file2} is shared`);
 
       await browser.get(url);
       expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
@@ -305,7 +303,7 @@ describe('Unshare a file', () => {
       await confirmDialog.waitForDialogToClose();
       await shareDialog.waitForDialogToClose();
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
-      expect(await apis.user.nodes.isFileShared(file4Id)).toBe(false, `${file4} is shared`);
+      expect(await repoClient.nodes.isFileShared(file4Id)).toBe(false, `${file4} is shared`);
 
       await browser.get(url);
       expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
@@ -326,13 +324,13 @@ describe('Unshare a file', () => {
     let file4Id: string;
 
     beforeAll(async (done) => {
-      file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
-      file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
-      file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
-      file4Id = (await apis.user.nodes.createFile(file4, parentId)).entry.id;
+      file1Id = (await repoClient.nodes.createFile(file1, parentId)).entry.id;
+      file2Id = (await repoClient.nodes.createFile(file2, parentId)).entry.id;
+      file3Id = (await repoClient.nodes.createFile(file3, parentId)).entry.id;
+      file4Id = (await repoClient.nodes.createFile(file4, parentId)).entry.id;
 
-      await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
-      await apis.user.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id]);
+      await apiActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
+      await repoClient.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id]);
       done();
     });
 
@@ -348,7 +346,7 @@ describe('Unshare a file', () => {
     });
 
     afterAll(async (done) => {
-      await apis.user.nodes.deleteNodesById([file1Id, file2Id, file3Id, file4Id]);
+      await repoClient.nodes.deleteNodesById([file1Id, file2Id, file3Id, file4Id]);
       done();
     });
 
@@ -379,7 +377,7 @@ describe('Unshare a file', () => {
       await confirmDialog.waitForDialogToClose();
       await shareDialog.waitForDialogToClose();
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
-      expect(await apis.user.nodes.isFileShared(file2Id)).toBe(false, `${file2} is shared`);
+      expect(await repoClient.nodes.isFileShared(file2Id)).toBe(false, `${file2} is shared`);
 
       await browser.get(url);
       expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
@@ -418,7 +416,7 @@ describe('Unshare a file', () => {
       await confirmDialog.waitForDialogToClose();
       await shareDialog.waitForDialogToClose();
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
-      expect(await apis.user.nodes.isFileShared(file4Id)).toBe(false, `${file4} is shared`);
+      expect(await repoClient.nodes.isFileShared(file4Id)).toBe(false, `${file4} is shared`);
 
       await browser.get(url);
       expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
@@ -439,13 +437,13 @@ describe('Unshare a file', () => {
     let file4Id: string;
 
     beforeAll(async (done) => {
-      file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
-      file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
-      file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
-      file4Id = (await apis.user.nodes.createFile(file4, parentId)).entry.id;
+      file1Id = (await repoClient.nodes.createFile(file1, parentId)).entry.id;
+      file2Id = (await repoClient.nodes.createFile(file2, parentId)).entry.id;
+      file3Id = (await repoClient.nodes.createFile(file3, parentId)).entry.id;
+      file4Id = (await repoClient.nodes.createFile(file4, parentId)).entry.id;
 
-      await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
-      await apis.user.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id]);
+      await apiActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
+      await repoClient.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id]);
       done();
     });
 
@@ -461,7 +459,7 @@ describe('Unshare a file', () => {
     });
 
     afterAll(async (done) => {
-      await apis.user.nodes.deleteNodesById([file1Id, file2Id, file3Id, file4Id]);
+      await repoClient.nodes.deleteNodesById([file1Id, file2Id, file3Id, file4Id]);
       done();
     });
 
@@ -492,7 +490,7 @@ describe('Unshare a file', () => {
       await confirmDialog.waitForDialogToClose();
       await shareDialog.waitForDialogToClose();
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
-      expect(await apis.user.nodes.isFileShared(file2Id)).toBe(false, `${file2} is shared`);
+      expect(await repoClient.nodes.isFileShared(file2Id)).toBe(false, `${file2} is shared`);
 
       await browser.get(url);
       expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
@@ -532,7 +530,7 @@ describe('Unshare a file', () => {
       await confirmDialog.waitForDialogToClose();
       await shareDialog.waitForDialogToClose();
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
-      expect(await apis.user.nodes.isFileShared(file4Id)).toBe(false, `${file4} is shared`);
+      expect(await repoClient.nodes.isFileShared(file4Id)).toBe(false, `${file4} is shared`);
 
       await browser.get(url);
       await viewer.waitForViewerToOpen();
@@ -554,20 +552,20 @@ describe('Unshare a file', () => {
     let file4Id: string;
 
     beforeAll(async (done) => {
-      file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
-      file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
-      file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
-      file4Id = (await apis.user.nodes.createFile(file4, parentId)).entry.id;
+      file1Id = (await repoClient.nodes.createFile(file1, parentId)).entry.id;
+      file2Id = (await repoClient.nodes.createFile(file2, parentId)).entry.id;
+      file3Id = (await repoClient.nodes.createFile(file3, parentId)).entry.id;
+      file4Id = (await repoClient.nodes.createFile(file4, parentId)).entry.id;
 
-      await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
+      await apiActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
 
-      await apis.user.favorites.addFavoriteById('file', file1Id);
-      await apis.user.favorites.addFavoriteById('file', file2Id);
-      await apis.user.favorites.addFavoriteById('file', file3Id);
-      await apis.user.favorites.addFavoriteById('file', file4Id);
+      await repoClient.favorites.addFavoriteById('file', file1Id);
+      await repoClient.favorites.addFavoriteById('file', file2Id);
+      await repoClient.favorites.addFavoriteById('file', file3Id);
+      await repoClient.favorites.addFavoriteById('file', file4Id);
 
-      await apis.user.favorites.waitForApi({ expect: 4 });
-      await apis.user.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id]);
+      await repoClient.favorites.waitForApi({ expect: 4 });
+      await repoClient.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id]);
       done();
     });
 
@@ -583,7 +581,7 @@ describe('Unshare a file', () => {
     });
 
     afterAll(async (done) => {
-      await apis.user.nodes.deleteNodesById([file1Id, file2Id, file3Id, file4Id]);
+      await repoClient.nodes.deleteNodesById([file1Id, file2Id, file3Id, file4Id]);
       done();
     });
 
@@ -614,7 +612,7 @@ describe('Unshare a file', () => {
       await confirmDialog.waitForDialogToClose();
       await shareDialog.waitForDialogToClose();
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
-      expect(await apis.user.nodes.isFileShared(file2Id)).toBe(false, `${file2} is shared`);
+      expect(await repoClient.nodes.isFileShared(file2Id)).toBe(false, `${file2} is shared`);
 
       await browser.get(url);
       expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
@@ -653,7 +651,7 @@ describe('Unshare a file', () => {
       await confirmDialog.waitForDialogToClose();
       await shareDialog.waitForDialogToClose();
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
-      expect(await apis.user.nodes.isFileShared(file4Id)).toBe(false, `${file4} is shared`);
+      expect(await repoClient.nodes.isFileShared(file4Id)).toBe(false, `${file4} is shared`);
 
       await browser.get(url);
       expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
@@ -690,20 +688,20 @@ describe('Unshare a file', () => {
       file1FavId = (await adminApiActions.nodes.createFile(file1Fav, docLibId)).entry.id;
       file2FavId = (await adminApiActions.nodes.createFile(file2Fav, docLibId)).entry.id;
 
-      await adminApiActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_CONSUMER.ROLE);
+      await adminApiActions.sites.addSiteMember(sitePrivate, user.username, SITE_ROLES.SITE_CONSUMER.ROLE);
 
-      await adminApiActions.login();
+      await adminApiActions.loginWithProfile('admin');
       await adminApiActions.shareNodes([file1FileLibId, file1SharedId, file1FavId]);
 
-      await userActions.login(username, username);
-      await userActions.shareNodes([file2FileLibId, file2SharedId, file2FavId]);
+      await apiService.login(user.username, user.password);
+      await apiActions.shareNodes([file2FileLibId, file2SharedId, file2FavId]);
 
-      await apis.user.favorites.addFavoriteById('file', file1FavId);
-      await apis.user.favorites.addFavoriteById('file', file2FavId);
+      await repoClient.favorites.addFavoriteById('file', file1FavId);
+      await repoClient.favorites.addFavoriteById('file', file2FavId);
 
-      await apis.user.favorites.waitForApi({ expect: 2 });
+      await repoClient.favorites.waitForApi({ expect: 2 });
       await adminApiActions.shared.waitForFilesToBeShared([file1FileLibId, file1SharedId, file1FavId]);
-      await apis.user.shared.waitForFilesToBeShared([file2FileLibId, file2SharedId, file2FavId]);
+      await repoClient.shared.waitForFilesToBeShared([file2FileLibId, file2SharedId, file2FavId]);
 
       done();
     });
@@ -754,7 +752,7 @@ describe('Unshare a file', () => {
       await shareDialog.waitForDialogToClose();
 
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
-      expect(await apis.user.nodes.isFileShared(file2FileLibId)).toBe(false, `${file2FileLib} is shared`);
+      expect(await repoClient.nodes.isFileShared(file2FileLibId)).toBe(false, `${file2FileLib} is shared`);
     });
 
     it('[C286687] on Shared Files - file shared by other user', async () => {
@@ -788,7 +786,7 @@ describe('Unshare a file', () => {
       await shareDialog.waitForDialogToClose();
 
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
-      expect(await apis.user.nodes.isFileShared(file2SharedId)).toBe(false, `${file2Shared} is shared`);
+      expect(await repoClient.nodes.isFileShared(file2SharedId)).toBe(false, `${file2Shared} is shared`);
     });
 
     it('[C286697] on Favorites - file shared by other user', async () => {
@@ -822,7 +820,7 @@ describe('Unshare a file', () => {
       await shareDialog.waitForDialogToClose();
 
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
-      expect(await apis.user.nodes.isFileShared(file2FavId)).toBe(false, `${file2Fav} is shared`);
+      expect(await repoClient.nodes.isFileShared(file2FavId)).toBe(false, `${file2Fav} is shared`);
     });
   });
 });

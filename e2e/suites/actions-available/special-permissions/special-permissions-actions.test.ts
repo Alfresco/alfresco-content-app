@@ -31,6 +31,7 @@ import { searchResultsTests } from './search-results';
 import { viewerTests } from './viewer';
 import { sharedFilesTests } from './shared-files';
 import { collaboratorTests, filesLockedByCurrentUser, filesLockedByOtherUser } from './other-permissions';
+import { ApiService } from '@alfresco/adf-testing';
 
 describe('Special permissions : ', () => {
   const random = testData.random;
@@ -57,12 +58,20 @@ describe('Special permissions : ', () => {
   let folderFavId: string;
   let folderFav2Id: string;
 
-  const adminApiActions = new AdminActions();
+  const adminApiService = new ApiService();
+  const adminApiActions = new AdminActions(adminApiService);
 
-  const userManagerApi = new RepoClient(userManager, userManager);
-  const userConsumerApi = new RepoClient(userConsumer, userConsumer);
-  const userCollaboratorApi = new RepoClient(userCollaborator, userCollaborator);
-  const userDemotedApi = new RepoClient(userDemoted, userDemoted);
+  const apiServiceManager = new ApiService();
+  const userManagerApi = new RepoClient(apiServiceManager;
+
+  const apiServiceConsumer = new ApiService();
+  const userConsumerApi = new RepoClient(apiServiceConsumer;
+
+  const apiServiceCollaborator = new ApiService();
+  const userCollaboratorApi = new RepoClient(apiServiceCollaborator);
+
+  const apiServiceDemoted = new ApiService();
+  const userDemotedApi = new RepoClient(apiServiceDemoted);
 
   const loginPage = new LoginPage();
 

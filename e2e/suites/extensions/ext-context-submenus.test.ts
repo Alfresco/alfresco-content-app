@@ -24,9 +24,9 @@
  */
 
 import { AdminActions, LoginPage, BrowsingPage, EXTENSIBILITY_CONFIGS, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { ApiService } from '@alfresco/adf-testing';
 
 describe('Extensions - Context submenu', () => {
-  const username = `user-${Utils.random()}`;
   const file = `file-${Utils.random()}.txt`;
   let fileId: string;
   const folder = `folder-${Utils.random()}`;
@@ -43,24 +43,25 @@ describe('Extensions - Context submenu', () => {
     submenu: [restrictedPermissionsItem]
   };
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const apiService = new ApiService();
+  const repoClient = new RepoClient(apiService);
+  const adminApiService = new ApiService();
+  const adminApiActions = new AdminActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable } = page;
   const contextMenu = dataTable.menu;
-  const adminApiActions = new AdminActions();
 
   beforeAll(async (done) => {
-    await adminApiActions.createUser({ username });
-    fileId = (await apis.user.nodes.createFile(file)).entry.id;
-    folderId = (await apis.user.nodes.createFolder(folder)).entry.id;
+    await adminApiActions.loginWithProfile('admin');
+    const user = await usersActions.createUser();
+    fileId = (await repoClient.nodes.createFile(file)).entry.id;
+    folderId = (await repoClient.nodes.createFolder(folder)).entry.id;
 
     await loginPage.load();
     await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.CONTEXT_SUBMENUS);
-    await loginPage.loginWith(username);
+    await loginPage.loginWith(user.username, user.password);
 
     done();
   });
@@ -73,8 +74,8 @@ describe('Extensions - Context submenu', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(fileId, true);
-    await apis.user.nodes.deleteNodeById(folderId, true);
+    await repoClient.nodes.deleteNodeById(fileId, true);
+    await repoClient.nodes.deleteNodeById(folderId, true);
     done();
   });
 

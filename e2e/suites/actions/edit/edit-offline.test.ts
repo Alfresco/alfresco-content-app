@@ -24,9 +24,10 @@
  */
 
 import { AdminActions, LoginPage, BrowsingPage, FILES, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { ApiService } from '@alfresco/adf-testing';
 
 describe('Edit offline', () => {
-  const username = `user-${Utils.random()}`;
+  let user;
 
   const file1 = `file1-${Utils.random()}.docx`;
   const fileLocked = `file-locked-${Utils.random()}.docx`;
@@ -43,19 +44,19 @@ describe('Edit offline', () => {
   const parentFav = `parentFav-${Utils.random()}`;
   const parentSearch = `parentSearch-${Utils.random()}`;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const apiService = new ApiService();
+  const adminApiService = new ApiService();
+  const repoClient = new RepoClient(apiService);
+  const adminApiActions = new AdminActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable, toolbar } = page;
   const { searchInput } = page.header;
 
-  const adminApiActions = new AdminActions();
-
   beforeAll(async () => {
-    await adminApiActions.createUser({ username });
+    await adminApiActions.loginWithProfile('admin');
+    user = await usersActions.createUser();
   });
 
   describe('on Personal Files', () => {
@@ -65,16 +66,16 @@ describe('Edit offline', () => {
     let fileLocked2Id: string;
 
     beforeAll(async () => {
-      parentPFId = (await apis.user.nodes.createFolder(parentPF)).entry.id;
+      parentPFId = (await repoClient.nodes.createFolder(parentPF)).entry.id;
 
-      file1Id = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentPFId, file1)).entry.id;
-      fileLockedId = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentPFId, fileLocked)).entry.id;
-      fileLocked2Id = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentPFId, fileLocked2)).entry.id;
+      file1Id = (await repoClient.upload.uploadFileWithRename(FILES.docxFile, parentPFId, file1)).entry.id;
+      fileLockedId = (await repoClient.upload.uploadFileWithRename(FILES.docxFile, parentPFId, fileLocked)).entry.id;
+      fileLocked2Id = (await repoClient.upload.uploadFileWithRename(FILES.docxFile, parentPFId, fileLocked2)).entry.id;
 
-      await apis.user.nodes.lockFile(fileLockedId);
-      await apis.user.nodes.lockFile(fileLocked2Id);
+      await repoClient.nodes.lockFile(fileLockedId);
+      await repoClient.nodes.lockFile(fileLocked2Id);
 
-      await loginPage.loginWith(username);
+      await loginPage.loginWith(user.username, user.password);
     });
 
     beforeEach(async () => {
@@ -87,7 +88,7 @@ describe('Edit offline', () => {
     });
 
     afterAll(async () => {
-      await apis.user.nodes.deleteNodeById(parentPFId);
+      await repoClient.nodes.deleteNodeById(parentPFId);
     });
 
     it('[C297538] File is locked and downloaded when clicking Edit Offline', async () => {
@@ -95,13 +96,13 @@ describe('Edit offline', () => {
       await toolbar.clickMoreActionsEditOffline();
 
       expect(await Utils.fileExistsOnOS(file1)).toBe(true, 'File not found in download location');
-      expect(await apis.user.nodes.isFileLockedWrite(file1Id)).toBe(true, `${file1} is not locked`);
+      expect(await repoClient.nodes.isFileLockedWrite(file1Id)).toBe(true, `${file1} is not locked`);
     });
 
     it('[C297539] Lock information is displayed', async () => {
       expect(await dataTable.isItemPresent(fileLocked2)).toBe(true, `${fileLocked2} is not displayed`);
       expect(await dataTable.hasLockIcon(fileLocked2)).toBe(true, `${fileLocked2} does not have a lock icon`);
-      expect(await dataTable.getLockOwner(fileLocked2)).toContain(username, `${fileLocked2} does not have correct lock owner info`);
+      expect(await dataTable.getLockOwner(fileLocked2)).toContain(user.username, `${fileLocked2} does not have correct lock owner info`);
     });
 
     it('[C297540] Cancel Editing unlocks the file', async () => {
@@ -109,7 +110,7 @@ describe('Edit offline', () => {
       await toolbar.clickMoreActionsCancelEditing();
       await dataTable.unselectItem(fileLocked);
 
-      expect(await apis.user.nodes.isFileLockedWrite(fileLockedId)).toBe(false, `${fileLocked} is still locked`);
+      expect(await repoClient.nodes.isFileLockedWrite(fileLockedId)).toBe(false, `${fileLocked} is still locked`);
       expect(await dataTable.hasLockIcon(fileLocked)).toBe(false, `${fileLocked} has a lock icon`);
     });
   });
@@ -121,23 +122,23 @@ describe('Edit offline', () => {
     let fileLocked2Id: string;
 
     beforeAll(async () => {
-      parentSFId = (await apis.user.nodes.createFolder(parentSF)).entry.id;
+      parentSFId = (await repoClient.nodes.createFolder(parentSF)).entry.id;
 
-      file1Id = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentSFId, file1)).entry.id;
-      fileLockedId = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentSFId, fileLocked)).entry.id;
-      fileLocked2Id = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentSFId, fileLocked2)).entry.id;
+      file1Id = (await repoClient.upload.uploadFileWithRename(FILES.docxFile, parentSFId, file1)).entry.id;
+      fileLockedId = (await repoClient.upload.uploadFileWithRename(FILES.docxFile, parentSFId, fileLocked)).entry.id;
+      fileLocked2Id = (await repoClient.upload.uploadFileWithRename(FILES.docxFile, parentSFId, fileLocked2)).entry.id;
 
-      await apis.user.nodes.lockFile(fileLockedId);
-      await apis.user.nodes.lockFile(fileLocked2Id);
+      await repoClient.nodes.lockFile(fileLockedId);
+      await repoClient.nodes.lockFile(fileLocked2Id);
 
-      await apis.user.shared.shareFilesByIds([file1Id, fileLockedId, fileLocked2Id]);
-      await apis.user.shared.waitForFilesToBeShared([file1Id, fileLockedId, fileLocked2Id]);
+      await repoClient.shared.shareFilesByIds([file1Id, fileLockedId, fileLocked2Id]);
+      await repoClient.shared.waitForFilesToBeShared([file1Id, fileLockedId, fileLocked2Id]);
 
-      await loginPage.loginWith(username);
+      await loginPage.loginWith(user.username, user.password);
     });
 
     afterAll(async () => {
-      await apis.user.nodes.deleteNodeById(parentSFId);
+      await repoClient.nodes.deleteNodeById(parentSFId);
     });
 
     beforeEach(async () => {
@@ -153,13 +154,13 @@ describe('Edit offline', () => {
       await toolbar.clickMoreActionsEditOffline();
 
       expect(await Utils.fileExistsOnOS(file1)).toBe(true, 'File not found in download location');
-      expect(await apis.user.nodes.isFileLockedWrite(file1Id)).toBe(true, `${file1} is not locked`);
+      expect(await repoClient.nodes.isFileLockedWrite(file1Id)).toBe(true, `${file1} is not locked`);
     });
 
     it('[C306951] Lock information is displayed', async () => {
       expect(await dataTable.isItemPresent(fileLocked2, parentSF)).toBe(true, `${fileLocked2} is not displayed`);
       expect(await dataTable.hasLockIcon(fileLocked2, parentSF)).toBe(true, `${fileLocked2} does not have a lock icon`);
-      expect(await dataTable.getLockOwner(fileLocked2, parentSF)).toContain(username, `${fileLocked2} does not have correct lock owner info`);
+      expect(await dataTable.getLockOwner(fileLocked2, parentSF)).toContain(user.username, `${fileLocked2} does not have correct lock owner info`);
     });
 
     it('[C306952] Cancel Editing unlocks the file', async () => {
@@ -167,7 +168,7 @@ describe('Edit offline', () => {
       await toolbar.clickMoreActionsCancelEditing();
       await dataTable.unselectItem(fileLocked);
 
-      expect(await apis.user.nodes.isFileLockedWrite(fileLockedId)).toBe(false, `${fileLocked} is still locked`);
+      expect(await repoClient.nodes.isFileLockedWrite(fileLockedId)).toBe(false, `${fileLocked} is still locked`);
       expect(await dataTable.hasLockIcon(fileLocked, parentSF)).toBe(false, `${fileLocked} has a lock icon`);
     });
   });
@@ -179,24 +180,24 @@ describe('Edit offline', () => {
     let fileLocked2Id: string;
 
     beforeAll(async () => {
-      parentRFId = (await apis.user.nodes.createFolder(parentRF)).entry.id;
+      parentRFId = (await repoClient.nodes.createFolder(parentRF)).entry.id;
 
-      await apis.user.search.waitForApi(username, { expect: 0 });
+      await repoClient.search.waitForApi(user.username, { expect: 0 });
 
-      file1Id = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentRFId, file1)).entry.id;
-      fileLockedId = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentRFId, fileLocked)).entry.id;
-      fileLocked2Id = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentRFId, fileLocked2)).entry.id;
+      file1Id = (await repoClient.upload.uploadFileWithRename(FILES.docxFile, parentRFId, file1)).entry.id;
+      fileLockedId = (await repoClient.upload.uploadFileWithRename(FILES.docxFile, parentRFId, fileLocked)).entry.id;
+      fileLocked2Id = (await repoClient.upload.uploadFileWithRename(FILES.docxFile, parentRFId, fileLocked2)).entry.id;
 
-      await apis.user.nodes.lockFile(fileLockedId);
-      await apis.user.nodes.lockFile(fileLocked2Id);
+      await repoClient.nodes.lockFile(fileLockedId);
+      await repoClient.nodes.lockFile(fileLocked2Id);
 
-      await apis.user.search.waitForApi(username, { expect: 3 });
+      await repoClient.search.waitForApi(user.username, { expect: 3 });
 
-      await loginPage.loginWith(username);
+      await loginPage.loginWith(user.username, user.password);
     });
 
     afterAll(async () => {
-      await apis.user.nodes.deleteNodeById(parentRFId);
+      await repoClient.nodes.deleteNodeById(parentRFId);
     });
 
     beforeEach(async () => {
@@ -212,13 +213,13 @@ describe('Edit offline', () => {
       await toolbar.clickMoreActionsEditOffline();
 
       expect(await Utils.fileExistsOnOS(file1)).toBe(true, 'File not found in download location');
-      expect(await apis.user.nodes.isFileLockedWrite(file1Id)).toBe(true, `${file1} is not locked`);
+      expect(await repoClient.nodes.isFileLockedWrite(file1Id)).toBe(true, `${file1} is not locked`);
     });
 
     it('[C297542] Lock information is displayed', async () => {
       expect(await dataTable.isItemPresent(fileLocked2, parentRF)).toBe(true, `${fileLocked2} is not displayed`);
       expect(await dataTable.hasLockIcon(fileLocked2, parentRF)).toBe(true, `${fileLocked2} does not have a lock icon`);
-      expect(await dataTable.getLockOwner(fileLocked2, parentRF)).toContain(username, `${fileLocked2} does not have correct lock owner info`);
+      expect(await dataTable.getLockOwner(fileLocked2, parentRF)).toContain(user.username, `${fileLocked2} does not have correct lock owner info`);
     });
 
     it('[C297543] Cancel Editing unlocks the file', async () => {
@@ -226,7 +227,7 @@ describe('Edit offline', () => {
       await toolbar.clickMoreActionsCancelEditing();
       await dataTable.unselectItem(fileLocked, parentRF);
 
-      expect(await apis.user.nodes.isFileLockedWrite(fileLockedId)).toBe(false, `${fileLocked} is still locked`);
+      expect(await repoClient.nodes.isFileLockedWrite(fileLockedId)).toBe(false, `${fileLocked} is still locked`);
       expect(await dataTable.hasLockIcon(fileLocked, parentRF)).toBe(false, `${fileLocked} has a lock icon`);
     });
   });
@@ -238,23 +239,23 @@ describe('Edit offline', () => {
     let fileLocked2Id: string;
 
     beforeAll(async () => {
-      parentFavId = (await apis.user.nodes.createFolder(parentFav)).entry.id;
+      parentFavId = (await repoClient.nodes.createFolder(parentFav)).entry.id;
 
-      file1Id = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentFavId, file1)).entry.id;
-      fileLockedId = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentFavId, fileLocked)).entry.id;
-      fileLocked2Id = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentFavId, fileLocked2)).entry.id;
+      file1Id = (await repoClient.upload.uploadFileWithRename(FILES.docxFile, parentFavId, file1)).entry.id;
+      fileLockedId = (await repoClient.upload.uploadFileWithRename(FILES.docxFile, parentFavId, fileLocked)).entry.id;
+      fileLocked2Id = (await repoClient.upload.uploadFileWithRename(FILES.docxFile, parentFavId, fileLocked2)).entry.id;
 
-      await apis.user.nodes.lockFile(fileLockedId);
-      await apis.user.nodes.lockFile(fileLocked2Id);
+      await repoClient.nodes.lockFile(fileLockedId);
+      await repoClient.nodes.lockFile(fileLocked2Id);
 
-      await apis.user.favorites.addFavoritesByIds('file', [file1Id, fileLockedId, fileLocked2Id]);
-      await apis.user.favorites.waitForApi({ expect: 3 });
+      await repoClient.favorites.addFavoritesByIds('file', [file1Id, fileLockedId, fileLocked2Id]);
+      await repoClient.favorites.waitForApi({ expect: 3 });
 
-      await loginPage.loginWith(username);
+      await loginPage.loginWith(user.username, user.password);
     });
 
     afterAll(async () => {
-      await apis.user.nodes.deleteNodeById(parentFavId);
+      await repoClient.nodes.deleteNodeById(parentFavId);
     });
 
     beforeEach(async () => {
@@ -270,13 +271,13 @@ describe('Edit offline', () => {
       await toolbar.clickMoreActionsEditOffline();
 
       expect(await Utils.fileExistsOnOS(file1)).toBe(true, 'File not found in download location');
-      expect(await apis.user.nodes.isFileLockedWrite(file1Id)).toBe(true, `${file1} is not locked`);
+      expect(await repoClient.nodes.isFileLockedWrite(file1Id)).toBe(true, `${file1} is not locked`);
     });
 
     it('[C306957] Lock information is displayed', async () => {
       expect(await dataTable.isItemPresent(fileLocked2)).toBe(true, `${fileLocked2} is not displayed`);
       expect(await dataTable.hasLockIcon(fileLocked2)).toBe(true, `${fileLocked2} does not have a lock icon`);
-      expect(await dataTable.getLockOwner(fileLocked2)).toContain(username, `${fileLocked2} does not have correct lock owner info`);
+      expect(await dataTable.getLockOwner(fileLocked2)).toContain(user.username, `${fileLocked2} does not have correct lock owner info`);
     });
 
     it('[C306958] Cancel Editing unlocks the file', async () => {
@@ -284,7 +285,7 @@ describe('Edit offline', () => {
       await toolbar.clickMoreActionsCancelEditing();
       await dataTable.unselectItem(fileLocked);
 
-      expect(await apis.user.nodes.isFileLockedWrite(fileLockedId)).toBe(false, `${fileLocked} is still locked`);
+      expect(await repoClient.nodes.isFileLockedWrite(fileLockedId)).toBe(false, `${fileLocked} is still locked`);
       expect(await dataTable.hasLockIcon(fileLocked)).toBe(false, `${fileLocked} has a lock icon`);
     });
   });
@@ -296,22 +297,22 @@ describe('Edit offline', () => {
     let fileSearchLocked2Id: string;
 
     beforeAll(async () => {
-      parentSearchId = (await apis.user.nodes.createFolder(parentSearch)).entry.id;
+      parentSearchId = (await repoClient.nodes.createFolder(parentSearch)).entry.id;
 
-      fileSearch1Id = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentSearchId, fileSearch1)).entry.id;
-      fileSearchLockedId = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentSearchId, fileSearchLocked)).entry.id;
-      fileSearchLocked2Id = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentSearchId, fileSearchLocked2)).entry.id;
+      fileSearch1Id = (await repoClient.upload.uploadFileWithRename(FILES.docxFile, parentSearchId, fileSearch1)).entry.id;
+      fileSearchLockedId = (await repoClient.upload.uploadFileWithRename(FILES.docxFile, parentSearchId, fileSearchLocked)).entry.id;
+      fileSearchLocked2Id = (await repoClient.upload.uploadFileWithRename(FILES.docxFile, parentSearchId, fileSearchLocked2)).entry.id;
 
-      await apis.user.nodes.lockFile(fileSearchLockedId);
-      await apis.user.nodes.lockFile(fileSearchLocked2Id);
+      await repoClient.nodes.lockFile(fileSearchLockedId);
+      await repoClient.nodes.lockFile(fileSearchLocked2Id);
 
-      await apis.user.search.waitForNodes(searchRandom, { expect: 3 });
+      await repoClient.search.waitForNodes(searchRandom, { expect: 3 });
 
-      await loginPage.loginWith(username);
+      await loginPage.loginWith(user.username, user.password);
     });
 
     afterAll(async () => {
-      await apis.user.nodes.deleteNodeById(parentSearchId);
+      await repoClient.nodes.deleteNodeById(parentSearchId);
     });
 
     beforeEach(async () => {
@@ -330,14 +331,14 @@ describe('Edit offline', () => {
       await toolbar.clickMoreActionsEditOffline();
 
       expect(await Utils.fileExistsOnOS(fileSearch1)).toBe(true, 'File not found in download location');
-      expect(await apis.user.nodes.isFileLockedWrite(fileSearch1Id)).toBe(true, `${fileSearch1} is not locked`);
+      expect(await repoClient.nodes.isFileLockedWrite(fileSearch1Id)).toBe(true, `${fileSearch1} is not locked`);
     });
 
     it('[C306954] Lock information is displayed', async () => {
       expect(await dataTable.isItemPresent(fileSearchLocked2, parentSearch)).toBe(true, `${fileSearchLocked2} is not displayed`);
       expect(await dataTable.hasLockIcon(fileSearchLocked2, parentSearch)).toBe(true, `${fileSearchLocked2} does not have a lock icon`);
       expect(await dataTable.getLockOwner(fileSearchLocked2, parentSearch)).toContain(
-        username,
+        user.username,
         `${fileSearchLocked2} does not have correct lock owner info`
       );
     });
@@ -347,7 +348,7 @@ describe('Edit offline', () => {
       await toolbar.clickMoreActionsCancelEditing();
       await dataTable.unselectItem(fileSearchLocked);
 
-      expect(await apis.user.nodes.isFileLockedWrite(fileSearchLockedId)).toBe(false, `${fileSearchLocked} is still locked`);
+      expect(await repoClient.nodes.isFileLockedWrite(fileSearchLockedId)).toBe(false, `${fileSearchLocked} is still locked`);
       expect(await dataTable.hasLockIcon(fileSearchLocked, parentSearch)).toBe(false, `${fileSearchLocked} has a lock icon`);
     });
   });

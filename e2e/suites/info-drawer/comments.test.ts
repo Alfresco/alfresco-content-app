@@ -23,13 +23,11 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, UserActions, LoginPage, BrowsingPage, RepoClient, InfoDrawer, Utils } from '@alfresco/aca-testing-shared';
+import { AdminActions, ApiActions, LoginPage, BrowsingPage, RepoClient, InfoDrawer, Utils } from '@alfresco/aca-testing-shared';
 const moment = require('moment');
-import { BrowserActions } from '@alfresco/adf-testing';
+import { ApiService, BrowserActions, UsersActions } from '@alfresco/adf-testing';
 
 describe('Comments', () => {
-  const username = `user1-${Utils.random()}`;
-
   const parent = `parent-${Utils.random()}`;
   let parentId: string;
 
@@ -54,9 +52,11 @@ describe('Comments', () => {
   let comment1File2Entry: any;
   let comment2File2Entry: any;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const apiService = new ApiService();
+  const repoClient = new RepoClient(apiService);
+  const adminApiService = new ApiService();
+  const adminApiActions = new AdminActions(adminApiService);
+  const usersActions = new UsersActions(adminApiService);
 
   const infoDrawer = new InfoDrawer();
   const { commentsTab } = infoDrawer;
@@ -65,43 +65,40 @@ describe('Comments', () => {
   const page = new BrowsingPage();
   const { dataTable } = page;
 
-  const adminApiActions = new AdminActions();
-  const userActions = new UserActions();
-
   beforeAll(async (done) => {
-    await adminApiActions.login();
-    await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
+    await adminApiActions.loginWithProfile('admin');
+    const user = await usersActions.createUser();
+    await apiService.login(user.username, user.password);
 
-    parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
+    parentId = (await repoClient.nodes.createFolder(parent)).entry.id;
 
-    await apis.user.nodes.createFile(file1, parentId);
-    await apis.user.nodes.createFile(file2Personal, parentId);
-    await apis.user.nodes.createFile(file2Recent, parentId);
-    file2SharedId = (await apis.user.nodes.createFile(file2Shared, parentId)).entry.id;
-    file2FavoritesId = (await apis.user.nodes.createFile(file2Favorites, parentId)).entry.id;
+    await repoClient.nodes.createFile(file1, parentId);
+    await repoClient.nodes.createFile(file2Personal, parentId);
+    await repoClient.nodes.createFile(file2Recent, parentId);
+    file2SharedId = (await repoClient.nodes.createFile(file2Shared, parentId)).entry.id;
+    file2FavoritesId = (await repoClient.nodes.createFile(file2Favorites, parentId)).entry.id;
 
-    fileWith1CommentId = (await apis.user.nodes.createFile(fileWith1Comment, parentId)).entry.id;
-    fileWith2CommentsId = (await apis.user.nodes.createFile(fileWith2Comments, parentId)).entry.id;
+    fileWith1CommentId = (await repoClient.nodes.createFile(fileWith1Comment, parentId)).entry.id;
+    fileWith2CommentsId = (await repoClient.nodes.createFile(fileWith2Comments, parentId)).entry.id;
 
-    comment1File2Entry = await userActions.createComment(fileWith2CommentsId, 'first comment');
-    comment2File2Entry = await userActions.createComment(fileWith2CommentsId, 'second comment');
+    comment1File2Entry = await apiActions.createComment(fileWith2CommentsId, 'first comment');
+    comment2File2Entry = await apiActions.createComment(fileWith2CommentsId, 'second comment');
 
-    await apis.user.shared.shareFilesByIds([file2SharedId, fileWith1CommentId, fileWith2CommentsId]);
-    await apis.user.shared.waitForFilesToBeShared([file2SharedId, fileWith1CommentId, fileWith2CommentsId]);
+    await repoClient.shared.shareFilesByIds([file2SharedId, fileWith1CommentId, fileWith2CommentsId]);
+    await repoClient.shared.waitForFilesToBeShared([file2SharedId, fileWith1CommentId, fileWith2CommentsId]);
 
-    await apis.user.favorites.addFavoritesByIds('file', [file2FavoritesId, fileWith1CommentId, fileWith2CommentsId]);
+    await repoClient.favorites.addFavoritesByIds('file', [file2FavoritesId, fileWith1CommentId, fileWith2CommentsId]);
 
-    await apis.user.nodes.createFolder(folder1, parentId);
-    folder2Id = (await apis.user.nodes.createFolder(folder2, parentId)).entry.id;
-    await apis.user.favorites.addFavoriteById('folder', folder2Id);
+    await repoClient.nodes.createFolder(folder1, parentId);
+    folder2Id = (await repoClient.nodes.createFolder(folder2, parentId)).entry.id;
+    await repoClient.favorites.addFavoriteById('folder', folder2Id);
 
-    await loginPage.loginWith(username);
+    await loginPage.loginWith(user.username, user.password);
     done();
   });
 
   afterAll(async (done) => {
-    await userActions.deleteNodes([parentId]);
+    await apiActions.deleteNodes([parentId]);
     done();
   });
 
@@ -207,7 +204,7 @@ describe('Comments', () => {
 
   describe('from Favorites', () => {
     beforeAll(async (done) => {
-      await apis.user.favorites.waitForApi({ expect: 4 });
+      await repoClient.favorites.waitForApi({ expect: 4 });
       done();
     });
 
@@ -309,7 +306,7 @@ describe('Comments', () => {
 
   describe('from Recent Files', () => {
     beforeAll(async (done) => {
-      await apis.user.search.waitForApi(username, { expect: 7 });
+      await repoClient.search.waitForApi(user.username, { expect: 7 });
       done();
     });
 
@@ -355,10 +352,10 @@ describe('Comments', () => {
 
   describe('Comment info display', () => {
     beforeAll(async (done) => {
-      commentFile1Entry = await userActions.createComment(fileWith1CommentId, 'this is my comment');
+      commentFile1Entry = await apiActions.createComment(fileWith1CommentId, 'this is my comment');
 
-      await apis.user.favorites.waitForApi({ expect: 4 });
-      await apis.user.search.waitForApi(username, { expect: 7 });
+      await repoClient.favorites.waitForApi({ expect: 4 });
+      await repoClient.search.waitForApi(user.username, { expect: 7 });
 
       done();
     });
@@ -378,7 +375,7 @@ describe('Comments', () => {
 
       expect(await commentsTab.isCommentDisplayed(commentFile1Entry.id)).toBe(true, `Comment with id: ${commentFile1Entry.id} not displayed`);
       expect(await commentsTab.getCommentText(commentFile1Entry.id)).toBe(commentFile1Entry.content, 'Incorrect comment text');
-      expect(await commentsTab.getCommentUserName(commentFile1Entry.id)).toBe(`${username} ${username}`, 'Incorrect comment user');
+      expect(await commentsTab.getCommentUserName(commentFile1Entry.id)).toBe(`${user.username} ${user.username}`, 'Incorrect comment user');
       expect(await commentsTab.getCommentTime(commentFile1Entry.id)).toBe(
         moment(commentFile1Entry.createdAt).fromNow(),
         'Incorrect comment created time'
@@ -400,7 +397,7 @@ describe('Comments', () => {
 
       expect(await commentsTab.isCommentDisplayed(commentFile1Entry.id)).toBe(true, `Comment with id: ${commentFile1Entry.id} not displayed`);
       expect(await commentsTab.getCommentText(commentFile1Entry.id)).toBe(commentFile1Entry.content, 'Incorrect comment text');
-      expect(await commentsTab.getCommentUserName(commentFile1Entry.id)).toBe(`${username} ${username}`, 'Incorrect comment user');
+      expect(await commentsTab.getCommentUserName(commentFile1Entry.id)).toBe(`${user.username} ${user.username}`, 'Incorrect comment user');
       expect(await commentsTab.getCommentTime(commentFile1Entry.id)).toBe(
         moment(commentFile1Entry.createdAt).fromNow(),
         'Incorrect comment created time'
@@ -422,7 +419,7 @@ describe('Comments', () => {
 
       expect(await commentsTab.isCommentDisplayed(commentFile1Entry.id)).toBe(true, `Comment with id: ${commentFile1Entry.id} not displayed`);
       expect(await commentsTab.getCommentText(commentFile1Entry.id)).toBe(commentFile1Entry.content, 'Incorrect comment text');
-      expect(await commentsTab.getCommentUserName(commentFile1Entry.id)).toBe(`${username} ${username}`, 'Incorrect comment user');
+      expect(await commentsTab.getCommentUserName(commentFile1Entry.id)).toBe(`${user.username} ${user.username}`, 'Incorrect comment user');
       expect(await commentsTab.getCommentTime(commentFile1Entry.id)).toBe(
         moment(commentFile1Entry.createdAt).fromNow(),
         'Incorrect comment created time'
@@ -444,7 +441,7 @@ describe('Comments', () => {
 
       expect(await commentsTab.isCommentDisplayed(commentFile1Entry.id)).toBe(true, `Comment with id: ${commentFile1Entry.id} not displayed`);
       expect(await commentsTab.getCommentText(commentFile1Entry.id)).toBe(commentFile1Entry.content, 'Incorrect comment text');
-      expect(await commentsTab.getCommentUserName(commentFile1Entry.id)).toBe(`${username} ${username}`, 'Incorrect comment user');
+      expect(await commentsTab.getCommentUserName(commentFile1Entry.id)).toBe(`${user.username} ${user.username}`, 'Incorrect comment user');
       expect(await commentsTab.getCommentTime(commentFile1Entry.id)).toBe(
         moment(commentFile1Entry.createdAt).fromNow(),
         'Incorrect comment created time'

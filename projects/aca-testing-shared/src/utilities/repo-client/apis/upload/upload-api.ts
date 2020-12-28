@@ -29,12 +29,8 @@ import { browser } from 'protractor';
 import * as fs from 'fs';
 
 export class UploadApi extends RepoApi {
-  upload = new AdfUploadApi(this.alfrescoJsApi);
+  upload = new AdfUploadApi(this.apiService.getInstance());
   e2eRootPath = browser.params.e2eRootPath;
-
-  constructor(username?: string, password?: string) {
-    super(username, password);
-  }
 
   async uploadFile(fileName: string, parentFolderId: string = '-my-') {
     const file = fs.createReadStream(`${this.e2eRootPath}/resources/test-files/${fileName}`);
@@ -44,8 +40,7 @@ export class UploadApi extends RepoApi {
     };
 
     try {
-      await this.apiAuth();
-      return await this.upload.uploadFile(file, '', parentFolderId, null, opts);
+return await this.upload.uploadFile(file, '', parentFolderId, null, opts);
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.uploadFile.name}`, error);
     }
@@ -66,8 +61,7 @@ export class UploadApi extends RepoApi {
     };
 
     try {
-      await this.apiAuth();
-      return await this.upload.uploadFile(file, '', parentId, nodeProps, opts);
+return await this.upload.uploadFile(file, '', parentId, nodeProps, opts);
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.uploadFileWithRename.name}`, error);
     }

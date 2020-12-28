@@ -24,46 +24,43 @@
  */
 
 import { browser } from 'protractor';
-import { AdminActions, UserActions, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { AdminActions, ApiActions, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { ApiService, UsersActions } from '@alfresco/adf-testing';
 
 describe('Generic errors', () => {
-  const username = `user-${Utils.random()}`;
-  const username2 = `user2-${Utils.random()}`;
-
   const parent = `folder-${Utils.random()}`;
   let parentId: string;
   const file1 = `file1-${Utils.random()}.txt`;
   let file1Id: string;
   const file2 = `file2-${Utils.random()}.txt`;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const apiService = new ApiService();
+  const repoClient = new RepoClient(apiService);
+  const adminApiService = new ApiService();
+  const adminApiActions = new AdminActions(adminApiService);
+  const apiActions = new ApiActions(apiService);
+  const usersActions = new UsersActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable } = page;
 
-  const adminApiActions = new AdminActions();
-  const userActions = new UserActions();
-
   beforeAll(async (done) => {
-    await adminApiActions.login();
-    await adminApiActions.createUser({ username });
-    await adminApiActions.createUser({ username: username2 });
-    await userActions.login(username, username);
+    await adminApiActions.loginWithProfile('admin');
+    const user = await usersActions.createUser();
+    await apiService.login(user.username, user.password);
 
-    parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
-    file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
-    await apis.user.nodes.createFile(file2, parentId);
+    parentId = (await repoClient.nodes.createFolder(parent)).entry.id;
+    file1Id = (await repoClient.nodes.createFile(file1, parentId)).entry.id;
+    await repoClient.nodes.createFile(file2, parentId);
 
-    await loginPage.loginWith(username);
+    await loginPage.loginWith(user.username, user.password);
     done();
   });
 
   afterAll(async (done) => {
-    await userActions.deleteNodes([parentId]);
-    await userActions.emptyTrashcan();
+    await apiActions.deleteNodes([parentId]);
+    await apiActions.emptyTrashcan();
     done();
   });
 
@@ -72,7 +69,7 @@ describe('Generic errors', () => {
     await dataTable.doubleClickOnRowByName(parent);
     await dataTable.doubleClickOnRowByName(file1);
     const URL = await browser.getCurrentUrl();
-    await apis.user.nodes.deleteNodeById(file1Id, false);
+    await repoClient.nodes.deleteNodeById(file1Id, false);
     await browser.get(URL);
 
     expect(await page.genericError.isDisplayed()).toBe(true, 'Generic error page not displayed');
@@ -87,16 +84,19 @@ describe('Generic errors', () => {
   });
 
   it('[C217314] Permission denied', async () => {
+    await adminApiActions.loginWithProfile('admin');
+    const user2 = await usersActions.createUser();
+
     await page.clickPersonalFilesAndWait();
     await dataTable.doubleClickOnRowByName(parent);
     await dataTable.doubleClickOnRowByName(file2);
     const URL = await browser.getCurrentUrl();
-    await loginPage.loginWith(username2);
+    await loginPage.loginWith(user2.username);
     await browser.get(URL);
 
     expect(await page.genericError.isDisplayed()).toBe(true, 'Generic error page not displayed');
     expect(await page.genericErrorTitle.getText()).toContain(`This item no longer exists or you don't have permission to view it.`);
 
-    await loginPage.loginWith(username);
+    await loginPage.loginWith(user.username, user.password);
   });
 });

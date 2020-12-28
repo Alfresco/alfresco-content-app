@@ -24,25 +24,46 @@
  */
 
 import { PersonEntry, NodeEntry, PeopleApi } from '@alfresco/js-api';
-import { PersonModel, SitesApi, UploadApi, NodesApi, FavoritesApi, SearchApi, NodeContentTree, Person, SharedLinksApi } from './repo-client/apis';
-import { UserActions } from './user-actions';
+import {
+  PersonModel,
+  SitesApi,
+  UploadApi,
+  NodesApi,
+  FavoritesApi,
+  SearchApi,
+  NodeContentTree,
+  Person,
+  SharedLinksApi
+} from './repo-client/apis';
+import { ApiActions } from './api-actions';
 import { browser } from 'protractor';
+import { ApiService } from '@alfresco/adf-testing';
 
-export class AdminActions extends UserActions {
-  constructor() {
-    super();
+export class AdminActions extends ApiActions {
+
+  sites: SitesApi;
+  upload: UploadApi;
+  nodes: NodesApi;
+  favorites: FavoritesApi;
+  search: SearchApi;
+  shared: SharedLinksApi;
+  peopleApi: PeopleApi;
+
+
+  protected constructor(apiService: ApiService) {
+    super(apiService);
+    this.sites = new SitesApi(this.apiService);
+    this.upload = new UploadApi(this.apiService);
+    this.nodes = new NodesApi(this.apiService);
+    this.favorites = new FavoritesApi(this.apiService);
+    this.search = new SearchApi(this.apiService);
+    this.shared = new SharedLinksApi(this.apiService);
+    this.peopleApi = new PeopleApi(this.apiService.getInstance());
   }
 
-  sites: SitesApi = new SitesApi();
-  upload: UploadApi = new UploadApi();
-  nodes: NodesApi = new NodesApi();
-  favorites: FavoritesApi = new FavoritesApi();
-  search: SearchApi = new SearchApi();
-  shared: SharedLinksApi = new SharedLinksApi();
-
-  async login(username?: string, password?: string) {
-    return super.login(username || browser.params.ADMIN_USERNAME, password || browser.params.ADMIN_PASSWORD);
-  }
+  // async login(username?: string, password?: string) {
+  //   return super.login(username || browser.params.ADMIN_USERNAME, password || browser.params.ADMIN_PASSWORD);
+  // }
 
   async getDataDictionaryId(): Promise<string> {
     try {
@@ -71,25 +92,10 @@ export class AdminActions extends UserActions {
     }
   }
 
-  async createUser(user: PersonModel): Promise<PersonEntry> {
-    const person = new Person(user);
-    const peopleApi = new PeopleApi(this.alfrescoApi);
-
-    await this.login();
-    try {
-      return peopleApi.createPerson(person);
-    } catch (error) {
-      super.handleError('Admin Actions - createUser failed : ', error);
-      return null;
-    }
-  }
-
   async disableUser(username: string): Promise<PersonEntry> {
-    const peopleApi = new PeopleApi(this.alfrescoApi);
 
-    await this.login();
     try {
-      return peopleApi.updatePerson(username, { enabled: false });
+      return this.peopleApi.updatePerson(username, { enabled: false });
     } catch (error) {
       super.handleError('Admin Actions - createUser failed : ', error);
       return null;
@@ -97,11 +103,9 @@ export class AdminActions extends UserActions {
   }
 
   async changePassword(username: string, newPassword: string): Promise<PersonEntry> {
-    const peopleApi = new PeopleApi(this.alfrescoApi);
 
-    await this.login();
     try {
-      return peopleApi.updatePerson(username, { password: newPassword });
+      return this.peopleApi.updatePerson(username, { password: newPassword });
     } catch (error) {
       super.handleError('Admin Actions - changePassword failed : ', error);
       return null;

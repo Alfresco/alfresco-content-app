@@ -32,11 +32,9 @@ import {
   clearTextWithBackspace,
   RepoClient
 } from '@alfresco/aca-testing-shared';
-import { BrowserActions } from '@alfresco/adf-testing';
+import { ApiService, BrowserActions } from '@alfresco/adf-testing';
 
 describe('Create folder', () => {
-  const username = `user-${Utils.random()}`;
-
   const parent = `parent-${Utils.random()}`;
   let parentId: string;
   const folderName1 = `folder-${Utils.random()}`;
@@ -51,15 +49,15 @@ describe('Create folder', () => {
   const duplicateFolderSite = `folder-${Utils.random()}`;
   let docLibUserSite: string;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const apiService = new ApiService();
+  const adminApiService = new ApiService();
+  const repoClient = new RepoClient(apiService);
+  const adminApiActions = new AdminActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const createDialog = new CreateOrEditFolderDialog();
   const { dataTable } = page;
-  const adminApiActions = new AdminActions();
 
   async function openCreateFolderDialog(name: string) {
     await page.dataTable.doubleClickOnRowByName(name);
@@ -68,22 +66,23 @@ describe('Create folder', () => {
   }
 
   beforeAll(async (done) => {
-    await adminApiActions.createUser({ username });
+    await adminApiActions.loginWithProfile('admin');
+    const user = await usersActions.createUser();
 
-    parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
-    await apis.user.nodes.createFolder(duplicateFolderName, parentId);
+    parentId = (await repoClient.nodes.createFolder(parent)).entry.id;
+    await repoClient.nodes.createFolder(duplicateFolderName, parentId);
 
-    await apis.user.sites.createSite(siteName);
-    docLibUserSite = await apis.user.sites.getDocLibId(siteName);
-    await apis.user.nodes.createFolder(duplicateFolderSite, docLibUserSite);
+    await repoClient.sites.createSite(siteName);
+    docLibUserSite = await repoClient.sites.getDocLibId(siteName);
+    await repoClient.nodes.createFolder(duplicateFolderSite, docLibUserSite);
 
-    await loginPage.loginWith(username);
+    await loginPage.loginWith(user.username, user.password);
     done();
   });
 
   afterAll(async (done) => {
-    await apis.user.sites.deleteSite(siteName);
-    await apis.user.nodes.deleteNodeById(parentId);
+    await repoClient.sites.deleteSite(siteName);
+    await repoClient.nodes.deleteNodeById(parentId);
     done();
   });
 
@@ -117,7 +116,7 @@ describe('Create folder', () => {
       await dataTable.waitForHeader();
 
       expect(await dataTable.isItemPresent(folderName2)).toBe(true, 'Folder not displayed');
-      const desc = await apis.user.nodes.getNodeDescription(folderName2, parentId);
+      const desc = await repoClient.nodes.getNodeDescription(folderName2, parentId);
       expect(desc).toEqual(folderDescription);
       done();
     });
@@ -219,7 +218,7 @@ describe('Create folder', () => {
       await dataTable.waitForHeader();
 
       expect(await dataTable.isItemPresent(folderSite)).toBe(true, 'Folder not displayed');
-      const desc = await apis.user.nodes.getNodeDescription(folderSite, docLibUserSite);
+      const desc = await repoClient.nodes.getNodeDescription(folderSite, docLibUserSite);
       expect(desc).toEqual(folderDescription);
     });
 

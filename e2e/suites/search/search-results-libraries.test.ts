@@ -24,10 +24,10 @@
  */
 
 import { AdminActions, LoginPage, SearchResultsPage, RepoClient, Utils, SITE_VISIBILITY, SITE_ROLES } from '@alfresco/aca-testing-shared';
+import { ApiService } from '@alfresco/adf-testing';
 
 describe('Search results - libraries', () => {
   const random = Utils.random();
-  const username = `user-${random}`;
 
   const site1 = {
     name: `lib-${random}-1`,
@@ -63,45 +63,46 @@ describe('Search results - libraries', () => {
   const adminSite4 = `admin-${random}-site4`;
   const adminPrivate = `admin-${random}-sitePrivate`;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const apiService = new ApiService();
+  const repoClient = new RepoClient(apiService);
+  const adminApiService = new ApiService();
+  const adminApiActions = new AdminActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new SearchResultsPage();
   const { searchInput } = page.header;
   const dataTable = page.dataTable;
-  const adminApiActions = new AdminActions();
 
   beforeAll(async (done) => {
-    await adminApiActions.createUser({ username });
+    await adminApiActions.loginWithProfile('admin');
+    const user = await usersActions.createUser();
 
-    await apis.user.sites.createSite(site1.name, SITE_VISIBILITY.PUBLIC, '', site1.id);
-    await apis.user.sites.createSite(site2.name, SITE_VISIBILITY.PUBLIC, '', site2.id);
-    await apis.user.sites.createSite(site3.name, SITE_VISIBILITY.PUBLIC, '', site3.id);
-    await apis.user.sites.createSite(site4.name, SITE_VISIBILITY.PUBLIC, site4.description, site4.id);
+    await repoClient.sites.createSite(site1.name, SITE_VISIBILITY.PUBLIC, '', site1.id);
+    await repoClient.sites.createSite(site2.name, SITE_VISIBILITY.PUBLIC, '', site2.id);
+    await repoClient.sites.createSite(site3.name, SITE_VISIBILITY.PUBLIC, '', site3.id);
+    await repoClient.sites.createSite(site4.name, SITE_VISIBILITY.PUBLIC, site4.description, site4.id);
 
-    await apis.user.sites.createSite(userSitePublic, SITE_VISIBILITY.PUBLIC);
-    await apis.user.sites.createSite(userSiteModerated, SITE_VISIBILITY.MODERATED);
-    await apis.user.sites.createSite(userSitePrivate, SITE_VISIBILITY.PRIVATE);
+    await repoClient.sites.createSite(userSitePublic, SITE_VISIBILITY.PUBLIC);
+    await repoClient.sites.createSite(userSiteModerated, SITE_VISIBILITY.MODERATED);
+    await repoClient.sites.createSite(userSitePrivate, SITE_VISIBILITY.PRIVATE);
 
-    await apis.user.sites.createSite(siteRussian.name, SITE_VISIBILITY.PUBLIC, '', siteRussian.id);
+    await repoClient.sites.createSite(siteRussian.name, SITE_VISIBILITY.PUBLIC, '', siteRussian.id);
 
     await adminApiActions.sites.createSite(adminSite1, SITE_VISIBILITY.PUBLIC);
     await adminApiActions.sites.createSite(adminSite2, SITE_VISIBILITY.PUBLIC);
     await adminApiActions.sites.createSite(adminSite3, SITE_VISIBILITY.PUBLIC);
     await adminApiActions.sites.createSite(adminSite4, SITE_VISIBILITY.PUBLIC);
-    await adminApiActions.sites.addSiteMember(adminSite1, username, SITE_ROLES.SITE_CONSUMER.ROLE);
-    await adminApiActions.sites.addSiteMember(adminSite2, username, SITE_ROLES.SITE_CONTRIBUTOR.ROLE);
-    await adminApiActions.sites.addSiteMember(adminSite3, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
-    await adminApiActions.sites.addSiteMember(adminSite4, username, SITE_ROLES.SITE_MANAGER.ROLE);
+    await adminApiActions.sites.addSiteMember(adminSite1, user.username, SITE_ROLES.SITE_CONSUMER.ROLE);
+    await adminApiActions.sites.addSiteMember(adminSite2, user.username, SITE_ROLES.SITE_CONTRIBUTOR.ROLE);
+    await adminApiActions.sites.addSiteMember(adminSite3, user.username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
+    await adminApiActions.sites.addSiteMember(adminSite4, user.username, SITE_ROLES.SITE_MANAGER.ROLE);
 
     await adminApiActions.sites.createSite(adminPrivate, SITE_VISIBILITY.PRIVATE);
 
-    await adminApiActions.login();
+    await adminApiActions.loginWithProfile('admin');
     await adminApiActions.sites.waitForSitesToBeCreated([adminSite1, adminSite2, adminSite3, adminSite4]);
 
-    await apis.user.sites.waitForSitesToBeCreated([
+    await repoClient.sites.waitForSitesToBeCreated([
       site1.id,
       site2.id,
       site3.id,
@@ -112,16 +113,16 @@ describe('Search results - libraries', () => {
       siteRussian.id
     ]);
 
-    await apis.user.queries.waitForSites(random, { expect: 12 });
+    await repoClient.queries.waitForSites(random, { expect: 12 });
 
-    await loginPage.loginWith(username);
+    await loginPage.loginWith(user.username, user.password);
     done();
   });
 
   afterAll(async () => {
-    await adminApiActions.login();
+    await adminApiActions.loginWithProfile('admin');
     await adminApiActions.sites.deleteSites([adminSite1, adminSite2, adminSite3, adminSite4, adminPrivate]);
-    await apis.user.sites.deleteSites([site1.id, site2.id, site3.id, site4.id, userSitePublic, userSiteModerated, userSitePrivate, siteRussian.id]);
+    await repoClient.sites.deleteSites([site1.id, site2.id, site3.id, site4.id, userSitePublic, userSiteModerated, userSitePrivate, siteRussian.id]);
   });
 
   beforeEach(async () => {

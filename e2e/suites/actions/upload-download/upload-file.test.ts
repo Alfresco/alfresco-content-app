@@ -24,27 +24,27 @@
  */
 
 import { AdminActions, LoginPage, BrowsingPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { ApiService } from '@alfresco/adf-testing';
 
 describe('Upload files', () => {
-  const username = `user-${Utils.random()}`;
-
   const folder1 = `folder1-${Utils.random()}`;
   let folder1Id: string;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const apiService = new ApiService();
+  const adminApiService = new ApiService();
+  const repoClient = new RepoClient(apiService);
+  const adminApiActions = new AdminActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable } = page;
-  const adminApiActions = new AdminActions();
 
   beforeAll(async (done) => {
-    await adminApiActions.createUser({ username });
-    folder1Id = (await apis.user.nodes.createFolder(folder1)).entry.id;
+    await adminApiActions.loginWithProfile('admin');
+    const user = await usersActions.createUser();
+    folder1Id = (await repoClient.nodes.createFolder(folder1)).entry.id;
 
-    await loginPage.loginWith(username);
+    await loginPage.loginWith(user.username, user.password);
     done();
   });
 
@@ -54,7 +54,7 @@ describe('Upload files', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(folder1Id);
+    await repoClient.nodes.deleteNodeById(folder1Id);
     done();
   });
 

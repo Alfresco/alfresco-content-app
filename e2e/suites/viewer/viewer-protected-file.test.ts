@@ -24,33 +24,32 @@
  */
 
 import { AdminActions, LoginPage, BrowsingPage, FILES, RepoClient, Utils, Viewer, PasswordDialog } from '@alfresco/aca-testing-shared';
-import { BrowserActions } from '@alfresco/adf-testing';
+import { ApiService, BrowserActions } from '@alfresco/adf-testing';
 
 describe('Viewer - password protected file', () => {
-  const username = `user-${Utils.random()}`;
-
   const parent = `parent-${Utils.random()}`;
   let parentId: string;
 
   const protectedFile = FILES.protectedFile;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const apiService = new ApiService();
+  const repoClient = new RepoClient(apiService);
+  const adminApiService = new ApiService();
+  const adminApiActions = new AdminActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable } = page;
   const viewer = new Viewer();
   const passwordDialog = new PasswordDialog();
-  const adminApiActions = new AdminActions();
 
   beforeAll(async () => {
-    await adminApiActions.createUser({ username });
-    parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
-    await apis.user.upload.uploadFile(protectedFile.name, parentId);
+    await adminApiService.loginWithProfile('admin');
+    const user = await usersActions.createUser();
+    parentId = (await repoClient.nodes.createFolder(parent)).entry.id;
+    await repoClient.upload.uploadFile(protectedFile.name, parentId);
 
-    await loginPage.loginWith(username);
+    await loginPage.loginWith(user.username, user.password);
   });
 
   beforeEach(async () => {
@@ -69,7 +68,7 @@ describe('Viewer - password protected file', () => {
   });
 
   afterAll(async () => {
-    await apis.user.nodes.deleteNodeById(parentId);
+    await repoClient.nodes.deleteNodeById(parentId);
   });
 
   it('[C268958] Password dialog appears when opening a protected file', async () => {

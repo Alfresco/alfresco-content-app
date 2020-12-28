@@ -24,10 +24,9 @@
  */
 
 import { AdminActions, LoginPage, EXTENSIBILITY_CONFIGS, Utils, Header, Menu } from '@alfresco/aca-testing-shared';
+import { ApiService } from '@alfresco/adf-testing';
 
-describe('Extensions - Header', () => {
-  const username = `user-${Utils.random()}`;
-
+describe('Extensions - Info Drawer', () => {
   const disabledMenu = {
     id: 'settings',
     title: 'App settings',
@@ -46,13 +45,15 @@ describe('Extensions - Header', () => {
   const toolbarMenu = new Menu();
 
   const loginPage = new LoginPage();
-  const adminApiActions = new AdminActions();
+  const adminApiService = new ApiService();
+  const adminApiActions = new AdminActions(adminApiService);
 
   beforeAll(async (done) => {
-    await adminApiActions.createUser({ username });
+    await adminApiActions.loginWithProfile('admin');
+    const user = await usersActions.createUser();
     await loginPage.load();
     await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.HEADER);
-    await loginPage.loginWith(username);
+    await loginPage.loginWith(user.username, user.password);
     done();
   });
 

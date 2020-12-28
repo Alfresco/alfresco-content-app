@@ -26,7 +26,7 @@
 import { browser } from 'protractor';
 import {
   AdminActions,
-  UserActions,
+  ApiActions,
   LoginPage,
   BrowsingPage,
   SITE_VISIBILITY,
@@ -35,10 +35,9 @@ import {
   Viewer,
   Utils
 } from '@alfresco/aca-testing-shared';
-import { BrowserActions } from '@alfresco/adf-testing';
+import { ApiService, BrowserActions, UsersActions } from '@alfresco/adf-testing';
 
 describe('Share a file', () => {
-  const username = `user-${Utils.random()}`;
   const parent = `parent-${Utils.random()}`;
   let parentId: string;
 
@@ -57,23 +56,23 @@ describe('Share a file', () => {
   const { dataTable, toolbar } = page;
   const shareLinkPreUrl = `/#/preview/s/`;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
-
-  const adminApiActions = new AdminActions();
-  const userActions = new UserActions();
+  const apiService = new ApiService();
+  const adminApiService = new ApiService();
+  const repoClient = new RepoClient(apiService);
+  const adminApiActions = new AdminActions(adminApiService);
+  const apiActions = new ApiActions(apiService);
+  const usersActions = new UsersActions(adminApiService);
 
   beforeAll(async () => {
-    await adminApiActions.login();
-    await adminApiActions.createUser({ username });
+    await adminApiActions.loginWithProfile('admin');
+    const user = await usersActions.createUser();
 
-    await userActions.login(username, username);
-    parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
+    await apiService.login(user.username, user.password);
+    parentId = (await repoClient.nodes.createFolder(parent)).entry.id;
   });
 
   afterAll(async () => {
-    await apis.user.nodes.deleteNodeById(parentId);
+    await repoClient.nodes.deleteNodeById(parentId);
   });
 
   describe('when logged out', () => {
@@ -81,15 +80,15 @@ describe('Share a file', () => {
     let file6Id: string;
 
     beforeAll(async () => {
-      file6Id = (await apis.user.nodes.createFile(file6, parentId)).entry.id;
+      file6Id = (await repoClient.nodes.createFile(file6, parentId)).entry.id;
 
-      const sharedId = (await apis.user.shared.shareFileById(file6Id)).entry.id;
+      const sharedId = (await repoClient.shared.shareFileById(file6Id)).entry.id;
       file6SharedLink = `${shareLinkPreUrl}${sharedId}`;
-      await apis.user.shared.waitForFilesToBeShared([file6Id]);
+      await repoClient.shared.waitForFilesToBeShared([file6Id]);
     });
 
     afterAll(async () => {
-      await apis.user.nodes.deleteNodeById(file6Id);
+      await repoClient.nodes.deleteNodeById(file6Id);
     });
 
     it('[C286326] A non-logged user can download the shared file from the viewer', async () => {
@@ -112,7 +111,7 @@ describe('Share a file', () => {
     const { searchInput } = page.header;
 
     beforeAll(async () => {
-      await loginPage.loginWith(username);
+      await loginPage.loginWith(user.username, user.password);
     });
 
     describe('from Personal Files', () => {
@@ -127,18 +126,18 @@ describe('Share a file', () => {
       let file9Id: string;
 
       beforeAll(async () => {
-        file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
-        file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
-        file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
-        file4Id = (await apis.user.nodes.createFile(file4, parentId)).entry.id;
-        file5Id = (await apis.user.nodes.createFile(file5, parentId)).entry.id;
-        file6Id = (await apis.user.nodes.createFile(file6, parentId)).entry.id;
-        file7Id = (await apis.user.nodes.createFile(file7, parentId)).entry.id;
-        file8Id = (await apis.user.nodes.createFile(file8, parentId)).entry.id;
-        file9Id = (await apis.user.nodes.createFile(file9, parentId)).entry.id;
+        file1Id = (await repoClient.nodes.createFile(file1, parentId)).entry.id;
+        file2Id = (await repoClient.nodes.createFile(file2, parentId)).entry.id;
+        file3Id = (await repoClient.nodes.createFile(file3, parentId)).entry.id;
+        file4Id = (await repoClient.nodes.createFile(file4, parentId)).entry.id;
+        file5Id = (await repoClient.nodes.createFile(file5, parentId)).entry.id;
+        file6Id = (await repoClient.nodes.createFile(file6, parentId)).entry.id;
+        file7Id = (await repoClient.nodes.createFile(file7, parentId)).entry.id;
+        file8Id = (await repoClient.nodes.createFile(file8, parentId)).entry.id;
+        file9Id = (await repoClient.nodes.createFile(file9, parentId)).entry.id;
 
-        await userActions.shareNodes([file6Id, file7Id], expiryDate);
-        await apis.user.shared.waitForFilesToBeShared([file6Id, file7Id]);
+        await apiActions.shareNodes([file6Id, file7Id], expiryDate);
+        await repoClient.shared.waitForFilesToBeShared([file6Id, file7Id]);
       });
 
       beforeEach(async () => {
@@ -153,7 +152,7 @@ describe('Share a file', () => {
       });
 
       afterAll(async () => {
-        await apis.user.nodes.deleteNodesById([file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id, file9Id]);
+        await repoClient.nodes.deleteNodesById([file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id, file9Id]);
       });
 
       it('[C286327] Share dialog default values', async () => {
@@ -161,7 +160,7 @@ describe('Share a file', () => {
         await toolbar.shareButton.click();
 
         await shareDialog.waitForDialogToOpen();
-        await apis.user.shared.waitForFilesToBeShared([file1Id]);
+        await repoClient.shared.waitForFilesToBeShared([file1Id]);
 
         expect(await shareDialog.getDialogTitle()).toEqual(`Share ${file1}`);
         expect(await shareDialog.getInfoText()).toEqual('Click the link below to copy it to the clipboard.');
@@ -179,7 +178,7 @@ describe('Share a file', () => {
         await toolbar.shareButton.click();
 
         await shareDialog.waitForDialogToOpen();
-        await apis.user.shared.waitForFilesToBeShared([file2Id]);
+        await repoClient.shared.waitForFilesToBeShared([file2Id]);
 
         expect(await shareDialog.isCloseEnabled()).toBe(true, 'Close button is not enabled');
         await shareDialog.clickClose();
@@ -191,12 +190,12 @@ describe('Share a file', () => {
         await toolbar.shareButton.click();
 
         await shareDialog.waitForDialogToOpen();
-        await apis.user.shared.waitForFilesToBeShared([file3Id]);
+        await repoClient.shared.waitForFilesToBeShared([file3Id]);
 
         const url = await shareDialog.getLinkUrl();
         await shareDialog.clickClose();
 
-        const sharedId = await apis.user.nodes.getSharedId(file3Id);
+        const sharedId = await repoClient.nodes.getSharedId(file3Id);
         expect(url).toContain(sharedId);
       });
 
@@ -205,7 +204,7 @@ describe('Share a file', () => {
         await toolbar.shareButton.click();
 
         await shareDialog.waitForDialogToOpen();
-        await apis.user.shared.waitForFilesToBeShared([file4Id]);
+        await repoClient.shared.waitForFilesToBeShared([file4Id]);
 
         const url = await shareDialog.getLinkUrl();
         expect(url).toContain(shareLinkPreUrl);
@@ -225,7 +224,7 @@ describe('Share a file', () => {
         await toolbar.shareButton.click();
 
         await shareDialog.waitForDialogToOpen();
-        await apis.user.shared.waitForFilesToBeShared([file5Id]);
+        await repoClient.shared.waitForFilesToBeShared([file5Id]);
 
         await BrowserActions.click(shareDialog.expireToggle);
         expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expire toggle not checked');
@@ -240,7 +239,7 @@ describe('Share a file', () => {
 
         expect(new Date(inputDate)).toEqual(new Date(setDate));
 
-        const expireDateProperty = await apis.user.nodes.getSharedExpiryDate(file5Id);
+        const expireDateProperty = await repoClient.nodes.getSharedExpiryDate(file5Id);
 
         expect(Utils.formatDate(expireDateProperty)).toEqual(Utils.formatDate(inputDate));
       });
@@ -250,7 +249,7 @@ describe('Share a file', () => {
         await BrowserActions.click(toolbar.shareEditButton);
         await shareDialog.waitForDialogToOpen();
 
-        const expireProperty = await apis.user.nodes.getSharedExpiryDate(file6Id);
+        const expireProperty = await repoClient.nodes.getSharedExpiryDate(file6Id);
         expect(expireProperty).toEqual(expiryDate);
         expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expiration is not checked');
         expect(Utils.formatDate(await shareDialog.getExpireDate())).toEqual(Utils.formatDate(expiryDate));
@@ -269,7 +268,7 @@ describe('Share a file', () => {
         expect(await shareDialog.getExpireDate()).toBe('', 'Expire date input is not empty');
 
         await shareDialog.clickClose();
-        expect(await apis.user.nodes.getSharedExpiryDate(file7Id)).toBe('', `${file7} link still has expiration`);
+        expect(await repoClient.nodes.getSharedExpiryDate(file7Id)).toBe('', `${file7} link still has expiration`);
       });
 
       it('[C286335] Shared file URL is not changed when Share dialog is closed and opened again', async () => {
@@ -277,7 +276,7 @@ describe('Share a file', () => {
         await toolbar.shareButton.click();
 
         await shareDialog.waitForDialogToOpen();
-        await apis.user.shared.waitForFilesToBeShared([file8Id]);
+        await repoClient.shared.waitForFilesToBeShared([file8Id]);
 
         const url1 = await shareDialog.getLinkUrl();
         await shareDialog.clickClose();
@@ -297,13 +296,13 @@ describe('Share a file', () => {
         await contextMenu.shareAction.click();
 
         await shareDialog.waitForDialogToOpen();
-        await apis.user.shared.waitForFilesToBeShared([file9Id]);
+        await repoClient.shared.waitForFilesToBeShared([file9Id]);
 
         const url = await shareDialog.getLinkUrl();
         await shareDialog.clickClose();
 
-        const sharedId = await apis.user.nodes.getSharedId(file9Id);
-        expect(await apis.user.nodes.isFileShared(file9Id)).toBe(true, `${file9} is not shared`);
+        const sharedId = await repoClient.nodes.getSharedId(file9Id);
+        expect(await repoClient.nodes.isFileShared(file9Id)).toBe(true, `${file9} is not shared`);
         expect(url).toContain(sharedId);
       });
     });
@@ -323,22 +322,22 @@ describe('Share a file', () => {
       let file9Id: string;
 
       beforeAll(async () => {
-        await apis.user.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
-        const docLibId = await apis.user.sites.getDocLibId(siteName);
-        parentInSiteId = (await apis.user.nodes.createFolder(parentInSite, docLibId)).entry.id;
+        await repoClient.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
+        const docLibId = await repoClient.sites.getDocLibId(siteName);
+        parentInSiteId = (await repoClient.nodes.createFolder(parentInSite, docLibId)).entry.id;
 
-        file1Id = (await apis.user.nodes.createFile(file1, parentInSiteId)).entry.id;
-        file2Id = (await apis.user.nodes.createFile(file2, parentInSiteId)).entry.id;
-        file3Id = (await apis.user.nodes.createFile(file3, parentInSiteId)).entry.id;
-        file4Id = (await apis.user.nodes.createFile(file4, parentInSiteId)).entry.id;
-        file5Id = (await apis.user.nodes.createFile(file5, parentInSiteId)).entry.id;
-        file6Id = (await apis.user.nodes.createFile(file6, parentInSiteId)).entry.id;
-        file7Id = (await apis.user.nodes.createFile(file7, parentInSiteId)).entry.id;
-        file8Id = (await apis.user.nodes.createFile(file8, parentInSiteId)).entry.id;
-        file9Id = (await apis.user.nodes.createFile(file9, parentInSiteId)).entry.id;
+        file1Id = (await repoClient.nodes.createFile(file1, parentInSiteId)).entry.id;
+        file2Id = (await repoClient.nodes.createFile(file2, parentInSiteId)).entry.id;
+        file3Id = (await repoClient.nodes.createFile(file3, parentInSiteId)).entry.id;
+        file4Id = (await repoClient.nodes.createFile(file4, parentInSiteId)).entry.id;
+        file5Id = (await repoClient.nodes.createFile(file5, parentInSiteId)).entry.id;
+        file6Id = (await repoClient.nodes.createFile(file6, parentInSiteId)).entry.id;
+        file7Id = (await repoClient.nodes.createFile(file7, parentInSiteId)).entry.id;
+        file8Id = (await repoClient.nodes.createFile(file8, parentInSiteId)).entry.id;
+        file9Id = (await repoClient.nodes.createFile(file9, parentInSiteId)).entry.id;
 
-        await userActions.shareNodes([file6Id, file7Id], expiryDate);
-        await apis.user.shared.waitForFilesToBeShared([file6Id, file7Id]);
+        await apiActions.shareNodes([file6Id, file7Id], expiryDate);
+        await repoClient.shared.waitForFilesToBeShared([file6Id, file7Id]);
       });
 
       beforeEach(async () => {
@@ -363,7 +362,7 @@ describe('Share a file', () => {
         await toolbar.shareButton.click();
 
         await shareDialog.waitForDialogToOpen();
-        await apis.user.shared.waitForFilesToBeShared([file1Id]);
+        await repoClient.shared.waitForFilesToBeShared([file1Id]);
 
         expect(await shareDialog.getDialogTitle()).toEqual(`Share ${file1}`);
         expect(await shareDialog.getInfoText()).toEqual('Click the link below to copy it to the clipboard.');
@@ -381,7 +380,7 @@ describe('Share a file', () => {
         await toolbar.shareButton.click();
 
         await shareDialog.waitForDialogToOpen();
-        await apis.user.shared.waitForFilesToBeShared([file2Id]);
+        await repoClient.shared.waitForFilesToBeShared([file2Id]);
 
         expect(await shareDialog.isCloseEnabled()).toBe(true, 'Close button is not enabled');
         await shareDialog.clickClose();
@@ -393,13 +392,13 @@ describe('Share a file', () => {
         await toolbar.shareButton.click();
 
         await shareDialog.waitForDialogToOpen();
-        await apis.user.shared.waitForFilesToBeShared([file3Id]);
+        await repoClient.shared.waitForFilesToBeShared([file3Id]);
 
         const url = await shareDialog.getLinkUrl();
         await shareDialog.clickClose();
 
-        const sharedId = await apis.user.nodes.getSharedId(file3Id);
-        expect(await apis.user.nodes.isFileShared(file3Id)).toBe(true, `${file3} is not shared`);
+        const sharedId = await repoClient.nodes.getSharedId(file3Id);
+        expect(await repoClient.nodes.isFileShared(file3Id)).toBe(true, `${file3} is not shared`);
         expect(url).toContain(sharedId);
       });
 
@@ -408,7 +407,7 @@ describe('Share a file', () => {
         await toolbar.shareButton.click();
 
         await shareDialog.waitForDialogToOpen();
-        await apis.user.shared.waitForFilesToBeShared([file4Id]);
+        await repoClient.shared.waitForFilesToBeShared([file4Id]);
 
         const url = await shareDialog.getLinkUrl();
         expect(url).toContain(shareLinkPreUrl);
@@ -428,7 +427,7 @@ describe('Share a file', () => {
         await toolbar.shareButton.click();
 
         await shareDialog.waitForDialogToOpen();
-        await apis.user.shared.waitForFilesToBeShared([file5Id]);
+        await repoClient.shared.waitForFilesToBeShared([file5Id]);
 
         await BrowserActions.click(shareDialog.expireToggle);
         expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expire toggle not checked');
@@ -442,7 +441,7 @@ describe('Share a file', () => {
 
         expect(new Date(inputDate)).toEqual(new Date(setDate));
 
-        const expireDateProperty = await apis.user.nodes.getSharedExpiryDate(file5Id);
+        const expireDateProperty = await repoClient.nodes.getSharedExpiryDate(file5Id);
 
         expect(Utils.formatDate(expireDateProperty)).toEqual(Utils.formatDate(inputDate));
       });
@@ -452,7 +451,7 @@ describe('Share a file', () => {
         await BrowserActions.click(toolbar.shareEditButton);
         await shareDialog.waitForDialogToOpen();
 
-        const expireProperty = await apis.user.nodes.getSharedExpiryDate(file6Id);
+        const expireProperty = await repoClient.nodes.getSharedExpiryDate(file6Id);
         expect(expireProperty).toEqual(expiryDate);
         expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expiration is not checked');
         expect(Utils.formatDate(await shareDialog.getExpireDate())).toEqual(Utils.formatDate(expiryDate));
@@ -471,7 +470,7 @@ describe('Share a file', () => {
         expect(await shareDialog.getExpireDate()).toBe('', 'Expire date input is not empty');
 
         await shareDialog.clickClose();
-        expect(await apis.user.nodes.getSharedExpiryDate(file7Id)).toBe('', `${file7} link still has expiration`);
+        expect(await repoClient.nodes.getSharedExpiryDate(file7Id)).toBe('', `${file7} link still has expiration`);
       });
 
       it('[C286646] Shared file URL is not changed when Share dialog is closed and opened again', async () => {
@@ -479,7 +478,7 @@ describe('Share a file', () => {
         await toolbar.shareButton.click();
 
         await shareDialog.waitForDialogToOpen();
-        await apis.user.shared.waitForFilesToBeShared([file8Id]);
+        await repoClient.shared.waitForFilesToBeShared([file8Id]);
 
         const url1 = await shareDialog.getLinkUrl();
         await shareDialog.clickClose();
@@ -499,13 +498,13 @@ describe('Share a file', () => {
         await contextMenu.shareAction.click();
 
         await shareDialog.waitForDialogToOpen();
-        await apis.user.shared.waitForFilesToBeShared([file9Id]);
+        await repoClient.shared.waitForFilesToBeShared([file9Id]);
 
         const url = await shareDialog.getLinkUrl();
         await shareDialog.clickClose();
 
-        const sharedId = await apis.user.nodes.getSharedId(file9Id);
-        expect(await apis.user.nodes.isFileShared(file9Id)).toBe(true, `${file9} is not shared`);
+        const sharedId = await repoClient.nodes.getSharedId(file9Id);
+        expect(await repoClient.nodes.isFileShared(file9Id)).toBe(true, `${file9} is not shared`);
         expect(url).toContain(sharedId);
       });
     });
@@ -522,18 +521,18 @@ describe('Share a file', () => {
       let file9Id: string;
 
       beforeAll(async () => {
-        file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
-        file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
-        file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
-        file4Id = (await apis.user.nodes.createFile(file4, parentId)).entry.id;
-        file5Id = (await apis.user.nodes.createFile(file5, parentId)).entry.id;
-        file6Id = (await apis.user.nodes.createFile(file6, parentId)).entry.id;
-        file7Id = (await apis.user.nodes.createFile(file7, parentId)).entry.id;
-        file8Id = (await apis.user.nodes.createFile(file8, parentId)).entry.id;
-        file9Id = (await apis.user.nodes.createFile(file9, parentId)).entry.id;
+        file1Id = (await repoClient.nodes.createFile(file1, parentId)).entry.id;
+        file2Id = (await repoClient.nodes.createFile(file2, parentId)).entry.id;
+        file3Id = (await repoClient.nodes.createFile(file3, parentId)).entry.id;
+        file4Id = (await repoClient.nodes.createFile(file4, parentId)).entry.id;
+        file5Id = (await repoClient.nodes.createFile(file5, parentId)).entry.id;
+        file6Id = (await repoClient.nodes.createFile(file6, parentId)).entry.id;
+        file7Id = (await repoClient.nodes.createFile(file7, parentId)).entry.id;
+        file8Id = (await repoClient.nodes.createFile(file8, parentId)).entry.id;
+        file9Id = (await repoClient.nodes.createFile(file9, parentId)).entry.id;
 
-        await userActions.shareNodes([file6Id, file7Id], expiryDate);
-        await apis.user.shared.waitForFilesToBeShared([file6Id, file7Id]);
+        await apiActions.shareNodes([file6Id, file7Id], expiryDate);
+        await repoClient.shared.waitForFilesToBeShared([file6Id, file7Id]);
       });
 
       beforeEach(async () => {
@@ -546,7 +545,7 @@ describe('Share a file', () => {
       });
 
       afterAll(async () => {
-        await apis.user.nodes.deleteNodesById([file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id, file9Id]);
+        await repoClient.nodes.deleteNodesById([file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id, file9Id]);
       });
 
       it('[C286657] Share dialog default values', async () => {
@@ -554,7 +553,7 @@ describe('Share a file', () => {
         await toolbar.shareButton.click();
 
         await shareDialog.waitForDialogToOpen();
-        await apis.user.shared.waitForFilesToBeShared([file1Id]);
+        await repoClient.shared.waitForFilesToBeShared([file1Id]);
 
         expect(await shareDialog.getDialogTitle()).toEqual(`Share ${file1}`);
         expect(await shareDialog.getInfoText()).toEqual('Click the link below to copy it to the clipboard.');
@@ -572,7 +571,7 @@ describe('Share a file', () => {
         await toolbar.shareButton.click();
 
         await shareDialog.waitForDialogToOpen();
-        await apis.user.shared.waitForFilesToBeShared([file2Id]);
+        await repoClient.shared.waitForFilesToBeShared([file2Id]);
 
         expect(await shareDialog.isCloseEnabled()).toBe(true, 'Close button is not enabled');
         await shareDialog.clickClose();
@@ -584,13 +583,13 @@ describe('Share a file', () => {
         await toolbar.shareButton.click();
 
         await shareDialog.waitForDialogToOpen();
-        await apis.user.shared.waitForFilesToBeShared([file3Id]);
+        await repoClient.shared.waitForFilesToBeShared([file3Id]);
 
         const url = await shareDialog.getLinkUrl();
         await shareDialog.clickClose();
 
-        const sharedId = await apis.user.nodes.getSharedId(file3Id);
-        expect(await apis.user.nodes.isFileShared(file3Id)).toBe(true, `${file3} is not shared`);
+        const sharedId = await repoClient.nodes.getSharedId(file3Id);
+        expect(await repoClient.nodes.isFileShared(file3Id)).toBe(true, `${file3} is not shared`);
         expect(url).toContain(sharedId);
       });
 
@@ -599,7 +598,7 @@ describe('Share a file', () => {
         await toolbar.shareButton.click();
 
         await shareDialog.waitForDialogToOpen();
-        await apis.user.shared.waitForFilesToBeShared([file4Id]);
+        await repoClient.shared.waitForFilesToBeShared([file4Id]);
 
         const url = await shareDialog.getLinkUrl();
         expect(url).toContain(shareLinkPreUrl);
@@ -619,7 +618,7 @@ describe('Share a file', () => {
         await toolbar.shareButton.click();
 
         await shareDialog.waitForDialogToOpen();
-        await apis.user.shared.waitForFilesToBeShared([file5Id]);
+        await repoClient.shared.waitForFilesToBeShared([file5Id]);
 
         await BrowserActions.click(shareDialog.expireToggle);
         expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expire toggle not checked');
@@ -633,7 +632,7 @@ describe('Share a file', () => {
 
         expect(new Date(inputDate)).toEqual(new Date(setDate));
 
-        const expireDateProperty = await apis.user.nodes.getSharedExpiryDate(file5Id);
+        const expireDateProperty = await repoClient.nodes.getSharedExpiryDate(file5Id);
 
         expect(Utils.formatDate(expireDateProperty)).toEqual(Utils.formatDate(inputDate));
       });
@@ -643,7 +642,7 @@ describe('Share a file', () => {
         await BrowserActions.click(toolbar.shareEditButton);
         await shareDialog.waitForDialogToOpen();
 
-        const expireProperty = await apis.user.nodes.getSharedExpiryDate(file6Id);
+        const expireProperty = await repoClient.nodes.getSharedExpiryDate(file6Id);
         expect(expireProperty).toEqual(expiryDate);
         expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expiration is not checked');
         expect(Utils.formatDate(await shareDialog.getExpireDate())).toEqual(Utils.formatDate(expiryDate));
@@ -662,7 +661,7 @@ describe('Share a file', () => {
         expect(await shareDialog.getExpireDate()).toBe('', 'Expire date input is not empty');
 
         await shareDialog.clickClose();
-        expect(await apis.user.nodes.getSharedExpiryDate(file7Id)).toBe('', `${file7} link still has expiration`);
+        expect(await repoClient.nodes.getSharedExpiryDate(file7Id)).toBe('', `${file7} link still has expiration`);
       });
 
       it('[C286664] Shared file URL is not changed when Share dialog is closed and opened again', async () => {
@@ -670,7 +669,7 @@ describe('Share a file', () => {
         await toolbar.shareButton.click();
 
         await shareDialog.waitForDialogToOpen();
-        await apis.user.shared.waitForFilesToBeShared([file8Id]);
+        await repoClient.shared.waitForFilesToBeShared([file8Id]);
 
         const url1 = await shareDialog.getLinkUrl();
         await shareDialog.clickClose();
@@ -690,13 +689,13 @@ describe('Share a file', () => {
         await contextMenu.shareAction.click();
 
         await shareDialog.waitForDialogToOpen();
-        await apis.user.shared.waitForFilesToBeShared([file9Id]);
+        await repoClient.shared.waitForFilesToBeShared([file9Id]);
 
         const url = await shareDialog.getLinkUrl();
         await shareDialog.clickClose();
 
-        const sharedId = await apis.user.nodes.getSharedId(file9Id);
-        expect(await apis.user.nodes.isFileShared(file9Id)).toBe(true, `${file9} is not shared`);
+        const sharedId = await repoClient.nodes.getSharedId(file9Id);
+        expect(await repoClient.nodes.isFileShared(file9Id)).toBe(true, `${file9} is not shared`);
         expect(url).toContain(sharedId);
       });
     });
@@ -711,18 +710,18 @@ describe('Share a file', () => {
       let file7Id: string;
 
       beforeAll(async () => {
-        file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
-        file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
-        file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
-        file4Id = (await apis.user.nodes.createFile(file4, parentId)).entry.id;
-        file5Id = (await apis.user.nodes.createFile(file5, parentId)).entry.id;
-        file6Id = (await apis.user.nodes.createFile(file6, parentId)).entry.id;
-        file7Id = (await apis.user.nodes.createFile(file7, parentId)).entry.id;
+        file1Id = (await repoClient.nodes.createFile(file1, parentId)).entry.id;
+        file2Id = (await repoClient.nodes.createFile(file2, parentId)).entry.id;
+        file3Id = (await repoClient.nodes.createFile(file3, parentId)).entry.id;
+        file4Id = (await repoClient.nodes.createFile(file4, parentId)).entry.id;
+        file5Id = (await repoClient.nodes.createFile(file5, parentId)).entry.id;
+        file6Id = (await repoClient.nodes.createFile(file6, parentId)).entry.id;
+        file7Id = (await repoClient.nodes.createFile(file7, parentId)).entry.id;
 
-        await userActions.shareNodes([file1Id, file2Id, file3Id]);
-        await userActions.shareNodes([file4Id, file5Id], expiryDate);
-        await userActions.shareNodes([file6Id, file7Id]);
-        await apis.user.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id]);
+        await apiActions.shareNodes([file1Id, file2Id, file3Id]);
+        await apiActions.shareNodes([file4Id, file5Id], expiryDate);
+        await apiActions.shareNodes([file6Id, file7Id]);
+        await repoClient.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id]);
       });
 
       beforeEach(async () => {
@@ -735,7 +734,7 @@ describe('Share a file', () => {
       });
 
       afterAll(async () => {
-        await apis.user.nodes.deleteNodesById([file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id]);
+        await repoClient.nodes.deleteNodesById([file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id]);
       });
 
       it('[C286648] Share dialog default values', async () => {
@@ -786,7 +785,7 @@ describe('Share a file', () => {
         await BrowserActions.click(toolbar.shareEditButton);
         await shareDialog.waitForDialogToOpen();
 
-        const expireProperty = await apis.user.nodes.getSharedExpiryDate(file4Id);
+        const expireProperty = await repoClient.nodes.getSharedExpiryDate(file4Id);
         expect(expireProperty).toEqual(expiryDate);
         expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expiration is not checked');
         expect(Utils.formatDate(await shareDialog.getExpireDate())).toEqual(Utils.formatDate(expiryDate));
@@ -805,7 +804,7 @@ describe('Share a file', () => {
         expect(await shareDialog.getExpireDate()).toBe('', 'Expire date input is not empty');
 
         await shareDialog.clickClose();
-        expect(await apis.user.nodes.getSharedExpiryDate(file5Id)).toBe('', `${file5} link still has expiration`);
+        expect(await repoClient.nodes.getSharedExpiryDate(file5Id)).toBe('', `${file5} link still has expiration`);
       });
 
       it('[C286655] Shared file URL is not changed when Share dialog is closed and opened again', async () => {
@@ -855,21 +854,21 @@ describe('Share a file', () => {
       let file9Id: string;
 
       beforeAll(async () => {
-        file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
-        file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
-        file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
-        file4Id = (await apis.user.nodes.createFile(file4, parentId)).entry.id;
-        file5Id = (await apis.user.nodes.createFile(file5, parentId)).entry.id;
-        file6Id = (await apis.user.nodes.createFile(file6, parentId)).entry.id;
-        file7Id = (await apis.user.nodes.createFile(file7, parentId)).entry.id;
-        file8Id = (await apis.user.nodes.createFile(file8, parentId)).entry.id;
-        file9Id = (await apis.user.nodes.createFile(file9, parentId)).entry.id;
+        file1Id = (await repoClient.nodes.createFile(file1, parentId)).entry.id;
+        file2Id = (await repoClient.nodes.createFile(file2, parentId)).entry.id;
+        file3Id = (await repoClient.nodes.createFile(file3, parentId)).entry.id;
+        file4Id = (await repoClient.nodes.createFile(file4, parentId)).entry.id;
+        file5Id = (await repoClient.nodes.createFile(file5, parentId)).entry.id;
+        file6Id = (await repoClient.nodes.createFile(file6, parentId)).entry.id;
+        file7Id = (await repoClient.nodes.createFile(file7, parentId)).entry.id;
+        file8Id = (await repoClient.nodes.createFile(file8, parentId)).entry.id;
+        file9Id = (await repoClient.nodes.createFile(file9, parentId)).entry.id;
 
-        await apis.user.favorites.addFavoritesByIds('file', [file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id, file9Id]);
-        await userActions.shareNodes([file6Id, file7Id], expiryDate);
+        await repoClient.favorites.addFavoritesByIds('file', [file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id, file9Id]);
+        await apiActions.shareNodes([file6Id, file7Id], expiryDate);
 
-        await apis.user.favorites.waitForApi({ expect: 9 });
-        await apis.user.shared.waitForFilesToBeShared([file6Id, file7Id]);
+        await repoClient.favorites.waitForApi({ expect: 9 });
+        await repoClient.shared.waitForFilesToBeShared([file6Id, file7Id]);
       });
 
       beforeEach(async () => {
@@ -882,7 +881,7 @@ describe('Share a file', () => {
       });
 
       afterAll(async () => {
-        await apis.user.nodes.deleteNodesById([file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id, file9Id]);
+        await repoClient.nodes.deleteNodesById([file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id, file9Id]);
       });
 
       it('[C286666] Share dialog default values', async () => {
@@ -890,7 +889,7 @@ describe('Share a file', () => {
         await toolbar.shareButton.click();
 
         await shareDialog.waitForDialogToOpen();
-        await apis.user.shared.waitForFilesToBeShared([file1Id]);
+        await repoClient.shared.waitForFilesToBeShared([file1Id]);
 
         expect(await shareDialog.getDialogTitle()).toEqual(`Share ${file1}`);
         expect(await shareDialog.getInfoText()).toEqual('Click the link below to copy it to the clipboard.');
@@ -908,7 +907,7 @@ describe('Share a file', () => {
         await toolbar.shareButton.click();
 
         await shareDialog.waitForDialogToOpen();
-        await apis.user.shared.waitForFilesToBeShared([file2Id]);
+        await repoClient.shared.waitForFilesToBeShared([file2Id]);
 
         expect(await shareDialog.isCloseEnabled()).toBe(true, 'Close button is not enabled');
         await shareDialog.clickClose();
@@ -920,13 +919,13 @@ describe('Share a file', () => {
         await toolbar.shareButton.click();
 
         await shareDialog.waitForDialogToOpen();
-        await apis.user.shared.waitForFilesToBeShared([file3Id]);
+        await repoClient.shared.waitForFilesToBeShared([file3Id]);
 
         const url = await shareDialog.getLinkUrl();
         await shareDialog.clickClose();
 
-        const sharedId = await apis.user.nodes.getSharedId(file3Id);
-        expect(await apis.user.nodes.isFileShared(file3Id)).toBe(true, `${file3} is not shared`);
+        const sharedId = await repoClient.nodes.getSharedId(file3Id);
+        expect(await repoClient.nodes.isFileShared(file3Id)).toBe(true, `${file3} is not shared`);
         expect(url).toContain(sharedId);
       });
 
@@ -935,7 +934,7 @@ describe('Share a file', () => {
         await toolbar.shareButton.click();
 
         await shareDialog.waitForDialogToOpen();
-        await apis.user.shared.waitForFilesToBeShared([file4Id]);
+        await repoClient.shared.waitForFilesToBeShared([file4Id]);
 
         const url = await shareDialog.getLinkUrl();
         expect(url).toContain(shareLinkPreUrl);
@@ -955,7 +954,7 @@ describe('Share a file', () => {
         await toolbar.shareButton.click();
 
         await shareDialog.waitForDialogToOpen();
-        await apis.user.shared.waitForFilesToBeShared([file5Id]);
+        await repoClient.shared.waitForFilesToBeShared([file5Id]);
 
         await BrowserActions.click(shareDialog.expireToggle);
         expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expire toggle not checked');
@@ -969,7 +968,7 @@ describe('Share a file', () => {
 
         expect(new Date(inputDate)).toEqual(new Date(setDate));
 
-        const expireDateProperty = await apis.user.nodes.getSharedExpiryDate(file5Id);
+        const expireDateProperty = await repoClient.nodes.getSharedExpiryDate(file5Id);
 
         expect(Utils.formatDate(expireDateProperty)).toEqual(Utils.formatDate(inputDate));
       });
@@ -979,7 +978,7 @@ describe('Share a file', () => {
         await BrowserActions.click(toolbar.shareEditButton);
         await shareDialog.waitForDialogToOpen();
 
-        const expireProperty = await apis.user.nodes.getSharedExpiryDate(file6Id);
+        const expireProperty = await repoClient.nodes.getSharedExpiryDate(file6Id);
         expect(expireProperty).toEqual(expiryDate);
         expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expiration is not checked');
         expect(Utils.formatDate(await shareDialog.getExpireDate())).toEqual(Utils.formatDate(expiryDate));
@@ -998,7 +997,7 @@ describe('Share a file', () => {
         expect(await shareDialog.getExpireDate()).toBe('', 'Expire date input is not empty');
 
         await shareDialog.clickClose();
-        expect(await apis.user.nodes.getSharedExpiryDate(file7Id)).toBe('', `${file7} link still has expiration`);
+        expect(await repoClient.nodes.getSharedExpiryDate(file7Id)).toBe('', `${file7} link still has expiration`);
       });
 
       it('[C286673] Shared file URL is not changed when Share dialog is closed and opened again', async () => {
@@ -1006,7 +1005,7 @@ describe('Share a file', () => {
         await toolbar.shareButton.click();
 
         await shareDialog.waitForDialogToOpen();
-        await apis.user.shared.waitForFilesToBeShared([file8Id]);
+        await repoClient.shared.waitForFilesToBeShared([file8Id]);
 
         const url1 = await shareDialog.getLinkUrl();
         await shareDialog.clickClose();
@@ -1026,13 +1025,13 @@ describe('Share a file', () => {
         await contextMenu.shareAction.click();
 
         await shareDialog.waitForDialogToOpen();
-        await apis.user.shared.waitForFilesToBeShared([file9Id]);
+        await repoClient.shared.waitForFilesToBeShared([file9Id]);
 
         const url = await shareDialog.getLinkUrl();
         await shareDialog.clickClose();
 
-        const sharedId = await apis.user.nodes.getSharedId(file9Id);
-        expect(await apis.user.nodes.isFileShared(file9Id)).toBe(true, `${file9} is not shared`);
+        const sharedId = await repoClient.nodes.getSharedId(file9Id);
+        expect(await repoClient.nodes.isFileShared(file9Id)).toBe(true, `${file9} is not shared`);
         expect(url).toContain(sharedId);
       });
     });
@@ -1053,15 +1052,15 @@ describe('Share a file', () => {
       let fileSearch9Id: string;
 
       beforeAll(async () => {
-        fileSearch3Id = (await apis.user.nodes.createFile(fileSearch3, parentId)).entry.id;
-        fileSearch5Id = (await apis.user.nodes.createFile(fileSearch5, parentId)).entry.id;
-        fileSearch6Id = (await apis.user.nodes.createFile(fileSearch6, parentId)).entry.id;
-        fileSearch7Id = (await apis.user.nodes.createFile(fileSearch7, parentId)).entry.id;
-        fileSearch9Id = (await apis.user.nodes.createFile(fileSearch9, parentId)).entry.id;
-        await apis.user.search.waitForNodes(searchRandom, { expect: 5 });
+        fileSearch3Id = (await repoClient.nodes.createFile(fileSearch3, parentId)).entry.id;
+        fileSearch5Id = (await repoClient.nodes.createFile(fileSearch5, parentId)).entry.id;
+        fileSearch6Id = (await repoClient.nodes.createFile(fileSearch6, parentId)).entry.id;
+        fileSearch7Id = (await repoClient.nodes.createFile(fileSearch7, parentId)).entry.id;
+        fileSearch9Id = (await repoClient.nodes.createFile(fileSearch9, parentId)).entry.id;
+        await repoClient.search.waitForNodes(searchRandom, { expect: 5 });
 
-        await userActions.shareNodes([fileSearch6Id, fileSearch7Id], expiryDate);
-        await apis.user.shared.waitForFilesToBeShared([fileSearch6Id, fileSearch7Id]);
+        await apiActions.shareNodes([fileSearch6Id, fileSearch7Id], expiryDate);
+        await repoClient.shared.waitForFilesToBeShared([fileSearch6Id, fileSearch7Id]);
       });
 
       beforeEach(async () => {
@@ -1077,7 +1076,7 @@ describe('Share a file', () => {
       });
 
       afterAll(async () => {
-        await apis.user.nodes.deleteNodesById([fileSearch3Id, fileSearch5Id, fileSearch6Id, fileSearch7Id, fileSearch9Id]);
+        await repoClient.nodes.deleteNodesById([fileSearch3Id, fileSearch5Id, fileSearch6Id, fileSearch7Id, fileSearch9Id]);
       });
 
       it('[C306975] Share a file', async () => {
@@ -1085,13 +1084,13 @@ describe('Share a file', () => {
         await toolbar.shareButton.click();
 
         await shareDialog.waitForDialogToOpen();
-        await apis.user.shared.waitForFilesToBeShared([fileSearch3Id]);
+        await repoClient.shared.waitForFilesToBeShared([fileSearch3Id]);
 
         const url = await shareDialog.getLinkUrl();
         await shareDialog.clickClose();
 
-        const sharedId = await apis.user.nodes.getSharedId(fileSearch3Id);
-        expect(await apis.user.nodes.isFileShared(fileSearch3Id)).toBe(true, `${fileSearch3} is not shared`);
+        const sharedId = await repoClient.nodes.getSharedId(fileSearch3Id);
+        expect(await repoClient.nodes.isFileShared(fileSearch3Id)).toBe(true, `${fileSearch3} is not shared`);
         expect(url).toContain(sharedId);
       });
 
@@ -1100,7 +1099,7 @@ describe('Share a file', () => {
         await toolbar.shareButton.click();
 
         await shareDialog.waitForDialogToOpen();
-        await apis.user.shared.waitForFilesToBeShared([fileSearch5Id]);
+        await repoClient.shared.waitForFilesToBeShared([fileSearch5Id]);
 
         await BrowserActions.click(shareDialog.expireToggle);
         expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expire toggle not checked');
@@ -1114,7 +1113,7 @@ describe('Share a file', () => {
 
         expect(new Date(inputDate)).toEqual(new Date(setDate));
 
-        const expireDateProperty = await apis.user.nodes.getSharedExpiryDate(fileSearch5Id);
+        const expireDateProperty = await repoClient.nodes.getSharedExpiryDate(fileSearch5Id);
 
         expect(Utils.formatDate(expireDateProperty)).toEqual(Utils.formatDate(inputDate));
       });
@@ -1124,7 +1123,7 @@ describe('Share a file', () => {
         await BrowserActions.click(toolbar.shareEditButton);
         await shareDialog.waitForDialogToOpen();
 
-        const expireProperty = await apis.user.nodes.getSharedExpiryDate(fileSearch6Id);
+        const expireProperty = await repoClient.nodes.getSharedExpiryDate(fileSearch6Id);
         expect(expireProperty).toEqual(expiryDate);
         expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expiration is not checked');
         expect(Utils.formatDate(await shareDialog.getExpireDate())).toEqual(Utils.formatDate(expiryDate));
@@ -1144,7 +1143,7 @@ describe('Share a file', () => {
         expect(await shareDialog.getExpireDate()).toBe('', 'Expire date input is not empty');
 
         await shareDialog.clickClose();
-        expect(await apis.user.nodes.getSharedExpiryDate(fileSearch7Id)).toBe('', `${fileSearch7} link still has expiration`);
+        expect(await repoClient.nodes.getSharedExpiryDate(fileSearch7Id)).toBe('', `${fileSearch7} link still has expiration`);
       });
 
       it('[C306981] Share a file from the context menu', async () => {
@@ -1153,13 +1152,13 @@ describe('Share a file', () => {
         await contextMenu.shareAction.click();
 
         await shareDialog.waitForDialogToOpen();
-        await apis.user.shared.waitForFilesToBeShared([fileSearch9Id]);
+        await repoClient.shared.waitForFilesToBeShared([fileSearch9Id]);
 
         const url = await shareDialog.getLinkUrl();
         await shareDialog.clickClose();
 
-        const sharedId = await apis.user.nodes.getSharedId(fileSearch9Id);
-        expect(await apis.user.nodes.isFileShared(fileSearch9Id)).toBe(true, `${fileSearch9} is not shared`);
+        const sharedId = await repoClient.nodes.getSharedId(fileSearch9Id);
+        expect(await repoClient.nodes.isFileShared(fileSearch9Id)).toBe(true, `${fileSearch9} is not shared`);
         expect(url).toContain(sharedId);
       });
     });

@@ -23,48 +23,50 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { RepoClient, Utils, AdminActions, UserActions, LoginPage, BrowsingPage } from '@alfresco/aca-testing-shared';
+import { RepoClient, Utils, AdminActions, ApiActions, LoginPage, BrowsingPage } from '@alfresco/aca-testing-shared';
 import * as testData from './test-data';
 import * as testUtil from '../test-util';
+import { ApiService, UsersActions } from '@alfresco/adf-testing';
 
 const page = new BrowsingPage();
 
 describe('Trash - available actions : ', () => {
   const random = Utils.random();
 
-  const username = `user-${random}`;
-
   let fileInTrashId: string;
   let file2InTrashId: string;
   let folderInTrashId: string;
   let folder2InTrashId: string;
 
-  const userApi = new RepoClient(username, username);
-  const adminApiActions = new AdminActions();
-  const userActions = new UserActions();
+  const apiService = new ApiService();
+  const adminApiService = new ApiService();
+  const repoClient = new RepoClient(apiService);
+  const adminApiActions = new AdminActions(adminApiService);
+  const apiActions = new ApiActions(apiService);
+  const usersActions = new UsersActions(adminApiService);
 
   const loginPage = new LoginPage();
 
   beforeAll(async () => {
-    await adminApiActions.login();
-    await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
+    await adminApiActions.loginWithProfile('admin');
+    const user = await usersActions.createUser();
+    await apiService.login(user.username, user.password);
 
-    fileInTrashId = (await userApi.nodes.createFile(testData.fileInTrash.name)).entry.id;
-    file2InTrashId = (await userApi.nodes.createFile(testData.file2InTrash.name)).entry.id;
-    folderInTrashId = (await userApi.nodes.createFolder(testData.folderInTrash.name)).entry.id;
-    folder2InTrashId = (await userApi.nodes.createFolder(testData.folder2InTrash.name)).entry.id;
+    fileInTrashId = (await repoClient.nodes.createFile(testData.fileInTrash.name)).entry.id;
+    file2InTrashId = (await repoClient.nodes.createFile(testData.file2InTrash.name)).entry.id;
+    folderInTrashId = (await repoClient.nodes.createFolder(testData.folderInTrash.name)).entry.id;
+    folder2InTrashId = (await repoClient.nodes.createFolder(testData.folder2InTrash.name)).entry.id;
 
-    const initialDeletedTotalItems = await userActions.getTrashcanSize();
-    await userActions.deleteNodes([fileInTrashId, file2InTrashId, folderInTrashId, folder2InTrashId], false);
-    await userActions.waitForTrashcanSize(initialDeletedTotalItems + 4);
+    const initialDeletedTotalItems = await apiActions.getTrashcanSize();
+    await apiActions.deleteNodes([fileInTrashId, file2InTrashId, folderInTrashId, folder2InTrashId], false);
+    await apiActions.waitForTrashcanSize(initialDeletedTotalItems + 4);
 
-    await loginPage.loginWith(username);
+    await loginPage.loginWith(user.username, user.password);
     await page.clickTrashAndWait();
   });
 
   afterAll(async () => {
-    await userActions.emptyTrashcan();
+    await apiActions.emptyTrashcan();
   });
 
   beforeEach(async () => {

@@ -34,12 +34,10 @@ import {
   RepoClient,
   NodeContentTree
 } from '@alfresco/aca-testing-shared';
-import { BrowserActions } from '@alfresco/adf-testing';
+import { ApiService, BrowserActions } from '@alfresco/adf-testing';
 
 describe('Create folder from template', () => {
   const random = Utils.random();
-
-  const username = `user-${random}`;
 
   const restrictedTemplateFolder = `restricted-folder-${random}`;
   const fileInRestrictedFolder = `restricted-file-${random}.txt`;
@@ -104,8 +102,10 @@ describe('Create folder from template', () => {
   };
   let folderLink: string;
 
-  const userApi = new RepoClient(username, username);
-  const adminApiActions = new AdminActions();
+  const apiService = new ApiService();
+  const adminApiService = new ApiService();
+  const repoClient = new RepoClient(apiService);
+  const adminApiActions = new AdminActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -114,27 +114,28 @@ describe('Create folder from template', () => {
   const { sidenav } = page;
 
   beforeAll(async () => {
-    await adminApiActions.createUser({ username });
+    await adminApiActions.loginWithProfile('admin');
+    const user = await usersActions.createUser();
 
-    parentId = (await userApi.nodes.createFolder(parent)).entry.id;
-    await userApi.nodes.createFolder(duplicateFolderName, parentId);
+    parentId = (await repoClient.nodes.createFolder(parent)).entry.id;
+    await repoClient.nodes.createFolder(duplicateFolderName, parentId);
 
-    await userApi.sites.createSite(siteName);
-    docLibUserSite = await userApi.sites.getDocLibId(siteName);
-    await userApi.nodes.createFolder(duplicateFolderSite, docLibUserSite);
+    await repoClient.sites.createSite(siteName);
+    docLibUserSite = await repoClient.sites.getDocLibId(siteName);
+    await repoClient.nodes.createFolder(duplicateFolderSite, docLibUserSite);
 
     await adminApiActions.createSpaceTemplatesHierarchy(templates);
     await adminApiActions.removeUserAccessOnSpaceTemplate(restrictedTemplateFolder);
     folderLink = (await adminApiActions.createLinkToFolderName(folderInRootFolder, await adminApiActions.getSpaceTemplatesFolderId())).entry.name;
 
-    await loginPage.loginWith(username);
+    await loginPage.loginWith(user.username, user.password);
   });
 
   afterAll(async () => {
-    await userApi.nodes.deleteNodeById(parentId);
-    await userApi.sites.deleteSite(siteName);
+    await repoClient.nodes.deleteNodeById(parentId);
+    await repoClient.sites.deleteSite(siteName);
 
-    await adminApiActions.login();
+    await adminApiActions.loginWithProfile('admin');
     await adminApiActions.cleanupSpaceTemplatesItems([
       folderInRootFolder,
       templateFolder1,
@@ -323,9 +324,9 @@ describe('Create folder from template', () => {
 
       expect(await page.dataTable.isItemPresent(folder2.name)).toBe(true, 'Folder not displayed in list view');
 
-      const desc = await userApi.nodes.getNodeDescription(folder2.name, parentId);
+      const desc = await repoClient.nodes.getNodeDescription(folder2.name, parentId);
       expect(desc).toEqual(folder2.description);
-      const title = await userApi.nodes.getNodeTitle(folder2.name, parentId);
+      const title = await repoClient.nodes.getNodeTitle(folder2.name, parentId);
       expect(title).toEqual(folder2.title);
     });
 
@@ -378,9 +379,9 @@ describe('Create folder from template', () => {
       await page.dataTable.waitForHeader();
 
       expect(await page.dataTable.isItemPresent(folderSite.name)).toBe(true, 'Folder not displayed in list view');
-      const desc = await userApi.nodes.getNodeDescription(folderSite.name, docLibUserSite);
+      const desc = await repoClient.nodes.getNodeDescription(folderSite.name, docLibUserSite);
       expect(desc).toEqual(folderSite.description);
-      const title = await userApi.nodes.getNodeTitle(folderSite.name, docLibUserSite);
+      const title = await repoClient.nodes.getNodeTitle(folderSite.name, docLibUserSite);
       expect(title).toEqual(folderSite.title);
     });
 

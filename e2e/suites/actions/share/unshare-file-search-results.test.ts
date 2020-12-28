@@ -26,7 +26,7 @@
 import { browser } from 'protractor';
 import {
   AdminActions,
-  UserActions,
+  ApiActions,
   LoginPage,
   BrowsingPage,
   SITE_VISIBILITY,
@@ -37,11 +37,9 @@ import {
   Viewer,
   Utils
 } from '@alfresco/aca-testing-shared';
-import { BrowserActions } from '@alfresco/adf-testing';
+import { ApiService, BrowserActions, UsersActions } from '@alfresco/adf-testing';
 
 describe('Unshare a file from Search Results', () => {
-  const username = `user-${Utils.random()}`;
-
   const parent = `parent-${Utils.random()}`;
   let parentId: string;
 
@@ -62,9 +60,12 @@ describe('Unshare a file from Search Results', () => {
   const fileSite2 = `search-file-${searchRandom}-Site2.txt`;
   let fileSite2Id: string;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const apiService = new ApiService();
+  const adminApiService = new ApiService();
+  const repoClient = new RepoClient(apiService);
+  const adminApiActions = new AdminActions(adminApiService);
+  const apiActions = new ApiActions(apiService);
+  const usersActions = new UsersActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -75,43 +76,40 @@ describe('Unshare a file from Search Results', () => {
   const viewer = new Viewer();
   const { searchInput } = page.header;
 
-  const adminApiActions = new AdminActions();
-  const userActions = new UserActions();
-
   beforeAll(async (done) => {
-    await adminApiActions.login();
-    await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
+    await adminApiActions.loginWithProfile('admin');
+    const user = await usersActions.createUser();
+    await apiService.login(user.username, user.password);
 
-    parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
+    parentId = (await repoClient.nodes.createFolder(parent)).entry.id;
 
-    file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
-    file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
-    file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
-    file4Id = (await apis.user.nodes.createFile(file4, parentId)).entry.id;
+    file1Id = (await repoClient.nodes.createFile(file1, parentId)).entry.id;
+    file2Id = (await repoClient.nodes.createFile(file2, parentId)).entry.id;
+    file3Id = (await repoClient.nodes.createFile(file3, parentId)).entry.id;
+    file4Id = (await repoClient.nodes.createFile(file4, parentId)).entry.id;
 
-    await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
+    await apiActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
     await adminApiActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
     const docLibId = await adminApiActions.sites.getDocLibId(sitePrivate);
 
     fileSite1Id = (await adminApiActions.nodes.createFile(fileSite1, docLibId)).entry.id;
     fileSite2Id = (await adminApiActions.nodes.createFile(fileSite2, docLibId)).entry.id;
 
-    await adminApiActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_CONSUMER.ROLE);
+    await adminApiActions.sites.addSiteMember(sitePrivate, user.username, SITE_ROLES.SITE_CONSUMER.ROLE);
 
     await adminApiActions.shareNodes([fileSite1Id]);
-    await userActions.shareNodes([fileSite2Id]);
+    await apiActions.shareNodes([fileSite2Id]);
 
-    await apis.user.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id, fileSite2Id]);
+    await repoClient.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id, fileSite2Id]);
     await adminApiActions.shared.waitForFilesToBeShared([fileSite1Id]);
-    await apis.user.search.waitForNodes(`search-file-${searchRandom}`, { expect: 6 });
+    await repoClient.search.waitForNodes(`search-file-${searchRandom}`, { expect: 6 });
 
-    await loginPage.loginWith(username);
+    await loginPage.loginWith(user.username, user.password);
     done();
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(parentId);
+    await repoClient.nodes.deleteNodeById(parentId);
     await adminApiActions.sites.deleteSite(sitePrivate);
     done();
   });
@@ -159,7 +157,7 @@ describe('Unshare a file from Search Results', () => {
     await confirmDialog.waitForDialogToClose();
     await shareDialog.waitForDialogToClose();
     expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
-    expect(await apis.user.nodes.isFileShared(file2Id)).toBe(false, `${file2} is shared`);
+    expect(await repoClient.nodes.isFileShared(file2Id)).toBe(false, `${file2} is shared`);
 
     await browser.get(url);
     expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
@@ -209,7 +207,7 @@ describe('Unshare a file from Search Results', () => {
     await confirmDialog.waitForDialogToClose();
     await shareDialog.waitForDialogToClose();
     expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
-    expect(await apis.user.nodes.isFileShared(file4Id)).toBe(false, `${file4} is shared`);
+    expect(await repoClient.nodes.isFileShared(file4Id)).toBe(false, `${file4} is shared`);
 
     await browser.get(url);
     expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
@@ -255,6 +253,6 @@ describe('Unshare a file from Search Results', () => {
     await shareDialog.waitForDialogToClose();
 
     expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
-    expect(await apis.user.nodes.isFileShared(fileSite2Id)).toBe(false, `${fileSite2} is shared`);
+    expect(await repoClient.nodes.isFileShared(fileSite2Id)).toBe(false, `${fileSite2} is shared`);
   });
 });

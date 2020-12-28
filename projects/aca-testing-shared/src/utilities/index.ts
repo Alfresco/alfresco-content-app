@@ -26,6 +26,6 @@
 export * from './repo-client/apis';
 export * from './repo-client/repo-client';
 export * from './admin-actions';
-export * from './user-actions';
+export * from './api-actions';
 export * from './browser-utils';
 export * from './utils';

@@ -25,7 +25,7 @@
 
 import {
   AdminActions,
-  UserActions,
+  ApiActions,
   SITE_VISIBILITY,
   SITE_ROLES,
   LoginPage,
@@ -34,11 +34,9 @@ import {
   ConfirmDialog,
   RepoClient
 } from '@alfresco/aca-testing-shared';
-import { BrowserActions } from '@alfresco/adf-testing';
+import { ApiService, BrowserActions, UsersActions } from '@alfresco/adf-testing';
 
 describe('Library actions', () => {
-  const username = `user-${Utils.random()}`;
-
   const sitePublic1Admin = `admin-public1-${Utils.random()}`;
   const sitePublic2Admin = `admin-public2-${Utils.random()}`;
   const sitePublic3Admin = `admin-public3-${Utils.random()}`;
@@ -64,9 +62,12 @@ describe('Library actions', () => {
   const siteSearchPublic4Admin = `site-public-search-4-${Utils.random()}`;
   const siteSearchForDelete = `site-public-search-5-${Utils.random()}`;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const apiService = new ApiService();
+  const adminApiService = new ApiService();
+  const repoClient = new RepoClient(apiService);
+  const adminApiActions = new AdminActions(adminApiService);
+  const apiActions = new ApiActions(apiService);
+  const usersActions = new UsersActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -74,13 +75,11 @@ describe('Library actions', () => {
   const { searchInput } = page.header;
 
   const confirmDialog = new ConfirmDialog();
-  const adminApiActions = new AdminActions();
-  const userActions = new UserActions();
 
   beforeAll(async (done) => {
-    await adminApiActions.login();
-    await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
+    await adminApiActions.loginWithProfile('admin');
+    const user = await usersActions.createUser();
+    await apiService.login(user.username, user.password);
 
     await adminApiActions.sites.createSite(siteSearchPublic1Admin);
     await adminApiActions.sites.createSite(siteSearchPublic2Admin);
@@ -88,9 +87,9 @@ describe('Library actions', () => {
     await adminApiActions.sites.createSite(siteSearchPublic4Admin);
     await adminApiActions.sites.createSite(siteSearchModerated1Admin, SITE_VISIBILITY.MODERATED);
     await adminApiActions.sites.createSite(siteSearchModerated2Admin, SITE_VISIBILITY.MODERATED);
-    await apis.user.sites.createSite(siteSearchForDelete);
+    await repoClient.sites.createSite(siteSearchForDelete);
 
-    await loginPage.loginWith(username);
+    await loginPage.loginWith(user.username, user.password);
     done();
   });
 
@@ -106,7 +105,7 @@ describe('Library actions', () => {
   });
 
   afterAll(async () => {
-    await adminApiActions.login();
+    await adminApiActions.loginWithProfile('admin');
     await adminApiActions.deleteSites([
       sitePublic1Admin,
       siteSearchPublic1Admin,
@@ -126,14 +125,14 @@ describe('Library actions', () => {
       siteSearchModerated2Admin
     ]);
 
-    await userActions.deleteSites([sitePublicUser]);
-    await userActions.emptyTrashcan();
+    await apiActions.deleteSites([sitePublicUser]);
+    await apiActions.emptyTrashcan();
   });
 
   describe('Join a public library', () => {
     beforeAll(async (done) => {
       await adminApiActions.sites.createSite(sitePublic1Admin);
-      await apis.user.favorites.addFavoriteById('site', sitePublic1Admin);
+      await repoClient.favorites.addFavoriteById('site', sitePublic1Admin);
       done();
     });
 
@@ -161,8 +160,8 @@ describe('Library actions', () => {
   describe('Join a moderated library', () => {
     beforeAll(async (done) => {
       await adminApiActions.sites.createSite(siteModerated1Admin, SITE_VISIBILITY.MODERATED);
-      await apis.user.favorites.addFavoriteById('site', siteModerated1Admin);
-      await apis.user.queries.waitForSites(siteSearchModerated1Admin, { expect: 1 });
+      await repoClient.favorites.addFavoriteById('site', siteModerated1Admin);
+      await repoClient.queries.waitForSites(siteSearchModerated1Admin, { expect: 1 });
       done();
     });
 
@@ -172,7 +171,7 @@ describe('Library actions', () => {
       await BrowserActions.click(toolbar.joinButton);
 
       expect(await dataTable.getLibraryRole(siteModerated1Admin)).toEqual(SITE_ROLES.NONE.LABEL);
-      const hasJoinRequest = await apis.user.sites.hasMembershipRequest(siteModerated1Admin);
+      const hasJoinRequest = await repoClient.sites.hasMembershipRequest(siteModerated1Admin);
       expect(hasJoinRequest).toBe(true, `Join request does not exist on ${siteModerated1Admin}`);
     });
 
@@ -186,7 +185,7 @@ describe('Library actions', () => {
       await BrowserActions.click(toolbar.joinButton);
 
       expect(await dataTable.getLibraryRole(siteSearchModerated1Admin)).toEqual(SITE_ROLES.NONE.LABEL);
-      const hasJoinRequest = await apis.user.sites.hasMembershipRequest(siteSearchModerated1Admin);
+      const hasJoinRequest = await repoClient.sites.hasMembershipRequest(siteSearchModerated1Admin);
       expect(hasJoinRequest).toBe(true, `Join request does not exist on ${siteSearchModerated1Admin}`);
     });
   });
@@ -197,14 +196,14 @@ describe('Library actions', () => {
       await adminApiActions.sites.createSite(sitePublic3Admin);
       await adminApiActions.sites.createSite(sitePublic4Admin);
       await adminApiActions.sites.createSite(sitePublic5Admin);
-      await apis.user.sites.createSite(sitePublicUser);
-      await apis.user.favorites.addFavoriteById('site', sitePublic3Admin);
-      await adminApiActions.sites.addSiteMember(sitePublic2Admin, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
-      await adminApiActions.sites.addSiteMember(sitePublic3Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
-      await adminApiActions.sites.addSiteMember(siteSearchPublic2Admin, username, SITE_ROLES.SITE_CONTRIBUTOR.ROLE);
-      await adminApiActions.sites.addSiteMember(sitePublic4Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
-      await adminApiActions.sites.addSiteMember(sitePublic5Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
-      await apis.user.queries.waitForSites(siteSearchPublic2Admin, { expect: 1 });
+      await repoClient.sites.createSite(sitePublicUser);
+      await repoClient.favorites.addFavoriteById('site', sitePublic3Admin);
+      await adminApiActions.sites.addSiteMember(sitePublic2Admin, user.username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
+      await adminApiActions.sites.addSiteMember(sitePublic3Admin, user.username, SITE_ROLES.SITE_MANAGER.ROLE);
+      await adminApiActions.sites.addSiteMember(siteSearchPublic2Admin, user.username, SITE_ROLES.SITE_CONTRIBUTOR.ROLE);
+      await adminApiActions.sites.addSiteMember(sitePublic4Admin, user.username, SITE_ROLES.SITE_MANAGER.ROLE);
+      await adminApiActions.sites.addSiteMember(sitePublic5Admin, user.username, SITE_ROLES.SITE_MANAGER.ROLE);
+      await repoClient.queries.waitForSites(siteSearchPublic2Admin, { expect: 1 });
       done();
     });
 
@@ -284,10 +283,10 @@ describe('Library actions', () => {
   describe('Cancel join', () => {
     beforeAll(async (done) => {
       await adminApiActions.sites.createSite(siteModerated2Admin, SITE_VISIBILITY.MODERATED);
-      await apis.user.favorites.addFavoriteById('site', siteModerated2Admin);
-      await apis.user.sites.requestToJoin(siteModerated2Admin);
-      await apis.user.sites.requestToJoin(siteSearchModerated2Admin);
-      await apis.user.queries.waitForSites(siteSearchModerated2Admin, { expect: 1 });
+      await repoClient.favorites.addFavoriteById('site', siteModerated2Admin);
+      await repoClient.sites.requestToJoin(siteModerated2Admin);
+      await repoClient.sites.requestToJoin(siteSearchModerated2Admin);
+      await repoClient.queries.waitForSites(siteSearchModerated2Admin, { expect: 1 });
       done();
     });
 
@@ -298,7 +297,7 @@ describe('Library actions', () => {
 
       expect(await page.getSnackBarMessage()).toEqual(`Canceled the request to join the library`);
 
-      const hasJoinRequest = await apis.user.sites.hasMembershipRequest(siteModerated2Admin);
+      const hasJoinRequest = await repoClient.sites.hasMembershipRequest(siteModerated2Admin);
       expect(hasJoinRequest).toBe(false, `Join request exists on ${siteModerated2Admin}`);
     });
 
@@ -313,7 +312,7 @@ describe('Library actions', () => {
 
       expect(await page.getSnackBarMessage()).toEqual(`Canceled the request to join the library`);
 
-      const hasJoinRequest = await apis.user.sites.hasMembershipRequest(siteSearchModerated2Admin);
+      const hasJoinRequest = await repoClient.sites.hasMembershipRequest(siteSearchModerated2Admin);
       expect(hasJoinRequest).toBe(false, `Join request exists on ${siteSearchModerated2Admin}`);
     });
   });
@@ -321,8 +320,8 @@ describe('Library actions', () => {
   describe('Mark library as favorite', () => {
     beforeAll(async (done) => {
       await adminApiActions.sites.createSite(sitePublic6Admin);
-      await adminApiActions.sites.addSiteMember(sitePublic6Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
-      await apis.user.queries.waitForSites(siteSearchPublic3Admin, { expect: 1 });
+      await adminApiActions.sites.addSiteMember(sitePublic6Admin, user.username, SITE_ROLES.SITE_MANAGER.ROLE);
+      await repoClient.queries.waitForSites(siteSearchPublic3Admin, { expect: 1 });
       done();
     });
 
@@ -331,7 +330,7 @@ describe('Library actions', () => {
       await dataTable.selectItem(sitePublic6Admin);
       await toolbar.clickMoreActionsFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(sitePublic6Admin, { expect: true })).toBe(true, `${sitePublic6Admin} not favorite`);
+      expect(await repoClient.favorites.isFavoriteWithRetry(sitePublic6Admin, { expect: true })).toBe(true, `${sitePublic6Admin} not favorite`);
     });
 
     it('[C306963] from Search Results', async () => {
@@ -343,7 +342,7 @@ describe('Library actions', () => {
       await dataTable.selectItem(siteSearchPublic3Admin);
       await toolbar.clickMoreActionsFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(siteSearchPublic3Admin, { expect: true })).toBe(
+      expect(await repoClient.favorites.isFavoriteWithRetry(siteSearchPublic3Admin, { expect: true })).toBe(
         true,
         `${siteSearchPublic3Admin} not favorite`
       );
@@ -354,13 +353,13 @@ describe('Library actions', () => {
     beforeAll(async (done) => {
       await adminApiActions.sites.createSite(sitePublic7Admin);
       await adminApiActions.sites.createSite(sitePublic8Admin);
-      await apis.user.favorites.addFavoriteById('site', sitePublic7Admin);
-      await apis.user.favorites.addFavoriteById('site', sitePublic8Admin);
-      await apis.user.favorites.addFavoriteById('site', siteSearchPublic4Admin);
-      await adminApiActions.sites.addSiteMember(sitePublic7Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
-      await adminApiActions.sites.addSiteMember(sitePublic8Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
-      await adminApiActions.sites.addSiteMember(siteSearchPublic4Admin, username, SITE_ROLES.SITE_MANAGER.ROLE);
-      await apis.user.queries.waitForSites(siteSearchPublic4Admin, { expect: 1 });
+      await repoClient.favorites.addFavoriteById('site', sitePublic7Admin);
+      await repoClient.favorites.addFavoriteById('site', sitePublic8Admin);
+      await repoClient.favorites.addFavoriteById('site', siteSearchPublic4Admin);
+      await adminApiActions.sites.addSiteMember(sitePublic7Admin, user.username, SITE_ROLES.SITE_MANAGER.ROLE);
+      await adminApiActions.sites.addSiteMember(sitePublic8Admin, user.username, SITE_ROLES.SITE_MANAGER.ROLE);
+      await adminApiActions.sites.addSiteMember(siteSearchPublic4Admin, user.username, SITE_ROLES.SITE_MANAGER.ROLE);
+      await repoClient.queries.waitForSites(siteSearchPublic4Admin, { expect: 1 });
       done();
     });
 
@@ -369,7 +368,7 @@ describe('Library actions', () => {
       await dataTable.selectItem(sitePublic7Admin);
       await toolbar.clickMoreActionsRemoveFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(sitePublic7Admin, { expect: false })).toBe(false, `${sitePublic7Admin} still favorite`);
+      expect(await repoClient.favorites.isFavoriteWithRetry(sitePublic7Admin, { expect: false })).toBe(false, `${sitePublic7Admin} still favorite`);
     });
 
     it('[C289976] from Favorite Libraries', async () => {
@@ -378,7 +377,7 @@ describe('Library actions', () => {
       await toolbar.clickMoreActionsRemoveFavorite();
 
       expect(await dataTable.isItemPresent(sitePublic8Admin)).toBe(false, `${sitePublic8Admin} is displayed`);
-      expect(await apis.user.favorites.isFavoriteWithRetry(sitePublic8Admin, { expect: false })).toBe(false, `${sitePublic8Admin} still favorite`);
+      expect(await repoClient.favorites.isFavoriteWithRetry(sitePublic8Admin, { expect: false })).toBe(false, `${sitePublic8Admin} still favorite`);
     });
 
     it('[C306964] from Search Results', async () => {
@@ -390,7 +389,7 @@ describe('Library actions', () => {
       await dataTable.selectItem(siteSearchPublic4Admin);
       await toolbar.clickMoreActionsRemoveFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(siteSearchPublic4Admin, { expect: false })).toBe(
+      expect(await repoClient.favorites.isFavoriteWithRetry(siteSearchPublic4Admin, { expect: false })).toBe(
         false,
         `${siteSearchPublic4Admin} still favorite`
       );
@@ -399,9 +398,9 @@ describe('Library actions', () => {
 
   describe('Delete a library', () => {
     beforeAll(async (done) => {
-      await apis.user.sites.createSite(siteForDelete1);
-      await apis.user.sites.createSite(siteForDelete2);
-      await apis.user.queries.waitForSites(siteSearchForDelete, { expect: 1 });
+      await repoClient.sites.createSite(siteForDelete1);
+      await repoClient.sites.createSite(siteForDelete2);
+      await repoClient.queries.waitForSites(siteSearchForDelete, { expect: 1 });
       done();
     });
 

@@ -24,11 +24,10 @@
  */
 
 import { AdminActions, LoginPage, BrowsingPage, InfoDrawer, RepoClient, EXTENSIBILITY_CONFIGS, Utils } from '@alfresco/aca-testing-shared';
-import { BrowserActions } from '@alfresco/adf-testing';
+import { ApiService, BrowserActions } from '@alfresco/adf-testing';
 
 describe('Extensions - Info Drawer', () => {
-  const username = `user-${Utils.random()}`;
-
+  let user;
   const file = `file-${Utils.random()}.txt`;
   let fileId: string;
 
@@ -54,24 +53,25 @@ describe('Extensions - Info Drawer', () => {
     title: 'COMMENTS'
   };
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const apiService = new ApiService();
+  const adminApiService = new ApiService();
+  const repoClient = new RepoClient(apiService);
+  const adminApiActions = new AdminActions(adminApiService);
 
   const infoDrawer = new InfoDrawer();
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
-  const adminApiActions = new AdminActions();
 
   beforeAll(async (done) => {
-    await adminApiActions.createUser({ username });
-    fileId = (await apis.user.nodes.createFile(file)).entry.id;
+    await adminApiActions.loginWithProfile('admin');
+    user = await usersActions.createUser();
+    fileId = (await repoClient.nodes.createFile(file)).entry.id;
     done();
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(fileId);
+    await repoClient.nodes.deleteNodeById(fileId);
     done();
   });
 
@@ -79,7 +79,7 @@ describe('Extensions - Info Drawer', () => {
     beforeAll(async (done) => {
       await loginPage.load();
       await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.INFO_DRAWER);
-      await loginPage.loginWith(username);
+      await loginPage.loginWith(user.username, user.password);
       done();
     });
 
@@ -140,7 +140,7 @@ describe('Extensions - Info Drawer', () => {
     beforeAll(async (done) => {
       await loginPage.load();
       await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.INFO_DRAWER_EMPTY);
-      await loginPage.loginWith(username);
+      await loginPage.loginWith(user.username, user.password);
       await page.clickPersonalFilesAndWait();
       done();
     });

@@ -32,7 +32,7 @@ export function recentFilesTests(username: string) {
 
   describe('Pagination controls : ', () => {
     beforeAll(async () => {
-      await loginPage.loginWith(username);
+      await loginPage.loginWith(user.username, user.password);
       await page.clickRecentFilesAndWait();
     });
 

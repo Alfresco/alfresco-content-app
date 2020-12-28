@@ -30,12 +30,8 @@ import { Utils } from '../../../../utilities/utils';
 import { FavoritesApi as AdfFavoritesApi, SitesApi as AdfSiteApi, FavoriteEntry } from '@alfresco/js-api';
 
 export class FavoritesApi extends RepoApi {
-  favoritesApi = new AdfFavoritesApi(this.alfrescoJsApi);
-  sitesApi = new AdfSiteApi(this.alfrescoJsApi);
-
-  constructor(username?: string, password?: string) {
-    super(username, password);
-  }
+  favoritesApi = new AdfFavoritesApi(this.apiService.getInstance());
+  sitesApi = new AdfSiteApi(this.apiService.getInstance());
 
   async addFavorite(api: RepoClient, nodeType: string, name: string) {
     try {
@@ -57,7 +53,6 @@ export class FavoritesApi extends RepoApi {
   async addFavoriteById(nodeType: 'file' | 'folder' | 'site', id: string): Promise<FavoriteEntry | null> {
     let guid;
     try {
-      await this.apiAuth();
       if (nodeType === 'site') {
         guid = (await this.sitesApi.getSite(id)).entry.guid;
       } else {
@@ -94,7 +89,6 @@ export class FavoritesApi extends RepoApi {
 
   async getFavorites() {
     try {
-      await this.apiAuth();
       return await this.favoritesApi.listFavorites(this.username);
     } catch (error) {
       this.handleError(`FavoritesApi getFavorites : catch : `, error);
@@ -104,7 +98,6 @@ export class FavoritesApi extends RepoApi {
 
   async getFavoritesTotalItems(): Promise<number> {
     try {
-      await this.apiAuth();
       return (await this.favoritesApi.listFavorites(this.username)).list.pagination.totalItems;
     } catch (error) {
       this.handleError(`FavoritesApi getFavoritesTotalItems : catch : `, error);
@@ -114,7 +107,6 @@ export class FavoritesApi extends RepoApi {
 
   async getFavoriteById(nodeId: string) {
     try {
-      await this.apiAuth();
       return await this.favoritesApi.getFavorite('-me-', nodeId);
     } catch (error) {
       this.handleError(`FavoritesApi getFavoriteById : catch : `, error);
@@ -149,7 +141,6 @@ export class FavoritesApi extends RepoApi {
 
   async removeFavoriteById(nodeId: string) {
     try {
-      await this.apiAuth();
       return await this.favoritesApi.deleteFavorite('-me-', nodeId);
     } catch (error) {
       this.handleError(`FavoritesApi removeFavoriteById : catch : `, error);

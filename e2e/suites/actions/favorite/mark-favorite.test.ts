@@ -24,9 +24,9 @@
  */
 
 import { AdminActions, LoginPage, BrowsingPage, SITE_VISIBILITY, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { ApiService } from '@alfresco/adf-testing';
 
 describe('Mark items as favorites', () => {
-  const username = `user-${Utils.random()}`;
   const parent = `parent-${Utils.random()}`;
 
   const fileNotFavUI = `fileNotFavUI-${Utils.random()}.txt`;
@@ -74,41 +74,41 @@ describe('Mark items as favorites', () => {
   let fileSearchFav4Id: string;
   let folderSearchId: string;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const apiService = new ApiService();
+  const adminApiService = new ApiService();
+  const repoClient = new RepoClient(apiService);
+  const adminApiActions = new AdminActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable, toolbar } = page;
   const { searchInput } = page.header;
 
-  const adminApiActions = new AdminActions();
-
   beforeAll(async (done) => {
-    await adminApiActions.createUser({ username });
+    await adminApiActions.loginWithProfile('admin');
+    const user = await usersActions.createUser();
 
-    parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
+    parentId = (await repoClient.nodes.createFolder(parent)).entry.id;
 
-    await apis.user.nodes.createFile(fileNotFavUI, parentId);
-    fileFavUIId = (await apis.user.nodes.createFile(fileFavUI, parentId)).entry.id;
-    fileNotFav1Id = (await apis.user.nodes.createFile(fileNotFav1, parentId)).entry.id;
-    fileNotFav2Id = (await apis.user.nodes.createFile(fileNotFav2, parentId)).entry.id;
-    fileNotFav3Id = (await apis.user.nodes.createFile(fileNotFav3, parentId)).entry.id;
-    fileNotFav4Id = (await apis.user.nodes.createFile(fileNotFav4, parentId)).entry.id;
-    fileFav1Id = (await apis.user.nodes.createFile(fileFav1, parentId)).entry.id;
-    fileFav2Id = (await apis.user.nodes.createFile(fileFav2, parentId)).entry.id;
-    fileFav3Id = (await apis.user.nodes.createFile(fileFav3, parentId)).entry.id;
-    fileFav4Id = (await apis.user.nodes.createFile(fileFav4, parentId)).entry.id;
-    folderId = (await apis.user.nodes.createFolder(folder, parentId)).entry.id;
+    await repoClient.nodes.createFile(fileNotFavUI, parentId);
+    fileFavUIId = (await repoClient.nodes.createFile(fileFavUI, parentId)).entry.id;
+    fileNotFav1Id = (await repoClient.nodes.createFile(fileNotFav1, parentId)).entry.id;
+    fileNotFav2Id = (await repoClient.nodes.createFile(fileNotFav2, parentId)).entry.id;
+    fileNotFav3Id = (await repoClient.nodes.createFile(fileNotFav3, parentId)).entry.id;
+    fileNotFav4Id = (await repoClient.nodes.createFile(fileNotFav4, parentId)).entry.id;
+    fileFav1Id = (await repoClient.nodes.createFile(fileFav1, parentId)).entry.id;
+    fileFav2Id = (await repoClient.nodes.createFile(fileFav2, parentId)).entry.id;
+    fileFav3Id = (await repoClient.nodes.createFile(fileFav3, parentId)).entry.id;
+    fileFav4Id = (await repoClient.nodes.createFile(fileFav4, parentId)).entry.id;
+    folderId = (await repoClient.nodes.createFolder(folder, parentId)).entry.id;
 
-    const currentFavoritesTotalItems = await apis.user.favorites.getFavoritesTotalItems();
-    await apis.user.favorites.addFavoritesByIds('file', [fileFavUIId, fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id]);
-    await apis.user.favorites.waitForApi({ expect: currentFavoritesTotalItems + 5 });
+    const currentFavoritesTotalItems = await repoClient.favorites.getFavoritesTotalItems();
+    await repoClient.favorites.addFavoritesByIds('file', [fileFavUIId, fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id]);
+    await repoClient.favorites.waitForApi({ expect: currentFavoritesTotalItems + 5 });
 
-    await apis.user.shared.shareFilesByIds([fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id]);
-    await apis.user.shared.shareFilesByIds([fileNotFav1Id, fileNotFav2Id, fileNotFav3Id, fileNotFav4Id]);
-    await apis.user.shared.waitForFilesToBeShared([
+    await repoClient.shared.shareFilesByIds([fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id]);
+    await repoClient.shared.shareFilesByIds([fileNotFav1Id, fileNotFav2Id, fileNotFav3Id, fileNotFav4Id]);
+    await repoClient.shared.waitForFilesToBeShared([
       fileFav1Id,
       fileFav2Id,
       fileFav3Id,
@@ -119,12 +119,12 @@ describe('Mark items as favorites', () => {
       fileNotFav4Id
     ]);
 
-    await loginPage.loginWith(username);
+    await loginPage.loginWith(user.username, user.password);
     done();
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(parentId);
+    await repoClient.nodes.deleteNodeById(parentId);
     done();
   });
 
@@ -136,9 +136,9 @@ describe('Mark items as favorites', () => {
   describe('on Personal Files', () => {
     afterAll(async (done) => {
       try {
-        await apis.user.favorites.addFavoritesByIds('file', [fileFavUIId, fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id]);
-        await apis.user.favorites.addFavoriteById('folder', folderId);
-        await apis.user.favorites.removeFavoritesByIds([fileNotFav1Id, fileNotFav2Id, fileNotFav3Id, fileNotFav4Id]);
+        await repoClient.favorites.addFavoritesByIds('file', [fileFavUIId, fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id]);
+        await repoClient.favorites.addFavoriteById('folder', folderId);
+        await repoClient.favorites.removeFavoritesByIds([fileNotFav1Id, fileNotFav2Id, fileNotFav3Id, fileNotFav4Id]);
       } catch (error) {}
       done();
     });
@@ -177,53 +177,53 @@ describe('Mark items as favorites', () => {
       await dataTable.selectItem(fileNotFav1);
       await toolbar.clickMoreActionsFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileNotFav1Id, { expect: true })).toBe(true, `${fileNotFav1} not marked as favorite`);
+      expect(await repoClient.favorites.isFavoriteWithRetry(fileNotFav1Id, { expect: true })).toBe(true, `${fileNotFav1} not marked as favorite`);
     });
 
     it('[C280390] favorite a folder', async () => {
       await dataTable.selectItem(folder);
       await toolbar.clickMoreActionsFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(folderId, { expect: true })).toBe(true, `${folder} not marked as favorite`);
+      expect(await repoClient.favorites.isFavoriteWithRetry(folderId, { expect: true })).toBe(true, `${folder} not marked as favorite`);
     });
 
     it('[C217190] unfavorite an item', async () => {
       await dataTable.selectItem(fileFav1);
       await toolbar.clickMoreActionsRemoveFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileFav1Id, { expect: false })).toBe(false, `${fileFav1} is marked as favorite`);
+      expect(await repoClient.favorites.isFavoriteWithRetry(fileFav1Id, { expect: false })).toBe(false, `${fileFav1} is marked as favorite`);
     });
 
     it('[C217192] favorite multiple items - all unfavorite', async () => {
       await dataTable.selectMultipleItems([fileNotFav2, fileNotFav3]);
       await toolbar.clickMoreActionsFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileNotFav2Id, { expect: true })).toBe(true, `${fileNotFav2} not marked as favorite`);
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileNotFav3Id, { expect: true })).toBe(true, `${fileNotFav3} not marked as favorite`);
+      expect(await repoClient.favorites.isFavoriteWithRetry(fileNotFav2Id, { expect: true })).toBe(true, `${fileNotFav2} not marked as favorite`);
+      expect(await repoClient.favorites.isFavoriteWithRetry(fileNotFav3Id, { expect: true })).toBe(true, `${fileNotFav3} not marked as favorite`);
     });
 
     it('[C217194] favorite multiple items - some favorite and some unfavorite', async () => {
       await dataTable.selectMultipleItems([fileNotFav4, fileFav2]);
       await toolbar.clickMoreActionsFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileNotFav4Id, { expect: true })).toBe(true, `${fileNotFav4} not marked as favorite`);
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileFav2Id, { expect: true })).toBe(true, `${fileFav2} not marked as favorite`);
+      expect(await repoClient.favorites.isFavoriteWithRetry(fileNotFav4Id, { expect: true })).toBe(true, `${fileNotFav4} not marked as favorite`);
+      expect(await repoClient.favorites.isFavoriteWithRetry(fileFav2Id, { expect: true })).toBe(true, `${fileFav2} not marked as favorite`);
     });
 
     it('[C217193] unfavorite multiple items', async () => {
       await dataTable.selectMultipleItems([fileFav3, fileFav4]);
       await toolbar.clickMoreActionsRemoveFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileFav3Id, { expect: false })).toBe(false, `${fileFav3} marked as favorite`);
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileFav4Id, { expect: false })).toBe(false, `${fileFav4} marked as favorite`);
+      expect(await repoClient.favorites.isFavoriteWithRetry(fileFav3Id, { expect: false })).toBe(false, `${fileFav3} marked as favorite`);
+      expect(await repoClient.favorites.isFavoriteWithRetry(fileFav4Id, { expect: false })).toBe(false, `${fileFav4} marked as favorite`);
     });
   });
 
   describe('on Recent Files', () => {
     afterAll(async (done) => {
       try {
-        await apis.user.favorites.addFavoritesByIds('file', [fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id]);
-        await apis.user.favorites.removeFavoritesByIds([fileNotFav1Id, fileNotFav2Id, fileNotFav3Id, fileNotFav4Id]);
+        await repoClient.favorites.addFavoritesByIds('file', [fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id]);
+        await repoClient.favorites.removeFavoritesByIds([fileNotFav1Id, fileNotFav2Id, fileNotFav3Id, fileNotFav4Id]);
       } catch (error) {}
       done();
     });
@@ -238,46 +238,46 @@ describe('Mark items as favorites', () => {
       await dataTable.selectItem(fileNotFav1);
       await toolbar.clickMoreActionsFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileNotFav1Id, { expect: true })).toBe(true, `${fileNotFav1} not marked as favorite`);
+      expect(await repoClient.favorites.isFavoriteWithRetry(fileNotFav1Id, { expect: true })).toBe(true, `${fileNotFav1} not marked as favorite`);
     });
 
     it('[C280353] unfavorite an item', async () => {
       await dataTable.selectItem(fileFav1);
       await toolbar.clickMoreActionsRemoveFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileFav1Id, { expect: false })).toBe(false, `${fileFav1} is marked as favorite`);
+      expect(await repoClient.favorites.isFavoriteWithRetry(fileFav1Id, { expect: false })).toBe(false, `${fileFav1} is marked as favorite`);
     });
 
     it('[C280355] favorite multiple items - all unfavorite', async () => {
       await dataTable.selectMultipleItems([fileNotFav2, fileNotFav3]);
       await toolbar.clickMoreActionsFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileNotFav2Id, { expect: true })).toBe(true, `${fileNotFav2} not marked as favorite`);
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileNotFav3Id, { expect: true })).toBe(true, `${fileNotFav3} not marked as favorite`);
+      expect(await repoClient.favorites.isFavoriteWithRetry(fileNotFav2Id, { expect: true })).toBe(true, `${fileNotFav2} not marked as favorite`);
+      expect(await repoClient.favorites.isFavoriteWithRetry(fileNotFav3Id, { expect: true })).toBe(true, `${fileNotFav3} not marked as favorite`);
     });
 
     it('[C280357] favorite multiple items - some favorite and some unfavorite', async () => {
       await dataTable.selectMultipleItems([fileNotFav4, fileFav2]);
       await toolbar.clickMoreActionsFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileNotFav4Id, { expect: true })).toBe(true, `${fileNotFav4} not marked as favorite`);
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileFav2Id, { expect: true })).toBe(true, `${fileFav2} not marked as favorite`);
+      expect(await repoClient.favorites.isFavoriteWithRetry(fileNotFav4Id, { expect: true })).toBe(true, `${fileNotFav4} not marked as favorite`);
+      expect(await repoClient.favorites.isFavoriteWithRetry(fileFav2Id, { expect: true })).toBe(true, `${fileFav2} not marked as favorite`);
     });
 
     it('[C280356] unfavorite multiple items', async () => {
       await dataTable.selectMultipleItems([fileFav3, fileFav4]);
       await toolbar.clickMoreActionsRemoveFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileFav3Id, { expect: false })).toBe(false, `${fileFav3} marked as favorite`);
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileFav4Id, { expect: false })).toBe(false, `${fileFav4} marked as favorite`);
+      expect(await repoClient.favorites.isFavoriteWithRetry(fileFav3Id, { expect: false })).toBe(false, `${fileFav3} marked as favorite`);
+      expect(await repoClient.favorites.isFavoriteWithRetry(fileFav4Id, { expect: false })).toBe(false, `${fileFav4} marked as favorite`);
     });
   });
 
   describe('on Shared Files', () => {
     afterAll(async (done) => {
       try {
-        await apis.user.favorites.addFavoritesByIds('file', [fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id]);
-        await apis.user.favorites.removeFavoritesByIds([fileNotFav1Id, fileNotFav2Id, fileNotFav3Id, fileNotFav4Id]);
+        await repoClient.favorites.addFavoritesByIds('file', [fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id]);
+        await repoClient.favorites.removeFavoritesByIds([fileNotFav1Id, fileNotFav2Id, fileNotFav3Id, fileNotFav4Id]);
       } catch (error) {}
       done();
     });
@@ -292,45 +292,45 @@ describe('Mark items as favorites', () => {
       await dataTable.selectItem(fileNotFav1);
       await toolbar.clickMoreActionsFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileNotFav1Id, { expect: true })).toBe(true, `${fileNotFav1} not marked as favorite`);
+      expect(await repoClient.favorites.isFavoriteWithRetry(fileNotFav1Id, { expect: true })).toBe(true, `${fileNotFav1} not marked as favorite`);
     });
 
     it('[C280363] unfavorite an item', async () => {
       await dataTable.selectItem(fileFav1);
       await toolbar.clickMoreActionsRemoveFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileFav1Id, { expect: false })).toBe(false, `${fileFav1} is marked as favorite`);
+      expect(await repoClient.favorites.isFavoriteWithRetry(fileFav1Id, { expect: false })).toBe(false, `${fileFav1} is marked as favorite`);
     });
 
     it('[C280365] favorite multiple items - all unfavorite', async () => {
       await dataTable.selectMultipleItems([fileNotFav2, fileNotFav3]);
       await toolbar.clickMoreActionsFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileNotFav2Id, { expect: true })).toBe(true, `${fileNotFav2} not marked as favorite`);
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileNotFav3Id, { expect: true })).toBe(true, `${fileNotFav3} not marked as favorite`);
+      expect(await repoClient.favorites.isFavoriteWithRetry(fileNotFav2Id, { expect: true })).toBe(true, `${fileNotFav2} not marked as favorite`);
+      expect(await repoClient.favorites.isFavoriteWithRetry(fileNotFav3Id, { expect: true })).toBe(true, `${fileNotFav3} not marked as favorite`);
     });
 
     it('[C280367] favorite multiple items - some favorite and some unfavorite', async () => {
       await dataTable.selectMultipleItems([fileNotFav4, fileFav2]);
       await toolbar.clickMoreActionsFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileNotFav4Id, { expect: true })).toBe(true, `${fileNotFav4} not marked as favorite`);
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileFav2Id, { expect: true })).toBe(true, `${fileFav2} not marked as favorite`);
+      expect(await repoClient.favorites.isFavoriteWithRetry(fileNotFav4Id, { expect: true })).toBe(true, `${fileNotFav4} not marked as favorite`);
+      expect(await repoClient.favorites.isFavoriteWithRetry(fileFav2Id, { expect: true })).toBe(true, `${fileFav2} not marked as favorite`);
     });
 
     it('[C280366] unfavorite multiple items', async () => {
       await dataTable.selectMultipleItems([fileFav3, fileFav4]);
       await toolbar.clickMoreActionsRemoveFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileFav3Id, { expect: false })).toBe(false, `${fileFav3} marked as favorite`);
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileFav4Id, { expect: false })).toBe(false, `${fileFav4} marked as favorite`);
+      expect(await repoClient.favorites.isFavoriteWithRetry(fileFav3Id, { expect: false })).toBe(false, `${fileFav3} marked as favorite`);
+      expect(await repoClient.favorites.isFavoriteWithRetry(fileFav4Id, { expect: false })).toBe(false, `${fileFav4} marked as favorite`);
     });
   });
 
   describe('on Favorites', () => {
     afterAll(async (done) => {
       try {
-        await apis.user.favorites.addFavoritesByIds('file', [fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id]);
+        await repoClient.favorites.addFavoritesByIds('file', [fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id]);
       } catch (error) {}
       done();
     });
@@ -345,7 +345,7 @@ describe('Mark items as favorites', () => {
       await dataTable.selectItem(fileFav1);
       await toolbar.clickMoreActionsRemoveFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileFav1Id, { expect: false })).toBe(false, `${fileFav1} is marked as favorite`);
+      expect(await repoClient.favorites.isFavoriteWithRetry(fileFav1Id, { expect: false })).toBe(false, `${fileFav1} is marked as favorite`);
       expect(await dataTable.isItemPresent(fileFav1)).toBe(false, 'item still displayed');
     });
 
@@ -353,8 +353,8 @@ describe('Mark items as favorites', () => {
       await dataTable.selectMultipleItems([fileFav3, fileFav4]);
       await toolbar.clickMoreActionsRemoveFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileFav3Id, { expect: false })).toBe(false, `${fileFav3} marked as favorite`);
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileFav4Id, { expect: false })).toBe(false, `${fileFav4} marked as favorite`);
+      expect(await repoClient.favorites.isFavoriteWithRetry(fileFav3Id, { expect: false })).toBe(false, `${fileFav3} marked as favorite`);
+      expect(await repoClient.favorites.isFavoriteWithRetry(fileFav4Id, { expect: false })).toBe(false, `${fileFav4} marked as favorite`);
       expect(await dataTable.isItemPresent(fileFav3)).toBe(false, 'file3 still displayed');
       expect(await dataTable.isItemPresent(fileFav4)).toBe(false, 'file4 still displayed');
     });
@@ -370,18 +370,18 @@ describe('Mark items as favorites', () => {
 
   describe('on Search Results', () => {
     beforeAll(async (done) => {
-      fileSearchNotFav1Id = (await apis.user.nodes.createFile(fileSearchNotFav1, parentId)).entry.id;
-      fileSearchNotFav2Id = (await apis.user.nodes.createFile(fileSearchNotFav2, parentId)).entry.id;
-      fileSearchNotFav3Id = (await apis.user.nodes.createFile(fileSearchNotFav3, parentId)).entry.id;
-      fileSearchNotFav4Id = (await apis.user.nodes.createFile(fileSearchNotFav4, parentId)).entry.id;
-      fileSearchFav1Id = (await apis.user.nodes.createFile(fileSearchFav1, parentId)).entry.id;
-      fileSearchFav2Id = (await apis.user.nodes.createFile(fileSearchFav2, parentId)).entry.id;
-      fileSearchFav3Id = (await apis.user.nodes.createFile(fileSearchFav3, parentId)).entry.id;
-      fileSearchFav4Id = (await apis.user.nodes.createFile(fileSearchFav4, parentId)).entry.id;
-      folderSearchId = (await apis.user.nodes.createFolder(folderSearch, parentId)).entry.id;
-      await apis.user.search.waitForNodes(searchRandom, { expect: 9 });
+      fileSearchNotFav1Id = (await repoClient.nodes.createFile(fileSearchNotFav1, parentId)).entry.id;
+      fileSearchNotFav2Id = (await repoClient.nodes.createFile(fileSearchNotFav2, parentId)).entry.id;
+      fileSearchNotFav3Id = (await repoClient.nodes.createFile(fileSearchNotFav3, parentId)).entry.id;
+      fileSearchNotFav4Id = (await repoClient.nodes.createFile(fileSearchNotFav4, parentId)).entry.id;
+      fileSearchFav1Id = (await repoClient.nodes.createFile(fileSearchFav1, parentId)).entry.id;
+      fileSearchFav2Id = (await repoClient.nodes.createFile(fileSearchFav2, parentId)).entry.id;
+      fileSearchFav3Id = (await repoClient.nodes.createFile(fileSearchFav3, parentId)).entry.id;
+      fileSearchFav4Id = (await repoClient.nodes.createFile(fileSearchFav4, parentId)).entry.id;
+      folderSearchId = (await repoClient.nodes.createFolder(folderSearch, parentId)).entry.id;
+      await repoClient.search.waitForNodes(searchRandom, { expect: 9 });
 
-      await apis.user.favorites.addFavoritesByIds('file', [fileSearchFav1Id, fileSearchFav2Id, fileSearchFav3Id, fileSearchFav4Id]);
+      await repoClient.favorites.addFavoritesByIds('file', [fileSearchFav1Id, fileSearchFav2Id, fileSearchFav3Id, fileSearchFav4Id]);
 
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
@@ -399,7 +399,7 @@ describe('Mark items as favorites', () => {
       await dataTable.selectItem(fileSearchNotFav1);
       await toolbar.clickMoreActionsFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileSearchNotFav1Id, { expect: true })).toBe(
+      expect(await repoClient.favorites.isFavoriteWithRetry(fileSearchNotFav1Id, { expect: true })).toBe(
         true,
         `${fileSearchNotFav1} not marked as favorite`
       );
@@ -409,14 +409,14 @@ describe('Mark items as favorites', () => {
       await dataTable.selectItem(folderSearch);
       await toolbar.clickMoreActionsFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(folderSearchId, { expect: true })).toBe(true, `${folderSearch} not marked as favorite`);
+      expect(await repoClient.favorites.isFavoriteWithRetry(folderSearchId, { expect: true })).toBe(true, `${folderSearch} not marked as favorite`);
     });
 
     it('[C306967] unfavorite an item', async () => {
       await dataTable.selectItem(fileSearchFav1);
       await toolbar.clickMoreActionsRemoveFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileSearchFav1Id, { expect: false })).toBe(
+      expect(await repoClient.favorites.isFavoriteWithRetry(fileSearchFav1Id, { expect: false })).toBe(
         false,
         `${fileSearchFav1} is marked as favorite`
       );
@@ -426,11 +426,11 @@ describe('Mark items as favorites', () => {
       await dataTable.selectMultipleItems([fileSearchNotFav2, fileSearchNotFav3]);
       await toolbar.clickMoreActionsFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileSearchNotFav2Id, { expect: true })).toBe(
+      expect(await repoClient.favorites.isFavoriteWithRetry(fileSearchNotFav2Id, { expect: true })).toBe(
         true,
         `${fileSearchNotFav2} not marked as favorite`
       );
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileSearchNotFav3Id, { expect: true })).toBe(
+      expect(await repoClient.favorites.isFavoriteWithRetry(fileSearchNotFav3Id, { expect: true })).toBe(
         true,
         `${fileSearchNotFav3} not marked as favorite`
       );
@@ -440,11 +440,11 @@ describe('Mark items as favorites', () => {
       await dataTable.selectMultipleItems([fileSearchNotFav4, fileSearchFav2]);
       await toolbar.clickMoreActionsFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileSearchNotFav4Id, { expect: true })).toBe(
+      expect(await repoClient.favorites.isFavoriteWithRetry(fileSearchNotFav4Id, { expect: true })).toBe(
         true,
         `${fileSearchNotFav4} not marked as favorite`
       );
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileSearchFav2Id, { expect: true })).toBe(
+      expect(await repoClient.favorites.isFavoriteWithRetry(fileSearchFav2Id, { expect: true })).toBe(
         true,
         `${fileSearchFav2} not marked as favorite`
       );
@@ -454,8 +454,8 @@ describe('Mark items as favorites', () => {
       await dataTable.selectMultipleItems([fileSearchFav3, fileSearchFav4]);
       await toolbar.clickMoreActionsRemoveFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileSearchFav3Id, { expect: false })).toBe(false, `${fileSearchFav3} marked as favorite`);
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileSearchFav4Id, { expect: false })).toBe(false, `${fileSearchFav4} marked as favorite`);
+      expect(await repoClient.favorites.isFavoriteWithRetry(fileSearchFav3Id, { expect: false })).toBe(false, `${fileSearchFav3} marked as favorite`);
+      expect(await repoClient.favorites.isFavoriteWithRetry(fileSearchFav4Id, { expect: false })).toBe(false, `${fileSearchFav4} marked as favorite`);
     });
   });
 
@@ -484,31 +484,31 @@ describe('Mark items as favorites', () => {
     let fileSiteFav4Id: string;
 
     beforeAll(async (done) => {
-      await apis.user.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
-      const docLibId = await apis.user.sites.getDocLibId(siteName);
+      await repoClient.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
+      const docLibId = await repoClient.sites.getDocLibId(siteName);
 
-      folderSiteId = (await apis.user.nodes.createFolder(folderSite, docLibId)).entry.id;
-      fileSiteNotFav1Id = (await apis.user.nodes.createFile(fileSiteNotFav1, folderSiteId)).entry.id;
-      fileSiteNotFav2Id = (await apis.user.nodes.createFile(fileSiteNotFav2, folderSiteId)).entry.id;
-      fileSiteNotFav3Id = (await apis.user.nodes.createFile(fileSiteNotFav3, folderSiteId)).entry.id;
-      fileSiteNotFav4Id = (await apis.user.nodes.createFile(fileSiteNotFav4, folderSiteId)).entry.id;
-      fileSiteFav1Id = (await apis.user.nodes.createFile(fileSiteFav1, folderSiteId)).entry.id;
-      fileSiteFav2Id = (await apis.user.nodes.createFile(fileSiteFav2, folderSiteId)).entry.id;
-      fileSiteFav3Id = (await apis.user.nodes.createFile(fileSiteFav3, folderSiteId)).entry.id;
-      fileSiteFav4Id = (await apis.user.nodes.createFile(fileSiteFav4, folderSiteId)).entry.id;
+      folderSiteId = (await repoClient.nodes.createFolder(folderSite, docLibId)).entry.id;
+      fileSiteNotFav1Id = (await repoClient.nodes.createFile(fileSiteNotFav1, folderSiteId)).entry.id;
+      fileSiteNotFav2Id = (await repoClient.nodes.createFile(fileSiteNotFav2, folderSiteId)).entry.id;
+      fileSiteNotFav3Id = (await repoClient.nodes.createFile(fileSiteNotFav3, folderSiteId)).entry.id;
+      fileSiteNotFav4Id = (await repoClient.nodes.createFile(fileSiteNotFav4, folderSiteId)).entry.id;
+      fileSiteFav1Id = (await repoClient.nodes.createFile(fileSiteFav1, folderSiteId)).entry.id;
+      fileSiteFav2Id = (await repoClient.nodes.createFile(fileSiteFav2, folderSiteId)).entry.id;
+      fileSiteFav3Id = (await repoClient.nodes.createFile(fileSiteFav3, folderSiteId)).entry.id;
+      fileSiteFav4Id = (await repoClient.nodes.createFile(fileSiteFav4, folderSiteId)).entry.id;
 
-      await apis.user.favorites.addFavoritesByIds('file', [fileSiteFav1Id, fileSiteFav2Id, fileSiteFav3Id, fileSiteFav4Id]);
+      await repoClient.favorites.addFavoritesByIds('file', [fileSiteFav1Id, fileSiteFav2Id, fileSiteFav3Id, fileSiteFav4Id]);
 
-      await apis.user.favorites.isFavoriteWithRetry(fileSiteFav1Id, { expect: true });
-      await apis.user.favorites.isFavoriteWithRetry(fileSiteFav2Id, { expect: true });
-      await apis.user.favorites.isFavoriteWithRetry(fileSiteFav3Id, { expect: true });
-      await apis.user.favorites.isFavoriteWithRetry(fileSiteFav4Id, { expect: true });
+      await repoClient.favorites.isFavoriteWithRetry(fileSiteFav1Id, { expect: true });
+      await repoClient.favorites.isFavoriteWithRetry(fileSiteFav2Id, { expect: true });
+      await repoClient.favorites.isFavoriteWithRetry(fileSiteFav3Id, { expect: true });
+      await repoClient.favorites.isFavoriteWithRetry(fileSiteFav4Id, { expect: true });
 
       done();
     });
 
     afterAll(async (done) => {
-      await apis.user.sites.deleteSite(siteName);
+      await repoClient.sites.deleteSite(siteName);
       done();
     });
 
@@ -524,7 +524,7 @@ describe('Mark items as favorites', () => {
       await dataTable.selectItem(folderSite);
       await toolbar.clickMoreActionsFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(folderSiteId, { expect: true })).toBe(true, `${folderSite} not marked as favorite`);
+      expect(await repoClient.favorites.isFavoriteWithRetry(folderSiteId, { expect: true })).toBe(true, `${folderSite} not marked as favorite`);
     });
 
     it('[C280342] Favorite a file', async () => {
@@ -532,7 +532,7 @@ describe('Mark items as favorites', () => {
       await dataTable.selectItem(fileSiteNotFav1);
       await toolbar.clickMoreActionsFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileSiteNotFav1Id, { expect: true })).toBe(
+      expect(await repoClient.favorites.isFavoriteWithRetry(fileSiteNotFav1Id, { expect: true })).toBe(
         true,
         `${fileSiteNotFav1} not marked as favorite`
       );
@@ -543,7 +543,7 @@ describe('Mark items as favorites', () => {
       await dataTable.selectItem(fileSiteFav1);
       await toolbar.clickMoreActionsRemoveFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileSiteFav1Id, { expect: false })).toBe(false, `${fileSiteFav1} is marked as favorite`);
+      expect(await repoClient.favorites.isFavoriteWithRetry(fileSiteFav1Id, { expect: false })).toBe(false, `${fileSiteFav1} is marked as favorite`);
     });
 
     it('[C280345] Favorite multiple items - all unfavorite', async () => {
@@ -551,8 +551,8 @@ describe('Mark items as favorites', () => {
       await dataTable.selectMultipleItems([fileSiteNotFav2, fileSiteNotFav3]);
       await toolbar.clickMoreActionsFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileSiteNotFav2Id, { expect: true })).toBe(true, 'item not marked as favorite');
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileSiteNotFav3Id, { expect: true })).toBe(true, 'item not marked as favorite');
+      expect(await repoClient.favorites.isFavoriteWithRetry(fileSiteNotFav2Id, { expect: true })).toBe(true, 'item not marked as favorite');
+      expect(await repoClient.favorites.isFavoriteWithRetry(fileSiteNotFav3Id, { expect: true })).toBe(true, 'item not marked as favorite');
     });
 
     it('[C280346] Unfavorite multiple items', async () => {
@@ -560,8 +560,8 @@ describe('Mark items as favorites', () => {
       await dataTable.selectMultipleItems([fileSiteFav2, fileSiteFav3]);
       await toolbar.clickMoreActionsRemoveFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileSiteFav2Id, { expect: false })).toBe(false, 'item marked as favorite');
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileSiteFav3Id, { expect: false })).toBe(false, 'item marked as favorite');
+      expect(await repoClient.favorites.isFavoriteWithRetry(fileSiteFav2Id, { expect: false })).toBe(false, 'item marked as favorite');
+      expect(await repoClient.favorites.isFavoriteWithRetry(fileSiteFav3Id, { expect: false })).toBe(false, 'item marked as favorite');
     });
 
     it('[C280347] Favorite multiple items - some favorite and some unfavorite', async () => {
@@ -569,8 +569,8 @@ describe('Mark items as favorites', () => {
       await dataTable.selectMultipleItems([fileSiteNotFav4, fileSiteFav4]);
       await toolbar.clickMoreActionsFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileSiteNotFav4Id, { expect: true })).toBe(true, 'item not marked as favorite');
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileSiteFav4Id, { expect: true })).toBe(true, 'item not marked as favorite');
+      expect(await repoClient.favorites.isFavoriteWithRetry(fileSiteNotFav4Id, { expect: true })).toBe(true, 'item not marked as favorite');
+      expect(await repoClient.favorites.isFavoriteWithRetry(fileSiteFav4Id, { expect: true })).toBe(true, 'item not marked as favorite');
     });
   });
 });

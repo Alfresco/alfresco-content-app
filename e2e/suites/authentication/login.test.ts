@@ -24,13 +24,14 @@
  */
 
 import { browser } from 'protractor';
-import { AdminActions, APP_ROUTES, LoginPage, Utils, navigate, BrowsingPage } from '@alfresco/aca-testing-shared';
-import { BrowserActions } from '@alfresco/adf-testing';
+import { AdminActions, APP_ROUTES, LoginPage, Utils, navigate } from '@alfresco/aca-testing-shared';
+import { ApiService, BrowserActions } from '@alfresco/adf-testing';
 
 describe('Login', () => {
   const loginPage = new LoginPage();
   const { login } = loginPage;
-  const adminApiActions = new AdminActions();
+  const adminApiService = new ApiService();
+  const adminApiActions = new AdminActions(adminApiService);
 
   /* cspell:disable-next-line */
   const testUser = `user-${Utils.random()}@alfness`;
@@ -99,7 +100,7 @@ describe('Login', () => {
     it('[C213092] navigate to "Personal Files"', async () => {
       const { username } = johnDoe;
 
-      await loginPage.loginWith(username);
+      await loginPage.loginWith(user.username, user.password);
       expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);
     });
 
@@ -111,14 +112,14 @@ describe('Login', () => {
     it('[C213097] logs in with user with non-latin characters', async () => {
       const { username, password } = russianUser;
 
-      await loginPage.loginWith(username, password);
+      await loginPage.loginWith(user.username, password);
       expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);
     });
 
     it('[C213107] redirects to Home Page when navigating to the Login page while already logged in', async () => {
       const { username } = johnDoe;
 
-      await loginPage.loginWith(username);
+      await loginPage.loginWith(user.username, user.password);
 
       await navigate(APP_ROUTES.LOGIN);
       expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);
@@ -127,7 +128,7 @@ describe('Login', () => {
     it('[C213109] redirects to Personal Files when pressing browser Back while already logged in', async () => {
       const { username } = johnDoe;
 
-      await loginPage.loginWith(username);
+      await loginPage.loginWith(user.username, user.password);
       await browser.navigate().back();
       expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);
     });

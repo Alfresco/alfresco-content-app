@@ -23,11 +23,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, UserActions, SITE_VISIBILITY, SITE_ROLES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { AdminActions, ApiActions, SITE_VISIBILITY, SITE_ROLES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { ApiService, UsersActions } from '@alfresco/adf-testing';
 
 describe('Favorites', () => {
-  const username = `user-${Utils.random()}`;
-
   const siteName = `site-${Utils.random()}`;
   const favFolderName = `favFolder-${Utils.random()}`;
   const parentFolder = `parent-${Utils.random()}`;
@@ -36,45 +35,45 @@ describe('Favorites', () => {
   const fileName3 = `file3-${Utils.random()}.txt`;
   const fileName4 = `file4-${Utils.random()}.txt`;
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const apiService = new ApiService();
+  const repoClient = new RepoClient(apiService);
+  const adminApiService = new ApiService();
+  const adminApiActions = new AdminActions(adminApiService);
+  const apiActions = new ApiActions(apiService);
+  const usersActions = new UsersActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable, breadcrumb } = page;
 
-  const adminApiActions = new AdminActions();
-  const userActions = new UserActions();
-
   let parentId: string;
   let folderId: string;
 
   beforeAll(async (done) => {
-    await adminApiActions.login();
-    await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
+    await adminApiActions.loginWithProfile('admin');
+    const user = await usersActions.createUser();
+    await apiService.login(user.username, user.password);
 
     await adminApiActions.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
     const docLibId = await adminApiActions.sites.getDocLibId(siteName);
-    await adminApiActions.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_MANAGER.ROLE);
+    await adminApiActions.sites.addSiteMember(siteName, user.username, SITE_ROLES.SITE_MANAGER.ROLE);
 
     const file1Id = (await adminApiActions.nodes.createFile(fileName1, docLibId)).entry.id;
-    folderId = (await apis.user.nodes.createFolder(favFolderName)).entry.id;
-    parentId = (await apis.user.nodes.createFolder(parentFolder)).entry.id;
-    const file2Id = (await apis.user.nodes.createFile(fileName2, parentId)).entry.id;
-    const file3Id = (await apis.user.nodes.createFile(fileName3, parentId)).entry.id;
-    const file4Id = (await apis.user.nodes.createFile(fileName4, parentId)).entry.id;
+    folderId = (await repoClient.nodes.createFolder(favFolderName)).entry.id;
+    parentId = (await repoClient.nodes.createFolder(parentFolder)).entry.id;
+    const file2Id = (await repoClient.nodes.createFile(fileName2, parentId)).entry.id;
+    const file3Id = (await repoClient.nodes.createFile(fileName3, parentId)).entry.id;
+    const file4Id = (await repoClient.nodes.createFile(fileName4, parentId)).entry.id;
 
-    await apis.user.favorites.addFavoriteById('file', file1Id);
-    await apis.user.favorites.addFavoriteById('folder', folderId);
-    await apis.user.favorites.addFavoriteById('file', file2Id);
-    await apis.user.favorites.addFavoriteById('file', file3Id);
-    await apis.user.favorites.addFavoriteById('file', file4Id);
+    await repoClient.favorites.addFavoriteById('file', file1Id);
+    await repoClient.favorites.addFavoriteById('folder', folderId);
+    await repoClient.favorites.addFavoriteById('file', file2Id);
+    await repoClient.favorites.addFavoriteById('file', file3Id);
+    await repoClient.favorites.addFavoriteById('file', file4Id);
 
-    await userActions.deleteNodes([file3Id, file4Id], false);
-    await userActions.trashcanApi.restoreDeletedNode(file4Id);
-    await loginPage.loginWith(username);
+    await apiActions.deleteNodes([file3Id, file4Id], false);
+    await apiActions.trashcanApi.restoreDeletedNode(file4Id);
+    await loginPage.loginWith(user.username, user.password);
     done();
   });
 
@@ -84,10 +83,10 @@ describe('Favorites', () => {
   });
 
   afterAll(async (done) => {
-    await userActions.deleteNodes([folderId, parentId]);
-    await userActions.emptyTrashcan();
+    await apiActions.deleteNodes([folderId, parentId]);
+    await apiActions.emptyTrashcan();
 
-    await adminApiActions.login();
+    await adminApiActions.loginWithProfile('admin');
     await adminApiActions.deleteSites([siteName]);
     done();
   });

@@ -24,11 +24,9 @@
  */
 
 import { AdminActions, LoginPage, BrowsingPage, Viewer, RepoClient, EXTENSIBILITY_CONFIGS, FILES, Utils } from '@alfresco/aca-testing-shared';
-import { BrowserActions } from '@alfresco/adf-testing';
+import { ApiService, BrowserActions } from '@alfresco/adf-testing';
 
 describe('Extensions - Viewer', () => {
-  const username = `user-${Utils.random()}`;
-
   const pdfFile = {
     file_name: FILES.pdfFile,
     component: 'app.components.tabs.metadata'
@@ -63,30 +61,31 @@ describe('Extensions - Viewer', () => {
     title: 'My new title'
   };
 
-  const apis = {
-    user: new RepoClient(username, username)
-  };
+  const apiService = new ApiService();
+  const repoClient = new RepoClient(apiService);
+  const adminApiService = new ApiService();
+  const adminApiActions = new AdminActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
 
   const viewer = new Viewer();
   const { toolbar } = viewer;
-  const adminApiActions = new AdminActions();
 
   beforeAll(async (done) => {
-    await adminApiActions.createUser({ username });
-    pdfFileId = (await apis.user.upload.uploadFile(pdfFile.file_name)).entry.id;
-    docxFileId = (await apis.user.upload.uploadFile(docxFile.file_name)).entry.id;
+    await adminApiActions.loginWithProfile('admin');
+    const user = await usersActions.createUser();
+    pdfFileId = (await repoClient.upload.uploadFile(pdfFile.file_name)).entry.id;
+    docxFileId = (await repoClient.upload.uploadFile(docxFile.file_name)).entry.id;
 
     await loginPage.load();
     await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.VIEWER);
-    await loginPage.loginWith(username);
+    await loginPage.loginWith(user.username, user.password);
     done();
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodesById([pdfFileId, docxFileId]);
+    await repoClient.nodes.deleteNodesById([pdfFileId, docxFileId]);
     done();
   });
 

@@ -24,11 +24,9 @@
  */
 
 import { AdminActions, SITE_VISIBILITY, SITE_ROLES, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { ApiService } from '@alfresco/adf-testing';
 
 describe('Shared Files', () => {
-  const username = `user-${Utils.random()}`;
-  const password = username;
-
   const siteName = `site-${Utils.random()}`;
   const fileAdmin = `fileSite-${Utils.random()}.txt`;
 
@@ -43,42 +41,43 @@ describe('Shared Files', () => {
   const file4User = `file4-${Utils.random()}.txt`;
   let file4Id: string;
 
-  const apis = {
-    user: new RepoClient(username, password)
-  };
+  const apiService = new ApiService();
+  const repoClient = new RepoClient(apiService);
+  const adminApiService = new ApiService();
+  const adminApiActions = new AdminActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable, breadcrumb } = page;
-  const adminApiActions = new AdminActions();
 
   beforeAll(async (done) => {
-    await adminApiActions.createUser({ username });
+    await adminApiActions.loginWithProfile('admin');
+    const user = await usersActions.createUser();
     await adminApiActions.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
-    await adminApiActions.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_CONSUMER.ROLE);
+    await adminApiActions.sites.addSiteMember(siteName, user.username, SITE_ROLES.SITE_CONSUMER.ROLE);
     const docLibId = await adminApiActions.sites.getDocLibId(siteName);
     const nodeId = (await adminApiActions.nodes.createFile(fileAdmin, docLibId)).entry.id;
 
-    folderId = (await apis.user.nodes.createFolder(folderUser)).entry.id;
-    file1Id = (await apis.user.nodes.createFile(file1User, folderId)).entry.id;
-    file2Id = (await apis.user.nodes.createFile(file2User)).entry.id;
-    file3Id = (await apis.user.nodes.createFile(file3User)).entry.id;
-    file4Id = (await apis.user.nodes.createFile(file4User)).entry.id;
+    folderId = (await repoClient.nodes.createFolder(folderUser)).entry.id;
+    file1Id = (await repoClient.nodes.createFile(file1User, folderId)).entry.id;
+    file2Id = (await repoClient.nodes.createFile(file2User)).entry.id;
+    file3Id = (await repoClient.nodes.createFile(file3User)).entry.id;
+    file4Id = (await repoClient.nodes.createFile(file4User)).entry.id;
 
-    await apis.user.shared.shareFilesByIds([file1Id, file2Id, file3Id, file4Id]);
+    await repoClient.shared.shareFilesByIds([file1Id, file2Id, file3Id, file4Id]);
 
-    await adminApiActions.login();
+    await adminApiActions.loginWithProfile('admin');
     await adminApiActions.shareNodes([nodeId]);
 
-    await apis.user.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id]);
+    await repoClient.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id]);
     await adminApiActions.shared.waitForFilesToBeShared([nodeId]);
 
-    await apis.user.nodes.deleteNodeById(file2Id);
-    await apis.user.shared.unshareFileById(file3Id);
+    await repoClient.nodes.deleteNodeById(file2Id);
+    await repoClient.shared.unshareFileById(file3Id);
 
-    await apis.user.shared.waitForFilesToNotBeShared([file2Id, file3Id]);
+    await repoClient.shared.waitForFilesToNotBeShared([file2Id, file3Id]);
 
-    await loginPage.loginWith(username);
+    await loginPage.loginWith(user.username, user.password);
     done();
   });
 
@@ -89,8 +88,8 @@ describe('Shared Files', () => {
 
   afterAll(async () => {
     await adminApiActions.sites.deleteSite(siteName);
-    await apis.user.nodes.deleteNodeById(folderId);
-    await apis.user.nodes.deleteNodeById(file4Id);
+    await repoClient.nodes.deleteNodeById(folderId);
+    await repoClient.nodes.deleteNodeById(file4Id);
   });
 
   it('[C213113] has the correct columns', async () => {

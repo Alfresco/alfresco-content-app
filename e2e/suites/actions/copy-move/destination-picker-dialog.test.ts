@@ -24,10 +24,10 @@
  */
 
 import { LoginPage, BrowsingPage, ContentNodeSelectorDialog, RepoClient, Utils, AdminActions } from '@alfresco/aca-testing-shared';
+import { ApiService } from '@alfresco/adf-testing';
 
 describe('Destination picker dialog : ', () => {
   const random = Utils.random();
-  const username = `user-${random}`;
 
   const consumer = `consumer-${random}`;
   const contributor = `contributor-${random}`;
@@ -59,11 +59,13 @@ describe('Destination picker dialog : ', () => {
 
   const site = `site-${random}`;
 
-  const userApi = new RepoClient(username, username);
+  const adminApiService = new ApiService();
+  const apiService = new ApiService();
+  const userApi = new RepoClient(apiService);
   const consumerApi = new RepoClient(consumer, consumer);
   const contributorApi = new RepoClient(contributor, contributor);
   const collaboratorApi = new RepoClient(collaborator, collaborator);
-  const adminApiActions = new AdminActions();
+  const adminApiActions = new AdminActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
@@ -73,7 +75,8 @@ describe('Destination picker dialog : ', () => {
   const dataTable = dialog.dataTable;
 
   beforeAll(async () => {
-    await adminApiActions.createUser({ username });
+    await adminApiActions.loginWithProfile('admin');
+    const user = await usersActions.createUser();
     await adminApiActions.createUser({ username: consumer });
     await adminApiActions.createUser({ username: contributor });
     await adminApiActions.createUser({ username: collaborator });
@@ -117,7 +120,7 @@ describe('Destination picker dialog : ', () => {
     await contributorApi.nodes.deleteNodeById(fileIdContributor);
     await collaboratorApi.nodes.deleteNodeById(fileIdCollaborator);
 
-    await adminApiActions.login();
+    await adminApiActions.loginWithProfile('admin');
     await adminApiActions.nodes.deleteNodeById(adminFolderId);
   });
 
@@ -127,7 +130,7 @@ describe('Destination picker dialog : ', () => {
 
   describe('general', () => {
     beforeAll(async () => {
-      await loginPage.loginWith(username);
+      await loginPage.loginWith(user.username, user.password);
     });
 
     beforeEach(async () => {
@@ -179,14 +182,14 @@ describe('Destination picker dialog : ', () => {
     it('[C263888] Search - results found', async () => {
       await dialog.searchFor(searchFolder);
 
-      expect(await dataTable.isItemPresent(searchFolder, username)).toBe(true, 'folder from Personal Files not displayed');
+      expect(await dataTable.isItemPresent(searchFolder, user.username)).toBe(true, 'folder from Personal Files not displayed');
       expect(await dataTable.isItemPresent(searchFolder, site)).toBe(true, 'folder from site not displayed');
     });
   });
 
   describe('multiple selection', () => {
     beforeAll(async () => {
-      await loginPage.loginWith(username);
+      await loginPage.loginWith(user.username, user.password);
     });
 
     beforeEach(async () => {
@@ -202,7 +205,7 @@ describe('Destination picker dialog : ', () => {
 
   describe('breadcrumb', () => {
     beforeAll(async () => {
-      await loginPage.loginWith(username);
+      await loginPage.loginWith(user.username, user.password);
     });
 
     beforeEach(async () => {

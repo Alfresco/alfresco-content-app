@@ -24,6 +24,7 @@
  */
 
 import { AdminActions, LoginPage, SearchResultsPage, RepoClient, Utils, FILES } from '@alfresco/aca-testing-shared';
+import { ApiService } from '@alfresco/adf-testing';
 
 describe('Search sorting', () => {
   const random = Utils.random();
@@ -46,28 +47,30 @@ describe('Search sorting', () => {
     source: FILES.pdfFile
   };
 
-  const apis = {
-    user1: new RepoClient(user1, user1),
-    user2: new RepoClient(user2, user2)
-  };
+  const apiService1 = new ApiService();
+  const repoClient1 = new RepoClient(apiService1);
+  const apiService2 = new ApiService();
+  const repoClient2 = new RepoClient(apiService2);
+  const adminApiService = new ApiService();
+  const adminApiActions = new AdminActions(adminApiService);
+
 
   const loginPage = new LoginPage();
   const page = new SearchResultsPage();
   const { searchInput } = page.header;
   const { dataTable } = page;
-  const adminApiActions = new AdminActions();
 
   beforeAll(async (done) => {
     await adminApiActions.createUser({ username: user1 });
     await adminApiActions.createUser({ username: user2 });
-    parentId = (await apis.user1.nodes.createFolder(parent)).entry.id;
+    parentId = (await repoClient1.nodes.createFolder(parent)).entry.id;
 
-    await apis.user1.nodes.setGranularPermission(parentId, true, user2, 'Collaborator');
+    await repoClient1.nodes.setGranularPermission(parentId, true, user2, 'Collaborator');
 
-    await apis.user1.upload.uploadFileWithRename(fileJpg.source, parentId, fileJpg.name);
-    await apis.user2.upload.uploadFileWithRename(filePdf.source, parentId, filePdf.name, filePdf.title, filePdf.description);
+    await repoClient1.upload.uploadFileWithRename(fileJpg.source, parentId, fileJpg.name);
+    await repoClient2.upload.uploadFileWithRename(filePdf.source, parentId, filePdf.name, filePdf.title, filePdf.description);
 
-    await apis.user1.search.waitForNodes(`search-sort-${random}`, { expect: 2 });
+    await repoClient1.search.waitForNodes(`search-sort-${random}`, { expect: 2 });
 
     await loginPage.loginWith(user1);
     done();
@@ -84,7 +87,7 @@ describe('Search sorting', () => {
   });
 
   afterAll(async () => {
-    await apis.user1.nodes.deleteNodeById(parentId);
+    await repoClient1.nodes.deleteNodeById(parentId);
   });
 
   it('[C277722] Sorting options are displayed', async () => {
