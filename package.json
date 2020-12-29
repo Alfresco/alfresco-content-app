@@ -78,7 +78,7 @@
     "commander": "^6.1.0",
     "connect-history-api-fallback": "^1.6.0",
     "cpr": "^3.0.1",
-    "cspell": "^4.1.0",
+    "cspell": "^5.1.1",
     "dotenv": "^8.2.0",
     "http-server": "^0.12.3",
     "husky": "^4.3.5",
