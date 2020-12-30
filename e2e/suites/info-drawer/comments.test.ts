@@ -24,10 +24,14 @@
  */
 
 import { BrowsingPage, RepoClient, InfoDrawer, Utils } from '@alfresco/aca-testing-shared';
+
 const moment = require('moment');
-import { ApiService, BrowserActions, UsersActions, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, BrowserActions, UsersActions, LoginPage, UserModel } from '@alfresco/adf-testing';
+import { ApiActions } from '../../../projects/aca-testing-shared/src/utilities';
 
 describe('Comments', () => {
+  let user: UserModel;
+
   const parent = `parent-${Utils.random()}`;
   let parentId: string;
 
@@ -54,6 +58,8 @@ describe('Comments', () => {
 
   const apiService = new ApiService();
   const repoClient = new RepoClient(apiService);
+  const apiActions = new ApiActions(apiService);
+
   const adminApiService = new ApiService();
   const usersActions = new UsersActions(adminApiService);
 
@@ -66,7 +72,7 @@ describe('Comments', () => {
 
   beforeAll(async (done) => {
     await adminApiService.loginWithProfile('admin');
-    const user = await usersActions.createUser();
+    user = await usersActions.createUser();
     await apiService.login(user.username, user.password);
 
     parentId = (await repoClient.nodes.createFolder(parent)).entry.id;
@@ -80,8 +86,8 @@ describe('Comments', () => {
     fileWith1CommentId = (await repoClient.nodes.createFile(fileWith1Comment, parentId)).entry.id;
     fileWith2CommentsId = (await repoClient.nodes.createFile(fileWith2Comments, parentId)).entry.id;
 
-    comment1File2Entry = await apiActions.createComment(fileWith2CommentsId, 'first comment');
-    comment2File2Entry = await apiActions.createComment(fileWith2CommentsId, 'second comment');
+    comment1File2Entry = await repoClient.createComment(fileWith2CommentsId, 'first comment');
+    comment2File2Entry = await repoClient.createComment(fileWith2CommentsId, 'second comment');
 
     await repoClient.shared.shareFilesByIds([file2SharedId, fileWith1CommentId, fileWith2CommentsId]);
     await repoClient.shared.waitForFilesToBeShared([file2SharedId, fileWith1CommentId, fileWith2CommentsId]);

@@ -23,8 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { SearchResultsPage, RepoClient, Utils, FILES, SITE_VISIBILITY, SITE_ROLES } from '@alfresco/aca-testing-shared';
-import { ApiService, BrowserActions, UsersActions } from '@alfresco/adf-testing';
+import { SearchResultsPage, RepoClient, Utils, FILES, SITE_VISIBILITY, SITE_ROLES, ApiActions } from '@alfresco/aca-testing-shared';
+import { ApiService, BrowserActions, UsersActions, LoginPage } from '@alfresco/adf-testing';
 
 const moment = require('moment');
 

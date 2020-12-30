@@ -24,12 +24,14 @@
  */
 
 import { browser } from 'protractor';
-import { PAGE_TITLES, BrowsingPage, RepoClient, Utils, LoginPage } from '@alfresco/aca-testing-shared';
+import { PAGE_TITLES, BrowsingPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { ApiService, LoginPage } from '@alfresco/adf-testing';
 
 describe('Page titles', () => {
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
-  const adminApi = new RepoClient();
+  const adminApiService = new ApiService();
+  const adminApi = new RepoClient(adminApiService);
   const file = `file-${Utils.random()}.txt`;
   let fileId: string;
   const { searchInput } = page.header;
@@ -55,12 +57,14 @@ describe('Page titles', () => {
 
   describe('on app pages', () => {
     beforeAll(async (done) => {
+      adminApiService.loginWithProfile('admin');
       fileId = (await adminApi.nodes.createFile(file)).entry.id;
       await loginPage.loginWithProfile('admin');
       done();
     });
 
     afterAll(async (done) => {
+      adminApiService.loginWithProfile('admin');
       await adminApi.nodes.deleteNodeById(fileId);
       done();
     });

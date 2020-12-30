@@ -24,9 +24,12 @@
  */
 
 import { ApiActions, BrowsingPage, ContentNodeSelectorDialog, RepoClient, Utils } from '@alfresco/aca-testing-shared';
-import { ApiService, BrowserActions, UsersActions, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, BrowserActions, UsersActions, LoginPage, UserModel } from '@alfresco/adf-testing';
 
 describe('Move content', () => {
+
+  let user: UserModel;
+
   const sourcePF = `sourcePersonal-${Utils.random()}`;
   let sourceIdPF: string;
   const destinationPF = `destinationPersonal-${Utils.random()}`;
@@ -66,7 +69,7 @@ describe('Move content', () => {
 
   beforeAll(async (done) => {
     await adminApiService.loginWithProfile('admin');
-    const user = await usersActions.createUser();
+    user = await usersActions.createUser();
     await apiService.login(user.username, user.password);
 
     await repoClient.sites.createSite(siteName);

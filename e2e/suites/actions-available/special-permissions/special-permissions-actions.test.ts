@@ -96,7 +96,7 @@ describe('Special permissions : ', () => {
     await apiServiceDemoted.login(userDemoted.username, userDemoted.password);
 
     const consumerFavoritesTotalItems = await userConsumerApi.favorites.getFavoritesTotalItems();
-    const managerSearchTotalItems = await userManagerApi.search.getTotalItems(userManager);
+    const managerSearchTotalItems = await userManagerApi.search.getTotalItems(userManager.username);
     const collaboratorFavoritesTotalItems = await userCollaboratorApi.favorites.getFavoritesTotalItems();
 
     await userManagerApi.sites.createSitePrivate(sitePrivate);
@@ -123,7 +123,7 @@ describe('Special permissions : ', () => {
     await userDemotedApi.nodes.lockFile(fileLockedByUserId);
     await userDemotedApi.favorites.addFavoriteById('file', fileLockedByUserId);
     await userDemotedApi.shared.shareFileById(fileLockedByUserId);
-    await userManagerApi.sites.updateSiteMember(sitePrivate, userDemoted, SITE_ROLES.SITE_CONSUMER.ROLE);
+    await userManagerApi.sites.updateSiteMember(sitePrivate, userDemoted.username, SITE_ROLES.SITE_CONSUMER.ROLE);
 
     await userManagerApi.nodes.createFolder(testData.folder.name, docLibId);
     folderFavId = (await userManagerApi.nodes.createFolder(testData.folderFav.name, docLibId)).entry.id;

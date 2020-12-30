@@ -24,9 +24,11 @@
  */
 
 import { ApiActions, SITE_VISIBILITY, SITE_ROLES, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
-import { ApiService, Logger, UsersActions, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, Logger, UsersActions, LoginPage, UserModel } from '@alfresco/adf-testing';
 
 describe('Trash', () => {
+
+  let user : UserModel;
   const siteName = `site-${Utils.random()}`;
   const fileSite = `file-${Utils.random()}.txt`;
   let fileSiteId: string;
@@ -65,7 +67,7 @@ describe('Trash', () => {
   beforeAll(async () => {
     try {
       await adminApiService.loginWithProfile('admin');
-      const user = await usersActions.createUser();
+      user = await usersActions.createUser();
       await apiService.login(user.username, user.password);
 
       fileAdminId = (await adminApiActions.nodes.createFiles([fileAdmin])).entry.id;

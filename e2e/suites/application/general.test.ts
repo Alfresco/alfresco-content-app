@@ -24,14 +24,16 @@
  */
 
 import { browser } from 'protractor';
-import { BrowserActions, Logger } from '@alfresco/adf-testing';
-import { BrowsingPage, CreateOrEditFolderDialog, RepoClient, Utils, LoginPage } from '@alfresco/aca-testing-shared';
+import { ApiService, BrowserActions, Logger, LoginPage } from '@alfresco/adf-testing';
+import { BrowsingPage, CreateOrEditFolderDialog, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 
 describe('General', () => {
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const createDialog = new CreateOrEditFolderDialog();
-  const adminApi = new RepoClient();
+
+  const apiService = new ApiService();
+  const adminApi = new RepoClient(apiService);
   const folder = `folder-${Utils.random()}`;
   let folderId: string;
 

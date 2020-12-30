@@ -25,9 +25,11 @@
 
 import { browser } from 'protractor';
 import { ApiActions, BrowsingPage, SITE_VISIBILITY, RepoClient, ShareDialog, Viewer, Utils } from '@alfresco/aca-testing-shared';
-import { ApiService, BrowserActions, UsersActions, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, BrowserActions, UsersActions, LoginPage, UserModel } from '@alfresco/adf-testing';
 
 describe('Share a file', () => {
+  let user: UserModel;
+
   const parent = `parent-${Utils.random()}`;
   let parentId: string;
 

@@ -23,8 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { SearchResultsPage, RepoClient, Utils, SITE_VISIBILITY, SITE_ROLES } from '@alfresco/aca-testing-shared';
-import { ApiService, UsersActions } from '@alfresco/adf-testing';
+import { SearchResultsPage, RepoClient, Utils, SITE_VISIBILITY, SITE_ROLES, ApiActions } from '@alfresco/aca-testing-shared';
+import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Search results - libraries', () => {
   const random = Utils.random();

@@ -24,9 +24,11 @@
  */
 
 import { ApiActions, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
-import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, UsersActions, LoginPage, UserModel } from '@alfresco/adf-testing';
 
 describe('File / folder tooltips', () => {
+  let user: UserModel;
+
   const apiService = new ApiService();
   const repoClient = new RepoClient(apiService);
   const adminApiService = new ApiService();
@@ -62,7 +64,7 @@ describe('File / folder tooltips', () => {
 
   beforeAll(async (done) => {
     await adminApiService.loginWithProfile('admin');
-    const user = await usersActions.createUser();
+    user = await usersActions.createUser();
     await apiService.login(user.username, user.password);
 
     parentId = (await repoClient.nodes.createFolder(parent)).entry.id;

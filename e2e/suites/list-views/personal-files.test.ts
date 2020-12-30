@@ -25,7 +25,7 @@
 
 import { browser } from 'protractor';
 
-import { APP_ROUTES, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { APP_ROUTES, BrowsingPage, Utils, RepoClient, ApiActions } from '@alfresco/aca-testing-shared';
 import { ApiService, UserModel, UsersActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Personal Files', () => {

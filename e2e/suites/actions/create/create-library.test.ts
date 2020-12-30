@@ -23,10 +23,19 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { SITE_VISIBILITY, BrowsingPage, CreateLibraryDialog, Utils, RepoClient, ApiActions } from '@alfresco/aca-testing-shared';
-import { ApiService, BrowserActions, UsersActions, LoginPage } from '@alfresco/adf-testing';
+import {
+  SITE_VISIBILITY,
+  BrowsingPage,
+  CreateLibraryDialog,
+  Utils,
+  RepoClient,
+  ApiActions
+} from '@alfresco/aca-testing-shared';
+import { ApiService, BrowserActions, UsersActions, LoginPage, UserModel } from '@alfresco/adf-testing';
 
 describe('Create library', () => {
+  let user: UserModel;
+
   const site1Name = `site1-${Utils.random()}`;
   const site2Name = `site2-${Utils.random()}`;
   const site3Name = `site3-${Utils.random()}`;
@@ -60,7 +69,7 @@ describe('Create library', () => {
 
   beforeAll(async (done) => {
     await adminApiService.loginWithProfile('admin');
-    const user = await usersActions.createUser();
+    user = await usersActions.createUser();
     await apiService.login(user.username, user.password);
 
     await repoClient.sites.createSite(duplicateSite.name, SITE_VISIBILITY.PRIVATE, '', duplicateSite.id);

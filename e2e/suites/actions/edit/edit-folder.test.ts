@@ -30,7 +30,8 @@ import {
   RepoClient,
   CreateOrEditFolderDialog,
   Utils,
-  clearTextWithBackspace
+  clearTextWithBackspace,
+  ApiActions
 } from '@alfresco/aca-testing-shared';
 import { ApiService, BrowserActions, LoginPage, UsersActions } from '@alfresco/adf-testing';
 

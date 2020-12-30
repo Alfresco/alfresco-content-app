@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { SITE_VISIBILITY, SITE_ROLES, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { SITE_VISIBILITY, SITE_ROLES, BrowsingPage, Utils, RepoClient, ApiActions } from '@alfresco/aca-testing-shared';
 import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 describe('Shared Files', () => {

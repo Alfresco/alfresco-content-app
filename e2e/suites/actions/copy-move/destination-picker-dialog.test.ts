@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BrowsingPage, ContentNodeSelectorDialog, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, ContentNodeSelectorDialog, RepoClient, Utils, ApiActions } from '@alfresco/aca-testing-shared';
 import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Destination picker dialog : ', () => {

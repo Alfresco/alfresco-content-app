@@ -25,9 +25,11 @@
 
 import { browser } from 'protractor';
 import { ApiActions, BrowsingPage, APP_ROUTES, RepoClient, Utils } from '@alfresco/aca-testing-shared';
-import { ApiService, BrowserActions, UsersActions, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, BrowserActions, UsersActions, LoginPage, UserModel } from '@alfresco/adf-testing';
 
 describe('Restore from Trash', () => {
+  let user:UserModel;
+
   const apiService = new ApiService();
   const adminApiService = new ApiService();
   const repoClient = new RepoClient(apiService);
@@ -40,7 +42,7 @@ describe('Restore from Trash', () => {
 
   beforeAll(async (done) => {
     await adminApiService.loginWithProfile('admin');
-    const user = await usersActions.createUser();
+    user = await usersActions.createUser();
 
     await apiService.login(user.username, user.password);
 

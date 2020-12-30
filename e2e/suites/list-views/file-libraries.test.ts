@@ -25,6 +25,7 @@
 
 import { SITE_VISIBILITY, SITE_ROLES, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
 import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
+import { ApiActions } from '../../../projects/aca-testing-shared/src/utilities';
 
 describe('File Libraries', () => {
   const userSitePrivate = `user-private-${Utils.random()}`;

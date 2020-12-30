@@ -24,9 +24,10 @@
  */
 
 import { ApiActions, BrowsingPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
-import { ApiService, Logger, UsersActions, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, Logger, UsersActions, LoginPage, UserModel } from '@alfresco/adf-testing';
 
 describe('Delete and undo delete', () => {
+  let user: UserModel;
   const apiService = new ApiService();
   const adminApiService = new ApiService();
   const repoClient = new RepoClient(apiService);
@@ -39,7 +40,7 @@ describe('Delete and undo delete', () => {
 
   beforeAll(async () => {
     await adminApiService.loginWithProfile('admin');
-    const user = await usersActions.createUser();
+    user = await usersActions.createUser();
 
     await apiService.login(user.username, user.password);
   });

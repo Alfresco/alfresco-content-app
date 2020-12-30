@@ -37,15 +37,23 @@ import {
 } from '@alfresco/js-api';
 import { browser } from 'protractor';
 import { Utils } from './utils';
-import { FavoritesApi, NodeContentTree, SearchApi, SharedLinksApi, UploadApi, SitesApi, NodesApi } from './repo-client/apis';
+import {
+  FavoritesApi,
+  NodeContentTree,
+  SearchApi,
+  SharedLinksApi,
+  UploadApi,
+  SitesApi,
+  NodesApi
+} from './repo-client/apis';
 
 export class ApiActions {
   protected readonly apiService: ApiService;
 
   readonly commentsApi: CommentsApi;
-  readonly nodesApi: NodesApi;
+  readonly nodesApi: JsNodesApi;
   readonly trashcanApi: TrashcanApi;
-  readonly sitesApi: SitesApi;
+  readonly sitesApi: JsSitesApi;
   readonly sharedLinksApi: SharedlinksApi;
   readonly sites: SitesApi;
   readonly upload: UploadApi;
@@ -55,7 +63,7 @@ export class ApiActions {
   readonly shared: SharedLinksApi;
   readonly peopleApi: PeopleApi;
 
-  protected constructor(alfrescoApi?: ApiService) {
+  constructor(alfrescoApi?: ApiService) {
     this.apiService = alfrescoApi;
 
     this.commentsApi = new CommentsApi(this.apiService.getInstance());
@@ -91,7 +99,7 @@ export class ApiActions {
   async deleteNodes(nodeIds: string[], permanent: boolean = true): Promise<any> {
     try {
       for (const nodeId of nodeIds) {
-        await this.nodesApi.deleteNode(nodeId, { permanent });
+        await this.nodes.deleteNodeById(nodeId, permanent );
       }
     } catch (error) {
       this.handleError('User Actions - deleteNodes failed : ', error);
@@ -183,7 +191,7 @@ export class ApiActions {
     try {
       if (siteIds && siteIds.length > 0) {
         for (const siteId of siteIds) {
-          await this.sitesApi.deleteSite(siteId, { permanent });
+          await this.sitesApi.deleteSite(siteId, permanent);
         }
       }
     } catch (error) {

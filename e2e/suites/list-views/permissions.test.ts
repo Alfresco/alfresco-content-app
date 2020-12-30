@@ -24,9 +24,12 @@
  */
 
 import { ApiActions, SITE_VISIBILITY, SITE_ROLES, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
-import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, UsersActions, LoginPage, UserModel } from '@alfresco/adf-testing';
 
 describe('Special permissions', () => {
+
+  let user: UserModel;
+
   const apiService = new ApiService();
   const repoClient = new RepoClient(apiService);
   const adminApiService = new ApiService();
@@ -41,7 +44,7 @@ describe('Special permissions', () => {
 
   beforeAll(async (done) => {
     await adminApiService.loginWithProfile('admin');
-    const user = await usersActions.createUser();
+     user = await usersActions.createUser();
     await apiService.login(user.username, user.password);
     done();
   });

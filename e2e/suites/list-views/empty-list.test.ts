@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BrowsingPage, SearchResultsPage, Utils } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, SearchResultsPage } from '@alfresco/aca-testing-shared';
 import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 describe('Empty list views', () => {
@@ -39,7 +39,6 @@ describe('Empty list views', () => {
   beforeAll(async (done) => {
     await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
-    await apiService.login(user.username, user.password);
 
     await loginPage.login(user.username, user.password);
     done();

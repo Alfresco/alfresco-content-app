@@ -24,9 +24,11 @@
  */
 
 import { ApiActions, SITE_VISIBILITY, SITE_ROLES, BrowsingPage, Utils, ConfirmDialog, RepoClient } from '@alfresco/aca-testing-shared';
-import { ApiService, BrowserActions, UsersActions, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, BrowserActions, UsersActions, LoginPage, UserModel } from '@alfresco/adf-testing';
 
 describe('Library actions', () => {
+  let user: UserModel;
+
   const sitePublic1Admin = `admin-public1-${Utils.random()}`;
   const sitePublic2Admin = `admin-public2-${Utils.random()}`;
   const sitePublic3Admin = `admin-public3-${Utils.random()}`;
@@ -68,7 +70,7 @@ describe('Library actions', () => {
 
   beforeAll(async (done) => {
     await adminApiService.loginWithProfile('admin');
-    const user = await usersActions.createUser();
+    user = await usersActions.createUser();
     await apiService.login(user.username, user.password);
 
     await adminApiActions.sites.createSite(siteSearchPublic1Admin);

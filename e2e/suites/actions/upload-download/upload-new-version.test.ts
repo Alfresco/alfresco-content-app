@@ -24,7 +24,7 @@
  */
 
 import { BrowsingPage, SearchResultsPage, FILES, RepoClient, Utils, UploadNewVersionDialog } from '@alfresco/aca-testing-shared';
-import { ApiService, UserModel, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, UserModel, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 describe('Upload new version', () => {
   let user: UserModel;
@@ -80,6 +80,7 @@ describe('Upload new version', () => {
   const apiService = new ApiService();
   const adminApiService = new ApiService();
   const repoClient = new RepoClient(apiService);
+  const usersActions = new UsersActions(adminApiService);
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();

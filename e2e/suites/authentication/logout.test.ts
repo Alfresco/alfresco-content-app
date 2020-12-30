@@ -30,14 +30,13 @@ import { ApiService, UserModel, UsersActions, LoginPage } from '@alfresco/adf-te
 describe('Logout', () => {
   const page = new BrowsingPage();
   const loginPage = new LoginPage();
-  const user: UserModel;
+  let user: UserModel;
   const adminApiService = new ApiService();
   const usersActions = new UsersActions(adminApiService);
 
   beforeAll(async (done) => {
     await adminApiService.loginWithProfile('admin');
     await usersActions.createUser();
-    await apiService.login(user.username, user.password);
     done();
   });
 

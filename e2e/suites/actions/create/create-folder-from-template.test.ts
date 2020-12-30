@@ -30,7 +30,8 @@ import {
   Utils,
   clearTextWithBackspace,
   RepoClient,
-  NodeContentTree
+  NodeContentTree,
+  ApiActions
 } from '@alfresco/aca-testing-shared';
 import { ApiService, BrowserActions, LoginPage, UsersActions } from '@alfresco/adf-testing';
 

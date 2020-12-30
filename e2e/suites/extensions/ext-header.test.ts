@@ -51,7 +51,6 @@ describe('Extensions - Info Drawer', () => {
   beforeAll(async (done) => {
     await adminApiService.loginWithProfile('admin');
     const user = await usersActions.createUser();
-    await apiService.login(user.username, user.password);
 
     await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.HEADER);
     await loginPage.login(user.username, user.password);

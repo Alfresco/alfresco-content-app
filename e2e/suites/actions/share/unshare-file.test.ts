@@ -35,9 +35,11 @@ import {
   Viewer,
   Utils
 } from '@alfresco/aca-testing-shared';
-import { ApiService, BrowserActions, UsersActions, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, BrowserActions, UsersActions, LoginPage, UserModel } from '@alfresco/adf-testing';
 
 describe('Unshare a file', () => {
+  let user: UserModel;
+
   const parent = `parent-${Utils.random()}`;
   let parentId: string;
 
@@ -58,7 +60,7 @@ describe('Unshare a file', () => {
 
   beforeAll(async (done) => {
     await adminApiService.loginWithProfile('admin');
-    const user = await usersActions.createUser();
+    user = await usersActions.createUser();
     await apiService.login(user.username, user.password);
 
     parentId = (await repoClient.nodes.createFolder(parent)).entry.id;

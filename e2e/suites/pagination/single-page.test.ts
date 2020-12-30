@@ -24,7 +24,7 @@
  */
 
 import { BrowsingPage, SearchResultsPage, Utils, ApiActions, RepoClient } from '@alfresco/aca-testing-shared';
-import { ApiService, UsersActions } from '@alfresco/adf-testing';
+import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Pagination on single page', () => {
   const random = Utils.random();

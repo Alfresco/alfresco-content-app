@@ -24,6 +24,7 @@
  */
 
 import { BrowsingPage, Utils } from '@alfresco/aca-testing-shared';
+import { LoginPage } from '@alfresco/adf-testing';
 
 describe('Search input', () => {
   const loginPage = new LoginPage();

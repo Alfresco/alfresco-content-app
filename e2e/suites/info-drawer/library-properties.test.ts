@@ -27,7 +27,7 @@ import { BrowsingPage, SITE_VISIBILITY, SITE_ROLES, RepoClient, InfoDrawer, Util
 import { ApiService, BrowserActions, UsersActions, LoginPage } from '@alfresco/adf-testing';
 
 describe('Library properties', () => {
-  let user2, user3;
+  let user, user2, user3;
 
   const site = {
     name: `site1-${Utils.random()}`,
@@ -66,7 +66,7 @@ describe('Library properties', () => {
   beforeAll(async (done) => {
     await adminApiService.loginWithProfile('admin');
 
-    const user = await usersActions.createUser();
+    user = await usersActions.createUser();
     await apiService.login(user.username, user.password);
 
     user2 = await usersActions.createUser();

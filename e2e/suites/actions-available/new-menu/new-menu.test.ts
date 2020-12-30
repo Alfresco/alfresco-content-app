@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BrowsingPage, SITE_ROLES, RepoClient, Utils } from '@alfresco/aca-testing-shared';
+import { BrowsingPage, SITE_ROLES, RepoClient, Utils, ApiActions } from '@alfresco/aca-testing-shared';
 import { ApiService, LoginPage, UsersActions } from '@alfresco/adf-testing';
 
 describe('New menu', () => {

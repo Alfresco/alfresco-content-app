@@ -25,9 +25,11 @@
 
 import { browser } from 'protractor';
 import { ApiActions, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
-import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, UsersActions, LoginPage, UserModel } from '@alfresco/adf-testing';
 
 describe('Generic errors', () => {
+  let user: UserModel;
+
   const parent = `folder-${Utils.random()}`;
   let parentId: string;
   const file1 = `file1-${Utils.random()}.txt`;
