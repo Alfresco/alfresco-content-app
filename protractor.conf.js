@@ -39,14 +39,26 @@ exports.config = {
     index_search: 25000,
     config: appConfig,
     downloadFolder: downloadFolder,
-    ADMIN_USERNAME: process.env.ADMIN_EMAIL || 'admin',
-    ADMIN_PASSWORD: process.env.ADMIN_PASSWORD || 'admin',
     e2eRootPath: e2eFolder,
     testConfig: {
+      users: {
+        admin: {
+          username: process.env.ADMIN_EMAIL,
+          password: process.env.ADMIN_PASSWORD
+        }
+      },
       appConfig: {
-        log: LOG_LEVEL
+        log: process.env.LOG_LEVEL || 'ERROR',
+        authType: 'BASIC',
+        oauth2: {
+          host: `${process.env.OAUTH_HOST}`,
+          clientId: 'alfresco',
+          scope: 'openid'
+        },
+        ecmHost: process.env.API_CONTENT_HOST,
+        provider: 'ECM'
       }
-    }
+    },
   },
 
   specs: [

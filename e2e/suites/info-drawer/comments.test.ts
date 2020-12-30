@@ -86,8 +86,8 @@ describe('Comments', () => {
     fileWith1CommentId = (await repoClient.nodes.createFile(fileWith1Comment, parentId)).entry.id;
     fileWith2CommentsId = (await repoClient.nodes.createFile(fileWith2Comments, parentId)).entry.id;
 
-    comment1File2Entry = await repoClient.createComment(fileWith2CommentsId, 'first comment');
-    comment2File2Entry = await repoClient.createComment(fileWith2CommentsId, 'second comment');
+    comment1File2Entry = await apiActions.createComment(fileWith2CommentsId, 'first comment');
+    comment2File2Entry = await apiActions.createComment(fileWith2CommentsId, 'second comment');
 
     await repoClient.shared.shareFilesByIds([file2SharedId, fileWith1CommentId, fileWith2CommentsId]);
     await repoClient.shared.waitForFilesToBeShared([file2SharedId, fileWith1CommentId, fileWith2CommentsId]);

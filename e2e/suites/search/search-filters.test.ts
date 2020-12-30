@@ -51,9 +51,6 @@ describe('Search filters', () => {
     source: FILES.pdfFile
   };
 
-  const expectedFileTypes = ['Adobe PDF Document (1)', 'JPEG Image (1)'];
-  const expectedCreators = [`${user1.username} ${user1.username} (1)`, `${user2.username} ${user2.username} (1)`];
-  const expectedModifiers = [`${user1.username} ${user1.username} (1)`, `${user2.username} ${user2.username} (1)`];
   const expectedLocations = ['_REPOSITORY_ (1)', `${site} (1)`];
 
   const apiService1 = new ApiService();
@@ -298,7 +295,7 @@ describe('Search filters', () => {
 
     it('[C279191] Expand / Collapse the File type filter panel', async () => {
       expect(await fileTypeFilter.isPanelExpanded()).toBe(true, 'File type filter panel not expanded');
-      expect(await fileTypeFilter.getFiltersValues()).toEqual(expectedFileTypes, 'Incorrect File type filters facets');
+      expect(await fileTypeFilter.getFiltersValues()).toEqual(['Adobe PDF Document (1)', 'JPEG Image (1)'], 'Incorrect File type filters facets');
       expect(await fileTypeFilter.isFilterCategoryInputDisplayed()).toBe(true, 'File type filter categories not displayed');
 
       await fileTypeFilter.collapsePanel();
@@ -338,7 +335,7 @@ describe('Search filters', () => {
 
     it('[C279195] Search for a specific file type', async () => {
       await fileTypeFilter.expandPanel();
-      expect(await fileTypeFilter.getFiltersValues()).toEqual(expectedFileTypes, 'Incorrect File type filters facets');
+      expect(await fileTypeFilter.getFiltersValues()).toEqual(['Adobe PDF Document (1)', 'JPEG Image (1)'], 'Incorrect File type filters facets');
       await fileTypeFilter.filterCategoriesBy('PDF');
       expect(await fileTypeFilter.getFiltersValues()).toEqual(['Adobe PDF Document (1)'], 'Incorrect File type filters facets');
     });
@@ -353,7 +350,7 @@ describe('Search filters', () => {
     it('[C279205] Expand / Collapse the Creator filter panel', async () => {
       expect(await creatorFilter.isPanelExpanded()).toBe(true, 'Creator filter panel not expanded');
 
-      expect(await creatorFilter.getFiltersValues()).toEqual(expectedCreators, 'Incorrect Creator filters facets');
+      expect(await creatorFilter.getFiltersValues()).toEqual([`${user1.username} ${user1.username} (1)`, `${user2.username} ${user2.username} (1)`], 'Incorrect Creator filters facets');
       expect(await creatorFilter.isFilterCategoryInputDisplayed()).toBe(true, 'Creator filter categories not displayed');
 
       await creatorFilter.collapsePanel();
@@ -393,7 +390,7 @@ describe('Search filters', () => {
 
     it('[C279208] Search for a specific creator', async () => {
       await creatorFilter.expandPanel();
-      expect(await creatorFilter.getFiltersValues()).toEqual(expectedCreators, 'Incorrect Creator filters facets');
+      expect(await creatorFilter.getFiltersValues()).toEqual([`${user1.username} ${user1.username} (1)`, `${user2.username} ${user2.username} (1)`], 'Incorrect Creator filters facets');
       await creatorFilter.filterCategoriesBy(user1.username);
       expect(await creatorFilter.getFiltersValues()).toEqual([`${user1.username} ${user1.username} (1)`], 'Incorrect Creator filters facets');
     });
@@ -408,8 +405,7 @@ describe('Search filters', () => {
     it('[C279224] Expand / Collapse the Modifier filter panel', async () => {
       expect(await modifierFilter.isPanelExpanded()).toBe(true, 'Modifier filter panel not expanded');
 
-      expect(await modifierFilter.getFiltersValues()).toEqual(expectedModifiers, 'Incorrect Modifier filters facets');
-      expect(await modifierFilter.isFilterCategoryInputDisplayed()).toBe(true, 'Modifier filter categories not displayed');
+      expect(await modifierFilter.getFiltersValues()).toEqual([`${user1.username} ${user1.username} (1)`, `${user2.username} ${user2.username} (1)`], 'Incorrect Modifier filters facets');
 
       await modifierFilter.collapsePanel();
       expect(await modifierFilter.isPanelExpanded()).toBe(false, 'Modifier filter panel is expanded');
@@ -448,7 +444,7 @@ describe('Search filters', () => {
 
     it('[C279227] Search for a specific modifier', async () => {
       await modifierFilter.expandPanel();
-      expect(await modifierFilter.getFiltersValues()).toEqual(expectedModifiers, 'Incorrect Modifier filters facets');
+      expect(await modifierFilter.getFiltersValues()).toEqual([`${user1.username} ${user1.username} (1)`, `${user2.username} ${user2.username} (1)`], 'Incorrect Modifier filters facets');
       await modifierFilter.filterCategoriesBy(user1.username);
       expect(await modifierFilter.getFiltersValues()).toEqual([`${user1.username} ${user1.username} (1)`], 'Incorrect Modifier filters facets');
     });
@@ -624,9 +620,9 @@ describe('Search filters', () => {
     });
 
     it('[C308042] The filter facets display is updated when making a new query', async () => {
-      expect(await fileTypeFilter.getFiltersValues()).toEqual(expectedFileTypes);
-      expect(await creatorFilter.getFiltersValues()).toEqual(expectedCreators);
-      expect(await modifierFilter.getFiltersValues()).toEqual(expectedModifiers);
+      expect(await fileTypeFilter.getFiltersValues()).toEqual(['Adobe PDF Document (1)', 'JPEG Image (1)']);
+      expect(await creatorFilter.getFiltersValues()).toEqual([`${user1.username} ${user1.username} (1)`, `${user2.username} ${user2.username} (1)`]);
+      expect(await modifierFilter.getFiltersValues()).toEqual([`${user1.username} ${user1.username} (1)`, `${user2.username} ${user2.username} (1)`]);
       expect(await locationFilter.getFiltersValues()).toEqual(expectedLocations);
 
       await searchInput.clickSearchButton();
