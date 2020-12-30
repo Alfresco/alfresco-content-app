@@ -53,7 +53,7 @@ describe('Pagination on multiple pages : ', () => {
 
   beforeAll(async () => {
     await adminApiService.loginWithProfile('admin');
-    const user = await usersActions.createUser();
+    user = await usersActions.createUser();
     await apiService.login(user.username, user.password);
 
     initialSearchTotalItems = await userApi.search.getTotalItems(user.username);
