@@ -27,7 +27,6 @@ import { ApiActions, BrowsingPage, ContentNodeSelectorDialog, RepoClient, Utils 
 import { ApiService, BrowserActions, UsersActions, LoginPage, UserModel } from '@alfresco/adf-testing';
 
 describe('Move content', () => {
-
   let user: UserModel;
 
   const sourcePF = `sourcePersonal-${Utils.random()}`;

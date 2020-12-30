@@ -28,7 +28,7 @@ import { ApiActions, BrowsingPage, APP_ROUTES, RepoClient, Utils } from '@alfres
 import { ApiService, BrowserActions, UsersActions, LoginPage, UserModel } from '@alfresco/adf-testing';
 
 describe('Restore from Trash', () => {
-  let user:UserModel;
+  let user: UserModel;
 
   const apiService = new ApiService();
   const adminApiService = new ApiService();

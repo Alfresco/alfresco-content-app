@@ -37,15 +37,7 @@ import {
 } from '@alfresco/js-api';
 import { browser } from 'protractor';
 import { Utils } from './utils';
-import {
-  FavoritesApi,
-  NodeContentTree,
-  SearchApi,
-  SharedLinksApi,
-  UploadApi,
-  SitesApi,
-  NodesApi
-} from './repo-client/apis';
+import { FavoritesApi, NodeContentTree, SearchApi, SharedLinksApi, UploadApi, SitesApi, NodesApi } from './repo-client/apis';
 
 export class ApiActions {
   protected readonly apiService: ApiService;
@@ -99,7 +91,7 @@ export class ApiActions {
   async deleteNodes(nodeIds: string[], permanent: boolean = true): Promise<any> {
     try {
       for (const nodeId of nodeIds) {
-        await this.nodes.deleteNodeById(nodeId, permanent );
+        await this.nodes.deleteNodeById(nodeId, permanent);
       }
     } catch (error) {
       this.handleError('User Actions - deleteNodes failed : ', error);

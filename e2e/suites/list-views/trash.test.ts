@@ -27,8 +27,7 @@ import { ApiActions, SITE_VISIBILITY, SITE_ROLES, BrowsingPage, Utils, RepoClien
 import { ApiService, Logger, UsersActions, LoginPage, UserModel } from '@alfresco/adf-testing';
 
 describe('Trash', () => {
-
-  let user : UserModel;
+  let user: UserModel;
   const siteName = `site-${Utils.random()}`;
   const fileSite = `file-${Utils.random()}.txt`;
   let fileSiteId: string;

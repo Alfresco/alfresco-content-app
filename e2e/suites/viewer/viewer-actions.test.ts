@@ -38,7 +38,6 @@ import {
 import { ApiService, BrowserActions, UsersActions, LoginPage, UserModel } from '@alfresco/adf-testing';
 
 describe('Viewer actions', () => {
-
   let user: UserModel;
 
   const docxFile = FILES.docxFile;

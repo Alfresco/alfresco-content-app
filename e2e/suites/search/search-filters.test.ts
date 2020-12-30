@@ -350,7 +350,10 @@ describe('Search filters', () => {
     it('[C279205] Expand / Collapse the Creator filter panel', async () => {
       expect(await creatorFilter.isPanelExpanded()).toBe(true, 'Creator filter panel not expanded');
 
-      expect(await creatorFilter.getFiltersValues()).toEqual([`${user1.username} ${user1.username} (1)`, `${user2.username} ${user2.username} (1)`], 'Incorrect Creator filters facets');
+      expect(await creatorFilter.getFiltersValues()).toEqual(
+        [`${user1.username} ${user1.username} (1)`, `${user2.username} ${user2.username} (1)`],
+        'Incorrect Creator filters facets'
+      );
       expect(await creatorFilter.isFilterCategoryInputDisplayed()).toBe(true, 'Creator filter categories not displayed');
 
       await creatorFilter.collapsePanel();
@@ -390,7 +393,10 @@ describe('Search filters', () => {
 
     it('[C279208] Search for a specific creator', async () => {
       await creatorFilter.expandPanel();
-      expect(await creatorFilter.getFiltersValues()).toEqual([`${user1.username} ${user1.username} (1)`, `${user2.username} ${user2.username} (1)`], 'Incorrect Creator filters facets');
+      expect(await creatorFilter.getFiltersValues()).toEqual(
+        [`${user1.username} ${user1.username} (1)`, `${user2.username} ${user2.username} (1)`],
+        'Incorrect Creator filters facets'
+      );
       await creatorFilter.filterCategoriesBy(user1.username);
       expect(await creatorFilter.getFiltersValues()).toEqual([`${user1.username} ${user1.username} (1)`], 'Incorrect Creator filters facets');
     });
@@ -405,7 +411,10 @@ describe('Search filters', () => {
     it('[C279224] Expand / Collapse the Modifier filter panel', async () => {
       expect(await modifierFilter.isPanelExpanded()).toBe(true, 'Modifier filter panel not expanded');
 
-      expect(await modifierFilter.getFiltersValues()).toEqual([`${user1.username} ${user1.username} (1)`, `${user2.username} ${user2.username} (1)`], 'Incorrect Modifier filters facets');
+      expect(await modifierFilter.getFiltersValues()).toEqual(
+        [`${user1.username} ${user1.username} (1)`, `${user2.username} ${user2.username} (1)`],
+        'Incorrect Modifier filters facets'
+      );
 
       await modifierFilter.collapsePanel();
       expect(await modifierFilter.isPanelExpanded()).toBe(false, 'Modifier filter panel is expanded');
@@ -444,7 +453,10 @@ describe('Search filters', () => {
 
     it('[C279227] Search for a specific modifier', async () => {
       await modifierFilter.expandPanel();
-      expect(await modifierFilter.getFiltersValues()).toEqual([`${user1.username} ${user1.username} (1)`, `${user2.username} ${user2.username} (1)`], 'Incorrect Modifier filters facets');
+      expect(await modifierFilter.getFiltersValues()).toEqual(
+        [`${user1.username} ${user1.username} (1)`, `${user2.username} ${user2.username} (1)`],
+        'Incorrect Modifier filters facets'
+      );
       await modifierFilter.filterCategoriesBy(user1.username);
       expect(await modifierFilter.getFiltersValues()).toEqual([`${user1.username} ${user1.username} (1)`], 'Incorrect Modifier filters facets');
     });
