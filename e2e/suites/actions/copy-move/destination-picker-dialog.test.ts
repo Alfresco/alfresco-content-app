@@ -24,12 +24,15 @@
  */
 
 import { BrowsingPage, ContentNodeSelectorDialog, RepoClient, Utils, ApiActions } from '@alfresco/aca-testing-shared';
-import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, UsersActions, LoginPage, UserModel } from '@alfresco/adf-testing';
 
 describe('Destination picker dialog : ', () => {
   const random = Utils.random();
 
-  let user, consumer, contributor, collaborator;
+  let user: UserModel;
+  let consumer: UserModel;
+  let contributor: UserModel;
+  let collaborator: UserModel;
 
   const file = `file-${random}.txt`;
   let fileId: string;

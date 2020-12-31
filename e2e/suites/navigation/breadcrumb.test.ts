@@ -26,7 +26,7 @@
 import { browser } from 'protractor';
 
 import { SITE_VISIBILITY, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
-import { ApiService, UsersActions, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, UsersActions, LoginPage, UserModel } from '@alfresco/adf-testing';
 
 describe('Breadcrumb', () => {
   const parent = `parent-${Utils.random()}`;
@@ -195,7 +195,7 @@ describe('Breadcrumb', () => {
   });
 
   describe('as admin', () => {
-    let user2;
+    let user2: UserModel;
     const userFolder = `userFolder-${Utils.random()}`;
     let userFolderId: string;
 

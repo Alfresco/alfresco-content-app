@@ -24,10 +24,12 @@
  */
 
 import { BrowsingPage, SITE_VISIBILITY, SITE_ROLES, RepoClient, InfoDrawer, Utils } from '@alfresco/aca-testing-shared';
-import { ApiService, BrowserActions, UsersActions, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, BrowserActions, UsersActions, LoginPage, UserModel } from '@alfresco/adf-testing';
 
 describe('Library properties', () => {
-  let user, user2, user3;
+  let user: UserModel;
+  let user2: UserModel;
+  let user3: UserModel;
 
   const site = {
     name: `site1-${Utils.random()}`,

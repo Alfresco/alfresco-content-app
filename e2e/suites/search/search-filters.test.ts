@@ -24,14 +24,15 @@
  */
 
 import { SearchResultsPage, RepoClient, Utils, FILES, SITE_VISIBILITY, SITE_ROLES, ApiActions } from '@alfresco/aca-testing-shared';
-import { ApiService, BrowserActions, UsersActions, LoginPage } from '@alfresco/adf-testing';
+import { ApiService, BrowserActions, UsersActions, LoginPage, UserModel } from '@alfresco/adf-testing';
 
 const moment = require('moment');
 
 describe('Search filters', () => {
   const random = Utils.random();
 
-  let user1, user2;
+  let user1: UserModel;
+  let user2: UserModel;
 
   const parent = `parent-${random}`;
   let parentId: string;
