@@ -52,7 +52,7 @@
     "moment-es6": "1.0.0",
     "pdfjs-dist": "2.5.207",
     "rxjs": "^6.6.3",
-    "tslib": "^2.0.1",
+    "tslib": "^2.1.0",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
