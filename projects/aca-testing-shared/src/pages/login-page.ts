@@ -27,7 +27,7 @@ import { LoginComponent } from '../components/components';
 import { Page } from './page';
 
 import { APP_ROUTES } from '../configs';
-import { waitForPresence } from '../utilities/utils';
+import { Utils, waitForPresence } from '../utilities/utils';
 import { BrowserActions } from '@alfresco/adf-testing';
 
 export class LoginPage extends Page {
@@ -38,6 +38,8 @@ export class LoginPage extends Page {
   }
 
   async load() {
+    await super.load();
+    await Utils.clearLocalStorage();
     await super.load();
     await waitForPresence(this.login.submitButton);
   }
