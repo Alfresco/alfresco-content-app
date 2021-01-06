@@ -24,7 +24,7 @@
  */
 
 import { browser } from 'protractor';
-import { AdminActions, APP_ROUTES, LoginPage, Utils, navigate } from '@alfresco/aca-testing-shared';
+import { AdminActions, APP_ROUTES, LoginPage, Utils, navigate, BrowsingPage } from '@alfresco/aca-testing-shared';
 import { BrowserActions } from '@alfresco/adf-testing';
 
 describe('Login', () => {
@@ -134,7 +134,12 @@ describe('Login', () => {
 
     it('[C213104] user is able to login after changing his password', async () => {
       await loginPage.loginWith(testUser2.username, testUser2.password);
+      const page = new BrowsingPage();
+      await page.signOut();
+
+      await adminApiActions.login();
       await adminApiActions.changePassword(testUser2.username, newPassword);
+
       await loginPage.loginWith(testUser2.username, newPassword);
       expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);
     });

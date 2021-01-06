@@ -17,6 +17,7 @@ branches:
     - master
     - develop
     - /.*beta.*/
+    - adina-e2e-travis-fix
 
 before_install:
   - . ./scripts/ci/job_hooks/before_install.sh
@@ -50,37 +51,37 @@ jobs:
     - stage: Quality and Unit tests
       name: 'Build (without animation)'
       before_script: npx @alfresco/adf-cli update-commit-sha --pointer "HEAD" --pathPackage "$(pwd)"
-      script: npm ci && npm run build.e2e
+      script: npm ci && npm run build
       after_success: ./scripts/ci/utils/artifact-to-s3.sh -a ./dist/app -o "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2"
       cache: false
 
-    - stage: Quality and Unit tests
-      name: 'Unit tests: aos'
-      script: npm ci && ng test adf-office-services-ext --watch=false
-      cache: false
+    # - stage: Quality and Unit tests
+    #   name: 'Unit tests: aos'
+    #   script: npm ci && ng test adf-office-services-ext --watch=false
+    #   cache: false
 
-    - stage: Quality and Unit tests
-      name: 'Unit tests: aca-shared'
-      script: npm ci && ng test aca-shared --watch=false
-      cache: false
+    # - stage: Quality and Unit tests
+    #   name: 'Unit tests: aca-shared'
+    #   script: npm ci && ng test aca-shared --watch=false
+    #   cache: false
 
-    - stage: Quality and Unit tests
-      name: 'Unit tests: aca-about'
-      script: npm ci && ng test aca-about --watch=false
-      cache: false
+    # - stage: Quality and Unit tests
+    #   name: 'Unit tests: aca-about'
+    #   script: npm ci && ng test aca-about --watch=false
+    #   cache: false
 
-    - stage: Quality and Unit tests
-      name: 'Unit tests: aca-settings'
-      script: npm ci && ng test aca-settings --watch=false
-      cache: false
+    # - stage: Quality and Unit tests
+    #   name: 'Unit tests: aca-settings'
+    #   script: npm ci && ng test aca-settings --watch=false
+    #   cache: false
 
-    - stage: Quality and Unit tests
-      name: 'Unit tests: ACA'
-      script:
-        - npm ci
-        - ng test app --code-coverage --watch=false
-        - bash <(curl -s https://codecov.io/bash) -X gcov
-      cache: false
+    # - stage: Quality and Unit tests
+    #   name: 'Unit tests: ACA'
+    #   script:
+    #     - npm ci
+    #     - ng test app --code-coverage --watch=false
+    #     - bash <(curl -s https://codecov.io/bash) -X gcov
+    #   cache: false
 
     - stage: e2e
       name: 'Test Suites: authentication,listViews,navigation,application'
@@ -106,93 +107,93 @@ jobs:
       after_script:
         - ./scripts/ci/job_hooks/after_e2e.sh
 
-    - stage: e2e
-      name: 'Test Suites: shareActions'
-      before_script:
-        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a" || travis_terminate 1
-      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=shareActions"
-      after_script:
-        - ./scripts/ci/job_hooks/after_e2e.sh
+    # - stage: e2e
+    #   name: 'Test Suites: shareActions'
+    #   before_script:
+    #     - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a" || travis_terminate 1
+    #   script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=shareActions"
+    #   after_script:
+    #     - ./scripts/ci/job_hooks/after_e2e.sh
 
-    - stage: e2e
-      name: 'Test Suites: pagination'
-      before_script:
-        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a" || travis_terminate 1
-      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=pagination"
-      after_script:
-        - ./scripts/ci/job_hooks/after_e2e.sh
+    # - stage: e2e
+    #   name: 'Test Suites: pagination'
+    #   before_script:
+    #     - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a" || travis_terminate 1
+    #   script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=pagination"
+    #   after_script:
+    #     - ./scripts/ci/job_hooks/after_e2e.sh
 
-    - stage: e2e
-      name: 'Test Suites: actionsAvailableFilesFolders'
-      before_script:
-        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a" || travis_terminate 1
-      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=actionsAvailableFilesFolders"
-      after_script:
-        - ./scripts/ci/job_hooks/after_e2e.sh
+    # - stage: e2e
+    #   name: 'Test Suites: actionsAvailableFilesFolders'
+    #   before_script:
+    #     - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a" || travis_terminate 1
+    #   script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=actionsAvailableFilesFolders"
+    #   after_script:
+    #     - ./scripts/ci/job_hooks/after_e2e.sh
 
-    - stage: e2e
-      name: 'Test Suites: actionsAvailableLibraries,actionsAvailableNewMenu'
-      before_script:
-        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a" || travis_terminate 1
-      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=actionsAvailableLibraries,actionsAvailableNewMenu"
-      after_script:
-        - ./scripts/ci/job_hooks/after_e2e.sh
+    # - stage: e2e
+    #   name: 'Test Suites: actionsAvailableLibraries,actionsAvailableNewMenu'
+    #   before_script:
+    #     - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a" || travis_terminate 1
+    #   script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=actionsAvailableLibraries,actionsAvailableNewMenu"
+    #   after_script:
+    #     - ./scripts/ci/job_hooks/after_e2e.sh
 
-    - stage: e2e
-      name: 'Test Suites: actionsAvailableSpecialPermissions'
-      before_script:
-        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a" || travis_terminate 1
-      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=actionsAvailableSpecialPermissions"
-      after_script:
-        - ./scripts/ci/job_hooks/after_e2e.sh
+    # - stage: e2e
+    #   name: 'Test Suites: actionsAvailableSpecialPermissions'
+    #   before_script:
+    #     - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a" || travis_terminate 1
+    #   script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=actionsAvailableSpecialPermissions"
+    #   after_script:
+    #     - ./scripts/ci/job_hooks/after_e2e.sh
 
-    - stage: e2e
-      name: 'Test Suites: copyMoveActions'
-      before_script:
-        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a" || travis_terminate 1
-      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=copyMoveActions"
-      after_script:
-        - ./scripts/ci/job_hooks/after_e2e.sh
+    # - stage: e2e
+    #   name: 'Test Suites: copyMoveActions'
+    #   before_script:
+    #     - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a" || travis_terminate 1
+    #   script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=copyMoveActions"
+    #   after_script:
+    #     - ./scripts/ci/job_hooks/after_e2e.sh
 
-    - stage: e2e
-      name: 'Test Suites: createActions'
-      before_script:
-        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a" || travis_terminate 1
-      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=createActions"
-      after_script:
-        - ./scripts/ci/job_hooks/after_e2e.sh
+    # - stage: e2e
+    #   name: 'Test Suites: createActions'
+    #   before_script:
+    #     - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a" || travis_terminate 1
+    #   script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=createActions"
+    #   after_script:
+    #     - ./scripts/ci/job_hooks/after_e2e.sh
 
-    - stage: e2e
-      name: 'Test Suites: deleteActions'
-      before_script:
-        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a" || travis_terminate 1
-      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=deleteActions"
-      after_script:
-        - ./scripts/ci/job_hooks/after_e2e.sh
+    # - stage: e2e
+    #   name: 'Test Suites: deleteActions'
+    #   before_script:
+    #     - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a" || travis_terminate 1
+    #   script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=deleteActions"
+    #   after_script:
+    #     - ./scripts/ci/job_hooks/after_e2e.sh
 
-    - stage: e2e
-      name: 'Test Suites: editActions,favoriteActions'
-      before_script:
-        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a" || travis_terminate 1
-      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=editActions,favoriteActions"
-      after_script:
-        - ./scripts/ci/job_hooks/after_e2e.sh
+    # - stage: e2e
+    #   name: 'Test Suites: editActions,favoriteActions'
+    #   before_script:
+    #     - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a" || travis_terminate 1
+    #   script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=editActions,favoriteActions"
+    #   after_script:
+    #     - ./scripts/ci/job_hooks/after_e2e.sh
 
-    - stage: e2e
-      name: 'Test Suites: libraryActions'
-      before_script:
-        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a" || travis_terminate 1
-      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=libraryActions"
-      after_script:
-        - ./scripts/ci/job_hooks/after_e2e.sh
+    # - stage: e2e
+    #   name: 'Test Suites: libraryActions'
+    #   before_script:
+    #     - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a" || travis_terminate 1
+    #   script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=libraryActions"
+    #   after_script:
+    #     - ./scripts/ci/job_hooks/after_e2e.sh
 
-    - stage: e2e
-      name: 'Test Suites: uploadDownloadActions'
-      before_script:
-        - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a" || travis_terminate 1
-      script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=uploadDownloadActions"
-      after_script:
-        - ./scripts/ci/job_hooks/after_e2e.sh
+    # - stage: e2e
+    #   name: 'Test Suites: uploadDownloadActions'
+    #   before_script:
+    #     - ./scripts/ci/job_hooks/before_e2e.sh "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" "./dist/app" "-a" || travis_terminate 1
+    #   script: ./scripts/ci/jobs/affected-project-with.sh -target e2e -options "--suite=uploadDownloadActions"
+    #   after_script:
+    #     - ./scripts/ci/job_hooks/after_e2e.sh
 
     - stage: Publish Docker Registry
       name: Publish Docker Registry
