@@ -26,6 +26,8 @@
 import { Header, DataTable, Pagination, Toolbar, Breadcrumb, Sidenav } from '../components/components';
 import { SIDEBAR_LABELS } from './../configs';
 import { Page } from './page';
+import { waitForPresence } from './../utilities/utils';
+import { LoginPage } from './login-page';
 
 export class BrowsingPage extends Page {
   header = new Header(this.appRoot);
@@ -38,6 +40,7 @@ export class BrowsingPage extends Page {
   async signOut(): Promise<void> {
     await this.header.openMoreMenu();
     await this.header.menu.clickMenuItem('Sign out');
+    await waitForPresence(new LoginPage().login.submitButton);
   }
 
   async clickPersonalFiles(): Promise<void> {
