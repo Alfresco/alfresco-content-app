@@ -33,7 +33,8 @@ import {
   ViewerActionTypes,
   ViewNodeAction,
   ReloadDocumentListAction,
-  SetCurrentNodeVersionAction
+  SetCurrentNodeVersionAction,
+  RefreshPreviewAction
 } from '@alfresco/aca-shared/store';
 import { ContentActionRef, SelectionState } from '@alfresco/adf-extensions';
 import { MinimalNodeEntryEntity, SearchRequest, VersionEntry } from '@alfresco/js-api';
@@ -165,6 +166,12 @@ export class AppViewerComponent implements OnInit, OnDestroy {
       this.store.dispatch(new SetCurrentNodeVersionAction(null));
       this.navigateToFileLocation();
     });
+
+    this.actions$
+      .pipe(ofType<RefreshPreviewAction>(ViewerActionTypes.RefreshPreview), takeUntil(this.onDestroy$))
+      .subscribe((action: RefreshPreviewAction) => {
+        this.displayNode(action?.payload?.entry?.id);
+      });
 
     this.content.nodesDeleted.pipe(takeUntil(this.onDestroy$)).subscribe(() => this.navigateToFileLocation());
 
