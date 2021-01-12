@@ -63,7 +63,7 @@
     "@angular-devkit/build-ng-packagr": "^0.1002.0",
     "@angular/cli": "^10.1.4",
     "@angular/compiler-cli": "10.0.4",
-    "@angular/language-service": "10.1.4",
+    "@angular/language-service": "11.0.8",
     "@types/event-emitter": "^0.3.3",
     "@types/jasmine": "3.5.14",
     "@types/jasminewd2": "^2.0.8",
@@ -111,7 +111,7 @@
     "tslint-config-prettier": "^1.18.0",
     "tslint-plugin-prettier": "^2.3.0",
     "typescript": "3.9.7",
-    "webdriver-manager": "12.1.7",
+    "webdriver-manager": "12.1.8",
     "winston": "^3.3.3"
   },
   "lint-staged": {
