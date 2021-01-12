@@ -32,6 +32,7 @@ export enum ViewerActionTypes {
   ViewNodeVersion = 'VIEW_NODE_VERSION',
   FullScreen = 'FULLSCREEN_VIEWER',
   ClosePreview = 'CLOSE_PREVIEW',
+  RefreshPreview = 'REFRESH_PREVIEW',
   PluginPreview = 'PLUGIN_PREVIEW'
 }
 
@@ -66,6 +67,11 @@ export class FullscreenViewerAction implements Action {
 
 export class ClosePreviewAction implements Action {
   readonly type = ViewerActionTypes.ClosePreview;
+  constructor(public payload?: MinimalNodeEntity) {}
+}
+
+export class RefreshPreviewAction implements Action {
+  readonly type = ViewerActionTypes.RefreshPreview;
   constructor(public payload?: MinimalNodeEntity) {}
 }
 
