@@ -5,6 +5,7 @@
   "baseShareUrl": "{protocol}//{hostname}{:port}/#/preview/s",
   "providers": "ECM",
   "authType": "BASIC",
+  "loginRoute": "login",
   "oauth2": {
     "host": "http://localhost:4200/auth/realms/alfresco",
     "clientId": "alfresco",
