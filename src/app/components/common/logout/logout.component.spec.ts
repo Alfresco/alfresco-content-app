@@ -24,23 +24,22 @@
  */
 
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
+import { AppTestingModule } from '../../../testing/app-testing.module';
 import { LogoutComponent } from './logout.component';
 import { Store } from '@ngrx/store';
 import { SetSelectedNodesAction } from '@alfresco/aca-shared/store';
+import { AppConfigService, AuthenticationService } from '@alfresco/adf-core';
 
 describe('LogoutComponent', () => {
   let fixture: ComponentFixture<LogoutComponent>;
   let component: LogoutComponent;
   let store;
+  let authService: AuthenticationService;
+  let appConfig: AppConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
-        })
-      ],
+      imports: [AppTestingModule],
       declarations: [LogoutComponent],
       providers: [
         {
@@ -54,6 +53,8 @@ describe('LogoutComponent', () => {
 
     store = TestBed.inject(Store);
     fixture = TestBed.createComponent(LogoutComponent);
+    appConfig = TestBed.inject(AppConfigService);
+    authService = TestBed.inject(AuthenticationService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -62,5 +63,20 @@ describe('LogoutComponent', () => {
     component.onLogoutEvent();
 
     expect(store.dispatch).toHaveBeenCalledWith(new SetSelectedNodesAction([]));
+  });
+
+  it('should return the login route in case of basic auth', () => {
+    spyOn(authService, 'isOauth').and.returnValue(false);
+
+    const redirectLogout = component.getLogoutRedirectUri();
+    expect(redirectLogout).toEqual('/login');
+  });
+
+  it('should return the value of redirectUriLogout as route in case of SSO auth', () => {
+    spyOn(authService, 'isOauth').and.returnValue(true);
+    appConfig.config['oauth2.redirectUriLogout'] = 'fake-logout';
+
+    const redirectLogout = component.getLogoutRedirectUri();
+    expect(redirectLogout).toEqual('fake-logout');
   });
 });
