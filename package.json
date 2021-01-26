@@ -50,7 +50,7 @@
     "minimatch-browser": "^1.0.0",
     "moment": "^2.27.0",
     "moment-es6": "1.0.0",
-    "pdfjs-dist": "2.5.207",
+    "pdfjs-dist": "2.6.347",
     "rxjs": "^6.6.3",
     "tslib": "^2.0.1",
     "zone.js": "~0.10.2"
