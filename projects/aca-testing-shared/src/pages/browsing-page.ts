@@ -26,8 +26,6 @@
 import { Header, DataTable, Pagination, Toolbar, Breadcrumb, Sidenav } from '../components/components';
 import { SIDEBAR_LABELS } from './../configs';
 import { Page } from './page';
-import { BrowserVisibility } from '@alfresco/adf-testing';
-import { browser, by } from 'protractor';
 
 export class BrowsingPage extends Page {
   header = new Header(this.appRoot);
@@ -36,12 +34,6 @@ export class BrowsingPage extends Page {
   breadcrumb = new Breadcrumb(this.appRoot);
   dataTable = new DataTable(this.appRoot);
   pagination = new Pagination(this.appRoot);
-
-  async signOut(): Promise<void> {
-    await this.header.openMoreMenu();
-    await this.header.menu.clickMenuItem('Sign out');
-    await BrowserVisibility.waitUntilElementIsPresent(browser.element(by.css('[class*="login-content"] input#username')));
-  }
 
   async clickPersonalFiles(): Promise<void> {
     await this.sidenav.clickLink(SIDEBAR_LABELS.PERSONAL_FILES);

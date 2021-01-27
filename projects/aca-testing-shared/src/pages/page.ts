@@ -25,8 +25,9 @@
 
 import { browser, by, ElementFinder } from 'protractor';
 import { BrowserActions, BrowserVisibility, Logger } from '@alfresco/adf-testing';
-import { USE_HASH_STRATEGY } from './../configs';
+import { APP_ROUTES, USE_HASH_STRATEGY } from './../configs';
 import { Utils, waitElement, waitForPresence, isPresentAndDisplayed } from '../utilities/utils';
+import { Header } from '../components';
 
 export abstract class Page {
   appRoot = 'app-root';
@@ -58,6 +59,12 @@ export abstract class Page {
 
   async waitForApp() {
     await waitForPresence(this.layout);
+  }
+
+  async signOut(): Promise<void> {
+    await new Header().openMoreMenu();
+    await new Header().menu.clickMenuItem('Sign out');
+    await BrowserVisibility.waitUntilElementIsPresent(browser.element(by.css('[class*="login-content"] input#username')));
   }
 
   async waitForDialog() {
@@ -101,5 +108,10 @@ export abstract class Page {
     } catch (e) {
       Logger.error(e, '.......failed on click snack bar action.........');
     }
+  }
+
+  async isLoggedIn(): Promise<boolean> {
+    const url = await browser.driver.getCurrentUrl();
+    return !url.includes(APP_ROUTES.LOGIN);
   }
 }
