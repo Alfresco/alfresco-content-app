@@ -41,6 +41,10 @@ export class SelectTemplateDialog extends GenericDialog {
     super('.aca-template-node-selector-dialog');
   }
 
+  get content() {
+    return this.rootElem.element(by.css('.adf-content-node-selector-content'));
+  }
+
   async isCancelButtonEnabled(): Promise<boolean> {
     return isPresentAndEnabled(this.cancelButton);
   }
