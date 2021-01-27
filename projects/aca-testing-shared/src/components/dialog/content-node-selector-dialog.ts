@@ -52,7 +52,7 @@ export class ContentNodeSelectorDialog extends GenericDialog {
   get content() {
     return this.rootElem.element(by.css('.adf-content-node-selector-content'));
   }
-  
+
   async waitForDropDownToClose(): Promise<void> {
     await waitForStaleness(browser.$('.mat-option .mat-option-text'));
   }
