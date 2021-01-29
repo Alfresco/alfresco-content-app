@@ -40,4 +40,6 @@
     children:
       - custom-route-with-parameters.md: Custom route with parameters
       - dialog-actions.md: Dialog actions
+      - how-to-create-your-first-extension.md: How to create your first extension
+      - how-to-install-an-existing-extension.md: How to install an existing extension
 - help.md: 'Get help'
