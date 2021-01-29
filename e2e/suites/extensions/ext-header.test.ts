@@ -25,7 +25,7 @@
 
 import { AdminActions, LoginPage, EXTENSIBILITY_CONFIGS, Utils, Header, Menu } from '@alfresco/aca-testing-shared';
 
-describe('Extensions - Info Drawer', () => {
+describe('Extensions - Header', () => {
   const username = `user-${Utils.random()}`;
 
   const disabledMenu = {

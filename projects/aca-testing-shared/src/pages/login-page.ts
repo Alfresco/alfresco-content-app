@@ -25,9 +25,8 @@
 import { browser } from 'protractor';
 import { LoginComponent } from '../components/components';
 import { Page } from './page';
-
 import { APP_ROUTES } from '../configs';
-import { Utils, waitForPresence } from '../utilities/utils';
+import { waitForPresence } from '../utilities/utils';
 import { BrowserActions } from '@alfresco/adf-testing';
 
 export class LoginPage extends Page {
@@ -39,22 +38,26 @@ export class LoginPage extends Page {
 
   async load() {
     await super.load();
-    await Utils.clearLocalStorage();
-    await super.load();
+
+    if (await this.isLoggedIn()) {
+      await this.signOut();
+    }
+
     await waitForPresence(this.login.submitButton);
   }
 
   async loginWith(username: string, password?: string) {
     const pass = password || username;
+
     await this.load();
+
     await this.login.enterCredentials(username, pass);
     await BrowserActions.click(this.login.submitButton);
-    return super.waitForApp();
+    await this.waitForApp();
   }
 
   async loginWithAdmin() {
-    await this.load();
-    return this.loginWith(browser.params.ADMIN_USERNAME, browser.params.ADMIN_PASSWORD);
+    await this.loginWith(browser.params.ADMIN_USERNAME, browser.params.ADMIN_PASSWORD);
   }
 
   async tryLoginWith(username: string, password?: string) {
