@@ -145,7 +145,6 @@
             "exif:exif",
             "cm:effectivity",
 
-            "cm:emailed",
             "cm:likesRatingSchemeRollups",
             "cm:lockable",
             "cm:ownable"
