@@ -4,6 +4,9 @@ FROM=$1;
 TO=$2;
 PARAMS=$3;
 
+echo "====== install to be removed once travis cache is working again ====="
+npm ci
+
 echo "====== Scan environment ====="
 ./node_modules/@alfresco/adf-cli/bin/adf-cli scan-env --host "$API_CONTENT_HOST" -u "$ADMIN_EMAIL" -p "$ADMIN_PASSWORD"
 
