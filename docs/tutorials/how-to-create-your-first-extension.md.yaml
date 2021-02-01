@@ -2,7 +2,7 @@
 Title: How to create your first extension
 ---
 
-The purpose of this tutorial is to describe how to develop a “hello word” extension for the [Alfresco Content Application (aka ACA)](https://github.com/Alfresco/alfresco-content-app "https://github.com/Alfresco/alfresco-content-app"). The [ACA extension mechanism](https://alfresco-content-app.netlify.app/#/extending/ "https://alfresco-content-app.netlify.app/#/extending/") is the suggested way to customise the supported front-end application, and this tutorial is supposed to be the foundation for a content to share with customers and partners.
+The purpose of this tutorial is to describe how to develop a “hello world” extension for the [Alfresco Content Application (aka ACA)](https://github.com/Alfresco/alfresco-content-app "https://github.com/Alfresco/alfresco-content-app"). The [ACA extension mechanism](https://alfresco-content-app.netlify.app/#/extending/ "https://alfresco-content-app.netlify.app/#/extending/") is the suggested way to customise the supported front-end application, and this tutorial is supposed to be the foundation for a content to share with customers and partners.
 
 # Prerequisites
 
