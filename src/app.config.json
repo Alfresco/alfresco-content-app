@@ -196,7 +196,7 @@
         {
           "key": "score",
           "label": "SEARCH.SORT.RELEVANCE",
-          "type": "FIELD",
+          "type": "SCORE",
           "field": "score",
           "ascending": false
         },
