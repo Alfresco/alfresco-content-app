@@ -253,7 +253,7 @@
       "defaults": [
         {
           "key": "score",
-          "type": "FIELD",
+          "type": "SCORE",
           "field": "score",
           "ascending": false
         }
