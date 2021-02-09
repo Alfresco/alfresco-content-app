@@ -28,7 +28,7 @@ import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@ang
 import { NavigationEnd, Router, NavigationStart } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subject, Observable } from 'rxjs';
-import { filter, takeUntil, map, withLatestFrom } from 'rxjs/operators';
+import { filter, takeUntil, map, withLatestFrom, delay } from 'rxjs/operators';
 import { NodePermissionService } from '@alfresco/aca-shared';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { AppStore, getCurrentFolder, getFileUploadingDialog, ResetSelectionAction } from '@alfresco/aca-shared/store';
@@ -122,9 +122,12 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
         this.store.dispatch(new ResetSelectionAction());
       });
 
-    this.store.select(getFileUploadingDialog).subscribe((fileUploadingDialog: boolean) => {
-      this.showFileUploadingDialog = fileUploadingDialog;
-    });
+    this.store
+      .select(getFileUploadingDialog)
+      .pipe(delay(0), takeUntil(this.onDestroy$))
+      .subscribe((fileUploadingDialog: boolean) => {
+        this.showFileUploadingDialog = fileUploadingDialog;
+      });
   }
 
   ngOnDestroy() {
