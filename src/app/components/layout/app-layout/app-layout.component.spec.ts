@@ -77,7 +77,7 @@ describe('AppLayoutComponent', () => {
     router = TestBed.inject(Router);
     userPreference = TestBed.inject(UserPreferencesService);
 
-    fakeFileList = [new FileModel(<File>{ name: 'fake-name', size: 10 }), new FileModel(<File>{ name: 'fake-name2', size: 10 })];
+    fakeFileList = [new FileModel(new File([], 'fakeFile'))];
 
     uploadService = TestBed.inject(UploadService);
   });
