@@ -25,13 +25,14 @@
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { AppConfigService, UserPreferencesService } from '@alfresco/adf-core';
+import { AppConfigService, FileModel, UploadService, UserPreferencesService } from '@alfresco/adf-core';
 import { AppLayoutComponent } from './app-layout.component';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { Store } from '@ngrx/store';
 import { AppStore, SetSelectedNodesAction, ResetSelectionAction } from '@alfresco/aca-shared/store';
 import { Router, NavigationStart } from '@angular/router';
-import { Subject } from 'rxjs';
+import { of, Subject } from 'rxjs';
+import { By } from '@angular/platform-browser';
 
 class MockRouter {
   private url = 'some-url';
@@ -52,6 +53,8 @@ describe('AppLayoutComponent', () => {
   let userPreference: UserPreferencesService;
   let store: Store<AppStore>;
   let router: Router;
+  let uploadService: UploadService;
+  let fakeFileList: FileModel[];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -73,6 +76,10 @@ describe('AppLayoutComponent', () => {
     store = TestBed.inject(Store);
     router = TestBed.inject(Router);
     userPreference = TestBed.inject(UserPreferencesService);
+
+    fakeFileList = [new FileModel(new File([], 'fakeFile'))];
+
+    uploadService = TestBed.inject(UploadService);
   });
 
   beforeEach(() => {
@@ -177,5 +184,37 @@ describe('AppLayoutComponent', () => {
     component.hideMenu({ preventDefault: () => {} } as any);
 
     expect(component.layout.container.toggleMenu).toHaveBeenCalled();
+  });
+
+  describe('File Uploading Dialog', () => {
+    it('should the uploading file dialog be visible on the left when the showFileUploadingDialog is true', async () => {
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      uploadService.addToQueue(...fakeFileList);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const fileUploadingDialog = fixture.debugElement.query(By.css('adf-file-uploading-dialog'));
+
+      expect(fileUploadingDialog.attributes['position']).toEqual('left');
+      expect(component.showFileUploadingDialog).toEqual(true);
+      expect(fileUploadingDialog).not.toEqual(null);
+    });
+
+    it('should the uploading file dialog not be visible when the showFileUploadingDialog is false', async () => {
+      spyOn(store, 'select').and.returnValue(of(false));
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      uploadService.addToQueue(...fakeFileList);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const fileUploadingDialog = fixture.debugElement.query(By.css('adf-file-uploading-dialog'));
+
+      expect(component.showFileUploadingDialog).toEqual(false);
+      expect(fileUploadingDialog).toEqual(null);
+    });
   });
 });

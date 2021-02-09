@@ -28,10 +28,10 @@ import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@ang
 import { NavigationEnd, Router, NavigationStart } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subject, Observable } from 'rxjs';
-import { filter, takeUntil, map, withLatestFrom } from 'rxjs/operators';
+import { filter, takeUntil, map, withLatestFrom, delay } from 'rxjs/operators';
 import { NodePermissionService } from '@alfresco/aca-shared';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { AppStore, getCurrentFolder, ResetSelectionAction } from '@alfresco/aca-shared/store';
+import { AppStore, getCurrentFolder, getFileUploadingDialog, ResetSelectionAction } from '@alfresco/aca-shared/store';
 import { Directionality } from '@angular/cdk/bidi';
 
 @Component({
@@ -55,6 +55,8 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
   minimizeSidenav = false;
   hideSidenav = false;
   direction: Directionality;
+
+  showFileUploadingDialog: boolean;
 
   private minimizeConditions: string[] = ['search'];
   private hideConditions: string[] = ['/preview/'];
@@ -118,6 +120,13 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
       )
       .subscribe(() => {
         this.store.dispatch(new ResetSelectionAction());
+      });
+
+    this.store
+      .select(getFileUploadingDialog)
+      .pipe(delay(0), takeUntil(this.onDestroy$))
+      .subscribe((fileUploadingDialog: boolean) => {
+        this.showFileUploadingDialog = fileUploadingDialog;
       });
   }
 

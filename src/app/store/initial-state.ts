@@ -50,6 +50,7 @@ export const INITIAL_APP_STATE: AppState = {
   infoDrawerOpened: false,
   infoDrawerMetadataAspect: '',
   showFacetFilter: true,
+  fileUploadingDialog: true,
   documentDisplayMode: 'list',
   repository: {
     status: {
