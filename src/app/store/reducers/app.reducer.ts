@@ -38,7 +38,8 @@ import {
   SetInfoDrawerStateAction,
   SetInfoDrawerMetadataAspectAction,
   SetHeaderColorAction,
-  SetCurrentNodeVersionAction
+  SetCurrentNodeVersionAction,
+  SetFileUploadingDialogAction
 } from '@alfresco/aca-shared/store';
 import { INITIAL_APP_STATE } from '../initial-state';
 
@@ -93,6 +94,9 @@ export function appReducer(state: AppState = INITIAL_APP_STATE, action: Action):
       break;
     case SearchActionTypes.HideFilter:
       newState = hideSearchFilter(state);
+      break;
+    case AppActionTypes.SetFileUploadingDialog:
+      newState = setUploadDialogVisibility(state, action as SetFileUploadingDialogAction);
       break;
     default:
       newState = { ...state };
@@ -254,5 +258,11 @@ function setInfoDrawerAspect(state: AppState, action: SetInfoDrawerMetadataAspec
 function updateRepositoryStatus(state: AppState, action: SetRepositoryInfoAction) {
   const newState = { ...state };
   newState.repository = action.payload;
+  return newState;
+}
+
+function setUploadDialogVisibility(state: AppState, action: SetFileUploadingDialogAction): AppState {
+  const newState = { ...state };
+  newState.fileUploadingDialog = action.payload;
   return newState;
 }
