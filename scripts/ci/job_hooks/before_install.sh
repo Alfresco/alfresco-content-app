@@ -1,11 +1,5 @@
 #!/usr/bin/env bash
 
-# Run the build on develop branch with always the latest ADF
-if [[ "${TRAVIS_BRANCH}" == "develop" && ( "${TRAVIS_EVENT_TYPE}" == "api" || "${TRAVIS_EVENT_TYPE}" == "cron" || "${TRAVIS_EVENT_TYPE}" == "push" ) ]]; then
-    echo " ===== USING LATEST ADF VERSION ===== "
-   ./scripts/update-version.sh -v $ADF_RELEASE_VERSION
-fi
-
 # Settings for Angular builder --------------------------------------------------------
 export NODE_OPTIONS="--max_old_space_size=30000"
 
