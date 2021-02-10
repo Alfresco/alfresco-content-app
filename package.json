@@ -109,7 +109,7 @@
     "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
     "tslint-plugin-prettier": "^2.3.0",
-    "typescript": "3.9.7",
+    "typescript": "3.9.8",
     "webdriver-manager": "12.1.7",
     "winston": "^3.3.3"
   },
