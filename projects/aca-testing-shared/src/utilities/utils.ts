@@ -32,8 +32,8 @@ import * as fs from 'fs';
 const StreamZip = require('node-stream-zip');
 
 export async function typeText(element: ElementFinder, text: string): Promise<void> {
-  await element.click();
   await element.clear();
+  await element.click();
   await element.sendKeys(text);
 }
 
