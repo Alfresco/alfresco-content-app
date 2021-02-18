@@ -35,7 +35,6 @@ import {
   NodeContentTree
 } from '@alfresco/aca-testing-shared';
 import { BrowserActions } from '@alfresco/adf-testing';
-import { browser } from 'protractor';
 
 describe('Create file from template', () => {
   const random = Utils.random();
@@ -392,7 +391,6 @@ describe('Create file from template', () => {
         await page.dataTable.waitForHeader();
 
         expect(await page.dataTable.isItemPresent(fileSite.name)).toBe(true, 'File not displayed in list view');
-        await browser.sleep(3000);
         const desc = await userApi.nodes.getNodeDescription(fileSite.name, docLibUserSite);
         expect(desc).toEqual(fileSite.description);
         const title = await userApi.nodes.getNodeTitle(fileSite.name, docLibUserSite);
