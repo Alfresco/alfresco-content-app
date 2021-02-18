@@ -69,7 +69,7 @@ export class NodesApi extends RepoApi {
   async getNodeDescription(name: string, parentId: string): Promise<string> {
     try {
       const children = (await this.getNodeChildren(parentId)).list.entries;
-      return children.find((elem) => elem.entry.name === name).entry.properties['cm:description'] || '';
+      return children.find((elem) => elem.entry.name === name).entry.properties['cm:description'];
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.getNodeDescription.name}`, error);
       return '';
@@ -79,7 +79,7 @@ export class NodesApi extends RepoApi {
   async getNodeTitle(name: string, parentId: string): Promise<string> {
     try {
       const children = (await this.getNodeChildren(parentId)).list.entries;
-      return children.find((elem) => elem.entry.name === name).entry.properties['cm:title'] || '';
+      return children.find((elem) => elem.entry.name === name).entry.properties['cm:title'];
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.getNodeTitle.name}`, error);
       return '';
