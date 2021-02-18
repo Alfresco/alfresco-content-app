@@ -93,6 +93,7 @@ describe('Trash', () => {
 
   afterAll(async () => {
     try {
+      await adminApiActions.login();
       await adminApiActions.sites.deleteSite(siteName);
       await adminApiActions.trashcanApi.deleteDeletedNode(fileAdminId);
       await adminApiActions.trashcanApi.deleteDeletedNode(folderAdminId);

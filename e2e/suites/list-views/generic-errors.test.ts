@@ -62,6 +62,7 @@ describe('Generic errors', () => {
   });
 
   afterAll(async (done) => {
+    await userActions.login(username, username);
     await userActions.deleteNodes([parentId]);
     await userActions.emptyTrashcan();
     done();
