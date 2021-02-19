@@ -130,6 +130,7 @@ describe('Viewer actions', () => {
     });
 
     afterAll(async (done) => {
+      await userActions.login(username, username);
       await userActions.deleteNodes([parentId, destinationId]);
       await userActions.emptyTrashcan();
       done();
@@ -358,6 +359,7 @@ describe('Viewer actions', () => {
     });
 
     afterAll(async (done) => {
+      await userActions.login(username, username);
       await userActions.deleteSites([siteName]);
       await userActions.deleteNodes([destinationId]);
       await userActions.emptyTrashcan();
@@ -546,6 +548,7 @@ describe('Viewer actions', () => {
     });
 
     afterAll(async (done) => {
+      await userActions.login(username, username);
       await userActions.deleteNodes([parentId, destinationId]);
       await userActions.emptyTrashcan();
       done();
@@ -751,6 +754,7 @@ describe('Viewer actions', () => {
     });
 
     afterAll(async (done) => {
+      await userActions.login(username, username);
       await userActions.deleteNodes([parentId, destinationId]);
       await userActions.emptyTrashcan();
       done();
@@ -946,6 +950,7 @@ describe('Viewer actions', () => {
     });
 
     afterAll(async (done) => {
+      await userActions.login(username, username);
       await userActions.deleteNodes([parentId, destinationId]);
       await userActions.emptyTrashcan();
       done();
