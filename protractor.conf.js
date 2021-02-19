@@ -1,17 +1,16 @@
 // Protractor configuration file, see link for more information
 // https://github.com/angular/protractor/blob/master/lib/config.ts
 
+require('dotenv').config({ path: process.env.ENV_FILE });
 const path = require('path');
-const {SpecReporter} = require('jasmine-spec-reporter');
+const { SpecReporter } = require('jasmine-spec-reporter');
 const fs = require('fs');
 const resolve = require('path').resolve;
 const logger = require('./tools/helpers/logger');
 const retry = require('protractor-retry-angular-cli').retry;
-const {uploadScreenshot} = require('./e2e/e2e-config/utils/upload-output');
+const { uploadScreenshot } = require('./e2e/e2e-config/utils/upload-output');
+const smartRunnerFactory = require('./smartrunner-factory');
 
-require('dotenv').config({path: process.env.ENV_FILE});
-
-const SmartRunner = require('protractor-smartrunner');
 const projectRoot = path.resolve(__dirname);
 const downloadFolder = path.join(__dirname, 'e2e-downloads');
 const screenshotsFolder = path.resolve(__dirname, 'e2e-output');
@@ -141,9 +140,8 @@ exports.config = {
     showColors: true,
     defaultTimeoutInterval: 200000,
     includeStackTrace: true,
-    print: function () {
-    },
-    ...SmartRunner.withOptionalExclusions(resolve(__dirname, './e2e/protractor.excludes.json'))
+    print: function () {},
+    ...(process.env.CI ? smartRunnerFactory.applyExclusionFilter() : {})
   },
 
   plugins: [
@@ -170,11 +168,7 @@ exports.config = {
   onPrepare() {
     if (process.env.CI) {
       retry.onPrepare();
-      const repoHash = process.env.GIT_HASH || '';
-      const outputDirectory = process.env.SMART_RUNNER_DIRECTORY;
-      logger.info(`SmartRunner's repoHash : "${repoHash}"`);
-      logger.info(`SmartRunner's outputDirectory: "${outputDirectory}"`);
-      SmartRunner.apply({outputDirectory, repoHash});
+      smartRunnerFactory.getInstance().onPrepare();
     }
 
     const tsConfigPath = path.resolve(e2eFolder, 'tsconfig.e2e.json');
