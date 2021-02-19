@@ -77,6 +77,7 @@ describe('Restore from Trash', () => {
     });
 
     afterAll(async (done) => {
+      await userActions.login(username, username);
       await userActions.emptyTrashcan();
       done();
     });
@@ -176,6 +177,7 @@ describe('Restore from Trash', () => {
     });
 
     afterAll(async (done) => {
+      await userActions.login(username, username);
       await userActions.deleteNodes([file1Id2]);
       await userActions.emptyTrashcan();
       done();
@@ -242,6 +244,7 @@ describe('Restore from Trash', () => {
     });
 
     afterAll(async (done) => {
+      await userActions.login(username, username);
       await userActions.emptyTrashcan();
       done();
     });

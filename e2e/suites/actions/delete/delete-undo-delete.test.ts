@@ -48,6 +48,7 @@ describe('Delete and undo delete', () => {
   });
 
   afterAll(async () => {
+    await userActions.login(username, username);
     await userActions.emptyTrashcan();
   });
 
@@ -82,13 +83,15 @@ describe('Delete and undo delete', () => {
       await page.clickRecentFilesAndWait();
     });
 
-    afterAll(async () => {
+    afterAll(async (done) => {
       try {
+        await userActions.login(username, username);
         await userActions.deleteNodes([parentId]);
         await userActions.emptyTrashcan();
       } catch (error) {
         Logger.error(`----- afterAll failed : ${error}`);
       }
+      done();
     });
 
     it('[C280528] delete a file and check notification', async () => {
@@ -217,8 +220,9 @@ describe('Delete and undo delete', () => {
       await page.dataTable.doubleClickOnRowByName(parent);
     });
 
-    afterAll(async () => {
+    afterAll(async (done) => {
       try {
+        await userActions.login(username, username);
         await apis.user.nodes.unlockFile(fileLocked1Id);
         await apis.user.nodes.unlockFile(fileLocked2Id);
         await apis.user.nodes.unlockFile(fileLocked3Id);
@@ -229,6 +233,7 @@ describe('Delete and undo delete', () => {
       } catch (error) {
         Logger.error(`----- afterAll failed : ${error}`);
       }
+      done();
     });
 
     it('[C217125] delete a file and check notification', async () => {
@@ -371,13 +376,15 @@ describe('Delete and undo delete', () => {
       await page.clickSharedFilesAndWait();
     });
 
-    afterAll(async () => {
+    afterAll(async (done) => {
       try {
+        await userActions.login(username, username);
         await userActions.deleteNodes([parentId]);
         await userActions.emptyTrashcan();
       } catch (error) {
         Logger.error(`----- afterAll failed : ${error}`);
       }
+      done();
     });
 
     it('[C280316] delete a file and check notification', async () => {
@@ -509,8 +516,9 @@ describe('Delete and undo delete', () => {
       done();
     });
 
-    afterAll(async () => {
+    afterAll(async (done) => {
       try {
+        await userActions.login(username, username);
         await apis.user.nodes.unlockFile(fileLocked1Id);
         await apis.user.nodes.unlockFile(fileLocked2Id);
         await apis.user.nodes.unlockFile(fileLocked3Id);
@@ -521,6 +529,7 @@ describe('Delete and undo delete', () => {
       } catch (error) {
         Logger.error(`----- afterAll failed : ${error}`);
       }
+      done();
     });
 
     it('[C280516] delete a file and check notification', async () => {
