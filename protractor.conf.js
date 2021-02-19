@@ -9,7 +9,7 @@ const resolve = require('path').resolve;
 const logger = require('./tools/helpers/logger');
 const retry = require('protractor-retry-angular-cli').retry;
 const { uploadScreenshot } = require('./e2e/e2e-config/utils/upload-output');
-const smartRunnerFactory = require('./smartrunner-factory');
+const smartRunnerFactory = require('./e2e/smartrunner-factory');
 
 const projectRoot = path.resolve(__dirname);
 const downloadFolder = path.join(__dirname, 'e2e-downloads');
