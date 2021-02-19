@@ -46,6 +46,12 @@
   "features": {
     "header": [
       {
+        "id": "app.header.notification-center",
+        "type": "custom",
+        "component": "app.notification-center",
+        "order": 50
+      },
+      {
         "id": "app.header.user",
         "type": "custom",
         "component": "app.user",

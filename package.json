@@ -24,10 +24,10 @@
   },
   "private": true,
   "dependencies": {
-    "@alfresco/adf-content-services": "4.3.0-31297",
-    "@alfresco/adf-core": "4.3.0-31297",
-    "@alfresco/adf-extensions": "4.3.0-31297",
-    "@alfresco/js-api": "4.3.0-3207",
+    "@alfresco/adf-content-services": "4.3.0-31380",
+    "@alfresco/adf-core": "4.3.0-31380",
+    "@alfresco/adf-extensions": "4.3.0-31380",
+    "@alfresco/js-api": "4.3.0-3224",
     "@angular/animations": "10.0.4",
     "@angular/cdk": "^10.0.2",
     "@angular/common": "10.0.4",
@@ -56,8 +56,8 @@
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
-    "@alfresco/adf-cli": "4.3.0-5600ef1718212039c21a1b15e91f51e2a650becc",
-    "@alfresco/adf-testing": "4.3.0-5600ef1718212039c21a1b15e91f51e2a650becc",
+    "@alfresco/adf-cli": "4.3.0-31380",
+    "@alfresco/adf-testing": "4.3.0-31380",
     "@angular-custom-builders/lite-serve": "^0.2.2",
     "@angular-devkit/build-angular": "^0.1002.0",
     "@angular-devkit/build-ng-packagr": "^0.1002.0",
@@ -110,7 +110,7 @@
     "tslint-config-prettier": "^1.18.0",
     "tslint-plugin-prettier": "^2.3.0",
     "typescript": "3.9.8",
-    "webdriver-manager": "12.1.7",
+    "webdriver-manager": "12.1.8",
     "winston": "^3.3.3"
   },
   "lint-staged": {
