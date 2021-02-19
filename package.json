@@ -110,7 +110,7 @@
     "tslint-config-prettier": "^1.18.0",
     "tslint-plugin-prettier": "^2.3.0",
     "typescript": "3.9.8",
-    "webdriver-manager": "12.1.7",
+    "webdriver-manager": "12.1.8",
     "winston": "^3.3.3"
   },
   "lint-staged": {
