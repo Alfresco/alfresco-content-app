@@ -45,7 +45,8 @@ export enum NodeActionTypes {
   EditOffline = 'EDIT_OFFLINE',
   UnlockForWriting = 'UNLOCK_WRITE_LOCK',
   AddFavorite = 'ADD_FAVORITE',
-  RemoveFavorite = 'REMOVE_FAVORITE'
+  RemoveFavorite = 'REMOVE_FAVORITE',
+  ChangeAspects = 'ASPECT_LIST'
 }
 
 export class SetSelectedNodesAction implements Action {
@@ -160,4 +161,9 @@ export class RemoveFavoriteAction implements Action {
   readonly type = NodeActionTypes.RemoveFavorite;
 
   constructor(public payload: Array<MinimalNodeEntity>) {}
+}
+export class ManageAspectsAction implements Action {
+  readonly type = NodeActionTypes.ChangeAspects;
+
+  constructor(public payload: MinimalNodeEntity) {}
 }
