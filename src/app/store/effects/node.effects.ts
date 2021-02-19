@@ -317,18 +317,6 @@ export class NodeEffects {
     })
   );
 
-  printFile(node: any) {
-    if (node && node.entry) {
-      // shared and favorite
-      const id = node.entry.nodeId || node.entry.guid || node.entry.id;
-      const mimeType = node.entry.content.mimeType;
-
-      if (id) {
-        this.viewUtils.printFileGeneric(id, mimeType);
-      }
-    }
-  }
-
   @Effect({ dispatch: false })
   aspectList$ = this.actions$.pipe(
     ofType<ManageAspectsAction>(NodeActionTypes.ChangeAspects),
@@ -347,4 +335,16 @@ export class NodeEffects {
       }
     })
   );
+
+  printFile(node: any) {
+    if (node && node.entry) {
+      // shared and favorite
+      const id = node.entry.nodeId || node.entry.guid || node.entry.id;
+      const mimeType = node.entry.content.mimeType;
+
+      if (id) {
+        this.viewUtils.printFileGeneric(id, mimeType);
+      }
+    }
+  }
 }
