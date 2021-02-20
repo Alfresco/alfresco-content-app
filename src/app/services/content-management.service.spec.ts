@@ -54,6 +54,7 @@ import { TranslationService, AlfrescoApiService, FileModel } from '@alfresco/adf
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
 import { NodeEntry, Node } from '@alfresco/js-api';
+import { NodeAspectService } from '@alfresco/adf-content-services';
 
 describe('ContentManagementService', () => {
   let dialog: MatDialog;
@@ -65,6 +66,7 @@ describe('ContentManagementService', () => {
   let nodeActions: NodeActionsService;
   let translationService: TranslationService;
   let alfrescoApiService: AlfrescoApiService;
+  let nodeAspectService: NodeAspectService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -79,6 +81,7 @@ describe('ContentManagementService', () => {
     nodeActions = TestBed.inject(NodeActionsService);
     translationService = TestBed.inject(TranslationService);
     alfrescoApiService = TestBed.inject(AlfrescoApiService);
+    nodeAspectService = TestBed.inject(NodeAspectService);
 
     dialog = TestBed.inject(MatDialog);
   });
@@ -1533,5 +1536,28 @@ describe('ContentManagementService', () => {
 
       expect(alfrescoApiService.nodeUpdated.next).toHaveBeenCalledWith(newNode);
     }));
+  });
+
+  describe('aspect list dialog', () => {
+    it('should open dialog for managing the aspects for share or favorites nodes', () => {
+      spyOn(nodeAspectService, 'updateNodeAspects').and.stub();
+      const fakeNode = { entry: { nodeId: 'fake-node-id' } };
+      const responseNode: Node = <Node>{ id: 'real-node-ghostbuster' };
+
+      spyOn(contentApi, 'getNodeInfo').and.returnValue(of(responseNode));
+
+      contentManagementService.manageAspects(fakeNode);
+
+      expect(nodeAspectService.updateNodeAspects).toHaveBeenCalledWith('real-node-ghostbuster');
+    });
+
+    it('should open dialog for managing the aspects', () => {
+      spyOn(nodeAspectService, 'updateNodeAspects').and.stub();
+      const fakeNode = { entry: { id: 'fake-node-id' } };
+
+      contentManagementService.manageAspects(fakeNode);
+
+      expect(nodeAspectService.updateNodeAspects).toHaveBeenCalledWith('fake-node-id');
+    });
   });
 });

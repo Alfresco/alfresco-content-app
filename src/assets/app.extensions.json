@@ -534,6 +534,9 @@
             "icon": "toc",
             "actions": {
               "click": "ASPECT_LIST"
+            },
+            "rules": {
+              "visible": "canManageFileVersions"
             }
           },
           {
@@ -748,6 +751,9 @@
         "icon": "toc",
         "actions": {
           "click": "ASPECT_LIST"
+        },
+        "rules": {
+          "visible": "canManageFileVersions"
         }
       },
       {
@@ -1017,6 +1023,9 @@
               "icon": "toc",
               "actions": {
                 "click": "ASPECT_LIST"
+              },
+              "rules": {
+                "visible": "canManageFileVersions"
               }
             },
             {
