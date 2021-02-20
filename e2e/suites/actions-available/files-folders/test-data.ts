@@ -42,6 +42,7 @@ const fileContextMenu = [
   'Copy',
   'Delete',
   'Manage Versions',
+  'Edit Aspects',
   'Permissions'
 ];
 const fileSharedFavLockedContextMenu = [
@@ -55,10 +56,21 @@ const fileSharedFavLockedContextMenu = [
   'Copy',
   'Delete',
   'Manage Versions',
+  'Edit Aspects',
   'Permissions'
 ];
 const fileToolbarPrimary = ['Share', 'Download', 'View', 'View Details', 'More Actions'];
-const fileToolbarMore = ['Edit Offline', 'Upload New Version', 'Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Permissions'];
+const fileToolbarMore = [
+  'Edit Offline',
+  'Upload New Version',
+  'Favorite',
+  'Move',
+  'Copy',
+  'Delete',
+  'Manage Versions',
+  'Edit Aspects',
+  'Permissions'
+];
 const fileDocxToolbarMore = [
   'Edit in Microsoft Office™',
   'Edit Offline',
@@ -68,6 +80,7 @@ const fileDocxToolbarMore = [
   'Copy',
   'Delete',
   'Manage Versions',
+  'Edit Aspects',
   'Permissions'
 ];
 const fileDocxContextMenu = [
@@ -82,6 +95,7 @@ const fileDocxContextMenu = [
   'Copy',
   'Delete',
   'Manage Versions',
+  'Edit Aspects',
   'Permissions'
 ];
 const fileSharedToolbarPrimary = ['Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
@@ -93,6 +107,7 @@ const fileFavLockedToolbarMore = [
   'Copy',
   'Delete',
   'Manage Versions',
+  'Edit Aspects',
   'Permissions'
 ];
 const fileDocxFavContextMenu = [
@@ -107,6 +122,7 @@ const fileDocxFavContextMenu = [
   'Copy',
   'Delete',
   'Manage Versions',
+  'Edit Aspects',
   'Permissions'
 ];
 const fileDocxFavToolbarMore = [
@@ -118,6 +134,7 @@ const fileDocxFavToolbarMore = [
   'Copy',
   'Delete',
   'Manage Versions',
+  'Edit Aspects',
   'Permissions'
 ];
 const fileDocxSharedFavContextMenu = [
@@ -132,6 +149,7 @@ const fileDocxSharedFavContextMenu = [
   'Copy',
   'Delete',
   'Manage Versions',
+  'Edit Aspects',
   'Permissions'
 ];
 const fileDocxSharedContextMenu = [
@@ -146,6 +164,7 @@ const fileDocxSharedContextMenu = [
   'Copy',
   'Delete',
   'Manage Versions',
+  'Edit Aspects',
   'Permissions'
 ];
 const fileFavContextMenu = [
@@ -159,9 +178,20 @@ const fileFavContextMenu = [
   'Copy',
   'Delete',
   'Manage Versions',
+  'Edit Aspects',
   'Permissions'
 ];
-const fileFavToolbarMore = ['Edit Offline', 'Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Permissions'];
+const fileFavToolbarMore = [
+  'Edit Offline',
+  'Upload New Version',
+  'Remove Favorite',
+  'Move',
+  'Copy',
+  'Delete',
+  'Manage Versions',
+  'Edit Aspects',
+  'Permissions'
+];
 const fileSharedFavContextMenu = [
   'Shared Link Settings',
   'Download',
@@ -173,6 +203,7 @@ const fileSharedFavContextMenu = [
   'Copy',
   'Delete',
   'Manage Versions',
+  'Edit Aspects',
   'Permissions'
 ];
 const fileSharedContextMenu = [
@@ -186,6 +217,7 @@ const fileSharedContextMenu = [
   'Copy',
   'Delete',
   'Manage Versions',
+  'Edit Aspects',
   'Permissions'
 ];
 const fileFavLockedContextMenu = [
@@ -199,6 +231,7 @@ const fileFavLockedContextMenu = [
   'Copy',
   'Delete',
   'Manage Versions',
+  'Edit Aspects',
   'Permissions'
 ];
 const fileLockedContextMenu = [
@@ -212,9 +245,20 @@ const fileLockedContextMenu = [
   'Copy',
   'Delete',
   'Manage Versions',
+  'Edit Aspects',
   'Permissions'
 ];
-const fileLockedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Permissions'];
+const fileLockedToolbarMore = [
+  'Cancel Editing',
+  'Upload New Version',
+  'Favorite',
+  'Move',
+  'Copy',
+  'Delete',
+  'Manage Versions',
+  'Edit Aspects',
+  'Permissions'
+];
 const fileSharedLockedContextMenu = [
   'Shared Link Settings',
   'Download',
@@ -226,6 +270,7 @@ const fileSharedLockedContextMenu = [
   'Copy',
   'Delete',
   'Manage Versions',
+  'Edit Aspects',
   'Permissions'
 ];
 
@@ -233,8 +278,28 @@ const fileSharedLockedContextMenu = [
 
 const viewerSharedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Download', 'Print', 'View Details', 'More Actions'];
 const viewerToolbarPrimary = ['Activate full-screen mode', 'Share', 'Download', 'Print', 'View Details', 'More Actions'];
-const viewerToolbarMore = ['Edit Offline', 'Upload New Version', 'Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Permissions'];
-const viewerFavToolbarMore = ['Edit Offline', 'Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Permissions'];
+const viewerToolbarMore = [
+  'Edit Offline',
+  'Upload New Version',
+  'Favorite',
+  'Move',
+  'Copy',
+  'Delete',
+  'Manage Versions',
+  'Edit Aspects',
+  'Permissions'
+];
+const viewerFavToolbarMore = [
+  'Edit Offline',
+  'Upload New Version',
+  'Remove Favorite',
+  'Move',
+  'Copy',
+  'Delete',
+  'Manage Versions',
+  'Edit Aspects',
+  'Permissions'
+];
 const viewerDocxToolbarMore = [
   'Edit in Microsoft Office™',
   'Edit Offline',
@@ -244,6 +309,7 @@ const viewerDocxToolbarMore = [
   'Copy',
   'Delete',
   'Manage Versions',
+  'Edit Aspects',
   'Permissions'
 ];
 const viewerFavLockedToolbarMore = [
@@ -254,6 +320,7 @@ const viewerFavLockedToolbarMore = [
   'Copy',
   'Delete',
   'Manage Versions',
+  'Edit Aspects',
   'Permissions'
 ];
 const viewerDocxFavToolbarMore = [
@@ -265,9 +332,20 @@ const viewerDocxFavToolbarMore = [
   'Copy',
   'Delete',
   'Manage Versions',
+  'Edit Aspects',
   'Permissions'
 ];
-const viewerLockedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Permissions'];
+const viewerLockedToolbarMore = [
+  'Cancel Editing',
+  'Upload New Version',
+  'Favorite',
+  'Move',
+  'Copy',
+  'Delete',
+  'Manage Versions',
+  'Edit Aspects',
+  'Permissions'
+];
 
 // ---- FAVORITES workarounds ----
 
@@ -328,11 +406,20 @@ const searchDocxContextMenu = [
   'Favorite',
   'Copy',
   'Manage Versions',
+  'Edit Aspects',
   'Permissions'
 ];
 const searchToolbarPrimary = ['Toggle search filter', 'Share', 'Download', 'View', 'View Details', 'More Actions'];
 const searchSharedToolbarPrimary = ['Toggle search filter', 'Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
-const searchFavLockedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions', 'Permissions'];
+const searchFavLockedToolbarMore = [
+  'Cancel Editing',
+  'Upload New Version',
+  'Remove Favorite',
+  'Copy',
+  'Manage Versions',
+  'Edit Aspects',
+  'Permissions'
+];
 const searchSharedFavLockedContextMenu = [
   'Shared Link Settings',
   'Download',
@@ -342,6 +429,7 @@ const searchSharedFavLockedContextMenu = [
   'Remove Favorite',
   'Copy',
   'Manage Versions',
+  'Edit Aspects',
   'Permissions'
 ];
 const searchDocxToolbarMore = [
@@ -351,6 +439,7 @@ const searchDocxToolbarMore = [
   'Favorite',
   'Copy',
   'Manage Versions',
+  'Edit Aspects',
   'Permissions'
 ];
 const searchFavContextMenu = [
@@ -362,6 +451,7 @@ const searchFavContextMenu = [
   'Remove Favorite',
   'Copy',
   'Manage Versions',
+  'Edit Aspects',
   'Permissions'
 ];
 const searchSharedLockedContextMenu = [
@@ -373,6 +463,7 @@ const searchSharedLockedContextMenu = [
   'Favorite',
   'Copy',
   'Manage Versions',
+  'Edit Aspects',
   'Permissions'
 ];
 const searchDocxFavContextMenu = [
@@ -385,6 +476,7 @@ const searchDocxFavContextMenu = [
   'Remove Favorite',
   'Copy',
   'Manage Versions',
+  'Edit Aspects',
   'Permissions'
 ];
 const searchDocxFavToolbarMore = [
@@ -394,6 +486,7 @@ const searchDocxFavToolbarMore = [
   'Remove Favorite',
   'Copy',
   'Manage Versions',
+  'Edit Aspects',
   'Permissions'
 ];
 const searchSharedContextMenu = [
@@ -405,9 +498,10 @@ const searchSharedContextMenu = [
   'Favorite',
   'Copy',
   'Manage Versions',
+  'Edit Aspects',
   'Permissions'
 ];
-const searchToolbarMore = ['Edit Offline', 'Upload New Version', 'Favorite', 'Copy', 'Manage Versions', 'Permissions'];
+const searchToolbarMore = ['Edit Offline', 'Upload New Version', 'Favorite', 'Copy', 'Manage Versions', 'Edit Aspects', 'Permissions'];
 const searchDocxSharedFavContextMenu = [
   'Shared Link Settings',
   'Download',
@@ -418,6 +512,7 @@ const searchDocxSharedFavContextMenu = [
   'Remove Favorite',
   'Copy',
   'Manage Versions',
+  'Edit Aspects',
   'Permissions'
 ];
 const searchDocxSharedContextMenu = [
@@ -430,10 +525,22 @@ const searchDocxSharedContextMenu = [
   'Favorite',
   'Copy',
   'Manage Versions',
+  'Edit Aspects',
   'Permissions'
 ];
-const searchFavToolbarMore = ['Edit Offline', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions', 'Permissions'];
-const searchContextMenu = ['Share', 'Download', 'View', 'Edit Offline', 'Upload New Version', 'Favorite', 'Copy', 'Manage Versions', 'Permissions'];
+const searchFavToolbarMore = ['Edit Offline', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions', 'Edit Aspects', 'Permissions'];
+const searchContextMenu = [
+  'Share',
+  'Download',
+  'View',
+  'Edit Offline',
+  'Upload New Version',
+  'Favorite',
+  'Copy',
+  'Manage Versions',
+  'Edit Aspects',
+  'Permissions'
+];
 const searchFavLockedContextMenu = [
   'Share',
   'Download',
@@ -443,9 +550,10 @@ const searchFavLockedContextMenu = [
   'Remove Favorite',
   'Copy',
   'Manage Versions',
+  'Edit Aspects',
   'Permissions'
 ];
-const searchLockedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Favorite', 'Copy', 'Manage Versions', 'Permissions'];
+const searchLockedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Favorite', 'Copy', 'Manage Versions', 'Edit Aspects', 'Permissions'];
 const searchLockedContextMenu = [
   'Share',
   'Download',
@@ -455,6 +563,7 @@ const searchLockedContextMenu = [
   'Favorite',
   'Copy',
   'Manage Versions',
+  'Edit Aspects',
   'Permissions'
 ];
 const searchSharedFavContextMenu = [
@@ -466,11 +575,20 @@ const searchSharedFavContextMenu = [
   'Remove Favorite',
   'Copy',
   'Manage Versions',
+  'Edit Aspects',
   'Permissions'
 ];
 
-const searchViewerToolbarMore = ['Edit Offline', 'Upload New Version', 'Favorite', 'Copy', 'Manage Versions', 'Permissions'];
-const searchViewerFavToolbarMore = ['Edit Offline', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions', 'Permissions'];
+const searchViewerToolbarMore = ['Edit Offline', 'Upload New Version', 'Favorite', 'Copy', 'Manage Versions', 'Edit Aspects', 'Permissions'];
+const searchViewerFavToolbarMore = [
+  'Edit Offline',
+  'Upload New Version',
+  'Remove Favorite',
+  'Copy',
+  'Manage Versions',
+  'Edit Aspects',
+  'Permissions'
+];
 const searchViewerDocxToolbarMore = [
   'Edit in Microsoft Office™',
   'Edit Offline',
@@ -478,9 +596,18 @@ const searchViewerDocxToolbarMore = [
   'Favorite',
   'Copy',
   'Manage Versions',
+  'Edit Aspects',
   'Permissions'
 ];
-const searchViewerFavLockedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions', 'Permissions'];
+const searchViewerFavLockedToolbarMore = [
+  'Cancel Editing',
+  'Upload New Version',
+  'Remove Favorite',
+  'Copy',
+  'Manage Versions',
+  'Edit Aspects',
+  'Permissions'
+];
 const searchViewerDocxFavToolbarMore = [
   'Edit in Microsoft Office™',
   'Edit Offline',
@@ -488,9 +615,10 @@ const searchViewerDocxFavToolbarMore = [
   'Remove Favorite',
   'Copy',
   'Manage Versions',
+  'Edit Aspects',
   'Permissions'
 ];
-const searchViewerLockedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Favorite', 'Copy', 'Manage Versions', 'Permissions'];
+const searchViewerLockedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Favorite', 'Copy', 'Manage Versions', 'Edit Aspects', 'Permissions'];
 
 export const fileDocx = {
   name: `fileActions-docx-${random}.docx`,
