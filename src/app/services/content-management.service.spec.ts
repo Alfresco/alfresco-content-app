@@ -1540,10 +1540,9 @@ describe('ContentManagementService', () => {
 
   describe('aspect list dialog', () => {
     it('should open dialog for managing the aspects for share or favorites nodes', () => {
-      spyOn(nodeAspectService, 'updateNodeAspects').and.stub();
       const fakeNode = { entry: { nodeId: 'fake-node-id' } };
       const responseNode: Node = <Node>{ id: 'real-node-ghostbuster' };
-
+      spyOn(nodeAspectService, 'updateNodeAspects');
       spyOn(contentApi, 'getNodeInfo').and.returnValue(of(responseNode));
 
       contentManagementService.manageAspects(fakeNode);
