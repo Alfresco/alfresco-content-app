@@ -362,22 +362,12 @@ const favoritesLockedContextMenu = [
   'Move',
   'Copy',
   'Delete',
-  'Manage Versions',
-  'Edit Aspects'
+  'Manage Versions'
 ];
 // TODO: investigate why 'Edit Offline', 'Edit in Microsoft Office™' and 'Permissions' are not displayed and raise issue
 const favoritesToolbarMore = ['Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
 // TODO: investigate why 'Permissions' is not displayed and raise issue
-const favoritesLockedToolbarMore = [
-  'Cancel Editing',
-  'Upload New Version',
-  'Remove Favorite',
-  'Move',
-  'Copy',
-  'Delete',
-  'Manage Versions',
-  'Edit Aspects'
-];
+const favoritesLockedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
 // TODO: investigate why 'Edit Offline', 'Edit in Microsoft Office™' and 'Permissions' are not displayed and raise issue
 const favoritesSharedContextMenu = [
   'Shared Link Settings',
@@ -943,12 +933,12 @@ const favoritesMultipleSelAllFavToolbarMore = ['Remove Favorite', 'Move', 'Copy'
 // TODO: raise issue to remove 'Permissions'
 const searchMultipleSelContextMenu = ['Download', 'Favorite', 'Copy', 'Edit Aspects', 'Permissions'];
 // TODO: raise issue to remove 'Permissions'
-const searchMultipleSelAllFavContextMenu = ['Download', 'Remove Favorite', 'Copy', 'Permissions'];
+const searchMultipleSelAllFavContextMenu = ['Download', 'Remove Favorite', 'Copy', 'Edit Aspects', 'Permissions'];
 const searchMultipleSelToolbarPrimary = ['Toggle search filter', 'Download', 'View Details', 'More Actions'];
 // TODO: raise issue to remove 'Permissions'
 const searchMultipleSelToolbarMore = ['Favorite', 'Copy', 'Edit Aspects', 'Permissions'];
 // TODO: raise issue to remove 'Permissions'
-const searchMultipleSelAllFavToolbarMore = ['Remove Favorite', 'Copy', 'Permissions'];
+const searchMultipleSelAllFavToolbarMore = ['Remove Favorite', 'Copy', 'Edit Aspects', 'Permissions'];
 
 export const multipleSel = {
   contextMenu: multipleSelContextMenu,

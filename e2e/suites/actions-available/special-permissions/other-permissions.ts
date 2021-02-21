@@ -48,7 +48,7 @@ export function collaboratorTests(siteName?: string) {
       await dataTable.waitForHeader();
 
       const expectedToolbarPrimary = ['Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
-      const expectedToolbarMore = ['Edit Offline', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions', 'Permissions'];
+      const expectedToolbarMore = ['Edit Offline', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions', 'Edit Aspects', 'Permissions'];
 
       await testUtil.checkToolbarActions(testData.fileSharedFav.name, expectedToolbarPrimary, expectedToolbarMore);
     });
@@ -57,7 +57,7 @@ export function collaboratorTests(siteName?: string) {
       await page.clickSharedFilesAndWait();
 
       const expectedToolbarPrimary = ['Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
-      const expectedToolbarMore = ['Edit Offline', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions', 'Permissions'];
+      const expectedToolbarMore = ['Edit Offline', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions', 'Edit Aspects', 'Permissions'];
 
       await testUtil.checkToolbarActions(testData.fileSharedFav.name, expectedToolbarPrimary, expectedToolbarMore);
     });
@@ -78,7 +78,7 @@ export function collaboratorTests(siteName?: string) {
       await searchInput.searchFor(testData.fileSharedFav.name);
 
       const expectedToolbarPrimary = ['Toggle search filter', 'Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
-      const expectedToolbarMore = ['Edit Offline', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions', 'Permissions'];
+      const expectedToolbarMore = ['Edit Offline', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions', 'Edit Aspects', 'Permissions'];
 
       await testUtil.checkToolbarActions(testData.fileSharedFav.name, expectedToolbarPrimary, expectedToolbarMore);
     });
@@ -97,6 +97,7 @@ export function collaboratorTests(siteName?: string) {
           'Remove Favorite',
           'Copy',
           'Manage Versions',
+          'Edit Aspects',
           'Permissions'
         ];
 
@@ -114,6 +115,7 @@ export function collaboratorTests(siteName?: string) {
           'Remove Favorite',
           'Copy',
           'Manage Versions',
+          'Edit Aspects',
           'Permissions'
         ];
 
@@ -131,6 +133,7 @@ export function collaboratorTests(siteName?: string) {
           'Remove Favorite',
           'Copy',
           'Manage Versions',
+          'Edit Aspects',
           'Permissions'
         ];
 
@@ -150,6 +153,7 @@ export function collaboratorTests(siteName?: string) {
           'Remove Favorite',
           'Copy',
           'Manage Versions',
+          'Edit Aspects',
           'Permissions'
         ];
 
@@ -270,7 +274,7 @@ export function filesLockedByOtherUser(siteName?: string) {
       await dataTable.waitForHeader();
 
       const expectedToolbarPrimary = ['Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
-      const expectedToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Permissions'];
+      const expectedToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Edit Aspects', 'Permissions'];
 
       await testUtil.checkToolbarActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
     });
@@ -288,6 +292,7 @@ export function filesLockedByOtherUser(siteName?: string) {
         'Copy',
         'Delete',
         'Manage Versions',
+        'Edit Aspects',
         'Permissions'
       ];
 
@@ -311,7 +316,7 @@ export function filesLockedByOtherUser(siteName?: string) {
       await searchResultsPage.waitForResults();
 
       const expectedToolbarPrimary = ['Toggle search filter', 'Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
-      const expectedToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Copy', 'Manage Versions', 'Permissions'];
+      const expectedToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Copy', 'Manage Versions', 'Edit Aspects', 'Permissions'];
 
       await testUtil.checkToolbarActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
     });
@@ -323,7 +328,7 @@ export function filesLockedByOtherUser(siteName?: string) {
         await dataTable.waitForHeader();
 
         const expectedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Download', 'Print', 'View Details', 'More Actions'];
-        const expectedToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Permissions'];
+        const expectedToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Edit Aspects', 'Permissions'];
 
         await testUtil.checkViewerActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
       });
@@ -332,7 +337,7 @@ export function filesLockedByOtherUser(siteName?: string) {
         await page.clickSharedFilesAndWait();
 
         const expectedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Download', 'Print', 'View Details', 'More Actions'];
-        const expectedToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Permissions'];
+        const expectedToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Edit Aspects', 'Permissions'];
 
         await testUtil.checkViewerActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
       });
@@ -341,7 +346,7 @@ export function filesLockedByOtherUser(siteName?: string) {
         await page.clickFavoritesAndWait();
 
         const expectedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Download', 'Print', 'View Details', 'More Actions'];
-        const expectedToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Permissions'];
+        const expectedToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Edit Aspects', 'Permissions'];
 
         await testUtil.checkViewerActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
       });
@@ -353,7 +358,7 @@ export function filesLockedByOtherUser(siteName?: string) {
 
         const expectedToolbarPrimary = ['Activate full-screen mode', 'Shared Link Settings', 'Download', 'Print', 'View Details', 'More Actions'];
         // TODO: add 'Move' and 'Delete' when ACA-2319 is fixed
-        const expectedToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Copy', 'Manage Versions', 'Permissions'];
+        const expectedToolbarMore = ['Cancel Editing', 'Remove Favorite', 'Copy', 'Manage Versions', 'Edit Aspects', 'Permissions'];
 
         await testUtil.checkViewerActions(testData.fileLockedByUser, expectedToolbarPrimary, expectedToolbarMore);
       });
