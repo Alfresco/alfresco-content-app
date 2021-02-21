@@ -866,9 +866,9 @@ export const folder2InTrash = {
 // ---- folders ---
 
 const folderContextMenu = ['Download', 'Edit', 'Favorite', 'Move', 'Copy', 'Delete', 'Edit Aspects', 'Permissions'];
-const folderFavContextMenu = ['Download', 'Edit', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Permissions'];
+const folderFavContextMenu = ['Download', 'Edit', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Edit Aspects', 'Permissions'];
 const folderToolbarPrimary = ['Download', 'View Details', 'More Actions'];
-const folderToolbarMore = ['Edit', 'Favorite', 'Move', 'Copy', 'Delete', 'Permissions'];
+const folderToolbarMore = ['Edit', 'Favorite', 'Move', 'Copy', 'Delete', 'Edit Aspects', 'Permissions'];
 const folderFavToolbarMore = ['Edit', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Edit Aspects', 'Permissions'];
 
 const favoritesFolderFavContextMenu = ['Download', 'Edit', 'Remove Favorite', 'Move', 'Copy', 'Delete'];
@@ -876,9 +876,9 @@ const favoritesFolderFavToolbarMore = ['Edit', 'Remove Favorite', 'Move', 'Copy'
 
 const searchFolderContextMenu = ['Download', 'Edit', 'Favorite', 'Copy', 'Edit Aspects', 'Permissions'];
 const searchFolderToolbarPrimary = ['Toggle search filter', 'Download', 'View Details', 'More Actions'];
-const searchFolderToolbarMore = ['Edit', 'Favorite', 'Copy', 'Permissions'];
+const searchFolderToolbarMore = ['Edit', 'Favorite', 'Copy', 'Edit Aspects', 'Permissions'];
 const searchFolderFavContextMenu = ['Download', 'Edit', 'Remove Favorite', 'Copy', 'Edit Aspects', 'Permissions'];
-const searchFolderFavToolbarMore = ['Edit', 'Remove Favorite', 'Copy', 'Permissions'];
+const searchFolderFavToolbarMore = ['Edit', 'Remove Favorite', 'Copy', 'Edit Aspects', 'Permissions'];
 
 export const folder = {
   name: `folderActions-${random}`,
@@ -928,12 +928,12 @@ export const folderFav2 = {
 // ---- multiple selection ---
 
 // TODO: raise issue to remove 'Permissions'
-const multipleSelContextMenu = ['Download', 'Favorite', 'Move', 'Copy', 'Delete', 'Permissions'];
+const multipleSelContextMenu = ['Download', 'Favorite', 'Move', 'Copy', 'Delete', 'Edit Aspects', 'Permissions'];
 // TODO: raise issue to remove 'Permissions'
 const multipleSelAllFavContextMenu = ['Download', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Edit Aspects', 'Permissions'];
 const multipleSelToolbarPrimary = ['Download', 'View Details', 'More Actions'];
 // TODO: raise issue to remove 'Permissions'
-const multipleSelToolbarMore = ['Favorite', 'Move', 'Copy', 'Delete', 'Permissions'];
+const multipleSelToolbarMore = ['Favorite', 'Move', 'Copy', 'Delete', 'Edit Aspects', 'Permissions'];
 // TODO: raise issue to remove 'Permissions'
 const multipleSelAllFavToolbarMore = ['Remove Favorite', 'Move', 'Copy', 'Delete', 'Edit Aspects', 'Permissions'];
 
@@ -941,12 +941,12 @@ const favoritesMultipleSelAllFavContextMenu = ['Download', 'Remove Favorite', 'M
 const favoritesMultipleSelAllFavToolbarMore = ['Remove Favorite', 'Move', 'Copy', 'Delete'];
 
 // TODO: raise issue to remove 'Permissions'
-const searchMultipleSelContextMenu = ['Download', 'Favorite', 'Copy', 'Permissions'];
+const searchMultipleSelContextMenu = ['Download', 'Favorite', 'Copy', 'Edit Aspects', 'Permissions'];
 // TODO: raise issue to remove 'Permissions'
 const searchMultipleSelAllFavContextMenu = ['Download', 'Remove Favorite', 'Copy', 'Permissions'];
 const searchMultipleSelToolbarPrimary = ['Toggle search filter', 'Download', 'View Details', 'More Actions'];
 // TODO: raise issue to remove 'Permissions'
-const searchMultipleSelToolbarMore = ['Favorite', 'Copy', 'Permissions'];
+const searchMultipleSelToolbarMore = ['Favorite', 'Copy', 'Edit Aspects', 'Permissions'];
 // TODO: raise issue to remove 'Permissions'
 const searchMultipleSelAllFavToolbarMore = ['Remove Favorite', 'Copy', 'Permissions'];
 
