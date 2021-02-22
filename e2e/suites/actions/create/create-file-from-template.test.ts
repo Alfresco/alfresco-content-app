@@ -126,7 +126,7 @@ describe('Create file from template', () => {
     done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await userApi.nodes.deleteNodeById(parentId);
     await userApi.sites.deleteSite(siteName);
 
@@ -137,31 +137,27 @@ describe('Create file from template', () => {
       template1InRootFolder,
       template2InRootFolder
     ]);
-    done();
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     await page.closeOpenDialogs();
-    done();
   });
 
   describe('with existing templates', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await adminApiActions.createNodeTemplatesHierarchy(templates);
       await adminApiActions.removeUserAccessOnNodeTemplate(restrictedTemplateFolder);
       link = (await adminApiActions.createLinkToFileName(template2InRootFolder, await adminApiActions.getNodeTemplatesFolderId())).entry.name;
-      done();
     });
 
     describe('Select Template dialog', () => {
-      beforeEach(async (done) => {
+      beforeEach(async () => {
         try {
           await sidenav.openCreateFileFromTemplateDialog();
           await selectTemplateDialog.waitForDialogToOpen();
         } catch (error) {
           Logger.error(`----- beforeEach failed : ${error}`);
         }
-        done();
       });
 
       it('[C325043] Select template - dialog UI - with existing templates', async () => {
@@ -238,7 +234,7 @@ describe('Create file from template', () => {
     });
 
     describe('Create from template dialog', () => {
-      beforeEach(async (done) => {
+      beforeEach(async () => {
         try {
           await sidenav.openCreateFileFromTemplateDialog();
           await selectTemplateDialog.waitForDialogToOpen();
@@ -248,7 +244,6 @@ describe('Create file from template', () => {
         } catch (error) {
           Logger.error(`----- beforeEach failed : ${error}`);
         }
-        done();
       });
 
       it('[C325020] Create file from template - dialog UI', async () => {
@@ -310,7 +305,7 @@ describe('Create file from template', () => {
     });
 
     describe('On Personal Files', () => {
-      beforeEach(async (done) => {
+      beforeEach(async () => {
         try {
           await page.clickPersonalFilesAndWait();
           await page.dataTable.doubleClickOnRowByName(parent);
@@ -322,7 +317,6 @@ describe('Create file from template', () => {
         } catch (error) {
           Logger.error(`----- beforeEach failed : ${error}`);
         }
-        done();
       });
 
       it('[C325030] Create a file from a template - with a new Name', async () => {
@@ -379,7 +373,7 @@ describe('Create file from template', () => {
     describe('On File Libraries', () => {
       const fileLibrariesPage = new BrowsingPage();
 
-      beforeEach(async (done) => {
+      beforeEach(async () => {
         try {
           await fileLibrariesPage.goToMyLibrariesAndWait();
           await page.dataTable.doubleClickOnRowByName(siteName);
@@ -391,7 +385,6 @@ describe('Create file from template', () => {
         } catch (error) {
           Logger.error(`----- beforeEach failed : ${error}`);
         }
-        done();
       });
 
       it('[C325023] Create a file from a template - with Name, Title and Description', async () => {

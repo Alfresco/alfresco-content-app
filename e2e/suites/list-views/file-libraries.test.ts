@@ -92,20 +92,22 @@ describe('File Libraries', () => {
     done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     try {
       await apis.user.sites.deleteSites([userSitePublic, userSiteModerated, userSitePrivate, siteId1, siteId2]);
       await adminApiActions.sites.deleteSites([adminSite1, adminSite2, adminSite3, adminSite4, adminSite5, adminSite6]);
     } catch (error) {
       Logger.error(`----- afterAll failed : ${error}`);
     }
-    done();
   });
 
   describe('My Libraries', () => {
-    beforeEach(async (done) => {
-      await page.goToMyLibrariesAndWait();
-      done();
+    beforeEach(async () => {
+      try {
+        await page.goToMyLibrariesAndWait();
+      } catch (error) {
+        Logger.error(`----- beforeEach failed : ${error}`);
+      }
     });
 
     it('[C217095] has the correct columns', async () => {
@@ -169,9 +171,12 @@ describe('File Libraries', () => {
   });
 
   describe('Favorite Libraries', () => {
-    beforeEach(async (done) => {
-      await page.goToFavoriteLibrariesAndWait();
-      done();
+    beforeEach(async () => {
+      try {
+        await page.goToFavoriteLibrariesAndWait();
+      } catch (error) {
+        Logger.error(`----- beforeEach failed : ${error}`);
+      }
     });
 
     it('[C289893] has the correct columns', async () => {

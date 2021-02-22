@@ -25,7 +25,7 @@
 
 import { browser } from 'protractor';
 import { AdminActions, UserActions, LoginPage, BrowsingPage, APP_ROUTES, RepoClient, Utils } from '@alfresco/aca-testing-shared';
-import { BrowserActions } from '@alfresco/adf-testing';
+import { BrowserActions, Logger } from '@alfresco/adf-testing';
 
 describe('Restore from Trash', () => {
   const username = `user-${Utils.random()}`;
@@ -41,17 +41,20 @@ describe('Restore from Trash', () => {
   const userActions = new UserActions();
 
   beforeAll(async (done) => {
-    await adminApiActions.login();
-    await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
+    try {
+      await adminApiActions.login();
+      await adminApiActions.createUser({ username });
+      await userActions.login(username, username);
 
-    await loginPage.loginWith(username);
+      await loginPage.loginWith(username);
+    } catch (error) {
+      Logger.error(`----- beforeAll failed : ${error}`);
+    }
     done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await userActions.emptyTrashcan();
-    done();
   });
 
   describe('successful restore', () => {
@@ -61,28 +64,29 @@ describe('Restore from Trash', () => {
     let folderId: string;
     const site = `site-${Utils.random()}`;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       fileId = (await apis.user.nodes.createFile(file)).entry.id;
       folderId = (await apis.user.nodes.createFolder(folder)).entry.id;
       await apis.user.sites.createSite(site);
 
       await userActions.deleteNodes([fileId, folderId], false);
       await userActions.deleteSites([site], false);
-      done();
     });
 
-    beforeEach(async (done) => {
-      await page.clickTrashAndWait();
-      done();
+    beforeEach(async () => {
+      try {
+        await page.clickTrashAndWait();
+      } catch (error) {
+        Logger.error(`----- beforeEach failed : ${error}`);
+      }
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       await userActions.login(username, username);
       await userActions.emptyTrashcan();
-      done();
     });
 
-    it('[C217177] restore file', async () => {
+    it('[C217177] restore file', async (done) => {
       await dataTable.selectItem(file);
       await BrowserActions.click(toolbar.restoreButton);
       const text = await page.getSnackBarMessage();
@@ -93,9 +97,10 @@ describe('Restore from Trash', () => {
       expect(await page.dataTable.isItemPresent(file)).toBe(true, 'Item not displayed in list');
 
       await userActions.deleteNodes([fileId], false);
+      done();
     });
 
-    it('[C280438] restore folder', async () => {
+    it('[C280438] restore folder', async (done) => {
       await dataTable.selectItem(folder);
       await BrowserActions.click(toolbar.restoreButton);
       const text = await page.getSnackBarMessage();
@@ -106,6 +111,7 @@ describe('Restore from Trash', () => {
       expect(await page.dataTable.isItemPresent(folder)).toBe(true, 'Item not displayed in list');
 
       await userActions.deleteNodes([folderId], false);
+      done();
     });
 
     it('[C290104] restore library', async () => {
@@ -119,7 +125,7 @@ describe('Restore from Trash', () => {
       expect(await page.dataTable.isItemPresent(site)).toBe(true, `${site} not displayed in list`);
     });
 
-    it('[C217182] restore multiple items', async () => {
+    it('[C217182] restore multiple items', async (done) => {
       await dataTable.selectMultipleItems([file, folder]);
       await BrowserActions.click(toolbar.restoreButton);
       const text = await page.getSnackBarMessage();
@@ -132,9 +138,10 @@ describe('Restore from Trash', () => {
       expect(await page.dataTable.isItemPresent(folder)).toBe(true, 'Item not displayed in list');
 
       await userActions.deleteNodes([fileId, folderId], false);
+      done();
     });
 
-    it('[C217181] View from notification', async () => {
+    it('[C217181] View from notification', async (done) => {
       await dataTable.selectItem(file);
       await BrowserActions.click(toolbar.restoreButton);
       await page.clickSnackBarAction();
@@ -143,6 +150,7 @@ describe('Restore from Trash', () => {
       expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);
 
       await userActions.deleteNodes([fileId], false);
+      done();
     });
   });
 
@@ -158,7 +166,7 @@ describe('Restore from Trash', () => {
     const folder2 = `folder-${Utils.random()}`;
     let folder2Id: string;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       folder1Id = (await apis.user.nodes.createFolder(folder1)).entry.id;
       file1Id1 = (await apis.user.nodes.createFile(file1, folder1Id)).entry.id;
       await userActions.deleteNodes([file1Id1], false);
@@ -168,30 +176,29 @@ describe('Restore from Trash', () => {
       file2Id = (await apis.user.nodes.createFile(file2, folder2Id)).entry.id;
 
       await userActions.deleteNodes([file2Id, folder2Id], false);
-      done();
     });
 
-    beforeEach(async (done) => {
-      await page.clickTrashAndWait();
-      done();
+    beforeEach(async () => {
+      try {
+        await page.clickTrashAndWait();
+      } catch (error) {
+        Logger.error(`----- beforeEach failed : ${error}`);
+      }
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       await userActions.login(username, username);
       await userActions.deleteNodes([file1Id2]);
       await userActions.emptyTrashcan();
-      done();
     });
 
     it('[C217178] Restore a file when another file with same name exists on the restore location', async () => {
-      await page.clickTrashAndWait();
       await dataTable.selectItem(file1);
       await BrowserActions.click(toolbar.restoreButton);
       expect(await page.getSnackBarMessage()).toEqual(`Can't restore, ${file1} already exists`);
     });
 
     it('[C217179] Restore a file when original location no longer exists', async () => {
-      await page.clickTrashAndWait();
       await dataTable.selectItem(file2);
       await BrowserActions.click(toolbar.restoreButton);
       expect(await page.getSnackBarMessage()).toEqual(`Can't restore ${file2}, the original location no longer exists`);
@@ -220,33 +227,39 @@ describe('Restore from Trash', () => {
     let file5Id: string;
 
     beforeAll(async (done) => {
-      folder1Id = (await apis.user.nodes.createFolder(folder1)).entry.id;
-      file1Id = (await apis.user.nodes.createFile(file1, folder1Id)).entry.id;
-      folder2Id = (await apis.user.nodes.createFolder(folder2)).entry.id;
-      file2Id = (await apis.user.nodes.createFile(file2, folder2Id)).entry.id;
+      try {
+        folder1Id = (await apis.user.nodes.createFolder(folder1)).entry.id;
+        file1Id = (await apis.user.nodes.createFile(file1, folder1Id)).entry.id;
+        folder2Id = (await apis.user.nodes.createFolder(folder2)).entry.id;
+        file2Id = (await apis.user.nodes.createFile(file2, folder2Id)).entry.id;
 
-      await userActions.deleteNodes([file1Id, folder1Id, file2Id], false);
+        await userActions.deleteNodes([file1Id, folder1Id, file2Id], false);
 
-      folder3Id = (await apis.user.nodes.createFolder(folder3)).entry.id;
-      file3Id = (await apis.user.nodes.createFile(file3, folder3Id)).entry.id;
-      file4Id = (await apis.user.nodes.createFile(file4, folder3Id)).entry.id;
-      folder4Id = (await apis.user.nodes.createFolder(folder4)).entry.id;
-      file5Id = (await apis.user.nodes.createFile(file5, folder4Id)).entry.id;
+        folder3Id = (await apis.user.nodes.createFolder(folder3)).entry.id;
+        file3Id = (await apis.user.nodes.createFile(file3, folder3Id)).entry.id;
+        file4Id = (await apis.user.nodes.createFile(file4, folder3Id)).entry.id;
+        folder4Id = (await apis.user.nodes.createFolder(folder4)).entry.id;
+        file5Id = (await apis.user.nodes.createFile(file5, folder4Id)).entry.id;
 
-      await userActions.deleteNodes([file3Id, file4Id, folder3Id, file5Id], false);
-      await loginPage.loginWith(username);
+        await userActions.deleteNodes([file3Id, file4Id, folder3Id, file5Id], false);
+        await loginPage.loginWith(username);
+      } catch (error) {
+        Logger.error(`----- beforeAll failed : ${error}`);
+      }
       done();
     });
 
-    beforeEach(async (done) => {
-      await page.clickTrashAndWait();
-      done();
+    beforeEach(async () => {
+      try {
+        await page.clickTrashAndWait();
+      } catch (error) {
+        Logger.error(`----- beforeEach failed : ${error}`);
+      }
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       await userActions.login(username, username);
       await userActions.emptyTrashcan();
-      done();
     });
 
     it('[C217183] one failure', async () => {

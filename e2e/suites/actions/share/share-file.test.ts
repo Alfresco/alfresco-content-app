@@ -65,31 +65,28 @@ describe('Share a file', () => {
   const adminApiActions = new AdminActions();
   const userActions = new UserActions();
 
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     await adminApiActions.login();
     await adminApiActions.createUser({ username });
 
     await userActions.login(username, username);
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await apis.user.nodes.deleteNodeById(parentId);
-    done();
   });
 
   describe('when logged out', () => {
     let file6SharedLink: string;
     let file6Id: string;
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       file6Id = (await apis.user.nodes.createFile(file6, parentId)).entry.id;
 
       const sharedId = (await apis.user.shared.shareFileById(file6Id)).entry.id;
       file6SharedLink = `${shareLinkPreUrl}${sharedId}`;
       await apis.user.shared.waitForFilesToBeShared([file6Id]);
-      done();
     });
 
     afterAll(async () => {
@@ -115,9 +112,12 @@ describe('Share a file', () => {
     const contextMenu = dataTable.menu;
     const { searchInput } = page.header;
 
-    beforeAll(async (done) => {
-      await loginPage.loginWith(username);
-      done();
+    beforeAll(async () => {
+      try {
+        await loginPage.loginWith(username);
+      } catch (error) {
+        Logger.error(`----- beforeAll failed : ${error}`);
+      }
     });
 
     describe('from Personal Files', () => {
@@ -131,7 +131,7 @@ describe('Share a file', () => {
       let file8Id: string;
       let file9Id: string;
 
-      beforeAll(async (done) => {
+      beforeAll(async () => {
         file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
         file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
         file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
@@ -144,10 +144,9 @@ describe('Share a file', () => {
 
         await userActions.shareNodes([file6Id, file7Id], expiryDate);
         await apis.user.shared.waitForFilesToBeShared([file6Id, file7Id]);
-        done();
       });
 
-      beforeEach(async (done) => {
+      beforeEach(async () => {
         try {
           await page.clickPersonalFilesAndWait();
           await dataTable.doubleClickOnRowByName(parent);
@@ -155,22 +154,19 @@ describe('Share a file', () => {
         } catch (error) {
           Logger.error(`----- beforeEach failed : ${error}`);
         }
-        done();
       });
 
-      afterEach(async (done) => {
+      afterEach(async () => {
         try {
           await Utils.pressEscape();
           await page.closeOpenDialogs();
         } catch (error) {
           Logger.error(`----- afterEach failed : ${error}`);
         }
-        done();
       });
 
-      afterAll(async (done) => {
+      afterAll(async () => {
         await apis.user.nodes.deleteNodesById([file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id, file9Id]);
-        done();
       });
 
       it('[C286327] Share dialog default values', async () => {
@@ -339,7 +335,7 @@ describe('Share a file', () => {
       let file8Id: string;
       let file9Id: string;
 
-      beforeAll(async (done) => {
+      beforeAll(async () => {
         await apis.user.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
         const docLibId = await apis.user.sites.getDocLibId(siteName);
         parentInSiteId = (await apis.user.nodes.createFolder(parentInSite, docLibId)).entry.id;
@@ -356,10 +352,9 @@ describe('Share a file', () => {
 
         await userActions.shareNodes([file6Id, file7Id], expiryDate);
         await apis.user.shared.waitForFilesToBeShared([file6Id, file7Id]);
-        done();
       });
 
-      beforeEach(async (done) => {
+      beforeEach(async () => {
         try {
           await page.goToMyLibrariesAndWait();
           await dataTable.doubleClickOnRowByName(siteName);
@@ -369,22 +364,19 @@ describe('Share a file', () => {
         } catch (error) {
           Logger.error(`----- beforeEach failed : ${error}`);
         }
-        done();
       });
 
-      afterEach(async (done) => {
+      afterEach(async () => {
         try {
           await Utils.pressEscape();
           await page.closeOpenDialogs();
         } catch (error) {
           Logger.error(`----- afterEach failed : ${error}`);
         }
-        done();
       });
 
-      afterAll(async (done) => {
+      afterAll(async () => {
         await adminApiActions.sites.deleteSite(siteName);
-        done();
       });
 
       it('[C286639] Share dialog default values', async () => {
@@ -550,7 +542,7 @@ describe('Share a file', () => {
       let file8Id: string;
       let file9Id: string;
 
-      beforeAll(async (done) => {
+      beforeAll(async () => {
         file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
         file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
         file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
@@ -563,31 +555,27 @@ describe('Share a file', () => {
 
         await userActions.shareNodes([file6Id, file7Id], expiryDate);
         await apis.user.shared.waitForFilesToBeShared([file6Id, file7Id]);
-        done();
       });
 
-      beforeEach(async (done) => {
+      beforeEach(async () => {
         try {
           await page.clickRecentFilesAndWait();
         } catch (error) {
           Logger.error(`----- beforeEach failed : ${error}`);
         }
-        done();
       });
 
-      afterEach(async (done) => {
+      afterEach(async () => {
         try {
           await page.closeOpenDialogs();
           await Utils.pressEscape();
         } catch (error) {
           Logger.error(`----- afterEach failed : ${error}`);
         }
-        done();
       });
 
-      afterAll(async (done) => {
+      afterAll(async () => {
         await apis.user.nodes.deleteNodesById([file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id, file9Id]);
-        done();
       });
 
       it('[C286657] Share dialog default values', async () => {
@@ -751,7 +739,7 @@ describe('Share a file', () => {
       let file6Id: string;
       let file7Id: string;
 
-      beforeAll(async (done) => {
+      beforeAll(async () => {
         file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
         file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
         file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
@@ -764,31 +752,27 @@ describe('Share a file', () => {
         await userActions.shareNodes([file4Id, file5Id], expiryDate);
         await userActions.shareNodes([file6Id, file7Id]);
         await apis.user.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id]);
-        done();
       });
 
-      beforeEach(async (done) => {
+      beforeEach(async () => {
         try {
           await page.clickSharedFilesAndWait();
         } catch (error) {
           Logger.error(`----- beforeEach failed : ${error}`);
         }
-        done();
       });
 
-      afterEach(async (done) => {
+      afterEach(async () => {
         try {
           await Utils.pressEscape();
           await page.closeOpenDialogs();
         } catch (error) {
           Logger.error(`----- afterEach failed : ${error}`);
         }
-        done();
       });
 
-      afterAll(async (done) => {
+      afterAll(async () => {
         await apis.user.nodes.deleteNodesById([file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id]);
-        done();
       });
 
       it('[C286648] Share dialog default values', async () => {
@@ -907,7 +891,7 @@ describe('Share a file', () => {
       let file8Id: string;
       let file9Id: string;
 
-      beforeAll(async (done) => {
+      beforeAll(async () => {
         file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
         file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
         file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
@@ -923,31 +907,27 @@ describe('Share a file', () => {
 
         await apis.user.favorites.waitForApi({ expect: 9 });
         await apis.user.shared.waitForFilesToBeShared([file6Id, file7Id]);
-        done();
       });
 
-      beforeEach(async (done) => {
+      beforeEach(async () => {
         try {
           await page.clickFavoritesAndWait();
         } catch (error) {
           Logger.error(`----- beforeEach failed : ${error}`);
         }
-        done();
       });
 
-      afterEach(async (done) => {
+      afterEach(async () => {
         try {
           await Utils.pressEscape();
           await page.closeOpenDialogs();
         } catch (error) {
           Logger.error(`----- afterEach failed : ${error}`);
         }
-        done();
       });
 
-      afterAll(async (done) => {
+      afterAll(async () => {
         await apis.user.nodes.deleteNodesById([file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id, file9Id]);
-        done();
       });
 
       it('[C286666] Share dialog default values', async () => {
@@ -1117,7 +1097,7 @@ describe('Share a file', () => {
       let fileSearch7Id: string;
       let fileSearch9Id: string;
 
-      beforeAll(async (done) => {
+      beforeAll(async () => {
         fileSearch3Id = (await apis.user.nodes.createFile(fileSearch3, parentId)).entry.id;
         fileSearch5Id = (await apis.user.nodes.createFile(fileSearch5, parentId)).entry.id;
         fileSearch6Id = (await apis.user.nodes.createFile(fileSearch6, parentId)).entry.id;
@@ -1127,10 +1107,9 @@ describe('Share a file', () => {
 
         await userActions.shareNodes([fileSearch6Id, fileSearch7Id], expiryDate);
         await apis.user.shared.waitForFilesToBeShared([fileSearch6Id, fileSearch7Id]);
-        done();
       });
 
-      beforeEach(async (done) => {
+      beforeEach(async () => {
         try {
           await searchInput.clickSearchButton();
           await searchInput.checkFilesAndFolders();
@@ -1139,22 +1118,19 @@ describe('Share a file', () => {
         } catch (error) {
           Logger.error(`----- beforeEach failed : ${error}`);
         }
-        done();
       });
 
-      afterEach(async (done) => {
+      afterEach(async () => {
         try {
           await Utils.pressEscape();
           await page.closeOpenDialogs();
         } catch (error) {
           Logger.error(`----- afterEach failed : ${error}`);
         }
-        done();
       });
 
-      afterAll(async (done) => {
+      afterAll(async () => {
         await apis.user.nodes.deleteNodesById([fileSearch3Id, fileSearch5Id, fileSearch6Id, fileSearch7Id, fileSearch9Id]);
-        done();
       });
 
       it('[C306975] Share a file', async () => {

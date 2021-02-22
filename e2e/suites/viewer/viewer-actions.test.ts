@@ -124,7 +124,7 @@ describe('Viewer actions', () => {
       done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       try {
         await page.clickPersonalFilesAndWait();
         await dataTable.doubleClickOnRowByName(parent);
@@ -132,20 +132,18 @@ describe('Viewer actions', () => {
       } catch (error) {
         Logger.error(`----- beforeEach failed : ${error}`);
       }
-      done();
     });
 
-    afterEach(async (done) => {
+    afterEach(async () => {
       try {
         await Utils.pressEscape();
         await page.closeUploadDialog();
       } catch (error) {
         Logger.error(`----- afterEach failed : ${error}`);
       }
-      done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       try {
         await userActions.login(username, username);
         await userActions.deleteNodes([parentId, destinationId]);
@@ -153,7 +151,6 @@ describe('Viewer actions', () => {
       } catch (error) {
         Logger.error(`----- afterAll failed : ${error}`);
       }
-      done();
     });
 
     it('[C268129] Download action', async () => {
@@ -369,7 +366,7 @@ describe('Viewer actions', () => {
       done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       try {
         await page.goToMyLibrariesAndWait();
         await dataTable.doubleClickOnRowByName(siteName);
@@ -377,20 +374,18 @@ describe('Viewer actions', () => {
       } catch (error) {
         Logger.error(`----- beforeEach failed : ${error}`);
       }
-      done();
     });
 
-    afterEach(async (done) => {
+    afterEach(async () => {
       try {
         await Utils.pressEscape();
         await page.closeUploadDialog();
       } catch (error) {
         Logger.error(`----- afterEach failed : ${error}`);
       }
-      done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       try {
         await userActions.login(username, username);
         await userActions.deleteSites([siteName]);
@@ -399,7 +394,6 @@ describe('Viewer actions', () => {
       } catch (error) {
         Logger.error(`----- afterAll failed : ${error}`);
       }
-      done();
     });
 
     it('[C286369] Download action', async () => {
@@ -576,26 +570,24 @@ describe('Viewer actions', () => {
       done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       try {
         await page.clickRecentFilesAndWait();
       } catch (error) {
         Logger.error(`----- beforeEach failed : ${error}`);
       }
-      done();
     });
 
-    afterEach(async (done) => {
+    afterEach(async () => {
       try {
         await Utils.pressEscape();
         await page.closeUploadDialog();
       } catch (error) {
         Logger.error(`----- afterEach failed : ${error}`);
       }
-      done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       try {
         await userActions.login(username, username);
         await userActions.deleteNodes([parentId, destinationId]);
@@ -603,7 +595,6 @@ describe('Viewer actions', () => {
       } catch (error) {
         Logger.error(`----- afterAll failed : ${error}`);
       }
-      done();
     });
 
     it('[C286383] Download action', async () => {
@@ -797,16 +788,15 @@ describe('Viewer actions', () => {
       done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       try {
         await page.clickSharedFilesAndWait();
       } catch (error) {
         Logger.error(`----- beforeEach failed : ${error}`);
       }
-      done();
     });
 
-    afterEach(async (done) => {
+    afterEach(async () => {
       try {
         await page.closeOpenDialogs();
         await Utils.pressEscape();
@@ -814,10 +804,9 @@ describe('Viewer actions', () => {
       } catch (error) {
         Logger.error(`----- afterEach failed : ${error}`);
       }
-      done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       try {
         await userActions.login(username, username);
         await userActions.deleteNodes([parentId, destinationId]);
@@ -825,7 +814,6 @@ describe('Viewer actions', () => {
       } catch (error) {
         Logger.error(`----- afterAll failed : ${error}`);
       }
-      done();
     });
 
     it('[C286376] Download action', async () => {
@@ -1010,26 +998,24 @@ describe('Viewer actions', () => {
       done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       try {
         await page.clickFavoritesAndWait();
       } catch (error) {
         Logger.error(`----- beforeEach failed : ${error}`);
       }
-      done();
     });
 
-    afterEach(async (done) => {
+    afterEach(async () => {
       try {
         await Utils.pressEscape();
         await page.closeUploadDialog();
       } catch (error) {
         Logger.error(`----- afterEach failed : ${error}`);
       }
-      done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       try {
         await userActions.login(username, username);
         await userActions.deleteNodes([parentId, destinationId]);
@@ -1037,7 +1023,6 @@ describe('Viewer actions', () => {
       } catch (error) {
         Logger.error(`----- afterAll failed : ${error}`);
       }
-      done();
     });
 
     it('[C286390] Download action', async () => {

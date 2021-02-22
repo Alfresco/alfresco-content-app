@@ -123,7 +123,7 @@ describe('Search results - libraries', () => {
     done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     try {
       await adminApiActions.login();
       await adminApiActions.sites.deleteSites([adminSite1, adminSite2, adminSite3, adminSite4, adminPrivate]);
@@ -131,7 +131,6 @@ describe('Search results - libraries', () => {
     } catch (error) {
       Logger.error(`----- afterAll failed : ${error}`);
     }
-    done();
   });
 
   beforeEach(async () => {

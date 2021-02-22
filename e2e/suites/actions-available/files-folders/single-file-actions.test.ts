@@ -76,10 +76,9 @@ describe('Files - available actions : ', () => {
     done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await userActions.deleteNodes([parentId]);
     await userActions.emptyTrashcan();
-    done();
   });
 
   beforeEach(async () => {
@@ -87,11 +86,10 @@ describe('Files - available actions : ', () => {
   });
 
   describe('on Personal Files : ', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(parentName);
       await dataTable.waitForHeader();
-      done();
     });
 
     it('File simple - [C286265]', async () => {
@@ -115,11 +113,10 @@ describe('Files - available actions : ', () => {
     });
 
     describe('Viewer - file opened from Personal Files : ', () => {
-      beforeAll(async (done) => {
+      beforeAll(async () => {
         await page.clickPersonalFilesAndWait();
         await dataTable.doubleClickOnRowByName(parentName);
         await dataTable.waitForHeader();
-        done();
       });
 
       it('File simple - [C297587]', async () => {
@@ -145,9 +142,8 @@ describe('Files - available actions : ', () => {
   });
 
   describe('on Favorites : ', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await page.clickFavoritesAndWait();
-      done();
     });
 
     it('File favorite - [C280461]', async () => {
@@ -165,9 +161,8 @@ describe('Files - available actions : ', () => {
     });
 
     describe('Viewer - file opened from Favorites : ', () => {
-      beforeAll(async (done) => {
+      beforeAll(async () => {
         await page.clickFavoritesAndWait();
-        done();
       });
 
       it('File favorite - [C326703]', async () => {
@@ -185,9 +180,8 @@ describe('Files - available actions : ', () => {
   });
 
   describe('on Recent Files : ', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await page.clickRecentFilesAndWait();
-      done();
     });
 
     it('File simple - [C280471]', async () => {
@@ -211,9 +205,8 @@ describe('Files - available actions : ', () => {
     });
 
     describe('Viewer - file opened from Recent Files : ', () => {
-      beforeAll(async (done) => {
+      beforeAll(async () => {
         await page.clickRecentFilesAndWait();
-        done();
       });
 
       it('File simple - [C326692]', async () => {
@@ -318,9 +311,8 @@ describe('Files - available actions : ', () => {
   });
 
   describe('on Shared Files : ', () => {
-    beforeAll(async (done) => {
+    beforeAll(async () => {
       await page.clickSharedFilesAndWait();
-      done();
     });
 
     describe('single selection', () => {
@@ -336,9 +328,8 @@ describe('Files - available actions : ', () => {
     });
 
     describe('Viewer - file opened from Shared Files : ', () => {
-      beforeAll(async (done) => {
+      beforeAll(async () => {
         await page.clickSharedFilesAndWait();
-        done();
       });
 
       it('File shared - [C326710]', async () => {

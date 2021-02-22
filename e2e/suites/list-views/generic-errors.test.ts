@@ -25,6 +25,7 @@
 
 import { browser } from 'protractor';
 import { AdminActions, UserActions, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { Logger } from '@alfresco/adf-testing';
 
 describe('Generic errors', () => {
   const username = `user-${Utils.random()}`;
@@ -48,24 +49,27 @@ describe('Generic errors', () => {
   const userActions = new UserActions();
 
   beforeAll(async (done) => {
-    await adminApiActions.login();
-    await adminApiActions.createUser({ username });
-    await adminApiActions.createUser({ username: username2 });
-    await userActions.login(username, username);
+    try {
+      await adminApiActions.login();
+      await adminApiActions.createUser({ username });
+      await adminApiActions.createUser({ username: username2 });
+      await userActions.login(username, username);
 
-    parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
-    file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
-    await apis.user.nodes.createFile(file2, parentId);
+      parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
+      file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
+      await apis.user.nodes.createFile(file2, parentId);
 
-    await loginPage.loginWith(username);
+      await loginPage.loginWith(username);
+    } catch (error) {
+      Logger.error(`----- beforeAll failed : ${error}`);
+    }
     done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await userActions.login(username, username);
     await userActions.deleteNodes([parentId]);
     await userActions.emptyTrashcan();
-    done();
   });
 
   it('[C217313] File / folder not found', async () => {

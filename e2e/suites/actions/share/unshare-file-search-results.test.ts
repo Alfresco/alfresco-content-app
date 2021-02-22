@@ -114,20 +114,18 @@ describe('Unshare a file from Search Results', () => {
     done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await apis.user.nodes.deleteNodeById(parentId);
     await adminApiActions.sites.deleteSite(sitePrivate);
-    done();
   });
 
-  afterEach(async (done) => {
+  afterEach(async () => {
     try {
       await page.closeOpenDialogs();
       await page.clickPersonalFilesAndWait();
     } catch (error) {
       Logger.error(`----- afterEach failed : ${error}`);
     }
-    done();
   });
 
   it('[C306995] Unshare dialog UI', async () => {

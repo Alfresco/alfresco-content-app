@@ -228,12 +228,11 @@ describe('Copy content', () => {
     done();
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     await page.closeOpenDialogs();
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     try {
       await apis.user.nodes.unlockFile(fileLocked1Id);
       await apis.user.nodes.unlockFile(fileLockedInFolderId);
@@ -242,14 +241,12 @@ describe('Copy content', () => {
     } catch (error) {
       Logger.error(`---- afterAll failed : ${error}`);
     }
-    done();
   });
 
   describe('from Recent Files', () => {
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await Utils.pressEscape();
       await page.clickRecentFilesAndWait();
-      done();
     });
 
     it('[C280194] Copy a file', async () => copyFile(file1, source, destinationRF));
@@ -271,11 +268,10 @@ describe('Copy content', () => {
   });
 
   describe('from Personal Files', () => {
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await Utils.pressEscape();
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(source);
-      done();
     });
 
     it('[C217135] Copy a file', async () => copyFile(file1, '', destinationPF));
@@ -319,10 +315,9 @@ describe('Copy content', () => {
   });
 
   describe('from Shared Files', () => {
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await Utils.pressEscape();
       await page.clickSharedFilesAndWait();
-      done();
     });
 
     it('[C280206] Copy a file', async () => copyFile(file1, source, destinationSF));
@@ -344,10 +339,9 @@ describe('Copy content', () => {
   });
 
   describe('from Favorites', () => {
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await Utils.pressEscape();
       await page.clickFavoritesAndWait();
-      done();
     });
 
     it('[C280218] Copy a file', async () => copyFile(file1, source, destinationFav));
@@ -388,11 +382,10 @@ describe('Copy content', () => {
   });
 
   describe('from Search Results', () => {
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await Utils.pressEscape();
       await page.clickPersonalFiles();
       await searchInput.clickSearchButton();
-      done();
     });
 
     it('[C306932] Copy a file', async () =>
