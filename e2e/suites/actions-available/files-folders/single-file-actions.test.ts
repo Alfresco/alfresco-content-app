@@ -26,6 +26,7 @@
 import { RepoClient, Utils, AdminActions, UserActions, LoginPage, BrowsingPage, SearchResultsPage } from '@alfresco/aca-testing-shared';
 import * as testData from './test-data';
 import * as testUtil from '../test-util';
+import { Logger } from '@alfresco/adf-testing';
 
 describe('Files - available actions : ', () => {
   const random = Utils.random();
@@ -48,31 +49,37 @@ describe('Files - available actions : ', () => {
   const { searchInput } = page.header;
   const searchResultsPage = new SearchResultsPage();
 
-  beforeAll(async () => {
-    await adminApiActions.login();
-    await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
+  beforeAll(async (done) => {
+    try {
+      await adminApiActions.login();
+      await adminApiActions.createUser({ username });
+      await userActions.login(username, username);
 
-    parentId = (await userApi.nodes.createFolder(parentName)).entry.id;
+      parentId = (await userApi.nodes.createFolder(parentName)).entry.id;
 
-    await userApi.nodes.createFile(testData.file.name, parentId);
-    fileFavId = (await userApi.nodes.createFile(testData.fileFav.name, parentId)).entry.id;
-    fileSharedId = (await userApi.nodes.createFile(testData.fileShared.name, parentId)).entry.id;
-    fileSharedFavId = (await userApi.nodes.createFile(testData.fileSharedFav.name, parentId)).entry.id;
+      await userApi.nodes.createFile(testData.file.name, parentId);
+      fileFavId = (await userApi.nodes.createFile(testData.fileFav.name, parentId)).entry.id;
+      fileSharedId = (await userApi.nodes.createFile(testData.fileShared.name, parentId)).entry.id;
+      fileSharedFavId = (await userApi.nodes.createFile(testData.fileSharedFav.name, parentId)).entry.id;
 
-    const initialFavoritesTotalItems = (await userApi.favorites.getFavoritesTotalItems()) || 0;
-    await userApi.favorites.addFavoritesByIds('file', [fileFavId, fileSharedFavId]);
-    await userApi.favorites.waitForApi({ expect: initialFavoritesTotalItems + 2 });
+      const initialFavoritesTotalItems = (await userApi.favorites.getFavoritesTotalItems()) || 0;
+      await userApi.favorites.addFavoritesByIds('file', [fileFavId, fileSharedFavId]);
+      await userApi.favorites.waitForApi({ expect: initialFavoritesTotalItems + 2 });
 
-    await userApi.shared.shareFilesByIds([fileSharedId, fileSharedFavId]);
-    await userApi.shared.waitForFilesToBeShared([fileSharedId, fileSharedFavId]);
+      await userApi.shared.shareFilesByIds([fileSharedId, fileSharedFavId]);
+      await userApi.shared.waitForFilesToBeShared([fileSharedId, fileSharedFavId]);
 
-    await loginPage.loginWith(username);
+      await loginPage.loginWith(username);
+    } catch (error) {
+      Logger.error(`----- beforeEach failed : ${error}`);
+    }
+    done();
   });
 
-  afterAll(async () => {
+  afterAll(async (done) => {
     await userActions.deleteNodes([parentId]);
     await userActions.emptyTrashcan();
+    done();
   });
 
   beforeEach(async () => {
@@ -80,10 +87,11 @@ describe('Files - available actions : ', () => {
   });
 
   describe('on Personal Files : ', () => {
-    beforeAll(async () => {
+    beforeAll(async (done) => {
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(parentName);
       await dataTable.waitForHeader();
+      done();
     });
 
     it('File simple - [C286265]', async () => {
@@ -107,10 +115,11 @@ describe('Files - available actions : ', () => {
     });
 
     describe('Viewer - file opened from Personal Files : ', () => {
-      beforeAll(async () => {
+      beforeAll(async (done) => {
         await page.clickPersonalFilesAndWait();
         await dataTable.doubleClickOnRowByName(parentName);
         await dataTable.waitForHeader();
+        done();
       });
 
       it('File simple - [C297587]', async () => {
@@ -136,8 +145,9 @@ describe('Files - available actions : ', () => {
   });
 
   describe('on Favorites : ', () => {
-    beforeAll(async () => {
+    beforeAll(async (done) => {
       await page.clickFavoritesAndWait();
+      done();
     });
 
     it('File favorite - [C280461]', async () => {
@@ -155,8 +165,9 @@ describe('Files - available actions : ', () => {
     });
 
     describe('Viewer - file opened from Favorites : ', () => {
-      beforeAll(async () => {
+      beforeAll(async (done) => {
         await page.clickFavoritesAndWait();
+        done();
       });
 
       it('File favorite - [C326703]', async () => {
@@ -174,8 +185,9 @@ describe('Files - available actions : ', () => {
   });
 
   describe('on Recent Files : ', () => {
-    beforeAll(async () => {
+    beforeAll(async (done) => {
       await page.clickRecentFilesAndWait();
+      done();
     });
 
     it('File simple - [C280471]', async () => {
@@ -199,8 +211,9 @@ describe('Files - available actions : ', () => {
     });
 
     describe('Viewer - file opened from Recent Files : ', () => {
-      beforeAll(async () => {
+      beforeAll(async (done) => {
         await page.clickRecentFilesAndWait();
+        done();
       });
 
       it('File simple - [C326692]', async () => {
@@ -305,8 +318,9 @@ describe('Files - available actions : ', () => {
   });
 
   describe('on Shared Files : ', () => {
-    beforeAll(async () => {
+    beforeAll(async (done) => {
       await page.clickSharedFilesAndWait();
+      done();
     });
 
     describe('single selection', () => {
@@ -322,8 +336,9 @@ describe('Files - available actions : ', () => {
     });
 
     describe('Viewer - file opened from Shared Files : ', () => {
-      beforeAll(async () => {
+      beforeAll(async (done) => {
         await page.clickSharedFilesAndWait();
+        done();
       });
 
       it('File shared - [C326710]', async () => {

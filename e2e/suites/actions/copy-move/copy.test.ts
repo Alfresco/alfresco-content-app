@@ -126,109 +126,114 @@ describe('Copy content', () => {
   const userActions = new UserActions();
 
   beforeAll(async (done) => {
-    await adminApiActions.login();
-    await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
+    try {
+      await adminApiActions.login();
+      await adminApiActions.createUser({ username });
+      await userActions.login(username, username);
 
-    const initialFavoritesTotalItems = await apis.user.favorites.getFavoritesTotalItems();
+      const initialFavoritesTotalItems = await apis.user.favorites.getFavoritesTotalItems();
 
-    sourceId = (await apis.user.nodes.createFolder(source)).entry.id;
-    destinationIdPF = (await apis.user.nodes.createFolder(destinationPF)).entry.id;
-    destinationIdRF = (await apis.user.nodes.createFolder(destinationRF)).entry.id;
-    destinationIdSF = (await apis.user.nodes.createFolder(destinationSF)).entry.id;
-    destinationIdFav = (await apis.user.nodes.createFolder(destinationFav)).entry.id;
-    destinationIdSearch = (await apis.user.nodes.createFolder(destinationSearch)).entry.id;
+      sourceId = (await apis.user.nodes.createFolder(source)).entry.id;
+      destinationIdPF = (await apis.user.nodes.createFolder(destinationPF)).entry.id;
+      destinationIdRF = (await apis.user.nodes.createFolder(destinationRF)).entry.id;
+      destinationIdSF = (await apis.user.nodes.createFolder(destinationSF)).entry.id;
+      destinationIdFav = (await apis.user.nodes.createFolder(destinationFav)).entry.id;
+      destinationIdSearch = (await apis.user.nodes.createFolder(destinationSearch)).entry.id;
 
-    existingFileToCopyId = (await apis.user.nodes.createFile(existingFile, sourceId)).entry.id;
-    await userActions.shareNodes([existingFileToCopyId]);
-    await apis.user.favorites.addFavoriteById('file', existingFileToCopyId);
+      existingFileToCopyId = (await apis.user.nodes.createFile(existingFile, sourceId)).entry.id;
+      await userActions.shareNodes([existingFileToCopyId]);
+      await apis.user.favorites.addFavoriteById('file', existingFileToCopyId);
 
-    await apis.user.nodes.createFile(existingFile, destinationIdPF);
-    await apis.user.nodes.createFile(existingFile, destinationIdRF);
-    await apis.user.nodes.createFile(existingFile, destinationIdSF);
-    await apis.user.nodes.createFile(existingFile, destinationIdFav);
-    await apis.user.nodes.createFile(existingFile, destinationIdSearch);
+      await apis.user.nodes.createFile(existingFile, destinationIdPF);
+      await apis.user.nodes.createFile(existingFile, destinationIdRF);
+      await apis.user.nodes.createFile(existingFile, destinationIdSF);
+      await apis.user.nodes.createFile(existingFile, destinationIdFav);
+      await apis.user.nodes.createFile(existingFile, destinationIdSearch);
 
-    existingFolderToCopyId = (await apis.user.nodes.createFolder(existingFolder, sourceId)).entry.id;
+      existingFolderToCopyId = (await apis.user.nodes.createFolder(existingFolder, sourceId)).entry.id;
 
-    existingIdPF = (await apis.user.nodes.createFolder(existingFolder, destinationIdPF)).entry.id;
-    await apis.user.nodes.createFolder(existingFolder, destinationIdRF);
-    await apis.user.nodes.createFolder(existingFolder, destinationIdSF);
-    existingIdFav = (await apis.user.nodes.createFolder(existingFolder, destinationIdFav)).entry.id;
-    existingIdSearch = (await apis.user.nodes.createFolder(existingFolder, destinationIdSearch)).entry.id;
-    await apis.user.nodes.createFile(file2InFolder, existingFolderToCopyId);
+      existingIdPF = (await apis.user.nodes.createFolder(existingFolder, destinationIdPF)).entry.id;
+      await apis.user.nodes.createFolder(existingFolder, destinationIdRF);
+      await apis.user.nodes.createFolder(existingFolder, destinationIdSF);
+      existingIdFav = (await apis.user.nodes.createFolder(existingFolder, destinationIdFav)).entry.id;
+      existingIdSearch = (await apis.user.nodes.createFolder(existingFolder, destinationIdSearch)).entry.id;
+      await apis.user.nodes.createFile(file2InFolder, existingFolderToCopyId);
 
-    await apis.user.nodes.createFile(file3InFolder, existingIdPF);
-    await apis.user.nodes.createFile(file3InFolder, existingIdFav);
-    await apis.user.nodes.createFile(file3InFolder, existingIdSearch);
+      await apis.user.nodes.createFile(file3InFolder, existingIdPF);
+      await apis.user.nodes.createFile(file3InFolder, existingIdFav);
+      await apis.user.nodes.createFile(file3InFolder, existingIdSearch);
 
-    await apis.user.favorites.addFavoriteById('folder', existingFolderToCopyId);
+      await apis.user.favorites.addFavoriteById('folder', existingFolderToCopyId);
 
-    folder1Id = (await apis.user.nodes.createFolder(folder1, sourceId)).entry.id;
-    fileInFolderId = (await apis.user.nodes.createFile(fileInFolder, folder1Id)).entry.id;
-    await apis.user.favorites.addFavoriteById('folder', folder1Id);
-    await apis.user.favorites.addFavoriteById('file', fileInFolderId);
-    await userActions.shareNodes([fileInFolderId]);
+      folder1Id = (await apis.user.nodes.createFolder(folder1, sourceId)).entry.id;
+      fileInFolderId = (await apis.user.nodes.createFile(fileInFolder, folder1Id)).entry.id;
+      await apis.user.favorites.addFavoriteById('folder', folder1Id);
+      await apis.user.favorites.addFavoriteById('file', fileInFolderId);
+      await userActions.shareNodes([fileInFolderId]);
 
-    folderExistingId = (await apis.user.nodes.createFolder(folderExisting, sourceId)).entry.id;
-    await apis.user.favorites.addFavoriteById('folder', folderExistingId);
-    await apis.user.nodes.createFile(file1InFolderExisting, folderExistingId);
+      folderExistingId = (await apis.user.nodes.createFolder(folderExisting, sourceId)).entry.id;
+      await apis.user.favorites.addFavoriteById('folder', folderExistingId);
+      await apis.user.nodes.createFile(file1InFolderExisting, folderExistingId);
 
-    folderExistingPFId = (await apis.user.nodes.createFolder(folderExisting, destinationIdPF)).entry.id;
-    await apis.user.nodes.createFile(file2InFolderExisting, folderExistingPFId);
+      folderExistingPFId = (await apis.user.nodes.createFolder(folderExisting, destinationIdPF)).entry.id;
+      await apis.user.nodes.createFile(file2InFolderExisting, folderExistingPFId);
 
-    folderExistingFavId = (await apis.user.nodes.createFolder(folderExisting, destinationIdFav)).entry.id;
-    await apis.user.nodes.createFile(file2InFolderExisting, folderExistingFavId);
+      folderExistingFavId = (await apis.user.nodes.createFolder(folderExisting, destinationIdFav)).entry.id;
+      await apis.user.nodes.createFile(file2InFolderExisting, folderExistingFavId);
 
-    folderExistingSearchId = (await apis.user.nodes.createFolder(folderExisting, destinationIdSearch)).entry.id;
-    await apis.user.nodes.createFile(file2InFolderExisting, folderExistingSearchId);
+      folderExistingSearchId = (await apis.user.nodes.createFolder(folderExisting, destinationIdSearch)).entry.id;
+      await apis.user.nodes.createFile(file2InFolderExisting, folderExistingSearchId);
 
-    folder2Id = (await apis.user.nodes.createFolder(folder2, sourceId)).entry.id;
-    await apis.user.nodes.createFile(fileInFolder2, folder2Id);
-    await apis.user.favorites.addFavoriteById('folder', folder2Id);
+      folder2Id = (await apis.user.nodes.createFolder(folder2, sourceId)).entry.id;
+      await apis.user.nodes.createFile(fileInFolder2, folder2Id);
+      await apis.user.favorites.addFavoriteById('folder', folder2Id);
 
-    fileLocked1Id = (await apis.user.nodes.createFile(fileLocked1, sourceId)).entry.id;
-    await apis.user.nodes.lockFile(fileLocked1Id);
+      fileLocked1Id = (await apis.user.nodes.createFile(fileLocked1, sourceId)).entry.id;
+      await apis.user.nodes.lockFile(fileLocked1Id);
 
-    folderWithLockedFilesId = (await apis.user.nodes.createFolder(folderWithLockedFiles, sourceId)).entry.id;
-    fileLockedInFolderId = (await apis.user.nodes.createFile(fileLockedInFolder, folderWithLockedFilesId)).entry.id;
-    await apis.user.nodes.lockFile(fileLockedInFolderId);
-    await apis.user.favorites.addFavoriteById('folder', folderWithLockedFilesId);
+      folderWithLockedFilesId = (await apis.user.nodes.createFolder(folderWithLockedFiles, sourceId)).entry.id;
+      fileLockedInFolderId = (await apis.user.nodes.createFile(fileLockedInFolder, folderWithLockedFilesId)).entry.id;
+      await apis.user.nodes.lockFile(fileLockedInFolderId);
+      await apis.user.favorites.addFavoriteById('folder', folderWithLockedFilesId);
 
-    file1Id = (await apis.user.nodes.createFile(file1, sourceId)).entry.id;
-    file2Id = (await apis.user.nodes.createFile(file2, sourceId)).entry.id;
-    file3Id = (await apis.user.nodes.createFile(file3, sourceId)).entry.id;
-    file4Id = (await apis.user.nodes.createFile(file4, sourceId)).entry.id;
+      file1Id = (await apis.user.nodes.createFile(file1, sourceId)).entry.id;
+      file2Id = (await apis.user.nodes.createFile(file2, sourceId)).entry.id;
+      file3Id = (await apis.user.nodes.createFile(file3, sourceId)).entry.id;
+      file4Id = (await apis.user.nodes.createFile(file4, sourceId)).entry.id;
 
-    await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id, fileLocked1Id]);
+      await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id, fileLocked1Id]);
 
-    await apis.user.favorites.addFavoriteById('file', file1Id);
-    await apis.user.favorites.addFavoriteById('file', file2Id);
-    await apis.user.favorites.addFavoriteById('file', file3Id);
-    await apis.user.favorites.addFavoriteById('file', file4Id);
+      await apis.user.favorites.addFavoriteById('file', file1Id);
+      await apis.user.favorites.addFavoriteById('file', file2Id);
+      await apis.user.favorites.addFavoriteById('file', file3Id);
+      await apis.user.favorites.addFavoriteById('file', file4Id);
 
-    await apis.user.favorites.addFavoriteById('file', fileLocked1Id);
+      await apis.user.favorites.addFavoriteById('file', fileLocked1Id);
 
-    await apis.user.sites.createSite(siteName);
-    const docLibId = await apis.user.sites.getDocLibId(siteName);
-    await apis.user.nodes.createFolder(folderSitePF, docLibId);
-    await apis.user.nodes.createFolder(folderSiteRF, docLibId);
-    await apis.user.nodes.createFolder(folderSiteSF, docLibId);
-    await apis.user.nodes.createFolder(folderSiteFav, docLibId);
-    await apis.user.nodes.createFolder(folderSiteSearch, docLibId);
+      await apis.user.sites.createSite(siteName);
+      const docLibId = await apis.user.sites.getDocLibId(siteName);
+      await apis.user.nodes.createFolder(folderSitePF, docLibId);
+      await apis.user.nodes.createFolder(folderSiteRF, docLibId);
+      await apis.user.nodes.createFolder(folderSiteSF, docLibId);
+      await apis.user.nodes.createFolder(folderSiteFav, docLibId);
+      await apis.user.nodes.createFolder(folderSiteSearch, docLibId);
 
-    await apis.user.shared.waitForFilesToBeShared([existingFileToCopyId, fileInFolderId, file1Id, file2Id, file3Id, file4Id, fileLocked1Id]);
-    await apis.user.favorites.waitForApi({ expect: initialFavoritesTotalItems + 13 });
+      await apis.user.shared.waitForFilesToBeShared([existingFileToCopyId, fileInFolderId, file1Id, file2Id, file3Id, file4Id, fileLocked1Id]);
+      await apis.user.favorites.waitForApi({ expect: initialFavoritesTotalItems + 13 });
 
-    await loginPage.loginWith(username);
+      await loginPage.loginWith(username);
+    } catch (error) {
+      Logger.error(`----- beforeAll failed : ${error}`);
+    }
     done();
   });
 
-  beforeEach(async () => {
+  beforeEach(async (done) => {
     await page.closeOpenDialogs();
+    done();
   });
 
-  afterAll(async () => {
+  afterAll(async (done) => {
     try {
       await apis.user.nodes.unlockFile(fileLocked1Id);
       await apis.user.nodes.unlockFile(fileLockedInFolderId);
@@ -237,6 +242,7 @@ describe('Copy content', () => {
     } catch (error) {
       Logger.error(`---- afterAll failed : ${error}`);
     }
+    done();
   });
 
   describe('from Recent Files', () => {
@@ -313,9 +319,10 @@ describe('Copy content', () => {
   });
 
   describe('from Shared Files', () => {
-    beforeEach(async () => {
+    beforeEach(async (done) => {
       await Utils.pressEscape();
       await page.clickSharedFilesAndWait();
+      done();
     });
 
     it('[C280206] Copy a file', async () => copyFile(file1, source, destinationSF));
@@ -381,10 +388,11 @@ describe('Copy content', () => {
   });
 
   describe('from Search Results', () => {
-    beforeEach(async () => {
+    beforeEach(async (done) => {
       await Utils.pressEscape();
       await page.clickPersonalFiles();
       await searchInput.clickSearchButton();
+      done();
     });
 
     it('[C306932] Copy a file', async () =>

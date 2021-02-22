@@ -26,6 +26,7 @@
 import { LoginPage, BrowsingPage, SearchResultsPage, RepoClient, Utils, AdminActions, UserActions } from '@alfresco/aca-testing-shared';
 import * as testData from './test-data-libraries';
 import * as testUtil from '../test-util';
+import { Logger } from '@alfresco/adf-testing';
 
 describe('Library actions : ', () => {
   const username = `user-${Utils.random()}`;
@@ -39,36 +40,41 @@ describe('Library actions : ', () => {
   const searchResultsPage = new SearchResultsPage();
   const { searchInput } = searchResultsPage.header;
 
-  beforeAll(async () => {
-    await adminApiActions.login();
-    await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
+  beforeAll(async (done) => {
+    try {
+      await adminApiActions.login();
+      await adminApiActions.createUser({ username });
+      await userActions.login(username, username);
 
-    await userApi.sites.createSite(testData.publicUserMemberFav.name);
-    await userApi.sites.createSitePrivate(testData.privateUserMemberFav.name);
-    await userApi.sites.createSiteModerated(testData.moderatedUserMemberFav.name);
-    const publicUserMemberNotFavId = (await userApi.sites.createSite(testData.publicUserMemberNotFav.name)).entry.guid;
-    const privateUserMemberNotFavId = (await userApi.sites.createSitePrivate(testData.privateUserMemberNotFav.name)).entry.guid;
-    const moderatedUserMemberNotFavId = (await userApi.sites.createSiteModerated(testData.moderatedUserMemberNotFav.name)).entry.guid;
+      await userApi.sites.createSite(testData.publicUserMemberFav.name);
+      await userApi.sites.createSitePrivate(testData.privateUserMemberFav.name);
+      await userApi.sites.createSiteModerated(testData.moderatedUserMemberFav.name);
+      const publicUserMemberNotFavId = (await userApi.sites.createSite(testData.publicUserMemberNotFav.name)).entry.guid;
+      const privateUserMemberNotFavId = (await userApi.sites.createSitePrivate(testData.privateUserMemberNotFav.name)).entry.guid;
+      const moderatedUserMemberNotFavId = (await userApi.sites.createSiteModerated(testData.moderatedUserMemberNotFav.name)).entry.guid;
 
-    await adminApiActions.sites.createSite(testData.publicNotMemberFav.name);
-    await adminApiActions.sites.createSiteModerated(testData.moderatedNotMemberFav.name);
-    await adminApiActions.sites.createSite(testData.publicNotMemberNotFav.name);
-    await adminApiActions.sites.createSiteModerated(testData.moderatedNotMemberNotFav.name);
-    await adminApiActions.sites.createSiteModerated(testData.moderatedRequestedJoinFav.name);
-    await adminApiActions.sites.createSiteModerated(testData.moderatedRequestedJoinNotFav.name);
+      await adminApiActions.sites.createSite(testData.publicNotMemberFav.name);
+      await adminApiActions.sites.createSiteModerated(testData.moderatedNotMemberFav.name);
+      await adminApiActions.sites.createSite(testData.publicNotMemberNotFav.name);
+      await adminApiActions.sites.createSiteModerated(testData.moderatedNotMemberNotFav.name);
+      await adminApiActions.sites.createSiteModerated(testData.moderatedRequestedJoinFav.name);
+      await adminApiActions.sites.createSiteModerated(testData.moderatedRequestedJoinNotFav.name);
 
-    await userApi.sites.requestToJoin(testData.moderatedRequestedJoinFav.name);
-    await userApi.sites.requestToJoin(testData.moderatedRequestedJoinNotFav.name);
+      await userApi.sites.requestToJoin(testData.moderatedRequestedJoinFav.name);
+      await userApi.sites.requestToJoin(testData.moderatedRequestedJoinNotFav.name);
 
-    await userApi.favorites.removeFavoritesByIds([publicUserMemberNotFavId, privateUserMemberNotFavId, moderatedUserMemberNotFavId]);
-    await userApi.favorites.addFavoritesByIds('site', [
-      testData.publicNotMemberFav.name,
-      testData.moderatedNotMemberFav.name,
-      testData.moderatedRequestedJoinFav.name
-    ]);
+      await userApi.favorites.removeFavoritesByIds([publicUserMemberNotFavId, privateUserMemberNotFavId, moderatedUserMemberNotFavId]);
+      await userApi.favorites.addFavoritesByIds('site', [
+        testData.publicNotMemberFav.name,
+        testData.moderatedNotMemberFav.name,
+        testData.moderatedRequestedJoinFav.name
+      ]);
 
-    await loginPage.loginWith(username);
+      await loginPage.loginWith(username);
+    } catch (error) {
+      Logger.error(`----- beforeAll failed : ${error}`);
+    }
+    done();
   });
 
   afterAll(async () => {
@@ -96,8 +102,12 @@ describe('Library actions : ', () => {
 
   describe('on My Libraries', () => {
     beforeAll(async () => {
-      await Utils.pressEscape();
-      await page.goToMyLibrariesAndWait();
+      try {
+        await Utils.pressEscape();
+        await page.goToMyLibrariesAndWait();
+      } catch (error) {
+        Logger.error(`----- beforeAll failed : ${error}`);
+      }
     });
 
     beforeEach(async () => {
@@ -161,8 +171,12 @@ describe('Library actions : ', () => {
 
   describe('on Favorite Libraries', () => {
     beforeAll(async () => {
-      await Utils.pressEscape();
-      await page.goToFavoriteLibrariesAndWait();
+      try {
+        await Utils.pressEscape();
+        await page.goToFavoriteLibrariesAndWait();
+      } catch (error) {
+        Logger.error(`----- beforeAll failed : ${error}`);
+      }
     });
 
     beforeEach(async () => {
@@ -226,10 +240,14 @@ describe('Library actions : ', () => {
 
   describe('on Search Results', () => {
     beforeEach(async () => {
-      await Utils.pressEscape();
-      await page.clickPersonalFiles();
-      await searchInput.clickSearchButton();
-      await searchInput.checkLibraries();
+      try {
+        await Utils.pressEscape();
+        await page.clickPersonalFiles();
+        await searchInput.clickSearchButton();
+        await searchInput.checkLibraries();
+      } catch (error) {
+        Logger.error(`----- beforeEach failed : ${error}`);
+      }
     });
 
     it('[C290084] Public library, user is a member, favorite', async () => {

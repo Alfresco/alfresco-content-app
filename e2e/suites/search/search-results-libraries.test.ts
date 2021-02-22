@@ -24,6 +24,7 @@
  */
 
 import { AdminActions, LoginPage, SearchResultsPage, RepoClient, Utils, SITE_VISIBILITY, SITE_ROLES } from '@alfresco/aca-testing-shared';
+import { Logger } from '@alfresco/adf-testing';
 
 describe('Search results - libraries', () => {
   const random = Utils.random();
@@ -74,59 +75,72 @@ describe('Search results - libraries', () => {
   const adminApiActions = new AdminActions();
 
   beforeAll(async (done) => {
-    await adminApiActions.createUser({ username });
+    try {
+      await adminApiActions.createUser({ username });
 
-    await apis.user.sites.createSite(site1.name, SITE_VISIBILITY.PUBLIC, '', site1.id);
-    await apis.user.sites.createSite(site2.name, SITE_VISIBILITY.PUBLIC, '', site2.id);
-    await apis.user.sites.createSite(site3.name, SITE_VISIBILITY.PUBLIC, '', site3.id);
-    await apis.user.sites.createSite(site4.name, SITE_VISIBILITY.PUBLIC, site4.description, site4.id);
+      await apis.user.sites.createSite(site1.name, SITE_VISIBILITY.PUBLIC, '', site1.id);
+      await apis.user.sites.createSite(site2.name, SITE_VISIBILITY.PUBLIC, '', site2.id);
+      await apis.user.sites.createSite(site3.name, SITE_VISIBILITY.PUBLIC, '', site3.id);
+      await apis.user.sites.createSite(site4.name, SITE_VISIBILITY.PUBLIC, site4.description, site4.id);
 
-    await apis.user.sites.createSite(userSitePublic, SITE_VISIBILITY.PUBLIC);
-    await apis.user.sites.createSite(userSiteModerated, SITE_VISIBILITY.MODERATED);
-    await apis.user.sites.createSite(userSitePrivate, SITE_VISIBILITY.PRIVATE);
+      await apis.user.sites.createSite(userSitePublic, SITE_VISIBILITY.PUBLIC);
+      await apis.user.sites.createSite(userSiteModerated, SITE_VISIBILITY.MODERATED);
+      await apis.user.sites.createSite(userSitePrivate, SITE_VISIBILITY.PRIVATE);
 
-    await apis.user.sites.createSite(siteRussian.name, SITE_VISIBILITY.PUBLIC, '', siteRussian.id);
+      await apis.user.sites.createSite(siteRussian.name, SITE_VISIBILITY.PUBLIC, '', siteRussian.id);
 
-    await adminApiActions.sites.createSite(adminSite1, SITE_VISIBILITY.PUBLIC);
-    await adminApiActions.sites.createSite(adminSite2, SITE_VISIBILITY.PUBLIC);
-    await adminApiActions.sites.createSite(adminSite3, SITE_VISIBILITY.PUBLIC);
-    await adminApiActions.sites.createSite(adminSite4, SITE_VISIBILITY.PUBLIC);
-    await adminApiActions.sites.addSiteMember(adminSite1, username, SITE_ROLES.SITE_CONSUMER.ROLE);
-    await adminApiActions.sites.addSiteMember(adminSite2, username, SITE_ROLES.SITE_CONTRIBUTOR.ROLE);
-    await adminApiActions.sites.addSiteMember(adminSite3, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
-    await adminApiActions.sites.addSiteMember(adminSite4, username, SITE_ROLES.SITE_MANAGER.ROLE);
+      await adminApiActions.sites.createSite(adminSite1, SITE_VISIBILITY.PUBLIC);
+      await adminApiActions.sites.createSite(adminSite2, SITE_VISIBILITY.PUBLIC);
+      await adminApiActions.sites.createSite(adminSite3, SITE_VISIBILITY.PUBLIC);
+      await adminApiActions.sites.createSite(adminSite4, SITE_VISIBILITY.PUBLIC);
+      await adminApiActions.sites.addSiteMember(adminSite1, username, SITE_ROLES.SITE_CONSUMER.ROLE);
+      await adminApiActions.sites.addSiteMember(adminSite2, username, SITE_ROLES.SITE_CONTRIBUTOR.ROLE);
+      await adminApiActions.sites.addSiteMember(adminSite3, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
+      await adminApiActions.sites.addSiteMember(adminSite4, username, SITE_ROLES.SITE_MANAGER.ROLE);
 
-    await adminApiActions.sites.createSite(adminPrivate, SITE_VISIBILITY.PRIVATE);
+      await adminApiActions.sites.createSite(adminPrivate, SITE_VISIBILITY.PRIVATE);
 
-    await adminApiActions.login();
-    await adminApiActions.sites.waitForSitesToBeCreated([adminSite1, adminSite2, adminSite3, adminSite4]);
+      await adminApiActions.login();
+      await adminApiActions.sites.waitForSitesToBeCreated([adminSite1, adminSite2, adminSite3, adminSite4]);
 
-    await apis.user.sites.waitForSitesToBeCreated([
-      site1.id,
-      site2.id,
-      site3.id,
-      site4.id,
-      userSitePublic,
-      userSiteModerated,
-      userSitePrivate,
-      siteRussian.id
-    ]);
+      await apis.user.sites.waitForSitesToBeCreated([
+        site1.id,
+        site2.id,
+        site3.id,
+        site4.id,
+        userSitePublic,
+        userSiteModerated,
+        userSitePrivate,
+        siteRussian.id
+      ]);
 
-    await apis.user.queries.waitForSites(random, { expect: 12 });
+      await apis.user.queries.waitForSites(random, { expect: 12 });
 
-    await loginPage.loginWith(username);
+      await loginPage.loginWith(username);
+    } catch (error) {
+      Logger.error(`----- beforeAll failed : ${error}`);
+    }
     done();
   });
 
-  afterAll(async () => {
-    await adminApiActions.login();
-    await adminApiActions.sites.deleteSites([adminSite1, adminSite2, adminSite3, adminSite4, adminPrivate]);
-    await apis.user.sites.deleteSites([site1.id, site2.id, site3.id, site4.id, userSitePublic, userSiteModerated, userSitePrivate, siteRussian.id]);
+  afterAll(async (done) => {
+    try {
+      await adminApiActions.login();
+      await adminApiActions.sites.deleteSites([adminSite1, adminSite2, adminSite3, adminSite4, adminPrivate]);
+      await apis.user.sites.deleteSites([site1.id, site2.id, site3.id, site4.id, userSitePublic, userSiteModerated, userSitePrivate, siteRussian.id]);
+    } catch (error) {
+      Logger.error(`----- afterAll failed : ${error}`);
+    }
+    done();
   });
 
   beforeEach(async () => {
-    await Utils.pressEscape();
-    await page.clickPersonalFiles();
+    try {
+      await Utils.pressEscape();
+      await page.clickPersonalFiles();
+    } catch (error) {
+      Logger.error(`----- beforeEach failed : ${error}`);
+    }
   });
 
   it('[C290012] Search library - full name match', async () => {

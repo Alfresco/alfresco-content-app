@@ -37,7 +37,7 @@ import {
   Viewer,
   Utils
 } from '@alfresco/aca-testing-shared';
-import { BrowserActions } from '@alfresco/adf-testing';
+import { BrowserActions, Logger } from '@alfresco/adf-testing';
 
 describe('Unshare a file', () => {
   const username = `user-${Utils.random()}`;
@@ -61,12 +61,16 @@ describe('Unshare a file', () => {
   const userActions = new UserActions();
 
   beforeAll(async (done) => {
-    await adminApiActions.login();
-    await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
+    try {
+      await adminApiActions.login();
+      await adminApiActions.createUser({ username });
+      await userActions.login(username, username);
 
-    parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
-    await loginPage.loginWith(username);
+      parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
+      await loginPage.loginWith(username);
+    } catch (error) {
+      Logger.error(`----- beforeAll failed : ${error}`);
+    }
     done();
   });
 
@@ -86,21 +90,29 @@ describe('Unshare a file', () => {
     let file4Id: string;
 
     beforeAll(async (done) => {
-      file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
-      file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
-      file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
-      file4Id = (await apis.user.nodes.createFile(file4, parentId)).entry.id;
+      try {
+        file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
+        file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
+        file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
+        file4Id = (await apis.user.nodes.createFile(file4, parentId)).entry.id;
 
-      await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
-      await apis.user.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id]);
+        await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
+        await apis.user.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id]);
+      } catch (error) {
+        Logger.error(`----- beforeAll failed : ${error}`);
+      }
       done();
     });
 
     beforeEach(async (done) => {
-      await page.closeOpenDialogs();
-      await page.clickPersonalFilesAndWait();
-      await dataTable.doubleClickOnRowByName(parent);
-      await dataTable.waitForHeader();
+      try {
+        await page.closeOpenDialogs();
+        await page.clickPersonalFilesAndWait();
+        await dataTable.doubleClickOnRowByName(parent);
+        await dataTable.waitForHeader();
+      } catch (error) {
+        Logger.error(`----- beforeEach failed : ${error}`);
+      }
       done();
     });
 
@@ -205,27 +217,35 @@ describe('Unshare a file', () => {
     let parentInSiteId: string;
 
     beforeAll(async (done) => {
-      await apis.user.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
-      const docLibId = await apis.user.sites.getDocLibId(siteName);
-      parentInSiteId = (await apis.user.nodes.createFolder(parentInSite, docLibId)).entry.id;
+      try {
+        await apis.user.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
+        const docLibId = await apis.user.sites.getDocLibId(siteName);
+        parentInSiteId = (await apis.user.nodes.createFolder(parentInSite, docLibId)).entry.id;
 
-      file1Id = (await apis.user.nodes.createFile(file1, parentInSiteId)).entry.id;
-      file2Id = (await apis.user.nodes.createFile(file2, parentInSiteId)).entry.id;
-      file3Id = (await apis.user.nodes.createFile(file3, parentInSiteId)).entry.id;
-      file4Id = (await apis.user.nodes.createFile(file4, parentInSiteId)).entry.id;
+        file1Id = (await apis.user.nodes.createFile(file1, parentInSiteId)).entry.id;
+        file2Id = (await apis.user.nodes.createFile(file2, parentInSiteId)).entry.id;
+        file3Id = (await apis.user.nodes.createFile(file3, parentInSiteId)).entry.id;
+        file4Id = (await apis.user.nodes.createFile(file4, parentInSiteId)).entry.id;
 
-      await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
-      await apis.user.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id]);
+        await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
+        await apis.user.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id]);
+      } catch (error) {
+        Logger.error(`----- beforeAll failed : ${error}`);
+      }
       done();
     });
 
     beforeEach(async (done) => {
-      await page.closeOpenDialogs();
-      await page.goToMyLibrariesAndWait();
-      await dataTable.doubleClickOnRowByName(siteName);
-      await dataTable.waitForHeader();
-      await dataTable.doubleClickOnRowByName(parentInSite);
-      await dataTable.waitForHeader();
+      try {
+        await page.closeOpenDialogs();
+        await page.goToMyLibrariesAndWait();
+        await dataTable.doubleClickOnRowByName(siteName);
+        await dataTable.waitForHeader();
+        await dataTable.doubleClickOnRowByName(parentInSite);
+        await dataTable.waitForHeader();
+      } catch (error) {
+        Logger.error(`----- beforeEach failed : ${error}`);
+      }
       done();
     });
 
@@ -326,19 +346,27 @@ describe('Unshare a file', () => {
     let file4Id: string;
 
     beforeAll(async (done) => {
-      file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
-      file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
-      file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
-      file4Id = (await apis.user.nodes.createFile(file4, parentId)).entry.id;
+      try {
+        file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
+        file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
+        file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
+        file4Id = (await apis.user.nodes.createFile(file4, parentId)).entry.id;
 
-      await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
-      await apis.user.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id]);
+        await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
+        await apis.user.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id]);
+      } catch (error) {
+        Logger.error(`----- beforeAll failed : ${error}`);
+      }
       done();
     });
 
     beforeEach(async (done) => {
-      await page.closeOpenDialogs();
-      await page.clickRecentFilesAndWait();
+      try {
+        await page.closeOpenDialogs();
+        await page.clickRecentFilesAndWait();
+      } catch (error) {
+        Logger.error(`----- beforeEach failed : ${error}`);
+      }
       done();
     });
 
@@ -439,19 +467,27 @@ describe('Unshare a file', () => {
     let file4Id: string;
 
     beforeAll(async (done) => {
-      file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
-      file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
-      file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
-      file4Id = (await apis.user.nodes.createFile(file4, parentId)).entry.id;
+      try {
+        file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
+        file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
+        file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
+        file4Id = (await apis.user.nodes.createFile(file4, parentId)).entry.id;
 
-      await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
-      await apis.user.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id]);
+        await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
+        await apis.user.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id]);
+      } catch (error) {
+        Logger.error(`----- beforeAll failed : ${error}`);
+      }
       done();
     });
 
     beforeEach(async (done) => {
-      await page.closeOpenDialogs();
-      await page.clickSharedFilesAndWait();
+      try {
+        await page.closeOpenDialogs();
+        await page.clickSharedFilesAndWait();
+      } catch (error) {
+        Logger.error(`----- beforeEach failed : ${error}`);
+      }
       done();
     });
 
@@ -554,26 +590,34 @@ describe('Unshare a file', () => {
     let file4Id: string;
 
     beforeAll(async (done) => {
-      file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
-      file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
-      file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
-      file4Id = (await apis.user.nodes.createFile(file4, parentId)).entry.id;
+      try {
+        file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
+        file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
+        file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
+        file4Id = (await apis.user.nodes.createFile(file4, parentId)).entry.id;
 
-      await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
+        await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
 
-      await apis.user.favorites.addFavoriteById('file', file1Id);
-      await apis.user.favorites.addFavoriteById('file', file2Id);
-      await apis.user.favorites.addFavoriteById('file', file3Id);
-      await apis.user.favorites.addFavoriteById('file', file4Id);
+        await apis.user.favorites.addFavoriteById('file', file1Id);
+        await apis.user.favorites.addFavoriteById('file', file2Id);
+        await apis.user.favorites.addFavoriteById('file', file3Id);
+        await apis.user.favorites.addFavoriteById('file', file4Id);
 
-      await apis.user.favorites.waitForApi({ expect: 4 });
-      await apis.user.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id]);
+        await apis.user.favorites.waitForApi({ expect: 4 });
+        await apis.user.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id]);
+      } catch (error) {
+        Logger.error(`----- beforeAll failed : ${error}`);
+      }
       done();
     });
 
     beforeEach(async (done) => {
-      await page.closeOpenDialogs();
-      await page.clickFavoritesAndWait();
+      try {
+        await page.closeOpenDialogs();
+        await page.clickFavoritesAndWait();
+      } catch (error) {
+        Logger.error(`----- beforeEach failed : ${error}`);
+      }
       done();
     });
 
@@ -680,31 +724,34 @@ describe('Unshare a file', () => {
     let file2FavId: string;
 
     beforeAll(async (done) => {
-      await adminApiActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
-      const docLibId = await adminApiActions.sites.getDocLibId(sitePrivate);
+      try {
+        await adminApiActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
+        const docLibId = await adminApiActions.sites.getDocLibId(sitePrivate);
 
-      file1FileLibId = (await adminApiActions.nodes.createFile(file1FileLib, docLibId)).entry.id;
-      file2FileLibId = (await adminApiActions.nodes.createFile(file2FileLib, docLibId)).entry.id;
-      file1SharedId = (await adminApiActions.nodes.createFile(file1Shared, docLibId)).entry.id;
-      file2SharedId = (await adminApiActions.nodes.createFile(file2Shared, docLibId)).entry.id;
-      file1FavId = (await adminApiActions.nodes.createFile(file1Fav, docLibId)).entry.id;
-      file2FavId = (await adminApiActions.nodes.createFile(file2Fav, docLibId)).entry.id;
+        file1FileLibId = (await adminApiActions.nodes.createFile(file1FileLib, docLibId)).entry.id;
+        file2FileLibId = (await adminApiActions.nodes.createFile(file2FileLib, docLibId)).entry.id;
+        file1SharedId = (await adminApiActions.nodes.createFile(file1Shared, docLibId)).entry.id;
+        file2SharedId = (await adminApiActions.nodes.createFile(file2Shared, docLibId)).entry.id;
+        file1FavId = (await adminApiActions.nodes.createFile(file1Fav, docLibId)).entry.id;
+        file2FavId = (await adminApiActions.nodes.createFile(file2Fav, docLibId)).entry.id;
 
-      await adminApiActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_CONSUMER.ROLE);
+        await adminApiActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_CONSUMER.ROLE);
 
-      await adminApiActions.login();
-      await adminApiActions.shareNodes([file1FileLibId, file1SharedId, file1FavId]);
+        await adminApiActions.login();
+        await adminApiActions.shareNodes([file1FileLibId, file1SharedId, file1FavId]);
 
-      await userActions.login(username, username);
-      await userActions.shareNodes([file2FileLibId, file2SharedId, file2FavId]);
+        await userActions.login(username, username);
+        await userActions.shareNodes([file2FileLibId, file2SharedId, file2FavId]);
 
-      await apis.user.favorites.addFavoriteById('file', file1FavId);
-      await apis.user.favorites.addFavoriteById('file', file2FavId);
+        await apis.user.favorites.addFavoriteById('file', file1FavId);
+        await apis.user.favorites.addFavoriteById('file', file2FavId);
 
-      await apis.user.favorites.waitForApi({ expect: 2 });
-      await adminApiActions.shared.waitForFilesToBeShared([file1FileLibId, file1SharedId, file1FavId]);
-      await apis.user.shared.waitForFilesToBeShared([file2FileLibId, file2SharedId, file2FavId]);
-
+        await apis.user.favorites.waitForApi({ expect: 2 });
+        await adminApiActions.shared.waitForFilesToBeShared([file1FileLibId, file1SharedId, file1FavId]);
+        await apis.user.shared.waitForFilesToBeShared([file2FileLibId, file2SharedId, file2FavId]);
+      } catch (error) {
+        Logger.error(`----- beforeAll failed : ${error}`);
+      }
       done();
     });
 

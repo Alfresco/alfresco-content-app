@@ -40,11 +40,12 @@ describe('Delete and undo delete', () => {
   const adminApiActions = new AdminActions();
   const userActions = new UserActions();
 
-  beforeAll(async () => {
+  beforeAll(async (done) => {
     await adminApiActions.login();
     await adminApiActions.createUser({ username });
 
     await userActions.login(username, username);
+    done();
   });
 
   afterAll(async () => {
@@ -79,8 +80,13 @@ describe('Delete and undo delete', () => {
       done();
     });
 
-    beforeEach(async () => {
-      await page.clickRecentFilesAndWait();
+    beforeEach(async (done) => {
+      try {
+        await page.clickRecentFilesAndWait();
+      } catch (error) {
+        Logger.error(`----- beforeEach failed : ${error}`);
+      }
+      done();
     });
 
     afterAll(async (done) => {
@@ -215,9 +221,14 @@ describe('Delete and undo delete', () => {
       done();
     });
 
-    beforeEach(async () => {
-      await page.clickPersonalFilesAndWait();
-      await page.dataTable.doubleClickOnRowByName(parent);
+    beforeEach(async (done) => {
+      try {
+        await page.clickPersonalFilesAndWait();
+        await page.dataTable.doubleClickOnRowByName(parent);
+      } catch (error) {
+        Logger.error(`----- beforeEach failed : ${error}`);
+      }
+      done();
     });
 
     afterAll(async (done) => {
@@ -372,8 +383,13 @@ describe('Delete and undo delete', () => {
       done();
     });
 
-    beforeEach(async () => {
-      await page.clickSharedFilesAndWait();
+    beforeEach(async (done) => {
+      try {
+        await page.clickSharedFilesAndWait();
+      } catch (error) {
+        Logger.error(`----- beforeEach failed : ${error}`);
+      }
+      done();
     });
 
     afterAll(async (done) => {
@@ -512,7 +528,11 @@ describe('Delete and undo delete', () => {
     });
 
     beforeEach(async (done) => {
-      await page.clickFavoritesAndWait();
+      try {
+        await page.clickFavoritesAndWait();
+      } catch (error) {
+        Logger.error(`----- beforeEach failed : ${error}`);
+      }
       done();
     });
 
