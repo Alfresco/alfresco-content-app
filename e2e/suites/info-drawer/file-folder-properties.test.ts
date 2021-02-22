@@ -48,7 +48,8 @@ describe('File / Folder properties', () => {
     name: `file1-${Utils.random()}.txt`,
     title: 'file title',
     description: 'file description',
-    author: 'file author'
+    author: 'file author',
+    contentType: 'Content'
   };
   let file1Id: string;
 
@@ -64,7 +65,8 @@ describe('File / Folder properties', () => {
     name: `folder1-${Utils.random()}`,
     title: 'folder title',
     description: 'folder description',
-    author: 'folder author'
+    author: 'folder author',
+    contentType: 'Folder'
   };
   let folder1Id: string;
 
@@ -127,7 +129,8 @@ describe('File / Folder properties', () => {
         'Modified Date',
         'Mimetype',
         'Author',
-        'Description'
+        'Description',
+        'Content Type'
       ];
       const expectedPropValues = [
         file1.name,
@@ -139,7 +142,8 @@ describe('File / Folder properties', () => {
         moment(apiProps.entry.modifiedAt).format(DATE_FORMAT),
         apiProps.entry.content.mimeTypeName,
         file1.author,
-        file1.description
+        file1.description,
+        file1.contentType
       ];
 
       await dataTable.selectItem(file1.name);
@@ -155,7 +159,7 @@ describe('File / Folder properties', () => {
     it('[C307106] Folder properties', async () => {
       const apiProps = await apis.user.nodes.getNodeById(folder1Id);
 
-      const expectedPropLabels = ['Name', 'Title', 'Creator', 'Created Date', 'Modifier', 'Modified Date', 'Author', 'Description'];
+      const expectedPropLabels = ['Name', 'Title', 'Creator', 'Created Date', 'Modifier', 'Modified Date', 'Author', 'Description', 'Content Type'];
       const expectedPropValues = [
         folder1.name,
         folder1.title,
@@ -164,7 +168,8 @@ describe('File / Folder properties', () => {
         apiProps.entry.modifiedByUser.displayName,
         moment(apiProps.entry.modifiedAt).format(DATE_FORMAT),
         folder1.author,
-        folder1.description
+        folder1.description,
+        folder1.contentType
       ];
 
       await dataTable.selectItem(folder1.name);
