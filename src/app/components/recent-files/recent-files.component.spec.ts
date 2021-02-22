@@ -30,17 +30,21 @@ import { CustomResourcesService, DocumentListComponent } from '@alfresco/adf-con
 import { RecentFilesComponent } from './recent-files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { Router } from '@angular/router';
-import { PersonEntry, ResultSetPaging } from '@alfresco/js-api';
+import { NodePaging, SearchApi } from '@alfresco/js-api';
+import { of } from 'rxjs';
 
 describe('RecentFilesComponent', () => {
   let fixture: ComponentFixture<RecentFilesComponent>;
   let component: RecentFilesComponent;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    const searchApi = jasmine.createSpyObj('SearchApi', ['search']);
+
+    const testBed = TestBed.configureTestingModule({
       imports: [AppTestingModule, AppConfigModule],
       declarations: [DataTableComponent, NodeFavoriteDirective, DocumentListComponent, RecentFilesComponent],
       providers: [
+        { provide: SearchApi, useValue: searchApi },
         {
           provide: Router,
           useValue: {
@@ -51,27 +55,48 @@ describe('RecentFilesComponent', () => {
       schemas: [NO_ERRORS_SCHEMA]
     });
 
-    fixture = TestBed.createComponent(RecentFilesComponent);
-    component = fixture.componentInstance;
+    await testBed.compileComponents();
 
     const customResourcesService = TestBed.inject(CustomResourcesService);
-    spyOn(customResourcesService.peopleApi, 'getPerson').and.returnValue(
-      Promise.resolve({
-        entry: { id: 'personId' }
-      } as PersonEntry)
-    );
 
-    const page: ResultSetPaging = {
+    const page: NodePaging = {
       list: {
         entries: [
-          { entry: { id: '1', name: 'node1', nodeType: 'cm:file', isFile: true, isFolder: false } },
-          { entry: { id: '2', name: 'node2', nodeType: 'cm:file', isFile: true, isFolder: false } }
+          {
+            entry: {
+              id: '1',
+              name: 'node1',
+              nodeType: 'cm:file',
+              isFile: true,
+              isFolder: false,
+              createdAt: null,
+              modifiedAt: null,
+              modifiedByUser: null,
+              createdByUser: null
+            }
+          },
+          {
+            entry: {
+              id: '2',
+              name: 'node2',
+              nodeType: 'cm:file',
+              isFile: true,
+              isFolder: false,
+              createdAt: null,
+              modifiedAt: null,
+              modifiedByUser: null,
+              createdByUser: null
+            }
+          }
         ],
         pagination: { count: 2, totalItems: 2 }
       }
     };
 
-    spyOn(customResourcesService.searchApi, 'search').and.returnValue(Promise.resolve(page));
+    spyOn(customResourcesService, 'getRecentFiles').and.returnValue(of(page));
+
+    fixture = TestBed.createComponent(RecentFilesComponent);
+    component = fixture.componentInstance;
   });
 
   it('should call showPreview method', () => {

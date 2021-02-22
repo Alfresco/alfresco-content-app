@@ -24,7 +24,7 @@
  */
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { SearchInputComponent } from './search-input.component';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { Actions, ofType } from '@ngrx/effects';
@@ -74,61 +74,71 @@ describe('SearchInputComponent', () => {
   });
 
   describe('onSearchSubmit()', () => {
-    it('should call search action with correct search options', fakeAsync((done) => {
+    it('should call search action with correct search options', (done) => {
       const searchedTerm = 's';
-      const currentSearchOptions = [{ key: 'test' }];
-      actions$.pipe(
-        ofType<SearchByTermAction>(SearchActionTypes.SearchByTerm),
-        map((action) => {
-          expect(action.searchOptions[0].key).toBe(currentSearchOptions[0].key);
+      component.searchedWord = 'te';
+      actions$
+        .pipe(
+          ofType<SearchByTermAction>(SearchActionTypes.SearchByTerm),
+          map((action) => {
+            expect(action.searchOptions[0].key).toBe('SEARCH.INPUT.FILES');
+          })
+        )
+        .subscribe(() => {
           done();
-        })
-      );
+        });
       component.onSearchSubmit({ target: { value: searchedTerm } });
-      tick();
-    }));
+      fixture.detectChanges();
+    });
 
-    it('should call search action with correct searched term', fakeAsync((done) => {
+    it('should call search action with correct searched term', (done) => {
       const searchedTerm = 's';
-      actions$.pipe(
-        ofType<SearchByTermAction>(SearchActionTypes.SearchByTerm),
-        map((action) => {
-          expect(action.payload).toBe(searchedTerm);
+      actions$
+        .pipe(
+          ofType<SearchByTermAction>(SearchActionTypes.SearchByTerm),
+          map((action) => {
+            expect(action.payload).toBe(searchedTerm);
+          })
+        )
+        .subscribe(() => {
           done();
-        })
-      );
+        });
       component.onSearchSubmit({ target: { value: searchedTerm } });
-      tick();
-    }));
+      fixture.detectChanges();
+    });
   });
 
   describe('onSearchChange()', () => {
-    it('should call search action with correct search options', fakeAsync((done) => {
+    it('should call search action with correct search options', (done) => {
       const searchedTerm = 's';
-      const currentSearchOptions = [{ key: 'test' }];
-      actions$.pipe(
-        ofType<SearchByTermAction>(SearchActionTypes.SearchByTerm),
-        map((action) => {
-          expect(action.searchOptions[0].key).toBe(currentSearchOptions[0].key);
+      const currentSearchOptions = [{ key: 'SEARCH.INPUT.FILES' }];
+      actions$
+        .pipe(
+          ofType<SearchByTermAction>(SearchActionTypes.SearchByTerm),
+          map((action) => {
+            expect(action.searchOptions[0].key).toBe(currentSearchOptions[0].key);
+          })
+        )
+        .subscribe(() => {
           done();
-        })
-      );
+        });
       component.onSearchChange(searchedTerm);
-      tick(1000);
-    }));
+    });
 
-    it('should call search action with correct searched term', fakeAsync((done) => {
+    it('should call search action with correct searched term', (done) => {
       const searchedTerm = 's';
-      actions$.pipe(
-        ofType<SearchByTermAction>(SearchActionTypes.SearchByTerm),
-        map((action) => {
-          expect(action.payload).toBe(searchedTerm);
+      actions$
+        .pipe(
+          ofType<SearchByTermAction>(SearchActionTypes.SearchByTerm),
+          map((action) => {
+            expect(action.payload).toBe(searchedTerm);
+          })
+        )
+        .subscribe(() => {
           done();
-        })
-      );
+        });
       component.onSearchChange(searchedTerm);
-      tick(1000);
-    }));
+    });
   });
 
   describe('isLibrariesChecked()', () => {

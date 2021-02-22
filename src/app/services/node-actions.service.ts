@@ -529,7 +529,7 @@ export class NodeActionsService {
         }
       },
       (err) => {
-        return of(err || 'Server error');
+        return matchedNodes.error(err);
       }
     );
     return matchedNodes;

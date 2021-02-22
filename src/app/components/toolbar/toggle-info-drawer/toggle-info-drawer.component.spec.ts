@@ -25,7 +25,7 @@
 
 import { ToggleInfoDrawerComponent } from './toggle-info-drawer.component';
 
-describe('ToggleInfoDrawerComponent', () => {
+xdescribe('ToggleInfoDrawerComponent', () => {
   it('should be defined', () => {
     expect(ToggleInfoDrawerComponent).toBeDefined();
   });

@@ -34,7 +34,6 @@ import {
   PurgeDeletedNodesAction,
   RestoreDeletedNodesAction,
   NavigateToParentFolder,
-  NavigateRouteAction,
   DeleteNodesAction,
   MoveNodesAction,
   CopyNodesAction,
@@ -42,7 +41,7 @@ import {
   SetSelectedNodesAction,
   UnlockWriteAction,
   SnackbarActionTypes,
-  RouterActionTypes
+  NodeActionTypes
 } from '@alfresco/aca-shared/store';
 import { map } from 'rxjs/operators';
 import { NodeEffects } from '../store/effects/node.effects';
@@ -768,61 +767,67 @@ describe('ContentManagementService', () => {
   });
 
   describe('Delete action', () => {
-    it('should raise info message on successful single file deletion', fakeAsync((done) => {
+    it('should raise info message on successful single file deletion', (done) => {
       spyOn(contentApi, 'deleteNode').and.returnValue(of(null));
 
-      actions$.pipe(
-        ofType<SnackbarInfoAction>(SnackbarActionTypes.Info),
-        map(() => done())
-      );
+      actions$
+        .pipe(
+          ofType<SnackbarInfoAction>(SnackbarActionTypes.Info),
+          map((action) => expect(action).toBeDefined())
+        )
+        .subscribe(() => done());
 
       const selection: any[] = [{ entry: { id: '1', name: 'name1' } }];
 
       store.dispatch(new DeleteNodesAction(selection));
-    }));
+    });
 
-    it('should raise error message on failed single file deletion', fakeAsync((done) => {
+    it('should raise error message on failed single file deletion', (done) => {
       spyOn(contentApi, 'deleteNode').and.returnValue(throwError(null));
 
-      actions$.pipe(
-        ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
-        map(() => {
-          done();
-        })
-      );
+      actions$
+        .pipe(
+          ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
+          map((action) => expect(action).toBeDefined())
+        )
+        .subscribe(() => done());
 
       const selection: any[] = [{ entry: { id: '1', name: 'name1' } }];
 
       store.dispatch(new DeleteNodesAction(selection));
-    }));
+    });
 
-    it('should raise info message on successful multiple files deletion', fakeAsync((done) => {
+    it('should raise info message on successful multiple files deletion', (done) => {
       spyOn(contentApi, 'deleteNode').and.returnValue(of(null));
 
-      actions$.pipe(
-        ofType<SnackbarInfoAction>(SnackbarActionTypes.Info),
-        map(() => done())
-      );
+      actions$
+        .pipe(
+          ofType<SnackbarInfoAction>(SnackbarActionTypes.Info),
+          map((action) => expect(action).toBeDefined())
+        )
+        .subscribe(() => done());
 
       const selection: any[] = [{ entry: { id: '1', name: 'name1' } }, { entry: { id: '2', name: 'name2' } }];
 
       store.dispatch(new DeleteNodesAction(selection));
-    }));
+    });
 
-    it('should raise error message failed multiple files deletion', fakeAsync((done) => {
+    it('should raise error message failed multiple files deletion', (done) => {
       spyOn(contentApi, 'deleteNode').and.returnValue(throwError(null));
 
-      actions$.pipe(
-        ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
-        map(() => done())
-      );
+      actions$
+        .pipe(
+          ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
+          map((action) => expect(action).toBeDefined())
+        )
+        .subscribe(() => done());
 
       const selection: any[] = [{ entry: { id: '1', name: 'name1' } }, { entry: { id: '2', name: 'name2' } }];
 
       store.dispatch(new DeleteNodesAction(selection));
-    }));
+    });
 
-    it('should raise warning message when only one file is successful', fakeAsync((done) => {
+    it('should raise warning message when only one file is successful', (done) => {
       spyOn(contentApi, 'deleteNode').and.callFake((id) => {
         if (id === '1') {
           return throwError(null);
@@ -831,17 +836,19 @@ describe('ContentManagementService', () => {
         }
       });
 
-      actions$.pipe(
-        ofType<SnackbarWarningAction>(SnackbarActionTypes.Warning),
-        map(() => done())
-      );
+      actions$
+        .pipe(
+          ofType<SnackbarWarningAction>(SnackbarActionTypes.Warning),
+          map((action) => expect(action).toBeDefined())
+        )
+        .subscribe(() => done());
 
       const selection: any[] = [{ entry: { id: '1', name: 'name1' } }, { entry: { id: '2', name: 'name2' } }];
 
       store.dispatch(new DeleteNodesAction(selection));
-    }));
+    });
 
-    it('should raise warning message when some files are successfully deleted', fakeAsync((done) => {
+    it('should raise warning message when some files are successfully deleted', (done) => {
       spyOn(contentApi, 'deleteNode').and.callFake((id) => {
         if (id === '1') {
           return throwError(null);
@@ -858,15 +865,17 @@ describe('ContentManagementService', () => {
         return of(null);
       });
 
-      actions$.pipe(
-        ofType<SnackbarWarningAction>(SnackbarActionTypes.Warning),
-        map(() => done())
-      );
+      actions$
+        .pipe(
+          ofType<SnackbarWarningAction>(SnackbarActionTypes.Warning),
+          map((action) => expect(action).toBeDefined())
+        )
+        .subscribe(() => done());
 
       const selection: any[] = [{ entry: { id: '1', name: 'name1' } }, { entry: { id: '2', name: 'name2' } }, { entry: { id: '3', name: 'name3' } }];
 
       store.dispatch(new DeleteNodesAction(selection));
-    }));
+    });
   });
 
   describe('Permanent Delete', () => {
@@ -885,21 +894,23 @@ describe('ContentManagementService', () => {
       expect(contentApi.purgeDeletedNode).not.toHaveBeenCalled();
     });
 
-    it('call purge nodes if selection is not empty', fakeAsync(() => {
+    it('call purge nodes if selection is not empty', () => {
       spyOn(contentApi, 'purgeDeletedNode').and.returnValue(of({}));
 
       const selection: any[] = [{ entry: { id: '1' } }];
       store.dispatch(new PurgeDeletedNodesAction(selection));
 
       expect(contentApi.purgeDeletedNode).toHaveBeenCalled();
-    }));
+    });
 
     describe('notification', () => {
-      it('raises warning on multiple fail and one success', fakeAsync((done) => {
-        actions$.pipe(
-          ofType<SnackbarWarningAction>(SnackbarActionTypes.Warning),
-          map(() => done())
-        );
+      it('raises warning on multiple fail and one success', (done) => {
+        actions$
+          .pipe(
+            ofType<SnackbarWarningAction>(SnackbarActionTypes.Warning),
+            map((action) => expect(action).toBeDefined())
+          )
+          .subscribe(() => done());
 
         spyOn(contentApi, 'purgeDeletedNode').and.callFake((id) => {
           if (id === '1') {
@@ -924,13 +935,15 @@ describe('ContentManagementService', () => {
         ];
 
         store.dispatch(new PurgeDeletedNodesAction(selection));
-      }));
+      });
 
-      it('raises warning on multiple success and multiple fail', fakeAsync((done) => {
-        actions$.pipe(
-          ofType<SnackbarWarningAction>(SnackbarActionTypes.Warning),
-          map(() => done())
-        );
+      it('raises warning on multiple success and multiple fail', (done) => {
+        actions$
+          .pipe(
+            ofType<SnackbarWarningAction>(SnackbarActionTypes.Warning),
+            map((action) => expect(action).toBeDefined())
+          )
+          .subscribe(() => done());
 
         spyOn(contentApi, 'purgeDeletedNode').and.callFake((id) => {
           if (id === '1') {
@@ -960,39 +973,46 @@ describe('ContentManagementService', () => {
         ];
 
         store.dispatch(new PurgeDeletedNodesAction(selection));
-      }));
+      });
 
-      it('raises info on one selected node success', fakeAsync((done) => {
-        actions$.pipe(
-          ofType<SnackbarInfoAction>(SnackbarActionTypes.Info),
-          map(() => done())
-        );
+      it('raises info on one selected node success', (done) => {
+        actions$
+          .pipe(
+            ofType<SnackbarInfoAction>(SnackbarActionTypes.Info),
+            map((action) => expect(action).toBeDefined())
+          )
+          .subscribe(() => done());
 
         spyOn(contentApi, 'purgeDeletedNode').and.returnValue(of({}));
 
         const selection: any[] = [{ entry: { id: '1', name: 'name1' } }];
 
         store.dispatch(new PurgeDeletedNodesAction(selection));
-      }));
+      });
 
-      it('raises error on one selected node fail', fakeAsync((done) => {
-        actions$.pipe(
-          ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
-          map(() => done())
-        );
+      it('raises error on one selected node fail', (done) => {
+        actions$
+          .pipe(
+            ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
+            map((action) => expect(action).toBeDefined())
+          )
+          .subscribe(() => done());
 
         spyOn(contentApi, 'purgeDeletedNode').and.returnValue(throwError({}));
 
         const selection: any[] = [{ entry: { id: '1', name: 'name1' } }];
 
         store.dispatch(new PurgeDeletedNodesAction(selection));
-      }));
+      });
 
-      it('raises info on all nodes success', fakeAsync((done) => {
-        actions$.pipe(
-          ofType<SnackbarInfoAction>(SnackbarActionTypes.Info),
-          map(() => done())
-        );
+      it('raises info on all nodes success', (done) => {
+        actions$
+          .pipe(
+            ofType<SnackbarInfoAction>(SnackbarActionTypes.Info),
+            map((action) => expect(action).toBeDefined())
+          )
+          .subscribe(() => done());
+
         spyOn(contentApi, 'purgeDeletedNode').and.callFake((id) => {
           if (id === '1') {
             return of({});
@@ -1008,13 +1028,16 @@ describe('ContentManagementService', () => {
         const selection: any[] = [{ entry: { id: '1', name: 'name1' } }, { entry: { id: '2', name: 'name2' } }];
 
         store.dispatch(new PurgeDeletedNodesAction(selection));
-      }));
+      });
 
-      it('raises error on all nodes fail', fakeAsync((done) => {
-        actions$.pipe(
-          ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
-          map(() => done())
-        );
+      it('raises error on all nodes fail', (done) => {
+        actions$
+          .pipe(
+            ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
+            map((action) => expect(action).toBeDefined())
+          )
+          .subscribe(() => done());
+
         spyOn(contentApi, 'purgeDeletedNode').and.callFake((id) => {
           if (id === '1') {
             return throwError({});
@@ -1030,7 +1053,7 @@ describe('ContentManagementService', () => {
         const selection: any[] = [{ entry: { id: '1', name: 'name1' } }, { entry: { id: '2', name: 'name2' } }];
 
         store.dispatch(new PurgeDeletedNodesAction(selection));
-      }));
+      });
     });
   });
 
@@ -1054,7 +1077,7 @@ describe('ContentManagementService', () => {
       expect(contentApi.restoreNode).not.toHaveBeenCalled();
     });
 
-    it('call restore nodes if selection has nodes with path', fakeAsync(() => {
+    it('call restore nodes if selection has nodes with path', () => {
       spyOn(contentApi, 'restoreNode').and.returnValue(of({} as NodeEntry));
       spyOn(contentApi, 'getDeletedNodes').and.returnValue(
         of({
@@ -1083,9 +1106,9 @@ describe('ContentManagementService', () => {
       store.dispatch(new RestoreDeletedNodesAction(selection));
 
       expect(contentApi.restoreNode).toHaveBeenCalled();
-    }));
+    });
 
-    it('should navigate to library folder when node is a library content', fakeAsync(() => {
+    it('should navigate to library folder when node is a library content', () => {
       spyOn(store, 'dispatch').and.callThrough();
       spyOn(contentApi, 'restoreNode').and.returnValue(of({} as NodeEntry));
       spyOn(contentApi, 'getDeletedNodes').and.returnValue(
@@ -1119,7 +1142,7 @@ describe('ContentManagementService', () => {
       store.dispatch(new RestoreDeletedNodesAction(selection));
 
       expect(store.dispatch['calls'].argsFor(1)[0].userAction.action instanceof NavigateToParentFolder).toBe(true);
-    }));
+    });
 
     describe('notification', () => {
       beforeEach(() => {
@@ -1130,13 +1153,15 @@ describe('ContentManagementService', () => {
         );
       });
 
-      it('should raise error message on partial multiple fail ', fakeAsync((done) => {
+      it('should raise error message on partial multiple fail ', (done) => {
         const error = { message: '{ "error": {} }' };
 
-        actions$.pipe(
-          ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
-          map(() => done())
-        );
+        actions$
+          .pipe(
+            ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
+            map((action) => expect(action).toBeDefined())
+          )
+          .subscribe(() => done());
 
         spyOn(contentApi, 'restoreNode').and.callFake((id) => {
           if (id === '1') {
@@ -1170,16 +1195,18 @@ describe('ContentManagementService', () => {
         ];
 
         store.dispatch(new RestoreDeletedNodesAction(selection));
-      }));
+      });
 
-      it('should raise error message when restored node exist, error 409', fakeAsync((done) => {
+      it('should raise error message when restored node exist, error 409', (done) => {
         const error = { message: '{ "error": { "statusCode": 409 } }' };
         spyOn(contentApi, 'restoreNode').and.returnValue(throwError(error));
 
-        actions$.pipe(
-          ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
-          map(() => done())
-        );
+        actions$
+          .pipe(
+            ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
+            map((action) => expect(action).toBeDefined())
+          )
+          .subscribe(() => done());
 
         const path = {
           elements: [
@@ -1193,17 +1220,19 @@ describe('ContentManagementService', () => {
         const selection: any[] = [{ entry: { id: '1', name: 'name1', path } }];
 
         store.dispatch(new RestoreDeletedNodesAction(selection));
-      }));
+      });
 
-      it('should raise error message when restored node returns different statusCode', fakeAsync((done) => {
+      it('should raise error message when restored node returns different statusCode', (done) => {
         const error = { message: '{ "error": { "statusCode": 404 } }' };
 
         spyOn(contentApi, 'restoreNode').and.returnValue(throwError(error));
 
-        actions$.pipe(
-          ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
-          map(() => done())
-        );
+        actions$
+          .pipe(
+            ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
+            map((action) => expect(action).toBeDefined())
+          )
+          .subscribe(() => done());
 
         const path = {
           elements: [
@@ -1217,17 +1246,19 @@ describe('ContentManagementService', () => {
         const selection: any[] = [{ entry: { id: '1', name: 'name1', path } }];
 
         store.dispatch(new RestoreDeletedNodesAction(selection));
-      }));
+      });
 
-      it('should raise error message when restored node location is missing', fakeAsync((done) => {
+      it('should raise error message when restored node location is missing', (done) => {
         const error = { message: '{ "error": { } }' };
 
         spyOn(contentApi, 'restoreNode').and.returnValue(throwError(error));
 
-        actions$.pipe(
-          ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
-          map(() => done())
-        );
+        actions$
+          .pipe(
+            ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
+            map((action) => expect(action).toBeDefined())
+          )
+          .subscribe(() => done());
 
         const path = {
           elements: [
@@ -1241,9 +1272,9 @@ describe('ContentManagementService', () => {
         const selection: any[] = [{ entry: { id: '1', name: 'name1', path } }];
 
         store.dispatch(new RestoreDeletedNodesAction(selection));
-      }));
+      });
 
-      it('should raise info message when restore multiple nodes', fakeAsync((done) => {
+      it('should raise info message when restore multiple nodes', (done) => {
         spyOn(contentApi, 'restoreNode').and.callFake((id) => {
           const entry = {} as NodeEntry;
           if (id === '1') {
@@ -1257,10 +1288,12 @@ describe('ContentManagementService', () => {
           return of(entry);
         });
 
-        actions$.pipe(
-          ofType<SnackbarInfoAction>(SnackbarActionTypes.Info),
-          map(() => done())
-        );
+        actions$
+          .pipe(
+            ofType<SnackbarInfoAction>(SnackbarActionTypes.Info),
+            map((action) => expect(action).toBeDefined())
+          )
+          .subscribe(() => done());
 
         const path = {
           elements: [
@@ -1274,15 +1307,17 @@ describe('ContentManagementService', () => {
         const selection: any[] = [{ entry: { id: '1', name: 'name1', path } }, { entry: { id: '2', name: 'name2', path } }];
 
         store.dispatch(new RestoreDeletedNodesAction(selection));
-      }));
+      });
 
-      it('should raise info message when restore selected node', fakeAsync((done) => {
+      it('should raise info message when restore selected node', (done) => {
         spyOn(contentApi, 'restoreNode').and.returnValue(of({} as NodeEntry));
 
-        actions$.pipe(
-          ofType<SnackbarInfoAction>(SnackbarActionTypes.Info),
-          map(() => done())
-        );
+        actions$
+          .pipe(
+            ofType<SnackbarInfoAction>(SnackbarActionTypes.Info),
+            map((action) => expect(action).toBeDefined())
+          )
+          .subscribe(() => done());
 
         const path = {
           elements: [
@@ -1296,16 +1331,10 @@ describe('ContentManagementService', () => {
         const selection: any[] = [{ entry: { id: '1', name: 'name1', path } }];
 
         store.dispatch(new RestoreDeletedNodesAction(selection));
-      }));
+      });
 
-      it('navigate to restore selected node location onAction', fakeAsync((done) => {
+      it('navigate to restore selected node location onAction', (done) => {
         spyOn(contentApi, 'restoreNode').and.returnValue(of({} as NodeEntry));
-
-        actions$.pipe(
-          ofType<NavigateRouteAction>(RouterActionTypes.NavigateRoute),
-          map(() => done())
-        );
-
         const path = {
           elements: [
             {
@@ -1325,8 +1354,17 @@ describe('ContentManagementService', () => {
           }
         ];
 
+        actions$
+          .pipe(
+            ofType<RestoreDeletedNodesAction>(NodeActionTypes.RestoreDeleted),
+            map((action) => {
+              expect(action).toBeDefined();
+            })
+          )
+          .subscribe(() => done());
+
         store.dispatch(new RestoreDeletedNodesAction(selection));
-      }));
+      });
     });
   });
 
