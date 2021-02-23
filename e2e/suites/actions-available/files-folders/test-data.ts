@@ -56,7 +56,6 @@ const fileSharedFavLockedContextMenu = [
   'Copy',
   'Delete',
   'Manage Versions',
-  'Edit Aspects',
   'Permissions'
 ];
 const fileToolbarPrimary = ['Share', 'Download', 'View', 'View Details', 'More Actions'];
@@ -107,7 +106,6 @@ const fileFavLockedToolbarMore = [
   'Copy',
   'Delete',
   'Manage Versions',
-  'Edit Aspects',
   'Permissions'
 ];
 const fileDocxFavContextMenu = [
@@ -149,7 +147,6 @@ const fileDocxSharedFavContextMenu = [
   'Copy',
   'Delete',
   'Manage Versions',
-  'Edit Aspects',
   'Permissions'
 ];
 const fileDocxSharedContextMenu = [
@@ -164,7 +161,6 @@ const fileDocxSharedContextMenu = [
   'Copy',
   'Delete',
   'Manage Versions',
-  'Edit Aspects',
   'Permissions'
 ];
 const fileFavContextMenu = [
@@ -231,7 +227,6 @@ const fileFavLockedContextMenu = [
   'Copy',
   'Delete',
   'Manage Versions',
-  'Edit Aspects',
   'Permissions'
 ];
 const fileLockedContextMenu = [
@@ -245,7 +240,6 @@ const fileLockedContextMenu = [
   'Copy',
   'Delete',
   'Manage Versions',
-  'Edit Aspects',
   'Permissions'
 ];
 const fileLockedToolbarMore = [
@@ -256,7 +250,6 @@ const fileLockedToolbarMore = [
   'Copy',
   'Delete',
   'Manage Versions',
-  'Edit Aspects',
   'Permissions'
 ];
 const fileSharedLockedContextMenu = [
@@ -270,7 +263,6 @@ const fileSharedLockedContextMenu = [
   'Copy',
   'Delete',
   'Manage Versions',
-  'Edit Aspects',
   'Permissions'
 ];
 
@@ -343,14 +335,13 @@ const viewerLockedToolbarMore = [
   'Copy',
   'Delete',
   'Manage Versions',
-  'Edit Aspects',
   'Permissions'
 ];
 
 // ---- FAVORITES workarounds ----
 
 // TODO: investigate why 'Edit Offline', 'Edit in Microsoft Office™' and 'Permissions' are not displayed and raise issue
-const favoritesContextMenu = ['Share', 'Download', 'View', 'Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
+const favoritesContextMenu = ['Share', 'Download', 'View', 'Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Edit Aspects'];
 // TODO: investigate why 'Permissions' is not displayed and raise issue
 const favoritesLockedContextMenu = [
   'Share',
@@ -365,7 +356,7 @@ const favoritesLockedContextMenu = [
   'Manage Versions'
 ];
 // TODO: investigate why 'Edit Offline', 'Edit in Microsoft Office™' and 'Permissions' are not displayed and raise issue
-const favoritesToolbarMore = ['Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
+const favoritesToolbarMore = ['Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Edit Aspects'];
 // TODO: investigate why 'Permissions' is not displayed and raise issue
 const favoritesLockedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
 // TODO: investigate why 'Edit Offline', 'Edit in Microsoft Office™' and 'Permissions' are not displayed and raise issue
@@ -378,7 +369,8 @@ const favoritesSharedContextMenu = [
   'Move',
   'Copy',
   'Delete',
-  'Manage Versions'
+  'Manage Versions',
+  'Edit Aspects'
 ];
 // TODO: investigate why 'Permissions' is not displayed and raise issue
 const favoritesSharedLockedContextMenu = [
@@ -417,7 +409,6 @@ const searchFavLockedToolbarMore = [
   'Remove Favorite',
   'Copy',
   'Manage Versions',
-  'Edit Aspects',
   'Permissions'
 ];
 const searchSharedFavLockedContextMenu = [
@@ -429,7 +420,6 @@ const searchSharedFavLockedContextMenu = [
   'Remove Favorite',
   'Copy',
   'Manage Versions',
-  'Edit Aspects',
   'Permissions'
 ];
 const searchDocxToolbarMore = [
@@ -463,7 +453,6 @@ const searchSharedLockedContextMenu = [
   'Favorite',
   'Copy',
   'Manage Versions',
-  'Edit Aspects',
   'Permissions'
 ];
 const searchDocxFavContextMenu = [
@@ -512,7 +501,6 @@ const searchDocxSharedFavContextMenu = [
   'Remove Favorite',
   'Copy',
   'Manage Versions',
-  'Edit Aspects',
   'Permissions'
 ];
 const searchDocxSharedContextMenu = [
@@ -525,7 +513,6 @@ const searchDocxSharedContextMenu = [
   'Favorite',
   'Copy',
   'Manage Versions',
-  'Edit Aspects',
   'Permissions'
 ];
 const searchFavToolbarMore = ['Edit Offline', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions', 'Edit Aspects', 'Permissions'];
@@ -550,10 +537,9 @@ const searchFavLockedContextMenu = [
   'Remove Favorite',
   'Copy',
   'Manage Versions',
-  'Edit Aspects',
   'Permissions'
 ];
-const searchLockedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Favorite', 'Copy', 'Manage Versions', 'Edit Aspects', 'Permissions'];
+const searchLockedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Favorite', 'Copy', 'Manage Versions', 'Permissions'];
 const searchLockedContextMenu = [
   'Share',
   'Download',
@@ -563,7 +549,6 @@ const searchLockedContextMenu = [
   'Favorite',
   'Copy',
   'Manage Versions',
-  'Edit Aspects',
   'Permissions'
 ];
 const searchSharedFavContextMenu = [
@@ -918,27 +903,27 @@ export const folderFav2 = {
 // ---- multiple selection ---
 
 // TODO: raise issue to remove 'Permissions'
-const multipleSelContextMenu = ['Download', 'Favorite', 'Move', 'Copy', 'Delete', 'Edit Aspects', 'Permissions'];
+const multipleSelContextMenu = ['Download', 'Favorite', 'Move', 'Copy', 'Delete', 'Permissions'];
 // TODO: raise issue to remove 'Permissions'
-const multipleSelAllFavContextMenu = ['Download', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Edit Aspects', 'Permissions'];
+const multipleSelAllFavContextMenu = ['Download', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Permissions'];
 const multipleSelToolbarPrimary = ['Download', 'View Details', 'More Actions'];
 // TODO: raise issue to remove 'Permissions'
-const multipleSelToolbarMore = ['Favorite', 'Move', 'Copy', 'Delete', 'Edit Aspects', 'Permissions'];
+const multipleSelToolbarMore = ['Favorite', 'Move', 'Copy', 'Delete', 'Permissions'];
 // TODO: raise issue to remove 'Permissions'
-const multipleSelAllFavToolbarMore = ['Remove Favorite', 'Move', 'Copy', 'Delete', 'Edit Aspects', 'Permissions'];
+const multipleSelAllFavToolbarMore = ['Remove Favorite', 'Move', 'Copy', 'Delete', 'Permissions'];
 
 const favoritesMultipleSelAllFavContextMenu = ['Download', 'Remove Favorite', 'Move', 'Copy', 'Delete'];
 const favoritesMultipleSelAllFavToolbarMore = ['Remove Favorite', 'Move', 'Copy', 'Delete'];
 
 // TODO: raise issue to remove 'Permissions'
-const searchMultipleSelContextMenu = ['Download', 'Favorite', 'Copy', 'Edit Aspects', 'Permissions'];
+const searchMultipleSelContextMenu = ['Download', 'Favorite', 'Copy', 'Permissions'];
 // TODO: raise issue to remove 'Permissions'
-const searchMultipleSelAllFavContextMenu = ['Download', 'Remove Favorite', 'Copy', 'Edit Aspects', 'Permissions'];
+const searchMultipleSelAllFavContextMenu = ['Download', 'Remove Favorite', 'Copy', 'Permissions'];
 const searchMultipleSelToolbarPrimary = ['Toggle search filter', 'Download', 'View Details', 'More Actions'];
 // TODO: raise issue to remove 'Permissions'
-const searchMultipleSelToolbarMore = ['Favorite', 'Copy', 'Edit Aspects', 'Permissions'];
+const searchMultipleSelToolbarMore = ['Favorite', 'Copy', 'Permissions'];
 // TODO: raise issue to remove 'Permissions'
-const searchMultipleSelAllFavToolbarMore = ['Remove Favorite', 'Copy', 'Edit Aspects', 'Permissions'];
+const searchMultipleSelAllFavToolbarMore = ['Remove Favorite', 'Copy', 'Permissions'];
 
 export const multipleSel = {
   contextMenu: multipleSelContextMenu,

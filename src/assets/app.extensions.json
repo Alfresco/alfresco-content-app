@@ -536,7 +536,7 @@
               "click": "ASPECT_LIST"
             },
             "rules": {
-              "visible": "canManagePermissions"
+              "visible": "canManageFileVersions"
             }
           },
           {
@@ -753,7 +753,7 @@
           "click": "ASPECT_LIST"
         },
         "rules": {
-          "visible": "canManagePermissions"
+          "visible": "canManageFileVersions"
         }
       },
       {
@@ -1025,7 +1025,7 @@
                 "click": "ASPECT_LIST"
               },
               "rules": {
-                "visible": "canManagePermissions"
+                "visible": "canManageFileVersions"
               }
             },
             {
