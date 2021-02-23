@@ -35,7 +35,6 @@ import {
   NodeContentTree
 } from '@alfresco/aca-testing-shared';
 import { BrowserActions, Logger } from '@alfresco/adf-testing';
-import { doesNotMatch } from 'assert';
 
 describe('Create file from template', () => {
   const random = Utils.random();

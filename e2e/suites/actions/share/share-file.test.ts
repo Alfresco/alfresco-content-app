@@ -36,7 +36,6 @@ import {
   Utils
 } from '@alfresco/aca-testing-shared';
 import { BrowserActions, Logger } from '@alfresco/adf-testing';
-import { doesNotReject } from 'assert';
 
 describe('Share a file', () => {
   const username = `user-${Utils.random()}`;
