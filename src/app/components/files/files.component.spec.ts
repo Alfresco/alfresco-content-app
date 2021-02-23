@@ -35,6 +35,7 @@ import { ContentApiService, SharedDirectivesModule } from '@alfresco/aca-shared'
 import { of, throwError } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { DirectivesModule } from '../../directives/directives.module';
+import { NodeEntry, NodePaging } from '@alfresco/js-api';
 
 describe('FilesComponent', () => {
   let node;
@@ -85,8 +86,11 @@ describe('FilesComponent', () => {
     fixture = TestBed.createComponent(FilesComponent);
     component = fixture.componentInstance;
 
-    let documentListService = TestBed.inject(DocumentListService);
-    spyOn(documentListService, 'loadFolderByNodeId').and.callFake(() => of());
+    const documentListService = TestBed.inject(DocumentListService);
+    const fakeNodeEntry: NodeEntry = { entry: { id: 'fake-node-entry' } } as NodeEntry;
+    const fakeNodePaging: NodePaging = { list: { pagination: { count: 10, maxItems: 10, skipCount: 0 } } };
+    const documentLoaderNode = { children: fakeNodePaging, currentNode: fakeNodeEntry };
+    spyOn(documentListService, 'loadFolderByNodeId').and.returnValue(of(documentLoaderNode));
 
     uploadService = TestBed.inject(UploadService);
     router = TestBed.inject(Router);
@@ -312,7 +316,7 @@ describe('FilesComponent', () => {
     });
   });
 
-  xdescribe('empty template', () => {
+  describe('empty template', () => {
     beforeEach(() => {
       fixture.detectChanges();
     });
@@ -333,16 +337,16 @@ describe('FilesComponent', () => {
     });
   });
 
-  xit('[C308041] should have sticky headers', async () => {
+  it('[C308041] should have sticky headers', async () => {
     fixture.detectChanges();
 
-    let nodeResult = {
+    const nodeResult = {
       list: {
         entries: [{ entry: { id: '1', isFile: true } } as any, { entry: { id: '2', isFile: true } } as any],
         pagination: { count: 2 }
       }
     };
-    let changes: SimpleChanges = <SimpleChanges>{ nodeResult: new SimpleChange(null, nodeResult, true) };
+    const changes: SimpleChanges = { nodeResult: new SimpleChange(null, nodeResult, true) };
 
     fixture.componentInstance.ngOnChanges(changes);
 

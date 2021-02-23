@@ -613,7 +613,7 @@ describe('NodeActionsService', () => {
           });
       }));
 
-      xit('when folder to copy is empty', async(() => {
+      it('when folder to copy is empty', async(() => {
         const testFamilyNodes = [
           {
             parentNodeId: folderToCopy.entry.id,
@@ -625,7 +625,7 @@ describe('NodeActionsService', () => {
           }
         ];
         spyOn(nodesApi, 'getNodeChildren').and.callFake(helper.fakeGetNodeChildren(testFamilyNodes));
-        spyOn(service, 'getChildByName').and.returnValue(subject);
+        spyOn(service, 'getChildByName').and.returnValue(of({}) as any);
 
         copyObservable
           .toPromise()

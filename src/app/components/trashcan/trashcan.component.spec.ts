@@ -29,7 +29,7 @@ import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { TrashcanComponent } from './trashcan.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 
-xdescribe('TrashcanComponent', () => {
+describe('TrashcanComponent', () => {
   let fixture: ComponentFixture<TrashcanComponent>;
   let component: TrashcanComponent;
   let alfrescoApi: AlfrescoApiService;

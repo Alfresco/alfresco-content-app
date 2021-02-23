@@ -23,10 +23,41 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { NodeEntry } from '@alfresco/js-api';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CoreModule } from '@angular/flex-layout';
+import { TranslateModule } from '@ngx-translate/core';
+import { AppTestingModule } from '../../../testing/app-testing.module';
+import { AppSearchResultsModule } from '../search-results.module';
 import { SearchResultsRowComponent } from './search-results-row.component';
 
-xdescribe('SearchResultsRowComponent', () => {
-  it('should be defined', () => {
-    expect(SearchResultsRowComponent).toBeDefined();
+describe('SearchResultsRowComponent', () => {
+  let component: SearchResultsRowComponent;
+  let fixture: ComponentFixture<SearchResultsRowComponent>;
+  const nodeEntry: NodeEntry = {
+    entry: {
+      id: 'fake-node-entry',
+      modifiedByUser: { displayName: 'IChangeThings' },
+      modifiedAt: new Date(),
+      isFile: true,
+      properties: { 'cm:title': 'BananaRama' }
+    }
+  } as NodeEntry;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [TranslateModule.forRoot(), CoreModule, AppTestingModule, AppSearchResultsModule]
+    });
+
+    fixture = TestBed.createComponent(SearchResultsRowComponent);
+    component = fixture.componentInstance;
+  });
+
+  it('should show the current node', () => {
+    component.context = { row: { node: nodeEntry } };
+    fixture.detectChanges();
+
+    const element = fixture.nativeElement.querySelector('.line');
+    expect(element).not.toBeNull();
   });
 });
