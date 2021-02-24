@@ -242,16 +242,7 @@ const fileLockedContextMenu = [
   'Manage Versions',
   'Permissions'
 ];
-const fileLockedToolbarMore = [
-  'Cancel Editing',
-  'Upload New Version',
-  'Favorite',
-  'Move',
-  'Copy',
-  'Delete',
-  'Manage Versions',
-  'Permissions'
-];
+const fileLockedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Permissions'];
 const fileSharedLockedContextMenu = [
   'Shared Link Settings',
   'Download',
@@ -327,21 +318,22 @@ const viewerDocxFavToolbarMore = [
   'Edit Aspects',
   'Permissions'
 ];
-const viewerLockedToolbarMore = [
-  'Cancel Editing',
+const viewerLockedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Permissions'];
+// ---- FAVORITES workarounds ----
+
+// TODO: investigate why 'Edit Offline', 'Edit in Microsoft Office™' and 'Permissions' are not displayed and raise issue
+const favoritesContextMenu = [
+  'Share',
+  'Download',
+  'View',
   'Upload New Version',
-  'Favorite',
+  'Remove Favorite',
   'Move',
   'Copy',
   'Delete',
   'Manage Versions',
-  'Permissions'
+  'Edit Aspects'
 ];
-
-// ---- FAVORITES workarounds ----
-
-// TODO: investigate why 'Edit Offline', 'Edit in Microsoft Office™' and 'Permissions' are not displayed and raise issue
-const favoritesContextMenu = ['Share', 'Download', 'View', 'Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Edit Aspects'];
 // TODO: investigate why 'Permissions' is not displayed and raise issue
 const favoritesLockedContextMenu = [
   'Share',
@@ -403,14 +395,7 @@ const searchDocxContextMenu = [
 ];
 const searchToolbarPrimary = ['Toggle search filter', 'Share', 'Download', 'View', 'View Details', 'More Actions'];
 const searchSharedToolbarPrimary = ['Toggle search filter', 'Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
-const searchFavLockedToolbarMore = [
-  'Cancel Editing',
-  'Upload New Version',
-  'Remove Favorite',
-  'Copy',
-  'Manage Versions',
-  'Permissions'
-];
+const searchFavLockedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions', 'Permissions'];
 const searchSharedFavLockedContextMenu = [
   'Shared Link Settings',
   'Download',
