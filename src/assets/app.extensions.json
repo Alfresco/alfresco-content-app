@@ -536,7 +536,7 @@
               "click": "ASPECT_LIST"
             },
             "rules": {
-              "visible": "canManageFileVersions"
+              "visible": "canEditAspects"
             }
           },
           {
@@ -753,7 +753,7 @@
           "click": "ASPECT_LIST"
         },
         "rules": {
-          "visible": "canManageFileVersions"
+          "visible": "canEditAspects"
         }
       },
       {
@@ -1025,7 +1025,7 @@
                 "click": "ASPECT_LIST"
               },
               "rules": {
-                "visible": "canManageFileVersions"
+                "visible": "canEditAspects"
               }
             },
             {
