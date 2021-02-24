@@ -33,6 +33,7 @@ import { AppStore, ToggleDocumentDisplayMode, getDocumentDisplayMode } from '@al
   template: `
     <ng-container *ngIf="displayMode$ | async as displayMode">
       <button
+        id="app-document-display-mode-button"
         [attr.title]="getTitle(displayMode) | translate"
         [attr.aria-label]="getTitle(displayMode) | translate"
         mat-icon-button

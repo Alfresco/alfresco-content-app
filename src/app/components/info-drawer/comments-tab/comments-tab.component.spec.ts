@@ -28,6 +28,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { NodePermissionService } from '@alfresco/aca-shared';
 import { Node } from '@alfresco/js-api';
+import { CommentsModule } from '@alfresco/adf-core';
 
 describe('CommentsTabComponent', () => {
   let component: CommentsTabComponent;
@@ -37,7 +38,7 @@ describe('CommentsTabComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule],
+      imports: [AppTestingModule, CommentsModule],
       declarations: [CommentsTabComponent]
     });
 

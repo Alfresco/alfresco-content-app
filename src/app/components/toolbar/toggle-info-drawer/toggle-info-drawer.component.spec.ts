@@ -24,9 +24,36 @@
  */
 
 import { ToggleInfoDrawerComponent } from './toggle-info-drawer.component';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CoreModule } from '@angular/flex-layout';
+import { TranslateModule } from '@ngx-translate/core';
+import { AppTestingModule } from '../../../testing/app-testing.module';
+import { Subject } from 'rxjs';
+import { Store } from '@ngrx/store';
 
 describe('ToggleInfoDrawerComponent', () => {
-  it('should be defined', () => {
-    expect(ToggleInfoDrawerComponent).toBeDefined();
+  let fixture: ComponentFixture<ToggleInfoDrawerComponent>;
+  const mockStream = new Subject();
+  const storeMock = {
+    dispatch: jasmine.createSpy('dispatch'),
+    select: () => mockStream
+  };
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [TranslateModule.forRoot(), CoreModule, AppTestingModule],
+      providers: [{ provide: Store, useValue: storeMock }]
+    });
+
+    fixture = TestBed.createComponent(ToggleInfoDrawerComponent);
+  });
+
+  it('should show info drawer button', async () => {
+    mockStream.next(true);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const infoDrawerButton: HTMLButtonElement = fixture.nativeElement.querySelector('.app-toggle-info-drawer button');
+    expect(infoDrawerButton).not.toBeNull();
   });
 });
