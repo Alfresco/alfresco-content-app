@@ -227,6 +227,7 @@ const fileFavLockedContextMenu = [
   'Copy',
   'Delete',
   'Manage Versions',
+  'Edit Aspects',
   'Permissions'
 ];
 const fileLockedContextMenu = [
@@ -240,9 +241,10 @@ const fileLockedContextMenu = [
   'Copy',
   'Delete',
   'Manage Versions',
+  'Edit Aspects',
   'Permissions'
 ];
-const fileLockedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Permissions'];
+const fileLockedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Edit Aspects', 'Permissions'];
 const fileSharedLockedContextMenu = [
   'Shared Link Settings',
   'Download',
@@ -254,6 +256,7 @@ const fileSharedLockedContextMenu = [
   'Copy',
   'Delete',
   'Manage Versions',
+  'Edit Aspects',
   'Permissions'
 ];
 

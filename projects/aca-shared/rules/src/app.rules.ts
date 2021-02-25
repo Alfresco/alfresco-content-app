@@ -275,11 +275,11 @@ export function canUpdateSelectedNode(context: RuleContext): boolean {
 }
 
 export function isMultiselection(context: RuleContext): boolean {
-  let isMultiselection = false;
+  let isMultiNodeSelected = false;
   if (context.selection && !context.selection.isEmpty) {
-    isMultiselection = context.selection.count > 1;
+    isMultiNodeSelected = context.selection.count > 1;
   }
-  return isMultiselection;
+  return isMultiNodeSelected;
 }
 
 /**
@@ -437,7 +437,7 @@ export function canManageFileVersions(context: RuleContext): boolean {
  * @param context Rule execution context
  */
 export function canEditAspects(context: RuleContext): boolean {
-  return [!isMultiselection(context), canUpdateSelectedNode(context), navigation.isNotTrashcan(context)].every(Boolean);
+  return [!isMultiselection(context), canUpdateSelectedNode(context), isUserWriteLockOwner(context), navigation.isNotTrashcan(context)].every(Boolean);
 }
 
 /**
