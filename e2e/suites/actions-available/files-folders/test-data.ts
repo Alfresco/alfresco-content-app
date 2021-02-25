@@ -227,7 +227,6 @@ const fileFavLockedContextMenu = [
   'Copy',
   'Delete',
   'Manage Versions',
-  'Edit Aspects',
   'Permissions'
 ];
 const fileLockedContextMenu = [
