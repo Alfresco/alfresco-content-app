@@ -242,16 +242,7 @@ const fileLockedContextMenu = [
   'Manage Versions',
   'Permissions'
 ];
-const fileLockedToolbarMore = [
-  'Cancel Editing',
-  'Upload New Version',
-  'Favorite',
-  'Move',
-  'Copy',
-  'Delete',
-  'Manage Versions',
-  'Permissions'
-];
+const fileLockedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Permissions'];
 const fileSharedLockedContextMenu = [
   'Shared Link Settings',
   'Download',
@@ -330,17 +321,7 @@ const viewerLockedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Favori
 // ---- FAVORITES workarounds ----
 
 // TODO: investigate why 'Edit Offline', 'Edit in Microsoft Office™' and 'Permissions' are not displayed and raise issue
-const favoritesContextMenu = [
-  'Share',
-  'Download',
-  'View',
-  'Upload New Version',
-  'Remove Favorite',
-  'Move',
-  'Copy',
-  'Delete',
-  'Manage Versions'
-];
+const favoritesContextMenu = ['Share', 'Download', 'View', 'Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
 // TODO: investigate why 'Permissions' is not displayed and raise issue
 const favoritesLockedContextMenu = [
   'Share',
@@ -575,14 +556,7 @@ const searchViewerDocxToolbarMore = [
   'Edit Aspects',
   'Permissions'
 ];
-const searchViewerFavLockedToolbarMore = [
-  'Cancel Editing',
-  'Upload New Version',
-  'Remove Favorite',
-  'Copy',
-  'Manage Versions',
-  'Permissions'
-];
+const searchViewerFavLockedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions', 'Permissions'];
 const searchViewerDocxFavToolbarMore = [
   'Edit in Microsoft Office™',
   'Edit Offline',
