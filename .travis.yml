@@ -27,8 +27,6 @@ stages:
   - name: Quality and Unit tests
   - name: Publish Docker Registry
     if: (type = push AND tag IS blank) OR type = api
-  - name: Release Libraries
-    if: branch = master AND type = push
   - name: Release Tag
     if: branch = master AND type = push
   - name: e2e

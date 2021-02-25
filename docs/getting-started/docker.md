@@ -16,7 +16,7 @@ The application runs in two modes:
 Run the local instance of the application packaged into the docker image together with the ACS images:
 
 ```sh
-npm run build
+npm run build.release
 npm run start:docker
 ```
 

@@ -4,4 +4,4 @@ set -e
 
 echo building $1
 npm clean-install
-npm run build $*
+npm run build.release $*

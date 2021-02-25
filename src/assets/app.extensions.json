@@ -8,7 +8,7 @@
   "$runtime": "1.7.0",
   "$description": "Core application extensions and features",
   "$references": [],
-  "$ignoreReferenceList": ["about.plugin.json", "settings.plugin.json"],
+  "$ignoreReferenceList": [],
 
   "rules": [
     {

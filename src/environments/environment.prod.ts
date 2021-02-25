@@ -23,7 +23,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export const environment = {
+import ContentAppEnvironment from './environment.interface';
+
+export const environment: ContentAppEnvironment = {
   production: true,
-  e2e: false
+  e2e: false,
+  devTools: true
 };
