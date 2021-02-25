@@ -138,6 +138,14 @@
                 }
               ]
             },
+            "release": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.release.ts"
+                }
+              ]
+            },
             "e2e": {
               "budgets": [
                 {
@@ -177,6 +185,9 @@
             },
             "e2e": {
               "browserTarget": "app:build:e2e"
+            },
+            "release": {
+                "browserTarget": "app:build:release"
             }
           }
         },

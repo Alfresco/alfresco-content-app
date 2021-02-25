@@ -17,7 +17,7 @@ ACA には ACS 6.0 Community 版が事前構成されています。
 ACS イメージと共に、Docker イメージにパッケージ化されたアプリケーションのローカルインスタンスを実行します:
 
 ```sh
-npm run build
+npm run build.release
 npm run start:docker
 ```
 
