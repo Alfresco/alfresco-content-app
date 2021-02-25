@@ -29,9 +29,9 @@ export const random = Utils.random();
 
 // ----- files -----
 
-const consumerContextMenu = ['Share', 'Download', 'View', 'Favorite', 'Copy', 'Edit Aspects', 'Manage Versions'];
-const consumerFavContextMenu = ['Share', 'Download', 'View', 'Remove Favorite', 'Copy', 'Edit Aspects', 'Manage Versions'];
-const consumerSharedContextMenu = ['Shared Link Settings', 'Download', 'View', 'Favorite', 'Copy', 'Edit Aspects', 'Manage Versions'];
+const consumerContextMenu = ['Share', 'Download', 'View', 'Favorite', 'Copy', 'Manage Versions'];
+const consumerFavContextMenu = ['Share', 'Download', 'View', 'Remove Favorite', 'Copy', 'Manage Versions'];
+const consumerSharedContextMenu = ['Shared Link Settings', 'Download', 'View', 'Favorite', 'Copy', 'Manage Versions'];
 const consumerSharedFavContextMenu = ['Shared Link Settings', 'Download', 'View', 'Remove Favorite', 'Copy', 'Manage Versions'];
 
 const consumerToolbarPrimary = ['Share', 'Download', 'View', 'View Details', 'More Actions'];
@@ -40,8 +40,8 @@ const consumerSharedToolbarPrimary = ['Shared Link Settings', 'Download', 'View'
 const searchConsumerToolbarPrimary = ['Toggle search filter', 'Share', 'Download', 'View', 'View Details', 'More Actions'];
 const searchConsumerSharedToolbarPrimary = ['Toggle search filter', 'Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
 
-const consumerToolbarMore = ['Favorite', 'Copy', 'Edit Aspects', 'Edit Aspects', 'Manage Versions'];
-const consumerFavToolbarMore = ['Remove Favorite', 'Copy', 'Edit Aspects', 'Manage Versions'];
+const consumerToolbarMore = ['Favorite', 'Copy', 'Manage Versions'];
+const consumerFavToolbarMore = ['Remove Favorite', 'Copy', 'Manage Versions'];
 
 // ---- VIEWER ----
 
