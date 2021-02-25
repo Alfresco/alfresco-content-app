@@ -343,8 +343,7 @@ const favoritesContextMenu = [
   'Move',
   'Copy',
   'Delete',
-  'Manage Versions',
-  'Edit Aspects'
+  'Manage Versions'
 ];
 // TODO: investigate why 'Permissions' is not displayed and raise issue
 const favoritesLockedContextMenu = [
@@ -360,7 +359,7 @@ const favoritesLockedContextMenu = [
   'Manage Versions'
 ];
 // TODO: investigate why 'Edit Offline', 'Edit in Microsoft Office™' and 'Permissions' are not displayed and raise issue
-const favoritesToolbarMore = ['Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions', 'Edit Aspects'];
+const favoritesToolbarMore = ['Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
 // TODO: investigate why 'Permissions' is not displayed and raise issue
 const favoritesLockedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Move', 'Copy', 'Delete', 'Manage Versions'];
 // TODO: investigate why 'Edit Offline', 'Edit in Microsoft Office™' and 'Permissions' are not displayed and raise issue
@@ -373,8 +372,7 @@ const favoritesSharedContextMenu = [
   'Move',
   'Copy',
   'Delete',
-  'Manage Versions',
-  'Edit Aspects'
+  'Manage Versions'
 ];
 // TODO: investigate why 'Permissions' is not displayed and raise issue
 const favoritesSharedLockedContextMenu = [
