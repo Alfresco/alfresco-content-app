@@ -73,7 +73,6 @@ export class AdminActions extends UserActions {
 
   async createUser(user: PersonModel): Promise<PersonEntry> {
     const person = new Person(user);
-    console.log(user);
     const peopleApi = new PeopleApi(this.alfrescoApi);
 
     await this.login();
