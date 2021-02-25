@@ -240,7 +240,6 @@ const fileLockedContextMenu = [
   'Copy',
   'Delete',
   'Manage Versions',
-  'Edit Aspects',
   'Permissions'
 ];
 const fileLockedToolbarMore = [
@@ -251,7 +250,6 @@ const fileLockedToolbarMore = [
   'Copy',
   'Delete',
   'Manage Versions',
-  'Edit Aspects',
   'Permissions'
 ];
 const fileSharedLockedContextMenu = [
@@ -265,7 +263,6 @@ const fileSharedLockedContextMenu = [
   'Copy',
   'Delete',
   'Manage Versions',
-  'Edit Aspects',
   'Permissions'
 ];
 
@@ -315,7 +312,6 @@ const viewerFavLockedToolbarMore = [
   'Copy',
   'Delete',
   'Manage Versions',
-  'Edit Aspects',
   'Permissions'
 ];
 const viewerDocxFavToolbarMore = [
@@ -585,7 +581,6 @@ const searchViewerFavLockedToolbarMore = [
   'Remove Favorite',
   'Copy',
   'Manage Versions',
-  'Edit Aspects',
   'Permissions'
 ];
 const searchViewerDocxFavToolbarMore = [
@@ -598,7 +593,7 @@ const searchViewerDocxFavToolbarMore = [
   'Edit Aspects',
   'Permissions'
 ];
-const searchViewerLockedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Favorite', 'Copy', 'Manage Versions', 'Edit Aspects', 'Permissions'];
+const searchViewerLockedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Favorite', 'Copy', 'Manage Versions', 'Permissions'];
 
 export const fileDocx = {
   name: `fileActions-docx-${random}.docx`,

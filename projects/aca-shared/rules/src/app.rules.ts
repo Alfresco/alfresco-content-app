@@ -437,7 +437,7 @@ export function canManageFileVersions(context: RuleContext): boolean {
  * @param context Rule execution context
  */
 export function canEditAspects(context: RuleContext): boolean {
-  return [!isMultiselection(context), canUpdateSelectedNode(context), navigation.isNotTrashcan(context)].every(Boolean);
+  return [!isMultiselection(context), canUpdateSelectedNode(context), !isWriteLocked(context), navigation.isNotTrashcan(context)].every(Boolean);
 }
 
 /**
