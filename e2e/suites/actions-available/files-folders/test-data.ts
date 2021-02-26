@@ -147,6 +147,7 @@ const fileDocxSharedFavContextMenu = [
   'Copy',
   'Delete',
   'Manage Versions',
+  'Edit Aspects',
   'Permissions'
 ];
 const fileDocxSharedContextMenu = [
@@ -161,6 +162,7 @@ const fileDocxSharedContextMenu = [
   'Copy',
   'Delete',
   'Manage Versions',
+  'Edit Aspects',
   'Permissions'
 ];
 const fileFavContextMenu = [
@@ -473,6 +475,7 @@ const searchDocxSharedFavContextMenu = [
   'Remove Favorite',
   'Copy',
   'Manage Versions',
+  'Edit Aspects',
   'Permissions'
 ];
 const searchDocxSharedContextMenu = [
@@ -485,6 +488,7 @@ const searchDocxSharedContextMenu = [
   'Favorite',
   'Copy',
   'Manage Versions',
+  'Edit Aspects',
   'Permissions'
 ];
 const searchFavToolbarMore = ['Edit Offline', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions', 'Edit Aspects', 'Permissions'];
