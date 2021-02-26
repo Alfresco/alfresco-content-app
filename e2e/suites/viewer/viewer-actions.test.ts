@@ -294,8 +294,8 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxPersonalFiles);
       await viewer.waitForViewerToOpen();
 
-      await toolbar.shareButton.click();
-      expect(await shareDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
+      await toolbar.clickMoreActionsCopy();
+      expect(await copyMoveDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await Utils.pressEscape();
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Dialog is still open');
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
