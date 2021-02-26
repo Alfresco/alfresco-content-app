@@ -46,7 +46,8 @@ import {
   UnlockWriteAction,
   FullscreenViewerAction,
   PrintFileAction,
-  SetCurrentFolderAction
+  SetCurrentFolderAction,
+  ManageAspectsAction
 } from '@alfresco/aca-shared/store';
 import { ViewUtilService } from '@alfresco/adf-core';
 import { ViewerEffects } from './viewer.effects';
@@ -458,6 +459,30 @@ describe('NodeEffects', () => {
       store.dispatch(new UnlockWriteAction(null));
 
       expect(contentService.unlockNode).toHaveBeenCalledWith(node);
+    }));
+  });
+
+  describe('aspectList$', () => {
+    it('should call aspect dialog', () => {
+      const node: any = { entry: { isFile: true } };
+      spyOn(contentService, 'manageAspects').and.stub();
+
+      store.dispatch(new ManageAspectsAction(node));
+
+      expect(contentService.manageAspects).toHaveBeenCalled();
+    });
+
+    it('should call aspect dialog from the active selection', fakeAsync(() => {
+      spyOn(contentService, 'manageAspects').and.stub();
+
+      const node: any = { entry: { isFile: true } };
+      store.dispatch(new SetSelectedNodesAction([node]));
+
+      tick(100);
+
+      store.dispatch(new ManageAspectsAction(null));
+
+      expect(contentService.manageAspects).toHaveBeenCalled();
     }));
   });
 });

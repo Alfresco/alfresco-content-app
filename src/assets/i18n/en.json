@@ -218,7 +218,8 @@
             "EDIT_OFFLINE": "Edit Offline",
             "EDIT_OFFLINE_CANCEL": "Cancel Editing",
             "LIST_MODE": "View list",
-            "GALLERY_MODE": "View gallery"
+            "GALLERY_MODE": "View gallery",
+            "CHANGE_ASPECT": "Edit Aspects"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {

@@ -48,7 +48,7 @@ export function collaboratorTests(siteName?: string) {
       await dataTable.waitForHeader();
 
       const expectedToolbarPrimary = ['Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
-      const expectedToolbarMore = ['Edit Offline', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions', 'Permissions'];
+      const expectedToolbarMore = ['Edit Offline', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions', 'Edit Aspects', 'Permissions'];
 
       await testUtil.checkToolbarActions(testData.fileSharedFav.name, expectedToolbarPrimary, expectedToolbarMore);
     });
@@ -57,7 +57,7 @@ export function collaboratorTests(siteName?: string) {
       await page.clickSharedFilesAndWait();
 
       const expectedToolbarPrimary = ['Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
-      const expectedToolbarMore = ['Edit Offline', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions', 'Permissions'];
+      const expectedToolbarMore = ['Edit Offline', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions', 'Edit Aspects', 'Permissions'];
 
       await testUtil.checkToolbarActions(testData.fileSharedFav.name, expectedToolbarPrimary, expectedToolbarMore);
     });
@@ -78,7 +78,7 @@ export function collaboratorTests(siteName?: string) {
       await searchInput.searchFor(testData.fileSharedFav.name);
 
       const expectedToolbarPrimary = ['Toggle search filter', 'Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
-      const expectedToolbarMore = ['Edit Offline', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions', 'Permissions'];
+      const expectedToolbarMore = ['Edit Offline', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions', 'Edit Aspects', 'Permissions'];
 
       await testUtil.checkToolbarActions(testData.fileSharedFav.name, expectedToolbarPrimary, expectedToolbarMore);
     });
@@ -97,6 +97,7 @@ export function collaboratorTests(siteName?: string) {
           'Remove Favorite',
           'Copy',
           'Manage Versions',
+          'Edit Aspects',
           'Permissions'
         ];
 
@@ -114,6 +115,7 @@ export function collaboratorTests(siteName?: string) {
           'Remove Favorite',
           'Copy',
           'Manage Versions',
+          'Edit Aspects',
           'Permissions'
         ];
 
@@ -131,6 +133,7 @@ export function collaboratorTests(siteName?: string) {
           'Remove Favorite',
           'Copy',
           'Manage Versions',
+          'Edit Aspects',
           'Permissions'
         ];
 
@@ -150,6 +153,7 @@ export function collaboratorTests(siteName?: string) {
           'Remove Favorite',
           'Copy',
           'Manage Versions',
+          'Edit Aspects',
           'Permissions'
         ];
 

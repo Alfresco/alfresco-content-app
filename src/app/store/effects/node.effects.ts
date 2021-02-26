@@ -45,7 +45,8 @@ import {
   ManagePermissionsAction,
   PrintFileAction,
   getCurrentFolder,
-  getAppSelection
+  getAppSelection,
+  ManageAspectsAction
 } from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../services/content-management.service';
 import { ViewUtilService } from '@alfresco/adf-core';
@@ -310,6 +311,25 @@ export class NodeEffects {
           .subscribe((selection) => {
             if (selection && selection.file) {
               this.contentService.unlockNode(selection.file);
+            }
+          });
+      }
+    })
+  );
+
+  @Effect({ dispatch: false })
+  aspectList$ = this.actions$.pipe(
+    ofType<ManageAspectsAction>(NodeActionTypes.ChangeAspects),
+    map((action) => {
+      if (action && action.payload) {
+        this.contentService.manageAspects(action.payload);
+      } else {
+        this.store
+          .select(getAppSelection)
+          .pipe(take(1))
+          .subscribe((selection) => {
+            if (selection && selection.file) {
+              this.contentService.manageAspects(selection.file);
             }
           });
       }

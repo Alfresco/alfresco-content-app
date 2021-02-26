@@ -274,6 +274,14 @@ export function canUpdateSelectedNode(context: RuleContext): boolean {
   return false;
 }
 
+export function isMultiselection(context: RuleContext): boolean {
+  let isMultiNodeSelected = false;
+  if (context.selection && !context.selection.isEmpty) {
+    isMultiNodeSelected = context.selection.count > 1;
+  }
+  return isMultiNodeSelected;
+}
+
 /**
  * Checks if user can update the first selected folder.
  * JSON ref: `app.selection.folder.canUpdate`
@@ -421,6 +429,15 @@ export function canShowInfoDrawer(context: RuleContext): boolean {
  */
 export function canManageFileVersions(context: RuleContext): boolean {
   return [hasFileSelected(context), navigation.isNotTrashcan(context), !hasLockedFiles(context)].every(Boolean);
+}
+
+/**
+ * Checks if user can edit aspects for the selected node.
+ * JSON ref: `canEditAspects`
+ * @param context Rule execution context
+ */
+export function canEditAspects(context: RuleContext): boolean {
+  return [!isMultiselection(context), canUpdateSelectedNode(context), !isWriteLocked(context), navigation.isNotTrashcan(context)].every(Boolean);
 }
 
 /**

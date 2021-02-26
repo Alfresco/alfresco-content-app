@@ -42,7 +42,13 @@ import {
   SnackbarWarningAction,
   UndoDeleteNodesAction
 } from '@alfresco/aca-shared/store';
-import { ConfirmDialogComponent, FolderDialogComponent, LibraryDialogComponent, ShareDialogComponent } from '@alfresco/adf-content-services';
+import {
+  ConfirmDialogComponent,
+  FolderDialogComponent,
+  LibraryDialogComponent,
+  ShareDialogComponent,
+  NodeAspectService
+} from '@alfresco/adf-content-services';
 import { TranslationService, AlfrescoApiService } from '@alfresco/adf-core';
 import {
   DeletedNodesPaging,
@@ -95,7 +101,8 @@ export class ContentManagementService {
     private dialogRef: MatDialog,
     private nodeActionsService: NodeActionsService,
     private translation: TranslationService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private nodeAspectService: NodeAspectService
   ) {}
 
   addFavorite(nodes: Array<MinimalNodeEntity>) {
@@ -170,6 +177,30 @@ export class ContentManagementService {
       dialogRef.componentInstance.refreshEvent.subscribe(() => {
         this.store.dispatch(new ReloadDocumentListAction());
       });
+    } else {
+      this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.ERRORS.PERMISSION'));
+    }
+  }
+
+  manageAspects(node: any) {
+    if (node && node.entry) {
+      // shared and favorite
+      const id = node.entry.nodeId || (node as any).entry.guid;
+
+      if (id) {
+        this.contentApi.getNodeInfo(id).subscribe((entry) => {
+          this.openAspectListDialog(entry);
+        });
+      } else {
+        this.openAspectListDialog(node.entry);
+      }
+    }
+  }
+
+  private openAspectListDialog(node: any) {
+    // workaround Shared
+    if (node.isFile || node.id) {
+      this.nodeAspectService.updateNodeAspects(node.id);
     } else {
       this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.ERRORS.PERMISSION'));
     }

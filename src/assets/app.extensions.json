@@ -528,6 +528,18 @@
             }
           },
           {
+            "id": "app.toolbar.aspects",
+            "order": 1110,
+            "title": "APP.ACTIONS.CHANGE_ASPECT",
+            "icon": "toc",
+            "actions": {
+              "click": "ASPECT_LIST"
+            },
+            "rules": {
+              "visible": "canEditAspects"
+            }
+          },
+          {
             "id": "app.toolbar.permissions",
             "order": 1200,
             "title": "APP.ACTIONS.PERMISSIONS",
@@ -730,6 +742,18 @@
         },
         "rules": {
           "visible": "canManageFileVersions"
+        }
+      },
+      {
+        "id": "app.context.menu.aspects",
+        "order": 1410,
+        "title": "APP.ACTIONS.CHANGE_ASPECT",
+        "icon": "toc",
+        "actions": {
+          "click": "ASPECT_LIST"
+        },
+        "rules": {
+          "visible": "canEditAspects"
         }
       },
       {
@@ -990,6 +1014,18 @@
               },
               "rules": {
                 "visible": "canManageFileVersions"
+              }
+            },
+            {
+              "id": "app.viewer.aspects",
+              "order": 910,
+              "title": "APP.ACTIONS.CHANGE_ASPECT",
+              "icon": "toc",
+              "actions": {
+                "click": "ASPECT_LIST"
+              },
+              "rules": {
+                "visible": "canEditAspects"
               }
             },
             {
