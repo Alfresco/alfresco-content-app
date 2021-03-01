@@ -116,7 +116,13 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
 
   showPreview(node: MinimalNodeEntity, extras?: ViewNodeExtras) {
     if (node && node.entry) {
-      const id = (node as any).entry.nodeId || (node as any).entry.guid || node.entry.id;
+      let id: string;
+
+      if (node.entry.nodeType === 'app:filelink') {
+        id = node.entry.properties['cm:destination'];
+      } else {
+        id = (node as any).entry.nodeId || (node as any).entry.guid || node.entry.id;
+      }
 
       this.store.dispatch(new ViewNodeAction(id, extras));
     }
