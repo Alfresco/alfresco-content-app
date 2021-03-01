@@ -25,7 +25,14 @@
 
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { PageComponent } from './page.component';
-import { ReloadDocumentListAction, SetSelectedNodesAction, SetInfoDrawerStateAction, AppState, AppStore } from '@alfresco/aca-shared/store';
+import {
+  ReloadDocumentListAction,
+  SetSelectedNodesAction,
+  SetInfoDrawerStateAction,
+  AppState,
+  AppStore,
+  ViewNodeAction
+} from '@alfresco/aca-shared/store';
 import { AppExtensionService } from '@alfresco/aca-shared';
 import { MinimalNodeEntity, NodePaging } from '@alfresco/js-api';
 import { ContentManagementService } from '../services/content-management.service';
@@ -180,6 +187,35 @@ describe('PageComponent', () => {
       component.onAllFilterCleared();
       expect(component.documentList.node).toEqual(nodePaging);
       expect(store.dispatch).not.toHaveBeenCalled();
+    });
+
+    it('should call ViewNodeAction on showPreview for selected node', () => {
+      spyOn(store, 'dispatch');
+      const node = {
+        entry: {
+          id: 'node-id'
+        }
+      } as MinimalNodeEntity;
+
+      component.showPreview(node);
+      expect(store.dispatch).toHaveBeenCalledWith(new ViewNodeAction(node.entry.id));
+    });
+
+    it('should call ViewNodeAction on showPreview for `app:filelink` node type', () => {
+      spyOn(store, 'dispatch');
+      const linkNode = {
+        entry: {
+          id: 'node-id',
+          nodeType: 'app:filelink',
+          properties: {
+            'cm:destination': 'original-node-id'
+          }
+        }
+      } as MinimalNodeEntity;
+
+      component.showPreview(linkNode);
+      const id = linkNode.entry.properties['cm:destination'];
+      expect(store.dispatch).toHaveBeenCalledWith(new ViewNodeAction(id));
     });
   });
 });
