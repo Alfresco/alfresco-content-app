@@ -30,6 +30,7 @@ import { CoreModule } from '@alfresco/adf-core';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
+import { ViewNodeAction } from '@alfresco/aca-shared/store';
 
 describe('ViewNodeComponent', () => {
   let component: ViewNodeComponent;
@@ -98,5 +99,30 @@ describe('ViewNodeComponent', () => {
     component.onClick();
 
     expect(mockStore.dispatch).toHaveBeenCalled();
+  });
+
+  it('should call ViewNodeAction for `app:filelink` node type', () => {
+    const linkNode = {
+      file: {
+        entry: {
+          id: 'nodeId',
+          nodeType: 'app:filelink',
+          properties: {
+            'cm:destination': 'original-node-id'
+          }
+        }
+      }
+    };
+    component.data = {
+      iconButton: true
+    };
+    mockStore.select.and.returnValue(of(linkNode));
+
+    fixture.detectChanges();
+
+    component.onClick();
+
+    const id = linkNode.file.entry.properties['cm:destination'];
+    expect(mockStore.dispatch).toHaveBeenCalledWith(new ViewNodeAction(id, { location: mockRouter.url }));
   });
 });
