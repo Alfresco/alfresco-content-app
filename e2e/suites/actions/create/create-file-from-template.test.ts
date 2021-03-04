@@ -141,18 +141,6 @@ describe('Create file from template', () => {
     await page.closeOpenDialogs();
   });
 
-  it('[C325049] Select template - dialog UI - when no templates exist in the repo', async () => {
-    await sidenav.openCreateFileFromTemplateDialog();
-    await selectTemplateDialog.waitForDialogToOpen();
-
-    expect(await selectTemplateDialog.getDialogTitle()).toEqual('Select a document template');
-    expect(await selectTemplateDialog.dataTable.isEmpty()).toBe(true, 'Datatable is not empty');
-    expect(await selectTemplateDialog.dataTable.getEmptyListText()).toEqual('No results found');
-    expect(await selectTemplateDialog.breadcrumb.currentFolder.getText()).toEqual('Node Templates');
-    expect(await selectTemplateDialog.isNextButtonEnabled()).toBe(false, 'Next button is not disabled');
-    expect(await selectTemplateDialog.isCancelButtonEnabled()).toBe(true, 'Cancel button is not enabled');
-  });
-
   describe('with existing templates', () => {
     beforeAll(async () => {
       await adminApiActions.createNodeTemplatesHierarchy(templates);
