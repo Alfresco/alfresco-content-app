@@ -233,22 +233,20 @@ describe('Edit offline', () => {
 
   describe('on Favorite Files', () => {
     let parentFavId: string;
-    let file1Id: string;
     let fileLockedId: string;
     let fileLocked2Id: string;
 
     beforeAll(async () => {
       parentFavId = (await apis.user.nodes.createFolder(parentFav)).entry.id;
 
-      file1Id = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentFavId, file1)).entry.id;
       fileLockedId = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentFavId, fileLocked)).entry.id;
       fileLocked2Id = (await apis.user.upload.uploadFileWithRename(FILES.docxFile, parentFavId, fileLocked2)).entry.id;
 
       await apis.user.nodes.lockFile(fileLockedId);
       await apis.user.nodes.lockFile(fileLocked2Id);
 
-      await apis.user.favorites.addFavoritesByIds('file', [file1Id, fileLockedId, fileLocked2Id]);
-      await apis.user.favorites.waitForApi({ expect: 3 });
+      await apis.user.favorites.addFavoritesByIds('file', [fileLockedId, fileLocked2Id]);
+      await apis.user.favorites.waitForApi({ expect: 2 });
 
       await loginPage.loginWith(username);
     });
@@ -263,14 +261,6 @@ describe('Edit offline', () => {
 
     afterEach(async () => {
       await Utils.pressEscape();
-    });
-
-    it('[C306956] File is locked and downloaded when clicking Edit Offline', async () => {
-      await dataTable.selectItem(file1);
-      await toolbar.clickMoreActionsEditOffline();
-
-      expect(await Utils.fileExistsOnOS(file1)).toBe(true, 'File not found in download location');
-      expect(await apis.user.nodes.isFileLockedWrite(file1Id)).toBe(true, `${file1} is not locked`);
     });
 
     it('[C306957] Lock information is displayed', async () => {
