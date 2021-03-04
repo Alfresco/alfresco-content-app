@@ -245,11 +245,9 @@ export class ContentManagementService {
             }
           })
           .afterClosed()
-          .subscribe((deletedSharedLink) => {
+          .subscribe(() => {
             this.store.dispatch(new SetSelectedNodesAction([node]));
-            if (deletedSharedLink) {
-              this.linksUnshared.next(deletedSharedLink);
-            }
+            this.linksUnshared.next();
           });
       });
   }
