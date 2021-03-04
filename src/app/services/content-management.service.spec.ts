@@ -1418,7 +1418,7 @@ describe('ContentManagementService', () => {
       expect(store.dispatch['calls'].argsFor(1)[0]).toEqual(new SetSelectedNodesAction([node]));
     }));
 
-    it('should emit event when node is un-shared', fakeAsync(() => {
+    fit('should emit event when node is un-shared', fakeAsync(() => {
       const node = { entry: { id: '1', name: 'name1' } } as NodeEntry;
       spyOn(contentManagementService.linksUnshared, 'next').and.callThrough();
       spyOn(dialog, 'open').and.returnValue({
@@ -1429,7 +1429,7 @@ describe('ContentManagementService', () => {
       tick();
       flush();
 
-      expect(contentManagementService.linksUnshared.next).toHaveBeenCalledWith(jasmine.any(Object));
+      expect(contentManagementService.linksUnshared.next).toHaveBeenCalledWith();
     }));
   });
 
