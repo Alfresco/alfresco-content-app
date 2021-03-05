@@ -1429,7 +1429,7 @@ describe('ContentManagementService', () => {
       tick();
       flush();
 
-      expect(contentManagementService.linksUnshared.next).toHaveBeenCalledWith(jasmine.any(Object));
+      expect(contentManagementService.linksUnshared.next).toHaveBeenCalled();
     }));
   });
 
