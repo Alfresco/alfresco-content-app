@@ -472,17 +472,30 @@ describe('NodeEffects', () => {
       expect(contentService.manageAspects).toHaveBeenCalled();
     });
 
-    it('should call aspect dialog from the active selection', fakeAsync(() => {
+    it('should call aspect dialog from the active file selection', fakeAsync(() => {
       spyOn(contentService, 'manageAspects').and.stub();
 
-      const node: any = { entry: { isFile: true } };
+      const node: any = { entry: { isFile: true, id: 'file-node-id' } };
       store.dispatch(new SetSelectedNodesAction([node]));
 
       tick(100);
 
       store.dispatch(new ManageAspectsAction(null));
 
-      expect(contentService.manageAspects).toHaveBeenCalled();
+      expect(contentService.manageAspects).toHaveBeenCalledWith({ entry: { isFile: true, id: 'file-node-id' } });
+    }));
+
+    it('should call aspect dialog from the active folder selection', fakeAsync(() => {
+      spyOn(contentService, 'manageAspects').and.stub();
+
+      const node: any = { entry: { isFile: false, id: 'folder-node-id' } };
+      store.dispatch(new SetSelectedNodesAction([node]));
+
+      tick(100);
+
+      store.dispatch(new ManageAspectsAction(null));
+
+      expect(contentService.manageAspects).toHaveBeenCalledWith({ entry: { isFile: false, id: 'folder-node-id' } });
     }));
   });
 });
