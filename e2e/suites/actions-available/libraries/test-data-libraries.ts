@@ -36,6 +36,8 @@ const memberNotFavContextMenu = ['Leave Library', 'Delete', 'Favorite'];
 const memberToolbarPrimary = ['Leave Library', 'View Details', 'More Actions'];
 const favToolbarMore = ['Remove Favorite'];
 const notFavToolbarMore = ['Favorite'];
+const memberFavToolbarMore = ['Delete', 'Remove Favorite'];
+const memberNotFavToolbarMore = ['Delete', 'Favorite'];
 const searchMemberToolbarPrimary = ['Toggle search filter', 'Leave Library', 'View Details', 'More Actions'];
 const searchReqJoinToolbarPrimary = ['Toggle search filter', 'Cancel Join Request', 'More Actions'];
 const searchNotMemberToolbarPrimary = ['Toggle search filter', 'Join', 'More Actions'];
@@ -51,7 +53,7 @@ export const publicUserMemberFav = {
   description: 'public site, user member, user favorite',
   contextMenu: memberFavContextMenu,
   toolbarPrimary: memberToolbarPrimary,
-  toolbarMore: favToolbarMore,
+  toolbarMore: memberFavToolbarMore,
 
   searchToolbarPrimary: searchMemberToolbarPrimary
 };
@@ -61,7 +63,7 @@ export const privateUserMemberFav = {
   description: 'private site, user member, user favorite',
   contextMenu: memberFavContextMenu,
   toolbarPrimary: memberToolbarPrimary,
-  toolbarMore: favToolbarMore,
+  toolbarMore: memberFavToolbarMore,
 
   searchToolbarPrimary: searchMemberToolbarPrimary
 };
@@ -71,7 +73,7 @@ export const moderatedUserMemberFav = {
   description: 'moderated site, user member, user favorite',
   contextMenu: memberFavContextMenu,
   toolbarPrimary: memberToolbarPrimary,
-  toolbarMore: favToolbarMore,
+  toolbarMore: memberFavToolbarMore,
 
   searchToolbarPrimary: searchMemberToolbarPrimary
 };
@@ -81,7 +83,7 @@ export const publicUserMemberNotFav = {
   description: 'public site, user member, not favorite',
   contextMenu: memberNotFavContextMenu,
   toolbarPrimary: memberToolbarPrimary,
-  toolbarMore: notFavToolbarMore,
+  toolbarMore: memberNotFavToolbarMore,
 
   searchToolbarPrimary: searchMemberToolbarPrimary
 };
@@ -91,7 +93,7 @@ export const privateUserMemberNotFav = {
   description: 'private site, user member, not favorite',
   contextMenu: memberNotFavContextMenu,
   toolbarPrimary: memberToolbarPrimary,
-  toolbarMore: notFavToolbarMore,
+  toolbarMore: memberNotFavToolbarMore,
 
   searchToolbarPrimary: searchMemberToolbarPrimary
 };
@@ -101,7 +103,7 @@ export const moderatedUserMemberNotFav = {
   description: 'moderated site, user member, not favorite',
   contextMenu: memberNotFavContextMenu,
   toolbarPrimary: memberToolbarPrimary,
-  toolbarMore: notFavToolbarMore,
+  toolbarMore: memberNotFavToolbarMore,
 
   searchToolbarPrimary: searchMemberToolbarPrimary
 };
