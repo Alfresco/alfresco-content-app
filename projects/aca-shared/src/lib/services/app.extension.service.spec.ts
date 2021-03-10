@@ -24,7 +24,7 @@
  */
 
 import { TestBed } from '@angular/core/testing';
-import { LibTestingModule } from '../testing/lib-testing-module';
+import { initialState, LibTestingModule } from '../testing/lib-testing-module';
 import { AppExtensionService } from './app.extension.service';
 import { Store, Action } from '@ngrx/store';
 import { AppStore } from '@alfresco/aca-shared/store';
@@ -40,6 +40,7 @@ import {
   NavBarGroupRef
 } from '@alfresco/adf-extensions';
 import { AppConfigService } from '@alfresco/adf-core';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('AppExtensionService', () => {
   let service: AppExtensionService;
@@ -49,7 +50,8 @@ describe('AppExtensionService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [LibTestingModule]
+      imports: [LibTestingModule],
+      providers: [provideMockStore({ initialState })]
     });
 
     appConfigService = TestBed.inject(AppConfigService);
