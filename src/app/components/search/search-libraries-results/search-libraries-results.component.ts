@@ -32,7 +32,7 @@ import { Store } from '@ngrx/store';
 import { ContentManagementService } from '../../../services/content-management.service';
 import { PageComponent } from '../../page.component';
 import { SearchLibrariesQueryBuilderService } from './search-libraries-query-builder.service';
-import { AppExtensionService } from '@alfresco/aca-shared';
+import { AppExtensionService, AppHookService } from '@alfresco/aca-shared';
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 
 @Component({
@@ -53,6 +53,7 @@ export class SearchLibrariesResultsComponent extends PageComponent implements On
     private breakpointObserver: BreakpointObserver,
     private librariesQueryBuilder: SearchLibrariesQueryBuilderService,
     private route: ActivatedRoute,
+    private appHookService: AppHookService,
     store: Store<AppStore>,
     extensions: AppExtensionService,
     content: ContentManagementService
@@ -71,9 +72,9 @@ export class SearchLibrariesResultsComponent extends PageComponent implements On
     this.columns = this.extensions.documentListPresets.searchLibraries || [];
 
     this.subscriptions.push(
-      this.content.libraryJoined.subscribe(() => this.librariesQueryBuilder.update()),
-      this.content.libraryDeleted.subscribe(() => this.librariesQueryBuilder.update()),
-      this.content.libraryLeft.subscribe(() => this.librariesQueryBuilder.update()),
+      this.appHookService.libraryJoined.subscribe(() => this.librariesQueryBuilder.update()),
+      this.appHookService.libraryDeleted.subscribe(() => this.librariesQueryBuilder.update()),
+      this.appHookService.libraryLeft.subscribe(() => this.librariesQueryBuilder.update()),
 
       this.librariesQueryBuilder.updated.subscribe(() => {
         this.isLoading = true;
@@ -92,7 +93,7 @@ export class SearchLibrariesResultsComponent extends PageComponent implements On
             error: { statusCode }
           } = JSON.parse(err.message);
           if (statusCode === 400) {
-            this.content.library400Error.next();
+            this.appHookService.library400Error.next();
           }
         } catch (e) {}
       }),

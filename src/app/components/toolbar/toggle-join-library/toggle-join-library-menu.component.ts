@@ -25,8 +25,8 @@
 
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { AppHookService } from '@alfresco/aca-shared';
 import { AppStore } from '@alfresco/aca-shared/store';
-import { ContentManagementService } from '../../../services/content-management.service';
 import { ToggleJoinLibraryButtonComponent } from './toggle-join-library-button.component';
 
 @Component({
@@ -49,7 +49,7 @@ import { ToggleJoinLibraryButtonComponent } from './toggle-join-library-button.c
   host: { class: 'app-toggle-join-library' }
 })
 export class ToggleJoinLibraryMenuComponent extends ToggleJoinLibraryButtonComponent {
-  constructor(store: Store<AppStore>, content: ContentManagementService) {
-    super(store, content);
+  constructor(store: Store<AppStore>, appHookService: AppHookService) {
+    super(store, appHookService);
   }
 }

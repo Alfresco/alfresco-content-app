@@ -23,28 +23,27 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AppExtensionService, ContentApiService } from '@alfresco/aca-shared';
+import { AppExtensionService, AppHookService, ContentApiService } from '@alfresco/aca-shared';
 import {
   AppStore,
+  ClosePreviewAction,
   getRuleContext,
   isInfoDrawerOpened,
-  SetSelectedNodesAction,
-  ClosePreviewAction,
-  ViewerActionTypes,
-  ViewNodeAction,
+  RefreshPreviewAction,
   ReloadDocumentListAction,
   SetCurrentNodeVersionAction,
-  RefreshPreviewAction
+  SetSelectedNodesAction,
+  ViewerActionTypes,
+  ViewNodeAction
 } from '@alfresco/aca-shared/store';
 import { ContentActionRef, SelectionState } from '@alfresco/adf-extensions';
 import { MinimalNodeEntryEntity, SearchRequest, VersionEntry } from '@alfresco/js-api';
 import { Component, HostListener, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute, Router, PRIMARY_OUTLET } from '@angular/router';
-import { UserPreferencesService, ObjectUtils, UploadService, AlfrescoApiService } from '@alfresco/adf-core';
-import { ContentManagementService } from '../../services/content-management.service';
+import { ActivatedRoute, PRIMARY_OUTLET, Router } from '@angular/router';
+import { AlfrescoApiService, ObjectUtils, UploadService, UserPreferencesService } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
 import { from, Observable, Subject } from 'rxjs';
-import { takeUntil, debounceTime } from 'rxjs/operators';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Actions, ofType } from '@ngrx/effects';
 
 @Component({
@@ -111,9 +110,9 @@ export class AppViewerComponent implements OnInit, OnDestroy {
     private contentApi: ContentApiService,
     private actions$: Actions,
     private preferences: UserPreferencesService,
-    private content: ContentManagementService,
     private apiService: AlfrescoApiService,
-    private uploadService: UploadService
+    private uploadService: UploadService,
+    private appHookService: AppHookService
   ) {}
 
   ngOnInit() {
@@ -173,7 +172,7 @@ export class AppViewerComponent implements OnInit, OnDestroy {
         this.displayNode(action?.payload?.entry?.id);
       });
 
-    this.content.nodesDeleted.pipe(takeUntil(this.onDestroy$)).subscribe(() => this.navigateToFileLocation());
+    this.appHookService.nodesDeleted.pipe(takeUntil(this.onDestroy$)).subscribe(() => this.navigateToFileLocation());
 
     this.uploadService.fileUploadDeleted.pipe(takeUntil(this.onDestroy$)).subscribe(() => this.navigateToFileLocation());
 

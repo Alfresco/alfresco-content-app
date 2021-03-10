@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ContentApiService, NodePermissionService } from '@alfresco/aca-shared';
+import { AppHookService, ContentApiService, NodePermissionService } from '@alfresco/aca-shared';
 import {
   AppStore,
   DeletedNodeInfo,
@@ -64,7 +64,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
-import { forkJoin, Observable, of, Subject, zip } from 'rxjs';
+import { forkJoin, Observable, of, zip } from 'rxjs';
 import { catchError, map, mergeMap, take, tap } from 'rxjs/operators';
 import { NodePermissionsDialogComponent } from '../components/permissions/permission-dialog/node-permissions.dialog';
 import { NodeVersionsDialogComponent } from '../dialogs/node-versions/node-versions.dialog';
@@ -80,19 +80,6 @@ interface RestoredNode {
   providedIn: 'root'
 })
 export class ContentManagementService {
-  reload = new Subject<any>();
-  reset = new Subject<any>();
-  nodesDeleted = new Subject<any>();
-  libraryDeleted = new Subject<string>();
-  libraryCreated = new Subject<SiteEntry>();
-  libraryUpdated = new Subject<SiteEntry>();
-  libraryJoined = new Subject<string>();
-  libraryLeft = new Subject<string>();
-  library400Error = new Subject<any>();
-  joinLibraryToggle = new Subject<string>();
-  linksUnshared = new Subject<any>();
-  favoriteLibraryToggle = new Subject<any>();
-
   constructor(
     private alfrescoApiService: AlfrescoApiService,
     private store: Store<AppStore>,
@@ -102,7 +89,8 @@ export class ContentManagementService {
     private nodeActionsService: NodeActionsService,
     private translation: TranslationService,
     private snackBar: MatSnackBar,
-    private nodeAspectService: NodeAspectService
+    private nodeAspectService: NodeAspectService,
+    private appHookService: AppHookService
   ) {}
 
   addFavorite(nodes: Array<MinimalNodeEntity>) {
@@ -247,7 +235,7 @@ export class ContentManagementService {
           .afterClosed()
           .subscribe(() => {
             this.store.dispatch(new SetSelectedNodesAction([node]));
-            this.linksUnshared.next();
+            this.appHookService.linksUnshared.next();
           });
       });
   }
@@ -308,7 +296,7 @@ export class ContentManagementService {
     return dialogInstance.afterClosed().pipe(
       tap((node) => {
         if (node) {
-          this.libraryCreated.next(node);
+          this.appHookService.libraryCreated.next(node);
         }
       }),
       map((node: SiteEntry) => {
@@ -323,7 +311,7 @@ export class ContentManagementService {
   deleteLibrary(id: string): void {
     this.contentApi.deleteSite(id).subscribe(
       () => {
-        this.libraryDeleted.next(id);
+        this.appHookService.libraryDeleted.next(id);
         this.store.dispatch(new SnackbarInfoAction('APP.MESSAGES.INFO.LIBRARY_DELETED'));
       },
       () => {
@@ -347,7 +335,7 @@ export class ContentManagementService {
       if (result === true) {
         this.contentApi.leaveSite(siteId).subscribe(
           () => {
-            this.libraryLeft.next(siteId);
+            this.appHookService.libraryLeft.next(siteId);
             this.store.dispatch(new SnackbarInfoAction('APP.MESSAGES.INFO.LEFT_LIBRARY'));
           },
           () => {
@@ -361,7 +349,7 @@ export class ContentManagementService {
   updateLibrary(siteId: string, siteBody: SiteBody) {
     this.contentApi.updateLibrary(siteId, siteBody).subscribe(
       (siteEntry: SiteEntry) => {
-        this.libraryUpdated.next(siteEntry);
+        this.appHookService.libraryUpdated.next(siteEntry);
         this.store.dispatch(new SnackbarInfoAction('LIBRARY.SUCCESS.LIBRARY_UPDATED'));
       },
       () => {
@@ -373,7 +361,7 @@ export class ContentManagementService {
   async unshareNodes(links: Array<MinimalNodeEntity>) {
     const promises = links.map((link) => this.contentApi.deleteSharedLink(link.entry.id).toPromise());
     await Promise.all(promises);
-    this.linksUnshared.next();
+    this.appHookService.linksUnshared.next();
   }
 
   canUpdateNode(node: MinimalNodeEntity | Node): boolean {
@@ -522,7 +510,7 @@ export class ContentManagementService {
 
     forkJoin(...batch).subscribe(
       () => {
-        this.nodesDeleted.next(null);
+        this.appHookService.nodesDeleted.next(null);
         this.store.dispatch(new ReloadDocumentListAction());
       },
       (error) => {
@@ -625,7 +613,7 @@ export class ContentManagementService {
       this.store.dispatch(message);
 
       if (status.someSucceeded) {
-        this.nodesDeleted.next();
+        this.appHookService.nodesDeleted.next();
         this.store.dispatch(new ReloadDocumentListAction());
       }
     });
