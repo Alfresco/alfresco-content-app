@@ -325,6 +325,7 @@ export class ContentManagementService {
       () => {
         this.libraryDeleted.next(id);
         this.store.dispatch(new SnackbarInfoAction('APP.MESSAGES.INFO.LIBRARY_DELETED'));
+        this.store.dispatch(new ReloadLibraryAction());
       },
       () => {
         this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.ERRORS.DELETE_LIBRARY_FAILED'));
@@ -349,6 +350,7 @@ export class ContentManagementService {
           () => {
             this.libraryLeft.next(siteId);
             this.store.dispatch(new SnackbarInfoAction('APP.MESSAGES.INFO.LEFT_LIBRARY'));
+            this.store.dispatch(new ReloadLibraryAction());
           },
           () => {
             this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.ERRORS.LEAVE_LIBRARY_FAILED'));
@@ -363,6 +365,7 @@ export class ContentManagementService {
       (siteEntry: SiteEntry) => {
         this.libraryUpdated.next(siteEntry);
         this.store.dispatch(new SnackbarInfoAction('LIBRARY.SUCCESS.LIBRARY_UPDATED'));
+        this.store.dispatch(new ReloadLibraryAction());
       },
       () => {
         this.store.dispatch(new SnackbarErrorAction('LIBRARY.ERRORS.LIBRARY_UPDATE_ERROR'));
