@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
+import { SiteEntry } from '@alfresco/js-api';
 
 @Injectable({
   providedIn: 'root'
