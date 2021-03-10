@@ -34,6 +34,7 @@ import {
   NavigateToParentFolder,
   NodeInfo,
   ReloadDocumentListAction,
+  ReloadLibraryAction
   SetSelectedNodesAction,
   SnackbarAction,
   SnackbarErrorAction,
