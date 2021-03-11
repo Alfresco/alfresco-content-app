@@ -28,7 +28,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CoreModule, setupTestBed, StorageService } from '@alfresco/adf-core';
 import { AcaSettingsModule } from './settings.module';
 import { By } from '@angular/platform-browser';
-import { AppExtensionService, SettingsParameterRef, LibTestingModule } from '@alfresco/aca-shared';
+import { AppExtensionService, SettingsParameterRef, LibTestingModule, initialState } from '@alfresco/aca-shared';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('SettingsComponent', () => {
   let fixture: ComponentFixture<SettingsComponent>;
@@ -40,7 +41,8 @@ describe('SettingsComponent', () => {
   let boolParam: SettingsParameterRef;
 
   setupTestBed({
-    imports: [CoreModule.forRoot(), AcaSettingsModule, LibTestingModule]
+    imports: [CoreModule.forRoot(), AcaSettingsModule, LibTestingModule],
+    providers: [provideMockStore({ initialState })]
   });
 
   beforeEach(() => {
