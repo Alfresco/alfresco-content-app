@@ -30,14 +30,14 @@ import { Store } from '@ngrx/store';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ReloadLibraryAction, SnackbarErrorAction, SnackbarInfoAction } from '@alfresco/aca-shared/store';
 import { AppTestingModule } from '../../../testing/app-testing.module';
-import { ContentManagementService } from '../../../services/content-management.service';
 import { ToggleJoinLibraryButtonComponent } from './toggle-join-library-button.component';
+import { AppHookService } from '@alfresco/aca-shared';
 
 describe('ToggleJoinLibraryComponent', () => {
   let component: ToggleJoinLibraryButtonComponent;
   let fixture: ComponentFixture<ToggleJoinLibraryButtonComponent>;
   let alfrescoApi: AlfrescoApiService;
-  let contentManagementService: ContentManagementService;
+  let appHookService: AppHookService;
   let store: Store<any>;
   let entry;
 
@@ -66,7 +66,7 @@ describe('ToggleJoinLibraryComponent', () => {
 
     store = TestBed.inject(Store);
     alfrescoApi = TestBed.inject(AlfrescoApiService);
-    contentManagementService = TestBed.inject(ContentManagementService);
+    appHookService = TestBed.inject(AppHookService);
 
     spyOn(alfrescoApi.peopleApi, 'getSiteMembershipRequest').and.stub();
 
@@ -107,10 +107,10 @@ describe('ToggleJoinLibraryComponent', () => {
   });
 
   it('should call libraryJoined.next on contentManagementService onToggleEvent', (done) => {
-    spyOn(contentManagementService.libraryJoined, 'next').and.callThrough();
+    spyOn(appHookService.libraryJoined, 'next').and.callThrough();
 
-    contentManagementService.libraryJoined.subscribe(() => {
-      expect(contentManagementService.libraryJoined.next).toHaveBeenCalled();
+    appHookService.libraryJoined.subscribe(() => {
+      expect(appHookService.libraryJoined.next).toHaveBeenCalled();
       done();
     });
     const event = { shouldReload: true, i18nKey: null };
@@ -118,10 +118,10 @@ describe('ToggleJoinLibraryComponent', () => {
   });
 
   it('should call joinLibraryToggle.next on contentManagementService onToggleEvent', (done) => {
-    spyOn(contentManagementService.joinLibraryToggle, 'next').and.callThrough();
+    spyOn(appHookService.joinLibraryToggle, 'next').and.callThrough();
 
-    contentManagementService.joinLibraryToggle.subscribe(() => {
-      expect(contentManagementService.joinLibraryToggle.next).toHaveBeenCalled();
+    appHookService.joinLibraryToggle.subscribe(() => {
+      expect(appHookService.joinLibraryToggle.next).toHaveBeenCalled();
       done();
     });
     const event = { shouldReload: false, i18nKey: null };

@@ -23,21 +23,21 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { CoreModule, AlfrescoApiService } from '@alfresco/adf-core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { AlfrescoApiService, CoreModule } from '@alfresco/adf-core';
 import { ToggleFavoriteLibraryComponent } from './toggle-favorite-library.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppTestingModule } from '../../../testing/app-testing.module';
-import { ContentManagementService } from '../../../services/content-management.service';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { AppHookService } from '@alfresco/aca-shared';
 
 describe('ToggleFavoriteLibraryComponent', () => {
   let fixture: ComponentFixture<ToggleFavoriteLibraryComponent>;
   let component: ToggleFavoriteLibraryComponent;
-  let contentManagementService: ContentManagementService;
+  let appHookService: AppHookService;
 
   const selection = { library: { entry: { id: 'libraryId' } } };
   const mockRouter = {
@@ -59,8 +59,7 @@ describe('ToggleFavoriteLibraryComponent', () => {
             dispatch: () => {},
             select: () => of(selection)
           }
-        },
-        ContentManagementService
+        }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });
@@ -70,7 +69,7 @@ describe('ToggleFavoriteLibraryComponent', () => {
     fixture = TestBed.createComponent(ToggleFavoriteLibraryComponent);
     component = fixture.componentInstance;
 
-    contentManagementService = TestBed.inject(ContentManagementService);
+    appHookService = TestBed.inject(AppHookService);
     const api = TestBed.inject(AlfrescoApiService);
     spyOn(api.peopleApi, 'getFavoriteSite').and.returnValue(Promise.resolve(null));
   });
@@ -91,13 +90,13 @@ describe('ToggleFavoriteLibraryComponent', () => {
   });
 
   it('should emit onToggleEvent() event', async () => {
-    spyOn(contentManagementService.favoriteLibraryToggle, 'next');
+    spyOn(appHookService.favoriteLibraryToggle, 'next');
 
     fixture.detectChanges();
     await fixture.whenStable();
 
     component.onToggleEvent();
 
-    expect(contentManagementService.favoriteLibraryToggle.next).toHaveBeenCalled();
+    expect(appHookService.favoriteLibraryToggle.next).toHaveBeenCalled();
   });
 });

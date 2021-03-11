@@ -23,25 +23,31 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { TemplateEffects } from './template.effects';
 import { EffectsModule } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { CreateFromTemplate, CreateFromTemplateSuccess, FileFromTemplate, FolderFromTemplate, SnackbarErrorAction } from '@alfresco/aca-shared/store';
+import {
+  CreateFromTemplate,
+  CreateFromTemplateSuccess,
+  FileFromTemplate,
+  FolderFromTemplate,
+  SnackbarErrorAction
+} from '@alfresco/aca-shared/store';
 import { NodeTemplateService } from '../../services/node-template.service';
 import { of, Subject } from 'rxjs';
 import { AlfrescoApiService } from '@alfresco/adf-core';
-import { ContentManagementService } from '../../services/content-management.service';
 import { Node, NodeEntry } from '@alfresco/js-api';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CreateFromTemplateDialogComponent } from '../../dialogs/node-template/create-from-template.dialog';
+import { AppHookService } from '@alfresco/aca-shared';
 
 describe('TemplateEffects', () => {
   let store: Store<any>;
   let nodeTemplateService: NodeTemplateService;
   let alfrescoApiService: AlfrescoApiService;
-  let contentManagementService: ContentManagementService;
+  let appHookService: AppHookService;
   let copyNodeSpy;
   let updateNodeSpy;
   let matDialog: MatDialog;
@@ -89,12 +95,12 @@ describe('TemplateEffects', () => {
     store = TestBed.inject(Store);
     nodeTemplateService = TestBed.inject(NodeTemplateService);
     alfrescoApiService = TestBed.inject(AlfrescoApiService);
-    contentManagementService = TestBed.inject(ContentManagementService);
+    appHookService = TestBed.inject(AppHookService);
     matDialog = TestBed.inject(MatDialog);
     subject = new Subject<Node[]>();
 
     spyOn(store, 'dispatch').and.callThrough();
-    spyOn(contentManagementService.reload, 'next');
+    spyOn(appHookService.reload, 'next');
     spyOn(store, 'select').and.returnValue(of({ id: 'parent-id' }));
     spyOn(nodeTemplateService, 'selectTemplateDialog').and.returnValue(subject);
 
@@ -219,6 +225,6 @@ describe('TemplateEffects', () => {
     const test_node = { id: 'test-node-id' } as Node;
     store.dispatch(new CreateFromTemplateSuccess(test_node));
     tick();
-    expect(contentManagementService.reload.next).toHaveBeenCalledWith(test_node);
+    expect(appHookService.reload.next).toHaveBeenCalledWith(test_node);
   }));
 });

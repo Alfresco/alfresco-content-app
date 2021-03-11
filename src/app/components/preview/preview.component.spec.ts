@@ -32,8 +32,7 @@ import { of, throwError } from 'rxjs';
 import { EffectsModule } from '@ngrx/effects';
 import { NodeEffects } from '../../store/effects/node.effects';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { ContentApiService } from '@alfresco/aca-shared';
-import { ContentManagementService } from '../../services/content-management.service';
+import { ContentApiService, AppHookService } from '@alfresco/aca-shared';
 import { Store } from '@ngrx/store';
 import { Node, NodePaging, FavoritePaging, SharedLinkPaging, PersonEntry, ResultSetPaging } from '@alfresco/js-api';
 import { PreviewModule } from './preview.module';
@@ -47,7 +46,7 @@ describe('PreviewComponent', () => {
   let contentApi: ContentApiService;
   let uploadService: UploadService;
   let alfrescoApiService: AlfrescoApiService;
-  let contentManagementService: ContentManagementService;
+  let appHookService: AppHookService;
   let store: Store<any>;
 
   beforeEach(() => {
@@ -64,7 +63,7 @@ describe('PreviewComponent', () => {
     contentApi = TestBed.inject(ContentApiService);
     uploadService = TestBed.inject(UploadService);
     alfrescoApiService = TestBed.inject(AlfrescoApiService);
-    contentManagementService = TestBed.inject(ContentManagementService);
+    appHookService = TestBed.inject(AppHookService);
     store = TestBed.inject(Store);
   });
 
@@ -619,7 +618,7 @@ describe('PreviewComponent', () => {
     spyOn(component, 'navigateToFileLocation');
     fixture.detectChanges();
     await fixture.whenStable();
-    contentManagementService.nodesDeleted.next();
+    appHookService.nodesDeleted.next();
 
     expect(component.navigateToFileLocation).toHaveBeenCalled();
   });
