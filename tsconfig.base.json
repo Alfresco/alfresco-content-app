@@ -18,7 +18,6 @@
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "typeRoots": ["node_modules/@types"],
-    "types": ["jasmine", "node", "jasminewd2"],
     "lib": ["es2018", "dom"],
     "paths": {
       "@alfresco/aca-shared": ["projects/aca-shared/src/public-api.ts"],
@@ -31,7 +30,7 @@
       "package.json": ["package.json"]
     }
   },
-  "exclude": ["node_modules", "coverage"],
+  "exclude": ["node_modules"],
   "angularCompilerOptions": {
     "preserveWhitespaces": false,
     "fullTemplateTypeCheck": true,
