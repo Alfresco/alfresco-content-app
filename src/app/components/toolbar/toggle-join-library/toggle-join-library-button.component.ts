@@ -24,15 +24,14 @@
  */
 
 import {
-  AppHookService,
   AppStore,
   SetSelectedNodesAction,
   SnackbarErrorAction,
   SnackbarInfoAction,
   getAppSelection,
-  getUserProfile,
-  ReloadLibraryAction
+  getUserProfile
 } from '@alfresco/aca-shared/store';
+import { AppHookService } from '@alfresco/aca-shared';
 import { ProfileState, SelectionState } from '@alfresco/adf-extensions';
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -73,7 +72,6 @@ export class ToggleJoinLibraryButtonComponent {
 
     if (event.shouldReload) {
       this.appHookService.libraryJoined.next();
-      this.store.dispatch(new ReloadLibraryAction());
     } else {
       if (event.updatedEntry) {
         this.store.dispatch(new SetSelectedNodesAction([{ entry: event.updatedEntry, isLibrary: true } as any]));

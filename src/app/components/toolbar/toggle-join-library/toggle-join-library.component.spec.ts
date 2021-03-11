@@ -28,7 +28,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AlfrescoApiService, DirectiveModule } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { ReloadLibraryAction, SnackbarErrorAction, SnackbarInfoAction } from '@alfresco/aca-shared/store';
+import { SnackbarErrorAction, SnackbarInfoAction } from '@alfresco/aca-shared/store';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { ToggleJoinLibraryButtonComponent } from './toggle-join-library-button.component';
 import { AppHookService } from '@alfresco/aca-shared';
@@ -97,13 +97,6 @@ describe('ToggleJoinLibraryComponent', () => {
     component.onToggleEvent(event);
 
     expect(store.dispatch).toHaveBeenCalledWith(new SnackbarInfoAction(event.i18nKey));
-  });
-
-  it('should dispatch `ReloadLibraryAction` action on onToggleEvent', () => {
-    const event = { shouldReload: true, i18nKey: 'SOME_i18nKey' };
-    component.onToggleEvent(event);
-
-    expect(store.dispatch).toHaveBeenCalledWith(new ReloadLibraryAction());
   });
 
   it('should call libraryJoined.next on contentManagementService onToggleEvent', (done) => {
