@@ -7,7 +7,7 @@ import { SiteEntry } from '@alfresco/js-api';
 })
 export class AppHookService {
   /**
-   * Gets emitted when user reload the node
+   * Gets emitted when reloads event fired
    */
   reload = new Subject<any>();
 
@@ -27,7 +27,7 @@ export class AppHookService {
   libraryDeleted = new Subject<string>();
 
   /**
-   * Gets emitted when user reload the library
+   * Gets emitted when user create the library
    */
   libraryCreated = new Subject<SiteEntry>();
 
