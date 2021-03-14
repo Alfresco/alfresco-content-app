@@ -1,0 +1,11 @@
+{
+  "baseUrl": "https://acadev.envalfresco.com/",
+
+  "env":
+  {
+    "admin_username": "admin@alfresco.com",
+    "admin_password": "adf$2018IloveAngular"
+  },
+
+  "integrationFolder": "cypress/integration"
+}
