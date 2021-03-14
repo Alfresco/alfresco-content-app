@@ -50,7 +50,7 @@ export abstract class CyPage {
   load(relativeUrl: string = '') {
     const hash = USE_HASH_STRATEGY ? '#' : '';
     const path = `${Cypress.config().baseUrl}${hash}${this.url}${relativeUrl}`;
-    console.log('>>>>>>>> path : ', path);
+    cy.log('>>>>>>>> path : ', path);
     cy.visit(path);
   }
 

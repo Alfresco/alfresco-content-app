@@ -59,8 +59,7 @@ export class CyLoginPage extends CyPage {
   }
 
   loginWithAdmin() {
-    this.loginWith(Cypress.env("params").ADMIN_USERNAME, Cypress.env("params").ADMIN_PASSWORD);
-    // this.loginWith('aaa', 'bbb');
+    this.loginWith(Cypress.env('params').ADMIN_USERNAME, Cypress.env('params').ADMIN_PASSWORD);
   }
 
   tryLoginWith(username: string, password?: string) {

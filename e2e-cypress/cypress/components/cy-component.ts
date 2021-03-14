@@ -28,7 +28,8 @@
 
 export abstract class CyComponent {
   // component: ElementFinder;
-  component: JQuery<HTMLElement>
+  // component: ElementFinder;
+  component!: JQuery<HTMLElement>;
 
   // protected byCss(css: string, root: ElementFinder | ProtractorBrowser = this.component): ElementFinder {
   //   return root.element(by.css(css));

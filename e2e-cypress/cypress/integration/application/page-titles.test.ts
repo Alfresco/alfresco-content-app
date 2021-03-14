@@ -30,7 +30,7 @@ import { CyLoginPage, CyBrowsingPage } from './../../pages';
 import { PAGE_TITLES } from './../../utils/cy-configs';
 import { CyUtils } from './../../utils/cy-utils';
 // import { RepoClient } from '@alfresco/aca-testing-shared';
-import { RepoClient } from '../../../../projects/aca-testing-shared/src/index';
+import { RepoClient } from '../../../../projects/aca-testing-shared';
 
 describe('Cypress Page titles', () => {
   const loginPage = new CyLoginPage();
@@ -63,10 +63,9 @@ describe('Cypress Page titles', () => {
   });
 
   describe('on app pages', () => {
-    before(async (done) => {
-      const fileId = (await adminApi.nodes.createFile(file)).entry.id;
+    before(() => {
+      // const fileId = (await adminApi.nodes.createFile(file)).entry.id;
       loginPage.loginWithAdmin();
-      done();
     });
 
     // after(async (done) => {
@@ -79,47 +78,47 @@ describe('Cypress Page titles', () => {
       cy.title().should('contain', PAGE_TITLES.PERSONAL_FILES);
     });
 
-  //   it('[C217158] My Libraries page', async () => {
-  //     await page.goToMyLibraries();
-  //     expect(await browser.getTitle()).toContain(PAGE_TITLES.MY_LIBRARIES);
-  //   });
+    // it('[C217158] My Libraries page', async () => {
+    //   await page.goToMyLibraries();
+    //   expect(await browser.getTitle()).toContain(PAGE_TITLES.MY_LIBRARIES);
+    // });
 
-  //   it('[C289907] Favorite Libraries page', async () => {
-  //     await page.goToFavoriteLibraries();
-  //     expect(await browser.getTitle()).toContain(PAGE_TITLES.FAVORITE_LIBRARIES);
-  //   });
+    // it('[C289907] Favorite Libraries page', async () => {
+    //   await page.goToFavoriteLibraries();
+    //   expect(await browser.getTitle()).toContain(PAGE_TITLES.FAVORITE_LIBRARIES);
+    // });
 
-  //   it('[C217159] Shared Files page', async () => {
-  //     await page.clickSharedFiles();
-  //     expect(await browser.getTitle()).toContain(PAGE_TITLES.SHARED_FILES);
-  //   });
+    // it('[C217159] Shared Files page', async () => {
+    //   await page.clickSharedFiles();
+    //   expect(await browser.getTitle()).toContain(PAGE_TITLES.SHARED_FILES);
+    // });
 
-  //   it('[C217160] Recent Files page', async () => {
-  //     await page.clickRecentFiles();
-  //     expect(await browser.getTitle()).toContain(PAGE_TITLES.RECENT_FILES);
-  //   });
+    // it('[C217160] Recent Files page', async () => {
+    //   await page.clickRecentFiles();
+    //   expect(await browser.getTitle()).toContain(PAGE_TITLES.RECENT_FILES);
+    // });
 
-  //   it('[C217161] Favorites page', async () => {
-  //     await page.clickFavorites();
-  //     expect(await browser.getTitle()).toContain(PAGE_TITLES.FAVORITES);
-  //   });
+    // it('[C217161] Favorites page', async () => {
+    //   await page.clickFavorites();
+    //   expect(await browser.getTitle()).toContain(PAGE_TITLES.FAVORITES);
+    // });
 
-  //   it('[C217162] Trash page', async () => {
-  //     await page.clickTrash();
-  //     expect(await browser.getTitle()).toContain(PAGE_TITLES.TRASH);
-  //   });
+    // it('[C217162] Trash page', async () => {
+    //   await page.clickTrash();
+    //   expect(await browser.getTitle()).toContain(PAGE_TITLES.TRASH);
+    // });
 
-  //   it('[C280415] File Preview page', async () => {
-  //     await page.clickPersonalFilesAndWait();
-  //     await page.dataTable.doubleClickOnRowByName(file);
-  //     expect(await browser.getTitle()).toContain(PAGE_TITLES.VIEWER);
-  //     await Utils.pressEscape();
-  //   });
+    // it('[C280415] File Preview page', async () => {
+    //   await page.clickPersonalFilesAndWait();
+    //   await page.dataTable.doubleClickOnRowByName(file);
+    //   expect(await browser.getTitle()).toContain(PAGE_TITLES.VIEWER);
+    //   await Utils.pressEscape();
+    // });
 
-  //   it('[C280413] Search Results page', async () => {
-  //     await searchInput.clickSearchButton();
-  //     await searchInput.searchFor(file);
-  //     expect(await browser.getTitle()).toContain(PAGE_TITLES.SEARCH);
-  //   });
+    // it('[C280413] Search Results page', async () => {
+    //   await searchInput.clickSearchButton();
+    //   await searchInput.searchFor(file);
+    //   expect(await browser.getTitle()).toContain(PAGE_TITLES.SEARCH);
+    // });
   });
 });
