@@ -23,14 +23,12 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// import { by, browser } from 'protractor';
 import { CyComponent } from '../cy-component';
 import { CyUserInfo } from './cy-user-info';
 import { CyMenu } from '../menu/cy-menu';
 // import { Toolbar } from './../toolbar/toolbar';
-// import { SearchInput } from '../search/search-input';
+import { CySearchInput } from '../search/cy-search-input';
 // import { waitElement } from '../../utilities/utils';
-// import { BrowserActions } from '@alfresco/adf-testing';
 
 export class CyHeader extends CyComponent {
   logoLink = '.app-menu__title';
@@ -40,7 +38,7 @@ export class CyHeader extends CyComponent {
   userInfo = new CyUserInfo();
   menu = new CyMenu();
   // toolbar = new Toolbar();
-  // searchInput = new SearchInput();
+  searchInput = new CySearchInput();
 
   constructor(ancestor?: string) {
     super('adf-layout-header', ancestor);

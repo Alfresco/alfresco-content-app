@@ -23,21 +23,17 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// export * from './breadcrumb/breadcrumb';
-// export * from './breadcrumb/dropdown-breadcrumb';
-export * from './data-table/cy-data-table';
-// export * from './datetime-picker/datetime-picker';
-// export * from './dialog';
-export * from './header/cy-header';
-export * from './header/cy-user-info';
-// export * from './info-drawer';
-// export * from './login/login';
-export * from './menu/cy-menu';
-// export * from './metadata-card/metadata-card';
-// export * from './pagination/pagination';
-// export * from './search';
-export * from './sidenav/cy-sidenav';
-// export * from './toolbar/toolbar';
-// export * from './viewer/viewer';
-export * from './cy-component';
-// export * from './components';
+export const NODE_TYPE_FILE = 'cm:content';
+export const NODE_TYPE_FOLDER = 'cm:folder';
+export const NODE_TITLE = 'cm:title';
+export const NODE_DESCRIPTION = 'cm:description';
+
+export class NodeBodyCreate {
+  constructor(
+    public name: string,
+    public nodeType: string,
+    public relativePath: string = '/',
+    public aspectNames?: string[],
+    public properties?: any[]
+  ) {}
+}

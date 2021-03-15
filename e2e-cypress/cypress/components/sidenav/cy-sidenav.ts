@@ -25,7 +25,7 @@
 
 // import { ElementFinder, by, element, browser } from 'protractor';
 // import { Logger, BrowserActions } from '@alfresco/adf-testing';
-// import { SIDEBAR_LABELS, BROWSER_WAIT_TIMEOUT } from '../../configs';
+import { SIDEBAR_LABELS, BROWSER_WAIT_TIMEOUT } from '../../utils/cy-configs';
 import { CyMenu } from '../menu/cy-menu';
 import { CyComponent } from '../cy-component';
 
@@ -48,7 +48,18 @@ export class CySidenav extends CyComponent {
     super('app-sidenav', ancestor);
   }
 
-  // private expandMenu(name: string) {
+  private expandMenu(name: string) {
+    cy.get('body').then((body) => {
+      if (body.find('.mat-expanded').length) {
+        return;
+      } else {
+        this.getLink(name).click();
+        cy.get('.mat-expansion-panel-body');
+      }
+    });
+  }
+
+  // private async expandMenu(name: string): Promise<void> {
   //   try {
   //     if (await element(by.cssContainingText('.mat-expanded', name)).isPresent()) {
   //       return Promise.resolve();
@@ -102,11 +113,11 @@ export class CySidenav extends CyComponent {
   //   return childClass.includes('action-button--active');
   // }
 
-  // getLink(name: string): ElementFinder {
-  //   return this.getLinkLabel(name).element(by.xpath('..'));
-  // }
+  getLink(name: string) {
+    return cy.get(this.getLinkLabel(name)).parent();
+  }
 
-  private getLinkLabel(name: string) {
+  private getLinkLabel(name: string): string {
     switch (name) {
       case 'Personal Files':
         return this.personalFiles;
@@ -143,11 +154,25 @@ export class CySidenav extends CyComponent {
     cy.get(this.getLinkLabel(name)).click();
   }
 
-  // async isFileLibrariesMenuExpanded(): Promise<boolean> {
-  //   return element(by.cssContainingText('.mat-expanded', SIDEBAR_LABELS.FILE_LIBRARIES)).isPresent();
-  // }
+  isFileLibrariesMenuExpanded() {
+    let present = false;
 
-  // async expandFileLibraries(): Promise<void> {
-  //   await this.expandMenu(SIDEBAR_LABELS.FILE_LIBRARIES);
-  // }
+    // cy.get('.mat-expanded')
+    //   .contains(SIDEBAR_LABELS.FILE_LIBRARIES)
+    //   .then(() => {
+    //     present = true;
+    //   });
+
+    cy.get('body').then((body) => {
+      if (body.find('.mat-expanded').text().includes(SIDEBAR_LABELS.FILE_LIBRARIES)) {
+        present = true;
+      }
+    });
+
+    return present;
+  }
+
+  expandFileLibraries() {
+    return this.expandMenu(SIDEBAR_LABELS.FILE_LIBRARIES);
+  }
 }

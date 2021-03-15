@@ -24,7 +24,7 @@
  */
 
 // import { CyHeader, DataTable, Pagination, Toolbar, Breadcrumb, Sidenav } from '../components';
-import { CyHeader, CySidenav } from '../components';
+import { CyHeader, CySidenav, CyDataTable } from '../components';
 import { SIDEBAR_LABELS } from '../utils/cy-configs';
 import { CyPage } from './cy-page';
 
@@ -33,7 +33,7 @@ export class CyBrowsingPage extends CyPage {
   sidenav = new CySidenav(this.appRoot);
   // toolbar = new Toolbar(this.appRoot);
   // breadcrumb = new Breadcrumb(this.appRoot);
-  // dataTable = new DataTable(this.appRoot);
+  dataTable = new CyDataTable(this.appRoot);
   // pagination = new Pagination(this.appRoot);
 
   clickPersonalFiles() {
@@ -54,60 +54,60 @@ export class CyBrowsingPage extends CyPage {
   //   await this.dataTable.waitForHeader();
   // }
 
-  // async goToFavoriteLibraries(): Promise<void> {
-  //   if (!(await this.sidenav.isFileLibrariesMenuExpanded())) {
-  //     await this.sidenav.expandFileLibraries();
-  //   }
-  //   await this.sidenav.clickLink(SIDEBAR_LABELS.FAVORITE_LIBRARIES);
-  // }
+  goToFavoriteLibraries() {
+    if (!this.sidenav.isFileLibrariesMenuExpanded()) {
+      this.sidenav.expandFileLibraries();
+    }
+    this.sidenav.clickLink(SIDEBAR_LABELS.FAVORITE_LIBRARIES);
+  }
 
   // async goToFavoriteLibrariesAndWait(): Promise<void> {
   //   await this.goToFavoriteLibraries();
   //   await this.dataTable.waitForHeader();
   // }
 
-  // async goToMyLibraries(): Promise<void> {
-  //   if (!(await this.sidenav.isFileLibrariesMenuExpanded())) {
-  //     await this.sidenav.expandFileLibraries();
-  //   }
-  //   await this.sidenav.clickLink(SIDEBAR_LABELS.MY_LIBRARIES);
-  // }
+  goToMyLibraries() {
+    if (!this.sidenav.isFileLibrariesMenuExpanded()) {
+      this.sidenav.expandFileLibraries();
+    }
+    this.sidenav.clickLink(SIDEBAR_LABELS.MY_LIBRARIES);
+  }
 
   // async goToMyLibrariesAndWait(): Promise<void> {
   //   await this.goToMyLibraries();
   //   await this.dataTable.waitForHeader();
   // }
 
-  // async clickRecentFiles(): Promise<void> {
-  //   await this.sidenav.clickLink(SIDEBAR_LABELS.RECENT_FILES);
-  // }
+  clickRecentFiles() {
+    this.sidenav.clickLink(SIDEBAR_LABELS.RECENT_FILES);
+  }
 
   // async clickRecentFilesAndWait(): Promise<void> {
   //   await this.clickRecentFiles();
   //   await this.dataTable.waitForHeader();
   // }
 
-  // async clickSharedFiles(): Promise<void> {
-  //   await this.sidenav.clickLink(SIDEBAR_LABELS.SHARED_FILES);
-  // }
+  clickSharedFiles() {
+    this.sidenav.clickLink(SIDEBAR_LABELS.SHARED_FILES);
+  }
 
   // async clickSharedFilesAndWait(): Promise<void> {
   //   await this.clickSharedFiles();
   //   await this.dataTable.waitForHeader();
   // }
 
-  // async clickFavorites(): Promise<void> {
-  //   await this.sidenav.clickLink(SIDEBAR_LABELS.FAVORITES);
-  // }
+  clickFavorites() {
+    this.sidenav.clickLink(SIDEBAR_LABELS.FAVORITES);
+  }
 
   // async clickFavoritesAndWait(): Promise<void> {
   //   await this.clickFavorites();
   //   await this.dataTable.waitForHeader();
   // }
 
-  // async clickTrash(): Promise<void> {
-  //   await this.sidenav.clickLink(SIDEBAR_LABELS.TRASH);
-  // }
+  clickTrash() {
+    this.sidenav.clickLink(SIDEBAR_LABELS.TRASH);
+  }
 
   // async clickTrashAndWait(): Promise<void> {
   //   await this.clickTrash();

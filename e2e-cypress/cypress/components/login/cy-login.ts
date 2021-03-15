@@ -29,7 +29,7 @@ import { typeText } from '../../utils/cy-utils';
 export class CyLoginComponent extends CyComponent {
   usernameInput = 'input#username';
   passwordInput = 'input#password';
-  submitButton = 'button#login-button';
+  submitButton = '[type="submit"]';
   errorMessage = '.adf-login-error-message';
   copyright = '.adf-copyright';
   passwordVisibility = '.adf-login-password-icon';

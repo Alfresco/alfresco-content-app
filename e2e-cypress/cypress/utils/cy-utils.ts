@@ -35,23 +35,6 @@ export async function typeText(elementSelector: string, text: string): Promise<v
   cy.get(elementSelector).clear().type(text);
 }
 
-// export async function clearTextWithBackspace(element: ElementFinder): Promise<void> {
-//   await element.clear();
-//   await element.sendKeys(' ', protractor.Key.CONTROL, 'a', protractor.Key.NULL, protractor.Key.BACK_SPACE);
-// }
-
-// export async function waitElement(css: string, errorMessage?: string): Promise<WebElement> {
-//   return browser.wait(until.elementLocated(by.css(css)), BROWSER_WAIT_TIMEOUT, errorMessage || `Timeout waiting for element: ${css}`);
-// }
-
-// export async function waitForPresence(element: ElementFinder, errorMessage?: string): Promise<void> {
-//   await browser.wait(EC.presenceOf(element), BROWSER_WAIT_TIMEOUT, errorMessage || `Timeout waiting for element presence: ${element.locator()}`);
-// }
-
-// export async function waitForStaleness(element: ElementFinder, errorMessage?: string): Promise<void> {
-//   await browser.wait(EC.stalenessOf(element), BROWSER_WAIT_TIMEOUT, errorMessage || `Timeout waiting element staleness: ${element.locator()}`);
-// }
-
 // export const isPresentAndEnabled = async (element: ElementFinder): Promise<boolean> => {
 //   try {
 //     await BrowserVisibility.waitUntilElementIsPresent(element);
@@ -172,7 +155,7 @@ export class CyUtils {
   // }
 
   static async pressEscape() {
-    cy.type('{esc}');
+    cy.get('body').type('{esc}', { force: true });
   }
 
   // static async pressTab(): Promise<void> {
@@ -180,7 +163,7 @@ export class CyUtils {
   // }
 
   static async pressCmd(): Promise<void> {
-    cy.type('{cmd}');
+    cy.get('body').type('{cmd}');
   }
 
   // static async releaseKeyPressed(): Promise<void> {

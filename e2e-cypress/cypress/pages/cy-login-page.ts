@@ -26,8 +26,6 @@
 import { CyLoginComponent } from '../components/login/cy-login';
 import { CyPage } from './cy-page';
 import { APP_ROUTES } from '../utils/cy-configs';
-// import { waitForPresence } from '../utilities/utils';
-// import { BrowserActions } from '@alfresco/adf-testing';
 
 export class CyLoginPage extends CyPage {
   login = new CyLoginComponent(this.appRoot);
@@ -59,7 +57,7 @@ export class CyLoginPage extends CyPage {
   }
 
   loginWithAdmin() {
-    this.loginWith(Cypress.env('params').ADMIN_USERNAME, Cypress.env('params').ADMIN_PASSWORD);
+    return this.loginWith(Cypress.env('params').ADMIN_USERNAME, Cypress.env('params').ADMIN_PASSWORD);
   }
 
   tryLoginWith(username: string, password?: string) {

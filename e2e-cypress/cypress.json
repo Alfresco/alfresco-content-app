@@ -1,14 +1,21 @@
 {
-  "baseUrl": "https://acadev.envalfresco.com/aca/",
+  "baseUrl": "https://develop.envalfresco.com/aca/",
 
   "env":
   {
     "params":
     {
-      "ADMIN_USERNAME": "admin@alfresco.com",
-      "ADMIN_PASSWORD": "adf$2018IloveAngular"
+      "ADMIN_USERNAME": "<change-this>",
+      "ADMIN_PASSWORD": "<change-this>",
+
+      "config": {
+        "hostEcm": "https://develop.envalfresco.com",
+        "providers": "ECM",
+        "authType": "BASIC"
+      },
+      "downloadFolder": "e2e-downloads"
     }
   },
-
+  "supportFile": "cypress/support/index.js",
   "integrationFolder": "cypress/integration"
 }

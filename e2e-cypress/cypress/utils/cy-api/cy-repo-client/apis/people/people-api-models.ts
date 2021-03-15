@@ -23,21 +23,31 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// export * from './breadcrumb/breadcrumb';
-// export * from './breadcrumb/dropdown-breadcrumb';
-export * from './data-table/cy-data-table';
-// export * from './datetime-picker/datetime-picker';
-// export * from './dialog';
-export * from './header/cy-header';
-export * from './header/cy-user-info';
-// export * from './info-drawer';
-// export * from './login/login';
-export * from './menu/cy-menu';
-// export * from './metadata-card/metadata-card';
-// export * from './pagination/pagination';
-// export * from './search';
-export * from './sidenav/cy-sidenav';
-// export * from './toolbar/toolbar';
-// export * from './viewer/viewer';
-export * from './cy-component';
-// export * from './components';
+export interface PersonModel {
+  username?: string;
+  password?: string;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  enabled?: boolean;
+  properties?: any;
+}
+
+export class Person {
+  id: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  enabled: boolean;
+  properties: any;
+
+  constructor(user: PersonModel) {
+    this.id = user.username;
+    this.password = user.password || user.username;
+    this.firstName = user.firstName || user.username;
+    this.lastName = user.lastName || user.username;
+    this.email = user.email || `${user.username}@alfresco.com`;
+    this.enabled = user.enabled || true;
+  }
+}

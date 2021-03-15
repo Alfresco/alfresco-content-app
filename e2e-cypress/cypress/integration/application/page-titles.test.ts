@@ -23,22 +23,21 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// import { browser } from 'protractor';
-// import { PAGE_TITLES, LoginPage, BrowsingPage, RepoClient, Utils } from '@alfresco/aca-testing-shared';
-// import { PAGE_TITLES, LoginPage, BrowsingPage, RepoClient, Utils } from '../../pages';
 import { CyLoginPage, CyBrowsingPage } from './../../pages';
 import { PAGE_TITLES } from './../../utils/cy-configs';
 import { CyUtils } from './../../utils/cy-utils';
+import { CyRepoClient } from '../../utils/cy-api/cy-repo-client/cy-repo-client';
 // import { RepoClient } from '@alfresco/aca-testing-shared';
-import { RepoClient } from '../../../../projects/aca-testing-shared';
 
 describe('Cypress Page titles', () => {
   const loginPage = new CyLoginPage();
   const page = new CyBrowsingPage();
-  const adminApi = new RepoClient();
-  const file = `file-${CyUtils.random()}.txt`;
+  const adminApi = new CyRepoClient();
+  // const adminApi = new RepoClient();
 
-  // const { searchInput } = page.header;
+  const file = `file-${CyUtils.random()}.txt`;
+  let fileId: string;
+  const { searchInput } = page.header;
 
   describe('on Login / Logout pages', () => {
     it('[C217155] on Login page', () => {
@@ -58,67 +57,70 @@ describe('Cypress Page titles', () => {
       loginPage.loginWithAdmin();
       page.signOut();
       cy.go('back');
+
       cy.title().should('contain', 'Sign in');
     });
   });
 
   describe('on app pages', () => {
-    before(() => {
-      // const fileId = (await adminApi.nodes.createFile(file)).entry.id;
+    before(async () => {
+      fileId = (await adminApi.nodes.createFile(file)).entry.id;
+    });
+
+    beforeEach(() => {
       loginPage.loginWithAdmin();
     });
 
-    // after(async (done) => {
-    //   await adminApi.nodes.deleteNodeById(fileId);
-    //   done();
-    // });
+    after(async () => {
+      await adminApi.nodes.deleteNodeById(fileId);
+    });
 
     it('[C217157] Personal Files page', () => {
       page.clickPersonalFiles();
       cy.title().should('contain', PAGE_TITLES.PERSONAL_FILES);
     });
 
-    // it('[C217158] My Libraries page', async () => {
-    //   await page.goToMyLibraries();
-    //   expect(await browser.getTitle()).toContain(PAGE_TITLES.MY_LIBRARIES);
-    // });
+    it('[C217158] My Libraries page', () => {
+      page.goToMyLibraries();
+      cy.title().should('contain', PAGE_TITLES.MY_LIBRARIES);
+    });
 
-    // it('[C289907] Favorite Libraries page', async () => {
-    //   await page.goToFavoriteLibraries();
-    //   expect(await browser.getTitle()).toContain(PAGE_TITLES.FAVORITE_LIBRARIES);
-    // });
+    it('[C289907] Favorite Libraries page', () => {
+      page.goToFavoriteLibraries();
+      cy.title().should('contain', PAGE_TITLES.FAVORITE_LIBRARIES);
+    });
 
-    // it('[C217159] Shared Files page', async () => {
-    //   await page.clickSharedFiles();
-    //   expect(await browser.getTitle()).toContain(PAGE_TITLES.SHARED_FILES);
-    // });
+    it('[C217159] Shared Files page', () => {
+      page.clickSharedFiles();
+      cy.title().should('contain', PAGE_TITLES.SHARED_FILES);
+    });
 
-    // it('[C217160] Recent Files page', async () => {
-    //   await page.clickRecentFiles();
-    //   expect(await browser.getTitle()).toContain(PAGE_TITLES.RECENT_FILES);
-    // });
+    it('[C217160] Recent Files page', () => {
+      page.clickRecentFiles();
+      cy.title().should('contain', PAGE_TITLES.RECENT_FILES);
+    });
 
-    // it('[C217161] Favorites page', async () => {
-    //   await page.clickFavorites();
-    //   expect(await browser.getTitle()).toContain(PAGE_TITLES.FAVORITES);
-    // });
+    it('[C217161] Favorites page', () => {
+      page.clickFavorites();
+      cy.title().should('contain', PAGE_TITLES.FAVORITES);
+    });
 
-    // it('[C217162] Trash page', async () => {
-    //   await page.clickTrash();
-    //   expect(await browser.getTitle()).toContain(PAGE_TITLES.TRASH);
-    // });
+    it('[C217162] Trash page', () => {
+      page.clickTrash();
+      cy.title().should('contain', PAGE_TITLES.TRASH);
+    });
 
-    // it('[C280415] File Preview page', async () => {
-    //   await page.clickPersonalFilesAndWait();
-    //   await page.dataTable.doubleClickOnRowByName(file);
-    //   expect(await browser.getTitle()).toContain(PAGE_TITLES.VIEWER);
-    //   await Utils.pressEscape();
-    // });
+    it('[C280415] File Preview page', () => {
+      page.clickPersonalFiles();
+      page.dataTable.doubleClickOnRowByName(file);
+      cy.title().should('contain', PAGE_TITLES.VIEWER);
+      cy.get('.adf-viewer-close-button').click();
+    });
 
-    // it('[C280413] Search Results page', async () => {
-    //   await searchInput.clickSearchButton();
-    //   await searchInput.searchFor(file);
-    //   expect(await browser.getTitle()).toContain(PAGE_TITLES.SEARCH);
-    // });
+    it('[C280413] Search Results page', () => {
+      searchInput.clickSearchButton();
+      searchInput.searchFor(file);
+      cy.title().should('contain', PAGE_TITLES.SEARCH);
+    });
   });
 });
