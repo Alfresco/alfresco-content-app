@@ -58,10 +58,11 @@ export class CyMenu extends CyComponent {
     super('.mat-menu-panel', ancestor);
   }
 
-  // async waitForMenuToOpen(): Promise<void> {
-  //   await waitForPresence(browser.element(by.css('.cdk-overlay-container .mat-menu-panel')));
-  //   await BrowserVisibility.waitUntilElementIsVisible(this.items.get(0));
-  // }
+  waitForMenuToOpen() {
+    // await waitForPresence(browser.element(by.css('.cdk-overlay-container .mat-menu-panel')));
+    // await BrowserVisibility.waitUntilElementIsVisible(this.items.get(0));
+    return cy.get('.cdk-overlay-container .mat-menu-panel').should('have.length.above', 0);
+  }
 
   // async waitForMenuToClose(): Promise<void> {
   //   await waitForStaleness(browser.element(by.css('.cdk-overlay-container .mat-menu-panel')));
@@ -159,9 +160,16 @@ export class CyMenu extends CyComponent {
   //   }
   // }
 
-  // async isMenuItemPresent(title: string): Promise<boolean> {
-  //   return browser.element(by.cssContainingText('.mat-menu-item', title)).isPresent();
-  // }
+  isMenuItemPresent(title: string) {
+    cy.get('body')
+      .find('.mat-menu-item')
+      .contains(title)
+      .then((el) => {
+        return el.length > 0;
+      });
+
+    return false;
+  }
 
   // async isSubMenuItemPresent(title: string): Promise<boolean> {
   //   return browser.element(by.cssContainingText('app-context-menu-item .mat-menu-item', title)).isPresent();

@@ -53,25 +53,30 @@ export class CyLoginComponent extends CyComponent {
     return this;
   }
 
-  // private async getPasswordVisibility(): Promise<boolean> {
-  //   const text = await this.passwordVisibility.getText();
-  //   return text.endsWith('visibility');
-  // }
+  private getPasswordVisibility(): boolean {
+    let text = '';
+    cy.get(this.passwordVisibility)
+      .invoke('text')
+      .then((respText) => (text = respText));
+    return text.endsWith('visibility');
+  }
 
-  // async isPasswordDisplayed(): Promise<boolean> {
-  //   const type = await this.passwordInput.getAttribute('type');
-  //   if (type === 'text') {
-  //     return true;
-  //   } else {
-  //     if (type === 'password') {
-  //       return false;
-  //     }
-  //   }
+  isPasswordDisplayed() {
+    cy.get(this.passwordInput)
+      .invoke('type')
+      .then((type) => {
+        if (type === 'text') {
+          return true;
+        } else {
+          if (type === 'password') {
+            return false;
+          }
+        }
+      });
+    return false;
+  }
 
-  //   return false;
-  // }
-
-  // async isPasswordHidden() {
-  //   return !(await this.getPasswordVisibility());
-  // }
+  isPasswordHidden() {
+    return !this.getPasswordVisibility();
+  }
 }

@@ -46,7 +46,7 @@ export class CyHeader extends CyComponent {
 
   openMoreMenu() {
     cy.get(this.moreActions).click();
-    // await this.menu.waitForMenuToOpen();
+    this.menu.waitForMenuToOpen();
   }
 
   closeMoreMenu() {

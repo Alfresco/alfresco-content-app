@@ -23,6 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { USE_HASH_STRATEGY } from './cy-configs';
+
 // import { browser, protractor, ElementFinder, ExpectedConditions as EC, by, logging, until, WebElement } from 'protractor';
 // import { BrowserVisibility, Logger } from '@alfresco/adf-testing';
 // import { BROWSER_WAIT_TIMEOUT } from './configs';
@@ -66,6 +68,17 @@ export class CyUtils {
 
   static random(): string {
     return `cy-${Math.random().toString(36).substring(5, 10).toLowerCase()}`;
+  }
+
+  static navigate(relativePath: string) {
+    const path = [
+      Cypress.config().baseUrl,
+      Cypress.config().baseUrl.endsWith('/') ? '' : '/',
+      USE_HASH_STRATEGY ? '#' : '',
+      relativePath.startsWith('/') ? '' : '/',
+      relativePath
+    ].join('');
+    return cy.visit(path);
   }
 
   // static async clearLocalStorage(): Promise<void> {
@@ -154,7 +167,7 @@ export class CyUtils {
   //   });
   // }
 
-  static async pressEscape() {
+  static pressEscape() {
     cy.get('body').type('{esc}', { force: true });
   }
 
@@ -162,7 +175,7 @@ export class CyUtils {
   //   await browser.actions().sendKeys(protractor.Key.TAB).perform();
   // }
 
-  static async pressCmd(): Promise<void> {
+  static pressCmd() {
     cy.get('body').type('{cmd}');
   }
 
