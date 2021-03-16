@@ -94,10 +94,11 @@ export abstract class CyPage {
   //   await this.waitForApp();
   // }
 
-  // async getSnackBarMessage(): Promise<string> {
-  //   const elem = await waitElement('.mat-snack-bar-container');
-  //   return elem.getAttribute('innerText');
-  // }
+  getSnackBarMessage() {
+    // const elem = await waitElement('.mat-snack-bar-container');
+    // return elem.getAttribute('innerText');
+    return cy.get('.mat-snack-bar-container').invoke('text');
+  }
 
   // async clickSnackBarAction(): Promise<void> {
   //   try {

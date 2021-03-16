@@ -65,7 +65,7 @@ export class CyUtils {
     lighter track cinema tread tick climate lend summit singer radical flower visual negotiation promises cooperative live';
 
   static random(): string {
-    return Math.random().toString(36).substring(5, 10).toLowerCase();
+    return `cy-${Math.random().toString(36).substring(5, 10).toLowerCase()}`;
   }
 
   // static async clearLocalStorage(): Promise<void> {

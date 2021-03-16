@@ -59,34 +59,20 @@ export class CySidenav extends CyComponent {
     });
   }
 
-  // private async expandMenu(name: string): Promise<void> {
-  //   try {
-  //     if (await element(by.cssContainingText('.mat-expanded', name)).isPresent()) {
-  //       return Promise.resolve();
-  //     } else {
-  //       const link = this.getLink(name);
-  //       await BrowserActions.click(link);
-  //       await element(by.css('.mat-expansion-panel-body')).isPresent();
-  //     }
-  //   } catch (e) {
-  //     Logger.error('---- sidebar navigation catch expandMenu: ', e);
-  //   }
-  // }
-
-  // async openNewMenu(): Promise<void> {
-  //   await BrowserActions.click(this.newButton.first());
-  //   await this.menu.waitForMenuToOpen();
-  // }
+  openNewMenu() {
+    // BrowserActions.click(this.newButton.first());
+    return cy.get(this.newButton).click();
+    // this.menu.waitForMenuToOpen();
+  }
 
   // async closeNewMenu(): Promise<void> {
   //   await BrowserActions.click(element(by.css('button[data-automation-id="create-button"] span span')));
   //   await this.menu.waitForMenuToClose();
   // }
 
-  // async openCreateFolderDialog(): Promise<void> {
-  //   await this.openNewMenu();
-  //   await BrowserActions.click(this.menu.createFolderAction);
-  // }
+  openCreateFolderDialog() {
+    this.openNewMenu().get(this.menu.createFolderAction).click();
+  }
 
   // async openCreateLibraryDialog(): Promise<void> {
   //   await this.openNewMenu();
@@ -154,14 +140,8 @@ export class CySidenav extends CyComponent {
     cy.get(this.getLinkLabel(name)).click();
   }
 
-  isFileLibrariesMenuExpanded() {
+  isFileLibrariesMenuExpanded(): boolean {
     let present = false;
-
-    // cy.get('.mat-expanded')
-    //   .contains(SIDEBAR_LABELS.FILE_LIBRARIES)
-    //   .then(() => {
-    //     present = true;
-    //   });
 
     cy.get('body').then((body) => {
       if (body.find('.mat-expanded').text().includes(SIDEBAR_LABELS.FILE_LIBRARIES)) {

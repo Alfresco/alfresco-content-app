@@ -36,7 +36,7 @@ export class CyMenu extends CyComponent {
 
   // uploadFileAction = this.byId('app.create.uploadFile');
   // uploadFolderAction = this.byId('app.create.uploadFolder');
-  // createFolderAction = this.byId('app.create.folder');
+  createFolderAction = '[id="app.create.folder"]';
   // createLibraryAction = this.byId('app.create.library');
   // createFileFromTemplateAction = this.byId('app.create.fileFromTemplate');
   // createFolderFromTemplateAction = this.byId('app.create.folderFromTemplate');
