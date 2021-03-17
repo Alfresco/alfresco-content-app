@@ -24,7 +24,7 @@
  */
 
 // import { CyHeader, DataTable, Pagination, Toolbar, Breadcrumb, Sidenav } from '../components';
-import { CyHeader, CySidenav, CyDataTable } from '../components';
+import { CyHeader, CySidenav, CyDataTable, CyPagination } from '../components';
 import { SIDEBAR_LABELS } from '../utils/cy-configs';
 import { CyPage } from './cy-page';
 
@@ -34,7 +34,7 @@ export class CyBrowsingPage extends CyPage {
   // toolbar = new Toolbar(this.appRoot);
   // breadcrumb = new Breadcrumb(this.appRoot);
   dataTable = new CyDataTable(this.appRoot);
-  // pagination = new Pagination(this.appRoot);
+  pagination = new CyPagination(this.appRoot);
 
   clickPersonalFiles() {
     this.sidenav.clickLink(SIDEBAR_LABELS.PERSONAL_FILES);

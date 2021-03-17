@@ -76,9 +76,9 @@ export class CyDataTable extends CyComponent {
   //   return this.head.all(locator);
   // }
 
-  // async getColumnHeadersText(): Promise<string> {
-  //   return this.getColumnHeaders().getText();
-  // }
+  getColumnHeadersText() {
+    return cy.get(this.head).filter(this.columnHeader).invoke('text');
+  }
 
   // getColumnHeaderByLabel(label: string): ElementFinder {
   //   const locator = by.cssContainingText(DataTable.selectors.columnHeader, label);
@@ -313,9 +313,14 @@ export class CyDataTable extends CyComponent {
   //   await this.getItemLocationEl(name).click();
   // }
 
-  // async isEmpty(): Promise<boolean> {
-  //   return this.emptyList.isPresent();
-  // }
+  isEmpty() {
+    return cy
+      .get('adf-datatable')
+      .find(this.emptyList)
+      .then((elem) => {
+        return elem.length > 0;
+      });
+  }
 
   // async getEmptyDragAndDropText(): Promise<string> {
   //   const isEmpty = await this.emptyFolderDragAndDrop.isDisplayed();
@@ -325,29 +330,30 @@ export class CyDataTable extends CyComponent {
   //   return '';
   // }
 
-  // async getEmptyStateTitle(): Promise<string> {
-  //   const isEmpty = await this.isEmpty();
-  //   if (isEmpty) {
-  //     return this.emptyListTitle.getText();
-  //   }
-  //   return '';
-  // }
+  getEmptyStateTitle() {
+    if (this.isEmpty) {
+      return cy.get(this.emptyListTitle).invoke('text');
+    }
+    return '';
+  }
 
-  // async getEmptyStateSubtitle(): Promise<string> {
-  //   const isEmpty = await this.isEmpty();
-  //   if (isEmpty) {
-  //     return this.emptyListSubtitle.getText();
-  //   }
-  //   return '';
-  // }
+  getEmptyStateSubtitle() {
+    if (this.isEmpty) {
+      return cy.get(this.emptyListSubtitle).invoke('text');
+    }
+    return '';
+  }
 
-  // async getEmptyListText(): Promise<string> {
-  //   const isEmpty = await this.isEmpty();
-  //   if (isEmpty) {
-  //     return this.byCss('adf-custom-empty-content-template').getText();
-  //   }
-  //   return '';
-  // }
+  getEmptyListText() {
+    if (this.isEmpty) {
+      return cy.get('adf-custom-empty-content-template').invoke('text');
+    }
+    return '';
+  }
+
+  getEmptySearchResultsText() {
+    return cy.get(this.emptySearchText).invoke('text');
+  }
 
   // async getCellsContainingName(name: string): Promise<string[]> {
   //   const rows = this.getRows().all(by.cssContainingText(DataTable.selectors.cell, name));

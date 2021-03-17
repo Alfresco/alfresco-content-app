@@ -23,6 +23,33 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './cy-browsing-page';
-export * from './cy-login-page';
-export * from './cy-search-results-page';
+// import { by, browser } from 'protractor';
+import { CyComponent } from '../cy-component';
+// import { SizeFilter } from './filters/size-filter';
+// import { CreatedDateFilter } from './filters/created-date-filter';
+// import { FacetFilter } from './filters/facet-filter';
+// import { isPresentAndDisplayed } from '../../utilities/utils';
+
+export class CySearchFilters extends CyComponent {
+  mainPanel = '.adf-search-filter';
+  hiddenPanel = '.adf-search-filter[class$="hidden"]';
+  // resetAllButton = this.byCssText('.mat-button', 'Reset all');
+
+  // size = new SizeFilter();
+  // createdDate = new CreatedDateFilter();
+  // fileType = new FacetFilter('File type');
+  // creator = new FacetFilter('Creator');
+  // modifier = new FacetFilter('Modifier');
+  // location = new FacetFilter('Location');
+  // modifiedDate = new FacetFilter('Modified date');
+
+  constructor(ancestor?: string) {
+    super('adf-search-filter', ancestor);
+  }
+
+  isSearchFiltersPanelDisplayed() {
+    return cy.get('body').then((body) => {
+      return !body.find(this.mainPanel).attr('class').includes('hidden');
+    });
+  }
+}

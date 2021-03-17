@@ -52,25 +52,11 @@ describe('Login', () => {
     lastName: 'Doe'
   };
 
-  const disabledUser = `user-${CyUtils.random()}`;
   const testUser2 = {
     username: `user-${CyUtils.random()}`,
     password: 'user2 password'
   };
   const newPassword = 'new password';
-
-  before(async () => {
-    await adminApiActions.createUser({ username: testUser });
-    await adminApiActions.createUser(russianUser);
-    await adminApiActions.createUser(johnDoe);
-    await adminApiActions.createUser({ username: disabledUser });
-    await adminApiActions.createUser(testUser2);
-    await adminApiActions.disableUser(disabledUser);
-  });
-
-  // afterEach(() => {
-  //   CyUtils.clearLocalStorage();
-  // });
 
   describe('general tests', () => {
     beforeEach(() => {
@@ -81,20 +67,28 @@ describe('Login', () => {
       cy.get(login.usernameInput).should('be.enabled');
       cy.get(login.passwordInput).should('be.enabled');
       cy.get(login.submitButton).should('not.be.enabled');
-      expect(login.isPasswordHidden()).to.eq(false, 'Password is not hidden by default');
+      login.isPasswordHidden().should('be.true');
     });
 
     it('[C213091] change password visibility', () => {
       login.enterPassword('some password');
-      expect(login.isPasswordDisplayed()).to.eq(false, 'password is visible');
+      login.isPasswordDisplayed().should('be.false');
       cy.get(login.passwordVisibility).click();
 
-      expect(login.isPasswordHidden()).to.eq(false, 'Password visibility not changed');
-      expect(login.isPasswordDisplayed()).to.eq(true, 'password is not visible');
+      login.isPasswordHidden().should('be.false');
+      login.isPasswordDisplayed().should('be.true');
     });
   });
 
   describe('with valid credentials', () => {
+    before(() => {
+      cy.wrap(adminApiActions.login());
+      cy.wrap(adminApiActions.createUser({ username: testUser }));
+      cy.wrap(adminApiActions.createUser(russianUser));
+      cy.wrap(adminApiActions.createUser(johnDoe));
+      cy.wrap(adminApiActions.createUser(testUser2));
+    });
+
     it('[C213092] navigate to "Personal Files"', () => {
       const { username } = johnDoe;
 
@@ -131,14 +125,17 @@ describe('Login', () => {
       cy.url().should('contain', APP_ROUTES.PERSONAL_FILES);
     });
 
-    it('[C213104] user is able to login after changing his password', () => {
+    it.skip('[C213104] user is able to login after changing his password', () => {
       loginPage.loginWith(testUser2.username, testUser2.password);
       const page = new CyBrowsingPage();
       page.signOut();
 
-      // await adminApiActions.login();
-      // await adminApiActions.changePassword(testUser2.username, newPassword);
+      cy.wrap(adminApiActions.login());
+      cy.wrap(adminApiActions.changePassword(testUser2.username, newPassword));
 
+      loginPage.load();
+
+      cy.get(login.passwordVisibility).click();
       loginPage.loginWith(testUser2.username, newPassword);
       cy.url().should('contain', APP_ROUTES.PERSONAL_FILES);
     });

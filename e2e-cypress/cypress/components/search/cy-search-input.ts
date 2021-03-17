@@ -31,7 +31,7 @@ export class CySearchInput extends CyComponent {
   searchContainer = '.app-search-container';
   searchControl = '.app-search-control';
   searchInput = `input[id='app-control-input']`;
-  searchOptionsArea = 'search-options';
+  searchOptionsArea = '[id="search-options"]';
   // searchFilesOption = this.searchOptionsArea.element(by.cssContainingText('.mat-checkbox', 'Files'));
   // searchFoldersOption = this.searchOptionsArea.element(by.cssContainingText('.mat-checkbox', 'Folders'));
   // searchLibrariesOption = this.searchOptionsArea.element(by.cssContainingText('.mat-checkbox', 'Libraries'));
@@ -53,9 +53,8 @@ export class CySearchInput extends CyComponent {
   // }
 
   clickSearchButton() {
-    // BrowserActions.click(this.searchButton);
     cy.get(this.searchButton).click();
-    // this.waitForSearchControl();
+    cy.get(this.searchControl).should('be.visible');
   }
 
   // async isOptionsAreaDisplayed() {
@@ -90,32 +89,52 @@ export class CySearchInput extends CyComponent {
   //   return !optClass.includes('mat-checkbox-disabled');
   // }
 
-  // async isFilesOptionChecked() {
-  //   const optClass = await this.searchFilesOption.getAttribute('class');
-  //   return optClass.includes('mat-checkbox-checked');
-  // }
-
-  // async isFoldersOptionChecked() {
-  //   const optClass = await this.searchFoldersOption.getAttribute('class');
-  //   return optClass.includes('mat-checkbox-checked');
-  // }
-
   // async isLibrariesOptionChecked() {
   //   const optClass = await this.searchLibrariesOption.getAttribute('class');
   //   return optClass.includes('mat-checkbox-checked');
   // }
 
-  // async clearOptions() {
-  //   if (await this.isFilesOptionChecked()) {
-  //     await this.clickFilesOption();
-  //   }
-  //   if (await this.isFoldersOptionChecked()) {
-  //     await this.clickFoldersOption();
-  //   }
-  //   if (await this.isLibrariesOptionChecked()) {
-  //     await this.clickLibrariesOption();
-  //   }
-  // }
+  get filesCheckbox() {
+    return cy.get(this.searchOptionsArea).contains('.mat-checkbox', 'Files');
+  }
+
+  get foldersCheckbox() {
+    return cy.get(this.searchOptionsArea).contains('.mat-checkbox', 'Folders');
+  }
+
+  get librariesCheckbox() {
+    return cy.get(this.searchOptionsArea).contains('.mat-checkbox', 'Libraries');
+  }
+
+  isFilesOptionChecked() {
+    return this.filesCheckbox.then((elem) => {
+      return elem.hasClass('mat-checkbox-checked');
+    });
+  }
+
+  isFoldersOptionChecked() {
+    return this.foldersCheckbox.then((elem) => {
+      return elem.hasClass('mat-checkbox-checked');
+    });
+  }
+
+  isLibrariesOptionChecked() {
+    return this.librariesCheckbox.then((elem) => {
+      return elem.hasClass('mat-checkbox-checked');
+    });
+  }
+
+  clearOptions() {
+    if (this.isFilesOptionChecked()) {
+      this.filesCheckbox.click();
+    }
+    if (this.isFoldersOptionChecked()) {
+      this.foldersCheckbox.click();
+    }
+    if (this.isLibrariesOptionChecked()) {
+      this.librariesCheckbox.click();
+    }
+  }
 
   // async isClearSearchButtonPresent() {
   //   return browser.isElementPresent(this.clearSearchButton);
@@ -137,19 +156,18 @@ export class CySearchInput extends CyComponent {
   //   await this.clickFoldersOption();
   // }
 
-  // async checkFilesAndFolders() {
-  //   await this.clearOptions();
-  //   await this.clickFilesOption();
-  //   await this.clickFoldersOption();
-  // }
+  checkFilesAndFolders() {
+    this.clearOptions();
+    this.filesCheckbox.click();
+    this.foldersCheckbox.click();
+  }
 
-  // async checkLibraries() {
-  //   await this.clearOptions();
-  //   await this.clickLibrariesOption();
-  // }
+  checkLibraries() {
+    this.clearOptions();
+    this.librariesCheckbox.click();
+  }
 
   searchFor(text: string) {
-    // BrowserActions.clearWithBackSpace(this.searchInput);
     cy.get(this.searchInput)
       .clear()
       .type(text + `{enter}`);

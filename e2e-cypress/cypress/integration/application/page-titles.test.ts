@@ -27,13 +27,11 @@ import { CyLoginPage, CyBrowsingPage } from './../../pages';
 import { PAGE_TITLES } from './../../utils/cy-configs';
 import { CyUtils } from './../../utils/cy-utils';
 import { CyRepoClient } from '../../utils/cy-api/cy-repo-client/cy-repo-client';
-// import { RepoClient } from '@alfresco/aca-testing-shared';
 
 describe('Cypress Page titles', () => {
   const loginPage = new CyLoginPage();
   const page = new CyBrowsingPage();
   const adminApi = new CyRepoClient();
-  // const adminApi = new RepoClient();
 
   const file = `file-${CyUtils.random()}.txt`;
   let fileId: string;

@@ -161,14 +161,12 @@ export class CyMenu extends CyComponent {
   // }
 
   isMenuItemPresent(title: string) {
-    cy.get('body')
+    return cy.get('body')
       .find('.mat-menu-item')
       .contains(title)
       .then((el) => {
         return el.length > 0;
       });
-
-    return false;
   }
 
   // async isSubMenuItemPresent(title: string): Promise<boolean> {

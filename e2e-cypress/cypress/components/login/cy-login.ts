@@ -53,30 +53,21 @@ export class CyLoginComponent extends CyComponent {
     return this;
   }
 
-  private getPasswordVisibility(): boolean {
-    let text = '';
-    cy.get(this.passwordVisibility)
-      .invoke('text')
-      .then((respText) => (text = respText));
-    return text.endsWith('visibility');
-  }
-
   isPasswordDisplayed() {
-    cy.get(this.passwordInput)
-      .invoke('type')
+    return cy
+      .get(this.passwordInput)
+      .invoke('attr', 'type')
       .then((type) => {
-        if (type === 'text') {
-          return true;
-        } else {
-          if (type === 'password') {
-            return false;
-          }
-        }
+        return type === 'text';
       });
-    return false;
   }
 
   isPasswordHidden() {
-    return !this.getPasswordVisibility();
+    return cy
+      .get(this.passwordInput)
+      .invoke('attr', 'type')
+      .then((type) => {
+        return type === 'password';
+      });
   }
 }
