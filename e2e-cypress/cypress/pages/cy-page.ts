@@ -55,7 +55,6 @@ export abstract class CyPage {
   }
 
   waitForApp() {
-    // await waitForPresence(this.layout);
     cy.get(this.layout, { timeout: BROWSER_WAIT_TIMEOUT }).should('be.visible');
   }
 

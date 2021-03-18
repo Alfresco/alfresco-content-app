@@ -82,11 +82,13 @@ describe('Login', () => {
 
   describe('with valid credentials', () => {
     before(() => {
-      cy.wrap(adminApiActions.login());
-      cy.wrap(adminApiActions.createUser({ username: testUser }));
-      cy.wrap(adminApiActions.createUser(russianUser));
-      cy.wrap(adminApiActions.createUser(johnDoe));
-      cy.wrap(adminApiActions.createUser(testUser2));
+      cy.then(async () => {
+        await adminApiActions.login();
+        await adminApiActions.createUser({ username: testUser });
+        await adminApiActions.createUser(russianUser);
+        await adminApiActions.createUser(johnDoe);
+        await adminApiActions.createUser(testUser2);
+      });
     });
 
     it('[C213092] navigate to "Personal Files"', () => {
@@ -125,13 +127,15 @@ describe('Login', () => {
       cy.url().should('contain', APP_ROUTES.PERSONAL_FILES);
     });
 
-    it.skip('[C213104] user is able to login after changing his password', () => {
+    it('[C213104] user is able to login after changing his password', () => {
       loginPage.loginWith(testUser2.username, testUser2.password);
       const page = new CyBrowsingPage();
       page.signOut();
 
-      cy.wrap(adminApiActions.login());
-      cy.wrap(adminApiActions.changePassword(testUser2.username, newPassword));
+      cy.then(async () => {
+        await adminApiActions.login();
+        await adminApiActions.changePassword(testUser2.username, newPassword);
+      });
 
       loginPage.load();
 

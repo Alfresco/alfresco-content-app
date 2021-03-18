@@ -35,7 +35,9 @@ describe('Logout', () => {
   const adminApiActions = new CyAdminActions();
 
   before(() => {
-    cy.wrap(adminApiActions.createUser({ username: johnDoe }));
+    cy.then(async () => {
+      await adminApiActions.createUser({ username: johnDoe });
+    });
   });
 
   beforeEach(() => {

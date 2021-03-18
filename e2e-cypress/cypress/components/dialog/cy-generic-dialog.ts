@@ -28,8 +28,8 @@
 export abstract class CyGenericDialog {
   protected constructor(private rootCssSelector?: string) {}
 
-  get rootElem() {
-    return cy.get(this.rootCssSelector);
+  get root() {
+    return this.rootCssSelector;
   }
 
   // get title(): ElementFinder {

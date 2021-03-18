@@ -37,7 +37,9 @@ describe('Empty list views', () => {
   const adminApiActions = new CyAdminActions();
 
   before(() => {
-    cy.wrap(adminApiActions.createUser({ username }));
+    cy.then(async () => {
+      await adminApiActions.createUser({ username });
+    });
   });
 
   beforeEach(() => {

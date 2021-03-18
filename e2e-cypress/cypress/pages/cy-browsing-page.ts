@@ -100,10 +100,10 @@ export class CyBrowsingPage extends CyPage {
     this.sidenav.clickLink(SIDEBAR_LABELS.FAVORITES);
   }
 
-  // async clickFavoritesAndWait(): Promise<void> {
-  //   await this.clickFavorites();
-  //   await this.dataTable.waitForHeader();
-  // }
+  clickFavoritesAndWait() {
+    this.clickFavorites();
+    this.dataTable.waitForHeader();
+  }
 
   clickTrash() {
     this.sidenav.clickLink(SIDEBAR_LABELS.TRASH);

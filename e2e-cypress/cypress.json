@@ -3,5 +3,6 @@
   "supportFile": "cypress/support/index.js",
   "integrationFolder": "cypress/integration",
   "experimentalRunEvents": true,
-  "videoUploadOnPasses": false
+  "videoUploadOnPasses": false,
+  "defaultCommandTimeout": 25000
 }

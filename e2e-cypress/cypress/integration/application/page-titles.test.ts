@@ -61,16 +61,20 @@ describe('Cypress Page titles', () => {
   });
 
   describe('on app pages', () => {
-    before(async () => {
-      fileId = (await adminApi.nodes.createFile(file)).entry.id;
+    before(() => {
+      cy.then(async () => {
+        fileId = (await adminApi.nodes.createFile(file)).entry.id;
+      });
     });
 
     beforeEach(() => {
       loginPage.loginWithAdmin();
     });
 
-    after(async () => {
-      await adminApi.nodes.deleteNodeById(fileId);
+    after(() => {
+      cy.then(async () => {
+        await adminApi.nodes.deleteNodeById(fileId);
+      });
     });
 
     it('[C217157] Personal Files page', () => {

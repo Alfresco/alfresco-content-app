@@ -39,31 +39,32 @@ describe('General', () => {
 
   describe('on session expire', () => {
     before(() => {
-      cy.wrap(
-        adminApi.nodes.createFolder(folder).then((resp) => {
-          folderId = resp.entry.id;
-        })
-      );
+      cy.then(async () => {
+        folderId = (await adminApi.nodes.createFolder(folder)).entry.id;
+      });
     });
 
     after(() => {
-      cy.wrap(adminApi.nodes.deleteNodeById(folderId));
+      cy.then(async () => {
+        await adminApi.nodes.deleteNodeById(folderId);
+      });
     });
 
-    it.skip('[C286473] should close opened dialogs', () => {
+    it('[C286473] should close opened dialogs', () => {
       loginPage.loginWithAdmin();
 
       page.sidenav.openCreateFolderDialog();
       createDialog.enterName(folder);
 
-      cy.wrap(adminApi.logout());
+      cy.then(async () => {
+        await adminApi.logout();
+      });
 
       createDialog.createButton.click();
 
       page.getSnackBarMessage().should('contain', 'The action was unsuccessful. Try again or contact your IT Team.');
       cy.title().should('contain', 'Sign in');
-
-      createDialog.rootElem.should('not.be.visible');
+      cy.contains(createDialog.root).should('not.exist');
     });
   });
 });
