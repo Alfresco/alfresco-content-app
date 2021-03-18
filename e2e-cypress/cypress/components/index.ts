@@ -40,4 +40,6 @@ export * from './sidenav/cy-sidenav';
 // export * from './toolbar/toolbar';
 // export * from './viewer/viewer';
 export * from './cy-component';
+export * from './login/cy-login';
+export * from './search/cy-search-filters';
 // export * from './components';
