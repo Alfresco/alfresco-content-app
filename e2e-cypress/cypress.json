@@ -2,5 +2,6 @@
   "projectId": "585vax",
   "supportFile": "cypress/support/index.js",
   "integrationFolder": "cypress/integration",
-  "video": false
+  "experimentalRunEvents": true,
+  "videoUploadOnPasses": false
 }
