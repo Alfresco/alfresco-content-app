@@ -31,6 +31,20 @@ import { CyMenu } from '../menu/cy-menu';
 import { CyUtils } from '../../utils/cy-utils';
 
 export class CyDataTable extends CyComponent {
+
+  private static selectors = {
+    columnHeader: '.adf-datatable-row .adf-datatable-cell-header .adf-datatable-cell-value',
+    sortedColumnHeader: `
+      .adf-datatable__header--sorted-asc .adf-datatable-cell-value,
+      .adf-datatable__header--sorted-desc .adf-datatable-cell-value
+    `,
+    row: '.adf-datatable-row[data-automation-id^="datatable-row"]',
+    cell: '.adf-datatable-cell-container',
+    lockOwner: '.aca-locked-by',
+    searchResultsRow: 'aca-search-results-row',
+    searchResultsRowLine: '.line'
+  };
+
   columnHeader = '.adf-datatable-row .adf-datatable-cell-header .adf-datatable-cell-value';
   sortedColumnHeader = `
     .adf-datatable__header--sorted-asc .adf-datatable-cell-value,
@@ -97,32 +111,34 @@ export class CyDataTable extends CyComponent {
   //   }
   // }
 
-  // async sortByModified(order: 'asc' | 'desc'): Promise<void> {
-  //   const sortOrder = await this.getSortingOrder();
-  //   const sortColumn = await this.getSortedColumnHeaderText();
+  sortByModified(order: 'asc' | 'desc') {
+    let sortOrder;
+    this.getSortingOrder().then( result => sortOrder = result);
+    let sortColumn;
+    this.getSortedColumnHeaderText().then( result => sortColumn = result);
 
-  //   if (sortColumn !== 'Modified') {
-  //     await this.columnModified.click();
-  //     if (sortOrder !== order) {
-  //       await this.columnModified.click();
-  //     }
-  //   }
-  // }
+    if (sortColumn !== 'Modified') {
+      cy.get(this.columnModified).click();
+      if (sortOrder !== order) {
+        cy.get(this.columnModified).click();
+      }
+    }
+  }
 
-  // private getSortedColumnHeader(): ElementFinder {
-  //   const locator = by.css(DataTable.selectors.sortedColumnHeader);
-  //   return this.head.element(locator);
-  // }
+  private getSortedColumnHeader() {
+    const locator = (CyDataTable.selectors.sortedColumnHeader);
+    return cy.get(this.head).get(locator);
+  }
 
-  // async getSortedColumnHeaderText(): Promise<string> {
-  //   return this.getSortedColumnHeader().getText();
-  // }
+  getSortedColumnHeaderText() {
+    return this.getSortedColumnHeader().invoke('text');
+  }
 
-  // async getSortingOrder(): Promise<string> {
-  //   const str = await this.getSortedColumnHeader().element(by.xpath('..')).getAttribute('class');
-  //   if (str.includes('asc')) {
-  //     return 'asc';
-  //   }
+  getSortingOrder() {
+    return this.getSortedColumnHeader().invoke('attr', 'class').then( str => {
+      return str.includes('asc') ? 'asc' : null;
+    });
+  }
 
   //   if (str.includes('desc')) {
   //     return 'desc';
@@ -160,7 +176,7 @@ export class CyDataTable extends CyComponent {
       // .filter(async (elem) => browser.isElementPresent(elem.element(by.cssContainingText(DataTable.selectors.cell, location))))
       // .first();
     }
-    return cy.get(this.row).contains(this.cell, name).parents(this.row);
+    return cy.contains(this.cell, name, { timeout: 8000 }).closest(this.row);
   }
 
   // getRowCells(name: string, location: string = '') {
@@ -220,8 +236,7 @@ export class CyDataTable extends CyComponent {
   // }
 
   doubleClickOnRowByName(name: string, location: string = '') {
-    const item = this.getRowFirstCell(name, location);
-    item.dblclick();
+    this.getRowFirstCell(name, location).should('be.visible').dblclick();
   }
 
   // async selectItem(name: string, location: string = ''): Promise<void> {

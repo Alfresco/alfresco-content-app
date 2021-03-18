@@ -23,24 +23,40 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// export * from './breadcrumb/breadcrumb';
-// export * from './breadcrumb/dropdown-breadcrumb';
-export * from './data-table/cy-data-table';
-// export * from './datetime-picker/datetime-picker';
-// export * from './dialog';
-export * from './header/cy-header';
-export * from './header/cy-user-info';
-// export * from './info-drawer';
-// export * from './login/login';
-export * from './menu/cy-menu';
-// export * from './metadata-card/metadata-card';
-export * from './pagination/cy-pagination';
-export * from './search';
-export * from './sidenav/cy-sidenav';
-// export * from './toolbar/toolbar';
-// export * from './viewer/viewer';
-export * from './cy-component';
-export * from './login/cy-login';
-export * from './search/cy-search-filters';
-export * from './sidenav/breadcrumb';
-// export * from './components';
+export class Breadcrumb {
+  items = '.adf-breadcrumb-item';
+  currentItem = '.adf-breadcrumb-item-current';
+
+  getAllItems() {
+    return new Cypress.Promise((resolve, revoke) => {
+      cy.get(this.items).invoke('text').then( response => {
+        const result = response.split('chevron_right').map( item => item.trim());
+        resolve(result);
+      });
+    });
+    // return cy.get(this.items).each((elem) => {
+    //   const str = elem.text();
+    //   return str.replace('\nchevron_right', '');
+    // }).invoke('text');
+  }
+
+  checkLastItemIsVisible(name: string) {
+    return cy.contains(this.currentItem, name).should('be.visible');
+  }
+
+  getCurrentItem() {
+    return cy.get(this.currentItem);
+  }
+
+  getItemByIndex(index: number) {
+    return cy.get(this.items).eq(index);
+  }
+
+  getRowsCount() {
+    return cy.get(this.items).its('length');
+  }
+
+  clickItem(name: string) {
+    return cy.get(`.adf-breadcrumb-item[title=${name}]`).click();
+  }
+}

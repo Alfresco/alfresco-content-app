@@ -24,7 +24,7 @@
  */
 
 // import { CyHeader, DataTable, Pagination, Toolbar, Breadcrumb, Sidenav } from '../components';
-import { CyHeader, CySidenav, CyDataTable, CyPagination } from '../components';
+import { CyHeader, CySidenav, CyDataTable, CyPagination, Breadcrumb } from '../components';
 import { SIDEBAR_LABELS } from '../utils/cy-configs';
 import { CyPage } from './cy-page';
 
@@ -32,7 +32,7 @@ export class CyBrowsingPage extends CyPage {
   header = new CyHeader(this.appRoot);
   sidenav = new CySidenav(this.appRoot);
   // toolbar = new Toolbar(this.appRoot);
-  // breadcrumb = new Breadcrumb(this.appRoot);
+  breadcrumb = new Breadcrumb();
   dataTable = new CyDataTable(this.appRoot);
   pagination = new CyPagination(this.appRoot);
 
@@ -45,9 +45,9 @@ export class CyBrowsingPage extends CyPage {
   //   await this.dataTable.waitForHeader();
   // }
 
-  // async clickFileLibraries(): Promise<void> {
-  //   await this.sidenav.clickLink(SIDEBAR_LABELS.FILE_LIBRARIES);
-  // }
+  clickFileLibraries() {
+    this.sidenav.clickLink(SIDEBAR_LABELS.FILE_LIBRARIES);
+  }
 
   // async clickFileLibrariesAndWait(): Promise<void> {
   //   await this.clickFileLibraries();
