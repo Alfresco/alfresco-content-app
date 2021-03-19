@@ -25,8 +25,7 @@
     "cypress:open": "cypress open --config-file ./e2e-cypress/cypress.json",
     "cypress:run": "cypress run --config-file ./e2e-cypress/cypress.json",
     "cypress:run:firefox": "cypress run --browser firefox --headless",
-    "cypress:run:chrome": "cypress run --browser chrome --headless",
-    "protractor:run": "npm run update-webdriver && protractor --suite=authentication,listViews,navigation,application",
+    "cypress:run:chrome": "cypress run --browser chrome --headless"
   },
   "private": true,
   "dependencies": {
