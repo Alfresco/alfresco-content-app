@@ -93,12 +93,9 @@ jobs:
 
     - stage: e2e
       name: 'Cypress - Test Suites: authentication,listViews,navigation,application'
-      before_install:
-        - cd e2e-cypress
-      install:
-        - npm ci
+      env:
+        - E2E_HOST="https://acadev.envalfresco.com/aca/"
       script:
-        - cd e2e-cypress
         - npm run cypress:run
 
     # - stage: e2e

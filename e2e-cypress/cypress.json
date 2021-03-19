@@ -1,7 +1,8 @@
 {
   "projectId": "585vax",
-  "supportFile": "cypress/support/index.js",
-  "integrationFolder": "cypress/integration",
+  "supportFile": "./e2e-cypress/cypress/support/index.js",
+  "integrationFolder": "./e2e-cypress/cypress/integration",
+  "pluginsFile": "./e2e-cypress/cypress/plugins/index",
   "experimentalRunEvents": true,
   "videoUploadOnPasses": false,
   "defaultCommandTimeout": 15000,
