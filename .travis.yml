@@ -220,5 +220,6 @@ notifications:
       - 'Message: %{message}'
 
 cache:
+  npm: true
   directories:
     - ~/.cache/Cypress
