@@ -95,6 +95,8 @@ jobs:
       name: 'Cypress - Test Suites: authentication,listViews,navigation,application'
       env:
         - E2E_HOST="https://acadev.envalfresco.com/aca/"
+      install:
+        - npm ci
       script:
         - npm run cypress:run
 
