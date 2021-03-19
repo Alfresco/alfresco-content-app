@@ -94,6 +94,13 @@ export class CySidenav extends CyComponent {
   //   return cssClass.includes('action-button--active');
   // }
 
+  isActive(name: string) {
+    return cy.get('body')
+    .find(this.getLinkLabel(name)).should('have.class', 'action-button--active').then((el) => {
+      return el.length > 0;
+    });
+  }
+
   // async childIsActive(name: string): Promise<boolean> {
   //   const childClass = await this.getLinkLabel(name).element(by.css('span')).getAttribute('class');
   //   return childClass.includes('action-button--active');
@@ -136,6 +143,16 @@ export class CySidenav extends CyComponent {
   //   return link.getAttribute('title');
   // }
 
+  /*
+  const location = this.getItemLocationEl(name).$('a');
+  const condition = () => location.getAttribute('title').then((value) => value && value.length > 0);
+
+  await browser.actions().mouseMove(location).perform();
+  await browser.wait(condition, BROWSER_WAIT_TIMEOUT);
+
+  return location.getAttribute('title');
+  */
+
   clickLink(name: string) {
     cy.get(this.getLinkLabel(name)).click();
   }
@@ -154,5 +171,15 @@ export class CySidenav extends CyComponent {
 
   expandFileLibraries() {
     return this.expandMenu(SIDEBAR_LABELS.FILE_LIBRARIES);
+  }
+
+  getLinkTooltip(pageName: string) {
+    // return this.getLinkLabel(pageName)
+      // .find(`${this.locationLink} .adf-datatable-cell-value`)
+        return cy.get(`${this.getLinkLabel(pageName)}`)
+      .invoke('show')
+      .trigger('mouseenter')
+      .wait(1000)
+      .should('have.attr', 'title');
   }
 }
