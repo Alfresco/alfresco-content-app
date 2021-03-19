@@ -26,6 +26,7 @@
 import { CyUtils } from '../../utils/cy-utils';
 import { CyLoginPage, CyBrowsingPage, CySearchResultsPage } from '../../pages';
 import { CyAdminActions } from '../../utils/cy-api/cy-admin-actions';
+import { APP_ROUTES } from '../../utils/cy-configs';
 
 describe('Empty list views', () => {
   const username = `user-${CyUtils.random()}`;
@@ -78,6 +79,7 @@ describe('Empty list views', () => {
 
   it('[C280134] empty Trash', () => {
     page.clickTrash();
+    cy.url().should('contain', APP_ROUTES.TRASHCAN);
     dataTable.isEmpty().should('be.true');
     dataTable.getEmptyStateTitle().should('contain', 'Trash is empty');
     dataTable.getEmptyListText().should('contain', 'Items you delete are moved to the Trash.');
@@ -115,6 +117,7 @@ describe('Empty list views', () => {
   });
 
   it('[C290123] Search results - pagination controls not displayed', () => {
+    page.clickPersonalFiles();
     searchInput.clickSearchButton();
     /* cspell:disable-next-line */
     searchInput.searchFor('qwertyuiop');
@@ -123,6 +126,7 @@ describe('Empty list views', () => {
   });
 
   it('[C279189] Search filters panel is not displayed on empty Search Results page', () => {
+    page.clickPersonalFiles();
     searchInput.clickSearchButton();
     /* cspell:disable-next-line */
     searchInput.searchFor('qwertyuiop');
@@ -131,6 +135,7 @@ describe('Empty list views', () => {
   });
 
   it('[C290020] Empty Search results - Libraries', () => {
+    page.clickPersonalFiles();
     searchInput.clickSearchButton();
     searchInput.checkLibraries();
     /* cspell:disable-next-line */
@@ -141,6 +146,7 @@ describe('Empty list views', () => {
   });
 
   it('[C290031] Empty Search results - Files / Folders', () => {
+    page.clickPersonalFiles();
     searchInput.clickSearchButton();
     searchInput.checkFilesAndFolders();
     /* cspell:disable-next-line */

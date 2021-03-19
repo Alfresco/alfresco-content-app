@@ -43,7 +43,7 @@ describe('Special permissions', () => {
   const adminApiActions = new CyAdminActions();
   const userActions = new CyUserActions();
 
-  beforeAll(() => {
+  before(() => {
     cy.then(async () => {
       await adminApiActions.login();
       await adminApiActions.createUser({ username });
@@ -56,11 +56,12 @@ describe('Special permissions', () => {
     let fileId: string;
 
     before(() => {
-      cy.then(async () => {
+      cy.then({ timeout: 30000 }, async () => {
         await adminApiActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
         await adminApiActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
         const docLibId = await adminApiActions.sites.getDocLibId(sitePrivate);
-        fileId = (await adminApiActions.nodes.createFile(fileName, docLibId).entry.id;
+        fileId = (await adminApiActions.nodes.createFile(fileName, docLibId)).entry.id;
+
         await userApi.favorites.addFavoriteById('file', fileId);
 
         await adminApiActions.shareNodes([fileId]);
@@ -71,7 +72,7 @@ describe('Special permissions', () => {
       });
     });
 
-    before(() => {
+    beforeEach(() => {
       cy.clearCookies();
       cy.clearLocalStorage();
       loginPage.loginWith(username);
@@ -91,66 +92,66 @@ describe('Special permissions', () => {
 
     it('[C213173] on Recent Files', () => {
       page.clickRecentFilesAndWait();
-      dataTable.getRowsCount().toBe(1, 'Incorrect number of items');
+      dataTable.getRowsCount().should('eq', 1);
 
       cy.then(async () => {
         await adminApiActions.sites.deleteSiteMember(sitePrivate, username);
       });
 
-      page.refresh();
-      dataTable.isEmpty().toBe(true, 'Items are still displayed');
+      cy.reload();
+      dataTable.isEmpty().should('be.true');
     });
 
     it('[C213227] on Favorites', () => {
       page.clickFavoritesAndWait();
-      dataTable.getRowsCount().toBe(1, 'Incorrect number of items');
+      cy.contains(fileName);
 
       cy.then(async () => {
         await adminApiActions.sites.deleteSiteMember(sitePrivate, username);
       });
 
-      page.refresh();
-      dataTable.isEmpty().toBe(true, 'Items are still displayed');
+      cy.reload();
+      dataTable.isEmpty().should('be.true');
     });
 
     it('[C213116] on Shared Files', () => {
       page.clickSharedFilesAndWait();
-      dataTable.isItemPresent(fileName).toBe(true, `${fileName} not displayed`);
+      cy.contains(fileName);
 
       cy.then(async () => {
         await adminApiActions.sites.deleteSiteMember(sitePrivate, username);
       });
 
-      page.refresh();
-      dataTable.isItemPresent(fileName).toBe(false, `${fileName} is displayed`);
+      cy.reload();
+      cy.get(fileName).should('not.exist');
     });
 
     it('[C290122] on Search Results', () => {
       searchInput.clickSearchButton();
       searchInput.checkFilesAndFolders();
       searchInput.searchFor(fileName);
-      dataTable.waitForBody();
+      cy.contains(fileName);
 
-      dataTable.isItemPresent(fileName).toBe(true, `${fileName} is not displayed`);
+      cy.then(async () => {
+        await adminApiActions.sites.deleteSiteMember(sitePrivate, username);
+      });
 
-      adminApiActions.sites.deleteSiteMember(sitePrivate, username);
-
+      page.clickPersonalFiles();
       searchInput.clickSearchButton();
       searchInput.checkFilesAndFolders();
       searchInput.searchFor(fileName);
-      dataTable.waitForBody();
 
-      dataTable.isItemPresent(fileName).toBe(false, `${fileName} is displayed`);
+      cy.get(fileName).should('not.exist');
     });
   });
 
   describe(`Location column is empty if user doesn't have permissions on the file's parent folder`, () => {
     const sitePrivate = `private-${CyUtils.random()}`;
     const fileName = `file-${CyUtils.random()}.txt`;
-    let fileId;
+    let fileId: string;
 
-    beforeAll(() => {
-      cy.then(async () => {
+    before(() => {
+      cy.then({ timeout: 30000 }, async () => {
         await adminApiActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
         await adminApiActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
         const docLibId = await adminApiActions.sites.getDocLibId(sitePrivate);
@@ -171,7 +172,7 @@ describe('Special permissions', () => {
       loginPage.loginWith(username);
     });
 
-    afterAll(() => {
+    after(() => {
       cy.then(async () => {
         await adminApiActions.sites.deleteSite(sitePrivate);
       });
@@ -179,30 +180,31 @@ describe('Special permissions', () => {
 
     it('[C213178] on Recent Files', () => {
       page.clickRecentFilesAndWait();
-      dataTable.getRowsCount().toBe(1, 'Incorrect number of items');
-      dataTable.getItemLocation(fileName).toEqual('Unknown');
+      cy.contains(fileName);
+      dataTable.getRowsCount().should('eq', 1);
+      dataTable.getItemLocation(fileName).should('contain', 'Unknown');
     });
 
     it('[C213672] on Favorites', () => {
       page.clickFavoritesAndWait();
-      dataTable.getRowsCount().toBe(1, 'Incorrect number of items');
-      dataTable.getItemLocation(fileName).toEqual('Unknown');
+      cy.contains(fileName);
+      dataTable.getRowsCount().should('eq', 1);
+      dataTable.getItemLocation(fileName).should('contain', 'Unknown');
     });
 
     it(`[C213668] on Shared Files`, () => {
       page.clickSharedFilesAndWait();
-      dataTable.isItemPresent(fileName).toBe(true, `${fileName} not displayed`);
-      dataTable.getItemLocation(fileName).toEqual('Unknown');
+      cy.contains(fileName);
+      dataTable.getItemLocation(fileName).should('contain', 'Unknown');
     });
 
     it('[C306868] on Search results', () => {
       searchInput.clickSearchButton();
       searchInput.checkFilesAndFolders();
       searchInput.searchFor(fileName);
-      dataTable.waitForBody();
+      cy.contains(fileName);
 
-      dataTable.isItemPresent(fileName).toBe(true, `${fileName} is not displayed`);
-      dataTable.getItemLocation(fileName).toEqual('Unknown');
+      dataTable.getItemLocation(fileName).should('contain', 'Unknown');
     });
   });
 });

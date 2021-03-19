@@ -4,5 +4,6 @@
   "integrationFolder": "cypress/integration",
   "experimentalRunEvents": true,
   "videoUploadOnPasses": false,
-  "defaultCommandTimeout": 25000
+  "defaultCommandTimeout": 15000,
+  "video": false
 }

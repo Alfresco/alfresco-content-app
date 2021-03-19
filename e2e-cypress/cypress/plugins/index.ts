@@ -17,7 +17,7 @@
 // };
 
 require('dotenv').config({ path: __dirname + `/../../../.env` });
-const del = require('del')
+const del = require('del');
 
 module.exports = (on, config) => {
   config.baseUrl = process.env.E2E_HOST || 'http://localhost:4200';
@@ -37,9 +37,9 @@ module.exports = (on, config) => {
   on('after:spec', (spec, results) => {
     if (results.stats.failures === 0 && results.video) {
       // `del()` returns a promise, so it's important to return it to ensure deleting the video is finished before moving on
-      return del(results.video)
+      return del(results.video);
     }
-  })
-  
+  });
+
   return config;
 };

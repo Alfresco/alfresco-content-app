@@ -79,14 +79,12 @@ describe('Personal Files', () => {
   });
 
   describe(`Regular user's personal files`, () => {
-    before(() => {
+    beforeEach(() => {
       cy.clearCookies();
       cy.clearLocalStorage();
       loginPage.loginWith(username);
-    });
-
-    beforeEach(() => {
       page.clickPersonalFiles();
+      page.dataTable.waitForHeader();
     });
 
     it('[C217142] has the correct columns', () => {
@@ -127,6 +125,7 @@ describe('Personal Files', () => {
 
     it('[C213247] page load by URL', () => {
       page.clickTrash();
+      page.dataTable.waitForHeader();
       CyUtils.navigate(APP_ROUTES.PERSONAL_FILES);
       cy.url().should('contain', APP_ROUTES.PERSONAL_FILES);
     });
