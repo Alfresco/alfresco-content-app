@@ -218,9 +218,9 @@ export class CyDataTable extends CyComponent {
     return this.getRowNameCell(name, location).find('span').should('have.attr', 'title');
   }
 
-  // getRowCells(name: string, location: string = '') {
-  //   return this.getRowByName(name, location); //.get(this.cell);
-  // }
+  getRowCells(name: string, location: string = '') {
+    return this.getRowByName(name, location).get(this.cell);
+  }
 
   // async getRowCellsCount(itemName: string): Promise<number> {
   //   return this.getRowCells(itemName).count();
@@ -262,13 +262,13 @@ export class CyDataTable extends CyComponent {
   //   return '';
   // }
 
-  // private getNameLink(itemName: string): ElementFinder {
-  //   return this.getRowNameCell(itemName).$('.adf-datatable-link');
-  // }
+  private getNameLink(itemName: string) {
+    return this.getRowNameCell(itemName).find('.adf-datatable-link');
+  }
 
-  // async hasLinkOnName(itemName: string): Promise<boolean> {
-  //   return this.getNameLink(itemName).isPresent();
-  // }
+  hasLinkOnName(itemName: string) {
+    return this.getNameLink(itemName).should('be.visible');
+  }
 
   doubleClickOnRowByName(name: string, location: string = '') {
     this.getRowFirstCell(name, location).trigger('click').trigger('click').wait(300);
