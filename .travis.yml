@@ -44,7 +44,7 @@ jobs:
   include:
     - stage: Quality and Unit tests
       name: 'Code quality checks'
-      script: npm ci && npm run lint && ./scripts/cypress-install.sh
+      script: npm ci && ./scripts/cypress-install.sh
 
     - stage: Quality and Unit tests
       name: 'Build (without animation)'
@@ -222,4 +222,4 @@ notifications:
 cache:
   directories:
     - ~/.cache/Cypress
-    - e2e-cypress/node_modules
+    - ~/e2e-cypress/node_modules
