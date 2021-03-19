@@ -11,6 +11,8 @@ node_js:
 cache:
   directories:
     - node_modules
+    - ~/.cache/Cypress
+    - ./e2e-cypress/node_modules
 
 branches:
   only:
@@ -225,7 +227,3 @@ notifications:
       - 'Author: %{author} Execution time: *%{duration}*'
       - 'Message: %{message}'
 
-cache:
-  directories:
-    - ~/.cache/Cypress
-    - ~/e2e-cypress/node_modules
