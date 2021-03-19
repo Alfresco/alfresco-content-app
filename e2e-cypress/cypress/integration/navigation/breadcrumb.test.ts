@@ -29,7 +29,6 @@ import { CyRepoClient } from '../../utils/cy-api/cy-repo-client/cy-repo-client';
 import { SITE_VISIBILITY } from '../../utils/cy-configs';
 import { CyUtils } from '../../utils/cy-utils';
 
-
 describe('Breadcrumb', () => {
   const username = `user-${CyUtils.random()}`;
 
@@ -68,43 +67,46 @@ describe('Breadcrumb', () => {
   const adminApiActions = new CyAdminActions();
 
   before(() => {
-    cy.wrap(adminApiActions.createUser({ username }));
+    cy.then(async () => {
+      await adminApiActions.createUser({ username });
+      parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
+      subFolder1Id = (await apis.user.nodes.createFolder(subFolder1, parentId)).entry.id;
+      subFolder2Id = (await apis.user.nodes.createFolder(subFolder2, subFolder1Id)).entry.id;
+      await apis.user.nodes.createFile(fileName1, subFolder2Id);
 
-    cy.then(() => apis.user.nodes.createFolder(parent)).then( (response: any) => {
-      parentId = response.entry.id;
+      parent2Id = (await apis.user.nodes.createFolder(parent2)).entry.id;
+      folder1Id = (await apis.user.nodes.createFolder(folder1, parent2Id)).entry.id;
+
+      await apis.user.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
+      const docLibId = await apis.user.sites.getDocLibId(siteName);
+      parentFromSiteId = (await apis.user.nodes.createFolder(parentFromSite, docLibId)).entry.id;
+      subFolder1FromSiteId = (await apis.user.nodes.createFolder(subFolder1FromSite, parentFromSiteId)).entry.id;
+      subFolder2FromSiteId = (await apis.user.nodes.createFolder(subFolder2FromSite, subFolder1FromSiteId)).entry.id;
+      await apis.user.nodes.createFile(fileName1FromSite, subFolder2FromSiteId);
     });
-    cy.then( () => apis.user.nodes.createFolder(subFolder1, parentId)).then( (response) => subFolder1Id = response.entry.id);
-    cy.then( () => apis.user.nodes.createFolder(subFolder2, subFolder1Id)).then( (response) => subFolder2Id = response.entry.id);
-    cy.then( () => (apis.user.nodes.createFile(fileName1, subFolder2Id))).then( response => subfolder2File = response.entry.name);
-
-    cy.then( () => apis.user.nodes.createFolder(parent2).then( (response: any) => parent2Id = response.entry.id));
-    cy.then( () => apis.user.nodes.createFolder(folder1, parent2Id).then( (response: any) => folder1Id = response.entry.id));
-    cy.then( () => (apis.user.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC)));
-    let docLibId;
-    cy.then( () => (apis.user.sites.getDocLibId(siteName)).then( (res) => docLibId = res));
-
-    console.log(docLibId);
-    cy.then( () => apis.user.nodes.createFolder(parentFromSite, docLibId).then( (response: any) => parentFromSiteId = response.entry.id));
-    cy.then( () => apis.user.nodes.createFolder(subFolder1FromSite, parentFromSiteId).then( (response: any) => subFolder1FromSiteId = response.entry.id));
-    cy.then( () => apis.user.nodes.createFolder(subFolder2FromSite, subFolder1FromSiteId).then( (response: any) => subFolder2FromSiteId = response.entry.id));
-    cy.then( () => (apis.user.nodes.createFile(fileName1FromSite, subFolder2FromSiteId))).then( response => subFolder2FromSiteIdFile = response.entry.name);
-
   });
 
-  beforeEach( () => {
+  before(() => {
+    cy.clearCookies();
+    cy.clearLocalStorage();
     loginPage.loginWith(username);
   });
 
   after(() => {
-    cy.then( () => (apis.user.nodes.deleteNodeById(parentId)));
-    cy.then( () => (apis.user.nodes.deleteNodeById(parent2Id)));
-    cy.then( () => (apis.user.sites.deleteSite(siteName)));
+    cy.then(async () => {
+      await Promise.all([apis.user.nodes.deleteNodeById(parentId), apis.user.nodes.deleteNodeById(parent2Id), apis.user.sites.deleteSite(siteName)]);
+    });
   });
 
   function verifyBreadcrumb(expectedCount: number, expectedText: string) {
     breadcrumb.getRowsCount().should('eq', expectedCount);
-    cy.get(breadcrumb.currentItem).invoke('text').should( $el => {
-      expect($el.trim()).equal(expectedText);
+    // cy.get(breadcrumb.currentItem)
+    //   .invoke('text')
+    //   .should(($el) => {
+    //     expect($el.trim()).equal(expectedText);
+    //   });
+    breadcrumb.getCurrentItem().should((text) => {
+      expect(text.trim()).equal(expectedText);
     });
   }
 
@@ -134,7 +136,7 @@ describe('Breadcrumb', () => {
     verifyBreadcrumb(1, 'Shared Files');
   });
 
-  it('[C260973] Favorites breadcrumb main node',() => {
+  it('[C260973] Favorites breadcrumb main node', () => {
     page.clickFavorites();
     verifyBreadcrumb(1, 'Favorites');
   });
@@ -153,7 +155,7 @@ describe('Breadcrumb', () => {
     const expectedBreadcrumb = ['Personal Files', parent, subFolder1, subFolder2];
     breadcrumb.checkLastItemIsVisible(subFolder2);
 
-    breadcrumb.getAllItems().then(result => {
+    breadcrumb.getAllItems().then((result) => {
       expect(JSON.stringify(result)).equal(JSON.stringify(expectedBreadcrumb));
     });
   });
@@ -166,7 +168,7 @@ describe('Breadcrumb', () => {
     page.dataTable.doubleClickOnRowByName(subFolder2FromSite);
     const expectedItems = ['Favorite Libraries', siteName, parentFromSite, subFolder1FromSite, subFolder2FromSite];
     breadcrumb.checkLastItemIsVisible(subFolder2FromSite);
-    breadcrumb.getAllItems().then(result => {
+    breadcrumb.getAllItems().then((result) => {
       expect(JSON.stringify(result)).equal(JSON.stringify(expectedItems));
     });
   });
@@ -178,7 +180,7 @@ describe('Breadcrumb', () => {
     page.dataTable.doubleClickOnRowByName(subFolder2);
     breadcrumb.clickItem(subFolder1);
     const expectedBreadcrumb = ['Personal Files', parent, subFolder1];
-    breadcrumb.getAllItems().then(result => {
+    breadcrumb.getAllItems().then((result) => {
       expect(JSON.stringify(result)).equal(JSON.stringify(expectedBreadcrumb));
     });
   });
@@ -190,18 +192,21 @@ describe('Breadcrumb', () => {
     page.dataTable.doubleClickOnRowByName(subFolder2);
 
     breadcrumb.checkLastItemIsVisible(subFolder2);
-    breadcrumb.getItemByIndex(2).invoke('attr', 'title').should('eq', subFolder1)
+    breadcrumb.getItemByIndex(2).invoke('attr', 'title').should('eq', subFolder1);
   });
 
   it('[C213238] Breadcrumb updates correctly when folder is renamed', () => {
     page.clickPersonalFiles();
     page.dataTable.doubleClickOnRowByName(parent2);
     page.dataTable.doubleClickOnRowByName(folder1);
-    cy.then( () => apis.user.nodes.renameNode(folder1Id, folder1Renamed)).then( () => {
-      cy.reload();
-      breadcrumb.checkLastItemIsVisible(folder1Renamed);
-      breadcrumb.getCurrentItem().invoke('text').should('eq', ` ${folder1Renamed} `);
+
+    cy.then(async () => {
+      await apis.user.nodes.renameNode(folder1Id, folder1Renamed);
     });
+
+    cy.reload();
+    breadcrumb.checkLastItemIsVisible(folder1Renamed);
+    breadcrumb.getCurrentItem().should('eq', ` ${folder1Renamed} `);
   });
 
   it('[C213240] Browser back navigates to previous location regardless of breadcrumb steps', () => {
@@ -214,10 +219,10 @@ describe('Breadcrumb', () => {
     page.clickTrash();
     cy.url().should('contain', 'trashcan');
     page.dataTable.isEmpty();
-    cy.go('back')
+    cy.go('back');
     breadcrumb.checkLastItemIsVisible(subFolder2);
     const expectedBreadcrumb = ['Personal Files', parent, subFolder1, subFolder2];
-    breadcrumb.getAllItems().then(result => {
+    breadcrumb.getAllItems().then((result) => {
       expect(JSON.stringify(result)).equal(JSON.stringify(expectedBreadcrumb));
     });
   });
@@ -229,19 +234,20 @@ describe('Breadcrumb', () => {
     const user2Api = new CyRepoClient(user2, user2);
 
     before(() => {
-      cy.then( async () => {
+      cy.then(async () => {
         await adminApiActions.createUser({ username: user2 });
         userFolderId = (await user2Api.nodes.createFolder(userFolder)).entry.id;
       });
     });
 
-    beforeEach( () => {
-      loginPage.signOut();
+    before(() => {
+      cy.clearCookies();
+      cy.clearLocalStorage();
       loginPage.loginWithAdmin();
     });
 
     after(() => {
-      cy.then( async () => {
+      cy.then(async () => {
         await user2Api.nodes.deleteNodeById(userFolderId);
       });
     });
@@ -252,14 +258,14 @@ describe('Breadcrumb', () => {
       page.dataTable.doubleClickOnRowByName('User Homes');
       page.dataTable.doubleClickOnRowByName(user2);
       breadcrumb.checkLastItemIsVisible(user2);
-      breadcrumb.getAllItems().then( result => {
+      breadcrumb.getAllItems().then((result) => {
         expect(JSON.stringify(result)).equal(JSON.stringify(['Personal Files', 'User Homes', user2]));
       });
 
       page.dataTable.doubleClickOnRowByName(userFolder);
       breadcrumb.checkLastItemIsVisible(userFolder);
 
-      breadcrumb.getAllItems().then( result => {
+      breadcrumb.getAllItems().then((result) => {
         expect(JSON.stringify(result)).equal(JSON.stringify(['Personal Files', 'User Homes', user2, userFolder]));
       });
     });

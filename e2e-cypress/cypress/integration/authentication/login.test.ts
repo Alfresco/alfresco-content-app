@@ -23,7 +23,6 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// import { CyRepoClient } from '../../utils/cy-api/cy-repo-client/cy-repo-client';
 import { CyAdminActions } from '../../utils/cy-api/cy-admin-actions';
 import { CyLoginPage, CyBrowsingPage } from '../../pages';
 import { CyUtils } from '../../utils/cy-utils';
@@ -57,6 +56,11 @@ describe('Login', () => {
     password: 'user2 password'
   };
   const newPassword = 'new password';
+
+  beforeEach(() => {
+    cy.clearCookies();
+    cy.clearLocalStorage();
+  });
 
   describe('general tests', () => {
     beforeEach(() => {

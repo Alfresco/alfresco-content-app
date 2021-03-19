@@ -23,3 +23,22 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+import "cypress-localstorage-commands"
+
+beforeEach(() => {
+  cy.restoreLocalStorage();
+});
+
+beforeEach(() => {
+  // Preserve cookie in every test
+  Cypress.Cookies.defaults({
+    preserve: (cookie) => {
+      return true;
+    }
+  });
+});
+
+afterEach(() => {
+  cy.saveLocalStorage();
+});

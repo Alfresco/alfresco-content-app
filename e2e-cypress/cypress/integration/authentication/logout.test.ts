@@ -41,6 +41,8 @@ describe('Logout', () => {
   });
 
   beforeEach(() => {
+    cy.clearCookies();
+    cy.clearLocalStorage();
     loginPage.loginWith(johnDoe);
   });
 

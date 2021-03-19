@@ -31,20 +31,6 @@ import { CyMenu } from '../menu/cy-menu';
 import { CyUtils } from '../../utils/cy-utils';
 
 export class CyDataTable extends CyComponent {
-
-  private static selectors = {
-    columnHeader: '.adf-datatable-row .adf-datatable-cell-header .adf-datatable-cell-value',
-    sortedColumnHeader: `
-      .adf-datatable__header--sorted-asc .adf-datatable-cell-value,
-      .adf-datatable__header--sorted-desc .adf-datatable-cell-value
-    `,
-    row: '.adf-datatable-row[data-automation-id^="datatable-row"]',
-    cell: '.adf-datatable-cell-container',
-    lockOwner: '.aca-locked-by',
-    searchResultsRow: 'aca-search-results-row',
-    searchResultsRowLine: '.line'
-  };
-
   columnHeader = '.adf-datatable-row .adf-datatable-cell-header .adf-datatable-cell-value';
   sortedColumnHeader = `
     .adf-datatable__header--sorted-asc .adf-datatable-cell-value,
@@ -67,15 +53,19 @@ export class CyDataTable extends CyComponent {
 
   columnModified = '.adf-datatable-header [data-automation-id="auto_id_modifiedAt"]';
 
+  locationLink = '.aca-location-link';
+
+  root = 'adf-datatable';
+
   menu = new CyMenu();
 
   constructor(ancestor?: string) {
     super('adf-datatable', ancestor);
   }
 
-  // async waitForHeader(): Promise<void> {
-  //   return waitForPresence(this.head, '--- timeout waitForHeader ---');
-  // }
+  waitForHeader() {
+    return cy.get(this.head).should('exist');
+  }
 
   // async waitForBody(): Promise<void> {
   //   return waitForPresence(this.body, '--- timeout waitForBody ---');
@@ -91,7 +81,12 @@ export class CyDataTable extends CyComponent {
   // }
 
   getColumnHeadersText() {
-    return cy.get(this.head).filter(this.columnHeader).invoke('text');
+    return cy
+      .get(this.head)
+      .find(this.columnHeader)
+      .then(($els) => {
+        return Cypress._.map(Cypress.$.makeArray($els), 'innerText');
+      });
   }
 
   // getColumnHeaderByLabel(label: string): ElementFinder {
@@ -126,7 +121,7 @@ export class CyDataTable extends CyComponent {
   }
 
   private getSortedColumnHeader() {
-    const locator = (CyDataTable.selectors.sortedColumnHeader);
+    const locator = this.sortedColumnHeader;
     return cy.get(this.head).get(locator);
   }
 
@@ -147,13 +142,13 @@ export class CyDataTable extends CyComponent {
   //   return 'none';
   // }
 
-  // private getRows(): ElementArrayFinder {
-  //   return this.body.all(by.css(DataTable.selectors.row));
+  // private getRows() {
+  //   return cy.get(this.body.all(by.css(DataTable.selectors.row));
   // }
 
-  // async getRowsCount(): Promise<number> {
-  //   return this.getRows().count();
-  // }
+  getRowsCount() {
+    return cy.get(this.body).find(this.row).its('length');
+  }
 
   // private getSelectedRows(): ElementArrayFinder {
   //   return this.body.all(by.css('.adf-datatable-row.adf-is-selected'));
@@ -169,14 +164,58 @@ export class CyDataTable extends CyComponent {
   //   return this.getSelectedRows().count();
   // }
 
+  // getRowByName(name: string, location: string = '') {
+  //   if (location) {
+  //     return cy.get(this.body).find(this.row).contains(name).filter(this.cell).contains(location);
+  //     // .all(by.cssContainingText(DataTable.selectors.row, name))
+  //     // .filter(async (elem) => browser.isElementPresent(elem.element(by.cssContainingText(DataTable.selectors.cell, location))))
+  //     // .first();
+  //   }
+  //   // return cy.get(this.row).contains(this.cell, name).parents(this.row);
+  //   return cy.contains(this.cell, name).closest(this.row);
+  // }
+
   getRowByName(name: string, location: string = '') {
-    if (location) {
-      return cy.get(this.body).get(this.row).contains(name).filter(this.cell).contains(location);
-      // .all(by.cssContainingText(DataTable.selectors.row, name))
-      // .filter(async (elem) => browser.isElementPresent(elem.element(by.cssContainingText(DataTable.selectors.cell, location))))
-      // .first();
-    }
-    return cy.contains(this.cell, name, { timeout: 8000 }).closest(this.row);
+//     if (location) {
+//       return cy.get(this.body).get(this.row).contains(name).filter(this.cell).contains(location);
+//       // .all(by.cssContainingText(DataTable.selectors.row, name))
+//       // .filter(async (elem) => browser.isElementPresent(elem.element(by.cssContainingText(DataTable.selectors.cell, location))))
+//       // .first();
+//     }
+//     return cy.contains(this.cell, name, { timeout: 8000 }).closest(this.row);
+    return cy.contains(`${this.body} ${this.row}`, name);
+  }
+
+  // private getItemLocationEl(name: string) {
+  //   return this.getRowByName(name).within(() => {
+  //     return cy.get('.aca-location-link');
+  //   });
+  // }
+
+  getItemLocation(name: string) {
+    return this.getRowByName(name).within(() => {
+      return cy.get(this.locationLink);
+    });
+  }
+
+  getItemLocationTooltip(name: string) {
+    return this.getRowByName(name)
+      .find(`${this.locationLink} .adf-datatable-cell-value`)
+      .invoke('show')
+      .trigger('mouseenter')
+      .wait(1000)
+      .should('have.attr', 'title');
+  }
+
+  clickItemLocation(name: string) {
+    return this.getRowByName(name).within(() => {
+      return cy.get(this.locationLink).click();
+    });
+  }
+
+  getItemNameTooltip(name: string, location: string = '') {
+    // return this.getRowNameCellSpan(name, location).getAttribute('title');
+    return this.getRowNameCell(name, location).find('span').should('have.attr', 'title');
   }
 
   // getRowCells(name: string, location: string = '') {
@@ -191,16 +230,12 @@ export class CyDataTable extends CyComponent {
     return this.getRowByName(name, location).children().first();
   }
 
-  // private getRowNameCell(name: string, location: string = ''): ElementFinder {
-  //   return this.getRowCells(name, location).get(1);
-  // }
+  private getRowNameCell(name: string, location: string = '') {
+    return this.getRowByName(name, location).children().eq(1);
+  }
 
   // private getRowNameCellSpan(name: string, location: string = ''): ElementFinder {
   //   return this.getRowNameCell(name, location).$('span');
-  // }
-
-  // async getItemNameTooltip(name: string, location: string = ''): Promise<string> {
-  //   return this.getRowNameCellSpan(name, location).getAttribute('title');
   // }
 
   // async hasCheckMarkIcon(itemName: string, location: string = ''): Promise<boolean> {
@@ -236,7 +271,7 @@ export class CyDataTable extends CyComponent {
   // }
 
   doubleClickOnRowByName(name: string, location: string = '') {
-    this.getRowFirstCell(name, location).should('be.visible').dblclick();
+    this.getRowFirstCell(name, location).trigger('click').trigger('click').wait(300);
   }
 
   // async selectItem(name: string, location: string = ''): Promise<void> {
@@ -306,32 +341,19 @@ export class CyDataTable extends CyComponent {
   //   await browser.actions().click(protractor.Button.RIGHT).perform();
   // }
 
-  // private getItemLocationEl(name: string): ElementFinder {
-  //   return this.getRowByName(name).element(by.css('.aca-location-link'));
-  // }
-
-  // async getItemLocation(name: string): Promise<string> {
-  //   return this.getItemLocationEl(name).getText();
-  // }
-
-  // async getItemLocationTooltip(name: string): Promise<string> {
-  //   const location = this.getItemLocationEl(name).$('a');
-  //   const condition = () => location.getAttribute('title').then((value) => value && value.length > 0);
-
-  //   await browser.actions().mouseMove(location).perform();
-
-  //   await browser.wait(condition, BROWSER_WAIT_TIMEOUT);
-  //   return location.getAttribute('title');
-  // }
-
-  // async clickItemLocation(name: string): Promise<void> {
-  //   await this.getItemLocationEl(name).click();
-  // }
-
   isEmpty() {
     return cy
       .get('adf-datatable')
       .find(this.emptyList)
+      .then((elem) => {
+        return elem.length > 0;
+      });
+  }
+
+  isEmptyDragAndDrop() {
+    return cy
+      .get('adf-datatable')
+      .find(this.emptyFolderDragAndDrop)
       .then((elem) => {
         return elem.length > 0;
       });
@@ -386,9 +408,24 @@ export class CyDataTable extends CyComponent {
   //   return this.getRowByName(name).element(by.css('adf-library-role-column')).getText();
   // }
 
-  // async isItemPresent(name: string, location?: string): Promise<boolean> {
-  //   return this.getRowByName(name, location).isPresent();
-  // }
+  isItemPresent(name: string, location?: string) {
+    // cy.get(this.body)
+    //   .within(() => {
+    //     cy.get(this.row).should('exist');
+    //   })
+    //   .as('rows');
+
+    cy.get(`${this.body} ${this.row}`).should('exist').as('rows');
+
+    let isPresent = false;
+    cy.get('@rows').each((row) => {
+      const text = row.text();
+      if (text.includes(name) && text.includes(location)) {
+        isPresent = true;
+      }
+    });
+    return isPresent;
+  }
 
   // private async getEntireDataTableText(): Promise<string[]> {
   //   return this.getRows().map((row) => {

@@ -82,19 +82,19 @@ export class CyBrowsingPage extends CyPage {
     this.sidenav.clickLink(SIDEBAR_LABELS.RECENT_FILES);
   }
 
-  // async clickRecentFilesAndWait(): Promise<void> {
-  //   await this.clickRecentFiles();
-  //   await this.dataTable.waitForHeader();
-  // }
+  clickRecentFilesAndWait() {
+    this.clickRecentFiles();
+    this.dataTable.waitForHeader();
+  }
 
   clickSharedFiles() {
     this.sidenav.clickLink(SIDEBAR_LABELS.SHARED_FILES);
   }
 
-  // async clickSharedFilesAndWait(): Promise<void> {
-  //   await this.clickSharedFiles();
-  //   await this.dataTable.waitForHeader();
-  // }
+  clickSharedFilesAndWait() {
+    this.clickSharedFiles();
+    this.dataTable.waitForHeader();
+  }
 
   clickFavorites() {
     this.sidenav.clickLink(SIDEBAR_LABELS.FAVORITES);
@@ -109,8 +109,8 @@ export class CyBrowsingPage extends CyPage {
     this.sidenav.clickLink(SIDEBAR_LABELS.TRASH);
   }
 
-  // async clickTrashAndWait(): Promise<void> {
-  //   await this.clickTrash();
-  //   await this.dataTable.waitForHeader();
-  // }
+  clickTrashAndWait() {
+    this.clickTrash();
+    this.dataTable.waitForHeader();
+  }
 }

@@ -67,7 +67,9 @@ describe('Cypress Page titles', () => {
       });
     });
 
-    beforeEach(() => {
+    before(() => {
+      cy.clearCookies();
+      cy.clearLocalStorage();
       loginPage.loginWithAdmin();
     });
 

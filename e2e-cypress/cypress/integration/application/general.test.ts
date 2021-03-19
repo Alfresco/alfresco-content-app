@@ -23,7 +23,6 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// import { BrowsingPage, LoginPage, CreateOrEditFolderDialog, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 import { CyLoginPage, CyBrowsingPage } from './../../pages';
 import { CyUtils } from './../../utils/cy-utils';
 import { CyRepoClient } from '../../utils/cy-api/cy-repo-client/cy-repo-client';

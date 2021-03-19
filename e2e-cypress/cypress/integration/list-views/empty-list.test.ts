@@ -42,7 +42,9 @@ describe('Empty list views', () => {
     });
   });
 
-  beforeEach(() => {
+  before(() => {
+    cy.clearCookies();
+    cy.clearLocalStorage();
     loginPage.loginWith(username);
   });
 

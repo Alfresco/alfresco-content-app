@@ -28,16 +28,9 @@ export class Breadcrumb {
   currentItem = '.adf-breadcrumb-item-current';
 
   getAllItems() {
-    return new Cypress.Promise((resolve, revoke) => {
-      cy.get(this.items).invoke('text').then( response => {
-        const result = response.split('chevron_right').map( item => item.trim());
-        resolve(result);
-      });
+    return cy.get(this.items).then(($els) => {
+      return Cypress._.map(Cypress.$.makeArray($els), (el) => el.innerText.split('\nchevron_right')[0]);
     });
-    // return cy.get(this.items).each((elem) => {
-    //   const str = elem.text();
-    //   return str.replace('\nchevron_right', '');
-    // }).invoke('text');
   }
 
   checkLastItemIsVisible(name: string) {
@@ -45,7 +38,7 @@ export class Breadcrumb {
   }
 
   getCurrentItem() {
-    return cy.get(this.currentItem);
+    return cy.get(this.currentItem).invoke('text');
   }
 
   getItemByIndex(index: number) {
