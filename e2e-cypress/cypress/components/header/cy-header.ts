@@ -34,6 +34,8 @@ export class CyHeader extends CyComponent {
   logoLink = '.app-menu__title';
   moreActions = '[id="app.header.more"]';
   sidenavToggle = `[id='adf-sidebar-toggle-start']`;
+  sidenavExpanded = '.app-sidenav[data-automation-id="expanded"]';
+  sidenavCollapsed = '.app-sidenav[data-automation-id="collapsed"]';
 
   userInfo = new CyUserInfo();
   menu = new CyMenu();
@@ -52,6 +54,37 @@ export class CyHeader extends CyComponent {
   closeMoreMenu() {
     cy.get(this.moreActions).click();
     // await this.menu.waitForMenuToClose();
+  }
+
+
+  isSidenavExpanded() {
+    return cy.get('body')
+    .find(this.sidenavExpanded)
+    .then((el) => {
+      return el.length > 0;
+    });
+  }
+
+  isSidenavCollapsed() {
+    return cy.get('body')
+    .find(this.sidenavCollapsed)
+    .then((el) => {
+      return el.length > 0;
+    });
+  }
+
+  expandSidenav() {
+    if (! this.isSidenavExpanded()){
+      cy.get(this.sidenavToggle).click();
+      cy.waitFor(this.sidenavExpanded);
+    }
+  }
+
+  collapseSideNav() {
+    if (this.isSidenavExpanded()){
+      cy.get(this.sidenavToggle).click();
+      cy.waitFor(this.sidenavCollapsed);
+    }
   }
 
   // async isSidenavExpanded() {

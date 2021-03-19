@@ -36,6 +36,11 @@ export class CyBrowsingPage extends CyPage {
   dataTable = new CyDataTable(this.appRoot);
   pagination = new CyPagination(this.appRoot);
 
+
+  checkUrlContains(pageRoute:string){
+    cy.url().should('contain', pageRoute);
+  }
+
   clickPersonalFiles() {
     this.sidenav.clickLink(SIDEBAR_LABELS.PERSONAL_FILES);
   }
@@ -65,6 +70,15 @@ export class CyBrowsingPage extends CyPage {
   //   await this.goToFavoriteLibraries();
   //   await this.dataTable.waitForHeader();
   // }
+
+  isFileLibrariesMenuExpanded() {
+    return cy.get('body')
+    .find('.mat-expanded .action-button')
+    .contains(SIDEBAR_LABELS.FILE_LIBRARIES)
+    .then((el) => {
+      return el.length > 0;
+    });
+  }
 
   goToMyLibraries() {
     if (!this.sidenav.isFileLibrariesMenuExpanded()) {
