@@ -560,7 +560,7 @@
               "click": "DELETE_LIBRARY"
             },
             "rules": {
-              "visible": "app.selection.library"
+              "visible": "app.toolbar.favorite.canEditMetadata"
             }
           }
         ]
