@@ -26,7 +26,6 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { CoreModule, AlfrescoApiService } from '@alfresco/adf-core';
 import { ToggleFavoriteLibraryComponent } from './toggle-favorite-library.component';
-import { LibraryFavoriteDirective } from '../../../directives/library-favorite.directive';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppTestingModule } from '../../../testing/app-testing.module';
@@ -48,7 +47,7 @@ describe('ToggleFavoriteLibraryComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), CoreModule.forRoot(), AppTestingModule],
-      declarations: [ToggleFavoriteLibraryComponent, LibraryFavoriteDirective],
+      declarations: [ToggleFavoriteLibraryComponent],
       providers: [
         {
           provide: Router,

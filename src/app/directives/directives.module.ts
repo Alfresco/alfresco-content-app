@@ -25,17 +25,11 @@
 
 import { NgModule } from '@angular/core';
 import { DocumentListDirective } from './document-list.directive';
-import { LibraryMembershipDirective } from './library-membership.directive';
-import { LibraryFavoriteDirective } from './library-favorite.directive';
 import { SharedDirectivesModule } from '@alfresco/aca-shared';
-
-export function directives() {
-  return [DocumentListDirective, LibraryMembershipDirective, LibraryFavoriteDirective];
-}
 
 @NgModule({
   imports: [SharedDirectivesModule],
-  declarations: directives(),
-  exports: [directives(), SharedDirectivesModule]
+  declarations: [DocumentListDirective],
+  exports: [DocumentListDirective, SharedDirectivesModule]
 })
 export class DirectivesModule {}

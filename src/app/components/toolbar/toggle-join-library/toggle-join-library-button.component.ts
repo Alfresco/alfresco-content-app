@@ -36,7 +36,7 @@ import { ProfileState, SelectionState } from '@alfresco/adf-extensions';
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { LibraryMembershipErrorEvent, LibraryMembershipToggleEvent } from '../../../directives/library-membership.directive';
+import { LibraryMembershipErrorEvent, LibraryMembershipToggleEvent } from '@alfresco/adf-core';
 import { ContentManagementService } from '../../../services/content-management.service';
 
 @Component({
@@ -48,7 +48,7 @@ import { ContentManagementService } from '../../../services/content-management.s
       #membership="libraryMembership"
       (toggle)="onToggleEvent($event)"
       (error)="onErrorEvent($event)"
-      [acaLibraryMembership]="(selection$ | async).library"
+      [adf-library-membership]="(selection$ | async).library"
       [isAdmin]="(profile$ | async).isAdmin"
       [attr.title]="(membership.isJoinRequested | async) ? ('APP.ACTIONS.CANCEL_JOIN' | translate) : ('APP.ACTIONS.JOIN' | translate)"
     >
