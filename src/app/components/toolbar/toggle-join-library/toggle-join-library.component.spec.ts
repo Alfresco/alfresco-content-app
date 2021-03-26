@@ -25,8 +25,7 @@
 
 import { of } from 'rxjs';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AlfrescoApiService } from '@alfresco/adf-core';
-import { LibraryMembershipDirective } from '../../../directives/library-membership.directive';
+import { AlfrescoApiService, DirectiveModule } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ReloadLibraryAction, SnackbarErrorAction, SnackbarInfoAction } from '@alfresco/aca-shared/store';
@@ -51,8 +50,8 @@ describe('ToggleJoinLibraryComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [AppTestingModule],
-      declarations: [ToggleJoinLibraryButtonComponent, LibraryMembershipDirective],
+      imports: [AppTestingModule, DirectiveModule],
+      declarations: [ToggleJoinLibraryButtonComponent],
       providers: [
         {
           provide: Store,

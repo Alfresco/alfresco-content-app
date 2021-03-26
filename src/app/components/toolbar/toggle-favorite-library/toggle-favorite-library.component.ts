@@ -38,7 +38,7 @@ import { Subject } from 'rxjs';
     <button
       mat-menu-item
       (toggle)="onToggleEvent()"
-      [acaFavoriteLibrary]="library"
+      [adf-favorite-library]="library"
       [attr.title]="library.isFavorite ? ('APP.ACTIONS.REMOVE_FAVORITE' | translate) : ('APP.ACTIONS.FAVORITE' | translate)"
     >
       <mat-icon *ngIf="library.isFavorite">star</mat-icon>
