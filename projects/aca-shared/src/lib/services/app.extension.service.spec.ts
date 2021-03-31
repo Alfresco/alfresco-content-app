@@ -880,7 +880,7 @@ describe('AppExtensionService', () => {
         },
         languages: [
           { key: 'en', label: 'English' },
-          { key: 'fr', label: 'Français' }
+          { key: 'fr', label: 'French' }
         ],
         pagination: {
           size: 25,
