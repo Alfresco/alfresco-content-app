@@ -10,6 +10,21 @@
   "$references": [],
   "$ignoreReferenceList": [],
 
+  "configuration": {
+    "application": {
+      "name": "Modified Application Name"
+    },
+    "languages.$replace": [
+      {
+        "key": "lang",
+        "label": "Test Language"
+      }
+    ],
+    "pagination": {
+      "supportedPageSizes": [200]
+    }
+  },
+
   "rules": [
     {
       "id": "app.toolbar.favorite.canAdd",

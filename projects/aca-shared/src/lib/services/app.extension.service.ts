@@ -136,6 +136,7 @@ export class AppExtensionService implements RuleContext {
       return;
     }
 
+    this.loadConfiguration(config);
     this.settingGroups = this.loader.getElements<SettingsGroupRef>(config, 'settings');
 
     this.headerActions = this.loader.getContentActions(config, 'features.header');
@@ -266,6 +267,16 @@ export class AppExtensionService implements RuleContext {
             .reduce(reduceEmptyMenus, [])
         };
       });
+  }
+
+  loadConfiguration(config: ExtensionConfig) {
+    if (config) {
+      const configuration = config['configuration'];
+
+      if (configuration) {
+        this.appConfig.config = mergeObjects(this.appConfig.config, configuration);
+      }
+    }
   }
 
   loadContentMetadata(config: ExtensionConfig): any {

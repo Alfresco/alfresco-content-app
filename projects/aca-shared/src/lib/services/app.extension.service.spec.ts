@@ -871,4 +871,49 @@ describe('AppExtensionService', () => {
       expect(actions.children[1].id).toBe('header.action.1');
     });
   });
+
+  describe('configuration', () => {
+    it('should merge changes with the app config', () => {
+      appConfigService.config = {
+        application: {
+          name: 'Original Name'
+        },
+        languages: [
+          { key: 'en', label: 'English' },
+          { key: 'fr', label: 'Français' }
+        ],
+        pagination: {
+          size: 25,
+          supportedPageSizes: [25, 50, 100]
+        }
+      };
+
+      const data: any = {
+        configuration: {
+          application: {
+            name: 'Modified Application Name'
+          },
+          'languages.$replace': [
+            {
+              key: 'lang',
+              label: 'Test Language'
+            }
+          ],
+          pagination: {
+            supportedPageSizes: [200]
+          }
+        }
+      };
+
+      service.loadConfiguration(data);
+
+      expect(appConfigService.get('application.name')).toEqual('Modified Application Name');
+
+      const languages = appConfigService.get<any[]>('languages');
+      expect(languages).toEqual([{ key: 'lang', label: 'Test Language' }]);
+
+      const pagination = appConfigService.get<number[]>('pagination.supportedPageSizes');
+      expect(pagination).toEqual([25, 50, 100, 200]);
+    });
+  });
 });
