@@ -131,8 +131,13 @@ export class AppViewerComponent implements OnInit, OnDestroy {
       .subscribe((ruleContext) => {
         this.selection = ruleContext.selection;
 
-        this.toolbarActions = this.extensions.getViewerToolbarActions();
-        this.openWith = this.extensions.openWithActions;
+        if (this.toolbarActions.length === 0) {
+          this.toolbarActions = this.extensions.getViewerToolbarActions();
+        }
+
+        if (this.openWith.length === 0) {
+          this.openWith = this.extensions.openWithActions;
+        }
       });
 
     this.route.params.subscribe((params) => {
@@ -200,18 +205,19 @@ export class AppViewerComponent implements OnInit, OnDestroy {
     return obj.id;
   }
 
-  async displayNode(id: string) {
-    if (id) {
+  async displayNode(nodeId: string) {
+    if (nodeId) {
       try {
-        this.node = await this.contentApi.getNodeInfo(id).toPromise();
+        this.node = await this.contentApi.getNodeInfo(nodeId).toPromise();
         this.store.dispatch(new SetSelectedNodesAction([{ entry: this.node }]));
 
         if (this.node && this.node.isFile) {
+          this.nodeId = this.node.id;
+
           const nearest = await this.getNearestNodes(this.node.id, this.node.parentId);
 
           this.previousNodeId = nearest.left;
           this.nextNodeId = nearest.right;
-          this.nodeId = this.node.id;
           this.fileName = this.node.name + this.node?.properties?.['cm:versionLabel'];
           return;
         }
@@ -220,7 +226,7 @@ export class AppViewerComponent implements OnInit, OnDestroy {
 
         if (statusCode !== 401) {
           this.router.navigate([this.previewLocation, { outlets: { viewer: null } }]).then(() => {
-            this.router.navigate([this.previewLocation, id]);
+            this.router.navigate([this.previewLocation, nodeId]);
           });
         }
       }
