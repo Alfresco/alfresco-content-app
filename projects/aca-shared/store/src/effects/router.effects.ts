@@ -31,7 +31,14 @@ import { map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../states/app.state';
 import { Location } from '@angular/common';
-import { NavigateUrlAction, RouterActionTypes, NavigateRouteAction, NavigateToFolder, NavigateToParentFolder, NavigateToPreviousPage } from '../actions/router.actions';
+import {
+  NavigateUrlAction,
+  RouterActionTypes,
+  NavigateRouteAction,
+  NavigateToFolder,
+  NavigateToParentFolder,
+  NavigateToPreviousPage
+} from '../actions/router.actions';
 import { SnackbarErrorAction } from '../actions/snackbar.actions';
 
 @Injectable()
@@ -79,7 +86,7 @@ export class RouterEffects {
   @Effect({ dispatch: false })
   navigateToPreviousPage$ = this.actions$.pipe(
     ofType<NavigateToPreviousPage>(RouterActionTypes.NavigateToPreviousPage),
-    map(() =>  this.location.back())
+    map(() => this.location.back())
   );
 
   private navigateToFolder(node: MinimalNodeEntryEntity) {

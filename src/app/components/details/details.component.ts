@@ -1,4 +1,3 @@
-
 /*!
  * @license
  * Alfresco Example Content Application

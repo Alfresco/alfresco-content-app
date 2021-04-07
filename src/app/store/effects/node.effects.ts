@@ -60,7 +60,7 @@ export class NodeEffects {
     private actions$: Actions,
     private contentService: ContentManagementService,
     private viewUtils: ViewUtilService
-  ) { }
+  ) {}
 
   @Effect({ dispatch: false })
   shareNode$ = this.actions$.pipe(

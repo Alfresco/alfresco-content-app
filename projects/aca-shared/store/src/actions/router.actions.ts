@@ -31,7 +31,7 @@ export enum RouterActionTypes {
   NavigateRoute = 'NAVIGATE_ROUTE',
   NavigateFolder = 'NAVIGATE_FOLDER',
   NavigateParentFolder = 'NAVIGATE_PARENT_FOLDER',
-  NavigateToPreviousPage = 'NAVIGATE_TO_PREVIOUS_PAGE',
+  NavigateToPreviousPage = 'NAVIGATE_TO_PREVIOUS_PAGE'
 }
 
 export class NavigateUrlAction implements Action {

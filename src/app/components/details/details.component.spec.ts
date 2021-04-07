@@ -44,7 +44,7 @@ describe('DetailsComponent', () => {
   let fixture: ComponentFixture<DetailsComponent>;
   let contentApiService: ContentApiService;
   let store;
-  let router: any = {
+  const router: any = {
     url: '',
     navigate: jasmine.createSpy('navigate')
   };
@@ -77,7 +77,6 @@ describe('DetailsComponent', () => {
       schemas: [NO_ERRORS_SCHEMA]
     });
 
-
     fixture = TestBed.createComponent(DetailsComponent);
     component = fixture.componentInstance;
     contentApiService = TestBed.inject(ContentApiService);
@@ -108,5 +107,4 @@ describe('DetailsComponent', () => {
     fixture.detectChanges();
     expect(store.dispatch).toHaveBeenCalledWith(new SetSelectedNodesAction([{ entry: { id: 'libraryId' } } as NodeEntry]));
   });
-
 });
