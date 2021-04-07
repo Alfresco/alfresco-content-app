@@ -23,10 +23,16 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { PermissionsManagerComponent } from './permission-manager.component';
+import { Component, Input } from '@angular/core';
+import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 
-describe('PermissionsManagerComponent', () => {
-  it('should be defined', () => {
-    expect(PermissionsManagerComponent).toBeDefined();
-  });
-});
+@Component({
+  selector: 'app-permissions-tab',
+  template: `<adf-permission-list [nodeId]="node?.id"></adf-permission-list>`
+})
+export class PermissionsTabComponent {
+  @Input()
+  node: MinimalNodeEntryEntity;
+
+  constructor() {}
+}

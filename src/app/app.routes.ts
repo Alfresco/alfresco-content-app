@@ -36,6 +36,7 @@ import { AuthGuardEcm, BlankPageComponent } from '@alfresco/adf-core';
 import { FavoritesComponent } from './components/favorites/favorites.component';
 import { RecentFilesComponent } from './components/recent-files/recent-files.component';
 import { SharedFilesComponent } from './components/shared-files/shared-files.component';
+import { DetailsComponent } from './components/details/details.component';
 
 export const APP_ROUTES: Routes = [
   {
@@ -89,6 +90,13 @@ export const APP_ROUTES: Routes = [
               sortingPreferenceKey: 'personal-files',
               title: 'APP.BROWSE.PERSONAL.TITLE',
               defaultNodeId: '-my-'
+            }
+          },
+          {
+            path: 'details/:nodeId',
+            component: DetailsComponent,
+            data: {
+              navigateSource: 'personal-files'
             }
           },
           // deprecated, backwards compatibility with ACA 1.8

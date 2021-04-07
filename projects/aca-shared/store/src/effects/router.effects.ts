@@ -30,12 +30,13 @@ import { MinimalNodeEntryEntity, PathInfoEntity } from '@alfresco/js-api';
 import { map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../states/app.state';
-import { NavigateUrlAction, RouterActionTypes, NavigateRouteAction, NavigateToFolder, NavigateToParentFolder } from '../actions/router.actions';
+import { Location } from '@angular/common';
+import { NavigateUrlAction, RouterActionTypes, NavigateRouteAction, NavigateToFolder, NavigateToParentFolder, NavigateToPreviousPage } from '../actions/router.actions';
 import { SnackbarErrorAction } from '../actions/snackbar.actions';
 
 @Injectable()
 export class RouterEffects {
-  constructor(private store: Store<AppStore>, private actions$: Actions, private router: Router) {}
+  constructor(private store: Store<AppStore>, private actions$: Actions, private router: Router, private location: Location) {}
 
   @Effect({ dispatch: false })
   navigateUrl$ = this.actions$.pipe(
@@ -73,6 +74,12 @@ export class RouterEffects {
         this.navigateToParentFolder(action.payload.entry);
       }
     })
+  );
+
+  @Effect({ dispatch: false })
+  navigateToPreviousPage$ = this.actions$.pipe(
+    ofType<NavigateToPreviousPage>(RouterActionTypes.NavigateToPreviousPage),
+    map(() =>  this.location.back())
   );
 
   private navigateToFolder(node: MinimalNodeEntryEntity) {

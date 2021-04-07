@@ -9,40 +9,74 @@
   "$description": "Core application extensions and features",
   "$references": [],
   "$ignoreReferenceList": [],
-
   "rules": [
     {
       "id": "app.toolbar.favorite.canAdd",
       "type": "core.every",
       "parameters": [
-        { "type": "rule", "value": "app.selection.canAddFavorite" },
-        { "type": "rule", "value": "app.navigation.isNotRecentFiles" },
-        { "type": "rule", "value": "app.navigation.isNotSharedFiles" },
-        { "type": "rule", "value": "app.navigation.isNotSearchResults" },
-        { "type": "rule", "value": "app.navigation.isNotFavorites" }
+        {
+          "type": "rule",
+          "value": "app.selection.canAddFavorite"
+        },
+        {
+          "type": "rule",
+          "value": "app.navigation.isNotRecentFiles"
+        },
+        {
+          "type": "rule",
+          "value": "app.navigation.isNotSharedFiles"
+        },
+        {
+          "type": "rule",
+          "value": "app.navigation.isNotSearchResults"
+        },
+        {
+          "type": "rule",
+          "value": "app.navigation.isNotFavorites"
+        }
       ]
     },
     {
       "id": "app.toolbar.favorite.canRemove",
       "type": "core.every",
       "parameters": [
-        { "type": "rule", "value": "app.selection.canRemoveFavorite" },
-        { "type": "rule", "value": "app.navigation.isNotRecentFiles" },
-        { "type": "rule", "value": "app.navigation.isNotSharedFiles" },
-        { "type": "rule", "value": "app.navigation.isNotSearchResults" },
-        { "type": "rule", "value": "app.navigation.isNotFavorites" }
+        {
+          "type": "rule",
+          "value": "app.selection.canRemoveFavorite"
+        },
+        {
+          "type": "rule",
+          "value": "app.navigation.isNotRecentFiles"
+        },
+        {
+          "type": "rule",
+          "value": "app.navigation.isNotSharedFiles"
+        },
+        {
+          "type": "rule",
+          "value": "app.navigation.isNotSearchResults"
+        },
+        {
+          "type": "rule",
+          "value": "app.navigation.isNotFavorites"
+        }
       ]
     },
     {
       "id": "app.toolbar.favorite.canEditMetadata",
       "type": "core.every",
       "parameters": [
-        { "type": "rule", "value": "app.selection.library" },
-        { "type": "rule", "value": "isLibraryManager" }
+        {
+          "type": "rule",
+          "value": "app.selection.library"
+        },
+        {
+          "type": "rule",
+          "value": "isLibraryManager"
+        }
       ]
     }
   ],
-
   "features": {
     "header": [
       {
@@ -1003,7 +1037,6 @@
               "type": "separator",
               "order": 800
             },
-
             {
               "id": "app.viewer.versions",
               "order": 900,
@@ -1081,6 +1114,20 @@
       ]
     },
     "sidebar": {
+      "toolbar": [
+        {
+          "id": "app.sidebar.expand",
+          "order": 100,
+          "title": "APP.INFO_DRAWER.TABS.EXPAND",
+          "icon": "chevron_left",
+          "actions": {
+            "click": "MANAGE_PERMISSIONS"
+          },
+          "rules": {
+            "visible": "app.navigation.isNotLibraries"
+          }
+        }
+      ],
       "tabs": [
         {
           "id": "app.sidebar.properties",
@@ -1106,6 +1153,15 @@
           "disabled": true,
           "title": "APP.INFO_DRAWER.TABS.VERSIONS",
           "component": "app.components.tabs.versions",
+          "rules": {
+            "visible": "app.navigation.isNotLibraries"
+          }
+        },
+        {
+          "id": "app.sidebar.permissions",
+          "order": 400,
+          "title": "APP.INFO_DRAWER.TABS.PERMISSIONS",
+          "component": "app.components.tabs.permissions",
           "rules": {
             "visible": "app.navigation.isNotLibraries"
           }
@@ -1141,10 +1197,8 @@
               "dp:restrictable",
               "fm:commentsRollup",
               "qshare:shared",
-
               "exif:exif",
               "cm:effectivity",
-
               "cm:likesRatingSchemeRollups",
               "cm:lockable",
               "cm:ownable"

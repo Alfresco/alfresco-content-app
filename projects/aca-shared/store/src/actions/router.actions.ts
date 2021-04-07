@@ -30,7 +30,8 @@ export enum RouterActionTypes {
   NavigateUrl = 'NAVIGATE_URL',
   NavigateRoute = 'NAVIGATE_ROUTE',
   NavigateFolder = 'NAVIGATE_FOLDER',
-  NavigateParentFolder = 'NAVIGATE_PARENT_FOLDER'
+  NavigateParentFolder = 'NAVIGATE_PARENT_FOLDER',
+  NavigateToPreviousPage = 'NAVIGATE_TO_PREVIOUS_PAGE',
 }
 
 export class NavigateUrlAction implements Action {
@@ -55,4 +56,10 @@ export class NavigateToParentFolder implements Action {
   readonly type = RouterActionTypes.NavigateParentFolder;
 
   constructor(public payload: MinimalNodeEntity) {}
+}
+
+export class NavigateToPreviousPage implements Action {
+  readonly type = RouterActionTypes.NavigateToPreviousPage;
+
+  constructor() {}
 }

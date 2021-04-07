@@ -23,18 +23,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Inject, ViewEncapsulation } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { DetailsComponent } from './details.component';
 
-@Component({
-  templateUrl: './node-permissions.dialog.html',
-  encapsulation: ViewEncapsulation.None,
-  host: { class: 'aca-node-permissions-dialog' }
-})
-export class NodePermissionsDialogComponent {
-  nodeId: string;
-
-  constructor(@Inject(MAT_DIALOG_DATA) data: any) {
-    this.nodeId = data.nodeId;
-  }
-}
+describe('DetailsComponent', () => {
+  it('should be defined', () => {
+    expect(DetailsComponent).toBeDefined();
+  });
+});
