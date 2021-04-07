@@ -42,7 +42,6 @@ import {
   EditFolderAction,
   CopyNodesAction,
   MoveNodesAction,
-  ManagePermissionsAction,
   UnlockWriteAction,
   FullscreenViewerAction,
   PrintFileAction,
@@ -361,38 +360,6 @@ describe('NodeEffects', () => {
       store.dispatch(new MoveNodesAction(null));
 
       expect(contentService.moveNodes).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('managePermissions$', () => {
-    it('should manage permissions from the payload', () => {
-      spyOn(contentService, 'managePermissions').and.stub();
-
-      const node: any = { entry: { isFile: true } };
-      store.dispatch(new ManagePermissionsAction(node));
-
-      expect(contentService.managePermissions).toHaveBeenCalledWith(node);
-    });
-
-    it('should manage permissions from the active selection', fakeAsync(() => {
-      spyOn(contentService, 'managePermissions').and.stub();
-
-      const node: any = { entry: { isFile: true } };
-      store.dispatch(new SetSelectedNodesAction([node]));
-
-      tick(100);
-
-      store.dispatch(new ManagePermissionsAction(null));
-
-      expect(contentService.managePermissions).toHaveBeenCalledWith(node);
-    }));
-
-    it('should do nothing if invoking manage permissions with no data', () => {
-      spyOn(contentService, 'managePermissions').and.stub();
-
-      store.dispatch(new ManagePermissionsAction(null));
-
-      expect(contentService.managePermissions).not.toHaveBeenCalled();
     });
   });
 

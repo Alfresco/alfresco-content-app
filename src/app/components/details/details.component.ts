@@ -44,6 +44,7 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
   nodeId: string;
   isLoading: boolean;
   onDestroy$ = new Subject<boolean>();
+  activeTab = 1;
 
   constructor(
     private route: ActivatedRoute,
@@ -64,6 +65,7 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
 
     this.route.params.subscribe((params) => {
       this.isLoading = true;
+      this.setActiveTab(params.activeTab);
       this.nodeId = params.nodeId;
       this.contentApi.getNode(this.nodeId).subscribe((node) => {
         this.node = node.entry;
@@ -71,6 +73,20 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
         this.store.dispatch(new SetSelectedNodesAction([{ entry: this.node }]));
       });
     });
+  }
+
+  setActiveTab(tabName: string) {
+    switch (tabName) {
+      case 'comments':
+        this.activeTab = 1;
+        break;
+      case 'permissions':
+        this.activeTab = 2;
+        break;
+      case 'metadata':
+      default:
+        this.activeTab = 0;
+    }
   }
 
   goBack() {
@@ -85,5 +101,5 @@ export class DetailsComponent extends PageComponent implements OnInit, OnDestroy
     this.store.dispatch(new SetSelectedNodesAction([]));
     this.onDestroy$.next();
     this.onDestroy$.complete();
-}
+  }
 }

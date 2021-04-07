@@ -94,10 +94,22 @@ export const APP_ROUTES: Routes = [
           },
           {
             path: 'details/:nodeId',
-            component: DetailsComponent,
-            data: {
-              navigateSource: 'personal-files'
-            }
+            children: [
+              {
+                path: '',
+                component: DetailsComponent,
+                data: {
+                  navigateSource: 'personal-files'
+                }
+              },
+              {
+                path: ':activeTab',
+                component: DetailsComponent,
+                data: {
+                  navigateSource: 'personal-files'
+                }
+              }
+            ]
           },
           // deprecated, backwards compatibility with ACA 1.8
           {

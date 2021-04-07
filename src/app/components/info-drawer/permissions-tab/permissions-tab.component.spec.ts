@@ -23,84 +23,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { CommentsTabComponent } from './permissions-tab.component';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AppTestingModule } from '../../../testing/app-testing.module';
-import { NodePermissionService } from '@alfresco/aca-shared';
-import { Node } from '@alfresco/js-api';
-import { CommentsModule } from '@alfresco/adf-core';
+import { PermissionsTabComponent } from './permissions-tab.component';
 
-describe('CommentsTabComponent', () => {
-  let component: CommentsTabComponent;
-  let fixture: ComponentFixture<CommentsTabComponent>;
-  let nodePermissionService: NodePermissionService;
-  let checked: string[];
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [AppTestingModule, CommentsModule],
-      declarations: [CommentsTabComponent]
-    });
-
-    nodePermissionService = TestBed.inject(NodePermissionService);
-
-    fixture = TestBed.createComponent(CommentsTabComponent);
-    component = fixture.componentInstance;
-
-    checked = null;
-    spyOn(nodePermissionService, 'check').and.callFake((_source, permissions) => {
-      checked = permissions;
-      return true;
-    });
-  });
-
-  afterEach(() => {
-    fixture.destroy();
-  });
-
-  describe('canUpdateNode', () => {
-    it('should return [false] if no node selected', () => {
-      component.node = null;
-      expect(component.canUpdateNode).toBe(false);
-    });
-
-    it('should return [false] if node selected is neither file or folder', () => {
-      component.node = {
-        id: 'test-node-id',
-        isFile: false,
-        isFolder: false
-      } as Node;
-      expect(component.canUpdateNode).toBe(false);
-    });
-
-    it('should return [false] if node selected is a locked file', () => {
-      component.node = {
-        id: 'test-node-id',
-        isFile: true,
-        isFolder: false,
-        isLocked: true
-      } as Node;
-      expect(component.canUpdateNode).toBe(false);
-    });
-
-    it('should check [update] permission if node selected is a not locked file', () => {
-      component.node = {
-        id: 'test-node-id',
-        isFile: true,
-        isFolder: false
-      } as Node;
-      expect(component.canUpdateNode).toBe(true);
-      expect(checked).toContain('update');
-    });
-
-    it('should check [update] permission if node selected is a folder', () => {
-      component.node = {
-        id: 'test-node-id',
-        isFile: false,
-        isFolder: true
-      } as Node;
-      expect(component.canUpdateNode).toBe(true);
-      expect(checked).toContain('update');
-    });
+describe('PermissionsTabComponent', () => {
+  it('should be defined', () => {
+    expect(PermissionsTabComponent).toBeDefined();
   });
 });

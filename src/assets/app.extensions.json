@@ -1121,7 +1121,7 @@
           "title": "APP.INFO_DRAWER.TABS.EXPAND",
           "icon": "chevron_left",
           "actions": {
-            "click": "MANAGE_PERMISSIONS"
+            "click": "EXPAND_INFO_DRAWER"
           },
           "rules": {
             "visible": "app.navigation.isNotLibraries"
