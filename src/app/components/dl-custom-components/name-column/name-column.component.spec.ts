@@ -58,6 +58,9 @@ describe('CustomNameColumnComponent', () => {
             isFile: true,
             id: 'nodeId'
           }
+        },
+        getValue(key: string) {
+          return key;
         }
       }
     };
@@ -75,6 +78,9 @@ describe('CustomNameColumnComponent', () => {
             isFile: false,
             id: 'nodeId'
           }
+        },
+        getValue(key: string) {
+          return key;
         }
       }
     };
@@ -93,6 +99,9 @@ describe('CustomNameColumnComponent', () => {
             id: 'nodeId',
             properties: { 'cm:lockType': 'WRITE_LOCK' }
           }
+        },
+        getValue(key: string) {
+          return key;
         }
       }
     };
