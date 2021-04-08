@@ -46,16 +46,20 @@ import {
   FullscreenViewerAction,
   PrintFileAction,
   SetCurrentFolderAction,
-  ManageAspectsAction
+  ManageAspectsAction,
+  ManagePermissionsAction
 } from '@alfresco/aca-shared/store';
 import { ViewUtilService } from '@alfresco/adf-core';
 import { ViewerEffects } from './viewer.effects';
+import { Router } from '@angular/router';
+import { of } from 'rxjs';
 
 describe('NodeEffects', () => {
   let store: Store<any>;
   let contentService: ContentManagementService;
   let viewUtilService: ViewUtilService;
   let viewerEffects: ViewerEffects;
+  let router: Router;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -67,6 +71,7 @@ describe('NodeEffects', () => {
     contentService = TestBed.inject(ContentManagementService);
     viewUtilService = TestBed.inject(ViewUtilService);
     viewerEffects = TestBed.inject(ViewerEffects);
+    router = TestBed.inject(Router);
   });
 
   describe('shareNode$', () => {
@@ -360,6 +365,32 @@ describe('NodeEffects', () => {
       store.dispatch(new MoveNodesAction(null));
 
       expect(contentService.moveNodes).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('managePermissions$', () => {
+    it('should manage permissions from the payload', () => {
+      spyOn(router, 'navigate').and.stub();
+      const node: any = { entry: { isFile: true, id: 'fileId' } };
+      store.dispatch(new ManagePermissionsAction(node));
+
+      expect(router.navigate).toHaveBeenCalledWith(['personal-files/details', 'fileId', 'permissions']);
+    });
+
+    it('should manage permissions from the active selection', () => {
+      spyOn(store, 'select').and.returnValue(of({ isEmpty: false, first: { entry: { id: 'fileId' } } }));
+      spyOn(router, 'navigate').and.stub();
+      store.dispatch(new ManagePermissionsAction(null));
+
+      expect(router.navigate).toHaveBeenCalledWith(['personal-files/details', 'fileId', 'permissions']);
+    });
+
+    it('should do nothing if invoking manage permissions with no data', () => {
+      spyOn(store, 'select').and.returnValue(of({}));
+      spyOn(router, 'navigate').and.stub();
+      store.dispatch(new ManagePermissionsAction(null));
+
+      expect(router.navigate).not.toHaveBeenCalled();
     });
   });
 
