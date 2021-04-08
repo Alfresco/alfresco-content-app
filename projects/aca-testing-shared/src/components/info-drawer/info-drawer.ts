@@ -35,6 +35,7 @@ export class InfoDrawer extends Component {
   commentsTab = new CommentsTab('adf-info-drawer');
   aboutTab = new LibraryMetadata('adf-info-drawer');
   propertiesTab = new ContentMetadata('adf-info-drawer');
+  tabPagination = this.byCss('.mat-tab-header-pagination-after');
   header = this.byCss('.adf-info-drawer-layout-header');
   headerTitle = this.byCss('.adf-info-drawer-layout-header-title');
   tabLabel = this.byCss('.mat-tab-label-content');
@@ -90,6 +91,11 @@ export class InfoDrawer extends Component {
 
   async clickTab(title: string) {
     await BrowserActions.click(this.getTabByTitle(title));
+  }
+
+  async scrollTabs() {
+    await BrowserActions.click(this.tabPagination);
+    await BrowserActions.click(this.tabPagination);
   }
 
   async getComponentIdOfTab(): Promise<string> {
