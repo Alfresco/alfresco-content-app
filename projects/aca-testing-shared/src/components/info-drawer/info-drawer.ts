@@ -116,6 +116,10 @@ export class InfoDrawer extends Component {
     return this.isTabDisplayed('Comments');
   }
 
+  async isPermissionsTabDisplayed() {
+    return this.isTabDisplayed('Permissions');
+  }
+
   async clickCommentsTab() {
     try {
       await BrowserActions.click(this.getTabByTitle('Comments'));
