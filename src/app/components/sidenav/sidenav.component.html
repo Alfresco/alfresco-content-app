@@ -7,11 +7,11 @@
     <div *ngFor="let group of groups; trackBy: trackById" class="section" [ngClass]="'section--' + mode">
       <ng-container *ngSwitchCase="'expanded'">
         <mat-list-item *ngFor="let item of group.items; trackBy: trackById">
-          <ng-container *ngIf="isLoggedIn(item.provider) && !item.component">
+          <ng-container *ngIf="!item.component">
             <app-expand-menu [item]="item"></app-expand-menu>
           </ng-container>
 
-          <ng-container *ngIf="isLoggedIn(item.provider) && item.component">
+          <ng-container *ngIf="item.component">
             <adf-dynamic-component [data]="{ item: item, state: 'expanded' }" [id]="item.component"></adf-dynamic-component>
           </ng-container>
         </mat-list-item>
@@ -19,11 +19,11 @@
 
       <ng-container *ngSwitchCase="'collapsed'">
         <div class="list-item" *ngFor="let item of group.items; trackBy: trackById">
-          <ng-container *ngIf="isLoggedIn(item.provider) && !item.component">
+          <ng-container *ngIf="!item.component">
             <app-button-menu [item]="item"></app-button-menu>
           </ng-container>
 
-          <ng-container *ngIf="isLoggedIn(item.provider) && item.component">
+          <ng-container *ngIf="item.component">
             <adf-dynamic-component [data]="{ item: item, state: 'collapsed' }" [id]="item.component"> </adf-dynamic-component>
           </ng-container>
         </div>

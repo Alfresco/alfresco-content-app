@@ -179,11 +179,6 @@
           "description": "Unique identifier",
           "type": "string"
         },
-        "provider": {
-          "description": "Define on which system the user should be authenticate",
-          "type": "string",
-          "enum": ["BPM", "ECM", "ALL"]
-        },
         "icon": {
           "description": "Element icon",
           "type": "string"
