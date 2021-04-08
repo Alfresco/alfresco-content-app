@@ -34,12 +34,12 @@
       <mat-tab-group [selectedIndex]="activeTab"
                      class="adw-details-tabs">
         <mat-tab label="{{ 'APP.INFO_DRAWER.TABS.PROPERTIES' | translate }}">
-          <app-metadata-tab *ngIf="node"
+          <app-metadata-tab *ngIf="node && !isLoading; else loading"
                             [node]="node">
           </app-metadata-tab>
         </mat-tab>
         <mat-tab label="{{ 'APP.INFO_DRAWER.TABS.COMMENTS' | translate }}">
-          <app-comments-tab *ngIf="node"
+          <app-comments-tab *ngIf="node && !isLoading; else loading"
                             [node]="node">
           </app-comments-tab>
         </mat-tab>
@@ -55,7 +55,7 @@
 </aca-page-layout>
 
 <ng-template #loading>
-  <mat-spinner color="primary"
+  <mat-progress-bar color="primary"
                mode="indeterminate">
-  </mat-spinner>
+  </mat-progress-bar>
 </ng-template>
