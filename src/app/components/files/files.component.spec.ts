@@ -25,7 +25,7 @@
 
 import { TestBed, fakeAsync, tick, ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA, SimpleChange, SimpleChanges } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, convertToParamMap } from '@angular/router';
 import { NodeFavoriteDirective, DataTableComponent, UploadService, AppConfigModule, DataTableModule, PaginationModule } from '@alfresco/adf-core';
 import { DocumentListComponent, DocumentListService, FilterSearch } from '@alfresco/adf-content-services';
 import { NodeActionsService } from '../../services/node-actions.service';
@@ -44,6 +44,7 @@ describe('FilesComponent', () => {
   let uploadService: UploadService;
   let nodeActionsService: NodeActionsService;
   let contentApi: ContentApiService;
+  let route: ActivatedRoute;
   let router: any = {
     url: '',
     navigate: jasmine.createSpy('navigate')
@@ -74,7 +75,7 @@ describe('FilesComponent', () => {
         {
           provide: ActivatedRoute,
           useValue: {
-            snapshot: { data: { preferencePrefix: 'prefix' } },
+            snapshot: { data: { preferencePrefix: 'prefix' }, paramMap: convertToParamMap({ folderId: 'someId' }) },
             params: of({ folderId: 'someId' }),
             queryParamMap: of({})
           }
@@ -94,6 +95,7 @@ describe('FilesComponent', () => {
 
     uploadService = TestBed.inject(UploadService);
     router = TestBed.inject(Router);
+    route = TestBed.get(ActivatedRoute)
     nodeActionsService = TestBed.inject(NodeActionsService);
     contentApi = TestBed.inject(ContentApiService);
     spyContent = spyOn(contentApi, 'getNode');
@@ -243,6 +245,7 @@ describe('FilesComponent', () => {
 
     it('should navigates to node when is more that one sub node', () => {
       router.url = '/personal-files/favourites';
+      spyOn(route.snapshot.paramMap, 'get').and.returnValue(undefined);
       component.navigate(node.id);
 
       expect(router.navigate).toHaveBeenCalledWith(['personal-files', 'favourites', node.id]);
@@ -250,12 +253,14 @@ describe('FilesComponent', () => {
 
     it('should remove the header filters param on click of folders', () => {
       router.url = '/personal-files?name=abc';
+      spyOn(route.snapshot.paramMap, 'get').and.returnValue(undefined);
       component.navigate(node.id);
 
       expect(router.navigate).toHaveBeenCalledWith(['personal-files', node.id]);
     });
 
     it('should navigates to node when id provided', () => {
+      spyOn(route.snapshot.paramMap, 'get').and.returnValue('currentNodeId');
       router.url = '/personal-files';
       component.navigate(node.id);
 
@@ -263,6 +268,7 @@ describe('FilesComponent', () => {
     });
 
     it('should navigates to home when id not provided', () => {
+      spyOn(route.snapshot.paramMap, 'get').and.returnValue(undefined);
       router.url = '/personal-files';
       component.navigate();
 
@@ -270,6 +276,7 @@ describe('FilesComponent', () => {
     });
 
     it('should navigate home if node is root', () => {
+      spyOn(route.snapshot.paramMap, 'get').and.returnValue(undefined);
       component.node = {
         path: {
           elements: [{ id: 'node-id' }]

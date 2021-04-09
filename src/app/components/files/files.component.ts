@@ -130,8 +130,15 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     if (currentFolderId) {
       if (nodeId && !this.isRootNode(nodeId)) {
         const currentURL = urlWithoutParams.split('/');
-        currentURL[currentURL.indexOf(currentFolderId)] = nodeId;
-        urlToNavigate = currentURL;
+        urlToNavigate =
+          currentURL.indexOf(currentFolderId) > 0
+            ? currentURL.map((value, index) => {
+                if (index === currentURL.indexOf(currentFolderId)) {
+                  value = nodeId;
+                }
+                return value;
+              })
+            : currentURL;
       } else {
         urlToNavigate = urlWithoutParams.replace(currentFolderId, '').split('/');
         urlToNavigate.pop();
