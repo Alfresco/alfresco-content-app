@@ -32,7 +32,7 @@ stages:
   - name: e2e
     if: branch != master
   - name: Trigger DW
-    if: (branch = master OR branch = develop OR (tag =~ .*beta.*)) AND (type = push OR type = api)
+    if: branch = develop AND type = cron
 
 env:
   global:
