@@ -28,7 +28,7 @@
     "@alfresco/adf-content-services": "4.4.0-beta5",
     "@alfresco/adf-core": "4.4.0-beta5",
     "@alfresco/adf-extensions": "4.4.0-beta5",
-    "@alfresco/js-api": "4.4.0-3371",
+    "@alfresco/js-api": "4.4.0-3364",
     "@angular/animations": "10.0.4",
     "@angular/cdk": "^10.0.2",
     "@angular/common": "10.0.4",
