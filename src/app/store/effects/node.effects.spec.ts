@@ -386,7 +386,7 @@ describe('NodeEffects', () => {
     });
 
     it('should do nothing if invoking manage permissions with no data', () => {
-      spyOn(store, 'select').and.returnValue(of({}));
+      spyOn(store, 'select').and.returnValue(of(null));
       spyOn(router, 'navigate').and.stub();
       store.dispatch(new ManagePermissionsAction(null));
 
