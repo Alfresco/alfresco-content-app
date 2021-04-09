@@ -123,15 +123,17 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   }
 
   navigate(nodeId: string = null) {
-    const uuidRegEx = /[0-9A-Za-z]{8}-[0-9A-Za-z]{4}-4[0-9A-Za-z]{3}-[89ABab][0-9A-Za-z]{3}-[0-9A-Za-z]{12}/gi;
     let urlToNavigate: string[];
-    const urlWithoutParams = this.router.url.split('?')[0];
+    const currentFolderId = this.route.snapshot.paramMap.get('folderId');
+    const urlWithoutParams = decodeURIComponent(this.router.url).split('?')[0];
 
-    if (urlWithoutParams.match(uuidRegEx)) {
+    if (currentFolderId) {
       if (nodeId && !this.isRootNode(nodeId)) {
-        urlToNavigate = urlWithoutParams.replace(uuidRegEx, nodeId).split('/');
+        const currentURL = urlWithoutParams.split('/');
+        currentURL[currentURL.indexOf(currentFolderId)] = nodeId;
+        urlToNavigate = currentURL;
       } else {
-        urlToNavigate = urlWithoutParams.replace(uuidRegEx, '').split('/');
+        urlToNavigate = urlWithoutParams.replace(currentFolderId, '').split('/');
         urlToNavigate.pop();
       }
       urlToNavigate.shift();
