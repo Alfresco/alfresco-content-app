@@ -25,7 +25,6 @@
 
 import { Component, Input, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { NavBarGroupRef } from '@alfresco/adf-extensions';
-import { AuthenticationService } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
 import { AppStore, getSideNavState } from '@alfresco/aca-shared/store';
 import { Subject } from 'rxjs';
@@ -46,7 +45,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
   groups: Array<NavBarGroupRef> = [];
   private onDestroy$ = new Subject<boolean>();
 
-  constructor(private store: Store<AppStore>, private extensions: AppExtensionService, private authService: AuthenticationService) {}
+  constructor(private store: Store<AppStore>, private extensions: AppExtensionService) {}
 
   ngOnInit() {
     this.store
@@ -55,11 +54,6 @@ export class SidenavComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.groups = this.extensions.getApplicationNavigation(this.extensions.navbar);
       });
-  }
-
-  isLoggedIn(provider: string): boolean {
-    if (provider === undefined) return true;
-    return this.authService.isLoggedInWith(provider);
   }
 
   trackById(_: number, obj: { id: string }) {
