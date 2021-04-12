@@ -123,32 +123,59 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   }
 
   navigate(nodeId: string = null) {
-    let urlToNavigate: string[];
-    const currentFolderId = this.route.snapshot.paramMap.get('folderId');
+    const currentNodeId = this.route.snapshot.paramMap.get('folderId');
     const urlWithoutParams = decodeURIComponent(this.router.url).split('?')[0];
+    const urlToNavigate: string[] = this.prepareUrlToNavigate(urlWithoutParams, currentNodeId, nodeId);
+    this.router.navigate(urlToNavigate);
+  }
 
-    if (currentFolderId) {
-      if (nodeId && !this.isRootNode(nodeId)) {
-        const currentURL = urlWithoutParams.split('/');
-        const index = currentURL.indexOf(currentFolderId);
-        if (index > 0) {
-          currentURL[index] = nodeId;
-        }
-        urlToNavigate = currentURL;
-      } else {
-        urlToNavigate = urlWithoutParams.replace(currentFolderId, '').split('/');
-        urlToNavigate.pop();
-      }
-      urlToNavigate.shift();
+  private prepareUrlToNavigate(previousUrl: string, currentNodeId: string, nodeId: string): string[] {
+    let url: string[];
+    if (currentNodeId) {
+      url = this.getUrlToNavigateFromPreviousUrl(previousUrl, currentNodeId, nodeId);
     } else {
-      urlToNavigate = urlWithoutParams.split('/');
-      if (nodeId && !this.isRootNode(nodeId)) {
-        urlToNavigate.push(nodeId);
-      }
-      urlToNavigate.shift();
+      url = this.getNavigateToNodeUrl(previousUrl, nodeId);
     }
 
-    this.router.navigate(urlToNavigate);
+    return url;
+  }
+
+  private getUrlToNavigateFromPreviousUrl(previousUrl: string, currentNodeId: string, nextNodeId: string): string[] {
+    let urlToNavigate: string[];
+
+    if (nextNodeId && !this.isRootNode(nextNodeId)) {
+      urlToNavigate = this.getNavigateToSubNodeUrlFromPreviousUrl(previousUrl, currentNodeId, nextNodeId);
+    } else {
+      urlToNavigate = this.getNavigateToRootUrlFromPreviousUrl(previousUrl, currentNodeId);
+    }
+
+    urlToNavigate.shift();
+    return urlToNavigate;
+  }
+
+  private getNavigateToSubNodeUrlFromPreviousUrl(previousUrl: string, currentNodeId: string, nextNodeId: string): string[] {
+    const currentURL = previousUrl.split('/');
+    const index = currentURL.indexOf(currentNodeId);
+    if (index > 0) {
+      currentURL[index] = nextNodeId;
+    }
+    return currentURL;
+  }
+
+  private getNavigateToRootUrlFromPreviousUrl(previousUrl: string, currentNodeId: string): string[] {
+    const rootUrl: string[] = previousUrl.replace(currentNodeId, '').split('/');
+    rootUrl.pop();
+    return rootUrl;
+  }
+
+  private getNavigateToNodeUrl(previousUrl: string, nodeId: string): string[] {
+    const navigateToNodeURL = previousUrl.split('/');
+    if (nodeId && !this.isRootNode(nodeId)) {
+      navigateToNodeURL.push(nodeId);
+    }
+    navigateToNodeURL.shift();
+
+    return navigateToNodeURL;
   }
 
   onUploadNewVersion(ev: CustomEvent) {
