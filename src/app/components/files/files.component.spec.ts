@@ -75,7 +75,7 @@ describe('FilesComponent', () => {
         {
           provide: ActivatedRoute,
           useValue: {
-            snapshot: { data: { preferencePrefix: 'prefix' }, paramMap: convertToParamMap({ folderId: 'someId' }) },
+            snapshot: { data: { preferencePrefix: 'prefix' }, paramMap: convertToParamMap({ folderId: undefined }) },
             params: of({ folderId: 'someId' }),
             queryParamMap: of({})
           }
@@ -95,7 +95,7 @@ describe('FilesComponent', () => {
 
     uploadService = TestBed.inject(UploadService);
     router = TestBed.inject(Router);
-    route = TestBed.get(ActivatedRoute)
+    route = TestBed.get(ActivatedRoute);
     nodeActionsService = TestBed.inject(NodeActionsService);
     contentApi = TestBed.inject(ContentApiService);
     spyContent = spyOn(contentApi, 'getNode');
@@ -245,7 +245,6 @@ describe('FilesComponent', () => {
 
     it('should navigates to node when is more that one sub node', () => {
       router.url = '/personal-files/favourites';
-      spyOn(route.snapshot.paramMap, 'get').and.returnValue(undefined);
       component.navigate(node.id);
 
       expect(router.navigate).toHaveBeenCalledWith(['personal-files', 'favourites', node.id]);
@@ -253,14 +252,12 @@ describe('FilesComponent', () => {
 
     it('should remove the header filters param on click of folders', () => {
       router.url = '/personal-files?name=abc';
-      spyOn(route.snapshot.paramMap, 'get').and.returnValue(undefined);
       component.navigate(node.id);
 
       expect(router.navigate).toHaveBeenCalledWith(['personal-files', node.id]);
     });
 
     it('should navigates to node when id provided', () => {
-      spyOn(route.snapshot.paramMap, 'get').and.returnValue('currentNodeId');
       router.url = '/personal-files';
       component.navigate(node.id);
 
@@ -268,7 +265,6 @@ describe('FilesComponent', () => {
     });
 
     it('should navigates to home when id not provided', () => {
-      spyOn(route.snapshot.paramMap, 'get').and.returnValue(undefined);
       router.url = '/personal-files';
       component.navigate();
 
@@ -276,7 +272,6 @@ describe('FilesComponent', () => {
     });
 
     it('should navigate home if node is root', () => {
-      spyOn(route.snapshot.paramMap, 'get').and.returnValue(undefined);
       component.node = {
         path: {
           elements: [{ id: 'node-id' }]
@@ -290,6 +285,7 @@ describe('FilesComponent', () => {
     });
 
     it('should navigate home if node is root also if it contain a uuid', () => {
+      spyOn(route.snapshot.paramMap, 'get').and.returnValue('some-node-id');
       component.node = {
         path: {
           elements: [{ id: 'node-id' }]
@@ -300,6 +296,21 @@ describe('FilesComponent', () => {
       component.navigate(node.id);
 
       expect(router.navigate).toHaveBeenCalledWith(['personal-files']);
+    });
+
+    it('should navigate to sub folder from a parent folder', () => {
+      router.url = '/personal-files/parent-folder-node-id';
+      const childFolderNodeId = node.id;
+      spyOn(route.snapshot.paramMap, 'get').and.returnValue('parent-folder-node-id');
+      component.navigate(childFolderNodeId);
+      expect(router.navigate).toHaveBeenCalledWith(['personal-files', childFolderNodeId]);
+    });
+
+    it('should navigate to smart folder content', () => {
+      router.url = '/libraries/vH1-6-1-1-115wji7092f0-41-MTg%3D-1-115hpo76l3h2e1f';
+      spyOn(route.snapshot.paramMap, 'get').and.returnValue('vH1-6-1-1-115wji7092f0-41-MTg=-1-115hpo76l3h2e1f');
+      component.navigate(node.id);
+      expect(router.navigate).toHaveBeenCalledWith(['libraries', node.id]);
     });
   });
 
