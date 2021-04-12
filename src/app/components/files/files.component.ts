@@ -125,45 +125,45 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   navigate(nodeId: string = null) {
     const currentNodeId = this.route.snapshot.paramMap.get('folderId');
     const urlWithoutParams = decodeURIComponent(this.router.url).split('?')[0];
-    const urlToNavigate: string[] = this.prepareUrlToNavigate(urlWithoutParams, currentNodeId, nodeId);
+    const urlToNavigate: string[] = this.getUrlToNavigate(urlWithoutParams, currentNodeId, nodeId);
     this.router.navigate(urlToNavigate);
   }
 
-  private prepareUrlToNavigate(currentURL: string, currentNodeId: string, nodeId: string): string[] {
-    return currentNodeId ? this.prepareNextNodeUrlToNavigate(currentURL, currentNodeId, nodeId) : this.getRootToNodeUrlToNavigate(currentURL, nodeId);
+  private getUrlToNavigate(currentURL: string, currentNodeId: string, nextNodeId: string): string[] {
+    return currentNodeId ? this.getNextNodeUrlToNavigate(currentURL, currentNodeId, nextNodeId) : this.appendNextNodeIdToUrl(currentURL, nextNodeId);
   }
 
-  private prepareNextNodeUrlToNavigate(currentURL: string, currentNodeId: string, nextNodeId: string): string[] {
+  private getNextNodeUrlToNavigate(currentURL: string, currentNodeId: string, nextNodeId: string): string[] {
     const urlToNavigate: string[] =
       nextNodeId && !this.isRootNode(nextNodeId)
-        ? this.getNextNodeUrlToNavigate(currentURL, currentNodeId, nextNodeId)
-        : this.getRootUrlToNavigate(currentURL, currentNodeId);
+        ? this.replaceCurrentNodeIdWithNextNodeId(currentURL, currentNodeId, nextNodeId)
+        : this.removeNodeIdFromUrl(currentURL, currentNodeId);
     urlToNavigate.shift();
     return urlToNavigate;
   }
 
-  private getNextNodeUrlToNavigate(currentURL: string, currentNodeId: string, nextNodeId: string): string[] {
+  private replaceCurrentNodeIdWithNextNodeId(currentURL: string, currentNodeId: string, nextNodeId: string): string[] {
     const nextNodeUrlToNavigate = currentURL.split('/');
-    const index = currentURL.indexOf(currentNodeId);
+    const index = nextNodeUrlToNavigate.indexOf(currentNodeId);
     if (index > 0) {
       nextNodeUrlToNavigate[index] = nextNodeId;
     }
     return nextNodeUrlToNavigate;
   }
 
-  private getRootUrlToNavigate(currentURL: string, currentNodeId: string): string[] {
+  private removeNodeIdFromUrl(currentURL: string, currentNodeId: string): string[] {
     const rootUrl: string[] = currentURL.replace(currentNodeId, '').split('/');
     rootUrl.pop();
     return rootUrl;
   }
 
-  private getRootToNodeUrlToNavigate(currentURL: string, nodeId: string): string[] {
-    const navigateToNodeURL = currentURL.split('/');
+  private appendNextNodeIdToUrl(currentURL: string, nodeId: string): string[] {
+    const navigateToNodeUrl = currentURL.split('/');
     if (nodeId && !this.isRootNode(nodeId)) {
-      navigateToNodeURL.push(nodeId);
+      navigateToNodeUrl.push(nodeId);
     }
-    navigateToNodeURL.shift();
-    return navigateToNodeURL;
+    navigateToNodeUrl.shift();
+    return navigateToNodeUrl;
   }
 
   onUploadNewVersion(ev: CustomEvent) {
