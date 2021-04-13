@@ -27,7 +27,7 @@ import { TestBed, fakeAsync, tick, ComponentFixture } from '@angular/core/testin
 import { NO_ERRORS_SCHEMA, SimpleChange, SimpleChanges } from '@angular/core';
 import { Router, ActivatedRoute, convertToParamMap } from '@angular/router';
 import { NodeFavoriteDirective, DataTableComponent, UploadService, AppConfigModule, DataTableModule, PaginationModule } from '@alfresco/adf-core';
-import { DocumentListComponent, DocumentListService, FilterSearch } from '@alfresco/adf-content-services';
+import { DocumentListComponent, DocumentListService, FilterSearch, PathElementEntity } from '@alfresco/adf-content-services';
 import { NodeActionsService } from '../../services/node-actions.service';
 import { FilesComponent } from './files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
@@ -373,5 +373,35 @@ describe('FilesComponent', () => {
 
     const header = fixture.nativeElement.querySelector('.adf-sticky-header');
     expect(header).not.toBeNull();
+  });
+
+  describe('Pagination reset when navigating', () => {
+    beforeEach(() => {
+      fixture.detectChanges();
+    });
+
+    it('should reset the pagination when navigating using the breadcrumb', () => {
+      const resetNewFolderPaginationSpy = spyOn(component.documentList, 'resetNewFolderPagination');
+      const breadcrumbRoute: PathElementEntity = { id: 'fake-breadcrumb-route-id', name: 'fake' };
+      component.onBreadcrumbNavigate(breadcrumbRoute);
+
+      expect(resetNewFolderPaginationSpy).toHaveBeenCalled();
+    });
+
+    it('should reset the pagination when navigating to a folder', () => {
+      const resetNewFolderPaginationSpy = spyOn(component.documentList, 'resetNewFolderPagination');
+      const fakeFolderNode = new NodeEntry({ entry: { id: 'fakeFolderNode', isFolder: true, isFile: false } });
+      component.navigateTo(fakeFolderNode);
+
+      expect(resetNewFolderPaginationSpy).toHaveBeenCalled();
+    });
+
+    it('should not reset the pagination when the node to navigate is not a folder', () => {
+      const resetNewFolderPaginationSpy = spyOn(component.documentList, 'resetNewFolderPagination');
+      const fakeFileNode = new NodeEntry({ entry: { id: 'fakeFileNode', isFolder: false, isFile: true } });
+      component.navigateTo(fakeFileNode);
+
+      expect(resetNewFolderPaginationSpy).not.toHaveBeenCalled();
+    });
   });
 });
