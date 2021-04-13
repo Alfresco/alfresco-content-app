@@ -29,13 +29,13 @@ import { NodePermissionService, isLocked } from '@alfresco/aca-shared';
 
 @Component({
   selector: 'app-comments-tab',
-  template: `<adf-comments [readOnly]="!canUpdateNode" [nodeId]="node?.id"></adf-comments>`
+  template: `<mat-card><adf-comments [readOnly]="!canUpdateNode" [nodeId]="node?.id"></adf-comments></mat-card>`
 })
 export class CommentsTabComponent {
   @Input()
   node: MinimalNodeEntryEntity;
 
-  constructor(private permission: NodePermissionService) {}
+  constructor(private permission: NodePermissionService) { }
 
   get canUpdateNode(): boolean {
     if (!this.node) {

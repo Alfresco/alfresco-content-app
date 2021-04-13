@@ -23,12 +23,24 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 
 @Component({
   selector: 'app-permissions-tab',
-  template: `<adf-permission-list [nodeId]="node?.id"></adf-permission-list>`
+  template: `<mat-card><adf-permission-list [nodeId]="node?.id"></adf-permission-list></mat-card>`,
+  encapsulation: ViewEncapsulation.None,
+  styles: [
+    `
+      adf-permission-list .adf-datatable-permission {
+        min-width: 0;
+      }
+
+      .mat-card {
+        padding: 0px;
+      }
+    `
+  ]
 })
 export class PermissionsTabComponent {
   @Input()
