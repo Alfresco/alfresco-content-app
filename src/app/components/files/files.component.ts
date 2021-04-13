@@ -176,6 +176,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
       const { id, isFolder } = node.entry;
 
       if (isFolder) {
+        this.documentList.resetNewFolderPagination();
         this.navigate(id);
         return;
       }
@@ -185,13 +186,14 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   }
 
   onBreadcrumbNavigate(route: PathElementEntity) {
+    this.documentList.resetNewFolderPagination();
+
     // todo: review this approach once 5.2.3 is out
     if (this.nodePath && this.nodePath.length > 2) {
       if (this.nodePath[1].name === 'Sites' && this.nodePath[2].id === route.id) {
         return this.navigate(this.nodePath[3].id);
       }
     }
-    this.documentList.resetNewFolderPagination();
     this.navigate(route.id);
   }
 
