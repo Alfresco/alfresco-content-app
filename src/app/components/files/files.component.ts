@@ -123,27 +123,47 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   }
 
   navigate(nodeId: string = null) {
-    const uuidRegEx = /[0-9A-Za-z]{8}-[0-9A-Za-z]{4}-4[0-9A-Za-z]{3}-[89ABab][0-9A-Za-z]{3}-[0-9A-Za-z]{12}/gi;
-    let urlToNavigate: string[];
-    const urlWithoutParams = this.router.url.split('?')[0];
-
-    if (urlWithoutParams.match(uuidRegEx)) {
-      if (nodeId && !this.isRootNode(nodeId)) {
-        urlToNavigate = urlWithoutParams.replace(uuidRegEx, nodeId).split('/');
-      } else {
-        urlToNavigate = urlWithoutParams.replace(uuidRegEx, '').split('/');
-        urlToNavigate.pop();
-      }
-      urlToNavigate.shift();
-    } else {
-      urlToNavigate = urlWithoutParams.split('/');
-      if (nodeId && !this.isRootNode(nodeId)) {
-        urlToNavigate.push(nodeId);
-      }
-      urlToNavigate.shift();
-    }
-
+    const currentNodeId = this.route.snapshot.paramMap.get('folderId');
+    const urlWithoutParams = decodeURIComponent(this.router.url).split('?')[0];
+    const urlToNavigate: string[] = this.getUrlToNavigate(urlWithoutParams, currentNodeId, nodeId);
     this.router.navigate(urlToNavigate);
+  }
+
+  private getUrlToNavigate(currentURL: string, currentNodeId: string, nextNodeId: string): string[] {
+    return currentNodeId ? this.getNextNodeUrlToNavigate(currentURL, currentNodeId, nextNodeId) : this.appendNextNodeIdToUrl(currentURL, nextNodeId);
+  }
+
+  private getNextNodeUrlToNavigate(currentURL: string, currentNodeId: string, nextNodeId: string): string[] {
+    const urlToNavigate: string[] =
+      nextNodeId && !this.isRootNode(nextNodeId)
+        ? this.replaceCurrentNodeIdWithNextNodeId(currentURL, currentNodeId, nextNodeId)
+        : this.removeNodeIdFromUrl(currentURL, currentNodeId);
+    urlToNavigate.shift();
+    return urlToNavigate;
+  }
+
+  private replaceCurrentNodeIdWithNextNodeId(currentURL: string, currentNodeId: string, nextNodeId: string): string[] {
+    const nextNodeUrlToNavigate = currentURL.split('/');
+    const index = nextNodeUrlToNavigate.indexOf(currentNodeId);
+    if (index > 0) {
+      nextNodeUrlToNavigate[index] = nextNodeId;
+    }
+    return nextNodeUrlToNavigate;
+  }
+
+  private removeNodeIdFromUrl(currentURL: string, currentNodeId: string): string[] {
+    const rootUrl: string[] = currentURL.replace(currentNodeId, '').split('/');
+    rootUrl.pop();
+    return rootUrl;
+  }
+
+  private appendNextNodeIdToUrl(currentURL: string, nodeId: string): string[] {
+    const navigateToNodeUrl = currentURL.split('/');
+    if (nodeId && !this.isRootNode(nodeId)) {
+      navigateToNodeUrl.push(nodeId);
+    }
+    navigateToNodeUrl.shift();
+    return navigateToNodeUrl;
   }
 
   onUploadNewVersion(ev: CustomEvent) {

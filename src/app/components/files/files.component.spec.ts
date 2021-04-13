@@ -25,7 +25,7 @@
 
 import { TestBed, fakeAsync, tick, ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA, SimpleChange, SimpleChanges } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, convertToParamMap } from '@angular/router';
 import { NodeFavoriteDirective, DataTableComponent, UploadService, AppConfigModule, DataTableModule, PaginationModule } from '@alfresco/adf-core';
 import { DocumentListComponent, DocumentListService, FilterSearch } from '@alfresco/adf-content-services';
 import { NodeActionsService } from '../../services/node-actions.service';
@@ -44,6 +44,7 @@ describe('FilesComponent', () => {
   let uploadService: UploadService;
   let nodeActionsService: NodeActionsService;
   let contentApi: ContentApiService;
+  let route: ActivatedRoute;
   let router: any = {
     url: '',
     navigate: jasmine.createSpy('navigate')
@@ -74,7 +75,7 @@ describe('FilesComponent', () => {
         {
           provide: ActivatedRoute,
           useValue: {
-            snapshot: { data: { preferencePrefix: 'prefix' } },
+            snapshot: { data: { preferencePrefix: 'prefix' }, paramMap: convertToParamMap({ folderId: undefined }) },
             params: of({ folderId: 'someId' }),
             queryParamMap: of({})
           }
@@ -94,6 +95,7 @@ describe('FilesComponent', () => {
 
     uploadService = TestBed.inject(UploadService);
     router = TestBed.inject(Router);
+    route = TestBed.get(ActivatedRoute);
     nodeActionsService = TestBed.inject(NodeActionsService);
     contentApi = TestBed.inject(ContentApiService);
     spyContent = spyOn(contentApi, 'getNode');
@@ -283,6 +285,7 @@ describe('FilesComponent', () => {
     });
 
     it('should navigate home if node is root also if it contain a uuid', () => {
+      spyOn(route.snapshot.paramMap, 'get').and.returnValue('some-node-id');
       component.node = {
         path: {
           elements: [{ id: 'node-id' }]
@@ -293,6 +296,21 @@ describe('FilesComponent', () => {
       component.navigate(node.id);
 
       expect(router.navigate).toHaveBeenCalledWith(['personal-files']);
+    });
+
+    it('should navigate to sub folder from a parent folder', () => {
+      router.url = '/personal-files/parent-folder-node-id';
+      const childFolderNodeId = node.id;
+      spyOn(route.snapshot.paramMap, 'get').and.returnValue('parent-folder-node-id');
+      component.navigate(childFolderNodeId);
+      expect(router.navigate).toHaveBeenCalledWith(['personal-files', childFolderNodeId]);
+    });
+
+    it('should navigate to smart folder content', () => {
+      router.url = '/libraries/vH1-6-1-1-115wji7092f0-41-MTg%3D-1-115hpo76l3h2e1f';
+      spyOn(route.snapshot.paramMap, 'get').and.returnValue('vH1-6-1-1-115wji7092f0-41-MTg=-1-115hpo76l3h2e1f');
+      component.navigate(node.id);
+      expect(router.navigate).toHaveBeenCalledWith(['libraries', node.id]);
     });
   });
 
