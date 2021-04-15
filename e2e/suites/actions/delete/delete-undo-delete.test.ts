@@ -41,10 +41,7 @@ describe('Delete and undo delete', () => {
   const userActions = new UserActions();
 
   beforeAll(async () => {
-    await adminApiActions.login();
     await adminApiActions.createUser({ username });
-
-    await userActions.login(username, username);
   });
 
   afterAll(async () => {
@@ -234,12 +231,12 @@ describe('Delete and undo delete', () => {
 
     afterAll(async (done) => {
       try {
-        await userActions.login(username, username);
         await apis.user.nodes.unlockFile(fileLocked1Id);
         await apis.user.nodes.unlockFile(fileLocked2Id);
         await apis.user.nodes.unlockFile(fileLocked3Id);
         await apis.user.nodes.unlockFile(fileLocked4Id);
 
+        await userActions.login(username, username);
         await userActions.deleteNodes([parentId]);
         await userActions.emptyTrashcan();
       } catch (error) {
@@ -544,12 +541,12 @@ describe('Delete and undo delete', () => {
 
     afterAll(async () => {
       try {
-        await userActions.login(username, username);
         await apis.user.nodes.unlockFile(fileLocked1Id);
         await apis.user.nodes.unlockFile(fileLocked2Id);
         await apis.user.nodes.unlockFile(fileLocked3Id);
         await apis.user.nodes.unlockFile(fileLocked4Id);
 
+        await userActions.login(username, username);
         await userActions.deleteNodes([parentId]);
         await userActions.emptyTrashcan();
       } catch (error) {

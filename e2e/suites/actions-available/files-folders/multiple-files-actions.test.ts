@@ -57,9 +57,7 @@ describe('Multiple Files - available actions : ', () => {
   const searchResultsPage = new SearchResultsPage();
 
   beforeAll(async () => {
-    await adminApiActions.login();
     await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
 
     parentId = (await userApi.nodes.createFolder(parentName)).entry.id;
 
@@ -84,6 +82,7 @@ describe('Multiple Files - available actions : ', () => {
   });
 
   afterAll(async () => {
+    await userActions.login(username, username);
     await userActions.unlockNodes([file1LockedFavId, file2LockedFavId, file3LockedId]);
     await userActions.deleteNodes([parentId]);
   });

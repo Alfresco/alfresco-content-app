@@ -80,9 +80,7 @@ describe('Unshare a file from Search Results', () => {
 
   beforeAll(async (done) => {
     try {
-      await adminApiActions.login();
       await adminApiActions.createUser({ username });
-      await userActions.login(username, username);
 
       parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
 
@@ -91,7 +89,7 @@ describe('Unshare a file from Search Results', () => {
       file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
       file4Id = (await apis.user.nodes.createFile(file4, parentId)).entry.id;
 
-      await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
+      await adminApiActions.login();
       await adminApiActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
       const docLibId = await adminApiActions.sites.getDocLibId(sitePrivate);
 
@@ -101,10 +99,12 @@ describe('Unshare a file from Search Results', () => {
       await adminApiActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_CONSUMER.ROLE);
 
       await adminApiActions.shareNodes([fileSite1Id]);
-      await userActions.shareNodes([fileSite2Id]);
-
-      await apis.user.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id, fileSite2Id]);
       await adminApiActions.shared.waitForFilesToBeShared([fileSite1Id]);
+
+      await userActions.login(username, username);
+      await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id, fileSite2Id]);
+      await apis.user.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id, fileSite2Id]);
+
       await apis.user.search.waitForNodes(`search-file-${searchRandom}`, { expect: 6 });
 
       await loginPage.loginWith(username);

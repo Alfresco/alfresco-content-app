@@ -51,9 +51,7 @@ describe('Favorites', () => {
   let folderId: string;
 
   beforeAll(async (done) => {
-    await adminApiActions.login();
     await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
 
     await adminApiActions.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
     const docLibId = await adminApiActions.sites.getDocLibId(siteName);
@@ -72,6 +70,7 @@ describe('Favorites', () => {
     await apis.user.favorites.addFavoriteById('file', file3Id);
     await apis.user.favorites.addFavoriteById('file', file4Id);
 
+    await userActions.login(username, username);
     await userActions.deleteNodes([file3Id, file4Id], false);
     await userActions.trashcanApi.restoreDeletedNode(file4Id);
     await loginPage.loginWith(username);
@@ -84,6 +83,7 @@ describe('Favorites', () => {
   });
 
   afterAll(async (done) => {
+    await userActions.login(username, username);
     await userActions.deleteNodes([folderId, parentId]);
     await userActions.emptyTrashcan();
 

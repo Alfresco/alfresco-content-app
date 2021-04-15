@@ -65,9 +65,7 @@ describe('Viewer actions', () => {
 
   beforeAll(async (done) => {
     try {
-      await adminApiActions.login();
       await adminApiActions.createUser({ username });
-      await userActions.login(username, username);
     } catch (error) {
       Logger.error(`----- beforeAll failed : ${error}`);
     }

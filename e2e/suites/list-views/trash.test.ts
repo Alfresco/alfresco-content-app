@@ -66,7 +66,6 @@ describe('Trash', () => {
 
   beforeAll(async () => {
     try {
-      await adminApiActions.login();
       await adminApiActions.createUser({ username });
 
       fileAdminId = (await adminApiActions.nodes.createFiles([fileAdmin])).entry.id;
@@ -97,7 +96,9 @@ describe('Trash', () => {
       await adminApiActions.sites.deleteSite(siteName);
       await adminApiActions.trashcanApi.deleteDeletedNode(fileAdminId);
       await adminApiActions.trashcanApi.deleteDeletedNode(folderAdminId);
+
       await apis.user.nodes.deleteNodeById(folderNotDeletedId);
+
       await userActions.login(username, username);
       await userActions.emptyTrashcan();
     } catch (error) {

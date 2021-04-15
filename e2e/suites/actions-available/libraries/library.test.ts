@@ -42,9 +42,7 @@ describe('Library actions : ', () => {
 
   beforeAll(async (done) => {
     try {
-      await adminApiActions.login();
       await adminApiActions.createUser({ username });
-      await userActions.login(username, username);
 
       await userApi.sites.createSite(testData.publicUserMemberFav.name);
       await userApi.sites.createSitePrivate(testData.privateUserMemberFav.name);

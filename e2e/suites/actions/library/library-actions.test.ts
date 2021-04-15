@@ -78,9 +78,7 @@ describe('Library actions', () => {
   const userActions = new UserActions();
 
   beforeAll(async (done) => {
-    await adminApiActions.login();
     await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
 
     await adminApiActions.sites.createSite(siteSearchPublic1Admin);
     await adminApiActions.sites.createSite(siteSearchPublic2Admin);
@@ -126,6 +124,7 @@ describe('Library actions', () => {
       siteSearchModerated2Admin
     ]);
 
+    await userActions.login(username, username);
     await userActions.deleteSites([sitePublicUser]);
     await userActions.emptyTrashcan();
   });

@@ -103,6 +103,7 @@ describe('Destination picker dialog : ', () => {
     fileIdContributor = (await contributorApi.nodes.createFile(file)).entry.id;
     fileIdCollaborator = (await collaboratorApi.nodes.createFile(file)).entry.id;
 
+    await adminApiActions.login();
     adminFolderId = (await adminApiActions.nodes.createFolder(adminFolder)).entry.id;
 
     await userApi.search.waitForNodes(searchFolder, { expect: 2 });
@@ -117,7 +118,6 @@ describe('Destination picker dialog : ', () => {
     await contributorApi.nodes.deleteNodeById(fileIdContributor);
     await collaboratorApi.nodes.deleteNodeById(fileIdCollaborator);
 
-    await adminApiActions.login();
     await adminApiActions.nodes.deleteNodeById(adminFolderId);
   });
 

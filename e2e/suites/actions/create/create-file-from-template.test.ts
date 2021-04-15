@@ -129,6 +129,7 @@ describe('Create file from template', () => {
     await userApi.nodes.deleteNodeById(parentId);
     await userApi.sites.deleteSite(siteName);
 
+    await adminApiActions.login();
     await adminApiActions.cleanupNodeTemplatesItems([
       templatesFolder1,
       templatesFolder2,
@@ -144,6 +145,7 @@ describe('Create file from template', () => {
 
   describe('with existing templates', () => {
     beforeAll(async () => {
+      await adminApiActions.login();
       await adminApiActions.createNodeTemplatesHierarchy(templates);
       await adminApiActions.removeUserAccessOnNodeTemplate(restrictedTemplateFolder);
       link = (await adminApiActions.createLinkToFileName(template2InRootFolder, await adminApiActions.getNodeTemplatesFolderId())).entry.name;

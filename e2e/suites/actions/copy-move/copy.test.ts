@@ -127,9 +127,7 @@ describe('Copy content', () => {
 
   beforeAll(async (done) => {
     try {
-      await adminApiActions.login();
       await adminApiActions.createUser({ username });
-      await userActions.login(username, username);
 
       const initialFavoritesTotalItems = await apis.user.favorites.getFavoritesTotalItems();
 
@@ -141,6 +139,8 @@ describe('Copy content', () => {
       destinationIdSearch = (await apis.user.nodes.createFolder(destinationSearch)).entry.id;
 
       existingFileToCopyId = (await apis.user.nodes.createFile(existingFile, sourceId)).entry.id;
+
+      await userActions.login(username, username);
       await userActions.shareNodes([existingFileToCopyId]);
       await apis.user.favorites.addFavoriteById('file', existingFileToCopyId);
 

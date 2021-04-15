@@ -125,7 +125,6 @@ describe('Search results - libraries', () => {
 
   afterAll(async () => {
     try {
-      await adminApiActions.login();
       await adminApiActions.sites.deleteSites([adminSite1, adminSite2, adminSite3, adminSite4, adminPrivate]);
       await apis.user.sites.deleteSites([site1.id, site2.id, site3.id, site4.id, userSitePublic, userSiteModerated, userSitePrivate, siteRussian.id]);
     } catch (error) {

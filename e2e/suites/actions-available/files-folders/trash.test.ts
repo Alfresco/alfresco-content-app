@@ -46,15 +46,14 @@ describe('Trash - available actions : ', () => {
   const loginPage = new LoginPage();
 
   beforeAll(async () => {
-    await adminApiActions.login();
     await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
 
     fileInTrashId = (await userApi.nodes.createFile(testData.fileInTrash.name)).entry.id;
     file2InTrashId = (await userApi.nodes.createFile(testData.file2InTrash.name)).entry.id;
     folderInTrashId = (await userApi.nodes.createFolder(testData.folderInTrash.name)).entry.id;
     folder2InTrashId = (await userApi.nodes.createFolder(testData.folder2InTrash.name)).entry.id;
 
+    await userActions.login(username, username);
     const initialDeletedTotalItems = await userActions.getTrashcanSize();
     await userActions.deleteNodes([fileInTrashId, file2InTrashId, folderInTrashId, folder2InTrashId], false);
     await userActions.waitForTrashcanSize(initialDeletedTotalItems + 4);
@@ -64,6 +63,7 @@ describe('Trash - available actions : ', () => {
   });
 
   afterAll(async () => {
+    await userActions.login(username, username);
     await userActions.emptyTrashcan();
   });
 

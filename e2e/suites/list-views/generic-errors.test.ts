@@ -50,10 +50,8 @@ describe('Generic errors', () => {
 
   beforeAll(async (done) => {
     try {
-      await adminApiActions.login();
       await adminApiActions.createUser({ username });
       await adminApiActions.createUser({ username: username2 });
-      await userActions.login(username, username);
 
       parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
       file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;

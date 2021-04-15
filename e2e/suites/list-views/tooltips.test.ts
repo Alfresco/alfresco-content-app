@@ -63,9 +63,7 @@ describe('File / folder tooltips', () => {
   const userActions = new UserActions();
 
   beforeAll(async (done) => {
-    await adminApiActions.login();
     await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
 
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
 
@@ -88,6 +86,7 @@ describe('File / folder tooltips', () => {
   });
 
   afterAll(async (done) => {
+    await userActions.login(username, username);
     await userActions.deleteNodes([parentId]);
     await userActions.emptyTrashcan();
     done();
@@ -246,6 +245,7 @@ describe('File / folder tooltips', () => {
     });
 
     afterAll(async (done) => {
+      await userActions.login(username, username);
       await userActions.deleteNodes([parentForTrashId]);
       await userActions.emptyTrashcan();
       done();

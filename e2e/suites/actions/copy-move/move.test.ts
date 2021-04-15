@@ -68,9 +68,7 @@ describe('Move content', () => {
   const userActions = new UserActions();
 
   beforeAll(async (done) => {
-    await adminApiActions.login();
     await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
 
     await apis.user.sites.createSite(siteName);
     const docLibId = await apis.user.sites.getDocLibId(siteName);
@@ -422,6 +420,7 @@ describe('Move content', () => {
     beforeAll(async (done) => {
       file1Id = (await apis.user.nodes.createFile(file1, sourceIdSF)).entry.id;
 
+      await userActions.login(username, username);
       await userActions.shareNodes([file1Id]);
 
       file2Id = (await apis.user.nodes.createFile(file2, sourceIdSF)).entry.id;

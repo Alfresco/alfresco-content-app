@@ -42,9 +42,7 @@ describe('Restore from Trash', () => {
 
   beforeAll(async (done) => {
     try {
-      await adminApiActions.login();
       await adminApiActions.createUser({ username });
-      await userActions.login(username, username);
 
       await loginPage.loginWith(username);
     } catch (error) {
@@ -54,6 +52,7 @@ describe('Restore from Trash', () => {
   });
 
   afterAll(async () => {
+    await userActions.login(username, username);
     await userActions.emptyTrashcan();
   });
 
@@ -69,6 +68,7 @@ describe('Restore from Trash', () => {
       folderId = (await apis.user.nodes.createFolder(folder)).entry.id;
       await apis.user.sites.createSite(site);
 
+      await userActions.login(username, username);
       await userActions.deleteNodes([fileId, folderId], false);
       await userActions.deleteSites([site], false);
     });
@@ -169,6 +169,8 @@ describe('Restore from Trash', () => {
     beforeAll(async () => {
       folder1Id = (await apis.user.nodes.createFolder(folder1)).entry.id;
       file1Id1 = (await apis.user.nodes.createFile(file1, folder1Id)).entry.id;
+
+      await userActions.login(username, username);
       await userActions.deleteNodes([file1Id1], false);
       file1Id2 = (await apis.user.nodes.createFile(file1, folder1Id)).entry.id;
 
@@ -233,6 +235,7 @@ describe('Restore from Trash', () => {
         folder2Id = (await apis.user.nodes.createFolder(folder2)).entry.id;
         file2Id = (await apis.user.nodes.createFile(file2, folder2Id)).entry.id;
 
+        await userActions.login(username, username);
         await userActions.deleteNodes([file1Id, folder1Id, file2Id], false);
 
         folder3Id = (await apis.user.nodes.createFolder(folder3)).entry.id;

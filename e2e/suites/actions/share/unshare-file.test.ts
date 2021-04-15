@@ -62,9 +62,7 @@ describe('Unshare a file', () => {
 
   beforeAll(async (done) => {
     try {
-      await adminApiActions.login();
       await adminApiActions.createUser({ username });
-      await userActions.login(username, username);
 
       parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
       await loginPage.loginWith(username);
@@ -95,6 +93,7 @@ describe('Unshare a file', () => {
         file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
         file4Id = (await apis.user.nodes.createFile(file4, parentId)).entry.id;
 
+        await userActions.login(username, username);
         await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
         await apis.user.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id]);
       } catch (error) {
@@ -226,6 +225,7 @@ describe('Unshare a file', () => {
         file3Id = (await apis.user.nodes.createFile(file3, parentInSiteId)).entry.id;
         file4Id = (await apis.user.nodes.createFile(file4, parentInSiteId)).entry.id;
 
+        await userActions.login(username, username);
         await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
         await apis.user.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id]);
       } catch (error) {
@@ -351,6 +351,7 @@ describe('Unshare a file', () => {
         file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
         file4Id = (await apis.user.nodes.createFile(file4, parentId)).entry.id;
 
+        await userActions.login(username, username);
         await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
         await apis.user.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id]);
       } catch (error) {
@@ -472,6 +473,7 @@ describe('Unshare a file', () => {
         file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
         file4Id = (await apis.user.nodes.createFile(file4, parentId)).entry.id;
 
+        await userActions.login(username, username);
         await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
         await apis.user.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id]);
       } catch (error) {
@@ -595,6 +597,7 @@ describe('Unshare a file', () => {
         file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
         file4Id = (await apis.user.nodes.createFile(file4, parentId)).entry.id;
 
+        await userActions.login(username, username);
         await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
 
         await apis.user.favorites.addFavoriteById('file', file1Id);
@@ -724,6 +727,7 @@ describe('Unshare a file', () => {
 
     beforeAll(async () => {
       try {
+        await adminApiActions.login();
         await adminApiActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
         const docLibId = await adminApiActions.sites.getDocLibId(sitePrivate);
 
@@ -736,7 +740,6 @@ describe('Unshare a file', () => {
 
         await adminApiActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_CONSUMER.ROLE);
 
-        await adminApiActions.login();
         await adminApiActions.shareNodes([file1FileLibId, file1SharedId, file1FavId]);
 
         await userActions.login(username, username);

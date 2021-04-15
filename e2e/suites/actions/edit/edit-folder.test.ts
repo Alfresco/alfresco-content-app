@@ -123,7 +123,6 @@ describe('Edit folder', () => {
   });
 
   afterAll(async () => {
-    await adminApiActions.login();
     await adminApiActions.sites.deleteSite(sitePrivate);
     await apis.user.sites.deleteSite(siteName);
     await apis.user.nodes.deleteNodesById([parentId, folderFavoriteToEditId, folderFavoriteDuplicateId, folderSearchToEditId]);
