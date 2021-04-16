@@ -108,19 +108,11 @@ describe('Trash', () => {
 
   describe('as admin', () => {
     beforeAll(async () => {
-      try {
-        await loginPage.loginWithAdmin();
-      } catch (error) {
-        Logger.error(`----- beforeAll failed : ${error}`);
-      }
+      await loginPage.loginWithAdmin();
     });
 
     beforeEach(async () => {
-      try {
-        await page.clickTrashAndWait();
-      } catch (error) {
-        Logger.error(`----- beforeEach failed : ${error}`);
-      }
+      await page.clickTrashAndWait();
     });
 
     it('[C213217] has the correct columns', async () => {
@@ -141,19 +133,11 @@ describe('Trash', () => {
 
   describe('as user', () => {
     beforeAll(async () => {
-      try {
-        await loginPage.loginWith(username);
-      } catch (error) {
-        Logger.error(`----- beforeAll failed : ${error}`);
-      }
+      await loginPage.loginWith(username);
     });
 
     beforeEach(async () => {
-      try {
-        await page.clickTrashAndWait();
-      } catch (error) {
-        Logger.error(`----- beforeEach failed : ${error}`);
-      }
+      await page.clickTrashAndWait();
     });
 
     it('[C280494] has the correct columns', async () => {

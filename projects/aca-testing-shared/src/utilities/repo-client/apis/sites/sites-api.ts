@@ -287,7 +287,7 @@ export class SitesApi extends RepoApi {
 
       return await Utils.retryCall(site);
     } catch (error) {
-      Logger.error(`SitesApi waitForSitesToBeCreated :  catch : `);
+      Logger.error(`SitesApi waitForSitesToBeCreated :  catch : ${error}`);
       Logger.error(`\tWait timeout reached waiting for sites to be created`);
     }
   }

@@ -81,11 +81,7 @@ describe('Delete and undo delete', () => {
     });
 
     beforeEach(async () => {
-      try {
-        await page.clickRecentFilesAndWait();
-      } catch (error) {
-        Logger.error(`----- beforeEach failed : ${error}`);
-      }
+      await page.clickRecentFilesAndWait();
     });
 
     afterAll(async () => {
@@ -219,14 +215,9 @@ describe('Delete and undo delete', () => {
       done();
     });
 
-    beforeEach(async (done) => {
-      try {
-        await page.clickPersonalFilesAndWait();
-        await page.dataTable.doubleClickOnRowByName(parent);
-      } catch (error) {
-        Logger.error(`----- beforeEach failed : ${error}`);
-      }
-      done();
+    beforeEach(async () => {
+      await page.clickPersonalFilesAndWait();
+      await page.dataTable.doubleClickOnRowByName(parent);
     });
 
     afterAll(async (done) => {
@@ -386,11 +377,7 @@ describe('Delete and undo delete', () => {
     });
 
     beforeEach(async () => {
-      try {
-        await page.clickSharedFilesAndWait();
-      } catch (error) {
-        Logger.error(`----- beforeEach failed : ${error}`);
-      }
+      await page.clickSharedFilesAndWait();
     });
 
     afterAll(async () => {
@@ -532,11 +519,7 @@ describe('Delete and undo delete', () => {
     });
 
     beforeEach(async () => {
-      try {
-        await page.clickFavoritesAndWait();
-      } catch (error) {
-        Logger.error(`----- beforeEach failed : ${error}`);
-      }
+      await page.clickFavoritesAndWait();
     });
 
     afterAll(async () => {

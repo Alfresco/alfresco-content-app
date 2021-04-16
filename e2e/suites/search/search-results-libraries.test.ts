@@ -133,12 +133,8 @@ describe('Search results - libraries', () => {
   });
 
   beforeEach(async () => {
-    try {
-      await Utils.pressEscape();
-      await page.clickPersonalFiles();
-    } catch (error) {
-      Logger.error(`----- beforeEach failed : ${error}`);
-    }
+    await Utils.pressEscape();
+    await page.clickPersonalFiles();
   });
 
   it('[C290012] Search library - full name match', async () => {

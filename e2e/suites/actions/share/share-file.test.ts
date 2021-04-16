@@ -110,11 +110,7 @@ describe('Share a file', () => {
     const { searchInput } = page.header;
 
     beforeAll(async () => {
-      try {
-        await loginPage.loginWith(username);
-      } catch (error) {
-        Logger.error(`----- beforeAll failed : ${error}`);
-      }
+      await loginPage.loginWith(username);
     });
 
     describe('from Personal Files', () => {
@@ -145,22 +141,14 @@ describe('Share a file', () => {
       });
 
       beforeEach(async () => {
-        try {
-          await page.clickPersonalFilesAndWait();
-          await dataTable.doubleClickOnRowByName(parent);
-          await dataTable.waitForHeader();
-        } catch (error) {
-          Logger.error(`----- beforeEach failed : ${error}`);
-        }
+        await page.clickPersonalFilesAndWait();
+        await dataTable.doubleClickOnRowByName(parent);
+        await dataTable.waitForHeader();
       });
 
       afterEach(async () => {
-        try {
-          await Utils.pressEscape();
-          await page.closeOpenDialogs();
-        } catch (error) {
-          Logger.error(`----- afterEach failed : ${error}`);
-        }
+        await Utils.pressEscape();
+        await page.closeOpenDialogs();
       });
 
       afterAll(async () => {
@@ -366,12 +354,8 @@ describe('Share a file', () => {
       });
 
       afterEach(async () => {
-        try {
-          await Utils.pressEscape();
-          await page.closeOpenDialogs();
-        } catch (error) {
-          Logger.error(`----- afterEach failed : ${error}`);
-        }
+        await Utils.pressEscape();
+        await page.closeOpenDialogs();
       });
 
       afterAll(async () => {
@@ -558,20 +542,12 @@ describe('Share a file', () => {
       });
 
       beforeEach(async () => {
-        try {
-          await page.clickRecentFilesAndWait();
-        } catch (error) {
-          Logger.error(`----- beforeEach failed : ${error}`);
-        }
+        await page.clickRecentFilesAndWait();
       });
 
       afterEach(async () => {
-        try {
-          await page.closeOpenDialogs();
-          await Utils.pressEscape();
-        } catch (error) {
-          Logger.error(`----- afterEach failed : ${error}`);
-        }
+        await page.closeOpenDialogs();
+        await Utils.pressEscape();
       });
 
       afterAll(async () => {
@@ -756,20 +732,12 @@ describe('Share a file', () => {
       });
 
       beforeEach(async () => {
-        try {
-          await page.clickSharedFilesAndWait();
-        } catch (error) {
-          Logger.error(`----- beforeEach failed : ${error}`);
-        }
+        await page.clickSharedFilesAndWait();
       });
 
       afterEach(async () => {
-        try {
-          await Utils.pressEscape();
-          await page.closeOpenDialogs();
-        } catch (error) {
-          Logger.error(`----- afterEach failed : ${error}`);
-        }
+        await Utils.pressEscape();
+        await page.closeOpenDialogs();
       });
 
       afterAll(async () => {
@@ -912,20 +880,12 @@ describe('Share a file', () => {
       });
 
       beforeEach(async () => {
-        try {
-          await page.clickFavoritesAndWait();
-        } catch (error) {
-          Logger.error(`----- beforeEach failed : ${error}`);
-        }
+        await page.clickFavoritesAndWait();
       });
 
       afterEach(async () => {
-        try {
-          await Utils.pressEscape();
-          await page.closeOpenDialogs();
-        } catch (error) {
-          Logger.error(`----- afterEach failed : ${error}`);
-        }
+        await Utils.pressEscape();
+        await page.closeOpenDialogs();
       });
 
       afterAll(async () => {
@@ -1124,12 +1084,8 @@ describe('Share a file', () => {
       });
 
       afterEach(async () => {
-        try {
-          await Utils.pressEscape();
-          await page.closeOpenDialogs();
-        } catch (error) {
-          Logger.error(`----- afterEach failed : ${error}`);
-        }
+        await Utils.pressEscape();
+        await page.closeOpenDialogs();
       });
 
       afterAll(async () => {

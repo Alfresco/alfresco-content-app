@@ -120,12 +120,8 @@ describe('Unshare a file from Search Results', () => {
   });
 
   afterEach(async () => {
-    try {
-      await page.closeOpenDialogs();
-      await page.clickPersonalFilesAndWait();
-    } catch (error) {
-      Logger.error(`----- afterEach failed : ${error}`);
-    }
+    await page.closeOpenDialogs();
+    await page.clickPersonalFilesAndWait();
   });
 
   it('[C306995] Unshare dialog UI', async () => {

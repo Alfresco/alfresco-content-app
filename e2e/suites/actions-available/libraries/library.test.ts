@@ -100,12 +100,8 @@ describe('Library actions : ', () => {
 
   describe('on My Libraries', () => {
     beforeAll(async () => {
-      try {
-        await Utils.pressEscape();
-        await page.goToMyLibrariesAndWait();
-      } catch (error) {
-        Logger.error(`----- beforeAll failed : ${error}`);
-      }
+      await Utils.pressEscape();
+      await page.goToMyLibrariesAndWait();
     });
 
     beforeEach(async () => {
@@ -169,12 +165,8 @@ describe('Library actions : ', () => {
 
   describe('on Favorite Libraries', () => {
     beforeAll(async () => {
-      try {
-        await Utils.pressEscape();
-        await page.goToFavoriteLibrariesAndWait();
-      } catch (error) {
-        Logger.error(`----- beforeAll failed : ${error}`);
-      }
+      await Utils.pressEscape();
+      await page.goToFavoriteLibrariesAndWait();
     });
 
     beforeEach(async () => {

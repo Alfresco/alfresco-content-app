@@ -41,13 +41,8 @@ describe('Restore from Trash', () => {
   const userActions = new UserActions();
 
   beforeAll(async (done) => {
-    try {
-      await adminApiActions.createUser({ username });
-
-      await loginPage.loginWith(username);
-    } catch (error) {
-      Logger.error(`----- beforeAll failed : ${error}`);
-    }
+    await adminApiActions.createUser({ username });
+    await loginPage.loginWith(username);
     done();
   });
 
@@ -74,11 +69,7 @@ describe('Restore from Trash', () => {
     });
 
     beforeEach(async () => {
-      try {
-        await page.clickTrashAndWait();
-      } catch (error) {
-        Logger.error(`----- beforeEach failed : ${error}`);
-      }
+      await page.clickTrashAndWait();
     });
 
     afterAll(async () => {
@@ -181,11 +172,7 @@ describe('Restore from Trash', () => {
     });
 
     beforeEach(async () => {
-      try {
-        await page.clickTrashAndWait();
-      } catch (error) {
-        Logger.error(`----- beforeEach failed : ${error}`);
-      }
+      await page.clickTrashAndWait();
     });
 
     afterAll(async () => {
@@ -253,11 +240,7 @@ describe('Restore from Trash', () => {
     });
 
     beforeEach(async () => {
-      try {
-        await page.clickTrashAndWait();
-      } catch (error) {
-        Logger.error(`----- beforeEach failed : ${error}`);
-      }
+      await page.clickTrashAndWait();
     });
 
     afterAll(async () => {

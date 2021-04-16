@@ -153,12 +153,8 @@ describe('Create file from template', () => {
 
     describe('Select Template dialog', () => {
       beforeEach(async () => {
-        try {
-          await sidenav.openCreateFileFromTemplateDialog();
-          await selectTemplateDialog.waitForDialogToOpen();
-        } catch (error) {
-          Logger.error(`----- beforeEach failed : ${error}`);
-        }
+        await sidenav.openCreateFileFromTemplateDialog();
+        await selectTemplateDialog.waitForDialogToOpen();
       });
 
       it('[C325043] Select template - dialog UI - with existing templates', async () => {

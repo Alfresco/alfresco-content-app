@@ -128,7 +128,7 @@ export class Menu extends Component {
       const elem = this.getItemByLabel(menuItem);
       await BrowserActions.click(elem);
     } catch (e) {
-      Logger.error('___click menu item catch___', e);
+      Logger.error(`___click menu item catch : failed to click on ${menuItem}___`, e);
     }
   }
 
@@ -139,7 +139,7 @@ export class Menu extends Component {
       await browser.actions().mouseMove(elem).perform();
       await browser.sleep(500);
     } catch (error) {
-      Logger.error('----- mouse over error: ', error);
+      Logger.error(`----- mouse over error : failed to mouse over ${menuItem} : `, error);
     }
   }
 

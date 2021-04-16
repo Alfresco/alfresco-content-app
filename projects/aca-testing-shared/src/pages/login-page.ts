@@ -27,7 +27,7 @@ import { LoginComponent } from '../components/components';
 import { Page } from './page';
 import { APP_ROUTES } from '../configs';
 import { waitForPresence } from '../utilities/utils';
-import { BrowserActions } from '@alfresco/adf-testing';
+import { BrowserActions, Logger } from '@alfresco/adf-testing';
 
 export class LoginPage extends Page {
   login = new LoginComponent(this.appRoot);
@@ -47,13 +47,17 @@ export class LoginPage extends Page {
   }
 
   async loginWith(username: string, password?: string) {
-    const pass = password || username;
+    try {
+      const pass = password || username;
 
-    await this.load();
+      await this.load();
 
-    await this.login.enterCredentials(username, pass);
-    await BrowserActions.click(this.login.submitButton);
-    await this.waitForApp();
+      await this.login.enterCredentials(username, pass);
+      await BrowserActions.click(this.login.submitButton);
+      await this.waitForApp();
+    } catch (error) {
+      Logger.error(`----- loginWith catch : failed to login with user: ${username} : ${error}`);
+    }
   }
 
   async loginWithAdmin() {
