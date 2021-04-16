@@ -63,13 +63,8 @@ describe('Viewer actions', () => {
   const adminApiActions = new AdminActions();
   const userActions = new UserActions();
 
-  beforeAll(async (done) => {
-    try {
-      await adminApiActions.createUser({ username });
-    } catch (error) {
-      Logger.error(`----- beforeAll failed : ${error}`);
-    }
-    done();
+  beforeAll(async () => {
+    await adminApiActions.createUser({ username });
   });
 
   describe('from Personal Files', () => {
@@ -133,12 +128,8 @@ describe('Viewer actions', () => {
     });
 
     afterEach(async () => {
-      try {
-        await Utils.pressEscape();
-        await page.closeUploadDialog();
-      } catch (error) {
-        Logger.error(`----- afterEach failed : ${error}`);
-      }
+      await Utils.pressEscape();
+      await page.closeUploadDialog();
     });
 
     afterAll(async () => {
@@ -375,12 +366,8 @@ describe('Viewer actions', () => {
     });
 
     afterEach(async () => {
-      try {
-        await Utils.pressEscape();
-        await page.closeUploadDialog();
-      } catch (error) {
-        Logger.error(`----- afterEach failed : ${error}`);
-      }
+      await Utils.pressEscape();
+      await page.closeUploadDialog();
     });
 
     afterAll(async () => {
@@ -569,20 +556,12 @@ describe('Viewer actions', () => {
     });
 
     beforeEach(async () => {
-      try {
-        await page.clickRecentFilesAndWait();
-      } catch (error) {
-        Logger.error(`----- beforeEach failed : ${error}`);
-      }
+      await page.clickRecentFilesAndWait();
     });
 
     afterEach(async () => {
-      try {
-        await Utils.pressEscape();
-        await page.closeUploadDialog();
-      } catch (error) {
-        Logger.error(`----- afterEach failed : ${error}`);
-      }
+      await Utils.pressEscape();
+      await page.closeUploadDialog();
     });
 
     afterAll(async () => {
@@ -787,11 +766,7 @@ describe('Viewer actions', () => {
     });
 
     beforeEach(async () => {
-      try {
-        await page.clickSharedFilesAndWait();
-      } catch (error) {
-        Logger.error(`----- beforeEach failed : ${error}`);
-      }
+      await page.clickSharedFilesAndWait();
     });
 
     afterEach(async () => {
@@ -997,20 +972,12 @@ describe('Viewer actions', () => {
     });
 
     beforeEach(async () => {
-      try {
-        await page.clickFavoritesAndWait();
-      } catch (error) {
-        Logger.error(`----- beforeEach failed : ${error}`);
-      }
+      await page.clickFavoritesAndWait();
     });
 
     afterEach(async () => {
-      try {
-        await Utils.pressEscape();
-        await page.closeUploadDialog();
-      } catch (error) {
-        Logger.error(`----- afterEach failed : ${error}`);
-      }
+      await Utils.pressEscape();
+      await page.closeUploadDialog();
     });
 
     afterAll(async () => {

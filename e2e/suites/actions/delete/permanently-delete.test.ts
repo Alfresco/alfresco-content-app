@@ -67,9 +67,8 @@ describe('Permanently delete from Trash', () => {
     done();
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     await page.clickTrashAndWait();
-    done();
   });
 
   afterAll(async (done) => {

@@ -113,11 +113,7 @@ describe('Unshare a file', () => {
     });
 
     afterEach(async () => {
-      try {
-        await page.closeOpenDialogs();
-      } catch (error) {
-        Logger.error(`----- afterEach failed : ${error}`);
-      }
+      await page.closeOpenDialogs();
     });
 
     afterAll(async () => {
@@ -247,11 +243,7 @@ describe('Unshare a file', () => {
     });
 
     afterEach(async () => {
-      try {
-        await page.closeOpenDialogs();
-      } catch (error) {
-        Logger.error(`----- afterEach failed : ${error}`);
-      }
+      await page.closeOpenDialogs();
     });
 
     afterAll(async () => {
@@ -360,20 +352,12 @@ describe('Unshare a file', () => {
     });
 
     beforeEach(async () => {
-      try {
-        await page.closeOpenDialogs();
-        await page.clickRecentFilesAndWait();
-      } catch (error) {
-        Logger.error(`----- beforeEach failed : ${error}`);
-      }
+      await page.closeOpenDialogs();
+      await page.clickRecentFilesAndWait();
     });
 
     afterEach(async () => {
-      try {
-        await page.closeOpenDialogs();
-      } catch (error) {
-        Logger.error(`----- afterEach failed : ${error}`);
-      }
+      await page.closeOpenDialogs();
     });
 
     afterAll(async () => {
@@ -482,20 +466,12 @@ describe('Unshare a file', () => {
     });
 
     beforeEach(async () => {
-      try {
-        await page.closeOpenDialogs();
-        await page.clickSharedFilesAndWait();
-      } catch (error) {
-        Logger.error(`----- beforeEach failed : ${error}`);
-      }
+      await page.closeOpenDialogs();
+      await page.clickSharedFilesAndWait();
     });
 
     afterEach(async () => {
-      try {
-        await page.closeOpenDialogs();
-      } catch (error) {
-        Logger.error(`----- afterEach failed : ${error}`);
-      }
+      await page.closeOpenDialogs();
     });
 
     afterAll(async () => {
@@ -613,20 +589,12 @@ describe('Unshare a file', () => {
     });
 
     beforeEach(async () => {
-      try {
-        await page.closeOpenDialogs();
-        await page.clickFavoritesAndWait();
-      } catch (error) {
-        Logger.error(`----- beforeEach failed : ${error}`);
-      }
+      await page.closeOpenDialogs();
+      await page.clickFavoritesAndWait();
     });
 
     afterEach(async () => {
-      try {
-        await page.closeOpenDialogs();
-      } catch (error) {
-        Logger.error(`----- afterEach failed : ${error}`);
-      }
+      await page.closeOpenDialogs();
     });
 
     afterAll(async () => {
@@ -761,12 +729,8 @@ describe('Unshare a file', () => {
     });
 
     afterEach(async () => {
-      try {
-        await page.closeOpenDialogs();
-        await page.clickPersonalFilesAndWait();
-      } catch (error) {
-        Logger.error(`----- afterEach failed : ${error}`);
-      }
+      await page.closeOpenDialogs();
+      await page.clickPersonalFilesAndWait();
     });
 
     it('[C286682] on File Libraries - file shared by other user', async () => {
