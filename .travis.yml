@@ -78,7 +78,6 @@ jobs:
       script:
         - npm ci
         - ng test app --code-coverage --watch=false
-        - bash <(curl -s https://codecov.io/bash) -X gcov
       cache: false
 
     - stage: e2e
