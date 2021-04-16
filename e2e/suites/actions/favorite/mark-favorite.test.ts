@@ -123,14 +123,12 @@ describe('Mark items as favorites', () => {
     done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await apis.user.nodes.deleteNodeById(parentId);
-    done();
   });
 
-  afterEach(async (done) => {
+  afterEach(async () => {
     await Utils.pressEscape();
-    done();
   });
 
   describe('on Personal Files', () => {

@@ -81,9 +81,7 @@ describe('Download', () => {
   const userActions = new UserActions();
 
   beforeAll(async (done) => {
-    await adminApiActions.login();
     await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
 
     initialRecentTotalItems = await apis.user.search.getTotalItems(username);
 
@@ -108,6 +106,7 @@ describe('Download', () => {
 
     await apis.user.search.waitForApi(username, { expect: initialRecentTotalItems + 10 });
 
+    await userActions.login(username, username);
     await userActions.shareNodes([fileShared1Id, fileShared2Id]);
     await apis.user.shared.waitForFilesToBeShared([fileShared1Id, fileShared2Id]);
 
@@ -121,6 +120,7 @@ describe('Download', () => {
   });
 
   afterAll(async (done) => {
+    await userActions.login(username, username);
     await userActions.deleteNodes([parentId]);
     await userActions.emptyTrashcan();
     done();

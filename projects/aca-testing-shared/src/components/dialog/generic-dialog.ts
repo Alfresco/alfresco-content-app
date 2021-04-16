@@ -25,7 +25,7 @@
 
 import { ElementFinder, by, browser, Locator } from 'protractor';
 import { isPresentAndDisplayed, waitForPresence, waitForStaleness } from '../../utilities/utils';
-import { BrowserVisibility } from '@alfresco/adf-testing';
+import { BrowserVisibility, Logger } from '@alfresco/adf-testing';
 
 export abstract class GenericDialog {
   protected constructor(private rootCssSelector?: string) {}
@@ -53,7 +53,11 @@ export abstract class GenericDialog {
   }
 
   async waitForDialogToClose(): Promise<void> {
-    await waitForStaleness(this.content);
+    try {
+      await waitForStaleness(this.content);
+    } catch (error) {
+      Logger.error(`GenericDialog waitForDialogToClose :  catch : ${error}`);
+    }
   }
 
   async isDialogOpen(): Promise<boolean> {

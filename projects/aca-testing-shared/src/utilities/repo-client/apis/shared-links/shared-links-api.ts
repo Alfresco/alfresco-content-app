@@ -26,7 +26,7 @@
 import { RepoApi } from '../repo-api';
 import { Logger } from '@alfresco/adf-testing';
 import { Utils } from '../../../../utilities/utils';
-import { SharedlinksApi as AdfSharedlinksApi, SharedLinkEntry } from '@alfresco/js-api';
+import { SharedlinksApi as AdfSharedlinksApi, SharedLinkEntry, SharedLinkPaging } from '@alfresco/js-api';
 
 export class SharedLinksApi extends RepoApi {
   sharedlinksApi = new AdfSharedlinksApi(this.alfrescoJsApi);
@@ -75,7 +75,7 @@ export class SharedLinksApi extends RepoApi {
     }
   }
 
-  async unshareFileById(fileId: string) {
+  async unshareFileById(fileId: string): Promise<any> {
     try {
       const sharedId = await this.getSharedIdOfNode(fileId);
       return await this.sharedlinksApi.deleteSharedLink(sharedId);
@@ -84,7 +84,7 @@ export class SharedLinksApi extends RepoApi {
     }
   }
 
-  async getSharedLinks(maxItems: number = 250) {
+  async getSharedLinks(maxItems: number = 250): Promise<SharedLinkPaging | null> {
     try {
       await this.apiAuth();
       const opts = {
@@ -111,7 +111,7 @@ export class SharedLinksApi extends RepoApi {
     }
   }
 
-  async waitForApi(data: { expect: number }) {
+  async waitForApi(data: { expect: number }): Promise<any> {
     try {
       const sharedFiles = async () => {
         const totalItems = await this.getSharedLinksTotalItems();
@@ -129,7 +129,7 @@ export class SharedLinksApi extends RepoApi {
     }
   }
 
-  async waitForFilesToBeShared(filesIds: string[]) {
+  async waitForFilesToBeShared(filesIds: string[]): Promise<any> {
     try {
       const sharedFile = async () => {
         const sharedFiles = (await this.getSharedLinks()).list.entries.map((link) => link.entry.nodeId);
@@ -143,12 +143,12 @@ export class SharedLinksApi extends RepoApi {
 
       return await Utils.retryCall(sharedFile);
     } catch (error) {
-      Logger.error(`SharedLinksApi waitForFilesToBeShared :  catch : `);
+      Logger.error(`SharedLinksApi waitForFilesToBeShared :  catch : ${error}`);
       Logger.error(`\tWait timeout reached waiting for files to be shared`);
     }
   }
 
-  async waitForFilesToNotBeShared(filesIds: string[]) {
+  async waitForFilesToNotBeShared(filesIds: string[]): Promise<any> {
     try {
       const sharedFile = async () => {
         const sharedFiles = (await this.getSharedLinks()).list.entries.map((link) => link.entry.nodeId);
@@ -166,7 +166,7 @@ export class SharedLinksApi extends RepoApi {
 
       return await Utils.retryCall(sharedFile);
     } catch (error) {
-      Logger.error(`SharedLinksApi waitForFilesToNotBeShared :  catch : `);
+      Logger.error(`SharedLinksApi waitForFilesToNotBeShared :  catch : ${error}`);
       Logger.error(`\tWait timeout reached waiting for files to no longer be shared`);
     }
   }

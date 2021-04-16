@@ -57,7 +57,7 @@ export abstract class Page {
     return browser.get(path);
   }
 
-  async waitForApp() {
+  async waitForApp(): Promise<void> {
     await waitForPresence(this.layout);
   }
 
@@ -67,15 +67,15 @@ export abstract class Page {
     await BrowserVisibility.waitUntilElementIsPresent(browser.element(by.css('[class*="login-content"] input#username')));
   }
 
-  async waitForDialog() {
+  async waitForDialog(): Promise<void> {
     await BrowserVisibility.waitUntilElementIsVisible(this.dialogContainer);
   }
 
-  async isDialogOpen() {
-    return browser.isElementPresent(this.dialogContainer);
+  async isDialogOpen(): Promise<boolean> {
+    return isPresentAndDisplayed(this.dialogContainer);
   }
 
-  async closeOpenDialogs() {
+  async closeOpenDialogs(): Promise<void> {
     while (await this.isDialogOpen()) {
       await Utils.pressEscape();
     }

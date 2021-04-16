@@ -228,7 +228,7 @@ export class DataTable extends Component {
       await browser.actions().mouseMove(item).perform();
       await browser.actions().doubleClick().perform();
     } catch (error) {
-      Logger.error('--- catch: doubleClickOnRowByName : ', error);
+      Logger.error(`--- doubleClickOnRowByName catch : failed to double click on ${name} from location : ${location} : `, error);
     }
   }
 
@@ -252,7 +252,7 @@ export class DataTable extends Component {
         const item = this.getRowFirstCell(name, location);
         await item.click();
       } catch (e) {
-        Logger.error('--- unselect item catch : ', e);
+        Logger.error(`--- unselect item catch : failed to unselect ${name} from location : ${location} : `, e);
       }
     }
   }

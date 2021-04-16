@@ -52,14 +52,14 @@ describe('Recent Files', () => {
   const userActions = new UserActions();
 
   beforeAll(async (done) => {
-    await adminApiActions.login();
     await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
 
     folderId = (await apis.user.nodes.createFolders([folderName])).entry.id;
     await apis.user.nodes.createFiles([fileName1], folderName);
     file2Id = (await apis.user.nodes.createFiles([fileName2])).entry.id;
     const id = (await apis.user.nodes.createFiles([fileName3])).entry.id;
+
+    await userActions.login(username, username);
     await userActions.deleteNodes([id], false);
 
     await apis.user.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
@@ -79,6 +79,7 @@ describe('Recent Files', () => {
   });
 
   afterAll(async (done) => {
+    await userActions.login(username, username);
     await userActions.deleteNodes([folderId, file2Id]);
     await userActions.deleteSites([siteName]);
     await userActions.emptyTrashcan();

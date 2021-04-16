@@ -37,7 +37,7 @@ import {
   ManageVersionsDialog,
   UploadNewVersionDialog
 } from '@alfresco/aca-testing-shared';
-import { BrowserActions } from '@alfresco/adf-testing';
+import { BrowserActions, Logger } from '@alfresco/adf-testing';
 
 describe('Viewer actions', () => {
   const username = `user-${Utils.random()}`;
@@ -63,11 +63,8 @@ describe('Viewer actions', () => {
   const adminApiActions = new AdminActions();
   const userActions = new UserActions();
 
-  beforeAll(async (done) => {
-    await adminApiActions.login();
+  beforeAll(async () => {
     await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
-    done();
   });
 
   describe('from Personal Files', () => {
@@ -94,45 +91,55 @@ describe('Viewer actions', () => {
     let fileForUploadNewVersionId2: string;
 
     beforeAll(async (done) => {
-      parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
-      destinationId = (await apis.user.nodes.createFolder(destination)).entry.id;
+      try {
+        parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
+        destinationId = (await apis.user.nodes.createFolder(destination)).entry.id;
 
-      docxFileId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, docxPersonalFiles)).entry.id;
+        docxFileId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, docxPersonalFiles)).entry.id;
 
-      filePersonalFilesId = (await apis.user.upload.uploadFile(docxFile2, parentId)).entry.id;
-      await apis.user.upload.uploadFileWithRename(xlsxFileForMove, parentId, xlsxPersonalFiles);
-      await apis.user.upload.uploadFileWithRename(pdfFileForDelete, parentId, pdfPersonalFiles);
+        filePersonalFilesId = (await apis.user.upload.uploadFile(docxFile2, parentId)).entry.id;
+        await apis.user.upload.uploadFileWithRename(xlsxFileForMove, parentId, xlsxPersonalFiles);
+        await apis.user.upload.uploadFileWithRename(pdfFileForDelete, parentId, pdfPersonalFiles);
 
-      fileForEditOfflineId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForEditOffline)).entry.id;
-      fileForCancelEditingId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForCancelEditing)).entry.id;
-      fileForUploadNewVersionId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForUploadNewVersion)).entry.id;
-      fileForUploadNewVersionId2 = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForUploadNewVersion2)).entry.id;
+        fileForEditOfflineId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForEditOffline)).entry.id;
+        fileForCancelEditingId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForCancelEditing)).entry.id;
+        fileForUploadNewVersionId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForUploadNewVersion)).entry.id;
+        fileForUploadNewVersionId2 = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForUploadNewVersion2)).entry.id;
 
-      await apis.user.nodes.lockFile(fileForCancelEditingId);
-      await apis.user.nodes.lockFile(fileForUploadNewVersionId);
-      await apis.user.nodes.lockFile(fileForUploadNewVersionId2);
+        await apis.user.nodes.lockFile(fileForCancelEditingId);
+        await apis.user.nodes.lockFile(fileForUploadNewVersionId);
+        await apis.user.nodes.lockFile(fileForUploadNewVersionId2);
 
-      await loginPage.loginWith(username);
+        await loginPage.loginWith(username);
+      } catch (error) {
+        Logger.error(`----- beforeAll failed : ${error}`);
+      }
       done();
     });
 
-    beforeEach(async (done) => {
-      await page.clickPersonalFilesAndWait();
-      await dataTable.doubleClickOnRowByName(parent);
-      await dataTable.waitForHeader();
-      done();
+    beforeEach(async () => {
+      try {
+        await page.clickPersonalFilesAndWait();
+        await dataTable.doubleClickOnRowByName(parent);
+        await dataTable.waitForHeader();
+      } catch (error) {
+        Logger.error(`----- beforeEach failed : ${error}`);
+      }
     });
 
-    afterEach(async (done) => {
+    afterEach(async () => {
       await Utils.pressEscape();
       await page.closeUploadDialog();
-      done();
     });
 
-    afterAll(async (done) => {
-      await userActions.deleteNodes([parentId, destinationId]);
-      await userActions.emptyTrashcan();
-      done();
+    afterAll(async () => {
+      try {
+        await userActions.login(username, username);
+        await userActions.deleteNodes([parentId, destinationId]);
+        await userActions.emptyTrashcan();
+      } catch (error) {
+        Logger.error(`----- afterAll failed : ${error}`);
+      }
     });
 
     it('[C268129] Download action', async () => {
@@ -323,45 +330,55 @@ describe('Viewer actions', () => {
     let fileForUploadNewVersionId: string;
 
     beforeAll(async (done) => {
-      await apis.user.sites.createSite(siteName);
-      const docLibId = await apis.user.sites.getDocLibId(siteName);
-      destinationId = (await apis.user.nodes.createFolder(destination)).entry.id;
-      docxFileId = (await apis.user.upload.uploadFileWithRename(docxFile, docLibId, docxLibraries)).entry.id;
+      try {
+        await apis.user.sites.createSite(siteName);
+        const docLibId = await apis.user.sites.getDocLibId(siteName);
+        destinationId = (await apis.user.nodes.createFolder(destination)).entry.id;
+        docxFileId = (await apis.user.upload.uploadFileWithRename(docxFile, docLibId, docxLibraries)).entry.id;
 
-      fileLibrariesId = (await apis.user.upload.uploadFile(docxFile2, docLibId)).entry.id;
+        fileLibrariesId = (await apis.user.upload.uploadFile(docxFile2, docLibId)).entry.id;
 
-      await apis.user.upload.uploadFileWithRename(xlsxFileForMove, docLibId, xlsxLibraries);
-      await apis.user.upload.uploadFileWithRename(pdfFileForDelete, docLibId, pdfLibraries);
+        await apis.user.upload.uploadFileWithRename(xlsxFileForMove, docLibId, xlsxLibraries);
+        await apis.user.upload.uploadFileWithRename(pdfFileForDelete, docLibId, pdfLibraries);
 
-      fileForEditOfflineId = (await apis.user.upload.uploadFileWithRename(docxFile, docLibId, fileForEditOffline)).entry.id;
-      fileForCancelEditingId = (await apis.user.upload.uploadFileWithRename(docxFile, docLibId, fileForCancelEditing)).entry.id;
-      fileForUploadNewVersionId = (await apis.user.upload.uploadFileWithRename(docxFile, docLibId, fileForUploadNewVersion)).entry.id;
+        fileForEditOfflineId = (await apis.user.upload.uploadFileWithRename(docxFile, docLibId, fileForEditOffline)).entry.id;
+        fileForCancelEditingId = (await apis.user.upload.uploadFileWithRename(docxFile, docLibId, fileForCancelEditing)).entry.id;
+        fileForUploadNewVersionId = (await apis.user.upload.uploadFileWithRename(docxFile, docLibId, fileForUploadNewVersion)).entry.id;
 
-      await apis.user.nodes.lockFile(fileForCancelEditingId);
-      await apis.user.nodes.lockFile(fileForUploadNewVersionId);
+        await apis.user.nodes.lockFile(fileForCancelEditingId);
+        await apis.user.nodes.lockFile(fileForUploadNewVersionId);
 
-      await loginPage.loginWith(username);
+        await loginPage.loginWith(username);
+      } catch (error) {
+        Logger.error(`----- beforeAll failed : ${error}`);
+      }
       done();
     });
 
-    beforeEach(async (done) => {
-      await page.goToMyLibrariesAndWait();
-      await dataTable.doubleClickOnRowByName(siteName);
-      await dataTable.waitForHeader();
-      done();
+    beforeEach(async () => {
+      try {
+        await page.goToMyLibrariesAndWait();
+        await dataTable.doubleClickOnRowByName(siteName);
+        await dataTable.waitForHeader();
+      } catch (error) {
+        Logger.error(`----- beforeEach failed : ${error}`);
+      }
     });
 
-    afterEach(async (done) => {
+    afterEach(async () => {
       await Utils.pressEscape();
       await page.closeUploadDialog();
-      done();
     });
 
-    afterAll(async (done) => {
-      await userActions.deleteSites([siteName]);
-      await userActions.deleteNodes([destinationId]);
-      await userActions.emptyTrashcan();
-      done();
+    afterAll(async () => {
+      try {
+        await userActions.login(username, username);
+        await userActions.deleteSites([siteName]);
+        await userActions.deleteNodes([destinationId]);
+        await userActions.emptyTrashcan();
+      } catch (error) {
+        Logger.error(`----- afterAll failed : ${error}`);
+      }
     });
 
     it('[C286369] Download action', async () => {
@@ -510,45 +527,51 @@ describe('Viewer actions', () => {
     let fileForUploadNewVersionId: string;
 
     beforeAll(async (done) => {
-      await apis.user.search.waitForApi(username, { expect: 0 });
+      try {
+        await apis.user.search.waitForApi(username, { expect: 0 });
 
-      parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
-      destinationId = (await apis.user.nodes.createFolder(destination)).entry.id;
-      docxFileId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, docxRecentFiles)).entry.id;
+        parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
+        destinationId = (await apis.user.nodes.createFolder(destination)).entry.id;
+        docxFileId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, docxRecentFiles)).entry.id;
 
-      fileRecentId = (await apis.user.upload.uploadFile(docxFile2, parentId)).entry.id;
+        fileRecentId = (await apis.user.upload.uploadFile(docxFile2, parentId)).entry.id;
 
-      fileForEditOfflineId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForEditOffline)).entry.id;
-      fileForCancelEditingId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForCancelEditing)).entry.id;
-      fileForUploadNewVersionId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForUploadNewVersion)).entry.id;
+        fileForEditOfflineId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForEditOffline)).entry.id;
+        fileForCancelEditingId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForCancelEditing)).entry.id;
+        fileForUploadNewVersionId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForUploadNewVersion)).entry.id;
 
-      await apis.user.nodes.lockFile(fileForCancelEditingId);
-      await apis.user.nodes.lockFile(fileForUploadNewVersionId);
+        await apis.user.nodes.lockFile(fileForCancelEditingId);
+        await apis.user.nodes.lockFile(fileForUploadNewVersionId);
 
-      await apis.user.upload.uploadFileWithRename(xlsxFileForMove, parentId, xlsxRecentFiles);
-      await apis.user.upload.uploadFileWithRename(pdfFileForDelete, parentId, pdfRecentFiles);
+        await apis.user.upload.uploadFileWithRename(xlsxFileForMove, parentId, xlsxRecentFiles);
+        await apis.user.upload.uploadFileWithRename(pdfFileForDelete, parentId, pdfRecentFiles);
 
-      await apis.user.search.waitForApi(username, { expect: 7 });
+        await apis.user.search.waitForApi(username, { expect: 7 });
 
-      await loginPage.loginWith(username);
+        await loginPage.loginWith(username);
+      } catch (error) {
+        Logger.error(`----- beforeAll failed : ${error}`);
+      }
       done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickRecentFilesAndWait();
-      done();
     });
 
-    afterEach(async (done) => {
+    afterEach(async () => {
       await Utils.pressEscape();
       await page.closeUploadDialog();
-      done();
     });
 
-    afterAll(async (done) => {
-      await userActions.deleteNodes([parentId, destinationId]);
-      await userActions.emptyTrashcan();
-      done();
+    afterAll(async () => {
+      try {
+        await userActions.login(username, username);
+        await userActions.deleteNodes([parentId, destinationId]);
+        await userActions.emptyTrashcan();
+      } catch (error) {
+        Logger.error(`----- afterAll failed : ${error}`);
+      }
     });
 
     it('[C286383] Download action', async () => {
@@ -700,60 +723,70 @@ describe('Viewer actions', () => {
     let fileForUploadNewVersionId;
 
     beforeAll(async (done) => {
-      parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
-      destinationId = (await apis.user.nodes.createFolder(destination)).entry.id;
-      docxFileId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, docxSharedFiles)).entry.id;
+      try {
+        parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
+        destinationId = (await apis.user.nodes.createFolder(destination)).entry.id;
+        docxFileId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, docxSharedFiles)).entry.id;
 
-      xlsxFileId = (await apis.user.upload.uploadFileWithRename(xlsxFileForMove, parentId, xlsxSharedFiles)).entry.id;
-      pdfFileId = (await apis.user.upload.uploadFileWithRename(pdfFileForDelete, parentId, pdfSharedFiles)).entry.id;
-      fileSharedId = (await apis.user.upload.uploadFile(docxFile2, parentId)).entry.id;
+        xlsxFileId = (await apis.user.upload.uploadFileWithRename(xlsxFileForMove, parentId, xlsxSharedFiles)).entry.id;
+        pdfFileId = (await apis.user.upload.uploadFileWithRename(pdfFileForDelete, parentId, pdfSharedFiles)).entry.id;
+        fileSharedId = (await apis.user.upload.uploadFile(docxFile2, parentId)).entry.id;
 
-      fileForEditOfflineId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForEditOffline)).entry.id;
-      fileForCancelEditingId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForCancelEditing)).entry.id;
-      fileForUploadNewVersionId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForUploadNewVersion)).entry.id;
+        fileForEditOfflineId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForEditOffline)).entry.id;
+        fileForCancelEditingId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForCancelEditing)).entry.id;
+        fileForUploadNewVersionId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForUploadNewVersion)).entry.id;
 
-      await apis.user.nodes.lockFile(fileForCancelEditingId);
-      await apis.user.nodes.lockFile(fileForUploadNewVersionId);
+        await apis.user.nodes.lockFile(fileForCancelEditingId);
+        await apis.user.nodes.lockFile(fileForUploadNewVersionId);
 
-      await apis.user.shared.shareFilesByIds([
-        docxFileId,
-        xlsxFileId,
-        pdfFileId,
-        fileForCancelEditingId,
-        fileForEditOfflineId,
-        fileForUploadNewVersionId,
-        fileSharedId
-      ]);
-      await apis.user.shared.waitForFilesToBeShared([
-        docxFileId,
-        xlsxFileId,
-        pdfFileId,
-        fileForCancelEditingId,
-        fileForEditOfflineId,
-        fileForUploadNewVersionId,
-        fileSharedId
-      ]);
+        await apis.user.shared.shareFilesByIds([
+          docxFileId,
+          xlsxFileId,
+          pdfFileId,
+          fileForCancelEditingId,
+          fileForEditOfflineId,
+          fileForUploadNewVersionId,
+          fileSharedId
+        ]);
+        await apis.user.shared.waitForFilesToBeShared([
+          docxFileId,
+          xlsxFileId,
+          pdfFileId,
+          fileForCancelEditingId,
+          fileForEditOfflineId,
+          fileForUploadNewVersionId,
+          fileSharedId
+        ]);
 
-      await loginPage.loginWith(username);
+        await loginPage.loginWith(username);
+      } catch (error) {
+        Logger.error(`----- beforeAll failed : ${error}`);
+      }
       done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickSharedFilesAndWait();
-      done();
     });
 
-    afterEach(async (done) => {
-      await page.closeOpenDialogs();
-      await Utils.pressEscape();
-      await page.closeUploadDialog();
-      done();
+    afterEach(async () => {
+      try {
+        await page.closeOpenDialogs();
+        await Utils.pressEscape();
+        await page.closeUploadDialog();
+      } catch (error) {
+        Logger.error(`----- afterEach failed : ${error}`);
+      }
     });
 
-    afterAll(async (done) => {
-      await userActions.deleteNodes([parentId, destinationId]);
-      await userActions.emptyTrashcan();
-      done();
+    afterAll(async () => {
+      try {
+        await userActions.login(username, username);
+        await userActions.deleteNodes([parentId, destinationId]);
+        await userActions.emptyTrashcan();
+      } catch (error) {
+        Logger.error(`----- afterAll failed : ${error}`);
+      }
     });
 
     it('[C286376] Download action', async () => {
@@ -904,51 +937,57 @@ describe('Viewer actions', () => {
     let fileForUploadNewVersionId: string;
 
     beforeAll(async (done) => {
-      parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
-      destinationId = (await apis.user.nodes.createFolder(destination)).entry.id;
-      docxFileId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, docxFavorites)).entry.id;
+      try {
+        parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
+        destinationId = (await apis.user.nodes.createFolder(destination)).entry.id;
+        docxFileId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, docxFavorites)).entry.id;
 
-      xlsxFileId = (await apis.user.upload.uploadFileWithRename(xlsxFileForMove, parentId, xlsxFavorites)).entry.id;
-      pdfFileId = (await apis.user.upload.uploadFileWithRename(pdfFileForDelete, parentId, pdfFavorites)).entry.id;
-      fileFavId = (await apis.user.upload.uploadFile(docxFile2, parentId)).entry.id;
+        xlsxFileId = (await apis.user.upload.uploadFileWithRename(xlsxFileForMove, parentId, xlsxFavorites)).entry.id;
+        pdfFileId = (await apis.user.upload.uploadFileWithRename(pdfFileForDelete, parentId, pdfFavorites)).entry.id;
+        fileFavId = (await apis.user.upload.uploadFile(docxFile2, parentId)).entry.id;
 
-      fileForEditOfflineId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForEditOffline)).entry.id;
-      fileForCancelEditingId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForCancelEditing)).entry.id;
-      fileForUploadNewVersionId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForUploadNewVersion)).entry.id;
+        fileForEditOfflineId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForEditOffline)).entry.id;
+        fileForCancelEditingId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForCancelEditing)).entry.id;
+        fileForUploadNewVersionId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, fileForUploadNewVersion)).entry.id;
 
-      await apis.user.nodes.lockFile(fileForCancelEditingId);
-      await apis.user.nodes.lockFile(fileForUploadNewVersionId);
+        await apis.user.nodes.lockFile(fileForCancelEditingId);
+        await apis.user.nodes.lockFile(fileForUploadNewVersionId);
 
-      await apis.user.favorites.addFavoritesByIds('file', [
-        docxFileId,
-        xlsxFileId,
-        pdfFileId,
-        fileForEditOfflineId,
-        fileForCancelEditingId,
-        fileForUploadNewVersionId,
-        fileFavId
-      ]);
-      await apis.user.favorites.waitForApi({ expect: 7 });
+        await apis.user.favorites.addFavoritesByIds('file', [
+          docxFileId,
+          xlsxFileId,
+          pdfFileId,
+          fileForEditOfflineId,
+          fileForCancelEditingId,
+          fileForUploadNewVersionId,
+          fileFavId
+        ]);
+        await apis.user.favorites.waitForApi({ expect: 7 });
 
-      await loginPage.loginWith(username);
+        await loginPage.loginWith(username);
+      } catch (error) {
+        Logger.error(`----- beforeAll failed : ${error}`);
+      }
       done();
     });
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       await page.clickFavoritesAndWait();
-      done();
     });
 
-    afterEach(async (done) => {
+    afterEach(async () => {
       await Utils.pressEscape();
       await page.closeUploadDialog();
-      done();
     });
 
-    afterAll(async (done) => {
-      await userActions.deleteNodes([parentId, destinationId]);
-      await userActions.emptyTrashcan();
-      done();
+    afterAll(async () => {
+      try {
+        await userActions.login(username, username);
+        await userActions.deleteNodes([parentId, destinationId]);
+        await userActions.emptyTrashcan();
+      } catch (error) {
+        Logger.error(`----- afterAll failed : ${error}`);
+      }
     });
 
     it('[C286390] Download action', async () => {

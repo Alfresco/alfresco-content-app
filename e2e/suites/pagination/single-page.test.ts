@@ -49,12 +49,12 @@ describe('Pagination on single page', () => {
   const searchResultsPage = new SearchResultsPage();
 
   beforeAll(async () => {
-    await adminApiActions.login();
     await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
 
     const initialFavoriteTotalItems = await userApi.favorites.getFavoritesTotalItems();
     const initialRecentFilesTotalItems = await userApi.search.getTotalItems(username);
+
+    await userActions.login(username, username);
     const initialTrashTotalItems = await userActions.getTrashcanSize();
 
     fileId = (await userApi.nodes.createFile(file)).entry.id;
@@ -74,6 +74,7 @@ describe('Pagination on single page', () => {
   });
 
   afterAll(async () => {
+    await userActions.login(username, username);
     await userActions.deleteNodes([fileId]);
     await userActions.deleteSites([siteId]);
     await userActions.emptyTrashcan();

@@ -58,9 +58,7 @@ describe('Viewer general', () => {
   const userActions = new UserActions();
 
   beforeAll(async (done) => {
-    await adminApiActions.login();
     await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
 
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
     xlsxFileId = (await apis.user.upload.uploadFile(xlsxFile, parentId)).entry.id;
@@ -73,6 +71,7 @@ describe('Viewer general', () => {
     docLibSiteUserId = await apis.user.sites.getDocLibId(siteUser);
     await apis.user.upload.uploadFile(fileInSite, docLibSiteUserId);
 
+    await userActions.login(username, username);
     await userActions.shareNodes([xlsxFileId]);
     await apis.user.favorites.addFavoriteById('file', xlsxFileId);
 

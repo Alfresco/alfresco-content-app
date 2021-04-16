@@ -123,6 +123,7 @@ describe('Create folder from template', () => {
     docLibUserSite = await userApi.sites.getDocLibId(siteName);
     await userApi.nodes.createFolder(duplicateFolderSite, docLibUserSite);
 
+    await adminApiActions.login();
     await adminApiActions.createSpaceTemplatesHierarchy(templates);
     await adminApiActions.removeUserAccessOnSpaceTemplate(restrictedTemplateFolder);
     folderLink = (await adminApiActions.createLinkToFolderName(folderInRootFolder, await adminApiActions.getSpaceTemplatesFolderId())).entry.name;

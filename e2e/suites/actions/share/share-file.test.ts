@@ -35,7 +35,7 @@ import {
   Viewer,
   Utils
 } from '@alfresco/aca-testing-shared';
-import { BrowserActions } from '@alfresco/adf-testing';
+import { BrowserActions, Logger } from '@alfresco/adf-testing';
 
 describe('Share a file', () => {
   const username = `user-${Utils.random()}`;
@@ -65,10 +65,8 @@ describe('Share a file', () => {
   const userActions = new UserActions();
 
   beforeAll(async () => {
-    await adminApiActions.login();
     await adminApiActions.createUser({ username });
 
-    await userActions.login(username, username);
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
   });
 
@@ -137,6 +135,7 @@ describe('Share a file', () => {
         file8Id = (await apis.user.nodes.createFile(file8, parentId)).entry.id;
         file9Id = (await apis.user.nodes.createFile(file9, parentId)).entry.id;
 
+        await userActions.login(username, username);
         await userActions.shareNodes([file6Id, file7Id], expiryDate);
         await apis.user.shared.waitForFilesToBeShared([file6Id, file7Id]);
       });
@@ -337,16 +336,21 @@ describe('Share a file', () => {
         file8Id = (await apis.user.nodes.createFile(file8, parentInSiteId)).entry.id;
         file9Id = (await apis.user.nodes.createFile(file9, parentInSiteId)).entry.id;
 
+        await userActions.login(username, username);
         await userActions.shareNodes([file6Id, file7Id], expiryDate);
         await apis.user.shared.waitForFilesToBeShared([file6Id, file7Id]);
       });
 
       beforeEach(async () => {
-        await page.goToMyLibrariesAndWait();
-        await dataTable.doubleClickOnRowByName(siteName);
-        await dataTable.waitForHeader();
-        await dataTable.doubleClickOnRowByName(parentInSite);
-        await dataTable.waitForHeader();
+        try {
+          await page.goToMyLibrariesAndWait();
+          await dataTable.doubleClickOnRowByName(siteName);
+          await dataTable.waitForHeader();
+          await dataTable.doubleClickOnRowByName(parentInSite);
+          await dataTable.waitForHeader();
+        } catch (error) {
+          Logger.error(`----- beforeEach failed : ${error}`);
+        }
       });
 
       afterEach(async () => {
@@ -532,6 +536,7 @@ describe('Share a file', () => {
         file8Id = (await apis.user.nodes.createFile(file8, parentId)).entry.id;
         file9Id = (await apis.user.nodes.createFile(file9, parentId)).entry.id;
 
+        await userActions.login(username, username);
         await userActions.shareNodes([file6Id, file7Id], expiryDate);
         await apis.user.shared.waitForFilesToBeShared([file6Id, file7Id]);
       });
@@ -719,6 +724,7 @@ describe('Share a file', () => {
         file6Id = (await apis.user.nodes.createFile(file6, parentId)).entry.id;
         file7Id = (await apis.user.nodes.createFile(file7, parentId)).entry.id;
 
+        await userActions.login(username, username);
         await userActions.shareNodes([file1Id, file2Id, file3Id]);
         await userActions.shareNodes([file4Id, file5Id], expiryDate);
         await userActions.shareNodes([file6Id, file7Id]);
@@ -866,6 +872,7 @@ describe('Share a file', () => {
         file9Id = (await apis.user.nodes.createFile(file9, parentId)).entry.id;
 
         await apis.user.favorites.addFavoritesByIds('file', [file1Id, file2Id, file3Id, file4Id, file5Id, file6Id, file7Id, file8Id, file9Id]);
+        await userActions.login(username, username);
         await userActions.shareNodes([file6Id, file7Id], expiryDate);
 
         await apis.user.favorites.waitForApi({ expect: 9 });
@@ -1060,15 +1067,20 @@ describe('Share a file', () => {
         fileSearch9Id = (await apis.user.nodes.createFile(fileSearch9, parentId)).entry.id;
         await apis.user.search.waitForNodes(searchRandom, { expect: 5 });
 
+        await userActions.login(username, username);
         await userActions.shareNodes([fileSearch6Id, fileSearch7Id], expiryDate);
         await apis.user.shared.waitForFilesToBeShared([fileSearch6Id, fileSearch7Id]);
       });
 
       beforeEach(async () => {
-        await searchInput.clickSearchButton();
-        await searchInput.checkFilesAndFolders();
-        await searchInput.searchFor(searchRandom);
-        await dataTable.waitForBody();
+        try {
+          await searchInput.clickSearchButton();
+          await searchInput.checkFilesAndFolders();
+          await searchInput.searchFor(searchRandom);
+          await dataTable.waitForBody();
+        } catch (error) {
+          Logger.error(`----- beforeEach failed : ${error}`);
+        }
       });
 
       afterEach(async () => {

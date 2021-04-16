@@ -58,7 +58,7 @@ export class Sidenav extends Component {
         await element(by.css('.mat-expansion-panel-body')).isPresent();
       }
     } catch (e) {
-      Logger.error('---- sidebar navigation catch expandMenu: ', e);
+      Logger.error(`---- sidebar navigation catch expandMenu: failed to expand ${name} menu : `, e);
     }
   }
 
@@ -144,7 +144,7 @@ export class Sidenav extends Component {
       const link = this.getLinkLabel(name);
       await BrowserActions.click(link);
     } catch (error) {
-      Logger.error('---- sidebar navigation clickLink catch error: ', error);
+      Logger.error(`---- clickLink catch : sidebar navigation failed to click on - ${name} : `, error);
     }
   }
 

@@ -26,6 +26,7 @@
 import { RepoClient, Utils, AdminActions, UserActions, LoginPage, BrowsingPage, SearchResultsPage } from '@alfresco/aca-testing-shared';
 import * as testData from './test-data';
 import * as testUtil from '../test-util';
+import { Logger } from '@alfresco/adf-testing';
 
 describe('Files - available actions : ', () => {
   const random = Utils.random();
@@ -48,29 +49,33 @@ describe('Files - available actions : ', () => {
   const { searchInput } = page.header;
   const searchResultsPage = new SearchResultsPage();
 
-  beforeAll(async () => {
-    await adminApiActions.login();
-    await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
+  beforeAll(async (done) => {
+    try {
+      await adminApiActions.createUser({ username });
 
-    parentId = (await userApi.nodes.createFolder(parentName)).entry.id;
+      parentId = (await userApi.nodes.createFolder(parentName)).entry.id;
 
-    await userApi.nodes.createFile(testData.file.name, parentId);
-    fileFavId = (await userApi.nodes.createFile(testData.fileFav.name, parentId)).entry.id;
-    fileSharedId = (await userApi.nodes.createFile(testData.fileShared.name, parentId)).entry.id;
-    fileSharedFavId = (await userApi.nodes.createFile(testData.fileSharedFav.name, parentId)).entry.id;
+      await userApi.nodes.createFile(testData.file.name, parentId);
+      fileFavId = (await userApi.nodes.createFile(testData.fileFav.name, parentId)).entry.id;
+      fileSharedId = (await userApi.nodes.createFile(testData.fileShared.name, parentId)).entry.id;
+      fileSharedFavId = (await userApi.nodes.createFile(testData.fileSharedFav.name, parentId)).entry.id;
 
-    const initialFavoritesTotalItems = (await userApi.favorites.getFavoritesTotalItems()) || 0;
-    await userApi.favorites.addFavoritesByIds('file', [fileFavId, fileSharedFavId]);
-    await userApi.favorites.waitForApi({ expect: initialFavoritesTotalItems + 2 });
+      const initialFavoritesTotalItems = (await userApi.favorites.getFavoritesTotalItems()) || 0;
+      await userApi.favorites.addFavoritesByIds('file', [fileFavId, fileSharedFavId]);
+      await userApi.favorites.waitForApi({ expect: initialFavoritesTotalItems + 2 });
 
-    await userApi.shared.shareFilesByIds([fileSharedId, fileSharedFavId]);
-    await userApi.shared.waitForFilesToBeShared([fileSharedId, fileSharedFavId]);
+      await userApi.shared.shareFilesByIds([fileSharedId, fileSharedFavId]);
+      await userApi.shared.waitForFilesToBeShared([fileSharedId, fileSharedFavId]);
 
-    await loginPage.loginWith(username);
+      await loginPage.loginWith(username);
+    } catch (error) {
+      Logger.error(`----- beforeEach failed : ${error}`);
+    }
+    done();
   });
 
   afterAll(async () => {
+    await userActions.login(username, username);
     await userActions.deleteNodes([parentId]);
     await userActions.emptyTrashcan();
   });

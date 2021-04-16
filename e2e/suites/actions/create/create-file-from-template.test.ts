@@ -34,7 +34,7 @@ import {
   RepoClient,
   NodeContentTree
 } from '@alfresco/aca-testing-shared';
-import { BrowserActions } from '@alfresco/adf-testing';
+import { BrowserActions, Logger } from '@alfresco/adf-testing';
 
 describe('Create file from template', () => {
   const random = Utils.random();
@@ -111,7 +111,7 @@ describe('Create file from template', () => {
   };
   let link: string;
 
-  beforeAll(async () => {
+  beforeAll(async (done) => {
     await adminApiActions.createUser({ username });
 
     parentId = (await userApi.nodes.createFolder(parent)).entry.id;
@@ -122,12 +122,14 @@ describe('Create file from template', () => {
     await userApi.nodes.createFile(duplicateFileSite, docLibUserSite);
 
     await loginPage.loginWith(username);
+    done();
   });
 
   afterAll(async () => {
     await userApi.nodes.deleteNodeById(parentId);
     await userApi.sites.deleteSite(siteName);
 
+    await adminApiActions.login();
     await adminApiActions.cleanupNodeTemplatesItems([
       templatesFolder1,
       templatesFolder2,
@@ -143,6 +145,7 @@ describe('Create file from template', () => {
 
   describe('with existing templates', () => {
     beforeAll(async () => {
+      await adminApiActions.login();
       await adminApiActions.createNodeTemplatesHierarchy(templates);
       await adminApiActions.removeUserAccessOnNodeTemplate(restrictedTemplateFolder);
       link = (await adminApiActions.createLinkToFileName(template2InRootFolder, await adminApiActions.getNodeTemplatesFolderId())).entry.name;
@@ -229,11 +232,15 @@ describe('Create file from template', () => {
 
     describe('Create from template dialog', () => {
       beforeEach(async () => {
-        await sidenav.openCreateFileFromTemplateDialog();
-        await selectTemplateDialog.waitForDialogToOpen();
-        await selectTemplateDialog.dataTable.selectItem(template1InRootFolder);
-        await selectTemplateDialog.clickNext();
-        await createFromTemplateDialog.waitForDialogToOpen();
+        try {
+          await sidenav.openCreateFileFromTemplateDialog();
+          await selectTemplateDialog.waitForDialogToOpen();
+          await selectTemplateDialog.dataTable.selectItem(template1InRootFolder);
+          await selectTemplateDialog.clickNext();
+          await createFromTemplateDialog.waitForDialogToOpen();
+        } catch (error) {
+          Logger.error(`----- beforeEach failed : ${error}`);
+        }
       });
 
       it('[C325020] Create file from template - dialog UI', async () => {
@@ -296,13 +303,17 @@ describe('Create file from template', () => {
 
     describe('On Personal Files', () => {
       beforeEach(async () => {
-        await page.clickPersonalFilesAndWait();
-        await page.dataTable.doubleClickOnRowByName(parent);
-        await sidenav.openCreateFileFromTemplateDialog();
-        await selectTemplateDialog.waitForDialogToOpen();
-        await selectTemplateDialog.dataTable.selectItem(template1InRootFolder);
-        await selectTemplateDialog.clickNext();
-        await createFromTemplateDialog.waitForDialogToOpen();
+        try {
+          await page.clickPersonalFilesAndWait();
+          await page.dataTable.doubleClickOnRowByName(parent);
+          await sidenav.openCreateFileFromTemplateDialog();
+          await selectTemplateDialog.waitForDialogToOpen();
+          await selectTemplateDialog.dataTable.selectItem(template1InRootFolder);
+          await selectTemplateDialog.clickNext();
+          await createFromTemplateDialog.waitForDialogToOpen();
+        } catch (error) {
+          Logger.error(`----- beforeEach failed : ${error}`);
+        }
       });
 
       it('[C325030] Create a file from a template - with a new Name', async () => {
@@ -360,13 +371,17 @@ describe('Create file from template', () => {
       const fileLibrariesPage = new BrowsingPage();
 
       beforeEach(async () => {
-        await fileLibrariesPage.goToMyLibrariesAndWait();
-        await page.dataTable.doubleClickOnRowByName(siteName);
-        await sidenav.openCreateFileFromTemplateDialog();
-        await selectTemplateDialog.waitForDialogToOpen();
-        await selectTemplateDialog.dataTable.selectItem(template1InRootFolder);
-        await selectTemplateDialog.clickNext();
-        await createFromTemplateDialog.waitForDialogToOpen();
+        try {
+          await fileLibrariesPage.goToMyLibrariesAndWait();
+          await page.dataTable.doubleClickOnRowByName(siteName);
+          await sidenav.openCreateFileFromTemplateDialog();
+          await selectTemplateDialog.waitForDialogToOpen();
+          await selectTemplateDialog.dataTable.selectItem(template1InRootFolder);
+          await selectTemplateDialog.clickNext();
+          await createFromTemplateDialog.waitForDialogToOpen();
+        } catch (error) {
+          Logger.error(`----- beforeEach failed : ${error}`);
+        }
       });
 
       it('[C325023] Create a file from a template - with Name, Title and Description', async () => {

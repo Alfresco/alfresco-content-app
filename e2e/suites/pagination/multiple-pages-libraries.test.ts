@@ -56,11 +56,7 @@ describe('Pagination on multiple pages', () => {
   }, 400000);
 
   afterAll(async () => {
-    try {
-      await userApi.sites.deleteSites(sites);
-    } catch (error) {
-      Logger.error(`----- afterAll failed : ${error}`);
-    }
+    await userApi.sites.deleteSites(sites);
   });
 
   describe('on My Libraries', () => {

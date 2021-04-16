@@ -38,19 +38,19 @@ describe('Library actions : ', () => {
   const page = new BrowsingPage();
 
   beforeAll(async () => {
-    await adminApiActions.login();
     await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
 
     await userApi.sites.createSite(testData.siteInTrash.name);
     await userApi.sites.createSite(testData.site2InTrash.name);
 
+    await userActions.login(username, username);
     await userActions.deleteSites([testData.siteInTrash.name, testData.site2InTrash.name], false);
 
     await loginPage.loginWith(username);
   });
 
   afterAll(async () => {
+    await userActions.login(username, username);
     await userActions.emptyTrashcan();
   });
 

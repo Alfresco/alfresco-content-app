@@ -37,7 +37,7 @@ import {
   Viewer,
   Utils
 } from '@alfresco/aca-testing-shared';
-import { BrowserActions } from '@alfresco/adf-testing';
+import { BrowserActions, Logger } from '@alfresco/adf-testing';
 
 describe('Unshare a file from Search Results', () => {
   const username = `user-${Utils.random()}`;
@@ -79,47 +79,49 @@ describe('Unshare a file from Search Results', () => {
   const userActions = new UserActions();
 
   beforeAll(async (done) => {
-    await adminApiActions.login();
-    await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
+    try {
+      await adminApiActions.createUser({ username });
 
-    parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
+      parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
 
-    file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
-    file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
-    file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
-    file4Id = (await apis.user.nodes.createFile(file4, parentId)).entry.id;
+      file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
+      file2Id = (await apis.user.nodes.createFile(file2, parentId)).entry.id;
+      file3Id = (await apis.user.nodes.createFile(file3, parentId)).entry.id;
+      file4Id = (await apis.user.nodes.createFile(file4, parentId)).entry.id;
 
-    await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id]);
-    await adminApiActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
-    const docLibId = await adminApiActions.sites.getDocLibId(sitePrivate);
+      await adminApiActions.login();
+      await adminApiActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
+      const docLibId = await adminApiActions.sites.getDocLibId(sitePrivate);
 
-    fileSite1Id = (await adminApiActions.nodes.createFile(fileSite1, docLibId)).entry.id;
-    fileSite2Id = (await adminApiActions.nodes.createFile(fileSite2, docLibId)).entry.id;
+      fileSite1Id = (await adminApiActions.nodes.createFile(fileSite1, docLibId)).entry.id;
+      fileSite2Id = (await adminApiActions.nodes.createFile(fileSite2, docLibId)).entry.id;
 
-    await adminApiActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_CONSUMER.ROLE);
+      await adminApiActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_CONSUMER.ROLE);
 
-    await adminApiActions.shareNodes([fileSite1Id]);
-    await userActions.shareNodes([fileSite2Id]);
+      await adminApiActions.shareNodes([fileSite1Id]);
+      await adminApiActions.shared.waitForFilesToBeShared([fileSite1Id]);
 
-    await apis.user.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id, fileSite2Id]);
-    await adminApiActions.shared.waitForFilesToBeShared([fileSite1Id]);
-    await apis.user.search.waitForNodes(`search-file-${searchRandom}`, { expect: 6 });
+      await userActions.login(username, username);
+      await userActions.shareNodes([file1Id, file2Id, file3Id, file4Id, fileSite2Id]);
+      await apis.user.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id, fileSite2Id]);
 
-    await loginPage.loginWith(username);
+      await apis.user.search.waitForNodes(`search-file-${searchRandom}`, { expect: 6 });
+
+      await loginPage.loginWith(username);
+    } catch (error) {
+      Logger.error(`----- beforeAll failed : ${error}`);
+    }
     done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await apis.user.nodes.deleteNodeById(parentId);
     await adminApiActions.sites.deleteSite(sitePrivate);
-    done();
   });
 
-  afterEach(async (done) => {
+  afterEach(async () => {
     await page.closeOpenDialogs();
     await page.clickPersonalFilesAndWait();
-    done();
   });
 
   it('[C306995] Unshare dialog UI', async () => {

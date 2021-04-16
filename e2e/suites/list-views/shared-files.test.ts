@@ -59,6 +59,9 @@ describe('Shared Files', () => {
     const docLibId = await adminApiActions.sites.getDocLibId(siteName);
     const nodeId = (await adminApiActions.nodes.createFile(fileAdmin, docLibId)).entry.id;
 
+    await adminApiActions.shareNodes([nodeId]);
+    await adminApiActions.shared.waitForFilesToBeShared([nodeId]);
+
     folderId = (await apis.user.nodes.createFolder(folderUser)).entry.id;
     file1Id = (await apis.user.nodes.createFile(file1User, folderId)).entry.id;
     file2Id = (await apis.user.nodes.createFile(file2User)).entry.id;
@@ -66,12 +69,7 @@ describe('Shared Files', () => {
     file4Id = (await apis.user.nodes.createFile(file4User)).entry.id;
 
     await apis.user.shared.shareFilesByIds([file1Id, file2Id, file3Id, file4Id]);
-
-    await adminApiActions.login();
-    await adminApiActions.shareNodes([nodeId]);
-
     await apis.user.shared.waitForFilesToBeShared([file1Id, file2Id, file3Id, file4Id]);
-    await adminApiActions.shared.waitForFilesToBeShared([nodeId]);
 
     await apis.user.nodes.deleteNodeById(file2Id);
     await apis.user.shared.unshareFileById(file3Id);

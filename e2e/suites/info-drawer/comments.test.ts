@@ -69,9 +69,7 @@ describe('Comments', () => {
   const userActions = new UserActions();
 
   beforeAll(async (done) => {
-    await adminApiActions.login();
     await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
 
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
 
@@ -84,6 +82,7 @@ describe('Comments', () => {
     fileWith1CommentId = (await apis.user.nodes.createFile(fileWith1Comment, parentId)).entry.id;
     fileWith2CommentsId = (await apis.user.nodes.createFile(fileWith2Comments, parentId)).entry.id;
 
+    await userActions.login(username, username);
     comment1File2Entry = await userActions.createComment(fileWith2CommentsId, 'first comment');
     comment2File2Entry = await userActions.createComment(fileWith2CommentsId, 'second comment');
 
@@ -101,6 +100,7 @@ describe('Comments', () => {
   });
 
   afterAll(async (done) => {
+    await userActions.login(username, username);
     await userActions.deleteNodes([parentId]);
     done();
   });
@@ -355,6 +355,7 @@ describe('Comments', () => {
 
   describe('Comment info display', () => {
     beforeAll(async (done) => {
+      await userActions.login(username, username);
       commentFile1Entry = await userActions.createComment(fileWith1CommentId, 'this is my comment');
 
       await apis.user.favorites.waitForApi({ expect: 4 });

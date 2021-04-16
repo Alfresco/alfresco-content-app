@@ -142,7 +142,7 @@ export class Utils {
     if (fileExists) {
       fs.rename(oldFilePath, newFilePath, function (err: any) {
         if (err) {
-          Logger.error('==== rename err: ', err);
+          Logger.error(`==== rename err : failed to rename file from ${oldName} to ${newName} : `, err);
         }
       });
     }
@@ -159,7 +159,7 @@ export class Utils {
     });
 
     await zip.on('error', (err: any) => {
-      Logger.error('=== unzip err: ', err);
+      Logger.error(`=== unzip err : failed to unzip ${filename} - ${unzippedName} :`, err);
     });
 
     await zip.on('ready', async () => {

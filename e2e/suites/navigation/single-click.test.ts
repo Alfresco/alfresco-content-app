@@ -55,9 +55,7 @@ describe('Single click on item name', () => {
   const userActions = new UserActions();
 
   beforeAll(async (done) => {
-    await adminApiActions.login();
     await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
 
     const initialRecentTotalItems = await apis.user.search.getTotalItems(username);
 
@@ -73,6 +71,7 @@ describe('Single click on item name', () => {
     deletedFile1Id = (await apis.user.nodes.createFile(deletedFile1)).entry.id;
     deletedFolder1Id = (await apis.user.nodes.createFolder(deletedFolder1)).entry.id;
 
+    await userActions.login(username, username);
     await userActions.deleteNodes([deletedFile1Id, deletedFolder1Id], false);
 
     await loginPage.loginWith(username);
@@ -80,6 +79,7 @@ describe('Single click on item name', () => {
   });
 
   afterAll(async () => {
+    await userActions.login(username, username);
     await userActions.deleteSites([siteName]);
     await userActions.deleteNodes([folder1Id, file1Id]);
     await userActions.emptyTrashcan();
@@ -135,6 +135,7 @@ describe('Single click on item name', () => {
 
   describe('on Shared Files', () => {
     beforeAll(async () => {
+      await userActions.login(username, username);
       await userActions.shareNodes([file1Id]);
       await apis.user.shared.waitForFilesToBeShared([file1Id]);
     });

@@ -24,7 +24,7 @@
  */
 
 import { browser } from 'protractor';
-import { BrowserActions, Logger } from '@alfresco/adf-testing';
+import { BrowserActions } from '@alfresco/adf-testing';
 import { BrowsingPage, LoginPage, CreateOrEditFolderDialog, RepoClient, Utils } from '@alfresco/aca-testing-shared';
 
 describe('General', () => {
@@ -61,11 +61,7 @@ describe('General', () => {
 
       expect(await browser.getTitle()).toContain('Sign in');
 
-      try {
-        await createDialog.waitForDialogToClose();
-      } catch (error) {
-        Logger.error('err: ', error);
-      }
+      await createDialog.waitForDialogToClose();
       expect(await createDialog.isDialogOpen()).not.toBe(true, 'dialog is present');
     });
   });

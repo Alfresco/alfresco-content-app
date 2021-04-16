@@ -40,11 +40,8 @@ describe('Special permissions', () => {
   const adminApiActions = new AdminActions();
   const userActions = new UserActions();
 
-  beforeAll(async (done) => {
-    await adminApiActions.login();
+  beforeAll(async () => {
     await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
-    done();
   });
 
   describe('file not displayed if user no longer has permissions on it', () => {
@@ -53,16 +50,20 @@ describe('Special permissions', () => {
     let fileId: string;
 
     beforeAll(async (done) => {
+      await adminApiActions.login();
       await adminApiActions.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
       await adminApiActions.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
       const docLibId = await adminApiActions.sites.getDocLibId(sitePrivate);
       fileId = (await adminApiActions.nodes.createFile(fileName, docLibId)).entry.id;
       await apis.user.favorites.addFavoriteById('file', fileId);
 
+      await adminApiActions.login();
       await adminApiActions.shareNodes([fileId]);
       await apis.user.nodes.updateNodeContent(fileId, 'edited by user');
 
       await apis.user.search.waitForApi(username, { expect: 1 });
+
+      await adminApiActions.login();
       await adminApiActions.shared.waitForFilesToBeShared([fileId]);
 
       await loginPage.loginWith(username);
@@ -132,6 +133,7 @@ describe('Special permissions', () => {
       fileId = (await apis.user.nodes.createFile(fileName, docLibId)).entry.id;
       await apis.user.favorites.addFavoriteById('file', fileId);
 
+      await userActions.login(username, username);
       await userActions.shareNodes([fileId]);
       await apis.user.shared.waitForFilesToBeShared([fileId]);
 

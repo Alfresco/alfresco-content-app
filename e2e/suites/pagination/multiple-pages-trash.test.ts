@@ -43,12 +43,11 @@ describe('Pagination on multiple pages on Trash', () => {
   const { dataTable, pagination } = page;
 
   beforeAll(async () => {
-    await adminApiActions.login();
     await adminApiActions.createUser({ username });
-    await userActions.login(username, username);
 
     filesDeletedIds = (await userApi.nodes.createFiles(filesForDelete)).list.entries.map((entries: any) => entries.entry.id);
 
+    await userActions.login(username, username);
     await userActions.deleteNodes(filesDeletedIds, false);
     await userActions.waitForTrashcanSize(51);
 
@@ -61,6 +60,7 @@ describe('Pagination on multiple pages on Trash', () => {
   });
 
   afterAll(async () => {
+    await userActions.login(username, username);
     await userActions.emptyTrashcan();
   });
 
