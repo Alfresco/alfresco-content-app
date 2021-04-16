@@ -44,9 +44,8 @@
           </app-comments-tab>
         </mat-tab>
         <mat-tab label="{{ 'APP.INFO_DRAWER.TABS.PERMISSIONS' | translate }}">
-          <app-permissions-tab *ngIf="node && !isLoading; else loading"
-                               [node]="node">
-          </app-permissions-tab>
+          <adf-permission-list *ngIf="node && !isLoading; else loading"
+                               [nodeId]="node.id"></adf-permission-list>
         </mat-tab>
 
       </mat-tab-group>
@@ -56,6 +55,6 @@
 
 <ng-template #loading>
   <mat-progress-bar color="primary"
-               mode="indeterminate">
+                    mode="indeterminate">
   </mat-progress-bar>
 </ng-template>

@@ -1158,15 +1158,6 @@
           }
         },
         {
-          "id": "app.sidebar.permissions",
-          "order": 400,
-          "title": "APP.INFO_DRAWER.TABS.PERMISSIONS",
-          "component": "app.components.tabs.permissions",
-          "rules": {
-            "visible": "app.navigation.isNotLibraries"
-          }
-        },
-        {
           "id": "app.sidebar.library.properties",
           "order": 500,
           "title": "APP.INFO_DRAWER.TABS.PROPERTIES",

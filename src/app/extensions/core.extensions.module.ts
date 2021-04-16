@@ -34,7 +34,6 @@ import { ToggleFavoriteLibraryComponent } from '../components/toolbar/toggle-fav
 import { MetadataTabComponent } from '../components/info-drawer/metadata-tab/metadata-tab.component';
 import { LibraryMetadataTabComponent } from '../components/info-drawer/library-metadata-tab/library-metadata-tab.component';
 import { CommentsTabComponent } from '../components/info-drawer/comments-tab/comments-tab.component';
-import { PermissionsTabComponent } from '../components/info-drawer/permissions-tab/permissions-tab.component';
 import { VersionsTabComponent } from '../components/info-drawer/versions-tab/versions-tab.component';
 import { ExtensionsModule, ExtensionService } from '@alfresco/adf-extensions';
 import { LocationLinkComponent } from '../components/common/location-link/location-link.component';
@@ -90,7 +89,6 @@ export class CoreExtensionsModule {
       'app.components.tabs.metadata': MetadataTabComponent,
       'app.components.tabs.library.metadata': LibraryMetadataTabComponent,
       'app.components.tabs.comments': CommentsTabComponent,
-      'app.components.tabs.permissions': PermissionsTabComponent,
       'app.components.tabs.versions': VersionsTabComponent,
       'app.components.preview': PreviewComponent,
       'app.toolbar.toggleInfoDrawer': ToggleInfoDrawerComponent,

@@ -113,9 +113,7 @@ describe('File / Folder properties', () => {
       expect(await infoDrawer.getHeaderTitle()).toEqual('Details');
       expect(await infoDrawer.isPropertiesTabDisplayed()).toBe(true, 'Properties tab is not displayed');
       expect(await infoDrawer.isCommentsTabDisplayed()).toBe(true, 'Comments tab is not displayed');
-      await infoDrawer.scrollTabs();
-      expect(await infoDrawer.isPermissionsTabDisplayed()).toBe(true, 'Permissions tab is not displayed');
-      expect(await infoDrawer.getTabsCount()).toBe(3, 'Incorrect number of tabs');
+      expect(await infoDrawer.getTabsCount()).toBe(2, 'Incorrect number of tabs');
     });
 
     it('[C269003] File properties', async () => {

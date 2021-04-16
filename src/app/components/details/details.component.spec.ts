@@ -26,7 +26,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { DetailsComponent } from './details.component';
-import { PermissionsTabComponent } from './../info-drawer/permissions-tab/permissions-tab.component';
 import { MetadataTabComponent } from './../info-drawer/metadata-tab/metadata-tab.component';
 import { CommentsTabComponent } from './../info-drawer/comments-tab/comments-tab.component';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -57,7 +56,7 @@ describe('DetailsComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule],
-      declarations: [DetailsComponent, CommentsTabComponent, MetadataTabComponent, PermissionsTabComponent],
+      declarations: [DetailsComponent, CommentsTabComponent, MetadataTabComponent],
       providers: [
         ContentManagementService,
         AppExtensionService,

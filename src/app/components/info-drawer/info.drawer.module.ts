@@ -31,7 +31,6 @@ import { NgModule } from '@angular/core';
 import { DirectivesModule } from '../../directives/directives.module';
 import { MaterialModule } from '../../material.module';
 import { CommentsTabComponent } from './comments-tab/comments-tab.component';
-import { PermissionsTabComponent } from './permissions-tab/permissions-tab.component';
 import { MetadataTabComponent } from './metadata-tab/metadata-tab.component';
 import { LibraryMetadataTabComponent } from './library-metadata-tab/library-metadata-tab.component';
 import { LibraryMetadataFormComponent } from './library-metadata-tab/library-metadata-form.component';
@@ -43,7 +42,6 @@ export function components() {
   return [
     MetadataTabComponent,
     CommentsTabComponent,
-    PermissionsTabComponent,
     VersionsTabComponent,
     LibraryMetadataTabComponent,
     LibraryMetadataFormComponent
