@@ -25,12 +25,13 @@ install: echo "no install"
 
 stages:
   - name: Quality and Unit tests
+    if: branch = develop AND type = cron
   - name: Publish Docker Registry
-    if: (type = push AND tag IS blank) OR type = api
+    if: (branch = develop AND type = cron) || (branch = master AND type = push)
   - name: Release Tag
     if: branch = master AND type = push
   - name: e2e
-    if: branch != master
+    if: branch != master AND (type = cron || type = pull_request) AND tag IS blank
   - name: Trigger DW
     if: branch = develop AND type = cron
 
