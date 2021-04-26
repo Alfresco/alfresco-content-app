@@ -577,7 +577,7 @@
             "id": "app.toolbar.permissions",
             "order": 1200,
             "title": "APP.ACTIONS.PERMISSIONS",
-            "icon": "settings_input_component",
+            "icon": "supervisor_account",
             "actions": {
               "click": "MANAGE_PERMISSIONS"
             },
@@ -793,7 +793,7 @@
       {
         "id": "app.context.menu.permissions",
         "title": "APP.ACTIONS.PERMISSIONS",
-        "icon": "settings_input_component",
+        "icon": "supervisor_account",
         "order": 1500,
         "actions": {
           "click": "MANAGE_PERMISSIONS"
@@ -1065,7 +1065,7 @@
               "id": "app.viewer.permissions",
               "order": 1000,
               "title": "APP.ACTIONS.PERMISSIONS",
-              "icon": "settings_input_component",
+              "icon": "supervisor_account",
               "actions": {
                 "click": "MANAGE_PERMISSIONS"
               },
