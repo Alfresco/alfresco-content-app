@@ -32,9 +32,9 @@ export class CreateFromTemplateDialog extends GenericDialog {
   createButton = this.childElement(by.cssContainingText('.mat-dialog-actions button', 'Create'));
   cancelButton = this.childElement(by.cssContainingText('.mat-dialog-actions button', 'CANCEL'));
 
-  nameInput = this.childElement(by.css('input[data-placeholder="Name" i]'));
-  titleInput = this.childElement(by.css('input[data-placeholder="Title" i]'));
-  descriptionTextArea = this.childElement(by.css('textarea[data-placeholder="Description" i]'));
+  nameInput = this.childElement(by.css('input[formcontrolname="name"]'));
+  titleInput = this.childElement(by.css('input[formcontrolname="title"]'));
+  descriptionTextArea = this.childElement(by.css('textarea[formcontrolname="description"]'));
   validationMessage = this.childElement(by.css('.mat-error'));
 
   constructor() {
