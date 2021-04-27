@@ -35,7 +35,7 @@ export class CommentsTabComponent {
   @Input()
   node: MinimalNodeEntryEntity;
 
-  constructor(private permission: NodePermissionService) { }
+  constructor(private permission: NodePermissionService) {}
 
   get canUpdateNode(): boolean {
     if (!this.node) {
