@@ -1,3 +1,10 @@
+import:
+  - source: .travis/env.yml
+    mode: deep_merge_prepend
+# =================
+# merge anchor
+# =================
+
 dist: bionic
 sudo: required
 services:

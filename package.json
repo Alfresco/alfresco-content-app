@@ -13,7 +13,6 @@
     "build.e2e": "npm run build.app -- --prod --configuration=e2e",
     "build.release": "npm run build.app -- --configuration=production,release",
     "test": "ng test app --code-coverage",
-    "lite-serve": "./scripts/run lite-serve",
     "test:ci": "ng test adf-office-services-ext --watch=false && ng test app --code-coverage --watch=false",
     "lint": "ng lint && npm run spellcheck && npm run e2e.typecheck",
     "update-webdriver": "./scripts/update-webdriver.sh",
