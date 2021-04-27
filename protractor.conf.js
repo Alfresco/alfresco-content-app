@@ -24,7 +24,7 @@ const SAVE_SCREENSHOT = process.env.SAVE_SCREENSHOT === 'true';
 const API_CONTENT_HOST = process.env.API_CONTENT_HOST || 'http://localhost:8080';
 const MAXINSTANCES = process.env.MAXINSTANCES || 1;
 const MAX_RETRIES = process.env.MAX_RETRIES || 1;
-const LOG_LEVEL = process.env.LOG_LEVEL || 'ERROR';
+const E2E_LOG_LEVEL = process.env.E2E_LOG_LEVEL || 'ERROR';
 
 const appConfig = {
   hostEcm: API_CONTENT_HOST,
@@ -44,7 +44,7 @@ exports.config = {
     e2eRootPath: e2eFolder,
     testConfig: {
       appConfig: {
-        log: LOG_LEVEL
+        log: E2E_LOG_LEVEL
       }
     }
   },
