@@ -2,8 +2,7 @@
   <aca-page-layout-header>
     <adf-breadcrumb [root]="title"
                     [folderNode]="node"
-                    [maxItems]="0"
-                    (navigate)="onBreadcrumbNavigate($event)">
+                    (navigate)="goBack()">
     </adf-breadcrumb>
 
     <adf-toolbar class="adf-toolbar--inline">
