@@ -21,13 +21,13 @@ const width = 1366;
 const height = 768;
 
 const SAVE_SCREENSHOT = process.env.SAVE_SCREENSHOT === 'true';
-const API_CONTENT_HOST = process.env.API_CONTENT_HOST || 'http://localhost:8080';
+const APP_CONFIG_ECM_HOST = process.env.APP_CONFIG_ECM_HOST || 'http://localhost:8080';
 const MAXINSTANCES = process.env.MAXINSTANCES || 1;
 const MAX_RETRIES = process.env.MAX_RETRIES || 1;
 const LOG_LEVEL = process.env.LOG_LEVEL || 'ERROR';
 
 const appConfig = {
-  hostEcm: API_CONTENT_HOST,
+  hostEcm: APP_CONFIG_ECM_HOST,
   providers: 'ECM',
   authType: 'BASIC'
 };

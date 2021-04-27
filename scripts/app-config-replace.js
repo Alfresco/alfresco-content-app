@@ -4,10 +4,8 @@ const program = require('commander');
 require('dotenv').config({ path: process.env.ENV_FILE });
 const fs = require('fs');
 
-const APP_CONFIG_API_HOST = process.env.APP_CONFIG_API_HOST || null;
-const APP_CONFIG_ECM_HOST = process.env.APP_CONFIG_ECM_HOST || APP_CONFIG_API_HOST;
-const API_PROCESS_HOST = process.env.API_PROCESS_HOST || APP_CONFIG_API_HOST;
-const APP_CONFIG_AOS_HOST = process.env.APP_CONFIG_AOS_HOST || APP_CONFIG_API_HOST;
+const APP_CONFIG_ECM_HOST = process.env.APP_CONFIG_ECM_HOST;
+const APP_CONFIG_BPM_HOST = process.env.APP_CONFIG_BPM_HOST;
 const APP_CONFIG_OAUTH2_HOST = process.env.APP_CONFIG_OAUTH2_HOST || 'oauth-host-default-replaced-value';
 const APP_CONFIG_IDENTITY_HOST = process.env.APP_CONFIG_IDENTITY_HOST || 'identity-host-default-replaced-value';
 const APP_CONFIG_NOTIFICATION_LAST = parseInt(process.env.APP_CONFIG_NOTIFICATION_LAST, 10) || 2000;
@@ -16,13 +14,12 @@ const options = {
   apiHost: {
     flags: '-a, --api-host',
     description:
-      'set apiHost=API_HOST, bpmHost=API_PROCESS_HOST, ecmHost=APP_CONFIG_ECM_HOST, aosHost = APP_CONFIG_AOS_HOST if present or fall back to API_HOST in each case',
+      'set bpmHost=APP_CONFIG_BPM_HOST, ecmHost=APP_CONFIG_ECM_HOST, aosHost = APP_CONFIG_ECM_HOST if present',
     set: (appConfig) => {
-      appConfig.apiHost = API_HOST;
-      appConfig.bpmHost = API_PROCESS_HOST;
+      appConfig.bpmHost = APP_CONFIG_BPM_HOST;
       appConfig.ecmHost = APP_CONFIG_ECM_HOST;
       appConfig.baseShareUrl = appConfig.baseShareUrl.replace('{protocol}//{hostname}{:port}', APP_CONFIG_ECM_HOST);
-      appConfig.aosHost = appConfig.aosHost.replace('{protocol}//{hostname}{:port}', APP_CONFIG_AOS_HOST);
+      appConfig.aosHost = appConfig.aosHost.replace('{protocol}//{hostname}{:port}', APP_CONFIG_ECM_HOST);
     }
   },
   identityHost: {
