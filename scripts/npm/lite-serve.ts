@@ -18,11 +18,11 @@ import * as logger from '../../tools/helpers/logger';
 import * as ora from 'ora';
 
 require('dotenv').config({ path: process.env.ENV_FILE });
-const API_HOST = process.env.API_HOST;
-const API_CONTENT_HOST = process.env.API_CONTENT_HOST;
-const OAUTH_HOST = process.env.OAUTH_HOST;
-const IDENTITY_HOST = process.env.IDENTITY_HOST;
-const NOTIFICATION_LAST = process.env.NOTIFICATION_LAST;
+const APP_CONFIG_API_HOST = process.env.APP_CONFIG_API_HOST;
+const APP_CONFIG_ECM_HOST = process.env.APP_CONFIG_ECM_HOST;
+const APP_CONFIG_OAUTH2_HOST = process.env.APP_CONFIG_OAUTH2_HOST;
+const APP_CONFIG_IDENTITY_HOST = process.env.APP_CONFIG_IDENTITY_HOST;
+const APP_CONFIG_NOTIFICATION_LAST = process.env.APP_CONFIG_NOTIFICATION_LAST;
 
 interface LiteServeRunnerInputs {
   app: string;
@@ -150,36 +150,36 @@ export default class LiteServeRunner {
   private getEnvVarChoices() {
     const choices = [];
 
-    if (API_HOST !== undefined || API_CONTENT_HOST !== undefined) {
+    if (APP_CONFIG_API_HOST !== undefined || APP_CONFIG_ECM_HOST !== undefined) {
       choices.push({
-        name: `API_HOST=${API_HOST} && API_CONTENT_HOST=${API_CONTENT_HOST || API_HOST}`,
+        name: `API_HOST=${APP_CONFIG_API_HOST} && API_CONTENT_HOST=${APP_CONFIG_ECM_HOST || APP_CONFIG_API_HOST}`,
         value: 'a',
         short: 'API_HOST',
         checked: true
       });
     }
 
-    if (OAUTH_HOST !== undefined) {
+    if (APP_CONFIG_OAUTH2_HOST !== undefined) {
       choices.push({
-        name: `OAUTH_HOST=${OAUTH_HOST} ${red('+ authType=OAUTH also!!!')}`,
+        name: `OAUTH_HOST=${APP_CONFIG_OAUTH2_HOST} ${red('+ authType=OAUTH also!!!')}`,
         value: 'o',
         short: 'OAUTH_HOST',
         checked: true
       });
     }
 
-    if (IDENTITY_HOST !== undefined) {
+    if (APP_CONFIG_IDENTITY_HOST !== undefined) {
       choices.push({
-        name: `IDENTITY_HOST=${IDENTITY_HOST} ${red('+ authType=OAUTH also!!!')}`,
+        name: `IDENTITY_HOST=${APP_CONFIG_IDENTITY_HOST} ${red('+ authType=OAUTH also!!!')}`,
         value: 'i',
         short: 'IDENTITY_HOST',
         checked: true
       });
     }
 
-    if (NOTIFICATION_LAST !== undefined) {
+    if (APP_CONFIG_NOTIFICATION_LAST !== undefined) {
       choices.push({
-        name: `NOTIFICATION_LAST=${NOTIFICATION_LAST}`,
+        name: `NOTIFICATION_LAST=${APP_CONFIG_NOTIFICATION_LAST}`,
         value: 'n',
         short: 'NOTIFICATION_LAST',
         checked: true
