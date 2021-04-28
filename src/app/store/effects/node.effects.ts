@@ -46,7 +46,9 @@ import {
   PrintFileAction,
   getCurrentFolder,
   getAppSelection,
-  ManageAspectsAction
+  ManageAspectsAction,
+  NavigateRouteAction,
+  ExpandInfoDrawerAction
 } from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../services/content-management.service';
 import { ViewUtilService } from '@alfresco/adf-core';
@@ -246,14 +248,37 @@ export class NodeEffects {
     ofType<ManagePermissionsAction>(NodeActionTypes.ManagePermissions),
     map((action) => {
       if (action && action.payload) {
-        this.contentService.managePermissions(action.payload);
+        const route = 'personal-files/details';
+        this.store.dispatch(new NavigateRouteAction([route, action.payload.entry.id, 'permissions']));
       } else {
         this.store
           .select(getAppSelection)
           .pipe(take(1))
           .subscribe((selection) => {
             if (selection && !selection.isEmpty) {
-              this.contentService.managePermissions(selection.first);
+              const route = 'personal-files/details';
+              this.store.dispatch(new NavigateRouteAction([route, selection.first.entry.id, 'permissions']));
+            }
+          });
+      }
+    })
+  );
+
+  @Effect({ dispatch: false })
+  expandInfoDrawer$ = this.actions$.pipe(
+    ofType<ExpandInfoDrawerAction>(NodeActionTypes.ExpandInfoDrawer),
+    map((action) => {
+      if (action && action.payload) {
+        const route = 'personal-files/details';
+        this.store.dispatch(new NavigateRouteAction([route, action.payload.entry.id]));
+      } else {
+        this.store
+          .select(getAppSelection)
+          .pipe(take(1))
+          .subscribe((selection) => {
+            if (selection && !selection.isEmpty) {
+              const route = 'personal-files/details';
+              this.store.dispatch(new NavigateRouteAction([route, selection.first.entry.id]));
             }
           });
       }

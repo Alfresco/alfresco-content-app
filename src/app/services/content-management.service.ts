@@ -66,7 +66,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { forkJoin, Observable, of, Subject, zip } from 'rxjs';
 import { catchError, map, mergeMap, take, tap } from 'rxjs/operators';
-import { NodePermissionsDialogComponent } from '../components/permissions/permission-dialog/node-permissions.dialog';
 import { NodeVersionsDialogComponent } from '../dialogs/node-versions/node-versions.dialog';
 import { NodeActionsService } from './node-actions.service';
 
@@ -130,24 +129,6 @@ export class ContentManagementService {
 
         this.store.dispatch(new SetSelectedNodesAction(favoriteNodes));
       });
-    }
-  }
-
-  managePermissions(node: MinimalNodeEntity): void {
-    if (node && node.entry) {
-      const { nodeId, id } = node.entry as any;
-      const siteId = node.entry['guid'];
-      const targetId = siteId || nodeId || id;
-
-      if (targetId) {
-        this.dialogRef.open(NodePermissionsDialogComponent, {
-          data: { nodeId: targetId },
-          panelClass: 'aca-permissions-dialog-panel',
-          width: '730px'
-        });
-      } else {
-        this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.ERRORS.PERMISSION'));
-      }
     }
   }
 

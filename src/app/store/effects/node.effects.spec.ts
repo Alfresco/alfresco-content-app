@@ -42,21 +42,24 @@ import {
   EditFolderAction,
   CopyNodesAction,
   MoveNodesAction,
-  ManagePermissionsAction,
   UnlockWriteAction,
   FullscreenViewerAction,
   PrintFileAction,
   SetCurrentFolderAction,
-  ManageAspectsAction
+  ManageAspectsAction,
+  ManagePermissionsAction
 } from '@alfresco/aca-shared/store';
 import { ViewUtilService } from '@alfresco/adf-core';
 import { ViewerEffects } from './viewer.effects';
+import { Router } from '@angular/router';
+import { of } from 'rxjs';
 
 describe('NodeEffects', () => {
   let store: Store<any>;
   let contentService: ContentManagementService;
   let viewUtilService: ViewUtilService;
   let viewerEffects: ViewerEffects;
+  let router: Router;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -68,6 +71,7 @@ describe('NodeEffects', () => {
     contentService = TestBed.inject(ContentManagementService);
     viewUtilService = TestBed.inject(ViewUtilService);
     viewerEffects = TestBed.inject(ViewerEffects);
+    router = TestBed.inject(Router);
   });
 
   describe('shareNode$', () => {
@@ -366,33 +370,27 @@ describe('NodeEffects', () => {
 
   describe('managePermissions$', () => {
     it('should manage permissions from the payload', () => {
-      spyOn(contentService, 'managePermissions').and.stub();
-
-      const node: any = { entry: { isFile: true } };
+      spyOn(router, 'navigate').and.stub();
+      const node: any = { entry: { isFile: true, id: 'fileId' } };
       store.dispatch(new ManagePermissionsAction(node));
 
-      expect(contentService.managePermissions).toHaveBeenCalledWith(node);
+      expect(router.navigate).toHaveBeenCalledWith(['personal-files/details', 'fileId', 'permissions']);
     });
 
-    it('should manage permissions from the active selection', fakeAsync(() => {
-      spyOn(contentService, 'managePermissions').and.stub();
-
-      const node: any = { entry: { isFile: true } };
-      store.dispatch(new SetSelectedNodesAction([node]));
-
-      tick(100);
-
+    it('should manage permissions from the active selection', () => {
+      spyOn(store, 'select').and.returnValue(of({ isEmpty: false, first: { entry: { id: 'fileId' } } }));
+      spyOn(router, 'navigate').and.stub();
       store.dispatch(new ManagePermissionsAction(null));
 
-      expect(contentService.managePermissions).toHaveBeenCalledWith(node);
-    }));
+      expect(router.navigate).toHaveBeenCalledWith(['personal-files/details', 'fileId', 'permissions']);
+    });
 
     it('should do nothing if invoking manage permissions with no data', () => {
-      spyOn(contentService, 'managePermissions').and.stub();
-
+      spyOn(store, 'select').and.returnValue(of(null));
+      spyOn(router, 'navigate').and.stub();
       store.dispatch(new ManagePermissionsAction(null));
 
-      expect(contentService.managePermissions).not.toHaveBeenCalled();
+      expect(router.navigate).not.toHaveBeenCalled();
     });
   });
 
