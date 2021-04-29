@@ -31,7 +31,8 @@ import {
   UploadFilesAction,
   UploadFileVersionAction,
   UploadFolderAction,
-  getCurrentFolder
+  getCurrentFolder,
+  UploadNewImageAction
 } from '@alfresco/aca-shared/store';
 import { FileModel, FileUtils, UploadService } from '@alfresco/adf-core';
 import { Injectable, NgZone, RendererFactory2 } from '@angular/core';
@@ -102,6 +103,16 @@ export class UploadEffects {
   );
 
   @Effect({ dispatch: false })
+  uploadNewImage$ = this.actions$.pipe(
+    ofType<UploadNewImageAction>(UploadActionTypes.UploadImage),
+    map((action) => {
+      if (action && action.payload) {
+        this.uploadNewImage(action.payload);
+      }
+    })
+  );
+
+  @Effect({ dispatch: false })
   uploadVersion$ = this.actions$.pipe(
     ofType<UploadFileVersionAction>(UploadActionTypes.UploadFileVersion),
     map((action) => {
@@ -130,6 +141,24 @@ export class UploadEffects {
           this.fileVersionInput.value = '';
         }
       });
+  }
+
+  private uploadNewImage(file: File): void {
+    this.contentService.getNodeInfo().subscribe((node) => {
+      if (node && node.id) {
+        const newFile = new FileModel(
+          file,
+          {
+            majorVersion: false,
+            newVersion: true,
+            parentId: node.parentId,
+            nodeType: node.nodeType
+          },
+          node.id
+        );
+        this.uploadQueue([newFile]);
+      }
+    });
   }
 
   private upload(event: any): void {
