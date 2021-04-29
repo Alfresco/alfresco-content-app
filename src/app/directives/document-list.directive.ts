@@ -29,9 +29,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserPreferencesService } from '@alfresco/adf-core';
 import { Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
+import { AppHookService } from '@alfresco/aca-shared';
 import { SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { takeUntil, filter } from 'rxjs/operators';
-import { ContentManagementService } from '../services/content-management.service';
 import { MinimalNodeEntity } from '@alfresco/js-api';
 
 @Directive({
@@ -49,11 +49,11 @@ export class DocumentListDirective implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<any>,
-    private content: ContentManagementService,
     private documentList: DocumentListComponent,
     private preferences: UserPreferencesService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private appHookService: AppHookService
   ) {}
 
   ngOnInit() {
@@ -83,11 +83,11 @@ export class DocumentListDirective implements OnInit, OnDestroy {
       )
       .subscribe(() => this.onReady());
 
-    this.content.reload.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
+    this.appHookService.reload.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
       this.reload(this.selectedNode);
     });
 
-    this.content.reset.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
+    this.appHookService.reset.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
       this.reset();
     });
   }

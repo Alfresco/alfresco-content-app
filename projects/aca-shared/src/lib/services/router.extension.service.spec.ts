@@ -24,11 +24,12 @@
  */
 
 import { TestBed } from '@angular/core/testing';
-import { LibTestingModule } from '../testing/lib-testing-module';
+import { initialState, LibTestingModule } from '../testing/lib-testing-module';
 import { RouterExtensionService } from './router.extension.service';
 import { ExtensionService } from '@alfresco/adf-extensions';
 import { Router } from '@angular/router';
 import { Type } from '@angular/core';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('RouterExtensionService', () => {
   let extensionService: ExtensionService;
@@ -49,6 +50,7 @@ describe('RouterExtensionService', () => {
     TestBed.configureTestingModule({
       imports: [LibTestingModule],
       providers: [
+        provideMockStore({ initialState }),
         {
           provide: ExtensionService,
           useValue: {

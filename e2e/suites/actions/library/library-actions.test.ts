@@ -96,11 +96,10 @@ describe('Library actions', () => {
     await Utils.pressEscape();
   });
 
-  afterEach(async (done) => {
+  afterEach(async () => {
     await Utils.pressEscape();
     await page.header.expandSideNav();
     await page.clickPersonalFiles();
-    done();
   });
 
   afterAll(async () => {

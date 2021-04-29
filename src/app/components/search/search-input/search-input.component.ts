@@ -23,6 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { AppHookService } from '@alfresco/aca-shared';
 import { AppStore, SearchByTermAction, SearchOptionIds, SearchOptionModel } from '@alfresco/aca-shared/store';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { AppConfigService } from '@alfresco/adf-core';
@@ -32,7 +33,6 @@ import { NavigationEnd, PRIMARY_OUTLET, Router, RouterEvent, UrlSegment, UrlSegm
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { ContentManagementService } from '../../../services/content-management.service';
 import { SearchInputControlComponent } from '../search-input-control/search-input-control.component';
 import { SearchLibrariesQueryBuilderService } from '../search-libraries-results/search-libraries-query-builder.service';
 
@@ -82,9 +82,9 @@ export class SearchInputComponent implements OnInit, OnDestroy {
     private queryBuilder: SearchQueryBuilderService,
     private queryLibrariesBuilder: SearchLibrariesQueryBuilderService,
     private config: AppConfigService,
-    private content: ContentManagementService,
     private router: Router,
-    private store: Store<AppStore>
+    private store: Store<AppStore>,
+    private appHookService: AppHookService
   ) {
     this.searchOnChange = this.config.get<boolean>('search.aca:triggeredOnChange', true);
   }
@@ -101,7 +101,7 @@ export class SearchInputComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.content.library400Error.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
+    this.appHookService.library400Error.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
       this.has400LibraryError = true;
     });
   }

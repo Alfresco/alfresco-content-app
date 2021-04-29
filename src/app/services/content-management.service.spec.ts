@@ -46,7 +46,7 @@ import {
 import { map } from 'rxjs/operators';
 import { NodeEffects } from '../store/effects/node.effects';
 import { AppTestingModule } from '../testing/app-testing.module';
-import { ContentApiService } from '@alfresco/aca-shared';
+import { AppHookService, ContentApiService } from '@alfresco/aca-shared';
 import { Store } from '@ngrx/store';
 import { ContentManagementService } from './content-management.service';
 import { NodeActionsService } from './node-actions.service';
@@ -67,6 +67,7 @@ describe('ContentManagementService', () => {
   let translationService: TranslationService;
   let alfrescoApiService: AlfrescoApiService;
   let nodeAspectService: NodeAspectService;
+  let appHookService: AppHookService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -82,6 +83,7 @@ describe('ContentManagementService', () => {
     translationService = TestBed.inject(TranslationService);
     alfrescoApiService = TestBed.inject(AlfrescoApiService);
     nodeAspectService = TestBed.inject(NodeAspectService);
+    appHookService = TestBed.inject(AppHookService);
 
     dialog = TestBed.inject(MatDialog);
   });
@@ -1420,7 +1422,7 @@ describe('ContentManagementService', () => {
 
     it('should emit event when node is un-shared', fakeAsync(() => {
       const node = { entry: { id: '1', name: 'name1' } } as NodeEntry;
-      spyOn(contentManagementService.linksUnshared, 'next').and.callThrough();
+      spyOn(appHookService.linksUnshared, 'next').and.callThrough();
       spyOn(dialog, 'open').and.returnValue({
         afterClosed: () => of(node)
       } as MatDialogRef<MatDialog>);
@@ -1429,7 +1431,7 @@ describe('ContentManagementService', () => {
       tick();
       flush();
 
-      expect(contentManagementService.linksUnshared.next).toHaveBeenCalled();
+      expect(appHookService.linksUnshared.next).toHaveBeenCalled();
     }));
   });
 

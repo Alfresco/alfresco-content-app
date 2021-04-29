@@ -51,7 +51,6 @@ import { ExtensionsModule } from '@alfresco/adf-extensions';
 import { AppToolbarModule } from './components/toolbar/toolbar.module';
 import { AppCreateMenuModule } from './components/create-menu/create-menu.module';
 import { AppSidenavModule } from './components/sidenav/sidenav.module';
-import { AppPermissionsModule } from './components/permissions/permissions.module';
 import { AppCommonModule } from './components/common/common.module';
 import { AppLayoutModule } from './components/layout/layout.module';
 import { AppSearchInputModule } from './components/search/search-input.module';
@@ -65,6 +64,7 @@ import { RecentFilesComponent } from './components/recent-files/recent-files.com
 import { SharedFilesComponent } from './components/shared-files/shared-files.component';
 import { CreateFromTemplateDialogComponent } from './dialogs/node-template/create-from-template.dialog';
 import { environment } from '../environments/environment';
+import { DetailsComponent } from './components/details/details.component';
 
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
@@ -129,7 +129,6 @@ registerLocaleData(localeSv);
     AppSidenavModule,
     AppCreateMenuModule,
     DocumentListCustomComponentsModule,
-    AppPermissionsModule,
     AppSearchInputModule,
     AppSearchResultsModule,
     AppHeaderModule,
@@ -139,6 +138,7 @@ registerLocaleData(localeSv);
   declarations: [
     AppComponent,
     FilesComponent,
+    DetailsComponent,
     LibrariesComponent,
     FavoriteLibrariesComponent,
     NodeVersionsDialogComponent,

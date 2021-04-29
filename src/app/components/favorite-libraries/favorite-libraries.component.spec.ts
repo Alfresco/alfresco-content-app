@@ -23,15 +23,14 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlfrescoApiService, NodeFavoriteDirective, DataTableComponent, AppConfigModule, UserPreferencesService } from '@alfresco/adf-core';
+import { AlfrescoApiService, AppConfigModule, DataTableComponent, NodeFavoriteDirective, UserPreferencesService } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { FavoriteLibrariesComponent } from './favorite-libraries.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { ContentApiService } from '@alfresco/aca-shared';
-import { ContentManagementService } from '../../services/content-management.service';
+import { AppHookService, ContentApiService } from '@alfresco/aca-shared';
 import { EffectsModule } from '@ngrx/effects';
 import { RouterEffects } from '@alfresco/aca-shared/store';
 import { of, throwError } from 'rxjs';
@@ -46,7 +45,7 @@ describe('FavoriteLibrariesComponent', () => {
   let contentApiService: ContentApiService;
   let router: Router;
   let page;
-  let contentManagementService;
+  let appHookService: AppHookService;
 
   beforeEach(() => {
     page = {
@@ -70,7 +69,7 @@ describe('FavoriteLibrariesComponent', () => {
     alfrescoApi = TestBed.inject(AlfrescoApiService);
     contentApiService = TestBed.inject(ContentApiService);
     userPreference = TestBed.inject(UserPreferencesService);
-    contentManagementService = TestBed.inject(ContentManagementService);
+    appHookService = TestBed.inject(AppHookService);
     alfrescoApi.reset();
     router = TestBed.inject(Router);
 
@@ -130,27 +129,27 @@ describe('FavoriteLibrariesComponent', () => {
     });
 
     it('should reload on libraryDeleted action', () => {
-      contentManagementService.libraryDeleted.next();
+      appHookService.libraryDeleted.next();
       expect(contentApiService.getFavoriteLibraries).toHaveBeenCalled();
     });
 
     it('should reload on libraryUpdated action', () => {
-      contentManagementService.libraryUpdated.next();
+      appHookService.libraryUpdated.next();
       expect(contentApiService.getFavoriteLibraries).toHaveBeenCalled();
     });
 
     it('should reload on favoriteLibraryToggle action', () => {
-      contentManagementService.favoriteLibraryToggle.next();
+      appHookService.favoriteLibraryToggle.next();
       expect(contentApiService.getFavoriteLibraries).toHaveBeenCalled();
     });
 
     it('should reload on libraryJoined action', () => {
-      contentManagementService.libraryJoined.next();
+      appHookService.libraryJoined.next();
       expect(contentApiService.getFavoriteLibraries).toHaveBeenCalled();
     });
 
     it('should reload on libraryLeft action', () => {
-      contentManagementService.libraryLeft.next();
+      appHookService.libraryLeft.next();
       expect(contentApiService.getFavoriteLibraries).toHaveBeenCalled();
     });
   });

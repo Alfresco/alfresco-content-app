@@ -25,9 +25,9 @@
 
 import { Component, ViewEncapsulation, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { AppHookService } from '@alfresco/aca-shared';
 import { AppStore, getAppSelection } from '@alfresco/aca-shared/store';
 import { SelectionState } from '@alfresco/adf-extensions';
-import { ContentManagementService } from '../../../services/content-management.service';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
@@ -53,7 +53,7 @@ export class ToggleFavoriteLibraryComponent implements OnInit, OnDestroy {
   library;
   private onDestroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private store: Store<AppStore>, private content: ContentManagementService, private router: Router) {}
+  constructor(private store: Store<AppStore>, private appHookService: AppHookService, private router: Router) {}
 
   ngOnInit() {
     const isFavoriteLibraries = this.router.url.startsWith('/favorite/libraries');
@@ -77,6 +77,6 @@ export class ToggleFavoriteLibraryComponent implements OnInit, OnDestroy {
   }
 
   onToggleEvent() {
-    this.content.favoriteLibraryToggle.next();
+    this.appHookService.favoriteLibraryToggle.next();
   }
 }

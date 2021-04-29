@@ -51,6 +51,9 @@
         "PREVIEW": {
             "TITLE": "Preview"
         },
+        "DETAILS": {
+            "TITLE": "Details"
+        },
         "NEW_MENU": {
             "LABEL": "New",
             "TOOLTIP": "Add new files and folders, or create a new File Library",
@@ -353,7 +356,9 @@
                 "PROPERTIES": "Properties",
                 "LIBRARY_PROPERTIES": "About",
                 "VERSIONS": "Versions",
-                "COMMENTS": "Comments"
+                "COMMENTS": "Comments",
+                "PERMISSIONS": "Permissions",
+                "EXPAND": "Expand"
             }
         }
     },
@@ -427,6 +432,12 @@
         "ERROR": {
             "GENERIC": "There was an error versioning the file"
         }
+    },
+    "INFO_PANEL": {
+        "TABS": {
+
+        },
+        "DETAILS": "Details"
     },
     "LIBRARY": {
         "DIALOG": {

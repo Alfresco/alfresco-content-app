@@ -9,40 +9,74 @@
   "$description": "Core application extensions and features",
   "$references": [],
   "$ignoreReferenceList": [],
-
   "rules": [
     {
       "id": "app.toolbar.favorite.canAdd",
       "type": "core.every",
       "parameters": [
-        { "type": "rule", "value": "app.selection.canAddFavorite" },
-        { "type": "rule", "value": "app.navigation.isNotRecentFiles" },
-        { "type": "rule", "value": "app.navigation.isNotSharedFiles" },
-        { "type": "rule", "value": "app.navigation.isNotSearchResults" },
-        { "type": "rule", "value": "app.navigation.isNotFavorites" }
+        {
+          "type": "rule",
+          "value": "app.selection.canAddFavorite"
+        },
+        {
+          "type": "rule",
+          "value": "app.navigation.isNotRecentFiles"
+        },
+        {
+          "type": "rule",
+          "value": "app.navigation.isNotSharedFiles"
+        },
+        {
+          "type": "rule",
+          "value": "app.navigation.isNotSearchResults"
+        },
+        {
+          "type": "rule",
+          "value": "app.navigation.isNotFavorites"
+        }
       ]
     },
     {
       "id": "app.toolbar.favorite.canRemove",
       "type": "core.every",
       "parameters": [
-        { "type": "rule", "value": "app.selection.canRemoveFavorite" },
-        { "type": "rule", "value": "app.navigation.isNotRecentFiles" },
-        { "type": "rule", "value": "app.navigation.isNotSharedFiles" },
-        { "type": "rule", "value": "app.navigation.isNotSearchResults" },
-        { "type": "rule", "value": "app.navigation.isNotFavorites" }
+        {
+          "type": "rule",
+          "value": "app.selection.canRemoveFavorite"
+        },
+        {
+          "type": "rule",
+          "value": "app.navigation.isNotRecentFiles"
+        },
+        {
+          "type": "rule",
+          "value": "app.navigation.isNotSharedFiles"
+        },
+        {
+          "type": "rule",
+          "value": "app.navigation.isNotSearchResults"
+        },
+        {
+          "type": "rule",
+          "value": "app.navigation.isNotFavorites"
+        }
       ]
     },
     {
       "id": "app.toolbar.favorite.canEditMetadata",
       "type": "core.every",
       "parameters": [
-        { "type": "rule", "value": "app.selection.library" },
-        { "type": "rule", "value": "isLibraryManager" }
+        {
+          "type": "rule",
+          "value": "app.selection.library"
+        },
+        {
+          "type": "rule",
+          "value": "isLibraryManager"
+        }
       ]
     }
   ],
-
   "features": {
     "header": [
       {
@@ -543,7 +577,7 @@
             "id": "app.toolbar.permissions",
             "order": 1200,
             "title": "APP.ACTIONS.PERMISSIONS",
-            "icon": "settings_input_component",
+            "icon": "supervisor_account",
             "actions": {
               "click": "MANAGE_PERMISSIONS"
             },
@@ -759,7 +793,7 @@
       {
         "id": "app.context.menu.permissions",
         "title": "APP.ACTIONS.PERMISSIONS",
-        "icon": "settings_input_component",
+        "icon": "supervisor_account",
         "order": 1500,
         "actions": {
           "click": "MANAGE_PERMISSIONS"
@@ -1003,7 +1037,6 @@
               "type": "separator",
               "order": 800
             },
-
             {
               "id": "app.viewer.versions",
               "order": 900,
@@ -1032,7 +1065,7 @@
               "id": "app.viewer.permissions",
               "order": 1000,
               "title": "APP.ACTIONS.PERMISSIONS",
-              "icon": "settings_input_component",
+              "icon": "supervisor_account",
               "actions": {
                 "click": "MANAGE_PERMISSIONS"
               },
@@ -1081,6 +1114,20 @@
       ]
     },
     "sidebar": {
+      "toolbar": [
+        {
+          "id": "app.sidebar.expand",
+          "order": 100,
+          "title": "APP.INFO_DRAWER.TABS.EXPAND",
+          "icon": "chevron_left",
+          "actions": {
+            "click": "EXPAND_INFO_DRAWER"
+          },
+          "rules": {
+            "visible": "app.navigation.isNotLibraries"
+          }
+        }
+      ],
       "tabs": [
         {
           "id": "app.sidebar.properties",
@@ -1141,10 +1188,8 @@
               "dp:restrictable",
               "fm:commentsRollup",
               "qshare:shared",
-
               "exif:exif",
               "cm:effectivity",
-
               "cm:likesRatingSchemeRollups",
               "cm:lockable",
               "cm:ownable"

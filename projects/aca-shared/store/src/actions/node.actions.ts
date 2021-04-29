@@ -46,7 +46,8 @@ export enum NodeActionTypes {
   UnlockForWriting = 'UNLOCK_WRITE_LOCK',
   AddFavorite = 'ADD_FAVORITE',
   RemoveFavorite = 'REMOVE_FAVORITE',
-  ChangeAspects = 'ASPECT_LIST'
+  ChangeAspects = 'ASPECT_LIST',
+  ExpandInfoDrawer = 'EXPAND_INFO_DRAWER'
 }
 
 export class SetSelectedNodesAction implements Action {
@@ -123,6 +124,11 @@ export class MoveNodesAction implements Action {
 
 export class ManagePermissionsAction implements Action {
   readonly type = NodeActionTypes.ManagePermissions;
+
+  constructor(public payload: MinimalNodeEntity) {}
+}
+export class ExpandInfoDrawerAction implements Action {
+  readonly type = NodeActionTypes.ExpandInfoDrawer;
 
   constructor(public payload: MinimalNodeEntity) {}
 }

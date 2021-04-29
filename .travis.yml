@@ -1,3 +1,10 @@
+import:
+  - source: .travis/env.yml
+    mode: deep_merge_prepend
+# =================
+# merge anchor
+# =================
+
 dist: bionic
 sudo: required
 services:
@@ -25,19 +32,18 @@ install: echo "no install"
 
 stages:
   - name: Quality and Unit tests
-    if: branch = develop AND type = cron
+    if: type = cron || type = pull_request
   - name: Publish Docker Registry
-    if: (branch = develop AND type = cron) || (branch = master AND type = push)
+    if: type = push
   - name: Release Tag
     if: branch = master AND type = push
   - name: e2e
-    if: branch != master AND (type = cron || type = pull_request) AND tag IS blank
+    if: type = cron || type = pull_request
   - name: Trigger DW
     if: branch = develop AND type = cron
 
 env:
   global:
-    - API_AOS_HOST=$API_CONTENT_HOST
     - ADMIN_EMAIL=$ADMIN_EMAIL_REMOTE
     - ADMIN_PASSWORD=$ADMIN_PASSWORD_REMOTE
 

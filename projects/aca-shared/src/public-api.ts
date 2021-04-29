@@ -56,6 +56,7 @@ export * from './lib/services/content-api.service';
 export * from './lib/services/node-permission.service';
 export * from './lib/services/app.extension.service';
 export * from './lib/services/router.extension.service';
+export * from './lib/services/app-hook.service';
 
 export * from './lib/utils/node.utils';
 export * from './lib/shared.module';

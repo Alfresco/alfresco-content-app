@@ -30,7 +30,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ContentManagementService } from '../../services/content-management.service';
 import { PageComponent } from '../page.component';
-import { AppExtensionService } from '@alfresco/aca-shared';
+import { AppExtensionService, AppHookService } from '@alfresco/aca-shared';
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 
 @Component({
@@ -45,6 +45,7 @@ export class LibrariesComponent extends PageComponent implements OnInit {
     content: ContentManagementService,
     store: Store<AppStore>,
     extensions: AppExtensionService,
+    private appHookService: AppHookService,
     private breakpointObserver: BreakpointObserver
   ) {
     super(store, extensions, content);
@@ -54,9 +55,9 @@ export class LibrariesComponent extends PageComponent implements OnInit {
     super.ngOnInit();
 
     this.subscriptions.push(
-      this.content.libraryDeleted.subscribe(() => this.reload()),
-      this.content.libraryUpdated.subscribe(() => this.reload()),
-      this.content.libraryLeft.subscribe(() => this.reload()),
+      this.appHookService.libraryDeleted.subscribe(() => this.reload()),
+      this.appHookService.libraryUpdated.subscribe(() => this.reload()),
+      this.appHookService.libraryLeft.subscribe(() => this.reload()),
 
       this.breakpointObserver.observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape]).subscribe((result) => {
         this.isSmallScreen = result.matches;

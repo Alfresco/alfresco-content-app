@@ -29,15 +29,15 @@ import { SearchInputComponent } from './search-input.component';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { Actions, ofType } from '@ngrx/effects';
 import { SearchByTermAction, SearchActionTypes } from '@alfresco/aca-shared/store';
+import { AppHookService } from '@alfresco/aca-shared';
 import { map } from 'rxjs/operators';
-import { ContentManagementService } from '../../../services/content-management.service';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 
 describe('SearchInputComponent', () => {
   let fixture: ComponentFixture<SearchInputComponent>;
   let component: SearchInputComponent;
   let actions$: Actions;
-  let content: ContentManagementService;
+  let appHookService: AppHookService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -49,14 +49,14 @@ describe('SearchInputComponent', () => {
 
     actions$ = TestBed.inject(Actions);
     fixture = TestBed.createComponent(SearchInputComponent);
-    content = TestBed.inject(ContentManagementService);
+    appHookService = TestBed.inject(AppHookService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
   it('should change flag on library400Error event', () => {
     expect(component.has400LibraryError).toBe(false);
-    content.library400Error.next();
+    appHookService.library400Error.next();
 
     expect(component.has400LibraryError).toBe(true);
   });
@@ -68,7 +68,7 @@ describe('SearchInputComponent', () => {
   it('should have library constraint on 400 error received', () => {
     const libItem = component.searchOptions.find((item) => item.key.toLowerCase().indexOf('libraries') > 0);
     libItem.value = true;
-    content.library400Error.next();
+    appHookService.library400Error.next();
 
     expect(component.hasLibraryConstraint()).toBe(true);
   });
