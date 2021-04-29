@@ -94,14 +94,12 @@
             "styles": [
               "src/assets/fonts/material-icons/material-icons.css",
               "src/assets/fonts/muli/muli.css",
-              "node_modules/cropperjs/dist/cropper.min.css",
               "src/styles.scss"
             ],
             "scripts": [
               "node_modules/pdfjs-dist/build/pdf.js",
               "node_modules/pdfjs-dist/web/pdf_viewer.js",
               "node_modules/moment/min/moment.min.js",
-              "node_modules/cropperjs/dist/cropper.min.js"
             ]
           },
           "configurations": {
