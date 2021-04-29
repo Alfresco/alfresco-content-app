@@ -47,6 +47,7 @@
     "@ngrx/store": "^9.2.0",
     "@ngrx/store-devtools": "^9.2.0",
     "@ngx-translate/core": "^13.0.0",
+    "cropperjs": "1.5.11",
     "minimatch-browser": "^1.0.0",
     "moment": "^2.27.0",
     "moment-es6": "1.0.0",
