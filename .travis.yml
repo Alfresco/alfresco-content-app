@@ -24,7 +24,6 @@ branches:
     - master
     - develop
     - /.*beta.*/
-    - dev-thunter-ACS-1524
 
 before_install:
   - . ./scripts/ci/job_hooks/before_install.sh
