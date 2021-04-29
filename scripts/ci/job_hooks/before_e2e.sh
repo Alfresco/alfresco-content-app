@@ -4,12 +4,6 @@ FROM=$1;
 TO=$2;
 PARAMS=$3;
 
-if [ "$TRAVIS_EVENT_TYPE" = "cron" ]
-then
-    echo "====== Scan environment ====="
-    ./node_modules/@alfresco/adf-cli/bin/adf-cli scan-env --host "$APP_CONFIG_ECM_HOST" -u "$ADMIN_EMAIL" -p "$ADMIN_PASSWORD"
-fi
-
 echo "====== Check content UP ====="
 
 ./node_modules/@alfresco/adf-cli/bin/adf-cli check-cs-env --host "$APP_CONFIG_ECM_HOST" -u "$ADMIN_EMAIL" -p "$ADMIN_PASSWORD" || exit 1
