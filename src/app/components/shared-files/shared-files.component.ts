@@ -32,7 +32,7 @@ import { debounceTime } from 'rxjs/operators';
 import { UploadService } from '@alfresco/adf-core';
 import { Router } from '@angular/router';
 import { MinimalNodeEntity } from '@alfresco/js-api';
-import { AppExtensionService } from '@alfresco/aca-shared';
+import { AppExtensionService, AppHookService } from '@alfresco/aca-shared';
 import { DocumentListPresetRef } from '@alfresco/adf-extensions';
 
 @Component({
@@ -47,6 +47,7 @@ export class SharedFilesComponent extends PageComponent implements OnInit {
     store: Store<any>,
     extensions: AppExtensionService,
     content: ContentManagementService,
+    private appHookService: AppHookService,
     private uploadService: UploadService,
     private breakpointObserver: BreakpointObserver,
     private router: Router
@@ -58,7 +59,7 @@ export class SharedFilesComponent extends PageComponent implements OnInit {
     super.ngOnInit();
 
     this.subscriptions = this.subscriptions.concat([
-      this.content.linksUnshared.pipe(debounceTime(300)).subscribe(() => this.reload()),
+      this.appHookService.linksUnshared.pipe(debounceTime(300)).subscribe(() => this.reload()),
 
       this.uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe((_) => this.reload()),
       this.uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe((_) => this.reload()),

@@ -38,7 +38,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { provideMockStore } from '@ngrx/store/testing';
 import { CommonModule } from '@angular/common';
 
 export const initialState = {
@@ -92,7 +91,6 @@ export const initialState = {
     PipeModule
   ],
   providers: [
-    provideMockStore({ initialState }),
     { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock },
     { provide: TranslationService, useClass: TranslationMock }
   ]

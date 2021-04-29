@@ -31,7 +31,7 @@ import { UserPreferencesService, ObjectUtils, UploadService, AlfrescoApiService 
 import { Store } from '@ngrx/store';
 import { AppStore, ClosePreviewAction, ViewerActionTypes, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { PageComponent } from '../page.component';
-import { AppExtensionService, ContentApiService } from '@alfresco/aca-shared';
+import { AppExtensionService, AppHookService, ContentApiService } from '@alfresco/aca-shared';
 import { ContentManagementService } from '../../services/content-management.service';
 import { ContentActionRef, ViewerExtensionRef } from '@alfresco/adf-extensions';
 import { SearchRequest } from '@alfresco/js-api';
@@ -98,7 +98,8 @@ export class PreviewComponent extends PageComponent implements OnInit, OnDestroy
     private location: Location,
     store: Store<AppStore>,
     extensions: AppExtensionService,
-    content: ContentManagementService
+    content: ContentManagementService,
+    private appHookService: AppHookService
   ) {
     super(store, extensions, content);
   }
@@ -138,7 +139,7 @@ export class PreviewComponent extends PageComponent implements OnInit, OnDestroy
     });
 
     this.subscriptions = this.subscriptions.concat([
-      this.content.nodesDeleted.subscribe(() => this.navigateToFileLocation(true)),
+      this.appHookService.nodesDeleted.subscribe(() => this.navigateToFileLocation(true)),
 
       this.uploadService.fileUploadDeleted.subscribe(() => this.navigateToFileLocation(true)),
 

@@ -52,7 +52,7 @@ describe('DocumentListDirective', () => {
     url: ''
   };
 
-  const contentManagementServiceMock: any = {
+  const appHookServiceMock: any = {
     reload: new Subject<any>(),
     reset: new Subject<any>()
   };
@@ -73,11 +73,11 @@ describe('DocumentListDirective', () => {
   beforeEach(() => {
     documentListDirective = new DocumentListDirective(
       storeMock,
-      contentManagementServiceMock,
       documentListMock,
       userPreferencesServiceMock,
       mockRoute,
-      mockRouter
+      mockRouter,
+      appHookServiceMock
     );
   });
 
@@ -138,7 +138,7 @@ describe('DocumentListDirective', () => {
 
   it('should reset and reload document list on `reload` event', () => {
     documentListDirective.ngOnInit();
-    contentManagementServiceMock.reload.next();
+    appHookServiceMock.reload.next();
 
     expect(documentListMock.resetSelection).toHaveBeenCalled();
     expect(documentListMock.reload).toHaveBeenCalled();
@@ -146,14 +146,14 @@ describe('DocumentListDirective', () => {
 
   it('should reset store selection on `reload` event', () => {
     documentListDirective.ngOnInit();
-    contentManagementServiceMock.reload.next();
+    appHookServiceMock.reload.next();
 
     expect(storeMock.dispatch).toHaveBeenCalledWith(new SetSelectedNodesAction([]));
   });
 
   it('should reset selection state on `reset` event', () => {
     documentListDirective.ngOnInit();
-    contentManagementServiceMock.reset.next();
+    appHookServiceMock.reset.next();
 
     expect(documentListMock.resetSelection).toHaveBeenCalled();
     expect(storeMock.dispatch).toHaveBeenCalledWith(new SetSelectedNodesAction([]));

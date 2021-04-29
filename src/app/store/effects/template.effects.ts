@@ -39,7 +39,7 @@ import {
 } from '@alfresco/aca-shared/store';
 import { NodeTemplateService, TemplateDialogConfig } from '../../services/node-template.service';
 import { AlfrescoApiService } from '@alfresco/adf-core';
-import { ContentManagementService } from '../../services/content-management.service';
+import { AppHookService } from '@alfresco/aca-shared';
 import { from, Observable, of } from 'rxjs';
 import { NodeEntry, NodeBodyUpdate, Node } from '@alfresco/js-api';
 import { MatDialog } from '@angular/material/dialog';
@@ -48,7 +48,7 @@ import { MatDialog } from '@angular/material/dialog';
 export class TemplateEffects {
   constructor(
     private matDialog: MatDialog,
-    private content: ContentManagementService,
+    private appHookService: AppHookService,
     private store: Store<AppStore>,
     private apiService: AlfrescoApiService,
     private actions$: Actions,
@@ -102,7 +102,7 @@ export class TemplateEffects {
     ofType<CreateFromTemplateSuccess>(TemplateActionTypes.CreateFromTemplateSuccess),
     map((payload) => {
       this.matDialog.closeAll();
-      this.content.reload.next(payload.node);
+      this.appHookService.reload.next(payload.node);
     })
   );
 

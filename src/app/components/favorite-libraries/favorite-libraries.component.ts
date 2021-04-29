@@ -28,7 +28,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { SiteEntry, FavoritePaging, Pagination } from '@alfresco/js-api';
 import { ContentManagementService } from '../../services/content-management.service';
-import { AppExtensionService, ContentApiService } from '@alfresco/aca-shared';
+import { AppExtensionService, AppHookService, ContentApiService } from '@alfresco/aca-shared';
 import { NavigateLibraryAction } from '@alfresco/aca-shared/store';
 import { PageComponent } from '../page.component';
 import { UserPreferencesService } from '@alfresco/adf-core';
@@ -52,6 +52,7 @@ export class FavoriteLibrariesComponent extends PageComponent implements OnInit 
     content: ContentManagementService,
     store: Store<any>,
     extensions: AppExtensionService,
+    private appHookService: AppHookService,
     private contentApiService: ContentApiService,
     private breakpointObserver: BreakpointObserver,
     private preferences: UserPreferencesService,
@@ -66,11 +67,11 @@ export class FavoriteLibrariesComponent extends PageComponent implements OnInit 
     this.getList({ maxItems: this.preferences.paginationSize });
 
     this.subscriptions = this.subscriptions.concat([
-      this.content.libraryDeleted.subscribe(() => this.reloadList()),
-      this.content.libraryUpdated.subscribe(() => this.reloadList()),
-      this.content.libraryJoined.subscribe(() => this.reloadList()),
-      this.content.libraryLeft.subscribe(() => this.reloadList()),
-      this.content.favoriteLibraryToggle.subscribe(() => this.reloadList()),
+      this.appHookService.libraryDeleted.subscribe(() => this.reloadList()),
+      this.appHookService.libraryUpdated.subscribe(() => this.reloadList()),
+      this.appHookService.libraryJoined.subscribe(() => this.reloadList()),
+      this.appHookService.libraryLeft.subscribe(() => this.reloadList()),
+      this.appHookService.favoriteLibraryToggle.subscribe(() => this.reloadList()),
 
       this.breakpointObserver.observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape]).subscribe((result) => {
         this.isSmallScreen = result.matches;
