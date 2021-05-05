@@ -106,7 +106,7 @@ export class UploadEffects {
   uploadNewImage$ = this.actions$.pipe(
     ofType<UploadNewImageAction>(UploadActionTypes.UploadImage),
     map((action) => {
-      if (action && action.payload) {
+      if (action?.payload) {
         this.uploadNewImage(action.payload);
       }
     })
@@ -145,16 +145,16 @@ export class UploadEffects {
 
   uploadNewImage(file: File): void {
     this.contentService.getNodeInfo().subscribe((node) => {
-      if (node && node.id) {
+      if (node?.id) {
         const newFile = new FileModel(
           file,
           {
             majorVersion: false,
             newVersion: true,
-            parentId: node.parentId,
-            nodeType: node.nodeType
+            parentId: node?.parentId,
+            nodeType: node?.nodeType
           },
-          node.id
+          node?.id
         );
         this.uploadQueue([newFile]);
       }
