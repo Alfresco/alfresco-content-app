@@ -30,7 +30,7 @@ import { UploadEffects } from './upload.effects';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { NgZone } from '@angular/core';
 import { UploadService, FileUploadCompleteEvent, FileModel } from '@alfresco/adf-core';
-import { UnlockWriteAction, UploadFileVersionAction } from '@alfresco/aca-shared/store';
+import { UnlockWriteAction, UploadFileVersionAction, UploadNewImageAction } from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../services/content-management.service';
 
 describe('UploadEffects', () => {
@@ -208,6 +208,17 @@ describe('UploadEffects', () => {
       });
       store.dispatch(new UploadFileVersionAction(fakeEvent));
       expect(contentManagementService.versionUpdateDialog).toHaveBeenCalledWith(fakeEvent.detail.data.node.entry, fakeEvent.detail.files[0].file);
+    });
+  });
+
+  describe('image versioning', () => {
+    it('should trigger upload file version from viewer', () => {
+      spyOn(effects, 'uploadNewImage').and.stub();
+      const data = atob('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==');
+      const fakeBlob = new Blob([data], { type: 'image/png' });
+      const newImageFile: File = new File([fakeBlob], 'GoqZhm.jpg');
+      store.dispatch(new UploadNewImageAction(newImageFile));
+      expect(effects.uploadNewImage).toHaveBeenCalledWith(newImageFile);
     });
   });
 });

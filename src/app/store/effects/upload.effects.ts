@@ -143,7 +143,7 @@ export class UploadEffects {
       });
   }
 
-  private uploadNewImage(file: File): void {
+  uploadNewImage(file: File): void {
     this.contentService.getNodeInfo().subscribe((node) => {
       if (node && node.id) {
         const newFile = new FileModel(
