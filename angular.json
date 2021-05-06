@@ -94,6 +94,7 @@
             "styles": [
               "src/assets/fonts/material-icons/material-icons.css",
               "src/assets/fonts/muli/muli.css",
+              "node_modules/cropperjs/dist/cropper.min.css",
               "src/styles.scss"
             ],
             "scripts": [

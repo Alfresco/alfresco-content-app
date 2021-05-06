@@ -28,7 +28,8 @@ import { Action } from '@ngrx/store';
 export enum UploadActionTypes {
   UploadFiles = 'UPLOAD_FILES',
   UploadFolder = 'UPLOAD_FOLDER',
-  UploadFileVersion = 'UPLOAD_FILE_VERSION'
+  UploadFileVersion = 'UPLOAD_FILE_VERSION',
+  UploadImage = 'UPLOAD_IMAGE'
 }
 
 export class UploadFilesAction implements Action {
@@ -39,6 +40,12 @@ export class UploadFilesAction implements Action {
 
 export class UploadFolderAction implements Action {
   readonly type = UploadActionTypes.UploadFolder;
+
+  constructor(public payload: any) {}
+}
+
+export class UploadNewImageAction implements Action {
+  readonly type = UploadActionTypes.UploadImage;
 
   constructor(public payload: any) {}
 }
