@@ -214,7 +214,7 @@ export class DataTable extends Component {
   }
 
   private getNameLink(itemName: string): ElementFinder {
-    return this.getRowNameCell(itemName).$('.adf-datatable-link');
+    return this.getRowNameCell(itemName).$('.adf-datatable-link [role="link"]');
   }
 
   async hasLinkOnName(itemName: string): Promise<boolean> {
