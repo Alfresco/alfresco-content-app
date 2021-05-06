@@ -254,7 +254,7 @@ export class AppViewerComponent implements OnInit, OnDestroy {
   }
 
   onFileSubmit(newBlob: Blob) {
-    const newImageFile: File = new File([newBlob], this.node.name);
+    const newImageFile: File = new File([newBlob], this?.node?.name, { type: this?.node?.content?.mimeType });
     this.store.dispatch(new UploadNewImageAction(newImageFile));
   }
 

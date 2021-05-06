@@ -301,6 +301,9 @@
                     "504": "The server timed out, try again or contact IT support [504]",
                     "403": "Insufficient permissions to upload in this location [403]",
                     "404": "Upload location no longer exists [404]"
+                },
+                "SUCCESS": {
+                  "MEDIA_MANAGEMENT_SUCCESS": "Version updated successfully"
                 }
             },
             "INFO": {

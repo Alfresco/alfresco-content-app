@@ -32,14 +32,15 @@ import {
   UploadFileVersionAction,
   UploadFolderAction,
   getCurrentFolder,
-  UploadNewImageAction
+  UploadNewImageAction,
+  SnackbarInfoAction
 } from '@alfresco/aca-shared/store';
 import { FileModel, FileUtils, UploadService } from '@alfresco/adf-core';
 import { Injectable, NgZone, RendererFactory2 } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
-import { catchError, map, take } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap, take } from 'rxjs/operators';
 import { ContentManagementService } from '../../services/content-management.service';
 import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 
@@ -105,24 +106,44 @@ export class UploadEffects {
   @Effect({ dispatch: false })
   uploadNewImage$ = this.actions$.pipe(
     ofType<UploadNewImageAction>(UploadActionTypes.UploadImage),
-    map((action) => {
-      if (action?.payload) {
-        this.uploadNewImage(action.payload);
-      }
+    switchMap((action) => {
+      return this.contentService.getNodeInfo().pipe(
+        mergeMap((node) => {
+          if (node?.id) {
+            const newFile = new FileModel(
+              action?.payload,
+              {
+                majorVersion: false,
+                newVersion: true,
+                parentId: node?.parentId,
+                nodeType: node?.content?.mimeType
+              },
+              node?.id
+            );
+            this.uploadQueue([newFile]);
+            return of(new SnackbarInfoAction('APP.MESSAGES.UPLOAD.SUCCESS.MEDIA_MANAGEMENT'));
+          }
+          return of(null);
+        }),
+        catchError(() => {
+          return of(new SnackbarErrorAction('APP.MESSAGES.UPLOAD.ERROR.GENERIC'));
+        })
+      );
     })
   );
 
   @Effect({ dispatch: false })
   uploadVersion$ = this.actions$.pipe(
     ofType<UploadFileVersionAction>(UploadActionTypes.UploadFileVersion),
-    map((action) => {
-      if (action && action.payload) {
-        const node = action.payload.detail.data.node.entry;
-        const file: any = action.payload.detail.files[0].file;
-        this.contentService.versionUpdateDialog(node, file);
+    mergeMap((action) => {
+      if (action?.payload) {
+        const node = action?.payload?.detail?.data?.node?.entry;
+        const file: any = action?.payload?.detail?.files[0]?.file;
+        return of(this.contentService.versionUpdateDialog(node, file));
       } else if (!action.payload) {
-        this.fileVersionInput.click();
+        return of(this.fileVersionInput.click());
       }
+      return of(null);
     })
   );
 
@@ -141,24 +162,6 @@ export class UploadEffects {
           this.fileVersionInput.value = '';
         }
       });
-  }
-
-  uploadNewImage(file: File): void {
-    this.contentService.getNodeInfo().subscribe((node) => {
-      if (node?.id) {
-        const newFile = new FileModel(
-          file,
-          {
-            majorVersion: false,
-            newVersion: true,
-            parentId: node?.parentId,
-            nodeType: node?.nodeType
-          },
-          node?.id
-        );
-        this.uploadQueue([newFile]);
-      }
-    });
   }
 
   private upload(event: any): void {
