@@ -15,6 +15,12 @@
     right: 0;
     background-color: white;
   }
+
+  adf-file-uploading-dialog {
+    z-index: 1100;
+  }
+
+
 }
 
 @media screen and (max-width: 599px) {
