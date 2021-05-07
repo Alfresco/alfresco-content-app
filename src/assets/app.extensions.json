@@ -1111,10 +1111,7 @@
           "fileExtension": "docx",
           "component": "app.components.tabs.comments"
         }
-      ],
-        "rules": {
-          "showNavigation": "app.showNavigation"
-      }
+      ]
     },
     "sidebar": {
       "toolbar": [
