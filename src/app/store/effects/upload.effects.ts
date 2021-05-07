@@ -31,16 +31,14 @@ import {
   UploadFilesAction,
   UploadFileVersionAction,
   UploadFolderAction,
-  getCurrentFolder,
-  UploadNewImageAction,
-  SnackbarInfoAction
+  getCurrentFolder
 } from '@alfresco/aca-shared/store';
 import { FileModel, FileUtils, UploadService } from '@alfresco/adf-core';
 import { Injectable, NgZone, RendererFactory2 } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
-import { catchError, map, mergeMap, switchMap, take } from 'rxjs/operators';
+import { catchError, map, take } from 'rxjs/operators';
 import { ContentManagementService } from '../../services/content-management.service';
 import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 
@@ -104,46 +102,16 @@ export class UploadEffects {
   );
 
   @Effect({ dispatch: false })
-  uploadNewImage$ = this.actions$.pipe(
-    ofType<UploadNewImageAction>(UploadActionTypes.UploadImage),
-    switchMap((action) => {
-      return this.contentService.getNodeInfo().pipe(
-        mergeMap((node) => {
-          if (node?.id) {
-            const newFile = new FileModel(
-              action?.payload,
-              {
-                majorVersion: false,
-                newVersion: true,
-                parentId: node?.parentId,
-                nodeType: node?.content?.mimeType
-              },
-              node?.id
-            );
-            this.uploadQueue([newFile]);
-            return of(new SnackbarInfoAction('APP.MESSAGES.UPLOAD.SUCCESS.MEDIA_MANAGEMENT'));
-          }
-          return of(null);
-        }),
-        catchError(() => {
-          return of(new SnackbarErrorAction('APP.MESSAGES.UPLOAD.ERROR.GENERIC'));
-        })
-      );
-    })
-  );
-
-  @Effect({ dispatch: false })
   uploadVersion$ = this.actions$.pipe(
     ofType<UploadFileVersionAction>(UploadActionTypes.UploadFileVersion),
-    mergeMap((action) => {
+    map((action) => {
       if (action?.payload) {
         const node = action?.payload?.detail?.data?.node?.entry;
         const file: any = action?.payload?.detail?.files[0]?.file;
-        return of(this.contentService.versionUpdateDialog(node, file));
-      } else if (!action.payload) {
-        return of(this.fileVersionInput.click());
+        this.contentService.versionUpdateDialog(node, file);
+      } else if (!action?.payload) {
+        this.fileVersionInput.click();
       }
-      return of(null);
     })
   );
 

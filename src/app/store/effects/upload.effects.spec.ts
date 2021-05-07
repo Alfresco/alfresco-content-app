@@ -25,23 +25,13 @@
 
 import { Store } from '@ngrx/store';
 import { TestBed } from '@angular/core/testing';
-import { Actions, EffectsModule } from '@ngrx/effects';
+import { EffectsModule } from '@ngrx/effects';
 import { UploadEffects } from './upload.effects';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { NgZone } from '@angular/core';
 import { UploadService, FileUploadCompleteEvent, FileModel } from '@alfresco/adf-core';
-import {
-  SnackbarErrorAction,
-  SnackbarInfoAction,
-  UnlockWriteAction,
-  UploadFileVersionAction,
-  UploadNewImageAction
-} from '@alfresco/aca-shared/store';
+import { UnlockWriteAction, UploadFileVersionAction } from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../services/content-management.service';
-import { Observable, of, throwError } from 'rxjs';
-import { MinimalNodeEntryEntity } from '@alfresco/js-api';
-import { cold, hot } from 'jasmine-marbles';
-import { provideMockActions } from '@ngrx/effects/testing';
 
 describe('UploadEffects', () => {
   let store: Store<any>;
@@ -49,35 +39,10 @@ describe('UploadEffects', () => {
   let effects: UploadEffects;
   let zone: NgZone;
   let contentManagementService: ContentManagementService;
-  let actions$: Observable<any> = of();
-  const fakeNode: MinimalNodeEntryEntity = {
-    createdAt: undefined,
-    modifiedAt: undefined,
-    modifiedByUser: undefined,
-    isFile: true,
-    createdByUser: {
-      id: 'admin.adf@alfresco.com',
-      displayName: 'Administrator'
-    },
-    nodeType: 'cm:content',
-    content: {
-      mimeType: 'image/jpeg',
-      mimeTypeName: 'JPEG Image',
-      sizeInBytes: 175540,
-      encoding: 'UTF-8'
-    },
-    parentId: 'dff2bc1e-d092-42ac-82d1-87c82f6e56cb',
-    isFolder: false,
-    name: 'GoqZhm.jpg',
-    id: '1bf8a8f7-18ac-4eef-919d-61d952eaa179',
-    allowableOperations: ['delete', 'update', 'updatePermissions'],
-    isFavorite: false
-  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, EffectsModule.forRoot([UploadEffects])],
-      providers: [provideMockActions(() => actions$)]
+      imports: [AppTestingModule, EffectsModule.forRoot([UploadEffects])]
     });
 
     zone = TestBed.inject(NgZone);
@@ -89,6 +54,11 @@ describe('UploadEffects', () => {
     store = TestBed.inject(Store);
     uploadService = TestBed.inject(UploadService);
     effects = TestBed.inject(UploadEffects);
+  });
+
+  beforeEach(() => {
+    spyOn(effects['fileVersionInput'], 'click');
+    spyOn(effects, 'uploadVersion').and.callThrough();
   });
 
   describe('uploadAndUnlock()', () => {
@@ -181,17 +151,8 @@ describe('UploadEffects', () => {
   });
 
   describe('upload file version', () => {
-    beforeEach(() => {
-      actions$ = TestBed.inject(Actions);
-    });
-
     it('should trigger upload file from context menu', () => {
-      spyOn(effects['fileVersionInput'], 'click');
-      actions$ = hot('a', {
-        a: new UploadFileVersionAction(undefined)
-      });
-      const expected = cold('b', {});
-      expect(effects.uploadVersion$).toBeObservable(expected);
+      store.dispatch({ type: 'UPLOAD_FILE_VERSION' });
       expect(effects['fileVersionInput'].click).toHaveBeenCalled();
     });
 
@@ -245,50 +206,9 @@ describe('UploadEffects', () => {
           }
         }
       });
-      actions$ = hot('a', {
-        a: new UploadFileVersionAction(fakeEvent)
-      });
-
-      const expected = cold('b', {});
-      expect(effects.uploadVersion$).toBeObservable(expected);
+      store.dispatch(new UploadFileVersionAction(fakeEvent));
 
       expect(contentManagementService.versionUpdateDialog).toHaveBeenCalledWith(fakeEvent.detail.data.node.entry, fakeEvent.detail.files[0].file);
-    });
-  });
-
-  describe('image versioning', () => {
-    beforeEach(() => {
-      actions$ = TestBed.inject(Actions);
-    });
-
-    it('should trigger upload file version from viewer', () => {
-      spyOn(contentManagementService, 'getNodeInfo').and.returnValue(of(fakeNode));
-      const data = atob('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==');
-      const fakeBlob = new Blob([data], { type: 'image/png' });
-      const newImageFile: File = new File([fakeBlob], 'GoqZhm.jpg');
-      actions$ = hot('a', {
-        a: new UploadNewImageAction(newImageFile)
-      });
-
-      const expected = cold('b', {
-        b: new SnackbarInfoAction('APP.MESSAGES.UPLOAD.SUCCESS.MEDIA_MANAGEMENT')
-      });
-      expect(effects.uploadNewImage$).toBeObservable(expected);
-    });
-
-    it('should display snackbar if can`t retrieve node details', () => {
-      spyOn(contentManagementService, 'getNodeInfo').and.returnValue(throwError(fakeNode));
-      const data = atob('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==');
-      const fakeBlob = new Blob([data], { type: 'image/png' });
-      const newImageFile: File = new File([fakeBlob], 'GoqZhm.jpg');
-      actions$ = hot('a', {
-        a: new UploadNewImageAction(newImageFile)
-      });
-
-      const expected = cold('b', {
-        b: new SnackbarErrorAction('APP.MESSAGES.UPLOAD.ERROR.GENERIC')
-      });
-      expect(effects.uploadNewImage$).toBeObservable(expected);
     });
   });
 });
