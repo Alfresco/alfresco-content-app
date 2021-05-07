@@ -28,7 +28,7 @@ import { Action } from '@ngrx/store';
 export enum UploadActionTypes {
   UploadFiles = 'UPLOAD_FILES',
   UploadFolder = 'UPLOAD_FOLDER',
-  UploadFileVersion = 'UPLOAD_FILE_VERSION',
+  UploadFileVersion = 'UPLOAD_FILE_VERSION'
 }
 
 export class UploadFilesAction implements Action {
