@@ -569,6 +569,11 @@ export interface ViewerRules {
    * Checks if user can preview the node.
    */
   canPreview?: string;
+
+  /**
+   * Shows navigation options
+   */
+  showNavigation?: string;
 }
 ```
 
