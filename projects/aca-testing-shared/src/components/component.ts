@@ -41,6 +41,10 @@ export abstract class Component {
     return root.element(by.id(css));
   }
 
+  protected byTitleAttr(title: string, root: ElementFinder | ProtractorBrowser = this.component): ElementFinder {
+    return root.element(by.css(`[title=${title}]`));
+  }
+
   protected allByCss(css: string, root: ElementFinder | ProtractorBrowser = this.component): ElementArrayFinder {
     return root.all(by.css(css));
   }

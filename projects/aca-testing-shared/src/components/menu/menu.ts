@@ -43,7 +43,7 @@ export class Menu extends Component {
 
   cancelEditingAction = this.byCss(`.mat-menu-item[title='Cancel Editing']`);
   cancelJoinAction = this.byCssText('.mat-menu-item', 'Cancel Join');
-  copyAction = this.byCssText('.mat-menu-item', 'Copy');
+  copyAction = this.byTitleAttr('Copy');
   downloadAction = this.byCssText('.mat-menu-item', 'Download');
   editFolderAction = this.byCss(`.mat-menu-item[id$='editFolder']`);
   editOfflineAction = this.byCss(`.mat-menu-item[title='Edit Offline']`);

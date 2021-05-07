@@ -128,7 +128,7 @@ export class Toolbar extends Component {
 
   async clickMoreActionsCopy(): Promise<void> {
     await this.openMoreMenu();
-    await this.menu.clickMenuItem('Copy');
+    await this.menu.copyAction.click();
   }
 
   async clickMoreActionsEditOffline(): Promise<void> {
