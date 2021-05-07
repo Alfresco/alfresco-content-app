@@ -214,6 +214,12 @@ export class AppViewerComponent implements OnInit, OnDestroy {
         this.node = await this.contentApi.getNodeInfo(nodeId).toPromise();
         this.canUpdateNode = this.content.canUpdateNode(this.node);
         this.store.dispatch(new SetSelectedNodesAction([{ entry: this.node }]));
+        this.navigateMultiple = this.extensions.canShowViewerNavigation({ entry: this.node });
+        if (!this.navigateMultiple) {
+          this.nodeId = this.node.id;
+          this.fileName = this.node.name + this.node?.properties?.['cm:versionLabel'];
+          return;
+        }
 
         if (this.node && this.node.isFile) {
           const nearest = await this.getNearestNodes(this.node.id, this.node.parentId);

@@ -497,4 +497,17 @@ export class AppExtensionService implements RuleContext {
 
     return true;
   }
+
+  canShowViewerNavigation(node: NodeEntry) {
+    const rules = this.viewerRules;
+
+    if (this.isRuleDefined(rules.showNavigation)) {
+      const showNavigation = this.evaluateRule(rules.showNavigation, node);
+      if (!showNavigation) {
+        return false;
+      }
+    }
+
+    return true;
+  }
 }
