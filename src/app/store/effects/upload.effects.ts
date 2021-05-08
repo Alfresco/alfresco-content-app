@@ -105,11 +105,11 @@ export class UploadEffects {
   uploadVersion$ = this.actions$.pipe(
     ofType<UploadFileVersionAction>(UploadActionTypes.UploadFileVersion),
     map((action) => {
-      if (action && action.payload) {
-        const node = action.payload.detail.data.node.entry;
-        const file: any = action.payload.detail.files[0].file;
+      if (action?.payload) {
+        const node = action?.payload?.detail?.data?.node?.entry;
+        const file: any = action?.payload?.detail?.files[0]?.file;
         this.contentService.versionUpdateDialog(node, file);
-      } else if (!action.payload) {
+      } else if (!action?.payload) {
         this.fileVersionInput.click();
       }
     })

@@ -130,7 +130,7 @@ Last but not least, edit the package.json file to allow the build of the extensi
     { ...
       "scripts": {
         ...,
-        "build:my-extension": "ng build my-extension && cpr projects/my-extension/assets dist/my-extension/assets --deleteFirst"
+        "build:my-extension": "ng build my-extension && npx cpr projects/my-extension/assets dist/my-extension/assets --deleteFirst"
     }, ...
   }
 

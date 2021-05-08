@@ -780,6 +780,10 @@
                 "canPreview": {
                   "description": "Controls whether preview is enabled for particular node",
                   "type": "string"
+                },
+                "showNavigation": {
+                  "description": "Controls viewer navigation options",
+                  "type": "string"
                 }
               }
             },

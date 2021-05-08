@@ -207,6 +207,7 @@ describe('UploadEffects', () => {
         }
       });
       store.dispatch(new UploadFileVersionAction(fakeEvent));
+
       expect(contentManagementService.versionUpdateDialog).toHaveBeenCalledWith(fakeEvent.detail.data.node.entry, fakeEvent.detail.files[0].file);
     });
   });

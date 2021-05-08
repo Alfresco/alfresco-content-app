@@ -104,7 +104,7 @@ Update the root `package.json` file and append the following entry to the `scrip
 {
     "scripts": {
         "build:my-extension":
-            "ng build my-extension && cpr projects/my-extension/assets dist/my-extension/assets --deleteFirst"
+            "ng build my-extension && npx cpr projects/my-extension/assets dist/my-extension/assets --deleteFirst"
     }
 }
 ```

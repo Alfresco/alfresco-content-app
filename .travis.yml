@@ -1,4 +1,5 @@
 import:
+  - source: Alfresco/alfresco-build-tools:.travis.docker_hub_login.yml@v1.1.1
   - source: .travis/env.yml
     mode: deep_merge_prepend
 # =================

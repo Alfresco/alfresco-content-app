@@ -102,7 +102,7 @@ JSON 定義で `my-extension.main.component` 識別子を使用できるよう�
 {
     "scripts": {
         "build:my-extension":
-            "ng build my-extension && cpr projects/my-extension/assets dist/my-extension/assets --deleteFirst"
+            "ng build my-extension && npx cpr projects/my-extension/assets dist/my-extension/assets --deleteFirst"
     }
 }
 ```
