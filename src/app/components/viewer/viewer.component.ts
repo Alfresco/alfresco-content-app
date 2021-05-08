@@ -33,7 +33,6 @@ import {
   ReloadDocumentListAction,
   SetCurrentNodeVersionAction,
   SetSelectedNodesAction,
-  UploadNewImageAction,
   ViewerActionTypes,
   ViewNodeAction
 } from '@alfresco/aca-shared/store';
@@ -46,7 +45,6 @@ import { Store } from '@ngrx/store';
 import { from, Observable, Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Actions, ofType } from '@ngrx/effects';
-import { ContentManagementService } from '../../services/content-management.service';
 
 @Component({
   selector: 'app-viewer',
@@ -66,7 +64,6 @@ export class AppViewerComponent implements OnInit, OnDestroy {
   selection: SelectionState;
   infoDrawerOpened$: Observable<boolean>;
 
-  canUpdateNode = false;
   showRightSide = false;
   openWith: ContentActionRef[] = [];
   toolbarActions: ContentActionRef[] = [];
@@ -115,8 +112,7 @@ export class AppViewerComponent implements OnInit, OnDestroy {
     private preferences: UserPreferencesService,
     private apiService: AlfrescoApiService,
     private uploadService: UploadService,
-    private appHookService: AppHookService,
-    private content: ContentManagementService
+    private appHookService: AppHookService
   ) {}
 
   ngOnInit() {
@@ -212,7 +208,6 @@ export class AppViewerComponent implements OnInit, OnDestroy {
     if (nodeId) {
       try {
         this.node = await this.contentApi.getNodeInfo(nodeId).toPromise();
-        this.canUpdateNode = this.content.canUpdateNode(this.node);
         this.store.dispatch(new SetSelectedNodesAction([{ entry: this.node }]));
         this.navigateMultiple = this.extensions.canShowViewerNavigation({ entry: this.node });
         if (!this.navigateMultiple) {
@@ -257,11 +252,6 @@ export class AppViewerComponent implements OnInit, OnDestroy {
 
     const location = this.getFileLocation();
     this.store.dispatch(new ViewNodeAction(this.nextNodeId, { location }));
-  }
-
-  onFileSubmit(newBlob: Blob) {
-    const newImageFile: File = new File([newBlob], this?.node?.name, { type: this?.node?.content?.mimeType });
-    this.store.dispatch(new UploadNewImageAction(newImageFile));
   }
 
   /**
