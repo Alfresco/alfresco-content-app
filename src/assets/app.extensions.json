@@ -1189,6 +1189,7 @@
               "fm:commentsRollup",
               "qshare:shared",
               "exif:exif",
+              "iptcxmp:iptcxmpAspect",
               "cm:effectivity",
               "cm:likesRatingSchemeRollups",
               "cm:lockable",
@@ -1215,6 +1216,201 @@
                   "exif:manufacturer",
                   "exif:model",
                   "exif:software"
+                ]
+              }
+            ]
+          },
+          {
+            "title": "APP.CONTENT_METADATA.GROUP_IPTC_CORE_CONTACT_INFO",
+            "items": [
+              {
+                "aspect": "iptcxmp:iptcxmpAspect",
+                "properties": [
+                  "dc:creator",
+                  "photoshop:AuthorsPosition",
+                  "Iptc4xmpCore:CiAdrExtadr",
+                  "Iptc4xmpCore:CiAdrCity",
+                  "Iptc4xmpCore:CiAdrRegion",
+                  "Iptc4xmpCore:CiAdrPcode",
+                  "Iptc4xmpCore:CiAdrCtry",
+                  "Iptc4xmpCore:CiEmailWork",
+                  "Iptc4xmpCore:CiTelWork",
+                  "Iptc4xmpCore:CiUrlWork"
+                ]
+              }
+            ]
+          },
+          {
+            "title": "APP.CONTENT_METADATA.GROUP_IPTC_CORE_IMAGE_INFO",
+            "items": [
+              {
+                "aspect": "iptcxmp:iptcxmpAspect",
+                "properties": [
+                  "photoshop:DateCreated",
+                  "Iptc4xmpCore:IntellectualGenre",
+                  "Iptc4xmpCore:Scene",
+
+                  "Iptc4xmpCore:Location",
+                  "photoshop:City",
+                  "photoshop:State",
+                  "photoshop:Country"
+                ]
+              }
+            ]
+          },
+          {
+            "title": "APP.CONTENT_METADATA.GROUP_IPTC_CORE_CONTENT_INFO",
+            "items": [
+              {
+                "aspect": "iptcxmp:iptcxmpAspect",
+                "properties": [
+                  "photoshop:Headline",
+                  "dc:subject",
+                  "dc:description",
+                  "Iptc4xmpCore:SubjectCode",
+                  "photoshop:CaptionWriter"
+                ]
+              }
+            ]
+          },
+          {
+            "title": "APP.CONTENT_METADATA.GROUP_IPTC_CORE_STATUS_INFO",
+            "items": [
+              {
+                "aspect": "iptcxmp:iptcxmpAspect",
+                "properties": [
+                  "dc:title",
+                  "photoshop:TransmissionReference",
+                  "photoshop:Instructions",
+                  "photoshop:Credit",
+                  "photoshop:Source",
+                  "dc:rights",
+                  "xmpRights:UsageTerms"
+                ]
+              }
+            ]
+          },
+          {
+            "title": "APP.CONTENT_METADATA.GROUP_IPTC_EXT_DESCRIPTION",
+            "items": [
+              {
+                "aspect": "iptcxmp:iptcxmpAspect",
+                "properties": [
+                  "Iptc4xmpExt:DigImageGUID",
+                  "Iptc4xmpExt:PersonInImage",
+
+                  "Iptc4xmpExt:LocationCreatedSublocation",
+                  "Iptc4xmpExt:LocationCreatedCity",
+                  "Iptc4xmpExt:LocationCreatedProvinceState",
+                  "Iptc4xmpExt:LocationCreatedCountryName",
+                  "Iptc4xmpExt:LocationCreatedCountryCode",
+                  "Iptc4xmpExt:LocationCreatedWorldRegion",
+
+                  "Iptc4xmpExt:LocationShownSublocation",
+                  "Iptc4xmpExt:LocationShownCity",
+                  "Iptc4xmpExt:LocationShownProvinceState",
+                  "Iptc4xmpExt:LocationShownCountryCode",
+                  "Iptc4xmpExt:LocationShownCountryName",
+                  "Iptc4xmpExt:LocationShownWorldRegion",
+
+                  "Iptc4xmpExt:OrganisationInImageName",
+                  "Iptc4xmpExt:OrganisationInImageCode",
+
+                  "Iptc4xmpExt:Event"
+                ]
+              }
+            ]
+          },
+          {
+            "title": "APP.CONTENT_METADATA.GROUP_IPTC_EXT_AO_DETAIL",
+            "items": [
+              {
+                "aspect": "iptcxmp:iptcxmpAspect",
+                "properties": [
+                  "Iptc4xmpExt:AOTitle",
+                  "Iptc4xmpExt:AODateCreated",
+                  "Iptc4xmpExt:AOCreator",
+                  "Iptc4xmpExt:AOSource",
+                  "Iptc4xmpExt:AOSourceInvNo",
+                  "Iptc4xmpExt:AOCopyrightNotice"
+                ]
+              }
+            ]
+          },
+          {
+            "title": "APP.CONTENT_METADATA.GROUP_IPTC_EXT_MODEL_INFO",
+            "items": [
+              {
+                "aspect": "iptcxmp:iptcxmpAspect",
+                "properties": [
+                  "Iptc4xmpExt:AddlModelInfo",
+                  "Iptc4xmpExt:ModelAge",
+                  "plus:MinorModelAgeDisclosure",
+                  "plus:ModelReleaseStatus",
+                  "plus:ModelReleaseID"
+                ]
+              }
+            ]
+          },          
+          {
+            "title": "APP.CONTENT_METADATA.GROUP_IPTC_EXT_ADMIN_INFO",
+            "items": [
+              {
+                "aspect": "iptcxmp:iptcxmpAspect",
+                "properties": [
+                  "plus:ImageSupplierName",
+                  "plus:ImageSupplierID",
+                  "plus:ImageSupplierImageID",
+                  "Iptc4xmpExt:RegOrgId",
+                  "Iptc4xmpExt:RegItemId",
+                  "Iptc4xmpExt:MaxAvailWidth",
+                  "Iptc4xmpExt:MaxAvailHeight",
+                  "Iptc4xmpExt:DigitalSourcefileType",
+                  "Iptc4xmpExt:DigitalSourceType"
+                ]
+              }
+            ]
+          },
+          {
+            "title": "APP.CONTENT_METADATA.GROUP_IPTC_EXT_RIGHTS_INFO",
+            "items": [
+              {
+                "aspect": "iptcxmp:iptcxmpAspect",
+                "properties": [
+                  "plus:ImageCreatorName",
+                  "plus:ImageCreatorID",
+                  "plus:CopyrightOwnerName",
+                  "plus:CopyrightOwnerID",
+
+                  "plus:LicensorName",
+                  "plus:LicensorID",
+                  "plus:LicensorTelephone1",
+                  "plus:LicensorTelephone2",
+                  "plus:LicensorEmail",
+                  "plus:LicensorURL",
+                  "plus:LicensorStreetAddress",
+                  "plus:LicensorExtendedAddress",
+                  "plus:LicensorCity",
+                  "plus:LicensorRegion",
+                  "plus:LicensorPostalCode",
+                  "plus:LicensorCountry",
+
+                  "plus:PropertyReleaseStatus",
+                  "plus:PropertyReleaseID"
+                ]
+              }
+            ]
+          },
+          {
+            "title": "APP.CONTENT_METADATA.GROUP_IPTC_EXT_OTHER",
+            "items": [
+              {
+                "aspect": "iptcxmp:iptcxmpAspect",
+                "properties": [
+                  "Iptc4xmpExt:CVterm",
+                  "Iptc4xmpExt:RegistryId",
+                  "plus:Version",
+                  "Iptc4xmpExt:IptcLastEdited"
                 ]
               }
             ]

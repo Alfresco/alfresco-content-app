@@ -348,6 +348,16 @@
         },
         "CONTENT_METADATA": {
             "EXIF_GROUP_TITLE": "Image EXIF",
+            "GROUP_IPTC_CORE_CONTACT_INFO": "IPTC Contact",
+            "GROUP_IPTC_CORE_IMAGE_INFO": "IPTC Image",
+            "GROUP_IPTC_CORE_CONTENT_INFO": "IPTC Content",
+            "GROUP_IPTC_CORE_STATUS_INFO": "IPTC Status",
+            "GROUP_IPTC_EXT_DESCRIPTION": "IPTC Image Description",
+            "GROUP_IPTC_EXT_AO_DETAIL": "IPTC Artwork or Object Detail",
+            "GROUP_IPTC_EXT_MODEL_INFO": "IPTC Model Information",
+            "GROUP_IPTC_EXT_ADMIN_INFO": "IPTC Admin Information",
+            "GROUP_IPTC_EXT_RIGHTS_INFO": "IPTC Rights Information",
+            "GROUP_IPTC_EXT_OTHER": "IPTC Other",
             "EFFECTIVITY_GROUP_TITLE": "Effectivity"
         },
         "INFO_DRAWER": {
