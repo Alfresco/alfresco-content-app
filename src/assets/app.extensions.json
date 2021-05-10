@@ -1221,6 +1221,7 @@
             ]
           },
           {
+            "id": "app.content.metadata.iptcCoreContactInfoGroup",
             "title": "APP.CONTENT_METADATA.GROUP_IPTC_CORE_CONTACT_INFO",
             "items": [
               {
@@ -1241,6 +1242,7 @@
             ]
           },
           {
+            "id": "app.content.metadata.iptcCoreImageInfoGroup",
             "title": "APP.CONTENT_METADATA.GROUP_IPTC_CORE_IMAGE_INFO",
             "items": [
               {
@@ -1259,6 +1261,7 @@
             ]
           },
           {
+            "id": "app.content.metadata.iptcCoreContentInfoGroup",
             "title": "APP.CONTENT_METADATA.GROUP_IPTC_CORE_CONTENT_INFO",
             "items": [
               {
@@ -1274,6 +1277,7 @@
             ]
           },
           {
+            "id": "app.content.metadata.iptcCoreStatusInfoGroup",
             "title": "APP.CONTENT_METADATA.GROUP_IPTC_CORE_STATUS_INFO",
             "items": [
               {
@@ -1291,6 +1295,7 @@
             ]
           },
           {
+            "id": "app.content.metadata.iptcExtDescriptionGroup",
             "title": "APP.CONTENT_METADATA.GROUP_IPTC_EXT_DESCRIPTION",
             "items": [
               {
@@ -1322,6 +1327,7 @@
             ]
           },
           {
+            "id": "app.content.metadata.iptcExtAODetailGroup",
             "title": "APP.CONTENT_METADATA.GROUP_IPTC_EXT_AO_DETAIL",
             "items": [
               {
@@ -1338,6 +1344,7 @@
             ]
           },
           {
+            "id": "app.content.metadata.iptcExtModelInfoGroup",
             "title": "APP.CONTENT_METADATA.GROUP_IPTC_EXT_MODEL_INFO",
             "items": [
               {
@@ -1353,6 +1360,7 @@
             ]
           },          
           {
+            "id": "app.content.metadata.iptcExtAdminInfoGroup",
             "title": "APP.CONTENT_METADATA.GROUP_IPTC_EXT_ADMIN_INFO",
             "items": [
               {
@@ -1372,6 +1380,7 @@
             ]
           },
           {
+            "id": "app.content.metadata.iptcExtRightsInfoGroup",
             "title": "APP.CONTENT_METADATA.GROUP_IPTC_EXT_RIGHTS_INFO",
             "items": [
               {
@@ -1402,6 +1411,7 @@
             ]
           },
           {
+            "id": "app.content.metadata.iptcExtOtherGroup",
             "title": "APP.CONTENT_METADATA.GROUP_IPTC_EXT_OTHER",
             "items": [
               {
