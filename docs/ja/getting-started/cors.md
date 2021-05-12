@@ -16,12 +16,12 @@ Chrome ブラウザでは、CORS を切り替えることができる次のプ�
 
 ## Firefox の回避策
 
-Firefox ブラウザの場合、次のプラグインを使用できます: [CORS Everywhere](https://addons.mozilla.org/en-Gb/firefox/addon/cors-everywhere/)
+Firefox ブラウザの場合、次のプラグインを使用できます: [CORS Everywhere](https://addons.mozilla.org/ja/firefox/addon/cors-everywhere/)
 
 ## Safari の回避策
 
-Safari で開発またはテストしている場合は、"Develop" メニューを使用して CORS モードを切り替えることができます。
-CORS 設定を変更するたびに、ページをリロードする必要があることに注意してください。
+Safari で開発やテストを行っている場合は、「開発」メニューを使用して CORS モードを切り替えることができます。
+ただし、CORS の設定を変更するたびに、ページを再読み込みする必要があります。
 
 ![](../images/safari-develop-menu.png)
 
