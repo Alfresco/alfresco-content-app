@@ -350,16 +350,16 @@ describe('Library actions : ', () => {
       await testUtil.checkContextMenu(testData.moderatedNotMemberNotFav.name, testData.moderatedNotMemberNotFav.contextMenu);
     });
 
-    // it('[C326685] Moderated library, user requested to join, favorite', async () => {
-    //   await searchInput.searchFor(testData.moderatedRequestedJoinFav.name);
+    it('[C326685] Moderated library, user requested to join, favorite', async () => {
+      await searchInput.searchFor(testData.moderatedRequestedJoinFav.name);
 
-    //   await testUtil.checkToolbarActions(
-    //     testData.moderatedRequestedJoinFav.name,
-    //     testData.moderatedRequestedJoinFav.searchToolbarPrimary,
-    //     testData.moderatedRequestedJoinFav.toolbarMore
-    //   );
-    //   await testUtil.checkContextMenu(testData.moderatedRequestedJoinFav.name, testData.moderatedRequestedJoinFav.contextMenu);
-    // });
+      await testUtil.checkToolbarActions(
+        testData.moderatedRequestedJoinFav.name,
+        testData.moderatedRequestedJoinFav.searchToolbarPrimary,
+        testData.moderatedRequestedJoinFav.toolbarMore
+      );
+      await testUtil.checkContextMenu(testData.moderatedRequestedJoinFav.name, testData.moderatedRequestedJoinFav.contextMenu);
+    });
 
     it('[C326684] Moderated library, user requested to join, not favorite', async () => {
       await searchInput.searchFor(testData.moderatedRequestedJoinNotFav.name);
