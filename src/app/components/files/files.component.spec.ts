@@ -51,6 +51,7 @@ describe('FilesComponent', () => {
   };
 
   let spyContent = null;
+  let loadFolderByNodeIdSpy: jasmine.Spy;
 
   function verifyEmptyFilterTemplate() {
     const template = fixture.debugElement.query(By.css('.empty-search__block')).nativeElement as HTMLElement;
@@ -91,7 +92,7 @@ describe('FilesComponent', () => {
     const fakeNodeEntry: NodeEntry = { entry: { id: 'fake-node-entry' } } as NodeEntry;
     const fakeNodePaging: NodePaging = { list: { pagination: { count: 10, maxItems: 10, skipCount: 0 } } };
     const documentLoaderNode = { children: fakeNodePaging, currentNode: fakeNodeEntry };
-    spyOn(documentListService, 'loadFolderByNodeId').and.returnValue(of(documentLoaderNode));
+    loadFolderByNodeIdSpy = spyOn(documentListService, 'loadFolderByNodeId').and.returnValue(of(documentLoaderNode));
 
     uploadService = TestBed.inject(UploadService);
     router = TestBed.inject(Router);
@@ -127,6 +128,20 @@ describe('FilesComponent', () => {
       tick();
 
       expect(component.isValidPath).toBe(true);
+    }));
+
+    it('should set current page as invalid path when loadFolderByNodeId API fails with 500 status code', fakeAsync(() => {
+      fixture.detectChanges();
+      spyContent.and.returnValue(throwError(null));
+      loadFolderByNodeIdSpy.and.returnValue(throwError(Error(`{
+        "error":{
+           "statusCode":500
+        }
+     }`)))
+      component.documentList.loadFolder();
+      tick();
+
+      expect(component.isValidPath).toBe(false);
     }));
   });
 

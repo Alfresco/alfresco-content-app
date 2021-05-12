@@ -344,4 +344,15 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   isFilterHeaderActive(): boolean {
     return this.showHeader === ShowHeaderMode.Always;
   }
+
+  onError(error: any) {
+    if (error?.message) {
+      try {
+          if (JSON.parse(error.message).error.statusCode === 500) {
+            this.isValidPath = false;
+          }
+      } catch (error) {
+      }
+    }
+  }
 }
