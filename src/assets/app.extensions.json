@@ -594,7 +594,7 @@
               "click": "DELETE_LIBRARY"
             },
             "rules": {
-              "visible": "app.toolbar.favorite.canEditMetadata"
+              "visible": "app.selection.library"
             }
           }
         ]
@@ -1358,7 +1358,7 @@
                 ]
               }
             ]
-          },          
+          },
           {
             "id": "app.content.metadata.iptcExtAdminInfoGroup",
             "title": "APP.CONTENT_METADATA.GROUP_IPTC_EXT_ADMIN_INFO",
