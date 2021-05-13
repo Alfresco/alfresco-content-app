@@ -348,11 +348,10 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   onError(error: any) {
     if (error?.message) {
       try {
-          if (JSON.parse(error.message).error.statusCode === 500) {
-            this.isValidPath = false;
-          }
-      } catch (error) {
-      }
+        if (JSON.parse(error.message).error.statusCode === 500) {
+          this.isValidPath = false;
+        }
+      } catch (error) {}
     }
   }
 }

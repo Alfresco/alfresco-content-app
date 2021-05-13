@@ -133,11 +133,15 @@ describe('FilesComponent', () => {
     it('should set current page as invalid path when loadFolderByNodeId API fails with 500 status code', fakeAsync(() => {
       fixture.detectChanges();
       spyContent.and.returnValue(throwError(null));
-      loadFolderByNodeIdSpy.and.returnValue(throwError(Error(`{
+      loadFolderByNodeIdSpy.and.returnValue(
+        throwError(
+          Error(`{
         "error":{
            "statusCode":500
         }
-     }`)))
+     }`)
+        )
+      );
       component.documentList.loadFolder();
       tick();
 
