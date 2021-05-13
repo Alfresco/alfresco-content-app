@@ -11,7 +11,7 @@ Basic 認証に加えて、Content Application を以下で使用できます:
 - [Identity Service](https://docs.alfresco.com/identity1.0/concepts/identity-overview.html)
 - Kerberos
 
-アプリケーションには、シングルサインオン (別名 SSO) セットアップの適切なデフォルトが含まれています。
+アプリケーションには、シングルサインオン (別名 SSO) セットアップの適切なデフォルトの設定が含まれています。
 設定は `app.config.json` ファイルの中にあり、次のようになります:
 
 ```json
