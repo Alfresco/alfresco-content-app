@@ -35,6 +35,7 @@
           (name-click)="navigateTo($event.detail?.node)"
           (sorting-changed)="onSortingChanged($event)"
           (filterSelection)="onFilterSelected($event)"
+          (error)="onError()"
         >
           <data-columns>
             <ng-container *ngFor="let column of columns; trackBy: trackById">
