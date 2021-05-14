@@ -12,7 +12,7 @@ nav: ja
 - 共有
 - 最近使用したファイル
 - お気に入り
-- ゴミ箱
+- ごみ箱
 
 サイドナビゲーションは、`app.config.json` を編集してリンクの外観をカスタマイズするサポートを提供します。
 
@@ -23,12 +23,8 @@ nav: ja
 ```json
 {
   "navigation": {
-     "main": [
-      ...
-     ],
-   "secondary": [
-     ...
-    ]
+    "main": [],
+    "secondary": []
   }
 }
 ```
@@ -114,8 +110,8 @@ import { CustomPage } from './components/custom-page/custom-page.component';
 ```json
 {
   "navigation": [
-      "main": [ ],
-      "secondary": [ ],
+      "main": [ ... ],
+      "secondary": [ ... ],
       "custom": [
         {
           "icon": "work",
@@ -128,14 +124,12 @@ import { CustomPage } from './components/custom-page/custom-page.component';
       ]
   ]
 }
-
 ```
 
 これは ngrx ストアアクションを使用して宣言することもできます:
 
 ```json
 {
-  ...,
   "navigation": [
       "main": [ ... ],
       "secondary": [ ... ],
@@ -152,13 +146,11 @@ import { CustomPage } from './components/custom-page/custom-page.component';
       ]
   ]
 }
-
 ```
 
-`app.routes.ts` の `/custom-route` を `LayoutComponent` 定義の子としてマッピングします。
+`app.routes.ts` の `/custom-route` を `LayoutComponent` 定義の子コンポーネントとしてマッピングします。
 
 ```js
-
 import { CustomPage } from './components/custom-page/custom-page.component.ts';
 
 export const APP_ROUTES: Routes = [
@@ -173,7 +165,6 @@ export const APP_ROUTES: Routes = [
     ]
   }
 ]
-
 ```
 
 ![](../images/navigation-03.png)
@@ -197,5 +188,34 @@ export const APP_ROUTES: Routes = [
   ]
 }
 ```
+
+ナビゲーションアイテムやナビゲーションアイテムのグループは、定義されたルールに基づいて条件付きでレンダリングすることができます。
+
+```json
+{
+  "navbar": [
+    {
+      "id": "custom-group-1",
+      "rules": {
+        "visible": "rule-reference-id"
+      },
+      "items": []
+    },
+    {
+      "id": "custom-group-2",
+      "items": [
+        {
+          "id": "itemId",
+          "rules": {
+            "visible": "rule-reference-id"
+          }
+        }
+      ]
+    }
+  ]
+}
+```
+
+ルールの詳細については、[ルール](../extending/rules.md) セクションを参照してください。
 
 カスタムページのコンテンツの詳細については、[ドキュメントリストのレイアウト](/ja/features/document-list-layout) セクションを参照してください。
