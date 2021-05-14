@@ -54,6 +54,15 @@ export class Viewer extends Component {
     }
   }
 
+  async waitForFileTitleToBeDisplayed(fileTitle: string): Promise<void> {
+    try {
+      const fileName = this.byCssText('.adf-viewer__display-name', `${fileTitle}`);
+      await waitForPresence(fileName);
+    } catch (error) {
+      Logger.error('\n-----> catch waitForFileTitle <-----\n', error);
+    }
+  }
+
   async waitForTxtViewerToLoad(): Promise<void> {
     try {
       await this.waitForViewerToOpen();
