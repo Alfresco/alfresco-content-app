@@ -38,7 +38,6 @@ import {
   UploadNewVersionDialog
 } from '@alfresco/aca-testing-shared';
 import { BrowserActions, Logger } from '@alfresco/adf-testing';
-import { browser } from 'protractor';
 
 describe('Viewer actions', () => {
   const username = `user-${Utils.random()}`;
