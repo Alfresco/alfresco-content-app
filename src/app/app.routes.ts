@@ -259,7 +259,7 @@ export const APP_ROUTES: Routes = [
                 loadChildren: () => import('./components/viewer/viewer.module').then((m) => m.AppViewerModule)
               }
             ]
-          },
+          }
         ]
       },
       {
