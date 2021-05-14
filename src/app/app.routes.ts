@@ -246,6 +246,19 @@ export const APP_ROUTES: Routes = [
                 loadChildren: () => import('./components/viewer/viewer.module').then((m) => m.AppViewerModule)
               }
             ]
+          },
+          {
+            path: 'view/:nodeId/:versionId',
+            outlet: 'viewer',
+            children: [
+              {
+                path: '',
+                data: {
+                  navigateSource: 'libraries'
+                },
+                loadChildren: () => import('./components/viewer/viewer.module').then((m) => m.AppViewerModule)
+              }
+            ]
           }
         ]
       },
@@ -280,6 +293,19 @@ export const APP_ROUTES: Routes = [
           },
           {
             path: 'view/:nodeId',
+            outlet: 'viewer',
+            children: [
+              {
+                path: '',
+                data: {
+                  navigateSource: 'libraries'
+                },
+                loadChildren: () => import('./components/viewer/viewer.module').then((m) => m.AppViewerModule)
+              }
+            ]
+          },
+          {
+            path: 'view/:nodeId/:versionId',
             outlet: 'viewer',
             children: [
               {
