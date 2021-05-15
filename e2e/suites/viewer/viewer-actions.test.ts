@@ -262,6 +262,9 @@ describe('Viewer actions', () => {
       await uploadNewVersionDialog.uploadButton.click();
       await uploadNewVersionDialog.waitForDialogToClose();
 
+      await viewer.waitForViewerToOpen();
+      await viewer.waitForFileTitleToBeDisplayed(docxFile);
+
       await toolbar.openMoreMenu();
       expect(await toolbar.menu.cancelEditingAction.isPresent()).toBe(false, `'Cancel Editing' button shouldn't be shown`);
       expect(await toolbar.menu.editOfflineAction.isPresent()).toBe(true, `'Edit Offline' should be shown`);
