@@ -51,6 +51,9 @@
     "PREVIEW": {
       "TITLE": "Vorschau"
     },
+    "DETAILS": {
+      "TITLE": "Details"
+    },
     "NEW_MENU": {
       "LABEL": "Neu",
       "TOOLTIP": "Neue Dateien und Ordner hinzufügen oder neue Dateibibliothek erstellen",
@@ -127,9 +130,9 @@
         }
       },
       "RECENT": {
-        "TITLE": "Zuletzt verwendete Dateien",
+        "TITLE": "Kürzlich bearbeitete Dateien",
         "SIDENAV_LINK": {
-          "LABEL": "Zuletzt verwendete Dateien",
+          "LABEL": "Kürzlich bearbeitete Dateien",
           "TOOLTIP": "Dateien anzeigen, die Sie kürzlich bearbeitet haben"
         },
         "EMPTY_STATE": {
@@ -156,8 +159,8 @@
         },
         "EMPTY_STATE": {
           "TITLE": "Papierkorb ist leer",
-          "FIRST_TEXT": "Gelöschte Elemente werden in den Papierkorb verschoben.",
-          "SECOND_TEXT": "Leeren Sie den Papierkorb, um die Elemente endgültig zu löschen."
+          "FIRST_TEXT": "Elemente, die Sie löschen, werden in den Papierkorb verschoben.",
+          "SECOND_TEXT": "Leeren Sie den Papierkorb, um Elemente dauerhaft zu löschen."
         }
       },
       "ABOUT": {
@@ -218,7 +221,8 @@
       "EDIT_OFFLINE": "Offline bearbeiten",
       "EDIT_OFFLINE_CANCEL": "Bearbeitung abbrechen",
       "LIST_MODE": "Liste anzeigen",
-      "GALLERY_MODE": "Galerie anzeigen"
+      "GALLERY_MODE": "Galerie anzeigen",
+      "CHANGE_ASPECT": "Aspekte bearbeiten"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -344,6 +348,16 @@
     },
     "CONTENT_METADATA": {
       "EXIF_GROUP_TITLE": "Bild-EXIF",
+      "GROUP_IPTC_CORE_CONTACT_INFO": "IPTC-Kontakt",
+      "GROUP_IPTC_CORE_IMAGE_INFO": "IPTC-Bild",
+      "GROUP_IPTC_CORE_CONTENT_INFO": "IPTC-Inhalt",
+      "GROUP_IPTC_CORE_STATUS_INFO": "IPTC-Status",
+      "GROUP_IPTC_EXT_DESCRIPTION": "IPTC-Bildbeschreibung",
+      "GROUP_IPTC_EXT_AO_DETAIL": "IPTC-Kunstwerk- oder Objektdetail",
+      "GROUP_IPTC_EXT_MODEL_INFO": "IPTC-Modellinformationen",
+      "GROUP_IPTC_EXT_ADMIN_INFO": "IPTC-Administratorinformationen",
+      "GROUP_IPTC_EXT_RIGHTS_INFO": "IPTC-Rechte-Informationen",
+      "GROUP_IPTC_EXT_OTHER": "IPTC-Sonstige",
       "EFFECTIVITY_GROUP_TITLE": "Effektivität"
     },
     "INFO_DRAWER": {
@@ -352,7 +366,9 @@
         "PROPERTIES": "Eigenschaften",
         "LIBRARY_PROPERTIES": "Info",
         "VERSIONS": "Versionen",
-        "COMMENTS": "Kommentare"
+        "COMMENTS": "Kommentare",
+        "PERMISSIONS": "Berechtigungen",
+        "EXPAND": "Erweitern"
       }
     }
   },
@@ -427,6 +443,12 @@
       "GENERIC": "Bei der Versionsverwaltung der Datei ist ein Fehler aufgetreten"
     }
   },
+  "INFO_PANEL": {
+    "TABS": {
+
+        },
+    "DETAILS": "Details"
+  },
   "LIBRARY": {
     "DIALOG": {
       "CREATE_TITLE": "Bibliothek erstellen",
@@ -466,7 +488,7 @@
   },
   "SEARCH": {
     "INPUT": {
-      "PLACEHOLDER": "Suchen",
+      "PLACEHOLDER": "Suche",
       "FILES": "Dateien",
       "FOLDERS": "Ordner",
       "LIBRARIES": "Bibliotheken",

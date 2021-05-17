@@ -51,6 +51,9 @@
     "PREVIEW": {
       "TITLE": "プレビュー"
     },
+    "DETAILS": {
+      "TITLE": "詳細"
+    },
     "NEW_MENU": {
       "LABEL": "新規",
       "TOOLTIP": "新しいフィールドやフォルダを追加したり、新しいファイルライブラリを作成できます。",
@@ -127,9 +130,9 @@
         }
       },
       "RECENT": {
-        "TITLE": "最近使ったファイル",
+        "TITLE": "最近使用したファイル",
         "SIDENAV_LINK": {
-          "LABEL": "最近使ったファイル",
+          "LABEL": "最近使用したファイル",
           "TOOLTIP": "最近編集したファイルを表示します"
         },
         "EMPTY_STATE": {
@@ -156,8 +159,8 @@
         },
         "EMPTY_STATE": {
           "TITLE": "ごみ箱は空です",
-          "FIRST_TEXT": "削除するアイテムはごみ箱に移動されます。",
-          "SECOND_TEXT": "ごみ箱を空にするとアイテムが完全に削除されます。"
+          "FIRST_TEXT": "削除したアイテムはごみ箱に移動されます。",
+          "SECOND_TEXT": "アイテムを完全に削除するには、ごみ箱を空にします。"
         }
       },
       "ABOUT": {
@@ -218,7 +221,8 @@
       "EDIT_OFFLINE": "オフライン編集",
       "EDIT_OFFLINE_CANCEL": "編集のキャンセル",
       "LIST_MODE": "リストを表示",
-      "GALLERY_MODE": "ギャラリーを表示"
+      "GALLERY_MODE": "ギャラリーを表示",
+      "CHANGE_ASPECT": "アスペトを編集"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -246,7 +250,7 @@
         "TITLE": "タイトル",
         "LOCATION": "場所",
         "SHARED_BY": "共有者",
-        "DELETED_ON": "削除済み",
+        "DELETED_ON": "削除日",
         "DELETED_BY": "削除者",
         "ROLE": "あなたの役割"
       },
@@ -262,7 +266,7 @@
         "GENERIC": "処理が失敗しました。もう一度操作をやり直すか、IT 担当者に連絡してください。",
         "CONFLICT": "この名前は既に使用されています。別の名前を使用してください。",
         "NODE_MOVE": "移動できません。同じ名前のファイルが既に存在します。",
-        "EXISTENT_FOLDER": "この名前のフォルダは既に存在します。別の名前を使用してください。",
+        "EXISTENT_FOLDER": "この名前のフォルダが既に存在します。別の名前を使用してください。",
         "NODE_DELETION": "{{ name }} を削除できませんでした",
         "NODE_DELETION_PLURAL": "{{ number }} 件のアイテムを削除できませんでした",
         "NODE_RESTORE": "{{ name }} を復元できませんでした",
@@ -303,7 +307,7 @@
         "TRASH": {
           "NODES_PURGE": {
             "PLURAL": "{{ number }} 件のアイテムを削除しました",
-            "SINGULAR": "''{{ name }}'' アイテムを削除しました",
+            "SINGULAR": "{{ name }} を削除しました",
             "PARTIAL_SINGULAR": "{{ name }} を削除しましたが、{{ failed }} 件は削除できませんでした",
             "PARTIAL_PLURAL": "{{ number }} 件のアイテムを削除しましたが、{{ failed }} 件は削除できませんでした"
           },
@@ -344,6 +348,16 @@
     },
     "CONTENT_METADATA": {
       "EXIF_GROUP_TITLE": "画像の Exif",
+      "GROUP_IPTC_CORE_CONTACT_INFO": "IPTC連絡先",
+      "GROUP_IPTC_CORE_IMAGE_INFO": "IPTC画像",
+      "GROUP_IPTC_CORE_CONTENT_INFO": "IPTCコンテンツ",
+      "GROUP_IPTC_CORE_STATUS_INFO": "IPTCステータス",
+      "GROUP_IPTC_EXT_DESCRIPTION": "IPTC画像説明",
+      "GROUP_IPTC_EXT_AO_DETAIL": "IPTCアートワークまたはオブジェクトの詳細",
+      "GROUP_IPTC_EXT_MODEL_INFO": "IPTCモデル情報",
+      "GROUP_IPTC_EXT_ADMIN_INFO": "IPTC管理者情報",
+      "GROUP_IPTC_EXT_RIGHTS_INFO": "IPTC権限情報",
+      "GROUP_IPTC_EXT_OTHER": "IPTCその他",
       "EFFECTIVITY_GROUP_TITLE": "有効性"
     },
     "INFO_DRAWER": {
@@ -352,7 +366,9 @@
         "PROPERTIES": "プロパティ",
         "LIBRARY_PROPERTIES": "バージョン情報",
         "VERSIONS": "バージョン",
-        "COMMENTS": "コメント"
+        "COMMENTS": "コメント",
+        "PERMISSIONS": "権限",
+        "EXPAND": "展開"
       }
     }
   },
@@ -426,6 +442,12 @@
     "ERROR": {
       "GENERIC": "ファイルのバージョン作成中にエラーが発生しました"
     }
+  },
+  "INFO_PANEL": {
+    "TABS": {
+
+        },
+    "DETAILS": "詳細"
   },
   "LIBRARY": {
     "DIALOG": {

@@ -47,9 +47,12 @@
       "RESET": "Reset",
       "APPLY": "Použít"
     },
-    "LOCKED_BY": "Uzamčen(a) od: ",
+    "LOCKED_BY": "Uzamknul(a): ",
     "PREVIEW": {
       "TITLE": "Náhled"
+    },
+    "DETAILS": {
+      "TITLE": "Podrobnosti"
     },
     "NEW_MENU": {
       "LABEL": "Nový",
@@ -174,7 +177,7 @@
           "SIZE": "Velikost"
         },
         "UNKNOWN_LOCATION": "Neznámé",
-        "NO_RESULTS": "Parametrům hledání odpovídá 0 výsledků",
+        "NO_RESULTS": "Parametrům hledání odpovídá 0 výsledků",
         "NO_FILTER_RESULTS": "K vašemu filtru je 0 výsledků",
         "TOGGLE_SEARCH_FILTER": "Přepnout filtr hledání",
         "ERRORS": {
@@ -218,7 +221,8 @@
       "EDIT_OFFLINE": "Upravit offline",
       "EDIT_OFFLINE_CANCEL": "Zrušit úpravu",
       "LIST_MODE": "Zobrazit seznam",
-      "GALLERY_MODE": "Zobrazit galerii"
+      "GALLERY_MODE": "Zobrazit galerii",
+      "CHANGE_ASPECT": "Upravit aspekty"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -260,7 +264,7 @@
         "CANNOT_NAVIGATE_LOCATION": "Toto umístění nelze otevřít",
         "MISSING_CONTENT": "Tato položka již neexistuje nebo nemáte dostatečná oprávnění pro její zobrazení.",
         "GENERIC": "Akce se nezdařila. Zkuste to znovu nebo se obraťte na oddělení IT.",
-        "CONFLICT": "Tento název se již používá. Zvolte jiný.",
+        "CONFLICT": "Tento název se již používá. Zvolte jiný název.",
         "NODE_MOVE": "Přesunutí se nezdařilo, protože soubor se stejným názvem již existuje.",
         "EXISTENT_FOLDER": "Složka s tímto názvem již existuje. Zadejte jiný název.",
         "NODE_DELETION": "„{{ name }}“ nebylo možné odstranit",
@@ -344,6 +348,16 @@
     },
     "CONTENT_METADATA": {
       "EXIF_GROUP_TITLE": "Obraz EXIF",
+      "GROUP_IPTC_CORE_CONTACT_INFO": "Kontakt IPTC",
+      "GROUP_IPTC_CORE_IMAGE_INFO": "Obraz IPTC",
+      "GROUP_IPTC_CORE_CONTENT_INFO": "Obsah IPTC",
+      "GROUP_IPTC_CORE_STATUS_INFO": "Stav IPTC",
+      "GROUP_IPTC_EXT_DESCRIPTION": "Popis obrazu IPTC",
+      "GROUP_IPTC_EXT_AO_DETAIL": "Podrobnosti o objektu nebo díle IPTC",
+      "GROUP_IPTC_EXT_MODEL_INFO": "Informace o modelu IPTC",
+      "GROUP_IPTC_EXT_ADMIN_INFO": "Informace o správci IPTC",
+      "GROUP_IPTC_EXT_RIGHTS_INFO": "Informace o právech IPTC",
+      "GROUP_IPTC_EXT_OTHER": "Jiné IPTC",
       "EFFECTIVITY_GROUP_TITLE": "Účinnost"
     },
     "INFO_DRAWER": {
@@ -352,7 +366,9 @@
         "PROPERTIES": "Vlastnosti",
         "LIBRARY_PROPERTIES": "O aplikaci",
         "VERSIONS": "Verze",
-        "COMMENTS": "Poznámky"
+        "COMMENTS": "Poznámky",
+        "PERMISSIONS": "Oprávnění",
+        "EXPAND": "Rozbalit"
       }
     }
   },
@@ -426,6 +442,12 @@
     "ERROR": {
       "GENERIC": "Při pokusu o vytvoření nové verze souboru došlo k chybě"
     }
+  },
+  "INFO_PANEL": {
+    "TABS": {
+    
+        },
+    "DETAILS": "Podrobnosti"
   },
   "LIBRARY": {
     "DIALOG": {

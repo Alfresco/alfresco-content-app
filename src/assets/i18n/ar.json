@@ -39,7 +39,7 @@
     "SIGN_IN": "تسجيل دخول",
     "SIGN_OUT": "تسجيل خروج",
     "SETTINGS": {
-      "TITLE": "الإعدادادت",
+      "TITLE": "إعدادات",
       "APPLICATION-SETTINGS": "إعدادات التطبيق",
       "REPOSITORY-SETTINGS": "إعدادات المستودع",
       "INVALID-VALUE-FORMAT": "تنسيق قيمة غير صالح",
@@ -50,6 +50,9 @@
     "LOCKED_BY": "مغلق من قبل ",
     "PREVIEW": {
       "TITLE": "معاينة"
+    },
+    "DETAILS": {
+      "TITLE": "التفاصيل"
     },
     "NEW_MENU": {
       "LABEL": "جديد",
@@ -170,7 +173,7 @@
         "CUSTOM_ROW": {
           "MODIFIED": "تم التعديل",
           "BY_USER": "بواسطة {{ user }}",
-          "LOCATION": "مكان",
+          "LOCATION": "موقع",
           "SIZE": "الحجم"
         },
         "UNKNOWN_LOCATION": "غير معروف",
@@ -218,7 +221,8 @@
       "EDIT_OFFLINE": "تحرير دون اتصال بالإنترنت",
       "EDIT_OFFLINE_CANCEL": "إلغاء التحرير",
       "LIST_MODE": "عرض القائمة",
-      "GALLERY_MODE": "عرض المعرض"
+      "GALLERY_MODE": "عرض المعرض",
+      "CHANGE_ASPECT": "تحرير الجوانب"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -244,7 +248,7 @@
         "MODIFIED_BY": "تم التعديل بواسطة",
         "VISIBILITY": "رؤية",
         "TITLE": "العنوان",
-        "LOCATION": "مكان",
+        "LOCATION": "موقع",
         "SHARED_BY": "تمت المشاركة بواسطة",
         "DELETED_ON": "تم الحذف",
         "DELETED_BY": "تم الحذف بواسطة",
@@ -276,7 +280,7 @@
             "SINGULAR": "تعذر حذف {{ name }}"
           },
           "NODES_RESTORE": {
-            "PARTIAL_PLURAL": "لم تتم استعادة {{ number }} من العناصر بسبب مشكلات في مكان الاستعادة",
+            "PARTIAL_PLURAL": "لم تتم استعادة {{ number }} من العناصر بسبب مشكلات في موقع الاستعادة",
             "NODE_EXISTS": "تتعذر استعادة {{ name }}، الموقع الأصلي لم يعد موجودًا",
             "LOCATION_MISSING": "تتعذر استعادة {{ name }}، المكان الأصلي لم يعد موجودًا",
             "GENERIC": "حدثت مشكلة في استعادة {{ name }}"
@@ -295,8 +299,8 @@
           "CONFLICT": "لم يتم تحميل إصدار جديد، يوجد ملف آخر بنفس الاسم بالفعل.",
           "500": "خطأ في خادم الإنترنت، حاول مرة أخرى أو اتصل بدعم تكنولوجيا المعلومات [500]",
           "504": "انتهلت مهلة الخادم، حاول مرة أخرى أو اتصل بدعم تكنولوجيا المعلومات [504]",
-          "403": "أذونات غير كافية للتحميل في هذا المكان [403]",
-          "404": "مكان التحميل لم يعد موجودًا [404]"
+          "403": "ت غير كافية للتحميل في هذا الموقع [403]",
+          "404": "التحميل لم يعد موجودًا [404]"
         }
       },
       "INFO": {
@@ -344,6 +348,16 @@
     },
     "CONTENT_METADATA": {
       "EXIF_GROUP_TITLE": "صورة EXIF",
+      "GROUP_IPTC_CORE_CONTACT_INFO": "جهة اتصال IPTC",
+      "GROUP_IPTC_CORE_IMAGE_INFO": "صورة IPTC",
+      "GROUP_IPTC_CORE_CONTENT_INFO": "محتوى IPTC",
+      "GROUP_IPTC_CORE_STATUS_INFO": "حالة IPTC",
+      "GROUP_IPTC_EXT_DESCRIPTION": "وصف صورة IPTC",
+      "GROUP_IPTC_EXT_AO_DETAIL": "تفاصيل العمل الفني أو الكائن IPTC",
+      "GROUP_IPTC_EXT_MODEL_INFO": "معلومات النموذج IPTC",
+      "GROUP_IPTC_EXT_ADMIN_INFO": "معلومات مسؤول IPTC",
+      "GROUP_IPTC_EXT_RIGHTS_INFO": "معلومات حقوق IPTC",
+      "GROUP_IPTC_EXT_OTHER": "IPTC أخرى",
       "EFFECTIVITY_GROUP_TITLE": "الفاعلية"
     },
     "INFO_DRAWER": {
@@ -352,7 +366,9 @@
         "PROPERTIES": "الخصائص",
         "LIBRARY_PROPERTIES": "حول",
         "VERSIONS": "الإصدارات",
-        "COMMENTS": "تعليقات"
+        "COMMENTS": "تعليقات",
+        "PERMISSIONS": "الأذونات",
+        "EXPAND": "توسيع"
       }
     }
   },
@@ -427,6 +443,12 @@
       "GENERIC": "حدث خطأ في تعيين إصدار الملف"
     }
   },
+  "INFO_PANEL": {
+    "TABS": {
+
+  },
+    "DETAILS": "التفاصيل"
+    },
   "LIBRARY": {
     "DIALOG": {
       "CREATE_TITLE": "إنشاء مكتبة",
@@ -486,7 +508,7 @@
       "FILE_TYPE": "نوع الملف",
       "CREATOR": "المنشئ",
       "MODIFIER": "المعدل",
-      "LOCATION": "مكان"
+      "LOCATION": "موقع"
     },
     "CATEGORIES": {
       "MODIFIED_DATE": "تاريخ التعديل",

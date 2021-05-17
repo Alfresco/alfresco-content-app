@@ -43,13 +43,16 @@
       "APPLICATION-SETTINGS": "Настройки приложений",
       "REPOSITORY-SETTINGS": "Настройки репозитория",
       "INVALID-VALUE-FORMAT": "Недопустимый формат значения",
-      "REQUIRED-FIELD": "Поле обязательно для заполнения",
+      "REQUIRED-FIELD": "Это обязательное поле",
       "RESET": "Сброс",
       "APPLY": "Применить"
     },
     "LOCKED_BY": "Заблокировано: ",
     "PREVIEW": {
       "TITLE": "Предварительный просмотр"
+    },
+    "DETAILS": {
+      "TITLE": "Сведения"
     },
     "NEW_MENU": {
       "LABEL": "Создать",
@@ -127,9 +130,9 @@
         }
       },
       "RECENT": {
-        "TITLE": "Последние файлы",
+        "TITLE": "Недавние файлы",
         "SIDENAV_LINK": {
-          "LABEL": "Последние файлы",
+          "LABEL": "Недавние файлы",
           "TOOLTIP": "Посмотреть недавно отредактированные вами файлы"
         },
         "EMPTY_STATE": {
@@ -157,11 +160,11 @@
         "EMPTY_STATE": {
           "TITLE": "Корзина пуста",
           "FIRST_TEXT": "Элементы, которые вы удаляете, перемещаются в корзину.",
-          "SECOND_TEXT": "Очистите корзину, чтобы удалить элементы навсегда."
+          "SECOND_TEXT": "Очистить корзину, чтобы навсегда удалить эти элементы."
         }
       },
       "ABOUT": {
-        "TITLE": "О программе"
+        "TITLE": "Информация"
       },
       "SEARCH": {
         "TITLE": "Результаты поиска",
@@ -174,7 +177,7 @@
           "SIZE": "Размер"
         },
         "UNKNOWN_LOCATION": "Неизвестно",
-        "NO_RESULTS": "Ваш поиск вернул 0 результатов",
+        "NO_RESULTS": "По вашему запросу ничего не найдено",
         "NO_FILTER_RESULTS": "Ваш фильтр вернул 0 результатов",
         "TOGGLE_SEARCH_FILTER": "Переключить фильтр поиска",
         "ERRORS": {
@@ -204,7 +207,7 @@
       "ADD_FAVORITE": "Добавить в избранное",
       "REMOVE_FAVORITE": "Удалить из избранного",
       "UNSHARE": "Снять с публикации",
-      "DETAILS": "Просмотреть сведения",
+      "DETAILS": "Подробно",
       "VERSIONS": "Управление версиями",
       "UPLOAD_VERSION": "Загрузить новую версию",
       "TOGGLE-SIDENAV": "Переключить боковую панель навигации",
@@ -218,7 +221,8 @@
       "EDIT_OFFLINE": "Редактировать в автономном режиме",
       "EDIT_OFFLINE_CANCEL": "Отменить редактирование",
       "LIST_MODE": "Просмотреть список",
-      "GALLERY_MODE": "Просмотреть галерею"
+      "GALLERY_MODE": "Просмотреть галерею",
+      "CHANGE_ASPECT": "Редактировать аспекты"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -344,15 +348,27 @@
     },
     "CONTENT_METADATA": {
       "EXIF_GROUP_TITLE": "EXIF данные изображения",
+      "GROUP_IPTC_CORE_CONTACT_INFO": "Контакт IPTC",
+      "GROUP_IPTC_CORE_IMAGE_INFO": "Изображение IPTC",
+      "GROUP_IPTC_CORE_CONTENT_INFO": "Контент IPTC",
+      "GROUP_IPTC_CORE_STATUS_INFO": "Статус IPTC",
+      "GROUP_IPTC_EXT_DESCRIPTION": "Описание изображения IPTC",
+      "GROUP_IPTC_EXT_AO_DETAIL": "Описание графического изображения или объекта IPTC",
+      "GROUP_IPTC_EXT_MODEL_INFO": "Информация о модели IPTC",
+      "GROUP_IPTC_EXT_ADMIN_INFO": "Информация об администраторе IPTC",
+      "GROUP_IPTC_EXT_RIGHTS_INFO": "Информация о правах IPTC",
+      "GROUP_IPTC_EXT_OTHER": "Иное о IPTC",
       "EFFECTIVITY_GROUP_TITLE": "Эффективность"
     },
     "INFO_DRAWER": {
       "TITLE": "Сведения",
       "TABS": {
         "PROPERTIES": "Свойства",
-        "LIBRARY_PROPERTIES": "О программе",
+        "LIBRARY_PROPERTIES": "Информация",
         "VERSIONS": "Версии",
-        "COMMENTS": "Комментарии"
+        "COMMENTS": "Комментарии",
+        "PERMISSIONS": "Права",
+        "EXPAND": "Расширить"
       }
     }
   },
@@ -405,7 +421,7 @@
       "CLOSE": "Закрыть"
     },
     "DIALOG": {
-      "TITLE": "Загрузить новую версию",
+      "TITLE": "Отправить новую версию",
       "CANCEL": "Отмена",
       "UPLOAD": "Загрузить"
     },
@@ -427,12 +443,18 @@
       "GENERIC": "В ходе управления версиями возникла ошибка"
     }
   },
+  "INFO_PANEL": {
+    "TABS": {
+
+        },
+    "DETAILS": "Сведения"
+    },
   "LIBRARY": {
     "DIALOG": {
       "CREATE_TITLE": "Создание библиотеки",
       "CREATE": "Создать",
       "UPDATE": "Обновить",
-      "EDIT": "Редактировать",
+      "EDIT": "Изменить",
       "CANCEL": "Отмена",
       "FORM": {
         "DESCRIPTION": "Описание",

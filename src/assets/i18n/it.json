@@ -8,7 +8,7 @@
         "ID": "ID",
         "NAME": "Nome",
         "VERSION": "Versione",
-        "VENDOR": "Venditore",
+        "VENDOR": "Fornitore",
         "LICENSE": "Licenza",
         "RUNTIME": "Runtime",
         "DESCRIPTION": "Descrizione"
@@ -51,6 +51,9 @@
     "PREVIEW": {
       "TITLE": "Anteprima"
     },
+    "DETAILS": {
+      "TITLE": "Dettagli"
+    },
     "NEW_MENU": {
       "LABEL": "Nuovo",
       "TOOLTIP": "Aggiungi nuovi file o cartelle oppure crea una nuova libreria di file",
@@ -82,35 +85,35 @@
         }
       },
       "LIBRARIES": {
-        "TITLE": "Librerie file",
-        "DESCRIPTION": "Accedi alle librerie di file",
+        "TITLE": "Raccolte file",
+        "DESCRIPTION": "Accedi alle raccolte di file",
         "SIDENAV_LINK": {
-          "LABEL": "Librerie file",
-          "TOOLTIP": "Librerie file"
+          "LABEL": "Raccolte file",
+          "TOOLTIP": "Raccolte file"
         },
         "EMPTY_STATE": {
           "FILE_LIBRARIES": {
-            "TITLE": "L'utente non è ancora membro di alcuna librerie file",
+            "TITLE": "L'utente non è ancora membro di alcuna Raccolta file",
             "TEXT": "Unire le librerie per caricare, visualizzare e condividere file."
           },
           "FAVORITE_LIBRARIES": {
-            "TITLE": "Nessuna libreria preferita",
+            "TITLE": "Nessuna raccolta preferita",
             "TEXT": "Imposta una libreria come preferita per trovarla facilmente in seguito."
           }
         },
         "MENU": {
           "MY_LIBRARIES": {
-            "TITLE": "Le mie librerie",
+            "TITLE": "Le mie raccolte",
             "SIDENAV_LINK": {
-              "LABEL": "Le mie librerie",
-              "TOOLTIP": "Accedi alle mie librerie"
+              "LABEL": "Le mie raccolte",
+              "TOOLTIP": "Accedi alle raccolte"
             }
           },
           "FAVORITE_LIBRARIES": {
-            "TITLE": "Librerie preferite",
+            "TITLE": "Raccolte  preferite",
             "SIDENAV_LINK": {
-              "LABEL": "Librerie preferite",
-              "TOOLTIP": "Accedi alle librerie preferite"
+              "LABEL": "Raccolte  preferite",
+              "TOOLTIP": "Accedi alle raccolte preferite"
             }
           }
         }
@@ -183,7 +186,7 @@
         }
       },
       "SEARCH_LIBRARIES": {
-        "TITLE": "Librerie trovate...",
+        "TITLE": "Raccolte trovate...",
         "FOUND_RESULTS": "{{ number }} risultati",
         "FOUND_ONE_RESULT": "{{ number }} risultato"
       }
@@ -218,7 +221,8 @@
       "EDIT_OFFLINE": "Modifica offline",
       "EDIT_OFFLINE_CANCEL": "Annulla modifica",
       "LIST_MODE": "Visualizza elenco",
-      "GALLERY_MODE": "Visualizza raccolta"
+      "GALLERY_MODE": "Visualizza raccolta",
+      "CHANGE_ASPECT": "Modifica aspetti"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -303,7 +307,7 @@
         "TRASH": {
           "NODES_PURGE": {
             "PLURAL": "{{ number }} elementi eliminati",
-            "SINGULAR": "{{ name }} eliminato",
+            "SINGULAR": "Elemento {{ name }} eliminato",
             "PARTIAL_SINGULAR": "Elemento {{ name }} eliminato. Impossibile eliminare l'elemento {{ failed }}.",
             "PARTIAL_PLURAL": "{{ number }} elementi eliminati, impossibile eliminare {{ failed }}"
           },
@@ -344,6 +348,16 @@
     },
     "CONTENT_METADATA": {
       "EXIF_GROUP_TITLE": "Immagine EXIF",
+      "GROUP_IPTC_CORE_CONTACT_INFO": "Contatto IPTC",
+      "GROUP_IPTC_CORE_IMAGE_INFO": "Immagine IPTC",
+      "GROUP_IPTC_CORE_CONTENT_INFO": "Contenuto IPTC",
+      "GROUP_IPTC_CORE_STATUS_INFO": "Stato IPTC",
+      "GROUP_IPTC_EXT_DESCRIPTION": "IPTC - Descrizione immagine",
+      "GROUP_IPTC_EXT_AO_DETAIL": "IPTC - Dettaglio oggetto o elemento grafico",
+      "GROUP_IPTC_EXT_MODEL_INFO": "IPTC - Informazioni modello",
+      "GROUP_IPTC_EXT_ADMIN_INFO": "IPTC - Informazioni amministrative",
+      "GROUP_IPTC_EXT_RIGHTS_INFO": "IPTC - Informazioni sui diritti",
+      "GROUP_IPTC_EXT_OTHER": "IPTC - Altro",
       "EFFECTIVITY_GROUP_TITLE": "Validità"
     },
     "INFO_DRAWER": {
@@ -351,8 +365,10 @@
       "TABS": {
         "PROPERTIES": "Proprietà",
         "LIBRARY_PROPERTIES": "Informazioni su",
-        "VERSIONS": "Versioni",
-        "COMMENTS": "Commenti"
+        "VERSIONS": "Versione",
+        "COMMENTS": "Commenti",
+        "PERMISSIONS": "Autorizzazioni",
+        "EXPAND": "Espandi"
       }
     }
   },
@@ -397,7 +413,7 @@
     }
   },
   "SHARED_LINK": {
-    "UNSHARE_PERMISSION_ERROR": "Non si dispone dei permessi per rimuovere la condivisione di questo file"
+    "UNSHARE_PERMISSION_ERROR": "Non hai il permesso per rimuovere la condivisione di questo file"
   },
   "VERSION": {
     "DIALOG_ADF": {
@@ -405,7 +421,7 @@
       "CLOSE": "Chiudi"
     },
     "DIALOG": {
-      "TITLE": "Caricare la nuova versione",
+      "TITLE": "Utilizza nuova versione",
       "CANCEL": "Annulla",
       "UPLOAD": "Carica"
     },
@@ -426,6 +442,12 @@
     "ERROR": {
       "GENERIC": "Si è verificato un errore di gestione della versione del file"
     }
+  },
+  "INFO_PANEL": {
+    "TABS": {
+
+        },
+    "DETAILS": "Dettagli"
   },
   "LIBRARY": {
     "DIALOG": {
@@ -507,7 +529,7 @@
       "THIS_YEAR": "Quest'anno"
     },
     "SEARCH_HEADER": {
-      "TITLE": "Filtro",
+      "TITLE": "Filtra",
       "TYPE": "Tipo",
       "FILTER_BY": "Filtra per {{ category }}",
       "CLEAR": "Cancella",
@@ -523,7 +545,7 @@
           "DOCUMENT": "Documento"
         },
         "SIZE": {
-          "TITLE": "Dimensioni contenuto (intervallo)",
+          "TITLE": "Dimensione contenuto (intervallo)",
           "SMALL": "Piccola",
           "MEDIUM": "Media",
           "LARGE": "Grande",
@@ -561,7 +583,7 @@
   "ADF_VERSION_LIST": {
     "ACTIONS": {
       "UPLOAD": {
-        "TOOLTIP": "Carica la nuova versione"
+        "TOOLTIP": "Caricare la nuova versione"
       }
     }
   },

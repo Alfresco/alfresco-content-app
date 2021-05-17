@@ -43,13 +43,16 @@
       "APPLICATION-SETTINGS": "Programinnstillinger",
       "REPOSITORY-SETTINGS": "Databaseinnstillinger",
       "INVALID-VALUE-FORMAT": "Ugyldig verdiformat",
-      "REQUIRED-FIELD": "Dette feltet er påkrevd",
+      "REQUIRED-FIELD": "Dette feltet er obligatorisk",
       "RESET": "Tilbakestill",
       "APPLY": "Bruk"
     },
     "LOCKED_BY": "Låst av: ",
     "PREVIEW": {
       "TITLE": "Forhåndsvis"
+    },
+    "DETAILS": {
+      "TITLE": "Detaljer"
     },
     "NEW_MENU": {
       "LABEL": "Ny",
@@ -127,9 +130,9 @@
         }
       },
       "RECENT": {
-        "TITLE": "Nylige filer",
+        "TITLE": "Nyere filer",
         "SIDENAV_LINK": {
-          "LABEL": "Nylige filer",
+          "LABEL": "Nyere filer",
           "TOOLTIP": "Vis filer som nylig er redigert"
         },
         "EMPTY_STATE": {
@@ -155,9 +158,9 @@
           "TOOLTIP": "Vis slettede filer i søppelen"
         },
         "EMPTY_STATE": {
-          "TITLE": "Søppelkurven er tom",
-          "FIRST_TEXT": "Elementer du sletter, flyttes til søppelkurven.",
-          "SECOND_TEXT": "Tøm søppelkurven for å slette elementer for godt."
+          "TITLE": "Søppel er tomt",
+          "FIRST_TEXT": "Elementer du sletter, flyttes til Søppel.",
+          "SECOND_TEXT": "Tøm Søppel for å slette elementer permanent."
         }
       },
       "ABOUT": {
@@ -204,8 +207,8 @@
       "ADD_FAVORITE": "Legg til favoritt",
       "REMOVE_FAVORITE": "Fjern favoritt",
       "UNSHARE": "Opphev deling",
-      "DETAILS": "Vis detaljer",
-      "VERSIONS": "Håndtere versjoner",
+      "DETAILS": "Visningsdetaljer",
+      "VERSIONS": "Administrer versjoner",
       "UPLOAD_VERSION": "Last opp ny versjon",
       "TOGGLE-SIDENAV": "Aktiver/deaktiver sidenavigasjonsfelt",
       "SHARE": "Del",
@@ -218,7 +221,8 @@
       "EDIT_OFFLINE": "Rediger frakoblet",
       "EDIT_OFFLINE_CANCEL": "Avbryt redigering",
       "LIST_MODE": "Vis liste",
-      "GALLERY_MODE": "Vis galleri"
+      "GALLERY_MODE": "Vis galleri",
+      "CHANGE_ASPECT": "Rediger aspekter"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -273,7 +277,7 @@
         "TRASH": {
           "NODES_PURGE": {
             "PLURAL": "{{ number }} elementer kan ikke slettes",
-            "SINGULAR": "{{ name }} kan ikke slettes"
+            "SINGULAR": "{{ name }} kunne ikke slettes"
           },
           "NODES_RESTORE": {
             "PARTIAL_PLURAL": "{{ number }} elementer kan ikke gjenopprettes fordi det finnes problemer med gjenoppretingsstedet",
@@ -303,7 +307,7 @@
         "TRASH": {
           "NODES_PURGE": {
             "PLURAL": "{{ number }} elementer slettet",
-            "SINGULAR": "Element {{ name }} slettet",
+            "SINGULAR": "{{ name }} slettet",
             "PARTIAL_SINGULAR": "{{ name }} slettet, {{ failed }} kunne ikke slettes",
             "PARTIAL_PLURAL": "{{ number }} elementer slettet, {{ failed }} kan ikke slettes"
           },
@@ -344,6 +348,16 @@
     },
     "CONTENT_METADATA": {
       "EXIF_GROUP_TITLE": "Bilde-EXIF",
+      "GROUP_IPTC_CORE_CONTACT_INFO": "IPTC-kontakt",
+      "GROUP_IPTC_CORE_IMAGE_INFO": "IPTC-bilde",
+      "GROUP_IPTC_CORE_CONTENT_INFO": "IPTC-innhold",
+      "GROUP_IPTC_CORE_STATUS_INFO": "IPTC-status",
+      "GROUP_IPTC_EXT_DESCRIPTION": "IPTC-bildebeskrivelse",
+      "GROUP_IPTC_EXT_AO_DETAIL": "IPTC-grafikk- eller objektdetalj",
+      "GROUP_IPTC_EXT_MODEL_INFO": "IPTC-modellinformasjon",
+      "GROUP_IPTC_EXT_ADMIN_INFO": "IPTC-administrasjonsinformasjon",
+      "GROUP_IPTC_EXT_RIGHTS_INFO": "IPTC-rettighetsinformasjon",
+      "GROUP_IPTC_EXT_OTHER": "IPTC – annet",
       "EFFECTIVITY_GROUP_TITLE": "Effektivitet"
     },
     "INFO_DRAWER": {
@@ -352,7 +366,9 @@
         "PROPERTIES": "Egenskaper",
         "LIBRARY_PROPERTIES": "Om",
         "VERSIONS": "Versjoner",
-        "COMMENTS": "Kommentarer"
+        "COMMENTS": "Kommentarer",
+        "PERMISSIONS": "Tillatelser",
+        "EXPAND": "Utvid"
       }
     }
   },
@@ -401,7 +417,7 @@
   },
   "VERSION": {
     "DIALOG_ADF": {
-      "TITLE": "Håndtere versjoner",
+      "TITLE": "Administrer versjoner",
       "CLOSE": "Lukk"
     },
     "DIALOG": {
@@ -426,6 +442,12 @@
     "ERROR": {
       "GENERIC": "Det oppstod en feil med versjonskontroll av filen"
     }
+  },
+  "INFO_PANEL": {
+    "TABS": {
+
+        },
+    "DETAILS": "Detaljer"
   },
   "LIBRARY": {
     "DIALOG": {

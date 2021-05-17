@@ -51,6 +51,9 @@
     "PREVIEW": {
       "TITLE": "Visualizar"
     },
+    "DETAILS": {
+      "TITLE": "Detalhes"
+    },
     "NEW_MENU": {
       "LABEL": "Novo",
       "TOOLTIP": "Adicionar novos arquivos e pastas ou criar uma Biblioteca de Arquivos",
@@ -156,8 +159,8 @@
         },
         "EMPTY_STATE": {
           "TITLE": "A lixeira está vazia",
-          "FIRST_TEXT": "Itens apagados são movidos para a Lixeira.",
-          "SECOND_TEXT": "Esvazie a Lixeira para apagar os itens permanentemente."
+          "FIRST_TEXT": "Os itens que você excluir são movidos para a lixeira.",
+          "SECOND_TEXT": "Esvazie a lixeira para excluir itens permanentemente."
         }
       },
       "ABOUT": {
@@ -218,7 +221,8 @@
       "EDIT_OFFLINE": "Editar offline",
       "EDIT_OFFLINE_CANCEL": "Cancelar a edição",
       "LIST_MODE": "Exibir lista",
-      "GALLERY_MODE": "Exibir galeria"
+      "GALLERY_MODE": "Exibir galeria",
+      "CHANGE_ASPECT": "Editar aspectos"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -344,6 +348,16 @@
     },
     "CONTENT_METADATA": {
       "EXIF_GROUP_TITLE": "Imagem EXIF",
+      "GROUP_IPTC_CORE_CONTACT_INFO": "Contato IPTC",
+      "GROUP_IPTC_CORE_IMAGE_INFO": "Imagem IPTC",
+      "GROUP_IPTC_CORE_CONTENT_INFO": "Conteúdo IPTC",
+      "GROUP_IPTC_CORE_STATUS_INFO": "Status IPTC",
+      "GROUP_IPTC_EXT_DESCRIPTION": "Descrição da imagem IPTC",
+      "GROUP_IPTC_EXT_AO_DETAIL": "Detalhe de objeto ou arte IPTC",
+      "GROUP_IPTC_EXT_MODEL_INFO": "Informações do modelo IPTC",
+      "GROUP_IPTC_EXT_ADMIN_INFO": "Informações da administração IPTC",
+      "GROUP_IPTC_EXT_RIGHTS_INFO": "Informações de direitos IPTC",
+      "GROUP_IPTC_EXT_OTHER": "Outro IPTC",
       "EFFECTIVITY_GROUP_TITLE": "Efetividade"
     },
     "INFO_DRAWER": {
@@ -352,7 +366,9 @@
         "PROPERTIES": "Propriedades",
         "LIBRARY_PROPERTIES": "Sobre",
         "VERSIONS": "Versões",
-        "COMMENTS": "Comentários"
+        "COMMENTS": "Comentários",
+        "PERMISSIONS": "Permissões",
+        "EXPAND": "Expandir"
       }
     }
   },
@@ -427,9 +443,15 @@
       "GENERIC": "Houve um erro ao controlar a versão do arquivo"
     }
   },
+  "INFO_PANEL": {
+    "TABS": {
+
+        },
+    "DETAILS": "Detalhes"
+  },
   "LIBRARY": {
     "DIALOG": {
-      "CREATE_TITLE": "Criar biblioteca",
+      "CREATE_TITLE": "Criar Biblioteca",
       "CREATE": "Criar",
       "UPDATE": "Atualizar",
       "EDIT": "Editar",

@@ -43,13 +43,16 @@
       "APPLICATION-SETTINGS": "Programinställningar",
       "REPOSITORY-SETTINGS": "Arkivinställningar",
       "INVALID-VALUE-FORMAT": "Ogiltigt värdeformat",
-      "REQUIRED-FIELD": "Det här fältet är obligatoriskt",
+      "REQUIRED-FIELD": "Det här fältet krävs",
       "RESET": "Återställ",
       "APPLY": "Tillämpa"
     },
     "LOCKED_BY": "Låst av: ",
     "PREVIEW": {
       "TITLE": "Förhandsgranskning"
+    },
+    "DETAILS": {
+      "TITLE": "Detaljer"
     },
     "NEW_MENU": {
       "LABEL": "Ny",
@@ -168,7 +171,7 @@
         "FOUND_RESULTS": "{{ number }} resultat hittades",
         "FOUND_ONE_RESULT": "{{ number }} resultat hittades",
         "CUSTOM_ROW": {
-          "MODIFIED": "Ändrad",
+          "MODIFIED": "Modifierad",
           "BY_USER": "av {{ user }}",
           "LOCATION": "Plats",
           "SIZE": "Storlek"
@@ -218,7 +221,8 @@
       "EDIT_OFFLINE": "Redigera offline",
       "EDIT_OFFLINE_CANCEL": "Avbryt redigering",
       "LIST_MODE": "Visa lista",
-      "GALLERY_MODE": "Visa galleri"
+      "GALLERY_MODE": "Visa galleri",
+      "CHANGE_ASPECT": "Redigera aspekter"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -240,8 +244,8 @@
         "NAME": "Namn",
         "DESCRIPTION": "Beskrivning",
         "SIZE": "Storlek",
-        "MODIFIED_ON": "Ändrad",
-        "MODIFIED_BY": "Ändrad av",
+        "MODIFIED_ON": "Modifierad",
+        "MODIFIED_BY": "Modifierad av",
         "VISIBILITY": "Synlighet",
         "TITLE": "Titel",
         "LOCATION": "Plats",
@@ -251,18 +255,18 @@
         "ROLE": "Min roll"
       },
       "TOOLBAR": {
-        "CARDVIEW": "Kortvyläge",
-        "LISTVIEW": "Listvyläge"
+        "CARDVIEW": "Kortvisningsläge",
+        "LISTVIEW": "Listvisningsläge"
       }
     },
     "MESSAGES": {
       "ERRORS": {
         "CANNOT_NAVIGATE_LOCATION": "Kan inte öppna den här platsen",
         "MISSING_CONTENT": "Objektet finns inte längre eller så du har inte behörighet att visa det.",
-        "GENERIC": "Åtgärden lyckades inte. Försök igen eller kontakta din IT-avdelning.",
+        "GENERIC": "Åtgärden lyckades inte. Testa igen eller kontakta din IT-avdelning.",
         "CONFLICT": "Det här namnet används redan, testa ett annat namn.",
         "NODE_MOVE": "Flytt lyckades inte, en fil med samma namn finns redan.",
-        "EXISTENT_FOLDER": "Det finns redan en mapp med det här namnet. Testa ett annat namn",
+        "EXISTENT_FOLDER": "Det finns redan en mapp med det här namnet. Testa med ett annat namn.",
         "NODE_DELETION": "{{ name }} kunde inte raderas",
         "NODE_DELETION_PLURAL": "{{ number }} objekt kunde inte raderas",
         "NODE_RESTORE": "{{ name }} kunde inte återställas",
@@ -276,7 +280,7 @@
             "SINGULAR": "{{ name }} kunde inte raderas"
           },
           "NODES_RESTORE": {
-            "PARTIAL_PLURAL": "{{ number }} objekt ej återställda på grund av problem med återställningsplatsen",
+            "PARTIAL_PLURAL": "{{ number }} objekt blev ej återställda på grund av problem med återställningsplatsen",
             "NODE_EXISTS": "Kan inte återställa {{ name }}, finns redan",
             "LOCATION_MISSING": "Kan inte återställa {{ name }}, ursprunglig plats finns inte längre",
             "GENERIC": "Det uppstod ett problem med att återställa {{ name }}"
@@ -295,7 +299,7 @@
           "CONFLICT": "Ny version blev inte uppladdad, en annan fil med samma namn finns redan",
           "500": "Internt serverfel, försök igen eller kontakta IT-supporten [500]",
           "504": "Tidsgränsen för servern överskreds, försök igen eller kontakta IT-supporten [504]",
-          "403": "Otillräckliga behörigheter för att ladda upp på den här platsen [403]",
+          "403": "Otillräcklig behörighet för att ladda upp på den här platsen [403]",
           "404": "Uppladdningsplats finns inte längre [404]"
         }
       },
@@ -344,6 +348,16 @@
     },
     "CONTENT_METADATA": {
       "EXIF_GROUP_TITLE": "Bild EXIF",
+      "GROUP_IPTC_CORE_CONTACT_INFO": "IPTC kontaktinformation",
+      "GROUP_IPTC_CORE_IMAGE_INFO": "IPTC bild",
+      "GROUP_IPTC_CORE_CONTENT_INFO": "IPTC innehåll",
+      "GROUP_IPTC_CORE_STATUS_INFO": "IPTC status",
+      "GROUP_IPTC_EXT_DESCRIPTION": "IPTC bildbeskrivning",
+      "GROUP_IPTC_EXT_AO_DETAIL": "IPTC konstverk eller föremål detalj",
+      "GROUP_IPTC_EXT_MODEL_INFO": "IPTC modellinformation",
+      "GROUP_IPTC_EXT_ADMIN_INFO": "IPTC admin-information",
+      "GROUP_IPTC_EXT_RIGHTS_INFO": "IPTC rättigheter information",
+      "GROUP_IPTC_EXT_OTHER": "IPTC annan",
       "EFFECTIVITY_GROUP_TITLE": "Giltighet"
     },
     "INFO_DRAWER": {
@@ -352,7 +366,9 @@
         "PROPERTIES": "Egenskaper",
         "LIBRARY_PROPERTIES": "Om",
         "VERSIONS": "Versioner",
-        "COMMENTS": "Kommentarer"
+        "COMMENTS": "Kommentarer",
+        "PERMISSIONS": "Behörigheter",
+        "EXPAND": "Utvidga"
       }
     }
   },
@@ -427,6 +443,12 @@
       "GENERIC": "Det uppstod ett fel med att versionshantera filen"
     }
   },
+  "INFO_PANEL": {
+    "TABS": {
+
+        },
+    "DETAILS": "Detaljer"
+  },
   "LIBRARY": {
     "DIALOG": {
       "CREATE_TITLE": "Skapa bibliotek",
@@ -447,12 +469,12 @@
       "MODERATED": "Modererad"
     },
     "HINTS": {
-      "SITE_TITLE_EXISTS": "Biblioteksnamn används redan"
+      "SITE_TITLE_EXISTS": "Biblioteknamn används redan"
     },
     "ERRORS": {
-      "GENERIC": "Vi stötte på ett problem",
-      "EXISTENT_SITE": "Detta biblioteks-ID är inte tillgängligt. Testa ett annat Biblioteks-ID.",
-      "CONFLICT": "Detta Biblioteks-ID används redan. Kontrollera papperskorgen",
+      "GENERIC": "Vi har stött på ett problem",
+      "EXISTENT_SITE": "Det här biblioteks-ID:t är inte tillgängligt Testa ett annat biblioteks-ID.",
+      "CONFLICT": "Det här biblioteks-ID:t används redan. Kontrollera papperskorgen",
       "ID_TOO_LONG": "Använd 72 tecken eller färre för URL-namnet",
       "DESCRIPTION_TOO_LONG": "Använd 512 tecken eller färre till beskrivningen",
       "TITLE_TOO_LONG": "Använd 256 tecken eller färre till titeln",
@@ -479,13 +501,13 @@
       "MODIFIED_DATE": "Modifierad datum",
       "SIZE": "Storlek",
       "TYPE": "Typ",
-      "MODIFIER": "Ändrad av",
+      "MODIFIER": "Modifierare",
       "CREATE_DATE": "Skapad datum"
     },
     "FACET_FIELDS": {
       "FILE_TYPE": "Filtyp",
-      "CREATOR": "Skapad av",
-      "MODIFIER": "Ändrad av",
+      "CREATOR": "Skapat av",
+      "MODIFIER": "Ändrat av",
       "LOCATION": "Plats"
     },
     "CATEGORIES": {
@@ -507,7 +529,7 @@
       "THIS_YEAR": "Detta år"
     },
     "SEARCH_HEADER": {
-      "TITLE": "Filter",
+      "TITLE": "Filtrera",
       "TYPE": "Typ",
       "FILTER_BY": "Filtrera efter {{ category }}",
       "CLEAR": "Rensa",
@@ -523,14 +545,14 @@
           "DOCUMENT": "Dokument"
         },
         "SIZE": {
-          "TITLE": "Innehållsstorlek (område)",
+          "TITLE": "Innehållsstorlek (intervall)",
           "SMALL": "Litet",
           "MEDIUM": "Medium",
           "LARGE": "Stort",
           "HUGE": "Jättestort"
         },
         "DATE": {
-          "TITLE": "Skapad datum (område)"
+          "TITLE": "Skapad datum (intervall)"
         }
       }
     }
