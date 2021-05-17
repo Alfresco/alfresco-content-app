@@ -51,6 +51,9 @@
     "PREVIEW": {
       "TITLE": "Vista previa"
     },
+    "DETAILS": {
+      "TITLE": "Detalles"
+    },
     "NEW_MENU": {
       "LABEL": "Nuevo",
       "TOOLTIP": "Añadir nuevos ficheros o carpetas, o crear una nueva biblioteca de ficheros",
@@ -175,7 +178,7 @@
         },
         "UNKNOWN_LOCATION": "Desconocido",
         "NO_RESULTS": "Su búsqueda arrojó 0 resultados",
-        "NO_FILTER_RESULTS": "Su filtro arrojó 0 resultados",
+        "NO_FILTER_RESULTS": "Su filtro ha devuelto 0 resultados",
         "TOGGLE_SEARCH_FILTER": "Alternar filtro de búsqueda",
         "ERRORS": {
           "500": "Error al procesar la consulta de búsqueda [500]",
@@ -218,7 +221,8 @@
       "EDIT_OFFLINE": "Editar fuera de línea",
       "EDIT_OFFLINE_CANCEL": "Cancelar edición",
       "LIST_MODE": "Ver lista",
-      "GALLERY_MODE": "Ver galería"
+      "GALLERY_MODE": "Ver galería",
+      "CHANGE_ASPECT": "Editar aspectos"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -344,6 +348,16 @@
     },
     "CONTENT_METADATA": {
       "EXIF_GROUP_TITLE": "Imagen EXIF",
+      "GROUP_IPTC_CORE_CONTACT_INFO": "Contacto de IPTC",
+      "GROUP_IPTC_CORE_IMAGE_INFO": "Imagen de IPTC",
+      "GROUP_IPTC_CORE_CONTENT_INFO": "Contenido de IPTC",
+      "GROUP_IPTC_CORE_STATUS_INFO": "Estado de IPTC",
+      "GROUP_IPTC_EXT_DESCRIPTION": "Descripción de la imagen IPTC",
+      "GROUP_IPTC_EXT_AO_DETAIL": "Ilustración de IPTC o detalle de objeto",
+      "GROUP_IPTC_EXT_MODEL_INFO": "Información del modelo IPTC",
+      "GROUP_IPTC_EXT_ADMIN_INFO": "Información del administrador de IPTC",
+      "GROUP_IPTC_EXT_RIGHTS_INFO": "Información de derechos de IPTC",
+      "GROUP_IPTC_EXT_OTHER": "Otros asuntos IPTC",
       "EFFECTIVITY_GROUP_TITLE": "Efectividad"
     },
     "INFO_DRAWER": {
@@ -352,7 +366,9 @@
         "PROPERTIES": "Propiedades",
         "LIBRARY_PROPERTIES": "Acerca de",
         "VERSIONS": "Versiones",
-        "COMMENTS": "Comentarios"
+        "COMMENTS": "Comentarios",
+        "PERMISSIONS": "Permisos",
+        "EXPAND": "Expandir"
       }
     }
   },
@@ -426,6 +442,12 @@
     "ERROR": {
       "GENERIC": "Error al versionar el fichero"
     }
+  },
+  "INFO_PANEL": {
+        "TABS": {
+
+        },
+        "DETAILS": "Detalles"
   },
   "LIBRARY": {
     "DIALOG": {
@@ -523,7 +545,7 @@
           "DOCUMENT": "Documento"
         },
         "SIZE": {
-          "TITLE": "Tamaño de contenido (rango)",
+          "TITLE": "Tamaño del contenido (rango)",
           "SMALL": "Pequeño",
           "MEDIUM": "Mediano",
           "LARGE": "Grande",

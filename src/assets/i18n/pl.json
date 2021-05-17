@@ -51,6 +51,9 @@
     "PREVIEW": {
       "TITLE": "Podgląd"
     },
+    "DETAILS": {
+      "TITLE": "Szczegóły"
+    },
     "NEW_MENU": {
       "LABEL": "Nowy",
       "TOOLTIP": "Dodaj nowe pliki i foldery lub utwórz nową bibliotekę plików",
@@ -175,7 +178,7 @@
         },
         "UNKNOWN_LOCATION": "Nieznane",
         "NO_RESULTS": "Wyszukiwanie nie zwróciło żadnych wyników",
-        "NO_FILTER_RESULTS": "Filtr nie zwróciło żadnych wyników",
+        "NO_FILTER_RESULTS": "Filtr zwrócił 0 wyników",
         "TOGGLE_SEARCH_FILTER": "Przełącz filtr wyszukiwania",
         "ERRORS": {
           "500": "Podczas przetwarzania zapytania wyszukiwania wystąpił błąd [500]",
@@ -212,13 +215,14 @@
       "SHARE_EDIT": "Udostępnione ustawienia łącza",
       "PRINT": "Drukuj",
       "FULLSCREEN": "Uaktywnij tryb pełnoekranowy",
-      "JOIN": "Dołącz",
+      "JOIN": "Dołącz do",
       "CANCEL_JOIN": "Anuluj żądanie dołączenia",
       "LEAVE": "Opuść bibliotekę",
       "EDIT_OFFLINE": "Edytuj w trybie offline",
       "EDIT_OFFLINE_CANCEL": "Anuluj edytowanie",
       "LIST_MODE": "Wyświetl listę",
-      "GALLERY_MODE": "Wyświetl galerię"
+      "GALLERY_MODE": "Wyświetl galerię",
+      "CHANGE_ASPECT": "Edytuj aspekty"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -344,6 +348,16 @@
     },
     "CONTENT_METADATA": {
       "EXIF_GROUP_TITLE": "Obraz EXIF",
+      "GROUP_IPTC_CORE_CONTACT_INFO": "Kontakt IPTC",
+      "GROUP_IPTC_CORE_IMAGE_INFO": "Obraz IPTC",
+      "GROUP_IPTC_CORE_CONTENT_INFO": "Zawartość IPTC",
+      "GROUP_IPTC_CORE_STATUS_INFO": "Status IPTC",
+      "GROUP_IPTC_EXT_DESCRIPTION": "Opis obrazu IPTC",
+      "GROUP_IPTC_EXT_AO_DETAIL": "Szczegóły dzieła sztuki lub obiektu IPTC",
+      "GROUP_IPTC_EXT_MODEL_INFO": "Informacje o modelu IPTC",
+      "GROUP_IPTC_EXT_ADMIN_INFO": "Informacje o administratorze IPTC",
+      "GROUP_IPTC_EXT_RIGHTS_INFO": "Informacje o prawach IPTC",
+      "GROUP_IPTC_EXT_OTHER": "Inne informacje IPTC",
       "EFFECTIVITY_GROUP_TITLE": "Obowiązywanie"
     },
     "INFO_DRAWER": {
@@ -352,7 +366,9 @@
         "PROPERTIES": "Właściwości",
         "LIBRARY_PROPERTIES": "Informacje",
         "VERSIONS": "Wersje",
-        "COMMENTS": "Komentarze"
+        "COMMENTS": "Komentarze",
+        "PERMISSIONS": "Uprawnienia",
+        "EXPAND": "Rozwiń"
       }
     }
   },
@@ -426,6 +442,12 @@
     "ERROR": {
       "GENERIC": "Podczas kontroli wersji pliku wystąpił błąd"
     }
+  },
+  "INFO_PANEL": {
+    "TABS": {
+
+        },
+    "DETAILS": "Szczegóły"
   },
   "LIBRARY": {
     "DIALOG": {

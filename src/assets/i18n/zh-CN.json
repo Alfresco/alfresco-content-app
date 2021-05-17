@@ -51,6 +51,9 @@
     "PREVIEW": {
       "TITLE": "预览"
     },
+    "DETAILS": {
+      "TITLE": "详细信息"
+    },
     "NEW_MENU": {
       "LABEL": "新建",
       "TOOLTIP": "添加新文件或文件夹，或者创建新文件库",
@@ -218,7 +221,8 @@
       "EDIT_OFFLINE": "离线编辑",
       "EDIT_OFFLINE_CANCEL": "取消编辑",
       "LIST_MODE": "查看列表",
-      "GALLERY_MODE": "查看图库"
+      "GALLERY_MODE": "查看图库",
+      "CHANGE_ASPECT": "编辑方面"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -344,6 +348,16 @@
     },
     "CONTENT_METADATA": {
       "EXIF_GROUP_TITLE": "图像EXIF",
+      "GROUP_IPTC_CORE_CONTACT_INFO": "IPTC 联系人",
+      "GROUP_IPTC_CORE_IMAGE_INFO": "IPTC 图像",
+      "GROUP_IPTC_CORE_CONTENT_INFO": "IPTC 内容",
+      "GROUP_IPTC_CORE_STATUS_INFO": "IPTC 状态",
+      "GROUP_IPTC_EXT_DESCRIPTION": "IPTC 图像描述",
+      "GROUP_IPTC_EXT_AO_DETAIL": "IPTC 艺术品或物件细节",
+      "GROUP_IPTC_EXT_MODEL_INFO": "IPTC 模型信息",
+      "GROUP_IPTC_EXT_ADMIN_INFO": "IPTC 管理员信息",
+      "GROUP_IPTC_EXT_RIGHTS_INFO": "IPTC 权利信息",
+      "GROUP_IPTC_EXT_OTHER": "IPTC 其他",
       "EFFECTIVITY_GROUP_TITLE": "有效性"
     },
     "INFO_DRAWER": {
@@ -352,7 +366,9 @@
         "PROPERTIES": "属性",
         "LIBRARY_PROPERTIES": "关于",
         "VERSIONS": "版本",
-        "COMMENTS": "注释"
+        "COMMENTS": "注释",
+        "PERMISSIONS": "权限",
+        "EXPAND": "展开"
       }
     }
   },
@@ -426,6 +442,12 @@
     "ERROR": {
       "GENERIC": "对文件进行版本控制时发生错误"
     }
+  },
+  "INFO_PANEL": {
+    "TABS": {
+
+        },
+    "DETAILS": "详细信息"
   },
   "LIBRARY": {
     "DIALOG": {
@@ -507,7 +529,7 @@
       "THIS_YEAR": "今年"
     },
     "SEARCH_HEADER": {
-      "TITLE": "筛选",
+      "TITLE": "筛选器",
       "TYPE": "类型",
       "FILTER_BY": "根据 {{ category }} 筛选",
       "CLEAR": "清除",
@@ -574,7 +596,7 @@
   "ADF-DATATABLE": {
     "FILE_TYPE": {
       "BOOKS-24PX": "文件库",
-      "BASELINE-LOCK-24PX": "锁定的文件"
+      "BASELINE-LOCK-24PX": "无法完成该操作。将此信息告知您的 IT 团队：将 {{data}} 反序列化为 {{contentType}} 过程中出错"
     }
   }
 }

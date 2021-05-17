@@ -51,6 +51,9 @@
     "PREVIEW": {
       "TITLE": "Forhåndsvis"
     },
+    "DETAILS": {
+      "TITLE": "Oplysninger"
+    },
     "NEW_MENU": {
       "LABEL": "Ny(t)",
       "TOOLTIP": "Tilføj nye filer og mapper, eller opret et nyt filbibliotek",
@@ -175,7 +178,7 @@
         },
         "UNKNOWN_LOCATION": "Ukendt",
         "NO_RESULTS": "Der blev ikke fundet nogen søgeresultater",
-        "NO_FILTER_RESULTS": "Der blev ikke fundet nogen filterresultater",
+        "NO_FILTER_RESULTS": "Dit filter gav 0 resultater",
         "TOGGLE_SEARCH_FILTER": "Slå søgefilter til/fra",
         "ERRORS": {
           "500": "Der opstod en fejl under behandling af søgeforespørgslen [500]",
@@ -218,7 +221,8 @@
       "EDIT_OFFLINE": "Rediger offline",
       "EDIT_OFFLINE_CANCEL": "Annuller redigering",
       "LIST_MODE": "Vis liste",
-      "GALLERY_MODE": "Vis galleri"
+      "GALLERY_MODE": "Vis galleri",
+      "CHANGE_ASPECT": "Rediger udseende"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -344,6 +348,16 @@
     },
     "CONTENT_METADATA": {
       "EXIF_GROUP_TITLE": "Billed-EXIF",
+      "GROUP_IPTC_CORE_CONTACT_INFO": "IPTC-kontakt",
+      "GROUP_IPTC_CORE_IMAGE_INFO": "IPTC-billede",
+      "GROUP_IPTC_CORE_CONTENT_INFO": "IPTC-indhold",
+      "GROUP_IPTC_CORE_STATUS_INFO": "IPTC-status",
+      "GROUP_IPTC_EXT_DESCRIPTION": "IPTC-billedbeskrivelse",
+      "GROUP_IPTC_EXT_AO_DETAIL": "IPTC-illustrationer eller objektoplysninger",
+      "GROUP_IPTC_EXT_MODEL_INFO": "IPTC-modeloplysninger",
+      "GROUP_IPTC_EXT_ADMIN_INFO": "IPTC-admin information",
+      "GROUP_IPTC_EXT_RIGHTS_INFO": "IPTC-rettigheder information",
+      "GROUP_IPTC_EXT_OTHER": "IPTC andet",
       "EFFECTIVITY_GROUP_TITLE": "Gældende periode"
     },
     "INFO_DRAWER": {
@@ -352,7 +366,9 @@
         "PROPERTIES": "Egenskaber",
         "LIBRARY_PROPERTIES": "Om",
         "VERSIONS": "Versioner",
-        "COMMENTS": "Kommentarer"
+        "COMMENTS": "Kommentarer",
+        "PERMISSIONS": "Tilladelser",
+        "EXPAND": "Udvid"
       }
     }
   },
@@ -426,6 +442,12 @@
     "ERROR": {
       "GENERIC": "Der opstod en fejl under versionsangivelse for filen"
     }
+  },
+  "INFO_PANEL": {
+    "TABS": {
+
+        },
+    "DETAILS": "Oplysninger"
   },
   "LIBRARY": {
     "DIALOG": {

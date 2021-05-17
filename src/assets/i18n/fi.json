@@ -51,6 +51,9 @@
     "PREVIEW": {
       "TITLE": "Esikatselu"
     },
+    "DETAILS": {
+      "TITLE": "Tiedot"
+    },
     "NEW_MENU": {
       "LABEL": "Uusi",
       "TOOLTIP": "Lisää uusia tiedostoja ja kansioita tai luo uusi tiedostokirjasto",
@@ -218,7 +221,8 @@
       "EDIT_OFFLINE": "Muokkaa offline-tilassa",
       "EDIT_OFFLINE_CANCEL": "Peruuta muokkaus",
       "LIST_MODE": "Tarkastele luetteloa",
-      "GALLERY_MODE": "Tarkastele galleriaa"
+      "GALLERY_MODE": "Tarkastele galleriaa",
+      "CHANGE_ASPECT": "Muokkaa ominaisuusjoukkoja"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -344,6 +348,16 @@
     },
     "CONTENT_METADATA": {
       "EXIF_GROUP_TITLE": "Kuva – EXIF",
+      "GROUP_IPTC_CORE_CONTACT_INFO": "IPTC yhteystiedot",
+      "GROUP_IPTC_CORE_IMAGE_INFO": "IPTC kuva",
+      "GROUP_IPTC_CORE_CONTENT_INFO": "IPTC sisältö",
+      "GROUP_IPTC_CORE_STATUS_INFO": "IPTC tila",
+      "GROUP_IPTC_EXT_DESCRIPTION": "IPTC kuvan kuvaus",
+      "GROUP_IPTC_EXT_AO_DETAIL": "IPTC taideteksen tai esineen tiedot",
+      "GROUP_IPTC_EXT_MODEL_INFO": "IPTC mallin tiedot",
+      "GROUP_IPTC_EXT_ADMIN_INFO": "IPTC hallintatiedot",
+      "GROUP_IPTC_EXT_RIGHTS_INFO": "IPTC oikeustiedot",
+      "GROUP_IPTC_EXT_OTHER": "IPTC muut tiedot",
       "EFFECTIVITY_GROUP_TITLE": "Voimassaolo"
     },
     "INFO_DRAWER": {
@@ -352,7 +366,9 @@
         "PROPERTIES": "Ominaisuudet",
         "LIBRARY_PROPERTIES": "Tietoja",
         "VERSIONS": "Versiot",
-        "COMMENTS": "Kommentit"
+        "COMMENTS": "Kommentit",
+        "PERMISSIONS": "Oikeudet",
+        "EXPAND": "Laajenna"
       }
     }
   },
@@ -426,6 +442,12 @@
     "ERROR": {
       "GENERIC": "Tiedoston versionhallinnassa tapahtui virhe"
     }
+  },
+  "INFO_PANEL": {
+    "TABS": {
+
+        },
+    "DETAILS": "Tiedot"
   },
   "LIBRARY": {
     "DIALOG": {

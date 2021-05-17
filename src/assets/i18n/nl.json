@@ -43,13 +43,16 @@
       "APPLICATION-SETTINGS": "Toepassingsinstellingen",
       "REPOSITORY-SETTINGS": "Opslagplaatsinstellingen",
       "INVALID-VALUE-FORMAT": "Ongeldige indeling van waarde",
-      "REQUIRED-FIELD": "Dit veld is vereist",
+      "REQUIRED-FIELD": "Dit veld is verplicht",
       "RESET": "Opnieuw instellen",
       "APPLY": "Toepassen"
     },
     "LOCKED_BY": "Vergrendeld door: ",
     "PREVIEW": {
       "TITLE": "Preview"
+    },
+    "DETAILS": {
+      "TITLE": "Details"
     },
     "NEW_MENU": {
       "LABEL": "Nieuw",
@@ -156,8 +159,8 @@
         },
         "EMPTY_STATE": {
           "TITLE": "Prullenbak is leeg",
-          "FIRST_TEXT": "Items die u verwijdert, worden verplaatst naar de prullenbak.",
-          "SECOND_TEXT": "Leeg de prullenmand om items definitief te verwijderen."
+          "FIRST_TEXT": "Items die u verwijdert worden verplaatst naar de prullenbak.",
+          "SECOND_TEXT": "Maak de prullenmand leeg om items definitief te verwijderen."
         }
       },
       "ABOUT": {
@@ -218,7 +221,8 @@
       "EDIT_OFFLINE": "Offline bewerken",
       "EDIT_OFFLINE_CANCEL": "Bewerken annuleren",
       "LIST_MODE": "Lijst weergeven",
-      "GALLERY_MODE": "Galerie weergeven"
+      "GALLERY_MODE": "Galerie weergeven",
+      "CHANGE_ASPECT": "Aspecten bewerken"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -344,6 +348,16 @@
     },
     "CONTENT_METADATA": {
       "EXIF_GROUP_TITLE": "EXIF afbeelding",
+      "GROUP_IPTC_CORE_CONTACT_INFO": "IPTC - Contact",
+      "GROUP_IPTC_CORE_IMAGE_INFO": "IPTC - Afbeelding",
+      "GROUP_IPTC_CORE_CONTENT_INFO": "IPTC - Content",
+      "GROUP_IPTC_CORE_STATUS_INFO": "IPTC - Status",
+      "GROUP_IPTC_EXT_DESCRIPTION": "IPTC - Afbeeldingsbeschrijving",
+      "GROUP_IPTC_EXT_AO_DETAIL": "IPTC - Kunstwerk- of objectgegevens",
+      "GROUP_IPTC_EXT_MODEL_INFO": "IPTC - Modelinformatie",
+      "GROUP_IPTC_EXT_ADMIN_INFO": "IPTC - Beheerinformatie",
+      "GROUP_IPTC_EXT_RIGHTS_INFO": "IPTC - Rechteninformatie",
+      "GROUP_IPTC_EXT_OTHER": "IPTC Overig",
       "EFFECTIVITY_GROUP_TITLE": "Effectiviteit"
     },
     "INFO_DRAWER": {
@@ -352,7 +366,9 @@
         "PROPERTIES": "Eigenschappen",
         "LIBRARY_PROPERTIES": "Info",
         "VERSIONS": "Versies",
-        "COMMENTS": "Opmerkingen"
+        "COMMENTS": "Opmerkingen",
+        "PERMISSIONS": "Rechten",
+        "EXPAND": "Uitvouwen"
       }
     }
   },
@@ -380,7 +396,7 @@
       "ERRORS": {
         "DESCRIPTION_TOO_LONG": "Gebruik 512 tekens of minder voor de beschrijving",
         "TITLE_TOO_LONG": "Gebruik 256 tekens of minder voor de titel",
-        "REQUIRED": "Naam is vereist",
+        "REQUIRED": "Naam is verplicht",
         "SPECIAL_CHARACTERS": "Naam mag de volgende tekens niet bevatten: * \" < > \\ / ? : |",
         "ENDING_DOT": "Naam mag niet eindigen met een punt.",
         "ONLY_SPACES": "Naam mag niet alleen uit spaties bestaan"
@@ -427,6 +443,12 @@
       "GENERIC": "Er is een fout opgetreden bij het versiebeheer van het bestand"
     }
   },
+  "INFO_PANEL": {
+    "TABS": {
+
+        },
+    "DETAILS": "Details"
+  },
   "LIBRARY": {
     "DIALOG": {
       "CREATE_TITLE": "Bibliotheek maken",
@@ -452,7 +474,7 @@
     "ERRORS": {
       "GENERIC": "Er is een probleem opgetreden",
       "EXISTENT_SITE": "Deze bibliotheek-id is niet beschikbaar. Probeer een andere bibliotheek-id.",
-      "CONFLICT": "Deze bibliotheek-id wordt al gebruikt. Controleer de prullenbak.",
+      "CONFLICT": "Deze bibliotheek wordt al gebruikt. Controleer de prullenbak.",
       "ID_TOO_LONG": "Gebruik 72 tekens of minder voor de URL-naam",
       "DESCRIPTION_TOO_LONG": "Gebruik 512 tekens of minder voor de beschrijving",
       "TITLE_TOO_LONG": "Gebruik 256 tekens of minder voor de titel",
