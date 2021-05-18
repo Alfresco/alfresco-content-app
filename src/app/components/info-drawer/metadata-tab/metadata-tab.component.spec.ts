@@ -40,6 +40,12 @@ describe('MetadataTabComponent', () => {
   let store: Store<AppState>;
   let appConfig: AppConfigService;
   let extensions: AppExtensionService;
+  const presets = {
+    default: {
+      includeAll: true
+    },
+    custom: []
+  };
 
   setupTestBed({
     imports: [CoreModule, AppTestingModule, ContentMetadataModule],
@@ -54,25 +60,24 @@ describe('MetadataTabComponent', () => {
     beforeEach(() => {
       appConfig = TestBed.inject(AppConfigService);
       extensions = TestBed.inject(AppExtensionService);
+      appConfig.config['content-metadata'] = { presets };
     });
 
     it('should remain unchanged when metadata extension is missing', () => {
-      appConfig.config['content-metadata'] = 'initial config';
       extensions.contentMetadata = null;
 
       fixture = TestBed.createComponent(MetadataTabComponent);
 
-      expect(appConfig.config['content-metadata']).toEqual('initial config');
+      expect(appConfig.config['content-metadata'].presets).toEqual(presets);
     });
 
     it('should be overwritten by the one from extension', () => {
-      appConfig.config['content-metadata'] = 'initial config';
-      extensions.contentMetadata = [{ 'new config': true }];
+      extensions.contentMetadata = { presets: [{ 'new config': true }] };
 
       fixture = TestBed.createComponent(MetadataTabComponent);
 
-      expect(appConfig.config['content-metadata']).not.toEqual('initial config');
-      expect(appConfig.config['content-metadata']).toEqual(extensions.contentMetadata);
+      expect(appConfig.config['content-metadata'].presets).not.toEqual(presets);
+      expect(appConfig.config['content-metadata'].presets).toEqual(extensions.contentMetadata.presets);
     });
   });
 
