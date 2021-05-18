@@ -2,7 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const AlfrescoApi = require('@alfresco/js-api').AlfrescoApiCompatibility;
 const buildNumber = require('./build-number');
-const config = require('../config');
+const outputDir = path.resolve(__dirname, '../../../e2e-output/');
 
 uploadOutput = async function (retryCount = 1) {
   await saveScreenshots(retryCount);
@@ -38,14 +38,14 @@ async function saveScreenshots(retryCount) {
     });
   }
 
-  fs.renameSync(path.join(config.paths.outputDir, '/'), path.join(`${config.paths.outputDir}-${folderName}-${retryCount}/`));
+  fs.renameSync(outputDir, path.join(`${outputDir}-${folderName}-${retryCount}/`));
 
   const child_process = require("child_process");
   child_process.execSync(` tar -czvf ../e2e-result-${folderName}-${retryCount}.tar .`, {
-    cwd: `${config.paths.outputDir}-${folderName}-${retryCount}/`
+    cwd: `${outputDir}-${folderName}-${retryCount}/`
   });
 
-  let pathFile = path.join(config.paths.outputDir, `../e2e-result-${folderName}-${retryCount}.tar`);
+  let pathFile = path.join(outputDir, `../e2e-result-${folderName}-${retryCount}.tar`);
 
   let file = fs.createReadStream(pathFile);
   await alfrescoJsApi.upload.uploadFile(
