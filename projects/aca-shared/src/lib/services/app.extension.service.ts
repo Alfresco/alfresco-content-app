@@ -278,7 +278,7 @@ export class AppExtensionService implements RuleContext {
     presets = this.filterDisabled(mergeObjects(presets, ...elements));
 
     try {
-      this.appConfig.config['content-metadata'].presets = presets ;
+      this.appConfig.config['content-metadata'].presets = presets;
     } catch (error) {
       this.logger.error(error, '- could not change content-metadata presets from app.config -');
     }
