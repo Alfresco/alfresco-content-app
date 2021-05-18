@@ -185,7 +185,9 @@
           ]
         }
       ]
-    }
+    },
+    "multi-value-pipe-separator": ", ",
+    "multi-value-chips": true
   },
   "search": {
     "filterWithContains": true,

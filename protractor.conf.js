@@ -4,11 +4,8 @@
 require('dotenv').config({ path: process.env.ENV_FILE });
 const path = require('path');
 const { SpecReporter } = require('jasmine-spec-reporter');
-const fs = require('fs');
-const resolve = require('path').resolve;
-const logger = require('./tools/helpers/logger');
 const retry = require('protractor-retry-angular-cli').retry;
-const { uploadScreenshot } = require('./e2e/e2e-config/utils/upload-output');
+const { uploadOutput } = require('./e2e/e2e-config/utils/upload-output');
 const smartRunnerFactory = require('./e2e/smartrunner-factory');
 
 const projectRoot = path.resolve(__dirname);
@@ -206,19 +203,24 @@ exports.config = {
 
   afterLaunch: async function (statusCode) {
     if (SAVE_SCREENSHOT && statusCode !== 0) {
-      console.log(`Save screenshot is ${SAVE_SCREENSHOT}, trying to save screenshots.`);
+      console.log(`Status code is ${statusCode}, trying to save screenshots.`);
+      let retryCount = 1;
+      if (argv.retry) {
+        retryCount = ++argv.retry;
+      }
 
       try {
-        await uploadScreenshot(1);
+        await uploadOutput(retryCount);
         console.log('Screenshots saved successfully.');
       } catch (e) {
         console.log('Error happened while trying to upload screenshots and test reports: ', e);
       }
     } else {
-      console.log(`Save screenshot is ${SAVE_SCREENSHOT}, no need to save screenshots.`);
+      console.log(`Status code is ${statusCode}, no need to save screenshots.`);
     }
+
     if (process.env.CI) {
-      return retry.afterLaunch(MAX_RETRIES);
+      return retry.afterLaunch(process.env.RETRY_COUNT || 4, statusCode);
     }
   }
 };

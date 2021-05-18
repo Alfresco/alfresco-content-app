@@ -59,7 +59,7 @@ export class MetadataTabComponent implements OnInit, OnDestroy {
     private contentMetadataService: ContentMetadataService
   ) {
     if (this.extensions.contentMetadata) {
-      this.appConfig.config['content-metadata'] = this.extensions.contentMetadata;
+      this.appConfig.config['content-metadata'].presets = this.extensions.contentMetadata.presets;
     }
     this.displayAspect$ = this.store.select(infoDrawerMetadataAspect);
   }
