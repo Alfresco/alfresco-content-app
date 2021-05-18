@@ -33,17 +33,13 @@ export class TranslateServiceMock extends TranslateService {
     super(null, null, null, null, null, null, true, null, null);
   }
 
-  get(
-    key: string | Array<string> /*,
-    interpolateParams?: Object*/
-  ): Observable<string | any> {
+  get(key: string | Array<string> /*,
+    interpolateParams?: Object*/): Observable<string | any> {
     return of(key);
   }
 
-  instant(
-    key: string | Array<string> /*,
-    interpolateParams?: Object*/
-  ): string | any {
+  instant(key: string | Array<string> /*,
+    interpolateParams?: Object*/): string | any {
     return key;
   }
 }
