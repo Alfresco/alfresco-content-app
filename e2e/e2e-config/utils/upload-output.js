@@ -1,112 +1,65 @@
-const fs = require('fs');
 const path = require('path');
+const fs = require('fs');
 const AlfrescoApi = require('@alfresco/js-api').AlfrescoApiCompatibility;
+const buildNumber = require('./build-number');
+const config = require('../config');
 
-function buildNumber() {
-  let buildNumber = process.env.TRAVIS_BUILD_NUMBER;
-  if (!buildNumber) {
-    process.env.TRAVIS_BUILD_NUMBER = Date.now();
-  }
+uploadOutput = async function (retryCount = 1) {
+  await saveScreenshots(retryCount);
+};
 
-  return process.env.TRAVIS_BUILD_NUMBER;
-}
-
-async function uploadScreenshot(retryCount) {
-  console.log(`Start uploading report ${retryCount} on ${process.env.SCREENSHOT_URL}`);
+async function saveScreenshots(retryCount) {
+  const folderName = process.env.TRAVIS_JOB_NAME.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+  console.log(`Start uploading report in ${folderName}`);
 
   let alfrescoJsApi = new AlfrescoApi({
     provider: 'ECM',
     hostEcm: process.env.SCREENSHOT_URL
   });
 
-  try {
-    await alfrescoJsApi.login(process.env.SCREENSHOT_USERNAME, process.env.SCREENSHOT_PASSWORD);
-  } catch (error) {
-    console.log(` ---- Upload output - login failed : ${error}`);
-  }
+  await alfrescoJsApi.login(process.env.SCREENSHOT_USERNAME, process.env.SCREENSHOT_PASSWORD);
 
   let folderNode;
-
-  const screenshotSavePath = `Builds/ACA/${buildNumber()}/${process.env.TRAVIS_JOB_NAME.replace(/[^a-z0-9]/gi, '_').toLowerCase()}`;
 
   try {
     folderNode = await alfrescoJsApi.nodes.addNode('-my-', {
       'name': `retry-${retryCount}`,
-      'relativePath': screenshotSavePath,
+      'relativePath': `Builds/ACA-${buildNumber()}/${folderName}/`,
       'nodeType': 'cm:folder'
     }, {}, {
       'overwrite': true
     });
   } catch (error) {
-    console.log(`--- Upload output - add node failed. Maybe already exists. ${error}`);
-    try {
-      console.log('--- trying to get the Builds folder ');
-      folderNode = await alfrescoJsApi.nodes.getNode('-my-', {
-        'relativePath': `${screenshotSavePath}/retry-${retryCount}`,
-        'nodeType': 'cm:folder'
-      }, {}, {
-        'overwrite': true
-      });
-    } catch (error) {
-      console.log(`--- Upload out - get node failed. ${error}`);
-    }
+    folderNode = await alfrescoJsApi.nodes.getNode('-my-', {
+      'relativePath': `Builds/ACA-${buildNumber()}/${folderName}/retry-${retryCount}`,
+      'nodeType': 'cm:folder'
+    }, {}, {
+      'overwrite': true
+    });
   }
 
-  const screenShotsPath = path.resolve(__dirname, '../../../e2e-output/screenshots/');
-  let files = fs.readdirSync(screenShotsPath);
-
-  try {
-    for (const fileName of files) {
-      let pathFile = path.join(screenShotsPath, fileName);
-      let file = fs.createReadStream(pathFile);
-
-      let safeFileName = fileName.replace(new RegExp('"', 'g'), '');
-
-      await alfrescoJsApi.upload.uploadFile(
-        file,
-        '',
-        folderNode.entry.id,
-        null,
-        {
-          name: safeFileName,
-          nodeType: 'cm:content',
-          autoRename: true,
-        }
-      );
-    }
-  } catch (error) {
-    console.log(`Upload failed: ${error}`);
-  }
-
-  fs.renameSync(path.resolve(__dirname, '../../../e2e-output/'), path.resolve(__dirname, `../../e2e-output-${retryCount}/`))
+  fs.renameSync(path.join(config.paths.outputDir, '/'), path.join(`${config.paths.outputDir}-${folderName}-${retryCount}/`));
 
   const child_process = require("child_process");
-  child_process.execSync(` tar -czvf ../e2e-result-${process.env.TRAVIS_JOB_NUMBER}-${retryCount}.tar .`, {
-    cwd: path.resolve(__dirname, `../../e2e-output-${retryCount}/`)
+  child_process.execSync(` tar -czvf ../e2e-result-${folderName}-${retryCount}.tar .`, {
+    cwd: `${config.paths.outputDir}-${folderName}-${retryCount}/`
   });
 
-  let pathFile = path.join(__dirname, `../../e2e-result-${process.env.TRAVIS_JOB_NUMBER}-${retryCount}.tar`);
+  let pathFile = path.join(config.paths.outputDir, `../e2e-result-${folderName}-${retryCount}.tar`);
+
   let file = fs.createReadStream(pathFile);
+  await alfrescoJsApi.upload.uploadFile(
+    file,
+    '',
+    folderNode.entry.id,
+    null,
+    {
+      'name': `e2e-result-${folderName}-${retryCount}.tar`,
+      'nodeType': 'cm:content',
+      'autoRename': true
+    }
+  );
 
-  try {
-    await alfrescoJsApi.upload.uploadFile(
-      file,
-      '',
-      folderNode.entry.id,
-      null,
-      {
-        'name': `e2e-result-${process.env.TRAVIS_JOB_NUMBER}-${retryCount}.tar`,
-        'nodeType': 'cm:content',
-        'autoRename': true
-      }
-    );
-  } catch (error) {
-    throw new Error(`--- Upload output failed. ${error}`);
-  }
-
-  fs.rmdirSync(path.resolve(__dirname, `../../e2e-output-${retryCount}/`), { recursive: true });
 }
 
-module.exports = {
-  uploadScreenshot: uploadScreenshot
-};
+module.exports = uploadOutput;
