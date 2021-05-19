@@ -39,10 +39,7 @@ import { MinimalNodeEntity, MinimalNodeEntryEntity, SitePaging, NodeChildAssocia
 import { ContentApiService } from '@alfresco/aca-shared';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
-export enum BatchOperationType {
-  copy = 'copy',
-  move = 'move'
-}
+type BatchOperationType = Extract<NodeActionsEnum, NodeActionsEnum.COPY | NodeActionsEnum.MOVE>;
 
 @Injectable({
   providedIn: 'root'
@@ -70,7 +67,7 @@ export class NodeActionsService {
    * @param permission permission which is needed to apply the action
    */
   copyNodes(contentEntities: any[], permission?: string): Subject<string> {
-    return this.doBatchOperation(BatchOperationType.copy, contentEntities, permission);
+    return this.doBatchOperation(NodeActionsEnum.COPY, contentEntities, permission);
   }
 
   /**
@@ -80,7 +77,7 @@ export class NodeActionsService {
    * @param permission permission which is needed to apply the action
    */
   moveNodes(contentEntities: any[], permission?: string): Subject<string> {
-    return this.doBatchOperation(BatchOperationType.move, contentEntities, permission);
+    return this.doBatchOperation(NodeActionsEnum.MOVE, contentEntities, permission);
   }
 
   /**
@@ -108,7 +105,7 @@ export class NodeActionsService {
         const selection = selections[0];
         let action$: Observable<any>;
 
-        if (action === BatchOperationType.move && contentEntities.length === 1 && type === 'content') {
+        if (action === NodeActionsEnum.MOVE && contentEntities.length === 1 && type === 'content') {
           action$ = this.documentListService.moveNode(contentEntryId, selection.id);
         } else {
           contentEntities.forEach((node) => {
@@ -122,9 +119,9 @@ export class NodeActionsService {
           observable.next(`OPERATION.SUCCESS.${type.toUpperCase()}.${action.toUpperCase()}`);
 
           const processedData = this.processResponse(newContent);
-          if (action === BatchOperationType.copy) {
+          if (action === NodeActionsEnum.COPY) {
             this.contentCopied.next(processedData.succeeded);
-          } else if (action === BatchOperationType.move) {
+          } else if (action === NodeActionsEnum.MOVE) {
             this.contentMoved.next(processedData);
           }
         }, observable.error.bind(observable));
@@ -537,7 +534,7 @@ export class NodeActionsService {
   }
 
   private isActionAllowed(action: BatchOperationType, node: MinimalNodeEntryEntity, permission?: string): boolean {
-    if (action === BatchOperationType.copy) {
+    if (action === NodeActionsEnum.COPY) {
       return true;
     }
     return this.contentService.hasAllowableOperations(node, permission);
