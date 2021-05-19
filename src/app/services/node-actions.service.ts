@@ -32,7 +32,8 @@ import {
   ContentNodeSelectorComponent,
   ContentNodeSelectorComponentData,
   ContentNodeDialogService,
-  ShareDataRow
+  ShareDataRow,
+  NodeActionsEnum
 } from '@alfresco/adf-content-services';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, SitePaging, NodeChildAssociationPaging, NodeChildAssociationEntry } from '@alfresco/js-api';
 import { ContentApiService } from '@alfresco/aca-shared';
@@ -160,7 +161,7 @@ export class NodeActionsService {
     return entryParentId;
   }
 
-  getContentNodeSelection(action: string, contentEntities: MinimalNodeEntity[]): Subject<MinimalNodeEntryEntity[]> {
+  getContentNodeSelection(action: NodeActionsEnum, contentEntities: MinimalNodeEntity[]): Subject<MinimalNodeEntryEntity[]> {
     const currentParentFolderId = this.getEntryParentId(contentEntities[0].entry);
 
     const customDropdown = new SitePaging({
