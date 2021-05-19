@@ -32,3 +32,8 @@ import { RuleContext } from '@alfresco/adf-extensions';
 export function hasQuickShareEnabled(context: RuleContext): boolean {
   return context.repository.status.isQuickShareEnabled;
 }
+
+export function isMajorVersionAvailable(context: RuleContext, versionNumber: string): boolean {
+  const majorVersion = context.repository.version?.major ? parseInt(context.repository.version.major, 10) : 0;
+  return majorVersion >= parseInt(versionNumber, 10);
+}
