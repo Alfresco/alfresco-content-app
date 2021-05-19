@@ -34,6 +34,6 @@ export function hasQuickShareEnabled(context: RuleContext): boolean {
 }
 
 export function isMajorVersionAvailable(context: RuleContext, versionNumber: string): boolean {
-   const majorVersion = context.repository.version && context.repository.version.major ? parseInt(context.repository.version.major) : 0;
-   return majorVersion >= parseInt(versionNumber);
+  const majorVersion = context.repository.version?.major ? parseInt(context.repository.version.major, 10) : 0;
+  return majorVersion >= parseInt(versionNumber, 10);
 }
