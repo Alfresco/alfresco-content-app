@@ -35,7 +35,7 @@ import {
 } from '@alfresco/aca-testing-shared';
 import { BrowserActions, Logger } from '@alfresco/adf-testing';
 
-describe('Copy content', () => {
+describe('Copy content ', () => {
   const random = Utils.random();
 
   const username = `user-${random}`;
