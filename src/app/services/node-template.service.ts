@@ -32,7 +32,7 @@ import { AlfrescoApiService, TranslationService } from '@alfresco/adf-core';
 import { switchMap, catchError } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { AppStore, SnackbarErrorAction } from '@alfresco/aca-shared/store';
-import { ContentNodeSelectorComponent, ContentNodeSelectorComponentData, ShareDataRow, NodeActionsEnum } from '@alfresco/adf-content-services';
+import { ContentNodeSelectorComponent, ContentNodeSelectorComponentData, ShareDataRow, NodeAction } from '@alfresco/adf-content-services';
 
 export interface TemplateDialogConfig {
   primaryPathName: string;
@@ -64,7 +64,7 @@ export class NodeTemplateService {
     const data: ContentNodeSelectorComponentData = {
       selectionMode: 'single',
       title: this.title(config.selectionType),
-      actionName: NodeActionsEnum.NEXT,
+      actionName: NodeAction.NEXT,
       dropdownHideMyFiles: true,
       currentFolderId: null,
       dropdownSiteList: null,

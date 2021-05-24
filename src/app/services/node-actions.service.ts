@@ -33,13 +33,13 @@ import {
   ContentNodeSelectorComponentData,
   ContentNodeDialogService,
   ShareDataRow,
-  NodeActionsEnum
+  NodeAction
 } from '@alfresco/adf-content-services';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, SitePaging, NodeChildAssociationPaging, NodeChildAssociationEntry } from '@alfresco/js-api';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
-type BatchOperationType = Extract<NodeActionsEnum, NodeActionsEnum.COPY | NodeActionsEnum.MOVE>;
+type BatchOperationType = Extract<NodeAction, NodeAction.COPY | NodeAction.MOVE>;
 
 @Injectable({
   providedIn: 'root'
@@ -67,7 +67,7 @@ export class NodeActionsService {
    * @param permission permission which is needed to apply the action
    */
   copyNodes(contentEntities: any[], permission?: string): Subject<string> {
-    return this.doBatchOperation(NodeActionsEnum.COPY, contentEntities, permission);
+    return this.doBatchOperation(NodeAction.COPY, contentEntities, permission);
   }
 
   /**
@@ -77,7 +77,7 @@ export class NodeActionsService {
    * @param permission permission which is needed to apply the action
    */
   moveNodes(contentEntities: any[], permission?: string): Subject<string> {
-    return this.doBatchOperation(NodeActionsEnum.MOVE, contentEntities, permission);
+    return this.doBatchOperation(NodeAction.MOVE, contentEntities, permission);
   }
 
   /**
@@ -105,7 +105,7 @@ export class NodeActionsService {
         const selection = selections[0];
         let action$: Observable<any>;
 
-        if (action === NodeActionsEnum.MOVE && contentEntities.length === 1 && type === 'content') {
+        if (action === NodeAction.MOVE && contentEntities.length === 1 && type === 'content') {
           action$ = this.documentListService.moveNode(contentEntryId, selection.id);
         } else {
           contentEntities.forEach((node) => {
@@ -119,9 +119,9 @@ export class NodeActionsService {
           observable.next(`OPERATION.SUCCESS.${type.toUpperCase()}.${action.toUpperCase()}`);
 
           const processedData = this.processResponse(newContent);
-          if (action === NodeActionsEnum.COPY) {
+          if (action === NodeAction.COPY) {
             this.contentCopied.next(processedData.succeeded);
-          } else if (action === NodeActionsEnum.MOVE) {
+          } else if (action === NodeAction.MOVE) {
             this.contentMoved.next(processedData);
           }
         }, observable.error.bind(observable));
@@ -158,7 +158,7 @@ export class NodeActionsService {
     return entryParentId;
   }
 
-  getContentNodeSelection(action: NodeActionsEnum, contentEntities: MinimalNodeEntity[]): Subject<MinimalNodeEntryEntity[]> {
+  getContentNodeSelection(action: NodeAction, contentEntities: MinimalNodeEntity[]): Subject<MinimalNodeEntryEntity[]> {
     const currentParentFolderId = this.getEntryParentId(contentEntities[0].entry);
 
     const customDropdown = new SitePaging({
@@ -534,7 +534,7 @@ export class NodeActionsService {
   }
 
   private isActionAllowed(action: BatchOperationType, node: MinimalNodeEntryEntity, permission?: string): boolean {
-    if (action === NodeActionsEnum.COPY) {
+    if (action === NodeAction.COPY) {
       return true;
     }
     return this.contentService.hasAllowableOperations(node, permission);
