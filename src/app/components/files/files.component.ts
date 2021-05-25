@@ -173,9 +173,17 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   navigateTo(node: MinimalNodeEntity) {
     if (node && node.entry) {
       this.selectedNode = node;
-      const { id, isFolder } = node.entry;
+      const { isFolder } = node.entry;
 
       if (isFolder) {
+        let id: string;
+
+        if (node.entry.nodeType === 'app:folderlink') {
+          id = node.entry.properties['cm:destination'];
+        } else {
+          id = node.entry.id;
+        }
+
         this.documentList.resetNewFolderPagination();
         this.navigate(id);
         return;

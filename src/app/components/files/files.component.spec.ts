@@ -323,6 +323,24 @@ describe('FilesComponent', () => {
       component.navigate(node.id);
       expect(router.navigate).toHaveBeenCalledWith(['libraries', node.id]);
     });
+
+    it('should navigate to destination folder if node is `app:folderlink`', () => {
+      node = {
+        entry: {
+          id: 'folder-link-id',
+          isFolder: true,
+          nodeType: 'app:folderlink',
+          properties: {
+            'cm:destination': 'original-folder-id'
+          }
+        }
+      } as any;
+
+      router.url = '/personal-files';
+      spyOn(route.snapshot.paramMap, 'get').and.returnValue('personal-files');
+      component.navigateTo(node);
+      expect(router.navigate).toHaveBeenCalledWith([node.entry.properties['cm:destination']]);
+    });
   });
 
   describe('isSiteContainer', () => {
