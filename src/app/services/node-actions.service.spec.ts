@@ -27,8 +27,8 @@ import { TestBed, async } from '@angular/core/testing';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { of, throwError, Subject, Observable } from 'rxjs';
 import { AlfrescoApiService, TranslationService } from '@alfresco/adf-core';
-import { DocumentListService } from '@alfresco/adf-content-services';
-import { NodeActionsService, BatchOperationType } from './node-actions.service';
+import { DocumentListService, NodeAction } from '@alfresco/adf-content-services';
+import { NodeActionsService } from './node-actions.service';
 import { MinimalNodeEntryEntity, NodeChildAssociationEntry, NodeEntry } from '@alfresco/js-api';
 import { AppTestingModule } from '../testing/app-testing.module';
 import { ContentApiService } from '@alfresco/aca-shared';
@@ -119,7 +119,7 @@ describe('NodeActionsService', () => {
     it('should validate selection when allowableOperation has `create`', () => {
       spyOn(dialog, 'open');
       const contentEntities = [new TestNode(), { entry: { nodeId: '1234' } }];
-      service.getContentNodeSelection('', contentEntities as NodeEntry[]);
+      service.getContentNodeSelection(NodeAction.CHOOSE, contentEntities as NodeEntry[]);
 
       const isSelectionValid = dialog.open['calls'].argsFor(0)[1].data.isSelectionValid({
         name: 'some-folder-template',
@@ -135,7 +135,7 @@ describe('NodeActionsService', () => {
     it('should invalidate selection when allowableOperation does not have `create`', () => {
       spyOn(dialog, 'open');
       const contentEntities = [new TestNode(), { entry: { nodeId: '1234' } }];
-      service.getContentNodeSelection('', contentEntities as NodeEntry[]);
+      service.getContentNodeSelection(NodeAction.CHOOSE, contentEntities as NodeEntry[]);
 
       const isSelectionValid = dialog.open['calls'].argsFor(0)[1].data.isSelectionValid({
         name: 'some-folder-template',
@@ -151,7 +151,7 @@ describe('NodeActionsService', () => {
     it('should invalidate selection if isSite', () => {
       spyOn(dialog, 'open');
       const contentEntities = [new TestNode(), { entry: { nodeId: '1234' } }];
-      service.getContentNodeSelection('', contentEntities as NodeEntry[]);
+      service.getContentNodeSelection(NodeAction.CHOOSE, contentEntities as NodeEntry[]);
 
       const isSelectionValid = dialog.open['calls'].argsFor(0)[1].data.isSelectionValid({
         name: 'some-folder-template',
@@ -168,7 +168,7 @@ describe('NodeActionsService', () => {
     it('should validate selection if not a Site', () => {
       spyOn(dialog, 'open');
       const contentEntities = [new TestNode(), { entry: { nodeId: '1234' } }];
-      service.getContentNodeSelection('', contentEntities as NodeEntry[]);
+      service.getContentNodeSelection(NodeAction.CHOOSE, contentEntities as NodeEntry[]);
 
       const isSelectionValid = dialog.open['calls'].argsFor(0)[1].data.isSelectionValid({
         name: 'some-folder-template',
@@ -336,7 +336,7 @@ describe('NodeActionsService', () => {
       subject.next([destinationFolder.entry]);
 
       expect(spyOnBatchOperation.calls.count()).toEqual(1);
-      expect(spyOnBatchOperation).toHaveBeenCalledWith(BatchOperationType.copy, [fileToCopy, folderToCopy], undefined);
+      expect(spyOnBatchOperation).toHaveBeenCalledWith(NodeAction.COPY, [fileToCopy, folderToCopy], undefined);
     });
 
     it('should use the custom data object with custom rowFilter & imageResolver & title with destination picker', () => {
@@ -352,7 +352,7 @@ describe('NodeActionsService', () => {
 
       service.copyNodes([fileToCopy, folderToCopy]);
 
-      expect(spyOnBatchOperation).toHaveBeenCalledWith(BatchOperationType.copy, [fileToCopy, folderToCopy], undefined);
+      expect(spyOnBatchOperation).toHaveBeenCalledWith(NodeAction.COPY, [fileToCopy, folderToCopy], undefined);
       expect(spyOnDestinationPicker.calls.count()).toEqual(1);
       expect(spyOnDialog.calls.count()).toEqual(1);
 
@@ -731,7 +731,7 @@ describe('NodeActionsService', () => {
       service.moveNodes([fileToMove, folderToMove], permissionToMove);
       subject.next([destinationFolder.entry]);
 
-      expect(spyOnBatchOperation).toHaveBeenCalledWith(BatchOperationType.move, [fileToMove, folderToMove], permissionToMove);
+      expect(spyOnBatchOperation).toHaveBeenCalledWith(NodeAction.MOVE, [fileToMove, folderToMove], permissionToMove);
       expect(spyOnDestinationPicker).toHaveBeenCalled();
     });
 
@@ -744,7 +744,7 @@ describe('NodeActionsService', () => {
       service.moveNodes([fileToMove, folderToMove], permissionToMove);
       subject.next([destinationFolder.entry]);
 
-      expect(spyOnBatchOperation).toHaveBeenCalledWith(BatchOperationType.move, [fileToMove, folderToMove], permissionToMove);
+      expect(spyOnBatchOperation).toHaveBeenCalledWith(NodeAction.MOVE, [fileToMove, folderToMove], permissionToMove);
       expect(spyOnDestinationPicker).not.toHaveBeenCalled();
     });
 
