@@ -40,8 +40,8 @@ import { Actions, ofType } from '@ngrx/effects';
 
 @Component({
   selector: 'app-preview',
-  templateUrl: 'preview.component.html',
-  styleUrls: ['preview.component.scss'],
+  templateUrl: './preview.component.html',
+  styleUrls: ['./preview.component.scss'],
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-preview' }
 })

@@ -29,7 +29,7 @@ import { AppExtensionService } from '@alfresco/aca-shared';
 
 @Component({
   selector: 'app-context-menu-item',
-  templateUrl: 'context-menu-item.component.html',
+  templateUrl: './context-menu-item.component.html',
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-context-menu-item' }
 })

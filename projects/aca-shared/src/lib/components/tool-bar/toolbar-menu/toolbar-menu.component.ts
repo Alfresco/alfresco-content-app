@@ -29,7 +29,7 @@ import { MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
   selector: 'app-toolbar-menu',
-  templateUrl: 'toolbar-menu.component.html',
+  templateUrl: './toolbar-menu.component.html',
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-toolbar-menu' }
 })
