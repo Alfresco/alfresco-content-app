@@ -119,7 +119,7 @@ describe('NodeActionsService', () => {
     it('should validate selection when allowableOperation has `create`', () => {
       spyOn(dialog, 'open');
       const contentEntities = [new TestNode(), { entry: { nodeId: '1234' } }];
-      service.getContentNodeSelection('', contentEntities as NodeEntry[]);
+      service.getContentNodeSelection(NodeAction.CHOOSE, contentEntities as NodeEntry[]);
 
       const isSelectionValid = dialog.open['calls'].argsFor(0)[1].data.isSelectionValid({
         name: 'some-folder-template',
@@ -135,7 +135,7 @@ describe('NodeActionsService', () => {
     it('should invalidate selection when allowableOperation does not have `create`', () => {
       spyOn(dialog, 'open');
       const contentEntities = [new TestNode(), { entry: { nodeId: '1234' } }];
-      service.getContentNodeSelection('', contentEntities as NodeEntry[]);
+      service.getContentNodeSelection(NodeAction.CHOOSE, contentEntities as NodeEntry[]);
 
       const isSelectionValid = dialog.open['calls'].argsFor(0)[1].data.isSelectionValid({
         name: 'some-folder-template',
@@ -151,7 +151,7 @@ describe('NodeActionsService', () => {
     it('should invalidate selection if isSite', () => {
       spyOn(dialog, 'open');
       const contentEntities = [new TestNode(), { entry: { nodeId: '1234' } }];
-      service.getContentNodeSelection('', contentEntities as NodeEntry[]);
+      service.getContentNodeSelection(NodeAction.CHOOSE, contentEntities as NodeEntry[]);
 
       const isSelectionValid = dialog.open['calls'].argsFor(0)[1].data.isSelectionValid({
         name: 'some-folder-template',
@@ -168,7 +168,7 @@ describe('NodeActionsService', () => {
     it('should validate selection if not a Site', () => {
       spyOn(dialog, 'open');
       const contentEntities = [new TestNode(), { entry: { nodeId: '1234' } }];
-      service.getContentNodeSelection('', contentEntities as NodeEntry[]);
+      service.getContentNodeSelection(NodeAction.CHOOSE, contentEntities as NodeEntry[]);
 
       const isSelectionValid = dialog.open['calls'].argsFor(0)[1].data.isSelectionValid({
         name: 'some-folder-template',
