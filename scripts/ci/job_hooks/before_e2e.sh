@@ -18,7 +18,8 @@ node "./scripts/app-config-replace.js" --config="$TO/app.config.json" $PARAMS
 
 echo "====== Update webdriver-manager ====="
 if [ "$CI" = "true" ]; then
-    export chrome=$(google-chrome --product-version)
+    # export chrome=$(google-chrome --product-version)
+    export chrome=90.0.4430.24
     echo "Updating wedriver-manager with chromedriver: $chrome."
     webdriver-manager update --gecko=false --versions.chrome=$chrome
 else
