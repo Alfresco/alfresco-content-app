@@ -98,6 +98,7 @@ export abstract class Page {
 
   async getSnackBarMessage(): Promise<string> {
     const elem = browser.element(by.css('.mat-snack-bar-container'));
+    await waitElement('.mat-snack-bar-container');
     return BrowserActions.getAttribute(elem, 'innerText');
   }
 
