@@ -97,7 +97,7 @@ export abstract class Page {
   }
 
   async getSnackBarMessage(): Promise<string> {
-    return await new SnackbarPage().getSnackBarMessage();
+    return new SnackbarPage().getSnackBarMessage();
   }
 
   async clickSnackBarAction(): Promise<void> {
