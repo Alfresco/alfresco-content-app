@@ -24,7 +24,7 @@
  */
 
 import { browser, by, ElementFinder } from 'protractor';
-import { BrowserActions, BrowserVisibility, Logger } from '@alfresco/adf-testing';
+import { BrowserActions, BrowserVisibility, Logger, SnackbarPage } from '@alfresco/adf-testing';
 import { APP_ROUTES, USE_HASH_STRATEGY } from './../configs';
 import { Utils, waitElement, waitForPresence, isPresentAndDisplayed } from '../utilities/utils';
 import { Header } from '../components';
@@ -97,9 +97,7 @@ export abstract class Page {
   }
 
   async getSnackBarMessage(): Promise<string> {
-    const elem = browser.element(by.css('.mat-snack-bar-container'));
-    await waitElement('.mat-snack-bar-container');
-    return BrowserActions.getAttribute(elem, 'innerText');
+    return await new SnackbarPage().getSnackBarMessage();
   }
 
   async clickSnackBarAction(): Promise<void> {
