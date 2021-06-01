@@ -178,6 +178,7 @@
                 },
                 "UNKNOWN_LOCATION": "Unknown",
                 "NO_RESULTS": "Your search returned 0 results",
+                "EMPTY_SEARCH": "Search term required",
                 "NO_FILTER_RESULTS": "Your filter returned 0 results",
                 "TOGGLE_SEARCH_FILTER": "Toggle search filter",
                 "ERRORS": {
@@ -401,15 +402,6 @@
                 "ENDING_DOT": "Name can't end with a period .",
                 "ONLY_SPACES": "Name can't contain only spaces"
             }
-        }
-    },
-    "PERMISSIONS": {
-        "DIALOG": {
-            "TITLE": "Manage Permissions",
-            "CLOSE": "Close",
-            "INHERIT_PERMISSIONS_BUTTON": "Inherit Permissions",
-            "INHERITED_PERMISSIONS_BUTTON": "Permissions Inherited",
-            "ADD_USER_OR_GROUP": "Add User or Group"
         }
     },
     "SHARED_LINK": {

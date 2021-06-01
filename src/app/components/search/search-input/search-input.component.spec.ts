@@ -28,7 +28,12 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { SearchInputComponent } from './search-input.component';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { Actions, ofType } from '@ngrx/effects';
-import { SearchByTermAction, SearchActionTypes } from '@alfresco/aca-shared/store';
+import {
+  SearchByTermAction,
+  SearchActionTypes,
+  SnackbarErrorAction,
+  SnackbarActionTypes
+} from '@alfresco/aca-shared/store';
 import { AppHookService } from '@alfresco/aca-shared';
 import { map } from 'rxjs/operators';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
@@ -138,6 +143,21 @@ describe('SearchInputComponent', () => {
           done();
         });
       component.onSearchChange(searchedTerm);
+    });
+
+    it('should show snack for empty search', (done) => {
+      const searchedTerm = '';
+      actions$
+        .pipe(
+          ofType<SnackbarErrorAction>(SnackbarActionTypes.Error),
+          map((action) => {
+            expect(action.payload).toBe('APP.BROWSE.SEARCH.EMPTY_SEARCH');
+          })
+        )
+        .subscribe(() => {
+          done();
+        });
+      component.onSearchSubmit(searchedTerm);
     });
   });
 

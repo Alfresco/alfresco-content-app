@@ -24,7 +24,7 @@
  */
 
 import { AppHookService } from '@alfresco/aca-shared';
-import { AppStore, SearchByTermAction, SearchOptionIds, SearchOptionModel } from '@alfresco/aca-shared/store';
+import { AppStore, SearchByTermAction, SearchOptionIds, SearchOptionModel, SnackbarErrorAction } from '@alfresco/aca-shared/store';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { AppConfigService } from '@alfresco/adf-core';
 import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
@@ -136,6 +136,8 @@ export class SearchInputComponent implements OnInit, OnDestroy {
       this.searchedWord = searchTerm;
 
       this.searchByOption();
+    } else {
+      this.store.dispatch(new SnackbarErrorAction('APP.BROWSE.SEARCH.EMPTY_SEARCH'));
     }
     this.trigger.closeMenu();
   }
