@@ -28,12 +28,7 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { SearchInputComponent } from './search-input.component';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { Actions, ofType } from '@ngrx/effects';
-import {
-  SearchByTermAction,
-  SearchActionTypes,
-  SnackbarErrorAction,
-  SnackbarActionTypes
-} from '@alfresco/aca-shared/store';
+import { SearchByTermAction, SearchActionTypes, SnackbarErrorAction, SnackbarActionTypes } from '@alfresco/aca-shared/store';
 import { AppHookService } from '@alfresco/aca-shared';
 import { map } from 'rxjs/operators';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
