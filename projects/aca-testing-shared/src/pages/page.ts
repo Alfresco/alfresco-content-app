@@ -30,7 +30,6 @@ import { Utils, waitElement, waitForPresence, isPresentAndDisplayed } from '../u
 import { Header } from '../components';
 
 export abstract class Page {
-
   snackbar = new SnackbarPage();
 
   appRoot = 'app-root';
