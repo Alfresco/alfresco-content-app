@@ -98,6 +98,9 @@ export function appReducer(state: AppState = INITIAL_APP_STATE, action: Action):
     case AppActionTypes.SetFileUploadingDialog:
       newState = setUploadDialogVisibility(state, action as SetFileUploadingDialogAction);
       break;
+    case AppActionTypes.ShowInfoDrawerPreview:
+      newState = showInfoDrawerPreview(state);
+      break;
     default:
       newState = { ...state };
   }
@@ -175,6 +178,21 @@ function toggleInfoDrawer(state: AppState) {
   const newState = { ...state };
 
   let value = state.infoDrawerOpened;
+  if (state.selection.isEmpty) {
+    value = false;
+  } else {
+    value = !value;
+  }
+
+  newState.infoDrawerOpened = value;
+
+  return newState;
+}
+
+function showInfoDrawerPreview(state: AppState) {
+  const newState = { ...state };
+
+  let value = state.infoDrawerPreview;
   if (state.selection.isEmpty) {
     value = false;
   } else {

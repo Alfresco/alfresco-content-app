@@ -48,6 +48,7 @@ export const INITIAL_APP_STATE: AppState = {
   },
   currentNodeVersion: null,
   infoDrawerOpened: false,
+  infoDrawerPreview: false,
   infoDrawerMetadataAspect: '',
   showFacetFilter: true,
   fileUploadingDialog: true,
