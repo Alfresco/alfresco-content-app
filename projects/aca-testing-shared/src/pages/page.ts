@@ -30,6 +30,9 @@ import { Utils, waitElement, waitForPresence, isPresentAndDisplayed } from '../u
 import { Header } from '../components';
 
 export abstract class Page {
+
+  snackbar = new SnackbarPage();
+
   appRoot = 'app-root';
 
   layout = this.byCss('app-layout');
@@ -97,7 +100,7 @@ export abstract class Page {
   }
 
   async getSnackBarMessage(): Promise<string> {
-    return new SnackbarPage().getSnackBarMessage();
+    return this.snackbar.getSnackBarMessage();
   }
 
   async clickSnackBarAction(): Promise<void> {

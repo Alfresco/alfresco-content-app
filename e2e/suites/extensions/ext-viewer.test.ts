@@ -23,7 +23,16 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, Viewer, RepoClient, EXTENSIBILITY_CONFIGS, FILES, Utils } from '@alfresco/aca-testing-shared';
+import {
+  AdminActions,
+  LoginPage,
+  BrowsingPage,
+  Viewer,
+  RepoClient,
+  EXTENSIBILITY_CONFIGS,
+  FILES,
+  Utils
+} from '@alfresco/aca-testing-shared';
 import { BrowserActions } from '@alfresco/adf-testing';
 
 describe('Extensions - Viewer', () => {
@@ -121,7 +130,7 @@ describe('Extensions - Viewer', () => {
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
       expect(await toolbar.isButtonPresent(customAction.title)).toBe(true, 'Custom action is not present');
-      expect(await toolbar.getButtonByTitleAttribute(customAction.title).getAttribute('id')).toEqual(customAction.id);
+      expect(await BrowserActions.getAttribute(toolbar.getButtonByTitleAttribute(customAction.title), 'id')).toEqual(customAction.id);
       expect(await toolbar.getButtonByTitleAttribute(customAction.title).getText()).toEqual(customAction.icon);
     });
 
@@ -129,7 +138,7 @@ describe('Extensions - Viewer', () => {
       await page.dataTable.doubleClickOnRowByName(pdfFile.file_name);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      expect(await toolbar.getButtonById(downloadButton.id).getAttribute('title')).toEqual(downloadButton.title);
+      expect(await BrowserActions.getAttribute(toolbar.getButtonById(downloadButton.id), 'title')).toEqual(downloadButton.title);
     });
 
     it('[C286419] Remove action from toolbar', async () => {
@@ -156,7 +165,7 @@ describe('Extensions - Viewer', () => {
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
       await toolbar.openMoreMenu();
-      expect(await toolbar.menu.getItemById(moveAction.id).getAttribute('title')).toEqual(moveAction.title);
+      expect(await BrowserActions.getAttribute(toolbar.menu.getItemById(moveAction.id), 'title')).toEqual(moveAction.title);
     });
 
     it('[C286423] Remove action from More actions menu', async () => {

@@ -26,6 +26,7 @@
 import { browser } from 'protractor';
 
 import { AdminActions, SITE_VISIBILITY, LoginPage, BrowsingPage, Utils, RepoClient } from '@alfresco/aca-testing-shared';
+import { BrowserActions } from '@alfresco/adf-testing';
 
 describe('Breadcrumb', () => {
   const username = `user-${Utils.random()}`;
@@ -164,7 +165,7 @@ describe('Breadcrumb', () => {
     await page.dataTable.doubleClickOnRowByName(subFolder2);
 
     const item = breadcrumb.items.get(2);
-    const title = await item.getAttribute('title');
+    const title = await BrowserActions.getAttribute(item, 'title');
 
     expect(title).toEqual(subFolder1);
   });
