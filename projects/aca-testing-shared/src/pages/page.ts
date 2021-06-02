@@ -98,7 +98,8 @@ export abstract class Page {
 
   async getSnackBarMessage(): Promise<string> {
     const elem = await waitElement('.mat-snack-bar-container');
-    return elem.getAttribute('innerText');
+    const attributeValue: string = await browser.executeScript(`return arguments[0].innerText`, elem);
+    return attributeValue || '';
   }
 
   async clickSnackBarAction(): Promise<void> {
