@@ -89,7 +89,7 @@ describe('Extensions - Info Drawer', () => {
       done();
     });
 
-    it('[C284646] Add a new tab with icon and title', async () => {
+    it('[C284646] Add a new tab with icon and title ', async () => {
       await page.dataTable.selectItem(file);
       await BrowserActions.click(page.toolbar.viewDetailsButton);
       await infoDrawer.waitForInfoDrawerToOpen();
