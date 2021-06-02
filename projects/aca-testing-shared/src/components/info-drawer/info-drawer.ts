@@ -81,7 +81,8 @@ export class InfoDrawer extends Component {
   }
 
   async getTabTitle(index: number): Promise<string> {
-    return this.tabLabelsList.get(index - 1).getAttribute('innerText');
+    const attributeValue: string = await browser.executeScript(`return arguments[0].innerText`, this.tabLabelsList.get(index - 1));
+    return attributeValue || '';
   }
 
   async getActiveTabTitle(): Promise<string> {
