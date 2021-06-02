@@ -10,6 +10,7 @@ const smartRunnerFactory = require('./e2e/smartrunner-factory');
 
 const projectRoot = path.resolve(__dirname);
 const downloadFolder = path.join(__dirname, 'e2e-downloads');
+const screenshotsFolder = path.resolve(__dirname, 'e2e-output');
 const e2eFolder = path.resolve(projectRoot, 'e2e');
 const E2E_HOST = process.env.E2E_HOST || 'http://localhost:4200';
 const BROWSER_RUN = !!process.env.BROWSER_RUN;
@@ -21,8 +22,6 @@ const APP_CONFIG_ECM_HOST = process.env.APP_CONFIG_ECM_HOST || 'http://localhost
 const MAXINSTANCES = process.env.MAXINSTANCES || 1;
 const MAX_RETRIES = process.env.MAX_RETRIES || 1;
 const E2E_LOG_LEVEL = process.env.E2E_LOG_LEVEL || 'ERROR';
-
-let retryCount = 1;
 
 const appConfig = {
   hostEcm: APP_CONFIG_ECM_HOST,
@@ -205,6 +204,10 @@ exports.config = {
   afterLaunch: async function (statusCode) {
     if (SAVE_SCREENSHOT && statusCode !== 0) {
       console.log(`Status code is ${statusCode}, trying to save screenshots.`);
+      let retryCount = 1;
+      if (argv.retry) {
+        retryCount = ++argv.retry;
+      }
 
       try {
         await uploadOutput(retryCount);
@@ -213,14 +216,12 @@ exports.config = {
         console.log('Error happened while trying to upload screenshots and test reports: ', e);
       }
 
-      retryCount++;
-
     } else {
       console.log(`Status code is ${statusCode}, no need to save screenshots.`);
     }
 
     if (process.env.CI) {
-      return retry.afterLaunch(process.env.MAX_RETRIES || 4, statusCode);
+      return retry.afterLaunch(process.env.RETRY_COUNT || 4, statusCode);
     }
   }
 };
