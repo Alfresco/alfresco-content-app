@@ -3,6 +3,7 @@
   flex: 1;
   flex-direction: column;
   height: 100%;
+  overflow-y: hidden;
 }
 
 .sidenav {
@@ -24,6 +25,11 @@
 
   .section.action-menu {
     padding: 8px 14px;
+    position: sticky;
+  }
+
+  .section-sub-actions {
+    overflow-y: auto;
   }
 
   .section {
