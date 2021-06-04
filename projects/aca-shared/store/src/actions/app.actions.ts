@@ -45,7 +45,8 @@ export enum AppActionTypes {
   SetInfoDrawerMetadataAspect = 'SET_INFO_DRAWER_METADATA_ASPECT',
   CloseModalDialogs = 'CLOSE_MODAL_DIALOGS',
   SetFileUploadingDialog = 'SET_FILE_UPLOADING_DIALOG',
-  ShowInfoDrawerPreview = 'SHOW_INFO_DRAWER_PREVIEW'
+  ShowInfoDrawerPreview = 'SHOW_INFO_DRAWER_PREVIEW',
+  SetInfoDrawerPreviewState = 'SET_INFO_DRAWER_PREVIEW_STATE'
 }
 
 export class SetSettingsParameterAction implements Action {
@@ -138,4 +139,10 @@ export class SetFileUploadingDialogAction implements Action {
 
 export class ShowInfoDrawerPreviewAction implements Action {
   readonly type = AppActionTypes.ShowInfoDrawerPreview;
+}
+
+export class SetInfoDrawerPreviewStateAction implements Action {
+  readonly type = AppActionTypes.SetInfoDrawerPreviewState;
+
+  constructor(public payload: boolean) {}
 }

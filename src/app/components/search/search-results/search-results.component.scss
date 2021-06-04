@@ -29,6 +29,35 @@
     color: rgba(0, 0, 0, 0.54);
   }
 
+  &--embedded_viewer {
+    position: unset;
+    display: flex;
+    width: 100%;
+  }
+
+  &--right_panel_section {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  &--right_panel_section-extended {
+    display: flex;
+    justify-content: flex-start;
+    flex-basis: 55%;
+
+    .adf-pdf-viewer {
+      top: unset;
+      bottom: unset;
+      left: unset;
+      right: unset;
+      .page {
+        margin: 0px;
+        border: 0px;
+        padding: 0px;
+      }
+    }
+  }
+
   .adf-search-filter {
     min-width: 260px;
     max-width: 320px;

@@ -39,7 +39,8 @@ import {
   SetInfoDrawerMetadataAspectAction,
   SetHeaderColorAction,
   SetCurrentNodeVersionAction,
-  SetFileUploadingDialogAction
+  SetFileUploadingDialogAction,
+  SetInfoDrawerPreviewStateAction
 } from '@alfresco/aca-shared/store';
 import { INITIAL_APP_STATE } from '../initial-state';
 
@@ -100,6 +101,9 @@ export function appReducer(state: AppState = INITIAL_APP_STATE, action: Action):
       break;
     case AppActionTypes.ShowInfoDrawerPreview:
       newState = showInfoDrawerPreview(state);
+      break;
+    case AppActionTypes.SetInfoDrawerPreviewState:
+      newState = setInfoDrawerPreview(state, action as SetInfoDrawerPreviewStateAction);
       break;
     default:
       newState = { ...state };
@@ -199,7 +203,7 @@ function showInfoDrawerPreview(state: AppState) {
     value = !value;
   }
 
-  newState.infoDrawerOpened = value;
+  newState.infoDrawerPreview = value;
 
   return newState;
 }
@@ -263,6 +267,13 @@ function setInfoDrawer(state: AppState, action: SetInfoDrawerStateAction) {
   return {
     ...state,
     infoDrawerOpened: action.payload
+  };
+}
+
+function setInfoDrawerPreview(state: AppState, action: SetInfoDrawerPreviewStateAction) {
+  return {
+    ...state,
+    showInfoDrawerPreview: action.payload
   };
 }
 
