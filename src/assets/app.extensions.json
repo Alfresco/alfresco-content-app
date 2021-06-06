@@ -1124,7 +1124,7 @@
             "click": "SHOW_INFO_DRAWER_PREVIEW"
           },
           "rules": {
-            "visible": "app.navigation.isSearchResults"
+            "visible": "canInfoPreview"
           }
         },
         {

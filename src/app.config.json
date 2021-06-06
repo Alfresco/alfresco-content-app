@@ -1,555 +1,617 @@
 {
   "$schema": "../node_modules/@alfresco/adf-core/app.config.schema.json",
-  "ecmHost": "{protocol}//{hostname}{:port}",
-  "aosHost": "{protocol}//{hostname}{:port}/alfresco/aos",
-  "baseShareUrl": "{protocol}//{hostname}{:port}/#/preview/s",
+  "ecmHost": "https://mobileapps.envalfresco.com",
+  "aosHost": "https://mobileapps.envalfresco.com/alfresco/aos",
+  "baseShareUrl": "https://mobileapps.envalfresco.com/#/preview/s",
   "providers": "ECM",
-  "authType": "BASIC",
+  "authType": "OAUTH",
   "loginRoute": "login",
   "oauth2": {
-    "host": "http://localhost:4200/auth/realms/alfresco",
-    "clientId": "alfresco",
-    "scope": "openid",
-    "secret": "",
-    "implicitFlow": true,
-    "silentLogin": true,
-    "publicUrls": ["**/preview/s/*", "**/settings", "**/blank"],
-    "redirectSilentIframeUri": "{protocol}//{hostname}{:port}/assets/silent-refresh.html",
-    "redirectUri": "/",
-    "redirectUriLogout": "/logout"
+      "host": "https://mobileapps.envalfresco.com/auth/realms/alfresco",
+      "clientId": "alfresco",
+      "scope": "openid",
+      "secret": "",
+      "implicitFlow": true,
+      "silentLogin": true,
+      "publicUrls": [
+          "**/preview/s/*",
+          "**/settings",
+          "**/blank"
+      ],
+      "redirectSilentIframeUri": "https://mobileapps.envalfresco.com/assets/silent-refresh.html",
+      "redirectUri": "/",
+      "redirectUriLogout": "/logout"
   },
   "locale": "en",
   "application": {
-    "name": "Alfresco Content Application",
-    "version": "2.4.0",
-    "logo": "assets/images/alfresco-logo-flower.svg",
-    "headerImagePath": "assets/images/mastHead-bg-shapesPattern.svg",
-    "copyright": "APP.COPYRIGHT"
+      "name": "Alfresco Content Application",
+      "version": "2.4.0",
+      "logo": "assets/images/alfresco-logo-flower.svg",
+      "headerImagePath": "assets/images/mastHead-bg-shapesPattern.svg",
+      "copyright": "APP.COPYRIGHT"
   },
   "viewer.maxRetries": 1,
   "sharedLinkDateTimePickerType": "date",
   "headerColor": "#ffffff",
   "pagination": {
-    "size": 25,
-    "supportedPageSizes": [25, 50, 100]
+      "size": 25,
+      "supportedPageSizes": [
+          25,
+          50,
+          100
+      ]
   },
   "files": {
-    "excluded": [".DS_Store", "desktop.ini", "Thumbs.db", ".git"],
-    "match-options": {
-      "nocase": true
-    }
+      "excluded": [
+          ".DS_Store",
+          "desktop.ini",
+          "Thumbs.db",
+          ".git"
+      ],
+      "match-options": {
+          "nocase": true
+      }
   },
   "dateValues": {
-    "defaultDateFormat": "mediumDate",
-    "defaultDateTimeFormat": "MMM d, y, h:mm",
-    "defaultLocale": "en"
+      "defaultDateFormat": "mediumDate",
+      "defaultDateTimeFormat": "MMM d, y, h:mm",
+      "defaultLocale": "en"
   },
   "adf-version-manager": {
-    "allowComments": true,
-    "allowDownload": true
+      "allowComments": true,
+      "allowDownload": true
   },
   "sideNav": {
-    "preserveState": true,
-    "expandedSidenav": true
+      "preserveState": true,
+      "expandedSidenav": true
   },
   "languages": [
-    {
-      "key": "de",
-      "label": "Deutsch"
-    },
-    {
-      "key": "en",
-      "label": "English"
-    },
-    {
-      "key": "es",
-      "label": "Español"
-    },
-    {
-      "key": "fr",
-      "label": "Français"
-    },
-    {
-      "key": "it",
-      "label": "Italiano"
-    },
-    {
-      "key": "ja",
-      "label": "日本語"
-    },
-    {
-      "key": "nb",
-      "label": "Bokmål"
-    },
-    {
-      "key": "nl",
-      "label": "Nederlands"
-    },
-    {
-      "key": "pt-BR",
-      "label": "Português (Brasil)"
-    },
-    {
-      "key": "ru",
-      "label": "Русский"
-    },
-    {
-      "key": "zh-CN",
-      "label": "中文简体"
-    },
-    {
-      "key": "cs",
-      "label": "Čeština"
-    },
-    {
-      "key": "da",
-      "label": "Dansk"
-    },
-    {
-      "key": "fi",
-      "label": "Suomi"
-    },
-    {
-      "key": "pl",
-      "label": "Polski"
-    },
-    {
-      "key": "sv",
-      "label": "Svenska"
-    },
-    {
-      "key": "ar",
-      "label": "العربية",
-      "direction": "rtl"
-    }
+      {
+          "key": "de",
+          "label": "Deutsch"
+      },
+      {
+          "key": "en",
+          "label": "English"
+      },
+      {
+          "key": "es",
+          "label": "Español"
+      },
+      {
+          "key": "fr",
+          "label": "Français"
+      },
+      {
+          "key": "it",
+          "label": "Italiano"
+      },
+      {
+          "key": "ja",
+          "label": "日本語"
+      },
+      {
+          "key": "nb",
+          "label": "Bokmål"
+      },
+      {
+          "key": "nl",
+          "label": "Nederlands"
+      },
+      {
+          "key": "pt-BR",
+          "label": "Português (Brasil)"
+      },
+      {
+          "key": "ru",
+          "label": "Русский"
+      },
+      {
+          "key": "zh-CN",
+          "label": "中文简体"
+      },
+      {
+          "key": "cs",
+          "label": "Čeština"
+      },
+      {
+          "key": "da",
+          "label": "Dansk"
+      },
+      {
+          "key": "fi",
+          "label": "Suomi"
+      },
+      {
+          "key": "pl",
+          "label": "Polski"
+      },
+      {
+          "key": "sv",
+          "label": "Svenska"
+      },
+      {
+          "key": "ar",
+          "label": "العربية",
+          "direction": "rtl"
+      }
   ],
   "content-metadata": {
-    "presets": {
-      "custom": [
-        {
-          "includeAll": true,
-          "exclude": [
-            "rn:renditioned",
-            "cm:versionable",
-            "cm:auditable",
-            "cm:thumbnailModification",
-            "cm:content",
-            "cm:author",
-            "cm:titled",
-            "cm:generalclassifiable",
-            "cm:taggable",
-            "dp:restrictable",
-            "fm:commentsRollup",
-            "qshare:shared",
-
-            "exif:exif",
-            "cm:effectivity",
-
-            "cm:likesRatingSchemeRollups",
-            "cm:lockable",
-            "cm:ownable"
+      "presets": {
+          "custom": [
+              {
+                  "includeAll": true,
+                  "exclude": [
+                      "rn:renditioned",
+                      "cm:versionable",
+                      "cm:auditable",
+                      "cm:thumbnailModification",
+                      "cm:content",
+                      "cm:author",
+                      "cm:titled",
+                      "cm:generalclassifiable",
+                      "cm:taggable",
+                      "dp:restrictable",
+                      "fm:commentsRollup",
+                      "qshare:shared",
+                      "exif:exif",
+                      "cm:effectivity",
+                      "cm:likesRatingSchemeRollups",
+                      "cm:lockable",
+                      "cm:ownable"
+                  ]
+              },
+              {
+                  "title": "APP.CONTENT_METADATA.EXIF_GROUP_TITLE",
+                  "items": [
+                      {
+                          "aspect": "exif:exif",
+                          "properties": [
+                              "exif:pixelXDimension",
+                              "exif:pixelYDimension",
+                              "exif:dateTimeOriginal",
+                              "exif:exposureTime",
+                              "exif:fNumber",
+                              "exif:flash",
+                              "exif:focalLength",
+                              "exif:isoSpeedRatings",
+                              "exif:orientation",
+                              "exif:manufacturer",
+                              "exif:model",
+                              "exif:software"
+                          ]
+                      }
+                  ]
+              },
+              {
+                  "title": "APP.CONTENT_METADATA.EFFECTIVITY_GROUP_TITLE",
+                  "items": [
+                      {
+                          "aspect": "cm:effectivity",
+                          "properties": [
+                              "cm:from",
+                              "cm:to"
+                          ]
+                      }
+                  ]
+              }
           ]
-        },
-        {
-          "title": "APP.CONTENT_METADATA.EXIF_GROUP_TITLE",
-          "items": [
-            {
-              "aspect": "exif:exif",
-              "properties": [
-                "exif:pixelXDimension",
-                "exif:pixelYDimension",
-                "exif:dateTimeOriginal",
-                "exif:exposureTime",
-                "exif:fNumber",
-                "exif:flash",
-                "exif:focalLength",
-                "exif:isoSpeedRatings",
-                "exif:orientation",
-                "exif:manufacturer",
-                "exif:model",
-                "exif:software"
-              ]
-            }
-          ]
-        },
-        {
-          "title": "APP.CONTENT_METADATA.EFFECTIVITY_GROUP_TITLE",
-          "items": [
-            {
-              "aspect": "cm:effectivity",
-              "properties": [
-                "cm:from",
-                "cm:to"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    "multi-value-pipe-separator": ", ",
-    "multi-value-chips": true
+      },
+      "multi-value-pipe-separator": ", ",
+      "multi-value-chips": true
   },
   "search": {
-    "filterWithContains": true,
-    "aca:fields": ["cm:name", "cm:title", "cm:description", "TEXT", "TAG"],
-    "include": ["path", "allowableOperations", "properties"],
-    "sorting": {
-      "options": [
-        {
-          "key": "score",
-          "label": "SEARCH.SORT.RELEVANCE",
-          "type": "SCORE",
-          "field": "score",
-          "ascending": false
-        },
-        {
-          "key": "name",
-          "label": "SEARCH.SORT.FILENAME",
-          "type": "FIELD",
-          "field": "cm:name",
-          "ascending": true
-        },
-        {
-          "key": "title",
-          "label": "SEARCH.SORT.TITLE",
-          "type": "FIELD",
-          "field": "cm:title",
-          "ascending": true
-        },
-        {
-          "key": "modified",
-          "label": "SEARCH.SORT.MODIFIED_DATE",
-          "type": "FIELD",
-          "field": "cm:modified",
-          "ascending": true
-        },
-        {
-          "key": "modifier",
-          "label": "SEARCH.SORT.MODIFIER",
-          "type": "FIELD",
-          "field": "cm:modifier",
-          "ascending": true
-        },
-        {
-          "key": "created",
-          "label": "SEARCH.SORT.CREATE_DATE",
-          "type": "FIELD",
-          "field": "cm:created",
-          "ascending": true
-        },
-        {
-          "key": "content.sizeInBytes",
-          "label": "SEARCH.SORT.SIZE",
-          "type": "FIELD",
-          "field": "content.size",
-          "ascending": true
-        },
-        {
-          "key": "content.mimetype",
-          "label": "SEARCH.SORT.TYPE",
-          "type": "FIELD",
-          "field": "content.mimetype",
-          "ascending": true
-        }
+      "filterWithContains": true,
+      "aca:fields": [
+          "cm:name",
+          "cm:title",
+          "cm:description",
+          "TEXT",
+          "TAG"
       ],
-      "defaults": [
-        {
-          "key": "score",
-          "type": "SCORE",
-          "field": "score",
-          "ascending": false
-        }
-      ]
-    },
-    "aca:triggeredOnChange": false,
-    "resetButton": true,
-    "filterQueries": [
-      { "query": "+TYPE:'cm:folder' OR +TYPE:'cm:content'" },
-      {
-        "query": "-TYPE:'cm:thumbnail' AND -TYPE:'cm:failedThumbnail' AND -TYPE:'cm:rating'"
-      },
-      { "query": "-cm:creator:System AND -QNAME:comment" },
-      {
-        "query": "-TYPE:'st:site' AND -ASPECT:'st:siteContainer' AND -ASPECT:'sys:hidden'"
-      },
-      {
-        "query": "-TYPE:'dl:dataList' AND -TYPE:'dl:todoList' AND -TYPE:'dl:issue'"
-      },
-      { "query": "-TYPE:'fm:topic' AND -TYPE:'fm:post'" },
-      { "query": "-TYPE:'lnk:link'" },
-      { "query": "-PNAME:'0/wiki'" }
-    ],
-    "facetFields": {
-      "expanded": true,
-      "fields": [
-        {
-          "mincount": 1,
-          "field": "content.mimetype",
-          "label": "SEARCH.FACET_FIELDS.FILE_TYPE"
-        },
-        {
-          "mincount": 1,
-          "field": "creator",
-          "label": "SEARCH.FACET_FIELDS.CREATOR"
-        },
-        {
-          "mincount": 1,
-          "field": "modifier",
-          "label": "SEARCH.FACET_FIELDS.MODIFIER"
-        },
-        {
-          "mincount": 1,
-          "field": "SITE",
-          "label": "SEARCH.FACET_FIELDS.LOCATION"
-        }
-      ]
-    },
-    "facetQueries": {
-      "label": "SEARCH.CATEGORIES.MODIFIED_DATE",
-      "expanded": true,
-      "queries": [
-        {
-          "label": "SEARCH.FACET_QUERIES.TODAY",
-          "query": "cm:modified:[TODAY to TODAY]"
-        },
-        {
-          "label": "SEARCH.FACET_QUERIES.THIS_WEEK",
-          "query": "cm:modified:[NOW/DAY-7DAYS TO NOW/DAY+1DAY]"
-        },
-        {
-          "label": "SEARCH.FACET_QUERIES.THIS_MONTH",
-          "query": "cm:modified:[NOW/DAY-1MONTH TO NOW/DAY+1DAY]"
-        },
-        {
-          "label": "SEARCH.FACET_QUERIES.LAST_6_MONTHS",
-          "query": "cm:modified:[NOW/DAY-6MONTHS TO NOW/DAY+1DAY]"
-        },
-        {
-          "label": "SEARCH.FACET_QUERIES.THIS_YEAR",
-          "query": "cm:modified:[NOW/DAY-1YEAR TO NOW/DAY+1DAY]"
-        }
-      ]
-    },
-    "categories": [
-      {
-        "id": "size",
-        "name": "SEARCH.CATEGORIES.SIZE",
-        "enabled": true,
-        "component": {
-          "selector": "check-list",
-          "settings": {
-            "options": [
+      "include": [
+          "path",
+          "allowableOperations",
+          "properties"
+      ],
+      "sorting": {
+          "options": [
               {
-                "name": "SEARCH.CATEGORIES.SIZE_OPTIONS.SMALL",
-                "value": "content.size:[0 TO 1048576>"
+                  "key": "score",
+                  "label": "SEARCH.SORT.RELEVANCE",
+                  "type": "SCORE",
+                  "field": "score",
+                  "ascending": false
               },
               {
-                "name": "SEARCH.CATEGORIES.SIZE_OPTIONS.MEDIUM",
-                "value": "content.size:[1048576 TO 52428800]"
+                  "key": "name",
+                  "label": "SEARCH.SORT.FILENAME",
+                  "type": "FIELD",
+                  "field": "cm:name",
+                  "ascending": true
               },
               {
-                "name": "SEARCH.CATEGORIES.SIZE_OPTIONS.LARGE",
-                "value": "content.size:<52428800 TO 524288000]"
+                  "key": "title",
+                  "label": "SEARCH.SORT.TITLE",
+                  "type": "FIELD",
+                  "field": "cm:title",
+                  "ascending": true
               },
               {
-                "name": "SEARCH.CATEGORIES.SIZE_OPTIONS.HUGE",
-                "value": "content.size:<524288000 TO MAX]"
+                  "key": "modified",
+                  "label": "SEARCH.SORT.MODIFIED_DATE",
+                  "type": "FIELD",
+                  "field": "cm:modified",
+                  "ascending": true
+              },
+              {
+                  "key": "modifier",
+                  "label": "SEARCH.SORT.MODIFIER",
+                  "type": "FIELD",
+                  "field": "cm:modifier",
+                  "ascending": true
+              },
+              {
+                  "key": "created",
+                  "label": "SEARCH.SORT.CREATE_DATE",
+                  "type": "FIELD",
+                  "field": "cm:created",
+                  "ascending": true
+              },
+              {
+                  "key": "content.sizeInBytes",
+                  "label": "SEARCH.SORT.SIZE",
+                  "type": "FIELD",
+                  "field": "content.size",
+                  "ascending": true
+              },
+              {
+                  "key": "content.mimetype",
+                  "label": "SEARCH.SORT.TYPE",
+                  "type": "FIELD",
+                  "field": "content.mimetype",
+                  "ascending": true
               }
-            ]
-          }
-        }
+          ],
+          "defaults": [
+              {
+                  "key": "score",
+                  "type": "SCORE",
+                  "field": "score",
+                  "ascending": false
+              }
+          ]
       },
-      {
-        "id": "createdDateRange",
-        "name": "SEARCH.CATEGORIES.CREATED_DATE",
-        "enabled": true,
-        "component": {
-          "selector": "date-range",
-          "settings": {
-            "field": "cm:created",
-            "dateFormat": "DD-MMM-YY",
-            "maxDate": "today"
+      "aca:triggeredOnChange": false,
+      "resetButton": true,
+      "filterQueries": [
+          {
+              "query": "+TYPE:'cm:folder' OR +TYPE:'cm:content'"
+          },
+          {
+              "query": "-TYPE:'cm:thumbnail' AND -TYPE:'cm:failedThumbnail' AND -TYPE:'cm:rating'"
+          },
+          {
+              "query": "-cm:creator:System AND -QNAME:comment"
+          },
+          {
+              "query": "-TYPE:'st:site' AND -ASPECT:'st:siteContainer' AND -ASPECT:'sys:hidden'"
+          },
+          {
+              "query": "-TYPE:'dl:dataList' AND -TYPE:'dl:todoList' AND -TYPE:'dl:issue'"
+          },
+          {
+              "query": "-TYPE:'fm:topic' AND -TYPE:'fm:post'"
+          },
+          {
+              "query": "-TYPE:'lnk:link'"
+          },
+          {
+              "query": "-PNAME:'0/wiki'"
           }
-        }
-      }
-    ]
+      ],
+      "facetFields": {
+          "expanded": true,
+          "fields": [
+              {
+                  "mincount": 1,
+                  "field": "content.mimetype",
+                  "label": "SEARCH.FACET_FIELDS.FILE_TYPE"
+              },
+              {
+                  "mincount": 1,
+                  "field": "creator",
+                  "label": "SEARCH.FACET_FIELDS.CREATOR"
+              },
+              {
+                  "mincount": 1,
+                  "field": "modifier",
+                  "label": "SEARCH.FACET_FIELDS.MODIFIER"
+              },
+              {
+                  "mincount": 1,
+                  "field": "SITE",
+                  "label": "SEARCH.FACET_FIELDS.LOCATION"
+              }
+          ]
+      },
+      "facetQueries": {
+          "label": "SEARCH.CATEGORIES.MODIFIED_DATE",
+          "expanded": true,
+          "queries": [
+              {
+                  "label": "SEARCH.FACET_QUERIES.TODAY",
+                  "query": "cm:modified:[TODAY to TODAY]"
+              },
+              {
+                  "label": "SEARCH.FACET_QUERIES.THIS_WEEK",
+                  "query": "cm:modified:[NOW/DAY-7DAYS TO NOW/DAY+1DAY]"
+              },
+              {
+                  "label": "SEARCH.FACET_QUERIES.THIS_MONTH",
+                  "query": "cm:modified:[NOW/DAY-1MONTH TO NOW/DAY+1DAY]"
+              },
+              {
+                  "label": "SEARCH.FACET_QUERIES.LAST_6_MONTHS",
+                  "query": "cm:modified:[NOW/DAY-6MONTHS TO NOW/DAY+1DAY]"
+              },
+              {
+                  "label": "SEARCH.FACET_QUERIES.THIS_YEAR",
+                  "query": "cm:modified:[NOW/DAY-1YEAR TO NOW/DAY+1DAY]"
+              }
+          ]
+      },
+      "categories": [
+          {
+              "id": "size",
+              "name": "SEARCH.CATEGORIES.SIZE",
+              "enabled": true,
+              "component": {
+                  "selector": "check-list",
+                  "settings": {
+                      "options": [
+                          {
+                              "name": "SEARCH.CATEGORIES.SIZE_OPTIONS.SMALL",
+                              "value": "content.size:[0 TO 1048576>"
+                          },
+                          {
+                              "name": "SEARCH.CATEGORIES.SIZE_OPTIONS.MEDIUM",
+                              "value": "content.size:[1048576 TO 52428800]"
+                          },
+                          {
+                              "name": "SEARCH.CATEGORIES.SIZE_OPTIONS.LARGE",
+                              "value": "content.size:<52428800 TO 524288000]"
+                          },
+                          {
+                              "name": "SEARCH.CATEGORIES.SIZE_OPTIONS.HUGE",
+                              "value": "content.size:<524288000 TO MAX]"
+                          }
+                      ]
+                  }
+              }
+          },
+          {
+              "id": "createdDateRange",
+              "name": "SEARCH.CATEGORIES.CREATED_DATE",
+              "enabled": true,
+              "component": {
+                  "selector": "date-range",
+                  "settings": {
+                      "field": "cm:created",
+                      "dateFormat": "DD-MMM-YY",
+                      "maxDate": "today"
+                  }
+              }
+          }
+      ]
   },
   "search-headers": {
-    "filterWithContains": true,
-    "app:fields": [
-      "cm:name",
-      "cm:title",
-      "cm:description",
-      "TEXT",
-      "TAG"
-    ],
-    "categories": [
-      {
-        "id": "queryName",
-        "name": "SEARCH.SEARCH_HEADER.FILTERS.NAME.TITLE",
-        "columnKey": "name",
-        "enabled": true,
-        "component": {
-          "selector": "text",
-          "settings": {
-            "pattern": "cm:name:'(.*?)'",
-            "field": "cm:name",
-            "placeholder": "SEARCH.SEARCH_HEADER.FILTERS.NAME.PLACEHOLDER",
-            "searchPrefix" : "*",
-            "searchSuffix" : "*"
-          }
-        }
-      },
-      {
-        "id": "checkList",
-        "name": "SEARCH.SEARCH_HEADER.FILTERS.TYPE.TITLE",
-        "columnKey":"$thumbnail",
-        "enabled": true,
-        "component": {
-          "selector": "check-list",
-          "settings": {
-            "pageSize": 5,
-            "operator": "OR",
-            "options": [
-              {
-                "name": "SEARCH.SEARCH_HEADER.FILTERS.TYPE.FOLDER",
-                "value": "TYPE:'cm:folder'"
-              },
-              {
-                "name": "SEARCH.SEARCH_HEADER.FILTERS.TYPE.DOCUMENT",
-                "value": "TYPE:'cm:content'"
-              }
-            ]
-          }
-        }
-      },
-      {
-        "id": "contentSize",
-        "name": "SEARCH.SEARCH_HEADER.FILTERS.SIZE.TITLE",
-        "columnKey":"content.sizeInBytes",
-        "enabled": true,
-        "component": {
-          "selector": "check-list",
-          "settings": {
-            "options": [
-              {
-                "name": "SEARCH.SEARCH_HEADER.FILTERS.SIZE.SMALL",
-                "value": "content.size:[0 TO 1048576> OR TYPE:'cm:folder'"
-              },
-              {
-                "name": "SEARCH.SEARCH_HEADER.FILTERS.SIZE.MEDIUM",
-                "value": "content.size:[1048576 TO 52428800] OR TYPE:'cm:folder'"
-              },
-              {
-                "name": "SEARCH.SEARCH_HEADER.FILTERS.SIZE.LARGE",
-                "value": "content.size:<52428800 TO 524288000] OR TYPE:'cm:folder'"
-              },
-              {
-                "name": "SEARCH.SEARCH_HEADER.FILTERS.SIZE.HUGE",
-                "value": "content.size:<524288000 TO MAX] OR TYPE:'cm:folder'"
-              }
-            ]
-          }
-        }
-      },
-      {
-        "id": "createdDateRange",
-        "name": "SEARCH.SEARCH_HEADER.FILTERS.DATE.TITLE",
-        "columnKey": "createdAt",
-        "enabled": true,
-        "component": {
-          "selector": "date-range",
-          "settings": {
-            "field": "cm:created",
-            "dateFormat": "DD-MMM-YY",
-            "maxDate": "today"
-          }
-        }
-      }
-    ],
-    "highlight": {
-      "prefix": " ",
-      "postfix": " ",
-      "mergeContiguous": true,
-      "fields": [
-        {
-          "field": "cm:title"
-        },
-        {
-          "field": "description",
-          "prefix": "(",
-          "postfix": ")"
-        }
-      ]
-    },
-    "sorting": {
-      "options": [
-        {
-          "key": "name",
-          "label": "Name",
-          "type": "FIELD",
-          "field": "cm:name",
-          "ascending": true
-        },
-        {
-          "key": "content.sizeInBytes",
-          "label": "Size",
-          "type": "FIELD",
-          "field": "content.size",
-          "ascending": true
-        },
-        {
-          "key": "createdByUser",
-          "label": "Author",
-          "type": "FIELD",
-          "field": "cm:creator",
-          "ascending": true
-        },
-        {
-          "key": "createdAt",
-          "label": "Created",
-          "type": "FIELD",
-          "field": "cm:created",
-          "ascending": true
-        },
-        {
-          "key": "modifiedAt",
-          "label": "SEARCH.SORT.MODIFIED_DATE",
-          "type": "FIELD",
-          "field": "cm:modified",
-          "ascending": true
-        },
-        {
-          "key": "modifiedByUser.displayName",
-          "label": "SEARCH.SORT.MODIFIER",
-          "type": "FIELD",
-          "field": "cm:modifier",
-          "ascending": true
-        },
-        {
-          "key": "score",
-          "label": "Relevance",
-          "type": "SCORE",
-          "field": "score",
-          "ascending": false
-        }
+      "filterWithContains": true,
+      "app:fields": [
+          "cm:name",
+          "cm:title",
+          "cm:description",
+          "TEXT",
+          "TAG"
       ],
-      "defaults": [
-        {
-          "key": "score",
-          "type": "SCORE",
-          "field": "score",
-          "ascending": false
-        }
-      ]
-    }
+      "categories": [
+          {
+              "id": "queryName",
+              "name": "SEARCH.SEARCH_HEADER.FILTERS.NAME.TITLE",
+              "columnKey": "name",
+              "enabled": true,
+              "component": {
+                  "selector": "text",
+                  "settings": {
+                      "pattern": "cm:name:'(.*?)'",
+                      "field": "cm:name",
+                      "placeholder": "SEARCH.SEARCH_HEADER.FILTERS.NAME.PLACEHOLDER",
+                      "searchPrefix": "*",
+                      "searchSuffix": "*"
+                  }
+              }
+          },
+          {
+              "id": "checkList",
+              "name": "SEARCH.SEARCH_HEADER.FILTERS.TYPE.TITLE",
+              "columnKey": "$thumbnail",
+              "enabled": true,
+              "component": {
+                  "selector": "check-list",
+                  "settings": {
+                      "pageSize": 5,
+                      "operator": "OR",
+                      "options": [
+                          {
+                              "name": "SEARCH.SEARCH_HEADER.FILTERS.TYPE.FOLDER",
+                              "value": "TYPE:'cm:folder'"
+                          },
+                          {
+                              "name": "SEARCH.SEARCH_HEADER.FILTERS.TYPE.DOCUMENT",
+                              "value": "TYPE:'cm:content'"
+                          }
+                      ]
+                  }
+              }
+          },
+          {
+              "id": "contentSize",
+              "name": "SEARCH.SEARCH_HEADER.FILTERS.SIZE.TITLE",
+              "columnKey": "content.sizeInBytes",
+              "enabled": true,
+              "component": {
+                  "selector": "check-list",
+                  "settings": {
+                      "options": [
+                          {
+                              "name": "SEARCH.SEARCH_HEADER.FILTERS.SIZE.SMALL",
+                              "value": "content.size:[0 TO 1048576> OR TYPE:'cm:folder'"
+                          },
+                          {
+                              "name": "SEARCH.SEARCH_HEADER.FILTERS.SIZE.MEDIUM",
+                              "value": "content.size:[1048576 TO 52428800] OR TYPE:'cm:folder'"
+                          },
+                          {
+                              "name": "SEARCH.SEARCH_HEADER.FILTERS.SIZE.LARGE",
+                              "value": "content.size:<52428800 TO 524288000] OR TYPE:'cm:folder'"
+                          },
+                          {
+                              "name": "SEARCH.SEARCH_HEADER.FILTERS.SIZE.HUGE",
+                              "value": "content.size:<524288000 TO MAX] OR TYPE:'cm:folder'"
+                          }
+                      ]
+                  }
+              }
+          },
+          {
+              "id": "createdDateRange",
+              "name": "SEARCH.SEARCH_HEADER.FILTERS.DATE.TITLE",
+              "columnKey": "createdAt",
+              "enabled": true,
+              "component": {
+                  "selector": "date-range",
+                  "settings": {
+                      "field": "cm:created",
+                      "dateFormat": "DD-MMM-YY",
+                      "maxDate": "today"
+                  }
+              }
+          }
+      ],
+      "highlight": {
+          "prefix": " ",
+          "postfix": " ",
+          "mergeContiguous": true,
+          "fields": [
+              {
+                  "field": "cm:title"
+              },
+              {
+                  "field": "description",
+                  "prefix": "(",
+                  "postfix": ")"
+              }
+          ]
+      },
+      "sorting": {
+          "options": [
+              {
+                  "key": "name",
+                  "label": "Name",
+                  "type": "FIELD",
+                  "field": "cm:name",
+                  "ascending": true
+              },
+              {
+                  "key": "content.sizeInBytes",
+                  "label": "Size",
+                  "type": "FIELD",
+                  "field": "content.size",
+                  "ascending": true
+              },
+              {
+                  "key": "createdByUser",
+                  "label": "Author",
+                  "type": "FIELD",
+                  "field": "cm:creator",
+                  "ascending": true
+              },
+              {
+                  "key": "createdAt",
+                  "label": "Created",
+                  "type": "FIELD",
+                  "field": "cm:created",
+                  "ascending": true
+              },
+              {
+                  "key": "modifiedAt",
+                  "label": "SEARCH.SORT.MODIFIED_DATE",
+                  "type": "FIELD",
+                  "field": "cm:modified",
+                  "ascending": true
+              },
+              {
+                  "key": "modifiedByUser.displayName",
+                  "label": "SEARCH.SORT.MODIFIER",
+                  "type": "FIELD",
+                  "field": "cm:modifier",
+                  "ascending": true
+              },
+              {
+                  "key": "score",
+                  "label": "Relevance",
+                  "type": "SCORE",
+                  "field": "score",
+                  "ascending": false
+              }
+          ],
+          "defaults": [
+              {
+                  "key": "score",
+                  "type": "SCORE",
+                  "field": "score",
+                  "ascending": false
+              }
+          ]
+      }
   },
   "aspect-visible": {
-    "default" : ["cm:generalclassifiable", "cm:complianceable",
-                 "cm:dublincore", "cm:effectivity", "cm:summarizable",
-                 "cm:versionable", "cm:templatable","cm:emailed", "emailserver:aliasable",
-                 "cm:taggable", "app:inlineeditable", "cm:geographic", "exif:exif",
-                 "audio:audio", "cm:indexControl", "dp:restrictable", "smf:customConfigSmartFolder", "smf:systemConfigSmartFolder"],
-    "ai": ["ai:products", "ai:dates", "ai:places", "ai:events", "ai:organizations", "ai:people", "ai:things", "ai:quantities", "ai:creativeWorks", "ai:labels", "ai:textLines"]
-  }
+      "default": [
+          "cm:generalclassifiable",
+          "cm:complianceable",
+          "cm:dublincore",
+          "cm:effectivity",
+          "cm:summarizable",
+          "cm:versionable",
+          "cm:templatable",
+          "cm:emailed",
+          "emailserver:aliasable",
+          "cm:taggable",
+          "app:inlineeditable",
+          "cm:geographic",
+          "exif:exif",
+          "audio:audio",
+          "cm:indexControl",
+          "dp:restrictable",
+          "smf:customConfigSmartFolder",
+          "smf:systemConfigSmartFolder"
+      ],
+      "ai": [
+          "ai:products",
+          "ai:dates",
+          "ai:places",
+          "ai:events",
+          "ai:organizations",
+          "ai:people",
+          "ai:things",
+          "ai:quantities",
+          "ai:creativeWorks",
+          "ai:labels",
+          "ai:textLines"
+      ]
+  },
+  "bpmHost": "https://mobileapps.envalfresco.com",
+  "identityHost": "https://mobileapps.envalfresco.com",
+  "showNotificationHistory": true,
+  "notificationDefaultDuration": 2000
 }

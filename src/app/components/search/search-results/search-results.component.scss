@@ -58,6 +58,12 @@
     }
   }
 
+  &--preview-toolbar {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+
   .adf-search-filter {
     min-width: 260px;
     max-width: 320px;

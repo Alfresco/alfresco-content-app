@@ -27,7 +27,7 @@ import { Component, HostListener, Input, OnChanges, OnDestroy, OnInit } from '@a
 import { MinimalNodeEntity, MinimalNodeEntryEntity, SiteEntry } from '@alfresco/js-api';
 import { ContentActionRef, SidebarTabRef } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
-import { getAppSelection, SetInfoDrawerStateAction, ToggleInfoDrawerAction, ShowInfoDrawerPreview } from '@alfresco/aca-shared/store';
+import { getAppSelection, SetInfoDrawerStateAction, ToggleInfoDrawerAction } from '@alfresco/aca-shared/store';
 import { AppExtensionService } from '../../services/app.extension.service';
 import { ContentApiService } from '../../services/content-api.service';
 import { takeUntil } from 'rxjs/operators';

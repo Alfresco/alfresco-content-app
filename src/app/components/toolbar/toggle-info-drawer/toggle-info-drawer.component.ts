@@ -39,7 +39,7 @@ import { ToggleInfoDrawerAction, isInfoDrawerOpened } from '@alfresco/aca-shared
       [attr.title]="'APP.ACTIONS.DETAILS' | translate"
       (click)="onClick()"
     >
-      <mat-icon>info_outline</mat-icon>
+      <mat-icon>menu_open</mat-icon>
     </button>
   `,
   encapsulation: ViewEncapsulation.None,
