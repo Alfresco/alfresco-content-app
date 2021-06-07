@@ -29,7 +29,16 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { SearchQueryBuilderService, SearchFilterComponent } from '@alfresco/adf-content-services';
 import { PageComponent } from '../../page.component';
 import { Store } from '@ngrx/store';
-import { AppStore, NavigateToFolder, SnackbarErrorAction, showFacetFilter, infoDrawerPreview, ShowInfoDrawerPreviewAction, SetInfoDrawerStateAction, SetInfoDrawerPreviewStateAction } from '@alfresco/aca-shared/store';
+import {
+  AppStore,
+  NavigateToFolder,
+  SnackbarErrorAction,
+  showFacetFilter,
+  infoDrawerPreview,
+  ShowInfoDrawerPreviewAction,
+  SetInfoDrawerStateAction,
+  SetInfoDrawerPreviewStateAction
+} from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../../services/content-management.service';
 import { AppConfigService, TranslationService } from '@alfresco/adf-core';
 import { Observable } from 'rxjs';

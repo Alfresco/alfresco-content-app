@@ -496,11 +496,11 @@ export function isLibraryManager(context: RuleContext): boolean {
   return hasLibrarySelected(context) && context.selection.library.entry && context.selection.library.entry.role === 'SiteManager';
 }
 
-
 /**
  * Checks if the preview button for search results can be showed
+ * JSON ref: `canInfoPreview`
  * @param context Rule execution context
  */
- export function canInfoPreview(context: RuleContext): boolean {
+export function canInfoPreview(context: RuleContext): boolean {
   return navigation.isSearchResults(context) && !isMultiselection(context) && !hasFolderSelected(context);
 }

@@ -50,7 +50,7 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
   tabs: Array<SidebarTabRef> = [];
   actions: Array<ContentActionRef> = [];
   onDestroy$ = new Subject<boolean>();
-  preventFromClosing: boolean = false;
+  preventFromClosing = false;
 
   @HostListener('keydown.escape')
   onEscapeKeyboardEvent(): void {
@@ -67,7 +67,9 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
       .subscribe(() => {
         this.actions = this.extensions.getAllowedSidebarActions();
       });
-      this.store.select(infoDrawerPreview)
+
+    this.store
+      .select(infoDrawerPreview)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((isInfoDrawerPreviewOpened) => {
         this.preventFromClosing = isInfoDrawerPreviewOpened;
@@ -77,7 +79,7 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
   ngOnDestroy() {
     this.onDestroy$.next(true);
     this.onDestroy$.complete();
-    if(!this.preventFromClosing) {
+    if (!this.preventFromClosing) {
       this.store.dispatch(new SetInfoDrawerStateAction(false));
     }
   }
