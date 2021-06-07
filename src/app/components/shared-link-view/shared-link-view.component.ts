@@ -36,7 +36,7 @@ import { AppExtensionService } from '@alfresco/aca-shared';
 
 @Component({
   selector: 'app-shared-link-view',
-  templateUrl: 'shared-link-view.component.html',
+  templateUrl: './shared-link-view.component.html',
   styleUrls: ['shared-link-view.component.scss'],
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-shared-link-view' }

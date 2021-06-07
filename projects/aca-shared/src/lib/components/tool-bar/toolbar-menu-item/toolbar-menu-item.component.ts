@@ -29,7 +29,7 @@ import { AppExtensionService } from '../../../services/app.extension.service';
 
 @Component({
   selector: 'app-toolbar-menu-item',
-  templateUrl: 'toolbar-menu-item.component.html',
+  templateUrl: './toolbar-menu-item.component.html',
   styles: [
     `
       .app-toolbar-menu-item:last-child > .mat-divider-horizontal {

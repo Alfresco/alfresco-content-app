@@ -27,7 +27,7 @@ import { Component, ViewEncapsulation, ChangeDetectionStrategy, Input } from '@a
 
 @Component({
   selector: 'aca-page-layout',
-  templateUrl: 'page-layout.component.html',
+  templateUrl: './page-layout.component.html',
   styleUrls: ['./page-layout.component.scss'],
   encapsulation: ViewEncapsulation.None,
   host: { class: 'aca-page-layout' },

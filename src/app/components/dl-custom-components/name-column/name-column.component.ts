@@ -35,7 +35,7 @@ import { isLocked } from '@alfresco/aca-shared';
 @Component({
   selector: 'aca-custom-name-column',
   templateUrl: './name-column.component.html',
-  styleUrls: ['name-column.component.scss'],
+  styleUrls: ['./name-column.component.scss'],
   encapsulation: ViewEncapsulation.None,
   host: {
     class: 'adf-datatable-content-cell adf-datatable-link adf-name-column aca-custom-name-column'

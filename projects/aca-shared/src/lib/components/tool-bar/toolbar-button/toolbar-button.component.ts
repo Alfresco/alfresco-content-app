@@ -34,7 +34,7 @@ export enum ToolbarButtonType {
 
 @Component({
   selector: 'app-toolbar-button',
-  templateUrl: 'toolbar-button.component.html',
+  templateUrl: './toolbar-button.component.html',
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-toolbar-button' }
 })
