@@ -155,9 +155,9 @@ export class NodesApi extends RepoApi {
     }
   }
 
-  async deleteNodeByPath(path: string, permanent: boolean = true): Promise<void> {
+  async deleteNodeByPath(path: string, permanent: boolean = true, parentFolderId: string = '-my-'): Promise<void> {
     try {
-      const id = (await this.getNodeByPath(path)).entry.id;
+      const id = (await this.getNodeByPath(path, parentFolderId)).entry.id;
       await this.deleteNodeById(id, permanent);
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.deleteNodeByPath.name}`, error);
