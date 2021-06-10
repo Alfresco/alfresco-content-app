@@ -15,7 +15,7 @@
           #searchFilter
           [ngClass]="{
             'adf-search-filter--hidden':
-              hideSearchFilter() || !(showFacetFilter$ | async)
+            !(showFacetFilter$ | async)
           }"
         ></adf-search-filter>
         <div class="adf-search-results__content">
@@ -25,10 +25,8 @@
             mode="indeterminate"
           >
           </mat-progress-bar>
-          <div
-            class="adf-search-results__content-header content"
-            *ngIf="data?.list.entries.length"
-          >
+          <div class="adf-search-results__content-header content">
+            <adf-search-form (formChange)="onFormChange($event)"></adf-search-form>
             <div class="content__side--left">
               <div
                 class="adf-search-results--info-text"
