@@ -44,24 +44,18 @@
     display: flex;
     justify-content: flex-start;
     flex-basis: 55%;
-
-    .adf-pdf-viewer {
-      top: unset;
-      bottom: unset;
-      left: unset;
-      right: unset;
-      .page {
-        margin: 0px;
-        border: 0px;
-        padding: 0px;
-      }
-    }
   }
 
   &--preview-toolbar {
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
+    margin: 0px 5px;
+    padding-right: 24px;
+  }
+
+  &--visibility_button {
+    margin-right: 8px;
   }
 
   .adf-search-filter {

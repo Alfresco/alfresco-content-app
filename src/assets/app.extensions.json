@@ -1128,6 +1128,16 @@
           }
         },
         {
+          "id": "app.sidebar.infoDetails",
+          "order": 150,
+          "title": "Info Details",
+          "icon": "info_outline",
+          "color": "accent",
+          "rules": {
+            "visible": "app.navigation.isSearchResults"
+          }
+        },
+        {
           "id": "app.sidebar.expand",
           "order": 200,
           "title": "APP.INFO_DRAWER.TABS.EXPAND",

@@ -115,7 +115,8 @@
     <div
       [ngClass]="(infoDrawerPreview$ | async) === true ? 'adf-search-results--right_panel_section-extended' : 'adf-search-results--right_panel_section'"
       *ngIf="infoDrawerOpened$ | async">
-      <adf-viewer class="adf-search-results--embedded_viewer" [nodeId]="selection.last.entry.id"
+      <adf-viewer class="adf-search-results--embedded_viewer" [nodeId]="selection.last.entry.id" (close)="onViewerClosing()"
+       (error)="onViewerClosing()"
         *ngIf="(infoDrawerPreview$ | async); else infoDrawerPanel">
         <adf-viewer-toolbar>
           <div class="adf-search-results--preview-toolbar">
@@ -125,7 +126,7 @@
               </button>
             </div>
             <div>
-              <button mat-icon-button title="{{ 'ADF_VIEWER.ACTIONS.PREVIEW' | translate }}">
+              <button mat-icon-button title="{{ 'ADF_VIEWER.ACTIONS.PREVIEW' | translate }}" color="accent" class="adf-search-results--visibility_button">
                 <mat-icon>visibility</mat-icon>
               </button>
               <button mat-icon-button title="{{ 'ADF_VIEWER.ACTIONS.CLOSE' | translate }}" (click)="onPreviewClosed()">
