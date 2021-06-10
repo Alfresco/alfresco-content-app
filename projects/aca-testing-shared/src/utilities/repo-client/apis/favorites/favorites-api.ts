@@ -37,7 +37,7 @@ export class FavoritesApi extends RepoApi {
     super(username, password);
   }
 
-  async addFavorite(api: RepoClient, nodeType: string, name: string, parentFolderId?:string) {
+  async addFavorite(api: RepoClient, nodeType: string, name: string, parentFolderId?: string) {
     try {
       const nodeId = (await api.nodes.getNodeByPath(name, parentFolderId)).entry.id;
       const data = {
