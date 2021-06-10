@@ -36,10 +36,10 @@ export class NodesApi extends RepoApi {
     super(username, password);
   }
 
-  async getNodeByPath(relativePath: string = '/'): Promise<NodeEntry | null> {
+  async getNodeByPath(relativePath: string = '/', parentFolderId: string = '-my-'): Promise<NodeEntry | null> {
     try {
       await this.apiAuth();
-      return await this.nodesApi.getNode('-my-', { relativePath });
+      return await this.nodesApi.getNode(parentFolderId, { relativePath });
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.getNodeByPath.name}`, error);
       return null;
