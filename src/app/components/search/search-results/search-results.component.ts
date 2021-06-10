@@ -259,8 +259,4 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     this.store.dispatch(new SetInfoDrawerPreviewStateAction(false));
     this.store.dispatch(new SetInfoDrawerStateAction(false));
   }
-
-  onViewerClosing(){
-    console.log('ERROR OR CLOSING');
-  }
 }
