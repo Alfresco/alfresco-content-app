@@ -1134,7 +1134,7 @@
           "icon": "info_outline",
           "color": "accent",
           "rules": {
-            "visible": "app.navigation.isSearchResults"
+            "visible": "showInfoSelectionButton"
           }
         },
         {

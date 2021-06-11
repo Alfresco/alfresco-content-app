@@ -502,5 +502,9 @@ export function isLibraryManager(context: RuleContext): boolean {
  * @param context Rule execution context
  */
 export function canInfoPreview(context: RuleContext): boolean {
-  return navigation.isSearchResults(context) && !isMultiselection(context) && !hasFolderSelected(context);
+  return navigation.isSearchResults(context) && !isMultiselection(context) && !hasFolderSelected(context) && !navigation.isPreview(context);
+}
+
+export function showInfoSelectionButton(context: RuleContext): boolean {
+  return navigation.isSearchResults(context) && !navigation.isPreview(context);
 }
