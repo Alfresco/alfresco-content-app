@@ -168,8 +168,7 @@
             },
             "SEARCH": {
               "FORMS": {
-                "ALL": "ALL",
-                "RECORDS_MANAGEMENT": "Record management"
+                "ALL": "ALL"
               },
               "TITLE": "Search Results",
                 "FOUND_RESULTS": "{{ number }} results found",
