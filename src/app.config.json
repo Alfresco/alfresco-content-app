@@ -1,33 +1,24 @@
 {
   "$schema": "../node_modules/@alfresco/adf-core/app.config.schema.json",
-  "ecmHost": "https://mobileapps.envalfresco.com",
+  "ecmHost": "{protocol}//{hostname}{:port}",
   "aosHost": "{protocol}//{hostname}{:port}/alfresco/aos",
   "baseShareUrl": "{protocol}//{hostname}{:port}/#/preview/s",
-  "identityHost": "https://mobileapps.envalfresco.com/auth/admin/realms/alfresco",
-  "loginRoute": "login",
   "providers": "ECM",
-  "authType": "OAUTH",
-  "locale": "en",
-  "notificationDefaultDuration": 2000,
-  "auth": {
-    "withCredentials": false
-  },
+  "authType": "BASIC",
+  "loginRoute": "login",
   "oauth2": {
-    "host": "https://mobileapps.envalfresco.com/auth/realms/alfresco",
+    "host": "http://localhost:4200/auth/realms/alfresco",
     "clientId": "alfresco",
     "scope": "openid",
     "secret": "",
     "implicitFlow": true,
     "silentLogin": true,
-    "redirectSilentIframeUri": "https://mobileapps.envalfresco.com/adf/assets/silent-refresh.html",
+    "publicUrls": ["**/preview/s/*", "**/settings", "**/blank"],
+    "redirectSilentIframeUri": "{protocol}//{hostname}{:port}/assets/silent-refresh.html",
     "redirectUri": "/",
-    "redirectUriLogout": "/",
-    "publicUrls": [
-      "**/preview/s/*",
-      "**/settings",
-      "**/logout"
-    ]
+    "redirectUriLogout": "/logout"
   },
+  "locale": "en",
   "application": {
     "name": "Alfresco Content Application",
     "version": "2.4.0",
@@ -384,163 +375,7 @@
     ],
     "name": "APP.BROWSE.SEARCH.FORMS.ALL",
     "default": true
-  },
-    {
-      "filterWithContains": true,
-      "aca:fields": ["cm:name", "cm:title", "cm:description", "TEXT", "TAG"],
-      "include": ["path", "allowableOperations", "properties"],
-      "sorting": {
-        "options": [
-          {
-            "key": "score",
-            "label": "SEARCH.SORT.RELEVANCE",
-            "type": "SCORE",
-            "field": "score",
-            "ascending": false
-          },
-          {
-            "key": "name",
-            "label": "SEARCH.SORT.FILENAME",
-            "type": "FIELD",
-            "field": "cm:name",
-            "ascending": true
-          },
-          {
-            "key": "title",
-            "label": "SEARCH.SORT.TITLE",
-            "type": "FIELD",
-            "field": "cm:title",
-            "ascending": true
-          },
-          {
-            "key": "modified",
-            "label": "SEARCH.SORT.MODIFIED_DATE",
-            "type": "FIELD",
-            "field": "cm:modified",
-            "ascending": true
-          },
-          {
-            "key": "modifier",
-            "label": "SEARCH.SORT.MODIFIER",
-            "type": "FIELD",
-            "field": "cm:modifier",
-            "ascending": true
-          },
-          {
-            "key": "created",
-            "label": "SEARCH.SORT.CREATE_DATE",
-            "type": "FIELD",
-            "field": "cm:created",
-            "ascending": true
-          },
-          {
-            "key": "content.sizeInBytes",
-            "label": "SEARCH.SORT.SIZE",
-            "type": "FIELD",
-            "field": "content.size",
-            "ascending": true
-          },
-          {
-            "key": "content.mimetype",
-            "label": "SEARCH.SORT.TYPE",
-            "type": "FIELD",
-            "field": "content.mimetype",
-            "ascending": true
-          }
-        ],
-        "defaults": [
-          {
-            "key": "score",
-            "type": "SCORE",
-            "field": "score",
-            "ascending": false
-          }
-        ]
-      },
-      "aca:triggeredOnChange": false,
-      "resetButton": true,
-      "filterQueries": [
-        { "query": "+TYPE:'cm:content' AND +ASPECT:'rma:record'" },
-        {
-          "query": "-TYPE:'cm:thumbnail' AND -TYPE:'cm:failedThumbnail' AND -TYPE:'cm:rating'"
-        },
-        { "query": "-cm:creator:System AND -QNAME:comment" },
-        {
-          "query": "-TYPE:'st:site' AND -ASPECT:'st:siteContainer' AND -ASPECT:'sys:hidden'"
-        },
-        {
-          "query": "-TYPE:'dl:dataList' AND -TYPE:'dl:todoList' AND -TYPE:'dl:issue'"
-        },
-        { "query": "-TYPE:'fm:topic' AND -TYPE:'fm:post'" },
-        { "query": "-TYPE:'lnk:link'" },
-        { "query": "-PNAME:'0/wiki'" }
-      ],
-      "facetFields": {
-        "expanded": true,
-        "fields": [
-          {
-            "mincount": 1,
-            "field": "content.mimetype",
-            "label": "SEARCH.FACET_FIELDS.FILE_TYPE"
-          },
-          {
-            "mincount": 1,
-            "field": "creator",
-            "label": "SEARCH.FACET_FIELDS.CREATOR"
-          },
-          {
-            "mincount": 1,
-            "field": "SITE",
-            "label": "SEARCH.FACET_FIELDS.LOCATION"
-          }
-        ]
-      },
-      "categories": [
-        {
-          "id": "size",
-          "name": "SEARCH.CATEGORIES.SIZE",
-          "enabled": true,
-          "component": {
-            "selector": "check-list",
-            "settings": {
-              "options": [
-                {
-                  "name": "SEARCH.CATEGORIES.SIZE_OPTIONS.SMALL",
-                  "value": "content.size:[0 TO 1048576>"
-                },
-                {
-                  "name": "SEARCH.CATEGORIES.SIZE_OPTIONS.MEDIUM",
-                  "value": "content.size:[1048576 TO 52428800]"
-                },
-                {
-                  "name": "SEARCH.CATEGORIES.SIZE_OPTIONS.LARGE",
-                  "value": "content.size:<52428800 TO 524288000]"
-                },
-                {
-                  "name": "SEARCH.CATEGORIES.SIZE_OPTIONS.HUGE",
-                  "value": "content.size:<524288000 TO MAX]"
-                }
-              ]
-            }
-          }
-        },
-        {
-          "id": "createdDateRange",
-          "name": "SEARCH.CATEGORIES.CREATED_DATE",
-          "enabled": true,
-          "component": {
-            "selector": "date-range",
-            "settings": {
-              "field": "cm:created",
-              "dateFormat": "DD-MMM-YY",
-              "maxDate": "today"
-            }
-          }
-        }
-      ],
-      "name": "APP.BROWSE.SEARCH.FORMS.RECORDS_MANAGEMENT"
-    }
-  ],
+  }],
   "search-headers": {
     "filterWithContains": true,
     "app:fields": [

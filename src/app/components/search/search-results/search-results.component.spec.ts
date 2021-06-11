@@ -23,17 +23,18 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { SearchResultsComponent } from './search-results.component';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { AppSearchResultsModule } from '../search-results.module';
-import { CoreModule, AppConfigService, AlfrescoApiService, TranslationService } from '@alfresco/adf-core';
+import { AlfrescoApiService, AppConfigService, CoreModule, TranslationService } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
 import { NavigateToFolder, SnackbarErrorAction } from '@alfresco/aca-shared/store';
 import { Pagination, SearchRequest } from '@alfresco/js-api';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { BehaviorSubject } from 'rxjs';
 
 describe('SearchComponent', () => {
   let component: SearchResultsComponent;
@@ -45,8 +46,10 @@ describe('SearchComponent', () => {
   let translate: TranslationService;
   let router: Router;
   const searchRequest = {} as SearchRequest;
+  let params: BehaviorSubject<any>;
 
   beforeEach(() => {
+    params = new BehaviorSubject({ q: 'TYPE: "cm:folder" AND %28=cm: name: email OR cm: name: budget%29' });
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), CoreModule.forRoot(), AppTestingModule, AppSearchResultsModule],
       providers: [
@@ -58,11 +61,7 @@ describe('SearchComponent', () => {
                 sortingPreferenceKey: ''
               }
             },
-            params: [
-              {
-                q: 'TYPE: "cm:folder" AND %28=cm: name: email OR cm: name: budget%29'
-              }
-            ]
+            params: params.asObservable()
           }
         }
       ]
@@ -75,12 +74,20 @@ describe('SearchComponent', () => {
     translate = TestBed.inject(TranslationService);
     router = TestBed.inject(Router);
 
+    config.config = {
+      search: {}
+    };
+
     fixture = TestBed.createComponent(SearchResultsComponent);
     component = fixture.componentInstance;
 
     spyOn(queryBuilder, 'update').and.stub();
 
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    params.complete();
   });
 
   it('should raise an error if search fails', fakeAsync(() => {
@@ -165,47 +172,23 @@ describe('SearchComponent', () => {
   });
 
   it('should format user input according to the configuration fields', () => {
-    config.config = {
-      search: {
-        'aca:fields': ['cm:name', 'cm:title']
-      }
-    };
-
-    const query = component.formatSearchQuery('hello');
+    const query = component.formatSearchQuery('hello', ['cm:name', 'cm:title']);
     expect(query).toBe(`(cm:name:"hello*" OR cm:title:"hello*")`);
   });
 
   it('should format user input as cm:name if configuration not provided', () => {
-    config.config = {
-      search: {
-        'aca:fields': undefined
-      }
-    };
-
-    const query = component.formatSearchQuery('hello');
+    const query = component.formatSearchQuery('hello', undefined);
     expect(query).toBe(`(cm:name:"hello*")`);
   });
 
   it('should use AND operator when conjunction has no operators', () => {
-    config.config = {
-      search: {
-        'aca:fields': ['cm:name']
-      }
-    };
-
-    const query = component.formatSearchQuery('big yellow banana');
+    const query = component.formatSearchQuery('big yellow banana', ['cm:name']);
 
     expect(query).toBe(`(cm:name:"big*") AND (cm:name:"yellow*") AND (cm:name:"banana*")`);
   });
 
   it('should support conjunctions with AND operator', () => {
-    config.config = {
-      search: {
-        'aca:fields': ['cm:name', 'cm:title']
-      }
-    };
-
-    const query = component.formatSearchQuery('big AND yellow AND banana');
+    const query = component.formatSearchQuery('big AND yellow AND banana', ['cm:name', 'cm:title']);
 
     expect(query).toBe(
       `(cm:name:"big*" OR cm:title:"big*") AND (cm:name:"yellow*" OR cm:title:"yellow*") AND (cm:name:"banana*" OR cm:title:"banana*")`
@@ -213,13 +196,7 @@ describe('SearchComponent', () => {
   });
 
   it('should support conjunctions with OR operator', () => {
-    config.config = {
-      search: {
-        'aca:fields': ['cm:name', 'cm:title']
-      }
-    };
-
-    const query = component.formatSearchQuery('big OR yellow OR banana');
+    const query = component.formatSearchQuery('big OR yellow OR banana', ['cm:name', 'cm:title']);
 
     expect(query).toBe(
       `(cm:name:"big*" OR cm:title:"big*") OR (cm:name:"yellow*" OR cm:title:"yellow*") OR (cm:name:"banana*" OR cm:title:"banana*")`
@@ -227,25 +204,13 @@ describe('SearchComponent', () => {
   });
 
   it('should support exact term matching with default fields', () => {
-    config.config = {
-      search: {
-        'aca:fields': ['cm:name', 'cm:title']
-      }
-    };
-
-    const query = component.formatSearchQuery('=orange');
+    const query = component.formatSearchQuery('=orange', ['cm:name', 'cm:title']);
 
     expect(query).toBe(`(=cm:name:"orange" OR =cm:title:"orange")`);
   });
 
   it('should support exact term matching with operators', () => {
-    config.config = {
-      search: {
-        'aca:fields': ['cm:name', 'cm:title']
-      }
-    };
-
-    const query = component.formatSearchQuery('=test1.pdf or =test2.pdf');
+    const query = component.formatSearchQuery('=test1.pdf or =test2.pdf', ['cm:name', 'cm:title']);
 
     expect(query).toBe(`(=cm:name:"test1.pdf" OR =cm:title:"test1.pdf") or (=cm:name:"test2.pdf" OR =cm:title:"test2.pdf")`);
   });
@@ -292,6 +257,19 @@ describe('SearchComponent', () => {
       maxItems: 10,
       skipCount: 0
     });
+    expect(queryBuilder.update).toHaveBeenCalled();
+  });
+
+  it('should update the user query whenever param changed', () => {
+    params.next({ q: '=orange' });
+    expect(queryBuilder.userQuery).toBe(`((=cm:name:"orange"))`);
+    expect(queryBuilder.update).toHaveBeenCalled();
+  });
+
+  it('should update the user query whenever configuration changed', () => {
+    params.next({ q: '=orange' });
+    queryBuilder.configUpdated.next({ 'aca:fields': ['cm:tag'] } as any);
+    expect(queryBuilder.userQuery).toBe(`((=cm:tag:"orange"))`);
     expect(queryBuilder.update).toHaveBeenCalled();
   });
 });
