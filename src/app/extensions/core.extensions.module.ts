@@ -133,7 +133,7 @@ export class CoreExtensionsModule {
       isLibraryManager: rules.isLibraryManager,
       canEditAspects: rules.canEditAspects,
       canInfoPreview: rules.canInfoPreview,
-      showInfoSelectionButton : rules.showInfoSelectionButton,
+      showInfoSelectionButton: rules.showInfoSelectionButton,
 
       'app.selection.canDelete': rules.canDeleteSelection,
       'app.selection.file.canUnlock': rules.canUnlockFile,
