@@ -36,10 +36,10 @@ export class NodesApi extends RepoApi {
     super(username, password);
   }
 
-  async getNodeByPath(relativePath: string = '/'): Promise<NodeEntry | null> {
+  async getNodeByPath(relativePath: string = '/', parentFolderId: string = '-my-'): Promise<NodeEntry | null> {
     try {
       await this.apiAuth();
-      return await this.nodesApi.getNode('-my-', { relativePath });
+      return await this.nodesApi.getNode(parentFolderId, { relativePath });
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.getNodeByPath.name}`, error);
       return null;
@@ -155,9 +155,9 @@ export class NodesApi extends RepoApi {
     }
   }
 
-  async deleteNodeByPath(path: string, permanent: boolean = true): Promise<void> {
+  async deleteNodeByPath(path: string, permanent: boolean = true, parentFolderId?: string): Promise<void> {
     try {
-      const id = (await this.getNodeByPath(path)).entry.id;
+      const id = (await this.getNodeByPath(path, parentFolderId)).entry.id;
       await this.deleteNodeById(id, permanent);
     } catch (error) {
       this.handleError(`${this.constructor.name} ${this.deleteNodeByPath.name}`, error);
