@@ -1,11 +1,11 @@
 // Protractor configuration file, see link for more information
 // https://github.com/angular/protractor/blob/master/lib/config.ts
 
-require('dotenv').config({ path: process.env.ENV_FILE });
+require('dotenv').config({path: process.env.ENV_FILE});
 const path = require('path');
-const { SpecReporter } = require('jasmine-spec-reporter');
+const {SpecReporter} = require('jasmine-spec-reporter');
 const retry = require('protractor-retry-angular-cli').retry;
-const { uploadOutput } = require('./e2e/e2e-config/utils/upload-output');
+const {uploadOutput} = require('./e2e/e2e-config/utils/upload-output');
 const smartRunnerFactory = require('./e2e/smartrunner-factory');
 
 const projectRoot = path.resolve(__dirname);
@@ -20,8 +20,9 @@ const height = 768;
 const SAVE_SCREENSHOT = process.env.SAVE_SCREENSHOT === 'true';
 const APP_CONFIG_ECM_HOST = process.env.APP_CONFIG_ECM_HOST || 'http://localhost:8080';
 const MAXINSTANCES = process.env.MAXINSTANCES || 1;
-const MAX_RETRIES = process.env.MAX_RETRIES || 1;
 const E2E_LOG_LEVEL = process.env.E2E_LOG_LEVEL || 'ERROR';
+
+let retryCount = 0;
 
 const appConfig = {
   hostEcm: APP_CONFIG_ECM_HOST,
@@ -137,7 +138,8 @@ exports.config = {
     showColors: true,
     defaultTimeoutInterval: 200000,
     includeStackTrace: true,
-    print: function () {},
+    print: function () {
+    },
     ...(process.env.CI ? smartRunnerFactory.applyExclusionFilter() : {})
   },
 
@@ -204,10 +206,8 @@ exports.config = {
   afterLaunch: async function (statusCode) {
     if (SAVE_SCREENSHOT && statusCode !== 0) {
       console.log(`Status code is ${statusCode}, trying to save screenshots.`);
-      let retryCount = 1;
-      if (argv.retry) {
-        retryCount = ++argv.retry;
-      }
+
+      retryCount++;
 
       try {
         await uploadOutput(retryCount);
