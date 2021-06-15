@@ -383,11 +383,12 @@ const searchDocxContextMenu = [
   'Permissions'
 ];
 const searchToolbarPrimary = ['Toggle search filter', 'Share', 'Download', 'View', 'View Details', 'More Actions'];
-const searchSharedToolbarPrimary = ['Toggle search filter', 'Shared Link Settings', 'Download', 'View Details', 'More Actions'];
+const searchSharedToolbarPrimary = ['Toggle search filter', 'Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
 const searchFavLockedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions', 'Permissions'];
 const searchSharedFavLockedContextMenu = [
   'Shared Link Settings',
   'Download',
+  'View',
   'Cancel Editing',
   'Upload New Version',
   'Remove Favorite',
