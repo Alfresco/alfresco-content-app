@@ -392,7 +392,7 @@ export function isTrashcanItemSelected(context: RuleContext): boolean {
  * @param context Rule execution context
  */
 export function canViewFile(context: RuleContext): boolean {
-  return [hasFileSelected(context), navigation.isNotTrashcan(context), navigation.isNotSearchResults(context)].every(Boolean);
+  return [hasFileSelected(context), navigation.isNotTrashcan(context)].every(Boolean);
 }
 
 /**

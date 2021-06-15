@@ -273,7 +273,7 @@ function setInfoDrawer(state: AppState, action: SetInfoDrawerStateAction) {
 function setInfoDrawerPreview(state: AppState, action: SetInfoDrawerPreviewStateAction) {
   return {
     ...state,
-    showInfoDrawerPreview: action.payload
+    infoDrawerPreview: action.payload
   };
 }
 
