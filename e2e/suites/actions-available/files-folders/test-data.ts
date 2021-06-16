@@ -409,6 +409,7 @@ const searchDocxToolbarMore = [
 const searchFavContextMenu = [
   'Share',
   'Download',
+  'View',
   'Edit Offline',
   'Upload New Version',
   'Remove Favorite',
