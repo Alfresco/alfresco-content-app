@@ -132,6 +132,8 @@ export class CoreExtensionsModule {
       canToggleFavorite: rules.canToggleFavorite,
       isLibraryManager: rules.isLibraryManager,
       canEditAspects: rules.canEditAspects,
+      canInfoPreview: rules.canInfoPreview,
+      showInfoSelectionButton: rules.showInfoSelectionButton,
 
       'app.selection.canDelete': rules.canDeleteSelection,
       'app.selection.file.canUnlock': rules.canUnlockFile,

@@ -9,7 +9,7 @@
   >
     <adf-toolbar class="adf-toolbar--inline" info-drawer-buttons>
       <ng-container *ngFor="let entry of actions; trackBy: trackByActionId">
-        <aca-toolbar-action [actionRef]="entry"></aca-toolbar-action>
+        <aca-toolbar-action [actionRef]="entry" [color]="entry?.color"></aca-toolbar-action>
       </ng-container>
     </adf-toolbar>
 

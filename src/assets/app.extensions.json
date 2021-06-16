@@ -1116,8 +1116,30 @@
     "sidebar": {
       "toolbar": [
         {
-          "id": "app.sidebar.expand",
+          "id": "app.sidebar.preview",
           "order": 100,
+          "title": "Preview File",
+          "icon": "visibility",
+          "actions": {
+            "click": "SHOW_INFO_DRAWER_PREVIEW"
+          },
+          "rules": {
+            "visible": "canInfoPreview"
+          }
+        },
+        {
+          "id": "app.sidebar.infoDetails",
+          "order": 150,
+          "title": "Info Details",
+          "icon": "info_outline",
+          "color": "accent",
+          "rules": {
+            "visible": "showInfoSelectionButton"
+          }
+        },
+        {
+          "id": "app.sidebar.expand",
+          "order": 200,
           "title": "APP.INFO_DRAWER.TABS.EXPAND",
           "icon": "chevron_left",
           "actions": {

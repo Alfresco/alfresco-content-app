@@ -37,6 +37,7 @@ export interface AppState {
   user: ProfileState;
   navigation: NavigationState;
   infoDrawerOpened: boolean;
+  infoDrawerPreview: boolean;
   infoDrawerMetadataAspect: string;
   showFacetFilter: boolean;
   documentDisplayMode: string;

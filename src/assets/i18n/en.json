@@ -564,7 +564,8 @@
     },
     "ADF_VIEWER": {
         "ACTIONS": {
-            "INFO": "View details"
+            "INFO": "View details",
+            "PREVIEW": "Show preview"
         }
     },
     "FILE_UPLOAD": {

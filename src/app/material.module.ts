@@ -31,10 +31,11 @@ import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/d
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
-  imports: [MatMenuModule, MatIconModule, MatButtonModule, MatDialogModule, MatInputModule, MatSnackBarModule, MatProgressBarModule],
-  exports: [MatMenuModule, MatIconModule, MatButtonModule, MatDialogModule, MatInputModule, MatSnackBarModule, MatProgressBarModule],
+  imports: [MatMenuModule, MatIconModule, MatButtonModule, MatDialogModule, MatInputModule, MatSnackBarModule, MatProgressBarModule, MatCardModule],
+  exports: [MatMenuModule, MatIconModule, MatButtonModule, MatDialogModule, MatInputModule, MatSnackBarModule, MatProgressBarModule, MatCardModule],
   providers: [
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
