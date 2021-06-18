@@ -2,6 +2,9 @@
   "name": "aca-testing-shared",
   "version": "2.4.0",
   "main": "src/index.ts",
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
   "peerDependencies": {
     "@angular/common": "^7.2.0",
     "@angular/core": "^7.2.0"

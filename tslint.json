@@ -24,6 +24,9 @@
     "callable-types": true,
     "class-name": true,
     "forin": true,
+    "deprecation": {
+      "severity": "warning"
+    },
     "import-blacklist": [true],
     "interface-over-type-literal": true,
     "label-position": true,

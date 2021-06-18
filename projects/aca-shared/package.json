@@ -1,6 +1,9 @@
 {
   "name": "@alfresco/aca-shared",
   "version": "2.4.0",
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
   "peerDependencies": {
     "@angular/common": ">=10.0.4",
     "@angular/core": ">=10.0.4",
