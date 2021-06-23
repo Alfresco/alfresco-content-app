@@ -167,9 +167,7 @@
                 "TITLE": "About"
             },
             "SEARCH": {
-              "FORMS": {
-                "ALL": "ALL"
-              },
+              "DEFAULT_SEARCH": "Default",
               "TITLE": "Search Results",
                 "FOUND_RESULTS": "{{ number }} results found",
                 "FOUND_ONE_RESULT": "{{ number }} result found",

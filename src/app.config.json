@@ -373,7 +373,7 @@
         }
       }
     ],
-    "name": "APP.BROWSE.SEARCH.FORMS.ALL",
+    "name": "APP.BROWSE.SEARCH.DEFAULT_SEARCH",
     "default": true
   }],
   "search-headers": {
