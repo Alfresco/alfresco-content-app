@@ -29,6 +29,9 @@
 
             <adf-search-sorting-picker class="content__sort-picker"></adf-search-sorting-picker>
           </div>
+          <div>
+            <aca-search-action-menu (sortingSelected)="onSearchSortingUpdate($event)"></aca-search-action-menu>
+          </div>
 
           <adf-document-list
             #documentList

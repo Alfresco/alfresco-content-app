@@ -37,6 +37,7 @@ import { AppCommonModule } from '../common/common.module';
 import { DirectivesModule } from '../../directives/directives.module';
 import { AppLayoutModule } from '../layout/layout.module';
 import { ContextMenuModule } from '../context-menu/context-menu.module';
+import { SearchActionMenuComponent } from './search-action-menu/search-action-menu.component';
 
 @NgModule({
   imports: [
@@ -51,7 +52,7 @@ import { ContextMenuModule } from '../context-menu/context-menu.module';
     ContextMenuModule,
     LockedByModule
   ],
-  declarations: [SearchResultsComponent, SearchLibrariesResultsComponent, SearchResultsRowComponent],
-  exports: [SearchResultsComponent, SearchLibrariesResultsComponent, SearchResultsRowComponent]
+  declarations: [SearchResultsComponent, SearchLibrariesResultsComponent, SearchResultsRowComponent, SearchActionMenuComponent],
+  exports: [SearchResultsComponent, SearchLibrariesResultsComponent, SearchResultsRowComponent, SearchActionMenuComponent]
 })
 export class AppSearchResultsModule {}

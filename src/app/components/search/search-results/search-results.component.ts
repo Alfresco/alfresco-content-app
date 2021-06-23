@@ -43,6 +43,7 @@ import { ContentManagementService } from '../../../services/content-management.s
 import { ShowHeaderMode, TranslationService } from '@alfresco/adf-core';
 import { combineLatest, Observable } from 'rxjs';
 import { AppExtensionService } from '@alfresco/aca-shared';
+import { SearchSortingDefinition } from '@alfresco/adf-content-services/lib/search/models/search-sorting-definition.interface';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -243,4 +244,13 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     this.store.dispatch(new SetInfoDrawerPreviewStateAction(false));
     this.store.dispatch(new SetInfoDrawerStateAction(false));
   }
+
+  onSearchSortingUpdate(option: SearchSortingDefinition) {
+    this.queryBuilder.sorting = [{
+      ...option,
+      ascending: option.ascending
+    }];
+    this.queryBuilder.update();
+  }
+
 }
