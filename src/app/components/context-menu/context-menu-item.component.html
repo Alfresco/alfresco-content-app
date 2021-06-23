@@ -8,7 +8,7 @@
 
       <mat-menu #childMenu="matMenu">
         <ng-container
-          *ngFor="let child of actionRef.children; trackBy: trackById"
+          *ngFor="let child of actionRef.children; trackBy: trackByActionId"
         >
           <app-context-menu-item [actionRef]="child"></app-context-menu-item>
         </ng-container>

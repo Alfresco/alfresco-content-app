@@ -154,4 +154,8 @@ export class SearchLibrariesResultsComponent extends PageComponent implements On
       this.store.dispatch(new NavigateLibraryAction(node.entry.guid));
     }
   }
+
+  handleNodeClick(event: Event) {
+    this.navigateTo((<CustomEvent> event).detail?.node);
+  }
 }

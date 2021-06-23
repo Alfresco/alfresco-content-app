@@ -31,14 +31,14 @@
           [imageResolver]="imageResolver"
           [headerFilters]="true"
           [filterValue]="queryParams"
-          (node-dblclick)="navigateTo($event.detail?.node)"
-          (name-click)="navigateTo($event.detail?.node)"
+          (node-dblclick)="handleNodeClick($event)"
+          (name-click)="handleNodeClick($event)"
           (sorting-changed)="onSortingChanged($event)"
           (filterSelection)="onFilterSelected($event)"
           (error)="onError()"
         >
           <data-columns>
-            <ng-container *ngFor="let column of columns; trackBy: trackById">
+            <ng-container *ngFor="let column of columns; trackBy: trackByColumnId">
               <ng-container *ngIf="column.template && !(column.desktopOnly && isSmallScreen)">
                 <data-column
                   [key]="column.key"

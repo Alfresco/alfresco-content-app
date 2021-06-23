@@ -26,6 +26,7 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { AppExtensionService } from '../../../services/app.extension.service';
+import { ThemePalette } from '@angular/material/core';
 
 export enum ToolbarButtonType {
   ICON_BUTTON = 'icon-button',
@@ -43,7 +44,7 @@ export class ToolbarButtonComponent {
   type: ToolbarButtonType = ToolbarButtonType.ICON_BUTTON;
 
   @Input()
-  color = '';
+  color: ThemePalette;
 
   @Input()
   actionRef: ContentActionRef;

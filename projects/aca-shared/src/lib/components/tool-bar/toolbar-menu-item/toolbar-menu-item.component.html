@@ -6,7 +6,7 @@
     </button>
 
     <mat-menu #childMenu="matMenu" class="app-create-menu__sub-menu">
-      <ng-container *ngFor="let child of actionRef.children; trackBy: trackById">
+      <ng-container *ngFor="let child of actionRef.children; trackBy: trackByActionId">
         <app-toolbar-menu-item [actionRef]="child"></app-toolbar-menu-item>
       </ng-container>
     </mat-menu>
@@ -23,7 +23,7 @@
   <ng-container *ngSwitchDefault>
     <button
       [id]="actionRef.id"
-      role="menuItem"
+      role="menuitem"
       mat-menu-item
       [role]="'menuitem'"
       [disabled]="actionRef.disabled"

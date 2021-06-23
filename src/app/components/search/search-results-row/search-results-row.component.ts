@@ -115,12 +115,12 @@ export class SearchResultsRowComponent implements OnInit, OnDestroy {
     return isLocked(this.node);
   }
 
-  showPreview(event: MouseEvent) {
+  showPreview(event: Event) {
     event.stopPropagation();
     this.store.dispatch(new ViewNodeAction(this.node.entry.id, { location: this.router.url }));
   }
 
-  navigate(event: MouseEvent) {
+  navigate(event: Event) {
     event.stopPropagation();
     this.store.dispatch(new NavigateToFolder(this.node));
   }

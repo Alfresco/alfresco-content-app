@@ -22,8 +22,8 @@
         [sorting]="['title', 'asc']"
         sortingMode="client"
         [imageResolver]="imageResolver"
-        (node-dblclick)="navigateTo($event.detail?.node)"
-        (name-click)="navigateTo($event.detail?.node)"
+        (node-dblclick)="handleNodeClick($event)"
+        (name-click)="handleNodeClick($event)"
       >
         <adf-custom-empty-content-template>
           <adf-empty-content
@@ -35,7 +35,7 @@
         </adf-custom-empty-content-template>
 
         <data-columns>
-          <ng-container *ngFor="let column of columns; trackBy: trackById">
+          <ng-container *ngFor="let column of columns; trackBy: trackByColumnId">
             <ng-container *ngIf="column.template && !(column.desktopOnly && isSmallScreen)">
               <data-column
                 [key]="column.key"
@@ -70,7 +70,7 @@
     </div>
 
     <div class="sidebar" *ngIf="infoDrawerOpened$ | async">
-      <aca-info-drawer [node]="selection.library"></aca-info-drawer>
+      <aca-info-drawer [node]="$any(selection).library"></aca-info-drawer>
     </div>
   </aca-page-layout-content>
 </aca-page-layout>

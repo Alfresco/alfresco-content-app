@@ -257,6 +257,14 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     this.queryBuilder.updateSelectedConfiguration(form.index);
   }
 
+  handleNodeClick(event: Event) {
+    this.onNodeDoubleClick((event as CustomEvent).detail?.node);
+  }
+
+  hideSearchFilter() {
+    return !this.totalResults && !this.hasSelectedFilters;
+  }
+
   onPreviewClosed() {
     this.store.dispatch(new ShowInfoDrawerPreviewAction());
   }

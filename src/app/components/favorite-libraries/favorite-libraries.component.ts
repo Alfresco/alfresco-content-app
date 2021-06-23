@@ -86,6 +86,10 @@ export class FavoriteLibrariesComponent extends PageComponent implements OnInit 
     }
   }
 
+  handleNodeClick(event: Event) {
+    this.navigateTo((<CustomEvent> event).detail?.node);
+  }
+
   onChangePageSize(pagination: Pagination) {
     this.preferences.paginationSize = pagination.maxItems;
     this.getList(pagination);

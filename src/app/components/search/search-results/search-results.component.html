@@ -63,13 +63,13 @@
             #documentList
             acaDocumentList
             acaContextActions
-            [showHeader]="false"
+            [showHeader]="'never'"
             [selectionMode]="'multiple'"
             [sortingMode]="'server'"
             [sorting]="sorting"
             [imageResolver]="imageResolver"
-            [node]="data"
-            (node-dblclick)="onNodeDoubleClick($event.detail?.node)"
+            [node]="$any(data)"
+            (node-dblclick)="handleNodeClick($event)"
           >
             <data-columns>
               <data-column

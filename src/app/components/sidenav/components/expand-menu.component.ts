@@ -42,7 +42,7 @@ export class ExpandMenuComponent implements OnInit {
     this.cd.detectChanges();
   }
 
-  trackById(_index: number, obj: { id: string }) {
+  trackById(_index: number, obj: NavBarLinkRef) {
     return obj.id;
   }
 }

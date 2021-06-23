@@ -74,8 +74,8 @@
                 matInput
                 type="text"
                 [value]="getStringParamValue(param)"
-                (blur)="setParamValue(param, $event.target.value)"
-                (keyup.enter)="setParamValue(param, $event.target.value)"
+                (blur)="onParamValueChanged($event, param)"
+                (keyup.enter)="onParamValueChanged($event, param)"
               />
             </mat-form-field>
           </ng-container>

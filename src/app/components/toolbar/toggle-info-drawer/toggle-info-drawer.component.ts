@@ -33,7 +33,7 @@ import { ToggleInfoDrawerAction, isInfoDrawerOpened } from '@alfresco/aca-shared
   template: `
     <button
       mat-icon-button
-      [color]="(infoDrawerOpened$ | async) ? 'primary' : ''"
+      [color]="(infoDrawerOpened$ | async) ? 'primary' : null"
       [attr.aria-label]="'APP.ACTIONS.DETAILS' | translate"
       [attr.aria-expanded]="infoDrawerOpened$ | async"
       [attr.title]="'APP.ACTIONS.DETAILS' | translate"

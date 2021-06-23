@@ -16,15 +16,15 @@
         acaDocumentList
         acaContextActions
         [display]="documentDisplayMode$ | async"
-        [node]="list"
+        [node]="$any(list)"
         [loading]="isLoading"
         selectionMode="single"
         [navigate]="false"
         [sorting]="['title', 'asc']"
         sortingMode="client"
-        (node-dblclick)="navigateTo($event.detail?.node)"
+        (node-dblclick)="handleNodeClick($event)"
         [imageResolver]="imageResolver"
-        (name-click)="navigateTo($event.detail?.node)"
+        (name-click)="handleNodeClick($event)"
       >
         <adf-custom-empty-content-template>
           <adf-empty-content
@@ -36,7 +36,7 @@
         </adf-custom-empty-content-template>
 
         <data-columns>
-          <ng-container *ngFor="let column of columns; trackBy: trackById">
+          <ng-container *ngFor="let column of columns; trackBy: trackByColumnId">
             <ng-container *ngIf="column.template && !(column.desktopOnly && isSmallScreen)">
               <data-column
                 [key]="column.key"

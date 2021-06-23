@@ -24,7 +24,7 @@
  */
 
 import { Component, Input, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
-import { NavBarGroupRef } from '@alfresco/adf-extensions';
+import { NavBarGroupRef, NavBarLinkRef } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
 import { AppStore, getSideNavState } from '@alfresco/aca-shared/store';
 import { Subject } from 'rxjs';
@@ -56,7 +56,11 @@ export class SidenavComponent implements OnInit, OnDestroy {
       });
   }
 
-  trackById(_: number, obj: { id: string }) {
+  trackByGroupId(_: number, obj: NavBarGroupRef): string {
+    return obj.id;
+  }
+
+  trackByLinkId(_: number, obj: NavBarLinkRef): string {
     return obj.id;
   }
 

@@ -26,6 +26,7 @@
 import { Component, Input, ViewEncapsulation, HostListener, ViewChild } from '@angular/core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { MatMenuTrigger } from '@angular/material/menu';
+import { ThemePalette } from '@angular/material/core';
 
 @Component({
   selector: 'app-toolbar-menu',
@@ -38,7 +39,7 @@ export class ToolbarMenuComponent {
   actionRef: ContentActionRef;
 
   @Input()
-  color = '';
+  color: ThemePalette;
 
   @ViewChild('matTrigger') matTrigger: MatMenuTrigger;
 
@@ -47,7 +48,7 @@ export class ToolbarMenuComponent {
     this.matTrigger.closeMenu();
   }
 
-  trackById(_: number, obj: { id: string }) {
+  trackByActionId(_: number, obj: ContentActionRef): string {
     return obj.id;
   }
 }

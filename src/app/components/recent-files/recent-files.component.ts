@@ -76,6 +76,10 @@ export class RecentFilesComponent extends PageComponent implements OnInit {
     }
   }
 
+  handleNodeClick(event: Event) {
+    this.onNodeDoubleClick((<CustomEvent> event).detail?.node);
+  }
+
   private onFileUploadedEvent() {
     this.reload();
   }
