@@ -75,22 +75,27 @@ describe('SearchActionMenuComponent', () => {
     spyOn(component.sortingSelected, 'emit').and.callThrough();
     fixture.detectChanges();
     await fixture.whenStable();
+
     const actionMenuButton: HTMLButtonElement = fixture.nativeElement.querySelector('#aca-button-action-menu');
     actionMenuButton.dispatchEvent(new Event('click'));
     await fixture.whenStable();
     fixture.detectChanges();
+
     const sortingMenuButton: HTMLButtonElement = document.querySelector('#aca-button-sorting-menu');
     sortingMenuButton.dispatchEvent(new Event('click'));
     await fixture.whenStable();
     fixture.detectChanges();
+
     const fieldAMenuButton: HTMLButtonElement = document.querySelector('#keyA-sorting-option');
     fieldAMenuButton.dispatchEvent(new Event('click'));
     await fixture.whenStable();
     fixture.detectChanges();
+
     const directionButton: HTMLButtonElement = document.querySelector('#keyA-sorting-option-asc');
     directionButton.dispatchEvent(new Event('click'));
     await fixture.whenStable();
     fixture.detectChanges();
+
     expect(component.sortingSelected.emit).toHaveBeenCalledWith(expectedOption);
   });
 
@@ -106,22 +111,27 @@ describe('SearchActionMenuComponent', () => {
     spyOn(component.sortingSelected, 'emit').and.callThrough();
     fixture.detectChanges();
     await fixture.whenStable();
+
     const actionMenuButton: HTMLButtonElement = fixture.nativeElement.querySelector('#aca-button-action-menu');
     actionMenuButton.dispatchEvent(new Event('click'));
     await fixture.whenStable();
     fixture.detectChanges();
+
     const sortingMenuButton: HTMLButtonElement = document.querySelector('#aca-button-sorting-menu');
     sortingMenuButton.dispatchEvent(new Event('click'));
     await fixture.whenStable();
     fixture.detectChanges();
+
     const fieldAMenuButton: HTMLButtonElement = document.querySelector('#keyB-sorting-option');
     fieldAMenuButton.dispatchEvent(new Event('click'));
     await fixture.whenStable();
     fixture.detectChanges();
+
     const directionButton: HTMLButtonElement = document.querySelector('#keyB-sorting-option-desc');
     directionButton.dispatchEvent(new Event('click'));
     await fixture.whenStable();
     fixture.detectChanges();
+
     expect(component.sortingSelected.emit).toHaveBeenCalledWith(expectedOption);
   });
 

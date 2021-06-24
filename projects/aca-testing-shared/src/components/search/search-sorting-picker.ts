@@ -32,13 +32,13 @@ export type SortByType = 'Relevance' | 'Title' | 'Filename' | 'Modified date' | 
 export type SortOrderType = 'ASC' | 'DESC' | '';
 
 export class SearchSortingPicker extends Component {
-  sortOrderButton = this.byCss('button[mat-icon-button]');
-  sortByDropdownCollapsed = this.byCss('.mat-select');
-  sortByDropdownExpanded = browser.element(by.css('.mat-select-panel'));
-  sortByList = this.sortByDropdownExpanded.all(by.css('.mat-option .mat-option-text'));
+  actionMenu = this.byCss('#aca-button-action-menu');
+  sortOrderButton = this.byCss('#aca-button-sorting-menu');
+  sortByDropdownExpanded = browser.element(by.css('.mat-menu-panel'));
+  sortByList = this.sortByDropdownExpanded.all(by.css('.mat-menu-item-submenu-trigger'));
 
   constructor(ancestor?: string) {
-    super('adf-search-sorting-picker', ancestor);
+    super('aca-button-action-menu', ancestor);
   }
 
   async waitForSortByDropdownToExpand(): Promise<void> {
@@ -53,32 +53,17 @@ export class SearchSortingPicker extends Component {
     return isPresentAndDisplayed(this.sortOrderButton);
   }
 
-  async getSortOrder(): Promise<SortOrderType> {
-    const orderArrow = await this.sortOrderButton.getText();
-
-    if (orderArrow.includes('upward')) {
-      return 'ASC';
-    } else if (orderArrow.includes('downward')) {
-      return 'DESC';
-    } else {
-      return '';
-    }
-  }
-
   async isSortByOptionDisplayed(): Promise<boolean> {
-    return isPresentAndDisplayed(this.sortByDropdownCollapsed);
+    return isPresentAndDisplayed(this.sortOrderButton);
   }
 
   async isSortByDropdownExpanded(): Promise<boolean> {
     return isPresentAndDisplayed(this.sortByDropdownExpanded);
   }
 
-  async getSelectedSortByOption(): Promise<string> {
-    return this.sortByDropdownCollapsed.getText();
-  }
-
   async clickSortByDropdown(): Promise<void> {
-    await BrowserActions.click(this.sortByDropdownCollapsed);
+    await BrowserActions.click(this.actionMenu);
+    await BrowserActions.click(this.sortOrderButton);
     await this.waitForSortByDropdownToExpand();
   }
 
@@ -88,23 +73,13 @@ export class SearchSortingPicker extends Component {
     });
   }
 
-  async sortBy(option: SortByType): Promise<void> {
+  async sortBy(option: SortByType, direction: string): Promise<void> {
     if (!(await this.isSortByDropdownExpanded())) {
       await this.clickSortByDropdown();
     }
     const elem = browser.element(by.cssContainingText('.mat-option .mat-option-text', option));
     await BrowserActions.click(elem);
-  }
-
-  async setSortOrderASC(): Promise<void> {
-    if ((await this.getSortOrder()) !== 'ASC') {
-      await BrowserActions.click(this.sortOrderButton);
-    }
-  }
-
-  async setSortOrderDESC(): Promise<void> {
-    if ((await this.getSortOrder()) !== 'DESC') {
-      await BrowserActions.click(this.sortOrderButton);
-    }
+    const directionSortElement = browser.element(by.id(`modifier-${option.toLocaleLowerCase()}-option-${direction.toLocaleLowerCase()}`));
+    await BrowserActions.click(directionSortElement);
   }
 }
