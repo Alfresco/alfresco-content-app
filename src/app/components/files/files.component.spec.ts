@@ -96,7 +96,7 @@ describe('FilesComponent', () => {
 
     uploadService = TestBed.inject(UploadService);
     router = TestBed.inject(Router);
-    route = TestBed.get(ActivatedRoute);
+    route = TestBed.inject(ActivatedRoute);
     nodeActionsService = TestBed.inject(NodeActionsService);
     contentApi = TestBed.inject(ContentApiService);
     spyContent = spyOn(contentApi, 'getNode');
