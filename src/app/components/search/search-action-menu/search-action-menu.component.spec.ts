@@ -69,7 +69,7 @@ describe('SearchActionMenuComponent', () => {
       ascending: true,
       field: 'fieldA',
       key: 'keyA',
-      label: 'Labello',
+      label: 'LabelA',
       type: 'A'
     };
     spyOn(component.sortingSelected, 'emit').and.callThrough();
