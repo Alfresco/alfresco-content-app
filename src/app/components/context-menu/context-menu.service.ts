@@ -25,7 +25,7 @@
 
 import { Injectable, Injector, ComponentRef } from '@angular/core';
 import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
-import { ComponentPortal, PortalInjector } from '@angular/cdk/portal';
+import { ComponentPortal } from '@angular/cdk/portal';
 import { ContextMenuOverlayRef } from './context-menu-overlay';
 import { ContextMenuComponent } from './context-menu.component';
 import { ContextmenuOverlayConfig } from './interfaces';
@@ -68,13 +68,19 @@ export class ContextMenuService {
     return containerRef.instance;
   }
 
-  private createInjector(contextmenuOverlayRef: ContextMenuOverlayRef): PortalInjector {
+  private createInjector(contextmenuOverlayRef: ContextMenuOverlayRef): Injector {
     const injectionTokens = new WeakMap();
 
     injectionTokens.set(ContextMenuOverlayRef, contextmenuOverlayRef);
     injectionTokens.set(CONTEXT_MENU_DIRECTION, this.direction);
 
-    return new PortalInjector(this.injector, injectionTokens);
+    return Injector.create({
+      parent: this.injector,
+      providers: [
+        { provide: ContextMenuOverlayRef, useValue: contextmenuOverlayRef },
+        { provide: CONTEXT_MENU_DIRECTION, useValue: this.direction }
+      ]
+    });
   }
 
   private getOverlayConfig(config: ContextmenuOverlayConfig): OverlayConfig {
