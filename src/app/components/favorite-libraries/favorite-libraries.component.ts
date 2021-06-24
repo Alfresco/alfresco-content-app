@@ -87,7 +87,7 @@ export class FavoriteLibrariesComponent extends PageComponent implements OnInit 
   }
 
   handleNodeClick(event: Event) {
-    this.navigateTo((<CustomEvent> event).detail?.node);
+    this.navigateTo((event as CustomEvent).detail?.node);
   }
 
   onChangePageSize(pagination: Pagination) {

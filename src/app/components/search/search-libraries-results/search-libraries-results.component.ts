@@ -156,6 +156,6 @@ export class SearchLibrariesResultsComponent extends PageComponent implements On
   }
 
   handleNodeClick(event: Event) {
-    this.navigateTo((<CustomEvent> event).detail?.node);
+    this.navigateTo((event as CustomEvent).detail?.node);
   }
 }

@@ -194,7 +194,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   }
 
   handleNodeClick(event: Event) {
-    this.navigateTo((<CustomEvent> event).detail?.node);
+    this.navigateTo((event as CustomEvent).detail?.node);
   }
 
   onBreadcrumbNavigate(route: PathElementEntity) {

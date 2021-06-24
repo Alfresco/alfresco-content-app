@@ -77,6 +77,6 @@ export class SharedFilesComponent extends PageComponent implements OnInit {
   }
 
   handleNodeClick(event: Event) {
-    this.preview((<CustomEvent> event).detail?.node);
+    this.preview((event as CustomEvent).detail?.node);
   }
 }
