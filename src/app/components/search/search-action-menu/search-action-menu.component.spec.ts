@@ -34,7 +34,7 @@ const mockSortingData: SearchSortingDefinition[] = [
     ascending: false,
     field: 'fieldA',
     key: 'keyA',
-    label: 'Labello',
+    label: 'LabelA',
     type: 'A'
   },
   {
