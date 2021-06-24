@@ -127,14 +127,14 @@ describe('Search sorting', () => {
     expect(await dataTable.getNthSearchResultsRow(1).getText()).toContain(filePdf.name);
     expect(await dataTable.getNthSearchResultsRow(2).getText()).toContain(fileJpg.name);
 
-    await page.sortingPicker.sortBy('Size','desc');
+    await page.sortingPicker.sortBy('Size', 'desc');
 
     expect(await dataTable.getNthSearchResultsRow(1).getText()).toContain(fileJpg.name);
     expect(await dataTable.getNthSearchResultsRow(2).getText()).toContain(filePdf.name);
   });
 
   it('[C277734] Sort by Created date', async () => {
-    await page.sortingPicker.sortBy('Created date','asc');
+    await page.sortingPicker.sortBy('Created date', 'asc');
 
     expect(await dataTable.getNthSearchResultsRow(1).getText()).toContain(fileJpg.name);
     expect(await dataTable.getNthSearchResultsRow(2).getText()).toContain(filePdf.name);
@@ -146,7 +146,7 @@ describe('Search sorting', () => {
   });
 
   it('[C277736] Sort by Modified date', async () => {
-    await page.sortingPicker.sortBy('Modified date','asc');
+    await page.sortingPicker.sortBy('Modified date', 'asc');
 
     expect(await dataTable.getNthSearchResultsRow(1).getText()).toContain(fileJpg.name);
     expect(await dataTable.getNthSearchResultsRow(2).getText()).toContain(filePdf.name);
@@ -175,7 +175,7 @@ describe('Search sorting', () => {
     expect(await dataTable.getNthSearchResultsRow(1).getText()).toContain(fileJpg.name);
     expect(await dataTable.getNthSearchResultsRow(2).getText()).toContain(filePdf.name);
 
-    await page.sortingPicker.sortBy('Modifier','desc');
+    await page.sortingPicker.sortBy('Modifier', 'desc');
 
     expect(await dataTable.getNthSearchResultsRow(1).getText()).toContain(filePdf.name);
     expect(await dataTable.getNthSearchResultsRow(2).getText()).toContain(fileJpg.name);

@@ -246,11 +246,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   }
 
   onSearchSortingUpdate(option: SearchSortingDefinition) {
-    this.queryBuilder.sorting = [{
-      ...option,
-      ascending: option.ascending
-    }];
+    this.queryBuilder.sorting = [{ ...option, ascending: option.ascending }];
     this.queryBuilder.update();
   }
-
 }

@@ -44,7 +44,7 @@ const mockSortingData: SearchSortingDefinition[] = [
     label: 'Zorro',
     type: 'Z'
   }
-]
+];
 
 describe('SearchActionMenuComponent', () => {
   let fixture: ComponentFixture<SearchActionMenuComponent>;
@@ -65,7 +65,7 @@ describe('SearchActionMenuComponent', () => {
 
   it('should emit sortingSelected event when asc sorting option is selected', async () => {
     spyOn(queryService, 'getSortingOptions').and.returnValue(mockSortingData);
-    const expectedOption: SearchSortingDefinition =   {
+    const expectedOption: SearchSortingDefinition = {
       ascending: true,
       field: 'fieldA',
       key: 'keyA',
@@ -101,7 +101,7 @@ describe('SearchActionMenuComponent', () => {
 
   it('should emit sortingSelected event when desc sorting option is selected', async () => {
     spyOn(queryService, 'getSortingOptions').and.returnValue(mockSortingData);
-    const expectedOption: SearchSortingDefinition =     {
+    const expectedOption: SearchSortingDefinition = {
       ascending: false,
       field: 'fieldB',
       key: 'keyB',
@@ -134,6 +134,4 @@ describe('SearchActionMenuComponent', () => {
 
     expect(component.sortingSelected.emit).toHaveBeenCalledWith(expectedOption);
   });
-
-
 });

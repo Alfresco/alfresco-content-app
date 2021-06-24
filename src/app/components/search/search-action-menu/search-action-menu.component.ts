@@ -27,7 +27,6 @@ import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { SearchSortingDefinition } from '@alfresco/adf-content-services/lib/search/models/search-sorting-definition.interface';
 import { Component, OnInit, Output, ViewEncapsulation, EventEmitter } from '@angular/core';
 
-
 @Component({
   selector: 'aca-search-action-menu',
   templateUrl: './search-action-menu.component.html',
@@ -35,15 +34,12 @@ import { Component, OnInit, Output, ViewEncapsulation, EventEmitter } from '@ang
   host: { class: 'aca-search-input' }
 })
 export class SearchActionMenuComponent implements OnInit {
-
   @Output()
   sortingSelected: EventEmitter<SearchSortingDefinition> = new EventEmitter();
 
   options: SearchSortingDefinition[] = [];
 
-  constructor(private queryBuilder: SearchQueryBuilderService) {
-
-  }
+  constructor(private queryBuilder: SearchQueryBuilderService) {}
 
   ngOnInit(): void {
     this.options = this.queryBuilder.getSortingOptions();
@@ -58,5 +54,4 @@ export class SearchActionMenuComponent implements OnInit {
     option.ascending = false;
     this.sortingSelected.emit(option);
   }
-
 }
