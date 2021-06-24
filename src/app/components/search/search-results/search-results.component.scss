@@ -81,6 +81,8 @@
     &__side--left {
       @include flex-column;
       height: unset;
+      padding-right: 15px;
+      padding-left: 15px;
     }
   }
 

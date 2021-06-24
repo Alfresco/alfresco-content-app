@@ -24,25 +24,26 @@
  */
 
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { Pagination, MinimalNodeEntity, ResultSetPaging } from '@alfresco/js-api';
+import { MinimalNodeEntity, Pagination, ResultSetPaging } from '@alfresco/js-api';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { SearchQueryBuilderService, SearchFilterComponent } from '@alfresco/adf-content-services';
+import { SearchFilterComponent, SearchForm, SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { PageComponent } from '../../page.component';
 import { Store } from '@ngrx/store';
 import {
   AppStore,
-  NavigateToFolder,
-  SnackbarErrorAction,
-  showFacetFilter,
   infoDrawerPreview,
-  ShowInfoDrawerPreviewAction,
+  NavigateToFolder,
+  SetInfoDrawerPreviewStateAction,
   SetInfoDrawerStateAction,
-  SetInfoDrawerPreviewStateAction
+  showFacetFilter,
+  ShowInfoDrawerPreviewAction,
+  SnackbarErrorAction
 } from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../../services/content-management.service';
-import { AppConfigService, TranslationService } from '@alfresco/adf-core';
-import { Observable } from 'rxjs';
+import { TranslationService } from '@alfresco/adf-core';
+import { combineLatest, Observable } from 'rxjs';
 import { AppExtensionService } from '@alfresco/aca-shared';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'aca-search-results',
@@ -68,7 +69,6 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   constructor(
     private queryBuilder: SearchQueryBuilderService,
     private route: ActivatedRoute,
-    private config: AppConfigService,
     store: Store<AppStore>,
     extensions: AppExtensionService,
     content: ContentManagementService,
@@ -84,11 +84,21 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
 
     this.showFacetFilter$ = store.select(showFacetFilter);
     this.infoDrawerPreview$ = store.select(infoDrawerPreview);
+    combineLatest([this.route.params, this.queryBuilder.configUpdated])
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(([params, searchConfig]) => {
+        this.searchedWord = params.hasOwnProperty(this.queryParamName) ? params[this.queryParamName] : null;
+        const query = this.formatSearchQuery(this.searchedWord, searchConfig['aca:fields']);
+        if (query) {
+          this.queryBuilder.userQuery = decodeURIComponent(query);
+        }
+      });
   }
 
   ngOnInit() {
     super.ngOnInit();
 
+    this.queryBuilder.resetToDefaults();
     this.sorting = this.getSorting();
 
     this.subscriptions.push(
@@ -114,10 +124,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     if (this.route) {
       this.route.params.forEach((params: Params) => {
         this.searchedWord = params.hasOwnProperty(this.queryParamName) ? params[this.queryParamName] : null;
-        const query = this.formatSearchQuery(this.searchedWord);
-
-        if (query) {
-          this.queryBuilder.userQuery = decodeURIComponent(query);
+        if (this.searchedWord) {
           this.queryBuilder.update();
         } else {
           this.queryBuilder.userQuery = null;
@@ -165,7 +172,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     return '(' + fields.map((field) => `${prefix}${field}:"${term}${suffix}"`).join(' OR ') + ')';
   }
 
-  formatSearchQuery(userInput: string) {
+  formatSearchQuery(userInput: string, fields = ['cm:name']) {
     if (!userInput) {
       return null;
     }
@@ -176,7 +183,6 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
       return userInput;
     }
 
-    const fields = this.config.get<string[]>('search.aca:fields', ['cm:name']);
     const words = userInput.split(' ');
 
     if (words.length > 1) {
@@ -247,8 +253,8 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     }
   }
 
-  hideSearchFilter() {
-    return !this.totalResults && !this.hasSelectedFilters;
+  onFormChange(form: SearchForm) {
+    this.queryBuilder.updateSelectedConfiguration(form.index);
   }
 
   onPreviewClosed() {

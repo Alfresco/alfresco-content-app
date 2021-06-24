@@ -189,7 +189,7 @@
     "multi-value-pipe-separator": ", ",
     "multi-value-chips": true
   },
-  "search": {
+  "search": [{
     "filterWithContains": true,
     "aca:fields": ["cm:name", "cm:title", "cm:description", "TEXT", "TAG"],
     "include": ["path", "allowableOperations", "properties"],
@@ -372,8 +372,10 @@
           }
         }
       }
-    ]
-  },
+    ],
+    "name": "APP.BROWSE.SEARCH.DEFAULT_SEARCH",
+    "default": true
+  }],
   "search-headers": {
     "filterWithContains": true,
     "app:fields": [

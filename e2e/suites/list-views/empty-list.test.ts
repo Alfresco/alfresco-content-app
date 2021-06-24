@@ -150,13 +150,13 @@ describe('Empty list views', () => {
     expect(await pagination.isNextButtonPresent()).toBe(false, 'Next button is present');
   });
 
-  it('[C279189] Search filters panel is not displayed on empty Search Results page', async () => {
+  it('[C279189] Search filters panel is displayed on empty Search Results page', async () => {
     await searchInput.clickSearchButton();
     /* cspell:disable-next-line */
     await searchInput.searchFor('qwertyuiop');
     await dataTable.waitForBody();
 
-    expect(await searchResultsPage.filters.isSearchFiltersPanelDisplayed()).toBe(false, 'Search filters panel is present');
+    expect(await searchResultsPage.filters.isSearchFiltersPanelDisplayed()).toBe(true, 'Search filters panel is not present');
   });
 
   it('[C290020] Empty Search results - Libraries', async () => {

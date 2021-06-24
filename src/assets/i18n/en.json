@@ -167,7 +167,8 @@
                 "TITLE": "About"
             },
             "SEARCH": {
-                "TITLE": "Search Results",
+              "DEFAULT_SEARCH": "Default",
+              "TITLE": "Search Results",
                 "FOUND_RESULTS": "{{ number }} results found",
                 "FOUND_ONE_RESULT": "{{ number }} result found",
                 "CUSTOM_ROW": {
