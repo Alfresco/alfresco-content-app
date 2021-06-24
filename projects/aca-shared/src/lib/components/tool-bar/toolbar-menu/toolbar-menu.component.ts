@@ -41,7 +41,8 @@ export class ToolbarMenuComponent {
   @Input()
   color: ThemePalette;
 
-  @ViewChild('matTrigger') matTrigger: MatMenuTrigger;
+  @ViewChild('matTrigger')
+  matTrigger: MatMenuTrigger;
 
   @HostListener('document:keydown.Escape')
   handleKeydownEscape() {
