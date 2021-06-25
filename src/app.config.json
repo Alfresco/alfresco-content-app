@@ -285,22 +285,38 @@
         {
           "mincount": 1,
           "field": "content.mimetype",
-          "label": "SEARCH.FACET_FIELDS.FILE_TYPE"
+          "label": "SEARCH.FACET_FIELDS.FILE_TYPE",
+          "settings": {
+            "allowUpdateOnChange": false,
+            "hideDefaultAction": true
+          }
         },
         {
           "mincount": 1,
           "field": "creator",
-          "label": "SEARCH.FACET_FIELDS.CREATOR"
+          "label": "SEARCH.FACET_FIELDS.CREATOR",
+          "settings": {
+            "allowUpdateOnChange": false,
+            "hideDefaultAction": true
+          }
         },
         {
           "mincount": 1,
           "field": "modifier",
-          "label": "SEARCH.FACET_FIELDS.MODIFIER"
+          "label": "SEARCH.FACET_FIELDS.MODIFIER",
+          "settings": {
+            "allowUpdateOnChange": false,
+            "hideDefaultAction": true
+          }
         },
         {
           "mincount": 1,
           "field": "SITE",
-          "label": "SEARCH.FACET_FIELDS.LOCATION"
+          "label": "SEARCH.FACET_FIELDS.LOCATION",
+          "settings": {
+            "allowUpdateOnChange": false,
+            "hideDefaultAction": true
+          }
         }
       ]
     },
@@ -328,7 +344,11 @@
           "label": "SEARCH.FACET_QUERIES.THIS_YEAR",
           "query": "cm:modified:[NOW/DAY-1YEAR TO NOW/DAY+1DAY]"
         }
-      ]
+      ],
+      "settings": {
+        "allowUpdateOnChange": false,
+        "hideDefaultAction": true
+      }
     },
     "categories": [
       {
@@ -338,6 +358,8 @@
         "component": {
           "selector": "check-list",
           "settings": {
+            "allowUpdateOnChange": false,
+            "hideDefaultAction": true,
             "options": [
               {
                 "name": "SEARCH.CATEGORIES.SIZE_OPTIONS.SMALL",
@@ -366,6 +388,8 @@
         "component": {
           "selector": "date-range",
           "settings": {
+            "allowUpdateOnChange": false,
+            "hideDefaultAction": true,
             "field": "cm:created",
             "dateFormat": "DD-MMM-YY",
             "maxDate": "today"

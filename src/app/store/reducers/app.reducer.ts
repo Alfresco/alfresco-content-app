@@ -28,7 +28,6 @@ import {
   AppState,
   AppActionTypes,
   NodeActionTypes,
-  SearchActionTypes,
   SetUserProfileAction,
   SetCurrentFolderAction,
   SetCurrentUrlAction,
@@ -87,15 +86,6 @@ export function appReducer(state: AppState = INITIAL_APP_STATE, action: Action):
     case AppActionTypes.SetRepositoryInfo:
       newState = updateRepositoryStatus(state, action as SetRepositoryInfoAction);
       break;
-    case SearchActionTypes.ToggleFilter:
-      newState = toggleSearchFilter(state);
-      break;
-    case SearchActionTypes.ShowFilter:
-      newState = showSearchFilter(state);
-      break;
-    case SearchActionTypes.HideFilter:
-      newState = hideSearchFilter(state);
-      break;
     case AppActionTypes.SetFileUploadingDialog:
       newState = setUploadDialogVisibility(state, action as SetFileUploadingDialogAction);
       break;
@@ -110,27 +100,6 @@ export function appReducer(state: AppState = INITIAL_APP_STATE, action: Action):
   }
 
   return newState;
-}
-
-function toggleSearchFilter(state: AppState): AppState {
-  return {
-    ...state,
-    showFacetFilter: !state.showFacetFilter
-  };
-}
-
-function hideSearchFilter(state: AppState): AppState {
-  return {
-    ...state,
-    showFacetFilter: false
-  };
-}
-
-function showSearchFilter(state: AppState): AppState {
-  return {
-    ...state,
-    showFacetFilter: true
-  };
 }
 
 function updateUser(state: AppState, action: SetUserProfileAction): AppState {
