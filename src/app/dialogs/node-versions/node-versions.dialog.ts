@@ -30,7 +30,6 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { NodeEntityEvent } from '@alfresco/adf-content-services';
 import { Router } from '@angular/router';
-import { FileUploadErrorEvent } from '@alfresco/adf-core';
 
 @Component({
   templateUrl: './node-versions.dialog.html',
@@ -45,7 +44,7 @@ export class NodeVersionsDialogComponent {
 
   /** Emitted when a version is restored or deleted. */
   @Output()
-  refreshEvent: EventEmitter<Node> = new EventEmitter<Node>();
+  refreshEvent = new EventEmitter<Node>();
 
   constructor(
     @Inject(MAT_DIALOG_DATA) data: any,
@@ -58,8 +57,7 @@ export class NodeVersionsDialogComponent {
     this.isTypeList = data.isTypeList !== undefined ? data.isTypeList : true;
   }
 
-  onUploadError(event: FileUploadErrorEvent) {
-    const errorMessage = event.error;
+  onUploadError(errorMessage: any) {
     this.store.dispatch(new SnackbarErrorAction(errorMessage));
   }
 
