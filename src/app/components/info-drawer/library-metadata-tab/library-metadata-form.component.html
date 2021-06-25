@@ -124,7 +124,7 @@
   </mat-card-content>
 
   <mat-card-actions align="end" *ngIf="edit && canUpdateLibrary">
-    <button mat-button color="secondary" (click)="cancel()">
+    <button mat-button (click)="cancel()">
       {{ 'LIBRARY.DIALOG.CANCEL' | translate }}
     </button>
     <button mat-button color="primary" [disabled]="form.invalid || form.pristine" (click)="update()">

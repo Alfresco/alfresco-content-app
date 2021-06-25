@@ -44,7 +44,7 @@ export class AppHeaderComponent implements OnInit {
   @Input() expandedSidenav = true;
 
   appName$: Observable<string>;
-  headerColor$: Observable<string>;
+  headerColor$: Observable<any>;
   logo$: Observable<string>;
 
   actions: Array<ContentActionRef> = [];

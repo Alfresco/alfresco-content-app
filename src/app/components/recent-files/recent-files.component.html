@@ -22,8 +22,8 @@
         [sorting]="['modifiedAt', 'desc']"
         sortingMode="client"
         [imageResolver]="imageResolver"
-        (node-dblclick)="onNodeDoubleClick($event.detail?.node)"
-        (name-click)="onNodeDoubleClick($event.detail?.node)"
+        (node-dblclick)="handleNodeClick($event)"
+        (name-click)="handleNodeClick($event)"
       >
         <adf-custom-empty-content-template>
           <adf-empty-content icon="access_time" [title]="'APP.BROWSE.RECENT.EMPTY_STATE.TITLE'" subtitle="APP.BROWSE.RECENT.EMPTY_STATE.TEXT">
@@ -31,7 +31,7 @@
         </adf-custom-empty-content-template>
 
         <data-columns>
-          <ng-container *ngFor="let column of columns; trackBy: trackById">
+          <ng-container *ngFor="let column of columns; trackBy: trackByColumnId">
             <ng-container *ngIf="column.template && !(column.desktopOnly && isSmallScreen)">
               <data-column
                 [key]="column.key"

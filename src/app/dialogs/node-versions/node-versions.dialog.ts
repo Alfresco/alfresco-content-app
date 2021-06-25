@@ -44,7 +44,7 @@ export class NodeVersionsDialogComponent {
 
   /** Emitted when a version is restored or deleted. */
   @Output()
-  refreshEvent: EventEmitter<Node> = new EventEmitter<Node>();
+  refreshEvent = new EventEmitter<Node>();
 
   constructor(
     @Inject(MAT_DIALOG_DATA) data: any,
@@ -57,7 +57,7 @@ export class NodeVersionsDialogComponent {
     this.isTypeList = data.isTypeList !== undefined ? data.isTypeList : true;
   }
 
-  onUploadError(errorMessage: string) {
+  onUploadError(errorMessage: any) {
     this.store.dispatch(new SnackbarErrorAction(errorMessage));
   }
 

@@ -75,4 +75,8 @@ export class SharedFilesComponent extends PageComponent implements OnInit {
   preview(node: MinimalNodeEntity) {
     this.showPreview(node, { location: this.router.url });
   }
+
+  handleNodeClick(event: Event) {
+    this.preview((event as CustomEvent).detail?.node);
+  }
 }

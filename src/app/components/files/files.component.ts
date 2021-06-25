@@ -193,6 +193,10 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     }
   }
 
+  handleNodeClick(event: Event) {
+    this.navigateTo((event as CustomEvent).detail?.node);
+  }
+
   onBreadcrumbNavigate(route: PathElementEntity) {
     this.documentList.resetNewFolderPagination();
 

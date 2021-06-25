@@ -11,7 +11,7 @@
 </button>
 
 <mat-menu #menu="matMenu" [overlapTrigger]="false">
-  <ng-container *ngFor="let child of actionRef.children; trackBy: trackById">
+  <ng-container *ngFor="let child of actionRef.children; trackBy: trackByActionId">
     <ng-container [ngSwitch]="child.type">
       <ng-container *ngSwitchCase="'custom'">
         <adf-dynamic-component [id]="child.component" [data]="child.data"></adf-dynamic-component>

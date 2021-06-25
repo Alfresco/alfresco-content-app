@@ -120,6 +120,11 @@ export class SettingsComponent implements OnInit {
     }
   }
 
+  onParamValueChanged(event: Event, param: SettingsParameterRef) {
+    const target = event.target as HTMLInputElement;
+    this.setParamValue(param, target.value);
+  }
+
   getBooleanParamValue(param: SettingsParameterRef): boolean {
     const result = this.storage.getItem(param.key);
     if (result) {

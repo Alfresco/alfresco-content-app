@@ -15,8 +15,8 @@
     [allowFullScreen]="false"
     [overlayMode]="true"
     (showViewerChange)="onViewerVisibilityChanged()"
-    [canNavigateBefore]="previousNodeId"
-    [canNavigateNext]="nextNodeId"
+    [canNavigateBefore]="!!previousNodeId"
+    [canNavigateNext]="!!nextNodeId"
     (navigateBefore)="onNavigateBefore($event)"
     (navigateNext)="onNavigateNext($event)"
   >
@@ -25,13 +25,13 @@
     </adf-viewer-sidebar>
 
     <adf-viewer-open-with *ngIf="openWith.length">
-      <ng-container *ngFor="let action of openWith; trackBy: trackById">
+      <ng-container *ngFor="let action of openWith; trackBy: trackByActionId">
         <app-toolbar-menu-item [actionRef]="action"></app-toolbar-menu-item>
       </ng-container>
     </adf-viewer-open-with>
 
     <adf-viewer-toolbar-actions>
-      <ng-container *ngFor="let action of toolbarActions; trackBy: trackById">
+      <ng-container *ngFor="let action of toolbarActions; trackBy: trackByActionId">
         <aca-toolbar-action [actionRef]="action"></aca-toolbar-action>
       </ng-container>
     </adf-viewer-toolbar-actions>

@@ -32,7 +32,7 @@ import { takeUntil } from 'rxjs/operators';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { ContextMenuOverlayRef } from './context-menu-overlay';
 import { CONTEXT_MENU_DIRECTION } from './direction.token';
-import { Directionality } from '@angular/cdk/bidi';
+import { Direction } from '@angular/cdk/bidi';
 import { AppExtensionService } from '@alfresco/aca-shared';
 
 @Component({
@@ -63,7 +63,7 @@ export class ContextMenuComponent implements OnInit, OnDestroy, AfterViewInit {
     private contextMenuOverlayRef: ContextMenuOverlayRef,
     private extensions: AppExtensionService,
     private store: Store<AppStore>,
-    @Inject(CONTEXT_MENU_DIRECTION) public direction: Directionality
+    @Inject(CONTEXT_MENU_DIRECTION) public direction: Direction
   ) {}
 
   onClickOutsideEvent() {
@@ -96,7 +96,7 @@ export class ContextMenuComponent implements OnInit, OnDestroy, AfterViewInit {
     setTimeout(() => this.trigger.openMenu(), 0);
   }
 
-  trackById(_: number, obj: { id: string }) {
+  trackByActionId(_: number, obj: ContentActionRef): string {
     return obj.id;
   }
 }

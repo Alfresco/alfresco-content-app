@@ -56,7 +56,7 @@ export class ToolbarMenuItemComponent {
     return !!(actionRef && actionRef.actions && actionRef.actions.click);
   }
 
-  trackById(_: number, obj: { id: string }) {
+  trackByActionId(_: number, obj: ContentActionRef): string {
     return obj.id;
   }
 }

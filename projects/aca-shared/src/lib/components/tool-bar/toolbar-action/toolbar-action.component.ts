@@ -25,6 +25,8 @@
 
 import { Component, ViewEncapsulation, ChangeDetectionStrategy, Input, DoCheck, ChangeDetectorRef } from '@angular/core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
+import { ToolbarButtonType } from '../toolbar-button/toolbar-button.component';
+import { ThemePalette } from '@angular/material/core';
 
 @Component({
   selector: 'aca-toolbar-action',
@@ -36,10 +38,10 @@ import { ContentActionRef } from '@alfresco/adf-extensions';
 })
 export class ToolbarActionComponent implements DoCheck {
   @Input()
-  type = 'icon-button';
+  type: ToolbarButtonType = ToolbarButtonType.ICON_BUTTON;
 
   @Input()
-  color = '';
+  color: ThemePalette;
 
   @Input()
   actionRef: ContentActionRef;

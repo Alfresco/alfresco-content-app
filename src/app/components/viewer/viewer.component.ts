@@ -200,7 +200,7 @@ export class AppViewerComponent implements OnInit, OnDestroy {
     this.onDestroy$.complete();
   }
 
-  trackById(_: number, obj: { id: string }) {
+  trackByActionId(_: number, obj: ContentActionRef): string {
     return obj.id;
   }
 

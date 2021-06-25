@@ -25,7 +25,7 @@
 
 import { DocumentListComponent, ShareDataRow } from '@alfresco/adf-content-services';
 import { ShowHeaderMode } from '@alfresco/adf-core';
-import { ContentActionRef, SelectionState } from '@alfresco/adf-extensions';
+import { ContentActionRef, DocumentListPresetRef, SelectionState } from '@alfresco/adf-extensions';
 import { OnDestroy, OnInit, OnChanges, ViewChild, SimpleChanges, Directive } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, NodePaging } from '@alfresco/js-api';
@@ -160,6 +160,10 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   trackById(_: number, obj: { id: string }) {
+    return obj.id;
+  }
+
+  trackByColumnId(_: number, obj: DocumentListPresetRef): string {
     return obj.id;
   }
 

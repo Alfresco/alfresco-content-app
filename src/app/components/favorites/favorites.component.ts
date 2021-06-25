@@ -101,4 +101,8 @@ export class FavoritesComponent extends PageComponent implements OnInit {
       }
     }
   }
+
+  handleNodeClick(event: Event) {
+    this.onNodeDoubleClick((event as CustomEvent).detail?.node);
+  }
 }

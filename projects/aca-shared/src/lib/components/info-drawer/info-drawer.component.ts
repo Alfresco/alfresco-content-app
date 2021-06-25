@@ -32,6 +32,7 @@ import { AppExtensionService } from '../../services/app.extension.service';
 import { ContentApiService } from '../../services/content-api.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { ThemePalette } from '@angular/material/core';
 @Component({
   selector: 'aca-info-drawer',
   templateUrl: './info-drawer.component.html'
@@ -97,6 +98,10 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
 
   trackByActionId(_: number, action: ContentActionRef) {
     return action.id;
+  }
+
+  getEntryColor(entry: any): ThemePalette {
+    return entry?.color;
   }
 
   private close() {

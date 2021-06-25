@@ -40,7 +40,7 @@ import {
   SnackbarErrorAction
 } from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../../services/content-management.service';
-import { TranslationService } from '@alfresco/adf-core';
+import { ShowHeaderMode, TranslationService } from '@alfresco/adf-core';
 import { combineLatest, Observable } from 'rxjs';
 import { AppExtensionService } from '@alfresco/aca-shared';
 import { takeUntil } from 'rxjs/operators';
@@ -65,6 +65,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   hasSelectedFilters = false;
   sorting = ['name', 'asc'];
   isLoading = false;
+  showHeader: ShowHeaderMode = ShowHeaderMode.Never;
 
   constructor(
     private queryBuilder: SearchQueryBuilderService,
@@ -255,6 +256,14 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
 
   onFormChange(form: SearchForm) {
     this.queryBuilder.updateSelectedConfiguration(form.index);
+  }
+
+  handleNodeClick(event: Event) {
+    this.onNodeDoubleClick((event as CustomEvent).detail?.node);
+  }
+
+  hideSearchFilter() {
+    return !this.totalResults && !this.hasSelectedFilters;
   }
 
   onPreviewClosed() {

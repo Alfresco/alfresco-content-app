@@ -72,4 +72,8 @@ export class LibrariesComponent extends PageComponent implements OnInit {
       this.store.dispatch(new NavigateLibraryAction(node.entry.guid));
     }
   }
+
+  handleNodeClick(event: Event) {
+    this.navigateTo((event as CustomEvent).detail?.node);
+  }
 }
