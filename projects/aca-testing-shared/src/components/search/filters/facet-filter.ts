@@ -24,29 +24,25 @@
  */
 
 import { ElementFinder, ElementArrayFinder, by, browser } from 'protractor';
-import { GenericFilterPanel } from './generic-filter-panel';
+import { GenericFilter } from './generic-filter';
 import { BrowserActions } from '@alfresco/adf-testing';
 
-export class FacetFilter extends GenericFilterPanel {
+export class FacetFilter extends GenericFilter {
   private readonly locators = {
-    checkbox: '.mat-checkbox',
-    checkboxChecked: '.mat-checkbox.mat-checkbox-checked',
-    button: '.adf-facet-buttons button',
-    categoryInput: 'input[data-automation-id^="facet-result-filter"]',
-    facetsFilter: '.adf-facet-result-filter'
+    checkbox: '.mat-menu-content .mat-checkbox',
+    checkboxChecked: '.mat-menu-content .mat-checkbox.mat-checkbox-checked',
+    categoryInput: '.mat-menu-content input[data-automation-id^="facet-result-filter"]',
+    facetsFilter: '.mat-menu-content .adf-facet-result-filter'
   };
 
   get facets(): ElementArrayFinder {
-    return this.panelExpanded.all(by.css(this.locators.checkbox));
+    return this.filterDialogOpened.all(by.css(this.locators.checkbox));
   }
   get selectedFacets(): ElementArrayFinder {
-    return this.panel.all(by.css(this.locators.checkboxChecked));
-  }
-  get clearButton(): ElementFinder {
-    return this.panel.element(by.cssContainingText(this.locators.button, 'Clear all'));
+    return this.filterDialogOpened.all(by.css(this.locators.checkboxChecked));
   }
   get facetsFilter(): ElementFinder {
-    return this.panelExpanded.element(by.css(this.locators.facetsFilter));
+    return this.filterDialogOpened.element(by.css(this.locators.facetsFilter));
   }
   get filterCategoryInput(): ElementFinder {
     return this.facetsFilter.element(by.css(this.locators.categoryInput));
@@ -66,26 +62,16 @@ export class FacetFilter extends GenericFilterPanel {
 
   async resetPanel(): Promise<void> {
     if ((await this.selectedFacets.count()) > 0) {
-      await this.expandPanel();
+      await this.openDialog();
       await this.selectedFacets.each(async (elem) => {
         await BrowserActions.click(elem);
       });
     }
-    await this.expandPanel();
+    await this.openDialog();
   }
 
   async isFilterFacetsDisplayed(): Promise<boolean> {
     return this.facetsFilter.isDisplayed();
-  }
-
-  async isClearButtonEnabled(): Promise<boolean> {
-    return this.clearButton.isEnabled();
-  }
-
-  async clickClearButton(): Promise<void> {
-    if (await this.isClearButtonEnabled()) {
-      await BrowserActions.click(this.clearButton);
-    }
   }
 
   async isFilterCategoryInputDisplayed(): Promise<boolean> {

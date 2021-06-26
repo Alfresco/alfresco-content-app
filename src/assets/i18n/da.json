@@ -179,7 +179,6 @@
         "UNKNOWN_LOCATION": "Ukendt",
         "NO_RESULTS": "Der blev ikke fundet nogen søgeresultater",
         "NO_FILTER_RESULTS": "Dit filter gav 0 resultater",
-        "TOGGLE_SEARCH_FILTER": "Slå søgefilter til/fra",
         "ERRORS": {
           "500": "Der opstod en fejl under behandling af søgeforespørgslen [500]",
           "GENERIC": "Der opstod en fejl under behandling af søgeforespørgslen"

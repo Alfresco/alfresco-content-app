@@ -179,7 +179,6 @@
         "UNKNOWN_LOCATION": "Neznámé",
         "NO_RESULTS": "Parametrům hledání odpovídá 0 výsledků",
         "NO_FILTER_RESULTS": "K vašemu filtru je 0 výsledků",
-        "TOGGLE_SEARCH_FILTER": "Přepnout filtr hledání",
         "ERRORS": {
           "500": "Při pokusu o zpracování dotazu hledání došlo k chybě [500]",
           "GENERIC": "Při pokusu o zpracování dotazu hledání došlo k chybě"
@@ -445,7 +444,7 @@
   },
   "INFO_PANEL": {
     "TABS": {
-    
+
         },
     "DETAILS": "Podrobnosti"
   },

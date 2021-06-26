@@ -179,7 +179,6 @@
         "UNKNOWN_LOCATION": "Ukjent",
         "NO_RESULTS": "Søket ditt ga 0 resultater",
         "NO_FILTER_RESULTS": "Filter ditt ga 0 resultater",
-        "TOGGLE_SEARCH_FILTER": "Aktiver/deaktiver søkefilter",
         "ERRORS": {
           "500": "Det oppstod en feil med behandling av søkespørringen [500]",
           "GENERIC": "Det oppstod en feil med behandling av søkespørringen"

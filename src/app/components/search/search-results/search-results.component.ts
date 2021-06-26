@@ -52,7 +52,6 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./search-results.component.scss']
 })
 export class SearchResultsComponent extends PageComponent implements OnInit {
-
   showFacetFilter$: Observable<boolean>;
   infoDrawerPreview$: Observable<boolean>;
 

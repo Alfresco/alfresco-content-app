@@ -179,7 +179,6 @@
         "UNKNOWN_LOCATION": "Tuntematon",
         "NO_RESULTS": "Hakusi ei tuottanut yhtään tulosta",
         "NO_FILTER_RESULTS": "Suodatin ei tuottanut yhtään tulosta",
-        "TOGGLE_SEARCH_FILTER": "Näytä tai piilota hakusuodatin",
         "ERRORS": {
           "500": "Hakusanan käsittelyssä tapahtui virhe [500]",
           "GENERIC": "Hakusanan käsittelyssä tapahtui virhe"

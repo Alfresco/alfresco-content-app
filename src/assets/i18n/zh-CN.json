@@ -179,7 +179,6 @@
         "UNKNOWN_LOCATION": "未知",
         "NO_RESULTS": "您的搜索返回了 0 个结果",
         "NO_FILTER_RESULTS": "您的筛选返回了 0 个结果",
-        "TOGGLE_SEARCH_FILTER": "切换搜索过滤器",
         "ERRORS": {
           "500": "处理搜索查询时发生错误 [500]",
           "GENERIC": "处理搜索查询时发生错误"

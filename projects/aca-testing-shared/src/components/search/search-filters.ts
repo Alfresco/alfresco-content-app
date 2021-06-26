@@ -32,7 +32,7 @@ import { isPresentAndDisplayed } from '../../utilities/utils';
 
 export class SearchFilters extends Component {
   mainPanel = browser.element(by.css('adf-search-filter'));
-  resetAllButton = this.byCssText('.mat-button', 'Reset all');
+  resetAllButton = browser.element(by.css('button[adf-reset-search]'));
 
   size = new SizeFilter();
   createdDate = new CreatedDateFilter();
