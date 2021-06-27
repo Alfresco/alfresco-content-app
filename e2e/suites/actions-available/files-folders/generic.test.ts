@@ -52,6 +52,7 @@ describe('Generic tests : ', () => {
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable, toolbar } = page;
+  const { searchInput } = page.header;
   const contextMenu = dataTable.menu;
 
   beforeAll(async () => {
@@ -148,6 +149,13 @@ describe('Generic tests : ', () => {
     it('[C280439] on Favorite Libraries', async () => {
       await page.goToFavoriteLibraries();
       expect(await toolbar.isEmpty()).toBe(true, `actions displayed though nothing selected`);
+    });
+
+    it('[C291815] on Search Results', async () => {
+      await searchInput.clickSearchButton();
+      await searchInput.searchFor('*');
+
+      expect(await toolbar.isEmpty()).toEqual(true);
     });
   });
 
