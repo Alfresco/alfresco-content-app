@@ -307,7 +307,7 @@ describe('Search filters', () => {
       await fileTypeFilter.openDialog();
       await fileTypeFilter.checkCategory('Adobe PDF Document');
       await fileTypeFilter.clickApplyButton();
-      await expect(await fileTypeFilter.getChipTitle()).toEqual('Adobe PDF Document');
+      expect(await fileTypeFilter.getChipTitle()).toEqual('Adobe PDF Document');
 
       expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(true, 'PDF file not displayed');
       expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(false, 'JPG file is displayed');
@@ -318,7 +318,7 @@ describe('Search filters', () => {
 
       expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(true, 'PDF file not displayed');
       expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, 'JPG file not displayed');
-      await expect(await fileTypeFilter.getChipTitle()).toEqual(['Adobe PDF Document', 'JPEG Image'].join(', '));
+      expect(await fileTypeFilter.getChipTitle()).toEqual(['Adobe PDF Document', 'JPEG Image'].join(', '));
     });
 
     it('[C279193] Clear the File type filter options', async () => {
@@ -335,7 +335,7 @@ describe('Search filters', () => {
 
       expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(true, 'PDF file not displayed');
       expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, 'JPG file not displayed');
-      await expect(await fileTypeFilter.getChipTitle()).toEqual('');
+      expect(await fileTypeFilter.getChipTitle()).toEqual('');
     });
 
     it('[C279195] Search for a specific file type', async () => {
@@ -379,7 +379,7 @@ describe('Search filters', () => {
 
       expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(true, 'PDF file not displayed');
       expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, 'JPG file not displayed');
-      await expect(await creatorFilter.getChipTitle()).toEqual(`${user1} ${user1}, ${user2} ${user2}`);
+      expect(await creatorFilter.getChipTitle()).toEqual(`${user1} ${user1}, ${user2} ${user2}`);
     });
 
     it('[C279207] Clear the Creator filter options', async () => {
@@ -432,7 +432,7 @@ describe('Search filters', () => {
 
       expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(false, 'PDF file is displayed');
       expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, 'JPG file not displayed');
-      await expect(await modifierFilter.getChipTitle()).toEqual(`${user1} ${user1}`, 'Incorrect File type filters facets');
+      expect(await modifierFilter.getChipTitle()).toEqual(`${user1} ${user1}`, 'Incorrect File type filters facets');
 
       await modifierFilter.openDialog();
       await modifierFilter.checkCategory(user2);
@@ -440,7 +440,7 @@ describe('Search filters', () => {
 
       expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(true, 'PDF file not displayed');
       expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, 'JPG file not displayed');
-      await expect(await modifierFilter.getChipTitle()).toEqual(`${user1} ${user1}, ${user2} ${user2}`, 'Incorrect modifier filters facets');
+      expect(await modifierFilter.getChipTitle()).toEqual(`${user1} ${user1}, ${user2} ${user2}`, 'Incorrect modifier filters facets');
     });
 
     it('[C279226] Clear the Modifier filter options', async () => {
@@ -495,7 +495,7 @@ describe('Search filters', () => {
 
       expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(false, 'PDF file is displayed');
       expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, 'JPG file not displayed');
-      await expect(await locationFilter.getChipTitle()).toEqual(site, 'Incorrect location filter selected');
+      expect(await locationFilter.getChipTitle()).toEqual(site, 'Incorrect location filter selected');
 
       await locationFilter.openDialog();
       await locationFilter.checkCategory('_REPOSITORY_');
@@ -503,7 +503,7 @@ describe('Search filters', () => {
 
       expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(true, 'PDF file not displayed');
       expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, 'JPG file not displayed');
-      await expect(await locationFilter.getChipTitle()).toEqual(`_REPOSITORY_, ${site}`, 'Incorrect location filter selected');
+      expect(await locationFilter.getChipTitle()).toEqual(`_REPOSITORY_, ${site}`, 'Incorrect location filter selected');
     });
 
     it('[C279232] Clear the Location filter options', async () => {
@@ -521,7 +521,7 @@ describe('Search filters', () => {
 
       expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(true, 'PDF file not displayed');
       expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, 'JPG file not displayed');
-      await expect(await locationFilter.getChipTitle()).toEqual('', 'Location selection not cleared');
+      expect(await locationFilter.getChipTitle()).toEqual('', 'Location selection not cleared');
     });
 
     it('[C279233] Search for a specific location', async () => {
@@ -579,7 +579,7 @@ describe('Search filters', () => {
       await modifiedDateFilter.checkCategory('This year');
       await modifiedDateFilter.clickApplyButton();
 
-      await expect(await modifiedDateFilter.getChipTitle()).toEqual(
+      expect(await modifiedDateFilter.getChipTitle()).toEqual(
         `Today, This week, This month, In the last 6 months, This year`,
         'Incorrect checked Modified date filters'
       );
@@ -587,7 +587,7 @@ describe('Search filters', () => {
       expect(await modifiedDateFilter.getFiltersCheckedValues()).toEqual(expectedDateFilters, 'Incorrect checked Modified date filters');
       await modifiedDateFilter.clickResetButton();
 
-      await expect(await modifiedDateFilter.getChipTitle()).toEqual('', 'Modified date selection not cleared');
+      expect(await modifiedDateFilter.getChipTitle()).toEqual('', 'Modified date selection not cleared');
     });
 
     it('[C325006] Search for a specific modified date option', async () => {
@@ -627,9 +627,9 @@ describe('Search filters', () => {
 
       expect(await dataTable.isItemPresent(filePdfUser2.name)).toBe(false, 'PDF file is displayed');
       expect(await dataTable.isItemPresent(fileJpgUser1.name)).toBe(true, 'JPG file not displayed');
-      await expect(await fileTypeFilter.getChipTitle()).toEqual('JPEG Image');
-      await expect(await creatorFilter.getChipTitle()).toEqual(`${user1} ${user1}`);
-      await expect(await locationFilter.getChipTitle()).toEqual(site);
+      expect(await fileTypeFilter.getChipTitle()).toEqual('JPEG Image');
+      expect(await creatorFilter.getChipTitle()).toEqual(`${user1} ${user1}`);
+      expect(await locationFilter.getChipTitle()).toEqual(site);
 
       await BrowserActions.click(filters.resetAllButton);
 
