@@ -23,24 +23,22 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, protractor } from 'protractor';
-import { GenericFilterPanel } from './generic-filter-panel';
+import { by, ElementFinder, protractor } from 'protractor';
+import { GenericFilter } from './generic-filter';
 import { isPresentAndDisplayed } from '../../../utilities/utils';
 import { BrowserActions } from '@alfresco/adf-testing';
 
-export class CreatedDateFilter extends GenericFilterPanel {
+export class CreatedDateFilter extends GenericFilter {
   constructor() {
     super('Created date');
   }
 
-  fromField: ElementFinder = this.panelExpanded.element(by.cssContainingText('.adf-search-date-range .mat-form-field', 'From'));
+  fromField: ElementFinder = this.filterDialogOpened.element(by.cssContainingText('.adf-search-date-range .mat-form-field', 'From'));
   fromInput: ElementFinder = this.fromField.element(by.css(`[data-automation-id='date-range-from-input']`));
   fromFieldError: ElementFinder = this.fromField.element(by.css(`[data-automation-id='date-range-from-error']`));
-  toField: ElementFinder = this.panelExpanded.element(by.cssContainingText('.adf-search-date-range .mat-form-field', 'To'));
+  toField: ElementFinder = this.filterDialogOpened.element(by.cssContainingText('.adf-search-date-range .mat-form-field', 'To'));
   toInput: ElementFinder = this.toField.element(by.css(`[data-automation-id='date-range-to-input']`));
   toFieldError: ElementFinder = this.toField.element(by.css(`[data-automation-id='date-range-to-error']`));
-  clearButton: ElementFinder = this.panel.element(by.css('.adf-facet-buttons [data-automation-id="date-range-clear-btn"]'));
-  applyButton: ElementFinder = this.panel.element(by.css('.adf-facet-buttons [data-automation-id="date-range-apply-btn"]'));
 
   async isFromFieldDisplayed(): Promise<boolean> {
     return isPresentAndDisplayed(this.fromField);
@@ -56,26 +54,6 @@ export class CreatedDateFilter extends GenericFilterPanel {
 
   async isToErrorDisplayed(): Promise<boolean> {
     return isPresentAndDisplayed(this.toFieldError);
-  }
-
-  async isClearButtonEnabled(): Promise<boolean> {
-    return this.clearButton.isEnabled();
-  }
-
-  async isApplyButtonEnabled(): Promise<boolean> {
-    return this.applyButton.isEnabled();
-  }
-
-  async clickClearButton(): Promise<void> {
-    if (await this.isClearButtonEnabled()) {
-      await BrowserActions.click(this.clearButton);
-    }
-  }
-
-  async clickApplyButton(): Promise<void> {
-    if (await this.isApplyButtonEnabled()) {
-      await BrowserActions.click(this.applyButton);
-    }
   }
 
   async getFromValue(): Promise<string> {
@@ -106,20 +84,20 @@ export class CreatedDateFilter extends GenericFilterPanel {
     const fromValue = await this.getFromValue();
     const toValue = await this.getToValue();
     if (fromValue.length > 0 || toValue.length > 0) {
-      await this.expandPanel();
-      await this.clickClearButton();
-      await this.collapsePanel();
+      await this.openDialog();
+      await this.clickResetButton();
+      await this.closeDialog();
     }
   }
 
   async enterFromDate(date: string): Promise<void> {
-    await this.expandPanel();
+    await this.openDialog();
     await BrowserActions.clearWithBackSpace(this.fromInput);
     await this.fromInput.sendKeys(date, protractor.Key.TAB);
   }
 
   async enterToDate(date: string): Promise<void> {
-    await this.expandPanel();
+    await this.openDialog();
     await BrowserActions.clearWithBackSpace(this.toInput);
     await this.toInput.sendKeys(date, protractor.Key.TAB);
   }

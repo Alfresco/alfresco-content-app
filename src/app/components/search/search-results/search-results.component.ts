@@ -23,10 +23,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MinimalNodeEntity, Pagination, ResultSetPaging } from '@alfresco/js-api';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { SearchFilterComponent, SearchForm, SearchQueryBuilderService } from '@alfresco/adf-content-services';
+import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { PageComponent } from '../../page.component';
 import { Store } from '@ngrx/store';
 import {
@@ -52,17 +52,12 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./search-results.component.scss']
 })
 export class SearchResultsComponent extends PageComponent implements OnInit {
-  @ViewChild('searchFilter', { static: true })
-  searchFilter: SearchFilterComponent;
-
   showFacetFilter$: Observable<boolean>;
   infoDrawerPreview$: Observable<boolean>;
 
   searchedWord: string;
   queryParamName = 'q';
   data: ResultSetPaging;
-  totalResults = 0;
-  hasSelectedFilters = false;
   sorting = ['name', 'asc'];
   isLoading = false;
   showHeader: ShowHeaderMode = ShowHeaderMode.Never;
@@ -205,24 +200,6 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
 
   onSearchResultLoaded(nodePaging: ResultSetPaging) {
     this.data = nodePaging;
-    this.totalResults = this.getNumberOfResults();
-    this.hasSelectedFilters = this.isFiltered();
-  }
-
-  getNumberOfResults() {
-    if (this.data && this.data.list && this.data.list.pagination) {
-      return this.data.list.pagination.totalItems;
-    }
-    return 0;
-  }
-
-  isFiltered(): boolean {
-    return this.searchFilter.selectedBuckets.length > 0 || this.hasCheckedCategories();
-  }
-
-  hasCheckedCategories() {
-    const checkedCategory = this.queryBuilder.categories.find((category) => !!this.queryBuilder.queryFragments[category.id]);
-    return !!checkedCategory;
   }
 
   onPaginationChanged(pagination: Pagination) {
@@ -254,16 +231,8 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     }
   }
 
-  onFormChange(form: SearchForm) {
-    this.queryBuilder.updateSelectedConfiguration(form.index);
-  }
-
   handleNodeClick(event: Event) {
     this.onNodeDoubleClick((event as CustomEvent).detail?.node);
-  }
-
-  hideSearchFilter() {
-    return !this.totalResults && !this.hasSelectedFilters;
   }
 
   onPreviewClosed() {

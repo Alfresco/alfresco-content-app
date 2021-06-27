@@ -179,7 +179,6 @@
         "UNKNOWN_LOCATION": "不明",
         "NO_RESULTS": "検索結果は 0 件です",
         "NO_FILTER_RESULTS": "フィルタによる検索結果は 0 件です",
-        "TOGGLE_SEARCH_FILTER": "検索フィルタを切り替えます",
         "ERRORS": {
           "500": "検索クエリの処理中にエラーが発生しました [500]",
           "GENERIC": "検索クエリの処理中にエラーが発生しました"

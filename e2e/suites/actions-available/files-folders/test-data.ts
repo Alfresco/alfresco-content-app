@@ -382,8 +382,8 @@ const searchDocxContextMenu = [
   'Edit Aspects',
   'Permissions'
 ];
-const searchToolbarPrimary = ['Toggle search filter', 'Share', 'Download', 'View', 'View Details', 'More Actions'];
-const searchSharedToolbarPrimary = ['Toggle search filter', 'Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
+const searchToolbarPrimary = ['Share', 'Download', 'View', 'View Details', 'More Actions'];
+const searchSharedToolbarPrimary = ['Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
 const searchFavLockedToolbarMore = ['Cancel Editing', 'Upload New Version', 'Remove Favorite', 'Copy', 'Manage Versions', 'Permissions'];
 const searchSharedFavLockedContextMenu = [
   'Shared Link Settings',
@@ -818,7 +818,7 @@ const favoritesFolderFavContextMenu = ['Download', 'Edit', 'Remove Favorite', 'M
 const favoritesFolderFavToolbarMore = ['Edit', 'Remove Favorite', 'Move', 'Copy', 'Delete'];
 
 const searchFolderContextMenu = ['Download', 'Edit', 'Favorite', 'Copy', 'Edit Aspects', 'Permissions'];
-const searchFolderToolbarPrimary = ['Toggle search filter', 'Download', 'View Details', 'More Actions'];
+const searchFolderToolbarPrimary = ['Download', 'View Details', 'More Actions'];
 const searchFolderToolbarMore = ['Edit', 'Favorite', 'Copy', 'Edit Aspects', 'Permissions'];
 const searchFolderFavContextMenu = ['Download', 'Edit', 'Remove Favorite', 'Copy', 'Edit Aspects', 'Permissions'];
 const searchFolderFavToolbarMore = ['Edit', 'Remove Favorite', 'Copy', 'Edit Aspects', 'Permissions'];
@@ -887,7 +887,7 @@ const favoritesMultipleSelAllFavToolbarMore = ['Remove Favorite', 'Move', 'Copy'
 const searchMultipleSelContextMenu = ['Download', 'Favorite', 'Copy', 'Permissions'];
 // TODO: raise issue to remove 'Permissions'
 const searchMultipleSelAllFavContextMenu = ['Download', 'Remove Favorite', 'Copy', 'Permissions'];
-const searchMultipleSelToolbarPrimary = ['Toggle search filter', 'Download', 'View Details', 'More Actions'];
+const searchMultipleSelToolbarPrimary = ['Download', 'View Details', 'More Actions'];
 // TODO: raise issue to remove 'Permissions'
 const searchMultipleSelToolbarMore = ['Favorite', 'Copy', 'Permissions'];
 // TODO: raise issue to remove 'Permissions'

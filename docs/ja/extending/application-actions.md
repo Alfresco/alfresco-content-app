@@ -119,9 +119,6 @@ export class MyService {
 | 1.7.0   | FULLSCREEN_VIEWER      | n/a                 | ビューアで開いたファイルを表示するために、フルスクリーンモードを開始します。                                  |
 | 1.7.0   | LOGOUT                 | n/a                 | ログアウトして、ログイン画面にリダイレクトします。                                                           |
 | 1.7.0   | RELOAD_DOCUMENT_LIST   | n/a                 | アクティブなドキュメントリストを再読み込みします。                                                                     |
-| 1.7.0   | TOGGLE_SEARCH_FILTER   | n/a                 | 検索結果のフィルターコンポーネントの表示を切り替えます。                                          |
-| 1.7.0   | SHOW_SEARCH_FILTER     | n/a                 | 検索結果にフィルターコンポーネントを表示します。                                                       |
-| 1.7.0   | HIDE_SEARCH_FILTER     | n/a                 | 検索結果でフィルターコンポーネントを非表示にします                                                         |
 | 1.8.0   | VIEW_NODE              | string              | ID によるノードの軽量プレビュー。拡張機能から呼び出すことができます。                            |
 | 1.8.0   | CLOSE_PREVIEW          | n/a                 | ビューア (アイテムのプレビュー) を閉じます。                                                       |
 | 1.9.0   | RESET_SELECTION        | n/a                 | アクティブなドキュメントリストの選択をリセットします                                                           |

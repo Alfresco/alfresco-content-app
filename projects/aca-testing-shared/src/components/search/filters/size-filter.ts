@@ -23,18 +23,17 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, ElementArrayFinder } from 'protractor';
-import { GenericFilterPanel } from './generic-filter-panel';
+import { by, ElementArrayFinder } from 'protractor';
+import { GenericFilter } from './generic-filter';
 import { BrowserActions } from '@alfresco/adf-testing';
 
-export class SizeFilter extends GenericFilterPanel {
+export class SizeFilter extends GenericFilter {
   constructor() {
     super('Size');
   }
 
-  facets: ElementArrayFinder = this.panelExpanded.all(by.css('.mat-checkbox'));
-  selectedFacets: ElementArrayFinder = this.panel.all(by.css('.mat-checkbox.mat-checkbox-checked'));
-  clearButton: ElementFinder = this.panel.element(by.cssContainingText('.adf-facet-buttons button', 'Clear all'));
+  facets: ElementArrayFinder = this.filterDialogOpened.all(by.css('.mat-checkbox'));
+  selectedFacets: ElementArrayFinder = this.filterDialogOpened.all(by.css('.mat-checkbox.mat-checkbox-checked'));
 
   async getFiltersValues(): Promise<string[]> {
     return this.facets.map((option) => {
@@ -50,22 +49,12 @@ export class SizeFilter extends GenericFilterPanel {
 
   async resetPanel(): Promise<void> {
     if ((await this.selectedFacets.count()) > 0) {
-      await this.expandPanel();
+      await this.openDialog();
       await this.selectedFacets.each(async (elem) => {
         await BrowserActions.click(elem);
       });
     }
-    await this.collapsePanel();
-  }
-
-  async isClearButtonEnabled(): Promise<boolean> {
-    return this.clearButton.isEnabled();
-  }
-
-  async clickClearButton(): Promise<void> {
-    if (await this.isClearButtonEnabled()) {
-      await BrowserActions.click(this.clearButton);
-    }
+    await this.closeDialog();
   }
 
   async checkSizeSmall(): Promise<void> {

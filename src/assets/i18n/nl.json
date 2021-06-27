@@ -179,7 +179,6 @@
         "UNKNOWN_LOCATION": "Onbekend",
         "NO_RESULTS": "Uw zoekopdracht heeft 0 resultaten opgeleverd",
         "NO_FILTER_RESULTS": "Uw filter heeft 0 resultaten opgeleverd",
-        "TOGGLE_SEARCH_FILTER": "Zoekfilter in- of uitschakelen",
         "ERRORS": {
           "500": "Er is een fout opgetreden bij het verwerken van de zoekquery [500]",
           "GENERIC": "Er is een fout opgetreden bij het verwerken van de zoekquery"

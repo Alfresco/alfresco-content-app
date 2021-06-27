@@ -181,7 +181,6 @@
                 "NO_RESULTS": "Your search returned 0 results",
                 "EMPTY_SEARCH": "Search term required",
                 "NO_FILTER_RESULTS": "Your filter returned 0 results",
-                "TOGGLE_SEARCH_FILTER": "Toggle search filter",
                 "ERRORS": {
                     "500": "There was an error processing the search query [500]",
                     "GENERIC": "There was an error processing the search query"

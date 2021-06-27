@@ -11,13 +11,6 @@
   <aca-page-layout-content>
     <div class="main-content">
       <div class="adf-search-results">
-        <adf-search-filter
-          #searchFilter
-          [ngClass]="{
-            'adf-search-filter--hidden':
-            !(showFacetFilter$ | async)
-          }"
-        ></adf-search-filter>
         <div class="adf-search-results__content">
           <mat-progress-bar
             *ngIf="isLoading"
@@ -26,37 +19,15 @@
           >
           </mat-progress-bar>
           <div class="adf-search-results__content-header content">
-            <adf-search-form (formChange)="onFormChange($event)"></adf-search-form>
-            <div class="content__side--left">
-              <div
-                class="adf-search-results--info-text"
-                *ngIf="totalResults !== 1"
-              >
-                {{
-                  'APP.BROWSE.SEARCH.FOUND_RESULTS'
-                    | translate: { number: totalResults }
-                }}
-              </div>
-              <div
-                class="adf-search-results--info-text"
-                *ngIf="totalResults === 1"
-              >
-                {{
-                  'APP.BROWSE.SEARCH.FOUND_ONE_RESULT'
-                    | translate: { number: totalResults }
-                }}
-              </div>
+            <adf-search-form class="content__side--left"></adf-search-form>
 
-              <div class="adf-search-results__facets">
-                <adf-search-chip-list
-                  [searchFilter]="searchFilter"
-                ></adf-search-chip-list>
-              </div>
-            </div>
+            <mat-divider [vertical]="true" class="content__divider"></mat-divider>
 
-            <adf-search-sorting-picker
-              class="content__side--right"
-            ></adf-search-sorting-picker>
+            <adf-search-filter-chips class="content__filter"></adf-search-filter-chips>
+
+            <button mat-button adf-reset-search class='content__reset-action'><mat-icon> refresh </mat-icon></button>
+
+            <adf-search-sorting-picker class="content__sort-picker"></adf-search-sorting-picker>
           </div>
 
           <adf-document-list

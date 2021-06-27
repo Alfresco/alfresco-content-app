@@ -179,7 +179,6 @@
         "UNKNOWN_LOCATION": "Nieznane",
         "NO_RESULTS": "Wyszukiwanie nie zwróciło żadnych wyników",
         "NO_FILTER_RESULTS": "Filtr zwrócił 0 wyników",
-        "TOGGLE_SEARCH_FILTER": "Przełącz filtr wyszukiwania",
         "ERRORS": {
           "500": "Podczas przetwarzania zapytania wyszukiwania wystąpił błąd [500]",
           "GENERIC": "Podczas przetwarzania zapytania wyszukiwania wystąpił błąd"

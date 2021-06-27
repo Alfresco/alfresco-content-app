@@ -37,8 +37,8 @@ const consumerSharedFavContextMenu = ['Shared Link Settings', 'Download', 'View'
 const consumerToolbarPrimary = ['Share', 'Download', 'View', 'View Details', 'More Actions'];
 const consumerSharedToolbarPrimary = ['Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
 
-const searchConsumerToolbarPrimary = ['Toggle search filter', 'Share', 'Download', 'View', 'View Details', 'More Actions'];
-const searchConsumerSharedToolbarPrimary = ['Toggle search filter', 'Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
+const searchConsumerToolbarPrimary = ['Share', 'Download', 'View', 'View Details', 'More Actions'];
+const searchConsumerSharedToolbarPrimary = ['Shared Link Settings', 'Download', 'View', 'View Details', 'More Actions'];
 
 const consumerToolbarMore = ['Favorite', 'Copy', 'Manage Versions'];
 const consumerFavToolbarMore = ['Remove Favorite', 'Copy', 'Manage Versions'];
@@ -323,7 +323,7 @@ export const fileLockedByUser = `file-${random}-my-locked.txt`;
 const consumerFolderContextMenu = ['Download', 'Favorite', 'Copy'];
 const consumerFolderToolbarPrimary = ['Download', 'View Details', 'More Actions'];
 const consumerFolderToolbarMore = ['Favorite', 'Copy'];
-const searchConsumerFolderToolbarPrimary = ['Toggle search filter', 'Download', 'View Details', 'More Actions'];
+const searchConsumerFolderToolbarPrimary = ['Download', 'View Details', 'More Actions'];
 const consumerFolderFavContextMenu = ['Download', 'Remove Favorite', 'Copy'];
 const consumerFolderFavToolbarMore = ['Remove Favorite', 'Copy'];
 
@@ -369,7 +369,7 @@ const multipleSelAllFavContextMenu = ['Download', 'Remove Favorite', 'Copy'];
 const multipleSelToolbarPrimary = ['Download', 'View Details', 'More Actions'];
 const multipleSelToolbarMore = ['Favorite', 'Copy'];
 const multipleSelAllFavToolbarMore = ['Remove Favorite', 'Copy'];
-const searchMultipleSelToolbarPrimary = ['Toggle search filter', 'Download', 'View Details', 'More Actions'];
+const searchMultipleSelToolbarPrimary = ['Download', 'View Details', 'More Actions'];
 
 // ---- FAVORITES workarounds ----
 

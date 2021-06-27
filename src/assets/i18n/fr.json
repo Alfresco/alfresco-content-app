@@ -179,7 +179,6 @@
         "UNKNOWN_LOCATION": "Inconnu",
         "NO_RESULTS": "Votre recherche a renvoyé 0 résultat",
         "NO_FILTER_RESULTS": "Votre filtre a renvoyé 0 résultat",
-        "TOGGLE_SEARCH_FILTER": "Activer/désactiver le filtre de recherche",
         "ERRORS": {
           "500": "Une erreur s'est produite lors du traitement de la requête [500]",
           "GENERIC": "Une erreur s'est produite lors du traitement de la requête"

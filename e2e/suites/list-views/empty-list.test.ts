@@ -23,13 +23,12 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AdminActions, LoginPage, BrowsingPage, SearchResultsPage, Utils } from '@alfresco/aca-testing-shared';
+import { AdminActions, BrowsingPage, LoginPage, Utils } from '@alfresco/aca-testing-shared';
 
 describe('Empty list views', () => {
   const username = `user-${Utils.random()}`;
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
-  const searchResultsPage = new SearchResultsPage();
   const { dataTable, pagination } = page;
   const { searchInput } = page.header;
   const adminApiActions = new AdminActions();
@@ -148,15 +147,6 @@ describe('Empty list views', () => {
     expect(await pagination.isTotalPagesPresent()).toBe(false, 'Total pages is present');
     expect(await pagination.isPreviousButtonPresent()).toBe(false, 'Previous button is present');
     expect(await pagination.isNextButtonPresent()).toBe(false, 'Next button is present');
-  });
-
-  it('[C279189] Search filters panel is displayed on empty Search Results page', async () => {
-    await searchInput.clickSearchButton();
-    /* cspell:disable-next-line */
-    await searchInput.searchFor('qwertyuiop');
-    await dataTable.waitForBody();
-
-    expect(await searchResultsPage.filters.isSearchFiltersPanelDisplayed()).toBe(true, 'Search filters panel is not present');
   });
 
   it('[C290020] Empty Search results - Libraries', async () => {

@@ -290,18 +290,6 @@
     ],
     "toolbar": [
       {
-        "id": "app.toolbar.searchFilter",
-        "order": 50,
-        "title": "APP.BROWSE.SEARCH.TOGGLE_SEARCH_FILTER",
-        "icon": "view_list",
-        "actions": {
-          "click": "TOGGLE_SEARCH_FILTER"
-        },
-        "rules": {
-          "visible": "app.navigation.isSearchResults"
-        }
-      },
-      {
         "id": "app.toolbar.share",
         "type": "custom",
         "order": 100,

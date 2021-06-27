@@ -71,18 +71,31 @@
   }
 
   .content {
-    @include flex-row;
-    flex: unset;
-    height: unset;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    flex-wrap: wrap;
+    box-sizing: border-box;
+    display: flex;
+    place-content: flex-start space-between;
+    align-items: flex-start;
+    padding: 16px 12px;
 
-    &__side--left {
-      @include flex-column;
-      height: unset;
-      padding-right: 15px;
-      padding-left: 15px;
+    &__button {
+      padding: 0 12px;
+    }
+
+    &__divider {
+      height: 100%;
+    }
+
+    &__filter {
+      padding: 0 12px;
+      flex: 1 1 auto;
+    }
+
+    &__reset-action {
+      line-height: 33px;
+    }
+
+    &__sort-picker {
+      min-width: 220px;
     }
   }
 

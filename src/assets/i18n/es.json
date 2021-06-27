@@ -179,7 +179,6 @@
         "UNKNOWN_LOCATION": "Desconocido",
         "NO_RESULTS": "Su búsqueda arrojó 0 resultados",
         "NO_FILTER_RESULTS": "Su filtro ha devuelto 0 resultados",
-        "TOGGLE_SEARCH_FILTER": "Alternar filtro de búsqueda",
         "ERRORS": {
           "500": "Error al procesar la consulta de búsqueda [500]",
           "GENERIC": "Error al procesar la consulta de búsqueda"

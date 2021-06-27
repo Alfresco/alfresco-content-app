@@ -179,7 +179,6 @@
         "UNKNOWN_LOCATION": "Sconosciuto",
         "NO_RESULTS": "La ricerca ha restituito 0 risultati",
         "NO_FILTER_RESULTS": "Il filtro ha restituito 0 risultati",
-        "TOGGLE_SEARCH_FILTER": "Attiva filtro di ricerca",
         "ERRORS": {
           "500": "Si è verificato un errore di elaborazione della query di ricerca [500]",
           "GENERIC": "Si è verificato un errore di elaborazione della query di ricerca"

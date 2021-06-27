@@ -179,7 +179,6 @@
         "UNKNOWN_LOCATION": "Okänd",
         "NO_RESULTS": "Din sökning gav inga resultat",
         "NO_FILTER_RESULTS": "Ditt filter gav inga resultat",
-        "TOGGLE_SEARCH_FILTER": "Växla sökfilter",
         "ERRORS": {
           "500": "Det uppstod ett fel när sökförfrågan behandlades [500]",
           "GENERIC": "Det uppstod ett fel när sökförfrågan behandlades"

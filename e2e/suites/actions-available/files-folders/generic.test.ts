@@ -155,7 +155,7 @@ describe('Generic tests : ', () => {
       await searchInput.clickSearchButton();
       await searchInput.searchFor('*');
 
-      expect(await toolbar.getButtons()).toEqual(['Toggle search filter']);
+      expect(await toolbar.isEmpty()).toEqual(true);
     });
   });
 
