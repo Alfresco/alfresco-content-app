@@ -47,7 +47,7 @@ import {
   ExtensionRef,
   RuleContext,
   DocumentListPresetRef,
-  IconRef
+  IconRef, mergeArrays
 } from '@alfresco/adf-extensions';
 import { AppConfigService, AuthenticationService, LogService } from '@alfresco/adf-core';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -73,6 +73,7 @@ export class AppExtensionService implements RuleContext {
   sidebarTabs: Array<SidebarTabRef> = [];
   sidebarActions: Array<ContentActionRef> = [];
   contentMetadata: any;
+  search: any;
   viewerRules: ViewerRules = {};
   settingGroups: Array<SettingsGroupRef> = [];
 
@@ -150,6 +151,7 @@ export class AppExtensionService implements RuleContext {
     this.navbar = this.loadNavBar(config);
     this.sidebarTabs = this.loader.getElements<SidebarTabRef>(config, 'features.sidebar.tabs');
     this.contentMetadata = this.loadContentMetadata(config);
+    this.search = this.loadSearchForms(config);
 
     this.documentListPresets = {
       files: this.getDocumentListPreset(config, 'files'),
@@ -284,6 +286,23 @@ export class AppExtensionService implements RuleContext {
     }
 
     return { presets };
+  }
+
+  loadSearchForms(config: ExtensionConfig): any {
+    const elements = this.loader.getElements<any>(config, 'features.search');
+    if (!elements.length) {
+      return null;
+    }
+
+    let search = [];
+    search = mergeArrays(search, elements).filter((entry) => !entry.disabled).sort(sortByOrder);
+
+    try {
+      this.appConfig.config['search'] = search;
+    } catch (error) {
+      this.logger.error(error, '- could not change search from app.config -');
+    }
+    return search;
   }
 
   filterDisabled(object: Array<{ disabled: boolean }> | { disabled: boolean }) {
