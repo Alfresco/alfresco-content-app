@@ -4,7 +4,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 PROJECT_AFFECTED=$1
 cd $DIR/../../../
 
-npm run build.release
+npm ci && npm run build.release
 
 # Get Tag Image
 TAG_VERSION=$(./scripts/travis/deploy/get-docker-image-tag-name.sh)
