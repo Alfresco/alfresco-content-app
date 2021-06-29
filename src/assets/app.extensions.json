@@ -928,6 +928,9 @@
               "id": "app.viewer.toggleLock",
               "order": 100,
               "type": "custom",
+              "data": {
+                "reload": true
+              },
               "component": "app.toolbar.toggleEditOffline",
               "rules": {
                 "visible": "canToggleEditOffline"

@@ -23,9 +23,9 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AppStore, DownloadNodesAction, EditOfflineAction, SnackbarErrorAction, getAppSelection } from '@alfresco/aca-shared/store';
+import { AppStore, DownloadNodesAction, EditOfflineAction, SnackbarErrorAction, getAppSelection, ReloadDocumentListAction } from '@alfresco/aca-shared/store';
 import { MinimalNodeEntity, NodeEntry, SharedLinkEntry, Node } from '@alfresco/js-api';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { isLocked } from '@alfresco/aca-shared';
 import { AlfrescoApiService } from '@alfresco/adf-core';
@@ -53,6 +53,7 @@ import { AlfrescoApiService } from '@alfresco/adf-core';
   host: { class: 'app-toggle-edit-offline' }
 })
 export class ToggleEditOfflineComponent implements OnInit {
+  @Input() data: any;
   selection: MinimalNodeEntity;
 
   constructor(private store: Store<AppStore>, private alfrescoApiService: AlfrescoApiService) {}
@@ -69,6 +70,7 @@ export class ToggleEditOfflineComponent implements OnInit {
 
   async onClick() {
     await this.toggleLock(this.selection);
+    this.reload();
   }
 
   private async toggleLock(node: NodeEntry | SharedLinkEntry) {
@@ -121,6 +123,12 @@ export class ToggleEditOfflineComponent implements OnInit {
 
   unlockNode(nodeId: string) {
     return this.alfrescoApiService.nodesApi.unlockNode(nodeId);
+  }
+
+  private reload() {
+    if (this.data?.reload) {
+      this.store.dispatch(new ReloadDocumentListAction());
+    }
   }
 
   private update(data: Node) {
