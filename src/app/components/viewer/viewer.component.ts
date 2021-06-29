@@ -30,7 +30,6 @@ import {
   getRuleContext,
   isInfoDrawerOpened,
   RefreshPreviewAction,
-  ReloadDocumentListAction,
   SetCurrentNodeVersionAction,
   SetSelectedNodesAction,
   ViewerActionTypes,
@@ -190,7 +189,6 @@ export class AppViewerComponent implements OnInit, OnDestroy {
   }
 
   onViewerVisibilityChanged() {
-    this.store.dispatch(new ReloadDocumentListAction());
     this.navigateToFileLocation();
   }
 
