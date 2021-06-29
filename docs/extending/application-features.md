@@ -712,7 +712,7 @@ Settings them from custom plugins allows user to disable, update or extend.
 ```json
   {
     "search": {        
-      "id": "app.sidebar.preview",
+      "id": "app.search-extension",
       "order": 100,
       "name": "APP.BROWSE.SEARCH.DEFAULT_SEARCH",
       "default": true,
