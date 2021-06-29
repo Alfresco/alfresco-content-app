@@ -15,6 +15,7 @@ The ACA supports the following set of extension points:
 - Viewer
 - Sidebar (aka Info Drawer)
 - Content metadata presets (for `Properties` tab)
+- Search
 
 All the customizations are stored in the `features` section of the configuration file:
 
@@ -699,3 +700,202 @@ Here is the initial setting from `app.extension.json`:
 
 **Tip:** In order to allow the content-metadata presets to be extended, the settings from `app.config.json` must be copied to the `app.extensions.json` file and its ids must be added to all the items.
 Having ids allows external plugins to extend the current setting.
+
+## Search
+
+The search configurations are needed by the [Search Filter Component](https://www.alfresco.com/abn/adf/docs/content-services/components/search-filter.component/) to render the filters.
+This is can be configured either in `app.config.json` or `app.extensions.json`. 
+
+Configuring search from `app.extensions.json` will overwrite/update the application search.
+Settings them from custom plugins allows user to disable, update or extend.
+
+```json
+  {
+    "search": {        
+      "id": "app.sidebar.preview",
+      "order": 100,
+      "name": "APP.BROWSE.SEARCH.DEFAULT_SEARCH",
+      "default": true,
+      "filterWithContains": true,
+      "aca:fields": ["cm:name", "cm:title", "cm:description", "TEXT", "TAG"],
+      "include": ["path", "allowableOperations", "properties"],
+      "sorting": {
+        "options": [
+          {
+            "key": "score",
+            "label": "SEARCH.SORT.RELEVANCE",
+            "type": "SCORE",
+            "field": "score",
+            "ascending": false
+          },
+          {
+            "key": "name",
+            "label": "SEARCH.SORT.FILENAME",
+            "type": "FIELD",
+            "field": "cm:name",
+            "ascending": true
+          },
+          {
+            "key": "title",
+            "label": "SEARCH.SORT.TITLE",
+            "type": "FIELD",
+            "field": "cm:title",
+            "ascending": true
+          },
+          {
+            "key": "modified",
+            "label": "SEARCH.SORT.MODIFIED_DATE",
+            "type": "FIELD",
+            "field": "cm:modified",
+            "ascending": true
+          },
+          {
+            "key": "modifier",
+            "label": "SEARCH.SORT.MODIFIER",
+            "type": "FIELD",
+            "field": "cm:modifier",
+            "ascending": true
+          },
+          {
+            "key": "created",
+            "label": "SEARCH.SORT.CREATE_DATE",
+            "type": "FIELD",
+            "field": "cm:created",
+            "ascending": true
+          },
+          {
+            "key": "content.sizeInBytes",
+            "label": "SEARCH.SORT.SIZE",
+            "type": "FIELD",
+            "field": "content.size",
+            "ascending": true
+          },
+          {
+            "key": "content.mimetype",
+            "label": "SEARCH.SORT.TYPE",
+            "type": "FIELD",
+            "field": "content.mimetype",
+            "ascending": true
+          }
+        ],
+        "defaults": [
+          {
+            "key": "score",
+            "type": "SCORE",
+            "field": "score",
+            "ascending": false
+          }
+        ]
+      },
+      "aca:triggeredOnChange": false,
+      "resetButton": true,
+      "filterQueries": [
+        { "query": "+TYPE:'cm:folder' OR +TYPE:'cm:content'" },
+        {
+          "query": "-TYPE:'cm:thumbnail' AND -TYPE:'cm:failedThumbnail' AND -TYPE:'cm:rating'"
+        },
+        { "query": "-cm:creator:System AND -QNAME:comment" },
+        {
+          "query": "-TYPE:'st:site' AND -ASPECT:'st:siteContainer' AND -ASPECT:'sys:hidden'"
+        },
+        {
+          "query": "-TYPE:'dl:dataList' AND -TYPE:'dl:todoList' AND -TYPE:'dl:issue'"
+        },
+        { "query": "-TYPE:'fm:topic' AND -TYPE:'fm:post'" },
+        { "query": "-TYPE:'lnk:link'" },
+        { "query": "-PNAME:'0/wiki'" }
+      ],
+      "facetFields": {
+        "expanded": true,
+        "fields": [
+          {
+            "mincount": 1,
+            "field": "content.mimetype",
+            "label": "SEARCH.FACET_FIELDS.FILE_TYPE",
+            "settings": {
+              "allowUpdateOnChange": false,
+              "hideDefaultAction": true
+            }
+          }
+        ]
+      },
+      "facetQueries": {
+        "label": "SEARCH.CATEGORIES.MODIFIED_DATE",
+        "expanded": true,
+        "queries": [
+          {
+            "label": "SEARCH.FACET_QUERIES.TODAY",
+            "query": "cm:modified:[TODAY to TODAY]"
+          },
+          {
+            "label": "SEARCH.FACET_QUERIES.THIS_WEEK",
+            "query": "cm:modified:[NOW/DAY-7DAYS TO NOW/DAY+1DAY]"
+          },
+          {
+            "label": "SEARCH.FACET_QUERIES.THIS_MONTH",
+            "query": "cm:modified:[NOW/DAY-1MONTH TO NOW/DAY+1DAY]"
+          },
+          {
+            "label": "SEARCH.FACET_QUERIES.LAST_6_MONTHS",
+            "query": "cm:modified:[NOW/DAY-6MONTHS TO NOW/DAY+1DAY]"
+          },
+          {
+            "label": "SEARCH.FACET_QUERIES.THIS_YEAR",
+            "query": "cm:modified:[NOW/DAY-1YEAR TO NOW/DAY+1DAY]"
+          }
+        ],
+        "settings": {
+          "allowUpdateOnChange": false,
+          "hideDefaultAction": true
+        }
+      },
+      "categories": [
+        {
+          "id": "size",
+          "name": "SEARCH.CATEGORIES.SIZE",
+          "enabled": true,
+          "component": {
+            "selector": "check-list",
+            "settings": {
+              "allowUpdateOnChange": false,
+              "hideDefaultAction": true,
+              "options": [
+                {
+                  "name": "SEARCH.CATEGORIES.SIZE_OPTIONS.SMALL",
+                  "value": "content.size:[0 TO 1048576>"
+                },
+                {
+                  "name": "SEARCH.CATEGORIES.SIZE_OPTIONS.MEDIUM",
+                  "value": "content.size:[1048576 TO 52428800]"
+                },
+                {
+                  "name": "SEARCH.CATEGORIES.SIZE_OPTIONS.LARGE",
+                  "value": "content.size:<52428800 TO 524288000]"
+                },
+                {
+                  "name": "SEARCH.CATEGORIES.SIZE_OPTIONS.HUGE",
+                  "value": "content.size:<524288000 TO MAX]"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "createdDateRange",
+          "name": "SEARCH.CATEGORIES.CREATED_DATE",
+          "enabled": true,
+          "component": {
+            "selector": "date-range",
+            "settings": {
+              "allowUpdateOnChange": false,
+              "hideDefaultAction": true,
+              "field": "cm:created",
+              "dateFormat": "DD-MMM-YY",
+              "maxDate": "today"
+            }
+          }
+        }
+      ]
+    }
+  }
+```

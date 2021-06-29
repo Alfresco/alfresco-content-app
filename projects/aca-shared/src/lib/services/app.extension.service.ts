@@ -47,7 +47,8 @@ import {
   ExtensionRef,
   RuleContext,
   DocumentListPresetRef,
-  IconRef, mergeArrays
+  IconRef,
+  mergeArrays
 } from '@alfresco/adf-extensions';
 import { AppConfigService, AuthenticationService, LogService } from '@alfresco/adf-core';
 import { BehaviorSubject, Observable } from 'rxjs';

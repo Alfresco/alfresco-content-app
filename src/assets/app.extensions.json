@@ -1180,7 +1180,7 @@
     },
     "search": [
       {
-        "id": "app.sidebar.preview",
+        "id": "app.search.default",
         "order": 100,
         "filterWithContains": true,
         "aca:fields": ["cm:name", "cm:title", "cm:description", "TEXT", "TAG"],

@@ -873,4 +873,59 @@ describe('AppExtensionService', () => {
       expect(actions.children[1].id).toBe('header.action.1');
     });
   });
+
+  describe('search', () => {
+    beforeEach(() => {
+      applyConfig({
+        $id: 'test',
+        $name: 'test',
+        $version: '1.0.0',
+        $license: 'MIT',
+        $vendor: 'Good company',
+        $runtime: '1.5.0',
+        features: {
+          search: [
+            {
+              id: 'app.search',
+              order: 100,
+              name: 'default',
+              default: true,
+              filterWithContains: true,
+              'aca:fields': ['cm:name', 'cm:title', 'cm:description', 'TEXT', 'TAG'],
+              include: ['path', 'allowableOperations', 'properties'],
+              categories: [
+                {
+                  id: 'size',
+                  name: 'SEARCH.CATEGORIES.SIZE',
+                  enabled: true
+                }
+              ]
+            },
+            {
+              id: 'app.search-1',
+              order: 200,
+              name: 'default',
+              default: false
+            },
+            {
+              id: 'app.search-2',
+              order: 200,
+              name: 'default',
+              disabled: true
+            }
+          ]
+        }
+      });
+    });
+
+    it('should load the search extension', () => {
+      expect(service.search.length).toBe(2);
+      expect(service.search[0].id).toBe('app.search');
+      expect(service.search[1].id).toBe('app.search-1');
+    });
+
+    it('should not load the disabled search extension', () => {
+      expect(service.search.find(({ id }) => id === 'app.search-2')).toBe(undefined, 'disabled configuration shown in the result');
+    });
+  });
 });
