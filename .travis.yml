@@ -15,7 +15,7 @@ addons:
 language: node_js
 node_js:
   - '12.18.1'
-
+  
 cache:
   directories:
     - node_modules
