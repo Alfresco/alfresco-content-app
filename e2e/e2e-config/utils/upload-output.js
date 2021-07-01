@@ -4,7 +4,7 @@ const AlfrescoApi = require('@alfresco/js-api').AlfrescoApiCompatibility;
 const buildNumber = require('./build-number');
 const outputDir = path.resolve(__dirname, '../../../e2e-output/');
 
-uploadOutput = async function (retryCount = 1) {
+async function uploadOutput(retryCount = 1) {
   await saveScreenshots(retryCount);
 };
 
@@ -62,4 +62,6 @@ async function saveScreenshots(retryCount) {
 
 }
 
-module.exports = uploadOutput;
+module.exports = {
+  uploadOutput: uploadOutput
+};
