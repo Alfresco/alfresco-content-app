@@ -5,7 +5,7 @@ import:
 # =================
 # merge anchor 
 # =================
- 
+
 dist: bionic
 sudo: required
 services:
@@ -15,7 +15,7 @@ addons:
 language: node_js
 node_js:
   - '12.18.1'
-  
+
 cache:
   directories:
     - node_modules
@@ -47,7 +47,6 @@ env:
   global:
     - ADMIN_EMAIL=$ADMIN_EMAIL_REMOTE
     - ADMIN_PASSWORD=$ADMIN_PASSWORD_REMOTE
-    - APP_CONFIG_ECM_HOST=$TRAVIS_APP_CONFIG_ECM_HOST
 
 jobs:
   include:
