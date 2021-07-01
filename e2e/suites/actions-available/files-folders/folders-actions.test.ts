@@ -182,7 +182,7 @@ describe('Folders - available actions : ', () => {
 
       it('[C291822] both files and folders', async () => {
         await searchInput.clickSearchButton();
-        await searchInput.searchFor(`=${testData.file.name} or =${testData.folderFav.name}`);
+        await searchInput.searchFor(`${testData.file.name} or ${testData.folderFav.name}`);
         await searchResultsPage.waitForResults();
 
         await testUtil.checkMultipleSelContextMenu([testData.file.name, testData.folderFav.name], testData.multipleSel.searchContextMenu);
