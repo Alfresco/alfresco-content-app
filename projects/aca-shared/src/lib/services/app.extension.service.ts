@@ -295,10 +295,8 @@ export class AppExtensionService implements RuleContext {
       return null;
     }
 
-    let search = [];
-    search = mergeArrays(search, elements)
+    let search = mergeArrays([], elements)
       .filter((entry) => !entry.disabled)
-      .sort(sortByOrder);
 
     try {
       this.appConfig.config['search'] = search;

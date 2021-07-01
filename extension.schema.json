@@ -665,6 +665,37 @@
         }
       },
       "required": ["name", "key", "type"]
+    },
+    "searchRef": {
+      "type": "object",
+      "allOf": [
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "description": "Unique identifier.",
+              "type": "string"
+            },
+            "order": {
+              "description": "Element order",
+              "type": "number"
+            },
+            "rules": {
+              "description": "Element rules",
+              "type": "object",
+              "properties": {
+                "disabled": {
+                  "description": "Rule to evaluate the visibility state",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        {
+        "$ref": "node_modules/@alfresco/adf-core/app.config.schema.json#/definitions/search-configuration"
+        }
+      ]
     }
   },
 
@@ -913,6 +944,13 @@
               "items": { "$ref": "#/definitions/documentListPresetRef" },
               "minItems": 1
             }
+          }
+        },
+        "search": {
+          "description": "aca search extension",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/searchRef"
           }
         }
       }
