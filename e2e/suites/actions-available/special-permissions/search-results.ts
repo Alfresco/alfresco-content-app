@@ -225,7 +225,7 @@ export function searchResultsTests() {
       it('both files and folders - [C268128]', async () => {
         await page.clickPersonalFiles();
         await searchInput.clickSearchButton();
-        await searchInput.searchFor(`=${testData.file.name} or =${testData.folderFav.name}`);
+        await searchInput.searchFor(`${testData.file.name} or ${testData.folderFav.name}`);
 
         await testUtil.checkMultipleSelContextMenu([testData.file.name, testData.folderFav.name], testData.multipleSel.contextMenu);
         await testUtil.checkMultipleSelToolbarActions(

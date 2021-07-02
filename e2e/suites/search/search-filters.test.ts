@@ -32,6 +32,7 @@ describe('Search filters', () => {
   const random = Utils.random();
 
   const user1 = `user1-${random}`;
+
   const user2 = `user2-${random}`;
 
   const parent = `parent-${random}`;
