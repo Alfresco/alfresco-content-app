@@ -1182,6 +1182,8 @@
       {
         "id": "app.search.default",
         "order": 100,
+        "name": "APP.BROWSE.SEARCH.DEFAULT_SEARCH",
+        "default": true,
         "filterWithContains": true,
         "aca:fields": ["cm:name", "cm:title", "cm:description", "TEXT", "TAG"],
         "include": ["path", "allowableOperations", "properties"],
@@ -1388,9 +1390,7 @@
               }
             }
           }
-        ],
-        "name": "APP.BROWSE.SEARCH.DEFAULT_SEARCH",
-        "default": true
+        ]
       }
     ],
     "content-metadata-presets": [
