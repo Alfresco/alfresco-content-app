@@ -59,7 +59,7 @@
       "TOOLTIP": "Añadir nuevos ficheros o carpetas, o crear una nueva biblioteca de ficheros",
       "MENU_ITEMS": {
         "CREATE_FOLDER": "Crear carpeta",
-        "UPLOAD_FILE": "Añadir fichero",
+        "UPLOAD_FILE": "Cargar fichero",
         "UPLOAD_FOLDER": "Cargar carpeta",
         "CREATE_LIBRARY": "Crear biblioteca",
         "FILE_TEMPLATE": "Crear fichero a partir de plantilla",
@@ -167,6 +167,7 @@
         "TITLE": "Acerca de"
       },
       "SEARCH": {
+        "DEFAULT_SEARCH": "Predeterminada",
         "TITLE": "Resultados de la búsqueda",
         "FOUND_RESULTS": "{{ number }} resultados encontrados",
         "FOUND_ONE_RESULT": "{{ number }} resultado encontrado",
@@ -177,7 +178,8 @@
           "SIZE": "Tamaño"
         },
         "UNKNOWN_LOCATION": "Desconocido",
-        "NO_RESULTS": "Su búsqueda arrojó 0 resultados",
+        "NO_RESULTS": "Su búsqueda ha devuelto 0 resultados",
+        "EMPTY_SEARCH": "Se requiere un término de búsqueda",
         "NO_FILTER_RESULTS": "Su filtro ha devuelto 0 resultados",
         "ERRORS": {
           "500": "Error al procesar la consulta de búsqueda [500]",
@@ -206,7 +208,7 @@
       "ADD_FAVORITE": "Añadir favorita",
       "REMOVE_FAVORITE": "Eliminar favorita",
       "UNSHARE": "No compartir",
-      "DETAILS": "Ver los detalles",
+      "DETAILS": "Ver detalles",
       "VERSIONS": "Gestionar versiones",
       "UPLOAD_VERSION": "Cargar nueva versión",
       "TOGGLE-SIDENAV": "Alternar barra de navegación lateral",
@@ -296,7 +298,7 @@
         "ERROR": {
           "GENERIC": "Error de carga; póngase en contacto con el equipo de TI si el problema continúa",
           "CONFLICT": "No se ha cargado la nueva versión, ya existe otro fichero con el mismo nombre",
-          "500": "Error de servidor interno; vuelva a intentarlo o póngase en contacto con el equipo de TI",
+          "500": "Error de servidor interno; vuelva a intentarlo o póngase en contacto con el equipo de TI [500]",
           "504": "Se ha agotado el tiempo de espera del servidor; póngase en contacto con el equipo de asistencia de TI [504]",
           "403": "Permisos insuficientes para cargar en esta ubicación [403]",
           "404": "La ubicación de carga ya no existe [404]"
@@ -347,16 +349,16 @@
     },
     "CONTENT_METADATA": {
       "EXIF_GROUP_TITLE": "Imagen EXIF",
-      "GROUP_IPTC_CORE_CONTACT_INFO": "Contacto de IPTC",
-      "GROUP_IPTC_CORE_IMAGE_INFO": "Imagen de IPTC",
-      "GROUP_IPTC_CORE_CONTENT_INFO": "Contenido de IPTC",
-      "GROUP_IPTC_CORE_STATUS_INFO": "Estado de IPTC",
-      "GROUP_IPTC_EXT_DESCRIPTION": "Descripción de la imagen IPTC",
-      "GROUP_IPTC_EXT_AO_DETAIL": "Ilustración de IPTC o detalle de objeto",
+      "GROUP_IPTC_CORE_CONTACT_INFO": "Contacto IPTC",
+      "GROUP_IPTC_CORE_IMAGE_INFO": "Imagen IPTC",
+      "GROUP_IPTC_CORE_CONTENT_INFO": "Contenido IPTC",
+      "GROUP_IPTC_CORE_STATUS_INFO": "Estado IPTC",
+      "GROUP_IPTC_EXT_DESCRIPTION": "Descripción de imagen IPTC",
+      "GROUP_IPTC_EXT_AO_DETAIL": "Ilustración IPTC o detalles de objetos",
       "GROUP_IPTC_EXT_MODEL_INFO": "Información del modelo IPTC",
-      "GROUP_IPTC_EXT_ADMIN_INFO": "Información del administrador de IPTC",
-      "GROUP_IPTC_EXT_RIGHTS_INFO": "Información de derechos de IPTC",
-      "GROUP_IPTC_EXT_OTHER": "Otros asuntos IPTC",
+      "GROUP_IPTC_EXT_ADMIN_INFO": "Información administrativa de IPTC",
+      "GROUP_IPTC_EXT_RIGHTS_INFO": "Información sobre derechos IPTC",
+      "GROUP_IPTC_EXT_OTHER": "IPTC Otros",
       "EFFECTIVITY_GROUP_TITLE": "Efectividad"
     },
     "INFO_DRAWER": {
@@ -402,15 +404,6 @@
       }
     }
   },
-  "PERMISSIONS": {
-    "DIALOG": {
-      "TITLE": "Gestionar permisos",
-      "CLOSE": "Cerrar",
-      "INHERIT_PERMISSIONS_BUTTON": "Heredar permisos",
-      "INHERITED_PERMISSIONS_BUTTON": "Permisos heredados",
-      "ADD_USER_OR_GROUP": "Añadir usuario o grupo"
-    }
-  },
   "SHARED_LINK": {
     "UNSHARE_PERMISSION_ERROR": "No tiene permiso para dejar de compartir este fichero"
   },
@@ -443,10 +436,8 @@
     }
   },
   "INFO_PANEL": {
-        "TABS": {
-
-        },
-        "DETAILS": "Detalles"
+    "TABS": {},
+    "DETAILS": "Detalles"
   },
   "LIBRARY": {
     "DIALOG": {
@@ -544,7 +535,7 @@
           "DOCUMENT": "Documento"
         },
         "SIZE": {
-          "TITLE": "Tamaño del contenido (rango)",
+          "TITLE": "Tamaño de contenido (rango)",
           "SMALL": "Pequeño",
           "MEDIUM": "Mediano",
           "LARGE": "Grande",
@@ -571,7 +562,8 @@
   },
   "ADF_VIEWER": {
     "ACTIONS": {
-      "INFO": "Ver los detalles"
+      "INFO": "Ver los detalles",
+      "PREVIEW": "Mostar vista previa"
     }
   },
   "FILE_UPLOAD": {

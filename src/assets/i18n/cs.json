@@ -167,6 +167,7 @@
         "TITLE": "O aplikaci"
       },
       "SEARCH": {
+        "DEFAULT_SEARCH": "Výchozí",
         "TITLE": "Výsledky hledání",
         "FOUND_RESULTS": "Nalezené výsledky: {{ number }}",
         "FOUND_ONE_RESULT": "Nalezené výsledky: {{ number }}",
@@ -177,7 +178,8 @@
           "SIZE": "Velikost"
         },
         "UNKNOWN_LOCATION": "Neznámé",
-        "NO_RESULTS": "Parametrům hledání odpovídá 0 výsledků",
+        "NO_RESULTS": "Parametrům hledání odpovídá 0 výsledků",
+        "EMPTY_SEARCH": "Požadován hledaný výraz",
         "NO_FILTER_RESULTS": "K vašemu filtru je 0 výsledků",
         "ERRORS": {
           "500": "Při pokusu o zpracování dotazu hledání došlo k chybě [500]",
@@ -263,7 +265,7 @@
         "CANNOT_NAVIGATE_LOCATION": "Toto umístění nelze otevřít",
         "MISSING_CONTENT": "Tato položka již neexistuje nebo nemáte dostatečná oprávnění pro její zobrazení.",
         "GENERIC": "Akce se nezdařila. Zkuste to znovu nebo se obraťte na oddělení IT.",
-        "CONFLICT": "Tento název se již používá. Zvolte jiný název.",
+        "CONFLICT": "Tento název se již používá. Zvolte jiný.",
         "NODE_MOVE": "Přesunutí se nezdařilo, protože soubor se stejným názvem již existuje.",
         "EXISTENT_FOLDER": "Složka s tímto názvem již existuje. Zadejte jiný název.",
         "NODE_DELETION": "„{{ name }}“ nebylo možné odstranit",
@@ -347,15 +349,15 @@
     },
     "CONTENT_METADATA": {
       "EXIF_GROUP_TITLE": "Obraz EXIF",
-      "GROUP_IPTC_CORE_CONTACT_INFO": "Kontakt IPTC",
-      "GROUP_IPTC_CORE_IMAGE_INFO": "Obraz IPTC",
-      "GROUP_IPTC_CORE_CONTENT_INFO": "Obsah IPTC",
-      "GROUP_IPTC_CORE_STATUS_INFO": "Stav IPTC",
-      "GROUP_IPTC_EXT_DESCRIPTION": "Popis obrazu IPTC",
-      "GROUP_IPTC_EXT_AO_DETAIL": "Podrobnosti o objektu nebo díle IPTC",
-      "GROUP_IPTC_EXT_MODEL_INFO": "Informace o modelu IPTC",
-      "GROUP_IPTC_EXT_ADMIN_INFO": "Informace o správci IPTC",
-      "GROUP_IPTC_EXT_RIGHTS_INFO": "Informace o právech IPTC",
+      "GROUP_IPTC_CORE_CONTACT_INFO": "IPTC kontakt",
+      "GROUP_IPTC_CORE_IMAGE_INFO": "IPTC obrázek",
+      "GROUP_IPTC_CORE_CONTENT_INFO": "IPTC obsah",
+      "GROUP_IPTC_CORE_STATUS_INFO": "IPTC stav",
+      "GROUP_IPTC_EXT_DESCRIPTION": "Popis IPTC obrázku",
+      "GROUP_IPTC_EXT_AO_DETAIL": "IPTC artwork nebo podrobnosti o objektu",
+      "GROUP_IPTC_EXT_MODEL_INFO": "Informace o IPTC modelu",
+      "GROUP_IPTC_EXT_ADMIN_INFO": "Informace o IPTC správci",
+      "GROUP_IPTC_EXT_RIGHTS_INFO": "Informace o IPTC právech",
       "GROUP_IPTC_EXT_OTHER": "Jiné IPTC",
       "EFFECTIVITY_GROUP_TITLE": "Účinnost"
     },
@@ -402,15 +404,6 @@
       }
     }
   },
-  "PERMISSIONS": {
-    "DIALOG": {
-      "TITLE": "Spravovat oprávnění",
-      "CLOSE": "Zavřít",
-      "INHERIT_PERMISSIONS_BUTTON": "Dědění oprávnění",
-      "INHERITED_PERMISSIONS_BUTTON": "Oprávnění bylo zděděno",
-      "ADD_USER_OR_GROUP": "Přidat uživatele nebo skupinu"
-    }
-  },
   "SHARED_LINK": {
     "UNSHARE_PERMISSION_ERROR": "Nemáte potřebná oprávnění pro zrušení sdílení tohoto souboru"
   },
@@ -443,9 +436,7 @@
     }
   },
   "INFO_PANEL": {
-    "TABS": {
-
-        },
+    "TABS": {},
     "DETAILS": "Podrobnosti"
   },
   "LIBRARY": {
@@ -571,7 +562,8 @@
   },
   "ADF_VIEWER": {
     "ACTIONS": {
-      "INFO": "Zobrazit podrobnosti"
+      "INFO": "Zobrazit podrobnosti",
+      "PREVIEW": "Zobrazit náhled"
     }
   },
   "FILE_UPLOAD": {

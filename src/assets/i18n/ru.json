@@ -43,7 +43,7 @@
       "APPLICATION-SETTINGS": "Настройки приложений",
       "REPOSITORY-SETTINGS": "Настройки репозитория",
       "INVALID-VALUE-FORMAT": "Недопустимый формат значения",
-      "REQUIRED-FIELD": "Это обязательное поле",
+      "REQUIRED-FIELD": "Поле обязательно для заполнения",
       "RESET": "Сброс",
       "APPLY": "Применить"
     },
@@ -52,7 +52,7 @@
       "TITLE": "Предварительный просмотр"
     },
     "DETAILS": {
-      "TITLE": "Сведения"
+      "TITLE": "Подробности"
     },
     "NEW_MENU": {
       "LABEL": "Создать",
@@ -130,9 +130,9 @@
         }
       },
       "RECENT": {
-        "TITLE": "Недавние файлы",
+        "TITLE": "Последние файлы",
         "SIDENAV_LINK": {
-          "LABEL": "Недавние файлы",
+          "LABEL": "Последние файлы",
           "TOOLTIP": "Посмотреть недавно отредактированные вами файлы"
         },
         "EMPTY_STATE": {
@@ -160,13 +160,14 @@
         "EMPTY_STATE": {
           "TITLE": "Корзина пуста",
           "FIRST_TEXT": "Элементы, которые вы удаляете, перемещаются в корзину.",
-          "SECOND_TEXT": "Очистить корзину, чтобы навсегда удалить эти элементы."
+          "SECOND_TEXT": "Очистите корзину, чтобы удалить элементы навсегда."
         }
       },
       "ABOUT": {
-        "TITLE": "Информация"
+        "TITLE": "О программе"
       },
       "SEARCH": {
+        "DEFAULT_SEARCH": "По умолчанию",
         "TITLE": "Результаты поиска",
         "FOUND_RESULTS": "Найдено результатов: {{ number }}",
         "FOUND_ONE_RESULT": "Найден результат: {{ number }}",
@@ -177,7 +178,8 @@
           "SIZE": "Размер"
         },
         "UNKNOWN_LOCATION": "Неизвестно",
-        "NO_RESULTS": "По вашему запросу ничего не найдено",
+        "NO_RESULTS": "Ваш поиск вернул 0 результатов",
+        "EMPTY_SEARCH": "Ключевое слово обязательно",
         "NO_FILTER_RESULTS": "Ваш фильтр вернул 0 результатов",
         "ERRORS": {
           "500": "При обработке поискового запроса [500] возникла ошибка",
@@ -206,7 +208,7 @@
       "ADD_FAVORITE": "Добавить в избранное",
       "REMOVE_FAVORITE": "Удалить из избранного",
       "UNSHARE": "Снять с публикации",
-      "DETAILS": "Подробно",
+      "DETAILS": "Просмотреть сведения",
       "VERSIONS": "Управление версиями",
       "UPLOAD_VERSION": "Загрузить новую версию",
       "TOGGLE-SIDENAV": "Переключить боковую панель навигации",
@@ -347,27 +349,27 @@
     },
     "CONTENT_METADATA": {
       "EXIF_GROUP_TITLE": "EXIF данные изображения",
-      "GROUP_IPTC_CORE_CONTACT_INFO": "Контакт IPTC",
-      "GROUP_IPTC_CORE_IMAGE_INFO": "Изображение IPTC",
-      "GROUP_IPTC_CORE_CONTENT_INFO": "Контент IPTC",
-      "GROUP_IPTC_CORE_STATUS_INFO": "Статус IPTC",
-      "GROUP_IPTC_EXT_DESCRIPTION": "Описание изображения IPTC",
-      "GROUP_IPTC_EXT_AO_DETAIL": "Описание графического изображения или объекта IPTC",
-      "GROUP_IPTC_EXT_MODEL_INFO": "Информация о модели IPTC",
-      "GROUP_IPTC_EXT_ADMIN_INFO": "Информация об администраторе IPTC",
-      "GROUP_IPTC_EXT_RIGHTS_INFO": "Информация о правах IPTC",
-      "GROUP_IPTC_EXT_OTHER": "Иное о IPTC",
+      "GROUP_IPTC_CORE_CONTACT_INFO": "IPTC контакт",
+      "GROUP_IPTC_CORE_IMAGE_INFO": "IPTC изображение",
+      "GROUP_IPTC_CORE_CONTENT_INFO": "IPTC содержимое",
+      "GROUP_IPTC_CORE_STATUS_INFO": "IPTC статус",
+      "GROUP_IPTC_EXT_DESCRIPTION": "IPTC описание изображения",
+      "GROUP_IPTC_EXT_AO_DETAIL": "IPTC подробные сведения о произведении либо объекте",
+      "GROUP_IPTC_EXT_MODEL_INFO": "IPTC информация о модели",
+      "GROUP_IPTC_EXT_ADMIN_INFO": "IPTC информация для администратора",
+      "GROUP_IPTC_EXT_RIGHTS_INFO": "IPTC информация о правах",
+      "GROUP_IPTC_EXT_OTHER": "IPTC другое",
       "EFFECTIVITY_GROUP_TITLE": "Эффективность"
     },
     "INFO_DRAWER": {
       "TITLE": "Сведения",
       "TABS": {
         "PROPERTIES": "Свойства",
-        "LIBRARY_PROPERTIES": "Информация",
+        "LIBRARY_PROPERTIES": "О программе",
         "VERSIONS": "Версии",
         "COMMENTS": "Комментарии",
-        "PERMISSIONS": "Права",
-        "EXPAND": "Расширить"
+        "PERMISSIONS": "Разрешения",
+        "EXPAND": "Развернуть"
       }
     }
   },
@@ -402,15 +404,6 @@
       }
     }
   },
-  "PERMISSIONS": {
-    "DIALOG": {
-      "TITLE": "Управление разрешениями",
-      "CLOSE": "Закрыть",
-      "INHERIT_PERMISSIONS_BUTTON": "Наследовать разрешения",
-      "INHERITED_PERMISSIONS_BUTTON": "Разрешения унаследованы",
-      "ADD_USER_OR_GROUP": "Добавить пользователя или группу"
-    }
-  },
   "SHARED_LINK": {
     "UNSHARE_PERMISSION_ERROR": "У вас нет разрешения на снятие этого файла с публикации"
   },
@@ -420,7 +413,7 @@
       "CLOSE": "Закрыть"
     },
     "DIALOG": {
-      "TITLE": "Отправить новую версию",
+      "TITLE": "Загрузить новую версию",
       "CANCEL": "Отмена",
       "UPLOAD": "Загрузить"
     },
@@ -443,17 +436,15 @@
     }
   },
   "INFO_PANEL": {
-    "TABS": {
-
-        },
-    "DETAILS": "Сведения"
-    },
+    "TABS": {},
+    "DETAILS": "Подробности"
+  },
   "LIBRARY": {
     "DIALOG": {
       "CREATE_TITLE": "Создание библиотеки",
       "CREATE": "Создать",
       "UPDATE": "Обновить",
-      "EDIT": "Изменить",
+      "EDIT": "Редактировать",
       "CANCEL": "Отмена",
       "FORM": {
         "DESCRIPTION": "Описание",
@@ -571,7 +562,8 @@
   },
   "ADF_VIEWER": {
     "ACTIONS": {
-      "INFO": "Подробно"
+      "INFO": "Подробно",
+      "PREVIEW": "Показать предварительный просмотр"
     }
   },
   "FILE_UPLOAD": {

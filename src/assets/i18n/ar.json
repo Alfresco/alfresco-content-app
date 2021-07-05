@@ -39,7 +39,7 @@
     "SIGN_IN": "تسجيل دخول",
     "SIGN_OUT": "تسجيل خروج",
     "SETTINGS": {
-      "TITLE": "إعدادات",
+      "TITLE": "الإعدادات",
       "APPLICATION-SETTINGS": "إعدادات التطبيق",
       "REPOSITORY-SETTINGS": "إعدادات المستودع",
       "INVALID-VALUE-FORMAT": "تنسيق قيمة غير صالح",
@@ -52,7 +52,7 @@
       "TITLE": "معاينة"
     },
     "DETAILS": {
-      "TITLE": "التفاصيل"
+      "TITLE": "تفاصيل"
     },
     "NEW_MENU": {
       "LABEL": "جديد",
@@ -167,17 +167,19 @@
         "TITLE": "حول"
       },
       "SEARCH": {
+        "DEFAULT_SEARCH": "تفاصيل",
         "TITLE": "نتائج البحث",
         "FOUND_RESULTS": "تم العثور على {{ number }} نتائج",
         "FOUND_ONE_RESULT": "تم العثور على {{ number }} نتيجة",
         "CUSTOM_ROW": {
           "MODIFIED": "تم التعديل",
           "BY_USER": "بواسطة {{ user }}",
-          "LOCATION": "موقع",
+          "LOCATION": "مكان",
           "SIZE": "الحجم"
         },
         "UNKNOWN_LOCATION": "غير معروف",
         "NO_RESULTS": "أرجع البحث 0 نتائج",
+        "EMPTY_SEARCH": "مصطلح البحث مطلوب",
         "NO_FILTER_RESULTS": "أعاد الفلتر 0 نتيجة",
         "ERRORS": {
           "500": "حدث خطأ أثناء معالجة استعلام البحث [500]",
@@ -247,7 +249,7 @@
         "MODIFIED_BY": "تم التعديل بواسطة",
         "VISIBILITY": "رؤية",
         "TITLE": "العنوان",
-        "LOCATION": "موقع",
+        "LOCATION": "مكان",
         "SHARED_BY": "تمت المشاركة بواسطة",
         "DELETED_ON": "تم الحذف",
         "DELETED_BY": "تم الحذف بواسطة",
@@ -279,7 +281,7 @@
             "SINGULAR": "تعذر حذف {{ name }}"
           },
           "NODES_RESTORE": {
-            "PARTIAL_PLURAL": "لم تتم استعادة {{ number }} من العناصر بسبب مشكلات في موقع الاستعادة",
+            "PARTIAL_PLURAL": "لم تتم استعادة {{ number }} من العناصر بسبب مشكلات في مكان الاستعادة",
             "NODE_EXISTS": "تتعذر استعادة {{ name }}، الموقع الأصلي لم يعد موجودًا",
             "LOCATION_MISSING": "تتعذر استعادة {{ name }}، المكان الأصلي لم يعد موجودًا",
             "GENERIC": "حدثت مشكلة في استعادة {{ name }}"
@@ -298,8 +300,8 @@
           "CONFLICT": "لم يتم تحميل إصدار جديد، يوجد ملف آخر بنفس الاسم بالفعل.",
           "500": "خطأ في خادم الإنترنت، حاول مرة أخرى أو اتصل بدعم تكنولوجيا المعلومات [500]",
           "504": "انتهلت مهلة الخادم، حاول مرة أخرى أو اتصل بدعم تكنولوجيا المعلومات [504]",
-          "403": "ت غير كافية للتحميل في هذا الموقع [403]",
-          "404": "التحميل لم يعد موجودًا [404]"
+          "403": "أذونات غير كافية للتحميل في هذا المكان [403]",
+          "404": "مكان التحميل لم يعد موجودًا [404]"
         }
       },
       "INFO": {
@@ -352,8 +354,8 @@
       "GROUP_IPTC_CORE_CONTENT_INFO": "محتوى IPTC",
       "GROUP_IPTC_CORE_STATUS_INFO": "حالة IPTC",
       "GROUP_IPTC_EXT_DESCRIPTION": "وصف صورة IPTC",
-      "GROUP_IPTC_EXT_AO_DETAIL": "تفاصيل العمل الفني أو الكائن IPTC",
-      "GROUP_IPTC_EXT_MODEL_INFO": "معلومات النموذج IPTC",
+      "GROUP_IPTC_EXT_AO_DETAIL": "رسم IPTC أو تفاصيل الكائن",
+      "GROUP_IPTC_EXT_MODEL_INFO": "معلومات نموذج IPTC",
       "GROUP_IPTC_EXT_ADMIN_INFO": "معلومات مسؤول IPTC",
       "GROUP_IPTC_EXT_RIGHTS_INFO": "معلومات حقوق IPTC",
       "GROUP_IPTC_EXT_OTHER": "IPTC أخرى",
@@ -366,7 +368,7 @@
         "LIBRARY_PROPERTIES": "حول",
         "VERSIONS": "الإصدارات",
         "COMMENTS": "تعليقات",
-        "PERMISSIONS": "الأذونات",
+        "PERMISSIONS": "أذونات",
         "EXPAND": "توسيع"
       }
     }
@@ -402,15 +404,6 @@
       }
     }
   },
-  "PERMISSIONS": {
-    "DIALOG": {
-      "TITLE": "إدارة الأذونات",
-      "CLOSE": "إغلاق",
-      "INHERIT_PERMISSIONS_BUTTON": "توريث الأذونات",
-      "INHERITED_PERMISSIONS_BUTTON": "تم توريث الأذونات",
-      "ADD_USER_OR_GROUP": "إضافة مستخدم أو مجموعة"
-    }
-  },
   "SHARED_LINK": {
     "UNSHARE_PERMISSION_ERROR": "ليس لديك إذن لإلغاء مشاركة هذا الملف"
   },
@@ -443,11 +436,9 @@
     }
   },
   "INFO_PANEL": {
-    "TABS": {
-
+    "TABS": {},
+    "DETAILS": "تفاصيل"
   },
-    "DETAILS": "التفاصيل"
-    },
   "LIBRARY": {
     "DIALOG": {
       "CREATE_TITLE": "إنشاء مكتبة",
@@ -507,7 +498,7 @@
       "FILE_TYPE": "نوع الملف",
       "CREATOR": "المنشئ",
       "MODIFIER": "المعدل",
-      "LOCATION": "موقع"
+      "LOCATION": "مكان"
     },
     "CATEGORIES": {
       "MODIFIED_DATE": "تاريخ التعديل",
@@ -571,7 +562,8 @@
   },
   "ADF_VIEWER": {
     "ACTIONS": {
-      "INFO": "عرض التفاصيل"
+      "INFO": "عرض التفاصيل",
+      "PREVIEW": "عرض المعاينة"
     }
   },
   "FILE_UPLOAD": {

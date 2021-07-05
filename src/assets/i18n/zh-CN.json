@@ -167,6 +167,7 @@
         "TITLE": "关于"
       },
       "SEARCH": {
+        "DEFAULT_SEARCH": "默认",
         "TITLE": "搜索结果",
         "FOUND_RESULTS": "找到 {{ number }} 个结果",
         "FOUND_ONE_RESULT": "找到 {{ number }} 个结果",
@@ -178,6 +179,7 @@
         },
         "UNKNOWN_LOCATION": "未知",
         "NO_RESULTS": "您的搜索返回了 0 个结果",
+        "EMPTY_SEARCH": "需要搜索词",
         "NO_FILTER_RESULTS": "您的筛选返回了 0 个结果",
         "ERRORS": {
           "500": "处理搜索查询时发生错误 [500]",
@@ -221,7 +223,7 @@
       "EDIT_OFFLINE_CANCEL": "取消编辑",
       "LIST_MODE": "查看列表",
       "GALLERY_MODE": "查看图库",
-      "CHANGE_ASPECT": "编辑方面"
+      "CHANGE_ASPECT": "编辑纵横比"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -352,9 +354,9 @@
       "GROUP_IPTC_CORE_CONTENT_INFO": "IPTC 内容",
       "GROUP_IPTC_CORE_STATUS_INFO": "IPTC 状态",
       "GROUP_IPTC_EXT_DESCRIPTION": "IPTC 图像描述",
-      "GROUP_IPTC_EXT_AO_DETAIL": "IPTC 艺术品或物件细节",
+      "GROUP_IPTC_EXT_AO_DETAIL": "IPTC 艺术品或物体细节",
       "GROUP_IPTC_EXT_MODEL_INFO": "IPTC 模型信息",
-      "GROUP_IPTC_EXT_ADMIN_INFO": "IPTC 管理员信息",
+      "GROUP_IPTC_EXT_ADMIN_INFO": "IPTC 管理信息",
       "GROUP_IPTC_EXT_RIGHTS_INFO": "IPTC 权利信息",
       "GROUP_IPTC_EXT_OTHER": "IPTC 其他",
       "EFFECTIVITY_GROUP_TITLE": "有效性"
@@ -402,17 +404,8 @@
       }
     }
   },
-  "PERMISSIONS": {
-    "DIALOG": {
-      "TITLE": "管理权限",
-      "CLOSE": "关闭",
-      "INHERIT_PERMISSIONS_BUTTON": "继承权限",
-      "INHERITED_PERMISSIONS_BUTTON": "已继承权限",
-      "ADD_USER_OR_GROUP": "添加用户或组"
-    }
-  },
   "SHARED_LINK": {
-    "UNSHARE_PERMISSION_ERROR": "你没有权限取消这个文件的共享"
+    "UNSHARE_PERMISSION_ERROR": "您没有权限取消这个文件的共享"
   },
   "VERSION": {
     "DIALOG_ADF": {
@@ -436,16 +429,14 @@
     },
     "SELECTION": {
       "EMPTY": "请选定一个文件去看它的版本。",
-      "NO_PERMISSION": "你没有权限管理此内容的版本。"
+      "NO_PERMISSION": "您没有权限管理此内容的版本。"
     },
     "ERROR": {
       "GENERIC": "对文件进行版本控制时发生错误"
     }
   },
   "INFO_PANEL": {
-    "TABS": {
-
-        },
+    "TABS": {},
     "DETAILS": "详细信息"
   },
   "LIBRARY": {
@@ -528,7 +519,7 @@
       "THIS_YEAR": "今年"
     },
     "SEARCH_HEADER": {
-      "TITLE": "筛选器",
+      "TITLE": "筛选",
       "TYPE": "类型",
       "FILTER_BY": "根据 {{ category }} 筛选",
       "CLEAR": "清除",
@@ -571,7 +562,8 @@
   },
   "ADF_VIEWER": {
     "ACTIONS": {
-      "INFO": "查看详细信息"
+      "INFO": "查看详细信息",
+      "PREVIEW": "显示预览"
     }
   },
   "FILE_UPLOAD": {
@@ -595,7 +587,7 @@
   "ADF-DATATABLE": {
     "FILE_TYPE": {
       "BOOKS-24PX": "文件库",
-      "BASELINE-LOCK-24PX": "无法完成该操作。将此信息告知您的 IT 团队：将 {{data}} 反序列化为 {{contentType}} 过程中出错"
+      "BASELINE-LOCK-24PX": "锁定的文件"
     }
   }
 }
