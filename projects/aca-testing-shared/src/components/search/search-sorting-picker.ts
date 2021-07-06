@@ -32,10 +32,10 @@ export type SortByType = 'Relevance' | 'Title' | 'Filename' | 'Modified date' | 
 export type SortOrderType = 'ASC' | 'DESC' | '';
 
 export class SearchSortingPicker extends Component {
-  actionMenu = this.byCss('#aca-button-action-menu');
-  sortOrderButton = this.byCss('#aca-button-sorting-menu');
-  sortByDropdownExpanded = browser.element(by.css('.mat-menu-panel'));
-  sortByList = this.sortByDropdownExpanded.all(by.css('.mat-menu-item-submenu-trigger'));
+  actionMenu = browser.element(by.css('aca-search-action-menu > button'));
+  sortOrderButton = browser.element(by.css('#aca-button-sorting-menu'));
+  sortByDropdownExpanded = browser.element.all(by.css('.mat-menu-panel')).get(1);
+  sortByList = this.sortByDropdownExpanded.all(by.css('button'));
 
   constructor(ancestor?: string) {
     super('aca-button-action-menu', ancestor);
@@ -50,7 +50,7 @@ export class SearchSortingPicker extends Component {
   }
 
   async isSortOrderButtonDisplayed(): Promise<boolean> {
-    return isPresentAndDisplayed(this.sortOrderButton);
+    return isPresentAndDisplayed(this.actionMenu);
   }
 
   async isSortByOptionDisplayed(): Promise<boolean> {
@@ -77,9 +77,10 @@ export class SearchSortingPicker extends Component {
     if (!(await this.isSortByDropdownExpanded())) {
       await this.clickSortByDropdown();
     }
-    const elem = browser.element(by.cssContainingText('.mat-option .mat-option-text', option));
+    const elem = browser.element(by.cssContainingText('.mat-menu-item', option));
+    const optionId = await elem.getAttribute('id');
     await BrowserActions.click(elem);
-    const directionSortElement = browser.element(by.id(`modifier-${option.toLocaleLowerCase()}-option-${direction.toLocaleLowerCase()}`));
+    const directionSortElement = browser.element(by.id(`${optionId}-${direction.toLocaleLowerCase()}`));
     await BrowserActions.click(directionSortElement);
   }
 }

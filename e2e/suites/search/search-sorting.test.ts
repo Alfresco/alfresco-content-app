@@ -89,13 +89,13 @@ describe('Search sorting', () => {
 
   it('[C277722] Sorting options are displayed', async () => {
     expect(await page.sortingPicker.isSortOrderButtonDisplayed()).toBe(true, 'Sort order button not displayed');
-    expect(await page.sortingPicker.isSortByOptionDisplayed()).toBe(true, 'Sort options not displayed');
 
     await page.sortingPicker.clickSortByDropdown();
 
     const expectedOptions = ['Relevance', 'Filename', 'Title', 'Modified date', 'Modifier', 'Created date', 'Size', 'Type'];
-    expect(await page.sortingPicker.getSortByOptionsList()).toEqual(expectedOptions, 'Incorrect sort options list');
-  });
+    const optionListed = await page.sortingPicker.getSortByOptionsList();
+    expect(optionListed).toEqual(expectedOptions, 'Incorrect sort options list');
+   });
 
   it('[C277728] Sort by Name', async () => {
     await page.sortingPicker.sortBy('Filename', 'asc');
