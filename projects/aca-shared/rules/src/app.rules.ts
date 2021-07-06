@@ -483,12 +483,7 @@ export function canToggleFavorite(context: RuleContext): boolean {
  * @param context Rule execution context
  */
 export function canToggleFavoriteOnPreview(context: RuleContext): boolean {
-  return [
-    [canAddFavorite(context), canRemoveFavorite(context)].some(Boolean),
-    [navigation.isPreview(context)].some(
-      Boolean
-    )
-  ].every(Boolean);
+  return [[canAddFavorite(context), canRemoveFavorite(context)].some(Boolean), [navigation.isPreview(context)].some(Boolean)].every(Boolean);
 }
 
 /**

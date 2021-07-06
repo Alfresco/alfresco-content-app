@@ -70,7 +70,7 @@ describe('ToggleFavoriteComponent', () => {
   });
 
   it('should not dispatch reload if route is not specified', () => {
-    component.data = "['/reload_on_this_route']";
+    component.data = { url: "['/reload_on_this_route']" };
     router.url = '/somewhere_over_the_rainbow';
 
     fixture.detectChanges();
@@ -80,7 +80,7 @@ describe('ToggleFavoriteComponent', () => {
   });
 
   it('should dispatch reload if route is specified', () => {
-    component.data = "['/reload_on_this_route']";
+    component.data = { url: "['/reload_on_this_route']" };
     router.url = '/reload_on_this_route';
 
     fixture.detectChanges();
