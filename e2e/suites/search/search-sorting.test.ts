@@ -95,7 +95,7 @@ describe('Search sorting', () => {
     const expectedOptions = ['Relevance', 'Filename', 'Title', 'Modified date', 'Modifier', 'Created date', 'Size', 'Type'];
     const optionListed = await page.sortingPicker.getSortByOptionsList();
     expect(optionListed).toEqual(expectedOptions, 'Incorrect sort options list');
-   });
+  });
 
   it('[C277728] Sort by Name', async () => {
     await page.sortingPicker.sortBy('Filename', 'asc');
