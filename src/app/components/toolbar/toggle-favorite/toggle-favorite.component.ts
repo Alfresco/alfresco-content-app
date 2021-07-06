@@ -52,13 +52,13 @@ export class ToggleFavoriteComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.data) {
-      this.reloadOnRoutes = JSON.parse(this.data.replace(/'/g, '"'));
+    if (this.data?.url) {
+      this.reloadOnRoutes = JSON.parse(this.data.url.replace(/'/g, '"'));
     }
   }
 
   onToggleEvent() {
-    if (this.reloadOnRoutes.includes(this.router.url)) {
+    if (this.reloadOnRoutes.includes(this.router.url) || this.data?.reload) {
       this.store.dispatch(new ReloadDocumentListAction());
     }
   }

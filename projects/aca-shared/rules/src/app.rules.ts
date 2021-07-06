@@ -479,6 +479,19 @@ export function canToggleFavorite(context: RuleContext): boolean {
 }
 
 /**
+ * Checks if user can toggle **Favorite** state for a node on preview mode.
+ * @param context Rule execution context
+ */
+export function canToggleFavoriteOnPreview(context: RuleContext): boolean {
+  return [
+    [canAddFavorite(context), canRemoveFavorite(context)].some(Boolean),
+    [navigation.isPreview(context)].some(
+      Boolean
+    )
+  ].every(Boolean);
+}
+
+/**
  * Checks if application should render logout option.
  * JSON ref: `canShowLogout`
  * @param context Rule execution context

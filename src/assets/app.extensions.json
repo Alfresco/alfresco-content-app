@@ -452,7 +452,9 @@
             "comment": "workaround for Recent Files and Search API issue",
             "type": "custom",
             "order": 400,
-            "data": "['/favorites', '/favorite/libraries']",
+            "data": {
+              "url": "['/favorites', '/favorite/libraries']"
+            },
             "component": "app.toolbar.toggleFavorite",
             "rules": {
               "visible": "canToggleFavorite"
@@ -693,7 +695,9 @@
         "comment": "workaround for Recent Files and Search API issue",
         "type": "custom",
         "order": 802,
-        "data": "['/favorites', '/favorite/libraries']",
+        "data": {
+          "url": "['/favorites', '/favorite/libraries']"
+        },
         "component": "app.toolbar.toggleFavorite",
         "rules": {
           "visible": "canToggleFavorite"
@@ -949,37 +953,16 @@
               }
             },
             {
-              "id": "app.viewer.favorite.add",
-              "order": 300,
-              "title": "APP.ACTIONS.FAVORITE",
-              "icon": "star_border",
-              "actions": {
-                "click": "ADD_FAVORITE"
-              },
-              "rules": {
-                "visible": "app.toolbar.favorite.canAdd"
-              }
-            },
-            {
-              "id": "app.viewer.favorite.remove",
-              "order": 301,
-              "title": "APP.ACTIONS.REMOVE_FAVORITE",
-              "icon": "star",
-              "actions": {
-                "click": "REMOVE_FAVORITE"
-              },
-              "rules": {
-                "visible": "app.toolbar.favorite.canRemove"
-              }
-            },
-            {
               "id": "app.viewer.favorite",
               "comment": "workaround for Recent Files and Search API issue",
               "type": "custom",
               "order": 302,
+              "data": {
+                "reload": true
+              },
               "component": "app.toolbar.toggleFavorite",
               "rules": {
-                "visible": "canToggleFavorite"
+                "visible": "canToggleFavoriteOnPreview"
               }
             },
             {

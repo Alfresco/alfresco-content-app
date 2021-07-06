@@ -130,6 +130,7 @@ export class CoreExtensionsModule {
       canManagePermissions: rules.canManagePermissions,
       canToggleEditOffline: rules.canToggleEditOffline,
       canToggleFavorite: rules.canToggleFavorite,
+      canToggleFavoriteOnPreview: rules.canToggleFavoriteOnPreview,
       isLibraryManager: rules.isLibraryManager,
       canEditAspects: rules.canEditAspects,
       canInfoPreview: rules.canInfoPreview,
