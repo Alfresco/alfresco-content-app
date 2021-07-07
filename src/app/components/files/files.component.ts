@@ -118,8 +118,8 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    super.ngOnDestroy();
     this.store.dispatch(new SetCurrentFolderAction(null));
+    super.ngOnDestroy();
   }
 
   navigate(nodeId: string = null) {
