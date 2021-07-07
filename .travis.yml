@@ -44,13 +44,6 @@ stages:
   - name: Trigger DW
     if: branch = develop AND type = cron
 
-env:
-  global:
-    - ADMIN_EMAIL=$ADMIN_EMAIL_REMOTE
-    - ADMIN_PASSWORD=$ADMIN_PASSWORD_REMOTE
-    - NODE_MODULES_DIR="./node_modules"
-
-
 jobs:
   include:
     - stage: Setup
