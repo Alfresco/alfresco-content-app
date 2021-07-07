@@ -168,6 +168,8 @@
             },
             "SEARCH": {
               "DEFAULT_SEARCH": "Default",
+              "DUBLIN_CORE": "Dublin core",
+              "EFFECTIVITY": "Effectivity",
               "TITLE": "Search Results",
                 "FOUND_RESULTS": "{{ number }} results found",
                 "FOUND_ONE_RESULT": "{{ number }} result found",
@@ -511,7 +513,9 @@
                 "LARGE": "Large",
                 "HUGE": "Huge"
             },
-            "CREATED_DATE": "Created date"
+            "CREATED_DATE": "Created date",
+            "EFFECTIVITY_FROM": "Effectivity from",
+            "EFFECTIVITY_TO": "Effectivity to"
         },
         "FACET_QUERIES": {
             "TODAY": "Today",

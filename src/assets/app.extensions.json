@@ -1391,7 +1391,314 @@
             }
           }
         ]
+      },
+      {
+        "id": "app.search.dublin-core",
+        "order": 100,
+        "name": "APP.BROWSE.SEARCH.DUBLIN_CORE",
+        "default": false,
+        "filterWithContains": true,
+        "aca:fields": ["cm:name", "cm:title", "cm:description", "cm:identifier", "cm:contributor", "cm:coverage", "cm:dcsource", "cm:publisher", "cm:rights", "cm:subject", "cm:type", "TEXT", "TAG"],
+        "include": ["path", "allowableOperations", "properties"],
+        "sorting": {
+          "options": [
+            {
+              "key": "score",
+              "label": "SEARCH.SORT.RELEVANCE",
+              "type": "SCORE",
+              "field": "score",
+              "ascending": false
+            },
+            {
+              "key": "name",
+              "label": "SEARCH.SORT.FILENAME",
+              "type": "FIELD",
+              "field": "cm:name",
+              "ascending": true
+            },
+            {
+              "key": "title",
+              "label": "SEARCH.SORT.TITLE",
+              "type": "FIELD",
+              "field": "cm:title",
+              "ascending": true
+            },
+            {
+              "key": "created",
+              "label": "SEARCH.SORT.CREATE_DATE",
+              "type": "FIELD",
+              "field": "cm:created",
+              "ascending": true
+            }
+          ],
+          "defaults": [
+            {
+              "key": "score",
+              "type": "SCORE",
+              "field": "score",
+              "ascending": false
+            }
+          ]
+        },
+        "aca:triggeredOnChange": false,
+        "resetButton": true,
+        "filterQueries": [
+          { "query": "+TYPE:'cm:folder' OR +TYPE:'cm:content' AND +ASPECT:'cm:dublincore'" },
+          {
+            "query": "-TYPE:'cm:thumbnail' AND -TYPE:'cm:failedThumbnail' AND -TYPE:'cm:rating'"
+          },
+          { "query": "-cm:creator:System AND -QNAME:comment" },
+          {
+            "query": "-TYPE:'st:site' AND -ASPECT:'st:siteContainer' AND -ASPECT:'sys:hidden'"
+          },
+          {
+            "query": "-TYPE:'dl:dataList' AND -TYPE:'dl:todoList' AND -TYPE:'dl:issue'"
+          },
+          { "query": "-TYPE:'fm:topic' AND -TYPE:'fm:post'" },
+          { "query": "-TYPE:'lnk:link'" },
+          { "query": "-PNAME:'0/wiki'" }
+        ],
+        "facetFields": {
+          "expanded": true,
+          "fields": [
+            {
+              "mincount": 1,
+              "field": "creator",
+              "label": "SEARCH.FACET_FIELDS.CREATOR",
+              "settings": {
+                "allowUpdateOnChange": false,
+                "hideDefaultAction": true
+              }
+            },
+            {
+              "mincount": 1,
+              "field": "cm:type",
+              "label": "Type",
+              "settings": {
+                "allowUpdateOnChange": false,
+                "hideDefaultAction": true
+              }
+            },
+            {
+              "mincount": 1,
+              "field": "cm:publisher",
+              "label": "Publisher",
+              "settings": {
+                "allowUpdateOnChange": false,
+                "hideDefaultAction": true
+              }
+            },
+            {
+              "mincount": 1,
+              "field": "cm:contributor",
+              "label": "Contributor",
+              "settings": {
+                "allowUpdateOnChange": false,
+                "hideDefaultAction": true
+              }
+            }
+
+          ]
+        },
+        "categories": [
+          {
+            "id": "createdDateRange",
+            "name": "SEARCH.CATEGORIES.CREATED_DATE",
+            "enabled": true,
+            "component": {
+              "selector": "date-range",
+              "settings": {
+                "allowUpdateOnChange": false,
+                "hideDefaultAction": true,
+                "field": "cm:created",
+                "dateFormat": "DD-MMM-YY",
+                "maxDate": "today"
+              }
+            }
+          },
+          {
+            "id": "dublinSubject",
+            "name": "Dublin Subject",
+            "enabled": true,
+            "expanded": true,
+            "component": {
+              "selector": "text",
+              "settings": {
+                "pattern": "cm:subject:'(.*?)'",
+                "field": "cm:subject",
+                "placeholder": "Enter the Subject"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "app.search.effectivity",
+        "order": 100,
+        "name": "APP.BROWSE.SEARCH.EFFECTIVITY",
+        "default": false,
+        "filterWithContains": true,
+        "aca:fields": ["cm:name", "cm:title", "cm:description", "cm:from", "cm:contributor", "cm:to", "TEXT", "TAG"],
+        "include": ["path", "allowableOperations", "properties"],
+        "sorting": {
+          "options": [
+            {
+              "key": "score",
+              "label": "SEARCH.SORT.RELEVANCE",
+              "type": "SCORE",
+              "field": "score",
+              "ascending": false
+            },
+            {
+              "key": "name",
+              "label": "SEARCH.SORT.FILENAME",
+              "type": "FIELD",
+              "field": "cm:name",
+              "ascending": true
+            },
+            {
+              "key": "title",
+              "label": "SEARCH.SORT.TITLE",
+              "type": "FIELD",
+              "field": "cm:title",
+              "ascending": true
+            },
+            {
+              "key": "created",
+              "label": "SEARCH.SORT.CREATE_DATE",
+              "type": "FIELD",
+              "field": "cm:created",
+              "ascending": true
+            }
+          ],
+          "defaults": [
+            {
+              "key": "score",
+              "type": "SCORE",
+              "field": "score",
+              "ascending": false
+            }
+          ]
+        },
+        "aca:triggeredOnChange": false,
+        "resetButton": true,
+        "filterQueries": [
+          { "query": "+TYPE:'cm:folder' OR +TYPE:'cm:content' AND +ASPECT:'cm:effectivity'" },
+          {
+            "query": "-TYPE:'cm:thumbnail' AND -TYPE:'cm:failedThumbnail' AND -TYPE:'cm:rating'"
+          },
+          { "query": "-cm:creator:System AND -QNAME:comment" },
+          {
+            "query": "-TYPE:'st:site' AND -ASPECT:'st:siteContainer' AND -ASPECT:'sys:hidden'"
+          },
+          {
+            "query": "-TYPE:'dl:dataList' AND -TYPE:'dl:todoList' AND -TYPE:'dl:issue'"
+          },
+          { "query": "-TYPE:'fm:topic' AND -TYPE:'fm:post'" },
+          { "query": "-TYPE:'lnk:link'" },
+          { "query": "-PNAME:'0/wiki'" }
+        ],
+        "facetFields": {
+          "expanded": true,
+          "fields": [
+            {
+              "mincount": 1,
+              "field": "creator",
+              "label": "SEARCH.FACET_FIELDS.CREATOR",
+              "settings": {
+                "allowUpdateOnChange": false,
+                "hideDefaultAction": true
+              }
+            },
+            {
+              "mincount": 1,
+              "field": "modifier",
+              "label": "SEARCH.FACET_FIELDS.MODIFIER",
+              "settings": {
+                "allowUpdateOnChange": false,
+                "hideDefaultAction": true
+              }
+            }
+
+          ]
+        },
+        "facetQueries": {
+          "label": "SEARCH.CATEGORIES.MODIFIED_DATE",
+          "expanded": true,
+          "queries": [
+            {
+              "label": "SEARCH.FACET_QUERIES.TODAY",
+              "query": "cm:modified:[TODAY to TODAY]"
+            },
+            {
+              "label": "SEARCH.FACET_QUERIES.THIS_WEEK",
+              "query": "cm:modified:[NOW/DAY-7DAYS TO NOW/DAY+1DAY]"
+            },
+            {
+              "label": "SEARCH.FACET_QUERIES.THIS_MONTH",
+              "query": "cm:modified:[NOW/DAY-1MONTH TO NOW/DAY+1DAY]"
+            },
+            {
+              "label": "SEARCH.FACET_QUERIES.LAST_6_MONTHS",
+              "query": "cm:modified:[NOW/DAY-6MONTHS TO NOW/DAY+1DAY]"
+            },
+            {
+              "label": "SEARCH.FACET_QUERIES.THIS_YEAR",
+              "query": "cm:modified:[NOW/DAY-1YEAR TO NOW/DAY+1DAY]"
+            }
+          ],
+          "settings": {
+            "allowUpdateOnChange": false,
+            "hideDefaultAction": true
+          }
+        },
+        "categories": [
+          {
+            "id": "createdDateRange",
+            "name": "SEARCH.CATEGORIES.CREATED_DATE",
+            "enabled": true,
+            "component": {
+              "selector": "date-range",
+              "settings": {
+                "allowUpdateOnChange": false,
+                "hideDefaultAction": true,
+                "field": "cm:created",
+                "dateFormat": "DD-MMM-YY",
+                "maxDate": "today"
+              }
+            }
+          },
+          {
+            "id": "effectivnessFrom",
+            "name": "SEARCH.CATEGORIES.EFFECTIVITY_FROM",
+            "enabled": true,
+            "component": {
+              "selector": "date-range",
+              "settings": {
+                "allowUpdateOnChange": false,
+                "hideDefaultAction": true,
+                "field": "cm:from",
+                "dateFormat": "DD-MMM-YY"
+              }
+            }
+          },
+          {
+            "id": "createdDateRange",
+            "name": "SEARCH.CATEGORIES.EFFECTIVITY_TO",
+            "enabled": true,
+            "component": {
+              "selector": "date-range",
+              "settings": {
+                "allowUpdateOnChange": false,
+                "hideDefaultAction": true,
+                "field": "cm:to",
+                "dateFormat": "DD-MMM-YY"
+              }
+            }
+          }
+        ]
       }
+
     ],
     "content-metadata-presets": [
       {
