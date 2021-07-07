@@ -32,6 +32,7 @@ before_install:
 install: echo "no install"
 
 stages:
+  - name: Setup
   - name: Quality and Unit tests
     if: type = cron || type = pull_request
   - name: Publish Docker Registry
