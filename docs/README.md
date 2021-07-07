@@ -38,6 +38,8 @@ The documentation is divided into the following sections:
 
 | ACA Version | Built with | Tested on |
 | ----------- | ---------- | --------- |
+| ACA 2.4.0    | ADF 4.4.0  | ACS 6.2   |
+| ACA 2.3.0    | ADF 4.3.0  | ACS 6.2   |
 | ACA 2.2.0    | ADF 4.2.0  | ACS 6.2   |
 | ACA 2.1.0    | ADF 4.1.0  | ACS 6.2   |
 | ACA 1.12    | ADF 3.9.0  | ACS 6.2   |
