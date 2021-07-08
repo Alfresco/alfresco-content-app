@@ -24,7 +24,7 @@
  */
 
 import { RepoApi } from '../repo-api';
-import { Logger } from '@alfresco/adf-testing';
+import { ApiUtil, Logger } from '@alfresco/adf-testing';
 import { Utils } from '../../../../utilities/utils';
 import { SearchApi as AdfSearchApi } from '@alfresco/js-api';
 
@@ -130,20 +130,17 @@ export class SearchApi extends RepoApi {
   }
 
   async waitForNodes(searchTerm: string, data: { expect: number }) {
-    try {
-      const nodes = async () => {
-        const totalItems = await this.getSearchByTermTotalItems(searchTerm);
-        if (totalItems !== data.expect) {
-          return Promise.reject(totalItems);
-        } else {
-          return Promise.resolve(totalItems);
-        }
-      };
+    const predicate = (totalItems: number) => totalItems === data.expect;
 
-      return await Utils.retryCall(nodes, undefined, 2500);
-    } catch (error) {
-      Logger.error(`SearchApi waitForNodes : catch : `);
-      Logger.error(`\tExpected: ${data.expect} items, but found ${error}`);
-    }
+    const apiCall = async () => {
+      try {
+        return this.getSearchByTermTotalItems(searchTerm);
+      } catch (error) {
+        Logger.error('Failed to search');
+        return null;
+      }
+    };
+
+    return ApiUtil.waitForApi(apiCall, predicate);
   }
 }
