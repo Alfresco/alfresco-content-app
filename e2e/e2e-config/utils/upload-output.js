@@ -4,10 +4,6 @@ const AlfrescoApi = require('@alfresco/js-api').AlfrescoApiCompatibility;
 const buildNumber = require('./build-number');
 const outputDir = path.resolve(__dirname, '../../../e2e-output/');
 
-async function uploadOutput(retryCount = 1) {
-  await saveScreenshots(retryCount);
-};
-
 async function saveScreenshots(retryCount) {
   const folderName = process.env.TRAVIS_JOB_NAME.replace(/[^a-z0-9]/gi, '_').toLowerCase();
   console.log(`Start uploading report in ${folderName}`);
@@ -63,5 +59,5 @@ async function saveScreenshots(retryCount) {
 }
 
 module.exports = {
-  uploadOutput: uploadOutput
+  saveScreenshots: saveScreenshots
 };
