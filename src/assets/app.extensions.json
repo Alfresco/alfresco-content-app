@@ -1394,7 +1394,7 @@
       },
       {
         "id": "app.search.dublin-core",
-        "order": 100,
+        "order": 200,
         "name": "APP.BROWSE.SEARCH.DUBLIN_CORE",
         "default": false,
         "filterWithContains": true,
@@ -1524,6 +1524,8 @@
             "component": {
               "selector": "text",
               "settings": {
+                "allowUpdateOnChange": false,
+                "hideDefaultAction": true,
                 "pattern": "cm:subject:'(.*?)'",
                 "field": "cm:subject",
                 "placeholder": "Enter the Subject"
@@ -1534,7 +1536,7 @@
       },
       {
         "id": "app.search.effectivity",
-        "order": 100,
+        "order": 300,
         "name": "APP.BROWSE.SEARCH.EFFECTIVITY",
         "default": false,
         "filterWithContains": true,
