@@ -5,8 +5,9 @@ require('dotenv').config({path: process.env.ENV_FILE});
 const path = require('path');
 const {SpecReporter} = require('jasmine-spec-reporter');
 const retry = require('protractor-retry-angular-cli').retry;
-const {uploadOutput} = require('./e2e/e2e-config/utils/upload-output');
+const {uploadScreenshot} = require('./e2e/e2e-config/utils/upload-output');
 const smartRunnerFactory = require('./e2e/smartrunner-factory');
+const argv = require('yargs').argv;
 
 const projectRoot = path.resolve(__dirname);
 const downloadFolder = path.join(__dirname, 'e2e-downloads');
@@ -22,7 +23,6 @@ const APP_CONFIG_ECM_HOST = process.env.APP_CONFIG_ECM_HOST || 'http://localhost
 const MAXINSTANCES = process.env.MAXINSTANCES || 1;
 const E2E_LOG_LEVEL = process.env.E2E_LOG_LEVEL || 'ERROR';
 
-let retryCount = 0;
 
 const appConfig = {
   hostEcm: APP_CONFIG_ECM_HOST,
@@ -207,10 +207,13 @@ exports.config = {
     if (SAVE_SCREENSHOT && statusCode !== 0) {
       console.log(`Status code is ${statusCode}, trying to save screenshots.`);
 
-      retryCount++;
+      let retryCount = 1;
+      if (argv.retry) {
+        retryCount = ++argv.retry;
+      }
 
       try {
-        await uploadOutput(retryCount);
+        await uploadScreenshot(retryCount, (process.env.FOLDER || ''));
         console.log('Screenshots saved successfully.');
       } catch (e) {
         console.log('Error happened while trying to upload screenshots and test reports: ', e);
