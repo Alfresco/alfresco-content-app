@@ -5,7 +5,7 @@ require('dotenv').config({path: process.env.ENV_FILE});
 const path = require('path');
 const {SpecReporter} = require('jasmine-spec-reporter');
 const retry = require('protractor-retry-angular-cli').retry;
-const {uploadScreenshot} = require('./e2e/e2e-config/utils/upload-output');
+const {saveScreenshots} = require('./e2e/e2e-config/utils/upload-output');
 const smartRunnerFactory = require('./e2e/smartrunner-factory');
 const argv = require('yargs').argv;
 
@@ -213,7 +213,7 @@ exports.config = {
       }
 
       try {
-        await uploadScreenshot(retryCount, (process.env.FOLDER || ''));
+        await saveScreenshots(retryCount, (process.env.FOLDER || ''));
         console.log('Screenshots saved successfully.');
       } catch (e) {
         console.log('Error happened while trying to upload screenshots and test reports: ', e);
