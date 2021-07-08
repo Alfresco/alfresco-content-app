@@ -235,45 +235,4 @@ export class UserActions {
       }
     } else Logger.error('\t>>> ', response);
   }
-
-  async waitForRecentFiles(data: { expect: number }) {
-    try {
-      const nodes = async () => {
-        const totalItems = (await this.getRecentItems()).length;
-        if (totalItems !== data.expect) {
-          return Promise.reject(totalItems);
-        } else {
-          return Promise.resolve(totalItems);
-        }
-      };
-
-      return await Utils.retryCall(nodes);
-    } catch (error) {
-      Logger.error(`SearchApi waitForRecentFiles : catch : `);
-      Logger.error(`\tExpected: ${data.expect} items, but found ${error}`);
-    }
-  }
-
-  async getRecentItems(): Promise<ResultSetRowEntry[]> {
-    const query = new SearchRequest({
-      query: {
-        query: 'cm:name:"*"',
-        language: 'afts'
-      },
-      filterQueries: [
-        { query: `cm:modified:[NOW/DAY-30DAYS TO NOW/DAY+1DAY]` },
-        { query: `cm:modifier:${this.username} OR cm:creator:${this.username}` },
-        { query: '+TYPE:"content"' }
-      ],
-      include: ['path', 'properties', 'allowableOperations'],
-      sort: [
-        {
-          type: 'FIELD',
-          field: 'cm:modified',
-          ascending: false
-        }
-      ]
-    });
-    return (await this.searchApi.search(query)).list.entries;
-  }
 }
