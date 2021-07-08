@@ -132,15 +132,19 @@ export class SearchApi extends RepoApi {
   async waitForNodes(searchTerm: string, data: { expect: number }) {
     const predicate = (totalItems: number) => totalItems === data.expect;
 
-    const apiCall = () => {
+    const apiCall = async () => {
       try {
-        return this.getSearchByTermTotalItems(searchTerm);
+        return await this.getSearchByTermTotalItems(searchTerm);
       } catch (error) {
-        Logger.error('Failed to search');
-        return null;
+        return 0;
       }
     };
 
-    return ApiUtil.waitForApi(apiCall, predicate);
+    try {
+      await ApiUtil.waitForApi(apiCall, predicate, 30, 2500);
+    } catch (error) {
+      Logger.error(`SearchApi waitForNodes : catch : `);
+      Logger.error(`\tExpected: ${data.expect} items, but found ${error}`);
+    }
   }
 }
