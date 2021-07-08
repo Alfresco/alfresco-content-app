@@ -71,6 +71,8 @@ describe('Locked Files - available actions : ', () => {
     await userApi.nodes.lockFile(fileSharedFavLockedId);
 
     await userApi.shared.waitForFilesToBeShared([fileSharedLockedId, fileSharedFavLockedId]);
+    await userActions.login(username, username);
+    await userActions.waitForRecentFiles({ expect: 4 });
 
     await loginPage.loginWith(username);
   });

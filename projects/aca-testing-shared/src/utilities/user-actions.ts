@@ -24,7 +24,18 @@
  */
 
 import { Logger } from '@alfresco/adf-testing';
-import { AlfrescoApi, Comment, CommentsApi, NodesApi, TrashcanApi, SitesApi, SharedlinksApi } from '@alfresco/js-api';
+import {
+  AlfrescoApi,
+  Comment,
+  CommentsApi,
+  NodesApi,
+  ResultSetRowEntry,
+  SearchApi,
+  SearchRequest,
+  SharedlinksApi,
+  SitesApi,
+  TrashcanApi
+} from '@alfresco/js-api';
 import { browser } from 'protractor';
 import { Utils } from './utils';
 
@@ -35,6 +46,7 @@ export class UserActions {
   readonly nodesApi: NodesApi;
   readonly trashcanApi: TrashcanApi;
   readonly sitesApi: SitesApi;
+  readonly searchApi: SearchApi;
   readonly sharedLinksApi: SharedlinksApi;
 
   protected username: string;
@@ -49,6 +61,7 @@ export class UserActions {
     this.trashcanApi = new TrashcanApi(this.alfrescoApi);
     this.sitesApi = new SitesApi(this.alfrescoApi);
     this.sharedLinksApi = new SharedlinksApi(this.alfrescoApi);
+    this.searchApi = new SearchApi(this.alfrescoApi);
   }
 
   async login(username: string, password: string) {
@@ -221,5 +234,46 @@ export class UserActions {
         Logger.error('\t>>> ', response);
       }
     } else Logger.error('\t>>> ', response);
+  }
+
+  async waitForRecentFiles(data: { expect: number }) {
+    try {
+      const nodes = async () => {
+        const totalItems = (await this.getRecentItems()).length;
+        if (totalItems !== data.expect) {
+          return Promise.reject(totalItems);
+        } else {
+          return Promise.resolve(totalItems);
+        }
+      };
+
+      return await Utils.retryCall(nodes);
+    } catch (error) {
+      Logger.error(`SearchApi waitForRecentFiles : catch : `);
+      Logger.error(`\tExpected: ${data.expect} items, but found ${error}`);
+    }
+  }
+
+  async getRecentItems(): Promise<ResultSetRowEntry[]> {
+    const query = new SearchRequest({
+      query: {
+        query: 'cm:name:"*"',
+        language: 'afts'
+      },
+      filterQueries: [
+        { query: `cm:modified:[NOW/DAY-30DAYS TO NOW/DAY+1DAY]` },
+        { query: `cm:modifier:${this.username} OR cm:creator:${this.username}` },
+        { query: '+TYPE:"content"' }
+      ],
+      include: ['path', 'properties', 'allowableOperations'],
+      sort: [
+        {
+          type: 'FIELD',
+          field: 'cm:modified',
+          ascending: false
+        }
+      ]
+    });
+    return (await this.searchApi.search(query)).list.entries;
   }
 }
