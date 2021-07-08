@@ -24,18 +24,7 @@
  */
 
 import { Logger } from '@alfresco/adf-testing';
-import {
-  AlfrescoApi,
-  Comment,
-  CommentsApi,
-  NodesApi,
-  ResultSetRowEntry,
-  SearchApi,
-  SearchRequest,
-  SharedlinksApi,
-  SitesApi,
-  TrashcanApi
-} from '@alfresco/js-api';
+import { AlfrescoApi, Comment, CommentsApi, NodesApi, TrashcanApi, SitesApi, SharedlinksApi } from '@alfresco/js-api';
 import { browser } from 'protractor';
 import { Utils } from './utils';
 
@@ -46,7 +35,6 @@ export class UserActions {
   readonly nodesApi: NodesApi;
   readonly trashcanApi: TrashcanApi;
   readonly sitesApi: SitesApi;
-  readonly searchApi: SearchApi;
   readonly sharedLinksApi: SharedlinksApi;
 
   protected username: string;
@@ -61,7 +49,6 @@ export class UserActions {
     this.trashcanApi = new TrashcanApi(this.alfrescoApi);
     this.sitesApi = new SitesApi(this.alfrescoApi);
     this.sharedLinksApi = new SharedlinksApi(this.alfrescoApi);
-    this.searchApi = new SearchApi(this.alfrescoApi);
   }
 
   async login(username: string, password: string) {
