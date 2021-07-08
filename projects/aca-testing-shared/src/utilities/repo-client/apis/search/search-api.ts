@@ -140,7 +140,7 @@ export class SearchApi extends RepoApi {
         }
       };
 
-      return await Utils.retryCall(nodes);
+      return await Utils.retryCall(nodes, undefined, 2500);
     } catch (error) {
       Logger.error(`SearchApi waitForNodes : catch : `);
       Logger.error(`\tExpected: ${data.expect} items, but found ${error}`);
