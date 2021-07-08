@@ -43,7 +43,7 @@
       "APPLICATION-SETTINGS": "Toepassingsinstellingen",
       "REPOSITORY-SETTINGS": "Opslagplaatsinstellingen",
       "INVALID-VALUE-FORMAT": "Ongeldige indeling van waarde",
-      "REQUIRED-FIELD": "Dit veld is verplicht",
+      "REQUIRED-FIELD": "Dit veld is vereist",
       "RESET": "Opnieuw instellen",
       "APPLY": "Toepassen"
     },
@@ -159,14 +159,15 @@
         },
         "EMPTY_STATE": {
           "TITLE": "Prullenbak is leeg",
-          "FIRST_TEXT": "Items die u verwijdert worden verplaatst naar de prullenbak.",
-          "SECOND_TEXT": "Maak de prullenmand leeg om items definitief te verwijderen."
+          "FIRST_TEXT": "Items die u verwijdert, worden verplaatst naar de prullenbak.",
+          "SECOND_TEXT": "Leeg de prullenmand om items definitief te verwijderen."
         }
       },
       "ABOUT": {
         "TITLE": "Info"
       },
       "SEARCH": {
+        "DEFAULT_SEARCH": "Standaard",
         "TITLE": "Zoekresultaten",
         "FOUND_RESULTS": "{{ number }} resultaten gevonden",
         "FOUND_ONE_RESULT": "{{ number }} resultaat gevonden",
@@ -178,6 +179,7 @@
         },
         "UNKNOWN_LOCATION": "Onbekend",
         "NO_RESULTS": "Uw zoekopdracht heeft 0 resultaten opgeleverd",
+        "EMPTY_SEARCH": "Zoekterm vereist",
         "NO_FILTER_RESULTS": "Uw filter heeft 0 resultaten opgeleverd",
         "ERRORS": {
           "500": "Er is een fout opgetreden bij het verwerken van de zoekquery [500]",
@@ -215,7 +217,7 @@
       "PRINT": "Afdrukken",
       "FULLSCREEN": "Modus voor volledig scherm activeren",
       "JOIN": "Lid worden",
-      "CANCEL_JOIN": "Verzoek om lid te worden annuleren",
+      "CANCEL_JOIN": "Aanvraag om lid te worden annuleren",
       "LEAVE": "Bibliotheek verlaten",
       "EDIT_OFFLINE": "Offline bewerken",
       "EDIT_OFFLINE_CANCEL": "Bewerken annuleren",
@@ -287,9 +289,9 @@
         },
         "DELETE_LIBRARY_FAILED": "De bibliotheek kan niet worden verwijderd",
         "JOIN_REQUEST_FAILED": "Lid worden van de bibliotheek niet mogelijk",
-        "JOIN_CANCEL_FAILED": "Verzoek om lid te worden kan niet worden geannuleerd",
+        "JOIN_CANCEL_FAILED": "Uw aanvraag om lid te worden kan niet worden geannuleerd",
         "LEAVE_LIBRARY_FAILED": "Kan deze bibliotheek niet verlaten",
-        "INVALID_SENDER_EMAIL": "U moet een geldig e-mailadres hebben voordat u kunt verzoeken om lid te worden.",
+        "INVALID_SENDER_EMAIL": "U moet een geldig e-mailadres hebben voordat u kunt aanvragen om lid te worden.",
         "INVALID_RECEIVER_EMAIL": "Het e-mailadres van de ontvanger(s) is niet geldig, neem contact op met IT."
       },
       "UPLOAD": {
@@ -340,23 +342,23 @@
         },
         "LIBRARY_DELETED": "Bibliotheek verwijderd",
         "JOINED": "Lid geworden van bibliotheek",
-        "JOIN_REQUESTED": "Verzoek om lid te worden van deze bibliotheek is verzonden",
-        "JOIN_CANCELED": "Verzoek om lid te worden van de bibliotheek is geannuleerd",
+        "JOIN_REQUESTED": "Aanvraag om lid te worden van deze bibliotheek is verzonden",
+        "JOIN_CANCELED": "Aanvraag om lid te worden van de bibliotheek is geannuleerd",
         "LEFT_LIBRARY": "U hebt de bibliotheek verlaten"
       }
     },
     "CONTENT_METADATA": {
       "EXIF_GROUP_TITLE": "EXIF afbeelding",
-      "GROUP_IPTC_CORE_CONTACT_INFO": "IPTC - Contact",
-      "GROUP_IPTC_CORE_IMAGE_INFO": "IPTC - Afbeelding",
-      "GROUP_IPTC_CORE_CONTENT_INFO": "IPTC - Content",
-      "GROUP_IPTC_CORE_STATUS_INFO": "IPTC - Status",
-      "GROUP_IPTC_EXT_DESCRIPTION": "IPTC - Afbeeldingsbeschrijving",
-      "GROUP_IPTC_EXT_AO_DETAIL": "IPTC - Kunstwerk- of objectgegevens",
-      "GROUP_IPTC_EXT_MODEL_INFO": "IPTC - Modelinformatie",
-      "GROUP_IPTC_EXT_ADMIN_INFO": "IPTC - Beheerinformatie",
-      "GROUP_IPTC_EXT_RIGHTS_INFO": "IPTC - Rechteninformatie",
-      "GROUP_IPTC_EXT_OTHER": "IPTC Overig",
+      "GROUP_IPTC_CORE_CONTACT_INFO": "IPTC-contact",
+      "GROUP_IPTC_CORE_IMAGE_INFO": "IPTC-afbeelding",
+      "GROUP_IPTC_CORE_CONTENT_INFO": "IPTC-content",
+      "GROUP_IPTC_CORE_STATUS_INFO": "IPTC-status",
+      "GROUP_IPTC_EXT_DESCRIPTION": "IPTC-afbeeldingsbeschrijving",
+      "GROUP_IPTC_EXT_AO_DETAIL": "IPTC-kunstwerk- of -objectdetails",
+      "GROUP_IPTC_EXT_MODEL_INFO": "IPTC-modelinformatie",
+      "GROUP_IPTC_EXT_ADMIN_INFO": "IPTC-beheerinformatie",
+      "GROUP_IPTC_EXT_RIGHTS_INFO": "IPTC-rechteninformatie",
+      "GROUP_IPTC_EXT_OTHER": "IPTC overig",
       "EFFECTIVITY_GROUP_TITLE": "Effectiviteit"
     },
     "INFO_DRAWER": {
@@ -395,20 +397,11 @@
       "ERRORS": {
         "DESCRIPTION_TOO_LONG": "Gebruik 512 tekens of minder voor de beschrijving",
         "TITLE_TOO_LONG": "Gebruik 256 tekens of minder voor de titel",
-        "REQUIRED": "Naam is verplicht",
+        "REQUIRED": "Naam is vereist",
         "SPECIAL_CHARACTERS": "Naam mag de volgende tekens niet bevatten: * \" < > \\ / ? : |",
         "ENDING_DOT": "Naam mag niet eindigen met een punt.",
         "ONLY_SPACES": "Naam mag niet alleen uit spaties bestaan"
       }
-    }
-  },
-  "PERMISSIONS": {
-    "DIALOG": {
-      "TITLE": "Rechten beheren",
-      "CLOSE": "Sluiten",
-      "INHERIT_PERMISSIONS_BUTTON": "Rechten overnemen",
-      "INHERITED_PERMISSIONS_BUTTON": "Overgenomen rechten",
-      "ADD_USER_OR_GROUP": "Gebruiker of groep toevoegen"
     }
   },
   "SHARED_LINK": {
@@ -443,9 +436,7 @@
     }
   },
   "INFO_PANEL": {
-    "TABS": {
-
-        },
+    "TABS": {},
     "DETAILS": "Details"
   },
   "LIBRARY": {
@@ -473,7 +464,7 @@
     "ERRORS": {
       "GENERIC": "Er is een probleem opgetreden",
       "EXISTENT_SITE": "Deze bibliotheek-id is niet beschikbaar. Probeer een andere bibliotheek-id.",
-      "CONFLICT": "Deze bibliotheek wordt al gebruikt. Controleer de prullenbak.",
+      "CONFLICT": "Deze bibliotheek-id wordt al gebruikt. Controleer de prullenbak.",
       "ID_TOO_LONG": "Gebruik 72 tekens of minder voor de URL-naam",
       "DESCRIPTION_TOO_LONG": "Gebruik 512 tekens of minder voor de beschrijving",
       "TITLE_TOO_LONG": "Gebruik 256 tekens of minder voor de titel",
@@ -571,7 +562,8 @@
   },
   "ADF_VIEWER": {
     "ACTIONS": {
-      "INFO": "Details weergeven"
+      "INFO": "Details weergeven",
+      "PREVIEW": "Preview weergeven"
     }
   },
   "FILE_UPLOAD": {

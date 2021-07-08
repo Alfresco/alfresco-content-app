@@ -52,7 +52,7 @@
       "TITLE": "Forhåndsvis"
     },
     "DETAILS": {
-      "TITLE": "Oplysninger"
+      "TITLE": "Detaljer"
     },
     "NEW_MENU": {
       "LABEL": "Ny(t)",
@@ -167,6 +167,7 @@
         "TITLE": "Om"
       },
       "SEARCH": {
+        "DEFAULT_SEARCH": "Standard",
         "TITLE": "Søgeresultater",
         "FOUND_RESULTS": "{{ number }} resultater fundet",
         "FOUND_ONE_RESULT": "{{ number }} resultat fundet",
@@ -178,7 +179,8 @@
         },
         "UNKNOWN_LOCATION": "Ukendt",
         "NO_RESULTS": "Der blev ikke fundet nogen søgeresultater",
-        "NO_FILTER_RESULTS": "Dit filter gav 0 resultater",
+        "EMPTY_SEARCH": "Søgeord er obligatorisk",
+        "NO_FILTER_RESULTS": "Der blev ikke fundet nogen filterresultater",
         "ERRORS": {
           "500": "Der opstod en fejl under behandling af søgeforespørgslen [500]",
           "GENERIC": "Der opstod en fejl under behandling af søgeforespørgslen"
@@ -352,10 +354,10 @@
       "GROUP_IPTC_CORE_CONTENT_INFO": "IPTC-indhold",
       "GROUP_IPTC_CORE_STATUS_INFO": "IPTC-status",
       "GROUP_IPTC_EXT_DESCRIPTION": "IPTC-billedbeskrivelse",
-      "GROUP_IPTC_EXT_AO_DETAIL": "IPTC-illustrationer eller objektoplysninger",
-      "GROUP_IPTC_EXT_MODEL_INFO": "IPTC-modeloplysninger",
-      "GROUP_IPTC_EXT_ADMIN_INFO": "IPTC-admin information",
-      "GROUP_IPTC_EXT_RIGHTS_INFO": "IPTC-rettigheder information",
+      "GROUP_IPTC_EXT_AO_DETAIL": "IPTC-illustrationsmateriale eller detaljer",
+      "GROUP_IPTC_EXT_MODEL_INFO": "Oplysninger om IPTC-model",
+      "GROUP_IPTC_EXT_ADMIN_INFO": "Oplysninger om IPTC -admin",
+      "GROUP_IPTC_EXT_RIGHTS_INFO": "Oplysninger om IPTC-rettigheder",
       "GROUP_IPTC_EXT_OTHER": "IPTC andet",
       "EFFECTIVITY_GROUP_TITLE": "Gældende periode"
     },
@@ -402,15 +404,6 @@
       }
     }
   },
-  "PERMISSIONS": {
-    "DIALOG": {
-      "TITLE": "Administrer tilladelser",
-      "CLOSE": "Luk",
-      "INHERIT_PERMISSIONS_BUTTON": "Nedarv tilladelser",
-      "INHERITED_PERMISSIONS_BUTTON": "Tilladelserne er nedarvet",
-      "ADD_USER_OR_GROUP": "Tilføj bruger eller gruppe"
-    }
-  },
   "SHARED_LINK": {
     "UNSHARE_PERMISSION_ERROR": "Du har ikke tilladelse til at ophæve delingen af denne fil"
   },
@@ -443,10 +436,8 @@
     }
   },
   "INFO_PANEL": {
-    "TABS": {
-
-        },
-    "DETAILS": "Oplysninger"
+    "TABS": {},
+    "DETAILS": "Detaljer"
   },
   "LIBRARY": {
     "DIALOG": {
@@ -571,7 +562,8 @@
   },
   "ADF_VIEWER": {
     "ACTIONS": {
-      "INFO": "Vis detaljer"
+      "INFO": "Vis detaljer",
+      "PREVIEW": "Vis forpremiere"
     }
   },
   "FILE_UPLOAD": {

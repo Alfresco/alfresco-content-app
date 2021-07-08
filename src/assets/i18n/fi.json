@@ -167,6 +167,7 @@
         "TITLE": "Tietoja"
       },
       "SEARCH": {
+        "DEFAULT_SEARCH": "Oletus",
         "TITLE": "Hakutulosta",
         "FOUND_RESULTS": "Löytyi {{ number }} tulosta",
         "FOUND_ONE_RESULT": "Löytyi {{ number }} tulos",
@@ -178,6 +179,7 @@
         },
         "UNKNOWN_LOCATION": "Tuntematon",
         "NO_RESULTS": "Hakusi ei tuottanut yhtään tulosta",
+        "EMPTY_SEARCH": "Hakutermi on pakollinen",
         "NO_FILTER_RESULTS": "Suodatin ei tuottanut yhtään tulosta",
         "ERRORS": {
           "500": "Hakusanan käsittelyssä tapahtui virhe [500]",
@@ -347,16 +349,16 @@
     },
     "CONTENT_METADATA": {
       "EXIF_GROUP_TITLE": "Kuva – EXIF",
-      "GROUP_IPTC_CORE_CONTACT_INFO": "IPTC yhteystiedot",
-      "GROUP_IPTC_CORE_IMAGE_INFO": "IPTC kuva",
-      "GROUP_IPTC_CORE_CONTENT_INFO": "IPTC sisältö",
-      "GROUP_IPTC_CORE_STATUS_INFO": "IPTC tila",
-      "GROUP_IPTC_EXT_DESCRIPTION": "IPTC kuvan kuvaus",
-      "GROUP_IPTC_EXT_AO_DETAIL": "IPTC taideteksen tai esineen tiedot",
-      "GROUP_IPTC_EXT_MODEL_INFO": "IPTC mallin tiedot",
-      "GROUP_IPTC_EXT_ADMIN_INFO": "IPTC hallintatiedot",
-      "GROUP_IPTC_EXT_RIGHTS_INFO": "IPTC oikeustiedot",
-      "GROUP_IPTC_EXT_OTHER": "IPTC muut tiedot",
+      "GROUP_IPTC_CORE_CONTACT_INFO": "IPTC Yhteystiedot",
+      "GROUP_IPTC_CORE_IMAGE_INFO": "IPTC Kuva",
+      "GROUP_IPTC_CORE_CONTENT_INFO": "IPTC Sisältö",
+      "GROUP_IPTC_CORE_STATUS_INFO": "IPTC Tila",
+      "GROUP_IPTC_EXT_DESCRIPTION": "IPTC Kuvan kuvaus",
+      "GROUP_IPTC_EXT_AO_DETAIL": "IPTC Taideteoksen tai objektin yksityiskohta",
+      "GROUP_IPTC_EXT_MODEL_INFO": "IPTC Mallin tiedot",
+      "GROUP_IPTC_EXT_ADMIN_INFO": "IPTC Järjestelmänvalvojan tiedot",
+      "GROUP_IPTC_EXT_RIGHTS_INFO": "IPTC Oikeustiedot",
+      "GROUP_IPTC_EXT_OTHER": "IPTC Muut tiedot",
       "EFFECTIVITY_GROUP_TITLE": "Voimassaolo"
     },
     "INFO_DRAWER": {
@@ -402,15 +404,6 @@
       }
     }
   },
-  "PERMISSIONS": {
-    "DIALOG": {
-      "TITLE": "Hallitse oikeuksia",
-      "CLOSE": "Sulje",
-      "INHERIT_PERMISSIONS_BUTTON": "Peri oikeudet",
-      "INHERITED_PERMISSIONS_BUTTON": "Oikeudet peritty",
-      "ADD_USER_OR_GROUP": "Lisää käyttäjä tai ryhmä"
-    }
-  },
   "SHARED_LINK": {
     "UNSHARE_PERMISSION_ERROR": "Sinulla ei ole oikeuksia peruuttaa tämän tiedoston jakamista"
   },
@@ -443,9 +436,7 @@
     }
   },
   "INFO_PANEL": {
-    "TABS": {
-
-        },
+    "TABS": {},
     "DETAILS": "Tiedot"
   },
   "LIBRARY": {
@@ -571,7 +562,8 @@
   },
   "ADF_VIEWER": {
     "ACTIONS": {
-      "INFO": "Näytä tiedot"
+      "INFO": "Näytä tiedot",
+      "PREVIEW": "Näytä esikatselu"
     }
   },
   "FILE_UPLOAD": {

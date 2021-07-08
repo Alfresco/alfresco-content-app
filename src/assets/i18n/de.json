@@ -130,9 +130,9 @@
         }
       },
       "RECENT": {
-        "TITLE": "Kürzlich bearbeitete Dateien",
+        "TITLE": "Zuletzt verwendete Dateien",
         "SIDENAV_LINK": {
-          "LABEL": "Kürzlich bearbeitete Dateien",
+          "LABEL": "Zuletzt verwendete Dateien",
           "TOOLTIP": "Dateien anzeigen, die Sie kürzlich bearbeitet haben"
         },
         "EMPTY_STATE": {
@@ -159,14 +159,15 @@
         },
         "EMPTY_STATE": {
           "TITLE": "Papierkorb ist leer",
-          "FIRST_TEXT": "Elemente, die Sie löschen, werden in den Papierkorb verschoben.",
-          "SECOND_TEXT": "Leeren Sie den Papierkorb, um Elemente dauerhaft zu löschen."
+          "FIRST_TEXT": "Gelöschte Elemente werden in den Papierkorb verschoben.",
+          "SECOND_TEXT": "Leeren Sie den Papierkorb, um die Elemente endgültig zu löschen."
         }
       },
       "ABOUT": {
         "TITLE": "Info"
       },
       "SEARCH": {
+        "DEFAULT_SEARCH": "Standard",
         "TITLE": "Ergebnisse durchsuchen",
         "FOUND_RESULTS": "{{ number }} Ergebnisse gefunden",
         "FOUND_ONE_RESULT": "{{ number }} Ergebnisse gefunden",
@@ -178,6 +179,7 @@
         },
         "UNKNOWN_LOCATION": "Unbekannt",
         "NO_RESULTS": "Es wurden 0 Suchergebnisse gefunden",
+        "EMPTY_SEARCH": "Suchbegriff erforderlich",
         "NO_FILTER_RESULTS": "Der Filter hat 0 Treffer gefunden",
         "ERRORS": {
           "500": "Bei der Bearbeitung der Suchanfrage ist ein Fehler aufgetreten [500]",
@@ -352,10 +354,10 @@
       "GROUP_IPTC_CORE_CONTENT_INFO": "IPTC-Inhalt",
       "GROUP_IPTC_CORE_STATUS_INFO": "IPTC-Status",
       "GROUP_IPTC_EXT_DESCRIPTION": "IPTC-Bildbeschreibung",
-      "GROUP_IPTC_EXT_AO_DETAIL": "IPTC-Kunstwerk- oder Objektdetail",
+      "GROUP_IPTC_EXT_AO_DETAIL": "IPTC-Kunstwerk oder Objektdetail",
       "GROUP_IPTC_EXT_MODEL_INFO": "IPTC-Modellinformationen",
       "GROUP_IPTC_EXT_ADMIN_INFO": "IPTC-Administratorinformationen",
-      "GROUP_IPTC_EXT_RIGHTS_INFO": "IPTC-Rechte-Informationen",
+      "GROUP_IPTC_EXT_RIGHTS_INFO": "IPTC-Informationen zu Rechten",
       "GROUP_IPTC_EXT_OTHER": "IPTC-Sonstige",
       "EFFECTIVITY_GROUP_TITLE": "Effektivität"
     },
@@ -402,15 +404,6 @@
       }
     }
   },
-  "PERMISSIONS": {
-    "DIALOG": {
-      "TITLE": "Berechtigungen verwalten",
-      "CLOSE": "Schließen",
-      "INHERIT_PERMISSIONS_BUTTON": "Berechtigungen erben",
-      "INHERITED_PERMISSIONS_BUTTON": "Berechtigungen geerbt",
-      "ADD_USER_OR_GROUP": "Benutzer oder Gruppe hinzufügen"
-    }
-  },
   "SHARED_LINK": {
     "UNSHARE_PERMISSION_ERROR": "Sie verfügen nicht über die Berechtigung die Freigabe für diese Datei aufzuheben"
   },
@@ -443,9 +436,7 @@
     }
   },
   "INFO_PANEL": {
-    "TABS": {
-
-        },
+    "TABS": {},
     "DETAILS": "Details"
   },
   "LIBRARY": {
@@ -487,7 +478,7 @@
   },
   "SEARCH": {
     "INPUT": {
-      "PLACEHOLDER": "Suche",
+      "PLACEHOLDER": "Suchen",
       "FILES": "Dateien",
       "FOLDERS": "Ordner",
       "LIBRARIES": "Bibliotheken",
@@ -571,7 +562,8 @@
   },
   "ADF_VIEWER": {
     "ACTIONS": {
-      "INFO": "Details anzeigen"
+      "INFO": "Details anzeigen",
+      "PREVIEW": "Vorschau anzeigen"
     }
   },
   "FILE_UPLOAD": {

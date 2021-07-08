@@ -167,6 +167,7 @@
         "TITLE": "Informacje"
       },
       "SEARCH": {
+        "DEFAULT_SEARCH": "Domyślne",
         "TITLE": "Wyniki wyszukiwania",
         "FOUND_RESULTS": "Znaleziono wyników: {{ number }}",
         "FOUND_ONE_RESULT": "Znaleziono wyników: {{ number }}",
@@ -178,7 +179,8 @@
         },
         "UNKNOWN_LOCATION": "Nieznane",
         "NO_RESULTS": "Wyszukiwanie nie zwróciło żadnych wyników",
-        "NO_FILTER_RESULTS": "Filtr zwrócił 0 wyników",
+        "EMPTY_SEARCH": "Wymagana fraza wyszukiwania",
+        "NO_FILTER_RESULTS": "Filtr nie zwróciło żadnych wyników",
         "ERRORS": {
           "500": "Podczas przetwarzania zapytania wyszukiwania wystąpił błąd [500]",
           "GENERIC": "Podczas przetwarzania zapytania wyszukiwania wystąpił błąd"
@@ -214,7 +216,7 @@
       "SHARE_EDIT": "Udostępnione ustawienia łącza",
       "PRINT": "Drukuj",
       "FULLSCREEN": "Uaktywnij tryb pełnoekranowy",
-      "JOIN": "Dołącz do",
+      "JOIN": "Dołącz",
       "CANCEL_JOIN": "Anuluj żądanie dołączenia",
       "LEAVE": "Opuść bibliotekę",
       "EDIT_OFFLINE": "Edytuj w trybie offline",
@@ -352,11 +354,11 @@
       "GROUP_IPTC_CORE_CONTENT_INFO": "Zawartość IPTC",
       "GROUP_IPTC_CORE_STATUS_INFO": "Status IPTC",
       "GROUP_IPTC_EXT_DESCRIPTION": "Opis obrazu IPTC",
-      "GROUP_IPTC_EXT_AO_DETAIL": "Szczegóły dzieła sztuki lub obiektu IPTC",
+      "GROUP_IPTC_EXT_AO_DETAIL": "Grafika lub szczegóły obiektu IPTC",
       "GROUP_IPTC_EXT_MODEL_INFO": "Informacje o modelu IPTC",
       "GROUP_IPTC_EXT_ADMIN_INFO": "Informacje o administratorze IPTC",
       "GROUP_IPTC_EXT_RIGHTS_INFO": "Informacje o prawach IPTC",
-      "GROUP_IPTC_EXT_OTHER": "Inne informacje IPTC",
+      "GROUP_IPTC_EXT_OTHER": "Inne IPTC",
       "EFFECTIVITY_GROUP_TITLE": "Obowiązywanie"
     },
     "INFO_DRAWER": {
@@ -402,15 +404,6 @@
       }
     }
   },
-  "PERMISSIONS": {
-    "DIALOG": {
-      "TITLE": "Zarządzaj uprawnieniami",
-      "CLOSE": "Zamknij",
-      "INHERIT_PERMISSIONS_BUTTON": "Dziedzicz uprawnienia",
-      "INHERITED_PERMISSIONS_BUTTON": "Odziedziczone uprawnienia",
-      "ADD_USER_OR_GROUP": "Dodaj użytkownika lub grupę"
-    }
-  },
   "SHARED_LINK": {
     "UNSHARE_PERMISSION_ERROR": "Nie masz uprawnień, aby cofnąć udostępnianie tego pliku"
   },
@@ -443,9 +436,7 @@
     }
   },
   "INFO_PANEL": {
-    "TABS": {
-
-        },
+    "TABS": {},
     "DETAILS": "Szczegóły"
   },
   "LIBRARY": {
@@ -571,7 +562,8 @@
   },
   "ADF_VIEWER": {
     "ACTIONS": {
-      "INFO": "Wyświetl szczegóły"
+      "INFO": "Wyświetl szczegóły",
+      "PREVIEW": "Pokaż podgląd"
     }
   },
   "FILE_UPLOAD": {

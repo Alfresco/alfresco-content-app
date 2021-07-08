@@ -41,9 +41,9 @@
     "SETTINGS": {
       "TITLE": "Innstillinger",
       "APPLICATION-SETTINGS": "Programinnstillinger",
-      "REPOSITORY-SETTINGS": "Databaseinnstillinger",
+      "REPOSITORY-SETTINGS": "Datalagerinnstillinger",
       "INVALID-VALUE-FORMAT": "Ugyldig verdiformat",
-      "REQUIRED-FIELD": "Dette feltet er obligatorisk",
+      "REQUIRED-FIELD": "Dette feltet er påkrevd",
       "RESET": "Tilbakestill",
       "APPLY": "Bruk"
     },
@@ -130,9 +130,9 @@
         }
       },
       "RECENT": {
-        "TITLE": "Nyere filer",
+        "TITLE": "Nylige filer",
         "SIDENAV_LINK": {
-          "LABEL": "Nyere filer",
+          "LABEL": "Nylige filer",
           "TOOLTIP": "Vis filer som nylig er redigert"
         },
         "EMPTY_STATE": {
@@ -158,15 +158,16 @@
           "TOOLTIP": "Vis slettede filer i søppelen"
         },
         "EMPTY_STATE": {
-          "TITLE": "Søppel er tomt",
-          "FIRST_TEXT": "Elementer du sletter, flyttes til Søppel.",
-          "SECOND_TEXT": "Tøm Søppel for å slette elementer permanent."
+          "TITLE": "Søppelkurven er tom",
+          "FIRST_TEXT": "Elementer du sletter, flyttes til søppelkurven.",
+          "SECOND_TEXT": "Tøm søppelkurven for å slette elementer for godt."
         }
       },
       "ABOUT": {
         "TITLE": "Om"
       },
       "SEARCH": {
+        "DEFAULT_SEARCH": "Standard",
         "TITLE": "Søkeresultater",
         "FOUND_RESULTS": "{{ number }} resultater funnet",
         "FOUND_ONE_RESULT": "{{ number }} resultat funnet",
@@ -178,6 +179,7 @@
         },
         "UNKNOWN_LOCATION": "Ukjent",
         "NO_RESULTS": "Søket ditt ga 0 resultater",
+        "EMPTY_SEARCH": "Søkeord kreves",
         "NO_FILTER_RESULTS": "Filter ditt ga 0 resultater",
         "ERRORS": {
           "500": "Det oppstod en feil med behandling av søkespørringen [500]",
@@ -206,8 +208,8 @@
       "ADD_FAVORITE": "Legg til favoritt",
       "REMOVE_FAVORITE": "Fjern favoritt",
       "UNSHARE": "Opphev deling",
-      "DETAILS": "Visningsdetaljer",
-      "VERSIONS": "Administrer versjoner",
+      "DETAILS": "Vis detaljer",
+      "VERSIONS": "Håndtere versjoner",
       "UPLOAD_VERSION": "Last opp ny versjon",
       "TOGGLE-SIDENAV": "Aktiver/deaktiver sidenavigasjonsfelt",
       "SHARE": "Del",
@@ -221,7 +223,7 @@
       "EDIT_OFFLINE_CANCEL": "Avbryt redigering",
       "LIST_MODE": "Vis liste",
       "GALLERY_MODE": "Vis galleri",
-      "CHANGE_ASPECT": "Rediger aspekter"
+      "CHANGE_ASPECT": "Rediger Aspekter"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -276,7 +278,7 @@
         "TRASH": {
           "NODES_PURGE": {
             "PLURAL": "{{ number }} elementer kan ikke slettes",
-            "SINGULAR": "{{ name }} kunne ikke slettes"
+            "SINGULAR": "{{ name }} kan ikke slettes"
           },
           "NODES_RESTORE": {
             "PARTIAL_PLURAL": "{{ number }} elementer kan ikke gjenopprettes fordi det finnes problemer med gjenoppretingsstedet",
@@ -306,7 +308,7 @@
         "TRASH": {
           "NODES_PURGE": {
             "PLURAL": "{{ number }} elementer slettet",
-            "SINGULAR": "{{ name }} slettet",
+            "SINGULAR": "Element {{ name }} slettet",
             "PARTIAL_SINGULAR": "{{ name }} slettet, {{ failed }} kunne ikke slettes",
             "PARTIAL_PLURAL": "{{ number }} elementer slettet, {{ failed }} kan ikke slettes"
           },
@@ -352,11 +354,11 @@
       "GROUP_IPTC_CORE_CONTENT_INFO": "IPTC-innhold",
       "GROUP_IPTC_CORE_STATUS_INFO": "IPTC-status",
       "GROUP_IPTC_EXT_DESCRIPTION": "IPTC-bildebeskrivelse",
-      "GROUP_IPTC_EXT_AO_DETAIL": "IPTC-grafikk- eller objektdetalj",
-      "GROUP_IPTC_EXT_MODEL_INFO": "IPTC-modellinformasjon",
-      "GROUP_IPTC_EXT_ADMIN_INFO": "IPTC-administrasjonsinformasjon",
-      "GROUP_IPTC_EXT_RIGHTS_INFO": "IPTC-rettighetsinformasjon",
-      "GROUP_IPTC_EXT_OTHER": "IPTC – annet",
+      "GROUP_IPTC_EXT_AO_DETAIL": "IPTC-kunstverk eller -objektdetalj",
+      "GROUP_IPTC_EXT_MODEL_INFO": "Informasjon om IPTC-modell",
+      "GROUP_IPTC_EXT_ADMIN_INFO": "Informasjon om IPTC-administrator",
+      "GROUP_IPTC_EXT_RIGHTS_INFO": "Informasjon om IPTC-rettigheter",
+      "GROUP_IPTC_EXT_OTHER": "IPTC: annet",
       "EFFECTIVITY_GROUP_TITLE": "Effektivitet"
     },
     "INFO_DRAWER": {
@@ -374,7 +376,7 @@
   "NODE_SELECTOR": {
     "COPY_ITEM": "Kopier {{ name }} til...",
     "COPY_ITEMS": "Kopier {{ number }} elementer til...",
-    "MOVE_ITEM": "Flytt {{ name }}'til...",
+    "MOVE_ITEM": "Flytt {{ name }} til...",
     "MOVE_ITEMS": "Flytt {{ number }} elementer til...",
     "SEARCH": "Søk",
     "NEXT": "Neste",
@@ -402,27 +404,18 @@
       }
     }
   },
-  "PERMISSIONS": {
-    "DIALOG": {
-      "TITLE": "Administrer tillatelser",
-      "CLOSE": "Lukk",
-      "INHERIT_PERMISSIONS_BUTTON": "Arv tillatelser",
-      "INHERITED_PERMISSIONS_BUTTON": "Tillatelser arvet",
-      "ADD_USER_OR_GROUP": "Legg til bruker eller gruppe"
-    }
-  },
   "SHARED_LINK": {
     "UNSHARE_PERMISSION_ERROR": "Du har ikke tillatelse til å oppheve deling av denne filen"
   },
   "VERSION": {
     "DIALOG_ADF": {
-      "TITLE": "Administrer versjoner",
+      "TITLE": "Håndtere versjoner",
       "CLOSE": "Lukk"
     },
     "DIALOG": {
       "TITLE": "Last opp ny versjon",
       "CANCEL": "Avbryt",
-      "UPLOAD": "Laster opp"
+      "UPLOAD": "Last opp"
     },
     "FORM": {
       "SUBTITLE": "Hvor omfattende endringer ble gjort i denne versjonen?",
@@ -443,9 +436,7 @@
     }
   },
   "INFO_PANEL": {
-    "TABS": {
-
-        },
+    "TABS": {},
     "DETAILS": "Detaljer"
   },
   "LIBRARY": {
@@ -571,7 +562,8 @@
   },
   "ADF_VIEWER": {
     "ACTIONS": {
-      "INFO": "Visningsdetaljer"
+      "INFO": "Visningsdetaljer",
+      "PREVIEW": "Vis forhåndsvisning"
     }
   },
   "FILE_UPLOAD": {
