@@ -26,8 +26,9 @@
             <adf-search-filter-chips class="content__filter"></adf-search-filter-chips>
 
             <button mat-button adf-reset-search class='content__reset-action'><mat-icon> refresh </mat-icon></button>
-
-            <adf-search-sorting-picker class="content__sort-picker"></adf-search-sorting-picker>
+          </div>
+          <div>
+            <aca-search-action-menu (sortingSelected)="onSearchSortingUpdate($event)"></aca-search-action-menu>
           </div>
 
           <adf-document-list

@@ -489,6 +489,9 @@
           "HINT": "Search input must have at least 2 alphanumeric characters."
         },
         "SORT": {
+            "SORTING_OPTION": "Sort by",
+            "ASCENDING": "Ascending",
+            "DESCENDING": "Descending",
             "RELEVANCE": "Relevance",
             "FILENAME": "Filename",
             "TITLE": "Title",
