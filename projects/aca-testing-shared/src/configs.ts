@@ -22,7 +22,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
-export const BROWSER_WAIT_TIMEOUT = 10000;
+export const BROWSER_WAIT_TIMEOUT = 15000;
 
 // Application configs
 export const USE_HASH_STRATEGY = true;
