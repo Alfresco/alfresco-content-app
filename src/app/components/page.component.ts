@@ -112,6 +112,7 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
 
     this.onDestroy$.next(true);
     this.onDestroy$.complete();
+    this.store.dispatch(new SetSelectedNodesAction([]));
   }
 
   showPreview(node: MinimalNodeEntity, extras?: ViewNodeExtras) {
