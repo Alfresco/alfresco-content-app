@@ -42,6 +42,7 @@ import { Store } from '@ngrx/store';
 import { AppTestingModule } from '../testing/app-testing.module';
 import { Component } from '@angular/core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'aca-test',
@@ -72,6 +73,10 @@ describe('PageComponent', () => {
     component = fixture.componentInstance;
   });
 
+  afterEach(() => {
+    fixture.destroy();
+  });
+
   describe('getParentNodeId()', () => {
     it('returns parent node id when node is set', () => {
       component.node = { id: 'node-id' };
@@ -94,6 +99,7 @@ describe('PageComponent', () => {
     });
 
     it('should open info drawer on action event', (done) => {
+      spyOn(store, 'select').and.returnValue(of(true));
       window.history.pushState({}, null, `${locationHref}#test`);
       fixture.detectChanges();
 
@@ -108,6 +114,7 @@ describe('PageComponent', () => {
     });
 
     it('should not open info drawer if viewer outlet is active', (done) => {
+      spyOn(store, 'select').and.returnValue(of(false));
       window.history.pushState({}, null, `${locationHref}#test(viewer:view)`);
       fixture.detectChanges();
 
