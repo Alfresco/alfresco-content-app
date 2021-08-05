@@ -64,6 +64,6 @@ describe('TrashcanComponent', () => {
   });
 
   beforeEach(() => {
-    spyOn(alfrescoApi.nodesApi, 'getDeletedNodes').and.returnValue(Promise.resolve(page));
+    spyOn(component['nodesApi'], 'getDeletedNodes').and.returnValue(Promise.resolve(page));
   });
 });

@@ -31,7 +31,6 @@ import { Store } from '@ngrx/store';
 import { CreateFromTemplate, CreateFromTemplateSuccess, FileFromTemplate, FolderFromTemplate, SnackbarErrorAction } from '@alfresco/aca-shared/store';
 import { NodeTemplateService } from '../../services/node-template.service';
 import { of, Subject } from 'rxjs';
-import { AlfrescoApiService } from '@alfresco/adf-core';
 import { Node, NodeEntry } from '@alfresco/js-api';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CreateFromTemplateDialogComponent } from '../../dialogs/node-template/create-from-template.dialog';
@@ -40,7 +39,6 @@ import { AppHookService } from '@alfresco/aca-shared';
 describe('TemplateEffects', () => {
   let store: Store<any>;
   let nodeTemplateService: NodeTemplateService;
-  let alfrescoApiService: AlfrescoApiService;
   let appHookService: AppHookService;
   let copyNodeSpy;
   let updateNodeSpy;
@@ -88,7 +86,6 @@ describe('TemplateEffects', () => {
 
     store = TestBed.inject(Store);
     nodeTemplateService = TestBed.inject(NodeTemplateService);
-    alfrescoApiService = TestBed.inject(AlfrescoApiService);
     appHookService = TestBed.inject(AppHookService);
     matDialog = TestBed.inject(MatDialog);
     subject = new Subject<Node[]>();
@@ -98,8 +95,8 @@ describe('TemplateEffects', () => {
     spyOn(store, 'select').and.returnValue(of({ id: 'parent-id' }));
     spyOn(nodeTemplateService, 'selectTemplateDialog').and.returnValue(subject);
 
-    copyNodeSpy = spyOn(alfrescoApiService.getInstance().nodes, 'copyNode');
-    updateNodeSpy = spyOn(alfrescoApiService.getInstance().nodes, 'updateNode');
+    copyNodeSpy = spyOn(TemplateEffects['nodesApi'], 'copyNode');
+    updateNodeSpy = spyOn(TemplateEffects['nodesApi'], 'updateNode');
   });
 
   afterEach(() => {

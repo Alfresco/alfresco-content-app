@@ -143,7 +143,8 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
 
   private findLibraryByTitle(libraryTitle: string): Observable<SitePaging | { list: { entries: any[] } }> {
     return from(
-      this.queriesApi.findSites(libraryTitle, {
+      this.queriesApi
+        .findSites(libraryTitle, {
           maxItems: 1,
           fields: ['title']
         })

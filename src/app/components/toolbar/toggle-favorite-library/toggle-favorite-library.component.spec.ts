@@ -24,7 +24,7 @@
  */
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AlfrescoApiService, CoreModule } from '@alfresco/adf-core';
+import { CoreModule } from '@alfresco/adf-core';
 import { ToggleFavoriteLibraryComponent } from './toggle-favorite-library.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -70,8 +70,7 @@ describe('ToggleFavoriteLibraryComponent', () => {
     component = fixture.componentInstance;
 
     appHookService = TestBed.inject(AppHookService);
-    const api = TestBed.inject(AlfrescoApiService);
-    spyOn(api.peopleApi, 'getFavoriteSite').and.returnValue(Promise.resolve(null));
+    spyOn(component['peopleApi'], 'getFavoriteSite').and.returnValue(Promise.resolve(null));
   });
 
   it('should get library selection from Store', async () => {

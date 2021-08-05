@@ -63,8 +63,8 @@ describe('LibrariesComponent', () => {
     alfrescoApi.reset();
     router = TestBed.inject(Router);
 
-    spyOn(alfrescoApi.sitesApi, 'getSites').and.returnValue(Promise.resolve(page));
-    spyOn(alfrescoApi.peopleApi, 'getSiteMembership').and.returnValue(Promise.resolve({}));
+    spyOn(component['sitesApi'], 'getSites').and.returnValue(Promise.resolve(page));
+    spyOn(component['peopleApi'], 'getSiteMembership').and.returnValue(Promise.resolve({}));
   });
 
   describe('Node navigation', () => {
