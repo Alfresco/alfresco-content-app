@@ -24,7 +24,7 @@
  */
 
 import { AppStore, DownloadNodesAction, EditOfflineAction, SnackbarErrorAction, getAppSelection } from '@alfresco/aca-shared/store';
-import { MinimalNodeEntity, NodeEntry, SharedLinkEntry, Node } from '@alfresco/js-api';
+import { MinimalNodeEntity, NodeEntry, SharedLinkEntry, Node, NodesApi } from '@alfresco/js-api';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { isLocked } from '@alfresco/aca-shared';
@@ -53,9 +53,12 @@ import { AlfrescoApiService } from '@alfresco/adf-core';
   host: { class: 'app-toggle-edit-offline' }
 })
 export class ToggleEditOfflineComponent implements OnInit {
+  private nodesApi: NodesApi;
   selection: MinimalNodeEntity;
 
-  constructor(private store: Store<AppStore>, private alfrescoApiService: AlfrescoApiService) {}
+  constructor(private store: Store<AppStore>, private alfrescoApiService: AlfrescoApiService) {
+    this.nodesApi = new NodesApi(this.alfrescoApiService.getInstance());
+  }
 
   ngOnInit() {
     this.store.select(getAppSelection).subscribe(({ file }) => {
@@ -113,14 +116,14 @@ export class ToggleEditOfflineComponent implements OnInit {
   }
 
   lockNode(nodeId: string) {
-    return this.alfrescoApiService.nodesApi.lockNode(nodeId, {
+    return this.nodesApi.lockNode(nodeId, {
       type: 'ALLOW_OWNER_CHANGES',
       lifetime: 'PERSISTENT'
     });
   }
 
   unlockNode(nodeId: string) {
-    return this.alfrescoApiService.nodesApi.unlockNode(nodeId);
+    return this.nodesApi.unlockNode(nodeId);
   }
 
   private update(data: Node) {

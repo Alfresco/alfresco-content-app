@@ -25,7 +25,7 @@
 
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { Injectable } from '@angular/core';
-import { SitePaging } from '@alfresco/js-api';
+import { QueriesApi, SitePaging } from '@alfresco/js-api';
 import { Subject } from 'rxjs';
 
 export interface LibrarySearchQuery {
@@ -41,6 +41,7 @@ export interface LibrarySearchQuery {
 })
 export class SearchLibrariesQueryBuilderService {
   private _userQuery = '';
+  private queriesApi: QueriesApi;
 
   updated: Subject<any> = new Subject();
   executed: Subject<any> = new Subject();
@@ -56,7 +57,9 @@ export class SearchLibrariesQueryBuilderService {
     this._userQuery = value ? value.trim() : '';
   }
 
-  constructor(private alfrescoApiService: AlfrescoApiService) {}
+  constructor(private alfrescoApiService: AlfrescoApiService) {
+    this.queriesApi = new QueriesApi(this.alfrescoApiService.getInstance());
+  }
 
   update(): void {
     const query = this.buildQuery();
@@ -89,12 +92,9 @@ export class SearchLibrariesQueryBuilderService {
   }
 
   private findLibraries(libraryQuery: LibrarySearchQuery): Promise<SitePaging> {
-    return this.alfrescoApiService
-      .getInstance()
-      .core.queriesApi.findSites(libraryQuery.term, libraryQuery.opts)
-      .catch((err) => {
-        this.hadError.next(err);
-        return { list: { pagination: { totalItems: 0 }, entries: [] } };
-      });
+    return this.queriesApi.findSites(libraryQuery.term, libraryQuery.opts).catch((err) => {
+      this.hadError.next(err);
+      return { list: { pagination: { totalItems: 0 }, entries: [] } };
+    });
   }
 }

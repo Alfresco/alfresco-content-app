@@ -41,11 +41,13 @@ import { NodeTemplateService, TemplateDialogConfig } from '../../services/node-t
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { AppHookService } from '@alfresco/aca-shared';
 import { from, Observable, of } from 'rxjs';
-import { NodeEntry, NodeBodyUpdate, Node } from '@alfresco/js-api';
+import { NodeEntry, NodeBodyUpdate, Node, NodesApi } from '@alfresco/js-api';
 import { MatDialog } from '@angular/material/dialog';
 
 @Injectable()
 export class TemplateEffects {
+  private nodesApi: NodesApi;
+
   constructor(
     private matDialog: MatDialog,
     private appHookService: AppHookService,
@@ -53,7 +55,9 @@ export class TemplateEffects {
     private apiService: AlfrescoApiService,
     private actions$: Actions,
     private nodeTemplateService: NodeTemplateService
-  ) {}
+  ) {
+    this.nodesApi = new NodesApi(this.apiService.getInstance());
+  }
 
   @Effect({ dispatch: false })
   fileFromTemplate$ = this.actions$.pipe(
@@ -115,7 +119,7 @@ export class TemplateEffects {
 
   private copyNode(source: Node, parentId: string): Observable<NodeEntry> {
     return from(
-      this.apiService.getInstance().nodes.copyNode(source.id, {
+      this.nodesApi.copyNode(source.id, {
         targetParentId: parentId,
         name: source.name
       })
@@ -135,7 +139,7 @@ export class TemplateEffects {
   }
 
   private updateNode(node: NodeEntry, update: NodeBodyUpdate): Observable<NodeEntry> {
-    return from(this.apiService.getInstance().nodes.updateNode(node.entry.id, update)).pipe(catchError(() => of(node)));
+    return from(this.nodesApi.updateNode(node.entry.id, update)).pipe(catchError(() => of(node)));
   }
 
   private handleError(error: Error): Observable<null> {

@@ -35,7 +35,14 @@ import {
   ShareDataRow,
   NodeAction
 } from '@alfresco/adf-content-services';
-import { MinimalNodeEntity, MinimalNodeEntryEntity, SitePaging, NodeChildAssociationPaging, NodeChildAssociationEntry } from '@alfresco/js-api';
+import {
+  MinimalNodeEntity,
+  MinimalNodeEntryEntity,
+  SitePaging,
+  NodeChildAssociationPaging,
+  NodeChildAssociationEntry,
+  NodesApi
+} from '@alfresco/js-api';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
@@ -50,6 +57,8 @@ export class NodeActionsService {
   moveDeletedEntries: any[] = [];
   isSitesDestinationAvailable = false;
 
+  private nodesApi: NodesApi;
+
   constructor(
     private contentService: ContentService,
     private contentApi: ContentApiService,
@@ -58,7 +67,9 @@ export class NodeActionsService {
     private apiService: AlfrescoApiService,
     private translation: TranslationService,
     private thumbnailService: ThumbnailService
-  ) {}
+  ) {
+    this.nodesApi = new NodesApi(this.apiService.getInstance());
+  }
 
   /**
    * Copy node list
@@ -595,7 +606,7 @@ export class NodeActionsService {
    * @param params optional parameters
    */
   getNodeChildren(nodeId: string, params?: any): Observable<NodeChildAssociationPaging> {
-    return from(this.apiService.getInstance().nodes.getNodeChildren(nodeId, params));
+    return from(this.nodesApi.listNodeChildren(nodeId, params));
   }
 
   // Copied from ADF document-list.service, and added the name parameter
@@ -607,7 +618,7 @@ export class NodeActionsService {
    * @param name The new name for the copy that would be added on the destination folder
    */
   copyNode(nodeId: string, targetParentId: string, name?: string) {
-    return from(this.apiService.getInstance().nodes.copyNode(nodeId, { targetParentId, name }));
+    return from(this.nodesApi.copyNode(nodeId, { targetParentId, name }));
   }
 
   public flatten(nDimArray: any[]) {

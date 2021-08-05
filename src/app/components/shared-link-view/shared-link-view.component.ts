@@ -26,7 +26,7 @@
 import { AppStore, SetSelectedNodesAction, getAppSelection } from '@alfresco/aca-shared/store';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
-import { SharedLinkEntry } from '@alfresco/js-api';
+import { SharedLinkEntry, SharedlinksApi } from '@alfresco/js-api';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -42,6 +42,7 @@ import { AppExtensionService } from '@alfresco/aca-shared';
   host: { class: 'app-shared-link-view' }
 })
 export class SharedLinkViewComponent implements OnInit {
+  private sharedLinksApi: SharedlinksApi;
   sharedLinkId: string = null;
   viewerToolbarActions: Array<ContentActionRef> = [];
 
@@ -50,15 +51,15 @@ export class SharedLinkViewComponent implements OnInit {
     private store: Store<AppStore>,
     private extensions: AppExtensionService,
     private alfrescoApiService: AlfrescoApiService
-  ) {}
+  ) {
+    this.sharedLinksApi = new SharedlinksApi(this.alfrescoApiService.getInstance());
+  }
 
   ngOnInit() {
     this.route.params
       .pipe(
         mergeMap((params) =>
-          forkJoin([from(this.alfrescoApiService.sharedLinksApi.getSharedLink(params.id)), of(params.id)]).pipe(
-            catchError(() => of([null, params.id]))
-          )
+          forkJoin([from(this.sharedLinksApi.getSharedLink(params.id)), of(params.id)]).pipe(catchError(() => of([null, params.id])))
         )
       )
       .subscribe(([sharedEntry, sharedId]: [SharedLinkEntry, string]) => {
