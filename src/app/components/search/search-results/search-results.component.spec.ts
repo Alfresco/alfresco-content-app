@@ -89,7 +89,7 @@ describe('SearchComponent', () => {
   });
 
   it('should raise an error if search fails', fakeAsync(() => {
-    spyOn(component['searchApi'], 'search').and.returnValue(
+    spyOn(queryBuilder['searchApi'], 'search').and.returnValue(
       Promise.reject({
         message: `{ "error": { "statusCode": 500 } } `
       })
@@ -112,7 +112,7 @@ describe('SearchComponent', () => {
       return key;
     });
 
-    spyOn(component['searchApi'], 'search').and.returnValue(
+    spyOn(queryBuilder['searchApi'], 'search').and.returnValue(
       Promise.reject({
         message: `{ "error": { "statusCode": 401 } } `
       })
@@ -135,7 +135,7 @@ describe('SearchComponent', () => {
       return key;
     });
 
-    spyOn(component['searchApi'], 'search').and.returnValue(
+    spyOn(queryBuilder['searchApi'], 'search').and.returnValue(
       Promise.reject({
         message: `{ "error": { "statusCode": 401 } } `
       })

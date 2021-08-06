@@ -32,12 +32,13 @@ import { AppTestingModule } from '../../../testing/app-testing.module';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { AppHookService } from '@alfresco/aca-shared';
+import { AppHookService, ContentApiService } from '@alfresco/aca-shared';
 
 describe('ToggleFavoriteLibraryComponent', () => {
   let fixture: ComponentFixture<ToggleFavoriteLibraryComponent>;
   let component: ToggleFavoriteLibraryComponent;
   let appHookService: AppHookService;
+  let contentApiService: ContentApiService;
 
   const selection = { library: { entry: { id: 'libraryId' } } };
   const mockRouter = {
@@ -68,9 +69,10 @@ describe('ToggleFavoriteLibraryComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ToggleFavoriteLibraryComponent);
     component = fixture.componentInstance;
+    contentApiService = TestBed.inject(ContentApiService);
 
     appHookService = TestBed.inject(AppHookService);
-    spyOn(component['peopleApi'], 'getFavoriteSite').and.returnValue(Promise.resolve(null));
+    spyOn(<any>contentApiService['favoritesApi'], 'getFavoriteSite').and.returnValue(Promise.resolve(null));
   });
 
   it('should get library selection from Store', async () => {

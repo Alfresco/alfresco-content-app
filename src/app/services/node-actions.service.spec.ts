@@ -61,9 +61,9 @@ describe('NodeActionsService', () => {
   const permissionError = new Error(JSON.stringify({ error: { statusCode: 403 } }));
   const badRequestError = new Error(JSON.stringify({ error: { statusCode: 400 } }));
   const emptyChildrenList = { list: { entries: [] } };
-  let service: NodeActionsService;
+  let service: any;
   let apiService: AlfrescoApiService;
-  let nodesApi;
+  let nodesApi: any;
   let spyOnSuccess: jasmine.Spy;
   let spyOnError: jasmine.Spy;
   let contentApi: ContentApiService;
@@ -112,7 +112,7 @@ describe('NodeActionsService', () => {
     dialog = TestBed.inject(MatDialog);
     apiService.reset();
 
-    nodesApi = service['nodesApi'];
+    nodesApi = contentApi['nodesApi'];
   });
 
   describe('ContentNodeSelector configuration', () => {
@@ -585,7 +585,7 @@ describe('NodeActionsService', () => {
             nodeChildren: [existingFolder]
           }
         ];
-        spyOn(nodesApi, 'getNodeChildren').and.callFake(helper.fakeGetNodeChildren(testFamilyNodes));
+        spyOn(nodesApi, 'listNodeChildren').and.callFake(helper.fakeGetNodeChildren(testFamilyNodes));
         spyOn(service, 'getChildByName').and.returnValue(of(existingFolder) as any);
 
         copyObservable
@@ -631,7 +631,7 @@ describe('NodeActionsService', () => {
             nodeChildren: [existingFolder]
           }
         ];
-        spyOn(nodesApi, 'getNodeChildren').and.callFake(helper.fakeGetNodeChildren(testFamilyNodes));
+        spyOn(nodesApi, 'listNodeChildren').and.callFake(helper.fakeGetNodeChildren(testFamilyNodes));
         spyOn(service, 'getChildByName').and.returnValue(of({}) as any);
 
         copyObservable
@@ -673,7 +673,7 @@ describe('NodeActionsService', () => {
             nodeChildren: [existingFolder]
           }
         ];
-        spyOn(nodesApi, 'getNodeChildren').and.callFake(helper.fakeGetNodeChildren(testFamilyNodes));
+        spyOn(nodesApi, 'listNodeChildren').and.callFake(helper.fakeGetNodeChildren(testFamilyNodes));
         spyOn(service, 'getChildByName').and.returnValue(of(existingFolder) as any);
 
         copyObservable
@@ -861,7 +861,7 @@ describe('NodeActionsService', () => {
 
         const subject$ = new Subject<NodeChildAssociationEntry>();
         spyOn(service, 'getChildByName').and.returnValue(subject$);
-        spyOn(service, 'getNodeChildren').and.returnValue(of(emptyChildrenList));
+        spyOn(service, 'listNodeChildren').and.returnValue(of(emptyChildrenList));
 
         service.moveFolderAction(folderToMove.entry, folderDestinationId).subscribe(spyOnSuccess, spyOnError);
 
@@ -885,7 +885,7 @@ describe('NodeActionsService', () => {
         const subject$ = new Subject<NodeChildAssociationEntry>();
         spyOn(service, 'getChildByName').and.returnValue(subject$);
         const childrenNodes = [fileToMove, folderToMove];
-        spyOn(service, 'getNodeChildren').and.returnValue(of({ list: { entries: childrenNodes } }));
+        spyOn(service, 'listNodeChildren').and.returnValue(of({ list: { entries: childrenNodes } }));
 
         service.moveFolderAction(parentFolderToMove.entry, folderDestinationId).subscribe(spyOnSuccess, spyOnError);
         subject$.next(newDestination);
@@ -1019,7 +1019,7 @@ describe('NodeActionsService', () => {
     });
 
     it('emits child node with specified name, when it exists in folder', (done) => {
-      spyOn(nodesApi, 'getNodeChildren').and.callFake(helper.fakeGetNodeChildren(testFamilyNodes));
+      spyOn(nodesApi, 'listNodeChildren').and.callFake(helper.fakeGetNodeChildren(testFamilyNodes));
 
       service.getChildByName(testFamilyNodes[0].parentNodeId, childNode.entry.name).subscribe((value) => {
         expect(value).toEqual(childNode);
@@ -1028,7 +1028,7 @@ describe('NodeActionsService', () => {
     });
 
     it('emits null value when child with specified name is not found in folder', (done) => {
-      spyOn(nodesApi, 'getNodeChildren').and.callFake(helper.fakeGetNodeChildren(testFamilyNodes));
+      spyOn(nodesApi, 'listNodeChildren').and.callFake(helper.fakeGetNodeChildren(testFamilyNodes));
 
       service.getChildByName(testFamilyNodes[0].parentNodeId, notChildNode.entry.name).subscribe((value) => {
         expect(value).toEqual(null);
@@ -1037,7 +1037,7 @@ describe('NodeActionsService', () => {
     });
 
     it('emits error when permission error occurs', (done) => {
-      spyOn(nodesApi, 'getNodeChildren').and.callFake(helper.fakeGetNodeChildren(testFamilyNodes, actionIsForbidden));
+      spyOn(nodesApi, 'listNodeChildren').and.callFake(helper.fakeGetNodeChildren(testFamilyNodes, actionIsForbidden));
 
       service.getChildByName(testFamilyNodes[0].parentNodeId, notChildNode.entry.name).subscribe(
         () => {},

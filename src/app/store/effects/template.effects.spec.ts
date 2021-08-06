@@ -40,6 +40,7 @@ describe('TemplateEffects', () => {
   let store: Store<any>;
   let nodeTemplateService: NodeTemplateService;
   let appHookService: AppHookService;
+  let templateEffects: TemplateEffects;
   let copyNodeSpy;
   let updateNodeSpy;
   let matDialog: MatDialog;
@@ -86,6 +87,7 @@ describe('TemplateEffects', () => {
 
     store = TestBed.inject(Store);
     nodeTemplateService = TestBed.inject(NodeTemplateService);
+    templateEffects = TestBed.inject(TemplateEffects);
     appHookService = TestBed.inject(AppHookService);
     matDialog = TestBed.inject(MatDialog);
     subject = new Subject<Node[]>();
@@ -95,8 +97,8 @@ describe('TemplateEffects', () => {
     spyOn(store, 'select').and.returnValue(of({ id: 'parent-id' }));
     spyOn(nodeTemplateService, 'selectTemplateDialog').and.returnValue(subject);
 
-    copyNodeSpy = spyOn(TemplateEffects['nodesApi'], 'copyNode');
-    updateNodeSpy = spyOn(TemplateEffects['nodesApi'], 'updateNode');
+    copyNodeSpy = spyOn(templateEffects['nodesApi'], 'copyNode');
+    updateNodeSpy = spyOn(templateEffects['nodesApi'], 'updateNode');
   });
 
   afterEach(() => {
