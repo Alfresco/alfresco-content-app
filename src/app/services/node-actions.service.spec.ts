@@ -112,7 +112,8 @@ describe('NodeActionsService', () => {
     dialog = TestBed.inject(MatDialog);
     apiService.reset();
 
-    nodesApi = contentApi['nodesApi'];
+    //nodesApi = contentApi['nodesApi'];
+    nodesApi = service['nodesApi'];
   });
 
   describe('ContentNodeSelector configuration', () => {
@@ -861,7 +862,7 @@ describe('NodeActionsService', () => {
 
         const subject$ = new Subject<NodeChildAssociationEntry>();
         spyOn(service, 'getChildByName').and.returnValue(subject$);
-        spyOn(service, 'listNodeChildren').and.returnValue(of(emptyChildrenList));
+        spyOn(nodesApi, 'listNodeChildren').and.returnValue(of(emptyChildrenList));
 
         service.moveFolderAction(folderToMove.entry, folderDestinationId).subscribe(spyOnSuccess, spyOnError);
 
@@ -885,7 +886,7 @@ describe('NodeActionsService', () => {
         const subject$ = new Subject<NodeChildAssociationEntry>();
         spyOn(service, 'getChildByName').and.returnValue(subject$);
         const childrenNodes = [fileToMove, folderToMove];
-        spyOn(service, 'listNodeChildren').and.returnValue(of({ list: { entries: childrenNodes } }));
+        spyOn(nodesApi, 'listNodeChildren').and.returnValue(of({ list: { entries: childrenNodes } }));
 
         service.moveFolderAction(parentFolderToMove.entry, folderDestinationId).subscribe(spyOnSuccess, spyOnError);
         subject$.next(newDestination);
