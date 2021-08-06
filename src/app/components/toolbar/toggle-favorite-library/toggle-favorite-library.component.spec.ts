@@ -38,7 +38,7 @@ describe('ToggleFavoriteLibraryComponent', () => {
   let fixture: ComponentFixture<ToggleFavoriteLibraryComponent>;
   let component: ToggleFavoriteLibraryComponent;
   let appHookService: AppHookService;
-  let contentApiService: ContentApiService;
+  let contentApiService: any;
 
   const selection = { library: { entry: { id: 'libraryId' } } };
   const mockRouter = {
@@ -72,7 +72,7 @@ describe('ToggleFavoriteLibraryComponent', () => {
     contentApiService = TestBed.inject(ContentApiService);
 
     appHookService = TestBed.inject(AppHookService);
-    spyOn(<any>contentApiService['favoritesApi'], 'getFavoriteSite').and.returnValue(Promise.resolve(null));
+    spyOn(contentApiService['favoritesApi'], 'getFavoriteSite').and.returnValue(Promise.resolve(null));
   });
 
   it('should get library selection from Store', async () => {

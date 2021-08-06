@@ -37,7 +37,7 @@ describe('ToggleJoinLibraryComponent', () => {
   let component: ToggleJoinLibraryButtonComponent;
   let fixture: ComponentFixture<ToggleJoinLibraryButtonComponent>;
   let appHookService: AppHookService;
-  let contentApiService: ContentApiService;
+  let contentApiService: any;
   let store: Store<any>;
   let entry;
 
@@ -70,7 +70,7 @@ describe('ToggleJoinLibraryComponent', () => {
     contentApiService = TestBed.inject(ContentApiService);
     fixture = TestBed.createComponent(ToggleJoinLibraryButtonComponent);
     component = fixture.componentInstance;
-    spyOn(<any> contentApiService['sitesApi'], 'getSiteMembershipRequestForPerson').and.stub();
+    spyOn(contentApiService['sitesApi'], 'getSiteMembershipRequestForPerson').and.stub();
   });
 
   afterEach(() => {

@@ -25,12 +25,7 @@
 
 import { AppService } from './app.service';
 import { TestBed } from '@angular/core/testing';
-import {
-  AuthenticationService,
-  AppConfigService,
-  AlfrescoApiService,
-  AlfrescoApiServiceMock
-} from '@alfresco/adf-core';
+import { AuthenticationService, AppConfigService, AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-core';
 import { Subject } from 'rxjs';
 import { HttpClientModule } from '@angular/common/http';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
