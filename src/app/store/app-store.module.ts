@@ -63,8 +63,7 @@ import { provideBootstrapEffects } from './bootstrap-effect';
       stateKey: 'router'
     }),
     SharedStoreModule,
-    EffectsModule.forRoot([
-    ]),
+    EffectsModule.forRoot([]),
     !environment.production ? StoreDevtoolsModule.instrument({ maxAge: 25 }) : []
   ],
   providers: [
@@ -80,6 +79,6 @@ import { provideBootstrapEffects } from './bootstrap-effect';
       TemplateEffects,
       ContextMenuEffects
     ])
-  ],
+  ]
 })
 export class AppStoreModule {}

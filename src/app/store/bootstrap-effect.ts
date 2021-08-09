@@ -1,16 +1,11 @@
-import {
-  APP_BOOTSTRAP_LISTENER,
-  InjectionToken,
-  Inject,
-  Type
-} from '@angular/core';
+import { APP_BOOTSTRAP_LISTENER, InjectionToken, Inject, Type } from '@angular/core';
 import { EffectSources } from '@ngrx/effects';
 
 export const BOOTSTRAP_EFFECTS = new InjectionToken('Bootstrap Effects');
 
 export function bootstrapEffects(effects: Type<any>[], sources: EffectSources) {
   return () => {
-    effects.forEach(effect => sources.addEffects(effect));
+    effects.forEach((effect) => sources.addEffects(effect));
   };
 }
 
