@@ -3,7 +3,7 @@ import:
   - source: .travis/env.yml
     mode: deep_merge_prepend
 # =================
-# merge anchor 
+# merge anchor
 # =================
 
 dist: bionic
@@ -85,7 +85,7 @@ jobs:
       name: 'Unit tests: ACA'
       script:
         - npm ci
-        - ng test app --code-coverage --watch=false
+        - ng test app --watch=false
       cache: false
 
     - stage: e2e
