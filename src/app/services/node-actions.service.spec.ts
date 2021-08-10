@@ -112,7 +112,6 @@ describe('NodeActionsService', () => {
     dialog = TestBed.inject(MatDialog);
     apiService.reset();
 
-    //nodesApi = contentApi['nodesApi'];
     nodesApi = service['nodesApi'];
   });
 
