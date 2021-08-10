@@ -30,14 +30,12 @@ import { TemplateEffects } from '../store/effects/template.effects';
 import { AppTestingModule } from '../testing/app-testing.module';
 import { Store } from '@ngrx/store';
 import { MatDialog } from '@angular/material/dialog';
-import { AlfrescoApiService } from '@alfresco/adf-core';
 import { NodeTemplateService } from './node-template.service';
 import { ResultSetPaging } from '@alfresco/js-api';
 
 describe('NodeTemplateService', () => {
   let dialog: MatDialog;
   let store: Store<AppStore>;
-  let alfrescoApiService: AlfrescoApiService;
   let nodeTemplateService: NodeTemplateService;
   const fileTemplateConfig = {
     primaryPathName: 'parent-file-templates',
@@ -55,13 +53,12 @@ describe('NodeTemplateService', () => {
     });
 
     store = TestBed.inject(Store);
-    alfrescoApiService = TestBed.inject(AlfrescoApiService);
     dialog = TestBed.inject(MatDialog);
     nodeTemplateService = TestBed.inject(NodeTemplateService);
   });
 
   it('should open dialog with parent node `id` as data property', fakeAsync(() => {
-    spyOn(alfrescoApiService.searchApi, 'search').and.returnValue(
+    spyOn(nodeTemplateService['searchApi'], 'search').and.returnValue(
       Promise.resolve({
         list: { entries: [{ entry: { id: 'parent-node-id' } }] }
       } as ResultSetPaging)
@@ -75,7 +72,7 @@ describe('NodeTemplateService', () => {
   }));
 
   it('should remove parents path for templates breadcrumb', fakeAsync(() => {
-    spyOn(alfrescoApiService.searchApi, 'search').and.returnValue(
+    spyOn(nodeTemplateService['searchApi'], 'search').and.returnValue(
       Promise.resolve({
         list: {
           entries: [
@@ -115,7 +112,7 @@ describe('NodeTemplateService', () => {
   }));
 
   it('should set template folder path as root for breadcrumb', fakeAsync(() => {
-    spyOn(alfrescoApiService.searchApi, 'search').and.returnValue(
+    spyOn(nodeTemplateService['searchApi'], 'search').and.returnValue(
       Promise.resolve({
         list: {
           entries: [
@@ -156,7 +153,7 @@ describe('NodeTemplateService', () => {
   }));
 
   it('should raise an error when getNodeInfo fails', fakeAsync(() => {
-    spyOn(alfrescoApiService.searchApi, 'search').and.returnValue(
+    spyOn(nodeTemplateService['searchApi'], 'search').and.returnValue(
       Promise.reject({
         message: `{ "error": { "statusCode": 404 } } `
       })
@@ -170,7 +167,7 @@ describe('NodeTemplateService', () => {
   }));
 
   it('should return true if row is not a `link` nodeType', fakeAsync(() => {
-    spyOn(alfrescoApiService.searchApi, 'search').and.returnValue(
+    spyOn(nodeTemplateService['searchApi'], 'search').and.returnValue(
       Promise.resolve({
         list: {
           entries: [
@@ -200,7 +197,7 @@ describe('NodeTemplateService', () => {
   }));
 
   it('should return false if row is a `filelink` nodeType', fakeAsync(() => {
-    spyOn(alfrescoApiService.searchApi, 'search').and.returnValue(
+    spyOn(nodeTemplateService['searchApi'], 'search').and.returnValue(
       Promise.resolve({
         list: {
           entries: [
@@ -230,7 +227,7 @@ describe('NodeTemplateService', () => {
   }));
 
   it('should return false if row is a `folderlink` nodeType', fakeAsync(() => {
-    spyOn(alfrescoApiService.searchApi, 'search').and.returnValue(
+    spyOn(nodeTemplateService['searchApi'], 'search').and.returnValue(
       Promise.resolve({
         list: {
           entries: [
@@ -261,7 +258,7 @@ describe('NodeTemplateService', () => {
 
   describe('File templates', () => {
     it('should return false if selected node is not a file', fakeAsync(() => {
-      spyOn(alfrescoApiService.searchApi, 'search').and.returnValue(
+      spyOn(nodeTemplateService['searchApi'], 'search').and.returnValue(
         Promise.resolve({
           list: { entries: [{ entry: { id: 'templates-folder-id' } }] }
         } as ResultSetPaging)
@@ -282,7 +279,7 @@ describe('NodeTemplateService', () => {
     }));
 
     it('should return true if selected node is a template file', fakeAsync(() => {
-      spyOn(alfrescoApiService.searchApi, 'search').and.returnValue(
+      spyOn(nodeTemplateService['searchApi'], 'search').and.returnValue(
         Promise.resolve({
           list: { entries: [{ entry: { id: 'templates-folder-id' } }] }
         } as ResultSetPaging)
@@ -303,7 +300,7 @@ describe('NodeTemplateService', () => {
     }));
 
     it('should set dialog title for file templates', fakeAsync(() => {
-      spyOn(alfrescoApiService.searchApi, 'search').and.returnValue(
+      spyOn(nodeTemplateService['searchApi'], 'search').and.returnValue(
         Promise.resolve({
           list: { entries: [{ entry: { id: 'templates-folder-id' } }] }
         } as ResultSetPaging)
@@ -321,7 +318,7 @@ describe('NodeTemplateService', () => {
 
   describe('Folder templates', () => {
     it('should return false if selected node is not a folder', fakeAsync(() => {
-      spyOn(alfrescoApiService.searchApi, 'search').and.returnValue(
+      spyOn(nodeTemplateService['searchApi'], 'search').and.returnValue(
         Promise.resolve({
           list: { entries: [{ entry: { id: 'templates-folder-id' } }] }
         } as ResultSetPaging)
@@ -342,7 +339,7 @@ describe('NodeTemplateService', () => {
     }));
 
     it('should return false if current node is the parent folder', fakeAsync(() => {
-      spyOn(alfrescoApiService.searchApi, 'search').and.returnValue(
+      spyOn(nodeTemplateService['searchApi'], 'search').and.returnValue(
         Promise.resolve({
           list: { entries: [{ entry: { id: 'templates-folder-id' } }] }
         } as ResultSetPaging)
@@ -363,7 +360,7 @@ describe('NodeTemplateService', () => {
     }));
 
     it('should return true if selected node is a folder template', fakeAsync(() => {
-      spyOn(alfrescoApiService.searchApi, 'search').and.returnValue(
+      spyOn(nodeTemplateService['searchApi'], 'search').and.returnValue(
         Promise.resolve({
           list: {
             entries: [{ entry: { id: 'templates-folder-id', path: { elements: [] } } }]
@@ -386,7 +383,7 @@ describe('NodeTemplateService', () => {
     }));
 
     it('should set dialog title for folder templates', fakeAsync(() => {
-      spyOn(alfrescoApiService.searchApi, 'search').and.returnValue(
+      spyOn(nodeTemplateService['searchApi'], 'search').and.returnValue(
         Promise.resolve({
           list: { entries: [{ entry: { id: 'templates-folder-id' } }] }
         } as ResultSetPaging)

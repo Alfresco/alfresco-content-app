@@ -27,7 +27,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CreateFromTemplateDialogComponent } from '../dialogs/node-template/create-from-template.dialog';
 import { Subject, from, of } from 'rxjs';
-import { Node, MinimalNode, MinimalNodeEntryEntity, ResultNode, PathElement } from '@alfresco/js-api';
+import { Node, MinimalNode, MinimalNodeEntryEntity, ResultNode, PathElement, SearchApi } from '@alfresco/js-api';
 import { AlfrescoApiService, TranslationService } from '@alfresco/adf-core';
 import { switchMap, catchError } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
@@ -45,13 +45,16 @@ export interface TemplateDialogConfig {
 export class NodeTemplateService {
   private currentTemplateConfig: TemplateDialogConfig = null;
   private rootNode: ResultNode;
+  private searchApi: SearchApi;
 
   constructor(
     private store: Store<AppStore>,
     private alfrescoApiService: AlfrescoApiService,
     private translation: TranslationService,
     public dialog: MatDialog
-  ) {}
+  ) {
+    this.searchApi = new SearchApi(this.alfrescoApiService.getInstance());
+  }
 
   selectTemplateDialog(config: TemplateDialogConfig): Subject<Node[]> {
     this.currentTemplateConfig = config;
@@ -84,7 +87,7 @@ export class NodeTemplateService {
       include: ['path', 'properties', 'allowableOperations', 'permissions']
     };
 
-    from(this.alfrescoApiService.searchApi.search(query))
+    from(this.searchApi.search(query))
       .pipe(
         switchMap((response) => {
           const entry = response.list.entries[0].entry;

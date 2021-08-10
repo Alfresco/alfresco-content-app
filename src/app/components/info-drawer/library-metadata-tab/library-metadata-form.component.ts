@@ -25,7 +25,7 @@
 
 import { Component, Input, OnInit, OnChanges, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormGroupDirective, NgForm } from '@angular/forms';
-import { SiteEntry, SitePaging } from '@alfresco/js-api';
+import { QueriesApi, SiteEntry, SitePaging } from '@alfresco/js-api';
 import { Store } from '@ngrx/store';
 import { AppStore, UpdateLibraryAction } from '@alfresco/aca-shared/store';
 import { debounceTime, mergeMap, takeUntil } from 'rxjs/operators';
@@ -45,6 +45,8 @@ export class InstantErrorStateMatcher implements ErrorStateMatcher {
   templateUrl: './library-metadata-form.component.html'
 })
 export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestroy {
+  private queriesApi: QueriesApi;
+
   @Input()
   node: SiteEntry;
 
@@ -68,7 +70,9 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
 
   onDestroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private alfrescoApiService: AlfrescoApiService, protected store: Store<AppStore>) {}
+  constructor(private alfrescoApiService: AlfrescoApiService, protected store: Store<AppStore>) {
+    this.queriesApi = new QueriesApi(this.alfrescoApiService.getInstance());
+  }
 
   get canUpdateLibrary() {
     return this.node && this.node.entry && this.node.entry.role === 'SiteManager';
@@ -139,9 +143,8 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
 
   private findLibraryByTitle(libraryTitle: string): Observable<SitePaging | { list: { entries: any[] } }> {
     return from(
-      this.alfrescoApiService
-        .getInstance()
-        .core.queriesApi.findSites(libraryTitle, {
+      this.queriesApi
+        .findSites(libraryTitle, {
           maxItems: 1,
           fields: ['title']
         })

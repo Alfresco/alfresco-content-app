@@ -41,8 +41,8 @@ describe('SearchLibrariesQueryBuilderService', () => {
 
     apiService = TestBed.inject(AlfrescoApiService);
     apiService.reset();
-    queriesApi = apiService.getInstance().core.queriesApi;
     builder = new SearchLibrariesQueryBuilderService(apiService);
+    queriesApi = builder['queriesApi'];
   });
 
   it('should have empty user query by default', () => {

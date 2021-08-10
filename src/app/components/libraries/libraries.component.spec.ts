@@ -32,11 +32,13 @@ import { LibrariesComponent } from './libraries.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { EffectsModule } from '@ngrx/effects';
 import { LibraryEffects } from '../../store/effects';
+import { ContentApiService } from '@alfresco/aca-shared';
 
 describe('LibrariesComponent', () => {
   let fixture: ComponentFixture<LibrariesComponent>;
   let component: LibrariesComponent;
   let alfrescoApi: AlfrescoApiService;
+  let contentApiService: ContentApiService;
   let router: Router;
   let page;
 
@@ -60,11 +62,14 @@ describe('LibrariesComponent', () => {
     component = fixture.componentInstance;
 
     alfrescoApi = TestBed.inject(AlfrescoApiService);
+    contentApiService = TestBed.inject(ContentApiService);
     alfrescoApi.reset();
     router = TestBed.inject(Router);
 
-    spyOn(alfrescoApi.sitesApi, 'getSites').and.returnValue(Promise.resolve(page));
-    spyOn(alfrescoApi.peopleApi, 'getSiteMembership').and.returnValue(Promise.resolve({}));
+    const sitesApi: any = contentApiService['sitesApi'];
+
+    spyOn(sitesApi, 'listSites').and.returnValue(Promise.resolve(page));
+    spyOn(sitesApi, 'listSiteMembershipsForPerson').and.returnValue(Promise.resolve({}));
   });
 
   describe('Node navigation', () => {

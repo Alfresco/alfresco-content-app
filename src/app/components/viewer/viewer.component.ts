@@ -37,7 +37,7 @@ import {
   ViewNodeAction
 } from '@alfresco/aca-shared/store';
 import { ContentActionRef, SelectionState } from '@alfresco/adf-extensions';
-import { MinimalNodeEntryEntity, SearchRequest, VersionEntry } from '@alfresco/js-api';
+import { MinimalNodeEntryEntity, SearchRequest, VersionEntry, VersionsApi } from '@alfresco/js-api';
 import { Component, HostListener, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, PRIMARY_OUTLET, Router } from '@angular/router';
 import { AlfrescoApiService, ObjectUtils, UploadService, UserPreferencesService } from '@alfresco/adf-core';
@@ -54,6 +54,8 @@ import { Actions, ofType } from '@ngrx/effects';
   host: { class: 'app-viewer' }
 })
 export class AppViewerComponent implements OnInit, OnDestroy {
+  private versionsApi: VersionsApi;
+
   onDestroy$ = new Subject<boolean>();
 
   fileName: string;
@@ -113,7 +115,9 @@ export class AppViewerComponent implements OnInit, OnDestroy {
     private apiService: AlfrescoApiService,
     private uploadService: UploadService,
     private appHookService: AppHookService
-  ) {}
+  ) {
+    this.versionsApi = new VersionsApi(apiService.getInstance());
+  }
 
   ngOnInit() {
     this.infoDrawerOpened$ = this.store.select(isInfoDrawerOpened);
@@ -144,7 +148,7 @@ export class AppViewerComponent implements OnInit, OnDestroy {
       const { nodeId } = params;
       this.versionId = params.versionId;
       if (this.versionId) {
-        this.apiService.versionsApi.getVersion(nodeId, this.versionId).then((version: VersionEntry) => {
+        this.versionsApi.getVersion(nodeId, this.versionId).then((version: VersionEntry) => {
           if (version) {
             this.store.dispatch(new SetCurrentNodeVersionAction(version));
           }

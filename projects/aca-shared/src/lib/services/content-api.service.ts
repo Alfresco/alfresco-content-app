@@ -41,7 +41,16 @@ import {
   SiteBody,
   SiteEntry,
   FavoriteBody,
-  FavoriteEntry
+  FavoriteEntry,
+  NodesApi,
+  TrashcanApi,
+  SharedlinksApi,
+  DiscoveryApi,
+  FavoritesApi,
+  ContentApi,
+  SitesApi,
+  SearchApi,
+  PeopleApi
 } from '@alfresco/js-api';
 import { map } from 'rxjs/operators';
 
@@ -49,7 +58,27 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class ContentApiService {
-  constructor(private api: AlfrescoApiService, private preferences: UserPreferencesService) {}
+  private nodesApi: NodesApi;
+  private trashcanApi: TrashcanApi;
+  private sharedLinksApi: SharedlinksApi;
+  private discoveryApi: DiscoveryApi;
+  private favoritesApi: FavoritesApi;
+  private contentApi: ContentApi;
+  private sitesApi: SitesApi;
+  private searchApi: SearchApi;
+  private peopleApi: PeopleApi;
+
+  constructor(private api: AlfrescoApiService, private preferences: UserPreferencesService) {
+    this.nodesApi = new NodesApi(this.api.getInstance());
+    this.trashcanApi = new TrashcanApi(this.api.getInstance());
+    this.sharedLinksApi = new SharedlinksApi(this.api.getInstance());
+    this.discoveryApi = new DiscoveryApi(this.api.getInstance());
+    this.favoritesApi = new FavoritesApi(this.api.getInstance());
+    this.contentApi = new ContentApi(this.api.getInstance());
+    this.sitesApi = new SitesApi(this.api.getInstance());
+    this.searchApi = new SearchApi(this.api.getInstance());
+    this.peopleApi = new PeopleApi(this.api.getInstance());
+  }
 
   /**
    * Moves a node to the trashcan.
@@ -58,7 +87,7 @@ export class ContentApiService {
    * @returns Empty result that notifies when the deletion is complete
    */
   deleteNode(nodeId: string, options: { permanent?: boolean } = {}): Observable<void> {
-    return from(this.api.nodesApi.deleteNode(nodeId, options));
+    return from(this.nodesApi.deleteNode(nodeId, options));
   }
 
   /**
@@ -73,7 +102,7 @@ export class ContentApiService {
     };
     const queryOptions = Object.assign(defaults, options);
 
-    return from(this.api.nodesApi.getNode(nodeId, queryOptions));
+    return from(this.nodesApi.getNode(nodeId, queryOptions));
   }
 
   getNodeInfo(nodeId: string, options?: any): Observable<Node> {
@@ -82,7 +111,19 @@ export class ContentApiService {
     };
     const queryOptions = Object.assign(defaults, options || {});
 
-    return from(this.api.nodesApi.getNodeInfo(nodeId, queryOptions));
+    // @ts-ignore
+    return from(
+      new Promise((resolve, reject) => {
+        this.nodesApi.getNode(nodeId, queryOptions).then(
+          (nodeEntry: NodeEntry) => {
+            resolve(nodeEntry.entry);
+          },
+          (error) => {
+            reject(error);
+          }
+        );
+      })
+    );
   }
 
   /**
@@ -99,11 +140,11 @@ export class ContentApiService {
     };
     const queryOptions = Object.assign(defaults, options);
 
-    return from(this.api.nodesApi.getNodeChildren(nodeId, queryOptions));
+    return from(this.nodesApi.listNodeChildren(nodeId, queryOptions));
   }
 
   deleteSharedLink(linkId: string): Observable<any> {
-    return from(this.api.sharedLinksApi.deleteSharedLink(linkId));
+    return from(this.sharedLinksApi.deleteSharedLink(linkId));
   }
 
   getDeletedNodes(options: any = {}): Observable<DeletedNodesPaging> {
@@ -112,15 +153,15 @@ export class ContentApiService {
     };
     const queryOptions = Object.assign(defaults, options);
 
-    return from(this.api.nodesApi.getDeletedNodes(queryOptions));
+    return from(this.trashcanApi.listDeletedNodes(queryOptions));
   }
 
   restoreNode(nodeId: string): Observable<MinimalNodeEntity> {
-    return from(this.api.nodesApi.restoreNode(nodeId));
+    return from(this.trashcanApi.restoreDeletedNode(nodeId));
   }
 
   purgeDeletedNode(nodeId: string): Observable<any> {
-    return from(this.api.nodesApi.purgeDeletedNode(nodeId));
+    return from(this.trashcanApi.deleteDeletedNode(nodeId));
   }
 
   /**
@@ -130,7 +171,7 @@ export class ContentApiService {
    * @returns User information
    */
   getPerson(personId: string, options?: { fields?: Array<string> }): Observable<PersonEntry> {
-    return from(this.api.peopleApi.getPerson(personId, options));
+    return from(this.peopleApi.getPerson(personId, options));
   }
 
   /**
@@ -142,7 +183,7 @@ export class ContentApiService {
    * @param opts Api options
    */
   copyNode(nodeId: string, targetParentId: string, name?: string, opts?: { include?: Array<string>; fields?: Array<string> }): Observable<NodeEntry> {
-    return from(this.api.nodesApi.copyNode(nodeId, { targetParentId, name }, opts));
+    return from(this.nodesApi.copyNode(nodeId, { targetParentId, name }, opts));
   }
 
   /**
@@ -150,7 +191,7 @@ export class ContentApiService {
    * @returns ProductVersionModel containing product details
    */
   getRepositoryInformation(): Observable<DiscoveryEntry> {
-    return from(this.api.getInstance().discovery.discoveryApi.getRepositoryInformation());
+    return from(this.discoveryApi.getRepositoryInformation());
   }
 
   getFavorites(
@@ -162,7 +203,7 @@ export class ContentApiService {
       fields?: Array<string>;
     }
   ): Observable<FavoritePaging> {
-    return from(this.api.favoritesApi.getFavorites(personId, opts));
+    return from(this.favoritesApi.listFavorites(personId, opts));
   }
 
   getFavoriteLibraries(personId: string = '-me-', opts?: any): Observable<FavoritePaging> {
@@ -187,31 +228,31 @@ export class ContentApiService {
   }
 
   findSharedLinks(opts?: any): Observable<SharedLinkPaging> {
-    return from(this.api.sharedLinksApi.findSharedLinks(opts));
+    return from(this.sharedLinksApi.listSharedLinks(opts));
   }
 
   getSharedLinkContent(sharedId: string, attachment?: boolean): string {
-    return this.api.contentApi.getSharedLinkContentUrl(sharedId, attachment);
+    return this.contentApi.getSharedLinkContentUrl(sharedId, attachment);
   }
 
   search(request: SearchRequest): Observable<ResultSetPaging> {
-    return from(this.api.searchApi.search(request));
+    return from(this.searchApi.search(request));
   }
 
   getContentUrl(nodeId: string, attachment?: boolean): string {
-    return this.api.contentApi.getContentUrl(nodeId, attachment);
+    return this.contentApi.getContentUrl(nodeId, attachment);
   }
 
   getVersionContentUrl(nodeId: string, versionId: string, attachment?: boolean): string {
-    return this.api.contentApi.getVersionContentUrl(nodeId, versionId, attachment);
+    return this.contentApi.getVersionContentUrl(nodeId, versionId, attachment);
   }
 
   deleteSite(siteId?: string, opts?: { permanent?: boolean }): Observable<any> {
-    return from(this.api.sitesApi.deleteSite(siteId, opts));
+    return from(this.sitesApi.deleteSite(siteId, opts));
   }
 
   leaveSite(siteId?: string): Observable<any> {
-    return from(this.api.sitesApi.removeSiteMember(siteId, '-me-'));
+    return from(this.sitesApi.deleteSiteMembership(siteId, '-me-'));
   }
 
   createSite(
@@ -222,15 +263,15 @@ export class ContentApiService {
       skipAddToFavorites?: boolean;
     }
   ): Observable<SiteEntry> {
-    return from(this.api.sitesApi.createSite(siteBody, opts));
+    return from(this.sitesApi.createSite(siteBody, opts));
   }
 
   getSite(siteId?: string, opts?: { relations?: Array<string>; fields?: Array<string> }): Observable<SiteEntry> {
-    return from(this.api.sitesApi.getSite(siteId, opts));
+    return from(this.sitesApi.getSite(siteId, opts));
   }
 
   updateLibrary(siteId: string, siteBody: SiteBody): Observable<SiteEntry> {
-    return from(this.api.sitesApi.updateSite(siteId, siteBody));
+    return from(this.sitesApi.updateSite(siteId, siteBody));
   }
 
   addFavorite(nodes: Array<MinimalNodeEntity>): Observable<FavoriteEntry> {
@@ -249,7 +290,7 @@ export class ContentApiService {
       };
     });
 
-    return from(this.api.favoritesApi.addFavorite('-me-', payload as any));
+    return from(this.favoritesApi.createFavorite('-me-', payload as any));
   }
 
   removeFavorite(nodes: Array<MinimalNodeEntity>): Observable<any> {
@@ -257,13 +298,13 @@ export class ContentApiService {
       Promise.all(
         nodes.map((node: any) => {
           const id = node.entry.nodeId || node.entry.id;
-          return this.api.favoritesApi.removeFavoriteSite('-me-', id);
+          return this.favoritesApi.deleteFavorite('-me-', id);
         })
       )
     );
   }
 
   unlockNode(nodeId: string, opts?: any) {
-    return this.api.nodesApi.unlockNode(nodeId, opts);
+    return this.nodesApi.unlockNode(nodeId, opts);
   }
 }

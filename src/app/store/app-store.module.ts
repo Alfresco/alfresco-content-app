@@ -44,6 +44,7 @@ import {
   ContextMenuEffects
 } from './effects';
 import { INITIAL_STATE } from './initial-state';
+import { provideBootstrapEffects } from './bootstrap-effect';
 
 @NgModule({
   imports: [
@@ -62,7 +63,11 @@ import { INITIAL_STATE } from './initial-state';
       stateKey: 'router'
     }),
     SharedStoreModule,
-    EffectsModule.forRoot([
+    EffectsModule.forRoot([]),
+    !environment.production ? StoreDevtoolsModule.instrument({ maxAge: 25 }) : []
+  ],
+  providers: [
+    provideBootstrapEffects([
       AppEffects,
       NodeEffects,
       DownloadEffects,
@@ -73,8 +78,7 @@ import { INITIAL_STATE } from './initial-state';
       FavoriteEffects,
       TemplateEffects,
       ContextMenuEffects
-    ]),
-    !environment.production ? StoreDevtoolsModule.instrument({ maxAge: 25 }) : []
+    ])
   ]
 })
 export class AppStoreModule {}

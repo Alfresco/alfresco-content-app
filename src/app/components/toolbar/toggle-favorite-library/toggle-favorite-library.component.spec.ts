@@ -24,7 +24,7 @@
  */
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AlfrescoApiService, CoreModule } from '@alfresco/adf-core';
+import { CoreModule } from '@alfresco/adf-core';
 import { ToggleFavoriteLibraryComponent } from './toggle-favorite-library.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -32,12 +32,13 @@ import { AppTestingModule } from '../../../testing/app-testing.module';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { AppHookService } from '@alfresco/aca-shared';
+import { AppHookService, ContentApiService } from '@alfresco/aca-shared';
 
 describe('ToggleFavoriteLibraryComponent', () => {
   let fixture: ComponentFixture<ToggleFavoriteLibraryComponent>;
   let component: ToggleFavoriteLibraryComponent;
   let appHookService: AppHookService;
+  let contentApiService: any;
 
   const selection = { library: { entry: { id: 'libraryId' } } };
   const mockRouter = {
@@ -68,10 +69,10 @@ describe('ToggleFavoriteLibraryComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ToggleFavoriteLibraryComponent);
     component = fixture.componentInstance;
+    contentApiService = TestBed.inject(ContentApiService);
 
     appHookService = TestBed.inject(AppHookService);
-    const api = TestBed.inject(AlfrescoApiService);
-    spyOn(api.peopleApi, 'getFavoriteSite').and.returnValue(Promise.resolve(null));
+    spyOn(contentApiService['favoritesApi'], 'getFavoriteSite').and.returnValue(Promise.resolve(null));
   });
 
   it('should get library selection from Store', async () => {

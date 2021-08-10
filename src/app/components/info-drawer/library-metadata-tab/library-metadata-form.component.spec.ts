@@ -29,12 +29,10 @@ import { UpdateLibraryAction } from '@alfresco/aca-shared/store';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Site, SitePaging } from '@alfresco/js-api';
-import { AlfrescoApiService } from '@alfresco/adf-core';
 
 describe('LibraryMetadataFormComponent', () => {
   let fixture: ComponentFixture<LibraryMetadataFormComponent>;
   let component: LibraryMetadataFormComponent;
-  let alfrescoApiService: AlfrescoApiService;
   let store: Store<any>;
 
   beforeEach(() => {
@@ -53,7 +51,6 @@ describe('LibraryMetadataFormComponent', () => {
     });
 
     store = TestBed.inject(Store);
-    alfrescoApiService = TestBed.inject(AlfrescoApiService);
 
     fixture = TestBed.createComponent(LibraryMetadataFormComponent);
     component = fixture.componentInstance;
@@ -214,7 +211,7 @@ describe('LibraryMetadataFormComponent', () => {
 
   it('should warn if library name input is used by another library', fakeAsync(() => {
     const title = 'some-title';
-    spyOn(alfrescoApiService.getInstance().core.queriesApi, 'findSites').and.returnValue(
+    spyOn(component['queriesApi'], 'findSites').and.returnValue(
       Promise.resolve({
         list: { entries: [{ entry: { title } }] }
       } as SitePaging)
@@ -242,7 +239,7 @@ describe('LibraryMetadataFormComponent', () => {
   }));
 
   it('should not warn if library name input is the same with library node data', fakeAsync(() => {
-    spyOn(alfrescoApiService.getInstance().core.queriesApi, 'findSites').and.returnValue(
+    spyOn(component['queriesApi'], 'findSites').and.returnValue(
       Promise.resolve({
         list: { entries: [{ entry: { title: 'libraryTitle' } }] }
       } as SitePaging)
@@ -270,7 +267,7 @@ describe('LibraryMetadataFormComponent', () => {
   }));
 
   it('should not warn if library name is unique', fakeAsync(() => {
-    spyOn(alfrescoApiService.getInstance().core.queriesApi, 'findSites').and.returnValue(
+    spyOn(component['queriesApi'], 'findSites').and.returnValue(
       Promise.resolve({
         list: { entries: [] }
       } as SitePaging)

@@ -27,7 +27,7 @@ import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testin
 import { SearchResultsComponent } from './search-results.component';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { AppSearchResultsModule } from '../search-results.module';
-import { AlfrescoApiService, AppConfigService, CoreModule, TranslationService } from '@alfresco/adf-core';
+import { AppConfigService, CoreModule, TranslationService } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
 import { NavigateToFolder, SnackbarErrorAction } from '@alfresco/aca-shared/store';
 import { Pagination, SearchRequest } from '@alfresco/js-api';
@@ -42,7 +42,6 @@ describe('SearchComponent', () => {
   let config: AppConfigService;
   let store: Store<any>;
   let queryBuilder: SearchQueryBuilderService;
-  let alfrescoApi: AlfrescoApiService;
   let translate: TranslationService;
   let router: Router;
   const searchRequest = {} as SearchRequest;
@@ -70,7 +69,6 @@ describe('SearchComponent', () => {
     config = TestBed.inject(AppConfigService);
     store = TestBed.inject(Store);
     queryBuilder = TestBed.inject(SearchQueryBuilderService);
-    alfrescoApi = TestBed.inject(AlfrescoApiService);
     translate = TestBed.inject(TranslationService);
     router = TestBed.inject(Router);
 
@@ -91,7 +89,7 @@ describe('SearchComponent', () => {
   });
 
   it('should raise an error if search fails', fakeAsync(() => {
-    spyOn(alfrescoApi.searchApi, 'search').and.returnValue(
+    spyOn(queryBuilder['searchApi'], 'search').and.returnValue(
       Promise.reject({
         message: `{ "error": { "statusCode": 500 } } `
       })
@@ -114,7 +112,7 @@ describe('SearchComponent', () => {
       return key;
     });
 
-    spyOn(alfrescoApi.searchApi, 'search').and.returnValue(
+    spyOn(queryBuilder['searchApi'], 'search').and.returnValue(
       Promise.reject({
         message: `{ "error": { "statusCode": 401 } } `
       })
@@ -137,7 +135,7 @@ describe('SearchComponent', () => {
       return key;
     });
 
-    spyOn(alfrescoApi.searchApi, 'search').and.returnValue(
+    spyOn(queryBuilder['searchApi'], 'search').and.returnValue(
       Promise.reject({
         message: `{ "error": { "statusCode": 401 } } `
       })

@@ -25,19 +25,19 @@
 
 import { of } from 'rxjs';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AlfrescoApiService, DirectiveModule } from '@alfresco/adf-core';
+import { DirectiveModule } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { SnackbarErrorAction, SnackbarInfoAction } from '@alfresco/aca-shared/store';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { ToggleJoinLibraryButtonComponent } from './toggle-join-library-button.component';
-import { AppHookService } from '@alfresco/aca-shared';
+import { AppHookService, ContentApiService } from '@alfresco/aca-shared';
 
 describe('ToggleJoinLibraryComponent', () => {
   let component: ToggleJoinLibraryButtonComponent;
   let fixture: ComponentFixture<ToggleJoinLibraryButtonComponent>;
-  let alfrescoApi: AlfrescoApiService;
   let appHookService: AppHookService;
+  let contentApiService: any;
   let store: Store<any>;
   let entry;
 
@@ -65,13 +65,12 @@ describe('ToggleJoinLibraryComponent', () => {
     });
 
     store = TestBed.inject(Store);
-    alfrescoApi = TestBed.inject(AlfrescoApiService);
     appHookService = TestBed.inject(AppHookService);
 
-    spyOn(alfrescoApi.peopleApi, 'getSiteMembershipRequest').and.stub();
-
+    contentApiService = TestBed.inject(ContentApiService);
     fixture = TestBed.createComponent(ToggleJoinLibraryButtonComponent);
     component = fixture.componentInstance;
+    spyOn(contentApiService['sitesApi'], 'getSiteMembershipRequestForPerson').and.stub();
   });
 
   afterEach(() => {
