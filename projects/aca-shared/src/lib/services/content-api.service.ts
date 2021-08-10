@@ -298,7 +298,7 @@ export class ContentApiService {
       Promise.all(
         nodes.map((node: any) => {
           const id = node.entry.nodeId || node.entry.id;
-          return this.favoritesApi.deleteSiteFavorite('-me-', id);
+          return this.favoritesApi.deleteFavorite('-me-', id);
         })
       )
     );
