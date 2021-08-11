@@ -1,7 +1,6 @@
 @import '~@angular/material/theming';
 @import '~@alfresco/adf-content-services/theming';
 
-@import '../components/search/search-input/search-input.component.theme';
 @import '../dialogs/node-template/create-from-template.dialog.scss';
 
 @import './overrides/adf-style-fixes.theme';
@@ -25,7 +24,6 @@ $primary: map-get($custom-theme, primary);
   @include adf-content-services-theme($theme);
   @include adf-core-theme($theme);
 
-  @include aca-search-input-theme($theme);
   @include app-create-from-template-theme($theme);
   @include adf-style-fixes($theme);
 
@@ -77,7 +75,8 @@ $defaults: (
   --theme-foreground-text-color: mat-color($foreground, text, 0.72),
   --theme-foreground-text-bold-color: mat-color($foreground, text, 0.87),
   --theme-secondary-text-color: mat-color($foreground, secondary-text),
-  --theme-divider-color: mat-color($foreground, divider, 0.07)
+  --theme-divider-color: mat-color($foreground, divider, 0.07),
+  --theme-dialog-background-color: mat-color($background, dialog)
 );
 
 // propagates SCSS variables into the CSS variables scope

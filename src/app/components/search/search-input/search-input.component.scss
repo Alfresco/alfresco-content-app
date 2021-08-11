@@ -4,43 +4,47 @@ $search-background: #f5f6f5;
 $search-border-radius: 4px;
 $top-margin: 12px;
 
-@mixin aca-search-input-theme($theme) {
-  $background: map-get($theme, background);
-  $foreground: map-get($theme, foreground);
-  $border: 1px solid mat-color($foreground, divider, 0.07);
+.app-search-container {
+  color: var(--theme-foreground-text-color);
 
-  .app-search-container {
-    color: mat-color($foreground, text, 0.72);
+  .app-input-form-field {
+    .mat-input-element {
+      caret-color: var(--theme-text-color);
 
-    .app-input-form-field {
-      .mat-input-element {
-        caret-color: mat-color($foreground, text, 0.54);
-
-        &:disabled {
-          color: mat-color($foreground, text, 0.54);
-        }
+      &:disabled {
+        color: var(--theme-text-color);
       }
     }
-
-    .mat-focused label.mat-form-field-label {
-      display: none;
-    }
   }
 
-  .app-search-options-menu {
-    &.mat-menu-panel {
-      background-color: mat-color($background, dialog);
-    }
+  .mat-focused label.mat-form-field-label {
+    display: none;
   }
-  #search-options {
-    color: mat-color($foreground, text, 0.54);
-    border-top: $border;
+}
+
+.app-search-options-menu {
+  &.mat-menu-panel {
+    background-color: var(--theme-dialog-background-color);
+    width: $search-width;
+    max-width: unset;
+    border-radius: $search-border-radius;
+    margin-top: $top-margin;
   }
 
-  mat-checkbox {
-    .mat-checkbox-frame {
-      border-color: mat-color($foreground, text, 0.54);
-    }
+  .mat-menu-content:not(:empty) {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}
+
+#search-options {
+  color: var(--theme-text-color);
+  border-top: 1px solid var(--theme-divider-color);
+}
+
+mat-checkbox {
+  .mat-checkbox-frame {
+    border-color: var(--theme-text-color);
   }
 }
 
@@ -60,20 +64,6 @@ $top-margin: 12px;
 
 .app-search-control {
   margin-top: -$top-margin;
-}
-
-.app-search-options-menu {
-  &.mat-menu-panel {
-    width: $search-width;
-    max-width: unset;
-    border-radius: $search-border-radius;
-    margin-top: $top-margin;
-  }
-
-  .mat-menu-content:not(:empty) {
-    padding-top: 0;
-    padding-bottom: 0;
-  }
 }
 
 #search-options {
@@ -107,7 +97,7 @@ $top-margin: 12px;
   padding-left: 17px;
 }
 
-@media screen and ($mat-small) {
+@media screen and (max-width: 959px) {
   $search-width-small: 400px;
 
   .aca-search-input {
@@ -141,7 +131,7 @@ $top-margin: 12px;
   }
 }
 
-@media screen and ($mat-xsmall) {
+@media screen and (max-width: 599px) {
   $search-width-xsmall: 220px;
 
   .aca-search-input {
