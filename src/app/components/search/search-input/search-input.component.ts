@@ -39,6 +39,7 @@ import { SearchLibrariesQueryBuilderService } from '../search-libraries-results/
 @Component({
   selector: 'aca-search-input',
   templateUrl: './search-input.component.html',
+  styleUrls: ['./search-input.component.scss'],
   encapsulation: ViewEncapsulation.None,
   host: { class: 'aca-search-input' }
 })

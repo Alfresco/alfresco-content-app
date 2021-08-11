@@ -33,6 +33,7 @@ import { TranslationService } from '@alfresco/adf-core';
 
 @Component({
   templateUrl: './create-from-template.dialog.html',
+  styleUrls: ['./create-from-template.dialog.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class CreateFromTemplateDialogComponent implements OnInit {
