@@ -30,7 +30,7 @@ import { StoreRouterConnectingModule, DefaultRouterStateSerializer } from '@ngrx
 import { EffectsModule } from '@ngrx/effects';
 import { environment } from '../../environments/environment';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { SharedStoreModule } from '@alfresco/aca-shared/store';
+import { provideBootstrapEffects, SharedStoreModule } from '@alfresco/aca-shared/store';
 import {
   AppEffects,
   NodeEffects,
@@ -44,7 +44,6 @@ import {
   ContextMenuEffects
 } from './effects';
 import { INITIAL_STATE } from './initial-state';
-import { provideBootstrapEffects } from '@alfresco/aca-shared/store';
 
 @NgModule({
   imports: [
