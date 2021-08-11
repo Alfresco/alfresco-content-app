@@ -44,7 +44,7 @@ import {
   ContextMenuEffects
 } from './effects';
 import { INITIAL_STATE } from './initial-state';
-import { provideBootstrapEffects } from './bootstrap-effect';
+import { provideBootstrapEffects } from '@alfresco/aca-shared/store';
 
 @NgModule({
   imports: [
