@@ -4,7 +4,6 @@
 @import '../components/sidenav/sidenav.component.theme';
 @import '../components/search/search-input/search-input.component.theme';
 @import '../dialogs/node-template/create-from-template.dialog.scss';
-@import '../components/details/details.component.scss';
 
 @import './overrides/adf-style-fixes.theme';
 
@@ -30,7 +29,6 @@ $primary: map-get($custom-theme, primary);
   @include aca-search-input-theme($theme);
   @include sidenav-component-theme($theme);
   @include app-create-from-template-theme($theme);
-  @include app-details-theme($theme);
   @include adf-style-fixes($theme);
 
   .mat-toolbar {

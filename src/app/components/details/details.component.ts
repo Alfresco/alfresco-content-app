@@ -35,6 +35,7 @@ import { Subject } from 'rxjs';
 @Component({
   selector: 'app-details-manager',
   templateUrl: './details.component.html',
+  styleUrls: ['./details.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class DetailsComponent extends PageComponent implements OnInit, OnDestroy {
