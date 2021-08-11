@@ -1,10 +1,6 @@
 @import '~@angular/material/theming';
 @import '~@alfresco/adf-content-services/theming';
-
-@import '../dialogs/node-template/create-from-template.dialog.scss';
-
 @import './overrides/adf-style-fixes.theme';
-
 @import 'colors';
 
 @include mat-core();
@@ -23,8 +19,6 @@ $primary: map-get($custom-theme, primary);
   @include angular-material-theme($theme);
   @include adf-content-services-theme($theme);
   @include adf-core-theme($theme);
-
-  @include app-create-from-template-theme($theme);
   @include adf-style-fixes($theme);
 
   .mat-toolbar {
