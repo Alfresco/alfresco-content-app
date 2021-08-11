@@ -34,6 +34,7 @@ import { AppExtensionService } from '@alfresco/aca-shared';
 @Component({
   selector: 'app-create-menu',
   templateUrl: './create-menu.component.html',
+  styleUrls: ['./create-menu.component.scss'],
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-create-menu' }
 })

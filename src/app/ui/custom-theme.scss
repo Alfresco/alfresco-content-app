@@ -3,7 +3,6 @@
 
 @import '../components/sidenav/sidenav.component.theme';
 @import '../components/search/search-input/search-input.component.theme';
-@import '../components/create-menu/create-menu.component.scss';
 @import '../dialogs/node-template/create-from-template.dialog.scss';
 @import '../components/details/details.component.scss';
 
@@ -32,7 +31,6 @@ $primary: map-get($custom-theme, primary);
   @include sidenav-component-theme($theme);
   @include app-create-from-template-theme($theme);
   @include app-details-theme($theme);
-  @include app-create-menu-theme($theme);
   @include adf-style-fixes($theme);
 
   .mat-toolbar {
@@ -69,6 +67,7 @@ $adf-permission-list-width: 100%;
 
 $defaults: (
   --theme-primary-color: mat-color($primary),
+  --theme-primary-color-default-contrast: mat-color($primary, default-contrast),
   --theme-warn-color: mat-color($warn),
   --theme-accent-color: mat-color($accent),
   --theme-text-color: mat-color($foreground, text, 0.54),
@@ -79,7 +78,8 @@ $defaults: (
   --header-background-image: url('/assets/images/mastHead-bg-shapesPattern.svg'),
   --theme-card-background-color: mat-color($background, card),
   --theme-foreground-text-color: mat-color($foreground, text, 0.72),
-  --theme-foreground-text-bold-color: mat-color($foreground, text, 0.87)
+  --theme-foreground-text-bold-color: mat-color($foreground, text, 0.87),
+  --theme-secondary-text-color: mat-color($foreground, secondary-text)
 );
 
 // propagates SCSS variables into the CSS variables scope
