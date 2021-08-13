@@ -54,7 +54,9 @@ import { Actions, ofType } from '@ngrx/effects';
   host: { class: 'app-viewer' }
 })
 export class AppViewerComponent implements OnInit, OnDestroy {
-  private versionsApi: VersionsApi;
+  get versionsApi(): VersionsApi {
+    return new VersionsApi(this.api.getInstance());
+  }
 
   onDestroy$ = new Subject<boolean>();
 
@@ -116,7 +118,6 @@ export class AppViewerComponent implements OnInit, OnDestroy {
     private uploadService: UploadService,
     private appHookService: AppHookService
   ) {
-    this.versionsApi = new VersionsApi(apiService.getInstance());
   }
 
   ngOnInit() {

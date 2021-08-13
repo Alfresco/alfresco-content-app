@@ -41,7 +41,7 @@ import {
   SitePaging,
   NodeChildAssociationPaging,
   NodeChildAssociationEntry,
-  NodesApi
+  NodesApi,
 } from '@alfresco/js-api';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { catchError, map, mergeMap } from 'rxjs/operators';
@@ -57,7 +57,9 @@ export class NodeActionsService {
   moveDeletedEntries: any[] = [];
   isSitesDestinationAvailable = false;
 
-  private nodesApi: NodesApi;
+  get nodesApi(): NodesApi {
+    return new NodesApi(this.apiService.getInstance());
+  }
 
   constructor(
     private contentService: ContentService,
@@ -68,7 +70,6 @@ export class NodeActionsService {
     private translation: TranslationService,
     private thumbnailService: ThumbnailService
   ) {
-    this.nodesApi = new NodesApi(this.apiService.getInstance());
   }
 
   /**

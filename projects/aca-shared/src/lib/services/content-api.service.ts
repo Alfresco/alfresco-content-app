@@ -58,26 +58,44 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class ContentApiService {
-  private nodesApi: NodesApi;
-  private trashcanApi: TrashcanApi;
-  private sharedLinksApi: SharedlinksApi;
-  private discoveryApi: DiscoveryApi;
-  private favoritesApi: FavoritesApi;
-  private contentApi: ContentApi;
-  private sitesApi: SitesApi;
-  private searchApi: SearchApi;
-  private peopleApi: PeopleApi;
+
+  get nodesApi(): NodesApi {
+    return new NodesApi(this.api.getInstance());
+  }
+
+  get trashcanApi(): TrashcanApi {
+    return new TrashcanApi(this.api.getInstance());
+  }
+
+  get sharedLinksApi(): SharedlinksApi {
+    return new SharedlinksApi(this.api.getInstance());
+  }
+
+  get discoveryApi(): DiscoveryApi {
+    return new DiscoveryApi(this.api.getInstance());
+  }
+
+  get favoritesApi(): FavoritesApi {
+    return new FavoritesApi(this.api.getInstance());
+  }
+
+  get contentApi(): ContentApi {
+    return new ContentApi(this.api.getInstance());
+  }
+
+  get sitesApi(): SitesApi {
+    return new SitesApi(this.api.getInstance());
+  }
+
+  get searchApi(): SearchApi {
+    return new SearchApi(this.api.getInstance());
+  }
+
+  get peopleApi(): PeopleApi {
+    return new PeopleApi(this.api.getInstance());
+  }
 
   constructor(private api: AlfrescoApiService, private preferences: UserPreferencesService) {
-    this.nodesApi = new NodesApi(this.api.getInstance());
-    this.trashcanApi = new TrashcanApi(this.api.getInstance());
-    this.sharedLinksApi = new SharedlinksApi(this.api.getInstance());
-    this.discoveryApi = new DiscoveryApi(this.api.getInstance());
-    this.favoritesApi = new FavoritesApi(this.api.getInstance());
-    this.contentApi = new ContentApi(this.api.getInstance());
-    this.sitesApi = new SitesApi(this.api.getInstance());
-    this.searchApi = new SearchApi(this.api.getInstance());
-    this.peopleApi = new PeopleApi(this.api.getInstance());
   }
 
   /**

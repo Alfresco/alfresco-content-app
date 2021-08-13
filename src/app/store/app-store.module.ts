@@ -30,7 +30,7 @@ import { StoreRouterConnectingModule, DefaultRouterStateSerializer } from '@ngrx
 import { EffectsModule } from '@ngrx/effects';
 import { environment } from '../../environments/environment';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { provideBootstrapEffects, SharedStoreModule } from '@alfresco/aca-shared/store';
+import { SharedStoreModule } from '@alfresco/aca-shared/store';
 import {
   AppEffects,
   NodeEffects,
@@ -62,11 +62,7 @@ import { INITIAL_STATE } from './initial-state';
       stateKey: 'router'
     }),
     SharedStoreModule,
-    EffectsModule.forRoot([]),
-    !environment.production ? StoreDevtoolsModule.instrument({ maxAge: 25 }) : []
-  ],
-  providers: [
-    provideBootstrapEffects([
+    EffectsModule.forRoot([
       AppEffects,
       NodeEffects,
       DownloadEffects,
@@ -77,7 +73,8 @@ import { INITIAL_STATE } from './initial-state';
       FavoriteEffects,
       TemplateEffects,
       ContextMenuEffects
-    ])
+    ]),
+    !environment.production ? StoreDevtoolsModule.instrument({ maxAge: 25 }) : []
   ]
 })
 export class AppStoreModule {}
