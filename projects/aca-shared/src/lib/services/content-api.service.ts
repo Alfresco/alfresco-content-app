@@ -58,7 +58,6 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class ContentApiService {
-
   get nodesApi(): NodesApi {
     return new NodesApi(this.api.getInstance());
   }
@@ -95,8 +94,7 @@ export class ContentApiService {
     return new PeopleApi(this.api.getInstance());
   }
 
-  constructor(private api: AlfrescoApiService, private preferences: UserPreferencesService) {
-  }
+  constructor(private api: AlfrescoApiService, private preferences: UserPreferencesService) {}
 
   /**
    * Moves a node to the trashcan.
