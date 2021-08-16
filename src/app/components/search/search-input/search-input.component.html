@@ -4,15 +4,8 @@
   (menuOpened)="onMenuOpened()"
   (menuClosed)="syncInputValues()"
 >
-  <button
-    mat-icon-button
-    class="app-search-button"
-    (click)="searchByOption()"
-    [title]="'SEARCH.BUTTON.TOOLTIP' | translate"
-  >
-    <mat-icon [attr.aria-label]="'SEARCH.BUTTON.ARIA-LABEL' | translate"
-      >search</mat-icon
-    >
+  <button mat-icon-button class="app-search-button" (click)="searchByOption()" [title]="'SEARCH.BUTTON.TOOLTIP' | translate">
+    <mat-icon [attr.aria-label]="'SEARCH.BUTTON.ARIA-LABEL' | translate">search</mat-icon>
   </button>
   <mat-form-field class="app-input-form-field" [floatLabel]="'never'">
     <input
@@ -30,15 +23,8 @@
   </mat-form-field>
 </div>
 
-<mat-menu
-  #searchOptionsMenu="matMenu"
-  [overlapTrigger]="true"
-  class="app-search-options-menu"
->
-  <div
-    (keydown.tab)="$event.stopPropagation()"
-    (keydown.shift.tab)="$event.stopPropagation()"
-  >
+<mat-menu #searchOptionsMenu="matMenu" [overlapTrigger]="true" class="app-search-options-menu">
+  <div (keydown.tab)="$event.stopPropagation()" (keydown.shift.tab)="$event.stopPropagation()">
     <div cdkTrapFocus>
       <app-search-input-control
         #searchInputControl
@@ -47,9 +33,7 @@
         (searchChange)="onSearchChange($event)"
       >
       </app-search-input-control>
-      <mat-hint *ngIf="hasLibraryConstraint()" class="app-search-hint">{{
-        'SEARCH.INPUT.HINT' | translate
-      }}</mat-hint>
+      <mat-hint *ngIf="hasLibraryConstraint()" class="app-search-hint">{{ 'SEARCH.INPUT.HINT' | translate }}</mat-hint>
 
       <div id="search-options">
         <mat-checkbox

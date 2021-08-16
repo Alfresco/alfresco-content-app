@@ -7,9 +7,7 @@
       </button>
 
       <mat-menu #childMenu="matMenu">
-        <ng-container
-          *ngFor="let child of actionRef.children; trackBy: trackByActionId"
-        >
+        <ng-container *ngFor="let child of actionRef.children; trackBy: trackByActionId">
           <app-context-menu-item [actionRef]="child"></app-context-menu-item>
         </ng-container>
       </mat-menu>
@@ -20,19 +18,11 @@
     </ng-container>
 
     <ng-container *ngSwitchCase="'custom'">
-      <adf-dynamic-component
-        [data]="actionRef.data"
-        [id]="actionRef.component"
-      ></adf-dynamic-component>
+      <adf-dynamic-component [data]="actionRef.data" [id]="actionRef.component"></adf-dynamic-component>
     </ng-container>
 
     <ng-container *ngSwitchDefault>
-      <button
-        mat-menu-item
-        color="primary"
-        [id]="actionRef.id"
-        (click)="runAction()"
-      >
+      <button mat-menu-item color="primary" [id]="actionRef.id" (click)="runAction()">
         <adf-icon [value]="actionRef.icon"></adf-icon>
         <span>{{ actionRef.title | translate }}</span>
       </button>

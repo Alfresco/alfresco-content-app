@@ -1,5 +1,5 @@
 <div [dir]="direction">
-  <div style="visibility: hidden" [matMenuTriggerFor]="rootMenu"></div>
+  <div style="visibility: hidden;" [matMenuTriggerFor]="rootMenu"></div>
 
   <mat-menu #rootMenu="matMenu" class="aca-context-menu" hasBackdrop="false" acaContextMenuOutsideEvent (clickOutside)="onClickOutsideEvent()">
     <ng-container *ngFor="let entry of actions; trackBy: trackByActionId" [ngSwitch]="entry.type">

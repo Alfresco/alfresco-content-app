@@ -1,15 +1,7 @@
 <ng-container *ngIf="sharedLinkId">
-  <adf-viewer
-    [allowPrint]="false"
-    [allowDownload]="false"
-    [allowFullScreen]="false"
-    [sharedLinkId]="sharedLinkId"
-    [allowGoBack]="false"
-  >
+  <adf-viewer [allowPrint]="false" [allowDownload]="false" [allowFullScreen]="false" [sharedLinkId]="sharedLinkId" [allowGoBack]="false">
     <adf-viewer-toolbar-actions>
-      <ng-container
-        *ngFor="let action of viewerToolbarActions; trackBy: trackByActionId"
-      >
+      <ng-container *ngFor="let action of viewerToolbarActions; trackBy: trackByActionId">
         <aca-toolbar-action [actionRef]="action"></aca-toolbar-action>
       </ng-container>
     </adf-viewer-toolbar-actions>

@@ -6,9 +6,7 @@
     (click)="searchSubmit(searchTerm)"
     [title]="'SEARCH.BUTTON.TOOLTIP' | translate"
   >
-    <mat-icon [attr.aria-label]="'SEARCH.BUTTON.ARIA-LABEL' | translate"
-      >search</mat-icon
-    >
+    <mat-icon [attr.aria-label]="'SEARCH.BUTTON.ARIA-LABEL' | translate">search</mat-icon>
   </button>
   <mat-form-field class="app-input-form-field" [floatLabel]="'never'">
     <input
@@ -23,12 +21,7 @@
       [placeholder]="'SEARCH.INPUT.PLACEHOLDER' | translate"
     />
     <div matSuffix class="app-suffix-search-icon-wrapper">
-      <mat-icon
-        *ngIf="searchTerm.length"
-        (click)="clear()"
-        class="app-clear-icon"
-        >clear</mat-icon
-      >
+      <mat-icon *ngIf="searchTerm.length" (click)="clear()" class="app-clear-icon">clear</mat-icon>
     </div>
   </mat-form-field>
 </div>

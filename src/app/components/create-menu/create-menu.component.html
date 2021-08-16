@@ -1,16 +1,7 @@
 <ng-container *ngIf="expanded">
-  <button
-    data-automation-id="create-button"
-    mat-raised-button
-    [matMenuTriggerFor]="rootMenu"
-    title="{{ 'APP.NEW_MENU.TOOLTIP' | translate }}"
-  >
-    <span class="app-create-menu__text">{{
-      'APP.NEW_MENU.LABEL' | translate
-    }}</span>
-    <mat-icon title="{{ 'APP.NEW_MENU.TOOLTIP' | translate }}"
-      >arrow_drop_down</mat-icon
-    >
+  <button data-automation-id="create-button" mat-raised-button [matMenuTriggerFor]="rootMenu" title="{{ 'APP.NEW_MENU.TOOLTIP' | translate }}">
+    <span class="app-create-menu__text">{{ 'APP.NEW_MENU.LABEL' | translate }}</span>
+    <mat-icon title="{{ 'APP.NEW_MENU.TOOLTIP' | translate }}">arrow_drop_down</mat-icon>
   </button>
 </ng-container>
 
@@ -23,20 +14,11 @@
     #createMenu="matMenuTrigger"
     title="{{ 'APP.NEW_MENU.TOOLTIP' | translate }}"
   >
-    <mat-icon
-      class="app-create-menu--icon"
-      title="{{ 'APP.NEW_MENU.TOOLTIP' | translate }}"
-      >queue</mat-icon
-    >
+    <mat-icon class="app-create-menu--icon" title="{{ 'APP.NEW_MENU.TOOLTIP' | translate }}">queue</mat-icon>
   </button>
 </ng-container>
 
-<mat-menu
-  #rootMenu="matMenu"
-  class="app-create-menu__root-menu app-create-menu__sub-menu"
-  [overlapTrigger]="false"
-  yPosition="below"
->
+<mat-menu #rootMenu="matMenu" class="app-create-menu__root-menu app-create-menu__sub-menu" [overlapTrigger]="false" yPosition="below">
   <div role="menu" *ngFor="let action of createActions; trackBy: trackByActionId">
     <app-toolbar-menu-item [actionRef]="action"></app-toolbar-menu-item>
   </div>

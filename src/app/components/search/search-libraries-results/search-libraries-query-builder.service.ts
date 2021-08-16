@@ -40,8 +40,13 @@ export interface LibrarySearchQuery {
   providedIn: 'root'
 })
 export class SearchLibrariesQueryBuilderService {
+  _queriesApi: QueriesApi;
+  get queriesApi(): QueriesApi {
+    this._queriesApi = this._queriesApi ?? new QueriesApi(this.alfrescoApiService.getInstance());
+    return this._queriesApi;
+  }
+
   private _userQuery = '';
-  private queriesApi: QueriesApi;
 
   updated: Subject<any> = new Subject();
   executed: Subject<any> = new Subject();
@@ -57,9 +62,7 @@ export class SearchLibrariesQueryBuilderService {
     this._userQuery = value ? value.trim() : '';
   }
 
-  constructor(private alfrescoApiService: AlfrescoApiService) {
-    this.queriesApi = new QueriesApi(this.alfrescoApiService.getInstance());
-  }
+  constructor(private alfrescoApiService: AlfrescoApiService) {}
 
   update(): void {
     const query = this.buildQuery();

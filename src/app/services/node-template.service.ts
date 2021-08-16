@@ -45,16 +45,19 @@ export interface TemplateDialogConfig {
 export class NodeTemplateService {
   private currentTemplateConfig: TemplateDialogConfig = null;
   private rootNode: ResultNode;
-  private searchApi: SearchApi;
+
+  _searchApi: SearchApi;
+  get searchApi(): SearchApi {
+    this._searchApi = this._searchApi ?? new SearchApi(this.alfrescoApiService.getInstance());
+    return this._searchApi;
+  }
 
   constructor(
     private store: Store<AppStore>,
     private alfrescoApiService: AlfrescoApiService,
     private translation: TranslationService,
     public dialog: MatDialog
-  ) {
-    this.searchApi = new SearchApi(this.alfrescoApiService.getInstance());
-  }
+  ) {}
 
   selectTemplateDialog(config: TemplateDialogConfig): Subject<Node[]> {
     this.currentTemplateConfig = config;

@@ -12,34 +12,14 @@
     <div class="main-content">
       <div class="adf-search-results">
         <div class="adf-search-results__content">
-          <mat-progress-bar
-            *ngIf="isLoading"
-            color="primary"
-            mode="indeterminate"
-          >
-          </mat-progress-bar>
-          <div
-            class="adf-search-results__content-header content"
-            *ngIf="data?.list.entries.length"
-          >
+          <mat-progress-bar *ngIf="isLoading" color="primary" mode="indeterminate"> </mat-progress-bar>
+          <div class="adf-search-results__content-header content" *ngIf="data?.list.entries.length">
             <div class="content__side--left">
-              <div
-                class="adf-search-results--info-text"
-                *ngIf="totalResults !== 1"
-              >
-                {{
-                  'APP.BROWSE.SEARCH_LIBRARIES.FOUND_RESULTS'
-                    | translate: { number: totalResults }
-                }}
+              <div class="adf-search-results--info-text" *ngIf="totalResults !== 1">
+                {{ 'APP.BROWSE.SEARCH_LIBRARIES.FOUND_RESULTS' | translate: { number: totalResults } }}
               </div>
-              <div
-                class="adf-search-results--info-text"
-                *ngIf="totalResults === 1"
-              >
-                {{
-                  'APP.BROWSE.SEARCH_LIBRARIES.FOUND_ONE_RESULT'
-                    | translate: { number: totalResults }
-                }}
+              <div class="adf-search-results--info-text" *ngIf="totalResults === 1">
+                {{ 'APP.BROWSE.SEARCH_LIBRARIES.FOUND_ONE_RESULT' | translate: { number: totalResults } }}
               </div>
             </div>
           </div>
@@ -58,11 +38,7 @@
           >
             <data-columns>
               <ng-container *ngFor="let column of columns; trackBy: trackByColumnId">
-                <ng-container
-                  *ngIf="
-                    column.template && !(column.desktopOnly && isSmallScreen)
-                  "
-                >
+                <ng-container *ngIf="column.template && !(column.desktopOnly && isSmallScreen)">
                   <data-column
                     [key]="column.key"
                     [title]="column.title"
@@ -72,20 +48,12 @@
                     [sortable]="column.sortable"
                   >
                     <ng-template let-context>
-                      <adf-dynamic-column
-                        [id]="column.template"
-                        [context]="context"
-                      >
-                      </adf-dynamic-column>
+                      <adf-dynamic-column [id]="column.template" [context]="context"> </adf-dynamic-column>
                     </ng-template>
                   </data-column>
                 </ng-container>
 
-                <ng-container
-                  *ngIf="
-                    !column.template && !(column.desktopOnly && isSmallScreen)
-                  "
-                >
+                <ng-container *ngIf="!column.template && !(column.desktopOnly && isSmallScreen)">
                   <data-column
                     [key]="column.key"
                     [title]="column.title"
@@ -110,12 +78,7 @@
             </adf-custom-empty-content-template>
           </adf-document-list>
 
-          <adf-pagination
-            *ngIf="!documentList.isEmpty()"
-            acaPagination
-            [target]="documentList"
-            (change)="onPaginationChanged($event)"
-          >
+          <adf-pagination *ngIf="!documentList.isEmpty()" acaPagination [target]="documentList" (change)="onPaginationChanged($event)">
           </adf-pagination>
         </div>
       </div>

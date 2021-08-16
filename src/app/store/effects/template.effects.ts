@@ -46,7 +46,11 @@ import { MatDialog } from '@angular/material/dialog';
 
 @Injectable()
 export class TemplateEffects {
-  private nodesApi: NodesApi;
+  _nodesApi: NodesApi;
+  get nodesApi(): NodesApi {
+    this._nodesApi = this._nodesApi ?? new NodesApi(this.apiService.getInstance());
+    return this._nodesApi;
+  }
 
   constructor(
     private matDialog: MatDialog,
@@ -55,9 +59,7 @@ export class TemplateEffects {
     private apiService: AlfrescoApiService,
     private actions$: Actions,
     private nodeTemplateService: NodeTemplateService
-  ) {
-    this.nodesApi = new NodesApi(this.apiService.getInstance());
-  }
+  ) {}
 
   @Effect({ dispatch: false })
   fileFromTemplate$ = this.actions$.pipe(

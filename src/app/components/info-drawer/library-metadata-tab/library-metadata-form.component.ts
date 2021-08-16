@@ -45,7 +45,11 @@ export class InstantErrorStateMatcher implements ErrorStateMatcher {
   templateUrl: './library-metadata-form.component.html'
 })
 export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestroy {
-  private queriesApi: QueriesApi;
+  _queriesApi: QueriesApi;
+  get queriesApi(): QueriesApi {
+    this._queriesApi = this._queriesApi ?? new QueriesApi(this.alfrescoApiService.getInstance());
+    return this._queriesApi;
+  }
 
   @Input()
   node: SiteEntry;
@@ -70,9 +74,7 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges, OnDestro
 
   onDestroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private alfrescoApiService: AlfrescoApiService, protected store: Store<AppStore>) {
-    this.queriesApi = new QueriesApi(this.alfrescoApiService.getInstance());
-  }
+  constructor(private alfrescoApiService: AlfrescoApiService, protected store: Store<AppStore>) {}
 
   get canUpdateLibrary() {
     return this.node && this.node.entry && this.node.entry.role === 'SiteManager';

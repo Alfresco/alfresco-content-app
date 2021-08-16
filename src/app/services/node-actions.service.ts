@@ -57,7 +57,11 @@ export class NodeActionsService {
   moveDeletedEntries: any[] = [];
   isSitesDestinationAvailable = false;
 
-  private nodesApi: NodesApi;
+  _nodesApi: NodesApi;
+  get nodesApi(): NodesApi {
+    this._nodesApi = this._nodesApi ?? new NodesApi(this.apiService.getInstance());
+    return this._nodesApi;
+  }
 
   constructor(
     private contentService: ContentService,
@@ -67,9 +71,7 @@ export class NodeActionsService {
     private apiService: AlfrescoApiService,
     private translation: TranslationService,
     private thumbnailService: ThumbnailService
-  ) {
-    this.nodesApi = new NodesApi(this.apiService.getInstance());
-  }
+  ) {}
 
   /**
    * Copy node list
