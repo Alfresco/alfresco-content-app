@@ -41,7 +41,7 @@ import {
   SitePaging,
   NodeChildAssociationPaging,
   NodeChildAssociationEntry,
-  NodesApi,
+  NodesApi
 } from '@alfresco/js-api';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { catchError, map, mergeMap } from 'rxjs/operators';
@@ -59,7 +59,7 @@ export class NodeActionsService {
 
   _nodesApi: NodesApi;
   get nodesApi(): NodesApi {
-    this._nodesApi = this._nodesApi ?? new NodesApi(this.api.getInstance());
+    this._nodesApi = this._nodesApi ?? new NodesApi(this.apiService.getInstance());
     return this._nodesApi;
   }
 
@@ -71,8 +71,7 @@ export class NodeActionsService {
     private apiService: AlfrescoApiService,
     private translation: TranslationService,
     private thumbnailService: ThumbnailService
-  ) {
-  }
+  ) {}
 
   /**
    * Copy node list

@@ -119,8 +119,7 @@ export class AppViewerComponent implements OnInit, OnDestroy {
     private apiService: AlfrescoApiService,
     private uploadService: UploadService,
     private appHookService: AppHookService
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
     this.infoDrawerOpened$ = this.store.select(isInfoDrawerOpened);

@@ -42,7 +42,7 @@ export interface LibrarySearchQuery {
 export class SearchLibrariesQueryBuilderService {
   _queriesApi: QueriesApi;
   get queriesApi(): QueriesApi {
-    this._queriesApi= this._queriesApi ?? new QueriesApi(this.alfrescoApiService.getInstance());
+    this._queriesApi = this._queriesApi ?? new QueriesApi(this.alfrescoApiService.getInstance());
     return this._queriesApi;
   }
 
