@@ -1,9 +1,6 @@
 <aca-page-layout>
   <aca-page-layout-header>
-    <adf-breadcrumb [root]="title"
-                    [folderNode]="node"
-                    (navigate)="goBack()">
-    </adf-breadcrumb>
+    <adf-breadcrumb [root]="title" [folderNode]="node" (navigate)="goBack()"> </adf-breadcrumb>
 
     <adf-toolbar class="adf-toolbar--inline">
       <ng-container *ngFor="let entry of actions; trackBy: trackByActionId">
@@ -15,45 +12,33 @@
   <aca-page-layout-content>
     <div class="acs-details-container">
       <div class="acs-details-title">
-        <div class="acs-details-breadcrumb"
-             *ngIf="node">
-          <span class="acs-details-breadcrumb-library"> {{node.name}} </span>
+        <div class="acs-details-breadcrumb" *ngIf="node">
+          <span class="acs-details-breadcrumb-library"> {{ node.name }} </span>
           -
-          <span class="acs-details-breadcrumb-item">{{'APP.INFO_DRAWER.TITLE' | translate}}</span>
+          <span class="acs-details-breadcrumb-item">{{ 'APP.INFO_DRAWER.TITLE' | translate }}</span>
         </div>
         <div class="acs-close-members-container">
-          <button mat-icon-button
-                  data-automation-id="close-library"
-                  (click)="goBack()">
+          <button mat-icon-button data-automation-id="close-library" (click)="goBack()">
             <mat-icon>close</mat-icon>
           </button>
         </div>
       </div>
 
-      <mat-tab-group [selectedIndex]="activeTab"
-                     class="adw-details-tabs">
+      <mat-tab-group [selectedIndex]="activeTab" class="adw-details-tabs">
         <mat-tab label="{{ 'APP.INFO_DRAWER.TABS.PROPERTIES' | translate }}">
-          <app-metadata-tab *ngIf="node && !isLoading; else loading"
-                            [node]="node">
-          </app-metadata-tab>
+          <app-metadata-tab *ngIf="node && !isLoading; else loading" [node]="node"> </app-metadata-tab>
         </mat-tab>
         <mat-tab label="{{ 'APP.INFO_DRAWER.TABS.COMMENTS' | translate }}">
-          <app-comments-tab *ngIf="node && !isLoading; else loading"
-                            [node]="node">
-          </app-comments-tab>
+          <app-comments-tab *ngIf="node && !isLoading; else loading" [node]="node"> </app-comments-tab>
         </mat-tab>
         <mat-tab label="{{ 'APP.INFO_DRAWER.TABS.PERMISSIONS' | translate }}">
-          <adf-permission-list *ngIf="node && !isLoading; else loading"
-                               [nodeId]="node.id"></adf-permission-list>
+          <adf-permission-list *ngIf="node && !isLoading; else loading" [nodeId]="node.id"></adf-permission-list>
         </mat-tab>
-
       </mat-tab-group>
     </div>
   </aca-page-layout-content>
 </aca-page-layout>
 
 <ng-template #loading>
-  <mat-progress-bar color="primary"
-                    mode="indeterminate">
-  </mat-progress-bar>
+  <mat-progress-bar color="primary" mode="indeterminate"> </mat-progress-bar>
 </ng-template>

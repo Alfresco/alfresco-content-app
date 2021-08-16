@@ -2,28 +2,15 @@
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div>
 <ng-container *ngIf="!isLoading && !!displayNode">
-  <adf-info-drawer
-    [title]="'APP.INFO_DRAWER.TITLE'"
-    cdkTrapFocus
-    cdkTrapFocusAutoCapture
-  >
+  <adf-info-drawer [title]="'APP.INFO_DRAWER.TITLE'" cdkTrapFocus cdkTrapFocusAutoCapture>
     <adf-toolbar class="adf-toolbar--inline" info-drawer-buttons>
       <ng-container *ngFor="let entry of actions; trackBy: trackByActionId">
         <aca-toolbar-action [actionRef]="entry" [color]="getEntryColor(entry)"></aca-toolbar-action>
       </ng-container>
     </adf-toolbar>
 
-    <adf-info-drawer-tab
-      *ngFor="let tab of tabs"
-      [icon]="tab.icon"
-      [label]="tab.title"
-    >
-      <adf-dynamic-tab
-        [node]="$any(displayNode)"
-        [id]="tab.component"
-        [attr.data-automation-id]="tab.component"
-      >
-      </adf-dynamic-tab>
+    <adf-info-drawer-tab *ngFor="let tab of tabs" [icon]="tab.icon" [label]="tab.title">
+      <adf-dynamic-tab [node]="$any(displayNode)" [id]="tab.component" [attr.data-automation-id]="tab.component"> </adf-dynamic-tab>
     </adf-info-drawer-tab>
   </adf-info-drawer>
 </ng-container>

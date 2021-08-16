@@ -58,43 +58,63 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class ContentApiService {
+
+  _nodesApi: NodesApi;
   get nodesApi(): NodesApi {
-    return new NodesApi(this.api.getInstance());
+    this._nodesApi = this._nodesApi ?? new NodesApi(this.api.getInstance());
+    return this._nodesApi;
   }
 
+  _trashcanApi: TrashcanApi;
   get trashcanApi(): TrashcanApi {
-    return new TrashcanApi(this.api.getInstance());
+    this._trashcanApi = this._trashcanApi ?? new TrashcanApi(this.api.getInstance());
+    return this._trashcanApi;
   }
 
+  _sharedLinksApi: SharedlinksApi;
   get sharedLinksApi(): SharedlinksApi {
-    return new SharedlinksApi(this.api.getInstance());
+    this._sharedLinksApi = this._sharedLinksApi ?? new SharedlinksApi(this.api.getInstance());
+    return this._sharedLinksApi;
   }
 
+  _discoveryApi: DiscoveryApi;
   get discoveryApi(): DiscoveryApi {
-    return new DiscoveryApi(this.api.getInstance());
+    this._discoveryApi = this._discoveryApi ?? new DiscoveryApi(this.api.getInstance());
+    return this._discoveryApi;
   }
 
+  _favoritesApi: FavoritesApi;
   get favoritesApi(): FavoritesApi {
-    return new FavoritesApi(this.api.getInstance());
+    this._favoritesApi = this._favoritesApi ?? new FavoritesApi(this.api.getInstance());
+    return this._favoritesApi;
   }
 
+  _contentApi: ContentApi;
   get contentApi(): ContentApi {
-    return new ContentApi(this.api.getInstance());
+    this._contentApi = this._contentApi ?? new ContentApi(this.api.getInstance());
+    return this._contentApi;
   }
 
+  _sitesApi: SitesApi;
   get sitesApi(): SitesApi {
-    return new SitesApi(this.api.getInstance());
+    this._sitesApi = this._sitesApi ?? new SitesApi(this.api.getInstance());
+    return this._sitesApi;
   }
 
+  _searchApi: SearchApi;
   get searchApi(): SearchApi {
-    return new SearchApi(this.api.getInstance());
+    this._searchApi = this._searchApi ?? new SearchApi(this.api.getInstance());
+    return this._searchApi;
   }
 
+  _peopleApi: PeopleApi;
   get peopleApi(): PeopleApi {
-    return new PeopleApi(this.api.getInstance());
+    this._peopleApi = this._peopleApi ?? new PeopleApi(this.api.getInstance());
+    return this._peopleApi;
   }
 
-  constructor(private api: AlfrescoApiService, private preferences: UserPreferencesService) {}
+  constructor(private api: AlfrescoApiService, private preferences: UserPreferencesService) {
+  }
 
   /**
    * Moves a node to the trashcan.

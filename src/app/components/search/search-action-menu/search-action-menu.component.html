@@ -3,24 +3,30 @@
 </button>
 
 <mat-menu #dataSorting="matMenu">
-  <button mat-menu-item [matMenuTriggerFor]="sorting" id="aca-button-sorting-menu">{{'SEARCH.SORT.SORTING_OPTION' | translate}}</button>
+  <button mat-menu-item [matMenuTriggerFor]="sorting" id="aca-button-sorting-menu">{{ 'SEARCH.SORT.SORTING_OPTION' | translate }}</button>
 </mat-menu>
 
 <mat-menu #sorting="matMenu">
   <ng-template matMenuContent>
-    <button mat-menu-item  *ngFor="let option of options" [id]="option.key+'-sorting-option'"
-            [matMenuTriggerFor]="direction" [matMenuTriggerData]="{option: option}">
-      {{option.label | translate}}
+    <button
+      mat-menu-item
+      *ngFor="let option of options"
+      [id]="option.key + '-sorting-option'"
+      [matMenuTriggerFor]="direction"
+      [matMenuTriggerData]="{ option: option }"
+    >
+      {{ option.label | translate }}
     </button>
   </ng-template>
 </mat-menu>
 
 <mat-menu #direction="matMenu">
   <ng-template matMenuContent let-option="option">
-    <button mat-menu-item [id]="option.key+'-sorting-option-asc'"
-            (click)="onAscSortingClicked(option)">{{'SEARCH.SORT.ASCENDING' | translate}}</button>
-    <button mat-menu-item [id]="option.key+'-sorting-option-desc'"
-            (click)="onDescSortingClicked(option)">{{'SEARCH.SORT.DESCENDING' | translate}}</button>
+    <button mat-menu-item [id]="option.key + '-sorting-option-asc'" (click)="onAscSortingClicked(option)">
+      {{ 'SEARCH.SORT.ASCENDING' | translate }}
+    </button>
+    <button mat-menu-item [id]="option.key + '-sorting-option-desc'" (click)="onDescSortingClicked(option)">
+      {{ 'SEARCH.SORT.DESCENDING' | translate }}
+    </button>
   </ng-template>
 </mat-menu>
-

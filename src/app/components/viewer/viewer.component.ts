@@ -54,8 +54,10 @@ import { Actions, ofType } from '@ngrx/effects';
   host: { class: 'app-viewer' }
 })
 export class AppViewerComponent implements OnInit, OnDestroy {
+  _versionsApi: VersionsApi;
   get versionsApi(): VersionsApi {
-    return new VersionsApi(this.apiService.getInstance());
+    this._versionsApi = this._versionsApi ?? new VersionsApi(this.apiService.getInstance());
+    return this._versionsApi;
   }
 
   onDestroy$ = new Subject<boolean>();
@@ -117,7 +119,8 @@ export class AppViewerComponent implements OnInit, OnDestroy {
     private apiService: AlfrescoApiService,
     private uploadService: UploadService,
     private appHookService: AppHookService
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
     this.infoDrawerOpened$ = this.store.select(isInfoDrawerOpened);

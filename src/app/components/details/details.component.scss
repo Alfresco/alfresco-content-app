@@ -1,41 +1,41 @@
 .acs-details-container {
-    background-color: var(--theme-card-background-color);
-    width: 100%;
+  background-color: var(--theme-card-background-color);
+  width: 100%;
 }
 
 .adw-details-tabs {
-    margin-top: 40px;
-    height: calc(100% - 80px);
+  margin-top: 40px;
+  height: calc(100% - 80px);
 
-    .mat-tab-body-wrapper {
-        height: 100%;
-    }
+  .mat-tab-body-wrapper {
+    height: 100%;
+  }
 
-    .mat-tab-labels {
-        text-transform: uppercase;
-    }
+  .mat-tab-labels {
+    text-transform: uppercase;
+  }
 }
 
 .acs-details-title {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-    .acs-close-members-container {
-        margin-right: 15px;
-    }
+  .acs-close-members-container {
+    margin-right: 15px;
+  }
 }
 
 .acs-details-breadcrumb {
-    font-size: 18px;
-    margin-left: 20px;
+  font-size: 18px;
+  margin-left: 20px;
 
-    .acs-details-breadcrumb-library {
-        font-weight: 900;
-    }
+  .acs-details-breadcrumb-library {
+    font-weight: 900;
+  }
 
-    .acs-details-breadcrumb-item {
-        font-weight: 100;
-    }
+  .acs-details-breadcrumb-item {
+    font-weight: 100;
+  }
 }

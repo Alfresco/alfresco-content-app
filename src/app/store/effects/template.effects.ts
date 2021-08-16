@@ -46,8 +46,10 @@ import { MatDialog } from '@angular/material/dialog';
 
 @Injectable()
 export class TemplateEffects {
+  _nodesApi: NodesApi;
   get nodesApi(): NodesApi {
-    return new NodesApi(this.apiService.getInstance());
+    this._nodesApi = this._nodesApi ?? new NodesApi(this.api.getInstance());
+    return this._nodesApi;
   }
 
   constructor(

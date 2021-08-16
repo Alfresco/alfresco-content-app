@@ -40,8 +40,10 @@ export interface LibrarySearchQuery {
   providedIn: 'root'
 })
 export class SearchLibrariesQueryBuilderService {
+  _queriesApi: QueriesApi;
   get queriesApi(): QueriesApi {
-    return new QueriesApi(this.alfrescoApiService.getInstance());
+    this._queriesApi= this._queriesApi ?? new QueriesApi(this.alfrescoApiService.getInstance());
+    return this._queriesApi;
   }
 
   private _userQuery = '';
