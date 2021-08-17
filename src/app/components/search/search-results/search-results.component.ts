@@ -89,7 +89,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
         this.searchedWord = params.hasOwnProperty(this.queryParamName) ? params[this.queryParamName] : null;
         const query = this.formatSearchQuery(this.searchedWord, searchConfig['aca:fields']);
         if (query) {
-          this.queryBuilder.userQuery = decodeURIComponent(query);
+          this.queryBuilder.userQuery = decodeURIComponent(query).replace(/^https?:\/\//, '');
         }
       });
 
