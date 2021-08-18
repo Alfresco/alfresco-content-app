@@ -154,7 +154,7 @@ describe('SearchComponent', () => {
     expect(queryBuilder.userQuery).toEqual('(TYPE: "cm:folder" AND (=cm: name: email OR cm: name: budget))');
   });
 
-  fit('should remove https prefix when searching url in aca', () => {
+  it('should remove https prefix when searching url in aca', () => {
     const query = "https%3A%2F%2Fti.to%2Fng-conf%2Fng-conf2021";
     const decodedQuery = decodeURIComponent(query).replace(/^https?:\/\//, '');
     expect(decodedQuery).toEqual('ti.to/ng-conf/ng-conf2021');
