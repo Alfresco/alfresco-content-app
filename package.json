@@ -52,7 +52,7 @@
     "moment-es6": "1.0.0",
     "pdfjs-dist": "2.5.207",
     "rxjs": "^6.6.3",
-    "tslib": "^2.3.0",
+    "tslib": "^2.3.1",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
@@ -93,7 +93,7 @@
     "karma-mocha-reporter": "^2.2.5",
     "lint-staged": "^11.1.1",
     "lite-server": "^2.4.0",
-    "ng-packagr": "^10.1.2",
+    "ng-packagr": "^12.2.0",
     "node-stream-zip": "^1.14.0",
     "prettier": "^2.1.2",
     "protractor": "~7.0.0",
