@@ -50,7 +50,7 @@ All the possible properties customizable in the column are:
 
 ### Add a column in the Files list using a Node property
 
-Update the `src/assets/app.extensions.json` file, and insert a new entry to the `features.documentList` section:
+Update the `your-app.extensions.json` file, and insert a new entry to the `features.documentList` section:
 
 ```json
 {
@@ -77,7 +77,7 @@ Now, once you run the application, you should see an extra column that contain t
 
 ### Replace a column in the Files list
 
-In order to replace a column in the list you need to use the same id in your extension file
+In order to replace a column in the list you need to use the same `id` in your extension file. For example to replace the modifedOn column add the following JSON in `your-app.extensions.json`
 
 ```json
 {
@@ -145,7 +145,7 @@ Register your new template component:
         });
 ```
 
-Add your new Column in the extension file:
+Add your new Column in `your-app.extensions.json` :
 
 ```json
 {
