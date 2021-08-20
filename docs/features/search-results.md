@@ -92,6 +92,3 @@ If you have entered an `=` symbol before the search term, then the search query 
 | Disjunction | orange OR banana OR apple | Nodes that contain at least one of the terms **orange**, **banana** or **apple** |
 | Exact term | =orange | Nodes that contain the exact term **orange** in any content |
 
-## See also
-
-<https://issues.alfresco.com/jira/browse/ACA-2219>

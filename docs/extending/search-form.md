@@ -4,6 +4,7 @@ Title: Search Form
 
 ## Custom search form
 
+From version 2.5.0 ACA search support multiple search configurations.
 In this tutorial, we are going to implement the following features:
 
 - [Add a new search form](Add-a-new-search-form)
@@ -78,3 +79,4 @@ To replace the default search with your configuration set to true the default fi
     ]
   }
 }
+```
