@@ -28,13 +28,13 @@ There are a number of resources available to help get you started with the Conte
 
 The documentation is divided into the following sections:
 
-- [Application features](/features/): Details of the user interface and app usage.
-- [Getting started](/getting-started/): Configuration of the development environment and the app.
+- [Application features](/docs/features): Details of the user interface and app usage.
+- [Getting started](/docs/getting-started): Configuration of the development environment and the app.
 - Customization:
-  - [Configuration](/configuration/): How to customize basic functionality of the app without touch the code. 
-  - [Extending](/extending/): How to extend the features of the app with your own code.
-- [Tutorials](/tutorials/): Exploration of development techniques in depth.
-- [Help](/help): Details of further help and support available.
+  - [Configuration](/docs/configuration): How to customize basic functionality of the app without touch the code. 
+  - [Extending](/docs/extending): How to extend the features of the app with your own code.
+- [Tutorials](/docs/tutorials): Exploration of development techniques in depth.
+- [Help](help.md): Details of further help and support available.
 
 ## Compatibility
 

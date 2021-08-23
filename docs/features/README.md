@@ -16,12 +16,12 @@ This application simplifies the complexity of Content Management and provides co
 
 ## Contents
 
-- [User interface layout](/features/user-interface-layout)
-- [Header](/features/header)
-- [Side navigation](/features/side-navigation)
-- [Document List Layout](/features/document-list-layout)
-- [File Viewer](/features/file-viewer)
-- [Info Drawer](/features/info-drawer)
-- [Version Manager](/features/version-manager)
-- [Search results](/features/search-results)
-- [Search forms](/features/search-forms)
+- [User interface layout](/docs/features/user-interface-layout)
+- [Header](/docs/features/header)
+- [Side navigation](/docs/features/side-navigation)
+- [Document List Layout](/docs/features/document-list-layout)
+- [File Viewer](/docs/features/file-viewer)
+- [Info Drawer](/docs/features/info-drawer)
+- [Version Manager](/docs/features/version-manager)
+- [Search results](/docs/features/search-results)
+- [Search forms](/docs/features/search-forms)
