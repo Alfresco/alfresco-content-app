@@ -7,9 +7,9 @@ Title: Search Form
 From version 2.5.0 ACA search support multiple search configurations.
 In this tutorial, we are going to implement the following features:
 
-- [Add a new search form](add-a-new-search-form)
-- [Replace a search form](replace-a-search-form)
-- [Replace default search](replace-default-search)
+- [Add a new search form](#add-a-new-search-form)
+- [Replace a search form](#replace-a-search-form)
+- [Replace default search](#replace-default-search)
 
 ### Extension Properties
 

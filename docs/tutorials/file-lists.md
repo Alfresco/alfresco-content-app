@@ -6,9 +6,9 @@ Title: File Lists
 
 In this tutorial, we are going to implement the following features:
 
-- [Add a column in the Files list using a Node property](add-a-column-in-the-files-list-using-a-node-property)
-- [Replace a column in the Files list](replace-a-column-in-the-files-list)
-- [Add a Column in the Files list using a custom template](add-a-column-in-the-files-list-using-a-node-property)
+- [Add a column in the Files list using a Node property](#add-a-column-in-the-files-list-using-a-node-property)
+- [Replace a column in the Files list](#replace-a-column-in-the-files-list)
+- [Add a Column in the Files list using a custom template](#add-a-column-in-the-files-list-using-a-node-property)
 
 ## File lists layout
 
