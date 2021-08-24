@@ -154,12 +154,6 @@ describe('SearchComponent', () => {
     expect(queryBuilder.userQuery).toEqual('(TYPE: "cm:folder" AND (=cm: name: email OR cm: name: budget))');
   });
 
-  it('should remove https prefix when searching url in aca', () => {
-    const query = 'https%3A%2F%2Fti.to%2Fng-conf%2Fng-conf2021';
-    const decodedQuery = decodeURIComponent(query).replace(/^https?:\/\//, '');
-    expect(decodedQuery).toEqual('ti.to/ng-conf/ng-conf2021');
-  });
-
   it('should return null if formatting invalid query', () => {
     expect(component.formatSearchQuery(null)).toBeNull();
     expect(component.formatSearchQuery('')).toBeNull();
@@ -168,6 +162,11 @@ describe('SearchComponent', () => {
   it('should use original user input if text contains colons', () => {
     const query = 'TEXT:test OR TYPE:folder';
     expect(component.formatSearchQuery(query)).toBe(query);
+  });
+
+  it('should  use original user input if text contains url', () => {
+    const query = `https://ti.to/ng-conf/ng-conf2021`;
+    expect(component.formatSearchQuery(query)).toMatch(query);
   });
 
   it('should use original user input if text contains quotes', () => {

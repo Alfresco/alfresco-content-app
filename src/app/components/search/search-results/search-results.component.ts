@@ -89,7 +89,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
         this.searchedWord = params.hasOwnProperty(this.queryParamName) ? params[this.queryParamName] : null;
         const query = this.formatSearchQuery(this.searchedWord, searchConfig['aca:fields']);
         if (query) {
-          this.queryBuilder.userQuery = decodeURIComponent(query).replace(/^https?:\/\//, '');
+          this.queryBuilder.userQuery = decodeURIComponent(query);
         }
       });
 
@@ -183,8 +183,11 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
       return null;
     }
 
-    userInput = userInput.trim();
+    if (userInput.match(/^https?:\/\//)) {
+      return this.formatFields(fields, userInput);
+    }
 
+    userInput = userInput.trim();
     if (userInput.includes(':') || userInput.includes('"')) {
       return userInput;
     }
