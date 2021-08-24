@@ -9,10 +9,10 @@ Learn how to start developing with the Alfresco Content Application.
 
 ## Contents
 
-- [Prerequisites](/docs/getting-started/prerequisites)
-- [Building from source](/docs/getting-started/building-from-source)
-- [Internationalization (i18n)](/docs/getting-started/internationalization)
-- [CORS](/docs/getting-started/cors)
-- [Single Sign-On](/docs/getting-started/sso)
-- [Navigation](/docs/getting-started/navigation)
-- [Docker](/docs/getting-started/docker)
+- [Prerequisites](/getting-started/prerequisites)
+- [Building from source](/getting-started/building-from-source)
+- [Internationalization (i18n)](/getting-started/internationalization)
+- [CORS](/getting-started/cors)
+- [Single Sign-On](/getting-started/sso)
+- [Navigation](/getting-started/navigation)
+- [Docker](/getting-started/docker)
