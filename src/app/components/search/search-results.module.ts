@@ -38,6 +38,7 @@ import { DirectivesModule } from '../../directives/directives.module';
 import { AppLayoutModule } from '../layout/layout.module';
 import { ContextMenuModule } from '../context-menu/context-menu.module';
 import { SearchActionMenuComponent } from './search-action-menu/search-action-menu.component';
+import { DocumentListCustomComponentsModule } from '../dl-custom-components/document-list-custom-components.module';
 
 @NgModule({
   imports: [
@@ -50,7 +51,8 @@ import { SearchActionMenuComponent } from './search-action-menu/search-action-me
     DirectivesModule,
     AppLayoutModule,
     ContextMenuModule,
-    LockedByModule
+    LockedByModule,
+    DocumentListCustomComponentsModule
   ],
   declarations: [SearchResultsComponent, SearchLibrariesResultsComponent, SearchResultsRowComponent, SearchActionMenuComponent],
   exports: [SearchResultsComponent, SearchLibrariesResultsComponent, SearchResultsRowComponent, SearchActionMenuComponent]

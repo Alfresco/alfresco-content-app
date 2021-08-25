@@ -1,0 +1,2 @@
+<mat-icon class="adf-datatable-selected" *ngIf="context.row.isSelected" svgIcon="selected" [title]="title"></mat-icon>
+<img class="adf-datatable-center-img-ie" *ngIf="!context.row.isSelected" src="{{ getValue(context) }}" [title]="title">
