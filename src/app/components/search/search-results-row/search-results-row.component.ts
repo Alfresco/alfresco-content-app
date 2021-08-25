@@ -88,11 +88,6 @@ export class SearchResultsRowComponent implements OnInit, OnDestroy {
     this.onDestroy$.complete();
   }
 
-  get description(): string {
-    const { properties } = this.node.entry;
-    return properties ? properties['cm:description'] : '';
-  }
-
   get isFile(): boolean {
     return this.node.entry.isFile;
   }

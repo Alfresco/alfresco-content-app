@@ -53,6 +53,12 @@
                 </ng-template>
               </data-column>
 
+              <data-column key="properties"  title="Description" class="adf-ellipsis-cell adf-expand-cell-5" [sortable]="false">
+                <ng-template let-context>
+                  {{context.row?.node?.entry?.properties && context.row?.node?.entry?.properties['cm:description']}}
+                </ng-template>
+              </data-column>
+
               <data-column key="content.sizeInBytes" type="fileSize" title="APP.DOCUMENT_LIST.COLUMNS.SIZE" class="adf-no-grow-cell adf-ellipsis-cell" [sortable]="false"></data-column>
               <data-column key="modifiedAt" type="date" title="APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON" class="adf-no-grow-cell adf-ellipsis-cell" format="timeAgo" [sortable]="false"></data-column>
               <data-column key="modifiedByUser.displayName" title="APP.DOCUMENT_LIST.COLUMNS.MODIFIED_BY" class="adf-no-grow-cell adf-ellipsis-cell" [sortable]="false"></data-column>
