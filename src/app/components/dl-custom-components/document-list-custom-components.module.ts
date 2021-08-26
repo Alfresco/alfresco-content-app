@@ -30,10 +30,11 @@ import { LockedByModule } from '@alfresco/aca-shared';
 import { ContentModule } from '@alfresco/adf-content-services';
 import { MaterialModule } from '../../material.module';
 import { CoreModule } from '@alfresco/adf-core';
+import { ThumbnailColumnComponent } from './thumbnail-column/thumbnail-column.component';
 
 @NgModule({
   imports: [BrowserModule, CoreModule.forChild(), ContentModule.forChild(), MaterialModule, LockedByModule],
-  declarations: [CustomNameColumnComponent],
-  exports: [CustomNameColumnComponent]
+  declarations: [CustomNameColumnComponent, ThumbnailColumnComponent],
+  exports: [CustomNameColumnComponent, ThumbnailColumnComponent]
 })
 export class DocumentListCustomComponentsModule {}

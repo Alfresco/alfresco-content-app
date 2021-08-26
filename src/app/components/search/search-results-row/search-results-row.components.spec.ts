@@ -57,7 +57,7 @@ describe('SearchResultsRowComponent', () => {
     component.context = { row: { node: nodeEntry } };
     fixture.detectChanges();
 
-    const element = fixture.nativeElement.querySelector('.line');
+    const element = fixture.nativeElement.querySelector('div');
     expect(element).not.toBeNull();
   });
 });

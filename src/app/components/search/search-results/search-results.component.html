@@ -22,15 +22,11 @@
 
             <button mat-button adf-reset-search class="content__reset-action"><mat-icon> refresh </mat-icon></button>
           </div>
-          <div>
-            <aca-search-action-menu (sortingSelected)="onSearchSortingUpdate($event)"></aca-search-action-menu>
-          </div>
 
           <adf-document-list
             #documentList
             acaDocumentList
             acaContextActions
-            [showHeader]="showHeader"
             [selectionMode]="'multiple'"
             [sortingMode]="'server'"
             [sorting]="sorting"
@@ -39,13 +35,35 @@
             (node-dblclick)="handleNodeClick($event)"
           >
             <data-columns>
-              <data-column [key]="'$thumbnail'" [type]="'image'" [sr-title]="'ADF-DOCUMENT-LIST.LAYOUT.THUMBNAIL'" [sortable]="false"> </data-column>
+              <data-column key="$thumbnail" type="image" [sr-title]="'ADF-DOCUMENT-LIST.LAYOUT.THUMBNAIL'" [sortable]="false">
+                <ng-template let-context>
+                  <aca-custom-thumbnail-column [context]="context"></aca-custom-thumbnail-column>
+                </ng-template>
 
-              <data-column key type="text">
+                <adf-data-column-header>
+                  <ng-template>
+                    <aca-search-action-menu (sortingSelected)="onSearchSortingUpdate($event)"></aca-search-action-menu>
+                  </ng-template>
+                </adf-data-column-header>
+              </data-column>
+
+              <data-column key type="text"  class="adf-ellipsis-cell adf-expand-cell-5" title="APP.DOCUMENT_LIST.COLUMNS.NAME" [sortable]="false">
                 <ng-template let-context>
                   <aca-search-results-row [context]="context"></aca-search-results-row>
                 </ng-template>
               </data-column>
+
+              <data-column key="properties"  title="Description" class="adf-expand-cell-3" [sortable]="false" *ngIf="!isSmallScreen">
+                <ng-template let-context>
+                  <span class="adf-datatable-cell-value adf-ellipsis-cell">
+                  {{context.row?.node?.entry?.properties && context.row?.node?.entry?.properties['cm:description']}}
+                  </span>
+                </ng-template>
+              </data-column>
+
+              <data-column key="content.sizeInBytes" type="fileSize" title="APP.DOCUMENT_LIST.COLUMNS.SIZE" class="adf-no-grow-cell adf-ellipsis-cell" [sortable]="false" *ngIf="!isSmallScreen"></data-column>
+              <data-column key="modifiedAt" type="date" title="APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON" class="adf-no-grow-cell adf-ellipsis-cell" format="timeAgo" [sortable]="false" *ngIf="!isSmallScreen"></data-column>
+              <data-column key="modifiedByUser.displayName" title="APP.DOCUMENT_LIST.COLUMNS.MODIFIED_BY" class="adf-no-grow-cell adf-ellipsis-cell" [sortable]="false" *ngIf="!isSmallScreen"></data-column>
             </data-columns>
 
             <adf-custom-empty-content-template>

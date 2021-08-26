@@ -45,6 +45,30 @@ export class SearchResultsPage extends BrowsingPage {
     return this.infoText.getText();
   }
 
+  async getName(name: string): Promise<string> {
+    return this.dataTable.getRowByName(name).element(by.css('[title="Name"] div.search-file-name')).getText();
+  }
+
+  async getDescription(name: string): Promise<string> {
+    return this.dataTable.getRowByName(name).element(by.css('[title="Description"]')).getText();
+  }
+
+  async getModified(name: string): Promise<string> {
+    return BrowserActions.getAttribute(this.dataTable.getRowByName(name).element(by.css('[title="Modified"] span')), 'title');
+  }
+
+  async getSize(name: string): Promise<string> {
+    return this.dataTable.getRowByName(name).element(by.css('[title="Size"]')).getText();
+  }
+
+  async getModifiedBy(name: string): Promise<string> {
+    return this.dataTable.getRowByName(name).element(by.css('[title="Modified by"]')).getText();
+  }
+
+  async getLocation(name: string): Promise<string> {
+    return this.dataTable.getRowByName(name).element(by.css('[title="Name"] a')).getText();
+  }
+
   async getResultsChipsValues(): Promise<string[]> {
     const chips = this.chipList.all(by.css('.mat-chip'));
     return chips.map(async (elem) => {

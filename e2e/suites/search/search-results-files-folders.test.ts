@@ -108,12 +108,13 @@ describe('Search results - files and folders', () => {
     const size = fileEntry.entry.content.sizeInBytes;
 
     expect(await dataTable.isItemPresent(file)).toBe(true, `${file} is not displayed`);
-    expect(await dataTable.getRowCellsCount(file)).toEqual(2, 'incorrect number of columns');
-    expect(await dataTable.getSearchResultLinesCount(file)).toEqual(4, 'incorrect number of lines for search result');
-    expect(await dataTable.getSearchResultNameAndTitle(file)).toBe(`${file} ( ${fileTitle} )`);
-    expect(await dataTable.getSearchResultDescription(file)).toBe(fileDescription);
-    expect(await dataTable.getSearchResultModified(file)).toBe(`Modified: ${modifiedDate} by ${modifiedBy} | Size: ${size} Bytes`);
-    expect(await dataTable.getSearchResultLocation(file)).toMatch(/Location:\s+Personal Files/);
+    expect(await dataTable.getRowCellsCount(file)).toEqual(6, 'incorrect number of columns');
+    expect(await page.getName(file)).toBe(`${file} ( ${fileTitle} )`);
+    expect(await page.getDescription(file)).toBe(fileDescription);
+    expect(await page.getModified(file)).toBe(modifiedDate);
+    expect(await page.getModifiedBy(file)).toBe(modifiedBy);
+    expect(await page.getSize(file)).toBe(`${size} Bytes`);
+    expect(await page.getLocation(file)).toEqual(`Company Home › User Homes › ${username}`);
   });
 
   it('[C306867] Folder information', async () => {
@@ -127,12 +128,12 @@ describe('Search results - files and folders', () => {
     const modifiedBy = folderEntry.entry.modifiedByUser.displayName;
 
     expect(await dataTable.isItemPresent(folder)).toBe(true, `${folder} is not displayed`);
-    expect(await dataTable.getRowCellsCount(folder)).toEqual(2, 'incorrect number of columns');
-    expect(await dataTable.getSearchResultLinesCount(folder)).toEqual(4, 'incorrect number of lines for search result');
-    expect(await dataTable.getSearchResultNameAndTitle(folder)).toBe(`${folder} ( ${folderTitle} )`);
-    expect(await dataTable.getSearchResultDescription(folder)).toBe(folderDescription);
-    expect(await dataTable.getSearchResultModified(folder)).toBe(`Modified: ${modifiedDate} by ${modifiedBy}`);
-    expect(await dataTable.getSearchResultLocation(folder)).toMatch(/Location:\s+Personal Files/);
+    expect(await dataTable.getRowCellsCount(file)).toEqual(6, 'incorrect number of columns');
+    expect(await page.getName(folder)).toBe(`${folder} ( ${folderTitle} )`);
+    expect(await page.getDescription(folder)).toBe(folderDescription);
+    expect(await page.getModified(folder)).toBe(modifiedDate);
+    expect(await page.getModifiedBy(folder)).toBe(modifiedBy);
+    expect(await page.getLocation(folder)).toEqual(`Company Home › User Homes › ${username}`);
   });
 
   it('[C290029] Search file with special characters', async () => {

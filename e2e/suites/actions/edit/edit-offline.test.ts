@@ -326,7 +326,7 @@ describe('Edit offline', () => {
     it('[C306954] Lock information is displayed', async () => {
       expect(await dataTable.isItemPresent(fileSearchLocked2, parentSearch)).toBe(true, `${fileSearchLocked2} is not displayed`);
       expect(await dataTable.hasLockIcon(fileSearchLocked2, parentSearch)).toBe(true, `${fileSearchLocked2} does not have a lock icon`);
-      expect(await dataTable.getLockOwner(fileSearchLocked2, parentSearch)).toContain(
+      expect(await dataTable.getLockOwnerToolTip(fileSearchLocked2, parentSearch)).toContain(
         username,
         `${fileSearchLocked2} does not have correct lock owner info`
       );

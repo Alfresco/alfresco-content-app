@@ -1,23 +1,18 @@
 .aca-search-results-row {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  height: 100%;
-  overflow: hidden;
-  min-height: 0;
 
-  .line {
-    margin: 5px;
-  }
-
-  .bold {
-    font-weight: 400;
-    color: var(--theme-text-bold-color);
+  .result-location {
+    height: 15px;
+    padding-top: 3px;
   }
 
   .link {
     text-decoration: none;
     color: var(--theme-text-bold-color);
+  }
+
+  .aca-location-link .adf-datatable-cell-value {
+    padding: 0;
+    color: var(--theme-foreground-text-color);
   }
 
   .link:hover,

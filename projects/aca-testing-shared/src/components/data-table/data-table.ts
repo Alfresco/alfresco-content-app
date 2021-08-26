@@ -24,7 +24,7 @@
  */
 
 import { browser, by, ElementArrayFinder, ElementFinder, protractor } from 'protractor';
-import { BrowserVisibility, Logger } from '@alfresco/adf-testing';
+import { BrowserActions, BrowserVisibility, Logger } from '@alfresco/adf-testing';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
 import { Menu } from '../menu/menu';
@@ -41,7 +41,7 @@ export class DataTable extends Component {
     cell: '.adf-datatable-cell-container',
     lockOwner: '.aca-locked-by',
     searchResultsRow: 'aca-search-results-row',
-    searchResultsRowLine: '.line'
+    searchResultsRowLine: 'span'
   };
 
   head = this.byCss('.adf-datatable-header');
@@ -209,6 +209,14 @@ export class DataTable extends Component {
     if (await this.hasLockOwnerInfo(itemName, location)) {
       const row = this.getRowByName(itemName, location);
       return row.$(DataTable.selectors.lockOwner).$('.locked_by--name').getText();
+    }
+    return '';
+  }
+
+  async getLockOwnerToolTip(itemName: string, location: string = ''): Promise<string> {
+    if (await this.hasLockIcon(itemName, location)) {
+      const row = this.getRowByName(itemName, location);
+      return BrowserActions.getAttribute(row.element(by.css('img[src*="lock"]')), 'alt');
     }
     return '';
   }
@@ -417,34 +425,6 @@ export class DataTable extends Component {
         .first();
     }
     return this.body.element(by.cssContainingText(DataTable.selectors.searchResultsRow, name));
-  }
-
-  private getSearchResultRowLines(name: string, location: string = ''): ElementArrayFinder {
-    return this.getSearchResultsRowByName(name, location).all(by.css(DataTable.selectors.searchResultsRowLine));
-  }
-
-  async getSearchResultLinesCount(name: string, location: string = ''): Promise<number> {
-    return this.getSearchResultRowLines(name, location).count();
-  }
-
-  private getSearchResultNthLine(name: string, location: string = '', index: number): ElementFinder {
-    return this.getSearchResultRowLines(name, location).get(index);
-  }
-
-  async getSearchResultNameAndTitle(name: string, location: string = ''): Promise<string> {
-    return this.getSearchResultNthLine(name, location, 0).getText();
-  }
-
-  async getSearchResultDescription(name: string, location: string = ''): Promise<string> {
-    return this.getSearchResultNthLine(name, location, 1).getText();
-  }
-
-  async getSearchResultModified(name: string, location: string = ''): Promise<string> {
-    return this.getSearchResultNthLine(name, location, 2).getText();
-  }
-
-  async getSearchResultLocation(name: string, location: string = ''): Promise<string> {
-    return this.getSearchResultNthLine(name, location, 3).getText();
   }
 
   private getSearchResultNameLink(itemName: string, location: string = ''): ElementFinder {

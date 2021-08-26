@@ -23,34 +23,26 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
-import { SearchSortingDefinition } from '@alfresco/adf-content-services/lib/search/models/search-sorting-definition.interface';
-import { Component, OnInit, Output, ViewEncapsulation, EventEmitter } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { TranslationService } from '@alfresco/adf-core';
 
 @Component({
-  selector: 'aca-search-action-menu',
-  templateUrl: './search-action-menu.component.html',
+  selector: 'aca-custom-thumbnail-column',
+  templateUrl: './thumbnail-column.component.html',
   encapsulation: ViewEncapsulation.None
 })
-export class SearchActionMenuComponent implements OnInit {
-  @Output()
-  sortingSelected: EventEmitter<SearchSortingDefinition> = new EventEmitter();
+export class ThumbnailColumnComponent {
+  @Input()
+  context: any;
 
-  options: SearchSortingDefinition[] = [];
+  constructor(private translation: TranslationService) {}
 
-  constructor(private queryBuilder: SearchQueryBuilderService) {}
-
-  ngOnInit(): void {
-    this.options = this.queryBuilder.getSortingOptions();
+  getThumbnail({ data, row, col }): string {
+    return data.getValue(row, col);
   }
 
-  onAscSortingClicked(option: SearchSortingDefinition) {
-    option.ascending = true;
-    this.sortingSelected.emit(option);
-  }
-
-  onDescSortingClicked(option: SearchSortingDefinition) {
-    option.ascending = false;
-    this.sortingSelected.emit(option);
+  getToolTip({ row }): string {
+    const user = row.node?.entry?.properties && row.node.entry.properties['cm:lockOwner'] && row.node.entry.properties['cm:lockOwner'].displayName;
+    return user ? `${this.translation.instant('APP.LOCKED_BY')} ${user}` : '';
   }
 }

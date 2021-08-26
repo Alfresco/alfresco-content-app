@@ -100,29 +100,16 @@
   }
 
   .adf-datatable {
-    .adf-datatable-row {
-      padding: 0 15px;
+
+    aca-search-action-menu button {
+      width: 0;
     }
 
-    .adf-datatable-cell {
-      margin: 0 5px;
-      padding-left: 5px;
-      padding-top: 9px;
-      padding-bottom: 9px;
-      min-height: auto;
-
-      .adf-datatable-cell-value {
-        display: inline-block;
-        padding: 0;
-      }
+    .aca-location-link a {
+      font-size: 12px;
+      max-width: 350px;
+      text-align: left;
+      direction: rtl;
     }
-  }
-
-  .adf-search-date-range .mat-form-field:not(:first-child) {
-    margin-top: 20px;
-  }
-
-  .adf-document-list {
-    overflow-y: auto;
   }
 }

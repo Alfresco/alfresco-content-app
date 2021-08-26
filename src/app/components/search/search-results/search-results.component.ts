@@ -40,11 +40,12 @@ import {
   SnackbarErrorAction
 } from '@alfresco/aca-shared/store';
 import { ContentManagementService } from '../../../services/content-management.service';
-import { ShowHeaderMode, TranslationService } from '@alfresco/adf-core';
+import { TranslationService } from '@alfresco/adf-core';
 import { combineLatest, Observable } from 'rxjs';
 import { AppExtensionService } from '@alfresco/aca-shared';
 import { SearchSortingDefinition } from '@alfresco/adf-content-services/lib/search/models/search-sorting-definition.interface';
 import { takeUntil } from 'rxjs/operators';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   selector: 'aca-search-results',
@@ -61,7 +62,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   data: ResultSetPaging;
   sorting = ['name', 'asc'];
   isLoading = false;
-  showHeader: ShowHeaderMode = ShowHeaderMode.Never;
+  isSmallScreen = false;
 
   constructor(
     private queryBuilder: SearchQueryBuilderService,
@@ -70,7 +71,8 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     extensions: AppExtensionService,
     content: ContentManagementService,
     private translationService: TranslationService,
-    private router: Router
+    private router: Router,
+    private breakpointObserver: BreakpointObserver
   ) {
     super(store, extensions, content);
 
@@ -89,6 +91,13 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
         if (query) {
           this.queryBuilder.userQuery = decodeURIComponent(query);
         }
+      });
+
+    this.breakpointObserver
+      .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((result) => {
+        this.isSmallScreen = result.matches;
       });
   }
 
