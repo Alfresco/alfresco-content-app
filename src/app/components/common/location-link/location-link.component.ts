@@ -35,8 +35,13 @@ import { TranslationService } from '@alfresco/adf-core';
 @Component({
   selector: 'aca-location-link',
   template: `
-    <a href="" [title]="nodeLocation$ | async" (click)="goToLocation()" class="adf-datatable-cell-value">
-      {{ displayText | async | translate }}
+    <a
+      href=""
+      [title]="nodeLocation$ | async"
+      (click)="goToLocation()"
+      class="adf-datatable-cell-value"
+      [innerHTML]="displayText | async | translate"
+    >
     </a>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -49,18 +54,13 @@ export class LocationLinkComponent implements OnInit {
   private _path: PathInfo;
 
   nodeLocation$ = new BehaviorSubject('');
+  displayText: Observable<string>;
 
   @Input()
   context: any;
 
   @Input()
-  link: any[];
-
-  @Input()
-  displayText: Observable<string>;
-
-  @Input()
-  tooltip: Observable<string>;
+  showLocation = false;
 
   @HostListener('mouseenter')
   onMouseEnter() {
@@ -83,7 +83,11 @@ export class LocationLinkComponent implements OnInit {
         const path = node.entry.path;
 
         if (path && path.name && path.elements) {
-          this.displayText = this.getDisplayText(path);
+          if (this.showLocation) {
+            this.displayText = of(path.name.substring(1).replace(/\//g, ' &#8250; '));
+          } else {
+            this.displayText = this.getDisplayText(path);
+          }
           this._path = path;
         } else {
           this.displayText = of('APP.BROWSE.SEARCH.UNKNOWN_LOCATION');

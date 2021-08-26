@@ -1,4 +1,4 @@
-<div>
+<div class="search-file-name">
   <span tabindex="0" role="link" *ngIf="isFile" (click)="showPreview($event)" (keyup.enter)="showPreview($event)" class="link">
     {{ name$ | async }}
   </span>
@@ -7,7 +7,6 @@
   </span>
   <span>{{ title$ | async }}</span>
 </div>
-<div>
-  {{ 'APP.BROWSE.SEARCH.CUSTOM_ROW.LOCATION' | translate }}:
-  <aca-location-link [context]="context"></aca-location-link>
+<div class="result-location">
+  <aca-location-link [context]="context" [showLocation]="true"></aca-location-link>
 </div>

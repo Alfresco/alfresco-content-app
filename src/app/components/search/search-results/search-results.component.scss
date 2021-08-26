@@ -104,5 +104,12 @@
     aca-search-action-menu button {
       width: 0;
     }
+
+    .aca-location-link a {
+      font-size: 12px;
+      max-width: 350px;
+      text-align: left;
+      direction: rtl;
+    }
   }
 }

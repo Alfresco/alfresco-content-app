@@ -24,6 +24,7 @@
  */
 
 import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { TranslationService } from '@alfresco/adf-core';
 
 @Component({
   selector: 'aca-custom-thumbnail-column',
@@ -34,10 +35,14 @@ export class ThumbnailColumnComponent {
   @Input()
   context: any;
 
-  @Input()
-  title = '';
+  constructor(private translation: TranslationService) {}
 
-  getValue({ data, row, col }): string {
+  getThumbnail({ data, row, col }): string {
     return data.getValue(row, col);
+  }
+
+  getToolTip({ row }): string {
+    const user = row.node?.entry?.properties && row.node.entry.properties['cm:lockOwner'] && row.node.entry.properties['cm:lockOwner'].displayName;
+    return user ? `${this.translation.instant('APP.LOCKED_BY')} ${user}` : '';
   }
 }
