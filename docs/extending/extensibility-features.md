@@ -27,6 +27,15 @@ You can create plugins that change, toggle, or extend the following areas:
 - Content metadata presets (used on `Properties` tab)
 - Search
 - Custom icons
+- File list column layout
+  - files
+  - libraries
+  - favoriteLibraries
+  - shared
+  - recent
+  - favorites
+  - trashcan
+  - searchLibraries
 
 Extensions can also:
 

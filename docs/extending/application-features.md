@@ -15,6 +15,7 @@ The ACA supports the following set of extension points:
 - Viewer
 - Sidebar (aka Info Drawer)
 - Content metadata presets (for `Properties` tab)
+- File list layout  
 - Search
 
 All the customizations are stored in the `features` section of the configuration file:

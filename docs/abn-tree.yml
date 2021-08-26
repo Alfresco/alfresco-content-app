@@ -33,7 +33,6 @@
       - icons.md: Custom icons
       - registration.md: Registration
       - creating-custom-evaluators.md: Creating custom evaluators
-      - tutorials.md: Tutorials
       - redistributable-libraries.md: Redistributable libraries
 - tutorials:
     title: Tutorials
@@ -41,5 +40,8 @@
       - custom-route-with-parameters.md: Custom route with parameters
       - dialog-actions.md: Dialog actions
       - how-to-create-your-first-extension.md: How to create your first extension
-      - how-to-install-an-existing-extension.md: How to install an existing extension
+      - content-metadata.md: How to customize Content Metadata
+      - file-lists.md: How to customize File lists
+      - file-preview.md: How to customize File Preview
+      - search-form.md: How to customize The Search Form
 - help.md: 'Get help'

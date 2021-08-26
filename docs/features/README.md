@@ -24,3 +24,4 @@ This application simplifies the complexity of Content Management and provides co
 - [Info Drawer](/features/info-drawer)
 - [Version Manager](/features/version-manager)
 - [Search results](/features/search-results)
+- [Search forms](/features/search-forms)
