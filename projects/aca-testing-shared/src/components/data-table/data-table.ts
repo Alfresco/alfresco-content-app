@@ -200,7 +200,20 @@ export class DataTable extends Component {
     return row.element(by.css('img[src*="lock"]')).isPresent();
   }
 
+  private async hasLockOwnerInfo(itemName: string, location: string = ''): Promise<boolean> {
+    const row = this.getRowByName(itemName, location);
+    return row.element(by.css(DataTable.selectors.lockOwner)).isPresent();
+  }
+
   async getLockOwner(itemName: string, location: string = ''): Promise<string> {
+    if (await this.hasLockOwnerInfo(itemName, location)) {
+      const row = this.getRowByName(itemName, location);
+      return row.$(DataTable.selectors.lockOwner).$('.locked_by--name').getText();
+    }
+    return '';
+  }
+
+  async getLockOwnerToolTip(itemName: string, location: string = ''): Promise<string> {
     if (await this.hasLockIcon(itemName, location)) {
       const row = this.getRowByName(itemName, location);
       return BrowserActions.getAttribute(row.element(by.css('img[src*="lock"]')), 'alt');
