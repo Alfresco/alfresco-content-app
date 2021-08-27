@@ -27,7 +27,7 @@ import { FileUploadEvent, ShowHeaderMode, UploadService } from '@alfresco/adf-co
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElement, PathElementEntity } from '@alfresco/js-api';
+import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElement } from '@alfresco/js-api';
 import { ContentManagementService } from '../../services/content-management.service';
 import { NodeActionsService } from '../../services/node-actions.service';
 import { PageComponent } from '../page.component';
@@ -42,6 +42,7 @@ import { DocumentListPresetRef } from '@alfresco/adf-extensions';
   templateUrl: './files.component.html'
 })
 export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
+  initialNode: string;
   isValidPath = true;
   isSmallScreen = false;
   isAdmin = false;
@@ -56,12 +57,12 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private contentApi: ContentApiService,
-    store: Store<AppStore>,
     private nodeActionsService: NodeActionsService,
     private uploadService: UploadService,
+    private breakpointObserver: BreakpointObserver,
     content: ContentManagementService,
     extensions: AppExtensionService,
-    private breakpointObserver: BreakpointObserver
+    store: Store<AppStore>
   ) {
     super(store, extensions, content);
   }
@@ -69,17 +70,17 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   ngOnInit() {
     super.ngOnInit();
 
-    const { route, nodeActionsService, uploadService } = this;
-    const { data } = route.snapshot;
+    const { data } = this.route.snapshot;
 
     this.title = data.title;
 
-    route.queryParamMap.subscribe((queryMap: Params) => {
+    this.route.queryParamMap.subscribe((queryMap: Params) => {
       this.queryParams = queryMap.params;
     });
 
-    route.params.subscribe(({ folderId }: Params) => {
+    this.route.params.subscribe(({ folderId }: Params) => {
       const nodeId = folderId || data.defaultNodeId;
+      this.initialNode = this.initialNode ?? nodeId;
 
       this.contentApi.getNode(nodeId).subscribe(
         (node) => {
@@ -87,10 +88,6 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
           if (node.entry && node.entry.isFolder) {
             this.updateCurrentNode(node.entry);
-          } else {
-            this.router.navigate(['/personal-files', node.entry.parentId], {
-              replaceUrl: true
-            });
           }
         },
         () => (this.isValidPath = false)
@@ -98,9 +95,9 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     });
 
     this.subscriptions = this.subscriptions.concat([
-      nodeActionsService.contentCopied.subscribe((nodes) => this.onContentCopied(nodes)),
-      uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe((file) => this.onFileUploadedEvent(file)),
-      uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe((file) => this.onFileUploadedEvent(file)),
+      this.nodeActionsService.contentCopied.subscribe((nodes) => this.onContentCopied(nodes)),
+      this.uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe((file) => this.onFileUploadedEvent(file)),
+      this.uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe((file) => this.onFileUploadedEvent(file)),
 
       this.breakpointObserver.observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape]).subscribe((result) => {
         this.isSmallScreen = result.matches;
@@ -122,7 +119,11 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     super.ngOnDestroy();
   }
 
-  navigate(nodeId: string = null) {
+  onFolderChange($event) {
+    this.locationChange($event.value.id);
+  }
+
+  locationChange(nodeId: string = null) {
     const currentNodeId = this.route.snapshot.paramMap.get('folderId');
     const urlWithoutParams = decodeURIComponent(this.router.url).split('?')[0];
     const urlToNavigate: string[] = this.getUrlToNavigate(urlWithoutParams, currentNodeId, nodeId);
@@ -184,29 +185,13 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
           id = node.entry.id;
         }
 
-        this.documentList.resetNewFolderPagination();
-        this.navigate(id);
+        this.locationChange(id);
+        this.documentList.navigateTo(id);
         return;
       }
 
       this.showPreview(node, { location: this.router.url });
     }
-  }
-
-  handleNodeClick(event: Event) {
-    this.navigateTo((event as CustomEvent).detail?.node);
-  }
-
-  onBreadcrumbNavigate(route: PathElementEntity) {
-    this.documentList.resetNewFolderPagination();
-
-    // todo: review this approach once 5.2.3 is out
-    if (this.nodePath && this.nodePath.length > 2) {
-      if (this.nodePath[1].name === 'Sites' && this.nodePath[2].id === route.id) {
-        return this.navigate(this.nodePath[3].id);
-      }
-    }
-    this.navigate(route.id);
   }
 
   onFileUploadedEvent(event: FileUploadEvent) {
@@ -268,50 +253,18 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
       this.nodePath = elements.map((pathElement) => {
         return Object.assign({}, pathElement);
       });
-
-      if (elements.length > 1) {
-        if (elements[1].name === 'User Homes') {
-          if (!this.isAdmin) {
-            elements.splice(0, 2);
-          }
-        } else if (elements[1].name === 'Sites') {
-          await this.normalizeSitePath(node);
-        }
-      }
     }
 
     this.node = node;
     this.store.dispatch(new SetCurrentFolderAction(node));
   }
 
-  // todo: review this approach once 5.2.3 is out
-  private async normalizeSitePath(node: MinimalNodeEntryEntity) {
-    const elements = node.path.elements;
-
-    // remove 'Sites'
-    elements.splice(1, 1);
-
-    if (this.isSiteContainer(node)) {
-      // rename 'documentLibrary' entry to the target site display name
-      // clicking on the breadcrumb entry loads the site content
-      const parentNode = await this.contentApi.getNodeInfo(node.parentId).toPromise();
-      node.name = parentNode.properties['cm:title'] || parentNode.name;
-
-      // remove the site entry
-      elements.splice(1, 1);
-    } else {
-      // remove 'documentLibrary' in the middle of the path
-      const docLib = elements.findIndex((el) => el.name === 'documentLibrary');
-      if (docLib > -1) {
-        const siteFragment = elements[docLib - 1];
-        const siteNode = await this.contentApi.getNodeInfo(siteFragment.id).toPromise();
-
-        // apply Site Name to the parent fragment
-        siteFragment.name = siteNode.properties['cm:title'] || siteNode.name;
-        elements.splice(docLib, 1);
-      }
+  customizeBreadcrumb = () => {
+    if (this.node) {
+      return this.nodeActionsService.customizeBreadcrumb(this.node);
     }
-  }
+    return '';
+  };
 
   isSiteContainer(node: MinimalNodeEntryEntity): boolean {
     if (node && node.aspectNames && node.aspectNames.length > 0) {

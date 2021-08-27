@@ -1,6 +1,7 @@
 <aca-page-layout [hasError]="!isValidPath">
   <aca-page-layout-header>
-    <adf-breadcrumb [root]="title" [folderNode]="node" [maxItems]="isSmallScreen ? 1 : 0" (navigate)="onBreadcrumbNavigate($event)"> </adf-breadcrumb>
+    <adf-breadcrumb [root]="title" [folderNode]="node" [maxItems]="isSmallScreen ? 1 : 0" [target]="documentList"
+                    [transform]="customizeBreadcrumb"> </adf-breadcrumb>
 
     <adf-toolbar class="adf-toolbar--inline">
       <ng-container *ngFor="let entry of actions; trackBy: trackByActionId">
@@ -22,17 +23,17 @@
           acaContextActions
           [display]="documentDisplayMode$ | async"
           selectionMode="multiple"
-          [currentFolderId]="node?.id"
+          [currentFolderId]="initialNode"
           [showHeader]="showHeader"
           [node]="nodeResult"
           [allowDropFiles]="true"
-          [navigate]="false"
           [sorting]="['name', 'ASC']"
           [imageResolver]="imageResolver"
           [headerFilters]="true"
           [filterValue]="queryParams"
-          (node-dblclick)="handleNodeClick($event)"
-          (name-click)="handleNodeClick($event)"
+          (folderChange)="onFolderChange($any($event))"
+          (node-dblclick)="navigateTo($any($event).detail?.node)"
+          (name-click)="navigateTo($any($event).detail?.node)"
           (sorting-changed)="onSortingChanged($event)"
           (filterSelection)="onFilterSelected($event)"
           (error)="onError()"

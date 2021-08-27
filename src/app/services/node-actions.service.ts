@@ -253,8 +253,7 @@ export class NodeActionsService {
     this.dialog.closeAll();
   }
 
-  // todo: review this approach once 5.2.3 is out
-  private customizeBreadcrumb(node: MinimalNodeEntryEntity) {
+  customizeBreadcrumb(node: MinimalNodeEntryEntity) {
     if (node && node.path && node.path.elements) {
       const elements = node.path.elements;
 
@@ -264,31 +263,25 @@ export class NodeActionsService {
 
           // make sure first item is 'Personal Files'
           if (elements[0]) {
-            elements[0].name = this.translation.instant('APP.BROWSE.PERSONAL.TITLE');
+            elements[0].name = 'APP.BROWSE.PERSONAL.TITLE';
             elements[0].id = '-my-';
           } else {
-            node.name = this.translation.instant('APP.BROWSE.PERSONAL.TITLE');
+            node.name = 'APP.BROWSE.PERSONAL.TITLE';
           }
         } else if (elements[1].name === 'Sites') {
           this.normalizeSitePath(node);
         }
       } else if (elements.length === 1) {
         if (node.name === 'Sites') {
-          node.name = this.translation.instant('APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.TITLE');
+          node.name = 'APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.TITLE';
           elements.splice(0, 1);
         }
       }
-    } else if (node === null && this.isSitesDestinationAvailable) {
-      node = {
-        name: this.translation.instant('APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.TITLE'),
-        path: { elements: [] }
-      } as any;
     }
 
     return node;
   }
 
-  // todo: review this approach once 5.2.3 is out
   private normalizeSitePath(node: MinimalNodeEntryEntity) {
     const elements = node.path.elements;
 
@@ -296,7 +289,7 @@ export class NodeActionsService {
     elements.splice(0, 1);
 
     // replace first item with 'File Libraries'
-    elements[0].name = this.translation.instant('APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.TITLE');
+    elements[0].name = 'APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.TITLE';
     elements[0].id = '-mysites-';
 
     if (this.isSiteContainer(node)) {
