@@ -104,7 +104,7 @@
     "rxjs-tslint-rules": "^4.34.3",
     "selenium-webdriver": "^4.0.0-alpha.7",
     "ts-node": "^10.2.1",
-    "tsconfig-paths": "3.10.1",
+    "tsconfig-paths": "3.11.0",
     "tslint": "~6.1.0",
     "tslint-config-prettier": "^1.18.0",
     "tslint-plugin-prettier": "^2.3.0",
