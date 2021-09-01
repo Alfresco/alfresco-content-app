@@ -53,7 +53,7 @@ import { NodeActionsService } from './node-actions.service';
 import { TranslationService, AlfrescoApiService, FileModel } from '@alfresco/adf-core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
-import { NodeEntry, Node } from '@alfresco/js-api';
+import { NodeEntry, Node, VersionPaging } from '@alfresco/js-api';
 import { NodeAspectService } from '@alfresco/adf-content-services';
 
 describe('ContentManagementService', () => {
@@ -1462,6 +1462,11 @@ describe('ContentManagementService', () => {
   });
 
   describe('versionUpdateDialog', () => {
+    beforeEach(() => {
+      const fakeVersion = { list: { entries: [ { entry: { id: '1.0' } } ]  } } as VersionPaging;
+      spyOn(contentApi, 'getNodeVersions').and.returnValue(of(fakeVersion));
+    });
+
     it('should open dialog with NodeVersionUploadDialogComponent instance', () => {
       spyOn(dialog, 'open');
       const fakeNode = {

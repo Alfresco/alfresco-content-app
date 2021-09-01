@@ -24,12 +24,20 @@
  */
 
 import { AppStore, SnackbarErrorAction, UnlockWriteAction, ViewNodeVersionAction } from '@alfresco/aca-shared/store';
-import { MinimalNodeEntryEntity, Node } from '@alfresco/js-api';
+import { MinimalNodeEntryEntity, Node, Version } from '@alfresco/js-api';
 import { Component, EventEmitter, Inject, Output, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { NodeEntityEvent } from '@alfresco/adf-content-services';
 import { Router } from '@angular/router';
+
+export interface NodeVersionDialogData {
+  title: string;
+  node: MinimalNodeEntryEntity;
+  file?: File;
+  currentVersion?: Version;
+  showVersionsOnly?: boolean;
+}
 
 @Component({
   templateUrl: './node-versions.dialog.html',
@@ -38,24 +46,16 @@ import { Router } from '@angular/router';
   host: { class: 'aca-node-versions-dialog' }
 })
 export class NodeVersionsDialogComponent {
-  node: MinimalNodeEntryEntity;
-  file: File;
-  isTypeList = true;
-
   /** Emitted when a version is restored or deleted. */
   @Output()
   refreshEvent = new EventEmitter<Node>();
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) data: any,
+    @Inject(MAT_DIALOG_DATA) public data: NodeVersionDialogData,
     private store: Store<AppStore>,
     private dialogRef: MatDialogRef<NodeVersionsDialogComponent>,
     private router: Router
-  ) {
-    this.node = data.node;
-    this.file = data.file;
-    this.isTypeList = data.isTypeList !== undefined ? data.isTypeList : true;
-  }
+  ) {}
 
   onUploadError(errorMessage: any) {
     this.store.dispatch(new SnackbarErrorAction(errorMessage));
@@ -78,7 +78,7 @@ export class NodeVersionsDialogComponent {
 
   onViewingVersion(versionId: string) {
     this.store.dispatch(
-      new ViewNodeVersionAction(this.node.id, versionId, {
+      new ViewNodeVersionAction(this.data.node.id, versionId, {
         location: this.router.url
       })
     );

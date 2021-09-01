@@ -66,7 +66,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { forkJoin, Observable, of, zip } from 'rxjs';
 import { catchError, map, mergeMap, take, tap } from 'rxjs/operators';
-import { NodeVersionsDialogComponent } from '../dialogs/node-versions/node-versions.dialog';
+import { NodeVersionsDialogComponent, NodeVersionDialogData } from '../dialogs/node-versions/node-versions.dialog';
 import { NodeActionsService } from './node-actions.service';
 
 interface RestoredNode {
@@ -139,7 +139,7 @@ export class ContentManagementService {
     // workaround Shared
     if (node.isFile || node.nodeId) {
       const dialogRef = this.dialogRef.open(NodeVersionsDialogComponent, {
-        data: { node },
+        data: { node, showVersionsOnly: true, title: 'VERSION.DIALOG_ADF.TITLE' } as NodeVersionDialogData,
         panelClass: 'adf-version-manager-dialog-panel',
         width: '630px'
       });
@@ -176,11 +176,14 @@ export class ContentManagementService {
   }
 
   versionUpdateDialog(node, file) {
-    return this.dialogRef.open(NodeVersionsDialogComponent, {
-      data: { node, file, isTypeList: false },
-      panelClass: 'adf-version-manager-dialog-panel-upload',
-      width: '600px'
-    });
+    this.contentApi.getNodeVersions(node.id)
+      .subscribe(({ list  }) => {
+        this.dialogRef.open(NodeVersionsDialogComponent, {
+          data: { node, file, currentVersion: list.entries[0].entry, title: 'VERSION.DIALOG.TITLE' } as NodeVersionDialogData,
+          panelClass: 'adf-version-manager-dialog-panel-upload',
+          width: '600px'
+        });
+      });
   }
 
   shareNode(node: any): void {
