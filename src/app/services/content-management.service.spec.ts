@@ -1463,7 +1463,7 @@ describe('ContentManagementService', () => {
 
   describe('versionUpdateDialog', () => {
     beforeEach(() => {
-      const fakeVersion = { list: { entries: [ { entry: { id: '1.0' } } ]  } } as VersionPaging;
+      const fakeVersion = { list: { entries: [{ entry: { id: '1.0' } }] } } as VersionPaging;
       spyOn(contentApi, 'getNodeVersions').and.returnValue(of(fakeVersion));
     });
 

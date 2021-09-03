@@ -176,14 +176,13 @@ export class ContentManagementService {
   }
 
   versionUpdateDialog(node, file) {
-    this.contentApi.getNodeVersions(node.id)
-      .subscribe(({ list  }) => {
-        this.dialogRef.open(NodeVersionsDialogComponent, {
-          data: { node, file, currentVersion: list.entries[0].entry, title: 'VERSION.DIALOG.TITLE' } as NodeVersionDialogData,
-          panelClass: 'adf-version-manager-dialog-panel-upload',
-          width: '600px'
-        });
+    this.contentApi.getNodeVersions(node.id).subscribe(({ list }) => {
+      this.dialogRef.open(NodeVersionsDialogComponent, {
+        data: { node, file, currentVersion: list.entries[0].entry, title: 'VERSION.DIALOG.TITLE' } as NodeVersionDialogData,
+        panelClass: 'adf-version-manager-dialog-panel-upload',
+        width: '600px'
       });
+    });
   }
 
   shareNode(node: any): void {
