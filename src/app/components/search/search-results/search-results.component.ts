@@ -183,6 +183,10 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
       return null;
     }
 
+    if (userInput.match(/^https?:\/\//)) {
+      return this.formatFields(fields, userInput);
+    }
+
     userInput = userInput.trim();
 
     if (userInput.includes(':') || userInput.includes('"')) {

@@ -164,6 +164,11 @@ describe('SearchComponent', () => {
     expect(component.formatSearchQuery(query)).toBe(query);
   });
 
+  it('should  use original user input if text contains url', () => {
+    const query = `https://ti.to/ng-conf/ng-conf2021`;
+    expect(component.formatSearchQuery(query)).toMatch(query);
+  });
+
   it('should use original user input if text contains quotes', () => {
     const query = `"Hello World"`;
     expect(component.formatSearchQuery(query)).toBe(query);
