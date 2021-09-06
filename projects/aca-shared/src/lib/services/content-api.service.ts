@@ -50,7 +50,8 @@ import {
   ContentApi,
   SitesApi,
   SearchApi,
-  PeopleApi
+  PeopleApi,
+  VersionsApi
 } from '@alfresco/js-api';
 import { map } from 'rxjs/operators';
 
@@ -112,6 +113,11 @@ export class ContentApiService {
     return this._peopleApi;
   }
 
+  _versionsApi: VersionsApi;
+  get versionsApi(): VersionsApi {
+    this._versionsApi = this._versionsApi ?? new VersionsApi(this.api.getInstance());
+    return this._versionsApi;
+  }
   constructor(private api: AlfrescoApiService, private preferences: UserPreferencesService) {}
 
   /**
@@ -340,5 +346,9 @@ export class ContentApiService {
 
   unlockNode(nodeId: string, opts?: any) {
     return this.nodesApi.unlockNode(nodeId, opts);
+  }
+
+  getNodeVersions(nodeId: string, opts?: any) {
+    return from(this.versionsApi.listVersionHistory(nodeId, opts));
   }
 }

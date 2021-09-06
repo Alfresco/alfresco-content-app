@@ -44,6 +44,31 @@ describe('NodeVersionsDialogComponent', () => {
   let fixture: ComponentFixture<NodeVersionsDialogComponent>;
   let component: NodeVersionsDialogComponent;
   let store: Store<AppStore>;
+  const node = {
+    id: '1234',
+    name: 'TEST-NODE',
+    isFile: true,
+    nodeType: 'FAKE',
+    isFolder: false,
+    modifiedAt: new Date(),
+    modifiedByUser: null,
+    createdAt: new Date(),
+    createdByUser: null,
+    content: {
+      mimeType: 'text/html',
+      mimeTypeName: 'HTML',
+      sizeInBytes: 13
+    }
+  };
+  const showVersionsOnly = true;
+  const file = {
+    name: 'Fake New file',
+    type: 'application/pdf',
+    lastModified: 13,
+    size: 1351,
+    slice: null
+  } as File;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [CoreModule.forRoot(), TranslateModule.forRoot(), MatDialogModule, RouterTestingModule.withRoutes([]), AppTestingModule],
@@ -68,55 +93,31 @@ describe('NodeVersionsDialogComponent', () => {
             dispatch: jasmine.createSpy('dispatch')
           }
         },
-        { provide: MAT_DIALOG_DATA, useValue: {} }
+        { provide: MAT_DIALOG_DATA, useValue: { node, showVersionsOnly, file } }
       ]
     });
 
     store = TestBed.inject(Store);
     fixture = TestBed.createComponent(NodeVersionsDialogComponent);
     component = fixture.componentInstance;
-    component.node = {
-      id: '1234',
-      name: 'TEST-NODE',
-      isFile: true,
-      nodeType: 'FAKE',
-      isFolder: false,
-      modifiedAt: new Date(),
-      modifiedByUser: null,
-      createdAt: new Date(),
-      createdByUser: null,
-      content: {
-        mimeType: 'text/html',
-        mimeTypeName: 'HTML',
-        sizeInBytes: 13
-      }
-    };
-    component.isTypeList = true;
-    component.file = {
-      name: 'Fake New file',
-      type: 'application/pdf',
-      lastModified: 13,
-      size: 1351,
-      slice: null
-    } as File;
   });
 
   it('should display adf upload version if isTypeList is passed as false from parent component', () => {
-    component.isTypeList = false;
+    component.data.showVersionsOnly = false;
     fixture.detectChanges();
     const adfVersionComponent = document.querySelector('#adf-version-upload-button');
     expect(adfVersionComponent).not.toEqual(null);
   });
 
   it('should display adf version comparison if isTypeList is passed as false from parent component', () => {
-    component.isTypeList = false;
+    component.data.showVersionsOnly = false;
     fixture.detectChanges();
     const adfVersionComparisonComponent = document.querySelector('#adf-version-comparison');
     expect(adfVersionComparisonComponent).not.toEqual(null);
   });
 
   it('should unlock node if is locked when uploading a file', () => {
-    component.isTypeList = false;
+    component.data.showVersionsOnly = false;
     const nodeEvent: NodeEntityEvent = new NodeEntityEvent({
       entry: {
         id: 'a8b2caff-a58c-40f1-8c47-0b8e63ceaa0e',
@@ -138,12 +139,12 @@ describe('NodeVersionsDialogComponent', () => {
   });
 
   it('should view a previous version of a node', () => {
-    component.isTypeList = false;
+    component.data.showVersionsOnly = false;
     const versionId = '1.0';
     const location: ViewNodeExtras = {
       location: '/'
     };
     component.onViewingVersion(versionId);
-    expect(store.dispatch).toHaveBeenCalledWith(new ViewNodeVersionAction(component.node.id, versionId, location));
+    expect(store.dispatch).toHaveBeenCalledWith(new ViewNodeVersionAction(component.data.node.id, versionId, location));
   });
 });

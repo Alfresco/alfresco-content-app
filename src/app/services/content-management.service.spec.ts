@@ -53,7 +53,7 @@ import { NodeActionsService } from './node-actions.service';
 import { TranslationService, AlfrescoApiService, FileModel } from '@alfresco/adf-core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
-import { NodeEntry, Node } from '@alfresco/js-api';
+import { NodeEntry, Node, VersionPaging } from '@alfresco/js-api';
 import { NodeAspectService } from '@alfresco/adf-content-services';
 
 describe('ContentManagementService', () => {
@@ -1462,6 +1462,11 @@ describe('ContentManagementService', () => {
   });
 
   describe('versionUpdateDialog', () => {
+    beforeEach(() => {
+      const fakeVersion = { list: { entries: [{ entry: { id: '1.0' } }] } } as VersionPaging;
+      spyOn(contentApi, 'getNodeVersions').and.returnValue(of(fakeVersion));
+    });
+
     it('should open dialog with NodeVersionUploadDialogComponent instance', () => {
       spyOn(dialog, 'open');
       const fakeNode = {
@@ -1473,23 +1478,12 @@ describe('ContentManagementService', () => {
       contentManagementService.versionUpdateDialog(fakeNode, fakeFile);
 
       expect(dialog.open['calls'].argsFor(0)[0].name).toBe('NodeVersionsDialogComponent');
-    });
-
-    it('should return dialog instance reference', () => {
-      const mockDialogInstance: any = {
-        afterClose: () => {}
-      };
-      const fakeNode = {
-        name: 'lights.jpg',
-        id: 'f5e5cb54-200e-41a8-9c21-b5ee77da3992'
-      };
-      const fakeFile = new FileModel({ name: 'file1.png', size: 10 } as File, null, 'file1');
-
-      spyOn(dialog, 'open').and.returnValue(mockDialogInstance);
-
-      const dialogRef = contentManagementService.versionUpdateDialog(fakeNode, fakeFile);
-
-      expect(dialogRef).toBe(mockDialogInstance);
+      expect(dialog.open['calls'].argsFor(0)[1].data).toEqual({
+        node: fakeNode,
+        file: fakeFile,
+        currentVersion: { id: '1.0' },
+        title: 'VERSION.DIALOG.TITLE'
+      });
     });
   });
 
