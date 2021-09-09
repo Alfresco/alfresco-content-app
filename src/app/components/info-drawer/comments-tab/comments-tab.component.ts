@@ -33,5 +33,4 @@ import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 export class CommentsTabComponent {
   @Input()
   node: MinimalNodeEntryEntity;
-
 }
