@@ -712,6 +712,18 @@ describe('AppExtensionService', () => {
         }
       ];
 
+      const expectedActions = [
+        {
+          id: 'id',
+          type: ContentActionType.button,
+          icon: 'icon',
+          actions: {
+            click: 'click'
+          },
+          disabled: false
+        }
+      ];
+
       applyConfig({
         $id: 'test',
         $name: 'test',
@@ -728,7 +740,7 @@ describe('AppExtensionService', () => {
         }
       });
 
-      expect(service.getSharedLinkViewerToolbarActions()).toEqual(actions);
+      expect(service.getSharedLinkViewerToolbarActions()).toEqual(expectedActions);
     });
   });
 
@@ -926,6 +938,214 @@ describe('AppExtensionService', () => {
 
     it('should not load the disabled search extension', () => {
       expect(service.search.find(({ id }) => id === 'app.search-2')).toBe(undefined, 'disabled configuration shown in the result');
+    });
+  });
+
+  describe('rule disable', () => {
+    beforeEach(() => {
+      extensions.setEvaluators({
+        isEnabled: () => true,
+        isDisabled: () => false
+      });
+    });
+
+    const actions = [
+      {
+        id: 'id1',
+        type: ContentActionType.button,
+        icon: 'icon1',
+        actions: {
+          click: 'click'
+        },
+        rules: {
+          enabled: 'isDisabled'
+        }
+      },
+      {
+        id: 'id2',
+        type: ContentActionType.button,
+        icon: 'icon2',
+        actions: {
+          click: 'click'
+        },
+        rules: {
+          enabled: 'isEnabled'
+        }
+      }
+    ];
+
+    const expectedActionsWithChildren = [
+      {
+        id: 'id1',
+        type: ContentActionType.button,
+        icon: 'icon1',
+        actions: {
+          click: 'click'
+        },
+        rules: {
+          enabled: 'isDisabled'
+        },
+        disabled: true,
+        children: []
+      },
+      {
+        id: 'id2',
+        type: ContentActionType.button,
+        icon: 'icon2',
+        actions: {
+          click: 'click'
+        },
+        rules: {
+          enabled: 'isEnabled'
+        },
+        disabled: false,
+        children: []
+      }
+    ];
+
+    const expectedActionsWithoutChildren = [
+      {
+        id: 'id1',
+        type: ContentActionType.button,
+        icon: 'icon1',
+        actions: {
+          click: 'click'
+        },
+        rules: {
+          enabled: 'isDisabled'
+        },
+        disabled: true
+      },
+      {
+        id: 'id2',
+        type: ContentActionType.button,
+        icon: 'icon2',
+        actions: {
+          click: 'click'
+        },
+        rules: {
+          enabled: 'isEnabled'
+        },
+        disabled: false
+      }
+    ];
+
+    it('should set the action disabled for create actions', () => {
+      applyConfig({
+        $id: 'test',
+        $name: 'test',
+        $version: '1.0.0',
+        $license: 'MIT',
+        $vendor: 'Good company',
+        $runtime: '1.5.0',
+        features: {
+          create: actions
+        }
+      });
+
+      expect(service.getCreateActions()).toEqual(expectedActionsWithChildren);
+    });
+
+    it('should set the action disabled for sidebar actions', () => {
+      applyConfig({
+        $id: 'test',
+        $name: 'test',
+        $version: '1.0.0',
+        $license: 'MIT',
+        $vendor: 'Good company',
+        $runtime: '1.5.0',
+        features: {
+          sidebar: {
+            toolbar: actions
+          }
+        }
+      });
+
+      expect(service.getAllowedSidebarActions()).toEqual(expectedActionsWithoutChildren);
+    });
+
+    it('should set the action disabled for toolbar actions', () => {
+      applyConfig({
+        $id: 'test',
+        $name: 'test',
+        $version: '1.0.0',
+        $license: 'MIT',
+        $vendor: 'Good company',
+        $runtime: '1.5.0',
+        features: {
+          toolbar: actions
+        }
+      });
+
+      expect(service.getAllowedToolbarActions()).toEqual(expectedActionsWithoutChildren);
+    });
+
+    it('should set the action disabled for viewer toolbar actions', () => {
+      applyConfig({
+        $id: 'test',
+        $name: 'test',
+        $version: '1.0.0',
+        $license: 'MIT',
+        $vendor: 'Good company',
+        $runtime: '1.5.0',
+        features: {
+          viewer: { toolbarActions: actions }
+        }
+      });
+
+      expect(service.getViewerToolbarActions()).toEqual(expectedActionsWithoutChildren);
+    });
+
+    it('should set the action disabled for shared link viewer toolbar actions', () => {
+      applyConfig({
+        $id: 'test',
+        $name: 'test',
+        $version: '1.0.0',
+        $license: 'MIT',
+        $vendor: 'Good company',
+        $runtime: '1.5.0',
+        features: {
+          viewer: {
+            shared: {
+              toolbarActions: actions
+            }
+          }
+        }
+      });
+
+      expect(service.getSharedLinkViewerToolbarActions()).toEqual(expectedActionsWithoutChildren);
+    });
+
+    it('should set the action disabled for header actions', () => {
+      applyConfig({
+        $id: 'test',
+        $name: 'test',
+        $version: '1.0.0',
+        $license: 'MIT',
+        $vendor: 'Good company',
+        $runtime: '1.5.0',
+        features: {
+          header: actions
+        }
+      });
+
+      expect(service.getHeaderActions()).toEqual(expectedActionsWithoutChildren);
+    });
+
+    it('should set the action disabled for context menu actions', () => {
+      applyConfig({
+        $id: 'test',
+        $name: 'test',
+        $version: '1.0.0',
+        $license: 'MIT',
+        $vendor: 'Good company',
+        $runtime: '1.5.0',
+        features: {
+          contextMenu: actions
+        }
+      });
+
+      expect(service.getAllowedContextMenuActions()).toEqual(expectedActionsWithoutChildren);
     });
   });
 });
