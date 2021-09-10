@@ -328,23 +328,25 @@ export class AppExtensionService implements RuleContext {
     return this.sidebarTabs.filter((action) => this.filterVisible(action));
   }
 
+  private setActionDisabledFromRule(action: ContentActionRef) {
+    let disabled = false;
+
+    if (action && action.rules && action.rules.enabled) {
+      disabled = !this.extensions.evaluateRule(action.rules.enabled, this);
+    }
+
+    return {
+      ...action,
+      disabled
+    };
+  }
+
   getCreateActions(): Array<ContentActionRef> {
     return this.createActions
       .filter((action) => this.filterVisible(action))
       .map((action) => this.copyAction(action))
       .map((action) => this.buildMenu(action))
-      .map((action) => {
-        let disabled = false;
-
-        if (action.rules && action.rules.enabled) {
-          disabled = !this.extensions.evaluateRule(action.rules.enabled, this);
-        }
-
-        return {
-          ...action,
-          disabled
-        };
-      });
+      .map((action) => this.setActionDisabledFromRule(action));
   }
 
   private buildMenu(actionRef: ContentActionRef): ContentActionRef {
@@ -352,18 +354,7 @@ export class AppExtensionService implements RuleContext {
       const children = actionRef.children.filter((action) => this.filterVisible(action)).map((action) => this.buildMenu(action));
 
       actionRef.children = children
-        .map((action) => {
-          let disabled = false;
-
-          if (action.rules && action.rules.enabled) {
-            disabled = !this.extensions.evaluateRule(action.rules.enabled, this);
-          }
-
-          return {
-            ...action,
-            disabled
-          };
-        })
+        .map((action) => this.setActionDisabledFromRule(action))
         .sort(sortByOrder)
         .reduce(reduceEmptyMenus, [])
         .reduce(reduceSeparators, []);
@@ -389,6 +380,7 @@ export class AppExtensionService implements RuleContext {
         }
         return action;
       })
+      .map((action) => this.setActionDisabledFromRule(action))
       .reduce(reduceEmptyMenus, [])
       .reduce(reduceSeparators, []);
   }
@@ -427,6 +419,7 @@ export class AppExtensionService implements RuleContext {
 
         return action;
       })
+      .map((action) => this.setActionDisabledFromRule(action))
       .sort(sortByOrder)
       .reduce(reduceEmptyMenus, [])
       .reduce(reduceSeparators, []);
