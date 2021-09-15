@@ -27,6 +27,7 @@ import { AppExtensionService, AppHookService, ContentApiService } from '@alfresc
 import {
   AppStore,
   ClosePreviewAction,
+  getAppSelection,
   isInfoDrawerOpened,
   RefreshPreviewAction,
   ReloadDocumentListAction,
@@ -35,7 +36,7 @@ import {
   ViewerActionTypes,
   ViewNodeAction
 } from '@alfresco/aca-shared/store';
-import { ContentActionRef } from '@alfresco/adf-extensions';
+import { ContentActionRef, SelectionState } from '@alfresco/adf-extensions';
 import { MinimalNodeEntryEntity, SearchRequest, VersionEntry, VersionsApi } from '@alfresco/js-api';
 import { Component, HostListener, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, PRIMARY_OUTLET, Router } from '@angular/router';
@@ -66,6 +67,7 @@ export class AppViewerComponent implements OnInit, OnDestroy {
   nodeId: string = null;
   versionId: string = null;
   node: MinimalNodeEntryEntity;
+  selection: SelectionState;
   infoDrawerOpened$: Observable<boolean>;
 
   showRightSide = false;
@@ -126,6 +128,13 @@ export class AppViewerComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((val) => {
         this.showRightSide = val;
+      });
+
+    this.store
+      .select(getAppSelection)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((selection) => {
+        this.selection = selection;
       });
 
     this.extensions
