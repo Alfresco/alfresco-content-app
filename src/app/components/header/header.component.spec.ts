@@ -31,6 +31,8 @@ import { ContentActionRef } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { AppExtensionService } from '../../../../projects/aca-shared/src/lib/services/app.extension.service';
+import { CoreModule } from '@alfresco/adf-core';
+import { AppSearchInputModule } from '../search/search-input.module';
 
 describe('AppHeaderComponent', () => {
   let component: AppHeaderComponent;
@@ -58,7 +60,7 @@ describe('AppHeaderComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule],
+      imports: [AppTestingModule, CoreModule.forChild(), AppSearchInputModule],
       declarations: [AppHeaderComponent],
       providers: [
         {

@@ -129,7 +129,9 @@ export class AppExtensionService implements RuleContext {
       this.profile = result.profile;
       this.repository = result.repository;
 
-      this.setup(this.config);
+      if (this.config) {
+        this.setup(this.config);
+      }
     });
   }
 
