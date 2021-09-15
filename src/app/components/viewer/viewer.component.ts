@@ -27,7 +27,6 @@ import { AppExtensionService, AppHookService, ContentApiService } from '@alfresc
 import {
   AppStore,
   ClosePreviewAction,
-  getRuleContext,
   isInfoDrawerOpened,
   RefreshPreviewAction,
   ReloadDocumentListAction,
@@ -36,7 +35,7 @@ import {
   ViewerActionTypes,
   ViewNodeAction
 } from '@alfresco/aca-shared/store';
-import { ContentActionRef, SelectionState } from '@alfresco/adf-extensions';
+import { ContentActionRef } from '@alfresco/adf-extensions';
 import { MinimalNodeEntryEntity, SearchRequest, VersionEntry, VersionsApi } from '@alfresco/js-api';
 import { Component, HostListener, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, PRIMARY_OUTLET, Router } from '@angular/router';
@@ -67,7 +66,6 @@ export class AppViewerComponent implements OnInit, OnDestroy {
   nodeId: string = null;
   versionId: string = null;
   node: MinimalNodeEntryEntity;
-  selection: SelectionState;
   infoDrawerOpened$: Observable<boolean>;
 
   showRightSide = false;
@@ -130,19 +128,18 @@ export class AppViewerComponent implements OnInit, OnDestroy {
         this.showRightSide = val;
       });
 
-    this.store
-      .select(getRuleContext)
+    this.extensions
+      .getViewerToolbarActions()
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe((ruleContext) => {
-        this.selection = ruleContext.selection;
+      .subscribe((actions) => {
+        this.toolbarActions = actions;
+      });
 
-        if (this.toolbarActions.length === 0) {
-          this.toolbarActions = this.extensions.getViewerToolbarActions();
-        }
-
-        if (this.openWith.length === 0) {
-          this.openWith = this.extensions.openWithActions;
-        }
+    this.extensions
+      .getOpenWithActions()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((actions) => {
+        this.openWith = actions;
       });
 
     this.route.params.subscribe((params) => {
