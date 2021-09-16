@@ -153,12 +153,7 @@ export class PreviewComponent extends PageComponent implements OnInit, OnDestroy
         .subscribe(() => {})
     ]);
 
-    this.extensions
-      .getOpenWithActions()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((actions) => {
-        this.openWith = actions;
-      });
+    this.openWith = this.extensions.openWithActions;
   }
 
   ngOnDestroy() {

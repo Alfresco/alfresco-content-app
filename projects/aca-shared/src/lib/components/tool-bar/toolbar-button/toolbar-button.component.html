@@ -6,7 +6,6 @@
       [color]="color"
       [attr.aria-label]="actionRef.description || actionRef.title | translate"
       [attr.title]="actionRef.description || actionRef.title | translate"
-      [disabled]="actionRef.disabled"
       (click)="runAction()"
     >
       <adf-icon [value]="actionRef.icon"></adf-icon>
