@@ -87,9 +87,21 @@ export abstract class PageComponent implements OnInit, OnDestroy, OnChanges {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((selection) => {
         this.selection = selection;
-        this.actions = this.extensions.getAllowedToolbarActions();
-        this.viewerToolbarActions = this.extensions.getViewerToolbarActions();
         this.canUpdateNode = this.selection.count === 1 && this.content.canUpdateNode(selection.first);
+      });
+
+    this.extensions
+      .getAllowedToolbarActions()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((actions) => {
+        this.actions = actions;
+      });
+
+    this.extensions
+      .getViewerToolbarActions()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((actions) => {
+        this.viewerToolbarActions = actions;
       });
 
     this.store

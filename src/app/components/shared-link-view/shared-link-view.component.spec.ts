@@ -64,6 +64,12 @@ describe('SharedLinkViewComponent', () => {
     fixture = TestBed.createComponent(SharedLinkViewComponent);
     component = fixture.componentInstance;
     appExtensionService = TestBed.inject(AppExtensionService);
+    appExtensionService.selection = {
+      isEmpty: true,
+      count: 0,
+      libraries: null,
+      nodes: null
+    };
 
     spyGetSharedLink = spyOn(component['sharedLinksApi'], 'getSharedLink');
 
@@ -93,8 +99,6 @@ describe('SharedLinkViewComponent', () => {
   }));
 
   it('should not update actions reference if selection is empty', fakeAsync(() => {
-    spyOn(storeMock, 'select').and.returnValue(of({ isEmpty: true }));
-
     spyGetSharedLink.and.returnValue(Promise.resolve({ entry: { id: 'shared-id' } }));
 
     fixture.detectChanges();
@@ -104,8 +108,13 @@ describe('SharedLinkViewComponent', () => {
   }));
 
   it('should update actions reference if selection is not empty', fakeAsync(() => {
-    spyOn(storeMock, 'select').and.returnValue(of({ isEmpty: false }));
-    spyOn(appExtensionService, 'getSharedLinkViewerToolbarActions');
+    appExtensionService.selection = {
+      isEmpty: false,
+      count: 1,
+      libraries: null,
+      nodes: null
+    };
+    spyOn(appExtensionService, 'getSharedLinkViewerToolbarActions').and.callThrough();
     spyGetSharedLink.and.returnValue(Promise.resolve({ entry: { id: 'shared-id' } }));
 
     fixture.detectChanges();

@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { ContextMenuComponent } from './context-menu.component';
 import { ContextMenuModule } from './context-menu.module';
@@ -75,7 +75,7 @@ describe('ContextMenuComponent', () => {
     contextMenuOverlayRef = TestBed.inject(ContextMenuOverlayRef);
     extensionsService = TestBed.inject(AppExtensionService);
 
-    spyOn(extensionsService, 'getAllowedContextMenuActions').and.returnValue([contextItem]);
+    spyOn(extensionsService, 'getAllowedContextMenuActions').and.returnValue(of([contextItem]));
 
     fixture.detectChanges();
   });
@@ -85,15 +85,16 @@ describe('ContextMenuComponent', () => {
     expect(contextMenuOverlayRef.close).toHaveBeenCalled();
   });
 
-  it('should render defined context menu actions items', fakeAsync(() => {
+  it('should render defined context menu actions items', async () => {
     component.ngAfterViewInit();
-    tick(500);
+    fixture.detectChanges();
+    await fixture.whenStable();
 
     const contextMenuElements = document.body.querySelector('.aca-context-menu').querySelectorAll('button');
 
     expect(contextMenuElements.length).toBe(1);
     expect(contextMenuElements[0].querySelector('span').innerText).toBe(contextItem.title);
-  }));
+  });
 
   it('should run action with provided action id', () => {
     spyOn(extensionsService, 'runActionById');
