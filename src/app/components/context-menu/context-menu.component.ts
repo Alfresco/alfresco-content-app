@@ -25,6 +25,8 @@
 
 import { Component, ViewEncapsulation, OnInit, OnDestroy, HostListener, ViewChild, AfterViewInit, Inject } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
+import { AppStore, getAppSelection } from '@alfresco/aca-shared/store';
+import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ContentActionRef } from '@alfresco/adf-extensions';
@@ -60,6 +62,7 @@ export class ContextMenuComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     private contextMenuOverlayRef: ContextMenuOverlayRef,
     private extensions: AppExtensionService,
+    private store: Store<AppStore>,
     @Inject(CONTEXT_MENU_DIRECTION) public direction: Direction
   ) {}
 
@@ -79,10 +82,14 @@ export class ContextMenuComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit() {
-    this.extensions
-      .getAllowedContextMenuActions()
+    this.store
+      .select(getAppSelection)
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe((actions) => (this.actions = actions));
+      .subscribe((selection) => {
+        if (selection.count) {
+          this.actions = this.extensions.getAllowedContextMenuActions();
+        }
+      });
   }
 
   ngAfterViewInit() {

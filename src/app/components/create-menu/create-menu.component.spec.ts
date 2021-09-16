@@ -34,7 +34,6 @@ import { By } from '@angular/platform-browser';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
-import { of } from 'rxjs';
 
 describe('CreateMenuComponent', () => {
   let fixture: ComponentFixture<CreateMenuComponent>;
@@ -48,15 +47,13 @@ describe('CreateMenuComponent', () => {
 
     extensionService = TestBed.inject(AppExtensionService);
     getCreateActionsSpy = spyOn(extensionService, 'getCreateActions');
-    getCreateActionsSpy.and.returnValue(
-      of([
-        {
-          id: 'action1',
-          type: ContentActionType.button,
-          title: 'action one'
-        }
-      ])
-    );
+    getCreateActionsSpy.and.returnValue([
+      {
+        id: 'action1',
+        type: ContentActionType.button,
+        title: 'action one'
+      }
+    ]);
 
     fixture = TestBed.createComponent(CreateMenuComponent);
   });
@@ -105,22 +102,20 @@ describe('CreateMenuComponent', () => {
   });
 
   it('should render sub-menus', async () => {
-    getCreateActionsSpy.and.returnValue(
-      of([
-        {
-          id: 'level1',
-          type: ContentActionType.menu,
-          title: 'level one',
-          children: [
-            {
-              id: 'level2',
-              type: ContentActionType.button,
-              title: 'level two'
-            }
-          ]
-        }
-      ])
-    );
+    getCreateActionsSpy.and.returnValue([
+      {
+        id: 'level1',
+        type: ContentActionType.menu,
+        title: 'level one',
+        children: [
+          {
+            id: 'level2',
+            type: ContentActionType.button,
+            title: 'level two'
+          }
+        ]
+      }
+    ]);
 
     await clickMenu();
 

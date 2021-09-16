@@ -56,7 +56,6 @@ import { RepositoryInfo, NodeEntry } from '@alfresco/js-api';
 import { ViewerRules } from '../models/viewer.rules';
 import { SettingsGroupRef } from '../models/types';
 import { NodePermissionService } from '../services/node-permission.service';
-import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -64,21 +63,20 @@ import { map } from 'rxjs/operators';
 export class AppExtensionService implements RuleContext {
   private _references = new BehaviorSubject<ExtensionRef[]>([]);
 
+  headerActions: Array<ContentActionRef> = [];
+  toolbarActions: Array<ContentActionRef> = [];
+  viewerToolbarActions: Array<ContentActionRef> = [];
+  sharedLinkViewerToolbarActions: Array<ContentActionRef> = [];
+  contextMenuActions: Array<ContentActionRef> = [];
+  openWithActions: Array<ContentActionRef> = [];
+  createActions: Array<ContentActionRef> = [];
   navbar: Array<NavBarGroupRef> = [];
   sidebarTabs: Array<SidebarTabRef> = [];
+  sidebarActions: Array<ContentActionRef> = [];
   contentMetadata: any;
   search: any;
   viewerRules: ViewerRules = {};
   settingGroups: Array<SettingsGroupRef> = [];
-
-  private _headerActions = new BehaviorSubject<Array<ContentActionRef>>([]);
-  private _toolbarActions = new BehaviorSubject<Array<ContentActionRef>>([]);
-  private _viewerToolbarActions = new BehaviorSubject<Array<ContentActionRef>>([]);
-  private _sharedLinkViewerToolbarActions = new BehaviorSubject<Array<ContentActionRef>>([]);
-  private _contextMenuActions = new BehaviorSubject<Array<ContentActionRef>>([]);
-  private _openWithActions = new BehaviorSubject<Array<ContentActionRef>>([]);
-  private _createActions = new BehaviorSubject<Array<ContentActionRef>>([]);
-  private _sidebarActions = new BehaviorSubject<Array<ContentActionRef>>([]);
 
   documentListPresets: {
     files: Array<DocumentListPresetRef>;
@@ -108,8 +106,6 @@ export class AppExtensionService implements RuleContext {
 
   references$: Observable<ExtensionRef[]>;
 
-  config: ExtensionConfig;
-
   constructor(
     public auth: AuthenticationService,
     protected store: Store<AppStore>,
@@ -128,16 +124,12 @@ export class AppExtensionService implements RuleContext {
       this.navigation = result.navigation;
       this.profile = result.profile;
       this.repository = result.repository;
-
-      if (this.config) {
-        this.setup(this.config);
-      }
     });
   }
 
   async load() {
-    this.config = await this.extensions.load();
-    this.setup(this.config);
+    const config = await this.extensions.load();
+    this.setup(config);
   }
 
   setup(config: ExtensionConfig) {
@@ -148,15 +140,15 @@ export class AppExtensionService implements RuleContext {
 
     this.settingGroups = this.loader.getElements<SettingsGroupRef>(config, 'settings');
 
-    this._headerActions.next(this.loader.getContentActions(config, 'features.header'));
-    this._sidebarActions.next(this.loader.getContentActions(config, 'features.sidebar.toolbar'));
-    this._toolbarActions.next(this.loader.getContentActions(config, 'features.toolbar'));
-    this._viewerToolbarActions.next(this.loader.getContentActions(config, 'features.viewer.toolbarActions'));
-    this._sharedLinkViewerToolbarActions.next(this.loader.getContentActions(config, 'features.viewer.shared.toolbarActions'));
-    this._contextMenuActions.next(this.loader.getContentActions(config, 'features.contextMenu'));
-    this._openWithActions.next(this.loader.getContentActions(config, 'features.viewer.openWith'));
-    this._createActions.next(this.loader.getElements<ContentActionRef>(config, 'features.create'));
+    this.headerActions = this.loader.getContentActions(config, 'features.header');
+    this.sidebarActions = this.loader.getContentActions(config, 'features.sidebar.toolbar');
+    this.toolbarActions = this.loader.getContentActions(config, 'features.toolbar');
+    this.viewerToolbarActions = this.loader.getContentActions(config, 'features.viewer.toolbarActions');
+    this.sharedLinkViewerToolbarActions = this.loader.getContentActions(config, 'features.viewer.shared.toolbarActions');
 
+    this.contextMenuActions = this.loader.getContentActions(config, 'features.contextMenu');
+    this.openWithActions = this.loader.getContentActions(config, 'features.viewer.openWith');
+    this.createActions = this.loader.getElements<ContentActionRef>(config, 'features.create');
     this.navbar = this.loadNavBar(config);
     this.sidebarTabs = this.loader.getElements<SidebarTabRef>(config, 'features.sidebar.tabs');
     this.contentMetadata = this.loadContentMetadata(config);
@@ -349,16 +341,12 @@ export class AppExtensionService implements RuleContext {
     };
   }
 
-  getCreateActions(): Observable<Array<ContentActionRef>> {
-    return this._createActions.pipe(
-      map((createActions) =>
-        createActions
-          .filter((action) => this.filterVisible(action))
-          .map((action) => this.copyAction(action))
-          .map((action) => this.buildMenu(action))
-          .map((action) => this.setActionDisabledFromRule(action))
-      )
-    );
+  getCreateActions(): Array<ContentActionRef> {
+    return this.createActions
+      .filter((action) => this.filterVisible(action))
+      .map((action) => this.copyAction(action))
+      .map((action) => this.buildMenu(action))
+      .map((action) => this.setActionDisabledFromRule(action));
   }
 
   private buildMenu(actionRef: ContentActionRef): ContentActionRef {
@@ -397,58 +385,48 @@ export class AppExtensionService implements RuleContext {
       .reduce(reduceSeparators, []);
   }
 
-  getAllowedSidebarActions(): Observable<Array<ContentActionRef>> {
-    return this._sidebarActions.pipe(map((sidebarActions) => this.getAllowedActions(sidebarActions)));
+  getAllowedSidebarActions(): Array<ContentActionRef> {
+    return this.getAllowedActions(this.sidebarActions);
   }
 
-  getAllowedToolbarActions(): Observable<Array<ContentActionRef>> {
-    return this._toolbarActions.pipe(map((toolbarActions) => this.getAllowedActions(toolbarActions)));
+  getAllowedToolbarActions(): Array<ContentActionRef> {
+    return this.getAllowedActions(this.toolbarActions);
   }
 
-  getViewerToolbarActions(): Observable<Array<ContentActionRef>> {
-    return this._viewerToolbarActions.pipe(map((viewerToolbarActions) => this.getAllowedActions(viewerToolbarActions)));
+  getViewerToolbarActions(): Array<ContentActionRef> {
+    return this.getAllowedActions(this.viewerToolbarActions);
   }
 
-  getOpenWithActions(): Observable<Array<ContentActionRef>> {
-    return this._openWithActions.pipe(map((openWithActions) => this.getAllowedActions(openWithActions)));
+  getSharedLinkViewerToolbarActions(): Array<ContentActionRef> {
+    return this.getAllowedActions(this.sharedLinkViewerToolbarActions);
   }
 
-  getSharedLinkViewerToolbarActions(): Observable<Array<ContentActionRef>> {
-    return this._sharedLinkViewerToolbarActions.pipe(
-      map((sharedLinkViewerToolbarActions) => (!this.selection.isEmpty ? this.getAllowedActions(sharedLinkViewerToolbarActions) : []))
-    );
+  getHeaderActions(): Array<ContentActionRef> {
+    return this.headerActions
+      .filter((action) => this.filterVisible(action))
+      .map((action) => {
+        if (action.type === ContentActionType.menu) {
+          const copy = this.copyAction(action);
+          if (copy.children && copy.children.length > 0) {
+            copy.children = copy.children
+              .filter((childAction) => this.filterVisible(childAction))
+              .sort(sortByOrder)
+              .reduce(reduceEmptyMenus, [])
+              .reduce(reduceSeparators, []);
+          }
+          return copy;
+        }
+
+        return action;
+      })
+      .map((action) => this.setActionDisabledFromRule(action))
+      .sort(sortByOrder)
+      .reduce(reduceEmptyMenus, [])
+      .reduce(reduceSeparators, []);
   }
 
-  getHeaderActions(): Observable<Array<ContentActionRef>> {
-    return this._headerActions.pipe(
-      map((headerActions) =>
-        headerActions
-          .filter((action) => this.filterVisible(action))
-          .map((action) => {
-            if (action.type === ContentActionType.menu) {
-              const copy = this.copyAction(action);
-              if (copy.children && copy.children.length > 0) {
-                copy.children = copy.children
-                  .filter((childAction) => this.filterVisible(childAction))
-                  .sort(sortByOrder)
-                  .reduce(reduceEmptyMenus, [])
-                  .reduce(reduceSeparators, []);
-              }
-              return copy;
-            }
-
-            return action;
-          })
-          .map((action) => this.setActionDisabledFromRule(action))
-          .sort(sortByOrder)
-          .reduce(reduceEmptyMenus, [])
-          .reduce(reduceSeparators, [])
-      )
-    );
-  }
-
-  getAllowedContextMenuActions(): Observable<Array<ContentActionRef>> {
-    return this._contextMenuActions.pipe(map((contextMenuActions) => (!this.selection.isEmpty ? this.getAllowedActions(contextMenuActions) : [])));
+  getAllowedContextMenuActions(): Array<ContentActionRef> {
+    return this.getAllowedActions(this.contextMenuActions);
   }
 
   getSettingsGroups(): Array<SettingsGroupRef> {

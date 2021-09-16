@@ -5,7 +5,6 @@
   [attr.aria-label]="actionRef.description || actionRef.title | translate"
   [attr.title]="actionRef.description || actionRef.title | translate"
   [matMenuTriggerFor]="menu"
-  [disabled]="actionRef.disabled"
   #matTrigger="matMenuTrigger"
 >
   <adf-icon [value]="actionRef.icon"></adf-icon>

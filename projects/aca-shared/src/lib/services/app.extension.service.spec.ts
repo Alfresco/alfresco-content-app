@@ -60,17 +60,9 @@ describe('AppExtensionService', () => {
     extensions = TestBed.inject(ExtensionService);
   });
 
-  const applyConfig = (config: ExtensionConfig, selection?: boolean) => {
+  const applyConfig = (config: ExtensionConfig) => {
     extensions.setup(config);
     service.setup(config);
-    if (selection) {
-      service.selection = {
-        isEmpty: false,
-        count: 1,
-        libraries: null,
-        nodes: null
-      };
-    }
   };
 
   describe('configs', () => {
@@ -292,7 +284,7 @@ describe('AppExtensionService', () => {
   });
 
   describe('content actions', () => {
-    it('should load content actions from the config', (done) => {
+    it('should load content actions from the config', () => {
       applyConfig({
         $id: 'test',
         $name: 'test',
@@ -305,26 +297,23 @@ describe('AppExtensionService', () => {
             {
               id: 'aca:toolbar/separator-1',
               order: 1,
-              type: ContentActionType.default,
+              type: ContentActionType.separator,
               title: 'action1'
             },
             {
               id: 'aca:toolbar/separator-2',
               order: 2,
-              type: ContentActionType.default,
+              type: ContentActionType.separator,
               title: 'action2'
             }
           ]
         }
       });
 
-      service.getAllowedToolbarActions().subscribe((actions) => {
-        expect(actions.length).toBe(2);
-        done();
-      });
+      expect(service.toolbarActions.length).toBe(2);
     });
 
-    it('should sort content actions by order', (done) => {
+    it('should sort content actions by order', () => {
       applyConfig({
         $id: 'test',
         $name: 'test',
@@ -337,30 +326,27 @@ describe('AppExtensionService', () => {
             {
               id: 'aca:toolbar/separator-2',
               order: 2,
-              type: ContentActionType.default,
+              type: ContentActionType.separator,
               title: 'action2'
             },
             {
               id: 'aca:toolbar/separator-1',
               order: 1,
-              type: ContentActionType.default,
+              type: ContentActionType.separator,
               title: 'action1'
             }
           ]
         }
       });
 
-      service.getAllowedToolbarActions().subscribe((actions) => {
-        expect(actions.length).toBe(2);
-        expect(actions[0].id).toBe('aca:toolbar/separator-1');
-        expect(actions[1].id).toBe('aca:toolbar/separator-2');
-        done();
-      });
+      expect(service.toolbarActions.length).toBe(2);
+      expect(service.toolbarActions[0].id).toBe('aca:toolbar/separator-1');
+      expect(service.toolbarActions[1].id).toBe('aca:toolbar/separator-2');
     });
   });
 
   describe('open with', () => {
-    it('should load [open with] actions for the viewer', (done) => {
+    it('should load [open with] actions for the viewer', () => {
       applyConfig({
         $id: 'test',
         $name: 'test',
@@ -387,13 +373,10 @@ describe('AppExtensionService', () => {
         }
       });
 
-      service.getOpenWithActions().subscribe((actions) => {
-        expect(actions.length).toBe(1);
-        done();
-      });
+      expect(service.openWithActions.length).toBe(1);
     });
 
-    it('should load only enabled [open with] actions for the viewer', (done) => {
+    it('should load only enabled [open with] actions for the viewer', () => {
       applyConfig({
         $id: 'test',
         $name: 'test',
@@ -430,14 +413,11 @@ describe('AppExtensionService', () => {
         }
       });
 
-      service.getOpenWithActions().subscribe((actions) => {
-        expect(actions.length).toBe(1);
-        expect(actions[0].id).toBe('aca:viewer/action2');
-        done();
-      });
+      expect(service.openWithActions.length).toBe(1);
+      expect(service.openWithActions[0].id).toBe('aca:viewer/action2');
     });
 
-    it('should sort [open with] actions by order', (done) => {
+    it('should sort [open with] actions by order', () => {
       applyConfig({
         $id: 'test',
         $name: 'test',
@@ -473,17 +453,14 @@ describe('AppExtensionService', () => {
         }
       });
 
-      service.getOpenWithActions().subscribe((actions) => {
-        expect(actions.length).toBe(2);
-        expect(actions[0].id).toBe('aca:viewer/action1');
-        expect(actions[1].id).toBe('aca:viewer/action2');
-        done();
-      });
+      expect(service.openWithActions.length).toBe(2);
+      expect(service.openWithActions[0].id).toBe('aca:viewer/action1');
+      expect(service.openWithActions[1].id).toBe('aca:viewer/action2');
     });
   });
 
   describe('create', () => {
-    it('should load [create] actions from config', (done) => {
+    it('should load [create] actions from config', () => {
       applyConfig({
         $id: 'test',
         $name: 'test',
@@ -504,13 +481,10 @@ describe('AppExtensionService', () => {
         }
       });
 
-      service.getCreateActions().subscribe((actions) => {
-        expect(actions.length).toBe(1);
-        done();
-      });
+      expect(service.createActions.length).toBe(1);
     });
 
-    it('should sort [create] actions by order', (done) => {
+    it('should sort [create] actions by order', () => {
       applyConfig({
         $id: 'test',
         $name: 'test',
@@ -538,12 +512,9 @@ describe('AppExtensionService', () => {
         }
       });
 
-      service.getCreateActions().subscribe((actions) => {
-        expect(actions.length).toBe(2);
-        expect(actions[0].id).toBe('aca:create/folder-2');
-        expect(actions[1].id).toBe('aca:create/folder');
-        done();
-      });
+      expect(service.createActions.length).toBe(2);
+      expect(service.createActions[0].id).toBe('aca:create/folder-2');
+      expect(service.createActions[1].id).toBe('aca:create/folder');
     });
   });
 
@@ -729,7 +700,7 @@ describe('AppExtensionService', () => {
   });
 
   describe('getSharedLinkViewerToolbarActions', () => {
-    it('should get shared link viewer actions', (done) => {
+    it('should get shared link viewer actions', () => {
       const actions = [
         {
           id: 'id',
@@ -753,29 +724,23 @@ describe('AppExtensionService', () => {
         }
       ];
 
-      applyConfig(
-        {
-          $id: 'test',
-          $name: 'test',
-          $version: '1.0.0',
-          $license: 'MIT',
-          $vendor: 'Good company',
-          $runtime: '1.5.0',
-          features: {
-            viewer: {
-              shared: {
-                toolbarActions: actions
-              }
+      applyConfig({
+        $id: 'test',
+        $name: 'test',
+        $version: '1.0.0',
+        $license: 'MIT',
+        $vendor: 'Good company',
+        $runtime: '1.5.0',
+        features: {
+          viewer: {
+            shared: {
+              toolbarActions: actions
             }
           }
-        },
-        true
-      );
-
-      service.getSharedLinkViewerToolbarActions().subscribe((sharedLinkViewerToolbarActions) => {
-        expect(sharedLinkViewerToolbarActions).toEqual(expectedActions);
-        done();
+        }
       });
+
+      expect(service.getSharedLinkViewerToolbarActions()).toEqual(expectedActions);
     });
   });
 
@@ -828,7 +793,7 @@ describe('AppExtensionService', () => {
   });
 
   describe('getHeaderActions', () => {
-    it('should load user actions from the config', (done) => {
+    it('should load user actions from the config', () => {
       applyConfig({
         $id: 'test',
         $name: 'test',
@@ -841,24 +806,21 @@ describe('AppExtensionService', () => {
             {
               id: 'header.action.separator.1',
               order: 1,
-              type: ContentActionType.default
+              type: ContentActionType.separator
             },
             {
               id: 'header.action.separator.2',
               order: 2,
-              type: ContentActionType.default
+              type: ContentActionType.separator
             }
           ]
         }
       });
 
-      service.getHeaderActions().subscribe((headerActions) => {
-        expect(headerActions.length).toBe(2);
-        done();
-      });
+      expect(service.headerActions.length).toBe(2);
     });
 
-    it('should sort header actions by order', (done) => {
+    it('should sort header actions by order', () => {
       applyConfig({
         $id: 'test',
         $name: 'test',
@@ -882,15 +844,12 @@ describe('AppExtensionService', () => {
         }
       });
 
-      service.getHeaderActions().subscribe((headerActions) => {
-        expect(headerActions.length).toBe(2);
-        expect(headerActions[0].id).toBe('header.action.2');
-        expect(headerActions[1].id).toBe('header.action.1');
-        done();
-      });
+      const actions = service.getHeaderActions();
+      expect(actions[0].id).toBe('header.action.2');
+      expect(actions[1].id).toBe('header.action.1');
     });
 
-    it('should sort header menu children actions by order', (done) => {
+    it('should sort header menu children actions by order', () => {
       applyConfig({
         $id: 'test',
         $name: 'test',
@@ -921,12 +880,9 @@ describe('AppExtensionService', () => {
         }
       });
 
-      service.getHeaderActions().subscribe((headerActions) => {
-        expect(headerActions.length).toBe(1);
-        expect(headerActions[0].children[0].id).toBe('header.action.2');
-        expect(headerActions[0].children[1].id).toBe('header.action.1');
-        done();
-      });
+      const actions = service.getHeaderActions()[0];
+      expect(actions.children[0].id).toBe('header.action.2');
+      expect(actions.children[1].id).toBe('header.action.1');
     });
   });
 
@@ -1074,7 +1030,7 @@ describe('AppExtensionService', () => {
       }
     ];
 
-    it('should set the action disabled for create actions', (done) => {
+    it('should set the action disabled for create actions', () => {
       applyConfig({
         $id: 'test',
         $name: 'test',
@@ -1087,13 +1043,10 @@ describe('AppExtensionService', () => {
         }
       });
 
-      service.getCreateActions().subscribe((createActions) => {
-        expect(createActions).toEqual(expectedActionsWithChildren);
-        done();
-      });
+      expect(service.getCreateActions()).toEqual(expectedActionsWithChildren);
     });
 
-    it('should set the action disabled for sidebar actions', (done) => {
+    it('should set the action disabled for sidebar actions', () => {
       applyConfig({
         $id: 'test',
         $name: 'test',
@@ -1108,13 +1061,10 @@ describe('AppExtensionService', () => {
         }
       });
 
-      service.getAllowedSidebarActions().subscribe((serviceActions) => {
-        expect(serviceActions).toEqual(expectedActionsWithoutChildren);
-        done();
-      });
+      expect(service.getAllowedSidebarActions()).toEqual(expectedActionsWithoutChildren);
     });
 
-    it('should set the action disabled for toolbar actions', (done) => {
+    it('should set the action disabled for toolbar actions', () => {
       applyConfig({
         $id: 'test',
         $name: 'test',
@@ -1127,13 +1077,10 @@ describe('AppExtensionService', () => {
         }
       });
 
-      service.getAllowedToolbarActions().subscribe((serviceActions) => {
-        expect(serviceActions).toEqual(expectedActionsWithoutChildren);
-        done();
-      });
+      expect(service.getAllowedToolbarActions()).toEqual(expectedActionsWithoutChildren);
     });
 
-    it('should set the action disabled for viewer toolbar actions', (done) => {
+    it('should set the action disabled for viewer toolbar actions', () => {
       applyConfig({
         $id: 'test',
         $name: 'test',
@@ -1146,39 +1093,30 @@ describe('AppExtensionService', () => {
         }
       });
 
-      service.getViewerToolbarActions().subscribe((serviceActions) => {
-        expect(serviceActions).toEqual(expectedActionsWithoutChildren);
-        done();
-      });
+      expect(service.getViewerToolbarActions()).toEqual(expectedActionsWithoutChildren);
     });
 
-    it('should set the action disabled for shared link viewer toolbar actions', (done) => {
-      applyConfig(
-        {
-          $id: 'test',
-          $name: 'test',
-          $version: '1.0.0',
-          $license: 'MIT',
-          $vendor: 'Good company',
-          $runtime: '1.5.0',
-          features: {
-            viewer: {
-              shared: {
-                toolbarActions: actions
-              }
+    it('should set the action disabled for shared link viewer toolbar actions', () => {
+      applyConfig({
+        $id: 'test',
+        $name: 'test',
+        $version: '1.0.0',
+        $license: 'MIT',
+        $vendor: 'Good company',
+        $runtime: '1.5.0',
+        features: {
+          viewer: {
+            shared: {
+              toolbarActions: actions
             }
           }
-        },
-        true
-      );
-
-      service.getSharedLinkViewerToolbarActions().subscribe((serviceActions) => {
-        expect(serviceActions).toEqual(expectedActionsWithoutChildren);
-        done();
+        }
       });
+
+      expect(service.getSharedLinkViewerToolbarActions()).toEqual(expectedActionsWithoutChildren);
     });
 
-    it('should set the action disabled for header actions', (done) => {
+    it('should set the action disabled for header actions', () => {
       applyConfig({
         $id: 'test',
         $name: 'test',
@@ -1191,32 +1129,23 @@ describe('AppExtensionService', () => {
         }
       });
 
-      service.getHeaderActions().subscribe((serviceActions) => {
-        expect(serviceActions).toEqual(expectedActionsWithoutChildren);
-        done();
-      });
+      expect(service.getHeaderActions()).toEqual(expectedActionsWithoutChildren);
     });
 
-    it('should set the action disabled for context menu actions', (done) => {
-      applyConfig(
-        {
-          $id: 'test',
-          $name: 'test',
-          $version: '1.0.0',
-          $license: 'MIT',
-          $vendor: 'Good company',
-          $runtime: '1.5.0',
-          features: {
-            contextMenu: actions
-          }
-        },
-        true
-      );
-
-      service.getAllowedContextMenuActions().subscribe((serviceActions) => {
-        expect(serviceActions).toEqual(expectedActionsWithoutChildren);
-        done();
+    it('should set the action disabled for context menu actions', () => {
+      applyConfig({
+        $id: 'test',
+        $name: 'test',
+        $version: '1.0.0',
+        $license: 'MIT',
+        $vendor: 'Good company',
+        $runtime: '1.5.0',
+        features: {
+          contextMenu: actions
+        }
       });
+
+      expect(service.getAllowedContextMenuActions()).toEqual(expectedActionsWithoutChildren);
     });
   });
 });
