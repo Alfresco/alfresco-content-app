@@ -23,12 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewEncapsulation, Output, EventEmitter, OnInit, Input } from '@angular/core';
+import { Component, ViewEncapsulation, Output, EventEmitter, OnInit, Input, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { AppStore, getHeaderColor, getAppName, getLogoPath, getHeaderImagePath } from '@alfresco/aca-shared/store';
 import { AppExtensionService } from '@alfresco/aca-shared';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
@@ -37,7 +38,8 @@ import { AppExtensionService } from '@alfresco/aca-shared';
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-header' }
 })
-export class AppHeaderComponent implements OnInit {
+export class AppHeaderComponent implements OnInit, OnDestroy {
+  private onDestroy$: Subject<boolean> = new Subject<boolean>();
   @Output()
   toggleClicked = new EventEmitter();
 
@@ -60,7 +62,17 @@ export class AppHeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.actions = this.appExtensions.getHeaderActions();
+    this.appExtensions
+      .getHeaderActions()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((actions) => {
+        this.actions = actions;
+      });
+  }
+
+  ngOnDestroy() {
+    this.onDestroy$.next(true);
+    this.onDestroy$.complete();
   }
 
   trackByActionId(_: number, action: ContentActionRef) {

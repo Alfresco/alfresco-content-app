@@ -27,7 +27,7 @@ import { Component, HostListener, Input, OnChanges, OnDestroy, OnInit } from '@a
 import { MinimalNodeEntity, MinimalNodeEntryEntity, SiteEntry } from '@alfresco/js-api';
 import { ContentActionRef, SidebarTabRef } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
-import { getAppSelection, SetInfoDrawerStateAction, ToggleInfoDrawerAction, infoDrawerPreview } from '@alfresco/aca-shared/store';
+import { SetInfoDrawerStateAction, ToggleInfoDrawerAction, infoDrawerPreview } from '@alfresco/aca-shared/store';
 import { AppExtensionService } from '../../services/app.extension.service';
 import { ContentApiService } from '../../services/content-api.service';
 import { takeUntil } from 'rxjs/operators';
@@ -60,11 +60,11 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
 
   ngOnInit() {
     this.tabs = this.extensions.getSidebarTabs();
-    this.store
-      .select(getAppSelection)
+    this.extensions
+      .getAllowedSidebarActions()
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe(() => {
-        this.actions = this.extensions.getAllowedSidebarActions();
+      .subscribe((actions) => {
+        this.actions = actions;
       });
 
     this.store

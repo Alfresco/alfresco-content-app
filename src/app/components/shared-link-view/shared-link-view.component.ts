@@ -23,15 +23,15 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AppStore, SetSelectedNodesAction, getAppSelection } from '@alfresco/aca-shared/store';
+import { AppStore, SetSelectedNodesAction } from '@alfresco/aca-shared/store';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { SharedLinkEntry, SharedlinksApi } from '@alfresco/js-api';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { forkJoin, from, of } from 'rxjs';
-import { catchError, mergeMap } from 'rxjs/operators';
+import { forkJoin, from, of, Subject } from 'rxjs';
+import { catchError, mergeMap, takeUntil } from 'rxjs/operators';
 import { AppExtensionService } from '@alfresco/aca-shared';
 
 @Component({
@@ -41,7 +41,8 @@ import { AppExtensionService } from '@alfresco/aca-shared';
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-shared-link-view' }
 })
-export class SharedLinkViewComponent implements OnInit {
+export class SharedLinkViewComponent implements OnInit, OnDestroy {
+  private onDestroy$: Subject<boolean> = new Subject<boolean>();
   private sharedLinksApi: SharedlinksApi;
   sharedLinkId: string = null;
   viewerToolbarActions: Array<ContentActionRef> = [];
@@ -69,9 +70,17 @@ export class SharedLinkViewComponent implements OnInit {
         this.sharedLinkId = sharedId;
       });
 
-    this.store.select(getAppSelection).subscribe((selection) => {
-      if (!selection.isEmpty) this.viewerToolbarActions = this.extensions.getSharedLinkViewerToolbarActions();
-    });
+    this.extensions
+      .getSharedLinkViewerToolbarActions()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((actions) => {
+        this.viewerToolbarActions = actions;
+      });
+  }
+
+  ngOnDestroy() {
+    this.onDestroy$.next(true);
+    this.onDestroy$.complete();
   }
 
   trackByActionId(_: number, action: ContentActionRef) {
