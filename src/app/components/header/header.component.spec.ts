@@ -26,17 +26,11 @@
 import { AppHeaderComponent } from './header.component';
 import { AppState } from '@alfresco/aca-shared/store';
 import { of } from 'rxjs';
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { fakeAsync } from '@angular/core/testing';
 import { ContentActionRef } from '@alfresco/adf-extensions';
-import { Store } from '@ngrx/store';
-import { AppTestingModule } from '../../testing/app-testing.module';
-import { AppExtensionService } from '../../../../projects/aca-shared/src/lib/services/app.extension.service';
-import { CoreModule } from '@alfresco/adf-core';
-import { AppSearchInputModule } from '../search/search-input.module';
 
 describe('AppHeaderComponent', () => {
   let component: AppHeaderComponent;
-  let fixture: ComponentFixture<AppHeaderComponent>;
 
   const actions = [
     { id: 'action-1', type: 'button' },
@@ -44,12 +38,11 @@ describe('AppHeaderComponent', () => {
   ] as Array<ContentActionRef>;
 
   const store = {
-    select: jasmine.createSpy('select'),
-    dispatch: () => {}
+    select: jasmine.createSpy('select')
   } as any;
 
   const appExtensionService = {
-    getHeaderActions: () => of(actions)
+    getHeaderActions: () => actions
   } as any;
 
   const app = {
@@ -59,27 +52,11 @@ describe('AppHeaderComponent', () => {
   } as AppState;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [AppTestingModule, CoreModule.forChild(), AppSearchInputModule],
-      declarations: [AppHeaderComponent],
-      providers: [
-        {
-          provide: AppExtensionService,
-          useValue: appExtensionService
-        },
-        {
-          provide: Store,
-          useValue: store
-        }
-      ]
-    });
-
     store.select.and.callFake((memoizeFn) => {
       return of(memoizeFn({ app }));
     });
 
-    fixture = TestBed.createComponent(AppHeaderComponent);
-    component = fixture.componentInstance;
+    component = new AppHeaderComponent(store, appExtensionService);
   });
 
   it('should set header color, name and logo', fakeAsync(() => {
@@ -88,9 +65,8 @@ describe('AppHeaderComponent', () => {
     component.headerColor$.subscribe((val) => expect(val).toBe(app.headerColor));
   }));
 
-  it('should get header actions', fakeAsync(() => {
+  it('should get header actions', () => {
     component.ngOnInit();
-    tick();
     expect(component.actions).toEqual(actions);
-  }));
+  });
 });
