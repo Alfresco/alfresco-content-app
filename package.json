@@ -81,7 +81,7 @@
     "dotenv": "^8.2.0",
     "http-server": "^13.0.1",
     "husky": "^7.0.2",
-    "inquirer": "^8.1.2",
+    "inquirer": "^8.1.5",
     "jasmine-core": "^3.8.0",
     "jasmine-marbles": "0.8.3",
     "jasmine-spec-reporter": "^7.0.0",
