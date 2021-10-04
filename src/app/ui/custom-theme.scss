@@ -1,5 +1,4 @@
 @import '~@angular/material/theming';
-@import '~@alfresco/adf-content-services/theming';
 @import './overrides/adf-style-fixes.theme';
 @import 'colors';
 
@@ -17,7 +16,6 @@ $primary: map-get($custom-theme, primary);
 
 @mixin custom-theme($theme) {
   @include angular-material-theme($theme);
-  @include adf-content-services-theme($theme);
   @include adf-core-theme($theme);
   @include adf-style-fixes($theme);
 

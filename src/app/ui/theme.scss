@@ -1,8 +1,5 @@
 @import '~@angular/material/theming';
-
-@import '~@alfresco/adf-content-services/theming';
 @import '~@alfresco/adf-core/theming';
-
 @import 'custom-theme';
 
 @include mat-core($alfresco-typography);
