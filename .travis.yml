@@ -1,7 +1,3 @@
-import:
-  - source: Alfresco/alfresco-build-tools:.travis.docker_hub_login.yml@v1.1.1
-  - source: .travis/env.yml
-    mode: deep_merge_prepend
 # =================
 # merge anchor
 # =================
@@ -58,7 +54,7 @@ jobs:
       name: 'Build (without animation)'
       before_script: npx @alfresco/adf-cli update-commit-sha --pointer "HEAD" --pathPackage "$(pwd)"
       script: npm ci && npm run build.e2e
-      after_success: ./scripts/ci/utils/artifact-to-s3.sh -a ./dist/app -o "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2"
+      after_success: ./scripts/ci/utils/artifact-to-s3.sh -a ./dist/app -o "$S3_DBP_FOLDER/alfresco-content-app.tar.bz2" || travis_terminate 1
       cache: false
 
     - stage: Quality and Unit tests
