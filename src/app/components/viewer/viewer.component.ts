@@ -27,7 +27,7 @@ import { AppExtensionService, AppHookService, ContentApiService } from '@alfresc
 import {
   AppStore,
   ClosePreviewAction,
-  getRuleContext,
+  getAppSelection,
   isInfoDrawerOpened,
   RefreshPreviewAction,
   ReloadDocumentListAction,
@@ -131,18 +131,24 @@ export class AppViewerComponent implements OnInit, OnDestroy {
       });
 
     this.store
-      .select(getRuleContext)
+      .select(getAppSelection)
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe((ruleContext) => {
-        this.selection = ruleContext.selection;
+      .subscribe((selection) => {
+        this.selection = selection;
+      });
 
-        if (this.toolbarActions.length === 0) {
-          this.toolbarActions = this.extensions.getViewerToolbarActions();
-        }
+    this.extensions
+      .getViewerToolbarActions()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((actions) => {
+        this.toolbarActions = actions;
+      });
 
-        if (this.openWith.length === 0) {
-          this.openWith = this.extensions.openWithActions;
-        }
+    this.extensions
+      .getOpenWithActions()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((actions) => {
+        this.openWith = actions;
       });
 
     this.route.params.subscribe((params) => {
