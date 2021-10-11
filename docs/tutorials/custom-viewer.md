@@ -74,8 +74,29 @@ You also need to provide in your `app.extension.json` its details:
     "viewer": {
       "content": [
         {
-          "id": "dev.tools.viewer.viewer",
+          "id": "my.custom.viewer",
           "fileExtension": ["png", "jpg"],
+          "component": "your-extension.main.component"
+        }
+      ]
+    }
+  }
+}
+```
+
+You can also use the `*` wildcard symbol to make your custom viewer implementation handle all files:
+
+```json
+{
+  "$version": "1.0.0",
+  "$name": "my viewer extension",
+  "$description": "my viewer  plugin",
+  "features": {
+    "viewer": {
+      "content": [
+        {
+          "id": "my.custom.viewer",
+          "fileExtension": "*",
           "component": "your-extension.main.component"
         }
       ]
