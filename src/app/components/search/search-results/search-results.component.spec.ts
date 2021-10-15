@@ -164,7 +164,7 @@ describe('SearchComponent', () => {
     expect(component.formatSearchQuery(query)).toBe(query);
   });
 
-  fit('should be able to search if search input contains url', () => {
+  it('should be able to search if search input contains url', () => {
     const query = component.formatSearchQuery('https://alfresco.com');
     expect(query).toBe(`(cm:name:"https://alfresco.com*")`);
   });
