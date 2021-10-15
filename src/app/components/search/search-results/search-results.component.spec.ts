@@ -164,9 +164,9 @@ describe('SearchComponent', () => {
     expect(component.formatSearchQuery(query)).toBe(query);
   });
 
-  it('should  use original user input if text contains url', () => {
-    const query = `https://ti.to/ng-conf/ng-conf2021`;
-    expect(component.formatSearchQuery(query)).toMatch(query);
+  fit('should be able to search if search input contains url', () => {
+    const query = component.formatSearchQuery('https://alfresco.com');
+    expect(query).toBe(`(cm:name:"https://alfresco.com*")`);
   });
 
   it('should use original user input if text contains quotes', () => {
