@@ -51,7 +51,8 @@ import {
   SitesApi,
   SearchApi,
   PeopleApi,
-  VersionsApi
+  VersionsApi,
+  DirectAccessUrlEntry
 } from '@alfresco/js-api';
 import { map } from 'rxjs/operators';
 
@@ -350,5 +351,13 @@ export class ContentApiService {
 
   getNodeVersions(nodeId: string, opts?: any) {
     return from(this.versionsApi.listVersionHistory(nodeId, opts));
+  }
+
+  requestNodeDirectAccessUrl(nodeId: string): Observable<DirectAccessUrlEntry> {
+    return from(this.nodesApi.requestDirectAccessUrl(nodeId));
+  }
+
+  requestVersionDirectAccessUrl(nodeId: string, versionId: string): Observable<DirectAccessUrlEntry> {
+    return from(this.versionsApi.requestDirectAccessUrl(nodeId, versionId));
   }
 }

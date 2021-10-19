@@ -32,9 +32,30 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { map, take } from 'rxjs/operators';
 import { ContentApiService } from '@alfresco/aca-shared';
+import { Subject } from 'rxjs';
+
+interface NodeDownload {
+  fileName: string;
+  nodeId: string;
+  versionId?: string;
+}
 
 @Injectable()
 export class DownloadEffects {
+
+  private downloadSource = new Subject<NodeDownload>();
+  download$ = this.downloadSource.asObservable().subscribe(
+    (nodeDownloadInfo: NodeDownload) => {
+      this.contentApi.getRepositoryInformation().subscribe((repositoryInformation) => {
+        if (repositoryInformation?.entry?.repository?.status?.isDirectAccessUrlEnabled) {
+          this.downloadFileUsingDAU(nodeDownloadInfo);
+        } else {
+          this.downloadFileUsingContentUrl(nodeDownloadInfo);
+        }
+      })
+    }
+  );
+
   constructor(private store: Store<AppStore>, private actions$: Actions, private contentApi: ContentApiService, private dialog: MatDialog) {}
 
   @Effect({ dispatch: false })
@@ -100,7 +121,11 @@ export class DownloadEffects {
 
   private downloadFile(node: NodeInfo) {
     if (node && !this.isSharedLinkPreview) {
-      this.download(this.contentApi.getContentUrl(node.id, true), node.name);
+      this.downloadSource.next({
+        fileName: node.name,
+        nodeId: node.id
+      });
+      //this.download(this.contentApi.getContentUrl(node.id, true), node.name);
     }
 
     if (node && this.isSharedLinkPreview) {
@@ -110,7 +135,12 @@ export class DownloadEffects {
 
   private downloadFileVersion(node: NodeInfo, version: Version) {
     if (node && version) {
-      this.download(this.contentApi.getVersionContentUrl(node.id, version.id, true), version.name);
+      this.downloadSource.next({
+        fileName: version.name,
+        nodeId: node.id,
+        versionId: version.id
+      });
+      //this.download(this.contentApi.getVersionContentUrl(node.id, version.id, true), version.name);
     }
   }
 
@@ -126,6 +156,29 @@ export class DownloadEffects {
         }
       });
     }
+  }
+
+  private downloadFileUsingDAU(nodeDownloadInfo: NodeDownload) {
+    if (nodeDownloadInfo.versionId) {
+      this.contentApi.requestVersionDirectAccessUrl(nodeDownloadInfo.nodeId, nodeDownloadInfo.versionId).subscribe((dauResult) => {
+        this.download(dauResult.entry.contentUrl, nodeDownloadInfo.fileName);
+      }, () => {
+        this.downloadFileUsingContentUrl(nodeDownloadInfo);
+      });
+    } else {
+      this.contentApi.requestNodeDirectAccessUrl(nodeDownloadInfo.nodeId).subscribe((dauResult) => {
+        this.download(dauResult.entry.contentUrl, nodeDownloadInfo.fileName);
+      }, () => {
+        this.downloadFileUsingContentUrl(nodeDownloadInfo);
+      });
+    }
+  }
+
+  private downloadFileUsingContentUrl(nodeDownloadInfo: NodeDownload) {
+    const downloadUrl = nodeDownloadInfo.versionId
+      ? this.contentApi.getVersionContentUrl(nodeDownloadInfo.nodeId, nodeDownloadInfo.versionId, true)
+      : this.contentApi.getContentUrl(nodeDownloadInfo.nodeId, true);
+    this.download(downloadUrl, nodeDownloadInfo.fileName);
   }
 
   private download(url: string, fileName: string) {
