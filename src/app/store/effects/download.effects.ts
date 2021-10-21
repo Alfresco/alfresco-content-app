@@ -29,8 +29,7 @@ import {
   NodeActionTypes,
   NodeInfo,
   getAppSelection,
-  getCurrentVersion,
-  getRepositoryStatus
+  getCurrentVersion
 } from '@alfresco/aca-shared/store';
 import { DownloadZipDialogComponent } from '@alfresco/adf-core';
 import { MinimalNodeEntity, Version } from '@alfresco/js-api';
@@ -40,17 +39,16 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { map, take } from 'rxjs/operators';
 import { ContentApiService } from '@alfresco/aca-shared';
-
-interface DownloadNodeInformation {
-  fileName: string;
-  nodeId: string;
-  versionId?: string;
-}
+import { ContentUrlService } from '../../services/content-url.service';
 
 @Injectable()
 export class DownloadEffects {
 
-  constructor(private store: Store<AppStore>, private actions$: Actions, private contentApi: ContentApiService, private dialog: MatDialog) {}
+  constructor(private store: Store<AppStore>,
+              private actions$: Actions,
+              private contentApi: ContentApiService,
+              private dialog: MatDialog,
+              private contentUrlService: ContentUrlService) {}
 
   @Effect({ dispatch: false })
   downloadNode$ = this.actions$.pipe(
@@ -115,11 +113,9 @@ export class DownloadEffects {
 
   private downloadFile(node: NodeInfo) {
     if (node && !this.isSharedLinkPreview) {
-      this.downloadWithEitherDAUOrContentUrl({
-        fileName: node.name,
-        nodeId: node.id
+      this.contentUrlService.getNodeContentUrl(node.id, true).subscribe(contentUrl => {
+        this.download(contentUrl, node.name);
       });
-      //this.download(this.contentApi.getContentUrl(node.id, true), node.name);
     }
 
     if (node && this.isSharedLinkPreview) {
@@ -129,12 +125,9 @@ export class DownloadEffects {
 
   private downloadFileVersion(node: NodeInfo, version: Version) {
     if (node && version) {
-      this.downloadWithEitherDAUOrContentUrl({
-        fileName: version.name,
-        nodeId: node.id,
-        versionId: version.id
+      this.contentUrlService.getVersionContentUrl(node.id, version.id, true).subscribe(contentUrl => {
+        this.download(contentUrl, node.name);
       });
-      //this.download(this.contentApi.getVersionContentUrl(node.id, version.id, true), version.name);
     }
   }
 
@@ -150,40 +143,6 @@ export class DownloadEffects {
         }
       });
     }
-  }
-
-  downloadWithEitherDAUOrContentUrl(nodeDownloadInfo: DownloadNodeInformation) {
-    this.store.select(getRepositoryStatus).pipe(take(1)).subscribe((repository) => {
-      console.log(repository);
-      if (repository?.status?.isDirectAccessUrlEnabled) {
-        this.downloadFileUsingDAU(nodeDownloadInfo);
-      } else {
-        this.downloadFileUsingContentUrl(nodeDownloadInfo);
-      }
-    })
-  }
-
-  downloadFileUsingDAU(nodeDownloadInfo: DownloadNodeInformation) {
-    if (nodeDownloadInfo.versionId) {
-      this.contentApi.requestVersionDirectAccessUrl(nodeDownloadInfo.nodeId, nodeDownloadInfo.versionId).subscribe((dauResult) => {
-        this.download(dauResult.entry.contentUrl, nodeDownloadInfo.fileName);
-      }, () => {
-        this.downloadFileUsingContentUrl(nodeDownloadInfo);
-      });
-    } else {
-      this.contentApi.requestNodeDirectAccessUrl(nodeDownloadInfo.nodeId).subscribe((dauResult) => {
-        this.download(dauResult.entry.contentUrl, nodeDownloadInfo.fileName);
-      }, () => {
-        this.downloadFileUsingContentUrl(nodeDownloadInfo);
-      });
-    }
-  }
-
-  downloadFileUsingContentUrl(nodeDownloadInfo: DownloadNodeInformation) {
-    const downloadUrl = nodeDownloadInfo.versionId
-      ? this.contentApi.getVersionContentUrl(nodeDownloadInfo.nodeId, nodeDownloadInfo.versionId, true)
-      : this.contentApi.getContentUrl(nodeDownloadInfo.nodeId, true);
-    this.download(downloadUrl, nodeDownloadInfo.fileName);
   }
 
   private download(url: string, fileName: string) {
