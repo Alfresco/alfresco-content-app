@@ -65,6 +65,7 @@ import { SharedFilesComponent } from './components/shared-files/shared-files.com
 import { CreateFromTemplateDialogComponent } from './dialogs/node-template/create-from-template.dialog';
 import { environment } from '../environments/environment';
 import { DetailsComponent } from './components/details/details.component';
+import { ContentUrlService } from './services/content-url.service';
 
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
@@ -83,7 +84,6 @@ import localePl from '@angular/common/locales/pl';
 import localeFi from '@angular/common/locales/fi';
 import localeDa from '@angular/common/locales/da';
 import localeSv from '@angular/common/locales/sv';
-import { ContentUrlService } from './services/content-url.service';
 
 registerLocaleData(localeFr);
 registerLocaleData(localeDe);
