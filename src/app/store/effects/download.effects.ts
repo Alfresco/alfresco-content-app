@@ -23,14 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  AppStore,
-  DownloadNodesAction,
-  NodeActionTypes,
-  NodeInfo,
-  getAppSelection,
-  getCurrentVersion
-} from '@alfresco/aca-shared/store';
+import { AppStore, DownloadNodesAction, NodeActionTypes, NodeInfo, getAppSelection, getCurrentVersion } from '@alfresco/aca-shared/store';
 import { DownloadZipDialogComponent } from '@alfresco/adf-core';
 import { MinimalNodeEntity, Version } from '@alfresco/js-api';
 import { Injectable } from '@angular/core';
@@ -43,12 +36,13 @@ import { ContentUrlService } from '../../services/content-url.service';
 
 @Injectable()
 export class DownloadEffects {
-
-  constructor(private store: Store<AppStore>,
-              private actions$: Actions,
-              private contentApi: ContentApiService,
-              private dialog: MatDialog,
-              private contentUrlService: ContentUrlService) {}
+  constructor(
+    private store: Store<AppStore>,
+    private actions$: Actions,
+    private contentApi: ContentApiService,
+    private dialog: MatDialog,
+    private contentUrlService: ContentUrlService
+  ) {}
 
   @Effect({ dispatch: false })
   downloadNode$ = this.actions$.pipe(
@@ -113,7 +107,7 @@ export class DownloadEffects {
 
   private downloadFile(node: NodeInfo) {
     if (node && !this.isSharedLinkPreview) {
-      this.contentUrlService.getNodeContentUrl(node.id, true).subscribe(contentUrl => {
+      this.contentUrlService.getNodeContentUrl(node.id, true).subscribe((contentUrl) => {
         this.download(contentUrl, node.name);
       });
     }
@@ -125,7 +119,7 @@ export class DownloadEffects {
 
   private downloadFileVersion(node: NodeInfo, version: Version) {
     if (node && version) {
-      this.contentUrlService.getVersionContentUrl(node.id, version.id, true).subscribe(contentUrl => {
+      this.contentUrlService.getVersionContentUrl(node.id, version.id, true).subscribe((contentUrl) => {
         this.download(contentUrl, node.name);
       });
     }

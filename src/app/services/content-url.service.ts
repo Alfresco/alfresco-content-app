@@ -1,3 +1,28 @@
+/*!
+ * @license
+ * Alfresco Example Content Application
+ *
+ * Copyright (C) 2005 - 2020 Alfresco Software Limited
+ *
+ * This file is part of the Alfresco Example Content Application.
+ * If the software was purchased under a paid Alfresco license, the terms of
+ * the paid license agreement will prevail.  Otherwise, the software is
+ * provided under the following open source license terms:
+ *
+ * The Alfresco Example Content Application is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * The Alfresco Example Content Application is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { AppStore, getRepositoryStatus } from '@alfresco/aca-shared/store';
@@ -8,17 +33,16 @@ import { DirectAccessUrlEntry } from '@alfresco/js-api';
 
 @Injectable({ providedIn: 'root' })
 export class ContentUrlService {
-
   constructor(private store: Store<AppStore>, private contentApiService: ContentApiService) {}
 
   getNodeContentUrl(nodeId: string, attachment = true): Observable<string> {
     return this.isDirectAccessUrlEnabled().pipe(
-      mergeMap(dauEnabled => {
+      mergeMap((dauEnabled) => {
         if (dauEnabled) {
           return this.contentApiService.requestNodeDirectAccessUrl(nodeId).pipe(
-            catchError(() => of(this.contentApiService.getContentUrl(nodeId, true))),
-            map((dauObj: DirectAccessUrlEntry) => dauObj.entry.contentUrl)
-          )
+            map((dauObj: DirectAccessUrlEntry) => dauObj.entry.contentUrl),
+            catchError(() => of(this.contentApiService.getContentUrl(nodeId, true)))
+          );
         } else {
           return of(this.contentApiService.getContentUrl(nodeId, attachment));
         }
@@ -28,12 +52,12 @@ export class ContentUrlService {
 
   getVersionContentUrl(nodeId: string, versionId: string, attachment = true): Observable<string> {
     return this.isDirectAccessUrlEnabled().pipe(
-      mergeMap(dauEnabled => {
+      mergeMap((dauEnabled) => {
         if (dauEnabled) {
           return this.contentApiService.requestVersionDirectAccessUrl(nodeId, versionId).pipe(
-            catchError(() => of(this.contentApiService.getVersionContentUrl(nodeId, versionId, true))),
-            map((dauObj: DirectAccessUrlEntry) => dauObj.entry.contentUrl)
-          )
+            map((dauObj: DirectAccessUrlEntry) => dauObj.entry.contentUrl),
+            catchError(() => of(this.contentApiService.getVersionContentUrl(nodeId, versionId, true)))
+          );
         } else {
           return of(this.contentApiService.getVersionContentUrl(nodeId, versionId, attachment));
         }
@@ -44,8 +68,7 @@ export class ContentUrlService {
   private isDirectAccessUrlEnabled(): Observable<boolean> {
     return this.store.select(getRepositoryStatus).pipe(
       take(1),
-      map(repository => !!repository?.status?.isDirectAccessUrlEnabled)
+      map((repository) => !!repository?.status?.isDirectAccessUrlEnabled)
     );
   }
-
 }
