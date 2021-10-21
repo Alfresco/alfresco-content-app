@@ -152,8 +152,9 @@ export class DownloadEffects {
     }
   }
 
-  private downloadWithEitherDAUOrContentUrl(nodeDownloadInfo: DownloadNodeInformation) {
+  downloadWithEitherDAUOrContentUrl(nodeDownloadInfo: DownloadNodeInformation) {
     this.store.select(getRepositoryStatus).pipe(take(1)).subscribe((repository) => {
+      console.log(repository);
       if (repository?.status?.isDirectAccessUrlEnabled) {
         this.downloadFileUsingDAU(nodeDownloadInfo);
       } else {
@@ -162,7 +163,7 @@ export class DownloadEffects {
     })
   }
 
-  private downloadFileUsingDAU(nodeDownloadInfo: DownloadNodeInformation) {
+  downloadFileUsingDAU(nodeDownloadInfo: DownloadNodeInformation) {
     if (nodeDownloadInfo.versionId) {
       this.contentApi.requestVersionDirectAccessUrl(nodeDownloadInfo.nodeId, nodeDownloadInfo.versionId).subscribe((dauResult) => {
         this.download(dauResult.entry.contentUrl, nodeDownloadInfo.fileName);
@@ -178,7 +179,7 @@ export class DownloadEffects {
     }
   }
 
-  private downloadFileUsingContentUrl(nodeDownloadInfo: DownloadNodeInformation) {
+  downloadFileUsingContentUrl(nodeDownloadInfo: DownloadNodeInformation) {
     const downloadUrl = nodeDownloadInfo.versionId
       ? this.contentApi.getVersionContentUrl(nodeDownloadInfo.nodeId, nodeDownloadInfo.versionId, true)
       : this.contentApi.getContentUrl(nodeDownloadInfo.nodeId, true);
