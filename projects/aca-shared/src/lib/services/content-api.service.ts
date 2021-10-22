@@ -52,7 +52,8 @@ import {
   SearchApi,
   PeopleApi,
   VersionsApi,
-  DirectAccessUrlEntry, VersionPaging
+  DirectAccessUrlEntry,
+  VersionPaging
 } from '@alfresco/js-api';
 import { map } from 'rxjs/operators';
 
