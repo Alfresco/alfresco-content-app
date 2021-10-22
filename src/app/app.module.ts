@@ -29,7 +29,7 @@ import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TRANSLATION_PROVIDER, CoreModule, AppConfigService, DebugAppConfigService } from '@alfresco/adf-core';
-import { ContentModule } from '@alfresco/adf-content-services';
+import { ContentModule, ContentVersionService } from '@alfresco/adf-content-services';
 import { SharedModule } from '@alfresco/aca-shared';
 
 import { AppComponent } from './app.component';
@@ -65,6 +65,7 @@ import { SharedFilesComponent } from './components/shared-files/shared-files.com
 import { CreateFromTemplateDialogComponent } from './dialogs/node-template/create-from-template.dialog';
 import { environment } from '../environments/environment';
 import { DetailsComponent } from './components/details/details.component';
+import { ContentUrlService } from './services/content-url.service';
 
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
@@ -149,6 +150,7 @@ registerLocaleData(localeSv);
   ],
   providers: [
     { provide: AppConfigService, useClass: DebugAppConfigService },
+    { provide: ContentVersionService, useClass: ContentUrlService },
     {
       provide: TRANSLATION_PROVIDER,
       multi: true,
