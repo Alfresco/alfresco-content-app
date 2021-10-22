@@ -30,10 +30,14 @@ import { take, map, catchError, mergeMap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { ContentApiService } from '@alfresco/aca-shared';
 import { DirectAccessUrlEntry } from '@alfresco/js-api';
+import { ContentVersionService } from '@alfresco/adf-content-services';
+import { AlfrescoApiService } from '@alfresco/adf-core';
 
 @Injectable({ providedIn: 'root' })
-export class ContentUrlService {
-  constructor(private store: Store<AppStore>, private contentApiService: ContentApiService) {}
+export class ContentUrlService extends ContentVersionService {
+  constructor(private store: Store<AppStore>, private contentApiService: ContentApiService, alfrescoApiService: AlfrescoApiService) {
+    super(alfrescoApiService);
+  }
 
   getNodeContentUrl(nodeId: string, attachment = true): Observable<string> {
     return this.isDirectAccessUrlEnabled().pipe(

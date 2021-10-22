@@ -52,7 +52,7 @@ import {
   SearchApi,
   PeopleApi,
   VersionsApi,
-  DirectAccessUrlEntry
+  DirectAccessUrlEntry, VersionPaging
 } from '@alfresco/js-api';
 import { map } from 'rxjs/operators';
 
@@ -345,11 +345,11 @@ export class ContentApiService {
     );
   }
 
-  unlockNode(nodeId: string, opts?: any) {
+  unlockNode(nodeId: string, opts?: any): Promise<MinimalNodeEntity> {
     return this.nodesApi.unlockNode(nodeId, opts);
   }
 
-  getNodeVersions(nodeId: string, opts?: any) {
+  getNodeVersions(nodeId: string, opts?: any): Observable<VersionPaging> {
     return from(this.versionsApi.listVersionHistory(nodeId, opts));
   }
 

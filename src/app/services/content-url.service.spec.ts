@@ -60,7 +60,7 @@ describe('ContentUrlService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule],
-      providers: [ContentUrlService, ContentApiService, provideMockStore()]
+      providers: [provideMockStore()]
     });
 
     contentUrlService = TestBed.inject(ContentUrlService);
@@ -75,8 +75,8 @@ describe('ContentUrlService', () => {
   });
 
   describe('Nodes', () => {
-    let getContentUrlSpy;
-    let requestNodeDirectAccessUrlSpy;
+    let getContentUrlSpy: jasmine.Spy;
+    let requestNodeDirectAccessUrlSpy: jasmine.Spy;
 
     beforeEach(() => {
       getContentUrlSpy = spyOn(contentApiService, 'getContentUrl').and.returnValue(fakeNodeContentUrl);
@@ -116,8 +116,8 @@ describe('ContentUrlService', () => {
   });
 
   describe('Versions', () => {
-    let getVersionContentUrlSpy;
-    let requestVersionDirectAccessUrlSpy;
+    let getVersionContentUrlSpy: jasmine.Spy;
+    let requestVersionDirectAccessUrlSpy: jasmine.Spy;
 
     beforeEach(() => {
       getVersionContentUrlSpy = spyOn(contentApiService, 'getVersionContentUrl').and.returnValue(fakeNodeContentUrl);
