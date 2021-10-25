@@ -1,6 +1,6 @@
 {
   "name": "alfresco-content-app",
-  "version": "2.5.0",
+  "version": "2.6.0",
   "commit": "",
   "license": "LGPL-3.0",
   "scripts": {
@@ -24,10 +24,10 @@
   },
   "private": true,
   "dependencies": {
-    "@alfresco/adf-content-services": "4.6.0-33333",
-    "@alfresco/adf-core": "4.6.0-33333",
-    "@alfresco/adf-extensions": "4.6.0-33333",
-    "@alfresco/js-api": "4.6.0-3790",
+    "@alfresco/adf-content-services": "4.7.0-33598",
+    "@alfresco/adf-core": "4.7.0-33598",
+    "@alfresco/adf-extensions": "4.7.0-33598",
+    "@alfresco/js-api": "4.7.0-3923",
     "@angular/animations": "10.0.4",
     "@angular/cdk": "^10.0.2",
     "@angular/common": "10.0.4",
@@ -56,8 +56,8 @@
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
-    "@alfresco/adf-cli": "4.6.0-33333",
-    "@alfresco/adf-testing": "4.6.0-33333",
+    "@alfresco/adf-cli": "4.7.0-33598",
+    "@alfresco/adf-testing": "4.7.0-33598",
     "@angular-custom-builders/lite-serve": "^0.2.3",
     "@angular-devkit/build-angular": "^0.1002.0",
     "@angular-devkit/build-ng-packagr": "^0.1002.0",
@@ -79,9 +79,9 @@
     "connect-history-api-fallback": "^1.6.0",
     "cspell": "^5.8.0",
     "dotenv": "^8.2.0",
-    "http-server": "^13.0.1",
+    "http-server": "^13.0.2",
     "husky": "^7.0.2",
-    "inquirer": "^8.1.2",
+    "inquirer": "^8.1.5",
     "jasmine-core": "^3.8.0",
     "jasmine-marbles": "0.8.3",
     "jasmine-spec-reporter": "^7.0.0",

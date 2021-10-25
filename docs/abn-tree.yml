@@ -42,6 +42,7 @@
       - how-to-create-your-first-extension.md: How to create your first extension
       - content-metadata.md: How to customize Content Metadata
       - file-lists.md: How to customize File lists
-      - file-preview.md: How to customize File Preview
+      - file-preview.md: How to call File Preview from a plugin
+      - custom-viewer.md: How to customize File Viewer
       - search-form.md: How to customize The Search Form
 - help.md: 'Get help'

@@ -38,18 +38,49 @@ To complete the creation, build the extension launching the following command.
 
 Now that the `my-extension` is created, let's add the proper configuration to the extension module. For this purpose, edit the `projects/my-extension/src/lib/my-extension.module.ts` file changing what is described below.
 
-    // Add the import as described below.
-    import { ExtensionService } from '@alfresco/adf-extensions';
-    
-    // Add the constructor as described below.
-    NgModule({...})
-    export class MyExtensionModule {
-      constructor(extensions: ExtensionService) {
+```typescript
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+
+import { ExtensionService, provideExtensionConfig } from '@alfresco/adf-extensions';
+import { CoreModule, TRANSLATION_PROVIDER } from '@alfresco/adf-core';
+
+import { MyExtensionComponent } from './my-extension.component';
+import { MyExtensionService } from './my-extension.service';
+
+export function components() {
+    return [MyExtensionComponent];
+}
+
+@NgModule({
+    imports: [CoreModule, BrowserModule, FormsModule, MaterialModule],
+    providers: [
+        {
+            provide: TRANSLATION_PROVIDER,
+            multi: true,
+            useValue: {
+                name: 'adf-my-extension',
+                source: 'assets/adf-my-extension',
+            },
+        },
+        MyExtensionService,
+        provideExtensionConfig(['my-extension.json']),
+    ],
+    declarations: components(),
+    exports: components(),
+})
+export class MyViewModule {
+    constructor(extensions: ExtensionService, myService: MyExtensionService) {
         extensions.setComponents({
-          'my-extension.main.component': MyExtensionComponent,
-      }); 
+          'my-extension.main.component' : MyExtensionComponent,
+        });
+        extensions.setEvaluators({
+           'my-extensionr.disabled': () => !myService.mySmartViewerEnabled(),
+        });
     }
-  }`
+}
+```
 
 It's now time for the configuration of the brand new extension. For this purpose, you are going instruct the extension to add a link that you can see on the left menu of the landing page of ACA.
 
@@ -59,6 +90,7 @@ To create the proper configuration, create the folder below in the described pat
 
 Once done, create the file `projects/my-extension/assets/my-extension.json` file with the following content.
 
+```json
     {
       "$schema": "../../../extension.schema.json",
       "$id": "my-extension",
@@ -93,12 +125,15 @@ Once done, create the file `projects/my-extension/assets/my-extension.json` file
     }
     }
 
+```
+
 This is a very basic example, adding a “My Extension” item to the existing left menu, implementing a blank page containing “my-extension works!“ text appearing in the ACA landing page. From here, you can enrich the capabilities of your extension following the documentation at [https://alfresco-content-app.netlify.app/#/extending/](https://alfresco-content-app.netlify.app/#/extending/ "https://alfresco-content-app.netlify.app/#/extending/").
 
 # Making the extension as part of the ACA application
 
 Now that the ACA extension is developed in its initial version, let's add the extension module to the list of the ones used by the application. To complete the task, edit the `src/app/extensions.module.ts` file as described below.
 
+```typescript
     // Add the following import to the page.
     import { MyExtensionModule } from 'my-extension';
     
@@ -106,9 +141,10 @@ Now that the ACA extension is developed in its initial version, let's add the ex
       imports: [
         ...,
         MyExtensionModule
-    ],
+    ]
   })
   export class AppExtensionsModule {}
+```
 
 In addition, edit the `src/assets/app.extensions.json` file on the `$references` array. Below how it should look like.
 

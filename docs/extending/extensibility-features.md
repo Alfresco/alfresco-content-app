@@ -19,6 +19,7 @@ You can create plugins that change, toggle, or extend the following areas:
   - buttons
   - menu buttons
   - separators
+- File viewer  
 - Viewer actions
   - "Open With" entries
   - toolbar entries

@@ -1,5 +1,4 @@
 @import '~@angular/material/theming';
-@import '~@alfresco/adf-content-services/theming';
 @import './overrides/adf-style-fixes.theme';
 @import 'colors';
 
@@ -17,7 +16,6 @@ $primary: map-get($custom-theme, primary);
 
 @mixin custom-theme($theme) {
   @include angular-material-theme($theme);
-  @include adf-content-services-theme($theme);
   @include adf-core-theme($theme);
   @include adf-style-fixes($theme);
 
@@ -33,7 +31,7 @@ $data-table-dividers-wrapper-border: none;
 $data-table-thumbnail-width: 35px;
 $data-table-cell-min-width: 150px;
 $data-table-cell-min-width--no-grow: 120px;
-$data-table-cell-min-width--fileSize: 80px !important;
+$data-table-cell-min-width--fileSize: 110px !important;
 $data-table-cell-text-color: mat-color($foreground, text, 0.54);
 $data-table-cell-link-color: mat-color($foreground, text);
 $data-table-hover-color: #e3fafd;

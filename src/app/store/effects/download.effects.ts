@@ -32,10 +32,17 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { map, take } from 'rxjs/operators';
 import { ContentApiService } from '@alfresco/aca-shared';
+import { ContentUrlService } from '../../services/content-url.service';
 
 @Injectable()
 export class DownloadEffects {
-  constructor(private store: Store<AppStore>, private actions$: Actions, private contentApi: ContentApiService, private dialog: MatDialog) {}
+  constructor(
+    private store: Store<AppStore>,
+    private actions$: Actions,
+    private contentApi: ContentApiService,
+    private dialog: MatDialog,
+    private contentUrlService: ContentUrlService
+  ) {}
 
   @Effect({ dispatch: false })
   downloadNode$ = this.actions$.pipe(
@@ -100,7 +107,9 @@ export class DownloadEffects {
 
   private downloadFile(node: NodeInfo) {
     if (node && !this.isSharedLinkPreview) {
-      this.download(this.contentApi.getContentUrl(node.id, true), node.name);
+      this.contentUrlService.getNodeContentUrl(node.id, true).subscribe((contentUrl) => {
+        this.download(contentUrl, node.name);
+      });
     }
 
     if (node && this.isSharedLinkPreview) {
@@ -110,7 +119,9 @@ export class DownloadEffects {
 
   private downloadFileVersion(node: NodeInfo, version: Version) {
     if (node && version) {
-      this.download(this.contentApi.getVersionContentUrl(node.id, version.id, true), version.name);
+      this.contentUrlService.getVersionContentUrl(node.id, version.id, true).subscribe((contentUrl) => {
+        this.download(contentUrl, node.name);
+      });
     }
   }
 
