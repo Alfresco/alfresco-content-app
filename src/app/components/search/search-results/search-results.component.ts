@@ -179,11 +179,10 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   }
 
   formatSearchQuery(userInput: string, fields = ['cm:name']) {
-    debugger;
     if (!userInput) {
       return null;
     }
-  
+
     if (/^http[s]?:\/\//.test(userInput)) {
       return this.formatFields(fields, userInput);
     }
