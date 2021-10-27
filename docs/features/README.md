@@ -25,3 +25,4 @@ This application simplifies the complexity of Content Management and provides co
 - [Version Manager](/features/version-manager)
 - [Search results](/features/search-results)
 - [Search forms](/features/search-forms)
+- [Application Hook](/extending/application-hook)
