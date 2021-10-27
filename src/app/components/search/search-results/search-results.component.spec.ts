@@ -164,6 +164,16 @@ describe('SearchComponent', () => {
     expect(component.formatSearchQuery(query)).toBe(query);
   });
 
+  it('should be able to search if search input contains https url', () => {
+    const query = component.formatSearchQuery('https://alfresco.com');
+    expect(query).toBe(`(cm:name:"https://alfresco.com*")`);
+  });
+
+  it('should be able to search if search input contains http url', () => {
+    const query = component.formatSearchQuery('http://alfresco.com');
+    expect(query).toBe(`(cm:name:"http://alfresco.com*")`);
+  });
+
   it('should use original user input if text contains quotes', () => {
     const query = `"Hello World"`;
     expect(component.formatSearchQuery(query)).toBe(query);
