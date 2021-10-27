@@ -22,5 +22,3 @@ Learn how to extend the features of the Alfresco Content Application.
 - [Creating custom evaluators](/extending/creating-custom-evaluators)
 - [Custom extension loaders](/extending/custom-extension-loaders)
 - [Redistributable libraries](/extending/redistributable-libraries)
-- [Application Hook](/extending/application-hook)
-- [Tutorials](/../tutorials/)
