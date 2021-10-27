@@ -47,12 +47,14 @@ export class AppHeaderComponent implements OnInit, OnDestroy {
 
   appName$: Observable<string>;
   headerColor$: Observable<any>;
+  headerTextColor$: Observable<string>;
   logo$: Observable<string>;
 
   actions: Array<ContentActionRef> = [];
 
   constructor(store: Store<AppStore>, private appExtensions: AppExtensionService) {
     this.headerColor$ = store.select(getHeaderColor);
+    this.headerTextColor$ = store.select(getHeaderColor);
     this.appName$ = store.select(getAppName);
     this.logo$ = store.select(getLogoPath);
 

@@ -6,7 +6,9 @@
   [title]="appName$ | async"
   (clicked)="toggleClicked.emit($event)"
   [expandedSidenav]="expandedSidenav"
->
+  >
+
+  <!-- [textColor]="headerTextColor$ | async" -->
   <div class="adf-toolbar--spacer adf-toolbar-divider"></div>
 
   <aca-search-input></aca-search-input>
