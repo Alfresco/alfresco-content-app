@@ -20,3 +20,4 @@ Learn more about developing with the Alfresco Content Application.
 - [File Lists](/tutorials/file-lists)
 - [Search Form](/tutorials/search-form)
 - [Content Metadata](/tutorials/content-metadata)
+- [Application Hook](/extending/application-hook)
