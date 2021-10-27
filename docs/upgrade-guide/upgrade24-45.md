@@ -1,11 +1,11 @@
 ---
-Title: Upgrade from ACA v2.4.0 to v2.5.0
+Title: Upgrade from v2.4.0 to v2.5.0
 Github only: true
 ---
 
-# Upgrade from ACA v2.4.0 to v2.5.0
+# Upgrade from v2.4.0 to v2.5.0
 
-This guide explains how to upgrade your ACA extension v2.4.0 project to work with v2.5.0.
+This guide explains how to upgrade your ACA v2.4.0 project to work with v2.5.0.
 
 Do not skip this task, if you want your application to be updated to a most recent version of ACA. 
 Upgrades of multiple versions of ACA cannot be done in one step only, but should follow the chain of sequential updates. 

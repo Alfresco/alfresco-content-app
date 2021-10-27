@@ -42,5 +42,5 @@
   - [How to extend File Preview](/tutorials/file-preview)
   - [How to extend The Search Form](/tutorials/search-form)
 - [Upgrade guide](/upgrade-guide/)
-  - [Upgrade from ACA v2.4.0 to v2.5.0](/upgrade-guide/upgrade24-45)    
+  - [Upgrade from v2.4.0 to v2.5.0](/upgrade-guide/upgrade24-45)    
 - [Get help](/help)
