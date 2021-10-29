@@ -29,6 +29,7 @@ import { RepositoryInfo, VersionEntry } from '@alfresco/js-api';
 export interface AppState {
   appName: string;
   headerColor: string;
+  headerTextColor: string;
   logoPath: string;
   headerImagePath: string;
   sharedUrl: string;

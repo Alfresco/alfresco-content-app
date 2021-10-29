@@ -6,24 +6,12 @@
     background-image: var(--header-background-image) !important;
     background-repeat: no-repeat !important;
 
-    .adf-app-title {
-      color: var(--theme-foreground-text-color);
-    }
-
-    .adf-menu-icon {
-      color: var(--theme-foreground-text-color) !important;
-    }
-
     .aca-current-user {
       color: var(--theme-foreground-text-color) !important;
     }
 
     .adf-toolbar-divider div {
       background-color: var(--theme-foreground-text-color) !important;
-    }
-
-    .app-toolbar-menu {
-      color: var(--theme-foreground-text-color) !important;
     }
   }
 }
