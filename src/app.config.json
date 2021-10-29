@@ -29,10 +29,6 @@
   "viewer.maxRetries": 1,
   "sharedLinkDateTimePickerType": "date",
   "headerColor": "#ffffff",
-
-  "REMOVE_ME": "REMOVE_ME",
-  "headerTextColor": "#8a245a",
-
   "pagination": {
     "size": 25,
     "supportedPageSizes": [25, 50, 100]
