@@ -72,9 +72,7 @@ export class AppHeaderComponent implements OnInit, OnDestroy {
       });
 
     this.headerTextColor$.subscribe((color) => {
-      if (color) {
-        document.documentElement.style.setProperty('--adf-header-text-color', color);
-      }
+      document.documentElement.style.setProperty('--adf-header-text-color', color);
     });
   }
 
