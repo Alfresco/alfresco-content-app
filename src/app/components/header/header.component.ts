@@ -27,7 +27,7 @@ import { Component, ViewEncapsulation, Output, EventEmitter, OnInit, Input, OnDe
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { ContentActionRef } from '@alfresco/adf-extensions';
-import { AppStore, getHeaderColor, getAppName, getLogoPath, getHeaderImagePath } from '@alfresco/aca-shared/store';
+import { AppStore, getHeaderColor, getAppName, getLogoPath, getHeaderImagePath, getHeaderTextColor } from '@alfresco/aca-shared/store';
 import { AppExtensionService } from '@alfresco/aca-shared';
 import { takeUntil } from 'rxjs/operators';
 
@@ -54,7 +54,7 @@ export class AppHeaderComponent implements OnInit, OnDestroy {
 
   constructor(store: Store<AppStore>, private appExtensions: AppExtensionService) {
     this.headerColor$ = store.select(getHeaderColor);
-    this.headerTextColor$ = store.select(getHeaderColor);
+    this.headerTextColor$ = store.select(getHeaderTextColor);
     this.appName$ = store.select(getAppName);
     this.logo$ = store.select(getLogoPath);
 
@@ -70,6 +70,10 @@ export class AppHeaderComponent implements OnInit, OnDestroy {
       .subscribe((actions) => {
         this.actions = actions;
       });
+
+    this.headerTextColor$.subscribe((color) => {
+      document.documentElement.style.setProperty('--adf-header-text-color', color);
+    });
   }
 
   ngOnDestroy() {
