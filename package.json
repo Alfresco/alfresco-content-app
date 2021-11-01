@@ -80,7 +80,7 @@
     "cspell": "^5.8.0",
     "dotenv": "^8.2.0",
     "http-server": "^13.0.2",
-    "husky": "^7.0.2",
+    "husky": "^7.0.4",
     "inquirer": "^8.1.5",
     "jasmine-core": "^3.8.0",
     "jasmine-marbles": "0.8.3",
