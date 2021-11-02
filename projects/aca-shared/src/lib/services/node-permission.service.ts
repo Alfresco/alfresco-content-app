@@ -114,17 +114,13 @@ export class NodePermissionService implements NodePermissions {
     return nodePermissions.inherited;
   }
 
-
   hasUserAuthorityOnNode(node: NodeEntry, userGroups: Group[]): boolean {
     const nodeAuthorities: PermissionElement[] = this.getNodePermissions(node);
 
-    for (let nodeAuth of nodeAuthorities) {
-      for (let userAuth of userGroups) {
+    for (const nodeAuth of nodeAuthorities) {
+      for (const userAuth of userGroups) {
         if (nodeAuth.authorityId === userAuth.id) {
-          if (nodeAuth.name === 'SiteContributor' ||
-              nodeAuth.name === 'SiteCollaborator' ||
-              nodeAuth.name === 'SiteManager') {
-
+          if (nodeAuth.name === 'SiteContributor' || nodeAuth.name === 'SiteCollaborator' || nodeAuth.name === 'SiteManager') {
             return true;
           }
         }
