@@ -25,7 +25,7 @@
 
 import { Injectable } from '@angular/core';
 import { NodePermissions } from '@alfresco/adf-extensions';
-import { Node, SharedLink, SharedLinkEntry, NodeEntry } from '@alfresco/js-api';
+import { Node, SharedLink, SharedLinkEntry, NodeEntry, Group, PermissionElement } from '@alfresco/js-api';
 
 export type PermissionSource = NodeEntry | SharedLinkEntry | Node;
 
@@ -96,5 +96,40 @@ export class NodePermissionService implements NodePermissions {
     } else {
       return entry.allowableOperations || [];
     }
+  }
+
+  private getNodePermissions(node: PermissionSource): PermissionElement[] {
+    let entry: Node | SharedLink;
+    let nodePermissions: any;
+
+    if ('entry' in node) {
+      entry = node.entry;
+    } else {
+      entry = node;
+    }
+
+    if ('permissions' in entry) {
+      nodePermissions = entry.permissions;
+    }
+    return nodePermissions.inherited;
+  }
+
+
+  hasUserAuthorityOnNode(node: NodeEntry, userGroups: Group[]): boolean {
+    const nodeAuthorities: PermissionElement[] = this.getNodePermissions(node);
+
+    for (let nodeAuth of nodeAuthorities) {
+      for (let userAuth of userGroups) {
+        if (nodeAuth.authorityId === userAuth.id) {
+          if (nodeAuth.name === 'SiteContributor' ||
+              nodeAuth.name === 'SiteCollaborator' ||
+              nodeAuth.name === 'SiteManager') {
+
+            return true;
+          }
+        }
+      }
+    }
+    return false;
   }
 }

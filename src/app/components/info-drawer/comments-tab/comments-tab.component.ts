@@ -24,13 +24,47 @@
  */
 
 import { Component, Input } from '@angular/core';
-import { MinimalNodeEntryEntity } from '@alfresco/js-api';
+import { Group, MinimalNodeEntryEntity } from '@alfresco/js-api';
+import { NodePermissionService, isLocked } from '@alfresco/aca-shared';
+import { from } from "rxjs";
+import { map } from "rxjs/operators";
+import { GroupService } from "@alfresco/adf-content-services";
 
 @Component({
   selector: 'app-comments-tab',
-  template: `<mat-card><adf-comments [nodeId]="node?.id"></adf-comments></mat-card>`
+  template: `<mat-card><adf-comments [readOnly]="!canUpdateNode" [nodeId]="node?.id"></adf-comments></mat-card>`
 })
 export class CommentsTabComponent {
   @Input()
   node: MinimalNodeEntryEntity;
+  private userGroups: Group[] = [];
+
+  // comment: Comment;
+  constructor(private nodePermissionService: NodePermissionService, private groupService: GroupService ) {
+    this.getCurrentUserGroups();
+  }
+
+  get canUpdateNode(): boolean {
+    if (!this.node) {
+      return false;
+    }
+
+    if (this.node.isFolder || (this.node.isFile && !isLocked({ entry: this.node }))) {
+      return this.nodePermissionService.check(this.node, ['update']) || this.nodePermissionService.hasUserAuthorityOnNode(<any>this.node, this.userGroups);
+    }
+    return false;
+  }
+
+  getCurrentUserGroups() {
+    from(this.groupService.listAllGroupMembershipsForPerson('-me-', {maxItems: 250})).pipe(
+      map((groupsEntries) => {
+        const groups: Group[] = [];
+        if (groupsEntries) {
+          groups.push(...groupsEntries.map((obj) => obj.entry));
+        }
+        return groups;
+      })
+    ).subscribe((userGroups) => this.userGroups = userGroups)
+  }
+
 }
