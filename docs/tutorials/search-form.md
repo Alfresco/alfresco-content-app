@@ -10,6 +10,7 @@ In this tutorial, we are going to implement the following features:
 - [Add a new search form](#add-a-new-search-form)
 - [Replace a search form](#replace-a-search-form)
 - [Replace default search](#replace-default-search)
+- [Adding rule to search form](#adding-rule-to-search-form)
 
 ### Extension Properties
 
@@ -75,6 +76,26 @@ To replace the default search with your configuration set to true the default fi
             "query": "+ASPECT: 'cm:person'"
           }
         ]
+      }
+    ]
+  }
+}
+```
+### Adding rule to search form 
+
+It support the visible rule to show the configuration
+
+```json
+{
+  "features": {
+    "search": [
+      {
+        "id": "app.search.custom_search",
+        "order": 200,
+        "name": "APP.SEARCH.MY_CUSTOM_SEARCH",
+        "rules": {
+          "visible": "<name of the rule>"
+        }
       }
     ]
   }
