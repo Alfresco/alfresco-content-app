@@ -684,7 +684,7 @@
               "description": "Element rules",
               "type": "object",
               "properties": {
-                "disabled": {
+                "visible": {
                   "description": "Rule to evaluate the visibility state",
                   "type": "string"
                 }

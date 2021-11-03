@@ -932,6 +932,11 @@ describe('AppExtensionService', () => {
 
   describe('search', () => {
     beforeEach(() => {
+      extensions.setEvaluators({
+        visible: () => true,
+        notVisible: () => false
+      });
+
       applyConfig({
         $id: 'test',
         $name: 'test',
@@ -960,14 +965,25 @@ describe('AppExtensionService', () => {
             {
               id: 'app.search-1',
               order: 200,
-              name: 'default',
+              name: 'search extension 1',
+              rules: {
+                visible: 'visible'
+              },
               default: false
             },
             {
               id: 'app.search-2',
               order: 200,
-              name: 'default',
+              name: 'search extension 2',
               disabled: true
+            },
+            {
+              id: 'app.search-3',
+              order: 300,
+              name: 'search extension 3',
+              rules: {
+                visible: 'notVisible'
+              }
             }
           ]
         }
@@ -982,6 +998,10 @@ describe('AppExtensionService', () => {
 
     it('should not load the disabled search extension', () => {
       expect(service.search.find(({ id }) => id === 'app.search-2')).toBe(undefined, 'disabled configuration shown in the result');
+    });
+
+    it('should not load the not visible search extension', () => {
+      expect(service.search.find(({ id }) => id === 'app.search-3')).toBe(undefined, 'not visible configuration shown in the result');
     });
   });
 
