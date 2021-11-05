@@ -79,7 +79,7 @@
     "connect-history-api-fallback": "^1.6.0",
     "cspell": "^5.8.0",
     "dotenv": "^8.2.0",
-    "http-server": "^13.0.2",
+    "http-server": "^14.0.0",
     "husky": "^7.0.2",
     "inquirer": "^8.1.5",
     "jasmine-core": "^3.8.0",
