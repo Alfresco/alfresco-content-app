@@ -259,7 +259,7 @@ describe('Info Drawer state', () => {
     store.setState({
       app: {
         ...appState,
-        infoDrawerOpened: false
+        infoDrawerOpened: true
       }
     });
   });
