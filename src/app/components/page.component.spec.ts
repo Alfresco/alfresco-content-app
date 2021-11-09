@@ -25,14 +25,7 @@
 
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { PageComponent } from './page.component';
-import {
-  ReloadDocumentListAction,
-  SetSelectedNodesAction,
-  SetInfoDrawerStateAction,
-  AppState,
-  AppStore,
-  ViewNodeAction
-} from '@alfresco/aca-shared/store';
+import { ReloadDocumentListAction, SetSelectedNodesAction, AppState, AppStore, ViewNodeAction } from '@alfresco/aca-shared/store';
 import { AppExtensionService } from '@alfresco/aca-shared';
 import { MinimalNodeEntity, NodePaging } from '@alfresco/js-api';
 import { ContentManagementService } from '../services/content-management.service';
@@ -42,7 +35,7 @@ import { Store } from '@ngrx/store';
 import { AppTestingModule } from '../testing/app-testing.module';
 import { Component } from '@angular/core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
-import { of } from 'rxjs';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 @Component({
   selector: 'aca-test',
@@ -88,44 +81,6 @@ describe('PageComponent', () => {
       component.node = null;
 
       expect(component.getParentNodeId()).toBe(null);
-    });
-  });
-
-  describe('Info Drawer state', () => {
-    const locationHref = location.href;
-
-    afterEach(() => {
-      window.history.pushState({}, null, locationHref);
-    });
-
-    it('should open info drawer on action event', (done) => {
-      spyOn(store, 'select').and.returnValue(of(true));
-      window.history.pushState({}, null, `${locationHref}#test`);
-      fixture.detectChanges();
-
-      fixture.whenStable().then(() => {
-        component.infoDrawerOpened$.subscribe((state) => {
-          expect(state).toBe(true);
-          done();
-        });
-      });
-
-      store.dispatch(new SetInfoDrawerStateAction(true));
-    });
-
-    it('should not open info drawer if viewer outlet is active', (done) => {
-      spyOn(store, 'select').and.returnValue(of(false));
-      window.history.pushState({}, null, `${locationHref}#test(viewer:view)`);
-      fixture.detectChanges();
-
-      fixture.whenStable().then(() => {
-        component.infoDrawerOpened$.subscribe((state) => {
-          expect(state).toBe(false);
-          done();
-        });
-      });
-
-      store.dispatch(new SetInfoDrawerStateAction(true));
     });
   });
 
@@ -223,6 +178,89 @@ describe('PageComponent', () => {
       component.showPreview(linkNode);
       const id = linkNode.entry.properties['cm:destination'];
       expect(store.dispatch).toHaveBeenCalledWith(new ViewNodeAction(id));
+    });
+  });
+});
+
+describe('Info Drawer state', () => {
+  let component: TestComponent;
+  let fixture: ComponentFixture<TestComponent>;
+
+  let store: MockStore<{ app: Partial<AppState> }>;
+  const appState: Partial<AppState> = {
+    selection: {
+      count: 2,
+      isEmpty: false,
+      libraries: [],
+      nodes: []
+    },
+    navigation: {},
+    infoDrawerOpened: false
+  };
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [AppTestingModule, EffectsModule.forRoot([ViewerEffects])],
+      declarations: [TestComponent],
+      providers: [
+        ContentManagementService,
+        AppExtensionService,
+        provideMockStore({
+          initialState: { app: appState }
+        })
+      ]
+    });
+
+    store = TestBed.inject(MockStore);
+    fixture = TestBed.createComponent(TestComponent);
+    component = fixture.componentInstance;
+  });
+
+  afterEach(() => {
+    fixture.destroy();
+  });
+
+  const locationHref = location.href;
+
+  afterEach(() => {
+    window.history.pushState({}, null, locationHref);
+  });
+
+  it('should open info drawer on action event', (done) => {
+    window.history.pushState({}, null, `${locationHref}#test`);
+    fixture.detectChanges();
+
+    fixture.whenStable().then(() => {
+      component.infoDrawerOpened$.subscribe((state) => {
+        expect(state).toBe(true);
+        done();
+      });
+    });
+
+    store.setState({
+      app: {
+        ...appState,
+        infoDrawerOpened: true
+      }
+    });
+  });
+
+  it('should not open info drawer if viewer outlet is active', (done) => {
+    window.history.pushState({}, null, `${locationHref}#test(viewer:view)`);
+    fixture.detectChanges();
+
+    fixture.whenStable().then(() => {
+      component.infoDrawerOpened$.subscribe((state) => {
+        expect(state).toBe(false);
+        done();
+      });
+    });
+
+    store.setState({
+      app: {
+        ...appState,
+        infoDrawerOpened: false
+      }
     });
   });
 });
