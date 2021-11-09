@@ -201,9 +201,11 @@ jobs:
       script: ./scripts/travis/deploy/publish.sh "app" "$DOCKER_REPOSITORY_DOMAIN" "$QUAY_USERNAME" "$QUAY_PASSORD"
 
     - stage: Release Tag and Publish to Dockerhub
-      script:
-        - ./scripts/travis/release/git-tag.sh
-        - ./scripts/travis/deploy/publish.sh "app" "$DOCKER_HUB_REPOSITORY_DOMAIN" "$DOCKER_HUB_USERNAME" "$DOCKER_HUB_PASSWORD"
+      name: Release Tag
+      script: ./scripts/travis/release/git-tag.sh
+
+    - name: Publish to Dockerhub
+      script: ./scripts/travis/deploy/publish.sh "app" "$DOCKER_HUB_REPOSITORY_DOMAIN" "$DOCKER_HUB_USERNAME" "$DOCKER_HUB_PASSWORD"
 
     - stage: Trigger DW
       script: ./scripts/trigger-travis.sh --pro --branch $TRAVIS_BRANCH Alfresco alfresco-digital-workspace-app $TRAVIS_ACCESS_TOKEN
