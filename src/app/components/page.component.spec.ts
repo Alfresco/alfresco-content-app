@@ -187,18 +187,20 @@ describe('Info Drawer state', () => {
   let fixture: ComponentFixture<TestComponent>;
 
   let store: MockStore<{ app: Partial<AppState> }>;
-  const appState: Partial<AppState> = {
-    selection: {
-      count: 2,
-      isEmpty: false,
-      libraries: [],
-      nodes: []
-    },
-    navigation: {},
-    infoDrawerOpened: false
-  };
+  let appState: Partial<AppState> = {};
 
   beforeEach(() => {
+    appState = {
+      selection: {
+        count: 2,
+        isEmpty: false,
+        libraries: [],
+        nodes: []
+      },
+      navigation: {},
+      infoDrawerOpened: false
+    };
+
     TestBed.configureTestingModule({
       imports: [AppTestingModule, EffectsModule.forRoot([ViewerEffects])],
       declarations: [TestComponent],
