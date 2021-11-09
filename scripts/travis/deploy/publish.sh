@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-PROJECT_AFFECTED=$1
+PROJECT_AFFECTED="$1"
+DOMAIN="$2"
+USERNAME="$3"
+PASSWORD="$4"
+
 cd $DIR/../../../
 
 npm ci && npm run build.release
@@ -10,7 +14,8 @@ npm ci && npm run build.release
 TAG_VERSION=$(./scripts/travis/deploy/get-docker-image-tag-name.sh)
 echo "Running the docker with tag" $TAG_VERSION
 DOCKER_PROJECT_ARGS="PROJECT_NAME=$PROJECT_AFFECTED"
-DOCKER_REPOSITORY="$DOCKER_REPOSITORY_DOMAIN/$REPO_SLUG"
-# Publish Image to docker
-echo "npx @alfresco/adf-cli docker-publish --loginCheck --loginUsername '$QUAY_USERNAME' --loginPassword '$QUAY_PASSWORD' --loginRepo '$DOCKER_REPOSITORY_DOMAIN' --dockerRepo '$DOCKER_REPOSITORY' --buildArgs $DOCKER_PROJECT_ARGS --dockerTags '$TAG_VERSION,$TRAVIS_BRANCH' "
-npx @alfresco/adf-cli docker-publish --loginCheck --loginUsername "$QUAY_USERNAME" --loginPassword "$QUAY_PASSWORD" --loginRepo "$DOCKER_REPOSITORY_DOMAIN" --dockerRepo "$DOCKER_REPOSITORY" --buildArgs "$DOCKER_PROJECT_ARGS" --dockerTags "$TAG_VERSION,$TRAVIS_BRANCH" --pathProject "$(pwd)"
+DOCKER_REPOSITORY="$DOMAIN/$REPO_SLUG"
+
+# Publish Image to quay.io or dockerhub or another domain
+echo "npx @alfresco/adf-cli docker-publish --loginCheck --loginUsername '$USERNAME' --loginPassword '$PASSWORD' --loginRepo '$DOMAIN' --dockerRepo '$DOCKER_REPOSITORY' --buildArgs  $DOCKER_PROJECT_ARGS  --dockerTags '$TAG_VERSION,$TRAVIS_BRANCH' "
+npx       @alfresco/adf-cli docker-publish --loginCheck --loginUsername "$USERNAME" --loginPassword "$PASSWORD" --loginRepo "$DOMAIN" --dockerRepo "$DOCKER_REPOSITORY" --buildArgs "$DOCKER_PROJECT_ARGS" --dockerTags "$TAG_VERSION,$TRAVIS_BRANCH" --pathProject "$(pwd)"
