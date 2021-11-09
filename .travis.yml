@@ -32,7 +32,7 @@ stages:
     if: type = cron || type = pull_request
   - name: Publish Docker Registry
     if: type = push
-  - name: Release Tag
+  - name: Release Tag and Publish to Dockerhub
     if: branch = master AND type = push
   - name: e2e
     if: type = cron || type = pull_request
@@ -198,10 +198,14 @@ jobs:
 
     - stage: Publish Docker Registry
       name: Publish Docker Registry
-      script: ./scripts/travis/deploy/publish.sh "app"
+      script: ./scripts/travis/deploy/publish.sh "app" "$DOCKER_REPOSITORY_DOMAIN" "$QUAY_USERNAME" "$QUAY_PASSORD"
 
-    - stage: Release Tag
+    - stage: Release Tag and Publish to Dockerhub
+      name: Release Tag
       script: ./scripts/travis/release/git-tag.sh
+
+    - name: Publish to Dockerhub
+      script: ./scripts/travis/deploy/publish.sh "app" "$DOCKER_HUB_REPOSITORY_DOMAIN" "$DOCKER_HUB_USERNAME" "$DOCKER_HUB_PASSWORD"
 
     - stage: Trigger DW
       script: ./scripts/trigger-travis.sh --pro --branch $TRAVIS_BRANCH Alfresco alfresco-digital-workspace-app $TRAVIS_ACCESS_TOKEN
