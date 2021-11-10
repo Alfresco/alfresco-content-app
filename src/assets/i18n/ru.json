@@ -1,6 +1,6 @@
 {
   "APP": {
-    "COPYRIGHT": "© 2017 - 2020 Alfresco Software, Inc. Все права защищены.",
+    "COPYRIGHT": "© 2017 - 2021 Alfresco Software, Inc. Все права защищены.",
     "ABOUT": {
       "VERSION": "Версия:",
       "PLUGINS": {
@@ -52,7 +52,7 @@
       "TITLE": "Предварительный просмотр"
     },
     "DETAILS": {
-      "TITLE": "Подробности"
+      "TITLE": "Сведения"
     },
     "NEW_MENU": {
       "LABEL": "Создать",
@@ -168,6 +168,8 @@
       },
       "SEARCH": {
         "DEFAULT_SEARCH": "По умолчанию",
+        "DUBLIN_CORE": "Dublin core",
+        "EFFECTIVITY": "Эффективность",
         "TITLE": "Результаты поиска",
         "FOUND_RESULTS": "Найдено результатов: {{ number }}",
         "FOUND_ONE_RESULT": "Найден результат: {{ number }}",
@@ -202,13 +204,13 @@
       "DELETE_PERMANENT": "Удалить навсегда",
       "MORE": "Больше действий",
       "UNDO": "Отменить",
-      "PERMISSIONS": "Права",
+      "PERMISSIONS": "Permissions",
       "RESTORE": "Восстановить",
       "FAVORITE": "Избранное",
       "ADD_FAVORITE": "Добавить в избранное",
       "REMOVE_FAVORITE": "Удалить из избранного",
       "UNSHARE": "Снять с публикации",
-      "DETAILS": "Просмотреть сведения",
+      "DETAILS": "Посмотреть подробности",
       "VERSIONS": "Управление версиями",
       "UPLOAD_VERSION": "Загрузить новую версию",
       "TOGGLE-SIDENAV": "Переключить боковую панель навигации",
@@ -362,13 +364,13 @@
       "EFFECTIVITY_GROUP_TITLE": "Эффективность"
     },
     "INFO_DRAWER": {
-      "TITLE": "Сведения",
+      "TITLE": "Details",
       "TABS": {
         "PROPERTIES": "Свойства",
         "LIBRARY_PROPERTIES": "О программе",
         "VERSIONS": "Версии",
         "COMMENTS": "Комментарии",
-        "PERMISSIONS": "Разрешения",
+        "PERMISSIONS": "Permissions",
         "EXPAND": "Развернуть"
       }
     }
@@ -437,7 +439,7 @@
   },
   "INFO_PANEL": {
     "TABS": {},
-    "DETAILS": "Подробности"
+    "DETAILS": "Details"
   },
   "LIBRARY": {
     "DIALOG": {
@@ -485,6 +487,9 @@
       "HINT": "Поисковый запрос должен содержать как минимум два буквенно-цифровых символа."
     },
     "SORT": {
+      "SORTING_OPTION": "Sort by",
+      "ASCENDING": "Ascending",
+      "DESCENDING": "Descending",
       "RELEVANCE": "Релевантность",
       "FILENAME": "Имя файла",
       "TITLE": "Название",
@@ -509,7 +514,9 @@
         "LARGE": "Большой",
         "HUGE": "Огромный"
       },
-      "CREATED_DATE": "Дата создания"
+      "CREATED_DATE": "Дата создания",
+      "EFFECTIVITY_FROM": "Effectivity from",
+      "EFFECTIVITY_TO": "Эффективность"
     },
     "FACET_QUERIES": {
       "TODAY": "Сегодня",

@@ -1,0 +1,600 @@
+{
+  "APP": {
+    "COPYRIGHT": "⁪⁪⁪‌‌‌‌​‍​‍​​​​​‍​​‍​‍‍‍​​​‌​‌‌‌‌​​​​‌‍​‌‌‍‍⁪© 2017 - 2020 Alfresco Software, Inc. All rights reserved.⁪⁪",
+    "ABOUT": {
+      "VERSION": "⁪⁪⁪‌‍​​‍‌‌‍‌​‌‍‌​‍‍​‍​​​‍‍‍‍‍‌‍‍‌‍​‍​‍‌‍​​⁪Version:⁪⁪",
+      "PLUGINS": {
+        "TITLE": "⁪⁪⁪‌‌​‍‌‌‌‍​​‍‌‍‌​​​​‌​‌‍​‍‍​​‌​‍‍‌‍‌‍‍‌​​​⁪Extensions⁪⁪",
+        "ID": "⁪⁪⁪‍‍‍​‌‍‍‍‌‍‌​‌​‌​‌​‍‌‌‍‌‌‍‍‍​​​‌​‌‌‌‍​​⁪ID⁪⁪",
+        "NAME": "⁪⁪⁪‌​‍​‍‍‍‌‍‌‍‍‍‌‌​‍‍‌‌‍​​​‍‍​‌‌‌‌‍‍‍​‌​​‍‌‍⁪Name⁪⁪",
+        "VERSION": "⁪⁪⁪‌‌‍‍‍​‍​‌​​‍‍​​​‍‌‌‍​‍‍‍‌​‌​‌​‌​‍​‌​‌‌‍⁪Version⁪⁪",
+        "VENDOR": "⁪⁪⁪‌‌​‍‍​​‍‌‍​‍‍‍‌​​‌‍​‍​​​‌‌​‌‍‌‌‌‌​​‍‍​‌​​⁪Vendor⁪⁪",
+        "LICENSE": "⁪⁪⁪‌‌​‌‌​‌​​‍‍​‌‍‍‍‌‌​​‍‍​‍‍​‍​​‍‌‍‍‌‍‌‌‌‍⁪License⁪⁪",
+        "RUNTIME": "⁪⁪⁪‌‌‌‌‌‌​‌‌‌‌‍​​‍​‌​‍‌​​‍‍​‌​‍‌‌​​‍‍‌​‌​‍‍‌⁪Runtime⁪⁪",
+        "DESCRIPTION": "⁪⁪⁪‌​​​​‍​‍​‌‌‍​‌‌​‍‍‌‍‍‌‍‌‌​‍‌​‍‌‍​​​‌‍‍​‍‍⁪Description⁪⁪"
+      },
+      "LICENSE": {
+        "TITLE": "⁪⁪⁪‌‍​​‌‍‍‌‌‌‌‌‍​‌​​​‍‌​‍‌​‍‍‌​‌‌​‌‌‍‍​​‌⁪License⁪⁪",
+        "PROPERTY": "⁪⁪⁪‌​​​‍‍‌‌‌​‍‌​‍​‌‍‌‍‌​‍​‍‌‍‌‌‍​​​‌‍​‌‍​​​​⁪Property⁪⁪",
+        "VALUE": "⁪⁪⁪‌‌​‌​‌‍‌​‌‌‌‍‍‍‍‌​‌‍‌‍​‍‍​‍​​‌​​​‍​‍‌​⁪Value⁪⁪"
+      },
+      "STATUS": {
+        "TITLE": "⁪⁪⁪‍‌​​‌‍​‍‌‍‌‍‌‌​​​‌‍​‍​​‌‌‍‍‌‌​‌‍‌‍‌​‍‌⁪Status⁪⁪",
+        "PROPERTY": "⁪⁪⁪‍‌‌​​‍‌​‌‍‍‌‌‌‌‍‍​‍‌​​‌‌‌‌​‌​‍‍‌​‍‌‌​‌⁪Property⁪⁪",
+        "VALUE": "⁪⁪⁪‍‌​‌​‌‌​‌​‍​‌​​​​‌‍‌‍​​‌‍‍‍‌‌‍‍‍‌‍‍‌‌‌​​⁪Value⁪⁪"
+      },
+      "MODULES": {
+        "TITLE": "⁪⁪⁪‍‌​‍‍‍‌​‌​‌‌‍​‍‍​​‍‍‌​​​‍‍‌‍‍‌​​‌‌‍‍​​‌‍⁪Alfresco platform modules⁪⁪",
+        "ID": "⁪⁪⁪‌‌‌‍‌​​​‍‌‍​​​‍‌‍‍​​​‌‌‌‌‌‌​​‍‌‍​‌‌‍‌​‌​⁪ID⁪⁪",
+        "NAME": "⁪⁪⁪‌‌​‌‌‌‌‌​‌​​​‍‍​‍‍‌‌‌‌‍​‌‍​​‌​‌‍​‍‍‍‍‍‌‍⁪Name⁪⁪",
+        "VERSION": "⁪⁪⁪‍‍‍‍‍‌‌​‌​​‌​‍‍‌‌​​‌‌‍‍‍‌‍​​‌‍‌‌‍​‍​​‌‍‍⁪Version⁪⁪"
+      },
+      "PACKAGES": {
+        "TITLE": "⁪⁪⁪‌‌‍‌​‍​‍‌​‍‍‍​‍​‍​‌‍‌​​​‍‍​​‌​‍​‌​‌‌‍‍‍‌⁪Packages⁪⁪",
+        "NAME": "⁪⁪⁪‌​‍​​​‍‌‍​‍‌‍‍‍‌​​‍‍​‍‌‍‌‌​‌‌‍​‍​‌‍‍‌​‍​⁪Name⁪⁪",
+        "VERSION": "⁪⁪⁪‌‌​‍‌​‍‌​‍‍​‌​‍‍‌​‌​‍‌‌​‍​‍‌‍​‌‌‍‍​​‍‌‌​‍⁪Version⁪⁪"
+      }
+    },
+    "LANGUAGE": "⁪⁪⁪‌​‌‍​​​‍‌‌‍‍‍‌‌​​‌‍​​​‍‍​​​‌​‌​‌‍‍‌​​‍​‌‍⁪Language⁪⁪",
+    "SIGN_IN": "⁪⁪⁪‌‌​‌‌‍​​‍‍‌‌​‍‌‌‍‌‍​​‍‍‌​​‍‍​‌‌‍‍‌​‌‌‍‍‍‍⁪Sign in⁪⁪",
+    "SIGN_OUT": "⁪⁪⁪‍​‌​‌​​‌‌‌‌‍​‌​​‍​‌‍‌‍​‌‌​‍​‌​‍‍‍‍‌‍‍‌⁪Sign out⁪⁪",
+    "SETTINGS": {
+      "TITLE": "⁪⁪⁪‌​​​​‌‍‍‌‌‌‍​‍‌‌‍‌​‌‌​‌‍‌​​​‌‍‍‍​​‍‍‍‍‌​​⁪Settings⁪⁪",
+      "APPLICATION-SETTINGS": "⁪⁪⁪‌​‍‌‍‍‌‍‍‍‌​‍​​‍‌​‍‌‍‌‌‌‍​‍‌​‍​​‌​​‌‍​‍⁪Application Settings⁪⁪",
+      "REPOSITORY-SETTINGS": "⁪⁪⁪‍‌‌‌‌‍‍‍‍‍​‍‍‍​‍​​​​‌‌​​‍‍‍​‍‌​‌‌​‌​‌​‍‌⁪Repository Settings⁪⁪",
+      "INVALID-VALUE-FORMAT": "⁪⁪⁪‌​​‌‌‌‍‌‌‍‌‌​​‌‌‌‍‍‌‌‍‌‌‌​‍​​​​‌​‍‌‍‍‌‍​⁪Invalid value format⁪⁪",
+      "REQUIRED-FIELD": "⁪⁪⁪‍‌‌‍‌​‍​‍‍‌​​‌‍‌‌​​‍‍‌‍‌​‌​​​‍​‍‍‍‌‍‌‌​​⁪This field is required⁪⁪",
+      "RESET": "⁪⁪⁪‍​‍​‍‌​‌‍​‍‍​​‍​‍‍‌‍​​​‌‍‌​‍‌‌‍‍​​‌​‍​‌⁪Reset⁪⁪",
+      "APPLY": "⁪⁪⁪‌‍​‌‍​‍‍‌‍‌‌‌‍​‍​‌‌​‍‌‍‍‌‌‌‌​‌‌‌​‌‌‍‍‍​​⁪Apply⁪⁪"
+    },
+    "LOCKED_BY": "⁪⁪⁪‌‌‍‌​​‍‌‍‌‌‌‍‌‌​‍‌‍​‍‌‌​‍​‍‌‌​‍​​‌‍​​‍⁪Locked by: ⁪⁪",
+    "PREVIEW": {
+      "TITLE": "⁪⁪⁪‍‍‌​‍‌​‍‌‌‌‌‌‌‌‌​‌‌​‌‍‌​‌​‌‌‌‌‌‍‍‌​‌‌‌​‍⁪Preview⁪⁪"
+    },
+    "DETAILS": {
+      "TITLE": "⁪⁪⁪‍‌​‌​​‌​​‍‍‍‍‍‍‍​​‍​‍‍‌‌‍‌‌‍‍‌‍‍‍​​‍‌‌​‍⁪Details⁪⁪"
+    },
+    "NEW_MENU": {
+      "LABEL": "⁪⁪⁪‌‌​​​‍​‌​​‍‍​‍‌‌‌​‌‍‌‌​​‌‌​‍​‍​‍‌‌‌​‍‌‌​​⁪New⁪⁪",
+      "TOOLTIP": "⁪⁪⁪‍‍‌‍‌‌‍‍‌‍‌‌​‍‌‌‍​‍‌​‌‌‍‌‍​‍‍‍‍‌‍​‌‍​⁪Add new files and folders, or create a new File Library⁪⁪",
+      "MENU_ITEMS": {
+        "CREATE_FOLDER": "⁪⁪⁪‍​‌​‌‍​​​‍‍‌​‌‌‍​‌‌‌‌‌​‍​​​‌‌‌‌​‌‍‌‌​‌‍‌⁪Create Folder⁪⁪",
+        "UPLOAD_FILE": "⁪⁪⁪‍‌‌​‌‍‍‌​​‌​​‍‍‍‍‍​​​​‍‌‍‍‍‍‌‍​‍‌‍​‍​‌⁪Upload File⁪⁪",
+        "UPLOAD_FOLDER": "⁪⁪⁪‌‍‌​‌‌‍‍‍‍‍‍‍​‌‍‍​‌‍‍‍​​‍​‌​‍​​‍‌‌​​‍​‍​⁪Upload Folder⁪⁪",
+        "CREATE_LIBRARY": "⁪⁪⁪‌​‌‍‌​‌‍‌‌‌‌‍‍​‌​​​‍​‍​‍​​‌​​‍‍‌‌‌‌​‌‌​⁪Create Library⁪⁪",
+        "FILE_TEMPLATE": "⁪⁪⁪‍‌‍‌‌‌‍‍‌​‍​‌​‍‍‍‍‍‍​​‍‍​​‍‌‍‍​​‌‌‍​​​‍‌⁪Create file from template⁪⁪",
+        "FOLDER_TEMPLATE": "⁪⁪⁪‍​‍‍‌​‌​‌‌‌​​‌‍​‍​‌‌‍‍​‍‍​​​‍‍‌​‍‍​‌‌‍⁪Create folder from template⁪⁪"
+      },
+      "TOOLTIPS": {
+        "CREATE_FOLDER": "⁪⁪⁪‌‍‍‍‌​‌‍‌‌‍​‍​‍‌‌‌​‌‍‍‍​‌‍​​‍​‍​​‌​‍​​‍‍⁪Create new folder⁪⁪",
+        "CREATE_FOLDER_NOT_ALLOWED": "⁪⁪⁪‍‍‌‍‌​‍​‌‍‍​‌‌​‍‍‌‍‍​​​‍‌‌‍‍‍‍‌​​‌​‍​‍⁪Folders cannot be created whilst viewing the current items⁪⁪",
+        "CREATE_FILE_NOT_ALLOWED": "⁪⁪⁪‍‍‌‌‍‌‌‍‍​‌​‌​​​‍​‌‍‍‌​​‌‍​‌‍‍‍​‌‌​‍​​‌‍⁪Files cannot be created whilst viewing the current items⁪⁪",
+        "UPLOAD_FILES": "⁪⁪⁪‌‌​‌​​‍​​‌​​​‌​‍​‌‍​‌‍‍‍​‍‌‌​‍‌‍​​‌‍‍‌​‍⁪Select files to upload⁪⁪",
+        "UPLOAD_FILES_NOT_ALLOWED": "⁪⁪⁪‌‌​‌‌‌‌‌‍‌​‌​‌​‍‌​​‍‌‌‌‌​​​​‍‌​‍​‍‍​​‍‌​‍⁪Files cannot be uploaded whilst viewing the current items⁪⁪",
+        "UPLOAD_FOLDERS": "⁪⁪⁪‌‌‍‍‍‍‌‍‍‌‌‌‍‌‍‌‍‌‌​​‌​‌‍​‌‍‍‌‍‍‍‌​​‍‍‌‍⁪Select folders to upload⁪⁪",
+        "UPLOAD_FOLDERS_NOT_ALLOWED": "⁪⁪⁪‍​​​​‍‍‌‍​‍​​‌​‌​‍​‍​‍‌‍‌​​‌​​‌‍​‍‌‍‍​‌‍⁪Folders cannot be uploaded whilst viewing the current items⁪⁪",
+        "CREATE_LIBRARY": "⁪⁪⁪‌‌‍‍‌‍‍​‌​‌‌‍‍​‍‌​​‍‍‍​‌‌‍​‍‌‌​‍‍‌​‍‌​‌‌⁪Create a new File Library⁪⁪"
+      }
+    },
+    "BROWSE": {
+      "PERSONAL": {
+        "TITLE": "⁪⁪⁪‍‌‍​‍‌‍​‌‌​‍​​‌‌‌‍​‌‍‍‍‌‌‍​‌‌‍‍​‌‌​‌‌‍​⁪Personal Files⁪⁪",
+        "SIDENAV_LINK": {
+          "LABEL": "⁪⁪⁪‍​‍‌‌‌‌​‍​‍‍​​‌‌‌​‍‍‌‍​‌‍‍‍​‍‌​‍‍​‍​‌​​​⁪Personal Files⁪⁪",
+          "TOOLTIP": "⁪⁪⁪‌​​‍‍‍‌‌​‌‍‌‌‌‌‍‌​​​‍‍‍​​‍​‌‌​‍‌​‍​​​‌​‌​⁪View your Personal Files⁪⁪"
+        }
+      },
+      "LIBRARIES": {
+        "TITLE": "⁪⁪⁪‍‍‌​‍‍‍‌‍‍​‌‌‍‌‍​‍‍‌‍‍‍‍‌​​‍​‍​‌​‌‌‌​​‍‌⁪File Libraries⁪⁪",
+        "DESCRIPTION": "⁪⁪⁪‍‌​​‍‍‍‍‍‍​‍​‍‍‌​‍‌‌‍‌​‌‍‍​‌‌‍‍‌‍‍​‌​‌​‌⁪Access File Libraries⁪⁪",
+        "SIDENAV_LINK": {
+          "LABEL": "⁪⁪⁪‌​‍‍‌​‍​​​​​​​​​​​‍‌‍‌‌‌‍​‍​‌‍‍​‍‍‍​‌​‌⁪File Libraries⁪⁪",
+          "TOOLTIP": "⁪⁪⁪‍‌‍​​‌​​​​‌‌‌​​​​‌​​‌‌​​‌​​‌‌​‍‌​‌‍​‌​​‍⁪File Libraries⁪⁪"
+        },
+        "EMPTY_STATE": {
+          "FILE_LIBRARIES": {
+            "TITLE": "⁪⁪⁪‌​‌​‍​‍‌​‍‌‍‌‍‍​‌‍‌​‌‍​‌‌‌‌​‍‍‌‌​‍​​​‍‍‌‌⁪You aren't a member of any File Libraries yet⁪⁪",
+            "TEXT": "⁪⁪⁪‌​​‍​‌​‌‍‍‌‌‌​‍​‌‍​‍‍‍‍‍‌‍​‍​‍​‌​​‌‍‍‌​​‌⁪Join libraries to upload, view, and share files.⁪⁪"
+          },
+          "FAVORITE_LIBRARIES": {
+            "TITLE": "⁪⁪⁪‍​‌‍‍​‍​‌‍​‌‌‌​​​​​‌‍‌​‍‍​​​‌​​‌‍‌‍‍​‌‌​⁪No Favorite Libraries⁪⁪",
+            "TEXT": "⁪⁪⁪‌​‍‍‍‌‌‍​‌​​​‍‌‍‌​‍​​‌​​‍​‍‍​‌‌‍​‌‍‌‌‍​‍‍⁪Favorite a library that you want to find easily later.⁪⁪"
+          }
+        },
+        "MENU": {
+          "MY_LIBRARIES": {
+            "TITLE": "⁪⁪⁪‌​‍​‍​‌‌‌‌‍​‌‍‍​‍‍​‍‍‌‍‌‍​‌‌‍‌‌‍‍‍‌‌‌‌​‍‌⁪My Libraries⁪⁪",
+            "SIDENAV_LINK": {
+              "LABEL": "⁪⁪⁪‌‌‌‍​​​​‌‍‍​‌‌​​​‌‍​‍‌​‍‍​​‍‍‍‍‍‌​​‌‌‌​‌⁪My Libraries⁪⁪",
+              "TOOLTIP": "⁪⁪⁪‌‌‌‌‌​​‍‌‍‌​‍‍​‌​‌​‍‍‌​‍‌​‌​‍‌​​‍‌​​​‍‍‍‌⁪Access my libraries⁪⁪"
+            }
+          },
+          "FAVORITE_LIBRARIES": {
+            "TITLE": "⁪⁪⁪‌​‍‍‌‌‍‌​​‌‌‌‌​​‌‌​‌‍​​​‌‌​‌‍‍​‌​​‌​‌​‍​⁪Favorite Libraries⁪⁪",
+            "SIDENAV_LINK": {
+              "LABEL": "⁪⁪⁪‍‌‌‌‌​‌‍‍‌‌‍‍‌‌‌​‌‌​‌‍​​​‌‌​​‍‍‌‍‌‍‌‍‍‌‍⁪Favorite Libraries⁪⁪",
+              "TOOLTIP": "⁪⁪⁪‌‌‍‍‌‍‌‌‌‌‍‌‌‍​​​​‌‍​‌‌‍‍‌‌‌‍‌​‍‌‌‌​‍​⁪Access my favorite libraries⁪⁪"
+            }
+          }
+        }
+      },
+      "SHARED": {
+        "TITLE": "⁪⁪⁪‍​​‍‌‌‍‌​‌​‌‍‌​‍​‍​​​​​‍​​‍​‌‍‌‍​‌‌‌‍‍‌‍⁪Shared Files⁪⁪",
+        "SIDENAV_LINK": {
+          "LABEL": "⁪⁪⁪‍‍​‌‌‌​‍‍​‍​‍​​‍‌‌​‌‍​‌‍​​​‌​‌‍​​​​​​‍​‌⁪Shared⁪⁪",
+          "TOOLTIP": "⁪⁪⁪‍​‌‍​​‍‍‍​‍‌‌‌‌‍​‍​‌‍​‌‍‌​‍​‍‌​‍​​​​‌‍‍​⁪View files that have been shared⁪⁪"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "⁪⁪⁪‍‌‌​​‌‌​‌‌‍‍​​​‌​‌‍​‍​‌​​‍​‌‌​​‌‌​‍​‍​​​⁪No shared files or folders⁪⁪",
+          "TEXT": "⁪⁪⁪‌​‍‍​‌‍‍‍‌​​​​‌‌‍‌​‍‌‌‌​‍​‍‌‌​​​‌‌‍‌​​‍‌⁪Items you share using the Share option are shown here.⁪⁪"
+        }
+      },
+      "RECENT": {
+        "TITLE": "⁪⁪⁪‌‍‍‍‍​‌​‍‍‍‌‍​‍​‍​‌​‌​‌‍‌‌‍​‌‍​‍‌​‌‌‌‌‍‌⁪Recent Files⁪⁪",
+        "SIDENAV_LINK": {
+          "LABEL": "⁪⁪⁪‌‌‌‌‌‌‌‌‌‍‌​‌‌‍​‌‌‌​​‍​‌‌​‌‍‌‌‌‍​​‍​‍‍​​‍⁪Recent Files⁪⁪",
+          "TOOLTIP": "⁪⁪⁪‍​​​‌‌‌‌‍​‍​​‌‌‌​​​​‍​​‌‍‍​‍‍‌​‌​‍‍‌​​⁪View files you recently edited⁪⁪"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "⁪⁪⁪‌​‍‍‌‍​‍‍​‌‍‌‌‌‌​​​​​​‌​‌‌‍‌‌‌‍​​​‌‌‌​‍‌‌⁪No recent files⁪⁪",
+          "TEXT": "⁪⁪⁪‌​‌‍‌‍‌​‌‍‌​‌‍‌‌‌‍​‍​‌‍​‍​‍‍‍‌‍‍​‍​​‌​‍‌‌⁪Items you uploaded or edited in the last 30 days are shown here.⁪⁪"
+        }
+      },
+      "FAVORITES": {
+        "TITLE": "⁪⁪⁪‍​‌‌‍‍‍‍​‍‍‍‍‍‌‍‌‍‌​‌‍​‍​‍‌‌​‍‌‌‍‍‍‌‌‌‍⁪Favorites⁪⁪",
+        "SIDENAV_LINK": {
+          "LABEL": "⁪⁪⁪‌‍‍​‍‍‌‌​‌‍​‍‌‌‍​‍‍‌‌‌‌‌‍​‍​‌‌‍​‍​‌‌​‍‍​⁪Favorites⁪⁪",
+          "TOOLTIP": "⁪⁪⁪‌​‌‌​‌​‌​‍‍‍‍‍‌‌‌​‍​‌‍​‌‍‌‍​​‌‌‌​‍‌‌​​‍​‌⁪View your favorite files and folders⁪⁪"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "⁪⁪⁪‌​‌‍‌‍​‌‍​​​‌‌‍‍​​​​​‌‌​‌‍‌‍‍‌​‍‌‍‌‍‍​‍‍‌⁪No favorite files or folders⁪⁪",
+          "TEXT": "⁪⁪⁪‍‌​‌‍‍‍‌​‌‍‍‍​‌​‌‍​‍‌‌‌​​‌‍‍‌‍‌‌‍‍​‍‌‌​‍⁪Favorite items that you want to easily find later.⁪⁪"
+        }
+      },
+      "TRASHCAN": {
+        "TITLE": "⁪⁪⁪‌​‍‍‌‌‍‌‌​‍​‍‍‍‍‍​‌‍‌‌‍​‍​‌‌‌‌‌​​‌​‍‍‌‌‍⁪Trash⁪⁪",
+        "SIDENAV_LINK": {
+          "LABEL": "⁪⁪⁪‌‍​‌​‌​‌​​‍‍‍‍‌‌​‍​‍​‌‍​‍​​​​‍​‍​​‍‌​​‌‌⁪Trash⁪⁪",
+          "TOOLTIP": "⁪⁪⁪‍‌‍​‍‌​‍‍‌‍‍‍​‍​‍‌‌‍​‌‍‍​‍​‌‌‌‍‌​‍‍‍​​‌​⁪View deleted files in the trash⁪⁪"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "⁪⁪⁪‍​‌‌​‍‌​‌​‍​‍‍‌​‌‍‌‍​​‌‌‍‍​‌​‍‍‌​‌‌​‍​‌‌⁪Trash is empty⁪⁪",
+          "FIRST_TEXT": "⁪⁪⁪‌‍‌‍‌‌‌‌‍‌‍​‍‍‍‌​​​​​‌‌‍‍​​​​​‍‌‍‍‍‍‌‌‍‍⁪Items you delete are moved to the Trash.⁪⁪",
+          "SECOND_TEXT": "⁪⁪⁪‌​‌​​​​‌‌​‍‌​​​‌‍‌‍‌‌‍​‍​‍​​‌‌‍‌‌‍​‍​​​​‍⁪Empty Trash to permanently delete items.⁪⁪"
+        }
+      },
+      "ABOUT": {
+        "TITLE": "⁪⁪⁪‍‍‍‍​‍‌‍‌​‍‌​​‍​‌‍‌‍‌‌‍‌​​‍​​‌‌‌​‌‌‌‍​‍⁪About⁪⁪"
+      },
+      "SEARCH": {
+        "DEFAULT_SEARCH": "⁪⁪⁪‍‌​​‍‌‌‍‌‍‍‍​‍​‍​‌​‌‌​‌‍​‍‍​‌‌‌​‌‍​‌‍​​‍⁪Default⁪⁪",
+        "DUBLIN_CORE": "⁪⁪⁪‍​‌‌‍​‍‍‍‌‍​​‌‍​​‌‍​‍‍​‍‍​‍‌‍‍‌​​‍‌​‌⁪Dublin core⁪⁪",
+        "EFFECTIVITY": "⁪⁪⁪‍​​‌‍‌‍​‍‌‍​​​‍‌‌‌‍‍‌‍‍‍‍‌‍‍‌​​​​‌‌‌‍​‌⁪Effectivity⁪⁪",
+        "TITLE": "⁪⁪⁪‌‍‍​​‌‌‍‌‍‍‌‌‌‌‌‌‍​‌‌​‍‍‌‌​‍​​‍‍‌‌‍‌‍‍‌‌⁪Search Results⁪⁪",
+        "FOUND_RESULTS": "⁪⁪⁪‌‌​‍​‌‍​‌​‍​‌‌​‌​​‌‍‍‍​‍‌​​​​‌‍​‌‌‌‍‍​‍​‌⁪​​​{{ number }}‌‌‌ results found⁪⁪",
+        "FOUND_ONE_RESULT": "⁪⁪⁪‍​​​‌​‌​‌‌​‌‍‍‌‌​‌‌‍​‍‍​​‌‍‍​‍‌‍‌‍‍‌‌‍‌‌⁪​​​{{ number }}‌‌‌ result found⁪⁪",
+        "CUSTOM_ROW": {
+          "MODIFIED": "⁪⁪⁪‌​​‌​‍‍​‌‍​‍‌‌‌‌​​‌​‌​‍‍​‌​‍‌‌​‍‌​‌‌‍‌‍‍‍⁪Modified⁪⁪",
+          "BY_USER": "⁪⁪⁪‌​​‍‍‌​​‌‍​‌‍‍‌‌‌​​‌‌‌​‍‌​‌​‌‍​​‌‌‌​‌​‍​​⁪by ​​​{{ user }}‌‌‌⁪⁪",
+          "LOCATION": "⁪⁪⁪‌​‍‌‍‍‍​‍‌‌​‍‌‌‍‌​‍‌​‌‍‍​‍​​‌‍​​‌‌‍​​​⁪Location⁪⁪",
+          "SIZE": "⁪⁪⁪‍‍​​‍​‌‍​‍‌​‌‍‍‌‍‍‌​‌​‍​‌‌‌‍​​‍‍‌‍​‌‍​‍⁪Size⁪⁪"
+        },
+        "UNKNOWN_LOCATION": "⁪⁪⁪‌‌‍​‍​‌‍‌​‌‌‍‍‌​‌‍​‌‍‍​‍‍​‌‌‍‌​‍‍‌‍​​‍‍‍⁪Unknown⁪⁪",
+        "NO_RESULTS": "⁪⁪⁪‌‌​‍‍‌‌‍​‍‍‍‍​‌‍‌​​‌‌​‍‍‍​‌​‍​​‌‌‍‌‍​​​‌​⁪Your search returned 0 results⁪⁪",
+        "EMPTY_SEARCH": "⁪⁪⁪‌​‍‍​​‍‍​​‍‌‍‌‍‌‍​‌‍​‌‍‌​‌‍‌‍‌​​‍​​​‌‍​​​⁪Search term required⁪⁪",
+        "NO_FILTER_RESULTS": "⁪⁪⁪‍​​‍‌​‍‍‌​‌‍‍​​​​‍‌‌‌‍‍‌‍‍​​‌​‍‍​​‍‌‍‍​​⁪Your filter returned 0 results⁪⁪",
+        "ERRORS": {
+          "500": "⁪⁪⁪‌​‍‌‍‌‌‌​‌​‍​​‌​​​​‍‌‌‌‌‍​‍‌‌‍​​‍​‌‌‌‌‍​‌⁪There was an error processing the search query [500]⁪⁪",
+          "GENERIC": "⁪⁪⁪‍‌​​‌‌​​‍‍‌​​‌‌‌‌​​‌‌‌​​‌‌​‍​‌‍‍‌‍‍‌‌‍​‌⁪There was an error processing the search query⁪⁪"
+        }
+      },
+      "SEARCH_LIBRARIES": {
+        "TITLE": "⁪⁪⁪‍‍‌‍​‍‍‍‍‍​‍‌‌‍‍​​‍​​​‌‍‍‍​​‍‌‍‍‌‍‍​‍​‍‌⁪Libraries found...⁪⁪",
+        "FOUND_RESULTS": "⁪⁪⁪‌‍​‌‌​​​‍​‌‍‍​​​‍‍‌‍​‌​‍‍​‍​‍‍‌​​‍‌​‌‌‍‍⁪​​​{{ number }}‌‌‌ results⁪⁪",
+        "FOUND_ONE_RESULT": "⁪⁪⁪‌‌‍‍​‌‍​​‌​‌​‍‌​​‌‍​​‍‍‌‌‌‍‍‍​‌‌‍​‍​​‍​⁪​​​{{ number }}‌‌‌ result⁪⁪"
+      }
+    },
+    "ACTIONS": {
+      "VIEW": "⁪⁪⁪‌‌​‍‌​‌‍​​‌‌‍‌‍​​​‍‍‌​‌​‌​‌‍‍‌‌‌​‌‌‍‌‌‌​​⁪View⁪⁪",
+      "EDIT": "⁪⁪⁪‌‌‌‌​​‌‌‌‍‍‌​‍‍​​​‌‌‌​​‌‌​​‌​‌​​‌‍​‌​‌‍‍‌⁪Edit⁪⁪",
+      "DOWNLOAD": "⁪⁪⁪‌​‍​‌‍​‍​‍‍​​‌‍​‍‍‌​‌‍‍​‌​‍​‌​‍‌​​‍‌​‍‍‌​⁪Download⁪⁪",
+      "COPY": "⁪⁪⁪‍​‌​‍​‍‌‌​‌‌‍‍​‍‌‌‌‍‌‌‍​​​​​‌​​‌‍‍‌​​​‌‍⁪Copy⁪⁪",
+      "MOVE": "⁪⁪⁪‌‌‌‌​‌‌‌​​‌‍‌​‍​‍‌‌​​​​‌​‌‍‍​​​​‍‍‍‍‌‍‍​‍⁪Move⁪⁪",
+      "DELETE": "⁪⁪⁪‍‌​‍​‌​‌​​​‍‍​‌‍‌‍‌‌​​‌‌‌‍​‌‌​​‍​‍‍‍‌‌‍‌⁪Delete⁪⁪",
+      "DELETE_PERMANENT": "⁪⁪⁪‌​‍‍‌‍‌‌‍‌​‌​​​‌​​​‍‍​​‍​​‌​‍​‌‍‍‌​‍​‍​‍​⁪Permanently Delete⁪⁪",
+      "MORE": "⁪⁪⁪‍​‌​​​‍‌‌​​‌‌​‍​​​‌‌‍‍‍‌‍​‌​‍‍‌‍​‌‍​​‍‌​⁪More Actions⁪⁪",
+      "UNDO": "⁪⁪⁪‌‌‌‌​‌‍‌‌​‌​‌‌‍‌‍‍‍​‍‍​​‍‍​​​‌‍‍‌‌‍‌​​‌‌⁪Undo⁪⁪",
+      "PERMISSIONS": "⁪⁪⁪‍‍​‍​‌​​‌‍​‍‍‌​​‍‍‍‌​‌‌‍‌​‍‌‍‌‌‌​‍​‌‌​‌‍⁪Permissions⁪⁪",
+      "RESTORE": "⁪⁪⁪‌‍‌‍‌‍‌​​‌‍​‍‌​​‌‌‍​‍‍‌‍​‍​‌‌‍​‌​‌‌​​​⁪Restore⁪⁪",
+      "FAVORITE": "⁪⁪⁪‌​​​‌​‍‌‍​​‍​‌‌‍‍‌​​‍‍‌​​‍​‍‌‌‌​‍‍​‍​​​‌⁪Favorite⁪⁪",
+      "ADD_FAVORITE": "⁪⁪⁪‍​​‌​‍​‍​‍‍​​‌‍‌​‌‍​‌‌‌​‍​​‌‌‌‍‍‌​‍‍​​‌‍⁪Add Favorite⁪⁪",
+      "REMOVE_FAVORITE": "⁪⁪⁪‌‌​​​​‌​‍‍‍‍‌‍‍‌‍​‌‌‍‌‌‌‌‌‌​‌‍‌‍‍‌‌​​⁪Remove Favorite⁪⁪",
+      "UNSHARE": "⁪⁪⁪‍‍‌​‌‍‍​‍‌​‍‍‍‌​​​‍​‍‍‍‌‌‌‌​‍‌‌‌‍‌‌‍‍‍​‍⁪Unshare⁪⁪",
+      "DETAILS": "⁪⁪⁪‌‌​‍​‌​‌‍‍‌‌‌​‍​​​​‍‍‌​​​‍‌‌‌‌​‌‌‍​​‍‌‌​‍⁪View Details⁪⁪",
+      "VERSIONS": "⁪⁪⁪‌​​‌‍‌‌‌‍‍‌‌‌‍‍​‍​‍​‍​‌‌‍‍‍‍​​​​​​‌​​​‌​‍⁪Manage Versions⁪⁪",
+      "UPLOAD_VERSION": "⁪⁪⁪‍‌‌‍‍​‌​​​​​​‌‌​​​‌‍‍‍​‌​‍‍‍​​‍‍‍‍‍‍‍‌‍‍⁪Upload New Version⁪⁪",
+      "TOGGLE-SIDENAV": "⁪⁪⁪‌‌​‍‍‍‌​​​‍​​‍‌​‌​​‍‍‍​​‌‌‍​‌​‍‌​‌‍‌‌​‍‍‍⁪Toggle side navigation bar⁪⁪",
+      "SHARE": "⁪⁪⁪‍‌​‌‍‍‌‍​​‍​‌‍‌​‌​‍​‍‍‌‌‍‌‍‌‍​‌​‌‍‍‌‌‍​⁪Share⁪⁪",
+      "SHARE_EDIT": "⁪⁪⁪‍‍‍​​‌‌‍​‌‌‍​‍‍‍​‌​‌​‌​​​‍‍‌‌​‍‌‌​​⁪Shared Link Settings⁪⁪",
+      "PRINT": "⁪⁪⁪‌‌​‌‌​‍‍‌​‌‌‌‌‌‌‌‍​‍​​​​‌‌​‌‍‌‌‍‍‌‍‌‍‍‍‍‍⁪Print⁪⁪",
+      "FULLSCREEN": "⁪⁪⁪‌​‌​‌‍‌‍​‌‍‍​‌‍​‌‌‌‌‍‍‌‌‌​‍​‍​‍‌‌‍​​‍‌‌⁪Activate full-screen mode⁪⁪",
+      "JOIN": "⁪⁪⁪‌​‍‍​​‌​‌‌​​‌‍​‍‍​​​‍‌‌‌‌‌‍​‍​​​‌‍​​‍‍​⁪Join⁪⁪",
+      "CANCEL_JOIN": "⁪⁪⁪‍‍​‌‍​‌‌​‍​​‌​​​​‍‌​​‌‌​‌​‌​‌​‍​‍​​‍​‍‍‍⁪Cancel Join Request⁪⁪",
+      "LEAVE": "⁪⁪⁪‌​‍​‍‍​‍‌‌​‌‌​‌‍‍​‌‍‌‍‌​​​‌‍​‌​‍‍‍‌‌​‍‌​‌⁪Leave Library⁪⁪",
+      "EDIT_OFFLINE": "⁪⁪⁪‍‌‌‌‌‍​‌​​‍‌​‍‍‍​​‌​​‍‍‌‌‍‍​‌‍‍‍‌‍​‌‌‍‍‌⁪Edit Offline⁪⁪",
+      "EDIT_OFFLINE_CANCEL": "⁪⁪⁪‌‌​​​‌​‌‌‌‍‍‍‍‌‍​‍‍‌‍‌‍‍‌‌‍​‍​‌​‍‍‌​​‍‌‌‌⁪Cancel Editing⁪⁪",
+      "LIST_MODE": "⁪⁪⁪‌​‌‍​​‌‍‌‌​‍​​​​‍​‌‌‍‌‌‍‍‍​​‌‌​​‌‍‌‍​‌‍‍⁪View list⁪⁪",
+      "GALLERY_MODE": "⁪⁪⁪‌‌‌‌‌​‍​‍‍‍‌‌‌‍​​‌‌‍‌​​‌​‍​​‌​‌‌‌​​​‍​‌‌‍⁪View gallery⁪⁪",
+      "CHANGE_ASPECT": "⁪⁪⁪‍​‍‌​‍‍‌​‍‌​‍‌​‍‌‌​‍​‍​‍‌​​‌‍​‍‍‌‌‌​‌‌​‌⁪Edit Aspects⁪⁪"
+    },
+    "DIALOGS": {
+      "CONFIRM_PURGE": {
+        "TITLE": "⁪⁪⁪‌‍‌‌‌​‍‍​‌‌​‍‌‌‌‍‌‌‌‌‌‍​‌‌‍‍​‌‍‌​‍​​‍‌‍‍⁪Delete from trash?⁪⁪",
+        "MESSAGE": "⁪⁪⁪‍‌‌‌​​‍‌‌‌‌‍‌​‍‌‍‌‌​​​‌‌​​‌‍​‌‍‌‌​​‍‍‍​​⁪This will permanently remove the selected item(s).⁪⁪",
+        "YES_LABEL": "⁪⁪⁪‌​​‍​​‍‍‌‍​‍‌‌‌​​‍​‌‍​​​‍‌​​‍‍​​‍‍‌‍​‌‌​​⁪Delete⁪⁪",
+        "NO_LABEL": "⁪⁪⁪‍‌‍‌‌‌‍​​​‌​​‍‌‌‍‌‌‌​​‍‍‍​‌​‍‌‌‌‌‌‍‌​‌‍​⁪Keep⁪⁪"
+      },
+      "CONFIRM_LEAVE": {
+        "TITLE": "⁪⁪⁪‍‌‍‍​​​‌​‌‍‌‌​​‌‍‍​‌‌‍‍​‍‍‌‌‌​‌​​​‍‍‌​‍​⁪Leave this library?⁪⁪",
+        "MESSAGE": "⁪⁪⁪‌‌‌‍‍​‌‍‍​‌​​‌‍​‍‌‌‌‌‍‌​​‍​‍‍‌‌‍‍‌​‌‍‌‍​⁪Leaving will remove your access.⁪⁪",
+        "YES_LABEL": "⁪⁪⁪‌​‍‌‌‌​‍‌‌‌​​​​​‌‌‍‍‍‍‌‍‌‌‍‌​‍‍‍‍‍‌‌‌​‍​‍⁪OK⁪⁪",
+        "NO_LABEL": "⁪⁪⁪‍‍​​‌‌‍‌​​‍​‍​‌‌​‍‍‌‍‍‌‌‌​‍‌‌‌‌‌​‌​​​‌​⁪Cancel⁪⁪"
+      }
+    },
+    "DOCUMENT_LIST": {
+      "COLUMNS": {
+        "ID": "⁪⁪⁪‌​​‌‍‍‍‍‍​​‍‍‌‌‌‍‌‌‍‍​‍‍‌​‌‍‌​‍​‌‌‌‍‍‍​‍‍⁪ID⁪⁪",
+        "NAME": "⁪⁪⁪‌‌​‍‌​​‌‍‌‌‌‍‌​​‍‍​‍‍‍​‍‍‍‍​‌​​‍‌​​‌‍‌​‌‍⁪Name⁪⁪",
+        "DESCRIPTION": "⁪⁪⁪‌‍​‌​‌‍​‍‌‌‍​‌​‍‌‌‌​‍‌‌‌​‍‍‍‌​​‍‍‌‌‌‍‌⁪Description⁪⁪",
+        "SIZE": "⁪⁪⁪‌‌‌​‌‌‍​‍​‌‌​‌​‌‍​​‍‌‌‌‍‍​‌‍‌‌‍‍‍‌‌‌‍​‌‍​⁪Size⁪⁪",
+        "MODIFIED_ON": "⁪⁪⁪‌​​‍‌‌‌‍‍‌‍‍‌‌​​‌‌‍‌‌‌‍‍‍‍​‌‌​​‍‍‍‍‍‍​‌‍‍⁪Modified⁪⁪",
+        "MODIFIED_BY": "⁪⁪⁪‌‌‍​‍‌‌​​‌​‌​‌‌‌‌‍‍​​‍​‌​‍‌‌‌‌​‌‌‍‌‍​​‌​⁪Modified by⁪⁪",
+        "VISIBILITY": "⁪⁪⁪‌‌​‍‌​​​​‌‌​‍​‍‌‌‍‌‌‍​‌​‍‍‌‍‌‍​‌‍‌​​‍‍‌⁪Visibility⁪⁪",
+        "TITLE": "⁪⁪⁪‌‌​​‌‌​‍‌‌‍‍‌​​‍​‍​‍‍‌‍​‍‍‌​​​​‍‌‌​​‍‍​​​⁪Title⁪⁪",
+        "LOCATION": "⁪⁪⁪‍‍‍​​​‍​‌​‌‍‍‌‌‌​‍‍‌‍‍‌​‌‌​‌​‌​​‌​‍‌‍‍‍‍⁪Location⁪⁪",
+        "SHARED_BY": "⁪⁪⁪‌‌​‌​‍‍‌‌‌​​​​​​‌​‌‍‍‌‌‌‍​​‌‌‌‍‌‍‌‍‍​‌‍‍‍⁪Shared by⁪⁪",
+        "DELETED_ON": "⁪⁪⁪‌‌‌​‌​‍‍‌​‍​‌‍‌‌‍‍‍‌‍‌‍​‌‍​​‌‍‍​‌‍‍‌​‌‍​​⁪Deleted⁪⁪",
+        "DELETED_BY": "⁪⁪⁪‌‌‍‌‌‌‍​‌‌‍‍‌​​‍‍‍‍​‍‍‍​‌​‍​‌​​‌​‌​‌‍​​⁪Deleted by⁪⁪",
+        "ROLE": "⁪⁪⁪‌‍​​‍‌‍‍‌​‌​‍​‌​‌‍‍​​‍​‌‌​‍‌‍​‌‌‌‍​‌‍​‌‌⁪My Role⁪⁪"
+      },
+      "TOOLBAR": {
+        "CARDVIEW": "⁪⁪⁪‍​‍​‌​‌​‍‌​​‍‍‍‌​‍‌‍‌‌‍‌‍‍‍​‍‍‍‍‍‍​‌‍‍⁪Card view mode⁪⁪",
+        "LISTVIEW": "⁪⁪⁪‌​‌‍​​‌‌​​‍‌​​​‌‍‍​​‍‌​​​‌​‍​‍​​​‌‌​‍‌​‌⁪List view mode⁪⁪"
+      }
+    },
+    "MESSAGES": {
+      "ERRORS": {
+        "CANNOT_NAVIGATE_LOCATION": "⁪⁪⁪‌​‍‌​‌​‌​​​​‌‌‌​​‍​​‍​​‌‌​‌‍‍​‌‌‌‍‌‍‍‌​‍​⁪Cannot open this location⁪⁪",
+        "MISSING_CONTENT": "⁪⁪⁪‌​‌​‍‍‍‍‍‌​‍‍‍‌‍‌‍‍​​‍​‌‌​​​‌‌​‍​‍‌‌​​‌​‍⁪This item no longer exists or you don't have permission to view it.⁪⁪",
+        "GENERIC": "⁪⁪⁪‌​‍‌​‍‌‍‍​‍‍‍‍‌​‌​‌‌​‌​‌‍​‌‍​‍‌‍​‌‍​‌‌​​‍⁪The action was unsuccessful. Try again or contact your IT Team.⁪⁪",
+        "CONFLICT": "⁪⁪⁪‌​​‌​‌​​‍‌‍‍​‌​‌​​‌‍‌‌​‌‍​‍‌‍‍‍​‌‌‍‌‌​​‌​⁪This name is already in use, try a different name.⁪⁪",
+        "NODE_MOVE": "⁪⁪⁪‍​‍‌​‍​​‌‍​​‍​‌‍​‌‍​‍‍‌‍‍‌‍‌‌‍​‍​‌​‌‍​​‍⁪Move unsuccessful, a file with the same name already exists.⁪⁪",
+        "EXISTENT_FOLDER": "⁪⁪⁪‍​‌‌​‌‍‍‌​​‍‌‍‌​​​​​​​‍‌‌‍‌​‍‍​‌‌‌​‍‌‍‌⁪There's already a folder with this name. Try a different name.⁪⁪",
+        "NODE_DELETION": "⁪⁪⁪‌​‌‌‍​​​‌‍‌​‌​‌‌​​​‌‍​‌‌‌‌​‌‍‍‌‌​‍​​​‍​​​⁪​​​{{ name }}‌‌‌ couldn't be deleted⁪⁪",
+        "NODE_DELETION_PLURAL": "⁪⁪⁪‌‌​​​​​​​‍‍‍‌​‍​‍‍‍‌‌​‍‍‌​‌‌‍​‌‍‌‌​​​‌‍​​⁪​​​{{ number }}‌‌‌ items couldn't be deleted⁪⁪",
+        "NODE_RESTORE": "⁪⁪⁪‍​‍‍​​‍​‍‌‍​‍‌​​‍‍‌‍​‌‍​​​​​‌​​‌‌‌‌‍‍​‌​⁪​​​{{ name }}‌‌‌ couldn't be restored⁪⁪",
+        "NODE_RESTORE_PLURAL": "⁪⁪⁪‍‌‌​‍​​‍‍‍‌‌​‌‌‌‌‍‍​​‍​‍​‍‍​‍‍‍‌‌‍‍‍​​‍⁪​​​{{ number }}‌‌‌ items couldn't be restored⁪⁪",
+        "PERMISSION": "⁪⁪⁪‌​‌‍‍​​​‌‌​‌‌‍​‌‍‌​‌‌​​‍‍‌‌​‍‌‌‍​‍‍‍​‌​​⁪You don't have access to do this⁪⁪",
+        "LOCK_NODE": "⁪⁪⁪‌​‌‌‍​​‌​‌​‍​‌‍​‌‌‍​‍‍​‍‌‌​‍‌​​​‍‍‌‌​​‍‌⁪There was a problem locking the ​​​{{ fileName }}‌‌‌ file⁪⁪",
+        "UNLOCK_NODE": "⁪⁪⁪‌​‍​​​‌‍‌​‍​‍​‌​‍‌‌​‌‌​‌​​‌‍​‌‌​‍‍‌‌​​⁪There was a problem unlocking the ​​​{{ fileName }}‌‌‌ file⁪⁪",
+        "TRASH": {
+          "NODES_PURGE": {
+            "PLURAL": "⁪⁪⁪‌​​‍​‍​‌​‌‍‍‌​‌‍‍​‍‍‌​‍‌​​‍​​​‍‍​​‍‌​​‌​‌⁪​​​{{ number }}‌‌‌ items couldn't be deleted⁪⁪",
+            "SINGULAR": "⁪⁪⁪‍‌​‍‌‍‍​‌‌‍‍‍‍‌​‍​‍‌​​‌‌​‍‌​‌​‌​​‌‌‌‍‌​⁪​​​{{ name }}‌‌‌ couldn't be deleted⁪⁪"
+          },
+          "NODES_RESTORE": {
+            "PARTIAL_PLURAL": "⁪⁪⁪‌​‍​‌‌​‍‌‍‍‍‌‍​​​​‍‍‍‍‌​‍‍‍​‌‌‌‌‌‍‌‍‍‍​​​⁪​​​{{ number }}‌‌‌ items not restored because of issues with the restore location⁪⁪",
+            "NODE_EXISTS": "⁪⁪⁪‌‌‌​‍‌​‌​​​‌​​​‌‍‍‌​‍​‌‍​‌​‌‍‌‍​​‍‌‍​‍‌​‌⁪Can't restore, ​​​{{ name }}‌‌‌ already exists⁪⁪",
+            "LOCATION_MISSING": "⁪⁪⁪‍​​‌‌​​​‍​‍​‌‌‍‍​​‍‌‌‌​​​‍‌​‍‍‍‌‍‌‍‌‌‌​​⁪Can't restore ​​​{{ name }}‌‌‌, the original location no longer exists⁪⁪",
+            "GENERIC": "⁪⁪⁪‌​​‍‍‌‍​‌‌‌‌‌‍‌​‍‌‌‌‍​​​‍‌‌‌​​​‌​​​‌‍‍‌⁪There was a problem restoring ​​​{{ name }}‌‌‌⁪⁪"
+          }
+        },
+        "DELETE_LIBRARY_FAILED": "⁪⁪⁪‌‌‍‌​​‌‍‍​‌​‌​‍​‌​‍‍‌​​‌‌​‍​‍‍‍‌​​‌​‍‌⁪Cannot delete the library⁪⁪",
+        "JOIN_REQUEST_FAILED": "⁪⁪⁪‌‍‍‍‌‌‌‌‍‌‍‌‌‍‌‌​‌‍​​‌‍‍‍‍‌‌‌​​‍‌‍​​​‍‍⁪Cannot join the library⁪⁪",
+        "JOIN_CANCEL_FAILED": "⁪⁪⁪‌​​‍‌​​‍‍‌‍‌‍​‍​​‌‍​‍‍​​‌​​​‍‌‌​​​​​‍‌‌‍​⁪Cannot cancel your join request⁪⁪",
+        "LEAVE_LIBRARY_FAILED": "⁪⁪⁪‌​​‍‍‍‍‌‌‍‌‌‌‌‍‍‌‍‍‌​​​​‍‍​‌‌​​​​​​‌‌‌​​⁪Cannot leave this library⁪⁪",
+        "INVALID_SENDER_EMAIL": "⁪⁪⁪‌‌​‍​‍‍‍‍‍​‌​‍‌‌​‌​‌‍‌‌‌‍​‍​​​‌​​‌‍‍‍​‌​‍⁪Your email address must be valid before requesting to join.⁪⁪",
+        "INVALID_RECEIVER_EMAIL": "⁪⁪⁪‌​​‍​‍‍​‍‍‌‌‍​‍‌‌​‌‌‌‍‌​​‍‍​​​‌‍​​‌‍‌‍‌⁪Recipient(s) email address not valid, contact IT.⁪⁪"
+      },
+      "UPLOAD": {
+        "ERROR": {
+          "GENERIC": "⁪⁪⁪‌‌‌​‍​‍​​‍​‍​‌​​‌​‌‌‍​‌‌‍‌‍​‍‍‍​‌‌​‍‍‍‌​‌⁪Upload unsuccessful. Contact IT if this problem persists⁪⁪",
+          "CONFLICT": "⁪⁪⁪‌​​​‌‍‍​‌‌‌‌‌‌‌‌​‍‌‍​​‍‍​‌‌‌​‍‍‍​‌​‌​‍​‍‍⁪New version not uploaded, another file with the same name already exists⁪⁪",
+          "500": "⁪⁪⁪‌​‍‍‍‌‌‍‍‍‌‍‍​​‌‍‍‍‍‍‌‍‍‌‌‍‌​‍‍‍‍​‌​‍​​‌‌⁪Internal server error, try again or contact IT support [500]⁪⁪",
+          "504": "⁪⁪⁪‌‍​​​​‌‌‌‍​‌​‍‍‍‍‌‍​‍​‌​​‍‌‍​‍‍​‍‍​‍​‌‍​⁪The server timed out, try again or contact IT support [504]⁪⁪",
+          "403": "⁪⁪⁪‌‍​‍‌‌‌​​​‌​‍‍​‌​‍‍‌​‌‍‌​​‍‍‍‍‍​‌​​‍‌​​⁪Insufficient permissions to upload in this location [403]⁪⁪",
+          "404": "⁪⁪⁪‍​​​​​‌​‍‍‍​‌​‌​​​​‌‌‌​‍‌‌​‌​‌‍​​‍‍‌​​⁪Upload location no longer exists [404]⁪⁪"
+        }
+      },
+      "INFO": {
+        "TRASH": {
+          "NODES_PURGE": {
+            "PLURAL": "⁪⁪⁪‌​‍‍​‌‍‌‌​‍​‌‌​‌​‍​‌​‍‌‌​​‍​‍‍​‍‍‍​​​‌‍⁪​​​{{ number }}‌‌‌ items deleted⁪⁪",
+            "SINGULAR": "⁪⁪⁪‍‌​‍‌‌‍‍‍​‌‍‍​​‍‍‌‍‍​​‌​‌‌‌​‌‌‌‍‌​‌​‌‌‌‍⁪​​​{{ name }}‌‌‌ deleted⁪⁪",
+            "PARTIAL_SINGULAR": "⁪⁪⁪‍‌‌‍‍‌‍​‍‍‌‌‌​​‍‌‍​​‍‍‌​​‍​​‍​‌‌​‌​​​‌‌​⁪​​​{{ name }}‌‌‌ deleted, ​​​{{ failed }}‌‌‌ couldn't be deleted⁪⁪",
+            "PARTIAL_PLURAL": "⁪⁪⁪‌‍‍​‍‍‌​‍‌​‍‍‍​​​‍‌‍‌‍​‌‌‌​‍‌‍​‍​‌‌‍‍​‌‌⁪​​​{{ number }}‌‌‌ items deleted, ​​​{{ failed }}‌‌‌ couldn't be deleted⁪⁪"
+          },
+          "NODES_RESTORE": {
+            "PLURAL": "⁪⁪⁪‌‌​‌‍‍‍​‌‌‍‍​‌​‌‍​‍​‌​​‍‍‍‍‍‍‍​​‍‌‍​‍‌‍⁪Restore successful⁪⁪",
+            "SINGULAR": "⁪⁪⁪‌​‌‌‌‍​‍​​‍‍‍‍‍‌‌​‍‍‌‌‌‍‌‌​​‍‍‍​‌​‌​​​‍‌⁪​​​{{ name }}‌‌‌ restored⁪⁪"
+          }
+        },
+        "NODE_DELETION": {
+          "SINGULAR": "⁪⁪⁪‌‌‍‌​‌‍​‍‌‍‌​‍​‌‌​‍​​‌‌‌​​‍‍‌​‍‌‍‌‌‍‍‍‍⁪​​​{{ name }}‌‌‌ deleted⁪⁪",
+          "PLURAL": "⁪⁪⁪‍‍​‍‌​‍‌‍‌‍​​​​​‍‍​​‌‍‍‌​‍‌‍‌​‍​‌‍​‌‍‍​⁪Deleted ​​​{{ number }}‌‌‌ items⁪⁪",
+          "PARTIAL_SINGULAR": "⁪⁪⁪‌‍‍‌​‌​‌‍​‍​‍‌‍​‍‌‍​‌​​‌​‌‌‌‍‌​‌​‌‌‌​‍‌​⁪Deleted ​​​{{ success }}‌‌‌ item, ​​​{{ failed }}‌‌‌ couldn't be deleted⁪⁪",
+          "PARTIAL_PLURAL": "⁪⁪⁪‌​‍‍​‌‌‌‍‌​​‌​‌​‍​‍‍​‍​‌​​‍​​​‍​‍​‌‌​​​‍‍⁪Deleted ​​​{{ success }}‌‌‌ items, ​​​{{ failed }}‌‌‌ couldn't be deleted⁪⁪"
+        },
+        "NODE_COPY": {
+          "SINGULAR": "⁪⁪⁪‌‌‍‍‌​‍‌​‌‌‌​​‍‌‌​‍‌‍​​‌‌‍‌‌‌‌​‍‌‍​​‌​⁪Copied ​​​{{ success }}‌‌‌ item⁪⁪",
+          "PLURAL": "⁪⁪⁪‍​‍​​​‍​‍‍​‍​​‍‍‍‍‍​‌​‌‍‌‌‍‌‌​‌​‍‌‌​‍​‌‌⁪Copied ​​​{{ success }}‌‌‌ items⁪⁪",
+          "PARTIAL_SINGULAR": "⁪⁪⁪‌​​‌​‌‌‌‍‍‍‌‌‍​‌​​‍​​‌‌‌​‌‌‌‍‍​​​‍‍‍​​‍‍‌⁪Copied ​​​{{ success }}‌‌‌ item, ​​​{{ failed }}‌‌‌ couldn't be copied.⁪⁪",
+          "PARTIAL_PLURAL": "⁪⁪⁪‌​​‌‌​‍‌​​‍‍‌​​​‍​​‌‍‍​‌‍‍​‍​‌‍​‍‌‍‌‌‌‍​​⁪Copied ​​​{{ success }}‌‌‌ items, ​​​{{ failed }}‌‌‌ couldn't be copied.⁪⁪",
+          "FAIL_SINGULAR": "⁪⁪⁪‌​‍‌‍‍‍‍​‌‍​‌‍‌​​‍‌‍​‌‍‌​‍‌​‌‍​‌‍‍‌​‍‌‌​⁪​​​{{ failed }}‌‌‌ item couldn't be copied.⁪⁪",
+          "FAIL_PLURAL": "⁪⁪⁪‌‍‍​​‍‌‍​‌‌‌‌‌​‌‌‌​​​‍​‌‍‌‌​‌​‍‌‌‍‌‌​‌‍‍⁪​​​{{ failed }}‌‌‌ items couldn't be copied.⁪⁪"
+        },
+        "NODE_MOVE": {
+          "SINGULAR": "⁪⁪⁪‍‍​‍‍‍​‌‌‌​‍‍​‌​‌​​‌​​​‍‍‌‍​‌​‌‌​​‍​​‍​⁪Moved ​​​{{ success }}‌‌‌ item.⁪⁪",
+          "PLURAL": "⁪⁪⁪‍‍‍‌‍‌‍​‍‍‍​‍‍‍‌​‌‌‍‌‌‍‌‍‍‍​​​​​‌​‍‍​‍‍‌⁪Moved ​​​{{ success }}‌‌‌ items.⁪⁪",
+          "PARTIAL": {
+            "SINGULAR": "⁪⁪⁪‌​​‍‍‍​‍‍​​‌‍‍‌​‍‍‌​​‌‍​‍‍​​​‍‍‌‍‍​‍‍​​⁪Partially moved ​​​{{ partially }}‌‌‌ item.⁪⁪",
+            "PLURAL": "⁪⁪⁪‌​‍‍​‌‍‌​‍​‌‍‍‍​​‍​​‍‍‌​‍​‍​‍‍‍‌‌​​‍‌​‍‌‍⁪Partially moved ​​​{{ partially }}‌‌‌ items.⁪⁪",
+            "FAIL": "⁪⁪⁪‌‌‌‍​‌‍‌‍‍​‌‌​‌‍​‍‍‍‍‌‍​‌‌‌‌‍​​‍​‍‍‌​​‌‍⁪​​​{{ failed }}‌‌‌ couldn't be moved.⁪⁪"
+          }
+        },
+        "LIBRARY_DELETED": "⁪⁪⁪‌​‌‌‍‍​‍‌​‍‌​‌‍​‌‍‌​​‍​‍​‌‌‍‌​​​‌‌‍​​​​⁪Library deleted⁪⁪",
+        "JOINED": "⁪⁪⁪‍​‌‌‍‍​‌​‍‌‍​‍‍‌​​‍‍‍‌​‍​‍​‌‌‌​‌‍‍‌‍‌‌‌‍⁪Library joined⁪⁪",
+        "JOIN_REQUESTED": "⁪⁪⁪‌‍‌‍‌‍‌‍​‍​‌‍‌‌‍​​‌‍‍‌‌‍‍​​‌‌‍​‌‍‍‍​‍‍‍⁪Request sent to join this library⁪⁪",
+        "JOIN_CANCELED": "⁪⁪⁪‌‍​​​‌​‌‍​‍‍‍‍​​​‌​‌​​‌​‍​‍‌‌‌‍​​‌‍​‌‍‍‍⁪Canceled the request to join the library⁪⁪",
+        "LEFT_LIBRARY": "⁪⁪⁪‌​‍‌‍​‌‌‌‌‌​‌‍‌‌‍‌‍‌‌‌‌​​​‌​​​​​​​‌‌​‍‍​‍⁪You have left the library⁪⁪"
+      }
+    },
+    "CONTENT_METADATA": {
+      "EXIF_GROUP_TITLE": "⁪⁪⁪‌​​‍​​‌​​​​‌‍‍‌‌‌‌‍​‍‌​‍‍‌‌​‍‌​‍​‍​‍​‌‍‍‌⁪Image EXIF⁪⁪",
+      "GROUP_IPTC_CORE_CONTACT_INFO": "⁪⁪⁪‌‍‌​‍‌​‍​‍‌‌‌​‍‍​​​‌‍‌‌‍‍‌​‍‌​‌‌​‍‍​‍‌​⁪IPTC Contact⁪⁪",
+      "GROUP_IPTC_CORE_IMAGE_INFO": "⁪⁪⁪‌‌‌‌​‍​‍​‍‌​​‌‌‍​​​‍‍‌‌‍‍‍‍‌‍‍​‌‍​‍​‍​‍‌​⁪IPTC Image⁪⁪",
+      "GROUP_IPTC_CORE_CONTENT_INFO": "⁪⁪⁪‌‌‌‌​‌​‍​‍‍​‌​‍​​‌‍‌‍‌‌​​‍‌‍‍‍​‌​​​‍​‌‍⁪IPTC Content⁪⁪",
+      "GROUP_IPTC_CORE_STATUS_INFO": "⁪⁪⁪‍​‌‌‌‍‍‍‌​​‍‍‍​‍​‍​‍‌‍‌​‍‌​‌​‍‌‌​‍​‍​​‍‍⁪IPTC Status⁪⁪",
+      "GROUP_IPTC_EXT_DESCRIPTION": "⁪⁪⁪‌‍​​‌​‍​​‌​‌‌​​​‌‌​‌​​‌‌‍​‌‍​‍​​‌‌‍​​‌​‌⁪IPTC Image Description⁪⁪",
+      "GROUP_IPTC_EXT_AO_DETAIL": "⁪⁪⁪‌‍‍‌​‍‍‍​​‌​‌‍‌​‌​‌‌‍‍‌​‍‍​‍​‌‌‍‌‍‍‍‌​​‍⁪IPTC Artwork or Object Detail⁪⁪",
+      "GROUP_IPTC_EXT_MODEL_INFO": "⁪⁪⁪‌‍​‌​​‌‍‌‍‍‍‌‌​‍‌​‍‌​​‍​​‌‍​​​​‌‌‍​‌​‌‌‌⁪IPTC Model Information⁪⁪",
+      "GROUP_IPTC_EXT_ADMIN_INFO": "⁪⁪⁪‌‍‌​‌‍​‍​​‍​‍​​‌‌‍‌‌‍‌​‌‌‌‍‌‍‍‍‌​‍‍​‌‍‍​⁪IPTC Admin Information⁪⁪",
+      "GROUP_IPTC_EXT_RIGHTS_INFO": "⁪⁪⁪‌​‌‍‌‌‌‌‌‍‌‍‌‌​‍‌‍‌‌​‌‍​‍​‌​​‍‌‍‍‍​‍​‌​​‌⁪IPTC Rights Information⁪⁪",
+      "GROUP_IPTC_EXT_OTHER": "⁪⁪⁪‍‍‍‍​‌‍​‌​‌​‌​‌‌‍‌‌‌​‍‌‌‌​​‌‍​​‌​‌​‌‍​⁪IPTC Other⁪⁪",
+      "EFFECTIVITY_GROUP_TITLE": "⁪⁪⁪‌‍‍‌‍‍‍​‍‍‌‍‍‍​​​‌‍‌‌‍​‍‍​​​‌​​​​‍​​​‌​‍⁪Effectivity⁪⁪"
+    },
+    "INFO_DRAWER": {
+      "TITLE": "⁪⁪⁪‌‌‌‌‌‌‍‌‍‌‌​‍​‍‍‌​‌​‍‌‌​​​‍​‌‌‌‌‌‌‍​‍​‍‍‌⁪Details⁪⁪",
+      "TABS": {
+        "PROPERTIES": "⁪⁪⁪‌‌‌‌‍‌​​‌‍‌‍​​‍​‌​‍​‍​​​‌‍​​‌‌‌‍‍​​‌‍‌‌⁪Properties⁪⁪",
+        "LIBRARY_PROPERTIES": "⁪⁪⁪‌​‌‌‍‌​‌‍‌​‌‌‍​‍‍‌‍‍‍‍‌​‌​​‌​‍‍‍‌‌‍‌​‌‍​​⁪About⁪⁪",
+        "VERSIONS": "⁪⁪⁪‌​‍‌​‌‍‌‍‌​‌​​‌​​​‍‌​‍‌‍‍‍‌‍‌‍‌‍‍‌​​‌‍‍‍‍⁪Versions⁪⁪",
+        "COMMENTS": "⁪⁪⁪‌​‍​‌‍​​‍​​‍‍‍‍‌‌‍‍‌‌‌​‍‌​​‍​‌‍​​‍​‌​​‌‌‍⁪Comments⁪⁪",
+        "PERMISSIONS": "⁪⁪⁪‌‍‍​‌‌‌‌‍‌‍‍‌‍‍‍‍‍​‍​‌‍​‍‍‌‍​​‌‍‍‍‍​‍​​‍⁪Permissions⁪⁪",
+        "EXPAND": "⁪⁪⁪‌​​​‌​‍‌​​‍​‌​‍​‍‌‌‍​‌‍​‍​‌​​​​​‌​​‌​‌​​​⁪Expand⁪⁪"
+      }
+    }
+  },
+  "NODE_SELECTOR": {
+    "COPY_ITEM": "⁪⁪⁪‌‍​‍​‍‍‌‌‌‍‌‌​​‌​‌‍‌‍‍‌​​​‍‌​​​​‍​‍‍‌‌‍⁪Copy '​​​{{ name }}‌‌‌' to...⁪⁪",
+    "COPY_ITEMS": "⁪⁪⁪‌​‌‌‍‍‌‌‍​‍‍‌‌​​​‌‌​​​​‍​‍‌‌‍​‌​​‍‍‌​‌​‍‍⁪Copy ​​​{{ number }}‌‌‌ items to...⁪⁪",
+    "MOVE_ITEM": "⁪⁪⁪‍‍‌​‍‌‍​‍‌​‍‌‌​‌‌​‍‍‍‌‍‌​‌‌‌​‍‍‌‌‍​​‌​‍⁪Move '​​​{{ name }}‌‌‌' to...⁪⁪",
+    "MOVE_ITEMS": "⁪⁪⁪‍‌‌‍‌‍‌‌​​‍‍‍​​​​​‌‌‌‍​‌​​​‍​​‌​‍‍‌‍‌‍​‍⁪Move ​​​{{ number }}‌‌‌ items to...⁪⁪",
+    "SEARCH": "⁪⁪⁪‌​​‍‌‌​‌‌‍‌‍​‌‍‍‍‌‍‍​‍​‍‍​​‌​‍‍‍‍‌​​‍‍‌⁪Search⁪⁪",
+    "NEXT": "⁪⁪⁪‌​‌‍‌‌‍​‌​​​‍‍‍​‌​‍​​‍‌‌‌‍‍‍​​‌​‍‌‍​​‍​‍‌⁪Next⁪⁪",
+    "SELECT_FILE_TEMPLATE_TITLE": "⁪⁪⁪‌‌‌​‍‍​​​‍‍​‍‌‌‍‌‌‌​​‍‌‌‍‍​‍‌​​‍​‍‍​‍‌‍​‌⁪Select a document template⁪⁪",
+    "SELECT_FOLDER_TEMPLATE_TITLE": "⁪⁪⁪‌​‌​​‍‍‌‌​‍‌‍‌‍‍‌‍​‍‌‍‌‌​​‍​‌‍‍‌‍‍‌​‌‍​​‌⁪Select a folder template⁪⁪"
+  },
+  "NODE_FROM_TEMPLATE": {
+    "CANCEL": "⁪⁪⁪‍‌‍‍‍‌‌‍‌‌‍​​‍​​​‍​​​​​‍‌‌‍​‌‌‌‌​​‍‍​​‍⁪CANCEL⁪⁪",
+    "CREATE": "⁪⁪⁪‍‌​‍‌​‌‍‍‍‌‌​​​‍‌‍‍‍‍‍‍‌​‌‍‍​‌​‍‌​​‌‌​​‌⁪Create⁪⁪",
+    "FOLDER_DIALOG_TITLE": "⁪⁪⁪‍‍‌​​‌‌‍​​‌​‍‌‌‍‌​​​‍‍‌​‍​​‍‌‍‌‌‌‌​‍‌‍⁪Create new folder from <span class=\"bold\">'​​​{{ template }}‌‌‌'</span>⁪⁪",
+    "FILE_DIALOG_TITLE": "⁪⁪⁪‌​‍‌‍‌​‍‍‌​​‌‍​‍​‍​‌‌​​​​‌‍‍​​​​‌​‌​​​​‍‌⁪Create new document from <span class=\"bold\">'​​​{{ template }}‌‌‌'</span>⁪⁪",
+    "FORM": {
+      "PLACEHOLDER": {
+        "NAME": "⁪⁪⁪‌‌​​​‌‍‍‍​‍‍‍‍​​‌‍​​‌‍‌‌‍‌‍‍‍‍​​​​‍‌​‌‌​⁪Name⁪⁪",
+        "TITLE": "⁪⁪⁪‍​​‍‍‍‍‍‌‌‌‌​​​​‍‌​​​‍‌‌‌‌‍‍​​​​​‍​‍‌​‍‌⁪Title⁪⁪",
+        "DESCRIPTION": "⁪⁪⁪‌‌‌​‍‌​‍‌‍‌‌​‌​‍​‌​‌‌​​‌​​​​‍‍‍‌​​‌‌‍‌‍‌​⁪Description⁪⁪"
+      },
+      "ERRORS": {
+        "DESCRIPTION_TOO_LONG": "⁪⁪⁪‌‍‌‍‍​​‌‍‍​‌​‍​‍‍​​‍‍​​‌‌‍‍​‌‌​‍‍​‍‍‍​‍‌⁪Use 512 characters or less for description⁪⁪",
+        "TITLE_TOO_LONG": "⁪⁪⁪‌‌​‍‍‌​‌​​‌‌​​​​‍​‌‍‍‌‍‍‌‌‌​‌‌‌‌​​‌​‍‍‍‍‍⁪Use 256 characters or less for title⁪⁪",
+        "REQUIRED": "⁪⁪⁪‌‍​‍​‌‌‌​​​‍​​‍‍‌‌​​‌‍‌​‍‍‌‌‌​‌​‍​‍​​‍​‍⁪Name is required⁪⁪",
+        "SPECIAL_CHARACTERS": "⁪⁪⁪‌‍‍‌‌‌‍​‌‍‌‌‌​​​​‌​‍‌‍​​​​‍​​​​​​​‌​‌‍​‍⁪Name can't contain these characters * \" < > \\ / ? : |⁪⁪",
+        "ENDING_DOT": "⁪⁪⁪‌‌​‍‌‍​​‍​‍‌‌​‍​​‍​‍‍‌​​​‍‌‍​​‌‌‌​‍​​​‌​⁪Name can't end with a period .⁪⁪",
+        "ONLY_SPACES": "⁪⁪⁪‌‍‌‌‍‌​​‌​​‌‌‍​​‌‍‌‍​‍‌​​‍‍‌‍‌‍​​​‍‍‍​​⁪Name can't contain only spaces⁪⁪"
+      }
+    }
+  },
+  "SHARED_LINK": {
+    "UNSHARE_PERMISSION_ERROR": "⁪⁪⁪‍​‌​‍‍‌​‍‌​‌‍​‍‌‍‌​‍​‍‍‍‍‍‍‌‍‍​‍‍‌‌‌‌‌‍⁪You don't have permission to unshare this file⁪⁪"
+  },
+  "VERSION": {
+    "DIALOG_ADF": {
+      "TITLE": "⁪⁪⁪‌‌​‍‌‌‍‍‌‌‌‌‌‍‍‍‌‌‌‌‌‍​‍‍‌‍​​‌‍‌‌‌‌​‌​‌​‍⁪Manage Versions⁪⁪",
+      "CLOSE": "⁪⁪⁪‍‌‌​‍‌​​‍‌‌‌​‌‌‌​‍‌‌‍‌‌‍‍‍‍‌​‍‍​​‌​​‍‌‌‍⁪Close⁪⁪"
+    },
+    "DIALOG": {
+      "TITLE": "⁪⁪⁪‌​‌‌‌​‌‍‌‌‍​​‍‌‌‌‌​‌​‌‌‌‍‌‍‌‍​​‌‍‌‌‍​​‍‌‍⁪Upload New Version⁪⁪",
+      "CANCEL": "⁪⁪⁪‌‌​​‍‍​​‌​‍‍​‌‌‍‍​‌‌‍‌‌‍‌‌​‍‌​​‌‍‍‌‌​‌‍‍⁪Cancel⁪⁪",
+      "UPLOAD": "⁪⁪⁪‌​‌‌‍‍‌​​‍‌​‌​‍‌‌‌‌​​‍‍​‍‌‌​‍‌‌‌‍​‍‌‌‌‌‍​⁪Upload⁪⁪"
+    },
+    "FORM": {
+      "SUBTITLE": "⁪⁪⁪‌​​‍‍​‍​‌‍​​​‍‍‌‌‌‌​​​‌​‌‍‌‍​​‌​‌‌‍​​​‌​⁪What level of changes were made to this version?⁪⁪",
+      "VERSION": {
+        "MINOR": "⁪⁪⁪‍‌‍‍‍‌‌‌‌‍​‍‍‍‍​‍‍​‍‌‍‍​‍‍​‌​‌‌‍‍‌‍‍‍‍​⁪Minor (#.1)⁪⁪",
+        "MAJOR": "⁪⁪⁪‌​‌​​‍‌‍‍​‍‌​‌‍​‌​‍‍​‌‍​‍‍​‍‌‌​‍​​‌​​​‌‌​⁪Major (2.0)⁪⁪"
+      },
+      "COMMENT": {
+        "PLACEHOLDER": "⁪⁪⁪‌‌‌‍​​‌​‍​‌‌‌‍​​‌‍‌​​​‍‌‌​​‌‍‍‌‌‌‍​‌‍‍‌‌⁪Add notes describing what changed⁪⁪"
+      }
+    },
+    "SELECTION": {
+      "EMPTY": "⁪⁪⁪‍‍‍‌‍‌‌​‍‌‍‌​‍​‍‍​​‌​​​‍‍‌‌‌‍​‌‍‍​​​‌​⁪Please choose a document to see the versions of it.⁪⁪",
+      "NO_PERMISSION": "⁪⁪⁪‍‍‌‌‍‌‌‌​​​​‌​‍​‍‌‍‌‍‌‍‌‍‌​​​‌​‍​‌​​‍​​​⁪You don't have permission to manage the versions of this content.⁪⁪"
+    },
+    "ERROR": {
+      "GENERIC": "⁪⁪⁪‌‌‌​‍‌‍​​‌‍‌‌‍‌​‍​​‍‍‌​‍‌‍​‍‍‍‍‌​​‍‍‌‌‌​‌⁪There was an error versioning the file⁪⁪"
+    }
+  },
+  "INFO_PANEL": {
+    "TABS": {},
+    "DETAILS": "⁪⁪⁪‍‌‌‌​‌​‍‌‍‍‍‍‌‌​‍‍​‍‌‍​‌‌​‌‌‍‌​‌​‌‍​‌​‍‍⁪Details⁪⁪"
+  },
+  "LIBRARY": {
+    "DIALOG": {
+      "CREATE_TITLE": "⁪⁪⁪‌​‌​‍​​‍​‌​‍‌‍‍​‍​​​‌‌‍‍​​​‍‍​‌​‌‌​‌​‍‌‍​⁪Create Library⁪⁪",
+      "CREATE": "⁪⁪⁪‌​​‍‍​‍​​‌‍‌‍‌​‍​​‌​‌‌‍‍‍‌​‍‍‍‌‍‍‍​​‍‍⁪Create⁪⁪",
+      "UPDATE": "⁪⁪⁪‌​​​‌​‌​‌‌‌​‌‌‌‍‍​​​‌​‌‌‌‍‍​‍​​‌‍‌‌‍‌‌​‌‍⁪Update⁪⁪",
+      "EDIT": "⁪⁪⁪‍‌​‌‍‍​​​‍‍‍​‍‍​​‌‌‍‍​‌​‌​‍‍​‍​‌‌‌‌‌​‍‌⁪Edit⁪⁪",
+      "CANCEL": "⁪⁪⁪‌​​‍‍‍‍​‌‍‍‍​‌‌‍‌‍​‌​‍​‍‍​‍​‍​‌‍‌‍‌‌​​​​​⁪Cancel⁪⁪",
+      "FORM": {
+        "DESCRIPTION": "⁪⁪⁪‌​‍​​‌‌‌​‍​​‌‍​‌‍‌‌‍​‌​‌​‌​‍‌‍‍​‍​​​​​​‌​⁪Description⁪⁪",
+        "SITE_ID": "⁪⁪⁪‍​‍​​​​​‌‌‌​‍​​‌‌‍‌​​‍‍​‍​​​‍‌​‍‌‌‍‌​​‌‍⁪Library ID⁪⁪",
+        "NAME": "⁪⁪⁪‌‍‍​‌‌‍‌‌​​‌​‌‌​‌‌‍​​‍‍‍‌‍​​‌‍​‌​‍‍‌‌‌‍​⁪Name⁪⁪",
+        "VISIBILITY": "⁪⁪⁪‌​​‌‌​‍​‌‌​‌‍‌‌‍‍​​‍​‍‍‌​‌‌​​‍‌‌‌‌‌​‌​‌​‌⁪Visibility⁪⁪"
+      }
+    },
+    "VISIBILITY": {
+      "PRIVATE": "⁪⁪⁪‌​‍‍‍‌‌‍‍​​‍‍‌‌‌‌‌‌‍‍‌​‍‌‌‍​‌‍​‍​‌​​‌‍‍​‍⁪Private⁪⁪",
+      "PUBLIC": "⁪⁪⁪‌‍‌‍‍‌‍​‍‌‌‍​‌‌​‌​‍‌‍‍​​​‍‌​‌‍​​‍​​​​‍‍‌⁪Public⁪⁪",
+      "MODERATED": "⁪⁪⁪‌​‌‍‌​‍‍​​‌‌‌‌‌‌‌​​‍‌‌‍‍‌‍​‍‌‌​​‍‌‍‍‌​​‌​⁪Moderated⁪⁪"
+    },
+    "HINTS": {
+      "SITE_TITLE_EXISTS": "⁪⁪⁪‍​‌‍‍​‍‍​‍​​‌​‌‍‌‍‍‍​‌​‍​‍‍‌‍​​‍​‍​‌‌​‌‌⁪Library name already in use⁪⁪"
+    },
+    "ERRORS": {
+      "GENERIC": "⁪⁪⁪‍‌‍‍‌‍​‌​‍‍‌​‍‌‌​‍​​‌‌‍​​‍‌​​‍​‌​‌‌​​‌‌‍⁪We hit a problem⁪⁪",
+      "EXISTENT_SITE": "⁪⁪⁪‌​‌‌‍​​​‍‍‌‌‍‍​​‌​‍‌​‌‌‌‍‍‍​‍​‍‌‍‌‌‌‍‍​‍‌⁪This Library ID isn't available. Try a different Library ID.⁪⁪",
+      "CONFLICT": "⁪⁪⁪‌‍‌​​​‍‍‌‌‌‌‌‍​‌‌​​​​‍‍​​​​‌​​​‌​‌‍‌​‌​‌⁪This Library ID is already used. Check the trashcan.⁪⁪",
+      "ID_TOO_LONG": "⁪⁪⁪‌‍‌‌​‍‍​‍​‌‍‌‍​​‌‍​‍‍​‍‍‌​‌‍‌‌‍‌​‍​‍‍‌‌‌⁪Use 72 characters or less for the URL name⁪⁪",
+      "DESCRIPTION_TOO_LONG": "⁪⁪⁪‍‌‌‍‍​‌‌‌‌‍‍‌‍‌​‍‌​‌‍‍‍‍‌‌‌​‌‌‍‌‍‍‌​‍‌‍‍⁪Use 512 characters or less for description⁪⁪",
+      "TITLE_TOO_LONG": "⁪⁪⁪‍‌‌‍‍‍‍​​​‌​‌​​‍‌​‌​‌‌​‍‍‍‌‌​​‌‌‌​‍‍‌‍​‍⁪Use 256 characters or less for title⁪⁪",
+      "ILLEGAL_CHARACTERS": "⁪⁪⁪‍‌​‍​​‌‍​‍​‍​‌‌‍‍​​‌‍‌​​‍​‍‍‌‌‌​​‌‌​‌​​​⁪Use numbers and letters only⁪⁪",
+      "ONLY_SPACES": "⁪⁪⁪‌‌‌‌‌‌​‍‍‍‌‌‌​‌‍‌‌​‌‌‌‌‍‌‍​‍​​‍‌‌​‍‌‌‍​​⁪Library name can't contain only spaces⁪⁪",
+      "LIBRARY_UPDATE_ERROR": "⁪⁪⁪‍‍​​‍​​‍​‍​‍​​‌‌‌​‍​​​​‍‍​‌​‍‌‌‍​‍​‌​​‌​⁪There was an error updating library properties⁪⁪"
+    },
+    "SUCCESS": {
+      "LIBRARY_UPDATED": "⁪⁪⁪‍​‍‍‌​‍‌​‌​‍‍​​‍‍‌‍‍‍‌‌‍‍‍​​​‍‍‍‌‌​​‌‌‌‍⁪Library properties updated⁪⁪"
+    }
+  },
+  "SEARCH": {
+    "INPUT": {
+      "PLACEHOLDER": "⁪⁪⁪‌​‍‌‌​‌‌​‌‌‍‌​‍‌​‌‌​‌‌‍‍‌‌‌​​​​​‌‍‌‍‌‍​‍‌⁪Search⁪⁪",
+      "FILES": "⁪⁪⁪‌​​​‍‍‍​‍‍‌​‍​‌​​‍​‌​​‌‌‌‍‍‍‍‌‌‌​​‍​‍‍‌​‍⁪Files⁪⁪",
+      "FOLDERS": "⁪⁪⁪‌​​​‍​​‍​‍‌‌‍‌‍‌‍​‍‌‍​‌‌​‍‍‌​​​​‍​‌‌‍‍‌​‍⁪Folders⁪⁪",
+      "LIBRARIES": "⁪⁪⁪‌​​‌​​‌‍​​​‍‌​​​‌‍​‍​‍‌‍‌‍‌​​‌​‌​​‌‍‌‍‍‌⁪Libraries⁪⁪",
+      "HINT": "⁪⁪⁪‌‌‍‌‍‌​‌​‌‍‍‌‍‌‌‌‌‍‌‍‌‍‍​​‌‌‍​​‍​‍‌‍‌‌‌⁪Search input must have at least 2 alphanumeric characters.⁪⁪"
+    },
+    "SORT": {
+      "SORTING_OPTION": "⁪⁪⁪‌‍‌​‍‌‌​‌‌​​‌‍‌‌‍‌‍‍​‍‍​​‌​‌‍‍​‌‍​‍‌‌‍‍​⁪Sort by⁪⁪",
+      "ASCENDING": "⁪⁪⁪‌​​‍​‍​‌‍​‍​​‌​‌​‌‌‍‍​​​‍‍‍‌‍‌‌‌‍‌‌‍‌​​​​⁪Ascending⁪⁪",
+      "DESCENDING": "⁪⁪⁪‌​​​​‍‌‍‍​​‍​​‍‍​‌‌‌​‍‍‌‌‍‍​‍​​‌‍‌‌‍‌‌‍​​⁪Descending⁪⁪",
+      "RELEVANCE": "⁪⁪⁪‌​‍‍‍‌‍‌‌​‍‌​‍​‍​‍‌​‍​​‌‌‌‌​‍​‌​‌​​‍‍‌‌​​⁪Relevance⁪⁪",
+      "FILENAME": "⁪⁪⁪‍‍​‍‍‍‍​‌​‌​‌​​​‍​‌‌​​​‌‍​​​​‌​​‌‍‍​​‍‍​⁪Filename⁪⁪",
+      "TITLE": "⁪⁪⁪‌‌‍‍‌‍​‌‌​​‍‍‌​‍​‍‍‍‍‌‌‍‍‍‌​‌‌‌‍‌​‍​‌‌‍⁪Title⁪⁪",
+      "MODIFIED_DATE": "⁪⁪⁪‌​‌‌‌​‍‌‌‍‌‌‌‌‌‍​‌​​​​‍‍‌‌‍‌‌‌​​​​‍‌‍‍‍‍‍⁪Modified date⁪⁪",
+      "SIZE": "⁪⁪⁪‍‌​​‍​‍‌‍​‍​‌​‍‌‌​‌‌​‌​‍‍‍​‍‌‌‍‌‍​‌‍‌‍​‌⁪Size⁪⁪",
+      "TYPE": "⁪⁪⁪‌​‌​‌​​​‌‌‍‍​​‌‍‍​‍‌‌​‌‌‍‌​‌​‌​​‍‌‌​‍‌‍‌⁪Type⁪⁪",
+      "MODIFIER": "⁪⁪⁪‍​​‍‍‌​​‌‍‍‌​‌​​‍‍​​​‍‌​​‌‍​‌‍‌​‍​‍‌‌​‍‌⁪Modifier⁪⁪",
+      "CREATE_DATE": "⁪⁪⁪‍‌​​‌​​‌‍‍​​‍​‌​​​‌​​‍‍‍​​​​‍‌​‍‍‍‌‌​‌‌​⁪Created date⁪⁪"
+    },
+    "FACET_FIELDS": {
+      "FILE_TYPE": "⁪⁪⁪‌​‌​‌‌​​‌‍‌‌‍‌‌​​​​‍‍​​‍​​‍‍‍‌‌‍‌‍‍‌​​‌‌‌⁪File type⁪⁪",
+      "CREATOR": "⁪⁪⁪‌​‍​‌‌‌‌‍‍​​‌​​‍‍‌‌‍‌‌‌​​‍​‌‍‍‌‍​​‌​‍​‌‌⁪Creator⁪⁪",
+      "MODIFIER": "⁪⁪⁪‍‌​​‌‍‍​‌‍​‍‌‍‍‌‌‌​‍‌​‌‌‌​‍‌‍‌‍‍​​‍​‌​​​⁪Modifier⁪⁪",
+      "LOCATION": "⁪⁪⁪‍‌‍‌‌​‌‍‌‍‍‍‌​‍‍​‍‌‌‌‌‌‍‌​​‌‍‌‌‍‌​​‌​​‌‌⁪Location⁪⁪"
+    },
+    "CATEGORIES": {
+      "MODIFIED_DATE": "⁪⁪⁪‌‍‌‍​‌‍‍‌​‌​​‍‍​‌‍‌‌‌‌‍‌​‌‌‌​​‍​​‍‌‌​‌‌​⁪Modified date⁪⁪",
+      "SIZE": "⁪⁪⁪‌‌​​‍​‌‌​‍‍‍‌​‌‍​​​‌‍​​‍‌​‍​‍​‌‌​‍‌‌‍⁪Size⁪⁪",
+      "SIZE_OPTIONS": {
+        "SMALL": "⁪⁪⁪‍‌‌‍‌‌​​‌‍‌‍‍‌‌‍‌‌‍‍​‌​‍‌​​‌‍‍‌‍‍‌‍​‌‍‍‍⁪Small⁪⁪",
+        "MEDIUM": "⁪⁪⁪‍‍‍​​​‌‍‌‍​​‌‌​‌​​​​‍‌​‍‍‍‌‍​‌‍​‌​​​‍‍‌⁪Medium⁪⁪",
+        "LARGE": "⁪⁪⁪‌​​​‍​​‌‍​‌​‍​​‍‍‍​​‍​‌‌‌‍‍​​‍‍​‍‌‍‌‌‌‍​​⁪Large⁪⁪",
+        "HUGE": "⁪⁪⁪‍‍‌‌‍‌‍‍​‌‌‌‍‌‌‍​‌‍‌​​‍‍‌‌​​​​‌‌‌‌‌​‍‌‍⁪Huge⁪⁪"
+      },
+      "CREATED_DATE": "⁪⁪⁪‍​‌​‌​‍‍‌‍​​‍​​‌‌‌‍‌​‍‌‍​‍‍​​‌‌‌​‌​​‌‌​⁪Created date⁪⁪",
+      "EFFECTIVITY_FROM": "⁪⁪⁪‍‍‍‌‌‌​​‍‍‌‌​‌​‍‌‍‌‍​‌‌‍‌‍‌‍‌​‌‌‌‍‍‌​‍​⁪Effectivity from⁪⁪",
+      "EFFECTIVITY_TO": "⁪⁪⁪‌‍‍‌‍‍​​‍​​‌‌​‌‍​‍​​​​‍​‍​​​‍​‌‍‍‌‌​‌‍⁪Effectivity to⁪⁪"
+    },
+    "FACET_QUERIES": {
+      "TODAY": "⁪⁪⁪‌​‍​​​​​​‍‍​‌​‌‍​‌‌‌​​‌‍‍‌​‌‍​​​‌‌‌‍​‌‌‌⁪Today⁪⁪",
+      "THIS_WEEK": "⁪⁪⁪‌​‌​‌​‌‍‌‌‍‌‌‌‌‌‌​‍​‍‌‌​‌‌‌‌​​‌‌​‌​​​‌​​‌⁪This week⁪⁪",
+      "THIS_MONTH": "⁪⁪⁪‌​‌​‍‍‌​‍​​‌‍‌‌‍‍‍‌​​‍‌‌‌​‌‌​​​‌‌‌‌‍​‍​⁪This month⁪⁪",
+      "LAST_6_MONTHS": "⁪⁪⁪‍​‌‌​‍​‍‍​​‌​​​‌‍‌​‌‌‌‍‌‌‌‌​​​​‌‍‌‍‍‌‍​​⁪In the last 6 months⁪⁪",
+      "THIS_YEAR": "⁪⁪⁪‍​‍​​‍​‍​‌​‌‍‌‍‍​‍​‌‍​‌‍​‌‌‌​‌‍‍‌​‍‍​‌‍‌⁪This year⁪⁪"
+    },
+    "SEARCH_HEADER": {
+      "TITLE": "⁪⁪⁪‌​‌‍‌‍​‌‍‌‌‍‍‍‌‌​​​​‌‍​‌‍‍‌‌‍‌‍‍‍​‌‍​‌​​‌⁪Filter⁪⁪",
+      "TYPE": "⁪⁪⁪‍‌​​‌‍‌‍‍​‌‌​​‌​‌‌​‍​‍‍‌‍‍‌‌‌​‍​‌‌​‍‍‍‍​⁪Type⁪⁪",
+      "FILTER_BY": "⁪⁪⁪‍​​‍‌​‍​​​‍‍‍‍‌‌​​‌​‌‌​‍‌‍​‌​‌‍​‌​‍‍‌‌⁪Filter by ​​​{{ category }}‌‌‌⁪⁪",
+      "CLEAR": "⁪⁪⁪‍‍​​‍​​​​​‌‌​​‌‌​​​​​​‍‍​‍‌‍​‍‌​‌​‍‍‌‌​​⁪Clear⁪⁪",
+      "APPLY": "⁪⁪⁪‌‌​‍‍​‍​​‌​‌​‍‍‍​‍​​‌‌​​‌‍​‌‌‍​​​​​​‌‍​‍⁪Apply⁪⁪",
+      "FILTERS": {
+        "NAME": {
+          "TITLE": "⁪⁪⁪‌​‌​‌‍​​‌‌‍​‌​​‌‌‍‍‌‍​‍​‌‍​‌‍​​​‍‍​‍​‌‍‌‌⁪Name⁪⁪",
+          "PLACEHOLDER": "⁪⁪⁪‌​‍​‌‌​‌​‍‌‌​‌​‌‌‍‌‌‌‍​‌‍‌‍‍​​‍​‍‍​‌​‍​​​⁪Enter the name⁪⁪"
+        },
+        "TYPE": {
+          "TITLE": "⁪⁪⁪‍‍‍​‍​​​​‌‍‌​‌‌‌‌‌​​‍​‍‍‌​‍​‌‌‍‍‌​​​‌‍​‍⁪Check type⁪⁪",
+          "FOLDER": "⁪⁪⁪‌‌‌‌‍​‍‌‌‌‌‌‍‌‌‌‍‌‌‌​​‍‌‌​​‍‍‌‌​‍‍‌‌‍‌‍‍‌⁪Folder⁪⁪",
+          "DOCUMENT": "⁪⁪⁪‍​​​‌‍​‍​‌‌‍​‌‍‌​‍‌‌‌‌​​​‌‌‌​‍​​​‌​‌‍‍​‌⁪Document⁪⁪"
+        },
+        "SIZE": {
+          "TITLE": "⁪⁪⁪‌​‌​‍‍​‍​‍​‌‍​​‌‍‍​‌‍‍​‍​‌‌​‍​​​‍‌​‍‍​​​‍⁪Content Size (range)⁪⁪",
+          "SMALL": "⁪⁪⁪‌‍‍‍​‌‍‌​‌‍‍‌‍‍‌‌‌‌​‌‍‍‍​‌‍​​‍​‌‍​‌​‍‌​⁪Small⁪⁪",
+          "MEDIUM": "⁪⁪⁪‌​‌‌‍​‍‌​‍​‌‌‌​​‍​​‍‌‌​‍‌‌​‍‍‌‍‍‌​​‍‍‍‌‌‍⁪Medium⁪⁪",
+          "LARGE": "⁪⁪⁪‌‍‌‌‌‌​‍‌​‌‍​‌​‍​​‌‌​‍‌‌‌​‍‌‍‍‍‌‌‍‍‌‍​‍​⁪Large⁪⁪",
+          "HUGE": "⁪⁪⁪‌‍​​​​‌‌‍‍‍‌​‍‍​‍‍​‍‍‍​​‍​‌​‍​​‌​​​‍​‌​⁪Huge⁪⁪"
+        },
+        "DATE": {
+          "TITLE": "⁪⁪⁪‌​‌‌‌‌​‍‍‌‌​​‍​‌‍‌​​​​‍‍‌​‍‍‍‌‌‌‌‍‌‌‍‍‍‌‌⁪Created Date (range)⁪⁪"
+        }
+      }
+    }
+  },
+  "AVATAR": {
+    "ACCESSIBILITY": {
+      "AVATAR_BUTTON_ARIA_LABEL": "⁪⁪⁪‌‌​‍‌‍‌‌‍‌‍‍‌​‌‌‍‍‍‍‍‌‌‌‌‌​‌​​‌‌​‌​​‌‌‍‍​⁪User options⁪⁪"
+    }
+  },
+  "CORE": {
+    "METADATA": {
+      "ACTIONS": {
+        "SAVE": "⁪⁪⁪‌​‌‍‌‌‍‌​‌‍​‌‍​‍​‍‌​‍​‌‌‌‌​‌‍‍​​‌‍​‍‍‍‌‌​⁪Save changes⁪⁪",
+        "CANCEL": "⁪⁪⁪‌‌‌‌‌‌​​​‍‍​​​‍‌​​​‍‍‍‍‌​‍‍​‍‌‍​‍‍‌‍‍​​​‍⁪Discard changes⁪⁪"
+      }
+    }
+  },
+  "ADF_VIEWER": {
+    "ACTIONS": {
+      "INFO": "⁪⁪⁪‌‍​‌‍‍‍​​‍​‌​​​‍‍‍​‍‌‍​‍​‍‍​‍​‌‍‍​‍​‌​‍⁪View details⁪⁪",
+      "PREVIEW": "⁪⁪⁪‍‌​​​‍​​​‌​‍​‌‍​​​‌‌‌‍‍​‌​​‍‌​‌‌​‍⁪Show preview⁪⁪"
+    }
+  },
+  "FILE_UPLOAD": {
+    "ERRORS": {
+      "409": "⁪⁪⁪‍​‌​‍‌‌‌​​​‌​‍​​‌​​‍​​​‍​‍​‍‌‌‌​‍‍‌‍​‌⁪This name is already in use, try a different name [409]⁪⁪"
+    }
+  },
+  "ADF_VERSION_LIST": {
+    "ACTIONS": {
+      "UPLOAD": {
+        "TOOLTIP": "⁪⁪⁪‌‍‌‍​​​‍‍‌‍‌‍‍‌‍​‍‍‍‍‍‌‍​‌‌‌‍‌‍‍‍‍‍​‌​​⁪Upload new version⁪⁪"
+      }
+    }
+  },
+  "CUSTOM_NAME_COLUMN": {
+    "ACCESSIBILITY": {
+      "FILE_LINK_ARIA_LABEL": "⁪⁪⁪‍‍‍​​​​‌‍‍​​‍‍​​​‍‍‍‍​‍‍‍​​‍‍‌​‍​‌‍‌​‌‌⁪View ​​​{{ name }}‌‌‌⁪⁪",
+      "FOLDER_LINK_ARIA_LABEL": "⁪⁪⁪‌‌​‍‍​‌​​​‌‌‌‌‌‍‌‍‌​‌‌​​‌​‍​​‍‍​‍‍​‌‌‌‍‍⁪Open ​​​{{ name }}‌‌‌ folder⁪⁪"
+    }
+  },
+  "ADF-DATATABLE": {
+    "FILE_TYPE": {
+      "BOOKS-24PX": "⁪⁪⁪‍‍​​‌‍‌‍​​​‍‌‌‍‍‍​‌‍‍‍‌‌‍‍‌‍‍‌‌​​​‍‌​‍‍​⁪file library⁪⁪",
+      "BASELINE-LOCK-24PX": "⁪⁪⁪‌‌​​‍​​‌​‌‌‌‌‌​‌​‌‌​‌‍‍‍‍‌‌​​‌‌‌‍​‍‌​‍‌‌‌⁪locked file⁪⁪"
+    }
+  }
+}

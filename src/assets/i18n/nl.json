@@ -1,6 +1,6 @@
 {
   "APP": {
-    "COPYRIGHT": "© 2017 - 2020 Alfresco Software, Inc. Alle rechten voorbehouden.",
+    "COPYRIGHT": "© 2017 - 2021 Alfresco Software, Inc. Alle rechten voorbehouden.",
     "ABOUT": {
       "VERSION": "Versie:",
       "PLUGINS": {
@@ -168,6 +168,8 @@
       },
       "SEARCH": {
         "DEFAULT_SEARCH": "Standaard",
+        "DUBLIN_CORE": "Dublin core",
+        "EFFECTIVITY": "Effectiviteit",
         "TITLE": "Zoekresultaten",
         "FOUND_RESULTS": "{{ number }} resultaten gevonden",
         "FOUND_ONE_RESULT": "{{ number }} resultaat gevonden",
@@ -485,6 +487,9 @@
       "HINT": "Invoer voor een zoekopdracht moet uit minstens 2 alfanumerieke tekens bestaan."
     },
     "SORT": {
+      "SORTING_OPTION": "Sort by",
+      "ASCENDING": "Ascending",
+      "DESCENDING": "Descending",
       "RELEVANCE": "Relevantie",
       "FILENAME": "Bestandsnaam",
       "TITLE": "Titel",
@@ -509,7 +514,9 @@
         "LARGE": "Groot",
         "HUGE": "Zeer groot"
       },
-      "CREATED_DATE": "Datum gemaakt"
+      "CREATED_DATE": "Datum gemaakt",
+      "EFFECTIVITY_FROM": "Effectivity from",
+      "EFFECTIVITY_TO": "Effectiviteit"
     },
     "FACET_QUERIES": {
       "TODAY": "Vandaag",

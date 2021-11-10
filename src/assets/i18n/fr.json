@@ -1,15 +1,15 @@
 {
   "APP": {
-    "COPYRIGHT": "© 2017 - 2020 Alfresco Software, Inc. Tous droits réservés.",
+    "COPYRIGHT": "© 2017 - 2021 Alfresco Software, Inc. Tous droits réservés.",
     "ABOUT": {
-      "VERSION": "Version :",
+      "VERSION": "Version :",
       "PLUGINS": {
         "TITLE": "Extensions",
         "ID": "ID",
         "NAME": "Nom",
         "VERSION": "Version",
         "VENDOR": "Fournisseur",
-        "LICENSE": "Licence",
+        "LICENSE": "License",
         "RUNTIME": "Java Runtime",
         "DESCRIPTION": "Description"
       },
@@ -168,6 +168,8 @@
       },
       "SEARCH": {
         "DEFAULT_SEARCH": "Par défaut",
+        "DUBLIN_CORE": "Dublin core",
+        "EFFECTIVITY": "Validité",
         "TITLE": "Résultats de la recherche",
         "FOUND_RESULTS": "{{ number }} résultats trouvés",
         "FOUND_ONE_RESULT": "{{ number }} résultat trouvé",
@@ -368,7 +370,7 @@
         "LIBRARY_PROPERTIES": "A propos de",
         "VERSIONS": "Versions",
         "COMMENTS": "Commentaires",
-        "PERMISSIONS": "Autorisations",
+        "PERMISSIONS": "Permissions",
         "EXPAND": "Développer"
       }
     }
@@ -485,6 +487,9 @@
       "HINT": "L'élément de recherche doit comporter au moins 2 caractères alphanumériques."
     },
     "SORT": {
+      "SORTING_OPTION": "Sort by",
+      "ASCENDING": "Ascending",
+      "DESCENDING": "Descending",
       "RELEVANCE": "Pertinence",
       "FILENAME": "Nom de fichier",
       "TITLE": "Titre",
@@ -509,7 +514,9 @@
         "LARGE": "Grande",
         "HUGE": "Enorme"
       },
-      "CREATED_DATE": "Date de création"
+      "CREATED_DATE": "Date de création",
+      "EFFECTIVITY_FROM": "Effectivity from",
+      "EFFECTIVITY_TO": "Validité"
     },
     "FACET_QUERIES": {
       "TODAY": "Aujourd'hui",

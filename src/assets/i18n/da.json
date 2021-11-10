@@ -1,6 +1,6 @@
 {
   "APP": {
-    "COPYRIGHT": "© 2017 - 2020 Alfresco Software, Inc. Alle rettigheder forbeholdes.",
+    "COPYRIGHT": "© 2017 - 2021 Alfresco Software, Inc. Alle rettigheder forbeholdes.",
     "ABOUT": {
       "VERSION": "Version:",
       "PLUGINS": {
@@ -168,6 +168,8 @@
       },
       "SEARCH": {
         "DEFAULT_SEARCH": "Standard",
+        "DUBLIN_CORE": "Dublin core",
+        "EFFECTIVITY": "Gældende periode",
         "TITLE": "Søgeresultater",
         "FOUND_RESULTS": "{{ number }} resultater fundet",
         "FOUND_ONE_RESULT": "{{ number }} resultat fundet",
@@ -485,6 +487,9 @@
       "HINT": "Din søgetekst skal være på mindst 2 tal/bogstaver."
     },
     "SORT": {
+      "SORTING_OPTION": "Sort by",
+      "ASCENDING": "Ascending",
+      "DESCENDING": "Descending",
       "RELEVANCE": "Relevans",
       "FILENAME": "Filnavn",
       "TITLE": "Titel",
@@ -509,7 +514,9 @@
         "LARGE": "Stor",
         "HUGE": "Meget stor"
       },
-      "CREATED_DATE": "Oprettelsesdato"
+      "CREATED_DATE": "Oprettelsesdato",
+      "EFFECTIVITY_FROM": "Effectivity from",
+      "EFFECTIVITY_TO": "Gældende periode"
     },
     "FACET_QUERIES": {
       "TODAY": "I dag",

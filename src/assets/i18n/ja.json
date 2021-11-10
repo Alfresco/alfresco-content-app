@@ -1,6 +1,6 @@
 {
   "APP": {
-    "COPYRIGHT": "© 2017 - 2020 Alfresco Software, Inc。 All rights reserved。",
+    "COPYRIGHT": "© 2017 - 2021 Alfresco Software, Inc。 All rights reserved。",
     "ABOUT": {
       "VERSION": "バージョン:",
       "PLUGINS": {
@@ -168,6 +168,8 @@
       },
       "SEARCH": {
         "DEFAULT_SEARCH": "デフォルト",
+        "DUBLIN_CORE": "Dublin core",
+        "EFFECTIVITY": "有効性",
         "TITLE": "検索結果",
         "FOUND_RESULTS": "{{ number }} 件見つかりました",
         "FOUND_ONE_RESULT": "{{ number }} 件見つかりました",
@@ -208,7 +210,7 @@
       "ADD_FAVORITE": "お気に入りに追加",
       "REMOVE_FAVORITE": "お気に入りの削除",
       "UNSHARE": "共有の解除",
-      "DETAILS": "詳細の表示",
+      "DETAILS": "詳細を表示",
       "VERSIONS": "バージョンの管理",
       "UPLOAD_VERSION": "新しいバージョンのアップロード",
       "TOGGLE-SIDENAV": "サイドナビゲーションバーの切り替え",
@@ -485,6 +487,9 @@
       "HINT": "検索する語句は、2 文字以上の英数字で入力してください。"
     },
     "SORT": {
+      "SORTING_OPTION": "Sort by",
+      "ASCENDING": "Ascending",
+      "DESCENDING": "Descending",
       "RELEVANCE": "関連性",
       "FILENAME": "ファイル名",
       "TITLE": "タイトル",
@@ -509,7 +514,9 @@
         "LARGE": "大",
         "HUGE": "特大"
       },
-      "CREATED_DATE": "作成日"
+      "CREATED_DATE": "作成日",
+      "EFFECTIVITY_FROM": "Effectivity from",
+      "EFFECTIVITY_TO": "有効性"
     },
     "FACET_QUERIES": {
       "TODAY": "今日",

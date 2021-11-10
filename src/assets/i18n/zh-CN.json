@@ -168,6 +168,8 @@
       },
       "SEARCH": {
         "DEFAULT_SEARCH": "默认",
+        "DUBLIN_CORE": "Dublin core",
+        "EFFECTIVITY": "有效性",
         "TITLE": "搜索结果",
         "FOUND_RESULTS": "找到 {{ number }} 个结果",
         "FOUND_ONE_RESULT": "找到 {{ number }} 个结果",
@@ -485,6 +487,9 @@
       "HINT": "搜索输入必须至少具有 2 个字母数字字符。"
     },
     "SORT": {
+      "SORTING_OPTION": "Sort by",
+      "ASCENDING": "Ascending",
+      "DESCENDING": "Descending",
       "RELEVANCE": "相关性",
       "FILENAME": "文件名",
       "TITLE": "标题",
@@ -509,7 +514,9 @@
         "LARGE": "大",
         "HUGE": "特大"
       },
-      "CREATED_DATE": "创建日期"
+      "CREATED_DATE": "创建日期",
+      "EFFECTIVITY_FROM": "Effectivity from",
+      "EFFECTIVITY_TO": "Effectivity to"
     },
     "FACET_QUERIES": {
       "TODAY": "今天",

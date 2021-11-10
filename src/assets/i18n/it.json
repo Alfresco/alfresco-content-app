@@ -1,6 +1,6 @@
 {
   "APP": {
-    "COPYRIGHT": "© 2017 - 2020 Alfresco Software, Inc. Tutti i diritti riservati.",
+    "COPYRIGHT": "© 2017 - 2021 Alfresco Software, Inc. Tutti i diritti riservati.",
     "ABOUT": {
       "VERSION": "Versione:",
       "PLUGINS": {
@@ -168,6 +168,8 @@
       },
       "SEARCH": {
         "DEFAULT_SEARCH": "Predefinita",
+        "DUBLIN_CORE": "Dublin core",
+        "EFFECTIVITY": "Validità",
         "TITLE": "Risultati della ricerca",
         "FOUND_RESULTS": "{{ number }} risultati trovati",
         "FOUND_ONE_RESULT": "{{ number }} risultato trovato",
@@ -485,6 +487,9 @@
       "HINT": "La stringa di ricerca deve contenere almeno 2 caratteri alfanumerici."
     },
     "SORT": {
+      "SORTING_OPTION": "Sort by",
+      "ASCENDING": "Ascending",
+      "DESCENDING": "Descending",
       "RELEVANCE": "Pertinenza",
       "FILENAME": "Nome file",
       "TITLE": "Titolo",
@@ -509,7 +514,9 @@
         "LARGE": "Grande",
         "HUGE": "Enorme"
       },
-      "CREATED_DATE": "Data di creazione"
+      "CREATED_DATE": "Data di creazione",
+      "EFFECTIVITY_FROM": "Effectivity from",
+      "EFFECTIVITY_TO": "Validità"
     },
     "FACET_QUERIES": {
       "TODAY": "Oggi",
