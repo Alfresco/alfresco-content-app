@@ -198,7 +198,7 @@ jobs:
 
     - stage: Publish Docker Registry
       name: Publish Docker Registry
-      script: ./scripts/travis/deploy/publish.sh "app" "$DOCKER_REPOSITORY_DOMAIN" "$QUAY_USERNAME" "$QUAY_PASSORD"
+      script: ./scripts/travis/deploy/publish.sh "app" "$DOCKER_REPOSITORY_DOMAIN" "$QUAY_USERNAME" "$QUAY_PASSWORD"
 
     - stage: Release Tag and Publish to Dockerhub
       name: Release Tag
