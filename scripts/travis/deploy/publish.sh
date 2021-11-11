@@ -8,7 +8,7 @@ PASSWORD="$4"
 
 cd $DIR/../../../
 
-# npm ci && npm run build.release
+npm ci && npm run build.release
 
 # Get Tag Image
 TAG_VERSION=$(./scripts/travis/deploy/get-docker-image-tag-name.sh)
@@ -18,4 +18,4 @@ DOCKER_REPOSITORY="$DOMAIN/$REPO_SLUG"
 
 # Publish Image to quay.io or dockerhub or another domain
 echo "npx @alfresco/adf-cli docker-publish --loginCheck --loginUsername '$USERNAME' --loginPassword '$PASSWORD' --loginRepo '$DOMAIN' --dockerRepo '$DOCKER_REPOSITORY' --buildArgs  $DOCKER_PROJECT_ARGS  --dockerTags '$TAG_VERSION,$TRAVIS_BRANCH' "
-# npx       @alfresco/adf-cli docker-publish --loginCheck --loginUsername "$USERNAME" --loginPassword "$PASSWORD" --loginRepo "$DOMAIN" --dockerRepo "$DOCKER_REPOSITORY" --buildArgs "$DOCKER_PROJECT_ARGS" --dockerTags "$TAG_VERSION,$TRAVIS_BRANCH" --pathProject "$(pwd)"
+npx       @alfresco/adf-cli docker-publish --loginCheck --loginUsername "$USERNAME" --loginPassword "$PASSWORD" --loginRepo "$DOMAIN" --dockerRepo "$DOCKER_REPOSITORY" --buildArgs "$DOCKER_PROJECT_ARGS" --dockerTags "$TAG_VERSION,$TRAVIS_BRANCH" --pathProject "$(pwd)"
