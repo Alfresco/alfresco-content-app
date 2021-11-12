@@ -24,10 +24,12 @@ function updateProjectVersion(packageFile, targetVersion) {
   }
 }
 
-const appRootPackage = path.resolve(__dirname, '..', 'package.json');
+// Update root app.json
+const appRootPackage = path.resolve(__dirname, '../package.json');
 updateProjectVersion(appRootPackage, version);
 
-const projectsRoot = path.resolve(__dirname, '..', 'projects');
+// Update all projects
+const projectsRoot = path.resolve(__dirname, '../projects');
 const folderEntries = fs.readdirSync(projectsRoot);
 
 folderEntries.forEach(entryName => {
@@ -39,3 +41,13 @@ folderEntries.forEach(entryName => {
     updateProjectVersion(packagePath, version);
   }
 });
+
+// Update app.config.json
+const appConfigPath = path.resolve(__dirname, '../src/app.config.json');
+const appConfigJson = JSON.parse(fs.readFileSync(appConfigPath));
+
+if (appConfigJson['application']['version'] !== version) {
+  appConfigJson['application']['version'] = version;
+  console.log('updating:', appConfigPath);
+  fs.writeFileSync(appConfigPath, JSON.stringify(appConfigJson, null, 2));
+}
