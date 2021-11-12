@@ -12,12 +12,15 @@ if (!version || args.length < 1) {
 }
 
 function updateProjectVersion(packageFile, targetVersion) {
-  if (fs.existsSync(packageFile)) {
+  if (fs.existsSync(packageFile) && targetVersion) {
     const packageJson = JSON.parse(fs.readFileSync(packageFile));
-    packageJson['version'] = targetVersion;
 
-    console.log('updating:', packageFile);
-    fs.writeFileSync(packageFile, JSON.stringify(packageJson, null, 2));
+    if (packageJson['version'] !== targetVersion) {
+      packageJson['version'] = targetVersion;
+
+      console.log('updating:', packageFile);
+      fs.writeFileSync(packageFile, JSON.stringify(packageJson, null, 2));
+    }
   }
 }
 
