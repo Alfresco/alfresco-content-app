@@ -11,7 +11,8 @@ fi
 
 cd ${DIR}
 
-echo "Running release for ${VERSION}"
+echo "Updating ADF to latest"
+./update-version.sh -v latest || exit 1
 
 echo "Updating project versions"
 ./update-projects.js $VERSION || exit 1
