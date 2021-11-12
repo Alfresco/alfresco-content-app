@@ -25,4 +25,4 @@ npx @alfresco/adf-cli@latest licenses -d ./docs/licences && \
 npx @alfresco/adf-cli@alpha changelog -o ./docs/changelog
 
 echo "Changelog for master..develop"
-npx @alfresco/adf-cli changelog
+npx @alfresco/adf-cli@alpha changelog
