@@ -3,6 +3,12 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 VERSION=$1
 
+if [[ "${VERSION}" == "" ]]
+then
+  echo "Usage: release.sh <version>"
+  exit 1
+fi
+
 cd ${DIR}
 
 echo "Running release for ${VERSION}"
