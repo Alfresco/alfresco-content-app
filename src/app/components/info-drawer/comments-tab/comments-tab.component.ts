@@ -23,51 +23,49 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Group, MinimalNodeEntryEntity } from '@alfresco/js-api';
 import { NodePermissionService, isLocked } from '@alfresco/aca-shared';
-import { from } from 'rxjs';
+import {from, Observable} from "rxjs";
 import { map } from 'rxjs/operators';
-import { GroupService } from '@alfresco/adf-content-services';
+import {GroupService} from "@alfresco/adf-content-services";
 
 @Component({
   selector: 'app-comments-tab',
-  template: `<mat-card><adf-comments [readOnly]="!canUpdateNode" [nodeId]="node?.id"></adf-comments></mat-card>`
+  template: `<mat-card><adf-comments [readOnly]="!(canUpdateNode$ | async)" [nodeId]="node?.id"></adf-comments></mat-card>`
 })
-export class CommentsTabComponent {
+export class CommentsTabComponent implements OnInit {
   @Input()
   node: MinimalNodeEntryEntity;
-  private userGroups: Group[] = [];
+  public canUpdateNode$: Observable<boolean>;
+  loading: boolean;
 
-  // comment: Comment;
-  constructor(private nodePermissionService: NodePermissionService, private groupService: GroupService) {
-    this.getCurrentUserGroups();
-  }
+  constructor(private nodePermissionService: NodePermissionService, private groupService: GroupService) {}
 
-  get canUpdateNode(): boolean {
-    if (!this.node) {
-      return false;
-    }
-
-    if (this.node.isFolder || (this.node.isFile && !isLocked({ entry: this.node }))) {
-      return (
-        this.nodePermissionService.check(this.node, ['update']) || this.nodePermissionService.hasUserAuthorityOnNode(<any>this.node, this.userGroups)
-      );
-    }
-    return false;
-  }
-
-  getCurrentUserGroups() {
-    from(this.groupService.listAllGroupMembershipsForPerson('-me-', { maxItems: 250 }))
+  ngOnInit(): void {
+    this.loading = true;
+    this.canUpdateNode$ = from(this.groupService.listAllGroupMembershipsForPerson('-me-', { maxItems: 250 }))
       .pipe(
         map((groupsEntries) => {
           const groups: Group[] = [];
           if (groupsEntries) {
             groups.push(...groupsEntries.map((obj) => obj.entry));
           }
-          return groups;
+          return this.canComment(groups);
         })
-      )
-      .subscribe((userGroups) => (this.userGroups = userGroups));
+      );
+    this.loading = false;
+  }
+
+  canComment(groups: Group[]): boolean {
+    if (!this.node) {
+      return false;
+    }
+    if (this.node.isFolder || (this.node.isFile && !isLocked({ entry: this.node }))) {
+      return (
+        this.nodePermissionService.check(this.node, ['update']) || this.nodePermissionService.isCurrentUserSiteContributor(<any>this.node, groups)
+      );
+    }
+    return false;
   }
 }

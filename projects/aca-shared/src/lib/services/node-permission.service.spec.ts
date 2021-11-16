@@ -24,6 +24,7 @@
  */
 
 import { NodePermissionService } from './node-permission.service';
+import { Group } from "@alfresco/js-api";
 
 describe('NodePermissionService', () => {
   let permission: NodePermissionService;
@@ -205,6 +206,77 @@ describe('NodePermissionService', () => {
       const source = { entry: {} };
 
       expect(permission.check(source, ['update'])).toBe(false);
+    });
+
+    const sourceNode = {
+      entry: {
+        "permissions": {
+          "inherited": [
+            {
+              "authorityId": "GROUP_site_test-site_SiteContributor",
+              "name": "SiteContributor",
+              "accessStatus": "ALLOWED"
+            },
+            {
+              "authorityId": "GROUP_site_test-site_SiteManager",
+              "name": "SiteManager",
+              "accessStatus": "ALLOWED"
+            },
+            {
+              "authorityId": "GROUP_site_test-site_SiteConsumer",
+              "name": "SiteConsumer",
+              "accessStatus": "ALLOWED"
+            },
+            {
+              "authorityId": "GROUP_site_test-site_SiteCollaborator",
+              "name": "SiteCollaborator",
+              "accessStatus": "ALLOWED"
+            }
+          ],
+          "settable": [
+            "Contributor",
+            "Collaborator",
+            "Coordinator",
+            "Editor",
+            "Consumer"
+          ],
+          "isInheritanceEnabled": true
+        }
+      }
+    };
+
+    it('should return true when current user has a SiteContributor role on node site', () => {
+      const userGroups: Group[] = [
+        {
+          "isRoot": true,
+          "displayName": "site_test-site",
+          "id": "GROUP_site_test-site"
+        },
+        {
+          "isRoot": false,
+          "displayName": "site_test-site_SiteContributor",
+          "id": "GROUP_site_test-site_SiteContributor"
+        }
+      ];
+
+      expect(permission.isCurrentUserSiteContributor(<any>sourceNode, userGroups)).toBe(true);
+    });
+
+    it('should return false when current user has a SiteConsumer role on node site', () => {
+      const userGroups: Group[] = [
+        {
+          "isRoot": true,
+          "displayName": "site_test-site",
+          "id": "GROUP_site_test-site"
+        },
+        {
+          "isRoot": false,
+          "displayName": "site_test-site_SiteConsumer",
+          "id": "GROUP_site_test-site_SiteConsumer"
+        }
+      ];
+
+      expect(permission.isCurrentUserSiteContributor(<any>sourceNode, userGroups)).toBe(false);
     });
   });
 });

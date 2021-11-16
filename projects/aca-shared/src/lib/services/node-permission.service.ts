@@ -26,6 +26,7 @@
 import { Injectable } from '@angular/core';
 import { NodePermissions } from '@alfresco/adf-extensions';
 import { Node, SharedLink, SharedLinkEntry, NodeEntry, Group, PermissionElement } from '@alfresco/js-api';
+import { SITE_ROLES } from '../../../../aca-testing-shared/src/configs';
 
 export type PermissionSource = NodeEntry | SharedLinkEntry | Node;
 
@@ -114,13 +115,13 @@ export class NodePermissionService implements NodePermissions {
     return nodePermissions.inherited;
   }
 
-  hasUserAuthorityOnNode(node: NodeEntry, userGroups: Group[]): boolean {
+  isCurrentUserSiteContributor(node: NodeEntry, userGroups: Group[]): boolean {
     const nodeAuthorities: PermissionElement[] = this.getNodePermissions(node);
 
     for (const nodeAuth of nodeAuthorities) {
       for (const userAuth of userGroups) {
         if (nodeAuth.authorityId === userAuth.id) {
-          if (nodeAuth.name === 'SiteContributor' || nodeAuth.name === 'SiteCollaborator' || nodeAuth.name === 'SiteManager') {
+          if (nodeAuth.name === SITE_ROLES.SITE_CONTRIBUTOR.ROLE) {
             return true;
           }
         }
