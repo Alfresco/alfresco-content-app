@@ -15,7 +15,7 @@ The ACA supports the following set of extension points:
 - Viewer
 - Sidebar (aka Info Drawer)
 - Content metadata presets (for `Properties` tab)
-- File list layout  
+- File list layout
 - Search
 
 All the customizations are stored in the `features` section of the configuration file:
@@ -120,6 +120,34 @@ You can populate the menu with an extra entries like in the example below:
 Please refer to the [Content Actions](#content-actions) section for more details on supported properties.
 
 **Tip:** It is also possible to update or disable existing entries from within the external extension files. You will need to know the `id` of the target element to customize.
+
+## Main actions
+
+Add possibility to show application `Main Action` button. The action is going to be shown above the `New` button, additionally `Main Action` will be highlighted as primary button, and New as secondary.
+
+```json
+{
+  "$schema": "../../../extension.schema.json",
+  "$version": "1.0.0",
+  "$name": "plugin1",
+
+  "features": {
+    "mainActions": [
+      {
+        "id": "plugin1.id",
+        "type": "button",
+        "title": "Create",
+        "actions": {
+          "click": "MAIN_ACTION_CALL"
+        },
+        "rules": {
+          "enabled": "app.navigation.canCall"
+        }
+      }
+    ]
+  }
+}
+```
 
 ## Navigation Bar
 
