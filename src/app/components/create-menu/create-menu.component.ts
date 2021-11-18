@@ -39,6 +39,7 @@ import { AppExtensionService } from '@alfresco/aca-shared';
 export class CreateMenuComponent implements OnInit, OnDestroy {
   createActions: Array<ContentActionRef> = [];
   onDestroy$: Subject<boolean> = new Subject<boolean>();
+  isMainActionPresent: boolean;
 
   @Input()
   showLabel: boolean;
@@ -54,6 +55,13 @@ export class CreateMenuComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((createActions) => {
         this.createActions = createActions;
+      });
+
+    this.extensions
+      .getMainActions()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((mainAction) => {
+        this.isMainActionPresent = mainAction.length > 0;
       });
   }
 

@@ -78,6 +78,7 @@ export class AppExtensionService implements RuleContext {
   private _contextMenuActions = new BehaviorSubject<Array<ContentActionRef>>([]);
   private _openWithActions = new BehaviorSubject<Array<ContentActionRef>>([]);
   private _createActions = new BehaviorSubject<Array<ContentActionRef>>([]);
+  private _mainActions = new BehaviorSubject<Array<ContentActionRef>>([]);
   private _sidebarActions = new BehaviorSubject<Array<ContentActionRef>>([]);
 
   documentListPresets: {
@@ -156,6 +157,7 @@ export class AppExtensionService implements RuleContext {
     this._contextMenuActions.next(this.loader.getContentActions(config, 'features.contextMenu'));
     this._openWithActions.next(this.loader.getContentActions(config, 'features.viewer.openWith'));
     this._createActions.next(this.loader.getElements<ContentActionRef>(config, 'features.create'));
+    this._mainActions.next(this.loader.getElements<ContentActionRef>(config, 'features.mainActions'));
 
     this.navbar = this.loadNavBar(config);
     this.sidebarTabs = this.loader.getElements<SidebarTabRef>(config, 'features.sidebar.tabs');
@@ -364,7 +366,19 @@ export class AppExtensionService implements RuleContext {
     );
   }
 
+  getMainActions(): Observable<Array<ContentActionRef>> {
+    return this._mainActions.pipe(
+      map((mainAction) =>
+        mainAction
+          .filter((action) => this.filterVisible(action))
+          .map((action) => this.copyAction(action))
+          .map((action) => this.setActionDisabledFromRule(action))
+      )
+    );
+  }
+
   private buildMenu(actionRef: ContentActionRef): ContentActionRef {
+    // debugger;
     if (actionRef.type === ContentActionType.menu && actionRef.children && actionRef.children.length > 0) {
       const children = actionRef.children.filter((action) => this.filterVisible(action)).map((action) => this.buildMenu(action));
 

@@ -1,5 +1,13 @@
 <ng-container *ngIf="expanded">
-  <button data-automation-id="create-button" mat-raised-button [matMenuTriggerFor]="rootMenu" title="{{ 'APP.NEW_MENU.TOOLTIP' | translate }}">
+  <button
+    mat-stroked-button
+    data-automation-id="create-button"
+    [matMenuTriggerFor]="rootMenu"
+    title="{{ 'APP.NEW_MENU.TOOLTIP' | translate }}"
+    [class]="{
+      'app-create-menu-secondary-button': isMainActionPresent
+    }"
+  >
     <span class="app-create-menu__text">{{ 'APP.NEW_MENU.LABEL' | translate }}</span>
     <mat-icon title="{{ 'APP.NEW_MENU.TOOLTIP' | translate }}">arrow_drop_down</mat-icon>
   </button>
@@ -8,7 +16,10 @@
 <ng-container *ngIf="!expanded">
   <button
     mat-icon-button
-    class="app-create-menu--collapsed"
+    [class]="{
+      'app-create-menu-secondary-button': isMainActionPresent,
+      'app-create-menu--collapsed': true
+    }"
     data-automation-id="create-button"
     [matMenuTriggerFor]="rootMenu"
     #createMenu="matMenuTrigger"

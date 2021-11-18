@@ -1,0 +1,12 @@
+<ng-container *ngFor="let action of mainActions$ | async" >
+    <ng-container [ngSwitch]="action.type">
+        <button
+            *ngSwitchCase="actionTypes.button"
+            mat-stroked-button
+            (click)="runAction(action.actions.click)"
+            class="app-main-action-button"
+        >
+            {{action.title | translate}}
+        </button>
+    </ng-container>
+</ng-container>
