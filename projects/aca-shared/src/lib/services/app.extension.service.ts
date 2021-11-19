@@ -368,11 +368,11 @@ export class AppExtensionService implements RuleContext {
 
   getMainAction(): Observable<ContentActionRef> {
     return this._mainActions.pipe(
-      filter(mainAction => mainAction && this.filterVisible(mainAction)),
-      map((mainAction) =>  {
+      filter((mainAction) => mainAction && this.filterVisible(mainAction)),
+      map((mainAction) => {
         let actionCopy = this.copyAction(mainAction);
         actionCopy = this.setActionDisabledFromRule(actionCopy);
-        return actionCopy
+        return actionCopy;
       })
     );
   }
