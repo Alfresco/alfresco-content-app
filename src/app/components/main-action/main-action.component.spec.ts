@@ -28,9 +28,11 @@ import { MainActionComponent } from './main-action.component';
 import { TranslationService, TranslationMock } from '@alfresco/adf-core';
 import { AppExtensionService } from '@alfresco/aca-shared';
 import { of } from 'rxjs';
-import { MainActionModule } from './main-action.module';
 import { ACTION_CLICK, ACTION_TITLE } from '../../testing/content-action-ref';
 import { AppExtensionServiceMock } from '../../testing/app-extension-service-mock';
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('MainActionComponent', () => {
   let startProcessButtonComponent: MainActionComponent;
@@ -39,7 +41,7 @@ describe('MainActionComponent', () => {
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [MainActionModule],
+      imports: [CommonModule, MatButtonModule, TranslateModule.forRoot()],
       providers: [
         { provide: TranslationService, useClass: TranslationMock },
         { provide: AppExtensionService, useClass: AppExtensionServiceMock }
