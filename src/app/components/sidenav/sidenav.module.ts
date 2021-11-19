@@ -37,7 +37,7 @@ import { ActiveLinkDirective } from './directives/active-link.directive';
 import { ExpandMenuComponent } from './components/expand-menu.component';
 import { ButtonMenuComponent } from './components/button-menu.component';
 import { ActionDirective } from './directives/action.directive';
-import { MainActionsModule } from '../main-actions/main-actions.module';
+import { MainActionModule } from '../main-action/main-action.module';
 
 @NgModule({
   imports: [
@@ -47,7 +47,7 @@ import { MainActionsModule } from '../main-actions/main-actions.module';
     ExtensionsModule.forChild(),
     RouterModule,
     AppCreateMenuModule,
-    MainActionsModule
+    MainActionModule
   ],
   declarations: [
     MenuPanelDirective,

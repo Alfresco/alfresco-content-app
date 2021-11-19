@@ -121,9 +121,9 @@ Please refer to the [Content Actions](#content-actions) section for more details
 
 **Tip:** It is also possible to update or disable existing entries from within the external extension files. You will need to know the `id` of the target element to customize.
 
-## Main actions
+## Main action
 
-Add possibility to show application `Main Action` button. The action is going to be shown above the `New` button, additionally `Main Action` will be highlighted as primary button, and New as secondary.
+Add possibility to show application `Main Action` button. The action is going to be shown above the `New` button, additionally `Main Action` will be highlighted as primary button, and `New` as secondary.
 
 ```json
 {
@@ -132,8 +132,7 @@ Add possibility to show application `Main Action` button. The action is going to
   "$name": "plugin1",
 
   "features": {
-    "mainActions": [
-      {
+    "mainAction": {
         "id": "plugin1.id",
         "type": "button",
         "title": "Create",
@@ -144,7 +143,6 @@ Add possibility to show application `Main Action` button. The action is going to
           "enabled": "app.navigation.canCall"
         }
       }
-    ]
   }
 }
 ```

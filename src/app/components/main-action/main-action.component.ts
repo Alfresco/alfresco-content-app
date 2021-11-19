@@ -15,12 +15,12 @@ import { takeUntil } from 'rxjs/operators';
 export const START_PROCESS_ACTION_ID = 'alfresco.app.start.process';
 
 @Component({
-    selector: 'app-main-actions',
-    templateUrl: './main-actions.component.html',
-    styleUrls: ['./main-actions.component.scss'],
+    selector: 'app-main-action',
+    templateUrl: './main-action.component.html',
+    styleUrls: ['./main-action.component.scss'],
 })
-export class MainActionsComponent implements OnInit, OnDestroy {
-    mainActions$: Observable<ContentActionRef[]>;
+export class MainActionComponent implements OnInit, OnDestroy {
+    mainAction$: Observable<ContentActionRef>;
 
     actionTypes = ContentActionType;
 
@@ -35,7 +35,7 @@ export class MainActionsComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.mainActions$ = this.extensions.getMainActions().pipe(
+        this.mainAction$ = this.extensions.getMainAction().pipe(
             takeUntil(this.onDestroy$)
         );
     }

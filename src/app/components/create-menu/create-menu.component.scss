@@ -8,6 +8,7 @@
   .mat-stroked-button:not(.app-create-menu-secondary-button) {
     background-color: var(--theme-accent-color);
     color: var(--theme-primary-color-default-contrast);
+    margin-top: 0px;
 
     .mat-icon {
       color: var(--theme-primary-color-default-contrast);
@@ -21,6 +22,7 @@
     font-size: 12.7px;
     font-weight: normal;
     text-transform: uppercase;
+    margin-top: 10px;
 
     .mat-icon {
       width: 24px;

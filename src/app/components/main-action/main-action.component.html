@@ -1,4 +1,4 @@
-<ng-container *ngFor="let action of mainActions$ | async" >
+<ng-container *ngIf="(mainAction$ | async) as action">
     <ng-container [ngSwitch]="action.type">
         <button
             *ngSwitchCase="actionTypes.button"
@@ -10,3 +10,4 @@
         </button>
     </ng-container>
 </ng-container>
+

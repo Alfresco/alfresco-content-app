@@ -35,7 +35,7 @@ import { AppTestingModule } from '../../testing/app-testing.module';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { of } from 'rxjs';
-import { getContentActionRef } from '../../testing/app-extension-service.mock';
+import { getContentActionRef } from '../../testing/content-action-ref';
 
 describe('CreateMenuComponent', () => {
   let fixture: ComponentFixture<CreateMenuComponent>;
@@ -59,7 +59,7 @@ describe('CreateMenuComponent', () => {
       ])
     );
 
-    spyOn(extensionService, 'getMainActions').and.returnValue(getContentActionRef());
+    spyOn(extensionService, 'getMainAction').and.returnValue(getContentActionRef());
 
     fixture = TestBed.createComponent(CreateMenuComponent);
   });

@@ -58,10 +58,10 @@ export class CreateMenuComponent implements OnInit, OnDestroy {
       });
 
     this.extensions
-      .getMainActions()
+      .getMainAction()
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((mainAction) => {
-        this.isMainActionPresent = mainAction.length > 0;
+        this.isMainActionPresent = !!mainAction;
       });
   }
 

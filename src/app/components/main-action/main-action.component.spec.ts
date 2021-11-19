@@ -7,47 +7,47 @@
  */
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MainActionsComponent } from './main-action.component';
+import { MainActionComponent } from './main-action.component';
 import { TranslationService, TranslationMock } from '@alfresco/adf-core';
 import { AppExtensionService } from '@alfresco/aca-shared';
 import { of } from 'rxjs';
-import { MainActionsModule } from './main-actions.module';
-import { ACTION_CLICK, ACTION_TITLE, getContentActionRef } from '../../testing/app-extension-service.mock';
+import { MainActionModule } from './main-action.module';
+import { ACTION_CLICK, ACTION_TITLE } from '../../testing/content-action-ref';
+import { AppExtensionServiceMock } from '../../testing/app-extension-service-mock';
 
-describe('MainActionsComponent', () => {
-    let startProcessButtonComponent: MainActionsComponent;
-    let fixture: ComponentFixture<MainActionsComponent>;
-    let appExtensionService: AppExtensionService;
+describe('MainActionComponent', () => {
+    let startProcessButtonComponent: MainActionComponent;
+    let fixture: ComponentFixture<MainActionComponent>;
+    let appExtensionService: AppExtensionServiceMock;
 
     beforeEach(async () => {
         TestBed.configureTestingModule({
             imports: [
-                MainActionsModule
+                MainActionModule
             ],
             providers: [
                 { provide: TranslationService, useClass: TranslationMock },
-                AppExtensionService,
+                { provide: AppExtensionService, useClass: AppExtensionServiceMock }
             ]
         }).compileComponents();
 
         appExtensionService = TestBed.inject(AppExtensionService);
 
-        spyOn(appExtensionService, 'getMainActions').and.returnValue(getContentActionRef());
-
-        fixture = TestBed.createComponent(MainActionsComponent);
+        fixture = TestBed.createComponent(MainActionComponent);
         startProcessButtonComponent = fixture.componentInstance;
 
         fixture.detectChanges();
     });
 
     it('should display button if main action is configured', () => {
+        debugger
         const button = fixture.debugElement.nativeElement.querySelector('.app-main-action-button');
         expect(button).toBeTruthy();
         expect(button.textContent.trim()).toBe(ACTION_TITLE);
     });
 
     it('should not display button if main action is not configured', () => {
-        spyOn(appExtensionService, 'getMainActions').and.returnValue(of([]));
+        spyOn(appExtensionService, 'getMainAction').and.returnValue(of(undefined));
         startProcessButtonComponent.ngOnInit();
         fixture.detectChanges();
 

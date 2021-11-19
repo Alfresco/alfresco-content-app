@@ -10,7 +10,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
-import { MainActionsComponent } from './main-actions.component';
+import { MainActionComponent } from './main-action.component';
 
 @NgModule({
     imports: [
@@ -19,11 +19,11 @@ import { MainActionsComponent } from './main-actions.component';
         TranslateModule.forRoot(),
     ],
     exports: [
-        MainActionsComponent,
+        MainActionComponent,
     ],
     declarations: [
-        MainActionsComponent,
+        MainActionComponent,
     ],
 })
-export class MainActionsModule {
+export class MainActionModule {
 }
