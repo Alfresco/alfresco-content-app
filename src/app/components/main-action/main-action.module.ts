@@ -30,7 +30,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MainActionComponent } from './main-action.component';
 
 @NgModule({
-  imports: [CommonModule, MatButtonModule, TranslateModule.forRoot()],
+  imports: [CommonModule, MatButtonModule, TranslateModule.forChild()],
   exports: [MainActionComponent],
   declarations: [MainActionComponent]
 })
