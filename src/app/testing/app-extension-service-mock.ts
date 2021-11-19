@@ -1,7 +1,3 @@
-import { ContentActionRef } from '@alfresco/adf-extensions';
-import { Observable } from 'rxjs';
-import { getContentActionRef } from './content-action-ref';
-
 /*
  * Copyright © 2005 - 2021 Alfresco Software, Ltd. All rights reserved.
  *
@@ -9,6 +5,10 @@ import { getContentActionRef } from './content-action-ref';
  * pursuant to a written agreement and any use of this program without such an
  * agreement is prohibited.
  */
+
+import { ContentActionRef } from '@alfresco/adf-extensions';
+import { Observable } from 'rxjs';
+import { getContentActionRef } from './content-action-ref';
 export class AppExtensionServiceMock {
     getMainAction(): Observable<ContentActionRef> {
         return getContentActionRef();
