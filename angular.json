@@ -3,32 +3,28 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "app": {
-      "root": "",
-      "sourceRoot": "src",
+    "content-ce": {
+      "root": "app",
+      "sourceRoot": "app/src",
       "projectType": "application",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "aot": true,
+            "outputPath": "dist/content-ce",
+            "index": "app/src/index.html",
+            "main": "app/src/main.ts",
+            "tsConfig": "app/tsconfig.app.json",
+            "polyfills": "app/src/polyfills.ts",
             "allowedCommonJsDependencies": [
-              "minimatch",
-              "minimatch-browser",
               "moment-es6",
-              "superagent",
-              "event-emitter",
-              "brace-expansion",
-              "d"
+              "minimatch",
+              "zen-observable"
             ],
-            "outputPath": "dist/app",
-            "index": "src/index.html",
-            "main": "src/main.ts",
-            "tsConfig": "src/tsconfig.app.json",
-            "polyfills": "src/polyfills.ts",
             "stylePreprocessorOptions": {
               "includePaths": [
-                "src/app/ui"
+                "app/src/app/ui"
               ]
             },
             "assets": [
@@ -37,9 +33,9 @@
                 "input": ".",
                 "output": "/"
               },
-              "src/assets",
-              "src/favicon-96x96.png",
-              "src/app.config.json",
+              "app/src/assets",
+              "app/src/favicon-96x96.png",
+              "app/src/app.config.json",
               {
                 "glob": "**/*",
                 "input": "node_modules/@alfresco/adf-core/prebuilt-themes",
@@ -92,10 +88,10 @@
               }
             ],
             "styles": [
-              "src/assets/fonts/material-icons/material-icons.css",
-              "src/assets/fonts/muli/muli.css",
+              "app/src/assets/fonts/material-icons/material-icons.css",
+              "app/src/assets/fonts/muli/muli.css",
               "node_modules/cropperjs/dist/cropper.min.css",
-              "src/styles.scss"
+              "app/src/styles.scss"
             ],
             "scripts": [
               "node_modules/pdfjs-dist/build/pdf.js",
@@ -105,6 +101,12 @@
           },
           "configurations": {
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -116,57 +118,16 @@
               "buildOptimizer": true,
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
-                }
-              ],
-              "budgets": [
-                {
-                  "type": "bundle",
-                  "name": "main",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                },
-                {
-                  "type": "bundle",
-                  "name": "vendor",
-                  "maximumWarning": "10mb",
-                  "maximumError": "15mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
+                  "replace": "app/src/environments/environment.ts",
+                  "with": "app/src/environments/environment.prod.ts"
                 }
               ]
             },
             "release": {
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.release.ts"
-                }
-              ]
-            },
-            "e2e": {
-              "budgets": [
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
-                }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.e2e.ts"
+                  "replace": "app/src/environments/environment.ts",
+                  "with": "app/src/environments/environment.release.ts"
                 }
               ]
             }
@@ -175,20 +136,16 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "app:build",
+            "browserTarget": "content-ce:build",
             "port": 4200,
-            "host": "0.0.0.0",
-            "proxyConfig": "src/proxy.conf.js"
+            "disableHostCheck": true,
+            "open": true,
+            "proxyConfig": "app/proxy.conf.js"
           },
           "configurations": {
             "production": {
-              "browserTarget": "app:build:production"
-            },
-            "e2e": {
-              "browserTarget": "app:build:e2e"
-            },
-            "release": {
-                "browserTarget": "app:build:release"
+              "browserTarget": "content-ce:build:production",
+              "disableHostCheck": false
             }
           }
         },
@@ -196,7 +153,7 @@
           "builder": "@angular-custom-builders/lite-serve:dist-serve",
           "options": {
             "publicHost": "http://localhost:4200",
-            "browserTarget": "app:build"
+            "browserTarget": "content-ce:build"
           },
           "configurations": {
             "standalone": {
@@ -207,36 +164,36 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "app:build"
+            "browserTarget": "content-ce:build"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "src/test.ts",
+            "main": "app/src/test.ts",
             "karmaConfig": "./karma.conf.js",
+            "polyfills": "app/src/polyfills.ts",
             "sourceMap": true,
-            "polyfills": "src/polyfills.ts",
             "stylePreprocessorOptions": {
               "includePaths": [
-                "src/app/ui"
+                "app/src/app/ui"
               ]
             },
-            "tsConfig": "src/tsconfig.spec.json",
+            "tsConfig": "app/tsconfig.spec.json",
             "scripts": [
               "node_modules/pdfjs-dist/build/pdf.js",
               "node_modules/pdfjs-dist/web/pdf_viewer.js",
               "node_modules/moment/min/moment.min.js"
             ],
             "styles": [
-              "src/assets/fonts/material-icons/material-icons.css",
-              "src/assets/fonts/muli/muli.css",
-              "src/styles.scss"
+              "app/src/assets/fonts/material-icons/material-icons.css",
+              "app/src/assets/fonts/muli/muli.css",
+              "app/src/styles.scss"
             ],
             "assets": [
-              "src/assets",
-              "src/favicon-96x96.png",
-              "src/app.config.json",
+              "app/src/assets",
+              "app/src/favicon-96x96.png",
+              "app/src/app.config.json",
               {
                 "glob": "**/*",
                 "input": "node_modules/@alfresco/adf-core/prebuilt-themes",
@@ -264,8 +221,8 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "src/tsconfig.app.json",
-              "src/tsconfig.spec.json"
+              "app/tsconfig.app.json",
+              "app/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**",
@@ -482,7 +439,7 @@
       }
     }
   },
-  "defaultProject": "app",
+  "defaultProject": "content-ce",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "aca",

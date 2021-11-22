@@ -1,5 +1,5 @@
 {
-    "$schema": "../../../extension.schema.json",
+    "$schema": "../../../../extension.schema.json",
     "$id": "app.debug-search.plugin",
     "$version": "1.0.0",
     "$name": "app.debug-search.plugin",

@@ -30,7 +30,7 @@ import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testin
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { AppExtensionService } from '../../../../projects/aca-shared/src/lib/services/app.extension.service';
+import { AppExtensionService } from '@alfresco/aca-shared';
 import { CoreModule } from '@alfresco/adf-core';
 import { AppSearchInputModule } from '../search/search-input.module';
 

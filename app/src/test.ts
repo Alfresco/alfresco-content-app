@@ -23,23 +23,29 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Injectable } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { Observable, of } from 'rxjs';
+// This file is required by karma.conf.js and loads recursively all the .spec and framework files
 
-@Injectable()
-export class TranslateServiceMock extends TranslateService {
-  constructor() {
-    super(null, null, null, null, null, null, true, null, null);
-  }
+import 'zone.js/dist/long-stack-trace-zone';
+import 'zone.js/dist/proxy.js';
+import 'zone.js/dist/sync-test';
+import 'zone.js/dist/jasmine-patch';
+import 'zone.js/dist/async-test';
+import 'zone.js/dist/fake-async-test';
+import { getTestBed } from '@angular/core/testing';
+import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 
-  get(key: string | Array<string> /*,
-    interpolateParams?: Object*/): Observable<string | any> {
-    return of(key);
-  }
+// Unfortunately there's no typing for the `__karma__` variable. Just declare it as any.
+declare const __karma__: any;
+declare const require: any;
 
-  instant(key: string | Array<string> /*,
-    interpolateParams?: Object*/): string | any {
-    return key;
-  }
-}
+// Prevent Karma from running prematurely.
+__karma__.loaded = function () {};
+
+// First, initialize the Angular testing environment.
+getTestBed().initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
+// Then we find all the tests.
+const context = require.context('./', true, /\.spec\.ts$/);
+// And load the modules.
+context.keys().map(context);
+// Finally, start Karma to run the tests.
+__karma__.start();

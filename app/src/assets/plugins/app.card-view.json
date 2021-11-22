@@ -1,5 +1,5 @@
 {
-  "$schema": "../../../extension.schema.json",
+  "$schema": "../../../../extension.schema.json",
   "$id": "app.demo.cardView",
   "$name": "app.demo.cardView",
   "$version": "1.0.0",
