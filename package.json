@@ -12,6 +12,7 @@
     "lint": "ng lint && npm run spellcheck && npm run e2e.typecheck",
     "dep-graph": "nx dep-graph",
     "update-webdriver": "./scripts/update-webdriver.sh",
+    "build.e2e": "npm run build.app -- --prod --configuration=e2e",
     "e2e.typecheck": "tsc -p ./e2e/tsconfig.e2e.typecheck.json",
     "e2e": "npm run update-webdriver && protractor $SUITE",
     "spellcheck": "cspell '{src,e2e,projects}/**/*.ts'",
