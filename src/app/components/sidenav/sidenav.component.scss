@@ -33,9 +33,9 @@
 
   .action-menu {
     display: flex;
-    height: 40px;
+    flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: stretch;
   }
 
   .section.action-menu {

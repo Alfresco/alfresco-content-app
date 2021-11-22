@@ -800,6 +800,11 @@
           "items": { "$ref": "#/definitions/contentActionRef" },
           "minItems": 1
         },
+        "mainAction": {
+          "description": "Main actions displayed on every page",
+          "type": "object",
+          "$ref": "#/definitions/contentActionRef"
+        },
         "viewer": {
           "description": "Viewer component extensions",
           "type": "object",

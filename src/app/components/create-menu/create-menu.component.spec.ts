@@ -35,6 +35,7 @@ import { AppTestingModule } from '../../testing/app-testing.module';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { of } from 'rxjs';
+import { getContentActionRef } from '../../testing/content-action-ref';
 
 describe('CreateMenuComponent', () => {
   let fixture: ComponentFixture<CreateMenuComponent>;
@@ -57,6 +58,8 @@ describe('CreateMenuComponent', () => {
         }
       ])
     );
+
+    spyOn(extensionService, 'getMainAction').and.returnValue(getContentActionRef());
 
     fixture = TestBed.createComponent(CreateMenuComponent);
   });
@@ -131,5 +134,15 @@ describe('CreateMenuComponent', () => {
     const level2 = overlayContainer.getContainerElement().querySelector('#level2');
 
     expect(level2).not.toBeNull();
+  });
+
+  it('should recognise if main button is present', async () => {
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const button: HTMLButtonElement = fixture.debugElement.query(By.css('[data-automation-id="create-button"]')).nativeElement;
+    const isSecondaryButton = button.classList.contains('app-create-menu-secondary-button');
+
+    expect(isSecondaryButton).toBeTrue();
   });
 });

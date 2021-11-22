@@ -56,7 +56,7 @@ import { RepositoryInfo, NodeEntry } from '@alfresco/js-api';
 import { ViewerRules } from '../models/viewer.rules';
 import { SettingsGroupRef } from '../models/types';
 import { NodePermissionService } from '../services/node-permission.service';
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -78,6 +78,7 @@ export class AppExtensionService implements RuleContext {
   private _contextMenuActions = new BehaviorSubject<Array<ContentActionRef>>([]);
   private _openWithActions = new BehaviorSubject<Array<ContentActionRef>>([]);
   private _createActions = new BehaviorSubject<Array<ContentActionRef>>([]);
+  private _mainActions = new BehaviorSubject<ContentActionRef>(null);
   private _sidebarActions = new BehaviorSubject<Array<ContentActionRef>>([]);
 
   documentListPresets: {
@@ -156,6 +157,7 @@ export class AppExtensionService implements RuleContext {
     this._contextMenuActions.next(this.loader.getContentActions(config, 'features.contextMenu'));
     this._openWithActions.next(this.loader.getContentActions(config, 'features.viewer.openWith'));
     this._createActions.next(this.loader.getElements<ContentActionRef>(config, 'features.create'));
+    this._mainActions.next(this.loader.getFeatures(config).mainAction);
 
     this.navbar = this.loadNavBar(config);
     this.sidebarTabs = this.loader.getElements<SidebarTabRef>(config, 'features.sidebar.tabs');
@@ -361,6 +363,17 @@ export class AppExtensionService implements RuleContext {
           .map((action) => this.buildMenu(action))
           .map((action) => this.setActionDisabledFromRule(action))
       )
+    );
+  }
+
+  getMainAction(): Observable<ContentActionRef> {
+    return this._mainActions.pipe(
+      filter((mainAction) => mainAction && this.filterVisible(mainAction)),
+      map((mainAction) => {
+        let actionCopy = this.copyAction(mainAction);
+        actionCopy = this.setActionDisabledFromRule(actionCopy);
+        return actionCopy;
+      })
     );
   }
 

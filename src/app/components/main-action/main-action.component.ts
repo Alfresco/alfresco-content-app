@@ -23,54 +23,37 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
-import { ContentActionRef } from '@alfresco/adf-extensions';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
 import { AppExtensionService } from '@alfresco/aca-shared';
+import { ContentActionRef, ContentActionType } from '@alfresco/adf-extensions';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
+export const START_PROCESS_ACTION_ID = 'alfresco.app.start.process';
 
 @Component({
-  selector: 'app-create-menu',
-  templateUrl: './create-menu.component.html',
-  styleUrls: ['./create-menu.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  host: { class: 'app-create-menu' }
+  selector: 'app-main-action',
+  templateUrl: './main-action.component.html',
+  styleUrls: ['./main-action.component.scss']
 })
-export class CreateMenuComponent implements OnInit, OnDestroy {
-  createActions: Array<ContentActionRef> = [];
-  onDestroy$: Subject<boolean> = new Subject<boolean>();
-  isMainActionPresent: boolean;
+export class MainActionComponent implements OnInit, OnDestroy {
+  mainAction$: Observable<ContentActionRef>;
 
-  @Input()
-  showLabel: boolean;
+  actionTypes = ContentActionType;
 
-  @Input()
-  expanded: boolean;
+  private onDestroy$ = new Subject<boolean>();
 
   constructor(private extensions: AppExtensionService) {}
 
-  ngOnInit() {
-    this.extensions
-      .getCreateActions()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((createActions) => {
-        this.createActions = createActions;
-      });
-
-    this.extensions
-      .getMainAction()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((mainAction) => {
-        this.isMainActionPresent = !!mainAction;
-      });
-  }
-
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.onDestroy$.next(true);
-    this.onDestroy$.complete();
   }
 
-  trackByActionId(_: number, obj: ContentActionRef): string {
-    return obj.id;
+  ngOnInit(): void {
+    this.mainAction$ = this.extensions.getMainAction().pipe(takeUntil(this.onDestroy$));
+  }
+
+  runAction(action: string): void {
+    this.extensions.runActionById(action);
   }
 }
