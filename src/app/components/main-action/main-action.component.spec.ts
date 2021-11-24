@@ -35,7 +35,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
 
 describe('MainActionComponent', () => {
-  let startProcessButtonComponent: MainActionComponent;
+  let mainActionComponent: MainActionComponent;
   let fixture: ComponentFixture<MainActionComponent>;
   let appExtensionService: AppExtensionServiceMock;
 
@@ -51,7 +51,7 @@ describe('MainActionComponent', () => {
     appExtensionService = TestBed.inject(AppExtensionService);
 
     fixture = TestBed.createComponent(MainActionComponent);
-    startProcessButtonComponent = fixture.componentInstance;
+    mainActionComponent = fixture.componentInstance;
 
     fixture.detectChanges();
   });
@@ -64,7 +64,7 @@ describe('MainActionComponent', () => {
 
   it('should not display button if main action is not configured', () => {
     spyOn(appExtensionService, 'getMainAction').and.returnValue(of(undefined));
-    startProcessButtonComponent.ngOnInit();
+    mainActionComponent.ngOnInit();
     fixture.detectChanges();
 
     const button = fixture.debugElement.nativeElement.querySelector('.app-main-action-button');

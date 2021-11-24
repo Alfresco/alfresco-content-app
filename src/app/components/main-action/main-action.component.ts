@@ -29,8 +29,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-export const START_PROCESS_ACTION_ID = 'alfresco.app.start.process';
-
 @Component({
   selector: 'app-main-action',
   templateUrl: './main-action.component.html',
