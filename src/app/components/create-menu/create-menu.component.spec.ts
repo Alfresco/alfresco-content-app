@@ -59,7 +59,7 @@ describe('CreateMenuComponent', () => {
       ])
     );
 
-    spyOn(extensionService, 'getMainAction').and.returnValue(getContentActionRef());
+    spyOn(extensionService, 'getMainAction').and.returnValue(of(getContentActionRef()));
 
     fixture = TestBed.createComponent(CreateMenuComponent);
   });
