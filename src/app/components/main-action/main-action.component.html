@@ -3,6 +3,8 @@
         <button
             *ngSwitchCase="actionTypes.button"
             mat-stroked-button
+            [id]="action.id"
+            [disabled]="action.disabled"
             (click)="runAction(action.actions.click)"
             class="app-main-action-button"
         >
