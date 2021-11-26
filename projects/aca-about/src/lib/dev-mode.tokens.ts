@@ -23,22 +23,6 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Inject } from '@angular/core';
-import { DEV_MODE_TOKEN } from './dev-mode.tokens';
-import pkg from 'package.json';
+import { InjectionToken } from '@angular/core';
 
-@Component({
-  selector: 'app-about-page',
-  templateUrl: './about.component.html',
-  styleUrls: ['./about.component.scss']
-})
-export class AboutComponent {
-  pkg: any;
-  dev: boolean = false;
-
-  constructor(@Inject(DEV_MODE_TOKEN) devMode) {
-    this.dev = !devMode;
-    this.pkg = pkg;
-  }
-
-}
+export const DEV_MODE_TOKEN = new InjectionToken<any>('devMode');

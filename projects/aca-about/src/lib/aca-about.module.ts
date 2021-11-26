@@ -30,6 +30,7 @@ import { CoreModule } from '@alfresco/adf-core';
 import { SharedModule, PageLayoutModule } from '@alfresco/aca-shared';
 
 import { ExtensionService, provideExtensionConfig } from '@alfresco/adf-extensions';
+import { DEV_MODE_TOKEN } from './dev-mode.tokens';
 
 @NgModule({
   imports: [CommonModule, CoreModule.forChild(), SharedModule, PageLayoutModule],
@@ -43,11 +44,11 @@ export class AcaAboutModule {
     });
   }
 
-  public static forRoot(environment: any): ModuleWithProviders<AcaAboutModule> {
+  public static forRoot(devMode: any): ModuleWithProviders<AcaAboutModule> {
     return {
       ngModule: AcaAboutModule,
       providers: [
-        {provide: 'environment', useValue: environment}
+        { provide: DEV_MODE_TOKEN, useValue: devMode }
       ]
     };
   }

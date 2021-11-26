@@ -33,7 +33,7 @@ import { environment } from '../environments/environment';
   imports: [
     AosExtensionModule,
     ...(environment.devTools ? [AcaSettingsModule] : []),
-    AcaAboutModule.forRoot(environment)
+    AcaAboutModule.forRoot(environment.production)
     ]
 })
 export class AppExtensionsModule {}
