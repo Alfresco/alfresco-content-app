@@ -24,11 +24,11 @@
  */
 
 import { ContentActionRef } from '@alfresco/adf-extensions';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { getContentActionRef } from './content-action-ref';
 export class AppExtensionServiceMock {
   getMainAction(): Observable<ContentActionRef> {
-    return getContentActionRef();
+    return of(getContentActionRef());
   }
 
   runActionById(_id: string) {}

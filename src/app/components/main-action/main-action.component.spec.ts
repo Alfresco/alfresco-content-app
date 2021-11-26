@@ -28,14 +28,14 @@ import { MainActionComponent } from './main-action.component';
 import { TranslationService, TranslationMock } from '@alfresco/adf-core';
 import { AppExtensionService } from '@alfresco/aca-shared';
 import { of } from 'rxjs';
-import { ACTION_CLICK, ACTION_TITLE } from '../../testing/content-action-ref';
+import { ACTION_CLICK, ACTION_TITLE, getContentActionRef } from '../../testing/content-action-ref';
 import { AppExtensionServiceMock } from '../../testing/app-extension-service-mock';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
 
 describe('MainActionComponent', () => {
-  let startProcessButtonComponent: MainActionComponent;
+  let mainActionComponent: MainActionComponent;
   let fixture: ComponentFixture<MainActionComponent>;
   let appExtensionService: AppExtensionServiceMock;
 
@@ -51,7 +51,7 @@ describe('MainActionComponent', () => {
     appExtensionService = TestBed.inject(AppExtensionService);
 
     fixture = TestBed.createComponent(MainActionComponent);
-    startProcessButtonComponent = fixture.componentInstance;
+    mainActionComponent = fixture.componentInstance;
 
     fixture.detectChanges();
   });
@@ -64,7 +64,7 @@ describe('MainActionComponent', () => {
 
   it('should not display button if main action is not configured', () => {
     spyOn(appExtensionService, 'getMainAction').and.returnValue(of(undefined));
-    startProcessButtonComponent.ngOnInit();
+    mainActionComponent.ngOnInit();
     fixture.detectChanges();
 
     const button = fixture.debugElement.nativeElement.querySelector('.app-main-action-button');
@@ -78,5 +78,21 @@ describe('MainActionComponent', () => {
     button.click();
 
     expect(runExtensionActionSpy).toHaveBeenCalledWith(ACTION_CLICK);
+  });
+
+  it('should not call button if main action is disabled', () => {
+    const disabledMainActionRef = getContentActionRef();
+    disabledMainActionRef.disabled = true;
+
+    spyOn(appExtensionService, 'getMainAction').and.returnValue(of(disabledMainActionRef));
+    const runAction = spyOn(mainActionComponent, 'runAction');
+
+    mainActionComponent.ngOnInit();
+    fixture.detectChanges();
+
+    const button = fixture.debugElement.nativeElement.querySelector(`#${disabledMainActionRef.id}`);
+    button.click();
+
+    expect(runAction).not.toHaveBeenCalled();
   });
 });
