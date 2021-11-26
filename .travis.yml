@@ -70,7 +70,7 @@ jobs:
       name: 'Unit tests: ACA'
       script:
         - npm ci
-        - ng test app --watch=false
+        - ng test --watch=false
       cache: false
 
     - stage: e2e
