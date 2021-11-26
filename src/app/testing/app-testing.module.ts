@@ -31,11 +31,11 @@ import {
   TranslationMock,
   AuthenticationService,
   DiscoveryApiService,
-  EcmProductVersionModel,
   AlfrescoApiService,
   PipeModule,
   AlfrescoApiServiceMock
 } from '@alfresco/adf-core';
+import { RepositoryInfo } from '@alfresco/js-api';
 import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { appReducer } from '../store/reducers/app.reducer';
@@ -76,9 +76,9 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
     {
       provide: DiscoveryApiService,
       useValue: {
-        ecmProductInfo$: new BehaviorSubject<EcmProductVersionModel>(null),
-        getEcmProductInfo(): Observable<EcmProductVersionModel> {
-          return of(new EcmProductVersionModel({ version: '10.0.0' }));
+        ecmProductInfo$: new BehaviorSubject<RepositoryInfo>(null),
+        getEcmProductInfo(): Observable<RepositoryInfo> {
+          return of(new RepositoryInfo({ version: '10.0.0' }));
         }
       }
     },
