@@ -134,6 +134,29 @@
                   "with": "app/src/environments/environment.release.ts"
                 }
               ]
+            },
+            "e2e": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "app/src/environments/environment.ts",
+                  "with": "app/src/environments/environment.e2e.ts"
+                }
+              ]
             }
           }
         },
