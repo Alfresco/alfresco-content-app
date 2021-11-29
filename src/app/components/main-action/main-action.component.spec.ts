@@ -69,7 +69,6 @@ describe('MainActionComponent', () => {
 
       expect(iconMainAction).toBeFalsy();
       expect(buttonMainAction.textContent.trim()).toBe(ACTION_TITLE);
-      expect(buttonMainAction.textContent.trim()).toBe(ACTION_TITLE);
     });
 
     it('should not display button if main action is not configured', () => {

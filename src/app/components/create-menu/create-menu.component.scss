@@ -46,16 +46,6 @@
     }
   }
 
-  // &--collapsed:not(.app-create-menu-secondary-button) {
-  //   .app-create-menu--icon {
-  //     color: var(--theme-accent-color);
-  //   }
-
-  //   &:hover {
-  //     color: var(--theme-accent-color);
-  //   }
-  // }
-
   &--collapsed {
     outline: none;
     color: var(--theme-secondary-text-color);
