@@ -34,7 +34,7 @@ import pkg from 'package.json';
 })
 export class AboutComponent {
   pkg: any;
-  dev: boolean = false;
+  dev = false;
 
   constructor(@Inject(DEV_MODE_TOKEN) devMode) {
     this.dev = !devMode;

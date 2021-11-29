@@ -47,9 +47,7 @@ export class AcaAboutModule {
   public static forRoot(devMode: any): ModuleWithProviders<AcaAboutModule> {
     return {
       ngModule: AcaAboutModule,
-      providers: [
-        { provide: DEV_MODE_TOKEN, useValue: devMode }
-      ]
+      providers: [{ provide: DEV_MODE_TOKEN, useValue: devMode }]
     };
   }
 }

@@ -68,11 +68,6 @@ jobs:
       cache: false
 
     - stage: Quality and Unit tests
-      name: 'Unit tests: aca-about'
-      script: npm ci && ng test aca-about --watch=false
-      cache: false
-
-    - stage: Quality and Unit tests
       name: 'Unit tests: aca-settings'
       script: npm ci && ng test aca-settings --watch=false
       cache: false
