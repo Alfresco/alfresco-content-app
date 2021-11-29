@@ -23,9 +23,6 @@
       }
     ],
     "postinstall": [
-      {
-        "command": "$THIS_PROJECT_ROOT_PATH/scripts/remove-me-update-core.sh"
-      }
     ]
   }
 }
