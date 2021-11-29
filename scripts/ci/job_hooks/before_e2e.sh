@@ -28,7 +28,7 @@ echo "====== Download artifacts ====="
 ./scripts/ci/utils/artifact-from-s3.sh -a "$FROM" -o "$TO"
 
 APP_CONFIG_FILE_PATH="$TO/app.config.json"
-EXTRA_ENV_SETTINGS="--env APP_CONFIG_ECM_HOST={protocol}//{hostname}{:port} --env APP_CONFIG_PROVIDER=ECM --env APP_CONFIG_AUTH_TYPE=BASIC --env APP_CONFIG_OAUTH2_HOST=http://localhost:4200/auth/realms/alfresco --env APP_CONFIG_OAUTH2_CLIENTID=alfresco --env APP_CONFIG_OAUTH2_IMPLICIT_FLOW=true --env APP_CONFIG_OAUTH2_SILENT_LOGIN=true --env APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI={protocol}//{hostname}{:port}/assets/silent-refresh.html --env APP_CONFIG_OAUTH2_REDIRECT_LOGIN=/ --env APP_CONFIG_OAUTH2_REDIRECT_LOGOUT=/logout"
+EXTRA_ENV_SETTINGS="--env APP_CONFIG_PROVIDER=ECM --env APP_CONFIG_AUTH_TYPE=BASIC --env APP_CONFIG_OAUTH2_HOST=http://localhost:4200/auth/realms/alfresco --env APP_CONFIG_OAUTH2_CLIENTID=alfresco --env APP_CONFIG_OAUTH2_IMPLICIT_FLOW=true --env APP_CONFIG_OAUTH2_SILENT_LOGIN=true --env APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI={protocol}//{hostname}{:port}/assets/silent-refresh.html --env APP_CONFIG_OAUTH2_REDIRECT_LOGIN=/ --env APP_CONFIG_OAUTH2_REDIRECT_LOGOUT=/logout"
 # Replace variables in app.config.json
 envsub $EXTRA_ENV_SETTINGS --all $APP_CONFIG_FILE_PATH $APP_CONFIG_FILE_PATH || exit 1
 
